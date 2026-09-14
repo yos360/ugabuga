@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Kalam:wght@300;400;700&family=Patrick+Hand&display=swap');
+
+:root {
+  --paper: #fdfbf7;
+  --ink: #2d2d2d;
+  --muted: #e5e0d8;
+  --red: #ff4d4d;
+  --blue: #2d5da1;
+  --yellow: #fff9c4;
+  --green: #4caf50;
+  --neon: #39FF14;
+  --pink: #ff69b4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  direction: rtl;
+  background-image: radial-gradient(var(--muted) 1px, transparent 1px);
+  background-size: 24px 24px;
+  min-height: 100vh;
+}
+
+h1, h2, h3, .font-hand { font-family: 'Kalam', cursive; }
+.font-body { font-family: 'Heebo', sans-serif; }
+.font-en { font-family: 'Patrick Hand', cursive; }
+
+/* Wobbly borders */
+.wobbly { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+.wobbly-sm { border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px; }
+.wobbly-btn { border-radius: 255px 25px 225px 25px / 25px 225px 25px 255px; }
+
+/* Hard shadows */
+.shadow-hard { box-shadow: 4px 4px 0px 0px var(--ink); }
+.shadow-hard-sm { box-shadow: 2px 2px 0px 0px var(--ink); }
+
+/* Hover effects */
+.card-hover {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px) rotate(0.5deg);
+  box-shadow: 6px 6px 0px 0px var(--ink);
+}
+.card-hover:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 0px 0px var(--ink);
+}
+
+/* Button press */
+.btn-press {
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+.btn-press:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px 0px var(--ink);
+}
+.btn-press:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px var(--ink);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+
+/* Print */
+@media print {
+  nav, footer, .no-print, button:not(.print-keep) { display: none !important; }
+  body { background: white !important; background-image: none !important; }
+  body::after {
+    content: "UGABUGA 🎂 ugabuga.co.il";
+    position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+    font-family: 'Heebo', sans-serif; font-size: 12px; color: #999;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shake { 0%,100%{transform:rotate(0)} 20%{transform:rotate(-8deg)} 40%{transform:rotate(8deg)} 60%{transform:rotate(-5deg)} 80%{transform:rotate(5deg)} }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-shake { animation: shake 0.3s ease-in-out infinite; }
+.animate-spin-slow { animation: spin 2s linear infinite; }
+.animate-bounce-gentle { animation: bounce 1s ease infinite; }
+.animate-pulse-gentle { animation: pulse 1.5s ease infinite; }
+
+/* Cookie banner */
+.cookie-banner {
+  position: fixed; bottom: 16px; right: 16px; max-width: 400px;
+  z-index: 9999;
+}
+
+/* RTL fixes */
+[dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
