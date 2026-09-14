@@ -10,6 +10,7 @@ const GamePage = lazy(() => import('./pages/games/GamePage'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const Calculator = lazy(() => import('./pages/Calculator'))
 const About = lazy(() => import('./pages/About'))
+const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function Loading() {
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/calculator" element={<Calculator />} />
+              <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
