@@ -3,6 +3,7 @@ import { useState } from 'react'
 import SEO from '../components/ui/SEO'
 import Badge from '../components/ui/Badge'
 import { useGames } from '../hooks/useGames'
+import { DEFAULT_LIVE_NEWS } from '../data/liveNews'
 
 const TRUST = ['✅ 100+ משחקים', '🆓 חינם לגמרי', '🇮🇱 הכל בעברית', '📱 עובד על הטלפון']
 const CHIPS = [
@@ -11,9 +12,18 @@ const CHIPS = [
   { label: 'שובר קרח', to: '/games/icebreaker' }, { label: 'תנועה', to: '/games/movement' },
 ]
 const TOOLS = [
+  { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה BUGA', text: 'מצבי משחק, שחקנים וחדשות בלייב', bg: '#fff3a8' },
+  { to: '/tools/buga-town', emoji: '🏙️', title: 'בוגהטאון', text: 'עיר נכסים עם קוביות, שאלות וקלפים', bg: '#e8f5e9' },
+  { to: '/tools/escape-rooms', emoji: '🔐', title: 'חדרי בריחה', text: 'משחקים דיגיטליים וקיטים להנחיה', bg: '#e8d5f5' },
   { to: '/calculator', emoji: '🧮', title: 'מחשבון מסיבה', text: 'כמה פיצות? כמה שתייה? בואו נחשב', bg: '#e0f7fa' },
   { to: '/greeting', emoji: '💌', title: 'מחולל ברכות', text: 'ברכה אישית ליום הולדת בשנייה', bg: '#ffe0ec' },
-  { to: '/invitation', emoji: '📨', title: 'מחולל הזמנות', text: 'צרו הזמנה יפה ושלחו', bg: '#e8d5f5' },
+  { to: '/invitation', emoji: '📨', title: 'מחולל הזמנות', text: 'צרו הזמנה יפה ושלחו', bg: '#f7f2df' },
+]
+const LIVE_NEWS = [
+  '🏙️ איתן בנה בעיר בוגהטאון — כבש 3 נכסים!',
+  '⚡ שירה פתחה רצף בטריוויה — 5 תשובות נכונות!',
+  '🎯 דרמה בריבוי שחקנים — מאור ניצח 10-9!',
+  ...DEFAULT_LIVE_NEWS,
 ]
 const GOALS = [
   { goal: 'להצחיק', emoji: '😂' }, { goal: 'להוציא אנרגיה', emoji: '⚡' },
@@ -74,7 +84,6 @@ export default function Home() {
     <>
       <SEO path="/" />
       <div className="flex flex-col">
-        {/* Hero */}
         <section className="relative torn-edge-bottom overflow-hidden bg-gradient-to-b from-[var(--postit)]/60 via-[var(--postit)]/20 to-transparent pb-10 pt-10 sm:pt-16">
           <div className="hero-blob w-64 h-64 bg-[var(--accent)] -top-10 -right-10" />
           <div className="hero-blob w-52 h-52 bg-[var(--pen)] top-40 -left-16" />
@@ -106,7 +115,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Popular */}
+        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
+          <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
+            <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow-rich">
+              <p className="font-hand text-base text-[var(--muted-foreground)]">חדש באתר</p>
+              <h2 className="text-3xl mb-3">🎮 משחקים חיים שאפשר להתחיל עכשיו</h2>
+              <p className="text-lg text-[var(--foreground)]/75">טריוויה עם מצבי משחק, בוגהטאון עם נכסים וקוביות, וחדרי בריחה עם קיטים להנחיה — הכול בעברית ובסגנון עוגה בוגה.</p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link to="/tools/trivia-quiz" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] px-4 py-2 font-display text-lg font-bold text-white">טריוויה BUGA</Link>
+                <Link to="/tools/buga-town" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-2 font-display text-lg font-bold">בוגהטאון</Link>
+                <Link to="/tools/escape-rooms" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-white px-4 py-2 font-display text-lg font-bold">חדרי בריחה</Link>
+              </div>
+            </div>
+            <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
+              <h2 className="text-2xl mb-3">חדשות בלייב 🔴</h2>
+              <div className="grid gap-2 font-hand text-lg">
+                {LIVE_NEWS.slice(0, 5).map((item) => <div key={item} className="rounded-xl bg-white/70 px-3 py-2">{item}</div>)}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="הכי משוחקים אצלנו">משחקים פופולריים</SectionTitle>
           {loading ? (
@@ -118,27 +147,20 @@ export default function Home() {
           )}
         </section>
 
-        {/* By age */}
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="מתכננים לפי גיל">לפי גיל</SectionTitle>
           <div className="flex snap-x gap-3 overflow-x-auto px-1 pb-3">
             {Array.from({ length: 9 }, (_, i) => i + 4).map((age, i) => (
-              <Link key={age} to={'/ideas/age/' + age}
-                className={`card-lift flex h-20 w-20 shrink-0 snap-start items-center justify-center wobbly-sm border-[3px] border-[var(--border)] ${i % 2 ? 'bg-white rotate-1' : 'bg-[var(--postit)] -rotate-1'} font-display text-3xl font-bold sketch-shadow-sm`}>
-                {age}
-              </Link>
+              <Link key={age} to={'/ideas/age/' + age} className={`card-lift flex h-20 w-20 shrink-0 snap-start items-center justify-center wobbly-sm border-[3px] border-[var(--border)] ${i % 2 ? 'bg-white rotate-1' : 'bg-[var(--postit)] -rotate-1'} font-display text-3xl font-bold sketch-shadow-sm`}>{age}</Link>
             ))}
           </div>
         </section>
 
-        {/* Inspiration */}
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="לא יודעים איזו מסיבה לעשות?">עולם ההשראה 🎭</SectionTitle>
           <div className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-4">
             {THEMES.map((theme, i) => (
-              <Link key={theme.slug} to={'/ideas/themes/' + theme.slug}
-                className={`card-lift flex w-[19rem] shrink-0 snap-start gap-3 wobbly-md border-2 border-[var(--border)] p-4 sketch-shadow-rich ${rotations[i % rotations.length]}`}
-                style={{ backgroundColor: theme.bg }}>
+              <Link key={theme.slug} to={'/ideas/themes/' + theme.slug} className={`card-lift flex w-[19rem] shrink-0 snap-start gap-3 wobbly-md border-2 border-[var(--border)] p-4 sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: theme.bg }}>
                 <span className="text-4xl shrink-0">{theme.emoji}</span>
                 <div>
                   <h3 className="font-display text-lg font-bold">{theme.name}</h3>
@@ -151,14 +173,11 @@ export default function Home() {
           <Link to="/ideas" className="font-display text-xl font-bold underline decoration-dashed">ראו את כל הרעיונות ←</Link>
         </section>
 
-        {/* Tools */}
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="הכול מוכן בשנייה">כלים שימושיים 🛠️</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.map((tool, i) => (
-              <Link key={tool.to} to={tool.to}
-                className={`card-lift flex flex-col items-center gap-2 wobbly-md border-2 border-[var(--border)] p-6 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}
-                style={{ backgroundColor: tool.bg }}>
+              <Link key={tool.to} to={tool.to} className={`card-lift flex flex-col items-center gap-2 wobbly-md border-2 border-[var(--border)] p-6 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`} style={{ backgroundColor: tool.bg }}>
                 <span className="text-4xl">{tool.emoji}</span>
                 <span className="font-display text-2xl font-bold">{tool.title}</span>
                 <span className="font-hand text-lg text-[var(--foreground)]/70">{tool.text}</span>
@@ -167,13 +186,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Goals */}
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="מה אתם צריכים עכשיו?">לפי מטרה</SectionTitle>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {GOALS.map((g, i) => (
-              <Link key={g.goal} to={'/games?goal=' + encodeURIComponent(g.goal)}
-                className={`card-lift flex min-h-24 flex-col items-center justify-center wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-4 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
+              <Link key={g.goal} to={'/games?goal=' + encodeURIComponent(g.goal)} className={`card-lift flex min-h-24 flex-col items-center justify-center wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-4 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
                 <span className="text-3xl">{g.emoji}</span>
                 <span className="mt-1 font-display text-xl font-bold">{g.goal}</span>
               </Link>
@@ -181,7 +198,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Closing CTA */}
         <section className="mx-auto w-full max-w-3xl px-4 py-14 text-center">
           <div className="wobbly border-[3px] border-[var(--border)] bg-[var(--postit)] p-10 sketch-shadow-rich">
             <h2 className="text-3xl mb-3">✨ מחפשים משחק עכשיו?</h2>
