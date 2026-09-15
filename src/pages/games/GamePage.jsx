@@ -3,12 +3,15 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import { useGameBySlug } from '../../hooks/useGames'
+import GamePlayer from '../../components/games/GamePlayer'
+import { useState } from 'react'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
 export default function GamePage() {
   const { slug } = useParams()
   const { game, related, content, loading } = useGameBySlug(slug)
+  const [playing, setPlaying] = useState(false)
 
   if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><span className="text-5xl buga-bounce">🎂</span></div>
   if (!game) return (
@@ -53,7 +56,7 @@ export default function GamePage() {
           <h2 className="text-2xl mb-3">איך משחקים ב-20 שניות</h2>
           <p className="font-hand text-lg whitespace-pre-line">{game.quick_instructions}</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <button className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">▶️ שחקו עכשיו</button>
+            <button onClick={() => setPlaying(true)} disabled={content.length===0} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer disabled:opacity-50">▶️ שחקו עכשיו</button>
             <button className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">📖 הוראות מלאות</button>
             <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
           </div>
@@ -113,6 +116,8 @@ export default function GamePage() {
           </div>
         </div>
       )}
+
+      {playing && <GamePlayer content={content} onClose={() => setPlaying(false)} />}
     </div>
   )
 }
