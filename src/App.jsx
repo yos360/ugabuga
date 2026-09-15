@@ -85,6 +85,7 @@ export default function App() {
               <Route path="/games/quiet" element={<CategoryPage />} />
               <Route path="/games/trivia" element={<CategoryPage />} />
               <Route path="/games/words" element={<CategoryPage />} />
+              <Route path="/games/age/:age" element={<GamesIndex />} />
               <Route path="/games/kita-a" element={<CategoryPage />} />
               <Route path="/games/kita-b" element={<CategoryPage />} />
               <Route path="/games/kita-g" element={<CategoryPage />} />
@@ -99,12 +100,16 @@ export default function App() {
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
               <Route path="/ideas/*" element={<IdeasHub />} />
               <Route path="/calculator" element={<Calculator />} />
+              <Route path="/calculator/birthday-cost" element={<Calculator />} />
+              <Route path="/calculator/how-many-drinks" element={<Calculator />} />
+              <Route path="/calculator/how-many-pizzas" element={<Calculator />} />
               <Route path="/greeting" element={<Greeting />} />
               <Route path="/invitation" element={<Invitation />} />
               <Route path="/printables" element={<PrintablesIndex />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
+              <Route path="/trivia" element={<TriviaQuiz />} />
               <Route path="/tools/buga-town" element={<BugaTown />} />
               <Route path="/buga-town" element={<BugaTown />} />
               <Route path="/tools/escape-rooms" element={<EscapeRooms />} />
@@ -123,9 +128,15 @@ export default function App() {
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<GiftsIndex />} />
+              <Route path="/gifts/boy" element={<GiftsIndex />} />
+              <Route path="/gifts/girl" element={<GiftsIndex />} />
+              <Route path="/gifts/under-50" element={<GiftsIndex />} />
+              <Route path="/gifts/under-100" element={<GiftsIndex />} />
               <Route path="/gifts/age-:age" element={<AgeGiftPage />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/:slug" element={<GuidePage />} />
+              <Route path="/compare/home-vs-venue" element={<IdeasHub />} />
+              <Route path="/compare/entertainer-vs-diy" element={<IdeasHub />} />
               <Route path="/blog" element={<About />} />
               <Route path="/game-of-the-day" element={<GamesIndex />} />
               <Route path="/faq" element={<FAQ />} />
