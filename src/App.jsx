@@ -14,6 +14,7 @@ const PrintableCategory = lazy(() => import('./pages/printables/PrintableCategor
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const Dice = lazy(() => import('./pages/tools/Dice'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
+const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -46,6 +47,7 @@ export default function App() {
               <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/tools/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
+              <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
               <Route path="/tools/scoreboard" element={<Scoreboard />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
