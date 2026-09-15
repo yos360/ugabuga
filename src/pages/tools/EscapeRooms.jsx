@@ -4,7 +4,7 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
-import { ESCAPE_ROOMS } from '../../data/escapeRooms'
+import { ESCAPE_ROOMS } from '../../data/escapeRoomsExpanded'
 
 function normalizeAnswer(value) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase()
