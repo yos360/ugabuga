@@ -5,18 +5,23 @@ import {
   QUESTION_TOPICS,
 } from './questionBank'
 import { EXTRA_QUESTIONS, EXTRA_QUESTION_TOPICS } from './questionBankExtra'
+import { MORE_QUESTIONS, MORE_QUESTION_TOPICS } from './questionBankMore'
 
 const topicIds = new Set()
 
 export { AUDIENCES, DIFFICULTIES }
 
-export const QUESTION_TOPICS_EXPANDED = [...QUESTION_TOPICS, ...EXTRA_QUESTION_TOPICS].filter((topic) => {
+export const QUESTION_TOPICS_EXPANDED = [
+  ...QUESTION_TOPICS,
+  ...EXTRA_QUESTION_TOPICS,
+  ...MORE_QUESTION_TOPICS,
+].filter((topic) => {
   if (topicIds.has(topic.id)) return false
   topicIds.add(topic.id)
   return true
 })
 
-export const QUESTION_BANK_EXPANDED = [...QUESTION_BANK, ...EXTRA_QUESTIONS]
+export const QUESTION_BANK_EXPANDED = [...QUESTION_BANK, ...EXTRA_QUESTIONS, ...MORE_QUESTIONS]
 
 export function getQuestions({ topic = 'all', audience = 'kids', difficulty = 'easy', type = 'riddle' } = {}) {
   return QUESTION_BANK_EXPANDED.filter((item) => {
