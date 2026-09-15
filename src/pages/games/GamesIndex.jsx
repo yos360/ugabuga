@@ -13,7 +13,7 @@ function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_play
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 
 export default function GamesIndex() {
-  const { games, loading } = useGames()
+  const { games, loading, error } = useGames()
   const [searchParams] = useSearchParams()
   const initialQ = searchParams.get('q') || ''
   const [search, setSearch] = useState(initialQ)
@@ -45,6 +45,12 @@ export default function GamesIndex() {
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
         {loading ? 'טוען...' : `נמצאו ${filtered.length} משחקים`}
       </p>
+
+      {error && (
+        <div className="wobbly border-2 border-[var(--accent)] bg-red-50 p-4 mb-6 text-center">
+          <p className="font-bold text-[var(--accent)]">שגיאת טעינה: {error}</p>
+        </div>
+      )}
 
       {loading ? (
         <div className="flex items-center justify-center py-20"><span className="text-5xl buga-bounce">🎂</span></div>
