@@ -8,7 +8,11 @@ import { useState } from 'react'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 const PLAY_TOOL_ROUTES = {
-  'buga-bingo': '/tools/bingo-maker',
+  'buga-bingo': { to: '/tools/bingo-maker', label: 'צרו כרטיסיות' },
+  'hafes-umtza': { to: '/tools/scavenger-hunt-maker', label: 'צרו ציד אוצרות' },
+  'galgal-hamisimot': { to: '/tools/random-picker', label: 'פתחו גלגל' },
+  'etgar-hakvutzot': { to: '/tools/team-generator', label: 'חלקו לקבוצות' },
+  'mi-bakvutza-sheli': { to: '/tools/team-generator', label: 'חלקו לקבוצות' },
 }
 
 export default function GamePage() {
@@ -61,7 +65,7 @@ export default function GamePage() {
           <p className="font-hand text-lg whitespace-pre-line">{game.quick_instructions}</p>
           <div className="mt-4 flex flex-wrap gap-3">
             {playToolRoute ? (
-              <Link to={playToolRoute} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ צרו כרטיסיות</Link>
+              <Link to={playToolRoute.to} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ {playToolRoute.label}</Link>
             ) : (
               <button onClick={() => setPlaying(true)} disabled={content.length===0} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer disabled:opacity-50">▶️ שחקו עכשיו</button>
             )}
