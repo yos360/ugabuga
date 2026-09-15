@@ -4,20 +4,22 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import { lazy, Suspense } from 'react'
 
-// Lazy load pages
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const Calculator = lazy(() => import('./pages/Calculator'))
-const About = lazy(() => import('./pages/About'))
+const Greeting = lazy(() => import('./pages/Greeting'))
+const PrintablesIndex = lazy(() => import('./pages/printables/PrintablesIndex'))
+const PrintableCategory = lazy(() => import('./pages/printables/PrintableCategory'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
+const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function Loading() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[50vh]">
-      <div className="text-5xl animate-spin-slow">🎂</div>
-      <p className="mt-4 text-lg text-[var(--ink)]/70">BUGA מכין את הכל...</p>
+      <div className="text-5xl buga-bounce">🎂</div>
+      <p className="mt-4 font-hand text-lg text-[var(--muted-foreground)]">BUGA מכין את הכל...</p>
     </div>
   )
 }
@@ -34,6 +36,9 @@ export default function App() {
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/calculator" element={<Calculator />} />
+              <Route path="/greeting" element={<Greeting />} />
+              <Route path="/printables" element={<PrintablesIndex />} />
+              <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
