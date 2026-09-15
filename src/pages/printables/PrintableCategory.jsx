@@ -3,62 +3,50 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useState } from 'react'
 
+const HEBREW_LETTERS = [
+  ['alef','א'],['bet','ב'],['gimel','ג'],['dalet','ד'],['he','ה'],['vav','ו'],['zayin','ז'],
+  ['chet','ח'],['tet','ט'],['yod','י'],['kaf','כ'],['lamed','ל'],['mem','מ'],['nun','נ'],
+  ['samech','ס'],['ayin','ע'],['pe','פ'],['tsadi','צ'],['qof','ק'],['resh','ר'],['shin','ש'],['tav','ת'],
+]
+
 const svgMap = {
   'coloring': {
     title: 'דפי צביעה ליום הולדת',
-    desc: 'דפי צביעה מצוירים ביד בסגנון UGABUGA — עוגה, מסיבה, בלונים, כתר, גיבור-על, דינוזאור, חלל, חיות. להדפסה וצביעה.',
+    desc: 'דפי צביעה מצוירים ביד בסגנון UGABUGA — עוגה, מסיבה, בלונים, כתר, גיבור-על, דינוזאור, חלל, חיות.',
     files: [
       { name: 'עוגת יום הולדת', file: 'coloring-01-birthday-cake.svg' },
-      { name: 'מסיבה', file: 'coloring-02-party-scene.svg' },
+      { name: 'מסיבה', file: 'coloring-02-party.svg' },
       { name: 'בלונים', file: 'coloring-03-balloons.svg' },
       { name: 'כתר', file: 'coloring-04-crown.svg' },
       { name: 'גיבור-על', file: 'coloring-05-superhero.svg' },
-      { name: 'דינוזאור חוגג', file: 'coloring-06-dino-party.svg' },
+      { name: 'דינוזאור חוגג', file: 'coloring-06-dino.svg' },
       { name: 'חלל', file: 'coloring-07-space.svg' },
-      { name: 'חיות חוגגות', file: 'coloring-08-animals-party.svg' },
+      { name: 'חיות חוגגות', file: 'coloring-08-animals.svg' },
     ]
   },
   'birthday-signs': {
     title: 'שלטי יום הולדת',
-    desc: 'שלטים גדולים להדפסה על A4 מלא — פה העוגה, פה השתייה, פה המתנות, ברוכים הבאים ועוד.',
-    files: [
-      { name: 'יום הולדת שמח', file: 'sign-01-happy-birthday.svg' },
-      { name: 'יום הולדת שמח ל...', file: 'sign-02-happy-birthday-name.svg' },
-      { name: 'ברוכים הבאים', file: 'sign-03-welcome.svg' },
-      { name: 'פה העוגה', file: 'sign-04-cake-here.svg' },
-      { name: 'פה השתייה', file: 'sign-05-drinks-here.svg' },
-      { name: 'פה המתנות', file: 'sign-06-gifts-here.svg' },
-      { name: 'פה הבלונים', file: 'sign-07-balloons-here.svg' },
-      { name: 'פה מצטלמים', file: 'sign-08-photo-here.svg' },
-    ]
+    desc: 'שלטים גדולים להדפסה על A4 מלא.',
+    files: Array.from({length:8},(_,i)=>({ name: `שלט ${i+1}`, file: `sign-0${i+1}.svg` }))
   },
   'hebrew-letters': {
     title: 'אותיות עברית בנקודות',
-    desc: 'כל האותיות א-ת בנקודות לחיבור — עם איורים ושורות תרגול. מושלם לגן ולכיתה א.',
-    files: 'אבגדהוזחטיכלמנסעפצקרשת'.split('').map((l, i) => ({
-      name: 'אות ' + l,
-      file: `hebrew-${String(i + 1).padStart(2, '0')}-${l}.svg`
-    }))
+    desc: 'כל האותיות א-ת בנקודות לחיבור — עם איורים ושורות תרגול.',
+    files: HEBREW_LETTERS.map(([en,he],i) => ({ name: 'אות '+he, file: `letter-he-${String(i+1).padStart(2,'0')}-${en}.svg` }))
   },
   'abc-letters': {
     title: 'ABC אנגלית בנקודות',
-    desc: 'A-Z בנקודות — אותיות גדולות וקטנות עם איורים לכל אות.',
-    files: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => ({
-      name: 'Letter ' + l,
-      file: `abc-${l.toLowerCase()}.svg`
-    }))
+    desc: 'A-Z בנקודות — אותיות גדולות וקטנות עם איורים.',
+    files: 'abcdefghijklmnopqrstuvwxyz'.split('').map((l,i) => ({ name: 'Letter '+l.toUpperCase(), file: `letter-en-${String(i+1).padStart(2,'0')}-${l}.svg` }))
   },
   'numbers': {
     title: 'מספרים בנקודות',
-    desc: 'מספרים 0-10 בנקודות גדולות — עם שם בעברית, איור כמותי ושורות תרגול.',
-    files: Array.from({ length: 11 }, (_, i) => ({
-      name: 'מספר ' + i,
-      file: `number-${String(i).padStart(2, '0')}.svg`
-    }))
+    desc: 'מספרים 0-10 בנקודות גדולות עם ספירה ואיורים.',
+    files: Array.from({length:11},(_,i) => ({ name: 'מספר '+i, file: `number-${String(i).padStart(2,'0')}.svg` }))
   },
   'mazes': {
     title: 'מבוכים',
-    desc: '3 רמות קושי — קל, בינוני, קשה. עם סיפור, אייקונים ודף פתרון.',
+    desc: '3 רמות קושי — קל, בינוני, קשה.',
     files: [
       { name: 'קל ⭐', file: 'maze-easy.svg' },
       { name: 'בינוני ⭐⭐', file: 'maze-medium.svg' },
@@ -67,50 +55,35 @@ const svgMap = {
   },
   'certificates': {
     title: 'תעודות',
-    desc: 'תעודות מעוצבות להדפסה — גיבור מסיבה, הצטיינות, משתתף, אלוף משחקים, יום הולדת, כיתה.',
+    desc: 'תעודות מעוצבות להדפסה.',
     files: [
-      { name: 'גיבור/ת המסיבה', file: 'certificate-01-party-hero.svg' },
-      { name: 'הצטיינות', file: 'certificate-02-excellence.svg' },
-      { name: 'משתתף/ת', file: 'certificate-03-participation.svg' },
-      { name: 'אלוף/ת המשחקים', file: 'certificate-04-game-champion.svg' },
-      { name: 'יום הולדת', file: 'certificate-05-birthday.svg' },
-      { name: 'הכיתה', file: 'certificate-06-classroom.svg' },
+      { name: 'גיבור/ת המסיבה', file: 'certificate-party-hero.svg' },
+      { name: 'הצטיינות', file: 'certificate-excellence.svg' },
+      { name: 'משתתף/ת', file: 'certificate-participant.svg' },
+      { name: 'אלוף/ת המשחקים', file: 'certificate-games-champ.svg' },
+      { name: 'יום הולדת', file: 'certificate-birthday.svg' },
+      { name: 'הכיתה', file: 'certificate-class.svg' },
     ]
   },
   'symmetry': {
     title: 'ציור סימטרי',
-    desc: 'השלימו את החצי — 6 תמונות עם חצי מצויר. הילד משלים את הצד השני.',
+    desc: 'השלימו את החצי — 6 תמונות.',
     files: [
       { name: 'פרפר', file: 'symmetry-01-butterfly.svg' },
-      { name: 'פנים', file: 'symmetry-02-face.svg' },
+      { name: 'בית', file: 'symmetry-02-house.svg' },
       { name: 'עץ', file: 'symmetry-03-tree.svg' },
       { name: 'פרח', file: 'symmetry-04-flower.svg' },
       { name: 'טיל', file: 'symmetry-05-rocket.svg' },
       { name: 'סירה', file: 'symmetry-06-boat.svg' },
     ]
   },
-  'name-tags': {
-    title: 'תגי שם למסיבה', desc: '8 תגים בדף אחד — לגזירה ושימוש.',
-    files: [{ name: 'תגי שם', file: 'name-tags.svg' }]
-  },
-  'thank-you': {
-    title: 'כרטיסי תודה', desc: '4 כרטיסים מתקפלים בדף אחד.',
-    files: [{ name: 'כרטיסי תודה', file: 'thank-you-cards.svg' }]
-  },
-  'photo-props': {
-    title: 'אביזרי צילום', desc: 'כתר, שפם, משקפיים ועוד — לגזירה והדבקה על מקלות.',
-    files: [{ name: 'אביזרי צילום', file: 'photo-props.svg' }]
-  },
-  'board-game': {
-    title: 'סולמות ונחשים BUGA', desc: 'לוח משחק 100 משבצות להדפסה.',
-    files: [{ name: 'סולמות ונחשים', file: 'snakes-and-ladders.svg' }]
-  },
+  'name-tags': { title: 'תגי שם למסיבה', desc: '8 תגים בדף אחד.', files: [{ name: 'תגי שם', file: 'name-tags.svg' }] },
+  'thank-you': { title: 'כרטיסי תודה', desc: '4 כרטיסים מתקפלים.', files: [{ name: 'כרטיסי תודה', file: 'thank-you-cards.svg' }] },
+  'photo-props': { title: 'אביזרי צילום', desc: 'לגזירה והדבקה על מקלות.', files: [{ name: 'אביזרי צילום', file: 'photo-props.svg' }] },
+  'board-game': { title: 'סולמות ונחשים BUGA', desc: 'לוח משחק 100 משבצות.', files: [{ name: 'סולמות ונחשים', file: 'snakes-and-ladders.svg' }] },
   'sudoku': {
-    title: 'סודוקו לילדים', desc: 'סודוקו 4×4 ו-6×6 עם פתרונות.',
-    files: [
-      { name: 'סודוקו', file: 'sudoku.svg' },
-      { name: 'פתרונות', file: 'sudoku-solutions.svg' },
-    ]
+    title: 'סודוקו לילדים', desc: 'עם פתרונות.',
+    files: [{ name: 'סודוקו', file: 'sudoku.svg' }, { name: 'פתרונות', file: 'sudoku-solutions.svg' }]
   },
 }
 
@@ -123,7 +96,7 @@ export default function PrintableCategory() {
 
   const printItem = (file) => {
     const w = window.open('/svg/' + file, '_blank')
-    w.onload = () => { w.print() }
+    if (w) w.onload = () => w.print()
   }
 
   return (
@@ -133,7 +106,6 @@ export default function PrintableCategory() {
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{cat.title}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{cat.desc}</p>
 
-      {/* Preview modal */}
       {selected && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setSelected(null)}>
           <div className="bg-white wobbly p-4 max-w-3xl w-full max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
@@ -149,7 +121,6 @@ export default function PrintableCategory() {
         </div>
       )}
 
-      {/* Grid */}
       <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         {cat.files.map((item, i) => (
           <div key={item.file}
@@ -163,7 +134,6 @@ export default function PrintableCategory() {
         ))}
       </div>
 
-      {/* Print all */}
       <div className="text-center mt-8">
         <button onClick={() => cat.files.forEach(f => printItem(f.file))}
           className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-3 font-display text-lg font-bold text-[var(--accent-foreground)] cursor-pointer">
