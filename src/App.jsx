@@ -50,7 +50,14 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<GamesIndex />} />
-              <Route path="/games/:filter" element={<GamesIndex />} />
+              <Route path="/games/no-equipment" element={<GamesIndex />} />
+              <Route path="/games/5-minutes" element={<GamesIndex />} />
+              <Route path="/games/birthday" element={<GamesIndex />} />
+              <Route path="/games/classroom" element={<GamesIndex />} />
+              <Route path="/games/icebreaker" element={<GamesIndex />} />
+              <Route path="/games/movement" element={<GamesIndex />} />
+              <Route path="/games/quiet" element={<GamesIndex />} />
+              <Route path="/games/family" element={<GamesIndex />} />
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/ideas/age/:age" element={<AgePage />} />
