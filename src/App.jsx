@@ -7,6 +7,7 @@ import { lazy, Suspense } from 'react'
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
+const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
 const ThemePage = lazy(() => import('./pages/ideas/ThemePage'))
@@ -31,6 +32,8 @@ const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
+const GuidesIndex = lazy(() => import('./pages/guides/GuidesIndex'))
+const GuidePage = lazy(() => import('./pages/guides/GuidePage'))
 const FAQ = lazy(() => import('./pages/FAQ'))
 const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
@@ -90,6 +93,7 @@ export default function App() {
               <Route path="/ideas/age/:age" element={<AgePage />} />
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
               <Route path="/ideas/themes" element={<IdeasHub />} />
+              <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
               <Route path="/ideas/*" element={<IdeasHub />} />
               <Route path="/calculator" element={<Calculator />} />
               <Route path="/greeting" element={<Greeting />} />
@@ -112,8 +116,8 @@ export default function App() {
               <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<GiftsIndex />} />
               <Route path="/gifts/age-:age" element={<AgeGiftPage />} />
-              <Route path="/guides" element={<About />} />
-              <Route path="/guides/*" element={<About />} />
+              <Route path="/guides" element={<GuidesIndex />} />
+              <Route path="/guides/:slug" element={<GuidePage />} />
               <Route path="/blog" element={<About />} />
               <Route path="/game-of-the-day" element={<GamesIndex />} />
               <Route path="/faq" element={<FAQ />} />
