@@ -8,6 +8,7 @@ const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
+const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
 const ThemePage = lazy(() => import('./pages/ideas/ThemePage'))
 const Calculator = lazy(() => import('./pages/Calculator'))
 const Greeting = lazy(() => import('./pages/Greeting'))
@@ -55,14 +56,35 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<GamesIndex />} />
-              <Route path="/games/no-equipment" element={<GamesIndex />} />
-              <Route path="/games/5-minutes" element={<GamesIndex />} />
-              <Route path="/games/birthday" element={<GamesIndex />} />
-              <Route path="/games/classroom" element={<GamesIndex />} />
-              <Route path="/games/icebreaker" element={<GamesIndex />} />
-              <Route path="/games/movement" element={<GamesIndex />} />
-              <Route path="/games/quiet" element={<GamesIndex />} />
-              <Route path="/games/family" element={<GamesIndex />} />
+              <Route path="/games/5-minutes" element={<CategoryPage />} />
+              <Route path="/games/10-minutes" element={<CategoryPage />} />
+              <Route path="/games/15-minutes" element={<CategoryPage />} />
+              <Route path="/games/afterschool" element={<CategoryPage />} />
+              <Route path="/games/birthday" element={<CategoryPage />} />
+              <Route path="/games/calm" element={<CategoryPage />} />
+              <Route path="/games/classroom" element={<CategoryPage />} />
+              <Route path="/games/cooperation" element={<CategoryPage />} />
+              <Route path="/games/creative" element={<CategoryPage />} />
+              <Route path="/games/drawing" element={<CategoryPage />} />
+              <Route path="/games/energy" element={<CategoryPage />} />
+              <Route path="/games/family" element={<CategoryPage />} />
+              <Route path="/games/friends-evening" element={<CategoryPage />} />
+              <Route path="/games/icebreaker" element={<CategoryPage />} />
+              <Route path="/games/improvisation" element={<CategoryPage />} />
+              <Route path="/games/kindergarten" element={<CategoryPage />} />
+              <Route path="/games/large-group" element={<CategoryPage />} />
+              <Route path="/games/movement" element={<CategoryPage />} />
+              <Route path="/games/no-equipment" element={<CategoryPage />} />
+              <Route path="/games/no-prep" element={<CategoryPage />} />
+              <Route path="/games/quiet" element={<CategoryPage />} />
+              <Route path="/games/trivia" element={<CategoryPage />} />
+              <Route path="/games/words" element={<CategoryPage />} />
+              <Route path="/games/kita-a" element={<CategoryPage />} />
+              <Route path="/games/kita-b" element={<CategoryPage />} />
+              <Route path="/games/kita-g" element={<CategoryPage />} />
+              <Route path="/games/kita-d" element={<CategoryPage />} />
+              <Route path="/games/kita-h" element={<CategoryPage />} />
+              <Route path="/games/kita-v" element={<CategoryPage />} />
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/ideas/age/:age" element={<AgePage />} />
