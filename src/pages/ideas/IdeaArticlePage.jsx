@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import WobblyCard from '../../components/ui/WobblyCard'
-import { IDEA_ARTICLES } from '../../data/ideaArticles'
+import { IDEA_ARTICLES } from '../../data/ideaArticlesExpanded'
 
 export default function IdeaArticlePage() {
   const { slug } = useParams()
