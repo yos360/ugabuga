@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Badge from '../../components/ui/Badge'
-import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from '../../data/ideaArticles'
+import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from '../../data/ideaArticlesExpanded'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
