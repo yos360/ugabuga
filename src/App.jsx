@@ -25,6 +25,9 @@ const TruthOrDare = lazy(() => import('./pages/tools/TruthOrDare'))
 const SpinBottle = lazy(() => import('./pages/tools/SpinBottle'))
 const DrawingPrompt = lazy(() => import('./pages/tools/DrawingPrompt'))
 const Joke = lazy(() => import('./pages/tools/Joke'))
+const BingoMaker = lazy(() => import('./pages/tools/BingoMaker'))
+const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
+const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const FAQ = lazy(() => import('./pages/FAQ'))
 const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
@@ -80,6 +83,9 @@ export default function App() {
               <Route path="/tools/spin-the-bottle" element={<SpinBottle />} />
               <Route path="/tools/drawing-prompt" element={<DrawingPrompt />} />
               <Route path="/tools/joke" element={<Joke />} />
+              <Route path="/tools/bingo-maker" element={<BingoMaker />} />
+              <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
+              <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<IdeasHub />} />
               <Route path="/gifts/*" element={<IdeasHub />} />
               <Route path="/guides" element={<About />} />
