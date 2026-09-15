@@ -1,9 +1,14 @@
 import { ESCAPE_ROOMS } from './escapeRooms'
 import { MORE_ESCAPE_ROOMS } from './escapeRoomsMore'
+import { MEGA_ESCAPE_ROOMS } from './escapeRoomsMega'
 
 const roomIds = new Set()
 
-export const ESCAPE_ROOMS_EXPANDED = [...ESCAPE_ROOMS, ...MORE_ESCAPE_ROOMS].filter((room) => {
+export const ESCAPE_ROOMS_EXPANDED = [
+  ...ESCAPE_ROOMS,
+  ...MORE_ESCAPE_ROOMS,
+  ...MEGA_ESCAPE_ROOMS,
+].filter((room) => {
   if (roomIds.has(room.id)) return false
   roomIds.add(room.id)
   return true
