@@ -32,6 +32,8 @@ const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
+const GuidesIndex = lazy(() => import('./pages/guides/GuidesIndex'))
+const GuidePage = lazy(() => import('./pages/guides/GuidePage'))
 const FAQ = lazy(() => import('./pages/FAQ'))
 const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
@@ -114,8 +116,8 @@ export default function App() {
               <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<GiftsIndex />} />
               <Route path="/gifts/age-:age" element={<AgeGiftPage />} />
-              <Route path="/guides" element={<About />} />
-              <Route path="/guides/*" element={<About />} />
+              <Route path="/guides" element={<GuidesIndex />} />
+              <Route path="/guides/:slug" element={<GuidePage />} />
               <Route path="/blog" element={<About />} />
               <Route path="/game-of-the-day" element={<GamesIndex />} />
               <Route path="/faq" element={<FAQ />} />
