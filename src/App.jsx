@@ -18,6 +18,7 @@ const PrintablesIndex = lazy(() => import('./pages/printables/PrintablesIndex'))
 const PrintableCategory = lazy(() => import('./pages/printables/PrintableCategory'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
+const BugaTown = lazy(() => import('./pages/tools/BugaTown'))
 const EscapeRooms = lazy(() => import('./pages/tools/EscapeRooms'))
 const Dice = lazy(() => import('./pages/tools/Dice'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
@@ -104,6 +105,8 @@ export default function App() {
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
+              <Route path="/tools/buga-town" element={<BugaTown />} />
+              <Route path="/buga-town" element={<BugaTown />} />
               <Route path="/tools/escape-rooms" element={<EscapeRooms />} />
               <Route path="/escape-rooms" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
