@@ -4,7 +4,7 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
-import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBank'
+import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
 
 const HISTORY_LIMIT = 12
 
