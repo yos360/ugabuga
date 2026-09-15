@@ -1,77 +1,74 @@
 import { Link } from 'react-router-dom'
 
-const sections = [
-  { title: 'משחקים', links: [
-    { to: '/games', label: 'כל המשחקים' },
-    { to: '/games/no-equipment', label: 'בלי ציוד' },
-    { to: '/games/classroom', label: 'לכיתה' },
-    { to: '/games/birthday', label: 'יום הולדת' },
-    { to: '/games/movement', label: 'תנועה' },
-    { to: '/games/quiet', label: 'שקטים' },
-    { to: '/game-of-the-day', label: 'משחק היום' },
-  ]},
-  { title: 'השראה', links: [
-    { to: '/ideas', label: 'עולם ההשראה' },
-    { to: '/ideas/themes', label: 'לפי נושא' },
-    { to: '/ideas/at-home', label: 'יום הולדת בבית' },
-    { to: '/ideas/without-entertainer', label: 'בלי מפעיל' },
-    { to: '/ideas/on-budget', label: 'תקציב נמוך' },
-    { to: '/gifts', label: 'מתנות' },
-  ]},
-  { title: 'כלים', links: [
-    { to: '/calculator', label: 'מחשבון מסיבה' },
-    { to: '/greeting', label: 'מחולל ברכות' },
-    { to: '/invitation', label: 'מחולל הזמנות' },
-    { to: '/tools/team-generator', label: 'מחלק קבוצות' },
-    { to: '/tools/random-picker', label: 'גלגל שמות' },
-    { to: '/tools/countdown-timer', label: 'טיימר' },
-  ]},
-  { title: 'עוגה בוגה', links: [
-    { to: '/about', label: 'אודות' },
-    { to: '/faq', label: 'שאלות נפוצות' },
-    { to: '/guides/how-to-plan-birthday', label: 'מדריך למסיבה' },
-    { to: '/printables', label: 'דפים להדפסה' },
-    { to: '/terms', label: 'תנאי שימוש' },
-    { to: '/privacy', label: 'פרטיות' },
-  ]},
-]
+function FooterLink({ to, children }) {
+  return <li><Link to={to} className="flex min-h-[44px] w-full items-center py-1.5 underline decoration-dashed">{children}</Link></li>
+}
+
+function FooterColumn({ title, children }) {
+  return <div><h2 className="text-xl">{title}</h2><ul className="mt-2 font-hand text-lg">{children}</ul></div>
+}
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--ink)] text-[var(--paper)] mt-16 no-print">
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-hand font-bold">🎂 עוגה בוגה</h2>
-          <p className="text-[var(--muted)] mt-2">מאגר משחקים ופעילויות בעברית — למנחים, למורים, להורים ולכל מי שצריך רעיון עכשיו.</p>
+    <footer className="mt-16 border-t-2 border-dashed border-[var(--border)] no-print">
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <FooterColumn title="משחקים">
+            <FooterLink to="/games/all">כל המשחקים</FooterLink>
+            <FooterLink to="/games/kita-a">לפי כיתה</FooterLink>
+            <FooterLink to="/games/no-equipment">בלי ציוד</FooterLink>
+            <FooterLink to="/games/5-minutes">5 דקות</FooterLink>
+            <FooterLink to="/games/birthday">יום הולדת</FooterLink>
+            <FooterLink to="/games/icebreaker">שובר קרח</FooterLink>
+            <FooterLink to="/games/movement">תנועה</FooterLink>
+            <FooterLink to="/games/quiet">שקטים</FooterLink>
+            <FooterLink to="/game-of-the-day">משחק היום</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="השראה">
+            <FooterLink to="/ideas">עולם ההשראה</FooterLink>
+            <FooterLink to="/ideas/themes">לפי נושא</FooterLink>
+            <FooterLink to="/ideas/at-home">יום הולדת בבית</FooterLink>
+            <FooterLink to="/ideas/what-to-do-at-home">מה לעשות בבית</FooterLink>
+            <FooterLink to="/ideas/what-to-do-rainy-day">יום גשום</FooterLink>
+            <FooterLink to="/ideas/what-to-do-summer">חופש הגדול</FooterLink>
+            <FooterLink to="/ideas/first-birthday">יום הולדת שנה</FooterLink>
+            <FooterLink to="/ideas/age/30">יום הולדת 30</FooterLink>
+            <FooterLink to="/ideas/bachelorette-party">מסיבת רווקות</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="כלים">
+            <FooterLink to="/calculator">מחשבון מסיבה</FooterLink>
+            <FooterLink to="/greeting">מחולל ברכות</FooterLink>
+            <FooterLink to="/invitation">מחולל הזמנות</FooterLink>
+            <FooterLink to="/tools/team-generator">מחלק קבוצות</FooterLink>
+            <FooterLink to="/tools/random-picker">גלגל שמות</FooterLink>
+            <FooterLink to="/tools/countdown-timer">טיימר למסיבה</FooterLink>
+            <FooterLink to="/tools/truth-or-dare">אמת או חובה</FooterLink>
+            <FooterLink to="/tools/dice">קוביה וירטואלית</FooterLink>
+            <FooterLink to="/tools/coin-flip">הטלת מטבע</FooterLink>
+            <FooterLink to="/tools/scoreboard">לוח ניקוד</FooterLink>
+            <FooterLink to="/tools/spin-the-bottle">סובב את הבקבוק</FooterLink>
+            <FooterLink to="/tools/drawing-prompt">מה לצייר?</FooterLink>
+            <FooterLink to="/tools/joke">בדיחה של BUGA</FooterLink>
+            <FooterLink to="/printables">דפים להדפסה</FooterLink>
+            <FooterLink to="/gifts">מתנות</FooterLink>
+          </FooterColumn>
+          <FooterColumn title="אודות">
+            <FooterLink to="/about">אודות עוגה בוגה</FooterLink>
+            <FooterLink to="/faq">שאלות נפוצות</FooterLink>
+            <FooterLink to="/guides">כל המדריכים</FooterLink>
+            <FooterLink to="/guides/how-to-plan-birthday">איך מתכננים יום הולדת</FooterLink>
+            <FooterLink to="/blog">טיפים ורעיונות</FooterLink>
+            <FooterLink to="/compare/home-vs-venue">בית או אולם</FooterLink>
+            <FooterLink to="/songs/birthday-songs">שירי יום הולדת</FooterLink>
+            <FooterLink to="/terms">תנאי שימוש</FooterLink>
+            <FooterLink to="/privacy">מדיניות פרטיות</FooterLink>
+          </FooterColumn>
         </div>
-
-        {/* Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-          {sections.map(section => (
-            <div key={section.title}>
-              <h3 className="font-bold text-lg mb-3 text-[var(--yellow)]">{section.title}</h3>
-              <ul className="space-y-2">
-                {section.links.map(link => (
-                  <li key={link.to}>
-                    <Link to={link.to} className="text-[var(--muted)] hover:text-white transition-colors text-sm">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Contact */}
-        <div className="border-t border-gray-700 pt-6 text-center">
-          <p className="text-[var(--muted)]">
-            📧 hellohugabuga@gmail.com
-          </p>
-          <p className="text-[var(--muted)] mt-4 text-sm">
-            © {new Date().getFullYear()} עוגה בוגה. כל הזכויות שמורות.
-          </p>
+        <div className="mt-8 border-t-2 border-dashed border-[var(--border)] pt-6 font-hand text-lg">
+          <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">📧 hellohugabuga@gmail.com</a>
+          <p className="mt-2">רעיון למשחק? תיקון? שאלה? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
+          <p className="mt-2">ספקים שמעוניינים להצטרף — נא לפנות בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
+          <p className="mt-4 text-[var(--muted-foreground)]">עוגה בוגה 🎂 מאגר משחקים ופעילויות בעברית — כל הזכויות שמורות.</p>
         </div>
       </div>
     </footer>

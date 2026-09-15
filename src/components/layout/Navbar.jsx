@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const toolLinks = [
+const TOOLS_MENU = [
   { to: '/calculator', label: '🧮 מחשבון מסיבה' },
   { to: '/greeting', label: '💌 מחולל ברכות' },
   { to: '/invitation', label: '📨 מחולל הזמנות' },
@@ -10,88 +10,105 @@ const toolLinks = [
   { to: '/tools/countdown-timer', label: '⏱️ טיימר' },
   { to: '/tools/truth-or-dare', label: '🎭 אמת או חובה' },
   { to: '/tools/dice', label: '🎲 קוביה' },
-  { to: '/tools/coin-flip', label: '🪙 מטבע' },
+  { to: '/tools/coin-flip', label: '🪙 הטלת מטבע' },
   { to: '/tools/scoreboard', label: '📊 לוח ניקוד' },
-  { to: '/tools/spin-the-bottle', label: '🍾 סובב בקבוק' },
+  { to: '/tools/spin-the-bottle', label: '🍾 סובב את הבקבוק' },
   { to: '/tools/drawing-prompt', label: '🎨 מה לצייר?' },
-  { to: '/tools/joke', label: '😂 בדיחה' },
+  { to: '/tools/joke', label: '😂 בדיחה של BUGA' },
+  { to: '/tools/riddles', label: '🧩 חידות' },
+  { to: '/printables', label: '🖨️ דפים להדפסה' },
+  { to: '/games/all', label: '📚 כל המשחקים א׳-ת׳' },
+  { to: '/blog', label: '📝 טיפים ורעיונות' },
+  { to: '/faq', label: '❓ שאלות נפוצות' },
 ]
 
-const navLinks = [
-  { to: '/games', label: 'משחקים' },
-  { to: '/ideas', label: 'רעיונות' },
-  { to: '/gifts', label: 'מתנות' },
-  { to: '/printables', label: 'הדפסות' },
+const MOBILE_LINKS = [
+  { to: '/games', label: '🎮 משחקים' },
+  { to: '/ideas', label: '🎭 רעיונות' },
+  { to: '/guides', label: '📖 מדריכים' },
+  { to: '/gifts', label: '🎁 מתנות' },
+  ...TOOLS_MENU,
 ]
+
+function HeaderLink({ to, children }) {
+  const { pathname } = useLocation()
+  const active = pathname.startsWith(to)
+  return (
+    <Link to={to} className={`wobbly-sm inline-flex min-h-[44px] items-center border-2 border-[var(--border)] px-3 py-1 font-display text-lg transition-transform duration-100 hover:-rotate-1 hover:sketch-shadow-sm ${active ? 'nav-active bg-[var(--accent)] text-[var(--accent-foreground)]' : 'bg-[var(--card)]'}`}>
+      {children}
+    </Link>
+  )
+}
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
-  const location = useLocation()
-  const isActive = (path) => location.pathname.startsWith(path)
+  const { pathname } = useLocation()
+  const rootRef = useRef(null)
+
+  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables')
+
+  useEffect(() => setToolsOpen(false), [pathname])
+  useEffect(() => {
+    if (!toolsOpen) return
+    const close = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setToolsOpen(false) }
+    const esc = (e) => { if (e.key === 'Escape') setToolsOpen(false) }
+    document.addEventListener('mousedown', close)
+    document.addEventListener('keydown', esc)
+    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('keydown', esc) }
+  }, [toolsOpen])
 
   return (
-    <nav className="bg-[var(--paper)] border-b-2 border-[var(--ink)] sticky top-0 z-50 no-print">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-2xl font-bold font-hand">
-          <span className="text-3xl">🎂</span>
-          <span>עוגה בוגה</span>
+    <header className="border-b-2 border-[var(--border)] bg-[var(--background)]/90 sticky top-0 z-50 no-print">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="wobbly-sm buga-bounce inline-flex h-10 w-10 items-center justify-center border-2 border-[var(--border)] bg-[var(--postit)] text-xl sketch-shadow-sm">🎂</span>
+          <span className="font-display text-3xl font-bold">עוגה בוגה</span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map(link => (
-            <Link key={link.to} to={link.to}
-              className={`px-4 py-2 font-medium rounded-lg transition-colors ${isActive(link.to) ? 'bg-[var(--yellow)] font-bold' : 'hover:bg-[var(--muted)]/30'}`}>
-              {link.label}
-            </Link>
-          ))}
+        <button type="button" className="wobbly-sm flex h-11 w-11 items-center justify-center border-2 border-[var(--border)] bg-[var(--card)] text-2xl md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>☰</button>
 
-          {/* Tools dropdown */}
-          <div className="relative" onMouseEnter={() => setToolsOpen(true)} onMouseLeave={() => setToolsOpen(false)}>
-            <button className={`px-4 py-2 font-medium rounded-lg transition-colors ${isActive('/tools') || isActive('/calculator') || isActive('/greeting') || isActive('/invitation') ? 'bg-[var(--yellow)] font-bold' : 'hover:bg-[var(--muted)]/30'}`}>
-              כלים ▾
+        <nav className="hidden items-center gap-2 md:flex">
+          <HeaderLink to="/games">משחקים</HeaderLink>
+          <HeaderLink to="/ideas">רעיונות</HeaderLink>
+
+          <div ref={rootRef} className="relative">
+            <button type="button" onClick={() => setToolsOpen(!toolsOpen)}
+              className={`wobbly-sm inline-flex min-h-[44px] cursor-pointer items-center border-2 border-[var(--border)] px-3 py-1 font-display text-lg transition-transform duration-100 hover:-rotate-1 hover:sketch-shadow-sm ${toolsActive ? 'nav-active bg-[var(--accent)] text-[var(--accent-foreground)]' : 'bg-[var(--card)]'}`}>
+              כלים {toolsOpen ? '▴' : '▾'}
             </button>
             {toolsOpen && (
-              <div className="absolute top-full left-0 mt-1 bg-[var(--paper)] border-2 border-[var(--ink)] wobbly shadow-hard p-2 min-w-[200px] grid grid-cols-2 gap-1 z-50">
-                {toolLinks.map(link => (
-                  <Link key={link.to} to={link.to} onClick={() => setToolsOpen(false)}
-                    className="px-3 py-2 text-sm hover:bg-[var(--yellow)] rounded transition-colors whitespace-nowrap">
-                    {link.label}
-                  </Link>
+              <ul className="wobbly absolute end-0 z-50 mt-2 max-h-[60vh] w-64 overflow-y-auto border-2 border-[var(--border)] bg-[var(--card)] p-2 font-hand text-lg sketch-shadow">
+                {TOOLS_MENU.map(item => (
+                  <li key={item.to}>
+                    <Link to={item.to} onClick={() => setToolsOpen(false)}
+                      className="flex min-h-[40px] w-full items-center rounded px-2 py-1 underline decoration-dashed hover:bg-[var(--muted)]">
+                      {item.label}
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
           </div>
-        </div>
 
-        {/* Mobile hamburger */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-2xl p-2">
-          {mobileOpen ? '✕' : '☰'}
-        </button>
+          <HeaderLink to="/guides">מדריכים</HeaderLink>
+        </nav>
+
+        {mobileOpen && (
+          <nav className="wobbly-sm w-full border-2 border-[var(--border)] bg-[var(--card)] p-3 md:hidden buga-slide-down">
+            <ul className="grid gap-1 font-hand text-xl">
+              {MOBILE_LINKS.map(item => (
+                <li key={item.to}>
+                  <Link to={item.to} onClick={() => setMobileOpen(false)}
+                    className="flex min-h-[44px] items-center border-b border-dashed border-[var(--border)] px-2 py-2">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t-2 border-[var(--ink)] bg-[var(--paper)] px-4 py-4 animate-fade-in">
-          {navLinks.map(link => (
-            <Link key={link.to} to={link.to} onClick={() => setMobileOpen(false)}
-              className={`block px-4 py-3 text-lg font-medium rounded-lg mb-1 ${isActive(link.to) ? 'bg-[var(--yellow)]' : 'hover:bg-[var(--muted)]/30'}`}>
-              {link.label}
-            </Link>
-          ))}
-          <div className="border-t border-[var(--muted)] mt-2 pt-2">
-            <p className="px-4 py-2 text-sm text-[var(--muted)] font-bold">כלים</p>
-            {toolLinks.map(link => (
-              <Link key={link.to} to={link.to} onClick={() => setMobileOpen(false)}
-                className="block px-4 py-2 text-base hover:bg-[var(--muted)]/30 rounded">
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </nav>
+    </header>
   )
 }
