@@ -6,8 +6,10 @@ import {
 } from './questionBank'
 import { EXTRA_QUESTIONS, EXTRA_QUESTION_TOPICS } from './questionBankExtra'
 import { MORE_QUESTIONS, MORE_QUESTION_TOPICS } from './questionBankMore'
+import { MEGA_QUESTIONS, MEGA_QUESTION_TOPICS } from './questionBankMega'
 
 const topicIds = new Set()
+const BLOCKED_QUESTION_IDS = new Set(['words-teens-medium-001'])
 
 export { AUDIENCES, DIFFICULTIES }
 
@@ -15,13 +17,19 @@ export const QUESTION_TOPICS_EXPANDED = [
   ...QUESTION_TOPICS,
   ...EXTRA_QUESTION_TOPICS,
   ...MORE_QUESTION_TOPICS,
+  ...MEGA_QUESTION_TOPICS,
 ].filter((topic) => {
   if (topicIds.has(topic.id)) return false
   topicIds.add(topic.id)
   return true
 })
 
-export const QUESTION_BANK_EXPANDED = [...QUESTION_BANK, ...EXTRA_QUESTIONS, ...MORE_QUESTIONS]
+export const QUESTION_BANK_EXPANDED = [
+  ...QUESTION_BANK,
+  ...EXTRA_QUESTIONS,
+  ...MORE_QUESTIONS,
+  ...MEGA_QUESTIONS,
+].filter((item) => !BLOCKED_QUESTION_IDS.has(item.id))
 
 export function getQuestions({ topic = 'all', audience = 'kids', difficulty = 'easy', type = 'riddle' } = {}) {
   return QUESTION_BANK_EXPANDED.filter((item) => {
