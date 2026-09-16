@@ -14,7 +14,32 @@ export default function CategoryPage() {
   const cat = CATEGORIES[slug]
   const cls = CLASS_PAGES[slug]
   const data = cat || cls
-  if (!data) return <div className="text-center py-20"><h1 className="text-4xl">404</h1></div>
+  if (!data) {
+    const popularCategories = [
+      ['birthday', 'יום הולדת'],
+      ['classroom', 'כיתה'],
+      ['no-equipment', 'בלי ציוד'],
+      ['icebreaker', 'שוברי קרח'],
+      ['movement', 'תנועה'],
+      ['quiet', 'שקטים'],
+    ]
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
+        <SEO title="קטגוריות משחקים" description="בחרו קטגוריית משחקים פעילה בעוגה בוגה." path="/games" />
+        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'בחירת קטגוריה' }]} />
+        <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
+          <h1 className="text-4xl mb-3">🎮 הקטגוריה הזו לא פעילה</h1>
+          <p className="text-lg text-[var(--foreground)]/75 mb-6">בחרו קטגוריה קיימת או עברו לכל המשחקים.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link to="/games" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--accent)] px-5 py-3 font-display text-xl font-bold text-white">כל המשחקים</Link>
+            {popularCategories.map(([to, label]) => (
+              <Link key={to} to={'/games/'+to} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-5 py-3 font-display text-xl font-bold">{label}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const filter = cat ? cat.filter : (g => g.min_age <= cls.maxAge && (g.contexts||[]).includes('כיתה'))
   const filtered = games.filter(filter)
