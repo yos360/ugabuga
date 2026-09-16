@@ -1,7 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import SEO from '../../components/ui/SEO'
-import Badge from '../../components/ui/Badge'
-import WobblyButton from '../../components/ui/WobblyButton'
+import './BugaTown.css'
 import { createGameNews } from '../../data/liveNews'
 import {
   BUGA_TOWN_BOARD,
@@ -15,7 +14,12 @@ const PLAYER_COLORS = ['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-3
 const PLAYER_DOTS = ['🔴', '🔵', '🟢', '🟡']
 
 function shuffleOptions(options) {
-  return [...options].sort(() => Math.random() - 0.5)
+  const shuffled = [...options]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
 }
 
 function makePlayers(names) {
@@ -49,7 +53,26 @@ export default function BugaTown() {
     '🏙️ עיר חדשה נפתחה בבוגהטאון — מי יבנה את האימפריה הראשונה?',
     '🎲 הקוביות מוכנות, הבנק פתוח והנכסים מחכים לבעלים.',
   ])
+  const [rolling, setRolling] = useState(false)
+  const [winner, setWinner] = useState(null)
+  const [expanded, setExpanded] = useState(false)
+  const [selectedTile, setSelectedTile] = useState(null)
+  const [showSetup, setShowSetup] = useState(false)
+  const rollLock = useRef(false)
+  const rollTimer = useRef(null)
   const currentPlayer = players[currentPlayerIndex]
+  useEffect(() => () => clearTimeout(rollTimer.current), [])
+  useEffect(() => {
+    if (!expanded) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const escape = (event) => { if (event.key === 'Escape') setExpanded(false) }
+    window.addEventListener('keydown', escape)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener('keydown', escape)
+    }
+  }, [expanded])
 
   const ownedBy = useMemo(() => {
     const owners = {}
@@ -62,7 +85,13 @@ export default function BugaTown() {
   }
 
   function startGame() {
-    const cleanNames = setupNames.filter((name) => name.trim()).slice(0, 4)
+    clearTimeout(rollTimer.current)
+    rollLock.current = false
+    setRolling(false)
+    setWinner(null)
+    setSelectedTile(null)
+    setShowSetup(false)
+    const cleanNames = setupNames.map((name, index) => name.trim() || `שחקן ${index + 1}`).slice(0, 4)
     setPlayers(makePlayers(cleanNames.length ? cleanNames : ['שחקן 1', 'שחקן 2']))
     setCurrentPlayerIndex(0)
     setDice([1, 1])
@@ -82,7 +111,6 @@ export default function BugaTown() {
 
   function handleTile(player, tile) {
     if (tile.type === 'start') {
-      updatePlayer(player.id, (p) => ({ ...p, coins: p.coins + 30 }))
       addNews(`🏁 ${player.name} עבר בהתחלה וקיבל 30 מטבעות.`)
       nextTurn(`${player.name} הגיע להתחלה וקיבל 30 מטבעות.`)
       return
@@ -160,6 +188,7 @@ export default function BugaTown() {
     if (tile.type === 'center') {
       if (player.coins >= 200 || player.properties.length >= 4 || player.bonuses >= 5) {
         addNews(createGameNews({ type: 'bugaTown', player: player.name, action: 'win' }))
+        setWinner(player)
         setMessage(`🏆 ${player.name} ניצח בבוגהטאון!`)
       } else {
         nextTurn(`${player.name} הגיע למרכז, אבל צריך 200 מטבעות, 4 נכסים או 5 בונוסים כדי לנצח.`)
@@ -168,8 +197,11 @@ export default function BugaTown() {
   }
 
   function rollDice() {
-    if (pendingQuestion) return
-    const roll = [Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6)]
+    if (pendingQuestion || winner || rollLock.current) return
+    rollLock.current = true
+    setRolling(true)
+    setSelectedTile(null)
+    const roll = [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1]
     const steps = roll[0] + roll[1]
     setDice(roll)
 
@@ -179,7 +211,11 @@ export default function BugaTown() {
     const movedPlayer = { ...player, position: nextPosition, coins: passedStart ? player.coins + 30 : player.coins }
 
     setPlayers((list) => list.map((p) => p.id === player.id ? movedPlayer : p))
-    setTimeout(() => handleTile(movedPlayer, BUGA_TOWN_BOARD[nextPosition]), 150)
+    rollTimer.current = setTimeout(() => {
+      handleTile(movedPlayer, BUGA_TOWN_BOARD[nextPosition])
+      rollLock.current = false
+      setRolling(false)
+    }, 650)
   }
 
   function answerQuestion(answer) {
@@ -206,119 +242,93 @@ export default function BugaTown() {
     setCurrentPlayerIndex((index) => (index + 1) % players.length)
   }
 
-  return (
-    <div className="min-h-[calc(100vh-84px)] bg-gradient-to-b from-[var(--postit)]/40 via-[var(--paper)] to-[var(--paper)] px-3 py-4 buga-fade-in sm:px-5">
-      <SEO title="בוגהטאון" description="משחק בעלות נכסים מקורי של עוגה בוגה: קוביות, שאלות, נכסים, קלפים וחדשות משחק." path="/tools/buga-town" />
+  const selected = selectedTile === null ? null : BUGA_TOWN_BOARD[selectedTile]
+  const selectedProperty = selected?.propertyId ? propertyMap[selected.propertyId] : null
+  const question = pendingQuestion
+    ? (pendingQuestion.propertyId ? propertyMap[pendingQuestion.propertyId] : pendingQuestion.generalQuestion)
+    : null
 
-      <div className="mx-auto mb-4 flex max-w-[1500px] flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="font-hand text-sm text-[var(--muted-foreground)]">משחק לוח חי</p>
-          <h1 className="text-3xl sm:text-5xl">🏙️ בוגהטאון</h1>
+  return (
+    <div className={`town-game ${expanded ? 'town-game--expanded' : ''}`} dir="rtl">
+      <SEO title="בוגהטאון — העיר שלכם, המשחק שלכם" description="משחק לוח של קוביות, נכסים ושאלות ל־2–4 שחקנים או קבוצות על אותו מסך." path="/tools/buga-town" />
+      <header className="town-header">
+        <div><span className="town-eyebrow">עוגה בוגה / משחקי לוח</span><h1>בוגה<span>טאון</span><small>העיר שלכם. המשחק שלכם.</small></h1></div>
+        <div className="town-toolbar">
+          <span className="town-live"><i />{players.length} שחקנים / קבוצות · מסך משותף</span>
+          <button onClick={() => setShowSetup(!showSetup)} aria-expanded={showSetup}>⚙ הגדרת משחק</button>
+          <button onClick={() => setExpanded(!expanded)} aria-pressed={expanded}>{expanded ? '↙ יציאה ממסך מלא' : '⛶ מסך מלא'}</button>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Badge color="yellow">2-4 שחקנים</Badge>
-          <Badge color="blue">24 משבצות</Badge>
-          <Badge color="green">8 נכסים</Badge>
+      </header>
+
+      {showSetup && <section className="town-setup" aria-label="הגדרת משחק">
+        <h2>מי בונה איתנו עיר?</h2><p>בחרו 2–4 שחקנים או קבוצות. התחלה מחדש מאפסת את המשחק הנוכחי.</p>
+        <div className="town-name-fields">{setupNames.map((name, index) => <label key={index}>שם שחקן או קבוצה {index + 1}<input maxLength={24} value={name} onChange={(event) => setSetupNames((names) => names.map((item, i) => i === index ? event.target.value : item))} /></label>)}</div>
+        <div className="town-toolbar">
+          {setupNames.length < 4 && <button onClick={() => setSetupNames([...setupNames, `שחקן ${setupNames.length + 1}`])}>+ שחקן / קבוצה</button>}
+          {setupNames.length > 2 && <button onClick={() => setSetupNames(setupNames.slice(0, -1))}>הסרת שחקן אחרון</button>}
+          <button className="town-primary" onClick={startGame}>התחלת משחק חדש</button>
+          <button onClick={() => setShowSetup(false)}>חזרה למשחק</button>
         </div>
+      </section>}
+
+      <div className="town-score-strip" aria-label="מצב השחקנים">
+        {players.map((player, index) => <article key={player.id} className={`town-player ${index === currentPlayerIndex ? 'town-player--active' : ''}`} style={{'--player-color': ['#ed7064', '#549edb', '#68b986', '#e0b843'][index]}}>
+          <div className="town-player-name"><span>{PLAYER_DOTS[index]} {player.name}</span><small>{winner?.id === player.id ? '🏆 המנצח!' : index === currentPlayerIndex ? 'התור שלכם' : 'ממתינים לתור'}</small></div>
+          <div className="town-player-stats"><span><b>{player.coins}</b> מטבעות</span><span><b>{player.properties.length}</b> נכסים</span><span><b>{player.bonuses}</b> בונוסים</span></div>
+        </article>)}
       </div>
 
-      <div className="mx-auto grid max-w-[1500px] gap-4 xl:grid-cols-[270px_minmax(760px,1fr)_310px]">
-        <aside className="order-2 grid gap-4 xl:order-1">
-          <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow-rich">
-            <h2 className="mb-3 text-2xl">שחקנים</h2>
-            <div className="grid gap-3">
-              {players.map((player, index) => (
-                <div key={player.id} className={`rounded-2xl border-2 border-[var(--border)] bg-white p-3 ${index === currentPlayerIndex ? 'sketch-shadow-sm ring-4 ring-[var(--accent)]/20' : ''}`}>
-                  <div className="flex items-center justify-between gap-2">
-                    <strong>{PLAYER_DOTS[index]} {player.name}</strong>
-                    {index === currentPlayerIndex && <Badge color="red">תור</Badge>}
+      <div className="town-layout">
+        <section className="town-board" aria-label="לוח בוגהטאון — 24 משבצות">
+          <div className="town-board-grid">
+            <div className="town-center">
+              <div className="town-skyline" aria-hidden="true">{[3,5,4,7,5,6,3].map((height, index) => <i key={index} style={{'--height': height, '--building': ['#e6b76b','#8caf96','#83aabe','#cd8a76'][index % 4]}} />)}</div>
+              <div className="town-center-content">
+                <span className="town-eyebrow">WELCOME TO BUGA TOWN</span>
+                <h2>{winner ? 'יש לנו מנצח!' : 'העיר מחכה למהלך שלכם'}</h2>
+                {question ? <section className="town-question" aria-label="שאלת התור" aria-live="polite">
+                  <span className="town-question-label">{pendingQuestion.propertyId ? `🔑 רוכשים את ${question.name} · ${question.price} מטבעות` : '🧠 שאלת דרך · 20 מטבעות לתשובה נכונה'}</span>
+                  <h3>{question.question}</h3>
+                  <div className="town-answers">{pendingQuestion.options.map((option, index) => <button key={option} onClick={() => answerQuestion(option)}><span>{index + 1}</span>{option}</button>)}</div>
+                </section> : <>
+                  <div className="town-turn">{winner ? '🏆 ' + winner.name : PLAYER_DOTS[currentPlayerIndex] + ' התור של ' + currentPlayer.name}</div>
+                  <div className={`town-dice ${rolling ? 'town-dice--rolling' : ''}`} aria-label={`תוצאת הקוביות: ${dice[0]} ועוד ${dice[1]}`}>
+                    {dice.map((value, index) => <div className="town-die" key={index} aria-hidden="true">{['⚀','⚁','⚂','⚃','⚄','⚅'][value - 1]}</div>)}
                   </div>
-                  <div className="mt-2 text-sm">💰 {player.coins} · 🏙️ {player.properties.length} · ⭐ {player.bonuses}</div>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-4 sketch-shadow-rich">
-            <h2 className="mb-3 text-2xl">משחק חדש</h2>
-            <div className="grid gap-2">
-              {setupNames.map((name, index) => (
-                <input key={index} value={name} onChange={(event) => setSetupNames((names) => names.map((item, i) => i === index ? event.target.value : item))} className="rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2" placeholder={`שם שחקן ${index + 1}`} />
-              ))}
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm">
-              {setupNames.length < 4 && <button onClick={() => setSetupNames((names) => [...names, `שחקן ${names.length + 1}`])} className="font-bold text-[var(--pen)]">+ הוסף שחקן</button>}
-              {setupNames.length > 2 && <button onClick={() => setSetupNames((names) => names.slice(0, -1))} className="font-bold text-[var(--accent)]">הסר שחקן</button>}
-            </div>
-            <div className="mt-4"><WobblyButton variant="secondary" onClick={startGame}>התחילו מחדש</WobblyButton></div>
-          </section>
-        </aside>
-
-        <main className="order-1 xl:order-2">
-          <section className="relative min-h-[720px] rounded-[2rem] border-[4px] border-[var(--border)] bg-[#fdf7df] p-3 sketch-shadow-rich sm:p-5">
-            <div className="absolute inset-5 rounded-[1.5rem] border-2 border-dashed border-[var(--border)]/30" />
-            <div className="relative grid min-h-[680px] grid-cols-7 grid-rows-7 gap-2">
-              <div className="col-start-2 col-span-5 row-start-2 row-span-5 flex flex-col items-center justify-center rounded-[2rem] border-[4px] border-[var(--border)] bg-[var(--card)] p-5 text-center sketch-shadow-rich">
-                <div className="text-6xl">🏙️</div>
-                <h2 className="mt-2 text-4xl">מרכז בוגהטאון</h2>
-                <p className="mt-2 max-w-md text-[var(--ink)]/70">קנו נכסים, צברו בונוסים או הגיעו לכאן עם מספיק מטבעות כדי לנצח.</p>
-                <div className="mt-5 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] px-6 py-4 font-display text-4xl sketch-shadow-sm">🎲 {dice[0]} + {dice[1]}</div>
-                <div className="mt-5 max-w-xl rounded-2xl border-2 border-[var(--border)] bg-white p-4 font-hand text-xl sketch-shadow-sm">{message}</div>
-                {!pendingQuestion && <div className="mt-5"><WobblyButton onClick={rollDice}>זרקו קוביות 🎲</WobblyButton></div>}
+                  <p className="town-message" role="status">{message}</p>
+                  {winner ? <button className="town-primary town-roll" onClick={() => setShowSetup(true)}>משחק נוסף ↻</button> : <button className="town-primary town-roll" onClick={rollDice} disabled={rolling}>{rolling ? 'הקוביות מתגלגלות…' : 'זורקים קוביות'} <span>🎲</span></button>}
+                </>}
+                <p className="town-win-rule">🏆 נוחתים על שער למרכז עם 200 מטבעות, 4 נכסים או 5 בונוסים.</p>
               </div>
-
-              {BUGA_TOWN_BOARD.map((tile, index) => {
-                const property = tile.propertyId ? propertyMap[tile.propertyId] : null
-                const owner = property ? ownedBy[property.id] : null
-                const ownerIndex = owner ? players.findIndex((player) => player.id === owner.id) : -1
-                const playersHere = players.filter((player) => player.position === index)
-                return (
-                  <button type="button" key={index} style={boardPosition(index)} className={`relative rounded-2xl border-2 border-[var(--border)] bg-white p-2 text-center sketch-shadow-sm transition-transform hover:-rotate-1 hover:scale-[1.02] ${index === currentPlayer?.position ? 'ring-4 ring-[var(--accent)]' : ''}`}>
-                    <div className="text-3xl">{property?.emoji || tile.emoji}</div>
-                    <div className="mt-1 text-xs font-bold leading-tight sm:text-sm">{property?.name || tile.label}</div>
-                    {property && <div className="text-[11px] text-[var(--muted-foreground)]">קנייה {property.price} · שכירות {property.rent}</div>}
-                    {owner && <div className="mt-1 rounded-full bg-[var(--postit)] px-2 py-0.5 text-[11px] font-bold">{PLAYER_DOTS[ownerIndex]} {owner.name}</div>}
-                    <div className="absolute bottom-1 left-1 right-1 flex justify-center gap-1">
-                      {playersHere.map((player) => <span key={player.id} title={player.name} className={`h-5 w-5 rounded-full border-2 border-[var(--ink)] ${PLAYER_COLORS[players.findIndex((p) => p.id === player.id) % PLAYER_COLORS.length]}`} />)}
-                    </div>
-                  </button>
-                )
-              })}
             </div>
+            {BUGA_TOWN_BOARD.map((tile, index) => {
+              const property = tile.propertyId ? propertyMap[tile.propertyId] : null
+              const owner = property ? ownedBy[property.id] : null
+              const ownerIndex = owner ? players.findIndex((player) => player.id === owner.id) : -1
+              const playersHere = players.filter((player) => player.position === index)
+              return <button type="button" key={index} onClick={() => setSelectedTile(selectedTile === index ? null : index)} style={boardPosition(index)} aria-pressed={selectedTile === index} aria-label={`משבצת ${index + 1}: ${property?.name || tile.label}`} className={`town-tile town-tile--${tile.type} ${playersHere.length ? 'town-tile--occupied' : ''} ${selectedTile === index ? 'town-tile--selected' : ''}`}>
+                <span className="town-tile-number">{String(index + 1).padStart(2, '0')}</span>
+                <span className="town-tile-emoji">{property?.emoji || tile.emoji}</span>
+                <strong>{property?.name || tile.label}</strong>
+                <span className="town-tile-price">{owner ? PLAYER_DOTS[ownerIndex] + ' ' + owner.name : property ? property.price + ' 🪙' : tile.type === 'bonus' ? '+' + tile.amount + ' 🪙' : tile.type === 'pay' ? '−' + tile.amount + ' 🪙' : tile.type === 'center' ? 'שער לניצחון' : 'בוגה טאון'}</span>
+                <span className="town-pawns">{playersHere.map((player) => <span key={player.id} title={player.name} className={`town-pawn ${PLAYER_COLORS[players.findIndex((p) => p.id === player.id)]}`}>{players.findIndex((p) => p.id === player.id) + 1}</span>)}</span>
+              </button>
+            })}
+          </div>
+        </section>
 
-            {pendingQuestion && (
-              <div className="absolute inset-x-4 bottom-4 z-10 rounded-[2rem] border-[3px] border-[var(--border)] bg-white p-5 sketch-shadow-rich sm:inset-x-12">
-                <h3 className="text-2xl">שאלה לפני שממשיכים</h3>
-                <p className="mt-2 text-lg">{pendingQuestion.propertyId ? propertyMap[pendingQuestion.propertyId].question : pendingQuestion.generalQuestion.question}</p>
-                <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {pendingQuestion.options.map((option) => (
-                    <button key={option} onClick={() => answerQuestion(option)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-3 font-bold">{option}</button>
-                  ))}
-                </div>
-              </div>
-            )}
+        <aside className="town-sidebar">
+          <section className="town-panel town-info">
+            <span className="town-eyebrow">{selected ? 'מבט מקרוב' : 'מדריך מהיר'}</span>
+            <h2>{selected ? (selectedProperty?.emoji || selected.emoji) + ' ' + (selectedProperty?.name || selected.label) : 'איך בונים אימפריה?'}</h2>
+            {selected ? <><p>{selectedProperty ? `קנייה: ${selectedProperty.price} מטבעות ותשובה נכונה. שכירות: ${selectedProperty.rent} מטבעות. ${ownedBy[selectedProperty.id] ? 'בבעלות ' + ownedBy[selectedProperty.id].name : 'הנכס פנוי לרכישה.'}` : selected.text || ({chance:'מגרילים קלף עם הפתעה. קלף תנועה מזיז בלבד ואינו מפעיל את המשבצת שאליה מגיעים.',bonus:`מקבלים ${selected.amount} מטבעות ובונוס אחד.`,pay:`משלמים לעיר עד ${selected.amount} מטבעות, לפי היתרה.`,question:'תשובה נכונה מזכה ב־20 מטבעות.',freeRoll:'אותו שחקן זורק שוב.',center:'נוחתים כאן עם 200 מטבעות, 4 נכסים או 5 בונוסים כדי לנצח.'})[selected.type]}</p><button onClick={() => setSelectedTile(null)}>חזרה להוראות</button></> : <ol><li><b>זורקים ומתקדמים</b><span>שתי קוביות, מסלול אחד והרבה הפתעות.</span></li><li><b>עונים וקונים</b><span>נכס פנוי? ענו נכון וקנו אותו. בנכס של יריב משלמים שכירות.</span></li><li><b>מגיעים לשער ומנצחים</b><span>200 מטבעות או 4 נכסים או 5 בונוסים. כל מעבר בהתחלה נותן 30 מטבעות.</span></li></ol>}
+            <p className="town-hint">אפשר ללחוץ על כל משבצת כדי לקרוא עליה.</p>
           </section>
-        </main>
-
-        <aside className="order-3 grid gap-4">
-          <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow-rich">
-            <h2 className="mb-3 text-2xl">חדשות בלייב 🔴</h2>
-            <div className="grid gap-2 text-sm">
-              {news.map((item, index) => <div key={index} className="rounded-xl bg-[var(--postit)] px-3 py-2">{item}</div>)}
-            </div>
-          </section>
-
-          <section className="wobbly border-2 border-[var(--border)] bg-white p-4 sketch-shadow-rich">
-            <h2 className="mb-3 text-2xl">נכסים בעיר</h2>
-            <div className="grid gap-2 text-sm">
-              {BUGA_TOWN_PROPERTIES.map((property) => {
-                const owner = ownedBy[property.id]
-                return <div key={property.id} className="flex items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2"><span>{property.emoji} {property.name}</span><strong>{owner ? owner.name : `${property.price} מטבעות`}</strong></div>
-              })}
-            </div>
-          </section>
+          <section className="town-panel"><div className="town-panel-heading"><h2>מה חדש בעיר?</h2><span className="town-live"><i />מהמשחק</span></div><div className="town-news">{news.slice(0, 4).map((item, index) => <p key={index}>{item}</p>)}</div></section>
+          <details className="town-panel town-properties"><summary>🏘 כל הנכסים בעיר ({BUGA_TOWN_PROPERTIES.length})</summary>{BUGA_TOWN_PROPERTIES.map((property) => <div key={property.id}><span>{property.emoji} {property.name}</span><b>{ownedBy[property.id]?.name || property.price + ' 🪙'}</b></div>)}</details>
         </aside>
       </div>
     </div>
   )
 }
+
