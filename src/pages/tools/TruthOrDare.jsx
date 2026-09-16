@@ -3,7 +3,14 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 
-const STORAGE_KEY = 'ugabuga.truthOrBuga.seen.v2'
+const STORAGE_KEY = 'ugabuga.truthOrBuga.seen.v3'
+const DIFFICULTIES = [
+  { key: 'all', label: '🌈 הכול' },
+  { key: 'easy', label: '🟢 קל' },
+  { key: 'medium', label: '🟡 בינוני' },
+  { key: 'hard', label: '🔴 קשה' },
+]
+const DIFFICULTY_BY_INDEX = ['easy', 'medium', 'hard']
 
 const TOPICS = {
   animals: {
@@ -99,17 +106,28 @@ function loadSeen() {
 }
 
 function saveSeen(ids) {
-  try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids.slice(-500))) } catch { /* ignore */ }
+  try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids.slice(-700))) } catch { /* ignore */ }
+}
+
+function difficultyLabel(key) {
+  return DIFFICULTIES.find((item) => item.key === key)?.label || '🌈 הכול'
 }
 
 function buildCards(customItems) {
-  const base = Object.entries(TOPICS).flatMap(([topic, data]) => data.items.map(([text, truth], index) => ({ topic, text, truth, id: `${topic}-${index}` })))
-  const custom = customItems.map((item, index) => ({ topic: 'custom', text: item.text, truth: item.truth, id: 'custom-' + index }))
+  const base = Object.entries(TOPICS).flatMap(([topic, data]) => data.items.map(([text, truth], index) => ({
+    topic,
+    text,
+    truth,
+    difficulty: DIFFICULTY_BY_INDEX[index % DIFFICULTY_BY_INDEX.length],
+    id: `${topic}-${index}`,
+  })))
+  const custom = customItems.map((item, index) => ({ topic: 'custom', text: item.text, truth: item.truth, difficulty: item.difficulty || 'easy', id: 'custom-' + index }))
   return [...base, ...custom]
 }
 
 export default function TruthOrDare() {
   const [topic, setTopic] = useState('animals')
+  const [difficulty, setDifficulty] = useState('all')
   const [mode, setMode] = useState('solo')
   const [activeTeam, setActiveTeam] = useState(0)
   const [teamNames, setTeamNames] = useState(['קבוצה א׳', 'קבוצה ב׳'])
@@ -120,12 +138,14 @@ export default function TruthOrDare() {
   const [seenIds, setSeenIds] = useState([])
   const [customText, setCustomText] = useState('')
   const [customTruth, setCustomTruth] = useState(true)
+  const [customDifficulty, setCustomDifficulty] = useState('easy')
   const [customItems, setCustomItems] = useState([])
 
   useEffect(() => { setSeenIds(loadSeen()) }, [])
 
   const cards = useMemo(() => buildCards(customItems), [customItems])
-  const visibleCards = topic === 'all' ? cards : cards.filter((item) => item.topic === topic)
+  const topicCards = topic === 'all' ? cards : cards.filter((item) => item.topic === topic)
+  const visibleCards = difficulty === 'all' ? topicCards : topicCards.filter((item) => item.difficulty === difficulty)
   const remainingCount = visibleCards.filter((item) => !seenIds.includes(item.id)).length
 
   const updateSeen = (nextIds) => {
@@ -168,7 +188,7 @@ export default function TruthOrDare() {
   const addCustom = () => {
     const text = customText.trim()
     if (!text) return
-    setCustomItems((items) => [...items, { text, truth: customTruth }])
+    setCustomItems((items) => [...items, { text, truth: customTruth, difficulty: customDifficulty }])
     setCustomText('')
   }
 
@@ -176,9 +196,21 @@ export default function TruthOrDare() {
     setTeamNames((names) => names.map((name, itemIndex) => itemIndex === index ? value : name))
   }
 
+  const chooseTopic = (nextTopic) => {
+    setTopic(nextTopic)
+    setCurrent(null)
+    setAnswered(null)
+  }
+
+  const chooseDifficulty = (nextDifficulty) => {
+    setDifficulty(nextDifficulty)
+    setCurrent(null)
+    setAnswered(null)
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="אמת או בוגה" description="משחק אמת או בוגה עם מאות משפטים, מצב לבד, מצב קבוצות, ניקוד וזיכרון שלא חוזר על שאלות שכבר הופיעו." path="/tools/truth-or-buga" />
+      <SEO title="אמת או בוגה" description="משחק אמת או בוגה עם מאות משפטים, מצב לבד, מצב קבוצות, ניקוד, רמות קושי וזיכרון שלא חוזר על שאלות שכבר הופיעו." path="/tools/truth-or-buga" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'אמת או בוגה' }]} />
 
       <div className="text-center mb-8">
@@ -187,7 +219,8 @@ export default function TruthOrDare() {
         <div className="mt-4 flex flex-wrap justify-center gap-2">
           <Badge color="yellow">✅ לבד: {score.correct}/{score.total}</Badge>
           <Badge color="green">🔥 רצף {score.streak}</Badge>
-          <Badge color="blue">{visibleCards.length} משפטים בנושא</Badge>
+          <Badge color="blue">{visibleCards.length} משפטים בסינון</Badge>
+          <Badge color="default">קושי: {difficultyLabel(difficulty)}</Badge>
           <Badge color="default">נשארו בלי חזרה: {remainingCount}</Badge>
         </div>
       </div>
@@ -216,20 +249,28 @@ export default function TruthOrDare() {
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich">
             <h2 className="text-2xl mb-3">בחרו נושא</h2>
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => { setTopic('all'); setCurrent(null) }} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === 'all' ? 'bg-[var(--postit)]' : 'bg-white'}`}>🌈 הכול</button>
-              {Object.entries(TOPICS).map(([key, data]) => <button key={key} onClick={() => { setTopic(key); setCurrent(null) }} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === key ? 'bg-[var(--postit)]' : 'bg-white'}`}>{data.label}</button>)}
-              {customItems.length > 0 && <button onClick={() => { setTopic('custom'); setCurrent(null) }} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === 'custom' ? 'bg-[var(--postit)]' : 'bg-white'}`}>✏️ שלי</button>}
+              <button onClick={() => chooseTopic('all')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === 'all' ? 'bg-[var(--postit)]' : 'bg-white'}`}>🌈 הכול</button>
+              {Object.entries(TOPICS).map(([key, data]) => <button key={key} onClick={() => chooseTopic(key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === key ? 'bg-[var(--postit)]' : 'bg-white'}`}>{data.label}</button>)}
+              {customItems.length > 0 && <button onClick={() => chooseTopic('custom')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${topic === 'custom' ? 'bg-[var(--postit)]' : 'bg-white'}`}>✏️ שלי</button>}
+            </div>
+          </section>
+
+          <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich">
+            <h2 className="text-2xl mb-3">רמת קושי</h2>
+            <div className="flex flex-wrap gap-2">
+              {DIFFICULTIES.map((item) => <button key={item.key} onClick={() => chooseDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${difficulty === item.key ? 'bg-[var(--postit)]' : 'bg-white'}`}>{item.label}</button>)}
             </div>
             <button onClick={resetSeen} className="mt-4 wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">איפוס שאלות שכבר הופיעו</button>
           </section>
 
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
             <h2 className="text-2xl mb-2">הכנה עצמית</h2>
-            <p className="text-sm mb-3 text-[var(--ink)]/70">כתבו משפט, סמנו אם הוא אמת או בוגה, והוא נכנס למשחק.</p>
+            <p className="text-sm mb-3 text-[var(--ink)]/70">כתבו משפט, סמנו אם הוא אמת או בוגה, בחרו קושי, והוא נכנס למשחק.</p>
             <textarea value={customText} onChange={(event) => setCustomText(event.target.value)} rows={3} className="w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2" placeholder="לדוגמה: דולפינים הם דגים" />
-            <div className="my-3 flex gap-2">
+            <div className="my-3 flex flex-wrap gap-2">
               <button onClick={() => setCustomTruth(true)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${customTruth ? 'bg-[#4caf50] text-white' : 'bg-white'}`}>אמת</button>
               <button onClick={() => setCustomTruth(false)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${!customTruth ? 'bg-[var(--accent)] text-white' : 'bg-white'}`}>בוגה</button>
+              {DIFFICULTIES.filter((item) => item.key !== 'all').map((item) => <button key={item.key} onClick={() => setCustomDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${customDifficulty === item.key ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>{item.label}</button>)}
             </div>
             <button onClick={addCustom} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-white px-4 py-2 font-bold">+ הוסיפו למשחק</button>
             {customItems.length > 0 && <p className="mt-3 text-sm">נוספו {customItems.length} משפטים משלכם.</p>}
@@ -242,13 +283,14 @@ export default function TruthOrDare() {
               <div className="py-12">
                 <div className="text-6xl mb-4">🤔</div>
                 <h2 className="text-3xl mb-3">מוכנים לגלות מה אמת ומה בוגה?</h2>
-                <p className="mb-6 text-[var(--ink)]/70">המשחק ינסה לא לחזור על משפטים שכבר הופיעו אצל אותו משתמש.</p>
+                <p className="mb-6 text-[var(--ink)]/70">המשחק יבחר לפי הנושא ורמת הקושי, וינסה לא לחזור על משפטים שכבר הופיעו אצל אותו משתמש.</p>
                 <button onClick={pick} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-4 font-display text-2xl font-bold text-white">תנו לי משפט 🎲</button>
               </div>
             ) : (
               <div className="py-8">
                 <div className="mb-5 flex flex-wrap justify-center gap-3">
                   <Badge color="yellow">מצב: {mode === 'teams' ? 'קבוצות' : 'לבד'}</Badge>
+                  <Badge color="blue">{difficultyLabel(current.difficulty)}</Badge>
                   {mode === 'teams' && <Badge color="green">תור: {teamNames[activeTeam]}</Badge>}
                 </div>
                 <p className="font-hand text-lg text-[var(--muted-foreground)]">זה אמת או בוגה?</p>
@@ -269,7 +311,7 @@ export default function TruthOrDare() {
           </section>
 
           <section className="mt-6 grid gap-4 sm:grid-cols-3">
-            {visibleCards.slice(0, 9).map((item) => <div key={item.id} className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-3 text-sm sketch-shadow-sm"><strong>{item.truth ? 'אמת' : 'בוגה'}:</strong> {item.text}</div>)}
+            {visibleCards.slice(0, 9).map((item) => <div key={item.id} className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-3 text-sm sketch-shadow-sm"><strong>{item.truth ? 'אמת' : 'בוגה'} · {difficultyLabel(item.difficulty)}:</strong> {item.text}</div>)}
           </section>
         </main>
       </div>
