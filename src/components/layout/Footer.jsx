@@ -42,7 +42,7 @@ export default function Footer() {
             <FooterLink to="/tools/team-generator">מחלק קבוצות</FooterLink>
             <FooterLink to="/tools/random-picker">גלגל שמות</FooterLink>
             <FooterLink to="/tools/countdown-timer">טיימר למסיבה</FooterLink>
-            <FooterLink to="/tools/truth-or-dare">אמת או חובה</FooterLink>
+            <FooterLink to="/tools/truth-or-buga">אמת או בוגה</FooterLink>
             <FooterLink to="/tools/dice">קוביה וירטואלית</FooterLink>
             <FooterLink to="/tools/coin-flip">הטלת מטבע</FooterLink>
             <FooterLink to="/tools/scoreboard">לוח ניקוד</FooterLink>
@@ -59,7 +59,7 @@ export default function Footer() {
             <FooterLink to="/guides/how-to-plan-birthday">איך מתכננים יום הולדת</FooterLink>
             <FooterLink to="/blog">טיפים ורעיונות</FooterLink>
             <FooterLink to="/compare/home-vs-venue">בית או אולם</FooterLink>
-            <FooterLink to="/songs/birthday-songs">שירי יום הולדת</FooterLink>
+            <FooterLink to="/ideas/what-to-do-weekend">פעילות לסוף שבוע</FooterLink>
             <FooterLink to="/terms">תנאי שימוש</FooterLink>
             <FooterLink to="/privacy">מדיניות פרטיות</FooterLink>
           </FooterColumn>
