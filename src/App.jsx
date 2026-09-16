@@ -146,6 +146,11 @@ export default function App() {
               <Route path="/wheel" element={<RandomPicker />} />
               <Route path="/tools/truth-or-dare" element={<TruthOrDare />} />
               <Route path="/truth-or-dare" element={<TruthOrDare />} />
+              <Route path="/tools/truth-or-buga" element={<TruthOrDare />} />
+              <Route path="/truth-or-buga" element={<TruthOrDare />} />
+              <Route path="/emet-o-buga" element={<TruthOrDare />} />
+              <Route path="/emet-or-buga" element={<TruthOrDare />} />
+              <Route path="/games/emet-o-buga" element={<TruthOrDare />} />
               <Route path="/tools/spin-the-bottle" element={<SpinBottle />} />
               <Route path="/spin-the-bottle" element={<SpinBottle />} />
               <Route path="/tools/drawing-prompt" element={<DrawingPrompt />} />
