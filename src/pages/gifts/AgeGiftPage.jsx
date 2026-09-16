@@ -7,7 +7,23 @@ export default function AgeGiftPage() {
   const { age } = useParams()
   const ageNum = parseInt(age?.replace('age-','') || age)
   const data = AGE_GIFTS[ageNum]
-  if (!data) return <div className="text-center py-20"><h1 className="text-4xl">404</h1></div>
+  if (!data) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
+        <SEO title="מתנות לפי גיל" description="בחרו גיל וקבלו רעיונות למתנות יום הולדת לפי גיל." path="/gifts" />
+        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות', href: '/gifts' }, { label: 'בחירת גיל' }]} />
+        <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
+          <h1 className="text-4xl mb-3">🎁 לא מצאנו מדריך לגיל הזה</h1>
+          <p className="text-lg text-[var(--foreground)]/75 mb-6">בחרו גיל מהרשימה ונחזיר אתכם למדריך מתנות שעובד.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {GIFT_AGES.map(a => (
+              <Link key={a} to={'/gifts/age-'+a} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-5 py-3 font-display text-xl font-bold">גיל {a}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
   const others = GIFT_AGES.filter(a => a !== ageNum)
 
   return (
