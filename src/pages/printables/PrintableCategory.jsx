@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useState } from 'react'
@@ -92,7 +92,26 @@ export default function PrintableCategory() {
   const cat = svgMap[slug]
   const [selected, setSelected] = useState(null)
 
-  if (!cat) return <div className="text-center py-20"><h1 className="text-4xl">404 — קטגוריה לא נמצאה</h1></div>
+  if (!cat) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-12 text-center buga-fade-in">
+        <SEO title="דפים להדפסה" description="בחרו קטגוריית דפים להדפסה פעילה." path="/printables" />
+        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'הדפסות', href: '/printables' }, { label: 'בחירת קטגוריה' }]} />
+        <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
+          <h1 className="text-4xl mb-3">🖨️ קטגוריית ההדפסה לא נמצאה</h1>
+          <p className="mx-auto max-w-xl text-lg text-[var(--foreground)]/75 mb-6">בחרו קטגוריה קיימת ונחזיר אתכם לדפים שעובדים.</p>
+          <div className="mb-6 flex justify-center">
+            <Link to="/printables" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--accent)] px-5 py-3 font-display text-xl font-bold text-white">כל הדפים להדפסה</Link>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {Object.entries(svgMap).map(([key, item]) => (
+              <Link key={key} to={'/printables/'+key} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-hand text-lg underline decoration-dashed hover:bg-[var(--postit)]">{item.title}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const printItem = (file) => {
     const w = window.open('/svg/' + file, '_blank')
