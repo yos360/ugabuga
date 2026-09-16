@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import WobblyCard from '../../components/ui/WobblyCard'
-import { PARTY_KITS } from '../../data/ideaArticles'
+import { PARTY_KITS } from '../../data/ideaArticlesExpanded'
 
 export default function ThemePage() {
   const { slug } = useParams()
