@@ -212,6 +212,9 @@ export default function TriviaQuiz() {
               <div className="animate-fade-in mb-5">
                 <WobblyCard hover={false} padding="p-4" className={selected === current.answer ? 'bg-[#4caf50] text-white' : 'bg-[var(--postit)]'}>
                   <p className="text-xl font-bold">{selected === current.answer ? '🎉 נכון!' : `התשובה הנכונה: ${current.answer}`}</p>
+                  {current.explanation && <p className="mt-3 text-base leading-relaxed"><strong>למה?</strong> {current.explanation}</p>}
+                  {current.hint && <p className="mt-2 text-sm opacity-90"><strong>רמז לזכירה:</strong> {current.hint}</p>}
+                  <p className="mt-3 border-t border-current/20 pt-2 text-xs opacity-80">ההסבר מבוסס על ידע כללי יציב ונבדק לפני שהשאלה נכנסה למאגר. אם מצאתם טעות, כתבו לנו כדי שנעדכן.</p>
                 </WobblyCard>
               </div>
             )}
@@ -259,3 +262,4 @@ export default function TriviaQuiz() {
     </div>
   )
 }
+
