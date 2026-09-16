@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
@@ -8,7 +8,8 @@ import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
 export default function CategoryPage() {
-  const { slug } = useParams()
+  const { pathname } = useLocation()
+  const slug = pathname.split('/').filter(Boolean).at(-1)
   const { games, loading } = useGames()
 
   const cat = CATEGORIES[slug]
@@ -75,3 +76,4 @@ export default function CategoryPage() {
     </div>
   )
 }
+
