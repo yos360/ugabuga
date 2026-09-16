@@ -8,7 +8,28 @@ import { PARTY_KITS } from '../../data/ideaArticlesExpanded'
 export default function ThemePage() {
   const { slug } = useParams()
   const theme = PARTY_KITS[slug]
-  if (!theme) return <div className="text-center py-20"><h1 className="text-4xl">404</h1></div>
+  if (!theme) {
+    const themes = Object.entries(PARTY_KITS).slice(0, 8)
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-12 text-center buga-fade-in">
+        <SEO title="רעיונות לפי נושא" description="בחרו נושא פעיל למסיבה, יום הולדת או פעילות." path="/ideas/themes" />
+        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: 'נושאים' }]} />
+        <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
+          <h1 className="text-4xl mb-3">🎭 הנושא הזה לא נמצא</h1>
+          <p className="mx-auto max-w-xl text-lg text-[var(--foreground)]/75 mb-6">יכול להיות שזה קישור ישן. בחרו נושא קיים או חזרו לעולם ההשראה.</p>
+          <div className="mb-6 flex flex-wrap justify-center gap-3">
+            <Link to="/ideas" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--accent)] px-5 py-3 font-display text-xl font-bold text-white">כל הרעיונות</Link>
+            <Link to="/ideas/themes" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-5 py-3 font-display text-xl font-bold">כל הנושאים</Link>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {themes.map(([key, item]) => (
+              <Link key={key} to={'/ideas/themes/'+key} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-hand text-lg underline decoration-dashed hover:bg-[var(--postit)]">{item.emoji} {item.name}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in">
