@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
-function Coin3D({ flipping, result, mouseX, side }) {
+function Coin3D({ flipping, result, mouseX }) {
   const hoverRot = flipping ? 0 : mouseX * 25
   const finalRot = result === 'b' ? 180 : 0
   const spins = flipping ? 1800 : 0
@@ -87,3 +87,4 @@ export default function CoinFlip() {
     </div>
   )
 }
+
