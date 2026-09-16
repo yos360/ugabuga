@@ -3,7 +3,6 @@ import { useState } from 'react'
 import SEO from '../components/ui/SEO'
 import Badge from '../components/ui/Badge'
 import { useGames } from '../hooks/useGames'
-import { DEFAULT_LIVE_NEWS } from '../data/liveNews'
 
 const TRUST = ['✅ 100+ משחקים', '🆓 חינם לגמרי', '🇮🇱 הכל בעברית', '📱 עובד על הטלפון']
 const CHIPS = [
@@ -11,19 +10,17 @@ const CHIPS = [
   { label: 'יום הולדת', to: '/games/birthday' }, { label: 'כיתה', to: '/games/classroom' },
   { label: 'שובר קרח', to: '/games/icebreaker' }, { label: 'תנועה', to: '/games/movement' },
 ]
-const TOOLS = [
-  { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה BUGA', text: 'מצבי משחק, שחקנים וחדשות בלייב', bg: '#fff3a8' },
-  { to: '/tools/buga-town', emoji: '🏙️', title: 'בוגהטאון', text: 'עיר נכסים עם קוביות, שאלות וקלפים', bg: '#e8f5e9' },
-  { to: '/tools/escape-rooms', emoji: '🔐', title: 'חדרי בריחה', text: 'משחקים דיגיטליים וקיטים להנחיה', bg: '#e8d5f5' },
-  { to: '/calculator', emoji: '🧮', title: 'מחשבון מסיבה', text: 'כמה פיצות? כמה שתייה? בואו נחשב', bg: '#e0f7fa' },
-  { to: '/greeting', emoji: '💌', title: 'מחולל ברכות', text: 'ברכה אישית ליום הולדת בשנייה', bg: '#ffe0ec' },
-  { to: '/invitation', emoji: '📨', title: 'מחולל הזמנות', text: 'צרו הזמנה יפה ושלחו', bg: '#f7f2df' },
+const WORLD_DOORS = [
+  { emoji: '🎮', title: 'עולם המשחקים', text: 'מאגר המשחקים, טריוויה, בוגהטאון, אמת או בוגה וחדרי בריחה.', status: 'פתוח עכשיו', to: '/games', bg: '#fff3a8' },
+  { emoji: '🧑‍🍳', title: 'עולם הספקים', text: 'בעתיד: מפעילים, עוגות, בלונים, מקומות, צלמים ושירותים למסיבה.', status: 'בקרוב', bg: '#ffe0ec' },
+  { emoji: '🎭', title: 'עולם הרעיונות', text: 'רעיונות למסיבות, נושאים, גילאים, פעילויות ותכנון אירוע.', status: 'קיים באתר', to: '/ideas', bg: '#e8d5f5' },
+  { emoji: '🛠️', title: 'עולם הכלים', text: 'בינגו, תפזורת, טיימר, לוח ניקוד, חלוקה לקבוצות וכלים להפעלה.', status: 'קיים באתר', to: '/tools', bg: '#e0f7fa' },
+  { emoji: '🖨️', title: 'עולם ההדפסות', text: 'דפי צביעה, שלטים, תעודות, תגי שם, סודוקו וערכות להדפסה.', status: 'קיים באתר', to: '/printables', bg: '#e8f5e9' },
 ]
-const LIVE_NEWS = [
-  '🏙️ איתן בנה בעיר בוגהטאון — כבש 3 נכסים!',
-  '⚡ שירה פתחה רצף בטריוויה — 5 תשובות נכונות!',
-  '🎯 דרמה בריבוי שחקנים — מאור ניצח 10-9!',
-  ...DEFAULT_LIVE_NEWS,
+const TOOLS = [
+  { to: '/calculator', emoji: '🎉', title: 'מחשבון מסיבה', text: 'כמה פיצות, בקבוקים, כוסות ושקיות הפתעה צריך? מקבלים רשימת קניות מוכנה בשלוש שניות', bg: '#fff3a8', cta: 'לחישוב' },
+  { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה BUGA', text: 'שאלות, ניקוד וקצב מהיר לכיתה, משפחה או ערב חברים', bg: '#e0f7fa', cta: 'למשחק' },
+  { to: '/tools/bingo-maker', emoji: '🎟️', title: 'בינגו מותאם', text: 'כרטיסיות מוכנות או אישיות בכל נושא, כולל דוגמאות והדפסה', bg: '#ffe0ec', cta: 'ליצירה' },
 ]
 const GOALS = [
   { goal: 'להצחיק', emoji: '😂' }, { goal: 'להוציא אנרגיה', emoji: '⚡' },
@@ -31,12 +28,13 @@ const GOALS = [
   { goal: 'למלא זמן', emoji: '⏳' }, { goal: 'יצירתי', emoji: '🎨' },
   { goal: 'שובר קרח', emoji: '🧊' },
 ]
-const THEMES = [
-  { emoji: '⚽', name: 'מסיבת כדורגל', slug: 'football-birthday', desc: 'טורניר קטן, קבוצות צבעוניות והרבה אנרגיה', age: '5-12', budget: 'חסכוני', bg: '#e8f5e9' },
-  { emoji: '🎮', name: 'מסיבת גיימינג', slug: 'gaming-birthday', desc: 'תחנות משחק, אתגרים וטקס הכתרה', age: '7-13', budget: 'חסכוני', bg: '#e8d5f5' },
-  { emoji: '🗺️', name: 'חפש את המטמון', slug: 'treasure-hunt', desc: 'רמזים, חידות ואוצר בסוף — הרפתקה אחת גדולה', age: '5-12', budget: 'חסכוני', bg: '#fff3a8' },
-  { emoji: '🔬', name: 'מסיבת מדע', slug: 'science-birthday', desc: 'ניסויים מתפוצצים, מתבעבעים וצבעוניים', age: '6-12', budget: 'מאוזן', bg: '#e0f7fa' },
-  { emoji: '👑', name: 'מסיבת נסיכות', slug: 'princess-birthday', desc: 'כתרים, שמלות וטקס הכתרה — יום של מלוכה', age: '3-8', budget: 'מאוזן', bg: '#ffe0ec' },
+const CONTEXTS = [
+  { label: 'יום הולדת', emoji: '🎂', to: '/games/birthday' },
+  { label: 'כיתה', emoji: '🏫', to: '/games/classroom' },
+  { label: 'צהרון', emoji: '🎒', to: '/games/afterschool' },
+  { label: 'גן', emoji: '🧸', to: '/games/kindergarten' },
+  { label: 'משפחה', emoji: '🏠', to: '/games/family' },
+  { label: 'ערב חברים', emoji: '🌟', to: '/games/friends-evening' },
 ]
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -116,23 +114,35 @@ export default function Home() {
         </section>
 
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-            <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow-rich">
-              <p className="font-hand text-base text-[var(--muted-foreground)]">חדש באתר</p>
-              <h2 className="text-3xl mb-3">🎮 משחקים חיים שאפשר להתחיל עכשיו</h2>
-              <p className="text-lg text-[var(--foreground)]/75">טריוויה עם מצבי משחק, בוגהטאון עם נכסים וקוביות, וחדרי בריחה עם קיטים להנחיה — הכול בעברית ובסגנון עוגה בוגה.</p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link to="/tools/trivia-quiz" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] px-4 py-2 font-display text-lg font-bold text-white">טריוויה BUGA</Link>
-                <Link to="/tools/buga-town" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-2 font-display text-lg font-bold">בוגהטאון</Link>
-                <Link to="/tools/escape-rooms" className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-white px-4 py-2 font-display text-lg font-bold">חדרי בריחה</Link>
-              </div>
-            </div>
-            <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
-              <h2 className="text-2xl mb-3">חדשות בלייב 🔴</h2>
-              <div className="grid gap-2 font-hand text-lg">
-                {LIVE_NEWS.slice(0, 5).map((item) => <div key={item} className="rounded-xl bg-white/70 px-3 py-2">{item}</div>)}
-              </div>
-            </div>
+          <SectionTitle kicker="בסוף האתר יפתח כמו מפה של עוגה בוגה">5 דלתות לעולמות האתר</SectionTitle>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {WORLD_DOORS.map((door, i) => {
+              const card = (
+                <div className={`card-lift flex h-full min-h-64 flex-col justify-between wobbly-md border-[3px] border-[var(--border)] p-5 text-center sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: door.bg }}>
+                  <div>
+                    <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[var(--border)] bg-white text-4xl sketch-shadow-sm">{door.emoji}</div>
+                    <h2 className="text-2xl font-bold leading-tight">{door.title}</h2>
+                    <p className="mt-3 text-sm leading-relaxed text-[var(--foreground)]/75">{door.text}</p>
+                  </div>
+                  <span className="mt-4 inline-flex justify-center rounded-full border-2 border-[var(--border)] bg-white px-3 py-1 font-hand text-base font-bold">{door.status}</span>
+                </div>
+              )
+              return door.to ? <Link key={door.title} to={door.to}>{card}</Link> : <div key={door.title} aria-label={`${door.title} בקרוב`}>{card}</div>
+            })}
+          </div>
+          <p className="mt-4 text-center font-hand text-lg text-[var(--muted-foreground)]">הדלתות הן שכבת כניסה ותכנון. לא בונים עדיין את עולם הספקים או מערכות חדשות מאחוריהן.</p>
+        </section>
+
+        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {TOOLS.map((tool, i) => (
+              <Link key={tool.to} to={tool.to} className={`card-lift flex flex-col wobbly-md border-2 border-[var(--border)] p-6 sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`} style={{ backgroundColor: tool.bg }}>
+                <span className="text-4xl">{tool.emoji}</span>
+                <span className="mt-2 font-display text-2xl font-bold">{tool.title}</span>
+                <span className="mt-2 flex-1 font-hand text-lg text-[var(--foreground)]/70">{tool.text}</span>
+                <span className="mt-4 font-display text-lg font-bold underline decoration-dashed">{tool.cta} ←</span>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -148,51 +158,24 @@ export default function Home() {
         </section>
 
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <SectionTitle kicker="מתכננים לפי גיל">לפי גיל</SectionTitle>
-          <div className="flex snap-x gap-3 overflow-x-auto px-1 pb-3">
-            {Array.from({ length: 9 }, (_, i) => i + 4).map((age, i) => (
-              <Link key={age} to={'/ideas/age/' + age} className={`card-lift flex h-20 w-20 shrink-0 snap-start items-center justify-center wobbly-sm border-[3px] border-[var(--border)] ${i % 2 ? 'bg-white rotate-1' : 'bg-[var(--postit)] -rotate-1'} font-display text-3xl font-bold sketch-shadow-sm`}>{age}</Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <SectionTitle kicker="לא יודעים איזו מסיבה לעשות?">עולם ההשראה 🎭</SectionTitle>
-          <div className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-4">
-            {THEMES.map((theme, i) => (
-              <Link key={theme.slug} to={'/ideas/themes/' + theme.slug} className={`card-lift flex w-[19rem] shrink-0 snap-start gap-3 wobbly-md border-2 border-[var(--border)] p-4 sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: theme.bg }}>
-                <span className="text-4xl shrink-0">{theme.emoji}</span>
-                <div>
-                  <h3 className="font-display text-lg font-bold">{theme.name}</h3>
-                  <p className="text-sm text-[var(--foreground)]/70 mt-1">{theme.desc}</p>
-                  <div className="mt-2 flex flex-wrap gap-1.5"><Badge>גיל {theme.age}</Badge><Badge>תקציב {theme.budget}</Badge></div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <Link to="/ideas" className="font-display text-xl font-bold underline decoration-dashed">ראו את כל הרעיונות ←</Link>
-        </section>
-
-        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <SectionTitle kicker="הכול מוכן בשנייה">כלים שימושיים 🛠️</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {TOOLS.map((tool, i) => (
-              <Link key={tool.to} to={tool.to} className={`card-lift flex flex-col items-center gap-2 wobbly-md border-2 border-[var(--border)] p-6 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`} style={{ backgroundColor: tool.bg }}>
-                <span className="text-4xl">{tool.emoji}</span>
-                <span className="font-display text-2xl font-bold">{tool.title}</span>
-                <span className="font-hand text-lg text-[var(--foreground)]/70">{tool.text}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
           <SectionTitle kicker="מה אתם צריכים עכשיו?">לפי מטרה</SectionTitle>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {GOALS.map((g, i) => (
               <Link key={g.goal} to={'/games?goal=' + encodeURIComponent(g.goal)} className={`card-lift flex min-h-24 flex-col items-center justify-center wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-4 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
                 <span className="text-3xl">{g.emoji}</span>
                 <span className="mt-1 font-display text-xl font-bold">{g.goal}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
+          <SectionTitle kicker="איפה משחקים?">לפי הקשר</SectionTitle>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {CONTEXTS.map((ctx, i) => (
+              <Link key={ctx.to} to={ctx.to} className={`card-lift flex min-h-24 flex-col items-center justify-center wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-4 text-center sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
+                <span className="text-3xl">{ctx.emoji}</span>
+                <span className="mt-1 font-display text-xl font-bold">{ctx.label}</span>
               </Link>
             ))}
           </div>
