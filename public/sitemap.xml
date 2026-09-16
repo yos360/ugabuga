@@ -1,30 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ugabuga.co.il/</loc><priority>1.0</priority></url>
+
   <url><loc>https://ugabuga.co.il/games</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/games/all</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/games/5-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/10-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/15-minutes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/afterschool</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/birthday</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/calm</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/classroom</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/cooperation</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/creative</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/drawing</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/energy</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/family</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/friends-evening</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/icebreaker</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/improvisation</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/kindergarten</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/large-group</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/movement</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/no-equipment</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/no-prep</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/icebreaker</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/movement</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/quiet</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/trivia</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/words</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/family</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/friends-evening</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/kindergarten</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/games/large-group</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-a</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-b</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-g</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-d</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-h</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-v</loc><priority>0.6</priority></url>
+
+  <url><loc>https://ugabuga.co.il/tools</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/riddles</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/trivia-quiz</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/truth-or-buga</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/buga-town</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/escape-rooms</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/bingo-maker</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/word-search-maker</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/scavenger-hunt-maker</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/team-generator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/random-picker</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/countdown-timer</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/scoreboard</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/coin-flip</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/spin-the-bottle</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/drawing-prompt</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/joke</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/calculator</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/greeting</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/invitation</loc><priority>0.7</priority></url>
 
   <url><loc>https://ugabuga.co.il/ideas</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/themes</loc><priority>0.8</priority></url>
@@ -100,27 +130,6 @@
   <url><loc>https://ugabuga.co.il/gifts/age-10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/gifts/age-11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/gifts/age-12</loc><priority>0.6</priority></url>
-
-  <url><loc>https://ugabuga.co.il/calculator</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/greeting</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/invitation</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/riddles</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/trivia-quiz</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/truth-or-buga</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/buga-town</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/escape-rooms</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/bingo-maker</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/word-search-maker</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/scavenger-hunt-maker</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/team-generator</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/random-picker</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/countdown-timer</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/scoreboard</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/dice</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/coin-flip</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/spin-the-bottle</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/drawing-prompt</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/joke</loc><priority>0.6</priority></url>
 
   <url><loc>https://ugabuga.co.il/faq</loc><priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/about</loc><priority>0.5</priority></url>
