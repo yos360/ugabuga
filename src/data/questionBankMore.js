@@ -6,6 +6,18 @@ export const MORE_QUESTION_TOPICS = [
 ]
 
 export const MORE_QUESTIONS = [
+  { id: 'science-kids-easy-002', type: 'trivia', topic: 'science', audience: 'kids', difficulty: 'easy', question: 'איזה כוכב לכת הוא הבית שלנו?', answer: 'כדור הארץ', hint: 'אנחנו חיים עליו', triviaOptions: ['כדור הארץ','מאדים','נוגה','צדק'], explanation: 'כדור הארץ הוא כוכב הלכת שבו חיים בני האדם.' },
+  { id: 'science-kids-medium-002', type: 'trivia', topic: 'science', audience: 'kids', difficulty: 'medium', question: 'מה מים הופכים להיות כשהם קופאים?', answer: 'קרח', hint: 'זה מוצק וקר', triviaOptions: ['קרח','אדים','מלח','חול'], explanation: 'בקירור מתחת לנקודת הקיפאון, מים במצב נוזלי הופכים לקרח.' },
+  { id: 'science-kids-hard-002', type: 'trivia', topic: 'science', audience: 'kids', difficulty: 'hard', question: 'איזה איבר בגוף מזרים דם?', answer: 'הלב', hint: 'הוא פועם', triviaOptions: ['הלב','הריאות','הקיבה','העור'], explanation: 'הלב הוא שריר שמתכווץ ומזרים דם דרך כלי הדם.' },
+  { id: 'science-teens-easy-002', type: 'trivia', topic: 'science', audience: 'teens', difficulty: 'easy', question: 'איזה גז בני אדם צריכים לנשימה?', answer: 'חמצן', hint: 'נמצא באוויר', triviaOptions: ['חמצן','הליום','פחמן דו-חמצני','מימן'], explanation: 'תאי הגוף משתמשים בחמצן בתהליך הפקת אנרגיה.' },
+  { id: 'science-teens-medium-002', type: 'trivia', topic: 'science', audience: 'teens', difficulty: 'medium', question: 'מהו הכוח שמושך עצמים לכיוון כדור הארץ?', answer: 'כבידה', hint: 'בזכותו דברים נופלים', triviaOptions: ['כבידה','מגנטיות','חיכוך','ציפה'], explanation: 'כבידה היא כוח המשיכה בין גופים בעלי מסה, כולל כדור הארץ.' },
+  { id: 'science-teens-hard-002', type: 'trivia', topic: 'science', audience: 'teens', difficulty: 'hard', question: 'מהו התפקיד העיקרי של ה-DNA?', answer: 'אחסון מידע תורשתי', hint: 'הוראות לתאים', triviaOptions: ['אחסון מידע תורשתי','הובלת חמצן','עיכול מזון','יצירת קול'], explanation: 'DNA מכיל הוראות תורשתיות המשפיעות על בניית חלבונים ותפקוד תאים.' },
+  { id: 'science-adults-easy-002', type: 'trivia', topic: 'science', audience: 'adults', difficulty: 'easy', question: 'כמה כוכבי לכת מוכרים יש במערכת השמש?', answer: '8', hint: 'פלוטו מסווג כיום אחרת', triviaOptions: ['8','7','9','10'], explanation: 'ההגדרה האסטרונומית המקובלת כוללת שמונה כוכבי לכת.' },
+  { id: 'science-adults-medium-002', type: 'trivia', topic: 'science', audience: 'adults', difficulty: 'medium', question: 'מה מודד מדחום?', answer: 'טמפרטורה', hint: 'חום וקור', triviaOptions: ['טמפרטורה','לחץ','מרחק','מהירות'], explanation: 'מדחום הוא מכשיר למדידת טמפרטורה.' },
+  { id: 'science-adults-hard-002', type: 'trivia', topic: 'science', audience: 'adults', difficulty: 'hard', question: 'איזה חלקיק נושא מטען חשמלי שלילי?', answer: 'אלקטרון', hint: 'נמצא סביב גרעין האטום', triviaOptions: ['אלקטרון','פרוטון','נייטרון','פוטון'], explanation: 'אלקטרון הוא חלקיק יסודי בעל מטען חשמלי שלילי.' },
+  { id: 'movies-kids-easy-002', type: 'trivia', topic: 'movies', audience: 'kids', difficulty: 'easy', question: 'מה עושים בקולנוע?', answer: 'צופים בסרט', hint: 'מסך גדול', triviaOptions: ['צופים בסרט','שוחים','אופים','מתקנים אופניים'], explanation: 'קולנוע הוא מקום שבו מקרינים סרטים לצופים.' },
+  { id: 'movies-teens-medium-002', type: 'trivia', topic: 'movies', audience: 'teens', difficulty: 'medium', question: 'מי אחראי בדרך כלל על הובלת החזון האמנותי של סרט?', answer: 'במאי', hint: 'מנהל את הצילומים', triviaOptions: ['במאי','קופאי','נהג','צופה'], explanation: 'הבמאי מוביל את הבחירות האמנותיות ואת עבודת צוות ההפקה.' },
+  { id: 'movies-adults-hard-002', type: 'trivia', topic: 'movies', audience: 'adults', difficulty: 'hard', question: 'מהו תסריט?', answer: 'מסמך עם סצנות, דיאלוגים והוראות לסרט', hint: 'הטקסט שממנו מפיקים', triviaOptions: ['מסמך עם סצנות, דיאלוגים והוראות לסרט','רשימת כרטיסים','דוח קופה בלבד','פסקול'], explanation: 'תסריט מתאר את הסיפור, הסצנות, הדיאלוגים ולעיתים גם הוראות הפקה.' },
   {
     id: 'music-kids-easy-001',
     type: 'riddle',
@@ -202,3 +214,4 @@ export const MORE_QUESTIONS = [
     explanation: 'פתיחה קלה יוצרת ביטחון, ואז אפשר לעבור למשחקים עמוקים או מצחיקים יותר.',
   },
 ]
+
