@@ -103,30 +103,66 @@ export default function App() {
               <Route path="/calculator/birthday-cost" element={<Calculator />} />
               <Route path="/calculator/how-many-drinks" element={<Calculator />} />
               <Route path="/calculator/how-many-pizzas" element={<Calculator />} />
+              <Route path="/party-calculator" element={<Calculator />} />
+              <Route path="/birthday-cost" element={<Calculator />} />
+              <Route path="/how-many-pizzas" element={<Calculator />} />
+              <Route path="/how-many-drinks" element={<Calculator />} />
               <Route path="/greeting" element={<Greeting />} />
+              <Route path="/greetings" element={<Greeting />} />
+              <Route path="/birthday-greeting" element={<Greeting />} />
               <Route path="/invitation" element={<Invitation />} />
+              <Route path="/invitations" element={<Invitation />} />
+              <Route path="/birthday-invitation" element={<Invitation />} />
               <Route path="/printables" element={<PrintablesIndex />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools/riddles" element={<Riddles />} />
+              <Route path="/riddles" element={<Riddles />} />
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
               <Route path="/trivia" element={<TriviaQuiz />} />
+              <Route path="/quiz" element={<TriviaQuiz />} />
+              <Route path="/games/buga-trivia" element={<TriviaQuiz />} />
               <Route path="/tools/buga-town" element={<BugaTown />} />
               <Route path="/buga-town" element={<BugaTown />} />
+              <Route path="/bugatown" element={<BugaTown />} />
+              <Route path="/buga-town-game" element={<BugaTown />} />
+              <Route path="/games/buga-town" element={<BugaTown />} />
               <Route path="/tools/escape-rooms" element={<EscapeRooms />} />
               <Route path="/escape-rooms" element={<EscapeRooms />} />
+              <Route path="/escape-room" element={<EscapeRooms />} />
+              <Route path="/tools/escape-room" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
+              <Route path="/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
+              <Route path="/coin-flip" element={<CoinFlip />} />
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
+              <Route path="/timer" element={<CountdownTimer />} />
+              <Route path="/countdown" element={<CountdownTimer />} />
               <Route path="/tools/scoreboard" element={<Scoreboard />} />
+              <Route path="/scoreboard" element={<Scoreboard />} />
               <Route path="/tools/team-generator" element={<TeamGenerator />} />
+              <Route path="/team-generator" element={<TeamGenerator />} />
               <Route path="/tools/random-picker" element={<RandomPicker />} />
+              <Route path="/random-picker" element={<RandomPicker />} />
+              <Route path="/wheel" element={<RandomPicker />} />
               <Route path="/tools/truth-or-dare" element={<TruthOrDare />} />
+              <Route path="/truth-or-dare" element={<TruthOrDare />} />
               <Route path="/tools/spin-the-bottle" element={<SpinBottle />} />
+              <Route path="/spin-the-bottle" element={<SpinBottle />} />
               <Route path="/tools/drawing-prompt" element={<DrawingPrompt />} />
+              <Route path="/drawing-prompt" element={<DrawingPrompt />} />
               <Route path="/tools/joke" element={<Joke />} />
+              <Route path="/jokes" element={<Joke />} />
+              <Route path="/joke" element={<Joke />} />
               <Route path="/tools/bingo-maker" element={<BingoMaker />} />
+              <Route path="/bingo" element={<BingoMaker />} />
+              <Route path="/bingo-maker" element={<BingoMaker />} />
+              <Route path="/games/buga-bingo" element={<BingoMaker />} />
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
+              <Route path="/word-search" element={<WordSearchMaker />} />
+              <Route path="/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
+              <Route path="/scavenger-hunt" element={<ScavengerHuntMaker />} />
+              <Route path="/treasure-hunt" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<GiftsIndex />} />
               <Route path="/gifts/boy" element={<GiftsIndex />} />
               <Route path="/gifts/girl" element={<GiftsIndex />} />
