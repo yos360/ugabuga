@@ -41,6 +41,16 @@ export default function ToolsIndex() {
           </Link>
         ))}
       </div>
+      <section className="mt-10 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow-rich">
+        <h2 className="text-2xl font-bold">איך לבחור את הכלי הנכון?</h2>
+        <div className="mt-4 grid gap-4 text-sm leading-relaxed sm:grid-cols-3">
+          <p><strong>ללמידה וידע:</strong> בחרו טריוויה, חידות או אמת או בוגה. כל שאלה כוללת רמת קושי, קהל יעד והסבר לאחר התשובה.</p>
+          <p><strong>להפעלה קבוצתית:</strong> בוגהטאון, חדרי בריחה, בינגו ולוח ניקוד מתאימים לכיתה, למסיבה או לפעילות מרחוק.</p>
+          <p><strong>למנחה:</strong> אפשר לפתוח טיימר, לחלק קבוצות, להגריל שמות ולהדפיס חומרים. בכל כלי מופיעות הוראות קצרות לפני ההפעלה.</p>
+        </div>
+        <p className="mt-5 border-t border-[var(--border)]/40 pt-3 text-xs">התוכן העובדתי עובר בדיקה לפני פרסום. תוכן שמשתנה עם הזמן יסומן ככזה וייבדק מחדש לפני שימוש.</p>
+      </section>
     </div>
   )
 }
+
