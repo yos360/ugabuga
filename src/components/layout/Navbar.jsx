@@ -11,7 +11,7 @@ const TOOLS_MENU = [
   { to: '/tools/team-generator', label: '🎲 מחלק קבוצות' },
   { to: '/tools/random-picker', label: '🎡 גלגל שמות' },
   { to: '/tools/countdown-timer', label: '⏱️ טיימר' },
-  { to: '/tools/truth-or-dare', label: '🎭 אמת או חובה' },
+  { to: '/tools/truth-or-buga', label: '🎭 אמת או בוגה' },
   { to: '/tools/dice', label: '🎲 קוביה' },
   { to: '/tools/coin-flip', label: '🪙 הטלת מטבע' },
   { to: '/tools/scoreboard', label: '📊 לוח ניקוד' },
@@ -52,7 +52,7 @@ export default function Navbar() {
   const { pathname } = useLocation()
   const rootRef = useRef(null)
 
-  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables') || pathname.startsWith('/buga-town') || pathname.startsWith('/escape-rooms')
+  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables') || pathname.startsWith('/buga-town') || pathname.startsWith('/bugatown') || pathname.startsWith('/escape-rooms') || pathname.startsWith('/truth-or-buga') || pathname.startsWith('/emet-o-buga')
 
   useEffect(() => setToolsOpen(false), [pathname])
   useEffect(() => {
