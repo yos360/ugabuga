@@ -11,6 +11,8 @@ function ageLabel(g) { return g.max_age ? `גילאי ${g.min_age}-${g.max_age}`
 function timeLabel(g) { return g.duration_max && g.duration_max !== g.duration_min ? `${g.duration_min}-${g.duration_max} דק׳` : `${g.duration_min} דק׳` }
 function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_players} משתתפים` : `${g.min_players}+ משתתפים` }
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
+function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
+function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficulty === 'medium' ? 'yellow' : 'green' }
 
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
@@ -79,7 +81,7 @@ export default function GamesIndex() {
                 <Badge>{ageLabel(game)}</Badge>
                 <Badge color="yellow">{timeLabel(game)}</Badge>
                 <Badge>{playersLabel(game)}</Badge>
-                <Badge color={game.equipment_needed ? 'default' : 'blue'}>{equipmentLabel(game)}</Badge>
+                <Badge color={difficultyColor(game)}>🎯 {difficultyLabel(game)}</Badge>\n                <Badge color={game.equipment_needed ? 'default' : 'blue'}>{equipmentLabel(game)}</Badge>
               </div>
               <div className="mt-auto flex items-center justify-between border-t-2 border-dashed border-[var(--border)] pt-3">
                 <span className="font-display text-lg font-bold underline decoration-dashed">למשחק ←</span>
