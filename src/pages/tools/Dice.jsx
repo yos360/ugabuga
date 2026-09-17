@@ -2,7 +2,6 @@ import { useState, useCallback, useRef } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
-const faceRotations = { 1: 'rotateY(0deg)', 2: 'rotateY(-90deg)', 3: 'rotateX(-90deg)', 4: 'rotateX(90deg)', 5: 'rotateY(90deg)', 6: 'rotateY(180deg)' }
 const dotLayouts = {
   1: [[50,50]], 2: [[25,25],[75,75]], 3: [[25,25],[50,50],[75,75]],
   4: [[25,25],[25,75],[75,25],[75,75]], 5: [[25,25],[25,75],[50,50],[75,25],[75,75]],
@@ -106,3 +105,4 @@ export default function DiceTool() {
     </div>
   )
 }
+

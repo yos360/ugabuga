@@ -1,4 +1,72 @@
 /google6a2153ff6b2d0a78.html /google6a2153ff6b2d0a78.html 200!
 /robots.txt /robots.txt 200!
 /sitemap.xml /sitemap.xml 200!
+
+# Canonical legacy tool redirects
+/tools/bingo /tools/bingo-maker 301
+/games/bingo /tools/bingo-maker 301
+/games/buga-bingo /tools/bingo-maker 301
+/tools/buga-bingo /tools/bingo-maker 301
+/bingo /tools/bingo-maker 301
+/bingo-maker /tools/bingo-maker 301
+
+/tools/trivia /tools/trivia-quiz 301
+/tools/quiz /tools/trivia-quiz 301
+/games/buga-trivia /tools/trivia-quiz 301
+/trivia /tools/trivia-quiz 301
+/quiz /tools/trivia-quiz 301
+
+/tools/buga-town-game /tools/buga-town 301
+/games/buga-town /tools/buga-town 301
+/buga-town /tools/buga-town 301
+/bugatown /tools/buga-town 301
+/buga-town-game /tools/buga-town 301
+
+/tools/escape-room /tools/escape-rooms 301
+/games/escape-room /tools/escape-rooms 301
+/games/escape-rooms /tools/escape-rooms 301
+/escape-room /tools/escape-rooms 301
+/escape-rooms /tools/escape-rooms 301
+
+/tools/truth-or-dare /tools/truth-or-buga 301
+/games/truth-or-dare /tools/truth-or-buga 301
+/games/truth-or-buga /tools/truth-or-buga 301
+/games/emet-o-buga /tools/truth-or-buga 301
+/truth-or-dare /tools/truth-or-buga 301
+/truth-or-buga /tools/truth-or-buga 301
+/emet-o-buga /tools/truth-or-buga 301
+/emet-or-buga /tools/truth-or-buga 301
+
+/tools/timer /tools/countdown-timer 301
+/timer /tools/countdown-timer 301
+/countdown /tools/countdown-timer 301
+/games/timer /tools/countdown-timer 301
+
+/tools/wheel /tools/random-picker 301
+/wheel /tools/random-picker 301
+/random-picker /tools/random-picker 301
+/games/wheel /tools/random-picker 301
+
+/games/riddles /tools/riddles 301
+/riddles /tools/riddles 301
+/games/word-search /tools/word-search-maker 301
+/tools/word-search /tools/word-search-maker 301
+/word-search /tools/word-search-maker 301
+/games/scavenger-hunt /tools/scavenger-hunt-maker 301
+/games/treasure-hunt /tools/scavenger-hunt-maker 301
+/tools/scavenger-hunt /tools/scavenger-hunt-maker 301
+/scavenger-hunt /tools/scavenger-hunt-maker 301
+/treasure-hunt /tools/scavenger-hunt-maker 301
+
+/songs/birthday-songs /ideas 301
+/birthday-songs /ideas 301
+/party-calculator /calculator 301
+/birthday-cost /calculator 301
+/how-many-pizzas /calculator 301
+/how-many-drinks /calculator 301
+/greetings /greeting 301
+/birthday-greeting /greeting 301
+/invitations /invitation 301
+/birthday-invitation /invitation 301
+
 /* /index.html 200

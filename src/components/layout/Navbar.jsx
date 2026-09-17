@@ -5,10 +5,13 @@ const TOOLS_MENU = [
   { to: '/calculator', label: '🧮 מחשבון מסיבה' },
   { to: '/greeting', label: '💌 מחולל ברכות' },
   { to: '/invitation', label: '📨 מחולל הזמנות' },
+  { to: '/tools/trivia-quiz', label: '🎯 טריוויה BUGA' },
+  { to: '/tools/buga-town', label: '🏙️ בוגהטאון' },
+  { to: '/tools/escape-rooms', label: '🔐 חדרי בריחה' },
   { to: '/tools/team-generator', label: '🎲 מחלק קבוצות' },
   { to: '/tools/random-picker', label: '🎡 גלגל שמות' },
   { to: '/tools/countdown-timer', label: '⏱️ טיימר' },
-  { to: '/tools/truth-or-dare', label: '🎭 אמת או חובה' },
+  { to: '/tools/truth-or-buga', label: '🎭 אמת או בוגה' },
   { to: '/tools/dice', label: '🎲 קוביה' },
   { to: '/tools/coin-flip', label: '🪙 הטלת מטבע' },
   { to: '/tools/scoreboard', label: '📊 לוח ניקוד' },
@@ -16,6 +19,9 @@ const TOOLS_MENU = [
   { to: '/tools/drawing-prompt', label: '🎨 מה לצייר?' },
   { to: '/tools/joke', label: '😂 בדיחה של BUGA' },
   { to: '/tools/riddles', label: '🧩 חידות' },
+  { to: '/tools/bingo-maker', label: '🎟️ מחולל בינגו' },
+  { to: '/tools/word-search-maker', label: '🔎 מחולל תפזורת' },
+  { to: '/tools/scavenger-hunt-maker', label: '🗺️ חפש את המטמון' },
   { to: '/printables', label: '🖨️ דפים להדפסה' },
   { to: '/games/all', label: '📚 כל המשחקים א׳-ת׳' },
   { to: '/blog', label: '📝 טיפים ורעיונות' },
@@ -46,7 +52,7 @@ export default function Navbar() {
   const { pathname } = useLocation()
   const rootRef = useRef(null)
 
-  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables')
+  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables') || pathname.startsWith('/buga-town') || pathname.startsWith('/bugatown') || pathname.startsWith('/escape-rooms') || pathname.startsWith('/truth-or-buga') || pathname.startsWith('/emet-o-buga')
 
   useEffect(() => setToolsOpen(false), [pathname])
   useEffect(() => {

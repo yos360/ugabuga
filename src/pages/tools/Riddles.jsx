@@ -1,242 +1,215 @@
-import { useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
+import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
 
-const riddleDB = {
-  'גיל 4-6': {
-    easy: [
-      { q: 'יש לי שיניים, אבל אני לא נושך. מה אני?', a: 'מסרק', hint: 'משתמשים בי על הראש' },
-      { q: 'מה עולה אבל אף פעם לא יורד?', a: 'הגיל שלך', hint: 'כל שנה מתווסף אחד' },
-      { q: 'יש לי עיניים אבל אני לא יכול לראות. מה אני?', a: 'מחט', hint: 'משתמשים בי כדי לתפור' },
-      { q: 'מה יש לו ראש ורגליים אבל אין לו גוף?', a: 'מיטה', hint: 'ישנים עליי' },
-      { q: 'מה נהיה רטוב יותר ככל שמייבש?', a: 'מגבת', hint: 'משתמשים בי אחרי מקלחת' },
-      { q: 'יש לי פנים וידיים, אבל אין לי עיניים ואצבעות. מה אני?', a: 'שעון', hint: 'אני על הקיר ומראה את הזמן' },
-      { q: 'מה אפשר לתפוס אבל לא לזרוק?', a: 'הצטננות', hint: 'כשחולים אומרים שתפסת...' },
-      { q: 'מה הולך בלי רגליים?', a: 'שעון', hint: 'טיק טוק' },
-      { q: 'אני עף בלי כנפיים, בוכה בלי עיניים. מה אני?', a: 'ענן', hint: 'אני בשמיים' },
-      { q: 'מה שייך לך אבל אחרים משתמשים בו יותר ממך?', a: 'השם שלך', hint: 'אחרים קוראים לך בזה' },
-      { q: 'יש לי גב אבל אני לא חי. מה אני?', a: 'כיסא', hint: 'יושבים עליי' },
-      { q: 'מה נשבר אם אומרים את שמו?', a: 'שקט', hint: 'שששש...' },
-      { q: 'אני מלא חורים אבל מחזיק מים. מה אני?', a: 'ספוג', hint: 'משתמשים בי לשטוף כלים' },
-      { q: 'ככל שלוקחים ממני, אני גדל. מה אני?', a: 'בור (חפירה)', hint: 'חופרים אותי באדמה' },
-      { q: 'יש לי מפתחות אבל אין לי דלתות. מה אני?', a: 'פסנתר', hint: 'מנגנים עליי' },
-      { q: 'מה יורד אבל לעולם לא עולה?', a: 'גשם', hint: 'מגיע מהעננים' },
-      { q: 'מה אפשר למלא אותי בלי לגעת בי?', a: 'בלון', hint: 'נופחים אותי עם אוויר' },
-      { q: 'יש לי זנב ואני עף, אבל אני לא ציפור. מה אני?', a: 'עפיפון', hint: 'מעיפים אותי ביום רוח' },
-      { q: 'אני חם כשאני מתחיל ומתקרר כשאני מסיים. מה אני?', a: 'מגהץ', hint: 'משתמשים בי על בגדים' },
-      { q: 'יש לי כובע אבל אין לי ראש. יש לי רגל אבל אין לי נעל. מה אני?', a: 'פטרייה', hint: 'אני גדל ביער' },
-    ],
-    hard: [
-      { q: 'מה יש בכל זווית ובכל חדר, אבל לא בבית עצמו?', a: 'האות ד', hint: 'תסתכלו על המילים' },
-      { q: 'כמה חודשים יש ב-12 חודשים שיש בהם 28 ימים?', a: 'כולם! כל חודש יש לפחות 28', hint: 'לא רק פברואר...' },
-      { q: 'אם יש 3 תפוחים ואתה לוקח 2, כמה תפוחים יש לך?', a: '2 — כי לקחת 2!', hint: 'כמה לקחת?' },
-      { q: 'למה דב לבן לא יכול להתחתן עם דובה שחורה?', a: 'כי הוא פחדן (דוב-פחדן/לבן)', hint: 'זו בדיחת מילים' },
-      { q: 'מה קורה פעם בדקה, פעמיים ברגע, אבל אף פעם לא בשנה?', a: 'האות ק', hint: 'זו אות...' },
-    ],
-  },
-  'גיל 7-9': {
-    easy: [
-      { q: 'בניתי גדר ישרה. שמתי 10 עמודים. כמה רווחים יש?', a: '9', hint: '10 עמודים = 9 רווחים ביניהם' },
-      { q: 'מה יותר כבד — קילו ברזל או קילו נוצות?', a: 'שניהם שווים — קילו הוא קילו', hint: 'שימו לב למילה "קילו"' },
-      { q: 'לאדם יש 8 אחים. לכל אחד מהאחים יש אחות אחת. כמה ילדים יש להורים?', a: '10 — 9 בנים ובת אחת', hint: 'האחות משותפת לכולם' },
-      { q: 'נכנסתי לחדר עם נר, פנס ומנורת גז. יש לי גפרור אחד. מה אדליק ראשון?', a: 'את הגפרור!', hint: 'בלי גפרור דולק, אי אפשר להדליק כלום' },
-      { q: 'מה אפשר לראות פעם בשנייה, פעמיים בשבוע, אבל אף פעם ביום?', a: 'האות ב', hint: 'זו אות שמופיעה במילים' },
-      { q: 'לקחת 3 תפוחים מסל שיש בו 7 תפוחים. כמה תפוחים יש לך עכשיו?', a: '3 — כי לקחת 3', hint: 'כמה יש בידיים שלך?' },
-      { q: 'אבא ובנו נפצעו בתאונה. שניהם הגיעו לבית חולים. הרופא אמר: "אני לא יכול לנתח אותו, הוא הבן שלי!" איך זה ייתכן?', a: 'הרופא היא האמא', hint: 'גם נשים יכולות להיות רופאות' },
-      { q: 'מה יש בין ים לשמיים?', a: 'האות ו (ים ושמיים)', hint: 'תסתכלו על המילה' },
-      { q: 'ירוק וגר בקרקע, לא צפרדע. מה זה?', a: 'מלפפון', hint: 'אוכלים אותו בסלט' },
-      { q: 'לפני שגילו את הר אוורסט, מה היה ההר הכי גבוה בעולם?', a: 'אוורסט — הוא תמיד היה הכי גבוה, פשוט לא ידעו', hint: 'ההר לא השתנה...' },
-      { q: 'כמה פעמים אפשר לחסר 5 מ-25?', a: 'פעם אחת — אחרי זה זה כבר 20', hint: 'אחרי החיסור הראשון, כמה נשאר?' },
-      { q: 'מה הדבר שכל אדם בעולם עושה בו זמנית?', a: 'מזדקן', hint: 'זה קורה לכולנו כל שנייה' },
-      { q: 'אם 5 חתולים תופסים 5 עכברים ב-5 דקות, כמה חתולים צריך כדי לתפוס 100 עכברים ב-100 דקות?', a: '5 — כל חתול תופס עכבר ב-5 דקות', hint: 'כל חתול ממשיך לתפוס...' },
-      { q: 'מה יש 4 רגליים בבוקר, 2 בצהריים, ו-3 בערב?', a: 'אדם (תינוק זוחל, מבוגר הולך, זקן עם מקל)', hint: 'חידת הספינקס' },
-      { q: 'יש לי ערים אבל אין בתים, יש לי יערות אבל אין עצים, יש לי מים אבל אין דגים. מה אני?', a: 'מפה', hint: 'מסתכלים עליי כדי לנווט' },
-    ],
-    hard: [
-      { q: 'לכלוב יש 30 ראשים ו-86 רגליים. בכלוב יש ארנבות ותוכים. כמה מכל סוג?', a: '13 ארנבות ו-17 תוכים', hint: 'ארנב=4 רגליים, תוכי=2' },
-      { q: 'שלושה חברים הלכו למסעדה. החשבון היה 30 שקל. כל אחד שילם 10. המלצר החזיר 5 שקל. הם חילקו — כל אחד קיבל שקל, ו-2 נשארו טיפ. כל אחד שילם 9 שקל. 9×3=27, עוד 2 טיפ=29. איפה השקל?', a: 'אין שקל חסר — 27 כולל את הטיפ (25 למסעדה + 2 טיפ = 27). השקל "נעלם" כי חיברו לא נכון', hint: '27-2=25 ששילמו למסעדה' },
-      { q: 'יש לך 12 גרביים שחורות ו-12 כחולות במגירה חשוכה. כמה גרביים צריך להוציא כדי להבטיח זוג תואם?', a: '3 — אחרי 3 בהכרח יש 2 מאותו צבע', hint: 'עקרון שובך היונים' },
-      { q: 'חילזון מטפס על עמוד גבוה 10 מטר. כל יום הוא מטפס 3 מטר, ובלילה מחליק 2 מטר. אחרי כמה ימים יגיע לפסגה?', a: '8 ימים — ביום ה-8 הוא מגיע ל-10 ולא מחליק', hint: 'ביום האחרון הוא מגיע לפסגה לפני הלילה' },
-      { q: 'אם מחליפים את כל הגלגלים במכונית — 4 גלגלים ועוד גלגל רזרבי — ורוצים שכל 5 הגלגלים ישחקו באופן שווה על פני 100,000 ק"מ, כמה ק"מ כל גלגל צריך לנסוע?', a: '80,000 ק"מ — כי בכל רגע רק 4 מתוך 5 בשימוש', hint: '4/5 מהמרחק הכולל' },
-    ],
-  },
-  'גיל 10-12': {
-    easy: [
-      { q: 'אני מספר. אם מוסיפים לי 5 אני 14. אם מכפילים אותי ב-2 אני 18. מה אני?', a: '9', hint: '9+5=14, 9×2=18' },
-      { q: 'מה עושים עם עץ ירוק, אדום ובכלל לא עץ?', a: 'רמזור', hint: 'עומד ברחוב ומשנה צבעים' },
-      { q: 'יש לי 6 פנים ו-21 עיניים. מה אני?', a: 'קובייה', hint: '1+2+3+4+5+6=21 נקודות' },
-      { q: 'מהו חצי מ-2+2?', a: '3 (חצי מ-"2+2" = חצי מ-4 = 2, אבל חצי מ-2, ועוד 2 = 3)', hint: 'שימו לב לסוגריים' },
-      { q: 'שלוש מכוניות מגיעות לצומת. הראשונה פונה ימינה, השנייה ישר, השלישית שמאלה. לאן כולן הולכות?', a: 'כולן הולכות לתחנת דלק — כי נגמר להן', hint: 'למה 3 מכוניות ביחד בצומת?' },
-      { q: 'מה המילה שכל אדם בעולם מבטא לא נכון?', a: '"לא נכון"', hint: 'קראו את החידה שוב...' },
-      { q: 'משהו שיש לכולם, שכל אחד רואה אותו אצל אחרים אבל לא אצל עצמו?', a: 'הגב', hint: 'מאחורה...' },
-      { q: 'מה קורה כשנמלה נופלת על שעון?', a: 'הזמן עובר ב"נמלנות"', hint: 'בדיחת מילים עברית' },
-      { q: 'חדר מלא אנשים אבל אין אף נשמה אחת בפנים. איך?', a: 'כולם עדיין חיים!', hint: '"נשמה" = מת' },
-      { q: 'ספרתי 12 לחיים בחדר. כמה אנשים בחדר?', a: '6 — לכל אדם 2 לחיים', hint: 'כמה לחיים לכל אחד?' },
-    ],
-    hard: [
-      { q: 'אני חושב על מספר. אם מכפילים ב-3 ומחסירים 7 מקבלים 20. מה המספר?', a: '9 — כי 9×3=27, 27-7=20', hint: 'עבדו אחורה: 20+7=27, 27÷3=?' },
-      { q: 'יש 100 נורות בשורה, כולן כבויות. 100 אנשים עוברים. הראשון מדליק כל נורה. השני מכבה כל שנייה. השלישי משנה כל שלישית. וכן הלאה. אחרי ש-100 עברו, אילו נורות דולקות?', a: 'נורות 1, 4, 9, 16, 25, 36, 49, 64, 81, 100 — הריבועים המושלמים', hint: 'נורה שמספרה ריבוע מושלם יש לה מספר אי-זוגי של מחלקים' },
-      { q: 'אם 1=5, 2=25, 3=125, 4=625, אז 5=?', a: '1 — כי 1=5, אז 5=1', hint: 'קראו את השורה הראשונה שוב' },
-      { q: 'שני אבות ושני בנים הולכים לדוג. כל אחד תופס דג אחד. הם חוזרים עם 3 דגים בלבד. איך?', a: 'יש רק 3 אנשים: סבא, אבא, נכד', hint: 'האבא הוא גם בן של מישהו' },
-      { q: 'יש לך 8 כדורים זהים חוץ מאחד שכבד יותר. יש לך מאזניים. מה המספר המינימלי של שקילות כדי למצוא את הכבד?', a: '2 שקילות', hint: 'חלקו ל-3 קבוצות של 2-3' },
-    ],
-  },
-  'גיל 13+': {
-    easy: [
-      { q: 'אם יש לי 7, ואני כופל ב-7, ומוסיף 7, ומחלק ב-7, כמה נשאר?', a: '8 — (7×7+7)÷7 = 56÷7 = 8', hint: 'חשבו צעד אחר צעד' },
-      { q: 'מה המילה הכי ארוכה במילון?', a: '"גומי" — כי גומי נמתח', hint: 'בדיחת מילים' },
-      { q: 'מה ההר שיש בכל עיר?', a: 'הר-חוב (רחוב)', hint: 'הר + מילה = מקום' },
-      { q: 'הורה ובן/בת נוסעים ברכב. הם עושים תאונה. ההורה נהרג. הבן/הבת מגיעים לחדר ניתוח. המנתח אומר: "אני לא יכול לנתח, זה הילד שלי." איך?', a: 'המנתח הוא ההורה השני', hint: 'יש שני הורים...' },
-      { q: 'אם תיקח 2 תפוחים מ-3 תפוחים, כמה תפוחים יש לך?', a: '2 — כי לקחת 2', hint: 'כמה בידיים שלך?' },
-      { q: 'יש דבר שאם נותנים לך אותו, אתה לא רוצה אותו. אם יש לך אותו, אתה לא יכול לתת. מה?', a: 'סוד', hint: 'ברגע שמספרים...' },
-      { q: 'מה אפשר לשבור בלי לגעת?', a: 'הבטחה / שיא / שקט', hint: 'שוברים בלי ידיים' },
-      { q: 'מה גדל בלי לאכול?', a: 'אש', hint: 'אני הורסני אבל חי' },
-      { q: 'מה הולך מסביב ליער אבל לא נכנס פנימה?', a: 'קליפת העץ', hint: 'אני חלק מהעץ מבחוץ' },
-      { q: 'אני יכול לנסוע מסביב לעולם בלי לזוז מהפינה. מה אני?', a: 'בול דואר', hint: 'מודבקים אותי על מעטפה' },
-    ],
-    hard: [
-      { q: 'שלושה אנשים שוכרים חדר ב-30 ₪ (10 כל אחד). המנהל מחזיר 5 ₪ דרך הפקיד. הפקיד לוקח 2 ₪ ומחזיר 3 (שקל לכל אחד). כל אחד שילם 9. 9×3=27+2=29. איפה השקל?', a: 'אין שקל חסר. 27 ₪ = 25 (חדר) + 2 (פקיד). אין סיבה לחבר 27+2.', hint: 'הבעיה בחיבור — לא מחסירים 2 מ-27' },
-      { q: 'יש 3 קופסאות. אחת עם תפוחים, אחת עם תפוזים, אחת מעורבת. כל התוויות שגויות. אתה יכול לשלוף פרי אחד מקופסה אחת. מאיזו קופסה תשלוף כדי לדעת מה בכל קופסה?', a: 'מהקופסה שכתוב עליה "מעורב" — כי היא בטוח לא מעורבת', hint: 'כל התוויות שגויות — גם "מעורב"' },
-      { q: 'אתה עומד מול שני שומרים. אחד תמיד משקר, אחד תמיד אומר אמת. לא ידוע מי מי. אתה יכול לשאול שאלה אחת כדי לדעת איזו דלת בטוחה. מה תשאל?', a: '"מה השומר השני היה אומר אם הייתי שואל אותו איזו דלת בטוחה?" — ואז תבחר ההפך', hint: 'שאלו על התשובה של השני' },
-      { q: 'אם אני בגובה 2 מטר ועומד על שולחן בגובה 1 מטר, ואני קופץ — האם אני קופץ 3 מטר?', a: 'לא — הקפיצה שלי לא משתנה. אני מתחיל מגובה 3 מטר אבל קופץ את אותו גובה', hint: 'גובה ההתחלה ≠ גובה הקפיצה' },
-      { q: 'כמה מספרים בין 1 ל-1000 מכילים את הספרה 3?', a: '271', hint: 'יותר קל לספור כמה לא מכילים: 9×9×9=729, אז 1000-729=271' },
-    ],
-  },
-}
-
-// Categories for UI
-const categories = [
-  { id: 'logic', name: 'חידות הגיון', emoji: '🧠', filter: () => true },
-  { id: 'math', name: 'חידות מתמטיות', emoji: '🔢', filter: (r) => r.q.match(/\d/) },
-  { id: 'words', name: 'חידות מילים', emoji: '📝', filter: (r) => r.q.includes('אות') || r.q.includes('מילה') },
-  { id: 'tricky', name: 'חידות עם טוויסט', emoji: '🌀', filter: (r) => r.a.includes('!') || r.a.includes('כי') },
-]
+const HISTORY_LIMIT = 12
 
 export default function Riddles() {
-  const [ageGroup, setAgeGroup] = useState('גיל 7-9')
+  const [audience, setAudience] = useState('kids')
   const [difficulty, setDifficulty] = useState('easy')
-  const [currentIdx, setCurrentIdx] = useState(0)
+  const [topic, setTopic] = useState('all')
+  const [current, setCurrent] = useState(null)
+  const [seenIds, setSeenIds] = useState([])
   const [showAnswer, setShowAnswer] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
 
-  const ageGroups = Object.keys(riddleDB)
-  const riddles = riddleDB[ageGroup]?.[difficulty] || []
-  const current = riddles[currentIdx]
+  const questions = useMemo(
+    () => getQuestions({ topic, audience, difficulty, type: 'riddle' }),
+    [topic, audience, difficulty]
+  )
 
-  const next = useCallback(() => {
+  const resetReveal = () => {
     setShowAnswer(false)
     setShowHint(false)
-    setCurrentIdx(prev => (prev + 1) % riddles.length)
-  }, [riddles.length])
+  }
+
+  const chooseQuestion = useCallback((resetHistory = false) => {
+    resetReveal()
+
+    setSeenIds((prevSeen) => {
+      const history = resetHistory ? [] : prevSeen
+      const nextQuestion = pickNextQuestion(questions, history)
+      setCurrent(nextQuestion)
+
+      if (!nextQuestion) return []
+      return [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT)
+    })
+  }, [questions])
+
+  useEffect(() => {
+    chooseQuestion(true)
+  }, [chooseQuestion])
+
+  const updateFilter = (setter, value) => {
+    setter(value)
+    setScore({ correct: 0, total: 0 })
+  }
 
   const guessedRight = () => {
-    setScore(s => ({ correct: s.correct + 1, total: s.total + 1 }))
-    next()
+    setScore((s) => ({ correct: s.correct + 1, total: s.total + 1 }))
+    chooseQuestion(false)
   }
 
   const guessedWrong = () => {
-    setScore(s => ({ ...s, total: s.total + 1 }))
+    setScore((s) => ({ ...s, total: s.total + 1 }))
     setShowAnswer(true)
   }
 
-  if (!current) return null
+  const currentTopic = QUESTION_TOPICS.find((item) => item.id === current?.topic)
+  const currentAudience = AUDIENCES.find((item) => item.id === audience)
+  const currentDifficulty = DIFFICULTIES.find((item) => item.id === difficulty)
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <SEO
-        title="חידות לילדים — לפי גיל ורמת קושי"
-        description="מאות חידות בעברית לכל גיל — חידות הגיון, מתמטיות, מילים וטוויסטים. עם רמזים ותשובות. חינם!"
+        title="חידות לכל הגילאים — לפי נושא, קהל וקושי"
+        description="מאגר חידות בעברית לילדים, נוער ומבוגרים — לפי נושאים, רמות קושי ורמזים. מתאים גם כבסיס לטריוויה אונליין."
         path="/tools/riddles"
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חידות' }]} />
 
       <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות BUGA</h1>
-      <p className="text-center text-[var(--ink)]/70 mb-8">מאות חידות לכל גיל — עם רמזים ותשובות</p>
+      <p className="text-center text-[var(--ink)]/70 mb-8">
+        מאגר שאלות מרכזי לפי נושא, קהל יעד וקושי — הבסיס גם לחידות וגם לטריוויה בהמשך
+      </p>
 
-      {/* Age selector */}
-      <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {ageGroups.map(ag => (
-          <button key={ag} onClick={() => { setAgeGroup(ag); setCurrentIdx(0); setShowAnswer(false); setShowHint(false) }}
-            className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm font-medium transition-colors ${ageGroup === ag ? 'bg-[var(--yellow)] font-bold' : 'bg-white hover:bg-[var(--muted)]/30'}`}>
-            {ag}
-          </button>
-        ))}
-      </div>
+      <WobblyCard hover={false} padding="p-5" className="mb-6">
+        <div className="space-y-5">
+          <div>
+            <h2 className="font-hand font-bold text-xl mb-2">למי החידה?</h2>
+            <div className="flex flex-wrap gap-2">
+              {AUDIENCES.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => updateFilter(setAudience, item.id)}
+                  className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm font-medium transition-colors ${audience === item.id ? 'bg-[var(--yellow)] font-bold' : 'bg-white hover:bg-[var(--muted)]/30'}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            {currentAudience && <p className="text-sm text-[var(--muted-foreground)] mt-2">{currentAudience.description}</p>}
+          </div>
 
-      {/* Difficulty */}
-      <div className="flex justify-center gap-2 mb-8">
-        <button onClick={() => { setDifficulty('easy'); setCurrentIdx(0); setShowAnswer(false); setShowHint(false) }}
-          className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm ${difficulty === 'easy' ? 'bg-[var(--green)] text-white' : 'bg-white'}`}>
-          ⭐ קל
-        </button>
-        <button onClick={() => { setDifficulty('hard'); setCurrentIdx(0); setShowAnswer(false); setShowHint(false) }}
-          className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm ${difficulty === 'hard' ? 'bg-[var(--red)] text-white' : 'bg-white'}`}>
-          ⭐⭐⭐ קשה
-        </button>
-      </div>
+          <div>
+            <h2 className="font-hand font-bold text-xl mb-2">נושא</h2>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => updateFilter(setTopic, 'all')}
+                className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm ${topic === 'all' ? 'bg-[var(--blue)] text-white font-bold' : 'bg-white'}`}
+              >
+                🌈 כל הנושאים
+              </button>
+              {QUESTION_TOPICS.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => updateFilter(setTopic, item.id)}
+                  className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm ${topic === item.id ? 'bg-[var(--blue)] text-white font-bold' : 'bg-white'}`}
+                >
+                  {item.emoji} {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
-      {/* Score */}
+          <div>
+            <h2 className="font-hand font-bold text-xl mb-2">רמת קושי</h2>
+            <div className="flex flex-wrap gap-2">
+              {DIFFICULTIES.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => updateFilter(setDifficulty, item.id)}
+                  className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm ${difficulty === item.id ? 'bg-[var(--green)] text-white font-bold' : 'bg-white'}`}
+                >
+                  {item.emoji} {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </WobblyCard>
+
       {score.total > 0 && (
         <div className="text-center mb-4">
           <Badge color="yellow">🏆 {score.correct}/{score.total} תשובות נכונות</Badge>
         </div>
       )}
 
-      {/* Riddle card */}
-      <WobblyCard hover={false} padding="p-8" className="text-center mb-6">
-        <p className="text-sm text-[var(--muted)] mb-2">חידה {currentIdx + 1} מתוך {riddles.length}</p>
-        <h2 className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">{current.q}</h2>
-
-        {/* Hint */}
-        {!showAnswer && (
-          <div className="mb-4">
-            {showHint ? (
-              <div className="animate-fade-in">
-                <WobblyCard hover={false} padding="p-3" className="bg-[var(--yellow)] inline-block">
-                  <p className="text-sm">💡 רמז: {current.hint}</p>
-                </WobblyCard>
-              </div>
-            ) : (
-              <button onClick={() => setShowHint(true)} className="text-[var(--blue)] hover:underline text-sm">
-                💡 רמז?
-              </button>
-            )}
+      {current ? (
+        <WobblyCard hover={false} padding="p-8" className="text-center mb-6">
+          <div className="flex justify-center flex-wrap gap-2 mb-4 text-sm">
+            {currentTopic && <Badge color="blue">{currentTopic.emoji} {currentTopic.label}</Badge>}
+            <Badge color="yellow">{currentAudience?.label}</Badge>
+            <Badge color="green">{currentDifficulty?.label}</Badge>
+            <Badge color="pink">{questions.length} במאגר המסונן</Badge>
           </div>
-        )}
 
-        {/* Answer */}
-        {showAnswer ? (
-          <div className="animate-fade-in">
-            <WobblyCard hover={false} padding="p-4" className="bg-[var(--green)] text-white mb-4">
-              <p className="text-xl font-bold">🎯 {current.a}</p>
-            </WobblyCard>
-            <WobblyButton onClick={next} variant="primary">חידה הבאה ←</WobblyButton>
-          </div>
-        ) : (
-          <div className="flex flex-wrap justify-center gap-3">
-            <WobblyButton onClick={() => setShowAnswer(true)} variant="secondary">🎂 גלו תשובה</WobblyButton>
-            <WobblyButton onClick={guessedRight} variant="green">✅ ידעתי!</WobblyButton>
-            <WobblyButton onClick={guessedWrong} variant="outline">❌ לא ידעתי</WobblyButton>
-          </div>
-        )}
-      </WobblyCard>
+          <h2 className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">{current.question}</h2>
 
-      {/* Next */}
-      {!showAnswer && (
+          {!showAnswer && (
+            <div className="mb-4">
+              {showHint ? (
+                <div className="animate-fade-in">
+                  <WobblyCard hover={false} padding="p-3" className="bg-[var(--yellow)] inline-block">
+                    <p className="text-sm">💡 רמז: {current.hint}</p>
+                  </WobblyCard>
+                </div>
+              ) : (
+                <button onClick={() => setShowHint(true)} className="text-[var(--blue)] hover:underline text-sm">
+                  💡 רמז?
+                </button>
+              )}
+            </div>
+          )}
+
+          {showAnswer ? (
+            <div className="animate-fade-in">
+              <WobblyCard hover={false} padding="p-4" className="bg-[var(--green)] text-white mb-4">
+                <p className="text-xl font-bold">🎯 {current.answer}</p>
+                {current.explanation && <p className="mt-2 text-sm opacity-90">{current.explanation}</p>}
+              </WobblyCard>
+              <WobblyButton onClick={() => chooseQuestion(false)} variant="primary">חידה חדשה ←</WobblyButton>
+            </div>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-3">
+              <WobblyButton onClick={() => setShowAnswer(true)} variant="secondary">🎂 גלו תשובה</WobblyButton>
+              <WobblyButton onClick={guessedRight} variant="green">✅ ידעתי!</WobblyButton>
+              <WobblyButton onClick={guessedWrong} variant="outline">❌ לא ידעתי</WobblyButton>
+            </div>
+          )}
+        </WobblyCard>
+      ) : (
+        <WobblyCard hover={false} padding="p-8" className="text-center mb-6">
+          <h2 className="text-2xl font-hand font-bold mb-2">עוד אין חידות בסינון הזה</h2>
+          <p className="text-[var(--muted-foreground)] mb-4">המאגר החדש גדל בהדרגה. בחרו נושא אחר או רמת קושי אחרת.</p>
+          <WobblyButton onClick={() => { setTopic('all'); setDifficulty('easy'); setAudience('kids') }} variant="primary">
+            חזרה לחידות זמינות
+          </WobblyButton>
+        </WobblyCard>
+      )}
+
+      {!showAnswer && current && (
         <div className="text-center">
-          <button onClick={next} className="text-[var(--blue)] hover:underline">⏭ דלגו לחידה הבאה</button>
+          <button onClick={() => chooseQuestion(false)} className="text-[var(--blue)] hover:underline">
+            ⏭ תנו לי חידה חדשה
+          </button>
         </div>
       )}
 
-      {/* Info */}
       <WobblyCard hover={false} padding="p-6" className="mt-8">
-        <h2 className="text-xl font-hand font-bold mb-3">🧩 למה חידות?</h2>
-        <p className="leading-relaxed">
-          חידות מפתחות חשיבה ביקורתית, יצירתיות, והיכולת לחשוב מחוץ לקופסה. הן מושלמות לנסיעות ארוכות, ארוחות משפחתיות, הפסקות בכיתה, ומסיבות. בחרו גיל ורמת קושי — ותתחילו!
+        <h2 className="text-xl font-hand font-bold mb-3">🧩 למה המאגר החדש יותר טוב?</h2>
+        <p className="leading-relaxed mb-3">
+          כל שאלה מסומנת לפי נושא, קהל יעד ורמת קושי. כך אפשר להגדיל את המאגר בלי בלגן,
+          להציג חידות שונות בכל רענון, ובהמשך להשתמש באותן שאלות גם במשחק טריוויה אונליין.
+        </p>
+        <p className="leading-relaxed text-[var(--muted-foreground)]">
+          השלב הבא יהיה להוסיף עוד מאות שאלות לכל נושא ולפתוח עמודי SEO לפי שילובים כמו חידות חיות לילדים,
+          חידות היגיון לנוער וחידות קשות למבוגרים.
         </p>
       </WobblyCard>
     </div>
