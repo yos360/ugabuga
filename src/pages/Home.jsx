@@ -3,6 +3,7 @@ import { useState } from 'react'
 import SEO from '../components/ui/SEO'
 import Badge from '../components/ui/Badge'
 import { useGames } from '../hooks/useGames'
+import { DEFAULT_LIVE_NEWS } from '../data/liveNews'
 
 const TRUST = ['✅ 100+ משחקים', '🆓 חינם לגמרי', '🇮🇱 הכל בעברית', '📱 עובד על הטלפון']
 const CHIPS = [
@@ -129,6 +130,18 @@ export default function Home() {
               )
               return door.to ? <Link key={door.title} to={door.to}>{card}</Link> : <div key={door.title} aria-label={`${door.title} בקרוב`}>{card}</div>
             })}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-8">
+          <div className="wobbly-md border-[3px] border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <h2 className="text-2xl font-bold">חדשות הבוגה 🔴</h2>
+              <span className="font-hand text-sm text-[var(--muted-foreground)]">מה קורה עכשיו במשחקים</span>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {DEFAULT_LIVE_NEWS.slice(0, 3).map((item) => <div key={item} className="rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 font-hand">{item}</div>)}
+            </div>
           </div>
         </section>
 
