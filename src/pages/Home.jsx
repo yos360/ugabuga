@@ -133,6 +133,10 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-5">
+          <Link to="/birthday-songs" className="card-lift flex items-center justify-center gap-3 wobbly-md border-[3px] border-[var(--border)] bg-[var(--postit)] p-4 text-center font-display text-xl font-bold sketch-shadow-rich">🎵 שירי יום הולדת — הפעילו פלייליסט למסיבה ←</Link>
+        </section>
+
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-8">
           <div className="wobbly-md border-[3px] border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
             <div className="flex items-center justify-between gap-3 mb-3">
