@@ -13,6 +13,16 @@ function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_play
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
 function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficulty === 'medium' ? 'yellow' : 'green' }
+function fitsAfterSchool(g) {
+  const age = Number(g.min_age || 0)
+  const duration = Number(g.duration_min || 0)
+  const equipment = String(g.equipment || '')
+  const isAdult = age >= 13 || (g.tags || []).some((tag) => /מבוגר|מבוגרים/.test(tag))
+  const worksWithGroup = Number(g.max_players || 0) >= 6 || Number(g.min_players || 0) <= 4
+  const manageableDuration = duration > 0 && duration <= 30
+  const manageableEquipment = !g.equipment_needed || /בלי ציוד|דף|פתק|כדור|כיסאות|מוזיקה/.test(equipment)
+  return age <= 12 && !isAdult && worksWithGroup && manageableDuration && manageableEquipment
+}
 
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
@@ -30,7 +40,7 @@ export default function GamesIndex() {
     const q = search.toLowerCase().trim()
     const candidates = games.filter(g =>
       (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
-      (!contextFilter || (g.contexts && g.contexts.includes(contextFilter))) &&
+      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
       (!q ||
       g.name.toLowerCase().includes(q) ||
       (g.short_description && g.short_description.toLowerCase().includes(q)) ||
