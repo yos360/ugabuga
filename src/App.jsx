@@ -18,6 +18,8 @@ const PrintablesIndex = lazy(() => import('./pages/printables/PrintablesIndex'))
 const PrintableCategory = lazy(() => import('./pages/printables/PrintableCategory'))
 const ActivityWorksheet = lazy(() => import('./pages/printables/ActivityWorksheet'))
 const BirthdayChecklist = lazy(() => import('./pages/printables/BirthdayChecklist'))
+const RootsProject = lazy(() => import('./pages/printables/RootsProject'))
+const BirthdayNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper'))
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
@@ -134,6 +136,8 @@ export default function App() {
               <Route path="/printables" element={<PrintablesIndex />} />
               <Route path="/printables/activity/:type" element={<ActivityWorksheet />} />
               <Route path="/printables/birthday-checklist" element={<BirthdayChecklist />} />
+              <Route path="/printables/roots-project" element={<RootsProject />} />
+              <Route path="/printables/birthday-newspaper" element={<BirthdayNewspaper />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/riddles" element={<Riddles />} />
