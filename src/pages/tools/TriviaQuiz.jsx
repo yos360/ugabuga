@@ -137,7 +137,7 @@ export default function TriviaQuiz() {
       </p>
 
       <div className="grid lg:grid-cols-[320px_1fr_300px] gap-6 items-start">
-        <WobblyCard hover={false} padding="p-5">
+        <WobblyCard hover={false} padding="p-5" className="order-2 lg:order-1">
           <div className="space-y-5">
             <div>
               <h2 className="font-hand font-bold text-xl mb-2">מצב משחק</h2>
@@ -187,7 +187,7 @@ export default function TriviaQuiz() {
         </WobblyCard>
 
         {current ? (
-          <WobblyCard hover={false} padding="p-8" className="text-center">
+          <WobblyCard hover={false} padding="p-8" className="order-1 text-center lg:order-2">
             <div className="flex justify-center flex-wrap gap-2 mb-4 text-sm">
               <Badge color="red">{modeDetails?.emoji} {modeDetails?.label}</Badge>
               {mode === 'multi' && <Badge color="yellow">תור: {players[currentPlayerIndex]?.name}</Badge>}
@@ -225,14 +225,14 @@ export default function TriviaQuiz() {
             </div>
           </WobblyCard>
         ) : (
-          <WobblyCard hover={false} padding="p-8" className="text-center">
+          <WobblyCard hover={false} padding="p-8" className="order-1 text-center lg:order-2">
             <h2 className="text-2xl font-hand font-bold mb-2">עוד אין שאלות בסינון הזה</h2>
             <p className="text-[var(--muted-foreground)] mb-4">המאגר המרכזי גדל בהדרגה. בחרו נושא אחר או רמת קושי אחרת.</p>
             <WobblyButton onClick={() => { setTopic('all'); setDifficulty('easy'); setAudience('kids') }} variant="primary">חזרה לשאלות זמינות</WobblyButton>
           </WobblyCard>
         )}
 
-        <div className="grid gap-5">
+        <div className="order-3 grid gap-5">
           <WobblyCard hover={false} padding="p-5">
             <h2 className="font-hand text-2xl font-bold mb-3">חדשות בלייב 🔴</h2>
             <div className="grid gap-2 text-sm">

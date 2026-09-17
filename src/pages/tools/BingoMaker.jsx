@@ -65,25 +65,6 @@ export default function BingoMaker() {
         <p className="mx-auto max-w-2xl font-hand text-xl text-[var(--muted-foreground)]">בחרו נושא, ראו דוגמה מיד, ואז צרו כרטיסים שונים להדפסה או למשחק בכיתה/מסיבה.</p>
       </div>
 
-      <section className="mb-8 grid gap-4 lg:grid-cols-3">
-        <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
-          <h2 className="text-2xl mb-3">איך משחקים?</h2>
-          <ol className="grid gap-2 text-sm leading-relaxed">
-            <li>1. בוחרים חבילת נושא או כותבים אחת משלכם.</li>
-            <li>2. מדפיסים כמה כרטיסים שונים.</li>
-            <li>3. המשתתפים מסמנים משבצות כשהם מוצאים/שומעים/רואים את הפריט.</li>
-            <li>4. הראשון שמשלים שורה, טור או אלכסון צועק בינגו.</li>
-          </ol>
-        </div>
-        <div className="wobbly border-2 border-[var(--border)] bg-white p-5 sketch-shadow-rich lg:col-span-2">
-          <h2 className="text-2xl mb-3">מה יש בנושא הזה?</h2>
-          <p className="mb-3 text-[var(--ink)]/75">{mode === 'custom' ? 'במצב מותאם אישית אתם בונים את המאגר לבד מתוך הצעות וכתיבה חופשית.' : currentPack.desc}</p>
-          <div className="flex flex-wrap gap-2">
-            {(mode === 'custom' ? customItems : currentPack.items).slice(0, 18).map((item) => <Badge key={item} color="yellow">{item}</Badge>)}
-          </div>
-        </div>
-      </section>
-
       <div className="flex flex-wrap justify-center gap-2 mb-4">
         {Object.entries(PACKS).map(([k, p]) => <button key={k} onClick={() => { setMode(k); setCards(null) }} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${mode === k ? 'bg-[var(--postit)]' : 'bg-white'}`}>{p.label}</button>)}
         <button onClick={() => { setMode('custom'); setCards(null) }} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${mode === 'custom' ? 'bg-[var(--postit)]' : 'bg-white'}`}>✏️ מותאם אישית</button>
@@ -131,6 +112,25 @@ export default function BingoMaker() {
       )}
 
       {cards && <div className="text-center mt-6"><button onClick={() => window.print()} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
+
+      <section className="mt-8 grid gap-4 lg:grid-cols-3">
+        <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
+          <h2 className="text-2xl mb-3">איך משחקים?</h2>
+          <ol className="grid gap-2 text-sm leading-relaxed">
+            <li>1. בוחרים חבילת נושא או כותבים אחת משלכם.</li>
+            <li>2. מדפיסים כמה כרטיסים שונים.</li>
+            <li>3. המשתתפים מסמנים משבצות כשהם מוצאים, שומעים או רואים את הפריט.</li>
+            <li>4. הראשונים שמשלימים שורה, טור או אלכסון צועקים בינגו.</li>
+          </ol>
+        </div>
+        <div className="wobbly border-2 border-[var(--border)] bg-white p-5 sketch-shadow-rich lg:col-span-2">
+          <h2 className="text-2xl mb-3">מה יש בנושא הזה?</h2>
+          <p className="mb-3 text-[var(--ink)]/75">{mode === 'custom' ? 'במצב מותאם אישית אתם בונים את המאגר לבד מתוך הצעות וכתיבה חופשית.' : currentPack.desc}</p>
+          <div className="flex flex-wrap gap-2">
+            {(mode === 'custom' ? customItems : currentPack.items).slice(0, 18).map((item) => <Badge key={item} color="yellow">{item}</Badge>)}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
