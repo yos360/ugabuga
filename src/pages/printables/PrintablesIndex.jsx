@@ -6,7 +6,7 @@ const categories = [
   { slug: 'roots-project', emoji: '🌳', title: 'עבודת שורשים', count: 'חדש', desc: 'עץ משפחה, שאלות ראיון ודפי כתיבה להדפסה', special: true },
   { slug: 'birthday-newspaper', emoji: '📰', title: 'עיתון יום הולדת', count: 'חדש', desc: 'עיתון אישי עם כותרות, עובדות, ברכות וחידון', special: true },
   { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
-  { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 8, desc: 'דפי צביעה ליום הולדת — עוגה, דינוזאור, חלל ועוד' },
+  { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 30, desc: '30 דפי צביעה גדולים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט' },
   { slug: 'birthday-signs', emoji: '🎂', title: 'שלטי יום הולדת', count: 8, desc: 'שלטים גדולים להדפסה — פה העוגה, פה המתנות, ברוכים הבאים' },
   { slug: 'hebrew-letters', emoji: '✏️', title: 'אותיות עברית בנקודות', count: 22, desc: 'א-ת בנקודות לחיבור — עם איורים ושורות תרגול' },
   { slug: 'abc-letters', emoji: '🔤', title: 'ABC אנגלית בנקודות', count: 26, desc: 'A-Z בנקודות — אותיות גדולות וקטנות עם איורים' },
