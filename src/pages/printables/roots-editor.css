@@ -1,0 +1,71 @@
+/* Clear separation between the editable form and the printable preview. */
+.roots-editor .roots-tools {
+  border: 2px solid #1eb8de;
+  box-shadow: 0 8px 24px rgba(30, 184, 222, .12);
+}
+
+.roots-editor .roots-tools::before {
+  content: '⌨️ כותבים כאן — כל שינוי מופיע מיד בדף שלצדך';
+  display: block;
+  padding: 10px 12px;
+  margin: -2px -2px 12px;
+  border-radius: 12px;
+  background: #e7f9ff;
+  color: #075c78;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.roots-editor .roots-tools label,
+.roots-editor .roots-tools .question {
+  position: relative;
+  display: block;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #d5e6ee;
+  border-radius: 13px;
+  background: #fbfeff;
+}
+
+.roots-editor .roots-tools label::after,
+.roots-editor .roots-tools .question::after {
+  content: 'הקלידו כאן ↓';
+  display: block;
+  margin-top: 5px;
+  color: #087898;
+  font-size: .75rem;
+  font-weight: 900;
+}
+
+.roots-editor .roots-tools input,
+.roots-editor .roots-tools textarea,
+.roots-editor .roots-tools .member input,
+.roots-editor .roots-tools .event input {
+  min-height: 46px;
+  border: 2px solid #59c8e8 !important;
+  background: #fff !important;
+  box-shadow: 0 2px 0 #caeef8;
+  font-size: 1rem;
+}
+
+.roots-editor .roots-tools textarea { min-height: 92px; }
+
+.roots-editor .roots-book { position: relative; }
+.roots-editor .roots-book::before {
+  content: '👁️ תצוגה מקדימה להדפסה — עורכים בלוח הכחול';
+  position: sticky;
+  top: 6px;
+  z-index: 2;
+  display: block;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  margin: 0 auto -38px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #172033;
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+@media print { .roots-editor .roots-book::before { display: none; } }
