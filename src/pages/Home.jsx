@@ -116,7 +116,7 @@ export default function Home() {
         </section>
 
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <SectionTitle>5 דלתות לעולמות האתר</SectionTitle>
+          <SectionTitle>בוחרים ומתחילים</SectionTitle>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {WORLD_DOORS.map((door, i) => {
               const card = (
