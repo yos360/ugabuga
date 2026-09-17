@@ -112,7 +112,7 @@ export default function EscapeRooms() {
       </section>
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-6 items-start">
-        <aside className="space-y-4">
+        <aside className="order-2 space-y-4 lg:order-1">
           <WobblyCard hover={false} padding="p-5">
             <h2 className="text-2xl font-hand font-bold mb-3">בחרו חדר</h2>
             <div className="space-y-3">
@@ -145,7 +145,7 @@ export default function EscapeRooms() {
           </WobblyCard>
         </aside>
 
-        <main ref={roomPanelRef} className="space-y-6 scroll-mt-6">
+        <main ref={roomPanelRef} className="order-1 space-y-6 scroll-mt-6 lg:order-2">
           <WobblyCard hover={false} padding="p-6" className="bg-[var(--postit)]">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>

@@ -66,6 +66,21 @@ export default function GamePage() {
 
       <h1 className="text-4xl sm:text-5xl mb-4">{game.name}</h1>
 
+      {game.quick_instructions && (
+        <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow tape mb-6">
+          <h2 className="text-2xl mb-3">מתחילים לשחק</h2>
+          <p className="font-hand text-lg whitespace-pre-line">{game.quick_instructions}</p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {playToolRoute ? (
+              <Link to={playToolRoute.to} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ {playToolRoute.label}</Link>
+            ) : (
+              <button onClick={() => setPlaying(true)} disabled={content.length===0} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer disabled:opacity-50">▶️ שחקו עכשיו</button>
+            )}
+            <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-2 mb-6">
         <Badge>{game.max_age ? `גילאי ${game.min_age}-${game.max_age}` : `גיל ${game.min_age}+`}</Badge>
         <Badge color="yellow">{game.duration_max ? `${game.duration_min}-${game.duration_max} דק׳` : `${game.duration_min} דק׳`}</Badge>
@@ -76,22 +91,6 @@ export default function GamePage() {
       </div>
 
       <p className="text-xl leading-relaxed mb-8">{game.short_description}</p>
-
-      {game.quick_instructions && (
-        <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow tape mb-8">
-          <h2 className="text-2xl mb-3">איך משחקים ב-20 שניות</h2>
-          <p className="font-hand text-lg whitespace-pre-line">{game.quick_instructions}</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            {playToolRoute ? (
-              <Link to={playToolRoute.to} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ {playToolRoute.label}</Link>
-            ) : (
-              <button onClick={() => setPlaying(true)} disabled={content.length===0} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer disabled:opacity-50">▶️ שחקו עכשיו</button>
-            )}
-            <button className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">📖 הוראות מלאות</button>
-            <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
-          </div>
-        </div>
-      )}
 
       <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow mb-6">
         <h2 className="text-2xl mb-4">📖 הוראות מלאות ועוד</h2>
