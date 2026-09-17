@@ -16,26 +16,31 @@ export default function GamesIndex() {
   const { games, loading, error } = useGames()
   const [searchParams] = useSearchParams()
   const initialQ = searchParams.get('q') || ''
+  const goalFilter = searchParams.get('goal') || ''
+  const contextFilter = searchParams.get('context') || ''
   const [search, setSearch] = useState(initialQ)
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return games
-    const q = search.toLowerCase()
+    const q = search.toLowerCase().trim()
     return games.filter(g =>
+      (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
+      (!contextFilter || (g.contexts && g.contexts.includes(contextFilter))) &&
+      (!q ||
       g.name.toLowerCase().includes(q) ||
       (g.short_description && g.short_description.toLowerCase().includes(q)) ||
       (g.tags && g.tags.some(t => t.includes(q))) ||
       (g.category && g.category.includes(q)) ||
       (g.goals && g.goals.some(t => t.includes(q))) ||
       (g.contexts && g.contexts.some(t => t.includes(q)))
+      )
     )
-  }, [search, games])
+  }, [search, games, goalFilter, contextFilter])
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO title="כל המשחקים" description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path="/games" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
-      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 כל המשחקים</h1>
+      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
         <input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
