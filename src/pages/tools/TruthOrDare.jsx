@@ -225,8 +225,17 @@ export default function TruthOrDare() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-        <aside className="grid gap-5 content-start">
+      <section className="mb-6 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center sketch-shadow-sm">
+        <p className="mb-3 font-bold">קודם בוחרים מצב וקושי — ואז מתחילים לשחק</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          <button onClick={() => setMode('solo')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${mode === 'solo' ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>👤 לבד</button>
+          <button onClick={() => setMode('teams')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${mode === 'teams' ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>🏆 קבוצות</button>
+          {DIFFICULTIES.map((item) => <button key={item.key} onClick={() => chooseDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${difficulty === item.key ? 'bg-[var(--accent)] text-white' : 'bg-white'}`}>{item.label}</button>)}
+        </div>
+      </section>
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+        <aside className="order-2 grid content-start gap-5 lg:order-1">
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich">
             <h2 className="text-2xl mb-3">מצב משחק</h2>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
@@ -256,11 +265,9 @@ export default function TruthOrDare() {
           </section>
 
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich">
-            <h2 className="text-2xl mb-3">רמת קושי</h2>
-            <div className="flex flex-wrap gap-2">
-              {DIFFICULTIES.map((item) => <button key={item.key} onClick={() => chooseDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${difficulty === item.key ? 'bg-[var(--postit)]' : 'bg-white'}`}>{item.label}</button>)}
-            </div>
-            <button onClick={resetSeen} className="mt-4 wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">איפוס שאלות שכבר הופיעו</button>
+            <h2 className="text-2xl mb-3">שאלות שכבר הופיעו</h2>
+            <p className="text-sm text-[var(--ink)]/70">המשחק שומר בזיכרון המקומי משפטים שכבר קיבלתם, כדי שלא יחזרו עד שנגמר המאגר.</p>
+            <button onClick={resetSeen} className="mt-4 wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">איפוס זיכרון שאלות</button>
           </section>
 
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
@@ -277,7 +284,7 @@ export default function TruthOrDare() {
           </section>
         </aside>
 
-        <main>
+        <main className="order-1 lg:order-2">
           <section className="wobbly border-[3px] border-[var(--border)] bg-white p-6 text-center sketch-shadow-rich">
             {!current ? (
               <div className="py-12">
@@ -310,9 +317,6 @@ export default function TruthOrDare() {
             )}
           </section>
 
-          <section className="mt-6 grid gap-4 sm:grid-cols-3">
-            {visibleCards.slice(0, 9).map((item) => <div key={item.id} className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-3 text-sm sketch-shadow-sm"><strong>{item.truth ? 'אמת' : 'בוגה'} · {difficultyLabel(item.difficulty)}:</strong> {item.text}</div>)}
-          </section>
         </main>
       </div>
     </div>
