@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'
+import { games as localGames } from '../data/games'
 
 let cachedGames = null
 
@@ -16,9 +17,10 @@ export function useGames() {
       .eq('status', 'active')
       .order('updated_at', { ascending: false })
       .then(({ data, error }) => {
-        if (error) { console.error('Supabase error:', error); setError(error.message); setLoading(false); return }
+        if (error) { console.error('Supabase error:', error); setError(error.message); const sorted = [...localGames].sort((a, b) => (a.content_type || '').localeCompare(b.content_type || '')); cachedGames = sorted; setGames(sorted); setLoading(false); return }
         const rank = t => t === 'GAME_ENGINE' ? 0 : t === 'GAME' ? 1 : 2
-        const sorted = (data || []).sort((a, b) => rank(a.content_type) - rank(b.content_type))
+        const source = data && data.length ? data : localGames
+        const sorted = [...source].sort((a, b) => rank(a.content_type) - rank(b.content_type))
         cachedGames = sorted
         setGames(sorted)
         setLoading(false)
