@@ -6,6 +6,7 @@ import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import { ESCAPE_ROOMS } from '../../data/escapeRoomsExpanded'
+import { buildEscapeAdventure, ESCAPE_LEVELS } from '../../data/escapeAdventure'
 
 function normalizeAnswer(value) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase()
@@ -18,6 +19,8 @@ export default function EscapeRooms() {
     ? requestedRoomId
     : ESCAPE_ROOMS[0]?.id
   const [stepIndex, setStepIndex] = useState(0)
+  const [difficulty, setDifficulty] = useState('easy')
+  const [roundSeed, setRoundSeed] = useState(0)
   const [answer, setAnswer] = useState('')
   const [showHint, setShowHint] = useState(false)
   const [showPrintKit, setShowPrintKit] = useState(false)
@@ -26,7 +29,7 @@ export default function EscapeRooms() {
   const roomPanelRef = useRef(null)
   const advanceTimerRef = useRef(null)
 
-  const room = useMemo(() => ESCAPE_ROOMS.find((item) => item.id === roomId), [roomId])
+  const room = useMemo(() => buildEscapeAdventure(ESCAPE_ROOMS.find((item) => item.id === roomId), difficulty, roundSeed), [roomId, difficulty, roundSeed])
   const step = room?.steps[stepIndex]
   const stepQuestion = step?.question || step?.prompt || ''
   const solvedRoom = room && completedSteps.length === room.steps.length
@@ -39,7 +42,7 @@ export default function EscapeRooms() {
     setStatus(null)
     setCompletedSteps([])
     return () => clearTimeout(advanceTimerRef.current)
-  }, [roomId])
+  }, [roomId, difficulty, roundSeed])
 
   const chooseRoom = (id) => {
     clearTimeout(advanceTimerRef.current)
@@ -58,7 +61,7 @@ export default function EscapeRooms() {
   }
 
   const checkAnswer = () => {
-    if (!step) return
+    if (!step || status === 'correct' || !answer.trim()) return
 
     const userAnswer = normalizeAnswer(answer)
     const correctAnswer = normalizeAnswer(step.answer)
@@ -70,18 +73,13 @@ export default function EscapeRooms() {
       setAnswer('')
       setShowHint(false)
 
-      if (stepIndex < room.steps.length - 1) {
-        advanceTimerRef.current = setTimeout(() => {
-          setStepIndex((current) => current + 1)
-          setStatus(null)
-        }, 650)
-      }
     } else {
       setStatus('wrong')
     }
   }
 
   const resetRoom = () => {
+    setRoundSeed((seed) => seed + 1)
     clearTimeout(advanceTimerRef.current)
     setStepIndex(0)
     setAnswer('')
@@ -107,6 +105,12 @@ export default function EscapeRooms() {
         תשובות ברורות והתקדמות שלב־אחרי־שלב.
       </p>
 
+      <section className="mb-6 rounded-3xl border border-[var(--border)] bg-white p-5" aria-label="בחירת רמת קושי">
+        <h2 className="text-2xl font-bold mb-3">קודם בוחרים רמת קושי</h2>
+        <div className="grid sm:grid-cols-3 gap-3">{ESCAPE_LEVELS.map(level => <button key={level.id} aria-pressed={difficulty === level.id} className={`text-right rounded-2xl border p-4 ${difficulty===level.id?'bg-purple-100 border-purple-500':'bg-white'}`} onClick={() => {if(level.id!==difficulty && (!completedSteps.length || window.confirm('החלפת רמה תתחיל את החדר מחדש. להמשיך?')))setDifficulty(level.id)}}><strong className="block text-xl">{level.label}</strong><span className="text-sm">{level.detail}</span></button>)}</div>
+        <p className="text-sm mt-3 text-[var(--muted-foreground)]">רמזי הפתיחה משותפים לכל הרמות. בהמשך המנעולים נעשים מורכבים יותר. בכל שלב אפשר לבקש רמז.</p>
+      </section>
+
       <div className="grid lg:grid-cols-[330px_1fr] gap-6 items-start">
         <aside className="space-y-4">
           <WobblyCard hover={false} padding="p-5">
@@ -123,8 +127,7 @@ export default function EscapeRooms() {
                   <p className="text-sm text-[var(--muted-foreground)] mt-1">{item.description}</p>
                   <div className="flex flex-wrap gap-2 mt-3">
                     <Badge>{item.audience}</Badge>
-                    <Badge color="yellow">{item.difficulty}</Badge>
-                    <Badge color="blue">{item.duration}</Badge>
+                    <Badge color="yellow">3 רמות קושי</Badge>
                   </div>
                 </button>
               ))}
@@ -174,6 +177,7 @@ export default function EscapeRooms() {
               <p className="text-xl leading-relaxed mb-6">{room.finalMessage}</p>
               <div className="flex flex-wrap justify-center gap-3">
                 <WobblyButton onClick={resetRoom} variant="primary">שחקו שוב</WobblyButton>
+                <WobblyButton onClick={() => chooseRoom(ESCAPE_ROOMS[(ESCAPE_ROOMS.findIndex(item => item.id === roomId)+1)%ESCAPE_ROOMS.length].id)} variant="secondary">ממשיכים לחדר הבא ←</WobblyButton>
                 <WobblyButton onClick={() => setShowPrintKit(true)} variant="secondary">ראו קיט הפעלה</WobblyButton>
               </div>
             </WobblyCard>
@@ -185,23 +189,26 @@ export default function EscapeRooms() {
               </div>
 
               <p className="text-lg leading-relaxed mb-5">{step.story}</p>
-              <label className="block font-hand text-xl font-bold mb-2">{stepQuestion}</label>
+              {step.visual && <div dir="ltr" className="text-center text-2xl sm:text-3xl bg-purple-50 rounded-2xl p-5 mb-5" aria-label="לוח הרמז">{step.visual}</div>}
+              <label htmlFor="escape-answer" className="block font-hand text-xl font-bold mb-2">{stepQuestion}</label>
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
+                  id="escape-answer"
+                  disabled={status === 'correct'}
                   value={answer}
                   onChange={(event) => { setAnswer(event.target.value); setStatus(null) }}
                   onKeyDown={(event) => { if (event.key === 'Enter') checkAnswer() }}
                   placeholder="כתבו תשובה..."
                   className="flex-1 border-2 border-[var(--ink)] bg-white px-4 py-3 text-lg wobbly-sm outline-none focus:bg-[var(--yellow)]/20"
                 />
-                <WobblyButton onClick={checkAnswer} variant="primary">בדקו תשובה</WobblyButton>
+                <WobblyButton disabled={status === 'correct' || !answer.trim()} onClick={checkAnswer} variant="primary">בדקו תשובה</WobblyButton>
               </div>
 
               {status === 'wrong' && (
                 <p className="mt-3 text-[var(--accent)] font-bold">עוד לא. נסו שוב או פתחו רמז.</p>
               )}
               {status === 'correct' && (
-                <p className="mt-3 text-[#2e7d32] font-bold">נכון! עוברים לשלב הבא...</p>
+                <div className="mt-3 text-[#2e7d32] font-bold" role="status"><p>נכון! המנעול נפתח.</p><WobblyButton onClick={() => {setStepIndex(index => index+1);setStatus(null);setAnswer('');setShowHint(false)}}>ממשיכים לשלב הבא ←</WobblyButton></div>
               )}
 
               <div className="mt-5">
@@ -215,6 +222,7 @@ export default function EscapeRooms() {
                   </button>
                 )}
               </div>
+              {difficulty === 'easy' && !showHint && status !== 'correct' && <p className="mt-3 text-sm text-[var(--muted-foreground)]">💡 {step.hint}</p>}
             </WobblyCard>
           )}
 
@@ -230,6 +238,7 @@ export default function EscapeRooms() {
                   <div key={item.title} className="border-2 border-[var(--border)] bg-white p-4 wobbly-sm">
                     <h3 className="font-hand font-bold text-xl mb-1">{index + 1}. {item.title}</h3>
                     <p className="mb-2">{item.story}</p>
+                    {item.visual && <p dir="ltr" className="text-center text-xl">{item.visual}</p>}
                     <p><strong>שאלה:</strong> {item.question || item.prompt}</p>
                     <p><strong>תשובה:</strong> {item.answer}</p>
                     <p><strong>רמז:</strong> {item.hint}</p>
