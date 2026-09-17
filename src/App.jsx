@@ -46,9 +46,15 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 
 function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[50vh]">
-      <div className="text-5xl buga-bounce">🎂</div>
-      <p className="mt-4 font-hand text-lg text-[var(--muted-foreground)]">BUGA מכין את הכל...</p>
+    <div className="flex min-h-[65vh] items-center justify-center px-4 py-16" role="status" aria-live="polite">
+      <div className="w-full max-w-md rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-8 text-center shadow-[0_8px_0_var(--border)]">
+        <div className="text-6xl buga-bounce">🎂</div>
+        <div className="mx-auto mt-5 h-3 w-full overflow-hidden rounded-full bg-[var(--muted)]">
+          <div className="h-full w-2/3 animate-pulse rounded-full bg-[var(--accent)]" />
+        </div>
+        <p className="mt-5 font-hand text-2xl font-bold text-[var(--ink)]">BUGA מכין את המשחק...</p>
+        <p className="mt-2 text-sm text-[var(--muted-foreground)]">טוענים את השאלות והאפשרויות. זה אמור לקחת רגע.</p>
+      </div>
     </div>
   )
 }
