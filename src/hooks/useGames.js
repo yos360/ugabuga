@@ -4,6 +4,15 @@ import { games as localGames } from '../data/games'
 
 const BUILT_IN_GAMES = [...localGames, { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }]
 
+function withDifficulty(game) {
+  if (game.difficulty) return game
+  const duration = Number(game.duration_max || game.duration_min || 10)
+  const age = Number(game.min_age || 0)
+  const players = Number(game.max_players || 0)
+  const difficulty = duration >= 25 || age >= 12 || players >= 30 ? 'hard' : duration >= 15 || age >= 8 ? 'medium' : 'easy'
+  return { ...game, difficulty }
+}
+
 let cachedGames = null
 
 export function useGames() {
@@ -19,10 +28,10 @@ export function useGames() {
       .eq('status', 'active')
       .order('updated_at', { ascending: false })
       .then(({ data, error }) => {
-        if (error) { console.error('Supabase error:', error); setError(error.message); const sorted = [...localGames, { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }].sort((a, b) => (a.content_type || '').localeCompare(b.content_type || '')); cachedGames = sorted; setGames(sorted); setLoading(false); return }
+        if (error) { console.error('Supabase error:', error); setError(error.message); const sorted = [...localGames.map(withDifficulty), { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }].map(withDifficulty).sort((a, b) => (a.content_type || '').localeCompare(b.content_type || '')); cachedGames = sorted; setGames(sorted); setLoading(false); return }
         const rank = t => t === 'GAME_ENGINE' ? 0 : t === 'GAME' ? 1 : 2
         const townGame = { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }
-        const source = [...(data || []), ...BUILT_IN_GAMES].filter((game, index, list) => list.findIndex((item) => item.slug === game.slug) === index)
+        const source = [...(data || []), ...BUILT_IN_GAMES].map(withDifficulty).filter((game, index, list) => list.findIndex((item) => item.slug === game.slug) === index)
         const sorted = [...source].sort((a, b) => rank(a.content_type) - rank(b.content_type))
         cachedGames = sorted
         setGames(sorted)
