@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
@@ -18,6 +18,7 @@ export default function EscapeRooms() {
   const [showPrintKit, setShowPrintKit] = useState(false)
   const [status, setStatus] = useState(null)
   const [completedSteps, setCompletedSteps] = useState([])
+  const roomPanelRef = useRef(null)
 
   const room = useMemo(() => ESCAPE_ROOMS.find((item) => item.id === roomId), [roomId])
   const step = room?.steps[stepIndex]
@@ -31,6 +32,7 @@ export default function EscapeRooms() {
     setShowPrintKit(false)
     setStatus(null)
     setCompletedSteps([])
+    requestAnimationFrame(() => roomPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
   }
 
   const checkAnswer = () => {
@@ -117,7 +119,7 @@ export default function EscapeRooms() {
           </WobblyCard>
         </aside>
 
-        <main className="space-y-6">
+        <main ref={roomPanelRef} className="space-y-6 scroll-mt-6">
           <WobblyCard hover={false} padding="p-6" className="bg-[var(--postit)]">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
