@@ -16,6 +16,17 @@ const categories = [
   { slug: 'photo-props', emoji: '📸', title: 'אביזרי צילום', count: 1, desc: 'כתר, שפם, משקפיים — לגזירה והדבקה על מקלות' },
   { slug: 'board-game', emoji: '🎲', title: 'סולמות ונחשים', count: 1, desc: 'לוח משחק מלא להדפסה בסגנון UGABUGA' },
   { slug: 'sudoku', emoji: '🧩', title: 'סודוקו', count: 2, desc: 'סודוקו לילדים — 4×4 ו-6×6 עם פתרונות' },
+  { slug: 'dot-to-dot', emoji: '🔢', title: 'חברו את הנקודות', count: 'חדש', desc: 'מגלים ציור לפי מספרים, בשלוש רמות גיל', generated: true },
+  { slug: 'find-differences', emoji: '🔎', title: 'מצא את ההבדלים', count: 'חדש', desc: 'דפי חיפוש והבדלים לפי נושא וגיל', generated: true },
+  { slug: 'color-by-number', emoji: '🎨', title: 'צבעו לפי מספר', count: 'חדש', desc: 'מספרים, צבעים וציור — בדף אחד', generated: true },
+  { slug: 'word-tracing', emoji: '✏️', title: 'מילים מקווקוות', count: 'חדש', desc: 'תרגול כתיבה בעברית לפי נושא', generated: true },
+  { slug: 'match-word', emoji: '🖼️', title: 'התאמת תמונה למילה', count: 'חדש', desc: 'מחברים מילים לאיורים', generated: true },
+  { slug: 'complete-pattern', emoji: '🧩', title: 'המשך את הרצף', count: 'חדש', desc: 'דפוסים ורצפים לגיל הרך ולבית ספר', generated: true },
+  { slug: 'count-and-write', emoji: '🔢', title: 'ספרו וכתבו', count: 'חדש', desc: 'סופרים פריטים וכותבים מספרים', generated: true },
+  { slug: 'silhouette-match', emoji: '👤', title: 'התאמת צלליות', count: 'חדש', desc: 'מזהים ציור לפי הצללית שלו', generated: true },
+  { slug: 'cut-and-order', emoji: '✂️', title: 'גזרו וסדרו', count: 'חדש', desc: 'כרטיסי רצף לגזירה ולסידור', generated: true },
+  { slug: 'hidden-object', emoji: '🕵️', title: 'מצאו חפץ מסתתר', count: 'חדש', desc: 'חיפוש חפצים בתוך תמונה עמוסה', generated: true },
+  { slug: 'mixed-activities', emoji: '🌟', title: 'דף פעילות משולב', count: 'חדש', desc: 'כמה משימות קצרות בדף אחד', generated: true },
 ]
 
 export default function PrintablesIndex() {
@@ -23,12 +34,12 @@ export default function PrintablesIndex() {
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title="דפים להדפסה" description="דפי צביעה, אותיות, מבוכים, תעודות, שלטים ועוד — הכל חינם להדפסה בסגנון UGABUGA מצויר ביד." path="/printables" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה' }]} />
-      <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפים להדפסה</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">הכל חינם, בלי הרשמה, בסגנון UGABUGA מצויר ביד</p>
+      <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפי פעילות להדפסה בחינם</h1>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">בוחרים פעילות, גיל ונושא — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((cat, i) => (
-          <Link key={cat.slug} to={'/printables/' + cat.slug}
+          <Link key={cat.slug} to={cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug}
             className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}>
             <div className="flex items-center gap-3 mb-2">
               <span className="text-3xl">{cat.emoji}</span>
