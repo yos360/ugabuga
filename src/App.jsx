@@ -202,7 +202,7 @@ export default function App() {
               <Route path="/compare/entertainer-vs-diy" element={<IdeasHub />} />
               <Route path="/songs/birthday-songs" element={<IdeasHub />} />
               <Route path="/birthday-songs" element={<IdeasHub />} />
-              <Route path="/blog" element={<About />} />
+              <Route path="/blog" element={<IdeasHub />} />
               <Route path="/game-of-the-day" element={<GamesIndex />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/terms" element={<Terms />} />
