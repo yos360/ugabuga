@@ -48,6 +48,8 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
 .font-hand { font-family: 'Heebo', system-ui, sans-serif; }
 .font-display { font-family: var(--font-heading); }
 .font-hebrew { font-family: 'Heebo', system-ui, sans-serif; }
+.site-footer { font-family: 'Fredoka', 'Heebo', sans-serif; font-weight: 500; line-height: 1.6; }
+.site-footer h2 { font-weight: 600; }
 
 /* Wobbly borders */
 .wobbly { border-radius: var(--wobbly); }

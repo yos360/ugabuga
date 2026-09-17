@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
 
 function FooterLink({ to, children }) {
-  return <li><Link to={to} className="flex min-h-[44px] w-full items-center py-1.5 underline decoration-dashed">{children}</Link></li>
+  return <li><Link to={to} className="flex min-h-[44px] w-full items-center py-1.5 hover:underline underline-offset-4">{children}</Link></li>
 }
 
 function FooterColumn({ title, children }) {
-  return <div><h2 className="text-xl">{title}</h2><ul className="mt-2 font-hand text-lg">{children}</ul></div>
+  return <div><h2 className="text-xl">{title}</h2><ul className="mt-2 text-lg">{children}</ul></div>
 }
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t-2 border-dashed border-[var(--border)] no-print">
+    <footer className="site-footer mt-16 border-t border-[var(--border)] no-print">
       <div className="mx-auto max-w-6xl px-4 py-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <FooterColumn title="משחקים">
@@ -64,7 +64,7 @@ export default function Footer() {
             <FooterLink to="/privacy">מדיניות פרטיות</FooterLink>
           </FooterColumn>
         </div>
-        <div className="mt-8 border-t-2 border-dashed border-[var(--border)] pt-6 font-hand text-lg">
+        <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">📧 hellohugabuga@gmail.com</a>
           <p className="mt-2">רעיון למשחק? תיקון? שאלה? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
           <p className="mt-2">ספקים שמעוניינים להצטרף — נא לפנות בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
