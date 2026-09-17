@@ -308,7 +308,7 @@ export default function BugaTown() {
               return <button type="button" key={index} onClick={() => setSelectedTile(selectedTile === index ? null : index)} style={boardPosition(index)} aria-pressed={selectedTile === index} aria-label={`משבצת ${index + 1}: ${property?.name || tile.label}`} className={`town-tile town-tile--${tile.type} ${playersHere.length ? 'town-tile--occupied' : ''} ${selectedTile === index ? 'town-tile--selected' : ''}`}>
                 <span className="town-tile-number">{String(index + 1).padStart(2, '0')}</span>
                 <span className="town-tile-emoji">{property?.emoji || tile.emoji}</span>
-                <strong>{property?.name || tile.label}</strong>
+                <strong>{property?.name || tile.label}</strong>{property?.neighborhood && <span className="town-tile-neighborhood">{property.neighborhood}</span>}
                 <span className="town-tile-price">{owner ? PLAYER_DOTS[ownerIndex] + ' ' + owner.name : property ? property.price + ' 🪙' : tile.type === 'bonus' ? '+' + tile.amount + ' 🪙' : tile.type === 'pay' ? '−' + tile.amount + ' 🪙' : tile.type === 'center' ? 'שער לניצחון' : 'בוגה טאון'}</span>
                 <span className="town-pawns">{playersHere.map((player) => <span key={player.id} title={player.name} className={`town-pawn ${PLAYER_COLORS[players.findIndex((p) => p.id === player.id)]}`}>{players.findIndex((p) => p.id === player.id) + 1}</span>)}</span>
               </button>
