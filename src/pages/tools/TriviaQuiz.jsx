@@ -7,7 +7,7 @@ import Badge from '../../components/ui/Badge'
 import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
 import { DEFAULT_LIVE_NEWS, createGameNews } from '../../data/liveNews'
 
-const HISTORY_LIMIT = 16
+const HISTORY_LIMIT = 200
 const GAME_MODES = [
   { id: 'classic', label: 'קלאסי', emoji: '🎯', description: 'שאלה אחרי שאלה בקצב רגוע' },
   { id: 'speed', label: 'מירוץ מהיר', emoji: '⚡', description: 'כל תשובה נכונה שומרת רצף' },
@@ -63,7 +63,7 @@ export default function TriviaQuiz() {
   }, [questions])
 
   useEffect(() => {
-    chooseQuestion(true)
+    chooseQuestion(false)
   }, [chooseQuestion])
 
   const addNews = (item) => setLiveNews((news) => [item, ...news].slice(0, 7))
