@@ -16,7 +16,7 @@ const categories = [
   { slug: 'symmetry', emoji: '🪞', title: 'ציור סימטרי', count: 6, desc: 'השלימו את החצי — פרפר, פנים, בית, עץ, פרח, טיל' },
   { slug: 'name-tags', emoji: '🏷️', title: 'תגי שם', count: 1, desc: '8 תגים בדף — לגזירה ושימוש במסיבה' },
   { slug: 'thank-you', emoji: '💌', title: 'כרטיסי תודה', count: 1, desc: '4 כרטיסים בדף — לקיפול ושליחה' },
-  { slug: 'photo-props', emoji: '📸', title: 'אביזרי צילום', count: 1, desc: 'כתר, שפם, משקפיים — לגזירה והדבקה על מקלות' },
+  { slug: 'photo-props', emoji: '📸', title: 'אביזרי צילום', count: 60, desc: '5 חבילות גדולות: יום הולדת, מצחיקים, חד-קרן, חלל וכיתה' },
   { slug: 'board-game', emoji: '🎲', title: 'סולמות ונחשים', count: 1, desc: 'לוח משחק מלא להדפסה בסגנון UGABUGA' },
   { slug: 'sudoku', emoji: '🧩', title: 'סודוקו', count: 2, desc: 'סודוקו לילדים — 4×4 ו-6×6 עם פתרונות' },
   { slug: 'dot-to-dot', emoji: '🔢', title: 'חברו את הנקודות', count: 'חדש', desc: 'מגלים ציור לפי מספרים, בשלוש רמות גיל', generated: true },
