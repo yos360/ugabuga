@@ -1,94 +1,20 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import SEO from '../components/ui/SEO'
-import WobblyCard from '../components/ui/WobblyCard'
-import WobblyButton from '../components/ui/WobblyButton'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 
-export default function Calculator() {
-  const [guests, setGuests] = useState(15)
-  const [age, setAge] = useState('6-9')
-  const [budget, setBudget] = useState('medium')
-  const [result, setResult] = useState(null)
-
-  const calculate = () => {
-    const pizzaPerKid = age === '3-5' ? 0.2 : age === '6-9' ? 0.3 : 0.35
-    const pizzas = Math.ceil(guests * pizzaPerKid)
-    const drinks15 = Math.ceil(guests * 0.4)
-    const snackBags = guests
-    const cake = guests <= 15 ? 1 : guests <= 25 ? 1.5 : 2
-    const cups = Math.ceil(guests * 1.5)
-    const plates = Math.ceil(guests * 1.2)
-    const favors = guests
-
-    const costs = {
-      low: { pizza: pizzas * 45, drinks: drinks15 * 10, snacks: snackBags * 3, cake: 70, cups: cups * 0.5, plates: plates * 0.5, favors: favors * 8 },
-      medium: { pizza: pizzas * 55, drinks: drinks15 * 12, snacks: snackBags * 5, cake: 120, cups: cups * 1, plates: plates * 1, favors: favors * 15 },
-      high: { pizza: pizzas * 65, drinks: drinks15 * 15, snacks: snackBags * 8, cake: 350, cups: cups * 1.5, plates: plates * 1.5, favors: favors * 25 },
-    }
-
-    const c = costs[budget]
-    const total = Object.values(c).reduce((a, b) => a + b, 0)
-
-    setResult({ pizzas, drinks15, snackBags, cake, cups, plates, favors, costs: c, total })
-  }
-
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <SEO title="מחשבון מסיבה" description="כמה פיצות להזמין? כמה שתייה? חשבו כמויות ועלויות למסיבת יום הולדת." path="/calculator" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחשבון מסיבה' }]} />
-      <h1 className="text-4xl font-hand font-bold text-center mb-8">🧮 מחשבון מסיבה</h1>
-
-      <WobblyCard hover={false} padding="p-6" className="mb-6">
-        <div className="space-y-6">
-          <div>
-            <label className="block font-bold mb-2">👥 מספר ילדים: {guests}</label>
-            <input type="range" min="5" max="40" value={guests} onChange={e => setGuests(+e.target.value)} className="w-full" />
-          </div>
-          <div>
-            <label className="block font-bold mb-2">🎂 קבוצת גיל</label>
-            <div className="flex gap-2">
-              {[['3-5','3-5'],['6-9','6-9'],['10-13','10-13']].map(([v,l]) => (
-                <button key={v} onClick={() => setAge(v)}
-                  className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm font-medium ${age === v ? 'bg-[var(--yellow)]' : 'bg-white'}`}>{l}</button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label className="block font-bold mb-2">💰 רמת תקציב</label>
-            <div className="flex gap-2">
-              {[['low','חסכוני'],['medium','רגיל'],['high','מושקע']].map(([v,l]) => (
-                <button key={v} onClick={() => setBudget(v)}
-                  className={`px-4 py-2 border-2 border-[var(--ink)] wobbly-sm font-medium ${budget === v ? 'bg-[var(--yellow)]' : 'bg-white'}`}>{l}</button>
-              ))}
-            </div>
-          </div>
-          <WobblyButton onClick={calculate} className="w-full">🎂 חשבו!</WobblyButton>
-        </div>
-      </WobblyCard>
-
-      {result && (
-        <div className="space-y-4 animate-fade-in">
-          <h2 className="text-2xl font-hand font-bold text-center">📋 התוצאות</h2>
-          {[
-            ['🍕 פיצות', result.pizzas + ' משפחתיות', result.costs.pizza],
-            ['🥤 שתייה', result.drinks15 + ' בקבוקים (1.5 ליטר)', result.costs.drinks],
-            ['🍿 חטיפים', result.snackBags + ' שקיות', result.costs.snacks],
-            ['🎂 עוגה', result.cake > 1 ? 'עוגה גדולה' : 'עוגה רגילה', result.costs.cake],
-            ['🥤 כוסות', result.cups, result.costs.cups],
-            ['🍽️ צלחות', result.plates, result.costs.plates],
-            ['🎁 שקיות הפתעה', result.favors, result.costs.favors],
-          ].map(([item, qty, cost]) => (
-            <WobblyCard key={item} hover={false} padding="p-4" className="flex justify-between items-center">
-              <div><span className="font-bold">{item}</span> — {qty}</div>
-              <div className="font-bold">~{Math.round(cost)} ₪</div>
-            </WobblyCard>
-          ))}
-          <WobblyCard hover={false} padding="p-4" className="bg-[var(--yellow)] text-center">
-            <span className="text-2xl font-bold">סה"כ: ~{Math.round(result.total)} ₪</span>
-            <p className="text-sm text-[var(--ink)]/70 mt-1">* מחירים משוערים</p>
-          </WobblyCard>
-        </div>
-      )}
-    </div>
-  )
+const EVENTS=[['birthday','🎂 מסיבת יום הולדת'],['kids','🧸 אירוע בגן'],['family','🏠 אירוע משפחתי'],['bar','🧸 בר/בת מצווה'],['adults','🏙️ אירוע למבוגרים']]
+const BUDGETS=[['low','💚 חסכוני'],['medium','💛 רגיל'],['high','💜 מפנק']]
+const money=n=>`${Math.round(n).toLocaleString('he-IL')} ₪`
+function calculate({guests,age,duration,meal,budget,event}){
+ const foodFactor=meal==='pizza'?1:meal==='snacks'?.55:meal==='light'?.75:.3, pizzaRate=age==='3-5'?.20:age==='6-9'?.30:age==='10-13'?.34:.38
+ const pizzas=Math.max(1,Math.ceil(guests*pizzaRate*foodFactor)),drinks=Math.max(2,Math.ceil(guests*(duration==='2-3'?.62:duration==='1-2'?.45:.35))),snacks=meal==='none'?0:Math.ceil(guests*(meal==='snacks'?.8:.4)),cake=(event==='birthday'||event==='bar')?Math.max(1,Math.ceil(guests/24)):0,cups=Math.ceil(guests*1.5),plates=meal==='none'?0:Math.ceil(guests*1.2),favors=(event==='birthday'||event==='kids')?guests:0
+ const p={low:{pizza:45,drink:9,snack:3,cake:80,cup:.55,plate:.55,favor:8},medium:{pizza:55,drink:12,snack:5,cake:120,cup:1,plate:1,favor:15},high:{pizza:68,drink:16,snack:8,cake:180,cup:1.6,plate:1.6,favor:25}}[budget]
+ const rows=[['🍕','אוכל',pizzas?`${pizzas} פיצות משפחתיות`:'אין ארוחה מלאה',pizzas*p.pizza],['🥤','שתייה',`${drinks} בקבוקים של 1.5 ליטר`,drinks*p.drink],['🍿','נשנושים',snacks?`${snacks} שקיות חטיפים`:'לא נדרש',snacks*p.snack],['🎂','עוגה',cake?`${cake} ${cake>1?'עוגות':'עוגה'} למסיבה`:'לא נדרש',cake*p.cake],['🍽️','חד־פעמי',`${cups} כוסות${plates?` · ${plates} צלחות`:''}`,cups*p.cup+plates*p.plate],['🎁','שקיות הפתעה',favors?`${favors} שקיות`:'לא נדרש',favors*p.favor]].filter(x=>x[3]||x[1]==='שתייה'||x[1]==='חד־פעמי')
+ return {rows,total:rows.reduce((sum,row)=>sum+row[3],0)}
+}
+export default function Calculator(){
+ const [event,setEvent]=useState('birthday'),[guests,setGuests]=useState(15),[age,setAge]=useState('6-9'),[duration,setDuration]=useState('2-3'),[meal,setMeal]=useState('pizza'),[budget,setBudget]=useState('medium'),[shown,setShown]=useState(false)
+ const result=useMemo(()=>calculate({event,guests,age,duration,meal,budget}),[event,guests,age,duration,meal,budget])
+ const pick=(title,items,value,setter)=><section><h2 className="mb-3 text-2xl">{title}</h2><div className="flex flex-wrap gap-2">{items.map(([id,label])=><button key={id} onClick={()=>{setter(id);setShown(false)}} className={`rounded-2xl border px-4 py-2 font-bold ${value===id?'border-red-400 bg-red-500 text-white':'border-slate-300 bg-white'}`}>{label}</button>)}</div></section>
+ return <div className="mx-auto max-w-5xl px-4 py-8"><SEO title="מחשבון מסיבה" description="מחשבון כמויות ועלויות למסיבה, יום הולדת ואירוע משפחתי." path="/calculator"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'כלים'},{label:'מחשבון מסיבה'}]}/><header className="mb-7 text-center"><h1 className="text-4xl sm:text-5xl">🧮 מחשבון מסיבה</h1><p className="mt-2 text-lg text-[var(--muted-foreground)]">בוחרים פרטי אירוע — ומקבלים רשימת קניות ועלות משוערת.</p></header><section className="rounded-[28px] border border-[var(--border)] bg-white p-5 shadow-[0_8px_25px_rgb(25_36_75_/_8%)] sm:p-8"><div className="grid gap-7">{pick('⛺ סוג אירוע',EVENTS,event,setEvent)}<section><div className="flex items-end justify-between gap-4"><div><h2 className="text-2xl">🧑‍🤝‍🧑 מספר אורחים</h2><p className="text-[var(--muted-foreground)]">בין 5 ל־60 משתתפים</p></div><output className="rounded-2xl border-2 border-[var(--border)] bg-yellow-100 px-5 py-2 text-2xl font-bold">{guests}</output></div><input aria-label="מספר אורחים" type="range" min="5" max="60" value={guests} onChange={e=>{setGuests(+e.target.value);setShown(false)}} className="mt-4 w-full accent-red-500"/></section><div className="grid gap-7 sm:grid-cols-2">{pick('📍 גיל',[['3-5','3–5'],['6-9','6–9'],['10-13','10–13'],['adult','מבוגרים']],age,setAge)}{pick('⌛ משך האירוע',[['1-2','שעה–שעתיים'],['2-3','2–3 שעות'],['3+','3 שעות+']],duration,setDuration)}</div>{pick('🍕 ארוחה עיקרית',[['pizza','🍕 פיצה מוזמנת'],['light','🥪 ארוחה קלה'],['snacks','🍿 נשנושים'],['none','ללא אוכל']],meal,setMeal)}{pick('💰 רמת תקציב',BUDGETS,budget,setBudget)}<button onClick={()=>setShown(true)} className="rounded-2xl bg-red-500 px-6 py-4 text-2xl font-bold text-white shadow-[0_5px_0_#c73147]">🎉 חשבו לי!</button></div></section>{shown&&<section className="mt-8"><div className="mb-4 flex flex-wrap items-center justify-between gap-3"><h2 className="text-3xl">רשימת הקניות שלכם</h2><strong className="rounded-full bg-yellow-100 px-5 py-2 text-xl">סה״כ משוער: {money(result.total)}</strong></div><div className="grid gap-4">{result.rows.map(([emoji,title,amount,cost])=><article key={title} className="flex items-start justify-between gap-5 rounded-3xl border border-[var(--border)] bg-white p-5 shadow-[0_5px_16px_rgb(25_36_75_/_6%)]"><div><h3 className="text-2xl">{emoji} {title}</h3><p className="mt-2 text-lg">{amount}</p></div><strong className="whitespace-nowrap text-xl">{money(cost)}</strong></article>)}</div><p className="mt-4 text-sm text-[var(--muted-foreground)]">המחירים הם הערכה בלבד; אפשר לעדכן את התקציב ולחשב שוב.</p></section>}</div>
 }
