@@ -13,6 +13,14 @@ function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_play
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
 function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficulty === 'medium' ? 'yellow' : 'green' }
+function fitsClassroom(g) {
+  const age = Number(g.min_age || 0)
+  const duration = Number(g.duration_min || 0)
+  const equipment = String(g.equipment || '')
+  const manageableEquipment = !g.equipment_needed || /בלי ציוד|דף|פתק|כדור|כיסאות|מוזיקה|לוח/.test(equipment)
+  return age <= 18 && duration > 0 && duration <= 35 && manageableEquipment && Number(g.max_players || 0) >= 8
+}
+
 function fitsAfterSchool(g) {
   const age = Number(g.min_age || 0)
   const duration = Number(g.duration_min || 0)
@@ -40,7 +48,7 @@ export default function GamesIndex() {
     const q = search.toLowerCase().trim()
     const candidates = games.filter(g =>
       (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
-      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
+      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : contextFilter === 'כיתה' ? fitsClassroom(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
       (!q ||
       g.name.toLowerCase().includes(q) ||
       (g.short_description && g.short_description.toLowerCase().includes(q)) ||
@@ -91,7 +99,8 @@ export default function GamesIndex() {
                 <Badge>{ageLabel(game)}</Badge>
                 <Badge color="yellow">{timeLabel(game)}</Badge>
                 <Badge>{playersLabel(game)}</Badge>
-                <Badge color={difficultyColor(game)}>🎯 {difficultyLabel(game)}</Badge>\n                <Badge color={game.equipment_needed ? 'default' : 'blue'}>{equipmentLabel(game)}</Badge>
+                <Badge color={difficultyColor(game)}>🎯 {difficultyLabel(game)}</Badge>
+                <Badge color={game.equipment_needed ? 'default' : 'blue'}>{equipmentLabel(game)}</Badge>
               </div>
               <div className="mt-auto flex items-center justify-between border-t-2 border-dashed border-[var(--border)] pt-3">
                 <span className="font-display text-lg font-bold underline decoration-dashed">למשחק ←</span>
