@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -15,14 +15,18 @@ function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי �
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
   const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const { age } = useParams()
+  const isGameOfDay = location.pathname === '/game-of-the-day'
   const initialQ = searchParams.get('q') || ''
   const goalFilter = searchParams.get('goal') || ''
   const contextFilter = searchParams.get('context') || ''
+  const ageNumber = age ? Number.parseInt(age, 10) : null
   const [search, setSearch] = useState(initialQ)
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim()
-    return games.filter(g =>
+    const candidates = games.filter(g =>
       (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
       (!contextFilter || (g.contexts && g.contexts.includes(contextFilter))) &&
       (!q ||
@@ -32,15 +36,20 @@ export default function GamesIndex() {
       (g.category && g.category.includes(q)) ||
       (g.goals && g.goals.some(t => t.includes(q))) ||
       (g.contexts && g.contexts.some(t => t.includes(q)))
-      )
+      ) &&
+      (!ageNumber || (Number(g.min_age) <= ageNumber && (!g.max_age || Number(g.max_age) >= ageNumber)))
     )
-  }, [search, games, goalFilter, contextFilter])
+    if (!isGameOfDay) return candidates
+    if (!candidates.length) return []
+    const dayIndex = Math.floor(Date.now() / 86400000) % candidates.length
+    return [candidates[dayIndex]]
+  }, [search, games, goalFilter, contextFilter, ageNumber, isGameOfDay])
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SEO title="כל המשחקים" description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path="/games" />
+      <SEO title={isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : 'כל המשחקים'} description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
-      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
+      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
         <input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
@@ -48,7 +57,7 @@ export default function GamesIndex() {
       </form>
 
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
-        {loading ? 'טוען...' : `נמצאו ${filtered.length} משחקים`}
+        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : `נמצאו ${filtered.length} משחקים`}
       </p>
 
       {error && (
