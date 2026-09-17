@@ -173,12 +173,11 @@ export default function BugaTown() {
     }
 
     if (tile.type === 'question') {
-      const question = BUGA_TOWN_QUESTIONS[Math.floor(Math.random() * BUGA_TOWN_QUESTIONS.length)]
-      setPendingQuestion({ playerId: player.id, generalQuestion: question, options: shuffleOptions(question.options) })
-      setMessage(`${player.name} הגיע לשאלת דרך. תשובה נכונה נותנת 20 מטבעות.`)
+      updatePlayer(player.id, (p) => ({ ...p, coins: p.coins + 20, bonuses: p.bonuses + 1 }))
+      addNews('🎁 ' + player.name + ' קיבל בונוס מעבר על משבצת מיוחדת.')
+      nextTurn(player.name + ' קיבל 20 מטבעות ובונוס.')
       return
     }
-
     if (tile.type === 'freeRoll') {
       addNews(`🎲 ${player.name} קיבל זריקה חופשית.`)
       setMessage(`${player.name} קיבל זריקה חופשית! אפשר לזרוק שוב.`)
