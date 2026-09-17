@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
@@ -11,7 +12,11 @@ function normalizeAnswer(value) {
 }
 
 export default function EscapeRooms() {
-  const [roomId, setRoomId] = useState(ESCAPE_ROOMS[0]?.id)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requestedRoomId = searchParams.get('room')
+  const roomId = ESCAPE_ROOMS.some((item) => item.id === requestedRoomId)
+    ? requestedRoomId
+    : ESCAPE_ROOMS[0]?.id
   const [stepIndex, setStepIndex] = useState(0)
   const [answer, setAnswer] = useState('')
   const [showHint, setShowHint] = useState(false)
@@ -19,14 +24,30 @@ export default function EscapeRooms() {
   const [status, setStatus] = useState(null)
   const [completedSteps, setCompletedSteps] = useState([])
   const roomPanelRef = useRef(null)
+  const advanceTimerRef = useRef(null)
 
   const room = useMemo(() => ESCAPE_ROOMS.find((item) => item.id === roomId), [roomId])
   const step = room?.steps[stepIndex]
   const stepQuestion = step?.question || step?.prompt || ''
   const solvedRoom = room && completedSteps.length === room.steps.length
 
+  useEffect(() => {
+    setStepIndex(0)
+    setAnswer('')
+    setShowHint(false)
+    setShowPrintKit(false)
+    setStatus(null)
+    setCompletedSteps([])
+    return () => clearTimeout(advanceTimerRef.current)
+  }, [roomId])
+
   const chooseRoom = (id) => {
-    setRoomId(id)
+    clearTimeout(advanceTimerRef.current)
+    setSearchParams((params) => {
+      const nextParams = new URLSearchParams(params)
+      nextParams.set('room', id)
+      return nextParams
+    })
     setStepIndex(0)
     setAnswer('')
     setShowHint(false)
@@ -50,7 +71,7 @@ export default function EscapeRooms() {
       setShowHint(false)
 
       if (stepIndex < room.steps.length - 1) {
-        setTimeout(() => {
+        advanceTimerRef.current = setTimeout(() => {
           setStepIndex((current) => current + 1)
           setStatus(null)
         }, 650)
@@ -61,6 +82,7 @@ export default function EscapeRooms() {
   }
 
   const resetRoom = () => {
+    clearTimeout(advanceTimerRef.current)
     setStepIndex(0)
     setAnswer('')
     setShowHint(false)
