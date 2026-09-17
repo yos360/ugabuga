@@ -22,6 +22,7 @@ export default function EscapeRooms() {
 
   const room = useMemo(() => ESCAPE_ROOMS.find((item) => item.id === roomId), [roomId])
   const step = room?.steps[stepIndex]
+  const stepQuestion = step?.question || step?.prompt || ''
   const solvedRoom = room && completedSteps.length === room.steps.length
 
   const chooseRoom = (id) => {
@@ -162,7 +163,7 @@ export default function EscapeRooms() {
               </div>
 
               <p className="text-lg leading-relaxed mb-5">{step.story}</p>
-              <label className="block font-hand text-xl font-bold mb-2">{step.question}</label>
+              <label className="block font-hand text-xl font-bold mb-2">{stepQuestion}</label>
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   value={answer}
@@ -207,7 +208,7 @@ export default function EscapeRooms() {
                   <div key={item.title} className="border-2 border-[var(--border)] bg-white p-4 wobbly-sm">
                     <h3 className="font-hand font-bold text-xl mb-1">{index + 1}. {item.title}</h3>
                     <p className="mb-2">{item.story}</p>
-                    <p><strong>שאלה:</strong> {item.question}</p>
+                    <p><strong>שאלה:</strong> {item.question || item.prompt}</p>
                     <p><strong>תשובה:</strong> {item.answer}</p>
                     <p><strong>רמז:</strong> {item.hint}</p>
                   </div>
