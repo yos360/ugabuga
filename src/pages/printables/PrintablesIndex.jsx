@@ -3,6 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
 const categories = [
+  { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
   { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 8, desc: 'דפי צביעה ליום הולדת — עוגה, דינוזאור, חלל ועוד' },
   { slug: 'birthday-signs', emoji: '🎂', title: 'שלטי יום הולדת', count: 8, desc: 'שלטים גדולים להדפסה — פה העוגה, פה המתנות, ברוכים הבאים' },
   { slug: 'hebrew-letters', emoji: '✏️', title: 'אותיות עברית בנקודות', count: 22, desc: 'א-ת בנקודות לחיבור — עם איורים ושורות תרגול' },
@@ -27,6 +28,7 @@ const categories = [
   { slug: 'cut-and-order', emoji: '✂️', title: 'גזרו וסדרו', count: 'חדש', desc: 'כרטיסי רצף לגזירה ולסידור', generated: true },
   { slug: 'hidden-object', emoji: '🕵️', title: 'מצאו חפץ מסתתר', count: 'חדש', desc: 'חיפוש חפצים בתוך תמונה עמוסה', generated: true },
   { slug: 'mixed-activities', emoji: '🌟', title: 'דף פעילות משולב', count: 'חדש', desc: 'כמה משימות קצרות בדף אחד', generated: true },
+  { slug: 'missing-picture', emoji: '🖍️', title: 'מה חסר בתמונה?', count: 'חדש', desc: 'משלימים ציור לפי רצף ורמזים', generated: true },
 ]
 
 export default function PrintablesIndex() {
@@ -39,7 +41,7 @@ export default function PrintablesIndex() {
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((cat, i) => (
-          <Link key={cat.slug} to={cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug}
+          <Link key={cat.slug} to={cat.generated ? '/printables/activity/' + cat.slug : cat.special ? '/printables/' + cat.slug : '/printables/' + cat.slug}
             className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}>
             <div className="flex items-center gap-3 mb-2">
               <span className="text-3xl">{cat.emoji}</span>
