@@ -10,6 +10,47 @@ export default function IdeasHub() {
   const location = useLocation()
   const themes = Object.entries(PARTY_KITS)
 
+  const comparison = location.pathname === '/compare/home-vs-venue' ? {
+    title: 'בית או אולם? משווים ומתכננים',
+    description: 'השוואה פשוטה בין מסיבה בבית לבין אולם — כדי לבחור לפי תקציב, גיל וכמות אורחים.',
+    rows: [['אווירה', 'אינטימית וגמישה', 'חגיגית ומוכנה מראש'], ['תקציב', 'נמוך עד בינוני', 'בינוני עד גבוה'], ['שליטה בתוכן', 'מלאה — אתם בוחרים משחקים', 'פחות התעסקות, צוות המקום מסייע'], ['מתאים במיוחד', 'משפחה וחברים קרובים', 'אירוע גדול או חגיגה רשמית']]
+  } : location.pathname === '/compare/entertainer-vs-diy' ? {
+    title: 'מפעיל או הפעלה עצמית?',
+    description: 'כך בוחרים את הדרך שמתאימה לכם — בלי לחץ ובלי הפתעות.',
+    rows: [['הכנה', 'מעט הכנה מראש', 'אתם בונים את התוכן'], ['גמישות', 'תוכנית קבועה', 'משנים תוך כדי לפי הקהל'], ['עלות', 'תשלום למפעיל', 'כלים ותכנים במחיר נמוך יותר'], ['שליטה', 'המפעיל מוביל', 'המארחים מובילים']]
+  } : null
+
+  if (comparison) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
+        <SEO title={comparison.title} description={comparison.description} path={location.pathname} />
+        <h1 className="text-4xl md:text-5xl text-center mb-3">{comparison.title}</h1>
+        <p className="text-center text-xl text-[var(--ink)]/70 mb-8">{comparison.description}</p>
+        <WobblyCard hover={false} padding="p-3 md:p-6">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[620px] border-collapse text-right">
+              <thead><tr className="border-b-2 border-[var(--border)]"><th className="p-3 text-lg">נושא</th><th className="p-3 text-lg">אפשרות א׳</th><th className="p-3 text-lg">אפשרות ב׳</th></tr></thead>
+              <tbody>{comparison.rows.map(([topic, a, b]) => <tr key={topic} className="border-b border-dashed border-[var(--border)]"><th className="p-3 font-bold">{topic}</th><td className="p-3">{a}</td><td className="p-3">{b}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </WobblyCard>
+        <div className="mt-8 text-center"><Link to="/ideas" className="button-sketch inline-block">לעוד רעיונות ←</Link></div>
+      </div>
+    )
+  }
+
+  if (location.pathname === '/blog') {
+    const articles = Object.values(IDEA_ARTICLES).slice(0, 12)
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
+        <SEO title="בלוג עוגה בוגה" description="מדריכים, רעיונות וטיפים לתכנון מסיבות ומשחקים." path="/blog" />
+        <h1 className="text-4xl md:text-5xl text-center mb-2">📝 הבלוג של עוגה בוגה</h1>
+        <p className="text-center text-xl text-[var(--ink)]/70 mb-10">מדריכים ורעיונות שאפשר לקחת ישר למסיבה.</p>
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{articles.map(article => <Link key={article.slug} to={'/ideas/' + article.slug} className="card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich"><span className="text-4xl">{article.emoji}</span><h2 className="mt-3 text-2xl font-bold">{article.title}</h2><p className="mt-2 text-[var(--muted-foreground)]">{article.description}</p><span className="mt-4 inline-block font-bold text-[var(--pen)]">לקריאה ←</span></Link>)}</div>
+      </div>
+    )
+  }
+
   if (location.pathname === '/birthday-songs' || location.pathname === '/songs/birthday-songs') {
     return (
       <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
