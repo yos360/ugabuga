@@ -120,13 +120,13 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {WORLD_DOORS.map((door, i) => {
               const card = (
-                <div className={`card-lift flex h-full min-h-64 flex-col justify-between wobbly-md border-[3px] border-[var(--border)] p-5 text-center sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: door.bg }}>
+                <div className={`card-lift flex h-full min-h-48 flex-row-reverse items-center justify-between gap-4 wobbly-md border-[3px] border-[var(--border)] p-5 text-right sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: door.bg }}>
                   <div>
-                    <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[var(--border)] bg-white text-4xl sketch-shadow-sm">{door.emoji}</div>
+                    <div className="mb-3 flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border-2 border-white/80 bg-white/70 text-6xl shadow-sm">{door.emoji}</div>
                     <h2 className="text-2xl font-bold leading-tight">{door.title}</h2>
                     <p className="mt-3 text-sm leading-relaxed text-[var(--foreground)]/75">{door.text}</p>
                   </div>
-                  <span className="mt-4 inline-flex justify-center rounded-full border-2 border-[var(--border)] bg-white px-3 py-1 font-hand text-base font-bold">{door.status}</span>
+                  <span className="mt-4 inline-flex justify-center rounded-full border-2 border-[var(--border)] bg-white px-5 py-2 font-hand text-base font-bold">{door.status}</span>
                 </div>
               )
               return door.to ? <Link key={door.title} to={door.to}>{card}</Link> : <div key={door.title} aria-label={`${door.title} בקרוב`}>{card}</div>
