@@ -130,7 +130,6 @@ export default function Home() {
               return door.to ? <Link key={door.title} to={door.to}>{card}</Link> : <div key={door.title} aria-label={`${door.title} בקרוב`}>{card}</div>
             })}
           </div>
-          <p className="mt-4 text-center font-hand text-lg text-[var(--muted-foreground)]">הדלתות הן שכבת כניסה ותכנון. לא בונים עדיין את עולם הספקים או מערכות חדשות מאחוריהן.</p>
         </section>
 
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
