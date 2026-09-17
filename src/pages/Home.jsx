@@ -11,11 +11,12 @@ const CHIPS = [
   { label: 'שובר קרח', to: '/games/icebreaker' }, { label: 'תנועה', to: '/games/movement' },
 ]
 const WORLD_DOORS = [
-  { emoji: '🎮', title: 'עולם המשחקים', text: 'מאגר המשחקים, טריוויה, בוגהטאון, אמת או בוגה וחדרי בריחה.', status: 'פתוח עכשיו', to: '/games', bg: '#fff3a8' },
-  { emoji: '🧑‍🍳', title: 'עולם הספקים', text: 'בעתיד: מפעילים, עוגות, בלונים, מקומות, צלמים ושירותים למסיבה.', status: 'בקרוב', bg: '#ffe0ec' },
-  { emoji: '🎭', title: 'עולם הרעיונות', text: 'רעיונות למסיבות, נושאים, גילאים, פעילויות ותכנון אירוע.', status: 'קיים באתר', to: '/ideas', bg: '#e8d5f5' },
-  { emoji: '🛠️', title: 'עולם הכלים', text: 'בינגו, תפזורת, טיימר, לוח ניקוד, חלוקה לקבוצות וכלים להפעלה.', status: 'קיים באתר', to: '/tools', bg: '#e0f7fa' },
-  { emoji: '🖨️', title: 'עולם ההדפסות', text: 'דפי צביעה, שלטים, תעודות, תגי שם, סודוקו וערכות להדפסה.', status: 'קיים באתר', to: '/printables', bg: '#e8f5e9' },
+  { emoji: '🎮', title: 'לשחק', text: 'משחקים מוכנים לכל גיל, קבוצה ורגע — פשוט בוחרים ומתחילים.', status: 'פתוח עכשיו', to: '/games', bg: '#dff8ed' },
+  { emoji: '✨', title: 'ליצור משחק', text: 'הפכו רעיון למשחק משלכם עם כלים פשוטים ותבניות מוכנות.', status: 'מתחילים כאן', to: '/tools', bg: '#eee4ff' },
+  { emoji: '🖨️', title: 'להדפיס', text: 'דפי משחק, כרטיסים וערכות יפות שמוכנות להדפסה בבית.', status: 'קיים באתר', to: '/printables', bg: '#ffe6e1' },
+  { emoji: '🧠', title: 'חידות וטריוויה', text: 'שאלות, חידות ואתגרים בנושאים שונים לכל גיל ולכל מצב רוח.', status: 'פתוח עכשיו', to: '/tools/riddles', bg: '#fff1c7' },
+  { emoji: '🔐', title: 'חדרי בריחה', text: 'חוויות בריחה מוכנות להפעלה בבית, בכיתה או במסיבה.', status: 'פתוח עכשיו', to: '/tools/escape-rooms', bg: '#dff0ff' },
+  { emoji: '📚', title: 'לכיתה', text: 'משחקים ותכנים למורים, תלמידים וקבוצות — עם מינימום הכנה.', status: 'למורים ולילדים', to: '/games/classroom', bg: '#dff8f2' },
 ]
 const TOOLS = [
   { to: '/calculator', emoji: '🎉', title: 'מחשבון מסיבה', text: 'כמה פיצות, בקבוקים, כוסות ושקיות הפתעה צריך? מקבלים רשימת קניות מוכנה בשלוש שניות', bg: '#fff3a8', cta: 'לחישוב' },
@@ -86,9 +87,9 @@ export default function Home() {
           <div className="hero-blob w-64 h-64 bg-[var(--accent)] -top-10 -right-10" />
           <div className="hero-blob w-52 h-52 bg-[var(--pen)] top-40 -left-16" />
           <div className="relative mx-auto max-w-4xl px-4 text-center">
-            <p className="font-hand text-xl text-[var(--muted-foreground)]">מחברת המשחקים של כולם 🎈</p>
-            <h1 className="mt-2 text-4xl sm:text-6xl leading-[1.1]">עוגה בוגה — המאגר הכי שווה <span className="text-ink-gradient">למשחקים ופעילויות</span></h1>
-            <p className="mx-auto mt-4 max-w-2xl text-lg sm:text-xl text-[var(--foreground)]/80">מצאו את המשחק המושלם לכל רגע — ליום הולדת, לכיתה, לצהרון, למשפחה, או סתם לכיף</p>
+            <p className="font-hand text-xl text-[var(--muted-foreground)]">משחקים, רעיונות וחוויות לכל גיל ✨</p>
+            <h1 className="mt-2 text-4xl sm:text-6xl leading-[1.1]">מה בא לכם <span className="text-ink-gradient">לעשות?</span></h1>
+            <p className="mx-auto mt-4 max-w-2xl text-lg sm:text-xl text-[var(--foreground)]/80">משחקים, יצירה, למידה וכיף — בוחרים ונכנסים ישר לפעולה</p>
 
             <form className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => { e.preventDefault(); navigate('/games?q=' + encodeURIComponent(query)) }}>
               <div className="relative w-full">
@@ -114,8 +115,8 @@ export default function Home() {
         </section>
 
         <section className="mx-auto w-full min-w-0 max-w-6xl px-4 py-10">
-          <SectionTitle kicker="בסוף האתר יפתח כמו מפה של עוגה בוגה">5 דלתות לעולמות האתר</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <SectionTitle kicker="כל מה שאפשר לעשות בעוגה בוגה">בוחרים ומתחילים</SectionTitle>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {WORLD_DOORS.map((door, i) => {
               const card = (
                 <div className={`card-lift flex h-full min-h-64 flex-col justify-between wobbly-md border-[3px] border-[var(--border)] p-5 text-center sketch-shadow-rich ${rotations[i % rotations.length]}`} style={{ backgroundColor: door.bg }}>
