@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Badge from '../../components/ui/Badge'
@@ -7,7 +7,22 @@ import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from '../../data/ideaArticlesE
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
 export default function IdeasHub() {
+  const location = useLocation()
   const themes = Object.entries(PARTY_KITS)
+
+  if (location.pathname === '/birthday-songs' || location.pathname === '/songs/birthday-songs') {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
+        <SEO title="שירי יום הולדת — פלייליסט למסיבה" description="שירי יום הולדת למסיבה, לילדים ולמשפחה — נגנו ישירות באתר." path="/birthday-songs" />
+        <h1 className="text-4xl md:text-5xl text-center mb-3">🎵 שירי יום הולדת</h1>
+        <p className="text-center text-xl text-[var(--ink)]/70 mb-8">פלייליסט מוכן להפעלה במסיבה — פשוט לוחצים על נגן ומתחילים.</p>
+        <WobblyCard hover={false} padding="p-4" className="bg-[var(--postit)]">
+          <iframe title="פלייליסט שירי יום הולדת ב-Spotify" src="https://open.spotify.com/embed/playlist/3tvl1eEMexX91MJXIPaMTN?utm_source=generator" width="100%" height="500" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" className="rounded-xl" />
+        </WobblyCard>
+        <p className="mt-4 text-center text-sm text-[var(--muted-foreground)]">הנגן מופעל דרך Spotify. ייתכן שתידרש התחברות לחשבון Spotify.</p>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
