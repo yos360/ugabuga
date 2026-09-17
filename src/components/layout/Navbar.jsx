@@ -1,120 +1,134 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 
 const TOOLS_MENU = [
-  { to: '/calculator', label: '🧮 מחשבון מסיבה' },
-  { to: '/greeting', label: '💌 מחולל ברכות' },
-  { to: '/invitation', label: '📨 מחולל הזמנות' },
-  { to: '/tools/trivia-quiz', label: '🎯 טריוויה BUGA' },
-  { to: '/tools/buga-town', label: '🏙️ בוגהטאון' },
-  { to: '/tools/escape-rooms', label: '🔐 חדרי בריחה' },
-  { to: '/tools/team-generator', label: '🎲 מחלק קבוצות' },
-  { to: '/tools/random-picker', label: '🎡 גלגל שמות' },
-  { to: '/tools/countdown-timer', label: '⏱️ טיימר' },
-  { to: '/tools/truth-or-buga', label: '🎭 אמת או בוגה' },
-  { to: '/tools/dice', label: '🎲 קוביה' },
-  { to: '/tools/coin-flip', label: '🪙 הטלת מטבע' },
-  { to: '/tools/scoreboard', label: '📊 לוח ניקוד' },
-  { to: '/tools/spin-the-bottle', label: '🍾 סובב את הבקבוק' },
-  { to: '/tools/drawing-prompt', label: '🎨 מה לצייר?' },
-  { to: '/tools/joke', label: '😂 בדיחה של BUGA' },
-  { to: '/tools/riddles', label: '🧩 חידות' },
-  { to: '/tools/bingo-maker', label: '🎟️ מחולל בינגו' },
-  { to: '/tools/word-search-maker', label: '🔎 מחולל תפזורת' },
-  { to: '/tools/scavenger-hunt-maker', label: '🗺️ חפש את המטמון' },
-  { to: '/printables', label: '🖨️ דפים להדפסה' },
-  { to: '/games/all', label: '📚 כל המשחקים א׳-ת׳' },
-  { to: '/blog', label: '📝 טיפים ורעיונות' },
-  { to: '/faq', label: '❓ שאלות נפוצות' },
-]
-
-const MOBILE_LINKS = [
-  { to: '/games', label: '🎮 משחקים' },
-  { to: '/ideas', label: '🎭 רעיונות' },
-  { to: '/guides', label: '📖 מדריכים' },
-  { to: '/gifts', label: '🎁 מתנות' },
-  ...TOOLS_MENU,
+  { to: '/calculator', label: 'מחשבון מסיבה', icon: '🧮' },
+  { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
+  { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
+  { to: '/tools/trivia-quiz', label: 'טריוויה BUGA', icon: '🎯' },
+  { to: '/tools/buga-town', label: 'בוגה טאון', icon: '🏙️' },
+  { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐' },
+  { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '🎲' },
+  { to: '/tools/random-picker', label: 'גלגל שמות', icon: '🎡' },
+  { to: '/tools/countdown-timer', label: 'טיימר', icon: '⏱️' },
+  { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
+  { to: '/tools/dice', label: 'קוביה', icon: '🎲' },
+  { to: '/tools/coin-flip', label: 'הטלת מטבע', icon: '🪙' },
+  { to: '/tools/scoreboard', label: 'לוח ניקוד', icon: '📊' },
+  { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🍾' },
+  { to: '/tools/drawing-prompt', label: 'מה לצייר?', icon: '🎨' },
+  { to: '/tools/joke', label: 'בדיחה של BUGA', icon: '😂' },
+  { to: '/tools/riddles', label: 'חידות', icon: '🧩' },
+  { to: '/tools/bingo-maker', label: 'מחולל בינגו', icon: '🎟️' },
+  { to: '/tools/word-search-maker', label: 'מחולל תפזורת', icon: '🔎' },
+  { to: '/tools/scavenger-hunt-maker', label: 'חפש את המטמון', icon: '🗺️' },
+  { to: '/printables', label: 'דפים להדפסה', icon: '🖨️' },
+  { to: '/games/all', label: 'כל המשחקים א׳–ת׳', icon: '📚' },
+  { to: '/guides', label: 'מדריכים', icon: '📖' },
+  { to: '/gifts', label: 'מתנות', icon: '🎁' },
 ]
 
 function HeaderLink({ to, children }) {
   const { pathname } = useLocation()
-  const active = pathname.startsWith(to)
-  return (
-    <Link to={to} className={`wobbly-sm inline-flex min-h-[44px] items-center border-2 border-[var(--border)] px-3 py-1 font-display text-lg transition-transform duration-100 hover:-rotate-1 hover:sketch-shadow-sm ${active ? 'nav-active bg-[var(--accent)] text-[var(--accent-foreground)]' : 'bg-[var(--card)]'}`}>
-      {children}
-    </Link>
-  )
+  const active = to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`)
+  return <Link to={to} className={`site-nav-link${active ? ' is-active' : ''}`} aria-current={active ? 'page' : undefined}>{children}</Link>
 }
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [toolsOpen, setToolsOpen] = useState(false)
-  const { pathname } = useLocation()
-  const rootRef = useRef(null)
+  const { pathname, search } = useLocation()
+  const toolsRef = useRef(null)
+  const toolsButtonRef = useRef(null)
+  const mobileButtonRef = useRef(null)
+  const mobilePanelRef = useRef(null)
+  const toolsActive = ['/tools', '/calculator', '/greeting', '/invitation', '/printables'].some(path => pathname.startsWith(path))
 
-  const toolsActive = pathname.startsWith('/tools') || pathname.startsWith('/calculator') || pathname.startsWith('/greeting') || pathname.startsWith('/invitation') || pathname.startsWith('/printables') || pathname.startsWith('/buga-town') || pathname.startsWith('/bugatown') || pathname.startsWith('/escape-rooms') || pathname.startsWith('/truth-or-buga') || pathname.startsWith('/emet-o-buga')
-
-  useEffect(() => setToolsOpen(false), [pathname])
   useEffect(() => {
-    if (!toolsOpen) return
-    const close = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setToolsOpen(false) }
-    const esc = (e) => { if (e.key === 'Escape') setToolsOpen(false) }
-    document.addEventListener('mousedown', close)
-    document.addEventListener('keydown', esc)
-    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('keydown', esc) }
-  }, [toolsOpen])
+    setToolsOpen(false)
+    setMobileOpen(false)
+  }, [pathname, search])
+
+  useEffect(() => {
+    if (!toolsOpen && !mobileOpen) return undefined
+    const dismissOutside = event => {
+      if (toolsOpen && toolsRef.current && !toolsRef.current.contains(event.target)) setToolsOpen(false)
+      if (mobileOpen && mobilePanelRef.current && !mobilePanelRef.current.contains(event.target) && !mobileButtonRef.current?.contains(event.target)) setMobileOpen(false)
+    }
+    const escape = event => {
+      if (event.key !== 'Escape') return
+      if (toolsOpen) { setToolsOpen(false); toolsButtonRef.current?.focus() }
+      if (mobileOpen) { setMobileOpen(false); mobileButtonRef.current?.focus() }
+    }
+    document.addEventListener('pointerdown', dismissOutside)
+    document.addEventListener('keydown', escape)
+    return () => {
+      document.removeEventListener('pointerdown', dismissOutside)
+      document.removeEventListener('keydown', escape)
+    }
+  }, [toolsOpen, mobileOpen])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur no-print">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-100 to-yellow-100 text-3xl shadow-sm">🎂</span>
-          <span className="font-display text-3xl font-bold tracking-tight text-slate-900">עוגה בוגה</span>
-        </Link>
-
-        <button type="button" className="wobbly-sm flex h-11 w-11 items-center justify-center border-2 border-[var(--border)] bg-[var(--card)] text-2xl md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>☰</button>
-
-        <nav className="hidden items-center gap-2 md:flex">
+    <header className="site-header no-print">
+      <a className="site-skip-link" href="#site-content" onClick={event => {
+        const main = document.querySelector('main')
+        if (main) {
+          event.preventDefault()
+          main.setAttribute('tabindex', '-1')
+          main.focus()
+          main.scrollIntoView({ block: 'start' })
+        }
+      }}>דילוג לתוכן</a>
+      <div className="site-header-inner">
+        <nav className="site-nav-primary" aria-label="ניווט ראשי">
+          <Link to="/games" className="site-icon-button" aria-label="חיפוש משחקים"><Search size={24} strokeWidth={1.7} /></Link>
+          <HeaderLink to="/">דף הבית</HeaderLink>
           <HeaderLink to="/games">משחקים</HeaderLink>
-          <HeaderLink to="/ideas">רעיונות</HeaderLink>
-
-          <div ref={rootRef} className="relative">
-            <button type="button" onClick={() => setToolsOpen(!toolsOpen)}
-              className={`wobbly-sm inline-flex min-h-[44px] cursor-pointer items-center border-2 border-[var(--border)] px-3 py-1 font-display text-lg transition-transform duration-100 hover:-rotate-1 hover:sketch-shadow-sm ${toolsActive ? 'nav-active bg-[var(--accent)] text-[var(--accent-foreground)]' : 'bg-[var(--card)]'}`}>
-              כלים {toolsOpen ? '▴' : '▾'}
-            </button>
-            {toolsOpen && (
-              <ul className="wobbly absolute end-0 z-50 mt-2 max-h-[60vh] w-64 overflow-y-auto border-2 border-[var(--border)] bg-[var(--card)] p-2 font-hand text-lg sketch-shadow">
-                {TOOLS_MENU.map(item => (
-                  <li key={item.to}>
-                    <Link to={item.to} onClick={() => setToolsOpen(false)}
-                      className="flex min-h-[40px] w-full items-center rounded px-2 py-1 underline decoration-dashed hover:bg-[var(--muted)]">
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <HeaderLink to="/guides">מדריכים</HeaderLink>
+          <HeaderLink to="/games/birthday">אירועים</HeaderLink>
         </nav>
 
-        {mobileOpen && (
-          <nav className="wobbly-sm w-full border-2 border-[var(--border)] bg-[var(--card)] p-3 md:hidden buga-slide-down">
-            <ul className="grid gap-1 font-hand text-xl">
-              {MOBILE_LINKS.map(item => (
-                <li key={item.to}>
-                  <Link to={item.to} onClick={() => setMobileOpen(false)}
-                    className="flex min-h-[44px] items-center border-b border-dashed border-[var(--border)] px-2 py-2">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
+        <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
+          <span className="site-brand-art" aria-hidden="true" />
+        </Link>
+
+        <nav className="site-nav-secondary" aria-label="עוד בעוגה בוגה">
+          <HeaderLink to="/about">אודות</HeaderLink>
+          <HeaderLink to="/blog">בלוג</HeaderLink>
+          <HeaderLink to="/ideas">השראה</HeaderLink>
+          <div className="site-tools" ref={toolsRef} onBlur={event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setToolsOpen(false)
+          }}>
+            <button ref={toolsButtonRef} type="button" className={`site-tools-toggle${toolsActive ? ' is-active' : ''}`}
+              aria-expanded={toolsOpen} aria-controls="site-tools-menu" onClick={() => setToolsOpen(open => !open)}>
+              כל הכלים <ChevronDown size={15} className={toolsOpen ? 'is-open' : ''} />
+            </button>
+            {toolsOpen && (
+              <div id="site-tools-menu" className="site-tools-menu">
+                <p className="site-tools-heading">כל מה שצריך כדי להתחיל</p>
+                <ul>
+                  {TOOLS_MENU.map(item => <li key={item.to}><Link to={item.to} onClick={() => setToolsOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}
+                </ul>
+                <Link className="site-tools-all" to="/tools">לכל הכלים <ArrowLeft size={16} /></Link>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        <Link to="/games" className="site-icon-button site-mobile-search" aria-label="חיפוש משחקים"><Search size={22} /></Link>
+        <button ref={mobileButtonRef} className="site-icon-button site-mobile-toggle" type="button" aria-expanded={mobileOpen} aria-controls="site-mobile-menu"
+          aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => setMobileOpen(open => !open)}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>
+
+      {mobileOpen && (
+        <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
+          <div className="site-mobile-main-links">
+            {[['/', 'דף הבית'], ['/games', 'משחקים'], ['/games/birthday', 'אירועים'], ['/ideas', 'השראה'], ['/blog', 'בלוג'], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
+          </div>
+          <h2>משחקים וכלים</h2>
+          <ul>{TOOLS_MENU.map(item => <li key={item.to}><Link to={item.to} onClick={() => setMobileOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
+        </nav>
+      )}
     </header>
   )
 }
