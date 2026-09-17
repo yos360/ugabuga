@@ -231,7 +231,7 @@ export default function BugaTown() {
         setMessage(`${player.name} ענה נכון וקנה את ${property.name}.`)
       } else {
         updatePlayer(player.id, (p) => ({ ...p, coins: p.coins + 20 }))
-        addNews(`🧠 ${player.name} ענה נכון על שאלת דרך וקיבל 20 מטבעות.`)
+        addNews(`🧠 ${player.name} קנה את הנכס והוסיף אותו לעיר.`)
         setMessage(`${player.name} ענה נכון וקיבל 20 מטבעות.`)
       }
     } else {
