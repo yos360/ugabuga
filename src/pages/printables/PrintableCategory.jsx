@@ -140,13 +140,13 @@ export default function PrintableCategory() {
         </div>
       )}
 
-      <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+      <div className={`grid gap-5 grid-cols-2 sm:grid-cols-3 ${slug === 'board-game' ? 'lg:grid-cols-2 max-w-5xl mx-auto' : 'lg:grid-cols-4'}`}>
         {cat.files.map((item, i) => (
           <div key={item.file}
             className={`wobbly group relative border-2 border-[var(--border)] bg-white p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1 cursor-pointer ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}
             onClick={() => setSelected(item)}>
-            <div className="aspect-[3/4] bg-[var(--background)] border border-dashed border-[var(--muted)] flex items-center justify-center overflow-hidden mb-2">
-              <img src={'/svg/' + item.file} alt={item.name} className="w-full h-full object-contain p-2" loading="lazy" />
+            <div className={`${slug === 'board-game' ? 'aspect-[4/3]' : 'aspect-[3/4]'} bg-[var(--background)] border border-dashed border-[var(--muted)] flex items-center justify-center overflow-hidden mb-2`}>
+              <img src={'/svg/' + item.file} alt={item.name} className={`w-full h-full object-contain ${slug === 'board-game' ? 'p-0' : 'p-2'}`} loading="lazy" />
             </div>
             <p className="text-center font-display text-sm font-bold truncate">{item.name}</p>
           </div>
