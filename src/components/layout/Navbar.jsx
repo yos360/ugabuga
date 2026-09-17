@@ -65,11 +65,11 @@ export default function Navbar() {
   }, [toolsOpen])
 
   return (
-    <header className="border-b-2 border-[var(--border)] bg-[var(--background)]/90 sticky top-0 z-50 no-print">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur no-print">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <Link to="/" className="flex items-center gap-2">
-          <span className="wobbly-sm buga-bounce inline-flex h-10 w-10 items-center justify-center border-2 border-[var(--border)] bg-[var(--postit)] text-xl sketch-shadow-sm">🎂</span>
-          <span className="font-display text-3xl font-bold">עוגה בוגה</span>
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-100 to-yellow-100 text-3xl shadow-sm">🎂</span>
+          <span className="font-display text-3xl font-bold tracking-tight text-slate-900">עוגה בוגה</span>
         </Link>
 
         <button type="button" className="wobbly-sm flex h-11 w-11 items-center justify-center border-2 border-[var(--border)] bg-[var(--card)] text-2xl md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>☰</button>
