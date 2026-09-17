@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import './roots-editor.css'
 
 const QUESTIONS=['איפה נולדתם ואיפה גדלתם?','איזה זיכרון ילדות אתם הכי אוהבים?','איזה מאכל או מנהג משפחתי חשוב לכם?','מה היה רגע חשוב בחיים שלכם?','איזו עצה הייתם רוצים להעביר לדור הבא?']
 const tabs=[['cover','✨','כריכה'],['tree','🌳','משפחה'],['timeline','🗓️','ציר זמן'],['interview','🎙️','ראיון'],['gallery','🖼️','אלבום'],['finish','✅','הגשה']]
