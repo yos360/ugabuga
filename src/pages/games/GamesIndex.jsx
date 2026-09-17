@@ -13,6 +13,17 @@ function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_play
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
 function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficulty === 'medium' ? 'yellow' : 'green' }
+function fitsFamily(g) {
+  const age = Number(g.min_age || 0)
+  const players = Number(g.max_players || 0)
+  return age <= 12 && players >= 4 && players <= 30
+}
+
+function fitsBirthday(g) {
+  const duration = Number(g.duration_min || 0)
+  return duration > 0 && duration <= 40 && Number(g.max_players || 0) >= 4
+}
+
 function fitsClassroom(g) {
   const age = Number(g.min_age || 0)
   const duration = Number(g.duration_min || 0)
@@ -48,7 +59,7 @@ export default function GamesIndex() {
     const q = search.toLowerCase().trim()
     const candidates = games.filter(g =>
       (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
-      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : contextFilter === 'כיתה' ? fitsClassroom(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
+      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : contextFilter === 'כיתה' ? fitsClassroom(g) : contextFilter === 'משפחה' ? fitsFamily(g) : contextFilter === 'יום הולדת' ? fitsBirthday(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
       (!q ||
       g.name.toLowerCase().includes(q) ||
       (g.short_description && g.short_description.toLowerCase().includes(q)) ||
