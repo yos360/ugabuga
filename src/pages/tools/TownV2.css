@@ -13,3 +13,30 @@
     background-size: 120px auto;
   }
 }
+
+/* Compact board: the whole game fits on a phone without a sideways scroll. */
+@media (max-width: 700px) {
+  .town-v2 { padding: 10px; }
+  .town-heading { align-items: flex-start; }
+  .town-heading h1 { font-size: 34px; }
+  .town-setup { padding: 20px 14px 145px; }
+  .town-players { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .town-players > div { min-width: 0; padding: 10px; }
+  .town-players strong { font-size: 14px; }
+  .town-players span { font-size: 12px; }
+  .town-board-scroll { overflow: visible; padding: 0; }
+  .town-board-v2 { min-width: 0; width: 100%; grid-template-rows: repeat(7, clamp(42px, 12vw, 64px)); gap: 3px; padding: 6px; border-radius: 18px; }
+  .town-v2 .town-tile { border-top-width: 3px; border-radius: 9px; padding: 2px; }
+  .town-tile-icon { font-size: clamp(15px, 5vw, 24px); }
+  .town-tile strong { font-size: clamp(8px, 2.4vw, 13px); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .town-tile small { font-size: 8px; margin-top: 1px; }
+  .town-tokens { bottom: -5px; }
+  .town-tokens > span { font-size: 14px; width: 22px; height: 22px; border-width: 1px; }
+  .town-center { padding: 8px; border-radius: 14px; }
+  .town-center h2 { font-size: 21px; margin: 6px 0; }
+  .town-dice { font-size: 42px; gap: 8px; }
+  .town-message { font-size: 14px; min-height: 42px; margin-top: 6px; }
+  .town-neighborhoods { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 4px; margin-top: 8px; }
+  .town-neighborhoods span { font-size: 10px; padding: 4px 6px; }
+  .town-rules { padding: 14px; }
+}
