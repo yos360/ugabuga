@@ -140,6 +140,7 @@ export default function TruthOrDare() {
   const [customTruth, setCustomTruth] = useState(true)
   const [customDifficulty, setCustomDifficulty] = useState('easy')
   const [customItems, setCustomItems] = useState([])
+  const [finished, setFinished] = useState(false)
 
   useEffect(() => { setSeenIds(loadSeen()) }, [])
 
@@ -156,18 +157,25 @@ export default function TruthOrDare() {
   const pick = () => {
     const pool = visibleCards.length ? visibleCards : cards
     const unseen = pool.filter((item) => !seenIds.includes(item.id))
-    const usable = unseen.length ? unseen : pool
-    const next = usable[Math.floor(Math.random() * usable.length)]
-    const nextSeen = unseen.length ? [...seenIds, next.id] : [next.id]
+    if (!unseen.length) {
+      setCurrent(null)
+      setAnswered(null)
+      setFinished(true)
+      return
+    }
+    const next = unseen[Math.floor(Math.random() * unseen.length)]
+    const nextSeen = [...seenIds, next.id]
     updateSeen(nextSeen)
     setCurrent(next)
     setAnswered(null)
+    setFinished(false)
   }
 
   const resetSeen = () => {
     updateSeen([])
     setCurrent(null)
     setAnswered(null)
+    setFinished(false)
   }
 
   const answer = (choice) => {
@@ -200,12 +208,14 @@ export default function TruthOrDare() {
     setTopic(nextTopic)
     setCurrent(null)
     setAnswered(null)
+    setFinished(false)
   }
 
   const chooseDifficulty = (nextDifficulty) => {
     setDifficulty(nextDifficulty)
     setCurrent(null)
     setAnswered(null)
+    setFinished(false)
   }
 
   return (
@@ -288,10 +298,10 @@ export default function TruthOrDare() {
           <section className="wobbly border-[3px] border-[var(--border)] bg-white p-6 text-center sketch-shadow-rich">
             {!current ? (
               <div className="py-12">
-                <div className="text-6xl mb-4">🤔</div>
-                <h2 className="text-3xl mb-3">מוכנים לגלות מה אמת ומה בוגה?</h2>
-                <p className="mb-6 text-[var(--ink)]/70">המשחק יבחר לפי הנושא ורמת הקושי, וינסה לא לחזור על משפטים שכבר הופיעו אצל אותו משתמש.</p>
-                <button onClick={pick} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-4 font-display text-2xl font-bold text-white">תנו לי משפט 🎲</button>
+                <div className="text-6xl mb-4">{finished ? '🎉' : '🤔'}</div>
+                <h2 className="text-3xl mb-3">{finished ? 'סיימתם את הסינון הזה!' : 'מוכנים לגלות מה אמת ומה בוגה?'}</h2>
+                <p className="mb-6 text-[var(--ink)]/70">{finished ? 'כל המשפטים בנושא וברמת הקושי שנבחרו כבר נשאלו. אפשר לבחור נושא או קושי אחר, או לאפס את הזיכרון במצב המשחק.' : 'המשחק יבחר לפי הנושא ורמת הקושי, בלי לחזור על משפטים שכבר הופיעו אצל אותו משתמש.'}</p>
+                {!finished && <button onClick={pick} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-4 font-display text-2xl font-bold text-white">תנו לי משפט 🎲</button>}
               </div>
             ) : (
               <div className="py-8">

@@ -1,0 +1,52 @@
+/* Shared responsive guardrails for every route. */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 800px) {
+  .site-mobile-menu ul,
+  .site-tools-menu ul {
+    grid-template-columns: 1fr;
+  }
+
+  .site-mobile-main-links {
+    gap: 8px 18px;
+  }
+
+  .site-mobile-menu {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header-inner {
+    padding-inline: 10px;
+  }
+
+  .site-brand,
+  .site-brand-art {
+    width: 190px;
+    max-width: calc(100vw - 120px);
+  }
+
+  .site-brand-art {
+    background-size: 1167px 778px;
+    background-position: -486px -6px;
+  }
+
+  .site-tools-menu {
+    left: auto;
+    right: 0;
+    width: min(360px, calc(100vw - 24px));
+  }
+}
