@@ -8,23 +8,14 @@
   min-height: 220px;
 }
 
-/* Transparent door art: one clean arrow belongs to the card, never to the image. */
+/* Keep the original approved illustrations; the arrow is a separate card control. */
 .home-door-art {
-  background-image: url('/images/home-doors-transparent.png') !important;
-  background-size: 400% 100% !important;
-  background-position-y: bottom !important;
+  background-image: url('/images/approved-home-art.png') !important;
   background-repeat: no-repeat !important;
   width: 48% !important;
   max-width: 48% !important;
   height: 100% !important;
-  aspect-ratio: auto !important;
-  mask-image: none !important;
 }
-
-.home-door-art.door-art-0 { background-position-x: 0% !important; }
-.home-door-art.door-art-1 { background-position-x: 33.333% !important; }
-.home-door-art.door-art-2 { background-position-x: 66.666% !important; }
-.home-door-art.door-art-3 { background-position-x: 100% !important; }
 
 .home-door-arrow {
   left: auto;
