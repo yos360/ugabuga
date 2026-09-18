@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { supabase } from '../../utils/supabase'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
@@ -10,17 +11,30 @@ const dec = value => JSON.parse(decodeURIComponent(escape(atob(value))))
 export default function BringList() {
   const [params, setParams] = useSearchParams()
   const viewOnly = params.has('view')
+  const code = params.get('code')
   const initial = useMemo(() => { try { return params.get('list') ? dec(params.get('list')) : null } catch { return null } }, [params])
   const [title, setTitle] = useState(initial?.title || 'מסיבת סוף שנה')
   const [items, setItems] = useState(initial?.items || starter.map(text => ({ text, takenBy: '' })))
   const [newItem, setNewItem] = useState('')
   const [copied, setCopied] = useState(false)
   const [shareUrl, setShareUrl] = useState('')
+  useEffect(() => {
+    if (!code) return
+    supabase.rpc('get_party_list', { p_share_code: code }).then(({ data }) => {
+      const row = Array.isArray(data) ? data[0] : data
+      if (row) { setTitle(row.title); setItems(row.items || []) }
+    })
+  }, [code])
   const update = (index, patch) => setItems(old => old.map((item, i) => i === index ? { ...item, ...patch } : item))
   const add = () => { if (newItem.trim()) { setItems(old => [...old, { text: newItem.trim(), takenBy: '' }]); setNewItem('') } }
   const share = async () => {
-    const url = `${location.origin}/tools/bring-list?list=${encodeURIComponent(enc({ title, items }))}&view=1`
-    setShareUrl(url); setParams({ list: enc({ title, items }) })
+    const ownerToken = crypto.randomUUID()
+    localStorage.setItem('ugabuga-party-owner', ownerToken)
+    const { data, error } = await supabase.rpc('create_party_list', { p_owner_token: ownerToken, p_title: title, p_items: items })
+    const row = Array.isArray(data) ? data[0] : data
+    if (error || !row?.share_code) { setShareUrl(`${location.origin}/tools/bring-list?list=${encodeURIComponent(enc({ title, items }))}&view=1`); return }
+    const url = `${location.origin}/tools/bring-list?code=${encodeURIComponent(row.share_code)}&view=1`
+    setShareUrl(url); setParams({ code: row.share_code, view: '1' })
     try { await navigator.clipboard.writeText(url) } catch { /* visible fallback */ }
     setCopied(true); setTimeout(() => setCopied(false), 2500)
   }
@@ -44,7 +58,7 @@ export default function BringList() {
             {items.map((item, i) => <div key={i} className={`rounded-2xl border-2 p-3 ${item.takenBy ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-slate-50'}`}>
               <div className="grid items-center gap-2 sm:grid-cols-[1fr_1fr_auto]">
                 <input disabled={viewOnly} value={item.text} onChange={e => update(i, { text: e.target.value })} className="rounded-lg border border-slate-200 bg-white px-3 py-2 font-bold disabled:bg-slate-100" aria-label={`פריט ${i + 1}`} />
-                <input disabled={viewOnly && Boolean(item.takenBy.trim())} value={item.takenBy} onChange={e => update(i, { takenBy: e.target.value })} placeholder={viewOnly ? 'כתבו את שמכם כדי לתפוס' : 'מי מביא? כתבו שם'} className="rounded-lg border border-slate-200 bg-white px-3 py-2 disabled:bg-slate-100" aria-label={`מי מביא ${item.text}`} />
+                <input disabled={viewOnly && Boolean(item.takenBy.trim())} value={item.takenBy} onChange={e => update(i, { takenBy: e.target.value })} onBlur={async e => { if (viewOnly && code && e.target.value.trim() && !item.takenBy) { const { data } = await supabase.rpc('claim_party_item', { p_share_code: code, p_index: i, p_name: e.target.value }); const row = Array.isArray(data) ? data[0] : data; if (row?.items) setItems(row.items) } }} placeholder={viewOnly ? 'כתבו את שמכם כדי לתפוס' : 'מי מביא? כתבו שם'} className="rounded-lg border border-slate-200 bg-white px-3 py-2 disabled:bg-slate-100" aria-label={`מי מביא ${item.text}`} />
                 {!viewOnly && <button onClick={() => setItems(old => old.filter((_, n) => n !== i))} className="rounded-lg px-2 py-2 text-slate-400 hover:bg-red-50 hover:text-red-600" aria-label={`מחיקת ${item.text}`}>✕</button>}
               </div>
               {item.takenBy && <div className="mt-2 text-sm font-bold text-emerald-700">✅ {item.takenBy} מביא/ה את זה</div>}
