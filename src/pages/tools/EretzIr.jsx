@@ -7,11 +7,12 @@ const PACKS={
   classic:{label:'🟡 קלאסי',categories:['שם','עיר','מדינה','חיה','צומח','דומם','מאכל','מקצוע'],letters:'אבגדהוזחיכלמנסעתקר'},
   party:{label:'🎉 מסיבה',categories:['שם של אורח','שיר','מאכל','מתנה','משחק','דבר מצחיק','סרט','חפץ בבית'],letters:'אבגדהולמנסקת'},
   funny:{label:'😂 מצחיק',categories:['תירוץ','כוח על','שם ללהקה','דבר מביך','מקצוע מומצא','שם לחיית מחמד','כותרת לסרט','חוק חדש'],letters:'אבגדהולמנסקת'},
+  custom:{label:'✏️ מותאם אישית',categories:['שם','עיר','חיה'],letters:'אבגדהוזחיכלמנסעתקר'},
 }
 function randomLetter(pack){const letters=PACKS[pack].letters;return letters[Math.floor(Math.random()*letters.length)]}
 export default function EretzIr(){
- const [pack,setPack]=useState('classic'),[letter,setLetter]=useState('מ'),[seconds,setSeconds]=useState(90),[running,setRunning]=useState(false),[round,setRound]=useState(1),[scores,setScores]=useState([{name:'קבוצה א׳',score:0},{name:'קבוצה ב׳',score:0}])
- const categories=PACKS[pack].categories
+ const [pack,setPack]=useState('classic'),[customCategories,setCustomCategories]=useState(['שם','עיר','חיה']),[newCategory,setNewCategory]=useState(''),[letter,setLetter]=useState('מ'),[seconds,setSeconds]=useState(90),[running,setRunning]=useState(false),[round,setRound]=useState(1),[scores,setScores]=useState([{name:'קבוצה א׳',score:0},{name:'קבוצה ב׳',score:0}])
+ const categories=pack==='custom'?customCategories:PACKS[pack].categories
  const [answers,setAnswers]=useState({})
  useEffect(()=>{if(!running||seconds===0)return;const t=setTimeout(()=>setSeconds(s=>s-1),1000);return()=>clearTimeout(t)},[running,seconds])
  const start=()=>{setLetter(randomLetter(pack));setSeconds(90);setAnswers({});setRunning(true)}
