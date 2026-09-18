@@ -44,6 +44,7 @@ const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/CrosswordMaker'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
 const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
+const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
@@ -152,6 +153,7 @@ export default function App() {
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />
+              <Route path="/tools/experiment-maker" element={<ExperimentMaker />} />
               <Route path="/tools/riddles" element={<Riddles />} />
               <Route path="/riddles" element={<Riddles />} />
               <Route path="/games/riddles" element={<Riddles />} />
