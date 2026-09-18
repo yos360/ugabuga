@@ -4,11 +4,13 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
 const starter = ['עוגה', 'שתייה', 'כוסות', 'צלחות', 'פירות', 'מפיות', 'בלונים', 'רמקול']
+const encodeList = value => btoa(unescape(encodeURIComponent(JSON.stringify(value))))
+const decodeList = value => JSON.parse(decodeURIComponent(escape(atob(value))))
 
 export default function BringList() {
   const [params, setParams] = useSearchParams()
   const decoded = useMemo(() => {
-    try { return params.get('list') ? JSON.parse(atob(params.get('list'))) : null } catch { return null }
+    try { return params.get('list') ? decodeList(params.get('list')) : null } catch { return null }
   }, [params])
   const [title, setTitle] = useState(decoded?.title || 'מסיבת סוף שנה')
   const [items, setItems] = useState(decoded?.items || starter.map(text => ({ text, takenBy: '' })))
@@ -18,7 +20,7 @@ export default function BringList() {
   const update = (i, patch) => setItems(x => x.map((item, n) => n === i ? { ...item, ...patch } : item))
   const add = () => { if (newItem.trim()) { setItems(x => [...x, { text: newItem.trim(), takenBy: '' }]); setNewItem('') } }
   const share = async () => {
-    const encoded = btoa(JSON.stringify({ title, items }))
+    const encoded = encodeList({ title, items })
     const url = `${window.location.origin}/tools/bring-list?list=${encodeURIComponent(encoded)}`
     setParams({ list: encoded })
     try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2500) } catch { window.prompt('העתיקו את הקישור לשיתוף:', url) }
