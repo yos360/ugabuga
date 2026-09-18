@@ -3,12 +3,12 @@ import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 
 const THEMES = [
-  {id:'balloons', name:'בלונים', emoji:'🎈', bg:'#ffe0ec'},
-  {id:'space', name:'חלל', emoji:'🚀', bg:'#e0f7fa'},
-  {id:'dino', name:'דינוזאור', emoji:'🦖', bg:'#e8f5e9'},
-  {id:'princess', name:'נסיכה', emoji:'👑', bg:'#f5e0ff'},
-  {id:'football', name:'כדורגל', emoji:'⚽', bg:'#e8f5e9'},
-  {id:'gaming', name:'גיימינג', emoji:'🎮', bg:'#e8d5f5'},
+  {id:'balloons', name:'בלונים', emoji:'🎈', bg:'#ffe0ec', pos:'0% 0%'},
+  {id:'space', name:'חלל', emoji:'🚀', bg:'#e0f7fa', pos:'50% 0%'},
+  {id:'dino', name:'דינוזאור', emoji:'🦖', bg:'#e8f5e9', pos:'100% 0%'},
+  {id:'princess', name:'נסיכה', emoji:'👑', bg:'#f5e0ff', pos:'0% 100%'},
+  {id:'football', name:'כדורגל', emoji:'⚽', bg:'#e8f5e9', pos:'50% 100%'},
+  {id:'gaming', name:'גיימינג', emoji:'🎮', bg:'#e8d5f5', pos:'100% 100%'},
 ]
 
 export default function Invitation() {
@@ -35,7 +35,7 @@ export default function Invitation() {
 
       {/* Live invitation preview - editable */}
       <div className="wobbly border-[3px] border-[var(--border)] p-8 text-center sketch-shadow-rich mb-6" style={{ backgroundColor: theme.bg }}>
-        <div className="text-6xl mb-3">{theme.emoji}</div>
+        <div aria-label={theme.name} className="mx-auto mb-3 h-36 w-56 rounded-2xl border-2 border-white/80 bg-white/30 bg-cover bg-no-repeat shadow-sm" style={{backgroundImage:"url('/images/invitation-themes-v1.png')", backgroundPosition:theme.pos, backgroundSize:'300% 200%'}} />
         <p className="font-hand text-lg mb-2">הוזמנתם למסיבת יום הולדת של</p>
         <input value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 focus:outline-none" />
         <input value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 focus:outline-none" />
