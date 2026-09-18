@@ -1,7 +1,11 @@
 /* Homepage layout follows the four clear entry doors from the product brief. */
 .home-doors {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   direction: rtl;
+}
+
+.home-door {
+  min-height: 220px;
 }
 
 .home-door-arrow {
@@ -10,8 +14,8 @@
 }
 
 .home-door-copy {
-  margin-right: 72px;
-  margin-left: 35%;
+  width: 52%;
+  margin: 38px 28px 22px auto;
 }
 
 .home-door-copy h2 {
@@ -30,8 +34,9 @@
   }
 
   .home-door-copy {
-    margin-right: 58px;
-    margin-left: 38%;
+    width: 52%;
+    margin-right: 24px;
+    margin-left: auto;
   }
 }
 
@@ -42,7 +47,8 @@
   }
 
   .home-door-copy {
-    margin-right: 58px;
-    margin-left: 36%;
+    width: 54%;
+    margin-right: 20px;
+    margin-left: auto;
   }
 }
