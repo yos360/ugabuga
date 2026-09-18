@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const HEBREW_LETTERS = [
   ['alef','א'],['bet','ב'],['gimel','ג'],['dalet','ד'],['he','ה'],['vav','ו'],['zayin','ז'],
@@ -93,6 +93,7 @@ export default function PrintableCategory() {
   const { slug } = useParams()
   const cat = svgMap[slug]
   const [selected, setSelected] = useState(null)
+  useEffect(() => { const onKey = e => e.key === 'Escape' && setSelected(null); window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey) }, [])
 
   if (!cat) {
     return (
@@ -130,9 +131,10 @@ export default function PrintableCategory() {
       {selected && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setSelected(null)}>
           <div className="bg-white wobbly p-4 max-w-3xl w-full max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 gap-3">
               <h3 className="font-display text-xl font-bold">{selected.name}</h3>
               <div className="flex gap-2">
+                <button onClick={() => setSelected(null)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-2 font-bold cursor-pointer">← חזרה לדפים</button>
                 <button onClick={() => printItem(selected.file)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] text-white px-4 py-2 font-bold cursor-pointer">🖨️ הדפיסו</button>
                 <button onClick={() => setSelected(null)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold cursor-pointer">✕</button>
               </div>
