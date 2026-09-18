@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
+import HubPage from './pages/HubPage'
 import { lazy, Suspense } from 'react'
 
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
@@ -76,6 +77,9 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/birthday" element={<HubPage type="birthday" />} />
+              <Route path="/classroom" element={<HubPage type="classroom" />} />
+              <Route path="/create" element={<HubPage type="create" />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<GamesIndex />} />
               <Route path="/games/5-minutes" element={<CategoryPage />} />
