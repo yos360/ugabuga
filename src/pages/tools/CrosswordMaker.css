@@ -1,0 +1,10 @@
+@page { size: A4; margin: 10mm; }
+
+@media print {
+  .crossword-layout { grid-template-columns: 100mm 1fr !important; gap: 8mm !important; align-items: start; }
+  .crossword-grid { width: 100mm !important; max-width: none !important; }
+  .clues { max-width: none !important; padding: 8px !important; font-size: 9pt; }
+  .clues p { margin: 3px 0 !important; padding-bottom: 3px !important; }
+  .crossword-layout, .crossword-grid, .clues { break-inside: avoid; }
+  .wobbly { box-shadow: none !important; }
+}
