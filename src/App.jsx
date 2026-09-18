@@ -41,6 +41,7 @@ const BingoMaker = lazy(() => import('./pages/tools/BingoMaker'))
 const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/CrosswordMaker'))
+const BringList = lazy(() => import('./pages/tools/BringList'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
@@ -207,6 +208,8 @@ export default function App() {
               <Route path="/games/bingo" element={<BingoMaker />} />
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
+              <Route path="/tools/bring-list" element={<BringList />} />
+              <Route path="/bring-list" element={<BringList />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
               <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />
