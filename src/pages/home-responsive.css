@@ -1,16 +1,24 @@
 /* Homepage layout follows the four clear entry doors from the product brief. */
 .home-doors {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  direction: rtl;
+}
+
+.home-door-arrow {
+  left: auto;
+  right: 21px;
 }
 
 @media (max-width: 1100px) {
   .home-doors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    direction: rtl;
   }
 }
 
 @media (max-width: 560px) {
   .home-doors {
     grid-template-columns: 1fr;
+    direction: rtl;
   }
 }
