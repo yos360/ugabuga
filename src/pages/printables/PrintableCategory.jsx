@@ -8,6 +8,8 @@ const HEBREW_LETTERS = [
   ['chet','ח'],['tet','ט'],['yod','י'],['kaf','כ'],['lamed','ל'],['mem','מ'],['nun','נ'],
   ['samech','ס'],['ayin','ע'],['pe','פ'],['tsadi','צ'],['qof','ק'],['resh','ר'],['shin','ש'],['tav','ת'],
 ]
+const LETTER_ART = ['🍎','🏠','🐫','🚪','🌸','🌿','⭐','🧵','🍯','✋','🎨','🦁','💧','🐟','🌞','👁️','🦋','🌈','🎵','🚀','☀️','🍊']
+function HebrewLetterPreview({letter,index}) { return <div className="hebrew-letter-preview" aria-label={`אות ${letter}`}><div className="hebrew-letter-art">{LETTER_ART[index]}</div><div className="hebrew-letter-glyph">{letter}</div><div className="hebrew-dotted-line">{letter} · {letter} · {letter} · {letter}</div></div> }
 
 const svgMap = {
   'coloring': {
@@ -146,13 +148,14 @@ export default function PrintableCategory() {
             className={`wobbly group relative border-2 border-[var(--border)] bg-white p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1 cursor-pointer ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}
             onClick={() => setSelected(item)}>
             <div className={`${slug === 'board-game' ? 'aspect-[4/3]' : 'aspect-[3/4]'} bg-[var(--background)] border border-dashed border-[var(--muted)] flex items-center justify-center overflow-hidden mb-2`}>
-              <img src={'/svg/' + item.file} alt={item.name} className={`w-full h-full object-contain ${slug === 'board-game' ? 'p-0' : 'p-2'}`} loading="lazy" />
+              {slug === 'hebrew-letters' ? <HebrewLetterPreview letter={HEBREW_LETTERS[i][1]} index={i} /> : <img src={'/svg/' + item.file} alt={item.name} className={`w-full h-full object-contain ${slug === 'board-game' ? 'p-0' : 'p-2'}`} loading="lazy" />}
             </div>
             <p className="text-center font-display text-sm font-bold truncate">{item.name}</p>
           </div>
         ))}
       </div>
 
+      <style>{`.hebrew-letter-preview{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(145deg,#fff,#fff7fb);color:#172033}.hebrew-letter-art{font-size:48px;line-height:1}.hebrew-letter-glyph{font-size:78px;line-height:1;font-weight:900;color:#ec3d73;text-shadow:2px 2px 0 #ffd5e2}.hebrew-dotted-line{font-size:12px;letter-spacing:3px;color:#8790a3;border-top:2px dotted #cbd2df;padding-top:5px}`}</style>
       <div className="text-center mt-8">
         <button onClick={() => cat.files.forEach(f => printItem(f.file))}
           className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-3 font-display text-lg font-bold text-[var(--accent-foreground)] cursor-pointer">
