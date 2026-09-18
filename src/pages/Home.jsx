@@ -3,18 +3,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import './Home.css'
+import './home-responsive.css'
 
 function Art({ crop, className = '' }) {
   const [x,y,w,h] = crop
   return <span aria-hidden="true" className={`home-art ${className}`} style={{aspectRatio:`${w}/${h}`,backgroundSize:`${1536/w*100}% ${1024/h*100}%`,backgroundPosition:`${x/(1536-w)*100}% ${y/(1024-h)*100}%`}} />
 }
 const doors = [
-  ['לשחק','משחקים מוכנים\nכבר מחכים לכם','/games',[124,268,188,176],'#dffbef','#23c89f'],
-  ['ליצור משחק','הפכו רעיונות\nלמשחקים אמיתיים','/tools',[577,257,191,187],'#f3eaff','#a775ed'],
-  ['להדפיס','קבצים מוכנים\nלהדפסה ביתית','/printables',[1022,272,187,162],'#ffe7e4','#ff7d85'],
-  ['חידות וטריוויה','שאלות, אתגרים\nוידע מעולם ומלואו','/games/trivia',[126,475,188,176],'#fff6cc','#edbd15'],
-  ['חדרי בריחה','חוויית בריחה\nמוכנה להפעלה','/tools/escape-rooms',[575,484,168,165],'#dff2ff','#28a4ef'],
-  ['לכיתה','משחקים ותכנים\nלמורים ולתלמידים','/games/classroom',[1019,481,173,170],'#ddfaf3','#26c5b0'],
+  ['יום הולדת','משחקים, רעיונות וכלים\nשיעזרו לכם להרים חגיגה.','/games/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b'],
+  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f'],
+  ['יוצרים','צרו משחקים, פעילויות\nודברים אישיים משלכם.','/tools',[1022,272,187,162],'#f3eaff','#a775ed'],
+  ['לכיתה','משחקים וכלים למורים,\nמדריכים וצהרונים.','/games/classroom',[1019,481,173,170],'#dff2ff','#28a4ef'],
 ]
 const games = [
   ['תחנת החלל התקועה','חדר בריחה לנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
@@ -28,7 +27,7 @@ export default function Home() {
   const list = useRef(null)
   const navigate = useNavigate()
   return <><SEO path="/" /><div className="home-v2">
-    <section className="home-intro"><h1>מה בא לכם לעשות ביום הולדת?</h1><p>משחקים, יצירה, רעיונות וחוויות שיהפכו כל יום הולדת לחגיגה בלתי נשכחת.</p></section>
+    <section className="home-intro"><h1>מה משחקים היום?</h1><p>משחקים, פעילויות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד.</p></section>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color])=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} className="home-door-art"/><span className="home-door-arrow"><ChevronRight aria-hidden="true"/></span></Link>)}</section>
     <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();navigate('/games'+(query.trim()?'?q='+encodeURIComponent(query.trim()):''))}}><button aria-label="חיפוש משחקים"><Search size={29}/></button><input aria-label="חפשו משחק עכשיו" placeholder="חפשו משחק עכשיו" type="search" value={query} onChange={e=>setQuery(e.target.value)}/></form>
     <section className="home-featured"><h2>מתחילים לשחק</h2><div className="home-carousel-wrap"><button className="home-scroll home-scroll-left" aria-label="גלילה שמאלה" onClick={()=>list.current.scrollBy({left:-270,behavior:'smooth'})}><ChevronLeft/></button><div ref={list} className="home-games">{games.map(([title,description,to,crop])=><Link to={to} className="home-game" key={to}><Art crop={crop}/><h3>{title}</h3><p>{description}</p></Link>)}</div><button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button></div></section>

@@ -34,7 +34,9 @@ export default function BringList() {
     const row = Array.isArray(data) ? data[0] : data
     if (error || !row?.share_code) { setShareUrl(`${location.origin}/tools/bring-list?list=${encodeURIComponent(enc({ title, items }))}&view=1`); return }
     const url = `${location.origin}/tools/bring-list?code=${encodeURIComponent(row.share_code)}&view=1`
-    setShareUrl(url); setParams({ code: row.share_code, view: '1' })
+    // Keep the creator in edit mode. The read-only URL is only for people who
+    // receive the copied link, not for the creator's current tab.
+    setShareUrl(url); setParams({ code: row.share_code })
     try { await navigator.clipboard.writeText(url) } catch { /* visible fallback */ }
     setCopied(true); setTimeout(() => setCopied(false), 2500)
   }
