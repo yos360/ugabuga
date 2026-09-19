@@ -12,9 +12,9 @@ const PACKS = [
 function parts(text){const i=text.indexOf(' ');return i>0?[text.slice(0,i),text.slice(i+1)]:['✨',text]}
 
 export default function PhotoProps(){
-  const [id,setId]=useState('birthday'),[eventName,setEventName]=useState('')
+  const [id,setId]=useState('birthday'),[eventName,setEventName]=useState(''),[printMode,setPrintMode]=useState('color')
   const pack=useMemo(()=>PACKS.find(x=>x[0]===id),[id]); const [,,title,color,props]=pack
-  return <div className="mx-auto max-w-7xl px-4 py-8 buga-fade-in">
+  return <div className={`mx-auto max-w-7xl px-4 py-8 buga-fade-in ${printMode==='bw'?'photo-print-bw':''}`}><div className="no-print mx-auto mb-4 flex max-w-xl justify-center gap-2"><b>הדפסה:</b><button onClick={()=>setPrintMode('color')} className="rounded-xl border-2 bg-pink-100 px-4 py-2">🌈 צבעוני</button><button onClick={()=>setPrintMode('bw')} className="rounded-xl border-2 bg-slate-200 px-4 py-2">⚫ שחור־לבן</button></div>
     <SEO title="אביזרי צילום להדפסה" description="חבילות גדולות של אביזרי צילום ליום הולדת, כיתה, חלל, חד-קרן ומסיבה — להדפסה חינם." path="/printables/photo-props"/>
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'אביזרי צילום'}]}/>
     <header className="text-center no-print"><h1 className="text-4xl sm:text-5xl">📸 אביזרי צילום גדולים להדפסה</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">בחרו חבילה, כתבו שם לאירוע אם רוצים, הדפיסו — וגזרו. בכל חבילה יש 12 אביזרים גדולים וברורים.</p></header>
