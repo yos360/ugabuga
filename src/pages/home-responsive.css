@@ -68,8 +68,9 @@
     z-index: 2;
   }
 
-  .home-door-copy h2 { font-size: 25px; line-height: 1.1; margin-bottom: 8px; }
-  .home-door-copy p { font-size: 14px; line-height: 1.35; max-height: 58px; overflow: hidden; }
+  .home-door { height: auto; min-height: 190px; }
+  .home-door-copy h2 { font-size: 25px; line-height: 1.1; margin-bottom: 8px; white-space: normal; }
+  .home-door-copy p { font-size: 14px; line-height: 1.35; max-height: none; overflow: visible; }
   .home-door-art { width: 39% !important; max-width: 39% !important; opacity: .98; }
   .home-door-arrow { left: 10px; bottom: 10px; width: 38px; height: 38px; }
 }
