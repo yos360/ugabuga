@@ -46,6 +46,7 @@ const CrosswordMaker = lazy(() => import('./pages/tools/CrosswordMakerNew'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
 const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
 const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
+const ClassOnePrep = lazy(() => import('./pages/ClassOnePrep'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
@@ -82,6 +83,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
+              <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/create" element={<HubPage type="create" />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<GamesIndex />} />
