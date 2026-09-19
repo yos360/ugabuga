@@ -121,6 +121,37 @@ export default function PrintableCategory() {
     if (w) w.onload = () => w.print()
   }
 
+  const printAll = () => {
+    const w = window.open('', '_blank')
+    if (!w) return
+    const pages = cat.files.map((item, index) => `
+      <section class="print-page">
+        <div class="print-page-inner">
+          <div class="print-kicker">עוגה בוגה · דפים להדפסה</div>
+          <h1>${item.name}</h1>
+          <img src="/svg/${item.file}" alt="${item.name}" />
+          <div class="print-footer">ugabuga.co.il</div>
+        </div>
+      </section>
+    `).join('')
+    w.document.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>${cat.title}</title>
+      <style>
+        @page { size: A4 portrait; margin: 0; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; background: #fff; color: #11182d; font-family: Arial, sans-serif; }
+        .print-page { width: 210mm; height: 297mm; page-break-after: always; break-after: page; overflow: hidden; background: #fff; }
+        .print-page:last-child { page-break-after: auto; break-after: auto; }
+        .print-page-inner { width: 100%; height: 100%; padding: 12mm 12mm 10mm; display: flex; flex-direction: column; align-items: center; }
+        .print-kicker { font-size: 10pt; color: #65708a; margin-bottom: 3mm; }
+        h1 { margin: 0 0 5mm; font-size: 22pt; text-align: center; }
+        img { display: block; width: 100%; height: 255mm; object-fit: contain; }
+        .print-footer { margin-top: auto; font-size: 9pt; color: #65708a; }
+        @media screen { body { background: #666; } .print-page { margin: 12px auto; box-shadow: 0 0 12px #222; } }
+      </style></head><body>${pages}</body></html>`)
+    w.document.close()
+    w.onload = () => { setTimeout(() => w.print(), 250) }
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title={cat.title + ' להדפסה'} description={cat.desc} path={'/printables/' + slug} />
@@ -159,7 +190,7 @@ export default function PrintableCategory() {
 
       <style>{`.hebrew-letter-preview{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(145deg,#fff,#fff7fb);color:#172033}.hebrew-letter-art{font-size:48px;line-height:1}.hebrew-letter-glyph{font-size:78px;line-height:1;font-weight:900;color:#ec3d73;text-shadow:2px 2px 0 #ffd5e2}.hebrew-dotted-line{font-size:12px;letter-spacing:3px;color:#8790a3;border-top:2px dotted #cbd2df;padding-top:5px}`}</style>
       <div className="text-center mt-8">
-        <button onClick={() => cat.files.forEach(f => printItem(f.file))}
+        <button onClick={printAll}
           className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-3 font-display text-lg font-bold text-[var(--accent-foreground)] cursor-pointer">
           🖨️ הדפיסו הכל ({cat.files.length} דפים)
         </button>
