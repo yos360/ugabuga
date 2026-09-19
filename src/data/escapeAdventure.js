@@ -21,7 +21,24 @@ export function buildEscapeAdventure(room, levelId, seed = 0) {
     puzzle('השעון ההפוך', `השעון מראה ${n+2}:00. צריך להזיז אותו ${rank+2} שעות קדימה, ואז שעה אחת אחורה. משתמשים בשעון של 12 שעות.`, 'איזו שעה תופיע? כתבו את מספר השעה בלבד.', n+rank+3, 'מתקדמים לפי ההוראות לפי הסדר, ואז חוזרים שעה אחת.', `🕒 ${n+2}:00 → +${rank+2} → −1`),
     puzzle('חותמת המעבר', `על החותמת המספר ${n+3}. מכפילים אותו ב־3, מוסיפים 6 ומחלקים את התוצאה ב־3. זה קוד המעבר אל הרמז האחרון בסיפור.`, 'מה קוד המעבר?', n+5, 'בצעו את הפעולות משמאל לימין. החילוק מתבצע על כל הסכום.', `(${n+3} × 3 + 6) ÷ 3 = ?`),
   ]
+  // The original room clues are kept as the story opening, but every level
+  // now gets a different ordering and wording for the added locks. This makes
+  // switching difficulty visibly change the actual questions, not only the
+  // number of steps.
+  const difficultyNames = ['מסלול חימום', 'מסלול פענוח', 'מסלול מומחים']
+  const rotate = (items, amount) => items.map((_, index) => items[(index + amount) % items.length])
+  const levelAdditions = rotate(additions, (rank * 2 + Math.abs(seed)) % additions.length)
+    .map((item, index) => ({
+      ...item,
+      title: `${difficultyNames[rank]} · ${item.title}`,
+      question: rank === 0
+        ? `${item.question} אפשר להיעזר ברמז.`
+        : rank === 1
+          ? `${item.question} איזה שלב בחישוב עשיתם קודם?`
+          : `${item.question} הסבירו לעצמכם את ההיגיון לפני הזנת הקוד.`,
+      order: index,
+    }))
   const originals = room.steps
   const extraCount = Math.max(0,level.count-originals.length)
-  return {...room, difficulty:level.label, duration:rank===0?'15–25 דקות':rank===1?'25–35 דקות':'35–45 דקות', intro:room.intro.replace(/שלושה רמזים/g,'את רמזי הסיפור ומנעולי המסדרון'), steps:[...originals.slice(0,-1),...additions.slice(0,extraCount),originals.at(-1)]}
+  return {...room, difficulty:level.label, duration:rank===0?'15–25 דקות':rank===1?'25–35 דקות':'35–45 דקות', intro:room.intro.replace(/שלושה רמזים/g,'את רמזי הסיפור ומנעולי המסדרון'), steps:[...originals.slice(0,-1),...levelAdditions.slice(0,extraCount),originals.at(-1)]}
 }
