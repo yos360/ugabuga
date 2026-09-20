@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
+import PrintPreview from '../../components/ui/PrintPreview'
 
 const PACKS = {
   intro: { label: '🤝 היכרות', desc: 'מסתובבים בחדר ומוצאים אנשים שמתאימים למשבצות.', items: ['מישהו שיש לו אח','מישהו שאוהב פיצה','מישהו שנולד בקיץ','מישהו שיודע לשרוק','מישהו שביקר באילת','מישהו שיודע לבשל','מישהו שאוהב מתמטיקה','מישהו שקרא ספר החודש','מישהו שיודע לרקוד','מישהו שאוהב שוקולד מריר','מישהו שיודע לגלוש','מישהו שהולך עם גרביים שונות','מישהו שיודע להגיד שלום ב-3 שפות','מישהו שאוהב לקום מוקדם','מישהו שיודע לשחק שחמט','מישהו שאוהב גשם','מישהו שנסע לחו"ל','מישהו שיודע לצייר','מישהו שאוהב כלבים','מישהו שיש לו תחביב מוזר','מישהו שאוהב ים','מישהו שיודע לעשות קסם קטן','מישהו שיש לו שם שמתחיל באות מ׳','מישהו שאוהב לקרוא'] },
@@ -15,8 +16,10 @@ const PACKS = {
 
 function generateCard(items, size) {
   const need = size * size
-  const pool = [...items].sort(() => Math.random() - 0.5)
-  return pool.length >= need ? pool.slice(0, need) : Array.from({ length: need }, (_, i) => pool[i % pool.length])
+  const pool = [...new Set(items)]
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  if(size===5&&pool.length===24){const result=pool.slice();result.splice(12,0,'משבצת חופשית ★');return result}
+  return pool.slice(0,need)
 }
 
 function BingoCard({ card, size, title, index }) {
@@ -37,6 +40,7 @@ export default function BingoMaker() {
   const [freeText, setFreeText] = useState('')
   const [title, setTitle] = useState('')
   const [cards, setCards] = useState(null)
+  const [printing, setPrinting] = useState(false)
 
   const currentPack = PACKS[mode] || PACKS.intro
   const needed = size * size
@@ -111,7 +115,8 @@ export default function BingoMaker() {
         </div>
       )}
 
-      {cards && <div className="text-center mt-6"><button onClick={() => window.print()} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
+      {cards && <div className="text-center mt-6"><button onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
+      {printing&&cards&&<PrintPreview title={title||'כרטיסי בינגו'} onClose={()=>setPrinting(false)}>{cards.map((card,i)=><article className="buga-a4" key={i}><h2>{title||'בינגו'} · כרטיס {i+1}</h2><p>סמנו שורה, טור או אלכסון</p><div style={{display:'grid',gridTemplateColumns:`repeat(${size},minmax(0,1fr))`,width:'100%',marginTop:24}}>{card.map((item,j)=><div key={j} style={{aspectRatio:'1',border:'1px solid #222',padding:5,display:'grid',placeItems:'center',textAlign:'center',overflowWrap:'anywhere',fontSize:14}}>{item}</div>)}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}</PrintPreview>}
 
       <section className="mt-8 grid gap-4 lg:grid-cols-3">
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">

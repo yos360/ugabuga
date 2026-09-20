@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintPreview from '../../components/ui/PrintPreview'
 
 const PACKS = {
   home: ['משהו אדום','משהו רך','משהו עגול','ספר','כפית','גרב','משהו שמתחיל באות מ','דבר שאתה אוהב'],
@@ -12,6 +13,7 @@ export default function ScavengerHuntMaker() {
   const [title, setTitle] = useState('')
   const [items, setItems] = useState(Array(10).fill(''))
   const [list, setList] = useState(null)
+  const [printing, setPrinting] = useState(false)
 
   const update = (i,v) => setItems(x => x.map((y,j)=>j===i?v:y))
   const addField = () => setItems(x => [...x,''])
@@ -40,7 +42,7 @@ export default function ScavengerHuntMaker() {
       )}
 
       <div className="text-center mb-6">
-        <button onClick={generate} className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer px-8">צרו רשימה!</button>
+        <button disabled={mode==='custom'&&validItems.length===0} onClick={generate} className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer px-8 disabled:opacity-50">צרו רשימה!</button>
       </div>
 
       {list && (
@@ -53,7 +55,8 @@ export default function ScavengerHuntMaker() {
           ))}
         </div>
       )}
-      {list && <div className="text-center mt-4"><button onClick={()=>window.print()} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
+      {list && <div className="text-center mt-4"><button onClick={()=>setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
+      {printing&&list&&<PrintPreview title="ציד אוצרות" onClose={()=>setPrinting(false)}><article className="buga-flow"><h2 className="text-center text-3xl">{title||'ציד האוצרות שלי'}</h2><p className="my-4">שם: ____________________</p><p>מחפשים בהשגחת מבוגר, בלי לקטוף צמחים או לפגוע בבעלי חיים.</p>{list.map((item,i)=><p key={i} style={{padding:'12px 0',borderBottom:'1px solid #aaa',whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>□ {i+1}. {item}</p>)}<footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
     </div>
   )
 }

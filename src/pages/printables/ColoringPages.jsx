@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintPreview from '../../components/ui/PrintPreview'
 
 const PAGES = [
   ['birthday','עוגת יום הולדת','cake'],['birthday','מסיבת בלונים','balloons'],['birthday','כתר ומתנות','crown'],['birthday','קאפקייקים שמחים','cupcake'],['birthday','מסיבת קונפטי','party'],
@@ -63,15 +64,15 @@ export default function ColoringPages() {
   const [category, setCategory] = useState('all')
   const [selected, setSelected] = useState(null)
   const pages = useMemo(() => category === 'all' ? PAGES : PAGES.filter(([cat]) => cat === category), [category])
-  const print = (page) => { setSelected(page); window.setTimeout(() => window.print(), 50) }
+  const print = (page) => setSelected(page)
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title="דפי צביעה להדפסה בחינם — 30 דפים" description="30 דפי צביעה מקוריים לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" />
+    <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" />
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'דפי צביעה'}]} />
-    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">30 דפי צביעה חדשים</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p></header>
+    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p></header>
     <div className="no-print my-7 flex flex-wrap justify-center gap-2">{Object.entries(CATEGORY).map(([id,label]) => <button key={id} onClick={() => setCategory(id)} className={`rounded-2xl border-2 px-4 py-2 font-bold ${category===id?'border-pink-500 bg-pink-100':'border-slate-300 bg-white'}`}>{label} <span className="text-xs text-slate-500">({id==='all'?PAGES.length:PAGES.filter(([cat])=>cat===id).length})</span></button>)}</div>
-    {selected && <section className="print-only-sheet"><h2>{selected[1]}</h2><LineArt kind={selected[2]} /></section>}
+    {selected && <PrintPreview title={selected[1]} onClose={()=>setSelected(null)}><article className="buga-a4"><h2>{selected[1]}</h2><div className="print-art"><LineArt kind={selected[2]} /></div><footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
     <section className="no-print grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">{pages.map((page,index) => <article key={page[1]} className="group rounded-3xl border-2 border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"><button className="block w-full text-right" onClick={() => setSelected(page)}><div className="aspect-[4/3] overflow-hidden rounded-2xl border bg-slate-50"><LineArt kind={page[2]} /></div><h2 className="mt-3 truncate text-center text-lg font-bold">{page[1]}</h2><p className="mt-1 text-center text-sm text-slate-500">{CATEGORY[page[0]]}</p></button><button onClick={() => print(page)} className="mt-3 w-full rounded-xl bg-pink-500 px-3 py-2 font-bold text-white">🖨️ הדפסה</button></article>)}</section>
     <section className="no-print mt-10 rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50 p-6 text-center"><h2 className="text-2xl font-bold">רוצים עמוד חדש?</h2><p className="mt-2 text-slate-600">כל קטגוריה כוללת כמה דפים שונים — בחרו נושא אחר כדי לראות עוד.</p></section>
-    <style>{`@media print{body *{visibility:hidden}.print-only-sheet,.print-only-sheet *{visibility:visible}.print-only-sheet{position:absolute;inset:0;background:#fff;padding:16mm}.print-only-sheet h2{text-align:center;font-size:24pt;margin:0 0 8mm}.print-only-sheet svg,.print-only-sheet img{height:245mm;width:100%;object-fit:contain}.no-print{display:none!important}}@media screen{.print-only-sheet{display:none}}`}</style>
+
   </div>
 }

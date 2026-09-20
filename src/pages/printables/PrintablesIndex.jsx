@@ -6,7 +6,7 @@ const categories = [
   { slug: 'roots-project', emoji: '🌳', title: 'עבודת שורשים', count: 'חדש', desc: 'עץ משפחה, שאלות ראיון ודפי כתיבה להדפסה', special: true },
   { slug: 'birthday-newspaper', emoji: '📰', title: 'עיתון יום הולדת', count: 'חדש', desc: 'עיתון אישי עם כותרות, עובדות, ברכות וחידון', special: true },
   { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
-  { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 30, desc: '30 דפי צביעה גדולים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט' },
+  { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 'מבחר', desc: 'דפי צביעה לפי נושא, עם פתיחה בתצוגה מקדימה והדפסה' },
   { slug: 'birthday-signs', emoji: '🎂', title: 'שלטי יום הולדת', count: 8, desc: 'שלטים גדולים להדפסה — פה העוגה, פה המתנות, ברוכים הבאים' },
   { slug: 'hebrew-letters', emoji: '✏️', title: 'אותיות עברית בנקודות', count: 22, desc: 'א-ת בנקודות לחיבור — עם איורים ושורות תרגול' },
   { slug: 'abc-letters', emoji: '🔤', title: 'ABC אנגלית בנקודות', count: 26, desc: 'A-Z בנקודות — אותיות גדולות וקטנות עם איורים' },
@@ -20,7 +20,7 @@ const categories = [
   { slug: 'board-game', emoji: '🎲', title: 'סולמות ונחשים', count: 1, desc: 'לוח משחק מלא להדפסה בסגנון UGABUGA' },
   { slug: 'sudoku', emoji: '🧩', title: 'סודוקו', count: 2, desc: 'סודוקו לילדים — 4×4 ו-6×6 עם פתרונות' },
   { slug: 'dot-to-dot', emoji: '🔢', title: 'חברו את הנקודות', count: 'חדש', desc: 'מגלים ציור לפי מספרים, בשלוש רמות גיל', generated: true },
-  { slug: 'mandalas', emoji: '🌈', title: 'מנדלות ויצירה', count: '6 סגנונות', desc: 'מנדלות רגילות, קליידוסקופ, זנטנגל, שם אישי ופיקסלים', generated: true },
+  { slug: 'mandalas', emoji: '🌈', title: 'מנדלות ויצירה', count: 70, desc: '7 סגנונות, 10 דפים בכל סגנון — כולל מנדלות לילדים ולגדולים', generated: true },
   { slug: 'find-differences', emoji: '🔎', title: 'מצא את ההבדלים', count: 'חדש', desc: 'דפי חיפוש והבדלים לפי נושא וגיל', generated: true },
   { slug: 'color-by-number', emoji: '🎨', title: 'צבעו לפי מספר', count: 'חדש', desc: 'מספרים, צבעים וציור — בדף אחד', generated: true },
   { slug: 'word-tracing', emoji: '✏️', title: 'מילים מקווקוות', count: 'חדש', desc: 'תרגול כתיבה בעברית לפי נושא', generated: true },
@@ -50,7 +50,7 @@ export default function PrintablesIndex() {
               <span className="text-3xl">{cat.emoji}</span>
               <div>
                 <h3 className="font-display text-xl font-bold">{cat.title}</h3>
-                <span className="wobbly-sm inline-flex items-center border border-[var(--border)] bg-[var(--postit)] px-2 py-0.5 text-xs font-bold">{cat.count} דפים</span>
+                <span className="wobbly-sm inline-flex items-center border border-[var(--border)] bg-[var(--postit)] px-2 py-0.5 text-xs font-bold">{cat.count}{typeof cat.count==='number'?' דפים':''}</span>
               </div>
             </div>
             <p className="text-sm text-[var(--muted-foreground)] flex-1">{cat.desc}</p>

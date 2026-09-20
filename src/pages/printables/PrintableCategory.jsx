@@ -1,7 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintPreview from '../../components/ui/PrintPreview'
 import { useEffect, useState } from 'react'
+import HebrewTracing from '../../components/ui/HebrewTracing'
 
 const HEBREW_LETTERS = [
   ['alef','א'],['bet','ב'],['gimel','ג'],['dalet','ד'],['he','ה'],['vav','ו'],['zayin','ז'],
@@ -33,7 +35,7 @@ const svgMap = {
   },
   'hebrew-letters': {
     title: 'אותיות עברית בנקודות',
-    desc: 'כל האותיות א-ת בנקודות לחיבור — עם איורים ושורות תרגול.',
+    desc: 'כל האותיות א–ת בשחור־לבן, בנקודות או בקווים מקווקווים למעבר בעיפרון, עם שורות לתרגול עצמאי.',
     files: HEBREW_LETTERS.map(([en,he],i) => ({ name: 'אות '+he, file: `letter-he-${String(i+1).padStart(2,'0')}-${en}.svg` }))
   },
   'abc-letters': {
@@ -116,41 +118,9 @@ export default function PrintableCategory() {
     )
   }
 
-  const printItem = (file) => {
-    const w = window.open('/svg/' + file, '_blank')
-    if (w) w.onload = () => w.print()
-  }
+  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'הדפסות',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
 
-  const printAll = () => {
-    const w = window.open('', '_blank')
-    if (!w) return
-    const pages = cat.files.map((item, index) => `
-      <section class="print-page">
-        <div class="print-page-inner">
-          <div class="print-kicker">עוגה בוגה · דפים להדפסה</div>
-          <h1>${item.name}</h1>
-          <img src="/svg/${item.file}" alt="${item.name}" />
-          <div class="print-footer">ugabuga.co.il</div>
-        </div>
-      </section>
-    `).join('')
-    w.document.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>${cat.title}</title>
-      <style>
-        @page { size: A4 portrait; margin: 0; }
-        * { box-sizing: border-box; }
-        html, body { margin: 0; padding: 0; background: #fff; color: #11182d; font-family: Arial, sans-serif; }
-        .print-page { width: 210mm; height: 297mm; page-break-after: always; break-after: page; overflow: hidden; background: #fff; }
-        .print-page:last-child { page-break-after: auto; break-after: auto; }
-        .print-page-inner { width: 100%; height: 100%; padding: 12mm 12mm 10mm; display: flex; flex-direction: column; align-items: center; }
-        .print-kicker { font-size: 10pt; color: #65708a; margin-bottom: 3mm; }
-        h1 { margin: 0 0 5mm; font-size: 22pt; text-align: center; }
-        img { display: block; width: 100%; height: 255mm; object-fit: contain; }
-        .print-footer { margin-top: auto; font-size: 9pt; color: #65708a; }
-        @media screen { body { background: #666; } .print-page { margin: 12px auto; box-shadow: 0 0 12px #222; } }
-      </style></head><body>${pages}</body></html>`)
-    w.document.close()
-    w.onload = () => { setTimeout(() => w.print(), 250) }
-  }
+  const printAll = () => setSelected(cat.files)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
@@ -159,32 +129,18 @@ export default function PrintableCategory() {
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{cat.title}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{cat.desc}</p>
 
-      {selected && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setSelected(null)}>
-          <div className="bg-white wobbly p-4 max-w-3xl w-full max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-4 gap-3">
-              <h3 className="font-display text-xl font-bold">{selected.name}</h3>
-              <div className="flex gap-2">
-                <button onClick={() => setSelected(null)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-2 font-bold cursor-pointer">← חזרה לדפים</button>
-                <button onClick={() => printItem(selected.file)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] text-white px-4 py-2 font-bold cursor-pointer">🖨️ הדפיסו</button>
-                <button onClick={() => setSelected(null)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold cursor-pointer">✕</button>
-              </div>
-            </div>
-            <img src={'/svg/' + selected.file} alt={selected.name} className="w-full" />
-          </div>
-        </div>
-      )}
+      {selected && <PrintPreview title={Array.isArray(selected)?cat.title:selected.name} onClose={()=>setSelected(null)}>{(Array.isArray(selected)?selected:[selected]).map(item=><article className="buga-a4" key={item.file}><div className="print-art"><img src={'/svg/'+item.file} alt={item.name}/></div></article>)}</PrintPreview>}
 
       <div className={`grid gap-5 grid-cols-2 sm:grid-cols-3 ${slug === 'board-game' ? 'lg:grid-cols-2 max-w-5xl mx-auto' : 'lg:grid-cols-4'}`}>
         {cat.files.map((item, i) => (
-          <div key={item.file}
+          <button type="button" aria-label={`פתחו והדפיסו: ${item.name}`} key={item.file}
             className={`wobbly group relative border-2 border-[var(--border)] bg-white p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1 cursor-pointer ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}
             onClick={() => setSelected(item)}>
             <div className={`${slug === 'board-game' ? 'aspect-[4/3]' : 'aspect-[3/4]'} bg-[var(--background)] border border-dashed border-[var(--muted)] flex items-center justify-center overflow-hidden mb-2`}>
               {slug === 'hebrew-letters' ? <HebrewLetterPreview letter={HEBREW_LETTERS[i][1]} index={i} /> : <img src={'/svg/' + item.file} alt={item.name} className={`w-full h-full object-contain ${slug === 'board-game' ? 'p-0' : 'p-2'}`} loading="lazy" />}
             </div>
             <p className="text-center font-display text-sm font-bold truncate">{item.name}</p>
-          </div>
+          </button>
         ))}
       </div>
 

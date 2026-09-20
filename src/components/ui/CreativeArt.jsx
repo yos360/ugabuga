@@ -1,0 +1,26 @@
+import { useId } from 'react'
+
+const PIXELS=[['00000000','01100110','12211221','12222221','01222210','00122100','00011000','00000000'],['00011000','00122100','01233210','12322321','00122100','01233210','00044000','00044000'],['00011000','00122100','01233210','01233210','01222210','11222211','10444401','00400400'],['11000011','12100121','12211221','12322321','12222221','01244210','00122100','00011000'],['00011000','00122100','01222210','12222221','13333331','13344331','13344331','11111111'],['00122100','01233210','12344321','01233210','00122100','00055000','00555000','00055000'],['11000011','12200122','12311321','12355321','01255210','12355321','12211221','11000011'],['00000000','00111001','01222112','12322322','12222222','01222112','00111001','00000000'],['00011000','00022000','11222211','12222221','01222210','01233210','12200221','11000011'],['11111111','12222221','12222221','01222210','00122100','00044000','00144100','01111110']]
+const COLORS=['#fff','#28354d','#f5c14b','#5dc2d6','#ed7c97','#84bb76']
+const SHAPES=[
+  <><path d="M300 160C190 35 80 115 180 260C90 335 160 440 300 350M300 160V390M275 140L245 105"/><path d="M280 195C220 145 175 170 218 228C165 285 225 327 280 300"/></>,
+  <><path d="M300 90L100 260H150V430H300M170 260H300M245 430V330H300"/><rect x="180" y="295" width="45" height="50"/></>,
+  <><path d="M300 60L185 185H240L125 310H225L135 395H275V450H300"/><path d="M300 160L250 225M300 270L245 335"/></>,
+  <><path d="M300 135C235 30 135 110 220 190C100 160 85 290 215 290C120 385 245 435 300 320M300 320V465M300 415Q175 345 175 415Q225 455 300 440"/><path d="M300 195A60 60 0 0 0 300 315"/></>,
+  <><path d="M300 75Q175 190 220 340H300M220 275L150 390L230 370M245 340L225 445L280 410L300 460"/><path d="M300 170A45 45 0 0 0 300 260"/></>,
+  <><path d="M300 440C250 390 100 260 145 160C175 85 260 110 300 175"/><path d="M300 350C235 295 170 235 205 185Q240 155 280 205"/></>,
+  <><path d="M300 80V115H195V255H300M215 255V415H300M215 295H145V380H175V320H215M245 415V460H300"/><rect x="220" y="145" width="40" height="40"/><path d="M235 220H300M250 285H300M245 350H300"/></>,
+  <><path d="M300 110L250 260L125 170L170 395H300M170 350H300"/><circle cx="180" cy="225" r="15"/><circle cx="230" cy="315" r="14"/></>,
+  <><path d="M300 100C120 100 120 400 300 430M300 100V430M300 100Q225 35 215 95M205 165L150 130M180 260L115 260M215 365L145 405"/><circle cx="235" cy="200" r="25"/><circle cx="215" cy="300" r="23"/><circle cx="260" cy="375" r="17"/></>,
+  <><path d="M300 90H235Q270 170 180 260Q125 380 245 430H300M220 180H300M175 285H300M190 365H300"/><path d="M210 310L245 335L280 310"/></>
+]
+export default function CreativeArt({page,name='',reference=false}){
+  const clip=useId().replace(/:/g,'')
+  if(page.src)return <img src={page.src} alt={page.title} loading={reference?'lazy':'eager'}/>
+  if(page.category==='pixel'){
+    const data=PIXELS[page.variant];return <svg viewBox="0 0 600 720" role="img" aria-label={page.title}><rect width="600" height="720" fill="white"/>{data.flatMap((row,r)=>[...row].map((v,c)=><g key={`${r}-${c}`}><rect x={60+c*60} y={60+r*60} width="60" height="60" fill={reference?COLORS[+v]:'white'} stroke="#555" strokeWidth="1"/>{!reference&&v!=='0'&&<text x={90+c*60} y={96+r*60} textAnchor="middle" fontSize="18" fill="#555">{v}</text>}</g>))}{COLORS.slice(1).map((color,i)=><g key={color}><rect x={60+i*95} y="590" width="45" height="45" fill={color} stroke="#222"/><text x={82+i*95} y="670" textAnchor="middle" fontSize="22">{i+1}</text></g>)}</svg>
+  }
+  if(page.category==='symmetry')return <svg viewBox="0 0 600 540" role="img" aria-label={page.title}><rect width="600" height="540" fill="white"/><defs><clipPath id={clip}><rect width="300" height="540"/></clipPath></defs><g fill="none" stroke="#1c2433" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clip})`}>{SHAPES[page.variant]}</g><path d="M300 25V510" stroke="#777" strokeWidth="2" strokeDasharray="7 8"/>{[100,200,400,500].map(x=><path key={x} d={`M${x} 35V500`} stroke="#ddd" strokeDasharray="3 8"/>)}</svg>
+  const v=page.variant,n=[5,6,8,10,12,7,9,16,6,8][v],isName=page.category==='name',inner=isName?110:25
+  return <svg viewBox="0 0 600 600" role="img" aria-label={page.title}><rect width="600" height="600" fill="white"/><g transform="translate(300 300)" stroke="#202020" strokeWidth="2" fill="white">{Array.from({length:n},(_,i)=><g key={i} transform={`rotate(${i*360/n})`}>{[0,1,2].map(layer=><g key={layer} transform={`rotate(${layer*(v%2?180/n:0)})`}><path d={v%3===0?`M0 ${-inner-layer*40}Q${35+layer*10} ${-150-layer*40} 0 ${-190-layer*40}Q${-35-layer*10} ${-150-layer*40} 0 ${-inner-layer*40}Z`:v%3===1?`M0 ${-inner-layer*35}L${30+layer*10} ${-160-layer*40}L0 ${-190-layer*40}L${-30-layer*10} ${-160-layer*40}Z`:`M-20 ${-inner-layer*35}Q-75 ${-190-layer*30} 0 ${-195-layer*35}Q75 ${-190-layer*30} 20 ${-inner-layer*35}Z`}/></g>)}<circle cy="-270" r={v%2?7:4}/></g>)}<circle r={inner} fill="white"/>{!isName&&<circle r="12"/>}</g>{isName&&<text x="300" y="310" textAnchor="middle" direction="rtl" fontFamily="Arial, sans-serif" fontWeight="bold" fontSize={Math.min(40,155/Math.max(name.length,1)*1.5)} fill="#111">{name||'השם שלי'}</text>}</svg>
+}
