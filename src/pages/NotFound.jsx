@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import WobblyCard from '../components/ui/WobblyCard'
 import WobblyButton from '../components/ui/WobblyButton'
+import SEO from '../components/ui/SEO'
 
 const QUICK_LINKS = [
   { to: '/tools', label: '🛠️ כל הכלים' },
@@ -16,6 +17,7 @@ const QUICK_LINKS = [
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 text-center">
+      <SEO title="הדף לא נמצא" description="העמוד שחיפשתם לא נמצא. חזרו למשחקים, לפעילויות ולדפי ההדפסה של עוגה בוגה." noindex />
       <WobblyCard hover={false} padding="p-8">
         <div className="text-6xl font-hand font-bold mb-3">404</div>
         <h1 className="text-3xl sm:text-4xl mb-3">הדף הזה עבר מקום</h1>
