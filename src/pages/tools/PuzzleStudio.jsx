@@ -9,9 +9,12 @@ import './PuzzleStudio.css'
 const TYPES=[['crossword','תשבץ','מילים מצטלבות','🧩'],['search','תפזורת','מחפשים מילים','🔎'],['sudoku','סודוקו','חושבים במספרים','🔢'],['fill','השלמת משפטים','מוצאים את המילה','✍️'],['numbers','ריבועי חשבון','משלימים סכומים','➕']]
 const DIRECTIONS={across:'מאוזן',down:'מאונך'}
 const customDefault=PACKS.nature.words.map(([w,c])=>`${w} | ${c}`).join('\n')
+// Each browser visit starts with a different puzzle. The explicit "new puzzle"
+// button advances the same seed, so it also cannot repeat the initial board.
+const freshSeed=()=>Math.floor(Math.random()*2147483647)
 
 export default function PuzzleStudio(){
-  const [type,setType]=useState('crossword'),[pack,setPack]=useState('nature'),[seed,setSeed]=useState(1),[level,setLevel]=useState('easy')
+  const [type,setType]=useState('crossword'),[pack,setPack]=useState('nature'),[seed,setSeed]=useState(freshSeed),[level,setLevel]=useState('easy')
   const [editing,setEditing]=useState(false),[draft,setDraft]=useState(customDefault),[custom,setCustom]=useState(null),[error,setError]=useState('')
   const entries=custom||PACKS[pack].words
   function changeType(id){setType(id);setEditing(false);setError('');setCustom(null)}
@@ -32,7 +35,7 @@ export default function PuzzleStudio(){
     <div className="puzzle-controls no-print">
       {['crossword','search'].includes(type)&&<label>נושא<select value={custom?'custom':pack} onChange={e=>{setPack(e.target.value);setCustom(null)}}>{Object.entries(PACKS).map(([id,p])=><option key={id} value={id}>{p.icon} {p.label}</option>)}{custom&&<option value="custom">החידה שלי</option>}</select></label>}
       {['sudoku','search'].includes(type)&&<label>{type==='sudoku'?'גודל הלוח':'כיווני החיפוש'}<select value={level} onChange={e=>setLevel(e.target.value)}><option value="easy">{type==='sudoku'?'4 × 4 · מתחילים':'מאוזן ומאונך'}</option><option value="hard">{type==='sudoku'?'9 × 9 · רגיל':'גם באלכסון'}</option></select></label>}
-      <button onClick={()=>setSeed(s=>s+1)}>↻ חידה חדשה</button>
+      <button className="puzzle-new-button" onClick={()=>setSeed(s=>s+1)} title="החליפו לשאלות ולתשובות חדשות">↻ חידה חדשה</button>
       {['crossword','search','fill'].includes(type)&&<button aria-expanded={editing} onClick={()=>{setDraft(type==='fill'?SENTENCES.map(([s,a])=>`${s} | ${a}`).join('\n'):entries.map(([w,c])=>`${w} | ${c}`).join('\n'));setEditing(x=>!x);setError('')}}>✎ בנו חידה משלכם</button>}
     </div>
     {editing&&<section className="puzzle-builder no-print"><h2>החידה שלכם</h2><label htmlFor="puzzle-draft">{type==='fill'?'כל שורה: משפט עם ___ | המילה החסרה':'כל שורה: מילה | רמז למילה'}</label><textarea id="puzzle-draft" rows={8} value={draft} onChange={e=>setDraft(e.target.value)}/><p>בין 3 ל־24 שורות. אפשר להחליף את הדוגמאות בשמות, בנושא לימודי או ברעיונות שלכם.</p>{error&&<p role="alert">{error}</p>}<button className="puzzle-primary" onClick={create}>צרו את החידה</button></section>}
