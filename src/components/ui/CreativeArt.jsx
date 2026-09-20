@@ -16,7 +16,7 @@ const SHAPES=[
 ]
 export default function CreativeArt({page,name='',reference=false}){
   const clip=useId().replace(/:/g,'')
-  if(page.src)return <img src={page.src} alt={page.title} loading={reference?'lazy':'eager'}/>
+  if(page.src)return <img src={page.src} alt={page.title} loading={reference?'lazy':'eager'} decoding="async" width="1024" height="1536" className="creative-line-art"/>
   if(page.category==='pixel'){
     const data=PIXELS[page.variant];return <svg viewBox="0 0 600 720" role="img" aria-label={page.title}><rect width="600" height="720" fill="white"/>{data.flatMap((row,r)=>[...row].map((v,c)=><g key={`${r}-${c}`}><rect x={60+c*60} y={60+r*60} width="60" height="60" fill={reference?COLORS[+v]:'white'} stroke="#555" strokeWidth="1"/>{!reference&&v!=='0'&&<text x={90+c*60} y={96+r*60} textAnchor="middle" fontSize="18" fill="#555">{v}</text>}</g>))}{COLORS.slice(1).map((color,i)=><g key={color}><rect x={60+i*95} y="590" width="45" height="45" fill={color} stroke="#222"/><text x={82+i*95} y="670" textAnchor="middle" fontSize="22">{i+1}</text></g>)}</svg>
   }
