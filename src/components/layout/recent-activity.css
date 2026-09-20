@@ -1,0 +1,8 @@
+.buga-live{display:flex;align-items:center;justify-content:center;gap:10px 24px;flex-wrap:wrap;padding:8px 48px;position:relative;background:#f1fbf6;border-bottom:1px solid #d7eadf;color:#24543c;font-size:13px;line-height:1.5;min-height:42px}
+.buga-live-count{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.buga-live-dot{width:8px;height:8px;border-radius:50%;background:#219765;box-shadow:0 0 0 4px #d8f3e5;flex-shrink:0}
+.buga-live-event{overflow-wrap:anywhere;text-align:center}
+.buga-live-close{position:absolute;left:2px;top:0;min-width:44px;min-height:42px;font-size:22px;color:#24543c;background:transparent;border:0;cursor:pointer}
+.buga-live-close:focus-visible{outline:3px solid #0bbad4;outline-offset:-3px;border-radius:8px}
+@media(max-width:480px){.buga-live{gap:3px;padding:8px 44px}.buga-live-count,.buga-live-event{width:100%;justify-content:center}.buga-live-event{font-size:12px}}
+@media print{.buga-live{display:none!important}}
