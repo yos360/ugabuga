@@ -96,15 +96,15 @@ export default function WordSearchMaker() {
       {grid && (
         <div className="buga-fade-in">
           <div className="wobbly border-2 border-[var(--border)] bg-white p-2 sketch-shadow mb-4 max-w-full overflow-x-auto" dir="rtl">
-            <div className="grid gap-0.5" style={{gridTemplateColumns: `repeat(${grid.length}, 1fr)`}}>
+            <div className="mx-auto grid w-full max-w-[560px] gap-1" style={{gridTemplateColumns: `repeat(${grid.length}, minmax(0, 1fr))`}}>
               {grid.map((row,r) => row.map((letter,c) => (
-                <div key={r+'-'+c} className="w-8 h-8 flex items-center justify-center border border-[var(--muted)] font-bold">{letter}</div>
+                <div key={r+'-'+c} className="flex aspect-square min-h-8 items-center justify-center rounded-sm border-2 border-[var(--muted)] bg-white text-lg font-black sm:text-2xl">{letter}</div>
               )))}
             </div>
           </div>
           <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4">
             <p className="font-bold mb-1">מילים לחיפוש:</p>
-            <p className="font-hand text-lg">{words.join(' · ')}</p>
+            <p className="font-hand text-center text-lg leading-9" dir="rtl">{words.join(' · ')}</p>
           </div>
           <div className="text-center mt-4">
             <button onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button>
