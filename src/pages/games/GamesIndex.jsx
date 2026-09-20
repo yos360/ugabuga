@@ -58,6 +58,26 @@ export default function GamesIndex() {
   const contextFilter = searchParams.get('context') || ''
   const ageNumber = age ? Number.parseInt(age, 10) : null
   const [search, setSearch] = useState(initialQ)
+  const [favorites, setFavorites] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ugabuga:favorites') || '[]') } catch { return [] }
+  })
+
+  function toggleFavorite(e, game) {
+    e.preventDefault()
+    e.stopPropagation()
+    setFavorites(prev => {
+      const next = prev.includes(game.slug) ? prev.filter(slug => slug !== game.slug) : [...prev, game.slug]
+      localStorage.setItem('ugabuga:favorites', JSON.stringify(next))
+      return next
+    })
+  }
+
+  function shareGame(e, game) {
+    e.preventDefault()
+    e.stopPropagation()
+    const url = `${window.location.origin}/games/${game.slug}`
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${game.name} — משחק בעוגה בוגה\n${url}`)}`, '_blank', 'noopener,noreferrer')
+  }
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim()
@@ -102,12 +122,18 @@ export default function GamesIndex() {
       )}
 
       {loading ? (
-        <div className="flex items-center justify-center py-20"><span className="text-5xl buga-bounce">🎂</span></div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label="טוענים משחקים" aria-busy="true">
+          {Array.from({ length: 6 }, (_, i) => <div key={i} className="animate-pulse rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-hidden="true"><div className="h-8 w-3/5 rounded bg-[var(--muted)]" /><div className="mt-4 h-12 rounded bg-[var(--muted)]" /><div className="mt-5 flex gap-2"><div className="h-6 w-20 rounded-full bg-[var(--muted)]" /><div className="h-6 w-24 rounded-full bg-[var(--muted)]" /></div><div className="mt-8 h-5 w-28 rounded bg-[var(--muted)]" /></div>)}
+        </div>
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((game, i) => (
             <Link key={game.slug || game.id} to={'/games/' + game.slug}
               className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
+              <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
+                <button type="button" onClick={e => toggleFavorite(e, game)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} className="rounded-full bg-white/90 px-2 py-1 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>
+                <button type="button" onClick={e => shareGame(e, game)} aria-label={`שתף את ${game.name} בוואטסאפ`} className="rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>
+              </div>
               <h3 className="truncate text-2xl leading-tight">{game.name}</h3>
               <p className="mt-2 line-clamp-2 text-base text-[var(--foreground)]/85">{game.short_description}</p>
               <div className="mt-3 flex flex-wrap gap-1 sm:gap-2">
