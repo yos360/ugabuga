@@ -69,7 +69,7 @@ export default function CountdownTimer() {
 
   const progress = 1 - remaining / duration
   const ending = running && remaining <= 5 && remaining > 0
-  const done = running && remaining === 0
+  const done = remaining === 0
 
   useEffect(() => {
     if (!running) return
@@ -105,7 +105,7 @@ export default function CountdownTimer() {
 
       <div ref={containerRef} onMouseMove={onMouseMove} className="flex flex-col items-center mb-6">
         <AlarmClock progress={progress} ending={ending} mouseX={mouse.x} mouseY={mouse.y} />
-        <p className="font-display text-5xl font-bold mt-4 tabular-nums">{String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}</p>
+        <p dir="ltr" className="font-display text-5xl font-bold mt-4 tabular-nums">{String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}</p>
         {done && <p className="font-display text-2xl font-bold text-[var(--accent)] mt-2 buga-pop">⏰ נגמר הזמן!</p>}
       </div>
 
@@ -116,6 +116,7 @@ export default function CountdownTimer() {
 
       {!running ? (
         <>
+          {remaining > 0 && remaining < duration && <div className="mb-4 flex justify-center gap-3"><button onClick={() => setRunning(true)} className="rounded-xl border-2 px-6 py-3 font-bold">▶ המשיכו</button><button onClick={reset} className="rounded-xl border-2 px-6 py-3 font-bold">איפוס</button></div>}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {PRESETS.map(s => (
               <button key={s} onClick={() => start(s)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold cursor-pointer">{presetLabel(s)}</button>
