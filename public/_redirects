@@ -69,4 +69,4 @@
 /invitations /invitation 301
 /birthday-invitation /invitation 301
 
-/* /index.html 200
+# Use the native Pages SPA fallback so assets are served as files.
