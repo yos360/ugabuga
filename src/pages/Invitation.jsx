@@ -35,7 +35,7 @@ export default function Invitation() {
 
       {/* Live invitation preview - editable */}
       <div className="wobbly border-[3px] border-[var(--border)] p-8 text-center sketch-shadow-rich mb-6" style={{ backgroundColor: theme.bg }}>
-        <div aria-label={theme.name} className="mx-auto mb-3 h-36 w-56 rounded-2xl border-2 border-white/80 bg-white/30 bg-cover bg-no-repeat shadow-sm" style={{backgroundImage:"url('/images/invitation-themes-v1.png')", backgroundPosition:theme.pos, backgroundSize:'300% 200%'}} />
+        <div aria-label={theme.name} className="mx-auto mb-3 h-36 w-56 rounded-2xl border-2 border-white/80 bg-white/30 bg-cover bg-no-repeat shadow-sm" style={{backgroundImage:"url('/images/invitation-themes-v1.webp')", backgroundPosition:theme.pos, backgroundSize:'300% 200%'}} />
         <p className="font-hand text-lg mb-2">הוזמנתם למסיבת יום הולדת של</p>
         <input value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 focus:outline-none" />
         <input value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 focus:outline-none" />

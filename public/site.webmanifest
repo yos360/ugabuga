@@ -1,0 +1,12 @@
+{
+  "name": "עוגה בוגה",
+  "short_name": "עוגה בוגה",
+  "description": "משחקים, יצירה ולמידה בעברית לילדים ולמשפחות",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffefc",
+  "theme_color": "#111329",
+  "icons": [{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
