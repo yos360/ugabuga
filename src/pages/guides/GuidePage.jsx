@@ -17,7 +17,7 @@ export default function GuidePage() {
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <SEO title={guide.title} description={guide.description} path={`/guides/${guide.slug}`} />
+      <SEO title={`${guide.title} — מדריך מעשי`} description={guide.description} path={`/guides/${guide.slug}`} />
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },

@@ -4,7 +4,10 @@ import App from './App.jsx'
 import './index.css'
 
 const rootElement = document.getElementById('root')
-rootElement.dataset.appBuild = '2026-09-20-asset-routing-fix'
+// The initial HTML is complete for crawlers. On startup Helmet takes ownership
+// so static tags cannot remain alongside metadata for a different route.
+document.head.querySelectorAll('title, meta[name="description"], meta[name="robots"], link[rel="canonical"], meta[property^="og:"], meta[name^="twitter:"]').forEach(tag => tag.remove())
+rootElement.dataset.appBuild = '2026-09-21-seo-prerender'
 createRoot(rootElement).render(
   <StrictMode>
     <App />

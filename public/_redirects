@@ -1,6 +1,5 @@
-/google6a2153ff6b2d0a78.html /google6a2153ff6b2d0a78.html 200!
-/robots.txt /robots.txt 200!
-/sitemap.xml /sitemap.xml 200!
+/games/all /games 301
+/ideas/themes /ideas 301
 
 # Canonical legacy tool redirects
 /tools/bingo /tools/bingo-maker 301

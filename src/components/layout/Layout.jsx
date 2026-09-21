@@ -13,7 +13,7 @@ export default function Layout({ children }) {
         <span>נשמח לשמוע על רעיונות, שיפורים או תקלות.</span>
         <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a>
       </div>
-      <RecentActivity />
+      {!window.__PRERENDER__ && <RecentActivity />}
       <main className="min-h-screen">{children}</main>
       <Footer />
     </>

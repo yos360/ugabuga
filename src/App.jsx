@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
@@ -86,7 +86,7 @@ export default function App() {
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/create" element={<HubPage type="create" />} />
               <Route path="/games" element={<GamesIndex />} />
-              <Route path="/games/all" element={<GamesIndex />} />
+              <Route path="/games/all" element={<Navigate to="/games" replace />} />
               <Route path="/games/5-minutes" element={<CategoryPage />} />
               <Route path="/games/10-minutes" element={<CategoryPage />} />
               <Route path="/games/15-minutes" element={<CategoryPage />} />
@@ -121,7 +121,7 @@ export default function App() {
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/ideas/age/:age" element={<AgePage />} />
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
-              <Route path="/ideas/themes" element={<IdeasHub />} />
+              <Route path="/ideas/themes" element={<Navigate to="/ideas" replace />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
               <Route path="/ideas/*" element={<IdeasHub />} />
               <Route path="/calculator" element={<Calculator />} />
@@ -235,7 +235,7 @@ export default function App() {
               <Route path="/gifts/girl" element={<GiftsIndex />} />
               <Route path="/gifts/under-50" element={<GiftsIndex />} />
               <Route path="/gifts/under-100" element={<GiftsIndex />} />
-              <Route path="/gifts/age-:age" element={<AgeGiftPage />} />
+              <Route path="/gifts/:age" element={<AgeGiftPage />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/:slug" element={<GuidePage />} />
               <Route path="/compare/home-vs-venue" element={<IdeasHub />} />

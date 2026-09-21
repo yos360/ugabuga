@@ -7,7 +7,6 @@
   <url><loc>https://ugabuga.co.il/create</loc><priority>0.9</priority></url>
 
   <url><loc>https://ugabuga.co.il/games</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/games/all</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/games/5-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/10-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/15-minutes</loc><priority>0.7</priority></url>
@@ -65,7 +64,6 @@
   <url><loc>https://ugabuga.co.il/invitation</loc><priority>0.7</priority></url>
 
   <url><loc>https://ugabuga.co.il/ideas</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/ideas/themes</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/at-home</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/on-budget</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/without-entertainer</loc><priority>0.8</priority></url>

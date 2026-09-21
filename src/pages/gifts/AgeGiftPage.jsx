@@ -5,12 +5,12 @@ import { AGE_GIFTS, GIFT_AGES } from '../../data/gifts'
 
 export default function AgeGiftPage() {
   const { age } = useParams()
-  const ageNum = parseInt(age?.replace('age-','') || age)
+  const ageNum = /^age-\d+$/.test(age || '') ? Number(age.slice(4)) : NaN
   const data = AGE_GIFTS[ageNum]
   if (!data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
-        <SEO title="מתנות לפי גיל" description="בחרו גיל וקבלו רעיונות למתנות יום הולדת לפי גיל." path="/gifts" />
+        <SEO title="מתנות לפי גיל — הגיל לא נמצא" description="בחרו גיל וקבלו רעיונות למתנות יום הולדת לפי גיל." noindex />
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות', href: '/gifts' }, { label: 'בחירת גיל' }]} />
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
           <h1 className="text-4xl mb-3">🎁 לא מצאנו מדריך לגיל הזה</h1>
