@@ -9,7 +9,7 @@ const playwright = process.env.PRERENDER_PLAYWRIGHT || 'playwright'
 const { chromium } = require(playwright)
 if (process.platform !== 'win32') {
   try { await access(chromium.executablePath()) }
-  catch { execFileSync(process.execPath, [require.resolve('playwright/cli'), 'install', 'chromium'], { stdio: 'inherit' }) }
+  catch { execFileSync(process.execPath, [resolve(dirname(require.resolve('playwright/package.json')), 'cli.js'), 'install', 'chromium'], { stdio: 'inherit' }) }
 }
 const dist = resolve('dist')
 const shell = await readFile(resolve(dist, 'index.html'), 'utf8')
