@@ -57,6 +57,8 @@ const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
+const OwnerLogin = lazy(() => import('./pages/OwnerLogin'))
 
 function Loading() {
   return (
@@ -247,6 +249,8 @@ export default function App() {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/admin/login" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
+              <Route path="/admin/activity" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

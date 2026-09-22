@@ -21,5 +21,5 @@ function createSupabaseFetch(key) {
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   global: { fetch: createSupabaseFetch(SUPABASE_KEY) },
-  auth: { persistSession: false, autoRefreshToken: false },
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
 })
