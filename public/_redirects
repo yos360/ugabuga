@@ -59,6 +59,10 @@
 
 /songs/birthday-songs /birthday-songs 301
 /birthday-songs /ideas 301
+
+# ארץ-עיר: the /games/ and root aliases all render the same tool; keep one canonical URL.
+/games/eretz-ir-buga /tools/eretz-ir 301
+/eretz-ir /tools/eretz-ir 301
 /party-calculator /calculator 301
 /birthday-cost /calculator 301
 /how-many-pizzas /calculator 301
