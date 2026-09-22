@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Same Supabase project as the Lovable version — contains all 100 games + content
-const SUPABASE_URL = 'https://judhoitufvlqxjhjgnsm.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
+const SUPABASE_URL = 'https://efhgyispuwxcplvzipcy.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 
 function isNewSupabaseApiKey(value) {
   return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_')
