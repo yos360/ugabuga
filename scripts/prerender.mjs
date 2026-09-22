@@ -37,7 +37,10 @@ try {
   const context = await browser.newContext()
   await context.addInitScript(() => { window.__PRERENDER__ = true })
   // Never record analytics/activity or depend on third-party availability at build time.
-  await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
+  // Supabase is allowed so individual game pages can load their data at build time
+  // (see the game-page pass below); everything else third-party is still blocked.
+  const SUPABASE_ORIGIN = 'https://judhoitufvlqxjhjgnsm.supabase.co'
+  await context.route('**/*', route => { const o = new URL(route.request().url()).origin; return o === origin || o === SUPABASE_ORIGIN ? route.continue() : route.abort() })
   let next = 0
   await Promise.all(Array.from({ length: 3 }, async () => {
     const page = await context.newPage()
@@ -67,6 +70,52 @@ try {
     const destination = resolve(dist, row.path === '/' ? 'index.html' : row.path.slice(1) + '.html')
     await mkdir(dirname(destination), { recursive: true })
     await writeFile(destination, row.html)
+  }
+
+  // ---- Individual game pages (best effort) ----
+  // Without a snapshot, a shared game link shows the *homepage* title/OG image in
+  // WhatsApp/Facebook previews, because those bots read the static shell and never
+  // run React. So we snapshot every /games/{slug} from the generated sitemap.xml.
+  // This pass must NEVER fail the build: Supabase might be slow or a game might be
+  // mid-edit, so each page is try/catch'd and simply skipped (it then keeps working
+  // client-side exactly as before).
+  try {
+    const fullXml = await readFile('public/sitemap.xml', 'utf8')
+    const staticSet = new Set(paths)
+    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => p.startsWith('/games/') && !staticSet.has(p))
+    let gi = 0, ok = 0, skipped = 0
+    await Promise.all(Array.from({ length: 3 }, async () => {
+      const page = await context.newPage()
+      while (gi < gamePaths.length) {
+        const path = gamePaths[gi++]
+        try {
+          await page.goto(origin + path, { waitUntil: 'networkidle', timeout: 30000 })
+          await page.locator('main h1').waitFor({ timeout: 15000 })
+          const result = await page.evaluate(() => ({
+            title: document.title,
+            canonical: [...document.querySelectorAll('link[rel="canonical"]')].map(x => x.href),
+            descriptions: document.querySelectorAll('meta[name="description"]').length,
+            h1: document.querySelectorAll('h1').length,
+            robots: document.querySelector('meta[name="robots"]')?.content || '',
+          }))
+          const valid = result.canonical.length === 1 && result.canonical[0] === `https://ugabuga.co.il${path}` && result.descriptions === 1 && result.h1 === 1 && !result.robots.includes('noindex')
+          if (!valid || titles.has(result.title)) { skipped++; console.warn(`Skipping game snapshot ${path}: ${JSON.stringify(result)}`); continue }
+          titles.add(result.title)
+          const html = await page.content()
+          const destination = resolve(dist, path.slice(1) + '.html')
+          await mkdir(dirname(destination), { recursive: true })
+          await writeFile(destination, html)
+          ok++
+        } catch (err) {
+          skipped++
+          console.warn(`Skipping game snapshot ${path}: ${err.message}`)
+        }
+      }
+      await page.close()
+    }))
+    console.log(`Game pages pre-rendered: ${ok} ok, ${skipped} skipped (of ${gamePaths.length}).`)
+  } catch (err) {
+    console.warn(`Game page pre-render pass failed, continuing without it: ${err.message}`)
   }
   // Versioned platform icons with opaque backgrounds and mask-safe artwork.
   const iconPage = await context.newPage()
