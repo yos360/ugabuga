@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import './Home.css'
 import './home-responsive.css'
@@ -26,11 +26,51 @@ export default function Home() {
   const [query,setQuery] = useState('')
   const list = useRef(null)
   const navigate = useNavigate()
+
+  const shareWebsite = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'עוגה בוגה — משחקים וכלים בעברית',
+          text: 'מאגר של 100+ משחקים ופעילויות לילדים, כיתות ויום הולדת',
+          url: window.location.href,
+        })
+      } catch (err) {
+        console.error('Error sharing:', err)
+      }
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(window.location.href)
+      alert('הקישור הועתק ללוח')
+    }
+  }
+
   return <><SEO path="/" /><div className="home-v2">
-    <section className="home-intro"><h1>מה בא לכם לעשות היום?</h1><p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד.</p></section>
+    <section className="home-intro">
+      <h1>מה בא לכם לעשות היום?</h1>
+      <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה מעל 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
+      <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
+        <Share2 size={20} />
+        <span>שיתוף</span>
+      </button>
+    </section>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();navigate('/games'+(query.trim()?'?q='+encodeURIComponent(query.trim()):''))}}><button aria-label="חיפוש משחקים"><Search size={29}/></button><input aria-label="חפשו משחק עכשיו" placeholder="חפשו משחק עכשיו" type="search" value={query} onChange={e=>setQuery(e.target.value)}/></form>
-    <section className="home-featured"><h2>מתחילים לשחק</h2><div className="home-carousel-wrap"><button className="home-scroll home-scroll-left" aria-label="גלילה שמאלה" onClick={()=>list.current.scrollBy({left:-270,behavior:'smooth'})}><ChevronLeft/></button><div ref={list} className="home-games">{games.map(([title,description,to,crop])=><Link to={to} className="home-game" key={to}><Art crop={crop}/><h3>{title}</h3><p>{description}</p></Link>)}</div><button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button></div></section>
-    <section className="home-extra"><h2>משחקי BUGA המרכזיים</h2><div className="home-extras"><Link to="/tools/truth-or-buga"><h3>🎭 אמת או בוגה</h3><p>אמת או שקר, לבד או תחרות קבוצות.</p></Link><Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link><Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link></div></section>
+    <section className="home-featured">
+      <h2>משחקים מוחזקים</h2>
+      <div className="home-carousel-wrap">
+        <button className="home-scroll home-scroll-left" aria-label="גלילה שמאלה" onClick={()=>list.current.scrollBy({left:-270,behavior:'smooth'})}><ChevronLeft/></button>
+        <div ref={list} className="home-games">{games.map(([title,description,to,crop])=><Link to={to} className="home-game" key={to}><Art crop={crop}/><h3>{title}</h3><p>{description}</p></Link>)}</div>
+        <button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button>
+      </div>
+    </section>
+    <section className="home-extra">
+      <h2>משחקי BUGA הפופולריים</h2>
+      <div className="home-extras">
+        <Link to="/tools/truth-or-buga"><h3>🎭 אמת או בוגה</h3><p>אמת או שקר, לבד או תחרות קבוצות.</p></Link>
+        <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>
+        <Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link>
+      </div>
+    </section>
   </div></>
 }
