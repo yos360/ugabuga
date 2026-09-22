@@ -43,7 +43,7 @@ export default function IdeasHub() {
     const articles = Object.entries(IDEA_ARTICLES).slice(0, 12)
     return (
       <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-        <SEO title="בלוג עוגה בוגה" description="מדריכים, רעיונות וטיפים לתכנון מסיבות ומשחקים." path="/blog" />
+        <SEO title="בלוג עוגה בוגה" description="הבלוג של עוגה בוגה: מדריכים, רעיונות וטיפים לתכנון ימי הולדת, מסיבות כיתה, פעילויות לצהרון ומשחקים למשפחה — בעברית, חינם." path="/blog" />
         <h1 className="text-4xl md:text-5xl text-center mb-2">📝 הבלוג של עוגה בוגה</h1>
         <p className="text-center text-xl text-[var(--ink)]/70 mb-10">מדריכים ורעיונות שאפשר לקחת ישר למסיבה.</p>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{articles.map(([slug, article]) => <Link key={slug} to={'/ideas/' + slug} className="card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich"><span className="text-4xl">{article.emoji}</span><h2 className="mt-3 text-2xl font-bold">{article.title}</h2><p className="mt-2 text-[var(--muted-foreground)]">{article.description}</p><span className="mt-4 inline-block font-bold text-[var(--pen)]">לקריאה ←</span></Link>)}</div>
