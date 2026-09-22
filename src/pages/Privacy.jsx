@@ -3,7 +3,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 export default function Privacy() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="מדיניות פרטיות" description="מדיניות פרטיות עוגה בוגה" path="/privacy" />
+      <SEO title="מדיניות פרטיות" description="מדיניות הפרטיות של אתר עוגה בוגה: איזה מידע נאסף, איך משתמשים בעוגיות ובכלי אנליטיקה, ומה הזכויות שלכם כמשתמשים." path="/privacy" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מדיניות פרטיות' }]} />
       <h1 className="text-4xl mb-6">מדיניות פרטיות</h1>
       <div className="space-y-4 font-hand text-lg leading-relaxed">
