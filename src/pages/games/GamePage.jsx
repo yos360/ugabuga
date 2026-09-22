@@ -56,7 +56,19 @@ export default function GamePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={game.name} description={game.short_description} path={'/games/' + slug} />
+      <SEO title={game.name} description={game.short_description} path={'/games/' + slug} structuredData={{
+        '@context': 'https://schema.org',
+        '@type': 'Game',
+        'name': game.name,
+        'description': game.short_description,
+        'url': 'https://ugabuga.co.il/games/' + slug,
+        'inLanguage': 'he',
+        'isAccessibleForFree': true,
+        ...(game.category ? { 'genre': game.category } : {}),
+        ...(game.min_age ? { 'typicalAgeRange': game.max_age ? `${game.min_age}-${game.max_age}` : `${game.min_age}-` } : {}),
+        ...(game.min_players ? { 'numberOfPlayers': { '@type': 'QuantitativeValue', 'minValue': game.min_players, ...(game.max_players ? { 'maxValue': game.max_players } : {}) } } : {}),
+        'publisher': { '@type': 'Organization', 'name': 'UGABUGA', 'url': 'https://ugabuga.co.il' },
+      }} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: game.name }]} />
 
       <div className="flex flex-wrap items-center gap-2 text-sm font-hand text-[var(--muted-foreground)] mb-2">
