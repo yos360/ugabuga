@@ -30,7 +30,7 @@ const svgMap = {
   },
   'birthday-signs': {
     title: 'שלטי יום הולדת',
-    desc: 'שלטים גדולים להדפסה על A4 מלא.',
+    desc: 'שלטי יום הולדת להדפסה חינם: שלטים גדולים בעברית על A4 מלא — מזל טוב, ברוכים הבאים, שם ומספר — בצבע או לצביעה.',
     files: Array.from({length:8},(_,i)=>({ name: `שלט ${i+1}`, file: `sign-0${i+1}.svg` }))
   },
   'hebrew-letters': {
@@ -40,17 +40,17 @@ const svgMap = {
   },
   'abc-letters': {
     title: 'ABC אנגלית בנקודות',
-    desc: 'A-Z בנקודות — אותיות גדולות וקטנות עם איורים.',
+    desc: 'אותיות ABC באנגלית בנקודות להדפסה: A-Z אותיות גדולות וקטנות עם איורים ושורות תרגול כתיבה לגן ולכיתה א׳ — חינם.',
     files: 'abcdefghijklmnopqrstuvwxyz'.split('').map((l,i) => ({ name: 'Letter '+l.toUpperCase(), file: `letter-en-${String(i+1).padStart(2,'0')}-${l}.svg` }))
   },
   'numbers': {
     title: 'מספרים בנקודות',
-    desc: 'מספרים 0-10 בנקודות גדולות עם ספירה ואיורים.',
+    desc: 'מספרים בנקודות להדפסה: 0-10 בנקודות גדולות לחיבור, עם ספירה ואיורים — דפי תרגול כתיבת מספרים לגן ולכיתה א׳, חינם.',
     files: Array.from({length:11},(_,i) => ({ name: 'מספר '+i, file: `number-${String(i).padStart(2,'0')}.svg` }))
   },
   'mazes': {
     title: 'מבוכים',
-    desc: '3 רמות קושי — קל, בינוני, קשה.',
+    desc: 'מבוכים להדפסה לילדים ב-3 רמות קושי — קל, בינוני וקשה — עם סיפור קצר ופתרון. פעילות שקטה לבית, לכיתה ולמסיבה, חינם.',
     files: [
       { name: 'קל ⭐', file: 'maze-easy.svg' },
       { name: 'בינוני ⭐⭐', file: 'maze-medium.svg' },
@@ -59,7 +59,7 @@ const svgMap = {
   },
   'certificates': {
     title: 'תעודות',
-    desc: 'תעודות מעוצבות להדפסה.',
+    desc: 'תעודות להדפסה חינם: תעודת הצטיינות, גיבור מסיבה, אלוף משחקים ומשתתף — מעוצבות בעברית עם מקום לשם, למורים, למדריכים ולהורים.',
     files: [
       { name: 'גיבור/ת המסיבה', file: 'certificate-party-hero.svg' },
       { name: 'הצטיינות', file: 'certificate-excellence.svg' },
@@ -71,7 +71,7 @@ const svgMap = {
   },
   'symmetry': {
     title: 'ציור סימטרי',
-    desc: 'השלימו את החצי — 6 תמונות.',
+    desc: 'ציור סימטרי להדפסה: 6 תמונות להשלמת החצי החסר — פרפר, פנים, בית, עץ, פרח וטיל. תרגול ריכוז וקואורדינציה לגן ולכיתה, חינם.',
     files: [
       { name: 'פרפר', file: 'symmetry-01-butterfly.svg' },
       { name: 'בית', file: 'symmetry-02-house.svg' },
@@ -81,12 +81,12 @@ const svgMap = {
       { name: 'סירה', file: 'symmetry-06-boat.svg' },
     ]
   },
-  'name-tags': { title: 'תגי שם למסיבה', desc: '8 תגים בדף אחד.', files: [{ name: 'תגי שם', file: 'name-tags.svg' }] },
-  'thank-you': { title: 'כרטיסי תודה', desc: '4 כרטיסים מתקפלים.', files: [{ name: 'כרטיסי תודה', file: 'thank-you-cards.svg' }] },
+  'name-tags': { title: 'תגי שם למסיבה', desc: 'תגי שם למסיבה להדפסה: 8 תגים מעוצבים בדף A4 אחד לגזירה — ליום הולדת, לכיתה, לקייטנה ולאירוע. ממלאים שם ומדביקים.', files: [{ name: 'תגי שם', file: 'name-tags.svg' }] },
+  'thank-you': { title: 'כרטיסי תודה', desc: 'כרטיסי תודה להדפסה: 4 כרטיסים מתקפלים בדף — לחלוקה אחרי יום הולדת, למורים ולמדריכים. מעוצבים בעברית עם מקום להקדשה, חינם.', files: [{ name: 'כרטיסי תודה', file: 'thank-you-cards.svg' }] },
   'photo-props': { title: 'אביזרי צילום', desc: 'לגזירה והדבקה על מקלות.', files: [{ name: 'אביזרי צילום', file: 'photo-props.svg' }] },
-  'board-game': { title: 'סולמות ונחשים BUGA', desc: 'לוח משחק 100 משבצות.', files: [{ name: 'סולמות ונחשים', file: 'snakes-and-ladders.svg' }] },
+  'board-game': { title: 'סולמות ונחשים BUGA', desc: 'סולמות ונחשים להדפסה: לוח משחק מלא של 100 משבצות בסגנון UGABUGA — מדפיסים, מוסיפים קובייה ומשחקים. משחק קופסה חינמי למשפחה ולכיתה.', files: [{ name: 'סולמות ונחשים', file: 'snakes-and-ladders.svg' }] },
   'sudoku': {
-    title: 'סודוקו לילדים', desc: 'עם פתרונות.',
+    title: 'סודוקו לילדים', desc: 'סודוקו לילדים להדפסה: לוחות 4×4 ו-6×6 עם פתרונות — חידות היגיון קלות למתחילים, לגיל הרך ולבית הספר. פעילות שקטה, חינם.',
     files: [{ name: 'סודוקו', file: 'sudoku.svg' }, { name: 'פתרונות', file: 'sudoku-solutions.svg' }]
   },
 }
