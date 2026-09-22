@@ -36,31 +36,12 @@
       gtag('js', new Date());
       gtag('config', 'G-5XK1W5R504');
     </script>
-    <!-- Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "עוגה בוגה",
-      "alternateName": "UGABUGA",
-      "url": "https://ugabuga.co.il",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://ugabuga.co.il/games?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "עוגה בוגה",
-      "alternateName": "UGABUGA",
-      "url": "https://ugabuga.co.il",
-      "email": "hellohugabuga@gmail.com"
-    }
-    </script>
+    <!-- Schema.org WebSite/Organization data lives in src/components/ui/SEO.jsx and is
+         injected per-route via react-helmet-async (homepage only, to avoid shipping the
+         same site-wide schema on every one of the 240+ game/category/tool pages). It used
+         to also be hardcoded here, which meant every single page — including every
+         individual game page — carried two literally identical WebSite/Organization
+         JSON-LD blocks stacked on top of whatever SEO.jsx added. Removed to fix that. -->
   </head>
   <body>
     <div id="root"><div style="min-height:65vh;display:flex;align-items:center;justify-content:center;padding:32px;font-family:Arial,sans-serif;direction:rtl"><div style="width:min(100%,420px);text-align:center;border:2px solid #d7dece;border-radius:24px;background:#fffdf5;padding:32px;box-shadow:0 8px 0 #d7dece"><div style="font-size:56px">🎂</div><div style="height:10px;margin:20px 0;border-radius:999px;background:#edf1e8;overflow:hidden"><div style="height:100%;width:60%;background:#ff6b6b;border-radius:999px"></div></div><strong style="font-size:24px">BUGA מכין את הכל...</strong><p style="color:#687760">טוענים את האתר</p></div></div></div>
