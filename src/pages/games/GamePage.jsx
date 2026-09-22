@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import { useGameBySlug } from '../../hooks/useGames'
 import GamePlayer from '../../components/games/GamePlayer'
+import Markdown from '../../components/ui/Markdown'
 import { useState } from 'react'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
@@ -81,7 +82,7 @@ export default function GamePage() {
       {game.quick_instructions && (
         <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow tape mb-6">
           <h2 className="text-2xl mb-3">מתחילים לשחק</h2>
-          <p className="font-hand text-lg whitespace-pre-line">{game.quick_instructions}</p>
+          <Markdown text={game.quick_instructions} className="font-hand text-lg" />
           <div className="mt-4 flex flex-wrap gap-3">
             {playToolRoute ? (
               <Link to={playToolRoute.to} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ {playToolRoute.label}</Link>
@@ -106,7 +107,7 @@ export default function GamePage() {
 
       <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow mb-6">
         <h2 className="text-2xl mb-4">📖 הוראות מלאות ועוד</h2>
-        <div className="font-hebrew text-lg leading-relaxed whitespace-pre-line">{game.instructions}</div>
+        <Markdown text={game.instructions} className="font-hebrew text-lg leading-relaxed" />
       </div>
 
       {game.facilitator_tip && (
@@ -119,7 +120,7 @@ export default function GamePage() {
       {game.age_adaptations && (
         <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-5 mb-6">
           <h2 className="text-xl mb-2">🎯 התאמות גיל</h2>
-          <p className="font-hand text-lg whitespace-pre-line">{game.age_adaptations}</p>
+          <Markdown text={game.age_adaptations} className="font-hand text-lg" />
         </div>
       )}
 
