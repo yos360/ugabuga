@@ -84,7 +84,7 @@ export function connectActivity(onChange) {
       const [{createClient},id]=await Promise.all([import('@supabase/supabase-js'),browserKey()])
       if(stopped)return
       ownId=id
-      client=createClient('https://efhgyispuwxcplvzipcy.supabase.co','sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7',{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
+      client=createClient('https://efhgyispuwxcplvzipcy.supabase.co','sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7',{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
       const production=['ugabuga.co.il','www.ugabuga.co.il'].includes(location.hostname)
       channel=client.channel(production?'buga-public-live-v1':'buga-preview-live-v1',{config:{presence:{key:id},broadcast:{self:false,ack:true}}})
       channel.on('presence',{event:'sync'},sync).subscribe(async status=>{

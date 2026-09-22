@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Same Supabase project as the Lovable version — contains all 100 games + content
-const SUPABASE_URL = 'https://efhgyispuwxcplvzipcy.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
+const SUPABASE_URL = 'https://judhoitufvlqxjhjgnsm.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
 
 function isNewSupabaseApiKey(value) {
   return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_')
@@ -21,5 +21,6 @@ function createSupabaseFetch(key) {
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   global: { fetch: createSupabaseFetch(SUPABASE_KEY) },
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+  // Public content must never consume the private owner's OAuth callback.
+  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
 })

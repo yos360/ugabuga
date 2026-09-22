@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import SEO from '../components/ui/SEO'
-import { supabase } from '../utils/supabase'
+import { ownerSupabase as supabase } from '../utils/ownerAuth'
 
 const labels = {
   'first-grade':'הכנה לכיתה א׳', printables:'דפים להדפסה', 'word-search-maker':'תפזורות',
