@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 
-export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website' }) {
+export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website', structuredData = null }) {
   const location = useLocation()
   const fullTitle = title ? title + ' | UGABUGA' : 'עוגה בוגה — מאגר משחקים ופעילויות בעברית | UGABUGA'
   const canonicalPath = path ?? location.pathname
@@ -9,9 +9,14 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const url = 'https://ugabuga.co.il' + normalizedPath
   const fullImage = image.startsWith('http') ? image : 'https://ugabuga.co.il' + image
   const fullDescription = description || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
+  const isHome = normalizedPath === '/'
 
-  // Structured Data for Schema.org
-  const schemaData = {
+  // The site-wide WebSite + SearchAction schema only makes sense once, on the
+  // homepage — repeating it identically on every game/category/tool page is
+  // duplicate structured data that tells search engines nothing page-specific.
+  // Pages that have something more specific to say (a game, a tool) can pass
+  // their own `structuredData` object/array instead.
+  const schemaData = isHome ? {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     'name': 'עוגה בוגה',
@@ -36,7 +41,9 @@ export default function SEO({ title, description, path, image = '/og-image.png',
         'url': 'https://ugabuga.co.il/og-image.png'
       }
     }
-  }
+  } : null
+
+  const schemas = [schemaData, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
 
   return (
     <Helmet>
@@ -57,9 +64,11 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={fullDescription} />
       <meta name="twitter:image" content={fullImage} />
-      <script type="application/ld+json">
-        {JSON.stringify(schemaData)}
-      </script>
+      {schemas.map((data, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(data)}
+        </script>
+      ))}
     </Helmet>
   )
 }
