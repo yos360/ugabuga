@@ -16,7 +16,7 @@ export default function PhotoProps(){
   const [id,setId]=useState('birthday'),[eventName,setEventName]=useState(''),[printMode,setPrintMode]=useState('color'),[selected,setSelected]=useState(null)
   const pack=useMemo(()=>PACKS.find(x=>x[0]===id),[id]);const [,,title,,props]=pack
   return <div className="mx-auto max-w-6xl px-4 py-8" dir="rtl">
-    <SEO title="אביזרי צילום גדולים להדפסה" description="כל אביזר בדף A4 נפרד, בצבע או בשחור־לבן." path="/printables/photo-props"/>
+    <SEO title="אביזרי צילום גדולים להדפסה" description="אביזרי צילום להדפסה ליום הולדת: שפמים, משקפיים, כתרים ובלוני דיבור — כל אביזר בדף A4 נפרד, בצבע או בשחור-לבן. חינם." path="/printables/photo-props"/>
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'אביזרי צילום'}]}/>
     <h1 className="text-center text-4xl">📸 אביזרי צילום להדפסה</h1>
     <p className="my-3 text-center text-lg">כל תמונה גדולה על דף A4 משלה. בחרו פריט אחד או הדפיסו חבילה של 12 דפים.</p>
