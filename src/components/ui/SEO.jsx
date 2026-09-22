@@ -10,6 +10,34 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const fullImage = image.startsWith('http') ? image : 'https://ugabuga.co.il' + image
   const fullDescription = description || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
 
+  // Structured Data for Schema.org
+  const schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'עוגה בוגה',
+    'alternateName': 'UGABUGA',
+    'url': 'https://ugabuga.co.il',
+    'description': fullDescription,
+    'inLanguage': 'he',
+    'image': fullImage,
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': {
+        '@type': 'EntryPoint',
+        'urlTemplate': 'https://ugabuga.co.il/games?q={search_term_string}'
+      },
+      'query-input': 'required name=search_term_string'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'UGABUGA',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://ugabuga.co.il/og-image.png'
+      }
+    }
+  }
+
   return (
     <Helmet>
       <title>{fullTitle}</title>
@@ -29,6 +57,9 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={fullDescription} />
       <meta name="twitter:image" content={fullImage} />
+      <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+      </script>
     </Helmet>
   )
 }
