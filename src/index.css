@@ -138,11 +138,6 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
   animation: buga-slide-down 0.35s ease-out both;
 }
 
-/* Hide Lovable branding */
-[data-lovable-badge],[data-lovable],[class*="lovable"],[id*="lovable"],.lovable-badge,a[href*="lovable"],a[href*="lovable.dev"],a[href*="lovable.app"],iframe[src*="lovable"] {
-  display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;width:0!important;overflow:hidden!important;position:absolute!important;pointer-events:none!important;
-}
-
 /* Touch targets */
 @media (pointer: coarse) {
   button:not([class*="h-"]), a[role="button"] { min-height: 44px; }

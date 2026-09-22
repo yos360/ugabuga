@@ -64,11 +64,18 @@ try {
     await mkdir(dirname(destination), { recursive: true })
     await writeFile(destination, row.html)
   }
-  // Rasterize the existing brand favicon for iOS; no new illustration is needed.
-  const iconPage = await context.newPage({ viewport: { width: 180, height: 180 } })
+  // Versioned platform icons with opaque backgrounds and mask-safe artwork.
+  const iconPage = await context.newPage()
   const favicon = await readFile('public/favicon.svg', 'utf8')
-  await iconPage.setContent(`<html><head><style>html,body{margin:0;width:180px;height:180px;background:#fffaf0}svg{width:156px;height:156px;margin:12px}</style></head><body>${favicon}</body></html>`)
-  await iconPage.screenshot({ path: resolve(dist, 'apple-touch-icon.png') })
+  await mkdir(resolve(dist, 'icons'), {recursive:true})
+  await writeFile(resolve(dist, 'icons/ugabuga-v2.svg'), favicon)
+  for (const size of [32,180,192,512]) {
+    await iconPage.setViewportSize({width:size,height:size})
+    await iconPage.setContent(`<html><head><style>html,body{margin:0;width:100%;height:100%;background:#fff3d7}svg{display:block;width:100%;height:100%}</style></head><body>${favicon}</body></html>`)
+    await iconPage.screenshot({path:resolve(dist, `icons/ugabuga-v2-${size}.png`)})
+  }
+  await writeFile(resolve(dist,'icons/ugabuga-v2-maskable-512.png'),await readFile(resolve(dist,'icons/ugabuga-v2-512.png')))
+  await writeFile(resolve(dist,'apple-touch-icon.png'),await readFile(resolve(dist,'icons/ugabuga-v2-180.png')))
   console.log(`SEO checks passed: ${snapshots.length} unique pages with initial HTML content.`)
 } finally {
   await browser.close()
