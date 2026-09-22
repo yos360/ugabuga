@@ -43,7 +43,7 @@ export default function BringList() {
   const taken = items.filter(item => item.takenBy.trim()).length
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="רשימה שיתופית למסיבה" path="/tools/bring-list" />
+      <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="מי מביא מה? רשימה שיתופית למסיבה: מחלקים בין ההורים והאורחים מי מביא כיבוד, שתייה וציוד — קישור אחד לוואטסאפ, בלי בלגן ובלי כפילויות." path="/tools/bring-list" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מי מביא מה?' }]} />
       <header className="mb-7 text-center">
         <h1 className="text-4xl sm:text-5xl">🧺 מי מביא מה?</h1>
