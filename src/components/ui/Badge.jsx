@@ -7,7 +7,7 @@ export default function Badge({ children, color = 'default', className = '' }) {
     yellow: 'bg-[var(--postit)] text-[var(--foreground)] border-[var(--border)]',
   }
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium border wobbly-sm ${colors[color] || colors.default} ${className}`}>
+    <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium border wobbly-sm ${colors[color] || colors.default} ${className}`}>
       {children}
     </span>
   )
