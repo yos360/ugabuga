@@ -28,7 +28,7 @@ export default function Joke() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="בדיחה של BUGA" description="בדיחות לילדים בעברית — חדשה בכל לחיצה." path="/tools/joke" />
+      <SEO title="בדיחה של BUGA" description="בדיחות לילדים בעברית: בדיחה חדשה בכל לחיצה — קצרה, נקייה ומצחיקה. לפתיחת שיעור, להפסקה, לנסיעה ולארוחת ערב משפחתית." path="/tools/joke" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בדיחה' }]} />
       <h1 className="text-4xl text-center mb-6">😂 בדיחה של BUGA</h1>
 
