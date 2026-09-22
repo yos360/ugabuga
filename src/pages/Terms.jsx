@@ -3,7 +3,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 export default function Terms() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="תנאי שימוש" description="תנאי שימוש באתר עוגה בוגה" path="/terms" />
+      <SEO title="תנאי שימוש" description="תנאי השימוש באתר עוגה בוגה: שימוש חופשי במשחקים, בכלים ובדפי ההדפסה לשימוש אישי וחינוכי, זכויות יוצרים ומגבלות אחריות." path="/terms" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'תנאי שימוש' }]} />
       <h1 className="text-4xl mb-6">תנאי שימוש</h1>
       <div className="space-y-4 font-hand text-lg leading-relaxed">
