@@ -7,8 +7,11 @@ import { useGames } from '../../hooks/useGames'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
-function ageLabel(g) { return g.max_age ? `גילאי ${g.min_age}-${g.max_age}` : `גיל ${g.min_age}+` }
-function timeLabel(g) { return g.duration_max && g.duration_max !== g.duration_min ? `${g.duration_min}-${g.duration_max} דק׳` : `${g.duration_min} דק׳` }
+// ⁦…⁩ (LRI/PDI) isolate the numeric range as left-to-right so the
+// browser's bidi algorithm can't reorder "min-max" inside RTL text — the same
+// class of bug fixed with <bdi dir="ltr"> in BirthdayFamous.jsx.
+function ageLabel(g) { return g.max_age ? `גילאי ⁦${g.min_age}-${g.max_age}⁩` : `גיל ${g.min_age}+` }
+function timeLabel(g) { return g.duration_max && g.duration_max !== g.duration_min ? `⁦${g.duration_min}-${g.duration_max}⁩ דק׳` : `${g.duration_min} דק׳` }
 function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_players} משתתפים` : `${g.min_players}+ משתתפים` }
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
