@@ -82,8 +82,8 @@ export default function GamePage() {
       )}
 
       <div className="flex flex-wrap gap-2 mb-6">
-        <Badge>{game.max_age ? `גילאי ${game.min_age}-${game.max_age}` : `גיל ${game.min_age}+`}</Badge>
-        <Badge color="yellow">{game.duration_max ? `${game.duration_min}-${game.duration_max} דק׳` : `${game.duration_min} דק׳`}</Badge>
+        <Badge>{game.max_age ? <>גילאי <bdi dir="ltr">{game.min_age}-{game.max_age}</bdi></> : `גיל ${game.min_age}+`}</Badge>
+        <Badge color="yellow">{game.duration_max ? <><bdi dir="ltr">{game.duration_min}-{game.duration_max}</bdi> דק׳</> : `${game.duration_min} דק׳`}</Badge>
         <Badge>{game.max_players ? `${game.min_players}-${game.max_players} משתתפים` : `${game.min_players}+ משתתפים`}</Badge>
         <Badge color={game.equipment_needed ? 'default' : 'blue'}>{game.equipment_needed ? game.equipment : 'בלי ציוד'}</Badge>
         <Badge>{game.energy_level === 'high' ? '⚡ תנועה מלאה' : game.energy_level === 'low' ? '😌 רגוע' : '🔄 בינוני'}</Badge>
