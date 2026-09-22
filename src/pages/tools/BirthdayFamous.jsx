@@ -203,7 +203,8 @@ export default function BirthdayFamous() {
                 <div className="p-5">
                   <h3 className="text-2xl font-black">{person.name}</h3>
                   <p className="mt-1 font-bold text-[var(--accent)]">
-                    {person.year}{person.died ? `–${person.died}` : ` · בן/בת ${today.getFullYear() - person.year}`}
+                    <bdi dir="ltr">{person.year}{person.died ? `–${person.died}` : ''}</bdi>
+                    {!person.died && ` · בן/בת ${today.getFullYear() - person.year}`}
                   </p>
                   {person.desc && <p className="mt-2 line-clamp-3 text-[var(--muted-foreground)]">{person.desc}</p>}
                   <span className="mt-4 inline-block font-bold text-[var(--accent)]">לקריאה בוויקיפדיה ←</span>
