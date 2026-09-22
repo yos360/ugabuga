@@ -35,7 +35,7 @@ export default function RandomPicker() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="גלגל שמות" description="הגרילו שם רנדומלי מרשימה — עם או בלי חזרות." path="/tools/random-picker" />
+      <SEO title="גלגל שמות" description="גלגל שמות להגרלה: מדביקים רשימת שמות ומגרילים בלחיצה — עם או בלי חזרות. מושלם לבחירת תלמיד, לחלוקת משימות ולהגרלות במסיבה." path="/tools/random-picker" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'גלגל שמות' }]} />
       <h1 className="text-4xl text-center mb-6">🎡 גלגל שמות</h1>
 
