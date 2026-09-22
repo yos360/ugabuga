@@ -28,7 +28,11 @@ const origin = `http://127.0.0.1:${server.address().port}`
 const browser = await chromium.launch({ headless: true, ...(process.platform === 'win32' ? { channel: 'msedge' } : {}) })
 const snapshots = []
 try {
-  const xml = await readFile('public/sitemap.xml', 'utf8')
+  // Prerendered snapshots come from the curated static list, not the full
+  // (Supabase-augmented) sitemap.xml — see scripts/generate-sitemap.mjs. Games
+  // are 100+ and change independently of a deploy, so they're discovered via
+  // the sitemap and rendered client-side instead of being snapshotted here.
+  const xml = await readFile('public/sitemap-static.xml', 'utf8')
   const paths = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname)
   const context = await browser.newContext()
   await context.addInitScript(() => { window.__PRERENDER__ = true })
