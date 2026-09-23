@@ -17,30 +17,26 @@ export const ownerSupabase = createClient(OWNER_AUTH_URL, PUBLIC_KEY, {
   },
   auth: {
     storageKey: 'ugabuga-owner-auth',
-    flowType: 'pkce',
+    // Implicit flow so the magic link works from any browser or device,
+    // not only the one that requested it (PKCE needs the same browser).
+    flowType: 'implicit',
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: true,
   },
 })
 
-export async function startOwnerGoogleLogin() {
-  // A disabled provider otherwise sends people to a raw JSON error page.
-  const response = await fetch(`${OWNER_AUTH_URL}/auth/v1/settings`, {
-    headers: { apikey: PUBLIC_KEY },
-    signal: AbortSignal.timeout(10000),
+// Magic link to the fixed owner address. No password, no external provider
+// setup, and nobody can request a link to any other address from this page.
+export async function startOwnerEmailLogin() {
+  const { error } = await ownerSupabase.auth.signInWithOtp({
+    email: OWNER_EMAIL,
+    options: { emailRedirectTo: `${window.location.origin}/admin/activity` },
   })
-  if (!response.ok) throw new Error('לא הצלחנו להתחבר כרגע. נסו שוב בעוד רגע.')
-  const settings = await response.json()
-  if (!settings.external?.google) {
-    throw new Error('חיבור Google עדיין ממתין להשלמת ההגדרה. הדוח נשאר פרטי.')
+  if (error) {
+    if (/rate|limit|too many/i.test(error.message)) {
+      throw new Error('נשלחו כבר כמה קישורים לאחרונה. בדקו את תיבת המייל או נסו שוב בעוד כמה דקות.')
+    }
+    throw new Error('לא הצלחנו לשלוח את קישור הכניסה. נסו שוב בעוד רגע.')
   }
-  const { error } = await ownerSupabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo: `${window.location.origin}/admin/activity`,
-      queryParams: { login_hint: OWNER_EMAIL, prompt: 'select_account' },
-    },
-  })
-  if (error) throw new Error('לא הצלחנו לפתוח את הכניסה עם Google. נסו שוב.')
 }
