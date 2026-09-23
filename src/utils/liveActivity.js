@@ -84,6 +84,7 @@ export function classifySource(referrer, utm, host) {
   let ref = ''
   try { ref = referrer ? new URL(referrer).hostname.replace(/^www\./, '') : '' } catch { ref = '' }
   if (ref && host && ref === host.replace(/^www\./, '')) return 'internal'
+  if (String(utm || '').toLowerCase() === 'qr') return 'qr'
   const t = `${String(utm || '').toLowerCase()} ${ref}`
   if (!t.trim()) return 'direct'
   if (/mail\.|gmail|outlook|newsletter|email/.test(t)) return 'email'
