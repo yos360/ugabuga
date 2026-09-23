@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { connectActivity, recordActivity, activityForPath, ACTIVITY_LABELS, ACTION_LABELS } from '../../utils/liveActivity'
+import { connectActivity, recordActivity, logEvent, activityForPath, ACTIVITY_LABELS, ACTION_LABELS } from '../../utils/liveActivity'
 import './recent-activity.css'
 
-export function recordPrintPreview() { recordActivity('print', activityForPath(window.location.pathname)) }
+export function recordPrintPreview() { recordActivity('print', activityForPath(window.location.pathname)); logEvent('print') }
 
 export default function RecentActivity() {
   const { pathname } = useLocation()
@@ -11,6 +11,9 @@ export default function RecentActivity() {
   const [hidden, setHidden] = useState(false)
   useEffect(() => connectActivity(setState), [])
   useEffect(() => {
+    // Every page view goes to the private owner log; the public live banner
+    // still only shows the curated activity categories.
+    logEvent('open', pathname)
     const timer = setTimeout(() => recordActivity('open', activityForPath(pathname)), 1800)
     return () => clearTimeout(timer)
   }, [pathname])
