@@ -19,8 +19,8 @@ export default function Layout({ children }) {
       <ScrollToTop />
       <Navbar />
       <div className="site-beta-notice" role="status">
-        <span>🛠️ האתר עדיין בהרצה ומשתפר כל הזמן.</span>
-        <span>נשמח לשמוע על רעיונות, שיפורים או תקלות.</span>
+        <span>💛 שמחים שאתם כאן!</span>
+        <span>יש לכם רעיון למשחק או משוב? נשמח לשמוע.</span>
         <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a>
       </div>
       {mounted && <RecentActivity />}
