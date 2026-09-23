@@ -70,3 +70,16 @@
 
 @media print { .roots-editor .roots-book::before { display: none; } }
 .roots-print-text{display:none}@media print{.roots-print-text{display:block!important;white-space:pre-wrap;overflow-wrap:anywhere;min-height:0;padding:8px 0}.direct-roots .root-page{height:auto!important;overflow:visible!important}.direct-roots .direct-photo.print-keep{display:grid!important;break-inside:avoid}.direct-roots .direct-photo input{display:none!important}}
+
+/* Phone fix: the cover title input (2-3rem font) has an intrinsic width of ~300px
+   and the book is a single auto-sized grid column, so every page was forced wider
+   than the screen and the left side was cut off (body has overflow-x:hidden).
+   Let the column and its fields shrink to the available width. */
+.direct-roots .direct-book { grid-template-columns: minmax(0, 1fr); }
+.direct-roots .direct-book > *,
+.direct-roots .direct-field,
+.direct-roots .direct-area { min-width: 0; max-width: 100%; }
+@media (max-width: 650px) {
+  .direct-roots .direct-book { padding: 8px; border-radius: 16px; }
+  .direct-roots .direct-book .root-page { padding: 18px; }
+}
