@@ -57,7 +57,10 @@ try {
       if (result.canonical.length !== 1 || result.descriptions !== 1 || result.h1 !== 1 || result.robots.includes('noindex')) throw new Error(`Invalid SEO snapshot ${path}: ${JSON.stringify(result)}`)
       if (result.canonical[0] !== `https://ugabuga.co.il${path}`) throw new Error(`Wrong canonical on ${path}: ${result.canonical[0]}`)
       // Preserve relative assets, never serialize localhost URLs from DOM properties.
-      const html = await page.content()
+      // Vite injects <link rel="modulepreload"> tags with absolute URLs of this
+      // temporary build server (http://127.0.0.1:PORT/...). Make them site-relative,
+      // otherwise every visitor's browser tries to load files from its own localhost.
+      const html = (await page.content()).replaceAll(origin + '/', '/')
       snapshots.push({ path, html, title: result.title })
       if (snapshots.length % 25 === 0) console.log(`Pre-rendered ${snapshots.length}/${paths.length}`)
     }
@@ -101,7 +104,7 @@ try {
           const valid = result.canonical.length === 1 && result.canonical[0] === `https://ugabuga.co.il${path}` && result.descriptions === 1 && result.h1 === 1 && !result.robots.includes('noindex')
           if (!valid || titles.has(result.title)) { skipped++; console.warn(`Skipping game snapshot ${path}: ${JSON.stringify(result)}`); continue }
           titles.add(result.title)
-          const html = await page.content()
+          const html = (await page.content()).replaceAll(origin + '/', '/')
           const destination = resolve(dist, path.slice(1) + '.html')
           await mkdir(dirname(destination), { recursive: true })
           await writeFile(destination, html)
