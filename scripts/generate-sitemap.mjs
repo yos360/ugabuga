@@ -17,6 +17,20 @@ import { readFile, writeFile } from 'node:fs/promises'
 // that were consolidated into a dedicated /tools/* page, e.g. buga-bingo →
 // /tools/bingo-maker) is skipped, so we never submit a URL to Google that just
 // 301s somewhere else.
+//
+// INTERIM FIX (2026-09-24): a live-site audit found that /games/buga-bingo,
+// /games/eretz-ir-buga, /games/emet-o-buga, /games/buga-trivia and /games/buga-town
+// were expected to be indexable but were missing from the sitemap — they're
+// exactly the "legacy games with a /tools/ redirect" case the skip-logic above is
+// designed to exclude. Removing that skip-logic globally risks reintroducing dead
+// URLs for the *other* legacy aliases in _redirects that never had real game rows
+// (e.g. /games/wheel, /games/timer, /games/riddles), so instead we add just these
+// specific, confirmed-real slugs back in below (plus buga-terutzim, see Fix 1 for
+// the games.js slug-typo bug that produced a broken buga-tirutzim link). This is a
+// pragmatic stopgap, not a full fix: whoever revisits this should decide whether
+// these five /games/ URLs should keep redirecting at all (submitting a URL that
+// 301s is unusual SEO practice) or whether the redirects should be removed instead.
+const INTERIM_EXTRA_GAME_SLUGS = ['buga-bingo', 'eretz-ir-buga', 'emet-o-buga', 'buga-trivia', 'buga-town', 'buga-terutzim']
 
 const SUPABASE_URL = 'https://judhoitufvlqxjhjgnsm.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
@@ -45,24 +59,31 @@ async function getActiveGameSlugs() {
 async function main() {
   const staticXml = await readFile(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8')
 
-  let gameUrls = ''
+  const seen = new Set()
+  const lines = []
   try {
     const [redirectedSlugs, games] = await Promise.all([getRedirectedGameSlugs(), getActiveGameSlugs()])
-    const seen = new Set()
-    const lines = []
     for (const { slug, updated_at } of games) {
       if (!slug || redirectedSlugs.has(slug) || seen.has(slug)) continue
       seen.add(slug)
       const lastmod = updated_at ? ` <lastmod>${updated_at.slice(0, 10)}</lastmod>` : ''
       lines.push(`  <url><loc>https://ugabuga.co.il/games/${slug}</loc>${lastmod} <priority>0.6</priority></url>`)
     }
-    gameUrls = lines.join('\n')
     console.log(`generate-sitemap: added ${lines.length} game pages (${redirectedSlugs.size} legacy slugs skipped).`)
   } catch (err) {
   // Never fail the build over this — ship the static sitemap rather than break deploys.
     console.warn(`generate-sitemap: could not fetch games from Supabase, keeping static sitemap only. ${err.message}`)
   }
 
+  // Add the interim slugs regardless of whether the Supabase fetch above worked,
+  // so these known-real URLs are never dropped by a transient fetch failure.
+  for (const slug of INTERIM_EXTRA_GAME_SLUGS) {
+    if (seen.has(slug)) continue
+    seen.add(slug)
+    lines.push(`  <url><loc>https://ugabuga.co.il/games/${slug}</loc> <priority>0.6</priority></url>`)
+  }
+
+  const gameUrls = lines.join('\n')
   const merged = gameUrls
     ? staticXml.replace('</urlset>', `${gameUrls}\n</urlset>`)
     : staticXml
