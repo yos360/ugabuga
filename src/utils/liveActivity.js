@@ -19,6 +19,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   'hidden-object':'מציאת חפצים','mixed-activities':'דף פעילות משולב','missing-picture':'השלמת תמונה חסרה',
   game:'משחקים',worksheet:'דפי פעילות',tool:'כלי משחק',calculator:'מחשבון למסיבה',
   invitation:'הזמנות',greeting:'ברכות',printables:'דפים להדפסה',create:'יוצרים',classroom:'פעילויות לכיתה',birthday:'פעילויות ליום הולדת',
+  page:'עמודים באתר',
 })
 const ALIASES = {bingo:'bingo-maker','word-search':'word-search-maker','escape-room':'escape-rooms',quiz:'trivia-quiz',trivia:'trivia-quiz',timer:'countdown-timer',wheel:'random-picker','truth-or-buga':'truth-or-dare','scavenger-hunt':'scavenger-hunt-maker'}
 export function activityForPath(path) {
@@ -31,12 +32,13 @@ export function activityForPath(path) {
   if (parts[0] === 'tools') return 'tool'
   return null
 }
-export const ACTION_LABELS=Object.freeze({open:'פתחו',print:'פתחו חלון הדפסה',create:'לחצו ליצירת פעילות',check:'לחצו לבדיקת תשובות',play:'לחצו להתחלת משחק',refresh:'ביקשו פעילות חדשה',download:'לחצו להורדה',use:'בחרו אפשרות'})
+export const ACTION_LABELS=Object.freeze({open:'פתחו',print:'פתחו חלון הדפסה',create:'לחצו ליצירת פעילות',check:'לחצו לבדיקת תשובות',play:'לחצו להתחלת משחק',refresh:'ביקשו פעילות חדשה',download:'לחצו להורדה',use:'בחרו אפשרות',share:'שיתפו'})
 export function validActivity(payload) {
   return !!(payload && typeof payload.action==='string' && Object.hasOwn(ACTION_LABELS,payload.action) && typeof payload.category === 'string' && Object.hasOwn(ACTIVITY_LABELS,payload.category))
 }
 export function buttonAction(label){
   if(/הדפס|הדפיס/.test(label))return null // beforeprint is the reliable event, not a preview click.
+  if(/שתפ|שיתוף|וואטסאפ|whatsapp/i.test(label))return 'share'
   if(/בדק|בדיק/.test(label))return 'check'
   if(/התח|שחק/.test(label))return 'play'
   if(/הורד/.test(label))return 'download'
@@ -62,10 +64,72 @@ export function recordActivity(action,category) {
   sent.set(key,Date.now())
   sent.set('*',Date.now())
   void connection.track({online:true,activity:{...payload,at:Date.now()}}).catch(() => {})
-  // Private, owner-only historical log (see /admin/activity). Same fixed
-  // category/action codes as the live banner above — never names, form
-  // values or full URLs. Best-effort: silently ignored if it fails.
-  if (dbClient) void Promise.resolve(dbClient.rpc('record_site_event', {p_category:category,p_action:action})).catch(() => {})
+}
+
+// ---- Private owner analytics (see /admin/activity) ----
+// Every page view and meaningful click is stored with: the page path (which game /
+// printable / tool), device type, traffic source, and an anonymous id that the
+// browser itself rotates every 24h (counts unique daily visitors, identifies no one).
+// Never names, typed text, IP addresses or query strings. Best-effort only.
+let dbQueue = [], visitorPromise = null
+const logged = new Map()
+function cleanPath(path) {
+  const p = String(path || '').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/'
+  return /^\/[a-z0-9/_-]{0,119}$/.test(p) ? p : null
+}
+function deviceType() {
+  try { return matchMedia('(pointer: coarse)').matches || innerWidth < 768 ? 'mobile' : 'desktop' } catch { return null }
+}
+export function classifySource(referrer, utm, host) {
+  let ref = ''
+  try { ref = referrer ? new URL(referrer).hostname.replace(/^www\./, '') : '' } catch { ref = '' }
+  if (ref && host && ref === host.replace(/^www\./, '')) return 'internal'
+  const t = `${String(utm || '').toLowerCase()} ${ref}`
+  if (!t.trim()) return 'direct'
+  if (/mail\.|gmail|outlook|newsletter|email/.test(t)) return 'email'
+  if (/whatsapp|wa\.me/.test(t)) return 'whatsapp'
+  if (/facebook|fb\.|^fb\b/.test(t)) return 'facebook'
+  if (/instagram/.test(t)) return 'instagram'
+  if (/tiktok/.test(t)) return 'tiktok'
+  if (/youtube|youtu\.be/.test(t)) return 'youtube'
+  if (/google/.test(t)) return 'google'
+  if (/bing/.test(t)) return 'bing'
+  return 'other'
+}
+function trafficSource() {
+  // Where this visit came from, decided once at landing and kept for the tab.
+  try {
+    const saved = sessionStorage.getItem('buga-src')
+    if (saved) return saved
+    const src = classifySource(document.referrer, new URLSearchParams(location.search).get('utm_source'), location.hostname)
+    sessionStorage.setItem('buga-src', src)
+    return src
+  } catch { return null }
+}
+function isOwnerBrowser() {
+  // The owner's own browsing is left out of the stats (unless explicitly opted in).
+  try { return !!localStorage.getItem('ugabuga-owner-auth') && localStorage.getItem('buga-track-self') !== '1' } catch { return false }
+}
+function flushDb() {
+  if (!dbClient) return
+  const items = dbQueue; dbQueue = []
+  for (const args of items) void Promise.resolve(dbClient.rpc('record_site_event_v2', args)).catch(() => {})
+}
+export function logEvent(action, pathname = location.pathname) {
+  if (!Object.hasOwn(ACTION_LABELS, action)) return
+  const parts = String(pathname).split('/').filter(Boolean)
+  if (['admin','account','auth','login'].includes(parts[0]) || isOwnerBrowser()) return
+  const path = cleanPath(pathname)
+  const key = `${action}:${path}`
+  if (Date.now() - (logged.get(key) || 0) < 3000) return // ignore double clicks
+  logged.set(key, Date.now())
+  const category = activityForPath(path || '/') || 'page'
+  visitorPromise ||= browserKey().catch(() => null)
+  void visitorPromise.then(visitor => {
+    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor })
+    if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
+    flushDb()
+  })
 }
 async function browserKey() {
   const read = () => {
@@ -90,6 +154,7 @@ export function connectActivity(onChange) {
       ownId=id
       client=createClient('https://efhgyispuwxcplvzipcy.supabase.co','sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7',{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
       dbClient=client
+      flushDb()
       const production=['ugabuga.co.il','www.ugabuga.co.il'].includes(location.hostname)
       channel=client.channel(production?'buga-public-live-v1':'buga-preview-live-v1',{config:{presence:{key:id},broadcast:{self:false,ack:true}}})
       channel.on('presence',{event:'sync'},sync).subscribe(async status=>{
@@ -105,12 +170,12 @@ export function connectActivity(onChange) {
         })
     } catch {state.count=null;publish()}
   }
-  const onPrint=()=>recordActivity('print',activityForPath(location.pathname))
+  const onPrint=()=>{recordActivity('print',activityForPath(location.pathname));logEvent('print')}
   const onClick=event=>{
     const button=event.target instanceof Element?event.target.closest('button'):null
     if(!event.isTrusted||!button||button.disabled||!button.closest('main')||button.closest('form'))return
     const action=buttonAction(button.textContent||'')
-    if(action)recordActivity(action,activityForPath(location.pathname))
+    if(action){recordActivity(action,activityForPath(location.pathname));logEvent(action)}
   }
   window.addEventListener('beforeprint',onPrint)
   document.addEventListener('click',onClick)
