@@ -65,7 +65,7 @@ export function recordActivity(action,category) {
   // Private, owner-only historical log (see /admin/activity). Same fixed
   // category/action codes as the live banner above — never names, form
   // values or full URLs. Best-effort: silently ignored if it fails.
-  if (dbClient) void dbClient.rpc('record_site_event', {p_category:category,p_action:action}).catch(() => {})
+  if (dbClient) void Promise.resolve(dbClient.rpc('record_site_event', {p_category:category,p_action:action})).catch(() => {})
 }
 async function browserKey() {
   const read = () => {
