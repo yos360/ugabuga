@@ -26,6 +26,24 @@ export const ownerSupabase = createClient(OWNER_AUTH_URL, PUBLIC_KEY, {
   },
 })
 
+// Password sign-in for the fixed owner address: no email round-trip, no expiring
+// links and no mail-sending rate limits. Only the password is typed on the page.
+export async function signInOwnerWithPassword(password) {
+  const { error } = await ownerSupabase.auth.signInWithPassword({ email: OWNER_EMAIL, password })
+  if (error) {
+    if (/rate|limit|too many/i.test(error.message)) {
+      throw new Error('היו יותר מדי ניסיונות. חכו כמה דקות ונסו שוב.')
+    }
+    if (/invalid|credentials/i.test(error.message)) {
+      throw new Error('הסיסמה שגויה. נסו שוב.')
+    }
+    if (/confirm/i.test(error.message)) {
+      throw new Error('החשבון עוד לא אושר. סמנו "Auto Confirm User" כשיוצרים אותו ב-Supabase.')
+    }
+    throw new Error('לא הצלחנו להתחבר כרגע. נסו שוב בעוד רגע.')
+  }
+}
+
 // Magic link to the fixed owner address. No password, no external provider
 // setup, and nobody can request a link to any other address from this page.
 export async function startOwnerEmailLogin() {
