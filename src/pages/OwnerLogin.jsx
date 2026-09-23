@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react'
-import { OWNER_EMAIL, ownerSupabase, startOwnerGoogleLogin } from '../utils/ownerAuth'
+import { OWNER_EMAIL, ownerSupabase, startOwnerEmailLogin } from '../utils/ownerAuth'
 import SEO from '../components/ui/SEO'
 
 export default function OwnerLogin({ children }) {
   const [session, setSession] = useState(undefined)
   const [busy, setBusy] = useState(false)
+  const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let active = true
     const url = new URL(window.location.href)
-    const callbackError = url.searchParams.get('error') || new URLSearchParams(url.hash.slice(1)).get('error')
+    const hashParams = new URLSearchParams(url.hash.slice(1))
+    const callbackError = url.searchParams.get('error_description') || hashParams.get('error_description')
+      || url.searchParams.get('error') || hashParams.get('error')
     if (callbackError) {
-      setError('הכניסה עם Google לא הושלמה. אפשר לנסות שוב.')
+      setError(/expired|invalid/i.test(callbackError)
+        ? 'הקישור פג תוקף או כבר נוצל. שלחו קישור חדש.'
+        : 'הכניסה לא הושלמה. שלחו קישור חדש.')
       window.history.replaceState(window.history.state, '', url.pathname)
     }
     ownerSupabase.auth.getSession().then(({ data, error: sessionError }) => {
       if (!active) return
       setSession(data.session)
-      if (sessionError) setError('הכניסה הקודמת פגה. לחצו על Google כדי להיכנס מחדש.')
+      if (sessionError) setError('הכניסה הקודמת פגה. שלחו קישור חדש כדי להיכנס.')
     }).catch(() => {
       if (!active) return
       setSession(null)
@@ -36,12 +41,13 @@ export default function OwnerLogin({ children }) {
     setSession(null)
   }
 
-  async function google() {
+  async function sendLink() {
     setBusy(true)
     setError('')
     try {
       if (session) await signOut()
-      await startOwnerGoogleLogin()
+      await startOwnerEmailLogin()
+      setSent(true)
     } catch (loginError) {
       setError(loginError.name === 'TimeoutError' || loginError instanceof TypeError
         ? 'החיבור מתעכב. בדקו את האינטרנט ונסו שוב.'
@@ -67,20 +73,19 @@ export default function OwnerLogin({ children }) {
     <section className="rounded-3xl border-2 border-slate-200 bg-white p-7 text-center shadow-[0_7px_0_#e5e7eb]">
       <p className="font-bold text-violet-600">עוגה בוגה · אזור בעלים</p>
       <h1 className="mt-3 text-3xl font-black">הדוח הפרטי שלך</h1>
-      <p className="mt-3 leading-relaxed text-slate-600">נכנסים עם חשבון Google שלך.<br />בלי סיסמה נוספת.</p>
+      <p className="mt-3 leading-relaxed text-slate-600">שולחים קישור כניסה חד־פעמי למייל של בעל האתר.<br />בלי סיסמה.</p>
       {session === undefined ? <p className="mt-7" role="status">בודקים את הכניסה…</p> : <>
         {session && <p className="mt-5 rounded-xl bg-amber-50 p-3 text-amber-900" role="alert">
-          החשבון שנבחר אינו חשבון הבעלים. בחרו את החשבון המאושר כדי להמשיך.
+          החשבון המחובר אינו חשבון הבעלים. שלחו קישור חדש כדי להיכנס עם החשבון המאושר.
         </p>}
-        <button type="button" onClick={google} disabled={busy}
+        {sent ? <div className="mt-7 rounded-xl bg-emerald-50 p-4 text-emerald-900" role="status">
+          <p className="font-bold">✉️ הקישור נשלח למייל של בעל האתר.</p>
+          <p className="mt-1 text-sm">פתחו את המייל ולחצו על הקישור. אם לא הגיע תוך דקה, בדקו בתיקיית הספאם.</p>
+        </div> : null}
+        <button type="button" onClick={sendLink} disabled={busy}
           className="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border-2 border-slate-300 bg-white px-4 py-3 font-bold text-slate-800 shadow-sm transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600 disabled:opacity-60">
-          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.39-.18-2.05H12v3.88h5.38a4.61 4.61 0 0 1-1.99 3.03v2.52h3.23c1.89-1.74 2.98-4.31 2.98-7.38Z" />
-            <path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.39l-3.23-2.52c-.9.6-2.05.97-3.39.97-2.6 0-4.8-1.76-5.59-4.13H3.07v2.6A10 10 0 0 0 12 22Z" />
-            <path fill="#FBBC05" d="M6.41 13.93A6 6 0 0 1 6.1 12c0-.67.11-1.32.31-1.93v-2.6H3.07A10 10 0 0 0 2 12c0 1.61.39 3.14 1.07 4.53l3.34-2.6Z" />
-            <path fill="#EA4335" d="M12 5.94c1.47 0 2.79.5 3.83 1.51L18.7 4.6A9.6 9.6 0 0 0 12 2a10 10 0 0 0-8.93 5.47l3.34 2.6C7.2 7.7 9.4 5.94 12 5.94Z" />
-          </svg>
-          {busy ? 'מתחברים ל־Google…' : session ? 'בחירת חשבון Google אחר' : 'כניסה עם Google'}
+          <span aria-hidden="true">🔑</span>
+          {busy ? 'שולחים קישור…' : sent ? 'שליחת קישור נוסף' : 'שלחו לי קישור כניסה למייל'}
         </button>
       </>}
       {error && <p role="alert" className="mt-5 rounded-xl bg-red-50 p-3 text-red-700">{error}</p>}
