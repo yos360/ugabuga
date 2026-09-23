@@ -3,3 +3,9 @@
 .buga-flow{background:white;width:100%;padding:5%;box-sizing:border-box;overflow-wrap:anywhere}.buga-flow .paper-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.buga-flow footer{display:block!important}@media print{#buga-print-output .buga-flow{width:190mm;min-height:0;padding:4mm;box-shadow:none;break-after:page}#buga-print-output .buga-flow:last-child{break-after:auto}#buga-print-output .buga-flow .paper-block{break-inside:avoid}}
 /* Text worksheets reflow in a narrow preview; never crop the bottom tasks. */
 @media screen{.buga-preview-pages .buga-a4:has(.print-sheet){aspect-ratio:auto;overflow:visible}.buga-preview-pages .buga-a4 .print-sheet{height:auto}}
+/* QR stamp on every printed page, back to the exact page it was printed from. */
+.buga-a4,.buga-flow{position:relative}
+.buga-qr{position:absolute;bottom:3mm;left:3mm;z-index:5;display:flex;align-items:flex-end;gap:3px;background:#fff;border-radius:4px;padding:1.5mm;box-shadow:0 0 0 1px #ddd}
+.buga-qr svg{width:13mm;height:13mm;display:block;flex:none}
+.buga-qr-label{font-size:6.5pt;line-height:1.2;color:#555;white-space:nowrap}
+@media print{.buga-qr{box-shadow:none;border:.5px solid #ddd}}
