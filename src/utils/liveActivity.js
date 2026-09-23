@@ -51,7 +51,7 @@ export function recentPresence(state,ownId,now=Date.now()){
   }).sort((a,b)=>b.at-a.at).slice(0,3)
 }
 export function presenceCount(state) { return Object.values(state).filter(entries => Array.isArray(entries) && entries.length > 0).length }
-let connection = null, queued = null
+let connection = null, queued = null, dbClient = null
 const sent = new Map()
 export function recordActivity(action,category) {
   const payload = {action,category}
@@ -62,6 +62,10 @@ export function recordActivity(action,category) {
   sent.set(key,Date.now())
   sent.set('*',Date.now())
   void connection.track({online:true,activity:{...payload,at:Date.now()}}).catch(() => {})
+  // Private, owner-only historical log (see /admin/activity). Same fixed
+  // category/action codes as the live banner above — never names, form
+  // values or full URLs. Best-effort: silently ignored if it fails.
+  if (dbClient) void dbClient.rpc('record_site_event', {p_category:category,p_action:action}).catch(() => {})
 }
 async function browserKey() {
   const read = () => {
@@ -85,6 +89,7 @@ export function connectActivity(onChange) {
       if(stopped)return
       ownId=id
       client=createClient('https://efhgyispuwxcplvzipcy.supabase.co','sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7',{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
+      dbClient=client
       const production=['ugabuga.co.il','www.ugabuga.co.il'].includes(location.hostname)
       channel=client.channel(production?'buga-public-live-v1':'buga-preview-live-v1',{config:{presence:{key:id},broadcast:{self:false,ack:true}}})
       channel.on('presence',{event:'sync'},sync).subscribe(async status=>{
