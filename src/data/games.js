@@ -13,7 +13,7 @@ export const games = [
     goals: ['להצחיק', 'למלא זמן'], tags: ['דף ועט', 'מילים', 'קלאסיקה'],
   },
   {
-    slug: 'buga-tirutzim', name: 'BUGA תירוצים', content_type: 'GAME_ENGINE', category: 'הומור',
+    slug: 'buga-terutzim', name: 'BUGA תירוצים', content_type: 'GAME_ENGINE', category: 'הומור',
     min_age: 8, min_players: 3, max_players: 20, duration_min: 10, duration_max: 20,
     equipment: 'אין', equipment_needed: false, energy_level: 'low', noise_level: 'high',
     short_description: 'BUGA נותן סיטואציה, אתם ממציאים תירוצים — ואז BUGA מסבך.',
