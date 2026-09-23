@@ -28,6 +28,36 @@
     <meta name="apple-mobile-web-app-title" content="עוגה בוגה" />
     <link rel="manifest" href="/site.webmanifest?v=2" />
 
+    <!-- Self-heal: if a browser cached a broken copy of an app file (e.g. HTML saved
+         under a .js URL during a deploy), the app never starts and nothing is
+         clickable. On such a load failure, re-download the app files bypassing the
+         cache and reload once. Runs before the app so it also covers the main file. -->
+    <script>
+      (function () {
+        function heal(extra) {
+          try { var last = +sessionStorage.getItem('uga-heal') || 0; if (Date.now() - last < 60000) return; sessionStorage.setItem('uga-heal', String(Date.now())) } catch (e) { return }
+          var urls = [].map.call(document.querySelectorAll('script[type=module][src], link[rel=modulepreload][href]'), function (el) { return el.src || el.href })
+          if (extra) urls.push(extra)
+          urls = urls.filter(function (u) { return u.indexOf(location.origin + '/assets/') === 0 })
+          Promise.all(urls.map(function (u) { return fetch(u, { cache: 'reload', credentials: 'same-origin' }).catch(function () {}) }))
+            .then(function () { location.reload() })
+        }
+        window.__ugaHeal = heal
+        window.addEventListener('error', function (e) {
+          var t = e.target
+          if (t && t.tagName === 'SCRIPT' && t.type === 'module' && !window.__UGA_BOOTED__) heal()
+        }, true)
+        window.addEventListener('vite:preloadError', function (e) {
+          var m = String(e.payload && e.payload.message || '').match(/https?:\/\/\S+\.js/)
+          e.preventDefault()
+          heal(m && m[0])
+        })
+        window.addEventListener('load', function () {
+          setTimeout(function () { if (!window.__UGA_BOOTED__) heal() }, 4000)
+        })
+      })()
+    </script>
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XK1W5R504"></script>
     <script>
