@@ -28,7 +28,15 @@ export async function onRequest({ request, env, next }) {
     if (request.method !== 'GET' || res.status !== 200) return res
     if (!(res.headers.get('content-type') || '').includes('text/html')) return res
     const url = new URL(request.url)
-    if (/\.[a-z0-9]{1,8}$/i.test(url.pathname)) return res
+    // A missing file (JS/CSS/image...) must never be answered with the HTML shell.
+    // /assets/* is cached for a year as "immutable", so a single HTML reply to a JS
+    // URL (e.g. while a deploy is propagating) leaves that visitor's browser running
+    // HTML as code: the site looks normal but nothing is clickable, until the cache
+    // clears. A real, uncached 404 lets the browser simply try again next time.
+    if (/\.[a-z0-9]{1,8}$/i.test(url.pathname)) {
+      if (/\.html?$/i.test(url.pathname)) return res
+      return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } })
+    }
     const routes = await loadRoutes(env, url)
     if (!routes) return res
     const path = url.pathname.replace(/\/+$/, '') || '/'
