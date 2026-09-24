@@ -12,7 +12,7 @@ export default function ThemePage() {
     const themes = Object.entries(PARTY_KITS).slice(0, 8)
     return (
       <div className="mx-auto max-w-4xl px-4 py-12 text-center buga-fade-in">
-        <SEO title="רעיונות לפי נושא" description="בחרו נושא פעיל למסיבה, יום הולדת או פעילות." path="/ideas/themes" />
+        <SEO title="רעיונות לפי נושא" description="בחרו נושא פעיל למסיבה, יום הולדת או פעילות." path="/ideas" noindex />
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: 'נושאים' }]} />
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
           <h1 className="text-4xl mb-3">🎭 הנושא הזה לא נמצא</h1>

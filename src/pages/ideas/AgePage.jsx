@@ -7,11 +7,12 @@ export default function AgePage() {
   const { age } = useParams()
   const { games, loading } = useGames()
   const ageNum = parseInt(age)
+  const validAge = String(ageNum) === age && ageNum >= 1 && ageNum <= 120
   const filtered = games.filter(g => g.min_age <= ageNum && (!g.max_age || g.max_age >= ageNum))
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title={`רעיונות ליום הולדת גיל ${age}`} description={`משחקים ורעיונות ליום הולדת גיל ${age} — בלי ציוד, בלי הכנה, חינם.`} path={'/ideas/age/'+age} />
+      <SEO title={`רעיונות ליום הולדת גיל ${age}`} description={`משחקים ורעיונות ליום הולדת גיל ${age} — בלי ציוד, בלי הכנה, חינם.`} path={'/ideas/age/'+age} noindex={!validAge} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: 'גיל '+age }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-8">🎂 רעיונות ליום הולדת גיל {age}</h1>
       {loading ? <div className="text-center py-12 text-4xl buga-bounce">🎂</div> : (

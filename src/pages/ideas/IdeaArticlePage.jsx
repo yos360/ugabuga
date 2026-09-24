@@ -12,7 +12,7 @@ export default function IdeaArticlePage() {
   if (!article) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
-        <SEO title="רעיון לא נמצא" path={'/ideas/' + slug} />
+        <SEO title="רעיון לא נמצא" path={'/ideas/' + slug} noindex />
         <h1 className="text-4xl mb-4">הרעיון לא נמצא</h1>
         <Link to="/ideas" className="font-display text-xl font-bold text-[var(--pen)] underline decoration-dashed">חזרה לעולם ההשראה ←</Link>
       </div>
