@@ -45,7 +45,7 @@ export default function SuppliersIndex() {
 
     {error ? <p className="rounded-2xl bg-amber-50 p-5 text-center">{error}</p>
       : !list ? <p className="py-10 text-center text-lg">טוענים ספקים…</p>
-      : shown.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{shown.map(s => <SupplierCard key={s.id} s={s} />)}</div>
+      : shown.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{shown.map((s, i) => <SupplierCard key={s.id} s={s} index={i} />)}</div>
       : <p className="rounded-2xl bg-slate-50 p-8 text-center text-lg">{list.length ? 'לא מצאנו ספק שמתאים לחיפוש. נסו לשנות סינון.' : 'הספקים הראשונים מצטרפים ממש עכשיו 🎈'}</p>}
 
     <section className="wobbly mt-10 border-2 border-[var(--border)] bg-[var(--postit)] p-6 text-center sm:p-8">
