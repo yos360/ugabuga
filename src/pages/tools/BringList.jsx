@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { partyDb, partyMemory, shortLink, newId } from '../../utils/partyDb'
@@ -23,12 +23,12 @@ function useToast() {
     clearTimeout(timer.current); setToast({ text, tone })
     timer.current = setTimeout(() => setToast(null), 3200)
   }, [])
-  const node = toast && createPortal(<div role="status" aria-live="polite" className={`fixed inset-x-4 bottom-24 z-50 mx-auto max-w-md rounded-2xl px-4 py-3 text-center font-bold text-white shadow-lg ${toast.tone === 'err' ? 'bg-rose-600' : 'bg-slate-900'}`}>{toast.text}</div>, document.body)
+  const node = toast && createPortal(<div data-bl-toast role="status" aria-live="polite" className={`fixed inset-x-4 bottom-24 z-50 mx-auto max-w-md rounded-2xl px-4 py-3 text-center font-bold text-white shadow-lg ${toast.tone === 'err' ? 'bg-rose-600' : 'bg-slate-900'}`}>{toast.text}</div>, document.body)
   return [node, show]
 }
 
 // ─── Organizer ────────────────────────────────────────────────────────────────
-function OrganizerView({ code: initialCode, onGuestPreview }) {
+function OrganizerView({ code: initialCode, onDone }) {
   const [code, setCode] = useState(initialCode || null)
   const ownerToken = useRef(initialCode ? partyMemory.ownerToken(initialCode) : null)
   const [title, setTitle] = useState('')
@@ -92,23 +92,33 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
     partyMemory.rememberOwned(row.share_code, token, row.title)
     setCode(row.share_code); setTitle(row.title); setItems(row.items); setStatus('saved')
     // Update the address bar without remounting (a remount would drop the toast
-    // and flash "loading"). A refresh later opens /l/<code> as the owner.
-    window.history.replaceState(window.history.state, '', `/l/${row.share_code}`)
+    // and flash "loading"). A refresh keeps the owner in edit mode.
+    window.history.replaceState(window.history.state, '', `/l/${row.share_code}?edit=1`)
     return row.share_code
   }
   const inviteText = c => `🧺 מי מביא מה ל${(title.trim() || 'מסיבה')}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(c)}`
   const shareWhatsApp = async () => {
+    const isNew = !code
+    // Open the window inside the tap itself: phones block popups opened after an await.
+    const win = isNew ? window.open('', '_blank') : null
     setBusy(true)
     try {
       const c = await ensureCreated()
-      window.open(`https://wa.me/?text=${encodeURIComponent(inviteText(c))}`, '_blank', 'noopener')
-    } catch (e) { showToast(errorText(e.code), 'err') } finally { setBusy(false) }
+      const url = `https://wa.me/?text=${encodeURIComponent(inviteText(c))}`
+      if (win) win.location.href = url
+      else if (isNew) { onDone(c, 'הרשימה מוכנה ✓'); window.location.href = url; return }
+      else window.open(url, '_blank', 'noopener')
+      if (isNew) onDone(c, 'הרשימה נשלחה ✓ כאן רואים מי מביא מה')
+    } catch (e) { win?.close(); showToast(errorText(e.code), 'err') } finally { setBusy(false) }
   }
   const copyLink = async () => {
+    const isNew = !code
     setBusy(true)
     try {
       const c = await ensureCreated()
-      try { await navigator.clipboard.writeText(shortLink(c)); showToast('הקישור הועתק ✓') } catch { showToast(shortLink(c)) }
+      let msg = 'הקישור הועתק ✓'
+      try { await navigator.clipboard.writeText(shortLink(c)) } catch { msg = shortLink(c) }
+      if (isNew) onDone(c, msg + ' — הדביקו אותו בוואטסאפ'); else showToast(msg)
     } catch (e) { showToast(errorText(e.code), 'err') } finally { setBusy(false) }
   }
 
@@ -121,6 +131,7 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
       <input id="bl-title" value={title} onChange={e => changeTitle(e.target.value)} placeholder="למשל: יום הולדת לנועה" maxLength={80}
         className="mt-1 w-full rounded-xl border-2 border-slate-200 px-3 py-3 text-xl font-bold placeholder:font-normal placeholder:text-slate-400 focus:border-slate-800 focus:outline-none" />
 
+      {code && <p className="mt-4 rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-900">✏️ מצב עריכה — כאן משנים את הרשימה עצמה. כדי לרשום מי מביא, לחצו "סיום עריכה".</p>}
       <div className="mt-5 flex items-baseline justify-between gap-3">
         <h2 className="text-xl font-bold">מה צריך להביא?</h2>
         {code && <span className="text-sm font-bold text-emerald-700">{taken}/{items.length} נתפסו</span>}
@@ -150,9 +161,9 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
       <span className="text-sm text-slate-600">הקישור לאורחים: <bdi dir="ltr" className="font-bold text-slate-900">{shortLink(code).replace(/^https?:\/\//, '')}</bdi></span>
       <span className="text-sm font-bold" aria-live="polite">{status === 'saving' ? 'שומרים…' : status === 'error' ? '⚠️ לא נשמר' : '✓ נשמר — אפשר לערוך גם אחרי השליחה'}</span>
     </div>}
-    {code && <div className="mt-3 flex flex-wrap justify-center gap-4 text-sm">
-      <button onClick={() => onGuestPreview(code)} className="font-bold underline">👀 איך האורחים רואים את זה</button>
-      <button onClick={() => window.print()} className="font-bold underline">🖨️ הדפסה</button>
+    {code && <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+      <button onClick={() => onDone(code)} disabled={status === 'saving'} className="min-h-[48px] rounded-2xl bg-slate-900 px-5 font-bold text-white disabled:opacity-60">✅ סיום עריכה — לרשימה</button>
+      <button onClick={() => window.print()} className="min-h-[48px] px-3 text-sm font-bold underline">🖨️ הדפסה</button>
     </div>}
 
     {/* The main action stays on screen on every device. Fixed, not sticky: the
@@ -161,8 +172,8 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
     {createPortal(
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-4px_16px_rgba(0,0,0,.06)] backdrop-blur print:hidden" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
       <div className="mx-auto flex max-w-xl gap-2">
-        <button onClick={shareWhatsApp} disabled={busy || !items.length} className="min-h-[52px] flex-1 rounded-2xl bg-[#25D366] px-4 text-lg font-bold text-white shadow disabled:opacity-60">{busy ? 'רגע…' : '📲 שליחה בוואטסאפ'}</button>
-        <button onClick={copyLink} disabled={busy || !items.length} className="min-h-[52px] shrink-0 rounded-2xl border-2 border-slate-800 bg-white px-4 font-bold disabled:opacity-60" aria-label="העתקת קישור">🔗 העתקה</button>
+        <button onClick={shareWhatsApp} disabled={busy || !items.length} className="min-h-[52px] min-w-0 flex-1 whitespace-nowrap rounded-2xl bg-[#25D366] px-3 text-base font-bold text-white shadow disabled:opacity-60 sm:text-lg">{busy ? 'רגע…' : 'שליחה בוואטסאפ'}</button>
+        <button onClick={copyLink} disabled={busy || !items.length} className="min-h-[52px] shrink-0 whitespace-nowrap rounded-2xl border-2 border-slate-800 bg-white px-3 font-bold disabled:opacity-60" aria-label="העתקת קישור">🔗 העתקה</button>
       </div>
     </div>,
       document.body)}
@@ -171,7 +182,7 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
 }
 
 // ─── Guest ────────────────────────────────────────────────────────────────────
-function GuestView({ code }) {
+function GuestView({ code, isOwner, onEdit, flash }) {
   const [list, setList] = useState(null)
   const [error, setError] = useState('')
   const [name, setName] = useState(partyMemory.guestName())
@@ -181,6 +192,12 @@ function GuestView({ code }) {
   const [pending, setPending] = useState(null)
   const [toast, showToast] = useToast()
 
+  useEffect(() => {
+    if (!flash) return
+    showToast(flash)
+    // Don't replay the message on refresh (React Router keeps state in history.state.usr).
+    try { window.history.replaceState({ ...window.history.state, usr: null }, '') } catch { /* ignore */ }
+  }, [flash, showToast])
   const refresh = useCallback(() => partyDb.get(code).then(setList).catch(e => setError(errorText(e.code))), [code])
   useEffect(() => { refresh() }, [refresh])
   useEffect(() => {
@@ -194,7 +211,7 @@ function GuestView({ code }) {
     try {
       const row = await partyDb.claim(code, item.id, who, token)
       partyMemory.setClaim(code, item.id, token); setMine(partyMemory.claims(code))
-      setList(row); showToast(`מעולה! רשמנו ש${who} מביא/ה ${item.text} ✓`)
+      setList(row); showToast(`מעולה! ${who} מביא/ה ${item.text} ✓`)
     } catch (e) { showToast(errorText(e.code), 'err'); refresh() } finally { setPending(null) }
   }
   const tap = item => { if (name) claim(item, name); else { setDraftName(''); setAsking(item) } }
@@ -221,7 +238,18 @@ function GuestView({ code }) {
   const others = list.items.filter(i => i.takenBy && !mine[i.id])
   const pct = list.items.length ? Math.round(100 * (list.items.length - free.length) / list.items.length) : 0
 
+  const invite = `🧺 מי מביא מה ל${list.title}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}`
+  const copyOwnerLink = async () => { try { await navigator.clipboard.writeText(shortLink(code)); showToast('הקישור הועתק ✓') } catch { showToast(shortLink(code)) } }
+
   return <>
+    {isOwner && <div className="mb-5 rounded-2xl border-2 border-slate-800 bg-[var(--postit)] p-3">
+      <p className="text-center font-bold">⭐ זו הרשימה שלך <span className="font-normal">· גם את/ה יכול/ה לתפוס</span></p>
+      <a href={`https://wa.me/?text=${encodeURIComponent(invite)}`} target="_blank" rel="noopener" className="mt-2 grid min-h-[48px] place-items-center rounded-xl bg-[#25D366] px-3 font-bold text-white">שליחה בוואטסאפ</a>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        <button onClick={onEdit} className="min-h-[44px] rounded-xl border-2 border-slate-800 bg-white px-2 font-bold">✏️ עריכה</button>
+        <button onClick={copyOwnerLink} className="min-h-[44px] rounded-xl border-2 border-slate-800 bg-white px-2 font-bold">🔗 העתקה</button>
+      </div>
+    </div>}
     <header className="mb-5 text-center">
       <p className="text-sm font-bold text-slate-500">🧺 מי מביא מה?</p>
       <h1 className="mt-1 text-3xl sm:text-5xl">{list.title}</h1>
@@ -285,20 +313,20 @@ function LegacyView({ encoded }) {
 
 export default function BringList() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { code: pathCode } = useParams()
   const [params, setParams] = useSearchParams()
   const code = pathCode || params.get('code')
   const legacy = params.get('list')
   const isOwner = Boolean(code && partyMemory.ownerToken(code))
-  const guest = Boolean(code) && (!isOwner || params.has('guest'))
+  const guest = Boolean(code) && !(isOwner && params.has('edit'))
   const myLists = partyMemory.myLists().filter(l => l.code !== code).slice(0, 5)
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6">
       <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="מי מביא מה? רשימה שיתופית למסיבה: מחלקים בין ההורים והאורחים מי מביא כיבוד, שתייה וציוד — קישור קצר אחד לוואטסאפ, בלי הרשמה ובלי כפילויות." path="/tools/bring-list" noindex={Boolean(code || legacy)} />
       {legacy && !code ? <LegacyView encoded={legacy} /> : guest ? <>
-        {isOwner && <div className="mb-4 flex items-center justify-between rounded-xl bg-blue-50 px-4 py-2 text-sm font-bold text-blue-900">👀 תצוגת אורח <button className="underline" onClick={() => setParams({})}>חזרה לעריכה</button></div>}
-        <GuestView code={code} />
+        <GuestView key={code} code={code} isOwner={isOwner} flash={location.state?.flash} onEdit={() => setParams({ edit: '1' })} />
       </> : <>
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'מי מביא מה?' }]} />
         <header className="mb-5 text-center">
@@ -306,7 +334,7 @@ export default function BringList() {
           <p className="mt-2 text-lg text-[var(--muted-foreground)]">כותבים מה צריך, שולחים קישור לוואטסאפ, וכל אחד תופס פריט בלחיצה. בלי הרשמה.</p>
         </header>
         {!code && myLists.length > 0 && <div className="mb-4 rounded-2xl bg-[var(--postit)] p-3 text-sm"><b>הרשימות שלי:</b> {myLists.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<Link className="underline" to={`/l/${l.code}`}>{l.title}</Link></span>)}</div>}
-        <OrganizerView key={code || 'new'} code={code} onGuestPreview={c => navigate(`/l/${c}?guest=1`)} />
+        <OrganizerView key={code || 'new'} code={code} onDone={(c, flash) => navigate(`/l/${c}`, { state: flash ? { flash } : null })} />
       </>}
     </div>
   )
