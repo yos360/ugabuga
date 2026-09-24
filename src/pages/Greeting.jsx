@@ -78,7 +78,7 @@ export default function Greeting() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
-      <SEO title="מחולל ברכות" description="צרו ברכה אישית ליום הולדת — שמח, מצחיק, חם, או בחרוזים. חינם, בלי הרשמה." path="/greeting" />
+      <SEO title="מחולל ברכות ליום הולדת — ברכה אישית בשנייה" description="כותבים שם וגיל, בוחרים סגנון — שמח, מצחיק, חם או בחרוזים — ומקבלים ברכת יום הולדת אישית בעברית. מעתיקים או שולחים בוואטסאפ. חינם, בלי הרשמה." path="/greeting" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחולל ברכות' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">💌 מחולל ברכות</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">ברכה אישית ליום הולדת בשנייה</p>

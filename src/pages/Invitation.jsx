@@ -23,7 +23,7 @@ export default function Invitation() {
 
   return (
     <div className="mx-auto max-w-6xl px-3 py-5 sm:px-6 sm:py-8 buga-fade-in">
-      <SEO title="מחולל הזמנות" description="צרו הזמנה יפה ליום הולדת ושתפו בוואטסאפ. חינם, בלי הרשמה." path="/invitation" />
+      <SEO title="מחולל הזמנות ליום הולדת — הזמנה מעוצבת לוואטסאפ" description="הזמנה ליום הולדת בדקה: בוחרים עיצוב (בלונים, חלל, דינוזאור, נסיכה, כדורגל או גיימינג), ממלאים תאריך, שעה ומקום ושולחים בוואטסאפ. חינם, בלי הרשמה." path="/invitation" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחולל הזמנות' }]} />
       <h1 className="text-center text-3xl sm:text-5xl mb-3">📨 מחולל הזמנות</h1>
       <p className="mb-6 text-center text-sm text-[var(--muted-foreground)] sm:text-lg">בוחרים עיצוב, ממלאים פרטים ורואים את ההזמנה מתעדכנת מיד</p>
@@ -37,7 +37,7 @@ export default function Invitation() {
       {/* Live invitation preview - editable */}
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,.85fr)] lg:items-start">
       <div className="wobbly order-1 border-[3px] border-[var(--border)] p-4 text-center sketch-shadow-rich sm:p-8" style={{ backgroundColor: theme.bg }}>
-        <img src="/images/invitation-party-hero.png" alt="מסיבת יום הולדת צבעונית" className="mx-auto mb-4 h-40 w-full max-w-2xl rounded-2xl border-2 border-white/80 object-cover shadow-md sm:h-56" />
+        <img src="/images/invitation-party-hero.webp" alt="מסיבת יום הולדת צבעונית" className="mx-auto mb-4 h-40 w-full max-w-2xl rounded-2xl border-2 border-white/80 object-cover shadow-md sm:h-56" />
         <p className="font-hand text-lg mb-2">הוזמנתם למסיבת יום הולדת של</p>
         <input value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 focus:outline-none" />
         <input value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 focus:outline-none" />
