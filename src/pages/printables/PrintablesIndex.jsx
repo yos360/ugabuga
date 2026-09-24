@@ -21,7 +21,7 @@ const categories = [
   { slug: 'sudoku', emoji: '🧩', title: 'סודוקו', count: 2, desc: 'סודוקו לילדים — 4×4 ו-6×6 עם פתרונות' },
   { slug: 'dot-to-dot', emoji: '🔢', title: 'חברו את הנקודות', count: 'חדש', desc: 'מגלים ציור לפי מספרים, בשלוש רמות גיל', generated: true },
   { slug: 'mandalas', emoji: '🌈', title: 'מנדלות ויצירה', count: 70, desc: '7 סגנונות, 10 דפים בכל סגנון — כולל מנדלות לילדים ולגדולים', generated: true },
-  { slug: 'find-differences', emoji: '🔎', title: 'מצא את ההבדלים', count: 'חדש', desc: 'דפי חיפוש והבדלים לפי נושא וגיל', generated: true },
+  { slug: 'find-differences', emoji: '🔎', title: 'מצאו את ההבדלים', count: 'חדש', desc: 'דפי חיפוש והבדלים לפי נושא וגיל', generated: true },
   { slug: 'color-by-number', emoji: '🎨', title: 'צבעו לפי מספר', count: 'חדש', desc: 'מספרים, צבעים וציור — בדף אחד', generated: true },
   { slug: 'word-tracing', emoji: '✏️', title: 'מילים מקווקוות', count: 'חדש', desc: 'תרגול כתיבה בעברית לפי נושא', generated: true },
   { slug: 'match-word', emoji: '🖼️', title: 'התאמת תמונה למילה', count: 'חדש', desc: 'מחברים מילים לאיורים', generated: true },

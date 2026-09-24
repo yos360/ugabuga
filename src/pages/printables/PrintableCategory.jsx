@@ -100,8 +100,8 @@ export default function PrintableCategory() {
   if (!cat) {
     return (
       <div className="mx-auto max-w-4xl px-4 py-12 text-center buga-fade-in">
-        <SEO title="דפים להדפסה" description="בחרו קטגוריית דפים להדפסה פעילה." path="/printables" />
-        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'הדפסות', href: '/printables' }, { label: 'בחירת קטגוריה' }]} />
+        <SEO title="דפים להדפסה" description="בחרו קטגוריית דפים להדפסה פעילה." path="/printables" noindex />
+        <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'בחירת קטגוריה' }]} />
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
           <h1 className="text-4xl mb-3">🖨️ קטגוריית ההדפסה לא נמצאה</h1>
           <p className="mx-auto max-w-xl text-lg text-[var(--foreground)]/75 mb-6">בחרו קטגוריה קיימת ונחזיר אתכם לדפים שעובדים.</p>
@@ -118,14 +118,14 @@ export default function PrintableCategory() {
     )
   }
 
-  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'הדפסות',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
+  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
 
   const printAll = () => setSelected(cat.files)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title={cat.title + ' להדפסה'} description={cat.desc} path={'/printables/' + slug} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'הדפסות', href: '/printables' }, { label: cat.title }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: cat.title }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{cat.title}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{cat.desc}</p>
 
