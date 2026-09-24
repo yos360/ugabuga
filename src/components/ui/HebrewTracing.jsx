@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { skeleton, SK_SIZE } from '../../utils/letterSkeleton'
-import { hebrewStrokeWord } from '../../data/hebrewStrokes'
 import PrintPreview from './PrintPreview'
 
 const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
@@ -8,17 +7,15 @@ const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
 // One centre line per stroke (see utils/letterSkeleton). Falls back to light-grey
 // letters until the line is ready, so a sheet is never blank.
 function TraceText({ text, x, y, size, dotted, color = '#444', heb = true, font = 'Heebo' }) {
-  const hand = heb ? hebrewStrokeWord(text) : null
   const [sk, setSk] = useState(null)
-  useEffect(() => { if (hand) return; let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font, !hand])
+  useEffect(() => { if (heb) return; let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font])
   const dash = k => (dotted ? [0.1, 6.5] : [7, 4.5]).map(v => v / k).join(' ')
   const cap = dotted ? 'round' : 'butt'
-  if (hand) {
-    // Letter height = the font's cap height at this size, so rows line up the same.
-    const k = size * 0.72 / 100
-    return <g transform={`translate(${x - hand.width / 2 * k} ${y - 100 * k}) scale(${k})`} fill="none" stroke={color} strokeWidth={2.8 / k} strokeDasharray={dash(k)} strokeLinecap={cap} strokeLinejoin="miter">
-      {hand.parts.map((p, i) => <path key={i} d={p.d} transform={`translate(${p.dx} 0)`} />)}
-    </g>
+  if (heb) {
+    // Real single-line tracing font. Its letters are ~0.6em tall and ~0.62em wide,
+    // so scale to match the cap height the rows are laid out for, and never overflow the page.
+    const fs = Math.min(size * 1.2, 540 / Math.max([...text].length * 0.62, 1))
+    return <text x={x} y={y} fontSize={fs} fontFamily="BugaTracer" fill={color} stroke={color} strokeWidth={fs * 0.012} direction="rtl" textAnchor="middle">{text}</text>
   }
   if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
   const k = size / SK_SIZE
@@ -114,7 +111,7 @@ function ClassNames({dotted}) {
     <textarea value={text} onChange={e=>changeText(e.target.value)} rows={5} placeholder={'נועה\nאיתי\nDaniel\nמאיה'} className="mb-3 w-full rounded-xl border-2 border-[var(--border)] bg-white p-3 text-lg" aria-label="רשימת שמות, שם בכל שורה"/>
     <div className="flex flex-wrap items-center gap-3">
       <button disabled={!list.length} onClick={()=>setNames(list)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white disabled:opacity-50">🖨️ הדפיסו {list.length ? `${list.length} דפים` : 'לכל הילדים'}</button>
-      {list.length>0 && <span className="text-sm">{list.length} שמות · דף לכל ילד · {dotted?'בנקודות':'מקווקו'}</span>}
+      {list.length>0 && <span className="text-sm">{list.length} שמות · דף לכל ילד</span>}
     </div>
 
     {list.length>0 && <form onSubmit={e=>{e.preventDefault();save()}} className="mt-4 flex flex-wrap items-center gap-2 border-t-2 border-dashed border-[var(--border)] pt-4">
@@ -129,10 +126,9 @@ function ClassNames({dotted}) {
 }
 
 export default function HebrewTracing(){
-  const [dotted,setDotted]=useState(false),[selection,setSelection]=useState(null)
+  const dotted=false,[selection,setSelection]=useState(null)
   return <section dir="rtl">
     <div className="mb-6 flex flex-wrap justify-center gap-3" aria-label="סגנון האות">
-      {[[false,'אות מקווקוות'],[true,'אות בנקודות']].map(([value,label])=><button key={label} aria-pressed={dotted===value} onClick={()=>setDotted(value)} className={`min-h-[44px] rounded-xl border-2 px-5 py-3 font-bold ${dotted===value?'border-black bg-yellow-100':'bg-white'}`}>{label}</button>)}
       <button onClick={()=>setSelection(LETTERS)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל 22 האותיות</button>
     </div>
     <ClassNames dotted={dotted}/>
