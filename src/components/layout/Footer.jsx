@@ -67,7 +67,7 @@ export default function Footer() {
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">📧 hellohugabuga@gmail.com</a>
           <p className="mt-2">רעיון למשחק? תיקון? שאלה? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
-          <p className="mt-2">ספקים שמעוניינים להצטרף — נא לפנות בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
+          <p className="mt-2">🎪 <a href="/suppliers" className="underline decoration-dashed">ספקים לימי הולדת</a> · ספקים? <a href="/suppliers/me" className="underline decoration-dashed">הצטרפו בחינם</a></p>
           <p className="mt-4 text-[var(--muted-foreground)]">עוגה בוגה 🎂 מאגר משחקים ופעילויות בעברית — כל הזכויות שמורות.</p>
         </div>
       </div>
