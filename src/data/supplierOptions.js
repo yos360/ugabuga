@@ -3,6 +3,7 @@ export const SUPPLIER_CATEGORIES = [
   ['magic', '🎩 קוסמים ומופעים'],
   ['cakes', '🎂 עוגות וקינוחים'],
   ['photo', '📸 צילום ווידאו'],
+  ['video', '🎬 עורכי וידאו ומצגות'],
   ['balloons', '🎈 בלונים ועיצוב'],
   ['inflatables', '🏰 מתנפחים ומתקנים'],
   ['music', '🎧 DJ ומוזיקה'],
