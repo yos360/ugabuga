@@ -66,7 +66,7 @@ export default function SupplierAccount() {
 
   const card = cards?.[0]
   const requestPage = async () => {
-    const win = window.open(waLink(OWNER_WHATSAPP, `היי! אני ${card.name} מעוגה בוגה, ואשמח לשמוע על דף נחיתה מלא 🙂`), '_blank', 'noopener')
+    const win = window.open(waLink(OWNER_WHATSAPP, `היי! אני ${card.name} מעוגה בוגה, ואשמח לשמוע על פרימיום בוגה 🙂`), '_blank', 'noopener')
     try { await suppliersDb.requestPage(card.id); setRequested(true) } catch { if (!win) setErr('לא הצלחנו לשלוח. נסו שוב.') }
   }
 
@@ -94,10 +94,10 @@ export default function SupplierAccount() {
             </div>
             <div><h2 className="mb-3 text-2xl font-black">📊 30 הימים האחרונים</h2><Stats stats={card.stats} /></div>
             {card.plan !== 'page' && <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sm:p-6">
-              <h2 className="font-display text-2xl font-bold">⭐ רוצים דף נחיתה מלא?</h2>
-              <p className="mt-1">דף עסק מעוצב מבית עוגה בוגה: 5 תבניות לבחירה, גלריית תמונות, סרטונים, רשימת שירותים וכפתורי פנייה.</p>
+              <h2 className="font-display text-2xl font-bold">⭐ פרימיום בוגה</h2>
+              <p className="mt-1">הכרטיס שלך נשאר בחינם, ולמצטרפים הראשונים: 3 חודשים של פרימיום בחינם! 🎁 דף נחיתה מעוצב מבית עוגה בוגה: 5 תבניות לבחירה, גלריית תמונות, סרטונים, רשימת שירותים, ובקרוב גם ביקורות מלקוחות.</p>
               {card.page_request || requested ? <p className="mt-3 font-bold text-emerald-800">✓ קיבלנו את הבקשה — נחזור אליך בוואטסאפ.</p>
-                : <button onClick={requestPage} className="mt-4 rounded-2xl bg-[var(--ink)] px-5 py-3 font-bold text-white">אני רוצה דף נחיתה — דברו איתי</button>}
+                : <button onClick={requestPage} className="mt-4 rounded-2xl bg-[var(--ink)] px-5 py-3 font-bold text-white">אני רוצה פרימיום בוגה, דברו איתי</button>}
             </div>}
           </>}
           <h2 className="text-2xl font-black">{card ? '✏️ עריכת הכרטיס' : '✨ יצירת הכרטיס שלך'}</h2>
