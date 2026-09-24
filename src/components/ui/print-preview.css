@@ -6,8 +6,10 @@
 /* QR stamp on every printed page, back to the exact page it was printed from. */
 .buga-a4,.buga-flow{position:relative}
 /* The QR badge already carries the site name — drop the old text footer so they don't overlap. */
-.buga-a4:has(.buga-qr)>footer,.buga-flow:has(.buga-qr)>footer{display:none!important}
+.buga-a4:has(.buga-qr)>footer,.buga-flow:has(.buga-qr)>footer,#buga-print-output .buga-a4:has(.buga-qr) footer,#buga-print-output .buga-flow:has(.buga-qr) footer{display:none!important}
 .buga-a4:has(.buga-qr),.buga-flow:has(.buga-qr){padding-bottom:20mm}
+/* Reserve the QR strip on the printed page too (the print rules above set padding:4mm). */
+@media print{#buga-print-output .buga-a4:has(.buga-qr),#buga-print-output .buga-flow:has(.buga-qr){padding-bottom:22mm!important}#buga-print-output .buga-a4 .print-art{overflow:hidden}}
 .buga-qr{position:absolute;bottom:3mm;left:3mm;z-index:5;display:flex;align-items:flex-end;gap:3px;background:#fff;border-radius:4px;padding:1.5mm;box-shadow:0 0 0 1px #ddd}
 .buga-qr svg{width:13mm;height:13mm;display:block;flex:none}
 .buga-qr-label{font-size:6.5pt;line-height:1.2;color:#555;white-space:nowrap}
