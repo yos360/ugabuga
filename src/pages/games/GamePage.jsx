@@ -10,6 +10,8 @@ import { useState } from 'react'
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 const PLAY_TOOL_ROUTES = {
   'buga-bingo': { to: '/tools/bingo-maker', label: 'צרו כרטיסיות' },
+  'al-ktze-halashon': { to: '/tools/emoji-studio', label: 'שחקו עכשיו באימוג׳ים' },
+  'hidat-haemojim': { to: '/tools/emoji-studio', label: 'שחקו עכשיו באימוג׳ים' },
   'buga-trivia': { to: '/tools/trivia-quiz', label: 'פתחו טריוויה' },
   'hafes-umtza': { to: '/tools/scavenger-hunt-maker', label: 'צרו ציד אוצרות' },
   'galgal-hamisimot': { to: '/tools/random-picker', label: 'פתחו גלגל' },
