@@ -96,6 +96,7 @@ export default function Navbar() {
           <HeaderLink to="/about">אודות</HeaderLink>
           <HeaderLink to="/blog">בלוג</HeaderLink>
           <HeaderLink to="/ideas">השראה</HeaderLink>
+          <HeaderLink to="/suppliers">ספקים</HeaderLink>
           <div className="site-tools" ref={toolsRef} onBlur={event => {
             if (!event.currentTarget.contains(event.relatedTarget)) setToolsOpen(false)
           }}>
@@ -123,7 +124,7 @@ export default function Navbar() {
       {mobileOpen && (
         <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
           <div className="site-mobile-main-links">
-            {[['/', 'דף הבית'], ['/games', 'משחקים'], ['/games/birthday', 'אירועים'], ['/ideas', 'השראה'], ['/blog', 'בלוג'], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
+            {[['/', 'דף הבית'], ['/games', 'משחקים'], ['/games/birthday', 'אירועים'], ['/ideas', 'השראה'], ['/suppliers', 'ספקים'], ['/blog', 'בלוג'], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
           </div>
           <h2>משחקים וכלים</h2>
           <ul>{TOOLS_MENU.map(item => <li key={item.to}><Link to={item.to} onClick={() => setMobileOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
