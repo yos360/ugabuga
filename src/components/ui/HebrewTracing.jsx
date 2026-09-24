@@ -9,13 +9,13 @@ export function LetterSheet({letter, dotted = true}) {
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
       <text x="300" y="40" fontSize="24">האות {letter} — עוברים בעיפרון</text>
       <text x="300" y="75" fontSize="15">שם: ____________    תאריך: ____________</text>
-      <text x="300" y="385" fontSize="300" fontWeight="500" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash} strokeLinecap="round">{letter}</text>
-      <text x="300" y="425" fontSize="17">מתרגלים על הקווים, ואז כותבים לבד</text>
-      {[495,590,685].map((y,row)=><g key={y}>
-        <path d={`M35 ${y+14} H565 M35 ${y-48} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
-        {[520,420,320,220,120].slice(0,5-row*2).map(x=><text key={x} x={x} y={y} fontSize="75" fontWeight="500" fill="none" stroke="#111" strokeWidth="1.3" strokeDasharray={dotted?'0.1 4':'4 4'} strokeLinecap="round">{letter}</text>)}
+      {/* Big letter sits high enough that descenders (ך ן ף ץ ק) never reach the caption below. */}
+      <text x="300" y="340" fontSize="260" fontWeight="500" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash} strokeLinecap="round">{letter}</text>
+      <text x="300" y="455" fontSize="17">מתרגלים על הקווים, ואז כותבים לבד</text>
+      {[530,630,730].map((y,row)=><g key={y}>
+        <path d={`M35 ${y+16} H565 M35 ${y-50} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
+        {[520,420,320,220,120].slice(0,5-row*2).map(x=><text key={x} x={x} y={y} fontSize="70" fontWeight="500" fill="none" stroke="#111" strokeWidth="1.3" strokeDasharray={dotted?'0.1 4':'4 4'} strokeLinecap="round">{letter}</text>)}
       </g>)}
-      <path d="M35 785 H565 M35 725 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
     </g>
   </svg>
 }
@@ -29,18 +29,17 @@ export function NameSheet({name, dotted = true}) {
   const big = Math.min(150, Math.floor(520 / Math.max(name.length, 1) * (heb ? 1.45 : 1.55)))
   const row = Math.min(70, Math.floor(big * 0.5))
   const dash = d => dotted ? `0.1 ${d}` : `${d} ${d}`
-  const rows = [300, 400, 500, 600, 700]
+  const rows = [320, 420, 520, 620, 720]
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול כתיבת השם ${name}`} style={{width:'100%',height:'100%',background:'white'}} direction={heb?'rtl':'ltr'}>
     <g fill="#111" fontFamily={font} textAnchor="middle">
       <text x="300" y="40" fontSize="24">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
       <text x="300" y="72" fontSize="15">{heb ? 'מתרגלים על הקווים, ואז כותבים לבד' : 'Trace the lines, then write it yourself'}</text>
-      <path d="M35 232 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
-      <text x="300" y="215" fontSize={big} fontWeight="600" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash(7)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>
+      <path d="M35 250 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
+      <text x="300" y="205" fontSize={big} fontWeight="600" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash(7)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>
       {rows.map((y,i)=><g key={y}>
         <path d={`M35 ${y+12} H565 M35 ${y-row*0.72} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
         {i<3 && <text x="300" y={y} fontSize={row} fontWeight="500" fill="none" stroke={i===0?'#111':i===1?'#666':'#bbb'} strokeWidth="1.3" strokeDasharray={dash(4)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>}
       </g>)}
-      <path d="M35 790 H565 M35 745 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
     </g>
   </svg>
 }
