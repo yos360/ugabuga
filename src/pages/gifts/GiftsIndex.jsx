@@ -17,7 +17,8 @@ export default function GiftsIndex() {
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in text-center">
       <SEO title={preset.title} description={preset.desc} path={location.pathname} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות' }]} />
-      <h1 className="text-4xl sm:text-5xl mb-3">🎁 {preset.title}</h1>\n      <p className="mb-8 text-lg text-[var(--muted-foreground)]">{preset.desc}</p>
+      <h1 className="text-4xl sm:text-5xl mb-3">🎁 {preset.title}</h1>
+      <p className="mb-8 text-lg text-[var(--muted-foreground)]">{preset.desc}</p>
       <div className="flex flex-wrap justify-center gap-3">
         {GIFT_AGES.map(a => (
           <Link key={a} to={'/gifts/age-'+a} className="wobbly border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow card-lift px-6 py-4 text-2xl font-bold">גיל {a}</Link>
