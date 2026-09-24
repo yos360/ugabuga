@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
@@ -38,6 +39,16 @@ function fitsClassroom(g) {
   const manageableEquipment = !g.equipment_needed || /בלי ציוד|דף|פתק|כדור|כיסאות|מוזיקה|לוח/.test(equipment)
   return age <= 18 && duration > 0 && duration <= 35 && manageableEquipment && Number(g.max_players || 0) >= 8
 }
+
+const gamesIndexFaq = [
+  { q: 'איך משתמשים בסינון כדי למצוא משחק מתאים?', a: 'בוחרים תחילה את הפילטר הכי מגביל (למשל "בלי ציוד" או "עד 5 דקות"), ומצמצמים משם לפי גיל ומספר משתתפים.' },
+  { q: 'יש דרך לגלות משחקים חדשים בלי לחפש משהו ספציפי?', a: 'כן, אפשר פשוט לדפדף ברשימה המלאה לפי קטגוריה — לפעמים המשחק הכי מתאים הוא כזה שלא חיפשתם.' },
+]
+const gamesIndexBody = [
+  'זו הרשימה המלאה — יותר מ-100 משחקים במקום אחד. הדרך הכי מהירה למצוא משחק היא להתחיל מהאילוץ הכי נוקשה שיש לכם באותו רגע: אם אין ציוד בכלל, מסננים לפי משחקים בלי ציוד; אם יש בדיוק חמש דקות, משחקים ל-5 דקות פנויות מתאימים בדיוק; ואם המטרה היא לפתוח מפגש קבוצתי חדש, משחקי היכרות ושוברי קרח מתחילים בדיוק מהנקודה הזאת.',
+  'חלק מהמשחקים ברשימה גם קיימים כגרסה דיגיטלית או להדפסה במתחם היוצרים — אם מוצאים משחק שדורש כרטיסים או כללים כתובים, כדאי לבדוק אם יש לו גרסת הדפסה מוכנה שם.',
+]
+const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 function fitsAfterSchool(g) {
   const age = Number(g.min_age || 0)
@@ -105,7 +116,8 @@ export default function GamesIndex() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SEO title={isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : 'כל המשחקים'} description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'} />
+      <SEO title={isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : 'כל המשחקים — יותר מ-100 משחקים לילדים'} description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
+        structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
 
@@ -159,6 +171,12 @@ export default function GamesIndex() {
           <p className="text-xl mb-2">🤔 לא מצאנו משחקים</p>
           <p className="text-[var(--muted-foreground)] mb-4">נסו לחפש משהו אחר</p>
           <button onClick={() => setSearch('')} className="font-display text-lg font-bold text-[var(--pen)] underline decoration-dashed">ראו את כל המשחקים</button>
+        </div>
+      )}
+
+      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && (
+        <div className="mt-12">
+          <SeoBody paragraphs={gamesIndexBody} faq={gamesIndexFaq} related={gamesIndexRelated} />
         </div>
       )}
     </div>
