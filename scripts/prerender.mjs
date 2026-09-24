@@ -51,8 +51,13 @@ try {
   // Never record analytics/activity or depend on third-party availability at build time.
   // Supabase is allowed so individual game pages can load their data at build time
   // (see the game-page pass below); everything else third-party is still blocked.
-  const SUPABASE_ORIGIN = 'https://judhoitufvlqxjhjgnsm.supabase.co'
-  await context.route('**/*', route => { const o = new URL(route.request().url()).origin; return o === origin || o === SUPABASE_ORIGIN ? route.continue() : route.abort() })
+  const SUPABASE_ORIGINS = ['https://judhoitufvlqxjhjgnsm.supabase.co', 'https://efhgyispuwxcplvzipcy.supabase.co']
+  await context.route('**/*', route => {
+    const url = new URL(route.request().url())
+    // Never count prerender visits as supplier views or site activity.
+    if (/\/rpc\/(supplier_track|record_site_event)/.test(url.pathname)) return route.abort()
+    return url.origin === origin || SUPABASE_ORIGINS.includes(url.origin) ? route.continue() : route.abort()
+  })
   let next = 0
   await Promise.all(Array.from({ length: 3 }, async () => {
     const page = await context.newPage()
@@ -98,7 +103,7 @@ try {
   try {
     const fullXml = await readFile('public/sitemap.xml', 'utf8')
     const staticSet = new Set(paths)
-    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => p.startsWith('/games/') && !staticSet.has(p))
+    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => (p.startsWith('/games/') || p.startsWith('/suppliers/')) && !staticSet.has(p))
     let gi = 0, ok = 0, skipped = 0
     await Promise.all(Array.from({ length: 3 }, async () => {
       const page = await context.newPage()

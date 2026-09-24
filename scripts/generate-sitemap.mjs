@@ -30,7 +30,9 @@ import { readFile, writeFile } from 'node:fs/promises'
 // pragmatic stopgap, not a full fix: whoever revisits this should decide whether
 // these five /games/ URLs should keep redirecting at all (submitting a URL that
 // 301s is unusual SEO practice) or whether the redirects should be removed instead.
-const INTERIM_EXTRA_GAME_SLUGS = ['buga-bingo', 'eretz-ir-buga', 'emet-o-buga', 'buga-trivia', 'buga-town', 'buga-terutzim']
+// (2026-09-24, later) The five legacy slugs now 301 to their /tools/* pages, which are
+// already in sitemap-static.xml, so only buga-terutzim stays here.
+const INTERIM_EXTRA_GAME_SLUGS = ['buga-terutzim']
 
 const SUPABASE_URL = 'https://judhoitufvlqxjhjgnsm.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
@@ -54,6 +56,16 @@ async function getActiveGameSlugs() {
   const rows = await res.json()
   if (!Array.isArray(rows)) throw new Error(`Unexpected Supabase response: ${JSON.stringify(rows).slice(0, 200)}`)
   return rows
+}
+
+// Public supplier cards live in the site's own Supabase project.
+const SITE_DB_URL = 'https://efhgyispuwxcplvzipcy.supabase.co'
+const SITE_DB_KEY = 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
+async function getSupplierSlugs() {
+  const res = await fetch(`${SITE_DB_URL}/rest/v1/rpc/suppliers_public_list`, { method: 'POST', headers: { apikey: SITE_DB_KEY, 'Content-Type': 'application/json' }, body: '{}' })
+  if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`)
+  const rows = await res.json()
+  return Array.isArray(rows) ? rows.map(r => r.slug).filter(s => /^[a-z0-9-]{3,40}$/.test(s || '')) : []
 }
 
 async function main() {
@@ -81,6 +93,14 @@ async function main() {
     if (seen.has(slug)) continue
     seen.add(slug)
     lines.push(`  <url><loc>https://ugabuga.co.il/games/${slug}</loc> <priority>0.6</priority></url>`)
+  }
+
+  try {
+    const slugs = [...new Set(await getSupplierSlugs())]
+    for (const slug of slugs) lines.push(`  <url><loc>https://ugabuga.co.il/suppliers/${slug}</loc> <priority>0.6</priority></url>`)
+    console.log(`generate-sitemap: added ${slugs.length} supplier pages.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not fetch suppliers, skipping them. ${err.message}`)
   }
 
   const gameUrls = lines.join('\n')
