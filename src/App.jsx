@@ -44,6 +44,7 @@ const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
+const EmojiStudio = lazy(() => import('./pages/tools/EmojiStudio'))
 const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
 const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
 const ClassOnePrep = lazy(() => import('./pages/ClassOnePrep'))
@@ -227,6 +228,7 @@ export default function App() {
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
               <Route path="/tools/bring-list" element={<BringList />} />
+              <Route path="/tools/emoji-studio" element={<EmojiStudio />} />
               <Route path="/bring-list" element={<BringList />} />
               <Route path="/l/:code" element={<BringList />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
