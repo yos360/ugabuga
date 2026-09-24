@@ -10,6 +10,33 @@ const FILTERS = [['all', 'הכול'], ['pending', '⏳ ממתינים'], ['reque
 const BADGE = { pending: 'bg-amber-100 text-amber-900', approved: 'bg-emerald-100 text-emerald-900', hidden: 'bg-slate-200 text-slate-700' }
 const LABEL = { pending: '⏳ ממתין', approved: '✅ מפורסם', hidden: '🙈 מוסתר' }
 
+const JOIN_URL = 'https://ugabuga.co.il/suppliers/me'
+const INVITE_TEXT = `היי! 🎈
+אני מעוגה בוגה, האתר של משחקים ופעילויות לימי הולדת, והקמנו אזור ספקים להורים שמתכננים מסיבה.
+
+הכרטיס בחינם, בלי עמלות ובלי תיווך:
+✅ לוגו, תמונות, קצת עליך ורשתות חברתיות
+✅ פניות ישירות אליך לוואטסאפ
+✅ רואים בדיוק כמה פניות הגיעו מאיתנו
+
+ההרשמה לוקחת 2 דקות, אפשר גם עם חשבון גוגל:
+${JOIN_URL}`
+
+function InviteBox() {
+  const [text, setText] = useState(INVITE_TEXT), [copied, setCopied] = useState(false)
+  const copy = async () => { try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* ignore */ } }
+  return <details className="mb-6 rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-4">
+    <summary className="cursor-pointer text-lg font-black">📨 הזמנה לספקים: טקסט ולינק להרשמה</summary>
+    <textarea value={text} onChange={e => setText(e.target.value)} rows={11} className="mt-3 w-full rounded-2xl border-2 border-emerald-200 bg-white p-3 text-[16px] leading-relaxed focus:border-emerald-600 focus:outline-none" />
+    <div className="mt-2 flex flex-wrap gap-2">
+      <a href={`https://wa.me/?text=${encodeURIComponent(text)}`} target="_blank" rel="noopener" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
+      <button type="button" onClick={copy} className="rounded-xl border-2 border-slate-800 bg-white px-4 py-2 font-bold">{copied ? '✓ הועתק' : '📋 העתקת הטקסט'}</button>
+      <button type="button" onClick={() => navigator.clipboard?.writeText(JOIN_URL)} className="rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold">🔗 העתקת הלינק בלבד</button>
+      <button type="button" onClick={() => setText(INVITE_TEXT)} className="px-2 text-sm text-slate-500 underline">איפוס הטקסט</button>
+    </div>
+  </details>
+}
+
 export default function AdminSuppliers() {
   const [list, setList] = useState(null), [err, setErr] = useState('')
   const [filter, setFilter] = useState('all')
@@ -30,6 +57,7 @@ export default function AdminSuppliers() {
       <div className="flex gap-2"><a href="/admin/activity" className="rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold">📊 דוח פעילות</a>
         <button onClick={() => setEditing({})} className="rounded-xl bg-[var(--ink)] px-4 py-2 font-bold text-white">＋ ספק חדש</button></div>
     </div>
+    <InviteBox />
     {err && <p className="mb-4 rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
     <div className="mb-4 flex flex-wrap gap-2">{FILTERS.map(([id, l]) => <button key={id} onClick={() => setFilter(id)} className={`rounded-full border-2 px-3 py-1.5 text-sm font-bold ${filter === id ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white'}`}>{l}</button>)}</div>
 
