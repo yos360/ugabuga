@@ -19,10 +19,14 @@ const one = ({ data, error }) => {
   return row
 }
 
+// Items carry { id, text, cat?, qty?, takenBy, arrived? }. List details carry
+// { date?, time?, place?, note? }. Claims (claim/unclaim) return the list
+// without details, so callers merge them into the list they already have.
+const clean = items => items.map(({ id, text, cat, qty, takenBy, arrived }) => ({ id, text, cat, qty, takenBy, arrived }))
 export const partyDb = {
-  create: (ownerToken, title, items) => client.rpc('create_party_list2', { p_owner_token: ownerToken, p_title: title, p_items: items }).then(one),
-  get: code => client.rpc('get_party_list2', { p_share_code: code }).then(one),
-  update: (code, ownerToken, title, items, release = []) => client.rpc('update_party_list2', { p_share_code: code, p_owner_token: ownerToken, p_title: title, p_items: items, p_release: release }).then(one),
+  create: (ownerToken, title, items, details = {}) => client.rpc('create_party_list3', { p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_details: details }).then(one),
+  get: code => client.rpc('get_party_list3', { p_share_code: code }).then(one),
+  update: (code, ownerToken, title, items, release = [], details = null) => client.rpc('update_party_list3', { p_share_code: code, p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_release: release, p_details: details }).then(one),
   claim: (code, itemId, name, claimToken) => client.rpc('claim_party_item2', { p_share_code: code, p_item_id: itemId, p_name: name, p_claim_token: claimToken }).then(one),
   unclaim: (code, itemId, claimToken) => client.rpc('unclaim_party_item', { p_share_code: code, p_item_id: itemId, p_claim_token: claimToken }).then(one),
 }
