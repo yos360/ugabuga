@@ -10,6 +10,15 @@ const STATUS = {
   hidden: ['🙈 הכרטיס מוסתר', 'הכרטיס לא מוצג כרגע. לשאלות — דברו איתנו בוואטסאפ.', 'bg-slate-50 border-slate-300'],
 }
 
+// First sign-in with Google: start the card from the account's name and photo.
+function googleFill(user) {
+  const m = user?.user_metadata || {}
+  const name = (m.full_name || m.name || '').trim()
+  const photo = (m.avatar_url || m.picture || '').replace(/=s\d+-c$/, '=s400-c')
+  if (!name && !photo) return null
+  return { name, logo_url: /^https:\/\//.test(photo) ? photo : '' }
+}
+
 function SignIn() {
   const [email, setEmail] = useState(''), [sent, setSent] = useState(false), [err, setErr] = useState('')
   const [google, setGoogle] = useState(false)
@@ -92,7 +101,8 @@ export default function SupplierAccount() {
             </div>}
           </>}
           <h2 className="text-2xl font-black">{card ? '✏️ עריכת הכרטיס' : '✨ יצירת הכרטיס שלך'}</h2>
-          <SupplierEditor key={card?.id || 'new'} initial={card} saveLabel={card ? 'שמירת שינויים' : 'שליחה לאישור'}
+          {!card && googleFill(user) && <p className="rounded-2xl bg-emerald-50 p-3 text-sm font-bold text-emerald-800">✓ מילאנו את השם והתמונה מחשבון הגוגל שלך — אפשר לשנות הכול.</p>}
+          <SupplierEditor key={card?.id || 'new'} initial={card || googleFill(user) || undefined} saveLabel={card ? 'שמירת שינויים' : 'שליחה לאישור'}
             onSave={async p => { const saved = await suppliersDb.save(card ? { ...p, id: card.id } : p); await load(); return saved }} />
         </>}
       </div>}
