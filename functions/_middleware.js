@@ -22,6 +22,34 @@ function loadRoutes(env, url) {
   return routesPromise
 }
 
+// A real route that has no prerendered snapshot (a supplier card added after the
+// last deploy, /games/age/7, ...) is answered by Pages with the homepage snapshot.
+// Crawlers and WhatsApp/Facebook previews would then read the homepage's title,
+// description, h1 and a canonical pointing at "/". When we detect that fallback,
+// strip the homepage-specific tags and body so the page starts neutral; React
+// fills in the right title, canonical and content as soon as it runs.
+const HOME_CANONICAL = 'https://ugabuga.co.il/'
+async function neutralShell(res) {
+  const html = await res.text()
+  const headers = new Headers(res.headers)
+  const isHomeFallback = new RegExp(`rel="canonical"[^>]*href="${HOME_CANONICAL}"`).test(html)
+  const plain = new Response(html, { status: res.status, statusText: res.statusText, headers })
+  if (!isHomeFallback || typeof HTMLRewriter === 'undefined') return plain
+  const remove = { element(el) { el.remove() } }
+  return new HTMLRewriter()
+    .on('link[rel="canonical"]', remove)
+    .on('meta[name="description"]', remove)
+    .on('meta[property="og:title"]', remove)
+    .on('meta[property="og:description"]', remove)
+    .on('meta[property="og:url"]', remove)
+    .on('meta[name="twitter:title"]', remove)
+    .on('meta[name="twitter:description"]', remove)
+    .on('script[type="application/ld+json"]', remove)
+    .on('title', { element(el) { el.setInnerContent('עוגה בוגה') } })
+    .on('#root', { element(el) { el.setInnerContent('') } })
+    .transform(plain)
+}
+
 export async function onRequest({ request, env, next }) {
   const res = await next()
   try {
@@ -40,8 +68,9 @@ export async function onRequest({ request, env, next }) {
     const routes = await loadRoutes(env, url)
     if (!routes) return res
     const path = url.pathname.replace(/\/+$/, '') || '/'
-    if (routes.some(re => re.test(path))) return res
-    return new Response(res.body, { status: 404, statusText: 'Not Found', headers: res.headers })
+    if (!routes.some(re => re.test(path))) return new Response(res.body, { status: 404, statusText: 'Not Found', headers: res.headers })
+    if (path === '/') return res
+    return neutralShell(res)
   } catch {
     return res
   }
