@@ -93,11 +93,14 @@ export default function SupplierEditor({ initial, mode = 'supplier', onSave, sav
   const [busy, setBusy] = useState(false), [msg, setMsg] = useState(null), [preview, setPreview] = useState(false)
   const set = (k, v) => setF(x => ({ ...x, [k]: v }))
   const isPage = f.plan === 'page'
+  const digits = v => (v || '').replace(/\D/g, '')
+  const [otherPhone, setOtherPhone] = useState(() => !!digits(initial?.phone) && digits(initial?.phone) !== digits(initial?.whatsapp))
   const addTag = () => { const t = tagDraft.trim(); if (t && f.tags.length < 6 && !f.tags.includes(t)) set('tags', [...f.tags, t]); setTagDraft('') }
 
   const submit = async e => {
     e.preventDefault(); setBusy(true); setMsg(null)
     const p = { ...f, gallery: f.gallery.filter(g => g.url), videos: f.videos.filter(v => v.url), services: f.services.filter(s => s.title?.trim()) }
+    if (!otherPhone || !digits(p.phone)) p.phone = p.whatsapp
     for (const k of ['instagram', 'facebook', 'tiktok', 'youtube', 'website']) p[k] = socialUrl(k, p[k])
     try { const saved = await onSave(p); if (saved) setF(x => ({ ...x, ...saved })); setMsg({ ok: true, text: '✓ נשמר' }) }
     catch (x) { setMsg({ ok: false, text: x.message }) } finally { setBusy(false) }
@@ -140,10 +143,12 @@ export default function SupplierEditor({ initial, mode = 'supplier', onSave, sav
       </Box>
 
       <Box title="📞 יצירת קשר">
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Field label="וואטסאפ"><input value={f.whatsapp || ''} onChange={e => set('whatsapp', e.target.value)} inputMode="tel" placeholder="050-1234567" dir="ltr" className={input} /></Field>
-          <Field label="טלפון לחיוג"><input value={f.phone || ''} onChange={e => set('phone', e.target.value)} inputMode="tel" placeholder="050-1234567" dir="ltr" className={input} /></Field>
-        </div>
+        <Field label="מספר טלפון" hint="(לוואטסאפ ולחיוג)"><input value={f.whatsapp || ''} onChange={e => set('whatsapp', e.target.value)} inputMode="tel" placeholder="050-1234567" dir="ltr" className={input} /></Field>
+        <label className="flex cursor-pointer items-center gap-2 font-bold">
+          <input type="checkbox" checked={otherPhone} onChange={e => { setOtherPhone(e.target.checked); if (!e.target.checked) set('phone', '') }} className="h-5 w-5 accent-slate-800" />
+          מספר אחר לחיוג
+        </label>
+        {otherPhone && <Field label="טלפון לחיוג"><input value={f.phone || ''} onChange={e => set('phone', e.target.value)} inputMode="tel" placeholder="050-1234567" dir="ltr" className={input} /></Field>}
         <p className="text-sm text-slate-500">כל לחיצה על וואטסאפ או חיוג נספרת — תראו כמה פניות הגיעו מעוגה בוגה.</p>
       </Box>
 
