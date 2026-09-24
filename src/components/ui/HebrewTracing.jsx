@@ -44,17 +44,56 @@ export function NameSheet({name, dotted = true}) {
   </svg>
 }
 
+// Saved class lists live on this device only (localStorage) — names never leave the browser.
+const LISTS_KEY = 'buga-class-lists', DRAFT_KEY = 'buga-class-draft'
+const readLists = () => { try { return JSON.parse(localStorage.getItem(LISTS_KEY)) || [] } catch { return [] } }
+const writeLists = lists => { try { localStorage.setItem(LISTS_KEY, JSON.stringify(lists)) } catch { /* private mode */ } }
+
 function ClassNames({dotted}) {
-  const [text,setText]=useState(''),[names,setNames]=useState(null)
+  const [text,setText]=useState(()=>{ try { return localStorage.getItem(DRAFT_KEY) || '' } catch { return '' } })
+  const [names,setNames]=useState(null)
+  const [lists,setLists]=useState(readLists)
+  const [listName,setListName]=useState('')
+  const [active,setActive]=useState('')
+  const [confirmDel,setConfirmDel]=useState('')
+  const [note,setNote]=useState('')
   const list=text.split(/\n|,/).map(s=>s.trim()).filter(Boolean)
+  const flash=t=>{setNote(t);setTimeout(()=>setNote(''),2500)}
+  const changeText=v=>{ setText(v); try { localStorage.setItem(DRAFT_KEY, v) } catch { /* ignore */ } }
+  const save=()=>{
+    const title=(listName||active).trim(); if(!title||!list.length) return
+    const next=[{name:title,names:list,at:Date.now()},...lists.filter(l=>l.name!==title)].slice(0,20)
+    setLists(next); writeLists(next); setActive(title); setListName(''); flash(`✓ הרשימה „${title}” נשמרה`)
+  }
+  const load=l=>{ changeText(l.names.join('\n')); setActive(l.name); setConfirmDel(''); flash(`✓ נטענה הרשימה „${l.name}”`) }
+  const remove=title=>{ const next=lists.filter(l=>l.name!==title); setLists(next); writeLists(next); if(active===title) setActive(''); setConfirmDel('') }
   return <div className="mb-10 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-sm">
     <h2 className="mb-2 text-2xl font-bold">📝 שמות לכל הכיתה או הגן — בהדפסה אחת</h2>
     <p className="mb-3">מדביקים את רשימת השמות (שם בכל שורה), בעברית או באנגלית. כל ילד מקבל דף A4 משלו עם השם שלו למעבר בעיפרון — מתאים גם לכל מי שחוגג יום הולדת החודש.</p>
-    <textarea value={text} onChange={e=>setText(e.target.value)} rows={5} placeholder={'נועה\nאיתי\nDaniel\nמאיה'} className="mb-3 w-full rounded-xl border-2 border-[var(--border)] bg-white p-3 text-lg" aria-label="רשימת שמות, שם בכל שורה"/>
+
+    {lists.length>0 && <div className="mb-3">
+      <p className="mb-1.5 text-sm font-bold">📋 הרשימות השמורות שלי:</p>
+      <div className="flex flex-wrap gap-2">{lists.map(l=><span key={l.name} className={`flex items-center rounded-full border-2 bg-white ${active===l.name?'border-slate-800':'border-[var(--border)]'}`}>
+        <button onClick={()=>load(l)} className="py-1.5 pe-1 ps-3 text-sm font-bold">{l.name} <span className="font-normal text-slate-500">({l.names.length})</span></button>
+        {confirmDel===l.name
+          ? <><button onClick={()=>remove(l.name)} className="px-2 text-sm font-bold text-rose-700">למחוק?</button><button onClick={()=>setConfirmDel('')} className="pe-3 text-sm text-slate-500">לא</button></>
+          : <button onClick={()=>setConfirmDel(l.name)} aria-label={`מחיקת הרשימה ${l.name}`} className="grid h-8 w-8 place-items-center rounded-full text-slate-400 hover:text-rose-600">✕</button>}
+      </span>)}</div>
+    </div>}
+
+    <textarea value={text} onChange={e=>changeText(e.target.value)} rows={5} placeholder={'נועה\nאיתי\nDaniel\nמאיה'} className="mb-3 w-full rounded-xl border-2 border-[var(--border)] bg-white p-3 text-lg" aria-label="רשימת שמות, שם בכל שורה"/>
     <div className="flex flex-wrap items-center gap-3">
       <button disabled={!list.length} onClick={()=>setNames(list)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white disabled:opacity-50">🖨️ הדפיסו {list.length ? `${list.length} דפים` : 'לכל הילדים'}</button>
       {list.length>0 && <span className="text-sm">{list.length} שמות · דף לכל ילד · {dotted?'בנקודות':'מקווקו'}</span>}
     </div>
+
+    {list.length>0 && <form onSubmit={e=>{e.preventDefault();save()}} className="mt-4 flex flex-wrap items-center gap-2 border-t-2 border-dashed border-[var(--border)] pt-4">
+      <input value={listName} onChange={e=>setListName(e.target.value)} maxLength={40} placeholder={active?`שמירה בתור „${active}”, או שם חדש`:'שם לרשימה, למשל: גן רימון'} aria-label="שם הרשימה"
+        className="w-full min-w-0 rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2.5 text-[17px] sm:w-auto sm:flex-1"/>
+      <button disabled={!(listName.trim()||active)} className="min-h-[44px] w-full shrink-0 rounded-xl border-2 border-slate-800 bg-white px-4 font-bold disabled:opacity-50 sm:w-auto">💾 שמירת הרשימה</button>
+      <span className="w-full text-xs text-slate-600">הרשימה נשמרת רק במכשיר הזה — בפעם הבאה בוחרים אותה בלחיצה.</span>
+    </form>}
+    {note && <p role="status" className="mt-2 font-bold text-emerald-700">{note}</p>}
     {names&&<PrintPreview title={`כתיבת השם — ${names.length} ילדים`} onClose={()=>setNames(null)}>{names.map((n,i)=><article className="buga-a4" key={i}><div className="print-art"><NameSheet name={n} dotted={dotted}/></div></article>)}</PrintPreview>}
   </div>
 }
