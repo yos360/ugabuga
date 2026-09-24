@@ -13,7 +13,7 @@ export function LetterSheet({letter, dotted = true}) {
       <text x="300" y="340" fontSize="260" fontWeight="500" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash} strokeLinecap="round">{letter}</text>
       <text x="300" y="455" fontSize="17">מתרגלים על הקווים, ואז כותבים לבד</text>
       {[530,630,730].map((y,row)=><g key={y}>
-        <path d={`M35 ${y+16} H565 M35 ${y-50} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
+        <path d={`M35 ${y+24} H565 M35 ${y-50} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
         {[520,420,320,220,120].slice(0,5-row*2).map(x=><text key={x} x={x} y={y} fontSize="70" fontWeight="500" fill="none" stroke="#111" strokeWidth="1.3" strokeDasharray={dotted?'0.1 4':'4 4'} strokeLinecap="round">{letter}</text>)}
       </g>)}
     </g>
@@ -37,7 +37,7 @@ export function NameSheet({name, dotted = true}) {
       <path d="M35 250 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
       <text x="300" y="205" fontSize={big} fontWeight="600" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash(7)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>
       {rows.map((y,i)=><g key={y}>
-        <path d={`M35 ${y+12} H565 M35 ${y-row*0.72} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
+        <path d={`M35 ${y+row*0.32} H565 M35 ${y-row*0.72} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
         {i<3 && <text x="300" y={y} fontSize={row} fontWeight="500" fill="none" stroke={i===0?'#111':i===1?'#666':'#bbb'} strokeWidth="1.3" strokeDasharray={dash(4)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>}
       </g>)}
     </g>
