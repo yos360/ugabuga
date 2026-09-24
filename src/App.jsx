@@ -58,6 +58,10 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
+const SuppliersIndex = lazy(() => import('./pages/suppliers/SuppliersIndex'))
+const SupplierPage = lazy(() => import('./pages/suppliers/SupplierPage'))
+const SupplierAccount = lazy(() => import('./pages/suppliers/SupplierAccount'))
+const AdminSuppliers = lazy(() => import('./pages/suppliers/AdminSuppliers'))
 const OwnerLogin = lazy(() => import('./pages/OwnerLogin'))
 
 function Loading() {
@@ -252,6 +256,11 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin/login" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
               <Route path="/admin/activity" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
+              <Route path="/admin/suppliers" element={<OwnerLogin><AdminSuppliers /></OwnerLogin>} />
+              {import.meta.env.VITE_TEST_OWNER_CLAIMS && <Route path="/__test/admin-suppliers" element={<AdminSuppliers />} />}
+              <Route path="/suppliers" element={<SuppliersIndex />} />
+              <Route path="/suppliers/me" element={<SupplierAccount />} />
+              <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
