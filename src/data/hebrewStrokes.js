@@ -2,7 +2,7 @@
 // per stroke, the way a teacher writes them. Box: x from 0 (left) to width,
 // y 0 = letter top, 100 = baseline; descenders go to 145, ל rises to -35.
 export const HEB_STROKES = {
-  'א': [80, 'M8 0 L72 100 M70 0 Q70 36 44 50 M32 38 Q14 58 14 100'],
+  'א': [80, 'M12 0 L72 100 M66 0 V12 Q66 30 36 40 M48 63 Q24 70 22 100'],
   'ב': [72, 'M4 0 H48 Q62 0 62 14 V100 M0 100 H72'],
   'ג': [48, 'M6 0 H24 Q36 0 36 12 V100 M36 62 L10 100'],
   'ד': [70, 'M0 0 H70 M54 0 V100'],
