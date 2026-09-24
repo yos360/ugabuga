@@ -111,7 +111,7 @@ export default function SupplierAccount() {
             {card.plan !== 'page' && <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-5 sm:p-6">
               {PREMIUM.soon && <span className="absolute left-4 top-4 -rotate-3 rounded-full bg-[var(--ink)] px-3 py-1 text-sm font-bold text-white">🚀 בקרוב</span>}
               <h2 className="font-display text-2xl font-bold">⭐ {PREMIUM.name}</h2>
-              <p className="mt-1 max-w-2xl">הכרטיס שלך נשאר בחינם. רוצים יותר? אתר קטן משלכם: דף נחיתה מרשים ומותאם אישית, שבונים בקלות הכי גדולה, עם גלריות תמונות, לינקים לסרטונים, חבילות והמלצות. משתמשים בו גם מחוץ לבוגה: בביו באינסטגרם, בוואטסאפ ובכל מקום.</p>
+              <p className="mt-1 max-w-2xl">הכרטיס שלך נשאר בחינם. רוצים יותר? אתר משלכם: דף נחיתה מרשים ומותאם אישית, שבונים בקלות הכי גדולה, עם גלריות תמונות, לינקים לסרטונים, חבילות והמלצות. משתמשים בו גם מחוץ לבוגה: בביו באינסטגרם, בוואטסאפ ובכל מקום.</p>
               <PremiumPrice className="mt-3" />
               {card.page_request || requested ? <p className="mt-3 font-bold text-emerald-800">✓ שמרנו לך מקום. נעדכן אותך בוואטסאפ כשהפרימיום נפתח.</p>
                 : <div className="mt-4 flex flex-wrap gap-2">
