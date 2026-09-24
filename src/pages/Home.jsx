@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
+import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
 
@@ -22,6 +23,17 @@ const games = [
   ['טריוויה לכל המשפחה','בוחרים נושא, גיל וקושי','/tools/trivia-quiz',[923,826,230,93]],
   ['תעלומת העוגה הנעלמת','חדר בריחה לילדים','/tools/escape-rooms?room=lost-cake',[1190,826,231,93]],
 ]
+const homeFaq = [
+  { q: 'האתר באמת חינמי לגמרי, בלי תשלום נסתר?', a: 'כן, כל המשחקים, הכלים וההדפסות באתר זמינים לשימוש חינמי ללא הרשמה.' },
+  { q: 'מתאים גם למורות ולא רק להורים?', a: 'בהחלט — יש מתחם ייעודי לכיתה עם כלים, משחקים ותכנים שנבנו במיוחד לשימוש בבית ספר.' },
+]
+const homeBody = [
+  'עוגה בוגה הוא אתר משחקים והדפסות חינמי לילדים, למשפחות ולמורות — בלי הרשמה, בלי תשלום, ובלי "גרסת ניסיון" חלקית. המטרה פשוטה: לתת פתרון מהיר ואמיתי לרגע שבו צריך משחק, פעילות, או הדפסה בשביל ילדים, בין אם זו מסיבת יום הולדת מחר, יום גשום היום, או שיעור שצריך למלא בעוד עשר דקות.',
+  'האתר בנוי משלושה סוגי תוכן שמשלימים אחד את השני: רשימה גדולה של כל המשחקים המסוננת לפי גיל, זמן, ציוד ומספר משתתפים; כלים אינטראקטיביים ומדפסות כמו בינגו היכרות, ציד אוצרות וחדרי בריחה; ועולם רעיונות לתכנון מסיבות ואירועים שלמים.',
+  'בין אם מגיעים כהורה שמחפש פתרון מהיר לחצי שעה פנויה, כמורה שרוצה כלי לכיתה, או כמארגן מסיבה שרוצה לתכנן אירוע שלם — כל דבר באתר חינמי לשימוש, זמין מיד, ולא דורש הרשמה כדי להתחיל.',
+]
+const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'עולם ההשראה', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' } ]
+
 export default function Home() {
   const [query,setQuery] = useState('')
   const list = useRef(null)
@@ -45,7 +57,7 @@ export default function Home() {
     }
   }
 
-  return <><SEO path="/" /><div className="home-v2">
+  return <><SEO path="/" title="עוגה בוגה — משחקים והדפסות חינם לילדים ולמורות" description='עוגה בוגה (BUGA) — מעל 100 משחקים, כלים להדפסה וחדרי בריחה בעברית, חינם וללא הרשמה, ליום הולדת, לכיתה ולבית.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>מה בא לכם לעשות היום?</h1>
       <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה מעל 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
@@ -71,6 +83,9 @@ export default function Home() {
         <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>
         <Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link>
       </div>
+    </section>
+    <section className="home-extra">
+      <SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} />
     </section>
   </div></>
 }
