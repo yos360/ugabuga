@@ -28,6 +28,7 @@ export const partyDb = {
   get: code => client.rpc('get_party_list3', { p_share_code: code }).then(one),
   update: (code, ownerToken, title, items, release = [], details = null) => client.rpc('update_party_list3', { p_share_code: code, p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_release: release, p_details: details }).then(one),
   claim: (code, itemId, name, claimToken) => client.rpc('claim_party_item2', { p_share_code: code, p_item_id: itemId, p_name: name, p_claim_token: claimToken }).then(one),
+  remove: (code, ownerToken) => client.rpc('delete_party_list', { p_share_code: code, p_owner_token: ownerToken }).then(one),
   unclaim: (code, itemId, claimToken) => client.rpc('unclaim_party_item', { p_share_code: code, p_item_id: itemId, p_claim_token: claimToken }).then(one),
 }
 
@@ -43,6 +44,7 @@ export const partyMemory = {
     const rest = read('ugabuga-party-owned', []).filter(l => l.code !== code)
     write('ugabuga-party-owned', [{ code, ownerToken, title, at: Date.now() }, ...rest].slice(0, 20))
   },
+  forgetOwned: code => write('ugabuga-party-owned', read('ugabuga-party-owned', []).filter(l => l.code !== code)),
   guestName: () => read('ugabuga-guest-name', ''),
   setGuestName: name => write('ugabuga-guest-name', name),
   // Claims this device made: { [code]: { [itemId]: token } }
