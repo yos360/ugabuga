@@ -7,6 +7,7 @@ const TOOLS_MENU = [
   { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
   { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
   { to: '/tools/trivia-quiz', label: 'טריוויה BUGA', icon: '🎯' },
+  { to: '/tools/emoji-studio', label: 'אימוג׳י סטודיו', icon: '😀' },
   { to: '/tools/buga-town', label: 'בוגה טאון', icon: '🏙️' },
   { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐' },
   { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '🎲' },
