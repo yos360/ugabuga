@@ -13,7 +13,8 @@ export default function ScrollToTop() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  if (!show) return null
+  // Tools with their own fixed bottom action bar.
+  if (!show || /bring-list|^\/l\//.test(pathname)) return null
   return (
     <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       className="fixed bottom-4 start-4 z-40 wobbly-sm flex h-11 w-11 items-center justify-center border-2 border-[var(--border)] bg-[var(--card)] text-xl sketch-shadow-sm sketch-press no-print"
