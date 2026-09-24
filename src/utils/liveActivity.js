@@ -19,7 +19,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   'hidden-object':'מציאת חפצים','mixed-activities':'דף פעילות משולב','missing-picture':'השלמת תמונה חסרה',
   game:'משחקים',worksheet:'דפי פעילות',tool:'כלי משחק',calculator:'מחשבון למסיבה',
   invitation:'הזמנות',greeting:'ברכות',printables:'דפים להדפסה',create:'יוצרים',classroom:'פעילויות לכיתה',birthday:'פעילויות ליום הולדת',
-  suppliers:'ספקים',page:'עמודים באתר',
+  suppliers:'ספקים','emoji-studio':'אימוג׳י סטודיו',page:'עמודים באתר',
 })
 const ALIASES = {bingo:'bingo-maker','word-search':'word-search-maker','escape-room':'escape-rooms',quiz:'trivia-quiz',trivia:'trivia-quiz',timer:'countdown-timer',wheel:'random-picker','truth-or-buga':'truth-or-dare','scavenger-hunt':'scavenger-hunt-maker'}
 export function activityForPath(path) {

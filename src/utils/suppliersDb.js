@@ -63,6 +63,8 @@ export async function currentSupplierUser() {
   const { data } = await supplierAuth.auth.getSession()
   return data.session?.user || null
 }
+// Is Google sign-in switched on in Supabase? (Hide the button until it is.)
+export const googleEnabled = () => fetch(`${URL}/auth/v1/settings`, { headers: { apikey: KEY } }).then(r => r.json()).then(j => Boolean(j?.external?.google)).catch(() => false)
 export const signInWithGoogle = () => supplierAuth.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/suppliers/me` } })
 export const signInWithEmail = email => supplierAuth.auth.signInWithOtp({ email, options: { emailRedirectTo: `${location.origin}/suppliers/me` } })
 export const signOutSupplier = () => supplierAuth.auth.signOut({ scope: 'local' })
