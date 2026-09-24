@@ -44,6 +44,9 @@ const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
+const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
+const QuizManage = lazy(() => import('./pages/quiz/QuizManage'))
+const QuizTake = lazy(() => import('./pages/quiz/QuizTake'))
 const EmojiStudio = lazy(() => import('./pages/tools/EmojiStudio'))
 const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
 const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
@@ -91,6 +94,9 @@ export default function App() {
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
+              <Route path="/classroom/quiz" element={<QuizHome />} />
+              <Route path="/classroom/quiz/:code" element={<QuizManage />} />
+              <Route path="/q/:code" element={<QuizTake />} />
               <Route path="/create" element={<HubPage type="create" />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<Navigate to="/games" replace />} />
