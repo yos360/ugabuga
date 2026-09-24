@@ -116,7 +116,7 @@ export default function GamesIndex() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SEO title={isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : 'כל המשחקים — יותר מ-100 משחקים לילדים'} description="100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה — בלי ציוד, בלי הכנה, חינם." path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
+      <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'כל המשחקים — יותר מ-100 משחקים לילדים'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'יותר מ-100 משחקים לילדים ולמשפחה — ליום הולדת, לכיתה, לצהרון ולבית. מחפשים לפי שם או נושא, שומרים מועדפים ומשתפים. רבים בלי ציוד ובלי הכנה, הכול חינם.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
         structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>

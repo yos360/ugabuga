@@ -26,7 +26,7 @@ export default function CategoryPage() {
     ]
     return (
       <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
-        <SEO title="קטגוריות משחקים" description="בחרו קטגוריית משחקים פעילה בעוגה בוגה." path="/games" />
+        <SEO title="קטגוריות משחקים" description="בחרו קטגוריית משחקים פעילה בעוגה בוגה." path="/games" noindex />
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'בחירת קטגוריה' }]} />
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
           <h1 className="text-4xl mb-3">🎮 השטגוריה הזו לא פעילה</h1>

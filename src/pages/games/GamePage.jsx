@@ -36,7 +36,7 @@ export default function GamePage() {
   if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><span className="text-5xl buga-bounce">🎂</span></div>
   if (!game) return (
     <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
-      <SEO title="המשחק עבר מקום" description="בחרו משחק או כלי פעיל בעוגה בוגה." path="/games" />
+      <SEO title="המשחק עבר מקום" description="בחרו משחק או כלי פעיל בעוגה בוגה." path="/games" noindex />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'משחק לא נמצא' }]} />
       <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
         <div className="text-6xl mb-3">🎮</div>
