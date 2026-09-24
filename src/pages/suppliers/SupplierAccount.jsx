@@ -5,7 +5,7 @@ import SupplierEditor from '../../components/suppliers/SupplierEditor'
 import { suppliersDb, supplierAuth, currentSupplierUser, signInWithGoogle, googleEnabled, signInWithEmail, signOutSupplier, waLink, OWNER_WHATSAPP } from '../../utils/suppliersDb'
 
 const STATUS = {
-  pending: ['⏳ ממתין לאישור', 'הכרטיס נשמר ונבדק על ידינו. בדרך כלל זה לוקח עד יום. אפשר להמשיך לערוך בינתיים.', 'bg-amber-50 border-amber-300'],
+  pending: ['🎈 ברוכים הבאים למשפחת עוגה בוגה!', 'עוד רגע וההורים יתחילו לפנות אליך. בינתיים אפשר להמשיך לשפר את הכרטיס.', 'bg-amber-50 border-amber-300'],
   approved: ['✅ הכרטיס שלך באוויר', 'מופיע באינדקס הספקים של עוגה בוגה.', 'bg-emerald-50 border-emerald-300'],
   hidden: ['🙈 הכרטיס מוסתר', 'הכרטיס לא מוצג כרגע. לשאלות — דברו איתנו בוואטסאפ.', 'bg-slate-50 border-slate-300'],
 }
@@ -102,7 +102,7 @@ export default function SupplierAccount() {
           </>}
           <h2 className="text-2xl font-black">{card ? '✏️ עריכת הכרטיס' : '✨ יצירת הכרטיס שלך'}</h2>
           {!card && googleFill(user) && <p className="rounded-2xl bg-emerald-50 p-3 text-sm font-bold text-emerald-800">✓ מילאנו את השם והתמונה מחשבון הגוגל שלך — אפשר לשנות הכול.</p>}
-          <SupplierEditor key={card?.id || 'new'} initial={card || googleFill(user) || undefined} saveLabel={card ? 'שמירת שינויים' : 'שליחה לאישור'}
+          <SupplierEditor key={card?.id || 'new'} initial={card || googleFill(user) || undefined} saveLabel={card ? 'שמירת שינויים' : '🎈 אני בפנים, תפרסמו אותי!'}
             onSave={async p => { const saved = await suppliersDb.save(card ? { ...p, id: card.id } : p); await load(); return saved }} />
         </>}
       </div>}
