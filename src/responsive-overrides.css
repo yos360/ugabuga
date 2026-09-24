@@ -50,3 +50,18 @@ canvas {
     width: min(360px, calc(100vw - 24px));
   }
 }
+
+/* Grouped tools mega-menu */
+.site-tools-menu { width: 640px; }
+.site-tools-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.site-tools-groups section { min-width: 0; }
+.site-tools-groups .site-tools-heading { display: block; margin-bottom: 4px; padding: 6px 9px; border-radius: 10px; font-size: 15px; }
+.site-tools-groups .site-tools-heading:hover { background: #f2f4fc; }
+.site-tools-groups ul { grid-template-columns: 1fr; gap: 0; }
+.site-tools-groups li a { padding: 6px 9px; }
+.site-mobile-menu h2 a { display: block; padding: 4px 0; }
+@media (max-width: 800px) {
+  .site-tools-menu { width: min(360px, calc(100vw - 24px)); }
+  .site-tools-groups { grid-template-columns: 1fr; }
+  .site-mobile-menu ul { grid-template-columns: 1fr 1fr; }
+}

@@ -136,7 +136,7 @@ export default function App() {
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
               <Route path="/ideas/themes" element={<Navigate to="/ideas" replace />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
-              <Route path="/ideas/*" element={<IdeasHub />} />
+              <Route path="/ideas/*" element={<NotFound />} />
               <Route path="/calculator" element={<Calculator />} />
               <Route path="/calculator/birthday-cost" element={<Calculator />} />
               <Route path="/calculator/how-many-drinks" element={<Calculator />} />
