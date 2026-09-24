@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SupplierEditor from '../../components/suppliers/SupplierEditor'
+import { PlansCompare, SupplierFAQ, PremiumPrice, PREMIUM, PREMIUM_PITCH, premiumWa } from '../../components/suppliers/SupplierPlans'
 import { suppliersDb, supplierAuth, currentSupplierUser, signInWithGoogle, googleEnabled, signInWithEmail, signOutSupplier, waLink, OWNER_WHATSAPP } from '../../utils/suppliersDb'
 
 const STATUS = {
-  pending: ['🎈 ברוכים הבאים למשפחת עוגה בוגה!', 'עוד רגע וההורים יתחילו לפנות אליך. בינתיים אפשר להמשיך לשפר את הכרטיס.', 'bg-amber-50 border-amber-300'],
+  pending: ['🎈 ברוכים הבאים למשפחת עוגה בוגה!', 'הכרטיס נשמר ויעלה לאתר אחרי בדיקה קצרה, בדרך כלל תוך יום. בינתיים אפשר להמשיך לשפר אותו.', 'bg-amber-50 border-amber-300'],
   approved: ['✅ הכרטיס שלך באוויר', 'מופיע באינדקס הספקים של עוגה בוגה.', 'bg-emerald-50 border-emerald-300'],
   hidden: ['🙈 הכרטיס מוסתר', 'הכרטיס לא מוצג כרגע. לשאלות — דברו איתנו בוואטסאפ.', 'bg-slate-50 border-slate-300'],
 }
@@ -66,21 +67,35 @@ export default function SupplierAccount() {
 
   const card = cards?.[0]
   const requestPage = async () => {
-    const win = window.open(waLink(OWNER_WHATSAPP, `היי! אני ${card.name} מעוגה בוגה, ואשמח לשמוע על פרימיום בוגה 🙂`), '_blank', 'noopener')
+    const win = window.open(waLink(OWNER_WHATSAPP, `היי! אני ${card.name} מעוגה בוגה, ואשמח לשמוע על בוגה פרימיום 🙂`), '_blank', 'noopener')
     try { await suppliersDb.requestPage(card.id); setRequested(true) } catch { if (!win) setErr('לא הצלחנו לשלוח. נסו שוב.') }
   }
 
   return <div className="mx-auto max-w-6xl px-4 py-8">
-    <SEO title="אזור ספקים" description="הצטרפות חינם לאינדקס הספקים של עוגה בוגה." path="/suppliers/me" noindex />
+    <SEO title="אזור ספקים" description="כרטיס ספק חינם בעוגה בוגה, ועמוד ספק מקצועי למי שרוצה להיראות טוב יותר." path="/suppliers/me" noindex />
     <header className="mb-6 text-center">
       <h1 className="text-4xl sm:text-5xl">🎪 אזור ספקים</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">כרטיס ספק בחינם באינדקס של עוגה בוגה — עם פניות ישירות לוואטסאפ ומדידה של כל פנייה.</p>
+      <p className="mx-auto mt-2 max-w-2xl text-xl font-bold">כרטיס ספק חינם. עמוד פרימיום מקצועי למי שרוצה להיראות טוב יותר.</p>
+      <p className="mx-auto mt-1 max-w-2xl text-[var(--muted-foreground)]">הצטרפו לבוגה בחינם, ושדרגו לעמוד ספק מקצועי כשאתם רוצים יותר.</p>
     </header>
 
     {user === undefined ? <p className="py-10 text-center">רגע…</p>
       : !user ? <>
-        <div className="mx-auto mb-8 grid max-w-3xl gap-3 sm:grid-cols-3">{[['🆓', 'בחינם', 'כרטיס עם לוגו, תמונה, קצת עליכם ורשתות'], ['💬', 'פניות ישירות', 'הורים פונים אליכם בוואטסאפ, בלי תיווך'], ['📊', 'רואים תוצאות', 'כמה צפו וכמה פנו — הכל נמדד']].map(([i, t, d]) => <div key={t} className="rounded-2xl bg-white p-4 text-center shadow-sm"><span className="text-3xl">{i}</span><b className="mt-1 block">{t}</b><span className="text-sm text-slate-600">{d}</span></div>)}</div>
-        <SignIn />
+        <section className="mx-auto mb-8 max-w-md">
+          <h2 className="mb-3 text-center text-2xl font-black">פתחו כרטיס חינם</h2>
+          <SignIn />
+        </section>
+        <section className="mt-12">
+          <h2 className="text-center text-3xl font-black">שני מסלולים, בלי אותיות קטנות</h2>
+          <p className="mx-auto mb-6 mt-2 max-w-2xl text-center text-lg text-slate-700">כרטיס חינם נותן לך נוכחות. פרימיום נותן לך עמוד שמוכר אותך טוב יותר.</p>
+          <PlansCompare freeCta={false} />
+          <p className="mx-auto mt-6 max-w-2xl text-center leading-relaxed text-slate-700">{PREMIUM_PITCH}</p>
+          <p className="mx-auto mt-2 max-w-2xl text-center font-bold">במקום לשלוח ללקוח כמה תמונות בוואטסאפ, שולחים עמוד אחד מסודר.</p>
+        </section>
+        <section className="mx-auto mt-12 max-w-3xl">
+          <h2 className="mb-4 text-center text-3xl font-black">שאלות ששואלים אותנו</h2>
+          <SupplierFAQ />
+        </section>
       </>
       : <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-slate-600"><span>מחובר/ת בתור <b dir="ltr">{user.email}</b></span><button onClick={() => signOutSupplier().then(() => { setUser(null); setCards(null) })} className="underline">יציאה</button></div>
@@ -93,11 +108,16 @@ export default function SupplierAccount() {
               {card.status === 'approved' && <Link to={`/suppliers/${card.slug}`} className="mt-3 inline-block rounded-xl bg-white px-4 py-2 font-bold shadow-sm">לצפייה בדף שלי ←</Link>}
             </div>
             <div><h2 className="mb-3 text-2xl font-black">📊 30 הימים האחרונים</h2><Stats stats={card.stats} /></div>
-            {card.plan !== 'page' && <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sm:p-6">
-              <h2 className="font-display text-2xl font-bold">⭐ פרימיום בוגה</h2>
-              <p className="mt-1">הכרטיס שלך נשאר בחינם, ולמצטרפים הראשונים: 3 חודשים של פרימיום בחינם! 🎁 דף נחיתה מעוצב מבית עוגה בוגה: 5 תבניות לבחירה, גלריית תמונות, סרטונים, רשימת שירותים, ובקרוב גם ביקורות מלקוחות.</p>
-              {card.page_request || requested ? <p className="mt-3 font-bold text-emerald-800">✓ קיבלנו את הבקשה — נחזור אליך בוואטסאפ.</p>
-                : <button onClick={requestPage} className="mt-4 rounded-2xl bg-[var(--ink)] px-5 py-3 font-bold text-white">אני רוצה פרימיום בוגה, דברו איתי</button>}
+            {card.plan !== 'page' && <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-5 sm:p-6">
+              {PREMIUM.soon && <span className="absolute left-4 top-4 -rotate-3 rounded-full bg-[var(--ink)] px-3 py-1 text-sm font-bold text-white">🚀 בקרוב</span>}
+              <h2 className="font-display text-2xl font-bold">⭐ {PREMIUM.name}</h2>
+              <p className="mt-1 max-w-2xl">הכרטיס שלך נשאר בחינם. רוצים יותר? עמוד ספק מקצועי ומעוצב עם קישור אישי, גלריה, חבילות ומחירים, המלצות וסרטונים. עמוד שאפשר לשלוח ללקוחות ולשים בביו באינסטגרם.</p>
+              <PremiumPrice className="mt-3" />
+              {card.page_request || requested ? <p className="mt-3 font-bold text-emerald-800">✓ שמרנו לך מקום. נעדכן אותך בוואטסאפ כשהפרימיום נפתח.</p>
+                : <div className="mt-4 flex flex-wrap gap-2">
+                  <button onClick={requestPage} className="rounded-2xl bg-[var(--ink)] px-5 py-3 font-bold text-white">אני רוצה עמוד פרימיום</button>
+                  <a href={premiumWa(card.name, 'example')} target="_blank" rel="noopener" className="rounded-2xl border-2 border-[var(--ink)] bg-white px-5 py-3 font-bold">שלחו לי דוגמה</a>
+                </div>}
             </div>}
           </>}
           <h2 className="text-2xl font-black">{card ? '✏️ עריכת הכרטיס' : '✨ יצירת הכרטיס שלך'}</h2>

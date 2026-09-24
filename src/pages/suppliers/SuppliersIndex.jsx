@@ -50,8 +50,8 @@ export default function SuppliersIndex() {
 
     <section className="wobbly mt-10 border-2 border-[var(--border)] bg-[var(--postit)] p-6 text-center sm:p-8">
       <h2 className="font-display text-3xl font-bold">נותנים שירות לימי הולדת?</h2>
-      <p className="mx-auto mt-2 max-w-xl text-lg">🎁 כרטיס ספק בעוגה בוגה הוא בחינם, ולמצטרפים הראשונים גם 3 חודשי פרימיום בוגה במתנה: לוגו, תמונה, קצת עליכם ורשתות חברתיות — ופניות ישירות אליכם לוואטסאפ. תראו בדיוק כמה פניות הגיעו מאיתנו.</p>
-      <Link to="/suppliers/me" className="mt-5 inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 text-lg font-bold text-white">הצטרפות בחינם ←</Link>
+      <p className="mx-auto mt-2 max-w-xl text-lg">כרטיס ספק בעוגה בוגה הוא בחינם: לוגו, תמונה, קצת עליכם ופנייה ישירה בוואטסאפ. ובקרוב ⭐ בוגה פרימיום: עמוד ספק מקצועי שאפשר לשלוח ללקוחות, לשים בביו ובוואטסאפ.</p>
+      <Link to="/suppliers/me" className="mt-5 inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 text-lg font-bold text-white">הצטרפות כספק ←</Link>
     </section>
   </div>
 }
