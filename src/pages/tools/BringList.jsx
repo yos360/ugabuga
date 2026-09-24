@@ -29,7 +29,6 @@ function useToast() {
 
 // ─── Organizer ────────────────────────────────────────────────────────────────
 function OrganizerView({ code: initialCode, onGuestPreview }) {
-  const navigate = useNavigate()
   const [code, setCode] = useState(initialCode || null)
   const ownerToken = useRef(initialCode ? partyMemory.ownerToken(initialCode) : null)
   const [title, setTitle] = useState('')
@@ -92,7 +91,9 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
     ownerToken.current = token
     partyMemory.rememberOwned(row.share_code, token, row.title)
     setCode(row.share_code); setTitle(row.title); setItems(row.items); setStatus('saved')
-    navigate(`/l/${row.share_code}`, { replace: true })
+    // Update the address bar without remounting (a remount would drop the toast
+    // and flash "loading"). A refresh later opens /l/<code> as the owner.
+    window.history.replaceState(window.history.state, '', `/l/${row.share_code}`)
     return row.share_code
   }
   const inviteText = c => `🧺 מי מביא מה ל${(title.trim() || 'מסיבה')}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(c)}`
@@ -150,7 +151,7 @@ function OrganizerView({ code: initialCode, onGuestPreview }) {
       <span className="text-sm font-bold" aria-live="polite">{status === 'saving' ? 'שומרים…' : status === 'error' ? '⚠️ לא נשמר' : '✓ נשמר — אפשר לערוך גם אחרי השליחה'}</span>
     </div>}
     {code && <div className="mt-3 flex flex-wrap justify-center gap-4 text-sm">
-      <button onClick={onGuestPreview} className="font-bold underline">👀 איך האורחים רואים את זה</button>
+      <button onClick={() => onGuestPreview(code)} className="font-bold underline">👀 איך האורחים רואים את זה</button>
       <button onClick={() => window.print()} className="font-bold underline">🖨️ הדפסה</button>
     </div>}
 
@@ -283,6 +284,7 @@ function LegacyView({ encoded }) {
 }
 
 export default function BringList() {
+  const navigate = useNavigate()
   const { code: pathCode } = useParams()
   const [params, setParams] = useSearchParams()
   const code = pathCode || params.get('code')
@@ -304,7 +306,7 @@ export default function BringList() {
           <p className="mt-2 text-lg text-[var(--muted-foreground)]">כותבים מה צריך, שולחים קישור לוואטסאפ, וכל אחד תופס פריט בלחיצה. בלי הרשמה.</p>
         </header>
         {!code && myLists.length > 0 && <div className="mb-4 rounded-2xl bg-[var(--postit)] p-3 text-sm"><b>הרשימות שלי:</b> {myLists.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<Link className="underline" to={`/l/${l.code}`}>{l.title}</Link></span>)}</div>}
-        <OrganizerView key={code || 'new'} code={code} onGuestPreview={() => setParams({ guest: '1' })} />
+        <OrganizerView key={code || 'new'} code={code} onGuestPreview={c => navigate(`/l/${c}?guest=1`)} />
       </>}
     </div>
   )
