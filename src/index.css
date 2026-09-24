@@ -153,7 +153,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
   html, body { background: white !important; background-image: none !important; }
   .sketch-shadow, .sketch-shadow-sm, .sketch-press { box-shadow: none !important; }
   body::after {
-    content: "UGABUGA 🎂 ugabuga.co.il"; position: fixed; bottom: 4mm; left: 50%;
+    content: "נוצר באתר עוגה בוגה ללא עלות ובקלות · ugabuga.co.il"; direction: rtl; white-space: nowrap; position: fixed; bottom: 4mm; left: 50%;
     transform: translateX(-50%); font-family: 'Heebo', sans-serif; font-size: 9pt; color: #999;
   }
 }
