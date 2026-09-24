@@ -32,7 +32,7 @@ export function activityForPath(path) {
   if (parts[0] === 'tools') return 'tool'
   return null
 }
-export const ACTION_LABELS=Object.freeze({open:'פתחו',print:'פתחו חלון הדפסה',create:'לחצו ליצירת פעילות',check:'לחצו לבדיקת תשובות',play:'לחצו להתחלת משחק',refresh:'ביקשו פעילות חדשה',download:'לחצו להורדה',use:'בחרו אפשרות',share:'שיתפו'})
+export const ACTION_LABELS=Object.freeze({open:'פתחו',preview:'פתחו תצוגת הדפסה',print:'פתחו חלון הדפסה',create:'לחצו ליצירת פעילות',check:'לחצו לבדיקת תשובות',play:'לחצו להתחלת משחק',refresh:'ביקשו פעילות חדשה',download:'לחצו להורדה',use:'בחרו אפשרות',share:'שיתפו'})
 export function validActivity(payload) {
   return !!(payload && typeof payload.action==='string' && Object.hasOwn(ACTION_LABELS,payload.action) && typeof payload.category === 'string' && Object.hasOwn(ACTIVITY_LABELS,payload.category))
 }
@@ -111,15 +111,28 @@ function isOwnerBrowser() {
   // The owner's own browsing is left out of the stats (unless explicitly opted in).
   try { return !!localStorage.getItem('ugabuga-owner-auth') && localStorage.getItem('buga-track-self') !== '1' } catch { return false }
 }
+const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
+let hasV3 = true
+function sendOne(args) {
+  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return dbClient.rpc('record_site_event_v2', { ...rest, p_source: rest.p_source === 'qr' ? 'other' : rest.p_source }) } }
+  if (!hasV3) return void Promise.resolve(v2()).catch(() => {})
+  void Promise.resolve(dbClient.rpc('record_site_event_v3', args)).then(res => {
+    // Until the v3 migration runs, fall back so nothing is lost.
+    if (res?.error && /PGRST202|Could not find the function|does not exist/i.test(`${res.error.code} ${res.error.message}`)) { hasV3 = false; return v2() }
+  }).catch(() => {})
+}
 function flushDb() {
   if (!dbClient) return
   const items = dbQueue; dbQueue = []
-  for (const args of items) void Promise.resolve(dbClient.rpc('record_site_event_v2', args)).catch(() => {})
+  for (const args of items) sendOne(args)
+}
+function excluded(pathname) {
+  const parts = String(pathname).split('/').filter(Boolean)
+  return ['admin','account','auth','login'].includes(parts[0]) || isOwnerBrowser()
 }
 export function logEvent(action, pathname = location.pathname) {
   if (!Object.hasOwn(ACTION_LABELS, action)) return
-  const parts = String(pathname).split('/').filter(Boolean)
-  if (['admin','account','auth','login'].includes(parts[0]) || isOwnerBrowser()) return
+  if (excluded(pathname)) return
   const path = cleanPath(pathname)
   const key = `${action}:${path}`
   if (Date.now() - (logged.get(key) || 0) < 3000) return // ignore double clicks
@@ -127,7 +140,7 @@ export function logEvent(action, pathname = location.pathname) {
   const category = activityForPath(path || '/') || 'page'
   visitorPromise ||= browserKey().catch(() => null)
   void visitorPromise.then(visitor => {
-    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor })
+    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null })
     if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
     flushDb()
   })
@@ -143,6 +156,49 @@ async function browserKey() {
   try { return navigator.locks ? await navigator.locks.request('buga-live-browser', read) : read() }
   catch { return crypto.randomUUID() }
 }
+
+// ---- Time on page ----
+// Counts only time the tab is visible AND the visitor did something in the last
+// 2 minutes (a tab left open overnight doesn't count). Sent when leaving the page,
+// hiding the tab or closing it — with keepalive so it survives the page closing.
+const PARTY_URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co', PARTY_KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
+let timePath = null, timeSecs = 0, lastInput = Date.now(), visitorId = null
+const TICK = 5
+function sendTime(path, seconds) {
+  const args = { p_category: activityForPath(path) || 'page', p_action: 'time', p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitorId, p_seconds: Math.round(seconds) }
+  if (!hasV3) return
+  try {
+    void fetch(`${PARTY_URL}/rest/v1/rpc/record_site_event_v3`, { method: 'POST', keepalive: true, headers: { apikey: PARTY_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args) }).catch(() => {})
+  } catch { /* ignore */ }
+}
+function flushTime() {
+  if (timePath && timeSecs >= 5) sendTime(timePath, timeSecs)
+  timeSecs = 0
+}
+export function trackTime(pathname) {
+  flushTime()
+  timePath = excluded(pathname) ? null : cleanPath(pathname)
+  lastInput = Date.now()
+  visitorPromise ||= browserKey().catch(() => null)
+  void visitorPromise.then(v => { visitorId = v })
+}
+function startTimeTracking() {
+  const onInput = () => { lastInput = Date.now() }
+  const tick = () => { if (timePath && document.visibilityState === 'visible' && Date.now() - lastInput < 120000) timeSecs += TICK }
+  const onHide = () => { if (document.visibilityState === 'hidden') flushTime() }
+  const iv = setInterval(tick, TICK * 1000)
+  const opts = { passive: true, capture: true }
+  for (const ev of ['pointerdown', 'keydown', 'scroll', 'touchstart', 'input']) window.addEventListener(ev, onInput, opts)
+  document.addEventListener('visibilitychange', onHide)
+  window.addEventListener('pagehide', flushTime)
+  return () => {
+    flushTime(); clearInterval(iv)
+    for (const ev of ['pointerdown', 'keydown', 'scroll', 'touchstart', 'input']) window.removeEventListener(ev, onInput, opts)
+    document.removeEventListener('visibilitychange', onHide)
+    window.removeEventListener('pagehide', flushTime)
+  }
+}
+
 export function connectActivity(onChange) {
   let stopped=false,client,channel,expiry,ownId
   const state={count:null,events:[]}
@@ -153,7 +209,7 @@ export function connectActivity(onChange) {
       const [{createClient},id]=await Promise.all([import('@supabase/supabase-js'),browserKey()])
       if(stopped)return
       ownId=id
-      client=createClient('https://efhgyispuwxcplvzipcy.supabase.co','sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7',{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
+      client=createClient(PARTY_URL,PARTY_KEY,{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
       dbClient=client
       flushDb()
       const production=['ugabuga.co.il','www.ugabuga.co.il'].includes(location.hostname)
@@ -181,6 +237,7 @@ export function connectActivity(onChange) {
   window.addEventListener('beforeprint',onPrint)
   document.addEventListener('click',onClick)
   expiry=setInterval(sync,15000)
+  const stopTime=startTimeTracking()
   void start()
-  return ()=>{stopped=true;clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
+  return ()=>{stopped=true;stopTime();clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
 }
