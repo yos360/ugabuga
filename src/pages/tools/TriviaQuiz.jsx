@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -18,6 +19,17 @@ const GAME_MODES = [
 function shuffleOptions(options = []) {
   return [...options].sort(() => Math.random() - 0.5)
 }
+
+const triviaFaq = [
+  { q: 'אפשר להתאים את רמת הקושי של השאלות לגיל?', a: 'כן, בוחרים את קבוצת הגיל בזמן יצירת החידון, וזה קובע גם את רמת הקושי וגם את סוג הנושאים.' },
+  { q: 'מתאים גם למשחק יחיד מול הורה, לא רק לקבוצה?', a: 'בהחלט — טריוויה עובדת מצוין גם בשניים, כתחרות קטנה בין הורה לילד.' },
+]
+const triviaBody = [
+  'טריוויה היא אחד המשחקים שעובדים כמעט בכל הרכב — משפחה, חברים, כיתה, או אפילו מפגש עבודה. הכלי כאן מכין חידון שאלות ותשובות מוכן לפי הגיל והנושא שבוחרים, כך שלא צריך לחשוב שאלות מראש.',
+  'טריוויה BUGA משתלבת טוב במיוחד לצד ארץ עיר אונליין — שני המשחקים דורשים חשיבה מהירה וידע כללי, אבל בפורמטים שונים, כך שהחלפה ביניהם שומרת על עניין לאורך זמן.',
+  'טיפ מעשי לתכנון: קובעים מראש כמה סיבובים ישוחקו, במקום להמשיך "עד שנמאס".',
+]
+const triviaRelated = [ { label: 'ארץ עיר אונליין', href: '/tools/eretz-ir' }, { label: 'משחקים שקטים', href: '/games/quiet' }, { label: 'מתחם לכיתה', href: '/classroom' } ]
 
 function makePlayers(names) {
   return names.map((name, index) => ({
@@ -125,9 +137,10 @@ export default function TriviaQuiz() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <SEO
-        title="טריוויה BUGA — שאלות, ריבוי שחקנים וחדשות בלייב"
+        title="טריוויה למשפחה ולכיתה"
         description="משחק טריוויה בעברית עם מצבי משחק, שחקנים, ניקוד חי וכתבות משחק אוטומטיות."
         path="/tools/trivia-quiz"
+        structuredData={faqSchema(triviaFaq)}
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'טריוויה' }]} />
 
@@ -258,6 +271,10 @@ export default function TriviaQuiz() {
             </WobblyCard>
           )}
         </div>
+      </div>
+
+      <div className="mt-12">
+        <SeoBody paragraphs={triviaBody} faq={triviaFaq} related={triviaRelated} />
       </div>
     </div>
   )
