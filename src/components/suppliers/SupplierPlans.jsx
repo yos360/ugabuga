@@ -6,7 +6,7 @@ export const PREMIUM = { name: 'בוגה פרימיום', month: '49.90', year: 
 export const PREMIUM_PITCH = 'בוגה פרימיום הוא לא עוד פרסום. זה עמוד מכירה מקצועי לספקים של ימי הולדת ואירועים לילדים: עמוד שאפשר לשלוח ללקוחות, לשים באינסטגרם או בוואטסאפ, ולהציג בו את העסק בצורה ברורה, יפה ומשכנעת.'
 
 const FREE = ['כרטיס ספק באתר', 'שם העסק, תחום ואזור', 'תמונה ולוגו', 'תיאור קצר', 'פנייה ישירה בוואטסאפ', 'הופעה לפי קטגוריה ואזור']
-const PREM = ['כל מה שיש בחינם', 'עמוד ספק מעוצב, עם קישור אישי', 'גלריית תמונות מורחבת', 'חבילות, שירותים ומחירים', 'המלצות מלקוחות', 'סרטונים, אינסטגרם ולינקים', 'כפתורי וואטסאפ וטלפון בולטים', 'נראות גבוהה יותר באתר', 'מתאים לשימוש גם מחוץ לבוגה']
+const PREM = ['אתר קטן משלכם לשימוש גם מחוץ לבוגה: בביו באינסטגרם, בוואטסאפ ובכל מקום', 'דף נחיתה מרשים ומותאם אישית, שבונים בקלות הכי גדולה', 'גלריות תמונות ולינקים לסרטונים', 'חבילות, שירותים ומחירים', 'המלצות מלקוחות', 'כל מה שיש בחינם', 'נראות גבוהה יותר באתר']
 
 export const premiumWa = (name, kind = 'want') => waLink(OWNER_WHATSAPP, kind === 'example'
   ? `היי! ${name ? `אני ${name}, ` : ''}אשמח לראות דוגמה לעמוד ${PREMIUM.name} 🙂`
@@ -15,7 +15,7 @@ export const premiumWa = (name, kind = 'want') => waLink(OWNER_WHATSAPP, kind ==
 export function PremiumPrice({ className = '' }) {
   return <div className={className}>
     <p><b className="text-4xl font-black">{PREMIUM.month} ₪</b> <span className="text-slate-600">לחודש</span></p>
-    <p className="mt-0.5 text-slate-700">או <b>{PREMIUM.year} ₪ לשנה</b> <span className="text-sm text-emerald-700">(כמו חודשיים במתנה)</span></p>
+    <p className="mt-0.5 text-slate-700">או <b>{PREMIUM.year} ₪ לשנה</b> <span className="text-sm text-emerald-700">(חודשיים מתנה)</span></p>
   </div>
 }
 
