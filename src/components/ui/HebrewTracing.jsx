@@ -14,7 +14,7 @@ function TraceText({ text, x, y, size, dotted, color = '#444', heb = true, font 
   if (heb) {
     // Real single-line tracing font. Its letters are ~0.6em tall and ~0.62em wide,
     // so scale to match the cap height the rows are laid out for, and never overflow the page.
-    const fs = Math.min(size * 1.2, 540 / Math.max([...text].length * 0.62, 1))
+    const fs = tracerSize(text, size)
     return <text x={x} y={y} fontSize={fs} fontFamily="BugaTracer" fill={color} stroke={color} strokeWidth={fs * 0.012} direction="rtl" textAnchor="middle">{text}</text>
   }
   if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
@@ -29,7 +29,10 @@ function TraceText({ text, x, y, size, dotted, color = '#444', heb = true, font 
 const ColorText = ({ text, x, y, size, heb = true }) => <text x={x} y={y} fontSize={size} fontWeight="800" fill="white" stroke="#111" strokeWidth="5" strokeLinejoin="round" paintOrder="stroke" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
 
 const Heading = ({ y, children }) => <text x="300" y={y} fontSize="21" fontWeight="700">{children}</text>
-const Lines = ({ y, size }) => <path d={`M35 ${y + size * 0.3} H565 M35 ${y - size * 0.72} H565`} fill="none" stroke="#bbb" strokeWidth="1" />
+// Writing lines: letters sit on the baseline and reach the top line (h = letter height).
+const Lines = ({ y, h }) => <g fill="none"><path d={`M35 ${y - h} H565`} stroke="#ccc" strokeWidth="1" strokeDasharray="5 4" /><path d={`M35 ${y} H565`} stroke="#999" strokeWidth="1.2" /></g>
+const tracerSize = (text, size) => Math.min(size * 1.2, 540 / Math.max([...text].length * 0.62, 1))
+const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) * 0.6 : size * 0.72
 
 export function LetterSheet({letter, dotted = true}) {
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
@@ -38,9 +41,9 @@ export function LetterSheet({letter, dotted = true}) {
       <text x="300" y="66" fontSize="15">שם: ____________    תאריך: ____________</text>
       <Heading y={108}>עוברים על הקווים</Heading>
       <TraceText text={letter} x={300} y={335} size={190} dotted={dotted} />
-      <Lines y={440} size={70} />
+      <Lines y={440} h={letterH(letter, 70)} />
       {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} dotted={dotted} />)}
-      <Lines y={530} size={70} />
+      <Lines y={530} h={letterH(letter, 70)} />
       <Heading y={610}>צובעים את האות</Heading>
       <ColorText text={letter} x={300} y={760} size={165} />
     </g>
@@ -58,13 +61,13 @@ export function NameSheet({name, dotted = true}) {
     <g fill="#111" fontFamily={`${font}, Arial, sans-serif`} textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
       <Heading y={82}>{heb ? 'עוברים על הקווים' : 'Trace the lines'}</Heading>
-      <Lines y={240} size={big} />
+      <Lines y={240} h={letterH(name, big, heb)} />
       <TraceText text={name} x={300} y={240} size={big} dotted={dotted} heb={heb} font={font} />
-      <Lines y={340} size={row} />
+      <Lines y={340} h={letterH(name, row, heb)} />
       <TraceText text={name} x={300} y={340} size={row} dotted={dotted} heb={heb} font={font} />
-      <Lines y={425} size={row} />
+      <Lines y={425} h={letterH(name, row, heb)} />
       <TraceText text={name} x={300} y={425} size={row} dotted={dotted} heb={heb} font={font} color="#888" />
-      <Lines y={510} size={row} />
+      <Lines y={510} h={letterH(name, row, heb)} />
       <Heading y={585}>{heb ? 'צובעים את השם' : 'Colour the name'}</Heading>
       <ColorText text={name} x={300} y={730} size={big} heb={heb} />
     </g>
