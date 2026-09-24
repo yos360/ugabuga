@@ -7,6 +7,16 @@ import { SUPPLIER_CATEGORIES, SUPPLIER_AREAS, TEMPLATES } from '../../data/suppl
 
 const EMPTY = { name: '', tagline: '', about: '', category: '', area: '', tags: [], logo_url: '', cover_url: '', whatsapp: '', phone: '', instagram: '', facebook: '', tiktok: '', youtube: '', website: '', gallery: [], videos: [], services: [], template: 1 }
 const fixUrl = v => { const t = (v || '').trim(); if (!t) return ''; if (/^http:\/\//i.test(t)) return t.replace(/^http:/i, 'https:'); return /^https:\/\//i.test(t) ? t : `https://${t}` }
+// Social fields accept a username (@name), a partial address or a full link.
+const SOCIAL_BASE = { instagram: ['instagram.com/', ''], facebook: ['facebook.com/', ''], tiktok: ['tiktok.com/@', ''], youtube: ['youtube.com/@', ''] }
+const SOCIAL_HOST = { instagram: /instagram\.com/i, facebook: /facebook\.com|fb\.com/i, tiktok: /tiktok\.com/i, youtube: /youtube\.com|youtu\.be/i }
+export const socialUrl = (k, v) => {
+  const t = (v || '').trim()
+  if (!t) return ''
+  if (k === 'website' || /^https?:\/\//i.test(t) || SOCIAL_HOST[k]?.test(t)) return fixUrl(t)
+  const handle = t.replace(/^@/, '').replace(/\s+/g, '').replace(/[^\w.\-]/g, '')
+  return handle ? `https://www.${SOCIAL_BASE[k][0]}${handle}` : ''
+}
 const input = 'w-full rounded-xl border-2 border-slate-200 bg-white px-3 py-2.5 text-[17px] focus:border-slate-800 focus:outline-none'
 
 function Field({ label, hint, children }) {
@@ -88,7 +98,7 @@ export default function SupplierEditor({ initial, mode = 'supplier', onSave, sav
   const submit = async e => {
     e.preventDefault(); setBusy(true); setMsg(null)
     const p = { ...f, gallery: f.gallery.filter(g => g.url), videos: f.videos.filter(v => v.url), services: f.services.filter(s => s.title?.trim()) }
-    for (const k of ['instagram', 'facebook', 'tiktok', 'youtube', 'website']) p[k] = fixUrl(p[k])
+    for (const k of ['instagram', 'facebook', 'tiktok', 'youtube', 'website']) p[k] = socialUrl(k, p[k])
     try { const saved = await onSave(p); if (saved) setF(x => ({ ...x, ...saved })); setMsg({ ok: true, text: '✓ נשמר' }) }
     catch (x) { setMsg({ ok: false, text: x.message }) } finally { setBusy(false) }
   }
@@ -138,9 +148,15 @@ export default function SupplierEditor({ initial, mode = 'supplier', onSave, sav
       </Box>
 
       <Box title="🌐 רשתות חברתיות">
+        <p className="text-sm text-slate-600">מספיק לכתוב את שם המשתמש (למשל <b dir="ltr">@alufamazagot</b>) — הקישור נבנה לבד. אפשר גם להדביק קישור מלא.</p>
         <div className="grid gap-3 sm:grid-cols-2">
-          {[['instagram', 'אינסטגרם', 'instagram.com/…'], ['facebook', 'פייסבוק', 'facebook.com/…'], ['tiktok', 'טיקטוק', 'tiktok.com/@…'], ['youtube', 'יוטיוב', 'youtube.com/@…'], ['website', 'אתר', 'www.…']].map(([k, l, ph]) =>
-            <Field key={k} label={l}><input value={f[k] || ''} onChange={e => set(k, e.target.value)} onBlur={e => set(k, fixUrl(e.target.value))} placeholder={ph} dir="ltr" className={input} /></Field>)}
+          {[['instagram', '📸 אינסטגרם', '@שם_המשתמש'], ['facebook', '👍 פייסבוק', 'שם הדף או קישור'], ['tiktok', '🎵 טיקטוק', '@שם_המשתמש'], ['youtube', '▶️ יוטיוב', '@שם_הערוץ'], ['website', '🌐 אתר', 'www.…']].map(([k, l, ph]) => {
+            const url = socialUrl(k, f[k])
+            return <Field key={k} label={l}>
+              <input value={f[k] || ''} onChange={e => set(k, e.target.value)} onBlur={e => set(k, socialUrl(k, e.target.value))} placeholder={ph} dir="ltr" autoCapitalize="none" autoCorrect="off" className={input} />
+              {url && <a href={url} target="_blank" rel="noopener" className="mt-1 block truncate text-xs font-bold text-emerald-700" dir="ltr">✓ {url.replace(/^https:\/\/(www\.)?/, '')}</a>}
+            </Field>
+          })}
         </div>
       </Box>
 
