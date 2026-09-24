@@ -22,7 +22,7 @@ export default function Breadcrumbs({ items }) {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
-      <nav className="text-sm text-[var(--muted)] mb-4 no-print" aria-label="breadcrumb">
+      <nav className="text-sm text-[var(--muted)] mb-4 no-print" aria-label="פירורי לחם">
         <ol className="flex flex-wrap gap-1 items-center">
           {items.map((item, i) => (
             <li key={i} className="flex items-center gap-1">
