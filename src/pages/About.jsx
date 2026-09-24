@@ -13,7 +13,7 @@ const WHAT = [
 const WHO = [
   ['👨‍👩‍👧', 'להורים', 'מתכננים מסיבה בערב אחד: משחקים, רשימת מי מביא מה, הזמנה וספקים — בלי 15 לשוניות פתוחות.'],
   ['👩‍🏫', 'למורות ולגננות', 'משחק לשיעור ב-10 שניות, דפי עבודה מוכנים להדפסה ושמות לכל הכיתה בהדפסה אחת.'],
-  ['🎩', 'לספקים', 'כרטיס ספק בחינם עם פניות ישירות לוואטסאפ — ורואים בדיוק כמה פניות הגיעו מאיתנו. רוצים יותר? דף נחיתה מלא מבית עוגה בוגה.'],
+  ['🎩', 'לספקים', 'בתקופת ההשקה כרטיס ספק בחינם, עם פניות ישירות לוואטסאפ — ורואים בדיוק כמה פניות הגיעו מאיתנו. רוצים יותר? דף נחיתה מלא מבית עוגה בוגה.'],
 ]
 
 export default function About() {
@@ -56,13 +56,13 @@ export default function About() {
       <h2 className="text-center text-3xl font-black sm:text-4xl">למי זה?</h2>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">{WHO.map(([emoji, title, desc]) =>
         <div key={title} className="rounded-3xl bg-white p-6 text-center shadow-sm"><span className="text-5xl">{emoji}</span><h3 className="mt-2 text-2xl font-black">{title}</h3><p className="mt-2 leading-relaxed text-slate-700">{desc}</p></div>)}</div>
-      <p className="mt-5 text-center"><Link to="/suppliers/me" className="inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 font-bold text-white">ספקים? הצטרפו בחינם ←</Link></p>
+      <p className="mt-5 text-center"><Link to="/suppliers/me" className="inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 font-bold text-white">ספקים? בתקופת ההשקה ההצטרפות בחינם ←</Link></p>
     </section>
 
     <section className="mt-12 rounded-[32px] bg-[var(--ink)] p-8 text-center text-white sm:p-12">
       <p className="text-lg opacity-80">כמה זה עולה?</p>
       <p className="mt-2 text-5xl font-black sm:text-7xl">חינם. הכל. תמיד.</p>
-      <p className="mx-auto mt-4 max-w-xl opacity-80">כל המשחקים, הדפים והכלים פתוחים לכולם, בלי הרשמה. גם כרטיס ספק בסיסי הוא בחינם.</p>
+      <p className="mx-auto mt-4 max-w-xl opacity-80">כל המשחקים, הדפים והכלים פתוחים לכולם, בלי הרשמה. ובתקופת ההשקה גם כרטיס ספק הוא בחינם.</p>
     </section>
 
     <section className="mt-12 grid gap-4 sm:grid-cols-2">
