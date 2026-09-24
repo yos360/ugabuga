@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { skeleton, SK_SIZE } from '../../utils/letterSkeleton'
+import { hebrewStrokeWord } from '../../data/hebrewStrokes'
 import PrintPreview from './PrintPreview'
 
 const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
@@ -7,12 +8,21 @@ const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
 // One centre line per stroke (see utils/letterSkeleton). Falls back to light-grey
 // letters until the line is ready, so a sheet is never blank.
 function TraceText({ text, x, y, size, dotted, color = '#111', heb = true, font = 'Heebo' }) {
+  const hand = heb ? hebrewStrokeWord(text) : null
   const [sk, setSk] = useState(null)
-  useEffect(() => { let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font])
+  useEffect(() => { if (hand) return; let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font, !hand])
+  const dash = k => (dotted ? [0.1, 6.5] : [7, 5.5]).map(v => v / k).join(' ')
+  if (hand) {
+    // Letter height = the font's cap height at this size, so rows line up the same.
+    const k = size * 0.72 / 100
+    return <g transform={`translate(${x - hand.width / 2 * k} ${y - 100 * k}) scale(${k})`} fill="none" stroke={color} strokeWidth={2.4 / k} strokeDasharray={dash(k)} strokeLinecap="round" strokeLinejoin="round">
+      {hand.parts.map((p, i) => <path key={i} d={p.d} transform={`translate(${p.dx} 0)`} />)}
+    </g>
+  }
   if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
-  const k = size / SK_SIZE, sw = 2.4 / k
+  const k = size / SK_SIZE
   return <g transform={`translate(${x - sk.w / 2 * k} ${y - sk.base * k}) scale(${k})`}>
-    <path d={sk.d} fill="none" stroke={color} strokeWidth={sw} strokeDasharray={(dotted ? [0.1, 6.5] : [7, 5.5]).map(v => v / k).join(' ')} strokeLinecap="round" strokeLinejoin="round" />
+    <path d={sk.d} fill="none" stroke={color} strokeWidth={2.4 / k} strokeDasharray={dash(k)} strokeLinecap="round" strokeLinejoin="round" />
   </g>
 }
 
@@ -29,7 +39,7 @@ export function LetterSheet({letter, dotted = true}) {
       <text x="300" y="36" fontSize="24" fontWeight="700">האות {letter}</text>
       <text x="300" y="66" fontSize="15">שם: ____________    תאריך: ____________</text>
       <Heading y={108}>עוברים על הקווים</Heading>
-      <TraceText text={letter} x={300} y={300} size={210} dotted={dotted} />
+      <TraceText text={letter} x={300} y={335} size={190} dotted={dotted} />
       <Lines y={440} size={70} />
       {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} dotted={dotted} />)}
       <Lines y={530} size={70} />
@@ -50,15 +60,15 @@ export function NameSheet({name, dotted = true}) {
     <g fill="#111" fontFamily={`${font}, Arial, sans-serif`} textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
       <Heading y={82}>{heb ? 'עוברים על הקווים' : 'Trace the lines'}</Heading>
-      <Lines y={210} size={big} />
-      <TraceText text={name} x={300} y={210} size={big} dotted={dotted} heb={heb} font={font} />
-      <Lines y={320} size={row} />
-      <TraceText text={name} x={300} y={320} size={row} dotted={dotted} heb={heb} font={font} />
-      <Lines y={410} size={row} />
-      <TraceText text={name} x={300} y={410} size={row} dotted={dotted} heb={heb} font={font} color="#888" />
-      <Lines y={500} size={row} />
-      <Heading y={575}>{heb ? 'צובעים את השם' : 'Colour the name'}</Heading>
-      <ColorText text={name} x={300} y={720} size={big} heb={heb} />
+      <Lines y={240} size={big} />
+      <TraceText text={name} x={300} y={240} size={big} dotted={dotted} heb={heb} font={font} />
+      <Lines y={340} size={row} />
+      <TraceText text={name} x={300} y={340} size={row} dotted={dotted} heb={heb} font={font} />
+      <Lines y={425} size={row} />
+      <TraceText text={name} x={300} y={425} size={row} dotted={dotted} heb={heb} font={font} color="#888" />
+      <Lines y={510} size={row} />
+      <Heading y={585}>{heb ? 'צובעים את השם' : 'Colour the name'}</Heading>
+      <ColorText text={name} x={300} y={730} size={big} heb={heb} />
     </g>
   </svg>
 }
