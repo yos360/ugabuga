@@ -192,12 +192,15 @@ function GuestView({ code, isOwner, onEdit, flash }) {
   const [pending, setPending] = useState(null)
   const [toast, showToast] = useToast()
 
+  const flashShown = useRef(false)
   useEffect(() => {
-    if (!flash) return
+    // Wait until the list is on screen, otherwise the message fires under "loading".
+    if (!flash || !list || flashShown.current) return
+    flashShown.current = true
     showToast(flash)
     // Don't replay the message on refresh (React Router keeps state in history.state.usr).
     try { window.history.replaceState({ ...window.history.state, usr: null }, '') } catch { /* ignore */ }
-  }, [flash, showToast])
+  }, [flash, list, showToast])
   const refresh = useCallback(() => partyDb.get(code).then(setList).catch(e => setError(errorText(e.code))), [code])
   useEffect(() => { refresh() }, [refresh])
   useEffect(() => {
