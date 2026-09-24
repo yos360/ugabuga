@@ -14,3 +14,8 @@
 .buga-qr svg{width:13mm;height:13mm;display:block;flex:none}
 .buga-qr-label{font-size:6.5pt;line-height:1.2;color:#555;white-space:nowrap}
 @media print{.buga-qr{box-shadow:none;border:.5px solid #ddd}}
+
+/* Credit line on every printed page (centre bottom; the QR badge sits bottom-left). */
+.buga-credit{position:absolute;bottom:4mm;left:50%;transform:translateX(-50%);z-index:5;font-size:8pt;color:#555;white-space:nowrap;font-family:Heebo,Arial,sans-serif;direction:rtl}
+.buga-a4:has(.buga-credit),.buga-flow:has(.buga-credit){padding-bottom:20mm}
+@media print{#buga-print-output .buga-a4:has(.buga-credit),#buga-print-output .buga-flow:has(.buga-credit){padding-bottom:22mm!important}}

@@ -1,45 +1,64 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { skeleton, SK_SIZE } from '../../utils/letterSkeleton'
 import PrintPreview from './PrintPreview'
 
 const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
 
+// One centre line per stroke (see utils/letterSkeleton). Falls back to light-grey
+// letters until the line is ready, so a sheet is never blank.
+function TraceText({ text, x, y, size, dotted, color = '#111', heb = true, font = 'Heebo' }) {
+  const [sk, setSk] = useState(null)
+  useEffect(() => { let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font])
+  if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
+  const k = size / SK_SIZE, sw = 2.4 / k
+  return <g transform={`translate(${x - sk.w / 2 * k} ${y - sk.base * k}) scale(${k})`}>
+    <path d={sk.d} fill="none" stroke={color} strokeWidth={sw} strokeDasharray={(dotted ? [0.1, 6.5] : [7, 5.5]).map(v => v / k).join(' ')} strokeLinecap="round" strokeLinejoin="round" />
+  </g>
+}
+
+// Hollow letters to colour in: the white fill is painted over the stroke, so only
+// the outer contour shows — no overlapping inner lines.
+const ColorText = ({ text, x, y, size, heb = true }) => <text x={x} y={y} fontSize={size} fontWeight="800" fill="white" stroke="#111" strokeWidth="5" strokeLinejoin="round" paintOrder="stroke" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
+
+const Heading = ({ y, children }) => <text x="300" y={y} fontSize="21" fontWeight="700">{children}</text>
+const Lines = ({ y, size }) => <path d={`M35 ${y + size * 0.3} H565 M35 ${y - size * 0.72} H565`} fill="none" stroke="#bbb" strokeWidth="1" />
+
 export function LetterSheet({letter, dotted = true}) {
-  const dash = dotted ? '0.1 7' : '8 6'
-  return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${letter} בקו ${dotted ? 'מנוקד' : 'מקווקו'}`} style={{width:'100%',height:'100%',background:'white'}}>
+  return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
-      <text x="300" y="40" fontSize="24">האות {letter} — עוברים בעיפרון</text>
-      <text x="300" y="75" fontSize="15">שם: ____________    תאריך: ____________</text>
-      {/* Big letter sits high enough that descenders (ך ן ף ץ ק) never reach the caption below. */}
-      <text x="300" y="340" fontSize="260" fontWeight="500" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash} strokeLinecap="round">{letter}</text>
-      <text x="300" y="455" fontSize="17">מתרגלים על הקווים, ואז כותבים לבד</text>
-      {[530,630,730].map((y,row)=><g key={y}>
-        <path d={`M35 ${y+24} H565 M35 ${y-50} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
-        {[520,420,320,220,120].slice(0,5-row*2).map(x=><text key={x} x={x} y={y} fontSize="70" fontWeight="500" fill="none" stroke="#111" strokeWidth="1.3" strokeDasharray={dotted?'0.1 4':'4 4'} strokeLinecap="round">{letter}</text>)}
-      </g>)}
+      <text x="300" y="36" fontSize="24" fontWeight="700">האות {letter}</text>
+      <text x="300" y="66" fontSize="15">שם: ____________    תאריך: ____________</text>
+      <Heading y={108}>עוברים על הקווים</Heading>
+      <TraceText text={letter} x={300} y={300} size={210} dotted={dotted} />
+      <Lines y={440} size={70} />
+      {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} dotted={dotted} />)}
+      <Lines y={530} size={70} />
+      <Heading y={610}>צובעים את האות</Heading>
+      <ColorText text={letter} x={300} y={760} size={165} />
     </g>
   </svg>
 }
 
-// One A4 sheet per name: the name big and traceable at the top, then practice rows
-// (traceable copies that fade out, then empty lines). Hebrew and English are
-// detected per name so a mixed class list works in one print run.
-const isHebrew = s => /[֐-׿]/.test(s)
+// One A4 sheet per name: trace it on a single dashed line, practise, then colour
+// it in. Hebrew and English are detected per name so a mixed class list works.
+const isHebrew = s => /[\u0590-\u05FF]/.test(s)
 export function NameSheet({name, dotted = true}) {
-  const heb = isHebrew(name), font = heb ? 'Heebo, Arial, sans-serif' : 'Arial, Helvetica, sans-serif'
-  const big = Math.min(150, Math.floor(520 / Math.max(name.length, 1) * (heb ? 1.45 : 1.55)))
-  const row = Math.min(70, Math.floor(big * 0.5))
-  const dash = d => dotted ? `0.1 ${d}` : `${d} ${d}`
-  const rows = [320, 420, 520, 620, 720]
+  const heb = isHebrew(name), font = heb ? 'Heebo' : 'Arial'
+  const big = Math.min(130, Math.floor(520 / Math.max(name.length, 1) * (heb ? 1.45 : 1.55)))
+  const row = Math.min(66, Math.floor(big * 0.5))
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול כתיבת השם ${name}`} style={{width:'100%',height:'100%',background:'white'}} direction={heb?'rtl':'ltr'}>
-    <g fill="#111" fontFamily={font} textAnchor="middle">
-      <text x="300" y="40" fontSize="24">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
-      <text x="300" y="72" fontSize="15">{heb ? 'מתרגלים על הקווים, ואז כותבים לבד' : 'Trace the lines, then write it yourself'}</text>
-      <path d="M35 250 H565" fill="none" stroke="#aaa" strokeWidth="1"/>
-      <text x="300" y="205" fontSize={big} fontWeight="600" fill="none" stroke="#111" strokeWidth="2" strokeDasharray={dash(7)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>
-      {rows.map((y,i)=><g key={y}>
-        <path d={`M35 ${y+row*0.32} H565 M35 ${y-row*0.72} H565`} fill="none" stroke="#aaa" strokeWidth="1"/>
-        {i<3 && <text x="300" y={y} fontSize={row} fontWeight="500" fill="none" stroke={i===0?'#111':i===1?'#666':'#bbb'} strokeWidth="1.3" strokeDasharray={dash(4)} strokeLinecap="round" direction={heb?'rtl':'ltr'}>{name}</text>}
-      </g>)}
+    <g fill="#111" fontFamily={`${font}, Arial, sans-serif`} textAnchor="middle">
+      <text x="300" y="36" fontSize="24" fontWeight="700">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
+      <Heading y={82}>{heb ? 'עוברים על הקווים' : 'Trace the lines'}</Heading>
+      <Lines y={210} size={big} />
+      <TraceText text={name} x={300} y={210} size={big} dotted={dotted} heb={heb} font={font} />
+      <Lines y={320} size={row} />
+      <TraceText text={name} x={300} y={320} size={row} dotted={dotted} heb={heb} font={font} />
+      <Lines y={410} size={row} />
+      <TraceText text={name} x={300} y={410} size={row} dotted={dotted} heb={heb} font={font} color="#888" />
+      <Lines y={500} size={row} />
+      <Heading y={575}>{heb ? 'צובעים את השם' : 'Colour the name'}</Heading>
+      <ColorText text={name} x={300} y={720} size={big} heb={heb} />
     </g>
   </svg>
 }

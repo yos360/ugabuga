@@ -10,6 +10,13 @@ import { recordPrintPreview, recordPreviewOpen } from '../layout/RecentActivity'
 // individual worksheet component.
 function stampQrCodes(root){
   if(!root)return
+  root.querySelectorAll('.buga-a4, .buga-flow').forEach(page=>{
+    if(page.querySelector('.buga-credit'))return
+    const credit=document.createElement('div')
+    credit.className='buga-credit'
+    credit.textContent='נוצר באתר עוגה בוגה ללא עלות ובקלות · ugabuga.co.il'
+    page.appendChild(credit)
+  })
   const url=`${location.origin}${location.pathname}?utm_source=qr&utm_medium=print`
   import('qrcode').then(({default:QRCode})=>QRCode.toString(url,{type:'svg',margin:0,color:{dark:'#181828',light:'#ffffff00'}}))
     .then(svg=>{
