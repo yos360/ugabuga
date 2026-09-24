@@ -69,7 +69,7 @@ export default function DiceTool() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="קוביה וירטואלית תלת-ממדית" description="הטילו קוביה תלת-ממדית אונליין — עוקבת אחרי העכבר, מסתובבת באמת!" path="/tools/dice" />
+      <SEO title="קוביה וירטואלית — הטלת 1 עד 3 קוביות אונליין" description="זורקים קוביה אונליין בלחיצה: קוביה תלת־ממדית מונפשת, 1, 2 או 3 קוביות עם סכום אוטומטי והיסטוריית הטלות. מושלם כשהקוביה של משחק הקופסה אבדה. חינם." path="/tools/dice" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'קוביה' }]} />
       <h1 className="text-4xl text-center mb-6">🎲 קוביה וירטואלית 3D</h1>
 

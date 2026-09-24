@@ -55,7 +55,7 @@ export default function CoinFlip() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="הטלת מטבע תלת-ממדית" description="הטילו מטבע 3D אונליין — עץ או פלי, או בחירה מותאמת אישית." path="/tools/coin-flip" />
+      <SEO title="הטלת מטבע אונליין — עץ או פלי בלחיצה" description="מטבע תלת־ממדי שמכריע ויכוחים: עץ או פלי בלחיצה, ספירת תוצאות לכל צד, ואפשרות לכתוב שתי אפשרויות משלכם במקום עץ ופלי. חינם, בלי הרשמה ובלי הורדה." path="/tools/coin-flip" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'הטלת מטבע' }]} />
       <h1 className="text-4xl text-center mb-6">🪙 הטלת מטבע 3D</h1>
 

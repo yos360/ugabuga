@@ -21,7 +21,7 @@ export default function Scoreboard() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="לוח ניקוד" description="לוח ניקוד אונליין — הוסיפו שחקנים, עקבו אחרי הניקוד, מיון אוטומטי." path="/tools/scoreboard" />
+      <SEO title="לוח ניקוד אונליין — ספירת נקודות למשחקים וטריוויה" description="לוח ניקוד חינמי למשחקים, חידונים וטורנירים: מוסיפים שחקנים או קבוצות, מעדכנים נקודות ב־+ ו־−, והטבלה ממוינת אוטומטית עם גביע למוביל. בלי הרשמה." path="/tools/scoreboard" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'לוח ניקוד' }]} />
       <h1 className="text-4xl text-center mb-6">📊 לוח ניקוד</h1>
 

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { MENU_GROUPS } from '../../data/siteMenu'
 
-const TOOLS = [
+const DESC = Object.fromEntries([
   { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה BUGA', desc: 'טריוויה עם מצבי משחק, ניקוד ותחרות.' },
   { to: '/tools/truth-or-buga', emoji: '🎭', title: 'אמת או בוגה', desc: 'משחק אמת/שקר עם קושי, קבוצות וניקוד.' },
   { to: '/tools/buga-town', emoji: '🏙️', title: 'בוגהטאון', desc: 'משחק עיר ונכסים עם שאלות וקוביות.' },
@@ -21,7 +22,24 @@ const TOOLS = [
   { to: '/tools/spin-the-bottle', emoji: '🍾', title: 'סובב את הבקבוק', desc: 'משחק חברתי מהיר.' },
   { to: '/tools/drawing-prompt', emoji: '🎨', title: 'מה לצייר?', desc: 'רעיונות ציור ומשימות יצירה.' },
   { to: '/tools/joke', emoji: '😂', title: 'בדיחה של BUGA', desc: 'בדיחה מהירה לפתיחת פעילות.' },
-]
+  { to: '/calculator', desc: 'כמה פיצות, שתייה וחטיפים צריך למסיבה.' },
+  { to: '/invitation', desc: 'הזמנה אישית ליום הולדת — להדפסה או לוואטסאפ.' },
+  { to: '/greeting', desc: 'ברכה אישית ליום הולדת בכמה קליקים.' },
+  { to: '/tools/bring-list', desc: 'רשימה שיתופית: כל הורה תופס פריט בקישור אחד.' },
+  { to: '/tools/birthday-famous', desc: 'אילו מפורסמים נולדו באותו תאריך.' },
+  { to: '/gifts', desc: 'רעיונות למתנות לפי גיל ותקציב.' },
+  { to: '/suppliers', desc: 'מפעילים, קוסמים, עוגות וצילום — פונים ישירות.' },
+  { to: '/classroom/quiz', desc: 'התלמידים עונים מהטלפון, הציונים נבדקים לבד.' },
+  { to: '/classroom/first-grade', desc: 'כתיבה, שעון, חשבון וקריאה בתרגול משחקי.' },
+  { to: '/tools/eretz-ir', desc: 'ארץ עיר עם אותיות, טיימר וניקוד.' },
+  { to: '/tools/experiment-maker', desc: 'בוחרים ניסוי, ממלאים דף חקר ומדפיסים.' },
+  { to: '/printables/roots-project', desc: 'פרויקט משפחתי עם תמונות, סיפורים וציר זמן.' },
+  { to: '/games/kindergarten', desc: 'משחקים קצרים ופשוטים לגן.' },
+  { to: '/printables', desc: 'ספרייה של דפי פעילות לפי גיל ונושא.' },
+  { to: '/printables/coloring', desc: 'דפי צביעה להדפסה בחינם.' },
+  { to: '/printables/mandalas', desc: '70 מנדלות לילדים ולגדולים.' },
+  { to: '/tools/crossword-maker', desc: 'מכניסים מילים ומקבלים תשבץ להדפסה.' },
+].map(t => [t.to, t.desc]))
 
 export default function ToolsIndex() {
   return (
@@ -32,16 +50,21 @@ export default function ToolsIndex() {
         <h1 className="text-4xl sm:text-5xl mb-3">🛠️ כל הכלים של עוגה בוגה</h1>
         <p className="mx-auto max-w-2xl text-lg text-[var(--foreground)]/75">כל מה שאפשר להפעיל מיד: בכיתה, במסיבה, בבית או עם חברים.</p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {TOOLS.map((tool, index) => (
-          <Link key={tool.to} to={tool.to} className={`card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
-            <span className="text-4xl">{tool.emoji}</span>
-            <h2 className="mt-3 text-2xl font-bold">{tool.title}</h2>
-            <p className="mt-2 text-[var(--foreground)]/75">{tool.desc}</p>
-            <span className="mt-4 inline-block font-display text-lg font-bold underline decoration-dashed">פתחו כלי ←</span>
-          </Link>
-        ))}
-      </div>
+      {MENU_GROUPS.map(group => (
+        <section key={group.title} className="mb-10">
+          <h2 className="mb-4 text-3xl font-black"><Link to={group.to} className="hover:underline">{group.title}</Link></h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {group.items.map((tool, index) => (
+              <Link key={tool.to} to={tool.to} className={`card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
+                <span className="text-4xl">{tool.icon}</span>
+                <h3 className="mt-3 text-2xl font-bold">{tool.label}</h3>
+                {DESC[tool.to] && <p className="mt-2 text-[var(--foreground)]/75">{DESC[tool.to]}</p>}
+                <span className="mt-4 inline-block font-display text-lg font-bold underline decoration-dashed">פתחו ←</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ))}
       <section className="mt-10 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow-rich">
         <h2 className="text-2xl font-bold">איך לבחור את הכלי הנכון?</h2>
         <div className="mt-4 grid gap-4 text-sm leading-relaxed sm:grid-cols-3">

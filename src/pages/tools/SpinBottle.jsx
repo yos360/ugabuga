@@ -38,7 +38,7 @@ export default function SpinBottle() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="סובב את הבקבוק" description="משחק סובב הבקבוק אונליין — שמות במעגל, הבקבוק מצביע." path="/tools/spin-the-bottle" />
+      <SEO title="סובב את הבקבוק אונליין — הגרלת שחקן במעגל" description="סובב הבקבוק בלי בקבוק: כותבים את שמות השחקנים, הם מסודרים במעגל, והבקבוק מסתובב ועוצר על מי שתורו. כולל היסטוריית סיבובים. מושלם לאמת או חובה. חינם." path="/tools/spin-the-bottle" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'סובב בקבוק' }]} />
       <h1 className="text-4xl text-center mb-6">🍾 סובב את הבקבוק</h1>
 

@@ -68,7 +68,7 @@ export default function WordSearchMaker() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="יוצר תפזורת" description="צרו תפזורת בעברית — חבילות מוכנות או כתבו מילים בעצמכם." path="/tools/word-search-maker" />
+      <SEO title="יוצר תפזורת בעברית — תפזורת מילים להדפסה" description="יוצרים תפזורת בעברית בחינם: בוחרים חבילה מוכנה (חיות, אוכל, בית ספר) או מקלידים מילים משלכם, ומקבלים תפזורת חדשה שאפשר להדפיס מיד. לכיתה, לחוג ולבית." path="/tools/word-search-maker" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'תפזורת' }]} />
       <h1 className="text-4xl text-center mb-6">🔍 יוצר תפזורת</h1>
 

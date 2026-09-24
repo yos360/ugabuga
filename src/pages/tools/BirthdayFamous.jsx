@@ -145,7 +145,7 @@ export default function BirthdayFamous() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO
-        title="מי נולד ביום ההולדת שלך? | עוגה בוגה"
+        title="מי נולד ביום ההולדת שלך? מפורסמים לפי תאריך"
         description="גלו אילו אנשים מפורסמים נולדו בתאריך שלכם בעזרת Wikipedia בעברית."
         path="/tools/birthday-famous"
       />

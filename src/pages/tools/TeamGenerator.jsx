@@ -23,7 +23,7 @@ export default function TeamGenerator() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="מחלק קבוצות" description="מחלק קבוצות אקראי: מדביקים שמות, בוחרים כמה קבוצות ומקבלים חלוקה הוגנת בלחיצה. לכיתה, לחוג, לקייטנה ולמשחקי ספורט — חינם." path="/tools/team-generator" />
+      <SEO title="מחלק קבוצות אקראי — חלוקה הוגנת בלחיצה" description="מחלק קבוצות אקראי: כותבים את שמות המשתתפים, בוחרים 2 עד 5 קבוצות ומקבלים חלוקה אקראית ומאוזנת בלחיצה. לכיתה, לחוג, לקייטנה ולמשחקי ספורט — חינם." path="/tools/team-generator" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחלק קבוצות' }]} />
       <h1 className="text-4xl text-center mb-6">🎲 מחלק קבוצות</h1>
 

@@ -99,7 +99,7 @@ export default function CountdownTimer() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="טיימר למסיבה" description="טיימר אונליין עם שעון מעורר מונפש — לפעילויות, פנטומימה, ומשחקים." path="/tools/countdown-timer" />
+      <SEO title="טיימר אונליין למשחקים — ספירה לאחור עם צלצול" description="טיימר ספירה לאחור חינמי עם שעון מעורר מונפש וצלצול בסיום: מ־30 שניות ועד 30 דקות בלחיצה אחת. מושלם לפנטומימה, לאתגרים, למשחקי מסיבה ולפעילות בכיתה." path="/tools/countdown-timer" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'טיימר' }]} />
       <h1 className="text-4xl text-center mb-8">⏱️ טיימר למסיבה</h1>
 
