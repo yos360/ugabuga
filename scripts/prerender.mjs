@@ -4,6 +4,18 @@ import { resolve, dirname, extname } from 'node:path'
 import { createRequire } from 'node:module'
 import { execFileSync } from 'node:child_process'
 
+// React portals (fixed bottom bars, toasts, dialogs) render as direct children of
+// <body>, outside #root. A snapshot would freeze them into the static HTML, and
+// on hydration React creates its own copy — leaving a dead duplicate on screen.
+// Strip everything outside #root that isn't a script/style before serializing.
+const stripPortals = page => page.evaluate(() => {
+  for (const el of [...document.body.children]) {
+    if (el.id === 'root' || ['SCRIPT', 'NOSCRIPT', 'STYLE', 'LINK', 'TEMPLATE'].includes(el.tagName)) continue
+    el.remove()
+  }
+})
+
+
 const require = createRequire(import.meta.url)
 const playwright = process.env.PRERENDER_PLAYWRIGHT || 'playwright'
 const { chromium } = require(playwright)
@@ -60,6 +72,7 @@ try {
       // Vite injects <link rel="modulepreload"> tags with absolute URLs of this
       // temporary build server (http://127.0.0.1:PORT/...). Make them site-relative,
       // otherwise every visitor's browser tries to load files from its own localhost.
+      await stripPortals(page)
       const html = (await page.content()).replaceAll(origin + '/', '/')
       snapshots.push({ path, html, title: result.title })
       if (snapshots.length % 25 === 0) console.log(`Pre-rendered ${snapshots.length}/${paths.length}`)
@@ -104,6 +117,7 @@ try {
           const valid = result.canonical.length === 1 && result.canonical[0] === `https://ugabuga.co.il${path}` && result.descriptions === 1 && result.h1 === 1 && !result.robots.includes('noindex')
           if (!valid || titles.has(result.title)) { skipped++; console.warn(`Skipping game snapshot ${path}: ${JSON.stringify(result)}`); continue }
           titles.add(result.title)
+          await stripPortals(page)
           const html = (await page.content()).replaceAll(origin + '/', '/')
           const destination = resolve(dist, path.slice(1) + '.html')
           await mkdir(dirname(destination), { recursive: true })
