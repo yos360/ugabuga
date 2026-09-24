@@ -114,7 +114,6 @@ function OrganizerView({ code: initialCode, onDone }) {
     if (edited.current && items.some(i => i.text.trim()) && !window.confirm('להחליף את הרשימה בתבנית החדשה? השינויים שעשיתם יימחקו.')) return
     setTemplateId(tpl.id); setItems(fromTemplate(tpl)); edited.current = false
   }
-  const addToCat = cat => { const id = newId(); changeItems([...items, { id, text: '', qty: '', cat, takenBy: '' }]); setFocusId(id) }
   const add = () => {
     const t = newItem.trim(); if (!t) return
     changeItems([...items, { id: newId(), text: t, qty: '', cat: OTHER_CAT, takenBy: '' }]); setNewItem(''); addRef.current?.focus()
@@ -158,7 +157,6 @@ function OrganizerView({ code: initialCode, onDone }) {
   }
 
   const filled = items.filter(i => i.text.trim())
-  const taken = filled.filter(i => i.takenBy).length
   if (loading) return <p className="py-16 text-center text-lg">טוענים את הרשימה…</p>
   const tpl = PARTY_TEMPLATES.find(t => t.id === templateId)
 
@@ -173,11 +171,11 @@ function OrganizerView({ code: initialCode, onDone }) {
           <span className="block text-xs text-slate-500">{t.items.length ? `${t.items.length} פריטים` : 'מאפס'}</span>
         </button>)}
       </div>
-      {tpl?.hint && <p className="mt-1 text-sm text-slate-500">{tpl.hint} · הכמויות מחושבות לכ-20 אורחים, ואפשר לשנות הכול.</p>}
+      {tpl?.hint && <p className="mt-1 text-sm text-slate-500">כמויות לכ-20 אורחים · אפשר לשנות הכול</p>}
     </section>}
 
     <section className="wobbly border-2 border-[var(--border)] bg-white p-4 sm:p-6 sketch-shadow">
-      {code && <p className="mb-4 rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-900">✏️ מצב עריכה — כאן משנים את הרשימה עצמה. כדי לרשום מי מביא, לחצו "סיום עריכה".</p>}
+      {code && <p className="mb-4 text-center text-sm font-bold text-amber-800">✏️ מצב עריכה</p>}
       <label className="block font-bold" htmlFor="bl-title">{code ? 'שם האירוע' : '2. לאיזה אירוע?'}</label>
       <input id="bl-title" value={title} onChange={e => changeTitle(e.target.value)} placeholder={`למשל: ${tpl?.title && tpl.title !== '' ? tpl.title.replace('…', 'נועה') : 'יום הולדת לנועה'}`} maxLength={80}
         className="mt-1 w-full rounded-xl border-2 border-slate-200 px-3 py-3 text-xl font-bold placeholder:font-normal placeholder:text-slate-400 focus:border-slate-800 focus:outline-none" />
@@ -192,27 +190,23 @@ function OrganizerView({ code: initialCode, onDone }) {
         <label className="col-span-2 text-sm font-bold">הודעה לאורחים<textarea value={details.note || ''} onChange={e => changeDetail('note', e.target.value)} maxLength={300} rows={2} placeholder="למשל: בלי בוטנים בבקשה 🙏" className="mt-1 w-full rounded-xl border-2 border-slate-200 px-3 py-2 text-base font-normal" /></label>
       </div>}
 
-      <div className="mt-5 flex items-baseline justify-between gap-3">
-        <h2 className="text-xl font-bold">{code ? 'מה צריך להביא?' : '3. מה צריך להביא?'}</h2>
-        {code && <span className="text-sm font-bold text-emerald-700">{taken}/{filled.length} נתפסו</span>}
-      </div>
-      {groupByCat(items).map(([cat, catItems]) => <div key={cat} className="mt-3">
-        <h3 className="text-sm font-bold text-slate-500">{cat}</h3>
-        <ul className="divide-y divide-slate-100">
-          {catItems.map(item => <li key={item.id} className="flex min-h-[52px] items-center gap-1.5 py-1.5">
+      <h2 className="mt-5 text-xl font-bold">{code ? 'מה צריך להביא?' : '3. מה צריך להביא?'}</h2>
+      {groupByCat(items).map(([cat, catItems], n, all) => <div key={cat} className="mt-3">
+        {(all.length > 1 || cat !== OTHER_CAT) && <h3 className="mb-1 text-sm font-bold text-slate-400">{cat}</h3>}
+        <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 px-3">
+          {catItems.map(item => <li key={item.id} className="flex min-h-[50px] items-center gap-2">
             <input value={item.text} autoFocus={item.id === focusId} onChange={e => patchItem(item.id, { text: e.target.value })} aria-label="פריט" placeholder="שם הפריט"
-              className="min-w-0 flex-1 rounded-lg border border-slate-200 px-2 py-2 text-base focus:border-slate-800 focus:outline-none" />
+              className="min-w-0 flex-1 bg-transparent py-2 text-[17px] focus:outline-none" />
             <input value={item.qty || ''} onChange={e => patchItem(item.id, { qty: e.target.value })} aria-label={`כמות ${item.text}`} placeholder="כמות" maxLength={30}
-              className="w-[5.5rem] shrink-0 rounded-lg border border-slate-200 px-2 py-2 text-sm text-slate-600 focus:border-slate-800 focus:outline-none" />
-            {item.takenBy && <button onClick={() => release(item.id)} title="שחרור" aria-label={`שחרור ${item.text} מ${item.takenBy}`}
-              className="max-w-[6.5rem] shrink-0 truncate rounded-full bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-800">🙋 {item.takenBy} ↺</button>}
-            <button onClick={() => remove(item.id)} className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`מחיקת ${item.text || 'פריט'}`}>✕</button>
+              className="w-[5.75rem] shrink-0 rounded-full bg-slate-100 px-2 py-1 text-center text-sm text-slate-600 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800" />
+            {item.takenBy && <button onClick={() => release(item.id)} title="שחרור הפריט" aria-label={`שחרור ${item.text} מ${item.takenBy}`}
+              className="max-w-[5rem] shrink-0 truncate text-xs font-bold text-emerald-700">🙋 {item.takenBy}</button>}
+            <button onClick={() => remove(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-300 hover:text-rose-500" aria-label={`מחיקת ${item.text || 'פריט'}`}>✕</button>
           </li>)}
         </ul>
-        {cat !== OTHER_CAT && <button onClick={() => addToCat(cat)} className="mt-1 min-h-[40px] px-1 text-sm font-bold text-slate-600 underline decoration-dashed">＋ עוד ל{cat.replace(/^\S+\s/, '')}</button>}
       </div>)}
       <form className="mt-4 flex gap-2" onSubmit={e => { e.preventDefault(); add() }}>
-        <input ref={addRef} value={newItem} onChange={e => setNewItem(e.target.value)} placeholder="הוסיפו פריט…" aria-label="פריט חדש" enterKeyHint="done"
+        <input ref={addRef} value={newItem} onChange={e => setNewItem(e.target.value)} placeholder="＋ הוספת פריט" aria-label="פריט חדש" enterKeyHint="done"
           className="min-w-0 flex-1 rounded-xl border-2 border-dashed border-slate-300 px-3 py-3 text-lg focus:border-slate-800 focus:outline-none" />
         <button className="shrink-0 rounded-xl border-2 border-slate-800 bg-white px-4 text-lg font-bold" aria-label="הוספת פריט">＋</button>
       </form>
