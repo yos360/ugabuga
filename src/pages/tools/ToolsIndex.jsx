@@ -8,6 +8,7 @@ const TOOLS = [
   { to: '/tools/buga-town', emoji: '🏙️', title: 'בוגהטאון', desc: 'משחק עיר ונכסים עם שאלות וקוביות.' },
   { to: '/tools/escape-rooms', emoji: '🔐', title: 'חדרי בריחה', desc: 'חדרים דיגיטליים וקיטים להנחיה.' },
   { to: '/tools/riddles', emoji: '🧩', title: 'חידות', desc: 'מאגר חידות לפי נושא, גיל וקושי.' },
+  { to: '/tools/emoji-studio', emoji: '😀', title: 'אימוג׳י סטודיו', desc: 'מנחשים שירים וסרטים באימוג׳ים — או בונים משחק משלכם.' },
   { to: '/tools/bingo-maker', emoji: '🎟️', title: 'מחולל בינגו', desc: 'כרטיסיות בינגו מוכנות או מותאמות אישית.' },
   { to: '/tools/word-search-maker', emoji: '🔎', title: 'מחולל תפזורת', desc: 'צרו תפזורות לפי מילים ונושאים.' },
   { to: '/tools/scavenger-hunt-maker', emoji: '🗺️', title: 'חפש את המטמון', desc: 'רמזים ומשימות מוכנים להפעלה.' },
