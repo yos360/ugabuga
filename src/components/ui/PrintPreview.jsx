@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './print-preview.css'
-import { recordPrintPreview } from '../layout/RecentActivity'
+import { recordPrintPreview, recordPreviewOpen } from '../layout/RecentActivity'
 
 // A small QR code is stamped onto every printed page, linking back to the exact
 // page it came from (tagged so the owner's report can see scans separately from
@@ -25,14 +25,14 @@ function stampQrCodes(root){
 
 export default function PrintPreview({title,children,onClose}){
   const dialog=useRef(null),root=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
-  useEffect(()=>{const previous=document.activeElement;dialog.current?.showModal();return()=>previous?.focus?.()},[])
+  useEffect(()=>{const previous=document.activeElement;dialog.current?.showModal();recordPreviewOpen();return()=>previous?.focus?.()},[])
   useEffect(()=>{stampQrCodes(dialog.current);stampQrCodes(root.current)},[children])
   async function print(){setBusy(true);setError('');try{
     await document.fonts.ready
     const imgs=[...document.querySelectorAll('#buga-print-output img')]
-    await Promise.all(imgs.map(img=>img.decode()))
-    window.print()
+    await Promise.allSettled(imgs.map(img=>img.decode()))
     recordPrintPreview()
+    window.print()
   }catch{setError('האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides
   // every body child except #buga-print-output, so no wrapper element here.
