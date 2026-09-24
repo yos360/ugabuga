@@ -119,7 +119,7 @@ function OrganizerView({ code: initialCode, onDone }) {
     changeItems([...items, { id: newId(), text: t, qty: '', cat: OTHER_CAT, takenBy: '' }]); setNewItem(''); addRef.current?.focus()
   }
   const remove = id => changeItems(items.filter(i => i.id !== id))
-  const release = id => { releases.current.push(id); changeItems(items.map(i => i.id === id ? { ...i, takenBy: '', arrived: false } : i)) }
+  const release = id => { releases.current.push(id); changeItems(items.map(i => i.id === id ? { ...i, takenBy: '', claims: [], arrived: false } : i)) }
 
   const ensureCreated = async () => {
     if (code) return code
@@ -191,6 +191,7 @@ function OrganizerView({ code: initialCode, onDone }) {
       </div>}
 
       <h2 className="mt-5 text-xl font-bold">{code ? 'מה צריך להביא?' : '3. מה צריך להביא?'}</h2>
+      <p className="mt-1 text-sm text-slate-500">💡 כמות עם מספר (למשל „6 בקבוקים”) — כמה אורחים יוכלו להתחלק בה</p>
       {groupByCat(items).map(([cat, catItems], n, all) => <div key={cat} className="mt-3">
         {(all.length > 1 || cat !== OTHER_CAT) && <h3 className="mb-1 text-sm font-bold text-slate-400">{cat}</h3>}
         <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 px-3">
@@ -199,8 +200,8 @@ function OrganizerView({ code: initialCode, onDone }) {
               className="min-w-0 flex-1 bg-transparent py-2 text-[17px] focus:outline-none" />
             <input value={item.qty || ''} onChange={e => patchItem(item.id, { qty: e.target.value })} aria-label={`כמות ${item.text}`} placeholder="כמות" maxLength={30}
               className="w-[5.75rem] shrink-0 rounded-full bg-slate-100 px-2 py-1 text-center text-sm text-slate-600 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-800" />
-            {item.takenBy && <button onClick={() => release(item.id)} title="שחרור הפריט" aria-label={`שחרור ${item.text} מ${item.takenBy}`}
-              className="max-w-[5rem] shrink-0 truncate text-xs font-bold text-emerald-700">🙋 {item.takenBy}</button>}
+            {claimsOf(item).length > 0 && <button onClick={() => release(item.id)} title="שחרור הפריט" aria-label={`שחרור ${item.text} מ${claimsOf(item).map(c => c.name).join(', ')}`}
+              className="max-w-[5rem] shrink-0 truncate text-xs font-bold text-emerald-700">🙋 {claimsOf(item).map(c => c.name).join(', ')}</button>}
             <button onClick={() => remove(item.id)} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-300 hover:text-rose-500" aria-label={`מחיקת ${item.text || 'פריט'}`}>✕</button>
           </li>)}
         </ul>
@@ -244,6 +245,22 @@ function Qty({ qty }) {
   return qty ? <span className="ms-2 inline-block rounded-full bg-[var(--muted)] px-2 py-0.5 align-middle text-xs font-bold text-[var(--muted-foreground)]">{qty}</span> : null
 }
 
+// Split items: "6 בקבוקים" means 6 units several guests can share.
+const needOf = item => { const m = /^\s*(\d{1,3})/.exec(item.qty || ''); return m ? Math.min(Math.max(Number(m[1]), 1), 99) : 1 }
+const unitOf = item => (item.qty || '').replace(/^\s*\d{1,3}\s*/, '').trim()
+const claimsOf = item => [...(item.takenBy ? [{ id: 'legacy', name: item.takenBy, count: needOf(item) }] : []), ...(item.claims || [])]
+const takenOf = item => claimsOf(item).reduce((n, c) => n + (Number(c.count) || 0), 0)
+const parseMine = v => !v ? null : v.includes('.') ? { id: v.slice(0, v.indexOf('.')), token: v.slice(v.indexOf('.') + 1) } : { id: null, token: v }
+const who = c => c.count > 1 ? `${c.name} ×${c.count}` : c.name
+const howMany = (item, n) => { const u = unitOf(item); return n > 1 && u ? `${n} ${u}` : `×${n}` }
+
+function Segments({ need, taken, mine = 0 }) {
+  if (need <= 1) return null
+  if (need > 12) return <span className="mt-1.5 block h-1.5 overflow-hidden rounded-full bg-slate-200"><span className="block h-full rounded-full bg-emerald-500" style={{ width: `${Math.min(100, 100 * taken / need)}%` }} /></span>
+  return <span aria-hidden="true" className="mt-1.5 flex gap-1">{Array.from({ length: need }, (_, n) =>
+    <span key={n} className={`h-1.5 flex-1 rounded-full ${n < taken - mine ? 'bg-emerald-500' : n < taken ? 'bg-[var(--pen)]' : 'bg-slate-200'}`} />)}</span>
+}
+
 function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
   const [list, setList] = useState(null)
   const [error, setError] = useState('')
@@ -251,6 +268,7 @@ function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
   const [mine, setMine] = useState(() => partyMemory.claims(code))
   const [asking, setAsking] = useState(null)
   const [draftName, setDraftName] = useState('')
+  const [pickCount, setPickCount] = useState(1)
   const [pending, setPending] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [toast, showToast] = useToast()
@@ -270,26 +288,40 @@ function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
     return () => clearInterval(t)
   }, [refresh])
 
-  const claim = async (item, who) => {
-    setPending(item.id)
-    const token = crypto.randomUUID?.() || newId() + newId()
-    try {
-      const row = await partyDb.claim(code, item.id, who, token)
-      partyMemory.setClaim(code, item.id, token); setMine(partyMemory.claims(code))
-      merge(row); showToast(`מעולה! ${who} מביא/ה ${item.text} ✓`)
-    } catch (e) { showToast(errorText(e.code), 'err'); refresh() } finally { setPending(null) }
+  const myClaimOf = item => {
+    const m = parseMine(mine[item.id]); if (!m) return null
+    if (!m.id) return item.takenBy ? { id: 'legacy', name: item.takenBy, count: needOf(item) } : null
+    return (item.claims || []).find(c => c.id === m.id) || (item.takenBy ? { id: 'legacy', name: item.takenBy, count: needOf(item) } : null)
   }
-  const tap = item => { if (pending) return; if (name) claim(item, name); else { setDraftName(''); setAsking(item) } }
-  const confirmName = e => {
+  const claim = async (item, whoName, count) => {
+    setPending(item.id)
+    const prev = parseMine(mine[item.id])
+    const claimId = prev?.id || newId(), token = prev?.id ? prev.token : (crypto.randomUUID?.() || newId() + newId())
+    try {
+      const row = await partyDb.claim(code, item.id, whoName, count, claimId, token)
+      partyMemory.setClaim(code, item.id, `${claimId}.${token}`); setMine(partyMemory.claims(code))
+      merge(row); showToast(`מעולה! ${whoName} מביא/ה ${item.text}${needOf(item) > 1 ? ` · ${howMany(item, count)}` : ''} ✓`)
+    } catch (e) {
+      showToast(e.code === 'item_already_taken' && needOf(item) > 1 ? 'מישהו הקדים אותך — הכמות התעדכנה, נסו שוב 🙂' : errorText(e.code), 'err'); refresh()
+    } finally { setPending(null) }
+  }
+  const tap = item => {
+    if (pending) return
+    const remaining = needOf(item) - takenOf(item)
+    if (name && remaining === 1) return claim(item, name, 1)
+    setDraftName(''); setPickCount(1); setAsking(item)
+  }
+  const confirmClaim = e => {
     e.preventDefault()
-    const who = draftName.trim(); if (!who) return
-    partyMemory.setGuestName(who); setName(who)
-    const item = asking; setAsking(null); claim(item, who)
+    const whoName = name || draftName.trim(); if (!whoName) return
+    if (!name) { partyMemory.setGuestName(whoName); setName(whoName) }
+    const item = asking; setAsking(null); claim(item, whoName, pickCount)
   }
   const unclaim = async item => {
     setPending(item.id)
+    const m = parseMine(mine[item.id])
     try {
-      const row = await partyDb.unclaim(code, item.id, mine[item.id])
+      const row = await partyDb.unclaim(code, item.id, m?.id || '', m?.token || '')
       partyMemory.setClaim(code, item.id, null); setMine(partyMemory.claims(code))
       merge(row); showToast('בוטל — הפריט חזר לרשימה')
     } catch (e) { showToast(errorText(e.code), 'err'); refresh() } finally { setPending(null) }
@@ -317,11 +349,12 @@ function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
   if (!list) return <p className="py-16 text-center text-lg">טוענים את הרשימה…</p>
 
   const items = list.items.filter(i => i.text?.trim())
-  const free = items.filter(i => !i.takenBy)
-  const mineItems = items.filter(i => i.takenBy && mine[i.id])
-  const others = items.filter(i => i.takenBy && !mine[i.id])
+  const free = items.filter(i => takenOf(i) < needOf(i))
+  const mineItems = items.filter(i => myClaimOf(i))
+  const othersOf = i => { const my = myClaimOf(i); return claimsOf(i).filter(c => c !== my && c.id !== my?.id) }
+  const others = items.filter(i => othersOf(i).length)
   const takenCount = items.length - free.length
-  const pct = items.length ? Math.round(100 * takenCount / items.length) : 0
+  const pct = items.length ? Math.round(100 * items.reduce((n, i) => n + Math.min(1, takenOf(i) / needOf(i)), 0) / items.length) : 0
   const details = list.details || {}
   const chips = detailLines(details)
   const invite = inviteText(list.title, details, code)
@@ -340,7 +373,7 @@ function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
       {details.note && <p className="relative mx-auto mt-3 max-w-md text-[15px]">💬 {details.note}</p>}
       <div className="relative mx-auto mt-4 max-w-sm" aria-label="מצב ההתארגנות">
         <div className="mb-1.5 flex items-baseline justify-between text-sm font-bold">
-          <span>{free.length ? `נתפסו ${takenCount} מתוך ${items.length}` : 'הכול נתפס! 🎉'}</span>
+          <span>{free.length ? `סגורים ${takenCount} מתוך ${items.length} פריטים` : 'הכול נתפס! 🎉'}</span>
           {free.length > 0 && <span className="text-[var(--muted-foreground)]">חסרים עוד {free.length}</span>}
         </div>
         <div className="h-2.5 overflow-hidden rounded-full bg-white" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="כמה כבר נתפס"><div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} /></div>
@@ -360,58 +393,87 @@ function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
     {/* What I'm bringing */}
     {mineItems.length > 0 && <section className="mb-5 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-4">
       <h2 className="text-lg font-bold">🙋 {name ? `${name}, את/ה מביא/ה:` : 'את/ה מביא/ה:'}</h2>
-      <ul className="mt-2 flex flex-wrap gap-2">{mineItems.map(item => <li key={item.id} className="flex items-center gap-1 rounded-full border border-emerald-300 bg-white py-1 ps-3 pe-1 font-bold">
+      <ul className="mt-2 flex flex-wrap gap-2">{mineItems.map(item => { const c = myClaimOf(item); return <li key={item.id} className="flex items-center gap-1 rounded-full border border-emerald-300 bg-white py-1 ps-3 pe-1 font-bold">
         {item.arrived && <span className="text-emerald-700" title="הגיע">✓</span>}
-        <span>{item.text}</span><Qty qty={item.qty} />
+        <span>{item.text}{needOf(item) > 1 ? ` · ${howMany(item, c.count)}` : ''}</span>
         <button onClick={() => unclaim(item)} disabled={pending === item.id} aria-label={`ביטול — ${item.text}`} className="grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100">{pending === item.id ? '…' : '✕'}</button>
-      </li>)}</ul>
+      </li> })}</ul>
     </section>}
 
     {/* Still missing */}
     {free.length > 0 ? <section className="mb-5">
       <div className="mb-2 flex items-baseline justify-between gap-2">
         <h2 className="text-xl font-bold">מה עוד חסר?</h2>
-        <span className="text-sm text-[var(--muted-foreground)]">לחיצה על פריט = אני מביא/ה</span>
+        <span className="text-sm text-[var(--muted-foreground)]">לוחצים על מה שמביאים</span>
       </div>
       {groups.map(([cat, catItems]) => <div key={cat} className="mb-3">
         {showCats && <h3 className="mb-1.5 mt-3 text-sm font-bold text-[var(--muted-foreground)]">{cat}</h3>}
-        <ul className="space-y-2">{catItems.map(item => <li key={item.id}>
-          <button onClick={() => tap(item)} disabled={Boolean(pending)} className="group flex min-h-[58px] w-full items-center gap-3 rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-2 text-start transition hover:border-[var(--ink)] hover:bg-[var(--postit)] active:scale-[.99] disabled:opacity-60">
-            <span aria-hidden="true" className="h-6 w-6 shrink-0 rounded-full border-2 border-dashed border-slate-300 group-hover:border-[var(--ink)]" />
-            <span className="min-w-0 flex-1 text-[17px] leading-snug">{item.text}<Qty qty={item.qty} /></span>
-            <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--pen)]/10 px-3 py-1.5 text-sm font-bold text-[var(--pen)] group-hover:bg-[var(--pen)] group-hover:text-white print:hidden">{pending === item.id ? 'רושמים…' : 'אני מביא/ה'}</span>
+        <ul className="space-y-2">{catItems.map(item => {
+          const need = needOf(item), taken = takenOf(item), split = need > 1, cl = claimsOf(item), my = myClaimOf(item)
+          return <li key={item.id}>
+          <button onClick={() => tap(item)} disabled={Boolean(pending)} className="group flex min-h-[58px] w-full items-center gap-3 rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-2.5 text-start transition hover:border-[var(--ink)] hover:bg-[var(--postit)] active:scale-[.99] disabled:opacity-60">
+            <span className="min-w-0 flex-1">
+              <span className="block text-[17px] leading-snug">{item.text}{!split && <Qty qty={item.qty} />}</span>
+              {split && <>
+                <span className="block text-sm text-[var(--muted-foreground)]">{taken ? <>חסרים <b className="text-[var(--ink)]">{need - taken}</b> מתוך {item.qty}</> : <>צריך {item.qty} · אפשר להתחלק</>}</span>
+                <Segments need={need} taken={taken} mine={my?.count || 0} />
+                {cl.length > 0 && <span className="mt-1 block truncate text-xs text-[var(--muted-foreground)]">{cl.map(who).join(' · ')}</span>}
+              </>}
+            </span>
+            <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--pen)]/10 px-3 py-1.5 text-sm font-bold text-[var(--pen)] group-hover:bg-[var(--pen)] group-hover:text-white print:hidden">{pending === item.id ? 'רושמים…' : my ? 'עוד ＋' : taken ? 'גם אני' : 'אני מביא/ה'}</span>
           </button>
-        </li>)}</ul>
+        </li> })}</ul>
       </div>)}
       {name && <p className="mt-1 text-center text-sm text-[var(--muted-foreground)]">נרשמים בשם <b>{name}</b> · <button className="underline" onClick={() => { partyMemory.setGuestName(''); setName('') }}>לא אני</button></p>}
     </section> : items.length > 0 && <section className="mb-5 rounded-3xl bg-emerald-50 p-5 text-center"><p className="text-2xl">🎉</p><p className="mt-1 text-lg font-bold">הכול נתפס — תודה לכולם!</p></section>}
 
-    {/* Already taken */}
+    {/* Who brings what */}
     {others.length > 0 && <section className="mb-5">
-      <h2 className="mb-2 text-lg font-bold">מי מביא מה ({others.length})</h2>
-      <ul className="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-white">{others.map(item => <li key={item.id} className="flex min-h-[52px] items-center gap-3 px-3 py-2">
-        <Avatar name={item.takenBy} />
-        <span className="min-w-0 flex-1 leading-snug"><b className="font-bold">{item.takenBy}</b> <span className="text-[var(--muted-foreground)]">מביא/ה</span> {item.text}<Qty qty={item.qty} /></span>
+      <h2 className="mb-2 text-lg font-bold">מי מביא מה</h2>
+      <ul className="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-white">{others.map(item => { const o = othersOf(item), need = needOf(item); return <li key={item.id} className="flex min-h-[52px] items-center gap-3 px-3 py-2">
+        <Avatar name={o[0].name} />
+        <span className="min-w-0 flex-1 leading-snug">
+          <span className="block font-bold">{item.text}{need > 1 ? <span className="text-sm font-normal text-[var(--muted-foreground)]"> · {takenOf(item)}/{need}</span> : <Qty qty={item.qty} />}</span>
+          <span className="block text-sm text-[var(--muted-foreground)]">{o.map(who).join(' · ')}</span>
+        </span>
         {isOwner
           ? <button onClick={() => toggleArrived(item)} disabled={pending === item.id} aria-pressed={Boolean(item.arrived)} className={`min-h-[36px] shrink-0 whitespace-nowrap rounded-full px-3 text-xs font-bold print:hidden ${item.arrived ? 'bg-emerald-600 text-white' : 'border border-slate-300 text-slate-600'}`}>{item.arrived ? '✓ הגיע' : 'הגיע?'}</button>
           : item.arrived && <span className="shrink-0 text-xs font-bold text-emerald-700">✓ הגיע</span>}
-      </li>)}</ul>
+      </li> })}</ul>
     </section>}
 
     <p className="mt-8 text-center text-sm text-slate-500 print:hidden">מארגנים אירוע משלכם? <Link to="/tools/bring-list" className="font-bold underline">פתחו רשימה כזו בחינם</Link></p>
 
-    {asking && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setAsking(null)}>
-      <form onSubmit={confirmName} onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="dialog" aria-modal="true" aria-labelledby="bl-name-q">
-        <h2 id="bl-name-q" className="text-xl font-bold">איך קוראים לך?</h2>
-        <p className="mt-1 text-slate-600">כדי שכולם יידעו מי מביא {asking.text}. נזכור את השם לפעם הבאה.</p>
-        <input autoFocus value={draftName} onChange={e => setDraftName(e.target.value)} maxLength={40} placeholder="למשל: דנה (אמא של יובל)" enterKeyHint="done"
-          className="mt-3 w-full rounded-xl border-2 border-slate-300 px-3 py-3 text-lg focus:border-slate-800 focus:outline-none" />
+    {asking && (() => {
+      const need = needOf(asking), remaining = need - takenOf(asking), unit = unitOf(asking)
+      const opts = remaining <= 6 ? Array.from({ length: remaining }, (_, n) => n + 1) : null
+      return createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setAsking(null)}>
+      <form onSubmit={confirmClaim} onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="dialog" aria-modal="true" aria-labelledby="bl-claim-q">
+        <h2 id="bl-claim-q" className="text-xl font-bold">{asking.text}</h2>
+        {remaining > 1 && <>
+          <p className="mt-1 text-slate-600">חסרים עוד {remaining}{unit ? ` ${unit}` : ''}{need !== remaining ? ` (מתוך ${need})` : ''}. כמה תביא/י?</p>
+          {opts ? <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="כמה">
+            {opts.map(n => <button type="button" key={n} role="radio" aria-checked={pickCount === n} onClick={() => setPickCount(n)}
+              className={`grid h-12 min-w-12 place-items-center rounded-2xl border-2 px-3 text-lg font-bold ${pickCount === n ? 'border-[var(--ink)] bg-[var(--postit)]' : 'border-slate-200 bg-white'}`}>{n === remaining && n > 1 ? `הכול (${n})` : n}</button>)}
+          </div> : <div className="mt-3 flex items-center gap-3">
+            <button type="button" onClick={() => setPickCount(c => Math.max(1, c - 1))} aria-label="פחות" className="grid h-12 w-12 place-items-center rounded-2xl border-2 border-slate-200 text-2xl font-bold">−</button>
+            <output className="min-w-[3ch] text-center text-3xl font-bold" aria-live="polite">{pickCount}</output>
+            <button type="button" onClick={() => setPickCount(c => Math.min(remaining, c + 1))} aria-label="יותר" className="grid h-12 w-12 place-items-center rounded-2xl border-2 border-slate-200 text-2xl font-bold">＋</button>
+            <button type="button" onClick={() => setPickCount(remaining)} className="rounded-full border border-slate-300 px-3 py-1.5 text-sm font-bold">הכול ({remaining})</button>
+          </div>}
+        </>}
+        {name ? <p className="mt-4 text-sm text-slate-600">נרשמים בשם <b>{name}</b></p> : <>
+          <label htmlFor="bl-name" className="mt-4 block font-bold">איך קוראים לך?</label>
+          <input id="bl-name" autoFocus={remaining <= 1} value={draftName} onChange={e => setDraftName(e.target.value)} maxLength={40} placeholder="למשל: דנה (אמא של יובל)" enterKeyHint="done"
+            className="mt-1 w-full rounded-xl border-2 border-slate-300 px-3 py-3 text-lg focus:border-slate-800 focus:outline-none" />
+          <p className="mt-1 text-xs text-slate-500">נזכור את השם לפעם הבאה</p>
+        </>}
         <div className="mt-4 flex gap-2">
-          <button disabled={!draftName.trim()} className="min-h-[52px] flex-1 rounded-2xl bg-slate-900 text-lg font-bold text-white disabled:opacity-50">אני מביא/ה {asking.text}</button>
+          <button disabled={!name && !draftName.trim()} className="min-h-[52px] flex-1 rounded-2xl bg-slate-900 text-lg font-bold text-white disabled:opacity-50">{remaining > 1 ? `אני מביא/ה ${pickCount}${unit ? ` ${unit}` : ''}` : `אני מביא/ה ${asking.text}`}</button>
           <button type="button" onClick={() => setAsking(null)} className="min-h-[52px] rounded-2xl border-2 border-slate-300 px-4 font-bold">ביטול</button>
         </div>
       </form>
-    </div>, document.body)}
+    </div>, document.body) })()}
     {confirmDelete && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setConfirmDelete(false)}>
       <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="bl-del-q">
         <h2 id="bl-del-q" className="text-xl font-bold">למחוק את כל הרשימה?</h2>
