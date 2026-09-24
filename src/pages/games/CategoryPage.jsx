@@ -47,10 +47,26 @@ export default function CategoryPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title={data.title} description={data.desc || data.intro.slice(0,150)} path={'/games/'+slug} />
+      <SEO title={data.title} description={data.desc || data.intro.slice(0,150)} path={'/games/'+slug}
+        structuredData={Array.isArray(data.faq) && data.faq.length > 0 ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          'mainEntity': data.faq.map(item => ({
+            '@type': 'Question',
+            'name': item.q,
+            'acceptedAnswer': { '@type': 'Answer', 'text': item.a }
+          }))
+        } : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: cls ? cls.breadcrumb : data.title }]} />
       <h1 className="text-4xl sm:text-5xl mb-4">{data.title}</h1>
-      <p className="text-lg leading-relaxed text-[var(--foreground)]/85 mb-8">{data.intro}</p>
+      <p className="text-lg leading-relaxed text-[var(--foreground)]/85 mb-4">{data.intro}</p>
+      {Array.isArray(data.body) && data.body.length > 0 && (
+        <div className="max-w-3xl mb-8 space-y-4">
+          {data.body.map((p, i) => (
+            <p key={i} className="text-base leading-relaxed text-[var(--foreground)]/80">{p}</p>
+          ))}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-12 text-4xl buga-bounce">🎂</div>
@@ -72,6 +88,32 @@ export default function CategoryPage() {
           </div>
           {filtered.length === 0 && <p className="text-center py-12 text-lg text-[var(--muted-foreground)]">🤔 לא נמצאו משחקים בקטגוריה זו כרגע</p>}
         </>
+      )}
+
+      {Array.isArray(data.faq) && data.faq.length > 0 && (
+        <div className="max-w-3xl mt-12">
+          <h2 className="text-2xl font-bold mb-4">שאלות נפוצות</h2>
+          <div className="space-y-4">
+            {data.faq.map((item, i) => (
+              <div key={i}>
+                <p className="font-bold text-[var(--foreground)]">{item.q}</p>
+                <p className="text-[var(--foreground)]/80 leading-relaxed">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {Array.isArray(data.related) && data.related.length > 0 && (
+        <p className="max-w-3xl mt-8 text-[var(--foreground)]/80 leading-relaxed">
+          {'שווה להסתכל גם על '}
+          {data.related.map((r, i) => (
+            <span key={r.href}>
+              <Link to={r.href} className="underline font-bold">{r.label}</Link>
+              {i < data.related.length - 1 ? (i === data.related.length - 2 ? ', ו' : ', ') : '.'}
+            </span>
+          ))}
+        </p>
       )}
     </div>
   )
