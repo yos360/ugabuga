@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
-import { ACTIVITY_LABELS } from '../utils/liveActivity'
+import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
 
 // Fixed categorical order (never reassigned per-render) — validated for
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
@@ -31,6 +31,24 @@ function rangeBounds(id) {
 }
 function label(category, action) {
   return ACTIVITY_LABELS[category] || category || 'לא ידוע'
+}
+function fmtTime(sec) {
+  const s = Math.round(sec || 0)
+  if (s < 60) return `${s} שנ׳`
+  if (s < 3600) return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')} דק׳`
+  return `${Math.floor(s / 3600)} שע׳ ${Math.round((s % 3600) / 60)} דק׳`
+}
+function pageName(row) {
+  const base = ACTIVITY_LABELS[row.category] || row.category || 'עמוד'
+  return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
+}
+function TrackSelf() {
+  const [on, setOn] = useState(() => { try { return localStorage.getItem('buga-track-self') === '1' } catch { return false } })
+  const toggle = e => { const v = e.target.checked; setOn(v); try { v ? localStorage.setItem('buga-track-self', '1') : localStorage.removeItem('buga-track-self') } catch { /* ignore */ } }
+  return <label className="flex items-start gap-2 rounded-2xl bg-slate-50 p-3 text-sm">
+    <input type="checkbox" checked={on} onChange={toggle} className="mt-1 h-4 w-4" />
+    <span><b>לספור גם את הגלישה שלי (לבדיקה)</b><br /><span className="text-slate-600">כברירת מחדל הדפדפן שלך לא נספר, כדי שהבדיקות שלך לא יעוותו את הנתונים. אם הדפסת בעצמך ולא ראית את זה בדוח, זו הסיבה.</span></span>
+  </label>
 }
 function formatDay(iso) {
   const d = new Date(iso + 'T00:00:00')
@@ -105,6 +123,8 @@ export default function OwnerActivityReport() {
         <span>מבקרים ייחודיים <b>{today.data?.visitors ?? '…'}</b> {compareBadge(today.data?.visitors, yesterday.data?.visitors)}</span>
       </div>
 
+      <div className="mb-6"><TrackSelf /></div>
+
       {error && <div className="mb-6 rounded-2xl border-2 border-amber-300 bg-amber-50 p-4"><b>שימו לב:</b> {error}</div>}
 
       <div className="mb-6 flex flex-wrap gap-2">
@@ -115,11 +135,35 @@ export default function OwnerActivityReport() {
       </div>
 
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
-        <div className="mb-8 grid gap-3 sm:grid-cols-3">
-          <StatCard value={data.total} text="פעולות שנרשמו" tone="bg-violet-50" />
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
           <StatCard value={data.visitors} text="מבקרים ייחודיים" tone="bg-pink-50" />
           <StatCard value={data.pageviews} text="צפיות בדפים" tone="bg-cyan-50" />
+          <StatCard value={data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—'} text="זמן ממוצע למבקר באתר" tone="bg-emerald-50" />
+          <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
+          <StatCard value={data.by_action?.print || 0} text="הדפיסו בפועל" tone="bg-orange-50" />
+          <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>
+
+        <h2 className="mb-1 text-2xl font-black">⏱️ כמה זמן נשארו בכל עמוד</h2>
+        <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>
+        {data.time_by_path?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">מבקרים</th><th className="p-2">זמן ממוצע</th><th className="p-2">זמן כולל</th></tr></thead>
+          <tbody>{data.time_by_path.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
+            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2">{r.visits}</td><td className="p-2">{r.visitors}</td>
+            <td className="p-2 font-bold">{fmtTime(r.avg)}</td><td className="p-2">{fmtTime(r.total)}</td>
+          </tr>)}</tbody>
+        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתוני זמן לתקופה הזו (המדידה מתחילה מעכשיו).</p>}
+
+        <h2 className="mb-1 text-2xl font-black">🖨️ מה הדפיסו</h2>
+        <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, וכמה לחצו „הדפסה” בפועל.</p>
+        {data.print_funnel?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th></tr></thead>
+          <tbody>{data.print_funnel.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
+            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td>
+          </tr>)}</tbody>
+        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 
         <h2 className="mb-3 text-2xl font-black">פעילות יומית</h2>
         {data.by_day?.length ? <div className="mb-8 flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
@@ -154,9 +198,10 @@ export default function OwnerActivityReport() {
         <h2 className="mb-3 text-2xl font-black">פעולות אחרונות</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
-            <thead><tr className="border-b-2"><th className="p-2">פעילות</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
+            <thead><tr className="border-b-2"><th className="p-2">פעילות</th><th className="p-2">מה עשו</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
             <tbody>{(data.recent || []).slice(0, 50).map((row, i) => <tr key={i} className="border-b">
               <td className="p-2">{label(row.category, row.action)}</td>
+              <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</td>
               <td className="p-2 text-slate-600" dir="ltr">{row.path || '—'}</td>
               <td className="p-2 text-slate-600">{DEVICE_LABELS[row.device] || '—'}</td>
               <td className="p-2 text-slate-600">{SOURCE_LABELS[row.source] || '—'}</td>
