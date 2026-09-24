@@ -7,6 +7,14 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 /images/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/print-art/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/svg/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/coloring/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/fonts/*
+  Cache-Control: public, max-age=2592000
 /*.html
   Cache-Control: public, max-age=0, must-revalidate

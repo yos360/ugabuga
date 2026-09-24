@@ -57,7 +57,7 @@
 /scavenger-hunt /tools/scavenger-hunt-maker 301
 /treasure-hunt /tools/scavenger-hunt-maker 301
 
-/songs/birthday-songs /birthday-songs 301
+/songs/birthday-songs /ideas 301
 /birthday-songs /ideas 301
 
 # ארץ-עיר: the /games/ and root aliases all render the same tool; keep one canonical URL.
@@ -71,5 +71,30 @@
 /birthday-greeting /greeting 301
 /invitations /invitation 301
 /birthday-invitation /invitation 301
+
+
+# Aliases that rendered the same page with a 200 — one canonical URL each.
+/calculator/birthday-cost /calculator 301
+/calculator/how-many-drinks /calculator 301
+/calculator/how-many-pizzas /calculator 301
+/tools/birthday-calculator /calculator 301
+/tools/party-calculator /calculator 301
+/tools/how-many-pizzas /calculator 301
+/tools/how-many-drinks /calculator 301
+/tools/greeting-generator /greeting 301
+/tools/greetings /greeting 301
+/tools/invitation-generator /invitation 301
+/tools/invitations /invitation 301
+/dice /tools/dice 301
+/coin-flip /tools/coin-flip 301
+/scoreboard /tools/scoreboard 301
+/team-generator /tools/team-generator 301
+/spin-the-bottle /tools/spin-the-bottle 301
+/drawing-prompt /tools/drawing-prompt 301
+/joke /tools/joke 301
+/jokes /tools/joke 301
+/bring-list /tools/bring-list 301
+/crossword /tools/crossword-maker 301
+/word-search-maker /tools/word-search-maker 301
 
 # Use the native Pages SPA fallback so assets are served as files.

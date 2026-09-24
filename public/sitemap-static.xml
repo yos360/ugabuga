@@ -156,4 +156,9 @@
   <url><loc>https://ugabuga.co.il/gifts/girl</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/gifts/under-50</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/gifts/under-100</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/suppliers</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/find-differences</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/color-by-number</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing</loc><priority>0.6</priority></url>
 </urlset>
