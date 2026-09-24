@@ -1,10 +1,21 @@
 import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Badge from '../../components/ui/Badge'
 import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from '../../data/ideaArticlesExpanded'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
+
+const ideasFaq = [
+  { q: 'איך בוחרים בין כמה רעיונות שנראים מתאימים?', a: 'מתחילים מהאילוץ הכי נוקשה (מקום או תקציב), ולא מהרעיון הכי מלהיב — זה מצמצם את האפשרויות למה שבאמת ישים.' },
+  { q: 'האם הרעיונות כאן מתאימים גם לאירועים שלא יום הולדת?', a: 'בהחלט — חלק גדול מהרעיונות מתאימים גם לאירועי כיתה, מפגשי משפחה, וימי גיבוש.' },
+]
+const ideasBody = [
+  'לפעמים הבעיה היא לא חוסר במשחקים, אלא חוסר בכיוון — יש מסיבה בעוד שבוע ולא ברור מאיפה להתחיל. הדרך הכי יעילה להשתמש בעמוד הזה היא לא לחפש "רעיון מושלם", אלא לצמצם אפשרויות בהדרגה: מקום, תקציב וגיל.',
+  'מזג אוויר הוא שיקול נוסף שכדאי לבדוק כבר בשלב התכנון. עולם ההשראה משמש הכי טוב כשלב הראשון בתכנון — אחרי שמצמצמים לכיוון ברור, עוברים לרשימות המשחקים הספציפיות כדי לבחור בפועל מה לשחק.',
+]
+const ideasRelated = [ { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מה עושים ביום גשום', href: '/ideas/what-to-do-rainy-day' }, { label: 'משחקי יום הולדת', href: '/games/birthday' } ]
 
 export default function IdeasHub() {
   const location = useLocation()
@@ -67,7 +78,7 @@ export default function IdeasHub() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="עולם ההשראה" description="רעיונות ליום הולדת — לפי נושא, גיל, מקום ותקציב. ערכות מסיבה מלאות עם עיצוב, אוכל, משחקים ולו״ז." path="/ideas" />
+      <SEO title="רעיונות לאירוע ולמסיבה" description="רעיונות ליום הולדת — לפי נושא, גיל, מקום ותקציב. ערכות מסיבה מלאות עם עיצוב, אוכל, משחקים ולו״ז." path="/ideas" structuredData={faqSchema(ideasFaq)} />
       <h1 className="text-4xl md:text-5xl text-center mb-2">🎭 עולם ההשראה</h1>
       <p className="text-center text-xl text-[var(--ink)]/70 mb-10">רעיונות, ערכות מסיבה ותוכניות מוכנות שאפשר להפעיל מיד.</p>
 
@@ -128,6 +139,10 @@ export default function IdeasHub() {
           ))}
         </div>
       </section>
+
+      <div className="mt-12">
+        <SeoBody paragraphs={ideasBody} faq={ideasFaq} related={ideasRelated} />
+      </div>
     </div>
   )
 }
