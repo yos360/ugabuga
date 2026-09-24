@@ -241,14 +241,16 @@ function OrganizerView({ code: initialCode, onDone }) {
 }
 
 // ─── List view (guests and the organizer) ─────────────────────────────────────
-function ItemText({ item }) {
-  return <span className="min-w-0">
-    <span className="block text-lg leading-tight">{item.text}</span>
-    {item.qty && <span className="block text-sm text-slate-500">כמות: {item.qty}</span>}
-  </span>
+const AVATAR_COLORS = ['#ffd6e0', '#d6e8ff', '#d9f5e4', '#ffe9c7', '#eadcff', '#ffe0cc']
+const avatarColor = name => AVATAR_COLORS[[...(name || '?')].reduce((n, c) => n + c.charCodeAt(0), 0) % AVATAR_COLORS.length]
+function Avatar({ name }) {
+  return <span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-bold text-[var(--ink)]" style={{ background: avatarColor(name) }}>{[...(name || '?').trim()][0] || '?'}</span>
+}
+function Qty({ qty }) {
+  return qty ? <span className="ms-2 inline-block rounded-full bg-[var(--muted)] px-2 py-0.5 align-middle text-xs font-bold text-[var(--muted-foreground)]">{qty}</span> : null
 }
 
-function GuestView({ code, isOwner, onEdit, flash }) {
+function GuestView({ code, isOwner, onEdit, onDeleted, flash }) {
   const [list, setList] = useState(null)
   const [error, setError] = useState('')
   const [name, setName] = useState(partyMemory.guestName())
@@ -256,6 +258,7 @@ function GuestView({ code, isOwner, onEdit, flash }) {
   const [asking, setAsking] = useState(null)
   const [draftName, setDraftName] = useState('')
   const [pending, setPending] = useState(null)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [toast, showToast] = useToast()
   const merge = row => setList(prev => ({ ...prev, ...row }))
 
@@ -282,7 +285,7 @@ function GuestView({ code, isOwner, onEdit, flash }) {
       merge(row); showToast(`מעולה! ${who} מביא/ה ${item.text} ✓`)
     } catch (e) { showToast(errorText(e.code), 'err'); refresh() } finally { setPending(null) }
   }
-  const tap = item => { if (name) claim(item, name); else { setDraftName(''); setAsking(item) } }
+  const tap = item => { if (pending) return; if (name) claim(item, name); else { setDraftName(''); setAsking(item) } }
   const confirmName = e => {
     e.preventDefault()
     const who = draftName.trim(); if (!who) return
@@ -307,6 +310,14 @@ function GuestView({ code, isOwner, onEdit, flash }) {
       merge(await partyDb.update(code, token, list.title, next, [], null))
     } catch (e) { showToast(errorText(e.code), 'err'); refresh() } finally { setPending(null) }
   }
+  const deleteList = async () => {
+    setPending('delete')
+    try {
+      await partyDb.remove(code, partyMemory.ownerToken(code))
+      partyMemory.forgetOwned(code)
+      setConfirmDelete(false); onDeleted()
+    } catch (e) { showToast(errorText(e.code), 'err') } finally { setPending(null) }
+  }
 
   if (error) return <div className="mx-auto max-w-md py-16 text-center"><p className="text-xl font-bold">{error}</p><Link to="/tools/bring-list" className="mt-6 inline-block rounded-xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">פתחו רשימה חדשה</Link></div>
   if (!list) return <p className="py-16 text-center text-lg">טוענים את הרשימה…</p>
@@ -320,62 +331,76 @@ function GuestView({ code, isOwner, onEdit, flash }) {
   const details = list.details || {}
   const chips = detailLines(details)
   const invite = inviteText(list.title, details, code)
+  const groups = groupByCat(free)
+  const showCats = groups.length > 1 || (groups[0] && groups[0][0] !== OTHER_CAT)
   const copyOwnerLink = async () => { try { await navigator.clipboard.writeText(shortLink(code)); showToast('הקישור הועתק ✓') } catch { showToast(shortLink(code)) } }
-  const ArrivedButton = ({ item }) => isOwner
-    ? <button onClick={() => toggleArrived(item)} disabled={pending === item.id} aria-pressed={Boolean(item.arrived)} className={`min-h-[36px] shrink-0 rounded-lg border px-2 text-xs font-bold ${item.arrived ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-slate-300 bg-white text-slate-600'}`}>{item.arrived ? '✓ הגיע' : 'הגיע?'}</button>
-    : item.arrived ? <span className="shrink-0 text-xs font-bold text-emerald-700">✓ הגיע</span> : null
 
   return <>
-    {isOwner && <div className="mb-5 rounded-2xl border-2 border-slate-800 bg-[var(--postit)] p-3 print:hidden">
-      <p className="text-center font-bold">⭐ זו הרשימה שלך <span className="font-normal">· גם את/ה יכול/ה לתפוס</span></p>
-      <a href={`https://wa.me/?text=${encodeURIComponent(invite)}`} target="_blank" rel="noopener" className="mt-2 grid min-h-[48px] place-items-center rounded-xl bg-[#25D366] px-3 font-bold text-white">שליחה בוואטסאפ</a>
-      <div className="mt-2 grid grid-cols-3 gap-2">
-        {[['✏️', 'עריכה', onEdit], ['🔗', 'העתקה', copyOwnerLink], ['🖨️', 'הדפסה', () => window.print()]].map(([icon, label, fn]) =>
-          <button key={label} onClick={fn} className="flex min-h-[52px] flex-col items-center justify-center rounded-xl border-2 border-slate-800 bg-white text-sm font-bold leading-tight"><span aria-hidden="true">{icon}</span>{label}</button>)}
+    {/* Invitation card */}
+    <header className="relative mb-4 overflow-hidden rounded-[28px] bg-[var(--postit)] px-5 pb-5 pt-5 text-center">
+      <span aria-hidden="true" className="pointer-events-none absolute -top-3 start-6 h-10 w-10 rounded-full bg-[#ffd6e0]" />
+      <span aria-hidden="true" className="pointer-events-none absolute top-8 end-4 h-3 w-3 rotate-45 bg-[var(--accent)] opacity-70" />
+      <p className="relative inline-block rounded-full bg-white/80 px-3 py-1 text-sm font-bold">🧺 מי מביא מה?</p>
+      <h1 className="relative mt-2 text-3xl sm:text-4xl">{list.title}</h1>
+      {chips.length > 0 && <div className="relative mt-3 flex flex-wrap justify-center gap-1.5">{chips.map(c => <span key={c} className="rounded-full bg-white/80 px-3 py-1 text-sm font-bold">{c}</span>)}</div>}
+      {details.note && <p className="relative mx-auto mt-3 max-w-md text-[15px]">💬 {details.note}</p>}
+      <div className="relative mx-auto mt-4 max-w-sm" aria-label="מצב ההתארגנות">
+        <div className="mb-1.5 flex items-baseline justify-between text-sm font-bold">
+          <span>{free.length ? `נתפסו ${takenCount} מתוך ${items.length}` : 'הכול נתפס! 🎉'}</span>
+          {free.length > 0 && <span className="text-[var(--muted-foreground)]">חסרים עוד {free.length}</span>}
+        </div>
+        <div className="h-2.5 overflow-hidden rounded-full bg-white" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="כמה כבר נתפס"><div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} /></div>
+      </div>
+    </header>
+
+    {/* Organizer tools */}
+    {isOwner && <div className="mb-5 print:hidden">
+      <p className="mb-2 text-center text-sm font-bold text-[var(--muted-foreground)]">⭐ הרשימה שלך · הכלים רק אצלך</p>
+      <a href={`https://wa.me/?text=${encodeURIComponent(invite)}`} target="_blank" rel="noopener" className="flex min-h-[52px] items-center justify-center rounded-2xl bg-[#25D366] px-3 font-bold text-white">📲 שליחת הקישור בוואטסאפ</a>
+      <div className="mt-2 grid grid-cols-4 gap-2">
+        {[['✏️', 'עריכה', onEdit], ['🔗', 'העתקה', copyOwnerLink], ['🖨️', 'הדפסה', () => window.print()], ['🗑️', 'מחיקה', () => setConfirmDelete(true)]].map(([icon, label, fn]) =>
+          <button key={label} onClick={fn} className={`flex min-h-[52px] flex-col items-center justify-center gap-0.5 rounded-2xl border bg-white text-xs font-bold leading-tight ${label === 'מחיקה' ? 'border-rose-200 text-rose-600' : 'border-[var(--border)]'}`}><span aria-hidden="true" className="text-lg leading-none">{icon}</span>{label}</button>)}
       </div>
     </div>}
 
-    <header className="mb-4 text-center">
-      <p className="text-sm font-bold text-slate-500">🧺 מי מביא מה?</p>
-      <h1 className="mt-1 text-3xl sm:text-5xl">{list.title}</h1>
-      {chips.length > 0 && <div className="mt-3 flex flex-wrap justify-center gap-2">{chips.map(c => <span key={c} className="rounded-full border border-slate-300 bg-white px-3 py-1 text-sm font-bold">{c}</span>)}</div>}
-      {details.note && <p className="mx-auto mt-3 max-w-md rounded-2xl bg-amber-50 px-4 py-2 text-start">💬 {details.note}</p>}
-    </header>
-
-    <section className="mb-4 rounded-2xl border-2 border-slate-200 bg-white p-4" aria-label="מצב ההתארגנות">
-      <div className="flex items-baseline justify-between gap-2">
-        <b>{free.length ? `${takenCount} מתוך ${items.length} כבר נתפסו` : 'הכול נתפס! תודה לכולם 🎉'}</b>
-        {mineItems.length > 0 && <span className="text-sm font-bold text-emerald-700">את/ה מביא/ה {mineItems.length}</span>}
-      </div>
-      <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-200" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="כמה כבר נתפס"><div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${pct}%` }} /></div>
-      {name && <p className="mt-2 text-sm text-slate-600">נרשמים בשם <b>{name}</b> · <button className="underline" onClick={() => { partyMemory.setGuestName(''); setName('') }}>לא אני</button></p>}
-    </section>
-
-    {mineItems.length > 0 && <section className="mb-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-4">
-      <h2 className="font-bold">✅ אני מביא/ה</h2>
-      <ul className="mt-2 space-y-2">{mineItems.map(item => <li key={item.id} className="flex min-h-[48px] items-center justify-between gap-2">
-        <ItemText item={item} />
-        <span className="flex shrink-0 items-center gap-2"><ArrivedButton item={item} />
-          <button onClick={() => unclaim(item)} disabled={pending === item.id} className="min-h-[44px] rounded-xl border border-slate-400 bg-white px-3 text-sm font-bold">{pending === item.id ? '…' : 'ביטול'}</button></span>
+    {/* What I'm bringing */}
+    {mineItems.length > 0 && <section className="mb-5 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-4">
+      <h2 className="text-lg font-bold">🙋 {name ? `${name}, את/ה מביא/ה:` : 'את/ה מביא/ה:'}</h2>
+      <ul className="mt-2 flex flex-wrap gap-2">{mineItems.map(item => <li key={item.id} className="flex items-center gap-1 rounded-full border border-emerald-300 bg-white py-1 ps-3 pe-1 font-bold">
+        {item.arrived && <span className="text-emerald-700" title="הגיע">✓</span>}
+        <span>{item.text}</span><Qty qty={item.qty} />
+        <button onClick={() => unclaim(item)} disabled={pending === item.id} aria-label={`ביטול — ${item.text}`} className="grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100">{pending === item.id ? '…' : '✕'}</button>
       </li>)}</ul>
     </section>}
 
-    {free.length > 0 && <section className="wobbly border-2 border-[var(--border)] bg-white p-4 sketch-shadow">
-      <h2 className="font-bold">עדיין חסר ({free.length})</h2>
-      {groupByCat(free).map(([cat, catItems]) => <div key={cat} className="mt-3">
-        <h3 className="text-sm font-bold text-slate-500">{cat}</h3>
-        <ul className="divide-y divide-slate-100">{catItems.map(item => <li key={item.id} className="flex min-h-[60px] items-center justify-between gap-3 py-2">
-          <ItemText item={item} />
-          <button onClick={() => tap(item)} disabled={Boolean(pending)} className="min-h-[48px] shrink-0 whitespace-nowrap rounded-xl bg-slate-900 px-3 text-[15px] font-bold text-white disabled:opacity-60 print:hidden">{pending === item.id ? 'רושמים…' : 'אני מביא/ה 🙋'}</button>
+    {/* Still missing */}
+    {free.length > 0 ? <section className="mb-5">
+      <div className="mb-2 flex items-baseline justify-between gap-2">
+        <h2 className="text-xl font-bold">מה עוד חסר?</h2>
+        <span className="text-sm text-[var(--muted-foreground)]">לחיצה על פריט = אני מביא/ה</span>
+      </div>
+      {groups.map(([cat, catItems]) => <div key={cat} className="mb-3">
+        {showCats && <h3 className="mb-1.5 mt-3 text-sm font-bold text-[var(--muted-foreground)]">{cat}</h3>}
+        <ul className="space-y-2">{catItems.map(item => <li key={item.id}>
+          <button onClick={() => tap(item)} disabled={Boolean(pending)} className="group flex min-h-[58px] w-full items-center gap-3 rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-2 text-start transition hover:border-[var(--ink)] hover:bg-[var(--postit)] active:scale-[.99] disabled:opacity-60">
+            <span aria-hidden="true" className="h-6 w-6 shrink-0 rounded-full border-2 border-dashed border-slate-300 group-hover:border-[var(--ink)]" />
+            <span className="min-w-0 flex-1 text-[17px] leading-snug">{item.text}<Qty qty={item.qty} /></span>
+            <span className="shrink-0 whitespace-nowrap rounded-full bg-[var(--pen)]/10 px-3 py-1.5 text-sm font-bold text-[var(--pen)] group-hover:bg-[var(--pen)] group-hover:text-white print:hidden">{pending === item.id ? 'רושמים…' : 'אני מביא/ה'}</span>
+          </button>
         </li>)}</ul>
       </div>)}
-    </section>}
+      {name && <p className="mt-1 text-center text-sm text-[var(--muted-foreground)]">נרשמים בשם <b>{name}</b> · <button className="underline" onClick={() => { partyMemory.setGuestName(''); setName('') }}>לא אני</button></p>}
+    </section> : items.length > 0 && <section className="mb-5 rounded-3xl bg-emerald-50 p-5 text-center"><p className="text-2xl">🎉</p><p className="mt-1 text-lg font-bold">הכול נתפס — תודה לכולם!</p></section>}
 
-    {others.length > 0 && <section className="mt-4 rounded-2xl bg-slate-50 p-4">
-      <h2 className="text-sm font-bold text-slate-500">כבר נתפס ({others.length})</h2>
-      <ul className="mt-2 space-y-2">{others.map(item => <li key={item.id} className="flex min-h-[36px] items-center justify-between gap-3 text-slate-600">
-        <span className="min-w-0"><span className="line-through decoration-slate-300">{item.text}</span>{item.qty && <span className="text-xs text-slate-400"> · {item.qty}</span>}</span>
-        <span className="flex shrink-0 items-center gap-2"><span className="text-sm font-bold">🙋 {item.takenBy}</span><ArrivedButton item={item} /></span>
+    {/* Already taken */}
+    {others.length > 0 && <section className="mb-5">
+      <h2 className="mb-2 text-lg font-bold">מי מביא מה ({others.length})</h2>
+      <ul className="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-white">{others.map(item => <li key={item.id} className="flex min-h-[52px] items-center gap-3 px-3 py-2">
+        <Avatar name={item.takenBy} />
+        <span className="min-w-0 flex-1 leading-snug"><b className="font-bold">{item.takenBy}</b> <span className="text-[var(--muted-foreground)]">מביא/ה</span> {item.text}<Qty qty={item.qty} /></span>
+        {isOwner
+          ? <button onClick={() => toggleArrived(item)} disabled={pending === item.id} aria-pressed={Boolean(item.arrived)} className={`min-h-[36px] shrink-0 whitespace-nowrap rounded-full px-3 text-xs font-bold print:hidden ${item.arrived ? 'bg-emerald-600 text-white' : 'border border-slate-300 text-slate-600'}`}>{item.arrived ? '✓ הגיע' : 'הגיע?'}</button>
+          : item.arrived && <span className="shrink-0 text-xs font-bold text-emerald-700">✓ הגיע</span>}
       </li>)}</ul>
     </section>}
 
@@ -392,6 +417,16 @@ function GuestView({ code, isOwner, onEdit, flash }) {
           <button type="button" onClick={() => setAsking(null)} className="min-h-[52px] rounded-2xl border-2 border-slate-300 px-4 font-bold">ביטול</button>
         </div>
       </form>
+    </div>, document.body)}
+    {confirmDelete && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setConfirmDelete(false)}>
+      <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="bl-del-q">
+        <h2 id="bl-del-q" className="text-xl font-bold">למחוק את כל הרשימה?</h2>
+        <p className="mt-1 text-slate-600">הרשימה „{list.title}” תימחק לכל מי שקיבל את הקישור, כולל מי מביא מה. אי אפשר לשחזר.</p>
+        <div className="mt-4 flex gap-2">
+          <button onClick={deleteList} disabled={pending === 'delete'} className="min-h-[52px] flex-1 rounded-2xl bg-rose-600 text-lg font-bold text-white disabled:opacity-60">{pending === 'delete' ? 'מוחקים…' : '🗑️ כן, למחוק הכול'}</button>
+          <button onClick={() => setConfirmDelete(false)} className="min-h-[52px] rounded-2xl border-2 border-slate-300 px-4 font-bold">ביטול</button>
+        </div>
+      </div>
     </div>, document.body)}
     {toast}
   </>
@@ -424,13 +459,14 @@ export default function BringList() {
     <div className="mx-auto max-w-2xl px-4 pt-6">
       <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="מי מביא מה? רשימה שיתופית למסיבה: תבניות מוכנות ליום הולדת, מסיבת כיתה ועל האש, כמויות מומלצות וקישור קצר אחד לוואטסאפ — בלי הרשמה ובלי כפילויות." path="/tools/bring-list" noindex={Boolean(code || legacy)} />
       {legacy && !code ? <LegacyView encoded={legacy} /> : guest ? <>
-        <GuestView key={code} code={code} isOwner={isOwner} flash={location.state?.flash} onEdit={() => setParams({ edit: '1' })} />
+        <GuestView key={code} code={code} isOwner={isOwner} flash={location.state?.flash} onEdit={() => setParams({ edit: '1' })} onDeleted={() => navigate('/tools/bring-list', { replace: true, state: { deleted: true } })} />
       </> : <>
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'מי מביא מה?' }]} />
         <header className="mb-5 text-center">
           <h1 className="text-4xl sm:text-5xl">🧺 מי מביא מה?</h1>
           <p className="mt-2 text-lg text-[var(--muted-foreground)]">בוחרים סוג אירוע, מקבלים רשימה מוכנה עם כמויות, שולחים קישור לוואטסאפ — וכל אחד תופס פריט בלחיצה. בלי הרשמה.</p>
         </header>
+        {!code && location.state?.deleted && <p role="status" className="mb-4 rounded-2xl bg-emerald-50 p-3 text-center font-bold">🗑️ הרשימה נמחקה</p>}
         {!code && myLists.length > 0 && <div className="mb-4 rounded-2xl bg-[var(--postit)] p-3 text-sm"><b>הרשימות שלי:</b> {myLists.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<Link className="underline" to={`/l/${l.code}`}>{l.title}</Link></span>)}</div>}
         <OrganizerView key={code || 'new'} code={code} onDone={(c, flash) => navigate(`/l/${c}`, { state: flash ? { flash } : null })} />
       </>}
