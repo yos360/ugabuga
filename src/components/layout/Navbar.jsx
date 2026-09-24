@@ -2,33 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 
-const TOOLS_MENU = [
-  { to: '/calculator', label: 'מחשבון מסיבה', icon: '🧮' },
-  { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
-  { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
-  { to: '/tools/trivia-quiz', label: 'טריוויה BUGA', icon: '🎯' },
-  { to: '/tools/emoji-studio', label: 'אימוג׳י סטודיו', icon: '😀' },
-  { to: '/tools/buga-town', label: 'בוגה טאון', icon: '🏙️' },
-  { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐' },
-  { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '🎲' },
-  { to: '/tools/random-picker', label: 'גלגל שמות', icon: '🎡' },
-  { to: '/tools/countdown-timer', label: 'טיימר', icon: '⏱️' },
-  { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
-  { to: '/tools/dice', label: 'קוביה', icon: '🎲' },
-  { to: '/tools/coin-flip', label: 'הטלת מטבע', icon: '🪙' },
-  { to: '/tools/scoreboard', label: 'לוח ניקוד', icon: '📊' },
-  { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🍾' },
-  { to: '/tools/drawing-prompt', label: 'מה לצייר?', icon: '🎨' },
-  { to: '/tools/joke', label: 'בדיחה של BUGA', icon: '😂' },
-  { to: '/tools/riddles', label: 'חידות', icon: '🧩' },
-  { to: '/tools/bingo-maker', label: 'מחולל בינגו', icon: '🎟️' },
-  { to: '/tools/word-search-maker', label: 'מחולל תפזורת', icon: '🔎' },
-  { to: '/tools/scavenger-hunt-maker', label: 'חפש את המטמון', icon: '🗺️' },
-  { to: '/printables', label: 'דפים להדפסה', icon: '🖨️' },
-  { to: '/games/all', label: 'כל המשחקים א׳–ת׳', icon: '📚' },
-  { to: '/guides', label: 'מדריכים', icon: '📖' },
-  { to: '/gifts', label: 'מתנות', icon: '🎁' },
-]
+import { MENU_GROUPS, MENU_ACTIVE_PREFIXES, SECTION } from '../../data/siteMenu'
 
 function HeaderLink({ to, children }) {
   const { pathname } = useLocation()
@@ -44,7 +18,7 @@ export default function Navbar() {
   const toolsButtonRef = useRef(null)
   const mobileButtonRef = useRef(null)
   const mobilePanelRef = useRef(null)
-  const toolsActive = ['/tools', '/calculator', '/greeting', '/invitation', '/printables'].some(path => pathname.startsWith(path))
+  const toolsActive = MENU_ACTIVE_PREFIXES.some(path => pathname.startsWith(path))
 
   useEffect(() => {
     setToolsOpen(false)
@@ -84,9 +58,9 @@ export default function Navbar() {
       <div className="site-header-inner">
         <nav className="site-nav-primary" aria-label="ניווט ראשי">
           <Link to="/games" className="site-icon-button" aria-label="חיפוש משחקים"><Search size={24} strokeWidth={1.7} /></Link>
-          <HeaderLink to="/">דף הבית</HeaderLink>
-          <HeaderLink to="/games">משחקים</HeaderLink>
-          <HeaderLink to="/games/birthday">אירועים</HeaderLink>
+          <HeaderLink to="/games">{SECTION.games}</HeaderLink>
+          <HeaderLink to="/birthday">{SECTION.birthday}</HeaderLink>
+          <HeaderLink to="/classroom">{SECTION.classroom}</HeaderLink>
         </nav>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
@@ -94,10 +68,9 @@ export default function Navbar() {
         </Link>
 
         <nav className="site-nav-secondary" aria-label="עוד בעוגה בוגה">
-          <HeaderLink to="/about">אודות</HeaderLink>
-          <HeaderLink to="/blog">בלוג</HeaderLink>
-          <HeaderLink to="/ideas">השראה</HeaderLink>
-          <HeaderLink to="/suppliers">ספקים</HeaderLink>
+          <HeaderLink to="/create">{SECTION.create}</HeaderLink>
+          <HeaderLink to="/ideas">{SECTION.ideas}</HeaderLink>
+          <HeaderLink to="/suppliers">{SECTION.suppliers}</HeaderLink>
           <div className="site-tools" ref={toolsRef} onBlur={event => {
             if (!event.currentTarget.contains(event.relatedTarget)) setToolsOpen(false)
           }}>
@@ -107,10 +80,12 @@ export default function Navbar() {
             </button>
             {toolsOpen && (
               <div id="site-tools-menu" className="site-tools-menu">
-                <p className="site-tools-heading">כל מה שצריך כדי להתחיל</p>
-                <ul>
-                  {TOOLS_MENU.map(item => <li key={item.to}><Link to={item.to} onClick={() => setToolsOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}
-                </ul>
+                <div className="site-tools-groups">
+                  {MENU_GROUPS.map(group => <section key={group.title}>
+                    <Link to={group.to} className="site-tools-heading" onClick={() => setToolsOpen(false)}>{group.title}</Link>
+                    <ul>{group.items.map(item => <li key={item.to}><Link to={item.to} onClick={() => setToolsOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
+                  </section>)}
+                </div>
                 <Link className="site-tools-all" to="/tools">לכל הכלים <ArrowLeft size={16} /></Link>
               </div>
             )}
@@ -125,10 +100,12 @@ export default function Navbar() {
       {mobileOpen && (
         <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
           <div className="site-mobile-main-links">
-            {[['/', 'דף הבית'], ['/games', 'משחקים'], ['/games/birthday', 'אירועים'], ['/ideas', 'השראה'], ['/suppliers', 'ספקים'], ['/blog', 'בלוג'], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
+            {[['/', 'דף הבית'], ['/games', SECTION.games], ['/birthday', SECTION.birthday], ['/classroom', SECTION.classroom], ['/create', SECTION.create], ['/ideas', SECTION.ideas], ['/suppliers', SECTION.suppliers], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
           </div>
-          <h2>משחקים וכלים</h2>
-          <ul>{TOOLS_MENU.map(item => <li key={item.to}><Link to={item.to} onClick={() => setMobileOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
+          {MENU_GROUPS.map(group => <section key={group.title}>
+            <h2><Link to={group.to} onClick={() => setMobileOpen(false)}>{group.title}</Link></h2>
+            <ul>{group.items.map(item => <li key={item.to}><Link to={item.to} onClick={() => setMobileOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
+          </section>)}
         </nav>
       )}
     </header>
