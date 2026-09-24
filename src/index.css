@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Heebo:wght@400;500;600;700;800;900&display=swap');
+/* Single-line dashed Hebrew tracing font (hebrew-tracer-font by slutske22, free to use). */
+@font-face { font-family: 'BugaTracer'; src: url('/fonts/hebrew-tracer.woff') format('woff'); font-display: block; }
 @import "tailwindcss";
 @import "./design-system.css";
 @import "./responsive-overrides.css";
