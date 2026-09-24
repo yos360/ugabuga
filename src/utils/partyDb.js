@@ -19,17 +19,29 @@ const one = ({ data, error }) => {
   return row
 }
 
-// Items carry { id, text, cat?, qty?, takenBy, arrived? }. List details carry
+// Items carry { id, text, cat?, qty?, takenBy, arrived?, claims?: [{ id, name, count }] }. List details carry
 // { date?, time?, place?, note? }. Claims (claim/unclaim) return the list
 // without details, so callers merge them into the list they already have.
 const clean = items => items.map(({ id, text, cat, qty, takenBy, arrived }) => ({ id, text, cat, qty, takenBy, arrived }))
+// v4 (split quantities) needs the 202609240005 migration. Until it runs, fall
+// back to the v2/v3 functions so the live site never breaks mid-deploy.
+const missingFn = e => /PGRST202|Could not find the function|does not exist/i.test(`${e?.code} ${e?.message}`)
+const rpc = (fn, args) => client.rpc(fn, args).then(res => { if (res.error && missingFn(res.error)) throw Object.assign(new Error('missing_fn'), { missing: true }); return one(res) })
+const withFallback = (primary, fallback) => primary().catch(e => { if (e.missing) return fallback(); throw e })
 export const partyDb = {
   create: (ownerToken, title, items, details = {}) => client.rpc('create_party_list3', { p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_details: details }).then(one),
   get: code => client.rpc('get_party_list3', { p_share_code: code }).then(one),
-  update: (code, ownerToken, title, items, release = [], details = null) => client.rpc('update_party_list3', { p_share_code: code, p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_release: release, p_details: details }).then(one),
-  claim: (code, itemId, name, claimToken) => client.rpc('claim_party_item2', { p_share_code: code, p_item_id: itemId, p_name: name, p_claim_token: claimToken }).then(one),
+  update: (code, ownerToken, title, items, release = [], details = null) => {
+    const args = { p_share_code: code, p_owner_token: ownerToken, p_title: title, p_items: clean(items), p_release: release, p_details: details }
+    return withFallback(() => rpc('update_party_list4', args), () => client.rpc('update_party_list3', args).then(one))
+  },
+  claim: (code, itemId, name, count, claimId, claimToken) => withFallback(
+    () => rpc('claim_party_item4', { p_share_code: code, p_item_id: itemId, p_name: name, p_count: count, p_claim_id: claimId, p_claim_token: claimToken }),
+    () => client.rpc('claim_party_item2', { p_share_code: code, p_item_id: itemId, p_name: name, p_claim_token: `${claimId}.${claimToken}` }).then(one)),
   remove: (code, ownerToken) => client.rpc('delete_party_list', { p_share_code: code, p_owner_token: ownerToken }).then(one),
-  unclaim: (code, itemId, claimToken) => client.rpc('unclaim_party_item', { p_share_code: code, p_item_id: itemId, p_claim_token: claimToken }).then(one),
+  unclaim: (code, itemId, claimId, claimToken) => withFallback(
+    () => rpc('unclaim_party_item4', { p_share_code: code, p_item_id: itemId, p_claim_id: claimId, p_claim_token: claimToken }),
+    () => client.rpc('unclaim_party_item', { p_share_code: code, p_item_id: itemId, p_claim_token: claimId ? `${claimId}.${claimToken}` : claimToken }).then(one)),
 }
 
 // Per-device memory, all best-effort (private mode / blocked storage must not break the page).
@@ -47,7 +59,7 @@ export const partyMemory = {
   forgetOwned: code => write('ugabuga-party-owned', read('ugabuga-party-owned', []).filter(l => l.code !== code)),
   guestName: () => read('ugabuga-guest-name', ''),
   setGuestName: name => write('ugabuga-guest-name', name),
-  // Claims this device made: { [code]: { [itemId]: token } }
+  // Claims this device made: { [code]: { [itemId]: 'claimId.token' } } (older: bare token)
   claims: code => read('ugabuga-party-claims', {})[code] || {},
   setClaim: (code, itemId, token) => {
     const all = read('ugabuga-party-claims', {})
