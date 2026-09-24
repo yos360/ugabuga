@@ -224,6 +224,7 @@ export default function App() {
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
               <Route path="/tools/bring-list" element={<BringList />} />
               <Route path="/bring-list" element={<BringList />} />
+              <Route path="/l/:code" element={<BringList />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
               <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />
