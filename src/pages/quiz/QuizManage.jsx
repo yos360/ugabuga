@@ -79,7 +79,7 @@ export default function QuizManage() {
 
   return <div className="mx-auto max-w-4xl px-4 py-8">
     <SEO title={`ניהול: ${data.title}`} path={`/classroom/quiz/${code}`} noindex />
-    <Breadcrumbs items={[{ label: 'כיתה', href: '/classroom' }, { label: 'מבחן אמריקאי', href: '/classroom/quiz' }, { label: data.title }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לכיתה', href: '/classroom' }, { label: 'מבחן אמריקאי', href: '/classroom/quiz' }, { label: data.title }]} />
     <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
       <div><h1 className="text-3xl font-black sm:text-4xl">{data.title}</h1>
         <p className="mt-1 text-slate-600">{data.questions.length} שאלות · <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${open ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200'}`}>{open ? '🟢 פתוח להגשות' : '🔒 סגור'}</span></p></div>

@@ -22,7 +22,7 @@ export default function QuizHome() {
   }
   return <div className="mx-auto max-w-3xl px-4 py-8">
     <SEO title="מבחן אמריקאי אונליין בחינם — התלמידים עונים מהטלפון" description="יוצרים מבחן אמריקאי בעברית תוך 2 דקות, בלי הרשמה. התלמידים עונים מהטלפון או מהמחשב, והציונים נבדקים לבד. גם גרסה להדפסה." path="/classroom/quiz" />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כיתה', href: '/classroom' }, { label: 'מבחן אמריקאי' }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לכיתה', href: '/classroom' }, { label: 'מבחן אמריקאי' }]} />
     <header className="mb-6 text-center">
       <div className="text-5xl">📝</div>
       <h1 className="mt-2 text-4xl font-black sm:text-5xl">מבחן אמריקאי אונליין</h1>
