@@ -7,22 +7,23 @@ const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
 
 // One centre line per stroke (see utils/letterSkeleton). Falls back to light-grey
 // letters until the line is ready, so a sheet is never blank.
-function TraceText({ text, x, y, size, dotted, color = '#111', heb = true, font = 'Heebo' }) {
+function TraceText({ text, x, y, size, dotted, color = '#444', heb = true, font = 'Heebo' }) {
   const hand = heb ? hebrewStrokeWord(text) : null
   const [sk, setSk] = useState(null)
   useEffect(() => { if (hand) return; let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font, !hand])
-  const dash = k => (dotted ? [0.1, 6.5] : [7, 5.5]).map(v => v / k).join(' ')
+  const dash = k => (dotted ? [0.1, 6.5] : [7, 4.5]).map(v => v / k).join(' ')
+  const cap = dotted ? 'round' : 'butt'
   if (hand) {
     // Letter height = the font's cap height at this size, so rows line up the same.
     const k = size * 0.72 / 100
-    return <g transform={`translate(${x - hand.width / 2 * k} ${y - 100 * k}) scale(${k})`} fill="none" stroke={color} strokeWidth={2.4 / k} strokeDasharray={dash(k)} strokeLinecap="round" strokeLinejoin="round">
+    return <g transform={`translate(${x - hand.width / 2 * k} ${y - 100 * k}) scale(${k})`} fill="none" stroke={color} strokeWidth={2.8 / k} strokeDasharray={dash(k)} strokeLinecap={cap} strokeLinejoin="miter">
       {hand.parts.map((p, i) => <path key={i} d={p.d} transform={`translate(${p.dx} 0)`} />)}
     </g>
   }
   if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
   const k = size / SK_SIZE
   return <g transform={`translate(${x - sk.w / 2 * k} ${y - sk.base * k}) scale(${k})`}>
-    <path d={sk.d} fill="none" stroke={color} strokeWidth={2.4 / k} strokeDasharray={dash(k)} strokeLinecap="round" strokeLinejoin="round" />
+    <path d={sk.d} fill="none" stroke={color} strokeWidth={2.8 / k} strokeDasharray={dash(k)} strokeLinecap={cap} strokeLinejoin="round" />
   </g>
 }
 
@@ -128,10 +129,10 @@ function ClassNames({dotted}) {
 }
 
 export default function HebrewTracing(){
-  const [dotted,setDotted]=useState(true),[selection,setSelection]=useState(null)
+  const [dotted,setDotted]=useState(false),[selection,setSelection]=useState(null)
   return <section dir="rtl">
     <div className="mb-6 flex flex-wrap justify-center gap-3" aria-label="סגנון האות">
-      {[[true,'אות בנקודות'],[false,'אות מקווקוות']].map(([value,label])=><button key={label} aria-pressed={dotted===value} onClick={()=>setDotted(value)} className={`min-h-[44px] rounded-xl border-2 px-5 py-3 font-bold ${dotted===value?'border-black bg-yellow-100':'bg-white'}`}>{label}</button>)}
+      {[[false,'אות מקווקוות'],[true,'אות בנקודות']].map(([value,label])=><button key={label} aria-pressed={dotted===value} onClick={()=>setDotted(value)} className={`min-h-[44px] rounded-xl border-2 px-5 py-3 font-bold ${dotted===value?'border-black bg-yellow-100':'bg-white'}`}>{label}</button>)}
       <button onClick={()=>setSelection(LETTERS)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל 22 האותיות</button>
     </div>
     <ClassNames dotted={dotted}/>
