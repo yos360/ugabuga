@@ -12,7 +12,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   'countdown-timer':'טיימר',scoreboard:'לוח ניקוד','team-generator':'חלוקה לקבוצות',
   'random-picker':'הגרלה','truth-or-dare':'אמת או חובה','spin-the-bottle':'סובבו את הבקבוק',
   'drawing-prompt':'רעיונות לציור',joke:'בדיחות','scavenger-hunt-maker':'חפש את המטמון',
-  'bring-list':'מי מביא מה','buga-town':'עיר BUGA','first-grade':'הכנה לכיתה א׳',
+  'bring-list':'מי מביא מה','buga-town':'עיר BUGA','first-grade':'הכנה לכיתה א׳','quiz':'מבחן אמריקאי',
   'dot-to-dot':'חיבור נקודות','find-differences':'מצאו את ההבדלים','color-by-number':'צביעה לפי מספר',
   'word-tracing':'מילים מקווקוות','match-word':'התאמת תמונה למילה','complete-pattern':'המשך הרצף',
   'count-and-write':'ספירה וכתיבה','silhouette-match':'התאמת צלליות','cut-and-order':'גזירה וסידור',
@@ -24,7 +24,7 @@ export const ACTIVITY_LABELS = Object.freeze({
 const ALIASES = {bingo:'bingo-maker','word-search':'word-search-maker','escape-room':'escape-rooms',quiz:'trivia-quiz',trivia:'trivia-quiz',timer:'countdown-timer',wheel:'random-picker','truth-or-buga':'truth-or-dare','scavenger-hunt':'scavenger-hunt-maker'}
 export function activityForPath(path) {
   const parts = path.split('/').filter(Boolean), slug = parts.at(-1)
-  if (['admin','account','auth','login'].includes(parts[0])) return null
+  if (['admin','account','auth','login','q'].includes(parts[0])) return null
   if (Object.hasOwn(ALIASES, slug)) return ALIASES[slug]
   if (Object.hasOwn(ACTIVITY_LABELS, slug)) return slug
   if (parts[0] === 'games') return 'game'
@@ -128,7 +128,7 @@ function flushDb() {
 }
 function excluded(pathname) {
   const parts = String(pathname).split('/').filter(Boolean)
-  return ['admin','account','auth','login'].includes(parts[0]) || isOwnerBrowser()
+  return ['admin','account','auth','login','q'].includes(parts[0]) || isOwnerBrowser()
 }
 export function logEvent(action, pathname = location.pathname) {
   if (!Object.hasOwn(ACTION_LABELS, action)) return
