@@ -1,7 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
+
+const truthOrDareFaq = [
+  { q: 'אפשר לבחור רמת עוצמה מסוימת מראש?', a: 'כן, יש כמה רמות עוצמה במאגר, כך שאפשר להתאים את המשחק לגיל ולהיכרות בין המשתתפים לפני שמתחילים.' },
+  { q: 'מתאים גם לילדים צעירים יותר?', a: 'פחות — המשחק בנוי בעיקר לנוער ומעלה. לילדים צעירים יותר, משחקי היכרות ושוברי קרח מתאימים טוב יותר.' },
+]
+const truthOrDareBody = [
+  'הגרסה הדיגיטלית של אמת או חובה/בוגה פותרת את הבעיה שכל מי ששיחק את המשחק מכיר: אחרי חצי שעה, כל השאלות שכולם מכירים בעל פה כבר נגמרות. כאן יש מאגר של מאות שאלות ומשימות מוכנות, בכמה רמות עוצמה, כך שאפשר לשחק שוב ושוב בלי לחזור על אותו דבר.',
+  'הכלי מתאים במיוחד לנוער ולמבוגרים צעירים במפגשים חברתיים. אפשר לבחור רמת עוצמה מתונה לקבוצה שרק מתחילה להכיר אחד את השני, ורמה יותר נועזת לחברים ותיקים.',
+  'טיפ חשוב: תמיד שומרים על כלל "אפשר לסרב ולבחור משימה חלופית" — זה מה שהופך את המשחק לכיפי במקום ללחוץ.',
+]
+const truthOrDareRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'טריוויה BUGA', href: '/tools/trivia-quiz' }, { label: 'משחקי היכרות ושוברי קרח', href: '/games/icebreaker' } ]
 
 const STORAGE_KEY = 'ugabuga.truthOrBuga.seen.v3'
 const DIFFICULTIES = [
@@ -220,7 +232,7 @@ export default function TruthOrDare() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="אמת או בוגה" description="משחק אמת או בוגה עם מאות משפטים, מצב לבד, מצב קבוצות, ניקוד, רמות קושי וזיכרון שלא חוזר על שאלות שכבר הופיעו." path="/tools/truth-or-buga" />
+      <SEO title="אמת או חובה — משחק לחברים ולנוער" description="משחק אמת או בוגה עם מאות משפטים, מצב לבד, מצב קבוצות, ניקוד, רמות קושי וזיכרון שלא חוזר על שאלות שכבר הופיעו." path="/tools/truth-or-buga" structuredData={faqSchema(truthOrDareFaq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'אמת או בוגה' }]} />
 
       <div className="text-center mb-8">
@@ -327,6 +339,9 @@ export default function TruthOrDare() {
             )}
           </section>
 
+          <div className="mt-12">
+            <SeoBody paragraphs={truthOrDareBody} faq={truthOrDareFaq} related={truthOrDareRelated} />
+          </div>
         </main>
       </div>
     </div>

@@ -1,12 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import { ESCAPE_ROOMS } from '../../data/escapeRoomsExpanded'
 import { buildEscapeAdventure, ESCAPE_LEVELS } from '../../data/escapeAdventure'
+
+const escapeRoomsFaq = [
+  { q: 'איזה חדר בריחה מתאים ליום הולדת של ילד בן 8?', a: 'תעלומת העוגה הנעלמת בנוי בדיוק לגיל הזה, עם עלילה ורמזים מותאמים לילדים.' },
+  { q: 'צריך ציוד מיוחד חוץ מהדפסה?', a: 'לרוב לא — רק מדפסת, מספריים, ולפעמים מעטפות או תיבה קטנה להסתרת רמזים, לפי ההוראות שמצורפות לכל חדר.' },
+]
+const escapeRoomsBody = [
+  'חדר בריחה מודפס נותן למסיבה או ליום גיבוש תחושה של "אירוע אמיתי" בלי צורך לנסוע לשום מקום. יש כאן שלושה חדרים מוכנים, כל אחד מותאם לגיל אחר: תעלומת העוגה הנעלמת לילדים, תחנת החלל התקועה לנוער, ותיק הבלש הסודי למבוגרים. כל חדר מגיע עם ערכת רמזים, חידות ופתרון מוכן.',
+  'הבחירה בין שלושת החדרים תלויה בגיל הקהל, לא רק ברמת הקושי. תעלומת העוגה הנעלמת בנויה סביב עלילה קלילה ומתאימה ליום הולדת של ילדים; תחנת החלל התקועה מוסיפה מורכבות שמדברת לנוער; תיק הבלש הסודי בנוי לחשיבה של מבוגרים.',
+  'טיפ מעשי: תזמנו כ-30-45 דקות לכל חדר, כולל זמן הסבר בהתחלה. קבוצה גדולה מדי (מעל 6 משתתפים) נוטה ליצור "צופים" שלא ממש מעורבים — עדיף לחלק לשתי קבוצות מקבילות.',
+]
+const escapeRoomsRelated = [ { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 function normalizeAnswer(value) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase()
@@ -93,9 +105,10 @@ export default function EscapeRooms() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <SEO
-        title="חדרי בריחה לילדים, כיתה ומבוגרים"
-        description="חדרי בריחה דיגיטליים וקיטים להפעלה בכיתה, במסיבה או בבית. פותרים שלבים, מקבלים רמזים ומגיעים לקוד סיום."
+        title="חדר בריחה להדפסה לילדים ולנוער"
+        description="3 חדרי בריחה להדפסה לילדים, לנוער ולמבוגרים — קיט מלא של רמזים, חידות ופתרון. חינם."
         path="/tools/escape-rooms"
+        structuredData={faqSchema(escapeRoomsFaq)}
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חדרי בריחה' }]} />
 
@@ -248,6 +261,10 @@ export default function EscapeRooms() {
             </WobblyCard>
           )}
         </main>
+      </div>
+
+      <div className="mt-12">
+        <SeoBody paragraphs={escapeRoomsBody} faq={escapeRoomsFaq} related={escapeRoomsRelated} />
       </div>
     </div>
   )

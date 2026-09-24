@@ -1,5 +1,17 @@
 import { useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+
+const bingoFaq = [
+  { q: 'כמה משבצות כדאי שיהיו בכרטיס בינגו היכרות?', a: 'בין 9 ל-16 משבצות עובד הכי טוב. פחות מזה נגמר מהר מדי, יותר מזה מרגיש ארוך ומייגע לילדים.' },
+  { q: 'אפשר להשתמש בכרטיס פעם אחת בלבד?', a: 'לא חייבים — אפשר להכין כמה גרסאות של הכרטיס עם משבצות שונות ולהשתמש בהן בכמה מפגשים לאורך השנה.' },
+]
+const bingoBody = [
+  'יוצר כרטיסי הבינגו הוא הכלי המהיר ביותר להכין פעילות היכרות שנראית מקצועית, בלי לעצב שום דבר בעצמכם. במקום כרטיסי בינגו רגילים עם מספרים, כל משבצת כאן מכילה משהו על אדם — וכל משתתף מסתובב לחפש התאמות ולחתום על המשבצות.',
+  'השימוש הכי טוב בכלי הזה הוא בפתיחה של אירוע שבו לא כולם מכירים אחד את השני: כיתה חדשה בתחילת שנה, קייטנה ביום הראשון, או מפגש הורים-ילדים. הכרטיס עצמו נותן לכל ילד תירוץ ברור לגשת למישהו ולדבר איתו.',
+  'אחרי שהבינגו מסתיים, שווה לעבור ישר למשחק היכרות נוסף כדי לנצל את המומנטום — פנטומימה או מי אני? עובדים טוב כהמשך.',
+]
+const bingoRelated = [ { label: 'משחקי היכרות ושוברי קרח', href: '/games/icebreaker' }, { label: 'מתחם לכיתה', href: '/classroom' }, { label: 'משחקי יום הולדת', href: '/games/birthday' } ]
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import PrintPreview from '../../components/ui/PrintPreview'
@@ -61,7 +73,7 @@ export default function BingoMaker() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="יוצר כרטיסי בינגו" description="צרו כרטיסי בינגו לכל אירוע — עם דוגמאות, הסברים, חבילות נושא ואפשרות מותאמת אישית." path="/tools/bingo-maker" />
+      <SEO title="בינגו היכרות להדפסה — כרטיסי בינגו" description="צרו כרטיסי בינגו היכרות לכל אירוע — עם דוגמאות, הסברים, חבילות נושא ואפשרות מותאמת אישית." path="/tools/bingo-maker" structuredData={faqSchema(bingoFaq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בינגו' }]} />
 
       <div className="text-center mb-8">
@@ -136,6 +148,10 @@ export default function BingoMaker() {
           </div>
         </div>
       </section>
+
+      <div className="mt-12">
+        <SeoBody paragraphs={bingoBody} faq={bingoFaq} related={bingoRelated} />
+      </div>
     </div>
   )
 }

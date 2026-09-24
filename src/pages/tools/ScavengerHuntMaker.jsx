@@ -1,7 +1,19 @@
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+
+const scavengerFaq = [
+  { q: 'כמה ילדים אפשר לשלב בציד אוצרות אחד?', a: 'עדיף לחלק לקבוצות קטנות של 2-4 ילדים לכל מסלול, כדי שכולם יהיו מעורבים בפתרון ולא רק ילד אחד שרץ קדימה.' },
+  { q: 'כמה זמן לוקח להכין ציד אוצרות עם הכלי?', a: 'כמה דקות בלבד להזנת הפרטים, אבל כדאי להוסיף עוד כמה דקות לבדיקה עצמית של המסלול לפני האירוע.' },
+]
+const scavengerBody = [
+  'ציד אוצרות הוא אחת הפעילויות שהכי קשה להכין לבד — צריך לחשוב על רמזים, לוודא שהם לא קלים מדי ולא קשים מדי. הכלי הזה עושה בדיוק את זה: בונה מסלול מוכן להדפסה, מותאם למקום ולגיל.',
+  'היתרון הגדול הוא שהוא ממלא זמן ארוך יחסית (20-40 דקות) בלי שהמבוגר צריך להיות מעורב כל הזמן. זה הופך אותו לפעילות מצוינת ליום הולדת בבית.',
+  'טיפ מעשי לפני שמתחילים: תעברו על כל הרמזים פעם אחת בעצמכם, בדיוק באותו מסלול שהילדים ילכו בו.',
+]
+const scavengerRelated = [ { label: 'חדרי בריחה להדפסה', href: '/tools/escape-rooms' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 const PACKS = {
   home: ['משהו אדום','משהו רך','משהו עגול','ספר','כפית','גרב','משהו שמתחיל באות מ','דבר שאתה אוהב'],
@@ -23,7 +35,7 @@ export default function ScavengerHuntMaker() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="יוצר ציד אוצרות" description="יוצר ציד אוצרות: בונים רשימת משימות ורמזים מוכנה להדפסה — לבית, לחצר, לגן ולכיתה. בוחרים רשימה מוכנה או כותבים בעצמכם, חינם." path="/tools/scavenger-hunt-maker" />
+      <SEO title="יוצר ציד אוצרות להדפסה" description="יוצר ציד אוצרות: בונים רשימת משימות ורמזים מוכנה להדפסה — לבית, לחצר, לגן ולכיתה. בוחרים רשימה מוכנה או כותבים בעצמכם, חינם." path="/tools/scavenger-hunt-maker" structuredData={faqSchema(scavengerFaq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'ציד אוצרות' }]} />
       <h1 className="text-4xl text-center mb-6">🔎 יוצר ציד אוצרות</h1>
 
@@ -57,6 +69,10 @@ export default function ScavengerHuntMaker() {
       )}
       {list && <div className="text-center mt-4"><button onClick={()=>setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
       {printing&&list&&<PrintPreview title="ציד אוצרות" onClose={()=>setPrinting(false)}><article className="buga-flow"><h2 className="text-center text-3xl">{title||'ציד האוצרות שלי'}</h2><p className="my-4">שם: ____________________</p><p>מחפשים בהשגחת מבוגר, בלי לקטוף צמחים או לפגוע בבעלי חיים.</p>{list.map((item,i)=><p key={i} style={{padding:'12px 0',borderBottom:'1px solid #aaa',whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>□ {i+1}. {item}</p>)}<footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
+
+      <div className="mt-12">
+        <SeoBody paragraphs={scavengerBody} faq={scavengerFaq} related={scavengerRelated} />
+      </div>
     </div>
   )
 }
