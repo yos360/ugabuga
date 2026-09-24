@@ -79,7 +79,10 @@ export default function OwnerLogin({ children }) {
 
   if (session?.user?.email?.toLowerCase() === OWNER_EMAIL) {
     return <>
-      <div className="mx-auto flex max-w-5xl justify-end px-4 pt-6" dir="rtl">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 pt-6" dir="rtl">
+        <nav aria-label="אזור בעלים" className="flex flex-wrap gap-2">{[['/admin/activity', '📊 דוח פעילות'], ['/admin/suppliers', '🎪 ניהול ספקים']].map(([href, label]) =>
+          <a key={href} href={href} aria-current={location.pathname === href ? 'page' : undefined}
+            className={`min-h-11 rounded-xl border-2 px-4 py-2 font-bold ${location.pathname === href ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white'}`}>{label}</a>)}</nav>
         <button onClick={() => signOut().catch(() => setError('היציאה לא הושלמה. נסו שוב.'))}
           className="min-h-11 rounded-xl border-2 border-slate-200 bg-white px-5 py-2 font-bold">יציאה מהחשבון</button>
       </div>
