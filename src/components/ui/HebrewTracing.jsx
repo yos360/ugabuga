@@ -1,26 +1,34 @@
-import { useEffect, useState } from 'react'
-import { skeleton, SK_SIZE } from '../../utils/letterSkeleton'
+import { useState } from 'react'
 import PrintPreview from './PrintPreview'
+import { HERSHEY, HERSHEY_CAP, HERSHEY_BASE, HERSHEY_XH } from '../../data/hersheyLatin'
 
 const LETTERS = [...'אבגדהוזחטיכלמנסעפצקרשת']
+const isHebrew = s => /[\u0590-\u05FF]/.test(s)
+const ABC = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
 
-// One centre line per stroke (see utils/letterSkeleton). Falls back to light-grey
-// letters until the line is ready, so a sheet is never blank.
-function TraceText({ text, x, y, size, dotted, color = '#444', heb = true, font = 'Heebo' }) {
-  const [sk, setSk] = useState(null)
-  useEffect(() => { if (heb) return; let on = true; skeleton(text, { font, rtl: heb }).then(r => on && setSk(r)).catch(() => {}); return () => { on = false } }, [text, heb, font])
-  const dash = k => (dotted ? [0.1, 6.5] : [7, 4.5]).map(v => v / k).join(' ')
-  const cap = dotted ? 'round' : 'butt'
-  if (heb) {
-    // Real single-line tracing font. Its letters are ~0.6em tall and ~0.62em wide,
-    // so scale to match the cap height the rows are laid out for, and never overflow the page.
-    const fs = tracerSize(text, size)
-    return <text x={x} y={y} fontSize={fs} fontFamily="BugaTracer" fill={color} stroke={color} strokeWidth={fs * 0.012} direction="rtl" textAnchor="middle">{text}</text>
-  }
-  if (!sk) return <text x={x} y={y} fontSize={size} fill="#ddd" fontWeight="400" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
-  const k = size / SK_SIZE
-  return <g transform={`translate(${x - sk.w / 2 * k} ${y - sk.base * k}) scale(${k})`}>
-    <path d={sk.d} fill="none" stroke={color} strokeWidth={2.8 / k} strokeDasharray={dash(k)} strokeLinecap={cap} strokeLinejoin="round" />
+// Hebrew: real single-line tracing font (BugaTracer, from Cousine-Tracer); its
+// letters are 0.6em tall and 0.6em wide. English: Hershey single-stroke centre
+// lines drawn dashed. Both are scaled to the row height and never overflow the page.
+function TraceText({ text, x, y, size, color = '#444', heb = true }) {
+  if (!heb) return <LatinTrace text={text} x={x} y={y} cap={letterH(text, size, false)} color={color} />
+  const fs = tracerSize(text, size)
+  return <text x={x} y={y} fontSize={fs} fontFamily="BugaTracer" fill={color} stroke={color} strokeWidth={fs * 0.012} direction="rtl" textAnchor="middle">{text}</text>
+}
+
+const SPACE = 8
+const latinUnits = text => [...text].reduce((w, c) => w + 2 * (HERSHEY[c]?.[1] ?? SPACE), 0)
+function LatinTrace({ text, x, y, cap, color }) {
+  const k = cap / HERSHEY_CAP
+  let cursor = x - latinUnits(text) * k / 2
+  // Stroke and dash are set in glyph units (divided by k) so they scale with the
+  // sheet: the same proportions on the A4 page and in the small preview cards.
+  const sw = Math.max(cap * 0.045, 1.6) / k, dash = `${Math.max(cap * 0.09, 3) / k} ${Math.max(cap * 0.075, 2.6) / k}`
+  return <g fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round">
+    {[...text].map((c, i) => {
+      const g = HERSHEY[c], left = cursor
+      cursor += 2 * (g?.[1] ?? SPACE) * k
+      return g ? <path key={i} d={g[0]} transform={`translate(${left} ${y - HERSHEY_BASE * k}) scale(${k})`} strokeWidth={sw} strokeDasharray={dash} /> : null
+    })}
   </g>
 }
 
@@ -30,19 +38,25 @@ const ColorText = ({ text, x, y, size, heb = true }) => <text x={x} y={y} fontSi
 
 const Heading = ({ y, children }) => <text x="300" y={y} fontSize="21" fontWeight="700">{children}</text>
 // Writing lines: letters sit on the baseline and reach the top line (h = letter height).
-const Lines = ({ y, h }) => <g fill="none"><path d={`M35 ${y - h} H565`} stroke="#ccc" strokeWidth="1" strokeDasharray="5 4" /><path d={`M35 ${y} H565`} stroke="#999" strokeWidth="1.2" /></g>
+// English sheets add the dashed middle line of school handwriting paper (x-height).
+const Lines = ({ y, h, mid = 0 }) => <g fill="none"><path d={`M35 ${y - h} H565`} stroke="#ccc" strokeWidth="1" strokeDasharray="5 4" />{mid > 0 && <path d={`M35 ${y - mid} H565`} stroke="#ddd" strokeWidth="1" strokeDasharray="2 5" />}<path d={`M35 ${y} H565`} stroke="#999" strokeWidth="1.2" /></g>
 const tracerSize = (text, size) => Math.min(size * 1.2, 540 / Math.max([...text].length * 0.62, 1))
-const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) * 0.6 : size * 0.72
+// Cap height of a row: Hebrew from the tracer font, English fitted to 540px wide.
+const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) * 0.6
+  : Math.min(tracerSize(text, size) * 0.66, 540 * HERSHEY_CAP / Math.max(latinUnits(text), 1))
+const xHeight = (text, size) => letterH(text, size, false) * HERSHEY_XH / HERSHEY_CAP
 
-export function LetterSheet({letter, dotted = true}) {
+export function LetterSheet({letter}) {
+  const heb = isHebrew(letter)
+  if (!heb) return <EnglishLetterSheet letter={letter} />
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">האות {letter}</text>
       <text x="300" y="66" fontSize="15">שם: ____________    תאריך: ____________</text>
       <Heading y={108}>עוברים על הקווים</Heading>
-      <TraceText text={letter} x={300} y={335} size={190} dotted={dotted} />
+      <TraceText text={letter} x={300} y={335} size={190} />
       <Lines y={440} h={letterH(letter, 70)} />
-      {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} dotted={dotted} />)}
+      {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} />)}
       <Lines y={530} h={letterH(letter, 70)} />
       <Heading y={610}>צובעים את האות</Heading>
       <ColorText text={letter} x={300} y={760} size={165} />
@@ -50,9 +64,29 @@ export function LetterSheet({letter, dotted = true}) {
   </svg>
 }
 
+// Capital + small letter on school handwriting lines (top, dashed middle, base).
+function EnglishLetterSheet({letter}) {
+  const big = letter + letter.toLowerCase(), cap = letterH('A', 64, false), mid = xHeight('A', 64)
+  return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${big}`} style={{width:'100%',height:'100%',background:'white'}} direction="ltr">
+    <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
+      <text x="300" y="36" fontSize="24" fontWeight="700">Letter {letter} {letter.toLowerCase()}</text>
+      <text x="300" y="66" fontSize="15">Name: ____________    Date: ____________</text>
+      <Heading y={104}>Trace the lines</Heading>
+      <Lines y={300} h={letterH(big, 150, false)} mid={xHeight(big, 150)} />
+      <TraceText text={big} x={300} y={300} size={150} heb={false} />
+      <Lines y={410} h={cap} mid={mid} />
+      {[100, 200, 300, 400, 500].map(x => <TraceText key={x} text={letter} x={x} y={410} size={64} heb={false} />)}
+      <Lines y={500} h={cap} mid={mid} />
+      {[100, 200, 300, 400, 500].map(x => <TraceText key={x} text={letter.toLowerCase()} x={x} y={500} size={64} heb={false} />)}
+      <Lines y={580} h={cap} mid={mid} />
+      <Heading y={640}>Colour the letters</Heading>
+      <ColorText text={big} x={300} y={775} size={150} heb={false} />
+    </g>
+  </svg>
+}
+
 // One A4 sheet per name: trace it on a single dashed line, practise, then colour
 // it in. Hebrew and English are detected per name so a mixed class list works.
-const isHebrew = s => /[\u0590-\u05FF]/.test(s)
 export function NameSheet({name, dotted = true}) {
   const heb = isHebrew(name), font = heb ? 'Heebo' : 'Arial'
   const big = Math.min(130, Math.floor(520 / Math.max(name.length, 1) * (heb ? 1.45 : 1.55)))
@@ -61,13 +95,13 @@ export function NameSheet({name, dotted = true}) {
     <g fill="#111" fontFamily={`${font}, Arial, sans-serif`} textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">{heb ? 'כותבים את השם שלי' : 'I write my name'}</text>
       <Heading y={82}>{heb ? 'עוברים על הקווים' : 'Trace the lines'}</Heading>
-      <Lines y={240} h={letterH(name, big, heb)} />
-      <TraceText text={name} x={300} y={240} size={big} dotted={dotted} heb={heb} font={font} />
-      <Lines y={340} h={letterH(name, row, heb)} />
-      <TraceText text={name} x={300} y={340} size={row} dotted={dotted} heb={heb} font={font} />
-      <Lines y={425} h={letterH(name, row, heb)} />
-      <TraceText text={name} x={300} y={425} size={row} dotted={dotted} heb={heb} font={font} color="#888" />
-      <Lines y={510} h={letterH(name, row, heb)} />
+      <Lines y={240} h={letterH(name, big, heb)} mid={heb ? 0 : xHeight(name, big)} />
+      <TraceText text={name} x={300} y={240} size={big} heb={heb} />
+      <Lines y={340} h={letterH(name, row, heb)} mid={heb ? 0 : xHeight(name, row)} />
+      <TraceText text={name} x={300} y={340} size={row} heb={heb} />
+      <Lines y={425} h={letterH(name, row, heb)} mid={heb ? 0 : xHeight(name, row)} />
+      <TraceText text={name} x={300} y={425} size={row} heb={heb} color="#888" />
+      <Lines y={510} h={letterH(name, row, heb)} mid={heb ? 0 : xHeight(name, row)} />
       <Heading y={585}>{heb ? 'צובעים את השם' : 'Colour the name'}</Heading>
       <ColorText text={name} x={300} y={730} size={big} heb={heb} />
     </g>
@@ -128,15 +162,16 @@ function ClassNames({dotted}) {
   </div>
 }
 
-export default function HebrewTracing(){
-  const dotted=false,[selection,setSelection]=useState(null)
+export default function HebrewTracing({ lang = 'he' }){
+  const en=lang==='en', letters=en?ABC:LETTERS, dotted=false, [selection,setSelection]=useState(null)
+  const label=l=>en?`${l}${l.toLowerCase()}`:l
   return <section dir="rtl">
-    <div className="mb-6 flex flex-wrap justify-center gap-3" aria-label="סגנון האות">
-      <button onClick={()=>setSelection(LETTERS)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל 22 האותיות</button>
+    <div className="mb-6 flex flex-wrap justify-center gap-3" aria-label="הדפסה">
+      <button onClick={()=>setSelection(letters)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל {letters.length} האותיות</button>
     </div>
     <ClassNames dotted={dotted}/>
-    <p className="mb-5 text-center">שחור־לבן בלבד · כל אות בדף A4 נפרד · האות הגדולה ושורות התרגול ניתנות למעבר בעיפרון</p>
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{LETTERS.map(letter=><button key={letter} onClick={()=>setSelection([letter])} aria-label={`פתחו והדפיסו את האות ${letter}`} className="rounded-2xl border-2 bg-white p-3 shadow-sm focus-visible:outline-4 focus-visible:outline-cyan-500"><div className="aspect-[210/297]"><LetterSheet letter={letter} dotted={dotted}/></div><strong className="block py-2">אות {letter} · פתיחה והדפסה</strong></button>)}</div>
-    {selection&&<PrintPreview title={selection.length===1?`תרגול האות ${selection[0]}`:'כל אותיות האלף־בית'} onClose={()=>setSelection(null)}>{selection.map(letter=><article className="buga-a4" key={letter}><div className="print-art"><LetterSheet letter={letter} dotted={dotted}/></div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}</PrintPreview>}
+    <p className="mb-5 text-center">שחור־לבן בלבד · כל אות בדף A4 נפרד{en?' · אות גדולה ואות קטנה על שורות כתיבה באנגלית':''} · האות הגדולה ושורות התרגול ניתנות למעבר בעיפרון</p>
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{letters.map(letter=><button key={letter} onClick={()=>setSelection([letter])} aria-label={`פתחו והדפיסו את האות ${label(letter)}`} className="rounded-2xl border-2 bg-white p-3 shadow-sm focus-visible:outline-4 focus-visible:outline-cyan-500"><div className="aspect-[210/297]"><LetterSheet letter={letter}/></div><strong className="block py-2">אות <bdi dir="ltr">{label(letter)}</bdi> · פתיחה והדפסה</strong></button>)}</div>
+    {selection&&<PrintPreview title={selection.length===1?`תרגול האות ${label(selection[0])}`:en?'כל אותיות ה-ABC':'כל אותיות האלף־בית'} onClose={()=>setSelection(null)}>{selection.map(letter=><article className="buga-a4" key={letter}><div className="print-art"><LetterSheet letter={letter}/></div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}</PrintPreview>}
   </section>
 }
