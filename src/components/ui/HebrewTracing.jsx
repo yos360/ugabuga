@@ -17,7 +17,7 @@ function TraceText({ text, x, y, size, color = '#444', heb = true }) {
 
 const SPACE = 8
 const latinUnits = text => [...text].reduce((w, c) => w + 2 * (HERSHEY[c]?.[1] ?? SPACE), 0)
-function LatinTrace({ text, x, y, cap, color }) {
+export function LatinTrace({ text, x, y, cap, color, solidOps = false }) {
   const k = cap / HERSHEY_CAP
   let cursor = x - latinUnits(text) * k / 2
   // Stroke and dash are set in glyph units (divided by k) so they scale with the
@@ -27,24 +27,26 @@ function LatinTrace({ text, x, y, cap, color }) {
     {[...text].map((c, i) => {
       const g = HERSHEY[c], left = cursor
       cursor += 2 * (g?.[1] ?? SPACE) * k
-      return g ? <path key={i} d={g[0]} transform={`translate(${left} ${y - HERSHEY_BASE * k}) scale(${k})`} strokeWidth={sw} strokeDasharray={dash} /> : null
+      // In arithmetic the short operator strokes read better solid and thin.
+      const op = solidOps && '+-=x:()'.includes(c)
+      return g ? <path key={i} d={g[0]} transform={`translate(${left} ${y - HERSHEY_BASE * k}) scale(${k})`} strokeWidth={op ? sw * 0.6 : sw} strokeDasharray={op ? undefined : dash} /> : null
     })}
   </g>
 }
 
 // Hollow letters to colour in: the white fill is painted over the stroke, so only
 // the outer contour shows — no overlapping inner lines.
-const ColorText = ({ text, x, y, size, heb = true }) => <text x={x} y={y} fontSize={size} fontWeight="800" fill="white" stroke="#111" strokeWidth="5" strokeLinejoin="round" paintOrder="stroke" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
+export const ColorText = ({ text, x, y, size, heb = true }) => <text x={x} y={y} fontSize={size} fontWeight="800" fill="white" stroke="#111" strokeWidth="5" strokeLinejoin="round" paintOrder="stroke" direction={heb ? 'rtl' : 'ltr'}>{text}</text>
 
-const Heading = ({ y, children }) => <text x="300" y={y} fontSize="21" fontWeight="700">{children}</text>
+export const Heading = ({ y, children }) => <text x="300" y={y} fontSize="21" fontWeight="700">{children}</text>
 // Writing lines: letters sit on the baseline and reach the top line (h = letter height).
 // English sheets add the dashed middle line of school handwriting paper (x-height).
-const Lines = ({ y, h, mid = 0 }) => <g fill="none"><path d={`M35 ${y - h} H565`} stroke="#ccc" strokeWidth="1" strokeDasharray="5 4" />{mid > 0 && <path d={`M35 ${y - mid} H565`} stroke="#ddd" strokeWidth="1" strokeDasharray="2 5" />}<path d={`M35 ${y} H565`} stroke="#999" strokeWidth="1.2" /></g>
+export const Lines = ({ y, h, mid = 0 }) => <g fill="none"><path d={`M35 ${y - h} H565`} stroke="#ccc" strokeWidth="1" strokeDasharray="5 4" />{mid > 0 && <path d={`M35 ${y - mid} H565`} stroke="#ddd" strokeWidth="1" strokeDasharray="2 5" />}<path d={`M35 ${y} H565`} stroke="#999" strokeWidth="1.2" /></g>
 const tracerSize = (text, size) => Math.min(size * 1.2, 540 / Math.max([...text].length * 0.62, 1))
 // Cap height of a row: Hebrew from the tracer font, English fitted to 540px wide.
-const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) * 0.6
+export const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) * 0.6
   : Math.min(tracerSize(text, size) * 0.66, 540 * HERSHEY_CAP / Math.max(latinUnits(text), 1))
-const xHeight = (text, size) => letterH(text, size, false) * HERSHEY_XH / HERSHEY_CAP
+export const xHeight = (text, size) => letterH(text, size, false) * HERSHEY_XH / HERSHEY_CAP
 
 export function LetterSheet({letter}) {
   const heb = isHebrew(letter)
@@ -113,7 +115,7 @@ const LISTS_KEY = 'buga-class-lists', DRAFT_KEY = 'buga-class-draft'
 const readLists = () => { try { return JSON.parse(localStorage.getItem(LISTS_KEY)) || [] } catch { return [] } }
 const writeLists = lists => { try { localStorage.setItem(LISTS_KEY, JSON.stringify(lists)) } catch { /* private mode */ } }
 
-function ClassNames({dotted}) {
+export function ClassNames({dotted}) {
   const [text,setText]=useState(()=>{ try { return localStorage.getItem(DRAFT_KEY) || '' } catch { return '' } })
   const [names,setNames]=useState(null)
   const [lists,setLists]=useState(readLists)
