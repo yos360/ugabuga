@@ -31,6 +31,7 @@ export const MENU_GROUPS = [
     title: '🏫 לכיתה ולגן', to: '/classroom',
     items: [
       { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
+      { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
       { to: '/tools/trivia-quiz', label: 'טריוויה לכיתה', icon: '🎯' },
       { to: '/tools/eretz-ir', label: 'ארץ עיר', icon: '🌍' },
