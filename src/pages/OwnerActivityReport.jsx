@@ -141,6 +141,7 @@ export default function OwnerActivityReport() {
           <StatCard value={data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—'} text="זמן ממוצע למבקר באתר" tone="bg-emerald-50" />
           <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
           <StatCard value={data.by_action?.print || 0} text="הדפיסו בפועל" tone="bg-orange-50" />
+          <StatCard value={data.sources?.qr || 0} text="סרקו QR מדף מודפס" tone="bg-lime-50" />
           <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>
 
@@ -164,6 +165,16 @@ export default function OwnerActivityReport() {
             <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td>
           </tr>)}</tbody>
         </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
+
+        <h2 className="mb-1 text-2xl font-black">📱 סריקות QR מדפים מודפסים</h2>
+        <p className="mb-3 text-sm text-slate-600">כל דף שמודפס מהאתר נושא QR שמחזיר לעמוד שממנו הודפס. כאן רואים איזה דף מודפס נסרק, וכמה אנשים שונים סרקו אותו.</p>
+        {data.qr_landing?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+          <thead><tr className="border-b-2"><th className="p-2">הדף המודפס שנסרק</th><th className="p-2">סורקים</th></tr></thead>
+          <tbody>{data.qr_landing.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
+            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2 font-bold">{r.scans}</td>
+          </tr>)}</tbody>
+        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
 
         <h2 className="mb-3 text-2xl font-black">פעילות יומית</h2>
         {data.by_day?.length ? <div className="mb-8 flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
