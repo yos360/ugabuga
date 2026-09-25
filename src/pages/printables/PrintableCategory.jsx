@@ -39,8 +39,8 @@ const svgMap = {
     files: HEBREW_LETTERS.map(([en,he],i) => ({ name: 'אות '+he, file: `letter-he-${String(i+1).padStart(2,'0')}-${en}.svg` }))
   },
   'abc-letters': {
-    title: 'ABC אנגלית בנקודות',
-    desc: 'אותיות ABC באנגלית בנקודות להדפסה: A-Z אותיות גדולות וקטנות עם איורים ושורות תרגול כתיבה לגן ולכיתה א׳ — חינם.',
+    title: 'אותיות באנגלית למעבר בעיפרון',
+    desc: 'אותיות ABC באנגלית להדפסה: A–Z, אות גדולה ואות קטנה בקווים מקווקווים למעבר בעיפרון, על שורות כתיבה באנגלית — לגן ולכיתה א׳, חינם.',
     files: 'abcdefghijklmnopqrstuvwxyz'.split('').map((l,i) => ({ name: 'Letter '+l.toUpperCase(), file: `letter-en-${String(i+1).padStart(2,'0')}-${l}.svg` }))
   },
   'numbers': {
@@ -119,6 +119,7 @@ export default function PrintableCategory() {
   }
 
   if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
+  if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
 
   const printAll = () => setSelected(cat.files)
 
