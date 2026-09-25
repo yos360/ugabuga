@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PrintPreview from './PrintPreview'
 import { HERSHEY, HERSHEY_CAP, HERSHEY_BASE, HERSHEY_XH } from '../../data/hersheyLatin'
 
@@ -131,7 +131,9 @@ function ClassNames({dotted}) {
   }
   const load=l=>{ changeText(l.names.join('\n')); setActive(l.name); setConfirmDel(''); flash(`✓ נטענה הרשימה „${l.name}”`) }
   const remove=title=>{ const next=lists.filter(l=>l.name!==title); setLists(next); writeLists(next); if(active===title) setActive(''); setConfirmDel('') }
-  return <div className="mb-10 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-sm">
+  // Linked from the classroom hub as …#names — bring the box into view.
+  useEffect(() => { if (window.location.hash === '#names') setTimeout(() => document.getElementById('names')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300) }, [])
+  return <div id="names" className="mb-10 scroll-mt-4 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-sm">
     <h2 className="mb-2 text-2xl font-bold">📝 שמות לכל הכיתה או הגן — בהדפסה אחת</h2>
     <p className="mb-3">מדביקים את רשימת השמות (שם בכל שורה), בעברית או באנגלית. כל ילד מקבל דף A4 משלו עם השם שלו למעבר בעיפרון — מתאים גם לכל מי שחוגג יום הולדת החודש.</p>
 
