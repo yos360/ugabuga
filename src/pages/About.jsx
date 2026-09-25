@@ -38,7 +38,7 @@ export default function About() {
         <p className="mt-3 text-lg leading-relaxed">בנינו את עוגה בוגה כי נמאס לנו לחפש בגוגל „משחקים ליום הולדת” ולקבל 10 אתרים עם אותם 5 רעיונות.</p>
         <p className="mt-3 text-lg leading-relaxed">רצינו מקום אחד שבו מורה תמצא משחק ב-10 שניות, הורה יתכנן מסיבה בלי 15 אתרים, וגננת תפתח את הטלפון ותתחיל לשחק — בלי מאמר של 2,000 מילה.</p>
       </div>
-      <img src="/images/home-birthday-girl.webp" alt="" className="mx-auto w-52 sm:w-full" loading="lazy" />
+      <img src="/images/home-birthday-girl.webp?v=2" alt="" className="mx-auto w-52 sm:w-full" loading="lazy" />
     </section>
 
     <section className="mt-12">

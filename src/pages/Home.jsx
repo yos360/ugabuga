@@ -11,10 +11,10 @@ function Art({ crop, src, className = '' }) {
   return <span aria-hidden="true" className={`home-art ${className}`} style={src ? {backgroundImage:`url(${src})`, backgroundSize:'contain', backgroundPosition:'center bottom', aspectRatio:'1 / 1'} : {aspectRatio:`${w}/${h}`,backgroundSize:`${1536/w*100}% ${1024/h*100}%`,backgroundPosition:`${x/(1536-w)*100}% ${y/(1024-h)*100}%`}} />
 }
 const doors = [
-  ['יום הולדת','משחקים, כלים וספקים —\nהכול לחגיגה מושלמת.','/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b','/images/home-birthday-girl.webp'],
-  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f','/images/home-detective-boy.webp'],
-  ['יוצרים','דפי הדפסה, תשבצים\nועיצוב משלכם.','/create',[1022,272,187,162],'#f3eaff','#a775ed','/images/home-printer.webp'],
-  ['לכיתה','משחקים, עבודת שורשים\nודפי פעילות למורים.','/classroom',[1019,481,173,170],'#dff2ff','#28a4ef','/images/home-schoolgirl.webp'],
+  ['יום הולדת','משחקים, כלים וספקים —\nהכול לחגיגה מושלמת.','/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b','/images/home-birthday-girl.webp?v=2'],
+  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f','/images/home-detective-boy.webp?v=2'],
+  ['יוצרים','דפי הדפסה, תשבצים\nועיצוב משלכם.','/create',[1022,272,187,162],'#f3eaff','#a775ed','/images/home-printer.webp?v=2'],
+  ['לכיתה','משחקים, עבודת שורשים\nודפי פעילות למורים.','/classroom',[1019,481,173,170],'#dff2ff','#28a4ef','/images/home-schoolgirl.webp?v=2'],
 ]
 const games = [
   ['תחנת החלל התקועה','חדר בריחה לנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
