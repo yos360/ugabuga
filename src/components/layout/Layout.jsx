@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
+import PrintQrFallback from './PrintQrFallback'
 
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
@@ -24,6 +25,7 @@ export default function Layout({ children }) {
         <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a>
       </div>
       {mounted && <RecentActivity />}
+      {mounted && <PrintQrFallback />}
       <main className="min-h-screen">{children}</main>
       <Footer />
     </>

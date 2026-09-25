@@ -19,3 +19,12 @@
 .buga-credit{position:absolute;bottom:4mm;right:4mm;z-index:5;max-width:calc(100% - 52mm);font-size:8pt;line-height:1.3;color:#555;text-align:right;font-family:Heebo,Arial,sans-serif;direction:rtl}
 .buga-a4:has(.buga-credit),.buga-flow:has(.buga-credit){padding-bottom:20mm}
 @media print{#buga-print-output .buga-a4:has(.buga-credit),#buga-print-output .buga-flow:has(.buga-credit){padding-bottom:22mm!important}}
+
+/* Site-wide fallback stamp for pages printed without PrintPreview (see PrintQrFallback.jsx). */
+.buga-print-fallback{display:none}
+@media print{
+  body:not(:has(#buga-print-output)) .buga-print-fallback{display:block!important;position:fixed;inset:auto 0 0 0;height:18mm;z-index:9999;pointer-events:none;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .buga-print-fallback .buga-qr{bottom:0;left:0}
+  /* Keep the last lines of content from sitting under the stamp. */
+  body:not(:has(#buga-print-output)){padding-bottom:20mm!important}
+}
