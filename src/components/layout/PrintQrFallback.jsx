@@ -6,11 +6,10 @@ import '../ui/print-preview.css'
 
 // Pages that print with a plain window.print() (or Ctrl+P) don't go through
 // PrintPreview, so they never got the QR stamp. This badge lives on every page,
-// hidden on screen and shown only in print, fixed to the bottom-left corner so
-// Chrome repeats it on every printed page. When PrintPreview is open, the
+// hidden on screen and shown only in print, at the top-left corner of the
+// first printed page (see print-preview.css). When PrintPreview is open, the
 // existing `body:has(#buga-print-output)>*:not(#buga-print-output)` print rule
 // hides this badge, so pages printed through PrintPreview keep their own stamp.
-// The text credit line already comes from body::after in index.css.
 // The QR is generated ahead of time (per route), because a beforeprint handler
 // can't wait for async work before the browser snapshots the page.
 export default function PrintQrFallback() {
@@ -34,7 +33,7 @@ export default function PrintQrFallback() {
   if (!svg) return null
   return createPortal(
     <div className="buga-print-fallback" aria-hidden="true">
-      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: `${svg}<span class="buga-qr-label">סרקו לעוד<br/>ugabuga.co.il</span>` }} />
+      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: `${svg}<span class="buga-qr-label">סרקו לעוד<br/>ugabuga.co.il<span class="buga-qr-credit">נוצר ללא עלות בעוגה בוגה</span></span>` }} />
     </div>,
     document.body,
   )

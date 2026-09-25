@@ -150,12 +150,10 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
 @media print {
   @page { size: A4; margin: 10mm; } /* keep in sync with print-preview.css; the later @page rule wins */
   nav, footer, .site-beta-notice, .no-print, button:not(.print-keep) { display: none !important; }
+  main.min-h-screen, .min-h-screen { min-height: 0 !important; } /* 100vh = a whole printed page; it pushed the QR/credit onto page 2 */
   html, body { background: white !important; background-image: none !important; }
   .sketch-shadow, .sketch-shadow-sm, .sketch-press { box-shadow: none !important; }
-  body::after {
-    content: "נוצר באתר עוגה בוגה ללא עלות ובקלות · ugabuga.co.il"; direction: rtl; white-space: nowrap; position: fixed; bottom: 4mm; left: 50%;
-    transform: translateX(-50%); font-family: 'Heebo', sans-serif; font-size: 9pt; color: #999;
-  }
+  /* The credit line now sits inside the QR stamp (PrintQrFallback / PrintPreview). */
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
