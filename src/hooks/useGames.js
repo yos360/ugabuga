@@ -70,9 +70,15 @@ export function useGameBySlug(slug) {
             setRelated(scored)
           })
       }
+      // Database unreachable or game not there: fall back to the built-in copy if we have one.
+      if (!gameRes.data) { const local = BUILT_IN_GAMES.find(g => g.slug === slug); if (local) setGame(withDifficulty(local)) }
       setContent(contentRes.data || [])
       setLoading(false)
-    }).catch(err => { setError(String(err)); setLoading(false) })
+    }).catch(err => {
+      const local = BUILT_IN_GAMES.find(g => g.slug === slug)
+      if (local) setGame(withDifficulty(local)); else setError(String(err))
+      setLoading(false)
+    })
   }, [slug])
 
   return { game, related, content, loading, error }

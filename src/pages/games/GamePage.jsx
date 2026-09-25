@@ -155,7 +155,7 @@ export default function GamePage() {
         </div>
       )}
 
-      {playing && <GamePlayer content={content} onClose={() => setPlaying(false)} />}
+      {playing && <GamePlayer content={content} title={game.name} onClose={() => setPlaying(false)} />}
     </div>
   )
 }

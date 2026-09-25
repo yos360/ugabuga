@@ -16,7 +16,7 @@ function detectTruth(answer = '') {
   return null
 }
 
-export default function GamePlayer({ content, onClose }) {
+export default function GamePlayer({ content, onClose, title = 'אמת או בוגה' }) {
   const packs = useMemo(() => {
     const seen = []
     content.forEach(c => { if (!seen.includes(c.pack_name)) seen.push(c.pack_name) })
@@ -68,7 +68,7 @@ export default function GamePlayer({ content, onClose }) {
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="font-hand text-sm text-[var(--muted-foreground)]">מצב תחרותי</p>
-            <h2 className="text-2xl sm:text-4xl">אמת או בוגה</h2>
+            <h2 className="text-2xl sm:text-4xl">{title}</h2>
           </div>
           <button onClick={onClose} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-2 text-2xl cursor-pointer">✕</button>
         </div>

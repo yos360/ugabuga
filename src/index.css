@@ -102,8 +102,10 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
 @keyframes timer-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 
 .buga-bounce { animation: buga-bounce 2.4s ease-in-out infinite; }
-.buga-fade-in { animation: buga-fade-in 320ms ease-out both; }
-.buga-slide-down { animation: buga-slide-down 260ms ease-out both; }
+/* 'backwards', not 'both': a transform left on the wrapper after the animation turns every
+   position:fixed overlay inside it (game players, modals) into a box confined to the column. */
+.buga-fade-in { animation: buga-fade-in 320ms ease-out backwards; }
+.buga-slide-down { animation: buga-slide-down 260ms ease-out backwards; }
 .timer-ending { animation: alarm-shake 0.3s ease-in-out infinite; transform-origin: 50% 60%; }
 .timer-pulse { animation: timer-pulse 1s ease-in-out infinite; }
 .buga-pop { animation: buga-pop 520ms ease-out both; }

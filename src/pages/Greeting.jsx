@@ -73,7 +73,7 @@ export default function Greeting() {
     setResult(text)
   }, [name, age, from, style, length, personal])
 
-  const copy = () => { navigator.clipboard.writeText(result); alert('הועתק! 📋') }
+  const copy = () => { (navigator.clipboard ? navigator.clipboard.writeText(result) : Promise.reject(new Error('no clipboard'))).then(() => alert('הועתק! 📋')).catch(() => prompt('העתיקו את הברכה:', result)) }
   const share = () => { window.open('https://wa.me/?text=' + encodeURIComponent(result), '_blank') }
 
   return (

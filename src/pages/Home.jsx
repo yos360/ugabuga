@@ -52,8 +52,10 @@ export default function Home() {
       }
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href)
-      alert('הקישור הועתק ללוח')
+      // writeText rejects when clipboard permission is missing (older Safari, in-app browsers).
+      (navigator.clipboard ? navigator.clipboard.writeText(window.location.href) : Promise.reject(new Error('no clipboard')))
+        .then(() => alert('הקישור הועתק ללוח'))
+        .catch(() => prompt('העתיקו את הקישור:', window.location.href))
     }
   }
 
