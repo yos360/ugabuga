@@ -148,7 +148,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
 
 /* Print */
 @media print {
-  @page { size: A4; margin: 12mm; }
+  @page { size: A4; margin: 10mm; } /* keep in sync with print-preview.css; the later @page rule wins */
   nav, footer, .site-beta-notice, .no-print, button:not(.print-keep) { display: none !important; }
   html, body { background: white !important; background-image: none !important; }
   .sketch-shadow, .sketch-shadow-sm, .sketch-press { box-shadow: none !important; }

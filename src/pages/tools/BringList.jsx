@@ -36,7 +36,7 @@ function ItemRow({ item, isOwner, mine, busy, asking, onText, onRemove, onStartC
   const [name, setName] = useState('')
   const taker = takerOf(item)
   const submit = e => { e.preventDefault(); if (name.trim()) onConfirm(name.trim()) }
-  return <li className={`rounded-2xl border-2 p-3 transition ${taker ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-slate-50'}`}>
+  return <li className={`rounded-2xl border-2 p-3 print:py-1.5 transition ${taker ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-slate-50'}`}>
     <div className="flex items-center gap-2">
       {isOwner
         ? <input value={item.text} onChange={e => onText(e.target.value)} aria-label="פריט" placeholder="שם הפריט"
@@ -198,7 +198,7 @@ export default function BringList() {
   </div>
   else if (error) body = <div className="py-10 text-center"><p className="text-xl font-bold">{error}</p><Link to="/tools/bring-list" className="mt-6 inline-block rounded-xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">פתחו רשימה חדשה</Link></div>
   else if (loading) body = <p className="py-16 text-center text-lg">טוענים את הרשימה…</p>
-  else body = <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+  else body = <div className="grid print:block grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
     <section className={card}>
       <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-dashed pb-4">
         {owner
@@ -208,7 +208,7 @@ export default function BringList() {
         <span className="rounded-full bg-emerald-100 px-3 py-2 font-bold text-emerald-800">{taken}/{filled.length} נתפסו</span>
       </div>
 
-      <ul className="mt-4 space-y-3">
+      <ul className="mt-4 space-y-3 print:space-y-1.5">
         {visible.map(item => <ItemRow key={item.id} item={item} isOwner={owner} mine={Boolean(mine[item.id])} busy={pending === item.id} asking={asking === item.id}
           onText={v => changeItems(items.map(i => i.id === item.id ? { ...i, text: v } : i))}
           onRemove={() => changeItems(items.filter(i => i.id !== item.id))}
@@ -216,7 +216,7 @@ export default function BringList() {
           onUnclaim={() => unclaim(item)} onRelease={() => release(item)} />)}
       </ul>
 
-      {owner && <form className="mt-4 flex gap-2" onSubmit={e => { e.preventDefault(); add() }}>
+      {owner && <form className="no-print mt-4 flex gap-2" onSubmit={e => { e.preventDefault(); add() }}>
         <input ref={addRef} value={newItem} onChange={e => setNewItem(e.target.value)} placeholder="הוסיפו פריט חדש" enterKeyHint="done" aria-label="פריט חדש"
           className="min-w-0 flex-1 rounded-xl border-2 border-dashed border-slate-300 px-3 py-2.5 text-[17px] focus:border-slate-800 focus:outline-none" />
         <button className="shrink-0 rounded-xl border-2 border-slate-800 bg-white px-4 font-bold">＋ הוספה</button>
@@ -224,7 +224,7 @@ export default function BringList() {
       {owner && code && status && <p className="mt-3 text-center text-sm text-slate-500" aria-live="polite">{status}</p>}
     </section>
 
-    <aside className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5">
+    <aside className="no-print wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5">
       <h2 className="font-display text-2xl font-bold">איך זה עובד?</h2>
       {owner
         ? <ol className="mt-3 list-decimal space-y-2 pr-5"><li>נותנים שם לרשימה.</li><li>מוסיפים את כל מה שצריך.</li><li>שולחים בוואטסאפ.</li><li>כל אחד תופס פריט פנוי — ורואים כאן מי מביא מה.</li></ol>
@@ -244,7 +244,7 @@ export default function BringList() {
   </div>
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-8 print:py-0">
       <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="מי מביא מה? רשימה שיתופית למסיבה: מחלקים בין ההורים והאורחים מי מביא כיבוד, שתייה וציוד — קישור אחד לוואטסאפ, בלי בלגן ובלי כפילויות." path="/tools/bring-list" noindex={Boolean(code0 || legacy)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'מי מביא מה?' }]} />
       <header className="mb-7 text-center">
