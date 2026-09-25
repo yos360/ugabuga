@@ -35,6 +35,8 @@ export const MENU_GROUPS = [
       { to: '/tools/trivia-quiz', label: 'טריוויה לכיתה', icon: '🎯' },
       { to: '/tools/eretz-ir', label: 'ארץ עיר', icon: '🌍' },
       { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
+      { to: '/printables/hebrew-letters', label: 'אותיות בעברית לכתיבה', icon: '✏️' },
+      { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '🔤' },
       { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
       { to: '/games/kindergarten', label: 'משחקים לגן', icon: '🧸' },
     ],
