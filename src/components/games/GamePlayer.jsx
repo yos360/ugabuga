@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 
 const TYPE_LABEL = { prompt:'פתיח משפט', question:'שאלה', category:'קטגוריה', scenario:'תרחיש', situation:'סיטואציה', statement:'משפט', topic:'נושא', challenge:'אתגר' }
 const TYPE_COUNTER = { prompt:'פתיח', question:'שאלה', category:'קטגוריה', scenario:'תרחיש', situation:'סיטואציה', statement:'משפט', topic:'נושא', challenge:'אתגר' }
@@ -62,7 +63,9 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
     }
   }
 
-  return (
+  // Portal to <body>: an ancestor with a transform (e.g. the page's fade-in while it runs)
+  // would otherwise turn this fixed overlay into a box inside the page column.
+  return createPortal(
     <div className="fixed inset-0 z-50 bg-black/75 p-2 sm:p-4" onClick={onClose}>
       <div className="mx-auto flex h-full max-w-7xl flex-col rounded-[2rem] border-[4px] border-[var(--border)] bg-[var(--paper)] p-3 sketch-shadow-rich sm:p-5" onClick={e => e.stopPropagation()}>
         <div className="mb-2 flex items-center justify-between gap-3 sm:mb-3">
@@ -137,5 +140,5 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
         </div>
       </div>
     </div>
-  )
+  , document.body)
 }
