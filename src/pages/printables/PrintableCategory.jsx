@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { useEffect, useState } from 'react'
 import HebrewTracing from '../../components/ui/HebrewTracing'
+import NumberTracing from '../../components/ui/NumberTracing'
 
 const HEBREW_LETTERS = [
   ['alef','א'],['bet','ב'],['gimel','ג'],['dalet','ד'],['he','ה'],['vav','ו'],['zayin','ז'],
@@ -44,8 +45,8 @@ const svgMap = {
     files: 'abcdefghijklmnopqrstuvwxyz'.split('').map((l,i) => ({ name: 'Letter '+l.toUpperCase(), file: `letter-en-${String(i+1).padStart(2,'0')}-${l}.svg` }))
   },
   'numbers': {
-    title: 'מספרים בנקודות',
-    desc: 'מספרים בנקודות להדפסה: 0-10 בנקודות גדולות לחיבור, עם ספירה ואיורים — דפי תרגול כתיבת מספרים לגן ולכיתה א׳, חינם.',
+    title: 'מספרים ותרגילים למעבר בעיפרון',
+    desc: 'מספרים 0–10 בקווים מקווקווים למעבר בעיפרון, עם ספירה וצביעה — ותרגילי חשבון שכותבים או יוצרים אוטומטית, גם הם בקווים מקווקווים. לגן ולכיתה א׳, חינם.',
     files: Array.from({length:11},(_,i) => ({ name: 'מספר '+i, file: `number-${String(i).padStart(2,'0')}.svg` }))
   },
   'mazes': {
@@ -120,6 +121,7 @@ export default function PrintableCategory() {
 
   if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
   if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
+  if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><NumberTracing/></div>
 
   const printAll = () => setSelected(cat.files)
 
