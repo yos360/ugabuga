@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintableCard from '../../components/ui/PrintableCard'
 
-const categories = [
+export const categories = [
   { slug: 'roots-project', emoji: '🌳', title: 'עבודת שורשים', count: 'חדש', desc: 'עץ משפחה, שאלות ראיון ודפי כתיבה להדפסה', special: true },
   { slug: 'birthday-newspaper', emoji: '📰', title: 'עיתון יום הולדת', count: 'חדש', desc: 'עיתון אישי עם כותרות, עובדות, ברכות וחידון', special: true },
   { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
@@ -43,20 +44,7 @@ export default function PrintablesIndex() {
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">בוחרים פעילות, גיל ונושא — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((cat, i) => (
-          <Link key={cat.slug} to={cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : cat.special ? '/printables/' + cat.slug : '/printables/' + cat.slug}
-            className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 ${i % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-3xl">{cat.emoji}</span>
-              <div>
-                <h3 className="font-display text-xl font-bold">{cat.title}</h3>
-                <span className="wobbly-sm inline-flex items-center border border-[var(--border)] bg-[var(--postit)] px-2 py-0.5 text-xs font-bold">{cat.count}{typeof cat.count==='number'?' דפים':''}</span>
-              </div>
-            </div>
-            <p className="text-sm text-[var(--muted-foreground)] flex-1">{cat.desc}</p>
-            <span className="mt-3 font-display text-base font-bold text-[var(--pen)] underline decoration-dashed">צפייה והדפסה ←</span>
-          </Link>
-        ))}
+        {categories.map((cat, i) => <PrintableCard key={cat.slug} cat={cat} index={i} />)}
       </div>
 
       <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-6 mt-10 text-center">
