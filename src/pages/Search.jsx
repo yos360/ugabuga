@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { Search as SearchIcon } from 'lucide-react'
+import SiteSearchBox from '../components/ui/SiteSearchBox'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useGames } from '../hooks/useGames'
@@ -24,17 +24,18 @@ export default function Search() {
     return Object.entries(by).sort((a, b) => b[1][0].score - a[1][0].score || KINDS[a[0]].order - KINDS[b[0]].order)
   }, [results])
 
-  const submit = e => { e.preventDefault(); const v = input.trim(); setParams(v ? { q: v } : {}, { replace: false }) }
+  const run = (v, replace = false) => { v = v.trim(); if (v !== q) setParams(v ? { q: v } : {}, { replace }) }
+  useEffect(() => { // results update while typing
+    const t = setTimeout(() => run(input, true), 350)
+    return () => clearTimeout(t)
+  }, [input]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8" dir="rtl">
       <SEO title={q ? `חיפוש: ${q}` : 'חיפוש באתר'} description="חיפוש בכל עוגה בוגה: משחקים, כלים, דפים להדפסה, רעיונות ומדריכים." path="/search" noindex />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חיפוש' }]} />
       <h1 className="text-4xl sm:text-5xl mb-4">🔎 חיפוש באתר</h1>
-      <form role="search" onSubmit={submit} className="site-search-form">
-        <input id="site-search" type="search" value={input} onChange={e => setInput(e.target.value)} placeholder="מה מחפשים? משחק, דף להדפסה, כלי…" aria-label="חיפוש בכל האתר" autoFocus />
-        <button type="submit" aria-label="חיפוש"><SearchIcon size={24} /></button>
-      </form>
+      <SiteSearchBox className="site-search-form" value={input} onChange={setInput} onSearch={v => run(v)} placeholder="מה מחפשים? משחק, דף להדפסה, כלי…" autoFocus />
       {!q && <div className="site-search-sugg"><span>אפשר לנסות:</span>{SUGGESTIONS.map(s => <button key={s} type="button" onClick={() => navigate('/search?q=' + encodeURIComponent(s))}>{s}</button>)}</div>}
       {q && <p className="site-search-count" role="status">{results.length ? `נמצאו ${results.length} תוצאות ל"${q}"` : `לא נמצאו תוצאות ל"${q}". נסו מילה אחרת או קצרה יותר.`}</p>}
       {groups.map(([kind, list]) => (

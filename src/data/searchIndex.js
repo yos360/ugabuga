@@ -77,6 +77,9 @@ function buildStatic() {
   for (const [slug, k] of Object.entries(PARTY_KITS)) out.push({ to: `/ideas/themes/${slug}`, title: k.name, emoji: k.emoji, kind: 'idea', desc: k.desc })
   for (const g of GUIDES) out.push({ to: `/guides/${g.slug}`, title: g.title, emoji: g.emoji, kind: 'idea', desc: g.description })
   for (const age of GIFT_AGES) out.push({ to: `/gifts/${age}`, title: `מתנות לגיל ${age}`, emoji: '🎁', kind: 'idea', keys: `מתנה גיל ${age}` })
+  // every date page of the time tunnel ("מה קרה ב-14 במרץ?")
+  const HM = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
+  ;[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((len, m) => { for (let d = 1; d <= len; d++) out.push({ to: `/time-tunnel/${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, title: `מה קרה ב-${d} ב${HM[m]}?`, emoji: '⏳', kind: 'page', desc: 'ימים מיוחדים, אירועים ומי נולד בתאריך הזה', keys: `מנהרת הזמן תאריך ${d} ${HM[m]}`, low: true }) })
   const seen = new Set() // one entry per link
   return out.filter(x => { if (seen.has(x.to)) return false; seen.add(x.to); return true })
 }
@@ -122,7 +125,35 @@ export function searchItems(items, query) {
     if (!all) continue
     if (title === unfinal(norm(query))) score += 20
     score += it.kind === 'tool' ? 2 : it.kind === 'game' ? 1 : 0
+    if (it.low) score -= 6 // 366 date pages shouldn't crowd out games and tools
     scored.push({ ...it, score })
   }
-  return scored.sort((a, b) => b.score - a.score || a.title.length - b.title.length)
+  return scored.sort((a, b) => b.score - a.score || (a.low && b.low ? a.to.localeCompare(b.to) : a.title.length - b.title.length))
+}
+
+// Autocomplete: phrases that really appear on the site (titles, 1–4 words; keywords, single words) that
+// continue what's being typed, plus the best direct hits.
+let vocab = null, vocabFor = null
+function buildVocab(items) {
+  const count = new Map()
+  const add = w => { if (w.length >= 2 && !/^\d+$/.test(w)) count.set(w, (count.get(w) || 0) + 1) }
+  for (const it of items) {
+    if (it.low) continue
+    const t = norm(it.title).split(' ')
+    for (let i = 0; i < t.length; i++) for (let n = 1; n <= 4 && i + n <= t.length; n++) add(t.slice(i, i + n).join(' '))
+    for (const w of norm(it.keys || '').split(' ')) add(w)
+  }
+  return [...count].sort((a, b) => b[1] - a[1] || a[0].length - b[0].length).map(([w]) => ({ w, u: unfinal(w) }))
+}
+export function suggest(items, input, { words = 6, hits = 6 } = {}) {
+  const raw = String(input || '')
+  const n = unfinal(norm(raw))
+  if (!n) return { words: [], hits: [] }
+  if (vocabFor !== items) { vocab = buildVocab(items); vocabFor = items }
+  const seen = new Set()
+  const completions = raw.endsWith(' ') && !n.includes(' ') ? [] : vocab
+    .filter(({ u }) => u.startsWith(n) && u !== n)
+    .filter(({ u }) => !seen.has(u) && seen.add(u))
+    .slice(0, words).map(({ w }) => w)
+  return { words: completions, hits: n.length >= 2 ? searchItems(items, raw).slice(0, hits) : [] }
 }
