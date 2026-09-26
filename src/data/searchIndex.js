@@ -134,14 +134,22 @@ export function searchItems(items, query) {
 // Autocomplete: phrases that really appear on the site (titles, 1–4 words; keywords, single words) that
 // continue what's being typed, plus the best direct hits.
 let vocab = null, vocabFor = null
+const STOP = new Set(['של', 'או', 'את', 'עם', 'לפי', 'על', 'עד', 'גם', 'כל', 'זה', 'לא', 'בלי', 'אל', 'מן', 'כמו', 'יותר', 'הכי', 'איך', 'מה', 'ל', 'ב', 'ו', 'ה'])
 function buildVocab(items) {
   const count = new Map()
   const add = w => { if (w.length >= 2 && !/^\d+$/.test(w)) count.set(w, (count.get(w) || 0) + 1) }
   for (const it of items) {
     if (it.low) continue
-    const t = norm(it.title).split(' ')
-    for (let i = 0; i < t.length; i++) for (let n = 1; n <= 4 && i + n <= t.length; n++) add(t.slice(i, i + n).join(' '))
-    for (const w of norm(it.keys || '').split(' ')) add(w)
+    // phrases never cross a dash/colon/comma ("מנהרת הזמן של בוגה – משחק יומי" ≠ "בוגה משחק")
+    for (const seg of String(it.title).split(/\s[–—-]\s|[:,|?!()]/)) {
+      const t = norm(seg).split(' ').filter(Boolean)
+      for (let i = 0; i < t.length; i++) for (let n = 1; n <= 4 && i + n <= t.length; n++) {
+        const ph = t.slice(i, i + n)
+        if (STOP.has(ph[0]) || STOP.has(ph[ph.length - 1])) continue // no "צבעו לפי", "של בוגה"
+        add(ph.join(' '))
+      }
+    }
+    for (const w of norm(it.keys || '').split(' ')) if (!STOP.has(w)) add(w)
   }
   return [...count].sort((a, b) => b[1] - a[1] || a[0].length - b[0].length).map(([w]) => ({ w, u: unfinal(w) }))
 }
