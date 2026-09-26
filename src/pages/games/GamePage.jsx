@@ -31,7 +31,13 @@ export default function GamePage() {
   const { slug } = useParams()
   const { game, related, content, loading } = useGameBySlug(slug)
   const [playing, setPlaying] = useState(false)
+  const [rating, setRating] = useState(0)
   const playToolRoute = PLAY_TOOL_ROUTES[slug]
+
+  const shareGame = () => {
+    const text = `${game.name} — ${game.short_description || 'משחק לילדים'}\nהוראות ומשחק בחינם בעוגה בוגה: https://ugabuga.co.il/games/${slug}?utm_source=whatsapp&utm_medium=share&utm_campaign=game`
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
+  }
 
   if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><span className="text-5xl buga-bounce">🎂</span></div>
   if (!game) return (
@@ -89,8 +95,12 @@ export default function GamePage() {
             {playToolRoute ? (
               <Link to={playToolRoute.to} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">▶️ {playToolRoute.label}</Link>
             ) : (
-              <button onClick={() => setPlaying(true)} disabled={content.length===0} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer disabled:opacity-50">▶️ שחקו עכשיו</button>
+              content.length > 0
+                ? <button onClick={() => setPlaying(true)} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">▶️ שחקו עכשיו</button>
+                // No on-screen deck for this game: point to the full instructions instead of a dead, greyed-out button.
+                : <a href="#game-instructions" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">📖 איך משחקים</a>
             )}
+            <button onClick={shareGame} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#25D366] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">📱 שלחו בוואטסאפ</button>
             <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
           </div>
         </div>
@@ -107,7 +117,7 @@ export default function GamePage() {
 
       <p className="text-xl leading-relaxed mb-8">{game.short_description}</p>
 
-      <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow mb-6">
+      <div id="game-instructions" className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow mb-6 scroll-mt-24">
         <h2 className="text-2xl mb-4">📖 הוראות מלאות ועוד</h2>
         <Markdown text={game.instructions} className="font-hebrew text-lg leading-relaxed" />
       </div>
@@ -135,8 +145,8 @@ export default function GamePage() {
 
       <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow text-center mb-8">
         <p className="text-xl mb-3">היה לכם כיף?</p>
-        <div className="flex justify-center gap-3 text-3xl">{[1,2,3,4,5].map(n => <button key={n} className="transition-transform hover:scale-125 cursor-pointer">🎂</button>)}</div>
-        <p className="text-sm text-[var(--muted-foreground)] mt-2">חדש — אין דירוגים עדיין</p>
+        <div className="flex justify-center gap-3 text-3xl" role="radiogroup" aria-label="דרגו את המשחק">{[1,2,3,4,5].map(n => <button key={n} type="button" role="radio" aria-checked={rating===n} aria-label={`${n} מתוך 5`} onClick={() => setRating(n)} className={`transition-transform hover:scale-125 cursor-pointer ${rating && n > rating ? 'opacity-30 grayscale' : ''}`}>🎂</button>)}</div>
+        <p className="text-sm text-[var(--muted-foreground)] mt-2" role="status">{rating ? (rating >= 4 ? 'איזה כיף! 🎉 ספרו לחברים — כפתור הוואטסאפ למעלה' : 'תודה! יש לכם רעיון לשיפור? כתבו לנו בוואטסאפ בתחתית העמוד') : 'לחצו על העוגות כדי לדרג'}</p>
       </div>
 
       {related.length > 0 && (
