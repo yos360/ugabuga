@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 // "מנהרת הזמן של בוגה" — a daily discovery game. Every question comes pre-built and source-checked in
@@ -87,6 +87,10 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
   const [idx, setIdx] = useState(0)
   const [states, setStates] = useState([])
   const [streak, setStreak] = useState(0)
+  const boxRef = useRef(null)
+  const moved = useRef(false)
+  // After "next" the new question must be in view (on phones the button sits far below the clue).
+  useEffect(() => { if (!moved.current) return; boxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [idx])
 
   useEffect(() => {
     let alive = true
@@ -123,7 +127,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
   const max = questions.length * FULL
 
   return (
-    <section className="today-quiz mh" aria-label="מנהרת הזמן של בוגה">
+    <section ref={boxRef} className="today-quiz mh" aria-label="מנהרת הזמן של בוגה">
       <div className="today-head">
         <span className="today-date">📅 {dateLabel(dateKey)}{archive ? ' · מהארכיון' : ''}</span>
         {!hideTitle && <h2>⏳ מנהרת הזמן של בוגה</h2>}
@@ -132,7 +136,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
       {!done && <Question q={questions[idx]} n={idx} total={questions.length} dateKey={dateKey} state={states[idx]} last={idx === questions.length - 1}
         onHint={() => update(idx, { hints: states[idx].hints + 1 })}
         onAnswer={i => update(idx, { choice: i, points: i === questions[idx].answer ? Math.max(FULL - HINT_COST * states[idx].hints, HINT_COST) : 0 })}
-        onNext={() => idx === questions.length - 1 ? finish(states) : setIdx(idx + 1)} />}
+        onNext={() => { moved.current = true; idx === questions.length - 1 ? finish(states) : setIdx(idx + 1) }} />}
       {done && (
         <div className="mh-end">
           <div className="mh-score"><b>{correct}/{questions.length}</b><span>{score} מתוך {max} נקודות</span>{!archive && <span>🔥 רצף: {streak} {streak === 1 ? 'יום' : 'ימים'}</span>}</div>

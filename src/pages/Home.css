@@ -36,3 +36,4 @@
 @media(max-width:640px){.mh-clue p{font-size:16px}.mh-clue-emoji{font-size:30px}.mh-progress span{width:24px}}
 
 .mh-page-title{text-align:center;font-family:Fredoka,Heebo,sans-serif;font-size:clamp(30px,5vw,46px);margin:0 0 4px}
+.today-quiz.mh{scroll-margin-top:84px}

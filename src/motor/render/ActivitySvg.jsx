@@ -36,11 +36,14 @@ function Maze({ a, showSolution }) {
   }
   const cx = c => ox + (c + 0.5) * cell, cy = r => oy + (r + 0.5) * cell
   const iconSize = Math.min(12, Math.max(8, cell * 0.9))
+  // A point just outside the opening of a door cell (for the icon and the solution line's ends).
+  const outside = (p, gap) => p.open === 'n' ? [cx(p.c), oy - gap] : p.open === 's' ? [cx(p.c), oy + rows * cell + gap] : p.open === 'e' ? [ox + cols * cell + gap, cy(p.r)] : [ox - gap, cy(p.r)]
+  const [sx, sy] = outside(start, iconSize / 2 + 2), [gx, gy] = outside(goal, iconSize / 2 + 2)
   return <g>
     <path d={lines.join('')} stroke={INK} strokeWidth={stroke} strokeLinecap="round" fill="none" />
-    {showSolution && <polyline points={[[cx(start.c), oy - 2], ...solution.map(p => [cx(p.c), cy(p.r)]), [cx(goal.c), oy + rows * cell + 2]].map(p => p.join(',')).join(' ')} fill="none" stroke="#e5484d" strokeWidth={Math.max(0.8, cell * 0.18)} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 1.4" />}
-    <Icon id={a.startIcon} x={cx(start.c)} y={oy - iconSize / 2 - 2} size={iconSize} />
-    <Icon id={a.goalIcon} x={cx(goal.c)} y={oy + rows * cell + iconSize / 2 + 2} size={iconSize} />
+    {showSolution && <polyline points={[outside(start, 2), ...solution.map(p => [cx(p.c), cy(p.r)]), outside(goal, 2)].map(p => p.join(',')).join(' ')} fill="none" stroke="#e5484d" strokeWidth={Math.max(0.8, cell * 0.18)} strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 1.4" />}
+    <Icon id={a.startIcon} x={sx} y={sy} size={iconSize} />
+    <Icon id={a.goalIcon} x={gx} y={gy} size={iconSize} />
   </g>
 }
 

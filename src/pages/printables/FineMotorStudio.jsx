@@ -38,13 +38,14 @@ function Choice({ group, value, onChange, items, render }) {
 
 export default function FineMotorStudio() {
   const [params, setParams] = useSearchParams()
-  const [seed0] = useState(newSeed)
+  // A shared link carries its seed (s=…) and shows exactly that page; otherwise every visit/refresh draws a new one.
+  const [seed, setSeed] = useState(() => +params.get('s') || newSeed())
   const cfg = {
     type: GENERATORS.some(g => g.id === params.get('t')) ? params.get('t') : 'maze',
     age: AGES.some(a => a.id === params.get('a')) ? params.get('a') : '4-5',
     difficulty: DIFFICULTIES.some(d => d.id === params.get('d')) ? params.get('d') : 'medium',
     theme: THEMES.some(t => t.id === params.get('th')) ? params.get('th') : 'space',
-    seed: +params.get('s') || seed0,
+    seed,
   }
   const [interactive, setInteractive] = useState(false)
   const [answers, setAnswers] = useState({})
@@ -55,8 +56,17 @@ export default function FineMotorStudio() {
   const draw = useRef(null)
 
   const activity = useMemo(() => createActivity(cfg), [cfg.type, cfg.age, cfg.difficulty, cfg.theme, cfg.seed]) // eslint-disable-line react-hooks/exhaustive-deps
-  const set = patch => { setParams({ t: cfg.type, a: cfg.age, d: cfg.difficulty, th: cfg.theme, s: String(cfg.seed), ...patch }, { replace: true }); setAnswers({}); setPicker(null); draw.current?.clear() }
-  const another = () => set({ s: String(newSeed()) })
+  const set = patch => { setParams({ t: cfg.type, a: cfg.age, d: cfg.difficulty, th: cfg.theme, ...patch }, { replace: true }); setSeed(newSeed()); setAnswers({}); setPicker(null); draw.current?.clear() }
+  const another = () => set({})
+  const [copied, setCopied] = useState(false)
+  const shareLink = () => {
+    const url = `${location.origin}/printables/fine-motor?t=${cfg.type}&a=${cfg.age}&d=${cfg.difficulty}&th=${cfg.theme}&s=${cfg.seed}`
+    const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2000) }
+    if (navigator.share) navigator.share({ title: activity.title, url }).catch(() => {})
+    else if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => window.prompt('העתיקו את הקישור:', url))
+    else window.prompt('העתיקו את הקישור:', url)
+  }
+  const NEW_LABEL = { maze: '✨ מבוך חדש', tracing: '✨ דף קווים חדש', pattern: '✨ דפוסים חדשים' }
 
   const printSet = useMemo(() => {
     if (!printing) return []
@@ -78,7 +88,7 @@ export default function FineMotorStudio() {
 
       <div className="motor-layout">
         <aside className="motor-panel">
-          <Choice group="סוג פעילות" value={cfg.type} onChange={t => set({ t, s: String(newSeed()) })} items={GENERATORS} render={g => <><span aria-hidden="true">{g.emoji}</span> {g.label}</>} />
+          <Choice group="סוג פעילות" value={cfg.type} onChange={t => set({ t })} items={GENERATORS} render={g => <><span aria-hidden="true">{g.emoji}</span> {g.label}</>} />
           <Choice group="גיל" value={cfg.age} onChange={a => set({ a })} items={AGES} />
           <Choice group="רמת קושי" value={cfg.difficulty} onChange={d => set({ d })} items={DIFFICULTIES} />
           <Choice group="נושא" value={cfg.theme} onChange={th => set({ th })} items={THEMES} render={t => <><span aria-hidden="true">{t.emoji}</span> {t.label}</>} />
@@ -96,6 +106,11 @@ export default function FineMotorStudio() {
         </aside>
 
         <section className="motor-stage" aria-label="הדף שנוצר">
+          <div className="motor-bar">
+            <button type="button" className="motor-new" onClick={another}>{NEW_LABEL[cfg.type]}</button>
+            <button type="button" onClick={() => setPrinting(true)}>🖨️ הדפסה</button>
+            <button type="button" onClick={shareLink}>{copied ? '✓ הקישור הועתק' : '🔗 שיתוף'}</button>
+          </div>
           <div className="motor-paper">
             <h2>{activity.title}</h2>
             <p className="motor-caption"><span>{activity.instruction}</span><span className="motor-name">שם: ______________</span></p>
@@ -112,7 +127,7 @@ export default function FineMotorStudio() {
               <button type="button" onClick={another}>🔁 עוד אחד כזה</button>
             </div>
           )}
-          {!interactive && <p className="motor-hint">🔁 לא אהבתם? <button type="button" className="motor-link" onClick={another}>עוד אחד כזה</button> – אותה הגדרה, דף חדש.</p>}
+          {!interactive && <p className="motor-hint">בכל לחיצה על „{NEW_LABEL[cfg.type].slice(2)}” – וגם בכל כניסה לעמוד – נוצר דף אחר.</p>}
         </section>
       </div>
 

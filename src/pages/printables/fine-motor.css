@@ -19,3 +19,6 @@
 .motor-sheet .motor-caption{width:100%}
 @media(max-width:860px){.motor-layout{grid-template-columns:minmax(0,1fr)}.motor-panel{position:static}}
 @media print{.motor-sheet .motor-caption{font-size:11pt}}
+.motor-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;margin:0 auto 12px}.motor-bar button{min-height:48px;border:2px solid #1d2233;border-radius:14px;background:#fff;font-weight:800;padding:6px 14px;box-shadow:2px 2px 0 #1d2233}
+.motor-bar .motor-new{background:#28a4ef;color:#fff;font-size:18px;flex:1 1 200px}
+@media(max-width:860px){.motor-stage{order:-1}}
