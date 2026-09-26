@@ -35,6 +35,8 @@ export const MENU_GROUPS = [
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
       { to: '/tools/trivia-quiz', label: 'טריוויה לכיתה', icon: '🎯' },
       { to: '/tools/eretz-ir', label: 'ארץ עיר', icon: '🌍' },
+      { to: '/board-games', label: 'משחקי לוח: דמקה ועוד', icon: '♟️' },
+      { to: '/words/opposites', label: 'הפכים ומילים נרדפות', icon: '🔄' },
       { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
       { to: '/printables/hebrew-letters', label: 'אותיות בעברית לכתיבה', icon: '✏️' },
       { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '🔤' },

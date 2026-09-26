@@ -7,6 +7,7 @@ import { GUIDES } from './guides'
 import { GIFT_AGES } from './gifts'
 import { categories as PRINTABLES } from '../pages/printables/PrintablesIndex'
 import { printableHref } from '../components/ui/PrintableCard'
+import { BOARD_GAMES } from '../boardgames/registry'
 
 export const KINDS = {
   game: { label: 'משחקים', order: 1 },
@@ -79,6 +80,8 @@ function buildStatic() {
   for (const [slug, k] of Object.entries(PARTY_KITS)) out.push({ to: `/ideas/themes/${slug}`, title: k.name, emoji: k.emoji, kind: 'idea', desc: k.desc })
   for (const g of GUIDES) out.push({ to: `/guides/${g.slug}`, title: g.title, emoji: g.emoji, kind: 'idea', desc: g.description })
   for (const age of GIFT_AGES) out.push({ to: `/gifts/${age}`, title: `מתנות לגיל ${age}`, emoji: '🎁', kind: 'idea', keys: `מתנה גיל ${age}` })
+  out.push({ to: '/board-games', title: 'משחקי לוח קלאסיים – לשחק וללמוד', emoji: '♟️', kind: 'game', desc: 'דמקה ועוד – נגד המחשב, נגד חבר ושיעורים.', keys: 'משחק לוח לוח קלאסי' })
+  for (const g of BOARD_GAMES) out.push({ to: `/board-games/${g.slug}`, title: `${g.name} – לשחק, ללמוד וחוקים`, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק לוח ${g.name} חוקי ${g.name} ללמוד ${g.name} אונליין` })
   // every date page of the time tunnel ("מה קרה ב-14 במרץ?")
   const HM = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
   ;[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((len, m) => { for (let d = 1; d <= len; d++) out.push({ to: `/time-tunnel/${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, title: `מה קרה ב-${d} ב${HM[m]}?`, emoji: '⏳', kind: 'page', desc: 'ימים מיוחדים, אירועים ומי נולד בתאריך הזה', keys: `מנהרת הזמן תאריך ${d} ${HM[m]}`, low: true }) })

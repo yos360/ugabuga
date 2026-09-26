@@ -1,0 +1,24 @@
+.bg-head{text-align:center;margin-bottom:12px}.bg-head h1{font-family:Fredoka,Heebo,sans-serif;font-size:clamp(26px,5vw,42px);margin:0 0 6px}.bg-head p{font-size:17px;color:#4d556a;max-width:720px;margin:0 auto}
+.bg-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:8px!important;font-weight:700;color:#1d2233!important}
+.bg-tabs{display:flex;justify-content:center;gap:8px;margin:14px 0}.bg-tabs button{border:2px solid #1d2233;border-radius:999px;padding:8px 18px;background:#fff;font-weight:800;font-size:17px}.bg-tabs button.is-on{background:#ffd23f}
+.bg-box{background:#fff;border:2px solid #1d2233;border-radius:20px;box-shadow:4px 4px 0 #1d2233;padding:16px;margin:0 0 22px}.bg-box h2{font-size:22px;margin:0 0 8px}
+.bg-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;margin-bottom:10px;font-weight:700}.bg-controls select{border:2px solid #1d2233;border-radius:10px;padding:4px 8px;font-weight:700;background:#fff}
+.bg-status{text-align:center;font-weight:800;font-size:18px;margin:6px 0 10px;min-height:1.5em}
+.bg-score{display:flex;justify-content:center;gap:20px;font-weight:700;margin-top:8px}
+.bg-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:12px}.bg-actions button{border:2px solid #1d2233;border-radius:14px;padding:9px 16px;font-weight:800;background:#fff}.bg-actions button:disabled{opacity:.45}
+.bg-actions .bg-primary,.bg-primary{background:#1d2233!important;color:#fff}.bg-actions-top{justify-content:flex-start;margin:0 0 8px}
+.ck-board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));width:min(100%,520px);aspect-ratio:1;margin:0 auto;border:6px solid #6b4226;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px #1d223340;touch-action:manipulation}
+.ck-board .ck-cell{position:relative;display:grid;place-items:center;border:0;padding:0;min-width:0;min-height:0;border-radius:0}.ck-cell.is-light{background:#f3dfb8;cursor:default}.ck-cell.is-dark{background:#a0673d}
+.ck-cell.is-last{background:#c9894f}.ck-cell.is-path{background:#d9a13d}.ck-cell.is-target{cursor:pointer}
+.ck-cell.is-must .ck-piece{box-shadow:0 0 0 4px #ffd23f,0 3px 0 #0005}
+.ck-piece{width:78%;height:78%;border-radius:50%;display:grid;place-items:center;font-size:clamp(12px,3.5vw,22px);box-shadow:0 3px 0 #0005,inset 0 -4px 0 #0003;transition:transform .15s}
+.ck-dark{background:radial-gradient(circle at 35% 30%,#4a4f66,#15182a)}.ck-light{background:radial-gradient(circle at 35% 30%,#fff,#e4d6c0);border:1px solid #b8a78c}
+.ck-piece.is-sel{transform:scale(1.1);box-shadow:0 0 0 4px #28c76f,0 4px 0 #0005}
+.ck-dot{width:30%;height:30%;border-radius:50%;background:#28c76fcc;box-shadow:0 0 0 3px #fff8}
+.bg-learn h3{text-align:center;font-size:22px;margin:6px 0}.bg-lesson-text{text-align:center;font-size:17px;max-width:620px;margin:0 auto 10px;line-height:1.6}
+.bg-lesson-steps{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 8px}.bg-lesson-steps button{width:34px;height:34px;border-radius:50%;border:2px solid #1d2233;background:#fff;font-weight:800}.bg-lesson-steps button.is-on{background:#ffd23f}
+.bg-lesson-ok,.bg-lesson-no{text-align:center;font-weight:800;font-size:18px;border-radius:12px;padding:8px;max-width:560px;margin:0 auto 10px}.bg-lesson-ok{background:#c9f5d4}.bg-lesson-no{background:#ffe0e0}
+.bg-rules section{margin-bottom:12px}.bg-rules h3{font-size:19px;margin:0 0 4px}.bg-rules p{margin:0 0 6px;line-height:1.65}
+.bg-more{margin-top:18px;font-weight:600}.bg-more a{color:#1b6fa8;text-decoration:underline}
+.bg-hub{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.bg-card{display:block;text-align:center;background:#fff;border:2px solid #1d2233;border-radius:18px;box-shadow:4px 4px 0 #1d2233;padding:16px;text-decoration:none;color:#1d2233;transition:transform .15s}.bg-card:hover{transform:translateY(-3px)}.bg-card-emoji{font-size:44px}.bg-card h2{font-size:24px;margin:4px 0}.bg-card p{color:#4d556a;margin:0 0 6px}
+.bg-print h2{text-align:center}.bg-print .bg-rules p{font-size:12pt}
