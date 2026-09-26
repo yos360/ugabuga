@@ -1,4 +1,4 @@
-import { writeFile, readFile } from 'node:fs/promises'
+import { writeFile, readFile, mkdir } from 'node:fs/promises'
 // (refreshed daily by GitHub Actions and on every site build)
 
 // Saves a copy of all active games + their content packs from the games database into
@@ -8,6 +8,7 @@ import { writeFile, readFile } from 'node:fs/promises'
 const URL_ = 'https://judhoitufvlqxjhjgnsm.supabase.co/rest/v1'
 const KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
 const OUT = new URL('../public/data/games-snapshot.json', import.meta.url)
+await mkdir(new URL('../public/data/', import.meta.url), { recursive: true })
 
 async function all(table, query) {
   const rows = []
