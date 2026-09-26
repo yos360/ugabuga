@@ -65,6 +65,8 @@ try {
       const path = paths[next++]
       await page.goto(origin + path, { waitUntil: 'networkidle' })
       await page.locator('main h1').waitFor()
+      // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
+      if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
       const result = await page.evaluate(() => {
         const canonical = [...document.querySelectorAll('link[rel="canonical"]')]
         const descriptions = [...document.querySelectorAll('meta[name="description"]')]

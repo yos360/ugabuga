@@ -37,3 +37,11 @@
 
 .mh-page-title{text-align:center;font-family:Fredoka,Heebo,sans-serif;font-size:clamp(30px,5vw,46px);margin:0 0 4px}
 .today-quiz.mh{scroll-margin-top:84px}
+.tt-lead{max-width:680px;margin:6px auto 14px;font-size:17px}.tt-soon{font-size:18px;font-weight:700;color:#1d2233;background:#fff6d6;border:2px solid #222;border-radius:14px;padding:12px;max-width:680px;margin:10px auto}
+.tt-facts{max-width:900px;margin:18px auto;direction:rtl}.tt-facts details{background:#fff;border:2px solid #222;border-radius:16px;padding:12px 16px;box-shadow:3px 3px 0 #222}.tt-facts summary{cursor:pointer;font-weight:800;font-size:19px}
+.tt-facts h2{font-size:22px;margin:16px 0 8px}.tt-facts ul{margin:0;padding:0 18px 0 0}.tt-facts li{margin:4px 0}
+.tt-fact-list{list-style:none;padding:0!important}.tt-fact-list li{display:flex;gap:12px;align-items:flex-start;border-top:1px dashed #d7dbe6;padding:10px 0}.tt-fact-list p{margin:3px 0 0;color:#4d556a;font-size:15px}.tt-fact-list a{color:#1b6fa8;text-decoration:underline;font-size:14px}
+.tt-year{flex:none;min-width:64px;text-align:center;font-weight:800;background:#ffd23f;border:2px solid #222;border-radius:10px;padding:2px 6px}
+.tt-prevnext{display:flex;justify-content:space-between;gap:8px;max-width:900px;margin:16px auto;flex-wrap:wrap}.tt-prevnext a{font-weight:800;color:#1b6fa8;text-decoration:underline}
+.tt-cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}.tt-cal-month{background:#fff;border:2px solid #222;border-radius:14px;padding:10px}.tt-cal-month h3{margin:0 0 6px;font-size:18px;text-align:center}
+.tt-cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.tt-cal-days a{display:block;text-align:center;padding:4px 0;border-radius:8px;text-decoration:none;color:#222;font-weight:700;font-size:14px;background:#f3f4f8}.tt-cal-days a:hover{background:#ffe899}.tt-cal-days a.is-today{background:#ffd23f;outline:2px solid #222}.tt-cal-days a.is-current{background:#1d2233;color:#fff}
