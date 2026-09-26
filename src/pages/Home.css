@@ -18,3 +18,19 @@
 .today-share{background:#25d366;color:#fff;border:2px solid #222;border-radius:14px;padding:10px 16px;font:inherit;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 #222}
 @media(max-width:640px){.today-quiz{margin:24px 0;padding:18px 14px;border-radius:20px}.today-options{grid-template-columns:minmax(0,1fr)}.today-option{font-size:15px;padding:11px 12px}.today-q-title{font-size:17px}}
 @media print{.today-quiz{display:none}}
+/* "מה היום?" daily discovery game */
+.mh-card{margin-top:6px}
+.mh-progress{display:flex;justify-content:center;gap:8px;margin:4px 0 14px}.mh-progress span{width:34px;height:8px;border-radius:99px;background:#e4e0d4}.mh-progress .is-done{background:#2e9c3a}.mh-progress .is-now{background:#28a4ef}
+.mh-lead{font-family:Fredoka,Heebo,sans-serif;font-weight:800;font-size:clamp(20px,2.6vw,24px);text-align:center;margin:0 0 10px}
+.mh-clue{display:flex;gap:12px;align-items:center;background:#fff;border:2px dashed #222;border-radius:18px;padding:14px 16px;margin-bottom:12px}.mh-clue p{margin:0;font-size:18px;line-height:1.5;font-weight:600}.mh-clue-emoji{font-size:36px;flex:none}
+.mh-hints{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px}.mh-hints li{background:#fff3c4;border-radius:12px;padding:8px 12px;font-size:16px}
+.mh-hint-btn{display:block;margin:0 auto 14px;background:#ffd23f;border:2px solid #222;border-radius:999px;padding:8px 18px;font:inherit;font-weight:800;cursor:pointer;box-shadow:2px 2px 0 #222}.mh-hint-btn small{font-weight:600;opacity:.75}
+.mh-reveal{margin-top:14px;background:#f1f7ff;border:2px solid #28a4ef;border-radius:16px;padding:12px 16px}.mh-reveal p{margin:0 0 8px;font-size:16px;line-height:1.5}.mh-verdict{font-weight:800;font-size:18px!important}
+.mh-src{display:flex;gap:16px;font-size:14px!important}.mh-src a{color:#1b6fa8;text-decoration:underline}
+.mh-next,.mh-again{display:inline-block;background:#28a4ef;color:#fff;border:2px solid #222;border-radius:14px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;box-shadow:3px 3px 0 #222;text-decoration:none}.mh-again{background:#fff;color:#222}
+.mh-end{text-align:center}.mh-score{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;align-items:baseline;margin:6px 0}.mh-score b{font-family:Fredoka,Heebo,sans-serif;font-size:44px}.mh-score span{font-weight:700;font-size:18px}
+.mh-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:12px}
+.mh-note{text-align:center;color:#5d6377}.mh-archive{max-width:900px;margin:10px auto 0;direction:rtl}.mh-archive h2{font-size:26px;margin:0 0 12px}
+.mh-archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}.mh-archive-grid a{background:#fff;border:2px solid #222;border-radius:12px;padding:8px;text-align:center;font-weight:700;text-decoration:none;color:#222}.mh-archive-grid a.is-current{background:#ffd23f}
+.mh-about{margin-top:16px;font-size:14px;color:#5d6377}
+@media(max-width:640px){.mh-clue p{font-size:16px}.mh-clue-emoji{font-size:30px}.mh-progress span{width:24px}}

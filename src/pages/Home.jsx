@@ -6,6 +6,7 @@ import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
 import TodayQuiz from '../components/home/TodayQuiz'
+import TodayGame from '../components/home/TodayGame'
 
 function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
@@ -71,7 +72,7 @@ export default function Home() {
     </section>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();navigate('/games'+(query.trim()?'?q='+encodeURIComponent(query.trim()):''))}}><button aria-label="חיפוש משחקים"><Search size={29}/></button><input aria-label="חפשו משחק עכשיו" placeholder="חפשו משחק עכשיו" type="search" value={query} onChange={e=>setQuery(e.target.value)}/></form>
-    <TodayQuiz />
+    <TodayGame fallback={<TodayQuiz />} />
     <section className="home-featured">
       <h2>משחקים מוחזקים</h2>
       <div className="home-carousel-wrap">
