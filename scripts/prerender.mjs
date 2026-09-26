@@ -51,7 +51,7 @@ try {
   // Never record analytics/activity or depend on third-party availability at build time.
   // Supabase is allowed so individual game pages can load their data at build time
   // (see the game-page pass below); everything else third-party is still blocked.
-  const SUPABASE_ORIGINS = ['https://judhoitufvlqxjhjgnsm.supabase.co', 'https://efhgyispuwxcplvzipcy.supabase.co']
+  const SUPABASE_ORIGINS = ['https://efhgyispuwxcplvzipcy.supabase.co']
   await context.route('**/*', route => {
     const url = new URL(route.request().url())
     // Never count prerender visits as supplier views or site activity.

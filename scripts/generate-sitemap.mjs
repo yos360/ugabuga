@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 //   1. public/sitemap-static.xml — the hand-curated hub/category/idea/tool pages.
 //      This file is also what scripts/prerender.mjs snapshots at build time, so its
 //      scope stays fixed and safe regardless of how many games exist in the database.
-//   2. The live Supabase `games` table — every active game gets its own
+//   2. public/data/games.json — every active game gets its own
 //      /games/{slug} entry, with `lastmod` from the row's `updated_at`.
 //
 // Individual game pages are intentionally left OUT of sitemap-static.xml (and so
@@ -34,9 +34,6 @@ import { readFile, writeFile } from 'node:fs/promises'
 // already in sitemap-static.xml, so only buga-terutzim stays here.
 const INTERIM_EXTRA_GAME_SLUGS = ['buga-terutzim']
 
-const SUPABASE_URL = 'https://judhoitufvlqxjhjgnsm.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_4PcGG69NOxDcTf52pnptPg_XROLhWaj'
-
 async function getRedirectedGameSlugs() {
   const redirects = await readFile(new URL('../public/_redirects', import.meta.url), 'utf8')
   const slugs = new Set()
@@ -48,14 +45,9 @@ async function getRedirectedGameSlugs() {
 }
 
 async function getActiveGameSlugs() {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/games?select=slug,updated_at&status=eq.active&order=slug.asc`,
-    { headers: { apikey: SUPABASE_KEY } }
-  )
-  if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`)
-  const rows = await res.json()
-  if (!Array.isArray(rows)) throw new Error(`Unexpected Supabase response: ${JSON.stringify(rows).slice(0, 200)}`)
-  return rows
+  // Games live in the site itself (public/data/games.json) — no external database.
+  const rows = JSON.parse(await readFile(new URL('../public/data/games.json', import.meta.url), 'utf8'))
+  return rows.filter(g => g.status === 'active').map(g => ({ slug: g.slug, updated_at: g.updated_at }))
 }
 
 // Public supplier cards live in the site's own Supabase project.
