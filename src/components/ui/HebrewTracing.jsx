@@ -123,7 +123,13 @@ export function ClassNames({dotted}) {
   const [active,setActive]=useState('')
   const [confirmDel,setConfirmDel]=useState('')
   const [note,setNote]=useState('')
+  const [cursor,setCursor]=useState(0)
   const list=text.split(/\n|,/).map(s=>s.trim()).filter(Boolean)
+  // Live preview: the name on the line being typed (else the last name, else an example).
+  const lineAtCursor=(text.slice(0,cursor).split(/\n|,/).length-1)
+  const typed=(text.split(/\n|,/)[lineAtCursor]||'').trim()
+  const previewName=typed||list[list.length-1]||''
+  const trackCursor=e=>setCursor(e.target.selectionStart||0)
   const flash=t=>{setNote(t);setTimeout(()=>setNote(''),2500)}
   const changeText=v=>{ setText(v); try { localStorage.setItem(DRAFT_KEY, v) } catch { /* ignore */ } }
   const save=()=>{
@@ -149,7 +155,14 @@ export function ClassNames({dotted}) {
       </span>)}</div>
     </div>}
 
-    <textarea value={text} onChange={e=>changeText(e.target.value)} rows={5} placeholder={'נועה\nאיתי\nDaniel\nמאיה'} className="mb-3 w-full rounded-xl border-2 border-[var(--border)] bg-white p-3 text-lg" aria-label="רשימת שמות, שם בכל שורה"/>
+    <div className="mb-3 grid gap-4 sm:grid-cols-[minmax(0,1fr)_220px] sm:items-start">
+      <textarea value={text} onChange={e=>{changeText(e.target.value);trackCursor(e)}} onSelect={trackCursor} onKeyUp={trackCursor} onClick={trackCursor} rows={7} placeholder={'כתבו שם, למשל: יוסי\nנועה\nDaniel'} className="w-full rounded-xl border-2 border-[var(--border)] bg-white p-3 text-lg" aria-label="רשימת שמות, שם בכל שורה"/>
+      <figure className="mx-auto w-full max-w-[220px]" aria-live="polite">
+        <div className={`aspect-[210/297] overflow-hidden rounded-lg border-2 border-[var(--border)] bg-white shadow-sm ${previewName?'':'opacity-40'}`}><NameSheet name={previewName||'יוסי'} dotted={dotted}/></div>
+        <figcaption className="mt-1 text-center text-sm">{previewName?<>תצוגה מקדימה: <b>{previewName}</b></>:'כתבו שם – והדף יופיע כאן מיד'}</figcaption>
+        {previewName&&<button type="button" onClick={()=>setNames([previewName])} className="mt-1 w-full rounded-lg border-2 border-slate-800 bg-white py-1.5 text-sm font-bold">🖨️ הדפסת הדף הזה</button>}
+      </figure>
+    </div>
     <div className="flex flex-wrap items-center gap-3">
       <button disabled={!list.length} onClick={()=>setNames(list)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white disabled:opacity-50">🖨️ הדפיסו {list.length ? `${list.length} דפים` : 'לכל הילדים'}</button>
       {list.length>0 && <span className="text-sm">{list.length} שמות · דף לכל ילד</span>}
