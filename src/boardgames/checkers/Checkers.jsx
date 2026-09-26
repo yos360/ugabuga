@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import LessonRunner from '../LessonRunner'
 import { VARIANTS, LEVELS, newGame, legalMoves, applyMove, status, computerMove, rc, idx, isDark } from './engine'
 
 // Interactive checkers board. Selection is step-by-step: tap a piece, then each landing square of the
@@ -109,35 +110,3 @@ export function CheckersLearn({ onPlay }) {
   return <LessonRunner lessons={CHECKERS_LESSONS} onPlay={onPlay} render={(state, onMove, disabled) => <Board state={state} onMove={onMove} disabled={disabled} lastMove={state.history.at(-1)?.move} />} apply={applyMove} />
 }
 
-// Shared lesson runner (used by the other board games too).
-export function LessonRunner({ lessons, render, apply, onPlay }) {
-  const [n, setN] = useState(0)
-  const [state, setState] = useState(() => lessons[0].setup())
-  const [result, setResult] = useState(null) // 'ok' | 'no'
-  const L = lessons[n]
-  const go = k => { setN(k); setState(lessons[k].setup()); setResult(null) }
-  const onMove = m => {
-    const s = apply(state, m)
-    setState(s)
-    if (L.goal(m, s, state)) setResult('ok')
-    else { setResult('no'); setTimeout(() => { setState(L.setup()); setResult(null) }, 1400) }
-  }
-  return (
-    <div className="bg-learn">
-      <ol className="bg-lesson-steps" aria-label="שיעורים">
-        {lessons.map((l, k) => <li key={l.title}><button type="button" className={k === n ? 'is-on' : ''} onClick={() => go(k)}>{k + 1}</button></li>)}
-      </ol>
-      <h3>שיעור {n + 1}: {L.title}</h3>
-      <p className="bg-lesson-text">{L.text}</p>
-      {result === 'ok' && <p className="bg-lesson-ok" role="status">✔️ {L.ok}</p>}
-      {result === 'no' && <p className="bg-lesson-no" role="status">כמעט! נסו שוב…</p>}
-      {render(state, onMove, !!L.info || result === 'ok')}
-      <div className="bg-actions">
-        {(L.info || result === 'ok') && (n + 1 < lessons.length
-          ? <button type="button" className="bg-primary" onClick={() => go(n + 1)}>לשיעור הבא ←</button>
-          : <button type="button" className="bg-primary" onClick={onPlay}>🎮 לשחק משחק אמיתי</button>)}
-        {!L.info && <button type="button" onClick={() => go(n)}>🔁 להתחיל את השיעור מחדש</button>}
-      </div>
-    </div>
-  )
-}
