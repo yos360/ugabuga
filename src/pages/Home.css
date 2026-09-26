@@ -34,3 +34,5 @@
 .mh-archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}.mh-archive-grid a{background:#fff;border:2px solid #222;border-radius:12px;padding:8px;text-align:center;font-weight:700;text-decoration:none;color:#222}.mh-archive-grid a.is-current{background:#ffd23f}
 .mh-about{margin-top:16px;font-size:14px;color:#5d6377}
 @media(max-width:640px){.mh-clue p{font-size:16px}.mh-clue-emoji{font-size:30px}.mh-progress span{width:24px}}
+
+.mh-page-title{text-align:center;font-family:Fredoka,Heebo,sans-serif;font-size:clamp(30px,5vw,46px);margin:0 0 4px}

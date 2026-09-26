@@ -29,8 +29,9 @@ export default function MaHayom() {
     <div className="mx-auto max-w-4xl px-4 py-8">
       <SEO title={title} description="כל יום כמה דברים אמיתיים שקרו בדיוק בתאריך הזה – ימים מיוחדים, אירועים היסטוריים ומי נולד היום. מגלים בעזרת רמזים." path={key ? `/time-tunnel/${key}` : '/time-tunnel'} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: key ? '/time-tunnel' : undefined }, ...(key ? [{ label: dateLabel(key) }] : [])]} />
+      <h1 className="mh-page-title">⏳ מנהרת הזמן של בוגה</h1>
       {day && !valid && <p className="mh-note">אפשר לשחק רק בתאריכים שכבר הגיעו 🙂 הנה המשחק של היום:</p>}
-      <TodayGame key={key || 'today'} dateKey={key || undefined} archive={!!key}
+      <TodayGame key={key || 'today'} dateKey={key || undefined} archive={!!key} hideTitle
         fallback={<p className="mh-note">עוד אין משחק לתאריך הזה – בחרו יום מהארכיון.</p>} />
       <section id="archive" className="mh-archive">
         <h2>📚 ימים קודמים</h2>

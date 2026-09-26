@@ -80,7 +80,7 @@ function Question({ q, n, total, dateKey, state, onHint, onAnswer, onNext, last 
   )
 }
 
-export default function TodayGame({ dateKey: forcedKey, archive = false, fallback = null }) {
+export default function TodayGame({ dateKey: forcedKey, archive = false, fallback = null, hideTitle = false }) {
   const [now] = useState(() => new Date())
   const dateKey = forcedKey || todayKey(now)
   const [questions, setQuestions] = useState(undefined) // undefined = loading, null = no data
@@ -126,7 +126,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
     <section className="today-quiz mh" aria-label="מנהרת הזמן של בוגה">
       <div className="today-head">
         <span className="today-date">📅 {dateLabel(dateKey)}{archive ? ' · מהארכיון' : ''}</span>
-        <h2>⏳ מנהרת הזמן של בוגה</h2>
+        {!hideTitle && <h2>⏳ מנהרת הזמן של בוגה</h2>}
         <p>{questions.length} דברים שקרו בדיוק בתאריך הזה. כמה מהם תצליחו לגלות – בעזרת הרמזים?</p>
       </div>
       {!done && <Question q={questions[idx]} n={idx} total={questions.length} dateKey={dateKey} state={states[idx]} last={idx === questions.length - 1}
