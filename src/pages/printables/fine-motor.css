@@ -1,0 +1,21 @@
+.motor-head{text-align:center;margin-bottom:22px}.motor-head h1{font-size:clamp(28px,4.5vw,44px);font-weight:900}.motor-head p{font-size:18px;color:#4d556a;margin-top:6px}
+.motor-layout{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start}
+.motor-panel{background:#fff;border:2px solid #1d2233;border-radius:20px;padding:16px;box-shadow:4px 4px 0 #1d2233;display:grid;gap:14px;position:sticky;top:12px}
+.motor-choice-label{display:block;font-weight:800;margin-bottom:6px}
+.motor-pills{display:flex;flex-wrap:wrap;gap:6px}.motor-pills button{border:2px solid #d7dbe6;background:#f7f8fb;border-radius:999px;padding:6px 12px;font-weight:700;min-height:40px}
+.motor-pills button.is-on{border-color:#1d2233;background:#ffd23f}
+.motor-actions{display:grid;gap:8px}.motor-actions button{min-height:46px;border:2px solid #1d2233;border-radius:14px;background:#fff;font-weight:800;box-shadow:2px 2px 0 #1d2233}
+.motor-actions .motor-primary{background:#28a4ef;color:#fff}
+.motor-print-opts{display:grid;gap:8px;font-size:15px}.motor-print-opts select{border:2px solid #d7dbe6;border-radius:10px;padding:4px 8px}
+.motor-paper{background:#fff;border:1px solid #d7dbe6;border-radius:8px;box-shadow:0 6px 24px #1d223326;aspect-ratio:210/297;padding:5% 5% 4%;display:flex;flex-direction:column;max-width:640px;margin:0 auto}
+.motor-paper h2{text-align:center;font-size:clamp(18px,3vw,26px);font-weight:900;margin:0 0 4px}
+.motor-caption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:clamp(12px,1.8vw,15px);margin:0 0 8px}.motor-name{white-space:nowrap;font-weight:700}
+.motor-paper .motor-svg{flex:1;min-height:0;width:100%}
+.motor-svg{display:block;user-select:none;-webkit-user-select:none}
+.motor-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:12px auto 0;max-width:640px}.motor-tools span{font-weight:700}
+.motor-tools button{min-height:44px;border:2px solid #1d2233;border-radius:12px;background:#fff;padding:4px 12px;font-weight:700}
+.motor-tools .motor-pick{padding:2px 6px;background:#fffbe6}
+.motor-hint{text-align:center;margin-top:10px;color:#4d556a}.motor-link{text-decoration:underline;font-weight:800;color:#1b6fa8}
+.motor-sheet .motor-caption{width:100%}
+@media(max-width:860px){.motor-layout{grid-template-columns:minmax(0,1fr)}.motor-panel{position:static}}
+@media print{.motor-sheet .motor-caption{font-size:11pt}}

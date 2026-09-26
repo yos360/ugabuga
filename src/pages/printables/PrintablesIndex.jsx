@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintableCard from '../../components/ui/PrintableCard'
 
 export const categories = [
+  { slug: 'fine-motor', emoji: '✏️', title: 'מוטוריקה עדינה – מחולל', count: 'חדש', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים – דף חדש בכל לחיצה, לפי גיל ונושא', special: true },
   { slug: 'roots-project', emoji: '🌳', title: 'עבודת שורשים', count: 'חדש', desc: 'עץ משפחה, שאלות ראיון ודפי כתיבה להדפסה', special: true },
   { slug: 'birthday-newspaper', emoji: '📰', title: 'עיתון יום הולדת', count: 'חדש', desc: 'עיתון אישי עם כותרות, עובדות, ברכות וחידון', special: true },
   { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
