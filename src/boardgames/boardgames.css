@@ -47,3 +47,12 @@
 .bgm-roll{background:#7548b3;color:#fff;border:0;border-radius:16px;padding:12px 22px;font-size:20px;font-weight:900;box-shadow:0 4px 0 #4b2a80}
 .bgm-hint{font-weight:700;color:#4d556a;font-size:15px;text-align:center}
 .bgm-msg{text-align:center;font-weight:700;color:#4d556a;margin:0 0 6px}
+/* chess */
+.ch-board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));width:min(100%,520px);aspect-ratio:1;margin:0 auto;border:6px solid #4e3524;border-radius:8px;overflow:hidden;box-shadow:0 8px 24px #1d223340;touch-action:manipulation}
+.ch-board .ch-cell{position:relative;min-width:0;min-height:0;border:0;padding:0;border-radius:0;display:grid;place-items:center}
+.ch-cell.is-light{background:#f0d9b5}.ch-cell.is-dark{background:#b58863}.ch-cell.is-last{box-shadow:inset 0 0 0 100px #f6f66966}.ch-cell.is-sel{box-shadow:inset 0 0 0 100px #7fc97f99}.ch-cell.is-check{background:radial-gradient(circle,#ff3b3b 0,#ff3b3b88 45%,transparent 75%)}
+.ch-piece{font-size:min(10.5vw,56px);line-height:1;user-select:none;font-family:"Segoe UI Symbol","Noto Sans Symbols 2","DejaVu Sans",serif}
+.ch-piece.is-w{color:#fff;-webkit-text-stroke:1.5px #1d2233;text-shadow:0 2px 2px #0005}.ch-piece.is-b{color:#1d2233;text-shadow:0 2px 2px #0004}
+.ch-dot{position:absolute;width:28%;height:28%;border-radius:50%;background:#1d223355}.ch-cap{position:absolute;inset:4%;border-radius:50%;border:5px solid #1d223355}
+.ch-rank,.ch-file{position:absolute;font-size:clamp(8px,1.8vw,11px);font-weight:800;color:#5c3d24;pointer-events:none}.ch-rank{top:2px;left:3px}.ch-file{bottom:1px;right:3px}
+.ch-captured{text-align:center;min-height:1.6em;margin:4px 0;font-size:22px;letter-spacing:2px;color:#1d2233}

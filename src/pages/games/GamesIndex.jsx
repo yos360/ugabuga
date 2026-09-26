@@ -132,7 +132,8 @@ export default function GamesIndex() {
 
       {error && (
         <div className="wobbly border-2 border-[var(--accent)] bg-red-50 p-4 mb-6 text-center">
-          <p className="font-bold text-[var(--accent)]">שגיאת טעינה: {error}</p>
+          <p className="font-bold text-[var(--accent)]">😕 לא הצלחנו לטעון את כל המשחקים כרגע. נסו לרענן את הדף בעוד רגע.</p>
+          <button type="button" className="mt-2 underline font-bold" onClick={() => location.reload()}>🔄 לנסות שוב</button>
         </div>
       )}
 

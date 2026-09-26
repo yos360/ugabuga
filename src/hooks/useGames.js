@@ -15,6 +15,28 @@ function withDifficulty(game) {
 
 let cachedGames = null
 
+// Fallback copy of the games database, refreshed daily by scripts/snapshot-games.mjs.
+let snapshotPromise = null
+const loadSnapshot = () => (snapshotPromise ||= fetch('/data/games-snapshot.json').then(r => (r.ok ? r.json() : null)).catch(() => null))
+const rank = t => t === 'GAME_ENGINE' ? 0 : t === 'GAME' ? 1 : 2
+const finish = rows => [...(rows || []), ...BUILT_IN_GAMES].map(withDifficulty)
+  .filter((game, index, list) => list.findIndex(item => item.slug === game.slug) === index)
+  .sort((a, b) => rank(a.content_type) - rank(b.content_type))
+
+const withTimeout = (promise, ms = 4000) => Promise.race([promise, new Promise((_, no) => setTimeout(() => no(new Error('timeout')), ms))])
+
+async function fetchGames() {
+  try {
+    const { data, error } = await withTimeout(supabase.from('games').select('*').eq('status', 'active').order('updated_at', { ascending: false }))
+    if (!error && data?.length) return { rows: data }
+    throw new Error(error?.message || 'no data')
+  } catch (err) {
+    console.warn('games database unreachable, using snapshot', err)
+    const snap = await loadSnapshot()
+    return snap?.games?.length ? { rows: snap.games } : { rows: [], failed: true }
+  }
+}
+
 export function useGames() {
   const [games, setGames] = useState(cachedGames || [])
   const [loading, setLoading] = useState(!cachedGames)
@@ -22,22 +44,16 @@ export function useGames() {
 
   useEffect(() => {
     if (cachedGames) return
-    supabase
-      .from('games')
-      .select('*')
-      .eq('status', 'active')
-      .order('updated_at', { ascending: false })
-      .then(({ data, error }) => {
-        if (error) { console.error('Supabase error:', error); setError(error.message); const sorted = [...localGames.map(withDifficulty), { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }].map(withDifficulty).sort((a, b) => (a.content_type || '').localeCompare(b.content_type || '')); cachedGames = sorted; setGames(sorted); setLoading(false); return }
-        const rank = t => t === 'GAME_ENGINE' ? 0 : t === 'GAME' ? 1 : 2
-        const townGame = { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }
-        const source = [...(data || []), ...BUILT_IN_GAMES].map(withDifficulty).filter((game, index, list) => list.findIndex((item) => item.slug === game.slug) === index)
-        const sorted = [...source].sort((a, b) => rank(a.content_type) - rank(b.content_type))
-        cachedGames = sorted
-        setGames(sorted)
-        setLoading(false)
-      })
-      .catch(err => { console.error('Fetch exception:', err); setError(String(err)); const fallback = BUILT_IN_GAMES.map(withDifficulty); cachedGames = fallback; setGames(fallback); setLoading(false) })
+    let alive = true
+    fetchGames().then(({ rows, failed }) => {
+      const list = finish(rows)
+      if (!failed) cachedGames = list
+      if (!alive) return
+      setGames(list)
+      if (failed) setError('offline')
+      setLoading(false)
+    })
+    return () => { alive = false }
   }, [])
 
   return { games, loading, error }
@@ -52,33 +68,35 @@ export function useGameBySlug(slug) {
 
   useEffect(() => {
     if (!slug) return
-    Promise.all([
+    let alive = true
+    const pickRelated = (g, pool) => pool.filter(x => x.slug !== g.slug).map(x => ({
+      game: x,
+      score: (x.category === g.category ? 3 : 0) + (x.goals || []).filter(v => (g.goals || []).includes(v)).length + (x.contexts || []).filter(v => (g.contexts || []).includes(v)).length,
+    })).sort((a, b) => b.score - a.score).slice(0, 4).map(x => x.game)
+    const fromSnapshot = async () => {
+      const snap = await loadSnapshot()
+      const g = snap?.games?.find(x => x.slug === slug) || BUILT_IN_GAMES.find(x => x.slug === slug)
+      if (!alive) return
+      if (g) {
+        setGame(withDifficulty(g))
+        setContent((snap?.content || []).filter(c => c.game_slug === slug))
+        setRelated(pickRelated(g, snap?.games || []))
+      } else setError('offline')
+      setLoading(false)
+    }
+    withTimeout(Promise.all([
       supabase.from('games').select('*').eq('slug', slug).eq('status', 'active').maybeSingle(),
       supabase.from('game_content').select('*').eq('game_slug', slug).order('pack_name').order('sort_order'),
-    ]).then(([gameRes, contentRes]) => {
-      if (gameRes.error) setError(gameRes.error.message)
-      if (gameRes.data) {
-        setGame(gameRes.data)
-        supabase.from('games').select('*').eq('status', 'active').neq('id', gameRes.data.id).limit(20)
-          .then(({ data: rel }) => {
-            const scored = (rel || []).map(g => ({
-              game: g,
-              score: (g.category === gameRes.data.category ? 3 : 0) +
-                (g.goals||[]).filter(x => (gameRes.data.goals||[]).includes(x)).length +
-                (g.contexts||[]).filter(x => (gameRes.data.contexts||[]).includes(x)).length,
-            })).sort((a, b) => b.score - a.score).slice(0, 4).map(x => x.game)
-            setRelated(scored)
-          })
-      }
-      // Database unreachable or game not there: fall back to the built-in copy if we have one.
-      if (!gameRes.data) { const local = BUILT_IN_GAMES.find(g => g.slug === slug); if (local) setGame(withDifficulty(local)) }
+    ])).then(([gameRes, contentRes]) => {
+      if (!alive) return
+      if (!gameRes.data) return fromSnapshot()
+      setGame(gameRes.data)
       setContent(contentRes.data || [])
       setLoading(false)
-    }).catch(err => {
-      const local = BUILT_IN_GAMES.find(g => g.slug === slug)
-      if (local) setGame(withDifficulty(local)); else setError(String(err))
-      setLoading(false)
-    })
+      supabase.from('games').select('*').eq('status', 'active').neq('id', gameRes.data.id).limit(20)
+        .then(({ data: rel }) => { if (alive) setRelated(pickRelated(gameRes.data, rel || [])) })
+    }).catch(fromSnapshot)
+    return () => { alive = false }
   }, [slug])
 
   return { game, related, content, loading, error }
