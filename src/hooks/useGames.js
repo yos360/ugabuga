@@ -37,7 +37,7 @@ export function useGames() {
         setGames(sorted)
         setLoading(false)
       })
-      .catch(err => { console.error('Fetch exception:', err); setError(String(err)); setLoading(false) })
+      .catch(err => { console.error('Fetch exception:', err); setError(String(err)); const fallback = BUILT_IN_GAMES.map(withDifficulty); cachedGames = fallback; setGames(fallback); setLoading(false) })
   }, [])
 
   return { games, loading, error }

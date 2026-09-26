@@ -71,7 +71,7 @@ export default function Home() {
       </button>
     </section>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
-    <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();navigate('/games'+(query.trim()?'?q='+encodeURIComponent(query.trim()):''))}}><button aria-label="חיפוש משחקים"><Search size={29}/></button><input aria-label="חפשו משחק עכשיו" placeholder="חפשו משחק עכשיו" type="search" value={query} onChange={e=>setQuery(e.target.value)}/></form>
+    <form className="home-search" role="search" onSubmit={e=>{e.preventDefault();navigate('/search'+(query.trim()?'?q='+encodeURIComponent(query.trim()):''))}}><button aria-label="חיפוש באתר"><Search size={29}/></button><input aria-label="חיפוש בכל האתר" placeholder="חפשו משחק, דף להדפסה או כלי" type="search" value={query} onChange={e=>setQuery(e.target.value)}/></form>
     <TodayGame fallback={<TodayQuiz />} />
     <section className="home-featured">
       <h2>משחקים מוחזקים</h2>

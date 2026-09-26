@@ -57,7 +57,7 @@ export default function Navbar() {
       }}>דילוג לתוכן</a>
       <div className="site-header-inner">
         <nav className="site-nav-primary" aria-label="ניווט ראשי">
-          <Link to="/games" className="site-icon-button" aria-label="חיפוש משחקים"><Search size={24} strokeWidth={1.7} /></Link>
+          <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
           <HeaderLink to="/games">{SECTION.games}</HeaderLink>
           <HeaderLink to="/birthday">{SECTION.birthday}</HeaderLink>
           <HeaderLink to="/classroom">{SECTION.classroom}</HeaderLink>
@@ -92,7 +92,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        <Link to="/games" className="site-icon-button site-mobile-search" aria-label="חיפוש משחקים"><Search size={22} /></Link>
+        <Link to="/search" className="site-icon-button site-mobile-search" aria-label="חיפוש באתר"><Search size={22} /></Link>
         <button ref={mobileButtonRef} className="site-icon-button site-mobile-toggle" type="button" aria-expanded={mobileOpen} aria-controls="site-mobile-menu"
           aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => setMobileOpen(open => !open)}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>

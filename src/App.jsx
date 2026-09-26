@@ -8,6 +8,7 @@ import { lazy, Suspense } from 'react'
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
+const Search = lazy(() => import('./pages/Search'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
@@ -133,6 +134,9 @@ export default function App() {
               <Route path="/games/kita-h" element={<CategoryPage />} />
               <Route path="/games/kita-v" element={<CategoryPage />} />
               <Route path="/games/:slug" element={<GamePage />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/time-tunnel" element={<MaHayom />} />
+              <Route path="/time-tunnel/:day" element={<MaHayom />} />
               <Route path="/ma-hayom" element={<MaHayom />} />
               <Route path="/ma-hayom/:day" element={<MaHayom />} />
               <Route path="/ideas" element={<IdeasHub />} />

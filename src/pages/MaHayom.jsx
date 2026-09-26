@@ -7,7 +7,7 @@ import '../pages/Home.css'
 
 const pad = n => String(n).padStart(2, '0')
 
-// /ma-hayom — today's game plus an archive of past dates; /ma-hayom/MM-DD plays one past date.
+// /time-tunnel (also /ma-hayom) — today's game plus an archive of past dates; /ma-hayom/MM-DD plays one past date.
 export default function MaHayom() {
   const { day } = useParams()
   const [now] = useState(() => new Date())
@@ -24,11 +24,11 @@ export default function MaHayom() {
     return () => { alive = false }
   }, [today])
 
-  const title = key ? `מה קרה ב-${dateLabel(key)}? – חידון "מה היום?"` : 'מה היום? – חידון גילוי יומי'
+  const title = key ? `מה קרה ב-${dateLabel(key)}? – מנהרת הזמן של בוגה` : 'מנהרת הזמן של בוגה – משחק גילוי יומי'
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={title} description="כל יום כמה דברים אמיתיים שקרו בדיוק בתאריך הזה – ימים מיוחדים, אירועים היסטוריים ומי נולד היום. מגלים בעזרת רמזים." path={key ? `/ma-hayom/${key}` : '/ma-hayom'} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מה היום?', href: key ? '/ma-hayom' : undefined }, ...(key ? [{ label: dateLabel(key) }] : [])]} />
+      <SEO title={title} description="כל יום כמה דברים אמיתיים שקרו בדיוק בתאריך הזה – ימים מיוחדים, אירועים היסטוריים ומי נולד היום. מגלים בעזרת רמזים." path={key ? `/time-tunnel/${key}` : '/time-tunnel'} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: key ? '/time-tunnel' : undefined }, ...(key ? [{ label: dateLabel(key) }] : [])]} />
       {day && !valid && <p className="mh-note">אפשר לשחק רק בתאריכים שכבר הגיעו 🙂 הנה המשחק של היום:</p>}
       <TodayGame key={key || 'today'} dateKey={key || undefined} archive={!!key}
         fallback={<p className="mh-note">עוד אין משחק לתאריך הזה – בחרו יום מהארכיון.</p>} />
@@ -36,7 +36,7 @@ export default function MaHayom() {
         <h2>📚 ימים קודמים</h2>
         {days.length ? (
           <div className="mh-archive-grid">
-            {days.map(k => <Link key={k} to={`/ma-hayom/${k}`} className={k === key ? 'is-current' : ''}>{dateLabel(k)}</Link>)}
+            {days.map(k => <Link key={k} to={`/time-tunnel/${k}`} className={k === key ? 'is-current' : ''}>{dateLabel(k)}</Link>)}
           </div>
         ) : <p className="mh-note">הארכיון יתמלא ככל שיעברו הימים.</p>}
         <p className="mh-about">כל העובדות במשחק נבדקו מול מקורות (ויקיפדיה בעברית ובאנגלית, ואתרי ימים מיוחדים), וליד כל תשובה יש קישור למקור. מצאתם טעות? יש כפתור "מצאתי טעות" בכל שאלה.</p>

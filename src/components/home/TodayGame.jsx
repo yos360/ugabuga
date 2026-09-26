@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-// "מה היום?" — a daily discovery game. Every question comes pre-built and source-checked in
+// "מנהרת הזמן של בוגה" — a daily discovery game. Every question comes pre-built and source-checked in
 // src/data/today-game/MM.json (see scripts/today-game): a clue is shown first, and up to three
 // graded hints can be opened (each costs points), so a kid can reason their way to the answer.
 // Everyone gets the same questions on the same date, so scores can be compared and shared.
@@ -45,7 +45,7 @@ function lead(q) {
 function Question({ q, n, total, dateKey, state, onHint, onAnswer, onNext, last }) {
   const answered = state.choice != null
   const right = answered && state.choice === q.answer
-  const report = `https://wa.me/${OWNER_WA}?text=${encodeURIComponent(`מצאתי טעות ב"מה היום?" של ${dateLabel(dateKey)}, שאלה ${n + 1}: `)}`
+  const report = `https://wa.me/${OWNER_WA}?text=${encodeURIComponent(`מצאתי טעות ב"מנהרת הזמן של בוגה" של ${dateLabel(dateKey)}, שאלה ${n + 1}: `)}`
   return (
     <div className="mh-card">
       <div className="mh-progress" aria-label={`שאלה ${n + 1} מתוך ${total}`}>
@@ -111,7 +111,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
   }
 
   const share = () => {
-    const text = `🗓️ "מה היום?" – ${dateLabel(dateKey)}\nגיליתי ${correct} מתוך ${questions.length} | ${score} נקודות${streak > 1 ? ` | 🔥 רצף ${streak} ימים` : ''}\nכמה אתם תגלו? https://ugabuga.co.il/ma-hayom${archive ? '/' + dateKey : ''}?utm_source=whatsapp&utm_medium=share&utm_campaign=ma_hayom`
+    const text = `⏳ "מנהרת הזמן של בוגה" – ${dateLabel(dateKey)}\nגיליתי ${correct} מתוך ${questions.length} | ${score} נקודות${streak > 1 ? ` | 🔥 רצף ${streak} ימים` : ''}\nכמה אתם תגלו? https://ugabuga.co.il/time-tunnel${archive ? '/' + dateKey : ''}?utm_source=whatsapp&utm_medium=share&utm_campaign=time_tunnel`
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
   }
 
@@ -123,10 +123,10 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
   const max = questions.length * FULL
 
   return (
-    <section className="today-quiz mh" aria-label="מה היום?">
+    <section className="today-quiz mh" aria-label="מנהרת הזמן של בוגה">
       <div className="today-head">
         <span className="today-date">📅 {dateLabel(dateKey)}{archive ? ' · מהארכיון' : ''}</span>
-        <h2>מה היום?</h2>
+        <h2>⏳ מנהרת הזמן של בוגה</h2>
         <p>{questions.length} דברים שקרו בדיוק בתאריך הזה. כמה מהם תצליחו לגלות – בעזרת הרמזים?</p>
       </div>
       {!done && <Question q={questions[idx]} n={idx} total={questions.length} dateKey={dateKey} state={states[idx]} last={idx === questions.length - 1}
@@ -140,7 +140,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
           <div className="mh-actions">
             <button type="button" className="today-share" onClick={share}>📱 אתגרו חבר בוואטסאפ</button>
             <button type="button" className="mh-again" onClick={restart}>🔁 שחקו שוב</button>
-            <Link to="/ma-hayom#archive" className="mh-again">📚 ימים קודמים</Link>
+            <Link to="/time-tunnel#archive" className="mh-again">📚 ימים קודמים</Link>
           </div>
         </div>
       )}
