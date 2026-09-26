@@ -30,4 +30,5 @@ try {
   console.log(`snapshot-games: saved ${games.length} games, ${content.length} content rows`)
 } catch (err) {
   console.warn(`snapshot-games: skipped – ${err.message}`)
+  if (process.env.GITHUB_ACTIONS) await writeFile(new URL('../public/data/snapshot-error.txt', import.meta.url), `${new Date().toISOString()} ${err.stack || err.message}\n`)
 }
