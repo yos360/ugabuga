@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 // The printables card, shared by /printables and the classroom hub so the same
 // sheet looks the same wherever it appears.
-export const printableHref = cat => cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug
+export const printableHref = cat => cat.href || (cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug)
 
 export default function PrintableCard({ cat, index = 0 }) {
   return <Link to={printableHref(cat)}

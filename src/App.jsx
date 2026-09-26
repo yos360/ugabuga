@@ -27,6 +27,7 @@ const PhotoProps = lazy(() => import('./pages/printables/PhotoProps'))
 const ColoringPages = lazy(() => import('./pages/printables/ColoringPages'))
 const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
 const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
+const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
@@ -172,6 +173,9 @@ export default function App() {
               <Route path="/printables/birthday-checklist" element={<BirthdayChecklist />} />
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
+              <Route path="/words/opposites" element={<WordPairsPage key="o" setId="opposites" />} />
+              <Route path="/words/synonyms" element={<WordPairsPage key="s" setId="synonyms" />} />
+              <Route path="/words" element={<Navigate to="/words/opposites" replace />} />
               <Route path="/printables/roots-project" element={<RootsProject />} />
               <Route path="/printables/birthday-newspaper" element={<BirthdayNewspaper />} />
               <Route path="/printables/photo-props" element={<PhotoProps />} />
