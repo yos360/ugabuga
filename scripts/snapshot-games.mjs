@@ -1,4 +1,5 @@
 import { writeFile, readFile } from 'node:fs/promises'
+// (snapshot refreshed daily; also runs on changes to this file)
 
 // Saves a copy of all active games + their content packs from the games database into
 // public/data/games-snapshot.json. The site falls back to this file whenever the database
