@@ -27,6 +27,11 @@ const PhotoProps = lazy(() => import('./pages/printables/PhotoProps'))
 const ColoringPages = lazy(() => import('./pages/printables/ColoringPages'))
 const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
 const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
+const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'))
+const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
+const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
+const LetterPage = lazy(() => import('./pages/letters/LetterPage'))
+const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
@@ -175,6 +180,15 @@ export default function App() {
               <Route path="/printables/birthday-checklist" element={<BirthdayChecklist />} />
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
+              <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
+              <Route path="/printables/math-worksheets" element={<MathWorksheets key="hub" preset="hub" />} />
+              <Route path="/printables/math-worksheets/up-to-10" element={<MathWorksheets key="10" preset="10" />} />
+              <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />
+              <Route path="/printables/math-paths" element={<MathWorksheets key="paths" preset="paths" />} />
+              <Route path="/letters" element={<LettersHub />} />
+              <Route path="/letters/game" element={<LettersGamePage key="he" lang="he" />} />
+              <Route path="/letters/:slug" element={<LetterPage />} />
+              <Route path="/abc/game" element={<LettersGamePage key="en" lang="en" />} />
               <Route path="/words/opposites" element={<WordPairsPage key="o" setId="opposites" />} />
               <Route path="/words/synonyms" element={<WordPairsPage key="s" setId="synonyms" />} />
               <Route path="/words" element={<Navigate to="/words/opposites" replace />} />

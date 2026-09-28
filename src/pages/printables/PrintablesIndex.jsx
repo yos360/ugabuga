@@ -4,6 +4,9 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintableCard from '../../components/ui/PrintableCard'
 
 export const categories = [
+  { slug: 'math-worksheets', href: '/printables/math-worksheets', emoji: '➕', title: 'דפי עבודה בחשבון לכיתה א׳', count: 'חדש', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים — דף חדש בכל לחיצה, עם פתרונות', special: true },
+  { slug: 'letter-flashcards', href: '/printables/letter-flashcards', emoji: '🃏', title: 'כרטיסיות אותיות', count: 'חדש', desc: 'א׳–ת׳ ו־A–Z עם תמונה ומילה, 8 כרטיסיות בדף לגזירה', special: true },
+  { slug: 'letters', href: '/letters', emoji: '🔤', title: 'לימוד אותיות בעברית', count: 22, desc: 'עמוד לכל אות: איך כותבים, מילים, משחק ודף תרגול', special: true },
   { slug: 'fine-motor', emoji: '✏️', title: 'מוטוריקה עדינה – מחולל', count: 'חדש', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים – דף חדש בכל לחיצה, לפי גיל ונושא', special: true },
   { slug: 'opposites', href: '/words/opposites', emoji: '🔄', title: 'הפכים – משחקים ודפי עבודה', count: 'חדש', desc: 'גדול–קטן, חם–קר: משחקים על המסך ודף עבודה חדש בכל לחיצה, לגן ולבית הספר', special: true },
   { slug: 'synonyms', href: '/words/synonyms', emoji: '🟰', title: 'מילים נרדפות – משחקים ודפי עבודה', count: 'חדש', desc: 'שמח–עליז, לחכות–להמתין: משחקים ודפי עבודה לפי גיל', special: true },
