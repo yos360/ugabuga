@@ -42,6 +42,12 @@ const BugaTown = lazy(() => import('./pages/tools/BugaTown'))
 const EscapeRooms = lazy(() => import('./pages/tools/EscapeRooms'))
 const Dice = lazy(() => import('./pages/tools/Dice'))
 const RubiksCube = lazy(() => import('./pages/tools/RubiksCube'))
+const HolidaysHub = lazy(() => import('./pages/holidays/HolidaysHub'))
+const HanukkahHub = lazy(() => import('./pages/holidays/HanukkahHub'))
+const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
+const HanukkahQuiz = lazy(() => import('./pages/holidays/HanukkahQuiz'))
+const HanukkahPrintables = lazy(() => import('./pages/holidays/HanukkahPrintables'))
+const HanukkahIdeas = lazy(() => import('./pages/holidays/HanukkahIdeas'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
@@ -225,6 +231,15 @@ export default function App() {
               <Route path="/games/escape-rooms" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
               <Route path="/rubiks-cube" element={<RubiksCube />} />
+              <Route path="/holidays" element={<HolidaysHub />} />
+              <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
+              <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
+              <Route path="/holidays/hanukkah/quiz" element={<HanukkahQuiz />} />
+              <Route path="/holidays/hanukkah/coloring" element={<HanukkahPrintables key="c" kind="coloring" />} />
+              <Route path="/holidays/hanukkah/worksheets" element={<HanukkahPrintables key="w" kind="worksheets" />} />
+              <Route path="/holidays/hanukkah/what-to-do" element={<HanukkahIdeas />} />
+              <Route path="/sevivon" element={<Navigate to="/holidays/hanukkah/sevivon" replace />} />
+              <Route path="/hanukkah" element={<Navigate to="/holidays/hanukkah" replace />} />
               <Route path="/tools/rubiks-cube" element={<RubiksCube />} />
               <Route path="/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />

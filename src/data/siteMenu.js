@@ -32,6 +32,7 @@ export const MENU_GROUPS = [
     items: [
       { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
       { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
+      { to: '/holidays/hanukkah', label: 'חנוכה: סביבון, חידון ודפים', icon: '🕎' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
       { to: '/letters', label: 'לימוד אותיות בעברית', icon: '🔤' },
       { to: '/rubiks-cube', label: 'פתרון קובייה הונגרית', icon: '🧊' },
