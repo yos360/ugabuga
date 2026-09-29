@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile, readdir } from 'node:fs/promises'
 
 // Builds public/sitemap.xml (submitted to Google via robots.txt) from two sources:
 //   1. public/sitemap-static.xml — the hand-curated hub/category/idea/tool pages.
@@ -60,6 +60,21 @@ async function getSupplierSlugs() {
   return Array.isArray(rows) ? rows.map(r => r.slug).filter(s => /^[a-z0-9-]{3,40}$/.test(s || '')) : []
 }
 
+// Holiday areas: every src/holidays/*.jsx config declares `const base = '/holidays/…'`
+// and its pages as `to: base` / `to: base + '/…'`. Read them straight from the source
+// so a new holiday reaches the sitemap without editing any list by hand.
+async function getHolidayUrls() {
+  const dir = new URL('../src/holidays/', import.meta.url)
+  const urls = []
+  for (const f of (await readdir(dir)).filter(f => f.endsWith('.jsx'))) {
+    const src = await readFile(new URL(f, dir), 'utf8')
+    const base = src.match(/const base = '(\/holidays\/[a-z0-9-]+)'/)?.[1]
+    if (!base) continue
+    for (const m of src.matchAll(/to: base(?: \+ '(\/[a-z0-9-]+)')?[,\s}]/g)) urls.push(base + (m[1] || ''))
+  }
+  return [...new Set(urls)]
+}
+
 async function main() {
   const staticXml = await readFile(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8')
 
@@ -93,6 +108,17 @@ async function main() {
     console.log(`generate-sitemap: added ${slugs.length} supplier pages.`)
   } catch (err) {
     console.warn(`generate-sitemap: could not fetch suppliers, skipping them. ${err.message}`)
+  }
+
+  try {
+    let added = 0
+    for (const u of await getHolidayUrls()) {
+      if (staticXml.includes(`https://ugabuga.co.il${u}</loc>`)) continue
+      lines.push(`  <url><loc>https://ugabuga.co.il${u}</loc> <priority>0.8</priority></url>`); added++
+    }
+    console.log(`generate-sitemap: added ${added} holiday pages.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not read holiday configs. ${err.message}`)
   }
 
   const gameUrls = lines.join('\n')

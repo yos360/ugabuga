@@ -1,24 +1,20 @@
 import { Link } from 'react-router-dom'
+import { upcomingHoliday } from '../../holidays/list'
 
 // A slim one-line pointer to the next holiday's area, shown on the home page.
-// Each entry shows from `from` until the holiday ends; add the next holiday here
-// when its area is built (ט״ו בשבט, פורים…).
-const SEASONS = [
-  { from: '2026-09-01', until: '2026-12-13', emoji: '🕎', to: '/holidays/hanukkah', title: 'חנוכה מתקרב', text: 'סביבון, חידון ודפי צביעה' },
-  { from: '2026-12-13', until: '2027-01-24', emoji: '🌳', to: '/holidays/tu-bishvat', title: 'ט״ו בשבט מתקרב', text: 'שבעת המינים, חידון ודפי צביעה' },
-]
-
-export const currentSeason = (now = new Date()) => SEASONS.find(s => now >= new Date(s.from) && now < new Date(s.until))
-
+// It picks the next holiday automatically from the holiday configs.
 export default function HolidayBanner({ className = '' }) {
-  const s = currentSeason()
-  if (!s) return null
+  const h = upcomingHoliday()
+  if (!h) return null
+  const started = new Date() >= new Date(h.info.start)
   return (
-    <Link to={s.to} dir="rtl" className={`wobbly-sm mx-auto flex w-fit max-w-full items-center gap-2 border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-1.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:text-base ${className}`}>
-      <span aria-hidden="true">{s.emoji}</span>
-      <span>{s.title}</span>
-      <span className="font-normal text-[var(--muted-foreground)]">· {s.text}</span>
+    <Link to={h.base} dir="rtl" className={`wobbly-sm mx-auto flex w-fit max-w-full items-center gap-2 border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-1.5 text-sm font-bold transition-transform hover:-translate-y-0.5 sm:text-base ${className}`}>
+      <span aria-hidden="true">{h.emoji}</span>
+      <span>{started ? `${h.name} שמח!` : `${h.name} מתקרב`}</span>
+      <span className="font-normal text-[var(--muted-foreground)]">· {h.bannerText || summaryShort(h)}</span>
       <span aria-hidden="true">←</span>
     </Link>
   )
 }
+
+const summaryShort = h => h.pages.slice(1, 4).map(p => p.label).join(', ')

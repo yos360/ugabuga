@@ -6,6 +6,7 @@ const base = '/holidays/tu-bishvat'
 
 export const TUBISHVAT_H = {
   slug: 'tu-bishvat', name: 'ט״ו בשבט', emoji: '🌳', base, info: TUBISHVAT,
+  summary: 'שבעת המינים ומשחק זיכרון, חידון, דפי צביעה ודפי עבודה, ופעילויות לגן', bannerText: 'שבעת המינים, חידון ודפי צביעה',
   tab: 'bg-green-200', soft: 'bg-green-50',
   pages: [
     { to: base, label: 'הכול על ט״ו בשבט', emoji: '🌳' },
@@ -49,12 +50,12 @@ export const TUBISHVAT_H = {
       related: [{ label: 'דפי צביעה לט״ו בשבט', href: base + '/coloring' }, { label: 'דפי עבודה בחשבון לכיתה א׳', href: '/printables/math-worksheets' }],
     },
   },
-  ideas: {
+  lists: { 'what-to-do': {
     groups: TUBISHVAT_IDEAS, crumb: 'פעילויות',
     title: 'פעילויות לט״ו בשבט לגן, לכיתה ולבית', desc: '{n} רעיונות לפעילויות בט״ו בשבט: שתילה, משחק שבעת המינים, סדר ט״ו בשבט משפחתי, ביצת זרעים, טיול שקדיות ועוד — לגן, לכיתה ולבית.',
     h1: 'פעילויות לט״ו בשבט', sub: 'רעיונות לגן, לכיתה, לבית ולטיול',
     body: ['ט״ו בשבט הוא חג של טבע: שותלים, טועמים, מטיילים ולומדים על העצים. אספנו רעיונות פשוטים שעובדים עם ילדים בגן ובבית הספר, רובם בלי ציוד מיוחד.'],
     faq: [{ q: 'מה עושים בט״ו בשבט בגן?', a: 'שותלים שתילים בגביעים, מכינים ביצת זרעים, לומדים את שבעת המינים, טועמים פירות יבשים וצובעים דפי צביעה של עצים ופירות.' }],
     related: [{ label: 'שבעת המינים', href: base + '/seven-species' }, { label: 'משחקים לגן', href: '/games/kindergarten' }],
-  },
+  }, },
 }

@@ -245,6 +245,9 @@ export default function App() {
               <Route path="/holidays/tu-bishvat/worksheets" element={<HolidayRoute key="tu-bishvat-worksheets" slug="tu-bishvat" kind="worksheets" />} />
               <Route path="/holidays/tu-bishvat/what-to-do" element={<HolidayRoute key="tu-bishvat-what-to-do" slug="tu-bishvat" kind="what-to-do" />} />
               <Route path="/tu-bishvat" element={<Navigate to="/holidays/tu-bishvat" replace />} />
+              <Route path="/holidays/:slug" element={<HolidayRoute />} />
+              <Route path="/holidays/:slug/:kind" element={<HolidayRoute />} />
+              <Route path="/purim" element={<Navigate to="/holidays/purim" replace />} />
               <Route path="/sevivon" element={<Navigate to="/holidays/hanukkah/sevivon" replace />} />
               <Route path="/hanukkah" element={<Navigate to="/holidays/hanukkah" replace />} />
               <Route path="/tools/rubiks-cube" element={<RubiksCube />} />
