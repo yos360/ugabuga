@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
 const dotLayouts = {
@@ -69,9 +70,10 @@ export default function DiceTool() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="קוביה וירטואלית — הטלת 1 עד 3 קוביות אונליין" description="זורקים קוביה אונליין בלחיצה: קוביה תלת־ממדית מונפשת, 1, 2 או 3 קוביות עם סכום אוטומטי והיסטוריית הטלות. מושלם כשהקוביה של משחק הקופסה אבדה. חינם." path="/tools/dice" />
+      <SEO title="קוביה וירטואלית אונליין — הטלת קוביה בלחיצה, חינם" description="קוביה דיגיטלית למשחקי קופסה: מטילים 1, 2 או 3 קוביות בלחיצה, עם סכום אוטומטי. בלי הורדה ובלי הרשמה — עובד בטלפון ובמחשב. הקוביה אבדה? יש לכם אחת כאן." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'קוביה' }]} />
-      <h1 className="text-4xl text-center mb-6">🎲 קוביה וירטואלית 3D</h1>
+      <h1 className="text-4xl text-center mb-2">🎲 קוביה וירטואלית אונליין</h1>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">להטיל קוביה בלחיצה — 1, 2 או 3 קוביות, בחינם</p>
 
       <div className="flex justify-center gap-2 mb-6">
         {[1,2,3].map(n => (
@@ -102,7 +104,24 @@ export default function DiceTool() {
           {history.map((h, i) => <p key={i} className="font-hand text-base">{h.vals.join(' + ')} = {h.total}</p>)}
         </div>
       )}
+
+      <div className="mt-10">
+        <SeoBody
+          paragraphs={[
+            'הקוביה הווירטואלית מחליפה קוביה רגילה בכל משחק קופסה: סולמות ונחשים, מונופול, לודו, שש־בש או כל משחק שהקוביה שלו הלכה לאיבוד. לוחצים על "הטילו!" ומקבלים תוצאה אקראית בין 1 ל־6, בדיוק כמו קוביה אמיתית.',
+            'אפשר להטיל קוביה אחת, שתיים או שלוש יחד, והסכום מחושב אוטומטית. הקוביה הדיגיטלית עובדת בטלפון, בטאבלט ובמחשב, בלי להוריד אפליקציה ובלי הרשמה — שומרים את העמוד ומשתמשים בו בכל משחק.',
+          ]}
+          faq={DICE_FAQ}
+          related={[{ label: 'משחקי לוח אונליין', href: '/board-games' }, { label: 'סולמות ונחשים להדפסה', href: '/printables/board-game' }, { label: 'גלגל מזל אקראי', href: '/tools/random-picker' }]}
+        />
+      </div>
     </div>
   )
 }
+
+const DICE_FAQ = [
+  { q: 'האם הקוביה הווירטואלית באמת אקראית?', a: 'כן. כל הטלה בוחרת מספר בין 1 ל־6 באופן אקראי, וכל מספר מופיע באותה הסתברות — כמו בקוביה אמיתית והוגנת.' },
+  { q: 'איך מטילים קוביה אונליין?', a: 'בוחרים כמה קוביות רוצים (1, 2 או 3) ולוחצים על "הטילו!". התוצאה והסכום מופיעים מיד, ורשימת ההטלות האחרונות נשמרת מתחת.' },
+  { q: 'צריך להוריד אפליקציה?', a: 'לא. הקוביה הדיגיטלית עובדת ישר מהדפדפן, בטלפון ובמחשב, בחינם ובלי הרשמה.' },
+]
 
