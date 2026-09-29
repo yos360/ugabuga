@@ -34,6 +34,7 @@ export const MENU_GROUPS = [
       { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
       { to: '/letters', label: 'לימוד אותיות בעברית', icon: '🔤' },
+      { to: '/rubiks-cube', label: 'פתרון קובייה הונגרית', icon: '🧊' },
       { to: '/letters/game', label: 'משחק אותיות לגן', icon: '🎮' },
       { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
       { to: '/tools/trivia-quiz', label: 'טריוויה לכיתה', icon: '🎯' },

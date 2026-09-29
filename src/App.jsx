@@ -41,6 +41,7 @@ const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
 const BugaTown = lazy(() => import('./pages/tools/BugaTown'))
 const EscapeRooms = lazy(() => import('./pages/tools/EscapeRooms'))
 const Dice = lazy(() => import('./pages/tools/Dice'))
+const RubiksCube = lazy(() => import('./pages/tools/RubiksCube'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
@@ -223,6 +224,8 @@ export default function App() {
               <Route path="/games/escape-room" element={<EscapeRooms />} />
               <Route path="/games/escape-rooms" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
+              <Route path="/rubiks-cube" element={<RubiksCube />} />
+              <Route path="/tools/rubiks-cube" element={<RubiksCube />} />
               <Route path="/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
               <Route path="/coin-flip" element={<CoinFlip />} />
