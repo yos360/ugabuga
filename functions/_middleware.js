@@ -11,6 +11,38 @@
 // to the original response, so this can never take the site down.
 
 let routesPromise = null
+let knownPromise = null
+
+// Param routes whose full list of valid values is in the sitemap. A slug outside
+// that list with no prerendered snapshot is a made-up URL → real 404.
+const CLOSED_FAMILIES = [
+  /^\/games\/(?!age\/)[^/]+$/,
+  /^\/time-tunnel\/[^/]+$/,
+  /^\/ideas\/themes\/[^/]+$/,
+  /^\/ideas\/(?!age\/|themes\/)[^/]+$/,
+  /^\/letters\/[^/]+$/,
+  /^\/board-games\/[^/]+$/,
+  /^\/printables\/(?!activity\/)[^/]+$/,
+  /^\/gifts\/[^/]+$/,
+  /^\/guides\/[^/]+$/,
+]
+
+function loadKnown(env, url) {
+  if (!knownPromise) {
+    knownPromise = env.ASSETS.fetch(new URL('/known-paths.json', url))
+      .then(r => (r.ok ? r.json() : null))
+      .then(list => (Array.isArray(list) && list.length > 100 ? new Set(list) : null))
+      .catch(() => null)
+  }
+  return knownPromise
+}
+
+function notFound(body, headers) {
+  const h = new Headers(headers)
+  h.set('X-Robots-Tag', 'noindex')
+  h.set('Cache-Control', 'no-store')
+  return new Response(body, { status: 404, statusText: 'Not Found', headers: h })
+}
 
 function loadRoutes(env, url) {
   if (!routesPromise) {
@@ -35,8 +67,9 @@ async function neutralShell(res) {
   const isHomeFallback = new RegExp(`rel="canonical"[^>]*href="${HOME_CANONICAL}"`).test(html)
   const plain = new Response(html, { status: res.status, statusText: res.statusText, headers })
   if (!isHomeFallback || typeof HTMLRewriter === 'undefined') return plain
+  plain.__homeFallback = true
   const remove = { element(el) { el.remove() } }
-  return new HTMLRewriter()
+  const out = new HTMLRewriter()
     .on('link[rel="canonical"]', remove)
     .on('meta[name="description"]', remove)
     .on('meta[property="og:title"]', remove)
@@ -48,6 +81,8 @@ async function neutralShell(res) {
     .on('title', { element(el) { el.setInnerContent('עוגה בוגה') } })
     .on('#root', { element(el) { el.setInnerContent('') } })
     .transform(plain)
+  out.__homeFallback = true
+  return out
 }
 
 export async function onRequest({ request, env, next }) {
@@ -68,9 +103,14 @@ export async function onRequest({ request, env, next }) {
     const routes = await loadRoutes(env, url)
     if (!routes) return res
     const path = url.pathname.replace(/\/+$/, '') || '/'
-    if (!routes.some(re => re.test(path))) return new Response(res.body, { status: 404, statusText: 'Not Found', headers: res.headers })
+    if (!routes.some(re => re.test(path))) return notFound(res.body, res.headers)
     if (path === '/') return res
-    return neutralShell(res)
+    const shaped = await neutralShell(res)
+    if (shaped.__homeFallback && CLOSED_FAMILIES.some(re => re.test(path))) {
+      const known = await loadKnown(env, url)
+      if (known && !known.has(path)) return notFound(shaped.body, shaped.headers)
+    }
+    return shaped
   } catch {
     return res
   }
