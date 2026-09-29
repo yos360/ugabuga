@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import { HOLIDAYS_BY_DATE, summaryOf, whenOf } from '../../holidays/list'
+import { HOLIDAYS_BY_DATE, summaryOf, whenOf, isOver } from '../../holidays/list'
 
 // One home for every holiday area, in calendar order from the next holiday.
 // Built from the holiday configs — a new area shows up here by itself.
@@ -16,8 +16,8 @@ const Card = ({ h }) => <Link to={h.base} className={`wobbly flex flex-col borde
 
 export default function HolidaysHub() {
   const now = new Date()
-  const upcoming = HOLIDAYS_BY_DATE.filter(h => new Date(h.info.end) > now)
-  const past = HOLIDAYS_BY_DATE.filter(h => new Date(h.info.end) <= now)
+  const upcoming = HOLIDAYS_BY_DATE.filter(h => !isOver(h, now))
+  const past = HOLIDAYS_BY_DATE.filter(h => isOver(h, now))
   const names = HOLIDAYS_BY_DATE.map(h => h.name).join(', ')
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">

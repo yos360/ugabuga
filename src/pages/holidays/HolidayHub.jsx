@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import { currentInfo } from '../../holidays/list'
 
 // The main page of any holiday area, built from the config: hero with countdown,
 // a card per page, an optional "how to" box, SEO copy. Content: h.info + h.hub.
@@ -11,7 +12,7 @@ const CARD_COLORS = ['bg-yellow-100', 'bg-pink-100', 'bg-blue-100', 'bg-green-10
 function Countdown({ h }) {
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 60000); return () => clearInterval(t) }, [])
-  const start = new Date(h.info.start).getTime(), end = new Date(h.info.end).getTime()
+  const o = currentInfo(h, new Date(now)), start = new Date(o.start).getTime(), end = new Date(o.end).getTime()
   const days = Math.ceil((start - now) / 86400000)
   const w = h.hub.countdown
   return <p className="text-3xl font-bold">{now >= end ? w.after : now >= start ? w.during : days === 1 ? w.tomorrow : `עוד ${days} ימים ${w.before}`}</p>
@@ -26,7 +27,7 @@ export default function HolidayHub({ h }) {
         <p className="text-6xl mb-2" aria-hidden="true">{h.emoji}</p>
         <h1 className="text-4xl sm:text-5xl mb-3 text-white">{c.h1}</h1>
         <Countdown h={h} />
-        <p className="mt-2 opacity-90">{h.info.datesText}</p>
+        <p className="mt-2 opacity-90">{currentInfo(h).datesText}</p>
       </div>
 
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

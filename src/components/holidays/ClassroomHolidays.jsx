@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { HOLIDAYS_BY_DATE, whenOf } from '../../holidays/list'
+import { HOLIDAYS_BY_DATE, whenOf, isOver } from '../../holidays/list'
 
 // "חגים בכיתה ובגן" on the classroom hub: the next holidays, each with its pages.
 // Built from the holiday configs, so a new holiday area appears here by itself.
 export default function ClassroomHolidays({ max = 3 }) {
   const now = new Date()
-  const next = HOLIDAYS_BY_DATE.filter(h => new Date(h.info.end) > now).slice(0, max)
+  const next = HOLIDAYS_BY_DATE.filter(h => !isOver(h, now)).slice(0, max)
   return (
     <section aria-labelledby="class-holidays" className="mt-10">
       <h2 id="class-holidays" className="mb-4 text-center text-3xl font-black">🎉 חגים בכיתה ובגן</h2>
