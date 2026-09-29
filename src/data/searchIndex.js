@@ -8,6 +8,7 @@ import { GIFT_AGES } from './gifts'
 import { categories as PRINTABLES } from '../pages/printables/PrintablesIndex'
 import { printableHref } from '../components/ui/PrintableCard'
 import { BOARD_GAMES } from '../boardgames/registry'
+import { gameHref } from './gameHref'
 
 export const KINDS = {
   game: { label: 'משחקים', order: 1 },
@@ -110,7 +111,7 @@ function buildStatic() {
 export const STATIC_ITEMS = buildStatic()
 
 export const gameItem = g => ({
-  to: `/games/${g.slug}`, title: g.name, emoji: '🎮', kind: 'game', desc: g.short_description || '',
+  to: gameHref(g.slug), title: g.name, emoji: '🎮', kind: 'game', desc: g.short_description || '',
   keys: [g.category, ...(g.tags || []), ...(g.goals || []), ...(g.contexts || [])].filter(Boolean).join(' '),
 })
 
