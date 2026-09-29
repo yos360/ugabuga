@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import { useGames } from '../../hooks/useGames'
 import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
+import { gameHref } from '../../data/gameHref'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -75,7 +76,7 @@ export default function CategoryPage() {
           <p className="font-hand text-lg text-[var(--muted-foreground)] mb-4">נמצאו {filtered.length} משחקים</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((game, i) => (
-              <Link key={game.slug} to={'/games/'+game.slug}
+              <Link key={game.slug} to={gameHref(game.slug)}
                 className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${rotations[i%rotations.length]}`}>
                 <h3 className="text-xl font-bold">{game.name}</h3>
                 <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mt-1 mb-3">{game.short_description}</p>

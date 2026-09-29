@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
+import { gameHref } from '../../data/gameHref'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -144,7 +145,7 @@ export default function GamesIndex() {
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((game, i) => (
-            <Link key={game.slug || game.id} to={'/games/' + game.slug}
+            <Link key={game.slug || game.id} to={gameHref(game.slug)}
               className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
               <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
                 <button type="button" onClick={e => toggleFavorite(e, game)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} className="rounded-full bg-white/90 px-2 py-1 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>

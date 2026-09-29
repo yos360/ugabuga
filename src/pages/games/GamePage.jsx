@@ -6,6 +6,7 @@ import { useGameBySlug } from '../../hooks/useGames'
 import GamePlayer from '../../components/games/GamePlayer'
 import Markdown from '../../components/ui/Markdown'
 import { useState } from 'react'
+import { gameHref } from '../../data/gameHref'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 const PLAY_TOOL_ROUTES = {
@@ -154,7 +155,7 @@ export default function GamePage() {
           <h2 className="text-2xl mb-4">משחקים דומים</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {related.map((g, i) => (
-              <Link key={g.slug || g.id} to={'/games/' + g.slug}
+              <Link key={g.slug || g.id} to={gameHref(g.slug)}
                 className={`wobbly-md flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow transition-all duration-150 hover:-translate-y-1 ${rotations[i % rotations.length]}`}>
                 <h3 className="text-xl font-bold truncate">{g.name}</h3>
                 <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mt-1">{g.short_description}</p>
