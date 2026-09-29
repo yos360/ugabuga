@@ -6,7 +6,10 @@ const HOLIDAYS = [
     emoji: '🕎', name: 'חנוכה', when: 'דצמבר', to: '/holidays/hanukkah',
     parts: [['🎲 סביבון על המקרן', '/holidays/hanukkah/sevivon'], ['❓ חידון ב־3 רמות', '/holidays/hanukkah/quiz'], ['🖍️ 6 דפי צביעה', '/holidays/hanukkah/coloring'], ['✏️ דפי עבודה לגן ולא׳', '/holidays/hanukkah/worksheets'], ['🎉 מסיבת חנוכה', '/ideas/hanukkah-party']],
   },
-  { emoji: '🌳', name: 'ט״ו בשבט', when: 'ינואר', soon: true },
+  {
+    emoji: '🌳', name: 'ט״ו בשבט', when: 'ינואר', to: '/holidays/tu-bishvat',
+    parts: [['🍇 שבעת המינים + משחק זיכרון', '/holidays/tu-bishvat/seven-species'], ['❓ חידון ב־3 רמות', '/holidays/tu-bishvat/quiz'], ['🖍️ 6 דפי צביעה', '/holidays/tu-bishvat/coloring'], ['✏️ דפי עבודה לגן ולא׳', '/holidays/tu-bishvat/worksheets'], ['🌱 פעילויות לגן', '/holidays/tu-bishvat/what-to-do']],
+  },
   { emoji: '🎭', name: 'פורים', when: 'מרץ', soon: true },
 ]
 

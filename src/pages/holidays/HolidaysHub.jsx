@@ -6,7 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 // scattering across the site. Holidays without their own area yet link to what exists.
 const HOLIDAYS = [
   { to: '/holidays/hanukkah', emoji: '🕎', name: 'חנוכה', when: 'דצמבר 2026', desc: 'סביבון וירטואלי, חידון, דפי צביעה ודפי עבודה, ורעיונות לחופשה', ready: true },
-  { emoji: '🌳', name: 'ט״ו בשבט', when: 'ינואר 2027', desc: 'בקרוב: שבעת המינים, דפי עבודה לגן וחידון', ready: false },
+  { to: '/holidays/tu-bishvat', emoji: '🌳', name: 'ט״ו בשבט', when: 'ינואר 2027', desc: 'שבעת המינים ומשחק זיכרון, חידון, דפי צביעה ודפי עבודה, ופעילויות לגן', ready: true, bg: 'bg-green-100' },
   { emoji: '🎭', name: 'פורים', when: 'מרץ 2027', desc: 'בקרוב: רעיונות לתחפושות, משלוח מנות ודפי צביעה', ready: false },
 ]
 
@@ -27,7 +27,7 @@ export default function HolidaysHub() {
             {h.ready && <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>}
           </>
           return h.ready
-            ? <Link key={h.name} to={h.to} className="wobbly flex flex-col border-2 border-[var(--border)] bg-blue-100 p-5 sketch-shadow transition-transform hover:-translate-y-1">{inner}</Link>
+            ? <Link key={h.name} to={h.to} className={`wobbly flex flex-col border-2 border-[var(--border)] ${h.bg || 'bg-blue-100'} p-5 sketch-shadow transition-transform hover:-translate-y-1`}>{inner}</Link>
             : <div key={h.name} className="wobbly flex flex-col border-2 border-dashed border-[var(--border)] bg-white p-5 opacity-70">{inner}</div>
         })}
       </div>

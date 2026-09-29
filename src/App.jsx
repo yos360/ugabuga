@@ -45,9 +45,9 @@ const RubiksCube = lazy(() => import('./pages/tools/RubiksCube'))
 const HolidaysHub = lazy(() => import('./pages/holidays/HolidaysHub'))
 const HanukkahHub = lazy(() => import('./pages/holidays/HanukkahHub'))
 const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
-const HanukkahQuiz = lazy(() => import('./pages/holidays/HanukkahQuiz'))
-const HanukkahPrintables = lazy(() => import('./pages/holidays/HanukkahPrintables'))
-const HanukkahIdeas = lazy(() => import('./pages/holidays/HanukkahIdeas'))
+const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
+const TuBishvatHub = lazy(() => import('./pages/holidays/TuBishvatHub'))
+const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
@@ -234,10 +234,17 @@ export default function App() {
               <Route path="/holidays" element={<HolidaysHub />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
               <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
-              <Route path="/holidays/hanukkah/quiz" element={<HanukkahQuiz />} />
-              <Route path="/holidays/hanukkah/coloring" element={<HanukkahPrintables key="c" kind="coloring" />} />
-              <Route path="/holidays/hanukkah/worksheets" element={<HanukkahPrintables key="w" kind="worksheets" />} />
-              <Route path="/holidays/hanukkah/what-to-do" element={<HanukkahIdeas />} />
+              <Route path="/holidays/hanukkah/quiz" element={<HolidayRoute key="hanukkah-quiz" slug="hanukkah" kind="quiz" />} />
+              <Route path="/holidays/hanukkah/coloring" element={<HolidayRoute key="hanukkah-coloring" slug="hanukkah" kind="coloring" />} />
+              <Route path="/holidays/hanukkah/worksheets" element={<HolidayRoute key="hanukkah-worksheets" slug="hanukkah" kind="worksheets" />} />
+              <Route path="/holidays/hanukkah/what-to-do" element={<HolidayRoute key="hanukkah-what-to-do" slug="hanukkah" kind="what-to-do" />} />
+              <Route path="/holidays/tu-bishvat" element={<TuBishvatHub />} />
+              <Route path="/holidays/tu-bishvat/seven-species" element={<SevenSpecies />} />
+              <Route path="/holidays/tu-bishvat/quiz" element={<HolidayRoute key="tu-bishvat-quiz" slug="tu-bishvat" kind="quiz" />} />
+              <Route path="/holidays/tu-bishvat/coloring" element={<HolidayRoute key="tu-bishvat-coloring" slug="tu-bishvat" kind="coloring" />} />
+              <Route path="/holidays/tu-bishvat/worksheets" element={<HolidayRoute key="tu-bishvat-worksheets" slug="tu-bishvat" kind="worksheets" />} />
+              <Route path="/holidays/tu-bishvat/what-to-do" element={<HolidayRoute key="tu-bishvat-what-to-do" slug="tu-bishvat" kind="what-to-do" />} />
+              <Route path="/tu-bishvat" element={<Navigate to="/holidays/tu-bishvat" replace />} />
               <Route path="/sevivon" element={<Navigate to="/holidays/hanukkah/sevivon" replace />} />
               <Route path="/hanukkah" element={<Navigate to="/holidays/hanukkah" replace />} />
               <Route path="/tools/rubiks-cube" element={<RubiksCube />} />

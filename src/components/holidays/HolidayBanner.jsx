@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 // when its area is built (ט״ו בשבט, פורים…).
 const SEASONS = [
   { from: '2026-09-01', until: '2026-12-13', emoji: '🕎', to: '/holidays/hanukkah', title: 'חנוכה מתקרב', text: 'סביבון, חידון ודפי צביעה' },
+  { from: '2026-12-13', until: '2027-01-24', emoji: '🌳', to: '/holidays/tu-bishvat', title: 'ט״ו בשבט מתקרב', text: 'שבעת המינים, חידון ודפי צביעה' },
 ]
 
 export const currentSeason = (now = new Date()) => SEASONS.find(s => now >= new Date(s.from) && now < new Date(s.until))
