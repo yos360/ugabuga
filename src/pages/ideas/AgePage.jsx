@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
+import { gameHref } from '../../data/gameHref'
 
 export default function AgePage() {
   const { age } = useParams()
@@ -18,7 +19,7 @@ export default function AgePage() {
       {loading ? <div className="text-center py-12 text-4xl buga-bounce">🎂</div> : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0,12).map((g,i) => (
-            <Link key={g.slug} to={'/games/'+g.slug} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${i%2?'rotate-1':'-rotate-1'}`}>
+            <Link key={g.slug} to={gameHref(g.slug)} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${i%2?'rotate-1':'-rotate-1'}`}>
               <h3 className="text-xl font-bold">{g.name}</h3>
               <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mt-1">{g.short_description}</p>
             </Link>
