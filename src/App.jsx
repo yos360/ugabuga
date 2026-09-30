@@ -13,6 +13,7 @@ const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
 const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
 const FaqTopic = lazy(() => import('./pages/FaqTopic'))
+const EscapeCollection = lazy(() => import('./pages/tools/EscapeCollection'))
 const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
@@ -227,6 +228,8 @@ export default function App() {
               <Route path="/buga-town-game" element={<BugaTown />} />
               <Route path="/games/buga-town" element={<BugaTown />} />
               <Route path="/tools/escape-rooms" element={<EscapeRooms />} />
+              <Route path="/tools/escape-rooms/topic/:slug" element={<EscapeCollection />} />
+              <Route path="/tools/escape-rooms/:roomId" element={<EscapeRooms />} />
               <Route path="/escape-rooms" element={<EscapeRooms />} />
               <Route path="/escape-room" element={<EscapeRooms />} />
               <Route path="/tools/escape-room" element={<EscapeRooms />} />
