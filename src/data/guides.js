@@ -1,4 +1,6 @@
-export const GUIDES = [
+import { MORE_GUIDES } from './guidesMore'
+
+const BASE_GUIDES = [
   {
     slug: 'how-to-plan-birthday',
     title: 'איך מתכננים יום הולדת בלי להשתגע',
@@ -230,5 +232,7 @@ export const GUIDES = [
     ]
   }
 ]
+
+export const GUIDES = [...BASE_GUIDES, ...MORE_GUIDES]
 
 export const GUIDE_BY_SLUG = Object.fromEntries(GUIDES.map((guide) => [guide.slug, guide]))

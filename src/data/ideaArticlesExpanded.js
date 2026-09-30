@@ -1,9 +1,11 @@
 import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from './ideaArticles'
 import { MORE_IDEA_ARTICLES, MORE_IDEA_GROUPS, MORE_PARTY_KITS } from './ideaArticlesMore'
+import { NEW_IDEA_ARTICLES, NEW_IDEA_GROUPS } from './ideaArticlesNew'
 
 export const IDEA_ARTICLES_EXPANDED = {
   ...IDEA_ARTICLES,
   ...MORE_IDEA_ARTICLES,
+  ...NEW_IDEA_ARTICLES,
 }
 
 export const PARTY_KITS_EXPANDED = {
@@ -14,6 +16,7 @@ export const PARTY_KITS_EXPANDED = {
 export const IDEA_GROUPS_EXPANDED = [
   ...IDEA_GROUPS,
   ...MORE_IDEA_GROUPS,
+  ...NEW_IDEA_GROUPS,
 ]
 
 export {
