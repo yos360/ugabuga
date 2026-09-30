@@ -48,7 +48,7 @@ export const MORE_QUESTIONS = [
     topic: 'music',
     audience: 'teens',
     difficulty: 'medium',
-    question: 'מה מודד מטרונום?',
+    question: 'על מה עוזר מטרונום לשמור בזמן נגינה?',
     answer: 'קצב',
     hint: 'הוא עוזר לשמור על מהירות נגינה אחידה',
     triviaOptions: ['גובה צליל', 'קצב', 'עוצמת קול', 'שם הזמר'],
