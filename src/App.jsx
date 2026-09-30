@@ -10,6 +10,9 @@ const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
 const Search = lazy(() => import('./pages/Search'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
+const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
+const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
+const FaqTopic = lazy(() => import('./pages/FaqTopic'))
 const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
@@ -316,9 +319,11 @@ export default function App() {
               <Route path="/compare/entertainer-vs-diy" element={<IdeasHub />} />
               <Route path="/songs/birthday-songs" element={<IdeasHub />} />
               <Route path="/birthday-songs" element={<IdeasHub />} />
-              <Route path="/blog" element={<IdeasHub />} />
+              <Route path="/blog" element={<BlogIndex />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/game-of-the-day" element={<GamesIndex />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/faq/:topic" element={<FaqTopic />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin/login" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
