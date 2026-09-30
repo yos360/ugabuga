@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import { Link } from 'react-router-dom'
+import { FAQ_TOPICS } from '../data/faqTopics'
 
 const QA = [
   {q:'האם השימוש באתר חינם?', a:'כן, לגמרי. כל המשחקים, הכלים, ודפי ההדפסה חינם ותמיד יהיו.'},
@@ -27,6 +29,10 @@ export default function FAQ() {
             {open===i && <div className="px-4 pb-4 font-hand text-lg buga-slide-down">{item.a}</div>}
           </div>
         ))}
+      </div>
+      <h2 className="text-2xl mt-10 mb-3">שאלות לפי נושא</h2>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {Object.entries(FAQ_TOPICS).map(([k, t]) => <Link key={k} to={'/faq/' + k} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] p-4 font-bold">{t.emoji} {t.title}</Link>)}
       </div>
     </div>
   )
