@@ -24,6 +24,9 @@ export default function BoardGamesHub() {
           </Link>
         ))}
       </div>
+      <p className="mt-8 text-center text-lg">
+        משחקים על לוח אמיתי ואין קוביה? 🎲 <Link to="/tools/dice" className="underline font-bold">קוביה וירטואלית</Link> · <Link to="/tools/dice/backgammon" className="underline font-bold">קוביות לשש בש</Link> · <Link to="/dice-games" className="underline font-bold">משחקי קוביות</Link>
+      </p>
     </div>
   )
 }
