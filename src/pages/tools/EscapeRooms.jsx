@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import NotFound from '../NotFound'
+import { ESCAPE_COLLECTIONS } from '../../data/escapeCollections'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
@@ -14,19 +16,21 @@ const escapeRoomsFaq = [
   { q: 'צריך ציוד מיוחד חוץ מהדפסה?', a: 'לרוב לא — רק מדפסת, מספריים, ולפעמים מעטפות או תיבה קטנה להסתרת רמזים, לפי ההוראות שמצורפות לכל חדר.' },
 ]
 const escapeRoomsBody = [
-  'חדר בריחה מודפס נותן למסיבה או ליום גיבוש תחושה של "אירוע אמיתי" בלי צורך לנסוע לשום מקום. יש כאן שלושה חדרים מוכנים, כל אחד מותאם לגיל אחר: תעלומת העוגה הנעלמת לילדים, תחנת החלל התקועה לנוער, ותיק הבלש הסודי למבוגרים. כל חדר מגיע עם ערכת רמזים, חידות ופתרון מוכן.',
-  'הבחירה בין שלושת החדרים תלויה בגיל הקהל, לא רק ברמת הקושי. תעלומת העוגה הנעלמת בנויה סביב עלילה קלילה ומתאימה ליום הולדת של ילדים; תחנת החלל התקועה מוסיפה מורכבות שמדברת לנוער; תיק הבלש הסודי בנוי לחשיבה של מבוגרים.',
+  'חדר בריחה מודפס נותן למסיבה או ליום גיבוש תחושה של "אירוע אמיתי" בלי צורך לנסוע לשום מקום. יש כאן עשרות חדרים מוכנים — לגן, לילדים, לנוער, למבוגרים, לכיתה ולחגים. כל חדר מגיע עם ערכת רמזים, חידות ופתרון מוכן.',
+  'את החדר בוחרים לפי גיל הקהל, לא רק לפי רמת הקושי: לקטנים יש חדרים של ספירה, צבעים וצורות; לגילאי בית הספר צפנים וחשבון; לנוער ולמבוגרים תעלומות עם חשודים וחידות היגיון אמיתיות.',
   'טיפ מעשי: תזמנו כ-30-45 דקות לכל חדר, כולל זמן הסבר בהתחלה. קבוצה גדולה מדי (מעל 6 משתתפים) נוטה ליצור "צופים" שלא ממש מעורבים — עדיף לחלק לשתי קבוצות מקבילות.',
 ]
 const escapeRoomsRelated = [ { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 function normalizeAnswer(value) {
-  return value.trim().replace(/\s+/g, ' ').toLowerCase()
+  return String(value).trim().toLowerCase().replace(/["'`׳״.,!?:;()\-־]/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
 export default function EscapeRooms() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const requestedRoomId = searchParams.get('room')
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const { roomId: pathRoomId } = useParams()
+  const requestedRoomId = pathRoomId || searchParams.get('room')
   const roomId = ESCAPE_ROOMS.some((item) => item.id === requestedRoomId)
     ? requestedRoomId
     : ESCAPE_ROOMS[0]?.id
@@ -58,11 +62,7 @@ export default function EscapeRooms() {
 
   const chooseRoom = (id) => {
     clearTimeout(advanceTimerRef.current)
-    setSearchParams((params) => {
-      const nextParams = new URLSearchParams(params)
-      nextParams.set('room', id)
-      return nextParams
-    })
+    navigate('/tools/escape-rooms/' + id, { preventScrollReset: true })
     setStepIndex(0)
     setAnswer('')
     setShowHint(false)
@@ -76,9 +76,9 @@ export default function EscapeRooms() {
     if (!step || status === 'correct' || !answer.trim()) return
 
     const userAnswer = normalizeAnswer(answer)
-    const correctAnswer = normalizeAnswer(step.answer)
+    const accepted = [step.answer, ...(step.accept || [])].map(normalizeAnswer)
 
-    if (userAnswer === correctAnswer) {
+    if (accepted.includes(userAnswer)) {
       const nextCompleted = [...new Set([...completedSteps, stepIndex])]
       setCompletedSteps(nextCompleted)
       setStatus('correct')
@@ -100,23 +100,63 @@ export default function EscapeRooms() {
     setCompletedSteps([])
   }
 
+  if (pathRoomId && !ESCAPE_ROOMS.some((item) => item.id === pathRoomId)) return <NotFound />
   if (!room || !step) return null
+  const base = ESCAPE_ROOMS.find((item) => item.id === roomId)
+  const isRoomPage = Boolean(pathRoomId)
+  const similar = ESCAPE_ROOMS.filter((item) => item.id !== roomId && item.tags?.ages?.some((a) => base.tags?.ages?.includes(a))).slice(0, 4)
+  const roomCollections = Object.entries(ESCAPE_COLLECTIONS).filter(([, c]) => c.filter(base))
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <SEO
-        title="חדר בריחה להדפסה לילדים ולנוער"
-        description="3 חדרי בריחה להדפסה לילדים, לנוער ולמבוגרים — קיט מלא של רמזים, חידות ופתרון. חינם."
-        path="/tools/escape-rooms"
-        structuredData={faqSchema(escapeRoomsFaq)}
-      />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חדרי בריחה' }]} />
+      {isRoomPage ? (
+        <SEO title={`${base.title} — חדר בריחה ל${base.audience}`} description={base.description} path={'/tools/escape-rooms/' + roomId} />
+      ) : (
+        <SEO
+          title="חדר בריחה להדפסה לילדים ולנוער"
+          description={`${ESCAPE_ROOMS.length} חדרי בריחה בחינם — לגן, לילדים, לנוער, למבוגרים, לכיתה ולחגים. לשחק באתר או להדפיס קיט מלא עם רמזים ופתרונות.`}
+          path="/tools/escape-rooms"
+          structuredData={faqSchema(escapeRoomsFaq)}
+        />
+      )}
+      <Breadcrumbs items={isRoomPage ? [{ label: 'ראשי', href: '/' }, { label: 'חדרי בריחה', href: '/tools/escape-rooms' }, { label: base.title }] : [{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חדרי בריחה' }]} />
 
+      {isRoomPage ? (
+        <section className="mb-8 text-center">
+          <div className="text-6xl mb-2">{base.emoji}</div>
+          <h1 className="text-4xl md:text-5xl font-hand font-bold mb-3">חדר בריחה: {base.title}</h1>
+          <p className="text-lg max-w-3xl mx-auto mb-4">{base.description}</p>
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
+            <Badge>{base.audience}</Badge>
+            {base.difficulty && <Badge color="yellow">{base.difficulty}</Badge>}
+            {base.duration && <Badge color="blue">{base.duration}</Badge>}
+          </div>
+          <div className="grid md:grid-cols-2 gap-4 text-right max-w-4xl mx-auto">
+            <WobblyCard hover={false} padding="p-5">
+              <h2 className="text-2xl font-hand font-bold mb-2">הסיפור</h2>
+              <p className="leading-relaxed">{base.intro}</p>
+              {base.story && <p className="leading-relaxed mt-2">{base.story}</p>}
+              <p className="mt-3 text-sm text-[var(--muted-foreground)]">{base.steps.length} תחנות בסיפור · בגרסה הדיגיטלית אפשר לבחור רמת קושי שמוסיפה מנעולים.</p>
+            </WobblyCard>
+            <WobblyCard hover={false} padding="p-5">
+              <h2 className="text-2xl font-hand font-bold mb-2">להפעלה בבית או בכיתה</h2>
+              {base.materials?.length > 0 && <><h3 className="font-bold">מה מכינים</h3><ul className="list-disc pr-5 mb-2">{base.materials.map((m) => <li key={m}>{m}</li>)}</ul></>}
+              {base.printableKit?.length > 0 && <><h3 className="font-bold">טיפים למנחה</h3><ul className="list-disc pr-5">{base.printableKit.map((m) => <li key={m}>{m}</li>)}</ul></>}
+            </WobblyCard>
+          </div>
+        </section>
+      ) : (
+      <>
       <h1 className="text-4xl md:text-5xl font-hand font-bold text-center mb-2">🔐 חדרי בריחה BUGA</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8 max-w-3xl mx-auto">
         משחק דיגיטלי בתוך האתר וגם קיט להפעלה בכיתה, בבית או במסיבת מבוגרים. כל חדר בנוי מרמזים מדויקים,
         תשובות ברורות והתקדמות שלב־אחרי־שלב.
       </p>
+      <nav aria-label="חדרי בריחה לפי נושא" className="mb-8 flex flex-wrap justify-center gap-2">
+        {Object.entries(ESCAPE_COLLECTIONS).map(([slug, c]) => <Link key={slug} to={'/tools/escape-rooms/topic/' + slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{c.emoji} {c.title}</Link>)}
+      </nav>
+      </>
+      )}
 
       <section className="mb-6 rounded-3xl border border-[var(--border)] bg-white p-5" aria-label="בחירת רמת קושי">
         <h2 className="text-2xl font-bold mb-3">קודם בוחרים רמת קושי</h2>
@@ -130,10 +170,12 @@ export default function EscapeRooms() {
             <h2 className="text-2xl font-hand font-bold mb-3">בחרו חדר</h2>
             <div className="space-y-3">
               {ESCAPE_ROOMS.map((item) => (
-                <button
+                <Link
                   key={item.id}
-                  onClick={() => chooseRoom(item.id)}
-                  className={`w-full text-right border-2 border-[var(--ink)] p-4 wobbly-sm transition-colors ${roomId === item.id ? 'bg-[var(--yellow)]' : 'bg-white hover:bg-[var(--muted)]/20'}`}
+                  to={'/tools/escape-rooms/' + item.id}
+                  preventScrollReset
+                  onClick={() => requestAnimationFrame(() => roomPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))}
+                  className={`block w-full text-right border-2 border-[var(--ink)] p-4 wobbly-sm transition-colors ${roomId === item.id ? 'bg-[var(--yellow)]' : 'bg-white hover:bg-[var(--muted)]/20'}`}
                 >
                   <div className="text-2xl mb-1">{item.emoji}</div>
                   <div className="font-hand font-bold text-xl">{item.title}</div>
@@ -142,7 +184,7 @@ export default function EscapeRooms() {
                     <Badge>{item.audience}</Badge>
                     <Badge color="yellow">3 רמות קושי</Badge>
                   </div>
-                </button>
+                </Link>
               ))}
             </div>
           </WobblyCard>
@@ -262,6 +304,24 @@ export default function EscapeRooms() {
           )}
         </main>
       </div>
+
+      {isRoomPage && (
+        <section className="mt-12">
+          <h2 className="text-2xl font-hand font-bold mb-4">עוד חדרי בריחה שיתאימו לכם</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {similar.map((item) => (
+              <Link key={item.id} to={'/tools/escape-rooms/' + item.id} className="block">
+                <WobblyCard hover padding="p-4" className="h-full">
+                  <div className="text-3xl">{item.emoji}</div>
+                  <h3 className="font-hand font-bold text-xl">{item.title}</h3>
+                  <p className="text-sm text-[var(--muted-foreground)]">{item.audience}</p>
+                </WobblyCard>
+              </Link>
+            ))}
+          </div>
+          {roomCollections.length > 0 && <div className="mt-5 flex flex-wrap gap-2">{roomCollections.map(([slug, c]) => <Link key={slug} to={'/tools/escape-rooms/topic/' + slug} className="btn-secondary">{c.emoji} {c.title}</Link>)}</div>}
+        </section>
+      )}
 
       <div className="mt-12">
         <SeoBody paragraphs={escapeRoomsBody} faq={escapeRoomsFaq} related={escapeRoomsRelated} />
