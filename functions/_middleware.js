@@ -26,6 +26,8 @@ const CLOSED_FAMILIES = [
   /^\/gifts\/[^/]+$/,
   /^\/guides\/[^/]+$/,
   /^\/blog\/[^/]+$/,
+  /^\/tools\/dice\/[^/]+$/,
+  /^\/dice-games\/[^/]+$/,
   /^\/tools\/escape-rooms\/[^/]+$/,
   /^\/tools\/escape-rooms\/topic\/[^/]+$/,
   /^\/faq\/[^/]+$/,
