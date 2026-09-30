@@ -686,4 +686,18 @@
   <url><loc>https://ugabuga.co.il/tools/escape-rooms/topic/classroom</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/escape-rooms/topic/holidays</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/escape-rooms/topic/birthday</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice/backgammon</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice/monopoly</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice/polyhedral</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice/story-dice</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/dice/emotions</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/random-number</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/dice-template</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/pig</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/ship-captain-crew</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/going-to-boston</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/beetle</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/twenty-one</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/dice-games/math-dice-race</loc><priority>0.7</priority></url>
 </urlset>
