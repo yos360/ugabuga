@@ -13,6 +13,11 @@ const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
 const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
 const FaqTopic = lazy(() => import('./pages/FaqTopic'))
+const DicePresetPage = lazy(() => import('./pages/tools/dice/DicePresetPage'))
+const RandomNumber = lazy(() => import('./pages/tools/RandomNumber'))
+const DiceTemplate = lazy(() => import('./pages/printables/DiceTemplate'))
+const DiceGamesIndex = lazy(() => import('./pages/tools/dice/DiceGames').then(m => ({ default: m.DiceGamesIndex })))
+const DiceGamePage = lazy(() => import('./pages/tools/dice/DiceGames').then(m => ({ default: m.DiceGamePage })))
 const EscapeCollection = lazy(() => import('./pages/tools/EscapeCollection'))
 const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
@@ -209,6 +214,7 @@ export default function App() {
               <Route path="/printables/birthday-newspaper" element={<BirthdayNewspaper />} />
               <Route path="/printables/photo-props" element={<PhotoProps />} />
               <Route path="/printables/coloring" element={<ColoringPages />} />
+              <Route path="/printables/dice-template" element={<DiceTemplate />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />
@@ -236,6 +242,10 @@ export default function App() {
               <Route path="/games/escape-room" element={<EscapeRooms />} />
               <Route path="/games/escape-rooms" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
+              <Route path="/tools/dice/:preset" element={<DicePresetPage />} />
+              <Route path="/tools/random-number" element={<RandomNumber />} />
+              <Route path="/dice-games" element={<DiceGamesIndex />} />
+              <Route path="/dice-games/:slug" element={<DiceGamePage />} />
               <Route path="/rubiks-cube" element={<RubiksCube />} />
               <Route path="/holidays" element={<HolidaysHub />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
