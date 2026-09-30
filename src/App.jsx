@@ -13,6 +13,7 @@ const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
 const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
 const FaqTopic = lazy(() => import('./pages/FaqTopic'))
+const DndDice = lazy(() => import('./pages/tools/dice/DndDice'))
 const DicePresetPage = lazy(() => import('./pages/tools/dice/DicePresetPage'))
 const RandomNumber = lazy(() => import('./pages/tools/RandomNumber'))
 const DiceTemplate = lazy(() => import('./pages/printables/DiceTemplate'))
@@ -242,6 +243,7 @@ export default function App() {
               <Route path="/games/escape-room" element={<EscapeRooms />} />
               <Route path="/games/escape-rooms" element={<EscapeRooms />} />
               <Route path="/tools/dice" element={<Dice />} />
+              <Route path="/tools/dice/dnd" element={<DndDice />} />
               <Route path="/tools/dice/:preset" element={<DicePresetPage />} />
               <Route path="/tools/random-number" element={<RandomNumber />} />
               <Route path="/dice-games" element={<DiceGamesIndex />} />
