@@ -5,6 +5,7 @@ export const DICE_FAMILY = [
   ['/tools/dice/backgammon', '🎯', 'קוביות לשש בש'],
   ['/tools/dice/monopoly', '🏠', 'קוביות למונופול'],
   ['/tools/dice/polyhedral', '🔷', 'D4 עד D20'],
+  ['/tools/dice/dnd', '🐉', 'קוביות D&D'],
   ['/tools/dice/story-dice', '📖', 'קוביות סיפור'],
   ['/tools/dice/emotions', '💛', 'קוביית רגשות'],
   ['/tools/random-number', '🔢', 'מספר אקראי'],
