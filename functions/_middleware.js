@@ -25,6 +25,8 @@ const CLOSED_FAMILIES = [
   /^\/printables\/(?!activity\/)[^/]+$/,
   /^\/gifts\/[^/]+$/,
   /^\/guides\/[^/]+$/,
+  /^\/blog\/[^/]+$/,
+  /^\/faq\/[^/]+$/,
 ]
 
 function loadKnown(env, url) {
