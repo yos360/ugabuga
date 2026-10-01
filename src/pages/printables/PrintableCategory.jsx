@@ -11,7 +11,7 @@ const HEBREW_LETTERS = [
   ['chet','ח'],['tet','ט'],['yod','י'],['kaf','כ'],['lamed','ל'],['mem','מ'],['nun','נ'],
   ['samech','ס'],['ayin','ע'],['pe','פ'],['tsadi','צ'],['qof','ק'],['resh','ר'],['shin','ש'],['tav','ת'],
 ]
-const LETTER_ART = ['🍎','🏠','🐫','🚪','🌸','🌿','⭐','🧵','🍯','✋','🎨','🦁','💧','🐟','🌞','👁️','🦋','🌈','🎵','🚀','☀️','🍊']
+const LETTER_ART = ['🦁','🏠','🐫','🚪','⛰️','🌹','🦓','🧵','📱','✋','🐶','❤️','💧','🕯️','🐴','👁️','🦋','🐢','🐒','🚀','☀️','🍊']
 function HebrewLetterPreview({letter,index}) { return <div className="hebrew-letter-preview" aria-label={`אות ${letter}`}><div className="hebrew-letter-art">{LETTER_ART[index]}</div><div className="hebrew-letter-glyph">{letter}</div><div className="hebrew-dotted-line">{letter} · {letter} · {letter} · {letter}</div></div> }
 
 const svgMap = {
@@ -151,7 +151,7 @@ export default function PrintableCategory() {
       <div className="text-center mt-8">
         <button onClick={printAll}
           className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-3 font-display text-lg font-bold text-[var(--accent-foreground)] cursor-pointer">
-          🖨️ הדפיסו הכל ({cat.files.length} דפים)
+          🖨️ הדפיסו הכול ({cat.files.length} דפים)
         </button>
       </div>
     </div>

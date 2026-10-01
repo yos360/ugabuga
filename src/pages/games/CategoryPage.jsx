@@ -30,7 +30,7 @@ export default function CategoryPage() {
         <SEO title="קטגוריות משחקים" description="בחרו קטגוריית משחקים פעילה בעוגה בוגה." path="/games" noindex />
         <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'בחירת קטגוריה' }]} />
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
-          <h1 className="text-4xl mb-3">🎮 השטגוריה הזו לא פעילה</h1>
+          <h1 className="text-4xl mb-3">🎮 הקטגוריה הזו לא פעילה</h1>
           <p className="text-lg text-[var(--foreground)]/75 mb-6">בחרו קטגוריה קיימת או עברו לכל המשחקים.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/games" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--accent)] px-5 py-3 font-display text-xl font-bold text-white">כל המשחקים</Link>

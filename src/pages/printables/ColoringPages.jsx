@@ -19,7 +19,7 @@ const PAGES = [
   ['school','תיק בית הספר','school'],['school','ילדים בכיתה','school'],['school','ספרייה קטנה','school'],['school','שיעור אמנות','wand'],['school','הפסקה בחצר','sports'],['school','אוטובוס לבית הספר','car'],['school','מחברת ועט','school'],['school','לוח הכיתה','school'],['school','טקס סיום','trophy'],
 ]
 
-const CATEGORY = { all:'🌈 הכל', birthday:'🎂 יום הולדת', animals:'🐾 חיות', space:'🚀 חלל', fantasy:'🦄 פנטזיה', vehicles:'🚗 כלי רכב', sports:'⚽ ספורט', school:'🏫 בית ספר' }
+const CATEGORY = { all:'🌈 הכול', birthday:'🎂 יום הולדת', animals:'🐾 חיות', space:'🚀 חלל', fantasy:'🦄 פנטזיה', vehicles:'🚗 כלי רכב', sports:'⚽ ספורט', school:'🏫 בית ספר' }
 
 function LineArt({ kind }) {
   if (kind === 'cake') return <img src="/coloring/birthday-cake-lineart.png" alt="עוגת יום הולדת לצביעה" className="h-full w-full object-contain bg-white" />

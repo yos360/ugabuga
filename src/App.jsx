@@ -13,6 +13,22 @@ const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
 const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
 const FaqTopic = lazy(() => import('./pages/FaqTopic'))
+const TriviaTopic = lazy(() => import('./pages/content/TriviaTopic'))
+const TriviaTopicsHub = lazy(() => import('./pages/content/TriviaTopic').then(m => ({ default: m.TriviaTopicsHub })))
+const GreetingPage = lazy(() => import('./pages/content/GreetingPage'))
+const GreetingsHub = lazy(() => import('./pages/content/GreetingPage').then(m => ({ default: m.GreetingsHub })))
+const QuestionsPage = lazy(() => import('./pages/content/QuestionsPage'))
+const QuestionsHub = lazy(() => import('./pages/content/QuestionsPage').then(m => ({ default: m.QuestionsHub })))
+const AnimalsHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AnimalsHub })))
+const AnimalPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AnimalPage })))
+const RiddlesHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.RiddlesHub })))
+const RiddlePage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.RiddlePage })))
+const JokesHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.JokesHub })))
+const JokePage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.JokePage })))
+const HuntsHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.HuntsHub })))
+const HuntPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.HuntPage })))
+const AbcHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcHub })))
+const AbcLetterPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcLetterPage })))
 const DndDice = lazy(() => import('./pages/tools/dice/DndDice'))
 const DicePresetPage = lazy(() => import('./pages/tools/dice/DicePresetPage'))
 const RandomNumber = lazy(() => import('./pages/tools/RandomNumber'))
@@ -205,6 +221,16 @@ export default function App() {
               <Route path="/letters" element={<LettersHub />} />
               <Route path="/letters/game" element={<LettersGamePage key="he" lang="he" />} />
               <Route path="/letters/:slug" element={<LetterPage />} />
+              <Route path="/animals" element={<AnimalsHub />} />
+              <Route path="/animals/:slug" element={<AnimalPage />} />
+              <Route path="/riddles/topics" element={<RiddlesHub />} />
+              <Route path="/riddles/:slug" element={<RiddlePage />} />
+              <Route path="/jokes/topics" element={<JokesHub />} />
+              <Route path="/jokes/:slug" element={<JokePage />} />
+              <Route path="/treasure-hunt/ready" element={<HuntsHub />} />
+              <Route path="/treasure-hunt/:slug" element={<HuntPage />} />
+              <Route path="/abc" element={<AbcHub />} />
+              <Route path="/abc/:letter" element={<AbcLetterPage />} />
               <Route path="/abc/game" element={<LettersGamePage key="en" lang="en" />} />
               <Route path="/words/opposites" element={<WordPairsPage key="o" setId="opposites" />} />
               <Route path="/words/synonyms" element={<WordPairsPage key="s" setId="synonyms" />} />
@@ -225,6 +251,12 @@ export default function App() {
               <Route path="/games/riddles" element={<Riddles />} />
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
               <Route path="/trivia" element={<TriviaQuiz />} />
+              <Route path="/trivia/topics" element={<TriviaTopicsHub />} />
+              <Route path="/trivia/:slug" element={<TriviaTopic />} />
+              <Route path="/birthday-greetings" element={<GreetingsHub />} />
+              <Route path="/greetings/:slug" element={<GreetingPage />} />
+              <Route path="/questions" element={<QuestionsHub />} />
+              <Route path="/questions/:slug" element={<QuestionsPage />} />
               <Route path="/quiz" element={<TriviaQuiz />} />
               <Route path="/tools/quiz" element={<TriviaQuiz />} />
               <Route path="/tools/trivia" element={<TriviaQuiz />} />
