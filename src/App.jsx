@@ -30,6 +30,9 @@ const HuntsHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ d
 const HuntPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.HuntPage })))
 const EnglishHub = lazy(() => import('./pages/english/EnglishPages').then(m => ({ default: m.EnglishHub })))
 const EnglishTopic = lazy(() => import('./pages/english/EnglishPages').then(m => ({ default: m.EnglishTopic })))
+const LanguagesHub = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguagesHub })))
+const LanguageHome = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguageHome })))
+const LanguageTopic = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguageTopic })))
 const AbcHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcHub })))
 const AbcLetterPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcLetterPage })))
 const DndDice = lazy(() => import('./pages/tools/dice/DndDice'))
@@ -237,6 +240,9 @@ export default function App() {
               <Route path="/treasure-hunt/:slug" element={<HuntPage />} />
               <Route path="/english" element={<EnglishHub />} />
               <Route path="/english/:topic" element={<EnglishTopic />} />
+              <Route path="/languages" element={<LanguagesHub />} />
+              <Route path="/languages/:lang" element={<LanguageHome />} />
+              <Route path="/languages/:lang/:topic" element={<LanguageTopic />} />
               <Route path="/abc" element={<AbcHub />} />
               <Route path="/abc/:letter" element={<AbcLetterPage />} />
               <Route path="/abc/game" element={<LettersGamePage key="en" lang="en" />} />

@@ -57,3 +57,11 @@ export async function speak(text, lang = 'he-IL', { rate = 0.85 } = {}) {
     return true
   } catch { return false }
 }
+
+// Whether this device has a voice for the language (resolves after the voice list loads).
+export async function hasVoice(lang) {
+  try {
+    if (!canSpeak()) return false
+    return !!pickVoice(await loadVoices(), lang)
+  } catch { return false }
+}

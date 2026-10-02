@@ -1079,4 +1079,49 @@
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/coloring</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/worksheets</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/greetings</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/colors</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/numbers</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/food</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/body</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/things</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/greetings</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/colors</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/numbers</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/food</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/body</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/things</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/greetings</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/colors</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/numbers</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/food</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/body</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/things</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/greetings</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/colors</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/numbers</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/food</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/body</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/things</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/colors</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/numbers</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/food</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/body</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/things</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/nature</loc><priority>0.6</priority></url>
 </urlset>

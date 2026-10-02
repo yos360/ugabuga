@@ -12,6 +12,7 @@ import { categories as PRINTABLES } from '../pages/printables/PrintablesIndex'
 import { printableHref } from '../components/ui/PrintableCard'
 import { BOARD_GAMES } from '../boardgames/registry'
 import { ENGLISH_TOPICS } from './englishWords'
+import { LANGS, LANG_CODES, languageTopics } from './languages'
 import { TRIVIA_TOPICS, ANIMALS, GREETING_PAGES, QUESTION_PAGES, RIDDLE_PAGES, JOKE_PAGES, HUNT_PAGES, ABC_LETTERS } from './content'
 import { DICE_GAMES } from './diceGames'
 import { BLOG_POSTS } from './blogPosts'
@@ -161,6 +162,12 @@ function buildStatic() {
   for (const h of HUNT_PAGES) out.push({ to: `/treasure-hunt/${h.slug}`, title: h.title, emoji: h.emoji, kind: 'page', desc: h.description, keys: 'חפש את המטמון ציד אוצרות רמזים' })
   out.push({ to: '/english', title: 'אנגלית לילדים — מילים ראשונות ומשחקים', emoji: '🇬🇧', kind: 'page', desc: 'מילים באנגלית לפי נושאים, עם תמונה, קול, משחק וכרטיסיות להדפסה.', keys: 'אנגלית english מילים באנגלית כרטיסיות' })
   for (const e of ENGLISH_TOPICS) out.push({ to: `/english/${e.slug}`, title: `${e.title} באנגלית`, emoji: e.emoji, kind: 'page', desc: e.intro, keys: `אנגלית english ${e.title} ${e.words.map(w => w.en + ' ' + w.he).join(' ')}` })
+  out.push({ to: '/languages', title: 'שפות לילדים — צרפתית, ספרדית, רוסית, ערבית ואמהרית', emoji: '🌍', kind: 'page', desc: 'מילים ראשונות בשש שפות עם תמונה, קול והגייה בעברית.', keys: 'שפות שפה זרה צרפתית ספרדית רוסית ערבית אמהרית לימוד שפות' })
+  for (const code of LANG_CODES) {
+    const L = LANGS[code]
+    out.push({ to: `/languages/${code}`, title: `${L.name} לילדים`, emoji: L.emoji, kind: 'page', desc: `מילים ראשונות ${L.adj} עם תמונה והגייה.`, keys: `${L.name} שפות לימוד ${L.name}` })
+    for (const t of languageTopics(code)) out.push({ to: `/languages/${code}/${t.slug}`, title: `${t.title} ${L.adj}`, emoji: t.emoji, kind: 'page', desc: `${t.title} ${L.adj} לילדים, עם תמונה והגייה.`, keys: `${L.name} ${t.title} ${t.words.map(w => w.he).join(' ')}` })
+  }
   for (const l of ABC_LETTERS) out.push({ to: `/abc/${l.slug}`, title: `האות ${l.letter} באנגלית`, emoji: '🔤', kind: 'page', desc: l.description, keys: `אנגלית אותיות abc ${l.letter} ${l.name}` })
   for (const d of DICE_GAMES) out.push({ to: `/dice-games/${d.slug}`, title: d.title, emoji: d.emoji, kind: 'game', desc: d.description, keys: 'משחק קוביות קוביה חוקים' })
   for (const b of BLOG_POSTS) out.push({ to: `/blog/${b.slug}`, title: b.title, emoji: b.emoji, kind: 'idea', desc: b.description, keys: 'בלוג כתבה' })
