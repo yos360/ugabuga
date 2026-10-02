@@ -1,3 +1,4 @@
+import { israelDayNumber } from '../../utils/israelDate'
 import { useState, useMemo } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -82,7 +83,7 @@ export default function GamesIndex() {
     e.stopPropagation()
     setFavorites(prev => {
       const next = prev.includes(game.slug) ? prev.filter(slug => slug !== game.slug) : [...prev, game.slug]
-      localStorage.setItem('ugabuga:favorites', JSON.stringify(next))
+      try { localStorage.setItem('ugabuga:favorites', JSON.stringify(next)) } catch { /* storage blocked: keep favorites for this visit only */ }
       return next
     })
   }
@@ -111,7 +112,7 @@ export default function GamesIndex() {
     )
     if (!isGameOfDay) return candidates
     if (!candidates.length) return []
-    const dayIndex = Math.floor(Date.now() / 86400000) % candidates.length
+    const dayIndex = israelDayNumber(Date.now()) % candidates.length // changes at midnight in Israel, not UTC
     return [candidates[dayIndex]]
   }, [search, games, goalFilter, contextFilter, ageNumber, isGameOfDay])
 

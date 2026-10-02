@@ -77,7 +77,7 @@ function Player({ items: source, title, onClose }) {
 
       {phase === 'end' && <div className="my-auto rounded-[32px] bg-white p-6 text-center shadow-lg">
         <div className="text-6xl">🏆</div>
-        <h2 className="mt-2 text-3xl font-black">{teams.length > 1 ? `ניצחה: ${teams.filter(t => t.score === best).map(t => t.name).join(' ו')}` : `סיימתם עם ${best} נקודות!`}</h2>
+        <h2 className="mt-2 text-3xl font-black">{teams.length > 1 ? (teams.filter(t => t.score === best).length > 1 ? `תיקו! ${teams.filter(t => t.score === best).map(t => t.name).join(' ו')} עם ${best} נקודות` : `ניצחה: ${teams.find(t => t.score === best).name}`) : `סיימתם עם ${best} נקודות!`}</h2>
         <div className="mx-auto mt-4 max-w-xs space-y-2">{[...teams].sort((a, b) => b.score - a.score).map(t => <div key={t.name} className="flex justify-between rounded-xl bg-slate-50 px-4 py-2 text-lg"><b>{t.name}</b><span>{t.score}</span></div>)}</div>
         <div className="mt-6 flex flex-wrap justify-center gap-2"><button onClick={restart} className="rounded-2xl bg-[var(--ink)] px-6 py-3 font-bold text-white">🔄 עוד סיבוב</button><button onClick={onClose} className="rounded-2xl border-2 border-slate-300 px-6 py-3 font-bold">סיום</button></div>
       </div>}

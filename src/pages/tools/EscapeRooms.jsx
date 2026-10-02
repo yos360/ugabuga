@@ -22,8 +22,14 @@ const escapeRoomsBody = [
 ]
 const escapeRoomsRelated = [ { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
+// Number answers also accept the Hebrew word ("ארבע" for 4), and niqqud / final letters never decide a match.
+const HEBREW_NUMBERS = ['אפס', 'אחת|אחד', 'שתיים|שניים|שתים|שנים', 'שלוש|שלושה', 'ארבע|ארבעה', 'חמש|חמישה', 'שש|שישה', 'שבע|שבעה', 'שמונה', 'תשע|תשעה', 'עשר|עשרה',
+  'אחת עשרה|אחד עשר', 'שתים עשרה|שנים עשר', 'שלוש עשרה|שלושה עשר', 'ארבע עשרה|ארבעה עשר', 'חמש עשרה|חמישה עשר', 'שש עשרה|שישה עשר', 'שבע עשרה|שבעה עשר', 'שמונה עשרה|שמונה עשר', 'תשע עשרה|תשעה עשר', 'עשרים']
+const finals = text => text.replace(/[ךםןףץ]/g, c => ({ ך: 'כ', ם: 'מ', ן: 'נ', ף: 'פ', ץ: 'צ' }[c]))
+const NUMBER_WORDS = new Map(HEBREW_NUMBERS.flatMap((forms, n) => forms.split('|').map(w => [finals(w), String(n)])))
 function normalizeAnswer(value) {
-  return String(value).trim().toLowerCase().replace(/["'`׳״.,!?:;()\-־]/g, ' ').replace(/\s+/g, ' ').trim()
+  const text = finals(String(value).normalize('NFKD').replace(/[\u0591-\u05C7]/g, '')).trim().toLowerCase().replace(/["'`׳״.,!?:;()\-־]/g, ' ').replace(/\s+/g, ' ').trim()
+  return NUMBER_WORDS.get(text) ?? text
 }
 
 export default function EscapeRooms() {

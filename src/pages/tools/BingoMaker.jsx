@@ -30,7 +30,8 @@ function generateCard(items, size) {
   const need = size * size
   const pool = [...new Set(items)]
   for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
-  if(size===5&&pool.length===24){const result=pool.slice();result.splice(12,0,'משבצת חופשית ★');return result}
+  // 5×5 cards always get a free centre square, so they need 24 items (not 25) — packs and custom lists alike.
+  if(size===5&&pool.length>=24){const result=pool.slice(0,24);result.splice(12,0,'משבצת חופשית ★');return result}
   return pool.slice(0,need)
 }
 
@@ -55,7 +56,7 @@ export default function BingoMaker() {
   const [printing, setPrinting] = useState(false)
 
   const currentPack = PACKS[mode] || PACKS.intro
-  const needed = size * size
+  const needed = size === 5 ? 24 : size * size // 5×5: the centre square is free
   const suggestionsForMode = mode === 'custom' ? Object.values(PACKS).flatMap(pack => pack.items).slice(0, 80) : []
   const previewCards = useMemo(() => Array.from({ length: 3 }, () => generateCard(currentPack.items, size)), [mode, size, currentPack.items])
 

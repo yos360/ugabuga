@@ -1,3 +1,4 @@
+import { shuffle } from '../../utils/shuffle'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -18,7 +19,7 @@ const GAME_MODES = [
 ]
 
 function shuffleOptions(options = []) {
-  return [...options].sort(() => Math.random() - 0.5)
+  return shuffle(options)
 }
 
 const triviaFaq = [

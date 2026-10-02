@@ -56,7 +56,7 @@ function Play() {
       <p className="bg-status" role="status">{end ? (s.score[1] === s.score[-1] ? '🤝 תיקו!' : `🏆 ${name(s.score[1] > s.score[-1] ? 1 : -1)} ניצחו!`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על קו בין שתי נקודות`}</p>
       <div className="db-board" dir="ltr">
         <svg viewBox="-6 -6 112 112" role="img" aria-label="לוח נקודות">
-          {Object.entries(s.owner).map(([k, t]) => { const [r, c] = k.split('-').map(Number); return <g key={k}><rect x={c * cell + 1} y={r * cell + 1} width={cell - 2} height={cell - 2} className={t === 1 ? 'db-box-a' : 'db-box-b'} /><text x={c * cell + cell / 2} y={r * cell + cell / 2 + 3} textAnchor="middle" fontSize={cell / 3}>{t === 1 ? '😀' : '🤖'}</text></g> })}
+          {Object.entries(s.owner).map(([k, t]) => { const [r, c] = k.split('-').map(Number); return <g key={k}><rect x={c * cell + 1} y={r * cell + 1} width={cell - 2} height={cell - 2} className={t === 1 ? 'db-box-a' : 'db-box-b'} /><text x={c * cell + cell / 2} y={r * cell + cell / 2 + 3} textAnchor="middle" fontSize={cell / 3}>{t === 1 ? '😀' : mode === 'computer' ? '🤖' : '😎'}</text></g> })}
           {allLines(N).map(l => {
             const [t, r, c] = [l[0], +l.split('-')[1], +l.split('-')[2]]
             const x1 = c * cell, y1 = r * cell, x2 = t === 'h' ? x1 + cell : x1, y2 = t === 'h' ? y1 : y1 + cell
@@ -69,7 +69,7 @@ function Play() {
           {Array.from({ length: (N + 1) * (N + 1) }, (_, k) => <circle key={k} cx={(k % (N + 1)) * cell} cy={Math.floor(k / (N + 1)) * cell} r="2.2" className="db-dot" />)}
         </svg>
       </div>
-      <div className="bg-score"><span>😀 {name(1)}: {s.score[1]}</span><span>🤖 {name(-1)}: {s.score[-1]}</span></div>
+      <div className="bg-score"><span>😀 {name(1)}: {s.score[1]}</span><span>{mode === 'computer' ? '🤖' : '😎'} {name(-1)}: {s.score[-1]}</span></div>
       <div className="bg-actions"><button type="button" className="bg-primary" onClick={() => setS(fresh())}>🔄 משחק חדש</button></div>
     </div>
   )

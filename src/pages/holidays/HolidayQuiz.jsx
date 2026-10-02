@@ -58,9 +58,10 @@ export default function HolidayQuiz({ h }) {
 
       <section className={`mx-auto mb-10 max-w-2xl rounded-3xl border-2 border-[var(--border)] ${h.soft} p-5 sketch-shadow`}>
         {done ? <div className="py-6 text-center">
-          <p className="text-6xl mb-2">{score >= 9 ? '🏆' : score >= 6 ? h.emoji : '⭐'}</p>
+          {/* Thresholds as a share of the round: level-1 rounds have only 6–8 questions. */}
+          <p className="text-6xl mb-2">{score >= round.length * 0.9 ? '🏆' : score >= round.length * 0.6 ? h.emoji : '⭐'}</p>
           <p className="text-3xl font-bold mb-1">{score} מתוך {round.length}</p>
-          <p className="text-lg mb-4">{score >= 9 ? 'אלופים! כל הכבוד!' : score >= 6 ? `יפה מאוד! אתם יודעים הרבה על ${h.name}` : 'התחלה טובה — עוד סיבוב ותהיו מומחים'}</p>
+          <p className="text-lg mb-4">{score >= round.length * 0.9 ? 'אלופים! כל הכבוד!' : score >= round.length * 0.6 ? `יפה מאוד! אתם יודעים הרבה על ${h.name}` : 'התחלה טובה — עוד סיבוב ותהיו מומחים'}</p>
           <button type="button" onClick={() => restart()} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🔄 סיבוב חדש</button>
         </div> : <>
           <div className="mb-2 flex justify-between text-sm font-bold"><span>שאלה {i + 1} מתוך {round.length}</span><span>⭐ {score}</span></div>

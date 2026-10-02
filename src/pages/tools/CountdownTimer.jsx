@@ -130,7 +130,7 @@ export default function CountdownTimer() {
         </div>
       )}
 
-      <p className="text-center font-hand text-sm text-[var(--muted-foreground)] mt-6">💡 הזיזו את העכבר — השעון עוקב אחריו!</p>
+      <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-6">💡 הזיזו את העכבר — השעון עוקב אחריו!</p>
     </div>
   )
 }

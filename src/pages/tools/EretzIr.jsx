@@ -51,6 +51,13 @@ function PrintSheet({ categories }) {
   )
 }
 
+// Scores are kept per name — two players called the same would share one score, so make names unique.
+const uniqueNames = list => list.map((name, i) => {
+  const base = name.trim() || `שחקן ${i + 1}`
+  const before = list.slice(0, i).filter(x => (x.trim() || '') === name.trim()).length
+  return before ? `${base} (${before + 1})` : base
+})
+
 export default function EretzIr() {
   const [phase, setPhase] = useState('setup') // setup | draw | write | score | summary
   const [pack, setPack] = useState('classic')
@@ -158,10 +165,10 @@ export default function EretzIr() {
           </div>
           {mode === 'paper' && <div className="ei-players">
             {players.map((p, i) => <span key={i}><input value={p} aria-label={`שם שחקן ${i + 1}`} onChange={e => setPlayers(x => x.map((y, k) => k === i ? e.target.value : y))} />{players.length > 1 && <button type="button" aria-label="הסרת שחקן" onClick={() => setPlayers(x => x.filter((_, k) => k !== i))}>✕</button>}</span>)}
-            {players.length < 8 && <button type="button" className="ei-addp" onClick={() => setPlayers(x => [...x, `שחקן ${x.length + 1}`])}>➕ שחקן</button>}
+            {players.length < 8 && <button type="button" className="ei-addp" onClick={() => setPlayers(x => { let n = x.length + 1; while (x.includes(`שחקן ${n}`)) n++; return [...x, `שחקן ${n}`] })}>➕ שחקן</button>}
           </div>}
 
-          <button type="button" className="ei-go" onClick={draw}>🎲 מתחילים!</button>
+          <button type="button" className="ei-go" onClick={() => { setPlayers(uniqueNames); draw() }}>🎲 מתחילים!</button>
           <button type="button" className="ei-link" onClick={() => setPrinting(true)}>🖨️ דף ארץ עיר להדפסה</button>
         </>}
 

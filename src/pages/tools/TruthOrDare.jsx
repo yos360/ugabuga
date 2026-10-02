@@ -4,14 +4,16 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 
+// Copy describes the game this page actually is: a true-or-false ("אמת או בוגה") fact game for kids and families.
 const truthOrDareFaq = [
-  { q: 'אפשר לבחור רמת עוצמה מסוימת מראש?', a: 'כן, יש כמה רמות עוצמה במאגר, כך שאפשר להתאים את המשחק לגיל ולהיכרות בין המשתתפים לפני שמתחילים.' },
-  { q: 'מתאים גם לילדים צעירים יותר?', a: 'פחות — המשחק בנוי בעיקר לנוער ומעלה. לילדים צעירים יותר, משחקי היכרות ושוברי קרח מתאימים טוב יותר.' },
+  { q: 'איך משחקים אמת או בוגה?', a: 'מופיע משפט על חיות, טבע, אוכל, גוף האדם ועוד — וכל שחקן או קבוצה מחליטים אם הוא אמת או בוגה (שטות). תשובה נכונה מקבלת נקודה, ואחרי כל תשובה מופיע הפתרון.' },
+  { q: 'לאיזה גיל זה מתאים?', a: 'לילדים מגיל 6 בערך ולכל המשפחה. המשפטים קצרים ומוכרים, ואפשר לקרוא אותם בקול לילדים שעוד לא קוראים לבד.' },
+  { q: 'אפשר להוסיף משפטים משלנו?', a: 'כן. כותבים משפט, מסמנים אם הוא אמת או בוגה, והוא נכנס למשחק — מעולה לשאלות על החוגג או על הכיתה.' },
 ]
 const truthOrDareBody = [
-  'הגרסה הדיגיטלית של אמת או חובה/בוגה פותרת את הבעיה שכל מי ששיחק את המשחק מכיר: אחרי חצי שעה, כל השאלות שכולם מכירים בעל פה כבר נגמרות. כאן יש מאגר של קרוב ל־200 משפטים מוכנים, בכמה רמות עוצמה, כך שאפשר לשחק שוב ושוב בלי לחזור על אותו דבר.',
-  'הכלי מתאים במיוחד לנוער ולמבוגרים צעירים במפגשים חברתיים. אפשר לבחור רמת עוצמה מתונה לקבוצה שרק מתחילה להכיר אחד את השני, ורמה יותר נועזת לחברים ותיקים.',
-  'טיפ חשוב: תמיד שומרים על כלל "אפשר לסרב ולבחור משימה חלופית" — זה מה שהופך את המשחק לכיפי במקום ללחוץ.',
+  'אמת או בוגה הוא משחק ידע מהיר: קוראים משפט אחד, וכולם מנחשים אם הוא נכון או שטות. יש מאגר של כ־200 משפטים בנושאים שונים, והמשחק זוכר מה כבר הופיע כדי לא לחזור על אותו משפט.',
+  'אפשר לשחק לבד, בזוגות או בקבוצות עם ניקוד — במסיבת יום הולדת, בכיתה, בנסיעה או בערב משפחה.',
+  'טיפ: אחרי כל תשובה כדאי לעצור רגע ולספר עוד פרט קטן על הנושא — ככה המשחק גם מלמד וגם מצחיק.',
 ]
 const truthOrDareRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'טריוויה BUGA', href: '/tools/trivia-quiz' }, { label: 'משחקי היכרות ושוברי קרח', href: '/games/icebreaker' } ]
 
@@ -133,7 +135,8 @@ function buildCards(customItems) {
     difficulty: DIFFICULTY_BY_INDEX[index % DIFFICULTY_BY_INDEX.length],
     id: `${topic}-${index}`,
   })))
-  const custom = customItems.map((item, index) => ({ topic: 'custom', text: item.text, truth: item.truth, difficulty: item.difficulty || 'easy', id: 'custom-' + index }))
+  // Id from the statement itself: index-based ids were reused by new statements after a reload and counted as already seen.
+  const custom = customItems.map((item) => ({ topic: 'custom', text: item.text, truth: item.truth, difficulty: item.difficulty || 'easy', id: 'custom-' + item.text.trim() }))
   return [...base, ...custom]
 }
 
@@ -232,7 +235,7 @@ export default function TruthOrDare() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="אמת או חובה — משחק לחברים ולנוער" description="משחק אמת או בוגה עם מאות משפטים, מצב לבד, מצב קבוצות, ניקוד, רמות קושי וזיכרון שלא חוזר על שאלות שכבר הופיעו." path="/tools/truth-or-buga" structuredData={faqSchema(truthOrDareFaq)} />
+      <SEO title="אמת או בוגה — משחק נכון או לא נכון לילדים ולמשפחה" description="משחק אמת או בוגה: כ־200 משפטים על חיות, טבע ואוכל — מנחשים אם זה נכון או שטות. משחקים לבד או בקבוצות, עם ניקוד ובלי לחזור על משפטים שכבר הופיעו." path="/tools/truth-or-buga" structuredData={faqSchema(truthOrDareFaq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'אמת או בוגה' }]} />
 
       <div className="text-center mb-8">

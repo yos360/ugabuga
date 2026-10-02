@@ -9,7 +9,8 @@ const PACKS = {
   school: ['מורה','ספר','מחברת','עט','שולחן','כיסא','לוח','תיק'],
 }
 
-const LETTERS = 'אבגדהוזחטיכלמנסעפצקרשת'
+// Final letters are in the filler too — otherwise every ך/ם/ן/ף/ץ in the grid gives away the end of a word.
+const LETTERS = 'אבגדהוזחטיכלמנסעפצקרשתךםןףץ'
 
 function buildGrid(words, size) {
   let grid = Array.from({length: size}, () => Array(size).fill(null))

@@ -22,7 +22,7 @@ export default function DiceRoller({ sides = 6, counts = [1, 2, 3], defaultCount
       const vals = Array.from({ length: count }, () => Math.floor(Math.random() * n) + (faces ? 0 : 1))
       setValues(vals)
       const isDouble = vals.length === 2 && vals[0] === vals[1]
-      setDoublesInRow(d => (isDouble ? d + 1 : 0))
+      setDoublesInRow(d => (isDouble ? (d >= 3 ? 1 : d + 1) : 0)) // after going to jail the count starts over
       setHistory(h => [{ vals, total: vals.reduce((a, b) => a + b, 0), isDouble }, ...h].slice(0, 10))
       setRolling(false)
     }, 650)

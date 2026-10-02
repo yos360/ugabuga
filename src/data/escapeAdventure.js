@@ -31,11 +31,9 @@ export function buildEscapeAdventure(room, levelId, seed = 0) {
     .map((item, index) => ({
       ...item,
       title: `${difficultyNames[rank]} · ${item.title}`,
-      question: rank === 0
-        ? `${item.question} אפשר להיעזר ברמז.`
-        : rank === 1
-          ? `${item.question} איזה שלב בחישוב עשיתם קודם?`
-          : `${item.question} הסבירו לעצמכם את ההיגיון לפני הזנת הקוד.`,
+      // One question per lock: the old medium/hard add-ons asked a second, unrelated question
+      // ("which calculation step came first?") while the input only accepts the code.
+      question: rank === 0 ? `${item.question} אפשר להיעזר ברמז.` : item.question,
       order: index,
     }))
   const originals = room.steps

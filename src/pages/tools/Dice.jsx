@@ -14,7 +14,7 @@ export default function DiceTool() {
       <h1 className="text-4xl text-center mb-2">🎲 קוביה וירטואלית אונליין</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">להטיל קוביה בלחיצה — 1 עד 5 קוביות, בחינם</p>
       <DiceRoller counts={[1, 2, 3, 4, 5]} />
-      <p className="text-center font-hand text-sm text-[var(--muted-foreground)] mt-4">💡 הזיזו את העכבר מעל הקוביה — היא תסתובב!</p>
+      <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-4">💡 הזיזו את העכבר מעל הקוביה — היא תסתובב!</p>
 
       <section className="mt-10">
         <h2 className="text-2xl font-bold text-center mb-4">🏆 משחקים שאפשר לשחק עכשיו עם הקוביה</h2>

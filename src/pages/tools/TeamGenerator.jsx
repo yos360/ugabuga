@@ -1,3 +1,4 @@
+import { shuffle } from '../../utils/shuffle'
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -13,7 +14,7 @@ export default function TeamGenerator() {
 
   const generate = () => {
     const valid = names.map(n => n.trim()).filter(Boolean)
-    const shuffled = [...valid].sort(() => Math.random() - 0.5)
+    const shuffled = shuffle(valid)
     const result = Array.from({ length: teamCount }, () => [])
     shuffled.forEach((name, i) => result[i % teamCount].push(name))
     setTeams(result)
