@@ -11,6 +11,7 @@ import { GIFT_AGES } from './gifts'
 import { categories as PRINTABLES } from '../pages/printables/PrintablesIndex'
 import { printableHref } from '../components/ui/PrintableCard'
 import { BOARD_GAMES } from '../boardgames/registry'
+import { ENGLISH_TOPICS } from './englishWords'
 import { TRIVIA_TOPICS, ANIMALS, GREETING_PAGES, QUESTION_PAGES, RIDDLE_PAGES, JOKE_PAGES, HUNT_PAGES, ABC_LETTERS } from './content'
 import { DICE_GAMES } from './diceGames'
 import { BLOG_POSTS } from './blogPosts'
@@ -128,6 +129,8 @@ function buildStatic() {
   for (const r of RIDDLE_PAGES) out.push({ to: `/riddles/${r.slug}`, title: r.title, emoji: r.emoji, kind: 'page', desc: r.description, keys: 'חידות חידה תשובות' })
   for (const j of JOKE_PAGES) out.push({ to: `/jokes/${j.slug}`, title: j.title, emoji: j.emoji, kind: 'page', desc: j.description, keys: 'בדיחות בדיחה מצחיק' })
   for (const h of HUNT_PAGES) out.push({ to: `/treasure-hunt/${h.slug}`, title: h.title, emoji: h.emoji, kind: 'page', desc: h.description, keys: 'חפש את המטמון ציד אוצרות רמזים' })
+  out.push({ to: '/english', title: 'אנגלית לילדים — מילים ראשונות ומשחקים', emoji: '🇬🇧', kind: 'page', desc: 'מילים באנגלית לפי נושאים, עם תמונה, קול, משחק וכרטיסיות להדפסה.', keys: 'אנגלית english מילים באנגלית כרטיסיות' })
+  for (const e of ENGLISH_TOPICS) out.push({ to: `/english/${e.slug}`, title: `${e.title} באנגלית`, emoji: e.emoji, kind: 'page', desc: e.intro, keys: `אנגלית english ${e.title} ${e.words.map(w => w.en + ' ' + w.he).join(' ')}` })
   for (const l of ABC_LETTERS) out.push({ to: `/abc/${l.slug}`, title: `האות ${l.letter} באנגלית`, emoji: '🔤', kind: 'page', desc: l.description, keys: `אנגלית אותיות abc ${l.letter} ${l.name}` })
   for (const d of DICE_GAMES) out.push({ to: `/dice-games/${d.slug}`, title: d.title, emoji: d.emoji, kind: 'game', desc: d.description, keys: 'משחק קוביות קוביה חוקים' })
   for (const b of BLOG_POSTS) out.push({ to: `/blog/${b.slug}`, title: b.title, emoji: b.emoji, kind: 'idea', desc: b.description, keys: 'בלוג כתבה' })

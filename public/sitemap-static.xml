@@ -986,6 +986,25 @@
   <url><loc>https://ugabuga.co.il/treasure-hunt/winter-rainy</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/treasure-hunt/outdoors-nature</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/treasure-hunt/shabbat-family</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/english/colors</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/numbers</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/animals</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/body</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/feelings</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/magic-words</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/days</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/months</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/classroom</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/birthday</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/fruits</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/food</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/family</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/clothes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/weather</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/transport</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/shapes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/english/home</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/a</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/b</loc><priority>0.7</priority></url>

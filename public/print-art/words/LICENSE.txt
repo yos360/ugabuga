@@ -1,0 +1,3 @@
+Emoji artwork in this folder: Noto Emoji by Google, licensed under the Apache License 2.0
+(https://github.com/googlefonts/noto-emoji). Exported from @iconify-json/noto 1.2.9.
+Pictures for the English word cards (screen and print).

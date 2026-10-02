@@ -86,6 +86,7 @@ export const MENU_GROUPS = [
       { to: '/jokes/topics', label: 'בדיחות לילדים', icon: '😂' },
       { to: '/questions', label: 'שאלות לשיחה ולמשחק', icon: '❓' },
       { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
+      { to: '/english', label: 'אנגלית לילדים — מילים ומשחקים', icon: '🇬🇧' },
       { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
       { to: '/birthday-greetings', label: 'ברכות ליום הולדת', icon: '💌' },
       { to: '/treasure-hunt/ready', label: 'ציד אוצרות מוכן להדפסה', icon: '🗺️' },
@@ -96,4 +97,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
