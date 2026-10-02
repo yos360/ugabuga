@@ -149,7 +149,7 @@ export default function RubiksCube() {
           'טיפ: אל תנסו לזכור את כל המדריך בבת אחת. למדו שלב אחד, תרגלו אותו כמה פעמים על הקובייה, ורק אז עברו לשלב הבא. ההדגמות בעמוד מראות בדיוק איך הקובייה נראית לפני כל אלגוריתם ואחריו.',
         ]}
         faq={FAQ}
-        related={[{ label: 'משחקי לוח נגד המחשב', href: '/board-games' }, { label: 'חידות היגיון', href: '/tools/riddles' }, { label: 'קוביה וירטואלית', href: '/tools/dice' }]}
+        related={[{ label: 'משחקי לוח נגד המחשב', href: '/board-games' }, { label: 'חידות היגיון', href: '/tools/riddles' }, { label: 'קובייה וירטואלית', href: '/tools/dice' }]}
       />
     </div>
   )

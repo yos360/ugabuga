@@ -22,17 +22,17 @@ export function createGameNews(event) {
   }
 
   if (event.type === 'bugaTown') {
-    if (event.action === 'buy') return `🏙️ ${player} בנה בעיר בוגהטאון — כבש את ${event.property}!`
-    if (event.action === 'rent') return `💰 ${player} שילם שכירות בבוגהטאון — העיר מתחממת.`
-    if (event.action === 'win') return `🏆 ${player} הגיע למרכז בוגהטאון וניצח את העיר!`
-    return `🏙️ ${player} התקדם בבוגהטאון.`
+    if (event.action === 'buy') return `🏙️ ${player} בנה בעיר בוגה טאון — כבש את ${event.property}!`
+    if (event.action === 'rent') return `💰 ${player} שילם שכירות בבוגה טאון — העיר מתחממת.`
+    if (event.action === 'win') return `🏆 ${player} הגיע למרכז בוגה טאון וניצח את העיר!`
+    return `🏙️ ${player} התקדם בבוגה טאון.`
   }
 
   return `📰 ${player} יצר רגע חדש במשחקי הבוגה.`
 }
 
 export const DEFAULT_LIVE_NEWS = [
-  '🔴 חדשות הבוגה בלייב מוכנות לפעולה.',
-  '🎮 כל משחק יכול להפוך לכותרת קטנה ומצחיקה.',
-  '🏙️ בוגהטאון, טריוויה וריבוי שחקנים מתחברים לאותה שפה.',
+  '🎮 כאן יופיעו רגעים מהמשחק שלכם',
+  '🏆 כל ניצחון, קנייה ותור מצחיק יקבלו כותרת משלהם',
+  '🏙️ שחקו בבוגה טאון או בטריוויה — והחדשות יתחילו לזרום',
 ]

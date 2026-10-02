@@ -6,9 +6,9 @@
 
 export const LANGS = {
   fr: { name: 'צרפתית', adj: 'בצרפתית', speech: 'fr-FR', dir: 'ltr', emoji: '🥐', hello: 'bonjour' },
-  es: { name: 'ספרדית', adj: 'בספרדית', speech: 'es-ES', dir: 'ltr', emoji: '💃', hello: 'hola' },
+  es: { name: 'ספרדית', adj: 'בספרדית', speech: 'es-MX', dir: 'ltr', emoji: '💃', hello: 'hola' },
   ru: { name: 'רוסית', adj: 'ברוסית', speech: 'ru-RU', dir: 'ltr', emoji: '🪆', hello: 'привет' },
-  ar: { name: 'ערבית', adj: 'בערבית', speech: 'ar-SA', dir: 'rtl', emoji: '🌙', hello: 'مرحبا', note: 'המילים כאן בערבית ספרותית (הכתובה). בערבית המדוברת חלק מהמילים נשמעות אחרת.' },
+  ar: { name: 'ערבית', adj: 'בערבית', speech: 'ar-SA', dir: 'rtl', emoji: '📖', hello: 'مرحبا', note: 'המילים כאן בערבית ספרותית (הכתובה). בערבית המדוברת חלק מהמילים נשמעות אחרת.' },
   am: { name: 'אמהרית', adj: 'באמהרית', speech: 'am-ET', dir: 'ltr', emoji: '☕', hello: 'ሰላም' },
 }
 

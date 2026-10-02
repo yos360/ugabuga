@@ -13,7 +13,7 @@ import { shuffle } from '../../utils/shuffle'
 // picture, sound and Hebrew-letter pronunciation, a picture game and printables.
 // Every word is verified by scripts/lang-verify/vocab.py (Unicode CLDR + eSpeak NG).
 
-const VERIFIED = 'כל מילה כאן נבדקה מול השמות הרשמיים של Unicode, שכתבו דוברי השפה, וההגייה בעברית חושבה במנוע הגייה ולא נכתבה ביד.'
+const VERIFIED = 'המילים נלקחו ממאגר רשמי שכתבו דוברי השפה, וההגייה בעברית הופקה אוטומטית ממנוע הגייה — היא עזר בלבד.'
 
 function Pic({ word, size = 72, eager = false }) {
   if (word.text) return <span className="block font-black leading-none text-[#1e1b4b]" style={{ fontSize: size * 0.8 }}>{word.text}</span>

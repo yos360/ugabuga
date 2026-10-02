@@ -23,7 +23,7 @@ import { ESCAPE_ROOMS } from './escapeRoomsExpanded'
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
-  { to: '/games', title: 'כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש' },
+  { to: '/games', title: 'כל המשחקים', emoji: '🎮', kind: 'page', desc: '100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש' },
   { to: '/birthday', title: 'יום הולדת', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת' },
   { to: '/classroom', title: 'לכיתה ולגן', emoji: '🏫', kind: 'page', desc: 'פעילויות, משחקים ודפי עבודה למורות ולגננות.', keys: 'מורה גננת גן בית ספר' },
   { to: '/create', title: 'יוצרים ומדפיסים', emoji: '🖨️', kind: 'page', desc: 'מחוללים ודפים להדפסה.', keys: 'יצירה' },
@@ -70,7 +70,7 @@ const PAGES = [
   { to: '/holidays/hanukkah/quiz', title: 'חידון חנוכה לילדים', emoji: '❓', kind: 'tool', desc: '3 רמות, גם להדפסה.', keys: 'חידון חנוכה שאלות טריוויה' },
   { to: '/holidays/hanukkah/coloring', title: 'דפי צביעה לחנוכה', emoji: '🖍️', kind: 'tool', keys: 'צביעה חנוכה חנוכייה סביבון סופגניה' },
   { to: '/holidays/hanukkah/worksheets', title: 'דפי עבודה לחנוכה', emoji: '✏️', kind: 'tool', keys: 'דפי עבודה חנוכה גן כיתה א' },
-  { to: '/rubiks-cube', title: 'פתרון קובייה הונגרית למתחילים', emoji: '🧊', kind: 'tool', desc: '7 שלבים עם הדגמה חיה ואלגוריתמים שנבדקו במחשב.', keys: 'קובייה הונגרית קוביה הונגרית רוביק פתרון אלגוריתם rubik' },
+  { to: '/rubiks-cube', title: 'פתרון קובייה הונגרית למתחילים', emoji: '🧊', kind: 'tool', desc: '7 שלבים עם הדגמה חיה ואלגוריתמים שנבדקו במחשב.', keys: 'קובייה הונגרית קובייה הונגרית רוביק פתרון אלגוריתם rubik' },
   { to: '/letters', title: 'לימוד אותיות בעברית', emoji: '🔤', kind: 'tool', desc: 'עמוד לכל אות: איך כותבים, מילים, משחק ודף תרגול.', keys: 'אותיות אות עברית לימוד כתיבה דפוס כיתה א גן אלף בית' },
   { to: '/letters/game', title: 'משחק אותיות לגן', emoji: '🎮', kind: 'tool', desc: 'מצאו את האות, באיזו אות זה מתחיל ואיך קוראים לאות.', keys: 'משחק אותיות גן לימוד אותיות עברית חינם' },
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
@@ -100,8 +100,8 @@ const PAGES = [
 ]
 
 const TOOL_DESC = {
-  '/tools/trivia-quiz': 'טריוויה עם מצבי משחק, ניקוד ותחרות.', '/tools/truth-or-buga': 'משחק אמת/שקר עם קושי, קבוצות וניקוד.',
-  '/tools/buga-town': 'משחק עיר ונכסים עם שאלות וקוביות.', '/tools/escape-rooms': 'חדרים דיגיטליים וקיטים להנחיה.',
+  '/tools/trivia-quiz': 'טריוויה עם מצבי משחק, ניקוד ותחרות.', '/tools/truth-or-buga': 'משחק אמת/שקר עם נושאים, קבוצות וניקוד.',
+  '/tools/buga-town': 'משחק לוח של עיר ונכסים עם קוביות, ל-2–4 שחקנים.', '/tools/escape-rooms': 'חדרים דיגיטליים וקיטים להנחיה.',
   '/tools/riddles': 'מאגר חידות לפי נושא, גיל וקושי.', '/tools/emoji-studio': 'מנחשים שירים וסרטים באימוג׳ים.',
   '/tools/bingo-maker': 'כרטיסיות בינגו מוכנות או מותאמות אישית.', '/tools/word-search-maker': 'צרו תפזורות לפי מילים ונושאים.',
   '/tools/crossword-maker': 'מכניסים מילים ומקבלים תשבץ להדפסה.', '/tools/scavenger-hunt-maker': 'רמזים ומשימות מוכנים להפעלה.',
@@ -169,7 +169,7 @@ function buildStatic() {
     for (const t of languageTopics(code)) out.push({ to: `/languages/${code}/${t.slug}`, title: `${t.title} ${L.adj}`, emoji: t.emoji, kind: 'page', desc: `${t.title} ${L.adj} לילדים, עם תמונה והגייה.`, keys: `${L.name} ${t.title} ${t.words.map(w => w.he).join(' ')}` })
   }
   for (const l of ABC_LETTERS) out.push({ to: `/abc/${l.slug}`, title: `האות ${l.letter} באנגלית`, emoji: '🔤', kind: 'page', desc: l.description, keys: `אנגלית אותיות abc ${l.letter} ${l.name}` })
-  for (const d of DICE_GAMES) out.push({ to: `/dice-games/${d.slug}`, title: d.title, emoji: d.emoji, kind: 'game', desc: d.description, keys: 'משחק קוביות קוביה חוקים' })
+  for (const d of DICE_GAMES) out.push({ to: `/dice-games/${d.slug}`, title: d.title, emoji: d.emoji, kind: 'game', desc: d.description, keys: 'משחק קוביות קובייה חוקים' })
   for (const b of BLOG_POSTS) out.push({ to: `/blog/${b.slug}`, title: b.title, emoji: b.emoji, kind: 'idea', desc: b.description, keys: 'בלוג כתבה' })
   for (const [key, f] of Object.entries(FAQ_TOPICS)) out.push({ to: `/faq/${key}`, title: f.title, emoji: f.emoji, kind: 'page', desc: f.description, keys: 'שאלות נפוצות שאלות ותשובות' })
   for (const room of ESCAPE_ROOMS) out.push({ to: `/tools/escape-rooms/${room.id}`, title: room.title, emoji: room.emoji, kind: 'game', desc: room.description, keys: 'חדר בריחה אסקייפ' })

@@ -22,8 +22,8 @@ const PLAY_TOOL_ROUTES = {
 }
 const MISSING_GAME_LINKS = [
   { to: '/tools', label: '🛠️ כל הכלים' },
-  { to: '/tools/trivia-quiz', label: '🎯 טריוויה BUGA' },
-  { to: '/tools/buga-town', label: '🏙️ בוגהטאון' },
+  { to: '/tools/trivia-quiz', label: '🎯 טריוויה' },
+  { to: '/tools/buga-town', label: '🏙️ בוגה טאון' },
   { to: '/tools/bingo-maker', label: '🎟️ בינגו' },
   { to: '/tools/riddles', label: '🧩 חידות' },
   { to: '/tools/escape-rooms', label: '🔐 חדרי בריחה' },
@@ -78,7 +78,7 @@ export default function GamePage() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'משחק לא נמצא' }]} />
       <div className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-8 sketch-shadow-rich">
         <div className="text-6xl mb-3">🎮</div>
-        <h1 className="text-4xl mb-3">המשחק הזה עבר מקום</h1>
+        <h1 className="text-4xl mb-3">המשחק לא נמצא</h1>
         <p className="mx-auto max-w-xl text-lg text-[var(--foreground)]/75 mb-6">
           יכול להיות שזה קישור ישן או משחק שעדיין לא חובר למאגר. בינתיים אפשר להגיע מכאן לכל המשחקים והכלים הפעילים.
         </p>
@@ -113,7 +113,7 @@ export default function GamePage() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: game.name }]} />
 
       <div className="flex flex-wrap items-center gap-2 text-sm font-hand text-[var(--muted-foreground)] mb-2">
-        <span>{game.content_type === 'GAME_ENGINE' ? 'מנוע משחק' : game.content_type === 'GAME' ? 'משחק' : 'פעילות'}</span>
+        <span>{game.content_type === 'GAME_ENGINE' ? 'משחק אינטראקטיבי' : game.content_type === 'GAME' ? 'משחק' : 'פעילות'}</span>
         {game.category && <><span>·</span><span>{game.category}</span></>}
       </div>
 

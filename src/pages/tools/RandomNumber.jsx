@@ -62,7 +62,7 @@ export default function RandomNumber() {
       {history.length > 1 && <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4"><h2 className="font-display text-lg font-bold mb-2">הגרלות קודמות</h2>{history.slice(1).map((h, i) => <p key={i} className="font-hand">{h}</p>)}</div>}
       <DiceFamilyLinks current="/tools/random-number" />
       <div className="mt-10">
-        <SeoBody paragraphs={['מחולל מספרים אקראיים שימושי להרבה דברים: להגריל מי מתחיל במשחק, לבחור תלמיד לפי מספר ביומן, להגריל זוכה בתחרות או לבחור שאלה מתוך רשימה ממוספרת.', 'אפשר להגריל מספר אחד או כמה מספרים יחד. במצב "בלי חזרות" כל מספר יוצא לכל היותר פעם אחת — בדיוק כמו לשלוף פתקים מכובע.']} faq={FAQ} related={[{ label: 'גלגל מזל', href: '/tools/random-picker' }, { label: 'הטלת מטבע', href: '/tools/coin-flip' }, { label: 'קוביה וירטואלית', href: '/tools/dice' }]} />
+        <SeoBody paragraphs={['מחולל מספרים אקראיים שימושי להרבה דברים: להגריל מי מתחיל במשחק, לבחור תלמיד לפי מספר ביומן, להגריל זוכה בתחרות או לבחור שאלה מתוך רשימה ממוספרת.', 'אפשר להגריל מספר אחד או כמה מספרים יחד. במצב "בלי חזרות" כל מספר יוצא לכל היותר פעם אחת — בדיוק כמו לשלוף פתקים מכובע.']} faq={FAQ} related={[{ label: 'גלגל מזל', href: '/tools/random-picker' }, { label: 'הטלת מטבע', href: '/tools/coin-flip' }, { label: 'קובייה וירטואלית', href: '/tools/dice' }]} />
       </div>
     </div>
   )

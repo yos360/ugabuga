@@ -17,7 +17,7 @@ export const categories = [
   { slug: 'numbers', emoji: '🔢', title: 'מספרים ותרגילים למעבר בעיפרון', count: 11, desc: '0–10 בקווים מקווקווים, ספירה וצביעה — ותרגילי חשבון' },
   { slug: 'mazes', emoji: '🌀', title: 'מבוכים', count: 3, desc: '3 רמות — קל, בינוני, קשה. עם סיפור קצר לכל מבוך' },
   { slug: 'certificates', emoji: '🏆', title: 'תעודות', count: 6, desc: 'גיבור מסיבה, הצטיינות, משתתף, אלוף משחקים ועוד' },
-  { slug: 'symmetry', emoji: '🪞', title: 'ציור סימטרי', count: 6, desc: 'השלימו את החצי — פרפר, פנים, בית, עץ, פרח, טיל' },
+  { slug: 'symmetry', emoji: '🪞', title: 'ציור סימטרי', count: 6, desc: 'השלימו את החצי — פרפר, בית, עץ, פרח, טיל, סירה' },
   { slug: 'name-tags', emoji: '🏷️', title: 'תגי שם', count: 1, desc: '8 תגים בדף — לגזירה ושימוש במסיבה' },
   { slug: 'thank-you', emoji: '💌', title: 'כרטיסי תודה', count: 1, desc: '4 כרטיסים בדף — לקיפול ושליחה' },
   { slug: 'photo-props', emoji: '📸', title: 'אביזרי צילום', count: 60, desc: '5 חבילות גדולות: יום הולדת, מצחיקים, חד-קרן, חלל וכיתה' },

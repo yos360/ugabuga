@@ -39,9 +39,9 @@ function rollNotation(terms) {
 }
 
 const FAQ = [
-  { q: 'מה המשמעות של 2d6+3?', a: 'מטילים שתי קוביות של 6 פאות, מחברים את התוצאות ומוסיפים 3. האות d מסמנת קוביה, המספר לפניה הוא כמות הקוביות והמספר אחריה הוא מספר הפאות.' },
+  { q: 'מה המשמעות של 2d6+3?', a: 'מטילים שתי קוביות של 6 פאות, מחברים את התוצאות ומוסיפים 3. האות d מסמנת קובייה, המספר לפניה הוא כמות הקוביות והמספר אחריה הוא מספר הפאות.' },
   { q: 'מה זה הטלה עם יתרון (Advantage) או חיסרון (Disadvantage)?', a: 'מטילים שתי קוביות d20. ביתרון לוקחים את התוצאה הגבוהה, בחיסרון — את הנמוכה.' },
-  { q: 'איך מגרילים תכונות לדמות?', a: 'השיטה הנפוצה: מטילים 4d6, מורידים את הקוביה הנמוכה ומחברים את שלוש הגבוהות — וחוזרים על זה שש פעמים, פעם לכל תכונה. הכפתור "הגרלת תכונות" עושה בדיוק את זה.' },
+  { q: 'איך מגרילים תכונות לדמות?', a: 'השיטה הנפוצה: מטילים 4d6, מורידים את הקובייה הנמוכה ומחברים את שלוש הגבוהות — וחוזרים על זה שש פעמים, פעם לכל תכונה. הכפתור "הגרלת תכונות" עושה בדיוק את זה.' },
 ]
 
 export default function DndDice() {
@@ -76,7 +76,7 @@ export default function DndDice() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
       <SEO title="קוביות D&D אונליין — d20, יתרון, 2d6+3 והגרלת תכונות" description="קוביות למשחקי תפקידים ו-D&D: d4 עד d100, הטלה ביתרון וחיסרון, כתיבת הטלה חופשית כמו 2d6+3, זיהוי קריטי והגרלת תכונות לדמות (4d6 בלי הנמוכה). חינם." path="/tools/dice/dnd" structuredData={faqSchema(FAQ)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'קוביה', href: '/tools/dice' }, { label: 'קוביות D&D' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'קובייה', href: '/tools/dice' }, { label: 'קוביות D&D' }]} />
       <h1 className="text-4xl text-center mb-2">🐉 קוביות D&D ומשחקי תפקידים</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">כל הקוביות של השולחן — בלחיצה אחת, בטלפון או במחשב</p>
 
@@ -104,7 +104,7 @@ export default function DndDice() {
 
       <section className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5">
         <h2 className="text-2xl font-bold mb-2">🧙 הגרלת תכונות לדמות</h2>
-        <p className="mb-3">6 הטלות של 4d6 — בכל אחת הקוביה הנמוכה יורדת.</p>
+        <p className="mb-3">6 הטלות של 4d6 — בכל אחת הקובייה הנמוכה יורדת.</p>
         <button onClick={rollStats} className={btn}>🎲 הגרילו תכונות</button>
         {stats && (
           <div className="mt-4">
@@ -116,7 +116,7 @@ export default function DndDice() {
 
       <DiceFamilyLinks current="/tools/dice/dnd" />
       <div className="mt-10">
-        <SeoBody paragraphs={['במשחקי תפקידים כמו D&D משתמשים בסט של שבע קוביות: d4, d6, d8, d10, d12, d20 ו-d100. כאן יש את כולן, וגם הטלה חופשית בכתיב המקובל — למשל 2d6+3 — שמראה כל קוביה בנפרד ואת הסכום.', 'הטלת d20 מזהה אוטומטית 20 טבעי (קריטי) ו-1 טבעי, ויש כפתורים מוכנים להטלה ביתרון ובחיסרון. להכנת דמות חדשה — "הגרלת תכונות" מטילה 4d6 שש פעמים ומורידה בכל פעם את הקוביה הנמוכה.']} faq={FAQ} related={[{ label: 'קוביות D4 עד D20', href: '/tools/dice/polyhedral' }, { label: 'לוח ניקוד', href: '/tools/scoreboard' }, { label: 'משחקי קוביות', href: '/dice-games' }]} />
+        <SeoBody paragraphs={['במשחקי תפקידים כמו D&D משתמשים בסט של שבע קוביות: d4, d6, d8, d10, d12, d20 ו-d100. כאן יש את כולן, וגם הטלה חופשית בכתיב המקובל — למשל 2d6+3 — שמראה כל קובייה בנפרד ואת הסכום.', 'הטלת d20 מזהה אוטומטית 20 טבעי (קריטי) ו-1 טבעי, ויש כפתורים מוכנים להטלה ביתרון ובחיסרון. להכנת דמות חדשה — "הגרלת תכונות" מטילה 4d6 שש פעמים ומורידה בכל פעם את הקובייה הנמוכה.']} faq={FAQ} related={[{ label: 'קוביות D4 עד D20', href: '/tools/dice/polyhedral' }, { label: 'לוח ניקוד', href: '/tools/scoreboard' }, { label: 'משחקי קוביות', href: '/dice-games' }]} />
       </div>
     </div>
   )

@@ -51,13 +51,13 @@ export default function GuidesIndex() {
         <WobblyCard hover={false} padding="p-6" className="bg-yellow-50">
           <h2 className="text-2xl font-hand font-bold mb-3">רוצים משהו פרקטי עכשיו?</h2>
           <p className="text-[var(--muted-foreground)] mb-4">
-            אם אתם באמצע הכנה למסיבה או שיעור, התחילו מכלי מוכן: טריוויה, בוגהטאון, חדר בריחה, בינגו או חפש את המטמון.
+            אם אתם באמצע הכנה למסיבה או שיעור, התחילו מכלי מוכן: טריוויה, בוגה טאון, חדר בריחה, בינגו או חפש את המטמון.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link to="/tools/trivia-quiz" className="btn-primary">טריוויה BUGA</Link>
-            <Link to="/tools/buga-town" className="btn-secondary">בוגהטאון</Link>
+            <Link to="/tools/trivia-quiz" className="btn-primary">טריוויה</Link>
+            <Link to="/tools/buga-town" className="btn-secondary">בוגה טאון</Link>
             <Link to="/tools/escape-rooms" className="btn-secondary">חדרי בריחה</Link>
-            <Link to="/tools/bingo-maker" className="btn-secondary">יוצר בינגו</Link>
+            <Link to="/tools/bingo-maker" className="btn-secondary">מחולל בינגו</Link>
             <Link to="/tools/scavenger-hunt-maker" className="btn-secondary">ציד אוצרות</Link>
             <Link to="/tools/team-generator" className="btn-secondary">חלוקה לקבוצות</Link>
           </div>

@@ -98,7 +98,7 @@ export default function Riddles() {
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חידות' }]} />
 
-      <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות BUGA</h1>
+      <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">
         חידות מצחיקות ומאתגרות לכל הגילים — חושבים, מנחשים, ואם נתקעים מבקשים רמז
       </p>

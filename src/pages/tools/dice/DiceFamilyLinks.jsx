@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 export const DICE_FAMILY = [
-  ['/tools/dice', '🎲', 'קוביה רגילה'],
+  ['/tools/dice', '🎲', 'קובייה רגילה'],
   ['/tools/dice/backgammon', '🎯', 'קוביות לשש בש'],
   ['/tools/dice/monopoly', '🏠', 'קוביות למונופול'],
   ['/tools/dice/polyhedral', '🔷', 'D4 עד D20'],
@@ -10,7 +10,7 @@ export const DICE_FAMILY = [
   ['/tools/dice/emotions', '💛', 'קוביית רגשות'],
   ['/tools/random-number', '🔢', 'מספר אקראי'],
   ['/tools/coin-flip', '🪙', 'הטלת מטבע'],
-  ['/printables/dice-template', '✂️', 'קוביה להדפסה'],
+  ['/printables/dice-template', '✂️', 'קובייה להדפסה'],
   ['/dice-games', '🏆', 'משחקי קוביות'],
 ]
 

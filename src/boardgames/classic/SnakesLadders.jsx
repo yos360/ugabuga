@@ -93,7 +93,7 @@ function Play() {
       </div>
       <div className="bgm-top">
         <span className="sl-die">{die ? FACES[die] : '🎲'}</span>
-        {winner === null && cur.type === 'human' && <button type="button" className="bgm-roll" onClick={roll} disabled={busy}>🎲 הטלת קוביה</button>}
+        {winner === null && cur.type === 'human' && <button type="button" className="bgm-roll" onClick={roll} disabled={busy}>🎲 הטלת קובייה</button>}
       </div>
       <div className="bg-score">{setup.map((pl, i) => <span key={i}>{COLORS[i].emoji} {pl.name}: {at[i] || 'בהתחלה'}</span>)}</div>
       <div className="bg-actions"><button type="button" className="bg-primary" onClick={() => setStarted(false)}>🔄 משחק חדש</button></div>
@@ -103,7 +103,7 @@ function Play() {
 
 const STEPS = [
   { title: 'הלוח', pic: '🔢', text: 'לוח של 100 משבצות. מתחילים מחוץ ללוח, ליד משבצת 1, והמטרה להגיע ראשונים למשבצת 100.' },
-  { title: 'מטילים וזזים', pic: '🎲', text: 'בכל תור מטילים קוביה ומתקדמים לפי המספר, לפי סדר המספרים על הלוח (זיג-זג: שורה ימינה, שורה שמאלה).' },
+  { title: 'מטילים וזזים', pic: '🎲', text: 'בכל תור מטילים קובייה ומתקדמים לפי המספר, לפי סדר המספרים על הלוח (זיג-זג: שורה ימינה, שורה שמאלה).' },
   { title: 'סולמות', pic: '🪜', text: 'נחתתם בתחתית של סולם? מטפסים איתו למעלה!' },
   { title: 'נחשים', pic: '🐍', text: 'נחתתם על ראש של נחש? מחליקים איתו למטה, עד הזנב.' },
   { title: 'שש ועוד', pic: '⚅', text: 'יצא 6? מקבלים עוד תור. כדי לנצח צריך להגיע בדיוק ל-100 – אם יוצא יותר, מתקדמים עד 100 וחוזרים אחורה את מה שנשאר.' },

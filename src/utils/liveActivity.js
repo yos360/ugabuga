@@ -7,7 +7,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   'thank-you':'כרטיסי תודה','board-game':'לוח משחק','roots-project':'עבודת שורשים',
   'birthday-newspaper':'עיתון יום הולדת','birthday-checklist':'תכנון יום הולדת',
   'eretz-ir':'ארץ עיר','bingo-maker':'בינגו','word-search-maker':'תפזורות','crossword-maker':'תשבצים',
-  'escape-rooms':'חדרי בריחה','experiment-maker':'מעבדת BUGA','birthday-famous':'מי נולד ביום ההולדת',
+  'escape-rooms':'חדרי בריחה','experiment-maker':'מחולל ניסויים','birthday-famous':'מי נולד ביום שלי?',
   'trivia-quiz':'טריוויה',riddles:'חידות',dice:'קוביות','coin-flip':'הטלת מטבע',
   'countdown-timer':'טיימר',scoreboard:'לוח ניקוד','team-generator':'חלוקה לקבוצות',
   'random-picker':'הגרלה','truth-or-dare':'אמת או חובה','spin-the-bottle':'סובבו את הבקבוק',

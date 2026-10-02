@@ -85,10 +85,10 @@ export default function Home() {
     }
   }
 
-  return <><SEO path="/" title="עוגה בוגה — משחקים והדפסות חינם לילדים ולמורות" description='עוגה בוגה (BUGA) — מעל 100 משחקים, כלים להדפסה וחדרי בריחה בעברית, חינם וללא הרשמה, ליום הולדת, לכיתה ולבית.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
+  return <><SEO path="/" title="עוגה בוגה — משחקים והדפסות חינם לילדים ולמורות" description='עוגה בוגה (BUGA) — 100 משחקים, כלים להדפסה וחדרי בריחה בעברית, חינם וללא הרשמה, ליום הולדת, לכיתה ולבית.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>מה בא לכם לעשות היום?</h1>
-      <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה מעל 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
+      <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
       <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
         <Share2 size={20} />
         <span>שיתוף</span>
@@ -108,7 +108,7 @@ export default function Home() {
       </div>
     </section>
     <section className="home-extra">
-      <h2>משחקי BUGA הפופולריים</h2>
+      <h2>המשחקים הפופולריים</h2>
       <div className="home-extras">
         <Link to="/tools/truth-or-buga"><h3>🎭 אמת או בוגה</h3><p>אמת או שקר, לבד או תחרות קבוצות.</p></Link>
         <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>

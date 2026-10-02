@@ -55,7 +55,7 @@ export default function DiceRoller({ sides = 6, counts = [1, 2, 3], defaultCount
           {counts.map(n => (
             <button key={n} onClick={() => { setCount(n); setValues(Array(n).fill(faces ? 0 : s)); setHistory([]); setDoublesInRow(0) }} aria-pressed={count === n}
               className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold ${count === n ? 'bg-[var(--postit)]' : 'bg-[var(--card)]'}`}>
-              {n} {n === 1 ? 'קוביה' : 'קוביות'}
+              {n} {n === 1 ? 'קובייה' : 'קוביות'}
             </button>
           ))}
         </div>

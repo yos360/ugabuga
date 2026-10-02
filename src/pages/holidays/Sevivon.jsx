@@ -120,7 +120,7 @@ export default function Sevivon() {
           'רוצים משחק אמיתי? מכניסים את שמות השחקנים והסביבון סופר את האסימונים, מעדכן את הקופה ומודיע מי ניצח. מתאים לערב חנוכה בבית, לגן ולכיתה על המקרן.',
         ]}
         faq={FAQ}
-        related={[{ label: 'חידון חנוכה לילדים', href: '/holidays/hanukkah/quiz' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'קוביה וירטואלית', href: '/tools/dice' }]}
+        related={[{ label: 'חידון חנוכה לילדים', href: '/holidays/hanukkah/quiz' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'קובייה וירטואלית', href: '/tools/dice' }]}
       />
     </HanukkahShell>
   )

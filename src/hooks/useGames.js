@@ -4,7 +4,7 @@ import { games as localGames } from '../data/games'
 // All games live in the site itself: public/data/games.json (the list) and
 // public/data/game-content/<slug>.json (each game's content packs). No external database.
 
-const BUILT_IN_GAMES = [...localGames, { slug: 'buga-town', name: 'בוגהטאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגהטאון שלכם.', tags: ['בוגהטאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }]
+const BUILT_IN_GAMES = [...localGames, { slug: 'buga-town', name: 'בוגה טאון', content_type: 'GAME_ENGINE', category: 'משחקי לוח', min_age: 8, min_players: 2, max_players: 4, duration_min: 20, duration_max: 40, equipment: 'מסך', equipment_needed: true, short_description: 'משחק עיר, נכסים, קוביות ושאלות — בנו את בוגה טאון שלכם.', tags: ['בוגה טאון', 'קוביות', 'נכסים'], goals: ['להצחיק', 'למלא זמן'], contexts: ['משפחה', 'כיתה', 'ערב חברים'] }]
 
 function withDifficulty(game) {
   if (game.difficulty) return game

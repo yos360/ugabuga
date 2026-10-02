@@ -6,9 +6,9 @@ import SEO from '../components/ui/SEO'
 const QUICK_LINKS = [
   { to: '/tools', label: '🛠️ כל הכלים' },
   { to: '/games', label: '🎮 כל המשחקים' },
-  { to: '/tools/trivia-quiz', label: '🎯 טריוויה BUGA' },
+  { to: '/tools/trivia-quiz', label: '🎯 טריוויה' },
   { to: '/tools/truth-or-buga', label: '🎭 אמת או בוגה' },
-  { to: '/tools/buga-town', label: '🏙️ בוגהטאון' },
+  { to: '/tools/buga-town', label: '🏙️ בוגה טאון' },
   { to: '/tools/bingo-maker', label: '🎟️ בינגו' },
   { to: '/tools/escape-rooms', label: '🔐 חדרי בריחה' },
   { to: '/printables', label: '🖨️ דפים להדפסה' },
@@ -20,7 +20,7 @@ export default function NotFound() {
       <SEO title="הדף לא נמצא" description="העמוד שחיפשתם לא נמצא. חזרו למשחקים, לפעילויות ולדפי ההדפסה של עוגה בוגה." noindex />
       <WobblyCard hover={false} padding="p-8">
         <div className="text-6xl font-hand font-bold mb-3">404</div>
-        <h1 className="text-3xl sm:text-4xl mb-3">הדף הזה עבר מקום</h1>
+        <h1 className="text-3xl sm:text-4xl mb-3">הדף לא נמצא</h1>
         <p className="mx-auto max-w-xl text-lg text-[var(--ink)]/75 mb-6">
           יכול להיות שנכנסתם מקישור ישן. לא נתקעים — בחרו יעד ונחזיר אתכם ישר למשחקים, לכלים ולפעילויות.
         </p>

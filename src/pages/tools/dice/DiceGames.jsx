@@ -10,10 +10,10 @@ import DiceFamilyLinks from './DiceFamilyLinks'
 export function DiceGamesIndex() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title="משחקי קוביות — חוקים ל-6 משחקים עם קוביה" description="משחקי קוביות לכל המשפחה ולכיתה: חזיר, ספינה קברניט וצוות, נוסעים לבוסטון, ציור החיפושית, 21 ומרוץ תרגילים — חוקים ברורים וקוביה אונליין." path="/dice-games" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'קוביה', href: '/tools/dice' }, { label: 'משחקי קוביות' }]} />
+      <SEO title="משחקי קוביות — חוקים ל-6 משחקים עם קובייה" description="משחקי קוביות לכל המשפחה ולכיתה: חזיר, ספינה קברניט וצוות, נוסעים לבוסטון, ציור החיפושית, 21 ומרוץ תרגילים — חוקים ברורים וקובייה אונליין." path="/dice-games" />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'קובייה', href: '/tools/dice' }, { label: 'משחקי קוביות' }]} />
       <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🎲 משחקי קוביות</h1>
-      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">משחקים שצריך בשבילם רק קוביה — וגם אותה יש לכם כאן באתר.</p>
+      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">משחקים שצריך בשבילם רק קובייה — וגם אותה יש לכם כאן באתר.</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {DICE_GAMES.map(g => (
           <Link key={g.slug} to={'/dice-games/' + g.slug} className="block">
@@ -21,7 +21,7 @@ export function DiceGamesIndex() {
               <div className="text-4xl mb-2">{g.emoji}</div>
               <h2 className="font-hand font-bold text-2xl mb-1">{g.title}</h2>
               <p className="text-[var(--muted-foreground)] mb-3">{g.intro}</p>
-              <div className="flex flex-wrap gap-2"><Badge>{g.dice} {g.dice === 1 ? 'קוביה' : 'קוביות'}</Badge><Badge color="yellow">גיל {g.ages}</Badge><Badge color="blue">{g.time}</Badge></div>
+              <div className="flex flex-wrap gap-2"><Badge>{g.dice} {g.dice === 1 ? 'קובייה' : 'קוביות'}</Badge><Badge color="yellow">גיל {g.ages}</Badge><Badge color="blue">{g.time}</Badge></div>
             </WobblyCard>
           </Link>
         ))}
@@ -45,13 +45,13 @@ export function DiceGamePage() {
         <div className="text-6xl mb-2">{g.emoji}</div>
         <h1 className="text-4xl md:text-5xl font-hand font-bold mb-3">{g.title}</h1>
         <p className="text-lg">{g.intro}</p>
-        <div className="flex flex-wrap justify-center gap-2 mt-4"><Badge>{g.dice} {g.dice === 1 ? 'קוביה' : 'קוביות'}</Badge><Badge color="yellow">שחקנים: {g.players}</Badge><Badge color="yellow">גיל {g.ages}</Badge><Badge color="blue">{g.time}</Badge></div>
+        <div className="flex flex-wrap justify-center gap-2 mt-4"><Badge>{g.dice} {g.dice === 1 ? 'קובייה' : 'קוביות'}</Badge><Badge color="yellow">שחקנים: {g.players}</Badge><Badge color="yellow">גיל {g.ages}</Badge><Badge color="blue">{g.time}</Badge></div>
       </header>
       <WobblyCard hover={false} padding="p-6">
         <h2 className="text-2xl font-hand font-bold mb-3">חוקי המשחק</h2>
         <ol className="list-decimal pr-6 space-y-2 text-lg">{g.rules.map(r => <li key={r}>{r}</li>)}</ol>
       </WobblyCard>
-      <div className="text-center my-6"><Link to={g.tool} className="wobbly-md sketch-press inline-flex min-h-[52px] items-center border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-2 font-display text-xl font-bold text-[var(--accent-foreground)]">🎲 פתחו קוביה ושחקו עכשיו</Link></div>
+      <div className="text-center my-6"><Link to={g.tool} className="wobbly-md sketch-press inline-flex min-h-[52px] items-center border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-2 font-display text-xl font-bold text-[var(--accent-foreground)]">🎲 פתחו קובייה ושחקו עכשיו</Link></div>
       <WobblyCard hover={false} padding="p-5" className="bg-[var(--postit)]">
         <h2 className="text-xl font-hand font-bold mb-2">טיפים</h2>
         <ul className="list-disc pr-5 space-y-1">{g.tips.map(t => <li key={t}>{t}</li>)}</ul>

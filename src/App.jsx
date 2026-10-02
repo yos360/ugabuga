@@ -369,8 +369,8 @@ export default function App() {
               <Route path="/scavenger-hunt" element={<ScavengerHuntMaker />} />
               <Route path="/treasure-hunt" element={<ScavengerHuntMaker />} />
               <Route path="/gifts" element={<GiftsIndex />} />
-              <Route path="/gifts/boy" element={<GiftsIndex />} />
-              <Route path="/gifts/girl" element={<GiftsIndex />} />
+              <Route path="/gifts/boy" element={<Navigate to="/gifts" replace />} />
+              <Route path="/gifts/girl" element={<Navigate to="/gifts" replace />} />
               <Route path="/gifts/under-50" element={<GiftsIndex />} />
               <Route path="/gifts/under-100" element={<GiftsIndex />} />
               <Route path="/gifts/:age" element={<AgeGiftPage />} />

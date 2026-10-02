@@ -47,9 +47,9 @@ export default function SpinBottle() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="סובב את הבקבוק אונליין — הגרלת שחקן במעגל" description="סובב הבקבוק בלי בקבוק: כותבים את שמות השחקנים, הם מסודרים במעגל, והבקבוק מסתובב ועוצר על מי שתורו. כולל היסטוריית סיבובים. מושלם לאמת או חובה. חינם." path="/tools/spin-the-bottle" />
+      <SEO title="סובב את הבקבוק אונליין — הגרלת שחקן במעגל" description="סובב הבקבוק בלי בקבוק: כותבים את שמות השחקנים, הם מסודרים במעגל, והבקבוק מסתובב ועוצר על מי שתורו. כולל היסטוריית סיבובים. מושלם להגרלת תור במשחק. חינם." path="/tools/spin-the-bottle" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'סובב בקבוק' }]} />
-      <h1 className="text-4xl text-center mb-6">🍾 סובב את הבקבוק</h1>
+      <h1 className="text-4xl text-center mb-6">🔄 סובב את הבקבוק</h1>
 
       <div className="relative mx-auto mb-6 aspect-square" style={{ width: 'min(340px, 100%)' }}>
         <div className="absolute inset-0 rounded-full border-4 border-dashed border-[var(--muted)]" />
@@ -66,7 +66,7 @@ export default function SpinBottle() {
 
       <button onClick={spin} disabled={spinning || valid.length < 2}
         className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer disabled:opacity-50 mb-6">
-        {spinning ? '🍾 מסתובב...' : '🍾 סובבו!'}
+        {spinning ? '🔄 מסתובב...' : '🔄 סובבו!'}
       </button>
 
       <div className="grid gap-2 mb-2">

@@ -105,16 +105,16 @@ function resolveLanding(state) {
     if (owner.id === player.id) return withMessage(next, `ברוכים הבאים אל ${property.name} שלכם. אין תשלום!`)
     const rent = Math.min(townRent(property, owner), player.coins)
     next.players = state.players.map((item) => item.id === player.id ? { ...item, coins: item.coins - rent } : item.id === owner.id ? { ...item, coins: item.coins + rent } : item)
-    return withMessage(next, `${player.name} ביקר אצל ${owner.name} ושילם ${rent} מטבעות שכירות על ${property.name}.`)
+    return withMessage(next, `${property.name} של ${owner.name}: ${player.name} – תשלום שכירות של ${rent} מטבעות.`)
   }
   if (tile.type === 'bonus' || tile.type === 'pay' || tile.type === 'chance') {
     const card = BUGA_TOWN_CHANCE_CARDS[state.chanceIndex % BUGA_TOWN_CHANCE_CARDS.length]
     const amount = tile.type === 'chance' ? card.coins : tile.type === 'pay' ? -tile.amount : tile.amount
     const actual = Math.max(-player.coins, amount)
     next.players = state.players.map((item) => item.id === player.id ? { ...item, coins: item.coins + actual } : item)
-    return withMessage(next, tile.type === 'chance' ? `${card.title} ${card.text}` : actual < 0 ? `${tile.label}: ${player.name} שילם ${-actual} מטבעות.` : `${tile.label}: ${player.name} קיבל ${actual} מטבעות!`)
+    return withMessage(next, tile.type === 'chance' ? `${card.title} ${card.text}` : actual < 0 ? `${tile.label}: ${player.name} – תשלום של ${-actual} מטבעות.` : `${tile.label}: ${player.name} – בונוס של ${actual} מטבעות!`)
   }
-  return withMessage(next, tile.type === 'start' ? `${player.name} השלים הקפה וקיבל 60 מטבעות!` : `${player.name} נח בצל. התור עובר הלאה, בלי תשלום.`)
+  return withMessage(next, tile.type === 'start' ? `${player.name} – הקפה שלמה! בונוס של 60 מטבעות.` : `${player.name} – מנוחה בצל. התור עובר הלאה, בלי תשלום.`)
 }
 
 export function townReducer(state, action) {
@@ -137,19 +137,19 @@ export function townReducer(state, action) {
     const property = townPropertyMap[state.pendingPropertyId]
     const player = state.players[state.currentPlayerIndex]
     const next = { ...state, phase: 'result', pendingPropertyId: null }
-    if (action.type === 'SKIP') return withMessage(next, `${player.name} ויתר על הקנייה ושמר את המטבעות להמשך.`)
+    if (action.type === 'SKIP') return withMessage(next, `${player.name} – בלי קנייה הפעם, המטבעות נשמרים להמשך.`)
     if (!property || player.coins < property.price || state.players.some((item) => item.properties.includes(property.id))) return state
     const buyer = { ...player, coins: player.coins - property.price, properties: [...player.properties, property.id] }
     next.players = state.players.map((item) => item.id === buyer.id ? buyer : item)
-    if (buyer.properties.length >= TOWN_PROPERTY_GOAL) return withMessage({ ...next, phase: 'finished', winners: [buyer.id] }, `${buyer.name} אסף 5 נכסים וניצח בבוגה טאון!`)
-    return withMessage(next, `${buyer.name} קנה את ${property.name}! עוד ${TOWN_PROPERTY_GOAL - buyer.properties.length} נכסים לניצחון.`)
+    if (buyer.properties.length >= TOWN_PROPERTY_GOAL) return withMessage({ ...next, phase: 'finished', winners: [buyer.id] }, `5 נכסים ל${buyer.name} – ניצחון בבוגה טאון!`)
+    return withMessage(next, `${property.name} עכשיו של ${buyer.name}! עוד ${TOWN_PROPERTY_GOAL - buyer.properties.length} נכסים לניצחון.`)
   }
   if (action.type === 'NEXT' && state.phase === 'result') {
     const turns = state.turns + 1
     if (turns >= TOWN_ROUND_LIMIT * state.players.length) {
       const best = Math.max(...state.players.map(townNetWorth))
       const winners = state.players.filter((player) => townNetWorth(player) === best)
-      return withMessage({ ...state, turns, phase: 'finished', winners: winners.map((player) => player.id) }, `${TOWN_ROUND_LIMIT} סיבובים הסתיימו! ${winners.map((player) => player.name).join(' ו')} ${winners.length > 1 ? 'ניצחו יחד' : 'ניצח'} עם שווי של ${best} מטבעות.`)
+      return withMessage({ ...state, turns, phase: 'finished', winners: winners.map((player) => player.id) }, `${TOWN_ROUND_LIMIT} סיבובים הסתיימו! ניצחון ל${winners.map((player) => player.name).join(' ול')} עם שווי של ${best} מטבעות.`)
     }
     return { ...state, turns, phase: 'ready', currentPlayerIndex: (state.currentPlayerIndex + 1) % state.players.length, message: 'התור שלכם! זורקים ומתקדמים עם כיוון השעון.' }
   }

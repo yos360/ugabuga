@@ -61,7 +61,7 @@ export default function About() {
 
     <section className="mt-12 rounded-[32px] bg-[var(--ink)] p-8 text-center text-white sm:p-12">
       <p className="text-lg opacity-80">כמה זה עולה?</p>
-      <p className="mt-2 text-5xl font-black sm:text-7xl">חינם. הכל. תמיד.</p>
+      <p className="mt-2 text-5xl font-black sm:text-7xl">חינם להורים ולמורים. תמיד.</p>
       <p className="mx-auto mt-4 max-w-xl opacity-80">כל המשחקים, הדפים והכלים פתוחים לכולם, בלי הרשמה. גם כרטיס ספק בסיסי הוא בחינם.</p>
     </section>
 
