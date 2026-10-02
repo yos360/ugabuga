@@ -60,6 +60,11 @@ export default function QuizTake() {
   // Time is up but the automatic hand-in failed (e.g. weak Wi-Fi): keep retrying every few seconds.
   useEffect(() => { if (left !== 0 || !started || done || sending || !sendErr) return; const t = setTimeout(submit, 5000); return () => clearTimeout(t) }, [left, started, done, sending, sendErr]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Timed quizzes follow the server's clock: the start is recorded once per device, so a refresh, a new tab
+  // or cleared storage can't restart the countdown. Before the timer migration runs, the local clock is used.
+  const syncClock = () => quizDb.start(code, deviceId).then(left => { if (left != null) setEndsAt(Date.now() + left * 1000) }).catch(() => {})
+  useEffect(() => { if (quiz?.settings.minutes && started && !done) syncClock() }, [quiz, started]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const begin = e => {
     e?.preventDefault()
     if (!name.trim()) return

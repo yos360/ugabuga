@@ -38,7 +38,30 @@ function fmtTime(sec) {
   if (s < 3600) return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')} דק׳`
   return `${Math.floor(s / 3600)} שע׳ ${Math.round((s % 3600) / 60)} דק׳`
 }
+// Real page names (e.g. "איקס עיגול – לשחק, ללמוד וחוקים" instead of "עמודים באתר · tic-tac-toe"):
+// the site's search catalog knows the title of almost every page, games.json the rest.
+let pageTitles = new Map()
+function usePageTitles() {
+  const [, setReady] = useState(0)
+  useEffect(() => {
+    let live = true
+    Promise.all([
+      import('../data/searchStatic').then(m => m.STATIC_ITEMS).catch(() => []),
+      fetch('/data/games.json').then(r => (r.ok ? r.json() : [])).catch(() => []),
+    ]).then(([items, games]) => {
+      const map = new Map()
+      for (const g of games) map.set(`/games/${g.slug}`, `🎮 ${g.name}`)
+      for (const it of items) map.set(it.to.split('#')[0].replace(/\/+$/, '') || '/', `${it.emoji ? it.emoji + ' ' : ''}${it.title}`)
+      map.set('/', '🏠 עמוד הבית')
+      pageTitles = map
+      if (live) setReady(n => n + 1)
+    })
+    return () => { live = false }
+  }, [])
+}
 function pageName(row) {
+  const path = (row.path || '/').replace(/\/+$/, '') || '/'
+  if (pageTitles.has(path)) return pageTitles.get(path)
   const base = ACTIVITY_LABELS[row.category] || row.category || 'עמוד'
   return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
 }
@@ -165,7 +188,7 @@ function formatDay(iso) {
 function Bar({ value, max, color, text }) {
   const pct = max > 0 ? Math.max(2, Math.round((value / max) * 100)) : 0
   return <div className="flex items-center gap-3">
-    <span className="w-32 shrink-0 truncate text-sm text-slate-700">{text}</span>
+    <span className="w-40 shrink-0 text-sm leading-snug text-slate-700 sm:w-56 [overflow-wrap:anywhere] line-clamp-2">{text}</span>
     <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-100">
       <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
     </div>
@@ -196,6 +219,7 @@ function useSummary(from, to) {
 }
 
 export default function OwnerActivityReport() {
+  usePageTitles()
   const [range, setRange] = useState('today')
   const [from, to] = useMemo(() => rangeBounds(range), [range])
   const { data, error } = useSummary(from, to)

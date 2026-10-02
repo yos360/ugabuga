@@ -63,7 +63,7 @@ export default function QuizManage() {
   const csv = () => {
     const qs = data.questions
     const rows = [['שם', 'ציון', 'מתוך', 'אחוז', 'שעה', ...qs.map((_, i) => `שאלה ${i + 1}`)],
-      ...subs.map(s => [s.name, s.score, s.total, pct(s.score, s.total) + '%', fmtTime(s.at), ...qs.map(q => s.answers[q.id] == null ? '' : s.answers[q.id] === q.correct ? '✓' : '✗ ' + LETTERS[s.answers[q.id]])])]
+      ...subs.map(s => [s.name, s.score, s.total, pct(s.score, s.total) + '%', fmtTime(s.at) + (s.late ? ' (אחרי הזמן)' : ''), ...qs.map(q => s.answers[q.id] == null ? '' : s.answers[q.id] === q.correct ? '✓' : '✗ ' + LETTERS[s.answers[q.id]])])]
     const text = '﻿' + rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n')
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' })); a.download = `${data.title}.csv`; a.click()
   }
@@ -117,7 +117,7 @@ export default function QuizManage() {
           <tbody>{[...subs].sort((a, b) => a.name.localeCompare(b.name, 'he')).map(s => <tr key={s.id} className="border-t border-slate-100">
             <td className="p-3 font-bold">{s.name}</td>
             <td className="p-3"><span className={`rounded-full px-2 py-0.5 font-bold ${pct(s.score, s.total) >= 80 ? 'bg-emerald-100 text-emerald-800' : pct(s.score, s.total) >= 55 ? 'bg-amber-100 text-amber-900' : 'bg-rose-100 text-rose-800'}`}>{pct(s.score, s.total)}%</span> <span className="text-sm text-slate-500">({s.score}/{s.total})</span></td>
-            <td className="p-3 text-sm text-slate-500">{fmtTime(s.at)}</td>
+            <td className="p-3 text-sm text-slate-500">{fmtTime(s.at)}{s.late && <span className="mr-2 rounded-full bg-orange-100 px-2 py-0.5 text-xs font-bold text-orange-800" title="הוגש אחרי שהזמן שנקבע למבחן נגמר">⏰ אחרי הזמן</span>}</td>
             <td className="p-3 text-left"><button onClick={() => setConfirm({ kind: 'sub', id: s.id, name: s.name })} className="text-sm text-slate-400 hover:text-rose-700">מחיקה</button></td>
           </tr>)}</tbody></table></div>}
     </section>

@@ -21,6 +21,8 @@ export const quizDb = {
   update: (code, token, { title = null, questions = null, settings = null, names = null }) => call('quiz_update', { p_code: code, p_owner_token: token, p_title: title, p_questions: questions, p_settings: settings, p_names: names }),
   setStatus: (code, token, status) => call('quiz_set_status', { p_code: code, p_owner_token: token, p_status: status }),
   get: code => call('quiz_get_public', { p_code: code }).then(need),
+  // Seconds left by the server's clock (null = no limit). Throws 'not_installed' until the timer migration runs.
+  start: (code, deviceId) => call('quiz_start', { p_code: code, p_device_id: deviceId }).then(r => r?.seconds_left ?? null),
   submit: (code, deviceId, name, answers) => call('quiz_submit', { p_code: code, p_device_id: deviceId, p_name: name, p_answers: answers }).then(need),
   results: (code, token) => call('quiz_results', { p_code: code, p_owner_token: token }).then(r => { if (!r) throw Object.assign(new Error('not_owner'), { code: 'not_owner' }); return r }),
   deleteSubmission: (code, token, id) => call('quiz_delete_submission', { p_code: code, p_owner_token: token, p_submission_id: id }),
