@@ -18,12 +18,8 @@ const truthOrDareBody = [
 const truthOrDareRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'טריוויה BUGA', href: '/tools/trivia-quiz' }, { label: 'משחקי היכרות ושוברי קרח', href: '/games/icebreaker' } ]
 
 const STORAGE_KEY = 'ugabuga.truthOrBuga.seen.v3'
-const DIFFICULTIES = [
-  { key: 'all', label: '🌈 הכול' },
-  { key: 'easy', label: '🟢 קל' },
-  { key: 'medium', label: '🟡 בינוני' },
-  { key: 'hard', label: '🔴 קשה' },
-]
+// Statements aren't graded by difficulty (the old easy/medium/hard split was just list position),
+// so the game has no difficulty filter.
 const DIFFICULTY_BY_INDEX = ['easy', 'medium', 'hard']
 
 const TOPICS = {
@@ -123,10 +119,6 @@ function saveSeen(ids) {
   try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids.slice(-700))) } catch { /* ignore */ }
 }
 
-function difficultyLabel(key) {
-  return DIFFICULTIES.find((item) => item.key === key)?.label || '🌈 הכול'
-}
-
 function buildCards(customItems) {
   const base = Object.entries(TOPICS).flatMap(([topic, data]) => data.items.map(([text, truth], index) => ({
     topic,
@@ -142,7 +134,7 @@ function buildCards(customItems) {
 
 export default function TruthOrDare() {
   const [topic, setTopic] = useState('animals')
-  const [difficulty, setDifficulty] = useState('all')
+  const difficulty = 'all'
   const [mode, setMode] = useState('solo')
   const [activeTeam, setActiveTeam] = useState(0)
   const [teamNames, setTeamNames] = useState(['קבוצה א׳', 'קבוצה ב׳'])
@@ -153,7 +145,7 @@ export default function TruthOrDare() {
   const [seenIds, setSeenIds] = useState([])
   const [customText, setCustomText] = useState('')
   const [customTruth, setCustomTruth] = useState(true)
-  const [customDifficulty, setCustomDifficulty] = useState('easy')
+  const customDifficulty = 'easy'
   const [customItems, setCustomItems] = useState([])
   const [finished, setFinished] = useState(false)
 
@@ -226,12 +218,6 @@ export default function TruthOrDare() {
     setFinished(false)
   }
 
-  const chooseDifficulty = (nextDifficulty) => {
-    setDifficulty(nextDifficulty)
-    setCurrent(null)
-    setAnswered(null)
-    setFinished(false)
-  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
@@ -245,17 +231,15 @@ export default function TruthOrDare() {
           <Badge color="yellow">✅ לבד: {score.correct}/{score.total}</Badge>
           <Badge color="green">🔥 רצף {score.streak}</Badge>
           <Badge color="blue">{visibleCards.length} משפטים בסינון</Badge>
-          <Badge color="default">קושי: {difficultyLabel(difficulty)}</Badge>
           <Badge color="default">נשארו בלי חזרה: {remainingCount}</Badge>
         </div>
       </div>
 
       <section className="mb-6 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center sketch-shadow-sm">
-        <p className="mb-3 font-bold">קודם בוחרים מצב וקושי — ואז מתחילים לשחק</p>
+        <p className="mb-3 font-bold">קודם בוחרים מצב — ואז מתחילים לשחק</p>
         <div className="flex flex-wrap justify-center gap-2">
           <button onClick={() => setMode('solo')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${mode === 'solo' ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>👤 לבד</button>
           <button onClick={() => setMode('teams')} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${mode === 'teams' ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>🏆 קבוצות</button>
-          {DIFFICULTIES.map((item) => <button key={item.key} onClick={() => chooseDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${difficulty === item.key ? 'bg-[var(--accent)] text-white' : 'bg-white'}`}>{item.label}</button>)}
         </div>
       </section>
 
@@ -297,12 +281,11 @@ export default function TruthOrDare() {
 
           <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">
             <h2 className="text-2xl mb-2">הכנה עצמית</h2>
-            <p className="text-sm mb-3 text-[var(--ink)]/70">כתבו משפט, סמנו אם הוא אמת או בוגה, בחרו קושי, והוא נכנס למשחק.</p>
+            <p className="text-sm mb-3 text-[var(--ink)]/70">כתבו משפט, סמנו אם הוא אמת או בוגה, והוא נכנס למשחק.</p>
             <textarea value={customText} onChange={(event) => setCustomText(event.target.value)} rows={3} className="w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2" placeholder="לדוגמה: דולפינים הם דגים" />
             <div className="my-3 flex flex-wrap gap-2">
               <button onClick={() => setCustomTruth(true)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${customTruth ? 'bg-[#4caf50] text-white' : 'bg-white'}`}>אמת</button>
               <button onClick={() => setCustomTruth(false)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${!customTruth ? 'bg-[var(--accent)] text-white' : 'bg-white'}`}>בוגה</button>
-              {DIFFICULTIES.filter((item) => item.key !== 'all').map((item) => <button key={item.key} onClick={() => setCustomDifficulty(item.key)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 font-bold ${customDifficulty === item.key ? 'bg-white sketch-shadow-sm' : 'bg-white/60'}`}>{item.label}</button>)}
             </div>
             <button onClick={addCustom} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-white px-4 py-2 font-bold">+ הוסיפו למשחק</button>
             {customItems.length > 0 && <p className="mt-3 text-sm">נוספו {customItems.length} משפטים משלכם.</p>}
@@ -315,14 +298,13 @@ export default function TruthOrDare() {
               <div className="py-12">
                 <div className="text-6xl mb-4">{finished ? '🎉' : '🤔'}</div>
                 <h2 className="text-3xl mb-3">{finished ? 'סיימתם את הסינון הזה!' : 'מוכנים לגלות מה אמת ומה בוגה?'}</h2>
-                <p className="mb-6 text-[var(--ink)]/70">{finished ? 'כל המשפטים בנושא וברמת הקושי שנבחרו כבר נשאלו. אפשר לבחור נושא או קושי אחר, או לאפס את הזיכרון במצב המשחק.' : 'המשחק יבחר לפי הנושא ורמת הקושי, בלי לחזור על משפטים שכבר הופיעו אצל אותו משתמש.'}</p>
+                <p className="mb-6 text-[var(--ink)]/70">{finished ? 'כל המשפטים בנושא שנבחר כבר נשאלו. אפשר לבחור נושא אחר, או לאפס את הזיכרון במצב המשחק.' : 'המשחק יבחר לפי הנושא, בלי לחזור על משפטים שכבר הופיעו אצל אותו משתמש.'}</p>
                 {!finished && <button onClick={pick} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-4 font-display text-2xl font-bold text-white">תנו לי משפט 🎲</button>}
               </div>
             ) : (
               <div className="py-8">
                 <div className="mb-5 flex flex-wrap justify-center gap-3">
                   <Badge color="yellow">מצב: {mode === 'teams' ? 'קבוצות' : 'לבד'}</Badge>
-                  <Badge color="blue">{difficultyLabel(current.difficulty)}</Badge>
                   {mode === 'teams' && <Badge color="green">תור: {teamNames[activeTeam]}</Badge>}
                 </div>
                 <p className="font-hand text-lg text-[var(--muted-foreground)]">זה אמת או בוגה?</p>

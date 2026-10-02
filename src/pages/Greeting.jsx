@@ -39,16 +39,31 @@ const templates = {
   },
   rhyme: {
     short: [
-      'יום הולדת שמח ל{name},\nגיל {age} — איזה פלא!\nשיהיו לך חלומות ענקיים,\nוחברים שתמיד שם בשבילך. 🎂\n{from}',
-      '{name} חוגג/ת {age},\nהיום הכל מותר!\nעוגה, בלונים ומתנות —\nואהבה שלא תיגמר. 🎈\n{from}',
+      '{name}, היום יום חגיגה,\nגיל {age} — איזו מתנה!\nשיהיו לך שמחה ואהבה,\nוכל משאלה תתגשם בשנה הבאה. 🎂\n{from}',
+      '{name} חוגג/ת {age}, היום הכול מותר:\nעוגה, בלונים ושיר מושר.\nשנה של צחוק ושל הפתעות,\nשל חברים טובים ושל הצלחות! 🎈\n{from}',
     ],
     long: [
-      '{name} היקר/ה שלנו,\nהיום חגיגה גדולה!\nגיל {age} — איזה עניין,\nכבר ממש לא קטן/ה!\n\n{personal}\n\nשיהיו לך שנים של שמחה,\nחברים, הצלחה, ואהבה.\nיום הולדת שמח ומתוק,\nומכל הלב — ברכה! 🎂\n{from}',
+      '{name} היקר/ה שלנו,\nהיום חוגגים בגדול!\nגיל {age} — איזה עניין,\nמגיע לך הכול, ובכלל!\n\n{personal}\n\nשיהיו לך ימים של שמחה,\nשל חברים ושל הצלחה.\nיום הולדת שמח ומתוק —\nומכל הלב: נשיקה וחיבוק! 🎂\n{from}',
     ],
   },
 }
 
 const funnyTraits = ['לא מסדר/ת את החדר', 'חולם/ת על פיצה', 'ישן/ה עם האור דלוק', 'שוכח/ת איפה שם/ה את הטלפון', 'אוכל/ת ממתקים בסתר', 'מדבר/ת עם עצמו/ה']
+
+// Templates are written with slash forms (היקר/ה, את/ה, בן/בת…). Pick the right form once the
+// celebrant is chosen as a boy or a girl; 'both' keeps the slashes.
+const SPECIAL = { 'את/ה': ['אתה', 'את'], 'בן/בת': ['בן', 'בת'], 'עצמו/ה': ['עצמו', 'עצמה'] }
+const unfinal = w => w.replace(/[ךםןףץ]$/, c => ({ ך: 'כ', ם: 'מ', ן: 'נ', ף: 'פ', ץ: 'צ' }[c]))
+function genderize(text, gender) {
+  if (gender === 'both') return text
+  const g = gender === 'girl' ? 1 : 0
+  return text.replace(/([\u05D0-\u05EA]+)\/([\u05D0-\u05EA]+)/g, (m, a, b) => {
+    if (SPECIAL[m]) return SPECIAL[m][g]
+    const pre = m.match(/^([ושלבכה])(.+)$/) // prefixed: "שאת/ה", "ואת/ה"
+    if (pre && SPECIAL[pre[2]]) return pre[1] + SPECIAL[pre[2]][g]
+    return g ? unfinal(a) + b : a
+  })
+}
 
 export default function Greeting() {
   const [name, setName] = useState('')
@@ -58,6 +73,7 @@ export default function Greeting() {
   const [length, setLength] = useState('short')
   const [personal, setPersonal] = useState('')
   const [result, setResult] = useState(null)
+  const [gender, setGender] = useState('both')
 
   const generate = useCallback(() => {
     const pool = templates[style]?.[length] || templates.happy.short
@@ -71,8 +87,8 @@ export default function Greeting() {
       .replace(/\{from\}/g, fromLine)
       .replace(/\{trait\}/g, trait)
       .replace(/\{personal\}/g, personalLine)
-    setResult(text)
-  }, [name, age, from, style, length, personal])
+    setResult(genderize(text, gender))
+  }, [name, age, from, style, length, personal, gender])
 
   const copy = () => { (navigator.clipboard ? navigator.clipboard.writeText(result) : Promise.reject(new Error('no clipboard'))).then(() => alert('הועתק! 📋')).catch(() => prompt('העתיקו את הברכה:', result)) }
   const share = () => { window.open('https://wa.me/?text=' + encodeURIComponent(result), '_blank') }
@@ -89,6 +105,14 @@ export default function Greeting() {
           <div>
             <label className="font-bold block mb-1">שם החוגג/ת *</label>
             <input value={name} onChange={e => setName(e.target.value)} placeholder="שם..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3 text-lg" />
+          </div>
+          <div>
+            <label className="font-bold block mb-2">הברכה ל…</label>
+            <div className="flex flex-wrap gap-2">
+              {[['boy','👦 בן'],['girl','👧 בת'],['both','✍️ בלי לבחור']].map(([k,l]) => (
+                <button key={k} type="button" aria-pressed={gender === k} onClick={() => setGender(k)} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${gender === k ? 'bg-[var(--postit)]' : 'bg-[var(--card)]'}`}>{l}</button>
+              ))}
+            </div>
           </div>
           <div>
             <label className="font-bold block mb-1">גיל *</label>

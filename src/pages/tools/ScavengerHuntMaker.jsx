@@ -10,7 +10,7 @@ const scavengerFaq = [
   { q: 'כמה זמן לוקח להכין ציד אוצרות עם הכלי?', a: 'כמה דקות בלבד להזנת הפרטים, אבל כדאי להוסיף עוד כמה דקות לבדיקה עצמית של המסלול לפני האירוע.' },
 ]
 const scavengerBody = [
-  'ציד אוצרות הוא אחת הפעילויות שהכי קשה להכין לבד — צריך לחשוב על רמזים, לוודא שהם לא קלים מדי ולא קשים מדי. הכלי הזה עושה בדיוק את זה: בונה מסלול מוכן להדפסה, מותאם למקום ולגיל.',
+  'ציד חפצים הוא אחת הפעילויות הכי פשוטות להכנה: רשימה של דברים למצוא — משהו אדום, משהו רך, עלה ירוק — וכל ילד או קבוצה מסמנים מה מצאו. הכלי הזה בונה את הרשימה ומדפיס אותה, מוכנה או מותאמת אישית. רוצים מסלול עם רמזים מחורזים? יש ציד אוצרות מוכן בקישור למטה.',
   'היתרון הגדול הוא שהוא ממלא זמן ארוך יחסית (20-40 דקות) בלי שהמבוגר צריך להיות מעורב כל הזמן. זה הופך אותו לפעילות מצוינת ליום הולדת בבית.',
   'טיפ מעשי לפני שמתחילים: תעברו על כל הרמזים פעם אחת בעצמכם, בדיוק באותו מסלול שהילדים ילכו בו.',
 ]
@@ -36,7 +36,7 @@ export default function ScavengerHuntMaker() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="יוצר ציד אוצרות להדפסה" description="יוצר ציד אוצרות: בונים רשימת משימות ורמזים מוכנה להדפסה — לבית, לחצר, לגן ולכיתה. בוחרים רשימה מוכנה או כותבים בעצמכם, חינם." path="/tools/scavenger-hunt-maker" structuredData={faqSchema(scavengerFaq)} />
+      <SEO title="יוצר ציד אוצרות להדפסה" description="יוצר ציד אוצרות: בונים רשימת חפצים למצוא, מוכנה להדפסה — לבית, לחצר, לגן ולכיתה. בוחרים רשימה מוכנה או כותבים בעצמכם, חינם." path="/tools/scavenger-hunt-maker" structuredData={faqSchema(scavengerFaq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'ציד אוצרות' }]} />
       <h1 className="text-4xl text-center mb-6">🔎 יוצר ציד אוצרות</h1>
 
@@ -46,9 +46,10 @@ export default function ScavengerHuntMaker() {
         ))}
       </div>
 
+      {/* The hunter's name works for the ready lists too, not only for a custom list. */}
+      <input aria-label="שם הצייד (אופציונלי)" value={title} onChange={e=>setTitle(e.target.value)} placeholder="שם הצייד (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-4" />
       {mode === 'custom' && (
         <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4 mb-6">
-          <input aria-label="שם הצייד (אופציונלי)" value={title} onChange={e=>setTitle(e.target.value)} placeholder="שם הצייד (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-3" />
           {items.map((v,i) => <input key={i} aria-label={`פריט ${i+1}`} value={v} onChange={e=>update(i,e.target.value)} placeholder={`פריט ${i+1}...`} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-2" />)}
           <button onClick={addField} className="wobbly-sm sketch-press border-2 border-dashed border-[var(--border)] px-3 py-1 text-sm cursor-pointer">+ הוסיפו פריט</button>
         </div>

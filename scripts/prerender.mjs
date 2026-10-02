@@ -96,6 +96,8 @@ try {
   }
 
   // ---- Individual game pages (best effort) ----
+  // Supplier pages are NOT snapshotted: a static copy would keep serving a card after the owner hides
+  // or deletes it, until the next deploy. They render client-side from the live database instead.
   // Without a snapshot, a shared game link shows the *homepage* title/OG image in
   // WhatsApp/Facebook previews, because those bots read the static shell and never
   // run React. So we snapshot every /games/{slug} from the generated sitemap.xml.
@@ -105,7 +107,7 @@ try {
   try {
     const fullXml = await readFile('public/sitemap.xml', 'utf8')
     const staticSet = new Set(paths)
-    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => (p.startsWith('/games/') || p.startsWith('/suppliers/')) && !staticSet.has(p))
+    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => p.startsWith('/games/') && !staticSet.has(p))
     let gi = 0, ok = 0, skipped = 0
     await Promise.all(Array.from({ length: 3 }, async () => {
       const page = await context.newPage()

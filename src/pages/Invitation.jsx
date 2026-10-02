@@ -1,19 +1,21 @@
 import { useState } from 'react'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import PrintPreview from '../components/ui/PrintPreview'
 
 const THEMES = [
-  {id:'balloons', name:'בלונים', emoji:'🎈', bg:'#ffe0ec', pos:'0% 0%'},
-  {id:'space', name:'חלל', emoji:'🚀', bg:'#e0f7fa', pos:'50% 0%'},
-  {id:'dino', name:'דינוזאור', emoji:'🦖', bg:'#e8f5e9', pos:'100% 0%'},
-  {id:'princess', name:'נסיכה', emoji:'👑', bg:'#f5e0ff', pos:'0% 100%'},
-  {id:'football', name:'כדורגל', emoji:'⚽', bg:'#e8f5e9', pos:'50% 100%'},
-  {id:'gaming', name:'גיימינג', emoji:'🎮', bg:'#e8d5f5', pos:'100% 100%'},
+  {id:'balloons', name:'בלונים', emoji:'🎈', bg:'#ffe0ec'},
+  {id:'space', name:'חלל', emoji:'🚀', bg:'#e0f7fa'},
+  {id:'dino', name:'דינוזאור', emoji:'🦖', bg:'#e8f5e9'},
+  {id:'princess', name:'נסיכה', emoji:'👑', bg:'#f5e0ff'},
+  {id:'football', name:'כדורגל', emoji:'⚽', bg:'#e8f5e9'},
+  {id:'gaming', name:'גיימינג', emoji:'🎮', bg:'#e8d5f5'},
 ]
 
 export default function Invitation() {
   const [theme, setTheme] = useState(THEMES[0])
   const [data, setData] = useState({ name:'', age:'', date:'', time:'', place:'', notes:'' })
+  const [printing, setPrinting] = useState(false)
 
   const update = (k,v) => setData(d => ({...d, [k]:v}))
   const share = () => {
@@ -37,7 +39,7 @@ export default function Invitation() {
       {/* Live invitation preview - editable */}
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,.85fr)] lg:items-start">
       <div className="wobbly order-1 border-[3px] border-[var(--border)] p-4 text-center sketch-shadow-rich sm:p-8" style={{ backgroundColor: theme.bg }}>
-        <img src="/images/invitation-party-hero.webp" alt="מסיבת יום הולדת צבעונית" className="mx-auto mb-4 h-40 w-full max-w-2xl rounded-2xl border-2 border-white/80 object-cover shadow-md sm:h-56" />
+        <img src={`/images/invitation-theme-${theme.id}.webp`} alt={`הזמנה בעיצוב ${theme.name}`} width="512" height="512" className="mx-auto mb-4 h-40 w-40 rounded-2xl border-2 border-white/80 object-cover shadow-md sm:h-56 sm:w-56" />
         <p className="font-hand text-lg mb-2">הוזמנתם למסיבת יום הולדת של</p>
         <input id="inv-name" aria-label="שם החוגג/ת" value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 px-3 py-2 focus:outline-none" />
         <input id="inv-age" aria-label="גיל" value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 px-3 py-2 focus:outline-none" />
@@ -56,6 +58,17 @@ export default function Invitation() {
       </div>
 
       <button onClick={share} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[#128C4A] text-white font-display text-xl font-bold cursor-pointer">📱 שתפו בוואטסאפ</button>
+      <button data-print-main onClick={() => setPrinting(true)} className="wobbly-md sketch-press mt-3 w-full min-h-[52px] border-[3px] border-[var(--border)] bg-white font-display text-lg font-bold cursor-pointer">🖨️ הדפסה / שמירה כ-PDF</button>
+      {printing && <PrintPreview title="הזמנה ליום הולדת" onClose={() => setPrinting(false)}><article className="buga-a4 invite-print" style={{ backgroundColor: theme.bg }}>
+        <p style={{ fontSize: 22, margin: 0 }}>הוזמנתם למסיבת יום הולדת של</p>
+        <h2 style={{ fontSize: 48, margin: '6px 0' }}>{data.name || '_________'}</h2>
+        {data.age && <p style={{ fontSize: 26, margin: 0 }}>חוגגים {data.age}! {theme.emoji}</p>}
+        <div className="print-art"><img src={`/images/invitation-theme-${theme.id}.webp`} alt="" /></div>
+        <p style={{ fontSize: 22, margin: '6px 0' }}>📅 {data.date || '________'} · 🕐 {data.time || '_____'}</p>
+        <p style={{ fontSize: 22, margin: '6px 0' }}>📍 {data.place || '______________'}</p>
+        {data.notes && <p style={{ fontSize: 18, margin: '6px 0' }}>{data.notes}</p>}
+        <footer>עוגה בוגה · ugabuga.co.il</footer>
+      </article></PrintPreview>}
     </div>
   )
 }

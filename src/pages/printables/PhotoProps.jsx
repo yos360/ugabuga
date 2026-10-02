@@ -4,12 +4,15 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 
 const PACKS = [
-  ['birthday','🎂','יום הולדת צבעוני','#ffe1ec',['👑 כתר יום הולדת','🎂 עוגת ענק','🎈 בלון לב','🥳 כובע מסיבה','🎁 מתנה נוצצת','🍭 סוכרייה','🕶️ משקפי מסיבה','🎀 פפיון','🎉 חגיגה!','⭐ כוכב היום','💖 לב גדול','🎊 קונפטי']],
+  ['birthday','🎂','יום הולדת צבעוני','#ffe1ec',['👑 כתר יום הולדת','🎂 עוגת ענק','🎈 בלון אדום','🥳 כובע מסיבה','🎁 מתנה נוצצת','🍭 סוכרייה','🕶️ משקפי מסיבה','🎀 פפיון','🎉 חגיגה!','⭐ כוכב היום','💖 לב גדול','🎊 קונפטי']],
   ['funny','🤪','מצחיקים ומוגזמים','#e5dcff',['🥸 שפם ענק','🤓 משקפיים מצחיקים','👄 שפתיים אדומות','👃 אף ליצן','😮 פה מופתע','👂 אוזניים גדולות','🎭 מסכה','🧠 מוח גאוני','💬 וואו!','😂 חחח','😎 הכי קול','🤩 איזה כיף']],
-  ['fantasy','🦄','קסם ופנטזיה','#dff8f3',['🦄 חד-קרן','🧚 כנפיים','✨ שרביט קסמים','🌈 קשת','🐉 דרקון קטן','🧜 זנב בת ים','🔮 כדור בדולח','🌟 כוכב קסם','👑 כתר מלכותי','🪄 אברקדברה','💜 לב סגול','☁️ ענן חלום']],
-  ['adventure','🚀','חלל והרפתקה','#dceeff',['🚀 טיל','👨‍🚀 קסדת חלל','🪐 שבתאי','👽 חייזר ידידותי','⭐ כוכב','🌙 ירח','🗺️ מפת אוצר','🏴‍☠️ דגל פיראטים','🔭 טלסקופ','💎 יהלום','🦖 דינוזאור','🔥 אמיץ/ה']],
+  ['fantasy','🦄','קסם ופנטזיה','#dff8f3',['🦄 חד-קרן','🧚 פיה','✨ נצנצי קסם','🌈 קשת','🐉 דרקון קטן','🧜 בת ים','🔮 כדור בדולח','🌟 כוכב קסם','👑 כתר מלכותי','🪄 אברקדברה','💜 לב סגול','☁️ ענן חלום']],
+  ['adventure','🚀','חלל והרפתקה','#dceeff',['🚀 טיל','👨‍🚀 אסטרונאוט','🪐 שבתאי','👽 חייזר ידידותי','⭐ כוכב','🌙 ירח','🗺️ מפת אוצר','🏴‍☠️ דגל פיראטים','🔭 טלסקופ','💎 יהלום','🦖 דינוזאור','🔥 אמיץ/ה']],
   ['school','🏆','כיתה וסיום שנה','#fff1be',['🏆 אלוף/ה','📚 קורא/ת-על','✏️ כותב/ת','🧠 חכם/ה','🎓 סיום שנה','🫶 צוות מנצח','🌟 הצטיינות','🖍️ יוצר/ת','🎯 מטרה','🔢 אלוף/ת החשבון','🦸 גיבור/ת הכיתה','👏 כל הכבוד!']],
 ]
+// Vector artwork (Noto Emoji, Apache-2.0) in public/print-art/props: a colour-emoji font is a small
+// bitmap and printed this large it comes out pixelated.
+const propArt=emoji=>`/print-art/props/${[...emoji].map(c=>c.codePointAt(0).toString(16)).filter(h=>h!=='fe0f').join('-')}.svg`
 function parts(text){const i=text.indexOf(' ');return i>0?[text.slice(0,i),text.slice(i+1)]:['✨',text]}
 
 export default function PhotoProps(){
@@ -25,6 +28,6 @@ export default function PhotoProps(){
     <label className="mx-auto block max-w-md text-center">כותרת אישית (לא חובה)<input maxLength={60} value={eventName} onChange={e=>setEventName(e.target.value)} placeholder="למשל: יום ההולדת של נועה" className="mt-2 w-full rounded-xl border-2 p-3"/></label>
     <div className="my-5 text-center"><button data-print-main onClick={()=>setSelected(props)} className="rounded-xl bg-pink-600 px-6 py-3 font-bold text-white">🖨️ הדפיסו חבילה — 12 דפי A4</button></div>
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{props.map(value=>{const [emoji,label]=parts(value);return <button key={value} onClick={()=>setSelected([value])} className="rounded-2xl border-2 bg-white p-4"><span aria-hidden="true" style={{filter:printMode==='bw'?'grayscale(1)':'none'}} className="block text-7xl">{emoji}</span><strong className="my-3 block">{label}</strong><span className="text-sm">פתיחה והדפסת פריט בודד</span></button>})}</div>
-    {selected&&<PrintPreview title={selected.length===1?parts(selected[0])[1]:title} onClose={()=>setSelected(null)}>{selected.map(value=>{const [emoji,label]=parts(value);return <article className="buga-a4" key={value}>{eventName&&<h2>{eventName}</h2>}<div className="print-art"><svg viewBox="0 0 600 750" role="img" aria-label={label} style={{filter:printMode==='bw'?'grayscale(1)':'none'}}><rect x="12" y="12" width="576" height="726" rx="45" fill="white" stroke="#222" strokeWidth="2" strokeDasharray="8 8"/><text x="300" y="480" textAnchor="middle" fontSize="380" fontFamily="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif">{emoji}</text><text x="300" y="610" textAnchor="middle" fontSize="30" fill="#111" fontFamily="Heebo, Arial">{label}</text><text x="300" y="670" textAnchor="middle" fontSize="18" fill="#333">גזרו מסביב למסגרת והדביקו למקל</text></svg></div><footer>עוגה בוגה · ugabuga.co.il</footer></article>})}</PrintPreview>}
+    {selected&&<PrintPreview title={selected.length===1?parts(selected[0])[1]:title} onClose={()=>setSelected(null)}>{selected.map(value=>{const [emoji,label]=parts(value);return <article className="buga-a4" key={value}>{eventName&&<h2>{eventName}</h2>}<div className="print-art"><svg viewBox="0 0 600 750" role="img" aria-label={label} style={{filter:printMode==='bw'?'grayscale(1)':'none'}}><rect x="12" y="12" width="576" height="726" rx="45" fill="white" stroke="#222" strokeWidth="2" strokeDasharray="8 8"/><image href={propArt(emoji)} x="100" y="90" width="400" height="400"/><text x="300" y="610" textAnchor="middle" fontSize="30" fill="#111" fontFamily="Heebo, Arial">{label}</text><text x="300" y="670" textAnchor="middle" fontSize="18" fill="#333">גזרו מסביב למסגרת והדביקו למקל</text></svg></div><footer>עוגה בוגה · ugabuga.co.il</footer></article>})}</PrintPreview>}
   </div>
 }

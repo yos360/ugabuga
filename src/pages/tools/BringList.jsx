@@ -86,7 +86,7 @@ export default function BringList() {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [toast, showToast] = useToast()
-  const dirty = useRef(false), saveTimer = useRef(), releases = useRef([])
+  const dirty = useRef(false), saveTimer = useRef(), saveSeq = useRef(0), releases = useRef([])
   const addRef = useRef()
 
   const load = useCallback(() => code ? partyDb.get(code).then(row => {
@@ -105,13 +105,20 @@ export default function BringList() {
     if (!code || !ownerToken.current) return
     dirty.current = true; setStatus('שומרים…')
     clearTimeout(saveTimer.current)
+    // Only the latest edit may apply the server's copy: if the organizer kept typing while a save was in
+    // flight, an older response must not overwrite the newer text (the newer save follows anyway).
+    const mySeq = ++saveSeq.current
     saveTimer.current = setTimeout(async () => {
+      const release = releases.current; releases.current = []
       try {
-        const release = releases.current; releases.current = []
         const row = await partyDb.update(code, ownerToken.current, nextTitle, nextItems.filter(i => i.text.trim()), release, null)
+        if (mySeq !== saveSeq.current) return
         dirty.current = false; setStatus('✓ נשמר')
         setItems(old => [...row.items, ...old.filter(i => !i.text.trim())])
-      } catch (e) { setStatus('⚠️ לא נשמר'); showToast(errorText(e.code), 'err') }
+      } catch (e) {
+        releases.current = [...release, ...releases.current] // retry these with the next save
+        if (mySeq === saveSeq.current) { setStatus('⚠️ לא נשמר'); showToast(errorText(e.code), 'err') }
+      }
     }, 700)
   }
   const changeTitle = v => { setTitle(v); schedule(v, items) }

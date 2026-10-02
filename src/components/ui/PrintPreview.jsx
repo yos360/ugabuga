@@ -37,7 +37,9 @@ export default function PrintPreview({title,children,onClose}){
   async function print(){setBusy(true);setError('');try{
     await document.fonts.ready
     const imgs=[...document.querySelectorAll('#buga-print-output img')]
-    await Promise.allSettled(imgs.map(img=>img.decode()))
+    // SVG <image> artwork too (photo props): make sure it's loaded before the print dialog snapshots the page.
+    const svgImages=[...document.querySelectorAll('#buga-print-output image')].map(el=>{const i=new Image();i.src=el.getAttribute('href');return i})
+    await Promise.allSettled([...imgs,...svgImages].map(img=>img.decode()))
     recordPrintPreview()
     window.print()
   }catch{setError('האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}

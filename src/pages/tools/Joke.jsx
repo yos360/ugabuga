@@ -1,29 +1,19 @@
 import { useState } from 'react'
+import { JOKE_PAGES } from '../../data/content/jokes'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
-const JOKES = [
-  {q:'למה הכלב ישב בצל?',a:'כי לא רצה להיות נקניקייה חמה.'},
-  {q:'מה אמר הדג כשנתקע בקיר?',a:'דם.'},
-  {q:'למה הפיל לא משתמש במחשב?',a:'כי הוא מפחד מהעכבר.'},
-  {q:'למה המחברת עצובה?',a:'כי יש לה הרבה בעיות.'},
-  {q:'למה המספריים נכשלו במבחן?',a:'כי הם חתכו כל הזמן.'},
-  {q:'למה העגבנייה הסמיקה?',a:'כי היא ראתה את הרוטב סלט.'},
-  {q:'למה הבננה הלכה לרופא?',a:'כי לא הרגישה בקליפה.'},
-  {q:'מה עושים כשרואים אדם ירוק?',a:'מחכים שייהפך לאדום.'},
-  {q:'למה האריה לא אוהב פאזלים?',a:'כי הוא מתפרק מלחץ.'},
-  {q:'למה השלג לבן?',a:'כי הוא לא מצא צבע אחר.'},
-  {q:'מה עושה מחשב כשהוא רעב?',a:'אוכל בייטים.'},
-  {q:'למה המחשב הלך לרופא?',a:'כי היה לו וירוס.'},
-]
+// The full collection from the jokes pages (~120 clean jokes) instead of a short list of translated puns
+// that don't work in Hebrew.
+const JOKES = JOKE_PAGES.flatMap(page => page.jokes.map(x => ({ q: x.setup, a: x.punchline })))
 
 export default function Joke() {
   const [current, setCurrent] = useState(null)
   const [revealed, setRevealed] = useState(false)
 
   const next = () => {
-    setCurrent(JOKES[Math.floor(Math.random()*JOKES.length)])
+    setCurrent(prev => { let n; do { n = JOKES[Math.floor(Math.random()*JOKES.length)] } while (n === prev && JOKES.length > 1); return n })
     setRevealed(false)
   }
 

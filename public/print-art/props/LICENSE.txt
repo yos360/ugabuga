@@ -1,0 +1,3 @@
+Emoji artwork in this folder: Noto Emoji by Google, licensed under the Apache License 2.0
+(https://github.com/googlefonts/noto-emoji). Exported from @iconify-json/noto 1.2.9.
+Used for the large photo props, which pixelate when printed from a colour emoji font.
