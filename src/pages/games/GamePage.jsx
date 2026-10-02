@@ -7,6 +7,7 @@ import GamePlayer from '../../components/games/GamePlayer'
 import Markdown from '../../components/ui/Markdown'
 import { useState } from 'react'
 import { gameHref } from '../../data/gameHref'
+import PrintPreview from '../../components/ui/PrintPreview'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 const PLAY_TOOL_ROUTES = {
@@ -33,6 +34,7 @@ export default function GamePage() {
   const { game, related, content, loading } = useGameBySlug(slug)
   const [playing, setPlaying] = useState(false)
   const [rating, setRating] = useState(0)
+  const [printingRules, setPrintingRules] = useState(false)
   const playToolRoute = PLAY_TOOL_ROUTES[slug]
 
   const shareGame = () => {
@@ -123,6 +125,7 @@ export default function GamePage() {
                 : <a href="#game-instructions" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">📖 איך משחקים</a>
             )}
             <button onClick={shareGame} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#25D366] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">📱 שלחו בוואטסאפ</button>
+            <button onClick={() => setPrintingRules(true)} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🖨️ הדפסת הוראות</button>
             <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
           </div>
         </div>
@@ -139,8 +142,21 @@ export default function GamePage() {
 
       <p className="text-xl leading-relaxed mb-8">{game.short_description}</p>
 
+      {printingRules && <PrintPreview title={`הוראות: ${game.name}`} onClose={() => setPrintingRules(false)}><article className="buga-flow">
+        <h2 style={{ fontSize: 30, margin: '0 0 6px' }}>{game.name}</h2>
+        <p style={{ margin: '0 0 12px', fontSize: 15 }}>{game.max_age ? `גילאי ${game.min_age}–${game.max_age}` : `גיל ${game.min_age}+`} · {game.duration_max ? `${game.duration_min}–${game.duration_max}` : game.duration_min} דק׳ · {game.max_players ? `${game.min_players}–${game.max_players}` : `${game.min_players}+`} משתתפים · {game.equipment_needed ? game.equipment : 'בלי ציוד'}</p>
+        {game.short_description && <p style={{ fontSize: 17, margin: '0 0 12px' }}>{game.short_description}</p>}
+        {game.quick_instructions && <><h3 style={{ fontSize: 20, margin: '8px 0 4px' }}>בקצרה</h3><Markdown text={game.quick_instructions} /></>}
+        <h3 style={{ fontSize: 20, margin: '12px 0 4px' }}>הוראות מלאות</h3>
+        <Markdown text={game.instructions} />
+        {game.facilitator_tip && <><h3 style={{ fontSize: 18, margin: '12px 0 4px' }}>💡 טיפ למנחה</h3><p>{game.facilitator_tip}</p></>}
+        {game.age_adaptations && <><h3 style={{ fontSize: 18, margin: '12px 0 4px' }}>🎯 התאמות גיל</h3><Markdown text={game.age_adaptations} /></>}
+        {game.safety_notes && <><h3 style={{ fontSize: 18, margin: '12px 0 4px' }}>⚠️ בטיחות</h3><p>{game.safety_notes}</p></>}
+        <footer>עוגה בוגה · ugabuga.co.il{gameHref(slug)}</footer>
+      </article></PrintPreview>}
+
       <div id="game-instructions" className="wobbly border-2 border-[var(--border)] bg-[var(--card)] p-6 sketch-shadow mb-6 scroll-mt-24">
-        <h2 className="text-2xl mb-4">📖 הוראות מלאות ועוד</h2>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl">📖 הוראות מלאות ועוד</h2><button data-print-main type="button" onClick={() => setPrintingRules(true)} className="rounded-xl border-2 border-[var(--border)] bg-white px-4 py-2 font-bold">🖨️ הדפסת ההוראות</button></div>
         <Markdown text={game.instructions} className="font-hebrew text-lg leading-relaxed" />
       </div>
 

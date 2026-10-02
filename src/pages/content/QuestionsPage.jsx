@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
-import { QUESTION_PAGES } from '../../data/content'
+import { QUESTION_PAGES } from '../../data/content/questions'
 
 export function QuestionsHub() {
   return (

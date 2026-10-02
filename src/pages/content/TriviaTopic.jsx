@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
-import { TRIVIA_TOPICS, TRIVIA_GROUPS } from '../../data/content'
+import { TRIVIA_TOPICS, TRIVIA_GROUPS } from '../../data/content/trivia'
 
 export function TriviaTopicsHub() {
   return (

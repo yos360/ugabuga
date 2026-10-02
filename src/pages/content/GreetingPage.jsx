@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
-import { GREETING_PAGES } from '../../data/content'
+import { GREETING_PAGES } from '../../data/content/greetings'
 
 function Card({ text }) {
   const [copied, setCopied] = useState(false)

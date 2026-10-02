@@ -5,12 +5,6 @@ import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
 import PrintQrFallback from './PrintQrFallback'
 
-const FEEDBACK_KEY = 'buga-feedback-dismissed'
-
-function readDismissed() {
-  try { return localStorage.getItem(FEEDBACK_KEY) === '1' } catch { return false }
-}
-
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
   // check evaluated to false during Playwright prerender (widget omitted from
@@ -20,10 +14,8 @@ export default function Layout({ children }) {
   // client render (matching the snapshot), then flips to true after useEffect
   // runs, so the widget mounts cleanly with no mismatch.
   const [mounted, setMounted] = useState(false)
-  const [feedbackDismissed, setFeedbackDismissed] = useState(false)
   useEffect(() => {
     setMounted(true)
-    setFeedbackDismissed(readDismissed())
   }, [])
   // On printable pages, Ctrl/Cmd+P opens the site's own print preview and prints from it — the raw page
   // (thumbnails, buttons, settings) is not what anyone wants on paper.
@@ -39,20 +31,10 @@ export default function Layout({ children }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
-  const dismissFeedback = () => {
-    setFeedbackDismissed(true)
-    try { localStorage.setItem(FEEDBACK_KEY, '1') } catch { /* storage unavailable */ }
-  }
   return (
     <>
       <ScrollToTop />
       <Navbar />
-      {!feedbackDismissed && (
-        <div className="site-beta-notice" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'nowrap' }}>
-          <span>💛 יש לכם רעיון למשחק או משוב? <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a></span>
-          <button type="button" onClick={dismissFeedback} aria-label="סגירת הודעת המשוב" style={{ flex: 'none', background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '6px 10px' }}>✕</button>
-        </div>
-      )}
       {mounted && <RecentActivity />}
       {mounted && <PrintQrFallback />}
       <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
