@@ -122,7 +122,8 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
   const update = (i, patch) => setStates(s => s.map((x, j) => j === i ? { ...x, ...patch } : x))
   const restart = () => { setIdx(0); setStates(questions.map(() => ({ hints: 0, choice: null, points: 0 }))) }
 
-  if (questions === undefined) return null
+  // While the day's chunk loads, hold roughly the game's height so the content below doesn't jump.
+  if (questions === undefined) return <section className="today-quiz mh today-quiz-loading" aria-busy="true" aria-label="טוענים את מנהרת הזמן" />
   if (!questions) return fallback
   const max = questions.length * FULL
 

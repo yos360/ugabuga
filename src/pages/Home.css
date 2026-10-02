@@ -45,3 +45,5 @@
 .tt-prevnext{display:flex;justify-content:space-between;gap:8px;max-width:900px;margin:16px auto;flex-wrap:wrap}.tt-prevnext a{font-weight:800;color:#1b6fa8;text-decoration:underline}
 .tt-cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}.tt-cal-month{background:#fff;border:2px solid #222;border-radius:14px;padding:10px}.tt-cal-month h3{margin:0 0 6px;font-size:18px;text-align:center}
 .tt-cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.tt-cal-days a{display:flex;align-items:center;justify-content:center;min-height:44px;text-align:center;padding:4px 0;border-radius:8px;text-decoration:none;color:#222;font-weight:700;font-size:14px;background:#f3f4f8}.tt-cal-days a:hover{background:#ffe899}.tt-cal-days a.is-today{background:#ffd23f;outline:2px solid #222}.tt-cal-days a.is-current{background:#1d2233;color:#fff}
+.today-quiz-loading{min-height:590px}@media(min-width:640px){.today-quiz-loading{min-height:470px}}
+.holiday-banner-slot{min-height:40px}@media(max-width:639px){.holiday-banner-slot{min-height:36px}}@media(max-width:429px){.holiday-banner-slot{min-height:56px}}

@@ -26,7 +26,9 @@ function NearViewport({ children, minHeight = 320 }) {
   }, [show])
   return <div ref={ref} style={show ? undefined : { minHeight }}>{show && <Suspense fallback={null}>{children}</Suspense>}</div>
 }
-import HolidayBanner from '../components/holidays/HolidayBanner'
+// The banner pulls in every holiday's config (print sheets, quizzes); loading it lazily keeps all of
+// that out of the main bundle. The slot below reserves its height so nothing jumps when it appears.
+const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
 import SiteSearchBox from '../components/ui/SiteSearchBox'
 
 function Art({ crop, src, className = '' }) {
@@ -34,10 +36,10 @@ function Art({ crop, src, className = '' }) {
   return <span aria-hidden="true" className={`home-art ${className}`} style={src ? {backgroundImage:`url(${src})`, backgroundSize:'contain', backgroundPosition:'center bottom', aspectRatio:'1 / 1'} : {aspectRatio:`${w}/${h}`,backgroundSize:`${1536/w*100}% ${1024/h*100}%`,backgroundPosition:`${x/(1536-w)*100}% ${y/(1024-h)*100}%`}} />
 }
 const doors = [
-  ['יום הולדת','משחקים, כלים וספקים —\nהכול לחגיגה מושלמת.','/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b','/images/home-birthday-girl.webp?v=2'],
-  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f','/images/home-detective-boy.webp?v=2'],
-  ['יוצרים','דפי הדפסה, תשבצים\nועיצוב משלכם.','/create',[1022,272,187,162],'#f3eaff','#a775ed','/images/home-printer.webp?v=2'],
-  ['לכיתה','משחקים, עבודת שורשים\nודפי פעילות למורים.','/classroom',[1019,481,173,170],'#dff2ff','#28a4ef','/images/home-schoolgirl.webp?v=2'],
+  ['יום הולדת','משחקים, כלים וספקים —\nהכול לחגיגה מושלמת.','/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b','/images/home-birthday-girl-720.webp'],
+  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f','/images/home-detective-boy-720.webp'],
+  ['יוצרים','דפי הדפסה, תשבצים\nועיצוב משלכם.','/create',[1022,272,187,162],'#f3eaff','#a775ed','/images/home-printer-720.webp'],
+  ['לכיתה','משחקים, עבודת שורשים\nודפי פעילות למורים.','/classroom',[1019,481,173,170],'#dff2ff','#28a4ef','/images/home-schoolgirl-720.webp'],
 ]
 const games = [
   ['תחנת החלל התקועה','חדר בריחה לילדים ולנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
@@ -91,7 +93,7 @@ export default function Home() {
         <span>שיתוף</span>
       </button>
     </section>
-    <HolidayBanner className="mb-5" />
+    <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
