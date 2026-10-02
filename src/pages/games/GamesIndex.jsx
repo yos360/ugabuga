@@ -7,6 +7,8 @@ import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
 import { gameHref } from '../../data/gameHref'
+import { GAME_FILTERS, gameFilter, durationLabel, fitsAge } from '../../data/gameFilters'
+import { gameItem, searchItems } from '../../data/searchIndex'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -14,33 +16,10 @@ const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 // browser's bidi algorithm can't reorder "min-max" inside RTL text — the same
 // class of bug fixed with <bdi dir="ltr"> in BirthdayFamous.jsx.
 function ageLabel(g) { return g.max_age ? `גילאי ⁦${g.min_age}-${g.max_age}⁩` : `גיל ${g.min_age}+` }
-function timeLabel(g) { return g.duration_max && g.duration_max !== g.duration_min ? `⁦${g.duration_min}-${g.duration_max}⁩ דק׳` : `${g.duration_min} דק׳` }
 function playersLabel(g) { return g.max_players ? `${g.min_players}-${g.max_players} משתתפים` : `${g.min_players}+ משתתפים` }
 function equipmentLabel(g) { return g.equipment_needed ? g.equipment : 'בלי ציוד' }
 function difficultyLabel(g) { return g.difficulty === 'hard' ? 'קשה' : g.difficulty === 'medium' ? 'בינוני' : 'קל' }
 function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficulty === 'medium' ? 'yellow' : 'green' }
-function fitsNoEquipment(g) { return !g.equipment_needed || /בלי ציוד/.test(String(g.equipment || '')) }
-function fitsMovement(g) { return Number(g.duration_min || 0) <= 30 && !/שקט|רגוע/.test(String(g.short_description || '')) }
-function fitsQuiet(g) { return !/ריצה|קפיצה|ריקוד|מרוץ|אנרג/.test(String(g.name || '') + ' ' + String(g.short_description || '')) }
-
-function fitsFamily(g) {
-  const age = Number(g.min_age || 0)
-  const players = Number(g.max_players || 0)
-  return age <= 12 && players >= 4 && players <= 30
-}
-
-function fitsBirthday(g) {
-  const duration = Number(g.duration_min || 0)
-  return duration > 0 && duration <= 40 && Number(g.max_players || 0) >= 4
-}
-
-function fitsClassroom(g) {
-  const age = Number(g.min_age || 0)
-  const duration = Number(g.duration_min || 0)
-  const equipment = String(g.equipment || '')
-  const manageableEquipment = !g.equipment_needed || /בלי ציוד|דף|פתק|כדור|כיסאות|מוזיקה|לוח/.test(equipment)
-  return age <= 18 && duration > 0 && duration <= 35 && manageableEquipment && Number(g.max_players || 0) >= 8
-}
 
 const gamesIndexFaq = [
   { q: 'איך משתמשים בסינון כדי למצוא משחק מתאים?', a: 'בוחרים תחילה את הפילטר הכי מגביל (למשל "בלי ציוד" או "עד 5 דקות"), ומצמצמים משם לפי גיל ומספר משתתפים.' },
@@ -51,17 +30,6 @@ const gamesIndexBody = [
   'חלק מהמשחקים ברשימה גם קיימים כגרסה דיגיטלית או להדפסה במתחם היוצרים — אם מוצאים משחק שדורש כרטיסים או כללים כתובים, כדאי לבדוק אם יש לו גרסת הדפסה מוכנה שם.',
 ]
 const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'מתחם יוצרים', href: '/create' } ]
-
-function fitsAfterSchool(g) {
-  const age = Number(g.min_age || 0)
-  const duration = Number(g.duration_min || 0)
-  const equipment = String(g.equipment || '')
-  const isAdult = age >= 13 || (g.tags || []).some((tag) => /מבוגר|מבוגרים/.test(tag))
-  const worksWithGroup = Number(g.max_players || 0) >= 6 || Number(g.min_players || 0) <= 4
-  const manageableDuration = duration > 0 && duration <= 30
-  const manageableEquipment = !g.equipment_needed || /בלי ציוד|דף|פתק|כדור|כיסאות|מוזיקה/.test(equipment)
-  return age <= 12 && !isAdult && worksWithGroup && manageableDuration && manageableEquipment
-}
 
 // One page per age (/games/age/N). From 10 up every game fits, so the lists would be identical — stop at 10.
 const AGE_PAGES = [4, 5, 6, 7, 8, 9, 10]
@@ -107,21 +75,19 @@ export default function GamesIndex() {
     window.open(`https://wa.me/?text=${encodeURIComponent(`${game.name} — משחק בעוגה בוגה\n${url}`)}`, '_blank', 'noopener,noreferrer')
   }
 
+  const activeFilter = gameFilter(contextFilter)
   const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim()
+    const q = search.trim()
+    // text search uses the site search (word starts, Hebrew prefixes, ages: "לגיל 7"), best match first
+    const rank = q ? new Map(searchItems(games.map(g => ({ ...gameItem(g), slug: g.slug })), q).map((r, i) => [r.slug, i])) : null
+    const filter = gameFilter(contextFilter)
     const candidates = games.filter(g =>
       (!goalFilter || (g.goals && g.goals.includes(goalFilter))) &&
-      (!contextFilter || (contextFilter === 'צהרון' ? fitsAfterSchool(g) : contextFilter === 'כיתה' ? fitsClassroom(g) : contextFilter === 'משפחה' ? fitsFamily(g) : contextFilter === 'יום הולדת' ? fitsBirthday(g) : contextFilter === 'תנועה' ? fitsMovement(g) : contextFilter === 'שקטים' ? fitsQuiet(g) : contextFilter === 'בלי ציוד' ? fitsNoEquipment(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
-      (!q ||
-      g.name.toLowerCase().includes(q) ||
-      (g.short_description && g.short_description.toLowerCase().includes(q)) ||
-      (g.tags && g.tags.some(t => t.includes(q))) ||
-      (g.category && g.category.includes(q)) ||
-      (g.goals && g.goals.some(t => t.includes(q))) ||
-      (g.contexts && g.contexts.some(t => t.includes(q)))
-      ) &&
-      (!ageNumber || (Number(g.min_age) <= ageNumber && (!g.max_age || Number(g.max_age) >= ageNumber)))
+      (!contextFilter || (filter ? filter.test(g) : (g.contexts && g.contexts.includes(contextFilter)))) &&
+      (!rank || rank.has(g.slug)) &&
+      (!ageNumber || fitsAge(g, ageNumber))
     )
+    if (rank && !isGameOfDay) return candidates.sort((a, b) => rank.get(a.slug) - rank.get(b.slug))
     // Age pages: games made for this age first (closest minimum age), so each age page leads with its own games.
     if (ageNumber && !isGameOfDay) return [...candidates].sort((a, b) => Number(b.min_age || 0) - Number(a.min_age || 0))
     if (!isGameOfDay) return candidates
@@ -130,12 +96,18 @@ export default function GamesIndex() {
     return [candidates[dayIndex]]
   }, [search, games, goalFilter, contextFilter, ageNumber, isGameOfDay])
 
+  // age and filter buttons keep each other: /games/age/7?context=שקטים
+  const query = searchParams.toString()
+  const ageHref = a => (ageNumber === a ? '/games' : `/games/age/${a}`) + (query ? `?${query}` : '')
+  const heading = isGameOfDay ? 'משחק היום'
+    : `${activeFilter ? activeFilter.title : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : ageNumber ? 'משחקים' : 'כל המשחקים'}${ageNumber ? ` לגיל ${age}` : ''}`
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'כל המשחקים — יותר מ-100 משחקים לילדים'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'יותר מ-100 משחקים לילדים ולמשפחה — ליום הולדת, לכיתה, לצהרון ולבית. מחפשים לפי שם או נושא, שומרים מועדפים ומשתפים. רבים בלי ציוד ובלי הכנה, הכול חינם.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
         structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
-      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
+      <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
       {ageNumber && AGE_INTRO[ageNumber] && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{AGE_INTRO[ageNumber]}</p>}
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
@@ -145,22 +117,25 @@ export default function GamesIndex() {
 
       {!isGameOfDay && (
         <nav aria-label="סינון משחקים" className="mx-auto mb-6 max-w-4xl">
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {AGE_PAGES.map((a) => (
-              <Link key={a} to={`/games/age/${a}`} aria-current={ageNumber === a ? 'true' : undefined}
-                className={`min-h-[40px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${ageNumber === a ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
-                גיל {a}
+              <Link key={a} to={ageHref(a)} preventScrollReset aria-current={ageNumber === a ? 'true' : undefined}
+                className={`min-h-[44px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${ageNumber === a ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
+                {ageNumber === a ? '✓ ' : ''}גיל {a}
               </Link>
             ))}
-            {['יום הולדת', 'כיתה', 'משפחה', 'צהרון', 'בלי ציוד', 'שקטים', 'תנועה'].map((ctx) => (
-              <button key={ctx} type="button" aria-pressed={contextFilter === ctx}
+          </div>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+            <span className="font-bold text-[var(--muted-foreground)]">מתאים ל:</span>
+            {GAME_FILTERS.map((f) => (
+              <button key={f.id} type="button" aria-pressed={contextFilter === f.id}
                 onClick={() => {
                   const next = new URLSearchParams(searchParams)
-                  if (contextFilter === ctx) next.delete('context'); else next.set('context', ctx)
+                  if (contextFilter === f.id) next.delete('context'); else next.set('context', f.id)
                   setSearchParams(next, { preventScrollReset: true })
                 }}
-                className={`min-h-[40px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${contextFilter === ctx ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
-                {ctx}
+                className={`min-h-[44px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${contextFilter === f.id ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
+                {f.label}
               </button>
             ))}
           </div>
@@ -175,14 +150,6 @@ export default function GamesIndex() {
         </nav>
       )}
 
-      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && (
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {[['/games/birthday', '🎂 יום הולדת'], ['/games/classroom', '🏫 כיתה'], ['/games/no-equipment', '🙌 בלי ציוד'], ['/games/no-prep', '⚡ בלי הכנה'], ['/games/energy', '🏃 להוציא אנרגיה'], ['/games/trivia', '🎯 טריוויה וידע'], ['/games/icebreaker', '👋 שוברי קרח'], ['/games/quiet', '🤫 שקטים']].map(([to, label]) => (
-            <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold sketch-shadow-sm">{label}</Link>
-          ))}
-        </div>
-      )}
-
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
         {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : `נמצאו ${filtered.length} משחקים`}
       </p>
@@ -190,7 +157,7 @@ export default function GamesIndex() {
       {error && (
         <div className="wobbly border-2 border-[var(--accent)] bg-red-50 p-4 mb-6 text-center">
           <p className="font-bold text-[var(--accent)]">😕 לא הצלחנו לטעון את כל המשחקים כרגע. נסו לרענן את הדף בעוד רגע.</p>
-          <button type="button" className="mt-2 underline font-bold" onClick={() => location.reload()}>🔄 לנסות שוב</button>
+          <button type="button" className="mt-2 underline font-bold" onClick={() => window.location.reload()}>🔄 לנסות שוב</button>
         </div>
       )}
 
@@ -204,14 +171,14 @@ export default function GamesIndex() {
             <Link key={game.slug || game.id} to={gameHref(game.slug)}
               className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
               <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
-                <button type="button" onClick={e => toggleFavorite(e, game)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} className="rounded-full bg-white/90 px-2 py-1 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>
-                <button type="button" onClick={e => shareGame(e, game)} aria-label={`שתף את ${game.name} בוואטסאפ`} className="rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>
+                <button type="button" onClick={e => toggleFavorite(e, game)} aria-pressed={favorites.includes(game.slug)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} title={favorites.includes(game.slug) ? 'הסרה מהמועדפים' : 'שמירה במועדפים'} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>
+                <button type="button" onClick={e => shareGame(e, game)} aria-label={`שיתוף בוואטסאפ: ${game.name}`} title="שיתוף בוואטסאפ" className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#25D366] px-3 text-sm font-bold text-white shadow-sm hover:scale-105">שיתוף</button>
               </div>
-              <h3 className="truncate text-2xl leading-tight">{game.name}</h3>
+              <h3 className="truncate pl-28 text-2xl leading-tight">{game.name}</h3>
               <p className="mt-2 line-clamp-2 text-base text-[var(--foreground)]/85">{game.short_description}</p>
               <div className="mt-3 flex flex-wrap gap-1 sm:gap-2">
                 <Badge>{ageLabel(game)}</Badge>
-                <Badge color="yellow">{timeLabel(game)}</Badge>
+                <Badge color="yellow">{durationLabel(game)}</Badge>
                 <Badge>{playersLabel(game)}</Badge>
                 <Badge color={difficultyColor(game)}>🎯 {difficultyLabel(game)}</Badge>
                 <Badge color={game.equipment_needed ? 'default' : 'blue'}>{equipmentLabel(game)}</Badge>

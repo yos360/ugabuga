@@ -44,7 +44,7 @@ export default function EscapeRooms() {
   const [difficulty, setDifficulty] = useState('easy')
   const [roundSeed, setRoundSeed] = useState(0)
   const [answer, setAnswer] = useState('')
-  const [showHint, setShowHint] = useState(false)
+  const [hintCount, setHintCount] = useState(0)
   const [showPrintKit, setShowPrintKit] = useState(false)
   const [status, setStatus] = useState(null)
   const [completedSteps, setCompletedSteps] = useState([])
@@ -56,11 +56,20 @@ export default function EscapeRooms() {
   const step = room?.steps[stepIndex]
   const stepQuestion = step?.question || step?.prompt || ''
   const solvedRoom = room && completedSteps.length === room.steps.length
+  const stepHints = step?.hints?.length ? step.hints : step?.hint ? [step.hint] : []
+
+  // Arriving from a shared link (?room=...) lands straight on the game, not the page header.
+  useEffect(() => {
+    if (!searchParams.get('room')) return
+    const timer = setTimeout(() => roomPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setStepIndex(0)
     setAnswer('')
-    setShowHint(false)
+    setHintCount(0)
     setShowPrintKit(false)
     setStatus(null)
     setCompletedSteps([])
@@ -72,7 +81,7 @@ export default function EscapeRooms() {
     navigate('/tools/escape-rooms/' + id, { preventScrollReset: true })
     setStepIndex(0)
     setAnswer('')
-    setShowHint(false)
+    setHintCount(0)
     setShowPrintKit(false)
     setStatus(null)
     setCompletedSteps([])
@@ -90,7 +99,7 @@ export default function EscapeRooms() {
       setCompletedSteps(nextCompleted)
       setStatus('correct')
       setAnswer('')
-      setShowHint(false)
+      setHintCount(0)
 
     } else {
       setStatus('wrong')
@@ -102,7 +111,7 @@ export default function EscapeRooms() {
     clearTimeout(advanceTimerRef.current)
     setStepIndex(0)
     setAnswer('')
-    setShowHint(false)
+    setHintCount(0)
     setStatus(null)
     setCompletedSteps([])
   }
@@ -111,7 +120,17 @@ export default function EscapeRooms() {
   if (!room || !step) return null
   const base = ESCAPE_ROOMS.find((item) => item.id === roomId)
   const isRoomPage = Boolean(pathRoomId)
-  const similar = ESCAPE_ROOMS.filter((item) => item.id !== roomId && item.tags?.ages?.some((a) => base.tags?.ages?.includes(a))).slice(0, 4)
+  // Recommendations stay inside the same age group: a kids room never points to a teen/adult room.
+  const baseAges = base.tags?.ages || []
+  const grownUp = (item) => (item.tags?.ages || []).some((a) => a === '13+' || a === 'adults')
+  const baseIsKids = !grownUp(base)
+  const ageScore = (item) => (item.tags?.ages || []).filter((a) => baseAges.includes(a)).length + ((item.tags?.ages || [])[0] === baseAges[0] ? 2 : 0)
+  const sameGroup = ESCAPE_ROOMS.filter((item) => item.id !== roomId && ageScore(item) > 0 && (!baseIsKids || !grownUp(item)))
+  const similar = [...sameGroup].sort((a, b) => ageScore(b) - ageScore(a)).slice(0, 4)
+  const roomIndex = ESCAPE_ROOMS.findIndex((item) => item.id === roomId)
+  const nextRoom = sameGroup.length
+    ? [...sameGroup].sort((a, b) => ageScore(b) - ageScore(a) || ((ESCAPE_ROOMS.indexOf(a) - roomIndex + ESCAPE_ROOMS.length) % ESCAPE_ROOMS.length) - ((ESCAPE_ROOMS.indexOf(b) - roomIndex + ESCAPE_ROOMS.length) % ESCAPE_ROOMS.length))[0]
+    : ESCAPE_ROOMS[(roomIndex + 1) % ESCAPE_ROOMS.length]
   const roomCollections = Object.entries(ESCAPE_COLLECTIONS).filter(([, c]) => c.filter(base))
 
   return (
@@ -244,7 +263,7 @@ export default function EscapeRooms() {
               <p className="text-xl leading-relaxed mb-6">{room.finalMessage}</p>
               <div className="flex flex-wrap justify-center gap-3">
                 <WobblyButton onClick={resetRoom} variant="primary">שחקו שוב</WobblyButton>
-                <WobblyButton onClick={() => chooseRoom(ESCAPE_ROOMS[(ESCAPE_ROOMS.findIndex(item => item.id === roomId)+1)%ESCAPE_ROOMS.length].id)} variant="secondary">ממשיכים לחדר הבא ←</WobblyButton>
+                <WobblyButton onClick={() => chooseRoom(nextRoom.id)} variant="secondary">ממשיכים לחדר הבא: {nextRoom.emoji} {nextRoom.title} ←</WobblyButton>
                 <WobblyButton onClick={() => setShowPrintKit(true)} variant="secondary">ראו קיט הפעלה</WobblyButton>
               </div>
             </WobblyCard>
@@ -275,21 +294,23 @@ export default function EscapeRooms() {
                 <p className="mt-3 text-[var(--accent)] font-bold">עוד לא. נסו שוב או פתחו רמז.</p>
               )}
               {status === 'correct' && (
-                <div className="mt-3 text-[#2e7d32] font-bold" role="status"><p>נכון! המנעול נפתח.</p><WobblyButton onClick={() => {setStepIndex(index => index+1);setStatus(null);setAnswer('');setShowHint(false)}}>ממשיכים לשלב הבא ←</WobblyButton></div>
+                <div className="mt-3 text-[#2e7d32] font-bold" role="status"><p>נכון! המנעול נפתח.</p><WobblyButton onClick={() => {setStepIndex(index => index+1);setStatus(null);setAnswer('');setHintCount(0)}}>ממשיכים לשלב הבא ←</WobblyButton></div>
               )}
 
-              <div className="mt-5">
-                {showHint ? (
-                  <WobblyCard hover={false} padding="p-3" className="bg-[var(--yellow)] inline-block">
-                    <p className="text-sm">💡 רמז: {step.hint}</p>
-                  </WobblyCard>
-                ) : (
-                  <button onClick={() => setShowHint(true)} className="text-[var(--blue)] hover:underline">
-                    צריכים רמז?
+              <div className="mt-5" aria-live="polite">
+                {hintCount > 0 && (
+                  <ol className="space-y-2 mb-2">
+                    {stepHints.slice(0, hintCount).map((h, i) => (
+                      <li key={i}><WobblyCard hover={false} padding="p-3" className="bg-[var(--yellow)] inline-block"><p className="text-sm">💡 רמז {i + 1}: {h}</p></WobblyCard></li>
+                    ))}
+                  </ol>
+                )}
+                {status !== 'correct' && hintCount < stepHints.length && (
+                  <button type="button" onClick={() => setHintCount((c) => c + 1)} className="min-h-[44px] text-[var(--blue)] font-bold hover:underline">
+                    {hintCount === 0 ? 'צריכים רמז? 💡' : 'עוד רמז 💡'}
                   </button>
                 )}
               </div>
-              {difficulty === 'easy' && !showHint && status !== 'correct' && <p className="mt-3 text-sm text-[var(--muted-foreground)]">💡 {step.hint}</p>}
             </WobblyCard>
           )}
 

@@ -17,6 +17,16 @@ const errorText = code => ({
   not_owner: 'רק מי שיצר/ה את הרשימה יכול/ה לשנות אותה.',
   not_your_claim: 'אפשר לבטל רק פריט שתפסתם מהמכשיר הזה.',
 }[code] || 'משהו השתבש בחיבור. נסו שוב בעוד רגע.')
+// Starting title for a new list: from ?for=birthday|end-of-year|class, or from a birthday page that linked here;
+// otherwise a neutral one (it used to say "מסיבת סוף שנה" even when coming from a birthday page).
+function defaultTitle(kind) {
+  let ref = ''
+  try { ref = decodeURIComponent(document.referrer || '') } catch { /* malformed referrer */ }
+  if (kind === 'birthday' || (!kind && /birthday|יום-הולדת|יום_הולדת/i.test(ref))) return 'יום ההולדת של ___'
+  if (kind === 'end-of-year') return 'מסיבת סוף שנה'
+  if (kind === 'class') return 'מסיבת הכיתה'
+  return 'האירוע שלנו'
+}
 const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}`
 
 function useToast() {
@@ -73,7 +83,7 @@ export default function BringList() {
   const [code, setCode] = useState(code0 || null)
   const ownerToken = useRef(code0 ? partyMemory.ownerToken(code0) : null)
   const [owner, setOwner] = useState(!code0 || Boolean(ownerToken.current))
-  const [title, setTitle] = useState(code0 ? '' : 'מסיבת סוף שנה')
+  const [title, setTitle] = useState(() => code0 ? '' : defaultTitle(params.get('for')))
   const [items, setItems] = useState(() => code0 ? [] : fresh())
   const [loading, setLoading] = useState(Boolean(code0))
   const [error, setError] = useState('')
@@ -209,7 +219,7 @@ export default function BringList() {
     <section className={card}>
       <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-dashed pb-4">
         {owner
-          ? <label className="flex-1 font-bold">שם הרשימה<input value={title} onChange={e => changeTitle(e.target.value)} maxLength={80} placeholder="למשל: יום הולדת לנועה"
+          ? <label className="flex-1 font-bold">שם הרשימה<input value={title} onChange={e => changeTitle(e.target.value)} onFocus={e => { const at = e.target.value.indexOf('___'); if (at >= 0) e.target.setSelectionRange(at, at + 3) }} maxLength={80} placeholder="למשל: יום הולדת לנועה"
               className="mt-1 w-full rounded-xl border-2 border-slate-200 px-3 py-2.5 text-lg focus:border-slate-800 focus:outline-none" /></label>
           : <h2 className="flex-1 text-2xl font-bold">{title}</h2>}
         <span className="rounded-full bg-emerald-100 px-3 py-2 font-bold text-emerald-800">{taken}/{filled.length} נתפסו</span>

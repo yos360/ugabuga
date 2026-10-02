@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import LessonRunner from '../LessonRunner'
-import { VARIANTS, LEVELS, newGame, legalMoves, applyMove, status, computerMove, rc, idx, isDark } from './engine'
+import { VARIANTS, LEVELS, newGame, legalMoves, applyMove, status, endMessage, computerMove, rc, idx, isDark } from './engine'
 
 // Interactive checkers board. Selection is step-by-step: tap a piece, then each landing square of the
 // capture chain, so multi-jumps are played exactly as on a real board.
@@ -78,7 +78,7 @@ export function CheckersPlay() {
         <label>חוקים: <select value={variant} onChange={e => { setVariant(e.target.value); restart(e.target.value) }}>{Object.values(VARIANTS).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label>
       </div>
       <p className="bg-status" role="status">
-        {st.over ? (st.winner === 0 ? `🤝 תיקו! ${st.reason}` : `🏆 ${who(st.winner)} ניצחו! (${st.reason})`)
+        {st.over ? endMessage(st, mode)
           : cpuTurn ? '🤔 המחשב חושב…' : `תור: ${who(state.turn)}${legalMoves(state)[0]?.captures.length ? ' – חובה לאכול!' : ''}`}
       </p>
       <Board state={state} onMove={m => setState(s => applyMove(s, m))} disabled={st.over || cpuTurn} lastMove={last} />

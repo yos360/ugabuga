@@ -30,6 +30,7 @@ function NearViewport({ children, minHeight = 320 }) {
 // that out of the main bundle. The slot below reserves its height so nothing jumps when it appears.
 const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
 import SiteSearchBox from '../components/ui/SiteSearchBox'
+import PlayNow from '../components/home/PlayNow'
 
 function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
@@ -95,6 +96,7 @@ export default function Home() {
     </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
+    <PlayNow />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
     <section className="home-featured">

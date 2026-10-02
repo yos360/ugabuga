@@ -3,6 +3,16 @@ import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 
+// Labeled fields beside the invitation — the same state as the inline fields on the card.
+const FIELDS = [
+  ['name', 'שם החוגג/ת', 'text', 'למשל: נועה'],
+  ['age', 'גיל', 'text', 'למשל: 7'],
+  ['date', 'תאריך', 'text', 'למשל: שישי 14.11'],
+  ['time', 'שעה', 'text', 'למשל: 10:00–12:00'],
+  ['place', 'כתובת', 'text', 'רחוב, עיר / שם הגן'],
+  ['phone', 'טלפון לאישור הגעה', 'tel', '050-0000000'],
+]
+
 const THEMES = [
   {id:'balloons', name:'בלונים', emoji:'🎈', bg:'#ffe0ec'},
   {id:'space', name:'חלל', emoji:'🚀', bg:'#e0f7fa'},
@@ -14,12 +24,12 @@ const THEMES = [
 
 export default function Invitation() {
   const [theme, setTheme] = useState(THEMES[0])
-  const [data, setData] = useState({ name:'', age:'', date:'', time:'', place:'', notes:'' })
+  const [data, setData] = useState({ name:'', age:'', date:'', time:'', place:'', phone:'', notes:'' })
   const [printing, setPrinting] = useState(false)
 
   const update = (k,v) => setData(d => ({...d, [k]:v}))
   const share = () => {
-    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time||'___'}\n📍 ${data.place||'___'}\n${data.notes||''}`
+    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time||'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${data.phone}`:''}\n${data.notes||''}`
     window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank')
   }
 
@@ -28,7 +38,7 @@ export default function Invitation() {
       <SEO title="מחולל הזמנות ליום הולדת — הזמנה מעוצבת לוואטסאפ" description="הזמנה ליום הולדת בדקה: בוחרים עיצוב (בלונים, חלל, דינוזאור, נסיכה, כדורגל או גיימינג), ממלאים תאריך, שעה ומקום ושולחים בוואטסאפ. חינם, בלי הרשמה." path="/invitation" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחולל הזמנות' }]} />
       <h1 className="text-center text-3xl sm:text-5xl mb-3">📨 מחולל הזמנות</h1>
-      <p className="mb-6 text-center text-sm text-[var(--muted-foreground)] sm:text-lg">בוחרים עיצוב, ממלאים פרטים ורואים את ההזמנה מתעדכנת מיד</p>
+      <p className="mb-6 text-center text-sm text-[var(--muted-foreground)] sm:text-lg">הזמנה להדפסה ולשליחה בוואטסאפ — בוחרים עיצוב, ממלאים פרטים ורואים את ההזמנה מתעדכנת מיד</p>
 
       <div className="grid grid-cols-3 gap-2 mb-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
         {THEMES.map(t => (
@@ -48,12 +58,19 @@ export default function Invitation() {
           <div><label htmlFor="inv-time" className="text-sm font-bold">🕐 שעה</label><input id="inv-time" value={data.time} onChange={e=>update('time',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
         </div>
         <div className="mt-3 text-right"><label htmlFor="inv-place" className="text-sm font-bold">📍 מקום</label><input id="inv-place" value={data.place} onChange={e=>update('place',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
+        <div className="mt-3 text-right"><label htmlFor="inv-phone" className="text-sm font-bold">📞 אישור הגעה</label><input id="inv-phone" type="tel" dir="ltr" value={data.phone} onChange={e=>update('phone',e.target.value)} placeholder="050-0000000" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 text-right" /></div>
         <div className="mt-3 text-right"><label htmlFor="inv-notes" className="text-sm font-bold">📝 הערות</label><input id="inv-notes" value={data.notes} onChange={e=>update('notes',e.target.value)} placeholder="אישור הגעה, ללא מתנות..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
       </div>
       <aside className="order-2 rounded-3xl border-2 border-[var(--border)] bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-3 text-xl font-bold">📝 פרטי ההזמנה</h2>
         <p className="mb-4 text-sm text-[var(--muted-foreground)]">כל שינוי שתקלידו מופיע מיד בהזמנה.</p>
-        <div className="rounded-2xl bg-[var(--postit)] p-4 text-sm leading-7">💡 טיפ: מלאו קודם את שם החוגג, התאריך והמקום — ואז שתפו בוואטסאפ.</div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          {FIELDS.map(([k, label, type, ph]) => <div key={k} className={k === 'place' ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2' : ''}>
+            <label htmlFor={`form-${k}`} className="block text-sm font-bold">{label}</label>
+            <input id={`form-${k}`} type={type} inputMode={k === 'age' ? 'numeric' : undefined} dir={type === 'tel' ? 'ltr' : undefined} value={data[k]} onChange={e => update(k, e.target.value)} placeholder={ph} className="mt-1 w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 text-right" />
+          </div>)}
+        </div>
+        <div className="mt-4 rounded-2xl bg-[var(--postit)] p-4 text-sm leading-7">💡 מלאו שם, תאריך וכתובת — ואז שתפו בוואטסאפ או הדפיסו.</div>
       </aside>
       </div>
 
@@ -66,6 +83,7 @@ export default function Invitation() {
         <div className="print-art"><img src={`/images/invitation-theme-${theme.id}.webp`} alt="" /></div>
         <p style={{ fontSize: 22, margin: '6px 0' }}>📅 {data.date || '________'} · 🕐 {data.time || '_____'}</p>
         <p style={{ fontSize: 22, margin: '6px 0' }}>📍 {data.place || '______________'}</p>
+        {data.phone && <p style={{ fontSize: 20, margin: '6px 0' }}>📞 אישור הגעה: <span dir="ltr">{data.phone}</span></p>}
         {data.notes && <p style={{ fontSize: 18, margin: '6px 0' }}>{data.notes}</p>}
         <footer>עוגה בוגה · ugabuga.co.il</footer>
       </article></PrintPreview>}

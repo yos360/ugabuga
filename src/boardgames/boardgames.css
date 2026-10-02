@@ -86,3 +86,14 @@
 /* Phones: the 12 points were ~21px wide — hard for kids to tap. Use the full screen width, a thinner
    frame, a narrower bar and bear-off tray, so each point gets ~27px. */
 @media (max-width:560px){.bgm-board{width:calc(100vw - 8px);margin-inline:calc(50% - 50vw + 4px);border-width:4px;padding-right:10%}.bgm-off{width:9.5%}.bgm-row{grid-template-columns:repeat(6,minmax(0,1fr)) minmax(0,.45fr) repeat(6,minmax(0,1fr))}}
+/* Backgammon/chess: status + dice pinned above the board (see useStickyBar.js), and the board sized to the viewport height so
+   status and board are visible together on a tablet (768×1024). */
+.bg-sticky{z-index:30;background:#fff;padding:4px 0 2px}
+.bg-sticky.is-pinned{box-shadow:0 4px 10px #1d22332e;border-radius:0 0 14px 14px}
+.bg-sticky .bg-status{margin:2px 0 4px}
+.bg-sticky .bgm-top{margin-bottom:4px;min-height:52px}
+.bg-sticky .bgm-dice span{font-size:44px}
+@media (min-width:561px){
+.bg-play .bgm-board{width:min(100%,640px,max(300px,calc((100dvh - 190px)*1.15)))}
+.bg-play .ch-board{width:min(100%,520px,max(280px,calc(100dvh - 170px)))}
+}

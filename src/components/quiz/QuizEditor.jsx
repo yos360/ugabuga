@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { newQid, quizMemory } from '../../utils/quizDb'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
@@ -31,9 +31,29 @@ export function quizProblem(quiz) {
 }
 export const toPayload = quiz => quiz.questions.map(q => ({ id: q.id, q: q.q.trim(), options: q.options.map(o => o.trim()), correct: q.correct }))
 
-export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQuestions = false }) {
+// Draft autosave (new quizzes only): the half-written quiz is kept in this browser until it is created.
+const readDraft = key => { try { const d = JSON.parse(localStorage.getItem(key)); return d?.quiz?.questions ? d : null } catch { return null } }
+export const clearQuizDraft = key => { try { localStorage.removeItem(key) } catch { /* private mode */ } }
+const isBlank = z => !z.title.trim() && !z.names.length && z.questions.every(q => !q.q.trim() && q.options.every(o => !o.trim()))
+
+export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQuestions = false, draftKey = null }) {
   const [quiz, setQuiz] = useState(() => initial || emptyQuiz())
   const [err, setErr] = useState('')
+  // A saved draft is offered, not loaded silently; until the teacher answers, nothing overwrites it.
+  const [offer, setOffer] = useState(() => (draftKey && !initial ? readDraft(draftKey) : null))
+  const [savedAt, setSavedAt] = useState(null)
+  useEffect(() => {
+    if (!draftKey || offer) return
+    const t = setTimeout(() => {
+      try {
+        if (isBlank(quiz)) localStorage.removeItem(draftKey)
+        else { localStorage.setItem(draftKey, JSON.stringify({ quiz, at: Date.now() })); setSavedAt(Date.now()) }
+      } catch { /* private mode / full storage */ }
+    }, 600)
+    return () => clearTimeout(t)
+  }, [quiz, draftKey, offer])
+  const restore = () => { setQuiz({ ...emptyQuiz(), ...offer.quiz, settings: { ...emptyQuiz().settings, ...offer.quiz.settings } }); setOffer(null) }
+  const discard = () => { clearQuizDraft(draftKey); setOffer(null) }
   const lists = quizMemory.classLists()
   const setQ = (i, patch) => setQuiz(z => ({ ...z, questions: z.questions.map((q, n) => n === i ? { ...q, ...patch } : q) }))
   const setOpt = (i, o, v) => setQuiz(z => ({ ...z, questions: z.questions.map((q, n) => n === i ? { ...q, options: q.options.map((x, m) => m === o ? v : x) } : q) }))
@@ -48,6 +68,11 @@ export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQ
   const sample = () => setQuiz(z => ({ ...z, title: SAMPLE.title, questions: SAMPLE.questions.map(q => ({ ...q, id: newQid() })) }))
 
   return <form onSubmit={submit} className="space-y-5">
+    {offer && <div role="status" className="flex flex-wrap items-center gap-2 rounded-3xl border-2 border-amber-300 bg-amber-50 p-4">
+      <p className="flex-1 font-bold">📝 נמצאה טיוטה{offer.quiz.title ? ` „${offer.quiz.title}”` : ''} · {offer.quiz.questions.length === 1 ? 'שאלה אחת' : `${offer.quiz.questions.length} שאלות`} · נשמרה ב-<bdi>{new Date(offer.at).toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}</bdi> — לשחזר?</p>
+      <button type="button" onClick={restore} className="rounded-xl bg-[var(--ink)] px-4 py-2 font-bold text-white">שחזור הטיוטה</button>
+      <button type="button" onClick={discard} className="rounded-xl border-2 border-slate-300 bg-white px-4 py-2 font-bold">מתחילים מחדש</button>
+    </div>}
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-4 sm:p-5">
       <label className="block font-bold">שם המבחן
         <input value={quiz.title} onChange={e => setQuiz(z => ({ ...z, title: e.target.value }))} maxLength={80} placeholder="למשל: בוחן בחשבון — כיתה ב׳" className={`${input} mt-1`} /></label>
@@ -97,6 +122,7 @@ export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQ
     </fieldset>
 
     {err && <p role="alert" className="rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
+    {draftKey && savedAt && !offer && <p className="text-center text-sm text-slate-500" aria-live="polite">💾 הטיוטה נשמרת אוטומטית בדפדפן הזה</p>}
     <button disabled={busy} className="w-full rounded-2xl bg-[var(--ink)] px-6 py-4 text-xl font-bold text-white disabled:opacity-60">{busy ? 'שומרים…' : submitLabel}</button>
   </form>
 }

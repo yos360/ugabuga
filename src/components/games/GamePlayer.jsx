@@ -1,8 +1,23 @@
 import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 
-const TYPE_LABEL = { prompt:'פתיח משפט', question:'שאלה', category:'קטגוריה', scenario:'תרחיש', situation:'סיטואציה', statement:'משפט', topic:'נושא', challenge:'אתגר' }
-const TYPE_COUNTER = { prompt:'פתיח', question:'שאלה', category:'קטגוריה', scenario:'תרחיש', situation:'סיטואציה', statement:'משפט', topic:'נושא', challenge:'אתגר' }
+// What one card is called. content_type is generic ("prompt" is a command in המלך אמר, a task in
+// מצא מישהו ש..., a sentence opener in BUGA משפטים), so games can name their cards themselves.
+const TYPE_LABEL = { prompt:'כרטיס', question:'שאלה', category:'קטגוריה', scenario:'תרחיש', situation:'סיטואציה', statement:'משפט', topic:'נושא', challenge:'אתגר', complication:'סיבוך', word:'מילה', item:'פריט' }
+const GAME_LABEL = {
+  'hamelech-amar': { prompt: 'פקודה' },
+  'buga-mishpatim': { prompt: 'פתיח משפט' },
+  'mtza-mishehu-she': { prompt: 'משימה' },
+  'mi-hachi-savir': { prompt: 'משפט' },
+  'kategoria-be5': { prompt: 'קטגוריה' },
+  'haot-hameshugaat': { prompt: 'שאלה' },
+  'buga-reviews': { prompt: 'נושא לביקורת' },
+  'buga-deal': { prompt: 'עסקה' },
+  'tournament': { item: 'מתמודד' },
+}
+const labelFor = (slug, type) => GAME_LABEL[slug]?.[type] || TYPE_LABEL[type] || 'כרטיס'
+// Team scoring only where the game is played in teams or has right/wrong answers.
+const TEAM_GAMES = /שתי קבוצות|קבוצה א|לקבוצות|הקבוצה השנייה/
 
 function shuffle(arr) {
   const a = [...arr]
@@ -17,7 +32,8 @@ function detectTruth(answer = '') {
   return null
 }
 
-export default function GamePlayer({ content, onClose, title = 'אמת או בוגה' }) {
+export default function GamePlayer({ content, onClose, title = 'אמת או בוגה', slug = '', instructions = '' }) {
+  const withTeams = useMemo(() => content.some(c => c.answer) || TEAM_GAMES.test(instructions || ''), [content, instructions])
   const packs = useMemo(() => {
     const seen = []
     content.forEach(c => { if (!seen.includes(c.pack_name)) seen.push(c.pack_name) })
@@ -40,7 +56,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
 
   const current = items[index]
   if (!current) return null
-  const typeWord = TYPE_COUNTER[current.content_type] || 'פריט'
+  const typeWord = labelFor(slug, current.content_type)
   const truthValue = detectTruth(current.answer)
   const isTruthBuga = truthValue !== null
 
@@ -48,7 +64,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
     setRevealed(false)
     setGuess(null)
     setIndex(i => (i + delta + items.length) % items.length)
-    setActiveTeam(t => (t + 1) % teams.length)
+    if (withTeams) setActiveTeam(t => (t + 1) % teams.length)
   }
   const reshuffle = () => { setItems(shuffle(inPack)); setIndex(0); setRevealed(false); setGuess(null) }
   const resetScore = () => setTeams(t => t.map(team => ({ ...team, score: 0 })))
@@ -58,7 +74,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
     const correct = choice === truthValue
     setGuess({ choice, correct })
     setRevealed(true)
-    if (correct) {
+    if (correct && withTeams) {
       setTeams(list => list.map((team, i) => i === activeTeam ? { ...team, score: team.score + 1 } : team))
     }
   }
@@ -70,14 +86,14 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
       <div className="mx-auto flex h-full max-w-7xl flex-col rounded-[2rem] border-[4px] border-[var(--border)] bg-[var(--paper)] p-3 sketch-shadow-rich sm:p-5" onClick={e => e.stopPropagation()}>
         <div className="mb-2 flex items-center justify-between gap-3 sm:mb-3">
           <div>
-            <p className="hidden font-hand text-sm text-[var(--muted-foreground)] sm:block">מצב תחרותי</p>
+            <p className="hidden font-hand text-sm text-[var(--muted-foreground)] sm:block">{withTeams ? 'מצב תחרותי' : 'משחקים עכשיו'}</p>
             <h2 className="text-xl sm:text-4xl">{title}</h2>
           </div>
           <button onClick={onClose} aria-label="סגירה" className="wobbly-sm shrink-0 border-2 border-[var(--border)] bg-white px-3 py-1 text-xl cursor-pointer sm:px-4 sm:py-2 sm:text-2xl">✕</button>
         </div>
 
-        <div className="mb-2 grid grid-cols-[minmax(0,1fr)] gap-2 sm:mb-3 sm:gap-3 lg:grid-cols-[260px_minmax(0,1fr)_260px]">
-          <div className="wobbly border-2 border-[var(--border)] bg-white p-2 sketch-shadow-sm sm:p-3">
+        <div className={`mb-2 grid grid-cols-[minmax(0,1fr)] gap-2 sm:mb-3 sm:gap-3 ${withTeams ? 'lg:grid-cols-[260px_minmax(0,1fr)_260px]' : ''}`}>
+          {withTeams && <div className="wobbly border-2 border-[var(--border)] bg-white p-2 sketch-shadow-sm sm:p-3">
             <h3 className="mb-2 hidden text-xl sm:block">ניקוד</h3>
             <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
               {teams.map((team, i) => (
@@ -90,7 +106,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
               ))}
             </div>
             <button onClick={resetScore} className="mt-3 hidden wobbly-sm sm:inline-block border-2 border-[var(--border)] bg-white px-3 py-1 text-sm font-bold">אפסו ניקוד</button>
-          </div>
+          </div>}
 
           <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-2 text-center sketch-shadow-sm sm:p-3">
             <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
@@ -102,17 +118,17 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
             <p className="mt-1 font-hand text-base text-[var(--muted-foreground)] sm:mt-2 sm:text-lg">{typeWord} {index+1} מתוך {items.length}</p>
           </div>
 
-          <div className="hidden wobbly border-2 border-[var(--border)] bg-white p-3 text-center sketch-shadow-sm sm:block">
+          {withTeams && <div className="hidden wobbly border-2 border-[var(--border)] bg-white p-3 text-center sketch-shadow-sm sm:block">
             <h3 className="text-xl">תור עכשיו</h3>
             <p className="mt-2 text-2xl font-bold">{teams[activeTeam]?.name}</p>
-          </div>
+          </div>}
         </div>
 
         <main className="relative flex min-h-0 flex-1 overflow-y-auto rounded-[1.5rem] border-[3px] border-[var(--border)] bg-white p-3 sketch-shadow-rich sm:rounded-[2rem] sm:border-[4px] sm:p-4">
           {/* m-auto (not items-center) keeps long text reachable by scrolling instead of clipped at the top */}
           <div className="m-auto max-w-5xl text-center">
-            <p className="mb-2 text-sm font-bold text-[var(--muted-foreground)] sm:hidden">תור: {teams[activeTeam]?.name}</p>
-            <span className="inline-block wobbly-sm border border-[var(--border)] bg-[var(--postit)] px-3 py-1 text-sm font-bold">{TYPE_LABEL[current.content_type] || 'תוכן'}</span>
+            {withTeams && <p className="mb-2 text-sm font-bold text-[var(--muted-foreground)] sm:hidden">תור: {teams[activeTeam]?.name}</p>}
+            <span className="inline-block wobbly-sm border border-[var(--border)] bg-[var(--postit)] px-3 py-1 text-sm font-bold">{typeWord}</span>
             <p key={current.id} className="buga-fade-in mt-3 text-2xl leading-snug min-[400px]:text-3xl sm:mt-6 sm:text-6xl sm:leading-relaxed">{current.content_text}</p>
 
             {isTruthBuga ? (
@@ -126,7 +142,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
 
             {revealed && current.answer && (
               <div className={`buga-fade-in mx-auto mt-6 max-w-3xl wobbly-md border-2 border-[var(--border)] p-5 ${guess?.correct ? 'bg-[#4caf50] text-white' : guess && !guess.correct ? 'bg-[var(--postit)]' : 'bg-[var(--postit)]'}`}>
-                {guess && <p className="text-2xl font-bold">{guess.correct ? 'נכון! נקודה לקבוצה 🎉' : 'לא הפעם — אין נקודה'}</p>}
+                {guess && <p className="text-2xl font-bold">{guess.correct ? (withTeams ? 'נכון! נקודה לקבוצה 🎉' : 'נכון! 🎉') : 'לא הפעם — אין נקודה'}</p>}
                 <p className="mt-2 font-display text-2xl font-bold sm:text-3xl">{current.answer}</p>
                 {current.answer_explanation && <p className="mt-2 text-xl">{current.answer_explanation}</p>}
               </div>

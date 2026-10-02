@@ -54,9 +54,9 @@ const MATH_PAGE_SLUGS = [...Object.keys(ADD_SUB_PRESETS), ...Object.keys(TABLE_P
 const PRESETS = {
   hub: {
     path: '/printables/math-worksheets', range: 10, mode: 'exercises',
-    title: 'דפי עבודה בחשבון לכיתה א׳ — להדפסה חינם',
-    h1: '🔢 דפי עבודה בחשבון לכיתה א׳',
-    sub: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, תרגילים במאונך ושבילים — דף חדש בכל לחיצה',
+    title: 'דפי עבודה בחשבון לכיתות א׳–ג׳ — חיבור, חיסור ולוח הכפל להדפסה',
+    h1: '🔢 דפי עבודה בחשבון — כיתות א׳–ג׳',
+    sub: 'חיבור וחיסור עד 10, 20 ו-100, מספר חסר, במאונך, שבילים ולוח הכפל — דף חדש בכל לחיצה',
     desc: 'דפי עבודה בחשבון לכיתה א׳ להדפסה בחינם: חיבור וחיסור עד 10 ועד 20, מספר חסר, תרגילים במאונך, תרגילים עם ציורים ושבילים — דף חדש בכל לחיצה, עם דף פתרונות.',
     crumb: 'דפי עבודה בחשבון',
   },
@@ -154,16 +154,29 @@ export default function MathWorksheets({ preset: fixedPreset }) {
 
   if (!p) return <Navigate to="/printables/math-worksheets" replace />
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
+    <div className="mx-auto max-w-5xl px-4 pt-8 pb-24 buga-fade-in" dir="rtl">
       <SEO title={p.title} description={p.desc} path={p.path} structuredData={faqSchema(FAQ[p.mode] || FAQ.exercises)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...(preset === 'hub' ? [] : [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]), { label: p.crumb }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{p.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{p.sub}</p>
 
-      <nav className="mb-6 flex flex-wrap justify-center gap-2" aria-label="סוגי דפי עבודה">
-        {[['10', 'עד 10', '/printables/math-worksheets/up-to-10'], ['20', 'עד 20', '/printables/math-worksheets/up-to-20'], ['paths', 'שבילים', '/printables/math-paths']].map(([id, label, href]) =>
-          <Link key={id} to={href} aria-current={preset === id ? 'page' : undefined} className={`rounded-full border-2 px-4 py-1.5 font-bold ${preset === id ? 'border-slate-800 bg-pink-200' : 'border-[var(--border)] bg-white'}`}>{label}</Link>)}
-      </nav>
+      {/* Other worksheet pages — not on the times-table pages, where they are beside the point. The range itself
+          is chosen with the "תחום" buttons below, so these links name whole pages, not ranges. */}
+      {!isTable && <nav className="mb-6 flex flex-wrap items-center justify-center gap-2" aria-label="סוגי דפי עבודה">
+        <span className="font-bold">דפים מוכנים:</span>
+        {[['10', 'חיבור וחיסור עד 10', '/printables/math-worksheets/up-to-10'], ['20', 'חיבור וחיסור עד 20', '/printables/math-worksheets/up-to-20'], ['paths', '🛤️ שבילים', '/printables/math-paths']].filter(([id]) => id !== preset).map(([id, label, href]) =>
+          <Link key={id} to={href} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{label}</Link>)}
+      </nav>}
+
+      {preset === 'hub' && <section className="mb-8 rounded-3xl border-2 border-[var(--border)] bg-sky-50 p-4 text-center sketch-shadow-sm" aria-labelledby="times-tables-title">
+        <h2 id="times-tables-title" className="text-2xl font-black">✖️ לוח הכפל — כיתות ב׳–ג׳</h2>
+        <p className="mb-3 text-[var(--muted-foreground)]">בוחרים לוח ומקבלים 20 תרגילים חדשים בכל לחיצה</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <Link key={n} to={PRESETS[`multiplication-table-${n}`].path} aria-label={`לוח הכפל של ${n}`} className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-2xl border-2 border-slate-800 bg-white text-xl font-black">{n}</Link>)}
+          <Link to={PRESETS.multiplication.path} className="flex min-h-[48px] items-center rounded-2xl border-2 border-slate-800 bg-yellow-200 px-4 font-bold">כל הלוחות</Link>
+          <Link to={PRESETS.division.path} className="flex min-h-[48px] items-center rounded-2xl border-2 border-slate-800 bg-white px-4 font-bold">➗ חילוק</Link>
+        </div>
+      </section>}
 
       <div className="grid gap-6 md:grid-cols-[1fr_1fr] items-start mb-10">
         <div className="rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow space-y-4">
@@ -198,13 +211,13 @@ export default function MathWorksheets({ preset: fixedPreset }) {
 
       <nav className="mb-10 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm" aria-label="עוד דפי חשבון">
         <span className="w-full text-center font-bold">עוד דפי חשבון:</span>
-        {MATH_PAGE_SLUGS.filter(k => k !== preset).map(k => <Link key={k} to={PRESETS[k].path} className="underline">{PRESETS[k].crumb}</Link>)}
+        {MATH_PAGE_SLUGS.filter(k => k !== preset && !(preset === 'hub' && k.startsWith('multiplication-table-'))).map(k => <Link key={k} to={PRESETS[k].path} className="underline">{PRESETS[k].crumb}</Link>)}
       </nav>
 
       <SeoBody
         paragraphs={isTable ? [
           'דפי לוח הכפל נוצרים אוטומטית: בוחרים לוח (2 עד 10, או את כולם יחד), כפל או חילוק, ומקבלים 20 תרגילים חדשים בכל לחיצה. התרגילים מופיעים בשני הכיוונים (7 × 3 וגם 3 × 7), כדי שהילד יבין שזה אותו תרגיל.',
-          'טיפ להורים: 5 דקות ביום על לוח אחד עדיפות על שעה לפני מבחן. מדביקים את הדף על המקרר, פותרים בעל פה בארוחת הבוקר, ובסוף השבוע מדפיסים דף חדש לבדיקה.',
+          'בלוח אחד אין 20 תרגילים שונים, ולכן חלק מהתרגילים בדף מופיעים גם בצורת "מספר חסר" (7 × ___ = 21) — במקום לחזור על אותו תרגיל פעמיים.',
         ] : isPaths ? [
           'שבילים הם אחד מסוגי התרגול האהובים בכיתה א׳: הילד מתחיל מהעיגול הצהוב, עושה את הפעולה שעל החץ וממשיך הלאה — כמו מסע. כך מתרגלים חיבור וחיסור ברצף, בלי שזה ירגיש כמו עוד דף תרגילים.',
           'אפשר לבחור שבילים שבהם משלימים את המספרים בעיגולים, שבילים שבהם המספרים ידועים וצריך לגלות מה הפעולה על החץ (למשל מ־4 ל־9 זה +5), או שילוב של השניים — שמתאים לילדים שכבר שולטים בחומר.',

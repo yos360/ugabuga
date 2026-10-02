@@ -114,9 +114,24 @@ export function status(state) {
   if (state.quiet >= 50) return { over: true, winner: 0, reason: '25 מהלכים של מלכים בלי אכילה – תיקו' }
   if (!legalMoves(state).length) {
     const has = state.board.some(p => side(p) === state.turn)
-    return { over: true, winner: -state.turn, reason: has ? 'אין לו אף מהלך חוקי' : 'כל האבנים שלו נאכלו' }
+    return { over: true, winner: -state.turn, reason: has ? 'blocked' : 'captured' }
   }
   return { over: false }
+}
+
+// Full end-of-game sentence with correct Hebrew for whoever won/lost.
+// mode: 'computer' (human = dark, 1) or 'friend'.
+export function endMessage(st, mode = 'computer') {
+  if (!st?.over) return ''
+  if (st.winner === 0) return `🤝 תיקו! ${st.reason}`
+  const blocked = st.reason === 'blocked'
+  if (mode === 'computer') {
+    return st.winner === 1
+      ? (blocked ? '🏆 ניצחתם! למחשב לא נשאר אף מהלך חוקי' : '🏆 ניצחתם! כל האבנים של המחשב נאכלו')
+      : (blocked ? '🏆 המחשב ניצח! לא נשאר לכם אף מהלך חוקי' : '🏆 המחשב ניצח! כל האבנים שלכם נאכלו')
+  }
+  const [winner, loser] = st.winner === 1 ? ['הכהים', 'הבהירים'] : ['הבהירים', 'הכהים']
+  return blocked ? `🏆 ${winner} ניצחו! ל${loser} לא נשאר אף מהלך חוקי` : `🏆 ${winner} ניצחו! כל האבנים של ${loser} נאכלו`
 }
 
 // ---- computer player: negamax with alpha-beta ----

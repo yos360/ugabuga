@@ -1,8 +1,8 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
-import { useGameBySlug } from '../../hooks/useGames'
+import { useGameBySlug, useGames } from '../../hooks/useGames'
 import GamePlayer from '../../components/games/GamePlayer'
 import Markdown from '../../components/ui/Markdown'
 import { useState } from 'react'
@@ -36,6 +36,14 @@ export default function GamePage() {
   const [rating, setRating] = useState(0)
   const [printingRules, setPrintingRules] = useState(false)
   const playToolRoute = PLAY_TOOL_ROUTES[slug]
+  const { games: allGames } = useGames()
+  const navigate = useNavigate()
+  // "תנו לי משחק אחר": jump straight to a random other game (the full list is already cached by useGames)
+  const randomGame = () => {
+    const others = allGames.filter(g => g.slug && g.slug !== slug && gameHref(g.slug).startsWith('/games/'))
+    if (!others.length) return navigate('/games')
+    navigate(gameHref(others[Math.floor(Math.random() * others.length)].slug))
+  }
 
   const shareGame = () => {
     const text = `${game.name} — ${game.short_description || 'משחק לילדים'}\nהוראות ומשחק בחינם בעוגה בוגה: https://ugabuga.co.il/games/${slug}?utm_source=whatsapp&utm_medium=share&utm_campaign=game`
@@ -126,7 +134,7 @@ export default function GamePage() {
             )}
             <button onClick={shareGame} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#25D366] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">📱 שלחו בוואטסאפ</button>
             <button onClick={() => setPrintingRules(true)} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🖨️ הדפסת הוראות</button>
-            <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">🎲 תנו לי משחק אחר</Link>
+            <button type="button" onClick={randomGame} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🎲 תנו לי משחק אחר</button>
           </div>
         </div>
       )}
@@ -203,7 +211,7 @@ export default function GamePage() {
         </div>
       )}
 
-      {playing && <GamePlayer content={content} title={game.name} onClose={() => setPlaying(false)} />}
+      {playing && <GamePlayer content={content} title={game.name} slug={slug} instructions={game.instructions} onClose={() => setPlaying(false)} />}
     </div>
   )
 }

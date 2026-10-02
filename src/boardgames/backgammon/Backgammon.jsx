@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useStickyBar } from '../useStickyBar'
 import LessonRunner from '../LessonRunner'
 import { HUMAN, CPU, LEVELS, newGame, clone, rollDie, diceToMoves, allowedMoves, applySingle, computerSequence, winner, pips } from './engine'
 
@@ -67,12 +68,16 @@ export function BackgammonPlay() {
   const [phase, setPhase] = useState('opening') // opening | roll | move | cpu | over
   const [msg, setMsg] = useState('')
   const [turnStart, setTurnStart] = useState(null)
+  const sticky = useStickyBar()
   const timers = useRef([])
   const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.current.push(t) }
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
   const moves = useMemo(() => (phase === 'move' ? allowedMoves(s) : []), [s, phase])
   const isCpu = pl => mode === 'computer' && pl === CPU
   const name = pl => (pl === HUMAN ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
+  // Subject + verb with correct Hebrew agreement: "הטלתם" / "המחשב הטיל" / "השחורים הטילו".
+  const said = (pl, you, cpu, they) => (mode === 'computer' ? (pl === HUMAN ? you : cpu) : `${pl === HUMAN ? 'הלבנים' : 'השחורים'} ${they}`)
+  const noMoveFor = pl => (mode === 'computer' ? (pl === HUMAN ? 'לכם' : 'למחשב') : pl === HUMAN ? 'ללבנים' : 'לשחורים')
 
   const reset = () => { timers.current.forEach(clearTimeout); setS(newGame()); setPhase('opening'); setMsg(''); setTurnStart(null) }
   const opening = () => {
@@ -80,12 +85,12 @@ export function BackgammonPlay() {
     if (a === b) { setMsg(`שניכם הטלתם ${a} – מטילים שוב…`); return }
     const first = a > b ? HUMAN : CPU
     const st = { ...newGame(), turn: first, dice: [a, b], left: [a, b] }
-    setMsg(`לבנים: ${FACES[a]} ${a} · שחורים: ${FACES[b]} ${b} → ${name(first)} מתחילים, עם ${a} ו־${b}`)
+    setMsg(`לבנים: ${FACES[a]} ${a} · שחורים: ${FACES[b]} ${b} → ${said(first, 'אתם מתחילים', 'המחשב מתחיל', 'מתחילים')}, עם ${a} ו־${b}`)
     startTurn(st)
   }
   const startTurn = st => {
     setS(st); setTurnStart(clone(st))
-    if (!allowedMoves(st).length) { setPhase('wait'); setMsg(m => `${m ? m + ' · ' : ''}אין ל${name(st.turn)} מהלך אפשרי – התור עובר`); later(() => endTurn(st), 1800); return }
+    if (!allowedMoves(st).length) { setPhase('wait'); setMsg(m => `${m ? m + ' · ' : ''}אין ${noMoveFor(st.turn)} מהלך אפשרי – התור עובר`); later(() => endTurn(st), 1800); return }
     if (isCpu(st.turn)) { setPhase('cpu'); playCpu(st) } else setPhase('move')
   }
   const endTurn = st => {
@@ -97,7 +102,7 @@ export function BackgammonPlay() {
   }
   const roll = (st = s) => {
     const d = [rollDie(), rollDie()]
-    setMsg(`${name(st.turn)} הטילו ${d[0]} ו־${d[1]}${d[0] === d[1] ? ' – דאבל! 4 מהלכים' : ''}`)
+    setMsg(`${said(st.turn, 'הטלתם', 'המחשב הטיל', 'הטילו')} ${d[0]} ו־${d[1]}${d[0] === d[1] ? ' – דאבל! 4 מהלכים' : ''}`)
     startTurn({ ...clone(st), dice: d, left: diceToMoves(d) })
   }
   const playCpu = st => {
@@ -123,8 +128,10 @@ export function BackgammonPlay() {
         <label>מצב: <select value={mode} onChange={e => { setMode(e.target.value); reset() }}><option value="computer">נגד המחשב</option><option value="friend">נגד חבר (על אותו מסך)</option></select></label>
         {mode === 'computer' && <label>רמה: <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select></label>}
       </div>
+      {/* Status, last roll and dice stay pinned above the board while scrolling on a tablet. */}
+      <div ref={sticky.slotRef} style={sticky.slotStyle}><div ref={sticky.barRef} style={sticky.barStyle} className={`bg-sticky${sticky.pinned ? ' is-pinned' : ''}`}>
       <p className="bg-status" role="status">
-        {phase === 'over' ? `🏆 ${name(w)} ניצחו!${gammon ? ' ועוד במארס (היריב לא הוציא אף אבן) 🎉' : ''}`
+        {phase === 'over' ? `🏆 ${said(w, 'ניצחתם!', 'המחשב ניצח!', 'ניצחו!')}${gammon ? ' ועוד במארס (היריב לא הוציא אף אבן) 🎉' : ''}`
           : phase === 'cpu' ? '🤔 המחשב משחק…' : phase === 'opening' ? 'כל אחד מטיל קוביה אחת – הגבוה מתחיל' : phase === 'roll' ? `תור: ${name(s.turn)} – הטילו קוביות` : `תור: ${name(s.turn)}`}
       </p>
       {msg && <p className="bgm-msg">{msg}</p>}
@@ -134,6 +141,7 @@ export function BackgammonPlay() {
         {phase === 'roll' && <button type="button" className="bgm-roll" onClick={() => roll()}>🎲 הטילו קוביות</button>}
         {phase === 'move' && <span className="bgm-hint">{moves.length ? 'לחצו על אבן מסומנת ואז על המקום שאליו היא הולכת' : ''}</span>}
       </div>
+      </div></div>
       <Board s={s} moves={phase === 'move' ? moves : []} onMove={human} />
       <div className="bg-score"><span>⚪ לבנים: נותרו {pips(s, HUMAN)} צעדים</span><span>⚫ שחורים: {pips(s, CPU)}</span></div>
       <div className="bg-actions">

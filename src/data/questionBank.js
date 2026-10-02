@@ -170,7 +170,7 @@ export const QUESTION_BANK = [
     type: 'trivia',
     topic: 'animals',
     audience: 'teens',
-    difficulty: 'medium',
+    difficulty: 'easy',
     question: 'איזה יונק ידוע ביכולת לעוף?',
     answer: 'עטלף',
     hint: 'הוא פעיל בעיקר בלילה',

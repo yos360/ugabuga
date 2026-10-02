@@ -75,6 +75,15 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // math worksheet pages people search by name ("לוח הכפל", "כפל", "חילוק", "דפי עבודה כיתה ב")
+  { to: '/printables/math-worksheets/multiplication', title: 'לוח הכפל — כל הלוחות', emoji: '✖️', kind: 'printable', desc: 'כל לוחות הכפל מ-2 עד 10, דף חדש בכל לחיצה ועם פתרונות.', keys: 'כפל לוח הכפל תרגילי כפל חשבון דפי עבודה כיתה ב כיתה ג כיתה ד' },
+  ...[2, 3, 4, 5, 6, 7, 8, 9, 10].map(t => ({ to: `/printables/math-worksheets/multiplication-table-${t}`, title: `לוח הכפל של ${t} — דפי עבודה`, emoji: '✖️', kind: 'printable', desc: `תרגילי כפל ב-${t} להדפסה, עם פתרונות.`, keys: 'כפל לוח הכפל תרגילי כפל חשבון דפי עבודה כיתה ב כיתה ג' })),
+  { to: '/printables/math-worksheets/division', title: 'חילוק — תרגילי חילוק להדפסה', emoji: '➗', kind: 'printable', desc: 'חילוק בכל הלוחות, דף חדש בכל לחיצה ועם פתרונות.', keys: 'חילוק תרגילי חילוק לוח הכפל חשבון דפי עבודה כיתה ב כיתה ג כיתה ד' },
+  { to: '/printables/math-worksheets/up-to-100', title: 'חיבור וחיסור עד 100 — דפי עבודה לכיתה ב׳', emoji: '🔢', kind: 'printable', desc: '20 תרגילים בדף, דף חדש בכל לחיצה ועם פתרונות.', keys: 'חשבון חיבור חיסור עד 100 דפי עבודה כיתה ב תרגילים' },
+  { to: '/printables/math-worksheets/addition-up-to-100', title: 'חיבור עד 100 — דפי עבודה לכיתה ב׳', emoji: '➕', kind: 'printable', keys: 'חשבון חיבור עד 100 דפי עבודה כיתה ב תרגילים' },
+  { to: '/printables/math-worksheets/subtraction-up-to-100', title: 'חיסור עד 100 — דפי עבודה לכיתה ב׳', emoji: '➖', kind: 'printable', keys: 'חשבון חיסור עד 100 דפי עבודה כיתה ב תרגילים' },
+  // one page per age (/games/age/N, see GamesIndex)
+  ...[4, 5, 6, 7, 8, 9, 10].map(a => ({ to: `/games/age/${a}`, title: `משחקים לגיל ${a}`, emoji: '🎲', kind: 'page', desc: `כל המשחקים שמתאימים לילדים בני ${a}.`, keys: `משחקים גיל ${a} בני ${a}`, ages: [a, a] })),
   { to: '/printables/math-paths', title: 'שבילים בחשבון לכיתה א׳', emoji: '🛤️', kind: 'tool', desc: 'משלימים מספרים ופעולות לאורך השביל.', keys: 'שבילים חשבון כיתה א דפי עבודה' },
   { to: '/printables/fine-motor', title: 'מוטוריקה עדינה – מחולל דפי תרגול', emoji: '✏️', kind: 'tool', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים לפי גיל.', keys: 'מבוך מבוכים עקיבה קווים דפוס מוטוריקה גן' },
   { to: '/game-of-the-day', title: 'משחק היום', emoji: '⭐', kind: 'page', keys: 'יומי' },
@@ -104,7 +113,25 @@ const TOOL_KEYS = {
   '/tools/random-picker': 'גלגל מזל הגרלה', '/tools/team-generator': 'קבוצות חלוקה', '/tools/countdown-timer': 'שעון עצר',
   '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת', '/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
   '/calculator': 'פיצה שתייה עלות', '/tools/escape-rooms': 'חדר בריחה אסקייפ', '/tools/scavenger-hunt-maker': 'מטמון ציד אוצר',
-  '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/classroom/first-grade': 'כיתה א הכנה',
+  '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/tools/riddles': 'חידות חידה', '/board-games': 'משחק לוח', '/classroom/first-grade': 'כיתה א הכנה',
+}
+
+// Extra words for the game category pages (/games/<slug>).
+const CATEGORY_KEYS = {
+  quiet: 'שקט רכב אוטו נסיעה חדר שינה',
+  'no-equipment': 'בלי ציוד רכב אוטו נסיעה',
+  family: 'משפחה ערב משפחה',
+  'kita-b': 'כיתה ב',
+}
+
+// "Best bets": what people mean by a word that the page itself doesn't use much. A match here
+// puts the page at the top (see `best` in searchIndex.js).
+const SOLO = 'לבד משועמם משועממת משעמם שעמום'
+const CAR = 'אוטו רכב נסיעה נסיעות מכונית'
+const BEST = {
+  '/letters/game': SOLO, '/board-games': SOLO, '/tools/riddles': SOLO, '/tools/trivia-quiz': SOLO, '/tools/escape-rooms': SOLO,
+  '/questions/road-trip': CAR, '/games/quiet': CAR, '/games/no-equipment': CAR,
+  '/printables/math-worksheets/multiplication': 'כפל לוח הכפל', '/printables/math-worksheets/division': 'חילוק',
 }
 
 const clean = to => to.split('#')[0]
@@ -116,15 +143,18 @@ function buildStatic() {
     out.push({ to, title: it.label, emoji: it.icon, kind, desc: TOOL_DESC[clean(to)] || '', keys: TOOL_KEYS[clean(to)] || '' })
   }
   for (const c of PRINTABLES) out.push({ to: printableHref(c), title: c.title, emoji: c.emoji, kind: 'printable', desc: c.desc })
-  for (const [slug, c] of Object.entries({ ...CATEGORIES, ...CLASS_PAGES })) out.push({ to: `/games/${slug}`, title: c.title.split(' — ')[0], emoji: '🎲', kind: 'page', desc: c.desc })
+  for (const [slug, c] of Object.entries({ ...CATEGORIES, ...CLASS_PAGES })) out.push({ to: `/games/${slug}`, title: c.title.split(' — ')[0], emoji: '🎲', kind: 'page', desc: c.desc, keys: CATEGORY_KEYS[slug] || '' })
   for (const [slug, a] of Object.entries(IDEA_ARTICLES)) out.push({ to: `/ideas/${slug}`, title: a.title, emoji: a.emoji, kind: 'idea', desc: a.description })
   for (const [slug, k] of Object.entries(PARTY_KITS)) out.push({ to: `/ideas/themes/${slug}`, title: k.name, emoji: k.emoji, kind: 'idea', desc: k.desc })
   for (const g of GUIDES) out.push({ to: `/guides/${g.slug}`, title: g.title, emoji: g.emoji, kind: 'idea', desc: g.description })
-  for (const age of GIFT_AGES) out.push({ to: `/gifts/age-${age}`, title: `מתנות לגיל ${age}`, emoji: '🎁', kind: 'idea', keys: `מתנה גיל ${age}` })
+  for (const age of GIFT_AGES) out.push({ to: `/gifts/age-${age}`, title: `מתנות לגיל ${age}`, emoji: '🎁', kind: 'idea', keys: `מתנה גיל ${age}`, ages: [age, age] })
   // new content worlds (Sep 2026): trivia, animals, greetings, questions, riddles, jokes, hunts, ABC
   for (const t of TRIVIA_TOPICS) out.push({ to: `/trivia/${t.slug}`, title: t.title, emoji: t.emoji, kind: 'page', desc: t.description, keys: 'טריוויה חידון שאלות' })
   for (const a of ANIMALS) out.push({ to: `/animals/${a.slug}`, title: a.title, emoji: a.emoji, kind: 'page', desc: a.description, keys: `חיות חיה ${a.name} עובדות` })
-  for (const g of GREETING_PAGES) out.push({ to: `/greetings/${g.slug}`, title: g.title, emoji: g.emoji, kind: 'idea', desc: g.description, keys: 'ברכה ברכות יום הולדת' })
+  for (const g of GREETING_PAGES) {
+    const age = /^age-(\d+)$/.exec(g.slug)?.[1]
+    out.push({ to: `/greetings/${g.slug}`, title: g.title, emoji: g.emoji, kind: 'idea', desc: g.description, keys: 'ברכה ברכות יום הולדת', ...(age ? { ages: [Number(age), Number(age)] } : {}) })
+  }
   for (const q of QUESTION_PAGES) out.push({ to: `/questions/${q.slug}`, title: q.title, emoji: q.emoji, kind: 'page', desc: q.description, keys: 'שאלות שאלה שיחה היכרות' })
   for (const r of RIDDLE_PAGES) out.push({ to: `/riddles/${r.slug}`, title: r.title, emoji: r.emoji, kind: 'page', desc: r.description, keys: 'חידות חידה תשובות' })
   for (const j of JOKE_PAGES) out.push({ to: `/jokes/${j.slug}`, title: j.title, emoji: j.emoji, kind: 'page', desc: j.description, keys: 'בדיחות בדיחה מצחיק' })
@@ -144,5 +174,6 @@ function buildStatic() {
   ;[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((len, m) => { for (let d = 1; d <= len; d++) out.push({ to: `/time-tunnel/${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, title: `מה קרה ב-${d} ב${HM[m]}?`, emoji: '⏳', kind: 'page', desc: 'ימים מיוחדים, אירועים ומי נולד בתאריך הזה', keys: `מנהרת הזמן תאריך ${d} ${HM[m]}`, low: true }) })
   const seen = new Set() // one entry per link
   return out.filter(x => { if (seen.has(x.to)) return false; seen.add(x.to); return true })
+    .map(x => BEST[x.to] ? { ...x, best: BEST[x.to] } : x)
 }
 export const STATIC_ITEMS = buildStatic()

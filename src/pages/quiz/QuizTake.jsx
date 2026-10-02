@@ -45,7 +45,9 @@ export default function QuizTake() {
     } catch (e) {
       submitted.current = false
       setSendErr(quizErrorText(e.code))
-      if (e.code === 'already_submitted') { const r = { name: name.trim(), score: null, total: items.length, shown: false }; quizMemory.setDone(code, r); setDone(r) }
+      // Not "done": this student's answers were NOT received (another student already handed in from
+      // this device). Keep the answers and show sendErr, which explains what to do.
+      if (e.code === 'already_submitted') setSendErr(quizErrorText(e.code))
     } finally { setSending(false) }
   }
 
@@ -58,7 +60,7 @@ export default function QuizTake() {
   const left = endsAt ? Math.max(0, Math.ceil((endsAt - now) / 1000)) : null
   useEffect(() => { if (left === 0 && started && !done) submit() }, [left]) // eslint-disable-line react-hooks/exhaustive-deps
   // Time is up but the automatic hand-in failed (e.g. weak Wi-Fi): keep retrying every few seconds.
-  useEffect(() => { if (left !== 0 || !started || done || sending || !sendErr) return; const t = setTimeout(submit, 5000); return () => clearTimeout(t) }, [left, started, done, sending, sendErr]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (left !== 0 || !started || done || sending || !sendErr || sendErr === quizErrorText('already_submitted')) return; const t = setTimeout(submit, 5000); return () => clearTimeout(t) }, [left, started, done, sending, sendErr]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Timed quizzes follow the server's clock: the start is recorded once per device, so a refresh, a new tab
   // or cleared storage can't restart the countdown. Before the timer migration runs, the local clock is used.
@@ -86,6 +88,7 @@ export default function QuizTake() {
     {done.shown && done.score != null
       ? <p className="mt-4 text-2xl">ענית נכון על <b className="text-4xl">{done.score}</b> מתוך {done.total} שאלות</p>
       : <p className="mt-4 text-lg text-slate-600">התשובות נשלחו למורה.</p>}
+    {done.name && <p className="mx-auto mt-6 max-w-md rounded-2xl bg-white/80 p-3 text-sm text-slate-600">לא {done.name}? מכל מכשיר אפשר להגיש את המבחן פעם אחת בלבד. כדי להגיש — עברו למכשיר אחר או לדפדפן אחר (גם חלון גלישה בסתר עובד).</p>}
   </div>)
   if (quiz.status !== 'open') return shell(<div className="rounded-3xl bg-slate-50 p-8 text-center text-lg font-bold">🔒 המבחן סגור כרגע.</div>)
 
@@ -99,6 +102,7 @@ export default function QuizTake() {
         className={`min-h-[52px] rounded-2xl border-2 px-3 text-lg font-bold ${name === n ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white'}`}>{n}</button>)}</div>
       : <input value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder="שם פרטי" autoFocus className="w-full rounded-2xl border-2 border-slate-300 px-4 py-3 text-center text-xl focus:border-violet-600 focus:outline-none" />}
     <button disabled={!name.trim()} className="mt-6 w-full rounded-2xl bg-violet-600 py-4 text-xl font-black text-white disabled:opacity-40">מתחילים ←</button>
+    <p className="mt-4 text-sm text-slate-500">📱 מכל מכשיר אפשר להגיש פעם אחת. במחשב משותף — כל תלמיד/ה מדפדפן אחר או ממכשיר אחר.</p>
   </form>)
 
   const review = step >= items.length

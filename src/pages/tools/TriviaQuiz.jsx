@@ -1,5 +1,5 @@
 import { shuffle } from '../../utils/shuffle'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -15,7 +15,7 @@ const GAME_MODES = [
   { id: 'classic', label: 'קלאסי', emoji: '🎯', description: 'שאלה אחרי שאלה בקצב רגוע' },
   { id: 'speed', label: 'מירוץ מהיר', emoji: '⚡', description: 'כל תשובה נכונה שומרת רצף' },
   { id: 'expert', label: 'מומחה', emoji: '👑', description: 'קשה יותר: טעות מאפסת רצף' },
-  { id: 'multi', label: 'ריבוי שחקנים', emoji: '👥', description: 'תורות בין 2-4 שחקנים' },
+  { id: 'multi', label: 'קבוצות / שחקנים', emoji: '👥', description: 'משחקים בתורות, 2–4 שחקנים או קבוצות' },
 ]
 
 function shuffleOptions(options = []) {
@@ -57,6 +57,14 @@ export default function TriviaQuiz() {
   const [players, setPlayers] = useState(() => makePlayers(['שחקן 1', 'שחקן 2']))
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0)
   const [liveNews, setLiveNews] = useState(DEFAULT_LIVE_NEWS)
+  const feedbackRef = useRef(null)
+
+  // On a phone the answer grid fills the screen, so bring the "נכון! / התשובה הנכונה" card into view.
+  useEffect(() => {
+    if (!selected) return
+    const id = requestAnimationFrame(() => feedbackRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }))
+    return () => cancelAnimationFrame(id)
+  }, [selected])
 
   const questions = useMemo(() => {
     const level = mode === 'expert' ? 'hard' : difficulty
@@ -97,7 +105,7 @@ export default function TriviaQuiz() {
   const resetPlayers = () => {
     setPlayers(makePlayers(playerNames.filter(Boolean).slice(0, 4)))
     setCurrentPlayerIndex(0)
-    addNews('👥 משחק ריבוי שחקנים חדש נפתח בטריוויה.')
+    addNews('👥 משחק קבוצות חדש נפתח בטריוויה.')
   }
 
   const answerQuestion = (option) => {
@@ -155,7 +163,7 @@ export default function TriviaQuiz() {
 
       <h1 className="text-4xl font-hand font-bold text-center mb-2">🎯 טריוויה BUGA</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">
-        טריוויה עם מצבי משחק, ריבוי שחקנים וחדשות בלייב שנוצרות ממה שקורה במשחק.
+        ענו על שאלות, צברו נקודות ושחקו גם עם חברים.
       </p>
 
       <div className="grid lg:grid-cols-[320px_1fr_300px] gap-6 items-start">
@@ -231,12 +239,11 @@ export default function TriviaQuiz() {
             </div>
 
             {selected && (
-              <div className="animate-fade-in mb-5">
+              <div ref={feedbackRef} className="animate-fade-in mb-5 scroll-mb-4" role="status" aria-live="polite">
                 <WobblyCard hover={false} padding="p-4" className={selected === current.answer ? 'bg-[#4caf50] text-white' : 'bg-[var(--postit)]'}>
                   <p className="text-xl font-bold">{selected === current.answer ? '🎉 נכון!' : `התשובה הנכונה: ${current.answer}`}</p>
                   {current.explanation && <p className="mt-3 text-base leading-relaxed"><strong>למה?</strong> {current.explanation}</p>}
                   {current.hint && <p className="mt-2 text-sm opacity-90"><strong>רמז לזכירה:</strong> {current.hint}</p>}
-                  <p className="mt-3 border-t border-current/20 pt-2 text-xs opacity-80">ההסבר מבוסס על ידע כללי יציב ונבדק לפני שהשאלה נכנסה למאגר. אם מצאתם טעות, כתבו לנו כדי שנעדכן.</p>
                 </WobblyCard>
               </div>
             )}
@@ -264,7 +271,7 @@ export default function TriviaQuiz() {
 
           {mode === 'multi' && (
             <WobblyCard hover={false} padding="p-5">
-              <h2 className="font-hand text-2xl font-bold mb-3">ריבוי שחקנים</h2>
+              <h2 className="font-hand text-2xl font-bold mb-3">קבוצות / שחקנים</h2>
               <div className="grid gap-2 mb-3">
                 {playerNames.map((name, index) => <input key={index} value={name} onChange={(event) => setPlayerNames((names) => names.map((item, i) => i === index ? event.target.value : item))} className="rounded-xl border-2 border-[var(--border)] px-3 py-2" />)}
               </div>
@@ -272,7 +279,7 @@ export default function TriviaQuiz() {
                 {playerNames.length < 4 && <button className="font-bold text-[var(--pen)]" onClick={() => setPlayerNames((names) => [...names, `שחקן ${names.length + 1}`])}>+ שחקן</button>}
                 {playerNames.length > 2 && <button className="font-bold text-[var(--accent)]" onClick={() => setPlayerNames((names) => names.slice(0, -1))}>הסר</button>}
               </div>
-              <WobblyButton variant="secondary" onClick={resetPlayers}>התחל משחק שחקנים</WobblyButton>
+              <WobblyButton variant="secondary" onClick={resetPlayers}>מתחילים לשחק</WobblyButton>
               <div className="mt-4 grid gap-2">
                 {players.map((player) => <div key={player.id} className="rounded-xl border border-[var(--border)] bg-white p-2 text-sm"><strong>{player.name}</strong> — {player.correct}/{player.total}, רצף {player.streak}</div>)}
                 {leader && <Badge color="green">מוביל: {leader.name}</Badge>}

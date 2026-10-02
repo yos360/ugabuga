@@ -97,6 +97,7 @@ export default function QuizManage() {
           <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener" className="rounded-xl bg-[#25D366] px-3 py-2 font-bold text-white">💬 וואטסאפ</a>
           <button onClick={() => setProjector(true)} className="rounded-xl bg-[var(--ink)] px-3 py-2 font-bold text-white">📽️ הקרנה על הלוח</button>
         </div>
+        <p className="mt-3 rounded-xl bg-white/70 px-3 py-2 text-sm text-slate-700">📱 <b>כל מכשיר יכול להגיש פעם אחת.</b> במחשבים משותפים (למשל בחדר מחשבים) — כל תלמיד/ה בדפדפן אחר או בחלון גלישה בסתר. הגשה שנשלחה בטעות אפשר למחוק ברשימת התלמידים, ואז מגישים שוב.</p>
         <p className="mt-3 text-xs text-slate-600">💾 כדי לראות תוצאות גם ממכשיר אחר: <a href={`https://wa.me/?text=${encodeURIComponent(`קישור הניהול למבחן „${data.title}” (לא לשלוח לתלמידים):\n${manageLink(code, token)}`)}`} target="_blank" rel="noopener" className="font-bold underline">שלחו לעצמכם את קישור הניהול</a></p>
       </div>
       {qr && <div className="mx-auto w-40 rounded-2xl bg-white p-2" dangerouslySetInnerHTML={{ __html: qr }} aria-label="קוד סרוק למבחן" role="img" />}

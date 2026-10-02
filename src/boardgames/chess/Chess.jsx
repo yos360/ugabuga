@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useStickyBar } from '../useStickyBar'
 import { Chess } from 'chess.js'
 import LessonRunner from '../LessonRunner'
 import { LEVELS } from './ai'
@@ -61,6 +62,7 @@ const captured = (fen, color) => {
 }
 
 export function ChessPlay() {
+  const sticky = useStickyBar()
   const [mode, setMode] = useState('computer')
   const [level, setLevel] = useState(1)
   const [history, setHistory] = useState([{ fen: new Chess().fen(), move: null }])
@@ -96,7 +98,7 @@ export function ChessPlay() {
   const undo = () => { think.cancel(); setThinking(false); setHistory(h => { let n = mode === 'computer' ? (game.turn() === 'w' ? 2 : 1) : 1; return h.slice(0, Math.max(1, h.length - n)) }) }
   const side = c => (c === 'w' ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
   let status
-  if (game.isCheckmate()) status = `🏆 מט! ${side(game.turn() === 'w' ? 'b' : 'w')} ניצחו`
+  if (game.isCheckmate()) { const w = game.turn() === 'w' ? 'b' : 'w'; status = mode === 'computer' ? (w === 'w' ? '🏆 מט! ניצחתם!' : '🏆 מט! המחשב ניצח') : `🏆 מט! ${w === 'w' ? 'הלבנים' : 'השחורים'} ניצחו` }
   else if (game.isStalemate()) status = '🤝 פט – למי שבתור אין מהלך חוקי, אבל הוא לא בשח. תיקו!'
   else if (game.isDraw()) status = '🤝 תיקו'
   else status = cpuTurn || thinking ? '🤔 המחשב חושב…' : `תור: ${side(game.turn())}${game.inCheck() ? ' – ⚠️ שח! צריך להציל את המלך' : ''}`
@@ -107,8 +109,11 @@ export function ChessPlay() {
         <label>מצב: <select value={mode} onChange={e => { setMode(e.target.value); restart() }}><option value="computer">נגד המחשב</option><option value="friend">נגד חבר (על אותו מסך)</option></select></label>
         {mode === 'computer' && <label>רמה: <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select></label>}
       </div>
-      <p className="bg-status" role="status">{status}</p>
-      <p className="ch-captured" aria-label="כלים שנאכלו">{captured(fen, 'w')}</p>
+      {/* Status stays pinned above the board while scrolling on a tablet. */}
+      <div ref={sticky.slotRef} style={sticky.slotStyle}><div ref={sticky.barRef} style={sticky.barStyle} className={`bg-sticky${sticky.pinned ? ' is-pinned' : ''}`}>
+        <p className="bg-status" role="status">{status}</p>
+        <p className="ch-captured" aria-label="כלים שנאכלו">{captured(fen, 'w')}</p>
+      </div></div>
       <Board fen={fen} onMove={play} disabled={over || cpuTurn || thinking} lastMove={last} />
       <p className="ch-captured" aria-label="כלים שנאכלו">{captured(fen, 'b')}</p>
       <div className="bg-actions">

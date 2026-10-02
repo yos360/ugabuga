@@ -19,14 +19,35 @@ export default function Riddles() {
   const [showHint, setShowHint] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
 
-  const questions = useMemo(
-    () => getQuestions({ topic, audience, difficulty, type: 'riddle' }),
-    [topic, audience, difficulty]
-  )
+  const [knewIt, setKnewIt] = useState(false)
+
+  // Riddles only (trivia facts such as "מהו התפקיד של ה-DNA?" stay in the trivia game). When the exact
+  // filter has fewer than MIN_POOL riddles, widen step by step — nearby difficulty, then nearby audience,
+  // then any topic — and tell the player what was added.
+  const { questions, widenedWith } = useMemo(() => {
+    const MIN_POOL = 6
+    const get = (f) => getQuestions({ type: 'riddle', ...f }).filter((item) => item.type === 'riddle')
+    const order = (list, id) => {
+      const at = list.findIndex((item) => item.id === id)
+      return list.filter((item) => item.id !== id).sort((a, b) => Math.abs(list.indexOf(a) - at) - Math.abs(list.indexOf(b) - at))
+    }
+    let pool = get({ topic, audience, difficulty })
+    const added = []
+    const add = (items, label) => {
+      const ids = new Set(pool.map((q) => q.id))
+      const fresh = items.filter((q) => !ids.has(q.id))
+      if (fresh.length) { pool = [...pool, ...fresh]; added.push(label) }
+    }
+    for (const d of order(DIFFICULTIES, difficulty)) if (pool.length < MIN_POOL) add(get({ topic, audience, difficulty: d.id }), `רמה ${d.label}`)
+    for (const a of order(AUDIENCES, audience)) if (pool.length < MIN_POOL) add(get({ topic, audience: a.id, difficulty: 'all' }), `חידות ל${a.label}`)
+    if (pool.length < MIN_POOL && topic !== 'all') add(get({ topic: 'all', audience, difficulty: 'all' }), 'נושאים נוספים')
+    return { questions: pool, widenedWith: added }
+  }, [topic, audience, difficulty])
 
   const resetReveal = () => {
     setShowAnswer(false)
     setShowHint(false)
+    setKnewIt(false)
   }
 
   const chooseQuestion = useCallback((resetHistory = false) => {
@@ -51,9 +72,11 @@ export default function Riddles() {
     setScore({ correct: 0, total: 0 })
   }
 
+  // "ידעתי!" counts the point and shows the answer, so the kids can check they really knew it.
   const guessedRight = () => {
     setScore((s) => ({ correct: s.correct + 1, total: s.total + 1 }))
-    chooseQuestion(false)
+    setKnewIt(true)
+    setShowAnswer(true)
   }
 
   const guessedWrong = () => {
@@ -63,7 +86,8 @@ export default function Riddles() {
 
   const currentTopic = QUESTION_TOPICS.find((item) => item.id === current?.topic)
   const currentAudience = AUDIENCES.find((item) => item.id === audience)
-  const currentDifficulty = DIFFICULTIES.find((item) => item.id === difficulty)
+  const currentDifficulty = DIFFICULTIES.find((item) => item.id === (current?.difficulty || difficulty))
+  const questionAudience = AUDIENCES.find((item) => item.id === (current?.audience || audience))
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -76,7 +100,7 @@ export default function Riddles() {
 
       <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות BUGA</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">
-        מאגר שאלות מרכזי לפי נושא, קהל יעד וקושי — הבסיס גם לחידות וגם לטריוויה בהמשך
+        חידות מצחיקות ומאתגרות לכל הגילים — חושבים, מנחשים, ואם נתקעים מבקשים רמז
       </p>
 
       <WobblyCard hover={false} padding="p-5" className="mb-6">
@@ -145,10 +169,16 @@ export default function Riddles() {
         <WobblyCard hover={false} padding="p-8" className="text-center mb-6">
           <div className="flex justify-center flex-wrap gap-2 mb-4 text-sm">
             {currentTopic && <Badge color="blue">{currentTopic.emoji} {currentTopic.label}</Badge>}
-            <Badge color="yellow">{currentAudience?.label}</Badge>
+            <Badge color="yellow">{questionAudience?.label}</Badge>
             <Badge color="green">{currentDifficulty?.label}</Badge>
-            <Badge color="pink">{questions.length} במאגר המסונן</Badge>
+            <Badge color="pink">{questions.length} חידות</Badge>
           </div>
+
+          {widenedWith.length > 0 && (
+            <p className="mb-4 rounded-xl bg-[var(--postit)] px-3 py-2 text-sm" role="note">
+              אין עדיין מספיק חידות בדיוק לבחירה שלכם, אז הוספנו גם: {widenedWith.join(', ')}.
+            </p>
+          )}
 
           <h2 className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">{current.question}</h2>
 
@@ -171,6 +201,7 @@ export default function Riddles() {
           {showAnswer ? (
             <div className="animate-fade-in">
               <WobblyCard hover={false} padding="p-4" className="bg-[var(--green)] text-white mb-4">
+                {knewIt && <p className="text-lg font-bold mb-1">✅ כל הכבוד! בדקו שזו התשובה שחשבתם:</p>}
                 <p className="text-xl font-bold">🎯 {current.answer}</p>
                 {current.explanation && <p className="mt-2 text-sm opacity-90">{current.explanation}</p>}
               </WobblyCard>

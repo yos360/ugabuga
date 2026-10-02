@@ -13,7 +13,7 @@ function Header({ title, instruction, answers }) {
   return <g fontFamily={FONT} textAnchor="middle" fill="#111">
     <text x={W / 2} y="38" fontSize="24" fontWeight="700" direction="rtl">{answers ? 'פתרון: ' + title : title}</text>
     {!answers && <text x={W / 2} y="66" fontSize="15" direction="rtl">שם: ____________    תאריך: ____________</text>}
-    <text x={W / 2} y="96" fontSize="17" fontWeight="700" direction="rtl">{instruction}</text>
+    <text x={W / 2} y="96" fontSize="17" fontWeight="700" direction="rtl">{answers ? 'דף פתרונות — התשובות בצבע' : instruction}</text>
   </g>
 }
 

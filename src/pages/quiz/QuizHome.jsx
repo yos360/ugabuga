@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import QuizEditor, { toPayload } from '../../components/quiz/QuizEditor'
+import QuizEditor, { toPayload, clearQuizDraft } from '../../components/quiz/QuizEditor'
 import { quizDb, quizMemory, quizErrorText, newToken } from '../../utils/quizDb'
 
+const DRAFT_KEY = 'buga-quiz-draft'
 const STEPS = [['✏️', 'כותבים שאלות', 'שאלה, 2–4 תשובות, מסמנים את הנכונה.'], ['📲', 'שולחים קישור', 'קוד סרוק על הלוח או קישור בוואטסאפ.'], ['📊', 'הציונים מגיעים לבד', 'רואים מי הגיש ואיזו שאלה הייתה קשה.']]
 
 export default function QuizHome() {
@@ -17,6 +18,7 @@ export default function QuizHome() {
       const token = newToken()
       const code = await quizDb.create(token, quiz.title, toPayload(quiz), quiz.settings, quiz.names.map(n => n.trim()).filter(Boolean))
       quizMemory.remember(code, token, quiz.title || 'מבחן')
+      clearQuizDraft(DRAFT_KEY)
       nav(`/classroom/quiz/${code}`)
     } catch (e) { setErr(quizErrorText(e.code)) } finally { setBusy(false) }
   }
@@ -36,8 +38,9 @@ export default function QuizHome() {
     </section>}
 
     <h2 className="mb-3 text-2xl font-black">✨ מבחן חדש</h2>
-    <QuizEditor onSubmit={create} busy={busy} submitLabel="📝 יצירת המבחן וקבלת קישור" />
+    <QuizEditor onSubmit={create} busy={busy} draftKey={DRAFT_KEY} submitLabel="📝 יצירת המבחן וקבלת קישור" />
     {err && <p role="alert" className="mt-3 rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
-    <p className="mt-6 text-center text-sm text-slate-500">🔒 שומרים רק שם פרטי וציון. הכל נמחק אוטומטית אחרי 30 יום, ואפשר למחוק קודם.</p>
+    <p className="mt-6 rounded-2xl bg-sky-50 p-3 text-center text-sm text-slate-700">📱 <b>כל מכשיר יכול להגיש את המבחן פעם אחת.</b> בחדר מחשבים או במחשב משותף — כל תלמיד/ה בדפדפן אחר או בחלון גלישה בסתר (אחרת יופיע „כבר הוגש מהמכשיר הזה”).</p>
+    <p className="mt-3 text-center text-sm text-slate-500">🔒 שומרים רק שם פרטי וציון. הכל נמחק אוטומטית אחרי 30 יום, ואפשר למחוק קודם.</p>
   </div>
 }
