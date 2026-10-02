@@ -30,7 +30,6 @@ function NearViewport({ children, minHeight = 320 }) {
 // that out of the main bundle. The slot below reserves its height so nothing jumps when it appears.
 const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
 import SiteSearchBox from '../components/ui/SiteSearchBox'
-import PlayNow from '../components/home/PlayNow'
 
 function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
@@ -58,7 +57,7 @@ const homeBody = [
   'האתר בנוי משלושה סוגי תוכן שמשלימים אחד את השני: רשימה גדולה של כל המשחקים המסוננת לפי גיל, זמן, ציוד ומספר משתתפים; כלים אינטראקטיביים ומדפסות כמו בינגו היכרות, ציד אוצרות וחדרי בריחה; ועולם רעיונות לתכנון מסיבות ואירועים שלמים.',
   'בין אם מגיעים כהורה שמחפש פתרון מהיר לחצי שעה פנויה, כמורה שרוצה כלי לכיתה, או כמארגן מסיבה שרוצה לתכנן אירוע שלם — כל דבר באתר חינמי לשימוש, זמין מיד, ולא דורש הרשמה כדי להתחיל.',
 ]
-const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'עולם ההשראה', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' } ]
+const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'עולם ההשראה', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
 
 export default function Home() {
   const [query,setQuery] = useState('')
@@ -96,7 +95,6 @@ export default function Home() {
     </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
-    <PlayNow />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
     <section className="home-featured">
@@ -127,6 +125,10 @@ export default function Home() {
           ['🗺️','ציד אוצרות מוכן','רמזים מחורזים להדפסה.','/treasure-hunt/ready'],
           ['🔤','אותיות באנגלית','A עד Z עם מילים ומשחק.','/abc'],
           ['⏳','מנהרת הזמן','מה קרה היום בהיסטוריה?','/time-tunnel'],
+          ['🎒','הכנה לכיתה א׳','כתיבה, קריאה, חשבון ושעון.','/classroom/first-grade'],
+          ['✏️','אותיות בעברית להדפסה','תרגול אותיות למעבר בעיפרון.','/printables/hebrew-letters'],
+          ['🔢','דפי עבודה בחשבון','חיבור וחיסור עד 10 ועד 20.','/printables/math-worksheets'],
+          ['🌀','מבוכים להדפסה','3 רמות קושי עם סיפור קצר.','/printables/mazes'],
         ].map(([emoji,title,desc,to])=>(
           <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
             <div className="text-3xl mb-1">{emoji}</div>
