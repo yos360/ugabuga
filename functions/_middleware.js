@@ -108,7 +108,8 @@ export async function onRequest({ request, env, next }) {
     // App-only pages (search UI, supplier self-service): served as shells on
     // purpose, but they must not be indexed — they're linked from every page.
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
-    if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/')) {
+    if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
+        noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/')) {
       const h = new Headers(res.headers)
       h.append('X-Robots-Tag', 'noindex')
       return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
