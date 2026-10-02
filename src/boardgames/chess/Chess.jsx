@@ -47,7 +47,10 @@ function useComputer() {
     worker.current.onmessage = e => { if (e.data.id === seq.current) cb.current?.(e.data.move) }
     return () => worker.current?.terminate()
   }, [])
-  return (fen, level, done) => { cb.current = done; worker.current?.postMessage({ fen, level, id: ++seq.current }) }
+  const think = (fen, level, done) => { cb.current = done; worker.current?.postMessage({ fen, level, id: ++seq.current }) }
+  // A reply for an abandoned position (new game, undo, mode switch) must be ignored.
+  think.cancel = () => { seq.current++; cb.current = null }
+  return think
 }
 
 const captured = (fen, color) => {
@@ -75,12 +78,22 @@ export function ChessPlay() {
   useEffect(() => {
     if (!cpuTurn) return
     setThinking(true)
-    const t = setTimeout(() => think(fen, level, m => { setThinking(false); if (m) play({ from: m.from, to: m.to, promotion: m.promotion }) }), 250)
+    const asked = fen
+    const t = setTimeout(() => think(fen, level, m => {
+      setThinking(false)
+      if (!m) return
+      // Apply only if the board is still the one the computer was asked about.
+      setHistory(h => {
+        if (h.at(-1).fen !== asked) return h
+        const g = new Chess(asked)
+        try { const mv = g.move({ from: m.from, to: m.to, promotion: m.promotion }); return [...h, { fen: g.fen(), move: mv }] } catch { return h }
+      })
+    }), 250)
     return () => clearTimeout(t)
   }, [cpuTurn, fen]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const restart = () => { setHistory([{ fen: new Chess().fen(), move: null }]); setThinking(false) }
-  const undo = () => setHistory(h => { let n = mode === 'computer' ? (game.turn() === 'w' ? 2 : 1) : 1; return h.slice(0, Math.max(1, h.length - n)) })
+  const restart = () => { think.cancel(); setHistory([{ fen: new Chess().fen(), move: null }]); setThinking(false) }
+  const undo = () => { think.cancel(); setThinking(false); setHistory(h => { let n = mode === 'computer' ? (game.turn() === 'w' ? 2 : 1) : 1; return h.slice(0, Math.max(1, h.length - n)) }) }
   const side = c => (c === 'w' ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
   let status
   if (game.isCheckmate()) status = `🏆 מט! ${side(game.turn() === 'w' ? 'b' : 'w')} ניצחו`

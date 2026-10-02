@@ -17,7 +17,11 @@ export default function Scoreboard() {
   }
 
   const remove = (i) => setPlayers(p => p.filter((_, j) => j !== i))
-  const sorted = [...players].sort((a, b) => b.score - a.score)
+  // Rows stay in the order they were added — re-sorting on every tap moved the row under the finger,
+  // so a quick second "+" landed on another player. The leader gets the trophy instead.
+  const top = Math.max(...players.map(p => p.score))
+  const leader = player => players.length > 1 && player.score === top && players.some(p => p.score < top)
+  const ranked = [...players].sort((a, b) => b.score - a.score)
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
@@ -32,15 +36,15 @@ export default function Scoreboard() {
         <button onClick={addPlayer} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] text-white px-4 py-3 font-bold cursor-pointer">+ הוסיפו</button>
       </div>
 
-      {sorted.length === 0 ? (
+      {players.length === 0 ? (
         <p className="text-center font-hand text-lg text-[var(--muted-foreground)]">הוסיפו שחקנים כדי להתחיל</p>
       ) : (
         <div className="grid gap-3">
-          {sorted.map((player, idx) => {
-            const origIdx = players.indexOf(player)
+          {players.map((player, origIdx) => {
+            const first = leader(player)
             return (
-              <div key={origIdx} className={`wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow-sm flex items-center gap-3 ${idx === 0 ? 'bg-[var(--postit)] border-[3px]' : ''}`}>
-                {idx === 0 && <span className="text-2xl">🏆</span>}
+              <div key={origIdx} className={`wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow-sm flex items-center gap-3 ${first ? 'bg-[var(--postit)] border-[3px]' : ''}`}>
+                {first && <span className="text-2xl" aria-label="מוביל/ה">🏆</span>}
                 <span className="font-display text-xl font-bold flex-1">{player.name}</span>
                 <button onClick={() => update(origIdx, -1)} className="wobbly-sm w-10 h-10 border-2 border-[var(--border)] bg-[var(--card)] font-bold text-xl cursor-pointer">-</button>
                 <span className="font-display text-3xl font-bold w-16 text-center">{player.score}</span>
@@ -54,6 +58,7 @@ export default function Scoreboard() {
 
       {players.length > 0 && (
         <div className="text-center mt-6">
+          {players.length > 1 && <p className="mb-3 font-hand text-lg">דירוג: {ranked.map((p, i) => `${i + 1}. ${p.name} (${p.score})`).join(' · ')}</p>}
           <button onClick={() => setPlayers(p => p.map(pl => ({...pl, score: 0})))}
             className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-hand cursor-pointer">🔄 אפסו ניקוד</button>
         </div>

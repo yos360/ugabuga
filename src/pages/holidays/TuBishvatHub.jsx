@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { daysUntil } from '../../utils/israelDate'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -26,8 +27,8 @@ function Countdown() {
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 60000); return () => clearInterval(t) }, [])
   const start = new Date(TUBISHVAT.start).getTime(), end = new Date(TUBISHVAT.end).getTime()
-  const days = Math.ceil((start - now) / 86400000)
-  return <p className="text-3xl font-bold">{now >= end ? 'ט״ו בשבט עבר — נתראה בשנה הבאה 🌳' : now >= start ? 'ט״ו בשבט שמח! 🌳' : `עוד ${days} ימים לט״ו בשבט 🌱`}</p>
+  const days = daysUntil(start, now)
+  return <p className="text-3xl font-bold">{now >= end ? 'ט״ו בשבט עבר — נתראה בשנה הבאה 🌳' : now >= start ? 'ט״ו בשבט שמח! 🌳' : days <= 0 ? 'ט״ו בשבט מתחיל הערב! 🌱' : days === 1 ? 'מחר ט״ו בשבט! 🌱' : `עוד ${days} ימים לט״ו בשבט 🌱`}</p>
 }
 
 export default function TuBishvatHub() {

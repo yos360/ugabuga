@@ -35,7 +35,7 @@ export function getQuestions({ topic = 'all', audience = 'kids', difficulty = 'e
   return QUESTION_BANK_EXPANDED.filter((item) => {
     const topicMatch = topic === 'all' || item.topic === topic
     const audienceMatch = item.audience === audience
-    const difficultyMatch = item.difficulty === difficulty
+    const difficultyMatch = difficulty === 'all' || item.difficulty === difficulty
     const typeMatch = type === 'all' || item.type === type || (type === 'riddle' && item.hint)
     return topicMatch && audienceMatch && difficultyMatch && typeMatch
   })
@@ -45,7 +45,9 @@ export function pickNextQuestion(questions, previousIds = []) {
   if (!questions.length) return null
 
   const fresh = questions.filter((item) => !previousIds.includes(item.id))
-  const pool = fresh.length ? fresh : questions
+  // Everything seen: start over, but never show the question that was just on screen again.
+  const notLast = questions.length > 1 ? questions.filter((item) => item.id !== previousIds[0]) : questions
+  const pool = fresh.length ? fresh : notLast
   const index = Math.floor(Math.random() * pool.length)
   return pool[index]
 }

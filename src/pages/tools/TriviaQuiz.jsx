@@ -57,10 +57,17 @@ export default function TriviaQuiz() {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0)
   const [liveNews, setLiveNews] = useState(DEFAULT_LIVE_NEWS)
 
-  const questions = useMemo(
-    () => getQuestions({ topic, audience, difficulty: mode === 'expert' ? 'hard' : difficulty, type: 'all' }).filter((item) => item.triviaOptions?.length >= 2),
-    [topic, audience, difficulty, mode]
-  )
+  const questions = useMemo(() => {
+    const level = mode === 'expert' ? 'hard' : difficulty
+    const get = (filters) => getQuestions({ audience, type: 'all', ...filters }).filter((item) => item.triviaOptions?.length >= 2)
+    // Some audience/level/topic combinations have only a handful of questions — widen the pool step by
+    // step (any level, then any topic) so a round doesn't keep cycling the same two questions.
+    const MIN_POOL = 8
+    let pool = get({ topic, difficulty: level })
+    if (pool.length < MIN_POOL) pool = [...pool, ...get({ topic, difficulty: 'all' }).filter((q) => q.difficulty !== level)]
+    if (pool.length < MIN_POOL && topic !== 'all') pool = [...pool, ...get({ topic: 'all', difficulty: level }).filter((q) => q.topic !== topic)]
+    return pool
+  }, [topic, audience, difficulty, mode])
 
   const chooseQuestion = useCallback((resetHistory = false) => {
     setSelected(null)

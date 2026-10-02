@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { daysUntil } from '../../utils/israelDate'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -24,8 +25,9 @@ function Countdown() {
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 60000); return () => clearInterval(t) }, [])
   const start = new Date(HANUKKAH.firstCandle).getTime(), end = new Date(HANUKKAH.end).getTime()
-  const days = Math.ceil((start - now) / 86400000)
-  const text = now >= end ? 'חנוכה הסתיים — נתראה בשנה הבאה 🕎' : now >= start ? `חג שמח! היום נר ${Math.min(8, Math.floor((now - start) / 86400000) + 1)} של חנוכה 🕎` : days === 1 ? 'מחר מדליקים נר ראשון! 🕯️' : `עוד ${days} ימים לנר הראשון 🕯️`
+  const days = daysUntil(start, now)
+  const candle = Math.min(8, 1 - days) // tonight's candle, by Israeli calendar date
+  const text = now >= end ? 'חנוכה הסתיים — נתראה בשנה הבאה 🕎' : now >= start ? `חג שמח! הערב מדליקים נר ${candle} של חנוכה 🕎` : days <= 0 ? 'הערב מדליקים נר ראשון! 🕯️' : days === 1 ? 'מחר מדליקים נר ראשון! 🕯️' : `עוד ${days} ימים לנר הראשון 🕯️`
   return <p className="text-3xl font-bold">{text}</p>
 }
 
