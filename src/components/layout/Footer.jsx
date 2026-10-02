@@ -39,6 +39,8 @@ const COLUMNS = [
       ['/classroom', 'כל הכלים לכיתה'],
       ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
       ['/classroom/first-grade', 'הכנה לכיתה א׳'],
+      ['/printables/hebrew-letters', 'אותיות בעברית להדפסה'],
+      ['/printables/math-worksheets', 'דפי עבודה בחשבון'],
       ['/printables/roots-project', 'עבודת שורשים'],
       ['/create', 'יוצרים — כל המחוללים'],
       ['/printables', 'דפים להדפסה'],
@@ -107,7 +109,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">✉️ hellohugabuga@gmail.com</a>
-          <p className="mt-2">💛 רעיון למשחק? תיקון? משוב? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
+          <p className="mt-2">רעיון למשחק? תיקון? שאלה? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
           <p className="mt-2">🎪 נותנים שירות לימי הולדת? <Link to="/suppliers/me" className="underline decoration-dashed">הצטרפו למאגר הספקים בחינם</Link></p>
           <p className="mt-4 text-[var(--muted-foreground)]">עוגה בוגה 🎂 מאגר משחקים ופעילויות בעברית — כל הזכויות שמורות.</p>
         </div>
