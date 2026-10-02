@@ -39,6 +39,8 @@ const COLUMNS = [
       ['/classroom', 'כל הכלים לכיתה'],
       ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
       ['/classroom/first-grade', 'הכנה לכיתה א׳'],
+      ['/printables/hebrew-letters', 'אותיות בעברית להדפסה'],
+      ['/printables/math-worksheets', 'דפי עבודה בחשבון'],
       ['/printables/roots-project', 'עבודת שורשים'],
       ['/create', 'יוצרים — כל המחוללים'],
       ['/printables', 'דפים להדפסה'],
