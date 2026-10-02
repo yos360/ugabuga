@@ -14,9 +14,10 @@ export default function FlashcardSheet({ cards, title, style = 'full', color = t
     <text x={W / 2} y="56" textAnchor="middle" fontFamily="Heebo, Arial, sans-serif" fontSize="12" fill="#555" direction="rtl">גוזרים לאורך הקווים המקווקווים ✂️</text>
     {cards.map((c, i) => {
       const col = i % COLS, row = Math.floor(i / COLS)
-      // RTL reading order: the first card sits top-right.
-      const x = M + (COLS - 1 - col) * CW, y = 70 + row * CH
-      const cx = x + CW / 2, heb = c.dir !== 'ltr'
+      // Reading order follows the alphabet: Hebrew starts top-right, English (A, B, C…) top-left.
+      const heb = c.dir !== 'ltr'
+      const x = M + (heb ? COLS - 1 - col : col) * CW, y = 70 + row * CH
+      const cx = x + CW / 2
       const big = style === 'letter' ? 130 : 92
       return <g key={i}>
         <rect x={x + 6} y={y + 6} width={CW - 12} height={CH - 12} rx="16" fill={color ? PASTELS[i % PASTELS.length] : 'white'} stroke="#111" strokeWidth="2" />

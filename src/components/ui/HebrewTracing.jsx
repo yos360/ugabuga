@@ -184,7 +184,7 @@ export default function HebrewTracing({ lang = 'he' }){
   const label=l=>en?`${l}${l.toLowerCase()}`:l
   return <section dir="rtl">
     <div className="mb-6 flex flex-wrap justify-center gap-3" aria-label="הדפסה">
-      <button onClick={()=>setSelection(letters)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל {letters.length} האותיות</button>
+      <button data-print-main onClick={()=>setSelection(letters)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל {letters.length} האותיות</button>
     </div>
     <ClassNames dotted={dotted}/>
     <p className="mb-5 text-center">שחור־לבן בלבד · כל אות בדף A4 נפרד{en?' · אות גדולה ואות קטנה על שורות כתיבה באנגלית':''} · האות הגדולה ושורות התרגול ניתנות למעבר בעיפרון</p>

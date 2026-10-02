@@ -15,7 +15,7 @@ export const categories = [
   { slug: 'hebrew-letters', emoji: '✏️', title: 'אותיות עברית למעבר בעיפרון', count: 22, desc: 'א–ת בקווים מקווקווים, עם שורות תרגול וצביעה' },
   { slug: 'abc-letters', emoji: '🔤', title: 'אותיות באנגלית למעבר בעיפרון', count: 26, desc: 'A–Z, אות גדולה וקטנה על שורות כתיבה באנגלית' },
   { slug: 'numbers', emoji: '🔢', title: 'מספרים ותרגילים למעבר בעיפרון', count: 11, desc: '0–10 בקווים מקווקווים, ספירה וצביעה — ותרגילי חשבון' },
-  { slug: 'mazes', emoji: '🌀', title: 'מבוכים', count: 3, desc: '3 רמות — קל, בינוני, קשה. עם סיפור ופתרון' },
+  { slug: 'mazes', emoji: '🌀', title: 'מבוכים', count: 3, desc: '3 רמות — קל, בינוני, קשה. עם סיפור קצר לכל מבוך' },
   { slug: 'certificates', emoji: '🏆', title: 'תעודות', count: 6, desc: 'גיבור מסיבה, הצטיינות, משתתף, אלוף משחקים ועוד' },
   { slug: 'symmetry', emoji: '🪞', title: 'ציור סימטרי', count: 6, desc: 'השלימו את החצי — פרפר, פנים, בית, עץ, פרח, טיל' },
   { slug: 'name-tags', emoji: '🏷️', title: 'תגי שם', count: 1, desc: '8 תגים בדף — לגזירה ושימוש במסיבה' },

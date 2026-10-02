@@ -89,7 +89,7 @@ export default function NumberTracing() {
   const [selection, setSelection] = useState(null)
   return <section dir="rtl">
     <div className="mb-6 flex flex-wrap justify-center gap-3">
-      <button onClick={() => setSelection(NUMBERS)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל 11 המספרים</button>
+      <button data-print-main onClick={() => setSelection(NUMBERS)} className="min-h-[44px] rounded-xl bg-pink-600 px-5 py-3 font-bold text-white">הדפיסו את כל 11 המספרים</button>
       <a href="#exercises" className="flex min-h-[44px] items-center rounded-xl border-2 border-slate-800 bg-white px-5 font-bold">➕ לתרגילים בקווים מקווקווים</a>
     </div>
     <Exercises />

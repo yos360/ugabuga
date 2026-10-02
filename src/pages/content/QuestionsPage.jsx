@@ -43,7 +43,7 @@ export default function QuestionsPage() {
         </section>
       ))}
       <div className="text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסת הרשימה</button></div>
-      <section className="mt-8">
+      <section className="no-print mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד רשימות</h2>
         <div className="flex flex-wrap gap-2">{QUESTION_PAGES.filter(x => x.slug !== slug).map(o => <Link key={o.slug} to={'/questions/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}</div>
       </section>
