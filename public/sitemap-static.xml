@@ -31,6 +31,13 @@
   <url><loc>https://ugabuga.co.il/games/quiet</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/trivia</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/words</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/4</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/5</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/6</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/8</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/games/age/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-a</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-b</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-g</loc><priority>0.6</priority></url>
@@ -139,6 +146,24 @@
   <url><loc>https://ugabuga.co.il/printables/math-worksheets</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/printables/math-worksheets/up-to-10</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/printables/math-worksheets/up-to-20</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/addition-up-to-10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/subtraction-up-to-10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/addition-up-to-20</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/subtraction-up-to-20</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/up-to-100</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/addition-up-to-100</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/subtraction-up-to-100</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-2</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-3</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-4</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-5</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-6</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-8</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/multiplication-table-10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/math-worksheets/division</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/math-paths</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/letters/alef</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/letters/bet</loc><priority>0.8</priority></url>
@@ -586,6 +611,74 @@
   <url><loc>https://ugabuga.co.il/printables/activity/find-differences</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/activity/color-by-number</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/activity/word-tracing</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/dot-to-dot/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/word-tracing/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/match-word/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/complete-pattern/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/count-and-write/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/silhouette-match/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/cut-and-order/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/hidden-object/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/mixed-activities/unicorn</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/animals</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/space</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/birthday</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/vehicles</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/football</loc><priority>0.5</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/activity/missing-picture/unicorn</loc><priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/independence-day-party</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/rosh-hashana-activity</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/sukkot-activity</loc><priority>0.7</priority></url>

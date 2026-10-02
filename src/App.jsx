@@ -212,6 +212,7 @@ export default function App() {
               <Route path="/tools/invitations" element={<Invitation />} />
               <Route path="/printables" element={<PrintablesIndex />} />
               <Route path="/printables/activity/:type" element={<ActivityWorksheet />} />
+              <Route path="/printables/activity/:type/:theme" element={<ActivityWorksheet key="themed" />} />
               <Route path="/printables/birthday-checklist" element={<BirthdayChecklist />} />
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
@@ -219,6 +220,7 @@ export default function App() {
               <Route path="/printables/math-worksheets" element={<MathWorksheets key="hub" preset="hub" />} />
               <Route path="/printables/math-worksheets/up-to-10" element={<MathWorksheets key="10" preset="10" />} />
               <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />
+              <Route path="/printables/math-worksheets/:slug" element={<MathWorksheets key="slug" />} />
               <Route path="/printables/math-paths" element={<MathWorksheets key="paths" preset="paths" />} />
               <Route path="/letters" element={<LettersHub />} />
               <Route path="/letters/game" element={<LettersGamePage key="he" lang="he" />} />

@@ -17,20 +17,23 @@ function Header({ title, instruction, answers }) {
   </g>
 }
 
+// Display symbol for each operation in the generator.
+const SYMBOL = { '+': '+', '-': '−', x: '×', '÷': '÷' }
+
 const Num = ({ x, y, n }) => <g><circle cx={x} cy={y - 6} r="11" fill="none" stroke="#bbb" /><text x={x} y={y - 1} fontSize="12" textAnchor="middle" fill="#888">{n}</text></g>
 
 // Inline exercise: "7 + 5 = ____" with the hidden part as a blank.
 function Inline({ e, x, y, answers, size = 30 }) {
   const part = k => e.hide === k ? (answers ? String(e[k]) : BLANK) : String(e[k])
   const color = k => e.hide === k && answers ? ANS : '#111'
-  const op = e.o === '-' ? '−' : '+'
+  const op = SYMBOL[e.o]
   return <text x={x} y={y} fontSize={size} fontFamily={FONT} textAnchor="middle" direction="ltr" fill="#111">
     <tspan fill={color('a')}>{part('a')}</tspan><tspan> {op} </tspan><tspan fill={color('b')}>{part('b')}</tspan><tspan> = </tspan><tspan fill={color('c')}>{part('c')}</tspan>
   </text>
 }
 
 function Vertical({ e, x, y, answers }) {
-  const op = e.o === '-' ? '−' : '+', right = x + 40
+  const op = SYMBOL[e.o], right = x + 40
   return <g fontFamily={FONT} fontSize="34" fill="#111">
     <text x={right} y={y} textAnchor="end">{e.a}</text>
     <text x={right} y={y + 40} textAnchor="end">{e.b}</text>

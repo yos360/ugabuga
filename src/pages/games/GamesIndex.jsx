@@ -63,6 +63,18 @@ function fitsAfterSchool(g) {
   return age <= 12 && !isAdult && worksWithGroup && manageableDuration && manageableEquipment
 }
 
+// One page per age (/games/age/N). From 10 up every game fits, so the lists would be identical — stop at 10.
+const AGE_PAGES = [4, 5, 6, 7, 8, 9, 10]
+const AGE_INTRO = {
+  4: 'בגיל 4 משחקים קצרים, עם חוקים של משפט אחד והרבה תנועה: לחקות, לרוץ לצבע, לעצור כשהמוזיקה נעצרת. כדאי שמבוגר יוביל, ושכולם ינצחו בסוף.',
+  5: 'ילדי גן חובה כבר מחכים לתור, סופרים עד 10 ואוהבים "כאילו": משחקי תפקידים, ניחושים קלים ומשחקי קבוצה פשוטים. מתאים במיוחד למסיבות גן.',
+  6: 'בגיל 6, לקראת כיתה א׳, אפשר להכניס אותיות, מספרים ומשימות קטנות. משחקים עם ניצחון ברור עובדים טוב, כל עוד הסבב קצר ואף אחד לא יוצא לזמן ארוך.',
+  7: 'בכיתה א׳–ב׳ ילדים כבר קוראים הוראות ונהנים מחידות, משחקי מילים ותחרויות קבוצתיות. זה הגיל שבו חדרי בריחה פשוטים וציד אוצרות מתחילים לעבוד.',
+  8: 'בגיל 8 אוהבים אתגר אמיתי: טריוויה, אסטרטגיה, משחקי זיכרון ותפקידים סודיים. אפשר לתת לילדים להוביל משחק בעצמם ולשמור ניקוד.',
+  9: 'ילדי כיתות ג׳–ד׳ נהנים מחוקים מורכבים יותר, משחקי בלשים ומשחקים שצריך בהם לשכנע ולהטעות. מתאים גם לערבי כיתה וליום הולדת בבית.',
+  10: 'מגיל 10 כמעט כל המשחקים מתאימים. מה שעובד הכי טוב: משחקי חברה עם הומור, טריוויה קשה, משחקי מילים ואתגרים בקבוצות — וקצת פחות "משחקי גן".',
+}
+
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -110,6 +122,8 @@ export default function GamesIndex() {
       ) &&
       (!ageNumber || (Number(g.min_age) <= ageNumber && (!g.max_age || Number(g.max_age) >= ageNumber)))
     )
+    // Age pages: games made for this age first (closest minimum age), so each age page leads with its own games.
+    if (ageNumber && !isGameOfDay) return [...candidates].sort((a, b) => Number(b.min_age || 0) - Number(a.min_age || 0))
     if (!isGameOfDay) return candidates
     if (!candidates.length) return []
     const dayIndex = israelDayNumber(Date.now()) % candidates.length // changes at midnight in Israel, not UTC
@@ -122,6 +136,7 @@ export default function GamesIndex() {
         structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {isGameOfDay ? 'משחק היום' : ageNumber ? `משחקים לגיל ${age}` : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : 'כל המשחקים'}</h1>
+      {ageNumber && AGE_INTRO[ageNumber] && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{AGE_INTRO[ageNumber]}</p>}
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
         <input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
@@ -131,10 +146,10 @@ export default function GamesIndex() {
       {!isGameOfDay && (
         <nav aria-label="סינון משחקים" className="mx-auto mb-6 max-w-4xl">
           <div className="flex flex-wrap justify-center gap-2">
-            {[4, 6, 8, 10, 12].map((a) => (
+            {AGE_PAGES.map((a) => (
               <Link key={a} to={`/games/age/${a}`} aria-current={ageNumber === a ? 'true' : undefined}
                 className={`min-h-[40px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${ageNumber === a ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
-                גיל {a}+
+                גיל {a}
               </Link>
             ))}
             {['יום הולדת', 'כיתה', 'משפחה', 'צהרון', 'בלי ציוד', 'שקטים', 'תנועה'].map((ctx) => (
