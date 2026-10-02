@@ -169,7 +169,7 @@ export default function EretzIr() {
           </div>}
 
           <button type="button" className="ei-go" onClick={() => { setPlayers(uniqueNames); draw() }}>🎲 מתחילים!</button>
-          <button type="button" className="ei-link" onClick={() => setPrinting(true)}>🖨️ דף ארץ עיר להדפסה</button>
+          <button data-print-main type="button" className="ei-link" onClick={() => setPrinting(true)}>🖨️ דף ארץ עיר להדפסה</button>
         </>}
 
         {phase === 'draw' && <div className="ei-draw">

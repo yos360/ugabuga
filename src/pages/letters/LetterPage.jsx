@@ -60,7 +60,7 @@ export default function LetterPage() {
           <h1 className="text-4xl sm:text-5xl mb-3">לימוד האות {l}</h1>
           <p className="text-lg leading-relaxed mb-3">{tip}</p>
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={() => setPrint('trace')} className="min-h-[48px] rounded-xl bg-pink-600 px-5 font-bold text-white">🖨️ דף תרגול כתיבה</button>
+            <button data-print-main type="button" onClick={() => setPrint('trace')} className="min-h-[48px] rounded-xl bg-pink-600 px-5 font-bold text-white">🖨️ דף תרגול כתיבה</button>
             <button type="button" onClick={() => setPrint('cards')} className="min-h-[48px] rounded-xl border-2 border-slate-800 bg-white px-5 font-bold">🃏 כרטיסיות מילים</button>
           </div>
         </div>
@@ -69,9 +69,9 @@ export default function LetterPage() {
       <section className="mb-10">
         <h2 className="text-3xl font-bold mb-4">מילים שמתחילות באות {l}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {words.map(([w, e]) => <button key={w} type="button" onClick={() => speak(w)} className="wobbly-sm flex items-center gap-3 border-2 border-[var(--border)] bg-white p-3 text-right hover:-translate-y-0.5 transition-transform">
-            <span className="text-5xl" aria-hidden="true">{e}</span>
-            <span className="text-2xl font-bold"><span className="text-pink-600">{w[0]}</span>{w.slice(1)}</span>
+          {words.map(([w, e]) => <button key={w} type="button" onClick={() => speak(w)} className="wobbly-sm flex min-w-0 items-center gap-2 sm:gap-3 border-2 border-[var(--border)] bg-white p-3 text-right hover:-translate-y-0.5 transition-transform">
+            <span className="shrink-0 text-4xl sm:text-5xl" aria-hidden="true">{e}</span>
+            <span className="min-w-0 text-xl sm:text-2xl font-bold [overflow-wrap:anywhere]"><span className="text-pink-600">{w[0]}</span>{w.slice(1)}</span>
           </button>)}
         </div>
       </section>

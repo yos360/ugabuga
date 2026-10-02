@@ -24,7 +24,7 @@ export default function QuestionsPage() {
   if (!p) return <NotFound />
   let n = 0
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
+    <div className="questions-sheet max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title + ' — 30 שאלות מוכנות'} description={p.description} path={'/questions/' + slug} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'רשימות שאלות', href: '/questions' }, { label: p.title }]} />
       <header className="text-center mb-6">
@@ -42,7 +42,7 @@ export default function QuestionsPage() {
           <ol className="space-y-2">{g.questions.map(q => { n += 1; return <li key={q} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{n}.</b> {q}</li> })}</ol>
         </section>
       ))}
-      <div className="text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסת הרשימה</button></div>
+      <div className="no-print text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסת הרשימה</button></div>
       <section className="no-print mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד רשימות</h2>
         <div className="flex flex-wrap gap-2">{QUESTION_PAGES.filter(x => x.slug !== slug).map(o => <Link key={o.slug} to={'/questions/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}</div>

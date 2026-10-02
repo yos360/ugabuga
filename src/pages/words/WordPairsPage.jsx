@@ -212,7 +212,7 @@ export default function WordPairsPage({ setId }) {
         </div>
         <div className="wp-print-bar">
           <button type="button" className="wp-primary" onClick={() => setSheetSeed(s => s + 1)}>✨ דף חדש</button>
-          <button type="button" onClick={() => setPrinting(true)}>🖨️ הדפסה / PDF</button>
+          <button data-print-main type="button" onClick={() => setPrinting(true)}>🖨️ הדפסה / PDF</button>
           <label><input type="checkbox" checked={withAnswers} onChange={e => setWithAnswers(e.target.checked)} /> כולל דף פתרונות</label>
         </div>
         <div className="wp-paper"><Sheet set={set} level={level} sheet={sheet} /></div>

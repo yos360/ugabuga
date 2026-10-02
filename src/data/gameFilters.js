@@ -37,3 +37,10 @@ export function durationLabel(g) {
   if (min && max && max !== min) return `⁦${min}–${max}⁩ דק׳`
   return `${min || max} דק׳`
 }
+
+// "נמצאו N משחקים" with correct Hebrew for 0 / 1 / many, and "N מתוך M" while a filter is on.
+export function gamesCountText(shown, total, filtered = false) {
+  if (!shown) return 'לא נמצאו משחקים — נסו להסיר סינון'
+  if (filtered && shown !== total) return shown === 1 ? `נמצא משחק אחד מתוך ${total}` : `נמצאו ${shown} מתוך ${total} משחקים`
+  return shown === 1 ? 'נמצא משחק אחד' : `נמצאו ${shown} משחקים`
+}

@@ -92,6 +92,10 @@ const svgMap = {
   },
 }
 
+// Landscape artwork (297×210 certificates, the snakes-and-ladders board) is turned 90° on the portrait
+// A4 sheet so it fills the page instead of a thin band across the middle.
+const LANDSCAPE_CATEGORIES = ['certificates', 'board-game']
+
 export default function PrintableCategory() {
   const { slug } = useParams()
   const cat = svgMap[slug]
@@ -132,7 +136,7 @@ export default function PrintableCategory() {
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{cat.title}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{cat.desc}</p>
 
-      {selected && <PrintPreview title={Array.isArray(selected)?cat.title:selected.name} onClose={()=>setSelected(null)}>{(Array.isArray(selected)?selected:[selected]).map(item=><article className="buga-a4" key={item.file}><div className="print-art"><img src={'/svg/'+item.file} alt={item.name}/></div></article>)}</PrintPreview>}
+      {selected && <PrintPreview title={Array.isArray(selected)?cat.title:selected.name} onClose={()=>setSelected(null)}>{(Array.isArray(selected)?selected:[selected]).map(item=><article className={`buga-a4${LANDSCAPE_CATEGORIES.includes(slug) ? ' buga-landscape' : ''}`} key={item.file}><div className="print-art"><img src={'/svg/'+item.file} alt={item.name}/></div></article>)}</PrintPreview>}
 
       <div className={`grid gap-5 grid-cols-2 sm:grid-cols-3 ${slug === 'board-game' ? 'lg:grid-cols-2 max-w-5xl mx-auto' : 'lg:grid-cols-4'}`}>
         {cat.files.map((item, i) => (

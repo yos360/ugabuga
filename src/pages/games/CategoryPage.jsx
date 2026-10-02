@@ -6,7 +6,7 @@ import Badge from '../../components/ui/Badge'
 import { useGames } from '../../hooks/useGames'
 import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
 import { gameHref } from '../../data/gameHref'
-import { durationLabel, fitsAge, fitsDuration, fitsMovement, fitsNoEquipment, fitsQuiet } from '../../data/gameFilters'
+import { gamesCountText, durationLabel, fitsAge, fitsDuration, fitsMovement, fitsNoEquipment, fitsQuiet } from '../../data/gameFilters'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -35,7 +35,7 @@ function GameFilterBar({ value, onChange, total, shown }) {
         </div>
       ))}
       <p className="mt-1 flex flex-wrap items-center gap-3 font-hand text-lg text-[var(--muted-foreground)]" role="status">
-        {active ? `נמצאו ${shown} מתוך ${total} משחקים` : `נמצאו ${total} משחקים`}
+        {gamesCountText(active ? shown : total, total, active)}
         {active && <button type="button" onClick={() => onChange({})} className="underline font-bold text-[var(--foreground)]">✕ ניקוי סינון</button>}
       </p>
     </div>

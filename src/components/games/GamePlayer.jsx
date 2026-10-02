@@ -32,12 +32,17 @@ function detectTruth(answer = '') {
   return null
 }
 
+const EASY_PACK = /(^|\s)(פשוט|קל|קלה|מתחילים|בסיסי)(\s|$)/
+const HARD_PACK = /(^|\s)(מורכב|קשה|מתקדמים)(\s|$)/
+
 export default function GamePlayer({ content, onClose, title = 'אמת או בוגה', slug = '', instructions = '' }) {
   const withTeams = useMemo(() => content.some(c => c.answer) || TEAM_GAMES.test(instructions || ''), [content, instructions])
   const packs = useMemo(() => {
     const seen = []
     content.forEach(c => { if (!seen.includes(c.pack_name)) seen.push(c.pack_name) })
-    return seen
+    // Easy packs first (and opened by default), the hardest ("מורכב" / "קשה") last.
+    const rank = name => (EASY_PACK.test(name || '') ? 0 : HARD_PACK.test(name || '') ? 2 : 1)
+    return seen.map((name, i) => [name, i]).sort((x, y) => rank(x[0]) - rank(y[0]) || x[1] - y[1]).map(([name]) => name)
   }, [content])
 
   const [pack, setPack] = useState(packs[0] || '')
@@ -124,7 +129,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
           </div>}
         </div>
 
-        <main className="relative flex min-h-0 flex-1 overflow-y-auto rounded-[1.5rem] border-[3px] border-[var(--border)] bg-white p-3 sketch-shadow-rich sm:rounded-[2rem] sm:border-[4px] sm:p-4">
+        <section aria-label={title} className="relative flex min-h-0 flex-1 overflow-y-auto rounded-[1.5rem] border-[3px] border-[var(--border)] bg-white p-3 sketch-shadow-rich sm:rounded-[2rem] sm:border-[4px] sm:p-4">
           {/* m-auto (not items-center) keeps long text reachable by scrolling instead of clipped at the top */}
           <div className="m-auto max-w-5xl text-center">
             {withTeams && <p className="mb-2 text-sm font-bold text-[var(--muted-foreground)] sm:hidden">תור: {teams[activeTeam]?.name}</p>}
@@ -148,7 +153,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
               </div>
             )}
           </div>
-        </main>
+        </section>
 
         <div className="mt-3 flex justify-center gap-3 sm:mt-4">
           <button onClick={() => go(1)} className="wobbly-md sketch-press flex-1 whitespace-nowrap border-[3px] border-[var(--border)] bg-[var(--pen)] text-white px-4 py-2 sm:flex-none sm:px-8 sm:py-3 font-display text-xl font-bold cursor-pointer">הבא ←</button>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -49,6 +49,8 @@ const TABLE_PRESETS = {
   ...Object.fromEntries([2, 3, 4, 5, 6, 7, 8, 9, 10].map(t => [`multiplication-table-${t}`, table(`multiplication-table-${t}`, 'x', t)])),
   division: table('division', '÷', 'mix'),
 }
+// The page (URL + h1) that matches an operation/table choice; division by one table has no page of its own.
+const tableSlug = (op, t) => (op === 'x' ? (t === 'mix' ? 'multiplication' : `multiplication-table-${t}`) : t === 'mix' ? 'division' : null)
 const MATH_PAGE_SLUGS = [...Object.keys(ADD_SUB_PRESETS), ...Object.keys(TABLE_PRESETS)]
 
 const PRESETS = {
@@ -134,6 +136,20 @@ export default function MathWorksheets({ preset: fixedPreset }) {
   const [seed, setSeed] = useState(newSeed)
   const [print, setPrint] = useState(false)
   const isPaths = p?.mode === 'paths', isTable = p?.mode === 'table'
+  const navigate = useNavigate()
+  // Back/forward between table pages: the page's own table wins over the last choice.
+  const [shownPreset, setShownPreset] = useState(preset)
+  if (shownPreset !== preset) {
+    setShownPreset(preset)
+    if (p?.mode === 'table' && tableSlug(op, table) !== preset) { setOp(p.op); setTable(p.table) }
+  }
+  // Picking another table/operation moves to that table's own page, so the h1, title and URL follow the sheet.
+  const pickTable = (nextOp, nextTable) => {
+    setOp(nextOp); setTable(nextTable); setSeed(newSeed())
+    const target = tableSlug(nextOp, nextTable)
+    if (target && target !== preset) navigate(PRESETS[target].path, { preventScrollReset: true })
+  }
+  const offPage = isTable && tableSlug(op, table) !== preset
   const effType = (range > 10 || isTable) && type === 'pictures' ? 'regular' : isTable && type === 'vertical' ? 'regular' : type
 
   const sheetTitle = isPaths ? `שבילים עד ${range}`
@@ -157,8 +173,8 @@ export default function MathWorksheets({ preset: fixedPreset }) {
     <div className="mx-auto max-w-5xl px-4 pt-8 pb-24 buga-fade-in" dir="rtl">
       <SEO title={p.title} description={p.desc} path={p.path} structuredData={faqSchema(FAQ[p.mode] || FAQ.exercises)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...(preset === 'hub' ? [] : [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]), { label: p.crumb }]} />
-      <h1 className="text-4xl sm:text-5xl text-center mb-3">{p.h1}</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{p.sub}</p>
+      <h1 className="text-4xl sm:text-5xl text-center mb-3">{offPage ? `${op === '÷' ? '➗' : '✖️'} ${sheetTitle}` : p.h1}</h1>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{offPage ? `${op === '÷' ? 'חילוק' : 'כפל'} ב-${table}, מ-1 עד 10 · 20 תרגילים בדף · עם פתרונות` : p.sub}</p>
 
       {/* Other worksheet pages — not on the times-table pages, where they are beside the point. The range itself
           is chosen with the "תחום" buttons below, so these links name whole pages, not ranges. */}
@@ -181,8 +197,8 @@ export default function MathWorksheets({ preset: fixedPreset }) {
       <div className="grid gap-6 md:grid-cols-[1fr_1fr] items-start mb-10">
         <div className="rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow space-y-4">
           {isTable ? <>
-            <Pills label="פעולה" items={[['x', 'כפל'], ['÷', 'חילוק']]} value={op} onChange={v => { setOp(v); setSeed(newSeed()) }} />
-            <Pills label="לוח" items={[...[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => [n, String(n)]), ['mix', 'כל הלוחות']]} value={table} onChange={v => { setTable(v); setSeed(newSeed()) }} />
+            <Pills label="פעולה" items={[['x', 'כפל'], ['÷', 'חילוק']]} value={op} onChange={v => pickTable(v, table)} />
+            <Pills label="לוח" items={[...[2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => [n, String(n)]), ['mix', 'כל הלוחות']]} value={table} onChange={v => pickTable(op, v)} />
             <Pills label="סוג" items={TYPES.slice(0, 2)} value={effType} onChange={v => { setType(v); setSeed(newSeed()) }} />
           </> : <>
           <Pills label="תחום" items={[[10, 'עד 10'], [20, 'עד 20'], ...(isPaths ? [] : [[100, 'עד 100']])]} value={range} onChange={v => { setRange(v); setSeed(newSeed()) }} />

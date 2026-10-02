@@ -39,7 +39,7 @@ function Play() {
   return (
     <div className="bg-play">
       <Controls mode={mode} setMode={m => { setMode(m); setS(fresh()) }} level={level} setLevel={setLevel} />
-      <p className="bg-status" role="status">{end ? (bl === wh ? '🤝 תיקו!' : `🏆 ${name(bl > wh ? 1 : -1)} ניצחו, ${Math.max(bl, wh)} מול ${Math.min(bl, wh)}`) : cpu ? '🤔 המחשב חושב…' : !mine.length ? `ל${name(s.turn)} אין מהלך – התור עובר` : `תור: ${name(s.turn)}`}</p>
+      <p className="bg-status" role="status">{end ? (bl === wh ? '🤝 תיקו!' : `🏆 ${(t => mode === 'computer' ? (t === 1 ? 'ניצחתם' : 'המחשב ניצח') : t === 1 ? 'השחורים ניצחו' : 'הלבנים ניצחו')(bl > wh ? 1 : -1)}, ${Math.max(bl, wh)} מול ${Math.min(bl, wh)}`) : cpu ? '🤔 המחשב חושב…' : !mine.length ? `ל${name(s.turn)} אין מהלך – התור עובר` : `תור: ${name(s.turn)}`}</p>
       <div className="rv-board" dir="ltr">
         {s.b.map((v, i) => { const can = !cpu && !end && mine.includes(i); return <button key={i} type="button" className={`rv-cell${can ? ' is-can' : ''}${s.last === i ? ' is-last' : ''}`} disabled={!can} onClick={() => setS(G.play(s, i))} aria-label={v ? (v === 1 ? 'שחור' : 'לבן') : can ? 'אפשר לשים כאן' : 'ריק'}>{v !== 0 && <span className={`rv-disc ${v === 1 ? 'is-b' : 'is-w'}`} />}</button> })}
       </div>

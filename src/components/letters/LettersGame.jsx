@@ -100,7 +100,8 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   const mutedRef = useRef(muted)
   useEffect(() => { mutedRef.current = muted }, [muted])
   const playRef = useRef(null)
-  const toggleMute = () => { const v = !muted; setMuted(v); saveMuted(v); if (v) { try { window.speechSynthesis?.cancel() } catch { /* ignore */ } } }
+  // Unmuting reads the current question again, so the child isn't left waiting for the next one.
+  const toggleMute = () => { const v = !muted; setMuted(v); mutedRef.current = v; saveMuted(v); if (v) { try { window.speechSynthesis?.cancel() } catch { /* ignore */ } } else if (!done) askAloud() }
   // On a phone, bring the question + all answer buttons into view when a game starts.
   const scrollToPlay = () => requestAnimationFrame(() => playRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
 
@@ -114,16 +115,19 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
     else speak(lang === 'he' ? q.target.name : q.target.l, voice)
   }
 
+  const askAloud = () => {
+    if (mode === 'first') speak(q.word[0], voice)
+    else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL')
+    else if (lang === 'he') speak(`לחצו על האות ${q.target.name}`, voice)
+    else speak(q.target.l, voice)
+  }
+
   // Read every new question aloud automatically (unless muted). speak() is async and quietly
   // returns false when the device has no voice for the language — the game works silently then.
   useEffect(() => {
     if (done || mutedRef.current) return
     const t = setTimeout(() => {
-      if (mutedRef.current) return
-      if (mode === 'first') speak(q.word[0], voice)
-      else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL')
-      else if (lang === 'he') speak(`לחצו על האות ${q.target.name}`, voice)
-      else speak(q.target.l, voice)
+      if (!mutedRef.current) askAloud()
     }, 250)
     return () => clearTimeout(t)
   }, [q.id, done]) // eslint-disable-line react-hooks/exhaustive-deps

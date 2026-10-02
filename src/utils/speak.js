@@ -59,9 +59,14 @@ export async function speak(text, lang = 'he-IL', { rate = 0.85 } = {}) {
 }
 
 // Whether this device has a voice for the language (resolves after the voice list loads).
+// Kept in step with speak(): true exactly when speak() would hand the text to the engine.
 export async function hasVoice(lang) {
   try {
     if (!canSpeak()) return false
-    return !!pickVoice(await loadVoices(), lang)
+    const voices = await loadVoices()
+    // An empty list means "unknown" (some Androids list nothing yet speak by lang) — speak()
+    // still tries then, so don't claim there is no voice. A list without the language: no.
+    if (!voices.length) return true
+    return !!pickVoice(voices, lang)
   } catch { return false }
 }

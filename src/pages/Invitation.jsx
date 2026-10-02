@@ -28,8 +28,10 @@ export default function Invitation() {
   const [printing, setPrinting] = useState(false)
 
   const update = (k,v) => setData(d => ({...d, [k]:v}))
+  // Times/phones are LTR runs inside a Hebrew message: isolate them (LRI…PDI) so "17:00–19:00" isn't flipped.
+  const ltr = v => `\u2066${v}\u2069`
   const share = () => {
-    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time||'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${data.phone}`:''}\n${data.notes||''}`
+    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time?ltr(data.time):'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${ltr(data.phone)}`:''}\n${data.notes||''}`
     window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank')
   }
 
@@ -54,8 +56,8 @@ export default function Invitation() {
         <input id="inv-name" aria-label="שם החוגג/ת" value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 px-3 py-2 focus:outline-none" />
         <input id="inv-age" aria-label="גיל" value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 px-3 py-2 focus:outline-none" />
         <div className="grid grid-cols-2 gap-3 text-right">
-          <div><label htmlFor="inv-date" className="text-sm font-bold">📅 תאריך</label><input id="inv-date" value={data.date} onChange={e=>update('date',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
-          <div><label htmlFor="inv-time" className="text-sm font-bold">🕐 שעה</label><input id="inv-time" value={data.time} onChange={e=>update('time',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
+          <div><label htmlFor="inv-date" className="text-sm font-bold">📅 תאריך</label><input id="inv-date" dir="auto" value={data.date} onChange={e=>update('date',e.target.value)} className="wobbly-sm w-full text-right border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
+          <div><label htmlFor="inv-time" className="text-sm font-bold">🕐 שעה</label><input id="inv-time" dir="ltr" value={data.time} onChange={e=>update('time',e.target.value)} className="wobbly-sm w-full text-right border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
         </div>
         <div className="mt-3 text-right"><label htmlFor="inv-place" className="text-sm font-bold">📍 מקום</label><input id="inv-place" value={data.place} onChange={e=>update('place',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
         <div className="mt-3 text-right"><label htmlFor="inv-phone" className="text-sm font-bold">📞 אישור הגעה</label><input id="inv-phone" type="tel" dir="ltr" value={data.phone} onChange={e=>update('phone',e.target.value)} placeholder="050-0000000" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 text-right" /></div>
@@ -67,7 +69,7 @@ export default function Invitation() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
           {FIELDS.map(([k, label, type, ph]) => <div key={k} className={k === 'place' ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2' : ''}>
             <label htmlFor={`form-${k}`} className="block text-sm font-bold">{label}</label>
-            <input id={`form-${k}`} type={type} inputMode={k === 'age' ? 'numeric' : undefined} dir={type === 'tel' ? 'ltr' : undefined} value={data[k]} onChange={e => update(k, e.target.value)} placeholder={ph} className="mt-1 w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 text-right" />
+            <input id={`form-${k}`} type={type} inputMode={k === 'age' ? 'numeric' : undefined} dir={type === 'tel' || k === 'time' ? 'ltr' : k === 'date' ? 'auto' : undefined} value={data[k]} onChange={e => update(k, e.target.value)} placeholder={ph} className="mt-1 w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 text-right" />
           </div>)}
         </div>
         <div className="mt-4 rounded-2xl bg-[var(--postit)] p-4 text-sm leading-7">💡 מלאו שם, תאריך וכתובת — ואז שתפו בוואטסאפ או הדפיסו.</div>
@@ -81,9 +83,9 @@ export default function Invitation() {
         <h2 style={{ fontSize: 48, margin: '6px 0' }}>{data.name || '_________'}</h2>
         {data.age && <p style={{ fontSize: 26, margin: 0 }}>חוגגים {data.age}! {theme.emoji}</p>}
         <div className="print-art"><img src={`/images/invitation-theme-${theme.id}.webp`} alt="" /></div>
-        <p style={{ fontSize: 22, margin: '6px 0' }}>📅 {data.date || '________'} · 🕐 {data.time || '_____'}</p>
+        <p style={{ fontSize: 22, margin: '6px 0' }}>📅 <bdi>{data.date || '________'}</bdi> · 🕐 <bdi dir="ltr">{data.time || '_____'}</bdi></p>
         <p style={{ fontSize: 22, margin: '6px 0' }}>📍 {data.place || '______________'}</p>
-        {data.phone && <p style={{ fontSize: 20, margin: '6px 0' }}>📞 אישור הגעה: <span dir="ltr">{data.phone}</span></p>}
+        {data.phone && <p style={{ fontSize: 20, margin: '6px 0' }}>📞 אישור הגעה: <bdi dir="ltr">{data.phone}</bdi></p>}
         {data.notes && <p style={{ fontSize: 18, margin: '6px 0' }}>{data.notes}</p>}
         <footer>עוגה בוגה · ugabuga.co.il</footer>
       </article></PrintPreview>}

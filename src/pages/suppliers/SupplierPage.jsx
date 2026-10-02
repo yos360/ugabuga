@@ -35,7 +35,8 @@ export default function SupplierPage() {
   if (s === undefined) return <p className="py-20 text-center text-lg">טוענים…</p>
   if (!s) return <div className="mx-auto max-w-md px-4 py-20 text-center">
     <SEO title="הספק לא נמצא" path={`/suppliers/${slug}`} noindex />
-    <p className="text-xl font-bold">הדף הזה לא קיים או עוד לא פורסם.</p>
+    <h1 className="text-2xl font-bold">הספק לא נמצא</h1>
+    <p className="mt-2 text-lg">הדף הזה לא קיים או עוד לא פורסם.</p>
     <Link to="/suppliers" className="mt-6 inline-block rounded-xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">לכל הספקים</Link>
   </div>
 

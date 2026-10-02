@@ -53,7 +53,7 @@ function Play() {
     <div className="bg-play">
       <Controls mode={mode} setMode={m => { setMode(m); setS(fresh()) }} level={level} setLevel={setLevel}
         extra={<label>גודל: <select value={N} onChange={e => { setN(+e.target.value); setS(fresh()) }}>{SIZES.map(n => <option key={n} value={n}>{n}×{n}</option>)}</select></label>} />
-      <p className="bg-status" role="status">{end ? (s.score[1] === s.score[-1] ? '🤝 תיקו!' : `🏆 ${name(s.score[1] > s.score[-1] ? 1 : -1)} ניצחו!`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על קו בין שתי נקודות`}</p>
+      <p className="bg-status" role="status">{end ? (s.score[1] === s.score[-1] ? '🤝 תיקו!' : `🏆 ${(t => mode === 'computer' ? (t === 1 ? 'ניצחתם!' : 'המחשב ניצח!') : t === 1 ? 'הכחול ניצח!' : 'האדום ניצח!')(s.score[1] > s.score[-1] ? 1 : -1)}`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על קו בין שתי נקודות`}</p>
       <div className="db-board" dir="ltr">
         <svg viewBox="-6 -6 112 112" role="img" aria-label="לוח נקודות">
           {Object.entries(s.owner).map(([k, t]) => { const [r, c] = k.split('-').map(Number); return <g key={k}><rect x={c * cell + 1} y={r * cell + 1} width={cell - 2} height={cell - 2} className={t === 1 ? 'db-box-a' : 'db-box-b'} /><text x={c * cell + cell / 2} y={r * cell + cell / 2 + 3} textAnchor="middle" fontSize={cell / 3}>{t === 1 ? '😀' : mode === 'computer' ? '🤖' : '😎'}</text></g> })}

@@ -54,7 +54,7 @@ function Play() {
   return (
     <div className="bg-play">
       <Controls mode={mode} setMode={m => { setMode(m); setS(fresh()); setNote('') }} level={level} setLevel={setLevel} />
-      <p className="bg-status" role="status">{end ? (a === b ? `🤝 תיקו ${a}–${b}` : `🏆 ${name(a > b ? 1 : -1)} ניצחו, ${Math.max(a, b)} מול ${Math.min(a, b)}`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – בחרו גומה בצד שלכם`}</p>
+      <p className="bg-status" role="status">{end ? (a === b ? `🤝 תיקו ${a}–${b}` : `🏆 ${(t => mode === 'computer' ? (t === 1 ? 'ניצחתם' : 'המחשב ניצח') : t === 1 ? 'השחקן למטה ניצח' : 'השחקן למעלה ניצח')(a > b ? 1 : -1)}, ${Math.max(a, b)} מול ${Math.min(a, b)}`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – בחרו גומה בצד שלכם`}</p>
       {note && <p className="bgm-msg">{note}</p>}
       <div className="mc-board" dir="ltr">
         <div className="mc-store" aria-label={`המחסן של ${name(-1)}: ${b}`}><b>{b}</b></div>

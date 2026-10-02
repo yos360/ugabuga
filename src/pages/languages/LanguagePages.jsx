@@ -83,7 +83,7 @@ function MatchPages({ code, topic }) {
   })
 }
 
-function PictureGame({ code, topic, say }) {
+function PictureGame({ code, topic, say, voice = true }) {
   const ROUNDS = 10
   const makeRound = () => {
     const answer = topic.words[Math.floor(Math.random() * topic.words.length)]
@@ -103,8 +103,8 @@ function PictureGame({ code, topic, say }) {
   return <div className="text-center">
     <div className="mb-2 flex justify-between text-sm font-bold"><span>שאלה {n + 1} מתוך {ROUNDS}</span><span>⭐ {score}</span></div>
     <p className="text-lg">איזו תמונה היא…</p>
-    <button type="button" onClick={() => say(round.answer)} className="my-2 inline-flex min-h-[56px] flex-col items-center rounded-2xl border-2 border-slate-800 bg-white px-6 py-1" aria-label={`שמעו: ${round.answer.word}`}>
-      <span className="text-4xl"><Word code={code}>{round.answer.word}</Word> <span className="text-2xl" aria-hidden="true">🔊</span></span>
+    <button type="button" onClick={() => say(round.answer)} className="my-2 inline-flex min-h-[56px] flex-col items-center rounded-2xl border-2 border-slate-800 bg-white px-6 py-1" aria-label={voice ? `שמעו: ${round.answer.word}` : `${round.answer.word} — ${round.answer.say}`}>
+      <span className="text-4xl"><Word code={code}>{round.answer.word}</Word>{voice && <> <span className="text-2xl" aria-hidden="true">🔊</span></>}</span>
       <span className="text-sm text-[var(--muted-foreground)]">{round.answer.say}</span>
     </button>
     <div className="mx-auto mt-3 grid max-w-md grid-cols-2 gap-3">
@@ -158,11 +158,12 @@ export function LanguageTopic() {
     {L.note && <p className="mx-auto mb-3 max-w-2xl text-center text-sm text-[var(--muted-foreground)]">{L.note}</p>}
     {!voice && <NoVoice code={code} />}
 
-    <p className="mb-3 text-center font-bold">👆 לוחצים על כרטיס כדי לשמוע את המילה</p>
+    {/* No voice on this device: don't promise sound the cards can't make. */}
+    <p className="mb-3 text-center font-bold">{voice ? '👆 לוחצים על כרטיס כדי לשמוע את המילה' : '🔤 ההגייה כתובה מתחת לכל מילה'}</p>
     <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-      {topic.words.map(word => <button key={word.key} type="button" onClick={() => say(word)} className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-3 text-center shadow-sm transition hover:-translate-y-0.5" aria-label={`${word.word} — ${word.he}. לחצו לשמוע`}>
+      {topic.words.map(word => <button key={word.key} type="button" onClick={() => say(word)} className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-3 text-center shadow-sm transition hover:-translate-y-0.5" aria-label={voice ? `${word.word} — ${word.he}. לחצו לשמוע` : `${word.word} — ${word.he}. נשמע: ${word.say}`}>
         <Pic word={word} size={72} />
-        <span className="mt-2 text-2xl"><Word code={code}>{word.word}</Word> <span className="text-base" aria-hidden="true">🔊</span></span>
+        <span className="mt-2 text-2xl"><Word code={code}>{word.word}</Word>{voice && <> <span className="text-base" aria-hidden="true">🔊</span></>}</span>
         <span className="text-sm text-[var(--muted-foreground)]">נשמע: {word.say}</span>
         <span className="font-bold">{word.he}</span>
       </button>)}
@@ -170,7 +171,7 @@ export function LanguageTopic() {
 
     <section className="mb-10 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow">
       <h2 className="mb-3 text-center text-2xl">🎮 משחק: מצאו את התמונה</h2>
-      <PictureGame key={code + topic.slug} code={code} topic={topic} say={say} />
+      <PictureGame key={code + topic.slug} code={code} topic={topic} say={say} voice={voice} />
     </section>
 
     <section className="mb-10 text-center">

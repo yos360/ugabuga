@@ -7,7 +7,7 @@ import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
 import { gameHref } from '../../data/gameHref'
-import { GAME_FILTERS, gameFilter, durationLabel, fitsAge } from '../../data/gameFilters'
+import { GAME_FILTERS, gameFilter, durationLabel, fitsAge, gamesCountText } from '../../data/gameFilters'
 import { gameItem, searchItems } from '../../data/searchIndex'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
@@ -151,7 +151,8 @@ export default function GamesIndex() {
       )}
 
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
-        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : `נמצאו ${filtered.length} משחקים`}
+        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : gamesCountText(filtered.length, games.length, Boolean(search.trim() || ageNumber || goalFilter || contextFilter))}
+        {!loading && !isGameOfDay && filtered.length === 0 && <> <Link to="/games" onClick={() => setSearch('')} className="font-bold text-[var(--foreground)] underline">✕ ניקוי הסינון</Link></>}
       </p>
 
       {error && (
@@ -195,7 +196,7 @@ export default function GamesIndex() {
         <div className="wobbly mx-auto max-w-md border-2 border-[var(--border)] bg-[var(--card)] p-8 text-center sketch-shadow">
           <p className="text-xl mb-2">🤔 לא מצאנו משחקים</p>
           <p className="text-[var(--muted-foreground)] mb-4">נסו לחפש משהו אחר</p>
-          <button onClick={() => setSearch('')} className="font-display text-lg font-bold text-[var(--pen)] underline decoration-dashed">ראו את כל המשחקים</button>
+          <Link to="/games" onClick={() => setSearch('')} className="font-display text-lg font-bold text-[var(--pen)] underline decoration-dashed">ראו את כל המשחקים</Link>
         </div>
       )}
 

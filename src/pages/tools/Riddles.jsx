@@ -9,6 +9,9 @@ import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestio
 
 const HISTORY_LIMIT = 12
 
+// "רמה" is feminine: "ברמה קלה", not "רמה קל".
+const LEVEL_TEXT = { easy: 'חידות ברמה קלה', medium: 'חידות ברמה בינונית', hard: 'חידות ברמה קשה' }
+
 export default function Riddles() {
   const [audience, setAudience] = useState('kids')
   const [difficulty, setDifficulty] = useState('easy')
@@ -38,7 +41,7 @@ export default function Riddles() {
       const fresh = items.filter((q) => !ids.has(q.id))
       if (fresh.length) { pool = [...pool, ...fresh]; added.push(label) }
     }
-    for (const d of order(DIFFICULTIES, difficulty)) if (pool.length < MIN_POOL) add(get({ topic, audience, difficulty: d.id }), `רמה ${d.label}`)
+    for (const d of order(DIFFICULTIES, difficulty)) if (pool.length < MIN_POOL) add(get({ topic, audience, difficulty: d.id }), LEVEL_TEXT[d.id] || `חידות ברמה ${d.label}`)
     for (const a of order(AUDIENCES, audience)) if (pool.length < MIN_POOL) add(get({ topic, audience: a.id, difficulty: 'all' }), `חידות ל${a.label}`)
     if (pool.length < MIN_POOL && topic !== 'all') add(get({ topic: 'all', audience, difficulty: 'all' }), 'נושאים נוספים')
     return { questions: pool, widenedWith: added }

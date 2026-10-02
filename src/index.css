@@ -163,6 +163,21 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
      how-to instead of a page of thumbnails and hidden buttons. */
   body:has([data-print-main], [data-print-gallery]):not(:has(#buga-print-output)) main { display: none !important; }
   body:has([data-print-main], [data-print-gallery]):not(:has(#buga-print-output)) .print-hint { display: block !important; }
+  /* Question lists and ready treasure hunts print from the page itself: a tighter rhythm, and no
+     item split across pages — so the list doesn't spill one to three lonely items onto a last page. */
+  .questions-sheet, .hunt-sheet { padding-top: 0 !important; padding-bottom: 0 !important; }
+  :is(.questions-sheet, .hunt-sheet) header { margin-bottom: 8px !important; }
+  :is(.questions-sheet, .hunt-sheet) header > div:first-child { font-size: 30px !important; line-height: 1.1; margin: 0 !important; }
+  :is(.questions-sheet, .hunt-sheet) h1 { font-size: 24pt !important; margin-bottom: 2px !important; }
+  :is(.questions-sheet, .hunt-sheet) h2 { font-size: 14pt !important; margin-bottom: 4px !important; break-after: avoid; }
+  :is(.questions-sheet, .hunt-sheet) .wobbly { padding: 8px 12px !important; margin-bottom: 10px !important; }
+  :is(.questions-sheet, .hunt-sheet) li { break-inside: avoid; page-break-inside: avoid; }
+  .questions-sheet section { margin-bottom: 8px !important; }
+  .questions-sheet ol > li { padding: 3px 10px !important; font-size: 11.5pt !important; line-height: 1.35; border-width: 1px !important; }
+  .questions-sheet ol > :not(:first-child) { margin-top: 3px !important; }
+  .hunt-sheet ol { gap: 6px !important; }
+  .hunt-sheet ol > li { padding: 6px 10px !important; }
+  .hunt-sheet ol > li p { font-size: 12pt !important; margin-top: 0 !important; }
 }
 .print-hint { display: none; font-size: 18pt; text-align: center; padding: 40mm 10mm; }
 

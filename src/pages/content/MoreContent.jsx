@@ -66,7 +66,7 @@ export function HuntPage() {
   const { slug } = useParams(); const p = HUNT_PAGES.find(x => x.slug === slug)
   if (!p) return <NotFound />
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
+    <div className="hunt-sheet max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title} description={p.description} path={'/treasure-hunt/' + slug} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חפש את המטמון מוכן', href: '/treasure-hunt/ready' }, { label: p.title }]} />
       <Header emoji={p.emoji} title={p.title} intro={p.intro} />

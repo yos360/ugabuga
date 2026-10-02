@@ -53,7 +53,7 @@ export default function HolidayQuiz({ h }) {
       <div className="mb-5 flex flex-wrap justify-center gap-2" role="radiogroup" aria-label="רמה">
         {LEVELS.map(l => <button key={l.id} type="button" role="radio" aria-checked={level === l.id} onClick={() => restart(l.id)}
           className={`min-h-[44px] rounded-xl border-2 px-4 font-bold ${level === l.id ? 'border-slate-800 bg-yellow-200' : 'border-[var(--border)] bg-white'}`}>{l.label}</button>)}
-        <button type="button" onClick={() => setPrint(printList())} className="min-h-[44px] rounded-xl border-2 border-slate-800 bg-white px-4 font-bold">🖨️ הדפיסו את החידון</button>
+        <button data-print-main type="button" onClick={() => setPrint(printList())} className="min-h-[44px] rounded-xl border-2 border-slate-800 bg-white px-4 font-bold">🖨️ הדפיסו את החידון</button>
       </div>
 
       <section className={`mx-auto mb-10 max-w-2xl rounded-3xl border-2 border-[var(--border)] ${h.soft} p-5 sketch-shadow`}>

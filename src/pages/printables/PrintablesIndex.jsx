@@ -24,6 +24,9 @@ const TOPICS = [
   { id: 'school', label: '🏫 לכיתה ולגן', slugs: ['roots-project', 'math-worksheets', 'letters', 'hebrew-letters', 'letter-flashcards', 'fine-motor', 'numbers', 'mixed-activities'] },
 ]
 
+// "9 פעילויות ליום הולדת" / "6 פעילויות בנושא חשבון" — a label that already starts with "ל" needs no "בנושא".
+const topicCountText = (n, name) => `${n === 1 ? 'פעילות אחת' : `${n} פעילויות`} ${name.startsWith('ל') ? name : `בנושא ${name}`}`
+
 // "1 דפים" → "דף אחד"
 const withCount = cat => (cat.count === 1 ? { ...cat, count: 'דף אחד' } : cat)
 
@@ -50,7 +53,7 @@ export default function PrintablesIndex() {
             className={`min-h-[44px] rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${on ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>{t.label}</button>
         })}
       </nav>
-      {topic && <p className="-mt-5 mb-5 text-center text-[var(--muted-foreground)]" role="status">{list.length} פעילויות בנושא {topic.label.replace(/^\S+\s/, '')} · <Link to="/printables" onClick={e => { e.preventDefault(); pick('') }} className="underline font-bold">לכל הדפים</Link></p>}
+      {topic && <p className="-mt-5 mb-5 text-center text-[var(--muted-foreground)]" role="status">{topicCountText(list.length, topic.label.replace(/^\S+\s/, ''))} · <Link to="/printables" onClick={e => { e.preventDefault(); pick('') }} className="underline font-bold">לכל הדפים</Link></p>}
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((cat, i) => <PrintableCard key={cat.slug} cat={withCount(cat)} index={i} />)}

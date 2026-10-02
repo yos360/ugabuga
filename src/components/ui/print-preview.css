@@ -33,3 +33,29 @@
   /* Pages printed straight from the screen layout: shrink a little so they keep to one page. */
   body:not(:has(#buga-print-output)) main{zoom:.88;padding-top:20mm}
 }
+
+/* Flowing text sheets (game rules): never leave a heading alone at the bottom of a page. */
+.buga-flow h2,.buga-flow h3{break-after:avoid;page-break-after:avoid}
+.buga-flow h2+*,.buga-flow h3+*{break-before:avoid;page-break-before:avoid}
+.buga-flow li,.buga-flow p{break-inside:avoid;orphans:3;widows:3}
+/* Printed rules: a slightly tighter rhythm so a typical game's rules fit on one A4. */
+@media print{
+  #buga-print-output .buga-flow{font-size:11pt;line-height:1.42}
+  #buga-print-output .buga-flow h3,#buga-print-output .buga-flow h4{margin-top:7px!important;margin-bottom:2px!important}
+  #buga-print-output .buga-flow ol,#buga-print-output .buga-flow ul{margin:2px 0!important}
+  #buga-print-output .buga-flow :where(ol,ul)>li+li{margin-top:1px!important}
+  #buga-print-output .buga-flow p{margin-top:0;margin-bottom:4px}
+  #buga-print-output .bg-print .bg-rules p{font-size:11pt;line-height:1.42;margin-bottom:3px}
+  #buga-print-output .bg-print .bg-rules section{margin-bottom:6px}
+  #buga-print-output .bg-print .bg-rules h3{font-size:14pt}
+}
+
+/* Landscape artwork on a portrait A4: rotate it a quarter turn so it fills the page (preview and paper). */
+.buga-a4.buga-landscape .print-art{position:relative;container-type:size}
+.buga-a4.buga-landscape .print-art img{position:absolute;top:50%;left:50%;width:100cqh;height:100cqw;max-width:none;max-height:none;transform:translate(-50%,-50%) rotate(90deg)}
+
+/* Phone preview: lay each sheet out at a desktop width and zoom it down to the dialog (set by PrintPreview),
+   so lists and cards keep their real layout instead of being cut off. Screen only — the PDF is untouched. */
+@media screen{
+  .buga-preview-pages.is-scaled .buga-a4,.buga-preview-pages.is-scaled .buga-flow{width:var(--buga-page-w);max-width:none;zoom:var(--buga-zoom)}
+}

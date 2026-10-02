@@ -8,6 +8,7 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
+import PrintPreview from '../../components/ui/PrintPreview'
 import { ESCAPE_ROOMS } from '../../data/escapeRoomsExpanded'
 import { buildEscapeAdventure, ESCAPE_LEVELS } from '../../data/escapeAdventure'
 
@@ -32,6 +33,52 @@ function normalizeAnswer(value) {
   return NUMBER_WORDS.get(text) ?? text
 }
 
+// Printable kit: page 1 is the facilitator sheet (setup + every answer), then one A4 card per stage
+// for the players. Built from the same `room` object the screen shows, so preview and paper always match.
+function EscapePrintKit({ room, base, levelLabel }) {
+  const hintsOf = (item) => (item.hints?.length ? item.hints : [item.hint]).filter(Boolean)
+  const setup = [
+    ...(base.materials || []),
+    `מדפיסים את ${room.steps.length} כרטיסי השלבים (מהעמוד הבא) ומסדרים אותם לפי המספר — או מחביאים כל כרטיס בחדר, וכל תשובה מובילה לכרטיס הבא.`,
+    'מקריאים לקבוצה את סיפור הפתיחה ומפעילים טיימר.',
+    'כשהקבוצה נתקעת — נותנים רמז מהטבלה, אחד בכל פעם.',
+    ...(base.printableKit || []),
+  ]
+  return <>
+    <article className="buga-flow escape-kit" style={{ fontFamily: 'Heebo, Arial, sans-serif' }}>
+      <h2 style={{ fontSize: 26, margin: '0 0 4px' }}>{room.emoji} {room.title} — קיט הפעלה למנחה</h2>
+      <p style={{ margin: '0 0 8px', fontSize: 14 }}>{[room.audience, room.duration, levelLabel && `רמה: ${levelLabel}`, `${room.steps.length} שלבים`].filter(Boolean).join(' · ')}</p>
+      <p style={{ margin: '0 0 8px', fontSize: 14 }}><b>סיפור הפתיחה:</b> {room.intro}{base.story ? ` ${base.story}` : ''}</p>
+      <h3 style={{ fontSize: 17, margin: '8px 0 2px' }}>הכנה</h3>
+      <ol style={{ margin: '0 0 6px', paddingRight: 20, fontSize: 13.5, listStyle: 'decimal' }}>{setup.map((m) => <li key={m}>{m}</li>)}</ol>
+      <h3 style={{ fontSize: 17, margin: '8px 0 4px' }}>תשובות ורמזים (למנחה בלבד)</h3>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <thead><tr style={{ borderBottom: '2px solid #111' }}><th style={{ textAlign: 'right', padding: '4px' }}>שלב</th><th style={{ textAlign: 'right', padding: '4px' }}>תשובה / קוד</th><th style={{ textAlign: 'right', padding: '4px' }}>רמזים</th></tr></thead>
+        <tbody>{room.steps.map((item, index) => <tr key={index} style={{ borderBottom: '1px solid #ccc', breakInside: 'avoid' }}>
+          <td style={{ padding: '4px', verticalAlign: 'top', whiteSpace: 'nowrap' }}>{index + 1}. {item.title}</td>
+          <td style={{ padding: '4px', verticalAlign: 'top', fontWeight: 800 }}><bdi>{item.answer}</bdi></td>
+          <td style={{ padding: '4px', verticalAlign: 'top' }}>{hintsOf(item).join(' · ')}</td>
+        </tr>)}</tbody>
+      </table>
+      {room.finalMessage && <p style={{ marginTop: 8, fontSize: 13.5 }}><b>בסיום מקריאים:</b> {room.finalMessage}</p>}
+    </article>
+    {room.steps.map((item, index) => (
+      <article key={index} className="buga-a4 escape-card" style={{ alignItems: 'stretch', fontFamily: 'Heebo, Arial, sans-serif', textAlign: 'center' }}>
+        <p style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>{room.emoji} {room.title} · שלב {index + 1} מתוך {room.steps.length}</p>
+        <h2 style={{ fontSize: 40, margin: '14px 0 18px' }}>{item.title}</h2>
+        <p style={{ fontSize: 26, lineHeight: 1.6, margin: '0 0 20px' }}>{item.story}</p>
+        {item.visual && <div dir="ltr" style={{ fontSize: 46, lineHeight: 1.5, border: '2px dashed #999', borderRadius: 14, padding: '18px 10px', margin: '0 0 16px', overflowWrap: 'anywhere' }}>{item.visual}</div>}
+        <p style={{ fontSize: 32, fontWeight: 800, margin: '0 0 14px' }}>{item.question || item.prompt}</p>
+        <div style={{ flex: 1, minHeight: 60 }} />
+        <div style={{ border: '3px solid #111', borderRadius: 16, padding: '12px 16px', textAlign: 'right' }}>
+          <p style={{ margin: '0 0 6px', fontSize: 18, fontWeight: 800 }}>✍️ התשובה שלנו:</p>
+          <div style={{ height: 110, borderBottom: '2px solid #777' }} />
+        </div>
+      </article>
+    ))}
+  </>
+}
+
 export default function EscapeRooms() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -49,6 +96,7 @@ export default function EscapeRooms() {
   const [status, setStatus] = useState(null)
   const [completedSteps, setCompletedSteps] = useState([])
   const [showAllRooms, setShowAllRooms] = useState(false)
+  const [printingKit, setPrintingKit] = useState(false)
   const roomPanelRef = useRef(null)
   const advanceTimerRef = useRef(null)
 
@@ -225,9 +273,12 @@ export default function EscapeRooms() {
             <p className="text-sm leading-relaxed text-[var(--muted-foreground)] mb-4">
               פתחו את קיט ההפעלה כדי לקבל מבנה למנחה: סיפור פתיחה, שלבים, תשובות ורמזים.
             </p>
-            <WobblyButton onClick={() => setShowPrintKit((value) => !value)} variant="secondary">
-              {showPrintKit ? 'הסתר קיט' : 'הצג קיט להפעלה'}
-            </WobblyButton>
+            <div className="flex flex-wrap gap-2">
+              <WobblyButton onClick={() => setShowPrintKit((value) => !value)} variant="secondary">
+                {showPrintKit ? 'הסתר קיט' : 'הצג קיט להפעלה'}
+              </WobblyButton>
+              <button data-print-main type="button" onClick={() => setPrintingKit(true)} className="min-h-[44px] rounded-xl bg-slate-900 px-4 py-2 font-bold text-white">🖨️ הדפסת הקיט</button>
+            </div>
           </WobblyCard>
         </aside>
 
@@ -316,7 +367,7 @@ export default function EscapeRooms() {
 
           {showPrintKit && (
             <WobblyCard hover={false} padding="p-6">
-              <h2 className="text-2xl font-hand font-bold mb-3">🖨️ קיט הפעלה למנחה</h2>
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl font-hand font-bold">🖨️ קיט הפעלה למנחה</h2><button type="button" onClick={() => setPrintingKit(true)} className="min-h-[44px] rounded-xl bg-slate-900 px-4 py-2 font-bold text-white">🖨️ להדפסה: קיט + כרטיס לכל שלב</button></div>
               <p className="leading-relaxed mb-4">
                 מתאים לכיתה, יום הולדת, פעילות משפחתית או מסיבת מבוגרים. מקריאים את הסיפור, נותנים לקבוצה לפתור,
                 ומשתמשים ברמזים רק אם נתקעים.
@@ -329,7 +380,7 @@ export default function EscapeRooms() {
                     {item.visual && <p dir="ltr" className="text-center text-xl">{item.visual}</p>}
                     <p><strong>שאלה:</strong> {item.question || item.prompt}</p>
                     <p><strong>תשובה:</strong> {item.answer}</p>
-                    <p><strong>רמז:</strong> {item.hint}</p>
+                    <p><strong>רמז:</strong> {(item.hints?.length ? item.hints : [item.hint]).filter(Boolean).join(' · ')}</p>
                   </div>
                 ))}
               </div>
@@ -337,6 +388,12 @@ export default function EscapeRooms() {
           )}
         </div>
       </div>
+
+      {printingKit && (
+        <PrintPreview title={`קיט הפעלה: ${room.title}`} onClose={() => setPrintingKit(false)}>
+          <EscapePrintKit room={room} base={base} levelLabel={ESCAPE_LEVELS.find((l) => l.id === difficulty)?.label} />
+        </PrintPreview>
+      )}
 
       {isRoomPage && (
         <section className="mt-12">

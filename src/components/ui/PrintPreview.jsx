@@ -30,10 +30,29 @@ function stampQrCodes(root){
     }).catch(()=>{})
 }
 
+// Narrow screens (phones): sheets are laid out at this width and zoomed down to fit the dialog,
+// so the preview looks like the printed page instead of a squeezed, cropped version of it.
+const PREVIEW_PAGE_WIDTH=720
+function fitPreview(pages){
+  if(!pages)return
+  const cs=getComputedStyle(pages)
+  const w=pages.clientWidth-parseFloat(cs.paddingLeft||0)-parseFloat(cs.paddingRight||0)
+  const scaled=w>0&&w<PREVIEW_PAGE_WIDTH
+  pages.classList.toggle('is-scaled',scaled)
+  if(scaled){pages.style.setProperty('--buga-zoom',String(w/PREVIEW_PAGE_WIDTH));pages.style.setProperty('--buga-page-w',PREVIEW_PAGE_WIDTH+'px')}
+  else{pages.style.removeProperty('--buga-zoom');pages.style.removeProperty('--buga-page-w')}
+}
+
 export default function PrintPreview({title,children,onClose}){
-  const dialog=useRef(null),root=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
+  const dialog=useRef(null),root=useRef(null),pages=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
   useEffect(()=>{const previous=document.activeElement;dialog.current?.showModal();recordPreviewOpen();return()=>previous?.focus?.()},[])
   useEffect(()=>{stampQrCodes(dialog.current);stampQrCodes(root.current)},[children])
+  useEffect(()=>{
+    const el=pages.current;if(!el)return
+    fitPreview(el)
+    if(typeof ResizeObserver==='undefined'){const on=()=>fitPreview(el);window.addEventListener('resize',on);return()=>window.removeEventListener('resize',on)}
+    const ro=new ResizeObserver(()=>fitPreview(el));ro.observe(el);return()=>ro.disconnect()
+  },[])
   async function print(){setBusy(true);setError('');try{
     await document.fonts.ready
     const imgs=[...document.querySelectorAll('#buga-print-output img')]
@@ -45,5 +64,5 @@ export default function PrintPreview({title,children,onClose}){
   }catch{setError('האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides
   // every body child except #buga-print-output, so no wrapper element here.
-  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה / PDF'}</button></div><p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}<div className="buga-preview-pages">{children}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{children}</div></>,document.body)
+  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה / PDF'}</button></div><p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}<div className="buga-preview-pages" ref={pages}>{children}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{children}</div></>,document.body)
 }

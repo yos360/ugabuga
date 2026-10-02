@@ -39,11 +39,12 @@ function Play() {
   const cpu = mode === 'computer' && s.turn === -1 && !over
   useComputerTurn(cpu, [s], () => { const [d, n] = DEPTH[level]; setS(x => G.play(x, pickMove(x, d, G, n))) })
   const name = t => (t === 1 ? (mode === 'computer' ? 'אתם (אדום)' : 'האדום') : mode === 'computer' ? 'המחשב (צהוב)' : 'הצהוב')
+  const winText = t => (mode === 'computer' ? (t === 1 ? 'ניצחתם!' : 'המחשב ניצח!') : t === 1 ? 'האדום ניצח!' : 'הצהוב ניצח!')
   const drop = c => { if (!over && !cpu && s.b[c] === 0) setS(G.play(s, c)) }
   return (
     <div className="bg-play">
       <Controls mode={mode} setMode={m => { setMode(m); setS(fresh()) }} level={level} setLevel={setLevel} />
-      <p className="bg-status" role="status">{line ? `🏆 ${name(s.b[line[0]])} ניצחו – ארבע בשורה!` : full ? '🤝 הלוח מלא – תיקו' : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על עמודה`}</p>
+      <p className="bg-status" role="status">{line ? `🏆 ${winText(s.b[line[0]])} – ארבע בשורה!` : full ? '🤝 הלוח מלא – תיקו' : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על עמודה`}</p>
       <div className="c4-board" dir="ltr">
         {Array.from({ length: W }, (_, c) => (
           <button key={c} type="button" className="c4-col" onClick={() => drop(c)} aria-label={`עמודה ${c + 1}`} disabled={over || cpu || s.b[c] !== 0}>

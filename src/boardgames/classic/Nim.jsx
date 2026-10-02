@@ -27,7 +27,7 @@ function Play() {
     <div className="bg-play">
       <Controls mode={mode} setMode={m => { setMode(m); setS(fresh()) }} level={level} setLevel={setLevel}
         extra={<label>ערימות: <select value={setup} onChange={e => { setSetup(+e.target.value); setS(fresh(+e.target.value)); setSel(null) }}>{START.map((h, k) => <option key={k} value={k}>{h.join('-')}</option>)}</select></label>} />
-      <p className="bg-status" role="status">{end ? `🏆 ${name(winner)} לקחו את הגפרור האחרון וניצחו!` : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על גפרורים בשורה אחת כדי לבחור כמה לקחת`}</p>
+      <p className="bg-status" role="status">{end ? `🏆 ${mode === 'computer' ? (winner === 1 ? 'לקחתם את הגפרור האחרון וניצחתם!' : 'המחשב לקח את הגפרור האחרון וניצח!') : `${name(winner)} לקח את הגפרור האחרון וניצח!`}` : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על גפרורים בשורה אחת כדי לבחור כמה לקחת`}</p>
       {s.last && !end && <p className="bgm-msg">{name(-s.turn)} לקחו {s.last[1]} מהשורה {s.last[0] + 1}</p>}
       <div className="nim-heaps">
         {s.h.map((n, i) => (

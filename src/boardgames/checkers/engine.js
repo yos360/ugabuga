@@ -111,7 +111,7 @@ export function applyMove(state, move) {
 }
 
 export function status(state) {
-  if (state.quiet >= 50) return { over: true, winner: 0, reason: '25 מהלכים של מלכים בלי אכילה – תיקו' }
+  if (state.quiet >= 50) return { over: true, winner: 0, reason: 'quiet' }
   if (!legalMoves(state).length) {
     const has = state.board.some(p => side(p) === state.turn)
     return { over: true, winner: -state.turn, reason: has ? 'blocked' : 'captured' }
@@ -123,15 +123,16 @@ export function status(state) {
 // mode: 'computer' (human = dark, 1) or 'friend'.
 export function endMessage(st, mode = 'computer') {
   if (!st?.over) return ''
-  if (st.winner === 0) return `🤝 תיקו! ${st.reason}`
+  if (st.winner === 0) return '🤝 תיקו! עברו 25 מהלכים של מלכים בלי שאף אבן נאכלה'
   const blocked = st.reason === 'blocked'
   if (mode === 'computer') {
     return st.winner === 1
       ? (blocked ? '🏆 ניצחתם! למחשב לא נשאר אף מהלך חוקי' : '🏆 ניצחתם! כל האבנים של המחשב נאכלו')
       : (blocked ? '🏆 המחשב ניצח! לא נשאר לכם אף מהלך חוקי' : '🏆 המחשב ניצח! כל האבנים שלכם נאכלו')
   }
-  const [winner, loser] = st.winner === 1 ? ['הכהים', 'הבהירים'] : ['הבהירים', 'הכהים']
-  return blocked ? `🏆 ${winner} ניצחו! ל${loser} לא נשאר אף מהלך חוקי` : `🏆 ${winner} ניצחו! כל האבנים של ${loser} נאכלו`
+  // "ל" + "הכהים" fuses into "לכהים" (the ה drops), so keep the dative form separately.
+  const [winner, loser, toLoser] = st.winner === 1 ? ['הכהים', 'הבהירים', 'לבהירים'] : ['הבהירים', 'הכהים', 'לכהים']
+  return blocked ? `🏆 ${winner} ניצחו! ${toLoser} לא נשאר אף מהלך חוקי` : `🏆 ${winner} ניצחו! כל האבנים של ${loser} נאכלו`
 }
 
 // ---- computer player: negamax with alpha-beta ----

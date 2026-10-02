@@ -51,7 +51,7 @@ export default function DiceRoller({ sides = 6, counts = [1, 2, 3], defaultCount
         </div>
       )}
       {counts.length > 1 && (
-        <div className="flex justify-center gap-2 mb-6">
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
           {counts.map(n => (
             <button key={n} onClick={() => { setCount(n); setValues(Array(n).fill(faces ? 0 : s)); setHistory([]); setDoublesInRow(0) }} aria-pressed={count === n}
               className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold ${count === n ? 'bg-[var(--postit)]' : 'bg-[var(--card)]'}`}>

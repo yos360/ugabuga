@@ -51,7 +51,7 @@ export default function BoardGamePage() {
       <section className="bg-box">
         {tab === 'rules'
           ? <>
-            <div className="bg-actions bg-actions-top"><button type="button" className="bg-primary" onClick={() => setPrinting(true)}>🖨️ הדפסת החוקים</button></div>
+            <div className="bg-actions bg-actions-top"><button data-print-main type="button" className="bg-primary" onClick={() => setPrinting(true)}>🖨️ הדפסת החוקים</button></div>
             <Rules game={game} />
           </>
           : <Suspense fallback={<p className="bg-status">טוען את הלוח…</p>}><Module tab={tab} onPlay={() => setTab('play')} /></Suspense>}
