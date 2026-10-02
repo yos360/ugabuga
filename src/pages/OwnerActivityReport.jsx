@@ -42,6 +42,113 @@ function pageName(row) {
   const base = ACTIVITY_LABELS[row.category] || row.category || 'עמוד'
   return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
 }
+
+// ---- Per-page performance ("what works best") ----
+// Built only from keys the summary already returns: `top` (path × action counts),
+// `time_by_path` and `print_funnel`. Counts are events, not unique people.
+const USE_ACTIONS = ['play', 'use', 'check', 'create', 'refresh']
+const PRINT_ACTIONS = ['print', 'download']
+const MIN_OPENS = 3 // below this, rates are noise
+const KINDS = [
+  { id: 'all', label: 'הכול' },
+  { id: 'game', label: 'משחקים' },
+  { id: 'print', label: 'הדפסות' },
+  { id: 'tool', label: 'כלים' },
+  { id: 'page', label: 'שאר העמודים' },
+]
+const SORTS = [
+  { id: 'score', label: 'ציון כולל' },
+  { id: 'opens', label: 'כניסות' },
+  { id: 'avg', label: 'זמן שהייה' },
+  { id: 'rate', label: 'אחוז פעולה' },
+]
+function pageKind(path, row) {
+  const first = path.split('/').filter(Boolean)[0]
+  if (first === 'games' || first === 'board-games' || first === 'dice-games') return 'game'
+  if (first === 'printables' || row.prints > 0 || row.previews > 0) return 'print'
+  if (first === 'tools') return 'tool'
+  return 'page'
+}
+function buildPageStats(data) {
+  if (!data) return []
+  const rows = new Map()
+  const row = (path, category) => {
+    const key = path || '/'
+    if (!rows.has(key)) rows.set(key, { path: key, category, opens: 0, uses: 0, prints: 0, previews: 0, shares: 0, avg: null, visitors: null })
+    const r = rows.get(key)
+    if (!r.category && category) r.category = category
+    return r
+  }
+  for (const t of data.top || []) {
+    const r = row(t.path, t.category)
+    if (t.action === 'open') r.opens += t.n
+    else if (USE_ACTIONS.includes(t.action)) r.uses += t.n
+    else if (PRINT_ACTIONS.includes(t.action)) r.prints += t.n
+    else if (t.action === 'preview') r.previews += t.n
+    else if (t.action === 'share') r.shares += t.n
+  }
+  for (const t of data.time_by_path || []) { const r = row(t.path, t.category); r.avg = t.avg; r.visitors = t.visitors; r.opens ||= t.visits }
+  for (const f of data.print_funnel || []) { const r = row(f.path, f.category); r.opens = Math.max(r.opens, f.opens); r.previews = Math.max(r.previews, f.previews) }
+  return [...rows.values()].filter(r => r.opens > 0).map(r => {
+    const actions = r.uses + r.prints + r.shares
+    const rate = Math.min(1, actions / r.opens)
+    // Score: traffic, boosted by how many act on the page and how long they stay (capped at 5 min).
+    const score = Math.round(r.opens * (1 + rate) * (1 + Math.min(r.avg || 0, 300) / 300))
+    return { ...r, kind: pageKind(r.path, r), rate, score }
+  })
+}
+const pct = r => `${Math.round(r * 100)}%`
+function rateTone(r) { return r >= 0.4 ? 'bg-emerald-100 text-emerald-800' : r >= 0.15 ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-700' }
+
+function TopItems({ title, stats, value, empty }) {
+  const list = stats.filter(r => value(r) > 0).sort((a, b) => value(b) - value(a)).slice(0, 10)
+  return <div>
+    <h2 className="mb-3 text-xl font-black">{title}</h2>
+    {list.length ? <div className="space-y-2">{list.map((r, i) => <Bar key={r.path} value={value(r)} max={value(list[0])} color={HUES[i % HUES.length]} text={<span title={r.path}>{pageName(r)}</span>} />)}</div>
+      : <p className="rounded-xl bg-slate-50 p-4 text-sm">{empty}</p>}
+  </div>
+}
+
+function BestPages({ stats }) {
+  const [kind, setKind] = useState('all'), [sort, setSort] = useState('score')
+  const list = stats.filter(r => kind === 'all' || r.kind === kind)
+    .filter(r => sort === 'score' || sort === 'opens' || r.opens >= MIN_OPENS)
+    .sort((a, b) => (b[sort] ?? -1) - (a[sort] ?? -1)).slice(0, 25)
+  const chip = (on, onClick, text) => <button onClick={onClick} className={`min-h-9 rounded-xl border-2 px-3 py-1 text-sm font-bold ${on ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white text-slate-700'}`}>{text}</button>
+  return <>
+    <h2 className="mb-1 text-2xl font-black">🏆 מה עובד הכי טוב</h2>
+    <p className="mb-3 text-sm text-slate-600">כל עמוד בנפרד. <b>אחוז פעולה</b> = מתוך מי שנכנס, כמה גם שיחקו, השתמשו, הדפיסו, הורידו או שיתפו. <b>ציון כולל</b> = כניסות, מוגדל לפי אחוז הפעולה ולפי זמן השהייה (עד 5 דק׳). מיון לפי זמן או אחוז מציג רק עמודים עם {MIN_OPENS}+ כניסות.</p>
+    <div className="mb-2 flex flex-wrap gap-2">{KINDS.map(k => <span key={k.id}>{chip(kind === k.id, () => setKind(k.id), k.label)}</span>)}</div>
+    <div className="mb-3 flex flex-wrap items-center gap-2"><span className="text-sm font-bold">מיון:</span>{SORTS.map(s => <span key={s.id}>{chip(sort === s.id, () => setSort(s.id), s.label)}</span>)}</div>
+    {list.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+      <thead><tr className="border-b-2"><th className="p-2">#</th><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">שיחקו/השתמשו</th><th className="p-2">הדפיסו/הורידו</th><th className="p-2">שיתפו</th><th className="p-2">אחוז פעולה</th><th className="p-2">זמן ממוצע</th><th className="p-2">ציון</th></tr></thead>
+      <tbody>{list.map((r, i) => <tr key={r.path} className="border-b">
+        <td className="p-2 text-slate-500">{i + 1}</td>
+        <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path}</div></td>
+        <td className="p-2">{r.opens}</td><td className="p-2">{r.uses || '—'}</td><td className="p-2">{r.prints || '—'}</td><td className="p-2">{r.shares || '—'}</td>
+        <td className="p-2"><span className={`rounded-lg px-2 py-0.5 font-bold ${rateTone(r.rate)}`}>{pct(r.rate)}</span></td>
+        <td className="p-2">{r.avg == null ? '—' : fmtTime(r.avg)}</td>
+        <td className="p-2 font-bold">{r.score}</td>
+      </tr>)}</tbody>
+    </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מספיק נתונים לסינון הזה.</p>}
+  </>
+}
+
+function Bouncing({ stats }) {
+  // Pages people reach but leave fast without doing anything — worth improving or promoting less.
+  const list = stats.filter(r => r.opens >= 5 && r.rate < 0.1 && r.avg != null && r.avg < 20).sort((a, b) => b.opens - a.opens).slice(0, 15)
+  return <>
+    <h2 className="mb-1 text-2xl font-black">🚪 נכנסים ויוצאים מהר</h2>
+    <p className="mb-3 text-sm text-slate-600">עמודים עם 5+ כניסות, זמן שהייה ממוצע מתחת ל-20 שניות, ופחות מ-10% שעשו בהם משהו. כדאי לבדוק אם הם ברורים, אם הם עובדים טוב בטלפון, ואם הם עונים על מה שאנשים חיפשו.</p>
+    {list.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+      <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">זמן ממוצע</th><th className="p-2">אחוז פעולה</th></tr></thead>
+      <tbody>{list.map(r => <tr key={r.path} className="border-b">
+        <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path}</div></td>
+        <td className="p-2">{r.opens}</td><td className="p-2 font-bold text-red-700">{fmtTime(r.avg)}</td><td className="p-2">{pct(r.rate)}</td>
+      </tr>)}</tbody>
+    </table></div> : <p className="mb-8 rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
+  </>
+}
 function TrackSelf() {
   const [on, setOn] = useState(() => { try { return localStorage.getItem('buga-track-self') === '1' } catch { return false } })
   const toggle = e => { const v = e.target.checked; setOn(v); try { v ? localStorage.setItem('buga-track-self', '1') : localStorage.removeItem('buga-track-self') } catch { /* ignore */ } }
@@ -98,6 +205,7 @@ export default function OwnerActivityReport() {
   const yesterday = useSummary(yFrom, yTo)
 
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.events)), [data])
+  const pageStats = useMemo(() => buildPageStats(data), [data])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
   const topDownloaded = useMemo(() => aggregateTop(data?.top, ['download', 'print']), [data])
   const devices = useMemo(() => sortEntries(data?.devices, ['desktop', 'mobile', 'unknown']), [data])
@@ -145,6 +253,15 @@ export default function OwnerActivityReport() {
           <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>
 
+        <BestPages stats={pageStats} />
+
+        <div className="mb-8 grid gap-8 sm:grid-cols-2">
+          <TopItems title="🎮 10 המשחקים והכלים שהכי שיחקו" stats={pageStats} value={r => r.uses} empty="אין עדיין משחקים בתקופה הזו." />
+          <TopItems title="🖨️ 10 הדפים שהכי הדפיסו / הורידו" stats={pageStats} value={r => r.prints} empty="אין עדיין הדפסות בתקופה הזו." />
+        </div>
+
+        <Bouncing stats={pageStats} />
+
         <h2 className="mb-1 text-2xl font-black">⏱️ כמה זמן נשארו בכל עמוד</h2>
         <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>
         {data.time_by_path?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
@@ -186,11 +303,11 @@ export default function OwnerActivityReport() {
 
         <div className="mb-8 grid gap-8 sm:grid-cols-2">
           <div>
-            <h2 className="mb-3 text-xl font-black">הכי שיחקו / השתמשו</h2>
+            <h2 className="mb-3 text-xl font-black">הכי שיחקו / השתמשו (לפי קטגוריה)</h2>
             {topPlayed.length ? <div className="space-y-2">{topPlayed.map(([key, n], i) => <Bar key={key} value={n} max={topPlayed[0][1]} color={HUES[i % HUES.length]} text={label(key)} />)}</div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתונים.</p>}
           </div>
           <div>
-            <h2 className="mb-3 text-xl font-black">הכי הורידו / הדפיסו</h2>
+            <h2 className="mb-3 text-xl font-black">הכי הורידו / הדפיסו (לפי קטגוריה)</h2>
             {topDownloaded.length ? <div className="space-y-2">{topDownloaded.map(([key, n], i) => <Bar key={key} value={n} max={topDownloaded[0][1]} color={HUES[i % HUES.length]} text={label(key)} />)}</div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתונים.</p>}
           </div>
         </div>
