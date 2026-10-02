@@ -47,6 +47,7 @@ function loadKnown(env, url) {
       .then(r => (r.ok ? r.json() : null))
       .then(list => (Array.isArray(list) && list.length > 100 ? new Set(list) : null))
       .catch(() => null)
+    knownPromise.then(set => { if (!set) knownPromise = null })
   }
   return knownPromise
 }
@@ -62,8 +63,11 @@ function loadRoutes(env, url) {
   if (!routesPromise) {
     routesPromise = env.ASSETS.fetch(new URL('/routes.json', url))
       .then(r => (r.ok ? r.json() : null))
-      .then(list => (Array.isArray(list) && list.length ? list.map(re => new RegExp(re)) : null))
+      // React Router matches paths case-insensitively, so the 404 check must too.
+      .then(list => (Array.isArray(list) && list.length ? list.map(re => new RegExp(re, 'i')) : null))
       .catch(() => null)
+    // Don't keep a failed load for the life of the isolate — try again on the next request.
+    routesPromise.then(list => { if (!list) routesPromise = null })
   }
   return routesPromise
 }

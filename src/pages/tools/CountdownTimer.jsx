@@ -2,8 +2,15 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
+// One AudioContext, created on the user's tap (iOS only allows sound that was unlocked by a gesture).
+let audioCtx = null
+function unlockAudio() {
+  try { audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume?.() } catch { /* no audio */ }
+}
 function playAlarm() {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)()
+  unlockAudio()
+  const ctx = audioCtx
+  if (!ctx) return
   const notes = [
     { f: 523, s: 0, d: 0.15 }, { f: 659, s: 0.15, d: 0.15 }, { f: 784, s: 0.3, d: 0.15 },
     { f: 1047, s: 0.45, d: 0.3 }, { f: 784, s: 0.8, d: 0.1 }, { f: 1047, s: 0.95, d: 0.4 },
@@ -71,18 +78,22 @@ export default function CountdownTimer() {
   const ending = running && remaining <= 5 && remaining > 0
   const done = remaining === 0
 
+  // Count down against a fixed end time: interval ticks are throttled in background tabs and on
+  // locked phones, so subtracting one per tick drifted and finished late.
+  const endAt = useRef(0)
   useEffect(() => {
     if (!running) return
-    intervalRef.current = setInterval(() => {
-      setRemaining(r => {
-        if (r <= 1) { clearInterval(intervalRef.current); setRunning(false); playAlarm(); return 0 }
-        return r - 1
-      })
-    }, 1000)
+    endAt.current = Date.now() + remaining * 1000
+    const tick = () => {
+      const left = Math.max(0, Math.ceil((endAt.current - Date.now()) / 1000))
+      setRemaining(left)
+      if (left === 0) { clearInterval(intervalRef.current); setRunning(false); playAlarm() }
+    }
+    intervalRef.current = setInterval(tick, 250)
     return () => clearInterval(intervalRef.current)
-  }, [running])
+  }, [running]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const start = (secs) => { setDuration(secs); setRemaining(secs); setRunning(true) }
+  const start = (secs) => { unlockAudio(); setDuration(secs); setRemaining(secs); setRunning(true) }
   const stop = () => { setRunning(false); clearInterval(intervalRef.current) }
   const reset = () => { setRunning(false); clearInterval(intervalRef.current); setRemaining(duration) }
 
@@ -116,7 +127,7 @@ export default function CountdownTimer() {
 
       {!running ? (
         <>
-          {remaining > 0 && remaining < duration && <div className="mb-4 flex justify-center gap-3"><button onClick={() => setRunning(true)} className="rounded-xl border-2 px-6 py-3 font-bold">▶ המשיכו</button><button onClick={reset} className="rounded-xl border-2 px-6 py-3 font-bold">איפוס</button></div>}
+          {remaining > 0 && remaining < duration && <div className="mb-4 flex justify-center gap-3"><button onClick={() => { unlockAudio(); setRunning(true) }} className="rounded-xl border-2 px-6 py-3 font-bold">▶ המשיכו</button><button onClick={reset} className="rounded-xl border-2 px-6 py-3 font-bold">איפוס</button></div>}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             {PRESETS.map(s => (
               <button key={s} onClick={() => start(s)} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold cursor-pointer">{presetLabel(s)}</button>

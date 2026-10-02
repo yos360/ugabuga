@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
+import PageErrorBoundary from './components/layout/PageErrorBoundary'
 import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
@@ -132,6 +133,7 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <Layout>
+          <PageErrorBoundary>
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -384,6 +386,7 @@ export default function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          </PageErrorBoundary>
         </Layout>
       </BrowserRouter>
     </HelmetProvider>

@@ -161,7 +161,7 @@ async function browserKey() {
 // Counts only time the tab is visible AND the visitor did something in the last
 // 2 minutes (a tab left open overnight doesn't count). Sent when leaving the page,
 // hiding the tab or closing it — with keepalive so it survives the page closing.
-const PARTY_URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co', PARTY_KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
+const PARTY_URL = import.meta.env?.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co', PARTY_KEY = import.meta.env?.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 let timePath = null, timeSecs = 0, lastInput = Date.now(), visitorId = null
 const TICK = 5
 function sendTime(path, seconds) {

@@ -29,7 +29,7 @@ function search(s, depth, me) {
 function cpuMove(s, level) {
   const ms = moves(s)
   if (level === 1) return ms[Math.floor(Math.random() * ms.length)]
-  const depth = level === 2 ? 2 : 6
+  const depth = level === 2 ? 2 : 5 // 6 froze the page for ~1.6s per move on phones
   let best = ms[0], bv = -Infinity
   for (const i of ms) { const n = sow(s, i); const v = search(n, n.turn === s.turn ? depth : depth - 1, s.turn); if (v > bv) { bv = v; best = i } }
   return best
