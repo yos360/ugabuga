@@ -15,7 +15,7 @@ export default function HolidayPrintables({ h, kind }) {
       <h1 className="text-4xl sm:text-5xl text-center mb-2">{c.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">{c.sub}</p>
       <div className="mb-6 text-center">
-        <button type="button" onClick={() => setPrint(c.list)} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ הדפיסו את כל {c.list.length} הדפים</button>
+        <button data-print-main type="button" onClick={() => setPrint(c.list)} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ הדפיסו את כל {c.list.length} הדפים</button>
       </div>
       <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
         {c.list.map(item => <button key={item.id} type="button" onClick={() => setPrint([item])} aria-label={`הדפיסו: ${item.name}`}

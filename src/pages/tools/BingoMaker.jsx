@@ -127,7 +127,7 @@ export default function BingoMaker() {
         </div>
       )}
 
-      {cards && <div className="text-center mt-6"><button onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
+      {cards && <div className="text-center mt-6"><button data-print-main onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
       {printing&&cards&&<PrintPreview title={title||'כרטיסי בינגו'} onClose={()=>setPrinting(false)}>{cards.map((card,i)=><article className="buga-a4" key={i}><h2>{title||'בינגו'} · כרטיס {i+1}</h2><p>סמנו שורה, טור או אלכסון</p><div style={{display:'grid',gridTemplateColumns:`repeat(${size},minmax(0,1fr))`,width:'100%',marginTop:24}}>{card.map((item,j)=><div key={j} style={{aspectRatio:'1',border:'1px solid #222',padding:5,display:'grid',placeItems:'center',textAlign:'center',overflowWrap:'anywhere',fontSize:14}}>{item}</div>)}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}</PrintPreview>}
 
       <section className="mt-8 grid gap-4 lg:grid-cols-3">

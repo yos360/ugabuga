@@ -130,7 +130,7 @@ export default function MathWorksheets({ preset = 'hub' }) {
           </div>
           <div className="flex flex-wrap justify-center gap-3">
             <button type="button" onClick={() => setSeed(newSeed())} className="min-h-[52px] rounded-2xl border-2 border-slate-800 bg-white px-5 text-lg font-bold">🎲 דף חדש</button>
-            <button type="button" onClick={() => setPrint(true)} className="min-h-[52px] rounded-2xl bg-pink-600 px-6 text-lg font-bold text-white">🖨️ הדפיסו{pages > 1 ? ` ${pages} דפים` : ''}</button>
+            <button data-print-main type="button" onClick={() => setPrint(true)} className="min-h-[52px] rounded-2xl bg-pink-600 px-6 text-lg font-bold text-white">🖨️ הדפיסו{pages > 1 ? ` ${pages} דפים` : ''}</button>
           </div>
         </div>
         <button type="button" onClick={() => setPrint(true)} className="rounded-2xl border-2 border-[var(--border)] bg-white p-2 sketch-shadow-sm" aria-label="תצוגה מקדימה — לחצו להדפסה">

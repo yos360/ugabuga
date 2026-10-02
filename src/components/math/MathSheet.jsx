@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 // A4 SVG sheets for the maths generator. Maths reads left-to-right, also on a
 // Hebrew page; the numbering runs right-to-left like the rest of the sheet.
 
@@ -73,16 +75,19 @@ export function ExerciseSheet({ items, title, type, answers = false }) {
 // שבילים: circles joined by arrows, the step written above each arrow.
 export function PathSheet({ items, title, answers = false }) {
   const xs = [58, 179, 300, 421, 542]
+  // PrintPreview renders every page twice (dialog + print copy) — a fixed marker id would resolve to
+  // the copy hidden in print and the arrowheads would vanish on paper.
+  const arrowId = 'buga-arrow-' + useId().replace(/[^a-zA-Z0-9_-]/g, '')
   return <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
     <Header title={title} instruction="השלימו את השבילים — מה חסר בעיגול או על החץ?" answers={answers} />
-    <defs><marker id="buga-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111" /></marker></defs>
+    <defs><marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111" /></marker></defs>
     {items.map((p, i) => {
       const y = 170 + i * 90
       return <g key={i} fontFamily={FONT}>
         {p.ops.map((op, j) => {
           const hidden = p.hideOp[j]
           return <g key={'o' + j}>
-            <path d={`M${xs[j] + 30} ${y} H${xs[j + 1] - 32}`} stroke="#111" strokeWidth="2.2" markerEnd="url(#buga-arrow)" />
+            <path d={`M${xs[j] + 30} ${y} H${xs[j + 1] - 32}`} stroke="#111" strokeWidth="2.2" markerEnd={`url(#${arrowId})`} />
             {hidden && !answers
               ? <rect x={(xs[j] + xs[j + 1]) / 2 - 24} y={y - 42} width="48" height="30" rx="6" fill="white" stroke="#999" strokeDasharray="4 3" />
               : <text x={(xs[j] + xs[j + 1]) / 2} y={y - 16} fontSize="22" fontWeight="700" textAnchor="middle" direction="ltr" fill={hidden ? ANS : '#111'}>{op}</text>}

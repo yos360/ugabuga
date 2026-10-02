@@ -149,7 +149,7 @@ export default function PrintableCategory() {
 
       <style>{`.hebrew-letter-preview{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(145deg,#fff,#fff7fb);color:#172033}.hebrew-letter-art{font-size:48px;line-height:1}.hebrew-letter-glyph{font-size:78px;line-height:1;font-weight:900;color:#ec3d73;text-shadow:2px 2px 0 #ffd5e2}.hebrew-dotted-line{font-size:12px;letter-spacing:3px;color:#8790a3;border-top:2px dotted #cbd2df;padding-top:5px}`}</style>
       <div className="text-center mt-8">
-        <button onClick={printAll}
+        <button data-print-main onClick={printAll}
           className="wobbly-md sketch-press min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-8 py-3 font-display text-lg font-bold text-[var(--accent-foreground)] cursor-pointer">
           🖨️ הדפיסו הכול ({cat.files.length} דפים)
         </button>

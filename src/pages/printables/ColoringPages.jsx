@@ -3,20 +3,14 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 
+// One page per drawing: titles must match what actually prints (several titles used to share a drawing).
 const PAGES = [
-  ['birthday','עוגת יום הולדת','cake'],['birthday','מסיבת בלונים','balloons'],['birthday','כתר ומתנות','crown'],['birthday','קאפקייקים שמחים','cupcake'],['birthday','מסיבת קונפטי','party'],
-  ['animals','חתול בחלון','cat'],['animals','כלבלב בפארק','dog'],['animals','אריה אמיץ','lion'],['animals','פיל וחברים','elephant'],['animals','דינוזאור חוגג','dino'],
-  ['space','טיל בדרך לירח','rocket'],['space','כוכבים וכוכבי לכת','planet'],['space','חייזר חמוד','alien'],['space','אסטרונאוט קטן','astronaut'],['space','תחנת חלל','space'],
-  ['fantasy','חד־קרן וקשת','unicorn'],['fantasy','נסיכה בטירה','castle'],['fantasy','דרקון קטן','dragon'],['fantasy','שרביט קסמים','wand'],['fantasy','יער פיות','fairy'],
-  ['vehicles','מכונית מרוץ','car'],['vehicles','כבאית בדרך','firetruck'],['vehicles','טרקטור בחווה','tractor'],['vehicles','רכבת צבעונית','train'],['vehicles','מטוס בעננים','plane'],
-  ['sports','כדורגל ושער','football'],['sports','כדורסל וסל','basketball'],['sports','גביע אלופים','trophy'],['sports','יום ספורט','sports'],
-  ['birthday','שולחן יום הולדת','party'],['birthday','הזמנה צבעונית','crown'],['birthday','מתנות עטופות','crown'],['birthday','ריקוד במסיבה','sports'],['birthday','פינת צילום','party'],
-  ['animals','שועל ביער','lion'],['animals','קוף מצחיק','dog'],['animals','פרפר על פרח','fairy'],['animals','צב בגינה','dog'],['animals','ינשוף בלילה','alien'],
-  ['space','לוויין במסלול','space'],['space','ירח עם כוכבים','planet'],['space','רכב ירח','car'],['space','שביל החלב','rocket'],['space','רובוט בחלל','astronaut'],
-  ['fantasy','ארמון קסום','castle'],['fantasy','בת ים','fairy'],['fantasy','גמד בגינה','dog'],['fantasy','קשת בענן','unicorn'],['fantasy','ספר לחשים','wand'],
-  ['vehicles','אופניים בעיר','car'],['vehicles','מסוק בשמיים','plane'],['vehicles','סירה בים','train'],['vehicles','אופנוע מרוץ','car'],['vehicles','טנדר בחווה','tractor'],
-  ['sports','שחייה בבריכה','sports'],['sports','טניס במגרש','sports'],['sports','מדליה ראשונה','trophy'],['sports','ריצה בפארק','sports'],['sports','אופניים במסלול','car'],
-  ['school','תיק בית הספר','school'],['school','ילדים בכיתה','school'],['school','ספרייה קטנה','school'],['school','שיעור אמנות','wand'],['school','הפסקה בחצר','sports'],['school','אוטובוס לבית הספר','car'],['school','מחברת ועט','school'],['school','לוח הכיתה','school'],['school','טקס סיום','trophy'],
+  ['birthday','עוגת יום הולדת','cake'],['birthday','מסיבת בלונים','balloons'],['birthday','כתר של מלך','crown'],['birthday','קאפקייקים שמחים','cupcake'],['birthday','כובע מסיבה ובלון','party'],
+  ['animals','חתול חמוד','cat'],['animals','כלבלב','dog'],['animals','אריה אמיץ','lion'],['animals','פיל','elephant'],['animals','דינוזאור חוגג','dino'],
+  ['space','טיל בדרך לירח','rocket'],['space','כוכב לכת','planet'],['space','חייזר חמוד','alien'],['space','אסטרונאוט קטן','astronaut'],['space','חללית','space'],
+  ['fantasy','חד־קרן','unicorn'],['fantasy','טירה','castle'],['fantasy','דרקון קטן','dragon'],['fantasy','שרביט קסמים','wand'],['fantasy','פיה','fairy'],
+  ['vehicles','מכונית מרוץ','car'],['vehicles','כבאית בדרך','firetruck'],['vehicles','טרקטור בחווה','tractor'],['vehicles','רכבת צבעונית','train'],['vehicles','מטוס','plane'],
+  ['sports','כדורגל','football'],['sports','כדורסל','basketball'],['sports','גביע אלופים','trophy'],['sports','ספורטאי שמח','sports'],['school','בית הספר','school'],
 ]
 
 const CATEGORY = { all:'🌈 הכול', birthday:'🎂 יום הולדת', animals:'🐾 חיות', space:'🚀 חלל', fantasy:'🦄 פנטזיה', vehicles:'🚗 כלי רכב', sports:'⚽ ספורט', school:'🏫 בית ספר' }
@@ -65,7 +59,7 @@ export default function ColoringPages() {
   const [selected, setSelected] = useState(null)
   const pages = useMemo(() => category === 'all' ? PAGES : PAGES.filter(([cat]) => cat === category), [category])
   const print = (page) => setSelected(page)
-  return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
+  return <div data-print-gallery className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
     <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" />
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'דפי צביעה'}]} />
     <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p></header>

@@ -50,7 +50,7 @@ export default function LetterFlashcards() {
           <Pill on={!color} onClick={() => setColor(false)}>🖍️ שחור־לבן לצביעה</Pill>
         </div>
         <div className="text-center">
-          <button type="button" onClick={() => setPrint(pages)} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ הדפיסו {cards.length} כרטיסיות ({pages.length} דפים)</button>
+          <button data-print-main type="button" onClick={() => setPrint(pages)} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ הדפיסו {cards.length} כרטיסיות ({pages.length} דפים)</button>
         </div>
       </div>
 

@@ -25,6 +25,20 @@ export default function Layout({ children }) {
     setMounted(true)
     setFeedbackDismissed(readDismissed())
   }, [])
+  // On printable pages, Ctrl/Cmd+P opens the site's own print preview and prints from it — the raw page
+  // (thumbnails, buttons, settings) is not what anyone wants on paper.
+  useEffect(() => {
+    const onKey = e => {
+      if (!(e.ctrlKey || e.metaKey) || e.altKey || e.key.toLowerCase() !== 'p' || document.querySelector('dialog[open]')) return
+      const main = document.querySelector('[data-print-main]:not(:disabled)')
+      if (!main) return
+      e.preventDefault()
+      main.click()
+      setTimeout(() => document.querySelector('.buga-print-toolbar button:last-of-type')?.click(), 400)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
   const dismissFeedback = () => {
     setFeedbackDismissed(true)
     try { localStorage.setItem(FEEDBACK_KEY, '1') } catch { /* storage unavailable */ }
@@ -34,13 +48,14 @@ export default function Layout({ children }) {
       <ScrollToTop />
       <Navbar />
       {!feedbackDismissed && (
-        <div className="site-beta-notice" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'nowrap', whiteSpace: 'nowrap', overflow: 'hidden' }}>
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>💛 יש לכם רעיון למשחק או משוב? <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a></span>
+        <div className="site-beta-notice" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'nowrap' }}>
+          <span>💛 יש לכם רעיון למשחק או משוב? <a href="mailto:hello@ugabuga.co.il">שלחו לנו משוב</a></span>
           <button type="button" onClick={dismissFeedback} aria-label="סגירת הודעת המשוב" style={{ flex: 'none', background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', lineHeight: 1, padding: '6px 10px' }}>✕</button>
         </div>
       )}
       {mounted && <RecentActivity />}
       {mounted && <PrintQrFallback />}
+      <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
       <Footer />
     </>

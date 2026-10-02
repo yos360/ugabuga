@@ -68,7 +68,7 @@ export default function ScavengerHuntMaker() {
           ))}
         </div>
       )}
-      {list && <div className="text-center mt-4"><button onClick={()=>setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
+      {list && <div className="text-center mt-4"><button data-print-main onClick={()=>setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
       {printing&&list&&<PrintPreview title="ציד אוצרות" onClose={()=>setPrinting(false)}><article className="buga-flow"><h2 className="text-center text-3xl">{title||'ציד האוצרות שלי'}</h2><p className="my-4">שם: ____________________</p><p>מחפשים בהשגחת מבוגר, בלי לקטוף צמחים או לפגוע בבעלי חיים.</p>{list.map((item,i)=><p key={i} style={{padding:'12px 0',borderBottom:'1px solid #aaa',whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>□ {i+1}. {item}</p>)}<footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
 
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">

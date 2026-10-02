@@ -107,7 +107,7 @@ export default function WordSearchMaker() {
             <p className="font-hand text-center text-lg leading-9" dir="rtl">{words.join(' · ')}</p>
           </div>
           <div className="text-center mt-4">
-            <button onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button>
+            <button data-print-main onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button>
           </div>
         </div>
       )}

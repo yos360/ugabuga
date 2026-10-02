@@ -159,7 +159,12 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
   html, body { background: white !important; background-image: none !important; }
   .sketch-shadow, .sketch-shadow-sm, .sketch-press { box-shadow: none !important; }
   /* The credit line now sits inside the QR stamp (PrintQrFallback / PrintPreview). */
+  /* Printable galleries printed from the browser menu (not the site's print button): print a short
+     how-to instead of a page of thumbnails and hidden buttons. */
+  body:has([data-print-main], [data-print-gallery]):not(:has(#buga-print-output)) main { display: none !important; }
+  body:has([data-print-main], [data-print-gallery]):not(:has(#buga-print-output)) .print-hint { display: block !important; }
 }
+.print-hint { display: none; font-size: 18pt; text-align: center; padding: 40mm 10mm; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 

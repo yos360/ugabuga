@@ -60,7 +60,7 @@ export default function DiceTemplate() {
         </div>
       )}
       <div className="bg-white border-2 border-[var(--border)] p-4 mb-5">{sheet}</div>
-      <div className="text-center mb-8"><button onClick={() => setPrinting(true)} className="rounded-xl bg-red-500 px-6 py-3 font-bold text-white">🖨️ הדפיסו</button></div>
+      <div className="text-center mb-8"><button data-print-main onClick={() => setPrinting(true)} className="rounded-xl bg-red-500 px-6 py-3 font-bold text-white">🖨️ הדפיסו</button></div>
       {printing && <PrintPreview title="קוביה להדפסה" onClose={() => setPrinting(false)}><div className="buga-a4 p-6">{sheet}<p style={{ textAlign: 'center', fontSize: 12 }}>גוזרים לאורך הקו החיצוני · מקפלים בכל קו פנימי · מדביקים את הלשוניות האפורות מבפנים</p></div></PrintPreview>}
       <DiceFamilyLinks current="/printables/dice-template" />
       <div className="mt-10">

@@ -94,7 +94,7 @@ export default function FineMotorStudio() {
           <Choice group="נושא" value={cfg.theme} onChange={th => set({ th })} items={THEMES} render={t => <><span aria-hidden="true">{t.emoji}</span> {t.label}</>} />
           <div className="motor-actions">
             <button type="button" className="motor-primary" onClick={another}>✨ צרו לי דף חדש</button>
-            <button type="button" onClick={() => setPrinting(true)}>🖨️ הדפסה / שמירה כ-PDF</button>
+            <button data-print-main type="button" onClick={() => setPrinting(true)}>🖨️ הדפסה / שמירה כ-PDF</button>
             <button type="button" aria-pressed={interactive} onClick={() => { setInteractive(v => !v); draw.current?.clear() }}>{interactive ? '📄 חזרה לתצוגת דף' : '✋ לתרגל על המסך'}</button>
           </div>
           <div className="motor-print-opts">
