@@ -55,8 +55,8 @@ export function SupplierCard({ s, live = true, index = 0 }) {
   const cls = `wobbly group relative flex h-full flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${ROTATIONS[index % ROTATIONS.length]}`
   const body = <>
     <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
-      {wa && <button type="button" onClick={e => open(e, wa, 'whatsapp')} aria-label={`וואטסאפ ל${s.name}`} className="rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>}
-      {tel && <button type="button" onClick={e => open(e, tel, 'phone')} aria-label={`חיוג ל${s.name}`} className="rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">📞</button>}
+      {wa && <button type="button" onClick={e => open(e, wa, 'whatsapp')} aria-label={`וואטסאפ ל${s.name}`} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>}
+      {tel && <button type="button" onClick={e => open(e, tel, 'phone')} aria-label={`חיוג ל${s.name}`} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">📞</button>}
     </div>
     <div className="flex items-center gap-3 pl-20">
       <Logo s={s} size="h-14 w-14" className="border-[var(--border)] shadow-none" />

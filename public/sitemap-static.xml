@@ -920,4 +920,51 @@
   <url><loc>https://ugabuga.co.il/abc/x</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/y</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/z</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach/seder</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/pesach/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/mishloach-manot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana/greetings</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-hashana/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot/sukkah</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sukkot/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut/symbols</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-haatzmaut/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur/sorry</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur/quiz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/yom-kippur/what-to-do</loc><priority>0.7</priority></url>
 </urlset>

@@ -53,9 +53,9 @@ export default function ToolsIndex() {
       {MENU_GROUPS.map(group => (
         <section key={group.title} className="mb-10">
           <h2 className="mb-4 text-3xl font-black"><Link to={group.to} className="hover:underline">{group.title}</Link></h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {group.items.map((tool, index) => (
-              <Link key={tool.to} to={tool.to} className={`card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
+              <Link key={tool.to} to={tool.to} className={`h-full card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
                 <span className="text-4xl">{tool.icon}</span>
                 <h3 className="mt-3 text-2xl font-bold">{tool.label}</h3>
                 {DESC[tool.to] && <p className="mt-2 text-[var(--foreground)]/75">{DESC[tool.to]}</p>}

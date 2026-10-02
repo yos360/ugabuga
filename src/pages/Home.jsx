@@ -1,12 +1,31 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
-import TodayQuiz from '../components/home/TodayQuiz'
-import TodayGame from '../components/home/TodayGame'
+// The daily quiz/game widgets sit below the fold — keep their code (and the
+// month's quiz-data chunk) out of the home page's critical path.
+const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
+const TodayGame = lazy(() => import('../components/home/TodayGame'))
+
+// Mounts children once the section scrolls near the viewport (immediately
+// during prerender, so the static snapshots still contain the content).
+function NearViewport({ children, minHeight = 320 }) {
+  const ref = useRef(null)
+  const [show, setShow] = useState(() => typeof window !== 'undefined' && !!window.__PRERENDER__)
+  useEffect(() => {
+    if (show || !ref.current) return
+    if (!('IntersectionObserver' in window)) { setShow(true); return }
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { setShow(true); io.disconnect() }
+    }, { rootMargin: '600px 0px' })
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [show])
+  return <div ref={ref} style={show ? undefined : { minHeight }}>{show && <Suspense fallback={null}>{children}</Suspense>}</div>
+}
 import HolidayBanner from '../components/holidays/HolidayBanner'
 import SiteSearchBox from '../components/ui/SiteSearchBox'
 
@@ -75,7 +94,7 @@ export default function Home() {
     <HolidayBanner className="mb-5" />
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
-    <TodayGame fallback={<TodayQuiz />} />
+    <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
     <section className="home-featured">
       <h2>משחקים מומלצים</h2>
       <div className="home-carousel-wrap">
@@ -90,6 +109,27 @@ export default function Home() {
         <Link to="/tools/truth-or-buga"><h3>🎭 אמת או בוגה</h3><p>אמת או שקר, לבד או תחרות קבוצות.</p></Link>
         <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>
         <Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link>
+      </div>
+    </section>
+    <section className="home-extra">
+      <h2>עולמות תוכן</h2>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+        {[
+          ['🎯','חידוני טריוויה','40 חידונים לפי נושא וגיל.','/trivia/topics'],
+          ['🦁','עובדות על חיות','50 חיות עם עובדות וחידון.','/animals'],
+          ['🧩','חידות עם תשובות','חידות לפי נושא, עם רמז.','/riddles/topics'],
+          ['😂','בדיחות לילדים','בדיחות נקיות לפי נושא.','/jokes/topics'],
+          ['💌','ברכות ליום הולדת','ברכות מוכנות לכל חוגג.','/birthday-greetings'],
+          ['🗺️','ציד אוצרות מוכן','רמזים מחורזים להדפסה.','/treasure-hunt/ready'],
+          ['🔤','אותיות באנגלית','A עד Z עם מילים ומשחק.','/abc'],
+          ['⏳','מנהרת הזמן','מה קרה היום בהיסטוריה?','/time-tunnel'],
+        ].map(([emoji,title,desc,to])=>(
+          <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
+            <div className="text-3xl mb-1">{emoji}</div>
+            <h3 className="text-xl font-bold">{title}</h3>
+            <p className="text-sm text-[var(--muted-foreground)]">{desc}</p>
+          </Link>
+        ))}
       </div>
     </section>
     <section className="home-extra">

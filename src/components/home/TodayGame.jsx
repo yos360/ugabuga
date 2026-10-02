@@ -48,7 +48,7 @@ function Question({ q, n, total, dateKey, state, onHint, onAnswer, onNext, last 
   const report = `https://wa.me/${OWNER_WA}?text=${encodeURIComponent(`מצאתי טעות ב"מנהרת הזמן של בוגה" של ${dateLabel(dateKey)}, שאלה ${n + 1}: `)}`
   return (
     <div className="mh-card">
-      <div className="mh-progress" aria-label={`שאלה ${n + 1} מתוך ${total}`}>
+      <div className="mh-progress" role="img" aria-label={`שאלה ${n + 1} מתוך ${total}`}>
         {Array.from({ length: total }, (_, i) => <span key={i} className={i < n ? 'is-done' : i === n ? 'is-now' : ''} />)}
       </div>
       <p className="mh-lead">{lead(q)}</p>

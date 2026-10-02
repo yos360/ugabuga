@@ -4,7 +4,8 @@ import SiteSearchBox from '../components/ui/SiteSearchBox'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useGames } from '../hooks/useGames'
-import { KINDS, STATIC_ITEMS, gameItem, searchItems } from '../data/searchIndex'
+import { KINDS, gameItem, searchItems } from '../data/searchIndex'
+import { STATIC_ITEMS } from '../data/searchStatic'
 
 const SUGGESTIONS = ['מבוך', 'יום הולדת', 'צביעה', 'כיתה א', 'בינגו', 'חדר בריחה', 'אותיות', 'מתנות', 'טריוויה']
 

@@ -44,7 +44,10 @@ export default function LettersHub() {
 
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mb-10">
         <p className="font-display text-xl font-bold mb-2">לומדים גם אנגלית?</p>
-        <Link to="/abc/game" className="inline-block rounded-xl border-2 border-slate-800 bg-cyan-100 px-5 py-2 font-bold">🔤 משחק חזרה על אותיות באנגלית ←</Link>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link to="/abc" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🔠 אותיות באנגלית A–Z — עמוד לכל אות ←</Link>
+          <Link to="/abc/game" className="inline-block rounded-xl border-2 border-slate-800 bg-cyan-100 px-5 py-2 font-bold">🔤 משחק חזרה על אותיות באנגלית ←</Link>
+        </div>
       </div>
 
       <SeoBody

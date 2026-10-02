@@ -12,9 +12,9 @@ function Card({ text }) {
   return (
     <WobblyCard hover={false} padding="p-5">
       <p className="whitespace-pre-line text-lg leading-relaxed">{text}</p>
-      <div className="mt-3 flex gap-2">
-        <button onClick={copy} className="btn-secondary text-sm">{copied ? '✔ הועתק' : '📋 העתקה'}</button>
-        <a href={'https://wa.me/?text=' + encodeURIComponent(text)} target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">💬 וואטסאפ</a>
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+        <button onClick={copy} className="btn-secondary min-h-[44px] w-full sm:w-auto sm:flex-1 inline-flex items-center justify-center text-base font-bold">{copied ? '✔ הועתק' : '📋 העתקה'}</button>
+        <a href={'https://wa.me/?text=' + encodeURIComponent(text)} target="_blank" rel="noopener noreferrer" className="btn-secondary min-h-[44px] w-full sm:w-auto sm:flex-1 inline-flex items-center justify-center text-base font-bold">💬 וואטסאפ</a>
       </div>
     </WobblyCard>
   )

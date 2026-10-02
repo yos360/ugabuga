@@ -39,10 +39,13 @@ function useToday() {
   return `${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
-function Calendar({ current, today }) {
+function Calendar({ current, today, month }) {
+  // month (1-12): render only that month — date pages link just their own month
+  // plus prev/next, so the full-year archive lives only on the /time-tunnel hub.
+  const months = month ? [[MONTHS[month - 1], month - 1]] : MONTHS.map((name, m) => [name, m])
   return (
     <div className="tt-cal">
-      {MONTHS.map((name, m) => (
+      {months.map(([name, m]) => (
         <div key={name} className="tt-cal-month">
           <h3>{name}</h3>
           <div className="tt-cal-days">
@@ -93,12 +96,20 @@ function DatePage({ dateKey }) {
   const dayNames = data ? [...new Set([...data.qs.filter(q => q.type === 'day').map(q => q.options[q.answer]), ...data.days.map(d => d.name)])] : []
   const i = ALL_DATES.indexOf(dateKey)
   const prev = ALL_DATES[(i + ALL_DATES.length - 1) % ALL_DATES.length], next = ALL_DATES[(i + 1) % ALL_DATES.length]
-  const teaser = facts.slice(0, 2).map(q => factText(q).replace(/[.،]+$/, '')).join('; ')
-  const description = `מה קרה ב-${label}? ${teaser ? teaser + ' ועוד. ' : ''}ימים מיוחדים, אירועים היסטוריים ומי נולד ב-${label} – עם מקורות, ומשחק רמזים לילדים.`.slice(0, 300)
+  // SEO: short title (<=60 with the auto " | UGABUGA" suffix) and a <=160-char
+  // description built from the first fact only, truncated on a word boundary.
+  const first = facts.length ? factText(facts[0]).replace(/[.،]+$/, '') : ''
+  const tail = 'ימים מיוחדים ומי נולד – עם מקורות ומשחק לילדים.'
+  let description = `מה קרה ב-${label}? ${first ? first + ' ועוד. ' : ''}${tail}`
+  if (description.length > 160 && first) description = `מה קרה ב-${label}? ${first ? first + ' ועוד. ' : ''}` // drop tail
+  if (description.length > 160) {
+    const cut = description.slice(0, 159)
+    description = cut.slice(0, cut.lastIndexOf(' ')) + '…'
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={`מה קרה ב-${label}? ימים מיוחדים, אירועים ומי נולד | מנהרת הזמן של בוגה`} description={description} path={`/time-tunnel/${dateKey}`} />
+      <SEO title={`מה קרה ב-${label}? מנהרת הזמן`} description={description} path={`/time-tunnel/${dateKey}`} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       <p className="mh-note tt-lead">ב-{label} קרו לא מעט דברים מעניינים. כאן תמצאו ימים מיוחדים, אירועים היסטוריים ואנשים מפורסמים שנולדו בתאריך הזה – כל עובדה עם קישור למקור.</p>
@@ -139,8 +150,9 @@ function DatePage({ dateKey }) {
       </nav>
 
       <section className="mh-archive">
-        <h2>📅 תאריכים נוספים</h2>
-        <Calendar current={dateKey} today={today} />
+        <h2>📅 תאריכים נוספים ב{MONTHS[+dateKey.slice(0, 2) - 1]}</h2>
+        <Calendar current={dateKey} today={today} month={+dateKey.slice(0, 2)} />
+        <p className="mh-note"><Link to="/time-tunnel#archive">לכל התאריכים בשנה — לוח הארכיון המלא ←</Link></p>
       </section>
     </div>
   )

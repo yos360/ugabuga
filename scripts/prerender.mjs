@@ -64,7 +64,7 @@ try {
     while (next < paths.length) {
       const path = paths[next++]
       await page.goto(origin + path, { waitUntil: 'networkidle' })
-      await page.locator('main h1').waitFor()
+      try { await page.locator('main h1').waitFor() } catch (e) { console.error('FAILED PATH:', path); throw e }
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
       const result = await page.evaluate(() => {

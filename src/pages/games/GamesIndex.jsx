@@ -64,7 +64,7 @@ function fitsAfterSchool(g) {
 
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
   const { age } = useParams()
   const isGameOfDay = location.pathname === '/game-of-the-day'
@@ -127,6 +127,46 @@ export default function GamesIndex() {
           className="wobbly flex-1 border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-3 text-lg placeholder:text-[var(--muted-foreground)] sketch-shadow" />
       </form>
 
+      {!isGameOfDay && (
+        <nav aria-label="סינון משחקים" className="mx-auto mb-6 max-w-4xl">
+          <div className="flex flex-wrap justify-center gap-2">
+            {[4, 6, 8, 10, 12].map((a) => (
+              <Link key={a} to={`/games/age/${a}`} aria-current={ageNumber === a ? 'true' : undefined}
+                className={`min-h-[40px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${ageNumber === a ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
+                גיל {a}+
+              </Link>
+            ))}
+            {['יום הולדת', 'כיתה', 'משפחה', 'צהרון', 'בלי ציוד', 'שקטים', 'תנועה'].map((ctx) => (
+              <button key={ctx} type="button" aria-pressed={contextFilter === ctx}
+                onClick={() => {
+                  const next = new URLSearchParams(searchParams)
+                  if (contextFilter === ctx) next.delete('context'); else next.set('context', ctx)
+                  setSearchParams(next, { preventScrollReset: true })
+                }}
+                className={`min-h-[40px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${contextFilter === ctx ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
+                {ctx}
+              </button>
+            ))}
+          </div>
+          {(ageNumber || goalFilter || contextFilter) && (
+            <div className="mt-3 text-center">
+              <Link to="/games" onClick={() => setSearch('')}
+                className="min-h-[40px] inline-flex items-center rounded-full border-2 border-dashed border-[var(--border)] bg-white px-4 py-1.5 font-bold">
+                ✕ ניקוי סינון
+              </Link>
+            </div>
+          )}
+        </nav>
+      )}
+
+      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && (
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {[['/games/birthday', '🎂 יום הולדת'], ['/games/classroom', '🏫 כיתה'], ['/games/no-equipment', '🙌 בלי ציוד'], ['/games/no-prep', '⚡ בלי הכנה'], ['/games/energy', '🏃 להוציא אנרגיה'], ['/games/trivia', '🎯 טריוויה וידע'], ['/games/icebreaker', '👋 שוברי קרח'], ['/games/quiet', '🤫 שקטים']].map(([to, label]) => (
+            <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold sketch-shadow-sm">{label}</Link>
+          ))}
+        </div>
+      )}
+
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
         {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : `נמצאו ${filtered.length} משחקים`}
       </p>
@@ -143,10 +183,10 @@ export default function GamesIndex() {
           {Array.from({ length: 6 }, (_, i) => <div key={i} className="animate-pulse rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-hidden="true"><div className="h-8 w-3/5 rounded bg-[var(--muted)]" /><div className="mt-4 h-12 rounded bg-[var(--muted)]" /><div className="mt-5 flex gap-2"><div className="h-6 w-20 rounded-full bg-[var(--muted)]" /><div className="h-6 w-24 rounded-full bg-[var(--muted)]" /></div><div className="mt-8 h-5 w-28 rounded bg-[var(--muted)]" /></div>)}
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {filtered.map((game, i) => (
             <Link key={game.slug || game.id} to={gameHref(game.slug)}
-              className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
+              className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
               <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
                 <button type="button" onClick={e => toggleFavorite(e, game)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} className="rounded-full bg-white/90 px-2 py-1 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>
                 <button type="button" onClick={e => shareGame(e, game)} aria-label={`שתף את ${game.name} בוואטסאפ`} className="rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>

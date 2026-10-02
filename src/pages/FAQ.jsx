@@ -23,10 +23,10 @@ export default function FAQ() {
       <div className="space-y-3">
         {QA.map((item, i) => (
           <div key={i} className="wobbly-md border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow-sm overflow-hidden">
-            <button onClick={() => setOpen(open===i?null:i)} className="w-full text-right p-4 font-display text-lg font-bold flex justify-between items-center cursor-pointer">
-              {item.q}<span>{open===i?'−':'+'}</span>
+            <button onClick={() => setOpen(open===i?null:i)} aria-expanded={open===i} aria-controls={'faq-panel-'+i} className="w-full text-right p-4 font-display text-lg font-bold flex justify-between items-center cursor-pointer">
+              {item.q}<span aria-hidden="true">{open===i?'−':'+'}</span>
             </button>
-            {open===i && <div className="px-4 pb-4 font-hand text-lg buga-slide-down">{item.a}</div>}
+            {open===i && <div id={'faq-panel-'+i} className="px-4 pb-4 font-hand text-lg buga-slide-down">{item.a}</div>}
           </div>
         ))}
       </div>

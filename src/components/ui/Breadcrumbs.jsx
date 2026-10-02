@@ -22,13 +22,13 @@ export default function Breadcrumbs({ items }) {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
-      <nav className="text-sm text-[var(--muted)] mb-4 no-print" aria-label="פירורי לחם">
+      <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label="פירורי לחם">
         <ol className="flex flex-wrap gap-1 items-center">
           {items.map((item, i) => (
             <li key={i} className="flex items-center gap-1">
               {i > 0 && <span className="mx-1">{'›'}</span>}
               {item.href ? (
-                <Link to={item.href} className="hover:text-[var(--ink)] hover:underline">{item.label}</Link>
+                <Link to={item.href} className="inline-flex items-center min-h-[32px] py-1 hover:text-[var(--ink)] hover:underline">{item.label}</Link>
               ) : (
                 <span className="text-[var(--ink)] font-medium">{item.label}</span>
               )}

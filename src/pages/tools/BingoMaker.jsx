@@ -92,13 +92,13 @@ export default function BingoMaker() {
 
       {mode === 'custom' && (
         <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4 mb-6">
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="שם הבינגו (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-4" />
+          <input aria-label="שם הבינגו (אופציונלי)" value={title} onChange={e => setTitle(e.target.value)} placeholder="שם הבינגו (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-4" />
           <p className="font-bold mb-2">💡 הצעות — לחצו כדי להוסיף</p>
           <div className="flex flex-wrap gap-2 mb-4 max-h-44 overflow-y-auto">
             {suggestionsForMode.map(item => <button key={item} onClick={() => toggleSuggestion(item)} className={`wobbly-sm border-2 border-[var(--border)] px-3 py-1 text-sm cursor-pointer ${customItems.includes(item) ? 'bg-[var(--accent)] text-white' : 'bg-white'}`}>{customItems.includes(item) ? '✓ ' : '+ '}{item}</button>)}
           </div>
           <p className="font-bold mb-2">✍️ או כתבו בעצמכם (שורה לכל פריט)</p>
-          <textarea value={freeText} onChange={e => setFreeText(e.target.value)} rows={3} placeholder="בלון אדום&#10;מישהו שאוהב פיצה&#10;שיר יום הולדת" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-2" />
+          <textarea aria-label="רשימת פריטים לבינגו, פריט בכל שורה" value={freeText} onChange={e => setFreeText(e.target.value)} rows={3} placeholder="בלון אדום&#10;מישהו שאוהב פיצה&#10;שיר יום הולדת" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-2" />
           <button onClick={addFreeText} className="wobbly-sm sketch-press border-2 border-dashed border-[var(--border)] px-3 py-1 text-sm cursor-pointer mb-4">+ הוסיפו לרשימה</button>
           <p className="font-bold mb-2">📋 הרשימה שלכם ({customItems.length}/{needed} נדרשים)</p>
           <div className="flex flex-wrap gap-2">

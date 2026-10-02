@@ -77,7 +77,7 @@ export function AnimalPage() {
 }
 
 // ---------- Riddles ----------
-export const RiddlesHub = () => <Hub seo={{ title: 'חידות עם תשובות — לפי נושא וגיל', description: `${RIDDLE_PAGES.length} דפי חידות עם תשובות: חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="כל דף: 12 חידות, רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
+export const RiddlesHub = () => <Hub seo={{ title: 'חידות עם תשובות — לפי נושא וגיל', description: `${RIDDLE_PAGES.length} דפי חידות עם תשובות: חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="כל דף: 12 חידות, רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
 function Riddle({ r, n }) {
   const [hint, setHint] = useState(false), [ans, setAns] = useState(false)
   return (
@@ -108,7 +108,7 @@ export function RiddlePage() {
 }
 
 // ---------- Jokes ----------
-export const JokesHub = () => <Hub seo={{ title: 'בדיחות לילדים — לפי נושא', description: `${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות לילדים: בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/jokes' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={JOKE_PAGES} base="/jokes/" />
+export const JokesHub = () => <Hub seo={{ title: 'בדיחות לילדים — לפי נושא', description: `${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות לילדים: בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={JOKE_PAGES} base="/jokes/" />
 function Joke({ j }) {
   const [open, setOpen] = useState(false)
   return <WobblyCard hover={false} padding="p-4"><p className="text-lg font-bold">{j.setup}</p>{open ? <p className="mt-2 text-lg">😂 {j.punchline}</p> : <button className="btn-secondary text-sm mt-2" onClick={() => setOpen(true)}>לפאנץ׳ ←</button>}</WobblyCard>
@@ -128,7 +128,7 @@ export function JokePage() {
 }
 
 // ---------- Ready treasure hunts ----------
-export const HuntsHub = () => <Hub seo={{ title: 'חפש את המטמון — רמזים מוכנים להדפסה', description: `${HUNT_PAGES.length} משחקי חפש את המטמון מוכנים: 8 רמזים מחורזים בכל אחד — לבית, לחצר, לפארק, לכיתה, ליום הולדת ולחגים.`, path: '/treasure-hunt/ready' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חפש את המטמון', href: '/treasure-hunt' }, { label: 'מוכנים' }]} emoji="🗺️" title="חפש את המטמון — מוכן להדפסה" intro="בוחרים מקום, מדפיסים, מחביאים — ומתחילים." items={HUNT_PAGES} base="/treasure-hunt/" />
+export const HuntsHub = () => <Hub seo={{ title: 'חפש את המטמון — רמזים מוכנים להדפסה', description: `${HUNT_PAGES.length} משחקי חפש את המטמון מוכנים: 8 רמזים מחורזים בכל אחד — לבית, לחצר, לפארק, לכיתה, ליום הולדת ולחגים.`, path: '/treasure-hunt/ready' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חפש את המטמון', href: '/tools/scavenger-hunt-maker' }, { label: 'מוכנים' }]} emoji="🗺️" title="חפש את המטמון — מוכן להדפסה" intro="בוחרים מקום, מדפיסים, מחביאים — ומתחילים." items={HUNT_PAGES} base="/treasure-hunt/" />
 export function HuntPage() {
   const { slug } = useParams(); const p = HUNT_PAGES.find(x => x.slug === slug)
   if (!p) return <NotFound />
@@ -141,7 +141,7 @@ export function HuntPage() {
       <h2 className="text-2xl font-bold mb-3">הרמזים (לגזור ולהחביא)</h2>
       <ol className="grid sm:grid-cols-2 gap-3">{p.clues.map((c, i) => <li key={i} className="border-2 border-dashed border-[var(--border)] bg-white p-4"><b>רמז {i + 1}</b><p className="whitespace-pre-line text-lg mt-1">{c.clue}</p></li>)}</ol>
       <details className="mt-6 wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4"><summary className="font-bold cursor-pointer">🔑 איפה מחביאים כל רמז (למבוגר)</summary><p className="text-sm mt-2">רמז 1 נותנים ביד. כל רמז מחביאים במקום שהרמז הקודם מוביל אליו:</p><ol className="list-decimal pr-6 mt-2">{p.clues.map((c, i) => <li key={i}>רמז {i + 1} מוביל אל: <b>{c.answer}</b>{i < p.clues.length - 1 ? ` — שם מחביאים את רמז ${i + 2}` : ' — שם מחכה הפרס!'}</li>)}</ol></details>
-      <div className="text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסה</button> <Link to="/treasure-hunt" className="btn-secondary">✏️ ליצור ציד משלכם</Link></div>
+      <div className="text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסה</button> <Link to="/tools/scavenger-hunt-maker" className="btn-secondary">✏️ ליצור ציד משלכם</Link></div>
       <More items={HUNT_PAGES} base="/treasure-hunt/" current={slug} all="/treasure-hunt/ready" allLabel="כל הצידים" />
     </div>
   )
@@ -156,6 +156,14 @@ export function AbcHub() {
       <Header emoji="🔤" title="אותיות באנגלית A–Z" intro="בחרו אות — ובדף שלה תמצאו מילים, צליל, משפט וטיפ." />
       <div className="grid grid-cols-4 sm:grid-cols-7 gap-3" dir="ltr">{ABC_LETTERS.map(l => <Link key={l.slug} to={'/abc/' + l.slug} className="wobbly border-[3px] border-[var(--border)] bg-[var(--card)] py-4 text-center text-4xl font-bold sketch-shadow-sm">{l.letter}{l.lower}</Link>)}</div>
       <div className="text-center mt-6"><Chip to="/abc/game" hl>🎮 משחק האותיות</Chip></div>
+      <div className="mt-10 rounded-3xl border border-[var(--border)] bg-[var(--postit)] p-5 text-center">
+        <h2 className="text-xl font-bold mb-3">ממשיכים ללמוד ולשחק</h2>
+        <div className="flex flex-wrap justify-center gap-2">
+          <Chip to="/trivia/topics">🧠 טריוויה לילדים</Chip>
+          <Chip to="/animals">🐘 עולם החיות</Chip>
+          <Chip to="/games">🎲 כל המשחקים</Chip>
+        </div>
+      </div>
     </div>
   )
 }

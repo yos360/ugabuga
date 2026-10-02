@@ -35,10 +35,8 @@ export const MENU_GROUPS = [
       { to: '/holidays', label: 'חגים: חנוכה, ט״ו בשבט ועוד', icon: '🎉' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
       { to: '/letters', label: 'לימוד אותיות בעברית', icon: '🔤' },
-      { to: '/rubiks-cube', label: 'פתרון קובייה הונגרית', icon: '🧊' },
       { to: '/letters/game', label: 'משחק אותיות לגן', icon: '🎮' },
       { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
-      { to: '/tools/trivia-quiz', label: 'טריוויה לכיתה', icon: '🎯' },
       { to: '/tools/eretz-ir', label: 'ארץ עיר', icon: '🌍' },
       { to: '/board-games', label: 'משחקי לוח: דמקה ועוד', icon: '♟️' },
       { to: '/words/opposites', label: 'הפכים ומילים נרדפות', icon: '🔄' },
@@ -80,6 +78,22 @@ export const MENU_GROUPS = [
       { to: '/tools/buga-town', label: 'בוגה טאון', icon: '🏙️' },
     ],
   },
+  {
+    title: '🧠 חידונים, חידות ותוכן', to: '/trivia/topics',
+    items: [
+      { to: '/trivia/topics', label: 'חידוני טריוויה לפי נושא', icon: '🎯' },
+      { to: '/riddles/topics', label: 'חידות לפי נושא וגיל', icon: '🧩' },
+      { to: '/jokes/topics', label: 'בדיחות לילדים', icon: '😂' },
+      { to: '/questions', label: 'שאלות לשיחה ולמשחק', icon: '❓' },
+      { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
+      { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
+      { to: '/birthday-greetings', label: 'ברכות ליום הולדת', icon: '💌' },
+      { to: '/treasure-hunt/ready', label: 'ציד אוצרות מוכן להדפסה', icon: '🗺️' },
+      { to: '/dice-games', label: 'משחקי קוביות', icon: '🎲' },
+      { to: '/time-tunnel', label: 'מנהרת הזמן', icon: '⏳' },
+      { to: '/blog', label: 'הבלוג', icon: '📰' },
+    ],
+  },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts']
+export const MENU_ACTIVE_PREFIXES = ['/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']

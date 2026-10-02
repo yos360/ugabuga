@@ -62,7 +62,7 @@ function Play() {
 
   if (!started) return (
     <div className="bg-play sl-setup">
-      <h3>מי משחק?</h3>
+      <h2>מי משחק?</h2>
       {setup.map((pl, i) => (
         <div key={i} className="sl-player">
           <span>{COLORS[i].emoji}</span>

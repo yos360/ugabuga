@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -47,8 +48,8 @@ export default function ScavengerHuntMaker() {
 
       {mode === 'custom' && (
         <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4 mb-6">
-          <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="שם הצייד (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-3" />
-          {items.map((v,i) => <input key={i} value={v} onChange={e=>update(i,e.target.value)} placeholder={`פריט ${i+1}...`} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-2" />)}
+          <input aria-label="שם הצייד (אופציונלי)" value={title} onChange={e=>setTitle(e.target.value)} placeholder="שם הצייד (אופציונלי)" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-3" />
+          {items.map((v,i) => <input key={i} aria-label={`פריט ${i+1}`} value={v} onChange={e=>update(i,e.target.value)} placeholder={`פריט ${i+1}...`} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2 mb-2" />)}
           <button onClick={addField} className="wobbly-sm sketch-press border-2 border-dashed border-[var(--border)] px-3 py-1 text-sm cursor-pointer">+ הוסיפו פריט</button>
         </div>
       )}
@@ -69,6 +70,11 @@ export default function ScavengerHuntMaker() {
       )}
       {list && <div className="text-center mt-4"><button onClick={()=>setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו</button></div>}
       {printing&&list&&<PrintPreview title="ציד אוצרות" onClose={()=>setPrinting(false)}><article className="buga-flow"><h2 className="text-center text-3xl">{title||'ציד האוצרות שלי'}</h2><p className="my-4">שם: ____________________</p><p>מחפשים בהשגחת מבוגר, בלי לקטוף צמחים או לפגוע בבעלי חיים.</p>{list.map((item,i)=><p key={i} style={{padding:'12px 0',borderBottom:'1px solid #aaa',whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>□ {i+1}. {item}</p>)}<footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
+
+      <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
+        <p className="font-display text-xl font-bold mb-2">אין זמן להכין בעצמכם?</p>
+        <Link to="/treasure-hunt/ready" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🗺️ ציד אוצרות מוכן להדפסה — עם רמזים מחורזים ←</Link>
+      </div>
 
       <div className="mt-12">
         <SeoBody paragraphs={scavengerBody} faq={scavengerFaq} related={scavengerRelated} />

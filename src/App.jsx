@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
-import HubPage from './pages/HubPage'
+const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))

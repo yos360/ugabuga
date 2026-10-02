@@ -25,11 +25,11 @@ export default function FaqTopic() {
         {data.qa.map(([q, a], i) => (
           <div key={q} className="wobbly-md border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow-sm overflow-hidden">
             <h2 className="m-0 text-lg">
-              <button onClick={() => setOpen(open === i ? null : i)} className="w-full text-right p-4 font-display text-lg font-bold flex justify-between items-center cursor-pointer">
-                {q}<span>{open === i ? '−' : '+'}</span>
+              <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} aria-controls={'faqtopic-panel-' + i} className="w-full text-right p-4 font-display text-lg font-bold flex justify-between items-center cursor-pointer">
+                {q}<span aria-hidden="true">{open === i ? '−' : '+'}</span>
               </button>
             </h2>
-            <div className={open === i ? 'px-4 pb-4 font-hand text-lg' : 'sr-only'}>{a}</div>
+            <div id={'faqtopic-panel-' + i} className={open === i ? 'px-4 pb-4 font-hand text-lg' : 'sr-only'}>{a}</div>
           </div>
         ))}
       </div>

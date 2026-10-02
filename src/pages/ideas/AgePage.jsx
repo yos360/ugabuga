@@ -20,7 +20,7 @@ export default function AgePage() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.slice(0,12).map((g,i) => (
             <Link key={g.slug} to={gameHref(g.slug)} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${i%2?'rotate-1':'-rotate-1'}`}>
-              <h3 className="text-xl font-bold">{g.name}</h3>
+              <h2 className="text-xl font-bold">{g.name}</h2>
               <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mt-1">{g.short_description}</p>
             </Link>
           ))}

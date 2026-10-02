@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
@@ -271,6 +272,11 @@ export default function TriviaQuiz() {
             </WobblyCard>
           )}
         </div>
+      </div>
+
+      <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
+        <p className="font-display text-xl font-bold mb-2">רוצים חידון מוכן לפי נושא?</p>
+        <Link to="/trivia/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🎯 40 חידוני טריוויה לפי נושא ←</Link>
       </div>
 
       <div className="mt-12">

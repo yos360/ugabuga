@@ -4,7 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintableCard from '../components/ui/PrintableCard'
-import { categories as PRINTABLES } from './printables/PrintablesIndex'
+import { categories as PRINTABLES } from '../data/printableCategories'
 
 const HUBS = {
   birthday: {

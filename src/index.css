@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Heebo:wght@400;500;600;700;800;900&display=swap');
+/* Google Fonts (Fredoka + Heebo) are loaded from index.html <head> with preconnect —
+   a CSS @import here would add two extra network round-trips before text styling. */
 /* Single-line dashed Hebrew tracing font (hebrew-tracer-font by slutske22, free to use). */
 @font-face { font-family: 'BugaTracer'; src: url('/fonts/hebrew-tracer.woff') format('woff'); font-display: block; }
 @import "tailwindcss";
@@ -12,7 +13,7 @@
   --card-foreground: #14162d;
   --muted: #eff1f7;
   --muted-foreground: #686d87;
-  --accent: #e43f67;
+  --accent: #cf2f56;
   --accent-foreground: #ffffff;
   --ink: #14162d;
   --pen: #226bd7;
@@ -21,7 +22,7 @@
   --border: #dde2ed;
   --ring: #00bfe8;
   --paper: #fffefa;
-  --red: #e43f67;
+  --red: #cf2f56;
   --yellow: #fff4bb;
   --blue: #226bd7;
   --wobbly: 24px;

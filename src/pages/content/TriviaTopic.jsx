@@ -61,7 +61,7 @@ export default function TriviaTopic() {
                 <div className="grid sm:grid-cols-2 gap-2">
                   {q.options.map((o, j) => {
                     const state = p === undefined ? '' : j === q.answer ? 'bg-green-100 border-green-600' : j === p ? 'bg-red-100 border-red-500' : 'opacity-60'
-                    return <button key={j} disabled={p !== undefined} onClick={() => setPicked(s => ({ ...s, [i]: j }))} className={`text-right wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold ${state}`}>{o}</button>
+                    return <button key={j} aria-disabled={p !== undefined} aria-pressed={p === j} onClick={() => { if (p === undefined) setPicked(s => ({ ...s, [i]: j })) }} className={`text-right wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold ${state}`}>{o}</button>
                   })}
                 </div>
                 {p !== undefined && <p className="mt-3" role="status">{p === q.answer ? '✅ נכון! ' : '❌ לא הפעם. '}{q.explain}</p>}

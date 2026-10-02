@@ -42,6 +42,7 @@ export default function EscapeRooms() {
   const [showPrintKit, setShowPrintKit] = useState(false)
   const [status, setStatus] = useState(null)
   const [completedSteps, setCompletedSteps] = useState([])
+  const [showAllRooms, setShowAllRooms] = useState(false)
   const roomPanelRef = useRef(null)
   const advanceTimerRef = useRef(null)
 
@@ -165,11 +166,11 @@ export default function EscapeRooms() {
       </section>
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-6 items-start">
-        <aside className="order-2 space-y-4 lg:order-1">
+        <aside className="order-2 space-y-4 lg:order-1 lg:sticky lg:top-4">
           <WobblyCard hover={false} padding="p-5">
             <h2 className="text-2xl font-hand font-bold mb-3">בחרו חדר</h2>
-            <div className="space-y-3">
-              {ESCAPE_ROOMS.map((item) => (
+            <div className="space-y-3 lg:max-h-[80vh] lg:overflow-y-auto lg:pl-1">
+              {(showAllRooms ? ESCAPE_ROOMS : ESCAPE_ROOMS.slice(0, 6).concat(ESCAPE_ROOMS.slice(6).filter((item) => item.id === roomId))).map((item) => (
                 <Link
                   key={item.id}
                   to={'/tools/escape-rooms/' + item.id}
@@ -187,6 +188,11 @@ export default function EscapeRooms() {
                 </Link>
               ))}
             </div>
+            {!showAllRooms && ESCAPE_ROOMS.length > 6 && (
+              <button type="button" onClick={() => setShowAllRooms(true)} className="mt-3 w-full min-h-[44px] border-2 border-[var(--ink)] bg-white wobbly-sm font-bold hover:bg-[var(--yellow)]/40">
+                הצג הכול ({ESCAPE_ROOMS.length} חדרים)
+              </button>
+            )}
           </WobblyCard>
 
           <WobblyCard hover={false} padding="p-5">
@@ -200,7 +206,7 @@ export default function EscapeRooms() {
           </WobblyCard>
         </aside>
 
-        <main ref={roomPanelRef} className="order-1 space-y-6 scroll-mt-6 lg:order-2">
+        <div ref={roomPanelRef} className="order-1 space-y-6 scroll-mt-6 lg:order-2">
           <WobblyCard hover={false} padding="p-6" className="bg-[var(--postit)]">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
@@ -302,7 +308,7 @@ export default function EscapeRooms() {
               </div>
             </WobblyCard>
           )}
-        </main>
+        </div>
       </div>
 
       {isRoomPage && (

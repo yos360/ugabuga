@@ -39,14 +39,14 @@ export default function Invitation() {
       <div className="wobbly order-1 border-[3px] border-[var(--border)] p-4 text-center sketch-shadow-rich sm:p-8" style={{ backgroundColor: theme.bg }}>
         <img src="/images/invitation-party-hero.webp" alt="מסיבת יום הולדת צבעונית" className="mx-auto mb-4 h-40 w-full max-w-2xl rounded-2xl border-2 border-white/80 object-cover shadow-md sm:h-56" />
         <p className="font-hand text-lg mb-2">הוזמנתם למסיבת יום הולדת של</p>
-        <input value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 focus:outline-none" />
-        <input value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 focus:outline-none" />
+        <input id="inv-name" aria-label="שם החוגג/ת" value={data.name} onChange={e=>update('name',e.target.value)} placeholder="שם החוגג/ת" className="bg-transparent text-center font-display text-3xl font-bold border-b-2 border-dashed border-[var(--border)] w-full mb-2 px-3 py-2 focus:outline-none" />
+        <input id="inv-age" aria-label="גיל" value={data.age} onChange={e=>update('age',e.target.value)} placeholder="גיל" className="bg-transparent text-center font-hand text-xl border-b-2 border-dashed border-[var(--border)] mb-4 px-3 py-2 focus:outline-none" />
         <div className="grid grid-cols-2 gap-3 text-right">
-          <div><label className="text-sm font-bold">📅 תאריך</label><input value={data.date} onChange={e=>update('date',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-2 py-1" /></div>
-          <div><label className="text-sm font-bold">🕐 שעה</label><input value={data.time} onChange={e=>update('time',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-2 py-1" /></div>
+          <div><label htmlFor="inv-date" className="text-sm font-bold">📅 תאריך</label><input id="inv-date" value={data.date} onChange={e=>update('date',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
+          <div><label htmlFor="inv-time" className="text-sm font-bold">🕐 שעה</label><input id="inv-time" value={data.time} onChange={e=>update('time',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
         </div>
-        <div className="mt-3 text-right"><label className="text-sm font-bold">📍 מקום</label><input value={data.place} onChange={e=>update('place',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-2 py-1" /></div>
-        <div className="mt-3 text-right"><label className="text-sm font-bold">📝 הערות</label><input value={data.notes} onChange={e=>update('notes',e.target.value)} placeholder="אישור הגעה, ללא מתנות..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-2 py-1" /></div>
+        <div className="mt-3 text-right"><label htmlFor="inv-place" className="text-sm font-bold">📍 מקום</label><input id="inv-place" value={data.place} onChange={e=>update('place',e.target.value)} className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
+        <div className="mt-3 text-right"><label htmlFor="inv-notes" className="text-sm font-bold">📝 הערות</label><input id="inv-notes" value={data.notes} onChange={e=>update('notes',e.target.value)} placeholder="אישור הגעה, ללא מתנות..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-3 py-2" /></div>
       </div>
       <aside className="order-2 rounded-3xl border-2 border-[var(--border)] bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-3 text-xl font-bold">📝 פרטי ההזמנה</h2>
@@ -55,7 +55,7 @@ export default function Invitation() {
       </aside>
       </div>
 
-      <button onClick={share} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[#25d366] text-white font-display text-xl font-bold cursor-pointer">📱 שתפו בוואטסאפ</button>
+      <button onClick={share} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[#128C4A] text-white font-display text-xl font-bold cursor-pointer">📱 שתפו בוואטסאפ</button>
     </div>
   )
 }

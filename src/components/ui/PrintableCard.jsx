@@ -10,7 +10,7 @@ export default function PrintableCard({ cat, index = 0 }) {
     <div className="flex items-center gap-3 mb-2">
       <span className="text-3xl">{cat.emoji}</span>
       <div>
-        <h3 className="font-display text-xl font-bold">{cat.title}</h3>
+        <h2 className="font-display text-xl font-bold">{cat.title}</h2>
         <span className="wobbly-sm inline-flex items-center border border-[var(--border)] bg-[var(--postit)] px-2 py-0.5 text-xs font-bold">{cat.count}{typeof cat.count === 'number' ? ' דפים' : ''}</span>
       </div>
     </div>

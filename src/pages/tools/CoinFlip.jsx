@@ -78,7 +78,7 @@ export default function CoinFlip() {
       {history.length > 0 && <p className="text-center font-hand text-lg mb-6">{a}: {countA} | {b}: {countB}</p>}
 
       <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4 mt-4">
-        <h3 className="font-display text-lg font-bold mb-2">🎯 בחירה מותאמת</h3>
+        <h2 className="font-display text-lg font-bold mb-2">🎯 בחירה מותאמת</h2>
         <div className="grid grid-cols-2 gap-3">
           <input value={customA} onChange={e => setCustomA(e.target.value)} placeholder="צד 1 (עץ)" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2" />
           <input value={customB} onChange={e => setCustomB(e.target.value)} placeholder="צד 2 (פלי)" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2" />

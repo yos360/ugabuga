@@ -90,9 +90,9 @@ export default function IdeasHub() {
           </div>
           <Link to="/ideas/themes" className="hidden font-display text-lg font-bold text-[var(--pen)] underline decoration-dashed sm:inline">כל הערכות ←</Link>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {themes.map(([slug, theme], index) => (
-            <Link key={slug} to={'/ideas/themes/' + slug} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${rotations[index % rotations.length]}`}>
+            <Link key={slug} to={'/ideas/themes/' + slug} className={`h-full card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${rotations[index % rotations.length]}`}>
               <span className="text-4xl">{theme.emoji}</span>
               <h3 className="mt-3 text-xl font-bold leading-tight">{theme.name}</h3>
               <p className="mt-2 line-clamp-2 text-sm text-[var(--foreground)]/75">{theme.desc}</p>

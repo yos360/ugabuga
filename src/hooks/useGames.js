@@ -23,13 +23,13 @@ const finish = rows => [...(rows || []).filter(g => g.status === 'active'), ...B
   .filter((game, index, list) => list.findIndex(item => item.slug === game.slug) === index)
   .sort((a, b) => rank(a.content_type) - rank(b.content_type) || String(b.updated_at || '').localeCompare(String(a.updated_at || '')))
 
-export function useGames() {
+export function useGames({ enabled = true } = {}) {
   const [games, setGames] = useState(cachedGames || [])
   const [loading, setLoading] = useState(!cachedGames)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (cachedGames) return
+    if (cachedGames || !enabled) return
     let alive = true
     loadList().then(rows => {
       const list = finish(rows)
@@ -40,7 +40,7 @@ export function useGames() {
       setLoading(false)
     })
     return () => { alive = false }
-  }, [])
+  }, [enabled])
 
   return { games, loading, error }
 }

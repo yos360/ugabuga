@@ -105,6 +105,14 @@ export async function onRequest({ request, env, next }) {
     if (request.method !== 'GET' || res.status !== 200) return res
     if (!(res.headers.get('content-type') || '').includes('text/html')) return res
     const url = new URL(request.url)
+    // App-only pages (search UI, supplier self-service): served as shells on
+    // purpose, but they must not be indexed — they're linked from every page.
+    const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
+    if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/')) {
+      const h = new Headers(res.headers)
+      h.append('X-Robots-Tag', 'noindex')
+      return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
+    }
     // A missing file (JS/CSS/image...) must never be answered with the HTML shell.
     // /assets/* is cached for a year as "immutable", so a single HTML reply to a JS
     // URL (e.g. while a deploy is propagating) leaves that visitor's browser running

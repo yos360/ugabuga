@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
@@ -212,6 +213,11 @@ export default function Riddles() {
           חידות היגיון לנוער וחידות קשות למבוגרים.
         </p>
       </WobblyCard>
+
+      <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
+        <p className="font-display text-xl font-bold mb-2">מעדיפים דף חידות מוכן?</p>
+        <Link to="/riddles/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🧩 חידות לפי נושא וגיל — עם תשובות ←</Link>
+      </div>
     </div>
   )
 }

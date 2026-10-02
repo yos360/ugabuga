@@ -43,7 +43,7 @@ export default function DiceRoller({ sides = 6, counts = [1, 2, 3], defaultCount
   return (
     <div>
       {sideOptions && (
-        <div className="flex flex-wrap justify-center gap-2 mb-4" aria-label="מספר פאות">
+        <div className="flex flex-wrap justify-center gap-2 mb-4" role="group" aria-label="מספר פאות">
           {sideOptions.map(n => (
             <button key={n} onClick={() => { setS(n); setValues(Array(count).fill(n)); setHistory([]) }} aria-pressed={s === n}
               className={`wobbly-sm border-2 border-[var(--border)] px-3 py-2 font-bold ${s === n ? 'bg-[var(--postit)]' : 'bg-[var(--card)]'}`}>D{n}</button>

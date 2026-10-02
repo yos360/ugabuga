@@ -40,6 +40,27 @@ export default function GamePage() {
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
   }
 
+  // SEO description: short_description alone is often <100 chars. Enrich with the
+  // first sentence(s) of the instructions (markdown stripped) up to 120-160 chars.
+  const seoDescription = (() => {
+    let d = (game?.short_description || '').trim().replace(/[.،]+$/, '')
+    if (d) d += '.'
+    const plain = (game?.instructions || '')
+      .replace(/[#*_`>\[\]()-]/g, ' ').replace(/\s+/g, ' ').trim()
+    for (const s of plain.split(/(?<=\.)\s+/)) {
+      if (d.length >= 120) break
+      if (d.length + s.length + 1 > 160) break
+      d += (d ? ' ' : '') + s
+    }
+    const suffix = ' משחק חינם לילדים בעוגה בוגה.'
+    if (d.length < 120 || d.length + suffix.length <= 160) d += suffix
+    if (d.length > 160) {
+      const cut = d.slice(0, 159)
+      d = cut.slice(0, cut.lastIndexOf(' ')) + '…'
+    }
+    return d
+  })()
+
   if (loading) return <div className="flex items-center justify-center min-h-[50vh]"><span className="text-5xl buga-bounce">🎂</span></div>
   if (!game) return (
     <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
@@ -66,7 +87,7 @@ export default function GamePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={game.name} description={game.short_description} path={'/games/' + slug} structuredData={{
+      <SEO title={game.name} description={seoDescription} path={'/games/' + slug} structuredData={{
         '@context': 'https://schema.org',
         '@type': 'Game',
         'name': game.name,

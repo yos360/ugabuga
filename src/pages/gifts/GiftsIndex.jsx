@@ -24,6 +24,12 @@ export default function GiftsIndex() {
           <Link key={a} to={'/gifts/age-'+a} className="wobbly border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow card-lift px-6 py-4 text-2xl font-bold">גיל {a}</Link>
         ))}
       </div>
+      <h2 className="text-2xl font-bold mt-10 mb-4">או לפי התאמה ותקציב</h2>
+      <div className="flex flex-wrap justify-center gap-3">
+        {[['/gifts/boy', '👦 מתנות לבנים'], ['/gifts/girl', '👧 מתנות לבנות'], ['/gifts/under-50', '💸 מתנות עד 50 ₪'], ['/gifts/under-100', '💰 מתנות עד 100 ₪']].filter(([to]) => to !== location.pathname).map(([to, label]) => (
+          <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-5 py-3 font-bold">{label}</Link>
+        ))}
+      </div>
     </div>
   )
 }

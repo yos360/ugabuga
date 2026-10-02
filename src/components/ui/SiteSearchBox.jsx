@@ -2,15 +2,31 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search as SearchIcon } from 'lucide-react'
 import { useGames } from '../../hooks/useGames'
-import { KINDS, STATIC_ITEMS, gameItem, suggest } from '../../data/searchIndex'
+import { KINDS, gameItem, suggest } from '../../data/searchIndex'
+
+// The full static catalog pulls in many content-data modules — load it only
+// once the visitor touches the search box, and share one promise per app.
+let staticItemsCache = null
+const loadStaticItems = () => (staticItemsCache ||= import('../../data/searchStatic').then(m => m.STATIC_ITEMS).catch(() => { staticItemsCache = null; return [] }))
 
 // Search input with live autocomplete: word completions taken from what exists on the site,
 // plus direct links to the best matching games, tools, printables and pages.
 // onSearch(text) runs a full search; picking a direct hit navigates straight to it.
 export default function SiteSearchBox({ value, onChange, onSearch, className = '', placeholder, autoFocus, buttonFirst = false, iconSize = 24 }) {
   const navigate = useNavigate()
-  const { games } = useGames()
-  const items = useMemo(() => [...STATIC_ITEMS, ...games.map(gameItem)], [games])
+  // The games list (~290 KB json) is only fetched once the visitor actually
+  // interacts with the search box — never on plain page load.
+  const [wanted, setWanted] = useState(Boolean(autoFocus || value))
+  const want = () => setWanted(true)
+  const { games, loading } = useGames({ enabled: wanted })
+  const [staticItems, setStaticItems] = useState([])
+  useEffect(() => {
+    if (!wanted) return
+    let alive = true
+    loadStaticItems().then(list => { if (alive) setStaticItems(list) })
+    return () => { alive = false }
+  }, [wanted])
+  const items = useMemo(() => [...staticItems, ...games.map(gameItem)], [staticItems, games])
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(-1)
   const wrap = useRef(null)
@@ -38,7 +54,8 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
     else if (e.key === 'Escape') setOpen(false)
     else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(options[active]) }
   }
-  const show = open && options.length > 0
+  const stillLoading = wanted && (loading || staticItems.length === 0) && value.trim().length > 0
+  const show = open && (options.length > 0 || stillLoading)
 
   const button = <button type="submit" aria-label="חיפוש"><SearchIcon size={iconSize} /></button>
   return (
@@ -48,11 +65,12 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
         <input type="search" value={value} placeholder={placeholder} aria-label="חיפוש בכל האתר" autoFocus={autoFocus} autoComplete="off"
           role="combobox" aria-expanded={show} aria-controls={listId} aria-autocomplete="list"
           aria-activedescendant={show && active >= 0 ? `${listId}-${active}` : undefined}
-          onChange={e => { onChange(e.target.value); setOpen(true) }} onFocus={() => setOpen(true)} onKeyDown={onKeyDown} />
+          onChange={e => { want(); onChange(e.target.value); setOpen(true) }} onFocus={() => { want(); setOpen(true) }} onKeyDown={onKeyDown} />
         {!buttonFirst && button}
       </form>
       {show && (
         <ul className="ssb-list" id={listId} role="listbox" dir="rtl">
+          {options.length === 0 && stillLoading && <li className="ssb-opt" aria-disabled="true">טוען...</li>}
           {options.map((o, i) => (
             <li key={o.type + (o.text || o.item.to)} id={`${listId}-${i}`} role="option" aria-selected={i === active}
               className={`ssb-opt ssb-${o.type}${i === active ? ' is-active' : ''}${o.type === 'hit' && i === words.length ? ' ssb-first-hit' : ''}`}

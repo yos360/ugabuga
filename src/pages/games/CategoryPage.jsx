@@ -24,6 +24,9 @@ export default function CategoryPage() {
       ['icebreaker', 'שוברי קרח'],
       ['movement', 'תנועה'],
       ['quiet', 'שקטים'],
+      ['energy', 'להוציא אנרגיה'],
+      ['no-prep', 'בלי הכנה'],
+      ['trivia', 'טריוויה וידע'],
     ]
     return (
       <div className="mx-auto max-w-3xl px-4 py-12 text-center buga-fade-in">
@@ -74,11 +77,11 @@ export default function CategoryPage() {
       ) : (
         <>
           <p className="font-hand text-lg text-[var(--muted-foreground)] mb-4">נמצאו {filtered.length} משחקים</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid auto-rows-fr sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((game, i) => (
               <Link key={game.slug} to={gameHref(game.slug)}
-                className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${rotations[i%rotations.length]}`}>
-                <h3 className="text-xl font-bold">{game.name}</h3>
+                className={`h-full card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${rotations[i%rotations.length]}`}>
+                <h2 className="text-xl font-bold">{game.name}</h2>
                 <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mt-1 mb-3">{game.short_description}</p>
                 <div className="flex flex-wrap gap-1.5">
                   <Badge>🎂 {game.min_age}+</Badge>
