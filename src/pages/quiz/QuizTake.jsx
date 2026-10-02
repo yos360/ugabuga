@@ -57,6 +57,8 @@ export default function QuizTake() {
   }, [started, endsAt, done])
   const left = endsAt ? Math.max(0, Math.ceil((endsAt - now) / 1000)) : null
   useEffect(() => { if (left === 0 && started && !done) submit() }, [left]) // eslint-disable-line react-hooks/exhaustive-deps
+  // Time is up but the automatic hand-in failed (e.g. weak Wi-Fi): keep retrying every few seconds.
+  useEffect(() => { if (left !== 0 || !started || done || sending || !sendErr) return; const t = setTimeout(submit, 5000); return () => clearTimeout(t) }, [left, started, done, sending, sendErr]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const begin = e => {
     e?.preventDefault()
