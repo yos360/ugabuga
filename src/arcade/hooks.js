@@ -31,8 +31,9 @@ export function useBox() {
 }
 
 // Swipe anywhere on an element → onDir('left' | 'right' | 'up' | 'down').
-// Fires as soon as the finger has moved far enough (no need to lift it), once per touch.
-export function useSwipe(ref, onDir, min = 26) {
+// Fires as soon as the finger has moved far enough (no need to lift it) — once per touch,
+// or with `continuous` again after every further `min` pixels (snake: turn, turn, turn).
+export function useSwipe(ref, onDir, min = 26, continuous = false) {
   const cb = useRef(onDir)
   useEffect(() => { cb.current = onDir })
   useEffect(() => {
@@ -48,7 +49,7 @@ export function useSwipe(ref, onDir, min = 26) {
       if (!start || e.pointerId !== start.id) return
       const dx = e.clientX - start.x, dy = e.clientY - start.y
       if (Math.max(Math.abs(dx), Math.abs(dy)) < min) return
-      start = null
+      start = continuous ? { x: e.clientX, y: e.clientY, id: e.pointerId } : null
       cb.current(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'))
     }
     const up = () => { start = null }
@@ -62,7 +63,7 @@ export function useSwipe(ref, onDir, min = 26) {
       el.removeEventListener('pointerup', up)
       el.removeEventListener('pointercancel', up)
     }
-  }, [ref, min])
+  }, [ref, min, continuous])
 }
 
 // Arrow keys / WASD → onDir.

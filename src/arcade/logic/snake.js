@@ -1,5 +1,6 @@
 // Snake (public-domain arcade game): eat apples, grow, don't bite yourself.
 // "Soft walls" mode (default for kids) lets the snake pass through the edges.
+// apple: [x, y, gold] — a golden apple (sometimes) is worth 3 points.
 export const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }
 const OPPOSITE = { up: 'down', down: 'up', left: 'right', right: 'left' }
 
@@ -13,7 +14,9 @@ export function placeApple(s, rand = Math.random) {
   const used = new Set(s.body.map(([x, y]) => `${x},${y}`))
   const free = []
   for (let y = 0; y < s.h; y++) for (let x = 0; x < s.w; x++) if (!used.has(`${x},${y}`)) free.push([x, y])
-  return { ...s, apple: free.length ? free[Math.floor(rand() * free.length)] : null }
+  if (!free.length) return { ...s, apple: null }
+  const [x, y] = free[Math.floor(rand() * free.length)]
+  return { ...s, apple: [x, y, s.score >= 3 && rand() < 0.15] }
 }
 
 // Queue a turn (up to 2 ahead, so quick double-turns aren't lost).
@@ -33,10 +36,11 @@ export function step(s, walls, rand = Math.random) {
   const eats = s.apple && x === s.apple[0] && y === s.apple[1]
   const body = eats ? s.body : s.body.slice(0, -1)
   const hitWall = x < 0 || y < 0 || x >= s.w || y >= s.h
-  if (hitWall || body.some(([bx, by]) => bx === x && by === y)) return { ...s, dir, queue: s.queue.slice(1), dead: true }
-  const next = { ...s, body: [[x, y], ...body], dir, queue: s.queue.slice(1), score: s.score + (eats ? 1 : 0) }
+  if (hitWall || body.some(([bx, by]) => bx === x && by === y)) return { ...s, dir, queue: s.queue.slice(1), dead: true, ate: null }
+  const ate = eats ? (s.apple[2] ? 'gold' : 'apple') : null
+  const next = { ...s, body: [[x, y], ...body], dir, queue: s.queue.slice(1), score: s.score + (ate === 'gold' ? 3 : ate ? 1 : 0), ate }
   return eats ? placeApple(next, rand) : next
 }
 
 // Speed: ms per step, faster as the snake grows.
-export const speedFor = score => Math.max(70, 170 - score * 4)
+export const speedFor = score => Math.max(75, 165 - score * 3)

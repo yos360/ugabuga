@@ -230,3 +230,11 @@ test('solitaire daily deal is always winnable and the same for everyone', () => 
     assert.ok(kl.greedyWins(a))
   }
 })
+
+test('snake: a golden apple is worth 3', () => {
+  const s = { w: 6, h: 6, body: [[2, 2], [1, 2], [0, 2]], dir: 'right', queue: [], score: 5, dead: false, apple: [3, 2, true] }
+  const n = sn.step(s, false, rng(1))
+  assert.equal(n.ate, 'gold')
+  assert.equal(n.score, 8)
+  assert.equal(n.body.length, 4)
+})
