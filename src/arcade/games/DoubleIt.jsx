@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { SIZE, fresh, move, spawn, canPlay, best as bestTile } from '../logic/merge'
+import { rng } from '../logic/rng'
 import { useBox, useProgress, useSwipe, useArrowKeys } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
@@ -11,9 +12,11 @@ const TILE = {
 const SLIDE_MS = 120
 const UNDOS = 3
 
-export default function DoubleIt({ onReport, onShare }) {
+export default function DoubleIt({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('merge-2048', { best: 0 })
-  const [game, setGame] = useState(() => ({ tiles: fresh(), score: 0, history: [], undos: UNDOS }))
+  // the daily challenge uses a seeded random, so everyone gets the same new tiles
+  const newGame = () => { const rand = daily ? rng(daily.seed) : Math.random; return { rand, tiles: fresh(rand), score: 0, history: [], undos: UNDOS } }
+  const [game, setGame] = useState(newGame)
   const [ghosts, setGhosts] = useState([])
   const [pops, setPops] = useState([]) // floating "+8" labels
   const [won, setWon] = useState(false) // 2048 card shown once per game
@@ -32,7 +35,7 @@ export default function DoubleIt({ onReport, onShare }) {
     if (showWin || !canPlay(g.tiles)) return
     const r = move(g.tiles, dir)
     if (!r.moved) return
-    const next = { tiles: spawn(r.tiles), score: g.score + r.gained, history: [...g.history.slice(-20), { tiles: g.tiles, score: g.score }], undos: g.undos }
+    const next = { ...g, tiles: spawn(r.tiles, g.rand), score: g.score + r.gained, history: [...g.history.slice(-20), { tiles: g.tiles, score: g.score }] }
     gameRef.current = next
     setGame(next)
     setGhosts(r.ghosts)
@@ -48,16 +51,19 @@ export default function DoubleIt({ onReport, onShare }) {
     const g = gameRef.current
     if (!g.history.length || !g.undos) return
     const prev = g.history.at(-1)
-    const next = { tiles: prev.tiles.map(t => ({ ...t, isNew: false, merged: false })), score: prev.score, history: g.history.slice(0, -1), undos: g.undos - 1 }
+    const next = { ...g, tiles: prev.tiles.map(t => ({ ...t, isNew: false, merged: false })), score: prev.score, history: g.history.slice(0, -1), undos: g.undos - 1 }
     gameRef.current = next
     setGame(next); setGhosts([])
   }
   const restart = () => {
-    const next = { tiles: fresh(), score: 0, history: [], undos: UNDOS }
+    const next = newGame()
     gameRef.current = next
     setGame(next); setGhosts([]); setPops([]); setWon(false); setShowWin(false)
   }
 
+  useEffect(() => {
+    if (over && daily) daily.finish({ text: `🔢 2048: צברתי ${game.score} נקודות (הגעתי ל־${bestTile(game.tiles)})`, score: -game.score, won: true })
+  }, [over, daily, game.score, game.tiles])
   useEffect(() => { if (game.score > progress.best) saveProgress({ best: game.score }) }, [game.score, progress.best, saveProgress])
   useEffect(() => {
     if (game.score) onReport?.({ text: `🔢 צברתי ${game.score} נקודות במכפילים עד 2048 (הגעתי ל־${bestTile(game.tiles)})!` })
@@ -95,7 +101,7 @@ export default function DoubleIt({ onReport, onShare }) {
       {showWin && <EndCard title="🏆 2048!" text="הגעתם למשבצת 2048 — אלופים! אפשר להמשיך ולשבור שיאים."
         primary="▶ ממשיכים לשחק" onPrimary={() => setShowWin(false)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.('🏆 הגעתי ל־2048 במכפילים של עוגה בוגה! אתם מסוגלים?')} />}
-      {over && !showWin && <EndCard title="😮 הלוח התמלא" text={`צברתם ${game.score} נקודות${game.score >= progress.best && game.score > 0 ? ' — שיא חדש! 🎉' : ''}${game.undos && game.history.length ? ` · נשארו לכם ${game.undos} ביטולים` : ''}`}
+      {over && !showWin && !daily && <EndCard title="😮 הלוח התמלא" text={`צברתם ${game.score} נקודות${game.score >= progress.best && game.score > 0 ? ' — שיא חדש! 🎉' : ''}${game.undos && game.history.length ? ` · נשארו לכם ${game.undos} ביטולים` : ''}`}
         primary="🔄 משחק חדש" onPrimary={restart}
         secondary={game.undos && game.history.length ? '↩ ביטול המהלך האחרון' : '📱 שתפו את הניקוד'}
         onSecondary={game.undos && game.history.length ? undo : () => onShare?.(`🔢 צברתי ${game.score} נקודות במכפילים עד 2048! מי עובר אותי?`)} />}

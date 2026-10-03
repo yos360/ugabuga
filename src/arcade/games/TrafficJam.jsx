@@ -6,10 +6,10 @@ import { Hud, ToolButton, EndCard } from '../ui'
 const CAR_COLORS = ['#4cc3ff', '#7fd8ae', '#ffd23f', '#b26bff', '#ffa62b', '#5b6cff', '#c9ced8', '#a5733f', '#ff7ad1', '#45c4ff', '#9be15d', '#ffb8d9', '#8fcaff']
 const BORDER = 4
 
-export default function TrafficJam({ onReport, onShare }) {
+export default function TrafficJam({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('traffic-jam', { level: 1 })
-  const [level, setLevel] = useState(progress.level)
-  const [data, setData] = useState(() => buildLevel(progress.level))
+  const [level, setLevel] = useState(daily?.level ?? progress.level)
+  const [data, setData] = useState(() => buildLevel(daily?.level ?? progress.level))
   const [cars, setCars] = useState(data.cars)
   const [history, setHistory] = useState([])
   const [drag, setDrag] = useState(null) // { id, off }
@@ -62,9 +62,10 @@ export default function TrafficJam({ onReport, onShare }) {
   const stars = starsFor(moves, data.best, Math.ceil(data.best * 1.5))
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🚚 פקק תנועה: שחררתי את המשאית ב־${moves} מהלכים (הכי טוב: ${data.best})`, score: moves, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
     onReport?.({ text: `🚚 שחררתי את משאית הגלידה בשלב ${level} של פקק תנועה ב־${moves} מהלכים!` })
-  }, [won, level, moves, saveProgress, onReport])
+  }, [won, level, moves, saveProgress, onReport, daily, data.best])
 
   return (
     <div className="arc-game">
@@ -98,7 +99,7 @@ export default function TrafficJam({ onReport, onShare }) {
         </div>
         {hintMove && <div className="arc-toast" key={`${hintMove.id}-${hintMove.to}`}>💡 הזיזו את המכונית המהבהבת {hintMove.to > (cars[hintMove.id].h ? cars[hintMove.id].x : cars[hintMove.id].y) ? (cars[hintMove.id].h ? 'ימינה' : 'למטה') : (cars[hintMove.id].h ? 'שמאלה' : 'למעלה')}</div>}
       </div>
-      {won && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 המשאית יצאה!'} stars={stars}
+      {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 המשאית יצאה!'} stars={stars}
         text={`פתרתם ב־${moves} מהלכים (הכי מעט אפשרי: ${data.best}).${level >= LEVEL_COUNT ? ' סיימתם את כל השלבים — מתחילים סבב חדש!' : ''}`}
         primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🚚 פתרתי את שלב ${level} בפקק תנועה ב־${moves} מהלכים! תצליחו בפחות?`)} />}

@@ -9,10 +9,10 @@ const BALLS = [
   ['#5b6cff', '◆'], ['#b26bff', '✿'], ['#ff7ad1', '☾'], ['#a5733f', '✚'], ['#c9ced8', '♣'],
 ]
 
-export default function BallSort({ onReport, onShare }) {
+export default function BallSort({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('ball-sort', { level: 1 })
-  const [level, setLevel] = useState(progress.level)
-  const [tubes, setTubes] = useState(() => buildLevel(progress.level))
+  const [level, setLevel] = useState(daily?.level ?? progress.level)
+  const [tubes, setTubes] = useState(() => buildLevel(daily?.level ?? progress.level))
   const [history, setHistory] = useState([])
   const [sel, setSel] = useState(null)
   const [bad, setBad] = useState(null)
@@ -49,9 +49,10 @@ export default function BallSort({ onReport, onShare }) {
 
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🧪 מיון כדורים: סידרתי ב־${history.length} מהלכים`, score: history.length, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
     onReport?.({ text: `🧪 סיימתי את שלב ${level} במיון כדורים ב־${history.length} מהלכים!` })
-  }, [won, level, history.length, saveProgress, onReport])
+  }, [won, level, history.length, saveProgress, onReport, daily])
 
   const rows = Array.from({ length: layout.rows }, (_, r) => tubes.map((t, i) => [t, i]).slice(r * layout.perRow, (r + 1) * layout.perRow))
   return (
@@ -81,7 +82,7 @@ export default function BallSort({ onReport, onShare }) {
         </div>
         {sel !== null && !won && tubes[sel].length > 0 && <span className="sr-only" aria-live="polite">נבחר כדור {BALLS[top(tubes[sel])][1]}</span>}
       </div>
-      {won && <EndCard title="🎉 כל הכבוד!" text={`כל הצבעים מסודרים — ב־${history.length} מהלכים.`}
+      {won && !daily && <EndCard title="🎉 כל הכבוד!" text={`כל הצבעים מסודרים — ב־${history.length} מהלכים.`}
         primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🧪 סיימתי את שלב ${level} במיון כדורים! תצליחו מהר יותר?`)} />}
     </div>

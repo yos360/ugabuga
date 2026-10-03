@@ -162,3 +162,62 @@ test('snake: eats and grows, wraps through soft walls, dies on hard walls and on
   w = { w: 6, h: 6, body: [[2, 2], [3, 2], [3, 3], [2, 3], [1, 3]], dir: 'left', queue: ['down'], score: 0, dead: false, apple: [5, 5] }
   assert.equal(sn.step(w, false).dead, true)
 })
+
+test('battleship: fleets never touch, a hit keeps the turn, sinking reveals the water around', async () => {
+  const bs = await import('../src/arcade/logic/battleship.js')
+  for (let seed = 1; seed < 40; seed++) {
+    const ships = bs.randomFleet(rng(seed))
+    assert.equal(ships.length, 5)
+    const owner = new Map()
+    ships.forEach((s, k) => s.cells.forEach(c => owner.set(c, k)))
+    assert.equal(owner.size, 5 + 4 + 3 + 3 + 2, 'no overlap')
+    for (const [c, k] of owner) {
+      const x = c % 10, y = Math.floor(c / 10)
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const nx = x + dx, ny = y + dy
+        if (nx < 0 || ny < 0 || nx > 9 || ny > 9) continue
+        const o = owner.get(ny * 10 + nx)
+        assert.ok(o === undefined || o === k, 'ships do not touch, not even diagonally')
+      }
+    }
+  }
+  assert.deepEqual(bs.randomFleet(rng(5)), bs.randomFleet(rng(5)), 'same seed → same fleet (daily challenge)')
+  let sea = bs.newSea(bs.randomFleet(rng(2)))
+  const boat = sea.ships[4] // length 2
+  let r = bs.fire(sea, boat.cells[0])
+  assert.equal(r.result, 'hit')
+  r = bs.fire(r.sea, boat.cells[1])
+  assert.equal(r.result, 'sunk')
+  assert.ok(Object.values(r.sea.shots).filter(v => v === 'miss').length >= 4, 'water around a sunk ship is revealed')
+  assert.equal(bs.fire(r.sea, boat.cells[0]).result, null, 'same cell twice does nothing')
+  // the smart computer always finishes the game
+  for (const smart of [true, false]) {
+    sea = bs.newSea(bs.randomFleet(rng(9)))
+    const ai = rng(10)
+    let shots = 0
+    while (!bs.allSunk(sea) && shots < 100) { sea = bs.fire(sea, bs.aiShot(sea, smart, ai)).sea; shots++ }
+    assert.ok(bs.allSunk(sea), `${smart ? 'smart' : 'easy'} AI sinks everything within 100 shots (took ${shots})`)
+  }
+})
+
+test('daily challenge: one game per Israeli day, same seed for everyone, streak counting', async () => {
+  const daily = await import('../src/arcade/daily.js')
+  const ARCADE_SLUGS = ['sudoku', 'battleship', 'ball-sort', 'memory', 'minesweeper', 'merge-2048', 'traffic-jam', 'flying-cubes']
+  const base = Date.UTC(2026, 9, 3, 10) // 3 Oct 2026, 13:00 in Israel
+  const a = daily.dailyFor(base), b = daily.dailyFor(base + 3600e3)
+  assert.equal(a.day, b.day)
+  assert.equal(a.seed, b.seed)
+  // 22:30 UTC on Oct 3 is already Oct 4 in Israel
+  assert.equal(daily.dailyFor(Date.UTC(2026, 9, 3, 22, 30)).day, a.day + 1)
+  const seen = new Set()
+  for (let d = 0; d < 8; d++) seen.add(daily.dailyFor(base + d * 86400e3).slug)
+  assert.equal(seen.size, 8, 'eight different games in eight days')
+  for (const s of seen) assert.ok(ARCADE_SLUGS.includes(s))
+  const ms = daily.msToNext(base)
+  assert.ok(ms > 0 && ms <= 24 * 3600e3)
+  assert.equal(daily.dailyFor(base + ms + 1000).day, a.day + 1, 'the challenge changes right at Israeli midnight')
+  assert.equal(daily.streak({ 10: {}, 11: {}, 12: {} }, 12), 3)
+  assert.equal(daily.streak({ 10: {}, 11: {} }, 12), 2, 'not played yet today → streak still counts until tonight')
+  assert.equal(daily.streak({ 9: {}, 11: {} }, 12), 1)
+  assert.match(daily.dailyShareText(a, { text: 'x', streak: 3 }), /ugabuga\.co\.il\/online-games\/today\?utm_source=whatsapp/)
+})

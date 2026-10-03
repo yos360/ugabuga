@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { ARCADE } from '../../arcade/registry'
+import { dailyFor } from '../../arcade/daily'
 import '../../arcade/arcade.css'
 
 // /online-games — quick puzzle games that open full screen on phone and computer.
 export default function OnlineGamesHub() {
+  const daily = dailyFor()
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -14,12 +16,17 @@ export default function OnlineGamesHub() {
   }
   return (
     <div className="arc-page" dir="rtl">
-      <SEO title="משחקי אונליין לילדים בחינם – בלי הורדה ובלי הרשמה" description="משחקי חשיבה ופאזלים אונליין בחינם: סוליטר, ספיידר סוליטר, שולה מוקשים, סודוקו, משחק זיכרון, נחש, 2048, קוביות מעופפות בתלת־ממד ועוד. ישר מהדפדפן, על כל המסך, עם מוזיקה נעימה — במחשב ובטלפון." path="/online-games" structuredData={schema} />
+      <SEO title="משחקי אונליין לילדים בחינם – בלי הורדה ובלי הרשמה" description="משחקי חשיבה ופאזלים אונליין בחינם: אתגר יומי חדש, צוללות, סוליטר, ספיידר סוליטר, שולה מוקשים, סודוקו, משחק זיכרון, נחש, 2048, קוביות מעופפות בתלת־ממד ועוד. ישר מהדפדפן, על כל המסך, עם מוזיקה נעימה — במחשב ובטלפון." path="/online-games" structuredData={schema} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקי אונליין' }]} />
       <header className="arc-hero">
         <h1>🕹️ משחקי אונליין – לוחצים ומשחקים</h1>
-        <p>הקלאסיקות שכולם אוהבים — סוליטר, שולה מוקשים, סודוקו, נחש ועוד — לצד פאזלים מקוריים. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. כל משחק נפתח על כל המסך, עם מוזיקת רקע נעימה (אפשר להשתיק ב־🎵).</p>
+        <p>הקלאסיקות שכולם אוהבים — צוללות, סוליטר, שולה מוקשים, סודוקו, נחש ועוד — לצד פאזלים מקוריים. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. כל משחק נפתח על כל המסך, עם מוזיקת רקע נעימה (אפשר להשתיק ב־🎵).</p>
       </header>
+      <Link to="/online-games/today" className="dl-banner" style={{ '--game-color': ARCADE.find(g => g.slug === daily.slug)?.color }}>
+        <span className="dl-banner-art" aria-hidden="true">{daily.emoji}</span>
+        <span><b>🌟 אתגר היום: {daily.name}</b><small>{daily.goal} · אותו אתגר לכולם, מתחלף כל יום</small></span>
+        <span className="arc-play-chip">▶ לאתגר</span>
+      </Link>
       <div className="arc-grid">
         {ARCADE.map(g => (
           <Link key={g.slug} to={`/online-games/${g.slug}#play`} className="arc-card" style={{ '--game-color': g.color }}>

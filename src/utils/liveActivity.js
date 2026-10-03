@@ -20,7 +20,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   game:'משחקים',worksheet:'דפי פעילות',tool:'כלי משחק',calculator:'מחשבון למסיבה',
   invitation:'הזמנות',greeting:'ברכות',printables:'דפים להדפסה',create:'יוצרים',classroom:'פעילויות לכיתה',birthday:'פעילויות ליום הולדת',
   suppliers:'ספקים','emoji-studio':'אימוג׳י סטודיו',page:'עמודים באתר',
-  'online-games':'משחקי אונליין','flying-cubes':'קוביות מעופפות','ball-sort':'מיון כדורים','merge-2048':'מכפילים עד 2048','block-puzzle':'מסיבת בלוקים','traffic-jam':'פקק תנועה',solitaire:'סוליטר','spider-solitaire':'סוליטר עכביש',minesweeper:'שולה מוקשים',sudoku:'סודוקו',memory:'משחק הזיכרון',snake:'נחש',
+  'online-games':'משחקי אונליין','flying-cubes':'קוביות מעופפות','ball-sort':'מיון כדורים','merge-2048':'מכפילים עד 2048','block-puzzle':'מסיבת בלוקים','traffic-jam':'פקק תנועה',solitaire:'סוליטר',battleship:'צוללות',today:'אתגר היום','spider-solitaire':'סוליטר עכביש',minesweeper:'שולה מוקשים',sudoku:'סודוקו',memory:'משחק הזיכרון',snake:'נחש',
 })
 const ALIASES = {bingo:'bingo-maker','word-search':'word-search-maker','escape-room':'escape-rooms',quiz:'trivia-quiz',trivia:'trivia-quiz',timer:'countdown-timer',wheel:'random-picker','truth-or-buga':'truth-or-dare','scavenger-hunt':'scavenger-hunt-maker'}
 export function activityForPath(path) {

@@ -176,6 +176,7 @@ function buildStatic() {
   for (const room of ESCAPE_ROOMS) out.push({ to: `/tools/escape-rooms/${room.id}`, title: room.title, emoji: room.emoji, kind: 'game', desc: room.description, keys: 'חדר בריחה אסקייפ' })
   out.push({ to: '/tools/trivia-quiz', title: 'טריוויה לכיתה ולמשפחה', emoji: '🎯', kind: 'tool', desc: TOOL_DESC['/tools/trivia-quiz'], keys: TOOL_KEYS['/tools/trivia-quiz'] })
   out.push({ to: '/board-games', title: 'משחקי לוח קלאסיים – לשחק וללמוד', emoji: '♟️', kind: 'game', desc: 'דמקה ועוד – נגד המחשב, נגד חבר ושיעורים.', keys: 'משחק לוח לוח קלאסי' })
+  out.push({ to: '/online-games/today', title: 'אתגר היום – משחק אונליין חדש כל יום', emoji: '🌟', kind: 'game', desc: 'אותו אתגר לכולם, מתחלף בחצות. משחקים ומשתפים.', keys: 'אתגר יומי משחק יומי משחק היום אתגר היום סודוקו יומי' })
   out.push({ to: '/online-games', title: 'משחקי אונליין – סוליטר, סודוקו, נחש ועוד', emoji: '🕹️', kind: 'game', desc: 'משחקי חשיבה קלאסיים על כל המסך, בחינם ובלי הרשמה.', keys: 'משחקי אונליין משחקים במחשב משחקים בטלפון סוליטר סודוקו נחש 2048 שולה מוקשים זיכרון' })
   for (const g of ARCADE) out.push({ to: `/online-games/${g.slug}`, title: g.name, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק אונליין ${g.name} לשחק ${g.name} בחינם ${g.seoTitle}` })
   for (const g of BOARD_GAMES) out.push({ to: `/board-games/${g.slug}`, title: `${g.name} – לשחק, ללמוד וחוקים`, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק לוח ${g.name} חוקי ${g.name} ללמוד ${g.name} אונליין` })

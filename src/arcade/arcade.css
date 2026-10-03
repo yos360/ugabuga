@@ -192,3 +192,54 @@
 .sn-pad div{display:flex;gap:4px}
 .sn-pad .arc-tool{width:56px;height:46px;font-size:22px}
 @media (hover:hover) and (min-height:700px){.sn-pad{display:none}}
+
+/* battleship */
+.bs2-msg{margin:0;font-weight:800;font-size:16px;text-align:center;min-height:1.4em;flex:none}
+.bs2-field{align-items:center;justify-content:center;overflow:auto}
+.bs2-side{display:flex;flex-direction:column;align-items:center;gap:4px}
+.bs2-side h3,.bs2-setup h3{margin:0;font-size:16px;font-weight:900}
+.bs2-grid{direction:rtl;display:grid;gap:1px;background:#1d2233;border:2.5px solid var(--arc-ink);border-radius:10px;overflow:hidden;box-shadow:3px 3px 0 var(--arc-ink)}
+.bs2-head{display:grid;place-items:center;background:#1d2233;color:#fff;font-weight:800;font-size:.75em}
+.bs2-cell{display:grid;place-items:center;background:#4fb3e8;border:none;padding:0;font-weight:900;color:#fff;line-height:1}
+button.bs2-cell{cursor:default}
+.bs2-cell.is-target{cursor:crosshair;background:#62c0f0}
+.bs2-cell.is-target:hover{background:#9bdcff}
+.bs2-cell.is-ship{background:#7b8798}
+.bs2-cell.is-miss{background:#d6eefa;color:#1d2233}
+.bs2-cell.is-hit{background:#ffb74d}
+.bs2-cell.is-sunk{background:#ff6b6b}
+.bs2-cell.is-flash{animation:bs2-flash .45s}
+@keyframes bs2-flash{0%{transform:scale(1.5);filter:brightness(1.6)}100%{transform:scale(1)}}
+.bs2-fleet{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 10px;margin:2px 0 0;padding:0;list-style:none;font-size:12px;font-weight:700}
+.bs2-fleet li{white-space:nowrap;color:#1d2233}
+.bs2-fleet li.is-sunk{color:#dc2626;text-decoration:line-through}
+.bs2-setup{display:flex;flex-direction:column;align-items:center;gap:10px}
+.bs2-setup-actions{display:flex;gap:10px}
+
+/* daily challenge */
+.dl-banner{display:flex;align-items:center;gap:14px;margin:0 auto 20px;max-width:860px;padding:14px 18px;background:#fff;border:2.5px solid var(--arc-ink);border-radius:22px;box-shadow:5px 5px 0 var(--arc-ink);color:var(--arc-ink);text-decoration:none;transition:transform .15s}
+.dl-banner:hover{transform:translateY(-3px)}
+.dl-banner-art{width:64px;height:64px;flex:none;display:grid;place-items:center;font-size:38px;border-radius:16px;border:2.5px solid var(--arc-ink);background:var(--game-color,#ffd23f)}
+.dl-banner b{display:block;font-size:20px;font-weight:900}
+.dl-banner small{display:block;font-size:15px;color:#4d556a;font-weight:600}
+.dl-banner .arc-play-chip{margin-inline-start:auto;flex:none;background:var(--arc-ink);color:#fff;font-weight:800;border-radius:999px;padding:7px 16px}
+@media (max-width:560px){.dl-banner .arc-play-chip{display:none}}
+.dl-date{font-weight:800;color:#4d556a;margin:0 0 2px!important}
+.dl-game{font-size:30px;font-weight:900;margin:0 0 6px}
+.dl-mine{background:#eafbe9;border:2px solid #16a34a55;border-radius:14px;padding:8px 12px;font-weight:800}
+.dl-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dl-week{display:flex;gap:6px;list-style:none;padding:0!important;margin:0;justify-content:center}
+.dl-week li{display:flex;flex-direction:column;align-items:center;gap:2px;width:42px;padding:6px 0;border-radius:12px;background:#f3f1ea;font-size:20px}
+.dl-week li.is-done{background:#dcfce7}
+.dl-week li.is-today{outline:3px solid #ffb800}
+.dl-week li b{font-size:14px}
+.dl-next{margin:6px 0 0;font-weight:700;color:#4d556a}
+.dl-done .dl-result{font-size:19px;font-weight:900;background:#fff7d6;border-radius:14px;padding:8px 10px}
+.dl-streak{font-size:20px;font-weight:900;color:#ea580c}
+.dl-share{background:#25d366!important;color:#fff!important}
+.dl-share-btn{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 18px;border-radius:16px;border:2.5px solid var(--arc-ink);background:#25d366;color:#fff;font-weight:900;font-size:17px;cursor:pointer;box-shadow:3px 3px 0 var(--arc-ink)}
+@media (max-width:560px){.dl-actions{flex-direction:column;align-items:stretch}.dl-actions .arc-play-btn,.dl-share-btn{justify-content:center}}
+
+/* The site gives every button a 44px minimum (good tap targets). Inside the games, board
+   cells set their own exact size, so that minimum would make rows overlap. */
+.arc-stage .arc-game button{min-height:0}

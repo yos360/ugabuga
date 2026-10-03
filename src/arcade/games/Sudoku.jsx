@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import { LEVELS, generate } from '../logic/sudoku'
+import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
-function newGame(level) {
-  const { puzzle, solution } = generate(level)
+function newGame(level, daily) {
+  const { puzzle, solution } = generate(level, daily ? rng(daily.seed) : Math.random)
   return { level, puzzle, solution, grid: puzzle.slice(), notes: puzzle.map(() => []), mistakes: 0, hints: 0 }
 }
 
-export default function Sudoku({ onReport, onShare }) {
+export default function Sudoku({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('sudoku', { level: 'easy', solved: 0 })
-  const [g, setG] = useState(() => newGame(LEVELS.find(l => l.id === progress.level) || LEVELS[2]))
+  const [g, setG] = useState(() => newGame(LEVELS.find(l => l.id === (daily?.level || progress.level)) || LEVELS[2], daily))
   const [sel, setSel] = useState(null)
   const [notesMode, setNotesMode] = useState(false)
   const [time, setTime] = useState(0)
@@ -25,11 +26,12 @@ export default function Sudoku({ onReport, onShare }) {
   }, [won])
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🔢 סודוקו: פתרתי תוך ${fmt(time)}${g.mistakes ? ` (${g.mistakes} טעויות)` : ' בלי טעויות'}${g.hints ? `, ${g.hints} רמזים` : ''}`, score: time + g.mistakes * 30 + g.hints * 60, won: true }); return }
     saveProgress(p => ({ solved: p.solved + 1 }))
     onReport?.({ text: `🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}!` })
-  }, [won, g.level.name, time, saveProgress, onReport])
+  }, [won, g.level.name, g.mistakes, g.hints, time, saveProgress, onReport, daily])
 
-  const start = level => { setG(newGame(level)); setSel(null); setTime(0); saveProgress({ level: level.id }) }
+  const start = level => { setG(newGame(level, daily)); setSel(null); setTime(0); if (!daily) saveProgress({ level: level.id }) }
 
   const put = v => {
     if (sel === null || g.puzzle[sel] || won) return
@@ -89,9 +91,9 @@ export default function Sudoku({ onReport, onShare }) {
         <ToolButton onClick={hint} label="רמז">💡</ToolButton>
         <ToolButton onClick={() => start(g.level)} label="משחק חדש">🔄</ToolButton>
       </Hud>
-      <div className="sp-levels" role="group" aria-label="רמת קושי">
+      {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
         {LEVELS.map(l => <button key={l.id} type="button" className={`arc-chip${l.id === g.level.id ? ' is-on' : ''}`} onClick={() => start(l)}>{l.name}</button>)}
-      </div>
+      </div>}
       <div className="arc-field" ref={boxRef} style={{ flexDirection: 'column', gap: 10 }}>
         <div className="sd-board" style={{ width: size, height: size, gridTemplateColumns: `repeat(${n}, 1fr)`, fontSize: cell * 0.56 }} role="grid" aria-label={`סודוקו ${n} על ${n}`}>
           {g.grid.map((v, i) => {
@@ -114,7 +116,7 @@ export default function Sudoku({ onReport, onShare }) {
           ))}
         </div>
       </div>
-      {won && <EndCard title="🎉 פתרתם!" text={`סודוקו ${g.level.name} תוך ${fmt(time)}${g.mistakes ? ` עם ${g.mistakes} טעויות` : ' בלי אף טעות'}${g.hints ? ` ו־${g.hints} רמזים` : ''}.`}
+      {won && !daily && <EndCard title="🎉 פתרתם!" text={`סודוקו ${g.level.name} תוך ${fmt(time)}${g.mistakes ? ` עם ${g.mistakes} טעויות` : ' בלי אף טעות'}${g.hints ? ` ו־${g.hints} רמזים` : ''}.`}
         primary="▶ סודוקו חדש" onPrimary={() => start(g.level)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}! תצליחו מהר יותר?`)} />}
     </div>

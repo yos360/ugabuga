@@ -61,9 +61,9 @@ function fitCamera(s, reset) {
   s.camGoal = null
 }
 
-export default function FlyingCubes({ onReport, onShare }) {
+export default function FlyingCubes({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('flying-cubes', { level: 1 })
-  const [level, setLevel] = useState(progress.level)
+  const [level, setLevel] = useState(daily?.level ?? progress.level)
   const [run, setRun] = useState(0) // bump to rebuild the same level
   const [left, setLeft] = useState(0)
   const [mistakes, setMistakes] = useState(0)
@@ -278,9 +278,10 @@ export default function FlyingCubes({ onReport, onShare }) {
 
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🧊 קוביות מעופפות: פירקתי את הקובייה עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
     onReport?.({ text: `🏆 עברתי את שלב ${level} בקוביות מעופפות${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
-  }, [won, level, mistakes, saveProgress, onReport])
+  }, [won, level, mistakes, saveProgress, onReport, daily])
 
   return (
     <div className="arc-game fc-game">
@@ -295,7 +296,7 @@ export default function FlyingCubes({ onReport, onShare }) {
       </div>
       {lost && !won && <EndCard title="💔 נגמרו הלבבות" text="שלוש פעמים לחצתם על קובייה חסומה. מנסים שוב? טיפ: חפשו קוביות שהחץ שלהן מצביע החוצה."
         primary="🔄 לנסות שוב" onPrimary={() => start(level)} />}
-      {won && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 כל הכבוד!'} stars={stars}
+      {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 כל הכבוד!'} stars={stars}
         text={mistakes ? `פירקתם את כל הקובייה ונשארו לכם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}.` : 'פירקתם הכול בלי לאבד אף לב!'}
         primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🏆 עברתי את שלב ${level} בקוביות מעופפות! מי מנצח אותי?`)} />}

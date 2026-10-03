@@ -1,21 +1,35 @@
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { shareOnWhatsApp } from '../utils/share'
 import { exitFullscreen, enterFullscreen, shareGameText } from './stage'
 import { createMusic, musicPref, saveMusicPref } from './music'
+import { saveResult, streak, dailyShareText } from './daily'
 import { WhatsAppIcon } from '../components/layout/WhatsAppShare'
 import './arcade.css'
 
 // Full-screen game stage: covers the whole window (and goes into real browser
 // full-screen where the device allows it). Games render into the flexible body.
 // Soft background music plays while the stage is open (one tap mutes it).
-export default function ArcadeStage({ game, onClose }) {
+// With `daily` (from /online-games/today) the game plays today's fixed puzzle and the
+// stage shows the daily result card when it ends.
+export default function ArcadeStage({ game, onClose, daily }) {
   const [report, setReport] = useState(null)
   const [isFs, setIsFs] = useState(() => !!document.fullscreenElement)
   const [musicOn, setMusicOn] = useState(musicPref)
   const music = useRef(null)
   const canFs = typeof document !== 'undefined' && document.fullscreenEnabled
   const Game = game.component
+  const [run, setRun] = useState(0)
+  const [done, setDone] = useState(null) // { text, won, streak }
+  const dailyProp = useMemo(() => daily && {
+    ...daily,
+    // first report of a round wins; saving is idempotent, so a repeated call is harmless
+    finish: result => setDone(prev => {
+      if (prev) return prev
+      const all = saveResult(daily.day, { slug: game.slug, ...result })
+      return { ...result, streak: streak(all, daily.day) }
+    }),
+  }, [daily, game.slug])
 
   useEffect(() => {
     const html = document.documentElement
@@ -65,10 +79,29 @@ export default function ArcadeStage({ game, onClose }) {
       </header>
       <div className="arc-body">
         <Suspense fallback={<p className="arc-loading">טוענים את המשחק… 🎈</p>}>
-          <Game onReport={setReport} onShare={text => shareOnWhatsApp(shareGameText(game, { text }))} />
+          <Game key={run} daily={dailyProp || undefined} onReport={setReport} onShare={text => shareOnWhatsApp(shareGameText(game, { text }))} />
         </Suspense>
+        {done && <DailyDone daily={daily} done={done} onAgain={() => { setDone(null); setRun(r => r + 1) }} onClose={onClose} />}
       </div>
     </div>,
     document.body,
+  )
+}
+
+function DailyDone({ daily, done, onAgain, onClose }) {
+  return (
+    <div className="arc-end" role="alertdialog" aria-label="סיום אתגר היום">
+      <div className="arc-end-card dl-done">
+        <h3>{done.won ? '🌟 סיימתם את אתגר היום!' : '😅 כמעט!'}</h3>
+        <p className="dl-result">{done.text}</p>
+        {done.streak > 0 && <p className="dl-streak">🔥 {done.streak} {done.streak === 1 ? 'יום' : 'ימים'} ברצף</p>}
+        <p>מחר מחכה אתגר חדש — אותו אתגר לכל מי שמשחק.</p>
+        <div className="arc-end-actions">
+          <button type="button" className="arc-btn arc-btn-main dl-share" onClick={() => shareOnWhatsApp(dailyShareText(daily, done))}>📱 שתפו בוואטסאפ</button>
+          <button type="button" className="arc-btn" onClick={onAgain}>🔄 לשחק שוב</button>
+          <button type="button" className="arc-btn" onClick={onClose}>✓ סיום</button>
+        </div>
+      </div>
+    </div>
   )
 }

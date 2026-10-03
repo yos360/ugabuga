@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { build, pairsFor, colsFor, starsForTurns } from '../logic/memory'
+import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
-export default function Memory({ onReport, onShare }) {
+export default function Memory({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('memory', { level: 1 })
-  const [level, setLevel] = useState(progress.level)
-  const [cards, setCards] = useState(() => build(progress.level))
+  const [level, setLevel] = useState(daily?.level ?? progress.level)
+  const deck = n => build(n, daily ? rng(daily.seed) : Math.random)
+  const [cards, setCards] = useState(() => deck(daily?.level ?? progress.level))
   const [picked, setPicked] = useState([])
   const [turns, setTurns] = useState(0)
   const [peek, setPeek] = useState(true) // short look at all cards when a level starts
@@ -25,9 +27,10 @@ export default function Memory({ onReport, onShare }) {
 
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🧠 משחק הזיכרון: מצאתי ${pairs} זוגות ב־${turns} תורות`, score: turns, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
     onReport?.({ text: `🧠 מצאתי את כל ${pairs} הזוגות בשלב ${level} במשחק הזיכרון ב־${turns} תורות!` })
-  }, [won, level, pairs, turns, saveProgress, onReport])
+  }, [won, level, pairs, turns, saveProgress, onReport, daily])
 
   const flip = i => {
     const c = cards[i]
@@ -46,7 +49,7 @@ export default function Memory({ onReport, onShare }) {
       timer.current = setTimeout(() => { setCards(cs => cs.map((k, j) => (j === a || j === b ? { ...k, open: false } : k))); setPicked([]) }, 850)
     }
   }
-  const start = n => { clearTimeout(timer.current); setLevel(n); setCards(build(n)); setPicked([]); setTurns(0); setPeek(true) }
+  const start = n => { clearTimeout(timer.current); setLevel(n); setCards(deck(n)); setPicked([]); setTurns(0); setPeek(true) }
 
   const cols = colsFor(cards.length)
   const rows = Math.ceil(cards.length / cols)
@@ -72,7 +75,7 @@ export default function Memory({ onReport, onShare }) {
         </div>
         {peek && <div className="arc-toast">👀 תסתכלו טוב… עוד רגע הקלפים מתהפכים!</div>}
       </div>
-      {won && <EndCard title={stars === 3 ? '🎉 זיכרון של פיל!' : '🎉 כל הכבוד!'} stars={stars} text={`מצאתם ${pairs} זוגות ב־${turns} תורות.`}
+      {won && !daily && <EndCard title={stars === 3 ? '🎉 זיכרון של פיל!' : '🎉 כל הכבוד!'} stars={stars} text={`מצאתם ${pairs} זוגות ב־${turns} תורות.`}
         primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
         secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🧠 מצאתי ${pairs} זוגות ב־${turns} תורות במשחק הזיכרון! מי מנצח אותי?`)} />}
     </div>
