@@ -73,8 +73,8 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const showHint = () => { const h = findHint(s); setHint(h || { none: true }); clearTimeout(hintTimer.current); hintTimer.current = setTimeout(() => setHint(null), 2200) }
 
   // ----- layout -----
-  const gap = Math.max(4, Math.min(10, box.w / 90))
-  const w = Math.max(30, Math.min((box.w - gap * 8) / 7, (box.h - gap * 3) / (1.4 * 3.3), 110))
+  const gap = Math.max(4, Math.min(16, box.w / 80))
+  const w = Math.max(30, Math.min((box.w - gap * 8) / 7, (box.h - gap * 4) / (1.4 * 3.2), 128))
   const h = w * 1.4
   const left = (box.w - (w * 7 + gap * 6)) / 2
   const colX = i => left + i * (w + gap)
@@ -103,7 +103,7 @@ export default function Solitaire({ onReport, onShare, daily }) {
   })
   s.tab.forEach((pile, p) => {
     const down = pile.filter(c => !c.up).length, up = pile.length - down
-    let dOff = h * 0.12, uOff = h * 0.27
+    let dOff = h * 0.12, uOff = h * 0.3
     const need = down * dOff + Math.max(0, up - 1) * uOff
     if (need > room && need > 0) { const k = room / need; dOff *= k; uOff *= k }
     let y = tabTop

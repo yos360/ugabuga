@@ -62,7 +62,9 @@ export default function DoubleIt({ onReport, onShare, daily }) {
   }
 
   useEffect(() => {
-    if (over && daily) daily.finish({ text: `🔢 2048: צברתי ${game.score} נקודות (הגעתי ל־${bestTile(game.tiles)})`, score: -game.score, won: true })
+    // marathon: reaching the target tile wins the stage at once
+    if (daily?.target && bestTile(game.tiles) >= daily.target) daily.finish({ text: `🔢 2048: הגעתי ל־${bestTile(game.tiles)}`, score: game.score, won: true })
+    else if (over && daily) daily.finish({ text: `🔢 2048: צברתי ${game.score} נקודות (הגעתי ל־${bestTile(game.tiles)})`, score: -game.score, won: !daily.target })
   }, [over, daily, game.score, game.tiles])
   useEffect(() => { if (game.score > progress.best) saveProgress({ best: game.score }) }, [game.score, progress.best, saveProgress])
   useEffect(() => {
@@ -81,7 +83,7 @@ export default function DoubleIt({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', game.score], ['שיא', Math.max(progress.best, game.score)]]}>
+      <Hud stats={[['ניקוד', game.score], daily?.target ? ['מטרה', daily.target] : ['שיא', Math.max(progress.best, game.score)]]}>
         <ToolButton onClick={undo} disabled={!game.history.length || !game.undos} label={`ביטול מהלך (נשארו ${game.undos})`}>↩<small className="mg-undo-n">{game.undos}</small></ToolButton>
         <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
       </Hud>

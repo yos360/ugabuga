@@ -120,7 +120,7 @@ export default function Snake({ onReport, onShare, daily }) {
   // results → progress / daily / share text
   useEffect(() => {
     if (phase === 'dead' && mode === 'classic') {
-      if (daily) { daily.finish({ text: `🐍 נחש: הנחש שלי אכל ${hud.score} תפוחים`, score: -hud.score, won: true }); return }
+      if (daily) { daily.finish({ text: `🐍 נחש: הנחש שלי אכל ${hud.score} תפוחים`, score: -hud.score, won: !daily.target }); return }
       saveProgress(p => ({ best: Math.max(p.best, hud.score) }))
       if (hud.score) onReport?.({ text: `🐍 הנחש שלי אכל ${hud.score} תפוחים!` })
     }
@@ -129,6 +129,11 @@ export default function Snake({ onReport, onShare, daily }) {
       onReport?.({ text: `🐍 עברתי את שלב ${level} ("${LEVEL_NAMES[level - 1]}") במסע הנחש!` })
     }
   }, [phase, mode, level, hud.score, result, daily, saveProgress, onReport])
+
+  // marathon: enough apples wins the stage right away
+  useEffect(() => {
+    if (daily?.target && phase === 'run' && hud.score >= daily.target) daily.finish({ text: `🐍 נחש: אכלתי ${hud.score} תפוחים`, score: hud.score, won: true })
+  }, [hud.score, phase, daily])
 
   // Automated-test helper, only when localStorage 'buga-debug' is '1': read the game state.
   useEffect(() => {
@@ -167,7 +172,7 @@ export default function Snake({ onReport, onShare, daily }) {
   const best = Math.max(progress.best, mode === 'classic' ? hud.score : 0)
   const stats = mode === 'journey'
     ? [['שלב', level], ['🍎', `${hud.eaten}/${hud.goal}`]]
-    : [['🍎', hud.score], ['שיא', best]]
+    : [['🍎', daily?.target ? `${hud.score}/${daily.target}` : hud.score], ['שיא', best]]
   const inGame = phase !== 'menu'
 
   return (

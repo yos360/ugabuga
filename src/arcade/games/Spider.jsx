@@ -61,8 +61,9 @@ export default function Spider({ onReport, onShare, daily }) {
   }, [won, s.suits, s.moves, saveProgress, onReport, daily])
 
   // ----- layout -----
-  const gap = Math.max(3, Math.min(8, box.w / 120))
-  const w = Math.max(26, Math.min((box.w - gap * 11) / 10, (box.h - gap * 3) / (1.4 * 3.6), 96))
+  // cards as big as the screen allows (big on a computer), the felt fills the rest
+  const gap = Math.max(4, Math.min(14, box.w / 95))
+  const w = Math.max(26, Math.min((box.w - gap * 11) / 10, (box.h - gap * 4) / (1.4 * 3.3), 132))
   const h = w * 1.4
   const left = (box.w - (w * 10 + gap * 9)) / 2
   const colX = i => left + i * (w + gap)
@@ -74,7 +75,7 @@ export default function Spider({ onReport, onShare, daily }) {
   const cards = []
   s.tab.forEach((pile, p) => {
     const down = pile.filter(c => !c.up).length, up = pile.length - down
-    let dOff = h * 0.1, uOff = h * 0.25
+    let dOff = h * 0.11, uOff = h * 0.3
     const need = down * dOff + Math.max(0, up - 1) * uOff
     if (need > room && need > 0) { const k = room / need; dOff *= k; uOff *= k }
     let y = tabTop

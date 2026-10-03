@@ -278,3 +278,72 @@ test('snake: rocks, ghost power, shrink, combos, and finishing a level', () => {
   assert.equal(c.won, true)
   assert.ok(sn.speedFor(0, { fx: { slow: 10 } }) > sn.speedFor(0, null), '🐢 slows down')
 })
+
+test('falling blocks: rotation stays in bounds, rows clear, top-out ends the game', async () => {
+  const t = await import('../src/arcade/logic/tetris.js')
+  let b = t.emptyBoard()
+  // an I piece turned upright against the left wall kicks back inside
+  let p = { ...t.spawn('I'), x: -1 }
+  p = t.tryRotate(b, { ...t.spawn('I'), x: 0 }, 1)
+  assert.ok(p && t.cells(p).every(([x]) => x >= 0 && x < t.W))
+  // fill the bottom row except 4 cells, drop a flat I into the gap → one line cleared
+  b[t.H - 1] = Array(t.W).fill('#000').map((c, x) => (x >= 3 && x <= 6 ? null : c))
+  const i = { type: 'I', rot: 0, x: 3, y: 0 }
+  const d = t.dropDistance(b, i)
+  const r = t.lock(b, { ...i, y: i.y + d })
+  assert.equal(r.cleared, 1)
+  assert.ok(r.board[t.H - 1].every(c => !c), 'cleared row is gone')
+  // bag has every piece once
+  assert.deepEqual(t.makeBag(rng(3)).slice().sort(), t.TYPES.slice().sort())
+  // a piece locked above the top → top-out
+  assert.equal(t.lock(t.emptyBoard(), { type: 'O', rot: 0, x: 4, y: -2 }).topOut, true)
+  assert.ok(t.gravityMs(10) < t.gravityMs(1))
+})
+
+test('sliding puzzle: shuffles are solvable and sliding moves whole rows', async () => {
+  const sl = await import('../src/arcade/logic/sliding.js')
+  for (const n of [3, 4, 5]) {
+    const b = sl.shuffle(n, rng(n))
+    assert.equal(b.length, n * n)
+    assert.ok(!sl.isSolved(b))
+    // solvability via inversion parity
+    const flat = b.filter(Boolean)
+    let inv = 0
+    for (let i = 0; i < flat.length; i++) for (let j = i + 1; j < flat.length; j++) if (flat[i] > flat[j]) inv++
+    const blankRowFromBottom = n - Math.floor(b.indexOf(0) / n)
+    const ok = n % 2 ? inv % 2 === 0 : (inv + blankRowFromBottom) % 2 === 1
+    assert.ok(ok, `${n}x${n} is solvable`)
+  }
+  const s = sl.solved(4)
+  const moved = sl.slide(s, 4, 12) // bottom-left: slides 3 tiles to the right
+  assert.deepEqual(moved.slice(12), [0, 13, 14, 15])
+  assert.equal(sl.slide(s, 4, 0), null, 'not in the empty row/column')
+})
+
+test('guess the word: final letters, wins, losses, clean word list', async () => {
+  const w = await import('../src/arcade/logic/words.js')
+  assert.ok(w.lettersIn('כלב').has('כ'))
+  const g = new Set(['ש', 'ל', 'ג'])
+  assert.equal(w.isWon('שלג', g), true)
+  assert.equal(w.isWon('מלך', new Set(['מ', 'ל', 'כ'])), true, 'כ reveals ך')
+  assert.equal(w.isLost('שמש', new Set(['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז'])), true)
+  const all = Object.values(w.CATEGORIES).flat()
+  assert.equal(new Set(all).size, all.length, 'no duplicates')
+  for (const word of all) {
+    assert.ok([...word].every(c => w.isLetter(c) || c === '׳'), word)
+    assert.ok(![...word].slice(0, -1).some(c => 'ךםןףץ'.includes(c)), `${word}: final letter only at the end`)
+    assert.ok(!'כמנפצ'.includes(word.at(-1)), `${word}: ends with a final form`)
+  }
+})
+
+test('marathon: 8 different games, every one exists and takes a goal', async () => {
+  const m = await import('../src/arcade/marathon.js')
+  const { ARCADE } = await import('../src/arcade/registry.js')
+  for (let k = 0; k < 20; k++) {
+    const plan = m.planMarathon(rng(k))
+    assert.equal(plan.length, m.MARATHON_LENGTH)
+    assert.equal(new Set(plan.map(s => s.slug)).size, plan.length, 'no game twice')
+    for (const s of plan) assert.ok(ARCADE.some(g => g.slug === s.slug), s.slug)
+  }
+  assert.equal(m.clock(125), '2:05')
+})

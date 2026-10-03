@@ -69,6 +69,7 @@ const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
 const OnlineGamesHub = lazy(() => import('./pages/arcade/OnlineGamesHub'))
 const DailyChallenge = lazy(() => import('./pages/arcade/DailyChallenge'))
+const MarathonPage = lazy(() => import('./pages/arcade/MarathonPage'))
 const OnlineGamePage = lazy(() => import('./pages/arcade/OnlineGamePage'))
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
@@ -256,6 +257,7 @@ export default function App() {
               <Route path="/board-games/:slug" element={<BoardGamePage />} />
               <Route path="/online-games" element={<OnlineGamesHub />} />
               <Route path="/online-games/today" element={<DailyChallenge />} />
+              <Route path="/online-games/marathon" element={<MarathonPage />} />
               <Route path="/online-games/:slug" element={<OnlineGamePage />} />
               <Route path="/printables/roots-project" element={<RootsProject />} />
               <Route path="/printables/birthday-newspaper" element={<BirthdayNewspaper />} />

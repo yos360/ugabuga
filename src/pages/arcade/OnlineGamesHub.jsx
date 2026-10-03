@@ -27,6 +27,11 @@ export default function OnlineGamesHub() {
         <span><b>🌟 אתגר היום: {daily.name}</b><small>{daily.goal} · אותו אתגר לכולם, מתחלף כל יום</small></span>
         <span className="arc-play-chip">▶ לאתגר</span>
       </Link>
+      <Link to="/online-games/marathon" className="dl-banner" style={{ '--game-color': '#ffd23f' }}>
+        <span className="dl-banner-art" aria-hidden="true">🏃</span>
+        <span><b>🏃 מרתון משחקים: 8 משחקים ברצף</b><small>כל שלב ממשחק אחר · שעון אחד · מי מסיים הכי מהר?</small></span>
+        <span className="arc-play-chip">▶ למרתון</span>
+      </Link>
       <div className="arc-grid">
         {ARCADE.map(g => (
           <Link key={g.slug} to={`/online-games/${g.slug}#play`} className="arc-card" style={{ '--game-color': g.color }}>

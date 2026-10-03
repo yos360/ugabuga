@@ -89,7 +89,10 @@ export default function BlockParty({ onReport, onShare, daily }) {
     if (!commit(sel, clamp(x - Math.floor((w - 1) / 2), w), clamp(y - Math.floor((h - 1) / 2), h))) commit(sel, clamp(x, w), clamp(y, h))
   }
 
-  useEffect(() => { if (over && daily) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score: -score, won: true }) }, [over, daily, score])
+  useEffect(() => {
+    if (daily?.target && score >= daily.target) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score, won: true })
+    else if (over && daily) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score: -score, won: !daily.target })
+  }, [over, daily, score])
   useEffect(() => { if (score > progress.best) saveProgress({ best: score }) }, [score, progress.best, saveProgress])
   useEffect(() => { if (score) onReport?.({ text: `🟨 צברתי ${score} נקודות במסיבת בלוקים!` }) }, [score, onReport])
 
@@ -99,7 +102,7 @@ export default function BlockParty({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', score], ['שיא', Math.max(progress.best, score)]]}>
+      <Hud stats={[['ניקוד', daily?.target ? `${score}/${daily.target}` : score], ['שיא', Math.max(progress.best, score)]]}>
         <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
       </Hud>
       <div className="arc-field" ref={boxRef} style={{ flexDirection: 'column', gap: 12 }}>

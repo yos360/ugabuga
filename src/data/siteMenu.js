@@ -19,7 +19,12 @@ export const MENU_GROUPS = [
     title: '🕹️ משחקי אונליין', to: '/online-games',
     items: [
       { to: '/online-games/today', label: 'אתגר היום — מתחלף כל יום', icon: '🌟' },
+      { to: '/online-games/marathon', label: 'מרתון משחקים — 8 ברצף', icon: '🏃' },
       { to: '/online-games/battleship', label: 'צוללות', icon: '⚓' },
+      { to: '/online-games/falling-blocks', label: 'בלוקים נופלים', icon: '🧱' },
+      { to: '/online-games/whack-a-mole', label: 'הכה בחפרפרת', icon: '🔨' },
+      { to: '/online-games/sliding-puzzle', label: 'פאזל הזזה', icon: '🧩' },
+      { to: '/online-games/word-guess', label: 'נחשו את המילה', icon: '🎈' },
       { to: '/online-games/flying-cubes', label: 'קוביות מעופפות 3D', icon: '🧊' },
       { to: '/online-games/ball-sort', label: 'מיון כדורים', icon: '🧪' },
       { to: '/online-games/merge-2048', label: 'מכפילים עד 2048', icon: '🔢' },
