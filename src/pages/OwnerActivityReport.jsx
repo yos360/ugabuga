@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
+import OwnerPartyLists from '../components/owner/OwnerPartyLists'
 
 // Fixed categorical order (never reassigned per-render) — validated for
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
@@ -87,7 +88,7 @@ const SORTS = [
 ]
 function pageKind(path, row) {
   const first = path.split('/').filter(Boolean)[0]
-  if (first === 'games' || first === 'board-games' || first === 'dice-games') return 'game'
+  if (first === 'games' || first === 'board-games' || first === 'dice-games' || first === 'online-games') return 'game'
   if (first === 'printables' || row.prints > 0 || row.previews > 0) return 'print'
   if (first === 'tools') return 'tool'
   return 'page'
@@ -274,6 +275,8 @@ export default function OwnerActivityReport() {
           <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
           <StatCard value={data.by_action?.print || 0} text="הדפיסו בפועל" tone="bg-orange-50" />
           <StatCard value={data.sources?.qr || 0} text="סרקו QR מדף מודפס" tone="bg-lime-50" />
+          <StatCard value={data.by_action?.share || 0} text="שיתופים בוואטסאפ" tone="bg-green-50" />
+          <StatCard value={data.sources?.whatsapp || 0} text="הגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
           <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>
 
@@ -282,9 +285,12 @@ export default function OwnerActivityReport() {
         <div className="mb-8 grid gap-8 sm:grid-cols-2">
           <TopItems title="🎮 10 המשחקים והכלים שהכי שיחקו" stats={pageStats} value={r => r.uses} empty="אין עדיין משחקים בתקופה הזו." />
           <TopItems title="🖨️ 10 הדפים שהכי הדפיסו / הורידו" stats={pageStats} value={r => r.prints} empty="אין עדיין הדפסות בתקופה הזו." />
+          <TopItems title="📤 10 העמודים שהכי שיתפו בוואטסאפ" stats={pageStats} value={r => r.shares} empty="אין עדיין שיתופים בתקופה הזו." />
         </div>
 
         <Bouncing stats={pageStats} />
+
+        <OwnerPartyLists />
 
         <h2 className="mb-1 text-2xl font-black">⏱️ כמה זמן נשארו בכל עמוד</h2>
         <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>

@@ -186,6 +186,12 @@
   <url><loc>https://ugabuga.co.il/letters/resh</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/letters/shin</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/letters/tav</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/flying-cubes</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/ball-sort</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/merge-2048</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/block-puzzle</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/traffic-jam</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/checkers</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/backgammon</loc><priority>0.8</priority></url>

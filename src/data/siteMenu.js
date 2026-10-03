@@ -16,6 +16,17 @@ export const SECTION = {
 
 export const MENU_GROUPS = [
   {
+    title: '🕹️ משחקי אונליין', to: '/online-games',
+    items: [
+      { to: '/online-games/flying-cubes', label: 'קוביות מעופפות 3D', icon: '🧊' },
+      { to: '/online-games/ball-sort', label: 'מיון כדורים', icon: '🧪' },
+      { to: '/online-games/merge-2048', label: 'מכפילים עד 2048', icon: '🔢' },
+      { to: '/online-games/block-puzzle', label: 'מסיבת בלוקים', icon: '🟨' },
+      { to: '/online-games/traffic-jam', label: 'פקק תנועה', icon: '🚚' },
+      { to: '/board-games', label: 'משחקי לוח: דמקה, שחמט ועוד', icon: '♟️' },
+    ],
+  },
+  {
     title: '🎂 ליום הולדת ולמסיבה', to: '/birthday',
     items: [
       { to: '/calculator', label: 'מחשבון מסיבה', icon: '🧮' },
@@ -98,4 +109,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']

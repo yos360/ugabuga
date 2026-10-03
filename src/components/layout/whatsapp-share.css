@@ -1,0 +1,6 @@
+/* site-wide WhatsApp share button */
+.wa-fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;display:inline-flex;align-items:center;gap:6px;height:52px;padding:0 16px 0 14px;border-radius:999px;border:2.5px solid #1d2233;background:#25d366;color:#fff;font-weight:900;font-size:16px;box-shadow:3px 3px 0 #1d2233;cursor:pointer;transition:transform .15s}
+.wa-fab:hover{transform:translateY(-2px)}
+.wa-fab:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
+@media (max-width:640px){.wa-fab{width:52px;padding:0;justify-content:center}.wa-fab-text{display:none}}
+@media print{.wa-fab{display:none!important}}
