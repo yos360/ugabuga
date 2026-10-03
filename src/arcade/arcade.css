@@ -244,3 +244,22 @@ button.bs2-cell{cursor:default}
 /* The site gives every button a 44px minimum (good tap targets). Inside the games, board
    cells set their own exact size, so that minimum would make rows overlap. */
 .arc-stage .arc-game button{min-height:0}
+
+/* snake menu */
+.sn-menu{position:absolute;inset:6px;z-index:6;overflow:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px 12px;background:#fffdf6f2;border:2.5px solid var(--arc-ink);border-radius:20px;box-shadow:4px 4px 0 var(--arc-ink)}
+.sn-menu h3{margin:0;font-size:30px;font-weight:900}
+.sn-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:460px}
+.sn-mode{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 8px;border:2.5px solid var(--arc-ink);border-radius:18px;background:#c6eeaf;box-shadow:3px 3px 0 var(--arc-ink);cursor:pointer;color:var(--arc-ink)}
+.sn-mode.is-journey{background:#ffe08a}
+.sn-mode b{font-size:22px;font-weight:900}
+.sn-mode small{font-size:13px;font-weight:700;color:#4d556a}
+.sn-mode:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--arc-ink)}
+.sn-levels{direction:ltr;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:460px}
+.sn-lv{position:relative;height:46px;border:2px solid var(--arc-ink);border-radius:12px;background:#fff;font-weight:900;font-size:16px;color:var(--arc-ink);cursor:pointer;padding:0 0 10px}
+.sn-lv i{position:absolute;bottom:2px;left:0;right:0;font-style:normal;font-size:10px;color:#f5a400;letter-spacing:1px}
+.sn-lv.is-done{background:#eafbe9}
+.sn-lv:disabled{opacity:.45;cursor:default}
+.sn-skins{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:460px}
+.sn-skin{display:inline-flex;align-items:center;gap:4px;border:2px solid var(--arc-ink);background:#fff;border-radius:999px;padding:4px 10px;font-weight:800;font-size:14px;cursor:pointer;color:var(--arc-ink)}
+.sn-skin.is-on{background:var(--arc-ink);color:#fff}
+.sn-skin:disabled{opacity:.5;cursor:help}

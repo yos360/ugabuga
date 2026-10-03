@@ -238,3 +238,43 @@ test('snake: a golden apple is worth 3', () => {
   assert.equal(n.score, 8)
   assert.equal(n.body.length, 4)
 })
+
+test('snake journey: every level is fully reachable and starts with room ahead', () => {
+  for (const wide of [false, true]) for (let L = 1; L <= sn.LEVEL_COUNT; L++) {
+    const spec = sn.levelSpec(L, wide)
+    const s = sn.start(spec.w, spec.h, rng(L), spec)
+    const rocks = new Set(spec.rocks.map(([x, y]) => `${x},${y}`))
+    assert.ok(s.body.every(([x, y]) => !rocks.has(`${x},${y}`)), `level ${L}: snake not on a rock`)
+    const [hx, hy] = s.body[0]
+    assert.ok([1, 2, 3].every(k => !rocks.has(`${(hx + k) % spec.w},${hy}`)), `level ${L}: room ahead`)
+    const seen = new Set([`${hx},${hy}`]), q = [[hx, hy]]
+    while (q.length) {
+      const [x, y] = q.pop()
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const nx = (x + dx + spec.w) % spec.w, ny = (y + dy + spec.h) % spec.h, k = `${nx},${ny}`
+        if (!rocks.has(k) && !seen.has(k)) { seen.add(k); q.push([nx, ny]) }
+      }
+    }
+    assert.equal(seen.size, spec.w * spec.h - rocks.size, `level ${L}${wide ? ' (wide)' : ''}: no closed-off pockets`)
+    assert.ok(!rocks.has(`${s.apple[0]},${s.apple[1]}`))
+  }
+})
+
+test('snake: rocks, ghost power, shrink, combos, and finishing a level', () => {
+  let s = { ...sn.start(10, 10, rng(1), { rocks: [[9, 5]], goal: 2 }) }
+  s = { ...s, body: [[8, 5], [7, 5], [6, 5]], dir: 'right', queue: [], apple: [0, 0, false] }
+  assert.equal(sn.step(s, false).dead, true, 'rock kills')
+  assert.equal(sn.step({ ...s, fx: { slow: 0, ghost: 5 } }, false).dead, false, 'ghost passes through')
+  // shrink power
+  const long = { ...s, rocks: [], body: Array.from({ length: 8 }, (_, i) => [8 - i, 5]), power: { x: 9, y: 5, type: 'shrink', ttl: 10 } }
+  const shr = sn.step(long, false)
+  assert.equal(shr.got, 'shrink')
+  assert.equal(shr.body.length, 5)
+  // combo: three quick apples → double points, and the goal finishes the level
+  let c = { ...sn.start(12, 3, rng(2), { goal: 3 }), body: [[3, 1], [2, 1], [1, 1]], dir: 'right', queue: [] }
+  for (let k = 0; k < 3; k++) { c = { ...c, apple: [c.body[0][0] + 1, 1, false], power: null }; c = sn.step(c, false, rng(k)) }
+  assert.equal(c.combo, 3)
+  assert.equal(c.score, 1 + 1 + 2)
+  assert.equal(c.won, true)
+  assert.ok(sn.speedFor(0, { fx: { slow: 10 } }) > sn.speedFor(0, null), '🐢 slows down')
+})
