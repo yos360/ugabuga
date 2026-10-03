@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { start as startSnake, turn, step, speedFor } from '../logic/snake'
+import { rng } from '../logic/rng'
 import { useBox, useProgress, useSwipe, useArrowKeys } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
 const COLS = 17
 
-export default function Snake({ onReport, onShare }) {
+export default function Snake({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('snake', { best: 0, walls: false })
   const [boxRef, box] = useBox()
   const fieldRef = useRef(null)
@@ -16,17 +17,19 @@ export default function Snake({ onReport, onShare }) {
   const [dead, setDead] = useState(false)
   const [record, setRecord] = useState(false)
   const game = useRef(null)
+  const rand = useRef(Math.random) // apples: seeded in the daily challenge, so everyone gets the same ones
+  const newSnake = () => { rand.current = daily ? rng(daily.seed) : Math.random; return startSnake(COLS, rows, rand.current) }
 
   // board size: 17 columns, rows to fill the space
   const cell = box.w ? Math.max(14, Math.min((box.w - 12) / COLS, 40)) : 20
   const rows = box.h ? Math.max(10, Math.min(Math.floor((box.h - 12) / cell), 28)) : 18
   const W = COLS * cell, H = rows * cell
 
-  const reset = () => { game.current = startSnake(COLS, rows); setScore(0); setDead(false); setRecord(false); setRunning(false); draw() }
+  const reset = () => { game.current = newSnake(); setScore(0); setDead(false); setRecord(false); setRunning(false); draw() }
   // new board whenever the size changes before the game starts
   useEffect(() => {
     if (!box.w) return
-    if (!game.current || (!running && !dead && game.current.h !== rows)) game.current = startSnake(COLS, rows)
+    if (!game.current || (!running && !dead && game.current.h !== rows)) game.current = newSnake()
     draw()
   })
 
@@ -67,7 +70,7 @@ export default function Snake({ onReport, onShare }) {
     if (!running) return undefined
     let t = 0
     const tick = () => {
-      const s = step(game.current, walls)
+      const s = step(game.current, walls, rand.current)
       game.current = s
       draw()
       if (s.score !== score) setScore(s.score)
@@ -80,9 +83,10 @@ export default function Snake({ onReport, onShare }) {
 
   useEffect(() => {
     if (!dead) return
+    if (daily) { daily.finish({ text: `🐍 נחש: הנחש שלי אכל ${score} תפוחים`, score: -score, won: true }); return }
     saveProgress(p => ({ best: Math.max(p.best, score) }))
     if (score) onReport?.({ text: `🐍 הנחש שלי אכל ${score} תפוחים!` })
-  }, [dead, score, saveProgress, onReport])
+  }, [dead, score, saveProgress, onReport, daily])
 
   const go = dir => {
     if (!game.current || dead) return
@@ -112,7 +116,7 @@ export default function Snake({ onReport, onShare }) {
           <button type="button" className="arc-tool" onClick={() => go('left')} aria-label="שמאלה">⬅️</button>
         </div>
       </div>
-      {dead && <EndCard title="🐍 אוי, הנחש נתקע!" text={`אכלתם ${score} תפוחים${record ? ' — שיא חדש! 🎉' : ''}.`}
+      {dead && !daily && <EndCard title="🐍 אוי, הנחש נתקע!" text={`אכלתם ${score} תפוחים${record ? ' — שיא חדש! 🎉' : ''}.`}
         primary="🔄 עוד סיבוב" onPrimary={reset}
         secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🐍 הנחש שלי אכל ${score} תפוחים! מי עובר אותי?`)} />}
     </div>

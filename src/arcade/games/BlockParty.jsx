@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { N, emptyBoard, canPlace, place, fitsAnywhere, dealPieces, shapeSize } from '../logic/blocks'
+import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
 const PAD = 5, GAP = 3
 
-export default function BlockParty({ onReport, onShare }) {
+export default function BlockParty({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('block-puzzle', { best: 0 })
   const [board, setBoard] = useState(emptyBoard)
-  const [pieces, setPieces] = useState(() => dealPieces())
+  // the daily challenge deals the same shapes to everyone
+  const [rand, setRand] = useState(() => (daily ? rng(daily.seed) : Math.random))
+  const [pieces, setPieces] = useState(() => dealPieces(rand))
   const [score, setScore] = useState(0)
   const [sel, setSel] = useState(null)
   const [drag, setDrag] = useState(null)
@@ -39,7 +42,7 @@ export default function BlockParty({ onReport, onShare }) {
     if (!piece || !canPlace(board, piece.cells, gx, gy)) return false
     const res = place(board, piece, gx, gy)
     let nextPieces = pieces.map((p, k) => (k === i ? null : p))
-    if (nextPieces.every(p => !p)) nextPieces = dealPieces(Math.random, res.board)
+    if (nextPieces.every(p => !p)) nextPieces = dealPieces(rand, res.board)
     setBoard(res.board)
     setPieces(nextPieces)
     setScore(s => s + res.gained)
@@ -86,10 +89,11 @@ export default function BlockParty({ onReport, onShare }) {
     if (!commit(sel, clamp(x - Math.floor((w - 1) / 2), w), clamp(y - Math.floor((h - 1) / 2), h))) commit(sel, clamp(x, w), clamp(y, h))
   }
 
+  useEffect(() => { if (over && daily) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score: -score, won: true }) }, [over, daily, score])
   useEffect(() => { if (score > progress.best) saveProgress({ best: score }) }, [score, progress.best, saveProgress])
   useEffect(() => { if (score) onReport?.({ text: `🟨 צברתי ${score} נקודות במסיבת בלוקים!` }) }, [score, onReport])
 
-  const restart = () => { setBoard(emptyBoard()); setPieces(dealPieces()); setScore(0); setSel(null); setOver(false) }
+  const restart = () => { const r = daily ? rng(daily.seed) : Math.random; setRand(() => r); setBoard(emptyBoard()); setPieces(dealPieces(r)); setScore(0); setSel(null); setOver(false) }
   const ghostCells = new Map()
   if (drag?.ok) for (const [x, y] of pieces[drag.i].cells) ghostCells.set(`${drag.gx + x},${drag.gy + y}`, pieces[drag.i].color)
 
@@ -133,7 +137,7 @@ export default function BlockParty({ onReport, onShare }) {
           </div>
         )
       })()}
-      {over && <EndCard title="🎊 אין יותר מקום!" text={`צברתם ${score} נקודות${score >= progress.best && score > 0 ? ' — שיא חדש! 🎉' : ''}`}
+      {over && !daily && <EndCard title="🎊 אין יותר מקום!" text={`צברתם ${score} נקודות${score >= progress.best && score > 0 ? ' — שיא חדש! 🎉' : ''}`}
         primary="🔄 משחק חדש" onPrimary={restart}
         secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🟨 צברתי ${score} נקודות במסיבת בלוקים! מי עובר אותי?`)} />}
     </div>

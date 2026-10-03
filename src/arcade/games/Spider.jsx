@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { rng } from '../logic/rng'
 import { deal, apply, dealRow, canDeal, bestTarget, legal, isWon, findHint, canPick } from '../logic/spider'
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
@@ -7,9 +8,11 @@ import { Card, Slot } from '../cardsUi'
 
 const LEVELS = [[1, 'קל · צורה אחת'], [2, 'בינוני · 2 צורות'], [4, 'קשה · 4 צורות']]
 
-export default function Spider({ onReport, onShare }) {
+export default function Spider({ onReport, onShare, daily }) {
+  // daily challenge: one suit, the same deal for everyone
+  const newDeal = suits => (daily ? deal(1, rng(daily.seed)) : deal(suits))
   const [progress, saveProgress] = useProgress('spider', { suits: 1, wins: 0 })
-  const [s, setS] = useState(() => deal(progress.suits))
+  const [s, setS] = useState(() => newDeal(progress.suits))
   const [history, setHistory] = useState([])
   const [toast, setToast] = useState(null)
   const [hint, setHint] = useState(null)
@@ -43,7 +46,7 @@ export default function Spider({ onReport, onShare }) {
     commit(dealRow(s))
   }
   const undo = () => { if (!history.length) return; setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
-  const restart = (suits = s.suits) => { setS(deal(suits)); setHistory([]); setHint(null); saveProgress({ suits }) }
+  const restart = (suits = s.suits) => { setS(newDeal(suits)); setHistory([]); setHint(null); if (!daily) saveProgress({ suits }) }
   const showHint = () => {
     const h = findHint(s)
     if (!h) say('אין מהלך — נסו לבטל כמה מהלכים אחורה')
@@ -52,9 +55,10 @@ export default function Spider({ onReport, onShare }) {
 
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🕷️ סוליטר עכביש: פירקתי את כל הרצפים ב־${s.moves} מהלכים`, score: s.moves, won: true }); return }
     saveProgress(p => ({ wins: p.wins + 1 }))
     onReport?.({ text: `🕷️ ניצחתי בסוליטר עכביש (${s.suits === 1 ? 'צורה אחת' : `${s.suits} צורות`}) ב־${s.moves} מהלכים!` })
-  }, [won, s.suits, s.moves, saveProgress, onReport])
+  }, [won, s.suits, s.moves, saveProgress, onReport, daily])
 
   // ----- layout -----
   const gap = Math.max(3, Math.min(8, box.w / 120))
@@ -91,9 +95,9 @@ export default function Spider({ onReport, onShare }) {
         <ToolButton onClick={showHint} label="רמז">💡</ToolButton>
         <ToolButton onClick={() => restart()} label="משחק חדש">🔄</ToolButton>
       </Hud>
-      <div className="sp-levels" role="group" aria-label="רמת קושי">
+      {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
         {LEVELS.map(([n, label]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} onClick={() => restart(n)}>{label}</button>)}
-      </div>
+      </div>}
       <div className="arc-field cd-field" ref={boxRef}>
         <div className="cd-table" style={{ width: box.w, height: box.h }}>
           {/* stock: one small card per remaining deal */}
@@ -115,7 +119,7 @@ export default function Spider({ onReport, onShare }) {
         {toast && <div key={toast.k} className="arc-toast">{toast.text}</div>}
         {hint?.deal && <div className="arc-toast">💡 אין מהלך טוב — חלקו שורה חדשה מהחפיסה</div>}
       </div>
-      {won && <EndCard title="🎉 ניצחתם!" text={`פירקתם את כל 8 הרצפים ב־${s.moves} מהלכים.${s.suits < 4 ? ' מוכנים לרמה הבאה?' : ''}`}
+      {won && !daily && <EndCard title="🎉 ניצחתם!" text={`פירקתם את כל 8 הרצפים ב־${s.moves} מהלכים.${s.suits < 4 ? ' מוכנים לרמה הבאה?' : ''}`}
         primary={s.suits < 4 ? '▶ לרמה הבאה' : '🕷️ משחק חדש'} onPrimary={() => restart(s.suits === 1 ? 2 : 4)}
         secondary="📱 שתפו את הניצחון" onSecondary={() => onShare?.(`🕷️ ניצחתי בסוליטר עכביש של עוגה בוגה! תצליחו גם?`)} />}
     </div>

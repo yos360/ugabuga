@@ -2,6 +2,7 @@
 // Build the four foundations up by suit from A to K; on the seven tableau piles cards go
 // down in alternating colors, and only a K may fill an empty pile.
 import { deck, shuffled, isRed, top, flipTop } from './cards.js'
+import { rng } from './rng.js'
 
 export function deal(rand = Math.random) {
   const cards = shuffled(deck(), rand)
@@ -115,4 +116,29 @@ export function findHint(s) {
     return { src, dst }
   }
   return s.stock.length || s.waste.length ? { draw: true } : null
+}
+
+// Plays a deal with the hint logic only; true if that alone wins it.
+export function greedyWins(s, maxSteps = 1500) {
+  let idle = 0
+  for (let i = 0; i < maxSteps; i++) {
+    if (isWon(s) || canAutoFinish(s)) return true
+    const h = findHint(s)
+    if (!h) return false
+    if (h.draw) {
+      if (++idle > s.stock.length + s.waste.length + 2) return false // went through the whole stock with nothing to do
+      s = draw(s)
+    } else { idle = 0; s = apply(s, h.src, h.dst) }
+  }
+  return false
+}
+
+// A deal from this seed that is surely winnable (for the daily challenge: everyone gets
+// the same deal, and nobody gets a hopeless one).
+export function winnableDeal(seed) {
+  for (let t = 0; t < 400; t++) {
+    const s = deal(rng(seed + t * 7777))
+    if (greedyWins(s)) return s
+  }
+  return deal(rng(seed))
 }

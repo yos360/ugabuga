@@ -202,7 +202,8 @@ test('battleship: fleets never touch, a hit keeps the turn, sinking reveals the 
 
 test('daily challenge: one game per Israeli day, same seed for everyone, streak counting', async () => {
   const daily = await import('../src/arcade/daily.js')
-  const ARCADE_SLUGS = ['sudoku', 'battleship', 'ball-sort', 'memory', 'minesweeper', 'merge-2048', 'traffic-jam', 'flying-cubes']
+  const { ARCADE } = await import('../src/arcade/registry.js')
+  const ARCADE_SLUGS = ARCADE.map(g => g.slug)
   const base = Date.UTC(2026, 9, 3, 10) // 3 Oct 2026, 13:00 in Israel
   const a = daily.dailyFor(base), b = daily.dailyFor(base + 3600e3)
   assert.equal(a.day, b.day)
@@ -210,8 +211,8 @@ test('daily challenge: one game per Israeli day, same seed for everyone, streak 
   // 22:30 UTC on Oct 3 is already Oct 4 in Israel
   assert.equal(daily.dailyFor(Date.UTC(2026, 9, 3, 22, 30)).day, a.day + 1)
   const seen = new Set()
-  for (let d = 0; d < 8; d++) seen.add(daily.dailyFor(base + d * 86400e3).slug)
-  assert.equal(seen.size, 8, 'eight different games in eight days')
+  for (let d = 0; d < ARCADE.length; d++) seen.add(daily.dailyFor(base + d * 86400e3).slug)
+  assert.equal(seen.size, ARCADE.length, 'every online game gets its own day, all different, before the cycle repeats')
   for (const s of seen) assert.ok(ARCADE_SLUGS.includes(s))
   const ms = daily.msToNext(base)
   assert.ok(ms > 0 && ms <= 24 * 3600e3)
@@ -220,4 +221,12 @@ test('daily challenge: one game per Israeli day, same seed for everyone, streak 
   assert.equal(daily.streak({ 10: {}, 11: {} }, 12), 2, 'not played yet today → streak still counts until tonight')
   assert.equal(daily.streak({ 9: {}, 11: {} }, 12), 1)
   assert.match(daily.dailyShareText(a, { text: 'x', streak: 3 }), /ugabuga\.co\.il\/online-games\/today\?utm_source=whatsapp/)
+})
+
+test('solitaire daily deal is always winnable and the same for everyone', () => {
+  for (let day = 20000; day < 20012; day++) {
+    const a = kl.winnableDeal(day * 7919 + 101), b = kl.winnableDeal(day * 7919 + 101)
+    assert.deepEqual(a, b)
+    assert.ok(kl.greedyWins(a))
+  }
 })

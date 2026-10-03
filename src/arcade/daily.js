@@ -13,6 +13,10 @@ export const DAILY_GAMES = [
   { slug: 'merge-2048', name: 'מכפילים עד 2048', emoji: '🔢', goal: 'צוברים כמה שיותר נקודות על הלוח של היום', extra: () => ({}) },
   { slug: 'traffic-jam', name: 'פקק תנועה', emoji: '🚚', goal: 'משחררים את משאית הגלידה בכמה שפחות מהלכים', extra: day => ({ level: 15 + (day % 45) }) },
   { slug: 'flying-cubes', name: 'קוביות מעופפות', emoji: '🧊', goal: 'מפרקים את הקובייה של היום בלי לאבד לבבות', extra: day => ({ level: 4 + (day % 12) }) },
+  { slug: 'solitaire', name: 'סוליטר', emoji: '🃏', goal: 'מנצחים בחלוקת הקלפים של היום — היא בטוח פתירה!', extra: () => ({}) },
+  { slug: 'snake', name: 'נחש', emoji: '🐍', goal: 'אוכלים כמה שיותר תפוחים — אותם תפוחים לכולם', extra: () => ({}) },
+  { slug: 'spider-solitaire', name: 'סוליטר עכביש', emoji: '🕷️', goal: 'מפרקים את כל 8 הרצפים בכמה שפחות מהלכים', extra: () => ({}) },
+  { slug: 'block-puzzle', name: 'מסיבת בלוקים', emoji: '🟨', goal: 'צוברים כמה שיותר נקודות עם הצורות של היום', extra: () => ({}) },
 ]
 
 const dateFmt = new Intl.DateTimeFormat('he-IL', { timeZone: 'Asia/Jerusalem', weekday: 'long', day: 'numeric', month: 'long' })

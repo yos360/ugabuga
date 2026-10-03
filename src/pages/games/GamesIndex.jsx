@@ -1,4 +1,5 @@
 import { israelDayNumber } from '../../utils/israelDate'
+import { dailyFor } from '../../arcade/daily'
 import { useState, useMemo } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -109,6 +110,19 @@ export default function GamesIndex() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
       {ageNumber && AGE_INTRO[ageNumber] && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{AGE_INTRO[ageNumber]}</p>}
+      {isGameOfDay && (() => {
+        const today = dailyFor()
+        return (
+          <Link to="/online-games/today" className="mx-auto mb-6 flex max-w-2xl items-center gap-4 rounded-2xl border-[2.5px] border-[#1d2233] bg-gradient-to-l from-[#fff2a8] to-[#ffd6e8] px-5 py-4 text-[#1d2233] shadow-[4px_4px_0_#1d2233] transition-transform hover:-translate-y-0.5">
+            <span className="text-5xl" aria-hidden="true">{today.emoji}</span>
+            <span className="flex-1">
+              <b className="block text-xl font-black">🌟 משחק האונליין של היום: {today.name}</b>
+              <span className="block text-base font-semibold text-[#4d556a]">{today.goal} — אותו אתגר לכולם, משחקים ומשתפים</span>
+            </span>
+            <span className="rounded-full bg-[#1d2233] px-4 py-2 font-black text-white">▶ לשחק</span>
+          </Link>
+        )
+      })()}
       {!isGameOfDay && (
         <Link to="/online-games" className="mx-auto mb-6 flex max-w-2xl items-center justify-center gap-3 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#ffd23f] px-5 py-3 text-center text-lg font-black text-[#1d2233] shadow-[4px_4px_0_#1d2233] transition-transform hover:-translate-y-0.5">
           <span aria-hidden="true">🕹️</span> חדש! משחקי אונליין על כל המסך — סוליטר, סודוקו, שולה מוקשים, נחש, 2048 ועוד <span aria-hidden="true">←</span>

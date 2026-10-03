@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { deal, draw, apply, bestTarget, legal, isWon, canAutoFinish, autoStep, findHint } from '../logic/klondike'
+import { deal, winnableDeal, draw, apply, bestTarget, legal, isWon, canAutoFinish, autoStep, findHint } from '../logic/klondike'
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
@@ -14,9 +14,11 @@ const parse = key => {
 }
 const target = key => (key[0] === 'f' ? { type: 'found', pile: +key.slice(1) } : key[0] === 't' ? { type: 'tab', pile: +key.slice(1).split(':')[0] } : null)
 
-export default function Solitaire({ onReport, onShare }) {
+export default function Solitaire({ onReport, onShare, daily }) {
+  // daily challenge: the same deal for everyone, picked so it can surely be won
+  const newDeal = () => (daily ? winnableDeal(daily.seed) : deal())
   const [progress, saveProgress] = useProgress('solitaire', { wins: 0, best: 0 })
-  const [s, setS] = useState(() => deal())
+  const [s, setS] = useState(newDeal)
   const [history, setHistory] = useState([])
   const [shake, setShake] = useState(null)
   const [hint, setHint] = useState(null)
@@ -61,12 +63,13 @@ export default function Solitaire({ onReport, onShare }) {
 
   useEffect(() => {
     if (!won) return
+    if (daily) { daily.finish({ text: `🃏 סוליטר: ניצחתי תוך ${fmt(time)} ו־${s.moves} מהלכים`, score: time, won: true }); return }
     saveProgress(p => ({ wins: p.wins + 1, best: p.best ? Math.min(p.best, time) : time }))
     onReport?.({ text: `🃏 ניצחתי בסוליטר תוך ${fmt(time)} ו־${s.moves} מהלכים!` })
-  }, [won, time, s.moves, saveProgress, onReport])
+  }, [won, time, s.moves, saveProgress, onReport, daily])
 
   const undo = () => { if (!history.length) return; setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
-  const restart = () => { setS(deal()); setHistory([]); setTime(0); setHint(null) }
+  const restart = () => { setS(newDeal()); setHistory([]); setTime(0); setHint(null) }
   const showHint = () => { const h = findHint(s); setHint(h || { none: true }); clearTimeout(hintTimer.current); hintTimer.current = setTimeout(() => setHint(null), 2200) }
 
   // ----- layout -----
@@ -134,7 +137,7 @@ export default function Solitaire({ onReport, onShare }) {
         {hint?.none && <div className="arc-toast">אין מהלך מועיל — נסו להפוך קלפים מהחפיסה</div>}
         {hint?.draw && <div className="arc-toast">💡 הפכו קלף מהחפיסה</div>}
       </div>
-      {won && <EndCard title="🎉 ניצחתם!" text={`כל הקלפים הגיעו הביתה תוך ${fmt(time)} ו־${s.moves} מהלכים.`}
+      {won && !daily && <EndCard title="🎉 ניצחתם!" text={`כל הקלפים הגיעו הביתה תוך ${fmt(time)} ו־${s.moves} מהלכים.`}
         primary="🃏 משחק חדש" onPrimary={restart}
         secondary="📱 שתפו את הניצחון" onSecondary={() => onShare?.(`🃏 ניצחתי בסוליטר תוך ${fmt(time)}! מי מהיר יותר?`)} />}
     </div>
