@@ -1,0 +1,164 @@
+// Online games (/online-games): rules of every game, checked on the pure logic modules.
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { rng } from '../src/arcade/logic/rng.js'
+import * as merge from '../src/arcade/logic/merge.js'
+import * as kl from '../src/arcade/logic/klondike.js'
+import * as sp from '../src/arcade/logic/spider.js'
+import * as ms from '../src/arcade/logic/mines.js'
+import * as sd from '../src/arcade/logic/sudoku.js'
+import * as sn from '../src/arcade/logic/snake.js'
+import { build as buildMemory, pairsFor } from '../src/arcade/logic/memory.js'
+
+const row = (values, y = 0) => values.map((v, x) => (v ? { id: 1000 + y * 10 + x, value: v, x, y } : null)).filter(Boolean)
+const line = (tiles, y = 0) => Array.from({ length: 4 }, (_, x) => tiles.find(t => t.x === x && t.y === y)?.value || 0)
+
+test('2048: slides, merges once per tile, keeps ids of tiles that only slide', () => {
+  let r = merge.move(row([2, 2, 4, 0]), 'left')
+  assert.deepEqual(line(r.tiles), [4, 4, 0, 0])
+  assert.equal(r.gained, 4)
+  assert.equal(r.ghosts.length, 2, 'both merged tiles slide in as ghosts')
+  assert.ok(r.tiles.some(t => t.id === 1002 && t.x === 1), 'the 4 kept its id and slid')
+  r = merge.move(row([2, 2, 2, 2]), 'left')
+  assert.deepEqual(line(r.tiles), [4, 4, 0, 0])
+  r = merge.move(row([4, 4, 8, 0]), 'left')
+  assert.deepEqual(line(r.tiles), [8, 8, 0, 0], 'a new 8 does not merge again in the same move')
+  r = merge.move(row([0, 2, 2, 2]), 'right')
+  assert.deepEqual(line(r.tiles), [0, 0, 2, 4], 'right merges from the right edge')
+  assert.equal(merge.move(row([2, 4, 8, 16]), 'left').moved, false)
+  assert.equal(merge.move(row([2, 4, 8, 16]), 'right').moved, false)
+  // up/down use columns
+  const col = [{ id: 1, value: 2, x: 0, y: 1 }, { id: 2, value: 2, x: 0, y: 3 }]
+  r = merge.move(col, 'up')
+  assert.deepEqual(r.tiles.map(t => [t.value, t.x, t.y]), [[4, 0, 0]])
+  // full board, no pairs → game over
+  const full = []
+  for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) full.push({ id: y * 4 + x, value: 2 ** (((x + y) % 2) + 1 + (y % 2 ? 2 : 0)), x, y })
+  assert.equal(merge.canPlay(full), false)
+  assert.equal(merge.spawn(full).length, 16)
+})
+
+test('2048: a long random game keeps the board consistent', () => {
+  const r = rng(7)
+  let tiles = merge.fresh(r), score = 0
+  const dirs = ['left', 'up', 'right', 'down']
+  for (let i = 0; i < 400 && merge.canPlay(tiles); i++) {
+    const m = merge.move(tiles, dirs[Math.floor(r() * 4)])
+    if (!m.moved) continue
+    score += m.gained
+    tiles = merge.spawn(m.tiles, r)
+    const cells = new Set(tiles.map(t => `${t.x},${t.y}`))
+    assert.equal(cells.size, tiles.length, 'no two tiles share a cell')
+    assert.ok(tiles.every(t => t.x >= 0 && t.x < 4 && t.y >= 0 && t.y < 4))
+  }
+  assert.ok(score > 0)
+})
+
+test('solitaire (klondike): deal, rules, and card count never changes', () => {
+  const r = rng(3)
+  let s = kl.deal(r)
+  assert.deepEqual(s.tab.map(p => p.length), [1, 2, 3, 4, 5, 6, 7])
+  assert.ok(s.tab.every(p => p.at(-1).up && p.slice(0, -1).every(c => !c.up)))
+  assert.equal(s.stock.length, 24)
+  const count = st => st.stock.length + st.waste.length + st.found.flat().length + st.tab.flat().length
+  // play greedily with the same "tap" logic the game uses
+  for (let i = 0; i < 800; i++) {
+    const h = kl.findHint(s)
+    if (!h) break
+    s = h.draw ? kl.draw(s) : kl.apply(s, h.src, h.dst)
+    assert.equal(count(s), 52)
+    for (const p of s.tab) if (p.length) assert.ok(p.at(-1).up, 'top card of every pile is face up')
+  }
+  assert.equal(kl.canTab({ suit: 0, rank: 13 }, []), true)
+  assert.equal(kl.canTab({ suit: 0, rank: 12 }, []), false)
+  assert.equal(kl.canTab({ suit: 1, rank: 6 }, [{ suit: 0, rank: 7, up: true }]), true)
+  assert.equal(kl.canTab({ suit: 3, rank: 6 }, [{ suit: 0, rank: 7, up: true }]), false, 'same color not allowed')
+  assert.equal(kl.canFound({ suit: 2, rank: 1 }, []), true)
+  assert.equal(kl.canFound({ suit: 2, rank: 2 }, [{ suit: 2, rank: 1 }]), true)
+})
+
+test('solitaire: auto-finish completes a won position', () => {
+  // all 52 cards face up, each suit in one pile in descending order → auto steps finish it
+  let s = { stock: [], waste: [], found: [[], [], [], []], tab: [0, 1, 2, 3].map(suit => Array.from({ length: 13 }, (_, i) => ({ id: suit * 13 + i, suit, rank: 13 - i, up: true }))).concat([[], [], []]), moves: 0 }
+  assert.ok(kl.canAutoFinish(s))
+  for (let i = 0; i < 60 && !kl.isWon(s); i++) s = kl.autoStep(s)
+  assert.ok(kl.isWon(s))
+})
+
+test('spider: deal 54 + 50, runs move only by one suit, K→A run is collected', () => {
+  let s = sp.deal(2, rng(5))
+  assert.equal(s.tab.flat().length, 54)
+  assert.equal(s.stock.length, 50)
+  const pile = [{ suit: 0, rank: 9, up: true }, { suit: 1, rank: 8, up: true }, { suit: 1, rank: 7, up: true }]
+  assert.equal(sp.runStart(pile), 1)
+  const run = Array.from({ length: 12 }, (_, i) => ({ id: 900 + i, suit: 0, rank: 13 - i, up: true })) // K..2
+  s = { tab: [[{ id: 1, suit: 1, rank: 5, up: false }, ...run], [{ id: 2, suit: 0, rank: 1, up: true }], ...Array.from({ length: 8 }, (_, i) => [{ id: 10 + i, suit: 1, rank: 3, up: true }])], stock: [], done: 0, doneSuits: [], moves: 0 }
+  s = sp.apply(s, 1, 0, 0)
+  assert.equal(s.done, 1, 'finished run leaves the table')
+  assert.equal(s.tab[0].length, 1)
+  assert.ok(s.tab[0][0].up, 'the card under it turns face up')
+  // can't deal with an empty column
+  assert.equal(sp.canDeal({ ...s, stock: Array(10).fill({ suit: 0, rank: 1 }) }), false)
+})
+
+test('minesweeper: first tap is safe and opens an area; flags and win', () => {
+  for (let seed = 1; seed < 30; seed++) {
+    const l = ms.LEVELS[2]
+    let b = ms.place(ms.empty(l.w, l.h), l.mines, 40, rng(seed))
+    assert.equal(b.cells.filter(c => c.mine).length, l.mines)
+    assert.equal(b.cells[40].mine, false)
+    assert.equal(b.cells[40].n, 0, 'first tap cell has no mines around it')
+    b = ms.open(b, 40)
+    assert.ok(b.cells.filter(c => c.open).length >= 9)
+    // open every safe cell → won
+    b.cells.forEach((c, i) => { if (!c.mine) b = ms.open(b, i) })
+    assert.ok(ms.isWon(b))
+  }
+  let b = ms.place(ms.empty(8, 8), 8, 0, rng(1))
+  const mine = b.cells.findIndex(c => c.mine)
+  b = ms.toggleFlag(b, mine)
+  assert.equal(ms.open(b, mine).lost, false, 'a flagged cell does not open')
+  assert.equal(ms.open(ms.toggleFlag(b, mine), mine).lost, true)
+})
+
+test('sudoku: every generated puzzle has exactly one solution', () => {
+  for (const level of sd.LEVELS) {
+    for (let seed = 1; seed <= 3; seed++) {
+      const { puzzle, solution } = sd.generate(level, rng(seed * 31 + level.n))
+      const res = sd.solve(puzzle, level.n, level.br, level.bc, 2)
+      assert.equal(res.count, 1, `${level.id} unique`)
+      assert.deepEqual(res.solution, solution)
+      assert.equal(puzzle.filter(Boolean).length, level.keep)
+      assert.equal(sd.conflicts(solution, level.n, level.br, level.bc).size, 0)
+    }
+  }
+})
+
+test('memory: pairs grow with the level and every card has a twin', () => {
+  assert.equal(pairsFor(1), 6)
+  assert.equal(pairsFor(20), 15)
+  const cards = buildMemory(4, rng(2))
+  assert.equal(cards.length, pairsFor(4) * 2)
+  const counts = {}
+  for (const c of cards) counts[c.face] = (counts[c.face] || 0) + 1
+  assert.ok(Object.values(counts).every(n => n === 2))
+})
+
+test('snake: eats and grows, wraps through soft walls, dies on hard walls and on itself', () => {
+  let s = sn.start(10, 10, rng(1))
+  s = { ...s, apple: [s.body[0][0] + 1, s.body[0][1]] }
+  const len = s.body.length
+  s = sn.step(s, false, rng(1))
+  assert.equal(s.body.length, len + 1)
+  assert.equal(s.score, 1)
+  assert.notDeepEqual(s.apple, s.body[0])
+  // wrap
+  let w = { w: 5, h: 5, body: [[4, 2], [3, 2], [2, 2]], dir: 'right', queue: [], score: 0, dead: false, apple: [0, 0] }
+  assert.deepEqual(sn.step(w, false).body[0], [0, 2])
+  assert.equal(sn.step(w, true).dead, true)
+  // no U-turn into itself
+  assert.equal(sn.turn(w, 'left').queue.length, 0)
+  // bite itself
+  w = { w: 6, h: 6, body: [[2, 2], [3, 2], [3, 3], [2, 3], [1, 3]], dir: 'left', queue: ['down'], score: 0, dead: false, apple: [5, 5] }
+  assert.equal(sn.step(w, false).dead, true)
+})

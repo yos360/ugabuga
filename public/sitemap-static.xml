@@ -192,6 +192,12 @@
   <url><loc>https://ugabuga.co.il/online-games/merge-2048</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/block-puzzle</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/traffic-jam</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/solitaire</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/spider-solitaire</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/minesweeper</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/sudoku</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/memory</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/snake</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/checkers</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/backgammon</loc><priority>0.8</priority></url>

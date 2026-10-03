@@ -1,15 +1,19 @@
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { shareOnWhatsApp } from '../utils/share'
 import { exitFullscreen, enterFullscreen, shareGameText } from './stage'
+import { createMusic, musicPref, saveMusicPref } from './music'
 import { WhatsAppIcon } from '../components/layout/WhatsAppShare'
 import './arcade.css'
 
 // Full-screen game stage: covers the whole window (and goes into real browser
 // full-screen where the device allows it). Games render into the flexible body.
+// Soft background music plays while the stage is open (one tap mutes it).
 export default function ArcadeStage({ game, onClose }) {
   const [report, setReport] = useState(null)
   const [isFs, setIsFs] = useState(() => !!document.fullscreenElement)
+  const [musicOn, setMusicOn] = useState(musicPref)
+  const music = useRef(null)
   const canFs = typeof document !== 'undefined' && document.fullscreenEnabled
   const Game = game.component
 
@@ -30,12 +34,29 @@ export default function ArcadeStage({ game, onClose }) {
     }
   }, [onClose])
 
+  // Music: starts with the stage, follows the mute button, pauses in a hidden tab.
+  useEffect(() => {
+    const m = createMusic(game.mood)
+    music.current = m
+    const onVis = () => { if (document.hidden) m.stop(); else if (musicPref()) m.start() }
+    document.addEventListener('visibilitychange', onVis)
+    return () => { document.removeEventListener('visibilitychange', onVis); m.stop(true); music.current = null }
+  }, [game.mood])
+  useEffect(() => {
+    if (musicOn) music.current?.start()
+    else music.current?.stop()
+  }, [musicOn])
+  const toggleMusic = () => setMusicOn(on => { saveMusicPref(!on); return !on })
+
   return createPortal(
-    <div className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir="rtl" style={{ '--game-color': game.color }}>
+    <div className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir="rtl" style={{ '--game-color': game.color }}
+      onPointerDownCapture={() => { if (musicOn) music.current?.resume() }}>
       <header className="arc-top">
         <button type="button" className="arc-icon-btn" onClick={onClose} aria-label="יציאה מהמשחק">✕</button>
         <h2 className="arc-title"><span aria-hidden="true">{game.emoji}</span> {game.name}</h2>
         <div className="arc-top-actions">
+          <button type="button" className="arc-icon-btn" onClick={toggleMusic} aria-pressed={musicOn}
+            aria-label={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'} title={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'}>{musicOn ? '🎵' : '🔇'}</button>
           <button type="button" className="arc-share" onClick={() => shareOnWhatsApp(shareGameText(game, report))}>
             <WhatsAppIcon size={20} /><span className="arc-share-text">שתפו</span>
           </button>
