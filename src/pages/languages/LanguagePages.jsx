@@ -87,7 +87,10 @@ function PictureGame({ code, topic, say, voice = true }) {
   const ROUNDS = 10
   const makeRound = () => {
     const answer = topic.words[Math.floor(Math.random() * topic.words.length)]
-    const others = shuffle(topic.words.filter(x => x !== answer)).slice(0, 3)
+    // never two identical pictures (hello/goodbye share 👋): each option needs its own picture
+    const pic = w => w.emoji || w.text
+    const seen = new Set([pic(answer)])
+    const others = shuffle(topic.words.filter(x => x !== answer)).filter(x => !seen.has(pic(x)) && seen.add(pic(x))).slice(0, 3)
     return { answer, options: shuffle([answer, ...others]) }
   }
   const [round, setRound] = useState(makeRound)

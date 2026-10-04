@@ -173,6 +173,54 @@ function Bouncing({ stats }) {
     </table></div> : <p className="mb-8 rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
   </>
 }
+// One row per anonymous visitor (a browser on one day — the id rotates every 24h, so it
+// names no one): how much they did, where they came from, and their path through the site.
+const visitorColor = v => HUES[parseInt(v || '0', 16) % HUES.length]
+function VisitorTag({ v }) {
+  if (!v) return '—'
+  return <span className="inline-flex items-center gap-1 whitespace-nowrap font-mono text-xs" dir="ltr">
+    <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: visitorColor(v) }} />{v}
+  </span>
+}
+function ByVisitor({ data }) {
+  const [showAll, setShowAll] = useState(false)
+  if (!data.by_visitor) return <>
+    <h2 className="mb-1 text-2xl font-black">👤 לפי מבקר</h2>
+    <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">הפירוט לפי מבקר יופיע אחרי עדכון מסד הנתונים.</p>
+  </>
+  const list = showAll ? data.by_visitor : data.by_visitor.slice(0, 20)
+  return <>
+    <h2 className="mb-1 text-2xl font-black">👤 לפי מבקר</h2>
+    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. אותו קוד מופיע גם ב„פעולות אחרונות”.</p>
+    {list.length ? <div className="mb-8">
+      {list.map(r => <details key={r.v + r.first} className="border-b py-2 text-sm">
+        <summary className="flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1">
+          <VisitorTag v={r.v} />
+          <span><b>{r.events}</b> פעולות</span>
+          <span>{r.pages} דפים</span>
+          <span>{r.acts ? <b className="text-emerald-700">{r.acts} פעולות שימוש</b> : <span className="text-slate-500">רק צפה</span>}</span>
+          <span>⏱️ {r.secs ? fmtTime(r.secs) : '—'}</span>
+          <span className="text-slate-600">{SOURCE_LABELS[r.source] || '—'}</span>
+          <span className="text-slate-600">{DEVICE_LABELS[r.device] || '—'}</span>
+          <span className="text-slate-500">{fmtClock(r.first)}{r.last !== r.first ? `–${fmtClock(r.last)}` : ''}</span>
+        </summary>
+        <ol className="mt-2 space-y-1 border-r-4 pr-3" style={{ borderColor: visitorColor(r.v) }}>
+          {(r.steps || []).map((st, i) => <li key={i} className="flex flex-wrap gap-x-2">
+            <span className="shrink-0 text-slate-500">{fmtClock(st.at)}</span>
+            <b>{ACTION_LABELS[st.a] || st.a}</b>
+            <span>{pageName({ path: st.p, category: st.c })}</span>
+          </li>)}
+          {r.events > (r.steps || []).length && <li className="text-slate-500">…ועוד {r.events - r.steps.length} פעולות</li>}
+        </ol>
+      </details>)}
+    {data.by_visitor.length > 20 && <button onClick={() => setShowAll(v => !v)} className="mt-3 min-h-9 rounded-xl border-2 border-slate-200 px-3 py-1 text-sm font-bold">{showAll ? 'להציג פחות' : `להציג את כל ${data.by_visitor.length} המבקרים`}</button>}
+    </div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מבקרים בתקופה הזו.</p>}
+  </>
+}
+function fmtClock(iso) {
+  const d = new Date(iso), today = new Date().toDateString() === d.toDateString()
+  return d.toLocaleString('he-IL', today ? { hour: '2-digit', minute: '2-digit' } : { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
 function TrackSelf() {
   const [on, setOn] = useState(() => { try { return localStorage.getItem('buga-track-self') === '1' } catch { return false } })
   const toggle = e => { const v = e.target.checked; setOn(v); try { v ? localStorage.setItem('buga-track-self', '1') : localStorage.removeItem('buga-track-self') } catch { /* ignore */ } }
@@ -353,11 +401,14 @@ export default function OwnerActivityReport() {
           </div>
         </div>
 
+        <ByVisitor data={data} />
+
         <h2 className="mb-3 text-2xl font-black">פעולות אחרונות</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
-            <thead><tr className="border-b-2"><th className="p-2">פעילות</th><th className="p-2">מה עשו</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
+            <thead><tr className="border-b-2"><th className="p-2">מבקר</th><th className="p-2">פעילות</th><th className="p-2">מה עשו</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
             <tbody>{(data.recent || []).slice(0, 50).map((row, i) => <tr key={i} className="border-b">
+              <td className="p-2"><VisitorTag v={row.visitor} /></td>
               <td className="p-2">{label(row.category, row.action)}</td>
               <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</td>
               <td className="p-2 text-slate-600" dir="ltr">{row.path || '—'}</td>
