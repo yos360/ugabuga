@@ -45,7 +45,28 @@ export const TOPICS = [
   ] },
   { slug: 'nature', title: 'טבע ומזג אוויר', emoji: '🌳', items: [
     ['sun', 'שמש', '☀️'], ['moon', 'ירח', '🌙'], ['star', 'כוכב', '⭐'], ['tree', 'עץ', '🌳'], ['flower', 'פרח', '🌼'],
-    ['rain', 'גשם', '🌧️'], ['snow', 'שלג', '❄️'], ['sea', 'ים', '🌊'],
+    ['rain', 'גשם', '🌧️'], ['snow', 'שלג', '❄️'], ['sea', 'ים', '🌊'], ['cloud', 'ענן', '☁️'], ['rainbow', 'קשת בענן', '🌈'], ['mountain', 'הר', '⛰️'],
+  ] },
+  { slug: 'clothes', title: 'בגדים', emoji: '👕', items: [
+    ['shirt', 'חולצה', '👕'], ['pants', 'מכנסיים', '👖'], ['dress', 'שמלה', '👗'], ['sneakers', 'נעל ספורט', '👟'], ['socks', 'גרביים', '🧦'],
+    ['coat', 'מעיל', '🧥'], ['glasses', 'משקפיים', '👓'], ['gloves', 'כפפות', '🧤'], ['scarf', 'צעיף', '🧣'], ['cap', 'כובע', '🧢'],
+  ] },
+  { slug: 'people', title: 'אנשים', emoji: '👪', items: [
+    ['baby', 'תינוק', '👶'], ['boy', 'ילד', '👦'], ['girl', 'ילדה', '👧'], ['woman', 'אישה', '👩'], ['man', 'איש', '👨'],
+  ] },
+  { slug: 'school', title: 'בית ספר', emoji: '🎒', items: [
+    ['pencil', 'עיפרון', '✏️'], ['books', 'ספרים', '📚'], ['scissors', 'מספריים', '✂️'], ['schoolbag', 'ילקוט', '🎒'], ['crayon', 'צבע פנדה', '🖍️'], ['ruler', 'סרגל', '📏'],
+  ] },
+  { slug: 'more-animals', title: 'עוד חיות', emoji: '🦒', items: [
+    ['giraffe', 'ג׳ירפה', '🦒'], ['turtle', 'צב', '🐢'], ['snake', 'נחש', '🐍'], ['butterfly', 'פרפר', '🦋'], ['bee', 'דבורה', '🐝'],
+    ['mouse', 'עכבר', '🐭'], ['penguin', 'פינגווין', '🐧'], ['fox', 'שועל', '🦊'], ['pig', 'חזיר', '🐷'], ['duck', 'ברווז', '🦆'],
+  ] },
+  { slug: 'veggies-sweets', title: 'ירקות ומתוקים', emoji: '🥕', items: [
+    ['carrot', 'גזר', '🥕'], ['tomato', 'עגבנייה', '🍅'], ['corn', 'תירס', '🌽'], ['mushroom', 'פטרייה', '🍄'], ['pear', 'אגס', '🍐'],
+    ['cherries', 'דובדבנים', '🍒'], ['pizza', 'פיצה', '🍕'], ['icecream', 'גלידה', '🍦'], ['chocolate', 'שוקולד', '🍫'],
+  ] },
+  { slug: 'toys', title: 'משחקים וכיף', emoji: '🎈', items: [
+    ['balloon', 'בלון', '🎈'], ['teddy', 'דובי', '🧸'], ['gift', 'מתנה', '🎁'], ['kite', 'עפיפון', '🪁'], ['drum', 'תוף', '🥁'], ['guitar', 'גיטרה', '🎸'],
   ] },
 ]
 
@@ -61,6 +82,13 @@ export const WORDS = {
     eye: 'œil', ear: 'oreille', nose: 'nez', mouth: 'bouche', hand: 'main', foot: 'pied', tooth: 'dent', tongue: 'langue',
     house: 'maison', book: 'livre', ball: 'ballon', key: 'clé', chair: 'chaise', car: 'voiture', bus: 'bus', bicycle: 'vélo', airplane: 'avion',
     sun: 'soleil', moon: 'lune', star: 'étoile', tree: 'arbre', flower: 'fleur', rain: 'pluie', snow: 'neige', sea: 'mer',
+    shirt: 'chemise', pants: { w: 'jean', he: 'ג׳ינס' }, dress: 'robe', sneakers: 'basket', socks: 'chaussettes', coat: 'manteau', glasses: 'lunettes', gloves: 'gants', scarf: 'écharpe', cap: 'casquette',
+    baby: 'bébé', boy: 'garçon', girl: 'fille', woman: 'femme', man: 'homme',
+    pencil: 'crayon', books: 'livres', scissors: 'ciseaux', schoolbag: 'cartable', crayon: 'crayon pastel', ruler: 'règle',
+    giraffe: 'girafe', turtle: 'tortue', snake: 'serpent', butterfly: 'papillon', bee: 'abeille', mouse: 'souris', penguin: 'pingouin', fox: 'renard', pig: 'cochon', duck: 'canard',
+    carrot: 'carotte', tomato: 'tomate', corn: 'maïs', mushroom: 'champignon', pear: 'poire', cherries: 'cerises', pizza: 'pizza', icecream: 'glace', chocolate: 'chocolat',
+    balloon: 'ballon de baudruche', teddy: 'nounours', gift: 'cadeau', kite: 'cerf-volant', guitar: 'guitare',
+    cloud: 'nuage', rainbow: 'arc-en-ciel', mountain: 'montagne',
   },
   es: {
     hello: 'hola', thanks: 'gracias', please: 'por favor', goodbye: 'adiós',
@@ -71,6 +99,13 @@ export const WORDS = {
     eye: 'ojo', ear: 'oreja', nose: 'nariz', mouth: 'boca', hand: 'mano', foot: 'pie', tooth: 'diente', tongue: 'lengua',
     house: 'casa', book: 'libro', ball: 'pelota', key: 'llave', chair: 'silla', car: 'carro', bus: 'autobús', bicycle: 'bicicleta', airplane: 'avión',
     sun: 'sol', moon: 'luna', star: 'estrella', tree: 'árbol', flower: 'flor', rain: 'lluvia', snow: 'nieve', sea: 'mar',
+    shirt: 'camiseta', pants: 'pantalones', dress: 'vestido', sneakers: 'zapatilla', socks: 'calcetines', coat: 'abrigo', glasses: 'gafas', gloves: 'guantes', scarf: 'bufanda', cap: 'gorra',
+    baby: 'bebé', boy: 'niño', girl: 'niña', woman: 'mujer', man: 'hombre',
+    pencil: 'lápiz', books: 'libros', scissors: 'tijeras', schoolbag: 'mochila', crayon: 'lápiz de cera', ruler: 'regla',
+    giraffe: 'jirafa', turtle: 'tortuga', snake: 'serpiente', butterfly: 'mariposa', bee: 'abeja', mouse: 'ratón', penguin: 'pingüino', fox: 'zorro', pig: 'cerdo', duck: 'pato',
+    carrot: 'zanahoria', tomato: 'tomate', corn: 'maíz', mushroom: 'hongo', pear: 'pera', cherries: 'cerezas', pizza: 'pizza', icecream: 'helado', chocolate: 'chocolate',
+    balloon: 'globo', teddy: 'osito de peluche', gift: 'regalo', kite: 'cometa', drum: 'tambor', guitar: 'guitarra',
+    cloud: 'nube', rainbow: 'arcoíris', mountain: 'montaña',
   },
   ru: {
     hello: 'привет', thanks: 'спасибо', please: 'пожалуйста', goodbye: 'пока',
@@ -81,6 +116,13 @@ export const WORDS = {
     eye: 'глаз', ear: 'ухо', nose: 'нос', mouth: 'рот', hand: 'рука', foot: 'нога', tooth: 'зуб', tongue: 'язык',
     house: 'дом', book: 'книга', ball: 'мяч', key: 'ключ', chair: 'стул', car: 'машина', bus: 'автобус', bicycle: 'велосипед', airplane: 'самолёт',
     sun: 'солнце', moon: 'луна', star: 'звезда', tree: 'дерево', flower: 'цветок', rain: 'дождь', snow: 'снег', sea: 'море',
+    shirt: 'футболка', pants: 'штаны', dress: 'платье', sneakers: 'кроссовки', socks: 'носки', coat: 'куртка', glasses: 'очки', gloves: 'перчатки', scarf: 'шарф', cap: 'кепка',
+    baby: 'младенец', boy: 'мальчик', girl: 'девочка', woman: 'женщина', man: 'мужчина',
+    pencil: 'карандаш', books: 'книги', scissors: 'ножницы', schoolbag: 'рюкзак', crayon: 'мелок', ruler: 'линейка',
+    giraffe: 'жираф', turtle: 'черепаха', snake: 'змея', butterfly: 'бабочка', bee: 'пчела', penguin: 'пингвин', fox: 'лиса', duck: 'утка',
+    carrot: 'морковь', tomato: 'помидор', corn: 'кукуруза', mushroom: 'гриб', pear: 'груша', cherries: 'вишня', pizza: 'пицца', icecream: 'мороженое', chocolate: 'шоколад',
+    balloon: 'шарик', teddy: 'мишка', gift: 'подарок', kite: 'воздушный змей', drum: 'барабан', guitar: 'гитара',
+    cloud: 'облако', rainbow: 'радуга', mountain: 'гора',
   },
   ar: {
     hello: ['مرحبا', 'مَرْحَبًا'], thanks: ['شكرا', 'شُكْرًا'], goodbye: ['إلى اللقاء', 'إِلَى اللِّقَاء'],
@@ -100,6 +142,16 @@ export const WORDS = {
     car: ['سيارة', 'سَيَّارَة'], bus: ['حافلة', 'حَافِلَة'], bicycle: ['دراجة', 'دَرَّاجَة'], airplane: ['طائرة', 'طَائِرَة'],
     sun: ['شمس', 'شَمْس'], moon: ['قمر', 'قَمَر'], star: ['نجمة', 'نَجْمَة'], tree: ['شجرة', 'شَجَرَة'], flower: ['زهرة', 'زَهْرَة'],
     rain: ['مطر', 'مَطَر'], snow: ['ثلج', 'ثَلْج'], sea: ['بحر', 'بَحْر'],
+    shirt: ['تي شيرت', 'تِي شِيرْت'], pants: ['بنطال', 'بِنْطَال'], dress: ['فستان', 'فُسْتَان'], sneakers: ['حذاء رياضي', 'حِذَاء رِيَاضِيّ'], socks: ['جوارب', 'جَوَارِب'],
+    coat: ['معطف', 'مِعْطَف'], glasses: ['نظارة', 'نَظَّارَة'], gloves: ['قفازان', 'قُفَّازَان'], scarf: ['وشاح', 'وِشَاح'], cap: ['قبعة', 'قُبَّعَة'],
+    baby: ['رضيع', 'رَضِيع'], boy: ['صبي', 'صَبِيّ'], girl: ['بنت', 'بِنْت'], woman: ['سيدة', 'سَيِّدَة'], man: ['رجل', 'رَجُل'],
+    pencil: ['قلم رصاص', 'قَلَم رَصَاص'], books: ['كتب', 'كُتُب'], scissors: ['مقص', 'مِقَصّ'], schoolbag: ['حقيبة مدرسة', 'حَقِيبَة مَدْرَسَة'], crayon: ['قلم ألوان', 'قَلَم أَلْوَان'], ruler: ['مسطرة', 'مِسْطَرَة'],
+    giraffe: ['زرافة', 'زَرَافَة'], turtle: ['سلحفاة', 'سُلَحْفَاة'], snake: ['ثعبان', 'ثُعْبَان'], butterfly: ['فراشة', 'فَرَاشَة'], bee: ['نحلة', 'نَحْلَة'],
+    mouse: ['فأر', 'فَأْر'], penguin: ['بطريق', 'بِطْرِيق'], fox: ['ثعلب', 'ثَعْلَب'], pig: ['خنزير', 'خِنْزِير'], duck: ['بطة', 'بَطَّة'],
+    carrot: ['جزر', 'جَزَر'], tomato: ['طماطم', 'طَمَاطِم'], corn: ['ذرة', 'ذُرَة'], pear: ['كمثرى', 'كُمَّثْرَى'], cherries: ['كرز', 'كَرَز'],
+    pizza: ['بيتزا', 'بِيتْزَا'], chocolate: ['شوكولاتة', 'شُوكُولَاتَة'],
+    balloon: ['بالون', 'بَالُون'], gift: ['هدية', 'هَدِيَّة'], kite: ['طائرة ورقية', 'طَائِرَة وَرَقِيَّة'], drum: ['طبلة', 'طَبْلَة'], guitar: ['غيتار', 'غِيتَار'],
+    cloud: ['سحابة', 'سَحَابَة'], mountain: ['جبل', 'جَبَل'],
   },
   am: {
     hello: 'ሰላም',
@@ -110,5 +162,12 @@ export const WORDS = {
     eye: 'ዓይን', ear: 'ጆሮ', nose: 'አፍንጫ', mouth: 'አፍ', hand: 'እጅ', foot: 'እግር', tooth: 'ጥርስ', tongue: 'ምላስ',
     house: 'ቤት', book: 'መጽሐፍ', ball: 'ኳስ', key: 'ቁልፍ', chair: 'ወንበር', car: 'መኪና', bus: 'አውቶቡስ', bicycle: 'ብስክሌት', airplane: 'አውሮፕላን',
     sun: 'ፀሐይ', moon: 'ጨረቃ', star: 'ኮከብ', tree: 'ዛፍ', flower: 'አበባ', rain: 'ዝናብ', snow: 'በረዶ',
+    shirt: 'ሸሚዝ', pants: 'ሱሪ', dress: 'ቀሚስ', sneakers: { w: 'ጫማ', he: 'נעל' }, socks: 'ካልሲ', coat: 'ኮት', glasses: 'መነጽር', gloves: 'ጓንት', cap: 'ኮፍያ',
+    baby: 'ሕጻን', boy: 'ወንድ ልጅ', girl: 'ሴት ልጅ', woman: 'ሴት', man: 'ወንድ',
+    pencil: 'እርሳስ', books: 'መጽሐፍት', scissors: 'መቀስ', schoolbag: 'ቦርሳ', ruler: 'ማስመሪያ',
+    giraffe: 'ቀጭኔ', turtle: 'ኤሊ', snake: 'እባብ', butterfly: 'ቢራቢሮ', bee: 'ንብ', mouse: 'አይጥ', penguin: 'ፔንግዊን', fox: 'ቀበሮ', pig: 'ዓሣማ', duck: 'ዳክዬ',
+    carrot: 'ካሮት', tomato: 'ቲማቲም', corn: 'በቆሎ', mushroom: 'እንጉዳይ', cherries: 'ቼሪ', pizza: 'ፒዛ', icecream: 'አይስክሬም', chocolate: 'ቸኮላታ',
+    balloon: 'አፉፋ', teddy: 'ቴዲ ቢር', gift: 'ስጦታ', drum: 'ከበሮ', guitar: 'ጊታር',
+    cloud: 'ደመና', rainbow: 'ቀስተ ደመና', mountain: 'ተራራ',
   },
 }

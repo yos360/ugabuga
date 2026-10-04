@@ -1105,6 +1105,12 @@
   <url><loc>https://ugabuga.co.il/languages/fr/body</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr/things</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/clothes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/people</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/school</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/more-animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/veggies-sweets</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/toys</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/es</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/languages/es/greetings</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/es/colors</loc><priority>0.6</priority></url>
@@ -1114,6 +1120,12 @@
   <url><loc>https://ugabuga.co.il/languages/es/body</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/es/things</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/es/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/clothes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/people</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/school</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/more-animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/veggies-sweets</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/toys</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ru</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ru/greetings</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ru/colors</loc><priority>0.6</priority></url>
@@ -1123,6 +1135,12 @@
   <url><loc>https://ugabuga.co.il/languages/ru/body</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ru/things</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ru/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/clothes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/people</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/school</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/more-animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/veggies-sweets</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/toys</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ar</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ar/greetings</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ar/colors</loc><priority>0.6</priority></url>
@@ -1132,6 +1150,12 @@
   <url><loc>https://ugabuga.co.il/languages/ar/body</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ar/things</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/ar/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/clothes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/people</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/school</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/more-animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/veggies-sweets</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/toys</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/colors</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/numbers</loc><priority>0.6</priority></url>
@@ -1140,4 +1164,10 @@
   <url><loc>https://ugabuga.co.il/languages/am/body</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/things</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/nature</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/clothes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/people</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/school</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/more-animals</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/veggies-sweets</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/toys</loc><priority>0.6</priority></url>
 </urlset>
