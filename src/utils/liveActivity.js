@@ -104,7 +104,8 @@ function trafficSource() {
   try {
     const saved = sessionStorage.getItem('buga-src')
     if (saved) return saved
-    const src = classifySource(document.referrer, new URLSearchParams(location.search).get('utm_source'), location.hostname)
+    const q = new URLSearchParams(location.search)
+    const src = classifySource(document.referrer, q.get('utm_source') || (q.has('wa') ? 'whatsapp' : null), location.hostname)
     sessionStorage.setItem('buga-src', src)
     return src
   } catch { return null }
@@ -123,8 +124,24 @@ function sendOne(args) {
     if (res?.error && /PGRST202|Could not find the function|does not exist/i.test(`${res.error.code} ${res.error.message}`)) { hasV3 = false; return v2() }
   }).catch(() => {})
 }
+// ---- Human check ----
+// Crawlers and automated browsers run the page's JavaScript too, and used to show up as
+// hundreds of "direct" visitors who stay 5 seconds and touch nothing. The owner log now
+// waits for a human sign — real input (mouse move, touch, key, wheel) or 15 seconds of
+// the tab being visible — and automated browsers are never counted. Events wait in the
+// queue until then; a visit with no human sign is simply never sent.
+const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview|facebookexternalhit|whatsapp|telegram|discord|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
+let human = false, visibleSecs = 0
+function automated() {
+  try { return navigator.webdriver === true || BOT_UA.test(navigator.userAgent || '') } catch { return false }
+}
+function markHuman() {
+  if (human || automated()) return
+  human = true
+  flushDb()
+}
 function flushDb() {
-  if (!dbClient) return
+  if (!dbClient || !human) return
   const items = dbQueue; dbQueue = []
   for (const args of items) sendOne(args)
 }
@@ -168,7 +185,7 @@ let timePath = null, timeSecs = 0, lastInput = Date.now(), visitorId = null
 const TICK = 5
 function sendTime(path, seconds) {
   const args = { p_category: activityForPath(path) || 'page', p_action: 'time', p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitorId, p_seconds: Math.round(seconds) }
-  if (!hasV3) return
+  if (!hasV3 || !human) return
   try {
     void fetch(`${PARTY_URL}/rest/v1/rpc/record_site_event_v3`, { method: 'POST', keepalive: true, headers: { apikey: PARTY_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(args) }).catch(() => {})
   } catch { /* ignore */ }
@@ -185,17 +202,23 @@ export function trackTime(pathname) {
   void visitorPromise.then(v => { visitorId = v })
 }
 function startTimeTracking() {
-  const onInput = () => { lastInput = Date.now() }
-  const tick = () => { if (timePath && document.visibilityState === 'visible' && Date.now() - lastInput < 120000) timeSecs += TICK }
+  // scroll counts as activity but not as a human sign (scripts scroll pages too)
+  const onInput = e => { if (e.isTrusted === false) return; lastInput = Date.now(); if (e.type !== 'scroll') markHuman() }
+  const tick = () => {
+    if (document.visibilityState !== 'visible') return
+    visibleSecs += TICK
+    if (visibleSecs >= 15) markHuman()
+    if (human && timePath && Date.now() - lastInput < 120000) timeSecs += TICK
+  }
   const onHide = () => { if (document.visibilityState === 'hidden') flushTime() }
   const iv = setInterval(tick, TICK * 1000)
   const opts = { passive: true, capture: true }
-  for (const ev of ['pointerdown', 'keydown', 'scroll', 'touchstart', 'input']) window.addEventListener(ev, onInput, opts)
+  for (const ev of ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart', 'wheel', 'input']) window.addEventListener(ev, onInput, opts)
   document.addEventListener('visibilitychange', onHide)
   window.addEventListener('pagehide', flushTime)
   return () => {
     flushTime(); clearInterval(iv)
-    for (const ev of ['pointerdown', 'keydown', 'scroll', 'touchstart', 'input']) window.removeEventListener(ev, onInput, opts)
+    for (const ev of ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart', 'wheel', 'input']) window.removeEventListener(ev, onInput, opts)
     document.removeEventListener('visibilitychange', onHide)
     window.removeEventListener('pagehide', flushTime)
   }

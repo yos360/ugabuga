@@ -89,6 +89,11 @@ export default function Home() {
     <section className="home-intro">
       <h1>מה בא לכם לעשות היום?</h1>
       <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
+      <nav className="home-quick" aria-label="מתחילים מכאן">
+        <Link to="/online-games" className="home-quick-btn is-play"><span aria-hidden="true">🕹️</span> לשחק עכשיו</Link>
+        <Link to="/tools/bring-list" className="home-quick-btn is-list"><span aria-hidden="true">🧺</span> רשימת "מי מביא מה"</Link>
+        <Link to="/printables" className="home-quick-btn is-print"><span aria-hidden="true">🖨️</span> דפים להדפסה</Link>
+      </nav>
       <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
         <Share2 size={20} />
         <span>שיתוף</span>

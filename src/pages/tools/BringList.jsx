@@ -27,7 +27,8 @@ function defaultTitle(kind) {
   if (kind === 'class') return 'מסיבת הכיתה'
   return 'האירוע שלנו'
 }
-const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}`
+// "?wa" marks visits that come from the WhatsApp invite (the app sends no referrer).
+const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}?wa`
 
 function useToast() {
   const [toast, setToast] = useState(null)

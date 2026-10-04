@@ -20,6 +20,7 @@ const HUBS = {
       { q: 'איך פונים לספק מהמאגר?', a: 'בכל כרטיס ספק יש כפתור וואטסאפ וטלפון — פונים ישירות לספק, בלי תיווך ובלי עמלה.' },
     ],
     related: [ { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }, { label: 'רעיונות למתנות לפי גיל', href: '/gifts' } ],
+    featured: ['🧺', 'מארגנים מסיבה? מתחילים מרשימת "מי מביא מה"', 'רושמים מה צריך, שולחים קישור אחד לקבוצת ההורים בוואטסאפ, וכל אחד תופס פריט בלחיצה — בלי הרשמה ובלי בלגן בקבוצה.', '/tools/bring-list?for=birthday', '🧺 ליצירת רשימה'],
     cards: [
       ['🎮', 'משחקים ליום הולדת', 'יותר מ-50 משחקים שמתחילים מיד לפי גיל, זמן וציוד.', '/games/birthday'],
       ['🎪', 'ספקים ליום הולדת', 'מפעילים, קוסמים, עוגות וצילום — פונים ישירות בוואטסאפ.', '/suppliers'],
@@ -96,6 +97,7 @@ export default function HubPage({ type }) {
     <SEO title={hub.title} description={hub.subtitle} path={pathname} structuredData={faqSchema(hub.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: hub.crumb || hub.title }]} />
     <header className="mx-auto max-w-3xl py-8 text-center"><div className="text-5xl">{type === 'birthday' ? '🎂' : type === 'classroom' ? '🏫' : '✨'}</div><h1 className="mt-3 text-4xl font-black sm:text-6xl">{hub.title}</h1><p className="mt-3 text-xl text-[var(--muted-foreground)]">{hub.subtitle}</p></header>
+    {hub.featured && <Link to={hub.featured[3]} className="mx-auto mb-8 flex max-w-4xl flex-col items-center gap-4 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#fff4bb] p-6 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1 sm:flex-row sm:text-right"><span className="text-6xl" aria-hidden="true">{hub.featured[0]}</span><span className="flex-1"><span className="block text-2xl font-black text-[var(--ink)]">{hub.featured[1]}</span><span className="mt-2 block text-lg leading-8 text-[var(--muted-foreground)]">{hub.featured[2]}</span></span><span className="shrink-0 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#25d366] px-6 py-3 text-xl font-black text-white">{hub.featured[4]}</span></Link>}
     <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label={hub.title}>{hub.cards.map(([emoji, title, desc, href]) => <Link key={href} to={href} className="group rounded-3xl border-2 border-slate-200 bg-[var(--hub-bg)] p-6 shadow-[0_6px_0_rgba(20,30,60,.12)] transition hover:-translate-y-1 hover:shadow-[0_9px_0_rgba(20,30,60,.14)]"><div className="text-5xl">{emoji}</div><h2 className="mt-4 text-2xl font-black text-[var(--ink)]">{title}</h2><p className="mt-2 text-lg leading-8 text-[var(--muted-foreground)]">{desc}</p><span className="mt-5 inline-flex rounded-full bg-white px-5 py-2 font-bold text-[var(--ink)]">נכנסים ←</span></Link>)}</section>
     {hub.holidays && <ClassroomHolidays />}
     {hub.printables && <section aria-label="כתיבה ומספרים להדפסה" className="mt-10">

@@ -47,3 +47,13 @@
 .tt-cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.tt-cal-days a{display:flex;align-items:center;justify-content:center;min-height:44px;text-align:center;padding:4px 0;border-radius:8px;text-decoration:none;color:#222;font-weight:700;font-size:14px;background:#f3f4f8}.tt-cal-days a:hover{background:#ffe899}.tt-cal-days a.is-today{background:#ffd23f;outline:2px solid #222}.tt-cal-days a.is-current{background:#1d2233;color:#fff}
 .today-quiz-loading{min-height:590px}@media(min-width:640px){.today-quiz-loading{min-height:470px}}
 .holiday-banner-slot{min-height:40px}@media(max-width:639px){.holiday-banner-slot{min-height:36px}}@media(max-width:429px){.holiday-banner-slot{min-height:56px}}
+
+/* Three clear first actions under the home headline */
+.home-quick{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:16px auto 4px;max-width:720px}
+.home-quick-btn{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:10px 20px;border:2.5px solid #1d2233;border-radius:16px;box-shadow:3px 3px 0 #1d2233;font-size:18px;font-weight:900;color:#1d2233;text-decoration:none;transition:transform .15s}
+.home-quick-btn:hover{transform:translateY(-2px)}
+.home-quick-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
+.home-quick-btn.is-play{background:#ffd23f}
+.home-quick-btn.is-list{background:#c9f5d4}
+.home-quick-btn.is-print{background:#dff2ff}
+@media (max-width:520px){.home-quick-btn{flex:1 1 100%;justify-content:center}}
