@@ -109,7 +109,7 @@ function DatePage({ dateKey }) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={`מה קרה ב-${label}? מנהרת הזמן`} description={description} path={`/time-tunnel/${dateKey}`} />
+      <SEO title={`${label} – מה קרה ומה מציינים בתאריך הזה? מנהרת הזמן`} description={description} path={`/time-tunnel/${dateKey}`} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       <p className="mh-note tt-lead">ב-{label} קרו לא מעט דברים מעניינים. כאן תמצאו ימים מיוחדים, אירועים היסטוריים ואנשים מפורסמים שנולדו בתאריך הזה – כל עובדה עם קישור למקור.</p>

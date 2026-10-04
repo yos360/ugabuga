@@ -9,10 +9,10 @@ import { DICE_GAMES } from '../../data/diceGames'
 export default function DiceTool() {
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="קובייה וירטואלית אונליין — הטלת קובייה בלחיצה, חינם" description="קובייה דיגיטלית למשחקי קופסה: מטילים 1 עד 5 קוביות בלחיצה, עם סכום אוטומטי. בלי הורדה ובלי הרשמה — עובד בטלפון ובמחשב. הקובייה אבדה? יש לכם אחת כאן." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
+      <SEO title="קוביה דיגיטלית אונליין — קובייה וירטואלית בלחיצה, חינם" description="קוביה אונליין למשחקי קופסה: מטילים 1 עד 5 קוביות בלחיצה, עם סכום אוטומטי. בלי הורדה ובלי הרשמה — עובד בטלפון ובמחשב. הקובייה אבדה? יש לכם אחת כאן." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'קובייה' }]} />
-      <h1 className="text-4xl text-center mb-2">🎲 קובייה וירטואלית אונליין</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">להטיל קובייה בלחיצה — 1 עד 5 קוביות, בחינם</p>
+      <h1 className="text-4xl text-center mb-2">🎲 קוביה דיגיטלית אונליין</h1>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קובייה וירטואלית: להטיל קובייה בלחיצה — 1 עד 5 קוביות, בחינם</p>
       <DiceRoller counts={[1, 2, 3, 4, 5]} />
       <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-4">💡 הזיזו את העכבר מעל הקובייה — היא תסתובב!</p>
 
