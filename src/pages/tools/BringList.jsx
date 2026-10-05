@@ -27,6 +27,16 @@ function defaultTitle(kind) {
   if (kind === 'class') return 'מסיבת הכיתה'
   return 'האירוע שלנו'
 }
+// The organizer link ends with "#k=<token>": opening it on another browser (WhatsApp's built-in one,
+// a second phone) restores edit rights there. The hash never reaches the server and is removed at once.
+function tokenFromHash(code) {
+  const m = code && /[#&]k=([\w-]{8,64})/.exec(location.hash)
+  if (!m) return null
+  partyMemory.rememberOwned(code, m[1], 'הרשימה שלי')
+  window.history.replaceState(window.history.state, '', location.pathname + location.search)
+  return m[1]
+}
+const organizerLink = (code, token) => `${shortLink(code)}#k=${token}`
 // "?wa" marks visits that come from the WhatsApp invite (the app sends no referrer).
 const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}?wa`
 
@@ -82,8 +92,9 @@ export default function BringList() {
   const legacy = params.get('list')
 
   const [code, setCode] = useState(code0 || null)
-  const ownerToken = useRef(code0 ? partyMemory.ownerToken(code0) : null)
-  const [owner, setOwner] = useState(!code0 || Boolean(ownerToken.current))
+  const [token0] = useState(() => code0 ? tokenFromHash(code0) || partyMemory.ownerToken(code0) : null)
+  const ownerToken = useRef(token0)
+  const [owner, setOwner] = useState(!code0 || Boolean(token0))
   const [title, setTitle] = useState(() => code0 ? '' : defaultTitle(params.get('for')))
   const [items, setItems] = useState(() => code0 ? [] : fresh())
   const [loading, setLoading] = useState(Boolean(code0))
@@ -101,10 +112,15 @@ export default function BringList() {
   const addRef = useRef()
 
   const load = useCallback(() => code ? partyDb.get(code).then(row => {
-    if (dirty.current) return
-    setTitle(row.title); setItems(row.items)
+    if (!dirty.current) { setTitle(row.title); setItems(row.items) }
+    return row
   }).catch(e => setError(errorText(e.code))) : Promise.resolve(), [code])
-  useEffect(() => { if (code0) load().finally(() => setLoading(false)) }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!code0) return
+    // Keep the organizer's "my lists" entry titled (a list opened from the organizer link starts untitled).
+    load().then(row => { if (row && ownerToken.current) partyMemory.rememberOwned(code0, ownerToken.current, row.title) })
+      .finally(() => setLoading(false))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!code) return
     const t = setInterval(() => { if (!dirty.current && document.visibilityState === 'visible') load() }, POLL_MS)
@@ -166,6 +182,10 @@ export default function BringList() {
       const c = await ensureCreated()
       try { await navigator.clipboard.writeText(shortLink(c)); showToast('הקישור הועתק ✓ הדביקו אותו בוואטסאפ') } catch { showToast(shortLink(c)) }
     } catch (e) { showToast(errorText(e.code), 'err') } finally { setSharing(false) }
+  }
+  const copyOrganizerLink = async () => {
+    const link = organizerLink(code, ownerToken.current)
+    try { await navigator.clipboard.writeText(link); showToast('קישור הניהול הועתק ✓ שמרו אותו לעצמכם בלבד') } catch { showToast(link) }
   }
 
   // Who brings what. Guests with a remembered name claim in one tap.
@@ -256,6 +276,7 @@ export default function BringList() {
       {owner
         ? <p className="mt-4 text-sm text-slate-600">מי שמקבל את הקישור לא יכול לשנות או למחוק פריטים — רק לתפוס פריט פנוי.</p>
         : <p className="mt-4 text-sm text-slate-600">מארגנים משהו בעצמכם? <Link to="/tools/bring-list" className="font-bold underline">פתחו רשימה משלכם</Link></p>}
+      {owner && code && <p className="mt-3 text-sm text-slate-600">פותחים את הרשימה מתוך וואטסאפ או מטלפון אחר? <button onClick={copyOrganizerLink} className="font-bold underline">🔑 העתקת קישור ניהול</button> — רק לכם, לא לשלוח לקבוצה.</p>}
       {owner && code && <button onClick={() => setConfirmDelete(true)} className="mt-3 text-sm text-rose-700 underline">🗑️ מחיקת הרשימה</button>}
       {owner && !code && myLists.length > 0 && <p className="mt-4 text-sm"><b>הרשימות שלי:</b> {myLists.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<a className="underline" href={`/l/${l.code}`}>{l.title}</a></span>)}</p>}
     </aside>

@@ -103,7 +103,23 @@ async function neutralShell(res) {
   return out
 }
 
-export async function onRequest({ request, env, next }) {
+// Pages answers every file with "Access-Control-Allow-Origin: *". That's fine
+// for public data and assets, but HTML pages have no reason to be readable
+// cross-origin, so drop it there.
+export async function onRequest(context) {
+  const res = await handle(context)
+  try {
+    if (!res.headers.has('Access-Control-Allow-Origin')) return res
+    if (!(res.headers.get('content-type') || '').includes('text/html')) return res
+    const h = new Headers(res.headers)
+    h.delete('Access-Control-Allow-Origin')
+    return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
+  } catch {
+    return res
+  }
+}
+
+async function handle({ request, env, next }) {
   const res = await next()
   try {
     if (request.method !== 'GET' || res.status !== 200) return res
