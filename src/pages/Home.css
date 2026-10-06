@@ -70,3 +70,6 @@
 .home-charts-grid a:hover{transform:translateY(-2px)}
 .home-charts-grid a span{font-size:18px;line-height:1}
 @media(max-width:560px){.home-charts{padding:12px 14px}.home-charts-grid a{font-size:13px;padding:6px 10px}}
+.home-charts.is-mobile{display:none}
+@media(min-width:1250px){.home-charts{flex-wrap:nowrap}.home-charts-copy{flex:0 1 300px}.home-charts{gap:12px 14px}.home-charts-grid{flex:1 1 auto;min-width:0;flex-wrap:nowrap;justify-content:flex-start}.home-charts-grid{gap:6px}.home-charts-grid a{white-space:nowrap;font-size:13px;padding:6px 8px}}
+@media(max-width:800px){.home-charts.is-desktop{display:none}.home-charts.is-mobile{display:flex;margin:30px 0 0}}

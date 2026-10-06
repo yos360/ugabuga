@@ -60,6 +60,21 @@ const homeBody = [
 ]
 const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'עולם ההשראה', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
 
+// Home charts strip: after the featured games on desktop, further down on phones.
+function HomeCharts({ className }) {
+  return <section className={`home-charts ${className}`} aria-label="לוחות לבית">
+      <div className="home-charts-copy">
+        <span className="home-charts-tag">חדש · להדפסה בחינם</span>
+        <h2>🏠 לוחות לבית — סדר בלי ויכוחים</h2>
+        <p>כותבים את השם של הילד — ומדפיסים.</p>
+        <Link to="/printables/home-charts" className="home-charts-cta">לכל הלוחות ←</Link>
+      </div>
+      <nav className="home-charts-grid" aria-label="לוחות לבית">
+        {[['📋', 'טבלת מטלות', '/printables/chore-chart'], ['⭐', 'לוח מדבקות', '/printables/reward-chart'], ['🦷', 'צחצוח שיניים', '/printables/toothbrushing-chart'], ['🚽', 'לוח גמילה', '/printables/potty-chart'], ['🗓️', 'מערכת שעות', '/printables/class-schedule'], ['📅', 'לוח שנה 2027', '/printables/calendar-2027']].map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span>{t}</Link>)}
+      </nav>
+    </section>
+}
+
 export default function Home() {
   const [query,setQuery] = useState('')
   const list = useRef(null)
@@ -112,17 +127,7 @@ export default function Home() {
         <button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button>
       </div>
     </section>
-    <section className="home-charts" aria-labelledby="home-charts-title">
-      <div className="home-charts-copy">
-        <span className="home-charts-tag">חדש · להדפסה בחינם</span>
-        <h2 id="home-charts-title">🏠 לוחות לבית — סדר בלי ויכוחים</h2>
-        <p>כותבים את השם של הילד — ומדפיסים.</p>
-        <Link to="/printables/home-charts" className="home-charts-cta">לכל הלוחות ←</Link>
-      </div>
-      <nav className="home-charts-grid" aria-label="לוחות לבית">
-        {[['📋', 'טבלת מטלות', '/printables/chore-chart'], ['⭐', 'לוח מדבקות', '/printables/reward-chart'], ['🦷', 'צחצוח שיניים', '/printables/toothbrushing-chart'], ['🚽', 'לוח גמילה', '/printables/potty-chart'], ['🗓️', 'מערכת שעות', '/printables/class-schedule']].map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span>{t}</Link>)}
-      </nav>
-    </section>
+    <HomeCharts className="is-desktop" />
     <section className="home-extra">
       <h2>המשחקים הפופולריים</h2>
       <div className="home-extras">
@@ -156,6 +161,7 @@ export default function Home() {
         ))}
       </div>
     </section>
+    <HomeCharts className="is-mobile" />
     <section className="home-extra">
       <SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} />
     </section>

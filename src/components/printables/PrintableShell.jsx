@@ -45,7 +45,7 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
   )
 }
 
-export default function PrintableShell({ path, seoTitle, description, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, paragraphs = [], faq = [], related = [], siblings = [], extra }) {
+export default function PrintableShell({ path, seoTitle, description, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, paragraphs = [], faq = [], related = [], siblings = [], extra }) {
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
   const many = pages.length > 1
@@ -79,7 +79,7 @@ export default function PrintableShell({ path, seoTitle, description, emoji, h1,
       </div>
 
       {printing && (
-        <PrintPreview title={printTitle || h1} onClose={() => setPrinting(false)}>
+        <PrintPreview title={printTitle || h1} onClose={() => setPrinting(false)} onRefresh={onRefresh}>
           {pages.map(p => <article className="buga-a4" key={p.key}><div className="print-art">{p.svg}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}
         </PrintPreview>
       )}

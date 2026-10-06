@@ -246,7 +246,7 @@ export default function MathWorksheets({ preset: fixedPreset }) {
         related={[{ label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'מספרים למעבר בעיפרון', href: '/printables/numbers' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]}
       />
 
-      {print && <PrintPreview title={sheetTitle} onClose={() => setPrint(false)}>{printPages}</PrintPreview>}
+      {print && <PrintPreview title={sheetTitle} onClose={() => setPrint(false)} onRefresh={() => setSeed(newSeed())}>{printPages}</PrintPreview>}
     </div>
   )
 }
