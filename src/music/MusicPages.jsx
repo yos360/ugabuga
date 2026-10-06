@@ -4,7 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import NotFound from '../pages/NotFound'
-import Piano, { SOLFEGE, LETTER } from './Piano'
+import Piano, { SOLFEGE, LETTER, WidePiano } from './Piano'
 import { playPiano } from './audio'
 import { SONGS, LEVELS, song as findSong, parseNotes, rangeFor } from './songs'
 import './music.css'
@@ -37,7 +37,7 @@ export function MusicHub() {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מוזיקה' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🎵 </span>לומדים מוזיקה</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">פסנתר, שירים, תווים ואקורדים — מנגנים ולומדים באותו רגע</p>
-    <div className="music-card mb-8"><Piano from={48} to={72} labels="solfege" /><p className="mt-3 text-center text-sm text-[var(--muted-foreground)]">נסו! לוחצים על הקלידים או על המקלדת (A, S, D…)</p></div>
+    <div className="music-card mb-8"><WidePiano from={48} to={84} labels="solfege" /><p className="mt-3 text-center text-sm text-[var(--muted-foreground)]">נסו! לוחצים על הקלידים או על המקלדת (A, S, D…)</p></div>
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {MUSIC_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right">
         <div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}
@@ -49,7 +49,6 @@ export function MusicHub() {
 // ── /music/piano ───────────────────────────────
 export function PianoPage() {
   const [labels, setLabels] = useState('solfege')
-  const [oct, setOct] = useState(0)
   const [last, setLast] = useState(null)
   const faq = [
     { q: 'איך מנגנים מהמקלדת של המחשב?', a: 'השורה האמצעית (A S D F G H J K) היא הקלידים הלבנים מדו עד דו, והשורה שמעליה (W E T Y U) היא הקלידים השחורים. זה עובד גם כשהמקלדת בעברית.' },
@@ -62,14 +61,10 @@ export function PianoPage() {
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">לוחצים, נוגעים או מנגנים מהמקלדת</p>
     <div className="mb-4 flex flex-wrap items-center justify-center gap-3">
       <LabelsChoice value={labels} onChange={setLabels} />
-      <div className="flex items-center gap-2" role="group" aria-label="אוקטבה">
-        <button type="button" className="music-chip" onClick={() => setOct(o => Math.max(-1, o - 1))} aria-label="אוקטבה נמוכה יותר">⬇️ נמוך</button>
-        <button type="button" className="music-chip" onClick={() => setOct(o => Math.min(1, o + 1))} aria-label="אוקטבה גבוהה יותר">⬆️ גבוה</button>
-      </div>
     </div>
     <div className="music-card">
       <p className="mb-3 h-8 text-center text-2xl font-black" aria-live="polite">{last != null ? `${SOLFEGE[last % 12]} · ${LETTER[last % 12]}${Math.floor(last / 12) - 1}` : ' '}</p>
-      <div className="piano-scroll"><Piano from={48 + oct * 12} to={84 + oct * 12} labels={labels} onPress={setLast} showKeys /></div>
+      <WidePiano from={36} to={96} labels={labels} onPress={setLast} showKeys />
     </div>
     <div className="mt-6 text-center"><Link to="/music/songs" className="music-chip">🎶 רוצים לנגן שיר? לשירים עם קלידים שנדלקים ←</Link></div>
     <div className="mt-12"><SeoBody paragraphs={['הפסנתר כאן מנגן ישר מהדפדפן, בלי להוריד אפליקציה. בטלפון ובטאבלט נוגעים בקלידים — גם בכמה אצבעות ביחד — ובמחשב אפשר לנגן מהמקלדת, כמו על פסנתר אמיתי.', 'מעל כל קליד מופיע שם התו: בשיטת דו-רה-מי שלומדים בישראל, או באותיות C-D-E שמופיעות בספרי תווים ובאקורדים. כך לומדים את המקום של כל תו בלי לשים לב.']} faq={faq} related={[{ label: 'לומדים שירים בפסנתר', href: '/music/songs' }, { label: 'קריאת תווים', href: '/music/read-notes' }, { label: 'מושגים במוזיקה', href: '/music/concepts' }]} /></div>
@@ -147,7 +142,7 @@ export function SongPage() {
     </div>
     <div className="music-card">
       <div className="song-notes mb-4" aria-label="התווים של השיר">{seq.map((x, i) => <span key={i} className={i < pos ? 'is-done' : i === pos ? 'is-now' : ''}>{labels === 'letters' ? LETTER[x.n % 12] : SOLFEGE[x.n % 12]}</span>)}</div>
-      <div className="piano-scroll"><Piano from={range.from} to={range.to} marks={marks} labels={labels} onPress={onPress} /></div>
+      <WidePiano from={range.from} to={range.to} focus={done ? null : seq[pos]?.n} marks={marks} labels={labels} onPress={onPress} />
       <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
         {mode === 'watch' && <button type="button" className="music-chip" onClick={() => (done ? restart() : setPlaying(p => !p))}>{playing ? '⏸️ עצירה' : '▶️ ניגון'}</button>}
         <button type="button" className="music-chip" onClick={restart}>🔁 מההתחלה</button>

@@ -4,7 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import NotFound from '../pages/NotFound'
-import Piano, { SOLFEGE, LETTER } from './Piano'
+import Piano, { SOLFEGE, LETTER, WidePiano } from './Piano'
 import { playPiano, playChord, strum, midi } from './audio'
 import { MUSIC_CRUMB } from './MusicPages'
 import './music.css'
@@ -94,7 +94,7 @@ export function ReadNotes() {
       <Staff note={note} color={fb ? (fb.ok ? '#2e9e2b' : '#d33') : '#111'} />
       <p className="h-8 text-xl font-black" aria-live="polite">{fb ? (fb.ok ? `נכון! זה ${SOLFEGE[note % 12]} 🎉` : `לא בדיוק — זה לא ${SOLFEGE[fb.pc]}. נסו שוב`) : ' '}</p>
       <div className="my-3 flex flex-wrap justify-center gap-2" dir="rtl">{NATURALS.map(pc => <button key={pc} type="button" className="music-chip text-lg" onClick={() => answer(pc)}>{SOLFEGE[pc]} <small className="text-xs text-[var(--muted-foreground)]">{LETTER[pc]}</small></button>)}</div>
-      <div className="piano-scroll"><Piano from={60} to={84} labels="none" onPress={n => answer(n % 12)} marks={fb?.ok ? { [note]: 'right' } : {}} /></div>
+      <WidePiano from={60} to={84} fullscreen={false} labels="none" onPress={n => answer(n % 12)} marks={fb?.ok ? { [note]: 'right' } : {}} />
     </div>
     <div className="mt-10"><SeoBody paragraphs={['קריאת תווים היא כמו קריאת אותיות: בהתחלה מפענחים כל תו לאט, ועם התרגול מזהים אותו במבט. המשחק מראה תו אחד בכל פעם על החמשה, ועונים בלחיצה על השם שלו או ישר על הקליד בפסנתר — כך מתחבר הסימן על הדף למקום על הכלי.', 'מתחילים ברמה 1 עם חמשת התווים הראשונים, מדו האמצעי ועד סול — אלה התווים של רוב השירים הראשונים. ברמה 2 עוברים לאוקטבה שלמה, וברמה 3 לכל החמשה עם קווי עזר.']} faq={faq} related={[{ label: 'שירים לפסנתר', href: '/music/songs' }, { label: 'דף תווים ריק להדפסה', href: '/printables/music-paper' }, { label: 'מושגים במוזיקה', href: '/music/concepts' }]} /></div>
   </div>
