@@ -60,6 +60,55 @@ async function inlineSvgImages(root) {
   }))
 }
 
+// An <svg> drawn as a picture can't see the page's web fonts either (the dashed tracing font, Heebo),
+// so the @font-face rules it uses are copied into the svg with the font files inlined as data URLs.
+const norm = f => f.trim().replace(/^['"]|['"]$/g, '').toLowerCase()
+let faceBlocks = null
+async function allFontFaces() {
+  if (!faceBlocks) faceBlocks = (async () => {
+    const out = []
+    for (const sheet of [...document.styleSheets]) {
+      let rules = null
+      try { rules = sheet.cssRules } catch { rules = null }
+      if (rules) { for (const r of rules) if (r.type === 5) out.push({ css: r.cssText, base: sheet.href || location.href }) }
+      else if (sheet.href) {
+        try { const text = await (await fetch(sheet.href)).text(); for (const m of text.matchAll(/@font-face\s*{[^}]*}/g)) out.push({ css: m[0], base: sheet.href }) } catch { /* skip */ }
+      }
+    }
+    return out
+  })()
+  return faceBlocks
+}
+const HEBREW_OR_BASIC = /U\+(0?0[0-9A-F]{2}-00FF|0590|05[0-9A-F]{2})/i
+async function embedFonts(svg) {
+  const used = new Map() // family → set of weights
+  const add = (fam, w) => { if (!fam) return; for (const f of fam.split(',')) { const k = norm(f); if (!used.has(k)) used.set(k, new Set()); used.get(k).add(String(w || 400)) } }
+  for (const el of [svg, ...svg.querySelectorAll('*')]) {
+    const fam = el.getAttribute('font-family') || el.style?.fontFamily
+    const weight = el.getAttribute('font-weight') || el.style?.fontWeight || svg.getAttribute('font-weight')
+    if (fam) add(fam, weight)
+    else if (el.tagName.toLowerCase() === 'text' && weight) add(svg.getAttribute('font-family'), weight)
+  }
+  if (!used.size) return
+  const css = []
+  for (const { css: block, base } of await allFontFaces()) {
+    const fam = norm(block.match(/font-family:\s*([^;]+);/)?.[1] || '')
+    if (!used.has(fam)) continue
+    const range = block.match(/unicode-range:\s*([^;}]+)/)?.[1]
+    if (range && !HEBREW_OR_BASIC.test(range)) continue
+    const w = block.match(/font-weight:\s*(\d+)/)?.[1]
+    if (w && ![...used.get(fam)].some(u => Math.abs(+u - +w) <= 100 || u === 'bold' && +w >= 700)) continue
+    const url = block.match(/url\(["']?([^"')]+)["']?\)/)?.[1]
+    if (!url) continue
+    const data = await toDataUrl(new URL(url, base).href)
+    css.push(block.replace(/src:[^;}]+/, `src: url(${data})`))
+  }
+  if (!css.length) return
+  const style = document.createElementNS('http://www.w3.org/2000/svg', 'style')
+  style.textContent = css.join('\n')
+  svg.insertBefore(style, svg.firstChild)
+}
+
 // Slice a tall canvas (a flowing text sheet) into A4-proportioned pieces.
 function sliceCanvas(canvas) {
   const pageH = Math.round(canvas.width * A4_H / A4_W)
@@ -93,6 +142,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
       if (clone.classList.contains('buga-a4')) clone.style.height = Math.round(PAGE_PX * 297 / 210) + 'px'
       host.replaceChildren(clone)
       await inlineSvgImages(clone)
+      await Promise.all([...clone.querySelectorAll('svg')].filter(svg => !svg.parentElement?.closest('svg')).map(embedFonts))
       await Promise.allSettled([...clone.querySelectorAll('img')].map(img => img.decode?.()))
       const canvas = await html2canvas(clone, { scale: 1.6, backgroundColor: '#ffffff', useCORS: true, logging: false, windowWidth: PAGE_PX })
       for (const c of sliceCanvas(canvas)) images.push(canvasToJpeg(c))
