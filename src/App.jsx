@@ -88,6 +88,13 @@ const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ defaul
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
+const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
+const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
+const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
+const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.BedtimeStory })))
+const CarGames = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.CarGames })))
+const MoveChallenge = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MoveChallenge })))
+const PocketMoney = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.PocketMoney })))
 const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
 const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
 const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
@@ -341,6 +348,13 @@ export default function App() {
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
+              <Route path="/family" element={<FamilyHub />} />
+              <Route path="/family/what-to-do" element={<WhatToDo />} />
+              <Route path="/family/morning-routine" element={<MorningRoutine />} />
+              <Route path="/family/bedtime-story" element={<BedtimeStory />} />
+              <Route path="/family/car-games" element={<CarGames />} />
+              <Route path="/family/move" element={<MoveChallenge />} />
+              <Route path="/family/pocket-money" element={<PocketMoney />} />
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />

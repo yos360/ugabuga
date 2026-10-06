@@ -1280,4 +1280,11 @@
   <url><loc>https://ugabuga.co.il/learn/reading/plants</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/kinneret</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/alarm-clock</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/family</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/morning-routine</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/bedtime-story</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/car-games</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/move</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/family/pocket-money</loc><priority>0.7</priority></url>
 </urlset>

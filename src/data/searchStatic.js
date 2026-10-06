@@ -77,6 +77,14 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // family tools (/family/*)
+  { to: '/family', title: 'בבית עם הילדים', emoji: '🏡', kind: 'tool', desc: 'כלים קטנים להורים לכל היום.', keys: 'הורים בית' },
+  { to: '/family/what-to-do', title: 'מה עושים היום?', emoji: '🎲', kind: 'tool', desc: 'רעיון לפעילות לפי מקום, זמן וגיל.', keys: 'משעמם שעמום פעילות רעיונות מה לעשות' },
+  { to: '/family/morning-routine', title: 'שגרת בוקר עם טיימר', emoji: '⏰', kind: 'tool', desc: 'משימה אחרי משימה, ויוצאים בזמן.', keys: 'שגרה בוקר ערב התארגנות' },
+  { to: '/family/bedtime-story', title: 'סיפור לפני השינה עם שם', emoji: '🌙', kind: 'tool', desc: 'הילד הוא הגיבור של הסיפור.', keys: 'סיפור סיפורים שינה לילה טוב' },
+  { to: '/family/car-games', title: 'משחקים לנסיעה', emoji: '🚗', kind: 'tool', desc: 'בלי מסכים, ובינגו נסיעה להדפסה.', keys: 'נסיעה אוטו רכב טיול בינגו' },
+  { to: '/family/move', title: 'אתגר תנועה לילדים', emoji: '🤸', kind: 'tool', desc: 'תרגילים מצחיקים עם טיימר.', keys: 'תנועה ספורט קפיצות התעמלות' },
+  { to: '/family/pocket-money', title: 'דמי כיס וחיסכון', emoji: '🐷', kind: 'tool', desc: 'מחשבון חיסכון ושלוש קופות.', keys: 'דמי כיס חיסכון כסף קופה' },
   // learning at home (/learn/*)
   { to: '/learn', title: 'לומדים בבית', emoji: '🎒', kind: 'tool', desc: 'הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות.', keys: 'תרגול לימודים שיעורי בית' },
   { to: '/learn/dictation', title: 'הכתבה אונליין', emoji: '✍️', kind: 'tool', desc: 'הורה מקריא או הקראה קולית, עם בדיקה.', keys: 'הכתבה כתיב איות מילים' },

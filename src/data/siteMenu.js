@@ -122,6 +122,17 @@ export const MENU_GROUPS = [
     ],
   },
   {
+    title: '🏡 בבית עם הילדים', to: '/family',
+    items: [
+      { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
+      { to: '/family/morning-routine', label: 'שגרת בוקר עם טיימר', icon: '⏰' },
+      { to: '/family/bedtime-story', label: 'סיפור לפני השינה', icon: '🌙' },
+      { to: '/family/car-games', label: 'משחקים לנסיעה', icon: '🚗' },
+      { to: '/family/move', label: 'אתגר תנועה', icon: '🤸' },
+      { to: '/family/pocket-money', label: 'דמי כיס וחיסכון', icon: '🐷' },
+    ],
+  },
+  {
     title: '🎒 לומדים בבית', to: '/learn',
     items: [
       { to: '/learn/dictation', label: 'הכתבה', icon: '✍️' },
@@ -153,4 +164,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/learn', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/family', '/learn', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
