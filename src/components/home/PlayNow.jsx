@@ -6,11 +6,11 @@ import './PlayNow.css'
 // Emoji only — no images, so it costs nothing on the home page's first paint.
 const PLAY = [
   ['✏️', 'משחק אותיות', '/letters/game', '#fff1d6'],
+  ['🌍', 'לימוד שפות', '/languages', '#e6f7f4'],
   ['⭕', 'איקס עיגול ומשחקי לוח', '/board-games', '#e3f4ff'],
   ['🕎', 'סביבון', '/holidays/hanukkah/sevivon', '#eaf8ec'],
   ['🧩', 'חידות', '/tools/riddles', '#f3eaff'],
   ['🎯', 'טריוויה', '/tools/trivia-quiz', '#ffe9ec'],
-  ['🌍', 'אנגלית', '/english', '#e6f7f4'],
 ]
 const HOME = [
   ['🖨️', 'דפי עבודה', '/printables'],
