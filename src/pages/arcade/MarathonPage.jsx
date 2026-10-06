@@ -4,7 +4,6 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { arcadeGame } from '../../arcade/registry'
 import { MARATHON_STAGES, MARATHON_LENGTH, SKIP_PENALTY, clock } from '../../arcade/marathon'
-import { enterFullscreen } from '../../arcade/stage'
 import { useProgress } from '../../arcade/hooks'
 import '../../arcade/arcade.css'
 
@@ -18,7 +17,7 @@ export default function MarathonPage() {
   const pushed = useRef(false)
   const playing = hash === '#play'
   useEffect(() => { if (!playing) pushed.current = false }, [playing])
-  const open = () => { enterFullscreen(); pushed.current = true; navigate({ hash: '#play' }) }
+  const open = () => { pushed.current = true; navigate({ hash: '#play' }) }
   const close = useCallback(() => { if (pushed.current) navigate(-1); else navigate({ hash: '' }, { replace: true }) }, [navigate])
 
   return (

@@ -12,6 +12,7 @@ export const DAILY_GAMES = [
   { slug: 'minesweeper', name: 'שולה מוקשים', emoji: '💣', goal: 'מנקים את שדה המוקשים של היום', extra: () => ({ level: 'medium' }) },
   { slug: 'merge-2048', name: 'מכפילים עד 2048', emoji: '🔢', goal: 'צוברים כמה שיותר נקודות על הלוח של היום', extra: () => ({}) },
   { slug: 'traffic-jam', name: 'פקק תנועה', emoji: '🚚', goal: 'משחררים את משאית הגלידה בכמה שפחות מהלכים', extra: day => ({ level: 15 + (day % 45) }) },
+  { slug: 'arrow-escape', name: 'חיצים בורחים', emoji: '➡️', goal: 'מפנים את לוח החיצים של היום בלי לאבד לבבות', extra: day => ({ level: 6 + (day % 40) }) },
   { slug: 'flying-cubes', name: 'קוביות מעופפות', emoji: '🧊', goal: 'מפרקים את הקובייה של היום בלי לאבד לבבות', extra: day => ({ level: 4 + (day % 12) }) },
   { slug: 'solitaire', name: 'סוליטר', emoji: '🃏', goal: 'מנצחים בחלוקת הקלפים של היום — היא בטוח פתירה!', extra: () => ({}) },
   { slug: 'snake', name: 'נחש', emoji: '🐍', goal: 'אוכלים כמה שיותר תפוחים — אותם תפוחים לכולם', extra: () => ({}) },

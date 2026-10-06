@@ -115,7 +115,7 @@ export function createMusic(moodName = 'sunny') {
 
 const KEY = 'buga-arcade-music'
 export function musicPref() {
-  try { return localStorage.getItem(KEY) !== 'off' } catch { return true }
+  try { return localStorage.getItem(KEY) === 'on' } catch { return false } // off unless the player turned it on
 }
 export function saveMusicPref(on) {
   try { localStorage.setItem(KEY, on ? 'on' : 'off') } catch { /* private mode */ }

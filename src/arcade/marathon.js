@@ -9,6 +9,7 @@ export const MARATHON_STAGES = [
   { slug: 'minesweeper', goal: 'מנקים שדה מוקשים קטן', cfg: () => ({ level: 'easy' }) },
   { slug: 'ball-sort', goal: 'ממיינים את הכדורים', cfg: r => ({ level: 2 + Math.floor(r() * 3) }) },
   { slug: 'traffic-jam', goal: 'משחררים את משאית הגלידה', cfg: r => ({ level: 3 + Math.floor(r() * 6) }) },
+  { slug: 'arrow-escape', goal: 'מפנים את לוח החיצים', cfg: r => ({ level: 1 + Math.floor(r() * 4) }) },
   { slug: 'flying-cubes', goal: 'מפרקים את הקובייה', cfg: r => ({ level: 1 + Math.floor(r() * 3) }) },
   { slug: 'block-puzzle', goal: 'צוברים 40 נקודות', cfg: () => ({ target: 40 }) },
   { slug: 'falling-blocks', goal: 'מנקים 3 שורות', cfg: () => ({ target: 3 }) },

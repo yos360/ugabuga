@@ -4,7 +4,6 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { arcadeGame } from '../../arcade/registry'
 import ArcadeStage from '../../arcade/ArcadeStage'
-import { enterFullscreen } from '../../arcade/stage'
 import { dailyFor, msToNext, readResults, streak, dailyShareText, DAILY_GAMES } from '../../arcade/daily'
 import { shareOnWhatsApp } from '../../utils/share'
 import { WhatsAppIcon } from '../../components/layout/WhatsAppShare'
@@ -37,7 +36,7 @@ export default function DailyChallenge() {
   useEffect(() => { if (!playing) pushed.current = false }, [playing])
   // re-read saved results whenever the game closes (or the day changes)
   const results = useMemo(() => (playing ? {} : readResults()), [playing, daily.day]) // eslint-disable-line react-hooks/exhaustive-deps
-  const open = () => { enterFullscreen(); pushed.current = true; navigate({ hash: '#play' }) }
+  const open = () => { pushed.current = true; navigate({ hash: '#play' }) }
   const close = useCallback(() => {
     if (pushed.current) navigate(-1)
     else navigate({ hash: '' }, { replace: true })

@@ -5,7 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../NotFound'
 import { ARCADE, arcadeGame } from '../../arcade/registry'
 import ArcadeStage from '../../arcade/ArcadeStage'
-import { enterFullscreen, shareGameText } from '../../arcade/stage'
+import { shareGameText } from '../../arcade/stage'
 import { shareOnWhatsApp } from '../../utils/share'
 import { WhatsAppIcon } from '../../components/layout/WhatsAppShare'
 import '../../arcade/arcade.css'
@@ -21,8 +21,8 @@ export default function OnlineGamePage() {
   const playing = !!game && hash === '#play'
 
   useEffect(() => { if (!playing) pushed.current = false }, [playing])
+  // No automatic full screen: the browser's "swipe to exit" banner covers the game. The ⛶ button is there for whoever wants it.
   const open = () => {
-    enterFullscreen()
     pushed.current = true
     navigate({ hash: '#play' })
   }

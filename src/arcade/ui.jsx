@@ -33,3 +33,34 @@ export function EndCard({ title, text, stars, primary, onPrimary, secondary, onS
     </div>
   )
 }
+
+// Level map: every level as a button, grouped into worlds, with the stars earned so far.
+// Levels up to `unlocked` can be played; the rest stay locked until reached.
+export function LevelMap({ count, perWorld, worlds, unlocked, stars = {}, current, onPick, onClose }) {
+  const groups = Array.from({ length: Math.ceil(count / perWorld) }, (_, g) => g)
+  return (
+    <div className="arc-end" role="dialog" aria-label="מפת שלבים" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="arc-end-card arc-map">
+        <div className="arc-map-head"><h3>🗺️ מפת שלבים</h3><button type="button" className="arc-btn" onClick={onClose}>סגירה ✕</button></div>
+        <div className="arc-map-scroll">
+          {groups.map(g => {
+            const w = worlds[g % worlds.length], first = g * perWorld + 1
+            return <section key={g} className="arc-map-world">
+              <h4><span aria-hidden="true">{w.emoji} </span>{w.name} <small>שלבים {first}–{first + perWorld - 1}</small></h4>
+              <div className="arc-map-grid">
+                {Array.from({ length: perWorld }, (_, i) => {
+                  const n = first + i, open = n <= unlocked, st = stars[n] || 0
+                  return <button key={n} type="button" disabled={!open} onClick={() => onPick(n)}
+                    className={`arc-map-level ${n === current ? 'is-current' : ''} ${st ? 'is-done' : ''}`}
+                    aria-label={open ? `שלב ${n}${st ? `, ${st} כוכבים` : ''}` : `שלב ${n} נעול`}>
+                    <b>{open ? n : '🔒'}</b>{open && <span className="arc-map-stars" aria-hidden="true">{'★'.repeat(st)}{'☆'.repeat(3 - st)}</span>}
+                  </button>
+                })}
+              </div>
+            </section>
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}

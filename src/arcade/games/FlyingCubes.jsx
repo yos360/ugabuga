@@ -4,9 +4,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { buildLevel, isFree, blocker, freeCubes, DIRS } from '../logic/cubes'
+import { buildLevel, isFree, blocker, freeCubes, DIRS, WORLDS, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/cubes'
 import { useBox, useProgress } from '../hooks'
-import { Hud, ToolButton, EndCard } from '../ui'
+import { Hud, ToolButton, EndCard, LevelMap } from '../ui'
 
 // Real 3D: glossy rounded cubes floating in space, raised arrows on every face,
 // drag to spin the block, tap a cube to launch it.
@@ -62,7 +62,8 @@ function fitCamera(s, reset) {
 }
 
 export default function FlyingCubes({ onReport, onShare, daily }) {
-  const [progress, saveProgress] = useProgress('flying-cubes', { level: 1 })
+  const [progress, saveProgress] = useProgress('flying-cubes', { level: 1, stars: {} })
+  const [map, setMap] = useState(false)
   const [level, setLevel] = useState(daily?.level ?? progress.level)
   const [run, setRun] = useState(0) // bump to rebuild the same level
   const [left, setLeft] = useState(0)
@@ -279,13 +280,14 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
   useEffect(() => {
     if (!won) return
     if (daily) { daily.finish({ text: `🧊 קוביות מעופפות: פירקתי את הקובייה עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
-    saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
+    saveProgress(p => ({ level: Math.max(p.level, level + 1), stars: { ...(p.stars || {}), [level]: Math.max((p.stars || {})[level] || 0, Math.max(1, LIVES - mistakes)) } }))
     onReport?.({ text: `🏆 עברתי את שלב ${level} בקוביות מעופפות${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
   }, [won, level, mistakes, saveProgress, onReport, daily])
 
   return (
     <div className="arc-game fc-game">
-      <Hud stats={[['שלב', level], ['נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={`${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
+      <Hud stats={[['שלב', `${level} ${worldOf(level).emoji}`], ['נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={`${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
+        {!daily && <ToolButton onClick={() => setMap(true)} label="מפת שלבים">🗺️</ToolButton>}
         <ToolButton onClick={hint} label="רמז">💡</ToolButton>
         <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
       </Hud>
@@ -294,6 +296,8 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
         {toast && <div key={toast.k} className="arc-toast">{toast.text}</div>}
         <p className="fc-help" aria-hidden="true">👆 גוררים לסיבוב · לוחצים להעפה</p>
       </div>
+      {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} worlds={WORLDS} unlocked={progress.level} stars={progress.stars} current={level}
+        onPick={n => { setMap(false); start(n) }} onClose={() => setMap(false)} />}
       {lost && !won && <EndCard title="💔 נגמרו הלבבות" text="שלוש פעמים לחצתם על קובייה חסומה. מנסים שוב? טיפ: חפשו קוביות שהחץ שלהן מצביע החוצה."
         primary="🔄 לנסות שוב" onPrimary={() => start(level)} />}
       {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 כל הכבוד!'} stars={stars}
