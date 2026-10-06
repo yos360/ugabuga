@@ -73,6 +73,15 @@ const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => 
 const Dominoes = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.Dominoes })))
 const FortuneTeller = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.FortuneTeller })))
 const GiftBox = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.GiftBox })))
+const MusicHub = lazy(() => import('./music/MusicPages').then(m => ({ default: m.MusicHub })))
+const PianoPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.PianoPage })))
+const SongsIndex = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongsIndex })))
+const SongPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongPage })))
+const ReadNotes = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.ReadNotes })))
+const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChords })))
+const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
+const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
+const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
@@ -302,6 +311,15 @@ export default function App() {
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
               <Route path="/printables/gift-box" element={<GiftBox />} />
+              <Route path="/music" element={<MusicHub />} />
+              <Route path="/music/piano" element={<PianoPage />} />
+              <Route path="/music/songs" element={<SongsIndex />} />
+              <Route path="/music/songs/:slug" element={<SongPage />} />
+              <Route path="/music/read-notes" element={<ReadNotes />} />
+              <Route path="/music/guitar-chords" element={<GuitarChords />} />
+              <Route path="/music/guitar-chords/:chord" element={<GuitarChord />} />
+              <Route path="/music/concepts" element={<Concepts />} />
+              <Route path="/music/styles" element={<Styles />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />

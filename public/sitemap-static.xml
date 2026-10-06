@@ -1198,4 +1198,39 @@
   <url><loc>https://ugabuga.co.il/languages/am/more-animals</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/veggies-sweets</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/toys</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/piano</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/read-notes</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/concepts</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/styles</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/twinkle-twinkle</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/mary-had-a-little-lamb</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/frere-jacques</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/ode-to-joy</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/happy-birthday</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/london-bridge</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/old-macdonald</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/row-row-row-your-boat</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/jingle-bells</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/when-the-saints</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/brahms-lullaby</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/songs/fur-elise</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/c</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/d</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/e</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/g</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/a</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/f</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/am</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/em</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/dm</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/bm</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/e7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/a7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/d7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/g7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/b7</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/guitar-chords/c7</loc><priority>0.6</priority></url>
 </urlset>

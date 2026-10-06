@@ -120,6 +120,17 @@ export const MENU_GROUPS = [
       { to: '/blog', label: 'הבלוג', icon: '📰' },
     ],
   },
+  {
+    title: '🎵 לומדים מוזיקה', to: '/music',
+    items: [
+      { to: '/music/piano', label: 'פסנתר אונליין', icon: '🎹' },
+      { to: '/music/songs', label: 'לומדים שירים בפסנתר', icon: '🎶' },
+      { to: '/music/read-notes', label: 'משחק קריאת תווים', icon: '🎼' },
+      { to: '/music/guitar-chords', label: 'אקורדים לגיטרה', icon: '🎸' },
+      { to: '/music/concepts', label: 'מושגים במוזיקה', icon: '📖' },
+      { to: '/music/styles', label: 'סגנונות מוזיקה', icon: '🎷' },
+    ],
+  },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']

@@ -77,6 +77,14 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // music area (/music/*)
+  { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
+  { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },
+  { to: '/music/songs', title: 'לומדים שירים בפסנתר', emoji: '🎶', kind: 'tool', desc: 'קלידים שנדלקים — לוחצים ומנגנים.', keys: 'שירים לפסנתר ללמוד לנגן שיר תווים לשירים' },
+  { to: '/music/read-notes', title: 'משחק קריאת תווים', emoji: '🎼', kind: 'tool', desc: 'איזה תו זה? מהחמשה לפסנתר.', keys: 'קריאת תווים תווים חמשה מפתח סול' },
+  { to: '/music/guitar-chords', title: 'אקורדים לגיטרה', emoji: '🎸', kind: 'tool', desc: 'דיאגרמות ושמיעה למתחילים.', keys: 'אקורדים גיטרה אקורד מינור מז׳ור' },
+  { to: '/music/concepts', title: 'מושגים במוזיקה', emoji: '📖', kind: 'tool', desc: 'סולם, אקורד, טמפו ועוד — עם הדגמה.', keys: 'מושגים מוזיקה סולם אוקטבה מז׳ור מינור' },
+  { to: '/music/styles', title: 'סגנונות מוזיקה', emoji: '🎷', kind: 'tool', desc: 'בלוז, ג׳אז, קלאסי, רוק, פופ ומזרחי.', keys: 'סגנונות מוזיקה בלוז ג׳אז רוק פופ מזרחי קלאסי' },
   // home charts, calendars, paper, games and crafts to print (/printables/*)
   { to: '/printables/home-charts', title: 'לוחות לבית להדפסה', emoji: '🏠', kind: 'printable', desc: 'מטלות, מדבקות, צחצוח שיניים, גמילה ומערכת שעות.', keys: 'לוח לוחות בית הורים ארגון' },
   { to: '/printables/chore-chart', title: 'טבלת מטלות לילדים', emoji: '📋', kind: 'printable', desc: 'משימות לכל יום בשבוע, עם שם הילד.', keys: 'טבלת מטלות משימות תורנות אחריות ילדים בית' },
