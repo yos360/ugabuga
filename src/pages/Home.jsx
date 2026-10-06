@@ -100,17 +100,6 @@ export default function Home() {
       </button>
     </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
-    <section className="home-charts" aria-labelledby="home-charts-title">
-      <div className="home-charts-copy">
-        <span className="home-charts-tag">חדש · להדפסה בחינם</span>
-        <h2 id="home-charts-title">🏠 לוחות לבית — סדר בלי ויכוחים</h2>
-        <p>טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות. כותבים את השם של הילד — ומדפיסים.</p>
-        <Link to="/printables/home-charts" className="home-charts-cta">לכל הלוחות ←</Link>
-      </div>
-      <nav className="home-charts-grid" aria-label="לוחות לבית">
-        {[['📋', 'טבלת מטלות', '/printables/chore-chart'], ['⭐', 'לוח מדבקות', '/printables/reward-chart'], ['🦷', 'צחצוח שיניים', '/printables/toothbrushing-chart'], ['🚽', 'לוח גמילה', '/printables/potty-chart'], ['🗓️', 'מערכת שעות', '/printables/class-schedule'], ['📅', 'לוח שנה 2027', '/printables/calendar-2027']].map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span>{t}</Link>)}
-      </nav>
-    </section>
     <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <PlayNow />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
@@ -122,6 +111,17 @@ export default function Home() {
         <div ref={list} className="home-games">{games.map(([title,description,to,crop])=><Link to={to} className="home-game" key={to}><Art crop={crop}/><h3>{title}</h3><p>{description}</p></Link>)}</div>
         <button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button>
       </div>
+    </section>
+    <section className="home-charts" aria-labelledby="home-charts-title">
+      <div className="home-charts-copy">
+        <span className="home-charts-tag">חדש · להדפסה בחינם</span>
+        <h2 id="home-charts-title">🏠 לוחות לבית — סדר בלי ויכוחים</h2>
+        <p>כותבים את השם של הילד — ומדפיסים.</p>
+        <Link to="/printables/home-charts" className="home-charts-cta">לכל הלוחות ←</Link>
+      </div>
+      <nav className="home-charts-grid" aria-label="לוחות לבית">
+        {[['📋', 'טבלת מטלות', '/printables/chore-chart'], ['⭐', 'לוח מדבקות', '/printables/reward-chart'], ['🦷', 'צחצוח שיניים', '/printables/toothbrushing-chart'], ['🚽', 'לוח גמילה', '/printables/potty-chart'], ['🗓️', 'מערכת שעות', '/printables/class-schedule']].map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span>{t}</Link>)}
+      </nav>
     </section>
     <section className="home-extra">
       <h2>המשחקים הפופולריים</h2>
