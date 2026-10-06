@@ -107,7 +107,14 @@ async function neutralShell(res) {
 // for public data and assets, but HTML pages have no reason to be readable
 // cross-origin, so drop it there.
 export async function onRequest(context) {
-  const res = await handle(context)
+  // Last line of defence: whatever goes wrong below, answer with the plain static
+  // file instead of letting the exception surface as a Cloudflare "Error 1101" page.
+  let res
+  try {
+    res = await handle(context)
+  } catch {
+    return fallback(context)
+  }
   try {
     if (!res.headers.has('Access-Control-Allow-Origin')) return res
     if (!(res.headers.get('content-type') || '').includes('text/html')) return res
@@ -119,11 +126,20 @@ export async function onRequest(context) {
   }
 }
 
-async function handle({ request, env, next }) {
+async function fallback({ request, env }) {
+  try { return await env.ASSETS.fetch(request) } catch { return new Response('השרת עמוס לרגע — נסו לרענן את הדף.', { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Retry-After': '5', 'Cache-Control': 'no-store' } }) }
+}
+
+async function handle(context) {
+  const { request, env, next } = context
   const res = await next()
+  // Work on a clone: if anything below throws after reading the body, the
+  // untouched original is still safe to return.
+  if (request.method !== 'GET' || res.status !== 200) return res
+  if (!(res.headers.get('content-type') || '').includes('text/html')) return res
+  let work
+  try { work = res.clone() } catch { return res }
   try {
-    if (request.method !== 'GET' || res.status !== 200) return res
-    if (!(res.headers.get('content-type') || '').includes('text/html')) return res
     const url = new URL(request.url)
     // App-only pages (search UI, supplier self-service): served as shells on
     // purpose, but they must not be indexed — they're linked from every page.
@@ -132,7 +148,7 @@ async function handle({ request, env, next }) {
         noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/')) {
       const h = new Headers(res.headers)
       h.append('X-Robots-Tag', 'noindex')
-      return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
+      return new Response(work.body, { status: res.status, statusText: res.statusText, headers: h })
     }
     // A missing file (JS/CSS/image...) must never be answered with the HTML shell.
     // /assets/* is cached for a year as "immutable", so a single HTML reply to a JS
@@ -146,9 +162,9 @@ async function handle({ request, env, next }) {
     const routes = await loadRoutes(env, url)
     if (!routes) return res
     const path = url.pathname.replace(/\/+$/, '') || '/'
-    if (!routes.some(re => re.test(path))) return notFound(res.body, res.headers)
+    if (!routes.some(re => re.test(path))) return notFound(work.body, res.headers)
     if (path === '/') return res
-    const shaped = await neutralShell(res)
+    const shaped = await neutralShell(work)
     if (shaped.__homeFallback && CLOSED_FAMILIES.some(re => re.test(path))) {
       const known = await loadKnown(env, url)
       if (known && !known.has(path)) return notFound(shaped.body, shaped.headers)
