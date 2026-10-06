@@ -3,20 +3,13 @@ import { createPortal } from 'react-dom'
 import './print-preview.css'
 import { recordPrintPreview, recordPreviewOpen } from '../layout/RecentActivity'
 
-// A small QR code is stamped onto every printed page, linking back to the exact
-// page it came from (tagged so the owner's report can see scans separately from
+// A QR code is stamped onto every printed page with a short invitation next to it, linking back to
+// the exact page it came from (tagged so the owner's report can see scans separately from
 // other traffic). Generated once per open and injected into the real DOM nodes —
 // the pages themselves are arbitrary children, so this avoids touching every
 // individual worksheet component.
 function stampQrCodes(root){
   if(!root)return
-  root.querySelectorAll('.buga-a4, .buga-flow').forEach(page=>{
-    if(page.querySelector('.buga-credit'))return
-    const credit=document.createElement('div')
-    credit.className='buga-credit'
-    credit.textContent='נוצר באתר עוגה בוגה ללא עלות ובקלות · ugabuga.co.il'
-    page.appendChild(credit)
-  })
   const url=`${location.origin}${location.pathname}?utm_source=qr&utm_medium=print`
   import('qrcode').then(({default:QRCode})=>QRCode.toString(url,{type:'svg',margin:0,color:{dark:'#181828',light:'#ffffff00'}}))
     .then(svg=>{
@@ -24,7 +17,7 @@ function stampQrCodes(root){
         if(page.querySelector('.buga-qr'))return
         const badge=document.createElement('div')
         badge.className='buga-qr'
-        badge.innerHTML=svg
+        badge.innerHTML=`${svg}<span class="buga-qr-text" dir="rtl"><b>סרקו לעוד דפי עבודה, צביעה ומשחקים — בחינם</b><span>ugabuga.co.il</span></span>`
         page.appendChild(badge)
       })
     }).catch(()=>{})

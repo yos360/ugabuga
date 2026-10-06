@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import QuizEditor, { toPayload, clearQuizDraft } from '../../components/quiz/QuizEditor'
+import PrintPreview from '../../components/ui/PrintPreview'
+import { QuizSheet } from '../../components/quiz/QuizSheet'
 import { quizDb, quizMemory, quizErrorText, newToken } from '../../utils/quizDb'
 
 const DRAFT_KEY = 'buga-quiz-draft'
@@ -10,7 +12,7 @@ const STEPS = [['✏️', 'כותבים שאלות', 'שאלה, 2–4 תשובו
 
 export default function QuizHome() {
   const nav = useNavigate()
-  const [busy, setBusy] = useState(false), [err, setErr] = useState('')
+  const [busy, setBusy] = useState(false), [err, setErr] = useState(''), [paper, setPaper] = useState(null)
   const mine = quizMemory.mine()
   const create = async quiz => {
     setBusy(true); setErr('')
@@ -38,7 +40,13 @@ export default function QuizHome() {
     </section>}
 
     <h2 className="mb-3 text-2xl font-black">✨ מבחן חדש</h2>
-    <QuizEditor onSubmit={create} busy={busy} draftKey={DRAFT_KEY} submitLabel="📝 יצירת המבחן וקבלת קישור" />
+    <QuizEditor onSubmit={create} busy={busy} draftKey={DRAFT_KEY} submitLabel="📝 יצירת המבחן וקבלת קישור"
+      onPrint={quiz => setPaper({ title: quiz.title || 'מבחן', settings: quiz.settings, names: quiz.names.map(n => n.trim()).filter(Boolean), questions: toPayload(quiz) })} />
+    {paper && <PrintPreview title={`מבחן להדפסה — ${paper.title}`} onClose={() => setPaper(null)}>
+      {/* With a class list, every student gets a sheet with their own name on it. */}
+      {(paper.names.length ? paper.names : ['']).map((name, i) => <QuizSheet key={'s' + i} quiz={paper} student={name} />)}
+      <QuizSheet key="key" quiz={paper} answers />
+    </PrintPreview>}
     {err && <p role="alert" className="mt-3 rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
     <p className="mt-6 rounded-2xl bg-sky-50 p-3 text-center text-sm text-slate-700">📱 <b>כל מכשיר יכול להגיש את המבחן פעם אחת.</b> בחדר מחשבים או במחשב משותף — כל תלמיד/ה בדפדפן אחר או בחלון גלישה בסתר (אחרת יופיע „כבר הוגש מהמכשיר הזה”).</p>
     <p className="mt-3 text-center text-sm text-slate-500">🔒 שומרים רק שם פרטי וציון. הכל נמחק אוטומטית אחרי 30 יום, ואפשר למחוק קודם.</p>

@@ -23,7 +23,7 @@ export function buildPdf(images) {
     const page = pageIds[i], content = page + 1, xobj = page + 2
     // Fit the sheet inside the page, keeping its proportions, centred.
     const scale = Math.min(A4_W / img.width, A4_H / img.height), w = img.width * scale, h = img.height * scale
-    const x = (A4_W - w) / 2, y = A4_H - h - (A4_H - h) / 2
+    const x = (A4_W - w) / 2, y = A4_H - h // top-aligned
     obj(page, () => push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${A4_W} ${A4_H}] /Resources << /XObject << /Im${i} ${xobj} 0 R >> >> /Contents ${content} 0 R >>`))
     const draw = `q ${w.toFixed(2)} 0 0 ${h.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm /Im${i} Do Q`
     obj(content, () => push(`<< /Length ${draw.length} >>\nstream\n${draw}\nendstream`))
@@ -139,7 +139,9 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
       onProgress?.(i + 1, sheets.length)
       const clone = sheets[i].cloneNode(true)
       clone.style.width = PAGE_PX + 'px'; clone.style.maxWidth = 'none'; clone.style.zoom = '1'; clone.style.margin = '0'
+      // A4 sheets fill exactly one page; flowing sheets are at least one page tall so the QR and credit sit at the bottom.
       if (clone.classList.contains('buga-a4')) clone.style.height = Math.round(PAGE_PX * 297 / 210) + 'px'
+      else clone.style.minHeight = Math.round(PAGE_PX * 297 / 210) + 'px'
       host.replaceChildren(clone)
       await inlineSvgImages(clone)
       await Promise.all([...clone.querySelectorAll('svg')].filter(svg => !svg.parentElement?.closest('svg')).map(embedFonts))

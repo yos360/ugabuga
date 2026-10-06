@@ -33,7 +33,7 @@ export default function PrintQrFallback() {
   if (!svg) return null
   return createPortal(
     <div className="buga-print-fallback" aria-hidden="true">
-      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: `${svg}<span class="buga-qr-label">סרקו לעוד<br/>ugabuga.co.il<span class="buga-qr-credit">נוצר ללא עלות בעוגה בוגה</span></span>` }} />
+      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: `${svg}<span class="buga-qr-label">סרקו לעוד דפי עבודה,<br/>צביעה ומשחקים — בחינם<span class="buga-qr-credit">ugabuga.co.il</span></span>` }} />
     </div>,
     document.body,
   )

@@ -50,7 +50,7 @@ export default function PrintableShell({ path, seoTitle, description, emoji, h1,
   const first = pages[0]
   const many = pages.length > 1
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
+    <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
       <SEO title={seoTitle} description={description} path={path} structuredData={faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...crumbs, { label: h1 }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{emoji} </span>{h1}</h1>
@@ -64,15 +64,15 @@ export default function PrintableShell({ path, seoTitle, description, emoji, h1,
         </nav>
       )}
 
-      {controls && <div className="mb-6 space-y-4 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-4 sketch-shadow-sm">{controls}</div>}
+      {controls && <div className="mx-auto mb-8 max-w-3xl space-y-4 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-4 sketch-shadow-sm">{controls}</div>}
 
-      <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_260px] items-start">
-        <div className="mx-auto w-full max-w-md border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm" aria-label="תצוגה מקדימה של הדף הראשון">
+      <div className="mx-auto grid max-w-3xl items-start gap-6 md:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="mx-auto w-full max-w-[420px] border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm" aria-label="תצוגה מקדימה של הדף הראשון">
           {first?.svg}
         </div>
         <div className="space-y-3 text-center md:text-right md:sticky md:top-24">
           <p className="font-bold text-lg">{many ? `${pages.length} דפי A4 בהדפסה אחת` : 'דף A4 אחד'}</p>
-          <button type="button" data-print-main onClick={() => setPrinting(true)} className="w-full min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ {printLabel || 'להדפסה / שמירה כ-PDF'}</button>
+          <button type="button" data-print-main onClick={() => setPrinting(true)} className="w-full min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ {printLabel || 'הדפסה או PDF'}</button>
           <p className="text-sm text-[var(--muted-foreground)]">חינם, בלי הרשמה. אפשר לשנות הגדרות ולהדפיס שוב כמה שרוצים.</p>
           {extra}
         </div>

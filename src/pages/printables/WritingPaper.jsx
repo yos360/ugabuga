@@ -65,7 +65,7 @@ function PaperSheet({ kind, opt }) {
     const step = +opt
     for (let y = TOP + step; y <= H - 2; y += step) line(0, y, W, y)
     line(W - 14, 0, W - 14, H, '#e88', 0.35)
-    g.push(<T key="n" x={W - 16} y={7} size={4} anchor="end" fill="#aaa">תאריך: __________</T>)
+    g.push(<T key="n" x={W - 16} y={7} size={4} anchor="start" fill="#aaa">תאריך: __________</T>)
   } else if (kind === 'grid-paper') {
     const step = +opt, nx = Math.floor(W / step), ny = Math.floor((H - TOP) / step), x0 = (W - nx * step) / 2
     for (let i = 0; i <= nx; i++) line(x0 + i * step, TOP, x0 + i * step, TOP + ny * step)

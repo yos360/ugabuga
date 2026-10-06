@@ -36,7 +36,7 @@ const readDraft = key => { try { const d = JSON.parse(localStorage.getItem(key))
 export const clearQuizDraft = key => { try { localStorage.removeItem(key) } catch { /* private mode */ } }
 const isBlank = z => !z.title.trim() && !z.names.length && z.questions.every(q => !q.q.trim() && q.options.every(o => !o.trim()))
 
-export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQuestions = false, draftKey = null }) {
+export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQuestions = false, draftKey = null, onPrint = null }) {
   const [quiz, setQuiz] = useState(() => initial || emptyQuiz())
   const [err, setErr] = useState('')
   // A saved draft is offered, not loaded silently; until the teacher answers, nothing overwrites it.
@@ -65,6 +65,8 @@ export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQ
     const p = quizProblem(quiz); setErr(p)
     if (!p) onSubmit(quiz)
   }
+  // Paper version straight from the editor — no need to publish the quiz online first.
+  const printNow = () => { const p = quizProblem(quiz); setErr(p); if (!p) onPrint(quiz) }
   const sample = () => setQuiz(z => ({ ...z, title: SAMPLE.title, questions: SAMPLE.questions.map(q => ({ ...q, id: newQid() })) }))
 
   return <form onSubmit={submit} className="space-y-5">
@@ -124,6 +126,7 @@ export default function QuizEditor({ initial, onSubmit, submitLabel, busy, lockQ
     {err && <p role="alert" className="rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
     {draftKey && savedAt && !offer && <p className="text-center text-sm text-slate-500" aria-live="polite">💾 הטיוטה נשמרת אוטומטית בדפדפן הזה</p>}
     <button disabled={busy} className="w-full rounded-2xl bg-[var(--ink)] px-6 py-4 text-xl font-bold text-white disabled:opacity-60">{busy ? 'שומרים…' : submitLabel}</button>
+    {onPrint && <button type="button" onClick={printNow} className="w-full rounded-2xl border-2 border-[var(--ink)] bg-white px-6 py-3 text-lg font-bold">🖨️ רק להדפסה — מבחן על דף, עם דף תשובות</button>}
   </form>
 }
 
