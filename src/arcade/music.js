@@ -1,7 +1,7 @@
 // Soft background music for the online games, generated live with the Web Audio API
 // (no audio files to download, no licensing). A warm pad plays slow chords, a gentle
-// "music box" melody wanders over a pentatonic scale, and a light reverb glues it
-// together. Each game gets its own mood (key, tempo, chords), all calm and quiet.
+// "music box" melody wanders over a pentatonic scale, and a light echo glues it
+// together (a soft echo, no noise). Each game gets its own mood (key, tempo, chords), all calm and quiet.
 
 const MOODS = {
   // name: { root midi, bpm, chords (semitones from root), melody scale }
@@ -13,16 +13,6 @@ const MOODS = {
 export const MOOD_NAMES = Object.keys(MOODS)
 
 const hz = midi => 440 * 2 ** ((midi - 69) / 12)
-
-function impulse(ctx, seconds = 2.6) {
-  const len = Math.floor(ctx.sampleRate * seconds)
-  const buf = ctx.createBuffer(2, len, ctx.sampleRate)
-  for (let ch = 0; ch < 2; ch++) {
-    const d = buf.getChannelData(ch)
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len) ** 2.6
-  }
-  return buf
-}
 
 export function createMusic(moodName = 'sunny') {
   const AC = typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext)
@@ -56,7 +46,7 @@ export function createMusic(moodName = 'sunny') {
       if (beat % 4 === 0) {
         // pad: the whole chord, slow swell over the bar
         for (const n of chord) {
-          voice({ freq: hz(mood.root + n - 12), at: t, dur: spb * 4.3, type: 'triangle', gain: 0.022, attack: spb * 1.2, cutoff: 900, wet: 0.8 })
+          voice({ freq: hz(mood.root + n - 12), at: t, dur: spb * 4.1, type: 'sine', gain: 0.02, attack: spb * 1.2, cutoff: 900, wet: 0.3 })
         }
         // soft bass
         voice({ freq: hz(mood.root + chord[0] - 24), at: t, dur: spb * 3.5, type: 'sine', gain: 0.05, attack: 0.08, cutoff: 400, wet: 0.2 })
@@ -69,7 +59,7 @@ export function createMusic(moodName = 'sunny') {
         const sc = mood.scale
         const n = sc[lastNote % sc.length] + 12 * Math.floor(lastNote / sc.length)
         const off = rand() < 0.25 ? spb / 2 : 0
-        voice({ freq: hz(mood.root + n), at: t + off, dur: spb * 2.2, type: 'sine', gain: 0.045, attack: 0.008, cutoff: 3200, wet: 0.55 })
+        voice({ freq: hz(mood.root + n), at: t + off, dur: spb * 2.2, type: 'sine', gain: 0.045, attack: 0.008, cutoff: 3200, wet: 0.45 })
         voice({ freq: hz(mood.root + n + 12), at: t + off, dur: spb * 0.9, type: 'sine', gain: 0.008, attack: 0.005, cutoff: 5000, wet: 0.4 })
       }
       nextBeat += spb
@@ -84,9 +74,18 @@ export function createMusic(moodName = 'sunny') {
           ctx = new AC()
           master = ctx.createGain()
           master.gain.value = 0.0001
-          master.connect(ctx.destination)
+          // keep peaks clean: a gentle limiter and a roll-off of the harsh top end
+          const limiter = ctx.createDynamicsCompressor(); limiter.threshold.value = -18; limiter.ratio.value = 6
+          const top = ctx.createBiquadFilter(); top.type = 'lowpass'; top.frequency.value = 5000
+          master.connect(top); top.connect(limiter); limiter.connect(ctx.destination)
           dry = ctx.createGain(); dry.gain.value = 0.8; dry.connect(master)
-          verb = ctx.createConvolver(); verb.buffer = impulse(ctx); verb.connect(master)
+          // A soft echo instead of a noise-based reverb (a white-noise impulse adds an audible hiss,
+          // especially on phone speakers): delay → gentle low-pass → a little feedback.
+          verb = ctx.createDelay(1); verb.delayTime.value = 0.32
+          const tone = ctx.createBiquadFilter(); tone.type = 'lowpass'; tone.frequency.value = 1600
+          const fb = ctx.createGain(); fb.gain.value = 0.3
+          const wetOut = ctx.createGain(); wetOut.gain.value = 0.35
+          verb.connect(tone); tone.connect(fb); fb.connect(verb); tone.connect(wetOut); wetOut.connect(master)
         }
         if (ctx.state === 'suspended') void ctx.resume().catch(() => {})
         master.gain.cancelScheduledValues(ctx.currentTime)
