@@ -109,6 +109,66 @@ async function embedFonts(svg) {
   svg.insertBefore(style, svg.firstChild)
 }
 
+// Fast path. html2canvas re-clones the whole page for every sheet, which takes seconds per page.
+// Most sheets are just a picture (an <svg> or <img>), a few one-line headings and the QR badge, so
+// they're drawn straight onto a canvas from their measured positions. Anything else — wrapping text,
+// rotated art — returns null and goes through html2canvas.
+const SCALE = 1.6
+function loadImage(src) { return new Promise((ok, fail) => { const i = new Image(); i.onload = () => ok(i); i.onerror = fail; i.src = src }) }
+async function fastRender(sheet, scale) {
+  const root = sheet.getBoundingClientRect(), items = []
+  const visible = el => { const cs = getComputedStyle(el); return cs.display !== 'none' && cs.visibility !== 'hidden' && +cs.opacity !== 0 }
+  const walk = el => {
+    for (const child of el.children) {
+      if (!visible(child)) continue
+      const cs = getComputedStyle(child)
+      if (cs.transform !== 'none' && child.tagName.toLowerCase() !== 'svg') return false
+      const tag = child.tagName.toLowerCase()
+      if (tag === 'svg' || tag === 'img') { items.push({ kind: tag, el: child }); continue }
+      const text = [...child.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim()
+      if (text) {
+        if (child.children.length) return false // mixed text and elements: let html2canvas lay it out
+        const r = child.getBoundingClientRect(), lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.3
+        if (child.getClientRects().length > 1 || r.height > lh * 1.6) return false // wraps
+        items.push({ kind: 'text', el: child, text, cs })
+        continue
+      }
+      if (walk(child) === false) return false
+    }
+  }
+  if (walk(sheet) === false || !items.some(i => i.kind !== 'text')) return null
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.round(root.width * scale); canvas.height = Math.round(root.height * scale)
+  const ctx = canvas.getContext('2d')
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.scale(scale, scale)
+  try {
+    for (const it of items) {
+      const r = it.el.getBoundingClientRect(), x = r.left - root.left, y = r.top - root.top
+      if (r.width < 1 || r.height < 1) continue
+      if (it.kind === 'svg') {
+        const svg = it.el.cloneNode(true)
+        svg.setAttribute('width', r.width); svg.setAttribute('height', r.height); svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+        const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)], { type: 'image/svg+xml' }))
+        try { ctx.drawImage(await loadImage(url), x, y, r.width, r.height) } finally { URL.revokeObjectURL(url) }
+      } else if (it.kind === 'img') {
+        const img = it.el.complete && it.el.naturalWidth ? it.el : await loadImage(it.el.currentSrc || it.el.src)
+        const k = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight), w = img.naturalWidth * k, h = img.naturalHeight * k
+        ctx.drawImage(img, x + (r.width - w) / 2, y + (r.height - h) / 2, w, h)
+      } else {
+        const cs = it.cs, rtl = cs.direction === 'rtl', align = cs.textAlign
+        ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`
+        ctx.fillStyle = cs.color; ctx.direction = cs.direction; ctx.textBaseline = 'middle'
+        const pl = parseFloat(cs.paddingLeft) || 0, pr = parseFloat(cs.paddingRight) || 0
+        const isCenter = align === 'center', isRight = align === 'right' || (rtl && (align === 'start' || align === 'justify')) || (!rtl && align === 'end')
+        ctx.textAlign = isCenter ? 'center' : isRight ? 'right' : 'left'
+        const tx = isCenter ? x + r.width / 2 : isRight ? x + r.width - pr : x + pl
+        ctx.fillText(it.text, tx, y + r.height / 2)
+      }
+    }
+  } catch { return null }
+  return canvas
+}
+
 // Slice a tall canvas (a flowing text sheet) into A4-proportioned pieces.
 function sliceCanvas(canvas) {
   const pageH = Math.round(canvas.width * A4_H / A4_W)
@@ -146,7 +206,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
       await inlineSvgImages(clone)
       await Promise.all([...clone.querySelectorAll('svg')].filter(svg => !svg.parentElement?.closest('svg')).map(embedFonts))
       await Promise.allSettled([...clone.querySelectorAll('img')].map(img => img.decode?.()))
-      const canvas = await html2canvas(clone, { scale: 1.6, backgroundColor: '#ffffff', useCORS: true, logging: false, windowWidth: PAGE_PX })
+      const canvas = (await fastRender(clone, SCALE)) || await html2canvas(clone, { scale: SCALE, backgroundColor: '#ffffff', useCORS: true, logging: false, windowWidth: PAGE_PX })
       for (const c of sliceCanvas(canvas)) images.push(canvasToJpeg(c))
     }
   } finally {
