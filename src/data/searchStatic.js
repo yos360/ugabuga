@@ -77,6 +77,12 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // world & science (/discover/*)
+  { to: '/discover', title: 'עולם ומדע', emoji: '🔭', kind: 'tool', desc: 'מפות, חלל וגוף האדם.', keys: 'מדע גאוגרפיה' },
+  { to: '/discover/israel-map', title: 'מפת ישראל — חידון ערים', emoji: '🗺️', kind: 'tool', desc: 'איפה נמצאת העיר? משחק ודף להדפסה.', keys: 'מפה מפת ישראל ערים גאוגרפיה מולדת' },
+  { to: '/discover/capitals', title: 'בירות ודגלים', emoji: '🌍', kind: 'tool', desc: 'חידון דגלים ובירות של העולם.', keys: 'דגל דגלים בירה בירות מדינות עולם' },
+  { to: '/discover/solar-system', title: 'מערכת השמש', emoji: '🪐', kind: 'tool', desc: 'כוכבי הלכת, עובדות וחידון.', keys: 'חלל כוכבי לכת שמש ירח כוכבים' },
+  { to: '/discover/human-body', title: 'גוף האדם', emoji: '🫀', kind: 'tool', desc: 'לוחצים על איבר ולומדים.', keys: 'גוף איברים לב מוח עצמות שלד' },
   // family tools (/family/*)
   { to: '/family', title: 'בבית עם הילדים', emoji: '🏡', kind: 'tool', desc: 'כלים קטנים להורים לכל היום.', keys: 'הורים בית' },
   { to: '/family/what-to-do', title: 'מה עושים היום?', emoji: '🎲', kind: 'tool', desc: 'רעיון לפעילות לפי מקום, זמן וגיל.', keys: 'משעמם שעמום פעילות רעיונות מה לעשות' },

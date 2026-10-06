@@ -1287,4 +1287,9 @@
   <url><loc>https://ugabuga.co.il/family/car-games</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/family/move</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/family/pocket-money</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/discover</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/discover/israel-map</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/discover/capitals</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/discover/solar-system</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/discover/human-body</loc><priority>0.7</priority></url>
 </urlset>

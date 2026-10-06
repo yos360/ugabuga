@@ -95,6 +95,11 @@ const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ defa
 const CarGames = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.CarGames })))
 const MoveChallenge = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MoveChallenge })))
 const PocketMoney = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.PocketMoney })))
+const DiscoverHub = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.DiscoverHub })))
+const IsraelMapPage = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.IsraelMapPage })))
+const CapitalsPage = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.CapitalsPage })))
+const SolarSystem = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.SolarSystem })))
+const HumanBody = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.HumanBody })))
 const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
 const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
 const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
@@ -355,6 +360,11 @@ export default function App() {
               <Route path="/family/car-games" element={<CarGames />} />
               <Route path="/family/move" element={<MoveChallenge />} />
               <Route path="/family/pocket-money" element={<PocketMoney />} />
+              <Route path="/discover" element={<DiscoverHub />} />
+              <Route path="/discover/israel-map" element={<IsraelMapPage />} />
+              <Route path="/discover/capitals" element={<CapitalsPage />} />
+              <Route path="/discover/solar-system" element={<SolarSystem />} />
+              <Route path="/discover/human-body" element={<HumanBody />} />
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />
