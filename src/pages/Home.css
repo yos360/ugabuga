@@ -57,3 +57,17 @@
 .home-quick-btn.is-list{background:#c9f5d4}
 .home-quick-btn.is-print{background:#dff2ff}
 @media (max-width:520px){.home-quick-btn{flex:1 1 100%;justify-content:center}}
+
+/* Home charts — a bold strip right above the activity doors */
+.home-charts{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:center;margin:0 0 22px;padding:26px 30px;border:2.5px solid #1d2233;border-radius:28px;background:linear-gradient(120deg,#fff3b8,#ffd9e4);box-shadow:5px 5px 0 #1d2233}
+.home-charts-tag{display:inline-block;background:#1d2233;color:#fff;border-radius:99px;padding:3px 12px;font-size:14px;font-weight:800}
+.home-charts h2{font-family:Fredoka,Heebo,sans-serif;font-size:clamp(26px,3vw,38px);font-weight:700;line-height:1.2;margin:10px 0 8px}
+.home-charts p{font-size:18px;color:#3b4258;margin:0 0 16px}
+.home-charts-cta{display:inline-flex;align-items:center;min-height:48px;padding:10px 22px;border:2.5px solid #1d2233;border-radius:14px;background:#ffd23f;box-shadow:3px 3px 0 #1d2233;font-weight:900;font-size:18px;color:#1d2233}
+.home-charts-cta:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
+.home-charts-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.home-charts-grid a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:92px;padding:10px 6px;border:2px solid #1d2233;border-radius:18px;background:#fff;font-weight:800;font-size:16px;text-align:center;color:#1d2233;transition:transform .15s}
+.home-charts-grid a:hover{transform:translateY(-3px) rotate(-1deg)}
+.home-charts-grid a span{font-size:32px;line-height:1}
+@media(max-width:800px){.home-charts{grid-template-columns:1fr;padding:20px 18px}}
+@media(max-width:560px){.home-charts-grid a{min-height:80px;font-size:14px}.home-charts-grid a span{font-size:27px}.home-charts p{font-size:16px}}

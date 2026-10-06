@@ -12,16 +12,19 @@ const HOLIDAY_SHEETS = [
   ['lag-baomer', 'דפי צביעה לל״ג בעומר', '🔥'], ['shavuot', 'דפי צביעה לשבועות', '🌾'],
 ].map(([slug, title, emoji]) => ({ slug: 'holiday-' + slug, href: `/holidays/${slug}/coloring`, title, emoji, count: 'חגים', desc: 'דפי צביעה לחג, מוכנים להדפסה.' }))
   .concat({ slug: 'holiday-hanukkah-worksheets', href: '/holidays/hanukkah/worksheets', title: 'דפי עבודה לחנוכה', emoji: '✏️', count: 'חגים', desc: 'דפי עבודה לגן ולכיתה א׳ בנושא חנוכה.' })
+  .concat({ slug: 'holiday-purim-masks', href: '/printables/purim-masks', title: 'מסכות לפורים לגזירה', emoji: '🎭', count: 'חגים', desc: '9 מסכות — בצבע או לצביעה.' })
 
 // Topic chips. Each sheet can sit under more than one topic.
 const TOPICS = [
-  { id: 'birthday', label: '🎂 ליום הולדת', slugs: ['birthday-newspaper', 'birthday-checklist', 'birthday-signs', 'certificates', 'name-tags', 'thank-you', 'photo-props', 'board-game', 'coloring'] },
-  { id: 'math', label: '🔢 חשבון', slugs: ['math-worksheets', 'numbers', 'sudoku', 'count-and-write', 'color-by-number', 'dot-to-dot'] },
+  { id: 'birthday', label: '🎂 ליום הולדת', slugs: ['birthday-crown', 'gift-box', 'fortune-teller', 'birthday-newspaper', 'birthday-checklist', 'birthday-signs', 'certificates', 'name-tags', 'thank-you', 'photo-props', 'board-game', 'coloring'] },
+  { id: 'math', label: '🔢 חשבון', slugs: ['math-worksheets', 'clock-worksheets', 'fractions-worksheets', 'dominoes', 'numbers', 'sudoku', 'count-and-write', 'color-by-number', 'dot-to-dot'] },
   { id: 'letters', label: '🔤 אותיות ומילים', slugs: ['letters', 'hebrew-letters', 'abc-letters', 'letter-flashcards', 'word-tracing', 'match-word', 'opposites', 'synonyms'] },
   { id: 'coloring', label: '🖍️ צביעה ויצירה', slugs: ['coloring', 'mandalas', 'symmetry', 'color-by-number', 'dot-to-dot', 'photo-props'] },
   { id: 'motor', label: '✂️ מוטוריקה וחשיבה', slugs: ['fine-motor', 'mazes', 'find-differences', 'complete-pattern', 'silhouette-match', 'cut-and-order', 'hidden-object', 'missing-picture', 'mixed-activities', 'symmetry', 'dot-to-dot'] },
   { id: 'holidays', label: '🕎 חגים', extra: HOLIDAY_SHEETS },
-  { id: 'school', label: '🏫 לכיתה ולגן', slugs: ['roots-project', 'math-worksheets', 'letters', 'hebrew-letters', 'letter-flashcards', 'fine-motor', 'numbers', 'mixed-activities'] },
+  { id: 'home', label: '🏠 לבית ולארגון', slugs: ['home-charts', 'chore-chart', 'reward-chart', 'toothbrushing-chart', 'potty-chart', 'class-schedule', 'calendar-2027', 'calendar-5787', 'lined-paper'] },
+  { id: 'crafts', label: '✂️ משחקים ויצירה מנייר', slugs: ['memory-game', 'dominoes', 'fortune-teller', 'gift-box', 'purim-masks', 'birthday-crown', 'board-game', 'photo-props'] },
+  { id: 'school', label: '🏫 לכיתה ולגן', slugs: ['class-schedule', 'calendar-5787', 'clock-worksheets', 'fractions-worksheets', 'lined-paper', 'roots-project', 'math-worksheets', 'letters', 'hebrew-letters', 'letter-flashcards', 'fine-motor', 'numbers', 'mixed-activities'] },
 ]
 
 // "9 פעילויות ליום הולדת" / "6 פעילויות בנושא חשבון" — a label that already starts with "ל" needs no "בנושא".
@@ -33,7 +36,7 @@ const withCount = cat => (cat.count === 1 ? { ...cat, count: 'דף אחד' } : c
 export default function PrintablesIndex() {
   const [params, setParams] = useSearchParams()
   const topic = TOPICS.find(t => t.id === params.get('topic'))
-  const list = !topic ? categories : topic.extra || categories.filter(c => topic.slugs.includes(c.slug))
+  const list = !topic ? categories.filter(c => !c.inHubOnly) : topic.extra || topic.slugs.map(s => categories.find(c => c.slug === s)).filter(Boolean)
   const pick = id => {
     const next = new URLSearchParams(params)
     if (!id || topic?.id === id) next.delete('topic'); else next.set('topic', id)

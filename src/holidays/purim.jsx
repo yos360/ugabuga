@@ -37,7 +37,7 @@ export const PURIM_H = {
       { q: 'למה מתחפשים בפורים?', a: 'אחד ההסברים הוא "ונהפוך הוא" — בסיפור המגילה הכול התהפך מצרה לשמחה, ובתחפושת גם אנחנו "מתהפכים" והופכים למישהו אחר. הסבר נוסף: הנס במגילה היה "מוסתר", כמו פנים מאחורי מסכה.' },
       { q: 'מה חייב להיות במשלוח מנות?', a: 'לפי ההלכה — לפחות שני סוגי מאכל או משקה, לאדם אחד. כל השאר (קישוט, נושא, פתק) הוא תוספת כיפית.' },
     ],
-    related: [{ label: 'כל החגים', href: '/holidays' }, { label: 'ט״ו בשבט', href: '/holidays/tu-bishvat' }, { label: 'מסיבת פורים', href: '/ideas/purim-party' }],
+    related: [{ label: 'מסכות לפורים להדפסה', href: '/printables/purim-masks' }, { label: 'כל החגים', href: '/holidays' }, { label: 'ט״ו בשבט', href: '/holidays/tu-bishvat' }, { label: 'מסיבת פורים', href: '/ideas/purim-party' }],
   },
   quiz: {
     questions: PURIM_QUIZ,
@@ -55,7 +55,7 @@ export const PURIM_H = {
       sub: '6 ציורים · קווים עבים · דף A4 לכל ציור',
       body: ['דפי הצביעה לפורים צוירו במיוחד לעוגה בוגה. את דף "משלוח מנות" אפשר לצבוע ולהדביק על שקית המשלוח — יש בו מקום ל"מאת" ו"אל".'],
       faq: [{ q: 'כמה דפי צביעה לפורים יש כאן?', a: '6 ציורים: מסכה, רעשן, אוזני המן, כתר, משלוח מנות ו"פורים שמח". הכול בחינם.' }],
-      related: [{ label: 'דפי עבודה לפורים', href: base + '/worksheets' }, { label: 'רעיונות למשלוח מנות', href: base + '/mishloach-manot' }],
+      related: [{ label: 'מסכות לפורים לגזירה', href: '/printables/purim-masks' }, { label: 'דפי עבודה לפורים', href: base + '/worksheets' }, { label: 'רעיונות למשלוח מנות', href: base + '/mishloach-manot' }],
     },
     worksheets: {
       list: PURIM_SHEETS, crumb: 'דפי עבודה',

@@ -1,6 +1,24 @@
-// Printable categories — shared by PrintablesIndex and HubPage, kept in its own
+// Printable categories — shared by PrintablesIndex and HubPage. `inHubOnly` sheets are left out of the
+// unfiltered list (they sit under their own hub card and topic chip), kept in its own
 // tiny module so HubPage (eager-ish) doesn't drag the whole printables page in.
 export const categories = [
+  { slug: 'home-charts', href: '/printables/home-charts', emoji: '🏠', title: 'לוחות לבית', count: 'חדש', desc: 'טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות — עם שם הילד', special: true },
+  { slug: 'chore-chart', inHubOnly: true, href: '/printables/chore-chart', emoji: '📋', title: 'טבלת מטלות לילדים', count: 'חדש', desc: 'משימות משלכם לכל יום בשבוע, כוכב על כל משימה ופרס בסוף', special: true },
+  { slug: 'reward-chart', inHubOnly: true, href: '/printables/reward-chart', emoji: '⭐', title: 'לוח מדבקות לחיזוק', count: 'חדש', desc: 'מטרה אחת, דרך של 10–30 מדבקות ופרס בסוף', special: true },
+  { slug: 'toothbrushing-chart', inHubOnly: true, href: '/printables/toothbrushing-chart', emoji: '🦷', title: 'לוח צחצוח שיניים', count: 'חדש', desc: 'בוקר וערב — לשבוע או לחודש שלם', special: true },
+  { slug: 'potty-chart', inHubOnly: true, href: '/printables/potty-chart', emoji: '🚽', title: 'לוח גמילה מחיתולים', count: 'חדש', desc: 'מדבקה על כל הצלחה בשירותים', special: true },
+  { slug: 'class-schedule', inHubOnly: true, href: '/printables/class-schedule', emoji: '🗓️', title: 'מערכת שעות', count: 'חדש', desc: 'מערכת שעות אישית, 5 או 6 ימים', special: true },
+  { slug: 'calendar-2027', href: '/printables/calendar-2027', emoji: '📅', title: 'לוח שנה 2027', count: 'חדש', desc: 'עברי ולועזי עם חגים — חודשי או שנתי', special: true },
+  { slug: 'calendar-5787', inHubOnly: true, href: '/printables/calendar-5787', emoji: '🎒', title: 'לוח שנה תשפ״ז', count: 'חדש', desc: 'שנת הלימודים ספטמבר 2026 – אוגוסט 2027, עם כל החגים', special: true },
+  { slug: 'clock-worksheets', href: '/printables/clock-worksheets', emoji: '🕒', title: 'דפי עבודה בשעון', count: 'חדש', desc: 'מה השעה? וציירו מחוגים — שעות, חצאים, רבעים ודקות', special: true },
+  { slug: 'fractions-worksheets', href: '/printables/fractions-worksheets', emoji: '🍕', title: 'דפי עבודה בשברים', count: 'חדש', desc: 'איזה חלק צבוע, צבעו את השבר והשוואת שברים', special: true },
+  { slug: 'lined-paper', href: '/printables/lined-paper', emoji: '📝', title: 'נייר כתיבה ריק', count: 6, desc: 'שורות, משבצות, מילימטרי, נקודות, שורות לאנגלית ותווים' },
+  { slug: 'purim-masks', href: '/printables/purim-masks', emoji: '🎭', title: 'מסכות לפורים', count: 9, desc: 'חיות, פרפר, גיבור-על וחד-קרן — בצבע או לצביעה' },
+  { slug: 'birthday-crown', href: '/printables/birthday-crown', emoji: '👑', title: 'כתר יום הולדת', count: 'חדש', desc: 'כתר לגזירה עם שם החוגג/ת והגיל' },
+  { slug: 'memory-game', href: '/printables/memory-game', emoji: '🃏', title: 'משחק זיכרון', count: 'חדש', desc: '10 זוגות — תמונה ותמונה, או תמונה ומילה' },
+  { slug: 'dominoes', href: '/printables/dominoes', emoji: '🁫', title: 'דומינו להדפסה', count: 'חדש', desc: 'קלאסי, מספרים, חיבור ותמונה-מילה' },
+  { slug: 'fortune-teller', href: '/printables/fortune-teller', emoji: '🌸', title: 'קוטי פוטי', count: 'חדש', desc: 'תבנית לקיפול עם משפטים מוכנים או שלכם' },
+  { slug: 'gift-box', href: '/printables/gift-box', emoji: '🎁', title: 'קופסת מתנה לקיפול', count: 'חדש', desc: 'קופסה עם מכסה, דוגמה ושם המקבל' },
   { slug: 'math-worksheets', href: '/printables/math-worksheets', emoji: '➕', title: 'דפי עבודה בחשבון לכיתה א׳', count: 'חדש', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים — דף חדש בכל לחיצה, עם פתרונות', special: true },
   { slug: 'letter-flashcards', href: '/printables/letter-flashcards', emoji: '🃏', title: 'כרטיסיות אותיות', count: 'חדש', desc: 'א׳–ת׳ ו־A–Z עם תמונה ומילה, 8 כרטיסיות בדף לגזירה', special: true },
   { slug: 'letters', href: '/letters', emoji: '🔤', title: 'לימוד אותיות בעברית', count: 22, desc: 'עמוד לכל אות: איך כותבים, מילים, משחק ודף תרגול', special: true },

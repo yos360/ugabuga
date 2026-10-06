@@ -63,6 +63,18 @@ const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
 const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
 const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'))
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
+const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
+const PurimMasks = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.PurimMasks })))
+const BirthdayCrown = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.BirthdayCrown })))
+const ClockWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.ClockWorksheets })))
+const FractionWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.FractionWorksheets })))
+const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
+const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
+const Dominoes = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.Dominoes })))
+const FortuneTeller = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.FortuneTeller })))
+const GiftBox = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.GiftBox })))
+const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
+const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
 const LetterPage = lazy(() => import('./pages/letters/LetterPage'))
 const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
@@ -268,6 +280,28 @@ export default function App() {
               <Route path="/printables/photo-props" element={<PhotoProps />} />
               <Route path="/printables/coloring" element={<ColoringPages />} />
               <Route path="/printables/dice-template" element={<DiceTemplate />} />
+              <Route path="/printables/calendar-2027" element={<CalendarPrint key="2027" preset="calendar-2027" />} />
+              <Route path="/printables/calendar-5787" element={<CalendarPrint key="5787" preset="school-year-5787" />} />
+              <Route path="/printables/home-charts" element={<HomeChartsHub />} />
+              <Route path="/printables/chore-chart" element={<HomeChart key="chore-chart" preset="chore-chart" />} />
+              <Route path="/printables/reward-chart" element={<HomeChart key="reward-chart" preset="reward-chart" />} />
+              <Route path="/printables/toothbrushing-chart" element={<HomeChart key="toothbrushing-chart" preset="toothbrushing-chart" />} />
+              <Route path="/printables/potty-chart" element={<HomeChart key="potty-chart" preset="potty-chart" />} />
+              <Route path="/printables/class-schedule" element={<HomeChart key="class-schedule" preset="class-schedule" />} />
+              <Route path="/printables/purim-masks" element={<PurimMasks />} />
+              <Route path="/printables/birthday-crown" element={<BirthdayCrown />} />
+              <Route path="/printables/clock-worksheets" element={<ClockWorksheets />} />
+              <Route path="/printables/fractions-worksheets" element={<FractionWorksheets />} />
+              <Route path="/printables/lined-paper" element={<WritingPaper key="lined-paper" kind="lined-paper" />} />
+              <Route path="/printables/grid-paper" element={<WritingPaper key="grid-paper" kind="grid-paper" />} />
+              <Route path="/printables/graph-paper" element={<WritingPaper key="graph-paper" kind="graph-paper" />} />
+              <Route path="/printables/dot-paper" element={<WritingPaper key="dot-paper" kind="dot-paper" />} />
+              <Route path="/printables/english-lines" element={<WritingPaper key="english-lines" kind="english-lines" />} />
+              <Route path="/printables/music-paper" element={<WritingPaper key="music-paper" kind="music-paper" />} />
+              <Route path="/printables/memory-game" element={<MemoryGame />} />
+              <Route path="/printables/dominoes" element={<Dominoes />} />
+              <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
+              <Route path="/printables/gift-box" element={<GiftBox />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />

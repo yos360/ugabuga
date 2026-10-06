@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 // sheet looks the same wherever it appears.
 export const printableHref = cat => cat.href || (cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug)
 
-export default function PrintableCard({ cat, index = 0 }) {
-  return <Link to={printableHref(cat)}
+export default function PrintableCard({ cat, index = 0, state }) {
+  return <Link to={printableHref(cat)} state={state}
     className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 ${index % 2 ? 'rotate-[0.5deg]' : '-rotate-[0.5deg]'}`}>
     <div className="flex items-center gap-3 mb-2">
       <span className="text-3xl">{cat.emoji}</span>

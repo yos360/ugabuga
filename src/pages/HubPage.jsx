@@ -44,7 +44,7 @@ const HUBS = {
       { q: 'כל הכלים באתר מתאימים לשימוש בכיתה, לא רק בבית?', a: 'כן, רוב הכלים נבנו מלכתחילה גם עבור מורות — מהמדפסות ועד לכלים הדיגיטליים.' },
       { q: 'איך יודעים איזה כלי מתאים לאיזה שלב בשיעור?', a: 'משחקים בלי ציוד וקצרים מתאימים למעברים והפסקות קטנות, וכלים כמו טריוויה או בינגו מתאימים לפעילות מרכזית שדורשת הכנה מראש.' },
     ],
-    printables: ['hebrew-letters', 'abc-letters', 'numbers', 'letters', 'letter-flashcards', 'math-worksheets'],
+    printables: ['hebrew-letters', 'abc-letters', 'numbers', 'letters', 'letter-flashcards', 'math-worksheets', 'clock-worksheets', 'fractions-worksheets', 'class-schedule', 'lined-paper', 'calendar-5787'],
     holidays: true,
     grades: [['גן', '/games/kindergarten'], ['כיתה א׳', '/games/kita-a'], ['כיתה ב׳', '/games/kita-b'], ['כיתה ג׳', '/games/kita-g'], ['כיתה ד׳', '/games/kita-d'], ['כיתה ה׳', '/games/kita-h'], ['כיתה ו׳', '/games/kita-v']],
     related: [ { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'בינגו היכרות להדפסה', href: '/tools/bingo-maker' }, { label: 'משחקי היכרות ושוברי קרח', href: '/games/icebreaker' } ],
@@ -93,16 +93,18 @@ const HUBS = {
 export default function HubPage({ type }) {
   const { pathname } = useLocation()
   const hub = HUBS[type] || HUBS.birthday
+  // Pages opened from here show this hub in their breadcrumbs (see Breadcrumbs).
+  const via = { via: { label: hub.crumb || hub.title, href: pathname } }
   return <div className="mx-auto max-w-6xl px-4 py-8" style={{ '--hub-bg': hub.color }}>
     <SEO title={hub.title} description={hub.subtitle} path={pathname} structuredData={faqSchema(hub.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: hub.crumb || hub.title }]} />
     <header className="mx-auto max-w-3xl py-8 text-center"><div className="text-5xl">{type === 'birthday' ? '🎂' : type === 'classroom' ? '🏫' : '✨'}</div><h1 className="mt-3 text-4xl font-black sm:text-6xl">{hub.title}</h1><p className="mt-3 text-xl text-[var(--muted-foreground)]">{hub.subtitle}</p></header>
-    {hub.featured && <Link to={hub.featured[3]} className="mx-auto mb-8 flex max-w-4xl flex-col items-center gap-4 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#fff4bb] p-6 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1 sm:flex-row sm:text-right"><span className="text-6xl" aria-hidden="true">{hub.featured[0]}</span><span className="flex-1"><span className="block text-2xl font-black text-[var(--ink)]">{hub.featured[1]}</span><span className="mt-2 block text-lg leading-8 text-[var(--muted-foreground)]">{hub.featured[2]}</span></span><span className="shrink-0 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#25d366] px-6 py-3 text-xl font-black text-white">{hub.featured[4]}</span></Link>}
-    <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label={hub.title}>{hub.cards.map(([emoji, title, desc, href]) => <Link key={href} to={href} className="group rounded-3xl border-2 border-slate-200 bg-[var(--hub-bg)] p-6 shadow-[0_6px_0_rgba(20,30,60,.12)] transition hover:-translate-y-1 hover:shadow-[0_9px_0_rgba(20,30,60,.14)]"><div className="text-5xl">{emoji}</div><h2 className="mt-4 text-2xl font-black text-[var(--ink)]">{title}</h2><p className="mt-2 text-lg leading-8 text-[var(--muted-foreground)]">{desc}</p><span className="mt-5 inline-flex rounded-full bg-white px-5 py-2 font-bold text-[var(--ink)]">נכנסים ←</span></Link>)}</section>
+    {hub.featured && <Link to={hub.featured[3]} state={via} className="mx-auto mb-8 flex max-w-4xl flex-col items-center gap-4 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#fff4bb] p-6 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1 sm:flex-row sm:text-right"><span className="text-6xl" aria-hidden="true">{hub.featured[0]}</span><span className="flex-1"><span className="block text-2xl font-black text-[var(--ink)]">{hub.featured[1]}</span><span className="mt-2 block text-lg leading-8 text-[var(--muted-foreground)]">{hub.featured[2]}</span></span><span className="shrink-0 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#25d366] px-6 py-3 text-xl font-black text-white">{hub.featured[4]}</span></Link>}
+    <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label={hub.title}>{hub.cards.map(([emoji, title, desc, href]) => <Link key={href} to={href} state={via} className="group rounded-3xl border-2 border-slate-200 bg-[var(--hub-bg)] p-6 shadow-[0_6px_0_rgba(20,30,60,.12)] transition hover:-translate-y-1 hover:shadow-[0_9px_0_rgba(20,30,60,.14)]"><div className="text-5xl">{emoji}</div><h2 className="mt-4 text-2xl font-black text-[var(--ink)]">{title}</h2><p className="mt-2 text-lg leading-8 text-[var(--muted-foreground)]">{desc}</p><span className="mt-5 inline-flex rounded-full bg-white px-5 py-2 font-bold text-[var(--ink)]">נכנסים ←</span></Link>)}</section>
     {hub.holidays && <ClassroomHolidays />}
     {hub.printables && <section aria-label="כתיבה ומספרים להדפסה" className="mt-10">
       <h2 className="mb-4 text-center text-3xl font-black">✏️ כתיבה ומספרים — להדפסה</h2>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{hub.printables.map((slug, i) => <PrintableCard key={slug} cat={PRINTABLES.find(c => c.slug === slug)} index={i} />)}</div>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{hub.printables.map((slug, i) => <PrintableCard key={slug} cat={PRINTABLES.find(c => c.slug === slug)} index={i} state={via} />)}</div>
     </section>}
     {hub.grades && <nav aria-label="משחקים לפי כיתה" className="mt-10 rounded-3xl bg-[var(--hub-bg)] p-5 text-center">
       <h2 className="mb-3 text-2xl font-black">🎯 משחקים לפי כיתה</h2>

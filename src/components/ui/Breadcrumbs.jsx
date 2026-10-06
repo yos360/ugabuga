@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
 const SITE = 'https://ugabuga.co.il'
@@ -17,6 +17,11 @@ export default function Breadcrumbs({ items }) {
     })),
   }
 
+  // Arrived from a hub (e.g. the classroom area)? Show that hub as the way back instead of the
+  // general printables index. Visual only — the structured data keeps the canonical trail.
+  const via = useLocation().state?.via
+  const shown = via?.href && via?.label && items[1]?.href === '/printables' ? [items[0], via, ...items.slice(2)] : items
+
   return (
     <>
       <Helmet>
@@ -24,7 +29,7 @@ export default function Breadcrumbs({ items }) {
       </Helmet>
       <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label="פירורי לחם">
         <ol className="flex flex-wrap gap-1 items-center">
-          {items.map((item, i) => (
+          {shown.map((item, i) => (
             <li key={i} className="flex items-center gap-1">
               {i > 0 && <span className="mx-1">{'›'}</span>}
               {item.href ? (

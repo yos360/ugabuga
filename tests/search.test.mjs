@@ -98,3 +98,15 @@ test('queries that already worked still work', () => {
 test('a long query falls back to the best partial matches', () => {
   assert.ok(search('דפי צביעה דינוזאורים חלליים').length > 0)
 })
+
+test('new printables: home charts, calendars, paper, games and crafts', () => {
+  has('טבלת מטלות', '/printables/chore-chart', 1)
+  has('לוח מדבקות', '/printables/reward-chart', 2)
+  has('לוח שנה 2027', '/printables/calendar-2027', 1)
+  has('קריאת שעון', '/printables/clock-worksheets', 2)
+  has('שברים', '/printables/fractions-worksheets', 2)
+  has('נייר מילימטרי', '/printables/graph-paper', 1)
+  has('קוטי פוטי', '/printables/fortune-teller', 1)
+  has('מסכות לפורים', '/printables/purim-masks', 3)
+  has('דומינו', '/printables/dominoes', 1)
+})
