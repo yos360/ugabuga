@@ -69,7 +69,7 @@ export default function LetterPage() {
       <section className="mb-10">
         <h2 className="text-3xl font-bold mb-4">מילים שמתחילות באות {l}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {words.map(([w, e]) => <button key={w} type="button" onClick={() => speak(w)} className="wobbly-sm flex min-w-0 items-center gap-2 sm:gap-3 border-2 border-[var(--border)] bg-white p-3 text-right hover:-translate-y-0.5 transition-transform">
+          {words.map(([w, e, s]) => <button key={w} type="button" onClick={() => speak(s || w)} className="wobbly-sm flex min-w-0 items-center gap-2 sm:gap-3 border-2 border-[var(--border)] bg-white p-3 text-right hover:-translate-y-0.5 transition-transform">
             <span className="shrink-0 text-4xl sm:text-5xl" aria-hidden="true">{e}</span>
             <span className="min-w-0 text-xl sm:text-2xl font-bold [overflow-wrap:anywhere]"><span className="text-pink-600">{w[0]}</span>{w.slice(1)}</span>
           </button>)}

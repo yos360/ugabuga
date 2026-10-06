@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
-// Kid-safe "who was born on my day": the list of people comes ONLY from the hand-curated,
-// source-checked births in src/data/today-game/MM.json (items with type "born"). Wikipedia is
-// used solely to enrich those same people (photo, article link, alive check) — it never adds
-// anyone, so a raw "births" list (dictators, criminals, war figures…) can never reach a child.
+// Kid-safe "who was born on my day": the first people shown come from the hand-curated,
+// source-checked births in src/data/today-game/MM.json (items with type "born"). On top of
+// those, the Hebrew-Wikipedia date page adds MORE people — but only through a strict
+// profession allowlist (singers, athletes, scientists, authors, musicians…) plus a blocklist
+// (politicians, military, royals, criminals…), so a raw "births" list (dictators, war
+// figures…) can never reach a child. Wikipedia also enriches everyone with a photo, an
+// article link and the alive check.
 
 const today = new Date()
 const pad = n => String(n).padStart(2, '0')
@@ -40,26 +43,60 @@ async function api(params, signal) {
   return res.json()
 }
 
-// Names (normalised) of people the Hebrew Wikipedia date page lists as born that year with
-// no death mention — the only way a curated person is treated as alive (and gets an age).
-async function livingOnDatePage(month, day, signal) {
+const DEAD = /נפטר|נרצח|נהרג|הוצא|התאבד|(^|[\s(])מתה?([\s,)]|$)/
+// Professions a child may meet here (allowlist) — and everyone we keep out (blocklist),
+// including politicians, military, royalty, religion and crime. A person appears only if
+// their description matches SAFE and not BLOCK.
+const SAFE = /זמר|שחקן|שחקנית|כדורגל|כדורסל|טניסא|שחיין|אצן|מתעמל|ספורטא|שחמטא|גולש|אלוף אולימפי|מדען|פיזיקא|כימא|אסטרונום|ממציא|סופר|משורר|מאייר|צייר|פסל|נגן|פסנתרן|כנר|מלחין|מוזיקא|יוצר|במאי|במאית|רקדן|שף\b|קוסם|אסטרונאוט|צלם|בדרן|קומיקא|כוריאוגרף|אמן|אמנית|דוגמנ|מאמן|זואולוג|חוקרת? טבע/
+const BLOCK = /פוליטיקא|ראש ממשלה|ראש הממשלה|נשיא|שר\s|שרת\s|חבר כנסת|מושל|דיפלומט|גנרל|מצביא|קצין|מפקד|לוחם|צבא|מהפכן|פושע|רוצח|עבריין|נאצי|דיקטטור|מלך|מלכה|קיסר|נסיך|נסיכה|דוכס|אציל|רב\s|הרב\s|כומר|בישוף|אפיפיור|תאולוג|טרור|מאפי|כנופי|פורנו|ארוטי|הימור/
+const stripWiki = s => s
+  .replace(/<ref[^>]*\/>/g, '').replace(/<ref[\s\S]*?<\/ref>/g, '')
+  .replace(/\{\{[^}]*\}\}/g, '')
+  .replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2').replace(/\[\[([^\]]*)\]\]/g, '$1')
+  .replace(/'{2,}/g, '').trim()
+
+// All people the Hebrew Wikipedia date page lists as born: year, name(s) and description.
+// Used both for the curated people's alive check and to add more kid-safe people.
+async function bornOnDatePage(month, day, signal) {
   const parsed = await api({ action: 'parse', page: `${day} ב${MONTHS[month - 1]}`, prop: 'wikitext' }, signal)
   const text = parsed.parse?.wikitext || ''
   const start = text.indexOf('== נולדו')
-  if (start < 0) return new Set()
+  if (start < 0) return []
   const end = text.indexOf('\n== ', start + 5)
-  const living = new Set()
+  const people = []
   for (const line of text.slice(start, end > 0 ? end : undefined).split('\n')) {
     const m = line.match(/^\*\s*\[\[(\d{1,4})\]\]\s*[–—-]\s*'*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]'*(.*)$/)
-    if (!m || /נפטר|נרצח|נהרג|הוצא|התאבד|(^|[\s(])מתה?([\s,)]|$)/.test(m[4] || '')) continue
-    living.add(`${m[1]}|${nameKey(m[2])}`)
-    if (m[3]) living.add(`${m[1]}|${nameKey(m[3])}`)
+    if (!m) continue
+    people.push({ year: Number(m[1]), title: m[2].trim(), display: (m[3] || m[2]).trim(), rest: m[4] || '' })
   }
-  return living
+  return people
 }
 
-// Adds photo + article link (skipping missing and disambiguation pages) and the alive check.
-async function enrich(people, month, day, signal) {
+// Short role text for the card: the description up to the first period/parenthesis.
+function roleOf(rest) {
+  const clean = stripWiki(rest).replace(/^[\s,،–—-]+/, '')
+  const cut = clean.search(/[.(]/)
+  const role = (cut > 0 ? clean.slice(0, cut) : clean).replace(/[\s,;–—-]+$/, '')
+  return role.length > 60 ? role.slice(0, 57) + '…' : role
+}
+
+// Kid-safe extra people from the date page, newest first, skipping anyone already curated.
+function extraPeople(born, curated, limit) {
+  const have = new Set(curated.map(p => nameKey(p.name)))
+  const extras = []
+  for (const p of [...born].sort((a, b) => b.year - a.year)) {
+    const desc = stripWiki(p.rest)
+    if (have.has(nameKey(p.title)) || have.has(nameKey(p.display))) continue
+    if (!SAFE.test(desc) || BLOCK.test(desc)) continue
+    have.add(nameKey(p.title)); have.add(nameKey(p.display))
+    extras.push({ name: p.title, role: roleOf(p.rest), year: p.year, desc: '', emoji: '🌟', image: null, url: null, alive: p.year > 1930 && !DEAD.test(p.rest) })
+    if (extras.length >= limit) break
+  }
+  return extras
+}
+
+// Adds photo + article link (skipping missing and disambiguation pages).
+async function enrich(people, signal) {
   const data = await api({
     action: 'query',
     titles: people.map(p => p.name).join('|'),
@@ -77,14 +114,7 @@ async function enrich(people, month, day, signal) {
   for (const rd of data.query?.redirects || []) if (pages[rd.to]) pages[rd.from] = pages[rd.to]
   for (const n of data.query?.normalized || []) if (pages[n.to]) pages[n.from] = pages[n.to]
 
-  let living = new Set()
-  try { living = await livingOnDatePage(month, day, signal) } catch { /* no age then */ }
-
-  return people.map(p => ({
-    ...p,
-    ...(pages[p.name] || {}),
-    alive: p.year > 1930 && living.has(`${p.year}|${nameKey(p.name)}`),
-  }))
+  return people.map(p => ({ ...p, ...(pages[p.name] || {}) }))
 }
 
 // Age on today's date: one less if this year's birthday hasn't arrived yet
@@ -110,16 +140,27 @@ export default function BirthdayFamous() {
     setLoading(true)
 
     curatedPeople(month, day)
-      .then(list => {
+      .then(async curated => {
         if (!alive) return
-        setPeople(list)
-        setLoading(false)
-        if (list.length) {
-          enrich(list, month, day, controller.signal)
-            .then(rich => { if (alive) setPeople(rich) })
-            .catch(() => { /* offline: keep the curated list without photos */ })
-            .finally(() => clearTimeout(timeout))
-        }
+        setPeople(curated)
+        if (curated.length) setLoading(false)
+        try {
+          const born = await bornOnDatePage(month, day, controller.signal)
+          // Alive check for curated people: the date page lists them that year with no death mention.
+          const living = new Set()
+          for (const p of born) if (!DEAD.test(p.rest)) { living.add(`${p.year}|${nameKey(p.title)}`); living.add(`${p.year}|${nameKey(p.display)}`) }
+          const extras = extraPeople(born, curated, Math.max(0, 12 - curated.length))
+          const all = [
+            ...curated.map(p => ({ ...p, alive: p.year > 1930 && living.has(`${p.year}|${nameKey(p.name)}`) })),
+            ...extras,
+          ].sort((a, b) => a.year - b.year)
+          if (alive) { setPeople(all); setLoading(false) }
+          if (all.length) {
+            const rich = await enrich(all, controller.signal)
+            if (alive) setPeople(rich)
+          }
+        } catch { /* offline: keep the curated list without photos */ }
+        finally { if (alive) setLoading(false); clearTimeout(timeout) }
       })
       .catch(() => { if (alive) { setPeople([]); setLoading(false) } })
 

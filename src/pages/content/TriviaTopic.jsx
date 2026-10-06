@@ -5,6 +5,17 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
 import { TRIVIA_TOPICS, TRIVIA_GROUPS } from '../../data/content/trivia'
+import { shuffle } from '../../utils/shuffle'
+
+// A fresh quiz on every visit: 12 random questions out of the topic's whole pool, in a new
+// order, with the answers shuffled too — so playing again (or coming back tomorrow) never
+// feels like the same quiz. The SEO schema and the printable answer sheet keep the full,
+// stable pool.
+const QUIZ_SIZE = 12
+const deal = t => shuffle(t.questions).slice(0, QUIZ_SIZE).map(q => {
+  const order = shuffle(q.options.map((_, i) => i))
+  return { ...q, options: order.map(i => q.options[i]), answer: order.indexOf(q.answer) }
+})
 
 export function TriviaTopicsHub() {
   return (
@@ -12,7 +23,7 @@ export function TriviaTopicsHub() {
       <SEO title="טריוויה לפי נושא — חידונים עם תשובות לילדים ולמשפחה" description={`${TRIVIA_TOPICS.length} חידוני טריוויה עם תשובות והסברים: חיות, חלל, ישראל, חגים, ספורט, מוזיקה ועוד — לשחק באתר, בכיתה או בארוחה משפחתית.`} path="/trivia/topics" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia' }, { label: 'לפי נושא' }]} />
       <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🧠 טריוויה לפי נושא</h1>
-      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">כל חידון: 12 שאלות, תשובה והסבר קצר לכל שאלה.</p>
+      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">כל חידון: 12 שאלות עם תשובה והסבר קצר — ובכל כניסה השאלות מתערבבות מחדש.</p>
       {TRIVIA_GROUPS.map(g => (
         <section key={g.title} className="mb-10">
           <h2 className="text-2xl font-bold mb-4">{g.title}</h2>
@@ -33,9 +44,14 @@ export default function TriviaTopic() {
   const { slug } = useParams()
   const t = TRIVIA_TOPICS.find(x => x.slug === slug)
   const [picked, setPicked] = useState({})
+  const [dealt, setDealt] = useState(() => (t ? { slug, questions: deal(t) } : null))
   if (!t) return <NotFound />
+  // Moving to another topic keeps the component mounted — deal that topic's own questions.
+  if (!dealt || dealt.slug !== slug) { setDealt({ slug, questions: deal(t) }); setPicked({}); return null }
+  const questions = dealt.questions
+  const replay = () => { setPicked({}); setDealt({ slug, questions: deal(t) }) }
   const answered = Object.keys(picked).length
-  const score = Object.entries(picked).filter(([i, v]) => t.questions[i].answer === v).length
+  const score = Object.entries(picked).filter(([i, v]) => questions[i].answer === v).length
   const schema = {
     '@context': 'https://schema.org', '@type': 'Quiz', name: t.title, about: t.title, educationalLevel: t.audience,
     hasPart: t.questions.map(q => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.options[q.answer] } })),
@@ -52,7 +68,7 @@ export default function TriviaTopic() {
         <p className="text-sm text-[var(--muted-foreground)] mt-1">מתאים ל: {t.audience} · לחצו על תשובה כדי לבדוק</p>
       </header>
       <ol className="space-y-4">
-        {t.questions.map((q, i) => {
+        {questions.map((q, i) => {
           const p = picked[i]
           return (
             <li key={i}>
@@ -70,8 +86,8 @@ export default function TriviaTopic() {
           )
         })}
       </ol>
-      {answered > 0 && <p className="text-center text-2xl font-bold my-6" aria-live="polite">עניתם על {answered} מתוך 12 · {score} נכונות{answered === 12 ? (score >= 10 ? ' 🏆 מדהים!' : score >= 7 ? ' 👏 יפה מאוד!' : ' 💪 נסו שוב!') : ''}</p>}
-      {answered === 12 && <div className="text-center mb-6"><button onClick={() => setPicked({})} className="btn-secondary">שחקו שוב</button></div>}
+      {answered > 0 && <p className="text-center text-2xl font-bold my-6" aria-live="polite">עניתם על {answered} מתוך {questions.length} · {score} נכונות{answered === questions.length ? (score >= questions.length * 0.8 ? ' 🏆 מדהים!' : score >= questions.length * 0.55 ? ' 👏 יפה מאוד!' : ' 💪 נסו שוב!') : ''}</p>}
+      {answered === questions.length && <div className="text-center mb-6"><button onClick={replay} className="btn-secondary">🔄 עוד סיבוב — שאלות חדשות</button></div>}
       <details className="mt-8 wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4">
         <summary className="font-bold cursor-pointer">📋 דף תשובות למנחה</summary>
         <ol className="list-decimal pr-6 mt-3 space-y-1">{t.questions.map((q, i) => <li key={i}>{q.q} <b>— {q.options[q.answer]}</b></li>)}</ol>

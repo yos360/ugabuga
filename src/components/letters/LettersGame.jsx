@@ -99,33 +99,41 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   const [muted, setMuted] = useState(readMuted)
   const mutedRef = useRef(muted)
   useEffect(() => { mutedRef.current = muted }, [muted])
+  // Never speak before the child touched the game: reading "א" the moment the page
+  // opens is startling. Auto-reading starts only after the first interaction.
+  const startedRef = useRef(false)
   const playRef = useRef(null)
   // Unmuting reads the current question again, so the child isn't left waiting for the next one.
-  const toggleMute = () => { const v = !muted; setMuted(v); mutedRef.current = v; saveMuted(v); if (v) { try { window.speechSynthesis?.cancel() } catch { /* ignore */ } } else if (!done) askAloud() }
+  const toggleMute = () => { startedRef.current = true; const v = !muted; setMuted(v); mutedRef.current = v; saveMuted(v); if (v) { try { window.speechSynthesis?.cancel() } catch { /* ignore */ } } else if (!done) askAloud() }
   // On a phone, bring the question + all answer buttons into view when a game starts.
   const scrollToPlay = () => requestAnimationFrame(() => playRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
 
-  const restart = (m = mode, p = pool) => { setQ(makeQuestion(lang, m, p, fixed)); setPicked(null); setWrong([]); setRound(1); setScore(0); setDone(false) }
+  const restart = (m = mode, p = pool) => { startedRef.current = true; setQ(makeQuestion(lang, m, p, fixed)); setPicked(null); setWrong([]); setRound(1); setScore(0); setDone(false) }
   const chooseMode = m => { setMode(m); restart(m); scrollToPlay() }
   const chooseSet = id => { setSetId(id); const s = sets.find(x => x.id === id); restart(mode, (lang === 'he' ? HEBREW : ENGLISH).slice(s.from, s.to)); scrollToPlay() }
 
+  // The vocalized (menukad) form when the data has one — the device voice pronounces it far better.
+  const sayWord = () => speak(q.word[2] || q.word[0], voice)
+
   const prompt = () => {
-    if (mode === 'first') speak(q.word[0], voice)
+    startedRef.current = true
+    if (mode === 'first') sayWord()
     else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL')
     else speak(lang === 'he' ? q.target.name : q.target.l, voice)
   }
 
   const askAloud = () => {
-    if (mode === 'first') speak(q.word[0], voice)
+    if (mode === 'first') sayWord()
     else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL')
     else if (lang === 'he') speak(`לחצו על האות ${q.target.name}`, voice)
     else speak(q.target.l, voice)
   }
 
-  // Read every new question aloud automatically (unless muted). speak() is async and quietly
-  // returns false when the device has no voice for the language — the game works silently then.
+  // Read every new question aloud automatically (unless muted) — but never before the child's
+  // first interaction, so opening the page is silent. speak() is async and quietly returns
+  // false when the device has no voice for the language — the game works silently then.
   useEffect(() => {
-    if (done || mutedRef.current) return
+    if (done || mutedRef.current || !startedRef.current) return
     const t = setTimeout(() => {
       if (!mutedRef.current) askAloud()
     }, 250)
@@ -133,12 +141,13 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   }, [q.id, done]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function choose(o) {
+    startedRef.current = true
     if (picked) return
     if (o !== q.target) { if (!muted) tone('bad'); setWrong(w => w.includes(o) ? w : [...w, o]); return }
     setPicked(o)
     if (!muted) tone('good')
     if (!wrong.length) setScore(s => s + 1)
-    if (mode === 'first' && !muted) speak(q.word[0], voice)
+    if (mode === 'first' && !muted) sayWord()
     setTimeout(() => {
       if (round >= rounds) { setDone(true); return }
       setRound(r => r + 1); setQ(makeQuestion(lang, mode, pool, fixed)); setPicked(null); setWrong([])

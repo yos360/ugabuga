@@ -124,6 +124,152 @@ function PictureGame({ code, topic, say, voice = true }) {
   </div>
 }
 
+// ——— המבחן הגדול: 12 שאלות מכל הנושאים, עם ניקוד שמעודד ילדים ———
+const CHEERS = ['מעולה! 🎉', 'וואו, נכון! ⭐', 'אלופים! 💪', 'בול! 👏', 'כל הכבוד! 🌟']
+const QUIZ_LEN = 12
+const POINTS = 10, STREAK_BONUS = 5
+
+function allWords(code) {
+  const seen = new Set()
+  const out = []
+  for (const t of languageTopics(code)) for (const w of t.words) if (!seen.has(w.key)) { seen.add(w.key); out.push(w) }
+  return out
+}
+
+// Three question shapes, mixed: picture→word, word→picture, word→Hebrew meaning.
+function makeQuiz(code) {
+  const words = allWords(code)
+  const pic = w => w.emoji || w.text
+  const picked = shuffle(words).slice(0, QUIZ_LEN)
+  return picked.map((answer, i) => {
+    const kind = ['pic', 'word', 'he'][i % 3]
+    const seenPic = new Set([pic(answer)]), seenHe = new Set([answer.he])
+    const others = shuffle(words.filter(x => x.key !== answer.key))
+      .filter(x => kind === 'word' ? (!seenPic.has(pic(x)) && seenPic.add(pic(x))) : (!seenHe.has(x.he) && seenHe.add(x.he)))
+      .slice(0, 3)
+    return { kind, answer, options: shuffle([answer, ...others]) }
+  })
+}
+
+export function LanguageQuiz() {
+  const { lang: code } = useParams()
+  const L = LANGS[code]
+  const voice = useVoice(code || 'fr')
+  useScriptFont(code)
+  const [quiz, setQuiz] = useState(() => (L ? { code, items: makeQuiz(code) } : null))
+  const [n, setN] = useState(0)
+  const [points, setPoints] = useState(0)
+  const [right, setRight] = useState(0)
+  const [streak, setStreak] = useState(0)
+  const [picked, setPicked] = useState(null)
+  const [cheer, setCheer] = useState('')
+  if (!L) return <Navigate to="/languages" replace />
+  // Moving between languages keeps the component mounted — deal that language's own quiz.
+  if (!quiz || quiz.code !== code) { setQuiz({ code, items: makeQuiz(code) }); setN(0); setPoints(0); setRight(0); setStreak(0); setPicked(null); setCheer(''); return null }
+  const q = quiz.items[n]
+  const done = n >= QUIZ_LEN
+  const say = word => speak(word.word, L.speech, { rate: 0.8 })
+  const restart = () => { setQuiz({ code, items: makeQuiz(code) }); setN(0); setPoints(0); setRight(0); setStreak(0); setPicked(null); setCheer('') }
+  const choose = opt => {
+    if (picked || done) return
+    setPicked(opt)
+    if (opt.key === q.answer.key) {
+      const bonus = streak + 1 >= 3 ? STREAK_BONUS : 0
+      setPoints(p => p + POINTS + bonus)
+      setRight(r => r + 1)
+      setStreak(s => s + 1)
+      setCheer(CHEERS[Math.floor(Math.random() * CHEERS.length)] + (bonus ? ' 🔥 בונוס רצף!' : ''))
+    } else {
+      setStreak(0)
+      setCheer('')
+    }
+  }
+  const next = () => { setPicked(null); setCheer(''); setN(x => x + 1) }
+  const maxPoints = QUIZ_LEN * POINTS + (QUIZ_LEN - 2) * STREAK_BONUS
+  const medal = points >= maxPoints * 0.75 ? ['🏆', 'אלופי השפות! תוצאה מדהימה!'] : points >= maxPoints * 0.45 ? ['🌟', 'יפה מאוד! אתם בדרך הנכונה!'] : ['💪', 'כל הכבוד שניסיתם! עוד מבחן קטן ותהיו אלופים']
+  return <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in" dir="rtl">
+    <SEO title={`מבחן ${L.name} לילדים — חידון מילים עם ניקוד`} description={`מבחן ${L.name} אינטראקטיבי לילדים: ${QUIZ_LEN} שאלות עם תמונות וקול, נקודות, בונוס רצף והמון עידוד. בחינם, בלי הרשמה.`} path={`/languages/${code}/quiz`} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שפות לילדים', href: '/languages' }, { label: L.name, href: `/languages/${code}` }, { label: 'המבחן הגדול' }]} />
+    <h1 className="mb-2 text-center text-4xl sm:text-5xl">{L.emoji} המבחן הגדול {L.adj}</h1>
+    <p className="mb-6 text-center text-lg text-[var(--muted-foreground)]">{QUIZ_LEN} שאלות מכל הנושאים. כל תשובה נכונה = {POINTS} נקודות, ו-3 נכונות ברצף נותנות בונוס 🔥</p>
+    {!voice && <NoVoice code={code} />}
+
+    <section className="rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 text-center sketch-shadow">
+      {done ? <div className="py-6">
+        <div className="text-7xl">{medal[0]}</div>
+        <p className="mt-3 text-3xl font-black">{points} נקודות!</p>
+        <p className="mt-1 text-xl">{right} תשובות נכונות מתוך {QUIZ_LEN}</p>
+        <p className="mt-2 text-lg font-bold">{medal[1]}</p>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <button type="button" onClick={restart} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🔄 עוד מבחן (שאלות חדשות)</button>
+          <Link to={`/languages/${code}`} className="inline-flex min-h-[52px] items-center rounded-2xl border-2 border-slate-800 bg-white px-6 text-lg font-bold">📚 ללמוד עוד מילים</Link>
+        </div>
+      </div> : <>
+        <div className="mb-2 flex items-center justify-between text-sm font-bold">
+          <span>שאלה {n + 1} מתוך {QUIZ_LEN}</span>
+          <span>{streak >= 3 ? '🔥 ' : ''}⭐ {points} נק׳</span>
+        </div>
+        <div className="mb-4 h-2 overflow-hidden rounded-full border border-[var(--border)] bg-white"><div className="h-full bg-pink-500 transition-all" style={{ width: `${n / QUIZ_LEN * 100}%` }} /></div>
+
+        {q.kind === 'pic' && <>
+          <p className="text-xl font-bold">איך אומרים את זה {L.adj}?</p>
+          <div className="my-3 flex justify-center"><Pic word={q.answer} size={96} eager /></div>
+          <p className="mb-3 text-lg">({q.answer.he})</p>
+          <div className="mx-auto grid max-w-md grid-cols-1 gap-2 sm:grid-cols-2">
+            {q.options.map(opt => {
+              const state = !picked ? 'bg-white' : opt.key === q.answer.key ? 'border-emerald-500 bg-emerald-100' : opt.key === picked.key ? 'border-rose-400 bg-rose-50' : 'bg-white opacity-50'
+              return <button key={opt.key} type="button" onClick={() => choose(opt)} className={`min-h-[56px] rounded-2xl border-[3px] border-slate-300 px-3 text-xl font-bold ${state}`}>
+                <Word code={code}>{opt.word}</Word>{picked && <span className="block text-sm font-normal text-[var(--muted-foreground)]">{opt.say}</span>}
+              </button>
+            })}
+          </div>
+        </>}
+
+        {q.kind === 'word' && <>
+          <p className="text-xl font-bold">איזו תמונה מתאימה למילה…</p>
+          <button type="button" onClick={() => say(q.answer)} className="my-3 inline-flex min-h-[56px] flex-col items-center rounded-2xl border-2 border-slate-800 bg-white px-6 py-1">
+            <span className="text-4xl"><Word code={code}>{q.answer.word}</Word>{voice && <> <span className="text-2xl" aria-hidden="true">🔊</span></>}</span>
+            <span className="text-sm text-[var(--muted-foreground)]">{q.answer.say}</span>
+          </button>
+          <div className="mx-auto grid max-w-md grid-cols-2 gap-3">
+            {q.options.map(opt => {
+              const state = !picked ? '' : opt.key === q.answer.key ? 'border-emerald-500 bg-emerald-100' : opt.key === picked.key ? 'border-rose-400 bg-rose-50' : 'opacity-50'
+              return <button key={opt.key} type="button" onClick={() => choose(opt)} aria-label={opt.he} className={`flex min-h-[110px] items-center justify-center rounded-2xl border-4 border-slate-200 bg-white p-3 ${state}`}><Pic word={opt} size={76} /></button>
+            })}
+          </div>
+        </>}
+
+        {q.kind === 'he' && <>
+          <p className="text-xl font-bold">מה הפירוש בעברית?</p>
+          <button type="button" onClick={() => say(q.answer)} className="my-3 inline-flex min-h-[56px] flex-col items-center rounded-2xl border-2 border-slate-800 bg-white px-6 py-1">
+            <span className="text-4xl"><Word code={code}>{q.answer.word}</Word>{voice && <> <span className="text-2xl" aria-hidden="true">🔊</span></>}</span>
+            <span className="text-sm text-[var(--muted-foreground)]">{q.answer.say}</span>
+          </button>
+          <div className="mx-auto grid max-w-md grid-cols-1 gap-2 sm:grid-cols-2">
+            {q.options.map(opt => {
+              const state = !picked ? 'bg-white' : opt.key === q.answer.key ? 'border-emerald-500 bg-emerald-100' : opt.key === picked.key ? 'border-rose-400 bg-rose-50' : 'bg-white opacity-50'
+              return <button key={opt.key} type="button" onClick={() => choose(opt)} className={`min-h-[56px] rounded-2xl border-[3px] border-slate-300 px-3 text-xl font-bold ${state}`}>{opt.he}</button>
+            })}
+          </div>
+        </>}
+
+        {picked && <div className="mt-4">
+          <p className="text-xl font-bold" aria-live="polite">{picked.key === q.answer.key ? cheer : <>כמעט! התשובה הנכונה: <Word code={code}>{q.answer.word}</Word> — {q.answer.he}. טעויות זה חלק מהלמידה 💪</>}</p>
+          <button type="button" onClick={next} className="mt-3 min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">{n + 1 >= QUIZ_LEN ? 'לתוצאה 🏁' : 'לשאלה הבאה ←'}</button>
+        </div>}
+      </>}
+    </section>
+
+    <SeoBody paragraphs={[
+      `המבחן הגדול ${L.adj}: ${QUIZ_LEN} שאלות שמתערבבות מחדש בכל כניסה — פעם רואים תמונה ובוחרים מילה, פעם שומעים מילה ובוחרים תמונה, ופעם מתרגמים לעברית. על כל תשובה נכונה מקבלים נקודות, ורצף נכון נותן בונוס. אין "נכשל" — רק עידוד להמשיך ללמוד.`,
+      VERIFIED,
+    ]} faq={[
+      { q: 'מה צריך לדעת לפני המבחן?', a: `שווה קודם לעבור על כמה נושאים בעמוד ${L.name} לילדים — ואז המבחן הרבה יותר כיף.` },
+      { q: 'השאלות תמיד אותו דבר?', a: 'לא! בכל כניסה המבחן בוחר שאלות חדשות באקראי מכל הנושאים, אז אפשר לשחק שוב ושוב.' },
+    ]} related={[{ label: `${L.name} לילדים — כל הנושאים`, href: `/languages/${code}` }, { label: 'שפות לילדים', href: '/languages' }]} />
+  </div>
+}
+
 function useVoice(code) {
   const [ok, setOk] = useState(true)
   useEffect(() => { let live = true; hasVoice(LANGS[code].speech).then(v => { if (live) setOk(v) }); return () => { live = false } }, [code])
@@ -191,6 +337,7 @@ export function LanguageTopic() {
       <h2 className="mb-3 text-center text-xl">עוד נושאים {L.adj}</h2>
       <div className="flex flex-wrap justify-center gap-2">
         {others.map(x => <Link key={x.slug} to={`/languages/${code}/${x.slug}`} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{x.emoji} {x.title}</Link>)}
+        <Link to={`/languages/${code}/quiz`} className="rounded-full border-2 border-slate-800 bg-yellow-200 px-4 py-1.5 font-bold">📝 המבחן הגדול {L.adj}</Link>
         <Link to="/languages" className="rounded-full border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-1.5 font-bold">🌍 שפות נוספות</Link>
       </div>
     </nav>
@@ -219,6 +366,9 @@ export function LanguageHome() {
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">{L.emoji} {L.name} לילדים</h1>
     <p className="mx-auto mb-2 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות {L.adj}: שלום {L.adj} זה <Word code={code}>{L.hello}</Word>. בכל נושא — תמונה, קול, הגייה בעברית, משחק ודפים להדפסה.</p>
     {L.note && <p className="mx-auto mb-6 max-w-2xl text-center text-sm text-[var(--muted-foreground)]">{L.note}</p>}
+    <p className="mt-4 text-center">
+      <Link to={`/languages/${code}/quiz`} className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl bg-pink-600 px-7 text-xl font-bold text-white shadow-[0_4px_0_rgba(20,30,60,.2)] transition hover:-translate-y-0.5">📝 למבחן הגדול {L.adj} — עם נקודות ובונוסים!</Link>
+    </p>
     <div className="mb-10 mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {topics.map(x => <Link key={x.slug} to={`/languages/${code}/${x.slug}`} className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-4 text-center shadow-sm transition hover:-translate-y-0.5">
         <Pic word={x.words.find(w => w.emoji) || x.words[0]} size={64} />
@@ -238,7 +388,7 @@ export function LanguagesHub() {
     <SEO title="שפות לילדים — מילים ראשונות בצרפתית, ספרדית, רוסית, ערבית ואמהרית" description="מילים ראשונות לילדים ב-6 שפות: אנגלית, צרפתית, ספרדית, רוסית, ערבית ואמהרית — עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם." path="/languages" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שפות לילדים' }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">🌍 שפות לילדים</h1>
-    <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות בשש שפות — לסבא וסבתא שמדברים רוסית או אמהרית, לטיול לחו״ל, או סתם בשביל הכיף. עם תמונה, קול, הגייה בעברית ודפים להדפסה.</p>
+    <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות בשש שפות — לסבא וסבתא שמדברים רוסית או אמהרית, לטיול לחו״ל, או סתם בשביל הכיף. עם תמונה, קול, הגייה בעברית, דפים להדפסה — ובכל שפה מחכה המבחן הגדול עם נקודות ובונוסים 📝</p>
     <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
       <Link to="/english" className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-5 text-center shadow-sm transition hover:-translate-y-0.5">
         <span className="text-5xl">🇬🇧</span><b className="mt-2 text-2xl">אנגלית</b><span dir="ltr" className="text-[var(--muted-foreground)]">hello</span>

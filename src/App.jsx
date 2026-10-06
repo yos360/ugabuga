@@ -33,6 +33,7 @@ const EnglishTopic = lazy(() => import('./pages/english/EnglishPages').then(m =>
 const LanguagesHub = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguagesHub })))
 const LanguageHome = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguageHome })))
 const LanguageTopic = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguageTopic })))
+const LanguageQuiz = lazy(() => import('./pages/languages/LanguagePages').then(m => ({ default: m.LanguageQuiz })))
 const AbcHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcHub })))
 const AbcLetterPage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.AbcLetterPage })))
 const DndDice = lazy(() => import('./pages/tools/dice/DndDice'))
@@ -55,6 +56,7 @@ const ActivityWorksheet = lazy(() => import('./pages/printables/ActivityWorkshee
 const BirthdayChecklist = lazy(() => import('./pages/printables/BirthdayChecklist'))
 const RootsProject = lazy(() => import('./pages/printables/RootsProject'))
 const BirthdayNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper'))
+const ClassNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper').then(m => ({ default: m.ClassNewspaper })))
 const PhotoProps = lazy(() => import('./pages/printables/PhotoProps'))
 const ColoringPages = lazy(() => import('./pages/printables/ColoringPages'))
 const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
@@ -246,6 +248,7 @@ export default function App() {
               <Route path="/english/:topic" element={<EnglishTopic />} />
               <Route path="/languages" element={<LanguagesHub />} />
               <Route path="/languages/:lang" element={<LanguageHome />} />
+              <Route path="/languages/:lang/quiz" element={<LanguageQuiz />} />
               <Route path="/languages/:lang/:topic" element={<LanguageTopic />} />
               <Route path="/abc" element={<AbcHub />} />
               <Route path="/abc/:letter" element={<AbcLetterPage />} />
@@ -261,6 +264,7 @@ export default function App() {
               <Route path="/online-games/:slug" element={<OnlineGamePage />} />
               <Route path="/printables/roots-project" element={<RootsProject />} />
               <Route path="/printables/birthday-newspaper" element={<BirthdayNewspaper />} />
+              <Route path="/printables/class-newspaper" element={<ClassNewspaper />} />
               <Route path="/printables/photo-props" element={<PhotoProps />} />
               <Route path="/printables/coloring" element={<ColoringPages />} />
               <Route path="/printables/dice-template" element={<DiceTemplate />} />

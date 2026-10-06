@@ -9,6 +9,7 @@ export const categories = [
   { slug: 'synonyms', href: '/words/synonyms', emoji: '🟰', title: 'מילים נרדפות – משחקים ודפי עבודה', count: 'חדש', desc: 'שמח–עליז, לחכות–להמתין: משחקים ודפי עבודה לפי גיל', special: true },
   { slug: 'roots-project', emoji: '🌳', title: 'עבודת שורשים', count: 'חדש', desc: 'עץ משפחה, שאלות ראיון ודפי כתיבה להדפסה', special: true },
   { slug: 'birthday-newspaper', emoji: '📰', title: 'עיתון יום הולדת', count: 'חדש', desc: 'עיתון אישי עם כותרות, עובדות, ברכות וחידון', special: true },
+  { slug: 'class-newspaper', emoji: '🏫', title: 'עיתון כיתה', count: 'חדש', desc: 'עיתון של הכיתה: כתבת השבוע, תלמיד/ת השבוע, חדשות ותמונות', special: true },
   { slug: 'birthday-checklist', emoji: '✅', title: 'צ׳ק־ליסט יום הולדת', count: 'חדש', desc: 'רשימות מוכנות לבית, פארק או כיתה — עם משימות אישיות', special: true },
   { slug: 'coloring', emoji: '🎨', title: 'דפי צביעה', count: 'מבחר', desc: 'דפי צביעה לפי נושא, עם פתיחה בתצוגה מקדימה והדפסה' },
   { slug: 'birthday-signs', emoji: '🎂', title: 'שלטי יום הולדת', count: 8, desc: 'שלטים גדולים להדפסה — פה העוגה, פה המתנות, ברוכים הבאים' },

@@ -586,6 +586,7 @@
   <url><loc>https://ugabuga.co.il/time-tunnel/12-30</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/12-31</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-newspaper</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/class-newspaper</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-checklist</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/roots-project</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring</loc><priority>0.7</priority></url>
@@ -1097,6 +1098,11 @@
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/what-to-do</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/languages</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/fr/quiz</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/es/quiz</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ru/quiz</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/ar/quiz</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/languages/am/quiz</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr/greetings</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr/colors</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/fr/numbers</loc><priority>0.6</priority></url>
