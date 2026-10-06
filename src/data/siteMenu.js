@@ -122,6 +122,15 @@ export const MENU_GROUPS = [
     ],
   },
   {
+    title: '🎒 לומדים בבית', to: '/learn',
+    items: [
+      { to: '/learn/dictation', label: 'הכתבה', icon: '✍️' },
+      { to: '/learn/reading', label: 'הבנת הנקרא', icon: '📖' },
+      { to: '/learn/times-tables', label: 'אתגר לוח הכפל', icon: '✖️' },
+      { to: '/learn/flashcards', label: 'כרטיסיות לימוד', icon: '🃏' },
+    ],
+  },
+  {
     title: '🍎 אוכל לילדים', to: '/food',
     items: [
       { to: '/food/school-lunch', label: 'מה שמים בכריך? ארוחת עשר', icon: '🥪' },
@@ -144,4 +153,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/learn', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/dice-games', '/blog', '/time-tunnel']

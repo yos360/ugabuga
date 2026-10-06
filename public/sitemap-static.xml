@@ -1265,4 +1265,19 @@
   <url><loc>https://ugabuga.co.il/food/kitchen-science/balloon-yeast</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/food/kitchen-science/oobleck</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/food/kitchen-science/sink-float</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/dictation</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/times-tables</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/flashcards</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/hedgehog</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/bees</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/tortoise-hare</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/dead-sea</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/fox-grapes</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/penguins</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grandpa-birthday</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/plants</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/kinneret</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/alarm-clock</loc><priority>0.6</priority></url>
 </urlset>

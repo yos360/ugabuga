@@ -82,6 +82,12 @@ const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ defaul
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
 const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
 const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
+const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
+const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
+const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
+const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
+const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
+const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
 const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
 const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
 const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
@@ -329,6 +335,12 @@ export default function App() {
               <Route path="/music/guitar-chords/:chord" element={<GuitarChord />} />
               <Route path="/music/concepts" element={<Concepts />} />
               <Route path="/music/styles" element={<Styles />} />
+              <Route path="/learn" element={<LearnHub />} />
+              <Route path="/learn/dictation" element={<Dictation />} />
+              <Route path="/learn/reading" element={<ReadingIndex />} />
+              <Route path="/learn/reading/:slug" element={<ReadingPage />} />
+              <Route path="/learn/times-tables" element={<TimesTables />} />
+              <Route path="/learn/flashcards" element={<Flashcards />} />
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />

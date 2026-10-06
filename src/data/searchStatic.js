@@ -77,6 +77,12 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // learning at home (/learn/*)
+  { to: '/learn', title: 'לומדים בבית', emoji: '🎒', kind: 'tool', desc: 'הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות.', keys: 'תרגול לימודים שיעורי בית' },
+  { to: '/learn/dictation', title: 'הכתבה אונליין', emoji: '✍️', kind: 'tool', desc: 'הורה מקריא או הקראה קולית, עם בדיקה.', keys: 'הכתבה כתיב איות מילים' },
+  { to: '/learn/reading', title: 'הבנת הנקרא', emoji: '📖', kind: 'tool', desc: 'קטעים קצרים עם שאלות, להדפסה.', keys: 'הבנת הנקרא קריאה קטע שאלות' },
+  { to: '/learn/times-tables', title: 'אתגר לוח הכפל', emoji: '✖️', kind: 'tool', desc: 'כמה תרגילים בדקה? ולוח הכפל להדפסה.', keys: 'לוח הכפל כפל תרגילי כפל' },
+  { to: '/learn/flashcards', title: 'כרטיסיות לימוד', emoji: '🃏', kind: 'tool', desc: 'אנגלית, הפכים, לוח הכפל או כרטיסיות משלכם.', keys: 'כרטיסיות שינון מילים באנגלית' },
   // food for kids (/food/*)
   { to: '/food', title: 'אוכל לילדים', emoji: '🍎', kind: 'tool', desc: 'ארוחת עשר, מתכונים וניסויים.', keys: 'אוכל ילדים מטבח' },
   { to: '/food/school-lunch', title: 'מה שמים בכריך? ארוחת עשר', emoji: '🥪', kind: 'tool', desc: 'מחולל ו-50 רעיונות לכריכים.', keys: 'כריך כריכים סנדוויץ סנדוויצ׳ים ארוחת עשר בית ספר גן מה לשים בכריך' },
