@@ -82,6 +82,15 @@ const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ defaul
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
 const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
 const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
+const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
+const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
+const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
+const KidsRecipes = lazy(() => import('./family/FoodPages').then(m => ({ default: m.KidsRecipes })))
+const KidsRecipe = lazy(() => import('./family/FoodPages').then(m => ({ default: m.KidsRecipe })))
+const KitchenScience = lazy(() => import('./family/FoodPages').then(m => ({ default: m.KitchenScience })))
+const Experiment = lazy(() => import('./family/FoodPages').then(m => ({ default: m.Experiment })))
+const LunchboxNotes = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchboxNotes })))
+const AllergySigns = lazy(() => import('./family/AllergySigns'))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
@@ -320,6 +329,15 @@ export default function App() {
               <Route path="/music/guitar-chords/:chord" element={<GuitarChord />} />
               <Route path="/music/concepts" element={<Concepts />} />
               <Route path="/music/styles" element={<Styles />} />
+              <Route path="/food" element={<FoodHub />} />
+              <Route path="/food/school-lunch" element={<SchoolLunch />} />
+              <Route path="/food/lunch-planner" element={<LunchPlanner />} />
+              <Route path="/food/kids-recipes" element={<KidsRecipes />} />
+              <Route path="/food/kids-recipes/:slug" element={<KidsRecipe />} />
+              <Route path="/food/kitchen-science" element={<KitchenScience />} />
+              <Route path="/food/kitchen-science/:slug" element={<Experiment />} />
+              <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
+              <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />

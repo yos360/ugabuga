@@ -77,6 +77,14 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  // food for kids (/food/*)
+  { to: '/food', title: 'אוכל לילדים', emoji: '🍎', kind: 'tool', desc: 'ארוחת עשר, מתכונים וניסויים.', keys: 'אוכל ילדים מטבח' },
+  { to: '/food/school-lunch', title: 'מה שמים בכריך? ארוחת עשר', emoji: '🥪', kind: 'tool', desc: 'מחולל ו-50 רעיונות לכריכים.', keys: 'כריך כריכים סנדוויץ סנדוויצ׳ים ארוחת עשר בית ספר גן מה לשים בכריך' },
+  { to: '/food/lunch-planner', title: 'תכנון ארוחת עשר לשבוע', emoji: '🗓️', kind: 'tool', desc: 'עם רשימת קניות להדפסה.', keys: 'תכנון שבועי ארוחת עשר רשימת קניות' },
+  { to: '/printables/lunchbox-notes', title: 'פתקים לקופסת האוכל', emoji: '💌', kind: 'printable', desc: 'פתקים קטנים להדפסה.', keys: 'פתקים פתק קופסת אוכל' },
+  { to: '/printables/allergy-signs', title: 'שלטי אלרגיה ומדבקות', emoji: '🥜', kind: 'printable', desc: 'אצלנו בגן לא אוכלים בוטנים.', keys: 'אלרגיה אלרגיות בוטנים מדבקות גן אגוזים שומשום' },
+  { to: '/food/kids-recipes', title: 'מתכונים לילדים', emoji: '👩‍🍳', kind: 'tool', desc: 'מתכונים קלים שילדים מכינים.', keys: 'מתכונים מתכון ילדים בישול אפייה' },
+  { to: '/food/kitchen-science', title: 'ניסויים לילדים במטבח', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי מדע הר געש סודה חומץ' },
   // music area (/music/*)
   { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
   { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },

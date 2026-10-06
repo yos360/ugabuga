@@ -1,0 +1,32 @@
+/* Family areas (food, learning, home): shared bits */
+.fam-chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2px solid var(--border,#1d2233);border-radius:999px;background:var(--card,#fff);font-weight:700}
+.fam-chip[aria-pressed="true"]{background:var(--yellow,#ffd23f)}
+.fam-filters{display:grid;gap:10px;margin-bottom:18px}
+.fam-box{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;border:2.5px solid #1d2233;border-radius:24px;background:linear-gradient(120deg,#fff3b8,#ffe2ea);box-shadow:4px 4px 0 #1d2233}
+.fam-roll{min-height:56px;padding:12px 28px;border:2.5px solid #1d2233;border-radius:16px;background:#ffd23f;box-shadow:3px 3px 0 #1d2233;font-size:22px;font-weight:900}
+.fam-roll.small{min-height:44px;font-size:16px;padding:8px 16px}
+.fam-roll:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
+.fam-lunch{width:100%;max-width:560px;background:#fff;border-radius:18px;border:2px solid #1d2233;padding:16px;display:grid;gap:10px}
+.fam-lunch-main{display:flex;align-items:center;gap:12px}.fam-lunch-main b{font-size:26px;display:block;line-height:1.2}.fam-lunch-main small{color:#666;font-size:15px}
+.fam-lunch-icon{font-size:44px}
+.fam-lunch-row{display:flex;flex-wrap:wrap;gap:8px}.fam-lunch-row span{background:#f3f4f8;border-radius:12px;padding:6px 10px;font-weight:700}
+.fam-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.fam-badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef0f5;color:#333}
+.fam-badge.kind-dairy{background:#e3f1ff}.fam-badge.kind-parve{background:#e6f8e4}.fam-badge.kind-meat{background:#ffe6dc}
+.fam-badge.cold{background:#dff3ff;color:#09577a}.fam-badge.al{background:#fff4c2;color:#6b4b00}.fam-badge.warn{background:#ffd9d9;color:#8a1010}
+.fam-tip{font-size:14px;color:#4a5068;background:#fffbe6;border-radius:10px;padding:6px 10px;margin-top:6px}
+.fam-card{display:block;border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);padding:14px;text-align:right}
+.fam-input{min-height:44px;border:2px solid var(--border,#1d2233);border-radius:12px;padding:6px 12px;background:#fff}
+.fam-day{display:flex;align-items:center;gap:12px;border:2px solid #d8dbe6;border-radius:16px;background:#fff;padding:10px 12px}
+.fam-day-name{min-width:56px;font-size:17px}
+.fam-shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 12px;margin-top:8px}
+.fam-steps{list-style:none;counter-reset:s;padding:0;display:grid;gap:8px}
+.fam-steps li{counter-increment:s;position:relative;padding:8px 40px 8px 10px;background:#f6f7fb;border-radius:12px}
+.fam-steps li::before{content:counter(s);position:absolute;right:8px;top:8px;width:24px;height:24px;border-radius:50%;background:#1d2233;color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+.fam-steps li.adult{background:#fff1e0}.fam-steps li.adult::after{content:'👩 מבוגר';font-size:11px;font-weight:800;color:#a3540a;margin-right:6px}
+.fam-why{background:#eef7ff}
+.fam-print h2{font-size:22pt;text-align:center;margin:0 0 8px}.fam-print h3{font-size:14pt;margin:12px 0 4px}
+.fam-print table{width:100%;border-collapse:collapse;font-size:11pt}.fam-print th,.fam-print td{border:1px solid #999;padding:6px;text-align:right;vertical-align:top}.fam-print th{background:#f2f2f2}
+.fam-print ul,.fam-print ol{padding-inline-start:20px}.fam-print li{margin:3px 0}
+@keyframes fam-pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.04);opacity:1}100%{transform:scale(1)}}
+.fam-pop{animation:fam-pop .4s ease-out both}
