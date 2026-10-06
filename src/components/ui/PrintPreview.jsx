@@ -24,7 +24,7 @@ function stampQrCodes(root){
         if(page.querySelector('.buga-qr'))return
         const badge=document.createElement('div')
         badge.className='buga-qr'
-        badge.innerHTML=`${svg}<span class="buga-qr-label">סרקו לעוד<br/>ugabuga.co.il</span>`
+        badge.innerHTML=svg
         page.appendChild(badge)
       })
     }).catch(()=>{})

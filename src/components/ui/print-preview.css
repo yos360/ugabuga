@@ -59,3 +59,10 @@
 @media screen{
   .buga-preview-pages.is-scaled .buga-a4,.buga-preview-pages.is-scaled .buga-flow{width:var(--buga-page-w);max-width:none;zoom:var(--buga-zoom)}
 }
+
+/* Printed sheets: a bigger QR on its own (no address label) and a larger, readable credit line. */
+.buga-a4 .buga-qr,.buga-flow .buga-qr{padding:1mm;bottom:4mm;left:4mm}
+.buga-a4 .buga-qr svg,.buga-flow .buga-qr svg{width:21mm;height:21mm}
+.buga-a4 .buga-credit,.buga-flow .buga-credit{font-size:11.5pt;bottom:5mm;max-width:calc(100% - 34mm);color:#333}
+.buga-a4:has(.buga-qr),.buga-flow:has(.buga-qr),.buga-a4:has(.buga-credit),.buga-flow:has(.buga-credit){padding-bottom:28mm}
+@media print{#buga-print-output .buga-a4:has(.buga-qr),#buga-print-output .buga-flow:has(.buga-qr),#buga-print-output .buga-a4:has(.buga-credit),#buga-print-output .buga-flow:has(.buga-credit){padding-bottom:29mm!important}}
