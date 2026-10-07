@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
@@ -24,11 +24,12 @@ function dayBounds(offsetDays) {
   return d
 }
 function rangeBounds(id) {
-  const now = new Date()
-  if (id === 'today') return [dayBounds(0), now]
+  // Ranges that end "now" end tomorrow instead, so a report left open keeps seeing new events.
+  const now = new Date(), later = dayBounds(1)
+  if (id === 'today') return [dayBounds(0), later]
   if (id === 'yesterday') return [dayBounds(-1), dayBounds(0)]
   const days = Number(id)
-  return [new Date(now.getTime() - days * 86400000), now]
+  return [new Date(now.getTime() - days * 86400000), later]
 }
 function label(category, action) {
   return ACTIVITY_LABELS[category] || category || 'לא ידוע'
@@ -252,29 +253,42 @@ function StatCard({ value, text, tone }) {
   </div>
 }
 
-function useSummary(from, to) {
+function useSummary(from, to, tick = 0) {
   const [data, setData] = useState(null), [error, setError] = useState('')
+  const shown = useRef('')
   useEffect(() => {
     let live = true
-    setData(null)
+    const key = `${from.getTime()}-${to.getTime()}`
+    if (shown.current !== key) setData(null) // a refresh keeps the old numbers on screen until the new ones arrive
+    shown.current = key
     supabase.rpc('owner_activity_summary', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => {
       if (!live) return
       if (error) { setError('הדוח המפורט עדיין לא זמין. ודאו שהמסד עודכן.'); return }
       setData(data)
     })
     return () => { live = false }
-  }, [from.getTime(), to.getTime()])
+  }, [from.getTime(), to.getTime(), tick]) // eslint-disable-line react-hooks/exhaustive-deps
   return { data, error }
 }
 
 export default function OwnerActivityReport() {
   usePageTitles()
   const [range, setRange] = useState('today')
-  const [from, to] = useMemo(() => rangeBounds(range), [range])
-  const { data, error } = useSummary(from, to)
-  const [todayFrom, todayTo] = useMemo(() => rangeBounds('today'), [])
-  const [yFrom, yTo] = useMemo(() => rangeBounds('yesterday'), [])
-  const today = useSummary(todayFrom, todayTo)
+  // Live: refetch every 30 seconds while the tab is visible, when coming back to the tab, and on demand.
+  const [tick, setTick] = useState(0), [updated, setUpdated] = useState(() => new Date())
+  const refresh = () => { setTick(t => t + 1); setUpdated(new Date()) }
+  useEffect(() => {
+    const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, 30000)
+    const onShow = () => { if (document.visibilityState === 'visible') refresh() }
+    document.addEventListener('visibilitychange', onShow)
+    return () => { clearInterval(iv); document.removeEventListener('visibilitychange', onShow) }
+  }, [])
+  const day = updated.toDateString() // after midnight "today" moves to the new day
+  const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
+  const { data, error } = useSummary(from, to, tick)
+  const [todayFrom, todayTo] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
+  const [yFrom, yTo] = useMemo(() => rangeBounds('yesterday'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
+  const today = useSummary(todayFrom, todayTo, tick)
   const yesterday = useSummary(yFrom, yTo)
 
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.events)), [data])
@@ -314,6 +328,8 @@ export default function OwnerActivityReport() {
           className={`min-h-11 rounded-xl border-2 px-4 py-2 font-bold ${range === r.id ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white text-slate-700'}`}>
           {r.label}
         </button>)}
+        <button onClick={refresh} className="min-h-11 rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold text-slate-700">🔄 רענון</button>
+        <span className="self-center text-sm text-slate-500">מתעדכן לבד כל 30 שניות · עודכן ב-{updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
       </div>
 
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
@@ -324,9 +340,9 @@ export default function OwnerActivityReport() {
           <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
           <StatCard value={data.by_action?.print || 0} text="לחצו הדפסה (נפתח חלון ההדפסה)" tone="bg-orange-50" />
           <StatCard value={data.by_action?.download || 0} text="הורידו PDF / קובץ" tone="bg-yellow-50" />
-          <StatCard value={data.sources?.qr || 0} text="סרקו QR מדף מודפס" tone="bg-lime-50" />
+          <StatCard value={data.sources?.qr || 0} text="אנשים שסרקו QR מדף מודפס" tone="bg-lime-50" />
           <StatCard value={data.by_action?.share || 0} text="שיתופים (וואטסאפ ושיתוף מהטלפון)" tone="bg-green-50" />
-          <StatCard value={data.sources?.whatsapp || 0} text="הגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
+          <StatCard value={data.sources?.whatsapp || 0} text="אנשים שהגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
           <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>
 
