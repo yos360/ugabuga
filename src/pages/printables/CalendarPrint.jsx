@@ -141,7 +141,7 @@ export default function CalendarPrint({ preset }) {
         { q: 'מתי חלים החגים ב-2027?', a: 'למשל: ט״ו בשבט ב-23 בינואר, פורים ב-23 במרץ, פסח ב-22 באפריל, יום העצמאות ב-12 במאי, שבועות ב-11 ביוני וראש השנה תשפ״ח ב-2 באוקטובר 2027 — כולם מסומנים בלוח.' },
         { q: 'אפשר להדפיס את כל השנה בדף אחד?', a: 'כן. בוחרים "כל השנה בדף אחד" ומקבלים 12 חודשים מוקטנים בדף A4, עם עיגול סביב ימי החג.' },
       ]}
-      related={[{ label: 'טבלת מטלות לילדים', href: '/printables/chore-chart' }, { label: 'מערכת שעות להדפסה', href: '/printables/class-schedule' }, { label: 'ספירה לאחור ליום הולדת', href: '/tools/countdown' }, { label: 'כל החגים', href: '/holidays' }]}
+      related={[{ label: 'טבלת מטלות לילדים', href: '/printables/chore-chart' }, { label: 'מערכת שעות להדפסה', href: '/printables/class-schedule' }, { label: 'טיימר ספירה לאחור', href: '/tools/countdown-timer' }, { label: 'כל החגים', href: '/holidays' }]}
     />
   )
 }

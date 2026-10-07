@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>עוגה בוגה</title>
+<rect width="512" height="512" fill="#fff3d7"/><circle cx="256" cy="256" r="181" fill="#ffe3aa"/>
+<g stroke="#362447" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+<path d="M196 213v-43h24v43M244 211v-51h24v51M292 213v-43h24v43" fill="#aa7bee"/>
+<path d="M208 149c-21-10-9-27 0-36 9 9 21 26 0 36ZM256 139c-21-10-9-27 0-36 9 9 21 26 0 36ZM304 149c-21-10-9-27 0-36 9 9 21 26 0 36Z" fill="#ffbf3f" stroke="none"/>
+<rect x="132" y="210" width="248" height="169" rx="34" fill="#ff7691"/>
+<path d="M132 246v-2q0-34 34-34h180q34 0 34 34v2q0 27-23 27-16 0-23-18-5 39-28 39-25 0-29-35-6 18-21 18-19 0-24-22-8 37-30 37-23 0-27-37-7 18-23 18-20 0-20-27Z" fill="#fffdf5"/>
+<path d="M116 384h280M236 334q20 24 40 0" fill="none"/></g>
+<ellipse cx="211" cy="318" rx="8" ry="11" fill="#362447"/><ellipse cx="301" cy="318" rx="8" ry="11" fill="#362447"/>
+<ellipse cx="189" cy="335" rx="15" ry="9" fill="#ee4c79"/><ellipse cx="323" cy="335" rx="15" ry="9" fill="#ee4c79"/>
+<g stroke-width="8" stroke-linecap="round"><path d="m175 232 10 4m116-4 10 4" stroke="#aa7bee"/><path d="m229 232 9-3m110 11 8-3" stroke="#2fbab4"/></g></svg>
