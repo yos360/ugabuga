@@ -118,7 +118,7 @@ export function LunchPlanner() {
   const [plan, setPlan] = useState(() => planWeek(SANDWICHES.filter(s => !s.al.includes('peanut')), 5))
   const [printing, setPrinting] = useState(false)
   const remake = (n = days) => { if (list.length) setPlan(planWeek(list, n)) }
-  const swap = i => setPlan(p => p.map((d, j) => (j === i ? { sw: pick(list), veg: pick(SIDES.veg), fruit: pick(SIDES.fruit) } : d)))
+  const swap = i => list.length && setPlan(p => p.map((d, j) => (j === i ? { sw: pick(list), veg: pick(SIDES.veg), fruit: pick(SIDES.fruit) } : d)))
   const shopping = useMemo(() => {
     const items = new Map()
     for (const d of plan.slice(0, days)) {
@@ -149,6 +149,7 @@ export function LunchPlanner() {
       <input value={name} maxLength={16} onChange={e => setName(e.target.value)} placeholder="שם הילד/ה (לא חובה)" className="fam-input" />
       <button type="button" className="fam-roll small" onClick={() => remake()}>🎲 שבוע חדש</button>
     </div>
+    {!list.length && <p className="text-center font-bold">אין כריך שמתאים לכל הסינונים — נסו להוריד אחד.</p>}
     <div className="space-y-2">{plan.slice(0, days).map((d, i) => <div key={i} className="fam-day"><b className="fam-day-name">{DAYS[i]}</b>
       <div className="flex-1"><b>{d.sw.name}</b> <small>· ב{breadOf(d.sw)}</small><div className="text-sm">🥕 {d.veg} · 🍎 {d.fruit}</div>{d.sw.cold && <small className="fam-badge cold">❄️ עם שקית קירור</small>}</div>
       <button type="button" className="fam-chip" onClick={() => swap(i)} aria-label={`החלפה ליום ${DAYS[i]}`}>🔄</button></div>)}</div>
