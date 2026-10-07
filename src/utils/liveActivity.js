@@ -211,6 +211,9 @@ function startTimeTracking() {
     if (human && timePath && Date.now() - lastInput < 120000) timeSecs += TICK
   }
   const onHide = () => { if (document.visibilityState === 'hidden') flushTime() }
+  // Someone who reached the page by scanning a printed QR code is a person holding paper —
+  // count the scan right away, even if they leave before touching the screen.
+  try { if (trafficSource() === 'qr') markHuman() } catch { /* ignore */ }
   const iv = setInterval(tick, TICK * 1000)
   const opts = { passive: true, capture: true }
   for (const ev of ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart', 'wheel', 'input']) window.addEventListener(ev, onInput, opts)
