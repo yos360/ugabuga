@@ -325,7 +325,7 @@ export default function OwnerActivityReport() {
           <StatCard value={data.by_action?.print || 0} text="לחצו הדפסה (נפתח חלון ההדפסה)" tone="bg-orange-50" />
           <StatCard value={data.by_action?.download || 0} text="הורידו PDF / קובץ" tone="bg-yellow-50" />
           <StatCard value={data.sources?.qr || 0} text="סרקו QR מדף מודפס" tone="bg-lime-50" />
-          <StatCard value={data.by_action?.share || 0} text="שיתופים בוואטסאפ" tone="bg-green-50" />
+          <StatCard value={data.by_action?.share || 0} text="שיתופים (וואטסאפ ושיתוף מהטלפון)" tone="bg-green-50" />
           <StatCard value={data.sources?.whatsapp || 0} text="הגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
           <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
         </div>

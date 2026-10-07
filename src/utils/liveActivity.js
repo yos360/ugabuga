@@ -20,7 +20,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   game:'משחקים',worksheet:'דפי פעילות',tool:'כלי משחק',calculator:'מחשבון למסיבה',
   invitation:'הזמנות',greeting:'ברכות',printables:'דפים להדפסה',create:'יוצרים',classroom:'פעילויות לכיתה',birthday:'פעילויות ליום הולדת',
   suppliers:'ספקים','emoji-studio':'אימוג׳י סטודיו',page:'עמודים באתר',
-  'online-games':'משחקי אונליין','flying-cubes':'קוביות מעופפות','ball-sort':'מיון כדורים','merge-2048':'מכפילים עד 2048','block-puzzle':'מסיבת בלוקים','traffic-jam':'פקק תנועה',solitaire:'סוליטר',battleship:'צוללות',marathon:'מרתון משחקים','falling-blocks':'בלוקים נופלים','whack-a-mole':'הכה בחפרפרת','sliding-puzzle':'פאזל הזזה','word-guess':'נחשו את המילה',today:'אתגר היום','spider-solitaire':'סוליטר עכביש',minesweeper:'שולה מוקשים',sudoku:'סודוקו',memory:'משחק הזיכרון',snake:'נחש',
+  'online-games':'משחקי אונליין','flying-cubes':'קוביות מעופפות','ball-sort':'מיון כדורים','merge-2048':'מכפילים עד 2048','block-puzzle':'מסיבת בלוקים','traffic-jam':'פקק תנועה',solitaire:'סוליטר',battleship:'צוללות',marathon:'מרתון משחקים','falling-blocks':'בלוקים נופלים','whack-a-mole':'הכה בחפרפרת','sliding-puzzle':'פאזל הזזה','word-guess':'נחשו את המילה',today:'אתגר היום','spider-solitaire':'סוליטר עכביש',minesweeper:'שולה מוקשים',memory:'משחק הזיכרון',snake:'נחש',
 })
 const ALIASES = {bingo:'bingo-maker','word-search':'word-search-maker','escape-room':'escape-rooms',quiz:'trivia-quiz',trivia:'trivia-quiz',timer:'countdown-timer',wheel:'random-picker','truth-or-buga':'truth-or-dare','scavenger-hunt':'scavenger-hunt-maker'}
 export function activityForPath(path) {
@@ -55,7 +55,7 @@ export function recentPresence(state,ownId,now=Date.now()){
   }).sort((a,b)=>b.at-a.at).slice(0,3)
 }
 export function presenceCount(state) { return Object.values(state).filter(entries => Array.isArray(entries) && entries.length > 0).length }
-let connection = null, queued = null, dbClient = null
+let connection = null, queued = null
 const sent = new Map()
 export function recordActivity(action,category) {
   const payload = {action,category}
@@ -116,12 +116,18 @@ function isOwnerBrowser() {
 }
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
 let hasV3 = true
+// Plain fetch with keepalive (not the Supabase SDK): a share opens WhatsApp and a print opens
+// the print dialog, and on phones the page can be put to sleep right away — keepalive lets the
+// request finish anyway. It also means events don't wait for the SDK to load.
+function rpc(fn, body) {
+  return fetch(`${PARTY_URL}/rest/v1/rpc/${fn}`, { method: 'POST', keepalive: true, headers: { apikey: PARTY_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+}
 function sendOne(args) {
-  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return dbClient.rpc('record_site_event_v2', rest) } }
+  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return rpc('record_site_event_v2', rest) } }
   if (!hasV3) return void Promise.resolve(v2()).catch(() => {})
-  void Promise.resolve(dbClient.rpc('record_site_event_v3', args)).then(res => {
+  void rpc('record_site_event_v3', args).then(res => {
     // Until the v3 migration runs, fall back so nothing is lost.
-    if (res?.error && /PGRST202|Could not find the function|does not exist/i.test(`${res.error.code} ${res.error.message}`)) { hasV3 = false; return v2() }
+    if (res.status === 404) { hasV3 = false; return v2() }
   }).catch(() => {})
 }
 // ---- Human check ----
@@ -141,7 +147,7 @@ function markHuman() {
   flushDb()
 }
 function flushDb() {
-  if (!dbClient || !human) return
+  if (!human) return
   const items = dbQueue; dbQueue = []
   for (const args of items) sendOne(args)
 }
@@ -238,7 +244,6 @@ export function connectActivity(onChange) {
       if(stopped)return
       ownId=id
       client=createClient(PARTY_URL,PARTY_KEY,{auth:{storageKey:'ugabuga-public-presence',persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}})
-      dbClient=client
       flushDb()
       const production=['ugabuga.co.il','www.ugabuga.co.il'].includes(location.hostname)
       channel=client.channel(production?'buga-public-live-v1':'buga-preview-live-v1',{config:{presence:{key:id},broadcast:{self:false,ack:true}}})
