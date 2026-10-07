@@ -166,6 +166,7 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
+const OwnerMini = lazy(() => import('./pages/OwnerActivityReport').then(m => ({ default: m.OwnerMini })))
 const SuppliersIndex = lazy(() => import('./pages/suppliers/SuppliersIndex'))
 const SupplierPage = lazy(() => import('./pages/suppliers/SupplierPage'))
 const SupplierAccount = lazy(() => import('./pages/suppliers/SupplierAccount'))
@@ -507,6 +508,7 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin/login" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
               <Route path="/admin/activity" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
+              <Route path="/admin/mini" element={<OwnerLogin><OwnerMini /></OwnerLogin>} />
               <Route path="/admin/suppliers" element={<OwnerLogin><AdminSuppliers /></OwnerLogin>} />
               {import.meta.env.VITE_TEST_OWNER_CLAIMS && <Route path="/__test/admin-suppliers" element={<AdminSuppliers />} />}
               <Route path="/suppliers" element={<SuppliersIndex />} />

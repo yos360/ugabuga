@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
@@ -271,15 +272,12 @@ function useSummary(from, to, tick = 0) {
   return { data, error }
 }
 
-export default function OwnerActivityReport() {
-  usePageTitles()
-  const [range, setRange] = useState('today')
-  // Refetch on live events, when coming back to the tab, on demand, and by polling as a fallback.
+// Live refresh shared by the full report and the mini widget: every new event in the database
+// pushes a refresh (Supabase Realtime, owner-only by RLS); polling every 30 seconds while the live link is down,
+// and a slow 5-minute safety refresh while it is up.
+function useLiveRefresh() {
   const [tick, setTick] = useState(0), [updated, setUpdated] = useState(() => new Date())
   const refresh = () => { setTick(t => t + 1); setUpdated(new Date()) }
-  // Live: every new event in the database pushes a refresh (Supabase Realtime). The report is only
-  // reachable with the owner's Auth session, so RLS (owner_full_activity_report) lets the INSERTs through;
-  // anonymous visitors still receive nothing.
   const [live, setLive] = useState(false)
   useEffect(() => {
     let timer = null, last = 0, dropped = false
@@ -287,7 +285,7 @@ export default function OwnerActivityReport() {
       clearTimeout(timer)
       timer = setTimeout(() => { last = Date.now(); refresh() }, Math.max(600, 1500 - (Date.now() - last)))
     }
-    const channel = supabase.channel('owner-activity-live')
+    const channel = supabase.channel('owner-activity-live-' + Math.random().toString(36).slice(2, 8))
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'owner_site_activity' }, soon)
       .subscribe(status => {
         if (status === 'SUBSCRIBED') { setLive(true); if (dropped) refresh() } // reconnected: catch anything missed meanwhile
@@ -303,6 +301,72 @@ export default function OwnerActivityReport() {
     const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, live ? 300000 : 30000)
     return () => clearInterval(iv)
   }, [live])
+  return { tick, updated, refresh, live }
+}
+
+// The headline numbers, shared by the report and the mini widget: [value, label, short label, tone]
+function statItems(data) {
+  return [
+    [data.visitors, 'מבקרים ייחודיים', 'מבקרים', 'bg-pink-50'],
+    [data.pageviews, 'צפיות בדפים', 'צפיות', 'bg-cyan-50'],
+    [data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—', 'זמן ממוצע למבקר באתר', 'זמן ממוצע', 'bg-emerald-50'],
+    [data.by_action?.preview || 0, 'פתחו תצוגת הדפסה', 'תצוגת הדפסה', 'bg-amber-50'],
+    [data.by_action?.print || 0, 'לחצו הדפסה (נפתח חלון ההדפסה)', 'הדפסות', 'bg-orange-50'],
+    [data.by_action?.download || 0, 'הורידו PDF / קובץ', 'PDF', 'bg-yellow-50'],
+    [data.sources?.qr || 0, 'אנשים שסרקו QR מדף מודפס', 'סרקו QR', 'bg-lime-50'],
+    [data.by_action?.share || 0, 'שיתופים (וואטסאפ ושיתוף מהטלפון)', 'שיתופים', 'bg-green-50'],
+    [data.sources?.whatsapp || 0, 'אנשים שהגיעו מקישור בוואטסאפ', 'מוואטסאפ', 'bg-teal-50'],
+    [data.total, 'כל הפעולות שנרשמו', 'כל הפעולות', 'bg-violet-50'],
+  ]
+}
+
+// Small always-on-top style widget: today's numbers + the last few actions.
+function MiniWidget({ data, live, updated, onRefresh, onClose }) {
+  return <div dir="rtl" className="min-h-full bg-white p-3 font-sans text-slate-900">
+    <div className="mb-2 flex items-center justify-between gap-2">
+      <b className="text-base">🎂 עוגה בוגה · היום</b>
+      <span className="text-[11px] text-slate-500">{live ? '🟢 בלייב' : '⏱️ כל 30 שנ׳'} · {updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}</span>
+    </div>
+    {!data ? <p className="text-sm">טוענים…</p> : <>
+      <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone]) => <div key={short} className={`rounded-xl px-2 py-1.5 ${tone}`}><b className="block text-xl leading-tight">{v}</b><span className="text-[11px] leading-tight text-slate-700">{short}</span></div>)}</div>
+      <p className="mt-2 mb-1 text-xs font-bold text-slate-600">פעולות אחרונות</p>
+      <ul className="space-y-0.5 text-[12px] leading-snug">{(data.recent || []).filter(r => r.action !== 'time').slice(0, 6).map((r, i) => <li key={i} className="truncate"><span className="text-slate-500">{fmtClock(r.at)}</span> · {ACTION_LABELS[r.action] || r.action} · <b>{pageName(r)}</b>{r.source === 'qr' ? ' 📱QR' : r.source === 'whatsapp' ? ' 💬' : ''}</li>)}</ul>
+    </>}
+    <div className="mt-2 flex gap-2">
+      <button onClick={onRefresh} className="rounded-lg border border-slate-200 px-2 py-1 text-xs font-bold">🔄 רענון</button>
+      {onClose && <button onClick={onClose} className="rounded-lg border border-slate-200 px-2 py-1 text-xs font-bold">✕ סגירה</button>}
+    </div>
+  </div>
+}
+
+// /admin/mini — the widget as its own page (for a small separate window or a phone home-screen shortcut)
+export function OwnerMini() {
+  usePageTitles()
+  const { tick, updated, refresh, live } = useLiveRefresh()
+  const day = updated.toDateString()
+  const [from, to] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
+  const { data } = useSummary(from, to, tick)
+  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} /></>
+}
+
+// Chrome/Edge (desktop) can open a real always-on-top mini window (Document Picture-in-Picture).
+async function openFloating(setPip) {
+  if (!('documentPictureInPicture' in window)) { window.open('/admin/mini', 'buga-mini', 'width=380,height=560'); return }
+  const w = await window.documentPictureInPicture.requestWindow({ width: 380, height: 520 })
+  for (const sheet of [...document.styleSheets]) {
+    try { const st = w.document.createElement('style'); st.textContent = [...sheet.cssRules].map(r => r.cssText).join('\n'); w.document.head.appendChild(st) }
+    catch { if (sheet.href) { const l = w.document.createElement('link'); l.rel = 'stylesheet'; l.href = sheet.href; w.document.head.appendChild(l) } }
+  }
+  w.document.documentElement.dir = 'rtl'; w.document.body.style.margin = '0'
+  w.addEventListener('pagehide', () => setPip(null))
+  setPip(w)
+}
+
+export default function OwnerActivityReport() {
+  usePageTitles()
+  const [range, setRange] = useState('today')
+  const { tick, updated, refresh, live } = useLiveRefresh()
+  const [pip, setPip] = useState(null)
   const day = updated.toDateString() // after midnight "today" moves to the new day
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data, error } = useSummary(from, to, tick)
@@ -322,6 +386,7 @@ export default function OwnerActivityReport() {
   const sourceMax = Math.max(1, ...sources.map(([, n]) => n))
 
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
+    {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} />, pip.document.body)}
     <SEO title="דוח פעילות בעלים" description="דוח פרטי ומפורט של פעילות באתר עוגה בוגה." noindex path="/admin/activity" />
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-[0_7px_0_#e5e7eb] sm:p-9">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -349,21 +414,13 @@ export default function OwnerActivityReport() {
           {r.label}
         </button>)}
         <button onClick={refresh} className="min-h-11 rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold text-slate-700">🔄 רענון</button>
+        <button onClick={() => { if (pip) pip.close(); else void openFloating(setPip).catch(() => {}) }} className="min-h-11 rounded-xl border-2 border-violet-300 bg-violet-50 px-4 py-2 font-bold text-violet-700">{pip ? '✕ לסגור חלונית' : '📌 חלונית קטנה צפה'}</button>
         <span className="self-center text-sm text-slate-500">{live ? '🟢 בלייב — כל פעולה באתר מופיעה מיד' : 'מתעדכן כל 30 שניות'} · עודכן ב-{updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
       </div>
 
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <StatCard value={data.visitors} text="מבקרים ייחודיים" tone="bg-pink-50" />
-          <StatCard value={data.pageviews} text="צפיות בדפים" tone="bg-cyan-50" />
-          <StatCard value={data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—'} text="זמן ממוצע למבקר באתר" tone="bg-emerald-50" />
-          <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
-          <StatCard value={data.by_action?.print || 0} text="לחצו הדפסה (נפתח חלון ההדפסה)" tone="bg-orange-50" />
-          <StatCard value={data.by_action?.download || 0} text="הורידו PDF / קובץ" tone="bg-yellow-50" />
-          <StatCard value={data.sources?.qr || 0} text="אנשים שסרקו QR מדף מודפס" tone="bg-lime-50" />
-          <StatCard value={data.by_action?.share || 0} text="שיתופים (וואטסאפ ושיתוף מהטלפון)" tone="bg-green-50" />
-          <StatCard value={data.sources?.whatsapp || 0} text="אנשים שהגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
-          <StatCard value={data.total} text="כל הפעולות שנרשמו" tone="bg-violet-50" />
+          {statItems(data).map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
         </div>
 
         <BestPages stats={pageStats} />

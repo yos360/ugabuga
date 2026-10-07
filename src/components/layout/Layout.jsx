@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
@@ -14,6 +15,7 @@ export default function Layout({ children }) {
   // every onClick handler in the tree. `mounted` is false on the very first
   // client render (matching the snapshot), then flips to true after useEffect
   // runs, so the widget mounts cleanly with no mismatch.
+  const { pathname } = useLocation()
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
@@ -32,6 +34,8 @@ export default function Layout({ children }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+  // The owner's mini widget is meant for a tiny window: no header, footer or floating buttons.
+  if (pathname === '/admin/mini') return <main id="site-content">{children}</main>
   return (
     <>
       <ScrollToTop />
