@@ -136,7 +136,9 @@ function sendOne(args) {
 // waits for a human sign — real input (mouse move, touch, key, wheel) or 15 seconds of
 // the tab being visible — and automated browsers are never counted. Events wait in the
 // queue until then; a visit with no human sign is simply never sent.
-const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview|facebookexternalhit|whatsapp|telegram|discord|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
+// Link-preview fetchers (WhatsApp, Telegram, Facebook) don't run JavaScript, so they never get here;
+// their names are NOT listed — a person opening a link inside WhatsApp's own browser must count.
+const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
 let human = false, visibleSecs = 0
 function automated() {
   try { return navigator.webdriver === true || BOT_UA.test(navigator.userAgent || '') } catch { return false }
