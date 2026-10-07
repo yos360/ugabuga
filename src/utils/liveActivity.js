@@ -132,14 +132,15 @@ function sendOne(args) {
 }
 // ---- Human check ----
 // Crawlers and automated browsers run the page's JavaScript too, and used to show up as
-// hundreds of "direct" visitors who stay 5 seconds and touch nothing. The owner log now
-// waits for a human sign — real input (mouse move, touch, key, wheel) or 15 seconds of
-// the tab being visible — and automated browsers are never counted. Events wait in the
-// queue until then; a visit with no human sign is simply never sent.
+// hundreds of "direct" visitors who stay a few seconds and touch nothing. The owner log now
+// waits for a human sign — real input (mouse move, touch, key, wheel) — and automated
+// browsers are never counted. Merely keeping the tab open is NOT a sign: crawlers sit on a
+// page for 15+ seconds too. On phones every scroll starts with a touch, so readers still count.
+// Events wait in the queue until then; a visit with no human sign is simply never sent.
 // Link-preview fetchers (WhatsApp, Telegram, Facebook) don't run JavaScript, so they never get here;
 // their names are NOT listed — a person opening a link inside WhatsApp's own browser must count.
-const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
-let human = false, visibleSecs = 0
+const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|facebookexternalhit|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
+let human = false
 function automated() {
   try { return navigator.webdriver === true || BOT_UA.test(navigator.userAgent || '') } catch { return false }
 }
@@ -214,8 +215,6 @@ function startTimeTracking() {
   const onInput = e => { if (e.isTrusted === false) return; lastInput = Date.now(); if (e.type !== 'scroll') markHuman() }
   const tick = () => {
     if (document.visibilityState !== 'visible') return
-    visibleSecs += TICK
-    if (visibleSecs >= 15) markHuman()
     if (human && timePath && Date.now() - lastInput < 120000) timeSecs += TICK
   }
   const onHide = () => { if (document.visibilityState === 'hidden') flushTime() }
