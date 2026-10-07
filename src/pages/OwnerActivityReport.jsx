@@ -274,27 +274,35 @@ function useSummary(from, to, tick = 0) {
 export default function OwnerActivityReport() {
   usePageTitles()
   const [range, setRange] = useState('today')
-  // Live: refetch every 30 seconds while the tab is visible, when coming back to the tab, and on demand.
+  // Refetch on live events, when coming back to the tab, on demand, and by polling as a fallback.
   const [tick, setTick] = useState(0), [updated, setUpdated] = useState(() => new Date())
   const refresh = () => { setTick(t => t + 1); setUpdated(new Date()) }
-  // Live: every new event in the database pushes a refresh (Supabase Realtime, owner-only by RLS).
-  // Until the realtime migration is run — or if the connection drops — fall back to polling.
+  // Live: every new event in the database pushes a refresh (Supabase Realtime). The report is only
+  // reachable with the owner's Auth session, so RLS (owner_full_activity_report) lets the INSERTs through;
+  // anonymous visitors still receive nothing.
   const [live, setLive] = useState(false)
   useEffect(() => {
-    let timer = null, last = 0
-    const soon = () => { setLive(true) // a real event arrived — the live link works
-      // batch bursts (a page view + time + click arrive together)
+    let timer = null, last = 0, dropped = false
+    const soon = () => { // batch bursts (a page view + time + click arrive together)
       clearTimeout(timer)
       timer = setTimeout(() => { last = Date.now(); refresh() }, Math.max(600, 1500 - (Date.now() - last)))
     }
     const channel = supabase.channel('owner-activity-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'owner_site_activity' }, soon)
-      .subscribe(status => { if (status !== 'SUBSCRIBED') setLive(false) })
-    const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, 30000)
+      .subscribe(status => {
+        if (status === 'SUBSCRIBED') { setLive(true); if (dropped) refresh() } // reconnected: catch anything missed meanwhile
+        else if (['CHANNEL_ERROR', 'TIMED_OUT', 'CLOSED'].includes(status)) { setLive(false); dropped = true }
+      })
     const onShow = () => { if (document.visibilityState === 'visible') refresh() }
     document.addEventListener('visibilitychange', onShow)
-    return () => { clearTimeout(timer); clearInterval(iv); document.removeEventListener('visibilitychange', onShow); void supabase.removeChannel(channel) }
+    return () => { clearTimeout(timer); document.removeEventListener('visibilitychange', onShow); void supabase.removeChannel(channel) }
   }, [])
+  // Fallback while the live link is down: poll every 30 seconds. While live, a slow 5-minute
+  // safety refresh still runs in case events silently stop arriving.
+  useEffect(() => {
+    const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, live ? 300000 : 30000)
+    return () => clearInterval(iv)
+  }, [live])
   const day = updated.toDateString() // after midnight "today" moves to the new day
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data, error } = useSummary(from, to, tick)
