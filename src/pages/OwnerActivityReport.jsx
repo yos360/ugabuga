@@ -277,11 +277,23 @@ export default function OwnerActivityReport() {
   // Live: refetch every 30 seconds while the tab is visible, when coming back to the tab, and on demand.
   const [tick, setTick] = useState(0), [updated, setUpdated] = useState(() => new Date())
   const refresh = () => { setTick(t => t + 1); setUpdated(new Date()) }
+  // Live: every new event in the database pushes a refresh (Supabase Realtime, owner-only by RLS).
+  // Until the realtime migration is run — or if the connection drops — fall back to polling.
+  const [live, setLive] = useState(false)
   useEffect(() => {
+    let timer = null, last = 0
+    const soon = () => { setLive(true) // a real event arrived — the live link works
+      // batch bursts (a page view + time + click arrive together)
+      clearTimeout(timer)
+      timer = setTimeout(() => { last = Date.now(); refresh() }, Math.max(600, 1500 - (Date.now() - last)))
+    }
+    const channel = supabase.channel('owner-activity-live')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'owner_site_activity' }, soon)
+      .subscribe(status => { if (status !== 'SUBSCRIBED') setLive(false) })
     const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, 30000)
     const onShow = () => { if (document.visibilityState === 'visible') refresh() }
     document.addEventListener('visibilitychange', onShow)
-    return () => { clearInterval(iv); document.removeEventListener('visibilitychange', onShow) }
+    return () => { clearTimeout(timer); clearInterval(iv); document.removeEventListener('visibilitychange', onShow); void supabase.removeChannel(channel) }
   }, [])
   const day = updated.toDateString() // after midnight "today" moves to the new day
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -329,7 +341,7 @@ export default function OwnerActivityReport() {
           {r.label}
         </button>)}
         <button onClick={refresh} className="min-h-11 rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold text-slate-700">🔄 רענון</button>
-        <span className="self-center text-sm text-slate-500">מתעדכן לבד כל 30 שניות · עודכן ב-{updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+        <span className="self-center text-sm text-slate-500">{live ? '🟢 בלייב — כל פעולה באתר מופיעה מיד' : 'מתעדכן כל 30 שניות'} · עודכן ב-{updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
       </div>
 
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
