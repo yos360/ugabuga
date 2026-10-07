@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { shareLink, shareOnWhatsApp } from '../../utils/share'
+import { sharePage, shareAudience } from '../../utils/share'
 import './whatsapp-share.css'
 
 // Floating "share on WhatsApp" button on every public page. It shares the page
@@ -14,17 +15,32 @@ export function WhatsAppIcon({ size = 26 }) {
   )
 }
 
+// A small invitation bubble appears once per visit, on pages people tend to pass on (teachers,
+// printables, parents), after they've had time to use the page. Closing it hides it for the visit.
+const BUBBLE_KEY = 'buga-share-bubble'
+function bubbleSeen() { try { return sessionStorage.getItem(BUBBLE_KEY) === '1' } catch { return true } }
+function markBubble() { try { sessionStorage.setItem(BUBBLE_KEY, '1') } catch { /* ignore */ } }
+
 export default function WhatsAppShare() {
   const { pathname } = useLocation()
+  const audience = shareAudience(pathname)
+  const [bubble, setBubble] = useState(false)
+  useEffect(() => {
+    setBubble(false)
+    if (HIDDEN.test(pathname) || audience.key === 'all' || bubbleSeen()) return
+    const t = setTimeout(() => { if (!bubbleSeen() && !document.querySelector('dialog[open]')) { setBubble(true); markBubble() } }, 25000)
+    return () => clearTimeout(t)
+  }, [pathname, audience.key])
   if (HIDDEN.test(pathname)) return null
-  const share = () => {
-    const title = (document.title || 'עוגה בוגה').replace(/\s*\|\s*UGABUGA\s*$/, '')
-    shareOnWhatsApp(`${title}\nמצאתי בעוגה בוגה — שווה להציץ 👇\n${shareLink(pathname, 'floating')}`)
-  }
-  return (
-    <button type="button" onClick={share} className="wa-fab no-print" aria-label="שתפו את העמוד בוואטסאפ" title="שתפו בוואטסאפ">
+  const share = () => { setBubble(false); sharePage(pathname, 'floating') }
+  return <>
+    {bubble && <div className="wa-bubble no-print" role="status" dir="rtl">
+      <button type="button" className="wa-bubble-text" onClick={share}>{audience.invite}</button>
+      <button type="button" className="wa-bubble-x" onClick={() => setBubble(false)} aria-label="סגירה">×</button>
+    </div>}
+    <button type="button" onClick={share} className="wa-fab no-print" aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
       <WhatsAppIcon />
       <span className="wa-fab-text">שתפו</span>
     </button>
-  )
+  </>
 }

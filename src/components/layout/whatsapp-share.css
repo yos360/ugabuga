@@ -4,3 +4,10 @@
 .wa-fab:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
 @media (max-width:640px){.wa-fab{width:52px;padding:0;justify-content:center}.wa-fab-text{display:none}}
 @media print{.wa-fab{display:none!important}}
+.wa-bubble{position:fixed;left:16px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:46;max-width:min(300px,calc(100vw - 32px));display:flex;align-items:flex-start;gap:4px;background:#fff;border:2.5px solid #1d2233;border-radius:16px;box-shadow:3px 3px 0 #1d2233;padding:10px 8px 10px 12px;animation:wa-in .35s ease-out both}
+.wa-bubble::after{content:"";position:absolute;left:22px;bottom:-9px;width:14px;height:14px;background:#fff;border-right:2.5px solid #1d2233;border-bottom:2.5px solid #1d2233;transform:rotate(45deg)}
+.wa-bubble-text{flex:1;text-align:right;font-weight:800;font-size:15px;line-height:1.35;color:#1d2233;background:none;border:0;cursor:pointer;padding:0}
+.wa-bubble-x{min-width:28px;min-height:28px;font-size:20px;line-height:1;background:none;border:0;color:#666;cursor:pointer}
+@keyframes wa-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.wa-bubble{animation:none}}
+@media print{.wa-bubble{display:none!important}}

@@ -40,6 +40,22 @@ function installShareCounter() {
 }
 installShareCounter()
 
+// Who a page is most useful to — decides the invitation to share and the WhatsApp message.
+const TEACHER = /^\/(classroom|learn|discover)(\/|$)|^\/games\/(kindergarten|kita-a|classroom|icebreaker)|^\/printables\/(math|hebrew-letters|abc-letters|letter-flashcards|numbers|lined-paper|grid-paper|graph-paper|dot-paper|english-lines|clock|fraction|allergy-signs|name-tags|certificates|class-schedule|word-tracing|count-and-write|complete-pattern|cut-and-order|dot-to-dot)/
+const PRINTABLE = /^\/printables(\/|$)|^\/(abc|animals)(\/|$)/
+const PARENT = /^\/(food|family|music|birthday|ideas|gifts|calculator|invitation|greeting|treasure-hunt)(\/|$)/
+export function shareAudience(pathname = '/') {
+  const p = String(pathname)
+  if (TEACHER.test(p)) return { key: 'teachers', invite: 'עזר לך? שתפו עם עוד מורות וגננות 💛', button: 'שליחה למורות ולגננות', intro: 'מצאתי בעוגה בוגה משהו מעולה לכיתה ולגן — בחינם. שווה להעביר לצוות 👇' }
+  if (PRINTABLE.test(p)) return { key: 'printables', invite: 'מכירים עוד הורים, מורות או גננות שזה יעזור להם? שתפו 💛', button: 'שליחה בוואטסאפ', intro: 'דפים להדפסה בחינם בעוגה בוגה — שווה לשלוח להורים ולצוות 👇' }
+  if (PARENT.test(p)) return { key: 'parents', invite: 'מכירים עוד הורים שזה יעזור להם? שתפו 💛', button: 'שליחה להורים', intro: 'מצאתי בעוגה בוגה משהו שימושי להורים — בחינם 👇' }
+  return { key: 'all', invite: 'אהבתם? שתפו עם חברים 💛', button: 'שליחה בוואטסאפ', intro: 'מצאתי בעוגה בוגה — שווה להציץ 👇' }
+}
+export function sharePage(pathname, campaign) {
+  const title = (document.title || 'עוגה בוגה').replace(/\s*\|\s*UGABUGA\s*$/, '')
+  shareOnWhatsApp(`${title}\n${shareAudience(pathname).intro}\n${shareLink(pathname, campaign)}`)
+}
+
 export function shareOnWhatsApp(text) {
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer') // counted by installShareCounter
 }

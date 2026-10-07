@@ -68,3 +68,5 @@
 .buga-qr-text span{font-size:11pt;color:#444;direction:ltr;text-align:right}
 .buga-a4:has(.buga-qr),.buga-flow:has(.buga-qr){padding-bottom:28mm}
 @media print{#buga-print-output .buga-a4:has(.buga-qr),#buga-print-output .buga-flow:has(.buga-qr){padding-bottom:29mm!important}.buga-a4 .buga-qr,.buga-flow .buga-qr{border:0}}
+
+.buga-print-share{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 18px 0;padding:10px 14px;border-radius:14px;background:#e9fbe9;border:2px solid #25d366;font-weight:700}.buga-print-share span{flex:1;min-width:180px}.buga-print-share button{background:#25d366!important;color:#fff;min-height:44px;padding:8px 14px;border-radius:10px;font-weight:800}@media print{.buga-print-share{display:none!important}}
