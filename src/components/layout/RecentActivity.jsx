@@ -12,13 +12,15 @@ const loadActivity = () => {
 }
 
 export function recordPreviewOpen() { void loadActivity().then(m => m?.logEvent('preview')).catch(() => {}) }
-export function recordPrintPreview() {
+// action: 'print' (the print dialog was opened), 'download' (a PDF was saved), 'refresh' (new exercises)
+export function recordSheetAction(action = 'print') {
   void loadActivity().then(m => {
     if (!m) return
-    m.recordActivity('print', m.activityForPath(window.location.pathname))
-    m.logEvent('print')
+    m.recordActivity(action, m.activityForPath(window.location.pathname))
+    m.logEvent(action)
   }).catch(() => {})
 }
+export const recordPrintPreview = () => recordSheetAction('print')
 
 export default function RecentActivity() {
   const { pathname } = useLocation()

@@ -117,7 +117,7 @@ function isOwnerBrowser() {
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
 let hasV3 = true
 function sendOne(args) {
-  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return dbClient.rpc('record_site_event_v2', { ...rest, p_source: rest.p_source === 'qr' ? 'other' : rest.p_source }) } }
+  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return dbClient.rpc('record_site_event_v2', rest) } }
   if (!hasV3) return void Promise.resolve(v2()).catch(() => {})
   void Promise.resolve(dbClient.rpc('record_site_event_v3', args)).then(res => {
     // Until the v3 migration runs, fall back so nothing is lost.

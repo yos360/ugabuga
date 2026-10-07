@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './print-preview.css'
-import { recordPrintPreview, recordPreviewOpen } from '../layout/RecentActivity'
+import { recordSheetAction, recordPreviewOpen } from '../layout/RecentActivity'
 
 // A QR code is stamped onto every printed page with a short invitation next to it, linking back to
 // the exact page it came from (tagged so the owner's report can see scans separately from
@@ -52,7 +52,7 @@ export default function PrintPreview({title,children,onClose,onRefresh}){
     // SVG <image> artwork too (photo props): make sure it's loaded before the print dialog snapshots the page.
     const svgImages=[...document.querySelectorAll('#buga-print-output image')].map(el=>{const i=new Image();i.src=el.getAttribute('href');return i})
     await Promise.allSettled([...imgs,...svgImages].map(img=>img.decode()))
-    recordPrintPreview()
+    recordSheetAction('print')
     window.print()
   }catch{setError('האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
   // A real PDF file made in the browser — works even where the phone's print dialog can't save.
@@ -61,9 +61,9 @@ export default function PrintPreview({title,children,onClose,onRefresh}){
     const sheets=[...(pages.current?.children||[])].filter(el=>el.matches('.buga-a4, .buga-flow'))
     const {savePagesAsPdf}=await import('../../utils/pagesToPdf')
     await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…'))
-    recordPrintPreview()
+    recordSheetAction('download')
   }catch{setError('לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides
   // every body child except #buga-print-output, so no wrapper element here.
-  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button>{onRefresh&&<button onClick={onRefresh} data-refresh-sheet>🎲 תרגילים אחרים</button>}<button onClick={savePdf} disabled={!!pdf} data-save-pdf>{pdf||'⬇️ הורדה כ-PDF'}</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה'}</button></div><p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}<div className="buga-preview-pages" ref={pages}>{children}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{children}</div></>,document.body)
+  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button>{onRefresh&&<button onClick={()=>{recordSheetAction('refresh');onRefresh()}} data-refresh-sheet>🎲 תרגילים אחרים</button>}<button onClick={savePdf} disabled={!!pdf} data-save-pdf>{pdf||'⬇️ הורדה כ-PDF'}</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה'}</button></div><p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}<div className="buga-preview-pages" ref={pages}>{children}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{children}</div></>,document.body)
 }

@@ -281,6 +281,7 @@ export default function OwnerActivityReport() {
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
   const topDownloaded = useMemo(() => aggregateTop(data?.top, ['download', 'print']), [data])
+  const pdfByPath = useMemo(() => { const m = new Map(); for (const t of data?.top || []) if (t.action === 'download') m.set(t.path || '', (m.get(t.path || '') || 0) + t.n); return m }, [data])
   const devices = useMemo(() => sortEntries(data?.devices, ['desktop', 'mobile', 'unknown']), [data])
   const sources = useMemo(() => sortEntries(data?.sources), [data])
   const deviceMax = Math.max(1, ...devices.map(([, n]) => n))
@@ -321,7 +322,8 @@ export default function OwnerActivityReport() {
           <StatCard value={data.pageviews} text="צפיות בדפים" tone="bg-cyan-50" />
           <StatCard value={data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—'} text="זמן ממוצע למבקר באתר" tone="bg-emerald-50" />
           <StatCard value={data.by_action?.preview || 0} text="פתחו תצוגת הדפסה" tone="bg-amber-50" />
-          <StatCard value={data.by_action?.print || 0} text="הדפיסו בפועל" tone="bg-orange-50" />
+          <StatCard value={data.by_action?.print || 0} text="לחצו הדפסה (נפתח חלון ההדפסה)" tone="bg-orange-50" />
+          <StatCard value={data.by_action?.download || 0} text="הורידו PDF / קובץ" tone="bg-yellow-50" />
           <StatCard value={data.sources?.qr || 0} text="סרקו QR מדף מודפס" tone="bg-lime-50" />
           <StatCard value={data.by_action?.share || 0} text="שיתופים בוואטסאפ" tone="bg-green-50" />
           <StatCard value={data.sources?.whatsapp || 0} text="הגיעו מקישור בוואטסאפ" tone="bg-teal-50" />
@@ -352,12 +354,12 @@ export default function OwnerActivityReport() {
         </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתוני זמן לתקופה הזו (המדידה מתחילה מעכשיו).</p>}
 
         <h2 className="mb-1 text-2xl font-black">🖨️ מה הדפיסו</h2>
-        <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, וכמה לחצו „הדפסה” בפועל.</p>
+        <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, כמה לחצו „הדפסה” (הדפדפן לא מדווח אם הדף באמת יצא מהמדפסת) וכמה שמרו PDF. מ-7.10.26 PDF נספר בנפרד; לפני כן הוא נספר כהדפסה.</p>
         {data.print_funnel?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
-          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th></tr></thead>
+          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">PDF</th></tr></thead>
           <tbody>{data.print_funnel.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
             <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
-            <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td>
+            <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td><td className="p-2">{pdfByPath.get(r.path || '') || '—'}</td>
           </tr>)}</tbody>
         </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 

@@ -65,6 +65,20 @@ const COLUMNS = [
     ],
   },
   {
+    title: 'לומדים ומשפחה',
+    links: [
+      ['/learn', 'לומדים בבית'],
+      ['/learn/times-tables', 'אתגר לוח הכפל'],
+      ['/learn/dictation', 'הכתבה אונליין'],
+      ['/discover', 'עולם ומדע'],
+      ['/discover/israel-map', 'מפת ישראל לילדים'],
+      ['/family', 'בבית עם הילדים'],
+      ['/food', 'אוכל לילדים וארוחת עשר'],
+      ['/printables/allergy-signs', 'שלטי אלרגיה לגן'],
+      ['/music', 'לומדים מוזיקה ופסנתר'],
+    ],
+  },
+  {
     title: 'אודות',
     links: [
       ['/about', 'אודות עוגה בוגה'],
@@ -99,7 +113,7 @@ export default function Footer() {
           ))}
         </div>
         {/* Desktop: open columns, unchanged */}
-        <div className="hidden gap-8 sm:grid sm:grid-cols-2 lg:grid-cols-5">
+        <div className="hidden gap-8 sm:grid sm:grid-cols-3 lg:grid-cols-6">
           {COLUMNS.map(col => (
             <div key={col.title}>
               <h2 className="text-xl">{col.title}</h2>
