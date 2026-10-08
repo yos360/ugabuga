@@ -170,6 +170,8 @@ const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
 const ColoringSubject = lazy(() => import('./pages/printables/ColoringSubject'))
+const ColorByNumberHub = lazy(() => import('./pages/printables/ColorByNumber'))
+const ColorByNumberPicture = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberPicture })))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
 const OwnerMini = lazy(() => import('./pages/OwnerActivityReport').then(m => ({ default: m.OwnerMini })))
 const SuppliersIndex = lazy(() => import('./pages/suppliers/SuppliersIndex'))
@@ -322,6 +324,8 @@ export default function App() {
               <Route path="/printables/photo-props" element={<PhotoProps />} />
               <Route path="/printables/coloring" element={<ColoringPages />} />
               <Route path="/printables/coloring/:subject" element={<ColoringSubject />} />
+              <Route path="/printables/color-by-number" element={<ColorByNumberHub />} />
+              <Route path="/printables/color-by-number/:slug" element={<ColorByNumberPicture />} />
               <Route path="/printables/dice-template" element={<DiceTemplate />} />
               <Route path="/printables/calendar-2027" element={<CalendarPrint key="2027" preset="calendar-2027" />} />
               <Route path="/printables/calendar-5787" element={<CalendarPrint key="5787" preset="school-year-5787" />} />

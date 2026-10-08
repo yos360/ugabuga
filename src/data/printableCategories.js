@@ -47,7 +47,7 @@ export const categories = [
   { slug: 'dot-to-dot', emoji: '🔢', title: 'חברו את הנקודות', count: 'חדש', desc: 'מגלים ציור לפי מספרים, בשלוש רמות גיל', generated: true },
   { slug: 'mandalas', emoji: '🌈', title: 'מנדלות ויצירה', count: 70, desc: '7 סגנונות, 10 דפים בכל סגנון — כולל מנדלות לילדים ולגדולים', generated: true },
   { slug: 'find-differences', emoji: '🔎', title: 'מצאו את ההבדלים', count: 'חדש', desc: 'דפי חיפוש והבדלים לפי נושא וגיל', generated: true },
-  { slug: 'color-by-number', emoji: '🎨', title: 'צבעו לפי מספר', count: 'חדש', desc: 'מספרים, צבעים וציור — בדף אחד', generated: true },
+  { slug: 'color-by-number', href: '/printables/color-by-number', emoji: '🎨', title: 'צביעה לפי מספרים', count: 20, desc: '20 ציורים לגן, לכיתות א–ב ולמבוגרים — גם עם תרגילי חשבון, ועם דף פתרון' },
   { slug: 'word-tracing', emoji: '✏️', title: 'מילים מקווקוות', count: 'חדש', desc: 'תרגול כתיבה בעברית לפי נושא', generated: true },
   { slug: 'match-word', emoji: '🖼️', title: 'התאמת תמונה למילה', count: 'חדש', desc: 'מחברים מילים לאיורים', generated: true },
   { slug: 'complete-pattern', emoji: '🧩', title: 'המשך את הרצף', count: 'חדש', desc: 'דפוסים ורצפים לגיל הרך ולבית ספר', generated: true },

@@ -46,6 +46,7 @@ const COLUMNS = [
       ['/create', 'יוצרים — כל המחוללים'],
       ['/printables', 'דפים להדפסה'],
       ['/printables/coloring', 'דפי צביעה'],
+      ['/printables/color-by-number', 'צביעה לפי מספרים'],
       ['/tools/crossword-maker', 'מחולל תשבצים'],
       ['/tools', 'כל הכלים'],
     ],

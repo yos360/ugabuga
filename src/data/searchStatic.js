@@ -19,6 +19,7 @@ import { DICE_GAMES } from './diceGames'
 import { BLOG_POSTS } from './blogPosts'
 import { FAQ_TOPICS } from './faqTopics'
 import { ESCAPE_ROOMS } from './escapeRoomsExpanded'
+import { CBN_PICTURES, cbnLevel } from './colorByNumber'
 
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
@@ -187,6 +188,9 @@ const PAGES = [
   { to: '/printables/purim-masks', title: 'מסכות לפורים להדפסה', emoji: '🎭', kind: 'printable', desc: '9 מסכות לגזירה ולצביעה.', keys: 'מסכות מסכה פורים תחפושת גזירה' },
   { to: '/printables/birthday-crown', title: 'כתר יום הולדת להדפסה', emoji: '👑', kind: 'printable', desc: 'כתר עם שם וגיל.', keys: 'כתר יום הולדת גן חוגג' },
   { to: '/printables/mazes', title: 'מבוכים להדפסה — 30 מבוכים ב-5 רמות', emoji: '🌀', kind: 'printable', desc: 'מבוכים מגן ועד מבוגרים, עם פתרון ומבוך חדש בכל לחיצה.', keys: 'מבוך מבוכים להדפסה לילדים קשה קל' },
+  { to: '/printables/color-by-number', title: 'צביעה לפי מספרים להדפסה — 20 ציורים', emoji: '🎨', kind: 'printable', desc: 'דפי צביעה לפי מספרים לגן, לכיתות א–ב ולמבוגרים, גם עם תרגילי חשבון ועם פתרון.', keys: 'צביעה לפי מספרים דף צביעה לפי מספרים צבעו לפי מספר מספרים למבוגרים פיקסלים תרגילים חיבור כפל' },
+  ...CBN_PICTURES.map(p => ({ to: `/printables/color-by-number/${p.slug}`, title: `צביעה לפי מספרים: ${p.name}`, emoji: p.emoji, kind: 'printable', desc: p.blurb, keys: `צביעה לפי מספרים ${p.name} דף צביעה ${cbnLevel(p.level).label} ${cbnLevel(p.level).mathLabel}` })),
+  { to: '/printables/activity/color-by-number', title: 'פסיפס לצביעה לפי מספר — דף חדש בכל לחיצה', emoji: '🎨', kind: 'printable', desc: 'פסיפס צבעוני לצביעה לפי מספר, בשלוש רמות גיל.', keys: 'צבעו לפי מספר פסיפס צביעה' },
   { to: '/printables/memory-game', title: 'משחק זיכרון להדפסה', emoji: '🃏', kind: 'printable', desc: '10 זוגות עם תמונות ומילים.', keys: 'משחק זיכרון זוגות קלפים' },
   { to: '/printables/dominoes', title: 'דומינו להדפסה', emoji: '🁫', kind: 'printable', desc: 'קלאסי, מספרים, חיבור ומילים.', keys: 'דומינו' },
   { to: '/printables/fortune-teller', title: 'קוטי פוטי להדפסה', emoji: '🌸', kind: 'printable', desc: 'תבנית קיפול עם משפטים.', keys: 'קוטי פוטי קיפול נייר אוריגמי' },
