@@ -1,5 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import { CATEGORY_COPY } from '../../data/printableCategoryCopy'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { useEffect, useState } from 'react'
@@ -92,6 +94,19 @@ const svgMap = {
   },
 }
 
+function CategoryCopy({ copy, title }) {
+  if (!copy) return null
+  const h2 = 'mb-3 mt-8 text-2xl font-bold', li = 'leading-relaxed text-[var(--foreground)]/80'
+  return <section className="mx-auto mt-10 max-w-3xl" aria-label={`על ${title}`}>
+    <h2 className={h2}>איך משתמשים</h2>
+    <ol className="list-decimal space-y-1 pr-6">{copy.howTo.map(x => <li key={x} className={li}>{x}</li>)}</ol>
+    <h2 className={h2}>רעיונות וטיפים</h2>
+    <ul className="list-disc space-y-1 pr-6 mb-8">{copy.ideas.map(x => <li key={x} className={li}>{x}</li>)}</ul>
+    <SeoBody faq={copy.faq} related={copy.related} />
+  </section>
+}
+const Intro = ({ copy }) => copy ? <p className="mx-auto mb-8 max-w-3xl text-center text-lg leading-relaxed">{copy.intro}</p> : null
+
 // Landscape artwork (297×210 certificates, the snakes-and-ladders board) is turned 90° on the portrait
 // A4 sheet so it fills the page instead of a thin band across the middle.
 const LANDSCAPE_CATEGORIES = ['certificates', 'board-game']
@@ -100,6 +115,7 @@ export default function PrintableCategory() {
   const { slug } = useParams()
   const cat = svgMap[slug]
   const [selected, setSelected] = useState(null)
+  const copy = CATEGORY_COPY[slug], schema = copy ? faqSchema(copy.faq) : null
   useEffect(() => { const onKey = e => e.key === 'Escape' && setSelected(null); window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey) }, [])
 
   if (!cat) {
@@ -125,16 +141,17 @@ export default function PrintableCategory() {
 
   if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
   if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
-  if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><NumberTracing/></div>
+  if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers" structuredData={schema}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-4 text-center">{cat.desc}</p><Intro copy={copy}/><NumberTracing/><CategoryCopy copy={copy} title={cat.title}/></div>
 
   const printAll = () => setSelected(cat.files)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title={cat.title + ' להדפסה'} description={cat.desc} path={'/printables/' + slug} />
+      <SEO title={cat.title + ' להדפסה'} description={cat.desc} path={'/printables/' + slug} structuredData={schema} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: cat.title }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{cat.title}</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{cat.desc}</p>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{cat.desc}</p>
+      <Intro copy={copy} />
 
       {selected && <PrintPreview title={Array.isArray(selected)?cat.title:selected.name} onClose={()=>setSelected(null)}>{(Array.isArray(selected)?selected:[selected]).map(item=><article className={`buga-a4${LANDSCAPE_CATEGORIES.includes(slug) ? ' buga-landscape' : ''}`} key={item.file}><div className="print-art"><img src={'/svg/'+item.file} alt={item.name}/></div></article>)}</PrintPreview>}
 
@@ -158,6 +175,7 @@ export default function PrintableCategory() {
           🖨️ הדפיסו הכול ({cat.files.length} דפים)
         </button>
       </div>
+      <CategoryCopy copy={copy} title={cat.title} />
     </div>
   )
 }

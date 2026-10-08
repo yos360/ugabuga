@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 
@@ -12,6 +13,14 @@ const PAGES = [
   ['vehicles','מכונית מרוץ','car'],['vehicles','כבאית בדרך','firetruck'],['vehicles','טרקטור בחווה','tractor'],['vehicles','רכבת צבעונית','train'],['vehicles','מטוס','plane'],
   ['sports','כדורגל','football'],['sports','כדורסל','basketball'],['sports','גביע אלופים','trophy'],['sports','ספורטאי שמח','sports'],['school','בית הספר','school'],
 ]
+
+const FAQ = [
+  { q: 'לאיזה גיל מתאימים דפי הצביעה?', a: 'הקווים עבים והשטחים גדולים, ולכן הדפים מתאימים כבר מגיל שנתיים־שלוש, עם צבעי פנדה או טושים עבים. ילדים גדולים יותר נהנים להוסיף רקע, דמויות ופרטים משלהם.' },
+  { q: 'איך מדפיסים דף צביעה אחד?', a: 'לוחצים על "הדפסה" מתחת לציור, והוא נפתח בתצוגה מקדימה על דף A4 עם הכותרת שלו. משם מדפיסים כרגיל — בשחור־לבן, כמו שדף צביעה צריך להיות.' },
+  { q: 'יש דפי צביעה לחגים?', a: 'כן — לכל חג יש עמוד צביעה משלו, למשל חנוכה, פורים ופסח. בעמוד הזה הדפים מסודרים לפי נושאים שמתאימים כל השנה.' },
+]
+const ABOUT = 'שלושים ציורים בקו עבה ונקי, מחולקים לשבעה נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב, ספורט ובית ספר. כל ציור נפתח על דף A4 משלו עם כותרת, כך שאפשר להדפיס בדיוק את מה שהילד בחר — עוגה לקראת יום הולדת, טיל למי שמתעניין בחלל או כבאית לחובבי כלי רכב.'
+const TIPS = ['במסיבה: להניח על שולחן צדדי דפים מנושא המסיבה וצבעים — פינה שקטה לילדים שצריכים הפסקה.', 'לצבוע יחד ולשאול שאלות על הציור ("לאן הטיל טס?") — כך צביעה הופכת גם לשיחה ולאוצר מילים.', 'לילדים קטנים: להדביק את הדף לשולחן בנייר דבק, כדי שלא יזוז בזמן הצביעה.', 'לתלות את הדפים הגמורים על חוט עם אטבים — גלריה ביתית שהילד גאה בה.']
 
 const CATEGORY = { all:'🌈 הכול', birthday:'🎂 יום הולדת', animals:'🐾 חיות', space:'🚀 חלל', fantasy:'🦄 פנטזיה', vehicles:'🚗 כלי רכב', sports:'⚽ ספורט', school:'🏫 בית ספר' }
 
@@ -60,13 +69,15 @@ export default function ColoringPages() {
   const pages = useMemo(() => category === 'all' ? PAGES : PAGES.filter(([cat]) => cat === category), [category])
   const print = (page) => setSelected(page)
   return <div data-print-gallery className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" />
+    <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'דפי צביעה'}]} />
-    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p></header>
+    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p><p className="mx-auto mt-3 max-w-3xl leading-relaxed">{ABOUT}</p></header>
     <div className="no-print my-7 flex flex-wrap justify-center gap-2">{Object.entries(CATEGORY).map(([id,label]) => <button key={id} onClick={() => setCategory(id)} className={`rounded-2xl border-2 px-4 py-2 font-bold ${category===id?'border-pink-500 bg-pink-100':'border-slate-300 bg-white'}`}>{label} <span className="text-xs text-slate-500">({id==='all'?PAGES.length:PAGES.filter(([cat])=>cat===id).length})</span></button>)}</div>
     {selected && <PrintPreview title={selected[1]} onClose={()=>setSelected(null)}><article className="buga-a4"><h2>{selected[1]}</h2><div className="print-art"><LineArt kind={selected[2]} /></div><footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
     <section className="no-print grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">{pages.map((page,index) => <article key={page[1]} className="group rounded-3xl border-2 border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"><button className="block w-full text-right" onClick={() => setSelected(page)}><div className="aspect-[4/3] overflow-hidden rounded-2xl border bg-slate-50"><LineArt kind={page[2]} /></div><h2 className="mt-3 truncate text-center text-lg font-bold">{page[1]}</h2><p className="mt-1 text-center text-sm text-slate-500">{CATEGORY[page[0]]}</p></button><button onClick={() => print(page)} className="mt-3 w-full rounded-xl bg-pink-500 px-3 py-2 font-bold text-white">🖨️ הדפסה</button></article>)}</section>
     <section className="no-print mt-10 rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50 p-6 text-center"><h2 className="text-2xl font-bold">רוצים עמוד חדש?</h2><p className="mt-2 text-slate-600">כל קטגוריה כוללת כמה דפים שונים — בחרו נושא אחר כדי לראות עוד.</p></section>
+    <section className="no-print mx-auto mt-10 max-w-3xl"><h2 className="mb-3 text-2xl font-bold">רעיונות לשימוש בדפי הצביעה</h2><ul className="mb-8 list-disc space-y-1 pr-6 leading-relaxed text-[var(--foreground)]/80">{TIPS.map(x => <li key={x}>{x}</li>)}</ul>
+      <SeoBody faq={FAQ} related={[{ label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'צבעו לפי מספר', href: '/printables/activity/color-by-number' }, { label: 'ציור סימטרי', href: '/printables/symmetry' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'דפי צביעה לפורים', href: '/holidays/purim/coloring' }]} /></section>
 
   </div>
 }

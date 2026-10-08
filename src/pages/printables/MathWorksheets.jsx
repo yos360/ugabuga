@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { ExerciseSheet, PathSheet } from '../../components/math/MathSheet'
 import { exercises, paths, newSeed } from '../../utils/mathSheets'
+import { nearby } from '../../utils/nearby'
+import { MATH_CONTENT } from '../../data/mathSheetContent'
 
 // Four SEO entry points, one generator:
 //   /printables/math-worksheets          — דפי עבודה בחשבון לכיתה א׳ (hub)
@@ -94,6 +96,15 @@ const TYPES = [['regular', 'תרגילים רגילים'], ['missing', 'מספר
 const OPS = [['+', 'חיבור'], ['-', 'חיסור'], ['mix', 'חיבור וחיסור']]
 const VARIANTS = [['numbers', 'משלימים מספרים'], ['ops', 'משלימים פעולות'], ['mixed', 'משולב']]
 
+// Cross-section links for the single-sheet pages, spread so each page points somewhere a little different.
+const EXTRA_LINKS = [{ label: 'חידות חשבון', href: '/riddles/math' }, { label: 'טריוויה בחשבון', href: '/trivia/math' }, { label: 'מרוץ קוביות בחשבון', href: '/dice-games/math-dice-race' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'חדר בריחה: כספת המספרים', href: '/tools/escape-rooms/math-vault' }, { label: 'שבילים בחשבון', href: '/printables/math-paths' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]
+// The two original pages use the presets '10' and '20'; their copy is keyed by URL slug.
+const contentSlug = preset => (preset === '10' ? 'up-to-10' : preset === '20' ? 'up-to-20' : preset)
+const presetOf = slug => (slug === 'up-to-10' ? '10' : slug === 'up-to-20' ? '20' : slug)
+const SOLUTIONS_FAQ = { q: 'יש דף פתרונות?', a: 'כן — מסמנים "הוסיפו דף פתרונות", ואחרי כל דף תרגילים מודפס דף עם התשובות בצבע. אפשר להדפיס עד 5 דפים שונים בבת אחת.' }
+const GRADE = { 'addition-up-to-10': 'גן חובה – כיתה א׳', 'subtraction-up-to-10': 'גן חובה – כיתה א׳', 'up-to-10': 'גן חובה – כיתה א׳', 'addition-up-to-20': 'כיתה א׳', 'subtraction-up-to-20': 'כיתה א׳', 'up-to-20': 'כיתה א׳', 'addition-up-to-100': 'כיתה ב׳', 'subtraction-up-to-100': 'כיתה ב׳', 'up-to-100': 'כיתה ב׳' }
+const learningResource = (p, c, slug) => ({ '@context': 'https://schema.org', '@type': 'LearningResource', name: p.crumb, description: p.desc, url: 'https://ugabuga.co.il' + p.path, inLanguage: 'he', learningResourceType: 'Worksheet', educationalLevel: GRADE[slug] || 'כיתות ב׳–ד׳', isAccessibleForFree: true, teaches: c.skill.split('. ')[0] })
+
 const FAQ = {
   exercises: [
     { q: 'מה ההבדל בין חיבור וחיסור עד 10 לעד 20?', a: 'עד 10 היא החצי הראשון של כיתה א׳ — ספירה, חיבור וחיסור פשוטים. עד 20 מגיע אחר כך, והקושי העיקרי בו הוא "מעבר עשרת" (למשל 8+5 או 13−6). לכן בדפים עד 20 רוב התרגילים עוברים את העשר.' },
@@ -168,13 +179,16 @@ export default function MathWorksheets({ preset: fixedPreset }) {
     return Array.from({ length: pages }, (_, i) => { const items = i === 0 ? preview : make(seed * 31 + i * 7919); return [render(items, false, 'q' + i), ...(withAnswers ? [render(items, true, 'a' + i)] : [])] }).flat()
   }, [print]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const c = MATH_CONTENT[contentSlug(preset)]
+  const faq = c ? [...c.faq, SOLUTIONS_FAQ] : FAQ[p?.mode] || FAQ.exercises
   if (!p) return <Navigate to="/printables/math-worksheets" replace />
   return (
     <div className="mx-auto max-w-5xl px-4 pt-8 pb-24 buga-fade-in" dir="rtl">
-      <SEO title={p.title} description={p.desc} path={p.path} structuredData={faqSchema(FAQ[p.mode] || FAQ.exercises)} />
+      <SEO title={p.title} description={p.desc} path={p.path} structuredData={c ? [learningResource(p, c, contentSlug(preset)), faqSchema(faq)] : faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...(preset === 'hub' ? [] : [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]), { label: p.crumb }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{offPage ? `${op === '÷' ? '➗' : '✖️'} ${sheetTitle}` : p.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{offPage ? `${op === '÷' ? 'חילוק' : 'כפל'} ב-${table}, מ-1 עד 10 · 20 תרגילים בדף · עם פתרונות` : p.sub}</p>
+      {c && <p className="mx-auto mb-6 max-w-3xl text-center text-lg leading-relaxed">{c.intro}</p>}
 
       {/* Other worksheet pages — not on the times-table pages, where they are beside the point. The range itself
           is chosen with the "תחום" buttons below, so these links name whole pages, not ranges. */}
@@ -225,13 +239,26 @@ export default function MathWorksheets({ preset: fixedPreset }) {
         </button>
       </div>
 
-      <nav className="mb-10 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm" aria-label="עוד דפי חשבון">
+      {c && <section className="mx-auto mb-10 max-w-3xl" aria-labelledby="sheet-about">
+        <h2 id="sheet-about" className="mb-3 text-2xl font-bold">מה מתרגלים ב{p.crumb}</h2>
+        <p className="leading-relaxed text-[var(--foreground)]/80">{c.skill}</p>
+        {c.facts && <p className="mt-3 leading-relaxed text-[var(--foreground)]/80"><b>כל התוצאות של {p.crumb}:</b> <span dir="ltr">{c.facts}</span></p>}
+        <h2 className="mb-3 mt-8 text-2xl font-bold">איך מלמדים את זה — טיפים</h2>
+        <ul className="list-disc space-y-1 pr-6 leading-relaxed text-[var(--foreground)]/80">{c.tips.map(x => <li key={x}>{x}</li>)}</ul>
+        <h2 className="mb-3 mt-8 text-2xl font-bold">טעויות נפוצות ומה עושים איתן</h2>
+        <ul className="list-disc space-y-1 pr-6 leading-relaxed text-[var(--foreground)]/80">{c.mistakes.map(x => <li key={x}>{x}</li>)}</ul>
+        <h2 className="mb-3 mt-8 text-2xl font-bold">הדף הבא בתרגול</h2>
+        <div className="flex flex-wrap gap-2">{c.related.map(k => <Link key={k} to={PRESETS[presetOf(k)].path} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{PRESETS[presetOf(k)].crumb}</Link>)}
+          <Link to="/printables/math-worksheets" className="rounded-full border-2 border-[var(--border)] bg-yellow-100 px-4 py-1.5 font-bold">כל דפי החשבון</Link></div>
+      </section>}
+
+      {!c && <nav className="mb-10 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm" aria-label="עוד דפי חשבון">
         <span className="w-full text-center font-bold">עוד דפי חשבון:</span>
         {MATH_PAGE_SLUGS.filter(k => k !== preset && !(preset === 'hub' && k.startsWith('multiplication-table-'))).map(k => <Link key={k} to={PRESETS[k].path} className="underline">{PRESETS[k].crumb}</Link>)}
-      </nav>
+      </nav>}
 
       <SeoBody
-        paragraphs={isTable ? [
+        paragraphs={c ? [] : isTable ? [
           'דפי לוח הכפל נוצרים אוטומטית: בוחרים לוח (2 עד 10, או את כולם יחד), כפל או חילוק, ומקבלים 20 תרגילים חדשים בכל לחיצה. התרגילים מופיעים בשני הכיוונים (7 × 3 וגם 3 × 7), כדי שהילד יבין שזה אותו תרגיל.',
           'בלוח אחד אין 20 תרגילים שונים, ולכן חלק מהתרגילים בדף מופיעים גם בצורת "מספר חסר" (7 × ___ = 21) — במקום לחזור על אותו תרגיל פעמיים.',
         ] : isPaths ? [
@@ -242,8 +269,8 @@ export default function MathWorksheets({ preset: fixedPreset }) {
           'בדפים עד 20 רוב התרגילים כוללים מעבר עשרת — כי שם ילדי כיתה א׳ צריכים הכי הרבה תרגול. בדפים עד 10 אפשר לבחור גם תרגילים עם ציורים, שמתאימים לגן חובה ולתחילת כיתה א׳: סופרים את הציורים ורק אז כותבים את התשובה.',
           'טיפ להורים: דף אחד ביום, 10 דקות, עדיף על חמישה דפים בסוף השבוע. אם הילד מתקשה, חזרו לתחום קטן יותר או לתרגילים עם ציורים.',
         ]}
-        faq={FAQ[p.mode] || FAQ.exercises}
-        related={[{ label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'מספרים למעבר בעיפרון', href: '/printables/numbers' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]}
+        faq={faq}
+        related={c ? nearby(EXTRA_LINKS, (_, i) => i === Math.max(0, MATH_PAGE_SLUGS.indexOf(preset)) % EXTRA_LINKS.length, 3) : [{ label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'מספרים למעבר בעיפרון', href: '/printables/numbers' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]}
       />
 
       {print && <PrintPreview title={sheetTitle} onClose={() => setPrint(false)} onRefresh={() => setSeed(newSeed())}>{printPages}</PrintPreview>}
