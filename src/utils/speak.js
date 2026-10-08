@@ -70,3 +70,8 @@ export async function hasVoice(lang) {
     return !!pickVoice(voices, lang)
   } catch { return false }
 }
+
+// The voice speak() would use for the language, or null (resolves after the voice list loads).
+export async function voiceFor(lang) {
+  try { return canSpeak() ? pickVoice(await loadVoices(), lang) : null } catch { return null }
+}

@@ -19,3 +19,23 @@
 .st-print p{font-size:13.5pt;line-height:1.7;margin:0 0 7px}
 .st-print .st-print-moral{border:1px dashed #888;border-radius:10px;padding:6px 10px;margin-top:10px}
 @media print{#buga-print-output .st-print p{font-size:13.5pt;line-height:1.7;margin:0 0 7px}#buga-print-output .st-print h2{font-size:22pt}}
+/* read-aloud */
+.st-reader{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 0 20px;padding:14px;border:2px dashed #ffd23f;border-radius:18px;background:rgba(255,210,63,.08)}
+.st-reader-main,.st-reader-opts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.st-reader .ln-chip{color:#1d2233}
+.st-play{display:inline-flex;align-items:center;gap:8px;color:#1d2233}
+.st-moon{display:inline-block;animation:st-bob 2.4s ease-in-out infinite}
+.st-reader-note{margin:0;text-align:center;font-weight:700}
+.st-reader-small{opacity:.7;text-align:center}
+p.st-reader-note.no-print{margin:0 0 16px;padding:10px 14px;border:2px dashed #ffd23f;border-radius:14px}
+.st-text span.st-now{background:rgba(255,210,63,.28);border-radius:6px;box-shadow:0 0 0 3px rgba(255,210,63,.28);transition:background .3s}
+/* paragraph stickers */
+.st-text p::after{content:"";display:block;clear:both}
+.st-pic{float:right;display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;margin:2px 0 6px 12px;font-size:30px;line-height:1;background:#fff8e1;border:2px solid #1d2233;border-radius:46% 54% 50% 50% / 55% 45% 55% 45%;box-shadow:3px 3px 0 #ffd23f;transform:rotate(-6deg)}
+.st-pic.is-left{float:left;margin:2px 12px 6px 0;transform:rotate(6deg);background:#e7f0ff}
+.st-text p.is-reading .st-pic{animation:st-bob 1.6s ease-in-out infinite}
+.st-text.is-big .st-pic{width:62px;height:62px;font-size:36px}
+@keyframes st-bob{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@media (prefers-reduced-motion:reduce){.st-moon,.st-text p.is-reading .st-pic{animation:none}}
+.st-float{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:40}
+.st-float .ln-btn{color:#1d2233;border-radius:999px;padding:8px 20px;min-height:48px}
