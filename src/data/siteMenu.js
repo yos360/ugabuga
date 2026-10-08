@@ -127,7 +127,8 @@ export const MENU_GROUPS = [
     items: [
       { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
       { to: '/family/morning-routine', label: 'שגרת בוקר עם טיימר', icon: '⏰' },
-      { to: '/family/bedtime-story', label: 'סיפור לפני השינה', icon: '🌙' },
+      { to: '/stories', label: 'סיפורים לפני השינה', icon: '📚' },
+      { to: '/family/bedtime-story', label: 'סיפור עם השם של הילד', icon: '🌙' },
       { to: '/family/car-games', label: 'משחקים לנסיעה', icon: '🚗' },
       { to: '/family/move', label: 'אתגר תנועה', icon: '🤸' },
       { to: '/family/pocket-money', label: 'דמי כיס וחיסכון', icon: '🐷' },

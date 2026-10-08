@@ -95,6 +95,8 @@ const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
 const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.BedtimeStory })))
+const StoriesHub = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoriesHub })))
+const StoryPage = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoryPage })))
 const CarGames = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.CarGames })))
 const MoveChallenge = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MoveChallenge })))
 const PocketMoney = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.PocketMoney })))
@@ -370,6 +372,8 @@ export default function App() {
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
+              <Route path="/stories" element={<StoriesHub />} />
+              <Route path="/stories/:slug" element={<StoryPage />} />
               <Route path="/family/car-games" element={<CarGames />} />
               <Route path="/family/move" element={<MoveChallenge />} />
               <Route path="/family/pocket-money" element={<PocketMoney />} />

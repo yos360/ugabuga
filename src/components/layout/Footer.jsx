@@ -76,6 +76,7 @@ const COLUMNS = [
       ['/discover', 'עולם ומדע'],
       ['/discover/israel-map', 'מפת ישראל לילדים'],
       ['/family', 'בבית עם הילדים'],
+      ['/stories', 'סיפורים לפני השינה'],
       ['/food', 'אוכל לילדים וארוחת עשר'],
       ['/printables/allergy-signs', 'שלטי אלרגיה לגן'],
       ['/music', 'לומדים מוזיקה ופסנתר'],
