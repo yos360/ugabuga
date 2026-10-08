@@ -25,6 +25,9 @@ export default function BoardGamesHub() {
         ))}
       </div>
       <p className="mt-8 text-center text-lg">
+        👥 משחקים לשניים על כל המסך של הטלפון: <Link to="/online-games/four-in-a-row" className="underline font-bold">ארבע בשורה לשניים</Link> · <Link to="/online-games/tic-tac-toe" className="underline font-bold">איקס עיגול לשניים</Link> · <Link to="/online-games#two-players" className="underline font-bold">כל המשחקים לשניים</Link>
+      </p>
+      <p className="mt-4 text-center text-lg">
         משחקים על לוח אמיתי ואין קובייה? 🎲 <Link to="/tools/dice" className="underline font-bold">קובייה וירטואלית</Link> · <Link to="/tools/dice/backgammon" className="underline font-bold">קוביות לשש בש</Link> · <Link to="/dice-games" className="underline font-bold">משחקי קוביות</Link>
       </p>
     </div>

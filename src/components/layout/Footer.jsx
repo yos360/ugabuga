@@ -17,6 +17,7 @@ const COLUMNS = [
       ['/games/movement', 'תנועה'],
       ['/games/quiet', 'שקטים'],
       ['/game-of-the-day', 'משחק היום'],
+      ['/online-games#two-players', 'משחקים לשניים'],
     ],
   },
   {

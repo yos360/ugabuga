@@ -202,7 +202,8 @@ test('battleship: fleets never touch, a hit keeps the turn, sinking reveals the 
 
 test('daily challenge: one game per Israeli day, same seed for everyone, streak counting', async () => {
   const daily = await import('../src/arcade/daily.js')
-  const { ARCADE } = await import('../src/arcade/registry.js')
+  // two-player games (four in a row, tic-tac-toe) have no single-player daily puzzle
+  const ARCADE = (await import('../src/arcade/registry.js')).ARCADE.filter(g => !g.twoPlayer)
   const ARCADE_SLUGS = ARCADE.map(g => g.slug)
   const base = Date.UTC(2026, 9, 3, 10) // 3 Oct 2026, 13:00 in Israel
   const a = daily.dailyFor(base), b = daily.dailyFor(base + 3600e3)

@@ -97,3 +97,5 @@
 .bg-play .bgm-board{width:min(100%,640px,max(300px,calc((100dvh - 190px)*1.15)))}
 .bg-play .ch-board{width:min(100%,520px,max(280px,calc(100dvh - 170px)))}
 }
+.bg-arcade-link{text-align:center;margin-top:10px!important;font-weight:700}
+.bg-arcade-link a{text-decoration:underline;font-weight:900}

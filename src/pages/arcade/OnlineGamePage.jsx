@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
 import NotFound from '../NotFound'
 import { ARCADE, arcadeGame } from '../../arcade/registry'
 import ArcadeStage from '../../arcade/ArcadeStage'
@@ -39,7 +40,7 @@ export default function OnlineGamePage() {
     description: game.description,
     url: `https://ugabuga.co.il/online-games/${game.slug}`,
     inLanguage: 'he',
-    genre: 'Puzzle',
+    genre: game.genre || 'Puzzle',
     gamePlatform: ['Web browser', 'Mobile', 'Desktop'],
     applicationCategory: 'Game',
     isAccessibleForFree: true,
@@ -49,10 +50,10 @@ export default function OnlineGamePage() {
   const others = ARCADE.filter(g => g.slug !== game.slug)
   return (
     <div className="arc-page" dir="rtl" style={{ '--game-color': game.color }}>
-      <SEO title={game.seoTitle} description={game.description} path={`/online-games/${game.slug}`} structuredData={schema} />
+      <SEO title={game.seoTitle} description={game.description} path={`/online-games/${game.slug}`} structuredData={game.faq ? [schema, faqSchema(game.faq)] : schema} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקי אונליין', href: '/online-games' }, { label: game.name }]} />
       <header className="arc-hero">
-        <h1>{game.emoji} {game.name}</h1>
+        <h1>{game.emoji} {game.h1 || game.name}</h1>
       </header>
       <section className="arc-play-hero">
         <div className="arc-play-art" aria-hidden="true">{game.emoji}</div>
@@ -76,6 +77,18 @@ export default function OnlineGamePage() {
           <ul>{game.skills.map(s => <li key={s}>{s}</li>)}</ul>
         </section>
       </div>
+      {game.faq && (
+        <section className="arc-box arc-faq">
+          <h2>שאלות נפוצות</h2>
+          {game.faq.map(f => <div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
+        </section>
+      )}
+      {game.related && (
+        <p className="arc-related">
+          <span>עוד באותו נושא:</span>
+          {game.related.map(r => <Link key={r.href} to={r.href}>{r.label}</Link>)}
+        </p>
+      )}
       <p style={{ textAlign: 'center', margin: '0 0 28px' }}>
         <button type="button" className="arc-share" style={{ height: 50, fontSize: 18, padding: '0 22px' }} onClick={() => shareOnWhatsApp(shareGameText(game))}>
           <WhatsAppIcon size={22} /> שתפו את המשחק בוואטסאפ

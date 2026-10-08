@@ -34,6 +34,17 @@ export function EndCard({ title, text, stars, primary, onPrimary, secondary, onS
   )
 }
 
+// A row of mutually exclusive choices (game mode, computer level) — big touch targets, aria-pressed.
+export function Segmented({ label, options, value, onChange }) {
+  return (
+    <div className="arc-seg" role="group" aria-label={label}>
+      {options.map(([v, text]) => (
+        <button key={v} type="button" className={v === value ? 'is-on' : ''} aria-pressed={v === value} onClick={() => onChange(v)}>{text}</button>
+      ))}
+    </div>
+  )
+}
+
 // Level map: every level as a button, grouped into worlds, with the stars earned so far.
 // Levels up to `unlocked` can be played; the rest stay locked until reached.
 export function LevelMap({ count, perWorld, worlds, unlocked, stars = {}, current, onPick, onClose }) {
