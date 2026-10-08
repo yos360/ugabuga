@@ -1,0 +1,54 @@
+/* /tools/dice — 3D dice (ClassicDice.jsx) */
+.cd{--cd-ink:#14162D;--cd-muted:#6b7084;--cd-line:#DDE2ED;--cd-red:#CF2F56;--cd-red-dark:#b82749;--cd-yellow:#FFF4BB;--cd-shadow:0 2px 6px rgba(20,22,45,.08);color:var(--cd-ink)}
+.cd-confetti{position:fixed;inset:0;pointer-events:none;z-index:50;width:100vw;height:100vh}
+.cd-picker{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+.cd-chip{font:inherit;font-size:16px;font-weight:700;color:var(--cd-ink);background:#fff;border:1.5px solid var(--cd-line);cursor:pointer;padding:10px 20px;border-radius:12px;box-shadow:var(--cd-shadow);transition:border-color .15s,background .15s,transform .1s}
+.cd-chip:hover{border-color:var(--cd-ink)}
+.cd-chip:active{transform:scale(.97)}
+.cd-chip.on{background:var(--cd-yellow);border-color:var(--cd-ink)}
+.cd-arena{margin:18px auto 0;min-height:280px;border:1.5px dashed var(--cd-line);border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;gap:clamp(16px,4.5vw,40px);flex-wrap:wrap;padding:38px 20px;position:relative;cursor:pointer}
+.cd-arena::after{content:'אפשר ללחוץ גם על הקוביות 👆';position:absolute;bottom:10px;left:16px;font-size:13px;font-weight:500;color:#aab0c0}
+.cd-box{--sz:clamp(84px,17vw,112px);perspective:900px;width:var(--sz);height:var(--sz);filter:drop-shadow(0 6px 10px rgba(20,22,45,.14))}
+.cd-die{width:100%;height:100%;position:relative;transform-style:preserve-3d}
+.cd-face{position:absolute;inset:0;background:#fff;border:2px solid var(--cd-ink);border-radius:14px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:14%}
+.cd-pip{width:70%;height:70%;border-radius:50%;background:var(--cd-ink);place-self:center;opacity:0;transform:scale(.4)}
+.cd-face .cd-pip.show{opacity:1;transform:scale(1);transition:transform .18s ease-out}
+.cd-f1{transform:rotateY(0deg) translateZ(calc(var(--sz)/2))}
+.cd-f2{transform:rotateY(90deg) translateZ(calc(var(--sz)/2))}
+.cd-f3{transform:rotateX(90deg) translateZ(calc(var(--sz)/2))}
+.cd-f4{transform:rotateX(-90deg) translateZ(calc(var(--sz)/2))}
+.cd-f5{transform:rotateY(-90deg) translateZ(calc(var(--sz)/2))}
+.cd-f6{transform:rotateY(180deg) translateZ(calc(var(--sz)/2))}
+/* after landing: show only the face that came up, so no cube edges stick out */
+.cd-die.settled .cd-face{opacity:0;transition:opacity .22s ease}
+.cd-die.settled .cd-face.is-up{opacity:1}
+.cd-box.landing-0{animation:cd-land-a .5s ease-out}
+.cd-box.landing-1{animation:cd-land-b .5s ease-out}
+@keyframes cd-land-a{0%{transform:translateY(-24px) scale(1.03)}55%{transform:translateY(4px) scale(.98)}80%{transform:translateY(-3px) scale(1.01)}100%{transform:none}}
+@keyframes cd-land-b{0%{transform:translateY(-24px) scale(1.03)}55%{transform:translateY(4px) scale(.98)}80%{transform:translateY(-3px) scale(1.01)}100%{transform:none}}
+.cd-cta{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap}
+.cd-roll{font:inherit;font-size:24px;font-weight:800;color:#fff;background:var(--cd-red);border:none;cursor:pointer;padding:14px 52px;border-radius:12px;box-shadow:0 3px 10px rgba(207,47,86,.35);transition:background .15s,transform .1s,box-shadow .15s}
+.cd-roll:hover{background:var(--cd-red-dark);box-shadow:0 5px 14px rgba(207,47,86,.4)}
+.cd-roll:active{transform:scale(.97)}
+.cd-roll:disabled{opacity:.6;cursor:wait;transform:none}
+.cd-sound{font-size:20px;background:#fff;border:1.5px solid var(--cd-line);cursor:pointer;width:50px;height:50px;border-radius:12px;box-shadow:var(--cd-shadow)}
+.cd-sound:hover{border-color:var(--cd-ink)}
+.cd-result{text-align:center;margin:24px auto 0;max-width:420px;background:#fff;border:1.5px solid var(--cd-line);border-radius:14px;box-shadow:var(--cd-shadow);padding:14px 26px;font-size:21px;font-weight:700;min-height:64px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.cd-big{font-size:36px;font-weight:900;color:var(--cd-red)}
+.cd-result.pop{animation:cd-pop .45s ease-out}
+@keyframes cd-pop{0%{transform:scale(.88)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.cd-stats{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.cd-stat{background:#fff;border:1.5px solid var(--cd-line);border-radius:12px;box-shadow:var(--cd-shadow);padding:10px 24px;text-align:center;min-width:104px}
+.cd-stat .n{font-size:24px;font-weight:900}
+.cd-stat .l{font-size:13px;font-weight:600;color:var(--cd-muted)}
+.cd-hist{margin-top:34px;border-top:1.5px dashed var(--cd-line);padding-top:20px}
+.cd-hist h2{font-size:20px;font-weight:800;margin-bottom:14px}
+.cd-hist-list{display:flex;flex-direction:column;gap:8px}
+.cd-hist-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff;border:1.5px solid var(--cd-line);border-radius:12px;box-shadow:var(--cd-shadow);padding:8px 14px;font-weight:600;animation:cd-slide .3s ease-out}
+@keyframes cd-slide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.cd-mini{width:34px;height:34px;border:1.5px solid var(--cd-ink);border-radius:8px;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.cd-hist-sum{margin-inline-start:auto;color:var(--cd-red);font-weight:800}
+.cd-hist-time{font-size:12px;color:#aab0c0;font-weight:500}
+.cd-empty{color:var(--cd-muted);font-weight:500;padding:4px 2px}
+@media (max-width:480px){.cd-arena{min-height:220px;padding:28px 12px}.cd-roll{font-size:21px;padding:12px 40px}}
+@media (prefers-reduced-motion:reduce){.cd-box.landing-0,.cd-box.landing-1,.cd-result.pop,.cd-hist-row{animation:none}}

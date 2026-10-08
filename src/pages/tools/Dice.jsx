@@ -2,19 +2,18 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import DiceRoller from './dice/DiceRoller'
+import ClassicDice from './dice/ClassicDice'
 import DiceFamilyLinks from './dice/DiceFamilyLinks'
 import { DICE_GAMES } from '../../data/diceGames'
 
 export default function DiceTool() {
   return (
-    <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
+    <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
       <SEO title="קוביה דיגיטלית אונליין — קובייה וירטואלית בלחיצה, חינם" description="קוביה אונליין למשחקי קופסה: מטילים 1 עד 5 קוביות בלחיצה, עם סכום אוטומטי. בלי הורדה ובלי הרשמה — עובד בטלפון ובמחשב. הקובייה אבדה? יש לכם אחת כאן." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'קובייה' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'קובייה' }]} />
       <h1 className="text-4xl text-center mb-2">🎲 קוביה דיגיטלית אונליין</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קובייה וירטואלית: להטיל קובייה בלחיצה — 1 עד 5 קוביות, בחינם</p>
-      <DiceRoller counts={[1, 2, 3, 4, 5]} />
-      <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-4">💡 הזיזו את העכבר מעל הקובייה — היא תסתובב!</p>
+      <ClassicDice />
 
       <section className="mt-10">
         <h2 className="text-2xl font-bold text-center mb-4">🏆 משחקים שאפשר לשחק עכשיו עם הקובייה</h2>
