@@ -5,8 +5,11 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { ENGLISH_TOPICS, englishTopic, emojiFile } from '../../data/englishWords'
+import { ENGLISH_GUIDE } from '../../data/englishGuide'
+import { LANGS, LANG_CODES, languageTopic } from '../../data/languages'
 import { speak } from '../../utils/speak'
 import { shuffle } from '../../utils/shuffle'
+import { nearby } from '../../utils/nearby'
 
 // /english — hub; /english/:topic — words with pictures and sound, a picture-matching game and three
 // printables (word cards, memory-game pairs, a draw-a-line worksheet).
@@ -17,6 +20,18 @@ const sayIt = word => speak(word.en, 'en-US')
 function Pic({ word, size = 72, eager = false }) {
   if (word.text) return <span className="block font-black leading-none text-[#1e1b4b]" style={{ fontSize: size * 0.8 }} dir="rtl">{word.text}</span>
   return <img src={`/print-art/words/${emojiFile(word.emoji)}.svg`} alt="" width={size} height={size} style={{ width: size, height: size }} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+}
+
+// Teaching notes (data/englishGuide.js) write `{word}` for an English word: shown with its Hebrew-letter
+// pronunciation. The current topic's words come first (orange is both a color and a fruit).
+const findWord = (topic, en) => topic.words.find(w => w.en === en) || ENGLISH_TOPICS.flatMap(t => t.words).find(w => w.en === en)
+const plain = (text, topic) => text.replace(/\{([^}]+)\}/g, (_, k) => { const w = findWord(topic, k); return w ? `${w.en} (${w.say})` : k })
+function Rich({ text, topic }) {
+  return text.split(/\{([^}]+)\}/).map((part, i) => {
+    if (i % 2 === 0) return part
+    const w = findWord(topic, part)
+    return w ? <span key={i}><b dir="ltr">{w.en}</b> ({w.say})</span> : part
+  })
 }
 
 const chunk = (arr, n) => Array.from({ length: Math.ceil(arr.length / n) }, (_, i) => arr.slice(i * n, i * n + n))
@@ -116,10 +131,13 @@ export function EnglishTopic() {
   const others = useMemo(() => ENGLISH_TOPICS.filter(x => x.slug !== slug), [slug])
   if (!topic) return <Navigate to="/english" replace />
   const examples = topic.words.slice(0, 4).map(x => `${x.en} (${x.he})`).join(', ')
+  const guide = ENGLISH_GUIDE[topic.slug]
+  const next = nearby(ENGLISH_TOPICS, x => x.slug === topic.slug, 3)
+  const inLanguages = guide.lang ? LANG_CODES.filter(c => languageTopic(c, guide.lang)) : []
+  const langTitle = guide.lang && inLanguages.length ? languageTopic(inLanguages[0], guide.lang).title : ''
   const faq = [
-    { q: `איך מלמדים ילדים ${topic.title} באנגלית?`, a: 'מעט מילים בכל פעם (4–6), הרבה חזרות קצרות, ותמיד עם תמונה וקול. לוחצים על כרטיס כדי לשמוע את המילה, משחקים במשחק התמונות, ומדפיסים כרטיסיות למשחק זיכרון.' },
-    { q: 'איך יודעים איך לבטא את המילה?', a: 'לוחצים על הכרטיס והמכשיר מקריא את המילה באנגלית. מתחת לכל מילה כתוב גם איך היא נשמעת באותיות עבריות — כעזרה בלבד, כי יש צלילים באנגלית שאין בעברית.' },
-    { q: 'מה אפשר להדפיס?', a: 'שלושה דפים: כרטיסיות עם תמונה ומילה (6 בדף, עם או בלי תרגום), משחק זיכרון של זוגות תמונה–מילה, ודף "מתחו קו" לכיתה. הכול חינם ובלי הרשמה.' },
+    { q: `איך אומרים ${topic.title} באנגלית?`, a: `${topic.words.slice(0, 6).map(x => `${x.he} — ${x.en} (${x.say})`).join('; ')}. כל ${topic.words.length} המילים, עם תמונה, קול והגייה, בעמוד הזה.` },
+    ...guide.faq.map(([q, a]) => ({ q: plain(q, topic), a: plain(a, topic) })),
   ]
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`${topic.title} באנגלית לילדים — כרטיסיות להדפסה ומשחק`} description={`${topic.title} באנגלית לילדים עם תמונות והגייה: ${examples} ועוד. משחק תמונות, כרטיסיות ומשחק זיכרון להדפסה בחינם.`} path={`/english/${topic.slug}`} structuredData={faqSchema(faq)} />
@@ -142,6 +160,22 @@ export function EnglishTopic() {
       <PictureGame key={topic.slug} topic={topic} />
     </section>
 
+    <section className="mb-10 grid gap-5 md:grid-cols-2">
+      <div className="rounded-3xl border-2 border-[var(--border)] bg-white p-5">
+        <h2 className="mb-2 text-2xl">🗣️ איך מבטאים: {topic.title} באנגלית</h2>
+        <ul className="list-disc space-y-2 pr-5 leading-relaxed">
+          {guide.sounds.map((x, i) => <li key={i}><Rich text={x} topic={topic} /></li>)}
+        </ul>
+      </div>
+      <div className="rounded-3xl border-2 border-[var(--border)] bg-white p-5">
+        <h2 className="mb-2 text-2xl">🎲 משחקים עם המילים</h2>
+        <p className="mb-3 leading-relaxed text-[var(--muted-foreground)]"><Rich text={guide.why} topic={topic} /></p>
+        <ul className="space-y-2 leading-relaxed">
+          {guide.games.map(([name, how]) => <li key={name}><b>{name}:</b> {how}</li>)}
+        </ul>
+      </div>
+    </section>
+
     <section className="mb-10 text-center">
       <h2 className="mb-3 text-2xl">🖨️ להדפסה</h2>
       <label className="mb-4 inline-flex items-center gap-2 font-bold"><input type="checkbox" checked={withHebrew} onChange={e => setWithHebrew(e.target.checked)} className="h-5 w-5" />עם תרגום והגייה בעברית על הכרטיסיות</label>
@@ -152,6 +186,13 @@ export function EnglishTopic() {
       </div>
     </section>
 
+    {inLanguages.length > 0 && <nav aria-label={`${langTitle} בשפות נוספות`} className="mb-8">
+      <h2 className="mb-3 text-center text-xl">{langTitle} בשפות נוספות</h2>
+      <div className="flex flex-wrap justify-center gap-2">
+        {inLanguages.map(c => <Link key={c} to={`/languages/${c}/${guide.lang}`} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{LANGS[c].emoji} {langTitle} {LANGS[c].adj}</Link>)}
+      </div>
+    </nav>}
+
     <nav aria-label="עוד נושאים באנגלית" className="mb-10">
       <h2 className="mb-3 text-center text-xl">עוד נושאים באנגלית</h2>
       <div className="flex flex-wrap justify-center gap-2">
@@ -160,10 +201,7 @@ export function EnglishTopic() {
       </div>
     </nav>
 
-    <SeoBody paragraphs={[
-      `בעמוד הזה ${topic.words.length} מילים באנגלית בנושא ${topic.title}, כל אחת עם תמונה, תרגום והגייה. לוחצים על כרטיס כדי לשמוע איך אומרים את המילה, ואז משחקים במשחק התמונות: שומעים מילה ובוחרים את התמונה הנכונה.`,
-      'לגן ולכיתות א׳–ב׳ כדאי להדפיס את הכרטיסיות בלי תרגום — הילד מקשר בין התמונה למילה באנגלית, בלי לעבור דרך העברית. להורים שרוצים לעזור, יש אפשרות להדפיס עם תרגום והגייה.',
-    ]} faq={faq} related={[{ label: 'אנגלית לילדים — כל הנושאים', href: '/english' }, { label: 'אותיות באנגלית A–Z', href: '/abc' }, { label: 'משחק אותיות באנגלית', href: '/abc/game' }]} />
+    <SeoBody faq={faq} related={[...next.map(x => ({ label: `${x.title} באנגלית`, href: `/english/${x.slug}` })), { label: 'אנגלית לילדים — כל הנושאים', href: '/english' }]} />
 
     {printing && <PrintPreview title={`${topic.title} באנגלית`} onClose={() => setPrinting(null)}>
       {printing === 'cards' ? <CardsPages topic={topic} withHebrew={withHebrew} /> : printing === 'memory' ? <MemoryPages topic={topic} /> : <MatchPages topic={topic} />}
@@ -171,10 +209,18 @@ export function EnglishTopic() {
   </div>
 }
 
+const HUB_FAQ = [
+  { q: 'איך מלמדים ילדים מילים באנגלית?', a: 'מעט מילים בכל פעם (4–6), הרבה חזרות קצרות, ותמיד עם תמונה וקול. לוחצים על כרטיס כדי לשמוע את המילה, משחקים במשחק התמונות, ומדפיסים כרטיסיות למשחק זיכרון.' },
+  { q: 'איך יודעים איך לבטא את המילה?', a: 'לוחצים על הכרטיס והמכשיר מקריא את המילה באנגלית. מתחת לכל מילה כתוב גם איך היא נשמעת באותיות עבריות — כעזרה בלבד, כי יש צלילים באנגלית שאין בעברית, כמו th ו-w.' },
+  { q: 'מה אפשר להדפיס?', a: 'בכל נושא שלושה דפים: כרטיסיות עם תמונה ומילה (6 בדף, עם או בלי תרגום), משחק זיכרון של זוגות תמונה–מילה, ודף "מתחו קו" לכיתה.' },
+  { q: 'מאיזה גיל אפשר להתחיל?', a: 'מגיל 3–4 עם הכרטיסים והקול, ובגיל 5–7 גם עם המשחק ודפי ההדפסה. אין צורך לדעת לקרוא — רואים תמונה ושומעים את המילה.' },
+  { q: 'זה בחינם?', a: 'כן. כל הנושאים, המשחקים ודפי ההדפסה בחינם ובלי הרשמה.' },
+]
+
 export function EnglishHub() {
   const total = ENGLISH_TOPICS.reduce((n, x) => n + x.words.length, 0)
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="אנגלית לילדים — מילים ראשונות עם תמונות, משחקים וכרטיסיות להדפסה" description={`אנגלית לילדים בחינם: ${total} מילים ראשונות ב-${ENGLISH_TOPICS.length} נושאים — צבעים, מספרים, חיות, רגשות, בגדים ועוד — עם תמונה, הגייה, משחק וכרטיסיות להדפסה.`} path="/english" />
+    <SEO title="אנגלית לילדים — מילים ראשונות עם תמונות, משחקים וכרטיסיות להדפסה" description={`אנגלית לילדים בחינם: ${total} מילים ראשונות ב-${ENGLISH_TOPICS.length} נושאים — צבעים, מספרים, חיות, רגשות, בגדים ועוד — עם תמונה, הגייה, משחק וכרטיסיות להדפסה.`} path="/english" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אנגלית לילדים' }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">🇬🇧 אנגלית לילדים</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות באנגלית לפי נושאים — עם תמונה, קול והגייה, משחק קצר וכרטיסיות להדפסה. בלי הרשמה ובלי קורס: 10 דקות ביום מספיקות.</p>
@@ -192,10 +238,8 @@ export function EnglishHub() {
     </div>
     <SeoBody paragraphs={[
       'ילדים לומדים מילים באנגלית הכי טוב דרך תמונה, קול ומשחק — ולא דרך תרגום. לכן בכל נושא יש כרטיסים שאפשר ללחוץ עליהם ולשמוע את המילה, משחק קצר של התאמת מילה לתמונה, ושלושה דפים להדפסה: כרטיסיות, משחק זיכרון ודף "מתחו קו".',
-      'טיפ להורים ולגננות: נושא אחד בשבוע, 10 דקות ביום. מתחילים בצבעים, מספרים וחיות, ואחר כך עוברים לרגשות, בגדים ומילים מהבית ומהכיתה.',
-    ]} faq={[
-      { q: 'מאיזה גיל אפשר להתחיל?', a: 'מגיל 3–4 עם הכרטיסים והקול, ובגיל 5–7 גם עם המשחק ודפי ההדפסה. אין צורך לדעת לקרוא — רואים תמונה ושומעים את המילה.' },
-      { q: 'זה בחינם?', a: 'כן. כל הנושאים, המשחקים ודפי ההדפסה בחינם ובלי הרשמה.' },
-    ]} related={[{ label: 'אותיות באנגלית', href: '/abc' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]} />
+      'טיפ להורים ולגננות: נושא אחד בשבוע, 10 דקות ביום. מתחילים בצבעים, מספרים וחיות, ואחר כך עוברים לרגשות, בגדים ומילים מהבית ומהכיתה. בכל נושא יש גם הערות הגייה למילים של אותו נושא ורעיונות למשחקים בבית ובכיתה.',
+      'לגן ולכיתות א׳–ב׳ כדאי להדפיס את הכרטיסיות בלי תרגום — הילד מקשר בין התמונה למילה באנגלית, בלי לעבור דרך העברית. להורים שרוצים לעזור, יש אפשרות להדפיס עם תרגום והגייה.',
+    ]} faq={HUB_FAQ} related={[{ label: 'אותיות באנגלית', href: '/abc' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]} />
   </div>
 }

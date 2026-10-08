@@ -5,9 +5,12 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { LANGS, LANG_CODES, languageTopics, languageTopic } from '../../data/languages'
-import { emojiFile } from '../../data/englishWords'
+import { TOPICS } from '../../data/languages/vocab'
+import { ENGLISH_TOPIC, TOPIC_GUIDE, LANG_GUIDE } from '../../data/languages/guide'
+import { ENGLISH_TOPICS, emojiFile } from '../../data/englishWords'
 import { speak, hasVoice } from '../../utils/speak'
 import { shuffle } from '../../utils/shuffle'
+import { nearby } from '../../utils/nearby'
 
 // /languages — all languages; /languages/:lang — topics; /languages/:lang/:topic — words with
 // picture, sound and Hebrew-letter pronunciation, a picture game and printables.
@@ -35,6 +38,20 @@ const wordFont = code => code === 'am' ? { fontFamily: '"Noto Sans Ethiopic", sa
 
 function Word({ code, children, size, className = '' }) {
   return <b lang={code} dir={LANGS[code].dir} className={className} style={{ ...(size ? { fontSize: size } : {}), ...wordFont(code) }}>{children}</b>
+}
+
+// Teaching notes (data/languages/guide.js) write `{key}` for a word: shown as the word in its script
+// plus its Hebrew-letter pronunciation, or the Hebrew meaning when this language has no such word.
+const HEBREW = Object.fromEntries(TOPICS.flatMap(t => t.items.map(([key, he]) => [key, he])))
+const wordCache = {}
+const wordsOf = code => (wordCache[code] ||= Object.fromEntries(languageTopics(code).flatMap(t => t.words.map(w => [w.key, w]))))
+const plain = (text, code) => text.replace(/\{([^}]+)\}/g, (_, k) => { const w = wordsOf(code)[k]; return w ? `${w.word} (${w.say})` : HEBREW[k] || k })
+function Rich({ text, code }) {
+  return text.split(/\{([^}]+)\}/).map((part, i) => {
+    if (i % 2 === 0) return part
+    const w = wordsOf(code)[part]
+    return w ? <span key={i}><Word code={code}>{w.word}</Word> ({w.say})</span> : HEBREW[part] || part
+  })
 }
 
 const chunk = (arr, n) => Array.from({ length: Math.ceil(arr.length / n) }, (_, i) => arr.slice(i * n, i * n + n))
@@ -295,15 +312,24 @@ export function LanguageTopic() {
   if (!topic) return <Navigate to={`/languages/${code}`} replace />
   const say = word => speak(word.word, L.speech, { rate: 0.8 })
   const examples = topic.words.slice(0, 4).map(x => `${x.word} (${x.he})`).join(', ')
+  const guide = TOPIC_GUIDE[topic.slug]
+  const notes = LANG_GUIDE[code].topics[topic.slug]
+  // Each language shows the topic's game ideas in a different order, so the pages don't repeat each other.
+  const shift = LANG_CODES.indexOf(code)
+  const games = [0, 1, 2].map(k => guide.games[(shift + k) % guide.games.length])
+  const next = nearby(languageTopics(code), x => x.slug === topic.slug, 3)
+  const sameTopic = LANG_CODES.filter(c => c !== code && languageTopic(c, topic.slug))
+  const english = ENGLISH_TOPICS.find(x => x.slug === ENGLISH_TOPIC[topic.slug])
   const faq = [
-    { q: `איך אומרים ${topic.title} ${L.adj}?`, a: `${topic.words.slice(0, 6).map(x => `${x.he} — ${x.word} (${x.say})`).join('; ')}. כל המילים, עם תמונה והגייה, בעמוד הזה.` },
-    { q: 'איך יודעים שהמילים נכונות?', a: VERIFIED },
-    { q: 'איך שומעים את המילה?', a: `לוחצים על הכרטיס, והמכשיר מקריא אותה ${L.adj} — אם מותקן בו קול לשפה. אם לא, ההגייה כתובה באותיות עבריות.` },
+    { q: `איך אומרים ${topic.title} ${L.adj}?`, a: `${topic.words.slice(0, 6).map(x => `${x.he} — ${x.word} (${x.say})`).join('; ')}. כל ${topic.words.length} המילים, עם תמונה והגייה, בעמוד הזה.` },
+    { q: plain(notes.faq[0], code), a: plain(notes.faq[1], code) },
+    { q: `מה כדאי ללמוד ${L.adj} אחרי ${topic.title}?`, a: `אפשר להמשיך לנושאים ${next.map(x => `"${x.title}"`).join(', ')} — ובסוף לבדוק את עצמכם במבחן הגדול ${L.adj}, עם שאלות מכל הנושאים.` },
   ]
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`${topic.title} ${L.adj} לילדים — מילים עם תמונות והגייה`} description={`${topic.title} ${L.adj} לילדים: ${examples} ועוד, עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם.`} path={`/languages/${code}/${topic.slug}`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שפות לילדים', href: '/languages' }, { label: L.name, href: `/languages/${code}` }, { label: topic.title }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">{topic.emoji} {topic.title} {L.adj}</h1>
+    <p className="mx-auto mb-3 max-w-2xl text-center text-lg text-[var(--muted-foreground)]"><Rich text={notes.intro} code={code} /></p>
     {L.note && <p className="mx-auto mb-3 max-w-2xl text-center text-sm text-[var(--muted-foreground)]">{L.note}</p>}
     {!voice && <NoVoice code={code} />}
 
@@ -323,6 +349,22 @@ export function LanguageTopic() {
       <PictureGame key={code + topic.slug} code={code} topic={topic} say={say} voice={voice} />
     </section>
 
+    <section className="mb-10 grid gap-5 md:grid-cols-2">
+      <div className="rounded-3xl border-2 border-[var(--border)] bg-white p-5">
+        <h2 className="mb-2 text-2xl">🗣️ הגייה ודקדוק: {topic.title} {L.adj}</h2>
+        <ul className="list-disc space-y-2 pr-5 leading-relaxed">
+          {notes.sounds.map((x, i) => <li key={i}><Rich text={x} code={code} /></li>)}
+        </ul>
+      </div>
+      <div className="rounded-3xl border-2 border-[var(--border)] bg-white p-5">
+        <h2 className="mb-2 text-2xl">🎲 משחקים לתרגול המילים</h2>
+        <p className="mb-3 leading-relaxed text-[var(--muted-foreground)]">{guide.why}</p>
+        <ul className="space-y-2 leading-relaxed">
+          {games.map(([name, how]) => <li key={name}><b>{name}:</b> <Rich text={how} code={code} /></li>)}
+        </ul>
+      </div>
+    </section>
+
     <section className="mb-10 text-center">
       <h2 className="mb-3 text-2xl">🖨️ להדפסה</h2>
       <label className="mb-4 inline-flex items-center gap-2 font-bold"><input type="checkbox" checked={withHebrew} onChange={e => setWithHebrew(e.target.checked)} className="h-5 w-5" />עם תרגום והגייה בעברית על הכרטיסיות</label>
@@ -333,6 +375,14 @@ export function LanguageTopic() {
       </div>
     </section>
 
+    <nav aria-label={`${topic.title} בשפות אחרות`} className="mb-8">
+      <h2 className="mb-3 text-center text-xl">{topic.title} בשפות אחרות</h2>
+      <div className="flex flex-wrap justify-center gap-2">
+        {sameTopic.map(c => <Link key={c} to={`/languages/${c}/${topic.slug}`} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{LANGS[c].emoji} {topic.title} {LANGS[c].adj}</Link>)}
+        {english && <Link to={`/english/${english.slug}`} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">🇬🇧 {english.title} באנגלית</Link>}
+      </div>
+    </nav>
+
     <nav aria-label={`עוד נושאים ${L.adj}`} className="mb-10">
       <h2 className="mb-3 text-center text-xl">עוד נושאים {L.adj}</h2>
       <div className="flex flex-wrap justify-center gap-2">
@@ -342,10 +392,7 @@ export function LanguageTopic() {
       </div>
     </nav>
 
-    <SeoBody paragraphs={[
-      `בעמוד הזה ${topic.words.length} מילים ${L.adj} בנושא ${topic.title}, כל אחת עם תמונה, תרגום לעברית והגייה באותיות עבריות. לוחצים על כרטיס כדי לשמוע, ואז משחקים: שומעים מילה ובוחרים את התמונה.`,
-      VERIFIED,
-    ]} faq={faq} related={[{ label: `${L.name} לילדים — כל הנושאים`, href: `/languages/${code}` }, { label: 'שפות לילדים', href: '/languages' }, { label: 'אנגלית לילדים', href: '/english' }]} />
+    <SeoBody faq={faq} related={[...next.map(x => ({ label: `${x.title} ${L.adj}`, href: `/languages/${code}/${x.slug}` })), { label: `המבחן הגדול ${L.adj}`, href: `/languages/${code}/quiz` }, { label: `${L.name} לילדים — כל הנושאים`, href: `/languages/${code}` }]} />
 
     {printing && <PrintPreview title={`${topic.title} ${L.adj}`} onClose={() => setPrinting(null)}>
       {printing === 'cards' ? <CardsPages code={code} topic={topic} withHebrew={withHebrew} /> : printing === 'memory' ? <MemoryPages code={code} topic={topic} /> : <MatchPages code={code} topic={topic} />}
@@ -376,9 +423,13 @@ export function LanguageHome() {
         <span className="text-sm text-[var(--muted-foreground)]">{x.words.slice(0, 3).map(w => <Word key={w.key} code={code} className="font-normal">{w.word} </Word>)}</span>
       </Link>)}
     </div>
+    <section className="mb-8 max-w-3xl">
+      <h2 className="mb-3 text-2xl">מה מיוחד ב{L.name}?</h2>
+      {LANG_GUIDE[code].about.map((x, i) => <p key={i} className="mb-3 leading-relaxed"><Rich text={x} code={code} /></p>)}
+    </section>
     <SeoBody paragraphs={[
-      `${total} מילים ראשונות ${L.adj} לילדים, לפי נושאים. כל מילה עם תמונה, תרגום והגייה באותיות עבריות, ואפשר ללחוץ ולשמוע אותה. אחרי כמה מילים משחקים במשחק התמונות, ומדפיסים כרטיסיות או משחק זיכרון.`,
-      VERIFIED,
+      `${total} מילים ראשונות ${L.adj} לילדים, לפי נושאים. כל מילה עם תמונה, תרגום והגייה באותיות עבריות, ואפשר ללחוץ ולשמוע אותה. בכל נושא יש גם הערות הגייה ודקדוק, רעיונות למשחקים בבית ובכיתה, משחק תמונות ודפים להדפסה: כרטיסיות, משחק זיכרון ודף "מתחו קו".`,
+      VERIFIED + ' לוחצים על כרטיס והמכשיר מקריא את המילה — אם מותקן בו קול לשפה; אם לא, ההגייה כתובה באותיות עבריות.',
     ]} faq={[{ q: 'מאיזה גיל?', a: 'מגיל 4 עם התמונות והקול. לא צריך לדעת לקרוא — רואים תמונה ושומעים את המילה.' }, { q: 'זה בחינם?', a: 'כן, הכול בחינם ובלי הרשמה.' }]} related={[{ label: 'שפות לילדים', href: '/languages' }, { label: 'אנגלית לילדים', href: '/english' }]} />
   </div>
 }
