@@ -10,6 +10,8 @@ import { useGames } from '../../hooks/useGames'
 import { gameHref } from '../../data/gameHref'
 import { GAME_FILTERS, gameFilter, durationLabel, fitsAge, gamesCountText } from '../../data/gameFilters'
 import { gameItem, searchItems } from '../../data/searchIndex'
+import { AGE_HUBS, HUB_VISIBLE, ageScore, hubOrder } from '../../data/gameHubs'
+import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -34,15 +36,13 @@ const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/gam
 
 // One page per age (/games/age/N). From 10 up every game fits, so the lists would be identical — stop at 10.
 const AGE_PAGES = [4, 5, 6, 7, 8, 9, 10]
-const AGE_INTRO = {
-  4: 'בגיל 4 משחקים קצרים, עם חוקים של משפט אחד והרבה תנועה: לחקות, לרוץ לצבע, לעצור כשהמוזיקה נעצרת. כדאי שמבוגר יוביל, ושכולם ינצחו בסוף.',
-  5: 'ילדי גן חובה כבר מחכים לתור, סופרים עד 10 ואוהבים "כאילו": משחקי תפקידים, ניחושים קלים ומשחקי קבוצה פשוטים. מתאים במיוחד למסיבות גן.',
-  6: 'בגיל 6, לקראת כיתה א׳, אפשר להכניס אותיות, מספרים ומשימות קטנות. משחקים עם ניצחון ברור עובדים טוב, כל עוד הסבב קצר ואף אחד לא יוצא לזמן ארוך.',
-  7: 'בכיתה א׳–ב׳ ילדים כבר קוראים הוראות ונהנים מחידות, משחקי מילים ותחרויות קבוצתיות. זה הגיל שבו חדרי בריחה פשוטים וציד אוצרות מתחילים לעבוד.',
-  8: 'בגיל 8 אוהבים אתגר אמיתי: טריוויה, אסטרטגיה, משחקי זיכרון ותפקידים סודיים. אפשר לתת לילדים להוביל משחק בעצמם ולשמור ניקוד.',
-  9: 'ילדי כיתות ג׳–ד׳ נהנים מחוקים מורכבים יותר, משחקי בלשים ומשחקים שצריך בהם לשכנע ולהטעות. מתאים גם לערבי כיתה וליום הולדת בבית.',
-  10: 'מגיל 10 כמעט כל המשחקים מתאימים. מה שעובד הכי טוב: משחקי חברה עם הומור, טריוויה קשה, משחקי מילים ואתגרים בקבוצות — וקצת פחות "משחקי גן".',
-}
+// Each age page's intro, picks, FAQ and links live in gameHubs.js (AGE_HUBS).
+
+// Directory of all game hubs, shown under the full list on /games so every hub is one click from the index.
+const HUB_DIRECTORY = [
+  { label: 'לפי כיתה', items: Object.entries(CLASS_PAGES).map(([slug, c]) => ({ href: `/games/${slug}`, label: c.breadcrumb })) },
+  { label: 'לפי מצב ומטרה', items: Object.entries(CATEGORIES).map(([slug, c]) => ({ href: `/games/${slug}`, label: c.title.split(' — ')[0] })) },
+]
 
 export default function GamesIndex() {
   const { games, loading, error } = useGames()
@@ -54,6 +54,8 @@ export default function GamesIndex() {
   const goalFilter = searchParams.get('goal') || ''
   const contextFilter = searchParams.get('context') || ''
   const ageNumber = age ? Number.parseInt(age, 10) : null
+  const ageHub = ageNumber ? AGE_HUBS[ageNumber] : null
+  const [expandedAge, setExpandedAge] = useState(null)
   const [search, setSearch] = useState(initialQ)
   const [favorites, setFavorites] = useState(() => {
     try { return JSON.parse(localStorage.getItem('ugabuga:favorites') || '[]') } catch { return [] }
@@ -90,12 +92,20 @@ export default function GamesIndex() {
     )
     if (rank && !isGameOfDay) return candidates.sort((a, b) => rank.get(a.slug) - rank.get(b.slug))
     // Age pages: games made for this age first (closest minimum age), so each age page leads with its own games.
-    if (ageNumber && !isGameOfDay) return [...candidates].sort((a, b) => Number(b.min_age || 0) - Number(a.min_age || 0))
+    if (ageNumber && !isGameOfDay) return hubOrder(candidates, `age-${ageNumber}`, ageScore(ageNumber))
     if (!isGameOfDay) return candidates
     if (!candidates.length) return []
     const dayIndex = israelDayNumber(Date.now()) % candidates.length // changes at midnight in Israel, not UTC
     return [candidates[dayIndex]]
   }, [search, games, goalFilter, contextFilter, ageNumber, isGameOfDay])
+
+  // Plain age page (no search / filter): picks on top, then the other games — the first HUB_VISIBLE of them
+  // until "show all" is pressed.
+  const plainAge = Boolean(ageHub) && !search.trim() && !goalFilter && !contextFilter
+  const agePicks = plainAge ? ageHub.picks.map(([slug, why]) => ({ game: games.find(g => g.slug === slug && fitsAge(g, ageNumber)), why })).filter(p => p.game) : []
+  const listed = plainAge ? filtered.filter(g => !agePicks.some(p => p.game.slug === g.slug)) : filtered
+  const ageCollapsed = plainAge && expandedAge !== ageNumber && listed.length > HUB_VISIBLE + 2
+  const shownGames = ageCollapsed ? listed.slice(0, HUB_VISIBLE) : listed
 
   // age and filter buttons keep each other: /games/age/7?context=שקטים
   const query = searchParams.toString()
@@ -106,10 +116,20 @@ export default function GamesIndex() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'כל המשחקים — 100 משחקים לילדים'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : '100 משחקים לילדים ולמשפחה — ליום הולדת, לכיתה, לצהרון ולבית. מחפשים לפי שם או נושא, שומרים מועדפים ומשתפים. רבים בלי ציוד ובלי הכנה, הכול חינם.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
-        structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : null} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
+        structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : ageHub && !isGameOfDay ? faqSchema(ageHub.faq) : null} />
+      <Breadcrumbs items={ageNumber ? [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים', href: '/games' }, { label: `גיל ${age}` }] : [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
-      {ageNumber && AGE_INTRO[ageNumber] && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{AGE_INTRO[ageNumber]}</p>}
+      {ageHub && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{ageHub.intro[0]}</p>}
+      {agePicks.length > 0 && (
+        <section className="wobbly mx-auto mb-8 max-w-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow">
+          <h2 className="mb-3 text-2xl font-bold">⭐ הבחירות שלנו לגיל {age}</h2>
+          <ul className="space-y-2">
+            {agePicks.map(({ game, why }) => (
+              <li key={game.slug} className="leading-relaxed"><Link to={gameHref(game.slug)} className="font-bold underline decoration-dashed">{game.name}</Link> — {why}</li>
+            ))}
+          </ul>
+        </section>
+      )}
       {isGameOfDay && (() => {
         const today = dailyFor()
         return (
@@ -170,7 +190,7 @@ export default function GamesIndex() {
       )}
 
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
-        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : gamesCountText(filtered.length, games.length, Boolean(search.trim() || ageNumber || goalFilter || contextFilter))}
+        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : gamesCountText(filtered.length, games.length, Boolean(search.trim() || ageNumber || goalFilter || contextFilter))}{!loading && agePicks.length > 0 && ' — הבחירות שלנו למעלה, וכל השאר כאן'}
         {!loading && !isGameOfDay && filtered.length === 0 && <> <Link to="/games" onClick={() => setSearch('')} className="font-bold text-[var(--foreground)] underline">✕ ניקוי הסינון</Link></>}
       </p>
 
@@ -187,7 +207,7 @@ export default function GamesIndex() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {filtered.map((game, i) => (
+          {shownGames.map((game, i) => (
             <Link key={game.slug || game.id} to={gameHref(game.slug)}
               className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
               <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
@@ -219,8 +239,28 @@ export default function GamesIndex() {
         </div>
       )}
 
+      {!loading && ageCollapsed && (
+        <div className="mt-6 text-center">
+          <button type="button" onClick={() => setExpandedAge(ageNumber)} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold">הצגת כל {listed.length} המשחקים הנוספים לגיל {age} ↓</button>
+        </div>
+      )}
+
+      {ageHub && !isGameOfDay && (
+        <div className="mx-auto mt-12 max-w-3xl">
+          <h2 className="mb-4 text-2xl font-bold">איך בוחרים משחק לגיל {age}</h2>
+          <SeoBody paragraphs={ageHub.intro.slice(1)} faq={ageHub.faq} related={ageHub.links} />
+        </div>
+      )}
+
       {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && (
         <div className="mt-12">
+          <nav aria-label="כל עמודי המשחקים" className="mx-auto mb-10 max-w-4xl space-y-3">
+            <h2 className="text-2xl font-bold">משחקים לפי גיל, כיתה ומצב</h2>
+            <p className="flex flex-wrap items-center gap-2"><span className="font-bold">לפי גיל:</span>{AGE_PAGES.map(a => <Link key={a} to={`/games/age/${a}`} className="rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold hover:bg-[var(--muted)]/30">גיל {a}</Link>)}</p>
+            {HUB_DIRECTORY.map(row => (
+              <p key={row.label} className="flex flex-wrap items-center gap-2"><span className="font-bold">{row.label}:</span>{row.items.map(it => <Link key={it.href} to={it.href} className="rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold hover:bg-[var(--muted)]/30">{it.label}</Link>)}</p>
+            ))}
+          </nav>
           <SeoBody paragraphs={gamesIndexBody} faq={gamesIndexFaq} related={gamesIndexRelated} />
         </div>
       )}

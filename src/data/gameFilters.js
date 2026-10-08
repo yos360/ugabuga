@@ -11,7 +11,7 @@ export const fitsNoEquipment = g => !g.equipment_needed
 export const fitsQuiet = g => g.noise_level === 'low'
 export const fitsMovement = g => g.energy_level === 'high' || g.energy_level === 'medium'
 export const fitsIcebreaker = g => has(g.goals, 'שובר קרח') || has(g.goals, 'להכיר')
-export const fitsTrivia = g => (g.category || '').includes('ידע') || (g.category || '').includes('טריוויה')
+export const fitsTrivia = g => /ידע|טריוויה|תרבות/.test(g.category || '') || has(g.tags, 'ידע') || has(g.tags, 'טריוויה')
 
 export const fitsAge = (g, age) => Number(g.min_age || 0) <= age && (!g.max_age || Number(g.max_age) >= age)
 export const fitsDuration = (g, max) => Number(g.duration_min || g.duration_max || 0) > 0 && Number(g.duration_min || g.duration_max) <= max

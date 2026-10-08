@@ -261,7 +261,8 @@ export const CATEGORIES = {
       { q: 'איזה משחק בלי הכנה מתאים למורה מחליפה?', a: 'מי אני? או חם-קר — שניהם עובדים עם כל הכיתה, לא דורשים להכיר את שמות הילדים, ואפשר לעצור אותם בכל רגע.' }
     ],
     related: [ { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'משחקים ל-5 דקות פנויות', href: '/games/5-minutes' }, { label: 'מדריך משחקים למורים', href: '/guides/games-for-teachers' } ],
-    filter: fitsNoEquipment },
+    // no equipment AND short: a game that needs questions written in advance (kama-atem-makirim) isn't "no prep"
+    filter: g => fitsNoEquipment(g) && Number(g.duration_max || g.duration_min || 0) <= 15 && g.slug !== 'kama-atem-makirim' },
   'quiet': { title: 'משחקים שקטים — לכיתה, לרכב ולחדר השינה', desc: 'משחקים בעוצמת רעש נמוכה — מתאימים לספרייה, לרכב, לחדר שינה.',
     intro: 'לא כל משחק צריך להיות רועש. האוסף הזה כולל משחקים שקטים שמתאימים למרחבים רגישים לרעש.',
     body: [
@@ -300,7 +301,7 @@ export const CATEGORIES = {
       { q: 'איך משחקים משחק מילים בנסיעה בלי דף ועט?', a: 'משחקים בעל פה: כל אחד בתורו אומר מילה בקטגוריה שמתחילה באות שנבחרה. מי שלא מוצא מילה תוך חמש שניות מעביר את התור.' }
     ],
     related: [ { label: 'ארץ עיר אונליין', href: '/tools/eretz-ir' }, { label: 'חידות לילדים', href: '/tools/riddles' }, { label: 'משחקים למשפחה', href: '/games/family' } ],
-    filter: g => (g.category||'').includes('מילים') },
+    filter: g => (g.category||'').includes('מילים') || (g.tags||[]).includes('מילים') },
 }
 
 export const CLASS_PAGES = {
