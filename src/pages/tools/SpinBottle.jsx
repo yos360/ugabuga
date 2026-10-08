@@ -1,6 +1,11 @@
 import { useState, useCallback } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+
+const guide = TOOL_GUIDES.spinBottle
 
 // Drawn bottle with the neck pointing straight up at 0° — the 🍾 emoji is tilted differently on every platform,
 // so it couldn't show reliably who was picked.
@@ -47,7 +52,7 @@ export default function SpinBottle() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="סובב את הבקבוק אונליין — הגרלת שחקן במעגל" description="סובב הבקבוק בלי בקבוק: כותבים את שמות השחקנים, הם מסודרים במעגל, והבקבוק מסתובב ועוצר על מי שתורו. כולל היסטוריית סיבובים. מושלם להגרלת תור במשחק. חינם." path="/tools/spin-the-bottle" />
+      <SEO title="סובב את הבקבוק אונליין — הגרלת שחקן במעגל" description="סובב הבקבוק בלי בקבוק: כותבים את שמות השחקנים, הם מסודרים במעגל, והבקבוק מסתובב ועוצר על מי שתורו. כולל היסטוריית סיבובים. מושלם להגרלת תור במשחק. חינם." path="/tools/spin-the-bottle" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'סובב בקבוק' }]} />
       <h1 className="text-4xl text-center mb-6">🔄 סובב את הבקבוק</h1>
 
@@ -82,6 +87,7 @@ export default function SpinBottle() {
           {history.map((h,i) => <p key={i} className="font-hand text-base">🎯 {h}</p>)}
         </div>
       )}
+      <ToolGuide {...guide} />
     </div>
   )
 }

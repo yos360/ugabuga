@@ -3,6 +3,11 @@ import { JOKE_PAGES } from '../../data/content/jokes'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+
+const guide = TOOL_GUIDES.joke
 
 // The full collection from the jokes pages (~120 clean jokes) instead of a short list of translated puns
 // that don't work in Hebrew.
@@ -19,7 +24,7 @@ export default function Joke() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="בדיחות לילדים — בדיחה מצחיקה בכל לחיצה" description="בדיחות לילדים בעברית: שאלה מצחיקה, רגע לנחש — ואז חושפים את התשובה. בדיחה חדשה בכל לחיצה, קצרה ונקייה. לפתיחת שיעור, לנסיעה ולארוחה משפחתית. חינם." path="/tools/joke" />
+      <SEO title="בדיחות לילדים — בדיחה מצחיקה בכל לחיצה" description="בדיחות לילדים בעברית: שאלה מצחיקה, רגע לנחש — ואז חושפים את התשובה. בדיחה חדשה בכל לחיצה, קצרה ונקייה. לפתיחת שיעור, לנסיעה ולארוחה משפחתית. חינם." path="/tools/joke" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בדיחה' }]} />
       <h1 className="text-4xl text-center mb-6">😂 בדיחה של בוגה</h1>
 
@@ -44,6 +49,7 @@ export default function Joke() {
         <p className="font-display text-xl font-bold mb-2">רוצים עוד בדיחות?</p>
         <Link to="/jokes/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">😂 בדיחות לילדים לפי נושא ←</Link>
       </div>
+      <ToolGuide {...guide} />
     </div>
   )
 }

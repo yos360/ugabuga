@@ -1,6 +1,11 @@
 import { useState, useCallback, useRef } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+
+const guide = TOOL_GUIDES.coinFlip
 
 // `angle` only ever grows: each flip spins forward and lands on the drawn face, so the coin never
 // rewinds afterwards and never shows the previous result while it's in the air.
@@ -57,7 +62,7 @@ export default function CoinFlip() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="הטלת מטבע אונליין — עץ או פלי בלחיצה" description="מטבע תלת־ממדי שמכריע ויכוחים: עץ או פלי בלחיצה, ספירת תוצאות לכל צד, ואפשרות לכתוב שתי אפשרויות משלכם במקום עץ ופלי. חינם, בלי הרשמה ובלי הורדה." path="/tools/coin-flip" />
+      <SEO title="הטלת מטבע אונליין — עץ או פלי בלחיצה" description="מטבע תלת־ממדי שמכריע ויכוחים: עץ או פלי בלחיצה, ספירת תוצאות לכל צד, ואפשרות לכתוב שתי אפשרויות משלכם במקום עץ ופלי. חינם, בלי הרשמה ובלי הורדה." path="/tools/coin-flip" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'הטלת מטבע' }]} />
       <h1 className="text-4xl text-center mb-6">🪙 הטלת מטבע 3D</h1>
 
@@ -86,6 +91,7 @@ export default function CoinFlip() {
           <input value={customB} onChange={e => setCustomB(e.target.value)} placeholder="צד 2 (פלי)" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2" />
         </div>
       </div>
+      <ToolGuide {...guide} />
     </div>
   )
 }

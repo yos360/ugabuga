@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import SEO from '../../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../../components/ui/SeoBody'
 import Breadcrumbs from '../../../components/ui/Breadcrumbs'
@@ -6,6 +6,7 @@ import NotFound from '../../NotFound'
 import DiceRoller from './DiceRoller'
 import { DICE_PRESETS } from './dicePresets'
 import DiceFamilyLinks from './DiceFamilyLinks'
+import ToolGuide from '../ToolGuide'
 
 export default function DicePresetPage() {
   const { preset } = useParams()
@@ -18,6 +19,7 @@ export default function DicePresetPage() {
       <h1 className="text-4xl text-center mb-2">{p.emoji} {p.title}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{p.description}</p>
       <DiceRoller {...p.roller} renderMessage={p.renderMessage} />
+      {p.guide && <ToolGuide {...p.guide} />}
       <DiceFamilyLinks current={'/tools/dice/' + preset} />
       <div className="mt-10">
         <SeoBody paragraphs={p.paragraphs} faq={p.faq} related={p.related.map(([label, href]) => ({ label, href }))} />

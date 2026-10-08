@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+
+const guide = TOOL_GUIDES.drawingPrompt
 
 const PROMPTS = {
   easy: ['חתול','כלב','בית','שמש','פרח','עץ','דג','כוכב','לב','ענן','גלידה','פרפר','ארנב','שבלול','ציפור','כדור','מטרייה','ירח','הר','ספינה'],
@@ -30,7 +35,7 @@ export default function DrawingPrompt() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="רעיונות לציור לילדים — מה לצייר היום?" description="נגמרו הרעיונות? מקבלים רעיון לציור בלחיצה בשלוש רמות — קל, בינוני ואתגר — או במצב קומבו שמערבב חיה, חפץ ומקום מטורף. לבית, לכיתה ולחוג. חינם." path="/tools/drawing-prompt" />
+      <SEO title="רעיונות לציור לילדים — מה לצייר היום?" description="נגמרו הרעיונות? מקבלים רעיון לציור בלחיצה בשלוש רמות — קל, בינוני ואתגר — או במצב קומבו שמערבב חיה, חפץ ומקום מטורף. לבית, לכיתה ולחוג. חינם." path="/tools/drawing-prompt" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מה לצייר' }]} />
       <h1 className="text-4xl text-center mb-6">🎨 מה לצייר?</h1>
 
@@ -49,6 +54,7 @@ export default function DrawingPrompt() {
       <button onClick={generate} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer">
         🎨 {current ? 'עוד רעיון!' : 'מה אצייר?'}
       </button>
+      <ToolGuide {...guide} />
     </div>
   )
 }

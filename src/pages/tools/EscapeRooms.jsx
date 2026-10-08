@@ -11,6 +11,8 @@ import Badge from '../../components/ui/Badge'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { ESCAPE_ROOMS } from '../../data/escapeRoomsExpanded'
 import { buildEscapeAdventure, ESCAPE_LEVELS } from '../../data/escapeAdventure'
+import { ESCAPE_ROOM_GUIDES } from '../../data/escapeRoomGuides'
+import { nearby } from '../../utils/nearby'
 
 const escapeRoomsFaq = [
   { q: 'איזה חדר בריחה מתאים ליום הולדת של ילד בן 8?', a: 'יש כמה חדרים שנבנו לגילאי 6–9 ו-7–9 — קהל היעד מופיע בכרטיס של כל חדר. לילדים צעירים יותר מתאים במיוחד תעלומת העוגה הנעלמת, חדר קליל של 10–15 דקות.' },
@@ -21,6 +23,14 @@ const escapeRoomsBody = [
   'את החדר בוחרים לפי גיל הקהל, לא רק לפי רמת הקושי: לקטנים יש חדרים של ספירה, צבעים וצורות; לגילאי בית הספר צפנים וחשבון; לנוער ולמבוגרים תעלומות עם חשודים וחידות היגיון אמיתיות.',
   'טיפ מעשי: תזמנו בין 15 ל-45 דקות לחדר, לפי המשך שמופיע בכרטיס שלו, ועוד כמה דקות להסבר בהתחלה. קבוצה גדולה מדי (מעל 6 משתתפים) נוטה ליצור "צופים" שלא ממש מעורבים — עדיף לחלק לשתי קבוצות מקבילות.',
 ]
+const escapeRoomsHowTo = [
+  'בוחרים חדר לפי הגיל והאירוע — הקהל, משך הזמן ורמת הקושי מופיעים בכרטיס של כל חדר.',
+  'משחקים ישר על המסך, או פותחים את קיט ההפעלה ומדפיסים: דף מנחה עם הסיפור וכל התשובות, וכרטיס A4 לכל שלב.',
+  'מחביאים את כרטיסי השלבים בחדר, כך שכל תשובה מובילה לכרטיס הבא, ומקריאים את סיפור הפתיחה.',
+  'מפעילים טיימר. כשקבוצה נתקעת נותנים רמז אחד בכל פעם — הרמזים מדורגים, והראשון אף פעם לא מגלה את התשובה.',
+  'הקוד האחרון פותח קופסה או מעטפה עם הפרס: שקיות הפתעה, העוגה, תעודה או כל מה שמתאים לאירוע.',
+]
+const SETTING_LABELS = { birthday: 'יום הולדת', classroom: 'כיתה', family: 'משפחה', team: 'גיבוש', holiday: 'חגים' }
 const escapeRoomsRelated = [ { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 // Number answers also accept the Hebrew word ("ארבע" for 4), and niqqud / final letters never decide a match.
@@ -174,17 +184,34 @@ export default function EscapeRooms() {
   const baseIsKids = !grownUp(base)
   const ageScore = (item) => (item.tags?.ages || []).filter((a) => baseAges.includes(a)).length + ((item.tags?.ages || [])[0] === baseAges[0] ? 2 : 0)
   const sameGroup = ESCAPE_ROOMS.filter((item) => item.id !== roomId && ageScore(item) > 0 && (!baseIsKids || !grownUp(item)))
-  const similar = [...sameGroup].sort((a, b) => ageScore(b) - ageScore(a)).slice(0, 4)
+  // Related rooms: same age group AND a shared setting, taken with nearby() so every room gets
+  // roughly the same number of inbound links instead of the first rooms of the list getting all of them.
+  const baseSettings = base.tags?.settings || []
+  const sharedSettings = (item) => (item.tags?.settings || []).filter((s) => baseSettings.includes(s))
+  const relatedPool = ESCAPE_ROOMS.filter((item) => item.id === roomId || (sameGroup.includes(item) && (baseIsKids || grownUp(item)) && sharedSettings(item).length > 0))
+  let related = nearby(relatedPool, (item) => item.id === roomId, 6)
+  if (related.length < 4) related = [...related, ...[...sameGroup].sort((a, b) => ageScore(b) - ageScore(a)).filter((item) => !related.includes(item))].slice(0, 6)
   const roomIndex = ESCAPE_ROOMS.findIndex((item) => item.id === roomId)
   const nextRoom = sameGroup.length
     ? [...sameGroup].sort((a, b) => ageScore(b) - ageScore(a) || ((ESCAPE_ROOMS.indexOf(a) - roomIndex + ESCAPE_ROOMS.length) % ESCAPE_ROOMS.length) - ((ESCAPE_ROOMS.indexOf(b) - roomIndex + ESCAPE_ROOMS.length) % ESCAPE_ROOMS.length))[0]
     : ESCAPE_ROOMS[(roomIndex + 1) % ESCAPE_ROOMS.length]
   const roomCollections = Object.entries(ESCAPE_COLLECTIONS).filter(([, c]) => c.filter(base))
+  const guide = ESCAPE_ROOM_GUIDES[roomId] || {}
+  const props = (base.materials || []).filter((m) => !/מודפס|דפי |טיוטה|עטים|עפרונות/.test(m))
+  const groupSize = baseAges.includes('4-6')
+    ? 'עד 6 ילדים עם מבוגר שמקריא את התחנות. כשיש יותר ילדים — שני מבוגרים ושתי קבוצות שמשחקות במקביל.'
+    : !baseIsKids
+      ? 'הכי טוב בקבוצות של 4–6 משתתפים. עם יותר אנשים מתחלקים לשתי קבוצות שמתחרות על הזמן, כל אחת עם קיט משלה.'
+      : 'הכי טוב בקבוצות של 3–5 ילדים. בכיתה או במסיבה גדולה מדפיסים קיט לכל קבוצה ומריצים את החדר במקביל.'
+  const roomFaq = isRoomPage ? [
+    { q: `לאיזה גיל מתאים חדר הבריחה "${base.title}" וכמה זמן הוא לוקח?`, a: `החדר נבנה ל${base.audience}, ברמת קושי ${base.difficulty || 'בינונית'}, ולוקח בדרך כלל ${base.duration || '20 דקות'}. יש בו ${base.steps.length} תחנות בסיפור, ובגרסה שבאתר אפשר לבחור בין שלוש רמות קושי שמוסיפות מנעולים.` },
+    ...(guide.faq || []).map(([q, a]) => ({ q, a })),
+  ] : escapeRoomsFaq
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {isRoomPage ? (
-        <SEO title={`${base.title} — חדר בריחה ל${base.audience}`} description={base.description} path={'/tools/escape-rooms/' + roomId} />
+        <SEO title={`${base.title} — חדר בריחה ל${base.audience}`} description={base.description} path={'/tools/escape-rooms/' + roomId} structuredData={faqSchema(roomFaq)} />
       ) : (
         <SEO
           title="חדר בריחה להדפסה לילדים ולנוער"
@@ -200,6 +227,7 @@ export default function EscapeRooms() {
           <div className="text-6xl mb-2">{base.emoji}</div>
           <h1 className="text-4xl md:text-5xl font-hand font-bold mb-3">חדר בריחה: {base.title}</h1>
           <p className="text-lg max-w-3xl mx-auto mb-4">{base.description}</p>
+          {guide.about && <p className="max-w-3xl mx-auto mb-4 leading-relaxed text-[var(--foreground)]/85">{guide.about}</p>}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
             <Badge>{base.audience}</Badge>
             {base.difficulty && <Badge color="yellow">{base.difficulty}</Badge>}
@@ -233,17 +261,17 @@ export default function EscapeRooms() {
       )}
 
       <section className="mb-6 rounded-3xl border border-[var(--border)] bg-white p-5" aria-label="בחירת רמת קושי">
-        <h2 className="text-2xl font-bold mb-3">קודם בוחרים רמת קושי</h2>
+        <h2 className="text-2xl font-bold mb-3">{isRoomPage ? `רמת הקושי של "${base.title}" באתר` : 'קודם בוחרים רמת קושי'}</h2>
         <div className="grid sm:grid-cols-3 gap-3">{ESCAPE_LEVELS.map(level => <button key={level.id} aria-pressed={difficulty === level.id} className={`text-right rounded-2xl border p-4 ${difficulty===level.id?'bg-purple-100 border-purple-500':'bg-white'}`} onClick={() => {if(level.id!==difficulty && (!completedSteps.length || window.confirm('החלפת רמה תתחיל את החדר מחדש. להמשיך?')))setDifficulty(level.id)}}><strong className="block text-xl">{level.label}</strong><span className="text-sm">{level.detail}</span></button>)}</div>
-        <p className="text-sm mt-3 text-[var(--muted-foreground)]">רמזי הפתיחה משותפים לכל הרמות. בהמשך המנעולים נעשים מורכבים יותר. בכל שלב אפשר לבקש רמז.</p>
+        {!isRoomPage && <p className="text-sm mt-3 text-[var(--muted-foreground)]">רמזי הפתיחה משותפים לכל הרמות. בהמשך המנעולים נעשים מורכבים יותר. בכל שלב אפשר לבקש רמז.</p>}
       </section>
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-6 items-start">
         <aside className="order-2 space-y-4 lg:order-1 lg:sticky lg:top-4">
           <WobblyCard hover={false} padding="p-5">
-            <h2 className="text-2xl font-hand font-bold mb-3">בחרו חדר</h2>
+            <h2 className="text-2xl font-hand font-bold mb-3">{isRoomPage ? 'בחרו חדר אחר' : 'בחרו חדר'}</h2>
             <div className="space-y-3 lg:max-h-[80vh] lg:overflow-y-auto lg:pl-1">
-              {(showAllRooms ? ESCAPE_ROOMS : ESCAPE_ROOMS.slice(0, 6).concat(ESCAPE_ROOMS.slice(6).filter((item) => item.id === roomId))).map((item) => (
+              {(showAllRooms ? ESCAPE_ROOMS : isRoomPage ? [] : ESCAPE_ROOMS.slice(0, 6).concat(ESCAPE_ROOMS.slice(6).filter((item) => item.id === roomId))).map((item) => (
                 <Link
                   key={item.id}
                   to={'/tools/escape-rooms/' + item.id}
@@ -253,10 +281,10 @@ export default function EscapeRooms() {
                 >
                   <div className="text-2xl mb-1">{item.emoji}</div>
                   <div className="font-hand font-bold text-xl">{item.title}</div>
-                  <p className="text-sm text-[var(--muted-foreground)] mt-1">{item.description}</p>
+                  {!isRoomPage && <p className="text-sm text-[var(--muted-foreground)] mt-1">{item.description}</p>}
                   <div className="flex flex-wrap gap-2 mt-3">
                     <Badge>{item.audience}</Badge>
-                    <Badge color="yellow">3 רמות קושי</Badge>
+                    {!isRoomPage && <Badge color="yellow">3 רמות קושי</Badge>}
                   </div>
                 </Link>
               ))}
@@ -266,13 +294,14 @@ export default function EscapeRooms() {
                 הצג הכול ({ESCAPE_ROOMS.length} חדרים)
               </button>
             )}
+            {isRoomPage && <Link to="/tools/escape-rooms" className="mt-3 block text-center font-bold underline">לעמוד כל חדרי הבריחה</Link>}
           </WobblyCard>
 
           <WobblyCard hover={false} padding="p-5">
             <h2 className="text-xl font-hand font-bold mb-2">אפשר גם להפעיל פיזית</h2>
-            <p className="text-sm leading-relaxed text-[var(--muted-foreground)] mb-4">
+            {!isRoomPage && <p className="text-sm leading-relaxed text-[var(--muted-foreground)] mb-4">
               פתחו את קיט ההפעלה כדי לקבל מבנה למנחה: סיפור פתיחה, שלבים, תשובות ורמזים.
-            </p>
+            </p>}
             <div className="flex flex-wrap gap-2">
               <WobblyButton onClick={() => setShowPrintKit((value) => !value)} variant="secondary">
                 {showPrintKit ? 'הסתר קיט' : 'הצג קיט להפעלה'}
@@ -396,26 +425,76 @@ export default function EscapeRooms() {
       )}
 
       {isRoomPage && (
-        <section className="mt-12">
-          <h2 className="text-2xl font-hand font-bold mb-4">עוד חדרי בריחה שיתאימו לכם</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {similar.map((item) => (
-              <Link key={item.id} to={'/tools/escape-rooms/' + item.id} className="block">
-                <WobblyCard hover padding="p-4" className="h-full">
-                  <div className="text-3xl">{item.emoji}</div>
-                  <h3 className="font-hand font-bold text-xl">{item.title}</h3>
-                  <p className="text-sm text-[var(--muted-foreground)]">{item.audience}</p>
-                </WobblyCard>
-              </Link>
-            ))}
+        <section className="mt-12 space-y-8" aria-label={`מדריך הפעלה: ${base.title}`}>
+          <h2 className="text-3xl font-hand font-bold">מדריך הפעלה: {base.emoji} {base.title}</h2>
+          <div className="grid md:grid-cols-2 gap-5">
+            <WobblyCard hover={false} padding="p-5">
+              <h3 className="text-xl font-bold mb-2">מה מתרגלים בחדר</h3>
+              {guide.skills && <p className="leading-relaxed mb-3">{guide.skills}.</p>}
+              <details>
+                <summary className="cursor-pointer font-bold">מסלול {base.steps.length} התחנות (בלי התשובות)</summary>
+                <ol className="list-decimal pr-5 mt-2 space-y-1">{base.steps.map((s, i) => <li key={i}><strong>{s.title}</strong> — {s.question || s.prompt}</li>)}</ol>
+              </details>
+            </WobblyCard>
+            <WobblyCard hover={false} padding="p-5">
+              <h3 className="text-xl font-bold mb-2">הכנה והדפסה</h3>
+              <p className="leading-relaxed">ברמה {ESCAPE_LEVELS.find((l) => l.id === difficulty)?.label} הקיט המודפס כולל {room.steps.length + 1} עמודים: דף מנחה עם סיפור הפתיחה, רשימת ההכנה וכל התשובות, ועוד כרטיס A4 לכל אחד מ-{room.steps.length} השלבים.{props.length >= 2 ? ` מלבד ההדפסה כדאי להכין מראש את ${props[0]} ו${/^[\d"״]/.test(props.at(-1)) ? '-' : ''}${props.at(-1)}.` : ''}</p>
+              {base.printableKit?.[0] && <p className="leading-relaxed mt-2"><strong>הכי חשוב בהכנה:</strong> {base.printableKit[0]}</p>}
+            </WobblyCard>
+            <WobblyCard hover={false} padding="p-5">
+              <h3 className="text-xl font-bold mb-2">התאמה לגיל ולגודל הקבוצה</h3>
+              {guide.adapt && <p className="leading-relaxed mb-2">{guide.adapt}</p>}
+              <p className="leading-relaxed">{groupSize}</p>
+            </WobblyCard>
+            <WobblyCard hover={false} padding="p-5">
+              <h3 className="text-xl font-bold mb-2">איך נותנים רמזים בחדר הזה</h3>
+              {guide.hint && <p className="leading-relaxed mb-2">{guide.hint}</p>}
+              <p className="leading-relaxed text-[var(--muted-foreground)]">באתר הרמזים נפתחים אחד-אחד; בקיט המודפס הם מופיעים בטבלת המנחה ליד כל תשובה.</p>
+            </WobblyCard>
           </div>
-          {roomCollections.length > 0 && <div className="mt-5 flex flex-wrap gap-2">{roomCollections.map(([slug, c]) => <Link key={slug} to={'/tools/escape-rooms/topic/' + slug} className="btn-secondary">{c.emoji} {c.title}</Link>)}</div>}
+
+          <div className="max-w-3xl">
+            <h3 className="text-2xl font-bold mb-3">שאלות נפוצות על {base.title}</h3>
+            <div className="space-y-4">{roomFaq.map((f) => <div key={f.q}><p className="font-bold">{f.q}</p><p className="leading-relaxed text-[var(--foreground)]/85">{f.a}</p></div>)}</div>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-hand font-bold mb-4">חדרים קרובים ל{base.title}</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {related.map((item) => {
+                const common = sharedSettings(item).map((s) => SETTING_LABELS[s]).filter(Boolean)
+                return (
+                  <Link key={item.id} to={'/tools/escape-rooms/' + item.id} className="block">
+                    <WobblyCard hover padding="p-4" className="h-full">
+                      <div className="text-3xl">{item.emoji}</div>
+                      <h4 className="font-hand font-bold text-xl">{item.title}</h4>
+                      <p className="text-sm">{ESCAPE_ROOM_GUIDES[item.id]?.hook}</p>
+                      <p className="text-sm text-[var(--muted-foreground)] mt-1">{item.audience}{common.length ? ` · גם הוא ל${common.join(', ')}` : ''}</p>
+                    </WobblyCard>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          {(roomCollections.length > 0 || guide.links?.length > 0) && (
+            <nav aria-label="עוד בנושא" className="flex flex-wrap gap-2">
+              {roomCollections.map(([slug, c]) => <Link key={slug} to={'/tools/escape-rooms/topic/' + slug} className="btn-secondary">{c.emoji} {c.title}</Link>)}
+              {(guide.links || []).map(([label, href]) => <Link key={href} to={href} className="btn-secondary">{label}</Link>)}
+            </nav>
+          )}
         </section>
       )}
 
-      <div className="mt-12">
-        <SeoBody paragraphs={escapeRoomsBody} faq={escapeRoomsFaq} related={escapeRoomsRelated} />
-      </div>
+      {!isRoomPage && (
+        <div className="mt-12 max-w-3xl">
+          <h2 className="text-2xl font-bold mb-3">איך מפעילים חדר בריחה מודפס</h2>
+          <ol className="list-decimal pr-5 space-y-1 leading-relaxed mb-8">{escapeRoomsHowTo.map((t) => <li key={t}>{t}</li>)}</ol>
+          <SeoBody paragraphs={escapeRoomsBody} faq={escapeRoomsFaq} related={escapeRoomsRelated} />
+          <h2 className="text-2xl font-bold mb-3 mt-8">כל {ESCAPE_ROOMS.length} חדרי הבריחה</h2>
+          <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1">{ESCAPE_ROOMS.map((item) => <li key={item.id}><Link to={'/tools/escape-rooms/' + item.id} className="underline">{item.emoji} {item.title}</Link> <span className="text-sm text-[var(--muted-foreground)]">· {item.audience}</span></li>)}</ul>
+        </div>
+      )}
     </div>
   )
 }

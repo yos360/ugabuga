@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+
+const guide = TOOL_GUIDES.scoreboard
 
 export default function Scoreboard() {
   const [players, setPlayers] = useState([])
@@ -25,7 +30,7 @@ export default function Scoreboard() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="לוח ניקוד אונליין — ספירת נקודות למשחקים וטריוויה" description="לוח ניקוד חינמי למשחקים, חידונים וטורנירים: מוסיפים שחקנים או קבוצות, מעדכנים נקודות ב־+ ו־−, והטבלה ממוינת אוטומטית עם גביע למוביל. בלי הרשמה." path="/tools/scoreboard" />
+      <SEO title="לוח ניקוד אונליין — ספירת נקודות למשחקים וטריוויה" description="לוח ניקוד חינמי למשחקים, חידונים וטורנירים: מוסיפים שחקנים או קבוצות, מעדכנים נקודות ב־+ ו־−, והטבלה ממוינת אוטומטית עם גביע למוביל. בלי הרשמה." path="/tools/scoreboard" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'לוח ניקוד' }]} />
       <h1 className="text-4xl text-center mb-6">📊 לוח ניקוד</h1>
 
@@ -63,6 +68,7 @@ export default function Scoreboard() {
             className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-hand cursor-pointer">🔄 אפסו ניקוד</button>
         </div>
       )}
+      <ToolGuide {...guide} />
     </div>
   )
 }
