@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -11,8 +11,6 @@ import {
 } from '../../data/bedtimeStories'
 import '../../learn/learn.css'
 import './stories.css'
-import StoryReader from './StoryReader'
-import { splitSentences } from './storyReading'
 
 const HUB = { label: 'סיפורים לפני השינה', href: '/stories' }
 const SAVED_KEY = 'ugabuga-story-hero' // per-viewer convenience only: the child's name + gender
@@ -143,15 +141,7 @@ function Story({ story, params }) {
   const [big, setBig] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [copied, setCopied] = useState('')
-  const [reading, setReading] = useState(null) // { p, s } — the sentence being read aloud
   const r = useMemo(() => renderStory(story, custom), [story, custom])
-  // Keep the sentence being read on screen (only scroll when it's out of view).
-  useEffect(() => {
-    const el = reading && document.querySelector('.st-now')
-    if (!el) return
-    const { top, bottom } = el.getBoundingClientRect()
-    if (top < 80 || bottom > window.innerHeight - 90) el.scrollIntoView({ block: 'center', behavior: 'smooth' })
-  }, [reading])
 
   const set = (k, patch) => {
     const next = { ...custom, [k]: { name: '', g: '', ...custom[k], ...patch } }
@@ -238,10 +228,9 @@ function Story({ story, params }) {
 
     <article className="st-night mt-5" aria-labelledby="story-title">
       <h2 id="story-title" className="mb-4 text-center text-3xl font-black">{story.emoji} {r.title}</h2>
-      <StoryReader key={r.title + r.body.join('\n')} title={r.title} paragraphs={r.body} goodnight={`לילה טוב${heroName ? ', ' + heroName : ''}. חלומות פז.`} onSentence={setReading} />
-      <div className={`st-text ${big ? 'is-big' : ''}`}>{r.body.map((p, i) => <p key={i} className={reading?.p === i ? 'is-reading' : undefined}>
+      <div className={`st-text ${big ? 'is-big' : ''}`}>{r.body.map((p, i) => <p key={i}>
         {story.pics?.[i] && <span className={`st-pic ${i % 2 ? 'is-left' : ''}`} aria-hidden="true">{story.pics[i]}</span>}
-        {splitSentences(p).map((t, j) => <span key={j} className={reading?.p === i && reading?.s === j ? 'st-now' : undefined}>{j ? ' ' : ''}{t}</span>)}
+        {p}
       </p>)}</div>
       <p className="mt-2 text-center text-2xl" aria-hidden="true">✨ 🌙 ✨</p>
     </article>
