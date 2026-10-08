@@ -74,6 +74,19 @@ test('word counts are 350–600 (default cast and both genders) and reading time
   }
 })
 
+test('pics: one slot per paragraph, 2–3 single emojis, never adjacent, always on the last paragraph', () => {
+  const EMOJI = /^\p{Extended_Pictographic}\uFE0F?$/u
+  for (const s of BEDTIME_STORIES) {
+    assert.ok(Array.isArray(s.pics), `${s.slug} pics`)
+    assert.equal(s.pics.length, s.body.length, `${s.slug} pics length`)
+    for (const p of s.pics) assert.ok(p === null || (typeof p === 'string' && EMOJI.test(p)), `${s.slug}: bad pic ${p}`)
+    const on = s.pics.map((p, i) => p ? i : -1).filter(i => i >= 0)
+    assert.ok(on.length >= 2 && on.length <= (s.body.length <= 6 ? 2 : 3), `${s.slug}: ${on.length} pics`)
+    assert.ok(on.every((i, k) => k === 0 || i - on[k - 1] > 1), `${s.slug}: adjacent pics`)
+    assert.ok(s.pics.at(-1), `${s.slug}: last paragraph has a pic`)
+  }
+})
+
 test('names are cleaned and capped, and related stories are 3 other stories', () => {
   assert.equal(cleanName('  <b>{hero}</b>  '), 'bhero/b')
   assert.equal(cleanName('א'.repeat(40)).length, MAX_NAME)
