@@ -1,7 +1,13 @@
 import { useParams, Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
 import { AGE_GIFTS, GIFT_AGES } from '../../data/gifts'
+import { GIFT_GUIDE } from '../../data/giftsGuide'
+
+// Age pages that exist elsewhere on the site (see public/sitemap-static.xml)
+const IDEA_AGES = [4, 5, 6, 7, 8, 9, 10, 11, 12]
+const GAME_AGES = [4, 5, 6, 7, 8, 9, 10]
 
 export default function AgeGiftPage() {
   const { age } = useParams()
@@ -25,10 +31,18 @@ export default function AgeGiftPage() {
     )
   }
   const others = GIFT_AGES.filter(a => a !== ageNum)
+  const guide = GIFT_GUIDE[ageNum]
+  const crossLinks = [
+    IDEA_AGES.includes(ageNum) && { to: '/ideas/age/' + ageNum, label: `רעיונות ליום הולדת גיל ${ageNum}` },
+    GAME_AGES.includes(ageNum) && { to: '/games/age/' + ageNum, label: `משחקים לגיל ${ageNum}` },
+    { to: '/birthday-greetings', label: 'ברכה לצרף למתנה' },
+    { to: '/gifts/under-50', label: 'מתנות עד 50 ₪' },
+    { to: '/gifts/under-100', label: 'מתנות 50–100 ₪' },
+  ].filter(Boolean)
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={`מתנות ליום הולדת גיל ${ageNum}`} description={data.intro.slice(0,150)} path={'/gifts/age-'+ageNum} />
+      <SEO title={`מתנות ליום הולדת גיל ${ageNum}`} description={data.intro.slice(0,150)} path={'/gifts/age-'+ageNum} structuredData={faqSchema(guide?.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות', href: '/gifts' }, { label: 'גיל '+ageNum }]} />
       <p className="font-hand text-lg text-[var(--muted-foreground)]">מדריך מתנות</p>
       <h1 className="text-4xl sm:text-5xl mt-1 mb-6">מתנות ליום הולדת גיל {ageNum} — הרעיונות הכי טובים</h1>
@@ -38,6 +52,14 @@ export default function AgeGiftPage() {
         <span className="wobbly-sm inline-block border border-[var(--border)] bg-white px-2 py-0.5 text-xs font-bold">טיפ מהשטח</span>
         <p className="mt-2 text-lg">{data.tip}</p>
       </div>
+
+      {guide && (
+        <section className="mb-10">
+          <h2 className="text-2xl sm:text-3xl mb-3">מה מעניין ילדים בני {ageNum}</h2>
+          <p className="text-lg leading-relaxed mb-4">{guide.stage}</p>
+          <ul className="grid sm:grid-cols-2 gap-2">{guide.into.map(t => <li key={t} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-3 py-2">{t}</li>)}</ul>
+        </section>
+      )}
 
       <div className="space-y-10">
         {data.sections.map(section => (
@@ -54,6 +76,27 @@ export default function AgeGiftPage() {
             </div>
           </section>
         ))}
+      </div>
+
+      {guide && (
+        <section className="mt-10">
+          <h2 className="text-2xl sm:text-3xl mb-3">איך לבחור מתנה לגיל {ageNum} בלי לבזבז</h2>
+          <ul className="list-disc pr-5 space-y-2 text-lg">{guide.budget.map(t => <li key={t}>{t}</li>)}</ul>
+        </section>
+      )}
+
+      {guide && (
+        <section className="mt-10">
+          <h2 className="text-2xl sm:text-3xl mb-3">שאלות נפוצות על מתנות לגיל {ageNum}</h2>
+          <div className="space-y-4">{guide.faq.map(f => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
+        </section>
+      )}
+
+      <div className="mt-10">
+        <h2 className="text-2xl mb-3">עוד לגיל {ageNum}</h2>
+        <div className="flex flex-wrap gap-2">
+          {crossLinks.map(l => <Link key={l.to} to={l.to} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-4 py-2 font-bold">{l.label}</Link>)}
+        </div>
       </div>
 
       <div className="mt-10">

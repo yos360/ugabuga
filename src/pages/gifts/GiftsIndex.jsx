@@ -1,15 +1,18 @@
 import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
 import { GIFT_AGES, AGE_GIFTS } from '../../data/gifts'
+import { BUDGET_GUIDE } from '../../data/giftsGuide'
 
 // Highest price in a range like "30-45 ₪" or "50 ₪"
 const maxPrice = price => Math.max(...(String(price).match(/\d+/g) || [Infinity]).map(Number))
 
-// Real budget filter over the per-age gift data: every idea whose top price fits the budget
-const giftsUpTo = limit => GIFT_AGES.map(age => ({
+// Real budget filter over the per-age gift data: every idea whose top price is in (from, limit].
+// The 100 page starts above 50 so it doesn't repeat the whole 50 page.
+const giftsUpTo = (limit, from = 0) => GIFT_AGES.map(age => ({
   age,
-  ideas: (AGE_GIFTS[age]?.sections || []).flatMap(sec => sec.ideas).filter(([, , price]) => maxPrice(price) <= limit),
+  ideas: (AGE_GIFTS[age]?.sections || []).flatMap(sec => sec.ideas).filter(([, , price]) => maxPrice(price) <= limit && maxPrice(price) > from),
 })).filter(g => g.ideas.length)
 
 export default function GiftsIndex() {
@@ -21,10 +24,11 @@ export default function GiftsIndex() {
   }
   const preset = presets[location.pathname] || presets['/gifts']
   const budget = location.pathname === '/gifts/under-50' ? 50 : location.pathname === '/gifts/under-100' ? 100 : null
-  const budgetGifts = budget ? giftsUpTo(budget) : []
+  const budgetGifts = budget ? giftsUpTo(budget, budget === 100 ? 50 : 0) : []
+  const bg = budget ? BUDGET_GUIDE[budget] : null
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in text-center">
-      <SEO title={preset.title} description={preset.desc} path={location.pathname} />
+      <SEO title={preset.title} description={preset.desc} path={location.pathname} structuredData={faqSchema(bg?.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות' }]} />
       <h1 className="text-4xl sm:text-5xl mb-3">🎁 {preset.title}</h1>
       <p className="mb-8 text-lg text-[var(--muted-foreground)]">{preset.desc}</p>
@@ -33,6 +37,13 @@ export default function GiftsIndex() {
           <Link key={a} to={'/gifts/age-'+a} className="wobbly border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow card-lift px-6 py-4 text-2xl font-bold">גיל {a}</Link>
         ))}
       </div>
+      {bg && (
+        <div className="mt-10 text-right">
+          <p className="text-lg leading-relaxed mb-4">{bg.intro}</p>
+          <ul className="list-disc pr-5 space-y-1 text-lg">{bg.tips.map(t => <li key={t}>{t}</li>)}</ul>
+          {budget === 100 && <p className="mt-4 text-lg">כאן מופיעות המתנות שעולות בין 50 ל־100 ₪. מחפשים משהו זול יותר? ראו את <Link to="/gifts/under-50" className="underline font-bold">המתנות עד 50 ₪</Link>.</p>}
+        </div>
+      )}
       {budget && (
         <div className="mt-10 space-y-8 text-right">
           {budgetGifts.map(({ age, ideas }) => (
@@ -51,6 +62,12 @@ export default function GiftsIndex() {
           ))}
           <p className="text-center text-sm text-[var(--muted-foreground)]">המחירים הם הערכה בלבד ומשתנים בין חנויות.</p>
         </div>
+      )}
+      {bg && (
+        <section className="mt-10 text-right">
+          <h2 className="text-2xl font-bold mb-3">שאלות נפוצות</h2>
+          <div className="space-y-4">{bg.faq.map(f => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
+        </section>
       )}
       <h2 className="text-2xl font-bold mt-10 mb-4">או לפי תקציב</h2>
       <div className="flex flex-wrap justify-center gap-3">

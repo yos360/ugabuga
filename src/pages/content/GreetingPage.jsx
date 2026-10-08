@@ -4,7 +4,9 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
+import { faqSchema } from '../../components/ui/SeoBody'
 import { GREETING_PAGES } from '../../data/content/greetings'
+import { GREETING_EXTRAS, GREETING_GROUPS } from '../../data/content/greetingsExtra'
 import { nearby } from '../../utils/nearby'
 
 function Card({ text }) {
@@ -41,9 +43,15 @@ export default function GreetingPage() {
   if (!p) return <NotFound />
   const his = p.split ? p.greetings.slice(0, 4) : p.greetings
   const hers = p.split ? p.greetings.slice(4) : []
+  const x = GREETING_EXTRAS[slug] || {}
+  // Related block: siblings from the same group first (other ages for age pages, other relatives for family pages)
+  const group = Object.values(GREETING_GROUPS).find(g => g.includes(slug)) || []
+  const bySlug = s => GREETING_PAGES.find(o => o.slug === s)
+  const sameGroup = nearby(group, s => s === slug, 10).map(bySlug).filter(Boolean)
+  const crossLinks = ['short', 'funny', 'belated'].filter(s => s !== slug && !sameGroup.some(o => o.slug === s)).map(bySlug).filter(Boolean)
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title={p.title + ' — ברכות מקוריות להעתקה'} description={p.description} path={'/greetings/' + slug} />
+      <SEO title={p.title + ' — ברכות מקוריות להעתקה'} description={p.description} path={'/greetings/' + slug} structuredData={faqSchema(x.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'ברכות ליום הולדת', href: '/birthday-greetings' }, { label: p.title }]} />
       <header className="text-center mb-6">
         <div className="text-6xl mb-2">{p.emoji}</div>
@@ -53,13 +61,31 @@ export default function GreetingPage() {
       {p.split && <h2 className="text-2xl font-bold mb-3">ברכות לו</h2>}
       <div className="space-y-4">{his.map(t => <Card key={t} text={t} />)}</div>
       {p.split && <><h2 className="text-2xl font-bold mt-8 mb-3">ברכות לה</h2><div className="space-y-4">{hers.map(t => <Card key={t} text={t} />)}</div></>}
+      {x.more?.map(g => (
+        <section key={g.title} className="mt-8">
+          <h2 className="text-2xl font-bold mb-3">{g.title}</h2>
+          <div className="space-y-4">{g.items.map(t => <Card key={t} text={t} />)}</div>
+        </section>
+      ))}
+      {x.about?.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-2xl font-hand font-bold mb-3">איך כותבים {p.title}</h2>
+          <div className="space-y-3 text-lg leading-relaxed">{x.about.map(t => <p key={t}>{t}</p>)}</div>
+        </section>
+      )}
       <WobblyCard hover={false} padding="p-5" className="mt-8 bg-[var(--postit)]">
         <h2 className="text-xl font-bold mb-2">טיפים לברכה אישית</h2>
         <ul className="list-disc pr-5 space-y-1">{p.tips.map(t => <li key={t}>{t}</li>)}</ul>
       </WobblyCard>
+      {x.faq?.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-2xl font-hand font-bold mb-3">שאלות נפוצות</h2>
+          <div className="space-y-4">{x.faq.map(f => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed">{f.a}</p></div>)}</div>
+        </section>
+      )}
       <section className="mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד ברכות</h2>
-        <div className="flex flex-wrap gap-2">{nearby(GREETING_PAGES, x => x.slug === slug, 12).map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
+        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
       </section>
     </div>
   )

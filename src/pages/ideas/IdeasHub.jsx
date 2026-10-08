@@ -3,7 +3,9 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Badge from '../../components/ui/Badge'
+import ComparisonPage from '../compare/ComparisonPage'
 import { IDEA_ARTICLES, IDEA_GROUPS, PARTY_KITS } from '../../data/ideaArticlesExpanded'
+import { AGE_IDEA_LIST } from '../../data/ideaArticlesAges'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 
@@ -21,34 +23,8 @@ export default function IdeasHub() {
   const location = useLocation()
   const themes = Object.entries(PARTY_KITS)
 
-  const comparison = location.pathname === '/compare/home-vs-venue' ? {
-    title: 'בית או אולם? משווים ומתכננים',
-    description: 'השוואה פשוטה בין מסיבה בבית לבין אולם — כדי לבחור לפי תקציב, גיל וכמות אורחים.',
-    rows: [['אווירה', 'אינטימית וגמישה', 'חגיגית ומוכנה מראש'], ['תקציב', 'נמוך עד בינוני', 'בינוני עד גבוה'], ['שליטה בתוכן', 'מלאה — אתם בוחרים משחקים', 'פחות התעסקות, צוות המקום מסייע'], ['מתאים במיוחד', 'משפחה וחברים קרובים', 'אירוע גדול או חגיגה רשמית']]
-  } : location.pathname === '/compare/entertainer-vs-diy' ? {
-    title: 'מפעיל או הפעלה עצמית?',
-    description: 'כך בוחרים את הדרך שמתאימה לכם — בלי לחץ ובלי הפתעות.',
-    rows: [['הכנה', 'מעט הכנה מראש', 'אתם בונים את התוכן'], ['גמישות', 'תוכנית קבועה', 'משנים תוך כדי לפי הקהל'], ['עלות', 'תשלום למפעיל', 'כלים ותכנים במחיר נמוך יותר'], ['שליטה', 'המפעיל מוביל', 'המארחים מובילים']]
-  } : null
-
-  if (comparison) {
-    return (
-      <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-        <SEO title={comparison.title} description={comparison.description} path={location.pathname} />
-        <h1 className="text-4xl md:text-5xl text-center mb-3">{comparison.title}</h1>
-        <p className="text-center text-xl text-[var(--ink)]/70 mb-8">{comparison.description}</p>
-        <WobblyCard hover={false} padding="p-3 md:p-6">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[620px] border-collapse text-right">
-              <thead><tr className="border-b-2 border-[var(--border)]"><th className="p-3 text-lg">נושא</th><th className="p-3 text-lg">אפשרות א׳</th><th className="p-3 text-lg">אפשרות ב׳</th></tr></thead>
-              <tbody>{comparison.rows.map(([topic, a, b]) => <tr key={topic} className="border-b border-dashed border-[var(--border)]"><th className="p-3 font-bold">{topic}</th><td className="p-3">{a}</td><td className="p-3">{b}</td></tr>)}</tbody>
-            </table>
-          </div>
-        </WobblyCard>
-        <div className="mt-8 text-center"><Link to="/ideas" className="button-sketch inline-block">לעוד רעיונות ←</Link></div>
-      </div>
-    )
-  }
+  // /compare/* pages: content in src/data/compare.js, layout in src/pages/compare/ComparisonPage.jsx
+  if (location.pathname.startsWith('/compare/')) return <ComparisonPage path={location.pathname} />
 
   if (location.pathname === '/blog') {
     const articles = Object.entries(IDEA_ARTICLES).slice(0, 12)
@@ -129,12 +105,13 @@ export default function IdeasHub() {
       </section>
 
       <section className="mt-12 text-center">
-        <h2 className="text-3xl mb-4">מתכננים לפי גיל?</h2>
+        <h2 className="text-3xl mb-2">מתכננים לפי גיל?</h2>
+        <p className="mb-4 text-lg text-[var(--foreground)]/75">לכל גיל: כמה זמן ומי להזמין, לו״ז לדוגמה, משחקים מתאימים ומה כדאי להימנע ממנו.</p>
         <div className="flex snap-x gap-3 overflow-x-auto px-1 pb-3 sm:justify-center">
-          {Array.from({ length: 9 }, (_, i) => i + 4).map((age, i) => (
+          {AGE_IDEA_LIST.map((age, i) => (
             <Link key={age} to={'/ideas/age/' + age}
               className={`card-lift flex h-20 w-20 shrink-0 snap-start items-center justify-center wobbly-sm border-[3px] border-[var(--border)] ${i % 2 ? 'bg-white rotate-1' : 'bg-[var(--postit)] -rotate-1'} font-display text-3xl font-bold sketch-shadow-sm`}>
-              {age}
+              <span className="sr-only">רעיונות ליום הולדת גיל </span>{age}
             </Link>
           ))}
         </div>

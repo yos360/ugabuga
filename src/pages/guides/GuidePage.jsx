@@ -2,7 +2,10 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
 import { GUIDE_BY_SLUG, GUIDES } from '../../data/guides'
+import { GUIDE_DEEP } from '../../data/guidesDeep'
+import { nearby } from '../../utils/nearby'
 import NotFound from '../NotFound'
 
 export default function GuidePage() {
@@ -13,11 +16,14 @@ export default function GuidePage() {
     return <NotFound />
   }
 
-  const moreGuides = GUIDES.filter((item) => item.slug !== guide.slug).slice(0, 3)
+  const moreGuides = nearby(GUIDES, (item) => item.slug === guide.slug, 3)
+  const deep = GUIDE_DEEP[slug] || {}
+  const sections = [...(deep.before || []), ...guide.sections, ...(deep.after || [])]
+  const relatedLinks = [...(guide.relatedLinks || []), ...(deep.links || [])]
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <SEO title={`${guide.title} — מדריך מעשי`} description={guide.description} path={`/guides/${guide.slug}`} />
+      <SEO title={`${guide.title} — מדריך מעשי`} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(deep.faq)} />
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },
@@ -42,9 +48,11 @@ export default function GuidePage() {
         </div>
       </header>
 
+      {deep.lead && <p className="text-xl leading-relaxed mb-6">{deep.lead}</p>}
+
       <WobblyCard hover={false} padding="p-6 md:p-8">
         <div className="space-y-8 leading-relaxed text-lg">
-          {guide.sections.map((section) => (
+          {sections.map((section) => (
             <section key={section.title}>
               <h2 className="text-2xl md:text-3xl font-hand font-bold mb-3">{section.title}</h2>
               {section.body?.map((paragraph) => (
@@ -65,11 +73,18 @@ export default function GuidePage() {
         </div>
       </WobblyCard>
 
-      {guide.relatedLinks?.length > 0 && (
+      {deep.faq?.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-2xl font-hand font-bold mb-4">שאלות נפוצות</h2>
+          <div className="space-y-4">{deep.faq.map((f) => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
+        </section>
+      )}
+
+      {relatedLinks.length > 0 && (
         <section className="mt-8">
           <h2 className="text-2xl font-hand font-bold mb-4">קישורים שימושיים</h2>
           <div className="flex flex-wrap gap-3">
-            {guide.relatedLinks.map((link) => (
+            {relatedLinks.map((link) => (
               <Link key={link.href} to={link.href} className="btn-secondary">
                 {link.label}
               </Link>
