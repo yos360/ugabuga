@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
 import { GREETING_PAGES } from '../../data/content/greetings'
+import { nearby } from '../../utils/nearby'
 
 function Card({ text }) {
   const [copied, setCopied] = useState(false)
@@ -58,7 +59,7 @@ export default function GreetingPage() {
       </WobblyCard>
       <section className="mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד ברכות</h2>
-        <div className="flex flex-wrap gap-2">{GREETING_PAGES.filter(x => x.slug !== slug).slice(0, 12).map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
+        <div className="flex flex-wrap gap-2">{nearby(GREETING_PAGES, x => x.slug === slug, 12).map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
       </section>
     </div>
   )

@@ -47,6 +47,7 @@ const IdeaArticlePage = lazy(() => import('./pages/ideas/IdeaArticlePage'))
 const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
 const ThemePage = lazy(() => import('./pages/ideas/ThemePage'))
+const ThemesHub = lazy(() => import('./pages/ideas/ThemesHub'))
 const Calculator = lazy(() => import('./pages/Calculator'))
 const Greeting = lazy(() => import('./pages/Greeting'))
 const Invitation = lazy(() => import('./pages/Invitation'))
@@ -245,7 +246,7 @@ export default function App() {
               <Route path="/ideas" element={<IdeasHub />} />
               <Route path="/ideas/age/:age" element={<AgePage />} />
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
-              <Route path="/ideas/themes" element={<Navigate to="/ideas" replace />} />
+              <Route path="/ideas/themes" element={<ThemesHub />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
               <Route path="/ideas/*" element={<NotFound />} />
               <Route path="/calculator" element={<Calculator />} />

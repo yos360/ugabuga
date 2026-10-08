@@ -148,7 +148,7 @@ const PAGES = [
   { to: '/printables/math-paths', title: 'שבילים בחשבון לכיתה א׳', emoji: '🛤️', kind: 'tool', desc: 'משלימים מספרים ופעולות לאורך השביל.', keys: 'שבילים חשבון כיתה א דפי עבודה' },
   { to: '/printables/fine-motor', title: 'מוטוריקה עדינה – מחולל דפי תרגול', emoji: '✏️', kind: 'tool', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים לפי גיל.', keys: 'מבוך מבוכים עקיבה קווים דפוס מוטוריקה גן' },
   { to: '/game-of-the-day', title: 'משחק היום', emoji: '⭐', kind: 'page', keys: 'יומי' },
-  { to: '/songs/birthday-songs', title: 'שירי יום הולדת', emoji: '🎵', kind: 'idea', keys: 'שיר שירים' },
+  { to: '/music/songs/happy-birthday', title: 'שירי יום הולדת', emoji: '🎵', kind: 'idea', keys: 'שיר שירים' },
   { to: '/compare/home-vs-venue', title: 'יום הולדת בבית או באולם?', emoji: '⚖️', kind: 'idea', keys: 'השוואה אולם בית' },
   { to: '/compare/entertainer-vs-diy', title: 'מפעיל או לבד?', emoji: '⚖️', kind: 'idea', keys: 'השוואה מפעיל' },
   { to: '/calculator/how-many-pizzas', title: 'כמה פיצות להזמין', emoji: '🍕', kind: 'tool', keys: 'פיצה פיצות מחשבון' },

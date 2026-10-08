@@ -1,5 +1,22 @@
 /games/all /games 301
-/ideas/themes /ideas 301
+
+# Printable slugs that never existed but were crawled (Search Console: noindex /
+# alternate-canonical shells). Send each to the closest real page.
+/printables/math-subtraction /printables/math-worksheets/subtraction-up-to-20 301
+/printables/cupcake-toppers /printables/birthday-signs 301
+/printables/tic-tac-toe /board-games/tic-tac-toe 301
+/printables/emotions /tools/dice/emotions 301
+/printables/daily-routine /printables/home-charts 301
+/printables/weekly-schedule /printables/class-schedule 301
+/printables/dots-and-boxes /board-games/dots-and-boxes 301
+/printables/would-you-rather-cards /questions/would-you-rather-kids 301
+/printables/reading-log /printables/reward-chart 301
+/printables/guest-list /tools/bring-list 301
+/gifts/boy /gifts 301
+/gifts/girl /gifts 301
+
+# Two different drawing games had near-identical slugs (haiver / haivver).
+/games/hatziyur-haivver /games/hatziyur-hamunhe 301
 
 # Canonical legacy tool redirects
 /tools/bingo /tools/bingo-maker 301

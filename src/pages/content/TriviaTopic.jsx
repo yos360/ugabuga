@@ -6,6 +6,7 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
 import { TRIVIA_TOPICS, TRIVIA_GROUPS } from '../../data/content/trivia'
 import { shuffle } from '../../utils/shuffle'
+import { nearby } from '../../utils/nearby'
 
 // A fresh quiz on every visit: 12 random questions out of the topic's whole pool, in a new
 // order, with the answers shuffled too — so playing again (or coming back tomorrow) never
@@ -21,7 +22,7 @@ export function TriviaTopicsHub() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title="טריוויה לפי נושא — חידונים עם תשובות לילדים ולמשפחה" description={`${TRIVIA_TOPICS.length} חידוני טריוויה עם תשובות והסברים: חיות, חלל, ישראל, חגים, ספורט, מוזיקה ועוד — לשחק באתר, בכיתה או בארוחה משפחתית.`} path="/trivia/topics" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia' }, { label: 'לפי נושא' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia/topics' }, { label: 'לפי נושא' }]} />
       <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🧠 טריוויה לפי נושא</h1>
       <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">כל חידון: 12 שאלות עם תשובה והסבר קצר — ובכל כניסה השאלות מתערבבות מחדש.</p>
       {TRIVIA_GROUPS.map(g => (
@@ -56,7 +57,7 @@ export default function TriviaTopic() {
     '@context': 'https://schema.org', '@type': 'Quiz', name: t.title, about: t.title, educationalLevel: t.audience,
     hasPart: t.questions.map(q => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.options[q.answer] } })),
   }
-  const others = TRIVIA_TOPICS.filter(x => x.slug !== slug).slice(0, 8)
+  const others = nearby(TRIVIA_TOPICS, x => x.slug === slug, 8)
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={t.title + ' — 12 שאלות עם תשובות'} description={t.description} path={'/trivia/' + slug} structuredData={schema} />

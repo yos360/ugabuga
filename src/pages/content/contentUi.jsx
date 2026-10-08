@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
+import { nearby } from '../../utils/nearby'
 
 // Shared building blocks of the content pages (animals, riddles, jokes, hunts, ABC).
 export const Chip = ({ to, children, hl }) => <Link to={to} className={`wobbly-sm border-2 border-[var(--border)] ${hl ? 'bg-[var(--postit)]' : 'bg-white'} px-3 py-2 font-bold`}>{children}</Link>
@@ -23,7 +24,7 @@ export function Hub({ seo, crumbs, emoji, title, intro, items, base, sub }) {
 export function More({ items, base, current, all, allLabel }) {
   return (
     <section className="mt-10"><h2 className="text-2xl font-hand font-bold mb-3">עוד</h2>
-      <div className="flex flex-wrap gap-2">{items.filter(x => x.slug !== current).slice(0, 12).map(o => <Chip key={o.slug} to={base + o.slug}>{o.emoji} {o.title || o.name}</Chip>)}<Chip to={all} hl>{allLabel} ←</Chip></div>
+      <div className="flex flex-wrap gap-2">{nearby(items, x => x.slug === current, 12).map(o => <Chip key={o.slug} to={base + o.slug}>{o.emoji} {o.title || o.name}</Chip>)}<Chip to={all} hl>{allLabel} ←</Chip></div>
     </section>
   )
 }
