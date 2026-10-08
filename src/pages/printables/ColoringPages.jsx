@@ -3,6 +3,8 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import { ColoringSubjectsGrid } from './ColoringSubject'
+import { COLORING_SUBJECTS } from '../../data/coloringSubjects'
 
 // One page per drawing: titles must match what actually prints (several titles used to share a drawing).
 const PAGES = [
@@ -69,9 +71,11 @@ export default function ColoringPages() {
   const pages = useMemo(() => category === 'all' ? PAGES : PAGES.filter(([cat]) => cat === category), [category])
   const print = (page) => setSelected(page)
   return <div data-print-gallery className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה לפי נושאים: יום הולדת, חיות, חלל, פנטזיה, כלי רכב וספורט." path="/printables/coloring" structuredData={faqSchema(FAQ)} />
+    <SEO title="דפי צביעה להדפסה בחינם" description="דפי צביעה להדפסה בחינם לפי נושא: חד קרן, חתולים, פרחים, לבבות, כלבים, דינוזאורים, מכוניות, נסיכות ועוד. ציורים מקוריים בקווים עבים, דף A4 לכל ציור, גם כ-PDF." path="/printables/coloring" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'דפי צביעה'}]} />
-    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p><p className="mx-auto mt-3 max-w-3xl leading-relaxed">{ABOUT}</p></header>
+    <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length + COLORING_SUBJECTS.reduce((n, x) => n + x.items.length, 0)} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים.</p><p className="mx-auto mt-3 max-w-3xl leading-relaxed">{ABOUT}</p></header>
+    <ColoringSubjectsGrid />
+    <h2 className="no-print mt-10 text-center text-3xl font-black">עוד ציורים פשוטים לצביעה</h2>
     <div className="no-print my-7 flex flex-wrap justify-center gap-2">{Object.entries(CATEGORY).map(([id,label]) => <button key={id} onClick={() => setCategory(id)} className={`rounded-2xl border-2 px-4 py-2 font-bold ${category===id?'border-pink-500 bg-pink-100':'border-slate-300 bg-white'}`}>{label} <span className="text-xs text-slate-500">({id==='all'?PAGES.length:PAGES.filter(([cat])=>cat===id).length})</span></button>)}</div>
     {selected && <PrintPreview title={selected[1]} onClose={()=>setSelected(null)}><article className="buga-a4"><h2>{selected[1]}</h2><div className="print-art"><LineArt kind={selected[2]} /></div><footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
     <section className="no-print grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">{pages.map((page,index) => <article key={page[1]} className="group rounded-3xl border-2 border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"><button className="block w-full text-right" onClick={() => setSelected(page)}><div className="aspect-[4/3] overflow-hidden rounded-2xl border bg-slate-50"><LineArt kind={page[2]} /></div><h2 className="mt-3 truncate text-center text-lg font-bold">{page[1]}</h2><p className="mt-1 text-center text-sm text-slate-500">{CATEGORY[page[0]]}</p></button><button onClick={() => print(page)} className="mt-3 w-full rounded-xl bg-pink-500 px-3 py-2 font-bold text-white">🖨️ הדפסה</button></article>)}</section>
