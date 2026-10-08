@@ -4,8 +4,22 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
-import { Chip, Header, More } from './contentUi'
+import { Chip, Header } from './contentUi'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { ANIMALS, ANIMAL_GROUPS } from '../../data/content/animals'
+import { ANIMALS_MORE_1 } from '../../data/content/animalsMore1'
+import { ANIMALS_MORE_2 } from '../../data/content/animalsMore2'
+import { nearby } from '../../utils/nearby'
+
+const MORE = { ...ANIMALS_MORE_1, ...ANIMALS_MORE_2 }
+// Topic links that fit each group (all URLs exist in the sitemap).
+const GROUP_LINKS = [
+  [['/trivia/animals', '🧠 טריוויה על חיות'], ['/english/animals', '🔤 חיות באנגלית'], ['/printables/activity/dot-to-dot/animals', '✏️ חבר את הנקודות – חיות']],
+  [['/trivia/sea-animals', '🌊 טריוויה על חיות ים'], ['/english/animals', '🔤 חיות באנגלית'], ['/printables/activity/silhouette-match/animals', '✏️ התאמת צלליות – חיות']],
+  [['/trivia/animals', '🧠 טריוויה על חיות'], ['/english/animals', '🔤 חיות באנגלית'], ['/printables/activity/word-tracing/animals', '✏️ מעקב מילים – חיות']],
+  [['/trivia/insects', '🐞 טריוויה על חרקים'], ['/riddles/animals', '🤔 חידות על חיות'], ['/printables/activity/hidden-object/animals', '✏️ מצא את החיה']],
+  [['/trivia/birds', '🐦 טריוויה על ציפורים'], ['/jokes/animals', '😂 בדיחות על חיות'], ['/printables/activity/match-word/animals', '✏️ התאמת מילה – חיות']],
+]
 
 // ---------- Animals ----------
 export function AnimalsHub() {
@@ -27,16 +41,22 @@ export function AnimalPage() {
   const a = ANIMALS.find(x => x.slug === slug)
   const [picked, setPicked] = useState({})
   if (!a) return <NotFound />
+  const gi = ANIMAL_GROUPS.findIndex(g => g.items.some(x => x.slug === slug)), group = ANIMAL_GROUPS[gi]
+  const m = MORE[slug] || {}, subject = a.title.replace(/^עובדות על /, '').replace(/ לילדים$/, '')
+  const sameGroup = nearby(group.items, x => x.slug === slug, 9)
+  const at = group.items.findIndex(x => x.slug === slug)
+  const others = ANIMAL_GROUPS.filter((_, j) => j !== gi).map(g => g.items[at % g.items.length]) // same position in each other group: spreads links evenly
   const P = [['סוג', a.profile.class], ['איפה חי', a.profile.habitat], ['מה אוכל', a.profile.food], ['גודל', a.profile.size], ['תוחלת חיים', a.profile.lifespan]]
   return (
     <article className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title={a.title} description={a.description} path={'/animals/' + slug} type="article" />
+      <SEO title={a.title} description={a.description} path={'/animals/' + slug} type="article" structuredData={faqSchema(m.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'עובדות על חיות', href: '/animals' }, { label: a.name }]} />
       <Header emoji={a.emoji} title={a.title} intro={a.intro} />
       <WobblyCard hover={false} padding="p-5" className="mb-6 bg-[var(--postit)]">
         <h2 className="text-2xl font-bold mb-2">כרטיס זיהוי</h2>
         <dl className="grid sm:grid-cols-2 gap-x-6 gap-y-2">{P.map(([k, v]) => <div key={k}><dt className="font-bold">{k}</dt><dd>{v}</dd></div>)}</dl>
       </WobblyCard>
+      {m.about && <section className="mb-8"><h2 className="text-2xl font-bold mb-3">קצת יותר על {subject}</h2><div className="space-y-3 text-lg leading-relaxed">{m.about.map(t => <p key={t}>{t}</p>)}</div></section>}
       <h2 className="text-2xl font-bold mb-3">8 עובדות מעניינות</h2>
       <ol className="space-y-2 mb-8">{a.facts.map((f, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{i + 1}.</b> {f}</li>)}</ol>
       <h2 className="text-2xl font-bold mb-3">🧠 חידון קצר</h2>
@@ -48,7 +68,14 @@ export function AnimalPage() {
             {p !== undefined && <p className="mt-2" role="status">{p === q.answer ? '✅ נכון! ' : '❌ לא הפעם. '}{q.explain}</p>}
           </WobblyCard>) })}
       </div>
-      <More items={ANIMALS.map(x => ({ ...x, title: x.name }))} base="/animals/" current={slug} all="/animals" allLabel="כל החיות" />
+      {m.kids && <WobblyCard hover={false} padding="p-5" className="mt-8 bg-[var(--postit)]"><h2 className="text-2xl font-bold mb-2">👨‍👩‍👧 איך מסבירים לילדים – ופעילות קצרה</h2><p className="text-lg leading-relaxed">{m.kids}</p></WobblyCard>}
+      {m.faq && <div className="mt-8"><SeoBody faq={m.faq} /></div>}
+      <section className="mt-10"><h2 className="text-2xl font-hand font-bold mb-3">עוד {group.title}</h2>
+        <div className="flex flex-wrap gap-2">{sameGroup.map(o => <Chip key={o.slug} to={'/animals/' + o.slug}>{o.emoji} {o.name}</Chip>)}</div>
+        <h3 className="text-lg font-bold mt-5 mb-2">ומקבוצות אחרות</h3>
+        <div className="flex flex-wrap gap-2">{others.map(o => <Chip key={o.slug} to={'/animals/' + o.slug}>{o.emoji} {o.name}</Chip>)}<Chip to="/animals" hl>כל 50 החיות ←</Chip></div>
+        <div className="flex flex-wrap gap-2 mt-5">{GROUP_LINKS[gi].map(([to, label]) => <Chip key={to} to={to}>{label}</Chip>)}</div>
+      </section>
     </article>
   )
 }
