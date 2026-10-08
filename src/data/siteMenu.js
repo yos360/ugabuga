@@ -98,6 +98,7 @@ export const MENU_GROUPS = [
       { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
       { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🔄' },
       { to: '/tools/drawing-prompt', label: 'מה לצייר?', icon: '🎨' },
+      { to: '/rubiks-cube', label: 'פתרון קובייה הונגרית', icon: '🧊' },
       { to: '/tools/riddles', label: 'חידות', icon: '🧩' },
       { to: '/tools/joke', label: 'בדיחה של בוגה', icon: '😂' },
       { to: '/tools/buga-town', label: 'בוגה טאון', icon: '🏙️' },
