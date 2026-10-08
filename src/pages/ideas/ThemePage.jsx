@@ -3,11 +3,14 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
 import WobblyCard from '../../components/ui/WobblyCard'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { PARTY_KITS } from '../../data/ideaArticlesExpanded'
+import { KIT_DEEP } from '../../data/ideaArticlesKits'
 
 export default function ThemePage() {
   const { slug } = useParams()
   const theme = PARTY_KITS[slug]
+  const deep = KIT_DEEP[slug]
   if (!theme) {
     const themes = Object.entries(PARTY_KITS).slice(0, 8)
     return (
@@ -33,7 +36,7 @@ export default function ThemePage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in">
-      <SEO title={theme.name} description={theme.desc} path={'/ideas/themes/'+slug} />
+      <SEO title={theme.name} description={theme.desc} path={'/ideas/themes/'+slug} structuredData={deep ? faqSchema(deep.faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: 'ערכות נושא', href: '/ideas/themes' }, { label: theme.name }]} />
 
       <div className="text-center mb-8">
@@ -47,16 +50,50 @@ export default function ThemePage() {
         </div>
       </div>
 
+      {deep && <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-[var(--foreground)]/85">{deep.intro}</p>}
+
       <div className="grid gap-5 sm:grid-cols-2">
         {theme.sections.map((section, index) => (
           <WobblyCard key={section.title} hover={false} className={index % 2 ? 'rotate-[0.4deg]' : '-rotate-[0.4deg]'}>
             <h2 className="text-2xl mb-4">{section.title}</h2>
             <ul className="grid gap-3 text-lg leading-relaxed">
-              {section.items.map(item => <li key={item}>• {item}</li>)}
+              {[...section.items, ...(deep?.more[section.title] || [])].map(item => <li key={item}>• {item}</li>)}
             </ul>
           </WobblyCard>
         ))}
       </div>
+
+      {deep && (
+        <>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow pin">
+              <h2 className="text-2xl mb-3">רעיון לנוסח ההזמנה</h2>
+              <p className="font-hand text-xl leading-relaxed">{deep.invitation}</p>
+              <Link to="/invitation" className="mt-4 inline-block font-display text-lg font-bold text-[var(--pen)] underline decoration-dashed">להכנת הזמנה מעוצבת ←</Link>
+            </div>
+            <WobblyCard hover={false} className="rotate-[0.3deg]">
+              <h2 className="text-2xl mb-3">רשימת קניות</h2>
+              <ul className="grid gap-2 text-lg">{deep.shopping.map(item => <li key={item}>☐ {item}</li>)}</ul>
+            </WobblyCard>
+          </div>
+
+          <section className="mt-8">
+            <h2 className="text-2xl mb-4">איך מתאימים את הערכה לגיל</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {deep.ageTips.map(([label, tip], i) => (
+                <WobblyCard key={label} hover={false} className={i % 2 ? 'rotate-[0.4deg]' : '-rotate-[0.4deg]'}>
+                  <h3 className="text-xl font-bold mb-2">{label}</h3>
+                  <p className="leading-relaxed text-[var(--foreground)]/85">{tip}</p>
+                </WobblyCard>
+              ))}
+            </div>
+          </section>
+
+          <div className="mt-10">
+            <SeoBody faq={deep.faq} related={deep.links.map(([label, href]) => ({ label, href }))} />
+          </div>
+        </>
+      )}
 
       <section className="mt-10">
         <h2 className="mb-4 text-2xl">עוד ערכות נושא</h2>
@@ -68,13 +105,9 @@ export default function ThemePage() {
         </div>
       </section>
 
-      <div className="wobbly relative mt-8 border-2 border-[var(--border)] bg-[var(--postit)] p-6 text-center sketch-shadow pin">
-        <h2 className="text-2xl mb-2">רוצים להפוך את זה למסיבה מלאה?</h2>
-        <p className="mx-auto mb-5 max-w-2xl text-lg text-[var(--foreground)]/80">בחרו משחקים מהמאגר, הוסיפו דפים להדפסה, וסגרו לו״ז קצר. הערכה הזו בנויה להיות נקודת פתיחה שאפשר להתאים לגיל, מקום ותקציב.</p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link to="/games" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--accent)] px-5 py-2 font-display text-lg font-bold text-[var(--accent-foreground)]">משחקים מתאימים</Link>
-          <Link to="/printables" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-white px-5 py-2 font-display text-lg font-bold">הדפסות למסיבה</Link>
-        </div>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <Link to="/games/birthday" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--accent)] px-5 py-2 font-display text-lg font-bold text-[var(--accent-foreground)]">עוד משחקי יום הולדת</Link>
+        <Link to="/printables" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-white px-5 py-2 font-display text-lg font-bold">הדפסות למסיבה</Link>
       </div>
     </div>
   )
