@@ -166,6 +166,7 @@ const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
 const ColoringSubject = lazy(() => import('./pages/printables/ColoringSubject'))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
 const OwnerMini = lazy(() => import('./pages/OwnerActivityReport').then(m => ({ default: m.OwnerMini })))
@@ -378,6 +379,7 @@ export default function App() {
               <Route path="/food/kitchen-science/:slug" element={<Experiment />} />
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
+              <Route path="/printables/mazes" element={<MazesPage />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />

@@ -1,4 +1,4 @@
-import { makeRng } from '../rng'
+import { makeRng } from '../rng.js'
 
 // Maze = perfect maze (exactly one route) from a depth-first "recursive backtracker".
 // Level controls: grid size, how often corridors turn, and line/path width.

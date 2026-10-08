@@ -181,6 +181,7 @@ const PAGES = [
   { to: '/printables/music-paper', title: 'דף תווים ריק', emoji: '🎼', kind: 'printable', desc: 'חמשות לכתיבת תווים.', keys: 'דף תווים חמשות תווים מוזיקה' },
   { to: '/printables/purim-masks', title: 'מסכות לפורים להדפסה', emoji: '🎭', kind: 'printable', desc: '9 מסכות לגזירה ולצביעה.', keys: 'מסכות מסכה פורים תחפושת גזירה' },
   { to: '/printables/birthday-crown', title: 'כתר יום הולדת להדפסה', emoji: '👑', kind: 'printable', desc: 'כתר עם שם וגיל.', keys: 'כתר יום הולדת גן חוגג' },
+  { to: '/printables/mazes', title: 'מבוכים להדפסה — 30 מבוכים ב-5 רמות', emoji: '🌀', kind: 'printable', desc: 'מבוכים מגן ועד מבוגרים, עם פתרון ומבוך חדש בכל לחיצה.', keys: 'מבוך מבוכים להדפסה לילדים קשה קל' },
   { to: '/printables/memory-game', title: 'משחק זיכרון להדפסה', emoji: '🃏', kind: 'printable', desc: '10 זוגות עם תמונות ומילים.', keys: 'משחק זיכרון זוגות קלפים' },
   { to: '/printables/dominoes', title: 'דומינו להדפסה', emoji: '🁫', kind: 'printable', desc: 'קלאסי, מספרים, חיבור ומילים.', keys: 'דומינו' },
   { to: '/printables/fortune-teller', title: 'קוטי פוטי להדפסה', emoji: '🌸', kind: 'printable', desc: 'תבנית קיפול עם משפטים.', keys: 'קוטי פוטי קיפול נייר אוריגמי' },
