@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import CreativeArt from '../../components/ui/CreativeArt'
 import { CREATIVE_CATEGORIES, CREATIVE_PAGES } from '../../data/creativePages'
+import { COLORING_SUBJECTS, coloringSrc } from '../../data/coloringSubjects'
+const DRAWN = COLORING_SUBJECTS.filter(s => s.slug.startsWith('mandala-'))
 
 export default function MandalaStudio(){
   const [mode,setMode]=useState('kids'),[selected,setSelected]=useState(null),[name,setName]=useState('')
@@ -13,6 +16,7 @@ export default function MandalaStudio(){
     <SEO title="מנדלות ודפי יצירה להדפסה" description="70 דפי יצירה: מנדלות לילדים ולגדולים, זנטנגל, סימטריה, קליידוסקופ, שם אישי וצביעת פיקסלים. כל איור בדף A4 נפרד." path="/printables/mandalas"/>
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'מנדלות ויצירה'}]}/>
     <header className="text-center"><h1 className="text-4xl font-black sm:text-5xl">🌈 סטודיו מנדלות ויצירה</h1><p className="mt-3 text-lg">70 דפים לבחירה — 10 בכל סגנון. פותחים איור שלם ומדפיסים על A4.</p></header>
+    <section aria-label="מנדלות מצוירות" className="no-print mt-6 grid grid-cols-3 gap-3">{DRAWN.map(m=><Link key={m.slug} to={`/printables/coloring/${m.slug}`} className="rounded-2xl border-2 border-slate-200 bg-white p-2 text-center hover:border-purple-400"><img src={coloringSrc(m.slug,1,'webp')} alt={m.h1} loading="lazy" width="267" height="400" className="mx-auto h-32 object-contain sm:h-44"/><b className="mt-1 block">{m.emoji} {m.name}</b><small className="text-slate-500">{m.items.length} מנדלות מצוירות</small></Link>)}</section>
     <nav aria-label="סוג דפי היצירה" className="my-7 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{CREATIVE_CATEGORIES.map(([id,emoji,title])=><button key={id} aria-pressed={mode===id} onClick={()=>setMode(id)} className={`min-h-[80px] rounded-2xl border-2 p-3 font-bold ${mode===id?'border-pink-500 bg-pink-100':'border-slate-200 bg-white'}`}><span aria-hidden="true">{emoji} </span>{title}<small className="block">10 דפים</small></button>)}</nav>
     {mode==='name'&&<label className="mx-auto mb-6 block max-w-sm text-center font-bold">השם שיופיע במנדלה<input maxLength={20} value={name} onChange={event=>setName(event.target.value)} placeholder="למשל: נועה" className="mt-2 w-full rounded-xl border-2 p-3"/></label>}
     <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl">{current[2]}</h2><button data-print-main onClick={()=>setSelected(pages)} className="min-h-[44px] rounded-xl bg-purple-700 px-5 py-3 font-bold text-white">🖨️ הדפיסו את כל 10 הדפים</button></div>

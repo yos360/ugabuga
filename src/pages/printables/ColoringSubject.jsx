@@ -5,7 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
-import { COLORING_SUBJECTS, coloringSrc } from '../../data/coloringSubjects'
+import { COLORING_SUBJECTS, coloringSrc, coloringFmt } from '../../data/coloringSubjects'
 
 // Subject grid for the coloring hub: one card per subject, linking to its own page.
 export function ColoringSubjectsGrid({ exclude, title = 'דפי צביעה לפי נושא' }) {
@@ -29,7 +29,7 @@ export default function ColoringSubject() {
   const faq = [
     { q: `איך מדפיסים את דפי הצביעה של ${s.name}?`, a: 'לוחצים על ציור כדי להדפיס רק אותו, או על "הדפסת כל הדפים" כדי לקבל את כולם — כל ציור על דף A4 מלא. בטלפון אפשר ללחוץ "הורדה כ-PDF" ולהדפיס אחר כך.' },
     { q: 'הדפים בחינם?', a: 'כן, כל דפי הצביעה באתר חינמיים לשימוש אישי, בבית, בגן ובכיתה — בלי הרשמה.' },
-    { q: 'הציור יוצא חד בהדפסה?', a: 'כן. הקווים שמורים כקובץ וקטורי, כך שהם נשארים חדים ושחורים בכל גודל, בלי טשטוש ובלי רקע אפור.' },
+    { q: 'הציור יוצא חד בהדפסה?', a: 'כן. הקווים שחורים ונקיים, בלי טשטוש ובלי רקע אפור, והציור ממלא דף A4 שלם.' },
   ]
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={s.h1} description={s.desc} path={`/printables/coloring/${s.slug}`} image={coloringSrc(s.slug, 1, 'webp')} structuredData={faqSchema(faq)} />
@@ -49,9 +49,9 @@ export default function ColoringSubject() {
           <button type="button" onClick={() => setPrinting([i + 1])} className="shrink-0 rounded-xl bg-pink-100 px-3 py-2 text-sm font-bold">🖨️ הדפסה</button></figcaption>
       </figure>)}</section>
     {printing && <PrintPreview title={printing.length === 1 ? s.items[printing[0] - 1] : `${s.h1} — ${printing.length} דפים`} onClose={() => setPrinting(null)}>
-      {printing.map(n => <article className="buga-a4" key={n}><div className="print-art"><img src={coloringSrc(s.slug, n)} alt={s.items[n - 1]} /></div></article>)}
+      {printing.map(n => <article className="buga-a4" key={n}><div className="print-art"><img src={coloringSrc(s.slug, n, coloringFmt(s))} alt={s.items[n - 1]} /></div></article>)}
     </PrintPreview>}
     <ColoringSubjectsGrid exclude={s.slug} title="עוד דפי צביעה לפי נושא" />
-    <div className="mt-6"><SeoBody paragraphs={[s.desc, `כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווי מתאר שחורים ועבים, שטחים גדולים שנוח למלא בטושים או בצבעי עיפרון, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.`, 'אפשר להדפיס ציור אחד או את כולם יחד, להוריד כ-PDF מהטלפון, ולשלוח לחברים או לקבוצת הגן בוואטסאפ. בתחתית כל דף יש קוד QR שמחזיר בדיוק לעמוד הזה — למי שירצה עוד.']} faq={faq} related={[...(['sufganiyah', 'dreidel', 'hanukkiah'].includes(s.slug) ? [{ label: 'הכול לחנוכה', href: '/holidays/hanukkah' }] : []), { label: 'כל דפי הצביעה', href: '/printables/coloring' }, { label: 'מנדלות להדפסה', href: '/printables/mandalas' }, { label: 'דפים להדפסה', href: '/printables' }]} /></div>
+    <div className="mt-6"><SeoBody paragraphs={[s.desc, s.fmt ? 'כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווים דקים ומדויקים עם הרבה פרטים, שמתאימים לטושים דקים או לצבעי עיפרון מחודדים, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.' : `כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווי מתאר שחורים ועבים, שטחים גדולים שנוח למלא בטושים או בצבעי עיפרון, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.`, 'אפשר להדפיס ציור אחד או את כולם יחד, להוריד כ-PDF מהטלפון, ולשלוח לחברים או לקבוצת הגן בוואטסאפ. בתחתית כל דף יש קוד QR שמחזיר בדיוק לעמוד הזה — למי שירצה עוד.']} faq={faq} related={[...(['sufganiyah', 'dreidel', 'hanukkiah'].includes(s.slug) ? [{ label: 'הכול לחנוכה', href: '/holidays/hanukkah' }] : []), ...(s.related || []), { label: 'כל דפי הצביעה', href: '/printables/coloring' }, ...(s.related ? [] : [{ label: 'מנדלות להדפסה', href: '/printables/mandalas' }]), { label: 'דפים להדפסה', href: '/printables' }]} /></div>
   </div>
 }
