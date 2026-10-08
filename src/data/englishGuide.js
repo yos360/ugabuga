@@ -204,7 +204,7 @@ export const ENGLISH_GUIDE = {
     sounds: [
       'ב-{water} באנגלית אמריקאית ה-t נשמעת כמעט כמו ד׳.',
       'ב-{bread} הצירוף ea נשמע אֶ קצרה, אבל ב-{cheese} ה-ee ארוכה.',
-      'אין רבים ל-{rice} ול-{soup}: אומרים some rice, some soup. ב-{chocolate} ה-o האמצעית כמעט נבלעת.',
+      'את {rice} ואת {soup} בדרך כלל לא סופרים: אומרים some rice, some soup. ב-{chocolate} ה-o האמצעית כמעט נבלעת.',
     ],
     games: [
       ['המסעדה', 'מגישים "תפריט" מהכרטיסיות. המלצר שואל What would you like? והילד מזמין: Pizza and juice, please.'],
