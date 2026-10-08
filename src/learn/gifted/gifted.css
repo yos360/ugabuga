@@ -1,0 +1,45 @@
+/* /learn/gifted-test: practice questions (analogies, number series, shape matrices, logic) */
+.gt-note{border:2px dashed var(--border,#1d2233);border-radius:14px;padding:10px 14px;background:#fff6d1;color:#1d2233;font-size:16px;line-height:1.6}
+.gt-analogy{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 8px;margin:8px 0 4px;font-size:clamp(20px,5.4vw,28px);font-weight:900}
+.gt-analogy span{padding:4px 12px;border:2px solid var(--border,#1d2233);border-radius:12px;background:#fff;color:#1d2233}
+.gt-analogy span.q,.gt-series span.q{background:#fff6d1;border-style:dashed}
+.gt-analogy i{font-style:normal;font-weight:900}
+.gt-analogy b{font-size:.7em;padding:0 4px}
+.gt-series{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:8px 0 4px}
+.gt-series span{min-width:1.9em;padding:6px 5px;text-align:center;border:2px solid var(--border,#1d2233);border-radius:12px;background:#fff;color:#1d2233;font-size:clamp(17px,4.6vw,28px);font-weight:900;direction:ltr}
+.gt-logic{font-size:19px;line-height:1.7;margin:4px 0}
+.gt-matrix{display:block;width:min(100%,300px);height:auto;margin:6px auto}
+.gt-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.gt-opts.is-fig{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gt-opt.ln-opt{display:flex;align-items:center;gap:10px;margin:0;font-size:18px;font-weight:700;color:#1d2233}
+.gt-opts.is-fig .gt-opt{flex-direction:column;gap:2px;padding:6px}
+.gt-letter{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:99px;background:#eef0f6;font-size:15px}
+.gt-cell{width:100%;max-width:110px;height:auto;display:block}
+.gt-exp{margin-top:12px;padding:10px 14px;border-radius:14px;border:2px solid;line-height:1.65;color:#1d2233}
+.gt-exp.ok{background:#e7f8e4;border-color:#2e9e2b}.gt-exp.no{background:#fff0f0;border-color:#d33}
+.gt-review{display:inline-block;text-align:right;line-height:1.9}
+.gt-steps{list-style:none;padding:0;display:grid;gap:10px}
+.gt-steps li{border-inline-start:5px solid var(--yellow,#ffd23f);padding:4px 12px;background:var(--card,#fff);border-radius:8px}
+.gt-sample-opts{list-style:none;padding:0;margin:8px 0;display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:17px}
+.gt-sample-opts.is-fig{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gt-sample-opts.is-fig li{display:flex;flex-direction:column;align-items:center}
+.gt-sample details{margin-top:6px}
+.gt-sample summary{cursor:pointer;font-weight:700;text-decoration:underline}
+@media (max-width:420px){.gt-opts:not(.is-fig){grid-template-columns:1fr}}
+/* printed pages */
+.gt-print{color:#111}
+.gt-print-how{font-size:11.5pt;margin:0 0 6px}
+.gt-print-qs{padding-inline-start:24px;margin:0}
+.gt-print-qs>li{break-inside:avoid;page-break-inside:avoid;margin:0 0 6px;padding-bottom:6px;border-bottom:1px dashed #bbb}
+.gt-print-qs .gt-analogy,.gt-print-qs .gt-series{justify-content:flex-start;font-size:15pt;margin:2px 0}
+.gt-print-qs .gt-analogy span,.gt-print-qs .gt-series span{font-size:15pt;padding:1px 8px;border-width:1.5px}
+.gt-print-qs .gt-logic{font-size:12.5pt;line-height:1.55}
+.gt-print-qs ul.txt{list-style:none;padding:0;margin:4px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px 10px;font-size:12.5pt}
+.gt-print-qs>li.is-fig{display:flex;gap:14px;align-items:center}
+.gt-print-qs .stem{flex:none}
+.gt-matrix.is-print{width:38mm;margin:0}
+.gt-print-qs ul.figs{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;flex:1}
+.gt-print-qs ul.figs li{display:flex;flex-direction:column;align-items:center;border:1px solid #999;border-radius:8px;padding:2px}
+.gt-print-qs ul.figs .gt-cell{max-width:17mm}
+.gt-print-key{padding-inline-start:24px;font-size:11pt;line-height:1.5}
+.gt-print-key li{margin-bottom:5px}

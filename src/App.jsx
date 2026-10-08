@@ -89,6 +89,8 @@ const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ defaul
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
+const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
+const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
@@ -358,6 +360,8 @@ export default function App() {
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
+              <Route path="/learn/gifted-test" element={<GiftedHub />} />
+              <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />

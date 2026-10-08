@@ -146,6 +146,11 @@ const PAGES = [
   { to: '/learn/reading', title: 'הבנת הנקרא', emoji: '📖', kind: 'tool', desc: 'קטעים קצרים עם שאלות, להדפסה.', keys: 'הבנת הנקרא קריאה קטע שאלות' },
   { to: '/learn/times-tables', title: 'אתגר לוח הכפל', emoji: '✖️', kind: 'tool', desc: 'כמה תרגילים בדקה? ולוח הכפל להדפסה.', keys: 'לוח הכפל כפל תרגילי כפל' },
   { to: '/learn/flashcards', title: 'כרטיסיות לימוד', emoji: '🃏', kind: 'tool', desc: 'אנגלית, הפכים, לוח הכפל או כרטיסיות משלכם.', keys: 'כרטיסיות שינון מילים באנגלית' },
+  { to: '/learn/gifted-test', title: 'הכנה למבחן מחוננים', emoji: '🧠', kind: 'tool', desc: '120 שאלות תרגול לשלב א׳ ושלב ב׳, עם הסברים.', keys: 'מבחן מחוננים מחוננים שלב א שלב ב איתור מצטיינים הכנה' },
+  { to: '/learn/gifted-test/verbal-analogies', title: 'אנלוגיות מילוליות', emoji: '🔤', kind: 'tool', desc: '30 שאלות אנלוגיה לתרגול מבחן מחוננים.', keys: 'אנלוגיות אנלוגיה מילולית מבחן מחוננים' },
+  { to: '/learn/gifted-test/number-series', title: 'סדרות מספרים', emoji: '🔢', kind: 'tool', desc: '30 סדרות — מה המספר הבא?', keys: 'סדרות מספרים חוקיות מספר הבא מבחן מחוננים' },
+  { to: '/learn/gifted-test/shape-matrices', title: 'מטריצות צורות', emoji: '🔷', kind: 'tool', desc: '30 מטריצות 3×3 לחשיבה צורנית.', keys: 'מטריצות צורות חשיבה צורנית מבחן מחוננים' },
+  { to: '/learn/gifted-test/logic-problems', title: 'חשיבה לוגית ובעיות מילוליות', emoji: '🧩', kind: 'tool', desc: '30 שאלות היגיון ובעיות מילוליות עם פתרונות.', keys: 'חשיבה לוגית בעיות מילוליות היגיון מבחן מחוננים' },
   // food for kids (/food/*)
   { to: '/food', title: 'אוכל לילדים', emoji: '🍎', kind: 'tool', desc: 'ארוחת עשר, מתכונים וניסויים.', keys: 'אוכל ילדים מטבח' },
   { to: '/food/school-lunch', title: 'מה שמים בכריך? ארוחת עשר', emoji: '🥪', kind: 'tool', desc: 'מחולל ו-50 רעיונות לכריכים.', keys: 'כריך כריכים סנדוויץ סנדוויצ׳ים ארוחת עשר בית ספר גן מה לשים בכריך' },
