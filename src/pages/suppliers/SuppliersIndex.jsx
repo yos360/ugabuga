@@ -2,9 +2,37 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { SupplierCard } from '../../components/suppliers/SupplierBits'
 import { suppliersDb } from '../../utils/suppliersDb'
 import { SUPPLIER_CATEGORIES, SUPPLIER_AREAS } from '../../data/supplierOptions'
+
+// Static guide under the directory: how it works, what to ask a supplier, FAQ.
+const ASK = [
+  ['📅 זמינות ומשך', 'האם הספק פנוי בתאריך ובשעה, וכמה זמן נמשכת ההפעלה בפועל, לא כולל הקמה ופירוק.'],
+  ['💸 מה כלול במחיר', 'ציוד, הגברה, פרסים או קישוטים, והאם יש תוספת נסיעה לאזור שלכם.'],
+  ['🧒 גיל ומספר ילדים', 'לאיזה גיל ההפעלה מתאימה, ועד כמה ילדים היא עובדת טוב.'],
+  ['🔌 מה צריך להכין', 'שטח פנוי, שקע חשמל, שולחן או צל. כדאי לדעת מראש, ולא בבוקר של המסיבה.'],
+  ['🌧️ ביטול ומזג אוויר', 'מה קורה אם צריך לבטל או לדחות, ומה התוכנית אם יורד גשם באירוע בחוץ.'],
+  ['🎥 דוגמאות והמלצות', 'תמונות או סרטונים מאירועים קודמים, והמלצות מהורים שכבר הזמינו.'],
+]
+const FAQ = [
+  { q: 'עוגה בוגה גובה עמלה על הזמנת ספק?', a: 'לא. פונים לספק ישירות בוואטסאפ, בלי תיווך ובלי עמלות. המחיר והתנאים נקבעים רק ביניכם לבין הספק.' },
+  { q: 'מי כותב את המידע בכרטיסי הספקים?', a: 'הספקים כותבים את הכרטיס בעצמם, וכל כרטיס עובר בדיקה קצרה לפני שהוא עולה לאתר. לפני שסוגרים, כדאי לשאול את השאלות שברשימה למעלה ולבקש דוגמאות מאירועים קודמים.' },
+  { q: 'כמה זמן מראש כדאי להזמין ספק ליום הולדת?', a: 'בסופי שבוע, בחופשות ובתקופות עמוסות כמו חנוכה וסוף שנת הלימודים, כדאי לפנות כמה שבועות מראש. לאירוע באמצע השבוע לפעמים מספיקים כמה ימים.' },
+  { q: 'איך מצטרפים כספק?', a: 'לוחצים על "הצטרפות כספק", ממלאים לוגו, תמונה, כמה מילים עליכם ומספר וואטסאפ. כרטיס ספק בעוגה בוגה הוא בחינם.' },
+]
+function SuppliersGuide() {
+  return <section className="mx-auto mt-12 max-w-3xl">
+    <h2 className="mb-2 text-3xl font-bold">איך עובד לוח הספקים?</h2>
+    <p className="mb-3 text-lg leading-relaxed">כל כרטיס כאן שייך לספק שמציע שירות לימי הולדת ולאירועי ילדים: מפעילים, קוסמים, אופות, צלמים, מעצבי בלונים, מתנפחים ועוד. מסננים לפי סוג השירות ולפי האזור, ופונים לספק ישירות בוואטסאפ מתוך הכרטיס. ספקים שעובדים בכל הארץ מופיעים בכל אזור שתבחרו.</p>
+    <p className="mb-8 text-lg leading-relaxed">עוגה בוגה לא מתווכת ולא לוקחת אחוזים, ולכן גם לא נותנת הצעות מחיר. את המחיר, השעות והתנאים סוגרים מול הספק. כדאי לפנות לשניים־שלושה ספקים באותו תחום ולהשוות.</p>
+    <h2 className="mb-3 text-3xl font-bold">מה לשאול ספק לפני שסוגרים</h2>
+    <div className="mb-4 grid gap-3 sm:grid-cols-2">{ASK.map(([t, d]) => <div key={t} className="rounded-2xl border-2 border-[var(--border)] bg-white p-4"><h3 className="mb-1 text-lg font-bold">{t}</h3><p className="text-[var(--foreground)]/80">{d}</p></div>)}</div>
+    <p className="mb-10 rounded-2xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-4">🏰 מזמינים מתנפח? ודאו שהוא מוצב על שטח ישר ומעוגן היטב, שמספר הילדים עליו מוגבל לפי הוראות הספק, ושמבוגר משגיח כל הזמן.</p>
+    <SeoBody faq={FAQ} related={[{ label: 'יום הולדת בלי מפעיל', href: '/guides/birthday-without-entertainer' }, { label: 'מפעיל או לבד? השוואה', href: '/compare/entertainer-vs-diy' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }, { label: 'תקציב ליום הולדת', href: '/guides/birthday-budget' }]} />
+  </section>
+}
 
 export default function SuppliersIndex() {
   const [list, setList] = useState(null)
@@ -22,7 +50,7 @@ export default function SuppliersIndex() {
   const usedCats = useMemo(() => SUPPLIER_CATEGORIES.filter(([id]) => (list || []).some(s => s.category === id)), [list])
 
   return <div className="mx-auto max-w-6xl px-4 py-8">
-    <SEO title="ספקים לימי הולדת ואירועי ילדים" description="ספקים לימי הולדת ואירועי ילדים: מפעילים, קוסמים, עוגות, צילום, בלונים ומתנפחים — פנייה ישירה בוואטסאפ, בלי תיווך." path="/suppliers" />
+    <SEO title="ספקים לימי הולדת ואירועי ילדים" description="ספקים לימי הולדת ואירועי ילדים: מפעילים, קוסמים, עוגות, צילום, בלונים ומתנפחים — פנייה ישירה בוואטסאפ, בלי תיווך." path="/suppliers" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'ספקים' }]} />
     <header className="mb-6 text-center">
       <h1 className="text-4xl sm:text-5xl">🎪 ספקים לימי הולדת</h1>
@@ -53,5 +81,6 @@ export default function SuppliersIndex() {
       <p className="mx-auto mt-2 max-w-xl text-lg">כרטיס ספק בעוגה בוגה הוא בחינם: לוגו, תמונה, קצת עליכם ופנייה ישירה בוואטסאפ. ובקרוב ⭐ בוגה פרימיום: עמוד ספק מקצועי שאפשר לשלוח ללקוחות, לשים בביו ובוואטסאפ.</p>
       <Link to="/suppliers/me" className="mt-5 inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 text-lg font-bold text-white">הצטרפות כספק ←</Link>
     </section>
+    <SuppliersGuide />
   </div>
 }
