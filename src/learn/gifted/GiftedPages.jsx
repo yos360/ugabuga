@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { TYPES, LEVELS, explain, describeCell } from './giftedData'
+import { GRADE_SETS } from './giftedGrades'
+import { GRADE_TEXT } from './giftedGradeText'
 import { MatrixFigure, CellFigure } from './Figures'
 import '../learn.css'
 import './gifted.css'
@@ -118,6 +120,9 @@ export function GiftedHub() {
     <p className="gt-note">התרגול באתר נכתב במיוחד לעוגה בוגה. הוא <b>אינו</b> המבחן הרשמי, אינו קשור למשרד החינוך, והשאלות אינן לקוחות ממבחנים אמיתיים.</p>
     <div className="grid gap-5 sm:grid-cols-2 mt-6">{TYPES.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right">
       <div className="text-4xl mb-2" aria-hidden="true">{t.emoji}</div><h2 className="text-2xl font-bold">{t.title}</h2><p className="text-[var(--muted-foreground)]">{t.how}</p><small className="font-bold">30 שאלות · אונליין ולהדפסה</small></Link>)}</div>
+    <h2 className="mt-10 mb-3 text-3xl font-black">תרגול לפי כיתה ולפי שלב</h2>
+    <p className="mb-3 text-lg">כל עמוד כולל הסבר קצר על המבחן באותו שלב, ושאלות ברמת הקושי שמתאימה לו:</p>
+    <div className="grid gap-3 sm:grid-cols-2">{GRADE_SETS.map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{x.emoji} {x.slug === 'stage-b' ? 'מבחן מחוננים שלב ב׳' : `מבחני מחוננים ${x.label}`}</b><br /><small>{x.pool.length} שאלות · רמה: {x.levels.map(l => LEVELS[l]).join(' ו')}</small></Link>)}</div>
     <h2 className="mt-10 mb-3 text-3xl font-black">מבחן תרגול משולב</h2>
     <Quiz pool={pool} count={12} label="12 שאלות מעורבבות מכל ארבעת הסוגים. אחרי כל תשובה מופיע הסבר, ובסוף — הציון." />
     <h2 className="mt-10 mb-3 text-3xl font-black">איך נראה תהליך האיתור?</h2>
@@ -216,5 +221,62 @@ export function GiftedType() {
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד סוגי שאלות</h2>
     <div className="grid gap-3 sm:grid-cols-3">{TYPES.filter(x => x.key !== t.key).map(x => <Link key={x.key} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {x.title}</b></Link>)}</div>
     <div className="mt-12"><SeoBody paragraphs={[...txt.paras, 'השאלות נכתבו במיוחד לאתר לצורך תרגול, ואינן לקוחות ממבחני האיתור של משרד החינוך. האתר אינו קשור למשרד החינוך.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים — עמוד ראשי', href: HUB }, { label: 'לומדים בבית', href: '/learn' }]} /></div>
+  </Page>
+}
+
+// ── grade spokes: /learn/gifted-test/grade-2, grade-3, grade-6, stage-b ──
+const gradeName = x => x.slug === 'stage-b' ? 'מבחן מחוננים שלב ב׳' : `מבחן מחוננים ${x.label}`
+function MixedPrint({ title, items, from }) {
+  return <>
+    <article className="buga-flow ln-print gt-print" dir="rtl">
+      <h2>{title} — שאלות {from + 1}–{from + items.length}</h2>
+      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>הצלחתי: ____ מתוך {items.length}</span></div>
+      <p className="gt-print-how">מקיפים את האות של התשובה הנכונה. מותר לצייר ולחשב בצד הדף.</p>
+      <ol className="gt-print-qs">{items.map(({ type, item }, i) => <li key={item.id} value={from + i + 1} className={type === 'matrices' ? 'is-fig' : ''}>
+        <div className="stem">{prompt(type) && <p className="gt-print-how"><b>{prompt(type)}</b></p>}<Stem type={type} item={item} print /></div>
+        <ul className={type === 'matrices' ? 'figs' : 'txt'}>{item.options.map((o, j) => <li key={j}><b>{LETTERS[j]}.</b> <OptionBody type={type} opt={o} /></li>)}</ul>
+      </li>)}</ol>
+    </article>
+    <article className="buga-flow ln-print gt-print" dir="rtl">
+      <h2>תשובות והסברים — {title} {from + 1}–{from + items.length}</h2>
+      <ol className="gt-print-key">{items.map(({ type, item }, i) => <li key={item.id} value={from + i + 1}><b>{LETTERS[item.answer]}</b> — {explain(type, item)}</li>)}</ol>
+    </article>
+  </>
+}
+export function GiftedGrade({ slug }) {
+  const g = GRADE_SETS.find(x => x.slug === slug)
+  const [count, setCount] = useState(10)
+  const [printFrom, setPrintFrom] = useState(null)
+  if (!g) return <NotFound />
+  const txt = GRADE_TEXT[g.slug]
+  const sets = Array.from({ length: Math.ceil(g.pool.length / 10) }, (_, i) => i * 10)
+  const countOf = k => g.pool.filter(p => p.type === k).length
+  const last = f => Math.min(f + 10, g.pool.length)
+  return <Page>
+    <SEO title={txt.seoTitle} description={txt.seoDesc} path={`${HUB}/${g.slug}`} structuredData={faqSchema(txt.faq)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, HUB_CRUMB, { label: g.label }]} />
+    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{g.emoji} </span>{txt.h1}</h1>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{g.pool.length} שאלות תרגול · רמה: {g.levels.map(l => LEVELS[l]).join(' ו')}</p>
+    <p className="text-lg leading-relaxed mb-4">{txt.intro}</p>
+    <p className="gt-note">התרגול נכתב במיוחד לעוגה בוגה. הוא <b>אינו</b> המבחן הרשמי, אינו קשור למשרד החינוך, והשאלות אינן לקוחות ממבחנים אמיתיים.</p>
+    <h2 className="mt-8 mb-3 text-3xl font-black">תרגול אונליין</h2>
+    <div className="my-3 flex flex-wrap justify-center gap-2" role="group" aria-label="כמה שאלות">
+      <Chip on={count === 10} onClick={() => setCount(10)}>10 שאלות</Chip>
+      <Chip on={count === 20} onClick={() => setCount(20)}>20 שאלות</Chip>
+    </div>
+    <Quiz key={`${g.slug}-${count}`} pool={g.pool} count={count} label={`${count} שאלות אקראיות מתוך ${g.pool.length}: ${countOf('verbal')} אנלוגיות, ${countOf('series')} סדרות, ${countOf('matrices')} מטריצות ו־${countOf('logic')} שאלות היגיון. אחרי כל תשובה מופיע הסבר.`} />
+    <div className="ln-box mt-6 text-center">
+      <h2 className="text-2xl font-black mb-2">🖨️ דפי תרגול להדפסה</h2>
+      <p className="mb-3">בכל דף 10 שאלות מעורבבות מכל הסוגים, ואחריו דף תשובות עם הסבר לכל שאלה.</p>
+      <div className="flex flex-wrap justify-center gap-2">{sets.map(f => <button key={f} type="button" className="ln-btn alt" onClick={() => setPrintFrom(f)}>שאלות {f + 1}–{last(f)}</button>)}</div>
+    </div>
+    {printFrom !== null && <PrintPreview title={`${gradeName(g)} — שאלות ${printFrom + 1}–${last(printFrom)}`} onClose={() => setPrintFrom(null)}><MixedPrint title={`תרגול ל${gradeName(g)}`} items={g.pool.slice(printFrom, printFrom + 10)} from={printFrom} /></PrintPreview>}
+    <h2 className="mt-10 mb-3 text-3xl font-black">{g.slug === 'stage-b' ? 'מה זה שלב ב׳?' : `איך נראה המבחן ב${g.label}?`}</h2>
+    <div className="space-y-3 text-lg leading-relaxed">{txt.about.map(p => <p key={p}>{p}</p>)}</div>
+    <h2 className="mt-10 mb-3 text-2xl font-black">תרגול לפי סוג שאלה</h2>
+    <div className="grid gap-3 sm:grid-cols-2">{TYPES.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="ln-box card-lift text-right"><b>{t.emoji} {t.title}</b><br /><small>{t.how}</small></Link>)}</div>
+    <h2 className="mt-10 mb-3 text-2xl font-black">תרגול לכיתות ולשלבים אחרים</h2>
+    <div className="grid gap-3 sm:grid-cols-3">{GRADE_SETS.filter(x => x.slug !== g.slug).map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {gradeName(x)}</b></Link>)}</div>
+    <div className="mt-12"><SeoBody paragraphs={[`השאלות בעמוד נבחרו לפי רמת הקושי שמתאימה לשלב: ${g.levels.map(l => `"${LEVELS[l]}"`).join(' ו')}. בכל שאלה יש תשובה נכונה אחת בדיוק, ולכל אחת יש הסבר שאפשר לקרוא יחד עם הילד.`, 'הדרך המומלצת לתרגל: סבב קצר של 10 שאלות, ואחריו שיחה על השאלות שהיו קשות. כשהילד מסביר במילים שלו למה התשובה נכונה — הוא באמת הבין את החוק.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים', href: HUB }, { label: 'הבנת הנקרא לפי כיתה', href: '/learn/reading' }, { label: 'חידות לילדים', href: '/riddles/topics' }]} /></div>
   </Page>
 }

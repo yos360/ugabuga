@@ -25,7 +25,7 @@ export const MENU_GROUPS = [
       { to: '/online-games/falling-blocks', label: 'בלוקים נופלים', icon: '🧱' },
       { to: '/online-games/whack-a-mole', label: 'הכה בחפרפרת', icon: '🔨' },
       { to: '/online-games/sliding-puzzle', label: 'פאזל הזזה', icon: '🧩' },
-      { to: '/online-games/word-guess', label: 'נחשו את המילה', icon: '🎈' },
+      { to: '/online-games/word-guess', label: 'ניחוש מילים — 5 אותיות', icon: '🟩' },
       { to: '/online-games/flying-cubes', label: 'קוביות מעופפות 3D', icon: '🧊' },
       { to: '/online-games/arrow-escape', label: 'חיצים בורחים — 300 שלבים', icon: '➡️' },
       { to: '/online-games/ball-sort', label: 'מיון כדורים', icon: '🧪' },

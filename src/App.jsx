@@ -91,10 +91,12 @@ const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
 const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
+const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingGrade })))
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
 const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
+const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedGrade })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
@@ -459,6 +461,11 @@ export default function App() {
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
               <Route path="/learn/reading" element={<ReadingIndex />} />
+              <Route path="/learn/reading/grade-2" element={<ReadingGrade key="g2" grade={2} />} />
+              <Route path="/learn/reading/grade-3" element={<ReadingGrade key="g3" grade={3} />} />
+              <Route path="/learn/reading/grade-4" element={<ReadingGrade key="g4" grade={4} />} />
+              <Route path="/learn/reading/grade-5" element={<ReadingGrade key="g5" grade={5} />} />
+              <Route path="/learn/reading/grade-6" element={<ReadingGrade key="g6" grade={6} />} />
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
               <Route path="/learn/multiplication-table" element={<MultiplicationTable />} />
@@ -467,6 +474,10 @@ export default function App() {
               <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />
+              <Route path="/learn/gifted-test/grade-2" element={<GiftedGrade key="grade-2" slug="grade-2" />} />
+              <Route path="/learn/gifted-test/grade-3" element={<GiftedGrade key="grade-3" slug="grade-3" />} />
+              <Route path="/learn/gifted-test/grade-6" element={<GiftedGrade key="grade-6" slug="grade-6" />} />
+              <Route path="/learn/gifted-test/stage-b" element={<GiftedGrade key="stage-b" slug="stage-b" />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/family/what-to-do" element={<WhatToDo />} />

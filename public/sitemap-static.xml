@@ -3,7 +3,7 @@
   <url><loc>https://ugabuga.co.il/</loc><priority>1.0</priority></url>
   <url><loc>https://ugabuga.co.il/birthday</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/classroom/first-grade</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/classroom/first-grade</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom/quiz</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/create</loc><priority>0.9</priority></url>
 
@@ -251,7 +251,7 @@
   <url><loc>https://ugabuga.co.il/online-games/falling-blocks</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/whack-a-mole</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/sliding-puzzle</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/online-games/word-guess</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/word-guess</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/battleship</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/flying-cubes</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/arrow-escape</loc><priority>0.8</priority></url>
@@ -1350,14 +1350,43 @@
   <url><loc>https://ugabuga.co.il/typing/game</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/dictation</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/reading</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/times-tables</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/flashcards</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/gifted-test</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/verbal-analogies</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/number-series</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/shape-matrices</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/logic-problems</loc><lastmod>2026-10-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-2</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-3</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-6</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grade-2</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grade-3</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grade-4</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grade-5</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grade-6</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/toms-hat</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/snail</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/class-garden</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/lion-mouse</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/new-girl</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/camel</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/ant-cricket</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/bottle-journey</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/blackout-night</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/migrating-birds</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/honest-woodcutter</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/olive-tree</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/robot-contest</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/water-cycle</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/ramon-crater</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/recess-fight</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/wright-brothers</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/grandpa-violin</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/why-sleep</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/reading/school-uniform</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/hedgehog</loc><lastmod>2026-10-07</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/bees</loc><lastmod>2026-10-07</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/tortoise-hare</loc><lastmod>2026-10-07</lastmod><priority>0.6</priority></url>

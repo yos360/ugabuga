@@ -250,7 +250,12 @@ const PAGES = [
   { to: '/typing/english', title: 'הקלדה עיוורת באנגלית', emoji: '🇬🇧', kind: 'tool', desc: 'שיעורי הקלדה על המקלדת האנגלית, הסברים בעברית.', keys: 'הקלדה עיוורת באנגלית הקלדה באנגלית כתיבה עיוורת באנגלית typing' },
   { to: '/typing/game', title: 'משחק הקלדה לילדים', emoji: '🎮', kind: 'tool', desc: 'מילים נופלות — מקלידים לפני שהן נוחתות.', keys: 'משחק הקלדה משחקי הקלדה לילדים משחק מקלדת הקלדה לילדים' },
   { to: '/learn/dictation', title: 'הכתבה אונליין', emoji: '✍️', kind: 'tool', desc: 'הורה מקריא או הקראה קולית, עם בדיקה.', keys: 'הכתבה כתיב איות מילים' },
-  { to: '/learn/reading', title: 'הבנת הנקרא', emoji: '📖', kind: 'tool', desc: 'קטעים קצרים עם שאלות, להדפסה.', keys: 'הבנת הנקרא קריאה קטע שאלות' },
+  { to: '/learn/reading', title: 'הבנת הנקרא', emoji: '📖', kind: 'tool', desc: 'קטעים עם שאלות לכיתות ב׳–ו׳, אונליין ולהדפסה.', keys: 'הבנת הנקרא קריאה קטע שאלות קטעי קריאה' },
+  { to: '/learn/reading/grade-2', title: 'הבנת הנקרא כיתה ב׳', emoji: '📖', kind: 'tool', desc: '4 קטעים עם שאלות ודף תשובות לכיתה ב׳.', keys: 'הבנת הנקרא כיתה ב׳ הבנת הנקרא כיתה ב הבנת הנקרא לכיתה ב קטעי קריאה כיתה ב דפי עבודה הבנת הנקרא' },
+  { to: '/learn/reading/grade-3', title: 'הבנת הנקרא כיתה ג׳', emoji: '📖', kind: 'tool', desc: '4 קטעים עם שאלות ודף תשובות לכיתה ג׳.', keys: 'הבנת הנקרא כיתה ג׳ הבנת הנקרא כיתה ג הבנת הנקרא לכיתה ג קטעי קריאה כיתה ג דפי עבודה הבנת הנקרא' },
+  { to: '/learn/reading/grade-4', title: 'הבנת הנקרא כיתה ד׳', emoji: '📖', kind: 'tool', desc: '4 קטעים עם שאלות ודף תשובות לכיתה ד׳.', keys: 'הבנת הנקרא כיתה ד׳ הבנת הנקרא כיתה ד הבנת הנקרא לכיתה ד קטעי קריאה כיתה ד דפי עבודה הבנת הנקרא' },
+  { to: '/learn/reading/grade-5', title: 'הבנת הנקרא כיתה ה׳', emoji: '📖', kind: 'tool', desc: '4 קטעים עם שאלות ודף תשובות לכיתה ה׳.', keys: 'הבנת הנקרא כיתה ה׳ הבנת הנקרא כיתה ה הבנת הנקרא לכיתה ה קטעי קריאה כיתה ה דפי עבודה הבנת הנקרא' },
+  { to: '/learn/reading/grade-6', title: 'הבנת הנקרא כיתה ו׳', emoji: '📖', kind: 'tool', desc: '4 קטעים עם שאלות ודף תשובות לכיתה ו׳.', keys: 'הבנת הנקרא כיתה ו׳ הבנת הנקרא כיתה ו הבנת הנקרא לכיתה ו קטעי קריאה כיתה ו דפי עבודה הבנת הנקרא' },
   { to: '/learn/times-tables', title: 'אתגר לוח הכפל', emoji: '✖️', kind: 'tool', desc: 'כמה תרגילים בדקה? ולוח הכפל להדפסה.', keys: 'לוח הכפל כפל תרגילי כפל' },
   { to: '/learn/flashcards', title: 'כרטיסיות לימוד', emoji: '🃏', kind: 'tool', desc: 'אנגלית, הפכים, לוח הכפל או כרטיסיות משלכם.', keys: 'כרטיסיות שינון מילים באנגלית' },
   { to: '/learn/gifted-test', title: 'הכנה למבחן מחוננים', emoji: '🧠', kind: 'tool', desc: '120 שאלות תרגול לשלב א׳ ושלב ב׳, עם הסברים.', keys: 'מבחן מחוננים מחוננים שלב א שלב ב איתור מצטיינים הכנה' },
@@ -258,6 +263,10 @@ const PAGES = [
   { to: '/learn/gifted-test/number-series', title: 'סדרות מספרים', emoji: '🔢', kind: 'tool', desc: '30 סדרות — מה המספר הבא?', keys: 'סדרות מספרים חוקיות מספר הבא מבחן מחוננים' },
   { to: '/learn/gifted-test/shape-matrices', title: 'מטריצות צורות', emoji: '🔷', kind: 'tool', desc: '30 מטריצות 3×3 לחשיבה צורנית.', keys: 'מטריצות צורות חשיבה צורנית מבחן מחוננים' },
   { to: '/learn/gifted-test/logic-problems', title: 'חשיבה לוגית ובעיות מילוליות', emoji: '🧩', kind: 'tool', desc: '30 שאלות היגיון ובעיות מילוליות עם פתרונות.', keys: 'חשיבה לוגית בעיות מילוליות היגיון מבחן מחוננים' },
+  { to: '/learn/gifted-test/grade-2', title: 'מבחני מחוננים כיתה ב׳', emoji: '🌱', kind: 'tool', desc: 'הסבר על המבחן ו-86 שאלות תרגול ברמה קלה ובינונית.', keys: 'מבחני מחוננים כיתה ב מבחן מחוננים כיתה ב מחוננים כיתה ב תרגול מבחן מחוננים לכיתה ב' },
+  { to: '/learn/gifted-test/grade-3', title: 'מבחני מחוננים כיתה ג׳', emoji: '🌿', kind: 'tool', desc: '83 שאלות תרגול ברמה בינונית ומאתגרת.', keys: 'מבחני מחוננים כיתה ג מבחן מחוננים כיתה ג מחוננים כיתה ג' },
+  { to: '/learn/gifted-test/grade-6', title: 'מבחן מחוננים כיתה ו׳', emoji: '🌳', kind: 'tool', desc: '68 שאלות חשיבה ברמה מאתגרת ומתקדמת.', keys: 'מבחן מחוננים כיתה ו מבחני מחוננים כיתה ו מחוננים כיתה ו חשיבה מתקדמת' },
+  { to: '/learn/gifted-test/stage-b', title: 'מבחן מחוננים שלב ב׳', emoji: '🎯', kind: 'tool', desc: 'מה זה שלב ב׳, ו-34 שאלות תרגול ברמה מאתגרת.', keys: 'מבחן מחוננים שלב ב מבחני מחוננים שלב ב שלב ב מחוננים שלב שני' },
   // food for kids (/food/*)
   { to: '/food', title: 'אוכל לילדים', emoji: '🍎', kind: 'tool', desc: 'ארוחת עשר, מתכונים וניסויים.', keys: 'אוכל ילדים מטבח' },
   { to: '/food/school-lunch', title: 'מה שמים בכריך? ארוחת עשר', emoji: '🥪', kind: 'tool', desc: 'מחולל ו-50 רעיונות לכריכים.', keys: 'כריך כריכים סנדוויץ סנדוויצ׳ים ארוחת עשר בית ספר גן מה לשים בכריך' },
@@ -370,14 +379,14 @@ const TOOL_DESC = {
   '/tools/crossword-maker': 'מכניסים מילים ומקבלים תשבץ להדפסה.', '/tools/scavenger-hunt-maker': 'רמזים ומשימות מוכנים להפעלה.',
   '/calculator': 'כמה פיצות, שתייה וחטיפים צריך למסיבה.', '/invitation': 'הזמנה אישית ליום הולדת.', '/greeting': 'ברכה אישית ליום הולדת.',
   '/tools/bring-list': 'רשימה שיתופית: כל הורה תופס פריט בקישור אחד.', '/rsvp': 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים ומי עוד לא ענה.', '/tools/birthday-famous': 'אילו מפורסמים נולדו באותו תאריך.',
-  '/classroom/first-grade': 'כתיבה, שעון, חשבון וקריאה בתרגול משחקי.', '/tools/eretz-ir': 'ארץ עיר עם אותיות, טיימר וניקוד.',
+  '/classroom/first-grade': 'חוברת הכנה להדפסה (PDF), משחקים, כתיבה, חשבון וקריאה ראשונה.', '/tools/eretz-ir': 'ארץ עיר עם אותיות, טיימר וניקוד.',
   '/tools/experiment-maker': 'בוחרים ניסוי, ממלאים דף חקר ומדפיסים.',
 }
 const TOOL_KEYS = {
   '/tools/random-picker': 'גלגל מזל הגרלה', '/tools/team-generator': 'קבוצות חלוקה', '/tools/countdown-timer': 'שעון עצר',
   '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת', '/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
   '/calculator': 'פיצה שתייה עלות', '/tools/escape-rooms': 'חדר בריחה אסקייפ', '/tools/scavenger-hunt-maker': 'מטמון ציד אוצר',
-  '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/tools/riddles': 'חידות חידה', '/board-games': 'משחק לוח', '/classroom/first-grade': 'כיתה א הכנה',
+  '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/tools/riddles': 'חידות חידה', '/board-games': 'משחק לוח', '/classroom/first-grade': 'כיתה א הכנה הכנה לכיתה א חוברת הכנה לכיתה א pdf הכנה לקריאה כיתה א משחקים לקראת כיתה א',
 }
 
 // Extra words for the game category pages (/games/<slug>).
@@ -442,7 +451,7 @@ function buildStatic() {
   out.push({ to: '/online-games/today', title: 'אתגר היום – משחק אונליין חדש כל יום', emoji: '🌟', kind: 'game', desc: 'אותו אתגר לכולם, מתחלף בחצות. משחקים ומשתפים.', keys: 'אתגר יומי משחק יומי משחק היום אתגר היום סודוקו יומי' })
   out.push({ to: '/online-games/marathon', title: 'מרתון משחקים – 8 משחקים ברצף נגד השעון', emoji: '🏃', kind: 'game', desc: 'כל שלב ממשחק אחר. משימה קצרה, שעון אחד, משתפים את התוצאה.', keys: 'מרתון משחקים מולטי ריבוי משחקים אתגר שלבים' })
   out.push({ to: '/online-games', title: 'משחקי אונליין – סוליטר, סודוקו, נחש ועוד', emoji: '🕹️', kind: 'game', desc: 'משחקי חשיבה קלאסיים על כל המסך, בחינם ובלי הרשמה.', keys: 'משחקי אונליין משחקים במחשב משחקים בטלפון סוליטר סודוקו נחש 2048 שולה מוקשים זיכרון משחקים לשניים ארבע בשורה איקס עיגול' })
-  for (const g of ARCADE) out.push({ to: `/online-games/${g.slug}`, title: g.twoPlayer ? `${g.name} לשניים` : g.name, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק אונליין ${g.name} לשחק ${g.name} בחינם ${g.seoTitle}${g.twoPlayer ? ' משחקים לשניים משחק לשני שחקנים שני שחקנים על אותו מסך נגד המחשב' : ''}` })
+  for (const g of ARCADE) out.push({ to: `/online-games/${g.slug}`, title: g.twoPlayer ? `${g.name} לשניים` : g.name, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק אונליין ${g.name} לשחק ${g.name} בחינם ${g.seoTitle}${g.searchKeys ? ' ' + g.searchKeys : ''}${g.twoPlayer ? ' משחקים לשניים משחק לשני שחקנים שני שחקנים על אותו מסך נגד המחשב' : ''}` })
   for (const g of BOARD_GAMES) out.push({ to: `/board-games/${g.slug}`, title: `${g.name} – לשחק, ללמוד וחוקים`, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק לוח ${g.name} חוקי ${g.name} ללמוד ${g.name} אונליין` })
   // every date page of the time tunnel ("מה קרה ב-14 במרץ?")
   const HM = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
