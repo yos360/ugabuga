@@ -125,6 +125,7 @@ export const MENU_GROUPS = [
   {
     title: '🏡 בבית עם הילדים', to: '/family',
     items: [
+      { to: '/school-holidays', label: 'לוח חופשות 2026–2027', icon: '📅' },
       { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
       { to: '/family/morning-routine', label: 'שגרת בוקר עם טיימר', icon: '⏰' },
       { to: '/stories', label: 'סיפורים לפני השינה', icon: '📚' },

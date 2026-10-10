@@ -16,6 +16,7 @@ export const HANUKKAH_H = {
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️' },
     { to: base + '/what-to-do', label: 'מה עושים בחנוכה', emoji: '💡' },
+    { to: base + '/songs', label: 'שירי חנוכה', emoji: '🎵' },
   ],
   quiz: {
     questions: HANUKKAH_QUIZ,

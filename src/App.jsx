@@ -95,6 +95,10 @@ const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
 const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.BedtimeStory })))
+const SchoolHolidaysHub = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidaysHub })))
+const SchoolHolidayPage = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidayPage })))
+const DueDate = lazy(() => import('./pages/tools/DueDate'))
+const HanukkahSongs = lazy(() => import('./pages/holidays/HanukkahSongs'))
 const StoriesHub = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoriesHub })))
 const StoryPage = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoryPage })))
 const CarGames = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.CarGames })))
@@ -372,6 +376,9 @@ export default function App() {
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
+              <Route path="/school-holidays" element={<SchoolHolidaysHub />} />
+              <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
+              <Route path="/tools/due-date" element={<DueDate />} />
               <Route path="/stories" element={<StoriesHub />} />
               <Route path="/stories/:slug" element={<StoryPage />} />
               <Route path="/family/car-games" element={<CarGames />} />
@@ -434,6 +441,7 @@ export default function App() {
               <Route path="/holidays" element={<HolidaysHub />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
               <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
+              <Route path="/holidays/hanukkah/songs" element={<HanukkahSongs />} />
               <Route path="/holidays/hanukkah/quiz" element={<HolidayRoute key="hanukkah-quiz" slug="hanukkah" kind="quiz" />} />
               <Route path="/holidays/hanukkah/coloring" element={<HolidayRoute key="hanukkah-coloring" slug="hanukkah" kind="coloring" />} />
               <Route path="/holidays/hanukkah/worksheets" element={<HolidayRoute key="hanukkah-worksheets" slug="hanukkah" kind="worksheets" />} />

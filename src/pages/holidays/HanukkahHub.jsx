@@ -7,13 +7,14 @@ import HanukkahShell, { HANUKKAH_PAGES } from '../../components/hanukkah/Hanukka
 import { HANUKKAH } from '../../data/hanukkah'
 
 const BLURB = {
+  '/holidays/hanukkah/songs': 'סביבון, כד קטן, מעוז צור וברכות ההדלקה',
   '/holidays/hanukkah/sevivon': 'מסובבים בלחיצה, עם ניקוד אוטומטי לכל המשפחה',
   '/holidays/hanukkah/quiz': '3 רמות, הסבר אחרי כל תשובה — גם להדפסה',
   '/holidays/hanukkah/coloring': 'חנוכייה, סביבון, סופגניות ועוד — 6 דפים',
   '/holidays/hanukkah/worksheets': 'ספירה, חשבון וכתיבה לגן ולכיתה א׳',
   '/holidays/hanukkah/what-to-do': 'רעיונות לחופשה — בבית, בחוץ ובדרך',
 }
-const COLORS = ['bg-blue-100', 'bg-yellow-100', 'bg-pink-100', 'bg-green-100', 'bg-orange-100']
+const COLORS = ['bg-blue-100', 'bg-yellow-100', 'bg-pink-100', 'bg-green-100', 'bg-orange-100', 'bg-purple-100']
 
 const FAQ = [
   { q: 'מתי חנוכה 2026?', a: 'את הנר הראשון מדליקים ביום שישי, 4 בדצמבר 2026 בערב (כ״ד בכסלו תשפ״ז). את הנר השמיני מדליקים ב־11 בדצמבר, והחג מסתיים ב־12 בדצמבר.' },

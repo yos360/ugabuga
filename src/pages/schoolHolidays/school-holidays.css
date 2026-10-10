@@ -1,0 +1,22 @@
+.sh-hero { display: grid; gap: .6rem; }
+.sh-count-text { margin: 0; font-size: 1.35rem; font-weight: 800; min-height: 1.6em; }
+.sh-big { font-size: 2.6rem; color: var(--accent); padding: 0 .2rem; }
+.sh-dates { margin: 0; font-size: 1.15rem; }
+.sh-table-wrap { overflow-x: auto; }
+.sh-table { width: 100%; border-collapse: collapse; background: #fff; border: 2px solid var(--border); font-size: 1rem; }
+.sh-table th, .sh-table td { padding: .55rem .6rem; border-bottom: 1px solid #e5e7eb; text-align: right; vertical-align: top; }
+.sh-table thead th { background: var(--postit); font-weight: 800; }
+.sh-table tbody th { font-weight: 700; }
+.sh-table small { display: block; font-weight: 400; color: var(--muted-foreground); font-size: .85rem; }
+.sh-table td:last-child { text-align: center; white-space: nowrap; }
+.sh-table tr.is-past { opacity: .5; }
+.sh-table a { text-decoration: underline; }
+.sh-notes { margin: 1rem 0 0; padding-right: 1.2rem; list-style: disc; display: grid; gap: .35rem; }
+.sh-verified { margin: 1rem auto 0; max-width: 42rem; text-align: center; font-size: .92rem; color: var(--muted-foreground); }
+.sh-print h2 { text-align: center; font-size: 22pt; margin: 0 0 4pt; }
+.sh-print-sub { text-align: center; font-size: 13pt; margin: 0 0 12pt; }
+.sh-print table { width: 100%; border-collapse: collapse; font-size: 13pt; }
+.sh-print th, .sh-print td { border: 1px solid #333; padding: 6pt 8pt; text-align: right; }
+.sh-print th { background: #f3f3f3; }
+.sh-print-note { margin-top: 12pt; font-size: 10pt; text-align: center; }
+.sh-table small.sh-flag { color: #b45309; font-weight: 700; }

@@ -2,17 +2,20 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import { HOLIDAYS as SCHOOL_HOLIDAYS } from '../../data/schoolHolidays'
 
 // A page of grouped idea cards for any holiday — "what to do", costume ideas,
 // mishloach-manot ideas… Content: h.lists[key] = { groups, crumb, title, desc, h1, sub, emoji, body, faq, related }.
 export default function HolidayList({ h, listKey }) {
   const c = h.lists[listKey]
   const total = c.groups.reduce((n, g) => n + g.items.length, 0)
+  const vacation = listKey === 'what-to-do' && SCHOOL_HOLIDAYS.find(b => b.page && b.slug === h.slug)
   return (
     <HolidayShell h={h} crumb={c.crumb}>
       <SEO title={c.title} description={c.desc.replace('{n}', total)} path={`${h.base}/${listKey}`} structuredData={faqSchema(c.faq)} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2">{c.emoji || '💡'} {c.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">{total} {c.sub}</p>
+      {vacation && <p className="mb-8 text-center text-lg"><Link to={`/school-holidays/${vacation.slug}`} className="font-bold underline">📅 לוח החופשות: {vacation.pageTitle} ←</Link></p>}
       {c.groups.map(g => <section key={g.group} className="mb-8">
         <h2 className="text-3xl font-bold mb-3">{g.group}</h2>
         <div className="grid gap-3 sm:grid-cols-2">
