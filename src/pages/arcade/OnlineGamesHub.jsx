@@ -2,12 +2,18 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { faqSchema } from '../../components/ui/SeoBody'
 import { ARCADE } from '../../arcade/registry'
 import { BOARD_GAMES } from '../../boardgames/registry'
 import { dailyFor } from '../../arcade/daily'
 import '../../arcade/arcade.css'
 
 // /online-games — quick puzzle games that open full screen on phone and computer.
+const FAQ = [
+  { q: 'המשחקים באמת בחינם?', a: 'כן. כל משחקי האונליין חינמיים, בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. הם נפתחים ישר בדפדפן, בטלפון ובמחשב.' },
+  { q: 'אילו משחקי חשיבה מתאימים לילדים צעירים?', a: 'מגיל 5–6: משחק זיכרון, מיון כדורים וסודוקו 4×4. מגיל 8: פקק תנועה, 2048, פאזל 15 ושולה מוקשים. לכל משחק כתוב הגיל המומלץ, ויש כפתור רמז וביטול מהלך.' },
+  { q: 'אפשר לשחק שניים על אותו מסך?', a: 'כן. ארבע בשורה, איקס עיגול, צוללות ושחמט אפשר לשחק שניים על אותו טלפון או מחשב — או נגד המחשב.' },
+]
 const TWO_PLAYER_BOARD = ['checkers', 'backgammon', 'chess', 'reversi', 'mancala', 'dots-and-boxes']
 
 export default function OnlineGamesHub() {
@@ -29,11 +35,11 @@ export default function OnlineGamesHub() {
   }
   return (
     <div className="arc-page" dir="rtl">
-      <SEO title="משחקי אונליין לילדים בחינם – בלי הורדה ובלי הרשמה" description="משחקי חשיבה ופאזלים אונליין בחינם: אתגר יומי חדש, משחקים לשניים (ארבע בשורה, איקס עיגול), צוללות, סוליטר, ספיידר סוליטר, שולה מוקשים, סודוקו, משחק זיכרון, נחש, 2048, קוביות מעופפות בתלת־ממד ועוד. ישר מהדפדפן, על כל המסך, עם מוזיקה נעימה — במחשב ובטלפון." path="/online-games" structuredData={schema} />
+      <SEO title="משחקי אונליין בחינם לילדים – משחקי חשיבה בלי הורדה" description="משחקי חשיבה ופאזלים אונליין בחינם: אתגר יומי חדש, משחקים לשניים (ארבע בשורה, איקס עיגול), צוללות, סוליטר, ספיידר סוליטר, שולה מוקשים, סודוקו, משחק זיכרון, נחש, 2048, קוביות מעופפות בתלת־ממד ועוד. ישר מהדפדפן, על כל המסך, עם מוזיקה נעימה — במחשב ובטלפון." path="/online-games" structuredData={[schema, faqSchema(FAQ)]} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקי אונליין' }]} />
       <header className="arc-hero">
-        <h1>🕹️ משחקי אונליין – לוחצים ומשחקים</h1>
-        <p>הקלאסיקות שכולם אוהבים — צוללות, ארבע בשורה, איקס עיגול, סוליטר, שולה מוקשים, סודוקו, נחש ועוד — לצד פאזלים מקוריים. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. כל משחק נפתח על כל המסך, עם מוזיקת רקע נעימה (אפשר להשתיק ב־🎵).</p>
+        <h1>🕹️ משחקי אונליין ומשחקי חשיבה – לוחצים ומשחקים</h1>
+        <p>משחקי אונליין בחינם לילדים ולמבוגרים: הקלאסיקות שכולם אוהבים — צוללות, ארבע בשורה, איקס עיגול, סוליטר, שולה מוקשים, סודוקו, נחש ועוד — לצד משחקי חשיבה ופאזלים מקוריים. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. כל משחק נפתח על כל המסך, עם מוזיקת רקע נעימה (אפשר להשתיק ב־🎵).</p>
       </header>
       <Link to="/online-games/today" className="dl-banner" style={{ '--game-color': ARCADE.find(g => g.slug === daily.slug)?.color }}>
         <span className="dl-banner-art" aria-hidden="true">{daily.emoji}</span>
@@ -85,6 +91,11 @@ export default function OnlineGamesHub() {
           פאזלים קצרים מאמנים תכנון, חשיבה מרחבית וסבלנות — ומרגישים כמו משחק ולא כמו שיעורי בית. כל השלבים אצלנו פתירים, יש כפתור רמז ואפשר לבטל מהלך, כך שגם ילדים צעירים מצליחים ונהנים.
           רוצים עוד? יש לנו גם <Link to="/board-games" className="underline font-bold">משחקי לוח קלאסיים</Link>, <Link to="/games" className="underline font-bold">מאגר משחקים לקבוצה ולכיתה</Link> ו<Link to="/letters/game" className="underline font-bold">משחק אותיות לגן</Link>.
         </p>
+      </section>
+      <section className="arc-box" style={{ maxWidth: 860, margin: '30px auto 0' }}>
+        <h2>שאלות נפוצות</h2>
+        {FAQ.map(f => <div key={f.q} style={{ marginTop: 12 }}><p style={{ fontWeight: 800, margin: 0 }}>{f.q}</p><p style={{ lineHeight: 1.7, margin: 0 }}>{f.a}</p></div>)}
+        <p style={{ lineHeight: 1.75, marginTop: 16 }}>עוד משחקי חשיבה באתר: <Link to="/sudoku" className="underline font-bold">סודוקו אונליין</Link>, <Link to="/logic-puzzles" className="underline font-bold">תשבצי היגיון</Link>, <Link to="/chess" className="underline font-bold">שחמט נגד המחשב</Link> ו<Link to="/printables/mazes" className="underline font-bold">מבוכים להדפסה</Link>.</p>
       </section>
     </div>
   )

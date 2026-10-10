@@ -28,9 +28,9 @@ export default function PuzzleStudio(){
     setCustom(rows);setEditing(false);setError('');setSeed(s=>s+1)
   }
   return <div className="puzzle-studio" dir="rtl">
-    <SEO title="תשבצים, תפזורות וסודוקו בעברית" description="פתרו תשבצים עם רמזים למאוזן ולמאונך, חפשו מילים בתפזורת ושחקו סודוקו. בנו תשבץ אישי והדפיסו דף פעילות." path="/tools/crossword-maker"/>
+    <SEO title="תשבץ בעברית — פותרים אונליין ובונים תשבץ אישי להדפסה" description="תשבץ בעברית בחינם: פותרים תשבצים עם רמזים למאוזן ולמאונך, בונים תשבץ אישי מהמילים שלכם ומדפיסים. יש גם תפזורת וסודוקו." path="/tools/crossword-maker"/>
     <div className="no-print"><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'יוצרים',href:'/create'},{label:'תשבצים וחידות'}]}/></div>
-    <header className="puzzle-heading no-print"><div><span className="puzzle-eyebrow">זמן קטן לאתגר גדול</span><h1>תשבצים וחידות</h1><p>בוחרים חידה, חושבים קצת — ונהנים מכל פתרון.</p></div><span className="puzzle-heading-icon" aria-hidden="true">🧩</span></header>
+    <header className="puzzle-heading no-print"><div><span className="puzzle-eyebrow">זמן קטן לאתגר גדול</span><h1>תשבץ בעברית ועוד חידות</h1><p>פותרים תשבץ על המסך או בונים תשבץ אישי ומדפיסים — חושבים קצת ונהנים מכל פתרון.</p></div><span className="puzzle-heading-icon" aria-hidden="true">🧩</span></header>
     <nav className="puzzle-types no-print" aria-label="סוג החידה">{TYPES.map(([id,title,sub,icon])=><button key={id} aria-pressed={type===id} onClick={()=>changeType(id)}><span aria-hidden="true">{icon}</span><b>{title}</b><small>{sub}</small></button>)}</nav>
     <div className="puzzle-controls no-print">
       {['crossword','search'].includes(type)&&<label>נושא<select value={custom?'custom':pack} onChange={e=>{setPack(e.target.value);setCustom(null)}}>{Object.entries(PACKS).map(([id,p])=><option key={id} value={id}>{p.icon} {p.label}</option>)}{custom&&<option value="custom">החידה שלי</option>}</select></label>}
@@ -42,7 +42,7 @@ export default function PuzzleStudio(){
     <section className="puzzle-paper" key={`${type}-${pack}-${seed}-${level}-${JSON.stringify(custom)}`}>
       {type==='crossword'?<Crossword entries={entries} seed={seed} title={custom?'התשבץ שלי':`תשבץ ${PACKS[pack].label}`}/>:type==='search'?<SearchGame entries={entries} seed={seed} diagonal={level==='hard'} custom={custom}/>:type==='sudoku'?<SudokuGame seed={seed} n={level==='hard'?9:4}/>:type==='fill'?<FillGame seed={seed} custom={custom}/>:<NumberGame seed={seed}/>}
     </section>
-    <p className="puzzle-footnote no-print">אפשר לפתור כאן או להדפיס ולמלא בעיפרון. <Link to="/printables">לכל דפי ההדפסה ←</Link></p>
+    <p className="puzzle-footnote no-print">אפשר לפתור כאן או להדפיס ולמלא בעיפרון. רוצים תפזורת עם המילים שלכם? <Link to="/tools/word-search-maker">יוצר התפזורת</Link> · <Link to="/logic-puzzles">תשבצי היגיון</Link> · <Link to="/printables">כל דפי ההדפסה ←</Link></p>
   </div>
 }
 

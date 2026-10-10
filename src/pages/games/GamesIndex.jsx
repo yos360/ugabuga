@@ -26,13 +26,15 @@ function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficu
 
 const gamesIndexFaq = [
   { q: 'איך משתמשים בסינון כדי למצוא משחק מתאים?', a: 'בוחרים תחילה את הפילטר הכי מגביל (למשל "בלי ציוד" או "עד 5 דקות"), ומצמצמים משם לפי גיל ומספר משתתפים.' },
+  { q: 'כל המשחקים לילדים באתר בחינם?', a: 'כן. כל 100 המשחקים חינמיים ובלי הרשמה — ההוראות, הגרסאות להדפסה והכלים הנלווים כמו טיימר וגלגל מזל.' },
+  { q: 'יש גם משחקים לשחק במחשב או בטלפון?', a: 'כן. המשחקים כאן הם משחקים לשחק יחד, בחדר או בחצר. משחקים לשחק על המסך — סוליטר, סודוקו, ארבע בשורה ועוד — נמצאים במתחם משחקי האונליין.' },
   { q: 'יש דרך לגלות משחקים חדשים בלי לחפש משהו ספציפי?', a: 'כן, אפשר פשוט לדפדף ברשימה המלאה לפי קטגוריה — לפעמים המשחק הכי מתאים הוא כזה שלא חיפשתם.' },
 ]
 const gamesIndexBody = [
   'זו הרשימה המלאה — 100 משחקים במקום אחד. הדרך הכי מהירה למצוא משחק היא להתחיל מהאילוץ הכי נוקשה שיש לכם באותו רגע: אם אין ציוד בכלל, מסננים לפי משחקים בלי ציוד; אם יש בדיוק חמש דקות, משחקים ל-5 דקות פנויות מתאימים בדיוק; ואם המטרה היא לפתוח מפגש קבוצתי חדש, משחקי היכרות ושוברי קרח מתחילים בדיוק מהנקודה הזאת.',
   'חלק מהמשחקים ברשימה גם קיימים כגרסה דיגיטלית או להדפסה במתחם היוצרים — אם מוצאים משחק שדורש כרטיסים או כללים כתובים, כדאי לבדוק אם יש לו גרסת הדפסה מוכנה שם.',
 ]
-const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'מתחם יוצרים', href: '/create' } ]
+const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'משחקי אונליין לילדים', href: '/online-games' }, { label: 'משחקי לוח', href: '/board-games' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 // One page per age (/games/age/N). From 10 up every game fits, so the lists would be identical — stop at 10.
 const AGE_PAGES = [4, 5, 6, 7, 8, 9, 10]
@@ -111,15 +113,16 @@ export default function GamesIndex() {
   const query = searchParams.toString()
   const ageHref = a => (ageNumber === a ? '/games' : `/games/age/${a}`) + (query ? `?${query}` : '')
   const heading = isGameOfDay ? 'משחק היום'
-    : `${activeFilter ? activeFilter.title : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : ageNumber ? 'משחקים' : 'כל המשחקים'}${ageNumber ? ` לגיל ${age}` : ''}`
+    : `${activeFilter ? activeFilter.title : goalFilter ? `משחקים כדי ${goalFilter}` : contextFilter ? `משחקים ל${contextFilter}` : ageNumber ? 'משחקים' : 'משחקים לילדים'}${ageNumber ? ` לגיל ${age}` : ''}`
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'כל המשחקים — 100 משחקים לילדים'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : '100 משחקים לילדים ולמשפחה — ליום הולדת, לכיתה, לצהרון ולבית. מחפשים לפי שם או נושא, שומרים מועדפים ומשתפים. רבים בלי ציוד ובלי הכנה, הכול חינם.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
+      <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'משחקים לילדים בחינם — 100 משחקים לבית, לכיתה ולמסיבה'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'משחקים לילדים בחינם: 100 משחקים לבית, לכיתה, ליום הולדת ולצהרון, עם הוראות, גילאים ומספר משתתפים. מסננים לפי גיל וציוד — רבים בלי ציוד ובלי הכנה.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
         structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : ageHub && !isGameOfDay ? faqSchema(ageHub.faq) : null} />
       <Breadcrumbs items={ageNumber ? [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים', href: '/games' }, { label: `גיל ${age}` }] : [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
       {ageHub && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{ageHub.intro[0]}</p>}
+      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">100 משחקים לילדים בחינם — משחקי חברה, תנועה, מילים וחשיבה לבית, לכיתה וליום הולדת. לכל משחק יש הוראות, גילאים ומספר משתתפים, ורובם לא צריכים שום ציוד.</p>}
       {agePicks.length > 0 && (
         <section className="wobbly mx-auto mb-8 max-w-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow">
           <h2 className="mb-3 text-2xl font-bold">⭐ הבחירות שלנו לגיל {age}</h2>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ugabuga.co.il/</loc><priority>1.0</priority></url>
+  <url><loc>https://ugabuga.co.il/</loc><lastmod>2026-10-11</lastmod><priority>1.0</priority></url>
   <url><loc>https://ugabuga.co.il/birthday</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom/first-grade</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom/quiz</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/create</loc><priority>0.9</priority></url>
 
-  <url><loc>https://ugabuga.co.il/games</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/games</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/games/5-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/10-minutes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/games/15-minutes</loc><priority>0.7</priority></url>
@@ -45,8 +45,8 @@
   <url><loc>https://ugabuga.co.il/games/kita-h</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/kita-v</loc><priority>0.6</priority></url>
 
-  <url><loc>https://ugabuga.co.il/tools</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/crossword-maker</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/crossword-maker</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/tools/experiment-maker</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/bring-list</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/rsvp</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
@@ -60,11 +60,11 @@
   <url><loc>https://ugabuga.co.il/tools/escape-rooms</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/tools/bingo-maker</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/emoji-studio</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/word-search-maker</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/word-search-maker</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/eretz-ir</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/scavenger-hunt-maker</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/team-generator</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/random-picker</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/random-picker</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/countdown-timer</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/scoreboard</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/dice</loc><priority>0.6</priority></url>
@@ -125,8 +125,8 @@
   <url><loc>https://ugabuga.co.il/guides/how-much-food-for-party</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/guides/games-for-teachers</loc><priority>0.7</priority></url>
 
-  <url><loc>https://ugabuga.co.il/printables</loc><priority>0.9</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/mandalas</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/printables</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/mandalas</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/printables/home-charts</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/chore-chart</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/reward-chart</loc><priority>0.8</priority></url>
@@ -245,7 +245,7 @@
   <url><loc>https://ugabuga.co.il/letters/resh</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/letters/shin</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/letters/tav</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/online-games</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/today</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/marathon</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/falling-blocks</loc><priority>0.8</priority></url>
@@ -279,7 +279,7 @@
   <url><loc>https://ugabuga.co.il/board-games</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/checkers</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/backgammon</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/board-games/chess</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/board-games/chess</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/chess</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/chess/puzzles</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/chess/how-to-play</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
@@ -289,8 +289,8 @@
   <url><loc>https://ugabuga.co.il/board-games/dots-and-boxes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/mancala</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/reversi</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/board-games/tic-tac-toe</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/board-games/connect-four</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/board-games/tic-tac-toe</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/board-games/connect-four</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/words/opposites</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/words/synonyms</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel</loc><priority>0.9</priority></url>
@@ -664,12 +664,12 @@
   <url><loc>https://ugabuga.co.il/printables/class-newspaper</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-checklist</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/roots-project</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-signs</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/hebrew-letters</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/abc-letters</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/numbers</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/mazes</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/mazes</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/apple</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/fish</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
@@ -1419,14 +1419,14 @@
   <url><loc>https://ugabuga.co.il/flags/continents/south-america</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/flags/continents/oceania</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/cat</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/flowers</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/cat</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/flowers</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hearts</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seal</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/bunny</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dog</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/food</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/dinosaur</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/dinosaur</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/vehicles</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/ice-cream</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/teddy-bear</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
@@ -1434,24 +1434,24 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dragon</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/elephant</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/clown</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/clown</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/butterfly</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dolphin</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/princess</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/princess</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/lion</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fish</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/superhero</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/cake</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/cake</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/airplane</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/balloons</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/starfish</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/horse</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/umbrella</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cow</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/birds</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/dreidel</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/dreidel</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/penguin</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/monkey</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
@@ -1462,8 +1462,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/mandala-adults</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/mandala-animals</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/older-kids</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/tu-bishvat</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring/purim-masks</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/tu-bishvat</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/purim-masks</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/sweets</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/stories</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>

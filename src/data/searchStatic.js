@@ -27,7 +27,7 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
-  { to: '/games', title: 'כל המשחקים', emoji: '🎮', kind: 'page', desc: '100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש' },
+  { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: '100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת' },
   { to: '/classroom', title: 'לכיתה ולגן', emoji: '🏫', kind: 'page', desc: 'פעילויות, משחקים ודפי עבודה למורות ולגננות.', keys: 'מורה גננת גן בית ספר' },
   { to: '/create', title: 'יוצרים ומדפיסים', emoji: '🖨️', kind: 'page', desc: 'מחוללים ודפים להדפסה.', keys: 'יצירה' },
@@ -80,6 +80,7 @@ const PAGES = [
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
+  { to: '/printables/coloring', title: 'דפי צביעה', emoji: '🎨', kind: 'printable', desc: 'מעל 300 ציורים מקוריים לצביעה, לפי נושא.', keys: 'דפי צביעה דף צביעה ציורים להדפסה ציור לצביעה דפים לצביעה דפי צביעה לילדים צביעה' },
   // coloring pages by subject
   { to: '/printables/coloring/unicorn', title: 'דף צביעה חד קרן להדפסה', emoji: '🦄', kind: 'printable', desc: 'דפי צביעה של חד קרן להדפסה בחינם.', keys: 'צביעה דף צביעה חד קרן לצביעה' },
   { to: '/printables/coloring/cat', title: 'דפי צביעה חתולים להדפסה', emoji: '🐱', kind: 'printable', desc: 'דפי צביעה של חתולים להדפסה בחינם.', keys: 'צביעה דף צביעה חתולים לצביעה' },
@@ -383,8 +384,8 @@ const TOOL_DESC = {
   '/tools/experiment-maker': 'בוחרים ניסוי, ממלאים דף חקר ומדפיסים.',
 }
 const TOOL_KEYS = {
-  '/tools/random-picker': 'גלגל מזל הגרלה', '/tools/team-generator': 'קבוצות חלוקה', '/tools/countdown-timer': 'שעון עצר',
-  '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת', '/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
+  '/tools/random-picker': 'גלגל מזל גלגל שמות הגרלה הגרלת שמות בוחר אקראי', '/tools/team-generator': 'קבוצות חלוקה', '/tools/countdown-timer': 'שעון עצר',
+  '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת תפזורות תפזורת לילדים תפזורת להדפסה', '/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
   '/calculator': 'פיצה שתייה עלות', '/tools/escape-rooms': 'חדר בריחה אסקייפ', '/tools/scavenger-hunt-maker': 'מטמון ציד אוצר',
   '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/tools/riddles': 'חידות חידה', '/board-games': 'משחק לוח', '/classroom/first-grade': 'כיתה א הכנה הכנה לכיתה א חוברת הכנה לכיתה א pdf הכנה לקריאה כיתה א משחקים לקראת כיתה א',
 }

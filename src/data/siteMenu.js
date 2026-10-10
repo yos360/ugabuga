@@ -97,7 +97,7 @@ export const MENU_GROUPS = [
     title: '🎲 כלים למשחק', to: '/tools',
     items: [
       { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '👥' },
-      { to: '/tools/random-picker', label: 'גלגל שמות', icon: '🎡' },
+      { to: '/tools/random-picker', label: 'גלגל מזל', icon: '🎡' },
       { to: '/tools/countdown-timer', label: 'טיימר', icon: '⏱️' },
       { to: '/tools/scoreboard', label: 'לוח ניקוד', icon: '📊' },
       { to: '/tools/dice', label: 'קובייה', icon: '🎲' },
