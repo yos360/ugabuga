@@ -84,6 +84,7 @@ export const MENU_GROUPS = [
       { to: '/printables', label: 'דפים להדפסה', icon: '🖨️' },
       { to: '/printables/coloring', label: 'דפי צביעה', icon: '🖍️' },
       { to: '/printables/mandalas', label: 'מנדלות', icon: '🌀' },
+      { to: '/origami', label: 'אוריגמי לילדים — קיפולי נייר', icon: '🦢' },
       { to: '/tools/crossword-maker', label: 'מחולל תשבצים', icon: '✏️' },
       { to: '/tools/word-search-maker', label: 'מחולל תפזורת', icon: '🔎' },
       { to: '/tools/bingo-maker', label: 'מחולל בינגו', icon: '🎟️' },
