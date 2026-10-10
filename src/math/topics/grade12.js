@@ -237,7 +237,7 @@ const topics = [
       }
       if (level === 2) {
         if (r.bool()) {
-          const b = r.pick([2, 3, 10]), m = r.int(b === 10 ? 1 : 1, b === 2 ? 6 : b === 3 ? 4 : 3), k = r.int(-9, 9)
+          const b = r.pick([2, 3, 10]), m = r.int(1, b === 2 ? 6 : b === 3 ? 4 : 2), k = r.int(-9, 9)
           return {
             q: 'פתרו את המשוואה.',
             expr: `log${sub(b)}(${lin(1, k)}) = ${m}`,

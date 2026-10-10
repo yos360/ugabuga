@@ -427,14 +427,14 @@ const topics = [
           explain: `f′(x) = ${fmt(6 * k)}${shift(r1)}${shift(r2)}. הנגזרת ${k > 0 ? 'חיובית' : 'שלילית'} מחוץ לשורשים ו${k > 0 ? 'שלילית' : 'חיובית'} ביניהם.`,
         }
       }
-      const a = r.int(1, 5)
+      const a = r.int(1, 6), b = r.pick([1, 2, 3, -1, -2])
       const out = `x < ${fmt(-a)} או x > ${fmt(a)}`, mid = `${lt(-a, 0)} או ${lt(0, a)}`
-      const ans = txt(out, mid)
+      const ans = b > 0 ? txt(out, mid) : txt(mid, out)
       return {
         q: 'מהם תחומי העלייה והירידה של הפונקציה? (x ≠ 0)',
-        expr: fx(terms([[1, 'x'], part(a * a, 'x')])),
-        ...choiceQ(r, ans, [txt(mid, out), txt(`x > ${fmt(a)}`, `x < ${fmt(a)}`), txt(`x < ${fmt(-a * a)} או x > ${fmt(a * a)}`, `${lt(-a * a, 0)} או ${lt(0, a * a)}`)]),
-        explain: `f′(x) = 1 − ${a * a}/x² = (x² − ${a * a})/x². הנגזרת מתאפסת ב-x = ±${a} ואינה מוגדרת ב-0. היא חיובית כאשר |x| > ${a} ושלילית כאשר 0 < |x| < ${a}.`,
+        expr: fx(terms([[b, 'x'], part(b * a * a, 'x')])),
+        ...choiceQ(r, ans, [b > 0 ? txt(mid, out) : txt(out, mid), txt(`x > ${fmt(a)}`, `x < ${fmt(a)}`), txt(`x < ${fmt(-a * a)} או x > ${fmt(a * a)}`, `${lt(-a * a, 0)} או ${lt(0, a * a)}`)]),
+        explain: `f′(x) = ${fmt(b)} − ${fmt(b * a * a)}/x² = ${b === 1 ? '' : fmt(b)}(x² − ${a * a})/x². הנגזרת מתאפסת ב-x = ±${a} ואינה מוגדרת ב-0. היא ${b > 0 ? 'חיובית' : 'שלילית'} כאשר |x| > ${a} ו${b > 0 ? 'שלילית' : 'חיובית'} כאשר 0 < |x| < ${a}.`,
       }
     },
   },
@@ -621,7 +621,7 @@ const topics = [
       { q: 'למה ל-sin x = 1 יש פתרון אחד בלבד בתחום?', a: 'כי α = 90° ו-180° − α = 90° — שני הפתרונות מתלכדים.' },
       { q: 'מה עושים כש-sin x = 2?', a: 'אין פתרון, כי ערכי הסינוס תמיד בין −1 ל-1.' },
     ],
-    levels: ['sin x או cos x', 'tan x', '2x או משוואה ריבועית'],
+    levels: ['sin x או cos x', 'tan x ובידוד הפונקציה', '2x או משוואה ריבועית'],
     gen(level, r) {
       const Q = 'פתרו את המשוואה בתחום 0° ≤ x < 360°. הקלידו את כל הפתרונות במעלות, מופרדים בפסיק.'
       if (level === 1) {
@@ -630,6 +630,12 @@ const topics = [
         return { q: Q, expr: `${fn} x = ${t}`, type: 'numbers', answer: sols, unit: '°', explain: `הזווית הבסיסית היא ${fmt(sols[0])}°${sols.length > 1 ? `, ולפי ${fn === 'sin' ? 'x = 180° − α' : 'x = 360° − α'} מקבלים גם ${fmt(sols[1])}°` : ''}. הפתרונות: ${sols.map(s => fmt(s) + '°').join(', ')}.` }
       }
       if (level === 2) {
+        if (r.bool()) {
+          // a·fn x + c = 0 with a standard value
+          const fn = r.pick(['sin', 'cos']), [v, k, numTxt] = r.pick([[0.5, 2, '1'], [-0.5, 2, '1'], [Math.SQRT2 / 2, 2, '√2'], [-Math.SQRT2 / 2, 2, '√2'], [Math.sqrt(3) / 2, 2, '√3'], [-Math.sqrt(3) / 2, 2, '√3'], [1, 1, '1'], [-1, 1, '1']])
+          const sols = baseSolutions(fn, v).sort((p, q) => p - q)
+          return { q: Q, expr: `${k === 1 ? '' : k}${fn} x ${v > 0 ? '−' : '+'} ${numTxt} = 0`, type: 'numbers', answer: sols, unit: '°', explain: `מבודדים: ${fn} x = ${v > 0 ? '' : '−'}${numTxt}${k === 1 ? '' : '/' + k}. הפתרונות בתחום: ${sols.map(s => fmt(s) + '°').join(', ')}.` }
+        }
         const [v, t] = r.pick(TAN_VALS), sols = baseSolutions('tan', v)
         return { q: Q, expr: `tan x = ${t}`, type: 'numbers', answer: sols, unit: '°', explain: `tan חוזר על עצמו כל 180°: x = ${fmt(sols[0])}° ו-x = ${fmt(sols[1])}°.` }
       }

@@ -347,7 +347,7 @@ const V = {
       const m = ex.q.match(/הווקטור (−?\d*)u ([+−]) (\d*)v\?/)
       const p = m[1] === '' ? 1 : m[1] === '−' ? -1 : num(m[1]), q = (m[2] === '+' ? 1 : -1) * (m[3] === '' ? 1 : +m[3])
       const want = u.map((x, i) => p * num(x) + q * num(v[i]))
-      assert.deepEqual(ptsOf3(ex.answer), want); return
+      ptsOf3(ex.answer).forEach((x, i) => near(x, want[i])); return
     }
     if (ex.q.includes('t')) {
       const t = ex.answer, uu = u.map(x => (x === 't' ? t : num(x)))

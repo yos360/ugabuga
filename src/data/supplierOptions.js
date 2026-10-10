@@ -12,6 +12,19 @@ export const SUPPLIER_CATEGORIES = [
   ['crafts', '✂️ סדנאות ויצירה'],
   ['design', '💌 הזמנות ומיתוג'],
   ['costumes', '👑 תחפושות ואביזרים'],
+  // Added later: new ids only, never rename the ones above (they're stored on supplier rows).
+  ['clowns', '🤡 ליצנים'],
+  ['science', '🔬 הפעלות מדע'],
+  ['spa', '💅 ספא ומסיבות פיג׳מות'],
+  ['face-paint', '🎨 איפור פנים'],
+  ['bubbles', '🫧 בועות סבון ענק'],
+  ['food-machines', '🍿 מכונות פופקורן וצמר גפן'],
+  ['candy-bar', '🍭 שולחן מתוקים'],
+  ['animals', '🐰 פינת ליטוף'],
+  ['theater', '🎭 הצגות ותיאטרון בובות'],
+  ['water', '💦 מתקני מים'],
+  ['laser-tag', '🎯 לייזר טאג'],
+  ['mitzvah', '✡️ בר ובת מצווה'],
   ['other', '✨ עוד'],
 ]
 export const SUPPLIER_AREAS = ['כל הארץ', 'צפון', 'חיפה והקריות', 'שרון', 'מרכז', 'תל אביב והסביבה', 'ירושלים והסביבה', 'שפלה', 'דרום']
