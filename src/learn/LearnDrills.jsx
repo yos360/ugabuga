@@ -134,6 +134,7 @@ export function TimesTables() {
       <div className="flex items-center justify-between font-bold text-lg"><span>✅ {game.score}</span><span>{mode === 'sprint' ? `⏱️ ${Math.ceil(left)}` : `${game.asked + 1} / 20`}</span></div>
       <div className="ln-bar my-2"><i style={{ width: `${mode === 'sprint' ? (left / 60) * 100 : (game.asked / 20) * 100}%` }} /></div>
       <div className={`ln-ex ${game.flash === 'ok' ? 'flash-ok' : game.flash === 'no' ? 'flash-no' : ''}`} aria-live="polite">{game.q[0]} × {game.q[1]} = <span className="ans">{game.flash === 'no' ? game.q[0] * game.q[1] : game.typed || ' '}</span></div>
+      <p className="no-print -mt-1 mb-2 text-center"><button type="button" className="ln-chip" onClick={() => speak(`${game.q[0]} כפול ${game.q[1]}`, 'he-IL')} aria-label="השמעת התרגיל">🔊 השמיעו</button></p>
       <div className="ln-pad">{['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(k => <button key={k} type="button" onClick={() => press(k)}>{k}</button>)}<span /><button type="button" onClick={() => press('0')}>0</button><button type="button" onClick={() => press('del')} aria-label="מחיקה">⌫</button></div>
       <p className="mt-3 text-center"><button type="button" className="underline" onClick={() => setGame(null)}>יציאה</button></p>
     </div>}
@@ -168,6 +169,14 @@ export function TimesTables() {
 const TT_DECKS = [2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => ({ id: `tt-${n}`, title: `לוח הכפל של ${n}`, emoji: '✖️', ltrFront: true, cards: ALL.map(k => [`${n} × ${k}`, String(n * k)]) }))
 const parseCustom = txt => txt.split('\n').map(l => l.split(/\s*(?:=|\t|\s[-–—]\s)\s*/)).filter(p => p.length >= 2 && p[0].trim() && p[1].trim()).map(p => [p[0].trim(), p.slice(1).join(' ').trim()]).slice(0, 48)
 const isLtr = s => /^[\x20-\x7e×]+$/.test(s)
+// How a card face is read aloud: [text, lang]. "3 × 4" is said in Hebrew words, a bare number in
+// Hebrew, other Latin text in English. The text is the recorded-clip key (scripts/audio/siteItems.mjs).
+function faceSpeech(face) {
+  const m = face.match(/^(\d+)\s*[×x*]\s*(\d+)$/)
+  if (m) return [`${m[1]} כפול ${m[2]}`, 'he-IL']
+  if (/^\d+$/.test(face)) return [face, 'he-IL']
+  return [face, isLtr(face) ? 'en-US' : 'he-IL']
+}
 function wrap(text, max) {
   const lines = []; let cur = ''
   for (const w of String(text).split(' ')) { if ((cur + ' ' + w).trim().length > max && cur) { lines.push(cur); cur = w } else cur = (cur + ' ' + w).trim() }
@@ -208,7 +217,6 @@ export function Flashcards() {
   const start = () => { if (!cards.length) return; setQueue(shuffle(cards)); setFlip(false); setKnown(0) }
   const cur = queue?.[0]
   const answer = ok => { setFlip(false); setTimeout(() => { setQueue(q => (ok ? q.slice(1) : [...q.slice(1), q[0]])); if (ok) setKnown(k => k + 1) }, 160) }
-  const sayable = !reverse && deck.ltrFront && !deck.id.startsWith('tt-')
   const pages = []
   for (let i = 0; i < cards.length; i += 8) { const chunk = cards.slice(i, i + 8); pages.push(<A4 key={`f${i}`}><CardsSheet cards={chunk} side="front" title={deck.title} /></A4>, <A4 key={`b${i}`}><CardsSheet cards={chunk} side="back" title={deck.title} /></A4>) }
   const faq = [
@@ -233,7 +241,7 @@ export function Flashcards() {
       </div>
       <p className="text-sm text-[var(--muted-foreground)]">לוחצים על הכרטיס כדי להפוך</p>
       <div className="flex flex-wrap justify-center gap-3">
-        {sayable && <button type="button" className="ln-btn alt" onClick={() => speak(cur[0], 'en-US')}>🔊</button>}
+        <button type="button" className="ln-btn alt no-print" onClick={() => speak(...faceSpeech(flip ? cur[1] : cur[0]))} aria-label="השמעת הכרטיס">🔊</button>
         <button type="button" className="ln-btn alt" onClick={() => answer(false)}>↺ עוד לא</button>
         <button type="button" className="ln-btn go" onClick={() => answer(true)}>✓ ידעתי</button>
       </div>
