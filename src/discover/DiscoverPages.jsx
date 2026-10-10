@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
+import SpeakButton from '../components/ui/SpeakButton'
 import { Sheet, T } from '../components/printables/PrintableShell'
 import Flag, { FLAG_CODES } from './Flags'
 import { IL_PLACES, IL_OUTLINE, IL_KINNERET, IL_DEADSEA, COUNTRIES, NOT_CAPITALS, CAPITAL_NOTES, PLANETS, SPACE_FACTS, ORGANS, BODY_FACTS } from './discoverData'
@@ -248,7 +249,7 @@ export function HumanBody() {
     <div className="grid items-start gap-4 md:grid-cols-2">
       <div className="ln-box"><svg viewBox="20 0 160 360" className="mx-auto block max-h-[70vh] w-full" role="img" aria-label="איור של גוף האדם עם איברים"><Body active={sel.id} onPick={id => setSel(ORGANS.find(o => o.id === id))} /></svg>
         <div className="mt-2 flex flex-wrap justify-center gap-1">{ORGANS.map(o => <button key={o.id} type="button" className="ln-chip !min-h-[36px] !py-1 !px-3 text-sm" aria-pressed={sel.id === o.id} onClick={() => setSel(o)}>{o.name}</button>)}</div></div>
-      <div className="space-y-4"><div className="ln-box"><h2 className="text-3xl font-black">{sel.name}</h2><ul className="text-lg leading-relaxed list-disc pr-5">{sel.facts.map(f => <li key={f}>{f}</li>)}</ul></div>
+      <div className="space-y-4"><div className="ln-box"><h2 className="flex items-center gap-2 text-3xl font-black">{sel.name} <SpeakButton text={sel.name} label={`השמעה: ${sel.name}`} /></h2><ul className="text-lg leading-relaxed list-disc pr-5">{sel.facts.map(f => <li key={f}>{f} <SpeakButton text={f} label="השמעת העובדה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></li>)}</ul></div>
         <div className="ln-box"><h2 className="text-xl font-black">💡 עוד עובדות</h2><ul className="list-disc pr-5">{BODY_FACTS.map(f => <li key={f}>{f}</li>)}</ul></div>
         <button type="button" className="ln-btn alt w-full" onClick={() => setPrinting(true)}>🖨️ דף עבודה: איברי הגוף</button></div>
     </div>

@@ -27,7 +27,7 @@ function useSound() {
   const [on, setOn] = useState(true)
   useEffect(() => { setOn(readSound()) }, []) // after hydration: the prerendered page shows "on"
   const toggle = () => setOn(v => { try { localStorage.setItem(SOUND_KEY, v ? '0' : '1') } catch { /* storage blocked */ } return !v })
-  const say = (a, b) => { if (on) speak(`${a} כפול ${b} שווה ${a * b}`, 'he-IL', { user: false }) }
+  const say = (a, b) => { if (on) speak(`${a} כפול ${b} שווה ${a * b}`, 'he-IL') }
   return { on, toggle, say }
 }
 const SoundChip = ({ sound }) => <button type="button" className="ln-chip" aria-pressed={sound.on} onClick={sound.toggle}>{sound.on ? '🔊 הקראה פועלת' : '🔇 הקראה כבויה'}</button>

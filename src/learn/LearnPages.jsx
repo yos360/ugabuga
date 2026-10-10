@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
+import SpeakButton from '../components/ui/SpeakButton'
 import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
 import { DICTATION, READING, plainWord } from './learnData'
@@ -168,9 +169,9 @@ export function ReadingPage() {
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade}</p>
     <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
-    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p}</p>)}</div>
+    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p} <SpeakButton text={p} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
     <h2 className="mt-8 mb-3 text-2xl font-black">שאלות</h2>
-    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b>
+    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
         className={`ln-opt ${checked && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}</div>)}
       <div className="ln-q"><b>{r.q.length + 1}. {r.open}</b><textarea className="ln-ta mt-2" aria-label="תשובה פתוחה" placeholder="כותבים כאן או בדף" /></div>

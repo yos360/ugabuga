@@ -5,6 +5,7 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
+import SpeakButton from '../../components/ui/SpeakButton'
 import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
 
 const HISTORY_LIMIT = 12
@@ -186,7 +187,7 @@ export default function Riddles() {
             </p>
           )}
 
-          <h2 className="text-2xl md:text-3xl font-bold leading-relaxed mb-6">{current.question}</h2>
+          <div className="mb-6 flex items-start justify-center gap-2"><h2 className="text-2xl md:text-3xl font-bold leading-relaxed">{current.question}</h2><SpeakButton text={current.question} label="השמעת החידה" className="mt-1 shrink-0" /></div>
 
           {!showAnswer && (
             <div className="mb-4">
@@ -208,7 +209,7 @@ export default function Riddles() {
             <div className="animate-fade-in">
               <WobblyCard hover={false} padding="p-4" className="bg-[var(--green)] text-white mb-4">
                 {knewIt && <p className="text-lg font-bold mb-1">✅ כל הכבוד! בדקו שזו התשובה שחשבתם:</p>}
-                <p className="text-xl font-bold">🎯 {current.answer}</p>
+                <p className="flex items-center justify-center gap-2 text-xl font-bold">🎯 {current.answer} <SpeakButton text={current.answer} label="השמעת התשובה" className="text-[var(--foreground)]" /></p>
                 {current.explanation && <p className="mt-2 text-sm opacity-90">{current.explanation}</p>}
               </WobblyCard>
               <WobblyButton onClick={() => chooseQuestion(false)} variant="primary">חידה חדשה ←</WobblyButton>

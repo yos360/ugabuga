@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
+import SpeakButton from '../../components/ui/SpeakButton'
 import NotFound from '../NotFound'
 import { Chip, Header } from './contentUi'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -52,13 +53,14 @@ export function AnimalPage() {
       <SEO title={a.title} description={a.description} path={'/animals/' + slug} type="article" structuredData={faqSchema(m.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'עובדות על חיות', href: '/animals' }, { label: a.name }]} />
       <Header emoji={a.emoji} title={a.title} intro={a.intro} />
+      <p className="no-print -mt-3 mb-6 flex items-center justify-center gap-2 text-2xl font-bold">{a.name} <SpeakButton text={a.name} label={`השמעה: ${a.name}`} /></p>
       <WobblyCard hover={false} padding="p-5" className="mb-6 bg-[var(--postit)]">
         <h2 className="text-2xl font-bold mb-2">כרטיס זיהוי</h2>
         <dl className="grid sm:grid-cols-2 gap-x-6 gap-y-2">{P.map(([k, v]) => <div key={k}><dt className="font-bold">{k}</dt><dd>{v}</dd></div>)}</dl>
       </WobblyCard>
       {m.about && <section className="mb-8"><h2 className="text-2xl font-bold mb-3">קצת יותר על {subject}</h2><div className="space-y-3 text-lg leading-relaxed">{m.about.map(t => <p key={t}>{t}</p>)}</div></section>}
       <h2 className="text-2xl font-bold mb-3">8 עובדות מעניינות</h2>
-      <ol className="space-y-2 mb-8">{a.facts.map((f, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{i + 1}.</b> {f}</li>)}</ol>
+      <ol className="space-y-2 mb-8">{a.facts.map((f, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{i + 1}.</b> {f} <SpeakButton text={f} label="השמעת העובדה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></li>)}</ol>
       <h2 className="text-2xl font-bold mb-3">🧠 חידון קצר</h2>
       <div className="space-y-4">
         {a.quiz.map((q, i) => { const p = picked[i]; return (

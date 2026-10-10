@@ -4,6 +4,8 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
+import SpeakButton from '../../components/ui/SpeakButton'
+import { speak } from '../../utils/speak'
 import { WORD_SETS, LEVELS, answersFor, distinctPairs, shuffle } from '../../data/wordPairs'
 import './words.css'
 
@@ -42,11 +44,11 @@ function ChooseGame({ set, level }) {
       <button type="button" className="wp-primary" onClick={() => setRound(r => r + 1)}>🔁 סיבוב חדש</button></div>
   )
   const q = qs[i]
-  const pick = o => { if (picked) return; setPicked(o.w); if (o.w === q.answer) setScore(s => s + 1) }
+  const pick = o => { if (picked) return; setPicked(o.w); if (o.w === q.answer) setScore(s => s + 1); speak(q.answer, 'he-IL') }
   return (
     <div className="wp-choose">
       <p className="wp-progress">שאלה {i + 1} מתוך {qs.length} · ⭐ {score}</p>
-      <p className="wp-q">{level === 1 && q.ew && <span className="wp-emoji-big" aria-hidden="true">{q.ew}</span>}{set.question(q.word)}</p>
+      <p className="wp-q">{level === 1 && q.ew && <span className="wp-emoji-big" aria-hidden="true">{q.ew}</span>}{set.question(q.word)} <SpeakButton text={q.word} label={`השמעה: ${q.word}`} className="align-middle" /></p>
       <div className="wp-opts">
         {q.options.map(o => (
           <button key={o.w} type="button" disabled={!!picked}

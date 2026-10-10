@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
+import SpeakButton from '../../components/ui/SpeakButton'
 import NotFound from '../NotFound'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { RIDDLE_PAGES } from '../../data/content/riddles'
@@ -17,13 +18,13 @@ function Riddle({ r, n }) {
   const [hint, setHint] = useState(false), [ans, setAns] = useState(false)
   return (
     <WobblyCard hover={false} padding="p-4">
-      <h2 className="font-bold text-lg whitespace-pre-line">{n}. {r.q}</h2>
+      <div className="flex items-start justify-between gap-2"><h2 className="font-bold text-lg whitespace-pre-line">{n}. {r.q}</h2><SpeakButton text={r.q} label="השמעת החידה" className="shrink-0" /></div>
       <div className="mt-2 flex flex-wrap gap-2">
         {!hint && !ans && <button className="btn-secondary text-sm" onClick={() => setHint(true)}>💡 רמז</button>}
         {!ans && <button className="btn-secondary text-sm" onClick={() => setAns(true)}>👀 תשובה</button>}
       </div>
       {hint && !ans && <p className="mt-2">💡 {r.hint}</p>}
-      {ans && <p className="mt-2 font-bold text-green-800">✅ {r.a}</p>}
+      {ans && <p className="mt-2 flex items-center gap-2 font-bold text-green-800">✅ {r.a} <SpeakButton text={r.a} label="השמעת התשובה" /></p>}
     </WobblyCard>
   )
 }
@@ -145,17 +146,17 @@ export function AbcLetterPage() {
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={`האות ${l.letter} באנגלית — מילים, צליל ותרגול לילדים`} description={l.description} path={'/abc/' + l.slug} structuredData={faqSchema(x.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אותיות באנגלית', href: '/abc' }, { label: l.letter }]} />
-      <header className="text-center mb-6"><div className="text-8xl font-bold" dir="ltr">{l.letter} {l.lower}</div><h1 className="text-3xl md:text-4xl font-hand font-bold mt-2">האות {l.letter} באנגלית</h1><p className="text-lg mt-1">שם האות: <b>{l.name}</b></p></header>
+      <header className="text-center mb-6"><div className="flex items-center justify-center gap-3"><div className="text-8xl font-bold" dir="ltr">{l.letter} {l.lower}</div><SpeakButton text={l.letter} lang="en-US" label={`השמעת האות ${l.letter}`} /></div><h1 className="text-3xl md:text-4xl font-hand font-bold mt-2">האות {l.letter} באנגלית</h1><p className="text-lg mt-1">שם האות: <b>{l.name}</b></p></header>
       {x.intro && <p className="text-lg leading-relaxed mb-6">{x.intro}</p>}
       <WobblyCard hover={false} padding="p-5" className="mb-6 bg-[var(--postit)]">
         <h2 className="text-xl font-bold mb-1">🔊 איך היא נשמעת</h2><p className="text-lg">{l.sound}</p>
         {x.hebrew && <><h3 className="font-bold mt-3">🇮🇱 שימו לב, דוברי עברית</h3><p>{x.hebrew}</p></>}
       </WobblyCard>
       <h2 className="text-2xl font-bold mb-3">מילים שמתחילות ב-{l.letter}</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">{l.words.map(w => <div key={w.en} className="wobbly-sm border-2 border-[var(--border)] bg-white p-3 text-center"><div className="text-4xl">{w.emoji}</div><div className="text-xl font-bold" dir="ltr">{w.en}</div><div>{w.he}</div></div>)}</div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">{l.words.map(w => <div key={w.en} className="wobbly-sm border-2 border-[var(--border)] bg-white p-3 text-center"><div className="text-4xl">{w.emoji}</div><div className="text-xl font-bold" dir="ltr">{w.en}</div><div>{w.he}</div><SpeakButton text={w.en} lang="en-US" label={`השמעה: ${w.en}`} className="mt-1" /></div>)}</div>
       {x.more && <><h3 className="text-xl font-bold mb-2">עוד מילים עם {l.letter}</h3>
-        <ul className="grid grid-cols-2 gap-x-6 gap-y-1 mb-6">{x.more.map(([en, he]) => <li key={en} className="border-b border-dashed border-[var(--border)] py-1"><b dir="ltr">{en}</b> – {he}</li>)}</ul></>}
-      <WobblyCard hover={false} padding="p-5" className="mb-4"><h2 className="text-xl font-bold mb-1">משפט לתרגול</h2><p className="text-xl" dir="ltr">{l.sentence.en}</p><p>{l.sentence.he}</p></WobblyCard>
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-1 mb-6">{x.more.map(([en, he]) => <li key={en} className="flex items-center gap-2 border-b border-dashed border-[var(--border)] py-1"><SpeakButton text={en} lang="en-US" label={`השמעה: ${en}`} className="!min-h-[30px] !min-w-[30px] !text-base" /><span><b dir="ltr">{en}</b> – {he}</span></li>)}</ul></>}
+      <WobblyCard hover={false} padding="p-5" className="mb-4"><h2 className="text-xl font-bold mb-1">משפט לתרגול</h2><p className="flex flex-wrap items-center gap-2 text-xl" dir="ltr">{l.sentence.en} <SpeakButton text={l.sentence.en} lang="en-US" label="השמעת המשפט" /></p><p>{l.sentence.he}</p></WobblyCard>
       <p className="text-lg mb-6">✏️ {l.tip}</p>
       {x.acts && <section className="mb-6"><h2 className="text-2xl font-bold mb-2">שני רעיונות לפעילות עם {l.letter}</h2>
         <ol className="list-decimal pr-6 space-y-2">{x.acts.map(t => <li key={t}>{t}</li>)}</ol></section>}

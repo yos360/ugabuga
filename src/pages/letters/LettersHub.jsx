@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import SpeakButton from '../../components/ui/SpeakButton'
 import { HEBREW } from '../../data/letterLearning'
 
 const faq = [
@@ -20,11 +21,11 @@ export default function LettersHub() {
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">בחרו אות — ותמצאו איך כותבים אותה, מילים, משחק ודף תרגול להדפסה</p>
 
       <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-11 mb-10">
-        {HEBREW.map((x, i) => <Link key={x.slug} to={`/letters/${x.slug}`} aria-label={`לימוד האות ${x.l}`}
+        {HEBREW.map((x, i) => <div key={x.slug} className="relative"><Link to={`/letters/${x.slug}`} aria-label={`לימוד האות ${x.l}`}
           className={`wobbly-sm flex aspect-square flex-col items-center justify-center border-2 border-slate-800 bg-white sketch-shadow-sm transition-transform hover:-translate-y-1 ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
           <span className="text-5xl font-bold leading-none font-display">{x.l}</span>
           <span className="text-xl" aria-hidden="true">{x.words[0][1]}</span>
-        </Link>)}
+        </Link><SpeakButton text={x.name} label={`השמעת שם האות ${x.l}`} className="absolute -top-2 -left-2 !min-h-[30px] !min-w-[30px] !px-1 !text-sm" /></div>)}
       </div>
 
       <div className="grid gap-5 md:grid-cols-3 mb-12">
