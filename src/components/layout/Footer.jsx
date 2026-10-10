@@ -72,6 +72,7 @@ const COLUMNS = [
       ['/learn', 'לומדים בבית'],
       ['/learn/times-tables', 'אתגר לוח הכפל'],
       ['/learn/dictation', 'הכתבה אונליין'],
+      ['/typing', 'הקלדה עיוורת'],
       ['/learn/gifted-test', 'הכנה למבחן מחוננים'],
       ['/discover', 'עולם ומדע'],
       ['/discover/israel-map', 'מפת ישראל לילדים'],

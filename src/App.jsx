@@ -83,6 +83,10 @@ const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ defaul
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
 const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
 const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
+const TypingCourse = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingCourse })))
+const TypingTest = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingTest })))
+const TypingEnglish = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingEnglish })))
+const TypingGame = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingGame })))
 const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
 const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
@@ -397,6 +401,10 @@ export default function App() {
               <Route path="/music/guitar-chords/:chord" element={<GuitarChord />} />
               <Route path="/music/concepts" element={<Concepts />} />
               <Route path="/music/styles" element={<Styles />} />
+              <Route path="/typing" element={<TypingCourse />} />
+              <Route path="/typing/test" element={<TypingTest />} />
+              <Route path="/typing/english" element={<TypingEnglish />} />
+              <Route path="/typing/game" element={<TypingGame />} />
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
               <Route path="/learn/reading" element={<ReadingIndex />} />
