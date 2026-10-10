@@ -18,8 +18,8 @@ export function orderCards(age,version) {
   const ordered=Array.from({length:count},(_,i)=>start+i*step)
   let cards=shuffled(ordered,version)
   // Switching age must change the top of the page: the first card differs from the younger sheet's.
-  const younger=AGE_ORDER.indexOf(age)>0?orderCards(AGE_ORDER[AGE_ORDER.indexOf(age)-1],version).cards[0]:null
-  for(let i=0;i<count&&(cards.every((n,k)=>n===ordered[k])||cards[0]===younger);i++)cards=[...cards.slice(1),cards[0]]
+  const younger=AGE_ORDER.slice(0,Math.max(0,AGE_ORDER.indexOf(age))).map(a=>orderCards(a,version).cards[0])
+  for(let i=0;i<count&&(cards.every((n,k)=>n===ordered[k])||younger.includes(cards[0]));i++)cards=[...cards.slice(1),cards[0]]
   return {cards,ordered,step}
 }
 
