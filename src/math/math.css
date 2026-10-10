@@ -1,5 +1,6 @@
 /* /math: hub, grade, topic and test pages */
-.mth-ltr{direction:ltr;unicode-bidi:isolate}
+/* keep each formula on one line: an LTR run that wraps inside RTL text reads scrambled */
+.mth-ltr{direction:ltr;unicode-bidi:isolate;white-space:nowrap;display:inline-block;max-width:100%;overflow-x:auto;vertical-align:bottom}
 .mth-card{max-width:680px;margin-inline:auto}
 .mth-score{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 14px;font-weight:700}
 .mth-ex{margin-top:10px;text-align:center;border-radius:14px;padding:6px 4px;transition:background .2s}

@@ -110,6 +110,22 @@ const BabyNamesHub = lazy(() => import('./pages/babyNames/BabyNames').then(m => 
 const BabyNamesList = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesList })))
 const BabyNamesLetter = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesLetter })))
 const BabyNamePage = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamePage })))
+const MathHub = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathHub })))
+const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathGrade })))
+const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
+const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTest })))
+const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
+const HebrewBirthday = lazy(() => import('./pages/tools/HebrewBirthday'))
+const BatMitzvahIdeas = lazy(() => import('./pages/ideas/BatMitzvahIdeas'))
+const ToddlersHub = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlersHub })))
+const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlerPage })))
+const ShabbatGames = lazy(() => import('./pages/games/ShabbatGames'))
+const TeacherGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.TeacherGiftPage })))
+const GananetGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.GananetGiftPage })))
+const KindergartenGraduation = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.KindergartenGraduation })))
+const SixthGradeGraduation = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.SixthGradeGraduation })))
+const SchoolSuppliesList = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.SchoolSuppliesList })))
+const GanBirthdayGuide = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.GanBirthdayGuide })))
 const HanukkahSongs = lazy(() => import('./pages/holidays/HanukkahSongs'))
 const StoriesHub = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoriesHub })))
 const StoryPage = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoryPage })))
@@ -261,6 +277,7 @@ export default function App() {
               <Route path="/games/kita-d" element={<CategoryPage />} />
               <Route path="/games/kita-h" element={<CategoryPage />} />
               <Route path="/games/kita-v" element={<CategoryPage />} />
+              <Route path="/games/shabbat" element={<ShabbatGames />} />
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/search" element={<Search />} />
               <Route path="/time-tunnel" element={<MaHayom />} />
@@ -271,6 +288,9 @@ export default function App() {
               <Route path="/ideas/age/:age" element={<AgePage />} />
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
               <Route path="/ideas/themes" element={<ThemesHub />} />
+              <Route path="/ideas/bat-mitzvah-ideas" element={<BatMitzvahIdeas />} />
+              <Route path="/ideas/kindergarten-graduation" element={<KindergartenGraduation />} />
+              <Route path="/ideas/6th-grade-graduation" element={<SixthGradeGraduation />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
               <Route path="/ideas/*" element={<NotFound />} />
               <Route path="/calculator" element={<Calculator />} />
@@ -393,6 +413,10 @@ export default function App() {
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
+              <Route path="/math" element={<MathHub />} />
+              <Route path="/math/tests/:gradeSlug" element={<MathTest />} />
+              <Route path="/math/:gradeSlug" element={<MathGrade />} />
+              <Route path="/math/:gradeSlug/:topicSlug" element={<MathTopic />} />
               <Route path="/cakes" element={<CakesHub />} />
               <Route path="/cakes/:slug" element={<CakePage />} />
               <Route path="/baby-names" element={<BabyNamesHub />} />
@@ -404,6 +428,9 @@ export default function App() {
               <Route path="/baby-names/name/:slug" element={<BabyNamePage />} />
               <Route path="/school-holidays" element={<SchoolHolidaysHub />} />
               <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
+              <Route path="/tools/hebrew-birthday" element={<HebrewBirthday />} />
+              <Route path="/toddlers" element={<ToddlersHub />} />
+              <Route path="/toddlers/:slug" element={<ToddlerPage />} />
               <Route path="/tools/due-date" element={<DueDate />} />
               <Route path="/stories" element={<StoriesHub />} />
               <Route path="/stories/:slug" element={<StoryPage />} />
@@ -425,6 +452,7 @@ export default function App() {
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
+              <Route path="/printables/school-supplies-list" element={<SchoolSuppliesList />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
               <Route path="/tools/birthday-famous" element={<BirthdayFamous />} />
@@ -545,8 +573,11 @@ export default function App() {
               <Route path="/gifts/girl" element={<Navigate to="/gifts" replace />} />
               <Route path="/gifts/under-50" element={<GiftsIndex />} />
               <Route path="/gifts/under-100" element={<GiftsIndex />} />
+              <Route path="/gifts/teacher-end-of-year" element={<TeacherGiftPage />} />
+              <Route path="/gifts/gananet" element={<GananetGiftPage />} />
               <Route path="/gifts/:age" element={<AgeGiftPage />} />
               <Route path="/guides" element={<GuidesIndex />} />
+              <Route path="/guides/birthday-in-kindergarten" element={<GanBirthdayGuide />} />
               <Route path="/guides/:slug" element={<GuidePage />} />
               <Route path="/compare/home-vs-venue" element={<IdeasHub />} />
               <Route path="/compare/entertainer-vs-diy" element={<IdeasHub />} />
@@ -566,6 +597,7 @@ export default function App() {
               {import.meta.env.VITE_TEST_OWNER_CLAIMS && <Route path="/__test/admin-suppliers" element={<AdminSuppliers />} />}
               <Route path="/suppliers" element={<SuppliersIndex />} />
               <Route path="/suppliers/me" element={<SupplierAccount />} />
+              <Route path="/suppliers/category/:type" element={<SupplierCategory />} />
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />

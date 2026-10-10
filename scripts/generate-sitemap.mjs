@@ -110,6 +110,21 @@ async function main() {
     console.warn(`generate-sitemap: could not fetch suppliers, skipping them. ${err.message}`)
   }
 
+  // Supplier category landing pages (src/data/supplierCategoryPages.js) — a safety net for
+  // any page not yet listed (and so not prerendered) in sitemap-static.xml.
+  try {
+    const { SUPPLIER_CATEGORY_PAGES, categoryPagePath } = await import('../src/data/supplierCategoryPages.js')
+    let added = 0
+    for (const p of SUPPLIER_CATEGORY_PAGES) {
+      const u = categoryPagePath(p.slug)
+      if (staticXml.includes(`https://ugabuga.co.il${u}</loc>`)) continue
+      lines.push(`  <url><loc>https://ugabuga.co.il${u}</loc> <priority>0.7</priority></url>`); added++
+    }
+    console.log(`generate-sitemap: added ${added} supplier category pages.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not read supplier category pages. ${err.message}`)
+  }
+
   try {
     let added = 0
     for (const u of await getHolidayUrls()) {

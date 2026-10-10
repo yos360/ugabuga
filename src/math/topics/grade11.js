@@ -218,7 +218,7 @@ const topics = [
             dfx(poly([[n * a, n], [b, 0]])), dfx(poly([[a, n - 1], [b, 0]])), dfx(poly([[n * a, n - 1], [b + c, 0]])),
             dfx(poly([[n * a, n - 1], [b, 1]])), dfx(poly([[n * a, n - 1]])), dfx(poly([[n * a, n - 1], [-b, 0]])),
           ]),
-          explain: `(${poly([[a, n]])})′ = ${n} · ${par(a)}x${sup(n - 1)}, הנגזרת של ${poly([[b, 1]])} היא ${fmt(b)}, ושל הקבוע — 0. לכן ${dfx(poly([[n * a, n - 1], [b, 0]]))}.`,
+          explain: `(${poly([[a, n]])})′ = ${n} · ${par(a)}${n - 1 === 1 ? 'x' : 'x' + sup(n - 1)} = ${poly([[n * a, n - 1]])}, הנגזרת של ${poly([[b, 1]])} היא ${fmt(b)}, ושל הקבוע — 0. לכן ${dfx(poly([[n * a, n - 1], [b, 0]]))}.`,
         }
       }
       if (level === 2) {
@@ -434,7 +434,7 @@ const topics = [
         q: 'מהם תחומי העלייה והירידה של הפונקציה? (x ≠ 0)',
         expr: fx(terms([[b, 'x'], part(b * a * a, 'x')])),
         ...choiceQ(r, ans, [b > 0 ? txt(mid, out) : txt(out, mid), txt(`x > ${fmt(a)}`, `x < ${fmt(a)}`), txt(`x < ${fmt(-a * a)} או x > ${fmt(a * a)}`, `${lt(-a * a, 0)} או ${lt(0, a * a)}`)]),
-        explain: `f′(x) = ${fmt(b)} − ${fmt(b * a * a)}/x² = ${b === 1 ? '' : fmt(b)}(x² − ${a * a})/x². הנגזרת מתאפסת ב-x = ±${a} ואינה מוגדרת ב-0. היא ${b > 0 ? 'חיובית' : 'שלילית'} כאשר |x| > ${a} ו${b > 0 ? 'שלילית' : 'חיובית'} כאשר 0 < |x| < ${a}.`,
+        explain: `f′(x) = ${fmt(b)} ${b > 0 ? '−' : '+'} ${Math.abs(b * a * a)}/x² = ${b === 1 ? '' : b === -1 ? '−' : fmt(b)}(x² − ${a * a})/x². הנגזרת מתאפסת ב-x = ±${a} ואינה מוגדרת ב-0. היא ${b > 0 ? 'חיובית' : 'שלילית'} כאשר |x| > ${a} ו${b > 0 ? 'שלילית' : 'חיובית'} כאשר 0 < |x| < ${a}.`,
       }
     },
   },
@@ -585,7 +585,7 @@ const topics = [
           q: `${ctx.what} נורמלית. כמה אחוזים מהערכים נמצאים ${txt}? עגלו ל-2 ספרות אחרי הנקודה.`,
           expr: `μ = ${mu} ,  σ = ${s}`,
           type: 'number', answer: ans, tol: 0.02, unit: '%',
-          explain: `מעבירים לציוני תקן${Number.isFinite(z1) ? ` (z = ${fmt(z1)})` : ''}${Number.isFinite(z2) ? ` (z = ${fmt(z2)})` : ''} ומחברים את האחוזים של הקטעים בעקומה: בערך ${fmt(ans)}%.`,
+          explain: `ציוני התקן: ${[z1, z2].filter(Number.isFinite).map(z => `z = ${fmt(z)}`).join(' ו-')}. מחברים את האחוזים של הקטעים המתאימים בעקומה (חצי מהנתונים מכל צד של הממוצע): בערך ${fmt(ans)}%.`,
         }
       }
       if (r.bool()) {
@@ -652,7 +652,7 @@ const topics = [
         q: Q,
         expr: `${terms([[2, `${fn}²x`], [B, `${fn} x`], [C, '']])} = 0`,
         type: 'numbers', answer: sols, unit: '°',
-        explain: `מציבים t = ${fn} x: ${poly([[2, 2], [B, 1], [C, 0]], 't')} = 0, ולכן t = ${fmt(half)} או t = ${fmt(other)}. פותרים כל אחת: ${sols.map(s => fmt(s) + '°').join(', ')}.`,
+        explain: `מציבים t = ${fn} x: ${poly([[2, 2], [B, 1], [C, 0]], 't')} = 0, ולכן t = ${half > 0 ? '1/2' : '−1/2'} או t = ${fmt(other)}. פותרים כל אחת: ${sols.map(s => fmt(s) + '°').join(', ')}.`,
       }
     },
   },

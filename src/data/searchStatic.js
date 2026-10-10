@@ -20,6 +20,7 @@ import { BLOG_POSTS } from './blogPosts'
 import { FAQ_TOPICS } from './faqTopics'
 import { ESCAPE_ROOMS } from './escapeRoomsExpanded'
 import { CBN_PICTURES, cbnLevel } from './colorByNumber'
+import { SUPPLIER_CATEGORY_PAGES, categoryPagePath } from './supplierCategoryPages'
 
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
@@ -143,6 +144,25 @@ const PAGES = [
   { to: '/family/pocket-money', title: 'דמי כיס וחיסכון', emoji: '🐷', kind: 'tool', desc: 'מחשבון חיסכון ושלוש קופות.', keys: 'דמי כיס חיסכון כסף קופה' },
   { to: '/holidays/hanukkah/songs', title: 'שירי חנוכה לילדים', emoji: '🎵', kind: 'tool', desc: 'רשימת שירים לגן, מעוז צור וברכות ההדלקה.', keys: 'שירי חנוכה שירים לחנוכה מעוז צור הנרות הללו ברכות חנוכה סביבון כד קטן באנו חושך לגרש' },
   // new sections (Oct 2026)
+  { to: '/tools/hebrew-birthday', title: 'יום הולדת עברי ומחשבון בר/בת מצווה', emoji: '✡️', kind: 'tool', desc: 'תאריך עברי לפי תאריך לועזי, ומועד בר/בת מצווה עם הפרשה.', keys: 'יום הולדת עברי תאריך עברי המרת תאריך לועזי לעברי מחשבון בר מצווה בת מצווה פרשה פרשת בר מצווה' },
+  { to: '/ideas/bat-mitzvah-ideas', title: 'רעיונות לבת מצווה', emoji: '👑', kind: 'idea', desc: 'סוגי חגיגה, פרויקט, עיצוב, נאום, תקציב וצ׳ק ליסט.', keys: 'בת מצווה רעיונות לבת מצווה פרויקט בת מצווה ערב נשים מסיבת בת מצווה נאום' },
+  { to: '/toddlers', title: 'פעילויות ומשחקים לפעוטות', emoji: '🧸', kind: 'tool', desc: 'רעיונות לגיל שנה, שנתיים ו־3 עם ציוד מהבית.', keys: 'פעוט פעוטות תינוק גיל שנה שנתיים 3 משחקים לפעוטות פעילות' },
+  { to: '/toddlers/age-1', title: 'משחקים ופעילויות לגיל שנה', emoji: '🧸', kind: 'tool', desc: 'פעילויות לגיל שנה.', keys: 'גיל שנה בן שנה בת שנה פעוט משחקים' },
+  { to: '/toddlers/age-2', title: 'משחקים ופעילויות לגיל שנתיים', emoji: '🚂', kind: 'tool', desc: 'בצק, מסלול מכשולים, מיון צבעים ועוד.', keys: 'גיל שנתיים בן שנתיים פעוט משחקים' },
+  { to: '/toddlers/age-3', title: 'משחקים ופעילויות לגיל 3', emoji: '🎨', kind: 'tool', desc: 'רעיונות לגיל 3 לבית ולגן.', keys: 'גיל 3 גיל שלוש בן שלוש משחקים' },
+  { to: '/toddlers/birthday-age-1', title: 'יום הולדת שנה — רעיונות', emoji: '🎂', kind: 'tool', desc: 'מסיבה קצרה, עוגת סמאש, משחקים ובטיחות.', keys: 'יום הולדת שנה יומולדת ראשון עוגת סמאש' },
+  { to: '/toddlers/birthday-age-2', title: 'יום הולדת שנתיים — רעיונות', emoji: '🎈', kind: 'tool', desc: 'מסיבה קצרה עם משחקים לפעוטות.', keys: 'יום הולדת שנתיים יומולדת 2' },
+  { to: '/toddlers/birthday-age-3', title: 'יום הולדת 3 — רעיונות', emoji: '🥳', kind: 'tool', desc: 'משחקים, עוגה וסדר יום ליום הולדת 3.', keys: 'יום הולדת 3 שלוש יומולדת 3' },
+  { to: '/games/shabbat', title: 'משחקים לשבת', emoji: '🕯️', kind: 'tool', desc: '28 משחקים בלי חשמל, כתיבה או ציוד מיוחד.', keys: 'שבת משחקי שבת פעילויות לשבת בלי חשמל שולחן שבת' },
+  { to: '/gifts/teacher-end-of-year', title: 'מתנה למורה לסוף השנה', emoji: '🍎', kind: 'tool', desc: 'רעיונות לפי תקציב, מחשבון חלוקה לוועד וכרטיס תודה.', keys: 'מתנה למורה סוף שנה יום המורה מחנכת סייעת ועד הורים מתנה כיתתית כרטיס תודה' },
+  { to: '/gifts/gananet', title: 'מתנה לגננת ולסייעת', emoji: '🌼', kind: 'tool', desc: 'מה קונים לגננת, לסייעת ולצהרון, ומחשבון חלוקה.', keys: 'מתנה לגננת סייעת צהרון סוף שנה גן ועד הורים' },
+  { to: '/ideas/kindergarten-graduation', title: 'מסיבת סיום גן', emoji: '🎓', kind: 'idea', desc: 'תוכנית, תפקידים לוועד, צ׳קליסט ותעודת סיום גן.', keys: 'מסיבת סיום גן חובה טקס תעודת סיום גן ועד הורים' },
+  { to: '/ideas/6th-grade-graduation', title: 'מסיבת סיום כיתה ו׳', emoji: '🎓', kind: 'idea', desc: 'סדר טקס, מסיבה, ספר מחזור וצ׳קליסט.', keys: 'סיום כיתה ו טקס סיום מסיבת סיום ספר מחזור' },
+  { to: '/printables/school-supplies-list', title: 'רשימת ציוד לבית הספר ולגן', emoji: '🎒', kind: 'tool', desc: 'צ׳קליסט ציוד לגן, לכיתה א׳ ולכיתות ב׳–ו׳.', keys: 'רשימת ציוד כיתה א גן ציוד לבית הספר קלמר מחברות חזרה ללימודים' },
+  { to: '/guides/birthday-in-kindergarten', title: 'יום הולדת בגן', emoji: '👑', kind: 'idea', desc: 'מה מביאים, כתר וכיסא, אלרגיות ושאלות לגננת.', keys: 'יום הולדת בגן מה מביאים כתר כיבוד אלרגיות גננת' },
+  ...SUPPLIER_CATEGORY_PAGES.map(p => ({ to: categoryPagePath(p.slug), title: p.h1, emoji: p.emoji, kind: 'page', desc: p.short, keys: [p.name, ...(p.keywords || [])].join(' ') + ' ספק ספקים' })),
+  { to: '/math', title: 'מתמטיקה מכיתה א׳ עד י״ב', emoji: '🧮', kind: 'tool', desc: 'תרגול אינסופי, מבחנים ודפי עבודה לפי כיתה ונושא.', keys: 'מתמטיקה חשבון גאומטריה אלגברה תרגול מתמטיקה דפי עבודה מבחן במתמטיקה שיעורי בית בגרות' },
+  ...[['א׳', '🍎'], ['ב׳', '🧮'], ['ג׳', '✖️'], ['ד׳', '➗'], ['ה׳', '🔢'], ['ו׳', '📐'], ['ז׳', '➖'], ['ח׳', '📈'], ['ט׳', '🧩'], ['י׳', '📊'], ['י״א', '∑'], ['י״ב', '∫']].map(([l, e], i) => ({ to: `/math/grade-${i + 1}`, title: `מתמטיקה לכיתה ${l}`, emoji: e, kind: 'tool', desc: `נושאים, תרגול, מבחן מסכם ודפי עבודה לכיתה ${l}.`, keys: `מתמטיקה חשבון כיתה ${l} כיתה ${l.replace(/[׳״]/g, '')} מבחן תרגול` })),
   { to: '/jokes/keresh', title: 'בדיחות קרש לילדים – 100 בדיחות עם תשובות', emoji: '🪵', kind: 'tool', desc: '100 בדיחות קרש נקיות בעברית, בדיחה אקראית והדפסה.', keys: 'בדיחות קרש בדיחת קרש לילדים משחקי מילים מה אמר שאלות מצחיקות בדיחות קצרות הומור' },
   { to: '/trivia/with-answers', title: 'שאלות טריוויה עם תשובות', emoji: '🧠', kind: 'tool', desc: '160 שאלות עם תשובות והסבר, גם להדפסה.', keys: 'שאלות טריוויה טריוויה עם תשובות טריוויה לילדים שאלות ידע כללי חידון' },
   { to: '/trivia/with-answers/kids-easy', title: 'שאלות טריוויה לילדים עם תשובות', emoji: '🧸', kind: 'tool', desc: 'שאלות קלות לגיל 6–9.', keys: 'טריוויה לילדים שאלות לילדים חידון לילדים' },
@@ -225,7 +245,7 @@ const PAGES = [
   { to: '/printables/lunchbox-notes', title: 'פתקים לקופסת האוכל', emoji: '💌', kind: 'printable', desc: 'פתקים קטנים להדפסה.', keys: 'פתקים פתק קופסת אוכל' },
   { to: '/printables/allergy-signs', title: 'שלטי אלרגיה ומדבקות', emoji: '🥜', kind: 'printable', desc: 'אצלנו בגן לא אוכלים בוטנים.', keys: 'אלרגיה אלרגיות בוטנים מדבקות גן אגוזים שומשום' },
   { to: '/food/kids-recipes', title: 'מתכונים לילדים', emoji: '👩‍🍳', kind: 'tool', desc: 'מתכונים קלים שילדים מכינים.', keys: 'מתכונים מתכון ילדים בישול אפייה' },
-  { to: '/food/kitchen-science', title: 'ניסויים לילדים במטבח', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי מדע הר געש סודה חומץ' },
+  { to: '/food/kitchen-science', title: 'ניסויים מדעיים לילדים בבית', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי ניסויים מדעיים ניסויים לילדים בבית מדע הר געש סודה חומץ' },
   // music area (/music/*)
   { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
   { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },

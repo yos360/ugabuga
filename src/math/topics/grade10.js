@@ -101,6 +101,8 @@ export function triangleSvg({ a, b, c, sides = {}, angles = {}, right = '', name
 }
 
 const par = n => (n < 0 ? `(${fmt(n)})` : fmt(n))
+// slope as a factor: (−5/2) or 3
+const par2 = (n, d = 1) => { const t = fracText(n, d); return t.includes('/') || t.startsWith('−') ? `(${t})` : t }
 const isSquare = n => n >= 0 && Number.isInteger(Math.sqrt(n))
 const DEG = Math.PI / 180
 
@@ -309,7 +311,7 @@ const topics = [
         return {
           q: 'מהו שיפוע הישר העובר דרך הנקודות A ו-B?' + (level === 2 ? ' כתבו שבר מצומצם.' : ''),
           expr, svg, ...fracAnswer(dy, dx),
-          explain: `m = (${fmt(y2)} − ${fmt(y1)}) / (${fmt(x2)} − ${fmt(x1)}) = ${fmt(dy)}/${fmt(dx)} = ${fracText(dy, dx)}.`.replace(/− −/g, '+ '),
+          explain: `m = (${fmt(y2)} − ${par(y1)}) / (${fmt(x2)} − ${par(x1)}) = ${fmt(dy)} / ${par(dx)} = ${fracText(dy, dx)}.`,
         }
       }
       const m = reduce(dy, dx), b = reduce(y1 * dx - dy * x1, dx)
@@ -318,7 +320,7 @@ const topics = [
         q: 'איזו מהמשוואות היא משוואת הישר העובר דרך הנקודות A ו-B?',
         expr, svg,
         ...choiceQ(r, ans, [lineText(reduce(dx, dy), b), lineText(m, reduce(y1 * dx + dy * x1, dx)), lineText([-m[0], m[1]], b), lineText(m, [-b[0], b[1]]), lineText(m, [b[0] + b[1], b[1]])]),
-        explain: `m = ${fracText(dy, dx)}. מציבים את A: y − ${fmt(y1)} = ${fracText(dy, dx)}(x − ${fmt(x1)}), ומקבלים ${ans}.`.replace(/− −/g, '+ '),
+        explain: `m = ${fracText(dy, dx)}. מציבים את A: y − ${par(y1)} = ${par2(dy, dx)}(x − ${par(x1)}), ומקבלים ${ans}.`,
       }
     },
   },
@@ -392,7 +394,7 @@ const topics = [
           expr: `A${pt(x1, y1)} ,  B${pt(x2, y2)}`,
           svg: planeSvg({ points: [{ x: x1, y: y1, label: 'A' }, { x: x2, y: y2, label: 'B' }] }),
           ...choiceQ(r, pt(mx, my), [pt(my, mx), pt(x1 + x2, y1 + y2), pt((x2 - x1) / 2, (y2 - y1) / 2), pt(mx, -my), pt(-mx, my), pt(mx + 1, my)]),
-          explain: `M = ((${fmt(x1)} + ${fmt(x2)})/2, (${fmt(y1)} + ${fmt(y2)})/2) = ${pt(mx, my)}.`,
+          explain: `M = ((${fmt(x1)} + ${par(x2)})/2, (${fmt(y1)} + ${par(y2)})/2) = ${pt(mx, my)}.`,
         }
       }
       if (level === 2 || r.bool()) {
@@ -406,7 +408,7 @@ const topics = [
           expr: `A${pt(x1, y1)} ,  B${pt(x2, y2)}`,
           svg: planeSvg({ points: [{ x: x1, y: y1, label: 'A' }, { x: x2, y: y2, label: 'B' }] }),
           type: 'number', answer: ans, ...(level === 3 ? { tol: 0.01 } : {}),
-          explain: `d = √((${fmt(dx)})² + (${fmt(dy)})²) = √${d2}${level === 2 ? ` = ${ans}` : ` ≈ ${fmt(ans)}`}.`,
+          explain: `d = √(${par(dx)}² + ${par(dy)}²) = √${d2}${level === 2 ? ` = ${ans}` : ` ≈ ${fmt(ans)}`}.`,
         }
       }
       const x1 = r.int(-6, 6), y1 = r.int(-6, 6)
@@ -480,7 +482,7 @@ const topics = [
         expr: lineText(m, b0),
         svg: planeSvg({ points: [{ x: x0, y: y0, label: 'P' }], lines: [{ m: m[0] / m[1], b: b0 }] }),
         ...choiceQ(r, ans, [lineText(perp ? m : reduce(-m[1], m[0]), bb), lineText(perp ? reduce(m[1], m[0]) : [-m[0], m[1]], bb), lineText(ms, y0 + ms[0] * x0 / ms[1]), lineText(ms, b0), lineText(ms, bb + 1)]),
-        explain: `שיפוע הישר ה${perp ? 'מאונך' : 'מקביל'}: ${fracText(...ms)}. מציבים את P: y − ${fmt(y0)} = ${fracText(...ms)}(x − ${fmt(x0)}), ומקבלים ${ans}.`.replace(/− −/g, '+ '),
+        explain: `שיפוע הישר ה${perp ? 'מאונך' : 'מקביל'}: ${fracText(...ms)}. מציבים את P: y − ${par(y0)} = ${par2(...ms)}(x − ${par(x0)}), ומקבלים ${ans}.`,
       }
     },
   },

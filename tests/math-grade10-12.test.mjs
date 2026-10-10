@@ -3,6 +3,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 const { createRng } = await import('../src/math/rng.js')
+const { exerciseProblems } = await import('../src/math/validate.js')
 const GRADES = {
   10: (await import('../src/math/topics/grade10.js')).default,
   11: (await import('../src/math/topics/grade11.js')).default,
@@ -439,6 +440,7 @@ for (const [g, t] of ALL) {
           assert.equal(new Set(ex.choices).size, ex.choices.length, `${id} unique choices`)
         }
         if (ex.tol !== undefined) assert.ok(ex.tol > 0 && ex.tol <= 1, `${id} tol`)
+        assert.deepEqual(exerciseProblems(ex), [], `${id} contract`)
         try { V[t.slug](ex, L) } catch (e) { e.message = `${id}: ${e.message}\n  q: ${ex.q}\n  expr: ${ex.expr}\n  answer: ${JSON.stringify(ex.answer)}`; throw e }
         seen.add(JSON.stringify([ex.q, ex.expr, ex.svg]))
       }

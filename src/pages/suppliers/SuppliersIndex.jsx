@@ -5,7 +5,10 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { SupplierCard } from '../../components/suppliers/SupplierBits'
 import { suppliersDb } from '../../utils/suppliersDb'
-import { SUPPLIER_CATEGORIES, SUPPLIER_AREAS } from '../../data/supplierOptions'
+import { SUPPLIER_AREAS } from '../../data/supplierOptions'
+import { SUPPLIER_CATEGORY_PAGES, categoryPagePath, suppliersForPage } from '../../data/supplierCategoryPages'
+
+const countLabel = n => n === 0 ? 'מחכים לספק הראשון' : n === 1 ? 'ספק אחד' : `${n} ספקים`
 
 // Static guide under the directory: how it works, what to ask a supplier, FAQ.
 const ASK = [
@@ -37,17 +40,14 @@ function SuppliersGuide() {
 export default function SuppliersIndex() {
   const [list, setList] = useState(null)
   const [error, setError] = useState('')
-  const [cat, setCat] = useState('')
   const [area, setArea] = useState('')
   const [q, setQ] = useState('')
   useEffect(() => { suppliersDb.list().then(setList).catch(e => setError(e.message)) }, [])
 
   const shown = useMemo(() => (list || []).filter(s =>
-    (!cat || s.category === cat) &&
     (!area || s.area === area || s.area === 'כל הארץ') &&
     (!q.trim() || `${s.name} ${s.tagline || ''} ${s.about || ''} ${(s.tags || []).join(' ')}`.includes(q.trim()))
-  ), [list, cat, area, q])
-  const usedCats = useMemo(() => SUPPLIER_CATEGORIES.filter(([id]) => (list || []).some(s => s.category === id)), [list])
+  ), [list, area, q])
 
   return <div className="mx-auto max-w-6xl px-4 py-8">
     <SEO title="ספקים לימי הולדת ואירועי ילדים" description="ספקים לימי הולדת ואירועי ילדים: מפעילים, קוסמים, עוגות, צילום, בלונים ומתנפחים — פנייה ישירה בוואטסאפ, בלי תיווך." path="/suppliers" structuredData={faqSchema(FAQ)} />
@@ -60,11 +60,10 @@ export default function SuppliersIndex() {
     <div className="mb-6 space-y-3 rounded-3xl bg-white p-4 shadow-sm">
       <input value={q} onChange={e => setQ(e.target.value)} placeholder="🔍 חיפוש: קוסם, עוגת בצק סוכר, צלמת…" aria-label="חיפוש ספק"
         className="w-full rounded-2xl border-2 border-slate-200 px-4 py-3 text-lg focus:border-slate-800 focus:outline-none" />
-      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-        <button onClick={() => setCat('')} aria-pressed={!cat} className={`shrink-0 rounded-full border-2 px-3 py-1.5 text-sm font-bold ${!cat ? 'border-[var(--ink)] bg-[var(--postit)]' : 'border-slate-200 bg-white'}`}>הכול</button>
-        {(usedCats.length ? usedCats : SUPPLIER_CATEGORIES).map(([id, label]) => <button key={id} onClick={() => setCat(c => c === id ? '' : id)} aria-pressed={cat === id}
-          className={`shrink-0 whitespace-nowrap rounded-full border-2 px-3 py-1.5 text-sm font-bold ${cat === id ? 'border-[var(--ink)] bg-[var(--postit)]' : 'border-slate-200 bg-white'}`}>{label}</button>)}
-      </div>
+      <nav aria-label="סוגי ספקים" className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+        {SUPPLIER_CATEGORY_PAGES.map(p => <Link key={p.slug} to={categoryPagePath(p.slug)}
+          className="inline-flex min-h-[40px] shrink-0 items-center whitespace-nowrap rounded-full border-2 border-slate-200 bg-white px-3 py-1.5 text-sm font-bold hover:border-[var(--ink)]">{p.emoji} {p.name}</Link>)}
+      </nav>
       <select value={area} onChange={e => setArea(e.target.value)} aria-label="אזור" className="rounded-xl border-2 border-slate-200 bg-white px-3 py-2 font-bold">
         <option value="">📍 כל האזורים</option>
         {SUPPLIER_AREAS.filter(a => a !== 'כל הארץ').map(a => <option key={a} value={a}>{a}</option>)}
@@ -75,6 +74,15 @@ export default function SuppliersIndex() {
       : !list ? <p className="py-10 text-center text-lg">טוענים ספקים…</p>
       : shown.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{shown.map((s, i) => <SupplierCard key={s.id} s={s} index={i} />)}</div>
       : <p className="rounded-2xl bg-slate-50 p-8 text-center text-lg">{list.length ? 'לא מצאנו ספק שמתאים לחיפוש. נסו לשנות סינון.' : 'הספקים הראשונים מצטרפים ממש עכשיו 🎈'}</p>}
+
+    <section className="mt-12" aria-labelledby="all-types">
+      <h2 id="all-types" className="mb-2 text-3xl font-bold">כל סוגי הספקים</h2>
+      <p className="mb-4 text-lg">לכל סוג ספק יש עמוד עם מה חשוב לבדוק, מה לשאול לפני שסוגרים ורעיונות לעשות לבד — ואחריהם הספקים עצמם.</p>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">{SUPPLIER_CATEGORY_PAGES.map(p => <Link key={p.slug} to={categoryPagePath(p.slug)}
+        className="flex flex-col items-center gap-1 rounded-2xl border-2 border-[var(--border)] bg-white p-3 text-center font-bold leading-snug hover:border-[var(--ink)]">
+        <span className="text-3xl" aria-hidden="true">{p.emoji}</span>{p.h1}{list && <span className="text-xs font-normal text-[var(--muted-foreground)]">{countLabel(suppliersForPage(p, list).length)}</span>}
+      </Link>)}</div>
+    </section>
 
     <section className="wobbly mt-10 border-2 border-[var(--border)] bg-[var(--postit)] p-6 text-center sm:p-8">
       <h2 className="font-display text-3xl font-bold">נותנים שירות לימי הולדת?</h2>

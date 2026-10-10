@@ -1,0 +1,65 @@
+/* School-season pages (gifts for staff, graduations, supplies list, gan birthdays) */
+.sc-grid{display:grid;gap:14px}
+@media (min-width:640px){.sc-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.sc-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sc-card{border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);padding:14px 16px;box-shadow:3px 3px 0 var(--border,#1d2233)}
+.sc-card h3{font-size:1.15rem;font-weight:900;margin:0 0 6px}
+.sc-card p{margin:0}
+.sc-card ul{margin:0;padding-inline-start:1.1em;list-style:disc}
+.sc-card li+li{margin-top:6px}
+.sc-emoji{font-size:1.8rem;line-height:1}
+.sc-section{margin-top:2.25rem}
+.sc-section>h2{font-size:1.6rem;font-weight:900;margin:0 0 .75rem;text-align:center}
+.sc-lead{max-width:44rem;margin:0 auto 1rem;text-align:center;color:var(--muted-foreground)}
+.sc-note{border:2px dashed var(--border,#1d2233);border-radius:16px;padding:12px 14px;background:#fff8e1;color:#1d2233}
+.sc-input{width:100%;min-height:44px;font-size:18px;padding:8px 12px;border:2px solid var(--border,#1d2233);border-radius:12px;background:#fff;color:#1d2233}
+.sc-input.num{max-width:120px;text-align:center}
+.sc-field{display:flex;flex-direction:column;gap:4px;font-weight:800}
+.sc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.sc-total{font-size:1.6rem;font-weight:900}
+.sc-share{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1.5px dashed #c9cbd3}
+.sc-share:last-child{border-bottom:0}
+.sc-share b{font-size:1.25rem}
+.sc-recipient{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;padding:8px 0;border-bottom:1.5px dashed #c9cbd3}
+.sc-recipient select{min-height:40px;border:2px solid var(--border,#1d2233);border-radius:10px;background:#fff;color:#1d2233;padding:4px 8px;max-width:100%}
+.sc-recipient label{font-weight:800}
+.sc-timeline{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sc-timeline li{display:grid;grid-template-columns:4.2rem 1fr;gap:10px;align-items:start}
+.sc-time{font-weight:900;background:#e7f0ff;color:#1d2233;border:2px solid var(--border,#1d2233);border-radius:12px;text-align:center;padding:4px 0;font-variant-numeric:tabular-nums}
+.sc-check{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.sc-check input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:#7548b3}
+.sc-check.is-done span{text-decoration:line-through;opacity:.6}
+.sc-supply{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1.5px dashed #c9cbd3}
+.sc-supply input[type=checkbox]{width:24px;height:24px;accent-color:#7548b3}
+.sc-supply input[type=number]{width:62px;min-height:40px;text-align:center;border:2px solid var(--border,#1d2233);border-radius:10px;font-size:17px;background:#fff;color:#1d2233}
+.sc-supply.is-done .sc-supply-name{text-decoration:line-through;opacity:.6}
+.sc-x{min-width:40px;min-height:40px;border-radius:10px;border:2px solid transparent;font-size:18px}
+.sc-x:hover,.sc-x:focus-visible{border-color:var(--border,#1d2233)}
+.sc-progress{height:12px;border:2px solid var(--border,#1d2233);border-radius:999px;overflow:hidden;background:#fff}
+.sc-progress>span{display:block;height:100%;background:#7dd87a}
+/* card preview (on screen) */
+.sc-card-preview{border:2px solid var(--border,#1d2233);border-radius:16px;background:#fffdf5;color:#1d2233;padding:20px;text-align:center;box-shadow:4px 4px 0 #ffd23f}
+.sc-card-preview .big{font-size:1.9rem;font-weight:900;margin:0 0 8px}
+.sc-card-preview p{font-size:1.15rem;line-height:1.7;margin:0 0 8px}
+/* printed thank-you card: A4 folded in half */
+.sc-print-card{width:100%;height:100%;display:grid;grid-template-rows:1fr 1fr}
+.sc-print-card>div{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6% 8%;gap:10px}
+.sc-print-card .front{border-bottom:1.5px dashed #999}
+.sc-print-card .front .emoji{font-size:64px;line-height:1}
+.sc-print-card .front h2{font-size:34pt;margin:0}
+.sc-print-card .inside p{font-size:17pt;line-height:1.6;margin:0}
+.sc-print-card .inside .sign{font-weight:700;margin-top:12px}
+.sc-print-card .fold{font-size:9pt;color:#888}
+/* printed certificate */
+.sc-cert{width:100%;height:100%;border:6px double #7548b3;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8% 7%;gap:14px;color:#1d2233}
+.sc-cert .stars{font-size:40px;letter-spacing:10px}
+.sc-cert h2{font-size:38pt!important;margin:0!important;color:#7548b3}
+.sc-cert .name{font-size:34pt;font-weight:900;border-bottom:2px solid #1d2233;padding:0 18px 4px;min-width:60%}
+.sc-cert p{font-size:17pt;line-height:1.6;margin:0}
+.sc-cert .sign{display:flex;justify-content:space-around;width:100%;margin-top:28px;font-size:13pt}
+.sc-cert .sign span{border-top:1.5px solid #1d2233;padding-top:4px;min-width:30%}
+/* printed lists */
+.sc-print-list h2{font-size:20pt;text-align:center;margin:0 0 4px}
+.sc-print-list .sub{text-align:center;font-size:11pt;color:#555;margin:0 0 10px}
+.sc-print-list ul{list-style:none;margin:0;padding:0;columns:2;column-gap:24px}
+.sc-print-list li{font-size:13pt;padding:3px 0;break-inside:avoid}
+.sc-print-list h3{font-size:14pt;margin:10px 0 4px}

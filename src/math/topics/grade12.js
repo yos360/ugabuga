@@ -14,6 +14,7 @@ const expE = (k, c = 0) => {
   const kx = k === 1 ? 'x' : k === -1 ? '-x' : `${k}x`
   return 'e' + sup(kx + (c ? (c > 0 ? `+${c}` : `${c}`) : ''))
 }
+const piTxt = (n, d) => { const t = fracText(n, d); return t.includes('/') ? `(${t})π` : `${t}π` }
 const integral = (p, q, body) => `∫${sub(p)}${sup(q)} (${body}) dx`
 
 // complex number a + bi as text
@@ -193,20 +194,20 @@ const topics = [
       const Q = 'מהו נפח הגוף שנוצר מסיבוב השטח שבין הגרף לציר ה-x סביב ציר ה-x בקטע הנתון? הקלידו את המקדם של π (מספר שלם או שבר מצומצם).'
       if (level === 1) {
         const m = r.nz(-4, 4), h = r.int(1, 6)
-        return { q: Q, expr: `y = ${lin(m, 0)} ,  0 ≤ x ≤ ${h}`, ...fracAnswer(m * m * h ** 3, 3), unit: 'π', explain: `V = π∫₀${sup(h)} ${m * m}x² dx = π · ${m * m}x³/3 |₀${sup(h)} = ${fracText(m * m * h ** 3, 3)}π.` }
+        return { q: Q, expr: `y = ${lin(m, 0)} ,  0 ≤ x ≤ ${h}`, ...fracAnswer(m * m * h ** 3, 3), unit: 'π', explain: `V = π∫₀${sup(h)} ${m * m}x² dx = π · ${m * m}x³/3 |₀${sup(h)} = ${piTxt(m * m * h ** 3, 3)}.` }
       }
       if (level === 2) {
         const a = r.int(1, 6), p = r.int(0, 3), q = p + r.int(1, 4)
-        return { q: Q, expr: `y = √${a === 1 ? 'x' : `(${a}x)`} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(a * (q * q - p * p), 2), unit: 'π', explain: `y² = ${a === 1 ? '' : a}x. V = π∫ ${a === 1 ? '' : a}x dx = π · ${a}x²/2 |${sub(p)}${sup(q)} = ${fracText(a * (q * q - p * p), 2)}π.` }
+        return { q: Q, expr: `y = √${a === 1 ? 'x' : `(${a}x)`} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(a * (q * q - p * p), 2), unit: 'π', explain: `y² = ${a === 1 ? '' : a}x. V = π∫ ${a === 1 ? '' : a}x dx = π · ${a}x²/2 |${sub(p)}${sup(q)} = ${piTxt(a * (q * q - p * p), 2)}.` }
       }
       if (r.bool()) {
         const k = r.int(1, 3), p = r.int(0, 1), q = p + r.int(1, 2)
-        return { q: Q, expr: `y = ${poly([[k, 2]])} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(k * k * (q ** 5 - p ** 5), 5), unit: 'π', explain: `y² = ${k * k === 1 ? '' : k * k}x⁴. V = π · ${k * k}x⁵/5 |${sub(p)}${sup(q)} = ${fracText(k * k * (q ** 5 - p ** 5), 5)}π.` }
+        return { q: Q, expr: `y = ${poly([[k, 2]])} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(k * k * (q ** 5 - p ** 5), 5), unit: 'π', explain: `y² = ${k * k === 1 ? '' : k * k}x⁴. V = π · ${k * k}x⁵/5 |${sub(p)}${sup(q)} = ${piTxt(k * k * (q ** 5 - p ** 5), 5)}.` }
       }
       const m = r.nz(-3, 3), b = r.int(1, 4), p = r.int(0, 2), q = p + r.int(1, 3)
       // ∫ (mx + b)² = m²x³/3 + mbx² + b²x
       const n = m * m * (q ** 3 - p ** 3) + 3 * m * b * (q * q - p * p) + 3 * b * b * (q - p)
-      return { q: Q, expr: `y = ${lin(m, b)} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(n, 3), unit: 'π', explain: `y² = ${poly([[m * m, 2], [2 * m * b, 1], [b * b, 0]])}. V = π[${poly([[[m * m, 3], 3], [m * b, 2], [b * b, 1]])}]${sub(p)}${sup(q)} = ${fracText(n, 3)}π.` }
+      return { q: Q, expr: `y = ${lin(m, b)} ,  ${p} ≤ x ≤ ${q}`, ...fracAnswer(n, 3), unit: 'π', explain: `y² = ${poly([[m * m, 2], [2 * m * b, 1], [b * b, 0]])}. V = π[${poly([[[m * m, 3], 3], [m * b, 2], [b * b, 1]])}]${sub(p)}${sup(q)} = ${piTxt(n, 3)}.` }
     },
   },
   {
@@ -328,7 +329,7 @@ const topics = [
         q: 'חשבו את ערך הביטוי. כתבו שבר מצומצם.',
         expr: `log${sub(B)}${arg}`,
         ...fracAnswer(q, p),
-        explain: `${B} = ${base}${sup(p)} ו-${q > 0 ? base ** q : `1/${base ** -q}`} = ${base}${sup(q)}. לכן התשובה היא ${q}/${p} = ${fracText(q, p)}.`,
+        explain: `${B} = ${base}${sup(p)} ו-${q > 0 ? base ** q : `1/${base ** -q}`} = ${base}${sup(q)}. לכן התשובה היא ${fracText(q, p)}.`,
       }
     },
   },
@@ -337,7 +338,7 @@ const topics = [
     grade: 12,
     strand: 'calculus',
     title: 'נגזרות של eˣ ו-ln x — 4–5 יח״ל',
-    emoji: '📐',
+    emoji: '📈',
     desc: 'גזירת פונקציות מעריכיות ולוגריתמיות: (eˣ)′ = eˣ, (ln x)′ = 1/x, כלל השרשרת וגזירת מכפלה ומנה כמו x·eˣ ו-ln x / x — תרגול אמריקאי בשלוש רמות לכיתה י״ב.',
     intro: 'שתי נגזרות בסיסיות: (eˣ)′ = eˣ ו-(ln x)′ = 1/x. לפי כלל השרשרת: (e^g(x))′ = g′(x)·e^g(x), ו-(ln g(x))′ = g′(x)/g(x). למכפלה משתמשים בכלל (uv)′ = u′v + uv′, ולמנה בכלל (u/v)′ = (u′v − uv′)/v². הנושא נלמד ב-4 וב-5 יח״ל, והוא הבסיס לחקירת פונקציות מעריכיות ולוגריתמיות.',
     tips: ['(e^(kx))′ = k·e^(kx) — המעריך לא משתנה, רק מוסיפים מקדם.', '(ln(ax + b))′ = a/(ax + b).', 'במכפלה x·eˣ: הנגזרת היא eˣ + x·eˣ = (x + 1)eˣ.'],
@@ -637,7 +638,7 @@ const topics = [
         q: 'חשבו בעזרת משפט דה־מואבר. איזו תשובה נכונה?',
         expr: `(${B.t})${sup(n)}`,
         ...choiceQ(r, ans, [val(R, ang + 90), val(R, ang + 180), val(R, -ang + 90), val(Math.round(B.r * n), ang), val(R / 2, ang), val(R * 2, ang)]),
-        explain: `${B.t} = ${B.r === 2 ? '2' : '√2'}·cis ${B.th}°. לפי דה־מואבר: (${B.r === 2 ? '2' : '√2'})${sup(n)}·cis ${ang}° = ${R}·cis ${ang}° = ${ans}.`,
+        explain: `${B.t} = ${B.r === 2 ? '2' : '√2'}·cis ${B.th}°. לפי דה־מואבר: ${B.r === 2 ? '2' : '(√2)'}${sup(n)}·cis ${ang}° = ${R}·cis ${ang}° = ${ans}.`,
       }
     },
   },

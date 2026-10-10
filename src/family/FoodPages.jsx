@@ -197,14 +197,21 @@ export function KidsRecipe() {
 }
 
 // ── /food/kitchen-science ───────────────────────────────
+const SCIENCE_FAQ = [
+  { q: 'אילו ניסויים מדעיים אפשר לעשות עם ילדים בבית?', a: `כאן יש ${EXPERIMENTS.length} ניסויים לילדים בבית עם חומרים מהמטבח: הר געש מסודה לשתייה וחומץ, כרוב סגול שמשנה צבע, ביצה שצפה במי מלח, מים מטיילים, קשת בחלב, רפש קסם מקורנפלור ועוד.` },
+  { q: 'מאיזה גיל אפשר לעשות ניסויים מדעיים עם ילדים?', a: 'ליד כל ניסוי כתוב גיל מומלץ. ניסויים פשוטים כמו "שוקע או צף?" מתאימים כבר לגיל 3 בהשגחה, ורוב הניסויים מתאימים מגיל 4–6. ניסויים עם מים חמים או חום מסומנים כניסויים שמבוגר עושה בהם את השלב החם.' },
+  { q: 'מה צריך כדי לעשות ניסויים לילדים בבית?', a: 'בעיקר דברים שכבר יש במטבח: סודה לשתייה, חומץ, מלח, סבון כלים, צבעי מאכל, כוסות שקופות ומגבות נייר. לא צריך ערכת ניסויים.' },
+  { q: 'איך הופכים ניסוי למשהו שילדים לומדים ממנו?', a: 'לפני שמתחילים מבקשים מהילדים לנחש מה יקרה, אחרי הניסוי בודקים אם צדקו, ובסוף קוראים יחד את ההסבר "למה זה קורה". כך מתרגלים חשיבה של מדענים: השערה, ניסוי ומסקנה.' },
+]
 export function KitchenScience() {
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="ניסויים לילדים בבית — מדע במטבח עם הסבר" description={`${EXPERIMENTS.length} ניסויים מדעיים לילדים עם חומרים מהמטבח: הר געש מסודה וחומץ, כרוב סגול שמשנה צבע, ביצה שצפה, קשת בחלב ועוד — עם הסבר פשוט למה זה קורה.`} path="/food/kitchen-science" />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, FOOD_CRUMB, { label: 'מדע במטבח' }]} />
-    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧪 </span>מדע במטבח</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">ניסויים עם מה שיש בבית — וכל ניסוי עם הסבר "למה זה קורה"</p>
+    <SEO title="ניסויים מדעיים לילדים בבית — עם חומרים מהמטבח" description={`${EXPERIMENTS.length} ניסויים מדעיים לילדים בבית עם חומרים מהמטבח: הר געש מסודה וחומץ, כרוב סגול שמשנה צבע, ביצה שצפה ועוד — עם הסבר פשוט למה זה קורה.`} path="/food/kitchen-science" structuredData={faqSchema(SCIENCE_FAQ)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, FOOD_CRUMB, { label: 'ניסויים מדעיים לילדים' }]} />
+    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧪 </span>ניסויים מדעיים לילדים בבית</h1>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">מדע במטבח: ניסויים עם מה שיש בבית — וכל ניסוי עם הסבר "למה זה קורה"</p>
+    <p className="mx-auto max-w-3xl text-center leading-relaxed mb-8">מחפשים ניסויים לילדים בבית? כל הניסויים כאן נעשים עם חומרים פשוטים מהמטבח ומגיעים עם רשימת חומרים, שלבים קצרים והסבר מדעי בשפה של ילדים. ליד כל ניסוי כתוב גיל מומלץ, ושלבים עם חום מסומנים לביצוע של מבוגר.</p>
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{EXPERIMENTS.map(x => <Link key={x.slug} to={`/food/kitchen-science/${x.slug}`} className="fam-card card-lift"><div className="text-4xl" aria-hidden="true">{x.emoji}</div><h2 className="text-xl font-bold">{x.title}</h2><small>גיל {x.age}{x.adult ? ' · 👩 עם מבוגר' : ''}</small></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['ניסויים במטבח הם הדרך הכי טובה להראות לילדים שמדע זה לא רק בספרים: חומץ וסודה לשתייה יוצרים גז, כרוב סגול מגלה מה חומצי ומה בסיסי, ומים מטפסים לבד בתוך נייר.', 'כל הניסויים כאן בטוחים ונעשים עם חומרים פשוטים מהמטבח. בכל ניסוי יש רשימת חומרים, שלבים קצרים והסבר מדעי בשפה של ילדים. ניסויים עם מים חמים או חום מסומנים כניסויים עם מבוגר.']} related={[{ label: 'מתכונים לילדים', href: '/food/kids-recipes' }, { label: 'משחקים לכיתה', href: '/games/classroom' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['ניסויים במטבח הם הדרך הכי טובה להראות לילדים שמדע זה לא רק בספרים: חומץ וסודה לשתייה יוצרים גז, כרוב סגול מגלה מה חומצי ומה בסיסי, ומים מטפסים לבד בתוך נייר.', 'כל הניסויים כאן בטוחים ונעשים עם חומרים פשוטים מהמטבח. בכל ניסוי יש רשימת חומרים, שלבים קצרים והסבר מדעי בשפה של ילדים. ניסויים עם מים חמים או חום מסומנים כניסויים עם מבוגר.']} faq={SCIENCE_FAQ} related={[{ label: 'מתכונים לילדים', href: '/food/kids-recipes' }, { label: 'משחקים לכיתה', href: '/games/classroom' }]} /></div>
   </div>
 }
 export function Experiment() {

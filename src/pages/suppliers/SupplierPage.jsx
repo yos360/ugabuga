@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { Logo, SocialLinks, ContactButtons } from '../../components/suppliers/SupplierBits'
 import SupplierLanding from '../../components/suppliers/SupplierLanding'
 import { suppliersDb } from '../../utils/suppliersDb'
 import { categoryLabel } from '../../data/supplierOptions'
+import { categoryPageById, categoryPagePath, supplierPageTitle, supplierSchema } from '../../data/supplierCategoryPages'
 
 // Free card: a simple profile page.
 function Profile({ s }) {
@@ -41,10 +43,16 @@ export default function SupplierPage() {
   </div>
 
   const hasContact = s.whatsapp || s.phone
+  const cat = categoryPageById(s.category)
+  const crumbs = [{ label: 'ראשי', href: '/' }, { label: 'ספקים', href: '/suppliers' }, ...(cat ? [{ label: cat.h1, href: categoryPagePath(cat.slug) }] : []), { label: s.name }]
   return <div className="mx-auto max-w-5xl px-4 py-6 pb-28 sm:pb-10">
-    <SEO title={`${s.name}${s.tagline ? ` — ${s.tagline}` : ''}`} description={(s.about || s.tagline || `${s.name} — ספק לימי הולדת ואירועי ילדים`).slice(0, 155)} path={`/suppliers/${s.slug}`} image={s.cover_url || s.logo_url || undefined} />
-    <Link to="/suppliers" className="mb-4 inline-block text-sm font-bold text-slate-600 underline">→ לכל הספקים</Link>
+    <SEO title={supplierPageTitle(s)} description={(s.about || s.tagline || `${s.name} — ${cat?.short || 'ספק לימי הולדת ואירועי ילדים'}`).slice(0, 155)} path={`/suppliers/${s.slug}`} image={s.cover_url || s.logo_url || undefined} structuredData={supplierSchema(s)} />
+    <Breadcrumbs items={crumbs} />
     {s.plan === 'page' ? <SupplierLanding s={s} /> : <Profile s={s} />}
+    <nav className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-2 text-center" aria-label="עוד ספקים">
+      {cat && <Link to={categoryPagePath(cat.slug)} className="rounded-2xl border-2 border-[var(--ink)] bg-white px-5 py-3 font-bold">{cat.emoji} עוד {cat.more} ←</Link>}
+      <Link to="/suppliers" className="rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 font-bold">לכל הספקים</Link>
+    </nav>
     {hasContact && createPortal(<div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:hidden" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
       <ContactButtons s={s} className="flex-nowrap" />
     </div>, document.body)}

@@ -1,0 +1,13 @@
+.tod-card{display:flex;flex-direction:column;gap:2px}
+.tod-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.tod-tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef7ff;border:1px solid #c9def5}
+.tod-tag.time{background:#fff6cf;border-color:#f0dc8a}
+.tod-warn{margin:8px 0 0;padding:8px 10px;border-radius:12px;background:#fff1e0;font-size:14px;line-height:1.5}
+.tod-safe{background:#f3fbf2}
+.tod-timeline{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:8px}
+.tod-timeline li{display:grid;grid-template-columns:minmax(90px,auto) 1fr;gap:10px;padding:8px 10px;background:#f6f7fb;border-radius:12px}
+.tod-timeline b{white-space:nowrap}
+@media (max-width:420px){.tod-timeline li{grid-template-columns:1fr;gap:2px}}
+.tod-print h3{margin:10px 0 2px;font-size:15px}
+.tod-print p{margin:2px 0;font-size:13px;line-height:1.45}
+.tod-print-item{break-inside:avoid}
