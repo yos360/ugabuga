@@ -115,3 +115,6 @@
 /word-search-maker /tools/word-search-maker 301
 
 # Use the native Pages SPA fallback so assets are served as files.
+
+# Pregnancy calculator removed (owner request)
+/tools/due-date /baby-names 301

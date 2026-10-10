@@ -97,7 +97,6 @@ const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ de
 const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.BedtimeStory })))
 const SchoolHolidaysHub = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidaysHub })))
 const SchoolHolidayPage = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidayPage })))
-const DueDate = lazy(() => import('./pages/tools/DueDate'))
 const TriviaWithAnswers = lazy(() => import('./pages/content/TriviaWithAnswers').then(m => ({ default: m.TriviaWithAnswers })))
 const KereshJokes = lazy(() => import('./pages/content/KereshJokes').then(m => ({ default: m.KereshJokes })))
 const MultiplicationTable = lazy(() => import('./learn/MultiplicationTable').then(m => ({ default: m.MultiplicationTable })))
@@ -431,7 +430,6 @@ export default function App() {
               <Route path="/tools/hebrew-birthday" element={<HebrewBirthday />} />
               <Route path="/toddlers" element={<ToddlersHub />} />
               <Route path="/toddlers/:slug" element={<ToddlerPage />} />
-              <Route path="/tools/due-date" element={<DueDate />} />
               <Route path="/stories" element={<StoriesHub />} />
               <Route path="/stories/:slug" element={<StoryPage />} />
               <Route path="/family/car-games" element={<CarGames />} />

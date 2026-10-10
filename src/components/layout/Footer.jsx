@@ -77,7 +77,6 @@ const COLUMNS = [
       ['/discover/israel-map', 'מפת ישראל לילדים'],
       ['/family', 'בבית עם הילדים'],
       ['/school-holidays', 'לוח חופשות משרד החינוך'],
-      ['/tools/due-date', 'מחשבון הריון'],
       ['/baby-names', 'שמות לתינוקות'],
       ['/cakes', 'עוגות יום הולדת'],
       ['/toddlers', 'פעילויות לפעוטות'],
