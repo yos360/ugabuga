@@ -43,17 +43,23 @@ function Vertical({ e, x, y, answers }) {
   </g>
 }
 
+// Up to 10 pictures as rows of 5 (like a ten-frame) centred on cx — a single emoji row of 10 used to
+// overflow its 300px cell into the neighbouring exercise.
+function IconBlock({ n, cx, y, pic, gap = 22 }) {
+  const rows = Math.ceil(n / 5)
+  return <g fontSize="20" textAnchor="middle">{Array.from({ length: n }, (_, k) => {
+    const r = Math.floor(k / 5), inRow = Math.min(5, n - r * 5)
+    return <text key={k} x={cx - (inRow - 1) * gap / 2 + (k % 5) * gap} y={y + (rows === 1 ? 0 : r === 0 ? -13 : 13)}>{pic}</text>
+  })}</g>
+}
+
 function Pictures({ e, x, y, answers, pic }) {
-  const a = Array.from({ length: e.a }, () => pic).join('')
-  const b = Array.from({ length: e.b }, () => pic).join('')
   return <g>
-    <text x={x} y={y} fontSize="22" textAnchor="middle" direction="ltr">
-      {e.o === '+'
-        ? <><tspan>{a}</tspan><tspan fontFamily={FONT} fontSize="28" fontWeight="700" dx="8">+</tspan><tspan dx="8">{b}</tspan></>
-        : <tspan>{a}</tspan>}
-    </text>
-    {e.o === '-' && <text x={x} y={y - 26} fontSize="15" fontFamily={FONT} textAnchor="middle" direction="rtl" fill="#555">מחקו {e.b} בקו — כמה נשארו?</text>}
-    <Inline e={{ ...e, hide: 'c' }} x={x} y={y + 44} answers={answers} size={26} />
+    {e.o === '+'
+      ? <><IconBlock n={e.a} cx={x - 72} y={y} pic={pic} /><text x={x} y={y + 8} fontFamily={FONT} fontSize="28" fontWeight="700" textAnchor="middle">+</text><IconBlock n={e.b} cx={x + 72} y={y} pic={pic} /></>
+      : <IconBlock n={e.a} cx={x} y={y} pic={pic} />}
+    {e.o === '-' && <text x={x} y={y - 32} fontSize="15" fontFamily={FONT} textAnchor="middle" direction="rtl" fill="#555">מחקו {e.b} בקו — כמה נשארו?</text>}
+    <Inline e={{ ...e, hide: 'c' }} x={x} y={y + 52} answers={answers} size={26} />
   </g>
 }
 
