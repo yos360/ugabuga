@@ -213,7 +213,7 @@ export function siteItems() {
   return out
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const sum = {}
   for (const x of siteItems()) { const s = (sum[x.group] ??= { items: 0, chars: 0 }); s.items++; s.chars += x.text.length }
   let n = 0, c = 0
