@@ -27,17 +27,21 @@ function Head({ emoji, h1, sub, crumb }) {
 export const LEARN_SECTIONS = [
   ['/learn/dictation', '✍️', 'הכתבה', 'הורה מקריא או הקראה קולית — עם בדיקה ודף להדפסה'],
   ['/learn/reading', '📖', 'הבנת הנקרא', `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳ — אונליין ולהדפסה`],
-  ['/learn/times-tables', '✖️', 'אתגר לוח הכפל', 'דקה אחת, כמה תרגילים תספיקו? ולוח הכפל להדפסה'],
+  ['/learn/times-tables', '✖️', 'תרגול לוח הכפל', 'אתגר הדקה: כמה תרגילים בלוח הכפל תספיקו?'],
   ['/learn/flashcards', '🃏', 'כרטיסיות לימוד', 'אנגלית, הפכים, לוח הכפל — או כרטיסיות משלכם'],
   ['/typing', '⌨️', 'הקלדה עיוורת', '25 שיעורים, מבחן מהירות ומשחק הקלדה לילדים'],
   ['/learn/gifted-test', '🧠', 'הכנה למבחן מחוננים', '120 שאלות תרגול: אנלוגיות, סדרות, מטריצות וחשיבה לוגית'],
+  ['/learn/multiplication-table', '📋', 'לוח הכפל', 'טבלה צבעונית, לוח הכפל של כל מספר ולוח הכפל להדפסה'],
+  ['/math', '🧮', 'תרגילי חשבון', 'תרגול, מבחנים ודפי עבודה לפי כיתה — מכיתה א׳ עד י״ב'],
+  ['/words/synonyms', '🟰', 'מילים נרדפות', 'משחקים ודפי עבודה במילים נרדפות לפי גיל'],
+  ['/words/opposites', '🔄', 'הפכים', 'משחקים ודפי עבודה בהפכים לילדים'],
 ]
 export function LearnHub() {
   return <Page>
-    <SEO title="לומדים בבית — הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות" description="תרגול לימודי לילדים בבית: הכתבה אונליין עם בדיקה, קטעי הבנת הנקרא עם שאלות, אתגר לוח הכפל וכרטיסיות לימוד להדפסה. חינם ובעברית." path="/learn" />
+    <SEO title="לומדים בבית — הכתבה, הבנת הנקרא, לוח הכפל וחשבון" description="תרגול לימודי לילדים בבית: הכתבה אונליין עם בדיקה, הבנת הנקרא עם שאלות, לוח הכפל, תרגילי חשבון, מבחן מחוננים ומילים נרדפות. חינם ובעברית." path="/learn" />
     <Head emoji="🎒" h1="לומדים בבית" sub="עשר דקות ביום של תרגול — בלי דפים שהולכים לאיבוד" />
     <div className="grid gap-5 sm:grid-cols-2">{LEARN_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right"><div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. כאן יש ארבעה כלים שאפשר לפתוח בטלפון או במחשב: הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות — וכל אחד מהם אפשר גם להדפיס.', 'כל הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית, ומתאימים לכיתות א׳–ד׳.']} related={[{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. כאן יש כלים שאפשר לפתוח בטלפון או במחשב: הכתבה, הבנת הנקרא, תרגול לוח הכפל, תרגילי חשבון לפי כיתה, כרטיסיות, מילים נרדפות והפכים — ואת רובם אפשר גם להדפיס.', 'כל הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית, ומתאימים לכיתות א׳–ד׳.']} related={[{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }]} /></div>
   </Page>
 }
 
@@ -259,7 +263,7 @@ export function ReadingPage() {
   if (!r) return <NotFound />
   const n = qCount(r)
   return <Page>
-    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={`קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}: ${r.text[0].slice(0, 80)}… עם ${n} שאלות, דף תשובות ודף להדפסה.`} path={`/learn/reading/${r.slug}`} />
+    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={`קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}: ${r.text[0].slice(0, r.title.length > 18 ? 60 : 75)}… עם ${n} שאלות, דף תשובות ודף להדפסה.`} path={`/learn/reading/${r.slug}`} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, ...(r.level ? [{ label: `כיתה ${GRADE_LETTER[r.level]}`, href: gradeHref(r.level) }] : []), { label: r.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade} · {n} שאלות</p>

@@ -70,7 +70,7 @@ export function KereshJokes() {
 
   return <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`בדיחות קרש לילדים — ${TOTAL} בדיחות קרש מצחיקות עם תשובות`} description={`${TOTAL} בדיחות קרש לילדים בעברית: משחקי מילים, "מה אמר ה…" ושאלות מצחיקות על חיות, אוכל ובית ספר. תשובה בלחיצה, בדיחה אקראית והדפסה לכיתה.`} path={PATH} structuredData={schema} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות לפי נושא', href: '/jokes/topics' }, { label: 'בדיחות קרש' }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'בדיחות קרש' }]} />
 
     <header className="text-center">
       <div className="text-6xl" aria-hidden="true">🪵😂</div>

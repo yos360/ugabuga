@@ -436,7 +436,7 @@ export function LanguageHome() {
 
 export function LanguagesHub() {
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="שפות לילדים — מילים ראשונות בצרפתית, ספרדית, רוסית, ערבית ואמהרית" description="מילים ראשונות לילדים ב-6 שפות: אנגלית, צרפתית, ספרדית, רוסית, ערבית ואמהרית — עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם." path="/languages" />
+    <SEO title="שפות לילדים — מילים ראשונות ב-6 שפות עם תמונות והגייה" description="מילים ראשונות לילדים ב-6 שפות: אנגלית, צרפתית, ספרדית, רוסית, ערבית ואמהרית — עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם." path="/languages" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שפות לילדים' }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">🌍 שפות לילדים</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות בשש שפות — לסבא וסבתא שמדברים רוסית או אמהרית, לטיול לחו״ל, או סתם בשביל הכיף. עם תמונה, קול, הגייה בעברית, דפים להדפסה — ובכל שפה מחכה המבחן הגדול עם נקודות ובונוסים 📝</p>

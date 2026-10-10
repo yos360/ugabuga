@@ -226,7 +226,7 @@ function usePrint() {
 }
 
 const RELATED = [
-  { label: 'אתגר לוח הכפל', href: GAME },
+  { label: 'תרגול לוח הכפל', href: GAME },
   { label: 'כרטיסיות לוח הכפל', href: '/learn/flashcards' },
   { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' },
   { label: 'לומדים בבית', href: '/learn' },

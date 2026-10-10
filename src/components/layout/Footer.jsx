@@ -78,7 +78,7 @@ const COLUMNS = [
     title: 'לומדים ומשפחה',
     links: [
       ['/learn', 'לומדים בבית'],
-      ['/learn/times-tables', 'אתגר לוח הכפל'],
+      ['/learn/times-tables', 'תרגול לוח הכפל'],
       ['/learn/dictation', 'הכתבה אונליין'],
       ['/typing', 'הקלדה עיוורת'],
       ['/learn/gifted-test', 'הכנה למבחן מחוננים'],

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -9,6 +10,16 @@ import SpeakButton from '../../components/ui/SpeakButton'
 import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
 
 const HISTORY_LIMIT = 12
+
+const RIDDLES_FAQ = [
+  { q: 'לאיזה גיל מתאימות החידות?', a: 'בוחרים למעלה למי החידה: לילדים, לנוער או למבוגרים, ואז רמת קושי קלה, בינונית או קשה. לגן ולכיתות א׳–ב׳ כדאי להתחיל בחידות הקלות או בדף חידות לגן.' },
+  { q: 'איך מקבלים את התשובה?', a: 'קודם מנסים לבד. אם נתקעים לוחצים על "רמז", ורק אחר כך חושפים את התשובה. המונה סופר כמה חידות ידעתם בלי עזרה.' },
+  { q: 'אפשר לשחק בחידות בקבוצה?', a: 'כן. מחלקים לשתי קבוצות, קוראים חידה בקול, ותשובה נכונה שווה נקודה — ובלי רמז שתי נקודות. זה עובד טוב בכיתה, במסיבה ובנסיעה.' },
+]
+const RIDDLES_BODY = [
+  'חידות לילדים עם תשובות הן דרך קלה להפעיל את הראש בלי מסך מיותר: קוראים חידה, חושבים ביחד ומנסים לנחש. כאן החידות מגיעות אחת אחרי השנייה לפי הגיל, הנושא ורמת הקושי שבחרתם, ולכל חידה יש רמז ותשובה.',
+  'מי שמעדיף רשימה מוכנה ימצא דפי חידות לפי נושא: חידות קלות לילדים, חידות לגן, חידות היגיון, חידות חשבון, חידות "מה אני?" וחידות קשות לנוער — כל אחד עם 12 חידות ותשובות מוסתרות.',
+]
 
 // "רמה" is feminine: "ברמה קלה", not "רמה קל".
 const LEVEL_TEXT = { easy: 'חידות ברמה קלה', medium: 'חידות ברמה בינונית', hard: 'חידות ברמה קשה' }
@@ -99,15 +110,16 @@ export default function Riddles() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <SEO
-        title="חידות לילדים ולמבוגרים — עם רמזים ותשובות"
-        description="חידות בעברית לילדים, נוער ומבוגרים: בוחרים נושא ורמת קושי, מקבלים רמז כשנתקעים, חושפים תשובה וסופרים כמה ידעתם. חינם, בלי הרשמה — לכיתה, לנסיעה ולמשפחה."
+        title="חידות לילדים עם תשובות — חידות קלות וקשות עם רמזים"
+        description="חידות לילדים עם תשובות ורמזים, וגם חידות לנוער ולמבוגרים: בוחרים נושא ורמת קושי, חושפים תשובה וסופרים כמה ידעתם. חינם, בלי הרשמה."
         path="/tools/riddles"
+        structuredData={faqSchema(RIDDLES_FAQ)}
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חידות' }]} />
 
-      <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות</h1>
+      <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות לילדים עם תשובות</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">
-        חידות מצחיקות ומאתגרות לכל הגילים — חושבים, מנחשים, ואם נתקעים מבקשים רמז
+        חידות לילדים ולכל המשפחה, מצחיקות ומאתגרות — חושבים, מנחשים, ואם נתקעים מבקשים רמז
       </p>
 
       <WobblyCard hover={false} padding="p-5" className="mb-6">
@@ -253,7 +265,19 @@ export default function Riddles() {
 
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
         <p className="font-display text-xl font-bold mb-2">מעדיפים דף חידות מוכן?</p>
-        <Link to="/riddles/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🧩 חידות לפי נושא וגיל — עם תשובות ←</Link>
+        <Link to="/riddles/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🧩 חידות לפי נושא וגיל ←</Link>
+        <nav className="mt-3 flex flex-wrap justify-center gap-2" aria-label="דפי חידות">
+          <Link to="/riddles/kids-easy" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות קלות לילדים</Link>
+          <Link to="/riddles/kindergarten" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות לגן</Link>
+          <Link to="/riddles/logic" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות היגיון</Link>
+          <Link to="/riddles/math" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות חשבון</Link>
+          <Link to="/riddles/teens" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות קשות לנוער</Link>
+          <Link to="/riddles/what-am-i" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות "מה אני?"</Link>
+        </nav>
+      </div>
+
+      <div className="mt-12">
+        <SeoBody paragraphs={RIDDLES_BODY} faq={RIDDLES_FAQ} related={[{ label: 'בדיחות מצחיקות', href: '/tools/joke' }, { label: 'טריוויה לילדים', href: '/tools/trivia-quiz' }, { label: 'שאלות טריוויה עם תשובות', href: '/trivia/with-answers' }]} />
       </div>
     </div>
   )

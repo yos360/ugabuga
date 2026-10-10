@@ -73,7 +73,7 @@ function Page({ sec }) {
 
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={isHub ? TRIVIA_WA_HUB.title : sec.title} description={isHub ? TRIVIA_WA_HUB.description : sec.description} path={path} structuredData={[faqSchema(faq), quizSchema]} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia/topics' }, ...(isHub ? [{ label: HUB_CRUMB.label }] : [HUB_CRUMB, { label: sec.label }])]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/tools/trivia-quiz' }, ...(isHub ? [{ label: HUB_CRUMB.label }] : [HUB_CRUMB, { label: sec.label }])]} />
 
     <header className="text-center">
       <span className="inline-flex rounded-full bg-amber-100 px-4 py-2 font-bold text-[#1d2233]">{isHub ? `${TOTAL} שאלות · 8 קטגוריות · בחינם` : `${sec.questions.length} שאלות · ${sec.audience}`}</span>

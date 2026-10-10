@@ -113,10 +113,10 @@ const TIPS = [
 export function GiftedHub() {
   const pool = useMemo(() => TYPES.flatMap(t => t.items.map(item => ({ type: t.key, item }))), [])
   return <Page>
-    <SEO title="הכנה למבחן מחוננים — 120 שאלות תרגול לשלב א׳ ושלב ב׳, חינם" description="תרגול לקראת מבחן מחוננים: 120 שאלות מקוריות באנלוגיות, סדרות מספרים, מטריצות צורות וחשיבה לוגית — עם הסבר לכל תשובה, מבחן משולב אונליין ודפים להדפסה." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="מבחן מחוננים — הכנה ותרגול: 120 שאלות לשלב א׳ ושלב ב׳" description="הכנה למבחן מחוננים בחינם: 120 שאלות מקוריות באנלוגיות, סדרות מספרים, מטריצות צורות וחשיבה לוגית — עם הסבר לכל תשובה, מבחן משולב אונליין ודפים להדפסה." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, { label: HUB_CRUMB.label }]} />
-    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧠 </span>הכנה למבחן מחוננים</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">120 שאלות תרגול מקוריות בארבעה סוגים — עם הסבר לכל תשובה</p>
+    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧠 </span>מבחן מחוננים — הכנה ותרגול</h1>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">תרגול לקראת מבחן מחוננים: 120 שאלות מקוריות בארבעה סוגים — עם הסבר לכל תשובה</p>
     <p className="gt-note">התרגול באתר נכתב במיוחד לעוגה בוגה. הוא <b>אינו</b> המבחן הרשמי, אינו קשור למשרד החינוך, והשאלות אינן לקוחות ממבחנים אמיתיים.</p>
     <div className="grid gap-5 sm:grid-cols-2 mt-6">{TYPES.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right">
       <div className="text-4xl mb-2" aria-hidden="true">{t.emoji}</div><h2 className="text-2xl font-bold">{t.title}</h2><p className="text-[var(--muted-foreground)]">{t.how}</p><small className="font-bold">30 שאלות · אונליין ולהדפסה</small></Link>)}</div>

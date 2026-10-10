@@ -168,7 +168,7 @@ export const MENU_GROUPS = [
       { to: '/learn/reading', label: 'הבנת הנקרא', icon: '📖' },
       { to: '/math', label: 'מתמטיקה לפי כיתה (א׳–י״ב)', icon: '🧮' },
       { to: '/learn/multiplication-table', label: 'לוח הכפל', icon: '✖️' },
-      { to: '/learn/times-tables', label: 'אתגר לוח הכפל', icon: '⏱️' },
+      { to: '/learn/times-tables', label: 'תרגול לוח הכפל', icon: '⏱️' },
       { to: '/learn/flashcards', label: 'כרטיסיות לימוד', icon: '🃏' },
       { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
       { to: '/typing/test', label: 'מבחן מהירות הקלדה', icon: '⏱️' },

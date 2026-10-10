@@ -11,9 +11,10 @@ import { nearby } from '../../utils/nearby'
 export function QuestionsHub() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title="רשימות שאלות — להיכרות, לשיחה, לגיבוש ו'מה הייתם מעדיפים'" description={`${QUESTION_PAGES.length} רשימות של 30 שאלות: היכרות לילדים ולנוער, שיחה בארוחה, גיבוש צוות, נסיעה ארוכה ו'מה הייתם מעדיפים' — מוכנות לשימוש.`} path="/questions" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'רשימות שאלות' }]} />
-      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-8">💬 רשימות שאלות</h1>
+      <SEO title="שאלות היכרות ושאלות לשיחה — רשימות מוכנות לכל גיל" description={`שאלות היכרות ושאלות לשיחה: ${QUESTION_PAGES.length} רשימות של 30 שאלות — היכרות לילדים ולנוער, שיחה בארוחה, גיבוש צוות, נסיעה ארוכה ו'מה הייתם מעדיפים' — מוכנות לשימוש.`} path="/questions" />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שאלות היכרות ושיחה' }]} />
+      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">💬 שאלות היכרות ושאלות לשיחה</h1>
+      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">שאלות היכרות לילדים, לנוער ולמבוגרים, שאלות לשיחה בארוחה ובנסיעה ו"מה הייתם מעדיפים" — כל רשימה עם 30 שאלות מוכנות.</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {QUESTION_PAGES.map(p => <Link key={p.slug} to={'/questions/' + p.slug} className="block"><WobblyCard hover padding="p-4" className="h-full"><div className="text-3xl">{p.emoji}</div><h2 className="font-hand font-bold text-xl">{p.title}</h2><p className="text-sm text-[var(--muted-foreground)]">{p.intro}</p></WobblyCard></Link>)}
       </div>

@@ -10,6 +10,7 @@ import {
   makeExercise, makeLevelExercise, makeWorksheet, makeTest, STRANDS,
 } from './registry'
 import { checkAnswer, formatAnswer, isBlank } from './check'
+import { gradeSeo, gradeKeyword, testSeo, testKeyword, topicH1, topicSeoTitle, isElementary } from './seo'
 import '../learn/learn.css'
 import './math.css'
 
@@ -228,12 +229,12 @@ export function MathHub() {
   const term = q.trim()
   const hits = term.length >= 2 ? all.filter(({ t, g }) => `${t.title} ${g.label} כיתה ${g.label} ${STRANDS[t.strand]?.label || ''}`.includes(term)).slice(0, 24) : []
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="מתמטיקה לכל הכיתות — תרגול, מבחנים ודפי עבודה מכיתה א׳ עד י״ב" description="מתמטיקה לפי כיתה, מכיתה א׳ עד י״ב: הסברים קצרים, תרגול אונליין בשלוש רמות, מבחנים מסכמים ודפי עבודה להדפסה עם תשובות. לפי תכנית הלימודים, חינם." path="/math" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="תרגילי חשבון ומתמטיקה מכיתה א׳ עד י״ב — תרגול ומבחנים" description="תרגילי חשבון ומתמטיקה לפי כיתה, מכיתה א׳ עד י״ב: הסבר קצר, תרגול אונליין בשלוש רמות, מבחנים מסכמים ודפי עבודה להדפסה עם תשובות. חינם." path="/math" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[HOME, { label: HUB.label }]} />
     <header className="text-center">
       <span className="inline-flex rounded-full bg-sky-100 px-4 py-2 font-bold text-[#1d2233]">{all.length} נושאים · 12 כיתות · חינם</span>
-      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🧮 </span>מתמטיקה מכיתה א׳ עד י״ב</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">בוחרים כיתה ונושא — ומקבלים הסבר קצר, דוגמה פתורה, תרגול בלי סוף בשלוש רמות, מבחן עם ציון ודף עבודה להדפסה עם דף תשובות.</p>
+      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🧮 </span>תרגילי חשבון ומתמטיקה מכיתה א׳ עד י״ב</h1>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">תרגילי חשבון ומתמטיקה לפי כיתות: בוחרים כיתה ונושא — ומקבלים הסבר קצר, דוגמה פתורה, תרגול בלי סוף בשלוש רמות, מבחן עם ציון ודף עבודה להדפסה עם דף תשובות.</p>
     </header>
 
     <div className="mx-auto mt-6 max-w-xl no-print">
@@ -254,7 +255,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'אתגר לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
@@ -292,19 +293,19 @@ function GradePage({ n }) {
     { q: `איך מתכוננים למבחן במתמטיקה בכיתה ${g.label}?`, a: `מתרגלים כל נושא בנפרד ברמה 2 ו-3, עוברים על ההסברים של הטעויות, ובסוף עושים את המבחן המסכם לכיתה ${g.label} — מבחן שמערבב שאלות מכל הנושאים, עם ציון וסקירה בסוף.` },
     { q: 'אפשר להדפיס דפי עבודה?', a: 'כן. בכל נושא יש כפתור הדפסה שמכין דף של 20 תרגילים ודף תשובות נפרד. בכל לחיצה על "תרגילים אחרים" מקבלים דף חדש. גם את המבחן המסכם אפשר להדפיס עם התשובות.' },
   ]
-  const title = `מתמטיקה לכיתה ${g.label}`
-  const desc = `מתמטיקה לכיתה ${g.label} (${g.stageLabel}): ${topics.length ? `${topics.length} נושאים לפי תכנית הלימודים` : 'נושאים לפי תכנית הלימודים'} עם הסבר, תרגול בשלוש רמות, מבחן מסכם ודפי עבודה להדפסה עם תשובות. חינם.`
+  const seo = gradeSeo(g, topics.length)
+  const kw = gradeKeyword(g)
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`${title} — נושאים, תרגול ומבחנים`} description={desc} path={g.path} structuredData={faqSchema(faq)} />
+    <SEO title={seo.title} description={seo.description} path={g.path} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[HOME, HUB, { label: `כיתה ${g.label}` }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">{g.emoji}</div>
-      <h1 className="mt-2 text-4xl sm:text-5xl">{title}</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{GRADE_COPY[n]}</p>
+      <h1 className="mt-2 text-4xl sm:text-5xl">{seo.h1}</h1>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{kw} לפי תכנית הלימודים. {GRADE_COPY[n]}</p>
     </header>
 
     {topics.length > 0 ? <>
-      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 מבחן מסכם לכיתה {g.label}</Link></div>
+      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link></div>
       {groups.map(gr => <section key={gr.strand} className="mt-8" aria-labelledby={`s-${gr.strand}`}>
         <h2 id={`s-${gr.strand}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{gr.emoji} </span>{gr.label}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{gr.topics.map(t => <Link key={t.slug} to={topicPath(t)} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right mth-topic-card">
@@ -323,7 +324,7 @@ function GradePage({ n }) {
     <div className="mt-10"><SeoBody paragraphs={[
       `${GRADE_COPY[n]} כאן מרוכזים הנושאים של כיתה ${g.label} לפי תחומים, וכל נושא מוביל לעמוד עם הסבר קצר, דוגמה פתורה ותרגול בשלוש רמות קושי.`,
       `התרגילים נוצרים מחדש בכל פעם, כך שאפשר לחזור לאותו נושא שוב ושוב בלי לפגוש את אותם תרגילים. אחרי כל תשובה מופיע הסבר קצר, ובסוף אפשר לבדוק את עצמכם במבחן המסכם לכיתה ${g.label} או להדפיס דף עבודה עם דף תשובות.`,
-    ]} faq={faq} related={[HUB, ...(prev ? [{ label: `מתמטיקה לכיתה ${prev.label}`, href: prev.path }] : []), ...(next ? [{ label: `מתמטיקה לכיתה ${next.label}`, href: next.path }] : []), { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]} /></div>
+    ]} faq={faq} related={[HUB, { label: testKeyword(g), href: g.testPath }, ...(prev ? [{ label: gradeKeyword(prev), href: prev.path }] : []), ...(next ? [{ label: gradeKeyword(next), href: next.path }] : []), ...(isElementary(n) ? [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }] : []), ...(n === 2 || n === 3 ? [{ label: 'לוח הכפל', href: '/learn/multiplication-table' }] : [])]} /></div>
   </div>
 }
 
@@ -345,7 +346,7 @@ function TopicPage({ topic }) {
   const startQuiz = () => setQuiz({ items: makeWorksheet(topic, level, 10, newSeed()), key: newSeed() })
   const openPrint = (lv = level) => setPrint({ items: makeWorksheet(topic, lv, 20, newSeed()), level: lv })
   const siblings = topicsFor(topic.grade).filter(t => t.slug !== topic.slug)
-  const h1 = `${topic.title} — כיתה ${g.label}`
+  const h1 = topicH1(topic, g)
   const faq = [...topic.faq, { q: `איך מתרגלים ${topic.title} בכיתה ${g.label}?`, a: `בוחרים רמה (${topic.levels.map((l, i) => `${i + 1} — ${l}`).join('; ')}), פותרים תרגיל אחרי תרגיל ורואים הסבר אחרי כל תשובה. אפשר גם לעבור למצב מבחן של 10 שאלות או להדפיס דף עבודה של 20 תרגילים עם דף תשובות.` }]
   const schema = [faqSchema(faq), {
     '@context': 'https://schema.org',
@@ -360,7 +361,7 @@ function TopicPage({ topic }) {
     'url': `https://ugabuga.co.il${topicPath(topic)}`,
   }]
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`${topic.title} לכיתה ${g.label} — הסבר, תרגול ודף עבודה`} description={topic.desc} path={topicPath(topic)} type="article" structuredData={schema} />
+    <SEO title={topicSeoTitle(topic, g)} description={topic.desc} path={topicPath(topic)} type="article" structuredData={schema} />
     <Breadcrumbs items={[HOME, HUB, gradeCrumb(g), { label: topic.title }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">{topic.emoji}</div>
@@ -405,13 +406,13 @@ function TopicPage({ topic }) {
     <section className="no-print mt-10" aria-labelledby="more-h">
       <h2 id="more-h" className="mb-3 text-2xl font-black text-center">עוד נושאים לכיתה {g.label}</h2>
       <div className="flex flex-wrap justify-center gap-2">{siblings.map(t => <Link key={t.slug} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title}</Link>)}</div>
-      <p className="mt-4 text-center"><Link to={g.testPath} className="font-bold underline">📝 מבחן מסכם לכיתה {g.label}</Link> · <Link to={g.path} className="font-bold underline">כל הנושאים לכיתה {g.label}</Link></p>
+      <p className="mt-4 text-center"><Link to={g.testPath} className="font-bold underline">📝 {testKeyword(g)}</Link> · <Link to={g.path} className="font-bold underline">{gradeKeyword(g)}</Link></p>
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[
       `${topic.title} הוא אחד הנושאים במתמטיקה לכיתה ${g.label}, בתחום ${STRANDS[topic.strand]?.label || ''}. בעמוד הזה יש הסבר קצר, טיפים ודוגמה פתורה, ואחריהם תרגול בשלוש רמות: ${topic.levels.map((l, i) => `רמה ${i + 1} — ${l}`).join(', ')}.`,
       'כל תרגיל נוצר מחדש, ולכן אפשר להמשיך לתרגל כמה שרוצים. אחרי כל תשובה מופיעים בדיקה והסבר קצר; במצב מבחן הבדיקה מגיעה רק בסוף, עם ציון וסקירה של כל השאלות. לדף עבודה מודפס יש דף תשובות נפרד, כך שהילדים יכולים לבדוק את עצמם או שההורה או המורה יבדקו.',
-    ]} faq={faq} related={[gradeCrumb(g), { label: `מבחן במתמטיקה לכיתה ${g.label}`, href: g.testPath }, HUB]} /></div>
+    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, { label: testKeyword(g), href: g.testPath }, ...(topic.related || []), HUB]} /></div>
   </div>
 }
 
@@ -434,20 +435,21 @@ function TestPage({ n }) {
   const [print, setPrint] = useState(null)
   const start = () => setQuiz({ items: makeTest(n, count, newSeed(), level), key: newSeed() })
   const openPrint = (items = makeTest(n, count, newSeed(), level)) => setPrint({ items })
-  const h1 = `מבחן במתמטיקה לכיתה ${g.label}`
+  const seo = testSeo(g)
+  const h1 = seo.h1
   const lvLabel = TEST_LEVELS.find(l => l.v === level).label.replace(/^\S+ /, '')
   const faq = [
-    { q: `מה כולל המבחן במתמטיקה לכיתה ${g.label}?`, a: `שאלות מכל ${topics.length} הנושאים של כיתה ${g.label}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
+    { q: `מה כולל ה${h1}?`, a: `שאלות מכל ${topics.length} הנושאים של כיתה ${g.label}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
     { q: 'איך מחושב הציון?', a: 'כל שאלה שווה אותו מספר נקודות. בסוף המבחן מקבלים את מספר התשובות הנכונות, ציון בין 0 ל-100 וסקירה של כל השאלות — עם התשובה הנכונה והסבר לכל טעות.' },
     { q: 'אפשר להדפיס את המבחן?', a: 'כן. לוחצים על "הדפסת מבחן" ומקבלים דף מבחן עם מקום לשם ולציון, ודף תשובות נפרד לבדיקה. בכל פעם נוצר מבחן חדש.' },
   ]
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`${h1} — מבחן אונליין והדפסה עם תשובות`} description={`${h1}: מבחן מסכם מכל הנושאים של כיתה ${g.label}, 10 או 20 שאלות, שלוש רמות, טיימר, ציון וסקירת טעויות — וגם מבחן להדפסה עם דף תשובות. חינם.`} path={g.testPath} structuredData={faqSchema(faq)} />
+    <SEO title={seo.title} description={seo.description} path={g.testPath} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[HOME, HUB, gradeCrumb(g), { label: 'מבחן מסכם' }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">📝</div>
       <h1 className="mt-2 text-3xl sm:text-5xl">{h1}</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">מבחן שמערבב שאלות מכל הנושאים של כיתה {g.label}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של כיתה {g.label}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
     </header>
 
     {!quiz && <section className="ln-box mt-6 space-y-4 text-center" aria-label="הגדרות המבחן">
@@ -472,6 +474,6 @@ function TestPage({ n }) {
     <div className="mt-10"><SeoBody paragraphs={[
       `המבחן המסכם לכיתה ${g.label} בונה בכל פעם מבחן חדש משאלות בכל הנושאים של הכיתה, כך שכל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
       'אפשר לעבור בין השאלות, לדלג ולחזור, ורק בלחיצה על "סיום ובדיקה" מתקבלים הציון, הזמן וסקירה מלאה. מבחן מודפס מגיע עם דף תשובות נפרד — נוח להורים שרוצים לבדוק, ולמורים שמחפשים מבחן חזרה.',
-    ]} faq={faq} related={[gradeCrumb(g), HUB]} /></div>
+    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, HUB]} /></div>
   </div>
 }
