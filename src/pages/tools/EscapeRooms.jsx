@@ -54,6 +54,10 @@ function EscapePrintKit({ room, base, levelLabel }) {
     'כשהקבוצה נתקעת — נותנים רמז מהטבלה, אחד בכל פעם.',
     ...(base.printableKit || []),
   ]
+  // The props list above is written for the easy level. Harder levels swap some puzzles, so say
+  // which stages changed instead of letting the kit promise props that no longer match.
+  const changed = room.steps.map((s, i) => (s.levelChanged ? i + 1 : 0)).filter(Boolean)
+  if (changed.length) setup.splice((base.materials || []).length, 0, `שימו לב: רשימת האביזרים כתובה לרמה הקלה. ברמה הזו ${changed.length === 1 ? `שלב ${changed[0]} שונה` : `השלבים ${changed.join(', ')} שונים`} — הכינו אותם לפי כרטיסי השלבים והקודים בטבלה למטה.`)
   return <>
     <article className="buga-flow escape-kit" style={{ fontFamily: 'Heebo, Arial, sans-serif' }}>
       <h2 style={{ fontSize: 26, margin: '0 0 4px' }}>{room.emoji} {room.title} — קיט הפעלה למנחה</h2>

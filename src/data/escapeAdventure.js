@@ -126,7 +126,7 @@ export function buildEscapeAdventure(room, levelId, seed = 0) {
   const originals = room.steps.map(step => {
     const { levels, ...base } = step
     const v = rank > 0 && levels?.[level.id]
-    const merged = v ? { ...base, ...v, accept: v.accept || (v.answer !== undefined && String(v.answer) !== String(base.answer) ? [] : base.accept), hints: v.hints || (v.hint ? undefined : base.hints), hint: v.hint ?? (v.hints ? undefined : base.hint) } : base
+    const merged = v ? { ...base, ...v, accept: v.accept || (v.answer !== undefined && String(v.answer) !== String(base.answer) ? [] : base.accept), hints: v.hints || (v.hint ? undefined : base.hints), hint: v.hint ?? (v.hints ? undefined : base.hint), levelChanged: true } : base
     return { ...merged, hints: hintsFor(merged, rank) }
   })
   const extraCount = Math.max(0,level.count-originals.length)
