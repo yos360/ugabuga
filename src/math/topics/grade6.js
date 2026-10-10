@@ -60,7 +60,8 @@ const fracMult = {
       for (;;) {
         [n1, d1] = properFrac(r, level === 1 ? 9 : 12); [n2, d2] = properFrac(r, level === 1 ? 9 : 12)
         const cross = gcd(n1, d2) > 1 || gcd(n2, d1) > 1
-        if (level === 1 || cross) break
+        // Level 1: no cross-cancelling (that is what level 2 adds), so the two levels never overlap.
+        if (level === 1 ? !cross : cross) break
       }
       e1 = `${n1}/${d1}`; e2 = `${n2}/${d2}`
     }

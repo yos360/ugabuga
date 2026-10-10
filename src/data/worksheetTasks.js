@@ -17,8 +17,25 @@ export function orderCards(age,version) {
   const start=age==='7–8'?2+version%4:1, step=age==='7–8'?2:1
   const ordered=Array.from({length:count},(_,i)=>start+i*step)
   let cards=shuffled(ordered,version)
-  if(cards.every((n,i)=>n===ordered[i]))cards=[...cards.slice(1),cards[0]]
+  // Switching age must change the top of the page: the first card differs from the younger sheet's.
+  const younger=AGE_ORDER.indexOf(age)>0?orderCards(AGE_ORDER[AGE_ORDER.indexOf(age)-1],version).cards[0]:null
+  for(let i=0;i<count&&(cards.every((n,k)=>n===ordered[k])||cards[0]===younger);i++)cards=[...cards.slice(1),cards[0]]
   return {cards,ordered,step}
+}
+
+const AGE_ORDER=['3–4','5–6','7–8']
+const AGE_SIZE={'3–4':4,'5–6':6,'7–8':8}
+// Picks a sheet's items by age: `difficulty` ranks them (e.g. word length), younger ages get the easier
+// part of the list, and the FIRST row is always one that the younger sheet doesn't have — so switching
+// age visibly changes the top of the page, with an item of that age's level.
+export function ageItems(list, age, version, difficulty=()=>0) {
+  const ai=Math.max(0,AGE_ORDER.indexOf(age)), size=Math.min(list.length,AGE_SIZE[AGE_ORDER[ai]]), prev=ai?Math.min(size,AGE_SIZE[AGE_ORDER[ai-1]]):0
+  const ranked=list.map((x,i)=>({x,i})).sort((a,b)=>difficulty(a.x)-difficulty(b.x)||a.i-b.i).map(r=>r.x)
+  const fresh=new Set(ranked.slice(prev,size))
+  const out=shuffled(ranked.slice(0,size),version)
+  const first=out.findIndex(x=>fresh.has(x))
+  if(first>0)[out[0],out[first]]=[out[first],out[0]]
+  return out
 }
 export function searchObjects(items,age,version){
   const targets=items.slice(0,age==='3–4'?2:age==='5–6'?3:4)

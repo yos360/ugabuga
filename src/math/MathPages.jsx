@@ -7,7 +7,7 @@ import PrintPreview from '../components/ui/PrintPreview'
 import NotFound from '../pages/NotFound'
 import {
   GRADES, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
-  makeExercise, makeWorksheet, makeTest, STRANDS,
+  makeExercise, makeLevelExercise, makeWorksheet, makeTest, STRANDS,
 } from './registry'
 import { checkAnswer, formatAnswer, isBlank } from './check'
 import '../learn/learn.css'
@@ -94,12 +94,13 @@ function AnswerInput({ ex, value, onChange, onSubmit, disabled, idPrefix = 'ans'
 function Practice({ topic, level }) {
   // The first exercise comes from a stable seed (prerendered HTML = hydrated HTML); later ones are random.
   const key = `${topic.grade}/${topic.slug}/${level}`
-  const [cur, setCur] = useState(() => ({ key, ex: makeExercise(topic, level, pageSeed(key)) }))
+  const [cur, setCur] = useState(() => ({ key, ex: makeLevelExercise(topic, level, pageSeed(key)) }))
   const [value, setValue] = useState('')
   const [result, setResult] = useState(null) // null | 'right' | 'wrong'
   const [score, setScore] = useState({ right: 0, total: 0, streak: 0, best: 0 })
   const nextRef = useRef(null)
-  if (cur.key !== key) { setCur({ key, ex: makeExercise(topic, level, newSeed()) }); setValue(''); setResult(null) } // level changed
+  // Level changed: a new exercise that only this level has (never one the easier level also shows).
+  if (cur.key !== key) { setCur({ key, ex: makeLevelExercise(topic, level, newSeed()) }); setValue(''); setResult(null) }
   const ex = cur.ex
   useEffect(() => { if (result) nextRef.current?.focus({ preventScroll: true }) }, [result])
   const submit = v => {

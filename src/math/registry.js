@@ -103,13 +103,48 @@ export const clampLevel = l => Math.min(3, Math.max(1, Number(l) || 1))
 
 const exKey = ex => `${ex.q}|${ex.expr || ''}|${ex.svg ? ex.svg.length : ''}|${String(ex.answer)}`
 
+// Exercises that an easier level of the same topic can also produce (e.g. "5 × 7" is in both "tables
+// 2–5" and "tables 6–9"). Sampled once per topic/level from fixed seeds, so it is deterministic.
+const lowerCache = new Map()
+function lowerLevelKeys(topic, level) {
+  const id = `${topic.grade}/${topic.slug}/${level}`
+  if (!lowerCache.has(id)) {
+    // Stop once the easier pool looks exhausted (400 draws without a new exercise) or after ~50ms per
+    // level: big pools rarely collide anyway, and a level click must stay instant on a phone.
+    const keys = new Set()
+    for (let l = 1; l < level; l++) {
+      const t0 = Date.now()
+      for (let i = 1, lastNew = 0; i <= 2500 && i - lastNew <= 400 && Date.now() - t0 < 50; i++) {
+        const k = exKey(makeExercise(topic, l, i * 7919))
+        if (!keys.has(k)) { keys.add(k); lastNew = i }
+      }
+    }
+    lowerCache.set(id, keys)
+  }
+  return lowerCache.get(id)
+}
+
+// The exercise shown first at a level: never one an easier level could also show, so switching level
+// always opens on an exercise of that level (when the topic has any of its own).
+export function makeLevelExercise(topic, level, seed) {
+  const lv = clampLevel(level)
+  let ex = makeExercise(topic, lv, seed)
+  if (lv === 1) return ex
+  const lower = lowerLevelKeys(topic, lv)
+  const r = createRng(mixSeed(seed + 17))
+  for (let i = 0; i < 60 && lower.has(exKey(ex)); i++) ex = makeExercise(topic, lv, Math.floor(r.next() * 2 ** 31) + 1)
+  return ex
+}
+
 // n exercises for a printable sheet: reproducible from the seed, avoiding repeats where possible.
+// The first one is always of the chosen level only (see makeLevelExercise).
 export function makeWorksheet(topic, level, n = 20, seed = 1) {
   const r = createRng(mixSeed(seed))
   const seen = new Set()
   const out = []
   for (let tries = 0; out.length < n && tries < n * 30; tries++) {
-    const ex = makeExercise(topic, level, Math.floor(r.next() * 2 ** 31) + 1)
+    const s = Math.floor(r.next() * 2 ** 31) + 1
+    const ex = out.length ? makeExercise(topic, level, s) : makeLevelExercise(topic, level, s)
     const k = exKey(ex)
     if (seen.has(k) && tries < n * 25) continue
     seen.add(k)
@@ -131,7 +166,8 @@ export function makeTest(grade, n = 10, seed = 1, level = 0) {
     if (i >= order.length) { order = r.shuffle(topics); i = 0 }
     const t = order[i]
     const lv = level ? clampLevel(level) : Math.min(3, 1 + Math.floor((out.length / n) * 3))
-    const ex = makeExercise(t, lv, Math.floor(r.next() * 2 ** 31) + 1)
+    const s = Math.floor(r.next() * 2 ** 31) + 1
+    const ex = out.length ? makeExercise(t, lv, s) : makeLevelExercise(t, lv, s)
     const k = exKey(ex)
     if (seen.has(k) && tries < n * 25) continue
     seen.add(k)
