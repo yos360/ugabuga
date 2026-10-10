@@ -79,6 +79,7 @@ const COLUMNS = [
       ['/learn/gifted-test', 'הכנה למבחן מחוננים'],
       ['/discover', 'עולם ומדע'],
       ['/discover/israel-map', 'מפת ישראל לילדים'],
+      ['/flags', 'דגלי מדינות'],
       ['/family', 'בבית עם הילדים'],
       ['/school-holidays', 'לוח חופשות משרד החינוך'],
       ['/baby-names', 'שמות לתינוקות'],

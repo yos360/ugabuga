@@ -69,4 +69,8 @@ export const TRIVIA_EXTRAS = {
     ],
     related: [{ label: 'סמלי המדינה לילדים', href: '/holidays/yom-haatzmaut/symbols' }, { label: 'חידון יום העצמאות', href: '/holidays/yom-haatzmaut/quiz' }, { label: 'דפי צביעה ליום העצמאות', href: '/holidays/yom-haatzmaut/coloring' }, { label: 'טריוויה על תולדות ישראל', href: '/trivia/israel-history' }, { label: 'מפת ישראל לילדים', href: '/discover/israel-map' }, { label: 'טריוויה על השפה העברית', href: '/trivia/hebrew-language' }],
   },
+  'countries-flags': {
+    lead: 'שאלות הטריוויה כאן עוסקות בסמלים ובצבעים של דגלים מפורסמים. רוצים לראות את הדגלים עצמם? בעמוד דגלי מדינות יש את כל 195 דגלי העולם עם שמות ובירות, ובחידון הדגלים מזהים דגל מתוך ארבע תשובות.',
+    related: [{ label: 'כל דגלי המדינות', href: '/flags' }, { label: 'חידון דגלים', href: '/flags/quiz' }, { label: 'דגלים להדפסה', href: '/flags/print' }, { label: 'טריוויה על בירות העולם', href: '/trivia/world-capitals' }],
+  },
 }

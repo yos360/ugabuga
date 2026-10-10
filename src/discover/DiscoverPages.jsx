@@ -48,6 +48,7 @@ const fromBank = (bank, n = 10) => () => shuffle(bank).slice(0, n).map(([q, a, w
 // ── /discover ───────────────────────────────
 export const DISCOVER_SECTIONS = [
   ['/discover/israel-map', '🗺️', 'מפת ישראל — איפה העיר?', 'לומדים ערים ומקומות בארץ, ומשחקים "איפה זה?"'],
+  ['/flags', '🏳️', 'דגלי מדינות', 'כל 195 דגלי העולם עם בירות, חידון דגלים ודגלים להדפסה'],
   ['/discover/capitals', '🌍', 'בירות ודגלים', `${COUNTRIES.length} מדינות, ${FLAG_CODES.length} דגלים מצוירים וחידונים`],
   ['/discover/solar-system', '🪐', 'מערכת השמש', 'שמונה כוכבי לכת, עובדות וחידון'],
   ['/discover/human-body', '🫀', 'גוף האדם', 'לוחצים על איבר ולומדים מה הוא עושה'],
@@ -165,6 +166,7 @@ export function CapitalsPage() {
     <div className="mb-4 flex flex-wrap justify-center gap-2"><Chip on={mode === 'flags'} onClick={() => setMode('flags')}>🏳️ של מי הדגל?</Chip><Chip on={mode === 'capitals'} onClick={() => setMode('capitals')}>🏛️ מה הבירה?</Chip></div>
     <div className="mx-auto max-w-2xl"><Quiz key={mode} make={mode === 'flags' ? makeFlagQuiz : makeCapitalQuiz} title={mode === 'flags' ? 'מתחילים חידון דגלים' : 'מתחילים חידון בירות'} /></div>
     <div className="mt-4 flex flex-wrap justify-center gap-2"><button type="button" className="ln-btn alt" onClick={() => setPrinting('flags')}>🖨️ דף "של מי הדגל?"</button></div>
+    <p className="mt-4 text-center">רוצים לראות את כל 195 המדינות? <Link to="/flags" className="font-bold underline">כל דגלי המדינות</Link> · <Link to="/flags/quiz" className="font-bold underline">חידון דגלים לפי יבשת</Link> · <Link to="/flags/print" className="font-bold underline">דגלים להדפסה</Link></p>
     <h2 className="mt-10 mb-3 text-2xl font-black text-center">מדינות, בירות ודגלים</h2>
     <div className="mb-3 flex flex-wrap justify-center gap-2">{conts.map(c => <Chip key={c} on={cont === c} onClick={() => setCont(c)}>{c}</Chip>)}</div>
     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{list.map(c => <div key={c[0]} className="ln-q flex items-center gap-3">{FLAG_CODES.includes(c[0]) ? <Flag code={c[0]} className="h-9 w-auto max-w-[64px] shrink-0" label={`הדגל של ${c[1]}`} /> : <span className="inline-block h-9 w-[54px] shrink-0 rounded border border-dashed border-gray-300" aria-hidden="true" />}<div><b>{c[1]}</b><div className="text-sm">הבירה: <b>{c[2]}</b></div>{CAPITAL_NOTES[c[0]] && <div className="text-xs text-[var(--muted-foreground)]">{CAPITAL_NOTES[c[0]]}</div>}</div></div>)}</div>
