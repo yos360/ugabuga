@@ -59,12 +59,22 @@ function ClockSheet({ items, mode, level, answers }) {
   </Sheet>
 }
 
+// Every other clock (starting with the first) uses only the minutes this level adds, so a "quarter
+// hours" sheet opens with a quarter, not with a round hour that the easier sheets also have.
+const CLOCK_KEYS = Object.keys(CLOCK_LEVELS)
+export function clockItems(level, seed) {
+  const li = Math.max(0, CLOCK_KEYS.indexOf(level)), r = rng(seed * 31 + li * 7919 + 1)
+  const all = CLOCK_LEVELS[CLOCK_KEYS[li]][1], lower = li ? CLOCK_LEVELS[CLOCK_KEYS[li - 1]][1] : []
+  const fresh = all.filter(m => !lower.includes(m))
+  return Array.from({ length: 12 }, (_, i) => [1 + Math.floor(r() * 12), pick(r, i % 2 ? all : fresh)])
+}
+
 export function ClockWorksheets() {
   const [level, setLevel] = useState('half')
   const [mode, setMode] = useState('read')
   const [answers, setAnswers] = useState('yes')
   const [seed, setSeed] = useState(7)
-  const items = useMemo(() => { const r = rng(seed * 31 + level.length); return Array.from({ length: 12 }, () => [1 + Math.floor(r() * 12), pick(r, CLOCK_LEVELS[level][1])]) }, [seed, level])
+  const items = useMemo(() => clockItems(level, seed), [seed, level])
   const pages = [{ key: 'q', svg: <ClockSheet items={items} mode={mode} level={level} /> }]
   if (answers === 'yes') pages.push({ key: 'a', svg: <ClockSheet items={items} mode={mode} level={level} answers /> })
   return <PrintableShell path="/printables/clock-worksheets" emoji="🕒" h1="דפי עבודה בשעון להדפסה"
@@ -132,16 +142,22 @@ function FracSheet({ items, mode, answers }) {
   </Sheet>
 }
 
+// As with the clocks: every other shape (starting with the first) uses a denominator this level adds.
+const FRAC_KEYS = Object.keys(FRAC_LEVELS)
+export function fractionItems(level, mode, seed) {
+  const li = Math.max(0, FRAC_KEYS.indexOf(level)), r = rng(seed * 17 + li * 7919 + mode.length)
+  const dens = FRAC_LEVELS[FRAC_KEYS[li]][1], lower = li ? FRAC_LEVELS[FRAC_KEYS[li - 1]][1] : []
+  const fresh = dens.filter(d => !lower.includes(d))
+  const one = (pool) => { const d = pick(r, pool); return { d, n: 1 + Math.floor(r() * (d - 1 || 1)), kind: r() < 0.5 ? 'pie' : 'bar' } }
+  return Array.from({ length: 12 }, (_, i) => { const pool = i % 2 ? dens : fresh; return mode === 'compare' ? [one(pool), one(dens)] : one(pool) })
+}
+
 export function FractionWorksheets() {
   const [level, setLevel] = useState('easy')
   const [mode, setMode] = useState('name')
   const [answers, setAnswers] = useState('yes')
   const [seed, setSeed] = useState(3)
-  const items = useMemo(() => {
-    const r = rng(seed * 17 + level.length * 5 + mode.length), dens = FRAC_LEVELS[level][1]
-    const one = () => { const d = pick(r, dens); return { d, n: 1 + Math.floor(r() * (d - 1 || 1)), kind: r() < 0.5 ? 'pie' : 'bar' } }
-    return Array.from({ length: 12 }, () => (mode === 'compare' ? [one(), one()] : one()))
-  }, [seed, level, mode])
+  const items = useMemo(() => fractionItems(level, mode, seed), [seed, level, mode])
   const pages = [{ key: 'q', svg: <FracSheet items={items} mode={mode} /> }]
   if (answers === 'yes') pages.push({ key: 'a', svg: <FracSheet items={items} mode={mode} answers /> })
   return <PrintableShell path="/printables/fractions-worksheets" emoji="🍕" h1="דפי עבודה בשברים להדפסה"

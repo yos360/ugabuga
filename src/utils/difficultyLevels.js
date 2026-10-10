@@ -4,16 +4,40 @@ import { shuffle } from './shuffle.js'
 // Numbered levels (1..3): every item of the chosen level first. When there are fewer than `count`, borrow
 // from the nearest level — easier levels may top the round up to `count`, harder ones only up to `min`
 // (so a young child's round is never padded with hard questions unless it would otherwise be too short).
-export function pickByLevel(items, level, count, { min = count, levelOf = (x) => x.level } = {}) {
+// The round is shuffled, but its FIRST item is always one of the chosen level (when the level has any),
+// so switching level visibly opens on a question of that level, never on a borrowed one.
+// `rand` (optional, e.g. seededRandom(n)) makes the round deterministic — for a prerendered first paint.
+export function pickByLevel(items, level, count, { min = count, levelOf = (x) => x.level, rand } = {}) {
+  const mix = rand ? (list) => seededShuffle(list, rand) : shuffle
   const levels = [...new Set(items.map(levelOf))]
   const order = levels.sort((a, b) => Math.abs(a - level) - Math.abs(b - level) || a - b)
   const out = []
   for (const l of order) {
     const cap = l <= level ? count : Math.min(count, min)
     if (out.length >= cap) continue
-    out.push(...shuffle(items.filter((x) => levelOf(x) === l)).slice(0, cap - out.length))
+    out.push(...mix(items.filter((x) => levelOf(x) === l)).slice(0, cap - out.length))
   }
-  return shuffle(out)
+  const round = mix(out)
+  const first = round.findIndex((x) => levelOf(x) === level)
+  if (first > 0) [round[0], round[first]] = [round[first], round[0]]
+  return round
+}
+
+// Small deterministic PRNG (mulberry32) and a Fisher–Yates shuffle that uses it.
+export function seededRandom(seed) {
+  let a = seed >>> 0
+  return () => {
+    a = (a + 0x6D2B79F5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+export function seededShuffle(items, rand) {
+  const a = [...items]
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
+  return a
 }
 
 // Trivia bank (audience × difficulty). Each pair gets a challenge score (audience index + difficulty

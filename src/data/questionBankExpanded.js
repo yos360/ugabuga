@@ -41,13 +41,17 @@ export function getQuestions({ topic = 'all', audience = 'kids', difficulty = 'e
   })
 }
 
-export function pickNextQuestion(questions, previousIds = []) {
+// `isPreferred` (optional): questions that exactly match the chosen level/audience. When a pool was
+// widened with neighbouring levels, those come first, so switching to "hard" opens on a hard question.
+export function pickNextQuestion(questions, previousIds = [], isPreferred = null) {
   if (!questions.length) return null
 
   const fresh = questions.filter((item) => !previousIds.includes(item.id))
   // Everything seen: start over, but never show the question that was just on screen again.
   const notLast = questions.length > 1 ? questions.filter((item) => item.id !== previousIds[0]) : questions
-  const pool = fresh.length ? fresh : notLast
+  const preferredFresh = isPreferred ? fresh.filter(isPreferred) : []
+  const preferredNotLast = isPreferred && !fresh.length ? notLast.filter(isPreferred) : []
+  const pool = preferredFresh.length ? preferredFresh : fresh.length ? fresh : preferredNotLast.length ? preferredNotLast : notLast
   const index = Math.floor(Math.random() * pool.length)
   return pool[index]
 }

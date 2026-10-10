@@ -53,18 +53,21 @@ export default function Riddles() {
     setKnewIt(false)
   }
 
+  // Riddles of exactly the chosen audience + level come first; the widened extras only after them.
+  const isExactLevel = useCallback((q) => q.audience === audience && q.difficulty === difficulty && (topic === 'all' || q.topic === topic), [audience, difficulty, topic])
+
   const chooseQuestion = useCallback((resetHistory = false) => {
     resetReveal()
 
     setSeenIds((prevSeen) => {
       const history = resetHistory ? [] : prevSeen
-      const nextQuestion = pickNextQuestion(questions, history)
+      const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
       setCurrent(nextQuestion)
 
       if (!nextQuestion) return []
       return [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT)
     })
-  }, [questions])
+  }, [questions, isExactLevel])
 
   useEffect(() => {
     chooseQuestion(true)

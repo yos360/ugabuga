@@ -43,6 +43,12 @@ const LEVELS = {
   2: ['אוקטבה שלמה', N('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5')],
   3: ['כל החמשה', N('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5')],
 }
+// Notes that are new at a level (level 1: all of its notes), excluding the one on screen.
+export function firstNoteOfLevel(level, current, rand = Math.random) {
+  const lower = new Set(level > 1 ? LEVELS[level - 1][1] : [])
+  const fresh = LEVELS[level][1].filter(n => !lower.has(n) && n !== current)
+  return fresh[Math.floor(rand() * fresh.length)]
+}
 function Staff({ note, color = '#111' }) {
   const L = 10, gap = 10, bottom = 90, x = 170
   const y = note == null ? null : bottom - (stepOf(note) - 2) * gap / 2
@@ -63,14 +69,18 @@ function Staff({ note, color = '#111' }) {
 
 export function ReadNotes() {
   const [level, setLevel] = useState(1)
-  const [note, setNote] = useState(null)
+  // Deterministic first note (the page is prerendered); level clicks draw a fresh one below.
+  const [note, setNote] = useState(() => LEVELS[1][1][2])
   const [score, setScore] = useState({ right: 0, total: 0, streak: 0 })
   const [fb, setFb] = useState(null)
   const pool = LEVELS[level][1]
   const nextNote = (prev) => { let n; do n = pool[Math.floor(Math.random() * pool.length)]; while (pool.length > 1 && n === prev); setNote(n); setFb(null) }
-  // A new note whenever the level changes (and on first load).
-  const [shownLevel, setShownLevel] = useState(null)
-  if (shownLevel !== level) { setShownLevel(level); const p = LEVELS[level][1]; setNote(p[Math.floor(Math.random() * p.length)]); setFb(null) }
+  // Switching level shows a new note right away, taken from the notes that level adds (so level 3
+  // opens on a note above the octave, never on one of the level-1 notes).
+  const changeLevel = (k) => {
+    setLevel(k); setScore({ right: 0, total: 0, streak: 0 }); setFb(null)
+    setNote(firstNoteOfLevel(k, note))
+  }
   const answer = pc => {
     if (note == null || fb?.ok) return
     const ok = pc === note % 12
@@ -88,7 +98,7 @@ export function ReadNotes() {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, MUSIC_CRUMB, { label: 'קריאת תווים' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🎼 </span>משחק קריאת תווים</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">איזה תו זה? לוחצים על השם או על הקליד בפסנתר</p>
-    <div className="mb-4 flex flex-wrap justify-center gap-2">{Object.entries(LEVELS).map(([k, [l]]) => <button key={k} type="button" className="music-chip" aria-pressed={level === +k} onClick={() => { setLevel(+k); setScore({ right: 0, total: 0, streak: 0 }) }}>רמה {k}: {l}</button>)}</div>
+    <div className="mb-4 flex flex-wrap justify-center gap-2">{Object.entries(LEVELS).map(([k, [l]]) => <button key={k} type="button" className="music-chip" aria-pressed={level === +k} onClick={() => changeLevel(+k)}>רמה {k}: {l}</button>)}</div>
     <div className="music-card text-center">
       <p className="mb-1 font-bold">✅ {score.right} מתוך {score.total}{score.streak >= 3 ? ` · 🔥 ${score.streak} ברצף!` : ''}</p>
       <Staff note={note} color={fb ? (fb.ok ? '#2e9e2b' : '#d33') : '#111'} />

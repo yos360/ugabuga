@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
 import HolidayShell from '../../components/holidays/HolidayShell'
-import { pickByLevel } from '../../utils/difficultyLevels'
+import { pickByLevel, seededRandom, seededShuffle } from '../../utils/difficultyLevels'
 
 // One quiz page for every holiday: levels, explanation after each answer,
 // and a printable version with an answer page. Content comes from h.quiz.
@@ -34,7 +34,12 @@ export default function HolidayQuiz({ h }) {
   const Q = h.quiz
   const [level, setLevel] = useState(1)
   const [seed, setSeed] = useState(0)
-  const round = useMemo(() => pickByLevel(Q.questions, level, ROUND, { min: MIN_ROUND }).map(x => ({ ...x, shown: shuffle(x.options) })), [level, seed, Q.questions])
+  // The first round on page load is seeded (prerendered HTML = hydrated HTML); every level click or
+  // "new round" draws a fresh random round. Its first question is always of the chosen level.
+  const round = useMemo(() => {
+    const rand = seed === 0 ? seededRandom(level * 7919 + Q.questions.length) : undefined
+    return pickByLevel(Q.questions, level, ROUND, { min: MIN_ROUND, rand }).map(x => ({ ...x, shown: rand ? seededShuffle(x.options, rand) : shuffle(x.options) }))
+  }, [level, seed, Q.questions])
   const [i, setI] = useState(0)
   const [picked, setPicked] = useState(null)
   const [score, setScore] = useState(0)

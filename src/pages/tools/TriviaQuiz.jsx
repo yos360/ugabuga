@@ -75,18 +75,21 @@ export default function TriviaQuiz() {
     return buildLeveledPool(all, { audience, difficulty: level, topic, min: 8, audienceIds: AUDIENCES.map((a) => a.id), difficultyIds: DIFFICULTIES.map((d) => d.id) })
   }, [topic, audience, difficulty, mode])
 
+  // Questions of exactly the chosen audience + level come first (the pool may be topped up with neighbours).
+  const isExactLevel = useCallback((q) => q.audience === audience && q.difficulty === (mode === 'expert' ? 'hard' : difficulty) && (topic === 'all' || q.topic === topic), [audience, difficulty, mode, topic])
+
   const chooseQuestion = useCallback((resetHistory = false) => {
     setSelected(null)
     setSeenIds((prevSeen) => {
       const history = resetHistory ? [] : prevSeen
-      const nextQuestion = pickNextQuestion(questions, history)
+      const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
       setCurrent(nextQuestion)
       setOptions(shuffleOptions(nextQuestion?.triviaOptions || []))
 
       if (!nextQuestion) return []
       return [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT)
     })
-  }, [questions])
+  }, [questions, isExactLevel])
 
   useEffect(() => {
     chooseQuestion(false)

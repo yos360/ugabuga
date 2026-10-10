@@ -21,14 +21,15 @@ export default function DrawingPrompt() {
   const [diff, setDiff] = useState('easy')
   const [current, setCurrent] = useState(null)
 
-  const generate = () => {
-    if (diff === 'combo') {
+  // Picking a level shows a prompt of that level right away (and never repeats the one on screen).
+  const generate = (level = diff) => {
+    if (level === 'combo') {
       const a = ANIMALS[Math.floor(Math.random()*ANIMALS.length)]
       const o = OBJECTS[Math.floor(Math.random()*OBJECTS.length)]
       const p = PLACES[Math.floor(Math.random()*PLACES.length)]
       setCurrent(`ציירו ${a} עם ${o} ${p}`)
     } else {
-      const pool = PROMPTS[diff]
+      const pool = PROMPTS[level].filter((p) => p !== current)
       setCurrent(pool[Math.floor(Math.random()*pool.length)])
     }
   }
@@ -41,7 +42,7 @@ export default function DrawingPrompt() {
 
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {[['easy','קל'],['medium','בינוני'],['hard','אתגר'],['combo','קומבו 🌀']].map(([k,l]) => (
-          <button key={k} onClick={() => setDiff(k)} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${diff===k?'bg-[var(--postit)]':'bg-white'}`}>{l}</button>
+          <button key={k} onClick={() => { setDiff(k); generate(k) }} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${diff===k?'bg-[var(--postit)]':'bg-white'}`}>{l}</button>
         ))}
       </div>
 
@@ -51,7 +52,7 @@ export default function DrawingPrompt() {
         </div>
       )}
 
-      <button onClick={generate} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer">
+      <button onClick={() => generate()} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer">
         🎨 {current ? 'עוד רעיון!' : 'מה אצייר?'}
       </button>
       <ToolGuide {...guide} />
