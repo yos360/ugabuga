@@ -1,6 +1,8 @@
-// Reads a word or letter aloud with the device's own voice. Silent when the
-// device has no voice for the language — every game using it also works
-// without sound, and a wrong-language voice would mispronounce the word.
+// Reads a word or letter aloud. Texts we recorded in advance (public/audio/<lang>/<audioKey>.mp3,
+// listed in public/audio/<lang>/index.json) play from the file, so they sound the same on every
+// device; anything else falls back to the device's own voice. Silent when neither exists — every
+// game using it also works without sound, and a wrong-language voice would mispronounce the word.
+import { audioKey } from './audioKey'
 
 // Higher-quality voices browsers ship under these names (Chrome "Google",
 // Edge "Online (Natural)", Apple "Enhanced/Premium", Android "Neural").
@@ -48,13 +50,36 @@ function noVoice(lang, user) {
   return false
 }
 
+const recorded = {}
+// Set of recorded clip keys for a language, loaded once ('he-IL' → /audio/he/index.json).
+function recordedFor(lang) {
+  const l = lang.slice(0, 2).toLowerCase()
+  if (!recorded[l]) recorded[l] = fetch(`/audio/${l}/index.json`).then(r => (r.ok ? r.json() : [])).then(a => new Set(a)).catch(() => new Set())
+  return recorded[l]
+}
+let current = null
+export function stopSpeaking() {
+  try { current?.pause() } catch { /* ignore */ }
+  current = null
+  try { window.speechSynthesis?.cancel() } catch { /* ignore */ }
+}
+async function playRecorded(text, lang) {
+  const key = audioKey(text)
+  if (!(await recordedFor(lang)).has(key)) return false
+  stopSpeaking()
+  const a = new Audio(`/audio/${lang.slice(0, 2).toLowerCase()}/${key}.mp3`)
+  current = a
+  try { await a.play(); return true } catch { return false }
+}
+
 export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true } = {}) {
   try {
     if (!text) return false
+    if (typeof window !== 'undefined' && await playRecorded(String(text), lang)) return true
     if (!canSpeak()) return noVoice(lang, user)
     const voice = pickVoice(await loadVoices(), lang)
     const synth = window.speechSynthesis
-    synth.cancel()
+    stopSpeaking()
     const u = new SpeechSynthesisUtterance(String(text))
     u.lang = lang
     u.rate = rate
@@ -77,6 +102,7 @@ export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true } =
 // Kept in step with speak(): true exactly when speak() would hand the text to the engine.
 export async function hasVoice(lang) {
   try {
+    if (typeof window !== 'undefined' && (await recordedFor(lang)).size) return true
     if (!canSpeak()) return false
     const voices = await loadVoices()
     // An empty list means "unknown" (some Androids list nothing yet speak by lang) — speak()

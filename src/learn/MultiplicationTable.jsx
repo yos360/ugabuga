@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
@@ -13,11 +13,24 @@ import {
 } from './multiplicationTable'
 import './learn.css'
 import './multiplication-table.css'
+import { speak } from '../utils/speak'
 
 const GAME = '/learn/times-tables'
 const MAIN_CRUMB = { label: MT_PAGES.main.crumb, href: MT_PAGES.main.path }
 const HUES = [0, 28, 48, 95, 140, 172, 200, 228, 262, 295, 325, 12]
 const rowBg = (i, l = 92) => `hsl(${HUES[i % HUES.length]} 85% ${l}%)`
+// Read a fact aloud when a square is tapped (recorded voice, else the device voice). One switch,
+// remembered on this device, for everyone who wants a silent table.
+const SOUND_KEY = 'buga-mt-sound'
+const readSound = () => { try { return localStorage.getItem(SOUND_KEY) !== '0' } catch { return true } }
+function useSound() {
+  const [on, setOn] = useState(true)
+  useEffect(() => { setOn(readSound()) }, []) // after hydration: the prerendered page shows "on"
+  const toggle = () => setOn(v => { try { localStorage.setItem(SOUND_KEY, v ? '0' : '1') } catch { /* storage blocked */ } return !v })
+  const say = (a, b) => { if (on) speak(`${a} כפול ${b} שווה ${a * b}`, 'he-IL', { user: false }) }
+  return { on, toggle, say }
+}
+const SoundChip = ({ sound }) => <button type="button" className="ln-chip" aria-pressed={sound.on} onClick={sound.toggle}>{sound.on ? '🔊 הקראה פועלת' : '🔇 הקראה כבויה'}</button>
 const rnd = () => Math.floor(Math.random() * 1e9)
 
 const Chip = ({ on, onClick, children, ...rest }) => <button type="button" className="ln-chip" aria-pressed={on} onClick={onClick} {...rest}>{children}</button>
@@ -137,6 +150,7 @@ function TableExplorer({ grid = 'ten', allowSize = false, onPrintClick, printOpe
   const [squares, setSquares] = useState(false)
   const [hover, setHover] = useState(null)
   const [pinned, setPinned] = useState(null)
+  const sound = useSound()
   const { rows, cols } = GRIDS[size]
   const cells = buildGrid(rows, cols)
   const wide = size === 'tens'
@@ -146,6 +160,7 @@ function TableExplorer({ grid = 'ten', allowSize = false, onPrintClick, printOpe
   const tap = (r, c) => {
     setPinned({ r, c })
     if (hidden) setRevealed(s => new Set(s).add(key(r, c)))
+    sound.say(r, c)
   }
   const toggleHidden = () => { setHidden(h => !h); setRevealed(new Set()) }
   const focusRange = wide ? rows : range(1, size === 'twelve' ? 12 : 10)
@@ -172,6 +187,7 @@ function TableExplorer({ grid = 'ten', allowSize = false, onPrintClick, printOpe
       </tr>)}</tbody>
     </table>
     <div className="mt-controls">
+      <SoundChip sound={sound} />
       <Chip on={hidden} onClick={toggleHidden}>{hidden ? '🙈 התשובות מוסתרות' : '👀 הסתרת התשובות'}</Chip>
       {hidden && <button type="button" className="ln-chip" onClick={() => setRevealed(new Set(cells.flat().map(x => key(x.r, x.c))))}>גלו הכול</button>}
       {!wide && <Chip on={squares} onClick={() => setSquares(s => !s)}>⬛ ריבועים</Chip>}
@@ -444,6 +460,7 @@ export function MultiplicationNumber() {
   const [hidden, setHidden] = useState(false)
   const [peek, setPeek] = useState(() => new Set())
   const [print, setPrint] = useState(false)
+  const sound = useSound()
   if (!meta) return <NotFound />
   const info = NUMBER_INFO[n]
   const faq = numberFaq(n)
@@ -454,12 +471,13 @@ export function MultiplicationNumber() {
     <SEO title={meta.title} description={meta.description} path={meta.path} structuredData={faqSchema(faq)} />
     <Head meta={meta} sub={`טיפ: ${info.short}`} crumbs={[MAIN_CRUMB]} />
     <div className="flex flex-wrap justify-center gap-2 mb-3">
+      <SoundChip sound={sound} />
       <Chip on={hidden} onClick={() => { setHidden(h => !h); setPeek(new Set()) }}>{hidden ? '🙈 התשובות מוסתרות' : '👀 הסתרת התשובות'}</Chip>
       <button type="button" className="mt-print-btn" onClick={() => setPrint(true)}>🖨️ הדפסה</button>
     </div>
     <div className="mt-list">{list.map(f => {
       const show = !hidden || peek.has(f.b)
-      return <button key={f.b} type="button" className={`${f.b > 10 ? 'bonus' : ''} ${show ? '' : 'is-hidden'}`.trim() || undefined} style={{ '--mt-bg': rowBg(f.b - 1, 94) }} onClick={() => hidden && flip(f.b)} aria-label={show ? `${n} כפול ${f.b} שווה ${f.v}` : `${n} כפול ${f.b} — לחצו כדי לגלות`}>
+      return <button key={f.b} type="button" className={`${f.b > 10 ? 'bonus' : ''} ${show ? '' : 'is-hidden'}`.trim() || undefined} style={{ '--mt-bg': rowBg(f.b - 1, 94) }} onClick={() => { if (hidden && !peek.has(f.b)) flip(f.b); sound.say(n, f.b) }} aria-label={show ? `${n} כפול ${f.b} שווה ${f.v}` : `${n} כפול ${f.b} — לחצו כדי לגלות`}>
         {`${n} × ${f.b} = `}<span className="v">{show ? f.v : ' '}</span>
       </button>
     })}</div>

@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SupplierEditor from '../../components/suppliers/SupplierEditor'
 import { PlansCompare, SupplierFAQ, PremiumPrice, PREMIUM, PREMIUM_PITCH, premiumWa } from '../../components/suppliers/SupplierPlans'
 import { suppliersDb, supplierAuth, currentSupplierUser, signInWithGoogle, googleEnabled, signInWithEmail, signOutSupplier, waLink, OWNER_WHATSAPP } from '../../utils/suppliersDb'
+import TrafficProof from '../../components/suppliers/TrafficProof'
 
 const STATUS = {
   pending: ['🎈 ברוכים הבאים למשפחת עוגה בוגה!', 'הכרטיס נשמר ויעלה לאתר אחרי בדיקה קצרה, בדרך כלל תוך יום. בינתיים אפשר להמשיך לשפר אותו.', 'bg-amber-50 border-amber-300'],
@@ -78,6 +79,7 @@ export default function SupplierAccount() {
       <p className="mx-auto mt-2 max-w-2xl text-xl font-bold">כרטיס ספק חינם. עמוד פרימיום מקצועי למי שרוצה להיראות טוב יותר.</p>
       <p className="mx-auto mt-1 max-w-2xl text-[var(--muted-foreground)]">הצטרפו לבוגה בחינם, ושדרגו לעמוד ספק מקצועי כשאתם רוצים יותר.</p>
     </header>
+    <div className="mx-auto max-w-4xl"><TrafficProof forSuppliers={false} /></div>
 
     {user === undefined ? <p className="py-10 text-center">רגע…</p>
       : !user ? <>

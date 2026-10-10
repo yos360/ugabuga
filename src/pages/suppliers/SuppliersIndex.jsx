@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { SupplierCard } from '../../components/suppliers/SupplierBits'
+import TrafficProof from '../../components/suppliers/TrafficProof'
 import { suppliersDb } from '../../utils/suppliersDb'
 import { SUPPLIER_AREAS } from '../../data/supplierOptions'
 import { SUPPLIER_CATEGORY_PAGES, categoryPagePath, suppliersForPage } from '../../data/supplierCategoryPages'
@@ -48,6 +49,16 @@ export default function SuppliersIndex() {
     (!area || s.area === area || s.area === 'כל הארץ') &&
     (!q.trim() || `${s.name} ${s.tagline || ''} ${s.about || ''} ${(s.tags || []).join(' ')}`.includes(q.trim()))
   ), [list, area, q])
+  // Log what people search for (owner report), once the typing has settled.
+  const lastLogged = useRef('')
+  useEffect(() => {
+    const query = q.trim()
+    if (!list || (query.length < 2 && !area)) return
+    const id = `${query}|${area}`
+    if (id === lastLogged.current) return
+    const timer = setTimeout(() => { lastLogged.current = id; suppliersDb.logSearch({ query, area, results: shown.length }) }, 1500)
+    return () => clearTimeout(timer)
+  }, [q, area, list, shown.length])
 
   return <div className="mx-auto max-w-6xl px-4 py-8">
     <SEO title="ספקים לימי הולדת ואירועי ילדים" description="ספקים לימי הולדת ואירועי ילדים: מפעילים, קוסמים, עוגות, צילום, בלונים ומתנפחים — פנייה ישירה בוואטסאפ, בלי תיווך." path="/suppliers" structuredData={faqSchema(FAQ)} />
@@ -74,6 +85,8 @@ export default function SuppliersIndex() {
       : !list ? <p className="py-10 text-center text-lg">טוענים ספקים…</p>
       : shown.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{shown.map((s, i) => <SupplierCard key={s.id} s={s} index={i} />)}</div>
       : <p className="rounded-2xl bg-slate-50 p-8 text-center text-lg">{list.length ? 'לא מצאנו ספק שמתאים לחיפוש. נסו לשנות סינון.' : 'הספקים הראשונים מצטרפים ממש עכשיו 🎈'}</p>}
+
+    <div className="mt-10"><TrafficProof /></div>
 
     <section className="mt-12" aria-labelledby="all-types">
       <h2 id="all-types" className="mb-2 text-3xl font-bold">כל סוגי הספקים</h2>

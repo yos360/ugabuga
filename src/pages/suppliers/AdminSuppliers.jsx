@@ -5,6 +5,8 @@ import SupplierEditor from '../../components/suppliers/SupplierEditor'
 import { Logo } from '../../components/suppliers/SupplierBits'
 import { suppliersDb } from '../../utils/suppliersDb'
 import { categoryLabel } from '../../data/supplierOptions'
+import { categoryPageBySlug } from '../../data/supplierCategoryPages'
+import TrafficProof from '../../components/suppliers/TrafficProof'
 
 const FILTERS = [['all', 'הכול'], ['pending', '⏳ ממתינים'], ['request', '⭐ ביקשו דף'], ['approved', '✅ מפורסמים'], ['hidden', '🙈 מוסתרים']]
 const BADGE = { pending: 'bg-amber-100 text-amber-900', approved: 'bg-emerald-100 text-emerald-900', hidden: 'bg-slate-200 text-slate-700' }
@@ -39,6 +41,41 @@ function InviteBox() {
   </details>
 }
 
+// What visitors searched in the suppliers area: free text, supplier type pages and areas.
+// Searches that found nothing are the clearest sign of which suppliers to recruit next.
+const typeName = slug => categoryPageBySlug(slug)?.name || slug
+const when = at => new Date(at).toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
+function SearchReport() {
+  const [days, setDays] = useState(30)
+  const [data, setData] = useState(null), [err, setErr] = useState('')
+  useEffect(() => {
+    setData(null); setErr('')
+    const to = new Date(), from = new Date(to.getTime() - days * 86400000)
+    suppliersDb.adminSearches(from.toISOString(), to.toISOString()).then(setData).catch(e => setErr(e.message))
+  }, [days])
+  const sorted = obj => Object.entries(obj || {}).sort((a, b) => b[1] - a[1])
+  return <section className="mb-8 rounded-3xl border-2 border-slate-200 bg-white p-4" aria-labelledby="searches-h">
+    <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+      <h2 id="searches-h" className="text-2xl font-black">🔎 מה חיפשו באזור הספקים</h2>
+      <div className="flex gap-2">{[[1, 'היום'], [7, '7 ימים'], [30, '30 יום']].map(([d, l]) => <button key={d} onClick={() => setDays(d)} aria-pressed={days === d} className={`rounded-full border-2 px-3 py-1 text-sm font-bold ${days === d ? 'border-slate-800 bg-slate-100' : 'border-slate-200'}`}>{l}</button>)}</div>
+    </div>
+    {err ? <p className="rounded-2xl bg-amber-50 p-3">{err} (אם זה הפעם הראשונה — צריך להריץ את קובץ ה-SQL ‎202610100001 ב-Supabase.)</p>
+      : !data ? <p>טוענים…</p>
+      : !data.total ? <p className="text-slate-600">עוד אין חיפושים בטווח הזה.</p>
+      : <div className="space-y-4">
+        <p className="font-bold">{data.total} חיפושים · {data.searchers} מבקרים שונים</p>
+        <div className="grid gap-4 md:grid-cols-3">
+          <div><h3 className="mb-1 font-bold">מילים שחיפשו</h3><ol className="space-y-1 text-sm">{data.top_queries.slice(0, 30).map(x => <li key={x.query}>“{x.query}” · {x.n}{x.zero ? <span className="text-rose-700"> · {x.zero} בלי תוצאות</span> : ''}</li>)}</ol>{!data.top_queries.length && <p className="text-sm text-slate-500">—</p>}</div>
+          <div><h3 className="mb-1 font-bold">סוגי ספקים</h3><ol className="space-y-1 text-sm">{sorted(data.by_type).map(([k, n]) => <li key={k}>{typeName(k)} · {n}</li>)}</ol></div>
+          <div><h3 className="mb-1 font-bold">אזורים</h3><ol className="space-y-1 text-sm">{sorted(data.by_area).map(([k, n]) => <li key={k}>{k} · {n}</li>)}</ol></div>
+        </div>
+        <details><summary className="cursor-pointer font-bold">כל החיפושים האחרונים ({data.recent.length})</summary>
+          <ul className="mt-2 max-h-96 space-y-1 overflow-y-auto text-sm">{data.recent.map((r, i) => <li key={i} className="border-b border-slate-100 py-1">{when(r.at)} · {[r.query && `“${r.query}”`, r.type && typeName(r.type), r.area].filter(Boolean).join(' · ')}{r.results === 0 ? <b className="text-rose-700"> · לא נמצא ספק</b> : r.results != null ? ` · ${r.results} תוצאות` : ''}</li>)}</ul>
+        </details>
+      </div>}
+  </section>
+}
+
 export default function AdminSuppliers() {
   const [list, setList] = useState(null), [err, setErr] = useState('')
   const [filter, setFilter] = useState('all')
@@ -60,6 +97,8 @@ export default function AdminSuppliers() {
         <button onClick={() => setEditing({})} className="rounded-xl bg-[var(--ink)] px-4 py-2 font-bold text-white">＋ ספק חדש</button></div>
     </div>
     <InviteBox />
+    <TrafficProof forSuppliers={false} />
+    <SearchReport />
     {err && <p className="mb-4 rounded-2xl bg-rose-50 p-4 font-bold text-rose-800">{err}</p>}
     <div className="mb-4 flex flex-wrap gap-2">{FILTERS.map(([id, l]) => <button key={id} onClick={() => setFilter(id)} className={`rounded-full border-2 px-3 py-1.5 text-sm font-bold ${filter === id ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white'}`}>{l}</button>)}</div>
 
