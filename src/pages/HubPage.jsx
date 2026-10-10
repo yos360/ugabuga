@@ -9,8 +9,11 @@ import { categories as PRINTABLES } from '../data/printableCategories'
 const HUBS = {
   birthday: {
     title: 'מתחם יום הולדת', crumb: 'יום הולדת', subtitle: 'כל מה שצריך למסיבה אחת — משחקים, תכנון, אוכל, הדפסות וספקים.', color: '#fff0ee',
+    seoTitle: 'יום הולדת לילדים — משחקים, רעיונות, הזמנות ועוגה',
+    h1: 'יום הולדת לילדים — כל מה שצריך למסיבה',
+    description: 'כל מה שצריך ליום הולדת לילדים במקום אחד: משחקים לפי גיל, רעיונות ונושאים למסיבה, הזמנה ואישור הגעה בוואטסאפ, מחשבון אוכל, עוגה וברכות. חינם.',
     body: [
-      'מתחם יום הולדת מרכז את כל מה שצריך כדי להרים מסיבה לילדים בלי להתפזר בין עשרות אתרים: משחקים שמתחילים מיד, מחשבון שאומר כמה פיצות ושתייה לקנות, הזמנה וברכה אישית, רשימת "מי מביא מה" שמשתפים בקבוצת ההורים, דפי פעילות להדפסה וספקים שאפשר לפנות אליהם ישירות בוואטסאפ.',
+      'מתחם יום הולדת מרכז את כל מה שצריך כדי להרים יום הולדת לילדים בלי להתפזר בין עשרות אתרים: משחקים שמתחילים מיד, מחשבון שאומר כמה פיצות ושתייה לקנות, הזמנה וברכה אישית, רשימת "מי מביא מה" שמשתפים בקבוצת ההורים, דפי פעילות להדפסה וספקים שאפשר לפנות אליהם ישירות בוואטסאפ.',
       'הדרך הכי קלה להתחיל היא מהסוף: מחליטים כמה ילדים מגיעים ובאיזה גיל, בודקים במחשבון כמה אוכל צריך, ובוחרים 3–4 משחקים לפי הגיל והמקום — בבית, בפארק או בגן. משחק פתיחה רגוע כשהילדים מגיעים, משחק תנועה באמצע ומשחק שקט לפני העוגה עובדים כמעט בכל מסיבה.',
       'טיפ מעשי: מדפיסים מראש את הצ׳ק־ליסט ואת דפי הפעילות, ושולחים את רשימת "מי מביא מה" להורים שבוע לפני — כך ביום עצמו נשאר רק ליהנות.',
     ],
@@ -29,7 +32,10 @@ const HUBS = {
       ['🍕', 'מחשבון אוכל ושתייה', 'כמה פיצות, כוסות, שתייה וחטיפים צריך?', '/calculator'],
       ['✅', 'צ׳ק־ליסט למסיבה', 'בית, פארק או כיתה — עם עריכה ושיתוף.', '/printables/birthday-checklist'],
       ['✉️', 'הזמנה ליום הולדת', 'יוצרים הזמנה אישית למסיבה ושולחים בוואטסאפ.', '/invitation'],
-      ['💌', 'ברכה ליום הולדת', 'כותבים ברכה אישית לחוגג או לחוגגת ומדפיסים או שולחים.', '/greeting'],
+      ['💡', 'רעיונות ליום הולדת', 'לפי גיל, נושא, מקום ותקציב — עם לו״ז ומשחקים מתאימים.', '/ideas'],
+      ['🎂', 'עוגת יום הולדת', 'מתכונים בדוקים: שוקולד, עוגת מספר, ללא גלוטן ופרווה.', '/cakes'],
+      ['🎁', 'מתנות לפי גיל', 'רעיונות למתנה מגיל שנה ועד 16, בכל תקציב.', '/gifts'],
+      ['💌', 'ברכה ליום הולדת', 'ברכות מקוריות לכל גיל ולכל אחד, או ברכה אישית במחולל.', '/birthday-greetings'],
       ['🌟', 'מי נולד ביום שלי?', 'מגלים אילו אנשים מפורסמים נולדו באותו תאריך.', '/tools/birthday-famous'],
       ['🖨️', 'דפי פעילות למסיבה', 'בינגו, דפי צביעה, שלטים ומשימות להדפסה.', '/printables'],
     ],
@@ -99,9 +105,9 @@ export default function HubPage({ type }) {
   // Pages opened from here show this hub in their breadcrumbs (see Breadcrumbs).
   const via = { via: { label: hub.crumb || hub.title, href: pathname } }
   return <div className="mx-auto max-w-6xl px-4 py-8" style={{ '--hub-bg': hub.color }}>
-    <SEO title={hub.title} description={hub.subtitle} path={pathname} structuredData={faqSchema(hub.faq)} />
+    <SEO title={hub.seoTitle || hub.title} description={hub.description || hub.subtitle} path={pathname} structuredData={faqSchema(hub.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: hub.crumb || hub.title }]} />
-    <header className="mx-auto max-w-3xl py-8 text-center"><div className="text-5xl">{type === 'birthday' ? '🎂' : type === 'classroom' ? '🏫' : '✨'}</div><h1 className="mt-3 text-4xl font-black sm:text-6xl">{hub.title}</h1><p className="mt-3 text-xl text-[var(--muted-foreground)]">{hub.subtitle}</p></header>
+    <header className="mx-auto max-w-3xl py-8 text-center"><div className="text-5xl">{type === 'birthday' ? '🎂' : type === 'classroom' ? '🏫' : '✨'}</div><h1 className="mt-3 text-4xl font-black sm:text-6xl">{hub.h1 || hub.title}</h1><p className="mt-3 text-xl text-[var(--muted-foreground)]">{hub.subtitle}</p></header>
     {hub.featured && <Link to={hub.featured[3]} state={via} className="mx-auto mb-8 flex max-w-4xl flex-col items-center gap-4 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#fff4bb] p-6 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1 sm:flex-row sm:text-right"><span className="text-6xl" aria-hidden="true">{hub.featured[0]}</span><span className="flex-1"><span className="block text-2xl font-black text-[var(--ink)]">{hub.featured[1]}</span><span className="mt-2 block text-lg leading-8 text-[var(--muted-foreground)]">{hub.featured[2]}</span></span><span className="shrink-0 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#25d366] px-6 py-3 text-xl font-black text-white">{hub.featured[4]}</span></Link>}
     <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label={hub.title}>{hub.cards.map(([emoji, title, desc, href]) => <Link key={href} to={href} state={via} className="group rounded-3xl border-2 border-slate-200 bg-[var(--hub-bg)] p-6 shadow-[0_6px_0_rgba(20,30,60,.12)] transition hover:-translate-y-1 hover:shadow-[0_9px_0_rgba(20,30,60,.14)]"><div className="text-5xl">{emoji}</div><h2 className="mt-4 text-2xl font-black text-[var(--ink)]">{title}</h2><p className="mt-2 text-lg leading-8 text-[var(--muted-foreground)]">{desc}</p><span className="mt-5 inline-flex rounded-full bg-white px-5 py-2 font-bold text-[var(--ink)]">נכנסים ←</span></Link>)}</section>
     {hub.holidays && <ClassroomHolidays />}

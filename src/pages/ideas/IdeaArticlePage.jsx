@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
+import { IDEA_SEO } from '../../data/ideaSeo'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
@@ -27,7 +28,7 @@ export default function IdeaArticlePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={article.title} description={article.description} path={'/ideas/' + slug} structuredData={deep ? faqSchema(deep.faq) : null} />
+      <SEO title={IDEA_SEO[slug]?.title || article.title} description={IDEA_SEO[slug]?.description || article.description} path={'/ideas/' + slug} structuredData={deep ? faqSchema(deep.faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: article.title }]} />
 
       <div className="text-center mb-8">
@@ -41,6 +42,14 @@ export default function IdeaArticlePage() {
       </div>
 
       {deep && <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-[var(--foreground)]/85">{deep.intro}</p>}
+
+      {IDEA_SEO[slug]?.see && (
+        <p className="mx-auto mb-8 max-w-3xl rounded-2xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center text-lg">
+          👉 עוד בנושא: {IDEA_SEO[slug].see.map(([label, href], i, arr) => (
+            <span key={href}><Link to={href} className="font-bold underline">{label}</Link>{i < arr.length - 1 ? (i === arr.length - 2 ? ' ו' : ', ') : ''}</span>
+          ))}
+        </p>
+      )}
 
       {slug === 'bar-mitzvah-ideas' && (
         <p className="mx-auto mb-8 max-w-3xl rounded-2xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center text-lg">

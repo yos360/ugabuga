@@ -94,6 +94,8 @@ const kiddushYomTov = (phrase, when, extraNote = '') => ({
 export const HOLIDAY_BLESSINGS = [
   {
     slug: 'rosh-hashana', name: 'ראש השנה', emoji: '🍎', season: 'fall', hub: '/holidays/rosh-hashana',
+    // 'ברכות לראש השנה' (greeting wishes) is owned by /holidays/rosh-hashana/greetings — this page targets the liturgy.
+    seoTitle: 'ברכות החג לראש השנה בניקוד — נרות, קידוש, תפוח בדבש ושופר',
     when: 'א׳ וב׳ בתשרי — גם בארץ ישראל חוגגים יומיים',
     intro: 'בראש השנה מתחילה השנה העברית החדשה. בבית מדליקים נרות, עושים קידוש ואוכלים תפוח בדבש, ובבית הכנסת שומעים את קול השופר.',
     blessings: [

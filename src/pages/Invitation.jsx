@@ -97,10 +97,10 @@ export default function Invitation() {
 
   return (
     <div className="mx-auto max-w-6xl px-3 py-5 sm:px-6 sm:py-8 buga-fade-in">
-      <SEO title="מחולל הזמנות ליום הולדת — הזמנה מעוצבת לוואטסאפ" description="הזמנה ליום הולדת בדקה: בוחרים עיצוב (בלונים, חלל, דינוזאור, נסיכה, כדורגל או גיימינג), ממלאים תאריך, שעה ומקום ושולחים בוואטסאפ. חינם, בלי הרשמה." path="/invitation" structuredData={faqSchema(FAQ)} />
+      <SEO title="הזמנה ליום הולדת — מחולל הזמנות מעוצבות לוואטסאפ, חינם" description="הזמנה ליום הולדת בדקה: בוחרים עיצוב (בלונים, חלל, דינוזאור, נסיכה, כדורגל או גיימינג), ממלאים תאריך, שעה ומקום ושולחים בוואטסאפ. חינם, בלי הרשמה." path="/invitation" structuredData={faqSchema(FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחולל הזמנות' }]} />
-      <h1 className="text-center text-3xl sm:text-5xl mb-3">📨 מחולל הזמנות</h1>
-      <p className="mb-6 text-center text-sm text-[var(--muted-foreground)] sm:text-lg">הזמנה להדפסה ולשליחה בוואטסאפ — בוחרים עיצוב, ממלאים פרטים ורואים את ההזמנה מתעדכנת מיד</p>
+      <h1 className="text-center text-3xl sm:text-5xl mb-3">📨 הזמנה ליום הולדת — מחולל הזמנות</h1>
+      <p className="mb-6 text-center text-sm text-[var(--muted-foreground)] sm:text-lg">הזמנה ליום הולדת להדפסה ולשליחה בוואטסאפ — בוחרים עיצוב, ממלאים פרטים ורואים את ההזמנה מתעדכנת מיד</p>
 
       <div className="grid grid-cols-3 gap-2 mb-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
         {THEMES.map(t => (

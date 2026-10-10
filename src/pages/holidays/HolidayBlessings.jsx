@@ -94,7 +94,7 @@ function HolidayPage({ h }) {
   const [printing, setPrinting] = useState(false)
   const i = HOLIDAY_BLESSINGS.indexOf(h)
   const prev = HOLIDAY_BLESSINGS[i - 1], next = HOLIDAY_BLESSINGS[i + 1]
-  const title = `ברכות ל${h.name}: מה אומרים בבית ומה קוראים בבית הכנסת`
+  const title = h.seoTitle || `ברכות ל${h.name}: מה אומרים בבית ומה קוראים בבית הכנסת`
   const desc = `${h.name} — ${[h.blessings.length && 'הברכות המלאות עם ניקוד והשמעה', h.siddur.length && 'מה אומרים בסידור', h.tanakh.length && 'מה קוראים בתורה ובהפטרה (לפי המנהג בארץ ישראל)'].filter(Boolean).join(', ')}, ודף ברכות להדפסה. נבדק מול כמה מקורות.`
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={title} description={desc} path={blessingsHref(h.slug)} structuredData={faqSchema(h.faq)} />

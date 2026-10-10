@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import { faqSchema } from '../../components/ui/SeoBody'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { GIFT_AGES, AGE_GIFTS } from '../../data/gifts'
 import { BUDGET_GUIDE } from '../../data/giftsGuide'
 
@@ -15,12 +15,22 @@ const giftsUpTo = (limit, from = 0) => GIFT_AGES.map(age => ({
   ideas: (AGE_GIFTS[age]?.sections || []).flatMap(sec => sec.ideas).filter(([, , price]) => maxPrice(price) <= limit && maxPrice(price) > from),
 })).filter(g => g.ideas.length)
 
+const HUB_BODY = [
+  'מתנה טובה ליום הולדת מתחילה בגיל ובשלב של הילד, לא במחיר. בכל עמוד גיל יש רעיונות לפי סוג (משחק, יצירה, ספר, חוויה), טווח מחירים משוער וטיפ מהשטח — כדי שתגיעו לחנות עם רשימה קצרה ולא עם התלבטות.',
+  'הולכים למסיבה של חבר מהגן או מהכיתה? הורים רבים מביאים מתנה בטווח של 50–100 ₪, ובכיתות רבות נהוגה מתנה משותפת. בעמודי התקציב מרוכזות כל המתנות עד 50 ₪ ועד 100 ₪ מכל הגילים.',
+]
+const HUB_FAQ = [
+  { q: 'כמה כסף נהוג להוציא על מתנה ליום הולדת של חבר לגן או לכיתה?', a: 'ברוב המקומות 50–100 ₪ למתנה אישית. כשההורים בכיתה מתאמים מתנה משותפת, כל אחד משתתף בסכום קטן יותר והחוגג מקבל מתנה אחת משמעותית.' },
+  { q: 'מה עדיף — צעצוע, ספר או חוויה?', a: 'תלוי בגיל ובילד. עד גיל 6 צעצועים ומשחקי הרכבה מצליחים מאוד; מגיל 7 ומעלה משחקי קופסה, ערכות יצירה ומדע, וספרים בסדרה שהילד כבר אוהב. מתנת חוויה מתאימה כשיודעים מה הילד אוהב.' },
+  { q: 'איך יודעים מה מתאים לגיל מסוים?', a: 'בכל עמוד גיל יש הסבר קצר על מה מעניין ילדים בגיל הזה ורעיונות לפי סוג ומחיר. אם הילד בין שני גילים, שווה להציץ גם בגיל שאחריו.' },
+]
+
 export default function GiftsIndex() {
   const location = useLocation()
   const presets = {
     '/gifts/under-50': { title: 'מתנות עד 50 ₪', desc: 'מתנות יום הולדת עד 50 שקל לפי גיל: רעיונות קטנים ומשמחים לילדים ולילדות — משחקים, יצירה, ספרים ומתנות חוויה בתקציב נגיש.' },
     '/gifts/under-100': { title: 'מתנות עד 100 ₪', desc: 'מתנות יום הולדת עד 100 שקל לפי גיל: רעיונות שימושיים ומהנים לילדים, לנוער ולמשפחה — משחקי קופסה, ערכות יצירה, ספורט וחוויות.' },
-    '/gifts': { title: 'מתנות ליום הולדת — לפי גיל', desc: 'מדריכי מתנות ליום הולדת לפי גיל — רעיונות בכל תקציב.' },
+    '/gifts': { title: 'מתנות לילדים ליום הולדת — רעיונות לפי גיל', h1: 'מתנות לילדים ליום הולדת — לפי גיל', desc: 'מתנות לילדים ליום הולדת לפי גיל, מגיל שנה ועד 16: רעיונות למשחקים, יצירה, ספרים וחוויות בכל תקציב — וגם מתנה לגננת ולמורה לסוף השנה.' },
   }
   const preset = presets[location.pathname] || presets['/gifts']
   const budget = location.pathname === '/gifts/under-50' ? 50 : location.pathname === '/gifts/under-100' ? 100 : null
@@ -28,9 +38,9 @@ export default function GiftsIndex() {
   const bg = budget ? BUDGET_GUIDE[budget] : null
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in text-center">
-      <SEO title={preset.title} description={preset.desc} path={location.pathname} structuredData={faqSchema(bg?.faq)} />
+      <SEO title={preset.title} description={preset.desc} path={location.pathname} structuredData={faqSchema(bg?.faq || (budget ? null : HUB_FAQ))} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות' }]} />
-      <h1 className="text-4xl sm:text-5xl mb-3">🎁 {preset.title}</h1>
+      <h1 className="text-4xl sm:text-5xl mb-3">🎁 {preset.h1 || preset.title}</h1>
       <p className="mb-8 text-lg text-[var(--muted-foreground)]">{preset.desc}</p>
       <div className="flex flex-wrap justify-center gap-3">
         {GIFT_AGES.map(a => (
@@ -68,6 +78,24 @@ export default function GiftsIndex() {
           <h2 className="text-2xl font-bold mb-3">שאלות נפוצות</h2>
           <div className="space-y-4">{bg.faq.map(f => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
         </section>
+      )}
+      {!budget && (
+        <div className="mt-10 text-right">
+          <h2 className="text-2xl font-bold mb-3 text-center">מתנות לצוות החינוכי</h2>
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <Link to="/gifts/gananet" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-5 py-3 font-bold">🌼 מתנה לגננת</Link>
+            <Link to="/gifts/teacher-end-of-year" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-5 py-3 font-bold">🍎 מתנה למורה לסוף השנה</Link>
+          </div>
+          <SeoBody
+            paragraphs={HUB_BODY}
+            faq={HUB_FAQ}
+            related={[
+              { label: 'ברכה לצרף למתנה', href: '/birthday-greetings' },
+              { label: 'רעיונות ליום הולדת', href: '/ideas' },
+              { label: 'יום הולדת לילדים', href: '/birthday' },
+            ]}
+          />
+        </div>
       )}
       <h2 className="text-2xl font-bold mt-10 mb-4">או לפי תקציב</h2>
       <div className="flex flex-wrap justify-center gap-3">
