@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react'
 import PrintableShell, { Sheet, T, Choice } from '../../components/printables/PrintableShell'
+import { CLOCK_LEVELS, FRAC_LEVELS, clockItems, fractionItems } from '../../data/mathVisualLevels.js'
 
 // Clock-reading and fractions worksheets: a fresh sheet on every click, with an answers page.
 
-function rng(seed) { let s = seed >>> 0 || 1; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296 } }
-const pick = (r, arr) => arr[Math.floor(r() * arr.length)]
 const MATH_CRUMBS = [{ label: 'חשבון', href: '/printables?topic=math' }]
 const MATH_SIBLINGS = [{ href: '/printables/math-worksheets', label: '➕ חיבור וחיסור' }, { href: '/printables/math-worksheets/multiplication', label: '✖️ לוח הכפל' }, { href: '/printables/clock-worksheets', label: '🕒 שעון' }, { href: '/printables/fractions-worksheets', label: '🍕 שברים' }]
 
@@ -37,7 +36,6 @@ function inWords(h, m) {
   return m < 30 ? `${WORDS[h]} ו-${m} דקות` : `${60 - m} דקות ל${WORDS[next]}`
 }
 
-const CLOCK_LEVELS = { hours: ['שעות עגולות', [0]], half: ['חצאי שעות', [0, 30]], quarter: ['רבעי שעה', [0, 15, 30, 45]], five: ['כל 5 דקות', Array.from({ length: 12 }, (_, i) => i * 5)] }
 
 function ClockSheet({ items, mode, level, answers }) {
   const title = answers ? 'פתרונות' : mode === 'draw' ? 'ציירו את המחוגים' : 'מה השעה?'
@@ -57,16 +55,6 @@ function ClockSheet({ items, mode, level, answers }) {
       </g>
     })}
   </Sheet>
-}
-
-// Every other clock (starting with the first) uses only the minutes this level adds, so a "quarter
-// hours" sheet opens with a quarter, not with a round hour that the easier sheets also have.
-const CLOCK_KEYS = Object.keys(CLOCK_LEVELS)
-export function clockItems(level, seed) {
-  const li = Math.max(0, CLOCK_KEYS.indexOf(level)), r = rng(seed * 31 + li * 7919 + 1)
-  const all = CLOCK_LEVELS[CLOCK_KEYS[li]][1], lower = li ? CLOCK_LEVELS[CLOCK_KEYS[li - 1]][1] : []
-  const fresh = all.filter(m => !lower.includes(m))
-  return Array.from({ length: 12 }, (_, i) => [1 + Math.floor(r() * 12), pick(r, i % 2 ? all : fresh)])
 }
 
 export function ClockWorksheets() {
@@ -108,7 +96,6 @@ function Shape({ kind, cx, cy, d, n, fill = '#9ad0ff', blank }) {
   return <g>{Array.from({ length: d }, (_, i) => <rect key={i} x={x + w - (i + 1) * w / d} y={cy - h / 2} width={w / d} height={h} fill={!blank && i < n ? fill : '#fff'} stroke="#111" strokeWidth={0.6} />)}</g>
 }
 
-const FRAC_LEVELS = { easy: ['חצי, שליש ורבע', [2, 3, 4]], mid: ['עד שישיות', [2, 3, 4, 5, 6]], hard: ['עד שמיניות', [2, 3, 4, 5, 6, 8]] }
 const FRAC_MODES = { name: '👀 איזה חלק צבוע?', color: '🖍️ צבעו את השבר', compare: '⚖️ גדול, קטן או שווה' }
 
 function FracSheet({ items, mode, answers }) {
@@ -140,16 +127,6 @@ function FracSheet({ items, mode, answers }) {
       </g>
     })}
   </Sheet>
-}
-
-// As with the clocks: every other shape (starting with the first) uses a denominator this level adds.
-const FRAC_KEYS = Object.keys(FRAC_LEVELS)
-export function fractionItems(level, mode, seed) {
-  const li = Math.max(0, FRAC_KEYS.indexOf(level)), r = rng(seed * 17 + li * 7919 + mode.length)
-  const dens = FRAC_LEVELS[FRAC_KEYS[li]][1], lower = li ? FRAC_LEVELS[FRAC_KEYS[li - 1]][1] : []
-  const fresh = dens.filter(d => !lower.includes(d))
-  const one = (pool) => { const d = pick(r, pool); return { d, n: 1 + Math.floor(r() * (d - 1 || 1)), kind: r() < 0.5 ? 'pie' : 'bar' } }
-  return Array.from({ length: 12 }, (_, i) => { const pool = i % 2 ? dens : fresh; return mode === 'compare' ? [one(pool), one(dens)] : one(pool) })
 }
 
 export function FractionWorksheets() {

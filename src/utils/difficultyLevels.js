@@ -23,6 +23,17 @@ export function pickByLevel(items, level, count, { min = count, levelOf = (x) =>
   return round
 }
 
+// Ladders where each level contains the one below (read-notes: C–G, then the octave, then the whole
+// staff). Returns a random item that is NEW at `level` — not one the easier level also has — and is not
+// the item on screen, so a level click always shows something different and of that level.
+// `pools` is keyed by level number (1, 2, 3…).
+export function newAtLevel(pools, level, current, rand = Math.random) {
+  const lower = new Set(pools[level - 1] || [])
+  let fresh = (pools[level] || []).filter((x) => !lower.has(x) && x !== current)
+  if (!fresh.length) fresh = (pools[level] || []).filter((x) => x !== current)
+  return fresh[Math.floor(rand() * fresh.length)]
+}
+
 // Small deterministic PRNG (mulberry32) and a Fisher–Yates shuffle that uses it.
 export function seededRandom(seed) {
   let a = seed >>> 0

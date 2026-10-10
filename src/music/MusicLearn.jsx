@@ -7,6 +7,7 @@ import NotFound from '../pages/NotFound'
 import Piano, { SOLFEGE, LETTER, WidePiano } from './Piano'
 import { playPiano, playChord, strum, midi } from './audio'
 import { MUSIC_CRUMB } from './MusicPages'
+import { newAtLevel } from '../utils/difficultyLevels'
 import './music.css'
 
 // Plays a list of steps ({ notes: [midi…], d: beats }) and reports which keys are sounding,
@@ -43,12 +44,7 @@ const LEVELS = {
   2: ['אוקטבה שלמה', N('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5')],
   3: ['כל החמשה', N('C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5')],
 }
-// Notes that are new at a level (level 1: all of its notes), excluding the one on screen.
-export function firstNoteOfLevel(level, current, rand = Math.random) {
-  const lower = new Set(level > 1 ? LEVELS[level - 1][1] : [])
-  const fresh = LEVELS[level][1].filter(n => !lower.has(n) && n !== current)
-  return fresh[Math.floor(rand() * fresh.length)]
-}
+const firstNoteOfLevel = (level, current) => newAtLevel({ 1: LEVELS[1][1], 2: LEVELS[2][1], 3: LEVELS[3][1] }, level, current)
 function Staff({ note, color = '#111' }) {
   const L = 10, gap = 10, bottom = 90, x = 170
   const y = note == null ? null : bottom - (stepOf(note) - 2) * gap / 2

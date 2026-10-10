@@ -56,8 +56,12 @@ export function exercises({ range, op, type, count, seed, table = 'mix' }) {
   // because a single table only has 10–19 distinct facts for 20 lines.
   const key = (e, hide) => e.a + e.o + e.b + (isTable ? hide : '')
   let zeros = 0
+  // The first exercise must belong to the chosen range only (not "3 + 4" on an "up to 20" sheet), so
+  // switching the range visibly changes the top of the sheet to an exercise of that level.
+  const easier = isTable || type === 'pictures' || range <= 10 ? 0 : range >= 100 ? 20 : 10
   for (let tries = 0; out.length < count && tries < count * 60; tries++) {
     const e = exercise(r, type === 'pictures' ? Math.min(range, 10) : range, op, table)
+    if (!out.length && easier && Math.max(e.a, e.b, e.c) <= easier && tries < count * 30) continue
     if (type === 'pictures' && e.o === '+' && (e.a === 0 || e.b === 0)) continue
     const strict = tries < count * 30
     if (!isTable && range <= 20 && hasZero(e) && zeros >= MAX_ZERO && strict) continue
