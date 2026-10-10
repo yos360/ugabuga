@@ -120,7 +120,15 @@ export function buildEscapeAdventure(room, levelId, seed = 0) {
       title: `${difficultyNames[rank]} · ${item.title}`,
       order: index,
     }))
-  const originals = room.steps.map(step => ({ ...step, hints: hintsFor(step, rank) }))
+  // Every story step can carry harder variants: step.levels = { medium: {...}, hard: {...} } overriding
+  // story/question/answer/accept/hint/hints/visual. This makes the level change the puzzles from the
+  // very first question, not only the number of extra locks.
+  const originals = room.steps.map(step => {
+    const { levels, ...base } = step
+    const v = rank > 0 && levels?.[level.id]
+    const merged = v ? { ...base, ...v, accept: v.accept || (v.answer !== undefined && String(v.answer) !== String(base.answer) ? [] : base.accept), hints: v.hints || (v.hint ? undefined : base.hints), hint: v.hint ?? (v.hints ? undefined : base.hint) } : base
+    return { ...merged, hints: hintsFor(merged, rank) }
+  })
   const extraCount = Math.max(0,level.count-originals.length)
   return {...room, difficulty:level.label, duration:rank===0?'15–25 דקות':rank===1?'25–35 דקות':'35–45 דקות', intro:room.intro.replace(/שלושה רמזים/g,'את רמזי הסיפור ומנעולי המסדרון'), steps:[...originals.slice(0,-1),...levelAdditions.slice(0,extraCount),originals.at(-1)]}
 }
