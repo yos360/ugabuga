@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
-import { analyze, toISO, MIN_YEAR, MAX_YEAR } from '../../utils/hebrewBirthday'
+import { analyze, toISO, MIN_YEAR, MAX_YEAR, BIRTH_NOTES } from '../../utils/hebrewBirthday'
 import '../../learn/learn.css'
 
 const PATH = '/tools/hebrew-birthday'
@@ -19,6 +19,7 @@ const FAQ = [
 ]
 
 const RELATED = [
+  { label: 'מדריך בר ובת מצווה', href: '/bar-mitzvah' },
   { label: 'ברכות לבר מצווה', href: '/greetings/bar-mitzvah' },
   { label: 'ברכות לבת מצווה', href: '/greetings/bat-mitzvah' },
   { label: 'רעיונות לבת מצווה', href: '/ideas/bat-mitzvah-ideas' },
@@ -38,17 +39,8 @@ const APP_SCHEMA = {
   'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'ILS' },
 }
 
-const ASK_RABBI = 'כשקובעים מועד לבר או לבת מצווה, מומלץ להתייעץ עם רב.'
-
-// Edge-case explanations keyed by the codes from birthNotes().
-const NOTES = {
-  cheshvan30: 'התאריך הוא ל׳ בחשוון. חודש חשוון הוא לפעמים בן 29 יום בלבד, ובשנים כאלה המחשבון מציג את יום ההולדת בא׳ בכסלו — היום שאחרי כ״ט בחשוון, לפי הכלל המקובל בלוחות השנה. ' + ASK_RABBI,
-  kislev30: 'התאריך הוא ל׳ בכסלו. חודש כסלו הוא לפעמים בן 29 יום בלבד, ובשנים כאלה המחשבון מציג את יום ההולדת בא׳ בטבת — היום שאחרי כ״ט בכסלו, לפי הכלל המקובל בלוחות השנה. ' + ASK_RABBI,
-  adarRegular: 'הלידה הייתה באדר של שנה פשוטה. בשנה מעוברת יש שני חודשי אדר, ולפי המנהג הרווח (בעקבות פסק הרמ״א) חוגגים בה את יום ההולדת ואת בר או בת המצווה באדר ב׳ — וכך מוצג כאן. ' + ASK_RABBI,
-  adar1: 'הלידה הייתה באדר א׳ של שנה מעוברת. בשנים מעוברות יום ההולדת חל באדר א׳, ובשנים פשוטות (שבהן יש אדר אחד בלבד) — באדר. ' + ASK_RABBI,
-  adar1day30: 'הלידה הייתה בל׳ באדר א׳ — יום שקיים רק בשנה מעוברת. בשנים פשוטות אדר בן 29 יום, והמחשבון מציג את יום ההולדת בא׳ בניסן, לפי הכלל המקובל בלוחות השנה. זה מקרה נדיר שיש בו דעות שונות. ' + ASK_RABBI,
-  adar2: 'הלידה הייתה באדר ב׳ של שנה מעוברת. בשנים מעוברות יום ההולדת חל באדר ב׳, ובשנים פשוטות — באדר. ' + ASK_RABBI,
-}
+// Edge-case explanations keyed by the codes from birthNotes() (shared with /bar-mitzvah/date).
+const NOTES = BIRTH_NOTES
 
 const Chip = ({ on, onClick, children }) => <button type="button" className="ln-chip" aria-pressed={on} onClick={onClick}>{children}</button>
 

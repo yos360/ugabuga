@@ -49,6 +49,7 @@ export const MENU_GROUPS = [
       { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
       { to: '/tools/bring-list', label: 'רשימת "מי מביא מה"', icon: '📋' },
       { to: '/tools/birthday-famous', label: 'מי נולד ביום שלי?', icon: '⭐' },
+      { to: '/bar-mitzvah', label: 'בר ובת מצווה — מדריך וכלים', icon: '📜' },
       { to: '/cakes', label: 'עוגות יום הולדת', icon: '🍰' },
       { to: '/gifts', label: 'רעיונות למתנות', icon: '🎁' },
       { to: '/suppliers', label: 'ספקים לימי הולדת', icon: '🎪' },
@@ -192,4 +193,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/discover', '/flags', '/family', '/learn', '/typing', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/logic-puzzles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/school-holidays', '/baby-names', '/cakes', '/math', '/toddlers', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/discover', '/flags', '/family', '/learn', '/typing', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/logic-puzzles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/school-holidays', '/baby-names', '/cakes', '/math', '/toddlers', '/dice-games', '/blog', '/time-tunnel', '/bar-mitzvah']

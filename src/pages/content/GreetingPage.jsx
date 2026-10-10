@@ -85,7 +85,7 @@ export default function GreetingPage() {
       )}
       <section className="mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד ברכות</h2>
-        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
+        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}{/mitzvah/.test(p.slug) && <><Link to="/bar-mitzvah" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">📜 מדריך בר ובת מצווה</Link><Link to="/bar-mitzvah/speech" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">🎤 דרשה לבר מצווה</Link></>}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
       </section>
     </div>
   )

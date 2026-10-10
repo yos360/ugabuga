@@ -120,6 +120,12 @@ const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.M
 const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
 const HebrewBirthday = lazy(() => import('./pages/tools/HebrewBirthday'))
 const BatMitzvahIdeas = lazy(() => import('./pages/ideas/BatMitzvahIdeas'))
+const BarMitzvahHub = lazy(() => import('./pages/barMitzvah/BarMitzvahHub'))
+const MitzvahDate = lazy(() => import('./pages/barMitzvah/MitzvahDate'))
+const MitzvahChecklist = lazy(() => import('./pages/barMitzvah/MitzvahChecklist'))
+const MitzvahSpeech = lazy(() => import('./pages/barMitzvah/MitzvahSpeech'))
+const MitzvahQuiz = lazy(() => import('./pages/barMitzvah/MitzvahQuiz'))
+const MitzvahSouvenir = lazy(() => import('./pages/barMitzvah/MitzvahSouvenir'))
 const ToddlersHub = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlersHub })))
 const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlerPage })))
 const ShabbatGames = lazy(() => import('./pages/games/ShabbatGames'))
@@ -311,6 +317,13 @@ export default function App() {
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
               <Route path="/ideas/themes" element={<ThemesHub />} />
               <Route path="/ideas/bat-mitzvah-ideas" element={<BatMitzvahIdeas />} />
+              <Route path="/bar-mitzvah" element={<BarMitzvahHub />} />
+              <Route path="/bat-mitzvah" element={<Navigate to="/bar-mitzvah" replace />} />
+              <Route path="/bar-mitzvah/date" element={<MitzvahDate />} />
+              <Route path="/bar-mitzvah/checklist" element={<MitzvahChecklist />} />
+              <Route path="/bar-mitzvah/speech" element={<MitzvahSpeech />} />
+              <Route path="/bar-mitzvah/quiz" element={<MitzvahQuiz />} />
+              <Route path="/bar-mitzvah/souvenir" element={<MitzvahSouvenir />} />
               <Route path="/ideas/kindergarten-graduation" element={<KindergartenGraduation />} />
               <Route path="/ideas/6th-grade-graduation" element={<SixthGradeGraduation />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />

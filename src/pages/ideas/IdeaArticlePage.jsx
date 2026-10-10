@@ -42,6 +42,12 @@ export default function IdeaArticlePage() {
 
       {deep && <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-[var(--foreground)]/85">{deep.intro}</p>}
 
+      {slug === 'bar-mitzvah-ideas' && (
+        <p className="mx-auto mb-8 max-w-3xl rounded-2xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center text-lg">
+          📜 כל הכלים במקום אחד: <Link to="/bar-mitzvah" className="font-bold underline">מדריך בר ובת מצווה</Link>, <Link to="/bar-mitzvah/date" className="font-bold underline">מתי הבר מצווה</Link>, <Link to="/bar-mitzvah/checklist" className="font-bold underline">צ׳קליסט לבר מצווה</Link> ו<Link to="/bar-mitzvah/speech" className="font-bold underline">דרשה לבר מצווה</Link>.
+        </p>
+      )}
+
       <div className="grid gap-5">
         {article.sections.map((section, index) => (
           <WobblyCard key={section.title} hover={false} className={index % 2 ? 'rotate-[0.4deg]' : '-rotate-[0.4deg]'}>

@@ -36,7 +36,7 @@ export default function BatMitzvahIdeas() {
 
       <div className="mx-auto mb-10 max-w-3xl rounded-2xl border-2 border-[var(--border)] bg-[var(--postit)] p-4 text-center">
         <p className="m-0 font-bold">מתי בדיוק בת המצווה? 🗓️</p>
-        <p className="m-0 mt-1">בת המצווה נקבעת לפי התאריך העברי. ב<Link to="/tools/hebrew-birthday" className="font-bold underline">מחשבון יום ההולדת העברי</Link> אפשר לראות באיזה תאריך לועזי היא חלה ואיזו שבת קרובה אליה.</p>
+        <p className="m-0 mt-1">בת המצווה נקבעת לפי התאריך העברי. ב<Link to="/bar-mitzvah/date" className="font-bold underline">מחשבון תאריך בת מצווה</Link> אפשר לראות באיזה תאריך לועזי היא חלה ואיזו שבת קרובה אליה. כל הכלים — צ׳קליסט, נאום, חידון ומזכרות — ב<Link to="/bar-mitzvah" className="font-bold underline">מדריך בר ובת מצווה</Link>.</p>
       </div>
 
       <nav aria-label="תוכן העמוד" className="mb-10 flex flex-wrap justify-center gap-2">
