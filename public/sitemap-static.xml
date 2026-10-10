@@ -243,7 +243,16 @@
   <url><loc>https://ugabuga.co.il/online-games/solitaire</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/spider-solitaire</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/minesweeper</loc><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/online-games/sudoku</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/sudoku</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/easy</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/medium</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/hard</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/very-hard</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/kids</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/daily</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/print</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/sudoku/solver</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/memory</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/snake</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/four-in-a-row</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
@@ -665,7 +674,7 @@
   <url><loc>https://ugabuga.co.il/printables/thank-you</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/photo-props</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/board-game</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/sudoku</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/sudoku</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
 
   <url><loc>https://ugabuga.co.il/gifts</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/gifts/age-5</loc><priority>0.6</priority></url>

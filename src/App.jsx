@@ -161,6 +161,12 @@ const OnlineGamesHub = lazy(() => import('./pages/arcade/OnlineGamesHub'))
 const DailyChallenge = lazy(() => import('./pages/arcade/DailyChallenge'))
 const MarathonPage = lazy(() => import('./pages/arcade/MarathonPage'))
 const OnlineGamePage = lazy(() => import('./pages/arcade/OnlineGamePage'))
+const SudokuHub = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuHub })))
+const SudokuLevelPage = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuLevelPage })))
+const SudokuKids = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuKids })))
+const SudokuDaily = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuDaily })))
+const SudokuPrint = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuPrint })))
+const SudokuSolver = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuSolver })))
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
@@ -357,6 +363,15 @@ export default function App() {
               <Route path="/words" element={<Navigate to="/words/opposites" replace />} />
               <Route path="/board-games" element={<BoardGamesHub />} />
               <Route path="/board-games/:slug" element={<BoardGamePage />} />
+              <Route path="/sudoku" element={<SudokuHub />} />
+              <Route path="/sudoku/easy" element={<SudokuLevelPage key="easy" level="easy" />} />
+              <Route path="/sudoku/medium" element={<SudokuLevelPage key="medium" level="medium" />} />
+              <Route path="/sudoku/hard" element={<SudokuLevelPage key="hard" level="hard" />} />
+              <Route path="/sudoku/very-hard" element={<SudokuLevelPage key="very-hard" level="very-hard" />} />
+              <Route path="/sudoku/kids" element={<SudokuKids />} />
+              <Route path="/sudoku/daily" element={<SudokuDaily />} />
+              <Route path="/sudoku/print" element={<SudokuPrint />} />
+              <Route path="/sudoku/solver" element={<SudokuSolver />} />
               <Route path="/online-games" element={<OnlineGamesHub />} />
               <Route path="/online-games/today" element={<DailyChallenge />} />
               <Route path="/online-games/marathon" element={<MarathonPage />} />

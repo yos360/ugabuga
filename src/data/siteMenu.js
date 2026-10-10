@@ -34,7 +34,7 @@ export const MENU_GROUPS = [
       { to: '/online-games/solitaire', label: 'סוליטר', icon: '🃏' },
       { to: '/online-games/spider-solitaire', label: 'סוליטר עכביש', icon: '🕷️' },
       { to: '/online-games/minesweeper', label: 'שולה מוקשים', icon: '💣' },
-      { to: '/online-games/sudoku', label: 'סודוקו', icon: '🔢' },
+      { to: '/sudoku', label: 'סודוקו — אונליין, יומי והדפסה', icon: '🔢' },
       { to: '/online-games/memory', label: 'משחק הזיכרון', icon: '🧠' },
       { to: '/online-games/snake', label: 'נחש', icon: '🐍' },
       { to: '/board-games', label: 'משחקי לוח: דמקה, שחמט ועוד', icon: '♟️' },
