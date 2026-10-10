@@ -58,6 +58,7 @@ const COLUMNS = [
       ['/trivia/topics', 'טריוויה לפי נושא'],
       ['/animals', 'עולם החיות'],
       ['/riddles/topics', 'חידות לפי נושא'],
+      ['/logic-puzzles', 'תשבצי היגיון'],
       ['/jokes/topics', 'בדיחות לילדים'],
       ['/birthday-greetings', 'ברכות ליום הולדת'],
       ['/questions', 'שאלות לילדים'],

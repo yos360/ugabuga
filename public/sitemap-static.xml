@@ -1037,6 +1037,12 @@
   <url><loc>https://ugabuga.co.il/riddles/kids-easy</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/kindergarten</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/logic</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles/kids</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles/easy</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles/hard</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles/print</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/logic-puzzles/solutions</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/math</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/what-am-i</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/animals</loc><priority>0.7</priority></url>

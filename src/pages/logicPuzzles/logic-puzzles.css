@@ -1,0 +1,65 @@
+/* Logic grid puzzles — interactive board + print sheets */
+.lp-grids{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:flex-end}
+.lp-block{background:#fff;border:2px solid #e2e5ef;border-radius:16px;padding:8px 8px 10px;max-width:100%;overflow-x:auto}
+.lp-block h3{font-size:14px;font-weight:800;text-align:center;margin:0 0 4px;color:#3d2a6b}
+.lp-table{border-collapse:collapse;direction:rtl;margin:0 auto}
+.lp-table th{font-weight:700;font-size:13px;color:#222;padding:0}
+.lp-table thead th.lp-col{vertical-align:bottom;width:42px;min-width:42px}
+.lp-col span{display:inline-block;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;padding:4px 0;line-height:1.1}
+.lp-table tbody th{text-align:start;padding-inline:6px 8px;white-space:nowrap;max-width:118px;overflow:hidden;text-overflow:ellipsis}
+.lp-table td{padding:0;border:1.5px solid #c9cddb}
+.lp-cell{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:22px;font-weight:900;background:#fff;color:#c33;cursor:pointer;touch-action:manipulation;transition:background .12s}
+.lp-cell:hover{background:#f4f0ff}
+.lp-cell[data-v="1"]{color:#14915a;background:#e7f8ef}
+.lp-cell[data-v="-1"]{color:#c94a4a}
+.lp-cell.is-hl{outline:3px solid #f2a100;outline-offset:-3px;background:#fff6dc}
+.lp-cell.is-wrong{outline:3px solid #e03131;outline-offset:-3px;background:#ffe5e5}
+.lp-cell:focus-visible{outline:3px solid #19b9d3;outline-offset:-3px}
+.lp-clues li{display:flex;gap:8px;align-items:flex-start}
+.lp-clue-btn{flex:1;text-align:start;min-height:40px;padding:6px 10px;border-radius:12px;line-height:1.45}
+.lp-clue-btn[aria-pressed="true"]{text-decoration:line-through;color:#8a8fa3;background:#f2f3f7}
+.lp-num{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-top:6px;border-radius:999px;background:#ede6ff;color:#4b2a8f;font-weight:800;font-size:14px}
+.lp-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.lp-tools button{min-height:46px;padding:8px 14px;border-radius:12px;font-weight:800;background:#fff;border:2px solid #d9dcea}
+.lp-tools button.lp-main{background:#7548b3;border-color:#7548b3;color:#fff}
+.lp-tools button:disabled{opacity:.45}
+.lp-msg{border-radius:14px;padding:12px 14px;line-height:1.6}
+.lp-msg.ok{background:#e7f8ef;border:2px solid #9fdcbc}
+.lp-msg.bad{background:#ffecec;border:2px solid #f2a7a7}
+.lp-msg.hint{background:#fff6dc;border:2px solid #f2cf6b}
+.lp-answer{border-collapse:collapse;width:100%;font-size:15px}
+.lp-answer th,.lp-answer td{border:1.5px solid #c9cddb;padding:6px 8px;text-align:center}
+.lp-answer th{background:#f4f0ff}
+.lp-steps li{margin-bottom:6px;line-height:1.55}
+@media (max-width:420px){
+  .lp-cell{width:38px;height:38px;font-size:20px}
+  .lp-table thead th.lp-col{width:38px;min-width:38px}
+  .lp-table th{font-size:12px}
+  .lp-table tbody th{max-width:96px}
+}
+
+/* print sheet (inside .buga-a4) */
+.lp-sheet{width:100%;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:#111;direction:rtl}
+.lp-sheet .lp-story{margin:0;text-align:center;line-height:1.45}
+.lp-sheet ol{margin:0;padding-inline-start:20px;line-height:1.4}
+.lp-sheet ol.is-long{columns:2;column-gap:18px;font-size:11.5px}
+.lp-sheet ol li{break-inside:avoid}
+.lp-sheet .lp-grids{gap:8px}
+.lp-sheet .lp-block{border:0;padding:0;border-radius:0}
+.lp-sheet .lp-block h3{font-size:11px;margin-bottom:2px}
+.lp-sheet .lp-table th{font-size:10.5px}
+.lp-sheet .lp-table thead th.lp-col{height:auto;width:26px;min-width:26px}
+.lp-sheet .lp-table tbody th{max-width:84px;padding-inline:2px 4px}
+.lp-sheet .lp-table td{border:1px solid #444}
+.lp-sheet .lp-cell{width:26px;height:26px;font-size:15px;background:transparent;cursor:default}
+.lp-sheet .lp-cell[data-v="1"]{background:transparent;color:#111}
+.lp-sheet .lp-cell[data-v="-1"]{color:#999;font-size:11px}
+.lp-sheet .lp-answer{font-size:12px}
+.lp-sheet .lp-answer th,.lp-sheet .lp-answer td{border:1px solid #444;padding:3px 4px;height:22px}
+.lp-sheet .lp-answer th{background:#f2f2f2}
+.lp-sheet.is-big{font-size:16px;gap:14px}
+.lp-sheet.is-big .lp-cell{width:46px;height:46px;font-size:24px}
+.lp-sheet.is-big .lp-answer{font-size:15px}
+.lp-sheet.is-big .lp-answer td,.lp-sheet.is-big .lp-answer th{height:34px}
+.lp-sheet.is-big .lp-table thead th.lp-col{width:46px;min-width:46px}
+.lp-sheet.is-big .lp-table th{font-size:15px}

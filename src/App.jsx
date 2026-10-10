@@ -213,6 +213,10 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
+const LogicHub = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicHub })))
+const LogicLevelPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicLevelPage })))
+const LogicPrintPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicPrintPage })))
+const LogicSolutionsPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicSolutionsPage })))
 const ColoringSubject = lazy(() => import('./pages/printables/ColoringSubject'))
 const ColorByNumberHub = lazy(() => import('./pages/printables/ColorByNumber'))
 const ColorByNumberPicture = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberPicture })))
@@ -474,6 +478,12 @@ export default function App() {
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
+              <Route path="/logic-puzzles" element={<LogicHub />} />
+              <Route path="/logic-puzzles/kids" element={<LogicLevelPage key="kids" variant="kids" />} />
+              <Route path="/logic-puzzles/easy" element={<LogicLevelPage key="easy" variant="easy" />} />
+              <Route path="/logic-puzzles/hard" element={<LogicLevelPage key="hard" variant="hard" />} />
+              <Route path="/logic-puzzles/print" element={<LogicPrintPage />} />
+              <Route path="/logic-puzzles/solutions" element={<LogicSolutionsPage />} />
               <Route path="/printables/school-supplies-list" element={<SchoolSuppliesList />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
