@@ -1,0 +1,29 @@
+.bn-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr))}
+.bn-card{position:relative;display:flex;flex-direction:column;gap:4px;border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);padding:12px 14px;box-shadow:3px 3px 0 var(--border,#1d2233);min-width:0}
+.bn-card.is-f{border-top:6px solid #f4a6c6}
+.bn-card.is-m{border-top:6px solid #8ec5ff}
+.bn-card.is-u{border-top:6px solid #b9e4a5}
+.bn-card.is-picked{outline:4px dashed var(--yellow,#ffd23f);outline-offset:3px}
+.bn-card h3{margin:0;font-size:26px;font-weight:900;line-height:1.1}
+.bn-card h3 a{text-decoration:none;color:inherit}
+.bn-card h3 a:hover{text-decoration:underline}
+.bn-en{direction:ltr;text-align:right;font-size:14px;color:var(--muted-foreground,#555)}
+.bn-meaning{margin:0;font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+.bn-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:4px}
+.bn-badge{font-size:12px;font-weight:700;border-radius:999px;padding:2px 8px;background:#f1f1f6;color:#1d2233}
+.bn-badge.pop{background:#fff3c4}
+.bn-heart{position:absolute;top:8px;left:8px;min-width:44px;min-height:44px;border-radius:999px;border:2px solid var(--border,#1d2233);background:var(--card,#fff);font-size:20px;line-height:1}
+.bn-heart[aria-pressed="true"]{background:#ffd6e3}
+.bn-input{width:100%;max-width:420px;font-size:20px;padding:10px 14px;border:2px solid var(--border,#1d2233);border-radius:14px;background:#fff;color:#1d2233}
+.bn-letters{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.bn-letters .ln-chip{min-width:44px;justify-content:center;padding:6px 10px;font-size:18px}
+.bn-letters .ln-chip:disabled{opacity:.35}
+.bn-fav{border:2px dashed var(--border,#1d2233);border-radius:18px;padding:14px 16px;background:#fff8e1;color:#1d2233}
+.bn-fav-list{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.bn-fav-item{display:inline-flex;align-items:center;gap:4px;border-radius:999px;background:#fff;border:2px solid #1d2233;padding:2px 4px 2px 12px;font-weight:700}
+.bn-fav-item button{min-width:32px;min-height:32px;border-radius:999px}
+.bn-hero-name{font-size:clamp(48px,14vw,96px);font-weight:900;line-height:1}
+.bn-facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:8px}
+.bn-fact{border:2px solid var(--border,#1d2233);border-radius:14px;padding:8px 12px;background:var(--card,#fff)}
+.bn-fact b{display:block;font-size:13px;color:var(--muted-foreground,#555)}
+.bn-fact span{font-size:18px;font-weight:800;overflow-wrap:anywhere}

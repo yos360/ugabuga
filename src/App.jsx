@@ -98,6 +98,18 @@ const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ defa
 const SchoolHolidaysHub = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidaysHub })))
 const SchoolHolidayPage = lazy(() => import('./pages/schoolHolidays/SchoolHolidays').then(m => ({ default: m.SchoolHolidayPage })))
 const DueDate = lazy(() => import('./pages/tools/DueDate'))
+const TriviaWithAnswers = lazy(() => import('./pages/content/TriviaWithAnswers').then(m => ({ default: m.TriviaWithAnswers })))
+const KereshJokes = lazy(() => import('./pages/content/KereshJokes').then(m => ({ default: m.KereshJokes })))
+const MultiplicationTable = lazy(() => import('./learn/MultiplicationTable').then(m => ({ default: m.MultiplicationTable })))
+const MultiplicationTable100 = lazy(() => import('./learn/MultiplicationTable').then(m => ({ default: m.MultiplicationTable100 })))
+const MultiplicationTable1000 = lazy(() => import('./learn/MultiplicationTable').then(m => ({ default: m.MultiplicationTable1000 })))
+const MultiplicationNumber = lazy(() => import('./learn/MultiplicationTable').then(m => ({ default: m.MultiplicationNumber })))
+const CakesHub = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakesHub })))
+const CakePage = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakePage })))
+const BabyNamesHub = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesHub })))
+const BabyNamesList = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesList })))
+const BabyNamesLetter = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesLetter })))
+const BabyNamePage = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamePage })))
 const HanukkahSongs = lazy(() => import('./pages/holidays/HanukkahSongs'))
 const StoriesHub = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoriesHub })))
 const StoryPage = lazy(() => import('./pages/stories/Stories').then(m => ({ default: m.StoryPage })))
@@ -303,6 +315,7 @@ export default function App() {
               <Route path="/riddles/topics" element={<RiddlesHub />} />
               <Route path="/riddles/:slug" element={<RiddlePage />} />
               <Route path="/jokes/topics" element={<JokesHub />} />
+              <Route path="/jokes/keresh" element={<KereshJokes />} />
               <Route path="/jokes/:slug" element={<JokePage />} />
               <Route path="/treasure-hunt/ready" element={<HuntsHub />} />
               <Route path="/treasure-hunt/:slug" element={<HuntPage />} />
@@ -369,6 +382,10 @@ export default function App() {
               <Route path="/learn/reading" element={<ReadingIndex />} />
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
+              <Route path="/learn/multiplication-table" element={<MultiplicationTable />} />
+              <Route path="/learn/multiplication-table/100" element={<MultiplicationTable100 />} />
+              <Route path="/learn/multiplication-table/1000" element={<MultiplicationTable1000 />} />
+              <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
@@ -376,6 +393,15 @@ export default function App() {
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
+              <Route path="/cakes" element={<CakesHub />} />
+              <Route path="/cakes/:slug" element={<CakePage />} />
+              <Route path="/baby-names" element={<BabyNamesHub />} />
+              <Route path="/baby-names/girls" element={<BabyNamesList key="f" gender="f" />} />
+              <Route path="/baby-names/boys" element={<BabyNamesList key="m" gender="m" />} />
+              <Route path="/baby-names/unisex" element={<BabyNamesList key="u" gender="u" />} />
+              <Route path="/baby-names/girls/letter/:letter" element={<BabyNamesLetter key="f" gender="f" />} />
+              <Route path="/baby-names/boys/letter/:letter" element={<BabyNamesLetter key="m" gender="m" />} />
+              <Route path="/baby-names/name/:slug" element={<BabyNamePage />} />
               <Route path="/school-holidays" element={<SchoolHolidaysHub />} />
               <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
               <Route path="/tools/due-date" element={<DueDate />} />
@@ -409,6 +435,8 @@ export default function App() {
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
               <Route path="/trivia" element={<TriviaQuiz />} />
               <Route path="/trivia/topics" element={<TriviaTopicsHub />} />
+              <Route path="/trivia/with-answers" element={<TriviaWithAnswers />} />
+              <Route path="/trivia/with-answers/:section" element={<TriviaWithAnswers />} />
               <Route path="/trivia/:slug" element={<TriviaTopic />} />
               <Route path="/birthday-greetings" element={<GreetingsHub />} />
               <Route path="/greetings/:slug" element={<GreetingPage />} />

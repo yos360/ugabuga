@@ -1,0 +1,18 @@
+/* /jokes/keresh */
+.kr-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.kr-card{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);padding:14px;box-shadow:3px 3px 0 var(--border,#1d2233)}
+.kr-num{flex:none;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:2px solid var(--border,#1d2233);border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:#fff4cc;color:#1d2233;font-weight:900}
+.kr-body{flex:1;min-width:0}
+.kr-setup{margin:0;font-size:19px;font-weight:800;line-height:1.5}
+.kr-punch{margin:8px 0 0;font-size:19px;line-height:1.5;color:#14532d;font-weight:700}
+.kr-reveal{margin-top:8px;min-height:44px;padding:6px 14px;border:2px dashed var(--border,#1d2233);border-radius:12px;background:#fff8e1;color:#1d2233;font-weight:800}
+.kr-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.kr-mini{min-height:40px;padding:4px 12px;border:1.5px solid var(--border,#1d2233);border-radius:999px;background:var(--card,#fff);font-size:15px;font-weight:700}
+.kr-hint{margin:8px 0 0;padding:8px 12px;border-radius:12px;background:#e7f0ff;color:#1d2233;font-size:16px}
+.kr-random .kr-setup{font-size:21px}
+.kr-print h2{font-size:22pt;text-align:center;margin:0 0 2px}
+.kr-print .kr-print-sub{text-align:center;font-size:12pt;color:#555;margin:0 0 8px}
+.kr-print h3{font-size:15pt;margin:10px 0 4px}
+.kr-print ol{margin:0;padding-right:22px}
+.kr-print li{font-size:11.5pt;line-height:1.45;margin:0 0 5px}
+@media print{#buga-print-output .kr-print li{font-size:11.5pt;line-height:1.45}#buga-print-output .kr-print h2{font-size:22pt}}

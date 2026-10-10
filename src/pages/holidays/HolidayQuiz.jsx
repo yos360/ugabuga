@@ -3,11 +3,13 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import { pickByLevel } from '../../utils/difficultyLevels'
 
 // One quiz page for every holiday: levels, explanation after each answer,
 // and a printable version with an answer page. Content comes from h.quiz.
 const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[b[i], b[j]] = [b[j], b[i]] } return b }
 const ROUND = 10
+const MIN_ROUND = 6 // a level with fewer questions borrows from the next level up
 const LEVELS = [{ id: 1, label: 'גן וכיתה א׳' }, { id: 2, label: 'כיתות ב׳–ד׳' }, { id: 3, label: 'כיתות ה׳ ומעלה' }]
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 
@@ -32,7 +34,7 @@ export default function HolidayQuiz({ h }) {
   const Q = h.quiz
   const [level, setLevel] = useState(1)
   const [seed, setSeed] = useState(0)
-  const round = useMemo(() => shuffle(Q.questions.filter(x => x.level <= level)).slice(0, ROUND).map(x => ({ ...x, shown: shuffle(x.options) })), [level, seed, Q.questions])
+  const round = useMemo(() => pickByLevel(Q.questions, level, ROUND, { min: MIN_ROUND }).map(x => ({ ...x, shown: shuffle(x.options) })), [level, seed, Q.questions])
   const [i, setI] = useState(0)
   const [picked, setPicked] = useState(null)
   const [score, setScore] = useState(0)
@@ -42,7 +44,7 @@ export default function HolidayQuiz({ h }) {
 
   const restart = (lv = level) => { setLevel(lv); setSeed(s => s + 1); setI(0); setPicked(null); setScore(0) }
   const choose = o => { if (picked) return; setPicked(o); if (o === q.options[0]) setScore(s => s + 1) }
-  const printList = () => shuffle(Q.questions.filter(x => x.level <= level)).slice(0, 15).map(x => ({ ...x, shown: shuffle(x.options) }))
+  const printList = () => pickByLevel(Q.questions, level, 15, { min: MIN_ROUND }).map(x => ({ ...x, shown: shuffle(x.options) }))
 
   return (
     <HolidayShell h={h} crumb={`חידון ${h.name}`}>

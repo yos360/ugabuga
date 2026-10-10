@@ -59,7 +59,7 @@ export function RiddlePage() {
 }
 
 // ---------- Jokes ----------
-export const JokesHub = () => <Hub seo={{ title: 'בדיחות לילדים — לפי נושא', description: `${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות לילדים: בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={JOKE_PAGES} base="/jokes/" />
+export const JokesHub = () => <Hub seo={{ title: 'בדיחות לילדים — לפי נושא', description: `${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות לילדים: בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={[{ slug: 'keresh', emoji: '🪵', title: '100 בדיחות קרש לילדים' }, ...JOKE_PAGES]} base="/jokes/" />
 function Joke({ j }) {
   const [open, setOpen] = useState(false)
   return <WobblyCard hover={false} padding="p-4"><p className="text-lg font-bold">{j.setup}</p>{open ? <p className="mt-2 text-lg">😂 {j.punchline}</p> : <button className="btn-secondary text-sm mt-2" onClick={() => setOpen(true)}>לפאנץ׳ ←</button>}</WobblyCard>

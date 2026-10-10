@@ -46,7 +46,7 @@ test('numbers are separate tokens and ages are recognised', () => {
 })
 
 test('multiplication and division worksheets', () => {
-  assert.equal(top('לוח הכפל', 1)[0], '/printables/math-worksheets/multiplication')
+  assert.equal(top('לוח הכפל', 1)[0], '/learn/multiplication-table')
   assert.equal(top('כפל', 1)[0], '/printables/math-worksheets/multiplication')
   has('חילוק', '/printables/math-worksheets/division', 1)
   const r = top('דפי עבודה כיתה ב', 3)

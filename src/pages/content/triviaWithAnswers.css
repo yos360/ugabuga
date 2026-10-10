@@ -1,0 +1,21 @@
+/* /trivia/with-answers */
+.twa-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;margin-bottom:12px}
+.twa-aud{font-size:15px;font-weight:700;color:var(--muted-foreground,#555);margin-inline-start:6px}
+.twa-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.twa-q{border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);padding:14px 16px;box-shadow:3px 3px 0 var(--border,#1d2233);display:flex;flex-direction:column;gap:10px;scroll-margin-top:90px}
+.twa-q.is-target{box-shadow:0 0 0 4px var(--yellow,#ffd23f),3px 3px 0 var(--border,#1d2233)}
+.twa-text{margin:0;font-size:19px;font-weight:800;line-height:1.45;overflow-wrap:anywhere}
+.twa-num{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;margin-inline-end:8px;border-radius:999px;background:var(--yellow,#ffd23f);color:#1d2233;font-size:15px;font-weight:900;vertical-align:2px}
+.twa-answer{border:2px dashed var(--border,#1d2233);border-radius:14px;background:#eafbe7;color:#1d2233;padding:10px 12px;line-height:1.6}
+.twa-wa{font-size:15px}
+.twa-current{background:var(--yellow,#ffd23f)}
+.twa-more{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+@media (min-width:640px){.twa-more{grid-template-columns:1fr 1fr}}
+/* print: questions sheet, then a separate answers sheet */
+.twa-print h2{font-size:20pt;text-align:center;margin:0 0 2px}
+.twa-print h3{font-size:14pt;margin:10px 0 4px}
+.twa-print .twa-print-sub{text-align:center;font-size:11.5pt;color:#555;margin:0 0 8px}
+.twa-print ol{margin:0;padding-inline-start:22px}
+.twa-print li{font-size:12pt;line-height:1.5;margin:0 0 5px;break-inside:avoid}
+.twa-print .twa-line{display:block;height:16px;border-bottom:1px dotted #888;margin-bottom:3px}
+@media print{#buga-print-output .twa-print li{font-size:12pt;line-height:1.5}#buga-print-output .twa-print h2{font-size:20pt}}

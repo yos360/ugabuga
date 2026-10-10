@@ -7,7 +7,8 @@ import WobblyCard from '../../components/ui/WobblyCard'
 import WobblyButton from '../../components/ui/WobblyButton'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import Badge from '../../components/ui/Badge'
-import { AUDIENCES, DIFFICULTIES, QUESTION_TOPICS, getQuestions, pickNextQuestion } from '../../data/questionBankExpanded'
+import { AUDIENCES, DIFFICULTIES, QUESTION_BANK_EXPANDED, QUESTION_TOPICS, pickNextQuestion } from '../../data/questionBankExpanded'
+import { buildLeveledPool } from '../../utils/difficultyLevels'
 import { DEFAULT_LIVE_NEWS, createGameNews } from '../../data/liveNews'
 
 const HISTORY_LIMIT = 200
@@ -68,14 +69,10 @@ export default function TriviaQuiz() {
 
   const questions = useMemo(() => {
     const level = mode === 'expert' ? 'hard' : difficulty
-    const get = (filters) => getQuestions({ audience, type: 'all', ...filters }).filter((item) => item.triviaOptions?.length >= 2)
-    // Some audience/level/topic combinations have only a handful of questions — widen the pool step by
-    // step (any level, then any topic) so a round doesn't keep cycling the same two questions.
-    const MIN_POOL = 8
-    let pool = get({ topic, difficulty: level })
-    if (pool.length < MIN_POOL) pool = [...pool, ...get({ topic, difficulty: 'all' }).filter((q) => q.difficulty !== level)]
-    if (pool.length < MIN_POOL && topic !== 'all') pool = [...pool, ...get({ topic: 'all', difficulty: level }).filter((q) => q.topic !== topic)]
-    return pool
+    // Questions of the chosen level only; when a combination is short, borrow from the nearest level
+    // (e.g. medium for "hard", or the teens' hard questions for adults); far levels only as a last resort.
+    const all = QUESTION_BANK_EXPANDED.filter((item) => item.triviaOptions?.length >= 2)
+    return buildLeveledPool(all, { audience, difficulty: level, topic, min: 8, audienceIds: AUDIENCES.map((a) => a.id), difficultyIds: DIFFICULTIES.map((d) => d.id) })
   }, [topic, audience, difficulty, mode])
 
   const chooseQuestion = useCallback((resetHistory = false) => {

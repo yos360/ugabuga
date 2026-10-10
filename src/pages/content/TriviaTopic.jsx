@@ -27,6 +27,7 @@ export function TriviaTopicsHub() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia/topics' }, { label: 'לפי נושא' }]} />
       <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🧠 טריוויה לפי נושא</h1>
       <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">כל חידון: 12 שאלות עם תשובה והסבר קצר — ובכל כניסה השאלות מתערבבות מחדש.</p>
+      <p className="text-center mb-8 -mt-4"><Link to="/trivia/with-answers" className="font-bold underline">📋 שאלות טריוויה עם תשובות — רשימה מלאה להדפסה ←</Link></p>
       {TRIVIA_GROUPS.map(g => (
         <section key={g.title} className="mb-10">
           <h2 className="text-2xl font-bold mb-4">{g.title}</h2>
