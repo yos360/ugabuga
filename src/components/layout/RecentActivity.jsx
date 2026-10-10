@@ -35,7 +35,12 @@ export default function RecentActivity() {
       void loadActivity().then(m => {
         if (!m || stopped) return
         setMod(() => m)
-        disconnect = m.connectActivity(setState)
+        disconnect = m.connectActivity(next => {
+          setState(next)
+          // Shared with TrafficProof (suppliers pages) so they don't open a second live connection.
+          window.__bugaLiveCount = next.count
+          try { window.dispatchEvent(new CustomEvent('buga:live-count', { detail: { count: next.count } })) } catch { /* old browser */ }
+        })
       }).catch(() => {})
     })
     return () => { stopped = true; cancelIdle(handle); if (disconnect) disconnect() }

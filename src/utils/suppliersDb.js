@@ -48,6 +48,17 @@ export const suppliersDb = {
     if (isOwnerBrowser()) return
     void visitorId().then(v => publicDb.rpc('supplier_track', { p_id: id, p_kind: kind, p_visitor: v })).catch(() => {})
   },
+  // What visitors searched in the suppliers area (owner-only report). Free text only, no ids.
+  logSearch: ({ query = '', type = null, area = null, results = null }) => {
+    if (isOwnerBrowser()) return
+    const path = (location.pathname.toLowerCase().replace(/\/+$/, '') || '/')
+    void visitorId().then(v => publicDb.rpc('record_supplier_search', {
+      p_query: String(query).trim().slice(0, 60) || null, p_type: type || null, p_area: area || null,
+      p_results: Number.isInteger(results) ? results : null, p_path: /^\/[a-z0-9/_-]{0,119}$/.test(path) ? path : null, p_visitor: v,
+    })).catch(() => {})
+  },
+  // Public totals (visitors today, visits in 30 days…) — see 202610100001_public_traffic_and_supplier_searches.sql
+  traffic: () => publicDb.rpc('public_site_traffic').then(run),
   // signed-in supplier
   mine: () => supplierAuth.rpc('supplier_mine').then(run),
   save: p => supplierAuth.rpc('supplier_save', { p }).then(run),
@@ -55,6 +66,7 @@ export const suppliersDb = {
   // owner
   adminList: () => ownerDb.rpc('supplier_admin_list').then(run),
   adminSave: p => ownerDb.rpc('supplier_save', { p }).then(run),
+  adminSearches: (from, to) => ownerDb.rpc('owner_supplier_searches', { p_from: from, p_to: to }).then(run),
   adminDelete: id => ownerDb.rpc('supplier_admin_delete', { p_id: id }).then(run),
 }
 

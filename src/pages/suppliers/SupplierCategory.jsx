@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { SupplierCard } from '../../components/suppliers/SupplierBits'
+import TrafficProof from '../../components/suppliers/TrafficProof'
 import NotFound from '../NotFound'
 import { suppliersDb } from '../../utils/suppliersDb'
 import {
@@ -28,6 +29,8 @@ function SupplierList({ page, areaSlug }) {
   const area = areaBySlug(areaSlug)
   const shown = useMemo(() => suppliersForPage(page, list, area), [page, list, area])
   const base = categoryPagePath(page.slug)
+  // Choosing a supplier type (and area) counts as a search in the owner report.
+  useEffect(() => { if (list) suppliersDb.logSearch({ type: page.slug, area, results: shown.length }) }, [list, page.slug, area]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <section id="list" className="scroll-mt-24">
     <h2 className="mb-3 text-3xl font-bold">{page.more}{area ? ` ${inArea(area)}` : ''}</h2>
@@ -44,6 +47,7 @@ function SupplierList({ page, areaSlug }) {
           <p className="mt-3">נותנים שירות כזה? כרטיס ספק בעוגה בוגה הוא בחינם.</p>
           <Link to="/suppliers/me" className="mt-4 inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 text-lg font-bold text-white">הצטרפות כספק ←</Link>
         </div>}
+    <div className="mt-6"><TrafficProof /></div>
   </section>
 }
 
