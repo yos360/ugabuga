@@ -209,6 +209,9 @@ const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
+const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
+const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
+const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
 const QuizManage = lazy(() => import('./pages/quiz/QuizManage'))
 const QuizTake = lazy(() => import('./pages/quiz/QuizTake'))
@@ -623,6 +626,12 @@ export default function App() {
               <Route path="/tools/emoji-studio" element={<EmojiStudio />} />
               <Route path="/bring-list" element={<BringList />} />
               <Route path="/l/:code" element={<BringList />} />
+              <Route path="/rsvp" element={<Rsvp />} />
+              <Route path="/r/:code" element={<Rsvp />} />
+              <Route path="/secret-friend" element={<SecretFriend />} />
+              <Route path="/g/:code" element={<SecretFriend />} />
+              <Route path="/thank-you-wall" element={<ThankYouWall />} />
+              <Route path="/w/:code" element={<ThankYouWall />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
               <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />

@@ -48,6 +48,7 @@ export const MENU_GROUPS = [
       { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
       { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
       { to: '/tools/bring-list', label: 'רשימת "מי מביא מה"', icon: '📋' },
+      { to: '/rsvp', label: 'אישור הגעה אונליין', icon: '✅' },
       { to: '/tools/birthday-famous', label: 'מי נולד ביום שלי?', icon: '⭐' },
       { to: '/bar-mitzvah', label: 'בר ובת מצווה — מדריך וכלים', icon: '📜' },
       { to: '/cakes', label: 'עוגות יום הולדת', icon: '🍰' },
@@ -59,6 +60,8 @@ export const MENU_GROUPS = [
     title: '🏫 לכיתה ולגן', to: '/classroom',
     items: [
       { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
+      { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
+      { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
       { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
       { to: '/holidays', label: 'חגים: חנוכה, ט״ו בשבט ועוד', icon: '🎉' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },

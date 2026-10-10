@@ -1,9 +1,10 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
+import { formatDate } from '../utils/groupTools'
 
 // Labeled fields beside the invitation — the same state as the inline fields on the card.
 const FIELDS = [
@@ -30,7 +31,7 @@ const WHAT_TO_WRITE = [
   ['תאריך עם יום בשבוע', '"שישי, 14.11" ולא רק "14.11". כשיש גם יום בשבוע, פחות הורים מתבלבלים.'],
   ['שעת התחלה וגם שעת סיום', 'כך ההורים יודעים מתי לחזור לאסוף, ואתם יודעים כמה זמן יש לתכנן.'],
   ['כתובת מדויקת', 'רחוב, מספר, קומה, או שם הגן או הפארק, ועוד פרט שעוזר למצוא את המקום, כמו "ליד המגלשה הגדולה".'],
-  ['טלפון לאישור הגעה', 'עם תאריך אחרון לאישור, כדי לדעת כמה אורחים להכין ומה להזמין.'],
+  ['אישור הגעה', 'טלפון או קישור לאישור הגעה אונליין, עם תאריך אחרון לאישור — כדי לדעת כמה אורחים להכין ומה להזמין.'],
   ['הערות חשובות', 'מה להביא (בגד ים, בגדים שמותר ללכלך), בקשה לעדכן על אלרגיות, או "בלי מתנות, רק אתם".'],
 ]
 const THEME_LINKS = [
@@ -44,6 +45,7 @@ const FAQ = [
   { q: 'כמה זמן מראש שולחים הזמנה ליום הולדת?', a: 'בדרך כלל שבוע עד שבועיים לפני המסיבה. למסיבה של כל הכיתה או בתקופת חגים כדאי לשלוח קצת יותר מוקדם, ויום או יומיים לפני לשלוח תזכורת קצרה באותה קבוצה.' },
   { q: 'מה נשלח כשלוחצים "שתפו בוואטסאפ"?', a: 'נפתח וואטסאפ עם הודעת טקסט מוכנה: שם החוגג, תאריך, שעה, מקום וטלפון לאישור הגעה. בוחרים איש קשר או קבוצה ושולחים. כדי לשלוח גם את העיצוב, שומרים את ההזמנה כ־PDF בכפתור ההדפסה ומצרפים את הקובץ.' },
   { q: 'הפרטים שאני ממלא נשמרים באתר?', a: 'לא. הפרטים נשארים רק בדפדפן שלכם בזמן שהדף פתוח, ולא נשלחים לשום מקום. אם מרעננים את הדף, צריך למלא אותם מחדש.' },
+  { q: 'אפשר לצרף להזמנה קישור לאישור הגעה?', a: 'כן. לוחצים „יצירת קישור לאישור הגעה”, ממלאים את פרטי האירוע וחוזרים לכאן עם הקישור. הוא יופיע בהודעת הוואטסאפ ובהזמנה המודפסת, וכל אורח יאשר בלחיצה — מגיעים, לא מגיעים או אולי.' },
   { q: 'אפשר להדפיס את ההזמנה?', a: 'כן. "הדפסה / שמירה כ־PDF" מכין דף A4 בעיצוב שבחרתם, עם כל הפרטים שמילאתם. אפשר להדפיס עותק לכל ילד או לתלות אחד על לוח המודעות בגן.' },
 ]
 function InvitationGuide() {
@@ -55,7 +57,7 @@ function InvitationGuide() {
       <h2 className="mb-2 mt-10 text-3xl font-bold">בחרתם עיצוב? יש גם רעיונות למסיבה</h2>
       <p className="mb-4 text-lg leading-relaxed">לכל עיצוב הזמנה יש מסיבה שמתאימה לו: משחקים, קישוטים ועוגה באותו נושא. כך ההזמנה פותחת את החגיגה עוד לפני שהאורחים מגיעים.</p>
       <div className="mb-10 flex flex-wrap gap-2">{THEME_LINKS.map(([e, t, to]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{e} {t}</Link>)}</div>
-      <SeoBody faq={FAQ} related={[{ label: 'מדריך הזמנות ליום הולדת', href: '/guides/birthday-invitation-guide' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'ברכות ליום הולדת', href: '/greeting' }, { label: 'שלטים ליום הולדת להדפסה', href: '/printables/birthday-signs' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }]} />
+      <SeoBody faq={FAQ} related={[{ label: 'אישור הגעה אונליין', href: '/rsvp' }, { label: 'מדריך הזמנות ליום הולדת', href: '/guides/birthday-invitation-guide' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'ברכות ליום הולדת', href: '/greeting' }, { label: 'שלטים ליום הולדת להדפסה', href: '/printables/birthday-signs' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }]} />
     </section>
   )
 }
@@ -66,10 +68,30 @@ export default function Invitation() {
   const [printing, setPrinting] = useState(false)
 
   const update = (k,v) => setData(d => ({...d, [k]:v}))
+  // Online RSVP link (/r/<code>) attached to the invitation: from ?rsvp=<code> (the RSVP page links here) or pasted.
+  const [params] = useSearchParams()
+  const [rsvp, setRsvp] = useState(() => /^[a-z2-9]{6,12}$/.test(params.get('rsvp') || '') ? params.get('rsvp') : '')
+  const [attach, setAttach] = useState(true)
+  const [paste, setPaste] = useState('')
+  const rsvpLink = rsvp ? `${typeof location === 'undefined' ? 'https://ugabuga.co.il' : location.origin}/r/${rsvp}` : ''
+  const withRsvp = Boolean(rsvpLink && attach)
+  useEffect(() => {
+    if (!rsvp) return
+    // Fill the empty fields from the RSVP event (title "יום ההולדת של נועה" → name "נועה").
+    import('../utils/groupDb').then(m => m.rsvpDb.get(rsvp)).then(ev => setData(d => ({
+      ...d,
+      name: d.name || (/של\s+(.+)$/.exec(ev.title || '')?.[1] || '').replace(/_+/g, '').trim(),
+      date: d.date || formatDate(ev.date),
+      time: d.time || ev.time || '',
+      place: d.place || ev.place || '',
+    }))).catch(() => {})
+  }, [rsvp])
+  const pasteRsvp = v => { setPaste(v); const m = /\/r\/([a-z2-9]{6,12})\b/.exec(v); if (m) { setRsvp(m[1]); setAttach(true); setPaste('') } }
+  const rsvpCreateHref = `/rsvp?${new URLSearchParams({ title: `יום ההולדת של ${data.name || '___'}`, time: data.time, place: data.place }).toString()}`
   // Times/phones are LTR runs inside a Hebrew message: isolate them (LRI…PDI) so "17:00–19:00" isn't flipped.
   const ltr = v => `\u2066${v}\u2069`
   const share = () => {
-    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time?ltr(data.time):'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${ltr(data.phone)}`:''}\n${data.notes||''}`
+    const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time?ltr(data.time):'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${ltr(data.phone)}`:''}${withRsvp?`\n✅ אישור הגעה בלחיצה: ${rsvpLink}`:''}\n${data.notes||''}`
     window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank')
   }
 
@@ -110,6 +132,18 @@ export default function Invitation() {
             <input id={`form-${k}`} type={type} inputMode={k === 'age' ? 'numeric' : undefined} dir={type === 'tel' || k === 'time' ? 'ltr' : k === 'date' ? 'auto' : undefined} value={data[k]} onChange={e => update(k, e.target.value)} placeholder={ph} className="mt-1 w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 text-right" />
           </div>)}
         </div>
+        <div className="mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4">
+          <h3 className="font-bold">✅ אישור הגעה אונליין</h3>
+          {rsvpLink ? <>
+            <label className="mt-2 flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1 h-5 w-5" checked={attach} onChange={e => setAttach(e.target.checked)} />
+              <span>לצרף להזמנה את הקישור <bdi dir="ltr" className="font-bold">{rsvpLink.replace(/^https?:\/\//, '')}</bdi></span></label>
+            <Link to={`/r/${rsvp}`} className="mt-2 inline-block text-sm font-bold underline">לצפייה בתשובות ←</Link>
+          </> : <>
+            <p className="mt-1 text-sm">במקום לספור הודעות בקבוצה: קישור שבו כל אורח מאשר בלחיצה, ואתם רואים מי מגיע ומי עוד לא ענה.</p>
+            <Link to={rsvpCreateHref} className="mt-2 inline-flex min-h-[44px] items-center rounded-xl border-2 border-slate-800 bg-white px-3 font-bold">יצירת קישור לאישור הגעה</Link>
+            <input value={paste} onChange={e => pasteRsvp(e.target.value)} dir="ltr" aria-label="הדבקת קישור קיים לאישור הגעה" placeholder="או הדביקו קישור קיים: …/r/abcd2345" className="mt-2 w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 py-2 text-left text-sm" />
+          </>}
+        </div>
         <div className="mt-4 rounded-2xl bg-[var(--postit)] p-4 text-sm leading-7">💡 מלאו שם, תאריך וכתובת — ואז שתפו בוואטסאפ או הדפיסו.</div>
       </aside>
       </div>
@@ -124,6 +158,7 @@ export default function Invitation() {
         <p style={{ fontSize: 22, margin: '6px 0' }}>📅 <bdi>{data.date || '________'}</bdi> · 🕐 <bdi dir="ltr">{data.time || '_____'}</bdi></p>
         <p style={{ fontSize: 22, margin: '6px 0' }}>📍 {data.place || '______________'}</p>
         {data.phone && <p style={{ fontSize: 20, margin: '6px 0' }}>📞 אישור הגעה: <bdi dir="ltr">{data.phone}</bdi></p>}
+        {withRsvp && <p style={{ fontSize: 18, margin: '6px 0' }}>✅ אישור הגעה בלחיצה: <bdi dir="ltr">{rsvpLink.replace(/^https?:\/\//, '')}</bdi></p>}
         {data.notes && <p style={{ fontSize: 18, margin: '6px 0' }}>{data.notes}</p>}
         <footer>עוגה בוגה · ugabuga.co.il</footer>
       </article></PrintPreview>}

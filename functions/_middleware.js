@@ -145,7 +145,8 @@ async function handle(context) {
     // purpose, but they must not be indexed — they're linked from every page.
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
     if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
-        noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/')) {
+        noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/') ||
+        noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/')) {
       const h = new Headers(res.headers)
       h.append('X-Robots-Tag', 'noindex')
       return new Response(work.body, { status: res.status, statusText: res.statusText, headers: h })

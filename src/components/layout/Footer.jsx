@@ -28,6 +28,7 @@ const COLUMNS = [
       ['/birthday', 'כל מה שצריך ליום הולדת'],
       ['/calculator', 'מחשבון מסיבה'],
       ['/invitation', 'מחולל הזמנות'],
+      ['/rsvp', 'אישור הגעה אונליין'],
       ['/greeting', 'מחולל ברכות'],
       ['/games/birthday', 'משחקים ליום הולדת'],
       ['/ideas', 'רעיונות והשראה'],
@@ -42,6 +43,8 @@ const COLUMNS = [
     links: [
       ['/classroom', 'כל הכלים לכיתה'],
       ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
+      ['/secret-friend', 'גמד וענק'],
+      ['/thank-you-wall', 'קיר ברכות לגננת'],
       ['/classroom/first-grade', 'הכנה לכיתה א׳'],
       ['/printables/hebrew-letters', 'אותיות בעברית להדפסה'],
       ['/printables/math-worksheets', 'דפי עבודה בחשבון'],
