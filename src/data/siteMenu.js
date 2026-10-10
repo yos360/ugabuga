@@ -20,6 +20,7 @@ export const MENU_GROUPS = [
     items: [
       { to: '/online-games/today', label: 'אתגר היום — מתחלף כל יום', icon: '🌟' },
       { to: '/online-games/marathon', label: 'מרתון משחקים — 8 ברצף', icon: '🏃' },
+      { to: '/chess', label: 'שחמט אונליין — נגד המחשב או חבר', icon: '♟️' },
       { to: '/online-games/battleship', label: 'צוללות', icon: '⚓' },
       { to: '/online-games/falling-blocks', label: 'בלוקים נופלים', icon: '🧱' },
       { to: '/online-games/whack-a-mole', label: 'הכה בחפרפרת', icon: '🔨' },

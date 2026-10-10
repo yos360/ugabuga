@@ -59,6 +59,12 @@ export default function OnlineGamesHub() {
         <h2 id="two-players-title">👥 משחקים לשניים</h2>
         <p>שניים על אותו טלפון או מחשב — כל אחד בתורו — או אחד נגד המחשב. מושלם להמתנה אצל הרופא, לנסיעה או לערב משחקים עם אחים וחברים.</p>
         <div className="arc-grid">
+          <Link to="/chess" className="arc-card" style={{ '--game-color': '#d9b38c' }}>
+            <span className="arc-card-art" aria-hidden="true">♟️</span>
+            <h3>שחמט אונליין</h3>
+            <p>שניים על אותו מסך, או נגד המחשב ברמת מתחיל, בינוני או מתקדם</p>
+            <span className="arc-play-chip">▶ שחקו · גיל 6+</span>
+          </Link>
           {twoPlayer.map(g => (
             <Link key={g.slug} to={`/online-games/${g.slug}#play`} className="arc-card" style={{ '--game-color': g.color }}>
               <span className="arc-card-art" aria-hidden="true">{g.emoji}</span>

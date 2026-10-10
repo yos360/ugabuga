@@ -157,6 +157,10 @@ const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
+const ChessPage = lazy(() => import('./pages/chess/ChessPage'))
+const ChessPuzzlesPage = lazy(() => import('./pages/chess/ChessPuzzlesPage'))
+const ChessHowToPage = lazy(() => import('./pages/chess/ChessHowToPage'))
+const ChessPrintablePage = lazy(() => import('./pages/chess/ChessPrintablePage'))
 const OnlineGamesHub = lazy(() => import('./pages/arcade/OnlineGamesHub'))
 const DailyChallenge = lazy(() => import('./pages/arcade/DailyChallenge'))
 const MarathonPage = lazy(() => import('./pages/arcade/MarathonPage'))
@@ -376,6 +380,10 @@ export default function App() {
               <Route path="/sudoku/daily" element={<SudokuDaily />} />
               <Route path="/sudoku/print" element={<SudokuPrint />} />
               <Route path="/sudoku/solver" element={<SudokuSolver />} />
+              <Route path="/chess" element={<ChessPage />} />
+              <Route path="/chess/puzzles" element={<ChessPuzzlesPage />} />
+              <Route path="/chess/how-to-play" element={<ChessHowToPage />} />
+              <Route path="/chess/printable-board" element={<ChessPrintablePage />} />
               <Route path="/online-games" element={<OnlineGamesHub />} />
               <Route path="/online-games/today" element={<DailyChallenge />} />
               <Route path="/online-games/marathon" element={<MarathonPage />} />

@@ -19,6 +19,7 @@ const COLUMNS = [
       ['/game-of-the-day', 'משחק היום'],
       ['/online-games#two-players', 'משחקים לשניים'],
       ['/sudoku', 'סודוקו אונליין'],
+      ['/chess', 'שחמט אונליין'],
     ],
   },
   {
