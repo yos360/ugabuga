@@ -132,6 +132,7 @@ export const MENU_GROUPS = [
       { to: '/baby-names', label: 'שמות לתינוקות', icon: '👶' },
       { to: '/toddlers', label: 'פעוטות — גיל 1–3', icon: '🧸' },
       { to: '/games/shabbat', label: 'משחקים לשבת', icon: '🕯️' },
+      { to: '/holidays/blessings', label: 'ברכות וקריאות לחגים', icon: '🙏' },
       { to: '/tools/hebrew-birthday', label: 'יום הולדת עברי ובר/בת מצווה', icon: '✡️' },
       { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
       { to: '/family/morning-routine', label: 'שגרת בוקר עם טיימר', icon: '⏰' },

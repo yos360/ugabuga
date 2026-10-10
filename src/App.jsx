@@ -170,6 +170,7 @@ const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
 const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
 const TuBishvatHub = lazy(() => import('./pages/holidays/TuBishvatHub'))
 const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
+const HolidayBlessings = lazy(() => import('./pages/holidays/HolidayBlessings'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
@@ -493,6 +494,8 @@ export default function App() {
               <Route path="/dice-games/:slug" element={<DiceGamePage />} />
               <Route path="/rubiks-cube" element={<RubiksCube />} />
               <Route path="/holidays" element={<HolidaysHub />} />
+              <Route path="/holidays/blessings" element={<HolidayBlessings />} />
+              <Route path="/holidays/blessings/:slug" element={<HolidayBlessings />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
               <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
               <Route path="/holidays/hanukkah/songs" element={<HanukkahSongs />} />

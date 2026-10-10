@@ -56,6 +56,12 @@ export default function HanukkahHub() {
           <p className="flex-1 text-[var(--muted-foreground)]">איך מארגנים מסיבת חנוכה לילדים — משחקים, אוכל ותוכנית</p>
           <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
         </Link>
+        <Link to="/holidays/blessings/hanukkah" className="wobbly flex flex-col border-2 border-[var(--border)] bg-yellow-100 p-5 sketch-shadow transition-transform hover:-translate-y-1">
+          <span className="text-4xl mb-1" aria-hidden="true">📜</span>
+          <h2 className="text-2xl font-bold">ברכות וקריאות לחנוכה</h2>
+          <p className="flex-1 text-[var(--muted-foreground)]">ברכות ההדלקה, על הניסים, הלל ומה קוראים בתורה בכל יום</p>
+          <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
+        </Link>
       </div>
 
       <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">

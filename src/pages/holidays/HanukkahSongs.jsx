@@ -170,6 +170,7 @@ export default function HanukkahSongs() {
       <h3 className="mt-6 text-xl font-black">👉 הנרות הללו</h3>
       <p className="mt-1 text-[var(--muted-foreground)]">נאמר אחרי הדלקת הנר הראשון. זה הנוסח הנפוץ בסידורי אשכנז; בעדות אחרות הנוסח שונה מעט.</p>
       <p className="hs-text mt-2">{HANEIROT_HALALU}</p>
+      <p className="no-print mt-3"><Link to="/holidays/blessings/hanukkah" className="font-bold underline">📜 על הניסים, הלל ומה קוראים בתורה בחנוכה ←</Link></p>
     </section>
 
     <section id="maoz-tzur" className="ln-box mt-8 scroll-mt-24" aria-labelledby="maoz-title">

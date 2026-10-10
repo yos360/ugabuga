@@ -50,6 +50,12 @@ export default function TuBishvatHub() {
           <p className="flex-1 text-[var(--muted-foreground)]">{BLURB[p.to.replace(h.base, '')]}</p>
           <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
         </Link>)}
+        <Link to="/holidays/blessings/tu-bishvat" className="wobbly flex flex-col border-2 border-[var(--border)] bg-purple-100 p-5 sketch-shadow transition-transform hover:-translate-y-1">
+          <span className="mb-1 text-4xl" aria-hidden="true">🙏</span>
+          <h2 className="text-2xl font-bold">ברכות על הפירות</h2>
+          <p className="flex-1 text-[var(--muted-foreground)]">בורא פרי העץ, בורא פרי האדמה ושהחיינו — עם ניקוד והשמעה</p>
+          <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
+        </Link>
       </div>
 
       <SeoBody

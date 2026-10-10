@@ -21,6 +21,7 @@ import { FAQ_TOPICS } from './faqTopics'
 import { ESCAPE_ROOMS } from './escapeRoomsExpanded'
 import { CBN_PICTURES, cbnLevel } from './colorByNumber'
 import { SUPPLIER_CATEGORY_PAGES, categoryPagePath } from './supplierCategoryPages'
+import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
@@ -142,6 +143,7 @@ const PAGES = [
   { to: '/family/car-games', title: 'משחקים לנסיעה', emoji: '🚗', kind: 'tool', desc: 'בלי מסכים, ובינגו נסיעה להדפסה.', keys: 'נסיעה אוטו רכב טיול בינגו' },
   { to: '/family/move', title: 'אתגר תנועה לילדים', emoji: '🤸', kind: 'tool', desc: 'תרגילים מצחיקים עם טיימר.', keys: 'תנועה ספורט קפיצות התעמלות' },
   { to: '/family/pocket-money', title: 'דמי כיס וחיסכון', emoji: '🐷', kind: 'tool', desc: 'מחשבון חיסכון ושלוש קופות.', keys: 'דמי כיס חיסכון כסף קופה' },
+  { to: '/holidays/blessings', title: 'ברכות וקריאות לחגים', emoji: '🙏', kind: 'page', desc: 'הברכות לכל חג עם ניקוד, מה אומרים בסידור ומה קוראים בתורה.', keys: 'ברכות לחגים ברכות החג ברכה הדלקת נרות קידוש שהחיינו קריאת התורה הפטרה מגילה סידור תפילות החגים' },
   { to: '/holidays/hanukkah/songs', title: 'שירי חנוכה לילדים', emoji: '🎵', kind: 'tool', desc: 'רשימת שירים לגן, מעוז צור וברכות ההדלקה.', keys: 'שירי חנוכה שירים לחנוכה מעוז צור הנרות הללו ברכות חנוכה סביבון כד קטן באנו חושך לגרש' },
   // new sections (Oct 2026)
   { to: '/tools/hebrew-birthday', title: 'יום הולדת עברי ומחשבון בר/בת מצווה', emoji: '✡️', kind: 'tool', desc: 'תאריך עברי לפי תאריך לועזי, ומועד בר/בת מצווה עם הפרשה.', keys: 'יום הולדת עברי תאריך עברי המרת תאריך לועזי לעברי מחשבון בר מצווה בת מצווה פרשה פרשת בר מצווה' },
@@ -342,6 +344,7 @@ const BEST = {
 const clean = to => to.split('#')[0]
 function buildStatic() {
   const out = [...PAGES]
+  for (const h of HOLIDAY_BLESSINGS) out.push({ to: blessingsHref(h.slug), title: `ברכות וקריאות ל${h.name}`, emoji: h.emoji, kind: 'page', desc: h.intro, keys: `ברכות ${h.name} ברכה ל${h.name} תפילה סידור ${h.tanakh.length ? 'קריאת התורה הפטרה ' : ''}${[...h.blessings.map(b => b.title), ...h.siddur.map(x => x.name)].join(' ')}` })
   for (const group of MENU_GROUPS) for (const it of group.items) {
     const to = it.to
     const kind = to.startsWith('/printables') ? 'printable' : to.startsWith('/games') ? 'page' : to.startsWith('/gifts') || to.startsWith('/suppliers') ? 'page' : 'tool'

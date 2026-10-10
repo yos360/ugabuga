@@ -149,6 +149,23 @@
   <url><loc>https://ugabuga.co.il/printables/fine-motor</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/rubiks-cube</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/holidays</loc><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/rosh-hashana</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/yom-kippur</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/sukkot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/simchat-torah</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/hanukkah</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/tu-bishvat</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/purim</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/pesach</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/omer</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/yom-haatzmaut</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/lag-baomer</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/shavuot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/tisha-bav</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/rosh-chodesh</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/shabbat</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/blessings/yom-hazikaron</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/sevivon</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/quiz</loc><priority>0.9</priority></url>

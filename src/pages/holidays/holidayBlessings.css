@@ -1,0 +1,51 @@
+/* /holidays/blessings and /holidays/blessings/:slug */
+.hb-hero{border:2px solid #1d2233;border-radius:24px;background:linear-gradient(180deg,#0f766e,#1e3a8a);color:#fff;padding:24px 16px;text-align:center;box-shadow:4px 4px 0 #1d2233}
+.hb-hero h1{color:#fff}
+.hb-hero-when{display:inline-block;margin:8px 0 0;padding:4px 14px;border-radius:999px;background:rgba(255,255,255,.18);font-weight:800}
+.hb-jump{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.hb-section{margin-top:36px}
+.hb-section>h2{font-size:1.75rem;font-weight:900;margin:0}
+.hb-sub{margin:4px 0 14px;color:var(--muted-foreground)}
+.hb-list{display:grid;gap:14px;list-style:none;margin:0;padding:0}
+.hb-bless,.hb-siddur,.hb-reading{border:2px solid var(--border,#1d2233);border-radius:16px;background:var(--card,#fff);padding:14px 16px;box-shadow:3px 3px 0 var(--border,#1d2233);min-width:0}
+.hb-bless{background:var(--postit,#fff8d6)}
+.hb-bless-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.hb-bless h3,.hb-siddur h3,.hb-reading h3{font-size:1.25rem;font-weight:900;margin:0}
+.hb-when{display:inline-block;margin:6px 0 8px;padding:2px 10px;border-radius:999px;background:#dbeafe;color:#1d2233;font-size:.9rem;font-weight:800}
+.hb-text{font-size:1.3rem;line-height:2.05;overflow-wrap:anywhere}
+.hb-text p,.hb-plain p{margin:0}
+.hb-text p+p{margin-top:8px}
+.hb-plain{font-size:1.1rem}
+.hb-note{margin:10px 0 0;font-size:.95rem;color:var(--muted-foreground)}
+.hb-why{margin:8px 0 0;padding:8px 10px;border-radius:12px;background:#ecfccb;color:#1d2233;font-size:.95rem}
+.hb-siddur p{margin:4px 0 0}
+.hb-details{margin-top:10px;border-top:2px dashed var(--border,#1d2233);padding-top:8px}
+.hb-details summary{cursor:pointer;font-weight:800;min-height:44px;display:flex;align-items:center}
+.hb-more{display:inline-flex;align-items:center;min-height:44px;font-weight:800;text-decoration:underline}
+.hb-readings{display:grid;gap:14px;list-style:none;margin:0;padding:0}
+@media (min-width:720px){.hb-readings{grid-template-columns:1fr 1fr}}
+.hb-kind{display:inline-block;margin-bottom:4px;padding:2px 10px;border-radius:999px;font-size:.8rem;font-weight:900;color:#1d2233}
+.hb-kind.torah{background:#fde68a}.hb-kind.maftir{background:#fed7aa}.hb-kind.haftarah{background:#bfdbfe}.hb-kind.megillah{background:#e9d5ff}
+.hb-refs{margin:6px 0;font-weight:800}
+.hb-ext{text-decoration:underline;display:inline-flex;align-items:center;min-height:36px}
+.hb-about{margin:4px 0 0}
+.hb-verse{margin:32px auto 0;max-width:42rem;text-align:center;border:2px dashed var(--border,#1d2233);border-radius:18px;padding:16px;background:var(--card,#fff)}
+.hb-verse blockquote{margin:0;font-size:1.4rem;line-height:1.9;font-weight:700}
+.hb-verse figcaption{margin-top:6px;color:var(--muted-foreground)}
+.hb-prevnext{margin-top:28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-weight:800}
+.hb-prevnext a{text-decoration:underline;min-height:44px;display:inline-flex;align-items:center}
+.hb-sources{margin-top:28px;font-size:.95rem;color:var(--muted-foreground)}
+.hb-sources h2{font-size:1.25rem;font-weight:900;color:var(--foreground)}
+.hb-sources ul{list-style:disc;padding-inline-start:20px;margin:6px 0}
+
+/* print sheet */
+.hb-print h2{font-size:22pt;text-align:center;margin:0 0 2px}
+.hb-print h3{font-size:15pt;margin:12px 0 4px;border-bottom:1px solid #999}
+.hb-print-sub{text-align:center;font-size:11pt;color:#555;margin:0 0 8px}
+.hb-print-bless{margin-bottom:8px}
+.hb-print-title{margin:0;font-size:11pt}
+.hb-print-text{font-size:14pt;line-height:1.75}
+.hb-print-text p{margin:0}
+.hb-print-note{margin:2px 0 0;font-size:9.5pt;color:#555}
+.hb-print ul{margin:0;padding-inline-start:18px;font-size:11pt}
+.hb-print-verse{margin-top:12px;text-align:center;font-size:13pt;font-weight:700}
