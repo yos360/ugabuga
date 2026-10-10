@@ -6,6 +6,7 @@ import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
 import PrintQrFallback from './PrintQrFallback'
 import WhatsAppShare from './WhatsAppShare'
+import NoVoiceNotice from './NoVoiceNotice'
 
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
@@ -43,6 +44,7 @@ export default function Layout({ children }) {
       {mounted && <RecentActivity />}
       {mounted && <PrintQrFallback />}
       {mounted && <WhatsAppShare />}
+      {mounted && <NoVoiceNotice />}
       <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
       <Footer />

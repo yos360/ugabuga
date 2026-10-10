@@ -18,6 +18,7 @@ const saveMuted = v => { try { localStorage.setItem(MUTE_KEY, v ? '1' : '0') } c
 
 // Tiny WebAudio feedback, no audio files: a gentle two-note "ding" for a right answer and a
 // soft low "boop" for a wrong one.
+const AUTO = { user: false } // automatic read-aloud: stay silent when there is no voice
 let audioCtx = null
 function tone(kind) {
   try {
@@ -123,10 +124,10 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   }
 
   const askAloud = () => {
-    if (mode === 'first') sayWord()
-    else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL')
-    else if (lang === 'he') speak(`לחצו על האות ${q.target.name}`, voice)
-    else speak(q.target.l, voice)
+    if (mode === 'first') speak(q.word[2] || q.word[0], voice, AUTO)
+    else if (mode === 'name') speak('איך קוראים לאות הזאת?', 'he-IL', AUTO)
+    else if (lang === 'he') speak(`לחצו על האות ${q.target.name}`, voice, AUTO)
+    else speak(q.target.l, voice, AUTO)
   }
 
   // Read every new question aloud automatically (unless muted) — but never before the child's
@@ -155,7 +156,7 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   }
 
   const question = mode === 'find'
-    ? (lang === 'he' ? <>לחצו על האות <b className="text-5xl align-middle">{q.target.l}</b></> : <>Find the letter <b className="text-5xl align-middle" dir="ltr">{q.target.l}</b></>)
+    ? (lang === 'he' ? <>לחצו על האות <b className="mx-2 inline-block min-w-[1.6em] rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-1 text-5xl align-middle">{q.target.l}</b></> : <>Find the letter <b className="mx-2 inline-block min-w-[1.6em] rounded-2xl border-2 border-[var(--border)] bg-white px-3 py-1 text-5xl align-middle" dir="ltr">{q.target.l}</b></>)
     : mode === 'match' ? <>מצאו את האות הגדולה של <b className="text-6xl align-middle" dir="ltr">{q.target.lower}</b></>
       : mode === 'name' ? <>איך קוראים לאות <b className="text-6xl align-middle">{q.target.l}</b>?</>
         : <>באיזו אות מתחיל…</>

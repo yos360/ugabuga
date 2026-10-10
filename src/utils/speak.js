@@ -40,9 +40,18 @@ export function canSpeak() {
 }
 
 // Resolves true when the text was handed to a matching voice.
-export async function speak(text, lang = 'he-IL', { rate = 0.85 } = {}) {
+// A press on a speaker button that can't play anything announces it (Layout shows a short
+// notice) instead of leaving a button that silently does nothing. Automatic read-aloud passes
+// `user: false` and stays silent.
+function noVoice(lang, user) {
+  if (user) try { window.dispatchEvent(new CustomEvent('buga:no-voice', { detail: { lang } })) } catch { /* ignore */ }
+  return false
+}
+
+export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true } = {}) {
   try {
-    if (!canSpeak() || !text) return false
+    if (!text) return false
+    if (!canSpeak()) return noVoice(lang, user)
     const voice = pickVoice(await loadVoices(), lang)
     const synth = window.speechSynthesis
     synth.cancel()
@@ -52,7 +61,13 @@ export async function speak(text, lang = 'he-IL', { rate = 0.85 } = {}) {
     if (voice) u.voice = voice
     // No voice list at all (some Androids report none yet still speak by
     // lang); a list without our language means we would only mispronounce.
-    else if (synth.getVoices().length) return false
+    else if (synth.getVoices().length) return noVoice(lang, user)
+    else {
+      // Speaking by language alone (no voice list yet): if nothing actually starts, say so.
+      let started = false
+      u.onstart = () => { started = true }
+      setTimeout(() => { if (!started && !synth.speaking) noVoice(lang, user) }, 1500)
+    }
     synth.speak(u)
     return true
   } catch { return false }

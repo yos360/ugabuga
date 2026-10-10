@@ -73,7 +73,7 @@ export function Dictation() {
     const answers = mode === 'voice' ? [...run.answers, typed.trim()] : run.answers
     const i = run.i + 1
     setRun({ ...run, i, answers }); setTyped('')
-    if (mode === 'voice' && i < run.words.length) setTimeout(() => speak(run.words[i]), 250)
+    if (mode === 'voice' && i < run.words.length) setTimeout(() => speak(run.words[i], 'he-IL', { user: false }), 250)
   }
   const right = done && mode === 'voice' ? run.words.filter((w, i) => plainWord(w) === plainWord(run.answers[i] || '')).length : 0
   const faq = [
