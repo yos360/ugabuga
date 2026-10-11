@@ -46,3 +46,5 @@ p.st-reader-note.no-print{margin:0 0 16px;padding:10px 14px;border:2px dashed #f
 .st-device-voice .st-reader{margin:0}
 .st-recorded .st-play{font-size:1.15em}
 p.st-reader-note.no-print .ln-chip{color:#1d2233;margin-inline-start:6px}
+.st-personal-toggle{background:#fff4cc;color:#1d2233}
+.st-personal-toggle[aria-expanded="true"]{background:#ffd23f}
