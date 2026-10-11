@@ -18,6 +18,7 @@ export const MENU_GROUPS = [
   {
     title: '🕹️ משחקי אונליין', to: '/online-games',
     items: [
+      { to: '/kids', label: 'אזור ילדים — לשחק לבד', icon: '🧸' },
       { to: '/online-games/today', label: 'אתגר היום — מתחלף כל יום', icon: '🌟' },
       { to: '/online-games/marathon', label: 'מרתון משחקים — 8 ברצף', icon: '🏃' },
       { to: '/chess', label: 'שחמט אונליין — נגד המחשב או חבר', icon: '♟️' },

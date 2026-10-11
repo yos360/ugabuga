@@ -99,6 +99,7 @@ const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ d
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
 const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedGrade })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
+const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
 const BedtimeStory = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.BedtimeStory })))
@@ -490,6 +491,7 @@ export default function App() {
               <Route path="/learn/gifted-test/stage-b" element={<GiftedGrade key="stage-b" slug="stage-b" />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/family" element={<FamilyHub />} />
+              <Route path="/kids" element={<KidsZone />} />
               <Route path="/family/what-to-do" element={<WhatToDo />} />
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />

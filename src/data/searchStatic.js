@@ -147,6 +147,7 @@ const PAGES = [
   { to: '/discover/solar-system', title: 'מערכת השמש', emoji: '🪐', kind: 'tool', desc: 'כוכבי הלכת, עובדות וחידון.', keys: 'חלל כוכבי לכת שמש ירח כוכבים' },
   { to: '/discover/human-body', title: 'גוף האדם', emoji: '🫀', kind: 'tool', desc: 'לוחצים על איבר ולומדים.', keys: 'גוף איברים לב מוח עצמות שלד' },
   // family tools (/family/*)
+  { to: '/kids', title: 'אזור ילדים — משחקים, צביעה וסיפורים', emoji: '🧸', kind: 'page', desc: 'אריחים גדולים עם קול לילדים שגולשים לבד.', keys: 'אזור ילדים ילדים לבד משחקים לילדים קטנים צביעה אונליין סיפורים מוקלטים אותיות מספרים פסנתר' },
   { to: '/family', title: 'בבית עם הילדים', emoji: '🏡', kind: 'tool', desc: 'כלים קטנים להורים לכל היום.', keys: 'הורים בית' },
   { to: '/family/what-to-do', title: 'מה עושים היום?', emoji: '🎲', kind: 'tool', desc: 'רעיון לפעילות לפי מקום, זמן וגיל.', keys: 'משעמם שעמום פעילות רעיונות מה לעשות' },
   { to: '/family/morning-routine', title: 'שגרת בוקר עם טיימר', emoji: '⏰', kind: 'tool', desc: 'משימה אחרי משימה, ויוצאים בזמן.', keys: 'שגרה בוקר ערב התארגנות' },

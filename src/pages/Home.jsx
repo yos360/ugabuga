@@ -5,6 +5,8 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
+import './home-intents.css'
+import { HOME_INTENTS } from '../data/kidsZone'
 // The daily quiz/game widgets sit below the fold — keep their code (and the
 // month's quiz-data chunk) out of the home page's critical path.
 const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
@@ -36,12 +38,9 @@ function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
   return <span aria-hidden="true" className={`home-art ${className}`} style={src ? {backgroundImage:`url(${src})`, backgroundSize:'contain', backgroundPosition:'center bottom', aspectRatio:'1 / 1'} : {aspectRatio:`${w}/${h}`,backgroundSize:`${1536/w*100}% ${1024/h*100}%`,backgroundPosition:`${x/(1536-w)*100}% ${y/(1024-h)*100}%`}} />
 }
-const doors = [
-  ['יום הולדת','משחקים, כלים וספקים —\nהכול לחגיגה מושלמת.','/birthday',[124,268,188,176],'#ffe7e4','#ff6f7b','/images/home-birthday-girl-720.webp'],
-  ['משחקים','מצאו משחק לפי גיל,\nזמן, משתתפים וציוד.','/games',[577,257,191,187],'#dffbef','#23c89f','/images/home-detective-boy-720.webp'],
-  ['יוצרים','דפי הדפסה, תשבצים\nועיצוב משלכם.','/create',[1022,272,187,162],'#f3eaff','#a775ed','/images/home-printer-720.webp'],
-  ['לכיתה','משחקים, עבודת שורשים\nודפי פעילות למורים.','/classroom',[1019,481,173,170],'#dff2ff','#28a4ef','/images/home-schoolgirl-720.webp'],
-]
+// "Why are you here today?" — the four entry doors right under the hero (data in src/data/kidsZone.js).
+// They replace the old category doors (birthday / games / create / classroom), which pointed to
+// mostly the same places; games and create stay one tap away in the hero buttons, PlayNow and the menu.
 const games = [
   ['תחנת החלל התקועה','חדר בריחה לילדים ולנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
   ['יוצרים ציד אוצרות','מסלול רמזים משלכם','/tools/scavenger-hunt-maker',[387,826,228,93]],
@@ -114,8 +113,15 @@ export default function Home() {
         <span>שיתוף</span>
       </button>
     </section>
+    <section className="home-intents" aria-labelledby="home-intents-title">
+      <h2 id="home-intents-title">למה נכנסתם היום?</h2>
+      <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
+        <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
+        {index === 0 && <span className="home-intent-stickers" aria-hidden="true"><span>🎨</span><span>⭐</span><span>🔤</span></span>}
+        <Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span>
+      </Link>)}</div>
+    </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
-    <section className="home-doors" aria-label="בוחרים פעילות">{doors.map(([title,description,to,crop,bg,color,src], index)=><Link className="home-door" to={to} key={title} style={{'--door-bg':bg,'--door-color':color}}><div className="home-door-copy"><h2>{title}</h2><p>{description}</p></div><Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span></Link>)}</section>
     <PlayNow />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>

@@ -43,7 +43,8 @@ export default function Layout({ children }) {
       <Navbar />
       {mounted && <RecentActivity />}
       {mounted && <PrintQrFallback />}
-      {mounted && <WhatsAppShare />}
+      {/* /kids is for a child browsing alone: no share button there. */}
+      {mounted && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
       <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
