@@ -284,3 +284,23 @@ body {
   transition: transform 500ms ease;
 }
 .btn-sheen:hover::after { transform: translateX(100%); }
+
+/* Filter chips: one horizontally scrolling row on phones (the row scrolls, never the page), wrapping on wider screens.
+   Used by hubs whose chips would otherwise stack into many rows before any content. */
+@media (max-width: 639px) {
+  .chip-scroll {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+    margin-inline: -16px;
+    padding: 4px 16px 8px;
+    -webkit-mask-image: linear-gradient(to left, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%);
+    mask-image: linear-gradient(to left, transparent 0, #000 16px, #000 calc(100% - 32px), transparent 100%);
+  }
+  .chip-scroll::-webkit-scrollbar { display: none; }
+  .chip-scroll > * { flex: none; white-space: nowrap; scroll-snap-align: start; }
+}

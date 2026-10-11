@@ -2,6 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import { useActiveChipInView } from '../../hooks/useActiveChipInView'
 import PrintableCard from '../../components/ui/PrintableCard'
 import { categories } from '../../data/printableCategories'
 export { categories }
@@ -43,6 +44,7 @@ export default function PrintablesIndex() {
   const [params, setParams] = useSearchParams()
   const topic = TOPICS.find(t => t.id === params.get('topic'))
   const list = !topic ? categories.filter(c => !c.inHubOnly) : topic.extra || topic.slugs.map(s => categories.find(c => c.slug === s)).filter(Boolean)
+  const chipsRef = useActiveChipInView(topic?.id) // phones: keep the chosen topic in view in the scrolling chip row
   const pick = id => {
     const next = new URLSearchParams(params)
     if (!id || topic?.id === id) next.delete('topic'); else next.set('topic', id)
@@ -55,7 +57,7 @@ export default function PrintablesIndex() {
       <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפי פעילות להדפסה בחינם</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">דפים להדפסה לילדים: בוחרים נושא ופעילות — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
 
-      <nav aria-label="סינון לפי נושא" className="mb-8 flex flex-wrap justify-center gap-2">
+      <nav ref={chipsRef} aria-label="סינון לפי נושא" className="chip-scroll mb-8 flex flex-wrap justify-center gap-2">
         {[{ id: '', label: 'הכול' }, ...TOPICS].map(t => {
           const on = (topic?.id || '') === t.id
           return <button key={t.id || 'all'} type="button" aria-pressed={on} onClick={() => pick(t.id)}

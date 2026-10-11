@@ -100,10 +100,10 @@ export default function Home() {
     }
   }
 
-  return <><SEO path="/" title="עוגה בוגה — פעילויות ומשחקים לילדים בחינם" description='עוגה בוגה — פעילויות לילדים בעברית: 100 משחקים, משחקי אונליין, דפי צביעה ודפים להדפסה, חדרי בריחה וכלים לכיתה. חינם וללא הרשמה.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
+  return <><SEO path="/" title="עוגה בוגה — פעילויות ומשחקים לילדים בחינם" description='עוגה בוגה — פעילויות לילדים בעברית: יותר מ-100 משחקים, משחקי אונליין, דפי צביעה ודפים להדפסה, חדרי בריחה וכלים לכיתה. חינם וללא הרשמה.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>מה בא לכם לעשות היום?</h1>
-      <p>פעילויות ומשחקים לילדים, יצירה, דפי צביעה וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
+      <p>פעילויות ומשחקים לילדים, יצירה, דפי צביעה וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה מאות משחקים, דפי פעילות וכלים בחינם — לכל גיל וגודל קבוצה.</p>
       <nav className="home-quick" aria-label="מתחילים מכאן">
         <Link to="/online-games" className="home-quick-btn is-play"><span aria-hidden="true">🕹️</span> לשחק עכשיו</Link>
         <Link to="/tools/bring-list" className="home-quick-btn is-list"><span aria-hidden="true">🧺</span> רשימת "מי מביא מה"</Link>

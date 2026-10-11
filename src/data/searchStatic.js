@@ -27,7 +27,7 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
-  { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: '100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
+  { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
   { to: '/birthday-greetings', title: 'ברכה ליום הולדת', emoji: '💌', kind: 'page', desc: 'ברכות מקוריות לכל גיל ולכל אחד — להעתקה ולוואטסאפ.', keys: 'ברכה ליום הולדת ברכות ליום הולדת ברכת יום הולדת איחולים' },
   { to: '/classroom', title: 'לכיתה ולגן', emoji: '🏫', kind: 'page', desc: 'פעילויות, משחקים ודפי עבודה למורות ולגננות.', keys: 'מורה גננת גן בית ספר' },

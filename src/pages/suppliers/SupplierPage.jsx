@@ -53,7 +53,7 @@ export default function SupplierPage() {
       {cat && <Link to={categoryPagePath(cat.slug)} className="rounded-2xl border-2 border-[var(--ink)] bg-white px-5 py-3 font-bold">{cat.emoji} עוד {cat.more} ←</Link>}
       <Link to="/suppliers" className="rounded-2xl border-2 border-slate-200 bg-white px-5 py-3 font-bold">לכל הספקים</Link>
     </nav>
-    {hasContact && createPortal(<div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:hidden" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
+    {hasContact && createPortal(<div data-bottom-bar className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:hidden" style={{ paddingBottom: 'max(12px, env(safe-area-inset-bottom))' }}>
       <ContactButtons s={s} className="flex-nowrap" />
     </div>, document.body)}
   </div>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -152,6 +152,10 @@ function Story({ story, params }) {
   const [reading, setReading] = useState(null) // { p, s } being read aloud; s=-1 → the whole paragraph
   const [recCount, setRecCount] = useState(0) // files in the "Noa" recording (0 = not recorded / not known yet)
   const [deviceVoice, setDeviceVoice] = useState(false)
+  const [nameOpen, setNameOpen] = useState(false) // the name form stays folded until asked for
+  const panelRef = useRef(null)
+  // Opening the name form puts the cursor in the first name field.
+  useEffect(() => { if (nameOpen) panelRef.current?.querySelector('input')?.focus({ preventScroll: true }) }, [nameOpen])
   const r = useMemo(() => renderStory(story, custom), [story, custom])
   // Decided after hydration (prerendered HTML never shows the player), and never fetched during prerender.
   useEffect(() => {
@@ -192,7 +196,7 @@ function Story({ story, params }) {
   const t = themeOf(story.theme)
   const faq = [
     { q: `לאיזה גיל מתאים הסיפור "${defaults.title}"?`, a: `הסיפור נכתב ל${ageLabel(story.age)}, אבל ילדים קטנים או גדולים יותר ייהנו ממנו גם. הוא באורך של ${words} מילים — כ־${minutes} דקות של הקראה רגועה.` },
-    { q: 'איך הופכים את הסיפור לסיפור אישי עם שם הילד?', a: 'בתיבה "הסיפור שלכם" כותבים את השם ובוחרים בן או בת. הסיפור מתעדכן מיד — כולל הפעלים וכינויי הגוף — וגם הגרסה המודפסת יוצאת עם השם. השמות לא נשלחים לשום מקום.' },
+    { q: 'איך הופכים את הסיפור לסיפור אישי עם שם הילד?', a: 'לוחצים על "להכניס את שם הילד לסיפור", כותבים את השם ובוחרים בן או בת. הסיפור מתעדכן מיד — כולל הפעלים וכינויי הגוף — וגם הגרסה המודפסת יוצאת עם השם. השמות לא נשלחים לשום מקום.' },
     { q: 'מה המסר של הסיפור?', a: story.moral },
   ]
   const schema = [faqSchema(faq), {
@@ -229,7 +233,16 @@ function Story({ story, params }) {
       <div className="mt-3 flex justify-center"><Badges s={story} minutes={minutes} /></div>
     </header>
 
-    <section className="ln-box st-panel no-print mt-6 space-y-3" aria-labelledby="your-story">
+    {/* Bedtime: the story comes first. Personalizing is one compact button that opens the name form on demand. */}
+    <div className="no-print mt-4 flex flex-wrap justify-center gap-2">
+      <button type="button" className="ln-chip st-personal-toggle" aria-expanded={nameOpen} aria-controls={nameOpen ? 'your-story-panel' : undefined} onClick={() => setNameOpen(!nameOpen)}>
+        {personalized ? `✨ ${heroName ? `הסיפור של ${heroName}` : 'השמות בסיפור'} · שינוי` : '✨ להכניס את שם הילד לסיפור'}
+      </button>
+      <button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ הדפסה</button>
+      <Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip>
+    </div>
+
+    {nameOpen && <section id="your-story-panel" ref={panelRef} className="ln-box st-panel no-print mt-4 space-y-3" aria-labelledby="your-story">
       <h2 id="your-story" className="text-2xl font-black text-center">✨ הסיפור שלכם</h2>
       <p className="m-0 text-center">כתבו שם ובחרו {Object.values(story.chars).some(c => c.gendered && !c.animal) ? 'בן או בת' : 'זכר או נקבה'} — הסיפור ישתנה מיד.</p>
       {Object.entries(story.chars).map(([k, c]) => {
@@ -244,17 +257,13 @@ function Story({ story, params }) {
       <div className="flex flex-wrap justify-center gap-2">
         {personalized && <button type="button" className="ln-chip" onClick={reset}>↺ חזרה לשמות המקוריים</button>}
         {personalized && <button type="button" className="ln-chip" onClick={copyLink}>🔗 קישור לסיפור עם השמות</button>}
+        <button type="button" className="ln-btn" onClick={() => setNameOpen(false)}>✓ לסיפור</button>
       </div>
       {copied && <p className="m-0 text-center text-sm break-all" role="status">{copied}</p>}
       <small className="block text-center text-[var(--muted-foreground)]">השמות נשמרים רק בדפדפן שלכם ולא נשלחים לשום מקום.</small>
-    </section>
+    </section>}
 
-    <div className="no-print mt-5 flex flex-wrap justify-center gap-2">
-      <button type="button" className="ln-btn" onClick={() => setPrinting(true)}>🖨️ הדפסת הסיפור</button>
-      <Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip>
-    </div>
-
-    <article className="st-night mt-5" aria-labelledby="story-title">
+    <article className="st-night mt-4" aria-labelledby="story-title">
       <h2 id="story-title" className="mb-4 text-center text-3xl font-black">{story.emoji} {r.title}</h2>
       {playlist && defaultText && !deviceVoice && <RecordedReader key={story.slug} playlist={playlist} paragraphCount={defaults.body.length} onSentence={setReading} />}
       {playlist && !defaultText && <p className="st-reader-note no-print">🎧 ההקלטה המוקלטת זמינה רק עם השמות המקוריים של הסיפור. <button type="button" className="ln-chip" onClick={reset}>↺ חזרה לשמות המקוריים</button></p>}

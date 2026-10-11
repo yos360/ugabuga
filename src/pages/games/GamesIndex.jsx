@@ -7,6 +7,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
+import { useActiveChipInView } from '../../hooks/useActiveChipInView'
 import { gameHref } from '../../data/gameHref'
 import { GAME_FILTERS, gameFilter, durationLabel, fitsAge, gamesCountText } from '../../data/gameFilters'
 import { gameItem, searchItems } from '../../data/searchIndex'
@@ -26,12 +27,12 @@ function difficultyColor(g) { return g.difficulty === 'hard' ? 'red' : g.difficu
 
 const gamesIndexFaq = [
   { q: 'איך משתמשים בסינון כדי למצוא משחק מתאים?', a: 'בוחרים תחילה את הפילטר הכי מגביל (למשל "בלי ציוד" או "עד 5 דקות"), ומצמצמים משם לפי גיל ומספר משתתפים.' },
-  { q: 'כל המשחקים לילדים באתר בחינם?', a: 'כן. כל 100 המשחקים חינמיים ובלי הרשמה — ההוראות, הגרסאות להדפסה והכלים הנלווים כמו טיימר וגלגל מזל.' },
+  { q: 'כל המשחקים לילדים באתר בחינם?', a: 'כן. כל המשחקים חינמיים ובלי הרשמה — ההוראות, הגרסאות להדפסה והכלים הנלווים כמו טיימר וגלגל מזל.' },
   { q: 'יש גם משחקים לשחק במחשב או בטלפון?', a: 'כן. המשחקים כאן הם משחקים לשחק יחד, בחדר או בחצר. משחקים לשחק על המסך — סוליטר, סודוקו, ארבע בשורה ועוד — נמצאים במתחם משחקי האונליין.' },
   { q: 'יש דרך לגלות משחקים חדשים בלי לחפש משהו ספציפי?', a: 'כן, אפשר פשוט לדפדף ברשימה המלאה לפי קטגוריה — לפעמים המשחק הכי מתאים הוא כזה שלא חיפשתם.' },
 ]
 const gamesIndexBody = [
-  'זו הרשימה המלאה — 100 משחקים במקום אחד. הדרך הכי מהירה למצוא משחק היא להתחיל מהאילוץ הכי נוקשה שיש לכם באותו רגע: אם אין ציוד בכלל, מסננים לפי משחקים בלי ציוד; אם יש בדיוק חמש דקות, משחקים ל-5 דקות פנויות מתאימים בדיוק; ואם המטרה היא לפתוח מפגש קבוצתי חדש, משחקי היכרות ושוברי קרח מתחילים בדיוק מהנקודה הזאת.',
+  'זו הרשימה המלאה — יותר מ-100 משחקים במקום אחד. הדרך הכי מהירה למצוא משחק היא להתחיל מהאילוץ הכי נוקשה שיש לכם באותו רגע: אם אין ציוד בכלל, מסננים לפי משחקים בלי ציוד; אם יש בדיוק חמש דקות, משחקים ל-5 דקות פנויות מתאימים בדיוק; ואם המטרה היא לפתוח מפגש קבוצתי חדש, משחקי היכרות ושוברי קרח מתחילים בדיוק מהנקודה הזאת.',
   'חלק מהמשחקים ברשימה גם קיימים כגרסה דיגיטלית או להדפסה במתחם היוצרים — אם מוצאים משחק שדורש כרטיסים או כללים כתובים, כדאי לבדוק אם יש לו גרסת הדפסה מוכנה שם.',
 ]
 const gamesIndexRelated = [ { label: 'משחקי יום הולדת', href: '/games/birthday' }, { label: 'משחקים בלי ציוד', href: '/games/no-equipment' }, { label: 'משחקי אונליין לילדים', href: '/online-games' }, { label: 'משחקי לוח', href: '/board-games' }, { label: 'מתחם יוצרים', href: '/create' } ]
@@ -81,6 +82,9 @@ export default function GamesIndex() {
   }
 
   const activeFilter = gameFilter(contextFilter)
+  // The real count once the list is loaded ("102 משחקים"), never a number smaller than what's listed.
+  const gamesTotal = games.length >= 100 ? `${games.length} משחקים` : 'יותר מ-100 משחקים'
+  const chipsRef = useActiveChipInView(`${ageNumber}|${contextFilter}`) // phones: keep the chosen chips in view
   const filtered = useMemo(() => {
     const q = search.trim()
     // text search uses the site search (word starts, Hebrew prefixes, ages: "לגיל 7"), best match first
@@ -117,12 +121,12 @@ export default function GamesIndex() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : 'משחקים לילדים בחינם — 100 משחקים לבית, לכיתה ולמסיבה'} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'משחקים לילדים בחינם: 100 משחקים לבית, לכיתה, ליום הולדת ולצהרון, עם הוראות, גילאים ומספר משתתפים. מסננים לפי גיל וציוד — רבים בלי ציוד ובלי הכנה.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
+      <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : `משחקים לילדים בחינם — ${gamesTotal} לבית, לכיתה ולמסיבה`} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'משחקים לילדים בחינם: יותר מ-100 משחקים לבית, לכיתה, ליום הולדת ולצהרון, עם הוראות, גילאים ומספר משתתפים. מסננים לפי גיל וציוד — רבים בלי ציוד ובלי הכנה.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
         structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : ageHub && !isGameOfDay ? faqSchema(ageHub.faq) : null} />
       <Breadcrumbs items={ageNumber ? [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים', href: '/games' }, { label: `גיל ${age}` }] : [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
       {ageHub && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{ageHub.intro[0]}</p>}
-      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">100 משחקים לילדים בחינם — משחקי חברה, תנועה, מילים וחשיבה לבית, לכיתה וליום הולדת. לכל משחק יש הוראות, גילאים ומספר משתתפים, ורובם לא צריכים שום ציוד.</p>}
+      {!isGameOfDay && !ageNumber && !goalFilter && !contextFilter && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{gamesTotal} לילדים בחינם — משחקי חברה, תנועה, מילים וחשיבה לבית, לכיתה וליום הולדת. לכל משחק יש הוראות, גילאים ומספר משתתפים, ורובם לא צריכים שום ציוד.</p>}
       {agePicks.length > 0 && (
         <section className="wobbly mx-auto mb-8 max-w-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow">
           <h2 className="mb-3 text-2xl font-bold">⭐ הבחירות שלנו לגיל {age}</h2>
@@ -158,8 +162,8 @@ export default function GamesIndex() {
       </form>
 
       {!isGameOfDay && (
-        <nav aria-label="סינון משחקים" className="mx-auto mb-6 max-w-4xl">
-          <div className="flex flex-wrap items-center justify-center gap-2">
+        <nav ref={chipsRef} aria-label="סינון משחקים" className="mx-auto mb-6 max-w-4xl">
+          <div className="chip-scroll flex flex-wrap items-center justify-center gap-2">
             {AGE_PAGES.map((a) => (
               <Link key={a} to={ageHref(a)} preventScrollReset aria-current={ageNumber === a ? 'true' : undefined}
                 className={`min-h-[44px] inline-flex items-center rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${ageNumber === a ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] hover:bg-[var(--muted)]/30'}`}>
@@ -167,7 +171,7 @@ export default function GamesIndex() {
               </Link>
             ))}
           </div>
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+          <div className="chip-scroll mt-2 flex flex-wrap items-center justify-center gap-2">
             <span className="font-bold text-[var(--muted-foreground)]">מתאים ל:</span>
             {GAME_FILTERS.map((f) => (
               <button key={f.id} type="button" aria-pressed={contextFilter === f.id}

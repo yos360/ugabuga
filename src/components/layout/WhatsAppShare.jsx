@@ -31,14 +31,30 @@ export default function WhatsAppShare() {
     const t = setTimeout(() => { if (!bubbleSeen() && !document.querySelector('dialog[open]')) { setBubble(true); markBubble() } }, 25000)
     return () => clearTimeout(t)
   }, [pathname, audience.key])
+  // Phones: tuck the button away while the page scrolls down (it would sit on cards, fields and
+  // buttons), bring it back on scroll up or once scrolling stops. CSS applies this on small screens only.
+  const [tucked, setTucked] = useState(false)
+  useEffect(() => {
+    let last = window.scrollY, idle
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > last + 4 && y > 120) setTucked(true)
+      else if (y < last - 4) setTucked(false)
+      last = y
+      clearTimeout(idle)
+      idle = setTimeout(() => setTucked(false), 900)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(idle) }
+  }, [])
   if (HIDDEN.test(pathname)) return null
   const share = () => { setBubble(false); sharePage(pathname, 'floating') }
   return <>
-    {bubble && <div className="wa-bubble no-print" role="status" dir="rtl">
+    {bubble && <div className={`wa-bubble no-print${tucked ? ' is-tucked' : ''}`} role="status" dir="rtl">
       <button type="button" className="wa-bubble-text" onClick={share}>{audience.invite}</button>
       <button type="button" className="wa-bubble-x" onClick={() => setBubble(false)} aria-label="סגירה">×</button>
     </div>}
-    <button type="button" onClick={share} className="wa-fab no-print" aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
+    <button type="button" onClick={share} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
       <WhatsAppIcon />
       <span className="wa-fab-text">שתפו</span>
     </button>

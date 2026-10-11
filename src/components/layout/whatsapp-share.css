@@ -2,7 +2,26 @@
 .wa-fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;display:inline-flex;align-items:center;gap:6px;height:52px;padding:0 16px 0 14px;border-radius:999px;border:2.5px solid #1d2233;background:#25d366;color:#fff;font-weight:900;font-size:16px;box-shadow:3px 3px 0 #1d2233;cursor:pointer;transition:transform .15s}
 .wa-fab:hover{transform:translateY(-2px)}
 .wa-fab:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
-@media (max-width:640px){.wa-fab{width:52px;padding:0;justify-content:center}.wa-fab-text{display:none}}
+/* phones: a small icon-only circle in the corner (the aria-label still says "share"), above the home-indicator
+   safe area, tucked away while scrolling down (WhatsAppShare toggles .is-tucked) */
+@media (max-width:640px){
+  .wa-fab{left:max(12px,env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));width:44px;height:44px;padding:0;justify-content:center;border-width:2px;box-shadow:2px 2px 0 #1d2233;transition:transform .25s ease,opacity .25s ease}
+  .wa-fab svg{width:22px;height:22px}
+  .wa-fab-text{display:none}
+  .wa-bubble{left:max(12px,env(safe-area-inset-left));bottom:calc(66px + env(safe-area-inset-bottom));transition:transform .25s ease,opacity .25s ease}
+  .wa-bubble::after{left:14px}
+  .wa-bubble.is-tucked{animation:none}
+  .wa-fab.is-tucked,.wa-bubble.is-tucked{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
+  .wa-fab.is-tucked:focus-visible{transform:none;opacity:1;pointer-events:auto}
+  /* never on top of a page's own fixed bottom bar (story player, supplier contact bar) */
+  body:has(.st-float,[data-bottom-bar]) :is(.wa-fab,.wa-bubble){display:none}
+  /* sit above the cookie banner while it's shown */
+  body:has(.cookie-banner) .wa-fab{bottom:calc(70px + env(safe-area-inset-bottom))}
+  body:has(.cookie-banner) .wa-bubble{bottom:calc(124px + env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){.wa-fab,.wa-bubble{transition:none}}
+/* hidden behind any open dialog (print preview, modals) */
+body:has(dialog[open]) :is(.wa-fab,.wa-bubble){display:none}
 @media print{.wa-fab{display:none!important}}
 .wa-bubble{position:fixed;left:16px;bottom:calc(80px + env(safe-area-inset-bottom));z-index:46;max-width:min(300px,calc(100vw - 32px));display:flex;align-items:flex-start;gap:4px;background:#fff;border:2.5px solid #1d2233;border-radius:16px;box-shadow:3px 3px 0 #1d2233;padding:10px 8px 10px 12px;animation:wa-in .35s ease-out both}
 .wa-bubble::after{content:"";position:absolute;left:22px;bottom:-9px;width:14px;height:14px;background:#fff;border-right:2.5px solid #1d2233;border-bottom:2.5px solid #1d2233;transform:rotate(45deg)}
