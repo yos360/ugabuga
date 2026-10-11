@@ -94,7 +94,7 @@ const RANGE = {
   add20: ex => ex.op === '+' && ex.a >= 1 && ex.b >= 1 && ex.a + ex.b <= 20,
   sub20: ex => ex.op === '−' && ex.a >= 11 && ex.a <= 20 && ex.b >= 1 && ex.a - ex.b >= 0,
   mult: ex => ex.op === '×' && ex.a >= 2 && ex.a <= 10 && ex.b >= 2 && ex.b <= 10,
-  div: ex => ex.op === '÷' && ex.b >= 2 && ex.b <= 10 && ex.a % ex.b === 0 && ex.a / ex.b <= 10,
+  div: ex => ex.op === '÷' && ex.b >= 2 && ex.b <= 9 && ex.a % ex.b === 0 && ex.a / ex.b <= 10 && ex.a <= 90,
 }
 
 test('color by answer: in every kind each answer maps to exactly one color, and exercises fit the kind', () => {

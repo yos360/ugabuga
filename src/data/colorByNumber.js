@@ -1300,7 +1300,7 @@ export const CBN_MATH_KINDS = [
   { id: 'add20', slug: 'addition-20', label: 'חיבור עד 20', short: 'חיבור עד 20', emoji: '➕', level: 'grades-1-2', grade: 'כיתות א׳–ב׳', sample: '8+7' },
   { id: 'sub20', slug: 'subtraction-20', label: 'חיסור עד 20', short: 'חיסור עד 20', emoji: '➖', level: 'grades-1-2', grade: 'כיתות א׳–ב׳', sample: '15−8' },
   { id: 'mult', slug: 'multiplication', label: 'לוח הכפל', short: 'כפל', emoji: '✖️', level: 'adults', grade: 'כיתות ב׳–ד׳', sample: '6×7' },
-  { id: 'div', slug: 'division', label: 'חילוק', short: 'חילוק', emoji: '➗', level: 'adults', grade: 'כיתות ג׳–ה׳', sample: '42÷6' },
+  { id: 'div', slug: 'division', label: 'חילוק', short: 'חילוק', emoji: '➗', level: 'grades-1-2', grade: 'כיתות ג׳–ה׳', sample: '42÷6' },
 ]
 export const cbnMathKindBySlug = slug => CBN_MATH_KINDS.find(k => k.slug === slug)
 export const cbnMathKindById = id => CBN_MATH_KINDS.find(k => k.id === id)
@@ -1314,7 +1314,7 @@ function variety(kind, v) {
   if (kind === 'mult') return multPairs(v).length
   if (kind === 'sub10') return 10 - v // a = v+1…10 (a−0 is never used)
   if (kind === 'sub20') return 20 - Math.max(11, v + 1) + 1 // a = 11…20
-  if (kind === 'div') return 9 // divisor 2…10
+  if (kind === 'div') return 8 // divisor 2…9 (so a dividend never needs three digits)
   return v - 1 // addition: a = 1…v−1
 }
 
@@ -1338,7 +1338,7 @@ function exerciseFor(kind, answer, r) {
     return { a, b, op: '×', text: `${a}×${b}` }
   }
   if (kind === 'div') {
-    const b = 2 + Math.floor(r() * 9)
+    const b = 2 + Math.floor(r() * 8)
     return { a: answer * b, b, op: '÷', text: `${answer * b}÷${b}` }
   }
   if (kind === 'sub10' || kind === 'sub20') {
