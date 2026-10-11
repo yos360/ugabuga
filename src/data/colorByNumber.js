@@ -1,9 +1,10 @@
-// Color by number (/printables/color-by-number): 20 original pixel pictures drawn as data.
+// Color by number (/printables/color-by-number): original pixel pictures drawn as data.
 // Each row is a string; every character is one cell. '.' = blank (left white, no number);
 // any other character is a color from CBN_COLORS. A picture's `colors` string sets the order of
 // its legend — the first color is number 1, the second is number 2 and so on.
 // Every picture also has a math version: each cell shows an exercise whose answer is the color's
 // "answer number". Exercises come from a seeded generator, so screen and print always match.
+// The same pictures feed color-by-answer (any exercise kind) and color-by-letter (Hebrew/English).
 
 export const CBN_COLORS = {
   R: { name: 'אדום', hex: '#e53935' },
@@ -38,7 +39,7 @@ export const CBN_LEVELS = [
 export const CBN_PICTURES = [
   // ── גן: 12–16 משבצות, 3–5 צבעים ──
   {
-    slug: 'apple', name: 'תפוח', emoji: '🍎', level: 'gan', colors: 'RWGE',
+    slug: 'apple', name: 'תפוח', emoji: '🍎', level: 'gan', colors: 'RWGE', holiday: 'rosh-hashana', theme: 'food',
     blurb: 'תפוח אדום ועגול עם עלה ירוק וזנב קטן — הדף הראשון המושלם למי שרק מתחיל לזהות מספרים.',
     rows: [
       '......W.....',
@@ -56,7 +57,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'fish', name: 'דג', emoji: '🐟', level: 'gan', colors: 'OYKE',
+    slug: 'fish', name: 'דג', emoji: '🐟', level: 'gan', colors: 'OYKE', theme: 'sea',
     blurb: 'דג כתום עם סנפירים וזנב צהובים ופס צהוב באמצע הגוף — שוחה לו שמאלה עם עין גדולה.',
     rows: [
       '......YYYY......',
@@ -72,7 +73,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'ladybug', name: 'פרת משה רבנו', emoji: '🐞', level: 'gan', colors: 'RKE',
+    slug: 'ladybug', name: 'פרת משה רבנו', emoji: '🐞', level: 'gan', colors: 'RKE', theme: 'animals',
     blurb: 'פרת משה רבנו אדומה עם נקודות שחורות, מחושים ועיניים לבנות — רק שלושה צבעים.',
     rows: [
       '...K......K...',
@@ -91,7 +92,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'flower', name: 'פרח', emoji: '🌸', level: 'gan', colors: 'pYG',
+    slug: 'flower', name: 'פרח', emoji: '🌸', level: 'gan', colors: 'pYG', theme: 'seasons',
     blurb: 'פרח ורוד עם לב צהוב, גבעול ארוך ושני עלים — דף רגוע עם שלושה צבעים בלבד.',
     rows: [
       '...pp..pp...',
@@ -111,7 +112,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'cat', name: 'חתול', emoji: '🐱', level: 'gan', colors: 'OpKE',
+    slug: 'cat', name: 'חתול', emoji: '🐱', level: 'gan', colors: 'OpKE', theme: 'animals',
     blurb: 'פרצוף של חתול כתום עם אוזניים ורודות, עיניים שחורות, שפם ואף קטן.',
     rows: [
       '.OO........OO.',
@@ -131,7 +132,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'watermelon', name: 'אבטיח', emoji: '🍉', level: 'gan', colors: 'RKgD',
+    slug: 'watermelon', name: 'אבטיח', emoji: '🍉', level: 'gan', colors: 'RKgD', theme: 'food',
     blurb: 'פרוסת אבטיח אדומה עם גרעינים שחורים וקליפה בשני גוונים של ירוק — טעם של קיץ.',
     rows: [
       'DgRRRRRRRRRRRRRRgD',
@@ -146,7 +147,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'penguin', name: 'פינגווין', emoji: '🐧', level: 'gan', colors: 'KEO',
+    slug: 'penguin', name: 'פינגווין', emoji: '🐧', level: 'gan', colors: 'KEO', theme: 'animals',
     blurb: 'פינגווין שחור־לבן עם מקור ורגליים כתומים — שלושה צבעים, ותוצאה שתמיד יוצאת יפה.',
     rows: [
       '....KKKKKK....',
@@ -167,9 +168,308 @@ export const CBN_PICTURES = [
       '..OOOO..OOOO..',
     ],
   },
+  {
+    slug: 'sun', name: 'שמש', emoji: '☀️', level: 'gan', colors: 'YOKR', theme: 'seasons',
+    blurb: 'שמש צהובה ומחייכת עם קרניים כתומות לכל הכיוונים — דף קיצי ושמח עם ארבעה צבעים.',
+    rows: [
+      '.......O.......',
+      '.O.....O.....O.',
+      '..O.........O..',
+      '.....YYYYY.....',
+      '....YYYYYYY....',
+      '...YYKYYYKYY...',
+      '...YYKYYYKYY...',
+      'OO.YYYYYYYYY.OO',
+      '...YYRYYYRYY...',
+      '....YYRRRYY....',
+      '.....YYYYY.....',
+      '..O.........O..',
+      '.O.....O.....O.',
+      '.......O.......',
+    ],
+  },
+  {
+    slug: 'strawberry', name: 'תות', emoji: '🍓', level: 'gan', colors: 'RYGD', theme: 'food',
+    blurb: 'תות אדום עם גרעינים צהובים ועלים ירוקים למעלה — פרי מתוק לצביעה ראשונה.',
+    rows: [
+      '.....DD.....',
+      '..GGGDDGGG..',
+      '.GGGGGGGGGG.',
+      '.RRGGRRGGRR.',
+      'RRRRRRRRRRRR',
+      'RYRRRYRRRYRR',
+      'RRRRRRRRRRRR',
+      'RRRYRRRYRRRY',
+      '.RRRRRRRRRR.',
+      '.RYRRRYRRYR.',
+      '..RRRRRRRR..',
+      '...RRYRRR...',
+      '....RRRR....',
+      '.....RR.....',
+    ],
+  },
+  {
+    slug: 'gift', name: 'מתנה', emoji: '🎁', level: 'gan', colors: 'BNYR', theme: 'birthday',
+    blurb: 'קופסת מתנה כחולה עם סרט צהוב ופפיון אדום — מושלם ליום הולדת בגן.',
+    rows: [
+      '...RR....RR...',
+      '..RRRR..RRRR..',
+      '..RRRRRRRRRR..',
+      '....RRRRRR....',
+      'NNNNNNYYNNNNNN',
+      'NNNNNNYYNNNNNN',
+      '.BBBBBYYBBBBB.',
+      '.BBBBBYYBBBBB.',
+      '.YYYYYYYYYYYY.',
+      '.BBBBBYYBBBBB.',
+      '.BBBBBYYBBBBB.',
+      '.BBBBBYYBBBBB.',
+      '.BBBBBYYBBBBB.',
+    ],
+  },
+  {
+    slug: 'pomegranate', name: 'רימון', emoji: '🔴', level: 'gan', colors: 'RMEG', holiday: 'rosh-hashana',
+    blurb: 'רימון אדום ועגול עם כתר בורדו ועלה ירוק — דף צביעה לראש השנה.',
+    rows: [
+      '....M.M.M....',
+      '....MMMMM.GG.',
+      '.....MMM.GGG.',
+      '...RRRRRRR...',
+      '..RRRRRRRRR..',
+      '.RERRRRRRRRR.',
+      '.RERRRRRRRRR.',
+      'RREERRRRRRRRR',
+      'RRRRRRRRRRRRR',
+      'RRRRRRRRRRRRR',
+      '.RRRRRRRRRRR.',
+      '.RRRRRRRRRRR.',
+      '..RRRRRRRRR..',
+      '....RRRRR....',
+    ],
+  },
+  {
+    slug: 'hamantasch', name: 'אוזן המן', emoji: '🥟', level: 'gan', colors: 'wUZ', holiday: 'purim',
+    blurb: 'אוזן המן משולשת עם בצק בהיר ומילוי שוקולד כהה באמצע — דף צביעה לפורים.',
+    rows: [
+      '......U......',
+      '.....UwU.....',
+      '....UwwwU....',
+      '....UwwwU....',
+      '...UwwZwwU...',
+      '...UwZZZwU...',
+      '..UwZZZZZwU..',
+      '..UwZZZZZwU..',
+      '.UwwZZZZZwwU.',
+      '.UwwwwwwwwwU.',
+      'UwwwwwwwwwwwU',
+      'UUUUUUUUUUUUU',
+    ],
+  },
+  {
+    slug: 'sufganiyah', name: 'סופגנייה', emoji: '🍩', level: 'gan', colors: 'WEwR', holiday: 'hanukkah',
+    blurb: 'סופגנייה חומה עם אבקת סוכר לבנה וריבה אדומה למעלה — דף צביעה מתוק לחנוכה.',
+    rows: [
+      '......RR......',
+      '.....RRRR.....',
+      '...EEERREEE...',
+      '..EEEEEEEEEE..',
+      '.EEEEEEEEEEEE.',
+      '.WWEWWEWWEWWW.',
+      'WWWWWWWWWWWWWW',
+      'WWWWWWWWWWWWWW',
+      'wwwwwwwwwwwwww',
+      '.WWWWWWWWWWWW.',
+      '..WWWWWWWWWW..',
+      '....WWWWWW....',
+    ],
+  },
+  {
+    slug: 'etrog', name: 'אתרוג', emoji: '🍋', level: 'gan', colors: 'YyGW', holiday: 'sukkot',
+    blurb: 'אתרוג צהוב עם פיטם קטן למעלה ועלים ירוקים למטה — דף צביעה לסוכות.',
+    rows: [
+      '.....WW.....',
+      '.....YY.....',
+      '....YYYY....',
+      '...YYYYYY...',
+      '..YYYYYYYY..',
+      '..YyYYYYYY..',
+      '.YYyYYYYYYY.',
+      '.YYyYYYYYYY.',
+      '.YYYYYYYYYY.',
+      '.YYYYYYYYYY.',
+      '..YYYYYYYY..',
+      '...YYYYYY...',
+      '....YYYY....',
+      '.....GG.....',
+      '...GGGGGG...',
+    ],
+  },
+  {
+    slug: 'kiddush-cup', name: 'גביע קידוש', emoji: '🍷', level: 'gan', colors: 'UMy', holiday: 'pesach',
+    blurb: 'גביע קידוש מוזהב עם יין בורדו וקישוטים בהירים — דף צביעה לליל הסדר.',
+    rows: [
+      '.UUUUUUUUUU.',
+      '.UMMMMMMMMU.',
+      '.UUUUUUUUUU.',
+      '.UyUUyyUUyU.',
+      '.UUyyUUyyUU.',
+      '..UUUUUUUU..',
+      '...UUUUUU...',
+      '.....UU.....',
+      '.....UU.....',
+      '....yUUy....',
+      '...UUUUUU...',
+      '..UUUUUUUU..',
+    ],
+  },
+  {
+    slug: 'frog', name: 'צפרדע', emoji: '🐸', level: 'gan', colors: 'GgEKR', holiday: 'pesach',
+    blurb: 'צפרדע ירוקה ומחייכת עם עיניים גדולות ובטן ירוקה בהירה — ממכת הצפרדע של פסח.',
+    rows: [
+      '..GGGG..GGGG..',
+      '.GEEKEGGEKEEG.',
+      '.GEEEEGGEEEEG.',
+      'GGGGGGGGGGGGGG',
+      'GGGGGGGGGGGGGG',
+      'GGRGGGGGGGGRGG',
+      'GGGRRRRRRRRGGG',
+      '.GGGGGGGGGGGG.',
+      '..gggggggggg..',
+      '.GGggggggggGG.',
+      'GGG.gggggg.GGG',
+    ],
+  },
+  {
+    slug: 'bee', name: 'דבורה', emoji: '🐝', level: 'gan', colors: 'YKbE', holiday: 'rosh-hashana',
+    blurb: 'דבורה עם פסים צהובים ושחורים וכנפיים תכולות — הדבש של ראש השנה מתחיל כאן.',
+    rows: [
+      '......bbb.bbb..',
+      '.....bEEbbEEb..',
+      '......bbbbbb...',
+      '..KKKYYKKYYK...',
+      '.KKKYYYKKYYKKK.',
+      'KEKKYYYKKYYKKKK',
+      'KKKKYYYKKYYKKK.',
+      '.KKKYYYKKYYKK..',
+      '..KKKYYKKYYK...',
+      '...K.....K.....',
+    ],
+  },
+  {
+    slug: 'tree', name: 'עץ', emoji: '🌳', level: 'gan', colors: 'GRWg', holiday: 'tu-bishvat',
+    blurb: 'עץ ירוק עם תפוחים אדומים, גזע חום ודשא — דף צביעה לט״ו בשבט.',
+    rows: [
+      '.....GGGG.....',
+      '...GGGGGGGG...',
+      '..GGGRGGGGGG..',
+      '.GGGGGGGGRGGG.',
+      '.GGGGGGGGGGGG.',
+      'GGRGGGGGGGGGGG',
+      'GGGGGGGRGGGGGG',
+      '.GGGGGGGGGGRG.',
+      '..GGRGGGGGGG..',
+      '....GGWWGG....',
+      '......WW......',
+      '......WW......',
+      '......WW......',
+      '.....WWWW.....',
+      'gggggWWWWggggg',
+    ],
+  },
+  {
+    slug: 'whale', name: 'לוויתן', emoji: '🐳', level: 'gan', colors: 'BEbK', theme: 'sea',
+    blurb: 'לוויתן כחול עם בטן לבנה ומזרקת מים תכולה מעל הראש.',
+    rows: [
+      '.b..b..b........',
+      '..b.b.b.........',
+      '...bbb..........',
+      '....b...........',
+      '..BBBBBBBB......',
+      '.BBBBBBBBBBB..BB',
+      'BBKBBBBBBBBBBBB.',
+      'BBBBBBBBBBBBBB..',
+      'BEEEEEEBBBBBBB..',
+      '.EEEEEEEBBBBB...',
+      '..EEEEEBBBB.....',
+    ],
+  },
+  {
+    slug: 'autumn-leaf', name: 'עלה בשלכת', emoji: '🍂', level: 'gan', colors: 'OYMW', theme: 'seasons',
+    blurb: 'עלה שלכת בכתום ובצהוב עם עורקים בורדו — דף צביעה לסתיו.',
+    rows: [
+      '......O......',
+      '.....OOY.....',
+      '....OOOYY....',
+      '...OOOMYYY...',
+      '..OOMOMYMYY..',
+      '.OOOOMMMYYYY.',
+      '.OOMOOMYYMYY.',
+      '.OOOMOMYMYYY.',
+      '..OOOMMMYYY..',
+      '...OOOMYYY...',
+      '....OOMYY....',
+      '.....OMY.....',
+      '......W......',
+      '......W......',
+    ],
+  },
+  {
+    slug: 'umbrella', name: 'מטרייה', emoji: '☂️', level: 'gan', colors: 'RYKb', theme: 'seasons',
+    blurb: 'מטרייה אדומה־צהובה בגשם, עם ידית שחורה וטיפות תכולות — דף צביעה לחורף.',
+    rows: [
+      '.b.......b....b.',
+      '......YYYY......',
+      '....RYYYYYYR....',
+      '...RRYYYYYYRR...',
+      '..RRRYYYYYYRRR..',
+      '.RRRRYYYYYYRRRR.',
+      'RRRRRYYYYYYRRRRR',
+      '.......K........',
+      '.b.....K......b.',
+      '.......K........',
+      '.......K....b...',
+      '..b..K.K........',
+      '......K.........',
+    ],
+  },
+  {
+    slug: 'crab', name: 'סרטן', emoji: '🦀', level: 'gan', colors: 'RKw', theme: 'sea',
+    blurb: 'סרטן אדום עם צבתות פתוחות ועיניים על גבעולים, הולך על החול.',
+    rows: [
+      '.RR..........RR.',
+      'RR.R........R.RR',
+      'RRRR..K..K..RRRR',
+      '.RR...R..R...RR.',
+      '..RR.RRRRRR.RR..',
+      '...RRRRRRRRRR...',
+      '...RRRRRRRRRR...',
+      '..RRRKRRRRKRRR..',
+      '.R.RRRRRRRRRR.R.',
+      'R..R.R....R.R..R',
+      'wwwwwwwwwwwwwwww',
+    ],
+  },
+  {
+    slug: 'cheese', name: 'גבינה', emoji: '🧀', level: 'gan', colors: 'YUO', holiday: 'shavuot',
+    blurb: 'משולש גבינה צהובה עם חורים כתומים — דף צביעה לשבועות.',
+    rows: [
+      '..........UU....',
+      '.......UUUYYU...',
+      '....UUUYYYYYYU..',
+      '.UUUYYYYYYYYYYU.',
+      'UUUUUUUUUUUUUUUU',
+      'YYYYYYOOYYYYYYYY',
+      'YYOOYYOOYYYYOOYY',
+      'YYOOYYYYYYYYOOYY',
+      'YYYYYYYYYOOYYYYY',
+      'YYYYOOYYYOOYYYYY',
+      'YYYYOOYYYYYYYOOY',
+      'YYYYYYYYYYYYYYYY',
+    ],
+  },
   // ── כיתות א–ב: 14–18 משבצות, 4–8 צבעים ──
   {
-    slug: 'ice-cream', name: 'גלידה', emoji: '🍦', level: 'grades-1-2', colors: 'pRwWE',
+    slug: 'ice-cream', name: 'גלידה', emoji: '🍦', level: 'grades-1-2', colors: 'pRwWE', theme: 'food',
     blurb: 'גביע גלידה עם כדור ורוד ודובדבן אדום למעלה, ודוגמת משבצות על הגביע.',
     rows: [
       '.....RR.....',
@@ -211,7 +511,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'car', name: 'מכונית', emoji: '🚗', level: 'grades-1-2', colors: 'RbKAY',
+    slug: 'car', name: 'מכונית', emoji: '🚗', level: 'grades-1-2', colors: 'RbKAY', theme: 'vehicles',
     blurb: 'מכונית אדומה עם חלונות תכולים, פנס צהוב וגלגלים שחורים, נוסעת על כביש אפור.',
     rows: [
       '.....RRRRRRR......',
@@ -227,7 +527,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'sailboat', name: 'סירת מפרש', emoji: '⛵', level: 'grades-1-2', colors: 'bEKRYWBN',
+    slug: 'sailboat', name: 'סירת מפרש', emoji: '⛵', level: 'grades-1-2', colors: 'bEKRYWBN', theme: 'sea',
     blurb: 'סירת מפרש עם מפרש לבן ומפרש אדום, שמש צהובה בשמיים וגלים כחולים בים.',
     rows: [
       'bbbbbbbbbbbbbbbb',
@@ -249,7 +549,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'rocket', name: 'טיל', emoji: '🚀', level: 'grades-1-2', colors: 'NRYEbO',
+    slug: 'rocket', name: 'טיל', emoji: '🚀', level: 'grades-1-2', colors: 'NRYEbO', theme: 'space',
     blurb: 'טיל לבן עם חרטום וכנפיים אדומים, חלון עגול ולהבות כתומות — טס בין הכוכבים.',
     rows: [
       'NNNNNNRRNNNNNN',
@@ -273,7 +573,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'butterfly', name: 'פרפר', emoji: '🦋', level: 'grades-1-2', colors: 'KPYp',
+    slug: 'butterfly', name: 'פרפר', emoji: '🦋', level: 'grades-1-2', colors: 'KPYp', theme: 'animals',
     blurb: 'פרפר סימטרי עם כנפיים סגולות וורודות ונקודות צהובות — מה שצובעים בצד אחד צובעים גם בשני.',
     rows: [
       '......K....K......',
@@ -295,7 +595,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'dreidel', name: 'סביבון', emoji: '🌀', level: 'grades-1-2', colors: 'RBNY',
+    slug: 'dreidel', name: 'סביבון', emoji: '🌀', level: 'grades-1-2', colors: 'RBNY', holiday: 'hanukkah',
     blurb: 'סביבון כחול לחנוכה עם ידית אדומה והאות נ׳ בצהוב — דף צביעה מושלם לגן ולכיתה בחנוכה.',
     rows: [
       '......RR......',
@@ -318,7 +618,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'owl', name: 'ינשוף', emoji: '🦉', level: 'grades-1-2', colors: 'WwEKOZ',
+    slug: 'owl', name: 'ינשוף', emoji: '🦉', level: 'grades-1-2', colors: 'WwEKOZ', theme: 'animals',
     blurb: 'ינשוף חום עם בטן בהירה, עיניים גדולות ומקור כתום, יושב על ענף.',
     rows: [
       '.WW..........WW.',
@@ -340,9 +640,325 @@ export const CBN_PICTURES = [
       'ZZZZZZZZZZZZZZZZ',
     ],
   },
+  {
+    slug: 'birthday-cake', name: 'עוגת יום הולדת', emoji: '🎂', level: 'grades-1-2', colors: 'pEROYA', theme: 'birthday',
+    blurb: 'עוגת יום הולדת ורודה עם קצפת לבנה, פס צהוב ושלושה נרות דולקים על צלחת.',
+    rows: [
+      '....O...O...O....',
+      '...OYO.OYO.OYO...',
+      '....R...R...R....',
+      '....E...E...E....',
+      '....R...R...R....',
+      '....E...E...E....',
+      '.EEEEEEEEEEEEEEE.',
+      '.EEEEEEEEEEEEEEE.',
+      '.pEEpEEEpEEpEEEp.',
+      '.ppEppEppppEppEp.',
+      '.ppppppppppppppp.',
+      '.YYYYYYYYYYYYYYY.',
+      '.ppppppppppppppp.',
+      '.ppppppppppppppp.',
+      '.ppppppppppppppp.',
+      'AAAAAAAAAAAAAAAAA',
+      '..AAAAAAAAAAAAA..',
+    ],
+  },
+  {
+    slug: 'sukkah', name: 'סוכה', emoji: '🌿', level: 'grades-1-2', colors: 'GDZwRYW', holiday: 'sukkot',
+    blurb: 'סוכה עם סכך ירוק, קירות בהירים, קישוטים תלויים ושולחן חג — דף צביעה לסוכות.',
+    rows: [
+      'GDGGDGGDGGDGGDGG',
+      'GGDGGDGGDGGDGGDG',
+      'ZZZZZZZZZZZZZZZZ',
+      'ZwwRwwwYwwwwRwwZ',
+      'ZwRRRwwYwwwRRRwZ',
+      'ZwwRwwYYYwwwRwwZ',
+      'ZwwwwwwYwwwwwwwZ',
+      'ZwwwwwwwwwwwwwwZ',
+      'ZwwwwRRwwYYwwwwZ',
+      'ZwWWWWWWWWWWWWwZ',
+      'ZwwWwwwwwwwwWwwZ',
+      'ZwwWwwwwwwwwWwwZ',
+      'ZwwWwwwwwwwwWwwZ',
+      'ZZZZZZZZZZZZZZZZ',
+    ],
+  },
+  {
+    slug: 'purim-mask', name: 'מסכה לפורים', emoji: '🎭', level: 'grades-1-2', colors: 'PpYGK', holiday: 'purim',
+    blurb: 'מסכה סגולה לפורים עם נוצות, יהלומים צהובים וקישוט ורוד.',
+    rows: [
+      '..G.p.............',
+      '..GGpp............',
+      '...GppG...........',
+      '...GGpG...........',
+      '.PPPGPPP....PPPPP.',
+      'PPPPPPPPPPPPPPPPPP',
+      'PPYPPPPPPPPPPPPYPP',
+      'PPKKKKPPPPPPKKKKPP',
+      'PKKKKKKPPPPKKKKKKP',
+      'PPKKKKPPPPPPKKKKPP',
+      '.PPPPPPPYYPPPPPPP.',
+      '..pppppp..pppppp..',
+      '...pppp....pppp...',
+    ],
+  },
+  {
+    slug: 'israel-flag', name: 'דגל ישראל', emoji: '🇮🇱', level: 'grades-1-2', colors: 'bYWEBg', holiday: 'yom-haatzmaut',
+    blurb: 'דגל ישראל עם מגן דוד ושני פסים כחולים, מתנופף על תורן בשמיים — ליום העצמאות.',
+    rows: [
+      'Ybbbbbbbbbbbbbbbbbbb',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'WBBBBBBBBBBBBBBBBBBB',
+      'WBBBBBBBBBBBBBBBBBBB',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'WEEEEEEEEEBEEEEEEEEE',
+      'WEEEEEEEEBEBEEEEEEEE',
+      'WEEEEBBBBBBBBBBBEEEE',
+      'WEEEEEBEBEEEBEBEEEEE',
+      'WEEEEEEBEEEEEBEEEEEE',
+      'WEEEEEBEBEEEBEBEEEEE',
+      'WEEEEBBBBBBBBBBBEEEE',
+      'WEEEEEEEEBEBEEEEEEEE',
+      'WEEEEEEEEEBEEEEEEEEE',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'WBBBBBBBBBBBBBBBBBBB',
+      'WBBBBBBBBBBBBBBBBBBB',
+      'WEEEEEEEEEEEEEEEEEEE',
+      'Wbbbbbbbbbbbbbbbbbbb',
+      'gggggggggggggggggggg',
+    ],
+  },
+  {
+    slug: 'tractor', name: 'טרקטור', emoji: '🚜', level: 'grades-1-2', colors: 'RbKAYg', holiday: 'shavuot', theme: 'vehicles',
+    blurb: 'טרקטור אדום עם גלגל גדול וגלגל קטן, תא נהג ומפלט — נוסע בשדה של שבועות.',
+    rows: [
+      '..........A.......',
+      '..RRRRRR..A.......',
+      '..RbbbbR..A.......',
+      '..RbbbbR..A.......',
+      '..RbbbbRRRARRRRR..',
+      '..RRRRRRRRRRRRRRR.',
+      '.KKKKKRRRRRRRRRRRY',
+      'KKKKKKKRRRRRRRRRR.',
+      'KKAAAKKRRRRRRRRRR.',
+      'KKAAAKKRRRRRR.KK..',
+      'KKAAAKK......KAAK.',
+      'KKKKKKK......KAAK.',
+      '.KKKKK........KK..',
+      'gggggggggggggggggg',
+    ],
+  },
+  {
+    slug: 'bus', name: 'אוטובוס', emoji: '🚌', level: 'grades-1-2', colors: 'YbNRKAO', theme: 'vehicles',
+    blurb: 'אוטובוס צהוב עם חלונות תכולים, דלת כחולה, פס אדום וגלגלים — נוסע על הכביש.',
+    rows: [
+      '.YYYYYYYYYYYYYYYY.',
+      'YbbbYbbbYbbbYNNYbb',
+      'YbbbYbbbYbbbYNNYbb',
+      'YbbbYbbbYbbbYNNYbb',
+      'YYYYYYYYYYYYYNNYYY',
+      'RRRRRRRRRRRRRNNRRR',
+      'YYYYYYYYYYYYYNNYYO',
+      'YYYYYYYYYYYYYNNYYY',
+      'YYYYYYYYYYYYYYYYYY',
+      '..KKK.......KKK...',
+      '..KAK.......KAK...',
+      '..KKK.......KKK...',
+      'AAAAAAAAAAAAAAAAAA',
+    ],
+  },
+  {
+    slug: 'airplane', name: 'מטוס', emoji: '✈️', level: 'grades-1-2', colors: 'bERN', theme: 'vehicles',
+    blurb: 'מטוס לבן עם זנב וכנף אדומים וחלונות קטנים, טס בין העננים.',
+    rows: [
+      'bbbbbbbbbbbbbbbbbb',
+      'bbEEEbbbbbbbbbbbbb',
+      'bEEEEEbbbbbbbbbbbb',
+      'bRbbbbbbbbbbbbbbbb',
+      'bRRbbbbbbbbbbbbbbb',
+      'bRRRbbbbbbbbbbbbbb',
+      'bRRREEEEEEEEEEEbbb',
+      'bEEEENENENENENEENb',
+      'bbEEEEEEEEEEEEEEbb',
+      'bbbbbbbRRRRbbbbbbb',
+      'bbbbbbRRRRbbbbbbbb',
+      'bbbbbRRRRbbbbbbbbb',
+      'bbbbbbbbbbbbbEEEbb',
+      'bbbbbbbbbbbbEEEEEb',
+    ],
+  },
+  {
+    slug: 'saturn', name: 'כוכב שבתאי', emoji: '🪐', level: 'grades-1-2', colors: 'NYOwU', theme: 'space',
+    blurb: 'כוכב הלכת שבתאי עם פסים כתומים וצהובים וטבעת גדולה, בין כוכבים בחלל.',
+    rows: [
+      'NYNNNNNNNNNNNNNNNN',
+      'NNNNNNNOOOONNNNNYN',
+      'NNNNNOOOOOOOONNNNN',
+      'NNNNOYYYYYYYYONNNN',
+      'NNNOOOOOOOOOOOONNN',
+      'NNNYYYYYYYYYYYYNNN',
+      'wwNOOOOOOOOOOOONww',
+      'NUwwwwYYYYYYwwwwUN',
+      'NNUUwwwwwwwwwwUUNN',
+      'NNNOUUUUUUUUUUONNN',
+      'NNNNOYYYYYYYYONNNN',
+      'NNNNNOOOOOOOONNNNN',
+      'NYNNNNNOOOONNNNNNN',
+      'NNNNNNNNNNNNNNNYNN',
+    ],
+  },
+  {
+    slug: 'octopus', name: 'תמנון', emoji: '🐙', level: 'grades-1-2', colors: 'PpEKRb', theme: 'sea',
+    blurb: 'תמנון סגול ומחייך עם נקודות ורודות ושמונה זרועות מתפתלות במים.',
+    rows: [
+      'bbbbbPPPPPPbbbbb',
+      'bbbPPPPPPPPPPbbb',
+      'bbPPPpPPPPpPPPbb',
+      'bbPPPPPPPPPPPPbb',
+      'bPPEKPPPPPPKEPPb',
+      'bPPEEPPPPPPEEPPb',
+      'bPPPPPRPPRPPPPPb',
+      'bPPPPPPRRPPPPPPb',
+      'bbPPPPPPPPPPPPbb',
+      'bPPbPPbPPbPPbPPb',
+      'PPbbPPbPPbPPbbPP',
+      'PbbPPbbPPbbPPbbP',
+      'bbbPbbPPbbPbbPbb',
+      'bbPPbbPbbbbPbPPb',
+      'bbbbbPPbbbbbbbbb',
+    ],
+  },
+  {
+    slug: 'dog', name: 'כלב', emoji: '🐶', level: 'grades-1-2', colors: 'WZwKpE', theme: 'animals',
+    blurb: 'פרצוף של כלב חום עם אוזניים כהות, אף שחור ולשון ורודה.',
+    rows: [
+      '.ZZZ........ZZZ.',
+      'ZZZZZWWWWWWZZZZZ',
+      'ZZZZWWWWWWWWZZZZ',
+      'ZZZWWWWWWWWWWZZZ',
+      'ZZZWWEKWWEKWWZZZ',
+      'ZZZWWKKWWKKWWZZZ',
+      'ZZ.WWWWWWWWWW.ZZ',
+      '.Z.WWWwwwwWWW.Z.',
+      '...WWwwKKwwWW...',
+      '...WwwwKKwwwW...',
+      '...WwwwwKwwwW...',
+      '....wKwKKwKw....',
+      '....wwwppwww....',
+      '.....wwppww.....',
+      '.......pp.......',
+    ],
+  },
+  {
+    slug: 'pizza', name: 'פיצה', emoji: '🍕', level: 'grades-1-2', colors: 'UwYRKG', theme: 'food',
+    blurb: 'משולש פיצה עם גבינה צהובה, פפרוני אדום, זיתים שחורים ובזיליקום.',
+    rows: [
+      '.UUUUUUUUUUUUUU.',
+      'UUwwwwwwwwwwwwUU',
+      '.YYYYYYYYYYYYYY.',
+      '.YRRYYYYKYYGRRY.',
+      '..RRRYYYYYYYRRY.',
+      '..YRRYGYYRRYYY..',
+      '...YYYYYRRRRYY..',
+      '...YKYYYYRRYY...',
+      '....YYRRYYYY....',
+      '....YRRRYKY.....',
+      '.....YRRYY......',
+      '.....YYYYY......',
+      '......YYY.......',
+      '......YY........',
+    ],
+  },
+  {
+    slug: 'snowman', name: 'איש שלג', emoji: '⛄', level: 'grades-1-2', colors: 'bEKORW', theme: 'seasons',
+    blurb: 'איש שלג עם כובע שחור, אף גזר, צעיף אדום וידיים של ענפים — דף צביעה לחורף.',
+    rows: [
+      'bbbbbKKKKKbbbbbb',
+      'bEbbbKKKKKbbbEbb',
+      'bbbbbKKKKKbbbbbb',
+      'bbbKKKKKKKKKbbbb',
+      'bbbbEEEEEEEbbbbb',
+      'bbbEEKEEEKEEbEbb',
+      'bbbEEEEOOOOEbbbb',
+      'bbbbEEEEEEEbbbbb',
+      'bbbRRRRRRRRRbbbb',
+      'bbEEEEEERRREEbbb',
+      'WEEEEEEKRREEEEbW',
+      'bWEEEEEEEEEEEEWb',
+      'bbEEEEEKEEEEEbbb',
+      'bEEEEEEEEEEEEEbb',
+      'bEEEEEEKEEEEEEbb',
+      'bEEEEEEEEEEEEEbb',
+      'bbEEEEEEEEEEEbbb',
+      'EEEEEEEEEEEEEEEE',
+    ],
+  },
+  {
+    slug: 'honey-jar', name: 'צנצנת דבש', emoji: '🍯', level: 'grades-1-2', colors: 'RWUOEbKY', holiday: 'rosh-hashana',
+    blurb: 'צנצנת דבש כתומה עם מפית משובצת ותווית של דבורה — לראש השנה.',
+    rows: [
+      '..RRRRRRRRRR..',
+      '.RERRERRERRER.',
+      '.RRRRRRRRRRRR.',
+      '..WWWWWWWWWW..',
+      '...UUUUUUUU...',
+      '..UOOOOOOOOU..',
+      '.UOEEEEEEEEOU.',
+      '.UOEEbbbbEEOU.',
+      '.UOEKYKYKYEOU.',
+      '.UOEEEEEEEEOU.',
+      '.UOOOOOOOOOOU.',
+      '.UOOOOOOOOOOU.',
+      '.UOOOOOOOOOOU.',
+      '..UUUUUUUUUU..',
+    ],
+  },
+  {
+    slug: 'oil-jug', name: 'כד שמן', emoji: '🏺', level: 'grades-1-2', colors: 'YONWwZ', holiday: 'hanukkah',
+    blurb: 'כד שמן חום עם להבה דולקת על רקע ליל חנוכה — נס פך השמן.',
+    rows: [
+      'NNNNNNNNYNNNNNNN',
+      'NNNNNNNYOYNNNNNN',
+      'NNNNNNNYOYNNNNNN',
+      'NNNNNNNNYNNNNNNN',
+      'NNNNNWWWWWWNNNNN',
+      'NNNNNNWwwWNNNNNN',
+      'NNNNNNWwwWNNNNNN',
+      'NNNNWWWWWWWWNNNN',
+      'NNNWWWWWWWWWWWNN',
+      'NNWWWZZZZZZWWWWN',
+      'NWWWWWWWWWWWWWWN',
+      'NWWWZWZWZWZWWWWN',
+      'NWWWWWWWWWWWWWWN',
+      'NNWWWZZZZZZWWWNN',
+      'NNNWWWWWWWWWWNNN',
+      'NNNNWWWWWWWWNNNN',
+    ],
+  },
+  {
+    slug: 'train', name: 'רכבת', emoji: '🚂', level: 'grades-1-2', colors: 'ARbKBY', theme: 'vehicles',
+    blurb: 'רכבת קיטור אדומה עם ארובה, עשן אפור, תא נהג וגלגלים על המסילה.',
+    rows: [
+      '.AA...............',
+      'AAAA..............',
+      '.AA...............',
+      '..KK.......RRRRRR.',
+      '..KK.......RbbbbR.',
+      '.RRRRRRRRR.RbbbbR.',
+      'YRRRRRRRRRRRRRRRR.',
+      '.RRRRRRRRRRRRRRRR.',
+      '.BBBBBBBBBBBBBBBB.',
+      'KK.KKK..KKK..KKK..',
+      'KK.KAK..KAK..KAK..',
+      '...KKK..KKK..KKK..',
+      'AAAAAAAAAAAAAAAAAA',
+    ],
+  },
   // ── ילדים גדולים ומבוגרים: 18–24 משבצות, 6–9 צבעים ──
   {
-    slug: 'hot-air-balloon', name: 'כדור פורח', emoji: '🎈', level: 'adults', colors: 'bRYBEKZWgG',
+    slug: 'hot-air-balloon', name: 'כדור פורח', emoji: '🎈', level: 'adults', colors: 'bRYBEKZWgG', theme: 'vehicles',
     blurb: 'כדור פורח בפסים של אדום, צהוב וכחול, מרחף בין עננים מעל גבעות ירוקות.',
     rows: [
       'bbbbbbbBBRRBBbbbbbbb',
@@ -372,7 +988,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'lighthouse', name: 'מגדלור', emoji: '🗼', level: 'adults', colors: 'NYEKyRWBAb',
+    slug: 'lighthouse', name: 'מגדלור', emoji: '🗼', level: 'adults', colors: 'NYEKyRWBAb', theme: 'sea',
     blurb: 'מגדלור בפסים אדומים ולבנים בלילה, עם אלומות אור, ירח, כוכבים וגלים סביב הסלעים.',
     rows: [
       'NNYNNEENNNNNNYNNNNNN',
@@ -402,7 +1018,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'parrot', name: 'תוכי', emoji: '🦜', level: 'adults', colors: 'bREKYBWG',
+    slug: 'parrot', name: 'תוכי', emoji: '🦜', level: 'adults', colors: 'bREKYBWG', theme: 'animals',
     blurb: 'תוכי אדום עם מקור צהוב, כנף כחולה וזנב ארוך, יושב על ענף.',
     rows: [
       'bbbbbbRRRRbbbbbbbb',
@@ -430,7 +1046,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'hanukkiah', name: 'חנוכייה', emoji: '🕎', level: 'adults', colors: 'NYObUW',
+    slug: 'hanukkiah', name: 'חנוכייה', emoji: '🕎', level: 'adults', colors: 'NYObUW', holiday: 'hanukkah',
     blurb: 'חנוכייה עם שמונה נרות ושמש גבוה באמצע, להבות דולקות ושמיים כהים של ליל חנוכה.',
     rows: [
       'NNNYNNNNNNNYYNNNNNNYNNNN',
@@ -456,7 +1072,7 @@ export const CBN_PICTURES = [
     ],
   },
   {
-    slug: 'turtle', name: 'צב', emoji: '🐢', level: 'adults', colors: 'bYDGgKwA',
+    slug: 'turtle', name: 'צב', emoji: '🐢', level: 'adults', colors: 'bYDGgKwA', theme: 'animals',
     blurb: 'צב עם שריון מעוטר בשני גוונים של ירוק, הולך לאט על החול מתחת לשמש.',
     rows: [
       'bYYbbbbbbbbbbbbbbbbbbbbb',
@@ -475,6 +1091,163 @@ export const CBN_PICTURES = [
       'wwwwwwwwwwwwwwwwwwwwAwww',
       'wwwAwwwwwwwwwwwAwwwwwwww',
       'wwwwwwwwwwAwwwwwwwwwwwAw',
+    ],
+  },
+  {
+    slug: 'beach', name: 'חוף הים', emoji: '🏖️', level: 'adults', colors: 'bYERWBwO', theme: 'seasons',
+    blurb: 'יום בחוף: שמש, עננים, שמשייה מפוספסת, ים עם גלים, מגבת וכדור ים על החול.',
+    rows: [
+      'bbbbbbbbbbbbbbbbbbYYYbbb',
+      'bbEEEbbbbbbbbbbbbYYYYYbb',
+      'bEEEEEbbbbbbbbbbbYYYYYbb',
+      'bbbbbbbbbbbbbbbbbbYYYbbb',
+      'bbbbbbbbRRERRERRbbbbbbbb',
+      'bbbbbbRRRERRERRRRRbbbbbb',
+      'bbbbbRRRRERRERRRRRRbbbbb',
+      'bbbbRRRRREERREERRRRRbbbb',
+      'bbbbbbbbbbbWbbbbbbbbbbbb',
+      'BBBBBBBBBBBWBBBBBBBBBBBB',
+      'BBbbBBBBBBBWBBBBBbbBBBBB',
+      'BBBBBBBbbBBWBBBBBBBBBbbB',
+      'wwwwwwwwwwwWwwwwwwwwwwww',
+      'wwwwwwwwwwwWwwwwwwwwwwww',
+      'wwwOOOOOOOOOOOOwwwwwwwww',
+      'wwOOOOOOOOOOOOOwwwRRRwww',
+      'wwwwwwwwwwwwwwwwwREERRww',
+      'wwwwwwwwwwwwwwwwwRRREEww',
+      'wwwwwwwwwwwwwwwwwwRRRwww',
+      'wwwwwwwwwwwwwwwwwwwwwwww',
+    ],
+  },
+  {
+    slug: 'coral-reef', name: 'שונית אלמוגים', emoji: '🐠', level: 'adults', colors: 'BbOEKpRGwY', theme: 'sea',
+    blurb: 'דג ליצן כתום־לבן שוחה מעל אלמוגים אדומים וורודים, אצות ירוקות וצדף צהוב.',
+    rows: [
+      'BBBBBBBBBBBBBBBBBBBBBBBB',
+      'BBBBBBBBBBBBBBbBBBBBBBBB',
+      'BBBBBBBBBBBBBbBbBBBBBBBB',
+      'BBBBBBBBBBBBBBbBBBBBBBBB',
+      'BBBBBBBBOOOOOBBBBBBBBBBB',
+      'BBBBBBOOEEOOOEOBBBBBBBBB',
+      'BBBBBOOOEEOOOEOOBBBBOBBB',
+      'BBBBOKOOEEOOOEEOOBBOOBBB',
+      'BBBBOOOOEEOOOEEOOOOOOBBB',
+      'BBBBBOOOEEOOOEOOBBBBOOBB',
+      'BBBBBBOOEEOOOEOBBBBBBOBB',
+      'BBBBBBBBOOOOOBBBBBBBBBBB',
+      'BBBBBBBBBBBBBBBBBBBBBBBB',
+      'BBGBBBBBBBBBBBBBBBpBBpBB',
+      'BBGGBBBBBBBBBBBBBBppBpBB',
+      'BBBGBBRBBRBBBBBBBBBpppBB',
+      'BBGGBBRRBRBBBBBGBBBBpBBB',
+      'BBGBBBBRRRBBBBGGBBBBpBBB',
+      'BBGGBBBBRBBBBBBGGBBBpBBB',
+      'BBBGBBBBRBBBYBBGBBBpppBB',
+      'wwwGwwwwRwwwYYwGwwwwpwww',
+      'wwwwwwwwwwwwwwwwwwwwwwww',
+    ],
+  },
+  {
+    slug: 'lion', name: 'אריה', emoji: '🦁', level: 'adults', colors: 'OWYwKEp', theme: 'animals',
+    blurb: 'אריה עם רעמה כתומה וחומה, פנים צהובות ושפם — מלך החיות לצביעה מפורטת.',
+    rows: [
+      '.....OOOWWWWOOO.....',
+      '...OOWWOOOOOOWWOO...',
+      '..OWOOOWWWWWWOOOWO..',
+      '.OWOOWYYYYYYYYWOOWO.',
+      '.OOOWYYYYYYYYYYWOOO.',
+      'OWOOYYwwYYYYwwYYOOWO',
+      'OWOWYYEKYYYYEKYYWOWO',
+      'OOOWYYKKYYYYKKYYWOOO',
+      'WOOYYYYYYYYYYYYYYOOW',
+      'OWOYYYYYYKKYYYYYYOWO',
+      'OOWYYYYwwKKwwYYYYWOO',
+      '.OOYYYwwwKwwwwYYYOO.',
+      '.OWOYYwwKwKwwwYYOWO.',
+      '..OOYYYwwppwwYYYOO..',
+      '..OWOOYYwwwwYYOOWO..',
+      '...OOWOOYYYYOOWOO...',
+      '....OOOWOOOOWOOO....',
+      '......OOOWWOOO......',
+    ],
+  },
+  {
+    slug: 'fox', name: 'שועל', emoji: '🦊', level: 'adults', colors: 'gGOEKZD', theme: 'animals',
+    blurb: 'פרצוף של שועל כתום עם אוזניים מחודדות, לחיים לבנות ואף שחור, על דשא ירוק.',
+    rows: [
+      'ggKKggggggggggggKKgg',
+      'gKOOKggggggggggKOOKg',
+      'gKOZOKggggggggKOZOKg',
+      'gKOZZOKggggggKOZZOKg',
+      'gKOOZOOKKKKKKOOZOOKg',
+      'gKOOOOOOOOOOOOOOOOKg',
+      'KOOOOOOOOOOOOOOOOOOK',
+      'KOOOKKOOOOOOOOKKOOOK',
+      'KOOOKKOOOOOOOOKKOOOK',
+      'KEOOOOOOOOOOOOOOOOEK',
+      'KEEOOOOOOOOOOOOOOEEK',
+      'gKEEEOOOOOOOOOOEEEKg',
+      'gKEEEEEOOOOOOEEEEEKg',
+      'ggKEEEEEEKKEEEEEEKgg',
+      'gggKEEEEEKKEEEEEKggg',
+      'ggggKKEEEEEEEEKKgggg',
+      'GGGGGGKKEEEEKKGGGGGG',
+      'GDGGDGGGKKKKGGGDGGDG',
+      'GGGGGGGGGGGGGGGGGGGG',
+    ],
+  },
+  {
+    slug: 'castle', name: 'טירה', emoji: '🏰', level: 'adults', colors: 'bRAKWNEYG',
+    blurb: 'טירה עם שני מגדלים, גגות כחולים ודגלים אדומים, חלונות ושער עץ.',
+    rows: [
+      'bbbbRRbbbbbbbbbbbbbRRbbb',
+      'bbbbRRRbbbbbbbbbbbbRRRbb',
+      'bbbbKbbbbbbbbbbbbbbKbbbb',
+      'bbbbKbbbbbbbbbbbbbbKbbbb',
+      'bbbNNNNbbbbbbbbbbbNNNNbb',
+      'bbNNNNNNbbbbbbbbbNNNNNNb',
+      'bNNNNNNNNbbbbbbbNNNNNNNN',
+      'bbAAAAAAbbbbbbbbbAAAAAAb',
+      'bbAAKKAAbbbbbbbbbAAKKAAb',
+      'bbAAKKAAbAbAbAbAbAAKKAAb',
+      'bbAAAAAAAAAAAAAAAAAAAAAb',
+      'bbAAAAAAAAAAAAAAAAAAAAAb',
+      'bbAAAAAAAAKKKKKAAAAAAAAb',
+      'bbAAKKAAAKKYKKKKAAAKKAAb',
+      'bbAAKKAAAKKKKKKKAAAKKAAb',
+      'bbAAAAAAAKWWWWWKAAAAAAAb',
+      'bbAAAAAAAKWWWWWKAAAAAAAb',
+      'bbAAAAAAAKWWEWWKAAAAAAAb',
+      'bbAAAAAAAKWWWWWKAAAAAAAb',
+      'GGGGGGGGGGWWWWWGGGGGGGGG',
+    ],
+  },
+  {
+    slug: 'fireworks', name: 'זיקוקים', emoji: '🎆', level: 'adults', colors: 'NRYbpgEW', holiday: 'yom-haatzmaut',
+    blurb: 'זיקוקים צבעוניים בשמי הלילה מעל העיר — דף צביעה ליום העצמאות.',
+    rows: [
+      'NNNNNNNNNNNNNNNNNNNNNN',
+      'NENNNNNNNNNENNNNNNNNNN',
+      'NNNNNNYNNNNNNNNNENNNNN',
+      'NNNYNNRNNYNNNNENpNENNN',
+      'NNNNRNRNRNNNNNNpppNNNN',
+      'NNNNNRRRNNNNNEppYppENN',
+      'NNYRRRYRRRYNNNNpppNNNN',
+      'NNNNNRRRNNNNNNENpNENNN',
+      'NNNNRNRNRNENNNNNENNNNN',
+      'NNNYNNRNNYNNNNYNNNNNNN',
+      'NENNNNYNNNNYNNgNNYNNEN',
+      'NNNNNNNNNNNNgNgNgNNNNN',
+      'NNNNENNNNNNNNgggNNNNNN',
+      'NNENbNENNNYgggYgggYNNN',
+      'NNNbbbNNNNNNNgggNNNNNN',
+      'NEbbYbbENNNNgNgNgNNNNN',
+      'NNNbbbNNNNWWNNgNNYNNNN',
+      'NNWWWNENNNYWNNYWWNNENN',
+      'NNYWYNNWWWWWNNNWYNNWWW',
+      'WWWWWNNWYWWWWWWWWNNWYW',
+      'WWWWWWWWWWWWWWWWWWWWWW',
+      'WWWWWWWWWWWWWWWWWWWWWW',
     ],
   },
 ]
@@ -505,25 +1278,55 @@ const pick = (r, list) => list[Math.floor(r() * list.length)]
 
 // Answer pools per math kind. Every answer can be reached by several different exercises, so a
 // big area of one color doesn't repeat the same exercise over and over. Multiplication answers all
-// have at least two factor pairs inside the 2–10 tables.
+// have at least two factor pairs inside the 2–10 tables. When a picture has more colors than the
+// base pool (only possible on the color-by-answer pages, which let any picture use any kind),
+// the wider pool is used instead — the base pools keep the picture pages' sheets unchanged.
 const ANSWER_POOLS = {
   add10: [6, 7, 8, 9, 10],
   add20: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   mult: [12, 16, 18, 20, 24, 28, 30, 32, 36, 40, 42, 45, 48, 54, 56, 63, 72],
+  sub10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  sub20: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  div: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 }
+const WIDE_POOLS = { add10: [2, 3, 4, 5, 6, 7, 8, 9, 10] }
+const answerPool = (kind, n) => (ANSWER_POOLS[kind].length >= n ? ANSWER_POOLS[kind] : WIDE_POOLS[kind] || ANSWER_POOLS[kind])
+
+// The color-by-answer pages (/printables/color-by-answer/:op). `level` is the picture level that
+// suits the exercise kind best (its pictures are listed first).
+export const CBN_MATH_KINDS = [
+  { id: 'add10', slug: 'addition-10', label: 'חיבור עד 10', short: 'חיבור עד 10', emoji: '➕', level: 'gan', grade: 'גן וכיתה א׳', sample: '3+4' },
+  { id: 'sub10', slug: 'subtraction-10', label: 'חיסור עד 10', short: 'חיסור עד 10', emoji: '➖', level: 'gan', grade: 'גן חובה וכיתה א׳', sample: '9−5' },
+  { id: 'add20', slug: 'addition-20', label: 'חיבור עד 20', short: 'חיבור עד 20', emoji: '➕', level: 'grades-1-2', grade: 'כיתות א׳–ב׳', sample: '8+7' },
+  { id: 'sub20', slug: 'subtraction-20', label: 'חיסור עד 20', short: 'חיסור עד 20', emoji: '➖', level: 'grades-1-2', grade: 'כיתות א׳–ב׳', sample: '15−8' },
+  { id: 'mult', slug: 'multiplication', label: 'לוח הכפל', short: 'כפל', emoji: '✖️', level: 'adults', grade: 'כיתות ב׳–ד׳', sample: '6×7' },
+  { id: 'div', slug: 'division', label: 'חילוק', short: 'חילוק', emoji: '➗', level: 'adults', grade: 'כיתות ג׳–ה׳', sample: '42÷6' },
+]
+export const cbnMathKindBySlug = slug => CBN_MATH_KINDS.find(k => k.slug === slug)
+export const cbnMathKindById = id => CBN_MATH_KINDS.find(k => k.id === id)
 export const cbnMathKind = p => cbnLevel(p.level).math
+// can this picture be colored with this kind (enough distinct answers for all of its colors)?
+export const cbnFitsKind = (p, kind) => answerPool(kind, p.colors.length).length >= p.colors.length
+
 const multPairs = v => { const out = []; for (let a = 2; a <= 10; a++) if (v % a === 0 && v / a >= 2 && v / a <= 10) out.push([a, v / a]); return out }
-const variety = (kind, v) => (kind === 'mult' ? multPairs(v).length : v - 1)
+// how many different exercises lead to answer v
+function variety(kind, v) {
+  if (kind === 'mult') return multPairs(v).length
+  if (kind === 'sub10') return 10 - v // a = v+1…10 (a−0 is never used)
+  if (kind === 'sub20') return 20 - Math.max(11, v + 1) + 1 // a = 11…20
+  if (kind === 'div') return 9 // divisor 2…10
+  return v - 1 // addition: a = 1…v−1
+}
 
 // answer for each legend number: { [num]: answer } — distinct answers; the colors with the most
 // cells get the answers with the most different exercises.
-export function cbnAnswers(p) {
-  const kind = cbnMathKind(p), r = rng(hashStr(p.slug + ':answers'))
-  const pool = ANSWER_POOLS[kind].map(v => ({ v, t: r() }))
+export function cbnAnswers(p, kind = cbnMathKind(p)) {
+  const r = rng(hashStr(p.slug + ':answers'))
   const n = p.colors.length
+  const pool = answerPool(kind, n).map(v => ({ v, t: r() }))
   const chosen = kind === 'mult'
     ? pool.sort((a, b) => variety(kind, b.v) - variety(kind, a.v) || a.t - b.t).slice(0, n).map(x => x.v)
-    : pool.sort((a, b) => a.t - b.t).slice(0, n).map(x => x.v).sort((a, b) => b - a)
+    : pool.sort((a, b) => a.t - b.t).slice(0, n).map(x => x.v).sort((a, b) => variety(kind, b) - variety(kind, a) || b - a)
   const counts = [...p.colors].map((ch, i) => ({ num: i + 1, count: p.rows.join('').split(ch).length - 1 }))
   counts.sort((a, b) => b.count - a.count || a.num - b.num)
   return Object.fromEntries(counts.map((c, i) => [c.num, chosen[i]]))
@@ -534,16 +1337,78 @@ function exerciseFor(kind, answer, r) {
     const [a, b] = pick(r, multPairs(answer))
     return { a, b, op: '×', text: `${a}×${b}` }
   }
+  if (kind === 'div') {
+    const b = 2 + Math.floor(r() * 9)
+    return { a: answer * b, b, op: '÷', text: `${answer * b}÷${b}` }
+  }
+  if (kind === 'sub10' || kind === 'sub20') {
+    const lo = kind === 'sub10' ? answer + 1 : Math.max(11, answer + 1), hi = kind === 'sub10' ? 10 : 20
+    const a = lo + Math.floor(r() * (hi - lo + 1))
+    return { a, b: a - answer, op: '−', text: `${a}−${a - answer}` }
+  }
   // addition: both addends at least 1 (and at most 10 for the up-to-10 sheets, which is automatic)
   const a = 1 + Math.floor(r() * (answer - 1))
   return { a, b: answer - a, op: '+', text: `${a}+${answer - a}` }
 }
-export const cbnEval = ex => (ex.op === '×' ? ex.a * ex.b : ex.a + ex.b)
+export const cbnEval = ex => (ex.op === '×' ? ex.a * ex.b : ex.op === '÷' ? ex.a / ex.b : ex.op === '−' ? ex.a - ex.b : ex.a + ex.b)
 
 // 2D grid of exercises (null for blank cells), seeded by the slug — identical on every render
-export function cbnMathGrid(p) {
-  const kind = cbnMathKind(p), answers = cbnAnswers(p), r = rng(hashStr(p.slug + ':cells'))
+export function cbnMathGrid(p, kind = cbnMathKind(p)) {
+  const answers = cbnAnswers(p, kind), r = rng(hashStr(p.slug + (kind === cbnMathKind(p) ? '' : ':' + kind) + ':cells'))
   return cbnGrid(p).map(row => row.map(n => (n > 0 ? exerciseFor(kind, answers[n], r) : null)))
 }
 
+// ── color by letter (/printables/color-by-letter, /printables/color-by-letter/english) ──
+// Each level is a pool of letters in priority order; a picture takes the first N (N = its colors)
+// and the letters are dealt to the colors in a seeded order. `cell` turns the legend letter into
+// what is written in the cells: the same letter, its final form (sometimes), or its lowercase.
+const FINALS = { כ: 'ך', מ: 'ם', נ: 'ן', פ: 'ף', צ: 'ץ' }
+export const CBN_LETTER_LEVELS = [
+  { id: 'he-easy', lang: 'he', label: 'אותיות שונות', grade: 'גן חובה', hint: 'אותיות שנראות שונות זו מזו — קל להבחין ביניהן.', pool: ['א', 'ב', 'ג', 'ל', 'מ', 'ש', 'ע', 'פ', 'ק', 'י'] },
+  { id: 'he-similar', lang: 'he', label: 'אותיות דומות', grade: 'כיתה א׳', hint: 'זוגות שקל לבלבל: ב/כ, ד/ר, ה/ח, ו/ז, ס/ם — צריך להסתכל טוב.', pool: ['ב', 'כ', 'ד', 'ר', 'ה', 'ח', 'ו', 'ז', 'ס', 'ם'] },
+  { id: 'he-final', lang: 'he', label: 'אותיות סופיות', grade: 'כיתות א׳–ב׳', hint: 'במקרא האות הרגילה, ובמשבצות לפעמים היא מופיעה כאות סופית (מ/ם, נ/ן…) — אותו צבע.', pool: ['כ', 'מ', 'נ', 'פ', 'צ', 'א', 'ב', 'ג', 'ל', 'ש'], cell: (l, r) => (FINALS[l] && r() < 0.5 ? FINALS[l] : l), tag: l => (FINALS[l] ? `${l} ${FINALS[l]}` : l) },
+  { id: 'en-upper', lang: 'en', label: 'אותיות גדולות', grade: 'כיתות ב׳–ג׳', hint: 'אותיות גדולות באנגלית (Capital letters).', pool: ['A', 'B', 'C', 'D', 'E', 'H', 'K', 'M', 'S', 'T'] },
+  { id: 'en-lower', lang: 'en', label: 'אותיות קטנות', grade: 'כיתות ג׳–ד׳', hint: 'אותיות קטנות שקל לבלבל: b/d/p/q, m/n, h/u — צריך לשים לב לכיוון.', pool: ['b', 'd', 'p', 'q', 'm', 'n', 'h', 'u', 'a', 'e'] },
+  { id: 'en-match', lang: 'en', label: 'גדולה ↔ קטנה', grade: 'כיתות ג׳–ד׳', hint: 'במקרא אות גדולה, ובמשבצות האות הקטנה שלה — מתאימים בין השתיים.', pool: ['A', 'B', 'D', 'E', 'G', 'H', 'N', 'Q', 'R', 'T'], cell: l => l.toLowerCase() },
+]
+export const cbnLetterLevel = id => CBN_LETTER_LEVELS.find(l => l.id === id)
+export const cbnFitsLetters = (p, levelId) => cbnLetterLevel(levelId).pool.length >= p.colors.length
+
+// { [num]: letter } — each color gets one letter of the level's pool
+export function cbnLetters(p, levelId) {
+  const lv = cbnLetterLevel(levelId), r = rng(hashStr(p.slug + ':' + levelId))
+  const letters = lv.pool.slice(0, p.colors.length).map(l => ({ l, t: r() })).sort((a, b) => a.t - b.t).map(x => x.l)
+  return Object.fromEntries(letters.map((l, i) => [i + 1, l]))
+}
+// legend labels: { [num]: text shown next to the swatch }
+export function cbnLetterTags(p, levelId) {
+  const lv = cbnLetterLevel(levelId), letters = cbnLetters(p, levelId)
+  return Object.fromEntries(Object.entries(letters).map(([n, l]) => [n, lv.tag ? lv.tag(l) : l]))
+}
+// 2D grid of letters to write in the cells (null for blank cells)
+export function cbnLetterGrid(p, levelId) {
+  const lv = cbnLetterLevel(levelId), letters = cbnLetters(p, levelId), r = rng(hashStr(p.slug + ':' + levelId + ':cells'))
+  return cbnGrid(p).map(row => row.map(n => (n > 0 ? (lv.cell ? lv.cell(letters[n], r) : letters[n]) : null)))
+}
+// which legend letter does a cell symbol belong to (used by tests: every symbol → one color)
+export function cbnLetterOwner(levelId, symbol) {
+  const lv = cbnLetterLevel(levelId)
+  return lv.pool.filter(l => (lv.id === 'he-final' ? l === symbol || FINALS[l] === symbol : lv.cell ? lv.cell(l) === symbol : l === symbol))
+}
+
+// ── themes (hub filter) and holidays (holiday hubs link their pictures) ──
+export const CBN_THEMES = [
+  { id: 'animals', label: '🐾 בעלי חיים' },
+  { id: 'sea', label: '🌊 ים' },
+  { id: 'vehicles', label: '🚗 כלי תחבורה' },
+  { id: 'food', label: '🍓 אוכל' },
+  { id: 'space', label: '🚀 חלל' },
+  { id: 'seasons', label: '☀️ עונות השנה' },
+  { id: 'birthday', label: '🎂 יום הולדת' },
+  { id: 'holidays', label: '🕎 חגים' },
+]
+export const cbnInTheme = (p, id) => (id === 'holidays' ? !!p.holiday : p.theme === id)
+export const cbnHolidayPictures = holiday => CBN_PICTURES.filter(p => p.holiday === holiday)
+
 export const cbnPath = p => `/printables/color-by-number/${p.slug}`
+export const cbnAnswerPath = (kind, p) => `/printables/color-by-answer/${cbnMathKindById(kind).slug}${p ? `?p=${p.slug}` : ''}`

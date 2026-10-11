@@ -4272,7 +4272,7 @@
   "content_type": "question",
   "content_text": "כמה אותיות יש באלף-בית האנגלי?",
   "answer": "26 אותיות",
-  "answer_explanation": "מ-A ועד Z.",
+  "answer_explanation": "מ-A ועד Z — ו-5 מהן הן אותיות תנועה: A, E, I, O, U.",
   "metadata": {
    "value": 26,
    "unit": "אותיות",
