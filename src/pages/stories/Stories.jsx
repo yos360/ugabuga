@@ -71,7 +71,7 @@ export function StoriesHub() {
   const custom = hero.name || hero.g ? { hero: { name: hero.name, g: hero.g } } : undefined
   const list = BEDTIME_STORIES.filter(s => (!age || s.age === age) && (!theme || s.theme === theme))
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="סיפורים לילדים לפני השינה — 30 סיפורים קצרים, גם עם שם הילד" description="סיפורים לילדים לפני השינה: 30 סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם." path="/stories" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title={`סיפורים לילדים לפני השינה — ${BEDTIME_STORIES.length} סיפורים קצרים, גם עם שם הילד`} description={`סיפורים לילדים לפני השינה: ${BEDTIME_STORIES.length} סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם.`} path="/stories" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: HUB.label }]} />
     <header className="text-center">
       <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 font-bold text-[#1d2233]">{BEDTIME_STORIES.length} סיפורים מקוריים · חינם</span>
@@ -112,7 +112,7 @@ export function StoriesHub() {
     </div>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      'סיפור לפני השינה הוא אחד הרגעים הכי שקטים וקרובים ביום: האור כבר נמוך, השמיכה חמימה, וההורה והילד יחד, בלי מסכים. בספרייה הזאת יש 30 סיפורים לילדים שנכתבו במיוחד לרגע הזה — קצרים מספיק כדי להיגמר לפני שהעיניים נעצמות, ורגועים מספיק כדי לא להעיר אותן מחדש.',
+      `סיפור לפני השינה הוא אחד הרגעים הכי שקטים וקרובים ביום: האור כבר נמוך, השמיכה חמימה, וההורה והילד יחד, בלי מסכים. בספרייה הזאת יש ${BEDTIME_STORIES.length} סיפורים לילדים שנכתבו במיוחד לרגע הזה — קצרים מספיק כדי להיגמר לפני שהעיניים נעצמות, ורגועים מספיק כדי לא להעיר אותן מחדש.`,
       'כל סיפור מתאים לטווח גילים מסוים: לגילאי 3–5 יש סיפורים פשוטים עם חזרות וקצב איטי, לגילאי 5–7 עלילה קצת יותר מפותחת, ולגילאי 7–9 סיפורים עם רגש ומחשבה, שאפשר לדבר עליהם אחרי הקריאה. בסוף כל סיפור יש "מסר" קצר — רעיון אחד לשיחה, בלי הטפה.',
       'הנושאים מגוונים: חברות ושיתוף, חיות וטבע, משפחה, פחד מהחושך ומרעמים, דמיון, וגם חגים ועונות — סוכות, חנוכה והגשם הראשון. וכל סיפור יכול להפוך לסיפור אישי: כותבים את שם הילד, בוחרים בן או בת, והסיפור מתאים את עצמו.',
     ]} faq={HUB_FAQ} related={[{ label: 'סיפור לפני השינה עם השם של הילד', href: '/family/bedtime-story' }, { label: 'בבית עם הילדים', href: '/family' }, { label: 'הבנת הנקרא', href: '/learn/reading' }, { label: 'דפי צביעה', href: '/printables/coloring' }]} /></div>

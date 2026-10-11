@@ -11,7 +11,7 @@ import { useKeyCapture, useTyper, useCoarsePointer, CaptureInput, TypingText, St
 import './typing.css'
 
 const HUB = { label: 'הקלדה עיוורת', href: '/typing' }
-const crumbs = last => [{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, ...(last ? [HUB, { label: last }] : [{ label: HUB.label }])]
+const crumbs = last => [{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, ...(last ? [HUB, { label: last }] : [{ label: HUB.label }])]
 const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
 const blurActive = () => { try { document.activeElement?.blur?.() } catch { /* ignore */ } }
 

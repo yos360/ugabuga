@@ -189,7 +189,7 @@ export default function WordPairsPage({ setId }) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 wp" dir="rtl">
       <SEO title={seo.title} description={seo.description} path={set.path} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, { label: set.label }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: set.label }]} />
       <header className="wp-head"><h1>{seo.h1}</h1><p>{seo.intro}</p></header>
 
       <div className="wp-levels" role="radiogroup" aria-label="שכבת גיל">

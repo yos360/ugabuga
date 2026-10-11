@@ -105,7 +105,7 @@ export const MENU_DOMAINS = [
   },
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
-    landingLabel: 'לומדים בבית — הכול',
+    landingLabel: 'לומדים — כל הנושאים',
     prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
     groups: [
       {
@@ -406,7 +406,7 @@ export const FOOTER_COLUMNS = [
   {
     domain: 'learn', title: '📚 לומדים',
     links: [
-      ['/learn', 'לומדים בבית'],
+      ['/learn', 'לומדים — כל הנושאים'],
       ['/math', 'מתמטיקה לפי כיתה'],
       ['/learn/multiplication-table', 'לוח הכפל'],
       ['/learn/times-tables', 'תרגול לוח הכפל'],

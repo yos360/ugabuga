@@ -9,12 +9,13 @@ import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
 import { DICTATION, READING, plainWord } from './learnData'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
+import { MENU_DOMAINS } from '../data/siteMenu'
 import './learn.css'
 
-export const LEARN_CRUMB = { label: 'לומדים בבית', href: '/learn' }
+export const LEARN_CRUMB = { label: 'לומדים', href: '/learn' }
 const shuffle = a => { const x = [...a]; for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[x[i], x[j]] = [x[j], x[i]] } return x }
 const Chip = ({ on, onClick, children, ...rest }) => <button type="button" className="ln-chip" aria-pressed={on} onClick={onClick} {...rest}>{children}</button>
-const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
+const Page = ({ children, wide }) => <div className={`mx-auto ${wide ? 'max-w-6xl' : 'max-w-4xl'} px-4 py-8 buga-fade-in`} dir="rtl">{children}</div>
 function Head({ emoji, h1, sub, crumb }) {
   return <>
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, ...(crumb ? [LEARN_CRUMB, { label: crumb }] : [{ label: LEARN_CRUMB.label }])]} />
@@ -24,24 +25,53 @@ function Head({ emoji, h1, sub, crumb }) {
 }
 
 // ── /learn ───────────────────────────────
-export const LEARN_SECTIONS = [
-  ['/learn/dictation', '✍️', 'הכתבה', 'הורה מקריא או הקראה קולית — עם בדיקה ודף להדפסה'],
-  ['/learn/reading', '📖', 'הבנת הנקרא', `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳ — אונליין ולהדפסה`],
-  ['/learn/times-tables', '✖️', 'תרגול לוח הכפל', 'אתגר הדקה: כמה תרגילים בלוח הכפל תספיקו?'],
-  ['/learn/flashcards', '🃏', 'כרטיסיות לימוד', 'אנגלית, הפכים, לוח הכפל — או כרטיסיות משלכם'],
-  ['/typing', '⌨️', 'הקלדה עיוורת', '25 שיעורים, מבחן מהירות ומשחק הקלדה לילדים'],
-  ['/learn/gifted-test', '🧠', 'הכנה למבחן מחוננים', '120 שאלות תרגול: אנלוגיות, סדרות, מטריצות וחשיבה לוגית'],
-  ['/learn/multiplication-table', '📋', 'לוח הכפל', 'טבלה צבעונית, לוח הכפל של כל מספר ולוח הכפל להדפסה'],
-  ['/math', '🧮', 'תרגילי חשבון', 'תרגול, מבחנים ודפי עבודה לפי כיתה — מכיתה א׳ עד י״ב'],
-  ['/words/synonyms', '🟰', 'מילים נרדפות', 'משחקים ודפי עבודה במילים נרדפות לפי גיל'],
-  ['/words/opposites', '🔄', 'הפכים', 'משחקים ודפי עבודה בהפכים לילדים'],
-]
+// The hub is built from the "לומדים" menu domain (src/data/siteMenu.js), so every page in the menu
+// is a card here and the two never drift. LEARN_EXTRA adds hub-only cards whose primary menu home is
+// another domain (color-by-answer lives under "להדפסה"); LEARN_DESC gives a card a one-line subtitle.
+const LEARN_DOMAIN = MENU_DOMAINS.find(d => d.id === 'learn')
+const SECTION_TITLES = { '/math': 'מתמטיקה לפי כיתה', '/english': 'אנגלית ושפות' }
+const MATH_GRADES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ז׳', 'ח׳', 'ט׳', 'י׳', 'י״א', 'י״ב']
+const LEARN_EXTRA = {
+  '/math': [{ to: '/printables/color-by-answer', label: 'צביעה לפי תשובה', icon: '🎨' }],
+  '/letters': [{ to: '/words/synonyms', label: 'מילים נרדפות', icon: '🟰' }],
+}
+const LEARN_DESC = {
+  '/math': 'תרגול, מבחנים ודפי עבודה לכל כיתה',
+  '/learn/multiplication-table': 'טבלה צבעונית ולוח הכפל להדפסה',
+  '/learn/times-tables': 'אתגר הדקה: כמה תרגילים תספיקו?',
+  '/printables/math-worksheets': 'חיבור, חיסור וכפל — להדפסה עם תשובות',
+  '/printables/color-by-answer': 'פותרים תרגיל — וצובעים לפי התשובה',
+  '/learn/gifted-test': 'אנלוגיות, סדרות, מטריצות וחשיבה',
+  '/learn/dictation': 'הורה מקריא או הקראה קולית — עם בדיקה',
+  '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳`,
+  '/learn/flashcards': 'אנגלית, הפכים, לוח הכפל — או משלכם',
+  '/typing': 'שיעורים, מבחן מהירות ומשחק הקלדה',
+}
+export const LEARN_SECTIONS = LEARN_DOMAIN.groups.map(g => ({
+  id: g.to.replace(/^\//, ''),
+  title: SECTION_TITLES[g.to] || g.title,
+  icon: g.icon,
+  to: g.to,
+  items: [...g.items, ...(LEARN_EXTRA[g.to] || [])],
+}))
+
 export function LearnHub() {
-  return <Page>
-    <SEO title="לומדים בבית — הכתבה, הבנת הנקרא, לוח הכפל וחשבון" description="תרגול לימודי לילדים בבית: הכתבה אונליין עם בדיקה, הבנת הנקרא עם שאלות, לוח הכפל, תרגילי חשבון, מבחן מחוננים ומילים נרדפות. חינם ובעברית." path="/learn" />
-    <Head emoji="🎒" h1="לומדים בבית" sub="עשר דקות ביום של תרגול — בלי דפים שהולכים לאיבוד" />
-    <div className="grid gap-5 sm:grid-cols-2">{LEARN_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right"><div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. כאן יש כלים שאפשר לפתוח בטלפון או במחשב: הכתבה, הבנת הנקרא, תרגול לוח הכפל, תרגילי חשבון לפי כיתה, כרטיסיות, מילים נרדפות והפכים — ואת רובם אפשר גם להדפיס.', 'כל הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית, ומתאימים לכיתות א׳–ד׳.']} related={[{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }]} /></div>
+  return <Page wide>
+    <SEO title="לומדים — חשבון לפי כיתה, אותיות, קריאה ושפות לילדים" description="אזור הלמידה של עוגה בוגה: תרגילי חשבון לפי כיתה א׳–י״ב, לוח הכפל, אותיות וקריאה, הכתבה, אנגלית ושפות, הקלדה, מוזיקה ומדע — אונליין ולהדפסה, בחינם." path="/learn" />
+    <Head emoji="📚" h1="לומדים: חשבון, עברית, אנגלית ומדע לילדים" sub="בוחרים נושא — ומתרגלים אונליין או מדפיסים" />
+    <nav className="ln-hub-jump" aria-label="קפיצה לנושא">{LEARN_SECTIONS.map(s => <a key={s.id} href={`#${s.id}`} className="ln-chip"><span aria-hidden="true">{s.icon}</span> {s.title}</a>)}</nav>
+    {LEARN_SECTIONS.map(s => <section key={s.id} id={s.id} className="ln-hub-sec" aria-labelledby={`${s.id}-h`}>
+      <div className="ln-hub-head">
+        <h2 id={`${s.id}-h`}><span aria-hidden="true">{s.icon} </span>{s.title}</h2>
+        <Link to={s.to} className="ln-hub-all">לכל העמוד ←</Link>
+      </div>
+      {s.to === '/math' && <nav className="ln-hub-grades" aria-label="מתמטיקה לפי כיתה">{MATH_GRADES.map((l, i) => <Link key={l} to={`/math/grade-${i + 1}`} className="ln-chip">כיתה {l}</Link>)}</nav>}
+      <ul className="ln-hub-grid">{s.items.map(it => <li key={it.to}><Link to={it.to} className="ln-hub-card">
+        <span className="ln-hub-ico" aria-hidden="true">{it.icon}</span>
+        <span><b>{it.label}</b>{LEARN_DESC[it.to] && <small>{LEARN_DESC[it.to]}</small>}</span>
+      </Link></li>)}</ul>
+    </section>)}
+    <div className="mt-12"><SeoBody paragraphs={['כל מה שקשור ללמידה בעוגה בוגה מרוכז כאן: תרגילי חשבון ומתמטיקה לפי כיתה מכיתה א׳ ועד י״ב, לוח הכפל, אותיות בעברית ובאנגלית, הכתבה והבנת הנקרא, שפות, הקלדה עיוורת, מוזיקה ונושאים מעולם המדע והגאוגרפיה.', 'תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. את רוב הכלים אפשר לפתוח בטלפון או במחשב, ורבים מהם אפשר גם להדפיס. הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית.']} related={[{ label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]} /></div>
   </Page>
 }
 

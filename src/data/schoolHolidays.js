@@ -4,13 +4,15 @@
 // Each range is [first day off, last day off, first school day back]; `all` applies to every level.
 // The site owner re-checks these against the official edu.gov.il calendar — update here if it changes.
 
+import { BEDTIME_STORY_COUNT } from './bedtimeStoryCount.js'
+
 export const SCHOOL_YEAR = { label: 'תשפ״ז', years: '2026–2027' }
 
 export const VERIFIED = 'התאריכים נבדקו מול כמה פרסומים של לוח החופשות של משרד החינוך לתשפ״ז ומול הלוח העברי. ייתכנו שינויים, ובחלק מהמוסדות (בעיקר תיכונים ומוסדות פרטיים) הלוח שונה מעט — מומלץ לוודא מול הגן או בית הספר.'
 
 const WHAT_TO_DO = { href: '/family/what-to-do', label: 'מה עושים היום? מחולל רעיונות', d: 'בוחרים מקום, זמן וגיל — ומקבלים רעיון לפעילות' }
 const CAR = { href: '/family/car-games', label: 'משחקים לנסיעה', d: 'בלי מסכים, ובינגו נסיעה להדפסה' }
-const STORIES = { href: '/stories', label: 'סיפורים לפני השינה', d: '30 סיפורים קצרים לפי גיל' }
+const STORIES = { href: '/stories', label: 'סיפורים לפני השינה', d: `${BEDTIME_STORY_COUNT} סיפורים קצרים לפי גיל` }
 
 export const HOLIDAYS = [
   {

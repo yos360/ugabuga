@@ -76,7 +76,7 @@ export default function AgePage() {
           </div>
 
           <section className="mb-10">
-            <h2 className="text-3xl mb-4">6 משחקים שמתאימים בדיוק לגיל {age}</h2>
+            <h2 className="text-3xl mb-4">{info.picks.length} משחקים שמתאימים בדיוק לגיל {age}</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {info.picks.map(([slug, why], i) => (
                 <Link key={slug} to={gameHref(slug)} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>

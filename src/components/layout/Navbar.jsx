@@ -126,6 +126,7 @@ export default function Navbar() {
         </div>
 
         <Link to="/search" className="site-icon-button site-mobile-search" aria-label="חיפוש באתר"><Search size={22} /></Link>
+        {!kidsActive && <Link to={KIDS_ZONE.to} className="site-mobile-kids-pill" aria-label="אזור ילדים — לשחק לבד"><span aria-hidden="true">{KIDS_ZONE.icon}</span> ילדים</Link>}
         <button ref={mobileButtonRef} className="site-icon-button site-mobile-toggle" type="button" aria-expanded={mobileOpen} aria-controls="site-mobile-menu"
           aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => { if (!mobileOpen) setMobileSection(active); setMobileOpen(o => !o) }}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>

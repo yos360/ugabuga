@@ -104,3 +104,16 @@ a.site-mega-heading:hover { background: #f2f4fc; }
 @media (max-width: 420px) {
   .site-mobile-menu .site-mobile-section ul { grid-template-columns: 1fr; }
 }
+
+/* Phones: a small "🧸 ילדים" pill beside the logo (desktop has the "אזור ילדים" pill in the header side) */
+.site-mobile-kids-pill { display: none; }
+@media (max-width: 800px) {
+  .site-mobile-kids-pill { display: inline-flex; order: 2; align-items: center; gap: 3px; flex-shrink: 0; min-height: 36px; padding: 4px 10px; border-radius: 999px; background: #fff4c7; border: 1px solid #f1d46b; font-size: 14px; font-weight: 800; white-space: nowrap; color: #1d2233; }
+  .site-mobile-kids-pill:hover { background: #ffe991; }
+  .site-mobile-toggle { order: 3; }
+}
+@media (max-width: 480px) {
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand,
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand-art { max-width: calc(100vw - 196px); }
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand-art { background-size: contain; background-position: center; }
+}

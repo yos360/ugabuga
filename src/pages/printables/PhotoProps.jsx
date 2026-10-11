@@ -30,7 +30,7 @@ export default function PhotoProps(){
     <SEO title="אביזרי צילום גדולים להדפסה" description="אביזרי צילום להדפסה ליום הולדת: שפמים, משקפיים, כתרים ובלוני דיבור — כל אביזר בדף A4 נפרד, בצבע או בשחור-לבן. חינם." path="/printables/photo-props" structuredData={faqSchema(FAQ)}/>
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'אביזרי צילום'}]}/>
     <h1 className="text-center text-4xl">📸 אביזרי צילום להדפסה</h1>
-    <p className="my-3 text-center text-lg">כל תמונה גדולה על דף A4 משלה. בחרו פריט אחד או הדפיסו חבילה של 12 דפים.</p>
+    <p className="my-3 text-center text-lg">כל תמונה גדולה על דף A4 משלה. בחרו פריט אחד או הדפיסו חבילה של {props.length} דפים.</p>
     <p className="mx-auto mb-3 max-w-3xl text-center leading-relaxed">חמש חבילות של 12 אביזרים — יום הולדת צבעוני, מצחיקים ומוגזמים, קסם ופנטזיה, חלל והרפתקה, וכיתה וסיום שנה. כל אביזר מצויר בגדול על דף A4 נפרד, עם מסגרת לגזירה, כך שהוא נראה ברור גם בתמונה קבוצתית. מדביקים על מקל ומקבלים עמדת צילום שלמה למסיבה, לבת מצווה או לסוף שנה.</p>
     <nav className="my-6 flex flex-wrap justify-center gap-3">{PACKS.map(x=><button key={x[0]} aria-pressed={id===x[0]} onClick={()=>setId(x[0])} className={`rounded-xl border-2 px-4 py-3 font-bold ${id===x[0]?'border-purple-600 bg-purple-100':'bg-white'}`}>{x[1]} {x[2]}</button>)}</nav>
     <div className="my-5 flex flex-wrap justify-center gap-3">{[['color','🌈 צבעוני'],['bw','⚫ שחור־לבן']].map(([value,label])=><button key={value} aria-pressed={printMode===value} onClick={()=>setPrintMode(value)} className={`rounded-xl border-2 px-5 py-3 font-bold ${printMode===value?'border-black bg-yellow-100':'bg-white'}`}>{label}{printMode===value?' ✓':''}</button>)}</div>

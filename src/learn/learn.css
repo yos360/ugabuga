@@ -52,3 +52,19 @@
 .ln-print .qs>li{margin:8px 0;break-inside:avoid}
 .ln-print .qs ul{list-style:none;padding:0;margin:2px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:2px 14px}
 .ln-print .write{border-bottom:1px solid #999;height:10mm}
+/* /learn hub: sections built from the "לומדים" menu domain */
+.ln-hub-jump{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 8px}
+.ln-hub-sec{margin-top:34px;scroll-margin-top:90px}
+.ln-hub-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin-bottom:12px}
+.ln-hub-head h2{font-size:clamp(24px,4vw,32px);font-weight:900;margin:0}
+.ln-hub-all{font-weight:800;color:#1b6fa8;text-decoration:underline;white-space:nowrap}
+.ln-hub-grades{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}
+@media (min-width:1024px){.ln-hub-grades{grid-template-columns:repeat(12,1fr)}.ln-hub-grades .ln-chip{font-size:15px;padding:6px 2px;white-space:nowrap}}
+.ln-hub-grades .ln-chip{justify-content:center;padding:8px 6px;background:#e3f3ff}
+.ln-hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.ln-hub-card{display:flex;align-items:center;gap:12px;height:100%;min-height:64px;padding:10px 14px;border:2px solid var(--border,#1d2233);border-radius:16px;background:var(--card,#fff);box-shadow:3px 3px 0 var(--border,#1d2233);transition:transform .15s}
+.ln-hub-card:hover{transform:translateY(-2px)}
+.ln-hub-card b{display:block;font-size:17px;line-height:1.3}
+.ln-hub-card small{display:block;font-size:14px;color:var(--muted-foreground,#5b6275);line-height:1.35;margin-top:2px}
+.ln-hub-ico{font-size:28px;flex-shrink:0;width:36px;text-align:center}
+@media (max-width:520px){.ln-hub-grid{grid-template-columns:1fr}.ln-hub-grades{grid-template-columns:repeat(4,1fr);gap:6px}.ln-hub-grades .ln-chip{font-size:14px;padding:6px 2px;white-space:nowrap}.ln-hub-jump{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none}.ln-hub-jump .ln-chip{flex-shrink:0;min-height:40px;padding:6px 12px;font-size:15px}}

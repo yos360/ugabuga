@@ -6,6 +6,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import { Sheet, T } from '../components/printables/PrintableShell'
 import { ROUTINE_TASKS, ACTIVITIES, CAR_GAMES, BINGO_WORDS, MOVES, STORIES, STORY_ANIMALS } from './familyData'
+import { BEDTIME_STORY_COUNT } from '../data/bedtimeStoryCount'
 import './family.css'
 import '../learn/learn.css'
 
@@ -38,8 +39,8 @@ const mmss = s => { const a = Math.abs(Math.round(s)); return `${s < 0 ? '-' : '
 export const FAMILY_SECTIONS = [
   ['/family/what-to-do', '🎲', 'מה עושים היום?', 'רעיון לפעילות לפי מקום, זמן וגיל — בלחיצה'],
   ['/family/morning-routine', '⏰', 'שגרת בוקר עם טיימר', 'משימה אחרי משימה, ויוצאים בזמן — וגם לוח להדפסה'],
-  ['/family/bedtime-story', '🌙', 'סיפור לפני השינה עם השם של הילד', 'הילד הוא הגיבור — 6 סיפורים רגועים'],
-  ['/stories', '📚', 'ספריית סיפורים לפני השינה', '30 סיפורים מקוריים לפי גיל ונושא — גם עם שם הילד'],
+  ['/family/bedtime-story', '🌙', 'סיפור לפני השינה עם השם של הילד', 'הילד הוא הגיבור — סיפור קצר ורגוע עם השם שלו'],
+  ['/stories', '📚', 'ספריית סיפורים לפני השינה', `${BEDTIME_STORY_COUNT} סיפורים מקוריים לפי גיל ונושא — גם עם שם הילד`],
   ['/printables/coloring', '🖍️', 'דפי צביעה להדפסה', 'מדפיסים ומתחילים לצבוע — חיות, רכבים, חגים ועוד'],
   ['/food/kitchen-science', '🧪', 'ניסויים מהמטבח', 'מדע עם מה שכבר יש בבית — הר געש, צבעים וקסמי מים'],
   ['/games/family', '🎲', 'משחקים לכל המשפחה', 'משחקים לשחק יחד בבית — לפי גיל, זמן וציוד'],
@@ -52,7 +53,7 @@ export function FamilyHub() {
     <SEO title="בבית עם הילדים — מה עושים היום, שגרת בוקר, סיפור לפני השינה ועוד" description="כלים קטנים להורים: מחולל 'מה עושים היום?', טיימר שגרת בוקר, סיפור לפני השינה עם שם הילד, משחקים לנסיעה, אתגר תנועה ומחשבון דמי כיס. חינם ובעברית." path="/family" />
     <Head emoji="🏡" h1="בבית עם הילדים" sub="כלים קטנים שעושים את היום קצת יותר קל — מהבוקר ועד הסיפור" />
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{FAMILY_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right"><div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['יש רגעים קבועים ביום שבהם הורים צריכים קצת עזרה: הבוקר הלחוץ לפני הגן, אחר הצהריים שבו "משעמם לי", הנסיעה הארוכה לסבתא, והסיפור לפני השינה. כאן יש כלי קטן לכל אחד מהרגעים האלה.', 'הכול עובד בטלפון בלי הרשמה ובלי אפליקציה, ורוב הכלים אפשר גם להדפיס — לוח שגרה למקרר, בינגו לנסיעה ודף מעקב לחיסכון.']} related={[{ label: 'לוחות לבית להדפסה', href: '/printables/home-charts' }, { label: 'אוכל לילדים', href: '/food' }, { label: 'לומדים בבית', href: '/learn' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['יש רגעים קבועים ביום שבהם הורים צריכים קצת עזרה: הבוקר הלחוץ לפני הגן, אחר הצהריים שבו "משעמם לי", הנסיעה הארוכה לסבתא, והסיפור לפני השינה. כאן יש כלי קטן לכל אחד מהרגעים האלה.', 'הכול עובד בטלפון בלי הרשמה ובלי אפליקציה, ורוב הכלים אפשר גם להדפיס — לוח שגרה למקרר, בינגו לנסיעה ודף מעקב לחיסכון.']} related={[{ label: 'לוחות לבית להדפסה', href: '/printables/home-charts' }, { label: 'אוכל לילדים', href: '/food' }, { label: 'לומדים', href: '/learn' }]} /></div>
   </Page>
 }
 
@@ -161,7 +162,7 @@ export function BedtimeStory() {
   const paras = story.body(n, g, a)
   const other = () => setStoryId(pick(STORIES.filter(s => s.id !== storyId)).id)
   return <Page>
-    <SEO title="סיפור לפני השינה עם השם של הילד — סיפורים קצרים ומרגיעים" description="סיפור לפני השינה שבו הילד או הילדה הם הגיבורים: כותבים שם, בוחרים בן או בת וחבר מחיות — ומקבלים סיפור קצר ומרגיע. 6 סיפורים מקוריים, אפשר גם להדפיס." path="/family/bedtime-story" />
+    <SEO title="סיפור לפני השינה עם השם של הילד — סיפורים קצרים ומרגיעים" description={`סיפור לפני השינה שבו הילד או הילדה הם הגיבורים: כותבים שם, בוחרים בן או בת וחבר מחיות — ומקבלים סיפור קצר ומרגיע. ${STORIES.length} סיפורים מקוריים, אפשר גם להדפיס.`} path="/family/bedtime-story" />
     <Head emoji="🌙" h1="סיפור לפני השינה" sub="כותבים את השם — והילד הופך לגיבור של הסיפור" crumb="סיפור לפני השינה" />
     <div className="ln-box space-y-3">
       <div className="flex flex-wrap items-center justify-center gap-2"><input value={name} maxLength={14} onChange={e => setName(e.target.value)} placeholder="שם הילד/ה" className="fam-input" aria-label="שם הילד/ה" /><Chip on={gender === 'm'} onClick={() => setGender('m')}>👦 בן</Chip><Chip on={gender === 'f'} onClick={() => setGender('f')}>👧 בת</Chip></div>
@@ -173,7 +174,7 @@ export function BedtimeStory() {
       <div className={`ln-text ${big ? 'is-big' : ''}`}>{paras.map((p, i) => <p key={i}>{p}</p>)}</div>
       <p className="text-center text-2xl mt-4" aria-hidden="true">✨ 🌙 ✨</p>
     </article>
-    <p className="mt-6 text-center text-lg">רוצים עוד? ב<Link to="/stories" className="font-bold underline">ספריית הסיפורים לפני השינה</Link> יש 30 סיפורים ארוכים יותר לפי גיל ונושא — וגם בהם אפשר לכתוב את שם הילד.</p>
+    <p className="mt-6 text-center text-lg">רוצים עוד? ב<Link to="/stories" className="font-bold underline">ספריית הסיפורים לפני השינה</Link> יש {BEDTIME_STORY_COUNT} סיפורים ארוכים יותר לפי גיל ונושא — וגם בהם אפשר לכתוב את שם הילד.</p>
     <div className="mt-4 flex flex-wrap justify-center gap-2"><button type="button" className="ln-btn" onClick={other}>📖 סיפור אחר</button><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><button type="button" className="ln-btn alt" onClick={() => setPrinting(true)}>🖨️ הדפסה</button></div>
     {printing && <PrintPreview title={story.title(n)} onClose={() => setPrinting(false)}><article className="buga-flow fam-print" dir="rtl"><h2>{story.title(n)}</h2>{paras.map((p, i) => <p key={i} style={{ fontSize: '15pt', lineHeight: 1.8 }}>{p}</p>)}<p style={{ textAlign: 'center' }}>~ לילה טוב ~</p></article></PrintPreview>}
     <div className="mt-12"><SeoBody paragraphs={['ילדים אוהבים לשמוע את השם שלהם בסיפור — פתאום הם לא רק מקשיבים, הם בתוך ההרפתקה. כאן כותבים את שם הילד או הילדה, בוחרים חבר מחיות (כלבלב, ארנבון, דרקון קטן ועוד), והסיפור מתאים את עצמו, כולל לשון זכר או נקבה.', 'כל הסיפורים נכתבו במיוחד לאתר, והם קצרים ורגועים בכוונה: בלי מתח גדול, עם קצב שמאט לקראת הסוף — כדי שיתאימו לרגע שלפני השינה. קריאה של כל סיפור לוקחת כשלוש דקות.']} faq={[{ q: 'איך בוחרים סיפור לפני השינה?', a: 'קצר, רגוע וחוזר על עצמו. ילדים קטנים אוהבים לשמוע את אותו סיפור שוב ושוב — זה מרגיע. כדאי להימנע מסיפורים מפחידים או מותחים מדי לפני השינה.' }, { q: 'הילד מפחד מהחושך — יש סיפור מתאים?', a: 'כן: "החושך שבפינה" מספר על ילד או ילדה שמגלים שהצל המפחיד הוא בסך הכול מעיל על כיסא, ולומדים לנשום עמוק ולבדוק.' }]} related={[{ label: 'ספריית סיפורים לפני השינה', href: '/stories' }, { label: 'שגרת ערב עם טיימר', href: '/family/morning-routine' }, { label: 'הבנת הנקרא', href: '/learn/reading' }]} /></div>

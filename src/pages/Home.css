@@ -48,15 +48,10 @@
 .today-quiz-loading{min-height:590px}@media(min-width:640px){.today-quiz-loading{min-height:470px}}
 .holiday-banner-slot{min-height:40px}@media(max-width:639px){.holiday-banner-slot{min-height:36px}}@media(max-width:429px){.holiday-banner-slot{min-height:56px}}
 
-/* Three clear first actions under the home headline */
-.home-quick{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:16px auto 4px;max-width:720px}
-.home-quick-btn{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:10px 20px;border:2.5px solid #1d2233;border-radius:16px;box-shadow:3px 3px 0 #1d2233;font-size:18px;font-weight:900;color:#1d2233;text-decoration:none;transition:transform .15s}
-.home-quick-btn:hover{transform:translateY(-2px)}
-.home-quick-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
-.home-quick-btn.is-play{background:#ffd23f}
-.home-quick-btn.is-list{background:#c9f5d4}
-.home-quick-btn.is-print{background:#dff2ff}
-@media (max-width:520px){.home-quick-btn{flex:1 1 100%;justify-content:center}}
+/* Home headline: a search-phrase H1 (longer than the old one-liner), so it is sized down to stay two lines on desktop */
+.home-v2 .home-intro h1{font-size:clamp(26px,3.6vw,52px);line-height:1.2;max-width:980px;margin-inline:auto;text-wrap:balance}
+.home-v2 .home-intro p{max-width:760px;margin-inline:auto;text-wrap:balance}
+.home-v2>.share-button{margin:30px auto 0}
 
 /* Home charts — a compact strip right after the featured games */
 .home-charts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:26px 0 0;padding:14px 18px;border:2px solid #1d2233;border-radius:20px;background:linear-gradient(120deg,#fff3b8,#ffd9e4);box-shadow:3px 3px 0 #1d2233}

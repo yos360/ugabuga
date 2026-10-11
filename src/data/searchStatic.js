@@ -4,6 +4,7 @@
 // Site-wide search: one list of everything a visitor can open (pages, tools, printables, ideas,
 // guides, game categories). Games themselves come from the games database at search time.
 import { MENU_GROUPS } from './siteMenu'
+import { BEDTIME_STORY_COUNT } from './bedtimeStoryCount.js'
 import { CATEGORIES, CLASS_PAGES } from './gameCategories'
 import { IDEA_ARTICLES, PARTY_KITS } from './ideaArticlesExpanded'
 import { GUIDES } from './guides'
@@ -215,7 +216,7 @@ const PAGES = [
   { to: '/school-holidays/shavuot', title: 'חופשת שבועות 2027', emoji: '🌾', kind: 'tool', desc: '10–11.6.2027.', keys: 'חופשת שבועות חופש שבועות' },
   { to: '/school-holidays/summer', title: 'החופש הגדול 2027 — מתי מתחיל?', emoji: '☀️', kind: 'tool', desc: 'גן ויסודי מ־1.7, חט״ב ותיכון מ־21.6.2027.', keys: 'החופש הגדול סוף שנת הלימודים קיץ מתי נגמרת השנה' },
   // bedtime stories (/stories/*)
-  { to: '/stories', title: 'סיפורים לפני השינה לילדים', emoji: '📚', kind: 'tool', desc: '30 סיפורים קצרים לפי גיל ונושא, גם עם שם הילד.', keys: 'סיפור סיפורים סיפורים לילדים סיפור ילדים לפני השינה לילה טוב סיפור אישי עם שם' },
+  { to: '/stories', title: 'סיפורים לפני השינה לילדים', emoji: '📚', kind: 'tool', desc: `${BEDTIME_STORY_COUNT} סיפורים קצרים לפי גיל ונושא, גם עם שם הילד.`, keys: 'סיפור סיפורים סיפורים לילדים סיפור ילדים לפני השינה לילה טוב סיפור אישי עם שם' },
   { to: '/stories/snail-and-sparrow', title: 'השבלול והדרורית — סיפור לפני השינה', emoji: '🐌', kind: 'tool', desc: 'גילאי 3–5 · חברות', keys: 'סיפור לפני השינה סיפור ילדים חברות' },
   { to: '/stories/new-kid-in-kindergarten', title: 'הילדה החדשה בגן — סיפור לפני השינה', emoji: '🪣', kind: 'tool', desc: 'גילאי 5–7 · חברות', keys: 'סיפור לפני השינה סיפור ילדים חברות' },
   { to: '/stories/two-towers-and-a-bridge', title: 'שני מגדלים וגשר אחד — סיפור לפני השינה', emoji: '🧱', kind: 'tool', desc: 'גילאי 5–7 · חברות', keys: 'סיפור לפני השינה סיפור ילדים חברות' },
@@ -247,7 +248,7 @@ const PAGES = [
   { to: '/stories/the-little-shamash', title: 'הַשַּׁמָּשׁ הקטן — סיפור לפני השינה', emoji: '🕎', kind: 'tool', desc: 'גילאי 7–9 · חגים ועונות', keys: 'סיפור לפני השינה סיפור ילדים חגים ועונות' },
   { to: '/stories/the-first-rain', title: 'הגשם הראשון — סיפור לפני השינה', emoji: '🌧️', kind: 'tool', desc: 'גילאי 3–5 · חגים ועונות', keys: 'סיפור לפני השינה סיפור ילדים חגים ועונות' },
   // learning at home (/learn/*)
-  { to: '/learn', title: 'לומדים בבית', emoji: '🎒', kind: 'tool', desc: 'הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות.', keys: 'תרגול לימודים שיעורי בית' },
+  { to: '/learn', title: 'לומדים — חשבון, עברית, אנגלית ומדע', emoji: '📚', kind: 'tool', desc: 'חשבון לפי כיתה, אותיות וקריאה, הכתבה, אנגלית ושפות, מוזיקה ומדע.', keys: 'תרגול לימודים שיעורי בית לומדים בבית למידה' },
   { to: '/typing', title: 'הקלדה עיוורת בעברית', emoji: '⌨️', kind: 'tool', desc: 'קורס חינם: 25 שיעורים, מקלדת צבעונית ומילים לדקה.', keys: 'הקלדה עיוורת הקלדה עיוורת בעברית כתיבה עיוורת שיטה עיוורת לימוד הקלדה קורס הקלדה הקלדה בעשר אצבעות מקלדת תרגול הקלדה' },
   { to: '/typing/test', title: 'מבחן מהירות הקלדה', emoji: '⏱️', kind: 'tool', desc: 'כמה מילים לדקה אתם מקלידים? דקה, שתיים או שלוש.', keys: 'מבחן מהירות הקלדה מהירות הקלדה מילים לדקה בדיקת מהירות הקלדה מבחן הקלדה' },
   { to: '/typing/english', title: 'הקלדה עיוורת באנגלית', emoji: '🇬🇧', kind: 'tool', desc: 'שיעורי הקלדה על המקלדת האנגלית, הסברים בעברית.', keys: 'הקלדה עיוורת באנגלית הקלדה באנגלית כתיבה עיוורת באנגלית typing' },

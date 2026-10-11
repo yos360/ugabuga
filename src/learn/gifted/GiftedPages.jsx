@@ -114,7 +114,7 @@ export function GiftedHub() {
   const pool = useMemo(() => TYPES.flatMap(t => t.items.map(item => ({ type: t.key, item }))), [])
   return <Page>
     <SEO title="מבחן מחוננים — הכנה ותרגול: 120 שאלות לשלב א׳ ושלב ב׳" description="הכנה למבחן מחוננים בחינם: 120 שאלות מקוריות באנלוגיות, סדרות מספרים, מטריצות צורות וחשיבה לוגית — עם הסבר לכל תשובה, מבחן משולב אונליין ודפים להדפסה." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, { label: HUB_CRUMB.label }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: HUB_CRUMB.label }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧠 </span>מבחן מחוננים — הכנה ותרגול</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">תרגול לקראת מבחן מחוננים: 120 שאלות מקוריות בארבעה סוגים — עם הסבר לכל תשובה</p>
     <p className="gt-note">התרגול באתר נכתב במיוחד לעוגה בוגה. הוא <b>אינו</b> המבחן הרשמי, אינו קשור למשרד החינוך, והשאלות אינן לקוחות ממבחנים אמיתיים.</p>
@@ -137,7 +137,7 @@ export function GiftedHub() {
     </div>
     <h2 className="mt-10 mb-3 text-3xl font-black">טיפים להורים</h2>
     <div className="grid gap-4 sm:grid-cols-2">{TIPS.map(([e, t, d]) => <div key={t} className="ln-box"><h3 className="text-xl font-bold"><span aria-hidden="true">{e} </span>{t}</h3><p>{d}</p></div>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['כל סוג שאלות כאן כולל 30 שאלות בשלוש רמות קושי — קל, בינוני ומאתגר. אפשר לפתור אונליין, עם הסבר מיד אחרי כל תשובה, או להדפיס דפים של 10 שאלות עם דף תשובות והסברים להורה.', 'מטריצות הצורות מצוירות לפי חוקים מוגדרים (צורה, מספר, מילוי, גודל וכיוון), והתשובות בסדרות המספרים נבדקות מול החוק של כל סדרה — כך שלכל שאלה יש תשובה נכונה אחת בדיוק.']} faq={HUB_FAQ} related={[{ label: 'לומדים בבית', href: '/learn' }, { label: 'חידות לילדים', href: '/riddles/topics' }, { label: 'אתגר לוח הכפל', href: '/learn/times-tables' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['כל סוג שאלות כאן כולל 30 שאלות בשלוש רמות קושי — קל, בינוני ומאתגר. אפשר לפתור אונליין, עם הסבר מיד אחרי כל תשובה, או להדפיס דפים של 10 שאלות עם דף תשובות והסברים להורה.', 'מטריצות הצורות מצוירות לפי חוקים מוגדרים (צורה, מספר, מילוי, גודל וכיוון), והתשובות בסדרות המספרים נבדקות מול החוק של כל סדרה — כך שלכל שאלה יש תשובה נכונה אחת בדיוק.']} faq={HUB_FAQ} related={[{ label: 'לומדים', href: '/learn' }, { label: 'חידות לילדים', href: '/riddles/topics' }, { label: 'אתגר לוח הכפל', href: '/learn/times-tables' }]} /></div>
   </Page>
 }
 
@@ -201,7 +201,7 @@ export function GiftedType() {
   const levelCount = l => t.items.filter(i => i.level === l).length
   return <Page>
     <SEO title={txt.seoTitle} description={txt.seoDesc} path={`${HUB}/${t.slug}`} structuredData={faqSchema(txt.faq)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, HUB_CRUMB, { label: t.title }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, HUB_CRUMB, { label: t.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{t.emoji} </span>{t.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">30 שאלות תרגול למבחן מחוננים · {levelCount(1)} קלות, {levelCount(2)} בינוניות, {levelCount(3)} מאתגרות</p>
     <p className="gt-note"><b>איך פותרים?</b> {t.how}</p>
@@ -220,7 +220,7 @@ export function GiftedType() {
     <div className="space-y-4">{samples.map((it, i) => <Sample key={it.id} t={t} item={it} n={i + 1} />)}</div>
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד סוגי שאלות</h2>
     <div className="grid gap-3 sm:grid-cols-3">{TYPES.filter(x => x.key !== t.key).map(x => <Link key={x.key} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {x.title}</b></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={[...txt.paras, 'השאלות נכתבו במיוחד לאתר לצורך תרגול, ואינן לקוחות ממבחני האיתור של משרד החינוך. האתר אינו קשור למשרד החינוך.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים — עמוד ראשי', href: HUB }, { label: 'לומדים בבית', href: '/learn' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={[...txt.paras, 'השאלות נכתבו במיוחד לאתר לצורך תרגול, ואינן לקוחות ממבחני האיתור של משרד החינוך. האתר אינו קשור למשרד החינוך.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים — עמוד ראשי', href: HUB }, { label: 'לומדים', href: '/learn' }]} /></div>
   </Page>
 }
 
@@ -254,7 +254,7 @@ export function GiftedGrade({ slug }) {
   const last = f => Math.min(f + 10, g.pool.length)
   return <Page>
     <SEO title={txt.seoTitle} description={txt.seoDesc} path={`${HUB}/${g.slug}`} structuredData={faqSchema(txt.faq)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים בבית', href: '/learn' }, HUB_CRUMB, { label: g.label }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, HUB_CRUMB, { label: g.label }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{g.emoji} </span>{txt.h1}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{g.pool.length} שאלות תרגול · רמה: {g.levels.map(l => LEVELS[l]).join(' ו')}</p>
     <p className="text-lg leading-relaxed mb-4">{txt.intro}</p>

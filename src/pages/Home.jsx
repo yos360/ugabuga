@@ -83,8 +83,8 @@ export default function Home() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'עוגה בוגה — משחקים וכלים בעברית',
-          text: 'מאגר של 100+ משחקים ופעילויות לילדים, כיתות ויום הולדת',
+          title: 'עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים',
+          text: 'משחקים, דפי פעילות ולמידה לילדים — בחינם ובעברית',
           url: window.location.href,
         })
       } catch (err) {
@@ -99,19 +99,10 @@ export default function Home() {
     }
   }
 
-  return <><SEO path="/" title="עוגה בוגה — פעילויות ומשחקים לילדים בחינם" description='עוגה בוגה — פעילויות לילדים בעברית: יותר מ-100 משחקים, משחקי אונליין, דפי צביעה ודפים להדפסה, חדרי בריחה וכלים לכיתה. חינם וללא הרשמה.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
+  return <><SEO path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
-      <h1>מה בא לכם לעשות היום?</h1>
-      <p>פעילויות ומשחקים לילדים, יצירה, דפי צביעה וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה מאות משחקים, דפי פעילות וכלים בחינם — לכל גיל וגודל קבוצה.</p>
-      <nav className="home-quick" aria-label="מתחילים מכאן">
-        <Link to="/online-games" className="home-quick-btn is-play"><span aria-hidden="true">🕹️</span> לשחק עכשיו</Link>
-        <Link to="/tools/bring-list" className="home-quick-btn is-list"><span aria-hidden="true">🧺</span> רשימת "מי מביא מה"</Link>
-        <Link to="/printables" className="home-quick-btn is-print"><span aria-hidden="true">🖨️</span> דפים להדפסה</Link>
-      </nav>
-      <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
-        <Share2 size={20} />
-        <span>שיתוף</span>
-      </button>
+      <h1>משחקים, דפי פעילות ולמידה לילדים — בחינם ובעברית</h1>
+      <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
     <section className="home-intents" aria-labelledby="home-intents-title">
       <h2 id="home-intents-title">למה נכנסתם היום?</h2>
@@ -168,6 +159,10 @@ export default function Home() {
       </div>
     </section>
     <HomeCharts className="is-mobile" />
+    <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
+      <Share2 size={20} />
+      <span>שיתוף האתר</span>
+    </button>
     <section className="home-extra">
       <SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} />
     </section>
