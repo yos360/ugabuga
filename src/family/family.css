@@ -30,3 +30,16 @@
 .fam-print ul,.fam-print ol{padding-inline-start:20px}.fam-print li{margin:3px 0}
 @keyframes fam-pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.04);opacity:1}100%{transform:scale(1)}}
 .fam-pop{animation:fam-pop .4s ease-out both}
+/* Custom lunchbox-note maker */
+.lbm{padding:16px}
+.lbm-grid{display:grid;gap:20px}
+@media (min-width:860px){.lbm-grid{grid-template-columns:1.1fr 1fr;align-items:start}.lbm-preview{position:sticky;top:80px}}
+.lbm-controls{display:grid;gap:14px;min-width:0}
+.lbm-row{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.lbm-field{display:grid;gap:4px;font-weight:700;font-size:14px;min-width:0}.lbm-field .fam-input{width:100%;font-weight:400;font-size:16px}
+.lbm-set{border:0;padding:0;margin:0;min-width:0}.lbm-set legend{font-weight:900;font-size:17px;margin-bottom:6px}
+.lbm-notes{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.lbm-chips{display:flex;flex-wrap:wrap;gap:8px}
+.lbm-check{display:flex;align-items:center;gap:8px;min-height:40px;font-weight:700}.lbm-check input{width:20px;height:20px}
+.lbm .fam-chip:disabled{opacity:.5}
+.lbm-preview svg{width:100%;height:auto;display:block}

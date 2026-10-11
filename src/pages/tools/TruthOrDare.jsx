@@ -222,7 +222,7 @@ export default function TruthOrDare() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title="אמת או בוגה — משחק נכון או לא נכון לילדים ולמשפחה" description="משחק אמת או בוגה: 180 משפטים על חיות, חלל, ישראל, ספורט, מסיבות, מדע ואוכל — מנחשים אם זה נכון או שטות. משחקים לבד או בקבוצות, עם ניקוד ובלי לחזור על משפטים שכבר הופיעו." path="/tools/truth-or-buga" structuredData={faqSchema(truthOrDareFaq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'אמת או בוגה' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'אמת או בוגה' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
 
       <div className="text-center mb-8">
         <h1 className="text-4xl sm:text-5xl mb-2">🎭 אמת או בוגה</h1>

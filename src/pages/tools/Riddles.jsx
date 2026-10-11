@@ -115,7 +115,7 @@ export default function Riddles() {
         path="/tools/riddles"
         structuredData={faqSchema(RIDDLES_FAQ)}
       />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'חידות' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'חידות' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
 
       <h1 className="text-4xl font-hand font-bold text-center mb-2">🧩 חידות לילדים עם תשובות</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">

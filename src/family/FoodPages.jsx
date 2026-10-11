@@ -7,6 +7,8 @@ import PrintPreview from '../components/ui/PrintPreview'
 import NotFound from '../pages/NotFound'
 import { SANDWICHES, SIDES, ALLERGENS, KINDS, BREADS } from './foodData'
 import { RECIPES, EXPERIMENTS } from './kidsKitchen'
+import { NOTES, bankNotes } from './lunchboxNotes'
+import LunchboxMaker from './LunchboxMaker'
 import './family.css'
 
 export const FOOD_CRUMB = { label: 'אוכל לילדים', href: '/food' }
@@ -234,15 +236,11 @@ export function Experiment() {
 }
 
 // ── /printables/lunchbox-notes ───────────────────────────────
-const NOTES = {
-  love: ['אוהבים אותך עד הירח וחזרה', 'את/ה הכי מיוחד/ת שיש', 'שיהיה לך יום מעולה!', 'אני גאה בך', 'מחכה לשמוע איך היה', 'חיבוק גדול מהבית', 'את/ה אמיץ/ה וחכם/ה', 'תהנה/י בהפסקה!', 'גם כשקשה — את/ה מצליח/ה', 'נתראה אחרי הצהריים', 'שולחים לך נשיקה', 'את/ה מאיר/ה לי את היום'],
-  jokes: ['למה הספר היה עצוב? כי היו לו הרבה בעיות', 'מה אומר אפס לשמונה? איזו חגורה יפה!', 'למה העגבנייה הסמיקה? כי ראתה את הסלט מתלבש', 'איך קוראים לדינוזאור שישן? דינו-נוחר', 'למה המחשב הלך לרופא? כי היה לו וירוס', 'מה השעון אמר לשעון? יש לך זמן?', 'למה הפרה לא משחקת כדורגל? כי היא תמיד בועטת בדלי', 'מה אומרת הדבורה כשהיא שמחה? זזזה כיף!', 'למה העיפרון שמח? כי היה לו חוד מצויין', 'מה אמר הירח לשמש? את מאירה לי את הלילה', 'מה הצבע של הרוח? שקוף', 'למה הציפור לא הולכת לבית ספר? כי היא כבר יודעת לעוף'],
-  goals: ['היום אני מנסה משהו חדש', 'אומר/ת תודה למישהו', 'שואל/ת שאלה בשיעור', 'משחק/ת עם מישהו חדש בהפסקה', 'שותה מים!', 'אוכל/ת קודם את הירק', 'עוזר/ת לחבר/ה', 'מחייך/ת לפחות 5 פעמים', 'מספר/ת לי דבר אחד שלמדתי', 'מתאמץ/ת גם כשקשה', 'משאיר/ה את הקופסה ריקה 😉', 'כותב/ת יפה במחברת'],
-}
 export function LunchboxNotes() {
   const [set, setSet] = useState('love')
   const [name, setName] = useState('')
-  const msgs = NOTES[set]
+  const [mixSeed, setMixSeed] = useState(1)
+  const msgs = set === 'mix' ? bankNotes('mix', mixSeed).slice(0, 12) : NOTES[set]
   const COLORS = ['#ffe8ee', '#fff6cf', '#e3f1ff', '#e6f8e4']
   const svg = <svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="פתקים לקופסת האוכל" fontFamily="Heebo, Arial, sans-serif">
     <rect width="200" height="270" fill="#fff" />
@@ -255,15 +253,17 @@ export function LunchboxNotes() {
   </svg>
   const [printing, setPrinting] = useState(false)
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="פתקים לקופסת האוכל — להדפסה ולגזירה" description="פתקים קטנים לקופסת ארוחת העשר: מילים חמות, בדיחות לילדים ומשימות קטנות ליום. 12 פתקים בדף, עם שם הילד. מדפיסים, גוזרים ומפתיעים." path="/printables/lunchbox-notes" />
+    <SEO title="פתקים לקופסת האוכל — להדפסה ולגזירה" description="פתקים קטנים לקופסת ארוחת העשר: מילים חמות, בדיחות לילדים ומשימות קטנות ליום. 12 פתקים בדף, עם שם הילד — או פתקים אישיים שכותבים בעצמכם. מדפיסים, גוזרים ומפתיעים." path="/printables/lunchbox-notes" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, FOOD_CRUMB, { label: 'פתקים לקופסה' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">💌 </span>פתקים לקופסת האוכל</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">12 פתקים בדף — גוזרים ושמים אחד בכל בוקר</p>
     <div className="mb-5 flex flex-wrap justify-center gap-2">{[['love', '💛 מילים חמות'], ['jokes', '😂 בדיחות'], ['goals', '⭐ משימה ליום']].map(([k, l]) => <Toggle key={k} on={set === k} onClick={() => setSet(k)}>{l}</Toggle>)}
+      <Toggle on={set === 'mix'} onClick={() => { setSet('mix'); setMixSeed(s => s + 1 + Math.floor(Math.random() * 500)) }}>🎲 ערבוב{set === 'mix' ? ' נוסף' : ''}</Toggle>
       <input value={name} maxLength={12} onChange={e => setName(e.target.value)} placeholder="שם הילד/ה (לא חובה)" className="fam-input" /></div>
     <div className="mx-auto max-w-md border-2 border-[var(--border)] bg-white p-2">{svg}</div>
     <div className="mt-5 text-center"><button type="button" data-print-main className="fam-roll" onClick={() => setPrinting(true)}>🖨️ הדפסה או PDF</button></div>
     {printing && <PrintPreview title="פתקים לקופסת האוכל" onClose={() => setPrinting(false)}><article className="buga-a4"><div className="print-art">{svg}</div></article></PrintPreview>}
-    <div className="mt-12"><SeoBody paragraphs={['פתק קטן בקופסת האוכל הופך הפסקה רגילה לרגע של חיוך. מדפיסים דף אחד, גוזרים לאורך הקווים המקווקווים, ושמים פתק אחר בכל בוקר — מספיק לשבועיים של בית ספר.', 'יש שלושה סוגים: מילים חמות מהבית, בדיחות לילדים לספר לחברים, ומשימה קטנה ליום — כמו "שואל/ת שאלה בשיעור" או "משחק/ת עם מישהו חדש". אפשר להוסיף את שם הילד בראש כל פתק.']} related={[{ label: 'ארוחת עשר', href: '/food/school-lunch' }, { label: 'בדיחות לילדים', href: '/jokes/topics' }]} /></div>
+    <LunchboxMaker />
+    <div className="mt-12"><SeoBody paragraphs={['פתק קטן בקופסת האוכל הופך הפסקה רגילה לרגע של חיוך. מדפיסים דף אחד, גוזרים לאורך הקווים המקווקווים, ושמים פתק אחר בכל בוקר — מספיק לשבועיים של בית ספר.', 'יש שלושה סוגים: מילים חמות מהבית, בדיחות לילדים לספר לחברים, ומשימה קטנה ליום — כמו "שואל/ת שאלה בשיעור" או "משחק/ת עם מישהו חדש". אפשר להוסיף את שם הילד בראש כל פתק, או לבחור "ערבוב" ולקבל דף מעורב מכל הסוגים.', 'רוצים לכתוב בעצמכם? בעורך הפתקים האישיים כותבים את המילים שלכם, בוחרים 6, 8, 9 או 12 פתקים בדף, צבעים, מסגרת, אימוג׳י וגודל כתב — ופתקים שנשארו ריקים מתמלאים בפתקים מוכנים או נשארים עם שורות לכתיבה ביד. הטקסט נשמר רק בדפדפן שלכם.']} related={[{ label: 'ארוחת עשר', href: '/food/school-lunch' }, { label: 'בדיחות לילדים', href: '/jokes/topics' }]} /></div>
   </div>
 }

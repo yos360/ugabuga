@@ -160,7 +160,7 @@ export default function TriviaQuiz() {
         path="/tools/trivia-quiz"
         structuredData={faqSchema(triviaFaq)}
       />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'טריוויה' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'טריוויה' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
 
       <h1 className="text-4xl font-hand font-bold text-center mb-2">🎯 טריוויה לילדים ולמשפחה</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">

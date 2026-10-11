@@ -37,7 +37,7 @@ export default function ScavengerHuntMaker() {
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
       <SEO title="יוצר ציד אוצרות להדפסה" description="יוצר ציד אוצרות: בונים רשימת חפצים למצוא, מוכנה להדפסה — לבית, לחצר, לגן ולכיתה. בוחרים רשימה מוכנה או כותבים בעצמכם, חינם." path="/tools/scavenger-hunt-maker" structuredData={faqSchema(scavengerFaq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'ציד אוצרות' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'ציד אוצרות' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
       <h1 className="text-4xl text-center mb-6">🔎 יוצר ציד אוצרות</h1>
 
       <div className="flex flex-wrap justify-center gap-2 mb-6">

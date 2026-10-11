@@ -21,6 +21,16 @@ const PLAY_TOOL_ROUTES = {
   'galgal-hamisimot': { to: '/tools/random-picker', label: 'פתחו גלגל' },
   'etgar-hakvutzot': { to: '/tools/team-generator', label: 'חלקו לקבוצות' },
   'mi-bakvutza-sheli': { to: '/tools/team-generator', label: 'חלקו לקבוצות' },
+  'iks-igul': { to: '/online-games/tic-tac-toe', label: 'שחקו אונליין' },
+}
+// Games that also exist as an online game / printable sheet: link both sides from the "how to play" page.
+const GAME_COMPANIONS = {
+  'iks-igul': [
+    { to: '/printables/tic-tac-toe', label: '🖨️ לוחות איקס עיגול להדפסה' },
+    { to: '/online-games/tic-tac-toe', label: '📱 איקס עיגול לשניים על המסך' },
+    { to: '/board-games/tic-tac-toe', label: '🧠 שיעור ואסטרטגיה נגד המחשב' },
+  ],
+  'buga-xo': [{ to: '/printables/tic-tac-toe', label: '🖨️ לוחות איקס עיגול להדפסה' }, { to: '/games/iks-igul', label: '❌ איקס עיגול הקלאסי' }],
 }
 const MISSING_GAME_LINKS = [
   { to: '/tools', label: '🛠️ כל הכלים' },
@@ -223,6 +233,12 @@ export default function GamePage() {
             <button type="button" onClick={randomGame} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🎲 תנו לי משחק אחר</button>
           </div>
         </div>
+      )}
+
+      {GAME_COMPANIONS[slug] && (
+        <nav aria-label="עוד דרכים לשחק" className="mb-6 flex flex-wrap gap-2">
+          {GAME_COMPANIONS[slug].map(l => <Link key={l.to} to={l.to} className="wobbly-sm inline-flex min-h-[44px] items-center border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold hover:bg-[var(--postit)]">{l.label}</Link>)}
+        </nav>
       )}
 
       <div className="flex flex-wrap gap-2 mb-6">

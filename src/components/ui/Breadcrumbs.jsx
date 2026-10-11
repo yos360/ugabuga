@@ -3,7 +3,12 @@ import { Helmet } from 'react-helmet-async'
 
 const SITE = 'https://ugabuga.co.il'
 
-export default function Breadcrumbs({ items }) {
+// Section crumbs that were written without a link still get one, so the trail never dead-ends
+// (e.g. the bingo maker's "כלים" step used to be plain text, leaving phones with no way back).
+const SECTION_HREF = { 'כלים': '/tools', 'משחקים': '/games' }
+
+export default function Breadcrumbs({ items: rawItems, back }) {
+  const items = rawItems.map((item, i) => (!item.href && i < rawItems.length - 1 && SECTION_HREF[item.label] ? { ...item, href: SECTION_HREF[item.label] } : item))
   // BreadcrumbList structured data so Google can show the page's place in the
   // site (ראשי › משחקים › שם המשחק) instead of a bare URL in search results.
   const breadcrumbSchema = {
@@ -40,6 +45,11 @@ export default function Breadcrumbs({ items }) {
             </li>
           ))}
         </ol>
+        {back?.href && (
+          <Link to={back.href} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
+            → {back.label || 'חזרה'}
+          </Link>
+        )}
       </nav>
     </>
   )

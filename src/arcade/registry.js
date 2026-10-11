@@ -442,6 +442,8 @@ export const ARCADE = [
     ],
     related: [
       { href: '/board-games/tic-tac-toe', label: 'איקס עיגול במשחקי הלוח – עם שיעור קצר וחוקים להדפסה' },
+      { href: '/printables/tic-tac-toe', label: 'לוחות איקס עיגול להדפסה – 3×3, 4×4 ואיקס עיגול כפול' },
+      { href: '/games/iks-igul', label: 'איקס עיגול על דף – מה מכינים, גרסאות לכיתה ולחצר' },
       { href: '/online-games/four-in-a-row', label: 'ארבע בשורה לשניים' },
       { href: '/board-games', label: 'עוד משחקי לוח לשניים' },
     ],

@@ -18,6 +18,7 @@ export const categories = [
   { slug: 'purim-masks', href: '/printables/purim-masks', emoji: '🎭', title: 'מסכות לפורים', count: 9, desc: 'חיות, פרפר, גיבור-על וחד-קרן — בצבע או לצביעה' },
   { slug: 'birthday-crown', href: '/printables/birthday-crown', emoji: '👑', title: 'כתר יום הולדת', count: 'חדש', desc: 'כתר לגזירה עם שם החוגג/ת והגיל' },
   { slug: 'memory-game', href: '/printables/memory-game', emoji: '🃏', title: 'משחק זיכרון', count: 'חדש', desc: '10 זוגות — תמונה ותמונה, או תמונה ומילה' },
+  { slug: 'tic-tac-toe', href: '/printables/tic-tac-toe', emoji: '❌', title: 'לוחות איקס עיגול', count: 'חדש', desc: '6 לוחות 3×3 בדף, 4×4 ואיקס עיגול כפול' },
   { slug: 'dominoes', href: '/printables/dominoes', emoji: '🁫', title: 'דומינו להדפסה', count: 'חדש', desc: 'קלאסי, מספרים, חיבור ותמונה-מילה' },
   { slug: 'fortune-teller', href: '/printables/fortune-teller', emoji: '🌸', title: 'קוטי פוטי', count: 'חדש', desc: 'תבנית לקיפול עם משפטים מוכנים או שלכם' },
   { slug: 'gift-box', href: '/printables/gift-box', emoji: '🎁', title: 'קופסת מתנה לקיפול', count: 'חדש', desc: 'קופסה עם מכסה, דוגמה ושם המקבל' },

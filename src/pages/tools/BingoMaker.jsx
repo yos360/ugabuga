@@ -78,7 +78,7 @@ export default function BingoMaker() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title="בינגו היכרות להדפסה — כרטיסי בינגו" description="צרו כרטיסי בינגו היכרות לכל אירוע — עם דוגמאות, הסברים, חבילות נושא ואפשרות מותאמת אישית." path="/tools/bingo-maker" structuredData={faqSchema(bingoFaq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בינגו' }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'בינגו' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
 
       <div className="text-center mb-8">
         <h1 className="text-4xl sm:text-5xl mb-2">🎯 יוצר כרטיסי בינגו</h1>
