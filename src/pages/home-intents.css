@@ -23,7 +23,8 @@
 @media (max-width: 560px) {
   .home-intents { margin-bottom: 16px; }
   .home-intents > h2 { font-size: 26px; margin-bottom: 10px; }
-  .home-intent .home-door-copy { width: 58%; }
+  .home-intent .home-door-copy { width: 56%; }
+  .home-intent .home-door-art { width: 36% !important; max-width: 36% !important; }
   .home-intent .home-door-copy h3 { font-size: 22px; margin-bottom: 6px; }
   .home-intent.is-kids .home-door-copy h3 { font-size: 26px; }
   .home-intent .home-door-copy p { font-size: 14px; line-height: 1.4; }
