@@ -1,129 +1,28 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+
+import { FOOTER_COLUMNS as COLUMNS } from '../../data/siteMenu'
 
 function FooterLink({ to, children }) {
   return <li><Link to={to} className="flex min-h-[44px] w-full items-center py-1.5 hover:underline underline-offset-4">{children}</Link></li>
 }
 
-const COLUMNS = [
-  {
-    title: 'משחקים',
-    links: [
-      ['/games', 'כל המשחקים'],
-      ['/games/kindergarten', 'משחקים לגן'],
-      ['/games/kita-a', 'משחקים לכיתה א׳'],
-      ['/games/no-equipment', 'בלי ציוד'],
-      ['/games/5-minutes', '5 דקות'],
-      ['/games/icebreaker', 'שובר קרח'],
-      ['/games/movement', 'תנועה'],
-      ['/games/quiet', 'שקטים'],
-      ['/game-of-the-day', 'משחק היום'],
-      ['/online-games#two-players', 'משחקים לשניים'],
-      ['/sudoku', 'סודוקו אונליין'],
-      ['/chess', 'שחמט אונליין'],
-    ],
-  },
-  {
-    title: 'יום הולדת',
-    links: [
-      ['/birthday', 'כל מה שצריך ליום הולדת'],
-      ['/calculator', 'מחשבון מסיבה'],
-      ['/invitation', 'מחולל הזמנות'],
-      ['/rsvp', 'אישור הגעה אונליין'],
-      ['/greeting', 'מחולל ברכות'],
-      ['/games/birthday', 'משחקים ליום הולדת'],
-      ['/ideas', 'רעיונות והשראה'],
-      ['/ideas/at-home', 'יום הולדת בבית'],
-      ['/bar-mitzvah', 'בר ובת מצווה'],
-      ['/gifts', 'רעיונות למתנות'],
-      ['/suppliers', 'ספקים לימי הולדת'],
-    ],
-  },
-  {
-    title: 'לכיתה ויוצרים',
-    links: [
-      ['/classroom', 'כל הכלים לכיתה'],
-      ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
-      ['/secret-friend', 'גמד וענק'],
-      ['/thank-you-wall', 'קיר ברכות לגננת'],
-      ['/classroom/first-grade', 'הכנה לכיתה א׳'],
-      ['/printables/hebrew-letters', 'אותיות בעברית להדפסה'],
-      ['/printables/math-worksheets', 'דפי עבודה בחשבון'],
-      ['/printables/roots-project', 'עבודת שורשים'],
-      ['/create', 'יוצרים — כל המחוללים'],
-      ['/printables', 'דפים להדפסה'],
-      ['/printables/coloring', 'דפי צביעה'],
-      ['/origami', 'אוריגמי לילדים'],
-      ['/printables/color-by-number', 'צביעה לפי מספרים'],
-      ['/tools/crossword-maker', 'מחולל תשבצים'],
-      ['/tools', 'כל הכלים'],
-    ],
-  },
-  {
-    title: 'עולמות תוכן',
-    links: [
-      ['/trivia/topics', 'טריוויה לפי נושא'],
-      ['/animals', 'עולם החיות'],
-      ['/riddles/topics', 'חידות לפי נושא'],
-      ['/logic-puzzles', 'תשבצי היגיון'],
-      ['/jokes/topics', 'בדיחות לילדים'],
-      ['/birthday-greetings', 'ברכות ליום הולדת'],
-      ['/questions', 'שאלות לילדים'],
-      ['/treasure-hunt/ready', 'ציד אוצר מוכן'],
-      ['/abc', 'לומדים אותיות'],
-      ['/blog', 'הבלוג שלנו'],
-      ['/time-tunnel', 'מנהרת הזמן'],
-    ],
-  },
-  {
-    title: 'לומדים ומשפחה',
-    links: [
-      ['/learn', 'לומדים בבית'],
-      ['/learn/times-tables', 'תרגול לוח הכפל'],
-      ['/learn/dictation', 'הכתבה אונליין'],
-      ['/typing', 'הקלדה עיוורת'],
-      ['/learn/gifted-test', 'הכנה למבחן מחוננים'],
-      ['/discover', 'עולם ומדע'],
-      ['/discover/israel-map', 'מפת ישראל לילדים'],
-      ['/flags', 'דגלי מדינות'],
-      ['/family', 'בבית עם הילדים'],
-      ['/school-holidays', 'לוח חופשות משרד החינוך'],
-      ['/baby-names', 'שמות לתינוקות'],
-      ['/cakes', 'עוגות יום הולדת'],
-      ['/toddlers', 'פעילויות לפעוטות'],
-      ['/gifts/gananet', 'מתנה לגננת'],
-      ['/ideas/kindergarten-graduation', 'מסיבת סיום גן'],
-      ['/printables/school-supplies-list', 'רשימת ציוד לבית הספר'],
-      ['/tools/hebrew-birthday', 'יום הולדת עברי'],
-      ['/math', 'מתמטיקה לפי כיתה'],
-      ['/learn/multiplication-table', 'לוח הכפל'],
-      ['/jokes/keresh', 'בדיחות קרש'],
-      ['/trivia/with-answers', 'שאלות טריוויה עם תשובות'],
-      ['/stories', 'סיפורים לפני השינה'],
-      ['/food', 'אוכל לילדים וארוחת עשר'],
-      ['/printables/allergy-signs', 'שלטי אלרגיה לגן'],
-      ['/music', 'לומדים מוזיקה ופסנתר'],
-    ],
-  },
-  {
-    title: 'אודות',
-    links: [
-      ['/about', 'אודות עוגה בוגה'],
-      ['/faq', 'שאלות נפוצות'],
-      ['/guides', 'כל המדריכים'],
-      ['/guides/how-to-plan-birthday', 'איך מתכננים יום הולדת'],
-      ['/compare/home-vs-venue', 'בית או אולם'],
-      ['/ideas/what-to-do-weekend', 'פעילות לסוף שבוע'],
-      ['/terms', 'תנאי שימוש'],
-      ['/privacy', 'מדיניות פרטיות'],
-    ],
-  },
-]
-
 function ColumnLinks({ links }) {
   return <ul className="mt-2 text-lg">{links.map(([to, label]) => <FooterLink key={to} to={to}>{label}</FooterLink>)}</ul>
 }
 
+// The kids zone promises a child browsing alone no outside links: no WhatsApp,
+// no supplier sign-up, no mailto — just a quiet sign-off.
+function KidsFooter() {
+  return (
+    <footer className="site-footer mt-16 border-t border-[var(--border)] no-print">
+      <p className="mx-auto max-w-6xl px-4 py-8 text-center text-base text-[var(--muted-foreground)]">עוגה בוגה 🎂 משחקים ופעילויות בעברית</p>
+    </footer>
+  )
+}
+
 export default function Footer() {
+  const { pathname } = useLocation()
+  if (/^\/kids\/?$/.test(pathname)) return <KidsFooter />
   return (
     <footer className="site-footer mt-16 border-t border-[var(--border)] no-print">
       <div className="mx-auto max-w-6xl px-4 py-10">
@@ -139,7 +38,7 @@ export default function Footer() {
           ))}
         </div>
         {/* Desktop: open columns, unchanged */}
-        <div className="hidden gap-8 sm:grid sm:grid-cols-3 lg:grid-cols-6">
+        <div className="hidden gap-8 sm:grid sm:grid-cols-3 lg:grid-cols-4">
           {COLUMNS.map(col => (
             <div key={col.title}>
               <h2 className="text-xl">{col.title}</h2>

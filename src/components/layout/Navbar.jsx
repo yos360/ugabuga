@@ -2,38 +2,87 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 
-import { MENU_GROUPS, MENU_ACTIVE_PREFIXES, SECTION } from '../../data/siteMenu'
+import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
 
-function HeaderLink({ to, children }) {
-  const { pathname } = useLocation()
-  const active = to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`)
-  return <Link to={to} className={`site-nav-link${active ? ' is-active' : ''}`} aria-current={active ? 'page' : undefined}>{children}</Link>
+function ItemLink({ item, onClick }) {
+  return <Link to={item.to} onClick={onClick} className={item.highlight ? 'is-highlight' : undefined}><span aria-hidden="true">{item.icon}</span>{item.label}</Link>
+}
+
+// Desktop mega panel for one domain (or the smaller classroom panel).
+function MegaPanel({ domain, onNavigate }) {
+  const groups = domain.groups || [{ title: null, items: domain.items }]
+  return (
+    <div id={`site-panel-${domain.id}`} className={`site-mega${domain.groups ? '' : ' is-compact'}`}>
+      <div className="site-mega-groups">
+        {groups.map(group => <section key={group.title || 'items'} className={group.items.some(i => i.highlight) ? 'is-banner' : group.items.length > 14 ? 'is-wide' : undefined}>
+          {group.title && (group.to
+            ? <Link to={group.to} className="site-mega-heading" onClick={onNavigate}><span aria-hidden="true">{group.icon}</span> {group.title}</Link>
+            : <p className="site-mega-heading"><span aria-hidden="true">{group.icon}</span> {group.title}</p>)}
+          <ul>{group.items.map(item => <li key={item.to}><ItemLink item={item} onClick={onNavigate} /></li>)}</ul>
+        </section>)}
+      </div>
+      <div className="site-mega-footer">
+        <Link to={domain.to} onClick={onNavigate}>{domain.landingLabel} <ArrowLeft size={16} /></Link>
+        {domain.groups && <Link to={SITE_MAP_LINK.to} onClick={onNavigate} className="is-muted">{SITE_MAP_LINK.label}</Link>}
+      </div>
+    </div>
+  )
+}
+
+// A domain in the desktop bar: the name links to its landing page, the chevron
+// opens the panel (mouse users also get it on hover).
+function DomainItem({ domain, open, setOpen, active, className = '' }) {
+  const toggleRef = useRef(null)
+  const timer = useRef(null)
+  const isOpen = open === domain.id
+  const schedule = (fn, ms) => { clearTimeout(timer.current); timer.current = setTimeout(fn, ms) }
+  useEffect(() => () => clearTimeout(timer.current), [])
+  return (
+    <li className={`site-domain ${className}`}
+      onPointerEnter={e => { if (e.pointerType === 'mouse') schedule(() => setOpen(domain.id), 120) }}
+      onPointerLeave={e => { if (e.pointerType === 'mouse') schedule(() => setOpen(o => (o === domain.id ? null : o)), 220) }}
+      onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(o => (o === domain.id ? null : o)) }}
+      onKeyDown={e => { if (e.key === 'Escape' && isOpen) { e.stopPropagation(); setOpen(null); toggleRef.current?.focus() } }}>
+      <Link to={domain.to} className={`site-domain-link${active ? ' is-active' : ''}`} aria-current={active ? 'true' : undefined}>
+        <span aria-hidden="true">{domain.icon}</span> {domain.label}
+      </Link>
+      <button ref={toggleRef} type="button" className="site-domain-toggle" aria-expanded={isOpen} aria-controls={`site-panel-${domain.id}`}
+        aria-label={`תפריט ${domain.label}`} onClick={() => { clearTimeout(timer.current); setOpen(o => (o === domain.id ? null : domain.id)) }}>
+        <ChevronDown size={15} className={isOpen ? 'is-open' : ''} />
+      </button>
+      {isOpen && <MegaPanel domain={domain} onNavigate={() => setOpen(null)} />}
+    </li>
+  )
 }
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [toolsOpen, setToolsOpen] = useState(false)
+  const [open, setOpen] = useState(null) // id of the open desktop panel
+  const [mobileSection, setMobileSection] = useState(null)
   const { pathname, search } = useLocation()
-  const toolsRef = useRef(null)
-  const toolsButtonRef = useRef(null)
   const mobileButtonRef = useRef(null)
   const mobilePanelRef = useRef(null)
-  const toolsActive = MENU_ACTIVE_PREFIXES.some(path => pathname.startsWith(path))
+  const active = activeDomainFor(pathname)
 
   useEffect(() => {
-    setToolsOpen(false)
+    setOpen(null)
     setMobileOpen(false)
   }, [pathname, search])
 
+  // Opening the phone menu moves focus into it (the current domain is expanded on open).
   useEffect(() => {
-    if (!toolsOpen && !mobileOpen) return undefined
+    if (mobileOpen) mobilePanelRef.current?.querySelector('a, button')?.focus()
+  }, [mobileOpen])
+
+  useEffect(() => {
+    if (!open && !mobileOpen) return undefined
     const dismissOutside = event => {
-      if (toolsOpen && toolsRef.current && !toolsRef.current.contains(event.target)) setToolsOpen(false)
+      if (open && !event.target.closest?.('.site-domain')) setOpen(null)
       if (mobileOpen && mobilePanelRef.current && !mobilePanelRef.current.contains(event.target) && !mobileButtonRef.current?.contains(event.target)) setMobileOpen(false)
     }
     const escape = event => {
       if (event.key !== 'Escape') return
-      if (toolsOpen) { setToolsOpen(false); toolsButtonRef.current?.focus() }
+      if (open) setOpen(null)
       if (mobileOpen) { setMobileOpen(false); mobileButtonRef.current?.focus() }
     }
     document.addEventListener('pointerdown', dismissOutside)
@@ -42,7 +91,10 @@ export default function Navbar() {
       document.removeEventListener('pointerdown', dismissOutside)
       document.removeEventListener('keydown', escape)
     }
-  }, [toolsOpen, mobileOpen])
+  }, [open, mobileOpen])
+
+  const closeMobile = () => setMobileOpen(false)
+  const kidsActive = pathname === KIDS_ZONE.to
 
   return (
     <header className="site-header no-print">
@@ -56,56 +108,63 @@ export default function Navbar() {
         }
       }}>דילוג לתוכן</a>
       <div className="site-header-inner">
-        <nav className="site-nav-primary" aria-label="ניווט ראשי">
-          <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
-          <HeaderLink to="/games">{SECTION.games}</HeaderLink>
-          <HeaderLink to="/birthday">{SECTION.birthday}</HeaderLink>
-          <HeaderLink to="/classroom">{SECTION.classroom}</HeaderLink>
-        </nav>
+        <div className="site-header-side site-header-start">
+          <Link to={KIDS_ZONE.to} className={`site-kids-pill${kidsActive ? ' is-active' : ''}`} aria-current={kidsActive ? 'page' : undefined}>
+            <span aria-hidden="true">{KIDS_ZONE.icon}</span> אזור ילדים
+          </Link>
+        </div>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
           <span className="site-brand-art" aria-hidden="true" />
         </Link>
 
-        <nav className="site-nav-secondary" aria-label="עוד בעוגה בוגה">
-          <HeaderLink to="/create">{SECTION.create}</HeaderLink>
-          <HeaderLink to="/ideas">{SECTION.ideas}</HeaderLink>
-          <HeaderLink to="/suppliers">{SECTION.suppliers}</HeaderLink>
-          <div className="site-tools" ref={toolsRef} onBlur={event => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setToolsOpen(false)
-          }}>
-            <button ref={toolsButtonRef} type="button" className={`site-tools-toggle${toolsActive ? ' is-active' : ''}`}
-              aria-expanded={toolsOpen} aria-controls="site-tools-menu" onClick={() => setToolsOpen(open => !open)}>
-              כל הכלים <ChevronDown size={15} className={toolsOpen ? 'is-open' : ''} />
-            </button>
-            {toolsOpen && (
-              <div id="site-tools-menu" className="site-tools-menu">
-                <div className="site-tools-groups">
-                  {MENU_GROUPS.map(group => <section key={group.title}>
-                    <Link to={group.to} className="site-tools-heading" onClick={() => setToolsOpen(false)}>{group.title}</Link>
-                    <ul>{group.items.map(item => <li key={item.to}><Link to={item.to} onClick={() => setToolsOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
-                  </section>)}
-                </div>
-                <Link className="site-tools-all" to="/tools">לכל הכלים <ArrowLeft size={16} /></Link>
-              </div>
-            )}
-          </div>
-        </nav>
+        <div className="site-header-side site-header-end">
+          <ul className="site-classroom">
+            <DomainItem domain={CLASSROOM_MENU} open={open} setOpen={setOpen} active={active === 'classroom'} className="is-classroom" />
+          </ul>
+          <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
+        </div>
 
         <Link to="/search" className="site-icon-button site-mobile-search" aria-label="חיפוש באתר"><Search size={22} /></Link>
         <button ref={mobileButtonRef} className="site-icon-button site-mobile-toggle" type="button" aria-expanded={mobileOpen} aria-controls="site-mobile-menu"
-          aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => setMobileOpen(open => !open)}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
+          aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => { if (!mobileOpen) setMobileSection(active); setMobileOpen(o => !o) }}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>
+
+      <nav className="site-domains" aria-label="ניווט ראשי">
+        <ul>
+          {MENU_DOMAINS.map(domain => <DomainItem key={domain.id} domain={domain} open={open} setOpen={setOpen} active={active === domain.id} />)}
+        </ul>
+      </nav>
 
       {mobileOpen && (
         <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
+          <Link to={KIDS_ZONE.to} className="site-mobile-kids" onClick={closeMobile}><span aria-hidden="true">{KIDS_ZONE.icon}</span> אזור ילדים — לשחק לבד</Link>
+          <ul className="site-mobile-sections">
+            {[...MENU_DOMAINS, CLASSROOM_MENU].map(domain => {
+              const expanded = mobileSection === domain.id
+              // The kids zone already leads the phone menu, so its group isn't repeated here.
+              const groups = (domain.groups || [{ title: null, items: domain.items }]).filter(g => !g.items.some(i => i.highlight))
+              return <li key={domain.id} className={domain.id === 'classroom' ? 'is-classroom' : undefined}>
+                <button type="button" className={`site-mobile-section-toggle${active === domain.id ? ' is-active' : ''}`} aria-expanded={expanded} aria-controls={`site-mobile-${domain.id}`}
+                  onClick={() => setMobileSection(s => (s === domain.id ? null : domain.id))}>
+                  <span><span aria-hidden="true">{domain.icon}</span> {domain.label}</span>
+                  <ChevronDown size={20} className={expanded ? 'is-open' : ''} aria-hidden="true" />
+                </button>
+                {expanded && <div id={`site-mobile-${domain.id}`} className="site-mobile-section">
+                  <Link to={domain.to} className="site-mobile-landing" onClick={closeMobile}>{domain.landingLabel} <ArrowLeft size={16} aria-hidden="true" /></Link>
+                  {groups.map(group => <section key={group.title || 'items'}>
+                    {group.title && <h3>{group.to ? <Link to={group.to} onClick={closeMobile}><span aria-hidden="true">{group.icon}</span> {group.title}</Link> : <><span aria-hidden="true">{group.icon}</span> {group.title}</>}</h3>}
+                    <ul>{group.items.map(item => <li key={item.to}><ItemLink item={item} onClick={closeMobile} /></li>)}</ul>
+                  </section>)}
+                </div>}
+              </li>
+            })}
+          </ul>
           <div className="site-mobile-main-links">
-            {[['/', 'דף הבית'], ['/games', SECTION.games], ['/birthday', SECTION.birthday], ['/classroom', SECTION.classroom], ['/create', SECTION.create], ['/ideas', SECTION.ideas], ['/suppliers', SECTION.suppliers], ['/about', 'אודות']].map(([to, label]) => <HeaderLink key={to} to={to}>{label}</HeaderLink>)}
+            <Link to="/" onClick={closeMobile}>דף הבית</Link>
+            <Link to={SITE_MAP_LINK.to} onClick={closeMobile}>{SITE_MAP_LINK.label}</Link>
+            <Link to="/about" onClick={closeMobile}>אודות</Link>
           </div>
-          {MENU_GROUPS.map(group => <section key={group.title}>
-            <h2><Link to={group.to} onClick={() => setMobileOpen(false)}>{group.title}</Link></h2>
-            <ul>{group.items.map(item => <li key={item.to}><Link to={item.to} onClick={() => setMobileOpen(false)}><span aria-hidden="true">{item.icon}</span>{item.label}</Link></li>)}</ul>
-          </section>)}
         </nav>
       )}
     </header>

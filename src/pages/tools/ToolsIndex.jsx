@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
-import { MENU_GROUPS } from '../../data/siteMenu'
+import { MENU_GROUPS, MENU_DOMAINS, CLASSROOM_MENU } from '../../data/siteMenu'
+
+const DOMAINS = [...MENU_DOMAINS, CLASSROOM_MENU]
 
 const DESC = Object.fromEntries([
   { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה', desc: 'טריוויה עם מצבי משחק, ניקוד ותחרות.' },
@@ -61,19 +63,27 @@ export default function ToolsIndex() {
         <h1 className="text-4xl sm:text-5xl mb-3">🛠️ כל הכלים של עוגה בוגה</h1>
         <p className="mx-auto max-w-2xl text-lg text-[var(--foreground)]/75">כלים אונליין לילדים ולמורים — כל מה שאפשר להפעיל מיד: בכיתה, במסיבה, בבית או עם חברים.</p>
       </div>
-      {MENU_GROUPS.map(group => (
-        <section key={group.title} className="mb-10">
-          <h2 className="mb-4 text-3xl font-black"><Link to={group.to} className="hover:underline">{group.title}</Link></h2>
-          <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {group.items.map((tool, index) => (
-              <Link key={tool.to} to={tool.to} className={`h-full card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
-                <span className="text-4xl">{tool.icon}</span>
-                <h3 className="mt-3 text-2xl font-bold">{tool.label}</h3>
-                {DESC[tool.to] && <p className="mt-2 text-[var(--foreground)]/75">{DESC[tool.to]}</p>}
-                <span className="mt-4 inline-block font-display text-lg font-bold underline decoration-dashed">פתחו ←</span>
-              </Link>
-            ))}
-          </div>
+      <nav aria-label="תחומי האתר" className="mb-8 flex flex-wrap justify-center gap-2">
+        {DOMAINS.map(d => <a key={d.id} href={`#domain-${d.id}`} className="wobbly border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold"><span aria-hidden="true">{d.icon}</span> {d.label}</a>)}
+      </nav>
+      {DOMAINS.map(domain => (
+        <section key={domain.id} id={`domain-${domain.id}`} className="mb-12 scroll-mt-24">
+          <h2 className="mb-4 text-3xl font-black"><Link to={domain.to} className="hover:underline"><span aria-hidden="true">{domain.icon}</span> {domain.label}</Link></h2>
+          {MENU_GROUPS.filter(g => g.domain === domain.id).map(group => (
+            <div key={group.title} className="mb-8">
+              <h3 className="mb-3 text-xl font-bold"><Link to={group.to} className="hover:underline">{group.title}</Link></h3>
+              <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((tool, index) => (
+                  <Link key={tool.to} to={tool.to} className={`h-full card-lift wobbly-md border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${index % 2 ? 'rotate-1' : '-rotate-1'}`}>
+                    <span className="text-4xl">{tool.icon}</span>
+                    <h4 className="mt-3 text-2xl font-bold">{tool.label}</h4>
+                    {DESC[tool.to] && <p className="mt-2 text-[var(--foreground)]/75">{DESC[tool.to]}</p>}
+                    <span className="mt-4 inline-block font-display text-lg font-bold underline decoration-dashed">פתחו ←</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
       ))}
       <section className="mt-10 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow-rich">
