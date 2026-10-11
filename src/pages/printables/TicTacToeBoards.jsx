@@ -89,9 +89,9 @@ function ScoreRow({ y }) {
   const boxes = (x, n) => Array.from({ length: n }, (_, i) => <rect key={i} x={x - i * 7} y={y - 4.5} width={5.5} height={5.5} rx={1} fill="none" stroke={INK} strokeWidth={0.4} />)
   return <g>
     <T x={186} y={y} size={4.4} weight={800} anchor="start">ניצחונות:</T>
-    <T x={164} y={y} size={4.4} anchor="start">✕</T>{boxes(155, 6)}
-    <T x={110} y={y} size={4.4} anchor="start">◯</T>{boxes(101, 6)}
-    <T x={56} y={y} size={4.4} anchor="start">תיקו</T>{boxes(42, 4)}
+    <T x={163} y={y} size={4.4} anchor="start">✕</T>{boxes(151, 6)}
+    <T x={107} y={y} size={4.4} anchor="start">◯</T>{boxes(95, 6)}
+    <T x={52} y={y} size={4.4} anchor="start">תיקו</T>{boxes(35, 4)}
   </g>
 }
 

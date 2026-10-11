@@ -1,0 +1,4664 @@
+[
+ {
+  "id": "ec230ca7-99eb-5ea0-bf9f-b67f51c7de6d",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה עצמות יש בגוף של אדם בוגר?",
+  "answer": "206 עצמות",
+  "answer_explanation": "תינוקות נולדים עם יותר עצמות קטנות, וחלקן מתאחות כשגדלים.",
+  "metadata": {
+   "value": 206,
+   "unit": "עצמות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 1,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c5d1e07a-45b2-574a-9228-f2e7cd662141",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה שיניים קבועות יש לאדם בוגר (כולל שיני בינה)?",
+  "answer": "32 שיניים",
+  "answer_explanation": "ארבע מהן הן שיני בינה, ויש אנשים שאצלם הן לא בוקעות בכלל.",
+  "metadata": {
+   "value": 32,
+   "unit": "שיניים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; American Dental Association"
+  },
+  "sort_order": 2,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ec8d101e-38d4-5b87-ba30-42f7aeb3d6d2",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה שיני חלב יש לילד?",
+  "answer": "20 שיניים",
+  "answer_explanation": "שיני החלב נושרות בהדרגה, בערך מגיל 6, ומפנות מקום לשיניים הקבועות.",
+  "metadata": {
+   "value": 20,
+   "unit": "שיניים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; American Dental Association"
+  },
+  "sort_order": 3,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4ea73fb8-eaf7-54f5-bf31-faaf5d0c354c",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה זוגות צלעות יש לאדם?",
+  "answer": "12 זוגות",
+  "answer_explanation": "הצלעות יוצרות כלוב שמגן על הלב ועל הריאות.",
+  "metadata": {
+   "value": 12,
+   "unit": "זוגות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 4,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "02f3982d-bb0f-5dc0-9acd-76bee85877c5",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה חוליות יש בצוואר של אדם?",
+  "answer": "7 חוליות",
+  "answer_explanation": "גם לג׳ירפה יש בדיוק 7 חוליות צוואר — פשוט הרבה יותר ארוכות!",
+  "metadata": {
+   "value": 7,
+   "unit": "חוליות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 5,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "cef0fc53-4468-5218-be53-bebcd80ef1c5",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה חדרים יש בלב של אדם?",
+  "answer": "4 חדרים",
+  "answer_explanation": "שתי עליות ושני חדרים — הלב הוא בעצם שתי משאבות שעובדות יחד.",
+  "metadata": {
+   "value": 4,
+   "unit": "חדרים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NIH"
+  },
+  "sort_order": 6,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4a79b602-0deb-5711-8198-a8798a464892",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה ריאות יש לאדם?",
+  "answer": "2 ריאות",
+  "answer_explanation": "הריאה השמאלית קצת יותר קטנה, כדי לפנות מקום ללב.",
+  "metadata": {
+   "value": 2,
+   "unit": "ריאות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NIH"
+  },
+  "sort_order": 7,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d8811aa5-f492-55cc-8ee6-a75832f6f5ce",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "מה טמפרטורת הגוף הרגילה של אדם, במעלות צלזיוס?",
+  "answer": "בערך 37 מעלות",
+  "answer_explanation": "היא משתנה מעט במהלך היום — בבוקר קצת נמוכה יותר.",
+  "metadata": {
+   "value": 37,
+   "unit": "מעלות",
+   "approx": true,
+   "level": "easy",
+   "src": "Britannica; NIH"
+  },
+  "sort_order": 8,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "aac67c02-8e6d-5bc2-9027-a8a082ec6e94",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה אצבעות יש בסך הכול בשתי הידיים ובשתי הרגליים?",
+  "answer": "20 אצבעות",
+  "answer_explanation": "לכל אצבע ביד חוץ מהאגודל יש 3 עצמות, ולאגודל — רק 2.",
+  "metadata": {
+   "value": 20,
+   "unit": "אצבעות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 9,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8c24f4cf-4558-551c-b2e3-6cbe41522977",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה ליטרים של דם יש בגוף של אדם בוגר?",
+  "answer": "בערך 5 ליטרים",
+  "answer_explanation": "אצל רוב המבוגרים בין 4.5 ל-5.5 ליטרים — בערך כמו בקבוק גדול וחצי של מים, פעמיים.",
+  "metadata": {
+   "value": 5,
+   "unit": "ליטרים",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; American Red Cross"
+  },
+  "sort_order": 10,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "778b8069-1887-5202-90b3-4e16844b9664",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה עצמות יש בכף יד אחת (כולל שורש כף היד)?",
+  "answer": "27 עצמות",
+  "answer_explanation": "8 בשורש כף היד, 5 בכף היד ו-14 באצבעות.",
+  "metadata": {
+   "value": 27,
+   "unit": "עצמות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 11,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c74178fc-21b3-5e33-9045-1a2941fa8905",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה עצמות יש בכף רגל אחת?",
+  "answer": "26 עצמות",
+  "answer_explanation": "בשתי כפות הרגליים יחד יש בערך רבע מכל העצמות בגוף!",
+  "metadata": {
+   "value": 26,
+   "unit": "עצמות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 12,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ef880c12-4a82-5458-a71c-a0a31c505aae",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה עצמות זעירות יש בכל אוזן תיכונה?",
+  "answer": "3 עצמות",
+  "answer_explanation": "פטיש, סדן וארכוף — הארכוף היא העצם הקטנה ביותר בגוף.",
+  "metadata": {
+   "value": 3,
+   "unit": "עצמות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 13,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1364dc8c-a33e-5f29-bf74-fd217a54cbc9",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה כרומוזומים יש בתא רגיל בגוף האדם?",
+  "answer": "46 כרומוזומים",
+  "answer_explanation": "23 זוגות — חצי מאמא וחצי מאבא.",
+  "metadata": {
+   "value": 46,
+   "unit": "כרומוזומים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIH Genome"
+  },
+  "sort_order": 14,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c3ef900b-a3fc-5579-b4d3-8aa7f6f131bf",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה טעמים בסיסיים הלשון שלנו מזהה?",
+  "answer": "5 טעמים",
+  "answer_explanation": "מתוק, מלוח, חמוץ, מר ואוּמאמי (הטעם ה״עשיר״ של עגבנייה וגבינה).",
+  "metadata": {
+   "value": 5,
+   "unit": "טעמים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIH"
+  },
+  "sort_order": 15,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "778c7503-3469-537d-a1d8-f87390d11f3a",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה פעמים בדקה הלב של מבוגר פועם במנוחה?",
+  "answer": "בערך 70 פעימות",
+  "answer_explanation": "הטווח הרגיל הוא 60 עד 100 פעימות בדקה; אצל ילדים — מהר יותר.",
+  "metadata": {
+   "value": 70,
+   "unit": "פעימות",
+   "approx": true,
+   "level": "medium",
+   "src": "American Heart Association; NIH"
+  },
+  "sort_order": 16,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d27ff70c-208e-510e-8cbd-8b8ad04137d9",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מהגוף של אדם בוגר הם מים?",
+  "answer": "בערך 60 אחוז",
+  "answer_explanation": "אצל תינוקות האחוז גבוה עוד יותר — בערך 75%.",
+  "metadata": {
+   "value": 60,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "USGS; NIH"
+  },
+  "sort_order": 17,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1fc0526c-b8cf-5bb7-9a76-0ef558b75a93",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה סוגי דם עיקריים יש בשיטת ABO?",
+  "answer": "4 סוגים",
+  "answer_explanation": "A, B, AB ו-O — ולכל אחד יש גם פלוס או מינוס.",
+  "metadata": {
+   "value": 4,
+   "unit": "סוגים",
+   "approx": false,
+   "level": "medium",
+   "src": "American Red Cross; NIH"
+  },
+  "sort_order": 18,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8216449f-f6be-5e26-8b27-1ecf798e74a8",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה שבועות נמשך הריון אצל אישה, בממוצע?",
+  "answer": "בערך 40 שבועות",
+  "answer_explanation": "זה בערך 9 חודשים — נספרים מתחילת המחזור האחרון.",
+  "metadata": {
+   "value": 40,
+   "unit": "שבועות",
+   "approx": true,
+   "level": "medium",
+   "src": "NIH; Mayo Clinic"
+  },
+  "sort_order": 19,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "09a74d1c-64c3-569c-a6ab-ffe3685e604f",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה עצמות יש בגולגולת של אדם בוגר (בלי עצמות האוזן)?",
+  "answer": "22 עצמות",
+  "answer_explanation": "8 עצמות עוטפות את המוח ו-14 בונות את הפנים.",
+  "metadata": {
+   "value": 22,
+   "unit": "עצמות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 20,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d9dcdd7d-9c3e-5a89-981e-56b50479a638",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה זוגות עצבים יוצאים מחוט השדרה?",
+  "answer": "31 זוגות",
+  "answer_explanation": "הם מעבירים הודעות בין המוח לכל הגוף, מהצוואר ועד האצבעות בכפות הרגליים.",
+  "metadata": {
+   "value": 31,
+   "unit": "זוגות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 21,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "072e4ed4-2f17-596d-bb3c-b57bfda9043f",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה זוגות עצבים יוצאים ישירות מהמוח (עצבי גולגולת)?",
+  "answer": "12 זוגות",
+  "answer_explanation": "אחד מהם, עצב הראייה, מחבר את העין למוח.",
+  "metadata": {
+   "value": 12,
+   "unit": "זוגות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 22,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "df7b9688-c506-570b-9204-31ac6da4f5e2",
+  "game_slug": "buga-numbers",
+  "pack_name": "גוף האדם",
+  "content_type": "question",
+  "content_text": "כמה חוליות יש בגב התחתון (החוליות המותניות)?",
+  "answer": "5 חוליות",
+  "answer_explanation": "אלה החוליות הגדולות והחזקות ביותר, כי הן נושאות את רוב משקל הגוף.",
+  "metadata": {
+   "value": 5,
+   "unit": "חוליות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Gray's Anatomy"
+  },
+  "sort_order": 23,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "841dce5e-7deb-5bba-bd77-da73ac5c68de",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה רגליים יש לעכביש?",
+  "answer": "8 רגליים",
+  "answer_explanation": "עכבישים הם לא חרקים — הם עכבישאים, ולכן יש להם 8 רגליים ולא 6.",
+  "metadata": {
+   "value": 8,
+   "unit": "רגליים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 24,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2643daf9-a7c3-5467-a6a5-14b8a295ac9b",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה רגליים יש לחרק?",
+  "answer": "6 רגליים",
+  "answer_explanation": "כל החרקים — נמלים, פרפרים וחיפושיות — הולכים על 6 רגליים.",
+  "metadata": {
+   "value": 6,
+   "unit": "רגליים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 25,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "db55e960-9c94-5858-94ac-658ee619701a",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה זרועות יש לתמנון?",
+  "answer": "8 זרועות",
+  "answer_explanation": "על כל זרוע יש מאות כפתורי יניקה שגם ״טועמים״ את מה שהם נוגעים בו.",
+  "metadata": {
+   "value": 8,
+   "unit": "זרועות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 26,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c5b2484b-52c2-5df3-98f4-5cff08efd518",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה זרועות יש לרוב לכוכב ים?",
+  "answer": "5 זרועות",
+  "answer_explanation": "יש מינים עם יותר זרועות, ואם כוכב ים מאבד זרוע — היא יכולה לצמוח מחדש.",
+  "metadata": {
+   "value": 5,
+   "unit": "זרועות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NOAA"
+  },
+  "sort_order": 27,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a28d308a-49a8-5fc3-a913-9e89f25bf9c4",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה דבשות יש לגמל הבקטרי (הגמל הדו-דבשתי)?",
+  "answer": "2 דבשות",
+  "answer_explanation": "בדבשת יש שומן, לא מים — הוא משמש כמאגר אנרגיה.",
+  "metadata": {
+   "value": 2,
+   "unit": "דבשות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 28,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "56d84d0e-74d7-5170-836d-0fa48c880116",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה מחושים יש לחרק?",
+  "answer": "2 מחושים",
+  "answer_explanation": "בעזרת המחושים חרקים מריחים, ממששים ואפילו ״שומעים״.",
+  "metadata": {
+   "value": 2,
+   "unit": "מחושים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 29,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "25cf5520-8e81-55c7-b061-47659ce42264",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "מכמה חלקים בנוי הגוף של חרק?",
+  "answer": "3 חלקים",
+  "answer_explanation": "ראש, חזה ובטן — ושש הרגליים יוצאות מהחזה.",
+  "metadata": {
+   "value": 3,
+   "unit": "חלקים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 30,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "da2f2a52-1ada-5247-8e75-35418358068a",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה לבבות יש לתמנון?",
+  "answer": "3 לבבות",
+  "answer_explanation": "שניים מזרימים דם לזימים ואחד לשאר הגוף — והדם שלו כחול!",
+  "metadata": {
+   "value": 3,
+   "unit": "לבבות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian Ocean"
+  },
+  "sort_order": 31,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3a3d5d44-e67f-5cab-8226-43dc42447145",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה חוליות יש בצוואר של ג׳ירפה?",
+  "answer": "7 חוליות",
+  "answer_explanation": "בדיוק כמו לבני אדם — אבל כל חוליה ארוכה כמו סרגל.",
+  "metadata": {
+   "value": 7,
+   "unit": "חוליות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 32,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c7f49644-6d49-5530-be35-f0ce3e126fcb",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה חודשים נמשך הריון של פילה אפריקאית?",
+  "answer": "בערך 22 חודשים",
+  "answer_explanation": "זה ההריון הארוך ביותר מכל היונקים — כמעט שנתיים!",
+  "metadata": {
+   "value": 22,
+   "unit": "חודשים",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 33,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "cd111a4c-9686-59d5-b610-901ad7321765",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה רגליים יש לסרטן (כולל הצבתות)?",
+  "answer": "10 רגליים",
+  "answer_explanation": "הסרטנים שייכים ל״בעלי עשר הרגליים״ — זוג אחד מהן הוא הצבתות.",
+  "metadata": {
+   "value": 10,
+   "unit": "רגליים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 34,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "98c64968-1fef-5c0f-a210-fe64886e5ce8",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה כנפיים יש לדבורה?",
+  "answer": "4 כנפיים",
+  "answer_explanation": "בזמן תעופה הכנפיים נצמדות זו לזו ונראות כמו שתיים.",
+  "metadata": {
+   "value": 4,
+   "unit": "כנפיים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 35,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "095953b2-0677-587f-8b51-7c2e566c822b",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה עיניים יש לרוב העכבישים?",
+  "answer": "8 עיניים",
+  "answer_explanation": "למרות שיש להם הרבה עיניים, רוב העכבישים רואים די מטושטש.",
+  "metadata": {
+   "value": 8,
+   "unit": "עיניים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Australian Museum"
+  },
+  "sort_order": 36,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "309753a3-c65a-50ac-b310-2271460c080b",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "לכמה חלקים מחולקת הקיבה של פרה?",
+  "answer": "4 חלקים",
+  "answer_explanation": "הפרה מעלה את האוכל חזרה לפה ולועסת שוב — זה נקרא העלאת גירה.",
+  "metadata": {
+   "value": 4,
+   "unit": "חלקים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Penn State Extension"
+  },
+  "sort_order": 37,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3152964d-1ce6-5be9-a377-a60f7d1c8ae1",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה רגליים יש לעקרב?",
+  "answer": "8 רגליים",
+  "answer_explanation": "העקרב הוא קרוב של העכביש — והצבתות שלו הן לא רגליים.",
+  "metadata": {
+   "value": 8,
+   "unit": "רגליים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Australian Museum"
+  },
+  "sort_order": 38,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d3836687-600f-53d7-9722-cd11571d36f1",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה אצבעות יש בכל רגל של יען?",
+  "answer": "2 אצבעות",
+  "answer_explanation": "היען הוא הציפור היחידה עם שתי אצבעות בלבד — זה עוזר לו לרוץ מהר.",
+  "metadata": {
+   "value": 2,
+   "unit": "אצבעות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; San Diego Zoo"
+  },
+  "sort_order": 39,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bdcb9eeb-5934-50cc-96ee-7621409f8fd9",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה אצבעות יש בכל רגל של סוס?",
+  "answer": "1 אצבע",
+  "answer_explanation": "הפרסה של הסוס היא בעצם ציפורן ענקית על אצבע אחת.",
+  "metadata": {
+   "value": 1,
+   "unit": "אצבע",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 40,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f08cc3fb-54cf-584a-9c3b-2ffa3838967c",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה קרניים יש לקרנף הלבן?",
+  "answer": "2 קרניים",
+  "answer_explanation": "הקרניים עשויות קרטין — אותו חומר שממנו בנויות הציפורניים שלנו.",
+  "metadata": {
+   "value": 2,
+   "unit": "קרניים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; WWF"
+  },
+  "sort_order": 41,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9fa7c592-c19f-587f-8eee-e05d1c80587e",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה כנפיים יש לזבוב הבית?",
+  "answer": "2 כנפיים",
+  "answer_explanation": "במקום זוג הכנפיים השני יש לזבוב שני ״מוטות איזון״ קטנים.",
+  "metadata": {
+   "value": 2,
+   "unit": "כנפיים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian"
+  },
+  "sort_order": 42,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ad4e8608-ee91-5ef5-a48c-2e81131ca64d",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה זרועות ומחושים יש לדיונון בסך הכול?",
+  "answer": "10 זרועות ומחושים",
+  "answer_explanation": "8 זרועות ועוד 2 מחושים ארוכים לתפיסת טרף.",
+  "metadata": {
+   "value": 10,
+   "unit": "זרועות ומחושים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian Ocean"
+  },
+  "sort_order": 43,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "44d7ca73-8dd1-577e-8f38-8769afd2c3ab",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה מחושים יש לחילזון יבשה?",
+  "answer": "4 מחושים",
+  "answer_explanation": "בקצות המחושים העליונים נמצאות העיניים שלו.",
+  "metadata": {
+   "value": 4,
+   "unit": "מחושים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Australian Museum"
+  },
+  "sort_order": 44,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0b0e394c-903c-518d-89f1-739e0d0e56d4",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה ימים לוקח לאפרוח לבקוע מביצת תרנגולת?",
+  "answer": "21 ימים",
+  "answer_explanation": "בדיוק שלושה שבועות של חימום — והאפרוח מנקר את הקליפה.",
+  "metadata": {
+   "value": 21,
+   "unit": "ימים",
+   "approx": false,
+   "level": "medium",
+   "src": "University of Illinois Extension; Britannica"
+  },
+  "sort_order": 45,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f722890f-a20f-54d2-bbdb-902516d0fa3c",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "מה המהירות המרבית של ברדלס, בקמ״ש?",
+  "answer": "בערך 110 קמ״ש",
+  "answer_explanation": "מקורות שונים מדברים על 100 עד 120 קמ״ש — אבל רק בריצה קצרה.",
+  "metadata": {
+   "value": 110,
+   "unit": "קמ״ש",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; Smithsonian National Zoo"
+  },
+  "sort_order": 46,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f094293e-d49b-5d6c-b602-e5594574dd54",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "מה הגובה של ג׳ירפה זכר בוגר, במטרים?",
+  "answer": "בערך 5.5 מטרים",
+  "answer_explanation": "הג׳ירפה היא בעל החיים הגבוה ביותר — הלשון שלה לבדה ארוכה כמו סרגל.",
+  "metadata": {
+   "value": 5.5,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; San Diego Zoo"
+  },
+  "sort_order": 47,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "81e51253-3367-576b-a76a-105da621b884",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "מה האורך של לווייתן כחול גדול, במטרים?",
+  "answer": "בערך 30 מטרים",
+  "answer_explanation": "זה בעל החיים הגדול ביותר שחי אי-פעם — גדול יותר מכל דינוזאור.",
+  "metadata": {
+   "value": 30,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "medium",
+   "src": "NOAA; Britannica"
+  },
+  "sort_order": 48,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a725190a-963d-5235-98ee-f228e1bcbefe",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה עיניים יש לדבורה?",
+  "answer": "5 עיניים",
+  "answer_explanation": "שתי עיניים גדולות בצדדים ושלוש עיניים קטנות על הראש.",
+  "metadata": {
+   "value": 5,
+   "unit": "עיניים",
+   "approx": false,
+   "level": "hard",
+   "src": "Smithsonian; Penn State Extension"
+  },
+  "sort_order": 49,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0db86b16-1aaf-5f53-9bd9-92fb4091c25e",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה חדרים יש בלב של דג?",
+  "answer": "2 חדרים",
+  "answer_explanation": "עלייה אחת וחדר אחד — הדם עובר בזימים ומשם לגוף.",
+  "metadata": {
+   "value": 2,
+   "unit": "חדרים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Merck Veterinary Manual"
+  },
+  "sort_order": 50,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f07b3624-36c5-5ba2-ae15-b80fb50d207e",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה חדרים יש בלב של ציפור?",
+  "answer": "4 חדרים",
+  "answer_explanation": "כמו לנו! לב חזק כזה עוזר לציפורים לעוף.",
+  "metadata": {
+   "value": 4,
+   "unit": "חדרים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Merck Veterinary Manual"
+  },
+  "sort_order": 51,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "713a0768-dad0-5894-91e5-c70524fcb16d",
+  "game_slug": "buga-numbers",
+  "pack_name": "בעלי חיים",
+  "content_type": "question",
+  "content_text": "כמה אצבעות יש בכל רגל קדמית של חתול?",
+  "answer": "5 אצבעות",
+  "answer_explanation": "ברגליים האחוריות יש לו רק 4 אצבעות.",
+  "metadata": {
+   "value": 5,
+   "unit": "אצבעות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Cornell Feline Health Center"
+  },
+  "sort_order": 52,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9ee88d0c-47a3-5501-b751-9aab3c54e17b",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה כוכבי לכת יש במערכת השמש?",
+  "answer": "8 כוכבי לכת",
+  "answer_explanation": "מאז 2006 פלוטו נחשב ל״כוכב לכת ננסי״, ולכן נשארו 8.",
+  "metadata": {
+   "value": 8,
+   "unit": "כוכבי לכת",
+   "approx": false,
+   "level": "easy",
+   "src": "NASA; IAU"
+  },
+  "sort_order": 53,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3e695a7e-aafe-59bf-abc9-1945cc2e0c1a",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה שעות לוקח לכדור הארץ להסתובב פעם אחת סביב עצמו?",
+  "answer": "בערך 24 שעות",
+  "answer_explanation": "ליתר דיוק 23 שעות ו-56 דקות — וככה נוצרים יום ולילה.",
+  "metadata": {
+   "value": 24,
+   "unit": "שעות",
+   "approx": true,
+   "level": "easy",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 54,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "35c43022-c674-5daa-aed0-4b180bc234f3",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "מה המרחק הממוצע בין כדור הארץ לירח, בקילומטרים?",
+  "answer": "בערך 384,400 ק״מ",
+  "answer_explanation": "אפשר לסדר ביניהם בשורה בערך 30 כדורי ארץ.",
+  "metadata": {
+   "value": 384400,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 55,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a5ffafac-2a7a-5699-8755-8ef9d21a2405",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה ימים לוקח לכדור הארץ להקיף את השמש?",
+  "answer": "בערך 365 ורבע ימים",
+  "answer_explanation": "בגלל הרבע יום הנוסף מוסיפים כל 4 שנים יום — 29 בפברואר.",
+  "metadata": {
+   "value": 365.25,
+   "unit": "ימים",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 56,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4fb1225f-4d17-5f9e-95da-21f8dcb1600e",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה ימים עוברים בין ירח מלא אחד לבא אחריו?",
+  "answer": "בערך 29 וחצי ימים",
+  "answer_explanation": "לכן חודש בלוח העברי, שקשור לירח, הוא 29 או 30 ימים.",
+  "metadata": {
+   "value": 29.5,
+   "unit": "ימים",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 57,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3ee0a9c4-cd30-5ab9-bbfb-fb4d2bbfef66",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה דקות לוקח לאור מהשמש להגיע לכדור הארץ?",
+  "answer": "בערך 8 דקות",
+  "answer_explanation": "ליתר דיוק בערך 8 דקות ו-20 שניות — אז השמש שאנחנו רואים היא ״של לפני 8 דקות״.",
+  "metadata": {
+   "value": 8,
+   "unit": "דקות",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 58,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a9d8e3f3-0946-5a13-92d0-4cf3d943cc1f",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזו שנה נחת אדם לראשונה על הירח?",
+  "answer": "1,969",
+  "answer_explanation": "ניל ארמסטרונג ובאז אולדרין מאפולו 11 נחתו ב-20 ביולי 1969.",
+  "metadata": {
+   "value": 1969,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 59,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "19112063-ff74-5975-9e3e-3465b67c6cb2",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה ירחים יש למאדים?",
+  "answer": "2 ירחים",
+  "answer_explanation": "קוראים להם פובוס ודימוס, והם קטנים ובצורת תפוח אדמה.",
+  "metadata": {
+   "value": 2,
+   "unit": "ירחים",
+   "approx": false,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 60,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1b7025ea-4ce9-5f8e-9099-4da431091a58",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "מה הקוטר של כדור הארץ, בקילומטרים?",
+  "answer": "בערך 12,742 ק״מ",
+  "answer_explanation": "אם הייתם חופרים מנהרה דרך מרכז כדור הארץ — זה האורך שלה.",
+  "metadata": {
+   "value": 12742,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 61,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f1591f1f-3a77-5d43-b238-52c1b333d135",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזו שנה הוחלט שפלוטו כבר לא נחשב לכוכב לכת ״רגיל״?",
+  "answer": "2,006",
+  "answer_explanation": "האיגוד האסטרונומי הבין-לאומי קבע אז שהוא ״כוכב לכת ננסי״.",
+  "metadata": {
+   "value": 2006,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "IAU; NASA"
+  },
+  "sort_order": 62,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "b5532ff0-a1b9-5b08-8ae7-2ffb795ef287",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזו שנה שוגר הלוויין המלאכותי הראשון, ספוטניק 1?",
+  "answer": "1,957",
+  "answer_explanation": "הוא היה בגודל של כדור חוף והקיף את כדור הארץ כל 96 דקות.",
+  "metadata": {
+   "value": 1957,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 63,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d213263c-e6bc-5080-820d-23404b12357c",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזו שנה טס האדם הראשון לחלל, יורי גגארין?",
+  "answer": "1,961",
+  "answer_explanation": "הטיסה שלו הקיפה את כדור הארץ פעם אחת ונמשכה בערך 108 דקות.",
+  "metadata": {
+   "value": 1961,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 64,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a067cd60-93e6-5b4c-8de7-cec75f8d0dd0",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "ילד שוקל 60 ק״ג על כדור הארץ. כמה ק״ג יראה המשקל שלו על הירח?",
+  "answer": "בערך 10 ק״ג",
+  "answer_explanation": "כוח המשיכה בירח הוא בערך שישית מזה של כדור הארץ — אפשר לקפוץ שם ממש גבוה!",
+  "metadata": {
+   "value": 10,
+   "unit": "ק״ג",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 65,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1a0339c6-f7b1-5cbb-a229-48b30f8e5863",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזה גובה, בקילומטרים, מקיפה תחנת החלל הבין-לאומית את כדור הארץ?",
+  "answer": "בערך 400 ק״מ",
+  "answer_explanation": "זה בערך המרחק מתל אביב לאילת — רק כלפי מעלה.",
+  "metadata": {
+   "value": 400,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; ESA"
+  },
+  "sort_order": 66,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "68fd2eb6-df57-5b2a-97e8-4c041d5b13ea",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "מה המרחק הממוצע בין כדור הארץ לשמש, בקילומטרים?",
+  "answer": "בערך 150 מיליון ק״מ",
+  "answer_explanation": "מטוס נוסעים היה צריך בערך 17 שנים כדי לעוף עד לשמש.",
+  "metadata": {
+   "value": 150000000,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 67,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "aa5601a0-ef94-5ecc-80b8-7c78f16ed372",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "מה מהירות האור, בקילומטרים לשנייה?",
+  "answer": "בערך 300,000 ק״מ לשנייה",
+  "answer_explanation": "ליתר דיוק 299,792 — האור יכול להקיף את כדור הארץ 7 וחצי פעמים בשנייה אחת.",
+  "metadata": {
+   "value": 300000,
+   "unit": "ק״מ לשנייה",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; NIST"
+  },
+  "sort_order": 68,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "13a3fc80-06ce-56a8-a449-bfcf925e0115",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה אסטרונאוטים הלכו על הירח עד היום?",
+  "answer": "12 אסטרונאוטים",
+  "answer_explanation": "כולם במשימות אפולו בין 1969 ל-1972 (נכון ל-2026).",
+  "metadata": {
+   "value": 12,
+   "unit": "אסטרונאוטים",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 69,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1f1fd088-f8c7-5a60-b208-c7c77a0f6d55",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה כדורי ארץ אפשר לסדר בשורה לאורך הקוטר של צדק?",
+  "answer": "בערך 11 כדורי ארץ",
+  "answer_explanation": "צדק הוא כוכב הלכת הגדול ביותר במערכת השמש.",
+  "metadata": {
+   "value": 11,
+   "unit": "כדורי ארץ",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 70,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "adc49535-8148-579d-86ad-af2224c3c3d7",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה כדורי ארץ היו נכנסים בתוך השמש?",
+  "answer": "בערך 1.3 מיליון",
+  "answer_explanation": "השמש ענקית — ובכל זאת היא כוכב בגודל בינוני.",
+  "metadata": {
+   "value": 1300000,
+   "unit": "כדורי ארץ",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 71,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "6a17b178-2b74-57f0-822c-b9d188ada647",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "מה הטמפרטורה על פני השמש, במעלות צלזיוס?",
+  "answer": "בערך 5,500 מעלות",
+  "answer_explanation": "במרכז השמש חם הרבה יותר — מיליוני מעלות.",
+  "metadata": {
+   "value": 5500,
+   "unit": "מעלות",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 72,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "33090d59-30a7-5eca-a778-a1fc17f3fadc",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה ימים נמשכת שנה על כוכב חמה (מרקורי)?",
+  "answer": "88 ימים",
+  "answer_explanation": "הוא הכי קרוב לשמש, ולכן מקיף אותה הכי מהר.",
+  "metadata": {
+   "value": 88,
+   "unit": "ימים",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 73,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d6ffec4c-626d-5278-91b9-fa396b334942",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה ימים (של כדור הארץ) נמשכת שנה על מאדים?",
+  "answer": "687 ימים",
+  "answer_explanation": "כמעט פי 2 משנה אצלנו — ילד בן 10 היה ״רק״ בן 5 וקצת על מאדים.",
+  "metadata": {
+   "value": 687,
+   "unit": "ימים",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 74,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "af414706-a27e-5b96-b345-9fb2544509df",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה שנים (של כדור הארץ) לוקח לשבתאי להקיף את השמש?",
+  "answer": "בערך 29 וחצי שנים",
+  "answer_explanation": "מי שנולד היום יחגוג ״יום הולדת 1 שבתאי״ רק בגיל 29 וחצי בערך.",
+  "metadata": {
+   "value": 29.5,
+   "unit": "שנים",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 75,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f0084146-c15a-556c-a6c0-23296cde4be7",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "באיזו שנה שוגר טלסקופ החלל האבל?",
+  "answer": "1,990",
+  "answer_explanation": "הוא צילם גלקסיות רחוקות ועזר לחשב את גיל היקום.",
+  "metadata": {
+   "value": 1990,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; ESA"
+  },
+  "sort_order": 76,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "21f077cc-d0b0-5d02-b653-c79f6e6392aa",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה קבוצות כוכבים רשמיות מוכרות בשמי הלילה?",
+  "answer": "88 קבוצות כוכבים",
+  "answer_explanation": "האיגוד האסטרונומי הבין-לאומי קבע את הרשימה הרשמית ב-1922.",
+  "metadata": {
+   "value": 88,
+   "unit": "קבוצות כוכבים",
+   "approx": false,
+   "level": "hard",
+   "src": "IAU; Britannica"
+  },
+  "sort_order": 77,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a77e04cc-5af3-58b8-992d-0900c459b02a",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כל כמה שנים חוזר השביט האלי ונראה מכדור הארץ?",
+  "answer": "בערך 76 שנים",
+  "answer_explanation": "הוא נראה ב-1986 ויחזור בערך ב-2061.",
+  "metadata": {
+   "value": 76,
+   "unit": "שנים",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 78,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "75e54bbc-7617-5a29-a710-1e6efcc9166d",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "כמה פעמים ביממה מקיפה תחנת החלל הבין-לאומית את כדור הארץ?",
+  "answer": "בערך 16 פעמים",
+  "answer_explanation": "האסטרונאוטים רואים בערך 16 זריחות ו-16 שקיעות בכל יום!",
+  "metadata": {
+   "value": 16,
+   "unit": "פעמים",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; ESA"
+  },
+  "sort_order": 79,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "85072d5b-0560-5d3c-a3d1-9c9cb533aac9",
+  "game_slug": "buga-numbers",
+  "pack_name": "חלל",
+  "content_type": "question",
+  "content_text": "לכמה כוכבי לכת במערכת השמש יש טבעות?",
+  "answer": "4 כוכבי לכת",
+  "answer_explanation": "צדק, שבתאי, אורנוס ונפטון — אבל רק לשבתאי יש טבעות בולטות כל כך.",
+  "metadata": {
+   "value": 4,
+   "unit": "כוכבי לכת",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 80,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0b19d35f-689b-54b9-9258-8a4d070ffc9f",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה צלעות יש לפתית שלג?",
+  "answer": "6 צלעות",
+  "answer_explanation": "מולקולות המים מסתדרות במבנה משושה — ולכן לכל פתית יש 6 זרועות.",
+  "metadata": {
+   "value": 6,
+   "unit": "צלעות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NOAA"
+  },
+  "sort_order": 81,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "b876c578-e759-5934-8112-c867439e0053",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה עונות יש בשנה?",
+  "answer": "4 עונות",
+  "answer_explanation": "העונות נוצרות בגלל שציר כדור הארץ נטוי.",
+  "metadata": {
+   "value": 4,
+   "unit": "עונות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NASA"
+  },
+  "sort_order": 82,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "16cb8d47-09a0-5e4d-83b9-137abd60f28d",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה צבעים מונים בקשת לפי החלוקה המסורתית?",
+  "answer": "7 צבעים",
+  "answer_explanation": "אדום, כתום, צהוב, ירוק, כחול, תכלת-אינדיגו וסגול — בעצם הצבעים עוברים זה לזה ברצף.",
+  "metadata": {
+   "value": 7,
+   "unit": "צבעים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NOAA"
+  },
+  "sort_order": 83,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d9f88df2-cf19-578b-9739-a113c68786c4",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה עלים יש לתלתן רגיל?",
+  "answer": "3 עלים",
+  "answer_explanation": "תלתן עם 4 עלים נדיר מאוד — ולכן נחשב לסמל של מזל.",
+  "metadata": {
+   "value": 3,
+   "unit": "עלים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; University of Wisconsin"
+  },
+  "sort_order": 84,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8c01988d-b5c5-5721-9b46-d11124286ccb",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "מה הגובה של הר האוורסט, במטרים?",
+  "answer": "8,849 מטרים",
+  "answer_explanation": "זה הגובה שנמדד במדידה המשותפת של סין ונפאל ב-2020.",
+  "metadata": {
+   "value": 8849,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 85,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f324c501-1653-5390-a73b-2ecfc56aff5b",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מפני כדור הארץ מכוסים במים?",
+  "answer": "בערך 71 אחוז",
+  "answer_explanation": "רוב המים מלוחים — רק אחוזים בודדים הם מים מתוקים.",
+  "metadata": {
+   "value": 71,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "USGS; NASA"
+  },
+  "sort_order": 86,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "65d45345-92df-5fac-82bb-bd8ce38bab27",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "מה ההיקף של כדור הארץ סביב קו המשווה, בקילומטרים?",
+  "answer": "בערך 40,075 ק״מ",
+  "answer_explanation": "מכונית שנוסעת 100 קמ״ש בלי הפסקה הייתה מקיפה אותו בערך ב-17 ימים.",
+  "metadata": {
+   "value": 40075,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 87,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8c8a2e5b-f949-560c-8ec6-1e8015f43184",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "פי כמה מלוחים מי ים המלח ממי האוקיינוס?",
+  "answer": "בערך פי 10",
+  "answer_explanation": "בגלל המלח הרב אפשר לצוף בים המלח בלי לשחות בכלל.",
+  "metadata": {
+   "value": 10,
+   "unit": "פי",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; Wikipedia"
+  },
+  "sort_order": 88,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "15065c11-794b-5b15-b79b-1589378336ad",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה מטרים עומק יש בנקודה העמוקה ביותר באוקיינוס (תהום מריאנה)?",
+  "answer": "בערך 11,000 מטרים",
+  "answer_explanation": "אם היו מכניסים לשם את האוורסט, הפסגה שלו עדיין הייתה מתחת למים.",
+  "metadata": {
+   "value": 11000,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "hard",
+   "src": "NOAA; Britannica"
+  },
+  "sort_order": 89,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "97828da5-2955-5472-9962-b58266cf6f95",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "כמה ק״מ אורכו של נהר הנילוס?",
+  "answer": "בערך 6,650 ק״מ",
+  "answer_explanation": "הוא נחשב לאחד משני הנהרות הארוכים בעולם, יחד עם האמזונס.",
+  "metadata": {
+   "value": 6650,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 90,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9749c75d-a77d-57ac-b351-0d6f0dcf93c6",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "בן כמה שנים כדור הארץ?",
+  "answer": "בערך 4.5 מיליארד שנים",
+  "answer_explanation": "מדענים חישבו את הגיל לפי סלעים ומטאוריטים עתיקים.",
+  "metadata": {
+   "value": 4500000000,
+   "unit": "שנים",
+   "approx": true,
+   "level": "hard",
+   "src": "USGS; Britannica"
+  },
+  "sort_order": 91,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8642fb3f-ad8c-52ee-a14c-fc0d3a026984",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "בכמה מעלות נטוי ציר כדור הארץ?",
+  "answer": "בערך 23.5 מעלות",
+  "answer_explanation": "בזכות הנטייה הזו יש לנו קיץ וחורף.",
+  "metadata": {
+   "value": 23.5,
+   "unit": "מעלות",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 92,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "cae3611c-d656-5be3-a797-44a3555650da",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "מה הגובה של הר קילימנג׳רו, ההר הגבוה באפריקה, במטרים?",
+  "answer": "5,895 מטרים",
+  "answer_explanation": "למרות שהוא קרוב לקו המשווה, יש שלג על הפסגה שלו.",
+  "metadata": {
+   "value": 5895,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 93,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "89424782-04ac-51e3-a6d5-fbb582e41285",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "מה הגובה של מפל אנג׳ל בוונצואלה, המפל הגבוה בעולם, במטרים?",
+  "answer": "979 מטרים",
+  "answer_explanation": "המים נופלים מגובה של בערך פי 3 ממגדל אייפל.",
+  "metadata": {
+   "value": 979,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 94,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d0a436bf-86ac-53e9-96e2-5dccf09892f5",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "באיזו מהירות, בקמ״ש, מסתובב כדור הארץ בקו המשווה?",
+  "answer": "בערך 1,670 קמ״ש",
+  "answer_explanation": "אנחנו לא מרגישים את זה כי הכול מסביבנו זז יחד איתנו.",
+  "metadata": {
+   "value": 1670,
+   "unit": "קמ״ש",
+   "approx": true,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 95,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0b4a3d53-a744-5a48-9125-f8d67f1ce262",
+  "game_slug": "buga-numbers",
+  "pack_name": "כדור הארץ וטבע",
+  "content_type": "question",
+  "content_text": "מה העומק הממוצע של האוקיינוסים, במטרים?",
+  "answer": "בערך 3,700 מטרים",
+  "answer_explanation": "רוב קרקעית האוקיינוס עדיין לא מופתה בפירוט.",
+  "metadata": {
+   "value": 3700,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "hard",
+   "src": "NOAA; Britannica"
+  },
+  "sort_order": 96,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ab4aa436-b3fb-5a71-a174-e4254e81b7f9",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "באיזו טמפרטורה (במעלות צלזיוס) רותחים מים בגובה פני הים?",
+  "answer": "100 מעלות",
+  "answer_explanation": "על הר גבוה המים רותחים בטמפרטורה נמוכה יותר.",
+  "metadata": {
+   "value": 100,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 97,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "86d94b38-c4dc-5ce7-9795-f7525bd30afd",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "באיזו טמפרטורה (במעלות צלזיוס) מים קופאים?",
+  "answer": "0 מעלות",
+  "answer_explanation": "סולם צלזיוס נבנה בדיוק סביב נקודת הקיפאון והרתיחה של מים.",
+  "metadata": {
+   "value": 0,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 98,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "b1e2f82a-8640-5a9f-a1dc-5d4cca72ab4b",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "כמה שוקל ליטר מים, בקילוגרמים?",
+  "answer": "בערך 1 ק״ג",
+  "answer_explanation": "הקילוגרם הוגדר במקור כמשקל של ליטר מים.",
+  "metadata": {
+   "value": 1,
+   "unit": "ק״ג",
+   "approx": true,
+   "level": "easy",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 99,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "88e31315-1d2b-5798-9a40-552d2f96bbc6",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "מכמה אטומים בנויה מולקולה אחת של מים (H₂O)?",
+  "answer": "3 אטומים",
+  "answer_explanation": "שני אטומי מימן ואטום חמצן אחד.",
+  "metadata": {
+   "value": 3,
+   "unit": "אטומים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Royal Society of Chemistry"
+  },
+  "sort_order": 100,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "baa28385-37ef-57ac-b90c-906d4705c1d8",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מהאוויר שאנחנו נושמים הם חמצן?",
+  "answer": "בערך 21 אחוז",
+  "answer_explanation": "רוב האוויר הוא בכלל חנקן.",
+  "metadata": {
+   "value": 21,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 101,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "e782475c-e654-5e1e-a021-0247852bfb85",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מהאוויר הם חנקן?",
+  "answer": "בערך 78 אחוז",
+  "answer_explanation": "החנקן לא מזיק לנו — אנחנו נושמים אותו פנימה והחוצה.",
+  "metadata": {
+   "value": 78,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 102,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "5b2345f4-bc86-5be2-8a42-4d683605cdaa",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "כמה יסודות כימיים מוכרים יש בטבלה המחזורית?",
+  "answer": "118 יסודות",
+  "answer_explanation": "היסוד האחרון שנוסף לטבלה הרשמית קיבל את שמו ב-2016 (נכון ל-2026).",
+  "metadata": {
+   "value": 118,
+   "unit": "יסודות",
+   "approx": false,
+   "level": "hard",
+   "src": "IUPAC; Royal Society of Chemistry"
+  },
+  "sort_order": 103,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f35bb0d0-1feb-5b17-9dbf-e5c3efb8c4c6",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "מה מהירות הקול באוויר, במטרים לשנייה (בטמפרטורת חדר)?",
+  "answer": "בערך 343 מטרים לשנייה",
+  "answer_explanation": "לכן אחרי ברק סופרים שניות: בערך 3 שניות לכל קילומטר.",
+  "metadata": {
+   "value": 343,
+   "unit": "מטרים לשנייה",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 104,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fbb3d321-c3ea-5de8-9b7f-47b571f11c42",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "מהי ״האפס המוחלט״ — הטמפרטורה הנמוכה ביותר האפשרית, במעלות צלזיוס?",
+  "answer": "מינוס 273.15 מעלות",
+  "answer_explanation": "בטמפרטורה הזו החלקיקים כמעט מפסיקים לזוז לגמרי.",
+  "metadata": {
+   "value": -273.15,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 105,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "63c224ee-fdc3-58b0-bbc9-c276a08ca7f4",
+  "game_slug": "buga-numbers",
+  "pack_name": "מדע",
+  "content_type": "question",
+  "content_text": "מה המתח של סוללת AA רגילה, בוולט?",
+  "answer": "1.5 וולט",
+  "answer_explanation": "כשמכניסים שתי סוללות בשורה, המתח מתחבר ל-3 וולט.",
+  "metadata": {
+   "value": 1.5,
+   "unit": "וולט",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Energizer"
+  },
+  "sort_order": 106,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "5242e407-69ac-555f-98c7-5853701c18bc",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה משבצות יש בלוח שחמט?",
+  "answer": "64 משבצות",
+  "answer_explanation": "8 שורות כפול 8 טורים.",
+  "metadata": {
+   "value": 64,
+   "unit": "משבצות",
+   "approx": false,
+   "level": "easy",
+   "src": "FIDE; Britannica"
+  },
+  "sort_order": 107,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0ab3150b-ac37-5127-b087-05e2d6b65f09",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה כלים יש לכל שחקן בתחילת משחק שחמט?",
+  "answer": "16 כלים",
+  "answer_explanation": "8 רגלים, 2 צריחים, 2 פרשים, 2 רצים, מלכה ומלך.",
+  "metadata": {
+   "value": 16,
+   "unit": "כלים",
+   "approx": false,
+   "level": "easy",
+   "src": "FIDE; Britannica"
+  },
+  "sort_order": 108,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "87ce9bf1-3028-516d-9fae-bf76fad2cc41",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה פאות יש לקובייה?",
+  "answer": "6 פאות",
+  "answer_explanation": "בקובייה של משחק, כל פאה מסומנת במספר אחר מ-1 עד 6.",
+  "metadata": {
+   "value": 6,
+   "unit": "פאות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 109,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "e894d5e4-f69c-5bfe-8370-69e3151ef722",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה אפסים יש במספר מיליון?",
+  "answer": "6 אפסים",
+  "answer_explanation": "מיליון = 1,000,000 — אלף פעמים אלף.",
+  "metadata": {
+   "value": 6,
+   "unit": "אפסים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 110,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3f4dad48-6e61-5c50-990b-a0036b81c111",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה סנטימטרים יש במטר?",
+  "answer": "100 סנטימטרים",
+  "answer_explanation": "״סנטי״ פירושו מאית.",
+  "metadata": {
+   "value": 100,
+   "unit": "סנטימטרים",
+   "approx": false,
+   "level": "easy",
+   "src": "NIST; BIPM"
+  },
+  "sort_order": 111,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "78cec536-193a-5d99-8ffb-b35b05802983",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה מטרים יש בקילומטר?",
+  "answer": "1,000 מטרים",
+  "answer_explanation": "״קילו״ פירושו אלף — כמו קילוגרם שהוא אלף גרם.",
+  "metadata": {
+   "value": 1000,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "easy",
+   "src": "NIST; BIPM"
+  },
+  "sort_order": 112,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1991988a-6674-5d89-a075-cd72fe668cf7",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה צלעות יש למחומש?",
+  "answer": "5 צלעות",
+  "answer_explanation": "מטה הצבא האמריקאי נקרא ״הפנטגון״ — כי הוא בנוי בצורת מחומש.",
+  "metadata": {
+   "value": 5,
+   "unit": "צלעות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 113,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fac8dc9d-1025-557f-a0ea-a2ad91d30167",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה צלעות יש לשלט ״עצור״?",
+  "answer": "8 צלעות",
+  "answer_explanation": "השלט בצורת מתומן, כדי שיזהו אותו גם מאחור.",
+  "metadata": {
+   "value": 8,
+   "unit": "צלעות",
+   "approx": false,
+   "level": "easy",
+   "src": "Vienna Convention on Road Signs; Britannica"
+  },
+  "sort_order": 114,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "cd22c320-6970-5769-b787-dd644e5ca6a6",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה מעלות יש בסכום הזוויות של משולש?",
+  "answer": "180 מעלות",
+  "answer_explanation": "לא משנה אם המשולש קטן או ענק — הסכום תמיד 180.",
+  "metadata": {
+   "value": 180,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 115,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c3a5c5eb-d298-5478-8b06-304568a5457b",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה מעלות יש במעגל שלם?",
+  "answer": "360 מעלות",
+  "answer_explanation": "סיבוב שלם על סקייטבורד נקרא ״360״ בדיוק בגלל זה.",
+  "metadata": {
+   "value": 360,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 116,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7d9c4fcc-c056-5f2e-bdf3-2dc52c359f12",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה מקצועות (קווים) יש לקובייה?",
+  "answer": "12 מקצועות",
+  "answer_explanation": "ויש לה 8 קודקודים ו-6 פאות.",
+  "metadata": {
+   "value": 12,
+   "unit": "מקצועות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 117,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "302528f1-e8f0-5010-bbc3-78c82e01f6d2",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה קודקודים (פינות) יש לקובייה?",
+  "answer": "8 קודקודים",
+  "answer_explanation": "בכל קודקוד נפגשות 3 פאות.",
+  "metadata": {
+   "value": 8,
+   "unit": "קודקודים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 118,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "de99fdbe-1040-5637-8db5-f3ce43870b22",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "מה המספר פאי (π), בקירוב?",
+  "answer": "בערך 3.14",
+  "answer_explanation": "פאי הוא היחס בין היקף המעגל לקוטר שלו — והספרות שלו לא נגמרות אף פעם.",
+  "metadata": {
+   "value": 3.14,
+   "unit": "",
+   "approx": true,
+   "level": "medium",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 119,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1954f5fb-e5fe-53f0-aab3-3daa03410534",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה מספרים ראשוניים יש בין 1 ל-20?",
+  "answer": "8 מספרים",
+  "answer_explanation": "2, 3, 5, 7, 11, 13, 17 ו-19. המספר 1 לא נחשב ראשוני.",
+  "metadata": {
+   "value": 8,
+   "unit": "מספרים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 120,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "aba69927-1bc5-5300-9ee8-4e7307ed4716",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "מה הסכום של כל המספרים מ-1 עד 10?",
+  "answer": "55",
+  "answer_explanation": "טריק: 1+10, 2+9, 3+8... חמישה זוגות של 11 = 55.",
+  "metadata": {
+   "value": 55,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 121,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f0565a6a-1a5e-5607-a620-22d7b7f6acef",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה זה תריסר תריסרים (12 כפול 12)?",
+  "answer": "144",
+  "answer_explanation": "למספר הזה יש אפילו שם מיוחד באנגלית: ״גרוס״.",
+  "metadata": {
+   "value": 144,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 122,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c9fc03ae-8dcd-5dae-b294-3862cc3dd6f0",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה אפסים יש במספר מיליארד?",
+  "answer": "9 אפסים",
+  "answer_explanation": "מיליארד = אלף מיליונים.",
+  "metadata": {
+   "value": 9,
+   "unit": "אפסים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 123,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "561d32c7-14ff-506e-a711-82b14445c740",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה קילומטרים יש במייל אחד?",
+  "answer": "בערך 1.6 ק״מ",
+  "answer_explanation": "ליתר דיוק 1.609 ק״מ — בארה״ב ובבריטניה מודדים מרחקים במיילים.",
+  "metadata": {
+   "value": 1.6,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "NIST; Britannica"
+  },
+  "sort_order": 124,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "6ee8b0ac-c553-55de-87f3-e2decaf526ff",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "מה סכום כל הנקודות על קוביית משחק רגילה?",
+  "answer": "21 נקודות",
+  "answer_explanation": "1+2+3+4+5+6 = 21.",
+  "metadata": {
+   "value": 21,
+   "unit": "נקודות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 125,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "5bbc036d-698a-50ad-91ec-d74b24329d26",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "מה הסכום של שתי פאות נגדיות בקוביית משחק רגילה?",
+  "answer": "7",
+  "answer_explanation": "1 מול 6, 2 מול 5 ו-3 מול 4 — תבדקו בבית!",
+  "metadata": {
+   "value": 7,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Wikipedia"
+  },
+  "sort_order": 126,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8d100870-4b81-5a5e-ba7e-1bb701397fc5",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה קלפים יש בחפיסה רגילה (בלי ג׳וקרים)?",
+  "answer": "52 קלפים",
+  "answer_explanation": "4 צורות של 13 קלפים — וגם 52 שבועות בשנה.",
+  "metadata": {
+   "value": 52,
+   "unit": "קלפים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Bicycle Cards"
+  },
+  "sort_order": 127,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "46eab405-5184-5bd3-bc25-73504ce36056",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה ריבועים צבעוניים יש על קובייה הונגרית רגילה (3×3)?",
+  "answer": "54 ריבועים",
+  "answer_explanation": "9 ריבועים בכל אחת מ-6 הפאות.",
+  "metadata": {
+   "value": 54,
+   "unit": "ריבועים",
+   "approx": false,
+   "level": "medium",
+   "src": "Rubik's official site; Britannica"
+  },
+  "sort_order": 128,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8bbabacd-c8b2-5d19-a85d-ae345bcc8535",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה משבצות יש בלוח סודוקו רגיל?",
+  "answer": "81 משבצות",
+  "answer_explanation": "9 שורות כפול 9 טורים.",
+  "metadata": {
+   "value": 81,
+   "unit": "משבצות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Wikipedia"
+  },
+  "sort_order": 129,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "11fe0ae9-b2ca-5b40-ad51-21d33eb9882d",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "מה הערך של האות הרומית M?",
+  "answer": "1,000",
+  "answer_explanation": "באותיות רומיות: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.",
+  "metadata": {
+   "value": 1000,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Math is Fun"
+  },
+  "sort_order": 130,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9a67303f-0222-5b50-b4c4-45fca3b5c976",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה סנטימטרים יש באינץ׳ אחד?",
+  "answer": "2.54 ס״מ",
+  "answer_explanation": "גודל מסך של טלוויזיה או טלפון נמדד באינצ׳ים.",
+  "metadata": {
+   "value": 2.54,
+   "unit": "ס״מ",
+   "approx": false,
+   "level": "hard",
+   "src": "NIST; BIPM"
+  },
+  "sort_order": 131,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8977da17-2d99-5c38-9524-f6391779ecaf",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה אבנים יש בסט דומינו רגיל (עד 6)?",
+  "answer": "28 אבנים",
+  "answer_explanation": "כל צירוף של שני מספרים מ-0 עד 6 מופיע פעם אחת בדיוק.",
+  "metadata": {
+   "value": 28,
+   "unit": "אבנים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Wikipedia"
+  },
+  "sort_order": 132,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2e9b249c-deda-5b6b-af0f-205d4ddd9062",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "כמה אפסים יש ב״גוגול״?",
+  "answer": "100 אפסים",
+  "answer_explanation": "השם של גוגל בא מהמספר הזה — שהמציא ילד בן 9 ב-1938.",
+  "metadata": {
+   "value": 100,
+   "unit": "אפסים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Merriam-Webster"
+  },
+  "sort_order": 133,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "90dc789e-ddb8-5b14-a639-c21c02883aa4",
+  "game_slug": "buga-numbers",
+  "pack_name": "מתמטיקה ומשחקים",
+  "content_type": "question",
+  "content_text": "בכמה דרכים שונות אפשר לחבר 6 לבנות לגו של 2×4 באותו צבע?",
+  "answer": "יותר מ-915 מיליון (915,103,765)",
+  "answer_explanation": "יותר מ-915 מיליון! מתמטיקאים חישבו את זה במחשב ב-2005.",
+  "metadata": {
+   "value": 915103765,
+   "unit": "דרכים",
+   "approx": false,
+   "level": "hard",
+   "src": "LEGO Group; University of Copenhagen (Eilers)"
+  },
+  "sort_order": 134,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "6ba47ce2-2b7c-55df-875a-dbc0b137dc05",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה הוכרזה מדינת ישראל?",
+  "answer": "1,948",
+  "answer_explanation": "דוד בן-גוריון הכריז על הקמת המדינה ב-14 במאי 1948, ה׳ באייר תש״ח.",
+  "metadata": {
+   "value": 1948,
+   "unit": "",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Israel State Archives"
+  },
+  "sort_order": 135,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "be1add8a-ab44-5439-947a-9c22e305bfa3",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה מספר הטלפון של מגן דוד אדום?",
+  "answer": "101",
+  "answer_explanation": "כדאי לזכור: משטרה 100, מד״א 101, כבאות 102.",
+  "metadata": {
+   "value": 101,
+   "unit": "",
+   "approx": false,
+   "level": "easy",
+   "src": "Magen David Adom; gov.il"
+  },
+  "sort_order": 136,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "83b6ec7b-82c9-5084-b242-f7fbdefcd6f7",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה מספר הטלפון של המשטרה בישראל?",
+  "answer": "100",
+  "answer_explanation": "מתקשרים רק במקרה חירום אמיתי.",
+  "metadata": {
+   "value": 100,
+   "unit": "",
+   "approx": false,
+   "level": "easy",
+   "src": "Israel Police; gov.il"
+  },
+  "sort_order": 137,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "217c6346-e77d-54fc-bcb2-ee5fa20ff46f",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה מספר הטלפון של כבאות והצלה בישראל?",
+  "answer": "102",
+  "answer_explanation": "הכבאים מגיעים לא רק לשריפות — גם לחילוץ אנשים ובעלי חיים.",
+  "metadata": {
+   "value": 102,
+   "unit": "",
+   "approx": false,
+   "level": "easy",
+   "src": "Israel Fire and Rescue; gov.il"
+  },
+  "sort_order": 138,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "de8eebeb-3f82-5d38-9e3c-b2f68d1e3555",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה אגורות יש בשקל אחד?",
+  "answer": "100 אגורות",
+  "answer_explanation": "השקל החדש נכנס לשימוש ב-1985.",
+  "metadata": {
+   "value": 100,
+   "unit": "אגורות",
+   "approx": false,
+   "level": "easy",
+   "src": "Bank of Israel; Britannica"
+  },
+  "sort_order": 139,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a972074a-99e1-57c6-96fe-41d707102d60",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה קודקודים יש למגן דוד שעל הדגל?",
+  "answer": "6 קודקודים",
+  "answer_explanation": "מגן דוד בנוי משני משולשים שמונחים זה על זה.",
+  "metadata": {
+   "value": 6,
+   "unit": "קודקודים",
+   "approx": false,
+   "level": "easy",
+   "src": "Knesset; Britannica"
+  },
+  "sort_order": 140,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2dd4663e-38ea-5747-b2fd-a687a7c3c5fb",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה אותיות יש באלף-בית העברי?",
+  "answer": "22 אותיות",
+  "answer_explanation": "מא׳ ועד ת׳ — בלי לספור את האותיות הסופיות.",
+  "metadata": {
+   "value": 22,
+   "unit": "אותיות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Academy of the Hebrew Language"
+  },
+  "sort_order": 141,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f4b739c0-4df3-5b8d-a842-2a2b048541dd",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה אותיות סופיות יש בעברית?",
+  "answer": "5 אותיות",
+  "answer_explanation": "ך, ם, ן, ף, ץ — זוכרים לפי ״מנצפ״ך״.",
+  "metadata": {
+   "value": 5,
+   "unit": "אותיות",
+   "approx": false,
+   "level": "medium",
+   "src": "Academy of the Hebrew Language; Wikipedia"
+  },
+  "sort_order": 142,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "253256c0-a996-522e-88e0-e79a61fd9a67",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה חברי כנסת יש בכנסת ישראל?",
+  "answer": "120 חברי כנסת",
+  "answer_explanation": "המספר נלקח מ״הכנסת הגדולה״ שהייתה בימי בית שני.",
+  "metadata": {
+   "value": 120,
+   "unit": "חברי כנסת",
+   "approx": false,
+   "level": "medium",
+   "src": "Knesset; Britannica"
+  },
+  "sort_order": 143,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "16c02007-fff9-5889-b0aa-03cc6d43ae83",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה נוסדה העיר תל אביב?",
+  "answer": "1,909",
+  "answer_explanation": "היא התחילה כשכונה בשם ״אחוזת בית״ ליד יפו.",
+  "metadata": {
+   "value": 1909,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Tel Aviv-Yafo Municipality"
+  },
+  "sort_order": 144,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c7b421da-7a8e-5182-a7a7-ea0deb9dbc05",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה ימים נמשכה מלחמת ששת הימים?",
+  "answer": "6 ימים",
+  "answer_explanation": "כמו השם שלה — מ-5 עד 10 ביוני 1967.",
+  "metadata": {
+   "value": 6,
+   "unit": "ימים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; IDF archives"
+  },
+  "sort_order": 145,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "67376f77-014b-5aa1-a58f-c3f261ae61d7",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה התרחשה מלחמת יום הכיפורים?",
+  "answer": "1,973",
+  "answer_explanation": "היא פרצה ביום הכיפורים, ב-6 באוקטובר 1973.",
+  "metadata": {
+   "value": 1973,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; IDF archives"
+  },
+  "sort_order": 146,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "95817bce-d889-50bc-8467-130bb8ca7ac0",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה שערים יש בחומות העיר העתיקה בירושלים?",
+  "answer": "8 שערים",
+  "answer_explanation": "7 פתוחים, ושער הרחמים חתום כבר מאות שנים.",
+  "metadata": {
+   "value": 8,
+   "unit": "שערים",
+   "approx": false,
+   "level": "medium",
+   "src": "Wikipedia; Jerusalem Development Authority"
+  },
+  "sort_order": 147,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bb65d6c8-fce9-5e9a-aa45-014875872a53",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה ספרות יש במספר תעודת זהות ישראלית?",
+  "answer": "9 ספרות",
+  "answer_explanation": "הספרה האחרונה היא ״ספרת ביקורת״ שבודקת שאין טעות במספר.",
+  "metadata": {
+   "value": 9,
+   "unit": "ספרות",
+   "approx": false,
+   "level": "medium",
+   "src": "Population and Immigration Authority; Wikipedia"
+  },
+  "sort_order": 148,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c3d97c7b-6d56-501b-86d1-52999da97a6b",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "כמה ספרות יש במיקוד בישראל?",
+  "answer": "7 ספרות",
+  "answer_explanation": "עד 2013 היו במיקוד רק 5 ספרות.",
+  "metadata": {
+   "value": 7,
+   "unit": "ספרות",
+   "approx": false,
+   "level": "medium",
+   "src": "Israel Post; Wikipedia"
+  },
+  "sort_order": 149,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "aa1ea09b-b4ac-5166-b585-75a0e0ee744d",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה העומק המרבי של הכנרת, במטרים?",
+  "answer": "בערך 43 מטרים",
+  "answer_explanation": "העומק משתנה עם מפלס המים — בשנים גשומות הכנרת עמוקה יותר.",
+  "metadata": {
+   "value": 43,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "medium",
+   "src": "Wikipedia; Kinneret Limnological Laboratory"
+  },
+  "sort_order": 150,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "81dd7947-f3bf-5bbb-9154-9aace1fcc4a1",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה אורכו של נהר הירדן, בקילומטרים?",
+  "answer": "בערך 251 ק״מ",
+  "answer_explanation": "הוא זורם מהצפון, דרך הכנרת, ועד ים המלח — הנמוך בעולם.",
+  "metadata": {
+   "value": 251,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "Wikipedia; Britannica"
+  },
+  "sort_order": 151,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bf12f9c0-313f-5b79-9bfb-0ea491f55be2",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה אורכו של מכתש רמון, בקילומטרים?",
+  "answer": "בערך 40 ק״מ",
+  "answer_explanation": "מקורות שונים נותנים 37 עד 40 ק״מ — זה המכתש הגדול בעולם מסוגו.",
+  "metadata": {
+   "value": 40,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "medium",
+   "src": "Wikipedia; Jewish Virtual Library; Britannica"
+  },
+  "sort_order": 152,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "32c5666b-a86f-5544-8995-b238c7ca0ae7",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "מה הגובה של פסגת החרמון, במטרים?",
+  "answer": "2,814 מטרים",
+  "answer_explanation": "הפסגה הגבוהה עצמה נמצאת מחוץ לישראל; אתר הסקי בחרמון נמצא נמוך יותר.",
+  "metadata": {
+   "value": 2814,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Wikipedia"
+  },
+  "sort_order": 153,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "66c55717-5891-5759-af72-fb4f48d979c9",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה הוקם הקיבוץ הראשון, דגניה?",
+  "answer": "1,910",
+  "answer_explanation": "דגניה נקראת ״אם הקבוצות״ — היא נמצאת ליד הכנרת.",
+  "metadata": {
+   "value": 1910,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Degania Alef"
+  },
+  "sort_order": 154,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "04007987-e92f-5050-b412-ba1672ca2d2c",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה נפתחה האוניברסיטה העברית בירושלים?",
+  "answer": "1,925",
+  "answer_explanation": "אלברט איינשטיין היה מהתומכים הגדולים שלה.",
+  "metadata": {
+   "value": 1925,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Hebrew University of Jerusalem; Britannica"
+  },
+  "sort_order": 155,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "666e8b13-fb3a-5e0b-ac12-4c5168fdbcb7",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה התכנס הקונגרס הציוני הראשון בבזל?",
+  "answer": "1,897",
+  "answer_explanation": "הרצל כתב אז ביומנו: ״בבזל ייסדתי את מדינת היהודים״.",
+  "metadata": {
+   "value": 1897,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Herzl Center"
+  },
+  "sort_order": 156,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7f126efc-0059-5a8f-9086-b857c5bf3ea6",
+  "game_slug": "buga-numbers",
+  "pack_name": "ישראל",
+  "content_type": "question",
+  "content_text": "באיזו שנה טס אילן רמון, האסטרונאוט הישראלי הראשון, לחלל?",
+  "answer": "2,003",
+  "answer_explanation": "הוא טס במעבורת קולומביה ולקח איתו ציור של ילד מגטו טרזיינשטט.",
+  "metadata": {
+   "value": 2003,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "NASA; Britannica"
+  },
+  "sort_order": 157,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "244daf0e-549b-5dbc-818c-514282326895",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה ימים נמשך חג החנוכה?",
+  "answer": "8 ימים",
+  "answer_explanation": "כל ערב מדליקים נר נוסף, עד שבלילה האחרון דולקים 8.",
+  "metadata": {
+   "value": 8,
+   "unit": "ימים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 158,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2fce0e43-021c-523e-940d-3dab82ee6def",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה נרות יש בחנוכייה כשסופרים גם את השמש?",
+  "answer": "9 נרות",
+  "answer_explanation": "8 נרות של החג ועוד השמש, שבו מדליקים את כולם.",
+  "metadata": {
+   "value": 9,
+   "unit": "נרות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 159,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2b827a9a-bbfb-59c1-8509-0622f921d902",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה שבטים היו לבני ישראל?",
+  "answer": "12 שבטים",
+  "answer_explanation": "לפי המסורת, שבט לכל אחד מבניו של יעקב.",
+  "metadata": {
+   "value": 12,
+   "unit": "שבטים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Torah (Genesis)"
+  },
+  "sort_order": 160,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c72308c3-9b6e-53e3-b2ab-3bee0f684e1b",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה דיברות יש בעשרת הדיברות?",
+  "answer": "10 דיברות",
+  "answer_explanation": "לפי המסורת הן נכתבו על שני לוחות אבן.",
+  "metadata": {
+   "value": 10,
+   "unit": "דיברות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Torah (Exodus)"
+  },
+  "sort_order": 161,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "51277ad6-9f11-51f0-b9f1-1573a4880d71",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה ספרים יש בחמישה חומשי תורה?",
+  "answer": "5 ספרים",
+  "answer_explanation": "בראשית, שמות, ויקרא, במדבר ודברים.",
+  "metadata": {
+   "value": 5,
+   "unit": "ספרים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 162,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "09f394ab-b2bd-5bbb-9794-2a69f92e568a",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה כוסות יין שותים בליל הסדר?",
+  "answer": "4 כוסות",
+  "answer_explanation": "ויש גם כוס חמישית — כוסו של אליהו הנביא.",
+  "metadata": {
+   "value": 4,
+   "unit": "כוסות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 163,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a0cc98f0-6312-5604-afa5-59ac427e7e84",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה שנים נדדו בני ישראל במדבר, לפי המסורת?",
+  "answer": "40 שנים",
+  "answer_explanation": "כך מסופר בתורה, עד שהגיעו לארץ ישראל.",
+  "metadata": {
+   "value": 40,
+   "unit": "שנים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Torah (Numbers)"
+  },
+  "sort_order": 164,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9970353e-4c28-5aa4-b8b7-bc48b8450ab3",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "באיזה גיל חוגגים בר מצווה?",
+  "answer": "13",
+  "answer_explanation": "ובת מצווה חוגגים בדרך כלל בגיל 12.",
+  "metadata": {
+   "value": 13,
+   "unit": "",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 165,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "66aa8503-da37-54f7-89de-3bc13b48bb27",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה ימים נמשך חג הפסח בארץ ישראל?",
+  "answer": "7 ימים",
+  "answer_explanation": "בחוץ לארץ חוגגים יום אחד נוסף — 8 ימים.",
+  "metadata": {
+   "value": 7,
+   "unit": "ימים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 166,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1fca5f5c-cc9f-5e93-9cd2-beb85072c243",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה ימים סופרים בספירת העומר?",
+  "answer": "49 ימים",
+  "answer_explanation": "שבעה שבועות מפסח ועד חג השבועות.",
+  "metadata": {
+   "value": 49,
+   "unit": "ימים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 167,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "835fbb8c-c8b4-58e3-8d8d-3acb9a578a9f",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "בכמה בעומר חל ל״ג בעומר?",
+  "answer": "33",
+  "answer_explanation": "ל״ג באותיות = 33 (ל=30, ג=3).",
+  "metadata": {
+   "value": 33,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 168,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3ebe1f04-7f22-5c0b-aabd-cc095f3541ab",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה ספרים יש בתנ״ך לפי המניין המסורתי?",
+  "answer": "24 ספרים",
+  "answer_explanation": "תורה, נביאים וכתובים — ולכן התנ״ך נקרא גם ״עשרים וארבעה״.",
+  "metadata": {
+   "value": 24,
+   "unit": "ספרים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 169,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d67e0768-17e6-5a00-8200-6ae6057d669d",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה חודשים יש בשנה עברית רגילה?",
+  "answer": "12 חודשים",
+  "answer_explanation": "בשנה מעוברת יש 13 — מוסיפים את אדר ב׳.",
+  "metadata": {
+   "value": 12,
+   "unit": "חודשים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 170,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9abf676e-d14a-5f2a-88b8-b3dfe5036295",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה סוגי מאכל צריך לפחות במשלוח מנות בפורים?",
+  "answer": "2 סוגים",
+  "answer_explanation": "לפי ההלכה — שני מאכלים לאדם אחד לפחות.",
+  "metadata": {
+   "value": 2,
+   "unit": "סוגים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 171,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bbab23ae-c0d3-5863-9161-43f1fe23c575",
+  "game_slug": "buga-numbers",
+  "pack_name": "חגים ומסורת",
+  "content_type": "question",
+  "content_text": "כמה קושיות יש ב״מה נשתנה״ בהגדה של פסח, כפי שנוהגים היום?",
+  "answer": "4 קושיות",
+  "answer_explanation": "בדרך כלל הילד הצעיר ביותר שואל אותן.",
+  "metadata": {
+   "value": 4,
+   "unit": "קושיות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Chabad.org"
+  },
+  "sort_order": 172,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "6d598a1d-4e2f-527b-ab47-f81727ec856a",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה שחקנים מכל קבוצה יש על מגרש הכדורגל?",
+  "answer": "11 שחקנים",
+  "answer_explanation": "כולל השוער — הוא היחיד שמותר לו לגעת בכדור בידיים.",
+  "metadata": {
+   "value": 11,
+   "unit": "שחקנים",
+   "approx": false,
+   "level": "easy",
+   "src": "IFAB Laws of the Game; FIFA"
+  },
+  "sort_order": 173,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8fbbf20b-4892-5878-be41-da7724e54267",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה שחקנים מכל קבוצה יש על מגרש הכדורסל?",
+  "answer": "5 שחקנים",
+  "answer_explanation": "כדורסל הומצא ב-1891 עם סלי אפרסקים.",
+  "metadata": {
+   "value": 5,
+   "unit": "שחקנים",
+   "approx": false,
+   "level": "easy",
+   "src": "FIBA; Britannica"
+  },
+  "sort_order": 174,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "79757308-32a7-5510-a77d-c817038e46b1",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה שחקנים מכל קבוצה יש על מגרש הכדורעף?",
+  "answer": "6 שחקנים",
+  "answer_explanation": "השחקנים מסתובבים בעמדות בכל פעם שהקבוצה זוכה בהגשה.",
+  "metadata": {
+   "value": 6,
+   "unit": "שחקנים",
+   "approx": false,
+   "level": "easy",
+   "src": "FIVB; Britannica"
+  },
+  "sort_order": 175,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "086c15c4-f0a9-5838-95fc-9665b1d7cfa5",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כל כמה שנים נערכים משחקי הקיץ האולימפיים?",
+  "answer": "4 שנים",
+  "answer_explanation": "חוץ מפעם אחת — משחקי טוקיו נדחו בשנה בגלל הקורונה.",
+  "metadata": {
+   "value": 4,
+   "unit": "שנים",
+   "approx": false,
+   "level": "easy",
+   "src": "IOC; Britannica"
+  },
+  "sort_order": 176,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7ab87dee-fe40-5b88-9846-edc6c0826c76",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה טבעות יש בסמל האולימפי?",
+  "answer": "5 טבעות",
+  "answer_explanation": "הן מסמלות את חיבור היבשות דרך הספורט.",
+  "metadata": {
+   "value": 5,
+   "unit": "טבעות",
+   "approx": false,
+   "level": "easy",
+   "src": "IOC; Britannica"
+  },
+  "sort_order": 177,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8be45eda-aef6-5186-b413-f76e07f9829e",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה דקות נמשך משחק כדורגל רגיל (בלי תוספת זמן)?",
+  "answer": "90 דקות",
+  "answer_explanation": "שתי מחציות של 45 דקות.",
+  "metadata": {
+   "value": 90,
+   "unit": "דקות",
+   "approx": false,
+   "level": "easy",
+   "src": "IFAB Laws of the Game; FIFA"
+  },
+  "sort_order": 178,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8d1e6558-ff52-5bb6-b7bf-bc9d28563f8e",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה רבעים יש במשחק כדורסל?",
+  "answer": "4 רבעים",
+  "answer_explanation": "אם יש תיקו בסוף — משחקים הארכה.",
+  "metadata": {
+   "value": 4,
+   "unit": "רבעים",
+   "approx": false,
+   "level": "easy",
+   "src": "FIBA; NBA"
+  },
+  "sort_order": 179,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "25c2c555-3823-5017-b323-d0854be3cc15",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה פינים מפילים בבאולינג?",
+  "answer": "10 פינים",
+  "answer_explanation": "הם מסודרים במשולש של 4 שורות: 1, 2, 3 ו-4.",
+  "metadata": {
+   "value": 10,
+   "unit": "פינים",
+   "approx": false,
+   "level": "easy",
+   "src": "USBC; Britannica"
+  },
+  "sort_order": 180,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "226786f8-bb5a-5310-a65c-8d8399571530",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה אורכה של בריכה אולימפית, במטרים?",
+  "answer": "50 מטרים",
+  "answer_explanation": "יש בה בדרך כלל 8 עד 10 מסלולים.",
+  "metadata": {
+   "value": 50,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "easy",
+   "src": "World Aquatics; Britannica"
+  },
+  "sort_order": 181,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f554ab52-8101-5230-9e95-897af00f0151",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מכמה ענפים מורכב טריאתלון?",
+  "answer": "3 ענפים",
+  "answer_explanation": "שחייה, רכיבה על אופניים וריצה — אחד אחרי השני.",
+  "metadata": {
+   "value": 3,
+   "unit": "ענפים",
+   "approx": false,
+   "level": "easy",
+   "src": "World Triathlon; Britannica"
+  },
+  "sort_order": 182,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2d5ec8c4-3af4-5eef-82a5-651c8a13b2ea",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה אורכה של ריצת מרתון, בקילומטרים?",
+  "answer": "42.195 ק״מ",
+  "answer_explanation": "המרחק המדויק נקבע באולימפיאדת לונדון 1908.",
+  "metadata": {
+   "value": 42.195,
+   "unit": "ק״מ",
+   "approx": false,
+   "level": "medium",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 183,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f11a6a88-b6b9-5532-b6cb-a12a73205953",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה הגובה של סל הכדורסל מהרצפה, במטרים?",
+  "answer": "3.05 מטרים",
+  "answer_explanation": "10 רגל בדיוק — כמו שהיה בסל הראשון ב-1891.",
+  "metadata": {
+   "value": 3.05,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "medium",
+   "src": "FIBA; NBA"
+  },
+  "sort_order": 184,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7ffba6a0-d1e1-5ba8-84b2-9e4a77b806fd",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה גומות יש במגרש גולף בסיבוב רגיל?",
+  "answer": "18 גומות",
+  "answer_explanation": "המספר נקבע במגרש העתיק בסנט אנדרוז שבסקוטלנד.",
+  "metadata": {
+   "value": 18,
+   "unit": "גומות",
+   "approx": false,
+   "level": "medium",
+   "src": "R&A; Britannica"
+  },
+  "sort_order": 185,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1b03e066-0374-5829-a37e-a9b5d036dfb0",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "באיזו שנה נערכו המשחקים האולימפיים המודרניים הראשונים?",
+  "answer": "1,896",
+  "answer_explanation": "הם נערכו באתונה שביוון — ארץ האולימפיאדה העתיקה.",
+  "metadata": {
+   "value": 1896,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "IOC; Britannica"
+  },
+  "sort_order": 186,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "99f01e52-256a-5518-a4f7-61f2a2428169",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה אורכה של הקפה אחת במסלול ריצה אולימפי, במטרים?",
+  "answer": "400 מטרים",
+  "answer_explanation": "במסלול החיצוני הסטרט מוזז קדימה כדי שכולם ירוצו אותו מרחק.",
+  "metadata": {
+   "value": 400,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "medium",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 187,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "38d1662b-e70a-59fb-9bcb-26abb8baed0b",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה נבחרות משתתפות במונדיאל 2026?",
+  "answer": "48 נבחרות",
+  "answer_explanation": "זה המונדיאל הראשון עם 48 נבחרות — עד אז השתתפו 32.",
+  "metadata": {
+   "value": 48,
+   "unit": "נבחרות",
+   "approx": false,
+   "level": "medium",
+   "src": "FIFA; Britannica"
+  },
+  "sort_order": 188,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bd974e7a-66b3-59cd-b4b9-3cfe69ad0f14",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה שחקנים מכל קבוצה יש על המגרש בכדוריד?",
+  "answer": "7 שחקנים",
+  "answer_explanation": "כולל השוער — ואסור לאף שחקן אחר להיכנס לרחבה.",
+  "metadata": {
+   "value": 7,
+   "unit": "שחקנים",
+   "approx": false,
+   "level": "medium",
+   "src": "IHF; Britannica"
+  },
+  "sort_order": 189,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "30648e6e-1b2a-539c-a5c7-127e6a639ae2",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה שחקנים מכל קבוצה יש על הקרח בהוקי קרח?",
+  "answer": "6 שחקנים",
+  "answer_explanation": "השחקנים מתחלפים כל דקה בערך, כי זה ספורט מתיש.",
+  "metadata": {
+   "value": 6,
+   "unit": "שחקנים",
+   "approx": false,
+   "level": "medium",
+   "src": "IIHF; Britannica"
+  },
+  "sort_order": 190,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2f625e02-26a7-51bb-82c9-350f59776406",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מאיזה מרחק, במטרים, בועטים פנדל בכדורגל?",
+  "answer": "11 מטרים",
+  "answer_explanation": "נקודת הפנדל נמצאת 11 מטר בדיוק מקו השער.",
+  "metadata": {
+   "value": 11,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "medium",
+   "src": "IFAB Laws of the Game; FIFA"
+  },
+  "sort_order": 191,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c911ecbb-b103-5e15-ab99-f3614948e76d",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "עד כמה נקודות משחקים מערכה בטניס שולחן?",
+  "answer": "11 נקודות",
+  "answer_explanation": "עד 2001 שיחקו עד 21 נקודות.",
+  "metadata": {
+   "value": 11,
+   "unit": "נקודות",
+   "approx": false,
+   "level": "medium",
+   "src": "ITTF; Britannica"
+  },
+  "sort_order": 192,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fa747935-3125-5fa2-80a5-4dfce511468f",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "עד כמה נקודות משחקים מערכה רגילה בכדורעף?",
+  "answer": "25 נקודות",
+  "answer_explanation": "צריך לנצח בהפרש של 2 נקודות לפחות.",
+  "metadata": {
+   "value": 25,
+   "unit": "נקודות",
+   "approx": false,
+   "level": "medium",
+   "src": "FIVB; Britannica"
+  },
+  "sort_order": 193,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8d1ddda0-20e0-5e74-aabd-9f43b391c455",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מכמה מקצועות מורכב קרב-עשר באתלטיקה?",
+  "answer": "10 מקצועות",
+  "answer_explanation": "ריצות, קפיצות וזריקות — במשך יומיים.",
+  "metadata": {
+   "value": 10,
+   "unit": "מקצועות",
+   "approx": false,
+   "level": "medium",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 194,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "655edde4-f98f-5da5-ae35-b18ed814b362",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה כדורים יש בשולחן ביליארד (פּוּל) בתחילת משחק, כולל הכדור הלבן?",
+  "answer": "16 כדורים",
+  "answer_explanation": "15 כדורים ממוספרים ועוד הכדור הלבן.",
+  "metadata": {
+   "value": 16,
+   "unit": "כדורים",
+   "approx": false,
+   "level": "medium",
+   "src": "WPA; Britannica"
+  },
+  "sort_order": 195,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "e5277a83-17b0-56ef-852f-e11314edf05b",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "באיזו שנה זכתה ישראל במדליה האולימפית הראשונה שלה?",
+  "answer": "1,992",
+  "answer_explanation": "יעל ארד זכתה במדליית כסף בג׳ודו בברצלונה.",
+  "metadata": {
+   "value": 1992,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Olympic Committee of Israel; Britannica"
+  },
+  "sort_order": 196,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "906896d0-7e39-5a58-b093-5ca39ce67384",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "באיזו שנה זכתה ישראל במדליית הזהב האולימפית הראשונה שלה?",
+  "answer": "2,004",
+  "answer_explanation": "גל פרידמן זכה בה בגלישת רוח באתונה.",
+  "metadata": {
+   "value": 2004,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Olympic Committee of Israel; Britannica"
+  },
+  "sort_order": 197,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "98d8d436-d4b2-52fe-83d6-ee6a089bcc3a",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה הרוחב של שער כדורגל, במטרים?",
+  "answer": "7.32 מטרים",
+  "answer_explanation": "8 יארד בדיוק — הגובה שלו 2.44 מטר.",
+  "metadata": {
+   "value": 7.32,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "IFAB Laws of the Game; FIFA"
+  },
+  "sort_order": 198,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c04cb2bb-6591-5623-af5f-52cf3b06d232",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה שיא העולם בריצת 100 מטר לגברים, בשניות?",
+  "answer": "9.58 שניות",
+  "answer_explanation": "יוסיין בולט קבע אותו ב-2009, והוא עדיין עומד (נכון ל-2026).",
+  "metadata": {
+   "value": 9.58,
+   "unit": "שניות",
+   "approx": false,
+   "level": "hard",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 199,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4eec696f-f402-50ce-9347-5462b72a120c",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה שיא העולם בקפיצה לגובה לגברים, במטרים?",
+  "answer": "2.45 מטרים",
+  "answer_explanation": "חאבייר סוטומאיור מקובה קבע אותו ב-1993 (נכון ל-2026).",
+  "metadata": {
+   "value": 2.45,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 200,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4f585a3e-e950-5735-8390-eccc5acd4eab",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה שיא העולם בקפיצה לרוחק לגברים, במטרים?",
+  "answer": "8.95 מטרים",
+  "answer_explanation": "מייק פאוול קבע אותו ב-1991 (נכון ל-2026).",
+  "metadata": {
+   "value": 8.95,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "hard",
+   "src": "World Athletics; Britannica"
+  },
+  "sort_order": 201,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ce9e0c95-1cf2-5a62-83b7-2c9015d0348e",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה מדליות זהב אולימפיות זכה מייקל פלפס?",
+  "answer": "23 מדליות",
+  "answer_explanation": "זה השיא של כל הזמנים — יותר מכל ספורטאי אחר.",
+  "metadata": {
+   "value": 23,
+   "unit": "מדליות",
+   "approx": false,
+   "level": "hard",
+   "src": "IOC; Britannica"
+  },
+  "sort_order": 202,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "37ad2190-9571-56f2-9512-8e13519d16b1",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "מה הניקוד המושלם במשחק באולינג?",
+  "answer": "300 נקודות",
+  "answer_explanation": "צריך 12 סטרייקים ברצף כדי להגיע אליו.",
+  "metadata": {
+   "value": 300,
+   "unit": "נקודות",
+   "approx": false,
+   "level": "hard",
+   "src": "USBC; Britannica"
+  },
+  "sort_order": 203,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7102b127-9011-557b-87a1-56bb21d75f21",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה נקודות הכי הרבה אפשר לקבל בזריקת חץ אחת במשחק חצים?",
+  "answer": "60 נקודות",
+  "answer_explanation": "פגיעה ב״טריפל 20״ — שווה פי 3 מ-20.",
+  "metadata": {
+   "value": 60,
+   "unit": "נקודות",
+   "approx": false,
+   "level": "hard",
+   "src": "World Darts Federation; Britannica"
+  },
+  "sort_order": 204,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "575f67e5-6744-5622-9f78-54e46373a58d",
+  "game_slug": "buga-numbers",
+  "pack_name": "ספורט",
+  "content_type": "question",
+  "content_text": "כמה מערכות צריך לנצח כדי לזכות בגמר וימבלדון לגברים?",
+  "answer": "3 מערכות",
+  "answer_explanation": "משחקים ״הטוב מחמש״ — מי שמגיע ראשון ל-3 מערכות מנצח.",
+  "metadata": {
+   "value": 3,
+   "unit": "מערכות",
+   "approx": false,
+   "level": "hard",
+   "src": "Wimbledon; Britannica"
+  },
+  "sort_order": 205,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "28bba7f6-549d-5c92-82d8-bdba9226da9a",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה ביצים יש בתריסר?",
+  "answer": "12 ביצים",
+  "answer_explanation": "לכן תבניות ביצים רבות בנויות ל-12.",
+  "metadata": {
+   "value": 12,
+   "unit": "ביצים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Merriam-Webster"
+  },
+  "sort_order": 206,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "63b18a38-fe72-5d1d-9c70-fd474542ff3d",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה כפיות יש בכף אחת?",
+  "answer": "3 כפיות",
+  "answer_explanation": "שימושי במיוחד כשאופים עוגה בלי כלי מדידה.",
+  "metadata": {
+   "value": 3,
+   "unit": "כפיות",
+   "approx": false,
+   "level": "easy",
+   "src": "NIST; USDA"
+  },
+  "sort_order": 207,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ba932462-32fb-578e-9691-9786e4138645",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מהאבטיח הם מים?",
+  "answer": "בערך 92 אחוז",
+  "answer_explanation": "לכן הוא כל כך מרווה ביום חם.",
+  "metadata": {
+   "value": 92,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "USDA; Britannica"
+  },
+  "sort_order": 208,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7dd93ed3-6277-565c-ba4e-9cbce4e4fb90",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה אחוזים מהמלפפון הם מים?",
+  "answer": "בערך 95 אחוז",
+  "answer_explanation": "מלפפון הוא אחד הירקות ״הרטובים״ ביותר.",
+  "metadata": {
+   "value": 95,
+   "unit": "אחוז",
+   "approx": true,
+   "level": "medium",
+   "src": "USDA; Harvard Health"
+  },
+  "sort_order": 209,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bff59089-e93b-5de2-82aa-ffcc8527b463",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה ״תאי זרעים״ רואים כשחותכים תפוח לרוחב?",
+  "answer": "5 תאים",
+  "answer_explanation": "הם מסודרים בצורת כוכב — נסו את זה במטבח!",
+  "metadata": {
+   "value": 5,
+   "unit": "תאים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; University of Illinois Extension"
+  },
+  "sort_order": 210,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7eb95e1d-dda1-50ed-9b3e-6a6c242cf6dc",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה ליטרים של חלב צריך בערך כדי להכין קילו גבינה צהובה?",
+  "answer": "בערך 10 ליטרים",
+  "answer_explanation": "רוב החלב הופך לנוזל שנקרא מי גבינה.",
+  "metadata": {
+   "value": 10,
+   "unit": "ליטרים",
+   "approx": true,
+   "level": "medium",
+   "src": "Dairy Farmers of America; University of Guelph"
+  },
+  "sort_order": 211,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "5183fece-70af-57be-8186-4fd686d74b4f",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה קלוריות יש בגרם אחד של שומן?",
+  "answer": "9 קלוריות",
+  "answer_explanation": "פי 2 ויותר מגרם של סוכר או חלבון.",
+  "metadata": {
+   "value": 9,
+   "unit": "קלוריות",
+   "approx": false,
+   "level": "hard",
+   "src": "USDA; FAO"
+  },
+  "sort_order": 212,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fe16107e-8b0e-5c87-913b-5e258eb2006c",
+  "game_slug": "buga-numbers",
+  "pack_name": "אוכל",
+  "content_type": "question",
+  "content_text": "כמה קלוריות יש בגרם אחד של חלבון?",
+  "answer": "4 קלוריות",
+  "answer_explanation": "אותו מספר כמו בגרם של פחמימות.",
+  "metadata": {
+   "value": 4,
+   "unit": "קלוריות",
+   "approx": false,
+   "level": "hard",
+   "src": "USDA; FAO"
+  },
+  "sort_order": 213,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8cd68b3d-2f73-5386-84e5-ae834e455e58",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "כמה ״פלאי תבל״ היו בעולם העתיק?",
+  "answer": "7 פלאים",
+  "answer_explanation": "רק אחד מהם עדיין עומד: הפירמידה הגדולה בגיזה.",
+  "metadata": {
+   "value": 7,
+   "unit": "פלאים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 214,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c83f28af-0605-5781-978e-709e00004882",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה הגיע כריסטופר קולומבוס לאמריקה?",
+  "answer": "1,492",
+  "answer_explanation": "הוא בכלל חשב שהגיע להודו.",
+  "metadata": {
+   "value": 1492,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Library of Congress"
+  },
+  "sort_order": 215,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "7a15afcb-2c3e-5b8a-a284-aa3d99535ce0",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה נחנך מגדל אייפל בפריז?",
+  "answer": "1,889",
+  "answer_explanation": "הוא נבנה לתערוכה עולמית, ותכננו לפרק אותו אחרי 20 שנה.",
+  "metadata": {
+   "value": 1889,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Tour Eiffel official site"
+  },
+  "sort_order": 216,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "231a6612-bca1-5dc1-8aba-1ac747c195bf",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה הסתיימה מלחמת העולם השנייה?",
+  "answer": "1,945",
+  "answer_explanation": "באירופה היא הסתיימה במאי, ובאסיה — בספטמבר 1945.",
+  "metadata": {
+   "value": 1945,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Imperial War Museums"
+  },
+  "sort_order": 217,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "888536e3-9343-592b-aaed-4410dd60f40f",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה פרצה מלחמת העולם הראשונה?",
+  "answer": "1,914",
+  "answer_explanation": "היא נמשכה יותר מארבע שנים, עד 1918.",
+  "metadata": {
+   "value": 1914,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Imperial War Museums"
+  },
+  "sort_order": 218,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ecd55ed7-836b-5d88-bfb1-2838ccd66b07",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה טסו האחים רייט לראשונה במטוס עם מנוע?",
+  "answer": "1,903",
+  "answer_explanation": "הטיסה הראשונה נמשכה 12 שניות בלבד.",
+  "metadata": {
+   "value": 1903,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Smithsonian Air and Space"
+  },
+  "sort_order": 219,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ed9e1515-9c4e-5420-a051-a52843fbf4f2",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה טבעה הטיטאניק?",
+  "answer": "1,912",
+  "answer_explanation": "היא טבעה במסע הראשון שלה אחרי שהתנגשה בקרחון.",
+  "metadata": {
+   "value": 1912,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 220,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8f7bf0f8-a1b0-5ded-b814-1614efdd221e",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה נפלה חומת ברלין?",
+  "answer": "1,989",
+  "answer_explanation": "היא חילקה את העיר לשניים במשך 28 שנים.",
+  "metadata": {
+   "value": 1989,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; History.com"
+  },
+  "sort_order": 221,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "f418e5f0-7035-56a4-9ad3-67d1fa76daaa",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה הוכרזה עצמאות ארצות הברית?",
+  "answer": "1,776",
+  "answer_explanation": "ב-4 ביולי — וזה עדיין החג הלאומי שלהם.",
+  "metadata": {
+   "value": 1776,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; US National Archives"
+  },
+  "sort_order": 222,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "082ba154-d6be-5b97-8aaf-bf71f2fb569d",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה טיפסו לראשונה לפסגת האוורסט?",
+  "answer": "1,953",
+  "answer_explanation": "אדמונד הילרי ושרפה בשם טנזינג נורגיי הגיעו לפסגה יחד.",
+  "metadata": {
+   "value": 1953,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 223,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "06a98e59-3ffa-5cfa-a232-334374cd1b91",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה הוצג האייפון הראשון?",
+  "answer": "2,007",
+  "answer_explanation": "לפניו רוב הטלפונים היו עם מקשים.",
+  "metadata": {
+   "value": 2007,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Apple; Britannica"
+  },
+  "sort_order": 224,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d4ff29c0-adb9-51d6-bd2d-22b643c9c4d6",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "לפני כמה שנים נכחדו הדינוזאורים (חוץ מהציפורים)?",
+  "answer": "בערך 66 מיליון שנים",
+  "answer_explanation": "מדענים חושבים שאסטרואיד ענק פגע בכדור הארץ.",
+  "metadata": {
+   "value": 66000000,
+   "unit": "שנים",
+   "approx": true,
+   "level": "medium",
+   "src": "Natural History Museum London; Britannica"
+  },
+  "sort_order": 225,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "0bb3df73-2aff-5475-9dd9-ede8b3e287b3",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "כמה סימפוניות כתב בטהובן?",
+  "answer": "9 סימפוניות",
+  "answer_explanation": "את התשיעית הוא כתב כשכבר היה כמעט חירש לגמרי.",
+  "metadata": {
+   "value": 9,
+   "unit": "סימפוניות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Beethoven-Haus Bonn"
+  },
+  "sort_order": 226,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "eb0d8f1b-5411-5061-b5e7-388b8031b53e",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזה גיל התחיל מוצרט לחבר מוזיקה?",
+  "answer": "5",
+  "answer_explanation": "הוא הופיע מול מלכים כבר בתור ילד.",
+  "metadata": {
+   "value": 5,
+   "unit": "",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Mozarteum Salzburg"
+  },
+  "sort_order": 227,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "31b29590-6193-5530-a883-13bdcd00865a",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "מה היה הגובה המקורי של הפירמידה הגדולה בגיזה, במטרים?",
+  "answer": "בערך 146 מטרים",
+  "answer_explanation": "במשך כמעט 4,000 שנה זה היה המבנה הגבוה ביותר בעולם.",
+  "metadata": {
+   "value": 146,
+   "unit": "מטרים",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 228,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3556a8f6-c377-593c-afd4-b8f27587bc21",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "כמה קילומטרים אורכה של החומה הסינית, כולל כל חלקיה?",
+  "answer": "בערך 21,196 ק״מ",
+  "answer_explanation": "זה המספר שפורסם במדידה הרשמית של סין ב-2012.",
+  "metadata": {
+   "value": 21196,
+   "unit": "ק״מ",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 229,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "add551fe-44cb-5c02-bfbe-e29fdb07961b",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה רשם אלכסנדר גרהם בל פטנט על הטלפון?",
+  "answer": "1,876",
+  "answer_explanation": "המשפט הראשון בטלפון היה קריאה לעוזר שלו לבוא.",
+  "metadata": {
+   "value": 1876,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; Library of Congress"
+  },
+  "sort_order": 230,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "766eefba-27d5-5e12-b750-3f99101f768b",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה הסתיים המסע הראשון מסביב לעולם, של משלחת מגלן?",
+  "answer": "1,522",
+  "answer_explanation": "רק ספינה אחת מתוך חמש חזרה, ומגלן עצמו לא שרד את המסע.",
+  "metadata": {
+   "value": 1522,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; National Geographic"
+  },
+  "sort_order": 231,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "43946955-40a8-566b-8a50-fd334689ff4e",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "באיזו שנה פרצה המהפכה הצרפתית?",
+  "answer": "1,789",
+  "answer_explanation": "היא התחילה בכיבוש מבצר הבסטיליה ב-14 ביולי.",
+  "metadata": {
+   "value": 1789,
+   "unit": "",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; History.com"
+  },
+  "sort_order": 232,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "03804000-81f0-5160-91eb-9753cb208d65",
+  "game_slug": "buga-numbers",
+  "pack_name": "היסטוריה",
+  "content_type": "question",
+  "content_text": "כמה שנים נמשכה ״מלחמת מאה השנים״?",
+  "answer": "116 שנים",
+  "answer_explanation": "מ-1337 עד 1453 — יותר ממאה שנה, למרות השם!",
+  "metadata": {
+   "value": 116,
+   "unit": "שנים",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; History.com"
+  },
+  "sort_order": 233,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "3ec96caf-710f-59be-bf84-9ceabd6220b5",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה ימים יש בשנה מעוברת בלוח הלועזי?",
+  "answer": "366 ימים",
+  "answer_explanation": "היום הנוסף הוא 29 בפברואר.",
+  "metadata": {
+   "value": 366,
+   "unit": "ימים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Royal Museums Greenwich"
+  },
+  "sort_order": 234,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "de5c86c1-2ebf-577b-a118-8ca5378497b0",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כל כמה שנים יש בדרך כלל שנה מעוברת בלוח הלועזי?",
+  "answer": "4 שנים",
+  "answer_explanation": "יש כמה יוצאים מן הכלל — למשל 1900 לא הייתה מעוברת.",
+  "metadata": {
+   "value": 4,
+   "unit": "שנים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Royal Museums Greenwich"
+  },
+  "sort_order": 235,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "b0a0e997-9610-5ed1-970e-870bc02e1d20",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שבועות יש בשנה?",
+  "answer": "52 שבועות",
+  "answer_explanation": "ועוד יום אחד (או יומיים בשנה מעוברת).",
+  "metadata": {
+   "value": 52,
+   "unit": "שבועות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Royal Museums Greenwich"
+  },
+  "sort_order": 236,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d8edd669-01e1-5883-af97-8724bbab9108",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה ימים יש בפברואר בשנה רגילה?",
+  "answer": "28 ימים",
+  "answer_explanation": "זה החודש הקצר ביותר בשנה.",
+  "metadata": {
+   "value": 28,
+   "unit": "ימים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Royal Museums Greenwich"
+  },
+  "sort_order": 237,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "5a13139f-6431-5b14-8e4c-c9a67061603b",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה אותיות יש באלף-בית האנגלי?",
+  "answer": "26 אותיות",
+  "answer_explanation": "מ-A ועד Z.",
+  "metadata": {
+   "value": 26,
+   "unit": "אותיות",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Merriam-Webster"
+  },
+  "sort_order": 238,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9659b6f1-05d4-5053-8360-8e5b248b5198",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה מיתרים יש לגיטרה רגילה?",
+  "answer": "6 מיתרים",
+  "answer_explanation": "לגיטרה בס יש בדרך כלל 4.",
+  "metadata": {
+   "value": 6,
+   "unit": "מיתרים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Fender"
+  },
+  "sort_order": 239,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "04f43889-bd00-5076-b60e-b1751292c67d",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה מיתרים יש לכינור?",
+  "answer": "4 מיתרים",
+  "answer_explanation": "הקשת של הכינור עשויה משיער זנב של סוס.",
+  "metadata": {
+   "value": 4,
+   "unit": "מיתרים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Yamaha"
+  },
+  "sort_order": 240,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "1867df7f-b8ea-505a-b901-c4043a97d294",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה צבעים יש ברמזור רגיל לרכבים?",
+  "answer": "3 צבעים",
+  "answer_explanation": "אדום למעלה, ירוק למטה — כדי שגם עיוורי צבעים יבינו לפי המיקום.",
+  "metadata": {
+   "value": 3,
+   "unit": "צבעים",
+   "approx": false,
+   "level": "easy",
+   "src": "Vienna Convention on Road Signs; Britannica"
+  },
+  "sort_order": 241,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fc1d7cb6-d17a-564c-bd8d-0576ca92e712",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה תווים יש בסולם דו-רה-מי (בלי לחזור על הדו)?",
+  "answer": "7 תווים",
+  "answer_explanation": "דו, רה, מי, פה, סול, לה, סי — ואז מתחילים שוב.",
+  "metadata": {
+   "value": 7,
+   "unit": "תווים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Yamaha"
+  },
+  "sort_order": 242,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "a1e70a4a-a763-535c-9d29-87624c21892f",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שנים יש באלף?",
+  "answer": "1,000 שנים",
+  "answer_explanation": "מאה שנים נקראות ״מאה״, ואלף שנים — ״אלף״ או ״מילניום״.",
+  "metadata": {
+   "value": 1000,
+   "unit": "שנים",
+   "approx": false,
+   "level": "easy",
+   "src": "Britannica; Merriam-Webster"
+  },
+  "sort_order": 243,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "c1c4f954-b6ec-50ea-a1e0-f9931f7ea590",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שעות יש בשבוע?",
+  "answer": "168 שעות",
+  "answer_explanation": "7 ימים כפול 24 שעות.",
+  "metadata": {
+   "value": 168,
+   "unit": "שעות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 244,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "91535c26-f73d-54e2-90b8-3417e212fe81",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה דקות יש ביממה?",
+  "answer": "1,440 דקות",
+  "answer_explanation": "24 שעות כפול 60 דקות.",
+  "metadata": {
+   "value": 1440,
+   "unit": "דקות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 245,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "2120ce11-a6ae-5fcc-8cd1-872a3f1b6974",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שניות יש בשעה?",
+  "answer": "3,600 שניות",
+  "answer_explanation": "60 דקות כפול 60 שניות.",
+  "metadata": {
+   "value": 3600,
+   "unit": "שניות",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 246,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "788a7e2e-bde7-5f06-ae8e-0c15fb879025",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה חודשים בשנה יש בהם 31 ימים?",
+  "answer": "7 חודשים",
+  "answer_explanation": "ינואר, מרץ, מאי, יולי, אוגוסט, אוקטובר ודצמבר.",
+  "metadata": {
+   "value": 7,
+   "unit": "חודשים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Royal Museums Greenwich"
+  },
+  "sort_order": 247,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "00cde565-77fc-53dc-8952-4e679f7deb67",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה קלידים יש לפסנתר רגיל?",
+  "answer": "88 קלידים",
+  "answer_explanation": "52 לבנים ו-36 שחורים.",
+  "metadata": {
+   "value": 88,
+   "unit": "קלידים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; Steinway & Sons"
+  },
+  "sort_order": 248,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "42b27596-8d9c-5efc-ba3c-8d9e28aa03db",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה פעמים מחוג השעות מקיף את השעון ביממה אחת?",
+  "answer": "2 פעמים",
+  "answer_explanation": "כי על השעון יש רק 12 שעות, וביממה יש 24.",
+  "metadata": {
+   "value": 2,
+   "unit": "פעמים",
+   "approx": false,
+   "level": "medium",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 249,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "fdbf6acf-602d-561f-893b-083af99f4c7d",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "מה הרוחב של דף A4, בסנטימטרים?",
+  "answer": "21 ס״מ",
+  "answer_explanation": "והאורך שלו 29.7 ס״מ. שני דפי A4 צמודים יוצרים דף A3.",
+  "metadata": {
+   "value": 21,
+   "unit": "ס״מ",
+   "approx": false,
+   "level": "medium",
+   "src": "ISO 216; Britannica"
+  },
+  "sort_order": 250,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "be781e86-0dfa-5b0c-b6f3-9c8eefc1073b",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "באיזו מהירות, בקמ״ש, הולך אדם מבוגר בהליכה רגילה?",
+  "answer": "בערך 5 קמ״ש",
+  "answer_explanation": "ילדים הולכים קצת יותר לאט, ובריצה קלה מגיעים בערך ל-10 קמ״ש.",
+  "metadata": {
+   "value": 5,
+   "unit": "קמ״ש",
+   "approx": true,
+   "level": "medium",
+   "src": "Harvard Health; CDC"
+  },
+  "sort_order": 251,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "8364e518-0750-53eb-a955-704074c59738",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שניות יש ביממה?",
+  "answer": "86,400 שניות",
+  "answer_explanation": "24 כפול 60 כפול 60.",
+  "metadata": {
+   "value": 86400,
+   "unit": "שניות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 252,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "4374b303-2a8c-5d1e-92bb-fd32c3c13104",
+  "game_slug": "buga-numbers",
+  "pack_name": "יום-יום",
+  "content_type": "question",
+  "content_text": "כמה שעות יש בשנה רגילה?",
+  "answer": "8,760 שעות",
+  "answer_explanation": "365 ימים כפול 24 שעות.",
+  "metadata": {
+   "value": 8760,
+   "unit": "שעות",
+   "approx": false,
+   "level": "hard",
+   "src": "Britannica; NIST"
+  },
+  "sort_order": 253,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "d1834958-f087-56a5-a841-df341570016a",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "מה הגובה של בורג׳ ח׳ליפה בדובאי, הבניין הגבוה בעולם, במטרים?",
+  "answer": "828 מטרים",
+  "answer_explanation": "נכון ל-2026 הוא עדיין הגבוה בעולם — מגדל ג׳דה בסעודיה אמור לעקוף אותו.",
+  "metadata": {
+   "value": 828,
+   "unit": "מטרים",
+   "approx": false,
+   "level": "medium",
+   "src": "CTBUH; Britannica"
+  },
+  "sort_order": 254,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "6114f46e-ac92-58be-9d36-b00f788afe11",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "עד איזה גיל חיה ז׳אן קלמן, האישה הכי מבוגרת שגילה אומת אי-פעם?",
+  "answer": "122 שנים",
+  "answer_explanation": "היא נולדה בצרפת ב-1875 ונפטרה ב-1997.",
+  "metadata": {
+   "value": 122,
+   "unit": "שנים",
+   "approx": false,
+   "level": "medium",
+   "src": "Guinness World Records; Britannica"
+  },
+  "sort_order": 255,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "9b801eb0-f70a-548e-95aa-b394ed3dd02f",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "מה היה הגובה של רוברט וודלו, האדם הגבוה ביותר שתועד, בסנטימטרים?",
+  "answer": "272 ס״מ",
+  "answer_explanation": "הוא נמדד ב-1940 — כמעט מטר יותר ממבוגר ממוצע.",
+  "metadata": {
+   "value": 272,
+   "unit": "ס״מ",
+   "approx": false,
+   "level": "hard",
+   "src": "Guinness World Records; Britannica"
+  },
+  "sort_order": 256,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "559b5023-1c26-5fa0-9422-6392556afe2d",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "מה השטח של רוסיה, המדינה הגדולה בעולם, בקילומטרים רבועים?",
+  "answer": "בערך 17.1 מיליון קמ״ר",
+  "answer_explanation": "היא משתרעת על פני 11 אזורי זמן.",
+  "metadata": {
+   "value": 17100000,
+   "unit": "קמ״ר",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; CIA World Factbook"
+  },
+  "sort_order": 257,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "bf6e1422-263d-5485-b413-124ae4423ef7",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "מה השטח של הוותיקן, המדינה הקטנה בעולם, בקילומטרים רבועים?",
+  "answer": "בערך 0.44 קמ״ר",
+  "answer_explanation": "אפשר לחצות את כל המדינה ברגל בפחות מחצי שעה.",
+  "metadata": {
+   "value": 0.44,
+   "unit": "קמ״ר",
+   "approx": true,
+   "level": "hard",
+   "src": "Britannica; CIA World Factbook"
+  },
+  "sort_order": 258,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ },
+ {
+  "id": "ebf6b0d5-dff2-5f64-b3f4-772dbc198f5a",
+  "game_slug": "buga-numbers",
+  "pack_name": "שיאים",
+  "content_type": "question",
+  "content_text": "מה הטמפרטורה הנמוכה ביותר שנמדדה על פני כדור הארץ, במעלות צלזיוס?",
+  "answer": "מינוס 89.2 מעלות",
+  "answer_explanation": "היא נמדדה בתחנת ווסטוק באנטארקטיקה ב-1983.",
+  "metadata": {
+   "value": -89.2,
+   "unit": "מעלות",
+   "approx": false,
+   "level": "hard",
+   "src": "WMO; Britannica"
+  },
+  "sort_order": 259,
+  "created_at": "2026-10-11T00:00:00+00:00"
+ }
+]
