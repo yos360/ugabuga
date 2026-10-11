@@ -19,7 +19,7 @@ import { DICE_GAMES } from './diceGames'
 import { BLOG_POSTS } from './blogPosts'
 import { FAQ_TOPICS } from './faqTopics'
 import { ESCAPE_ROOMS } from './escapeRoomsExpanded'
-import { CBN_PICTURES, cbnLevel } from './colorByNumber'
+import { CBN_PICTURES, CBN_MATH_KINDS, cbnLevel } from './colorByNumber'
 import { SUPPLIER_CATEGORY_PAGES, categoryPagePath } from './supplierCategoryPages'
 import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
@@ -320,8 +320,12 @@ const PAGES = [
   { to: '/logic-puzzles/print', title: 'תשבצי היגיון להדפסה', emoji: '🖨️', kind: 'printable', desc: 'דף לכל תשבץ, עם דף פתרון.', keys: 'תשבצי היגיון להדפסה תשבץ היגיון להדפסה עם פתרונות pdf' },
   { to: '/logic-puzzles/solutions', title: 'פתרון תשבץ היגיון — איך פותרים', emoji: '🔎', kind: 'tool', desc: 'השיטה ודוגמה פתורה שלב אחר שלב.', keys: 'פתרון תשבץ היגיון פתרונות תשבצי היגיון איך פותרים תשבץ היגיון' },
   { to: '/printables/mazes', title: 'מבוכים להדפסה — 30 מבוכים ב-5 רמות', emoji: '🌀', kind: 'printable', desc: 'מבוכים מגן ועד מבוגרים, עם פתרון ומבוך חדש בכל לחיצה.', keys: 'מבוך מבוכים להדפסה לילדים קשה קל' },
-  { to: '/printables/color-by-number', title: 'צביעה לפי מספרים להדפסה — 20 ציורים', emoji: '🎨', kind: 'printable', desc: 'דפי צביעה לפי מספרים לגן, לכיתות א–ב ולמבוגרים, גם עם תרגילי חשבון ועם פתרון.', keys: 'צביעה לפי מספרים דף צביעה לפי מספרים צבעו לפי מספר מספרים למבוגרים פיקסלים תרגילים חיבור כפל' },
+  { to: '/printables/color-by-number', title: `צביעה לפי מספרים להדפסה — ${CBN_PICTURES.length} ציורים`, emoji: '🎨', kind: 'printable', desc: 'דפי צביעה לפי מספרים לגן, לכיתות א–ב ולמבוגרים, גם עם תרגילי חשבון ועם פתרון.', keys: 'צביעה לפי מספרים דף צביעה לפי מספרים צבעו לפי מספר מספרים למבוגרים פיקסלים תרגילים חיבור כפל בעלי חיים חגים' },
   ...CBN_PICTURES.map(p => ({ to: `/printables/color-by-number/${p.slug}`, title: `צביעה לפי מספרים: ${p.name}`, emoji: p.emoji, kind: 'printable', desc: p.blurb, keys: `צביעה לפי מספרים ${p.name} דף צביעה ${cbnLevel(p.level).label} ${cbnLevel(p.level).mathLabel}` })),
+  { to: '/printables/color-by-answer', title: 'צביעה לפי תשובות — דפי צביעה עם תרגילי חשבון', emoji: '🧮', kind: 'printable', desc: 'פותרים את התרגיל וצובעים לפי התשובה: חיבור, חיסור, כפל וחילוק.', keys: 'צביעה לפי תשובות צביעה לפי תרגילים צבעו לפי התשובה דף צביעה חשבון חיבור חיסור כפל חילוק' },
+  ...CBN_MATH_KINDS.map(k => ({ to: `/printables/color-by-answer/${k.slug}`, title: `צביעה לפי תשובות: ${k.label}`, emoji: k.emoji, kind: 'printable', desc: `דפי צביעה עם תרגילי ${k.label} — כל תשובה היא צבע. ל${k.grade}.`, keys: `צביעה לפי תשובות ${k.label} צביעה לפי תרגילים דף צביעה ${k.short} ${k.id === 'mult' ? 'לוח הכפל כפל' : ''}` })),
+  { to: '/printables/color-by-letter', title: 'צביעה לפי אותיות — דפי צביעה עם אותיות בעברית', emoji: '🔤', kind: 'printable', desc: 'בכל משבצת אות: אותיות שונות, אותיות דומות ואותיות סופיות.', keys: 'צביעה לפי אותיות צבעו לפי אות אותיות דומות אותיות סופיות דף צביעה אותיות א ב' },
+  { to: '/printables/color-by-letter/english', title: 'צביעה לפי אותיות באנגלית — Color by Letter', emoji: '🔠', kind: 'printable', desc: 'אותיות גדולות, קטנות (b/d/p/q) והתאמה בין גדולה לקטנה.', keys: 'צביעה לפי אותיות באנגלית color by letter אנגלית ABC אותיות גדולות קטנות' },
   { to: '/printables/activity/color-by-number', title: 'פסיפס לצביעה לפי מספר — דף חדש בכל לחיצה', emoji: '🎨', kind: 'printable', desc: 'פסיפס צבעוני לצביעה לפי מספר, בשלוש רמות גיל.', keys: 'צבעו לפי מספר פסיפס צביעה' },
   { to: '/printables/memory-game', title: 'משחק זיכרון להדפסה', emoji: '🃏', kind: 'printable', desc: '10 זוגות עם תמונות ומילים.', keys: 'משחק זיכרון זוגות קלפים' },
   { to: '/printables/tic-tac-toe', title: 'לוחות איקס עיגול להדפסה', emoji: '❌', kind: 'printable', desc: '6 לוחות 3×3 בדף, לוחות 4×4 ואיקס עיגול כפול.', keys: 'איקס עיגול להדפסה לוח איקס עיגול איקס מיקס דריקס דף משחק לשניים tic tac toe' },

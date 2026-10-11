@@ -1364,12 +1364,12 @@ export function cbnMathGrid(p, kind = cbnMathKind(p)) {
 // what is written in the cells: the same letter, its final form (sometimes), or its lowercase.
 const FINALS = { כ: 'ך', מ: 'ם', נ: 'ן', פ: 'ף', צ: 'ץ' }
 export const CBN_LETTER_LEVELS = [
-  { id: 'he-easy', lang: 'he', label: 'אותיות שונות', grade: 'גן חובה', hint: 'אותיות שנראות שונות זו מזו — קל להבחין ביניהן.', pool: ['א', 'ב', 'ג', 'ל', 'מ', 'ש', 'ע', 'פ', 'ק', 'י'] },
-  { id: 'he-similar', lang: 'he', label: 'אותיות דומות', grade: 'כיתה א׳', hint: 'זוגות שקל לבלבל: ב/כ, ד/ר, ה/ח, ו/ז, ס/ם — צריך להסתכל טוב.', pool: ['ב', 'כ', 'ד', 'ר', 'ה', 'ח', 'ו', 'ז', 'ס', 'ם'] },
-  { id: 'he-final', lang: 'he', label: 'אותיות סופיות', grade: 'כיתות א׳–ב׳', hint: 'במקרא האות הרגילה, ובמשבצות לפעמים היא מופיעה כאות סופית (מ/ם, נ/ן…) — אותו צבע.', pool: ['כ', 'מ', 'נ', 'פ', 'צ', 'א', 'ב', 'ג', 'ל', 'ש'], cell: (l, r) => (FINALS[l] && r() < 0.5 ? FINALS[l] : l), tag: l => (FINALS[l] ? `${l} ${FINALS[l]}` : l) },
-  { id: 'en-upper', lang: 'en', label: 'אותיות גדולות', grade: 'כיתות ב׳–ג׳', hint: 'אותיות גדולות באנגלית (Capital letters).', pool: ['A', 'B', 'C', 'D', 'E', 'H', 'K', 'M', 'S', 'T'] },
-  { id: 'en-lower', lang: 'en', label: 'אותיות קטנות', grade: 'כיתות ג׳–ד׳', hint: 'אותיות קטנות שקל לבלבל: b/d/p/q, m/n, h/u — צריך לשים לב לכיוון.', pool: ['b', 'd', 'p', 'q', 'm', 'n', 'h', 'u', 'a', 'e'] },
-  { id: 'en-match', lang: 'en', label: 'גדולה ↔ קטנה', grade: 'כיתות ג׳–ד׳', hint: 'במקרא אות גדולה, ובמשבצות האות הקטנה שלה — מתאימים בין השתיים.', pool: ['A', 'B', 'D', 'E', 'G', 'H', 'N', 'Q', 'R', 'T'], cell: l => l.toLowerCase() },
+  { id: 'he-easy', level: 'gan', lang: 'he', label: 'אותיות שונות', grade: 'גן חובה', hint: 'אותיות שנראות שונות זו מזו — קל להבחין ביניהן.', pool: ['א', 'ב', 'ג', 'ל', 'מ', 'ש', 'ע', 'פ', 'ק', 'י'] },
+  { id: 'he-similar', level: 'grades-1-2', lang: 'he', label: 'אותיות דומות', grade: 'כיתה א׳', hint: 'זוגות שקל לבלבל: ב/כ, ד/ר, ה/ח, ו/ז, ס/ם — צריך להסתכל טוב.', pool: ['ב', 'כ', 'ד', 'ר', 'ה', 'ח', 'ו', 'ז', 'ס', 'ם'] },
+  { id: 'he-final', level: 'grades-1-2', lang: 'he', label: 'אותיות סופיות', grade: 'כיתות א׳–ב׳', hint: 'במקרא האות הרגילה, ובמשבצות לפעמים היא מופיעה כאות סופית (מ/ם, נ/ן…) — אותו צבע.', pool: ['כ', 'מ', 'נ', 'פ', 'צ', 'א', 'ב', 'ג', 'ל', 'ש'], cell: (l, r) => (FINALS[l] && r() < 0.5 ? FINALS[l] : l), tag: l => (FINALS[l] ? `${l} ${FINALS[l]}` : l) },
+  { id: 'en-upper', level: 'gan', lang: 'en', label: 'אותיות גדולות', grade: 'כיתות ב׳–ג׳', hint: 'אותיות גדולות באנגלית (Capital letters).', pool: ['A', 'B', 'C', 'D', 'E', 'H', 'K', 'M', 'S', 'T'] },
+  { id: 'en-lower', level: 'grades-1-2', lang: 'en', label: 'אותיות קטנות', grade: 'כיתות ג׳–ד׳', hint: 'אותיות קטנות שקל לבלבל: b/d/p/q, m/n, h/u — צריך לשים לב לכיוון.', pool: ['b', 'd', 'p', 'q', 'm', 'n', 'h', 'u', 'a', 'e'] },
+  { id: 'en-match', level: 'grades-1-2', lang: 'en', label: 'גדולה ↔ קטנה', grade: 'כיתות ג׳–ד׳', hint: 'במקרא אות גדולה, ובמשבצות האות הקטנה שלה — מתאימים בין השתיים.', pool: ['A', 'B', 'D', 'E', 'G', 'H', 'N', 'Q', 'R', 'T'], cell: l => l.toLowerCase() },
 ]
 export const cbnLetterLevel = id => CBN_LETTER_LEVELS.find(l => l.id === id)
 export const cbnFitsLetters = (p, levelId) => cbnLetterLevel(levelId).pool.length >= p.colors.length

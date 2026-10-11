@@ -229,6 +229,7 @@ const RELATED = [
   { label: 'תרגול לוח הכפל', href: GAME },
   { label: 'כרטיסיות לוח הכפל', href: '/learn/flashcards' },
   { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' },
+  { label: 'צביעה לפי לוח הכפל', href: '/printables/color-by-answer/multiplication' },
   { label: 'לומדים בבית', href: '/learn' },
 ]
 const relatedExcept = (...paths) => [MT_PAGES.main, MT_PAGES[100], MT_PAGES[1000]].filter(p => !paths.includes(p.path)).map(p => ({ label: p.h1, href: p.path })).concat(RELATED)

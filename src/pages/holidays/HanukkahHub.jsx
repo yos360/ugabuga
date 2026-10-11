@@ -62,6 +62,15 @@ export default function HanukkahHub() {
           <p className="flex-1 text-[var(--muted-foreground)]">ברכות ההדלקה, על הניסים, הלל ומה קוראים בתורה בכל יום</p>
           <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
         </Link>
+        <div className="wobbly flex flex-col border-2 border-[var(--border)] bg-blue-100 p-5 sketch-shadow">
+          <span className="text-4xl mb-1" aria-hidden="true">🎨</span>
+          <h2 className="text-2xl font-bold">צביעה לפי מספרים לחנוכה</h2>
+          <p className="flex-1 text-[var(--muted-foreground)]">
+            <span className="block">דפים להדפסה עם פתרון, גם בגרסת תרגילי חשבון:</span>
+            {[['dreidel', 'סביבון'], ['hanukkiah', 'חנוכייה'], ['sufganiyah', 'סופגנייה'], ['oil-jug', 'כד שמן']].map(([slug, name], i) => <span key={slug}>{i > 0 && ' · '}<Link to={`/printables/color-by-number/${slug}`} className="font-bold underline">{name}</Link></span>)}
+          </p>
+          <Link to="/printables/color-by-number?theme=holidays" className="mt-2 font-bold underline decoration-dashed">לכל דפי החגים ←</Link>
+        </div>
       </div>
 
       <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">

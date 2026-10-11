@@ -1,93 +1,30 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
-import { CBN_PICTURES, CBN_LEVELS, cbnBySlug, cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnAnswers, cbnMathGrid, cbnPath } from '../../data/colorByNumber'
-import './color-by-number.css'
+import { CBN_PICTURES, CBN_LEVELS, CBN_THEMES, cbnBySlug, cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnPath, cbnInTheme } from '../../data/colorByNumber'
+import { CbnSvg, Legend, sheetsFor, PictureCard, cellKey as key } from './cbnShared'
 
-// /printables/color-by-number — 20 pixel pictures to color by number (or by exercise), each with
+// /printables/color-by-number — pixel pictures to color by number (or by exercise), each with
 // its own indexable page, print sheets with a solution page, and online coloring by tapping cells.
+// The same pictures feed /printables/color-by-answer and /printables/color-by-letter.
 
 const HUB = '/printables/color-by-number'
-const CELL = 10
-const key = (r, c) => `${r}-${c}`
+const COUNT = CBN_PICTURES.length
 
-// mode: 'numbers' | 'math' | 'solution'. fills: { 'r-c': legendNumber } for online coloring.
-export function CbnSvg({ p, mode, fills, onPaint, label, className = '' }) {
-  const grid = useMemo(() => cbnGrid(p), [p])
-  const legend = useMemo(() => cbnLegend(p), [p])
-  const math = useMemo(() => (mode === 'math' ? cbnMathGrid(p) : null), [p, mode])
-  const { cols, rows } = cbnSize(p)
-  const svgRef = useRef(null), drag = useRef(false)
-  const cellAt = e => {
-    const svg = svgRef.current, ctm = svg?.getScreenCTM()
-    if (!ctm) return null
-    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse())
-    const c = Math.floor(pt.x / CELL), r = Math.floor(pt.y / CELL)
-    return r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] > 0 ? [r, c] : null
-  }
-  const paint = e => { const rc = cellAt(e); if (rc) onPaint(rc[0], rc[1]) }
-  const handlers = onPaint ? {
-    onPointerDown: e => { drag.current = e.pointerType === 'mouse'; paint(e) },
-    onPointerMove: e => { if (drag.current && e.buttons) paint(e) },
-    onPointerUp: () => { drag.current = false },
-    onPointerLeave: () => { drag.current = false },
-  } : {}
-  const fs = mode === 'math' ? 3.3 : 5
-  return <svg ref={svgRef} viewBox={`-0.5 -0.5 ${cols * CELL + 1} ${rows * CELL + 1}`} className={`cbn-svg ${onPaint ? 'is-paintable' : ''} ${className}`} role="img" aria-label={label} dir="ltr" {...handlers}>
-    {grid.map((row, r) => row.map((n, c) => {
-      if (!n) return null
-      const filled = mode === 'solution' ? n : fills?.[key(r, c)]
-      const fill = filled ? legend[filled - 1].hex : '#fff'
-      const text = mode === 'numbers' ? String(n) : mode === 'math' ? math[r][c].text : ''
-      return <g key={key(r, c)}>
-        <rect x={c * CELL} y={r * CELL} width={CELL} height={CELL} fill={fill} stroke={mode === 'solution' ? '#00000018' : '#8a8f9c'} strokeWidth={mode === 'solution' ? 0.3 : 0.45} />
-        {text && !filled && <text x={c * CELL + CELL / 2} y={r * CELL + CELL / 2} fontSize={text.length > 4 ? fs * 0.86 : fs} textAnchor="middle" dominantBaseline="central" fill="#3b3f4a" direction="ltr">{text}</text>}
-      </g>
-    }))}
-  </svg>
-}
-
-function Legend({ p, mode, active, onPick, compact }) {
-  const legend = cbnLegend(p), answers = cbnAnswers(p)
-  // math legend reads in answer order (6, 8, 10…), the numbers legend in color order
-  const items = mode === 'math' ? [...legend].sort((a, b) => answers[a.num] - answers[b.num]) : legend
-  return <ul className={`cbn-legend ${compact ? 'is-compact' : ''}`}>{items.map(l => {
-    const tag = mode === 'math' ? answers[l.num] : l.num
-    const inner = <><i className="cbn-swatch" style={{ background: l.hex }} /><b dir="ltr">{tag}</b><span>{l.name}</span></>
-    return <li key={l.ch}>{onPick
-      ? <button type="button" aria-pressed={active === l.num} onClick={() => onPick(l.num)} aria-label={`${mode === 'math' ? 'תשובה' : 'מספר'} ${tag}: ${l.name}`}>{inner}</button>
-      : <span className="cbn-legend-item">{inner}</span>}</li>
-  })}</ul>
-}
-
-function Sheet({ p, mode }) {
-  const level = cbnLevel(p.level)
-  const title = mode === 'solution' ? `פתרון: ${p.name}` : mode === 'math' ? `צביעה לפי תרגילים — ${level.mathLabel}` : 'צביעה לפי מספרים'
-  const how = mode === 'math' ? 'פותרים את התרגיל בכל משבצת, מוצאים את התשובה במקרא וצובעים בצבע שלה.' : 'צובעים כל משבצת בצבע של המספר שלה לפי המקרא — ומגלים מה מסתתר בציור.'
-  return <article className="buga-a4 cbn-sheet">
-    <h2>{title}</h2>
-    {mode !== 'solution' && <>
-      <p className="art-caption cbn-caption"><span>{how}</span><span className="cbn-name">שם: ______________</span></p>
-      <Legend p={p} mode={mode} compact />
-    </>}
-    <div className="print-art"><CbnSvg p={p} mode={mode} label={`${title}: ${p.name}`} /></div>
-    <footer>עוגה בוגה · צביעה לפי מספרים · ugabuga.co.il</footer>
-  </article>
-}
-
-const sheetsFor = (list, kinds, withSolution) => list.flatMap(p => [...kinds.map(k => <Sheet key={`${p.slug}-${k}`} p={p} mode={k} />), ...(withSolution ? [<Sheet key={`${p.slug}-sol`} p={p} mode="solution" />] : [])])
-
-function PictureCard({ p }) {
-  const level = cbnLevel(p.level), { cols, rows } = cbnSize(p)
-  return <Link to={cbnPath(p)} className="wobbly group flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1">
-    <div className="cbn-thumb"><CbnSvg p={p} mode="solution" label={`צביעה לפי מספרים: ${p.name}`} /></div>
-    <b className="mt-2 text-lg">{p.emoji} {p.name}</b>
-    <small className="text-[var(--muted-foreground)]"><span className={`rounded-full px-2 ${level.badge}`}>{level.label}</span> · {cols}×{rows} · {p.colors.length} צבעים</small>
-  </Link>
+// holiday pictures link back to their holiday hub
+const CBN_HOLIDAY_LINKS = {
+  'rosh-hashana': { href: '/holidays/rosh-hashana', label: '🍎 עוד פעילויות לראש השנה' },
+  sukkot: { href: '/holidays/sukkot', label: '🌿 עוד פעילויות לסוכות' },
+  hanukkah: { href: '/holidays/hanukkah', label: '🕎 עוד פעילויות לחנוכה' },
+  purim: { href: '/holidays/purim', label: '🎭 עוד פעילויות לפורים' },
+  pesach: { href: '/holidays/pesach', label: '🫓 עוד פעילויות לפסח' },
+  shavuot: { href: '/holidays/shavuot', label: '🌾 עוד פעילויות לשבועות' },
+  'yom-haatzmaut': { href: '/holidays/yom-haatzmaut', label: '🇮🇱 עוד פעילויות ליום העצמאות' },
+  'tu-bishvat': { href: '/holidays/tu-bishvat', label: '🌳 עוד פעילויות לט״ו בשבט' },
 }
 
 const HUB_FAQ = [
@@ -95,46 +32,68 @@ const HUB_FAQ = [
   { q: 'איזו רמה מתאימה לאיזה גיל?', a: 'גן — ציורים קטנים עם 3–4 צבעים ומשבצות גדולות. כיתות א–ב — ציורים בינוניים עם עד 8 צבעים. ילדים גדולים ומבוגרים — ציורים גדולים ומפורטים עם 6–10 צבעים, שמתאימים גם לצביעה מרגיעה של מבוגרים.' },
   { q: 'מה ההבדל בין גרסת המספרים לגרסת התרגילים?', a: 'בגרסת התרגילים יש בכל משבצת תרגיל במקום מספר: חיבור עד 10 בגן, חיבור עד 20 בכיתות א–ב ולוח הכפל לגדולים. פותרים את התרגיל ומחפשים את התשובה במקרא. כל תשובה שייכת לצבע אחד בלבד, כך שאי אפשר להתבלבל.' },
   { q: 'יש דף פתרון?', a: 'כן. לכל ציור יש דף פתרון צבעוני — מסמנים "להדפיס גם דף פתרון" לפני ההדפסה. בדף של כל ציור אפשר גם לצבוע אונליין ולראות את הפתרון על המסך.' },
+  { q: 'אפשר לצבוע לפי אותיות או לפי תרגילי חיסור?', a: 'כן. את אותם ציורים אפשר להדפיס גם בדפי צביעה לפי תשובות — חיבור וחיסור עד 10 ועד 20, לוח הכפל וחילוק — ובדפי צביעה לפי אותיות בעברית ובאנגלית, בשלוש רמות קושי.' },
   { q: 'הדפים בחינם?', a: 'כן, כל הדפים חינמיים לשימוש בבית, בגן ובכיתה, בלי הרשמה. אפשר להדפיס כמה פעמים שרוצים — התרגילים זהים בכל הדפסה, כך שכל הכיתה מקבלת את אותו הדף.' },
 ]
+
+// other ways to color the same pictures — shown on the hub and on every picture page
+export const CBN_MORE_WAYS = [
+  { href: '/printables/color-by-answer', emoji: '🧮', title: 'צביעה לפי תשובות', desc: 'חיבור, חיסור, כפל וחילוק — כל תשובה היא צבע' },
+  { href: '/printables/color-by-letter', emoji: 'א', title: 'צביעה לפי אותיות', desc: 'אותיות שונות, אותיות דומות ואותיות סופיות' },
+  { href: '/printables/color-by-letter/english', emoji: 'A', title: 'צביעה לפי אותיות באנגלית', desc: 'אותיות גדולות, קטנות והתאמה ביניהן' },
+]
+function MoreWays({ p }) {
+  return <section className="no-print mt-10" aria-labelledby="cbn-more-ways">
+    <h2 id="cbn-more-ways" className="mb-4 text-center text-2xl font-black">{p ? `עוד דרכים לצבוע את ה${p.name}` : 'אותם ציורים — עוד דרכים לצבוע'}</h2>
+    <div className="grid gap-3 sm:grid-cols-3">{CBN_MORE_WAYS.map(w => <Link key={w.href} to={p ? `${w.href}?p=${p.slug}` : w.href} className="wobbly flex items-center gap-3 border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow transition-transform hover:-translate-y-1">
+      <span className="grid h-12 w-12 flex-none place-items-center rounded-xl bg-[var(--postit)] text-2xl font-black" aria-hidden="true">{w.emoji}</span>
+      <span><b className="block text-lg">{w.title}</b><small className="text-[var(--muted-foreground)]">{w.desc}</small></span>
+    </Link>)}</div>
+  </section>
+}
 
 export default function ColorByNumberHub() {
   const [params, setParams] = useSearchParams()
   const level = cbnLevel(params.get('level'))
+  const theme = CBN_THEMES.find(t => t.id === params.get('theme'))
   const [printing, setPrinting] = useState(null)
   const [withSolution, setWithSolution] = useState(false)
-  const list = level ? CBN_PICTURES.filter(p => p.level === level.id) : CBN_PICTURES
-  const pick = id => {
+  const list = CBN_PICTURES.filter(p => (!level || p.level === level.id) && (!theme || cbnInTheme(p, theme.id)))
+  const pick = (name, id, current) => {
     const next = new URLSearchParams(params)
-    if (!id || level?.id === id) next.delete('level'); else next.set('level', id)
+    if (!id || current === id) next.delete(name); else next.set(name, id)
     setParams(next, { replace: true, preventScrollReset: true })
   }
+  const chip = on => `min-h-[44px] rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${on ? 'bg-[var(--yellow)]' : 'bg-[var(--card)]'}`
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="צביעה לפי מספרים להדפסה — 20 דפים לילדים ולמבוגרים" description="דפי צביעה לפי מספרים להדפסה בחינם: 20 ציורים מקוריים בשלוש רמות — גן, כיתות א–ב ומבוגרים. לכל ציור גם גרסת תרגילי חשבון, דף פתרון וצביעה אונליין." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title={`צביעה לפי מספרים להדפסה — ${COUNT} דפים לילדים ולמבוגרים`} description={`דפי צביעה לפי מספרים להדפסה בחינם: ${COUNT} ציורים מקוריים בשלוש רמות — גן, כיתות א–ב ומבוגרים, עם בעלי חיים, כלי תחבורה, אוכל, ים, חלל ודפים לכל החגים. לכל ציור גרסת תרגילי חשבון, דף פתרון וצביעה אונליין.`} path={HUB} structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'צביעה לפי מספרים' }]} />
     <header className="text-center">
-      <span className="inline-flex rounded-full bg-[var(--postit)] px-4 py-2 font-bold">20 ציורים · מספרים או תרגילים · עם פתרון · חינם</span>
+      <span className="inline-flex rounded-full bg-[var(--postit)] px-4 py-2 font-bold">{COUNT} ציורים · מספרים או תרגילים · עם פתרון · חינם</span>
       <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🎨 </span>צביעה לפי מספרים להדפסה</h1>
       <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">בוחרים ציור, מדפיסים, וצובעים כל משבצת בצבע של המספר שלה. לכל ציור יש גם גרסה עם תרגילי חיבור או כפל, ודף פתרון צבעוני.</p>
     </header>
     <nav aria-label="סינון לפי רמה" className="no-print mt-6 flex flex-wrap justify-center gap-2">
-      {[{ id: '', label: 'כל הרמות' }, ...CBN_LEVELS].map(l => {
-        const on = (level?.id || '') === l.id
-        return <button key={l.id || 'all'} type="button" aria-pressed={on} onClick={() => pick(l.id)} className={`min-h-[44px] rounded-full border-2 border-[var(--border)] px-4 py-1.5 font-bold ${on ? 'bg-[var(--yellow)]' : 'bg-[var(--card)]'}`}>{l.label}</button>
-      })}
+      {[{ id: '', label: 'כל הרמות' }, ...CBN_LEVELS].map(l => <button key={l.id || 'all'} type="button" aria-pressed={(level?.id || '') === l.id} onClick={() => pick('level', l.id, level?.id)} className={chip((level?.id || '') === l.id)}>{l.label}</button>)}
     </nav>
-    {level && <p className="no-print mt-3 text-center text-[var(--muted-foreground)]" role="status">{list.length} ציורים {level.long} · בגרסת התרגילים: {level.mathLabel}</p>}
+    <nav aria-label="סינון לפי נושא" className="no-print mt-2 flex flex-wrap justify-center gap-2">
+      {[{ id: '', label: 'כל הנושאים' }, ...CBN_THEMES].map(t => <button key={t.id || 'all'} type="button" aria-pressed={(theme?.id || '') === t.id} onClick={() => pick('theme', t.id, theme?.id)} className={chip((theme?.id || '') === t.id)}>{t.label}</button>)}
+    </nav>
+    {(level || theme) && <p className="no-print mt-3 text-center text-[var(--muted-foreground)]" role="status">{list.length} ציורים{level ? ` ${level.long} · בגרסת התרגילים: ${level.mathLabel}` : ''}</p>}
     <div className="no-print mt-5 flex flex-wrap items-center justify-center gap-3">
-      <button type="button" data-print-main onClick={() => setPrinting(list)} className="min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ הדפסת כל {list.length} הדפים</button>
+      <button type="button" data-print-main disabled={!list.length} onClick={() => setPrinting(list)} className="min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white disabled:opacity-50">🖨️ הדפסת כל {list.length} הדפים</button>
       <label className="flex min-h-[44px] items-center gap-2 font-bold"><input type="checkbox" checked={withSolution} onChange={e => setWithSolution(e.target.checked)} className="h-5 w-5" />להדפיס גם דף פתרון</label>
     </div>
-    <section className="no-print mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{list.map(p => <PictureCard key={p.slug} p={p} />)}</section>
+    {list.length ? <section className="no-print mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{list.map(p => <PictureCard key={p.slug} p={p} />)}</section>
+      : <p className="no-print mt-6 text-center font-bold">אין עדיין ציורים בנושא הזה ברמה הזאת — נסו רמה אחרת.</p>}
+    <MoreWays />
     {printing && <PrintPreview title={level ? `צביעה לפי מספרים — ${level.label}` : 'צביעה לפי מספרים'} onClose={() => setPrinting(null)}>{sheetsFor(printing, ['numbers'], withSolution)}</PrintPreview>}
     <div className="mt-10"><SeoBody paragraphs={[
       'צביעה לפי מספרים היא פעילות שקטה שילדים חוזרים אליה שוב ושוב: יש בה משימה ברורה, התקדמות שרואים בעיניים והפתעה בסוף — הציור מתגלה רק כשהמשבצות נצבעות. בדרך מתרגלים זיהוי מספרים, התאמה למקרא, ריכוז ושליטה בעיפרון.',
-      'כל 20 הציורים בעמוד מקוריים ובנויים ממשבצות, כמו פסיפס: תפוח, דג, פרת משה רבנו, חתול ופינגווין לגן; מכונית, סירת מפרש, טיל, פרפר, ינשוף וסביבון לכיתות א–ב; ולגדולים ולמבוגרים — כדור פורח, מגדלור, תוכי, חנוכייה וצב, עם יותר משבצות ויותר צבעים.',
-      'לכל ציור יש גם גרסת תרגילים: במקום מספר, בכל משבצת מחכה תרגיל — חיבור עד 10 לגן, חיבור עד 20 לכיתות א–ב ולוח הכפל לגדולים. זו דרך כיפית לתרגל חשבון בלי להרגיש שזה שיעורי בית. התרגילים קבועים, כך שהדף שמודפס היום זהה לדף שיודפס מחר.',
-    ]} faq={HUB_FAQ} related={[{ label: 'צבעו לפי מספר — פסיפס חדש בכל לחיצה', href: '/printables/activity/color-by-number' }, { label: 'דפי צביעה', href: '/printables/coloring' }, { label: 'מנדלות', href: '/printables/mandalas' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'לוח הכפל', href: '/printables/math-worksheets/multiplication' }, { label: 'דפים להדפסה', href: '/printables' }]} /></div>
+      `כל ${COUNT} הציורים בעמוד מקוריים ובנויים ממשבצות, כמו פסיפס: לגן — תפוח, דג, חתול, שמש, תות, צפרדע ולוויתן עם 3–5 צבעים; לכיתות א–ב — מכונית, אוטובוס, רכבת, מטוס, תמנון, כלב ופיצה; ולגדולים ולמבוגרים — כדור פורח, מגדלור, אריה, שועל, טירה ושונית אלמוגים, עם יותר משבצות ויותר צבעים.`,
+      'יש ציורים לכל החגים: רימון, דבורה וצנצנת דבש לראש השנה, סוכה ואתרוג לסוכות, סביבון, חנוכייה, סופגנייה וכד שמן לחנוכה, מסכה ואוזן המן לפורים, גביע קידוש וצפרדע לפסח, גבינה וטרקטור לשבועות, ודגל ישראל וזיקוקים ליום העצמאות.',
+      'לכל ציור יש גם גרסת תרגילים: במקום מספר, בכל משבצת מחכה תרגיל — חיבור עד 10 לגן, חיבור עד 20 לכיתות א–ב ולוח הכפל לגדולים. ומי שרוצה לתרגל משהו אחר יכול לצבוע את אותם ציורים לפי תשובות של חיסור וחילוק, או לפי אותיות בעברית ובאנגלית.',
+    ]} faq={HUB_FAQ} related={[{ label: 'צביעה לפי תשובות — חיבור, חיסור, כפל וחילוק', href: '/printables/color-by-answer' }, { label: 'צביעה לפי אותיות', href: '/printables/color-by-letter' }, { label: 'צבעו לפי מספר — פסיפס חדש בכל לחיצה', href: '/printables/activity/color-by-number' }, { label: 'דפי צביעה', href: '/printables/coloring' }, { label: 'מנדלות', href: '/printables/mandalas' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'לוח הכפל', href: '/printables/math-worksheets/multiplication' }, { label: 'דפים להדפסה', href: '/printables' }]} /></div>
   </div>
 }
 
@@ -165,8 +124,11 @@ export function ColorByNumberPicture() {
   const correct = Object.entries(fills).filter(([k, n]) => { const [r, c] = k.split('-').map(Number); return grid[r][c] === n }).length
   const paint = (r, c) => setFills(f => (f[key(r, c)] === active ? f : { ...f, [key(r, c)]: active }))
   const faq = pictureFaq(p)
-  const same = CBN_PICTURES.filter(x => x.level === p.level && x.slug !== p.slug)
-  const others = CBN_PICTURES.filter(x => x.level !== p.level).slice(0, 4)
+  // same level: pictures of the same theme/holiday first, then the rest — 8 cards at most
+  const kin = x => (p.holiday && x.holiday === p.holiday) || (p.theme && x.theme === p.theme)
+  const same = CBN_PICTURES.filter(x => x.level === p.level && x.slug !== p.slug).sort((a, b) => kin(b) - kin(a)).slice(0, 8)
+  const others = CBN_PICTURES.filter(x => x.level !== p.level && kin(x)).concat(CBN_PICTURES.filter(x => x.level !== p.level && !kin(x))).slice(0, 4)
+  const holiday = p.holiday && CBN_HOLIDAY_LINKS[p.holiday]
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`צביעה לפי מספרים: ${p.name} — דף להדפסה עם פתרון`} description={`דף צביעה לפי מספרים של ${p.name} להדפסה בחינם, ${level.long}: ${cols}×${rows} משבצות ו-${p.colors.length} צבעים. יש גם גרסת ${level.mathLabel}, דף פתרון וצביעה אונליין.`} path={cbnPath(p)} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'צביעה לפי מספרים', href: HUB }, { label: p.name }]} />
@@ -197,6 +159,8 @@ export function ColorByNumberPicture() {
       </div>
     </section>
     {printing && <PrintPreview title={`צביעה לפי מספרים: ${p.name}`} onClose={() => setPrinting(null)}>{sheetsFor([p], printing, withSolution)}</PrintPreview>}
+    <MoreWays p={p} />
+    {holiday && <p className="no-print mt-4 text-center text-lg"><Link to={holiday.href} className="font-bold underline">{holiday.label}</Link></p>}
     {same.length > 0 && <section className="no-print mt-10">
       <h2 className="mb-4 text-center text-3xl font-black">עוד ציורים {level.long}</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{same.map(x => <PictureCard key={x.slug} p={x} />)}</div>
@@ -204,7 +168,7 @@ export function ColorByNumberPicture() {
     <section className="no-print mt-8">
       <h2 className="mb-4 text-center text-2xl font-black">ציורים ברמות אחרות</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">{others.map(x => <PictureCard key={x.slug} p={x} />)}</div>
-      <p className="mt-4 text-center"><Link to={HUB} className="font-bold underline">לכל 20 הציורים לצביעה לפי מספרים</Link></p>
+      <p className="mt-4 text-center"><Link to={HUB} className="font-bold underline">לכל {COUNT} הציורים לצביעה לפי מספרים</Link></p>
     </section>
     <div className="mt-8"><SeoBody paragraphs={[
       `${p.blurb} הציור בנוי מ-${total} משבצות על רשת של ${cols}×${rows}, ובכל משבצת מספר שמתאים לאחד מ-${p.colors.length} הצבעים במקרא: ${cbnLegend(p).map(l => `${l.num} — ${l.name}`).join(', ')}.`,

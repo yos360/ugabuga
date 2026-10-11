@@ -5,6 +5,8 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
 import { currentInfo } from '../../holidays/list'
+import { cbnHolidayPictures } from '../../data/colorByNumber'
+import { PictureCard } from '../printables/cbnShared'
 
 // The main page of any holiday area, built from the config: hero with countdown,
 // a card per page, an optional "how to" box, SEO copy. Content: h.info + h.hub.
@@ -45,6 +47,12 @@ export default function HolidayHub({ h }) {
           <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
         </Link>)}
       </div>
+
+      {cbnHolidayPictures(h.slug).length > 0 && <section className="mb-10" aria-labelledby="holiday-cbn">
+        <h2 id="holiday-cbn" className="mb-4 text-center text-3xl font-black">🎨 צביעה לפי מספרים ל{h.name}</h2>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">{cbnHolidayPictures(h.slug).map(p => <PictureCard key={p.slug} p={p} />)}</div>
+        <p className="mt-3 text-center"><Link to="/printables/color-by-number?theme=holidays" className="font-bold underline">לכל דפי הצביעה לפי מספרים לחגים</Link></p>
+      </section>}
 
       {c.box && <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="text-2xl font-bold mb-3">{c.box.title}</h2>

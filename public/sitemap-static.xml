@@ -671,7 +671,7 @@
   <url><loc>https://ugabuga.co.il/printables/abc-letters</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/numbers</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/mazes</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/color-by-number</loc><lastmod>2026-10-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/apple</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/fish</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/ladybug</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
@@ -692,6 +692,52 @@
   <url><loc>https://ugabuga.co.il/printables/color-by-number/parrot</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/hanukkiah</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/turtle</loc><lastmod>2026-10-08</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/sun</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/strawberry</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/gift</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/pomegranate</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/hamantasch</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/sufganiyah</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/etrog</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/kiddush-cup</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/frog</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/bee</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/tree</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/whale</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/autumn-leaf</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/umbrella</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/crab</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/cheese</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/birthday-cake</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/sukkah</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/purim-mask</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/israel-flag</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/tractor</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/bus</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/airplane</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/saturn</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/octopus</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/dog</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/pizza</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/snowman</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/honey-jar</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/oil-jug</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/train</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/beach</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/coral-reef</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/lion</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/fox</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/castle</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/fireworks</loc><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/addition-10</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/subtraction-10</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/addition-20</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/subtraction-20</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/multiplication</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-answer/division</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-letter</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-letter/english</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/certificates</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/symmetry</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/name-tags</loc><priority>0.6</priority></url>

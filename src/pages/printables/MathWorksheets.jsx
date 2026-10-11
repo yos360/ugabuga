@@ -255,6 +255,7 @@ export default function MathWorksheets({ preset: fixedPreset }) {
       {!c && <nav className="mb-10 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm" aria-label="עוד דפי חשבון">
         <span className="w-full text-center font-bold">עוד דפי חשבון:</span>
         {MATH_PAGE_SLUGS.filter(k => k !== preset && !(preset === 'hub' && k.startsWith('multiplication-table-'))).map(k => <Link key={k} to={PRESETS[k].path} className="underline">{PRESETS[k].crumb}</Link>)}
+        <Link to={isTable ? '/printables/color-by-answer/multiplication' : '/printables/color-by-answer'} className="underline">{isTable ? 'צביעה לפי לוח הכפל' : 'צביעה לפי תשובות'}</Link>
       </nav>}
 
       <SeoBody
