@@ -60,7 +60,8 @@ const sent = new Map()
 export function recordActivity(action,category) {
   const payload = {action,category}
   if (!validActivity(payload)) return
-  if (!connection) { queued = payload; return }
+  if (isOwnerBrowser()) return
+  if (!connection || !human) { queued = payload; return }
   const key = `${action}:${category}`
   if (Date.now() - (sent.get(key) || 0) < 15000 || Date.now()-(sent.get('*')||0)<2000) return
   sent.set(key,Date.now())
@@ -74,6 +75,7 @@ export function recordActivity(action,category) {
 // browser itself rotates every 24h (counts unique daily visitors, identifies no one).
 // Never names, typed text, IP addresses or query strings. Best-effort only.
 let dbQueue = [], visitorPromise = null
+const REPEAT_ACTIONS = ['use', 'play', 'check', 'refresh', 'create']
 const logged = new Map()
 function cleanPath(path) {
   const p = String(path || '').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/'
@@ -111,8 +113,13 @@ function trafficSource() {
   } catch { return null }
 }
 function isOwnerBrowser() {
-  // The owner's own browsing is left out of the stats (unless explicitly opted in).
-  try { return !!localStorage.getItem('ugabuga-owner-auth') && localStorage.getItem('buga-track-self') !== '1' } catch { return false }
+  // The owner's own browsing is left out of the stats (unless explicitly opted in). Once this
+  // browser has been signed in as the owner it stays marked, so an expired sign-in doesn't
+  // suddenly start counting the owner's own visits.
+  try {
+    if (localStorage.getItem('ugabuga-owner-auth')) localStorage.setItem('buga-owner-device', '1')
+    return localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1'
+  } catch { return false }
 }
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
 let hasV3 = true
@@ -141,6 +148,7 @@ function sendOne(args) {
 // their names are NOT listed — a person opening a link inside WhatsApp's own browser must count.
 const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|facebookexternalhit|embedly|python|curl|wget|phantom|puppeteer|playwright|selenium/i
 let human = false
+const onHuman = new Set()
 function automated() {
   try { return navigator.webdriver === true || BOT_UA.test(navigator.userAgent || '') } catch { return false }
 }
@@ -148,6 +156,8 @@ function markHuman() {
   if (human || automated()) return
   human = true
   flushDb()
+  for (const fn of onHuman) { try { fn() } catch { /* ignore */ } }
+  onHuman.clear()
 }
 function flushDb() {
   if (!human) return
@@ -163,7 +173,10 @@ export function logEvent(action, pathname = location.pathname) {
   if (excluded(pathname)) return
   const path = cleanPath(pathname)
   const key = `${action}:${path}`
-  if (Date.now() - (logged.get(key) || 0) < 3000) return // ignore double clicks
+  // Double clicks are ignored; in-game clicks (a kid flipping memory cards) count once per
+  // 30 seconds per page — "did they play" matters, not the click count — which also keeps an
+  // active player under the server's per-visitor rate limit, so their next page view isn't dropped.
+  if (Date.now() - (logged.get(key) || 0) < (REPEAT_ACTIONS.includes(action) ? 30000 : 3000)) return
   logged.set(key, Date.now())
   const category = activityForPath(path || '/') || 'page'
   visitorPromise ||= browserKey().catch(() => null)
@@ -173,12 +186,21 @@ export function logEvent(action, pathname = location.pathname) {
     flushDb()
   })
 }
+// The anonymous id lives for one calendar day (until local midnight), so "visitors today" counts
+// each browser exactly once. It used to live 24 hours from the first visit, which split a person
+// who came back the same day into two visitors and carried yesterday's id into today.
+export function visitorIdValid(saved, now = Date.now()) {
+  if (!saved || typeof saved.id !== 'string' || !(saved.expires > now)) return false
+  const created = new Date(saved.created ?? saved.expires - 86400000), today = new Date(now)
+  return created.toDateString() === today.toDateString()
+}
 async function browserKey() {
   const read = () => {
     const key = 'buga-live-browser', previous = JSON.parse(localStorage.getItem(key) || 'null')
-    if (previous && typeof previous.id === 'string' && previous.expires > Date.now()) return previous.id
-    const id = crypto.randomUUID()
-    localStorage.setItem(key,JSON.stringify({id,expires:Date.now()+86400000}))
+    if (visitorIdValid(previous)) return previous.id
+    const id = crypto.randomUUID(), midnight = new Date()
+    midnight.setHours(24, 0, 0, 0)
+    localStorage.setItem(key,JSON.stringify({id,created:Date.now(),expires:midnight.getTime()}))
     return id
   }
   try { return navigator.locks ? await navigator.locks.request('buga-live-browser', read) : read() }
@@ -252,8 +274,15 @@ export function connectActivity(onChange) {
           if(stopped)return
           if(status==='SUBSCRIBED'){
             connection=channel
-            await channel.track({online:true}).catch(()=>{})
-            if(queued){const pending=queued;queued=null;recordActivity(pending.action,pending.category)}
+            // Only a person (see the human check above) counts as "on the site now" — crawlers
+            // and the owner's own browser used to inflate the live count.
+            if(isOwnerBrowser())return
+            const join=async()=>{
+              if(stopped||connection!==channel)return
+              await channel.track({online:true}).catch(()=>{})
+              if(queued){const pending=queued;queued=null;recordActivity(pending.action,pending.category)}
+            }
+            if(human)await join(); else onHuman.add(()=>void join())
           } else {
             if(connection===channel)connection=null
             state.count=null;state.events=[];publish()

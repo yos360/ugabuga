@@ -26,11 +26,12 @@ function dayBounds(offsetDays) {
 }
 function rangeBounds(id) {
   // Ranges that end "now" end tomorrow instead, so a report left open keeps seeing new events.
-  const now = new Date(), later = dayBounds(1)
+  const later = dayBounds(1)
   if (id === 'today') return [dayBounds(0), later]
   if (id === 'yesterday') return [dayBounds(-1), dayBounds(0)]
-  const days = Number(id)
-  return [new Date(now.getTime() - days * 86400000), later]
+  // "7 days" = the last 7 calendar days including today (from midnight), so every bar in the
+  // daily chart is a whole day — it used to start at this clock time 7 days ago.
+  return [dayBounds(1 - Number(id)), later]
 }
 function label(category, action) {
   return ACTIVITY_LABELS[category] || category || 'לא ידוע'
@@ -259,8 +260,10 @@ function useSummary(from, to, tick = 0) {
   const shown = useRef('')
   useEffect(() => {
     let live = true
-    const key = `${from.getTime()}-${to.getTime()}`
-    if (shown.current !== key) setData(null) // a refresh keeps the old numbers on screen until the new ones arrive
+    // A new range clears the screen; a refresh (or an end time that moves, like "yesterday up to
+    // this hour") keeps the old numbers on screen until the new ones arrive instead of flashing "…".
+    const key = String(from.getTime())
+    if (shown.current !== key) setData(null)
     shown.current = key
     supabase.rpc('owner_activity_summary', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => {
       if (!live) return
@@ -305,9 +308,11 @@ function useLiveRefresh() {
 }
 
 // The headline numbers, shared by the report and the mini widget: [value, label, short label, tone]
-function statItems(data) {
+function statItems(data, multiDay = false) {
   return [
-    [data.visitors, 'מבקרים ייחודיים', 'מבקרים', 'bg-pink-50'],
+    // The anonymous id changes every midnight, so over several days a returning person is counted
+    // once per day they came: that is "visits", not unique people.
+    [data.visitors, multiDay ? 'ביקורים (כל מבקר נספר פעם אחת בכל יום)' : 'מבקרים ייחודיים', 'מבקרים', 'bg-pink-50'],
     [data.pageviews, 'צפיות בדפים', 'צפיות', 'bg-cyan-50'],
     [data.time_visitors ? fmtTime((data.time_total || 0) / data.time_visitors) : '—', 'זמן ממוצע למבקר באתר', 'זמן ממוצע', 'bg-emerald-50'],
     [data.by_action?.preview || 0, 'פתחו תצוגת הדפסה', 'תצוגת הדפסה', 'bg-amber-50'],
@@ -380,7 +385,7 @@ export default function OwnerActivityReport() {
   const yesterdayFull = useSummary(yFrom, yFullTo)
   const sameTime = ySameTime.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
 
-  const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.events)), [data])
+  const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.visitors)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
   const topDownloaded = useMemo(() => aggregateTop(data?.top, ['download', 'print']), [data])
@@ -426,7 +431,7 @@ export default function OwnerActivityReport() {
 
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {statItems(data).map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
+          {statItems(data, range === '7' || range === '30').map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
         </div>
 
         <BestPages stats={pageStats} />
@@ -472,10 +477,12 @@ export default function OwnerActivityReport() {
           </tr>)}</tbody>
         </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
 
-        <h2 className="mb-3 text-2xl font-black">פעילות יומית</h2>
+        <h2 className="mb-1 text-2xl font-black">מבקרים בכל יום</h2>
+        <p className="mb-3 text-sm text-slate-600">המספר מעל כל עמודה = מבקרים שונים באותו יום (שעון ישראל). מעבר עם העכבר מראה גם את מספר הפעולות.</p>
         {data.by_day?.length ? <div className="mb-8 flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
-          {data.by_day.map(d => <div key={d.day} className="flex flex-col items-center gap-1" title={`${formatDay(d.day)}: ${d.events} פעולות, ${d.visitors} מבקרים`}>
-            <div className="w-6 rounded-t-md" style={{ height: `${Math.max(4, Math.round((d.events / byDayMax) * 90))}px`, background: SEQUENTIAL[3] }} />
+          {data.by_day.map(d => <div key={d.day} className="flex flex-col items-center gap-1" title={`${formatDay(d.day)}: ${d.visitors} מבקרים, ${d.events} פעולות`}>
+            <b className="text-xs">{d.visitors}</b>
+            <div className="w-7 rounded-t-md" style={{ height: `${Math.max(4, Math.round((d.visitors / byDayMax) * 90))}px`, background: SEQUENTIAL[3] }} />
             <span className="text-[10px] text-slate-500">{formatDay(d.day)}</span>
           </div>)}
         </div> : <p className="mb-8 rounded-xl bg-slate-50 p-4">אין עדיין נתונים לתקופה הזו.</p>}

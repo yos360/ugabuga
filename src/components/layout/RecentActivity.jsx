@@ -57,7 +57,7 @@ export default function RecentActivity() {
     }).catch(() => {})
     return () => clearTimeout(timer)
   }, [pathname])
-  if (hidden || !mod || state.count === null) return null
+  if (hidden || !mod || !state.count) return null
   const { ACTIVITY_LABELS, ACTION_LABELS } = mod
   // Anonymous: what was opened, never who — and not your own actions.
   const others = state.events.filter(e => !e.own)
