@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -11,6 +11,9 @@ import {
 } from '../../data/bedtimeStories'
 import '../../learn/learn.css'
 import './stories.css'
+import StoryReader from './StoryReader'
+import RecordedReader from './RecordedReader'
+import { splitSentences, loadRecordedIndex, recordedPlaylist } from './storyReading'
 
 // Keep the meta description near 160 characters: long summaries get the short suffix.
 const storyDescription = (summary, minutes) => {
@@ -146,7 +149,23 @@ function Story({ story, params }) {
   const [big, setBig] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [copied, setCopied] = useState('')
+  const [reading, setReading] = useState(null) // { p, s } being read aloud; s=-1 → the whole paragraph
+  const [recCount, setRecCount] = useState(0) // files in the "Noa" recording (0 = not recorded / not known yet)
+  const [deviceVoice, setDeviceVoice] = useState(false)
   const r = useMemo(() => renderStory(story, custom), [story, custom])
+  // Decided after hydration (prerendered HTML never shows the player), and never fetched during prerender.
+  useEffect(() => {
+    let alive = true
+    loadRecordedIndex().then(idx => { if (alive) setRecCount(idx[story.slug] || 0) })
+    return () => { alive = false }
+  }, [story.slug])
+  // Keep the sentence/paragraph being read on screen (only scroll when it's out of view).
+  useEffect(() => {
+    const el = reading && document.querySelector('.st-now, .st-text p.is-now')
+    if (!el) return
+    const { top, bottom } = el.getBoundingClientRect()
+    if (top < 80 || bottom > window.innerHeight - 90) el.scrollIntoView({ block: el.tagName === 'P' ? 'nearest' : 'center', behavior: 'smooth' })
+  }, [reading])
 
   const set = (k, patch) => {
     const next = { ...custom, [k]: { name: '', g: '', ...custom[k], ...patch } }
@@ -194,6 +213,10 @@ function Story({ story, params }) {
     'publisher': { '@type': 'Organization', 'name': 'UGABUGA', 'logo': { '@type': 'ImageObject', 'url': `${SITE}/og-image.png` } },
     'isPartOf': { '@type': 'CollectionPage', 'name': 'סיפורים לפני השינה לילדים', 'url': `${SITE}/stories` },
   }]
+  // The recording matches the default cast only — compare the actual text, not just the inputs.
+  const playlist = recCount ? recordedPlaylist(story.slug, recCount, defaults.body.length) : null
+  const defaultText = r.title === defaults.title && r.body.length === defaults.body.length && r.body.every((p, i) => p === defaults.body[i])
+  const goodnight = `לילה טוב${heroName ? ', ' + heroName : ''}. חלומות פז.`
   const printTitle = heroName ? `סיפור לפני השינה של ${heroName}` : 'סיפור לפני השינה'
 
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
@@ -233,9 +256,15 @@ function Story({ story, params }) {
 
     <article className="st-night mt-5" aria-labelledby="story-title">
       <h2 id="story-title" className="mb-4 text-center text-3xl font-black">{story.emoji} {r.title}</h2>
-      <div className={`st-text ${big ? 'is-big' : ''}`}>{r.body.map((p, i) => <p key={i}>
+      {playlist && defaultText && !deviceVoice && <RecordedReader key={story.slug} playlist={playlist} paragraphCount={defaults.body.length} onSentence={setReading} />}
+      {playlist && !defaultText && <p className="st-reader-note no-print">🎧 ההקלטה המוקלטת זמינה רק עם השמות המקוריים של הסיפור. <button type="button" className="ln-chip" onClick={reset}>↺ חזרה לשמות המקוריים</button></p>}
+      {playlist && <div className="st-device-voice no-print">
+        <button type="button" className="ln-chip" aria-expanded={deviceVoice} onClick={() => setDeviceVoice(!deviceVoice)}>{deviceVoice && defaultText ? '🎧 חזרה להקלטה של נועה' : '🔈 קריאה בקול של המכשיר'}</button>
+        {deviceVoice && <StoryReader key={r.title + r.body.join('\n')} title={r.title} paragraphs={r.body} goodnight={goodnight} onSentence={setReading} />}
+      </div>}
+      <div className={`st-text ${big ? 'is-big' : ''}`}>{r.body.map((p, i) => <p key={i} className={reading?.p === i ? (reading.s === -1 ? 'is-reading is-now' : 'is-reading') : undefined}>
         {story.pics?.[i] && <span className={`st-pic ${i % 2 ? 'is-left' : ''}`} aria-hidden="true">{story.pics[i]}</span>}
-        {p}
+        {splitSentences(p).map((t, j) => <span key={j} className={reading?.p === i && reading?.s === j ? 'st-now' : undefined}>{j ? ' ' : ''}{t}</span>)}
       </p>)}</div>
       <p className="mt-2 text-center text-2xl" aria-hidden="true">✨ 🌙 ✨</p>
     </article>

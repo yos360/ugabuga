@@ -39,3 +39,10 @@ p.st-reader-note.no-print{margin:0 0 16px;padding:10px 14px;border:2px dashed #f
 @media (prefers-reduced-motion:reduce){.st-moon,.st-text p.is-reading .st-pic{animation:none}}
 .st-float{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:40}
 .st-float .ln-btn{color:#1d2233;border-radius:999px;padding:8px 20px;min-height:48px}
+/* recorded narration ("Noa") */
+.st-text p.is-now{background:rgba(255,210,63,.16);border-radius:10px;box-shadow:0 0 0 8px rgba(255,210,63,.16);transition:background .3s,box-shadow .3s}
+.st-device-voice{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 0 20px}
+.st-device-voice .ln-chip{color:#1d2233}
+.st-device-voice .st-reader{margin:0}
+.st-recorded .st-play{font-size:1.15em}
+p.st-reader-note.no-print .ln-chip{color:#1d2233;margin-inline-start:6px}
