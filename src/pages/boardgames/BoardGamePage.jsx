@@ -42,6 +42,7 @@ export default function BoardGamePage() {
         <h1>{game.emoji} {game.name} – לשחק, ללמוד ולהדפיס חוקים</h1>
         <p>{game.intro}</p>
         <p className="bg-meta"><span>👥 {game.players}</span><span>🎂 גיל {game.ages}</span><span>⏱️ {game.time}</span></p>
+        {game.more && <p className="bg-arcade-link bg-more" style={{ marginTop: 8 }}>עוד ב{game.name}: {game.more.map((l, k) => <span key={l.to}>{k > 0 && ' · '}<Link to={l.to}>{l.label}</Link></span>)}</p>}
         {game.arcade && <p className="bg-arcade-link">📱 רוצים לשחק בשניים על הטלפון, על כל המסך? <Link to={`/online-games/${game.arcade.slug}`}>{game.arcade.label} ←</Link></p>}
       </header>
 

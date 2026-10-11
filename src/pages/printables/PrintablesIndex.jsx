@@ -1,10 +1,16 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintableCard from '../../components/ui/PrintableCard'
 import { categories } from '../../data/printableCategories'
 export { categories }
 
+const PRINT_FAQ = [
+  { q: 'הדפים באמת חינמיים?', a: 'כן. כל הדפים להדפסה באתר חינמיים לשימוש בבית, בגן ובכיתה, בלי הרשמה. כל דף מוכן לגודל A4, ואפשר גם לשמור כ-PDF.' },
+  { q: 'אילו דפים מתאימים לגן?', a: 'דפי צביעה עם קווים עבים, מבוכים ברמה קלה, דפי מוטוריקה עדינה וכרטיסיות אותיות. לכל סוג דף כתוב הגיל המתאים.' },
+  { q: 'יש דפי עבודה לבית הספר?', a: 'כן: דפי עבודה בחשבון עם תרגילים ופתרונות, דפי שעון ושברים, אותיות למעבר בעיפרון, סודוקו ותשבצי היגיון להדפסה.' },
+]
 // Holiday sheets live under /holidays — shown here only under the "חגים" chip.
 const HOLIDAY_SHEETS = [
   ['rosh-hashana', 'דפי צביעה לראש השנה', '🍎'], ['sukkot', 'דפי צביעה לסוכות', '🌿'], ['hanukkah', 'דפי צביעה לחנוכה', '🕎'],
@@ -44,10 +50,10 @@ export default function PrintablesIndex() {
   }
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="דפים להדפסה" description="דפי צביעה, אותיות, מבוכים, תעודות, שלטים ועוד — הכל חינם להדפסה בסגנון UGABUGA מצויר ביד." path="/printables" />
+      <SEO title="דפים להדפסה לילדים — דפי פעילות, צביעה ועבודה בחינם" description="דפים להדפסה לילדים בחינם: דפי צביעה, מבוכים, דפי עבודה בחשבון, אותיות, משחקים להדפסה, תעודות ושלטים למסיבה. מדפיסים מיד, בלי הרשמה." path="/printables" structuredData={faqSchema(PRINT_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפי פעילות להדפסה בחינם</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">בוחרים נושא ופעילות — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">דפים להדפסה לילדים: בוחרים נושא ופעילות — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
 
       <nav aria-label="סינון לפי נושא" className="mb-8 flex flex-wrap justify-center gap-2">
         {[{ id: '', label: 'הכול' }, ...TOPICS].map(t => {
@@ -76,6 +82,7 @@ export default function PrintablesIndex() {
         <p className="mt-2 text-[var(--muted-foreground)]">פותחים רשימה, משתפים בוואטסאפ וכל אחד בוחר מה להביא.</p>
         <a href="/tools/bring-list" className="mt-4 inline-block rounded-xl border-2 border-slate-800 bg-white px-6 py-3 font-bold">פתחו רשימה חדשה ←</a>
       </div>
+      <div className="mt-10"><SeoBody paragraphs={[<>הכי מבוקשים: <Link to="/printables/coloring" className="underline font-bold">דפי צביעה</Link> לפי נושא, <Link to="/printables/mazes" className="underline font-bold">מבוכים להדפסה</Link> ב-5 רמות, <Link to="/printables/math-worksheets" className="underline font-bold">דפי עבודה בחשבון</Link>, <Link to="/printables/letter-flashcards" className="underline font-bold">כרטיסיות אותיות</Link>, <Link to="/printables/mandalas" className="underline font-bold">מנדלות לצביעה</Link> ו<Link to="/printables/color-by-number" className="underline font-bold">צביעה לפי מספרים</Link>. לחשיבה: <Link to="/sudoku/print" className="underline font-bold">סודוקו להדפסה</Link> ו<Link to="/logic-puzzles/print" className="underline font-bold">תשבצי היגיון להדפסה</Link>.</>]} faq={PRINT_FAQ} /></div>
     </div>
   )
 }

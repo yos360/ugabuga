@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { MENU_GROUPS } from '../../data/siteMenu'
 
 const DESC = Object.fromEntries([
@@ -15,7 +16,7 @@ const DESC = Object.fromEntries([
   { to: '/rubiks-cube', emoji: '🧊', title: 'פתרון קובייה הונגרית', desc: '7 שלבים למתחילים עם הדגמה חיה ואלגוריתמים.' },
   { to: '/tools/scavenger-hunt-maker', emoji: '🗺️', title: 'חפש את המטמון', desc: 'רמזים ומשימות מוכנים להפעלה.' },
   { to: '/tools/team-generator', emoji: '🎲', title: 'מחלק קבוצות', desc: 'חלוקה מהירה לקבוצות.' },
-  { to: '/tools/random-picker', emoji: '🎡', title: 'גלגל שמות', desc: 'בחירה אקראית למשימות ושמות.' },
+  { to: '/tools/random-picker', emoji: '🎡', title: 'גלגל מזל', desc: 'גלגל מזל שמסתובב ובוחר שם, פרס או משימה.' },
   { to: '/tools/countdown-timer', emoji: '⏱️', title: 'טיימר', desc: 'טיימר גדול למשחקים וכיתה.' },
   { to: '/tools/scoreboard', emoji: '📊', title: 'לוח ניקוד', desc: 'ניקוד קבוצות בזמן אמת.' },
   { to: '/tools/dice', emoji: '🎲', title: 'קובייה', desc: 'קובייה וירטואלית למשחקים.' },
@@ -27,6 +28,9 @@ const DESC = Object.fromEntries([
   { to: '/invitation', desc: 'הזמנה אישית ליום הולדת — להדפסה או לוואטסאפ.' },
   { to: '/greeting', desc: 'ברכה אישית ליום הולדת בכמה קליקים.' },
   { to: '/tools/bring-list', desc: 'רשימה שיתופית: כל הורה תופס פריט בקישור אחד.' },
+  { to: '/rsvp', desc: 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים, אלרגיות ומי עוד לא ענה.' },
+  { to: '/secret-friend', desc: 'הגרלת גמד וענק עם קישור אישי לכל משתתף, גם למשלוח מנות ולחנוכה.' },
+  { to: '/thank-you-wall', desc: 'כל הורה כותב ברכה לגננת או למורה, ובסוף מדפיסים חוברת מתנה.' },
   { to: '/tools/birthday-famous', desc: 'אילו מפורסמים נולדו באותו תאריך.' },
   { to: '/gifts', desc: 'רעיונות למתנות לפי גיל ותקציב.' },
   { to: '/suppliers', desc: 'מפעילים, קוסמים, עוגות וצילום — פונים ישירות.' },
@@ -42,14 +46,20 @@ const DESC = Object.fromEntries([
   { to: '/tools/crossword-maker', desc: 'מכניסים מילים ומקבלים תשבץ להדפסה.' },
 ].map(t => [t.to, t.desc]))
 
+const FAQ = [
+  { q: 'הכלים עולים כסף או דורשים הרשמה?', a: 'לא. כל הכלים חינמיים ונפתחים ישר בדפדפן, בטלפון, במחשב או על הלוח החכם בכיתה — בלי הורדה ובלי הרשמה.' },
+  { q: 'איזה כלי מתאים להגרלה בכיתה?', a: 'גלגל המזל מסתובב מול כולם ובוחר שם באקראי, ואפשר לסמן בו "בלי חזרות". לחלוקה לקבוצות יש מחלק קבוצות, ולתור מספרי — מחולל מספר אקראי.' },
+  { q: 'אפשר להשתמש בכלים במסיבת יום הולדת?', a: 'בהחלט: טיימר לפנטומימה, לוח ניקוד לתחרות, קוביה דיגיטלית למשחקי קופסה, וגלגל מזל להגרלת פרסים ומשימות.' },
+]
+
 export default function ToolsIndex() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title="כלים ומשחקים אינטראקטיביים" description="כל הכלים של עוגה בוגה במקום אחד: טריוויה, אמת או בוגה, בוגה טאון, חדרי בריחה, בינגו, תפזורת, טיימר, ניקוד ועוד." path="/tools" />
+      <SEO title="כלים אונליין לילדים ולמורים — גלגל מזל, טיימר, קוביה ועוד" description="כלים אונליין בחינם לכיתה ולמסיבה: גלגל מזל, טיימר, קוביה דיגיטלית, מחלק קבוצות, לוח ניקוד, תפזורת, בינגו, טריוויה וחדרי בריחה — בלי הרשמה." path="/tools" structuredData={faqSchema(FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }]} />
       <div className="text-center mb-8">
         <h1 className="text-4xl sm:text-5xl mb-3">🛠️ כל הכלים של עוגה בוגה</h1>
-        <p className="mx-auto max-w-2xl text-lg text-[var(--foreground)]/75">כל מה שאפשר להפעיל מיד: בכיתה, במסיבה, בבית או עם חברים.</p>
+        <p className="mx-auto max-w-2xl text-lg text-[var(--foreground)]/75">כלים אונליין לילדים ולמורים — כל מה שאפשר להפעיל מיד: בכיתה, במסיבה, בבית או עם חברים.</p>
       </div>
       {MENU_GROUPS.map(group => (
         <section key={group.title} className="mb-10">
@@ -75,6 +85,7 @@ export default function ToolsIndex() {
         </div>
         <p className="mt-5 border-t border-[var(--border)]/40 pt-3 text-xs">התוכן העובדתי עובר בדיקה לפני פרסום. תוכן שמשתנה עם הזמן יסומן ככזה וייבדק מחדש לפני שימוש.</p>
       </section>
+      <div className="mt-10"><SeoBody paragraphs={[<>הכי שימושיים: <Link to="/tools/random-picker" className="underline font-bold">גלגל מזל</Link> להגרלת שמות ופרסים, <Link to="/tools/countdown-timer" className="underline font-bold">טיימר אונליין</Link> לפנטומימה ולאתגרים, <Link to="/tools/dice" className="underline font-bold">קוביה דיגיטלית</Link> למשחקי קופסה, <Link to="/tools/team-generator" className="underline font-bold">מחלק קבוצות</Link> ו<Link to="/tools/scoreboard" className="underline font-bold">לוח ניקוד</Link> לתחרויות. ליצירת דפים: <Link to="/tools/word-search-maker" className="underline font-bold">תפזורת בעברית</Link>, <Link to="/tools/crossword-maker" className="underline font-bold">תשבץ אישי</Link> ו<Link to="/tools/bingo-maker" className="underline font-bold">מחולל בינגו</Link>.</>]} faq={FAQ} related={[{ label: 'משחקי אונליין', href: '/online-games' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'משחקים לילדים', href: '/games' }]} /></div>
     </div>
   )
 }

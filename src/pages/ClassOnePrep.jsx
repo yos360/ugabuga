@@ -7,10 +7,30 @@ import PrintPreview from '../components/ui/PrintPreview'
 import FirstGradeSheet, { TraceText, SHEET_TITLES } from '../components/classroom/FirstGradeSheets'
 import { newSeed } from '../utils/mathSheets'
 import { additionExercise } from '../utils/difficultyLevels'
+import { Link } from 'react-router-dom'
+import FirstGradeBooklet from '../components/classroom/FirstGradeBooklet'
+import { BOOKLET_PAGES } from '../components/classroom/firstGradeBookletData'
 
 const firstGradeFaq = [
   { q: 'כמה זמן לפני תחילת כיתה א׳ כדאי להתחיל להכין את הילד?', a: 'חודש-חודשיים לפני מספיקים בהחלט, בתנאי שההכנה נשארת קלה ומשחקית ולא הופכת ללחץ נוסף.' },
   { q: 'מה חשוב יותר, מיומנויות כתיבה או ביטחון עצמי?', a: 'שילוב של שניהם עובד הכי טוב, אבל ילד בטוח בעצמו שמגיע עם פחות מיומנות מסתגל בדרך כלל מהר יותר מילד מיומן אבל לחוץ.' },
+  { q: 'איפה מורידים חוברת הכנה לכיתה א׳ ב-PDF?', a: 'כאן בעמוד: לוחצים על "לחוברת ההכנה", ובחלון שנפתח בוחרים "הורדה כ-PDF" או "הדפסה". החוברת כוללת 15 עמודים — כתיבה, מציאת אותיות, מספרים, ספירה, חשבון עד 10, קריאה ראשונה, מבוכים, עקיבה אחרי קווים, שעון, צביעה ותעודת סיום. היא חינמית לגמרי.' },
+  { q: 'האם הילד צריך לדעת לקרוא לפני כיתה א׳?', a: 'לא. לומדים לקרוא בכיתה א׳. ההכנה לקריאה לפני כן היא בעיקר היכרות עם האותיות ועם הצלילים שלהן, משחקי מילים בעל פה (כמו "באיזה צליל מתחילה המילה?") והרבה הקראה של ספרים בבית.' },
+  { q: 'כמה זמן ביום כדאי לתרגל?', a: '10–15 דקות ביום מספיקות — עמוד אחד מהחוברת או משחק קצר אחד. עדיף לעצור כשעוד נהנים, כך הילד ירצה לחזור מחר.' },
+]
+const READING_PREP = [
+  ['🔤', 'להכיר את האותיות', 'לא צריך ללמד לקרוא — מספיק שהילד יזהה חלק מהאותיות ויידע מה הצליל שלהן. מתחילים מהאותיות של השם שלו.', '/letters', 'לימוד אותיות בעברית'],
+  ['👂', 'לשמוע צלילים', 'משחקים בעל פה: "באיזה צליל מתחילה המילה בננה?", "מה מתחרז עם חתול?". זו מיומנות חשובה מאוד לקראת קריאה.', '/letters/game', 'משחק אותיות'],
+  ['📚', 'לקרוא יחד כל ערב', 'הקראה של ספר לפני השינה מעשירה את אוצר המילים ומלמדת שקוראים מימין לשמאל ושהאותיות מספרות סיפור.', '/stories', 'סיפורים לפני השינה'],
+  ['✏️', 'לאחוז נכון בעיפרון', 'עקיבה אחרי קווים, מבוכים וצביעה מחזקים את שרירי היד — וכך הכתיבה בכיתה תהיה קלה יותר.', '/printables/fine-motor', 'דפי מוטוריקה עדינה'],
+]
+const PREP_GAMES = [
+  ['/letters/game', '🎮', 'משחק אותיות', 'מזהים אותיות וצלילים בעברית'],
+  ['/abc/game', '🔠', 'משחק אותיות באנגלית', 'אותיות A–Z עם שמע'],
+  ['/online-games/memory', '🧠', 'משחק הזיכרון', 'מוצאים זוגות — מאמן ריכוז וזיכרון'],
+  ['/sudoku/kids', '🔢', 'סודוקו לילדים', 'לוח 4×4 עם צורות ומספרים'],
+  ['/math', '➕', 'משחקי חשבון', 'תרגול חשבון לפי כיתה, עם בדיקה'],
+  ['/games/kita-a', '🎲', 'משחקים לכיתה א׳', 'משחקי תנועה וחברה לבית ולכיתה'],
 ]
 const firstGradeBody = [
   'המעבר לכיתה א׳ מלחיץ הרבה הורים יותר מהילדים עצמם. הדרך היעילה ביותר להכין ילד היא דרך משחק, לא דרך תרגול פורמלי — פעילות עם מטרה ברורה עובדת הרבה יותר טוב מדף עבודה סתמי.',
@@ -32,6 +52,7 @@ export default function ClassOnePrep(){
   const [module,setModule]=useState('letters'),[size,setSize]=useState('large'),[trace,setTrace]=useState('אבא'),[clock,setClock]=useState(3),[answer,setAnswer]=useState(null),[mathLevel,setMathLevel]=useState('easy'),[score,setScore]=useState(0),[round,setRound]=useState(0),[month,setMonth]=useState(null),[printSeed,setPrintSeed]=useState(null)
   const activityRef=useRef(null)
   const [selectionCount,setSelectionCount]=useState(0)
+  const [booklet,setBooklet]=useState(null)
   useLayoutEffect(()=>{
     if (!selectionCount) return
     activityRef.current?.focus({preventScroll:true})
@@ -41,7 +62,30 @@ export default function ClassOnePrep(){
   const equation=useMemo(()=>additionExercise(mathLevel,round),[round,mathLevel])
   const options=useMemo(()=>{const o=[equation.correct,equation.correct+1,equation.correct+2,equation.correct-1],k=(round*3+equation.a)%4;return [...o.slice(k),...o.slice(0,k)]},[equation,round])
   const selectModule=(id)=>{setModule(id);setAnswer(null);setMonth(null);setSelectionCount(count=>count+1)}
-  return <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8" dir="rtl"><SEO title="הכנה לכיתה א׳ — משחקים לקראת בית ספר" description="מרכז משחקי להכנה לכיתה א׳: כתיבה בקווים, קריאה בעברית ובאנגלית, חשבון, שעון וחודשים." path="/classroom/first-grade" structuredData={faqSchema(firstGradeFaq)}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'לכיתה',href:'/classroom'},{label:'הכנה לכיתה א׳'}]}/><header className="no-print rounded-[32px] border-2 border-slate-200 bg-gradient-to-l from-violet-50 via-white to-pink-50 p-6 text-center shadow-[0_6px_0_#e5e7eb] sm:p-10"><div className="mb-2 text-5xl">🎒</div><h1 className="text-4xl font-black text-slate-900 sm:text-6xl">שלום, כיתה א׳!</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-slate-600">תרגול צבעוני לילדים, להורים ולמורים — בוחרים לשונית ומתחילים.</p></header><nav aria-label="מודולי תרגול" className="no-print my-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{MODULES.map(([id,emoji,title,desc])=><button key={id} onClick={()=>selectModule(id)} aria-controls="first-grade-activity" aria-pressed={module===id} className={`rounded-3xl border-2 p-4 text-right transition hover:-translate-y-1 ${module===id?'border-violet-500 bg-violet-50 shadow-[0_4px_0_#8b5cf6]':'border-slate-200 bg-white'}`}><span className="text-3xl">{emoji}</span><b className="mt-2 block text-base sm:text-lg">{title}</b><small className="mt-1 block text-slate-500">{desc}</small></button>)}</nav><section id="first-grade-activity" ref={activityRef} tabIndex={-1} aria-label={active[2]} style={{scrollMarginTop: 16}} className="mx-auto max-w-5xl outline-none rounded-[32px] border-2 border-slate-200 bg-white p-5 shadow-[0_7px_0_#dce1ee] sm:p-8 print:[zoom:0.85] print:shadow-none"><div className="mb-6 flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-bold text-violet-600">מודול נבחר</p><h2 className="text-3xl font-black">{active[1]} {active[2]}</h2></div><button data-print-main onClick={()=>setPrintSeed(newSeed())} className="no-print rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white">🖨️ הדפסת {SHEET_TITLES[module]}</button></div>{module==='letters'&&<Letters size={size} setSize={setSize} trace={trace} setTrace={setTrace}/>} {module==='clock'&&<Clock hour={clock} setHour={setClock}/>} {module==='math'&&<MathGame equation={equation} options={options} answer={answer} setAnswer={setAnswer} level={mathLevel} setLevel={setMathLevel} score={score} setScore={setScore} next={()=>{setRound(r=>r+1);setAnswer(null)}}/>} {module==='reading'&&<Reading/>} {module==='english'&&<English/>} {module==='months'&&<Months month={month} setMonth={setMonth}/>}</section>{printSeed&&<PrintPreview title={`${SHEET_TITLES[module]} — הכנה לכיתה א׳`} onClose={()=>setPrintSeed(null)} onRefresh={module==='math'?()=>setPrintSeed(newSeed()):undefined}><FirstGradeSheet module={module} seed={printSeed} word={trace.trim()||'אבא'} words={PRINT_WORDS} englishWords={ENGLISH_WORDS} months={MONTHS}/></PrintPreview>}<div className="no-print mt-10"><SeoBody paragraphs={firstGradeBody} faq={firstGradeFaq} related={firstGradeRelated} /></div></div>
+  return <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8" dir="rtl"><SEO title="הכנה לכיתה א׳ — חוברת הכנה להדפסה (PDF) ומשחקים לקראת כיתה א׳" description="הכנה לכיתה א׳ בחינם: חוברת הכנה לכיתה א׳ של 15 עמודים להורדה כ-PDF, הכנה לקריאה, ומשחקים לקראת כיתה א׳ — כתיבה, אותיות, חשבון, שעון ומבוכים." path="/classroom/first-grade" structuredData={faqSchema(firstGradeFaq)}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'לכיתה',href:'/classroom'},{label:'הכנה לכיתה א׳'}]}/><header className="no-print rounded-[32px] border-2 border-slate-200 bg-gradient-to-l from-violet-50 via-white to-pink-50 p-6 text-center shadow-[0_6px_0_#e5e7eb] sm:p-10"><div className="mb-2 text-5xl">🎒</div><h1 className="text-4xl font-black text-slate-900 sm:text-6xl">הכנה לכיתה א׳</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-slate-600">הכנה לכיתה א׳ בבית, בלי לחץ: חוברת הכנה להדפסה, משחקי אותיות וחשבון, ותרגול צבעוני של כתיבה, קריאה ראשונה ושעון — בוחרים לשונית ומתחילים.</p><button type="button" onClick={()=>setBooklet(newSeed())} className="mt-5 rounded-2xl bg-violet-600 px-6 py-3 text-lg font-black text-white shadow-[0_4px_0_#5b21b6]">📘 לחוברת ההכנה (PDF)</button></header><nav aria-label="מודולי תרגול" className="no-print my-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{MODULES.map(([id,emoji,title,desc])=><button key={id} onClick={()=>selectModule(id)} aria-controls="first-grade-activity" aria-pressed={module===id} className={`rounded-3xl border-2 p-4 text-right transition hover:-translate-y-1 ${module===id?'border-violet-500 bg-violet-50 shadow-[0_4px_0_#8b5cf6]':'border-slate-200 bg-white'}`}><span className="text-3xl">{emoji}</span><b className="mt-2 block text-base sm:text-lg">{title}</b><small className="mt-1 block text-slate-500">{desc}</small></button>)}</nav><section id="first-grade-activity" ref={activityRef} tabIndex={-1} aria-label={active[2]} style={{scrollMarginTop: 16}} className="mx-auto max-w-5xl outline-none rounded-[32px] border-2 border-slate-200 bg-white p-5 shadow-[0_7px_0_#dce1ee] sm:p-8 print:[zoom:0.85] print:shadow-none"><div className="mb-6 flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-bold text-violet-600">מודול נבחר</p><h2 className="text-3xl font-black">{active[1]} {active[2]}</h2></div><button data-print-main onClick={()=>setPrintSeed(newSeed())} className="no-print rounded-2xl bg-slate-900 px-5 py-3 font-bold text-white">🖨️ הדפסת {SHEET_TITLES[module]}</button></div>{module==='letters'&&<Letters size={size} setSize={setSize} trace={trace} setTrace={setTrace}/>} {module==='clock'&&<Clock hour={clock} setHour={setClock}/>} {module==='math'&&<MathGame equation={equation} options={options} answer={answer} setAnswer={setAnswer} level={mathLevel} setLevel={setMathLevel} score={score} setScore={setScore} next={()=>{setRound(r=>r+1);setAnswer(null)}}/>} {module==='reading'&&<Reading/>} {module==='english'&&<English/>} {module==='months'&&<Months month={month} setMonth={setMonth}/>}</section>{printSeed&&<PrintPreview title={`${SHEET_TITLES[module]} — הכנה לכיתה א׳`} onClose={()=>setPrintSeed(null)} onRefresh={module==='math'?()=>setPrintSeed(newSeed()):undefined}><FirstGradeSheet module={module} seed={printSeed} word={trace.trim()||'אבא'} words={PRINT_WORDS} englishWords={ENGLISH_WORDS} months={MONTHS}/></PrintPreview>}<BookletSection open={()=>setBooklet(newSeed())}/>{booklet&&<PrintPreview title="חוברת הכנה לכיתה א׳ — 15 עמודים" onClose={()=>setBooklet(null)} onRefresh={()=>setBooklet(newSeed())}><FirstGradeBooklet seed={booklet} words={PRINT_WORDS}/></PrintPreview>}<ReadingPrepSection/><GamesSection/><div className="no-print mt-10"><SeoBody paragraphs={firstGradeBody} faq={firstGradeFaq} related={firstGradeRelated} /></div></div>
+}
+
+function BookletSection({open}){
+  return <section className="no-print mx-auto mt-10 max-w-5xl rounded-[32px] border-2 border-violet-200 bg-violet-50 p-5 sm:p-8" aria-labelledby="booklet-h">
+    <h2 id="booklet-h" className="text-3xl font-black">📘 חוברת הכנה לכיתה א׳ — להדפסה וכ-PDF</h2>
+    <p className="mt-2 text-lg text-slate-700">15 עמודים שמשלבים את כל מה שכדאי לתרגל לפני כיתה א׳. מדפיסים בבית, או מורידים כקובץ PDF ושולחים לסבתא, לגננת או לחברים.</p>
+    <ol className="mt-4 grid list-decimal gap-x-8 gap-y-1 pr-6 text-base sm:grid-cols-2 lg:grid-cols-3">{BOOKLET_PAGES.map(t=><li key={t}>{t}</li>)}</ol>
+    <div className="mt-5 flex flex-wrap items-center gap-3"><button type="button" onClick={open} className="rounded-2xl bg-slate-900 px-6 py-3 text-lg font-black text-white">🖨️ פתיחת החוברת — הדפסה או PDF</button><span className="text-slate-600">בכל פתיחה מקבלים תרגילי חשבון חדשים.</span></div>
+  </section>
+}
+function ReadingPrepSection(){
+  return <section className="no-print mx-auto mt-10 max-w-5xl" aria-labelledby="reading-prep-h">
+    <h2 id="reading-prep-h" className="text-3xl font-black">📖 הכנה לקריאה לכיתה א׳</h2>
+    <p className="mt-2 text-lg text-slate-700">את הקריאה עצמה לומדים בכיתה א׳. מה שאפשר לעשות בבית לפני כן הוא להכין את הקרקע — בעיקר דרך משחק ושיחה:</p>
+    <div className="mt-4 grid gap-4 sm:grid-cols-2">{READING_PREP.map(([e,t,d,href,label])=><div key={t} className="rounded-3xl border-2 border-slate-200 bg-white p-5"><h3 className="text-xl font-black"><span aria-hidden="true">{e} </span>{t}</h3><p className="mt-1 text-slate-700">{d}</p><Link to={href} className="mt-2 inline-block font-bold text-violet-700 underline">{label} ←</Link></div>)}</div>
+  </section>
+}
+function GamesSection(){
+  return <section className="no-print mx-auto mt-10 max-w-5xl" aria-labelledby="prep-games-h">
+    <h2 id="prep-games-h" className="text-3xl font-black">🎮 משחקים לקראת כיתה א׳</h2>
+    <p className="mt-2 text-lg text-slate-700">משחקים אונליין שמתרגלים אותיות, מספרים, זיכרון וריכוז — בחינם, בטלפון או במחשב:</p>
+    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">{PREP_GAMES.map(([to,e,t,d])=><Link key={to} to={to} className="rounded-3xl border-2 border-slate-200 bg-white p-4 text-right transition hover:-translate-y-1 hover:border-violet-400"><span className="text-3xl" aria-hidden="true">{e}</span><b className="mt-1 block text-lg">{t}</b><small className="text-slate-500">{d}</small></Link>)}</div>
+  </section>
 }
 
 // Hollow letters to colour in — white fill over the stroke leaves only the outer contour.

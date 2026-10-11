@@ -89,11 +89,11 @@ export function CakesHub() {
   const list = CAKES.filter(c => matchesTag(c, tag))
   const tagInfo = CAKE_TAGS.find(t => t.id === tag)
   return <div className="ck-page mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="עוגות יום הולדת — מתכונים קלים לילדים, ללא גלוטן, פרווה ועוגת מספר" description="עוגות יום הולדת: מתכונים בדוקים לעוגת שוקולד, עוגת קרם, קאפקייקס, עוגת ביסקוויטים, עוגת מספר עם שרטוטי חיתוך, ללא גלוטן, פרווה וטבעונית. עם הדפסה." path={CAKES_HUB_PATH} structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="עוגת יום הולדת — מתכונים קלים לילדים, ללא גלוטן ופרווה" description="עוגת יום הולדת שמצליחה בבית: מתכונים בדוקים לעוגת שוקולד, עוגת קרם, קאפקייקס, עוגת ביסקוויטים, עוגת מספר עם שרטוטי חיתוך, ללא גלוטן, פרווה וטבעונית. עם הדפסה." path={CAKES_HUB_PATH} structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: HUB.label }]} />
     <header className="text-center">
       <span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold text-[#1d2233]">{CAKES.length} מתכונים ומדריכים · חינם</span>
-      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🎂 </span>עוגות יום הולדת</h1>
+      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🎂 </span>עוגת יום הולדת — מתכונים שמצליחים בבית</h1>
       <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">מתכונים לעוגת יום הולדת שמצליחים בבית: עוגת שוקולד בתבנית, עוגת קרם, קאפקייקס, עוגת ביסקוויטים בלי אפייה ועוגת מספר — וגם גרסאות ללא גלוטן, פרווה וטבעוניות.</p>
     </header>
 

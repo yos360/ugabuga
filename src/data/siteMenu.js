@@ -20,11 +20,12 @@ export const MENU_GROUPS = [
     items: [
       { to: '/online-games/today', label: 'אתגר היום — מתחלף כל יום', icon: '🌟' },
       { to: '/online-games/marathon', label: 'מרתון משחקים — 8 ברצף', icon: '🏃' },
+      { to: '/chess', label: 'שחמט אונליין — נגד המחשב או חבר', icon: '♟️' },
       { to: '/online-games/battleship', label: 'צוללות', icon: '⚓' },
       { to: '/online-games/falling-blocks', label: 'בלוקים נופלים', icon: '🧱' },
       { to: '/online-games/whack-a-mole', label: 'הכה בחפרפרת', icon: '🔨' },
       { to: '/online-games/sliding-puzzle', label: 'פאזל הזזה', icon: '🧩' },
-      { to: '/online-games/word-guess', label: 'נחשו את המילה', icon: '🎈' },
+      { to: '/online-games/word-guess', label: 'ניחוש מילים — 5 אותיות', icon: '🟩' },
       { to: '/online-games/flying-cubes', label: 'קוביות מעופפות 3D', icon: '🧊' },
       { to: '/online-games/arrow-escape', label: 'חיצים בורחים — 300 שלבים', icon: '➡️' },
       { to: '/online-games/ball-sort', label: 'מיון כדורים', icon: '🧪' },
@@ -34,7 +35,7 @@ export const MENU_GROUPS = [
       { to: '/online-games/solitaire', label: 'סוליטר', icon: '🃏' },
       { to: '/online-games/spider-solitaire', label: 'סוליטר עכביש', icon: '🕷️' },
       { to: '/online-games/minesweeper', label: 'שולה מוקשים', icon: '💣' },
-      { to: '/online-games/sudoku', label: 'סודוקו', icon: '🔢' },
+      { to: '/sudoku', label: 'סודוקו — אונליין, יומי והדפסה', icon: '🔢' },
       { to: '/online-games/memory', label: 'משחק הזיכרון', icon: '🧠' },
       { to: '/online-games/snake', label: 'נחש', icon: '🐍' },
       { to: '/board-games', label: 'משחקי לוח: דמקה, שחמט ועוד', icon: '♟️' },
@@ -47,7 +48,9 @@ export const MENU_GROUPS = [
       { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
       { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
       { to: '/tools/bring-list', label: 'רשימת "מי מביא מה"', icon: '📋' },
+      { to: '/rsvp', label: 'אישור הגעה אונליין', icon: '✅' },
       { to: '/tools/birthday-famous', label: 'מי נולד ביום שלי?', icon: '⭐' },
+      { to: '/bar-mitzvah', label: 'בר ובת מצווה — מדריך וכלים', icon: '📜' },
       { to: '/cakes', label: 'עוגות יום הולדת', icon: '🍰' },
       { to: '/gifts', label: 'רעיונות למתנות', icon: '🎁' },
       { to: '/suppliers', label: 'ספקים לימי הולדת', icon: '🎪' },
@@ -57,6 +60,8 @@ export const MENU_GROUPS = [
     title: '🏫 לכיתה ולגן', to: '/classroom',
     items: [
       { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
+      { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
+      { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
       { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
       { to: '/holidays', label: 'חגים: חנוכה, ט״ו בשבט ועוד', icon: '🎉' },
       { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
@@ -79,6 +84,7 @@ export const MENU_GROUPS = [
       { to: '/printables', label: 'דפים להדפסה', icon: '🖨️' },
       { to: '/printables/coloring', label: 'דפי צביעה', icon: '🖍️' },
       { to: '/printables/mandalas', label: 'מנדלות', icon: '🌀' },
+      { to: '/origami', label: 'אוריגמי לילדים — קיפולי נייר', icon: '🦢' },
       { to: '/tools/crossword-maker', label: 'מחולל תשבצים', icon: '✏️' },
       { to: '/tools/word-search-maker', label: 'מחולל תפזורת', icon: '🔎' },
       { to: '/tools/bingo-maker', label: 'מחולל בינגו', icon: '🎟️' },
@@ -91,7 +97,7 @@ export const MENU_GROUPS = [
     title: '🎲 כלים למשחק', to: '/tools',
     items: [
       { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '👥' },
-      { to: '/tools/random-picker', label: 'גלגל שמות', icon: '🎡' },
+      { to: '/tools/random-picker', label: 'גלגל מזל', icon: '🎡' },
       { to: '/tools/countdown-timer', label: 'טיימר', icon: '⏱️' },
       { to: '/tools/scoreboard', label: 'לוח ניקוד', icon: '📊' },
       { to: '/tools/dice', label: 'קובייה', icon: '🎲' },
@@ -111,6 +117,7 @@ export const MENU_GROUPS = [
       { to: '/trivia/topics', label: 'חידוני טריוויה לפי נושא', icon: '🎯' },
       { to: '/trivia/with-answers', label: 'שאלות טריוויה עם תשובות', icon: '🧠' },
       { to: '/riddles/topics', label: 'חידות לפי נושא וגיל', icon: '🧩' },
+      { to: '/logic-puzzles', label: 'תשבצי היגיון', icon: '🧠' },
       { to: '/jokes/topics', label: 'בדיחות לילדים', icon: '😂' },
       { to: '/jokes/keresh', label: 'בדיחות קרש', icon: '🪵' },
       { to: '/questions', label: 'שאלות לשיחה ולמשחק', icon: '❓' },
@@ -147,6 +154,8 @@ export const MENU_GROUPS = [
     title: '🔭 עולם ומדע', to: '/discover',
     items: [
       { to: '/discover/israel-map', label: 'מפת ישראל — איפה העיר?', icon: '🗺️' },
+      { to: '/flags', label: 'דגלי מדינות', icon: '🏳️' },
+      { to: '/flags/quiz', label: 'חידון דגלים', icon: '🎯' },
       { to: '/discover/capitals', label: 'בירות ודגלים', icon: '🌍' },
       { to: '/discover/solar-system', label: 'מערכת השמש', icon: '🪐' },
       { to: '/discover/human-body', label: 'גוף האדם', icon: '🫀' },
@@ -159,8 +168,10 @@ export const MENU_GROUPS = [
       { to: '/learn/reading', label: 'הבנת הנקרא', icon: '📖' },
       { to: '/math', label: 'מתמטיקה לפי כיתה (א׳–י״ב)', icon: '🧮' },
       { to: '/learn/multiplication-table', label: 'לוח הכפל', icon: '✖️' },
-      { to: '/learn/times-tables', label: 'אתגר לוח הכפל', icon: '⏱️' },
+      { to: '/learn/times-tables', label: 'תרגול לוח הכפל', icon: '⏱️' },
       { to: '/learn/flashcards', label: 'כרטיסיות לימוד', icon: '🃏' },
+      { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
+      { to: '/typing/test', label: 'מבחן מהירות הקלדה', icon: '⏱️' },
     ],
   },
   {
@@ -186,4 +197,4 @@ export const MENU_GROUPS = [
   },
 ]
 
-export const MENU_ACTIVE_PREFIXES = ['/discover', '/family', '/learn', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/school-holidays', '/baby-names', '/cakes', '/math', '/toddlers', '/dice-games', '/blog', '/time-tunnel']
+export const MENU_ACTIVE_PREFIXES = ['/discover', '/flags', '/family', '/learn', '/typing', '/food', '/music', '/online-games', '/tools', '/calculator', '/greeting', '/invitation', '/printables', '/gifts', '/trivia', '/riddles', '/logic-puzzles', '/jokes', '/questions', '/animals', '/abc', '/english', '/languages', '/birthday-greetings', '/treasure-hunt', '/school-holidays', '/baby-names', '/cakes', '/math', '/toddlers', '/dice-games', '/blog', '/time-tunnel', '/bar-mitzvah']

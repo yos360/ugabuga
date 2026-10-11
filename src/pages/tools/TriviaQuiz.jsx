@@ -25,14 +25,15 @@ function shuffleOptions(options = []) {
 
 const triviaFaq = [
   { q: 'אפשר להתאים את רמת הקושי של השאלות לגיל?', a: 'כן, בוחרים את קבוצת הגיל בזמן יצירת החידון, וזה קובע גם את רמת הקושי וגם את סוג הנושאים.' },
+  { q: 'יש גם שאלות טריוויה עם תשובות להדפסה או להקראה?', a: 'כן. בעמוד שאלות טריוויה עם תשובות יש 160 שאלות מסודרות לפי נושא וגיל, ובחידוני הטריוויה לפי נושא יש 40 חידונים מוכנים של 12 שאלות — על חיות, ישראל, חגים, מדע, ספורט ועוד.' },
   { q: 'מתאים גם למשחק יחיד מול הורה, לא רק לקבוצה?', a: 'בהחלט — טריוויה עובדת מצוין גם בשניים, כתחרות קטנה בין הורה לילד.' },
 ]
 const triviaBody = [
-  'טריוויה היא אחד המשחקים שעובדים כמעט בכל הרכב — משפחה, חברים, כיתה, או אפילו מפגש עבודה. הכלי כאן מכין חידון שאלות ותשובות מוכן לפי הגיל והנושא שבוחרים, כך שלא צריך לחשוב שאלות מראש.',
+  'טריוויה לילדים ולמשפחה היא אחד המשחקים שעובדים כמעט בכל הרכב — משפחה, חברים, כיתה, או אפילו מפגש עבודה. הכלי כאן מכין חידון שאלות ותשובות מוכן לפי הגיל והנושא שבוחרים, כך שלא צריך לחשוב שאלות מראש.',
   'טריוויה משתלבת טוב במיוחד לצד ארץ עיר אונליין — שני המשחקים דורשים חשיבה מהירה וידע כללי, אבל בפורמטים שונים, כך שהחלפה ביניהם שומרת על עניין לאורך זמן.',
   'טיפ מעשי לתכנון: קובעים מראש כמה סיבובים ישוחקו, במקום להמשיך "עד שנמאס".',
 ]
-const triviaRelated = [ { label: 'ארץ עיר אונליין', href: '/tools/eretz-ir' }, { label: 'משחקים שקטים', href: '/games/quiet' }, { label: 'מתחם לכיתה', href: '/classroom' } ]
+const triviaRelated = [ { label: 'שאלות טריוויה עם תשובות', href: '/trivia/with-answers' }, { label: 'חידות לילדים', href: '/tools/riddles' }, { label: 'ארץ עיר אונליין', href: '/tools/eretz-ir' }, { label: 'מתחם לכיתה', href: '/classroom' } ]
 
 function makePlayers(names) {
   return names.map((name, index) => ({
@@ -154,16 +155,16 @@ export default function TriviaQuiz() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <SEO
-        title="טריוויה למשפחה ולכיתה"
-        description="משחק טריוויה בעברית עם מצבי משחק, שחקנים, ניקוד חי וכתבות משחק אוטומטיות."
+        title="טריוויה לילדים ולמשפחה — משחק טריוויה אונליין בעברית"
+        description="טריוויה בעברית לילדים, למשפחה ולכיתה: משחק טריוויה אונליין עם שאלות לפי גיל ונושא, כמה שחקנים, ניקוד חי ורמות קושי. חינם, בלי הרשמה."
         path="/tools/trivia-quiz"
         structuredData={faqSchema(triviaFaq)}
       />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'טריוויה' }]} />
 
-      <h1 className="text-4xl font-hand font-bold text-center mb-2">🎯 טריוויה</h1>
+      <h1 className="text-4xl font-hand font-bold text-center mb-2">🎯 טריוויה לילדים ולמשפחה</h1>
       <p className="text-center text-[var(--ink)]/70 mb-8">
-        ענו על שאלות, צברו נקודות ושחקו גם עם חברים.
+        משחק טריוויה אונליין: ענו על שאלות, צברו נקודות ושחקו גם עם חברים.
       </p>
 
       <div className="grid lg:grid-cols-[320px_1fr_300px] gap-6 items-start">
@@ -292,6 +293,13 @@ export default function TriviaQuiz() {
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
         <p className="font-display text-xl font-bold mb-2">רוצים חידון מוכן לפי נושא?</p>
         <Link to="/trivia/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🎯 40 חידוני טריוויה לפי נושא ←</Link>
+        <nav className="mt-3 flex flex-wrap justify-center gap-2" aria-label="עוד טריוויה">
+          <Link to="/trivia/with-answers" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">שאלות טריוויה עם תשובות</Link>
+          <Link to="/trivia/general-knowledge" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">טריוויה ידע כללי</Link>
+          <Link to="/trivia/kids-6-8" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">טריוויה לגילאי 6–8</Link>
+          <Link to="/trivia/kids-9-11" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">טריוויה לגילאי 9–11</Link>
+          <Link to="/trivia/family" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">טריוויה משפחתית</Link>
+        </nav>
       </div>
 
       <div className="mt-12">

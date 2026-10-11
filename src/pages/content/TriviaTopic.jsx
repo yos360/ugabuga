@@ -23,9 +23,9 @@ const deal = t => shuffle(t.questions).slice(0, QUIZ_SIZE).map(q => {
 export function TriviaTopicsHub() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title="טריוויה לפי נושא — חידונים עם תשובות לילדים ולמשפחה" description={`${TRIVIA_TOPICS.length} חידוני טריוויה עם תשובות והסברים: חיות, חלל, ישראל, חגים, ספורט, מוזיקה ועוד — לשחק באתר, בכיתה או בארוחה משפחתית.`} path="/trivia/topics" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/trivia/topics' }, { label: 'לפי נושא' }]} />
-      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🧠 טריוויה לפי נושא</h1>
+      <SEO title={`חידוני טריוויה לפי נושא — ${TRIVIA_TOPICS.length} חידונים עם תשובות`} description={`חידוני טריוויה לפי נושא: ${TRIVIA_TOPICS.length} חידונים עם תשובות והסברים: חיות, חלל, ישראל, חגים, ספורט, מוזיקה ועוד — לשחק באתר, בכיתה או בארוחה משפחתית.`} path="/trivia/topics" />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/tools/trivia-quiz' }, { label: 'לפי נושא' }]} />
+      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">🧠 חידוני טריוויה לפי נושא</h1>
       <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">כל חידון: 12 שאלות עם תשובה והסבר קצר — ובכל כניסה השאלות מתערבבות מחדש.</p>
       <p className="text-center mb-8 -mt-4"><Link to="/trivia/with-answers" className="font-bold underline">📋 שאלות טריוויה עם תשובות — רשימה מלאה להדפסה ←</Link></p>
       {TRIVIA_GROUPS.map(g => (
@@ -65,7 +65,7 @@ export default function TriviaTopic() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={t.title + ' — 12 שאלות עם תשובות'} description={t.description} path={'/trivia/' + slug} structuredData={ex?.faq ? [schema, faqSchema(ex.faq)] : schema} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה לפי נושא', href: '/trivia/topics' }, { label: t.title }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'טריוויה', href: '/tools/trivia-quiz' }, { label: 'טריוויה לפי נושא', href: '/trivia/topics' }, { label: t.title }]} />
       <header className="text-center mb-6">
         <div className="text-6xl mb-2">{t.emoji}</div>
         <h1 className="text-4xl md:text-5xl font-hand font-bold mb-2">{t.title}</h1>

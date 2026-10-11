@@ -48,13 +48,14 @@ const fromBank = (bank, n = 10) => () => shuffle(bank).slice(0, n).map(([q, a, w
 // ── /discover ───────────────────────────────
 export const DISCOVER_SECTIONS = [
   ['/discover/israel-map', '🗺️', 'מפת ישראל — איפה העיר?', 'לומדים ערים ומקומות בארץ, ומשחקים "איפה זה?"'],
+  ['/flags', '🏳️', 'דגלי מדינות', 'כל 195 דגלי העולם עם בירות, חידון דגלים ודגלים להדפסה'],
   ['/discover/capitals', '🌍', 'בירות ודגלים', `${COUNTRIES.length} מדינות, ${FLAG_CODES.length} דגלים מצוירים וחידונים`],
   ['/discover/solar-system', '🪐', 'מערכת השמש', 'שמונה כוכבי לכת, עובדות וחידון'],
   ['/discover/human-body', '🫀', 'גוף האדם', 'לוחצים על איבר ולומדים מה הוא עושה'],
 ]
 export function DiscoverHub() {
   return <Page>
-    <SEO title="עולם ומדע לילדים — מפת ישראל, בירות ודגלים, מערכת השמש וגוף האדם" description="לומדים ומשחקים: מפת ישראל עם חידון ערים, בירות ודגלים של העולם, מערכת השמש וגוף האדם — עם עובדות בדוקות, חידונים ודפים להדפסה. חינם ובעברית." path="/discover" />
+    <SEO title="עולם ומדע לילדים — מפת ישראל, מערכת השמש וגוף האדם" description="לומדים ומשחקים: מפת ישראל עם חידון ערים, בירות ודגלים של העולם, מערכת השמש וגוף האדם — עם עובדות בדוקות, חידונים ודפים להדפסה. חינם ובעברית." path="/discover" />
     <Head emoji="🔭" h1="עולם ומדע" sub="מפות, כוכבים וגוף האדם — לומדים, משחקים ומדפיסים" />
     <div className="grid gap-5 sm:grid-cols-2">{DISCOVER_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right"><div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}</div>
     <div className="mt-12"><SeoBody paragraphs={['ילדים שואלים שאלות גדולות: איפה נמצאת אילת? מה הבירה של צרפת? למה מאדים אדום? כמה עצמות יש לנו? כאן יש ארבעה אזורים קטנים שעונים על השאלות האלה — עם משחק, חידון ודף להדפסה בכל אחד.', 'העובדות נכתבו בפשטות אבל בדיוק: נתוני כוכבי הלכת לפי דף הנתונים של נאס״א, ועובדות על גוף האדם לפי מקורות מקובלים באנטומיה. השתדלנו להימנע ממספרים שמשתנים כל הזמן, כמו מספר הירחים של שבתאי.']} related={[{ label: 'לומדים בבית', href: '/learn' }, { label: 'חידון טריוויה', href: '/tools/trivia-quiz' }]} /></div>
@@ -165,6 +166,7 @@ export function CapitalsPage() {
     <div className="mb-4 flex flex-wrap justify-center gap-2"><Chip on={mode === 'flags'} onClick={() => setMode('flags')}>🏳️ של מי הדגל?</Chip><Chip on={mode === 'capitals'} onClick={() => setMode('capitals')}>🏛️ מה הבירה?</Chip></div>
     <div className="mx-auto max-w-2xl"><Quiz key={mode} make={mode === 'flags' ? makeFlagQuiz : makeCapitalQuiz} title={mode === 'flags' ? 'מתחילים חידון דגלים' : 'מתחילים חידון בירות'} /></div>
     <div className="mt-4 flex flex-wrap justify-center gap-2"><button type="button" className="ln-btn alt" onClick={() => setPrinting('flags')}>🖨️ דף "של מי הדגל?"</button></div>
+    <p className="mt-4 text-center">רוצים לראות את כל 195 המדינות? <Link to="/flags" className="font-bold underline">כל דגלי המדינות</Link> · <Link to="/flags/quiz" className="font-bold underline">חידון דגלים לפי יבשת</Link> · <Link to="/flags/print" className="font-bold underline">דגלים להדפסה</Link></p>
     <h2 className="mt-10 mb-3 text-2xl font-black text-center">מדינות, בירות ודגלים</h2>
     <div className="mb-3 flex flex-wrap justify-center gap-2">{conts.map(c => <Chip key={c} on={cont === c} onClick={() => setCont(c)}>{c}</Chip>)}</div>
     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{list.map(c => <div key={c[0]} className="ln-q flex items-center gap-3">{FLAG_CODES.includes(c[0]) ? <Flag code={c[0]} className="h-9 w-auto max-w-[64px] shrink-0" label={`הדגל של ${c[1]}`} /> : <span className="inline-block h-9 w-[54px] shrink-0 rounded border border-dashed border-gray-300" aria-hidden="true" />}<div><b>{c[1]}</b><div className="text-sm">הבירה: <b>{c[2]}</b></div>{CAPITAL_NOTES[c[0]] && <div className="text-xs text-[var(--muted-foreground)]">{CAPITAL_NOTES[c[0]]}</div>}</div></div>)}</div>

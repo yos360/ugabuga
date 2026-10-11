@@ -31,7 +31,7 @@ export const COMPARISONS = {
       { q: 'מאיזה גיל ילדים מעדיפים מסיבה מחוץ לבית?', a: 'בערך מגיל 7–8, כשהם רוצים פעילות "של גדולים" ומסיבה עם כל הכיתה. גם אז, מסיבה ביתית עם נושא חזק (חדר בריחה, מסיבת פיג׳מות) יכולה לנצח.' }
     ],
     related: [
-      { label: 'יום הולדת בבית: מדריך מלא', href: '/guides/birthday-at-home-complete' },
+      { label: 'ארגון הבית ליום הולדת', href: '/guides/birthday-at-home-complete' },
       { label: 'רעיונות ליום הולדת בבית', href: '/ideas/at-home' },
       { label: 'יום הולדת בתקציב', href: '/guides/birthday-budget' },
       { label: 'מחשבון תקציב למסיבה', href: '/calculator' },

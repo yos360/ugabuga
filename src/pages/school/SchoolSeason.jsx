@@ -252,6 +252,7 @@ export function TeacherGiftPage() {
 
     <RelatedGrid links={[
       { emoji: '💌', label: 'ברכות למורה', href: '/greetings/teacher-f' },
+      { emoji: '📕', label: 'קיר ברכות למורה', href: '/thank-you-wall' },
       { emoji: '🌼', label: 'מתנה לגננת', href: '/gifts/gananet' },
       { emoji: '🎓', label: 'מסיבת סיום כיתה ו׳', href: '/ideas/6th-grade-graduation' },
       { emoji: '🎉', label: 'מסיבת סוף שנה', href: '/ideas/end-of-year-party' },
@@ -304,6 +305,7 @@ export function GananetGiftPage() {
 
     <RelatedGrid links={[
       { emoji: '💌', label: 'ברכות לגננת', href: '/greetings/kindergarten-teacher' },
+      { emoji: '📕', label: 'קיר ברכות לגננת', href: '/thank-you-wall' },
       { emoji: '🎓', label: 'מסיבת סיום גן', href: '/ideas/kindergarten-graduation' },
       { emoji: '🍎', label: 'מתנה למורה', href: '/gifts/teacher-end-of-year' },
       { emoji: '🎂', label: 'יום הולדת בגן', href: '/guides/birthday-in-kindergarten' },

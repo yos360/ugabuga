@@ -41,12 +41,12 @@ export default function MazesPage() {
   const all = [...fresh, ...ready]
   const pick = i => { setLi(i); setExtra([]) }
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="מבוכים להדפסה לילדים — 30 מבוכים ב-5 רמות קושי" description="מבוכים להדפסה בחינם: 30 מבוכים מוכנים ב-5 רמות — מגן ועד מבוגרים, עם דף פתרון לכל מבוך, וכפתור למבוך חדש בכל לחיצה. כל מבוך פתיר בוודאות." path="/printables/mazes" structuredData={faqSchema(FAQ)} />
+    <SEO title="מבוך לילדים — מבוכים להדפסה ב-5 רמות קושי" description="מבוך לילדים להדפסה בחינם: 30 מבוכים מוכנים ב-5 רמות — מגן ועד מבוגרים, עם דף פתרון לכל מבוך, וכפתור למבוך חדש בכל לחיצה. כל מבוך פתיר בוודאות." path="/printables/mazes" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'מבוכים' }]} />
     <header className="text-center">
       <span className="inline-flex rounded-full bg-cyan-100 px-4 py-2 font-bold">30 מבוכים מוכנים · מבוך חדש בכל לחיצה · חינם</span>
       <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🌀 </span>מבוכים להדפסה</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-slate-600">בוחרים רמה, מדפיסים, ומתחילים לחפש את הדרך. לכל מבוך יש דרך אחת בדיוק — ודף פתרון למקרה שמישהו נתקע.</p>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-slate-600">מבוך לילדים בכל רמה — מגן ועד מבוגרים. בוחרים רמה, מדפיסים, ומתחילים לחפש את הדרך. לכל מבוך יש דרך אחת בדיוק — ודף פתרון למקרה שמישהו נתקע.</p>
     </header>
     <nav aria-label="רמת קושי" className="no-print mt-6 grid grid-cols-2 gap-2 sm:grid-cols-5">{MAZE_LEVELS.map((l, i) =>
       <button key={l.id} type="button" aria-pressed={li === i} onClick={() => pick(i)} className={`min-h-[72px] rounded-2xl border-2 p-2 font-bold ${li === i ? 'border-cyan-500 bg-cyan-50' : 'border-slate-200 bg-white'}`}>

@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import WobblyCard from '../../components/ui/WobblyCard'
 import NotFound from '../NotFound'
-import { faqSchema } from '../../components/ui/SeoBody'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { GREETING_PAGES } from '../../data/content/greetings'
 import { GREETING_EXTRAS, GREETING_GROUPS } from '../../data/content/greetingsExtra'
 import { nearby } from '../../utils/nearby'
@@ -23,15 +23,51 @@ function Card({ text }) {
   )
 }
 
+const HUB_FAQ = [
+  { q: 'איך כותבים ברכה ליום הולדת שמרגישה אישית?', a: 'בוחרים ברכה שמתאימה לקשר (אמא, חברה, עמית לעבודה) ומוסיפים לה פרט אחד שרק אתם יודעים: זיכרון משותף, תכונה שאתם אוהבים או משהו שהחוגג עבר השנה. משפט אחד כזה הופך ברכה מוכנה לברכה שלכם.' },
+  { q: 'אפשר להעתיק את הברכות ולשלוח בוואטסאפ?', a: 'כן. בכל ברכה יש כפתור העתקה וכפתור שליחה בוואטסאפ. כל הברכות באתר נכתבו במיוחד בשבילו, וחופשי להשתמש בהן ולשנות אותן.' },
+  { q: 'מה ההבדל בין עמודי הברכות למחולל הברכות?', a: 'בעמודי הברכות יש ברכות מוכנות לפי גיל ולפי החוגג. במחולל הברכות כותבים שם וגיל, בוחרים סגנון ומקבלים ברכה חדשה עם השם של החוגג בתוכה.' },
+  { q: 'כמה ארוכה צריכה להיות ברכה ליום הולדת?', a: 'להודעה בוואטסאפ מספיקות שתיים־שלוש שורות. לכרטיס ברכה, לנאום קצר או לבר ובת מצווה אפשר לכתוב פסקה או שתיים — העיקר שיהיה בה משהו אישי.' },
+]
+
+const HUB_SECTIONS = [
+  ['ages', 'ברכה ליום הולדת לפי גיל'],
+  ['family', 'ברכות ליום הולדת למשפחה'],
+  ['people', 'לחברים, למורה, לעבודה — ועוד'],
+]
+
 export function GreetingsHub() {
+  const bySlug = s => GREETING_PAGES.find(o => o.slug === s)
+  const grouped = new Set(Object.values(GREETING_GROUPS).flat())
+  const rest = GREETING_PAGES.filter(p => !grouped.has(p.slug))
+  const chip = p => <Link key={p.slug} to={'/greetings/' + p.slug} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-3 py-2 font-bold">{p.emoji} {p.title}</Link>
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title="ברכות ליום הולדת — לכל גיל ולכל אחד" description={`${GREETING_PAGES.length} עמודים של ברכות מקוריות ליום הולדת: לאמא, לאבא, לסבתא, לחברה, לבר ובת מצווה ולכל גיל — להעתקה ולשליחה בוואטסאפ.`} path="/birthday-greetings" />
+      <SEO title="ברכה ליום הולדת — ברכות מקוריות לכל גיל ולכל אחד" description={`ברכה ליום הולדת לכל אחד: ${GREETING_PAGES.length} עמודים של ברכות מקוריות לאמא, לאבא, לחברה, לבר ובת מצווה ולכל גיל — מעתיקים ושולחים בוואטסאפ, בחינם.`} path="/birthday-greetings" structuredData={faqSchema(HUB_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'ברכות ליום הולדת' }]} />
-      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">💌 ברכות ליום הולדת</h1>
-      <p className="text-center text-lg text-[var(--muted-foreground)] mb-8">ברכות מקוריות לכל אחד ולכל גיל. רוצים ברכה אישית? נסו את <Link to="/greeting" className="underline font-bold">מחולל הברכות</Link>.</p>
-      <div className="flex flex-wrap justify-center gap-2">
-        {GREETING_PAGES.map(p => <Link key={p.slug} to={'/greetings/' + p.slug} className="wobbly-sm border-2 border-[var(--border)] bg-[var(--card)] px-3 py-2 font-bold">{p.emoji} {p.title}</Link>)}
+      <h1 className="text-4xl md:text-5xl text-center font-hand font-bold mb-2">💌 ברכה ליום הולדת — ברכות מקוריות</h1>
+      <p className="mx-auto max-w-2xl text-center text-lg text-[var(--muted-foreground)] mb-8">מחפשים ברכה ליום הולדת? כאן יש ברכות מקוריות לכל גיל ולכל אחד — לאמא ולסבתא, לחבר ולחברה, לגננת ולבר או בת מצווה. בוחרים, מעתיקים ושולחים. רוצים ברכה עם השם של החוגג? נסו את <Link to="/greeting" className="underline font-bold">מחולל הברכות האישי</Link>.</p>
+      {HUB_SECTIONS.map(([key, heading]) => (
+        <section key={key} className="mb-8">
+          <h2 className="text-2xl font-bold mb-3 text-center">{heading}</h2>
+          <div className="flex flex-wrap justify-center gap-2">{(GREETING_GROUPS[key] || []).map(bySlug).filter(Boolean).map(chip)}</div>
+        </section>
+      ))}
+      {rest.length > 0 && <div className="mb-8 flex flex-wrap justify-center gap-2">{rest.map(chip)}</div>}
+      <div className="mx-auto max-w-3xl">
+        <SeoBody
+          paragraphs={[
+            'ברכה טובה ליום הולדת לא חייבת להיות ארוכה. היא צריכה להתאים לאדם ולגיל: לילד בן 5 כותבים משהו שמח שאפשר להקריא לו, לבת מצווה משהו שמסתכל קדימה, ולסבא בן 80 משהו חם שמודה על מה שהוא נותן למשפחה.',
+            'בכל עמוד יש כמה סגנונות: ברכה קצרה לוואטסאפ, ברכה מרגשת לכרטיס וברכה בחרוזים או בהומור. אם אתם מצרפים ברכה למתנה, שווה להציץ גם ברעיונות למתנות לפי גיל.',
+          ]}
+          faq={HUB_FAQ}
+          related={[
+            { label: 'מחולל ברכות אישי', href: '/greeting' },
+            { label: 'מתנות ליום הולדת לפי גיל', href: '/gifts' },
+            { label: 'הזמנה ליום הולדת', href: '/invitation' },
+            { label: 'יום הולדת לילדים', href: '/birthday' },
+          ]}
+        />
       </div>
     </div>
   )
@@ -85,7 +121,7 @@ export default function GreetingPage() {
       )}
       <section className="mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד ברכות</h2>
-        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ←</Link></div>
+        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}{/mitzvah/.test(p.slug) && <><Link to="/bar-mitzvah" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">📜 מדריך בר ובת מצווה</Link><Link to="/bar-mitzvah/speech" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">🎤 דרשה לבר מצווה</Link></>}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ליום הולדת ←</Link></div>
       </section>
     </div>
   )

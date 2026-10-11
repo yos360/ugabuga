@@ -83,14 +83,20 @@ const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ defaul
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
 const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
 const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
+const TypingCourse = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingCourse })))
+const TypingTest = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingTest })))
+const TypingEnglish = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingEnglish })))
+const TypingGame = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingGame })))
 const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
 const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
+const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingGrade })))
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
 const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
+const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedGrade })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
 const MorningRoutine = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.MorningRoutine })))
@@ -116,6 +122,12 @@ const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.M
 const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
 const HebrewBirthday = lazy(() => import('./pages/tools/HebrewBirthday'))
 const BatMitzvahIdeas = lazy(() => import('./pages/ideas/BatMitzvahIdeas'))
+const BarMitzvahHub = lazy(() => import('./pages/barMitzvah/BarMitzvahHub'))
+const MitzvahDate = lazy(() => import('./pages/barMitzvah/MitzvahDate'))
+const MitzvahChecklist = lazy(() => import('./pages/barMitzvah/MitzvahChecklist'))
+const MitzvahSpeech = lazy(() => import('./pages/barMitzvah/MitzvahSpeech'))
+const MitzvahQuiz = lazy(() => import('./pages/barMitzvah/MitzvahQuiz'))
+const MitzvahSouvenir = lazy(() => import('./pages/barMitzvah/MitzvahSouvenir'))
 const ToddlersHub = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlersHub })))
 const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlerPage })))
 const ShabbatGames = lazy(() => import('./pages/games/ShabbatGames'))
@@ -136,6 +148,10 @@ const IsraelMapPage = lazy(() => import('./discover/DiscoverPages').then(m => ({
 const CapitalsPage = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.CapitalsPage })))
 const SolarSystem = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.SolarSystem })))
 const HumanBody = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.HumanBody })))
+const FlagsHub = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsHub })))
+const FlagsQuiz = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsQuiz })))
+const FlagsContinent = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsContinent })))
+const FlagsPrint = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsPrint })))
 const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
 const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
 const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
@@ -153,10 +169,22 @@ const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
+const ChessPage = lazy(() => import('./pages/chess/ChessPage'))
+const OrigamiHub = lazy(() => import('./pages/origami/OrigamiPages').then(m => ({ default: m.OrigamiHub })))
+const OrigamiModelPage = lazy(() => import('./pages/origami/OrigamiPages').then(m => ({ default: m.OrigamiModelPage })))
+const ChessPuzzlesPage = lazy(() => import('./pages/chess/ChessPuzzlesPage'))
+const ChessHowToPage = lazy(() => import('./pages/chess/ChessHowToPage'))
+const ChessPrintablePage = lazy(() => import('./pages/chess/ChessPrintablePage'))
 const OnlineGamesHub = lazy(() => import('./pages/arcade/OnlineGamesHub'))
 const DailyChallenge = lazy(() => import('./pages/arcade/DailyChallenge'))
 const MarathonPage = lazy(() => import('./pages/arcade/MarathonPage'))
 const OnlineGamePage = lazy(() => import('./pages/arcade/OnlineGamePage'))
+const SudokuHub = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuHub })))
+const SudokuLevelPage = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuLevelPage })))
+const SudokuKids = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuKids })))
+const SudokuDaily = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuDaily })))
+const SudokuPrint = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuPrint })))
+const SudokuSolver = lazy(() => import('./pages/sudoku/SudokuPages').then(m => ({ default: m.SudokuSolver })))
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
@@ -185,6 +213,9 @@ const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
+const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
+const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
+const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
 const QuizManage = lazy(() => import('./pages/quiz/QuizManage'))
 const QuizTake = lazy(() => import('./pages/quiz/QuizTake'))
@@ -203,6 +234,10 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
+const LogicHub = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicHub })))
+const LogicLevelPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicLevelPage })))
+const LogicPrintPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicPrintPage })))
+const LogicSolutionsPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicSolutionsPage })))
 const ColoringSubject = lazy(() => import('./pages/printables/ColoringSubject'))
 const ColorByNumberHub = lazy(() => import('./pages/printables/ColorByNumber'))
 const ColorByNumberPicture = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberPicture })))
@@ -289,6 +324,13 @@ export default function App() {
               <Route path="/ideas/themes/:slug" element={<ThemePage />} />
               <Route path="/ideas/themes" element={<ThemesHub />} />
               <Route path="/ideas/bat-mitzvah-ideas" element={<BatMitzvahIdeas />} />
+              <Route path="/bar-mitzvah" element={<BarMitzvahHub />} />
+              <Route path="/bat-mitzvah" element={<Navigate to="/bar-mitzvah" replace />} />
+              <Route path="/bar-mitzvah/date" element={<MitzvahDate />} />
+              <Route path="/bar-mitzvah/checklist" element={<MitzvahChecklist />} />
+              <Route path="/bar-mitzvah/speech" element={<MitzvahSpeech />} />
+              <Route path="/bar-mitzvah/quiz" element={<MitzvahQuiz />} />
+              <Route path="/bar-mitzvah/souvenir" element={<MitzvahSouvenir />} />
               <Route path="/ideas/kindergarten-graduation" element={<KindergartenGraduation />} />
               <Route path="/ideas/6th-grade-graduation" element={<SixthGradeGraduation />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
@@ -353,6 +395,21 @@ export default function App() {
               <Route path="/words" element={<Navigate to="/words/opposites" replace />} />
               <Route path="/board-games" element={<BoardGamesHub />} />
               <Route path="/board-games/:slug" element={<BoardGamePage />} />
+              <Route path="/sudoku" element={<SudokuHub />} />
+              <Route path="/sudoku/easy" element={<SudokuLevelPage key="easy" level="easy" />} />
+              <Route path="/sudoku/medium" element={<SudokuLevelPage key="medium" level="medium" />} />
+              <Route path="/sudoku/hard" element={<SudokuLevelPage key="hard" level="hard" />} />
+              <Route path="/sudoku/very-hard" element={<SudokuLevelPage key="very-hard" level="very-hard" />} />
+              <Route path="/sudoku/kids" element={<SudokuKids />} />
+              <Route path="/sudoku/daily" element={<SudokuDaily />} />
+              <Route path="/sudoku/print" element={<SudokuPrint />} />
+              <Route path="/sudoku/solver" element={<SudokuSolver />} />
+              <Route path="/origami" element={<OrigamiHub />} />
+              <Route path="/origami/:slug" element={<OrigamiModelPage />} />
+              <Route path="/chess" element={<ChessPage />} />
+              <Route path="/chess/puzzles" element={<ChessPuzzlesPage />} />
+              <Route path="/chess/how-to-play" element={<ChessHowToPage />} />
+              <Route path="/chess/printable-board" element={<ChessPrintablePage />} />
               <Route path="/online-games" element={<OnlineGamesHub />} />
               <Route path="/online-games/today" element={<DailyChallenge />} />
               <Route path="/online-games/marathon" element={<MarathonPage />} />
@@ -397,9 +454,18 @@ export default function App() {
               <Route path="/music/guitar-chords/:chord" element={<GuitarChord />} />
               <Route path="/music/concepts" element={<Concepts />} />
               <Route path="/music/styles" element={<Styles />} />
+              <Route path="/typing" element={<TypingCourse />} />
+              <Route path="/typing/test" element={<TypingTest />} />
+              <Route path="/typing/english" element={<TypingEnglish />} />
+              <Route path="/typing/game" element={<TypingGame />} />
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
               <Route path="/learn/reading" element={<ReadingIndex />} />
+              <Route path="/learn/reading/grade-2" element={<ReadingGrade key="g2" grade={2} />} />
+              <Route path="/learn/reading/grade-3" element={<ReadingGrade key="g3" grade={3} />} />
+              <Route path="/learn/reading/grade-4" element={<ReadingGrade key="g4" grade={4} />} />
+              <Route path="/learn/reading/grade-5" element={<ReadingGrade key="g5" grade={5} />} />
+              <Route path="/learn/reading/grade-6" element={<ReadingGrade key="g6" grade={6} />} />
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
               <Route path="/learn/multiplication-table" element={<MultiplicationTable />} />
@@ -408,6 +474,10 @@ export default function App() {
               <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />
+              <Route path="/learn/gifted-test/grade-2" element={<GiftedGrade key="grade-2" slug="grade-2" />} />
+              <Route path="/learn/gifted-test/grade-3" element={<GiftedGrade key="grade-3" slug="grade-3" />} />
+              <Route path="/learn/gifted-test/grade-6" element={<GiftedGrade key="grade-6" slug="grade-6" />} />
+              <Route path="/learn/gifted-test/stage-b" element={<GiftedGrade key="stage-b" slug="stage-b" />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/family/what-to-do" element={<WhatToDo />} />
@@ -441,6 +511,10 @@ export default function App() {
               <Route path="/discover/capitals" element={<CapitalsPage />} />
               <Route path="/discover/solar-system" element={<SolarSystem />} />
               <Route path="/discover/human-body" element={<HumanBody />} />
+              <Route path="/flags" element={<FlagsHub />} />
+              <Route path="/flags/quiz" element={<FlagsQuiz />} />
+              <Route path="/flags/print" element={<FlagsPrint />} />
+              <Route path="/flags/continents/:continent" element={<FlagsContinent />} />
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />
@@ -451,6 +525,12 @@ export default function App() {
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
+              <Route path="/logic-puzzles" element={<LogicHub />} />
+              <Route path="/logic-puzzles/kids" element={<LogicLevelPage key="kids" variant="kids" />} />
+              <Route path="/logic-puzzles/easy" element={<LogicLevelPage key="easy" variant="easy" />} />
+              <Route path="/logic-puzzles/hard" element={<LogicLevelPage key="hard" variant="hard" />} />
+              <Route path="/logic-puzzles/print" element={<LogicPrintPage />} />
+              <Route path="/logic-puzzles/solutions" element={<LogicSolutionsPage />} />
               <Route path="/printables/school-supplies-list" element={<SchoolSuppliesList />} />
               <Route path="/printables/:slug" element={<PrintableCategory />} />
               <Route path="/tools" element={<ToolsIndex />} />
@@ -561,6 +641,12 @@ export default function App() {
               <Route path="/tools/emoji-studio" element={<EmojiStudio />} />
               <Route path="/bring-list" element={<BringList />} />
               <Route path="/l/:code" element={<BringList />} />
+              <Route path="/rsvp" element={<Rsvp />} />
+              <Route path="/r/:code" element={<Rsvp />} />
+              <Route path="/secret-friend" element={<SecretFriend />} />
+              <Route path="/g/:code" element={<SecretFriend />} />
+              <Route path="/thank-you-wall" element={<ThankYouWall />} />
+              <Route path="/w/:code" element={<ThankYouWall />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
               <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />

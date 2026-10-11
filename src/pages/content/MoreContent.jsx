@@ -13,7 +13,7 @@ import { ABC_LETTERS } from '../../data/content/abcLetters'
 import { ABC_MORE, ABC_HUB, ENGLISH_TOPICS } from '../../data/content/abcLettersMore'
 import { Chip, Header, Hub, More } from './contentUi'
 
-export const RiddlesHub = () => <Hub seo={{ title: 'חידות עם תשובות — לפי נושא וגיל', description: `${RIDDLE_PAGES.length} דפי חידות עם תשובות: חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="כל דף: 12 חידות, רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
+export const RiddlesHub = () => <Hub seo={{ title: 'חידות לפי נושא וגיל — דפי חידות לגן, היגיון, חשבון וחגים', description: `חידות לפי נושא: ${RIDDLE_PAGES.length} דפי חידות עם תשובות — חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="כל דף: 12 חידות, רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
 function Riddle({ r, n }) {
   const [hint, setHint] = useState(false), [ans, setAns] = useState(false)
   return (
@@ -47,7 +47,7 @@ export function RiddlePage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title} description={p.description} path={'/riddles/' + slug} structuredData={faqSchema(p.faq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חידות לפי נושא', href: '/riddles/topics' }, { label: p.title }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'חידות לפי נושא', href: '/riddles/topics' }, { label: p.title }]} />
       <Header emoji={p.emoji} title={p.title} intro={p.intro} />
       <Lead p={p} />
       <div className="space-y-3">{p.riddles.map((r, i) => <Riddle key={i} r={r} n={i + 1} />)}</div>
@@ -60,7 +60,7 @@ export function RiddlePage() {
 }
 
 // ---------- Jokes ----------
-export const JokesHub = () => <Hub seo={{ title: 'בדיחות לילדים — לפי נושא', description: `${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות לילדים: בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={[{ slug: 'keresh', emoji: '🪵', title: '100 בדיחות קרש לילדים' }, ...JOKE_PAGES]} base="/jokes/" />
+export const JokesHub = () => <Hub seo={{ title: 'בדיחות לפי נושא — על חיות, בית ספר, אוכל ועוד', description: `בדיחות לפי נושא: ${JOKE_PAGES.length} דפים של בדיחות נקיות ומצחיקות — בית ספר, חיות, אוכל, חלל, משחקי מילים ועוד — מתאים לכל המשפחה.`, path: '/jokes/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'לפי נושא' }]} emoji="😂" title="בדיחות לפי נושא" intro="בדיחות נקיות לכל המשפחה." items={[{ slug: 'keresh', emoji: '🪵', title: '100 בדיחות קרש לילדים' }, ...JOKE_PAGES]} base="/jokes/" />
 function Joke({ j }) {
   const [open, setOpen] = useState(false)
   return <WobblyCard hover={false} padding="p-4"><p className="text-lg font-bold">{j.setup}</p>{open ? <p className="mt-2 text-lg">😂 {j.punchline}</p> : <button className="btn-secondary text-sm mt-2" onClick={() => setOpen(true)}>לפאנץ׳ ←</button>}</WobblyCard>
@@ -71,7 +71,7 @@ export function JokePage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title} description={p.description} path={'/jokes/' + slug} structuredData={faqSchema(p.faq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות לפי נושא', href: '/jokes/topics' }, { label: p.title }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'בדיחות', href: '/tools/joke' }, { label: 'בדיחות לפי נושא', href: '/jokes/topics' }, { label: p.title }]} />
       <Header emoji={p.emoji} title={p.title} intro={p.intro} />
       <Lead p={p} />
       <div className="space-y-3">{p.jokes.map((j, i) => <Joke key={i} j={j} />)}</div>

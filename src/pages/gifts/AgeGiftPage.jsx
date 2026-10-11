@@ -4,6 +4,9 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { faqSchema } from '../../components/ui/SeoBody'
 import { AGE_GIFTS, GIFT_AGES } from '../../data/gifts'
 import { GIFT_GUIDE } from '../../data/giftsGuide'
+import { metaWithLead } from '../../utils/seoText'
+
+const giftDescription = (age, intro) => metaWithLead(`מתנות לגיל ${age} ליום הולדת — רעיונות לפי תקציב. `, intro)
 
 // Age pages that exist elsewhere on the site (see public/sitemap-static.xml)
 const IDEA_AGES = [4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -42,10 +45,10 @@ export default function AgeGiftPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={`מתנות ליום הולדת גיל ${ageNum}`} description={data.intro.slice(0,150)} path={'/gifts/age-'+ageNum} structuredData={faqSchema(guide?.faq)} />
+      <SEO title={`מתנות לגיל ${ageNum} — רעיונות למתנת יום הולדת`} description={giftDescription(ageNum, data.intro)} path={'/gifts/age-'+ageNum} structuredData={faqSchema(guide?.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מתנות', href: '/gifts' }, { label: 'גיל '+ageNum }]} />
       <p className="font-hand text-lg text-[var(--muted-foreground)]">מדריך מתנות</p>
-      <h1 className="text-4xl sm:text-5xl mt-1 mb-6">מתנות ליום הולדת גיל {ageNum} — הרעיונות הכי טובים</h1>
+      <h1 className="text-4xl sm:text-5xl mt-1 mb-6">מתנות לגיל {ageNum} — הרעיונות הכי טובים ליום הולדת</h1>
       <p className="text-lg leading-relaxed mb-6">{data.intro}</p>
 
       <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-5 tape mb-8">

@@ -15,7 +15,7 @@ export const MARATHON_STAGES = [
   { slug: 'falling-blocks', goal: 'מנקים 3 שורות', cfg: () => ({ target: 3 }) },
   { slug: 'whack-a-mole', goal: 'פוגעים ב־12 חפרפרות', cfg: () => ({ target: 12 }) },
   { slug: 'sliding-puzzle', goal: 'מסדרים פאזל 3×3', cfg: () => ({ level: 3 }) },
-  { slug: 'word-guess', goal: 'מנחשים מילה אחת', cfg: () => ({}) },
+  { slug: 'word-guess', goal: 'מנחשים מילה אחת', cfg: () => ({ classic: true }) },
 ]
 export const MARATHON_LENGTH = 8
 export const SKIP_PENALTY = 30 // seconds

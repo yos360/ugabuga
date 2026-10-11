@@ -169,6 +169,9 @@ export const FAQ = [
 ]
 
 export const RELATED = [
+  { label: 'מדריך בר ובת מצווה', href: '/bar-mitzvah', emoji: '📜' },
+  { label: 'מזכרת לבת מצווה', href: '/bar-mitzvah/souvenir', emoji: '💌' },
+  { label: 'נאום לבת מצווה', href: '/bar-mitzvah/speech', emoji: '🎤' },
   { label: 'מחשבון יום הולדת עברי ובת מצווה', href: '/tools/hebrew-birthday', emoji: '✡️' },
   { label: 'ברכות לבת מצווה', href: '/greetings/bat-mitzvah', emoji: '👑' },
   { label: 'רעיונות לבר מצווה', href: '/ideas/bar-mitzvah-ideas', emoji: '📜' },

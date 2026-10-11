@@ -220,10 +220,10 @@ const HUB_FAQ = [
 export function EnglishHub() {
   const total = ENGLISH_TOPICS.reduce((n, x) => n + x.words.length, 0)
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="אנגלית לילדים — מילים ראשונות עם תמונות, משחקים וכרטיסיות להדפסה" description={`אנגלית לילדים בחינם: ${total} מילים ראשונות ב-${ENGLISH_TOPICS.length} נושאים — צבעים, מספרים, חיות, רגשות, בגדים ועוד — עם תמונה, הגייה, משחק וכרטיסיות להדפסה.`} path="/english" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="לימוד אנגלית לילדים — מילים ראשונות, משחקים וכרטיסיות" description={`לימוד אנגלית לילדים בחינם: ${total} מילים ראשונות ב-${ENGLISH_TOPICS.length} נושאים — צבעים, מספרים, חיות, רגשות, בגדים ועוד — עם תמונה, הגייה, משחק וכרטיסיות להדפסה.`} path="/english" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אנגלית לילדים' }]} />
-    <h1 className="mb-3 text-center text-4xl sm:text-5xl">🇬🇧 אנגלית לילדים</h1>
-    <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מילים ראשונות באנגלית לפי נושאים — עם תמונה, קול והגייה, משחק קצר וכרטיסיות להדפסה. בלי הרשמה ובלי קורס: 10 דקות ביום מספיקות.</p>
+    <h1 className="mb-3 text-center text-4xl sm:text-5xl">🇬🇧 לימוד אנגלית לילדים</h1>
+    <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">לימוד אנגלית לילדים דרך מילים ראשונות לפי נושאים — עם תמונה, קול והגייה, משחק קצר וכרטיסיות להדפסה. בלי הרשמה ובלי קורס: 10 דקות ביום מספיקות.</p>
     <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {ENGLISH_TOPICS.map(x => <Link key={x.slug} to={`/english/${x.slug}`} className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-4 text-center shadow-sm transition hover:-translate-y-0.5">
         <Pic word={x.words.find(w => w.emoji) || x.words[0]} size={64} />

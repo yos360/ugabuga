@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 
+const FAQ = [
+  { q: 'איך יוצרים תפזורת משלי?', a: 'בוחרים "מותאם אישית", כותבים 4 עד 20 מילים בעברית ולוחצים ליצירה. המילים מוסתרות בטבלה מימין לשמאל ומלמעלה למטה, והשאר מתמלא באותיות אקראיות — כולל אותיות סופיות, כדי שלא יסגירו את סוף המילה.' },
+  { q: 'לאיזה גיל מתאימה תפזורת?', a: 'מכיתה א׳–ב׳, כשהילדים כבר מזהים מילים קצרות. לקטנים כדאי לבחור 4–6 מילים קצרות; לגדולים — יותר מילים וארוכות יותר, והטבלה גדלה בהתאם.' },
+  { q: 'אפשר להדפיס את התפזורת?', a: 'כן. אחרי היצירה לוחצים "הדפסה" ומקבלים דף A4 עם הטבלה ורשימת המילים לחיפוש. כל לחיצה על יצירה מחדש נותנת תפזורת חדשה מאותן מילים.' },
+]
 const PACKS = {
   animals: ['אריה','חתול','כלב','דג','ציפור','נחש','פיל','דוב'],
   food: ['פיצה','גלידה','עוגה','בננה','תפוח','שוקולד','לחם','גבינה'],
@@ -69,9 +75,10 @@ export default function WordSearchMaker() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="יוצר תפזורת בעברית — תפזורת מילים להדפסה" description="יוצרים תפזורת בעברית בחינם: בוחרים חבילה מוכנה (חיות, אוכל, בית ספר) או מקלידים מילים משלכם, ומקבלים תפזורת חדשה שאפשר להדפיס מיד. לכיתה, לחוג ולבית." path="/tools/word-search-maker" />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'תפזורת' }]} />
-      <h1 className="text-4xl text-center mb-6">🔍 יוצר תפזורת</h1>
+      <SEO title="תפזורת בעברית — יוצרים תפזורת מילים להדפסה בחינם" structuredData={faqSchema(FAQ)} description="תפזורת בעברית בחינם: בוחרים חבילה מוכנה (חיות, אוכל, בית ספר) או מקלידים מילים משלכם, ומקבלים תפזורת חדשה שאפשר להדפיס מיד. לכיתה, לחוג ולבית." path="/tools/word-search-maker" />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'תפזורת' }]} />
+      <h1 className="text-4xl text-center mb-3">🔍 תפזורת בעברית — יוצרים ומדפיסים</h1>
+      <p className="mx-auto mb-6 max-w-xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">תפזורת מילים לילדים: בוחרים נושא מוכן או כותבים מילים משלכם, ומקבלים תפזורת חדשה להדפסה — לכיתה, לחוג ולבית.</p>
 
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {[['animals','🐾 חיות'],['food','🍕 אוכל'],['school','🏫 בית ספר'],['custom','✏️ מותאם אישית']].map(([k,l]) => (
@@ -113,6 +120,7 @@ export default function WordSearchMaker() {
         </div>
       )}
       {printing&&grid&&<PrintPreview title="התפזורת שלי" onClose={()=>setPrinting(false)}><article className="buga-a4"><h2>התפזורת שלי</h2><p>חפשו מימין לשמאל ומלמעלה למטה</p><div className="print-art"><svg viewBox={`0 0 ${grid.length*35} ${grid.length*35}`} role="img" aria-label="לוח תפזורת">{grid.flatMap((row,r)=>row.map((letter,c)=><g key={r+'-'+c}><rect x={(grid.length-1-c)*35} y={r*35} width="35" height="35" fill="white" stroke="#777"/><text x={(grid.length-1-c)*35+17.5} y={r*35+24} textAnchor="middle" fontSize="22" fontFamily="Heebo,Arial" fill="#111">{letter}</text></g>))}</svg></div><p style={{textAlign:'center',fontSize:16}}>{words.join(' · ')}</p><footer>עוגה בוגה · ugabuga.co.il</footer></article></PrintPreview>}
+      <div className="no-print mt-12"><SeoBody paragraphs={['תפזורת היא טבלת אותיות שמסתתרות בה מילים, והמשימה היא למצוא ולהקיף את כולן. היא מאמנת קריאה, זיהוי אותיות וריכוז — ולכן היא אהובה בכיתות א׳–ד׳, בחוגים ובנסיעות ארוכות. מורות יכולות להכין תפזורת עם מילים מהשיעור, והורים — עם שמות בני המשפחה.']} faq={FAQ} related={[{ label: 'תשבץ בעברית', href: '/tools/crossword-maker' }, { label: 'מבוכים להדפסה', href: '/printables/mazes' }, { label: 'דפים להדפסה', href: '/printables' }]} /></div>
     </div>
   )
 }

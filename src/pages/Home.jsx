@@ -55,10 +55,10 @@ const homeFaq = [
 ]
 const homeBody = [
   'עוגה בוגה הוא אתר משחקים והדפסות חינמי לילדים, למשפחות ולמורות — בלי הרשמה, בלי תשלום, ובלי "גרסת ניסיון" חלקית. המטרה פשוטה: לתת פתרון מהיר ואמיתי לרגע שבו צריך משחק, פעילות, או הדפסה בשביל ילדים, בין אם זו מסיבת יום הולדת מחר, יום גשום היום, או שיעור שצריך למלא בעוד עשר דקות.',
-  'האתר בנוי משלושה סוגי תוכן שמשלימים אחד את השני: רשימה גדולה של כל המשחקים המסוננת לפי גיל, זמן, ציוד ומספר משתתפים; כלים אינטראקטיביים ומדפסות כמו בינגו היכרות, ציד אוצרות וחדרי בריחה; ועולם רעיונות לתכנון מסיבות ואירועים שלמים.',
+  <>מה יש כאן? <Link to="/games" className="underline font-bold">משחקים לילדים</Link> לשחק יחד, מסוננים לפי גיל, זמן, ציוד ומספר משתתפים; <Link to="/online-games" className="underline font-bold">משחקי אונליין</Link> וחשיבה על כל המסך; <Link to="/printables/coloring" className="underline font-bold">דפי צביעה</Link> ו<Link to="/printables" className="underline font-bold">דפים להדפסה</Link> — מבוכים, דפי עבודה ותעודות; כלים כמו <Link to="/tools/random-picker" className="underline font-bold">גלגל מזל</Link>, בינגו היכרות, ציד אוצרות וחדרי בריחה; ועולם רעיונות לתכנון מסיבות ואירועים שלמים.</>,
   'בין אם מגיעים כהורה שמחפש פתרון מהיר לחצי שעה פנויה, כמורה שרוצה כלי לכיתה, או כמארגן מסיבה שרוצה לתכנן אירוע שלם — כל דבר באתר חינמי לשימוש, זמין מיד, ולא דורש הרשמה כדי להתחיל.',
 ]
-const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'עולם ההשראה', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
+const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'רעיונות ליום הולדת', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
 
 // Home charts strip: after the featured games on desktop, further down on phones.
 function HomeCharts({ className }) {
@@ -100,10 +100,10 @@ export default function Home() {
     }
   }
 
-  return <><SEO path="/" title="עוגה בוגה — משחקים והדפסות חינם לילדים ולמורות" description='עוגה בוגה (BUGA) — 100 משחקים, כלים להדפסה וחדרי בריחה בעברית, חינם וללא הרשמה, ליום הולדת, לכיתה ולבית.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
+  return <><SEO path="/" title="עוגה בוגה — פעילויות ומשחקים לילדים בחינם" description='עוגה בוגה — פעילויות לילדים בעברית: 100 משחקים, משחקי אונליין, דפי צביעה ודפים להדפסה, חדרי בריחה וכלים לכיתה. חינם וללא הרשמה.' structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>מה בא לכם לעשות היום?</h1>
-      <p>משחקים, יצירה, דפי פעילות וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
+      <p>פעילויות ומשחקים לילדים, יצירה, דפי צביעה וכלים ליום הולדת, לכיתה ולבית — בעברית ובמקום אחד. עוגה בוגה (UGABUGA) מציעה 100 משחקים ופעילויות בחינם לכל גיל וגודל קבוצה.</p>
       <nav className="home-quick" aria-label="מתחילים מכאן">
         <Link to="/online-games" className="home-quick-btn is-play"><span aria-hidden="true">🕹️</span> לשחק עכשיו</Link>
         <Link to="/tools/bring-list" className="home-quick-btn is-list"><span aria-hidden="true">🧺</span> רשימת "מי מביא מה"</Link>

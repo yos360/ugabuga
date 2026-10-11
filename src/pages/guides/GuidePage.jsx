@@ -23,7 +23,7 @@ export default function GuidePage() {
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <SEO title={`${guide.title} — מדריך מעשי`} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(deep.faq)} />
+      <SEO title={guide.seoTitle || (guide.title.includes('מדריך') ? guide.title : `${guide.title} — מדריך מעשי`)} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(deep.faq)} />
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },

@@ -12,6 +12,11 @@ import {
 import '../../learn/learn.css'
 import './stories.css'
 
+// Keep the meta description near 160 characters: long summaries get the short suffix.
+const storyDescription = (summary, minutes) => {
+  const full = `${summary} סיפור קצר לפני השינה (${minutes} דק׳), עם מסר קטן, הדפסה — ואפשר גם עם שם הילד.`
+  return full.length <= 165 ? full : `${summary} סיפור לפני השינה, ${minutes} דק׳ קריאה.`
+}
 const HUB = { label: 'סיפורים לפני השינה', href: '/stories' }
 const SAVED_KEY = 'ugabuga-story-hero' // per-viewer convenience only: the child's name + gender
 const SITE = 'https://ugabuga.co.il'
@@ -63,12 +68,12 @@ export function StoriesHub() {
   const custom = hero.name || hero.g ? { hero: { name: hero.name, g: hero.g } } : undefined
   const list = BEDTIME_STORIES.filter(s => (!age || s.age === age) && (!theme || s.theme === theme))
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="סיפורים לפני השינה לילדים — 30 סיפורים קצרים, גם עם שם הילד" description="ספריית סיפורים לפני השינה לילדים: 30 סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם." path="/stories" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="סיפורים לילדים לפני השינה — 30 סיפורים קצרים, גם עם שם הילד" description="סיפורים לילדים לפני השינה: 30 סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם." path="/stories" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: HUB.label }]} />
     <header className="text-center">
       <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 font-bold text-[#1d2233]">{BEDTIME_STORIES.length} סיפורים מקוריים · חינם</span>
-      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🌙 </span>סיפורים לפני השינה לילדים</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">סיפורים קצרים, חמים ורגועים לקריאה לפני השינה — על חברות, חיות, משפחה, פחדים קטנים ודמיון גדול. כל סיפור נגמר בשקט, בדיוק כשהעיניים נעצמות.</p>
+      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🌙 </span>סיפורים לילדים לפני השינה</h1>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">סיפורים לילדים לפני השינה: קצרים, חמים ורגועים — על חברות, חיות, משפחה, פחדים קטנים ודמיון גדול. כל סיפור נגמר בשקט, בדיוק כשהעיניים נעצמות.</p>
     </header>
 
     <section className="ln-box st-panel mx-auto mt-6 max-w-3xl space-y-3 text-center" aria-labelledby="hub-name">
@@ -192,7 +197,7 @@ function Story({ story, params }) {
   const printTitle = heroName ? `סיפור לפני השינה של ${heroName}` : 'סיפור לפני השינה'
 
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`${defaults.title} — סיפור לפני השינה ל${ageLabel(story.age)}`} description={`${defaults.summary} סיפור קצר לפני השינה (${minutes} דק׳), עם מסר קטן, הדפסה — ואפשר גם עם שם הילד.`} path={`/stories/${story.slug}`} type="article" structuredData={schema} />
+    <SEO title={`${defaults.title} — סיפור לפני השינה ל${ageLabel(story.age)}`} description={storyDescription(defaults.summary, minutes)} path={`/stories/${story.slug}`} type="article" structuredData={schema} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, HUB, { label: defaults.title }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">{story.emoji}</div>

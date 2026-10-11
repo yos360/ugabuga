@@ -1,0 +1,78 @@
+/* /typing — touch-typing course, speed test, English track, falling-words game */
+.ty-box{border:2px solid var(--ink,#14162d);border-radius:20px;background:var(--card,#fff);padding:16px;box-shadow:4px 4px 0 var(--ink,#14162d)}
+.ty-chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:6px 14px;border:2px solid var(--ink,#14162d);border-radius:999px;background:#fff;font-weight:700;cursor:pointer}
+.ty-chip[aria-pressed="true"]{background:var(--yellow,#fff4bb)}
+.ty-btn{min-height:50px;padding:10px 22px;border-radius:14px;border:2px solid var(--ink,#14162d);background:#ffd23f;font-weight:900;font-size:18px;box-shadow:3px 3px 0 var(--ink,#14162d);cursor:pointer}
+.ty-btn.alt{background:#fff}
+.ty-btn.go{background:#7dd87a}
+.ty-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink,#14162d)}
+.ty-notice{border:2px dashed #e0a100;background:#fff8dc;border-radius:16px;padding:12px 14px;line-height:1.6}
+
+/* lesson picker */
+.ty-stages{display:grid;gap:10px 18px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.ty-stage{margin:0}
+.ty-stage h3{font-size:17px;font-weight:800;margin:0 0 6px}
+.ty-lessons{display:flex;flex-wrap:wrap;gap:6px}
+.ty-lesson{min-width:52px;min-height:48px;padding:4px 8px;border:2px solid var(--ink,#14162d);border-radius:12px;background:#fff;font-weight:800;line-height:1.1;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ty-lesson small{font-size:11px;letter-spacing:-1px;color:#b98a00;min-height:13px}
+.ty-lesson[aria-current="true"]{background:#ffd23f;box-shadow:2px 2px 0 var(--ink,#14162d)}
+
+/* text being typed */
+.ty-text{font-size:clamp(22px,4.6vw,32px);line-height:1.75;padding:12px 14px;border-radius:14px;background:#f7f8fc;border:2px solid #dde2ed;word-break:normal;user-select:none;position:relative;overflow:hidden}
+.ty-text.is-scroll{height:calc(1.75em * 3 + 24px)}
+.ty-text .w{display:inline-block;white-space:nowrap}
+.ty-text span.c{border-radius:4px;padding:0 1px}
+.ty-text .done{color:#2e8b2b}
+.ty-text .done.was-err{color:#c62828;background:#ffe3e3}
+.ty-text .cur{background:#ffd23f;box-shadow:0 3px 0 var(--ink,#14162d);color:var(--ink,#14162d)}
+.ty-text .cur.bad{background:#ff8a8a;animation:ty-shake .18s}
+.ty-text .todo{color:#5b6178}
+.ty-text .sp.cur{display:inline-block;min-width:.5em}
+@keyframes ty-shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-3px)}70%{transform:translateX(3px)}}
+
+.ty-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
+.ty-stats div{border:2px solid #dde2ed;border-radius:12px;padding:6px 4px;background:#fff}
+.ty-stats b{display:block;font-size:clamp(18px,5vw,24px);font-weight:900;line-height:1.1}
+.ty-stats span{font-size:13px;color:#5b6178}
+.ty-next{font-weight:700;text-align:center;min-height:28px}
+.ty-next i{font-style:normal;display:inline-block;padding:0 8px;border-radius:8px;border:2px solid var(--ink,#14162d)}
+
+/* on-screen keyboard (always physical left→right) */
+.ty-kb{--u:min(6.1vw,44px);direction:ltr;display:flex;flex-direction:column;gap:calc(var(--u)*.1);align-items:center;user-select:none;margin:0 auto}
+.ty-row{display:flex;gap:calc(var(--u)*.1)}
+.ty-key{width:var(--u);height:calc(var(--u)*1.05);border-radius:calc(var(--u)*.18);border:1.5px solid rgba(20,22,45,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;font-weight:800;font-size:calc(var(--u)*.44);line-height:1;color:var(--ink,#14162d);transition:transform .12s}
+.ty-key small{position:absolute;top:2px;left:4px;font-size:calc(var(--u)*.22);font-weight:600;opacity:.55}
+.ty-key.is-bump::after{content:'';position:absolute;bottom:3px;width:30%;height:2px;border-radius:2px;background:rgba(20,22,45,.55)}
+.ty-key.is-mod{font-size:calc(var(--u)*.24);font-weight:600;background:#eef0f5}
+.ty-key.is-next{border:3px solid var(--ink,#14162d);transform:translateY(-2px) scale(1.08);box-shadow:0 3px 0 var(--ink,#14162d);z-index:1;animation:ty-pulse 1s ease-in-out infinite}
+.ty-key.is-wrong{background:#ff6b6b!important}
+@keyframes ty-pulse{50%{box-shadow:0 3px 0 var(--ink,#14162d),0 0 0 5px rgba(255,210,63,.6)}}
+@media (prefers-reduced-motion:reduce){.ty-key.is-next,.ty-text .cur.bad{animation:none}}
+
+.ty-hands{display:block;width:min(100%,380px);height:auto;margin:6px auto 0}
+.ty-legend{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;font-size:13px}
+.ty-legend span{display:inline-flex;align-items:center;gap:4px}
+.ty-legend i{width:12px;height:12px;border-radius:4px;border:1px solid rgba(0,0,0,.25);display:inline-block}
+
+.ty-capture{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;inset-inline-start:0}
+
+/* result */
+.ty-result{text-align:center}
+.ty-result .big{font-size:clamp(48px,14vw,84px);font-weight:900;line-height:1}
+.ty-stars{font-size:40px;letter-spacing:4px}
+.ty-share{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;border-color:#0d6e34}
+
+/* spoke cards */
+.ty-spokes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.ty-spokes a{display:block;border:2px solid var(--ink,#14162d);border-radius:16px;padding:12px 14px;background:#fff;box-shadow:3px 3px 0 var(--ink,#14162d)}
+.ty-spokes a:hover{background:#fff8dc}
+
+/* game */
+.ty-arena{position:relative;height:min(62vh,400px);border:2px solid var(--ink,#14162d);border-radius:18px;overflow:hidden;background:linear-gradient(#d7f0ff,#f4fbff 70%,#c9efc0 70.5%,#a8e39b)}
+.ty-drop{position:absolute;transform:translateX(-50%);padding:4px 10px;border-radius:12px;background:#fff;border:2px solid var(--ink,#14162d);font-size:clamp(20px,5vw,28px);font-weight:900;white-space:nowrap;box-shadow:2px 2px 0 var(--ink,#14162d)}
+.ty-drop.is-target{background:#fff4bb}
+.ty-drop .ok{color:#2e8b2b}
+.ty-pop{position:absolute;transform:translateX(-50%);font-size:24px;font-weight:900;color:#2e8b2b;animation:ty-up .6s forwards;pointer-events:none}
+@keyframes ty-up{to{transform:translate(-50%,-40px);opacity:0}}
+.ty-hud{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:18px;margin-bottom:6px}
+.ty-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,.88);text-align:center;padding:12px}

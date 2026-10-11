@@ -8,6 +8,7 @@ import SpeakButton from '../components/ui/SpeakButton'
 import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
 import { DICTATION, READING, plainWord } from './learnData'
+import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import './learn.css'
 
 export const LEARN_CRUMB = { label: 'לומדים בבית', href: '/learn' }
@@ -25,17 +26,22 @@ function Head({ emoji, h1, sub, crumb }) {
 // ── /learn ───────────────────────────────
 export const LEARN_SECTIONS = [
   ['/learn/dictation', '✍️', 'הכתבה', 'הורה מקריא או הקראה קולית — עם בדיקה ודף להדפסה'],
-  ['/learn/reading', '📖', 'הבנת הנקרא', `${READING.length} קטעים קצרים עם שאלות — אונליין ולהדפסה`],
-  ['/learn/times-tables', '✖️', 'אתגר לוח הכפל', 'דקה אחת, כמה תרגילים תספיקו? ולוח הכפל להדפסה'],
+  ['/learn/reading', '📖', 'הבנת הנקרא', `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳ — אונליין ולהדפסה`],
+  ['/learn/times-tables', '✖️', 'תרגול לוח הכפל', 'אתגר הדקה: כמה תרגילים בלוח הכפל תספיקו?'],
   ['/learn/flashcards', '🃏', 'כרטיסיות לימוד', 'אנגלית, הפכים, לוח הכפל — או כרטיסיות משלכם'],
+  ['/typing', '⌨️', 'הקלדה עיוורת', '25 שיעורים, מבחן מהירות ומשחק הקלדה לילדים'],
   ['/learn/gifted-test', '🧠', 'הכנה למבחן מחוננים', '120 שאלות תרגול: אנלוגיות, סדרות, מטריצות וחשיבה לוגית'],
+  ['/learn/multiplication-table', '📋', 'לוח הכפל', 'טבלה צבעונית, לוח הכפל של כל מספר ולוח הכפל להדפסה'],
+  ['/math', '🧮', 'תרגילי חשבון', 'תרגול, מבחנים ודפי עבודה לפי כיתה — מכיתה א׳ עד י״ב'],
+  ['/words/synonyms', '🟰', 'מילים נרדפות', 'משחקים ודפי עבודה במילים נרדפות לפי גיל'],
+  ['/words/opposites', '🔄', 'הפכים', 'משחקים ודפי עבודה בהפכים לילדים'],
 ]
 export function LearnHub() {
   return <Page>
-    <SEO title="לומדים בבית — הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות" description="תרגול לימודי לילדים בבית: הכתבה אונליין עם בדיקה, קטעי הבנת הנקרא עם שאלות, אתגר לוח הכפל וכרטיסיות לימוד להדפסה. חינם ובעברית." path="/learn" />
+    <SEO title="לומדים בבית — הכתבה, הבנת הנקרא, לוח הכפל וחשבון" description="תרגול לימודי לילדים בבית: הכתבה אונליין עם בדיקה, הבנת הנקרא עם שאלות, לוח הכפל, תרגילי חשבון, מבחן מחוננים ומילים נרדפות. חינם ובעברית." path="/learn" />
     <Head emoji="🎒" h1="לומדים בבית" sub="עשר דקות ביום של תרגול — בלי דפים שהולכים לאיבוד" />
     <div className="grid gap-5 sm:grid-cols-2">{LEARN_SECTIONS.map(([to, e, t, d]) => <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right"><div className="text-4xl mb-2" aria-hidden="true">{e}</div><h2 className="text-2xl font-bold">{t}</h2><p className="text-[var(--muted-foreground)]">{d}</p></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. כאן יש ארבעה כלים שאפשר לפתוח בטלפון או במחשב: הכתבה, הבנת הנקרא, לוח הכפל וכרטיסיות — וכל אחד מהם אפשר גם להדפיס.', 'כל הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית, ומתאימים לכיתות א׳–ד׳.']} related={[{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['תרגול קצר וקבוע עובד טוב יותר מישיבה ארוכה פעם בשבוע. כאן יש כלים שאפשר לפתוח בטלפון או במחשב: הכתבה, הבנת הנקרא, תרגול לוח הכפל, תרגילי חשבון לפי כיתה, כרטיסיות, מילים נרדפות והפכים — ואת רובם אפשר גם להדפיס.', 'כל הקטעים והרשימות נכתבו במיוחד לאתר, בכתיב מלא לפי כללי האקדמיה ללשון העברית, ומתאימים לכיתות א׳–ד׳.']} related={[{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי שורות לכתיבה', href: '/printables/lined-paper' }]} /></div>
   </Page>
 }
 
@@ -133,54 +139,137 @@ export function Dictation() {
 }
 
 // ── /learn/reading ───────────────────────────────
-export function ReadingIndex() {
-  return <Page>
-    <SEO title="הבנת הנקרא לכיתות א׳–ד׳ — קטעים עם שאלות, אונליין ולהדפסה" description={`${READING.length} קטעי הבנת הנקרא קצרים לילדים: סיפורים, משלים וקטעי מידע, עם שאלות אמריקאיות ושאלה פתוחה. פותרים אונליין או מדפיסים עם דף תשובות.`} path="/learn/reading" />
-    <Head emoji="📖" h1="הבנת הנקרא" sub="קוראים קטע קצר ועונים על שאלות — על המסך או על הדף" crumb="הבנת הנקרא" />
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{READING.map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><div className="text-4xl" aria-hidden="true">{r.emoji}</div><h2 className="text-xl font-bold">{r.title}</h2><small>{r.kind} · כיתה {r.grade}</small></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['כל קטע כאן קצר מספיק כדי לקרוא אותו בכמה דקות, ואחריו ארבע שאלות אמריקאיות ושאלה פתוחה אחת לכתיבה. יש סיפורים, משלים מוכרים (כמו הארנבת והצב) וקטעי מידע על בעלי חיים ועל מקומות בארץ.', 'הקטעים נכתבו במיוחד לאתר. בקטעי המידע הקפדנו על עובדות פשוטות ומבוססות. כל קטע אפשר להדפיס יחד עם דף תשובות להורה או למורה.']} related={[{ label: 'הכתבה', href: '/learn/dictation' }, { label: 'מבחן אמריקאי משלכם', href: '/classroom/quiz' }]} /></div>
-  </Page>
-}
+// Short passages (learnData READING) + graded passages for grades 2–6 (readingGrades.js).
+const ALL_READING = [...READING, ...GRADED_READING]
+const GRADE_LEVELS = [2, 3, 4, 5, 6]
+const GRADE_LETTER = { 2: 'ב׳', 3: 'ג׳', 4: 'ד׳', 5: 'ה׳', 6: 'ו׳' }
+// Older short passages that fit a grade page as extra practice (by their grade label).
+const SHORT_FOR = { 2: ['א׳–ב׳', 'ב׳–ג׳'], 3: ['ב׳–ג׳', 'ג׳–ד׳'], 4: ['ג׳–ד׳'] }
+const opensOf = r => Array.isArray(r.open) ? r.open : [[r.open, null]]
+const qCount = r => r.q.length + opensOf(r).length
+const gradeHref = g => `/learn/reading/grade-${g}`
+
 function ReadingPrint({ r }) {
+  const opens = opensOf(r)
   return <>
     <article className="buga-flow ln-print" dir="rtl"><h2>{r.title}</h2>
-      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span></div>
+      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind} · כיתה {r.grade}</span></div>
       <div className="txt">{r.text.map((p, i) => <p key={i}>{p}</p>)}</div>
       <h3>שאלות</h3>
       <ol className="qs">{r.q.map(([q, opts]) => <li key={q}><b>{q}</b><ul>{opts.map(o => <li key={o}>☐ {o}</li>)}</ul></li>)}
-        <li><b>{r.open}</b><div className="write" /><div className="write" /></li></ol></article>
-    <article className="buga-flow ln-print" dir="rtl"><h2>תשובות — {r.title}</h2><ol>{r.q.map(([q, opts, c]) => <li key={q}>{q} <b>{opts[c]}</b></li>)}<li>{r.open} <i>(תשובה פתוחה)</i></li></ol></article>
+        {opens.map(([q]) => <li key={q}><b>{q}</b><div className="write" /><div className="write" />{r.level >= 4 && <div className="write" />}</li>)}</ol></article>
+    <article className="buga-flow ln-print" dir="rtl"><h2>תשובות — {r.title}</h2>
+      <ol>{r.q.map(([q, opts, c]) => <li key={q}>{q} <b>{opts[c]}</b></li>)}
+        {opens.map(([q, a]) => <li key={q}>{q} {a ? <><br /><i>תשובה אפשרית: {a}</i></> : <i>(תשובה פתוחה)</i>}</li>)}</ol></article>
   </>
 }
-export function ReadingPage() {
-  const { slug } = useParams()
-  const r = READING.find(x => x.slug === slug)
+
+// One passage with its questions, solved on screen. Reset with `key` when the passage changes.
+function ReadingExercise({ r, headingLevel = 2 }) {
   const [picks, setPicks] = useState({})
   const [checked, setChecked] = useState(false)
   const [big, setBig] = useState(false)
+  const [showAns, setShowAns] = useState(false)
   const [printing, setPrinting] = useState(false)
-  const others = useMemo(() => READING.filter(x => x.slug !== slug).slice(0, 4), [slug])
-  useEffect(() => { setPicks({}); setChecked(false) }, [slug])
-  if (!r) return <NotFound />
+  const opens = opensOf(r)
   const score = r.q.filter((q, i) => picks[i] === q[2]).length
-  return <Page>
-    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={`קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}: ${r.text[0].slice(0, 80)}… עם 4 שאלות אמריקאיות, שאלה פתוחה ודף להדפסה.`} path={`/learn/reading/${r.slug}`} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, { label: r.title }]} />
-    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade}</p>
+  const H = headingLevel === 2 ? 'h2' : 'h3'
+  return <>
     <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
     <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p} <SpeakButton text={p} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
-    <h2 className="mt-8 mb-3 text-2xl font-black">שאלות</h2>
+    <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
     <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
         className={`ln-opt ${checked && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}</div>)}
-      <div className="ln-q"><b>{r.q.length + 1}. {r.open}</b><textarea className="ln-ta mt-2" aria-label="תשובה פתוחה" placeholder="כותבים כאן או בדף" /></div>
+      {opens.map(([q, a], k) => <div key={q} className="ln-q"><b>{r.q.length + k + 1}. {q}</b><textarea className="ln-ta mt-2" aria-label={`תשובה פתוחה ${k + 1}`} placeholder="כותבים כאן או בדף" />
+        {a && showAns && <p className="mt-2 rounded-xl bg-[#e7f8e4] p-2"><b>תשובה אפשרית:</b> {a}</p>}</div>)}
     </div>
     <div className="mt-5 text-center">{checked
-      ? <><p className="text-2xl font-black">{score} מתוך {r.q.length} {score === r.q.length ? '🌟' : ''}</p><button type="button" className="ln-btn alt mt-3" onClick={() => { setPicks({}); setChecked(false) }}>🔁 לנסות שוב</button></>
+      ? <><p className="text-2xl font-black" role="status">{score} מתוך {r.q.length} בשאלות הסגורות {score === r.q.length ? '🌟' : ''}</p>
+        <div className="mt-3 flex flex-wrap justify-center gap-2">{opens.some(o => o[1]) && <button type="button" className="ln-btn go" onClick={() => setShowAns(!showAns)}>{showAns ? 'הסתרת התשובות הפתוחות' : '💡 הצגת תשובות לשאלות הפתוחות'}</button>}
+          <button type="button" className="ln-btn alt" onClick={() => { setPicks({}); setChecked(false); setShowAns(false) }}>🔁 לנסות שוב</button></div></>
       : <button type="button" className="ln-btn go" disabled={Object.keys(picks).length < r.q.length} onClick={() => setChecked(true)}>✓ בדיקה</button>}</div>
     {printing && <PrintPreview title={r.title} onClose={() => setPrinting(false)}><ReadingPrint r={r} /></PrintPreview>}
+  </>
+}
+
+const READING_FAQ = [
+  { q: 'איך יודעים איזה קטע מתאים לילד?', a: 'מתחילים בעמוד של הכיתה שבה הילד לומד. אם הקטע ארוך או קשה מדי — עוברים לכיתה אחת למטה, ואם הוא קל מדי — לכיתה אחת למעלה. העיקר שהילד יצליח לקרוא את הקטע עד הסוף בלי להתייאש.' },
+  { q: 'מה ההבדל בין שאלה סגורה לשאלה פתוחה?', a: 'בשאלה סגורה (אמריקאית) בוחרים תשובה מתוך ארבע. בשאלה פתוחה כותבים תשובה במילים שלכם — לפעמים צריך להסיק משהו שלא כתוב במפורש, לנמק או להביע דעה.' },
+  { q: 'אפשר להדפיס את הקטעים?', a: 'כן. בכל קטע יש כפתור "להדפסה", ובכל עמוד כיתה אפשר להדפיס את כל הקטעים יחד כחוברת — עם דף תשובות להורה או למורה, כולל תשובות אפשריות לשאלות הפתוחות.' },
+  { q: 'הקטעים מתאימים לתוכנית הלימודים?', a: 'הקטעים נכתבו במיוחד לאתר, ואורכם ורמת השפה שלהם מותאמים לכל שכבת גיל. סוגי השאלות — איתור מידע, פירוש מילים, הסקת מסקנות ונימוק — הם סוגי השאלות המקובלים בתרגול הבנת הנקרא בבית הספר.' },
+]
+export function ReadingIndex() {
+  return <Page>
+    <SEO title="הבנת הנקרא — קטעים עם שאלות לכיתות ב׳–ו׳, אונליין ולהדפסה" description={`הבנת הנקרא לילדים: ${ALL_READING.length} קטעים מקוריים — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. מחולק לפי כיתות ב׳ עד ו׳, אונליין ולהדפסה.`} path="/learn/reading" structuredData={faqSchema(READING_FAQ)} />
+    <Head emoji="📖" h1="הבנת הנקרא" sub="קוראים קטע ועונים על שאלות — על המסך או על הדף" crumb="הבנת הנקרא" />
+    <p className="text-lg leading-relaxed mb-6">תרגול הבנת הנקרא לפי כיתה: בכל עמוד ארבעה קטעים חדשים באורך ובאוצר המילים שמתאימים לשכבה, עם שאלות סגורות, שאלות פתוחות ושאלות הסקה — ודף תשובות להדפסה.</p>
+    <h2 className="mb-3 text-3xl font-black">בוחרים כיתה</h2>
+    <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">{GRADE_LEVELS.map(g => <Link key={g} to={gradeHref(g)} className="ln-box card-lift text-center"><div className="text-3xl font-black">כיתה {GRADE_LETTER[g]}</div><small>{GRADED_READING.filter(r => r.level === g).length} קטעים עם שאלות</small></Link>)}</div>
+    <h2 className="mt-10 mb-3 text-3xl font-black">כל הקטעים לפי כיתה</h2>
+    {GRADE_LEVELS.map(g => <section key={g} className="mb-6"><h3 className="mb-2 text-xl font-bold"><Link to={gradeHref(g)} className="underline">כיתה {GRADE_LETTER[g]}</Link></h3>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{GRADED_READING.filter(r => r.level === g).map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><span aria-hidden="true">{r.emoji} </span><b>{r.title}</b><br /><small>{r.kind} · {qCount(r)} שאלות</small></Link>)}</div></section>)}
+    <h2 className="mt-10 mb-3 text-3xl font-black">קטעים קצרים לכיתות א׳–ד׳</h2>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{READING.map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><div className="text-4xl" aria-hidden="true">{r.emoji}</div><h3 className="text-xl font-bold">{r.title}</h3><small>{r.kind} · כיתה {r.grade}</small></Link>)}</div>
+    <div className="mt-12"><SeoBody paragraphs={['הבנת הנקרא היא היכולת לא רק לקרוא את המילים, אלא להבין מה כתוב — למצוא מידע, להבין מילים חדשות מתוך ההקשר, להסיק מסקנות ולהביע דעה מנומקת. כמו כל מיומנות, היא משתפרת בתרגול קצר וקבוע.', 'בכל עמוד כיתה יש ארבעה קטעים: סיפורים, משלים, קטעי מידע ובכיתות הגבוהות גם טקסט טיעון. אחרי כל קטע יש שאלות אמריקאיות ושאלות פתוחות, ואפשר לבדוק את התשובות על המסך או להדפיס את כל הקטעים כחוברת עם דף תשובות.', 'כל הקטעים נכתבו במיוחד לאתר. בקטעי המידע הקפדנו על עובדות פשוטות ומבוססות, והמשלים הם סיפורים חדשים על בסיס משלים עתיקים ומוכרים.']} faq={READING_FAQ} related={[{ label: 'הכתבה אונליין', href: '/learn/dictation' }, { label: 'הכנה למבחן מחוננים', href: '/learn/gifted-test' }, { label: 'סיפורים לפני השינה', href: '/stories' }]} /></div>
+  </Page>
+}
+
+export function ReadingGrade({ grade }) {
+  const g = Number(grade)
+  const info = READING_GRADE_PAGES[g]
+  const list = useMemo(() => GRADED_READING.filter(r => r.level === g), [g])
+  const [cur, setCur] = useState(0)
+  const [printAll, setPrintAll] = useState(false)
+  if (!info) return <NotFound />
+  const r = list[cur]
+  const short = READING.filter(x => (SHORT_FOR[g] || []).includes(x.grade))
+  const [lo, hi] = GRADE_WORDS[g]
+  return <Page>
+    <SEO title={info.seoTitle} description={info.seoDesc} path={gradeHref(g)} structuredData={faqSchema(info.faq)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, { label: `כיתה ${GRADE_LETTER[g]}` }]} />
+    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">📖 </span>הבנת הנקרא כיתה {GRADE_LETTER[g]}</h1>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{list.length} קטעים · {lo}–{hi} מילים בקטע · {list.reduce((s, x) => s + qCount(x), 0)} שאלות</p>
+    <p className="text-lg leading-relaxed mb-5">{info.intro}</p>
+    <div className="mb-4 flex flex-wrap justify-center gap-2" role="tablist" aria-label="בחירת קטע">{list.map((x, i) => <button key={x.slug} type="button" role="tab" aria-selected={i === cur} className="ln-chip" aria-pressed={i === cur} onClick={() => setCur(i)}>{x.emoji} {x.title}</button>)}</div>
+    <div className="ln-box mb-3 text-center"><h2 className="text-3xl font-black">{r.emoji} {r.title}</h2><small>{r.kind} · {qCount(r)} שאלות · <Link className="underline" to={`/learn/reading/${r.slug}`}>לעמוד של הקטע</Link></small></div>
+    <ReadingExercise key={r.slug} r={r} headingLevel={3} />
+    <div className="ln-box mt-8 text-center">
+      <h2 className="text-2xl font-black mb-2">🖨️ חוברת הבנת הנקרא לכיתה {GRADE_LETTER[g]}</h2>
+      <p className="mb-3">כל {list.length} הקטעים עם השאלות, ובסוף כל קטע — דף תשובות להורה או למורה.</p>
+      <button type="button" className="ln-btn go" onClick={() => setPrintAll(true)}>הדפסה או הורדה כ־PDF</button>
+    </div>
+    {printAll && <PrintPreview title={`הבנת הנקרא כיתה ${GRADE_LETTER[g]} — ${list.length} קטעים`} onClose={() => setPrintAll(false)}>{list.map(x => <ReadingPrint key={x.slug} r={x} />)}</PrintPreview>}
+    <h2 className="mt-10 mb-3 text-3xl font-black">מה מצופה בכיתה {GRADE_LETTER[g]}?</h2>
+    <div className="space-y-3 text-lg leading-relaxed">{info.expect.map(p => <p key={p}>{p}</p>)}</div>
+    <h2 className="mt-10 mb-3 text-2xl font-black">טיפים להורים</h2>
+    <ul className="list-disc pr-6 space-y-1 text-lg">{info.tips.map(t => <li key={t}>{t}</li>)}</ul>
+    {short.length > 0 && <><h2 className="mt-10 mb-3 text-2xl font-black">עוד קטעים קצרים לתרגול</h2>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{short.map(o => <Link key={o.slug} to={`/learn/reading/${o.slug}`} className="ln-box card-lift text-right"><b>{o.emoji} {o.title}</b> <small>· {o.kind} · כיתה {o.grade}</small></Link>)}</div></>}
+    <h2 className="mt-10 mb-3 text-2xl font-black">הבנת הנקרא לכיתות אחרות</h2>
+    <div className="flex flex-wrap gap-2">{GRADE_LEVELS.filter(x => x !== g).map(x => <Link key={x} to={gradeHref(x)} className="ln-chip">כיתה {GRADE_LETTER[x]}</Link>)}</div>
+    <div className="mt-12"><SeoBody paragraphs={info.body} faq={info.faq} related={[{ label: 'הבנת הנקרא — כל הכיתות', href: '/learn/reading' }, ...info.related]} /></div>
+  </Page>
+}
+
+export function ReadingPage() {
+  const { slug } = useParams()
+  const r = ALL_READING.find(x => x.slug === slug)
+  const others = useMemo(() => {
+    if (!r) return []
+    const same = ALL_READING.filter(x => x.slug !== slug && (r.level ? x.level === r.level : !x.level))
+    return same.slice(0, 4)
+  }, [slug, r])
+  if (!r) return <NotFound />
+  const n = qCount(r)
+  return <Page>
+    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={`קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}: ${r.text[0].slice(0, r.title.length > 18 ? 60 : 75)}… עם ${n} שאלות, דף תשובות ודף להדפסה.`} path={`/learn/reading/${r.slug}`} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, ...(r.level ? [{ label: `כיתה ${GRADE_LETTER[r.level]}`, href: gradeHref(r.level) }] : []), { label: r.title }]} />
+    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade} · {n} שאלות</p>
+    <ReadingExercise key={r.slug} r={r} />
     <h2 className="mt-12 mb-3 text-2xl font-black">עוד קטעים</h2>
     <div className="grid gap-3 sm:grid-cols-2">{others.map(o => <Link key={o.slug} to={`/learn/reading/${o.slug}`} className="ln-box text-right"><b>{o.emoji} {o.title}</b> <small>· {o.kind} · כיתה {o.grade}</small></Link>)}</div>
+    <p className="mt-6 text-center">{r.level ? <Link className="underline font-bold" to={gradeHref(r.level)}>לכל הקטעים לכיתה {GRADE_LETTER[r.level]} ←</Link> : <Link className="underline font-bold" to="/learn/reading">לכל קטעי הבנת הנקרא ←</Link>}</p>
   </Page>
 }

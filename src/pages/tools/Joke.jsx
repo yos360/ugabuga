@@ -24,9 +24,10 @@ export default function Joke() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="בדיחות לילדים — בדיחה מצחיקה בכל לחיצה" description="בדיחות לילדים בעברית: שאלה מצחיקה, רגע לנחש — ואז חושפים את התשובה. בדיחה חדשה בכל לחיצה, קצרה ונקייה. לפתיחת שיעור, לנסיעה ולארוחה משפחתית. חינם." path="/tools/joke" structuredData={faqSchema(guide.faq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בדיחה' }]} />
-      <h1 className="text-4xl text-center mb-6">😂 בדיחה של בוגה</h1>
+      <SEO title="בדיחות מצחיקות לילדים ולמשפחה — בדיחה חדשה בכל לחיצה" description="בדיחות מצחיקות בעברית לילדים ולכל המשפחה: שאלה, רגע לנחש — ואז התשובה. בדיחה חדשה בכל לחיצה, וגם בדיחות קרש ובדיחות לפי נושא. נקיות וחינם." path="/tools/joke" structuredData={faqSchema(guide.faq)} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'בדיחות' }]} />
+      <h1 className="text-4xl text-center mb-2">😂 בדיחות מצחיקות</h1>
+      <p className="text-center text-[var(--muted-foreground)] mb-6">בדיחות מצחיקות וקצרות לילדים ולכל המשפחה — לוחצים, מנחשים את התשובה וצוחקים.</p>
 
       {current ? (
         <div className="wobbly border-[3px] border-[var(--border)] bg-[var(--postit)] p-8 text-center sketch-shadow-rich mb-6">
@@ -47,7 +48,14 @@ export default function Joke() {
 
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mt-8">
         <p className="font-display text-xl font-bold mb-2">רוצים עוד בדיחות?</p>
-        <Link to="/jokes/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">😂 בדיחות לילדים לפי נושא ←</Link>
+        <Link to="/jokes/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">😂 בדיחות לפי נושא ←</Link>
+        <nav className="mt-3 flex flex-wrap justify-center gap-2" aria-label="עוד בדיחות">
+          <Link to="/jokes/keresh" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">🪵 100 בדיחות קרש</Link>
+          <Link to="/jokes/kids" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">בדיחות לילדים</Link>
+          <Link to="/jokes/animals" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">בדיחות על חיות</Link>
+          <Link to="/jokes/school" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">בדיחות על בית ספר</Link>
+          <Link to="/tools/riddles" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">🧩 חידות לילדים</Link>
+        </nav>
       </div>
       <ToolGuide {...guide} />
     </div>

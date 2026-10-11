@@ -5,7 +5,7 @@ import { SERIES, MATRICES } from './giftedGenerated.js'
 export { SERIES, MATRICES }
 
 // The correct option is written first; place() moves it to a fixed, varied position.
-const place = (id, correct, wrong) => {
+export const place = (id, correct, wrong) => {
   const pos = [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 11) % 4
   const options = [...wrong]; options.splice(pos, 0, correct)
   return { options, answer: pos }
@@ -156,5 +156,5 @@ export const TYPES = [
   { key: 'logic', slug: 'logic-problems', emoji: '🧩', title: 'חשיבה לוגית ובעיות מילוליות', short: 'חשיבה לוגית', items: LOGIC,
     how: 'קוראים לאט, מסמנים מה ידוע, ובודקים כל תשובה מול הנתונים.' },
 ]
-export const LEVELS = { 1: 'קל', 2: 'בינוני', 3: 'מאתגר' }
+export const LEVELS = { 1: 'קל', 2: 'בינוני', 3: 'מאתגר', 4: 'מתקדם' }
 export const explain = (type, item) => type === 'series' ? seriesExplain(item) : type === 'matrices' ? matrixExplain(item) : item.exp

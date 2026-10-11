@@ -1,0 +1,45 @@
+/* Printable slips (גמד וענק) and the thank-you booklet. Used inside PrintPreview (.buga-a4 pages). */
+.gt-slips h2{font-size:18px!important}
+.gt-slip-grid{flex:1;width:100%;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:0;border:1px dashed #999}
+.gt-slip{border:1px dashed #999;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:8px;min-height:0;overflow:hidden;font-family:Heebo,Arial,sans-serif}
+.gt-slip b{display:block;font-size:22px;font-weight:800;margin-top:2px}
+.gt-slip small{display:block;font-size:11px;color:#555;margin-top:4px}
+.gt-slip{justify-content:flex-start}
+/* Name at the top; the bottom 40% (the match) folds up over the empty middle, text inward — the name stays visible. */
+.gt-slip-out{flex:3;display:flex;flex-direction:column;justify-content:flex-start}
+.gt-slip-in{flex:2;display:flex;flex-direction:column;justify-content:center}
+.gt-slip-fold{font-size:10px;color:#777;letter-spacing:1px}
+.gt-slip-name{margin:auto 0}.gt-slip-name b{font-size:28px}
+
+.gt-book{font-family:Heebo,Arial,sans-serif}
+.gt-book .buga-qr{display:none!important}
+.buga-a4.gt-book,.buga-a4.gt-book:has(.buga-qr){padding:6%!important;justify-content:flex-start}
+.gt-cover{justify-content:center!important;text-align:center;border:10px double #f3b4c4}
+.gt-cover .gt-cover-emoji{font-size:90px;line-height:1}
+.gt-cover h2{font-size:44px!important;margin:16px 0 4px!important}
+.gt-cover p{font-size:22px;margin:4px 0;color:#333}
+.gt-cards{flex:1;width:100%;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(0,1fr);gap:12px;min-height:0}
+.gt-card{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;overflow:hidden;min-height:0;border:2px solid #0001}
+.gt-card.wide{grid-column:span 2}
+.gt-card .gt-st{font-size:30px;line-height:1}
+.gt-card p{flex:1;margin:6px 0;font-size:17px;line-height:1.45;white-space:pre-line;overflow:hidden}
+.gt-card b{font-size:17px;text-align:left}
+.gt-c0{background:#fff1f4}.gt-c1{background:#eef8ff}.gt-c2{background:#fff8dc}.gt-c3{background:#effaf0}.gt-c4{background:#f5f0ff}.gt-c5{background:#fff3e8}
+.gt-credit{font-size:10px;color:#888;margin-top:6px;text-align:center;width:100%}
+@media print{
+  #buga-print-output .buga-a4.gt-book,#buga-print-output .buga-a4.gt-book:has(.buga-qr){padding:8mm!important}
+  #buga-print-output .gt-card,#buga-print-output .gt-cover{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+
+/* On-screen wall */
+.gt-wall{columns:1;column-gap:14px}
+@media (min-width:640px){.gt-wall{columns:2}}
+@media (min-width:1024px){.gt-wall{columns:3}}
+.gt-note{break-inside:avoid;margin-bottom:14px;border-radius:18px;padding:14px 16px;border:2px solid #0000000f;box-shadow:0 4px 14px #252e5812}
+.gt-note:nth-child(6n+1){background:#fff1f4;transform:rotate(-.6deg)}.gt-note:nth-child(6n+2){background:#eef8ff;transform:rotate(.5deg)}
+.gt-note:nth-child(6n+3){background:#fff8dc}.gt-note:nth-child(6n+4){background:#effaf0;transform:rotate(-.4deg)}
+.gt-note:nth-child(6n+5){background:#f5f0ff;transform:rotate(.6deg)}.gt-note:nth-child(6n){background:#fff3e8}
+@media (prefers-reduced-motion:reduce){.gt-note{transform:none!important}}
+.gt-reveal{animation:gt-pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes gt-pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.gt-reveal{animation:none}}
