@@ -168,7 +168,7 @@
   "content_type": "question",
   "content_text": "כמה ליטרים של דם יש בגוף של אדם בוגר?",
   "answer": "בערך 5 ליטרים",
-  "answer_explanation": "אצל רוב המבוגרים בין 4.5 ל-5.5 ליטרים — בערך כמו בקבוק גדול וחצי של מים, פעמיים.",
+  "answer_explanation": "אצל רוב המבוגרים בין 4.5 ל-5.5 ליטרים — בערך כמו 3 בקבוקי מים גדולים.",
   "metadata": {
    "value": 5,
    "unit": "ליטרים",
@@ -834,7 +834,7 @@
   "content_type": "question",
   "content_text": "מה הגובה של ג׳ירפה זכר בוגר, במטרים?",
   "answer": "בערך 5.5 מטרים",
-  "answer_explanation": "הג׳ירפה היא בעל החיים הגבוה ביותר — הלשון שלה לבדה ארוכה כמו סרגל.",
+  "answer_explanation": "הג׳ירפה היא בעל החיים הגבוה ביותר — הלשון שלה לבדה ארוכה כמעט חצי מטר.",
   "metadata": {
    "value": 5.5,
    "unit": "מטרים",
@@ -1049,7 +1049,7 @@
   "pack_name": "חלל",
   "content_type": "question",
   "content_text": "באיזו שנה נחת אדם לראשונה על הירח?",
-  "answer": "1,969",
+  "answer": "1969",
   "answer_explanation": "ניל ארמסטרונג ובאז אולדרין מאפולו 11 נחתו ב-20 ביולי 1969.",
   "metadata": {
    "value": 1969,
@@ -1103,7 +1103,7 @@
   "pack_name": "חלל",
   "content_type": "question",
   "content_text": "באיזו שנה הוחלט שפלוטו כבר לא נחשב לכוכב לכת ״רגיל״?",
-  "answer": "2,006",
+  "answer": "2006",
   "answer_explanation": "האיגוד האסטרונומי הבין-לאומי קבע אז שהוא ״כוכב לכת ננסי״.",
   "metadata": {
    "value": 2006,
@@ -1121,7 +1121,7 @@
   "pack_name": "חלל",
   "content_type": "question",
   "content_text": "באיזו שנה שוגר הלוויין המלאכותי הראשון, ספוטניק 1?",
-  "answer": "1,957",
+  "answer": "1957",
   "answer_explanation": "הוא היה בגודל של כדור חוף והקיף את כדור הארץ כל 96 דקות.",
   "metadata": {
    "value": 1957,
@@ -1139,7 +1139,7 @@
   "pack_name": "חלל",
   "content_type": "question",
   "content_text": "באיזו שנה טס האדם הראשון לחלל, יורי גגארין?",
-  "answer": "1,961",
+  "answer": "1961",
   "answer_explanation": "הטיסה שלו הקיפה את כדור הארץ פעם אחת ונמשכה בערך 108 דקות.",
   "metadata": {
    "value": 1961,
@@ -1176,7 +1176,7 @@
   "content_type": "question",
   "content_text": "באיזה גובה, בקילומטרים, מקיפה תחנת החלל הבין-לאומית את כדור הארץ?",
   "answer": "בערך 400 ק״מ",
-  "answer_explanation": "זה בערך המרחק מתל אביב לאילת — רק כלפי מעלה.",
+  "answer_explanation": "זה בערך פי 45 מהגובה של הר האוורסט.",
   "metadata": {
    "value": 400,
    "unit": "ק״מ",
@@ -1194,7 +1194,7 @@
   "content_type": "question",
   "content_text": "מה המרחק הממוצע בין כדור הארץ לשמש, בקילומטרים?",
   "answer": "בערך 150 מיליון ק״מ",
-  "answer_explanation": "מטוס נוסעים היה צריך בערך 17 שנים כדי לעוף עד לשמש.",
+  "answer_explanation": "מטוס נוסעים היה צריך בערך 19 שנים כדי לעוף עד לשמש.",
   "metadata": {
    "value": 150000000,
    "unit": "ק״מ",
@@ -1355,7 +1355,7 @@
   "pack_name": "חלל",
   "content_type": "question",
   "content_text": "באיזו שנה שוגר טלסקופ החלל האבל?",
-  "answer": "1,990",
+  "answer": "1990",
   "answer_explanation": "הוא צילם גלקסיות רחוקות ועזר לחשב את גיל היקום.",
   "metadata": {
    "value": 1990,
@@ -1482,7 +1482,7 @@
   "content_type": "question",
   "content_text": "כמה צבעים מונים בקשת לפי החלוקה המסורתית?",
   "answer": "7 צבעים",
-  "answer_explanation": "אדום, כתום, צהוב, ירוק, כחול, תכלת-אינדיגו וסגול — בעצם הצבעים עוברים זה לזה ברצף.",
+  "answer_explanation": "אדום, כתום, צהוב, ירוק, כחול, ניל וסגול — בעצם הצבעים עוברים זה לזה ברצף.",
   "metadata": {
    "value": 7,
    "unit": "צבעים",
@@ -2327,7 +2327,7 @@
   "pack_name": "מתמטיקה ומשחקים",
   "content_type": "question",
   "content_text": "מה הערך של האות הרומית M?",
-  "answer": "1,000",
+  "answer": "1000",
   "answer_explanation": "באותיות רומיות: I=1, V=5, X=10, L=50, C=100, D=500, M=1000.",
   "metadata": {
    "value": 1000,
@@ -2382,7 +2382,7 @@
   "content_type": "question",
   "content_text": "כמה אפסים יש ב״גוגול״?",
   "answer": "100 אפסים",
-  "answer_explanation": "השם של גוגל בא מהמספר הזה — שהמציא ילד בן 9 ב-1938.",
+  "answer_explanation": "השם של גוגל בא מהמספר הזה — שהמציא ילד בן 9, אחיין של המתמטיקאי שנתן לו את השם.",
   "metadata": {
    "value": 100,
    "unit": "אפסים",
@@ -2417,7 +2417,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה הוכרזה מדינת ישראל?",
-  "answer": "1,948",
+  "answer": "1948",
   "answer_explanation": "דוד בן-גוריון הכריז על הקמת המדינה ב-14 במאי 1948, ה׳ באייר תש״ח.",
   "metadata": {
    "value": 1948,
@@ -2579,7 +2579,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה נוסדה העיר תל אביב?",
-  "answer": "1,909",
+  "answer": "1909",
   "answer_explanation": "היא התחילה כשכונה בשם ״אחוזת בית״ ליד יפו.",
   "metadata": {
    "value": 1909,
@@ -2615,7 +2615,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה התרחשה מלחמת יום הכיפורים?",
-  "answer": "1,973",
+  "answer": "1973",
   "answer_explanation": "היא פרצה ביום הכיפורים, ב-6 באוקטובר 1973.",
   "metadata": {
    "value": 1973,
@@ -2759,7 +2759,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה הוקם הקיבוץ הראשון, דגניה?",
-  "answer": "1,910",
+  "answer": "1910",
   "answer_explanation": "דגניה נקראת ״אם הקבוצות״ — היא נמצאת ליד הכנרת.",
   "metadata": {
    "value": 1910,
@@ -2777,7 +2777,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה נפתחה האוניברסיטה העברית בירושלים?",
-  "answer": "1,925",
+  "answer": "1925",
   "answer_explanation": "אלברט איינשטיין היה מהתומכים הגדולים שלה.",
   "metadata": {
    "value": 1925,
@@ -2795,7 +2795,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה התכנס הקונגרס הציוני הראשון בבזל?",
-  "answer": "1,897",
+  "answer": "1897",
   "answer_explanation": "הרצל כתב אז ביומנו: ״בבזל ייסדתי את מדינת היהודים״.",
   "metadata": {
    "value": 1897,
@@ -2813,7 +2813,7 @@
   "pack_name": "ישראל",
   "content_type": "question",
   "content_text": "באיזו שנה טס אילן רמון, האסטרונאוט הישראלי הראשון, לחלל?",
-  "answer": "2,003",
+  "answer": "2003",
   "answer_explanation": "הוא טס במעבורת קולומביה ולקח איתו ציור של ילד מגטו טרזיינשטט.",
   "metadata": {
    "value": 2003,
@@ -2868,7 +2868,7 @@
   "content_type": "question",
   "content_text": "כמה שבטים היו לבני ישראל?",
   "answer": "12 שבטים",
-  "answer_explanation": "לפי המסורת, שבט לכל אחד מבניו של יעקב.",
+  "answer_explanation": "לפי המסורת, השבטים נקראו על שם בני יעקב (ושני נכדיו, אפרים ומנשה).",
   "metadata": {
    "value": 12,
    "unit": "שבטים",
@@ -3138,7 +3138,7 @@
   "content_type": "question",
   "content_text": "כמה שחקנים מכל קבוצה יש על מגרש הכדורעף?",
   "answer": "6 שחקנים",
-  "answer_explanation": "השחקנים מסתובבים בעמדות בכל פעם שהקבוצה זוכה בהגשה.",
+  "answer_explanation": "השחקנים מסתובבים בעמדות בכל פעם שהקבוצה מקבלת את זכות ההגשה מהיריבה.",
   "metadata": {
    "value": 6,
    "unit": "שחקנים",
@@ -3156,7 +3156,7 @@
   "content_type": "question",
   "content_text": "כל כמה שנים נערכים משחקי הקיץ האולימפיים?",
   "answer": "4 שנים",
-  "answer_explanation": "חוץ מפעם אחת — משחקי טוקיו נדחו בשנה בגלל הקורונה.",
+  "answer_explanation": "הם בוטלו רק בזמן מלחמות העולם, ומשחקי טוקיו נדחו בשנה בגלל הקורונה.",
   "metadata": {
    "value": 4,
    "unit": "שנים",
@@ -3282,7 +3282,7 @@
   "content_type": "question",
   "content_text": "מה אורכה של ריצת מרתון, בקילומטרים?",
   "answer": "42.195 ק״מ",
-  "answer_explanation": "המרחק המדויק נקבע באולימפיאדת לונדון 1908.",
+  "answer_explanation": "המרחק המדויק נקבע לראשונה באולימפיאדת לונדון 1908.",
   "metadata": {
    "value": 42.195,
    "unit": "ק״מ",
@@ -3335,7 +3335,7 @@
   "pack_name": "ספורט",
   "content_type": "question",
   "content_text": "באיזו שנה נערכו המשחקים האולימפיים המודרניים הראשונים?",
-  "answer": "1,896",
+  "answer": "1896",
   "answer_explanation": "הם נערכו באתונה שביוון — ארץ האולימפיאדה העתיקה.",
   "metadata": {
    "value": 1896,
@@ -3515,7 +3515,7 @@
   "pack_name": "ספורט",
   "content_type": "question",
   "content_text": "באיזו שנה זכתה ישראל במדליה האולימפית הראשונה שלה?",
-  "answer": "1,992",
+  "answer": "1992",
   "answer_explanation": "יעל ארד זכתה במדליית כסף בג׳ודו בברצלונה.",
   "metadata": {
    "value": 1992,
@@ -3533,7 +3533,7 @@
   "pack_name": "ספורט",
   "content_type": "question",
   "content_text": "באיזו שנה זכתה ישראל במדליית הזהב האולימפית הראשונה שלה?",
-  "answer": "2,004",
+  "answer": "2004",
   "answer_explanation": "גל פרידמן זכה בה בגלישת רוח באתונה.",
   "metadata": {
    "value": 2004,
@@ -3857,7 +3857,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה הגיע כריסטופר קולומבוס לאמריקה?",
-  "answer": "1,492",
+  "answer": "1492",
   "answer_explanation": "הוא בכלל חשב שהגיע להודו.",
   "metadata": {
    "value": 1492,
@@ -3875,7 +3875,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה נחנך מגדל אייפל בפריז?",
-  "answer": "1,889",
+  "answer": "1889",
   "answer_explanation": "הוא נבנה לתערוכה עולמית, ותכננו לפרק אותו אחרי 20 שנה.",
   "metadata": {
    "value": 1889,
@@ -3893,7 +3893,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה הסתיימה מלחמת העולם השנייה?",
-  "answer": "1,945",
+  "answer": "1945",
   "answer_explanation": "באירופה היא הסתיימה במאי, ובאסיה — בספטמבר 1945.",
   "metadata": {
    "value": 1945,
@@ -3911,7 +3911,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה פרצה מלחמת העולם הראשונה?",
-  "answer": "1,914",
+  "answer": "1914",
   "answer_explanation": "היא נמשכה יותר מארבע שנים, עד 1918.",
   "metadata": {
    "value": 1914,
@@ -3929,7 +3929,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה טסו האחים רייט לראשונה במטוס עם מנוע?",
-  "answer": "1,903",
+  "answer": "1903",
   "answer_explanation": "הטיסה הראשונה נמשכה 12 שניות בלבד.",
   "metadata": {
    "value": 1903,
@@ -3947,7 +3947,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה טבעה הטיטאניק?",
-  "answer": "1,912",
+  "answer": "1912",
   "answer_explanation": "היא טבעה במסע הראשון שלה אחרי שהתנגשה בקרחון.",
   "metadata": {
    "value": 1912,
@@ -3965,7 +3965,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה נפלה חומת ברלין?",
-  "answer": "1,989",
+  "answer": "1989",
   "answer_explanation": "היא חילקה את העיר לשניים במשך 28 שנים.",
   "metadata": {
    "value": 1989,
@@ -3983,7 +3983,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה הוכרזה עצמאות ארצות הברית?",
-  "answer": "1,776",
+  "answer": "1776",
   "answer_explanation": "ב-4 ביולי — וזה עדיין החג הלאומי שלהם.",
   "metadata": {
    "value": 1776,
@@ -4001,7 +4001,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה טיפסו לראשונה לפסגת האוורסט?",
-  "answer": "1,953",
+  "answer": "1953",
   "answer_explanation": "אדמונד הילרי ושרפה בשם טנזינג נורגיי הגיעו לפסגה יחד.",
   "metadata": {
    "value": 1953,
@@ -4019,7 +4019,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה הוצג האייפון הראשון?",
-  "answer": "2,007",
+  "answer": "2007",
   "answer_explanation": "לפניו רוב הטלפונים היו עם מקשים.",
   "metadata": {
    "value": 2007,
@@ -4127,7 +4127,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה רשם אלכסנדר גרהם בל פטנט על הטלפון?",
-  "answer": "1,876",
+  "answer": "1876",
   "answer_explanation": "המשפט הראשון בטלפון היה קריאה לעוזר שלו לבוא.",
   "metadata": {
    "value": 1876,
@@ -4145,7 +4145,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה הסתיים המסע הראשון מסביב לעולם, של משלחת מגלן?",
-  "answer": "1,522",
+  "answer": "1522",
   "answer_explanation": "רק ספינה אחת מתוך חמש חזרה, ומגלן עצמו לא שרד את המסע.",
   "metadata": {
    "value": 1522,
@@ -4163,7 +4163,7 @@
   "pack_name": "היסטוריה",
   "content_type": "question",
   "content_text": "באיזו שנה פרצה המהפכה הצרפתית?",
-  "answer": "1,789",
+  "answer": "1789",
   "answer_explanation": "היא התחילה בכיבוש מבצר הבסטיליה ב-14 ביולי.",
   "metadata": {
    "value": 1789,
