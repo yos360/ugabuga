@@ -371,9 +371,14 @@ export default function OwnerActivityReport() {
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data, error } = useSummary(from, to, tick)
   const [todayFrom, todayTo] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
-  const [yFrom, yTo] = useMemo(() => rangeBounds('yesterday'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
+  // A fair comparison: today so far vs yesterday up to the same clock time (not all of yesterday,
+  // which made every morning look like a drop). The full-day total is shown next to it.
+  const [yFrom, yFullTo] = useMemo(() => rangeBounds('yesterday'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
+  const ySameTime = useMemo(() => new Date(Date.now() - 86400000), [tick, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const today = useSummary(todayFrom, todayTo, tick)
-  const yesterday = useSummary(yFrom, yTo)
+  const yesterday = useSummary(yFrom, ySameTime, tick)
+  const yesterdayFull = useSummary(yFrom, yFullTo)
+  const sameTime = ySameTime.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
 
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.events)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
@@ -399,9 +404,10 @@ export default function OwnerActivityReport() {
       </div>
 
       <div className="mb-6 flex flex-wrap items-center gap-3 rounded-2xl bg-slate-50 p-4">
-        <span className="font-bold">היום מול אתמול:</span>
-        <span>ביקורים <b>{today.data?.pageviews ?? '…'}</b> {compareBadge(today.data?.pageviews, yesterday.data?.pageviews)}</span>
-        <span>מבקרים ייחודיים <b>{today.data?.visitors ?? '…'}</b> {compareBadge(today.data?.visitors, yesterday.data?.visitors)}</span>
+        <span className="font-bold">היום עד עכשיו, מול אתמול עד {sameTime}:</span>
+        <span>מבקרים <b>{today.data?.visitors ?? '…'}</b> <small className="text-slate-500">(אתמול {yesterday.data?.visitors ?? '…'})</small> {compareBadge(today.data?.visitors, yesterday.data?.visitors)}</span>
+        <span>צפיות בעמודים <b>{today.data?.pageviews ?? '…'}</b> <small className="text-slate-500">(אתמול {yesterday.data?.pageviews ?? '…'})</small> {compareBadge(today.data?.pageviews, yesterday.data?.pageviews)}</span>
+        <span className="text-sm text-slate-500">כל אתמול: {yesterdayFull.data?.visitors ?? '…'} מבקרים · {yesterdayFull.data?.pageviews ?? '…'} צפיות</span>
       </div>
 
       <div className="mb-6"><TrackSelf /></div>
