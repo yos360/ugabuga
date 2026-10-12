@@ -25,3 +25,4 @@ dist-ssr
 public/routes.json
 __pycache__/
 public/known-paths.json
+out/
