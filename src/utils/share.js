@@ -52,7 +52,7 @@ export function shareAudience(pathname = '/') {
   return { key: 'all', invite: 'אהבתם? שתפו עם חברים 💛', button: 'שליחה בוואטסאפ', intro: 'מצאתי בעוגה בוגה — שווה להציץ 👇' }
 }
 export function sharePage(pathname, campaign) {
-  const title = (document.title || 'עוגה בוגה').replace(/\s*\|\s*UGABUGA\s*$/, '')
+  const title = (document.title || 'עוגה בוגה').replace(/\s*\|\s*(UGABUGA|עוגה בוגה)\s*$/, '')
   shareOnWhatsApp(`${title}\n${shareAudience(pathname).intro}\n${shareLink(pathname, campaign)}`)
 }
 

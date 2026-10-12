@@ -213,8 +213,8 @@ function Story({ story, params }) {
     'timeRequired': `PT${minutes}M`,
     'isAccessibleForFree': true,
     'url': `${SITE}/stories/${story.slug}`,
-    'author': { '@type': 'Organization', 'name': 'UGABUGA' },
-    'publisher': { '@type': 'Organization', 'name': 'UGABUGA', 'logo': { '@type': 'ImageObject', 'url': `${SITE}/og-image.png` } },
+    'author': { '@type': 'Organization', 'name': 'עוגה בוגה' },
+    'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'logo': { '@type': 'ImageObject', 'url': `${SITE}/og-image.png` } },
     'isPartOf': { '@type': 'CollectionPage', 'name': 'סיפורים לפני השינה לילדים', 'url': `${SITE}/stories` },
   }]
   // The recording matches the default cast only — compare the actual text, not just the inputs.

@@ -1158,7 +1158,7 @@ export function recipeSchema(c) {
     'image': [`${SITE}/og-image.png`],
     'url': url,
     'inLanguage': 'he',
-    'author': { '@type': 'Organization', 'name': 'UGABUGA', 'url': SITE },
+    'author': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': SITE },
     'recipeCategory': 'עוגות יום הולדת',
     'recipeCuisine': 'ישראלית',
     'keywords': ['עוגת יום הולדת', ...c.tags.map(id => CAKE_TAGS.find(x => x.id === id)?.label).filter(Boolean)].join(', '),

@@ -2,7 +2,7 @@
 // Parents of elementary-school kids search "חשבון" ("תרגילי חשבון לכיתה ג", "מבחן בחשבון לכיתה ד");
 // from grade 7 the searches switch to "מתמטיקה" ("מתמטיקה כיתה ז", "מבחן במתמטיקה לכיתה ט").
 
-const MAX_TITLE = 60 // the site appends " | UGABUGA" itself
+const MAX_TITLE = 60 // the site appends " | עוגה בוגה" itself
 
 export const isElementary = n => Number(n) <= 6
 

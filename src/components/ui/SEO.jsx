@@ -1,9 +1,13 @@
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 
+// Other ways people write the name (search engines use these to match brand searches).
+export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוגה-בוגה', 'עוגהבוגה']
+
 export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website', structuredData = null }) {
   const location = useLocation()
-  const fullTitle = title ? title + ' | UGABUGA' : 'עוגה בוגה — מאגר משחקים ופעילויות בעברית | UGABUGA'
+  // The Hebrew brand closes every title, so a search for "עוגה בוגה" matches the whole site.
+  const fullTitle = title ? title + (title.includes('עוגה בוגה') ? ' | UGABUGA' : ' | עוגה בוגה') : 'עוגה בוגה — משחקים, דפי הדפסה ולמידה לילדים | UGABUGA'
   const canonicalPath = path ?? location.pathname
   const normalizedPath = canonicalPath === '/' ? '/' : canonicalPath.replace(/\/+$/, '')
   const url = 'https://ugabuga.co.il' + normalizedPath
@@ -20,7 +24,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     'name': 'עוגה בוגה',
-    'alternateName': 'UGABUGA',
+    'alternateName': BRAND_ALIASES,
     'url': 'https://ugabuga.co.il',
     'description': fullDescription,
     'inLanguage': 'he',
@@ -35,7 +39,9 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     },
     'publisher': {
       '@type': 'Organization',
-      'name': 'UGABUGA',
+      'name': 'עוגה בוגה',
+      'alternateName': BRAND_ALIASES,
+      'url': 'https://ugabuga.co.il',
       'logo': {
         '@type': 'ImageObject',
         'url': 'https://ugabuga.co.il/og-image.png'
@@ -60,6 +66,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content="he_IL" />
+      <meta property="og:site_name" content="עוגה בוגה" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={fullDescription} />

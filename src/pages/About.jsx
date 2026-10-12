@@ -18,7 +18,7 @@ const WHO = [
 
 export default function About() {
   return <div className="mx-auto max-w-5xl px-4 py-8">
-    <SEO title="אודות" description="עוגה בוגה — מאגר המשחקים והפעילויות בעברית: משחקים, דפים להדפסה, כלים למנחים, מתחם יום הולדת וספקים לימי הולדת. חינם, תמיד." path="/about" />
+    <SEO title="אודות עוגה בוגה" description="עוגה בוגה (UGABUGA, יש שכותבים „אוגה בוגה”) — מאגר המשחקים והפעילויות בעברית: משחקים, דפים להדפסה, כלים למנחים, מתחם יום הולדת וספקים לימי הולדת. חינם, תמיד." path="/about" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אודות' }]} />
 
     <header className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#fff4bb] via-[#ffe7ef] to-[#e6f0ff] px-5 py-10 text-center sm:px-10 sm:py-14">
@@ -36,6 +36,7 @@ export default function About() {
       <div className="wobbly border-2 border-[var(--border)] bg-white p-6 sketch-shadow sm:p-8">
         <h2 className="font-display text-3xl font-bold">איך זה התחיל?</h2>
         <p className="mt-3 text-lg leading-relaxed">בנינו את עוגה בוגה כי נמאס לנו לחפש בגוגל „משחקים ליום הולדת” ולקבל 10 אתרים עם אותם 5 רעיונות.</p>
+        <p className="mt-3 text-lg leading-relaxed">השם? עוגה בוגה — באנגלית UGABUGA, ויש שכותבים „אוגה בוגה”. עוגה כי הכול התחיל מימי הולדת, ובוגה כי זה פשוט כיף להגיד.</p>
         <p className="mt-3 text-lg leading-relaxed">רצינו מקום אחד שבו מורה תמצא משחק ב-10 שניות, הורה יתכנן מסיבה בלי 15 אתרים, וגננת תפתח את הטלפון ותתחיל לשחק — בלי מאמר של 2,000 מילה.</p>
       </div>
       <img src="/images/home-birthday-girl-720.webp" alt="" className="mx-auto w-52 sm:w-full" loading="lazy" />

@@ -45,7 +45,7 @@ export default function OnlineGamePage() {
     applicationCategory: 'Game',
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'ILS' },
-    publisher: { '@type': 'Organization', name: 'UGABUGA' },
+    publisher: { '@type': 'Organization', name: 'עוגה בוגה' },
   }
   const others = ARCADE.filter(g => g.slug !== game.slug)
   return (

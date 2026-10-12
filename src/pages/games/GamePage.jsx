@@ -195,7 +195,7 @@ export default function GamePage() {
         ...(game.category ? { 'genre': game.category } : {}),
         ...(game.min_age ? { 'typicalAgeRange': game.max_age ? `${game.min_age}-${game.max_age}` : `${game.min_age}-` } : {}),
         ...(game.min_players ? { 'numberOfPlayers': { '@type': 'QuantitativeValue', 'minValue': game.min_players, ...(game.max_players ? { 'maxValue': game.max_players } : {}) } } : {}),
-        'publisher': { '@type': 'Organization', 'name': 'UGABUGA', 'url': 'https://ugabuga.co.il' },
+        'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
       }, steps.length >= 2 ? {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
