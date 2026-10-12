@@ -3,7 +3,8 @@ import { createPortal } from 'react-dom'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
-import OwnerPartyLists from '../components/owner/OwnerPartyLists'
+import OwnerPartyLists, { partyPreview, usePartyLists } from '../components/owner/OwnerPartyLists'
+import ReportSections from '../components/owner/ReportSections'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 
 // Fixed categorical order (never reassigned per-render) — validated for
@@ -131,7 +132,7 @@ function rateTone(r) { return r >= 0.4 ? 'bg-emerald-100 text-emerald-800' : r >
 function TopItems({ title, stats, value, empty }) {
   const list = stats.filter(r => value(r) > 0).sort((a, b) => value(b) - value(a)).slice(0, 10)
   return <div>
-    <h2 className="mb-3 text-xl font-black">{title}</h2>
+    <h3 className="mb-3 text-lg font-black">{title}</h3>
     {list.length ? <div className="space-y-2">{list.map((r, i) => <Bar key={r.path} value={value(r)} max={value(list[0])} color={HUES[i % HUES.length]} text={<span title={r.path}>{pageName(r)}</span>} />)}</div>
       : <p className="rounded-xl bg-slate-50 p-4 text-sm">{empty}</p>}
   </div>
@@ -144,11 +145,10 @@ function BestPages({ stats }) {
     .sort((a, b) => (b[sort] ?? -1) - (a[sort] ?? -1)).slice(0, 25)
   const chip = (on, onClick, text) => <button onClick={onClick} className={`min-h-9 rounded-xl border-2 px-3 py-1 text-sm font-bold ${on ? 'border-violet-600 bg-violet-600 text-white' : 'border-slate-200 bg-white text-slate-700'}`}>{text}</button>
   return <>
-    <h2 className="mb-1 text-2xl font-black">🏆 מה עובד הכי טוב</h2>
     <p className="mb-3 text-sm text-slate-600">כל עמוד בנפרד. <b>אחוז פעולה</b> = מתוך מי שנכנס, כמה גם שיחקו, השתמשו, הדפיסו, הורידו או שיתפו. <b>ציון כולל</b> = כניסות, מוגדל לפי אחוז הפעולה ולפי זמן השהייה (עד 5 דק׳). מיון לפי זמן או אחוז מציג רק עמודים עם {MIN_OPENS}+ כניסות.</p>
     <div className="mb-2 flex flex-wrap gap-2">{KINDS.map(k => <span key={k.id}>{chip(kind === k.id, () => setKind(k.id), k.label)}</span>)}</div>
     <div className="mb-3 flex flex-wrap items-center gap-2"><span className="text-sm font-bold">מיון:</span>{SORTS.map(s => <span key={s.id}>{chip(sort === s.id, () => setSort(s.id), s.label)}</span>)}</div>
-    {list.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+    {list.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
       <thead><tr className="border-b-2"><th className="p-2">#</th><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">שיחקו/השתמשו</th><th className="p-2">הדפיסו/הורידו</th><th className="p-2">שיתפו</th><th className="p-2">אחוז פעולה</th><th className="p-2">זמן ממוצע</th><th className="p-2">ציון</th></tr></thead>
       <tbody>{list.map((r, i) => <tr key={r.path} className="border-b">
         <td className="p-2 text-slate-500">{i + 1}</td>
@@ -158,7 +158,7 @@ function BestPages({ stats }) {
         <td className="p-2">{r.avg == null ? '—' : fmtTime(r.avg)}</td>
         <td className="p-2 font-bold">{r.score}</td>
       </tr>)}</tbody>
-    </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מספיק נתונים לסינון הזה.</p>}
+    </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מספיק נתונים לסינון הזה.</p>}
   </>
 }
 
@@ -166,15 +166,14 @@ function Bouncing({ stats }) {
   // Pages people reach but leave fast without doing anything — worth improving or promoting less.
   const list = stats.filter(r => r.opens >= 5 && r.rate < 0.1 && r.avg != null && r.avg < 20).sort((a, b) => b.opens - a.opens).slice(0, 15)
   return <>
-    <h2 className="mb-1 text-2xl font-black">🚪 נכנסים ויוצאים מהר</h2>
     <p className="mb-3 text-sm text-slate-600">עמודים עם 5+ כניסות, זמן שהייה ממוצע מתחת ל-20 שניות, ופחות מ-10% שעשו בהם משהו. כדאי לבדוק אם הם ברורים, אם הם עובדים טוב בטלפון, ואם הם עונים על מה שאנשים חיפשו.</p>
-    {list.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+    {list.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
       <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">זמן ממוצע</th><th className="p-2">אחוז פעולה</th></tr></thead>
       <tbody>{list.map(r => <tr key={r.path} className="border-b">
         <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path}</div></td>
         <td className="p-2">{r.opens}</td><td className="p-2 font-bold text-red-700">{fmtTime(r.avg)}</td><td className="p-2">{pct(r.rate)}</td>
       </tr>)}</tbody>
-    </table></div> : <p className="mb-8 rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
+    </table></div> : <p className="rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
   </>
 }
 // One row per anonymous visitor (a browser on one day — the id rotates every 24h, so it
@@ -189,14 +188,12 @@ function VisitorTag({ v }) {
 function ByVisitor({ data }) {
   const [showAll, setShowAll] = useState(false)
   if (!data.by_visitor) return <>
-    <h2 className="mb-1 text-2xl font-black">👤 לפי מבקר</h2>
-    <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">הפירוט לפי מבקר יופיע אחרי עדכון מסד הנתונים.</p>
+    <p className="rounded-xl bg-slate-50 p-4 text-sm">הפירוט לפי מבקר יופיע אחרי עדכון מסד הנתונים.</p>
   </>
   const list = showAll ? data.by_visitor : data.by_visitor.slice(0, 20)
   return <>
-    <h2 className="mb-1 text-2xl font-black">👤 לפי מבקר</h2>
     <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. אותו קוד מופיע גם ב„פעולות אחרונות”.</p>
-    {list.length ? <div className="mb-8">
+    {list.length ? <div>
       {list.map(r => <details key={r.v + r.first} className="border-b py-2 text-sm">
         <summary className="flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1">
           <VisitorTag v={r.v} />
@@ -218,7 +215,7 @@ function ByVisitor({ data }) {
         </ol>
       </details>)}
     {data.by_visitor.length > 20 && <button onClick={() => setShowAll(v => !v)} className="mt-3 min-h-9 rounded-xl border-2 border-slate-200 px-3 py-1 text-sm font-bold">{showAll ? 'להציג פחות' : `להציג את כל ${data.by_visitor.length} המבקרים`}</button>}
-    </div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מבקרים בתקופה הזו.</p>}
+    </div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מבקרים בתקופה הזו.</p>}
   </>
 }
 function fmtClock(iso) {
@@ -400,6 +397,7 @@ export default function OwnerActivityReport() {
   const sources = useMemo(() => sortEntries(data?.sources), [data])
   const deviceMax = Math.max(1, ...devices.map(([, n]) => n))
   const sourceMax = Math.max(1, ...sources.map(([, n]) => n))
+  const party = usePartyLists()
 
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
     {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} />, pip.document.body)}
@@ -441,84 +439,91 @@ export default function OwnerActivityReport() {
           {statItems(data, range === '7' || range === '30').map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
         </div>
 
-        <BestPages stats={pageStats} />
-
-        <div className="mb-8 grid gap-8 sm:grid-cols-2">
+        <ReportSections sections={[
+          { id: 'best', title: '🏆 מה עובד הכי טוב', preview: lastEvents(data, r => r.action === 'open'), render: () => <BestPages stats={pageStats} /> },
+          { id: 'top', title: '🔝 10 הכי: משחקים, הדפסות ושיתופים', preview: lastEvents(data, r => ['play', 'use', 'print', 'download', 'share'].includes(r.action)), render: () => <>
+        <div className="grid gap-8 sm:grid-cols-2">
           <TopItems title="🎮 10 המשחקים והכלים שהכי שיחקו" stats={pageStats} value={r => r.uses} empty="אין עדיין משחקים בתקופה הזו." />
           <TopItems title="🖨️ 10 הדפים שהכי הדפיסו / הורידו" stats={pageStats} value={r => r.prints} empty="אין עדיין הדפסות בתקופה הזו." />
           <TopItems title="📤 10 העמודים שהכי שיתפו בוואטסאפ" stats={pageStats} value={r => r.shares} empty="אין עדיין שיתופים בתקופה הזו." />
         </div>
 
-        <Bouncing stats={pageStats} />
-
-        <OwnerPartyLists />
-
-        <h2 className="mb-1 text-2xl font-black">⏱️ כמה זמן נשארו בכל עמוד</h2>
+        </> },
+          { id: 'bounce', title: '🚪 נכנסים ויוצאים מהר', preview: bouncePreview(pageStats), empty: 'אין עמודים כאלה בתקופה הזו 🎉', render: () => <Bouncing stats={pageStats} /> },
+          { id: 'party', title: '🧺 רשימות "מי מביא מה"', badge: party.lists?.length, preview: partyPreview(party.lists), empty: party.lists ? 'אין עדיין רשימות.' : 'טוענים…', render: () => <OwnerPartyLists {...party} /> },
+          { id: 'time', title: '⏱️ כמה זמן נשארו בכל עמוד', preview: lastEvents(data, r => r.action === 'time'), render: () => <>
         <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>
-        {data.time_by_path?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+        {data.time_by_path?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">מבקרים</th><th className="p-2">זמן ממוצע</th><th className="p-2">זמן כולל</th></tr></thead>
           <tbody>{data.time_by_path.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
             <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
             <td className="p-2">{r.visits}</td><td className="p-2">{r.visitors}</td>
             <td className="p-2 font-bold">{fmtTime(r.avg)}</td><td className="p-2">{fmtTime(r.total)}</td>
           </tr>)}</tbody>
-        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתוני זמן לתקופה הזו (המדידה מתחילה מעכשיו).</p>}
+        </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתוני זמן לתקופה הזו (המדידה מתחילה מעכשיו).</p>}
 
-        <h2 className="mb-1 text-2xl font-black">🖨️ מה הדפיסו</h2>
+        </> },
+          { id: 'prints', title: '🖨️ מה הדפיסו', preview: lastEvents(data, r => ['preview', 'print', 'download'].includes(r.action)), render: () => <>
         <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, כמה לחצו „הדפסה” (הדפדפן לא מדווח אם הדף באמת יצא מהמדפסת) וכמה שמרו PDF. מ-7.10.26 PDF נספר בנפרד; לפני כן הוא נספר כהדפסה.</p>
-        {data.print_funnel?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+        {data.print_funnel?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">PDF</th></tr></thead>
           <tbody>{data.print_funnel.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
             <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
             <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td><td className="p-2">{pdfByPath.get(r.path || '') || '—'}</td>
           </tr>)}</tbody>
-        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
+        </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 
-        <h2 className="mb-1 text-2xl font-black">📱 סריקות QR מדפים מודפסים</h2>
+        </> },
+          { id: 'qr', title: '📱 סריקות QR מדפים מודפסים', badge: data.sources?.qr || null, preview: lastEvents(data, r => r.source === 'qr' && r.action === 'open'), empty: 'אין עדיין סריקות QR בתקופה הזו.', render: () => <>
         <p className="mb-3 text-sm text-slate-600">כל דף שמודפס מהאתר נושא QR שמחזיר לעמוד שממנו הודפס. כאן רואים איזה דף מודפס נסרק, וכמה אנשים שונים סרקו אותו.</p>
-        {data.qr_landing?.length ? <div className="mb-8 overflow-x-auto"><table className="w-full text-right text-sm">
+        {data.qr_landing?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">הדף המודפס שנסרק</th><th className="p-2">סורקים</th></tr></thead>
           <tbody>{data.qr_landing.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
             <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
             <td className="p-2 font-bold">{r.scans}</td>
           </tr>)}</tbody>
-        </table></div> : <p className="mb-8 rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
+        </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
 
-        <h2 className="mb-1 text-2xl font-black">מבקרים בכל יום</h2>
+        </> },
+          { id: 'days', title: '📅 מבקרים בכל יום', preview: (data.by_day || []).slice(-3).reverse().map(d => <><b>{formatDay(d.day)}</b><span>{d.visitors} מבקרים · {d.events} פעולות</span></>), render: () => <>
         <p className="mb-3 text-sm text-slate-600">המספר מעל כל עמודה = מבקרים שונים באותו יום (שעון ישראל). מעבר עם העכבר מראה גם את מספר הפעולות.</p>
-        {data.by_day?.length ? <div className="mb-8 flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
+        {data.by_day?.length ? <div className="flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
           {data.by_day.map(d => <div key={d.day} className="flex flex-col items-center gap-1" title={`${formatDay(d.day)}: ${d.visitors} מבקרים, ${d.events} פעולות`}>
             <b className="text-xs">{d.visitors}</b>
             <div className="w-7 rounded-t-md" style={{ height: `${Math.max(4, Math.round((d.visitors / byDayMax) * 90))}px`, background: SEQUENTIAL[3] }} />
             <span className="text-[10px] text-slate-500">{formatDay(d.day)}</span>
           </div>)}
-        </div> : <p className="mb-8 rounded-xl bg-slate-50 p-4">אין עדיין נתונים לתקופה הזו.</p>}
+        </div> : <p className="rounded-xl bg-slate-50 p-4">אין עדיין נתונים לתקופה הזו.</p>}
 
-        <div className="mb-8 grid gap-8 sm:grid-cols-2">
+        </> },
+          { id: 'cats', title: '📊 לפי קטגוריה: שיחקו והדפיסו', preview: lastEvents(data, r => ['play', 'use', 'print', 'download'].includes(r.action)), render: () => <>
+        <div className="grid gap-8 sm:grid-cols-2">
           <div>
-            <h2 className="mb-3 text-xl font-black">הכי שיחקו / השתמשו (לפי קטגוריה)</h2>
+            <h3 className="mb-3 text-lg font-black">הכי שיחקו / השתמשו (לפי קטגוריה)</h3>
             {topPlayed.length ? <div className="space-y-2">{topPlayed.map(([key, n], i) => <Bar key={key} value={n} max={topPlayed[0][1]} color={HUES[i % HUES.length]} text={label(key)} />)}</div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתונים.</p>}
           </div>
           <div>
-            <h2 className="mb-3 text-xl font-black">הכי הורידו / הדפיסו (לפי קטגוריה)</h2>
+            <h3 className="mb-3 text-lg font-black">הכי הורידו / הדפיסו (לפי קטגוריה)</h3>
             {topDownloaded.length ? <div className="space-y-2">{topDownloaded.map(([key, n], i) => <Bar key={key} value={n} max={topDownloaded[0][1]} color={HUES[i % HUES.length]} text={label(key)} />)}</div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתונים.</p>}
           </div>
         </div>
 
-        <div className="mb-8 grid gap-8 sm:grid-cols-2">
+        </> },
+          { id: 'devices', title: '💻 מכשירים ומאיפה הגיעו', preview: lastArrivals(data), render: () => <>
+        <div className="grid gap-8 sm:grid-cols-2">
           <div>
-            <h2 className="mb-3 text-xl font-black">מכשירים</h2>
+            <h3 className="mb-3 text-lg font-black">מכשירים</h3>
             <div className="space-y-2">{devices.map(([key, n], i) => <Bar key={key} value={n} max={deviceMax} color={HUES[i]} text={DEVICE_LABELS[key] || key} />)}</div>
           </div>
           <div>
-            <h2 className="mb-3 text-xl font-black">מאיפה הגיעו</h2>
+            <h3 className="mb-3 text-lg font-black">מאיפה הגיעו</h3>
             <div className="space-y-2">{sources.map(([key, n], i) => <Bar key={key} value={n} max={sourceMax} color={HUES[i % HUES.length]} text={SOURCE_LABELS[key] || key} />)}</div>
           </div>
         </div>
 
-        <ByVisitor data={data} />
-
-        <h2 className="mb-3 text-2xl font-black">פעולות אחרונות</h2>
+        </> },
+          { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
+          { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true), render: () => <>
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
             <thead><tr className="border-b-2"><th className="p-2">מבקר</th><th className="p-2">פעילות</th><th className="p-2">מה עשו</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
@@ -533,9 +538,39 @@ export default function OwnerActivityReport() {
             </tr>)}</tbody>
           </table>
         </div>
+        </> },
+        ]} />
       </>}
     </div>
   </div>
+}
+
+// Collapsed-section previews: the 3 latest matching events / arrivals / visitors.
+function EventLine({ row }) {
+  return <><span className="shrink-0 text-slate-500">{fmtClock(row.at)}</span><VisitorTag v={row.visitor} />
+    <b>{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</b>
+    <span>{pageName(row)}</span></>
+}
+function lastEvents(data, keep) {
+  return (data.recent || []).filter(keep).slice(0, 3).map((row, i) => <EventLine key={i} row={row} />)
+}
+function lastArrivals(data) {
+  const seen = new Set(), out = []
+  for (const r of data.recent || []) {
+    if (!r.visitor || seen.has(r.visitor)) continue
+    seen.add(r.visitor)
+    out.push(<><span className="text-slate-500">{fmtClock(r.at)}</span><VisitorTag v={r.visitor} /><span>{DEVICE_LABELS[r.device] || '—'}</span><span>· {SOURCE_LABELS[r.source] || '—'}</span></>)
+    if (out.length === 3) break
+  }
+  return out
+}
+function lastVisitors(data) {
+  return (data.by_visitor || []).slice().sort((a, b) => String(b.last).localeCompare(String(a.last))).slice(0, 3)
+    .map(r => <><span className="text-slate-500">{fmtClock(r.last)}</span><VisitorTag v={r.v} /><span><b>{r.events}</b> פעולות · {r.pages} דפים</span><span className="text-slate-600">{SOURCE_LABELS[r.source] || ''}</span></>)
+}
+function bouncePreview(stats) {
+  return stats.filter(r => r.opens >= 5 && r.rate < 0.1 && r.avg != null && r.avg < 20).sort((a, b) => b.opens - a.opens).slice(0, 3)
+    .map(r => <><b>{pageName(r)}</b><span>{r.opens} כניסות · {fmtTime(r.avg)}</span></>)
 }
 
 function aggregateTop(top, actions) {

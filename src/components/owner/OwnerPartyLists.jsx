@@ -6,10 +6,9 @@ import { ownerSupabase as supabase } from '../../utils/ownerAuth'
 const taker = item => item.takenBy || (item.claims || []).map(c => (c.count > 1 ? `${c.name} (${c.count})` : c.name)).join(', ')
 const fmt = iso => new Date(iso).toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
 
-export default function OwnerPartyLists() {
+export function usePartyLists() {
   const [lists, setLists] = useState(null)
   const [error, setError] = useState('')
-  const [q, setQ] = useState('')
 
   useEffect(() => {
     let alive = true
@@ -20,14 +19,21 @@ export default function OwnerPartyLists() {
     })
     return () => { alive = false }
   }, [])
+  return { lists, error }
+}
+// Newest lists for the collapsed section: title and when it was last updated.
+export const partyPreview = lists => (lists || []).slice().sort((a, b) => String(b.updated_at).localeCompare(String(a.updated_at)))
+  .slice(0, 3).map(l => <><span className="text-slate-500">{fmt(l.updated_at)}</span><b>{l.title}</b><span>{(l.items || []).filter(i => i.text?.trim()).length} פריטים</span></>)
+
+export default function OwnerPartyLists({ lists, error }) {
+  const [q, setQ] = useState('')
 
   const shown = (lists || []).filter(l => !q.trim() || `${l.title} ${JSON.stringify(l.items)} ${JSON.stringify(l.details)}`.includes(q.trim()))
   const items = (lists || []).flatMap(l => (l.items || []).filter(i => i.text?.trim()))
   const taken = items.filter(i => taker(i)).length
 
   return (
-    <section className="mb-10">
-      <h2 className="mb-1 text-2xl font-black">🧺 רשימות "מי מביא מה"</h2>
+    <div>
       <p className="mb-3 text-sm text-slate-600">כל הרשימות שנוצרו באתר — מה כתבו בהן ומי נרשם להביא מה. הכי עדכניות למעלה.</p>
       {error === 'missing' && <p className="rounded-xl border-2 border-amber-300 bg-amber-50 p-4 text-sm">כדי לראות את הרשימות צריך להריץ פעם אחת את קובץ ה-SQL <b>202610030002_owner_party_lists.sql</b> ב-Supabase.</p>}
       {error && error !== 'missing' && <p className="rounded-xl bg-red-50 p-4 text-sm">שגיאה בטעינת הרשימות: {error}</p>}
@@ -70,6 +76,6 @@ export default function OwnerPartyLists() {
           })}
         </div>
       </>}
-    </section>
+    </div>
   )
 }
