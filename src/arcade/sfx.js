@@ -47,9 +47,13 @@ const SOUNDS = {
   crash: c => { noise(c, { dur: 0.35, gain: 0.25, cutoff: 700 }); tone(c, { freq: 220, to: 60, dur: 0.4, type: 'sawtooth', gain: 0.08 }) },
   win: c => [523, 659, 784, 1047].forEach((f, i) => tone(c, { freq: f, at: i * 0.11, dur: 0.28, type: 'triangle', gain: 0.12 })),
   tick: c => tone(c, { freq: 880, dur: 0.05, type: 'square', gain: 0.03 }),
+  slide: c => noise(c, { dur: 0.07, gain: 0.05, cutoff: 1800 }),
+  bump: c => tone(c, { freq: 140, to: 90, dur: 0.08, type: 'sine', gain: 0.1 }),
+  // a merge: the bigger the new number, the higher the note (2 → 4 low, 1024 → 2048 high)
+  merge: (c, v = 4) => { const f = 330 * 2 ** (Math.min(11, Math.log2(v) - 2) / 4); tone(c, { freq: f, to: f * 1.5, dur: 0.1, type: 'triangle', gain: 0.12 }) },
 }
 
-export function sfx(name) {
+export function sfx(name, arg) {
   const c = audio()
-  if (c && SOUNDS[name]) { try { SOUNDS[name](c) } catch { /* ignore */ } }
+  if (c && SOUNDS[name]) { try { SOUNDS[name](c, arg) } catch { /* ignore */ } }
 }
