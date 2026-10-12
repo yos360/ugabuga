@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { isPreviousPage } from '../../utils/navMemory'
 import { Helmet } from 'react-helmet-async'
 
 const SITE = 'https://ugabuga.co.il'
@@ -25,6 +26,9 @@ export default function Breadcrumbs({ items: rawItems, back }) {
   // Arrived from a hub (e.g. the classroom area)? Show that hub as the way back instead of the
   // general printables index. Visual only — the structured data keeps the canonical trail.
   const via = useLocation().state?.via
+  // A crumb for the page we just came from steps back instead, so its filters and scroll stay.
+  const navigate = useNavigate()
+  const stepBack = href => e => { if (!e.metaKey && !e.ctrlKey && !e.shiftKey && isPreviousPage(href)) { e.preventDefault(); navigate(-1) } }
   const shown = via?.href && via?.label && items[1]?.href === '/printables' ? [items[0], via, ...items.slice(2)] : items
 
   return (
@@ -38,7 +42,7 @@ export default function Breadcrumbs({ items: rawItems, back }) {
             <li key={i} className="flex items-center gap-1">
               {i > 0 && <span className="mx-1">{'›'}</span>}
               {item.href ? (
-                <Link to={item.href} className="inline-flex items-center min-h-[32px] py-1 hover:text-[var(--ink)] hover:underline">{item.label}</Link>
+                <Link to={item.href} onClick={stepBack(item.href)} className="inline-flex items-center min-h-[32px] py-1 hover:text-[var(--ink)] hover:underline">{item.label}</Link>
               ) : (
                 <span className="text-[var(--ink)] font-medium">{item.label}</span>
               )}
@@ -46,7 +50,7 @@ export default function Breadcrumbs({ items: rawItems, back }) {
           ))}
         </ol>
         {back?.href && (
-          <Link to={back.href} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
+          <Link to={back.href} onClick={stepBack(back.href)} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
             → {back.label || 'חזרה'}
           </Link>
         )}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { isPreviousPage } from '../../utils/navMemory'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -109,6 +110,7 @@ function pictureFaq(p) {
 }
 
 export function ColorByNumberPicture() {
+  const navigate = useNavigate()
   const { slug } = useParams()
   const p = cbnBySlug(slug)
   const [mode, setMode] = useState('numbers')
@@ -168,7 +170,7 @@ export function ColorByNumberPicture() {
     <section className="no-print mt-8">
       <h2 className="mb-4 text-center text-2xl font-black">ציורים ברמות אחרות</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">{others.map(x => <PictureCard key={x.slug} p={x} />)}</div>
-      <p className="mt-4 text-center"><Link to={HUB} className="font-bold underline">לכל {COUNT} הציורים לצביעה לפי מספרים</Link></p>
+      <p className="mt-4 text-center"><Link to={HUB} onClick={e => { if (isPreviousPage(HUB)) { e.preventDefault(); navigate(-1) } }} className="font-bold underline">לכל {COUNT} הציורים לצביעה לפי מספרים</Link></p>
     </section>
     <div className="mt-8"><SeoBody paragraphs={[
       `${p.blurb} הציור בנוי מ-${total} משבצות על רשת של ${cols}×${rows}, ובכל משבצת מספר שמתאים לאחד מ-${p.colors.length} הצבעים במקרא: ${cbnLegend(p).map(l => `${l.num} — ${l.name}`).join(', ')}.`,

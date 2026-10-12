@@ -1,14 +1,47 @@
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigationType } from 'react-router-dom'
+import { rememberNavigation, saveScroll, savedScroll } from '../../utils/navMemory'
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation()
+  const location = useLocation()
+  const { pathname } = location
+  const navType = useNavigationType()
   const [show, setShow] = useState(false)
+  const current = useRef(location)
 
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  // New page → top. Back/forward → the spot the visitor left, retried while the page (lazy
+  // chunks, data) is still growing tall enough; any touch or wheel by the visitor stops it.
+  useEffect(() => {
+    const prev = current.current
+    current.current = location
+    if (prev.key === location.key) return
+    rememberNavigation(prev, navType)
+    try { window.history.scrollRestoration = 'manual' } catch { /* old browser */ }
+    const y = navType === 'POP' ? savedScroll(location.key) : undefined
+    if (y == null) {
+      if (prev.pathname !== location.pathname) window.scrollTo(0, 0)
+      return
+    }
+    let tries = 0, stopped = false
+    const stop = () => { stopped = true }
+    const opts = { passive: true, once: true }
+    window.addEventListener('wheel', stop, opts); window.addEventListener('touchstart', stop, opts); window.addEventListener('keydown', stop, opts)
+    const attempt = () => {
+      if (stopped) return
+      window.scrollTo(0, y)
+      if (Math.abs(window.scrollY - y) > 2 && ++tries < 30) timer = setTimeout(attempt, 100)
+    }
+    let timer = setTimeout(attempt, 0)
+    return () => { clearTimeout(timer); window.removeEventListener('wheel', stop); window.removeEventListener('touchstart', stop); window.removeEventListener('keydown', stop) }
+  }, [location, navType])
 
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 400)
+    let frame = 0
+    const onScroll = () => {
+      setShow(window.scrollY > 400)
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => saveScroll(current.current.key, window.scrollY))
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
