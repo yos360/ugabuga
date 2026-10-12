@@ -1,6 +1,8 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-10-12', emoji: '✂️', title: 'יצירה לחנוכה לגזירה', blurb: 'סביבון מנייר, חנוכייה לגזירה ולהדבקה ושרשרת חנוכה.', to: '/holidays/hanukkah/crafts', kind: 'print' },
+  { date: '2026-10-12', emoji: '🌧️', title: 'דפי חורף וגשם לגן', blurb: 'דפי צביעה ודפי עבודה: מטרייה בגשם, ספירת טיפות, מה לובשים בחורף.', to: '/printables/winter', kind: 'print' },
   { date: '2026-10-12', emoji: '⏳', title: 'כמה ימים עד…?', blurb: 'ספירה לאחור לחנוכה, לפורים, לפסח, לחופש הגדול ועוד — בימים ובלילות שינה.', to: '/days-until', kind: 'family' },
   { date: '2026-10-12', emoji: '🎂', title: 'בן כמה אני?', blurb: 'גיל בשנים ובימים, באיזה יום בשבוע נולדתם והתאריך העברי.', to: '/tools/age-calculator', kind: 'learn' },
   { date: '2026-10-12', emoji: '🔢', title: 'מחשבון גימטריה', blurb: 'מקלידים שם או מילה ומקבלים את הערך בגימטריה, עם פירוט לכל אות.', to: '/tools/gematria', kind: 'learn' },

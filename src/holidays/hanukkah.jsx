@@ -2,6 +2,7 @@
 import { HANUKKAH, HANUKKAH_QUIZ, HANUKKAH_IDEAS } from '../data/hanukkah'
 import { HANUKKAH_ART } from '../components/hanukkah/HanukkahArt'
 import { HANUKKAH_SHEETS } from '../components/hanukkah/HanukkahSheets'
+import { HANUKKAH_CRAFTS } from '../components/hanukkah/HanukkahCrafts'
 
 const base = '/holidays/hanukkah'
 
@@ -15,6 +16,7 @@ export const HANUKKAH_H = {
     { to: base + '/quiz', label: 'חידון חנוכה', emoji: '❓' },
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️' },
+    { to: base + '/crafts', label: 'יצירה לגזירה', emoji: '✂️' },
     { to: base + '/what-to-do', label: 'מה עושים בחנוכה', emoji: '💡' },
     { to: base + '/songs', label: 'שירי חנוכה', emoji: '🎵' },
   ],
@@ -33,6 +35,15 @@ export const HANUKKAH_H = {
     related: [{ label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }, { label: 'דפי עבודה לחנוכה', href: '/holidays/hanukkah/worksheets' }, { label: 'טריוויה לכל הנושאים', href: '/tools/trivia-quiz' }],
   },
   printables: {
+  crafts: {
+    list: HANUKKAH_CRAFTS, crumb: 'יצירה לגזירה',
+    title: 'יצירה לחנוכה להדפסה — סביבון מנייר, חנוכייה לגזירה ושרשרת', h1: '✂️ יצירה לחנוכה — לגזור ולהכין',
+    desc: 'יצירה לחנוכה להדפסה בחינם: תבנית סביבון מנייר לגזירה (נ ג ה פ), חנוכייה לגזירה ולהדבקה — נר בכל ערב, ושרשרת חנוכה לקישוט. לגן ולכיתות א׳–ב׳.',
+    sub: 'סביבון מנייר · חנוכייה לגזירה · שרשרת — קו מלא לגזירה, מקווקו לקיפול',
+    body: ['תבנית הסביבון מתקפלת לקובייה עם האותיות נ ג ה פ ("נס גדול היה פה"). משחילים עיפרון קצר בשני החורים — ומסובבים. בחנוכייה לגזירה ילדי הגן מדביקים כל ערב נר אחד, וכך סופרים יחד את ימי החג. השרשרת מקשטת את הגן או את חלון הבית.'],
+    faq: [{ q: 'איך מכינים סביבון מנייר?', a: 'מדפיסים את התבנית (רצוי על בריסטול דק), גוזרים לאורך הקו המלא, מקפלים בקווים המקווקווים ומדביקים את הלשוניות. משחילים עיפרון קצר דרך שני החורים שבחלק העליון והתחתון.' }, { q: 'לאיזה גיל זה מתאים?', a: 'החנוכייה לגזירה מתאימה לגן. את הסביבון מנייר ילדי גן מכינים עם מבוגר, ומכיתה א׳ אפשר כמעט לבד.' }],
+    related: [{ label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'מה עושים בחנוכה', href: '/holidays/hanukkah/what-to-do' }],
+  },
   coloring: {
     list: HANUKKAH_ART, crumb: 'דפי צביעה', related: [{ label: 'דפי עבודה לחנוכה', href: '/holidays/hanukkah/worksheets' }, { label: 'חידון חנוכה', href: '/holidays/hanukkah/quiz' }, { label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }],
     title: 'דפי צביעה לחנוכה — להדפסה בחינם', h1: '🖍️ דפי צביעה לחנוכה',
