@@ -8,6 +8,24 @@ import { gameHref } from '../../data/gameHref'
 import { AGE_IDEAS, AGE_IDEA_LIST } from '../../data/ideaArticlesAges'
 import { nearby } from '../../utils/nearby'
 
+// Popular party themes by age band (for "רעיונות ליום הולדת 8 לבנים / לבנות" searches).
+const THEMES = [
+  [4, 6, ['🦄 חד־קרן וקשת', '🦖 דינוזאורים', '🦸 גיבורי־על', '👑 נסיכות ואבירים', '🚀 חלל', '🐾 חיות הג׳ונגל']],
+  [7, 9, ['⛏️ מיינקראפט', '⚽ כדורגל', '🧪 מדען מטורף', '💃 מסיבת ריקודים', '🕵️ בלשים וחדר בריחה', '🏴‍☠️ פיראטים ואוצר']],
+  [10, 12, ['🔐 חדר בריחה', '🎤 קריוקי וכוכב נולד', '🧁 תחרות אפייה', '🎬 מסיבת סרט ופיג׳מות', '🎮 טורניר משחקים', '📸 צילומים ובוגה סטודיו']],
+  [13, 120, ['🍕 ערב משחקי קופסה', '🕵️ מסיבת תעלומת רצח', '🎶 מסיבת שנות ה־90', '🍷 ערב טעימות', '🧩 חדר בריחה למבוגרים', '🎤 קריוקי']],
+]
+const themesFor = n => (THEMES.find(([a, b]) => n >= a && n <= b) || [])[2] || []
+// Everything for a party at home, in one row.
+const KIT = [
+  ['/tools/invitation-generator', '💌 הזמנה מוכנה'],
+  ['/tools/bring-list', '🧾 מי מביא מה'],
+  ['/printables/birthday-signs', '🎉 שלטים להדפסה'],
+  ['/printables/name-coloring', '🖍️ דף צביעה עם השם'],
+  ['/printables/certificates', '🏅 תעודות לזוכים'],
+  ['/tools/party-calculator', '🍕 כמה אוכל להזמין'],
+]
+
 // Cross-section pages that exist in the sitemap for a given age.
 const GAMES_AGES = [4, 5, 6, 7, 8, 9, 10]
 const GIFT_AGES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
@@ -40,7 +58,7 @@ export default function AgePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-      <SEO title={`רעיונות ליום הולדת גיל ${age}`} description={info ? `יום הולדת לגיל ${age}: מה ילדים בגיל הזה אוהבים, כמה זמן ומי להזמין, לו״ז לדוגמה, משחקים מתאימים, אוכל וטעויות שכדאי להימנע מהן.` : `משחקים ורעיונות ליום הולדת גיל ${age} — בלי ציוד, בלי הכנה, חינם.`} path={'/ideas/age/'+age} noindex={!validAge} structuredData={info ? faqSchema(info.faq) : undefined} />
+      <SEO title={info ? `רעיונות ליום הולדת ${age} — הפעלות, משחקים ומסיבה בבית` : `רעיונות ליום הולדת גיל ${age}`} description={info ? `יום הולדת לגיל ${age}: מה ילדים בגיל הזה אוהבים, כמה זמן ומי להזמין, לו״ז לדוגמה, משחקים מתאימים, אוכל וטעויות שכדאי להימנע מהן.` : `משחקים ורעיונות ליום הולדת גיל ${age} — בלי ציוד, בלי הכנה, חינם.`} path={'/ideas/age/'+age} noindex={!validAge} structuredData={info ? faqSchema(info.faq) : undefined} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'השראה', href: '/ideas' }, { label: 'גיל '+age }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎂 רעיונות ליום הולדת גיל {age}</h1>
 
@@ -75,8 +93,13 @@ export default function AgePage() {
             </WobblyCard>
           </div>
 
+          {themesFor(ageNum).length > 0 && <section className="mb-10">
+            <h2 className="text-3xl mb-3">נושאים למסיבת יום הולדת {age} — לבנים ולבנות</h2>
+            <div className="flex flex-wrap gap-2">{themesFor(ageNum).map(t => <span key={t} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 text-lg font-bold">{t}</span>)}</div>
+          </section>}
+
           <section className="mb-10">
-            <h2 className="text-3xl mb-4">{info.picks.length} משחקים שמתאימים בדיוק לגיל {age}</h2>
+            <h2 className="text-3xl mb-4">הפעלות ליום הולדת {age}: {info.picks.length} משחקים שמתאימים בדיוק לגיל</h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {info.picks.map(([slug, why], i) => (
                 <Link key={slug} to={gameHref(slug)} className={`card-lift wobbly border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow-rich ${i % 2 ? 'rotate-1' : '-rotate-1'}`}>
@@ -85,6 +108,11 @@ export default function AgePage() {
                 </Link>
               ))}
             </div>
+          </section>
+
+          <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">
+            <h2 className="text-2xl mb-3">🏠 יום הולדת {age} בבית — כל מה שצריך מוכן</h2>
+            <div className="flex flex-wrap gap-2">{KIT.map(([to, label]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold hover:-translate-y-0.5">{label}</Link>)}</div>
           </section>
 
           <div className="mb-10 grid gap-5 md:grid-cols-2">
