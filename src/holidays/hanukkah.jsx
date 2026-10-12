@@ -3,6 +3,7 @@ import { HANUKKAH, HANUKKAH_QUIZ, HANUKKAH_IDEAS } from '../data/hanukkah'
 import { HANUKKAH_ART } from '../components/hanukkah/HanukkahArt'
 import { HANUKKAH_SHEETS } from '../components/hanukkah/HanukkahSheets'
 import { HANUKKAH_CRAFTS } from '../components/hanukkah/HanukkahCrafts'
+import { HANUKKAH_WORD_SEARCH } from '../components/hanukkah/HanukkahWordSearch'
 
 const base = '/holidays/hanukkah'
 
@@ -17,6 +18,7 @@ export const HANUKKAH_H = {
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️' },
     { to: base + '/crafts', label: 'יצירה לגזירה', emoji: '✂️' },
+    { to: base + '/word-search', label: 'תפזורת חנוכה', emoji: '🔎' },
     { to: base + '/what-to-do', label: 'מה עושים בחנוכה', emoji: '💡' },
     { to: base + '/songs', label: 'שירי חנוכה', emoji: '🎵' },
   ],
@@ -35,6 +37,15 @@ export const HANUKKAH_H = {
     related: [{ label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }, { label: 'דפי עבודה לחנוכה', href: '/holidays/hanukkah/worksheets' }, { label: 'טריוויה לכל הנושאים', href: '/tools/trivia-quiz' }],
   },
   printables: {
+  'word-search': {
+    list: HANUKKAH_WORD_SEARCH, crumb: 'תפזורת חנוכה',
+    title: 'תפזורת חנוכה להדפסה — 3 רמות עם פתרון', h1: '🔎 תפזורת חנוכה',
+    desc: 'תפזורת חנוכה להדפסה בחינם: 3 רמות (קלה לכיתות א׳–ב׳, בינונית וקשה) עם דף פתרון לכל אחת — סביבון, סופגניה, חנוכייה, המכבים, פך השמן ועוד.',
+    sub: '3 רמות · מילים מימין לשמאל ומלמעלה למטה · עם דף פתרון',
+    body: ['תפזורת חנוכה היא פעילות שקטה ומושלמת לחופשת חנוכה ולשיעור לפני החג. ברמה הקלה 6 מילים קצרות בטבלה של 8×8, ובקשה 10 מילים — כולל אנטיוכוס ומודיעין. לכל רמה יש דף פתרון עם המילים מסומנות.'],
+    faq: [{ q: 'לאיזה גיל מתאימה תפזורת החנוכה?', a: 'הקלה לכיתות א׳–ב׳, הבינונית לכיתות ב׳–ד׳ והקשה לכיתות ד׳–ו׳.' }, { q: 'יש פתרון?', a: 'כן — אחרי כל תפזורת יש דף פתרון. רוצים מילים משלכם? יש מחולל תפזורות באתר.' }],
+    related: [{ label: 'מחולל תפזורות', href: '/tools/word-search-maker' }, { label: 'חידון חנוכה', href: '/holidays/hanukkah/quiz' }, { label: 'יצירה לחנוכה', href: '/holidays/hanukkah/crafts' }],
+  },
   crafts: {
     list: HANUKKAH_CRAFTS, crumb: 'יצירה לגזירה',
     title: 'יצירה לחנוכה להדפסה — סביבון מנייר, חנוכייה לגזירה ושרשרת', h1: '✂️ יצירה לחנוכה — לגזור ולהכין',

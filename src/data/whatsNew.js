@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-10-12', emoji: '🔎', title: 'תפזורת חנוכה', blurb: '3 רמות עם דף פתרון — מכיתה א׳ ועד ו׳.', to: '/holidays/hanukkah/word-search', kind: 'print' },
   { date: '2026-10-12', emoji: '✂️', title: 'יצירה לחנוכה לגזירה', blurb: 'סביבון מנייר, חנוכייה לגזירה ולהדבקה ושרשרת חנוכה.', to: '/holidays/hanukkah/crafts', kind: 'print' },
   { date: '2026-10-12', emoji: '🌧️', title: 'דפי חורף וגשם לגן', blurb: 'דפי צביעה ודפי עבודה: מטרייה בגשם, ספירת טיפות, מה לובשים בחורף.', to: '/printables/winter', kind: 'print' },
   { date: '2026-10-12', emoji: '⏳', title: 'כמה ימים עד…?', blurb: 'ספירה לאחור לחנוכה, לפורים, לפסח, לחופש הגדול ועוד — בימים ובלילות שינה.', to: '/days-until', kind: 'family' },
