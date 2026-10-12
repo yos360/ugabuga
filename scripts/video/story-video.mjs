@@ -8,7 +8,8 @@ import { chromium } from 'playwright'
 import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import { spawn, spawnSync } from 'node:child_process'
 import { BEDTIME_STORIES, renderStory } from '../../src/data/bedtimeStories.js'
-import { stageHtml } from './stage.mjs'
+import { stageHtml, sceneEvents } from './stage.mjs'
+import { lullaby, effectsTrack, writeWav } from './audio.mjs'
 import { subtitleLines } from './subtitles.mjs'
 
 const [slug, ...rest] = process.argv.slice(2)
@@ -38,7 +39,7 @@ const slides = clips.map((file, k) => {
     subs: text ? subtitleLines(text, file, d).map(s => ({ ...s, from: s.from + LEAD, to: s.to + LEAD })) : [] }
 })
 const END = `<div style="font-family:'Noto Color Emoji';font-size:120px">🌙</div><h1>לילה טוב, חלומות פז</h1><div class="m">💛 ${esc(r.moral)}</div><div class="s">עוד סיפורים בחינם, עם קריינות:</div><div class="u">ugabuga.co.il</div><div class="s">חפשו בגוגל: עוגה בוגה</div>`
-const html = (s, w, h, extra = {}) => stageHtml({ w, h, fonts: FONTS, scene: s.scene, subs: s.subs, total: s.total,
+const html = (s, w, h, extra = {}) => stageHtml({ w, h, fonts: FONTS, scene: s.scene, subs: s.subs, total: s.total, seed: slides.indexOf(s) + 1,
   title: s.kind === 'title' ? r.title : '', sub: s.kind === 'title' ? `סיפור לפני השינה · לגילאי ${story.age}` : '',
   end: s.kind === 'end' ? END : '', ...extra })
 
@@ -83,16 +84,33 @@ async function render(fmt, w, h, extras = []) {
   return segs
 }
 
-function join(segs, out) {
-  const list = out.replace(/\.mp4$/, '.txt')
-  spawnSync('sh', ['-c', `printf "%s\\n" ${segs.map(s => `"file '${s.mp4.split('/').pop()}'"`).join(' ')} > "${list}"`])
-  run('ffmpeg', ['-nostdin', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', out])
+// Joins rendered segments (narration only) and lays the lullaby and the soft effects under them.
+// The music ducks under Noa's voice (sidechain), so the words always stay clear.
+async function join(idx, segs, out) {
+  const list = out.replace(/\.mp4$/, '.txt'), raw = out.replace(/\.mp4$/, '.raw.mp4')
+  spawnSync('sh', ['-c', `printf "%s\\n" ${idx.map(i => `"file '${segs[i].mp4.split('/').pop()}'"`).join(' ')} > "${list}"`])
+  run('ffmpeg', ['-nostdin', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', raw])
+  const seconds = idx.reduce((a, i) => a + slides[i].total, 0), events = [], nights = []
+  let t0 = 0
+  for (const i of idx) {
+    const s = slides[i]
+    for (const [t, kind] of sceneEvents(s.scene, s.total)) events.push([t0 + t, kind])
+    if (s.scene.sky === 'night') nights.push([t0, t0 + s.total])
+    t0 += s.total
+  }
+  const music = out.replace(/\.mp4$/, '.music.wav'), fx = out.replace(/\.mp4$/, '.fx.wav')
+  await writeWav(music, lullaby(seconds + 0.5, { startBar: (idx[0] * 5) % 16 }))
+  await writeWav(fx, effectsTrack(seconds + 0.5, events, nights))
+  run('ffmpeg', ['-nostdin', '-y', '-i', raw, '-i', music, '-i', fx, '-filter_complex',
+    '[0:a]aformat=channel_layouts=stereo,asplit=2[voice][key];[1:a]volume=0.30[m];[m][key]sidechaincompress=threshold=0.02:ratio=5:attack=120:release=900[md];' +
+    '[2:a]volume=0.25[fx];[voice][md][fx]amix=inputs=3:normalize=0,alimiter=limit=0.95[a]',
+    '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '160k', '-t', seconds.toFixed(3), '-movflags', '+faststart', out])
 }
 
 const meta = { slug, title: r.title, seconds: Math.round(slides.reduce((a, s) => a + s.total, 0)), files: [] }
 if (args.only !== 'reels') {
   const segs = await render('youtube', 1920, 1080)
-  if (!args.segs) { const out = `${OUT}/youtube/${slug}-youtube.mp4`; join(segs, out); meta.files.push(out) }
+  if (!args.segs) { const out = `${OUT}/youtube/${slug}-youtube.mp4`; await join(slides.map((_, i) => i), segs, out); meta.files.push(out) }
 }
 if (args.only !== 'youtube') {
   // Reels: parts of at most ~90 s, decided from the clip lengths before rendering, so each scene
@@ -106,7 +124,7 @@ if (args.only !== 'youtube') {
     return groups.length > 1 ? { part: `חלק ${g + 1} מתוך ${groups.length}`, cont: last && g < groups.length - 1 ? g + 2 : 0 } : {}
   })
   const segs = await render('reels', 1080, 1920, extras)
-  if (!args.segs) groups.forEach((g, i) => { const out = `${OUT}/reels/${slug}-reels-${i + 1}of${groups.length}.mp4`; join(g.map(j => segs[j]), out); meta.files.push(out) })
+  if (!args.segs) for (const [i, g] of groups.entries()) { const out = `${OUT}/reels/${slug}-reels-${i + 1}of${groups.length}.mp4`; await join(g, segs, out); meta.files.push(out) }
 }
 // YouTube cover (1280×720, a frame of the title scene) and upload texts.
 {

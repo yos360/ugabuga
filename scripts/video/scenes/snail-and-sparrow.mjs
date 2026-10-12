@@ -40,7 +40,7 @@ export default [
     cast: [{ e: '🐞', s: 110, x: [1120, 1040], y: 640, a: 'walk', show: [0.05, 1] },
       { e: '🐜', s: 60, x: [1500, 200], y: 900, a: 'ants', n: 6, show: [0.35, 1], at: [0.35, 1] },
       { e: '💧', s: 70, x: 880, y: 600, a: 'glint', show: [0.7, 1] },
-      snail({ s: 170, x: 1380, y: 840, a: 'bob' }), bird({ s: 140, x: 1220, y: 840, a: 'peek' })],
+      snail({ s: 170, x: 1290, y: 840, a: 'bob' }), bird({ s: 140, x: 1140, y: 840, a: 'peek' })],
     cam: [1.25, 1.1, [-150, -80], [-60, -40]] },
   // 7 · "I never saw all this" — they talk, close together
   { sky: 'day', props: [lemon, pumpkin, { svg: 'flowers' }], fx: ['clouds', 'butterflies'],
