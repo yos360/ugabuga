@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
 import OwnerPartyLists from '../components/owner/OwnerPartyLists'
+import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 
 // Fixed categorical order (never reassigned per-render) — validated for
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
@@ -278,7 +279,7 @@ function useSummary(from, to, tick = 0) {
 // Live refresh shared by the full report and the mini widget: every new event in the database
 // pushes a refresh (Supabase Realtime, owner-only by RLS); polling every 30 seconds while the live link is down,
 // and a slow 5-minute safety refresh while it is up.
-function useLiveRefresh() {
+function useLiveRefresh(background = false) {
   const [tick, setTick] = useState(0), [updated, setUpdated] = useState(() => new Date())
   const refresh = () => { setTick(t => t + 1); setUpdated(new Date()) }
   const [live, setLive] = useState(false)
@@ -301,9 +302,10 @@ function useLiveRefresh() {
   // Fallback while the live link is down: poll every 30 seconds. While live, a slow 5-minute
   // safety refresh still runs in case events silently stop arriving.
   useEffect(() => {
-    const iv = setInterval(() => { if (document.visibilityState === 'visible') refresh() }, live ? 300000 : 30000)
+    // With the arrival sound on, keep checking in a background tab too — that's when it's useful.
+    const iv = setInterval(() => { if (background || document.visibilityState === 'visible') refresh() }, live ? 300000 : 30000)
     return () => clearInterval(iv)
-  }, [live])
+  }, [live, background])
   return { tick, updated, refresh, live }
 }
 
@@ -347,11 +349,13 @@ function MiniWidget({ data, live, updated, onRefresh, onClose }) {
 // /admin/mini — the widget as its own page (for a small separate window or a phone home-screen shortcut)
 export function OwnerMini() {
   usePageTitles()
-  const { tick, updated, refresh, live } = useLiveRefresh()
+  const [sound, setSound] = useSoundSettings()
+  const { tick, updated, refresh, live } = useLiveRefresh(sound.on)
   const day = updated.toDateString()
   const [from, to] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data } = useSummary(from, to, tick)
-  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} /></>
+  useArrivalSound(data, sound)
+  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} /><div className="px-3 pb-3" dir="rtl"><SoundSettings settings={sound} update={setSound} compact /></div></>
 }
 
 // Chrome/Edge (desktop) can open a real always-on-top mini window (Document Picture-in-Picture).
@@ -370,7 +374,8 @@ async function openFloating(setPip) {
 export default function OwnerActivityReport() {
   usePageTitles()
   const [range, setRange] = useState('today')
-  const { tick, updated, refresh, live } = useLiveRefresh()
+  const [sound, setSound] = useSoundSettings()
+  const { tick, updated, refresh, live } = useLiveRefresh(sound.on)
   const [pip, setPip] = useState(null)
   const day = updated.toDateString() // after midnight "today" moves to the new day
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -381,6 +386,7 @@ export default function OwnerActivityReport() {
   const [yFrom, yFullTo] = useMemo(() => rangeBounds('yesterday'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   const ySameTime = useMemo(() => new Date(Date.now() - 86400000), [tick, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const today = useSummary(todayFrom, todayTo, tick)
+  useArrivalSound(today.data, sound)
   const yesterday = useSummary(yFrom, ySameTime, tick)
   const yesterdayFull = useSummary(yFrom, yFullTo)
   const sameTime = ySameTime.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
@@ -415,6 +421,7 @@ export default function OwnerActivityReport() {
         <span className="text-sm text-slate-500">כל אתמול: {yesterdayFull.data?.visitors ?? '…'} מבקרים · {yesterdayFull.data?.pageviews ?? '…'} צפיות</span>
       </div>
 
+      <div className="mb-3"><SoundSettings settings={sound} update={setSound} /></div>
       <div className="mb-6"><TrackSelf /></div>
 
       {error && <div className="mb-6 rounded-2xl border-2 border-amber-300 bg-amber-50 p-4"><b>שימו לב:</b> {error}</div>}
