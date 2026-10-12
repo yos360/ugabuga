@@ -77,7 +77,20 @@
       } catch (e) {}
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-5XK1W5R504');
+      // Campaign tags (?utm_source=qr from a printed page…) count once, for the landing, and are
+      // then removed from the address bar — otherwise a link copied or shared afterwards carries
+      // them on and every friend who opens it is counted as another QR scan.
+      var landing = location.href;
+      gtag('config', 'G-5XK1W5R504', { page_location: landing });
+      try {
+        var q = new URLSearchParams(location.search), utm = q.get('utm_source');
+        if (utm) {
+          sessionStorage.setItem('buga-landing-utm', utm);
+          ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (k) { q.delete(k); });
+          var rest = q.toString();
+          history.replaceState(history.state, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
+        }
+      } catch (e) {}
     </script>
     <!-- Schema.org WebSite/Organization data lives in src/components/ui/SEO.jsx and is
          injected per-route via react-helmet-async (homepage only, to avoid shipping the

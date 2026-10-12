@@ -107,7 +107,10 @@ function trafficSource() {
     const saved = sessionStorage.getItem('buga-src')
     if (saved) return saved
     const q = new URLSearchParams(location.search)
-    const src = classifySource(document.referrer, q.get('utm_source') || (q.has('wa') ? 'whatsapp' : null), location.hostname)
+    // index.html moves the landing's utm_source out of the address bar into sessionStorage.
+    let landingUtm = null
+    try { landingUtm = sessionStorage.getItem('buga-landing-utm') } catch { /* ignore */ }
+    const src = classifySource(document.referrer, q.get('utm_source') || landingUtm || (q.has('wa') ? 'whatsapp' : null), location.hostname)
     sessionStorage.setItem('buga-src', src)
     return src
   } catch { return null }
