@@ -45,7 +45,7 @@ const sayDigits = key => key
   .replace(/(\d+)\s*%/g, '$1 אחוז')
   .replace(/\s*=\s*/g, ' שווה ')
   .replace(/\s*−\s*/g, ' פחות ')
-  .replace(/\d+/g, d => heNum(Number(d))).replace(/\s*[×x*]\s*/g, ' כפול ').replace(/\s*\+\s*/g, ' ועוד ').replace(/\s+/g, ' ').trim()
+  .replace(/\d+/g, d => heNum(Number(d)) || 'אפס').replace(/\s*[×x*]\s*/g, ' כפול ').replace(/\s*\+\s*/g, ' ועוד ').replace(/\s+/g, ' ').trim()
 const LETTER_PLAIN = { 'אָלֶף': 'אלף', 'בֵּית': 'בית', 'גִּימֶל': 'גימל', 'דָּלֶת': 'דלת', 'הֵא': 'הא', 'וָו': 'וו', 'זַיִן': 'זין', 'חֵית': 'חית', 'טֵית': 'טית', 'יוּד': 'יוד', 'כָּף': 'כף', 'לָמֶד': 'למד', 'מֵם': 'מם', 'נוּן': 'נון', 'סָמֶךְ': 'סמך', 'עַיִן': 'עין', 'פֵּא': 'פא', 'צָדִי': 'צדי', 'קוּף': 'קוף', 'רֵישׁ': 'ריש', 'שִׁין': 'שין', 'תָּו': 'תו' }
 const WORD_PLAIN = Object.fromEntries(HEBREW.flatMap(h => h.words.filter(w => w[2]).map(w => [w[2], w[0]])))
 const hasNiqqud = t => /[\u0591-\u05C7]/.test(t)
