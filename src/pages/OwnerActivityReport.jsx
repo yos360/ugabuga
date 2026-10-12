@@ -72,6 +72,12 @@ function pageName(row) {
   return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
 }
 
+// Page path as a link to the live page (new tab, so the report stays open).
+function PathLink({ path, className = 'text-xs text-slate-500' }) {
+  if (!path) return '—'
+  return <a href={path} target="_blank" rel="noopener noreferrer" dir="ltr" className={`${className} block hover:text-blue-600 hover:underline`}>{path}</a>
+}
+
 // ---- Per-page performance ("what works best") ----
 // Built only from keys the summary already returns: `top` (path × action counts),
 // `time_by_path` and `print_funnel`. Counts are events, not unique people.
@@ -152,7 +158,7 @@ function BestPages({ stats }) {
       <thead><tr className="border-b-2"><th className="p-2">#</th><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">שיחקו/השתמשו</th><th className="p-2">הדפיסו/הורידו</th><th className="p-2">שיתפו</th><th className="p-2">אחוז פעולה</th><th className="p-2">זמן ממוצע</th><th className="p-2">ציון</th></tr></thead>
       <tbody>{list.map((r, i) => <tr key={r.path} className="border-b">
         <td className="p-2 text-slate-500">{i + 1}</td>
-        <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path}</div></td>
+        <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path} /></td>
         <td className="p-2">{r.opens}</td><td className="p-2">{r.uses || '—'}</td><td className="p-2">{r.prints || '—'}</td><td className="p-2">{r.shares || '—'}</td>
         <td className="p-2"><span className={`rounded-lg px-2 py-0.5 font-bold ${rateTone(r.rate)}`}>{pct(r.rate)}</span></td>
         <td className="p-2">{r.avg == null ? '—' : fmtTime(r.avg)}</td>
@@ -170,7 +176,7 @@ function Bouncing({ stats }) {
     {list.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
       <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">זמן ממוצע</th><th className="p-2">אחוז פעולה</th></tr></thead>
       <tbody>{list.map(r => <tr key={r.path} className="border-b">
-        <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path}</div></td>
+        <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path} /></td>
         <td className="p-2">{r.opens}</td><td className="p-2 font-bold text-red-700">{fmtTime(r.avg)}</td><td className="p-2">{pct(r.rate)}</td>
       </tr>)}</tbody>
     </table></div> : <p className="rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
@@ -456,7 +462,7 @@ export default function OwnerActivityReport() {
         {data.time_by_path?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">מבקרים</th><th className="p-2">זמן ממוצע</th><th className="p-2">זמן כולל</th></tr></thead>
           <tbody>{data.time_by_path.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
-            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path || '/'} /></td>
             <td className="p-2">{r.visits}</td><td className="p-2">{r.visitors}</td>
             <td className="p-2 font-bold">{fmtTime(r.avg)}</td><td className="p-2">{fmtTime(r.total)}</td>
           </tr>)}</tbody>
@@ -468,7 +474,7 @@ export default function OwnerActivityReport() {
         {data.print_funnel?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">PDF</th></tr></thead>
           <tbody>{data.print_funnel.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
-            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path || '/'} /></td>
             <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td><td className="p-2">{pdfByPath.get(r.path || '') || '—'}</td>
           </tr>)}</tbody>
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
@@ -479,7 +485,7 @@ export default function OwnerActivityReport() {
         {data.qr_landing?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">הדף המודפס שנסרק</th><th className="p-2">סורקים</th></tr></thead>
           <tbody>{data.qr_landing.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
-            <td className="p-2"><b>{pageName(r)}</b><div className="text-xs text-slate-500" dir="ltr">{r.path || '/'}</div></td>
+            <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path || '/'} /></td>
             <td className="p-2 font-bold">{r.scans}</td>
           </tr>)}</tbody>
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
@@ -531,7 +537,7 @@ export default function OwnerActivityReport() {
               <td className="p-2"><VisitorTag v={row.visitor} /></td>
               <td className="p-2">{label(row.category, row.action)}</td>
               <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</td>
-              <td className="p-2 text-slate-600" dir="ltr">{row.path || '—'}</td>
+              <td className="p-2"><PathLink path={row.path} className="text-slate-600" /></td>
               <td className="p-2 text-slate-600">{DEVICE_LABELS[row.device] || '—'}</td>
               <td className="p-2 text-slate-600">{SOURCE_LABELS[row.source] || '—'}</td>
               <td className="p-2 text-slate-600">{new Date(row.at).toLocaleString('he-IL')}</td>
