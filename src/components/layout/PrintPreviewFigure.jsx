@@ -1,4 +1,4 @@
-import PREVIEWS from '../../data/printPreviews.json'
+import PREVIEWS from '../../data/printPreviews'
 
 export const previewSrc = path => `/previews/${path.slice(1).replace(/\//g, '--')}.jpg`
 export const previewFor = path => {

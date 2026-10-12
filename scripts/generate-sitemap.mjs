@@ -144,7 +144,7 @@ async function main() {
   // Printable pages: list the picture of the sheet (public/previews, see scripts/print-previews.mjs)
   // so Google Images finds it.
   try {
-    const previews = JSON.parse(await readFile(new URL('../src/data/printPreviews.json', import.meta.url), 'utf8'))
+    const previews = (await import('../src/data/printPreviews.js')).default
     const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;')
     let added = 0
     merged = merged.replace(/<loc>https:\/\/ugabuga\.co\.il([^<]*)<\/loc>/g, (m, path) => {

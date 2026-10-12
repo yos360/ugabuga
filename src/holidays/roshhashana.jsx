@@ -17,7 +17,7 @@ export const ROSHHASHANA_H = {
     { to: base + '/what-to-do', label: 'פעילויות', emoji: '💡', title: 'פעילויות לראש השנה', blurb: 'כרטיסי ברכה, טעימת תפוחים, צנצנת משאלות ועוד' },
   ],
   hub: {
-    title: `ראש השנה ${ROSHHASHANA.hebYear} לילדים — ברכות, חידון ודפי צביעה`,
+    title: `מתי ראש השנה ${ROSHHASHANA.hebYear}? תאריך, ברכות, חידון ודפי צביעה`,
     desc: 'כל מה שצריך לראש השנה עם ילדים: ברכות לשנה טובה לכרטיס, סימני ראש השנה, חידון ב־3 רמות, דפי צביעה ודפי עבודה להדפסה ופעילויות לגן ולבית. תאריך ראש השנה 2027 וספירה לאחור.',
     h1: `ראש השנה ${ROSHHASHANA.hebYear} לילדים`, gradient: 'from-red-500 to-amber-600',
     extraCards: [{ to: '/holidays/blessings/rosh-hashana', emoji: '🙏', label: 'ברכות וקריאות לראש השנה', blurb: 'נרות, קידוש, תפוח בדבש, שופר — ומה קוראים בתורה' }],

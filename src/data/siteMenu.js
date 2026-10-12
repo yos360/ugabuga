@@ -179,6 +179,7 @@ export const MENU_DOMAINS = [
         title: 'צביעה ויצירה', icon: '🖍️', to: '/printables',
         items: [
           { to: '/printables/coloring', label: 'דפי צביעה', icon: '🖍️' },
+          { to: '/printables/name-coloring', label: 'דף צביעה עם השם', icon: '✍️' },
           { to: '/printables/color-by-number', label: 'צביעה לפי מספרים', icon: '🔢' },
           { to: '/printables/color-by-answer', label: 'צביעה לפי תשובה', icon: '➕' },
           { to: '/printables/color-by-letter', label: 'צביעה לפי אות', icon: '🔤' },

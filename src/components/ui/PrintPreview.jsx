@@ -18,7 +18,7 @@ function stampQrCodes(root){
         if(page.querySelector('.buga-qr'))return
         const badge=document.createElement('div')
         badge.className='buga-qr'
-        badge.innerHTML=`${svg}<span class="buga-qr-text" dir="rtl"><b>סרקו לעוד דפי עבודה, צביעה ומשחקים — בחינם</b><span>ugabuga.co.il</span></span>`
+        badge.innerHTML=`${svg}<span class="buga-qr-text" dir="rtl"><b>🎂 עוגה בוגה — עוד דפי עבודה, צביעה ומשחקים בחינם</b><span>סרקו, או חפשו בגוגל „עוגה בוגה” · ugabuga.co.il</span></span>`
         page.appendChild(badge)
       })
     }).catch(()=>{})

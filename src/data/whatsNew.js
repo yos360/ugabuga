@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-10-12', emoji: '🖍️', title: 'דף צביעה עם השם של הילד', blurb: 'מקלידים שם, בוחרים קישוט ומדפיסים — אותיות גדולות וחלולות לצביעה.', to: '/printables/name-coloring', kind: 'print' },
   { date: '2026-10-12', emoji: '🕊️', title: 'יום הזיכרון ליצחק רבין — לגן ולכיתות א׳–ב׳', blurb: 'דפי צביעה (יונת השלום, נר זיכרון), "מילים טובות", "איך עושים שלום?" ופעילויות.', to: '/holidays/rabin', kind: 'print' },
   { date: '2026-10-12', emoji: '☂️', title: 'סיגד לילדים', blurb: 'מה זה סיגד, דפי צביעה ודפי עבודה לגן ופעילויות — מטריות צבעוניות וחומות ירושלים.', to: '/holidays/sigd', kind: 'print' },
   { date: '2026-10-12', emoji: '🔊', title: 'בעלי חיים, חידות וקריאה — עכשיו בהקראה', blurb: 'כל העובדות על בעלי החיים, החידות וקטעי הקריאה לכיתות ב׳–ו׳ מוקראים בקול אחיד וברור.', to: '/animals', kind: 'learn' },

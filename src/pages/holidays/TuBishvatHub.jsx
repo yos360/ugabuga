@@ -35,7 +35,7 @@ export default function TuBishvatHub() {
   const h = TUBISHVAT_H
   return (
     <HolidayShell h={h}>
-      <SEO title={`ט״ו בשבט ${TUBISHVAT.year} לילדים — שבעת המינים, חידון ודפי צביעה`} description="כל מה שצריך לט״ו בשבט עם ילדים: שבעת המינים ומשחק זיכרון, חידון ב־3 רמות, דפי צביעה ודפי עבודה להדפסה ורעיונות לפעילויות בגן ובבית. תאריך ט״ו בשבט 2027 וספירה לאחור." path={h.base} structuredData={faqSchema(FAQ)} />
+      <SEO title={`מתי ט״ו בשבט ${TUBISHVAT.year}? תאריך, שבעת המינים ודפי צביעה לילדים`} description="ט״ו בשבט 2027 חל בשבת, 23 בינואר (מתחיל ביום שישי בערב). כל מה שצריך לט״ו בשבט עם ילדים: שבעת המינים ומשחק זיכרון, חידון ב־3 רמות, דפי צביעה ודפי עבודה להדפסה ורעיונות לפעילויות בגן ובבית. תאריך ט״ו בשבט 2027 וספירה לאחור." path={h.base} structuredData={faqSchema(FAQ)} />
       <div className="mb-8 rounded-3xl border-2 border-slate-800 bg-gradient-to-b from-green-600 to-emerald-800 p-6 text-center text-white sketch-shadow">
         <p className="text-6xl mb-2" aria-hidden="true">🌳</p>
         <h1 className="text-4xl sm:text-5xl mb-3 text-white">ט״ו בשבט {TUBISHVAT.year} לילדים</h1>
