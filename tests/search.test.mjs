@@ -110,3 +110,25 @@ test('new printables: home charts, calendars, paper, games and crafts', () => {
   has('מסכות לפורים', '/printables/purim-masks', 3)
   has('דומינו', '/printables/dominoes', 1)
 })
+
+test('suggestions and results put the most visited pages first', async () => {
+  const { suggest, byPopularity, rankWords } = await import('../src/data/searchIndex.js')
+  const { popularityMap } = await import('../src/utils/pagePopularity.js')
+  const items = [
+    { to: '/a', title: 'מבוך קטן', kind: 'tool' },
+    { to: '/b', title: 'מבוך גדול', kind: 'tool' },
+    { to: '/c', title: 'צביעה', kind: 'printable', keys: 'מבוכים' },
+  ]
+  const pop = popularityMap({ '/b/': 50, '/a': 5, '/c': 900 })
+  assert.equal(pop.get('/b'), 50)
+  // without popularity: relevance order; with it: the more visited title match comes first,
+  // but a weak (description/keyword) match never jumps over a title match
+  const hits = suggest(items, 'מבוך', { pop }).hits.map(h => h.to)
+  assert.deepEqual(hits.slice(0, 2), ['/b', '/a'])
+  assert.deepEqual(byPopularity([{ to: '/a', score: 9 }, { to: '/b', score: 9 }], pop).map(r => r.to), ['/b', '/a'])
+  const words = suggest(items, 'מבו', { pop }).words
+  assert.equal(words[0], 'מבוכים') // keyword of the most visited page
+  assert.ok(words.indexOf('מבוך גדול') < words.indexOf('מבוך קטן'))
+  assert.deepEqual(rankWords(['מבוך גדול', 'צביעה'], items, pop), ['צביעה', 'מבוך גדול'])
+  assert.deepEqual(rankWords(['מבוך', 'צביעה'], items, new Map()), ['מבוך', 'צביעה'])
+})

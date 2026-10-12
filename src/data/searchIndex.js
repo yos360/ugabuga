@@ -167,14 +167,37 @@ export function searchItems(items, query) {
 }
 
 // Autocomplete: phrases that really appear on the site (titles, 1–4 words; keywords, single words) that
-// continue what's being typed, plus the best direct hits.
-let vocab = null, vocabFor = null
+// continue what's being typed, plus the best direct hits — both with the most visited pages first.
+let vocab = null, vocabFor = null, vocabPop = null
+
+// Popularity: how many visitors opened the item's page lately (Map path → visitors, see utils/pagePopularity.js).
+const popPath = to => String(to || '').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/'
+export const popularityOf = (pop, it) => (pop && pop.get(popPath(it.to))) || 0
+// Among results, strong (title-level) matches first, each group with the most visited pages first.
+export function byPopularity(results, pop) {
+  if (!pop || !pop.size) return results
+  return results.map((r, i) => ({ r, i, strong: r.score >= 8, n: popularityOf(pop, r) }))
+    .sort((a, b) => (b.r.hits || 0) - (a.r.hits || 0) || b.strong - a.strong || b.n - a.n || a.i - b.i)
+    .map(x => x.r)
+}
+// Search words ordered by how many visitors the pages they find got (ties keep the given order).
+export function rankWords(words, items, pop) {
+  if (!pop || !pop.size || !items.length) return words
+  const total = w => searchItems(items, w).reduce((sum, it) => sum + popularityOf(pop, it), 0)
+  return words.map((w, i) => ({ w, i, n: total(w) })).sort((a, b) => b.n - a.n || a.i - b.i).map(x => x.w)
+}
 const STOP = new Set(['של', 'או', 'את', 'עם', 'לפי', 'על', 'עד', 'גם', 'כל', 'זה', 'לא', 'בלי', 'אל', 'מן', 'כמו', 'יותר', 'הכי', 'איך', 'מה', 'ל', 'ב', 'ו', 'ה'])
-function buildVocab(items) {
-  const count = new Map()
-  const add = w => { if (w.length >= 2 && !/^\d+$/.test(w)) count.set(w, (count.get(w) || 0) + 1) }
+function buildVocab(items, pop) {
+  const count = new Map(), visits = new Map()
+  let mine = null, n = 0
+  const add = w => {
+    if (w.length < 2 || /^\d+$/.test(w)) return
+    count.set(w, (count.get(w) || 0) + 1)
+    if (n && !mine.has(w)) { mine.add(w); visits.set(w, (visits.get(w) || 0) + n) } // each page counts once per phrase
+  }
   for (const it of items) {
     if (it.low) continue
+    mine = new Set(); n = popularityOf(pop, it)
     // phrases never cross a dash/colon/comma ("מנהרת הזמן של בוגה – משחק יומי" ≠ "בוגה משחק")
     for (const seg of String(it.title).split(/\s[–—-]\s|[:,|?!()]/)) {
       const t = norm(seg).split(' ').filter(Boolean)
@@ -186,17 +209,18 @@ function buildVocab(items) {
     }
     for (const w of norm(it.keys || '').split(' ')) if (!STOP.has(w)) add(w)
   }
-  return [...count].sort((a, b) => b[1] - a[1] || a[0].length - b[0].length).map(([w]) => ({ w, u: unfinal(w) }))
+  // phrases leading to the most visited pages first, then the most common ones
+  return [...count].sort((a, b) => (visits.get(b[0]) || 0) - (visits.get(a[0]) || 0) || b[1] - a[1] || a[0].length - b[0].length).map(([w]) => ({ w, u: unfinal(w) }))
 }
-export function suggest(items, input, { words = 6, hits = 6 } = {}) {
+export function suggest(items, input, { words = 6, hits = 6, pop = null } = {}) {
   const raw = String(input || '')
   const n = unfinal(norm(raw))
   if (!n) return { words: [], hits: [] }
-  if (vocabFor !== items) { vocab = buildVocab(items); vocabFor = items }
+  if (vocabFor !== items || vocabPop !== pop) { vocab = buildVocab(items, pop); vocabFor = items; vocabPop = pop }
   const seen = new Set()
   const completions = raw.endsWith(' ') && !n.includes(' ') ? [] : vocab
     .filter(({ u }) => u.startsWith(n) && u !== n)
     .filter(({ u }) => !seen.has(u) && seen.add(u))
     .slice(0, words).map(({ w }) => w)
-  return { words: completions, hits: n.length >= 2 ? searchItems(items, raw).slice(0, hits) : [] }
+  return { words: completions, hits: n.length >= 2 ? byPopularity(searchItems(items, raw), pop).slice(0, hits) : [] }
 }
