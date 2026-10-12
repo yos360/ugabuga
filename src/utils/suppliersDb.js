@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { ownerSupabase } from './ownerAuth'
+import { whenHuman } from './liveActivity'
 
 // Suppliers live in the site's own Supabase project (same as party lists / owner auth).
 const URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co'
@@ -46,16 +47,17 @@ export const suppliersDb = {
   get: slug => publicDb.rpc('supplier_public_get', { p_slug: slug }).then(run),
   track: (id, kind) => {
     if (isOwnerBrowser()) return
-    void visitorId().then(v => publicDb.rpc('supplier_track', { p_id: id, p_kind: kind, p_visitor: v })).catch(() => {})
+    whenHuman(() => void visitorId().then(v => publicDb.rpc('supplier_track', { p_id: id, p_kind: kind, p_visitor: v })).catch(() => {}))
   },
   // What visitors searched in the suppliers area (owner-only report). Free text only, no ids.
+  // Only real people: crawlers open every category page in a row and filled the report with "no supplier found".
   logSearch: ({ query = '', type = null, area = null, results = null }) => {
     if (isOwnerBrowser()) return
     const path = (location.pathname.toLowerCase().replace(/\/+$/, '') || '/')
-    void visitorId().then(v => publicDb.rpc('record_supplier_search', {
+    whenHuman(() => void visitorId().then(v => publicDb.rpc('record_supplier_search', {
       p_query: String(query).trim().slice(0, 60) || null, p_type: type || null, p_area: area || null,
       p_results: Number.isInteger(results) ? results : null, p_path: /^\/[a-z0-9/_-]{0,119}$/.test(path) ? path : null, p_visitor: v,
-    })).catch(() => {})
+    })).catch(() => {}))
   },
   // Public totals (visitors today, visits in 30 days…) — see 202610100001_public_traffic_and_supplier_searches.sql
   traffic: () => publicDb.rpc('public_site_traffic').then(run),

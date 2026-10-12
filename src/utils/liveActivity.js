@@ -162,6 +162,11 @@ function markHuman() {
   for (const fn of onHuman) { try { fn() } catch { /* ignore */ } }
   onHuman.clear()
 }
+// Runs fn once the visitor shows a human sign (now, if they already have); never for automated browsers.
+export function whenHuman(fn) {
+  if (automated()) return
+  if (human) fn(); else onHuman.add(fn)
+}
 function flushDb() {
   if (!human) return
   const items = dbQueue; dbQueue = []
