@@ -53,7 +53,11 @@ export default function HolidayQuiz({ h }) {
 
   return (
     <HolidayShell h={h} crumb={`חידון ${h.name}`}>
-      <SEO title={Q.title} description={Q.desc} path={`${h.base}/quiz`} structuredData={faqSchema(Q.faq)} />
+      <SEO title={Q.title} description={Q.desc} path={`${h.base}/quiz`} structuredData={[faqSchema(Q.faq), {
+        // Quiz markup (questions with their answers) — eligible for Google's education Q&A results.
+        '@context': 'https://schema.org', '@type': 'Quiz', name: Q.title, about: h.name, educationalLevel: 'גן ובית ספר יסודי', inLanguage: 'he',
+        hasPart: Q.questions.map(q => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.options[0] } })),
+      }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2">❓ חידון {h.name} לילדים</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">{Q.questions.length} שאלות · 3 רמות · הסבר אחרי כל תשובה</p>
 
