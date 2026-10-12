@@ -64,9 +64,10 @@ function AlarmClock({ progress, ending, mouseX, mouseY }) {
 }
 
 const PRESETS = [30, 60, 120, 300, 600, 900, 1800]
-const presetLabel = s => s < 60 ? s + ' שניות' : (s/60) + ' דקות'
+const presetLabel = s => s < 60 ? s + ' שניות' : s === 60 ? 'דקה' : (s/60) + ' דקות'
 
-export default function CountdownTimer() {
+// `embed`: the bare timer for /embed/timer (no title, breadcrumbs or page SEO).
+export default function CountdownTimer({ embed = false }) {
   const [duration, setDuration] = useState(60)
   const [remaining, setRemaining] = useState(60)
   const [running, setRunning] = useState(false)
@@ -109,10 +110,10 @@ export default function CountdownTimer() {
   const barColor = progress < 0.5 ? 'var(--timer-go)' : progress < 0.75 ? 'var(--timer-warn)' : 'var(--timer-stop)'
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="⏱️ טיימר אונליין עם צלצול — ספירה לאחור בלחיצה, חינם" description="טיימר אונליין חינם: בוחרים זמן, לוחצים התחל — ובסוף יש צלצול. מ־30 שניות ועד 30 דקות, עם שעון מעורר מונפש. מושלם לפנטומימה, לאתגרים, למשחקי מסיבה ולפעילות בכיתה." path="/tools/countdown-timer" />
+    <div className={embed ? 'mx-auto max-w-xl px-3 py-3' : 'mx-auto max-w-xl px-4 py-8 buga-fade-in'}>
+      {!embed && <><SEO title="⏱️ טיימר אונליין עם צלצול — ספירה לאחור בלחיצה, חינם" description="טיימר אונליין חינם: בוחרים זמן, לוחצים התחל — ובסוף יש צלצול. מ־30 שניות ועד 30 דקות, עם שעון מעורר מונפש. מושלם לפנטומימה, לאתגרים, למשחקי מסיבה ולפעילות בכיתה." path="/tools/countdown-timer" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'טיימר' }]} />
-      <h1 className="text-4xl text-center mb-8">⏱️ טיימר אונליין</h1>
+      <h1 className="text-4xl text-center mb-8">⏱️ טיימר אונליין</h1></>}
 
       <div ref={containerRef} onMouseMove={onMouseMove} className="flex flex-col items-center mb-6">
         <AlarmClock progress={progress} ending={ending} mouseX={mouse.x} mouseY={mouse.y} />
@@ -141,7 +142,7 @@ export default function CountdownTimer() {
         </div>
       )}
 
-      <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-6">💡 הזיזו את העכבר — השעון עוקב אחריו!</p>
+      {!embed && <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-6">💡 הזיזו את העכבר — השעון עוקב אחריו!</p>}
     </div>
   )
 }

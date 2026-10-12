@@ -1199,6 +1199,7 @@
   <url><loc>https://ugabuga.co.il/abc/y</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/z</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/name-coloring</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/embed</loc><priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/new</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/rabin</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/rabin/coloring</loc><priority>0.7</priority></url>

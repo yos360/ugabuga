@@ -37,7 +37,8 @@ export default function Layout({ children }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
   // The owner's mini widget is meant for a tiny window: no header, footer or floating buttons.
-  if (pathname === '/admin/mini') return <main id="site-content">{children}</main>
+  // Widgets embedded on other sites (/embed/timer…): just the widget. The gallery is /embed itself.
+  if (pathname === '/admin/mini' || pathname.startsWith('/embed/')) return <main id="site-content">{children}</main>
   return (
     <>
       <ScrollToTop />
