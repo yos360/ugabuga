@@ -40,7 +40,7 @@ export default function RandomNumber() {
   const field = 'w-full border-2 border-[var(--border)] bg-white px-3 py-2 text-lg wobbly-sm'
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="מספר אקראי — מחולל מספרים רנדומליים אונליין" description="הגרלת מספר אקראי בטווח שתבחרו: מספר אחד או כמה מספרים, עם או בלי חזרות. להגרלות בכיתה, למשחקים ולבחירת תור — חינם, בלי הרשמה." path="/tools/random-number" structuredData={faqSchema(FAQ)} />
+      <SEO title="🔢 מספר אקראי — הגרלת מספר מ־1 עד 10, 30, 100 או כל טווח" description="בחרו מספר מ־1 עד 30 (או כל טווח אחר) והמחשב מגריל בשבילכם. הגרלת מספר אקראי בטווח שתבחרו: מספר אחד או כמה מספרים, עם או בלי חזרות. להגרלות בכיתה, למשחקים ולבחירת תור — חינם, בלי הרשמה." path="/tools/random-number" structuredData={faqSchema(FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מספר אקראי' }]} />
       <h1 className="text-4xl text-center mb-2">🔢 מספר אקראי</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">בוחרים טווח, לוחצים — ומקבלים מספר רנדומלי</p>

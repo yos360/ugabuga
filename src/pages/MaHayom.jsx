@@ -161,7 +161,7 @@ function DatePage({ dateKey }) {
   const datedMore = more.filter(x => x.kind !== 'day')
   const i = ALL_DATES.indexOf(dateKey)
   const around = [-3, -2, -1, 1, 2, 3].map(n => ALL_DATES[(i + n + ALL_DATES.length) % ALL_DATES.length])
-  // SEO: short title (<=60 with the auto " | UGABUGA" suffix) and a <=160-char
+  // SEO: short title (<=60 with the auto " | עוגה בוגה" suffix) and a <=160-char
   // description built from the first fact only, truncated on a word boundary.
   const first = facts.length ? factText(facts[0]).replace(/[.،]+$/, '') : ''
   const tail = 'ימים מיוחדים ומי נולד – עם מקורות ומשחק לילדים.'
@@ -173,6 +173,10 @@ function DatePage({ dateKey }) {
   }
 
   const [o1, o2] = cal.occ
+  // People searching a bare date ("11 בנובמבר") mostly want to know which weekday it falls on:
+  // say it up front, in the title and the snippet.
+  description = `${label} ${o1.y} חל ביום ${o1.dow}. ${description}`
+  if (description.length > 160) { const cut = description.slice(0, 159); description = cut.slice(0, cut.lastIndexOf(' ')) + '…' }
   const doyText = cal.leapDay
     ? `${label} מופיע רק בשנה מעוברת – פעם בארבע שנים בערך – והוא היום ה-60 בשנה.`
     : `${label} הוא היום ה-${cal.doy} בשנה${cal.m > 2 ? ` (וה-${cal.doy + 1} בשנה מעוברת)` : ''}, ואחריו נשארים עוד ${daysWord(365 - cal.doy)} עד סוף השנה.`
@@ -194,7 +198,7 @@ function DatePage({ dateKey }) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={`${label} – מה קרה ומה מציינים בתאריך הזה? מנהרת הזמן`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
+      <SEO title={`${label} ${o1.y} – איזה יום, מה קרה ומה מציינים בתאריך הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       <p className="mh-note tt-lead">{lead}</p>

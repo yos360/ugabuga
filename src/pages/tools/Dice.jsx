@@ -9,10 +9,10 @@ import { DICE_GAMES } from '../../data/diceGames'
 export default function DiceTool() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
-      <SEO title="קוביה דיגיטלית אונליין — קובייה וירטואלית בלחיצה, חינם" description="קוביה אונליין למשחקי קופסה: מטילים 1 עד 5 קוביות בלחיצה, עם סכום אוטומטי. בלי הורדה ובלי הרשמה — עובד בטלפון ובמחשב. הקובייה אבדה? יש לכם אחת כאן." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
+      <SEO title="🎲 קוביה וירטואלית — הטלת קוביה אונליין בלחיצה, 1 עד 5 קוביות" description="קוביה וירטואלית חינם: לוחצים ומטילים — קוביה אחת או עד 5 קוביות, עם סכום אוטומטי. לשש־בש, מונופול, סולמות ונחשים וכל משחק קופסה. בלי הורדה ובלי הרשמה, עובד בטלפון." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'קובייה' }]} />
-      <h1 className="text-4xl text-center mb-2">🎲 קוביה דיגיטלית אונליין</h1>
-      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קובייה וירטואלית: להטיל קובייה בלחיצה — 1 עד 5 קוביות, בחינם</p>
+      <h1 className="text-4xl text-center mb-2">🎲 קוביה וירטואלית</h1>
+      <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קוביה דיגיטלית אונליין: להטיל קוביה בלחיצה — 1 עד 5 קוביות, בחינם</p>
       <ClassicDice />
 
       <section className="mt-10">
