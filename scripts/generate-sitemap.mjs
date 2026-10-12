@@ -137,9 +137,27 @@ async function main() {
   }
 
   const gameUrls = lines.join('\n')
-  const merged = gameUrls
+  let merged = gameUrls
     ? staticXml.replace('</urlset>', `${gameUrls}\n</urlset>`)
     : staticXml
+
+  // Printable pages: list the picture of the sheet (public/previews, see scripts/print-previews.mjs)
+  // so Google Images finds it.
+  try {
+    const previews = JSON.parse(await readFile(new URL('../src/data/printPreviews.json', import.meta.url), 'utf8'))
+    const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    let added = 0
+    merged = merged.replace(/<loc>https:\/\/ugabuga\.co\.il([^<]*)<\/loc>/g, (m, path) => {
+      const alt = previews[path || '/']
+      if (!alt) return m
+      added++
+      return `${m}<image:image><image:loc>https://ugabuga.co.il/previews/${path.slice(1).replace(/\//g, '--')}.jpg</image:loc><image:title>${esc(alt)}</image:title></image:image>`
+    })
+    if (added && !merged.includes('xmlns:image')) merged = merged.replace('<urlset ', '<urlset xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ')
+    console.log(`generate-sitemap: added ${added} preview images.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not add preview images. ${err.message}`)
+  }
 
   await writeFile(new URL('../public/sitemap.xml', import.meta.url), merged)
   console.log('generate-sitemap: wrote public/sitemap.xml')
