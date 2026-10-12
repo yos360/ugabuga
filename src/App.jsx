@@ -85,7 +85,7 @@ const ReadNotes = lazy(() => import('./music/MusicLearn').then(m => ({ default: 
 const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChords })))
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
 const Concepts = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Concepts })))
-const Styles = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.Styles })))
+const Styles = lazy(() => import('./music/styles/StylesPage'))
 const TypingCourse = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingCourse })))
 const TypingTest = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingTest })))
 const TypingEnglish = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingEnglish })))
