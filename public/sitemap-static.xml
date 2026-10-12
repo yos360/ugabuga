@@ -1212,6 +1212,22 @@
   <url><loc>https://ugabuga.co.il/time-tunnel/month/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/month/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/month/12</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/hanukkah</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/tu-bishvat</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/purim</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/pesach</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/yom-haatzmaut</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/lag-baomer</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/shavuot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/rosh-hashana</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/yom-kippur</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/sukkot</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/sigd</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/summer-vacation</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/days-until/new-year</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/age-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/gematria</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/new</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/rabin</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/rabin/coloring</loc><priority>0.7</priority></url>

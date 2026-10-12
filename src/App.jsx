@@ -102,6 +102,10 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
+const DaysUntilHub = lazy(() => import('./pages/calc/DaysUntil'))
+const DaysUntilPage = lazy(() => import('./pages/calc/DaysUntil').then(m => ({ default: m.DaysUntilPage })))
+const AgeCalculator = lazy(() => import('./pages/calc/AgeCalculator'))
+const Gematria = lazy(() => import('./pages/calc/Gematria'))
 const TimeTunnelMonth = lazy(() => import('./pages/TimeTunnelMonth'))
 const EmbedsHub = lazy(() => import('./pages/embed/Embeds'))
 const EmbedWidget = lazy(() => import('./pages/embed/Embeds').then(m => ({ default: m.EmbedWidget })))
@@ -500,6 +504,10 @@ export default function App() {
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />
+              <Route path="/days-until" element={<DaysUntilHub />} />
+              <Route path="/days-until/:slug" element={<DaysUntilPage />} />
+              <Route path="/tools/age-calculator" element={<AgeCalculator />} />
+              <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />
               <Route path="/embed/:tool" element={<EmbedWidget />} />
               <Route path="/embed/:tool/:slug" element={<EmbedWidget />} />
