@@ -45,9 +45,18 @@ function InviteBox() {
 // Searches that found nothing are the clearest sign of which suppliers to recruit next.
 const typeName = slug => categoryPageBySlug(slug)?.name || slug
 const when = at => new Date(at).toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
+// A compact row of "name · count" chips; the first 8, the rest behind "עוד".
+function Chips({ title, items }) {
+  const [all, setAll] = useState(false)
+  const shown = all ? items : items.slice(0, 8)
+  return <div><h3 className="mb-1 font-bold">{title}</h3>
+    <div className="flex flex-wrap gap-1.5 text-sm">{shown.map(([name, n, zero]) => <span key={name} className="rounded-full bg-slate-100 px-2.5 py-0.5">{name} · <b>{n}</b>{zero ? <span className="text-rose-700"> ({zero} בלי תוצאות)</span> : ''}</span>)}
+      {items.length > 8 && <button onClick={() => setAll(v => !v)} className="rounded-full border-2 border-slate-200 px-2.5 py-0.5 font-bold">{all ? 'פחות' : `עוד ${items.length - 8}`}</button>}</div>
+  </div>
+}
 function SearchReport() {
   const [days, setDays] = useState(30)
-  const [data, setData] = useState(null), [err, setErr] = useState('')
+  const [data, setData] = useState(null), [err, setErr] = useState(''), [showAll, setShowAll] = useState(false)
   useEffect(() => {
     setData(null); setErr('')
     const to = new Date(), from = new Date(to.getTime() - days * 86400000)
@@ -63,15 +72,14 @@ function SearchReport() {
       : !data ? <p>טוענים…</p>
       : !data.total ? <p className="text-slate-600">עוד אין חיפושים בטווח הזה.</p>
       : <div className="space-y-4">
-        <p className="font-bold">{data.total} חיפושים · {data.searchers} מבקרים שונים</p>
-        <div className="grid gap-4 md:grid-cols-3">
-          <div><h3 className="mb-1 font-bold">מילים שחיפשו</h3><ol className="space-y-1 text-sm">{data.top_queries.slice(0, 30).map(x => <li key={x.query}>“{x.query}” · {x.n}{x.zero ? <span className="text-rose-700"> · {x.zero} בלי תוצאות</span> : ''}</li>)}</ol>{!data.top_queries.length && <p className="text-sm text-slate-500">—</p>}</div>
-          <div><h3 className="mb-1 font-bold">סוגי ספקים</h3><ol className="space-y-1 text-sm">{sorted(data.by_type).map(([k, n]) => <li key={k}>{typeName(k)} · {n}</li>)}</ol></div>
-          <div><h3 className="mb-1 font-bold">אזורים</h3><ol className="space-y-1 text-sm">{sorted(data.by_area).map(([k, n]) => <li key={k}>{k} · {n}</li>)}</ol></div>
+        <p className="font-bold">{data.total} חיפושים וכניסות לקטגוריות · {data.searchers} מבקרים שונים</p>
+        {data.top_queries.length > 0 && <Chips title="מילים שחיפשו" items={data.top_queries.map(x => [`“${x.query}”`, x.n, x.zero])} />}
+        {sorted(data.by_type).length > 0 && <Chips title="סוגי ספקים" items={sorted(data.by_type).map(([k, n]) => [typeName(k), n])} />}
+        {sorted(data.by_area).length > 0 && <Chips title="אזורים" items={sorted(data.by_area).map(([k, n]) => [k, n])} />}
+        <div><h3 className="mb-1 font-bold">אחרונים</h3>
+          <ul className="space-y-1 text-sm">{(showAll ? data.recent : data.recent.slice(0, 3)).map((r, i) => <li key={i} className="border-b border-slate-100 py-1">{when(r.at)} · {[r.query && `“${r.query}”`, r.type && typeName(r.type), r.area].filter(Boolean).join(' · ')}{r.results === 0 ? <b className="text-rose-700"> · לא נמצא ספק</b> : r.results != null ? ` · ${r.results} תוצאות` : ''}</li>)}</ul>
+          {data.recent.length > 3 && <button onClick={() => setShowAll(v => !v)} className="mt-1 text-sm font-bold text-blue-700 underline">{showAll ? 'להציג פחות' : `להציג את כל ${data.recent.length}`}</button>}
         </div>
-        <details><summary className="cursor-pointer font-bold">כל החיפושים האחרונים ({data.recent.length})</summary>
-          <ul className="mt-2 max-h-96 space-y-1 overflow-y-auto text-sm">{data.recent.map((r, i) => <li key={i} className="border-b border-slate-100 py-1">{when(r.at)} · {[r.query && `“${r.query}”`, r.type && typeName(r.type), r.area].filter(Boolean).join(' · ')}{r.results === 0 ? <b className="text-rose-700"> · לא נמצא ספק</b> : r.results != null ? ` · ${r.results} תוצאות` : ''}</li>)}</ul>
-        </details>
       </div>}
   </section>
 }
