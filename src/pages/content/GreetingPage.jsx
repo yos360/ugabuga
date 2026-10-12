@@ -7,6 +7,7 @@ import NotFound from '../NotFound'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { GREETING_PAGES } from '../../data/content/greetings'
 import { GREETING_EXTRAS, GREETING_GROUPS } from '../../data/content/greetingsExtra'
+import { GREETING_MORE } from '../../data/content/greetingsMore'
 import { nearby } from '../../utils/nearby'
 
 function Card({ text }) {
@@ -101,6 +102,13 @@ export default function GreetingPage() {
         <section key={g.title} className="mt-8">
           <h2 className="text-2xl font-bold mb-3">{g.title}</h2>
           <div className="space-y-4">{g.items.map(t => <Card key={t} text={t} />)}</div>
+        </section>
+      ))}
+      {/* More original greetings by style (src/data/content/greetingsMore.js). */}
+      {[['short', '📱 ברכות קצרות לוואטסאפ'], ['warm', '💌 ברכות מרגשות לכרטיס'], ['fun', '😄 ברכות מצחיקות ובחרוזים']].map(([k, title]) => GREETING_MORE[slug]?.[k]?.length > 0 && (
+        <section key={k} className="mt-8">
+          <h2 className="text-2xl font-bold mb-3">{title}</h2>
+          <div className="space-y-4">{GREETING_MORE[slug][k].map(t => <Card key={t} text={t} />)}</div>
         </section>
       ))}
       {x.about?.length > 0 && (
