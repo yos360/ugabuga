@@ -30,7 +30,7 @@ const LETTER_PLAIN = { 'אָלֶף': 'אלף', 'בֵּית': 'בית', 'גִּי
 const WORD_PLAIN = Object.fromEntries(HEBREW.flatMap(h => h.words.filter(w => w[2]).map(w => [w[2], w[0]])))
 const hasNiqqud = t => /[\u0591-\u05C7]/.test(t)
 export const STRIPPED = []
-function spoken(key) {
+export function spoken(key) {
   if (LETTER_PLAIN[key]) return `האות ${LETTER_PLAIN[key]}`
   if (WORD_PLAIN[key]) return WORD_PLAIN[key]
   let t = key
