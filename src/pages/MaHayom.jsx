@@ -201,6 +201,11 @@ function DatePage({ dateKey }) {
       <SEO title={`${label} ${o1.y} – איזה יום, מה קרה ומה מציינים בתאריך הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
+      {/* The quick answer most date searches want: which weekday (and Hebrew date) it falls on. */}
+      <p className="tt-answer mx-auto mb-3 max-w-2xl rounded-2xl border-2 border-[#222] bg-[#fff6d6] px-4 py-2 text-center text-lg">
+        📅 <b>{label} {o1.y}</b> {o1.dt < new Date(new Date().setHours(0, 0, 0, 0)) ? 'חל' : 'יחול'} ביום <b>{o1.dow}</b>{o1.heb ? <> · {o1.heb}</> : null}
+        <span className="block text-base text-[#4d556a]">וב־{o2.y}: ביום {o2.dow}{o2.heb ? ` · ${o2.heb}` : ''}</span>
+      </p>
       <p className="mh-note tt-lead">{lead}</p>
 
       {playable
