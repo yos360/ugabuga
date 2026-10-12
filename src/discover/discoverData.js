@@ -68,6 +68,11 @@ export const PLANETS = [
   { id: 'uranus', name: 'אורנוס', d: 51118, color: '#8fd3dc', kind: 'ענק קרח', year: 'כ-84 שנים', facts: ['הוא "שוכב על הצד": הציר שלו נטוי כמעט לגמרי, כך שהוא מתגלגל במסלולו.', 'הצבע הכחלחל-ירקרק שלו בא מגז המתאן באטמוספירה.', 'הוא היה כוכב הלכת הראשון שהתגלה בעזרת טלסקופ (ב-1781).', 'הוא אחד מכוכבי הלכת הקרים ביותר.'] },
   { id: 'neptune', name: 'נפטון', d: 49528, color: '#3f5fd1', kind: 'ענק קרח', year: 'כ-165 שנים', facts: ['הרחוק ביותר מהשמש מבין שמונת כוכבי הלכת.', 'יש בו הרוחות החזקות ביותר במערכת השמש.', 'שנה אחת עליו נמשכת כ-165 שנים שלנו.', 'אי אפשר לראות אותו בעין — רק בטלסקופ.'] },
 ]
+// NASA planetary fact sheet: surface gravity relative to Earth, orbital period in Earth days.
+export const PLANET_PHYSICS = {
+  mercury: { g: 0.38, days: 88 }, venus: { g: 0.91, days: 224.7 }, earth: { g: 1, days: 365.25 }, mars: { g: 0.38, days: 687 },
+  jupiter: { g: 2.36, days: 4331 }, saturn: { g: 0.92, days: 10747 }, uranus: { g: 0.89, days: 30589 }, neptune: { g: 1.12, days: 59800 },
+}
 export const SPACE_FACTS = [
   'השמש היא כוכב — כדור ענק של גז לוהט. האור שלה מגיע אלינו בתוך כ-8 דקות.',
   'הירח רחוק מאיתנו כ-384,000 קילומטרים.',

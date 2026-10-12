@@ -1,6 +1,7 @@
 // Hebrew clip list for re-recording WITHOUT niqqud (the owner compared versions: the voice reads
-// vocalized text badly, plain text well). Letter names are read as "האות X" so "בית" is the
-// letter and not the word "house".
+// vocalized text badly, plain text well). Letter names are just the name ("אלף", not "האות אלף") —
+// the owner's choice; the recorded clips were trimmed to match. Listen to "בית"/"פה"-like names after
+// re-recording: on their own the voice may read them as the words "house"/"mouth".
 import { HEBREW } from '../../src/data/letterLearning.js'
 import { heItems } from './heItems.mjs'
 import { mulItems } from './mulItems.mjs'
@@ -51,7 +52,7 @@ const WORD_PLAIN = Object.fromEntries(HEBREW.flatMap(h => h.words.filter(w => w[
 const hasNiqqud = t => /[\u0591-\u05C7]/.test(t)
 export const STRIPPED = []
 export function spoken(key) {
-  if (LETTER_PLAIN[key]) return `האות ${LETTER_PLAIN[key]}`
+  if (LETTER_PLAIN[key]) return LETTER_PLAIN[key]
   if (WORD_PLAIN[key]) return WORD_PLAIN[key]
   let t = key
   for (const [v, p] of Object.entries(LETTER_PLAIN)) t = t.replaceAll(v, p)
