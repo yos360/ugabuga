@@ -8,6 +8,8 @@ import PrintQrFallback from './PrintQrFallback'
 import WhatsAppShare from './WhatsAppShare'
 import NoVoiceNotice from './NoVoiceNotice'
 import PrintPreviewFigure from './PrintPreviewFigure'
+import PresentMode from './PresentMode'
+import { usePresentMode } from '../../utils/presentMode'
 
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
@@ -19,6 +21,7 @@ export default function Layout({ children }) {
   // runs, so the widget mounts cleanly with no mismatch.
   const { pathname } = useLocation()
   const [mounted, setMounted] = useState(false)
+  const { on: presenting } = usePresentMode()
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -41,17 +44,19 @@ export default function Layout({ children }) {
   if (pathname === '/admin/mini' || pathname.startsWith('/embed/')) return <main id="site-content">{children}</main>
   return (
     <>
-      <ScrollToTop />
-      <Navbar />
-      {mounted && <RecentActivity />}
+      {/* Classroom projection: only the page itself (see utils/presentMode.js). */}
+      {mounted && <PresentMode />}
+      {!presenting && <ScrollToTop />}
+      {!presenting && <Navbar />}
+      {mounted && !presenting && <RecentActivity />}
       {mounted && <PrintQrFallback />}
       {/* /kids is for a child browsing alone: no share button there. */}
-      {mounted && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
+      {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
       <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
       <PrintPreviewFigure pathname={pathname} />
-      <Footer />
+      {!presenting && <Footer />}
     </>
   )
 }

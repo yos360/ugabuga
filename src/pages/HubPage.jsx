@@ -101,6 +101,27 @@ const HUBS = {
   },
 }
 
+// Links that open straight in projection mode (utils/presentMode.js): full screen, no site menus.
+const PROJECT = [
+  ['📖', 'הבנת הנקרא', 'קטע בגדול, שאלות, ותשובה שנחשפת בלחיצה', '/learn/reading/grade-4'],
+  ['⏱️', 'טיימר', 'ספירה לאחור ענקית לעבודה ולהפסקה', '/tools/countdown-timer'],
+  ['🎯', 'בורר שמות / גלגל', 'מי עונה עכשיו? הגרלה מול כל הכיתה', '/tools/random-picker'],
+  ['👥', 'חלוקה לקבוצות', 'מדביקים שמות ומקבלים קבוצות על המסך', '/tools/team-generator'],
+  ['🏆', 'לוח ניקוד', 'ניקוד לקבוצות בתחרות כיתתית', '/tools/scoreboard'],
+  ['❓', 'טריוויה', 'שאלה על המסך, ותשובה בלחיצה', '/tools/trivia-quiz'],
+  ['🤔', 'חידות', 'חידה, רמז ופתרון', '/tools/riddles'],
+  ['🌍', 'ארץ עיר', 'הגרלת אות וטיימר לכל הכיתה', '/tools/eretz-ir'],
+  ['✖️', 'לוח הכפל', 'תרגול כפל משותף', '/learn/multiplication-table'],
+  ['🎲', 'קובייה', 'קובייה גדולה למשחקים בכיתה', '/tools/dice'],
+]
+function ProjectInClass() {
+  return <section aria-label="להקרנה בכיתה" className="mt-10 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#eef6ff] p-5 shadow-[4px_4px_0_#1d2233]">
+    <h2 className="text-center text-3xl font-black">📺 מוכן להקרנה בכיתה</h2>
+    <p className="mx-auto mt-2 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">כל קישור נפתח במסך מלא, בלי תפריטים, עם אותיות גדולות (A+ / A− בפינה), והתשובות נחשפות רק כשלוחצים. בכל עמוד לימוד או כלי יש גם כפתור 📺 הקרנה. יוצאים עם Esc.</p>
+    <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{PROJECT.map(([e, t, d, href]) => <Link key={href} to={href + '?present=1'} className="rounded-2xl border-2 border-slate-200 bg-white p-4 text-center transition hover:-translate-y-1 hover:border-slate-500"><div className="text-4xl" aria-hidden="true">{e}</div><b className="mt-1 block text-lg">{t}</b><small className="text-[var(--muted-foreground)]">{d}</small></Link>)}</div>
+  </section>
+}
+
 export default function HubPage({ type }) {
   const { pathname } = useLocation()
   const hub = HUBS[type] || HUBS.birthday
@@ -112,6 +133,7 @@ export default function HubPage({ type }) {
     <header className="mx-auto max-w-3xl py-8 text-center"><div className="text-5xl">{type === 'birthday' ? '🎂' : type === 'classroom' ? '🏫' : '✨'}</div><h1 className="mt-3 text-4xl font-black sm:text-6xl">{hub.h1 || hub.title}</h1><p className="mt-3 text-xl text-[var(--muted-foreground)]">{hub.subtitle}</p></header>
     {hub.featured && <Link to={hub.featured[3]} state={via} className="mx-auto mb-8 flex max-w-4xl flex-col items-center gap-4 rounded-3xl border-[2.5px] border-[#1d2233] bg-[#fff4bb] p-6 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1 sm:flex-row sm:text-right"><span className="text-6xl" aria-hidden="true">{hub.featured[0]}</span><span className="flex-1"><span className="block text-2xl font-black text-[var(--ink)]">{hub.featured[1]}</span><span className="mt-2 block text-lg leading-8 text-[var(--muted-foreground)]">{hub.featured[2]}</span></span><span className="shrink-0 rounded-2xl border-[2.5px] border-[#1d2233] bg-[#25d366] px-6 py-3 text-xl font-black text-white">{hub.featured[4]}</span></Link>}
     <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-label={hub.title}>{hub.cards.map(([emoji, title, desc, href]) => <Link key={href} to={href} state={via} className="group rounded-3xl border-2 border-slate-200 bg-[var(--hub-bg)] p-6 shadow-[0_6px_0_rgba(20,30,60,.12)] transition hover:-translate-y-1 hover:shadow-[0_9px_0_rgba(20,30,60,.14)]"><div className="text-5xl">{emoji}</div><h2 className="mt-4 text-2xl font-black text-[var(--ink)]">{title}</h2><p className="mt-2 text-lg leading-8 text-[var(--muted-foreground)]">{desc}</p><span className="mt-5 inline-flex rounded-full bg-white px-5 py-2 font-bold text-[var(--ink)]">נכנסים ←</span></Link>)}</section>
+    {type === 'classroom' && <ProjectInClass />}
     {hub.holidays && <ClassroomHolidays />}
     {hub.printables && <section aria-label="כתיבה ומספרים להדפסה" className="mt-10">
       <h2 className="mb-4 text-center text-3xl font-black">✏️ כתיבה ומספרים — להדפסה</h2>
