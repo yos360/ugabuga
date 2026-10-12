@@ -102,6 +102,7 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
+const TimeTunnelMonth = lazy(() => import('./pages/TimeTunnelMonth'))
 const EmbedsHub = lazy(() => import('./pages/embed/Embeds'))
 const EmbedWidget = lazy(() => import('./pages/embed/Embeds').then(m => ({ default: m.EmbedWidget })))
 const WhatToDo = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.WhatToDo })))
@@ -327,6 +328,7 @@ export default function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/time-tunnel" element={<MaHayom />} />
               <Route path="/time-tunnel/:day" element={<MaHayom />} />
+              <Route path="/time-tunnel/month/:month" element={<TimeTunnelMonth />} />
               <Route path="/ma-hayom" element={<MaHayom />} />
               <Route path="/ma-hayom/:day" element={<MaHayom />} />
               <Route path="/ideas" element={<IdeasHub />} />

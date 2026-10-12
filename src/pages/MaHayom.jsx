@@ -124,6 +124,7 @@ function Hub({ badDay }) {
       <section id="archive" className="mh-archive">
         <h2>📅 מה קרה ב…? כל התאריכים בשנה</h2>
         <p className="mh-note tt-lead">בחרו תאריך – יום ההולדת שלכם, של חבר או סתם יום – וגלו מה קרה בו בהיסטוריה ואילו ימים מיוחדים מציינים בו.</p>
+        <nav aria-label="ימים מיוחדים לפי חודש" className="mx-auto mb-4 flex max-w-3xl flex-wrap justify-center gap-2">{MONTHS.map((n, i) => <Link key={n} to={`/time-tunnel/month/${pad(i + 1)}`} className="rounded-full border-2 border-[#222] bg-white px-3 py-1 text-sm font-bold hover:bg-[#fff6d6]">{n}</Link>)}</nav>
         <Calendar today={today} />
         <p className="mh-about">העובדות נאספו ממקורות כמו ויקיפדיה בעברית ובאנגלית ואתרי ימים מיוחדים, ואנחנו משתדלים לבדוק כל אחת מהן — אבל גם אנחנו יכולים לטעות. מצאתם טעות? יש כפתור "מצאתי טעות" בכל שאלה.</p>
       </section>
@@ -199,7 +200,7 @@ function DatePage({ dateKey }) {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <SEO title={`${label} ${o1.y} – איזה יום, מה קרה ומה מציינים בתאריך הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label: MONTHS[cal.m - 1], href: `/time-tunnel/month/${pad(cal.m)}` }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       {/* The quick answer most date searches want: which weekday (and Hebrew date) it falls on. */}
       <p className="tt-answer mx-auto mb-3 max-w-2xl rounded-2xl border-2 border-[#222] bg-[#fff6d6] px-4 py-2 text-center text-lg">
