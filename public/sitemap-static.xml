@@ -1198,6 +1198,15 @@
   <url><loc>https://ugabuga.co.il/abc/x</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/y</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/abc/z</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/new</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rabin</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rabin/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rabin/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rabin/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sigd</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sigd/coloring</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sigd/worksheets</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/sigd/what-to-do</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer/quiz</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer/coloring</loc><priority>0.7</priority></url>

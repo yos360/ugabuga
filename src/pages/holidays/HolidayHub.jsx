@@ -18,7 +18,7 @@ function Countdown({ h }) {
   const o = currentInfo(h, new Date(now)), start = new Date(o.start).getTime(), end = new Date(o.end).getTime()
   const days = daysUntil(start, now)
   const w = h.hub.countdown
-  return <p className="text-3xl font-bold">{now >= end ? w.after : now >= start ? w.during : days <= 0 ? `הערב החג מתחיל! ${h.emoji}` : days === 1 ? w.tomorrow : `עוד ${days} ימים ${w.before}`}</p>
+  return <p className="text-3xl font-bold">{now >= end ? w.after : now >= start ? w.during : days <= 0 ? (w.today || `הערב החג מתחיל! ${h.emoji}`) : days === 1 ? w.tomorrow : `עוד ${days} ימים ${w.before}`}</p>
 }
 
 export default function HolidayHub({ h }) {
