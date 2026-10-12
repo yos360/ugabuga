@@ -69,6 +69,12 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XK1W5R504"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
+      // The owner's own browsing is left out — same rule as the site's own report (/admin/activity),
+      // so the two count the same people. "Count me too" on that report turns it back on.
+      try {
+        if (localStorage.getItem('ugabuga-owner-auth')) localStorage.setItem('buga-owner-device', '1');
+        if (localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1') window['ga-disable-G-5XK1W5R504'] = true;
+      } catch (e) {}
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-5XK1W5R504');
