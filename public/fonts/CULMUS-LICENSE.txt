@@ -1,0 +1,7 @@
+ktav-yad.woff2 — subset of "Ktav Yad CLM" (Medium Italic), Culmus fancy fonts.
+stam.woff2     — subset of "Stam Sefarad CLM", Culmus fonts.
+Copyright 2002-2024 Maxim Iorsh. Culmus project: https://culmus.sourceforge.io/
+Licensed under the GNU General Public License, version 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+The files here are unmodified glyph subsets (Hebrew letters and basic Latin) converted to WOFF2;
+the complete original fonts are available from the Culmus project and in the Debian/Ubuntu packages
+fonts-culmus and fonts-culmus-fancy.

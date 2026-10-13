@@ -181,6 +181,13 @@ const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m 
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
 const LetterPage = lazy(() => import('./pages/letters/LetterPage'))
 const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
+const HebrewLetterSong = lazy(() => import('./pages/letters/LetterSongs').then(m => ({ default: m.HebrewLetterSong })))
+const AbcSong = lazy(() => import('./pages/letters/LetterSongs').then(m => ({ default: m.AbcSong })))
+const CursiveLetters = lazy(() => import('./pages/letters/CursiveLetters'))
+const OpeningSounds = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.OpeningSounds })))
+const NikudKamatzPatach = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.NikudKamatzPatach })))
+const FinalLetters = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.FinalLetters })))
+const LetterStrip = lazy(() => import('./pages/printables/LetterStrip'))
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
@@ -384,6 +391,7 @@ export default function App() {
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
+              <Route path="/printables/letter-strip" element={<LetterStrip />} />
               <Route path="/printables/math-worksheets" element={<MathWorksheets key="hub" preset="hub" />} />
               <Route path="/printables/math-worksheets/up-to-10" element={<MathWorksheets key="10" preset="10" />} />
               <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />
@@ -391,6 +399,11 @@ export default function App() {
               <Route path="/printables/math-paths" element={<MathWorksheets key="paths" preset="paths" />} />
               <Route path="/letters" element={<LettersHub />} />
               <Route path="/letters/game" element={<LettersGamePage key="he" lang="he" />} />
+              <Route path="/letters/song" element={<HebrewLetterSong />} />
+              <Route path="/letters/cursive" element={<CursiveLetters />} />
+              <Route path="/letters/sounds" element={<OpeningSounds />} />
+              <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
+              <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/:slug" element={<LetterPage />} />
               <Route path="/animals" element={<AnimalsHub />} />
               <Route path="/animals/:slug" element={<AnimalPage />} />
@@ -410,6 +423,7 @@ export default function App() {
               <Route path="/abc" element={<AbcHub />} />
               <Route path="/abc/:letter" element={<AbcLetterPage />} />
               <Route path="/abc/game" element={<LettersGamePage key="en" lang="en" />} />
+              <Route path="/abc/song" element={<AbcSong />} />
               <Route path="/words/opposites" element={<WordPairsPage key="o" setId="opposites" />} />
               <Route path="/words/synonyms" element={<WordPairsPage key="s" setId="synonyms" />} />
               <Route path="/words" element={<Navigate to="/words/opposites" replace />} />

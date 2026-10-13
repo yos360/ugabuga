@@ -43,6 +43,19 @@ export default function LettersHub() {
         </Link>
       </div>
 
+      <h2 className="text-3xl font-bold text-center mb-4">עוד דרכים ללמוד אותיות</h2>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+        {[['/letters/song', '🎵', 'שיר האותיות', 'שרים את א׳–ת׳ על מנגינה מוכרת — כל אות נדלקת ונשמעת.', 'bg-yellow-50'],
+          ['/letters/sounds', '👂', 'צליל פותח וצליל סוגר', 'שומעים מילה ובוחרים באיזו אות היא מתחילה או נגמרת.', 'bg-green-50'],
+          ['/letters/nikud', '🔡', 'קמץ ופתח', 'הברות ומילים ראשונות עם ניקוד, משחק ודפי עבודה.', 'bg-cyan-50'],
+          ['/letters/cursive', '✍️', 'אותיות בכתב יד', 'כל אות בדפוס ובכתב, מדפוס לכתב ודפי תרגול.', 'bg-pink-50'],
+          ['/letters/final', '🔚', 'אותיות סופיות', 'ך ם ן ף ץ — מתי כותבים אות סופית? משחק ודף עבודה.', 'bg-purple-50'],
+          ['/printables/letter-strip', '📏', 'סרגל אותיות להדפסה', 'דפוס, כתב או שניהם — לגזור ולהדביק על השולחן.', 'bg-orange-50'],
+        ].map(([to, e, t, d, bg]) => <Link key={to} to={to} className={`wobbly-sm border-2 border-[var(--border)] p-4 hover:-translate-y-1 transition-transform ${bg}`}>
+          <p className="text-3xl mb-1">{e}</p><h3 className="text-xl font-bold">{t}</h3><p className="text-[var(--muted-foreground)] m-0">{d}</p>
+        </Link>)}
+      </div>
+
       <div className="rounded-3xl border-2 border-dashed border-[var(--border)] bg-white p-5 text-center mb-10">
         <p className="font-display text-xl font-bold mb-2">לומדים גם אנגלית?</p>
         <div className="flex flex-wrap justify-center gap-3">

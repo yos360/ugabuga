@@ -119,7 +119,7 @@ export function AbcHub() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אותיות באנגלית' }]} />
       <Header emoji="🔤" title="אותיות באנגלית A–Z" intro="בחרו אות — ובדף שלה תמצאו מילים, צליל, משפט וטיפ." />
       <div className="grid grid-cols-4 sm:grid-cols-7 gap-3" dir="ltr">{ABC_LETTERS.map(l => <Link key={l.slug} to={'/abc/' + l.slug} className="wobbly border-[3px] border-[var(--border)] bg-[var(--card)] py-4 text-center text-4xl font-bold sketch-shadow-sm">{l.letter}{l.lower}</Link>)}</div>
-      <div className="text-center mt-6"><Chip to="/abc/game" hl>🎮 משחק האותיות</Chip></div>
+      <div className="text-center mt-6 flex flex-wrap justify-center gap-2"><Chip to="/abc/game" hl>🎮 משחק האותיות</Chip><Chip to="/abc/song" hl>🎵 שיר ה-ABC</Chip></div>
       <section className="mt-10 mx-auto max-w-3xl">
         <h2 className="text-2xl font-bold mb-3">איך לומדים את האותיות באנגלית</h2>
         <SeoBody paragraphs={ABC_HUB.paragraphs} faq={ABC_HUB.faq} />

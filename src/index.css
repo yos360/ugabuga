@@ -2,6 +2,11 @@
    a CSS @import here would add two extra network round-trips before text styling. */
 /* Single-line dashed Hebrew tracing font (hebrew-tracer-font by slutske22, free to use). */
 @font-face { font-family: 'BugaTracer'; src: url('/fonts/hebrew-tracer.woff') format('woff'); font-display: block; }
+/* Hebrew cursive (Ktav Yad CLM) and STAM script (Stam Sefarad CLM) — Culmus project, GPL-2; see /fonts/CULMUS-LICENSE.txt */
+@font-face { font-family: 'KtavYad'; src: url('/fonts/ktav-yad.woff2') format('woff2'); font-display: block; }
+@font-face { font-family: 'Stam'; src: url('/fonts/stam.woff2') format('woff2'); font-display: block; }
+.font-ktav { font-family: 'KtavYad', 'Heebo', sans-serif; }
+.font-stam { font-family: 'Stam', 'Frank Ruhl Libre', serif; }
 @import "tailwindcss";
 @import "./design-system.css";
 @import "./responsive-overrides.css";

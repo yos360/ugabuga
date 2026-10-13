@@ -28,6 +28,7 @@ const { DECKS, READING } = await src('learn/learnData.js')
 const { ADDITION_LEVELS } = await src('utils/difficultyLevels.js')
 const { ABC_LETTERS } = await src('data/content/abcLetters.js')
 const { ABC_MORE } = await src('data/content/abcLettersMore.js')
+const { SYL_LETTERS, syl, KAMATZ, PATACH, NIKUD_WORDS, FINAL_NAMES } = await src('data/letterSkills.js')
 const { WORD_SETS } = await src('data/wordPairs.js')
 const { ORGANS } = await src('discover/discoverData.js')
 const { ANIMALS } = await src('data/content/animals.js')
@@ -210,6 +211,10 @@ export function siteItems() {
   for (const q of QUESTION_BANK_EXPANDED) if (q.type === 'riddle') { add('riddles', 'he', q.question, true); add('riddles', 'he', q.answer) }
   for (const r of READING) { for (const t of r.text) add('reading', 'he', t, true); for (const [q] of r.q) add('reading', 'he', q) }
   for (const h of HEBREW) add('letters-hub', 'he', h.name)
+  // /letters/nikud, /letters/cursive: syllables (sent as written — already vocalized), words, final-letter names
+  for (const l of SYL_LETTERS) for (const m of [KAMATZ, PATACH]) add('letter-skills', 'he', syl(l, m), true)
+  for (const [w] of NIKUD_WORDS) add('letter-skills', 'he', w, true)
+  for (const n of Object.values(FINAL_NAMES)) add('letter-skills', 'he', n, true)
   return out
 }
 
