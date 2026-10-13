@@ -3,6 +3,9 @@ import { createServer } from 'node:http'
 import { resolve, dirname, extname } from 'node:path'
 import { createRequire } from 'node:module'
 import { execFileSync } from 'node:child_process'
+import { prerenderConcurrency, renderPagePool } from './prerender-pool.mjs'
+
+const concurrency = prerenderConcurrency(process.env.PRERENDER_CONCURRENCY)
 
 // React portals (fixed bottom bars, toasts, dialogs) render as direct children of
 // <body>, outside #root. A snapshot would freeze them into the static HTML, and
@@ -58,13 +61,12 @@ try {
     if (/\/rpc\/(supplier_track|record_site_event)/.test(url.pathname)) return route.abort()
     return url.origin === origin || SUPABASE_ORIGINS.includes(url.origin) ? route.continue() : route.abort()
   })
-  let next = 0
-  await Promise.all(Array.from({ length: 3 }, async () => {
-    const page = await context.newPage()
-    while (next < paths.length) {
-      const path = paths[next++]
+  const failures = []
+  console.log(`Prerendering with up to ${concurrency} tabs.`)
+  await renderPagePool(context, paths, concurrency, async (page, path, index) => {
+    try {
       await page.goto(origin + path, { waitUntil: 'networkidle' })
-      try { await page.locator('main h1').waitFor() } catch (e) { console.error('FAILED PATH:', path); throw e }
+      await page.locator('main h1').waitFor()
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
       const result = await page.evaluate(() => {
@@ -81,18 +83,28 @@ try {
       // otherwise every visitor's browser tries to load files from its own localhost.
       await stripPortals(page)
       const html = (await page.content()).replaceAll(origin + '/', '/')
-      snapshots.push({ path, html, title: result.title })
+      snapshots.push({ path, html, title: result.title, index })
       if (snapshots.length % 25 === 0) console.log(`Pre-rendered ${snapshots.length}/${paths.length}`)
+    } catch (err) {
+      failures.push({ path, message: err.message })
+      console.error(`FAILED PATH: ${path}: ${err.message}`)
     }
-    await page.close()
-  }))
+  })
+  snapshots.sort((a, b) => a.index - b.index)
   const titles = new Set()
   for (const row of snapshots) {
-    if (titles.has(row.title)) throw new Error(`Duplicate page title: ${row.title}`)
-    titles.add(row.title)
-    const destination = resolve(dist, row.path === '/' ? 'index.html' : row.path.slice(1) + '.html')
-    await mkdir(dirname(destination), { recursive: true })
-    await writeFile(destination, row.html)
+    if (titles.has(row.title)) {
+      failures.push({ path: row.path, message: `Duplicate page title: ${row.title}` })
+      continue
+    }
+    try {
+      const destination = resolve(dist, row.path === '/' ? 'index.html' : row.path.slice(1) + '.html')
+      await mkdir(dirname(destination), { recursive: true })
+      await writeFile(destination, row.html)
+      titles.add(row.title)
+    } catch (err) {
+      failures.push({ path: row.path, message: err.message })
+    }
   }
 
   // ---- Individual game pages (best effort) ----
@@ -108,37 +120,32 @@ try {
     const fullXml = await readFile('public/sitemap.xml', 'utf8')
     const staticSet = new Set(paths)
     const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => p.startsWith('/games/') && !staticSet.has(p))
-    let gi = 0, ok = 0, skipped = 0
-    await Promise.all(Array.from({ length: 3 }, async () => {
-      const page = await context.newPage()
-      while (gi < gamePaths.length) {
-        const path = gamePaths[gi++]
-        try {
-          await page.goto(origin + path, { waitUntil: 'networkidle', timeout: 30000 })
-          await page.locator('main h1').waitFor({ timeout: 15000 })
-          const result = await page.evaluate(() => ({
-            title: document.title,
-            canonical: [...document.querySelectorAll('link[rel="canonical"]')].map(x => x.href),
-            descriptions: document.querySelectorAll('meta[name="description"]').length,
-            h1: document.querySelectorAll('h1').length,
-            robots: document.querySelector('meta[name="robots"]')?.content || '',
-          }))
-          const valid = result.canonical.length === 1 && result.canonical[0] === `https://ugabuga.co.il${path}` && result.descriptions === 1 && result.h1 === 1 && !result.robots.includes('noindex')
-          if (!valid || titles.has(result.title)) { skipped++; console.warn(`Skipping game snapshot ${path}: ${JSON.stringify(result)}`); continue }
-          titles.add(result.title)
-          await stripPortals(page)
-          const html = (await page.content()).replaceAll(origin + '/', '/')
-          const destination = resolve(dist, path.slice(1) + '.html')
-          await mkdir(dirname(destination), { recursive: true })
-          await writeFile(destination, html)
-          ok++
-        } catch (err) {
-          skipped++
-          console.warn(`Skipping game snapshot ${path}: ${err.message}`)
-        }
+    let ok = 0, skipped = 0
+    await renderPagePool(context, gamePaths, concurrency, async (page, path) => {
+      try {
+        await page.goto(origin + path, { waitUntil: 'networkidle', timeout: 30000 })
+        await page.locator('main h1').waitFor({ timeout: 15000 })
+        const result = await page.evaluate(() => ({
+          title: document.title,
+          canonical: [...document.querySelectorAll('link[rel="canonical"]')].map(x => x.href),
+          descriptions: document.querySelectorAll('meta[name="description"]').length,
+          h1: document.querySelectorAll('h1').length,
+          robots: document.querySelector('meta[name="robots"]')?.content || '',
+        }))
+        const valid = result.canonical.length === 1 && result.canonical[0] === `https://ugabuga.co.il${path}` && result.descriptions === 1 && result.h1 === 1 && !result.robots.includes('noindex')
+        if (!valid || titles.has(result.title)) { skipped++; console.warn(`Skipping game snapshot ${path}: ${JSON.stringify(result)}`); return }
+        titles.add(result.title)
+        await stripPortals(page)
+        const html = (await page.content()).replaceAll(origin + '/', '/')
+        const destination = resolve(dist, path.slice(1) + '.html')
+        await mkdir(dirname(destination), { recursive: true })
+        await writeFile(destination, html)
+        ok++
+      } catch (err) {
+        skipped++
+        console.warn(`Skipping game snapshot ${path}: ${err.message}`)
       }
-      await page.close()
-    }))
+    })
     console.log(`Game pages pre-rendered: ${ok} ok, ${skipped} skipped (of ${gamePaths.length}).`)
   } catch (err) {
     console.warn(`Game page pre-render pass failed, continuing without it: ${err.message}`)
@@ -155,6 +162,11 @@ try {
   }
   await writeFile(resolve(dist,'icons/ugabuga-v2-maskable-512.png'),await readFile(resolve(dist,'icons/ugabuga-v2-512.png')))
   await writeFile(resolve(dist,'apple-touch-icon.png'),await readFile(resolve(dist,'icons/ugabuga-v2-180.png')))
+  console.log(`Static pages pre-rendered: ${paths.length - failures.length} ok, ${failures.length} failed (of ${paths.length}).`)
+  if (failures.length) {
+    for (const failure of failures) console.error(`FAILED PATH: ${failure.path}: ${failure.message}`)
+    throw new Error(`${failures.length} static page snapshots failed`)
+  }
   console.log(`SEO checks passed: ${snapshots.length} unique pages with initial HTML content.`)
 } finally {
   await browser.close()
