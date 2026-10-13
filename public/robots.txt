@@ -3,4 +3,26 @@ Allow: /
 Disallow: /admin/
 Disallow: /__test/
 
+# AI search and answer engines are welcome: they read the pages to answer parents' and teachers'
+# questions and link back here. (Listed explicitly so a stricter default elsewhere doesn't block them.)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Applebot
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: meta-externalagent
+User-agent: MistralAI-User
+Allow: /
+Disallow: /admin/
+Disallow: /__test/
+
+# A short map of the site for AI assistants: https://ugabuga.co.il/llms.txt
 Sitemap: https://ugabuga.co.il/sitemap.xml

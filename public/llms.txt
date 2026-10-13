@@ -1,0 +1,261 @@
+# עוגה בוגה (UGABUGA)
+
+> אתר ישראלי בעברית, חינמי ובלי הרשמה, עם משחקים, דפים להדפסה ולמידה לילדים בגילי 3–12: משחקים לימי הולדת, לכיתה ולגן, דפי צביעה ודפי עבודה להדפסה, תרגול חשבון, קריאה ואנגלית לפי כיתה, הכנה לכיתה א׳, חגים, וכלים להורים, לגננות ולמורות.
+
+Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew website for children aged 3–12, their parents and teachers: party and classroom games, free printable coloring pages and worksheets (A4, PDF), grade-by-grade math, reading-comprehension and English practice, first-grade readiness, Jewish/Israeli holiday activities and family tools. Everything is free, with no sign-up. Content is written for Israeli families and schools (Israeli curriculum, Hebrew, right-to-left).
+
+- כל התוכן חינם ולא דורש הרשמה; דפי ההדפסה יוצאים נקיים על A4 וניתן לשמור אותם כ־PDF.
+- קהל: הורים, ילדים, גננות, מורות ומדריכים בישראל.
+- מפת האתר המלאה: https://ugabuga.co.il/sitemap.xml · כל העמודים במקום אחד: https://ugabuga.co.il/tools
+- אודות: https://ugabuga.co.il/about · פרטיות: https://ugabuga.co.il/privacy · יצירת קשר: hellohugabuga@gmail.com
+
+## עמודים מרכזיים
+
+- [דפי צביעה להדפסה בחינם](https://ugabuga.co.il/printables/coloring): מאות ציורים לפי נושא (חיות, רכבים, חגים, נסיכות…)
+- [הכנה לכיתה א׳](https://ugabuga.co.il/classroom/first-grade): משחקים וחוברת הכנה להדפסה (אותיות, קריאה, חשבון, שעון)
+- [לימוד אותיות בעברית](https://ugabuga.co.il/letters): עמוד לכל אות, משחק, כרטיסיות ודפי תרגול
+- [שיר האותיות](https://ugabuga.co.il/letters/song): שרים את האלף בית עם מנגינה, ודף מילים להדפסה
+- [אותיות בכתב יד](https://ugabuga.co.il/letters/cursive): טבלת דפוס וכתב, מדפוס לכתב ודפי תרגול
+- [חשבון לפי כיתה (א׳–י״ב)](https://ugabuga.co.il/math): תרגול, מבחנים ודפי עבודה עם תשובות
+- [דפי עבודה בחשבון לכיתה א׳–ב׳](https://ugabuga.co.il/printables/math-worksheets): חיבור וחיסור עד 10 ועד 20
+- [הבנת הנקרא לפי כיתה (ב׳–ו׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות ותשובות
+- [לוח הכפל](https://ugabuga.co.il/learn/multiplication-table): תרגול, משחק ודפים להדפסה
+- [אותיות באנגלית לילדים](https://ugabuga.co.il/abc): A–Z עם מילים, משחק ושיר ה־ABC
+- [משחקים לילדים](https://ugabuga.co.il/games): ליום הולדת, לכיתה, לגן ולצהרון, עם הוראות
+- [יום הולדת לילדים](https://ugabuga.co.il/birthday): משחקים, הזמנות, רעיונות ועוגות לפי גיל
+
+## משחקים
+
+- [כל המשחקים](https://ugabuga.co.il/games)
+
+### לשחק לבד
+- [אזור ילדים — לשחק לבד](https://ugabuga.co.il/kids)
+
+### משחקי אונליין
+- [אתגר היום — מתחלף כל יום](https://ugabuga.co.il/online-games/today)
+- [מרתון משחקים — 8 ברצף](https://ugabuga.co.il/online-games/marathon)
+- [שחמט אונליין — נגד המחשב או חבר](https://ugabuga.co.il/chess)
+- [סודוקו — אונליין, יומי והדפסה](https://ugabuga.co.il/sudoku)
+- [צוללות](https://ugabuga.co.il/online-games/battleship)
+- [בלוקים נופלים](https://ugabuga.co.il/online-games/falling-blocks)
+- [הכה בחפרפרת](https://ugabuga.co.il/online-games/whack-a-mole)
+- [פאזל הזזה](https://ugabuga.co.il/online-games/sliding-puzzle)
+- [ניחוש מילים — 5 אותיות](https://ugabuga.co.il/online-games/word-guess)
+- [קוביות מעופפות 3D](https://ugabuga.co.il/online-games/flying-cubes)
+- [חיצים בורחים — 300 שלבים](https://ugabuga.co.il/online-games/arrow-escape)
+- [מיון כדורים](https://ugabuga.co.il/online-games/ball-sort)
+- [מכפילים עד 2048](https://ugabuga.co.il/online-games/merge-2048)
+- [מסיבת בלוקים](https://ugabuga.co.il/online-games/block-puzzle)
+- [פקק תנועה](https://ugabuga.co.il/online-games/traffic-jam)
+- [סוליטר](https://ugabuga.co.il/online-games/solitaire)
+- [סוליטר עכביש](https://ugabuga.co.il/online-games/spider-solitaire)
+- [שולה מוקשים](https://ugabuga.co.il/online-games/minesweeper)
+- [משחק הזיכרון](https://ugabuga.co.il/online-games/memory)
+- [נחש](https://ugabuga.co.il/online-games/snake)
+
+### משחקים לקבוצה, לכיתה ולגן
+- [משחקים לגן](https://ugabuga.co.il/games/kindergarten)
+- [משחקים לכיתה](https://ugabuga.co.il/games/classroom)
+- [משחקים לכיתה א׳](https://ugabuga.co.il/games/kita-a)
+- [משחקים בלי ציוד](https://ugabuga.co.il/games/no-equipment)
+- [משחקים של 5 דקות](https://ugabuga.co.il/games/5-minutes)
+- [משחקי שובר קרח](https://ugabuga.co.il/games/icebreaker)
+- [משחקי תנועה](https://ugabuga.co.il/games/movement)
+- [משחקים שקטים](https://ugabuga.co.il/games/quiet)
+- [משחק היום](https://ugabuga.co.il/game-of-the-day)
+
+### כלים למשחק
+- [מחלק קבוצות](https://ugabuga.co.il/tools/team-generator)
+- [גלגל מזל](https://ugabuga.co.il/tools/random-picker)
+- [טיימר](https://ugabuga.co.il/tools/countdown-timer)
+- [לוח ניקוד](https://ugabuga.co.il/tools/scoreboard)
+- [קובייה](https://ugabuga.co.il/tools/dice)
+- [הטלת מטבע](https://ugabuga.co.il/tools/coin-flip)
+- [בן כמה אני?](https://ugabuga.co.il/tools/age-calculator)
+- [מחשבון גימטריה](https://ugabuga.co.il/tools/gematria)
+- [אמת או בוגה](https://ugabuga.co.il/tools/truth-or-buga)
+- [סובב את הבקבוק](https://ugabuga.co.il/tools/spin-the-bottle)
+- [מה לצייר?](https://ugabuga.co.il/tools/drawing-prompt)
+- [פתרון קובייה הונגרית](https://ugabuga.co.il/rubiks-cube)
+- [חידות](https://ugabuga.co.il/tools/riddles)
+- [בדיחה של בוגה](https://ugabuga.co.il/tools/joke)
+- [בוגה טאון](https://ugabuga.co.il/tools/buga-town)
+
+### חידות, טריוויה ומשחקי שולחן
+- [חידוני טריוויה לפי נושא](https://ugabuga.co.il/trivia/topics)
+- [שאלות טריוויה עם תשובות](https://ugabuga.co.il/trivia/with-answers)
+- [חידות לפי נושא וגיל](https://ugabuga.co.il/riddles/topics)
+- [בדיחות לילדים](https://ugabuga.co.il/jokes/topics)
+- [בדיחות קרש](https://ugabuga.co.il/jokes/keresh)
+- [שאלות לשיחה ולמשחק](https://ugabuga.co.il/questions)
+- [ארץ עיר](https://ugabuga.co.il/tools/eretz-ir)
+- [משחקי לוח: דמקה, שחמט ועוד](https://ugabuga.co.il/board-games)
+- [משחקי קוביות](https://ugabuga.co.il/dice-games)
+- [מנהרת הזמן](https://ugabuga.co.il/time-tunnel)
+
+## לומדים
+
+- [לומדים — כל הנושאים](https://ugabuga.co.il/learn)
+
+### חשבון
+- [מתמטיקה לפי כיתה (א׳–י״ב)](https://ugabuga.co.il/math)
+- [לוח הכפל](https://ugabuga.co.il/learn/multiplication-table)
+- [תרגול לוח הכפל](https://ugabuga.co.il/learn/times-tables)
+- [דפי עבודה בחשבון](https://ugabuga.co.il/printables/math-worksheets)
+- [תשבצי היגיון](https://ugabuga.co.il/logic-puzzles)
+- [הכנה למבחן מחוננים](https://ugabuga.co.il/learn/gifted-test)
+- [פסיכומטרי לילדים](https://ugabuga.co.il/learn/psychometric-kids)
+
+### עברית וקריאה
+- [הכנה לכיתה א׳](https://ugabuga.co.il/classroom/first-grade)
+- [לימוד אותיות בעברית](https://ugabuga.co.il/letters)
+- [משחק אותיות לגן](https://ugabuga.co.il/letters/game)
+- [אותיות בעברית לכתיבה](https://ugabuga.co.il/printables/hebrew-letters)
+- [הכתבה](https://ugabuga.co.il/learn/dictation)
+- [הבנת הנקרא](https://ugabuga.co.il/learn/reading)
+- [כרטיסיות לימוד](https://ugabuga.co.il/learn/flashcards)
+- [הפכים ומילים נרדפות](https://ugabuga.co.il/words/opposites)
+
+### אנגלית, שפות והקלדה
+- [אנגלית לילדים — מילים ומשחקים](https://ugabuga.co.il/english)
+- [אותיות באנגלית A–Z](https://ugabuga.co.il/abc)
+- [אותיות באנגלית לכתיבה](https://ugabuga.co.il/printables/abc-letters)
+- [שפות לילדים: צרפתית, ספרדית, רוסית, ערבית, אמהרית](https://ugabuga.co.il/languages)
+- [הקלדה עיוורת](https://ugabuga.co.il/typing)
+- [מבחן מהירות הקלדה](https://ugabuga.co.il/typing/test)
+
+### מוזיקה
+- [פסנתר אונליין](https://ugabuga.co.il/music/piano)
+- [לומדים שירים בפסנתר](https://ugabuga.co.il/music/songs)
+- [משחק קריאת תווים](https://ugabuga.co.il/music/read-notes)
+- [אקורדים לגיטרה](https://ugabuga.co.il/music/guitar-chords)
+- [מושגים במוזיקה](https://ugabuga.co.il/music/concepts)
+- [סגנונות מוזיקה](https://ugabuga.co.il/music/styles)
+
+### עולם ומדע
+- [מפת ישראל — איפה העיר?](https://ugabuga.co.il/discover/israel-map)
+- [דגלי מדינות](https://ugabuga.co.il/flags)
+- [חידון דגלים](https://ugabuga.co.il/flags/quiz)
+- [בירות ודגלים](https://ugabuga.co.il/discover/capitals)
+- [מערכת השמש](https://ugabuga.co.il/discover/solar-system)
+- [גוף האדם](https://ugabuga.co.il/discover/human-body)
+- [עובדות על חיות](https://ugabuga.co.il/animals)
+- [מחולל ניסויים](https://ugabuga.co.il/tools/experiment-maker)
+- [עבודת שורשים](https://ugabuga.co.il/printables/roots-project)
+
+## להדפסה
+
+- [כל הדפים להדפסה](https://ugabuga.co.il/printables)
+
+### צביעה ויצירה
+- [דפי צביעה](https://ugabuga.co.il/printables/coloring)
+- [דף צביעה עם השם](https://ugabuga.co.il/printables/name-coloring)
+- [דפי חורף וגשם](https://ugabuga.co.il/printables/winter)
+- [צביעה לפי מספרים](https://ugabuga.co.il/printables/color-by-number)
+- [צביעה לפי תשובה](https://ugabuga.co.il/printables/color-by-answer)
+- [צביעה לפי אות](https://ugabuga.co.il/printables/color-by-letter)
+- [מנדלות](https://ugabuga.co.il/printables/mandalas)
+- [מבוכים להדפסה](https://ugabuga.co.il/printables/mazes)
+- [אוריגמי לילדים — קיפולי נייר](https://ugabuga.co.il/origami)
+- [אימוג׳י סטודיו](https://ugabuga.co.il/tools/emoji-studio)
+
+### מחוללים
+- [מחולל תשבצים](https://ugabuga.co.il/tools/crossword-maker)
+- [מחולל תפזורת](https://ugabuga.co.il/tools/word-search-maker)
+- [מחולל בינגו](https://ugabuga.co.il/tools/bingo-maker)
+
+### הרפתקאות להדפסה
+- [חפש את המטמון](https://ugabuga.co.il/tools/scavenger-hunt-maker)
+- [ציד אוצרות מוכן להדפסה](https://ugabuga.co.il/treasure-hunt/ready)
+- [חדרי בריחה](https://ugabuga.co.il/tools/escape-rooms)
+
+### לגן ולבית הספר
+- [דף שם לכל ילד בכיתה](https://ugabuga.co.il/printables/hebrew-letters#names)
+- [שלטי אלרגיה ומדבקות](https://ugabuga.co.il/printables/allergy-signs)
+- [פתקים לקופסת האוכל](https://ugabuga.co.il/printables/lunchbox-notes)
+- [רשימת ציוד לבית הספר](https://ugabuga.co.il/printables/school-supplies-list)
+
+## יום הולדת
+
+- [כל מה שצריך ליום הולדת](https://ugabuga.co.il/birthday)
+
+### מתכננים מסיבה
+- [מחשבון מסיבה](https://ugabuga.co.il/calculator)
+- [מחולל הזמנות](https://ugabuga.co.il/invitation)
+- [אישור הגעה אונליין](https://ugabuga.co.il/rsvp)
+- [רשימת "מי מביא מה"](https://ugabuga.co.il/tools/bring-list)
+- [מחולל ברכות](https://ugabuga.co.il/greeting)
+- [ברכות ליום הולדת](https://ugabuga.co.il/birthday-greetings)
+- [מי נולד ביום שלי?](https://ugabuga.co.il/tools/birthday-famous)
+
+### רעיונות ומשחקים
+- [מסיבות בנושא](https://ugabuga.co.il/ideas/themes)
+- [יום הולדת בבית](https://ugabuga.co.il/ideas/at-home)
+- [יום הולדת בתקציב נמוך](https://ugabuga.co.il/ideas/on-budget)
+- [יום הולדת בלי מפעיל](https://ugabuga.co.il/ideas/without-entertainer)
+- [יום הולדת של הרגע האחרון](https://ugabuga.co.il/ideas/last-minute)
+- [מסיבת סיום גן](https://ugabuga.co.il/ideas/kindergarten-graduation)
+- [משחקים ליום הולדת](https://ugabuga.co.il/games/birthday)
+
+### עוגות, מתנות וספקים
+- [עוגות יום הולדת](https://ugabuga.co.il/cakes)
+- [רעיונות למתנות](https://ugabuga.co.il/gifts)
+- [ספקים לימי הולדת](https://ugabuga.co.il/suppliers)
+- [בר ובת מצווה — מדריך וכלים](https://ugabuga.co.il/bar-mitzvah)
+
+## חגים
+
+- [כל החגים](https://ugabuga.co.il/holidays)
+
+### חגי ישראל
+- [ראש השנה](https://ugabuga.co.il/holidays/rosh-hashana)
+- [יום כיפור](https://ugabuga.co.il/holidays/yom-kippur)
+- [סוכות](https://ugabuga.co.il/holidays/sukkot)
+- [חנוכה](https://ugabuga.co.il/holidays/hanukkah)
+- [ט״ו בשבט](https://ugabuga.co.il/holidays/tu-bishvat)
+- [פורים](https://ugabuga.co.il/holidays/purim)
+- [פסח](https://ugabuga.co.il/holidays/pesach)
+- [יום העצמאות](https://ugabuga.co.il/holidays/yom-haatzmaut)
+- [ל״ג בעומר](https://ugabuga.co.il/holidays/lag-baomer)
+- [שבועות](https://ugabuga.co.il/holidays/shavuot)
+
+### שבת, ברכות ולוח שנה
+- [ברכות וקריאות לחגים](https://ugabuga.co.il/holidays/blessings)
+- [משחקים לשבת](https://ugabuga.co.il/games/shabbat)
+- [לוח חופשות 2026–2027](https://ugabuga.co.il/school-holidays)
+- [יום הולדת עברי](https://ugabuga.co.il/tools/hebrew-birthday)
+- [כמה ימים עד החג?](https://ugabuga.co.il/days-until)
+
+## משפחה
+
+- [בבית עם הילדים — הכול](https://ugabuga.co.il/family)
+
+### לפני השינה
+- [סיפורים לפני השינה](https://ugabuga.co.il/stories)
+- [סיפור עם השם של הילד](https://ugabuga.co.il/family/bedtime-story)
+
+### תינוקות ופעוטות
+- [שמות לתינוקות](https://ugabuga.co.il/baby-names)
+- [פעוטות — גיל 1–3](https://ugabuga.co.il/toddlers)
+
+### אוכל לילדים
+- [מה שמים בכריך? ארוחת עשר](https://ugabuga.co.il/food/school-lunch)
+- [תכנון ארוחת עשר לשבוע](https://ugabuga.co.il/food/lunch-planner)
+- [מתכונים שילדים מכינים](https://ugabuga.co.il/food/kids-recipes)
+- [ניסויים במטבח](https://ugabuga.co.il/food/kitchen-science)
+
+### ביום-יום
+- [מה עושים היום?](https://ugabuga.co.il/family/what-to-do)
+- [שגרת בוקר עם טיימר](https://ugabuga.co.il/family/morning-routine)
+- [משחקים לנסיעה](https://ugabuga.co.il/family/car-games)
+- [אתגר תנועה](https://ugabuga.co.il/family/move)
+- [דמי כיס וחיסכון](https://ugabuga.co.il/family/pocket-money)
+- [פעילות לסוף שבוע](https://ugabuga.co.il/ideas/what-to-do-weekend)
+- [הבלוג](https://ugabuga.co.il/blog)
+
+## לכיתה (למורות ולגננות)
+
+- [לכיתה](https://ugabuga.co.il/classroom)
+- [מבחן אמריקאי אונליין](https://ugabuga.co.il/classroom/quiz)
+- [גמד וענק — הגרלת שמות](https://ugabuga.co.il/secret-friend)
+- [קיר ברכות לגננת ולמורה](https://ugabuga.co.il/thank-you-wall)

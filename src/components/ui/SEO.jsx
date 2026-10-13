@@ -5,6 +5,19 @@ import { previewFor } from '../layout/PrintPreviewFigure'
 // Other ways people write the name (search engines use these to match brand searches).
 export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוגה-בוגה', 'עוגהבוגה']
 
+// Who runs the site — on the homepage, so search engines and AI assistants can describe the brand.
+const ORGANIZATION = {
+  '@type': 'Organization',
+  'name': 'עוגה בוגה',
+  'alternateName': BRAND_ALIASES,
+  'url': 'https://ugabuga.co.il',
+  'logo': { '@type': 'ImageObject', 'url': 'https://ugabuga.co.il/og-image.png' },
+  'description': 'אתר ישראלי חינמי בעברית עם משחקים, דפים להדפסה ולמידה לילדים בגילי 3–12 — להורים, לגננות ולמורות.',
+  'email': 'hellohugabuga@gmail.com',
+  'areaServed': { '@type': 'Country', 'name': 'Israel' },
+  'knowsLanguage': 'he',
+}
+
 // Google shows about 60–70 characters of a title and ~160 of a description. Past that, the brand
 // suffix is dropped first (the page's own words matter more), and descriptions are cut at a word.
 export const TITLE_MAX = 70, DESC_MAX = 165
@@ -55,19 +68,24 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       },
       'query-input': 'required name=search_term_string'
     },
-    'publisher': {
-      '@type': 'Organization',
-      'name': 'עוגה בוגה',
-      'alternateName': BRAND_ALIASES,
-      'url': 'https://ugabuga.co.il',
-      'logo': {
-        '@type': 'ImageObject',
-        'url': 'https://ugabuga.co.il/og-image.png'
-      }
-    }
+    'publisher': ORGANIZATION,
+  } : null
+  // Every other indexable page says what it is and whose it is — the facts answer engines quote
+  // (page name, summary, language, audience, publisher). Page-specific schemas are added after it.
+  const pageSchema = !isHome && !noindex ? {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    'name': title || fullTitle,
+    'description': fullDescription,
+    'url': url,
+    'inLanguage': 'he',
+    'isPartOf': { '@type': 'WebSite', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
+    'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
+    'isAccessibleForFree': true,
+    ...(preview ? { 'primaryImageOfPage': fullImage } : {}),
   } : null
 
-  const schemas = [schemaData, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
+  const schemas = [schemaData, pageSchema, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
 
   return (
     <Helmet>
