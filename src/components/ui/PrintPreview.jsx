@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './print-preview.css'
 import { recordSheetAction, recordPreviewOpen } from '../layout/RecentActivity'
@@ -38,10 +38,20 @@ function fitPreview(pages){
   else{pages.style.removeProperty('--buga-zoom');pages.style.removeProperty('--buga-page-w')}
 }
 
-export default function PrintPreview({title,children,onClose,onRefresh}){
+// "How many pages": every print can be repeated. Pages that generate their sheets pass `variant(i)`,
+// which returns a fresh, different set for copy i (new exercises); everywhere else the same sheets are
+// repeated (a copy per child). Pages with their own page-count control pass copies={false}.
+const COPY_COUNTS=[1,2,3,4,5,6,8,10,15,20,25,30,35]
+
+export default function PrintPreview({title,children,onClose,onRefresh,variant,copies:allowCopies=true}){
   const dialog=useRef(null),root=useRef(null),pages=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[pdf,setPdf]=useState(''),[done,setDone]=useState(false)
+  const [count,setCount]=useState(1),[extras,setExtras]=useState([])
+  // extra sets are made once, when the count goes up, so they don't change on every re-render
+  function changeCount(n){setCount(n);if(variant)setExtras(list=>{const next=list.slice(0,n-1);for(let i=next.length+1;i<n;i++)next.push(variant(i));return next})}
+  const sets=[children,...Array.from({length:count-1},(_,i)=>variant?extras[i]:children)]
+  const body=sets.map((set,i)=><Fragment key={i}>{set}</Fragment>)
   useEffect(()=>{const previous=document.activeElement;dialog.current?.showModal();recordPreviewOpen();return()=>previous?.focus?.()},[])
-  useEffect(()=>{stampQrCodes(dialog.current);stampQrCodes(root.current)},[children])
+  useEffect(()=>{stampQrCodes(dialog.current);stampQrCodes(root.current)},[children,count,extras])
   useEffect(()=>{
     const el=pages.current;if(!el)return
     fitPreview(el)
@@ -70,5 +80,5 @@ export default function PrintPreview({title,children,onClose,onRefresh}){
   }catch{setError('לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides
   // every body child except #buga-print-output, so no wrapper element here.
-  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button>{onRefresh&&<button onClick={()=>{recordSheetAction('refresh');onRefresh()}} data-refresh-sheet>🎲 תרגילים אחרים</button>}<button onClick={savePdf} disabled={!!pdf} data-save-pdf>{pdf||'⬇️ הורדה כ-PDF'}</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה'}</button></div>{done&&<div className="buga-print-share" dir="rtl"><span>{shareAudience(location.pathname).invite}</span><button onClick={()=>sharePage(location.pathname,'after_print')}>💬 {shareAudience(location.pathname).button}</button></div>}<p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}<div className="buga-preview-pages" ref={pages}>{children}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{children}</div></>,document.body)
+  return createPortal(<><dialog className="buga-print-dialog" ref={dialog} onCancel={onClose} aria-label={`תצוגה לפני הדפסה: ${title}`}><div className="buga-print-toolbar"><h2>{title}</h2><button onClick={onClose} aria-label="סגירת תצוגת ההדפסה">✕ חזרה</button>{onRefresh&&<button onClick={()=>{recordSheetAction('refresh');onRefresh();if(variant&&count>1)setExtras(Array.from({length:count-1},(_,i)=>variant(i+1)))}} data-refresh-sheet>🎲 תרגילים אחרים</button>}{allowCopies&&<label className="buga-print-count">📄 {variant?'כמה דפים':'כמה עותקים'}<select value={count} onChange={e=>changeCount(Number(e.target.value))} data-print-count>{COPY_COUNTS.map(n=><option key={n} value={n}>{n===1?(variant?'סט אחד':'עותק אחד'):variant?`${n} סטים שונים`:`${n} עותקים`}</option>)}</select></label>}<button onClick={savePdf} disabled={!!pdf} data-save-pdf>{pdf||'⬇️ הורדה כ-PDF'}</button><button onClick={print} disabled={busy}>{busy?'מכינים את הדף…':'🖨️ הדפסה'}</button></div>{done&&<div className="buga-print-share" dir="rtl"><span>{shareAudience(location.pathname).invite}</span><button onClick={()=>sharePage(location.pathname,'after_print')}>💬 {shareAudience(location.pathname).button}</button></div>}<p className="buga-print-tip">A4 לאורך · דף נפרד לכל פריט. בחלון ההדפסה מומלץ לבטל כותרות עליונות ותחתונות.</p>{error&&<p role="alert">{error}</p>}{count>1&&<p className="buga-print-tip">{variant?`יודפסו ${count} סטים שונים, אחד אחרי השני — אפשר לגלול ולראות את כולם.`:`כל הדפים יודפסו ${count} פעמים.`}</p>}<div className="buga-preview-pages" ref={pages}>{body}</div></dialog><div id="buga-print-output" aria-hidden="true" ref={root}>{body}</div></>,document.body)
 }

@@ -52,7 +52,7 @@ export function GiftedPractice() {
       <p className="mb-3">10 שאלות חדשות לכיתה {grade.label} ({domainLabel}), ודף תשובות עם הסבר לכל שאלה. כל לחיצה — דף אחר.</p>
       <button type="button" className="ln-btn alt" onClick={() => setPrintSet(genRound(grade.id, domain, 10))}>🖨️ דף חדש להדפסה</button>
     </div>
-    {printSet && <PrintPreview title={`תרגול חשיבה — כיתה ${grade.label}`} onClose={() => setPrintSet(null)} onRefresh={() => setPrintSet(genRound(grade.id, domain, 10))}><MixedPrint title={`תרגול חשיבה לכיתה ${grade.label}`} items={printSet} from={0} /></PrintPreview>}
+    {printSet && <PrintPreview title={`תרגול חשיבה — כיתה ${grade.label}`} onClose={() => setPrintSet(null)} onRefresh={() => setPrintSet(genRound(grade.id, domain, 10))} variant={() => <MixedPrint title={`תרגול חשיבה לכיתה ${grade.label}`} items={genRound(grade.id, domain, 10)} from={0} />}><MixedPrint title={`תרגול חשיבה לכיתה ${grade.label}`} items={printSet} from={0} /></PrintPreview>}
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד דרכים לתרגל</h2>
     <div className="grid gap-3 sm:grid-cols-3">
       <Link to={`${HUB}/simulation`} className="ln-box card-lift text-right"><b>⏱️ מבחן לדוגמה עם שעון</b><br /><small>שלושה פרקים, ציון לכל פרק</small></Link>

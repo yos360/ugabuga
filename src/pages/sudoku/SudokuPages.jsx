@@ -294,7 +294,7 @@ export function SudokuPrint() {
       <div className="sdk-thumbs">{puzzles.slice(0, 12).map(p => <figure key={p.seed}><SudokuSvg puzzle={p} title={`${meta.long} מס׳ ${p.seed}`} /><figcaption className="mt-1">מס׳ {p.seed}</figcaption></figure>)}</div>
       {puzzles.length > 12 && <p className="mt-2 text-center text-slate-600">ועוד {puzzles.length - 12} לוחות בהדפסה.</p>}
     </section>
-    {printing && <PrintPreview title={`${meta.long} להדפסה · סט ${set}`} onClose={() => setPrinting(false)}>
+    {printing && <PrintPreview copies={false} title={`${meta.long} להדפסה · סט ${set}`} onClose={() => setPrinting(false)}>
       <SudokuSheets puzzles={puzzles} perPage={per} withSolutions={withSol} title={meta.long} />
     </PrintPreview>}
     <SpokeCards except="/sudoku/print" />

@@ -212,7 +212,7 @@ export function CarGames() {
     <div className="ln-box mt-8 text-center space-y-3"><h2 className="text-2xl font-black">🎯 בינגו נסיעה להדפסה</h2><p>לוח שונה לכל ילד, 16 דברים שרואים בדרך. שני לוחות בדף.</p>
       <div className="flex flex-wrap items-center justify-center gap-2"><span className="font-bold">כמה ילדים?</span>{[1, 2, 3, 4, 5, 6].map(k => <Chip key={k} on={kids === k} onClick={() => setKids(k)}>{k}</Chip>)}</div>
       <button type="button" className="ln-btn" onClick={makeCards}>🖨️ להדפיס לוחות בינגו</button></div>
-    {cards && <PrintPreview title="בינגו נסיעה" onClose={() => setCards(null)} onRefresh={makeCards}>{pages}</PrintPreview>}
+    {cards && <PrintPreview copies={false} title="בינגו נסיעה" onClose={() => setCards(null)} onRefresh={makeCards}>{pages}</PrintPreview>}
     <div className="mt-12"><SeoBody paragraphs={['נסיעה ארוכה עם ילדים לא חייבת להיות שעה של "עוד כמה זמן?". המשחקים כאן לא צריכים טלפון, דף או עט — רק עיניים, קול ודמיון. רובם מתאימים גם לנהג, כי אפשר לשחק בהם בלי להסתכל אחורה.', 'יש משחקים לקטנים (אני רואה משהו, נחשו את החיה, ציד מכוניות לפי צבע) ולגדולים (שרשרת מילים, 20 שאלות, משחק לוחיות הרישוי). לנסיעות ארוכות במיוחד — מדפיסים בינגו נסיעה מראש, ומקבלים לוח שונה לכל ילד.']} related={[{ label: 'שאלות "מה הייתם מעדיפים"', href: '/questions' }, { label: 'חידות לילדים', href: '/tools/riddles' }, { label: 'מה עושים היום?', href: '/family/what-to-do' }]} /></div>
   </Page>
 }

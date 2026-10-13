@@ -70,6 +70,8 @@ export default function BingoMaker() {
   }
   const removeItem = (item) => setCustomItems(c => c.filter(x => x !== item))
   const canGenerate = mode === 'custom' ? customItems.length >= needed : true
+  const printCards=(list,from=0)=>list.map((card,i)=><article className="buga-a4" key={from+i}><h2>{title||'בינגו'} · כרטיס {from+i+1}</h2><p>סמנו שורה, טור או אלכסון</p><div style={{display:'grid',gridTemplateColumns:`repeat(${size},minmax(0,1fr))`,width:'100%',marginTop:24}}>{card.map((item,j)=><div key={j} style={{aspectRatio:'1',border:'1px solid #222',padding:5,display:'grid',placeItems:'center',textAlign:'center',overflowWrap:'anywhere',lineHeight:1.2,fontWeight:600,fontSize:PRINT_CELL_FONT[size]||18}}>{item}</div>)}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)
+
   const generate = () => {
     const source = mode === 'custom' ? customItems : currentPack.items
     setCards(Array.from({ length: 6 }, () => generateCard(source, size)))
@@ -132,7 +134,7 @@ export default function BingoMaker() {
       )}
 
       {cards && <div className="text-center mt-6"><button data-print-main onClick={() => setPrinting(true)} className="wobbly-md sketch-press border-[3px] border-[var(--border)] bg-[var(--card)] px-6 py-3 font-display font-bold cursor-pointer">🖨️ הדפיסו כרטיסים</button></div>}
-      {printing&&cards&&<PrintPreview title={title||'כרטיסי בינגו'} onClose={()=>setPrinting(false)}>{cards.map((card,i)=><article className="buga-a4" key={i}><h2>{title||'בינגו'} · כרטיס {i+1}</h2><p>סמנו שורה, טור או אלכסון</p><div style={{display:'grid',gridTemplateColumns:`repeat(${size},minmax(0,1fr))`,width:'100%',marginTop:24}}>{card.map((item,j)=><div key={j} style={{aspectRatio:'1',border:'1px solid #222',padding:5,display:'grid',placeItems:'center',textAlign:'center',overflowWrap:'anywhere',lineHeight:1.2,fontWeight:600,fontSize:PRINT_CELL_FONT[size]||18}}>{item}</div>)}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)}</PrintPreview>}
+      {printing&&cards&&<PrintPreview title={title||'כרטיסי בינגו'} onClose={()=>setPrinting(false)} variant={i=>printCards(Array.from({length:6},()=>generateCard(mode==='custom'?customItems:currentPack.items,size)),i*6)}>{printCards(cards)}</PrintPreview>}
 
       <section className="mt-8 grid gap-4 lg:grid-cols-3">
         <div className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-rich">

@@ -158,7 +158,8 @@ export function TimesTables() {
       <button type="button" className="ln-btn alt" onClick={() => openPrint('blank')}>🖨️ לוח ריק למילוי</button>
       <button type="button" className="ln-btn alt" onClick={() => openPrint('drill')}>🖨️ 45 תרגילים מהלוחות שבחרתם</button>
     </div>
-    {print && <PrintPreview title={print.kind === 'drill' ? 'תרגילי כפל' : 'לוח הכפל'} onClose={() => setPrint(null)} onRefresh={print.kind === 'drill' ? () => openPrint('drill') : undefined}>
+    {print && <PrintPreview title={print.kind === 'drill' ? 'תרגילי כפל' : 'לוח הכפל'} onClose={() => setPrint(null)} onRefresh={print.kind === 'drill' ? () => openPrint('drill') : undefined}
+      variant={print.kind === 'drill' ? () => { const items = drillItems(sorted); return [<A4 key="d"><DrillSheet items={items} /></A4>, <A4 key="a"><DrillSheet items={items} answers /></A4>] } : undefined}>
       {print.kind === 'drill' ? [<A4 key="d"><DrillSheet items={print.items} /></A4>, <A4 key="a"><DrillSheet items={print.items} answers /></A4>] : <A4><ChartSheet blank={print.kind === 'blank'} /></A4>}
     </PrintPreview>}
     <div className="mt-12"><SeoBody paragraphs={['לוח הכפל הוא הבסיס לכל החשבון שבא אחריו — חילוק, שברים ואחוזים. כשהתרגילים יושבים בזיכרון, הילד פנוי לחשוב על הבעיה עצמה במקום לספור על האצבעות.', 'באתגר הדקה פותרים כמה שיותר תרגילים, ובמקלדת הגדולה נוח ללחוץ גם בטלפון. תשובה נכונה עוברת מיד לתרגיל הבא, ובטעות מופיעה התשובה הנכונה לשנייה. בסוף רואים בדיוק על אילו תרגילים כדאי לחזור.', 'ליד המשחק יש לוח כפל אינטראקטיבי: לוחצים על משבצת ורואים את התרגיל — והמלבן הצבוע מראה למה 3×4 הם 12 משבצות.']} faq={faq} related={[{ label: 'כרטיסיות לוח הכפל', href: '/learn/flashcards' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]} /></div>

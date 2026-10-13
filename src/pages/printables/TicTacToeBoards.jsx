@@ -106,7 +106,7 @@ export default function TicTacToeBoards() {
   const [copies, setCopies] = useState('1')
   const { Sheet: Board } = KINDS[kind]
   const pages = Array.from({ length: Number(copies) }, (_, i) => ({ key: kind + i, svg: <Board /> }))
-  return <PrintableShell path={PATH} emoji="❌" h1="לוחות איקס עיגול להדפסה"
+  return <PrintableShell copies={false} path={PATH} emoji="❌" h1="לוחות איקס עיגול להדפסה"
     seoTitle="לוחות איקס עיגול להדפסה — 3×3, 4×4 ואיקס עיגול כפול"
     description="דף איקס עיגול להדפסה בחינם: 6 לוחות 3×3 בדף A4, לוחות 4×4 של ארבעה ברצף ולוח איקס עיגול כפול (Ultimate) עם החוקים — לנסיעה, למסעדה ולכיתה."
     sub="6 לוחות בדף, עם מקום לשמות ולספירת ניצחונות — ומשחקים בעיפרון"

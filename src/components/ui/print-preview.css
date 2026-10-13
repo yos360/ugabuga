@@ -70,3 +70,6 @@
 @media print{#buga-print-output .buga-a4:has(.buga-qr),#buga-print-output .buga-flow:has(.buga-qr){padding-bottom:29mm!important}.buga-a4 .buga-qr,.buga-flow .buga-qr{border:0}}
 
 .buga-print-share{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 18px 0;padding:10px 14px;border-radius:14px;background:#e9fbe9;border:2px solid #25d366;font-weight:700}.buga-print-share span{flex:1;min-width:180px}.buga-print-share button{background:#25d366!important;color:#fff;min-height:44px;padding:8px 14px;border-radius:10px;font-weight:800}@media print{.buga-print-share{display:none!important}}
+
+/* "How many pages" selector in the print toolbar */
+.buga-print-count{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px}.buga-print-count select{min-height:44px;border:2px solid #d7dae3;border-radius:10px;padding:6px 10px;background:white;font-weight:700}

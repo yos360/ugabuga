@@ -399,7 +399,8 @@ function TopicPage({ topic }) {
         : <div className="ln-box text-center space-y-3"><p className="m-0 text-lg">10 שאלות ברמה {level} ({topic.levels[level - 1]}). עונים על הכול — והבדיקה, הציון וההסברים מגיעים בסוף. השעון סופר את הזמן.</p><button type="button" className="ln-btn go" onClick={startQuiz}>▶ מתחילים מבחן</button></div>)}
     </div>
 
-    {print && <PrintPreview title={`${topic.title} — כיתה ${g.label}`} onClose={() => setPrint(null)} onRefresh={() => openPrint(print.level)}>
+    {print && <PrintPreview title={`${topic.title} — כיתה ${g.label}`} onClose={() => setPrint(null)} onRefresh={() => openPrint(print.level)}
+      variant={() => <PrintSheets title={`${topic.title} — כיתה ${g.label}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={makeWorksheet(topic, print.level, 20, newSeed())} />}>
       <PrintSheets title={`${topic.title} — כיתה ${g.label}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={print.items} />
     </PrintPreview>}
 
@@ -462,7 +463,8 @@ function TestPage({ n }) {
       <p className="mt-3 text-center no-print"><button type="button" className="underline" onClick={() => setQuiz(null)}>יציאה מהמבחן</button></p>
     </div>}
 
-    {print && <PrintPreview title={h1} onClose={() => setPrint(null)} onRefresh={() => openPrint()}>
+    {print && <PrintPreview title={h1} onClose={() => setPrint(null)} onRefresh={() => openPrint()}
+      variant={() => <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${count} שאלות`} items={makeTest(n, count, newSeed(), level)} />}>
       <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${print.items.length} שאלות`} items={print.items} />
     </PrintPreview>}
 

@@ -138,7 +138,8 @@ function PrintOut({ job, onClose, onRefresh }) {
     const note = job.kind === 'blank' ? 'טיפ: מתחילים מהשורות הקלות — 1, 2, 5 ו-10 — וממשיכים לקשות' : 'המשבצות הסגולות באלכסון: מספר כפול עצמו (המספרים הריבועיים)'
     pages = <A4><GridSheet rows={g.rows} cols={g.cols} look={job.kind === 'twelve' ? 'color' : job.kind} title={job.kind === 'blank' ? 'לוח הכפל — ממלאים לבד' : title} note={job.kind === 'mono' ? 'האלכסון: מספר כפול עצמו — 1, 4, 9, 16, 25, 36, 49, 64, 81, 100' : note} /></A4>
   }
-  return <PrintPreview title={title} onClose={onClose} onRefresh={job.kind === 'round' ? onRefresh : undefined}>{pages}</PrintPreview>
+  return <PrintPreview title={title} onClose={onClose} onRefresh={job.kind === 'round' ? onRefresh : undefined}
+    variant={job.kind === 'round' ? i => { const items = roundExercises(rnd()); return [<A4 key={`q${i}`}><RoundSheet items={items} /></A4>, <A4 key={`a${i}`}><RoundSheet items={items} answers /></A4>] } : undefined}>{pages}</PrintPreview>
 }
 
 // ── the interactive table ───────────────────────────────

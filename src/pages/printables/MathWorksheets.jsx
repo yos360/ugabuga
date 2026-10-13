@@ -274,7 +274,7 @@ export default function MathWorksheets({ preset: fixedPreset }) {
         related={c ? nearby(EXTRA_LINKS, (_, i) => i === Math.max(0, MATH_PAGE_SLUGS.indexOf(preset)) % EXTRA_LINKS.length, 3) : [{ label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'מספרים למעבר בעיפרון', href: '/printables/numbers' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }]}
       />
 
-      {print && <PrintPreview title={sheetTitle} onClose={() => setPrint(false)} onRefresh={() => setSeed(newSeed())}>{printPages}</PrintPreview>}
+      {print && <PrintPreview copies={false} title={sheetTitle} onClose={() => setPrint(false)} onRefresh={() => setSeed(newSeed())}>{printPages}</PrintPreview>}
     </div>
   )
 }

@@ -69,7 +69,7 @@ export default function NameColoring() {
   const [theme, setTheme] = useState('balloons')
   const [copies, setCopies] = useState('1')
   const pages = Array.from({ length: Number(copies) }, (_, i) => ({ key: theme + i, svg: <NameSheet name={name} theme={theme} /> }))
-  return <PrintableShell path={PATH} emoji="🖍️" h1="דף צביעה עם השם של הילד"
+  return <PrintableShell copies={false} path={PATH} emoji="🖍️" h1="דף צביעה עם השם של הילד"
     seoTitle="דף צביעה עם שם — מכינים דף צביעה עם השם של הילד, להדפסה בחינם"
     description="דף צביעה עם השם של הילד: מקלידים שם, בוחרים קישוט (בלונים, כוכבים, לבבות, פרחים או חלל) ומדפיסים — אותיות חלולות וגדולות לצביעה. חינם, בלי הרשמה."
     sub="מקלידים שם, בוחרים קישוט ומדפיסים — אותיות גדולות וחלולות לצביעה"

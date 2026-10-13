@@ -63,8 +63,8 @@ export function ClockWorksheets() {
   const [answers, setAnswers] = useState('yes')
   const [seed, setSeed] = useState(7)
   const items = useMemo(() => clockItems(level, seed), [seed, level])
-  const pages = [{ key: 'q', svg: <ClockSheet items={items} mode={mode} level={level} /> }]
-  if (answers === 'yes') pages.push({ key: 'a', svg: <ClockSheet items={items} mode={mode} level={level} answers /> })
+  const makePages = (items, i = '') => [{ key: `q${i}`, svg: <ClockSheet items={items} mode={mode} level={level} /> }, ...(answers === 'yes' ? [{ key: `a${i}`, svg: <ClockSheet items={items} mode={mode} level={level} answers /> }] : [])]
+  const pages = makePages(items)
   return <PrintableShell path="/printables/clock-worksheets" emoji="🕒" h1="דפי עבודה בשעון להדפסה"
     seoTitle="דפי עבודה שעון להדפסה — קריאת שעון לכיתה א׳–ג׳"
     description="דפי עבודה בקריאת שעון להדפסה: שעות עגולות, חצאי שעות, רבעי שעה וכל 5 דקות. מה השעה או ציירו את המחוגים — 12 שעונים בדף, דף חדש בכל לחיצה ועם פתרונות."
@@ -76,7 +76,7 @@ export function ClockWorksheets() {
       <Choice label="פתרונות" value={answers} onChange={setAnswers} options={[['yes', 'עם דף פתרונות'], ['no', 'בלי פתרונות']]} />
       <NewSheet onClick={() => setSeed(s => s + 1)} />
     </>}
-    pages={pages} printTitle="דף עבודה — שעון" onRefresh={() => setSeed(s => s + 1)}
+    pages={pages} printTitle="דף עבודה — שעון" onRefresh={() => setSeed(s => s + 1)} variant={i => makePages(clockItems(level, seed + i * 1000), i)}
     paragraphs={['קריאת שעון מחוגים היא אחד הנושאים שילדים מתקשים בהם הכי הרבה, כי צריך לקרוא שני מחוגים בבת אחת ולתרגם אותם לשעה. הדרך הכי טובה ללמוד היא בהדרגה: קודם שעות עגולות, אחר כך חצאי שעות, רבעי שעה, ורק בסוף דקות בקפיצות של 5.', 'בכל דף יש 12 שעונים. בתרגיל "מה השעה?" הילדים מסתכלים על המחוגים וכותבים את השעה, ובתרגיל "ציירו מחוגים" הם מקבלים שעה כתובה — גם בספרות וגם במילים, כמו "שלוש ורבע" — ומציירים את המחוג הקטן והגדול בעצמם.', 'דף הפתרונות מודפס בנפרד, כך שהורים ומורות יכולים לבדוק מהר. כל לחיצה על "דף חדש" מייצרת שעות אחרות, אז אפשר לתרגל שוב ושוב.']}
     faq={[{ q: 'באיזו כיתה לומדים לקרוא שעון?', a: 'שעות עגולות וחצאי שעות כבר בכיתה א׳, רבעי שעה בכיתה ב׳, ודקות מדויקות בכיתות ב׳–ג׳.' }, { q: 'איך מסבירים את ההבדל בין המחוגים?', a: 'המחוג הקטן והעבה מראה שעות, והגדול והדק מראה דקות. טיפ: "הקטן מראה את השעה, הגדול רץ מהר על הדקות".' }, { q: 'למה במחוג השעות לא מצביע בדיוק על המספר?', a: 'כי הוא זז לאט במהלך השעה. בשלוש וחצי המחוג הקטן נמצא באמצע בין 3 ל-4 — בדיוק כמו בשעון אמיתי.' }]}
     related={[{ label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }]} />
@@ -135,8 +135,8 @@ export function FractionWorksheets() {
   const [answers, setAnswers] = useState('yes')
   const [seed, setSeed] = useState(3)
   const items = useMemo(() => fractionItems(level, mode, seed), [seed, level, mode])
-  const pages = [{ key: 'q', svg: <FracSheet items={items} mode={mode} /> }]
-  if (answers === 'yes') pages.push({ key: 'a', svg: <FracSheet items={items} mode={mode} answers /> })
+  const makePages = (items, i = '') => [{ key: `q${i}`, svg: <FracSheet items={items} mode={mode} /> }, ...(answers === 'yes' ? [{ key: `a${i}`, svg: <FracSheet items={items} mode={mode} answers /> }] : [])]
+  const pages = makePages(items)
   return <PrintableShell path="/printables/fractions-worksheets" emoji="🍕" h1="דפי עבודה בשברים להדפסה"
     seoTitle="דפי עבודה שברים להדפסה — לכיתות ב׳–ד׳ עם פתרונות"
     description="דפי עבודה בשברים להדפסה: איזה חלק צבוע, צבעו את השבר והשוואת שברים. עיגולים ומלבנים מחולקים, מחצי ועד שמיניות — דף חדש בכל לחיצה ועם פתרונות."
@@ -148,7 +148,7 @@ export function FractionWorksheets() {
       <Choice label="פתרונות" value={answers} onChange={setAnswers} options={[['yes', 'עם דף פתרונות'], ['no', 'בלי פתרונות']]} />
       <NewSheet onClick={() => setSeed(s => s + 1)} />
     </>}
-    pages={pages} printTitle="דף עבודה — שברים" onRefresh={() => setSeed(s => s + 1)}
+    pages={pages} printTitle="דף עבודה — שברים" onRefresh={() => setSeed(s => s + 1)} variant={i => makePages(fractionItems(level, mode, seed + i * 1000), i)}
     paragraphs={['שברים הם נושא שילדים מבינים הרבה יותר טוב כשהם רואים אותם: עיגול שמחולק כמו פיצה, או מלבן שמחולק כמו חפיסת שוקולד. כל הדפים כאן בנויים על ציורים כאלה, כך שהילד לומד מה זה "שלושה רבעים" לפני שהוא לומד לחשב עם זה.', 'יש שלושה סוגי תרגילים: "איזה חלק צבוע?" — מסתכלים על הצורה וכותבים את השבר; "צבעו את השבר" — מקבלים שבר וצובעים את החלק הנכון; ו"גדול, קטן או שווה" — משווים בין שני שברים בעזרת הציור.', 'מתחילים ברמה של חצי, שליש ורבע, שמתאימה לכיתה ב׳, ועוברים לשישיות ושמיניות בכיתות ג׳–ד׳. דף הפתרונות מודפס בנפרד ומקל על הבדיקה.']}
     faq={[{ q: 'מתי לומדים שברים בבית הספר?', a: 'היכרות ראשונה עם חצי ורבע כבר בכיתה ב׳, ושברים פשוטים והשוואה ביניהם בכיתות ג׳–ד׳.' }, { q: 'איך מסבירים מה זה מכנה ומונה?', a: 'המספר למטה (המכנה) אומר לכמה חלקים שווים חילקנו, והמספר למעלה (המונה) אומר כמה חלקים לקחנו.' }]}
     related={[{ label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }, { label: 'לוח הכפל', href: '/printables/math-worksheets/multiplication' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]} />
