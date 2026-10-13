@@ -119,7 +119,7 @@ export function CakesHub() {
 
     <section className="ln-box mt-6 text-center">
       <h2 className="text-2xl font-black">🎉 עוד למסיבת יום ההולדת</h2>
-      <p className="mt-2 mb-0">אחרי שהעוגה מוכנה: <Link to="/birthday-greetings" className="font-bold underline">ברכות ליום הולדת</Link>, <Link to="/birthday-invitation" className="font-bold underline">הזמנה ליום הולדת</Link>, <Link to="/games/birthday" className="font-bold underline">משחקים ליום הולדת</Link> ו<Link to="/printables/birthday-checklist" className="font-bold underline">רשימת הכנות להדפסה</Link>.</p>
+      <p className="mt-2 mb-0">אחרי שהעוגה מוכנה: <Link to="/birthday-greetings" className="font-bold underline">ברכות ליום הולדת</Link>, <Link to="/invitation" className="font-bold underline">הזמנה ליום הולדת</Link>, <Link to="/games/birthday" className="font-bold underline">משחקים ליום הולדת</Link> ו<Link to="/printables/birthday-checklist" className="font-bold underline">רשימת הכנות להדפסה</Link>.</p>
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[

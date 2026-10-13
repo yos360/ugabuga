@@ -131,7 +131,7 @@ export default function RandomPicker() {
             'רעיון למסיבה: כותבים על הגלגל משימות מצחיקות ("לרקוד 10 שניות", "לחקות חיה", "לספר בדיחה"), וכל ילד מסובב בתורו. בכיתה כדאי לסמן "בלי חזרות" — כך כל תלמיד יוצא פעם אחת עד שכולם השתתפו.',
           ]}
           faq={FAQ}
-          related={[{ label: 'מחלק קבוצות', href: '/tools/team-generator' }, { label: 'מספר אקראי', href: '/tools/random-number' }, { label: 'אמת או חובה', href: '/tools/truth-or-dare' }, { label: 'כל הכלים', href: '/tools' }]}
+          related={[{ label: 'מחלק קבוצות', href: '/tools/team-generator' }, { label: 'מספר אקראי', href: '/tools/random-number' }, { label: 'אמת או חובה', href: '/tools/truth-or-buga' }, { label: 'כל הכלים', href: '/tools' }]}
         />
       </div>
     </div>

@@ -175,8 +175,8 @@ export const RELATED = [
   { label: 'מחשבון יום הולדת עברי ובת מצווה', href: '/tools/hebrew-birthday', emoji: '✡️' },
   { label: 'ברכות לבת מצווה', href: '/greetings/bat-mitzvah', emoji: '👑' },
   { label: 'רעיונות לבר מצווה', href: '/ideas/bar-mitzvah-ideas', emoji: '📜' },
-  { label: 'מחולל הזמנות', href: '/invitations', emoji: '💌' },
+  { label: 'מחולל הזמנות', href: '/invitation', emoji: '💌' },
   { label: 'מחולל ברכות אישיות', href: '/greeting', emoji: '✍️' },
-  { label: 'מחשבון עלות מסיבה', href: '/calculator/birthday-cost', emoji: '🧮' },
+  { label: 'מחשבון עלות מסיבה', href: '/calculator', emoji: '🧮' },
   { label: 'עוגות יום הולדת', href: '/cakes', emoji: '🎂' },
 ]

@@ -18,12 +18,12 @@ const THEMES = [
 const themesFor = n => (THEMES.find(([a, b]) => n >= a && n <= b) || [])[2] || []
 // Everything for a party at home, in one row.
 const KIT = [
-  ['/tools/invitation-generator', '💌 הזמנה מוכנה'],
+  ['/invitation', '💌 הזמנה מוכנה'],
   ['/tools/bring-list', '🧾 מי מביא מה'],
   ['/printables/birthday-signs', '🎉 שלטים להדפסה'],
   ['/printables/name-coloring', '🖍️ דף צביעה עם השם'],
   ['/printables/certificates', '🏅 תעודות לזוכים'],
-  ['/tools/party-calculator', '🍕 כמה אוכל להזמין'],
+  ['/calculator', '🍕 כמה אוכל להזמין'],
 ]
 
 // Cross-section pages that exist in the sitemap for a given age.

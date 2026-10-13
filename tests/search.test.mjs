@@ -88,7 +88,7 @@ test('queries that already worked still work', () => {
   has('חנוכה', '/holidays/hanukkah', 3)
   has('שלטים', '/printables/birthday-signs', 1)
   has('מי מביא מה', '/tools/bring-list', 1)
-  has('כמה פיצות', '/calculator/how-many-pizzas', 1)
+  has('כמה פיצות', '/calculator', 1)
   has('ערב משפחה', '/blog/family-game-night', 3)
   has('ערב משפחה', '/games/family', 3)
   has('כיתה א', '/classroom/first-grade', 3)

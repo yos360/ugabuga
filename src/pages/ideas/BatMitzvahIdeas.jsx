@@ -101,7 +101,7 @@ export default function BatMitzvahIdeas() {
           <ul className="grid gap-3 font-hand text-lg">
             {BUDGET_TIPS.map(t => <li key={t}>• {t}</li>)}
           </ul>
-          <p className="mt-4">רוצים מספרים? ב<Link to="/calculator/birthday-cost" className="font-bold underline">מחשבון עלות המסיבה</Link> אפשר להעריך את העלות לפי מספר האורחים.</p>
+          <p className="mt-4">רוצים מספרים? ב<Link to="/calculator" className="font-bold underline">מחשבון עלות המסיבה</Link> אפשר להעריך את העלות לפי מספר האורחים.</p>
         </div>
       </section>
 

@@ -26,3 +26,6 @@ public/routes.json
 __pycache__/
 public/known-paths.json
 out/
+
+# Python wheels downloaded for local tooling — never part of the site
+*.whl

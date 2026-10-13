@@ -365,9 +365,7 @@ const PAGES = [
   { to: '/music/songs/happy-birthday', title: 'שירי יום הולדת', emoji: '🎵', kind: 'idea', keys: 'שיר שירים' },
   { to: '/compare/home-vs-venue', title: 'יום הולדת בבית או באולם?', emoji: '⚖️', kind: 'idea', keys: 'השוואה אולם בית' },
   { to: '/compare/entertainer-vs-diy', title: 'מפעיל או לבד?', emoji: '⚖️', kind: 'idea', keys: 'השוואה מפעיל' },
-  { to: '/calculator/how-many-pizzas', title: 'כמה פיצות להזמין', emoji: '🍕', kind: 'tool', keys: 'פיצה פיצות מחשבון' },
-  { to: '/calculator/how-many-drinks', title: 'כמה שתייה צריך', emoji: '🥤', kind: 'tool', keys: 'שתייה מחשבון' },
-  { to: '/calculator/birthday-cost', title: 'כמה עולה יום הולדת', emoji: '💰', kind: 'tool', keys: 'עלות תקציב מחשבון' },
+  { to: '/calculator', title: 'מחשבון מסיבה — כמה אוכל, שתייה ותקציב', emoji: '🍕', kind: 'tool', keys: 'פיצה פיצות כמה פיצות להזמין שתייה כמה שתייה צריך עלות תקציב כמה עולה יום הולדת מחשבון' }, // one page: the old per-calculator URLs redirect here
   { to: '/classroom/quiz', title: 'מבחן אמריקאי אונליין לכיתה', emoji: '📝', kind: 'tool', keys: 'חידון מבחן בוחן מורה' },
   { to: '/rsvp', title: 'אישור הגעה אונליין בחינם', emoji: '✅', kind: 'tool', desc: 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.', keys: 'אישור הגעה אישורי הגעה אישור הגעה לאירוע אישור הגעה לאירוע חינם אישור הגעה ליום הולדת rsvp מגיעים לא מגיעים הזמנה לאירוע רשימת מוזמנים' },
   { to: '/secret-friend', title: 'גמד וענק — הגרלת שמות אונליין', emoji: '🧙', kind: 'tool', desc: 'כל משתתף מקבל קישור אישי ורק הוא רואה את מי הגריל. גם למשלוח מנות ולחנוכה.', keys: 'גמד וענק גמד ענק הגרלת שמות הגרלה אונליין הגרלה סודית משלוח מנות פורים הגרלת משלוח מנות מתנות חנוכה החלפת מתנות סיקרט סנטה פתקים' },
