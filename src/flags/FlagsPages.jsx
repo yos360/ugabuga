@@ -32,20 +32,29 @@ export function FlagImg({ code, className = '', eager = false, alt }) {
 const norm = s => String(s || '').replace(/[׳'`"״\-־]/g, '').replace(/\s+/g, ' ').trim()
 
 function FlagCard({ c, showContinent }) {
-  return <div className="ln-q flex items-center gap-3">
+  return <Link to={`/flags/${c.code}`} className="ln-q flex items-center gap-3 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2">
     <FlagImg code={c.code} className="h-12 w-16 shrink-0" />
     <div className="min-w-0">
       <b className="block leading-tight">{c.name}</b>
+      {c.code === 'af' && <span className="text-xs">דגל הרפובליקה לשעבר</span>}
       <div className="text-sm">בירה: <b>{c.capital}</b></div>
       {showContinent && <div className="text-xs text-[var(--muted-foreground)]">{CONTINENT_BY_SLUG[c.continent].name}</div>}
     </div>
-  </div>
+  </Link>
 }
 
 function FlagGrid({ list, showContinent }) {
-  return <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label="רשימת מדינות ודגלים">
-    {list.map(c => <li key={c.code}><FlagCard c={c} showContinent={showContinent} /></li>)}
-  </ul>
+  const [page, setPage] = useState(0)
+  const pages = Math.ceil(list.length / 24)
+  return <>
+    <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label="רשימת מדינות ודגלים">
+      {list.slice(page * 24, (page + 1) * 24).map(c => <li key={c.code}><FlagCard c={c} showContinent={showContinent} /></li>)}
+    </ul>
+    {pages > 1 && <nav aria-label="עמודי רשימת המדינות" className="flex flex-wrap items-center justify-center gap-2 mt-4">
+      {Array.from({ length: pages }, (_, i) => <button type="button" key={i} className="ln-chip" aria-pressed={page === i} aria-current={page === i ? 'page' : undefined} aria-label={`עמוד ${i + 1}`} onClick={() => setPage(i)}>{i + 1}</button>)}
+      <span className="text-sm" aria-live="polite">עמוד {page + 1} מתוך {pages}</span>
+    </nav>}
+  </>
 }
 
 const MoreLinks = ({ current }) => <nav aria-label="עוד באזור הדגלים" className="mt-8 flex flex-wrap justify-center gap-2">
@@ -86,8 +95,8 @@ export function FlagsHub() {
         <Chip on={sort === 'continent'} onClick={() => setSort('continent')}>לפי יבשת</Chip>
       </div>
     </div>
-    <p className="mb-3 font-bold" aria-live="polite">{list.length ? (list.length === 1 ? 'נמצאה מדינה אחת' : `מוצגות ${list.length} מדינות`) : 'לא מצאנו מדינה בשם הזה. נסו לכתוב חלק מהשם.'}</p>
-    <FlagGrid list={list} showContinent={cont === 'all'} />
+    <p className="mb-3 font-bold" aria-live="polite">{list.length ? (list.length === 1 ? 'נמצאה מדינה אחת' : `נמצאו ${list.length} מדינות`) : 'לא מצאנו מדינה בשם הזה. נסו לכתוב חלק מהשם.'}</p>
+    <FlagGrid key={`${q}|${cont}|${sort}`} list={list} showContinent={cont === 'all'} />
 
     <h2 className="mt-12 mb-3 text-3xl font-black text-center">דגלי העולם לפי יבשות</h2>
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -120,7 +129,7 @@ export function FlagsContinent() {
       <Link to={`/flags/quiz?continent=${c.slug}`} className="ln-btn go">🎯 חידון דגלי {c.name}</Link>
       <Link to={`/flags/print?continent=${c.slug}`} className="ln-btn alt">🖨️ כרטיסיות להדפסה</Link>
     </div>
-    <FlagGrid list={list} />
+    <FlagGrid key={continent} list={list} />
     {copy.tips && <div className="ln-box mt-8"><h2 className="text-2xl font-black">איך מבדילים בין דגלים דומים</h2><ul className="mt-2 list-disc space-y-1 pr-5">{copy.tips.map(t => <li key={t}>{t}</li>)}</ul></div>}
     <h2 className="mt-10 mb-3 text-2xl font-black text-center">דגלים של יבשות אחרות</h2>
     <nav aria-label="יבשות אחרות" className="flex flex-wrap justify-center gap-2">{CONTINENTS.filter(x => x.slug !== c.slug).map(x => <Link key={x.slug} to={`/flags/continents/${x.slug}`} className="ln-chip">{x.emoji} דגלי {x.name}</Link>)}</nav>
@@ -222,7 +231,7 @@ function CardsSheet({ list, names, title }) {
   </Sheet>
 }
 
-function ColoringFlag({ f, x, y, w, h, filled }) {
+export function ColoringFlag({ f, x, y, w, h, filled }) {
   const regions = flagRegions(f, w, h)
   const used = [...new Set(f.colors)]
   return <g transform={`translate(${x} ${y})`}>

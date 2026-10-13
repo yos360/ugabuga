@@ -167,6 +167,7 @@ const FlagsHub = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m
 const FlagsQuiz = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsQuiz })))
 const FlagsContinent = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsContinent })))
 const FlagsPrint = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsPrint })))
+const CountryFlagPage = lazy(() => import('./flags/CountryFlagPage'))
 const FoodHub = lazy(() => import('./family/FoodPages').then(m => ({ default: m.FoodHub })))
 const SchoolLunch = lazy(() => import('./family/FoodPages').then(m => ({ default: m.SchoolLunch })))
 const LunchPlanner = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchPlanner })))
@@ -570,6 +571,7 @@ export default function App() {
               <Route path="/flags/quiz" element={<FlagsQuiz />} />
               <Route path="/flags/print" element={<FlagsPrint />} />
               <Route path="/flags/continents/:continent" element={<FlagsContinent />} />
+              <Route path="/flags/:code" element={<CountryFlagPage />} />
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />
