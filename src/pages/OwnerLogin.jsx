@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { OWNER_EMAIL, ownerSupabase, signInOwnerWithPassword, startOwnerEmailLogin } from '../utils/ownerAuth'
+import { isOwnerEmail, rememberedOwnerEmail, rememberOwnerEmail, ownerSupabase, signInOwnerWithPassword, startOwnerEmailLogin } from '../utils/ownerAuth'
 import SEO from '../components/ui/SEO'
 
 export default function OwnerLogin({ children }) {
   const [session, setSession] = useState(undefined)
   const [busy, setBusy] = useState(false)
   const [password, setPassword] = useState('')
+  const [email, setEmail] = useState(rememberedOwnerEmail)
+  // whether the signed-in account is the owner's (async: the address is compared by hash)
+  const [check, setCheck] = useState({ session: undefined, ok: false })
+  const owner = check.session === session ? check.ok : null // null = still checking
   const [showLink, setShowLink] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
@@ -36,6 +40,12 @@ export default function OwnerLogin({ children }) {
     })
     return () => { active = false; subscription.unsubscribe() }
   }, [])
+  useEffect(() => {
+    let live = true
+    const address = session?.user?.email
+    isOwnerEmail(address).then(ok => { if (!live) return; setCheck({ session, ok }); if (ok) rememberOwnerEmail(address) })
+    return () => { live = false }
+  }, [session])
 
   async function signOut() {
     const { error: signOutError } = await ownerSupabase.auth.signOut({ scope: 'local' })
@@ -49,12 +59,12 @@ export default function OwnerLogin({ children }) {
 
   async function loginWithPassword(event) {
     event.preventDefault()
-    if (!password) { setError('הקלידו את הסיסמה.'); return }
+    if (!email.trim() || !password) { setError('הקלידו מייל וסיסמה.'); return }
     setBusy(true)
     setError('')
     try {
       if (session) await signOut()
-      await signInOwnerWithPassword(password)
+      await signInOwnerWithPassword(email, password)
       setPassword('')
     } catch (loginError) {
       setError(friendly(loginError))
@@ -68,7 +78,7 @@ export default function OwnerLogin({ children }) {
     setError('')
     try {
       if (session) await signOut()
-      await startOwnerEmailLogin()
+      await startOwnerEmailLogin(email)
       setSent(true)
     } catch (loginError) {
       setError(friendly(loginError))
@@ -77,7 +87,7 @@ export default function OwnerLogin({ children }) {
     }
   }
 
-  if (session?.user?.email?.toLowerCase() === OWNER_EMAIL) {
+  if (session && owner) {
     if (location.pathname === '/admin/mini') return children // the mini widget has no room for the owner menu
     return <>
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 pt-6" dir="rtl">
@@ -97,13 +107,16 @@ export default function OwnerLogin({ children }) {
     <section className="rounded-3xl border-2 border-slate-200 bg-white p-7 text-center shadow-[0_7px_0_#e5e7eb]">
       <p className="font-bold text-violet-600">עוגה בוגה · אזור בעלים</p>
       <h1 className="mt-3 text-3xl font-black">הדוח הפרטי שלך</h1>
-      <p className="mt-3 leading-relaxed text-slate-600">הקלידו את סיסמת הבעלים כדי לראות את הדוח.</p>
-      {session === undefined ? <p className="mt-7" role="status">בודקים את הכניסה…</p> : <>
+      <p className="mt-3 leading-relaxed text-slate-600">הקלידו את המייל והסיסמה של בעל האתר כדי לראות את הדוח.</p>
+      {session === undefined || (session && owner === null) ? <p className="mt-7" role="status">בודקים את הכניסה…</p> : <>
         {session && <p className="mt-5 rounded-xl bg-amber-50 p-3 text-amber-900" role="alert">
           החשבון המחובר אינו חשבון הבעלים. היכנסו עם סיסמת הבעלים.
         </p>}
         <form onSubmit={loginWithPassword} className="mt-7 text-right">
-          <input type="email" name="username" autoComplete="username" value={OWNER_EMAIL} readOnly hidden />
+          <label htmlFor="owner-email" className="mb-2 block font-bold text-slate-700">מייל</label>
+          <input id="owner-email" type="email" name="username" autoComplete="username" value={email}
+            onChange={e => setEmail(e.target.value)} dir="ltr"
+            className="mb-4 min-h-14 w-full rounded-xl border-2 border-slate-300 bg-white px-4 text-lg focus-visible:border-violet-600 focus-visible:outline-none" />
           <label htmlFor="owner-password" className="mb-2 block font-bold text-slate-700">סיסמה</label>
           <input id="owner-password" type="password" autoComplete="current-password" value={password}
             onChange={e => setPassword(e.target.value)} dir="ltr"
@@ -115,7 +128,7 @@ export default function OwnerLogin({ children }) {
         </form>
         {showLink ? <div className="mt-6 border-t border-slate-200 pt-5">
           {sent ? <div className="rounded-xl bg-emerald-50 p-4 text-emerald-900" role="status">
-            <p className="font-bold">✉️ הקישור נשלח למייל של בעל האתר.</p>
+            <p className="font-bold">✉️ הקישור נשלח למייל.</p>
             <p className="mt-1 text-sm">הקישור תקף לשעה. אם לא הגיע, בדקו בתיקיית הספאם.</p>
           </div> : <button type="button" onClick={sendLink} disabled={busy}
             className="min-h-12 w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-2 font-bold text-slate-800 disabled:opacity-60">
