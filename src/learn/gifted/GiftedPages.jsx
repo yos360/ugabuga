@@ -33,12 +33,13 @@ const optionText = (type, opt) => type === 'matrices' ? describeCell(opt) : Stri
 const prompt = type => type === 'verbal' ? 'איזו מילה מתאימה במקום סימן השאלה?' : type === 'series' ? 'מה המספר הבא בסדרה?' : type === 'matrices' ? 'איזו צורה משלימה את המשבצת החסרה?' : null
 
 // ── online quiz: explanation after each answer, score at the end ──
-function Quiz({ pool, count, label }) {
+function Quiz({ pool, count, label, make }) {
   const [run, setRun] = useState(null) // { qs:[{type,item}], i, picks:[] }
-  const start = () => setRun({ qs: shuffle(pool).slice(0, count), i: 0, picks: [] })
+  // `make` builds a brand-new round each time (generated practice); otherwise draw from the fixed pool
+  const start = () => setRun({ qs: make ? make() : shuffle(pool).slice(0, count), i: 0, picks: [] })
   if (!run) return <div className="ln-box text-center space-y-3">
     <p className="text-lg">{label}</p>
-    <button type="button" className="ln-btn go" onClick={start}>▶ מתחילים ({Math.min(count, pool.length)} שאלות)</button>
+    <button type="button" className="ln-btn go" onClick={start}>▶ מתחילים ({make ? count : Math.min(count, pool.length)} שאלות)</button>
   </div>
   const done = run.i >= run.qs.length
   if (done) {
@@ -110,6 +111,8 @@ const TIPS = [
   ['🚫', 'בלי לשנן', 'אין טעם לשנן תשובות — במבחן יהיו שאלות אחרות. המטרה היא להכיר את סוגי השאלות ולהרגיש בנוח איתן.'],
   ['💛', 'התוצאה היא לא הילד', 'מבחן הוא תמונה של יום אחד. כדאי להגיד את זה לילד לפני המבחן — ולזכור את זה גם אחריו.'],
 ]
+export { Quiz, Stem, OptionBody, MixedPrint, prompt, LETTERS, HUB, HUB_CRUMB }
+
 export function GiftedHub() {
   const pool = useMemo(() => TYPES.flatMap(t => t.items.map(item => ({ type: t.key, item }))), [])
   return <Page>
@@ -120,6 +123,11 @@ export function GiftedHub() {
     <p className="gt-note">התרגול באתר נכתב במיוחד לעוגה בוגה. הוא <b>אינו</b> המבחן הרשמי, אינו קשור למשרד החינוך, והשאלות אינן לקוחות ממבחנים אמיתיים.</p>
     <div className="grid gap-5 sm:grid-cols-2 mt-6">{TYPES.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-5 text-right">
       <div className="text-4xl mb-2" aria-hidden="true">{t.emoji}</div><h2 className="text-2xl font-bold">{t.title}</h2><p className="text-[var(--muted-foreground)]">{t.how}</p><small className="font-bold">30 שאלות · אונליין ולהדפסה</small></Link>)}</div>
+    <div className="mt-6 grid gap-3 sm:grid-cols-3">
+      <Link to={`${HUB}/practice`} className="ln-box card-lift text-right"><b className="text-xl">♾️ תרגול בלי סוף</b><br /><small>שאלות חדשות בכל סבב, לפי כיתה ותחום</small></Link>
+      <Link to={`${HUB}/simulation`} className="ln-box card-lift text-right"><b className="text-xl">⏱️ מבחן לדוגמה</b><br /><small>שלושה פרקים עם שעון וציון</small></Link>
+      <Link to="/learn/psychometric-kids" className="ln-box card-lift text-right"><b className="text-xl">🎓 פסיכומטרי לילדים</b><br /><small>שלושת סוגי החשיבה לפי גיל</small></Link>
+    </div>
     <h2 className="mt-10 mb-3 text-3xl font-black">תרגול לפי כיתה ולפי שלב</h2>
     <p className="mb-3 text-lg">כל עמוד כולל הסבר קצר על המבחן באותו שלב, ושאלות ברמת הקושי שמתאימה לו:</p>
     <div className="grid gap-3 sm:grid-cols-2">{GRADE_SETS.map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{x.emoji} {x.slug === 'stage-b' ? 'מבחן מחוננים שלב ב׳' : `מבחני מחוננים ${x.label}`}</b><br /><small>{x.pool.length} שאלות · רמה: {x.levels.map(l => LEVELS[l]).join(' ו')}</small></Link>)}</div>

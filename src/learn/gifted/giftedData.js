@@ -157,4 +157,7 @@ export const TYPES = [
     how: 'קוראים לאט, מסמנים מה ידוע, ובודקים כל תשובה מול הנתונים.' },
 ]
 export const LEVELS = { 1: 'קל', 2: 'בינוני', 3: 'מאתגר', 4: 'מתקדם' }
-export const explain = (type, item) => type === 'series' ? seriesExplain(item) : type === 'matrices' ? matrixExplain(item) : item.exp
+// Math like "3×4=12" inside Hebrew text is reordered by the browser ("4=12×3"); isolating each
+// expression as left-to-right keeps it readable.
+export const isoMath = t => String(t).replace(/\d[\d\s×÷+\-−=:]*\d/g, m => (/[×÷+\-−=]/.test(m) ? `\u2066${m}\u2069` : m))
+export const explain = (type, item) => isoMath(type === 'series' ? seriesExplain(item) : type === 'matrices' ? matrixExplain(item) : item.exp)

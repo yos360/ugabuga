@@ -119,6 +119,7 @@ export const MENU_DOMAINS = [
           { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
           { to: '/logic-puzzles', label: 'תשבצי היגיון', icon: '🧠' },
           { to: '/learn/gifted-test', label: 'הכנה למבחן מחוננים', icon: '💡' },
+          { to: '/learn/psychometric-kids', label: 'פסיכומטרי לילדים', icon: '🎓' },
         ],
       },
       {

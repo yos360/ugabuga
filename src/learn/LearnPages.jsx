@@ -43,6 +43,7 @@ const LEARN_DESC = {
   '/printables/math-worksheets': 'חיבור, חיסור וכפל — להדפסה עם תשובות',
   '/printables/color-by-answer': 'פותרים תרגיל — וצובעים לפי התשובה',
   '/learn/gifted-test': 'אנלוגיות, סדרות, מטריצות וחשיבה',
+  '/learn/psychometric-kids': 'חשיבה מילולית, כמותית וצורנית לפי גיל',
   '/learn/dictation': 'הורה מקריא או הקראה קולית — עם בדיקה',
   '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳`,
   '/learn/flashcards': 'אנגלית, הפכים, לוח הכפל — או משלכם',
