@@ -261,6 +261,7 @@ const LogicLevelPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages'
 const LogicPrintPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicPrintPage })))
 const LogicSolutionsPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicSolutionsPage })))
 const ColoringSubject = lazy(() => import('./pages/printables/ColoringSubject'))
+const ColoringDrawing = lazy(() => import('./pages/printables/ColoringDrawing'))
 const ColorByNumberHub = lazy(() => import('./pages/printables/ColorByNumber'))
 const ColorByNumberPicture = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberPicture })))
 const ColorByAnswerHub = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByAnswerHub })))
@@ -454,6 +455,7 @@ export default function App() {
               <Route path="/printables/photo-props" element={<PhotoProps />} />
               <Route path="/printables/coloring" element={<ColoringPages />} />
               <Route path="/printables/coloring/:subject" element={<ColoringSubject />} />
+              <Route path="/printables/coloring/:subject/:n" element={<ColoringDrawing />} />
               <Route path="/printables/color-by-number" element={<ColorByNumberHub />} />
               <Route path="/printables/color-by-number/:slug" element={<ColorByNumberPicture />} />
               <Route path="/printables/color-by-answer" element={<ColorByAnswerHub />} />
