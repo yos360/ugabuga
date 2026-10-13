@@ -169,6 +169,8 @@ async function fastRender(sheet, scale) {
   return canvas
 }
 
+const IN_APP = /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|Snapchat|TikTok|musical_ly|; wv\)/i
+
 // Slice a tall canvas (a flowing text sheet) into A4-proportioned pieces.
 function sliceCanvas(canvas) {
   const pageH = Math.round(canvas.width * A4_H / A4_W)
@@ -214,10 +216,22 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
   }
   const blob = new Blob([buildPdf(images)], { type: 'application/pdf' })
   const name = (filename || 'ugabuga').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 60) + '.pdf'
+  // Remember where the file was made: a blob link that later loses its "blob:" prefix lands on
+  // ugabuga.co.il/<uuid>, and the 404 page sends the visitor back here (see NotFound.jsx).
+  try { localStorage.setItem('buga-last-pdf', JSON.stringify({ path: location.pathname + location.search, title: filename || '', at: Date.now() })) } catch { /* ignore */ }
+  // In-app browsers (WhatsApp, Facebook, Instagram…) ignore `download` and open the blob URL itself,
+  // which breaks once it is revoked — hand them the file through the share sheet instead.
+  if (IN_APP.test(navigator.userAgent || '')) {
+    try {
+      const file = new File([blob], name, { type: 'application/pdf' })
+      if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: name }); return 'shared' }
+    } catch (e) { if (e?.name === 'AbortError') return 'shared' }
+  }
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url; a.download = name
   document.body.appendChild(a); a.click(); a.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 30000)
+  // generous: where the PDF opens in a tab instead of downloading, the tab must keep working
+  setTimeout(() => URL.revokeObjectURL(url), 10 * 60000)
   return 'downloaded'
 }

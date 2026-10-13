@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import WobblyCard from '../components/ui/WobblyCard'
 import WobblyButton from '../components/ui/WobblyButton'
 import SEO from '../components/ui/SEO'
@@ -14,7 +14,38 @@ const QUICK_LINKS = [
   { to: '/printables', label: '🖨️ דפים להדפסה' },
 ]
 
+// ugabuga.co.il/<uuid> is a "blob:" link to a PDF made in the browser (הורדה כ-PDF) that lost its
+// prefix or expired — the file was never on the server. Send the visitor back to make it again.
+const BLOB_ID = /^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/?$/i
+function lastPdf() {
+  try { const v = JSON.parse(localStorage.getItem('buga-last-pdf') || 'null'); return v && Date.now() - v.at < 7 * 864e5 && v.path?.startsWith('/') ? v : null } catch { return null }
+}
+
+function ExpiredFile() {
+  const last = lastPdf()
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-14 text-center">
+      <SEO title="הקובץ כבר לא זמין" description="קישור זמני לקובץ PDF שנוצר בדפדפן." noindex />
+      <WobblyCard hover={false} padding="p-8">
+        <div className="text-6xl mb-3">📄</div>
+        <h1 className="text-3xl sm:text-4xl mb-3">הקובץ כבר לא זמין בקישור הזה</h1>
+        <p className="mx-auto max-w-xl text-lg text-[var(--ink)]/75 mb-6">
+          זה היה קישור זמני לקובץ PDF שנוצר אצלכם בדפדפן — הקובץ עצמו לא נשמר באתר. חוזרים לדף, לוחצים שוב על "⬇️ הורדה כ-PDF", ושומרים את הקובץ בטלפון או במחשב.
+          {' '}אם פתחתם את האתר מתוך וואטסאפ או פייסבוק, כדאי לפתוח אותו בכרום או בספארי (⋮ ← "פתיחה בדפדפן").
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          {last && <Link to={last.path}><WobblyButton>↩️ חזרה ל{last.title ? `"${last.title}"` : 'דף שממנו הורדתם'}</WobblyButton></Link>}
+          <Link to="/printables"><WobblyButton variant={last ? 'outline' : undefined}>🖨️ דפים להדפסה</WobblyButton></Link>
+          <Link to="/"><WobblyButton variant="outline">לדף הבית</WobblyButton></Link>
+        </div>
+      </WobblyCard>
+    </div>
+  )
+}
+
 export default function NotFound() {
+  const { pathname } = useLocation()
+  if (BLOB_ID.test(pathname)) return <ExpiredFile />
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 text-center">
       <SEO title="הדף לא נמצא" description="העמוד שחיפשתם לא נמצא. חזרו למשחקים, לפעילויות ולדפי ההדפסה של עוגה בוגה." noindex />
