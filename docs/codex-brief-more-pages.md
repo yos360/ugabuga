@@ -4,7 +4,8 @@ Repository: `yos360/ugabuga` (branch `main`). Hebrew kids' site (React 19 + Vite
 Read `CLAUDE.md` first and follow it. Answer the owner in Hebrew; code comments and commit messages may be in English.
 
 ## Rules (must follow)
-- Before every push: `npx vite build` passes, `npx oxlint` has **0 errors**, and `node --test tests/*.mjs` passes. Push directly to `main`.
+- Before every commit: `npm ci` (once), then `npx vite build` passes, `npx oxlint` has **0 errors**, and `node --test tests/*.mjs` passes. When working in Codex, deliver each step as its own Pull Request (one PR per step) — the owner merges it into `main`.
+- The full `npm run build` also prerenders every page with Chromium (slow); in Codex it is enough to run `npx vite build`. If Chromium is not available, skip browser checks and say so in the PR.
 - Write code like the surrounding code (same helpers, naming, comment density). Reuse existing components: `SEO` (`src/components/ui/SEO.jsx`), `SeoBody` + `faqSchema`, `Breadcrumbs`, `PrintPreview` (print + PDF), `PrintableShell`.
 - Every new page must be **genuinely useful on its own** (something to print, play or learn that no other page has), with a unique `<h1>`, title, description (≤165 chars) and 2–3 paragraphs + FAQ written for *that* page. Google penalises the whole site for mass, near-duplicate thin pages — if a page would only differ by one word, don't create it.
 - Do **not** add thousands of links to the main menu (`src/data/siteMenu.js`) or render one huge list on a hub page: hubs show groups and link to sub-pages; long lists are paginated or split by category.
