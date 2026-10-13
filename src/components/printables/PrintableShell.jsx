@@ -47,13 +47,13 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
 
 const sheets = list => list.map(p => <article className="buga-a4" key={p.key}><div className="print-art">{p.svg}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false }) {
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
   const many = pages.length > 1
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-      <SEO title={seoTitle} description={description} path={path} structuredData={faqSchema(faq)} />
+      <SEO title={seoTitle} description={description} image={image} path={path} structuredData={faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...crumbs, { label: h1 }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{emoji} </span>{h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{sub}</p>

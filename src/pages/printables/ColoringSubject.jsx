@@ -5,7 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
-import { COLORING_SUBJECTS, coloringSrc, coloringFmt } from '../../data/coloringSubjects'
+import { COLORING_SUBJECTS, coloringSrc, coloringFmt, coloringDrawingPath } from '../../data/coloringSubjects'
 
 // Subject grid for the coloring hub: one card per subject, linking to its own page.
 export function ColoringSubjectsGrid({ exclude, title = 'דפי צביעה לפי נושא' }) {
@@ -27,7 +27,7 @@ export default function ColoringSubject() {
   if (!s) return <NotFound />
   const all = s.items.map((_, i) => i + 1)
   const faq = [
-    { q: `איך מדפיסים את דפי הצביעה של ${s.name}?`, a: 'לוחצים על ציור כדי להדפיס רק אותו, או על "הדפסת כל הדפים" כדי לקבל את כולם — כל ציור על דף A4 מלא. בטלפון אפשר ללחוץ "הורדה כ-PDF" ולהדפיס אחר כך.' },
+    { q: `איך מדפיסים את דפי הצביעה של ${s.name}?`, a: 'לוחצים על ציור כדי לפתוח את הדף שלו, או על כפתור "הדפסה" שמתחתיו להדפסה מהירה. "הדפסת כל הדפים" פותחת את כולם — כל ציור על דף A4. בתצוגת ההדפסה אפשר גם להוריד PDF.' },
     { q: 'הדפים בחינם?', a: 'כן, כל דפי הצביעה באתר חינמיים לשימוש אישי, בבית, בגן ובכיתה — בלי הרשמה.' },
     { q: 'הציור יוצא חד בהדפסה?', a: 'כן. הקווים שחורים ונקיים, בלי טשטוש ובלי רקע אפור, והציור ממלא דף A4 שלם.' },
   ]
@@ -42,10 +42,10 @@ export default function ColoringSubject() {
     </header>
     <section className="no-print mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">{s.items.map((alt, i) =>
       <figure key={alt} className="group rounded-3xl border-2 border-slate-200 bg-white p-3 shadow-sm">
-        <button type="button" onClick={() => setPrinting([i + 1])} className="block w-full" aria-label={`הדפסה: ${alt}`}>
+        <Link to={coloringDrawingPath(s.slug, i + 1)} className="block w-full" aria-label={`דף צביעה: ${alt}`}>
           <img src={coloringSrc(s.slug, i + 1, 'webp')} alt={`דף צביעה: ${alt}`} loading={i < 3 ? 'eager' : 'lazy'} width="400" height="400" className="aspect-square w-full object-contain" />
-        </button>
-        <figcaption className="mt-2 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between"><b className="text-right leading-snug">{alt}</b>
+        </Link>
+        <figcaption className="mt-2 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between"><Link to={coloringDrawingPath(s.slug, i + 1)} className="text-right font-bold leading-snug hover:underline">{alt}</Link>
           <button type="button" onClick={() => setPrinting([i + 1])} className="shrink-0 rounded-xl bg-pink-100 px-3 py-2 text-sm font-bold">🖨️ הדפסה</button></figcaption>
       </figure>)}</section>
     {printing && <PrintPreview title={printing.length === 1 ? s.items[printing[0] - 1] : `${s.h1} — ${printing.length} דפים`} onClose={() => setPrinting(null)}>
