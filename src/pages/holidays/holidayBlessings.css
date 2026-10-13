@@ -42,6 +42,8 @@
 .hb-print h2{font-size:22pt;text-align:center;margin:0 0 2px}
 .hb-print h3{font-size:15pt;margin:12px 0 4px;border-bottom:1px solid #999}
 .hb-print-sub{text-align:center;font-size:11pt;color:#555;margin:0 0 8px}
+.hb-print-intro{font-size:12pt;line-height:1.6;margin:0 0 6px}
+.hb-print li{margin-bottom:4px;line-height:1.5}
 .hb-print-bless{margin-bottom:8px}
 .hb-print-title{margin:0;font-size:11pt}
 .hb-print-text{font-size:14pt;line-height:1.75}

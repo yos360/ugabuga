@@ -195,6 +195,12 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
   host.setAttribute('aria-hidden', 'true')
   host.style.cssText = `position:fixed;left:-${PAGE_PX * 2}px;top:0;width:${PAGE_PX}px;direction:rtl;background:#fff;z-index:-1`
   document.body.appendChild(host)
+  // html2canvas finds each font's baseline with a tiny inline GIF in the page itself; Tailwind's
+  // "img { display: block }" breaks that measurement and every line of text came out several pixels
+  // too low (headings' underlines crossed the words). Keep that probe inline while we capture.
+  const probeFix = document.createElement('style')
+  probeFix.textContent = 'img[src^="data:image/gif"]{display:inline!important;vertical-align:baseline!important}'
+  document.head.appendChild(probeFix)
   const images = []
   try {
     for (let i = 0; i < sheets.length; i++) {
@@ -213,6 +219,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
     }
   } finally {
     host.remove()
+    probeFix.remove()
   }
   const blob = new Blob([buildPdf(images)], { type: 'application/pdf' })
   const name = (filename || 'ugabuga').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 60) + '.pdf'

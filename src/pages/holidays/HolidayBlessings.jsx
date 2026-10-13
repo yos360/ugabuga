@@ -69,6 +69,11 @@ function PrintSheet({ h, onClose }) {
     <article className="buga-flow hb-print" dir="rtl">
       <h2>{h.emoji} דף ברכות ל{h.name}</h2>
       <p className="hb-print-sub">{h.when}</p>
+      {h.intro && <p className="hb-print-intro">{h.intro}</p>}
+      {h.about?.length > 0 && <>
+        <h3>מה מציינים ואיך חוגגים</h3>
+        <ul>{h.about.map(s => <li key={s.name}><b>{s.name}</b> — {s.desc}</li>)}</ul>
+      </>}
       {h.blessings.length > 0 && <>
         <h3>ברכות</h3>
         {h.blessings.map(b => <div key={b.id} className="hb-print-bless">
@@ -84,6 +89,10 @@ function PrintSheet({ h, onClose }) {
       {h.tanakh.length > 0 && <>
         <h3>מה קוראים בתנ״ך</h3>
         <ul>{h.tanakh.map(r => <li key={r.title + r.refs[0]}><b>{r.title}:</b> {r.whole ? 'כל המגילה' : r.refs.map(heRef).join('; ')}</li>)}</ul>
+      </>}
+      {h.safety?.length > 0 && <>
+        <h3>🧯 בטיחות</h3>
+        <ul>{h.safety.map(s => <li key={s}>{s}</li>)}</ul>
       </>}
       {h.verse && <p className="hb-print-verse">״{h.verse.text}״ ({heRef(h.verse.ref)})</p>}
     </article>
@@ -126,6 +135,16 @@ function HolidayPage({ h }) {
       <p className="hb-sub">התפילות המיוחדות של {h.name} — בקצרה, כדי לדעת מה קורה בבית הכנסת.</p>
       <ul className="hb-list">{h.siddur.map(s => <SiddurItem key={s.name} s={s} />)}</ul>
       {h.textsNote && <p className="hb-note mt-3">{h.textsNote}</p>}
+    </section>}
+
+    {h.about?.length > 0 && <section id="about" className="hb-section scroll-mt-24" aria-labelledby="about-title">
+      <h2 id="about-title">🎉 מה מציינים ואיך חוגגים</h2>
+      <ul className="hb-list">{h.about.map(s => <SiddurItem key={s.name} s={s} />)}</ul>
+    </section>}
+
+    {h.safety?.length > 0 && <section id="safety" className="hb-section scroll-mt-24" aria-labelledby="safety-title">
+      <h2 id="safety-title">🧯 בטיחות</h2>
+      <ul className="hb-list">{h.safety.map(t => <li key={t}>{t}</li>)}</ul>
     </section>}
 
     {h.tanakh.length > 0 && <section id="tanakh" className="hb-section scroll-mt-24" aria-labelledby="tanakh-title">
