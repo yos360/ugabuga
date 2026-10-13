@@ -4,7 +4,8 @@ import SiteSearchBox from '../components/ui/SiteSearchBox'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useGames } from '../hooks/useGames'
-import { KINDS, gameItem, searchItems } from '../data/searchIndex'
+import { KINDS, byPopularity, gameItem, rankWords, searchItems } from '../data/searchIndex'
+import { loadPagePopularity } from '../utils/pagePopularity'
 import { STATIC_ITEMS } from '../data/searchStatic'
 
 const SUGGESTIONS = ['מבוך', 'יום הולדת', 'צביעה', 'כיתה א', 'בינגו', 'חדר בריחה', 'אותיות', 'מתנות', 'טריוויה']
@@ -18,11 +19,15 @@ export default function Search() {
   useEffect(() => setInput(q), [q])
   const { games } = useGames()
   const items = useMemo(() => [...STATIC_ITEMS, ...games.map(gameItem)], [games])
-  const results = useMemo(() => searchItems(items, q), [items, q])
+  const [pop, setPop] = useState(null)
+  useEffect(() => { let alive = true; loadPagePopularity().then(m => { if (alive) setPop(m) }); return () => { alive = false } }, [])
+  const results = useMemo(() => byPopularity(searchItems(items, q), pop), [items, q, pop])
+  const suggestions = useMemo(() => rankWords(SUGGESTIONS, items, pop), [items, pop])
   const groups = useMemo(() => {
     const by = {}
     for (const r of results) (by[r.kind] ||= []).push(r)
-    return Object.entries(by).sort((a, b) => b[1][0].score - a[1][0].score || KINDS[a[0]].order - KINDS[b[0]].order)
+    const top = list => Math.max(...list.map(r => r.score)) // results are ordered by popularity, so not always [0]
+    return Object.entries(by).sort((a, b) => top(b[1]) - top(a[1]) || KINDS[a[0]].order - KINDS[b[0]].order)
   }, [results])
 
   const run = (v, replace = false) => { v = v.trim(); if (v !== q) setParams(v ? { q: v } : {}, { replace }) }
@@ -37,7 +42,7 @@ export default function Search() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חיפוש' }]} />
       <h1 className="text-4xl sm:text-5xl mb-4">🔎 חיפוש באתר</h1>
       <SiteSearchBox className="site-search-form" value={input} onChange={setInput} onSearch={v => run(v)} placeholder="מה מחפשים? משחק, דף להדפסה, כלי…" autoFocus />
-      {!q && <div className="site-search-sugg"><span>אפשר לנסות:</span>{SUGGESTIONS.map(s => <button key={s} type="button" onClick={() => navigate('/search?q=' + encodeURIComponent(s))}>{s}</button>)}</div>}
+      {!q && <div className="site-search-sugg"><span>אפשר לנסות:</span>{suggestions.map(s => <button key={s} type="button" onClick={() => navigate('/search?q=' + encodeURIComponent(s))}>{s}</button>)}</div>}
       {q && <p className="site-search-count" role="status">{results.length ? `נמצאו ${results.length} תוצאות ל"${q}"` : `לא נמצאו תוצאות ל"${q}". נסו מילה אחרת או קצרה יותר.`}</p>}
       {groups.map(([kind, list]) => (
         <section key={kind} className="site-search-group">

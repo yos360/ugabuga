@@ -7,6 +7,7 @@ import PrintPreview from '../components/ui/PrintPreview'
 import SpeakButton from '../components/ui/SpeakButton'
 import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
+import { usePresentMode } from '../utils/presentMode'
 import { DICTATION, READING, plainWord } from './learnData'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import { MENU_DOMAINS } from '../data/siteMenu'
@@ -201,6 +202,8 @@ function ReadingExercise({ r, headingLevel = 2 }) {
   const [big, setBig] = useState(false)
   const [showAns, setShowAns] = useState(false)
   const [printing, setPrinting] = useState(false)
+  const [shown, setShown] = useState({}) // projection: answers the teacher revealed, one question at a time
+  const { on: teacher } = usePresentMode()
   const opens = opensOf(r)
   const score = r.q.filter((q, i) => picks[i] === q[2]).length
   const H = headingLevel === 2 ? 'h2' : 'h3'
@@ -210,9 +213,10 @@ function ReadingExercise({ r, headingLevel = 2 }) {
     <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
     <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
-        className={`ln-opt ${checked && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}</div>)}
+        className={`ln-opt ${(checked || shown[i]) && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}
+      {teacher && !checked && <button type="button" className="ln-chip mt-2" onClick={() => setShown(s => ({ ...s, [i]: !s[i] }))}>{shown[i] ? '🙈 הסתרת התשובה' : '👁️ חשיפת התשובה'}</button>}</div>)}
       {opens.map(([q, a], k) => <div key={q} className="ln-q"><b>{r.q.length + k + 1}. {q}</b><textarea className="ln-ta mt-2" aria-label={`תשובה פתוחה ${k + 1}`} placeholder="כותבים כאן או בדף" />
-        {a && showAns && <p className="mt-2 rounded-xl bg-[#e7f8e4] p-2"><b>תשובה אפשרית:</b> {a}</p>}</div>)}
+        {a && (showAns || teacher) && <p className="mt-2 rounded-xl bg-[#e7f8e4] p-2"><b>תשובה אפשרית:</b> <span data-answer>{a}</span></p>}</div>)}
     </div>
     <div className="mt-5 text-center">{checked
       ? <><p className="text-2xl font-black" role="status">{score} מתוך {r.q.length} בשאלות הסגורות {score === r.q.length ? '🌟' : ''}</p>

@@ -212,37 +212,3 @@ export function Concepts() {
     <div className="mt-10"><SeoBody paragraphs={['מושגים במוזיקה נשמעים מסובכים, אבל כשהם מתנגנים מול האוזניים — הם פשוטים. בכל מושג כאן יש הסבר של שניים-שלושה משפטים וכפתור שמנגן הדגמה, והקלידים בפסנתר נדלקים כדי לראות בדיוק מה מתנגן.', 'המושגים מסודרים מהבסיס: תו ואוקטבה, סולמות ואקורדים, ואחר כך קצב, משקל ודינמיקה. זה מתאים לשיעור מוזיקה בכיתה, להכנה לשיעור נגינה, או סתם לסקרנים.']} faq={faq} related={[{ label: 'סגנונות מוזיקה', href: '/music/styles' }, { label: 'קריאת תווים', href: '/music/read-notes' }]} /></div>
   </div>
 }
-
-// ── /music/styles ───────────────────────────────
-const BLUES = 'C3+E4+G4+Bb4/2 C3+E4+G4+Bb4/2 C3+E4+G4+Bb4/2 C3+E4+G4+Bb4/2 F3+F4+A4+Eb5/2 F3+F4+A4+Eb5/2 C3+E4+G4+Bb4/2 C3+E4+G4+Bb4/2 G3+F4+B4+D5/2 F3+F4+A4+Eb5/2 C3+E4+G4+Bb4/2 G3+F4+B4+D5/2'
-const STYLES = [
-  ['blues', '🎷', 'בלוז', 'נולד בדרום ארצות הברית בסוף המאה ה-19. בנוי על 12 תיבות שחוזרות, ועל "תווים כחולים" שנשמעים קצת עצובים וקצת מתגרים.', 'מהלך 12 התיבות של הבלוז בדו', seq(BLUES, 1), 120, 'סולם הבלוז', seq('C4 Eb4 F4 F#4 G4 Bb4 C5/2', 0.5)],
-  ['jazz', '🎺', 'ג׳אז', 'יצא מהבלוז בניו אורלינס בתחילת המאה ה-20. אקורדים עשירים עם 4–5 תווים, וחופש לאלתר — כל ביצוע קצת שונה.', 'המהלך הכי מפורסם בג׳אז: II–V–I', seq('D3+F4+A4+C5/2 G3+F4+B4+D5/2 C3+E4+G4+B4/4'), 90, 'אקורד ג׳אזי מול אקורד רגיל', seq('C4+E4+G4/2 C3+E4+G4+B4+D5/2')],
-  ['classical', '🎻', 'קלאסי', 'מוזיקה של מלחינים כמו באך, מוצרט ובטהובן. הרבה פעמים יד שמאל מנגנת ליווי קבוע — למשל "בס אלברטי" — ויד ימין שרה מעליו.', 'בס אלברטי (כמו אצל מוצרט)', seq('C3 G3 E3 G3 C3 G3 E3 G3 B2 G3 D3 G3 C3 G3 E3 G3', 0.5), 110, 'מנגינה מעל הליווי', seq('C3+C5 G3 E3+E5 G3 C3+G5/0.5 G3/0.5 E3/0.5 G3/0.5 B2+F5 G3 D3+D5 G3 C3+C5/2', 0.5)],
-  ['rock', '🎸', 'רוק', 'קצב חזק ונגינה של "פאוור קורדס" — אקורדים של שני תווים בלבד, שנשמעים עוצמתיים במיוחד בגיטרה חשמלית.', 'ריף רוק בפאוור קורדס', seq('E3+B3/0.5 E3+B3/0.5 G3+D4 A3+E4/1.5 E3+B3/0.5 E3+B3/0.5 G3+D4 Bb3+F4/0.5 A3+E4/1.5', 1), 120, 'פאוור קורד מול אקורד מלא', seq('C3+G3/2 C3+E3+G3/2')],
-  ['pop', '🎤', 'פופ', 'רוב שירי הפופ בנויים על ארבעה אקורדים שחוזרים — I–V–vi–IV. בדו: דו, סול, לה מינור, פה. מאות להיטים משתמשים בדיוק במהלך הזה.', 'ארבעת האקורדים של הפופ', seq('C3+C4+E4+G4/2 G2+B3+D4+G4/2 A2+C4+E4+A4/2 F2+C4+F4+A4/2 C3+C4+E4+G4/2 G2+B3+D4+G4/2 A2+C4+E4+A4/2 F2+C4+F4+A4/2'), 100, 'הבס בלבד', seq('C3/2 G2/2 A2/2 F2/2')],
-  ['mizrahi', '🪘', 'מזרחי', 'מוזיקה מהמזרח התיכון ומצפון אפריקה. משתמשת בסולמות אחרים — כמו "חיג׳אז", עם מרווח גדול ומיוחד בין התו השני לשלישי — וקישוטים רבים במנגינה.', 'סולם חיג׳אז מרה', seq('D4 Eb4 F#4 G4 A4 Bb4 C5 D5/2 C5 Bb4 A4 G4 F#4 Eb4 D4/2', 0.5), 110, 'מנגינה קצרה בחיג׳אז', seq('D4/0.5 Eb4/0.5 F#4 G4/0.5 F#4/0.5 Eb4/0.5 D4/0.5 A4 Bb4/0.5 A4/0.5 G4/0.5 F#4/0.5 G4/0.5 F#4/0.5 Eb4/0.5 D4/2')],
-]
-export function Styles() {
-  const sq = useSequencer()
-  const [active, setActive] = useState(null)
-  const faq = [{ q: 'מה ההבדל בין בלוז לג׳אז?', a: 'הבלוז הוא הבסיס — 12 תיבות ושלושה אקורדים. הג׳אז התפתח ממנו עם אקורדים עשירים יותר והרבה אלתור.' }, { q: 'למה כל שירי הפופ נשמעים דומים?', a: 'כי רבים מהם בנויים על אותו מהלך של ארבעה אקורדים (I–V–vi–IV). המנגינה והמילים שונות, אבל השלד זהה.' }]
-  return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="סגנונות מוזיקה לילדים — בלוז, ג׳אז, קלאסי, רוק, פופ ומזרחי" description="מכירים סגנונות מוזיקה ומנגנים אותם: מהלך הבלוז, ה-II–V–I של הג׳אז, בס אלברטי קלאסי, ריף רוק, ארבעת אקורדי הפופ וסולם חיג׳אז מזרחי — עם פסנתר שנדלק." path="/music/styles" structuredData={faqSchema(faq)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, MUSIC_CRUMB, { label: 'סגנונות מוזיקה' }]} />
-    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🎷 </span>סגנונות מוזיקה</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">כל סגנון — הסבר קצר, ומה שמייחד אותו מתנגן בפסנתר</p>
-    <div className="music-card sticky top-2 z-10 mb-6"><Piano from={36} to={84} labels="none" marks={marksOf(sq.lit)} keyboard={false} /></div>
-    <div className="space-y-4">{STYLES.map(([id, e, t, d, l1, s1, bpm, l2, s2]) => <section key={id} id={id} className="music-card">
-      <h2 className="text-2xl font-black"><span aria-hidden="true">{e} </span>{t}</h2>
-      <p className="mt-2 text-lg">{d}</p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" className="music-chip" onClick={() => { setActive(id + 1); sq.play(s1, bpm) }}>{sq.busy && active === id + 1 ? '🔊' : '▶️'} {l1}</button>
-        <button type="button" className="music-chip" onClick={() => { setActive(id + 2); sq.play(s2, bpm) }}>{sq.busy && active === id + 2 ? '🔊' : '▶️'} {l2}</button>
-        {sq.busy && (active === id + 1 || active === id + 2) && <button type="button" className="music-chip" onClick={sq.stop}>⏹️ עצירה</button>}
-      </div>
-    </section>)}</div>
-    <div className="mt-10"><SeoBody paragraphs={['כל סגנון מוזיקה הוא בעצם אוסף של הרגלים: אילו אקורדים בוחרים, איזה קצב, ואילו סולמות. כשמכירים את ההרגלים האלה — מזהים סגנון תוך שניות, ויכולים גם לנגן "בסגנון" בעצמכם.', 'בכל סגנון כאן יש שתי דוגמאות קצרות שמתנגנות בפסנתר, והקלידים נדלקים כדי לראות בדיוק מה מנגנים. אפשר לנסות לנגן אותן אחר כך בפסנתר החופשי.']} faq={faq} related={[{ label: 'מושגים במוזיקה', href: '/music/concepts' }, { label: 'פסנתר אונליין', href: '/music/piano' }, { label: 'אקורדים לגיטרה', href: '/music/guitar-chords' }]} /></div>
-  </div>
-}
-

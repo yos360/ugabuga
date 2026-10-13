@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Search as SearchIcon } from 'lucide-react'
 import { useGames } from '../../hooks/useGames'
 import { KINDS, gameItem, suggest } from '../../data/searchIndex'
+import { loadPagePopularity } from '../../utils/pagePopularity'
 
 // The full static catalog pulls in many content-data modules — load it only
 // once the visitor touches the search box, and share one promise per app.
@@ -20,10 +21,12 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
   const want = () => setWanted(true)
   const { games, loading } = useGames({ enabled: wanted })
   const [staticItems, setStaticItems] = useState([])
+  const [pop, setPop] = useState(null)
   useEffect(() => {
     if (!wanted) return
     let alive = true
     loadStaticItems().then(list => { if (alive) setStaticItems(list) })
+    loadPagePopularity().then(m => { if (alive) setPop(m) })
     return () => { alive = false }
   }, [wanted])
   const items = useMemo(() => [...staticItems, ...games.map(gameItem)], [staticItems, games])
@@ -32,7 +35,7 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
   const wrap = useRef(null)
   const listId = useId()
 
-  const { words, hits } = useMemo(() => suggest(items, value), [items, value])
+  const { words, hits } = useMemo(() => suggest(items, value, { pop }), [items, value, pop])
   const options = [...words.map(w => ({ type: 'word', text: w })), ...hits.map(h => ({ type: 'hit', item: h }))]
   useEffect(() => setActive(-1), [value])
   useEffect(() => {

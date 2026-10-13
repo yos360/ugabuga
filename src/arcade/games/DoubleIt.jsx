@@ -3,6 +3,7 @@ import { SIZE, fresh, move, spawn, canPlay, best as bestTile } from '../logic/me
 import { rng } from '../logic/rng'
 import { useBox, useProgress, useSwipe, useArrowKeys } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx } from '../sfx'
 
 const TILE = {
   2: ['#fff6d6', '#1d2233'], 4: ['#ffe9a8', '#1d2233'], 8: ['#ffc56b', '#1d2233'], 16: ['#ff9f5a', '#1d2233'],
@@ -21,12 +22,15 @@ export default function DoubleIt({ onReport, onShare, daily }) {
   const [pops, setPops] = useState([]) // floating "+8" labels
   const [won, setWon] = useState(false) // 2048 card shown once per game
   const [showWin, setShowWin] = useState(false)
+  const [bump, setBump] = useState(0) // a move that changes nothing shakes the board instead of doing nothing silently
+  const [milestone, setMilestone] = useState(null) // "256! 🎉" when a new biggest tile appears (128 and up)
   const [boxRef, box] = useBox()
   const fieldRef = useRef(null)
   const gameRef = useRef(game)
   const ghostTimer = useRef(0)
+  const milestoneTimer = useRef(0)
   useEffect(() => { gameRef.current = game }, [game])
-  useEffect(() => () => clearTimeout(ghostTimer.current), [])
+  useEffect(() => () => { clearTimeout(ghostTimer.current); clearTimeout(milestoneTimer.current) }, [])
 
   const over = !canPlay(game.tiles)
 
@@ -34,15 +38,23 @@ export default function DoubleIt({ onReport, onShare, daily }) {
     const g = gameRef.current
     if (showWin || !canPlay(g.tiles)) return
     const r = move(g.tiles, dir)
-    if (!r.moved) return
+    if (!r.moved) { sfx('bump'); navigator.vibrate?.(8); setBump(b => b + 1); return }
     const next = { ...g, tiles: spawn(r.tiles, g.rand), score: g.score + r.gained, history: [...g.history.slice(-20), { tiles: g.tiles, score: g.score }] }
     gameRef.current = next
     setGame(next)
     setGhosts(r.ghosts)
     clearTimeout(ghostTimer.current)
     ghostTimer.current = setTimeout(() => setGhosts([]), SLIDE_MS + 20)
-    if (r.gained) setPops(p => [...p.slice(-3), { k: Date.now() + Math.random(), v: r.gained }])
-    if (!won && bestTile(next.tiles) >= 2048) { setWon(true); setShowWin(true) }
+    if (r.gained) setPops([{ k: Date.now() + Math.random(), v: r.gained }]) // one at a time — stacked "+4+8" labels were unreadable
+    const top = bestTile(next.tiles), before = bestTile(g.tiles)
+    if (!won && top >= 2048) { setWon(true); setShowWin(true); sfx('win'); navigator.vibrate?.([30, 40, 30, 40, 60]) }
+    else if (top > before && top >= 128) {
+      sfx('combo'); navigator.vibrate?.([20, 30, 20])
+      setMilestone({ k: Date.now(), v: top }); clearTimeout(milestoneTimer.current)
+      milestoneTimer.current = setTimeout(() => setMilestone(null), 1400)
+    } else if (r.gained) { sfx('merge', Math.max(...r.tiles.filter(t => t.merged).map(t => t.value))); navigator.vibrate?.(10) }
+    else sfx('slide')
+    if (!canPlay(next.tiles)) setTimeout(() => sfx('crash'), SLIDE_MS + 120)
   }
   useSwipe(fieldRef, go)
   useArrowKeys(go)
@@ -75,6 +87,7 @@ export default function DoubleIt({ onReport, onShare, daily }) {
   const gap = Math.round(size * 0.028)
   const cell = (size - gap * (SIZE + 1)) / SIZE
   const pos = (x, y) => `translate(${gap + x * (cell + gap)}px, ${gap + y * (cell + gap)}px)`
+  const free = SIZE * SIZE - game.tiles.length
   const tileStyle = t => {
     const [bg, fg] = TILE[t.value] || ['#1d2233', '#ffd23f']
     const digits = String(t.value).length
@@ -88,7 +101,7 @@ export default function DoubleIt({ onReport, onShare, daily }) {
         <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
       </Hud>
       <div className="arc-field mg-field" ref={el => { boxRef.current = el; fieldRef.current = el }}>
-        <div className="mg-board" style={{ width: size, height: size }} role="application" aria-label="לוח מספרים. החליקו לכל כיוון או השתמשו בחיצי המקלדת">
+        <div key={bump} className={`mg-board${bump ? ' is-bump' : ''}${free <= 1 && !over ? ' is-tight' : ''}`} style={{ width: size, height: size }} role="application" aria-label="לוח מספרים. החליקו לכל כיוון או השתמשו בחיצי המקלדת">
           {Array.from({ length: SIZE * SIZE }, (_, i) => (
             <div key={i} className="mg-cell" style={{ width: cell, height: cell, transform: pos(i % SIZE, Math.floor(i / SIZE)) }} />
           ))}
@@ -96,6 +109,7 @@ export default function DoubleIt({ onReport, onShare, daily }) {
           {[...ghosts.map(t => ({ ...t, ghost: true })), ...game.tiles].map(t => (
             <div key={t.id} className={`mg-tile${t.ghost ? ' is-ghost' : ''}${t.isNew ? ' is-new' : ''}${t.merged ? ' is-merged' : ''}`} style={tileStyle(t)}>{t.value}</div>
           ))}
+          {milestone && <div key={milestone.k} className="mg-milestone" aria-live="polite">{milestone.v}! 🎉</div>}
           {pops.map(p => <span key={p.k} className="mg-pop" onAnimationEnd={() => setPops(ps => ps.filter(x => x.k !== p.k))}>+{p.v}</span>)}
         </div>
         <p className="mg-help" aria-hidden="true">👆 מחליקים לכל כיוון — בכל מקום במסך</p>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 // Used on pages that don't have their own body-copy section yet.
 export default function SeoBody({ paragraphs = [], faq = [], related = [] }) {
   return (
-    <div className="max-w-3xl mt-2">
+    <div className="seo-body max-w-3xl mt-2">
       {paragraphs.length > 0 && (
         <div className="space-y-4 mb-8">
           {paragraphs.map((p, i) => (

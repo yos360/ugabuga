@@ -71,3 +71,34 @@ export function playString(note, { when = 0, velocity = 0.8 } = {}) {
 // Strum: low string to high, a few milliseconds apart.
 export const strum = (notes, gap = 0.035) => notes.forEach((n, i) => playString(n, { when: i * gap }))
 export const playChord = (notes, opts) => notes.forEach(n => playPiano(n, opts))
+
+// Small synth drum kit for grooves: kick, snare, closed hi-hat, ride. `when` is an AudioContext time.
+let noiseBuf = null
+function noise(ac) {
+  if (!noiseBuf) {
+    noiseBuf = ac.createBuffer(1, ac.sampleRate, ac.sampleRate)
+    const d = noiseBuf.getChannelData(0)
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1
+  }
+  const s = ac.createBufferSource(); s.buffer = noiseBuf
+  return s
+}
+export function playDrum(kind, when, velocity = 1) {
+  const ac = audio(); if (!ac) return
+  const t = Math.max(when ?? ac.currentTime, ac.currentTime)
+  const g = ac.createGain(); g.connect(master)
+  if (kind === 'kick') {
+    const o = ac.createOscillator(); o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.18)
+    g.gain.setValueAtTime(0.9 * velocity, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3)
+    o.connect(g); o.start(t); o.stop(t + 0.32)
+    return
+  }
+  const n = noise(ac), f = ac.createBiquadFilter()
+  const hat = kind === 'hat' || kind === 'ride'
+  f.type = hat ? 'highpass' : 'bandpass'; f.frequency.value = hat ? (kind === 'ride' ? 5000 : 7500) : 1800
+  const len = kind === 'ride' ? 0.35 : hat ? 0.05 : 0.16
+  g.gain.setValueAtTime((hat ? (kind === 'ride' ? 0.12 : 0.18) : 0.45) * velocity, t); g.gain.exponentialRampToValueAtTime(0.0001, t + len)
+  n.connect(f); f.connect(g); n.start(t, Math.random() * 0.5); n.stop(t + len + 0.02)
+  if (kind === 'snare') { const o = ac.createOscillator(), og = ac.createGain(); o.frequency.value = 190; og.gain.setValueAtTime(0.25 * velocity, t); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.1); o.connect(og); og.connect(master); o.start(t); o.stop(t + 0.12) }
+}
+export const audioTime = () => audio()?.currentTime ?? 0

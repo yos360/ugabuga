@@ -7,6 +7,7 @@ import PrintPreview from '../components/ui/PrintPreview'
 import SpeakButton from '../components/ui/SpeakButton'
 import { Sheet, T } from '../components/printables/PrintableShell'
 import Flag, { FLAG_CODES } from './Flags'
+import SolarSystemView from './SolarSystemView'
 import { IL_PLACES, IL_OUTLINE, IL_KINNERET, IL_DEADSEA, COUNTRIES, NOT_CAPITALS, CAPITAL_NOTES, PLANETS, SPACE_FACTS, ORGANS, BODY_FACTS } from './discoverData'
 import { SPACE_QUIZ, BODY_QUIZ } from './quizzes'
 import '../learn/learn.css'
@@ -179,7 +180,6 @@ export function CapitalsPage() {
 const SR = PLANETS.map(p => Math.min(9, 1.6 + Math.sqrt(p.d / 142984) * 8.5))
 const SW = SR.map((r, i) => (PLANETS[i].id === 'saturn' ? r * 1.9 : r))
 const SX = SW.reduce((a, w, i) => [...a, i ? a[i - 1] - SW[i - 1] - w - 4 : 162 - w], [])
-const pr = d => 4 + Math.sqrt(d / 142984) * 26 // display radius (not to scale for small planets)
 export function SolarSystem() {
   const [sel, setSel] = useState(PLANETS[2])
   const [printing, setPrinting] = useState(false)
@@ -193,20 +193,8 @@ export function SolarSystem() {
   </Sheet>
   return <Page wide>
     <SEO title="מערכת השמש לילדים — כוכבי הלכת, עובדות וחידון" description="מערכת השמש לילדים: שמונה כוכבי הלכת לפי הסדר — כוכב חמה, נוגה, כדור הארץ, מאדים, צדק, שבתאי, אורנוס ונפטון. לוחצים על כוכב לכת ומגלים עובדות, חידון ודף עבודה להדפסה." path="/discover/solar-system" />
-    <Head emoji="🪐" h1="מערכת השמש" sub="לוחצים על כוכב לכת — ומגלים עליו דברים מפתיעים" crumb="מערכת השמש" />
-    <div className="ln-box overflow-x-auto" style={{ background: '#0f1430' }}>
-      <svg viewBox="0 0 640 120" className="block min-w-[560px] w-full" role="img" aria-label="כוכבי הלכת לפי הסדר מהשמש">
-        <circle cx="660" cy="60" r="70" fill="#ffd23f" />
-        {PLANETS.map((p, i) => { const x = 560 - i * 72, r = pr(p.d); return <g key={p.id} onClick={() => setSel(p)} style={{ cursor: 'pointer' }}>
-          <circle cx={x} cy="55" r="34" fill="transparent" />
-          {p.id === 'saturn' && <ellipse cx={x} cy="55" rx={r * 1.9} ry={r * 0.45} fill="none" stroke="#d8c08a" strokeWidth="3" />}
-          <circle cx={x} cy="55" r={r} fill={p.color} stroke={sel.id === p.id ? '#fff' : 'none'} strokeWidth="2.5" />
-          <text x={x} y="108" fontSize="11" fill={sel.id === p.id ? '#ffd23f' : '#cfd3e0'} textAnchor="middle" fontWeight="700" direction="rtl">{p.name}</text></g> })}
-      </svg>
-    </div>
-    <div className="ln-box mt-4"><h2 className="text-3xl font-black"><span className="inline-block h-6 w-6 rounded-full align-middle" style={{ background: sel.color }} aria-hidden="true" /> {sel.name}</h2>
-      <p className="font-bold text-[var(--muted-foreground)]">מקום {PLANETS.indexOf(sel) + 1} מהשמש · {sel.kind} · קוטר: {sel.d.toLocaleString('he-IL')} ק״מ · שנה אחת: {sel.year}</p>
-      <ul className="text-lg leading-relaxed list-disc pr-5">{sel.facts.map(f => <li key={f}>{f}</li>)}</ul></div>
+    <Head emoji="🪐" h1="מערכת השמש" sub="לוחצים על כוכב לכת, רואים איך הם מסתובבים סביב השמש — ומגלים כמה הייתם שוקלים על צדק" crumb="מערכת השמש" />
+    <SolarSystemView sel={sel} setSel={setSel} />
     <div className="ln-box mt-4"><h2 className="text-xl font-black">🌞 ועוד כמה עובדות</h2><ul className="list-disc pr-5">{SPACE_FACTS.map(f => <li key={f}>{f}</li>)}</ul></div>
     <h2 className="mt-8 mb-3 text-2xl font-black text-center">חידון חלל</h2>
     <div className="mx-auto max-w-2xl"><Quiz make={fromBank(SPACE_QUIZ)} title="מתחילים חידון חלל" /></div>

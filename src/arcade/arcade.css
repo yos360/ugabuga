@@ -89,14 +89,20 @@
 .mg-tile{position:absolute;left:0;top:0;z-index:2;border-radius:12px;display:grid;place-items:center;font-weight:900;border:2.5px solid var(--arc-ink);transition:transform .12s ease-out;font-family:Fredoka,Heebo,sans-serif;will-change:transform}
 .mg-tile.is-ghost{z-index:1}
 .mg-tile.is-new{animation:mg-appear .16s .1s both}
-.mg-tile.is-merged{z-index:3;animation:mg-merge .2s .09s both}
+.mg-tile.is-merged{z-index:3;animation:mg-merge .22s .11s both}
 @keyframes mg-appear{from{scale:0}to{scale:1}}
-@keyframes mg-merge{0%{scale:.7}55%{scale:1.18}100%{scale:1}}
-.mg-pop{direction:ltr;unicode-bidi:isolate;position:absolute;left:50%;top:-6px;z-index:5;font-weight:900;font-size:22px;color:#c2410c;text-shadow:1px 1px 0 #fff;pointer-events:none;animation:mg-float .8s ease-out forwards}
+/* the doubled tile only shows once the two tiles have met (after the .12s slide), then pops */
+@keyframes mg-merge{0%{scale:.6;opacity:0}1%{opacity:1}55%{scale:1.22}100%{scale:1}}
+.mg-pop{direction:ltr;unicode-bidi:isolate;position:absolute;left:50%;top:-10px;z-index:5;font-weight:900;font-size:28px;color:#c2410c;text-shadow:2px 2px 0 #fff,-1px -1px 0 #fff;pointer-events:none;animation:mg-float .9s ease-out forwards}
+.mg-board.is-bump{animation:mg-bump .22s ease-out}
+@keyframes mg-bump{20%{translate:-6px 0}45%{translate:5px 0}70%{translate:-3px 0}100%{translate:0 0}}
+.mg-board.is-tight{border-color:#e11d48;box-shadow:5px 5px 0 #e11d48;transition:border-color .2s,box-shadow .2s}
+.mg-milestone{direction:ltr;position:absolute;inset:0;z-index:6;display:grid;place-items:center;font:900 clamp(40px,14vw,84px)/1 Fredoka,Heebo,sans-serif;color:#fff;-webkit-text-stroke:3px var(--arc-ink);paint-order:stroke;text-shadow:4px 4px 0 var(--arc-ink);pointer-events:none;animation:mg-milestone 1.4s ease-out forwards}
+@keyframes mg-milestone{0%{scale:.3;opacity:0}18%{scale:1.15;opacity:1}30%{scale:1}75%{opacity:1}100%{opacity:0;scale:1.05}}
 @keyframes mg-float{from{transform:translate(-50%,0);opacity:1}to{transform:translate(-50%,-38px);opacity:0}}
 .mg-undo-n{font-size:12px;font-weight:900;margin-inline-start:2px;vertical-align:super}
 .mg-help{margin:0;font-weight:700;font-size:14px;color:#1d2233a6;pointer-events:none}
-@media (prefers-reduced-motion:reduce){.mg-tile{transition:none}.mg-tile.is-new,.mg-tile.is-merged{animation:none}}
+@media (prefers-reduced-motion:reduce){.mg-tile{transition:none}.mg-tile.is-new,.mg-tile.is-merged,.mg-board.is-bump{animation:none}.mg-milestone{animation-duration:.01s}}
 
 /* block party */
 .bp-board{direction:ltr;display:grid;grid-template-columns:repeat(8,1fr);gap:3px;background:#2c3350;border:3px solid var(--arc-ink);border-radius:14px;padding:5px;box-shadow:5px 5px 0 var(--arc-ink);touch-action:none}
