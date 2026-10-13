@@ -10,6 +10,7 @@ import NoVoiceNotice from './NoVoiceNotice'
 import PrintPreviewFigure from './PrintPreviewFigure'
 import PresentMode from './PresentMode'
 import { usePresentMode } from '../../utils/presentMode'
+import { creatorTool, installCreationCapture } from '../../utils/creations'
 
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
@@ -24,6 +25,7 @@ export default function Layout({ children }) {
   const { on: presenting } = usePresentMode()
   useEffect(() => {
     setMounted(true)
+    installCreationCapture()
   }, [])
   // On printable pages, Ctrl/Cmd+P opens the site's own print preview and prints from it — the raw page
   // (thumbnails, buttons, settings) is not what anyone wants on paper.
@@ -55,6 +57,8 @@ export default function Layout({ children }) {
       {mounted && <NoVoiceNotice />}
       <p className="print-hint">🖨️ להדפסה של הדפים עצמם חזרו לעמוד באתר ולחצו על כפתור ההדפסה — כך כל דף יוצא נקי על A4 מלא.</p>
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
+      {/* Personal tools send what was created to the owner's report: say so where it happens. */}
+      {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
       <PrintPreviewFigure pathname={pathname} />
       {!presenting && <Footer />}
     </>

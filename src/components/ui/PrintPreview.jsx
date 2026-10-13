@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import './print-preview.css'
 import { recordSheetAction, recordPreviewOpen } from '../layout/RecentActivity'
 import { sharePage, shareAudience } from '../../utils/share'
+import { recordCreation, sheetText, creatorTool } from '../../utils/creations'
 
 // A QR code is stamped onto every printed page with a short invitation next to it, linking back to
 // the exact page it came from (tagged so the owner's report can see scans separately from
@@ -54,6 +55,7 @@ export default function PrintPreview({title,children,onClose,onRefresh}){
     const svgImages=[...document.querySelectorAll('#buga-print-output image')].map(el=>{const i=new Image();i.src=el.getAttribute('href');return i})
     await Promise.allSettled([...imgs,...svgImages].map(img=>img.decode()))
     recordSheetAction('print')
+    if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('print',sheetText(dialog.current||root.current))
     window.print()
     setDone(true)
   }catch{setError('האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
@@ -63,7 +65,7 @@ export default function PrintPreview({title,children,onClose,onRefresh}){
     const sheets=[...(pages.current?.children||[])].filter(el=>el.matches('.buga-a4, .buga-flow'))
     const {savePagesAsPdf}=await import('../../utils/pagesToPdf')
     await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…'))
-    recordSheetAction('download')
+    recordSheetAction('download');if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
   }catch{setError('לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides

@@ -394,6 +394,7 @@ export default function OwnerActivityReport() {
   const yesterdayFull = useSummary(yFrom, yFullTo)
   const sameTime = ySameTime.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
 
+  const creations = useCreations(from, to, tick)
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.visitors)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
@@ -446,6 +447,9 @@ export default function OwnerActivityReport() {
         </div>
 
         <ReportSections sections={[
+          { id: 'creations', title: '✍️ מה יצרו באתר', badge: creations.rows?.length || null, empty: creations.error ? 'הטבלה עוד לא קיימת — צריך להריץ את המיגרציה owner_creations.' : 'אין עדיין יצירות בתקופה הזו.',
+            preview: (creations.rows || []).slice(0, 3).map(r => <span key={r.id}><b>{r.tool}</b> · {CREATION_ACTIONS[r.action]} · {r.content.split('\n')[0].slice(0, 60)}</span>),
+            render: () => <Creations rows={creations.rows} error={creations.error} /> },
           { id: 'best', title: '🏆 מה עובד הכי טוב', preview: lastEvents(data, r => r.action === 'open'), render: () => <BestPages stats={pageStats} /> },
           { id: 'top', title: '🔝 10 הכי: משחקים, הדפסות ושיתופים', preview: lastEvents(data, r => ['play', 'use', 'print', 'download', 'share'].includes(r.action)), render: () => <>
         <div className="grid gap-8 sm:grid-cols-2">
@@ -557,6 +561,37 @@ function EventLine({ row }) {
     <b>{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</b>
     <span>{pageName(row)}</span></>
 }
+// ── what visitors created with the personal tools (owner_creations, masked, kept 90 days) ──
+const CREATION_ACTIONS = { print: '🖨️ הדפיסו', pdf: '📄 PDF', share: '📤 שיתפו', copy: '📋 העתיקו', create: '✨ יצרו' }
+function useCreations(from, to, tick) {
+  const [state, setState] = useState({ rows: null, error: null })
+  useEffect(() => {
+    let live = true
+    supabase.from('owner_creations').select('id, created_at, tool, action, path, content, visitor')
+      .gte('created_at', from.toISOString()).lt('created_at', to.toISOString()).order('created_at', { ascending: false }).limit(200)
+      .then(({ data, error }) => { if (live) setState({ rows: data || [], error: error?.message || null }) })
+    return () => { live = false }
+  }, [from, to, tick])
+  return state
+}
+function Creations({ rows, error }) {
+  const [tool, setTool] = useState('all')
+  if (error) return <p className="text-slate-600">עוד אין נתונים: צריך להריץ ב-Supabase את supabase/migrations/202610130001_owner_creations.sql.</p>
+  if (!rows) return <p>טוען…</p>
+  if (!rows.length) return <p className="text-slate-600">אין עדיין יצירות בתקופה הזו.</p>
+  const tools = [...new Set(rows.map(r => r.tool))]
+  const shown = tool === 'all' ? rows : rows.filter(r => r.tool === tool)
+  return <div className="space-y-3">
+    <div className="flex flex-wrap gap-2">{['all', ...tools].map(t => <button key={t} onClick={() => setTool(t)} className={`rounded-full border-2 px-3 py-1 text-sm font-bold ${tool === t ? 'border-violet-500 bg-violet-50' : 'border-slate-200 bg-white'}`}>{t === 'all' ? `הכל (${rows.length})` : `${t} (${rows.filter(r => r.tool === t).length})`}</button>)}</div>
+    <ul className="space-y-2">{shown.map(r => <li key={r.id} className="rounded-xl border-2 border-slate-100 p-3">
+      <div className="flex flex-wrap items-center gap-2 text-sm"><b>{r.tool}</b><span>{CREATION_ACTIONS[r.action] || r.action}</span><span className="text-slate-500">{new Date(r.created_at).toLocaleString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>{r.visitor && <VisitorTag v={r.visitor} />}</div>
+      <details className="mt-1"><summary className="cursor-pointer text-slate-700">{r.content.split('\n').find(l => l.trim())?.slice(0, 90) || '—'}</summary>
+        <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm font-[inherit]" dir="rtl">{r.content}</pre></details>
+    </li>)}</ul>
+    <p className="text-xs text-slate-500">מספרי טלפון, מיילים ושורות כתובת מוסתרים לפני השמירה. הנתונים נמחקים אחרי 90 יום.</p>
+  </div>
+}
+
 function lastEvents(data, keep) {
   return (data.recent || []).filter(keep).slice(0, 3).map((row, i) => <EventLine key={i} row={row} />)
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { recordCreation } from '../utils/creations'
 import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
@@ -90,7 +91,10 @@ export default function Invitation() {
   const rsvpCreateHref = `/rsvp?${new URLSearchParams({ title: `יום ההולדת של ${data.name || '___'}`, time: data.time, place: data.place }).toString()}`
   // Times/phones are LTR runs inside a Hebrew message: isolate them (LRI…PDI) so "17:00–19:00" isn't flipped.
   const ltr = v => `\u2066${v}\u2069`
+  // For the owner's report: what the invitation says, without the phone and the place.
+  const recordInvite = action => data.name && recordCreation(action, [`עיצוב: ${theme.name}`, data.name && `שם: ${data.name}`, data.age && `גיל: ${data.age}`, data.date && `תאריך: ${data.date}`, data.time && `שעה: ${data.time}`, data.notes && `הערות: ${data.notes}`].filter(Boolean).join('\n'))
   const share = () => {
+    recordInvite('share')
     const text = `🎉 הוזמנתם למסיבת יום הולדת של ${data.name||'___'} ${data.age?`(גיל ${data.age})`:''}!\n📅 ${data.date||'___'} בשעה ${data.time?ltr(data.time):'___'}\n📍 ${data.place||'___'}${data.phone?`\n📞 אישור הגעה: ${ltr(data.phone)}`:''}${withRsvp?`\n✅ אישור הגעה בלחיצה: ${rsvpLink}`:''}\n${data.notes||''}`
     window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank')
   }
@@ -149,7 +153,7 @@ export default function Invitation() {
       </div>
 
       <button onClick={share} className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[#128C4A] text-white font-display text-xl font-bold cursor-pointer">📱 שתפו בוואטסאפ</button>
-      <button data-print-main onClick={() => setPrinting(true)} className="wobbly-md sketch-press mt-3 w-full min-h-[52px] border-[3px] border-[var(--border)] bg-white font-display text-lg font-bold cursor-pointer">🖨️ הדפסה / שמירה כ-PDF</button>
+      <button data-print-main onClick={() => { setPrinting(true); recordInvite('print') }} className="wobbly-md sketch-press mt-3 w-full min-h-[52px] border-[3px] border-[var(--border)] bg-white font-display text-lg font-bold cursor-pointer">🖨️ הדפסה / שמירה כ-PDF</button>
       {printing && <PrintPreview title="הזמנה ליום הולדת" onClose={() => setPrinting(false)}><article className="buga-a4 invite-print" style={{ backgroundColor: theme.bg }}>
         <p style={{ fontSize: 22, margin: 0 }}>הוזמנתם למסיבת יום הולדת של</p>
         <h2 style={{ fontSize: 48, margin: '6px 0' }}>{data.name || '_________'}</h2>
