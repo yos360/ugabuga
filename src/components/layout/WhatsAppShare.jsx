@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { sharePage, shareAudience } from '../../utils/share'
+import { sharePage, shareAudience, shareLink, pageTitle, countShare } from '../../utils/share'
 import './whatsapp-share.css'
 
 // Floating "share on WhatsApp" button on every public page. It shares the page
@@ -47,14 +47,44 @@ export default function WhatsAppShare() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => { window.removeEventListener('scroll', onScroll); clearTimeout(idle) }
   }, [])
+  // Phones: the device's own share sheet (WhatsApp is in it, and so is everything else).
+  // Computers: a small menu above the button — WhatsApp, copy link, e-mail — so a click always shows something.
+  // the menu belongs to the page it was opened on, so moving to another page closes it
+  const [menuAt, setMenuAt] = useState(null), [copied, setCopied] = useState(false)
+  const menu = menuAt === pathname
+  const setMenu = open => setMenuAt(open ? pathname : null)
+  useEffect(() => {
+    if (!menu) return
+    const off = e => { if (e.type === 'keydown' ? e.key === 'Escape' : !e.target.closest?.('.wa-menu,.wa-fab')) setMenuAt(null) }
+    document.addEventListener('pointerdown', off); document.addEventListener('keydown', off)
+    return () => { document.removeEventListener('pointerdown', off); document.removeEventListener('keydown', off) }
+  }, [menu])
   if (HIDDEN.test(pathname)) return null
-  const share = () => { setBubble(false); sharePage(pathname, 'floating') }
+  const touch = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
+  const share = async () => {
+    setBubble(false)
+    if (touch && navigator.share) {
+      try { await navigator.share({ title: pageTitle(), text: audience.intro, url: shareLink(pathname, 'floating', 'native') }); return }
+      catch (e) { if (e?.name === 'AbortError') return }
+    }
+    setCopied(false); setMenu(!menu)
+  }
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(shareLink(pathname, 'floating', 'copy')); countShare(); setCopied(true); setTimeout(() => setMenu(false), 1400) } catch { setCopied(false) }
+  }
+  const mail = `mailto:?subject=${encodeURIComponent(pageTitle())}&body=${encodeURIComponent(`${audience.intro}\n${shareLink(pathname, 'floating', 'email')}`)}`
   return <>
+    {menu && <div className="wa-menu no-print" role="menu" dir="rtl" aria-label="שיתוף העמוד">
+      <p className="wa-menu-title">{audience.invite}</p>
+      <button type="button" role="menuitem" onClick={() => { setMenu(false); sharePage(pathname, 'floating') }}><WhatsAppIcon size={20} /> שליחה בוואטסאפ</button>
+      <button type="button" role="menuitem" onClick={copy}>{copied ? '✅ הקישור הועתק' : '🔗 העתקת קישור'}</button>
+      <a role="menuitem" href={mail} onClick={() => { countShare(); setMenu(false) }}>✉️ שליחה במייל</a>
+    </div>}
     {bubble && <div className={`wa-bubble no-print${tucked ? ' is-tucked' : ''}`} role="status" dir="rtl">
       <button type="button" className="wa-bubble-text" onClick={share}>{audience.invite}</button>
       <button type="button" className="wa-bubble-x" onClick={() => setBubble(false)} aria-label="סגירה">×</button>
     </div>}
-    <button type="button" onClick={share} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
+    <button type="button" onClick={share} aria-expanded={menu} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
       <WhatsAppIcon />
       <span className="wa-fab-text">שתפו</span>
     </button>

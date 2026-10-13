@@ -97,7 +97,7 @@ export function installCreationCapture() {
   if (clip?.writeText) {
     const write = clip.writeText.bind(clip)
     try {
-      clip.writeText = text => { if (creatorTool(location.pathname) && clean(location.pathname) !== '/invitation') recordCreation('copy', text); return write(text) }
+      clip.writeText = text => { if (creatorTool(location.pathname) && clean(location.pathname) !== '/invitation' && !/utm_medium=share/.test(String(text))) recordCreation('copy', text); return write(text) }
     } catch { /* read-only in some browsers */ }
   }
 }

@@ -22,11 +22,16 @@ export function recordSheetAction(action = 'print') {
 }
 export const recordPrintPreview = () => recordSheetAction('print')
 
+// Closing the banner hides it for a month on this browser.
+const CLOSED_KEY = 'buga-live-closed'
+const closedRecently = () => { try { return Date.now() - Number(localStorage.getItem(CLOSED_KEY) || 0) < 30 * 864e5 } catch { return false } }
+
 export default function RecentActivity() {
   const { pathname } = useLocation()
   const [mod, setMod] = useState(null)
   const [state, setState] = useState({ count: null, events: [] })
-  const [hidden, setHidden] = useState(false)
+  const [hidden, setHidden] = useState(closedRecently)
+  const close = () => { setHidden(true); try { localStorage.setItem(CLOSED_KEY, String(Date.now())) } catch { /* ignore */ } }
   useEffect(() => {
     let stopped = false, disconnect = null
     const idle = window.requestIdleCallback || (fn => setTimeout(fn, 200))
@@ -61,12 +66,14 @@ export default function RecentActivity() {
   const { ACTIVITY_LABELS, ACTION_LABELS } = mod
   // Anonymous: what was opened, never who — and not your own actions.
   const others = state.events.filter(e => !e.own)
+  // "One visitor with us" is just you — show the banner only when there is something to see.
+  if (state.count < 3 && !others.length) return null
   return <aside className="buga-live no-print" aria-label="פעילות חיה בעוגה בוגה" dir="rtl">
     <span className="buga-live-count" title="הערכה לפי דפדפנים מחוברים. לשוניות באותו דפדפן נספרות פעם אחת כשאחסון מקומי זמין.">
       <span className="buga-live-dot" aria-hidden="true" />
       {state.count === 1 ? 'מבקר אחד איתנו עכשיו' : `${state.count} מבקרים איתנו עכשיו`}
     </span>
     {others.length > 0 && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
-    <button className="buga-live-close" onClick={() => setHidden(true)} aria-label="הסתרת באנר הפעילות">×</button>
+    <button className="buga-live-close" onClick={close} aria-label="הסתרת באנר הפעילות">×</button>
   </aside>
 }

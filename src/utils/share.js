@@ -2,9 +2,9 @@
 // owner report (/admin/activity) as action "share" on the page it came from.
 export const SITE = 'https://ugabuga.co.il'
 
-export function shareLink(path, campaign = 'site') {
+export function shareLink(path, campaign = 'site', source = 'whatsapp') {
   const clean = String(path || '/').split(/[?#]/)[0] || '/'
-  return `${SITE}${clean}?utm_source=whatsapp&utm_medium=share&utm_campaign=${encodeURIComponent(campaign)}`
+  return `${SITE}${clean}?utm_source=${source}&utm_medium=share&utm_campaign=${encodeURIComponent(campaign)}`
 }
 
 export function countShare() {
@@ -51,8 +51,9 @@ export function shareAudience(pathname = '/') {
   if (PARENT.test(p)) return { key: 'parents', invite: 'מכירים עוד הורים שזה יעזור להם? שתפו 💛', button: 'שליחה להורים', intro: 'מצאתי בעוגה בוגה משהו שימושי להורים — בחינם 👇' }
   return { key: 'all', invite: 'אהבתם? שתפו עם חברים 💛', button: 'שליחה בוואטסאפ', intro: 'מצאתי בעוגה בוגה — שווה להציץ 👇' }
 }
+export const pageTitle = () => (document.title || 'עוגה בוגה').replace(/\s*\|\s*(UGABUGA|עוגה בוגה)\s*$/, '')
 export function sharePage(pathname, campaign) {
-  const title = (document.title || 'עוגה בוגה').replace(/\s*\|\s*(UGABUGA|עוגה בוגה)\s*$/, '')
+  const title = pageTitle()
   shareOnWhatsApp(`${title}\n${shareAudience(pathname).intro}\n${shareLink(pathname, campaign)}`)
 }
 
