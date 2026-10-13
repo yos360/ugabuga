@@ -5,10 +5,24 @@ import { previewFor } from '../layout/PrintPreviewFigure'
 // Other ways people write the name (search engines use these to match brand searches).
 export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוגה-בוגה', 'עוגהבוגה']
 
+// Google shows about 60–70 characters of a title and ~160 of a description. Past that, the brand
+// suffix is dropped first (the page's own words matter more), and descriptions are cut at a word.
+export const TITLE_MAX = 70, DESC_MAX = 165
+export function seoTitle(title) {
+  if (!title) return 'עוגה בוגה — משחקים, דפי הדפסה ולמידה לילדים | UGABUGA'
+  const full = title + (title.includes('עוגה בוגה') ? ' | UGABUGA' : ' | עוגה בוגה')
+  return full.length <= TITLE_MAX ? full : title
+}
+export function seoDescription(d) {
+  if (!d || d.length <= DESC_MAX) return d
+  const cut = d.slice(0, DESC_MAX - 1)
+  return cut.slice(0, Math.max(cut.lastIndexOf(' '), DESC_MAX - 30)).replace(/[\s,;:—–-]+$/, '') + '…'
+}
+
 export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website', structuredData = null }) {
   const location = useLocation()
   // The Hebrew brand closes every title, so a search for "עוגה בוגה" matches the whole site.
-  const fullTitle = title ? title + (title.includes('עוגה בוגה') ? ' | UGABUGA' : ' | עוגה בוגה') : 'עוגה בוגה — משחקים, דפי הדפסה ולמידה לילדים | UGABUGA'
+  const fullTitle = seoTitle(title)
   const canonicalPath = path ?? location.pathname
   const normalizedPath = canonicalPath === '/' ? '/' : canonicalPath.replace(/\/+$/, '')
   const url = 'https://ugabuga.co.il' + normalizedPath
@@ -16,7 +30,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const preview = image === '/og-image.png' ? previewFor(normalizedPath) : null
   const shareImage = preview ? preview.src : image
   const fullImage = shareImage.startsWith('http') ? shareImage : 'https://ugabuga.co.il' + shareImage
-  const fullDescription = description || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
+  const fullDescription = seoDescription(description) || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
   const isHome = normalizedPath === '/'
 
   // The site-wide WebSite + SearchAction schema only makes sense once, on the

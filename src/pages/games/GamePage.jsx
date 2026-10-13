@@ -184,7 +184,7 @@ export default function GamePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in">
-      <SEO title={game.name} description={seoDescription} path={'/games/' + slug} structuredData={[{
+      <SEO title={game.name.length < 14 ? `${game.name} — משחק לילדים: חוקים והוראות` : game.name} description={seoDescription} path={'/games/' + slug} structuredData={[{
         '@context': 'https://schema.org',
         '@type': 'Game',
         'name': game.name,

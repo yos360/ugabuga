@@ -17,7 +17,7 @@ export default function FAQ() {
   const [open, setOpen] = useState(null)
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 buga-fade-in">
-      <SEO title="שאלות נפוצות" description="תשובות לשאלות נפוצות על עוגה בוגה — משחקים, הדפסות, ושימוש באתר." path="/faq" />
+      <SEO title="שאלות נפוצות" description="תשובות לשאלות נפוצות על עוגה בוגה: האם הכול חינם, איך מדפיסים דף נקי על A4, איך משתמשים בכלים בכיתה ומה לעשות כשמשהו לא עובד." path="/faq" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שאלות נפוצות' }]} />
       <h1 className="text-4xl text-center mb-8">❓ שאלות נפוצות</h1>
       <div className="space-y-3">

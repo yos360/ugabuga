@@ -2,6 +2,13 @@ import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import SeoBody, { faqSchema } from '../components/ui/SeoBody'
+
+const FAQ = [
+  { q: 'האם הברכה נשמרת או נשלחת למישהו?', a: 'לא. הברכה נוצרת בדפדפן שלכם בלבד. אתם מעתיקים אותה או שולחים בוואטסאפ בעצמכם, ושום דבר לא נשמר אצלנו.' },
+  { q: 'אפשר לקבל ברכה אחרת?', a: 'כן. כל לחיצה על "ברכה אחרת" בוחרת נוסח חדש באותו סגנון, ואפשר גם להחליף סגנון: שמח, מצחיק, חם או בחרוזים.' },
+  { q: 'מתאים גם למבוגרים?', a: 'כן. הברכות נכתבו כך שיתאימו לילדים, לבני נוער ולמבוגרים. אפשר להשאיר את הגיל ריק אם לא רוצים לציין אותו.' },
+]
 
 const templates = {
   happy: {
@@ -95,7 +102,7 @@ export default function Greeting() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
-      <SEO title="מחולל ברכות ליום הולדת — ברכה אישית בשנייה" description="כותבים שם וגיל, בוחרים סגנון — שמח, מצחיק, חם או בחרוזים — ומקבלים ברכת יום הולדת אישית בעברית. מעתיקים או שולחים בוואטסאפ. חינם, בלי הרשמה." path="/greeting" />
+      <SEO structuredData={faqSchema(FAQ)} title="מחולל ברכות ליום הולדת — ברכה אישית בשנייה" description="כותבים שם וגיל, בוחרים סגנון — שמח, מצחיק, חם או בחרוזים — ומקבלים ברכת יום הולדת אישית בעברית. מעתיקים או שולחים בוואטסאפ. חינם, בלי הרשמה." path="/greeting" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחולל ברכות' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">💌 מחולל ברכות</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">ברכה אישית ליום הולדת בשנייה</p>
@@ -166,6 +173,7 @@ export default function Greeting() {
         <p className="font-display text-xl font-bold mb-2">מחפשים ברכה כתובה ומוכנה?</p>
         <Link to="/birthday-greetings" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">💌 ברכות ליום הולדת לפי החוגג ←</Link>
       </div>
+      <div className="mt-12"><SeoBody paragraphs={['מחולל הברכות כותב ברכת יום הולדת אישית בעברית תוך שנייה. כותבים את שם החוגג או החוגגת, מוסיפים גיל אם רוצים, בוחרים מי שולח את הברכה ובוחרים סגנון. הברכה מוכנה להעתקה, לשליחה בוואטסאפ או לכתיבה על כרטיס.', 'יש ארבעה סגנונות: ברכה שמחה וקלילה, ברכה מצחיקה לחברים ולמשפחה, ברכה חמה ומרגשת לסבא, לסבתא או לבן זוג, וברכה בחרוזים שמתאימה לכרטיס ולנאום קצר במסיבה. לא אהבתם? לוחצים שוב ומקבלים נוסח אחר.', 'רוצים לבחור מתוך ברכות כתובות ומסודרות לפי החוגג — לבן, לבת, לאמא, לסבתא או למורה? יש לנו גם מאגר ברכות מוכנות ליום הולדת.']} faq={FAQ} related={[{ label: 'ברכות ליום הולדת לפי החוגג', href: '/birthday-greetings' }, { label: 'מחולל הזמנות ליום הולדת', href: '/invitation' }, { label: 'מחשבון מסיבה', href: '/calculator' }]} /></div>
     </div>
   )
 }

@@ -33,7 +33,7 @@ test('topic titles are unique, name the grade once and stay near 60 characters',
     const title = titles[i]
     assert.ok(title.includes(`כיתה ${g.label}`), title)
     assert.equal(title.split(`כיתה ${g.label}`).length - 1, 1, `grade named twice: ${title}`)
-    assert.ok(title.length <= 64, `${t.slug}: ${title.length} ${title}`)
+    assert.ok(title.length <= 57, `${t.slug}: ${title.length} ${title}`) // + " | עוגה בוגה" stays ≤ 70
     assert.ok(!/יח״ל.*לכיתה/.test(title), `units left before grade: ${title}`)
     const h1 = topicH1(t, g)
     assert.equal(h1.split(`כיתה ${g.label}`).length - 1, 1, `grade named twice in h1: ${h1}`)

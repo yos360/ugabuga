@@ -2,7 +2,7 @@
 // Parents of elementary-school kids search "חשבון" ("תרגילי חשבון לכיתה ג", "מבחן בחשבון לכיתה ד");
 // from grade 7 the searches switch to "מתמטיקה" ("מתמטיקה כיתה ז", "מבחן במתמטיקה לכיתה ט").
 
-const MAX_TITLE = 60 // the site appends " | עוגה בוגה" itself
+const MAX_TITLE = 57 // the site appends " | עוגה בוגה" (12 chars) — keep the full title ≤ 70 so Google doesn't cut it
 
 export const isElementary = n => Number(n) <= 6
 
