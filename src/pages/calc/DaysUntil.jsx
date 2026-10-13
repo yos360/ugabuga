@@ -6,6 +6,7 @@ import { faqSchema } from '../../components/ui/SeoBody'
 import NotFound from '../NotFound'
 import { HOLIDAY_CONFIGS } from '../../holidays'
 import { currentInfo } from '../../holidays/list'
+import { UNTIL_CONTENT } from './daysUntilContent'
 
 // "כמה ימים עד חנוכה?" — one page per holiday / event (/days-until/:slug) and a hub (/days-until).
 // The number is computed in the browser after load (the prerendered page shows the date only),
@@ -25,7 +26,8 @@ export function untilItem(slug) {
 export const ALL_UNTIL = [...HOLIDAY_SLUGS, ...Object.keys(EXTRA)]
 const dayStart = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime() }
 export const daysUntil = (iso, now = Date.now()) => Math.round((dayStart(iso) - dayStart(now)) / 86400000)
-const yearOf = iso => new Date(iso).getFullYear()
+// The year as written in Israel: midnight 1 Jan in Israel is still 31 Dec in UTC, where the pages are prerendered.
+const yearOf = iso => Number(new Intl.DateTimeFormat('en', { year: 'numeric', timeZone: 'Asia/Jerusalem' }).format(new Date(iso)))
 
 function useNow() {
   const [now, setNow] = useState(null)
@@ -43,7 +45,9 @@ export function DaysUntilPage() {
   const faq = [
     { q: `כמה ימים נשארו עד ${it.name}?`, a: `${it.datesText}. המספר בראש העמוד מתעדכן לבד כל יום.` },
     { q: `מתי ${it.name} ${y}?`, a: it.datesText + '.' },
+    ...(UNTIL_CONTENT[slug] ? [{ q: `מה עושים עם ילדים עד ${it.name}?`, a: UNTIL_CONTENT[slug].wait.join(' ') }] : []),
   ]
+  const c = UNTIL_CONTENT[slug]
   return <div className="mx-auto max-w-3xl px-4 py-8 text-center" dir="rtl">
     <SEO title={`כמה ימים עד ${it.name} ${y}? ספירה לאחור`} description={`כמה ימים נשארו עד ${it.name}? ספירה לאחור שמתעדכנת כל יום — בימים, בשבועות ובלילות (לילדים). ${it.datesText}.`} path={`/days-until/${slug}`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כמה ימים עד…', href: '/days-until' }, { label: it.name }]} />
@@ -60,6 +64,15 @@ export function DaysUntilPage() {
     <p className="text-lg">{it.datesText}</p>
     <p className="mt-4"><Link to={it.link} className="font-bold underline">{it.emoji} {it.linkLabel}</Link></p>
     <p className="mt-2 text-sm text-[var(--muted-foreground)]">רוצים את הספירה באתר של הגן או הכיתה? <Link to="/embed" className="underline">כלים להטמעה</Link></p>
+    {c && <section className="mx-auto mt-10 max-w-2xl text-right">
+      <h2 className="mb-2 text-2xl font-bold">{it.emoji} מה זה {it.name}?</h2>
+      <p className="text-lg leading-relaxed">{c.about}</p>
+      <h2 className="mt-6 mb-2 text-2xl font-bold">איך מחכים ל{it.name} עם ילדים</h2>
+      <ul className="list-disc space-y-1 pr-6 text-lg">{c.wait.map(w => <li key={w}>{w}</li>)}</ul>
+      <div className="mt-4 flex flex-wrap gap-2">{c.links.map(([href, label]) => <Link key={href} to={href} className="rounded-full border-2 border-[var(--border)] bg-white px-3 py-1 font-bold">{label} ←</Link>)}</div>
+      <h2 className="mt-6 mb-2 text-2xl font-bold">שאלות נפוצות</h2>
+      {faq.map(f => <div key={f.q} className="mb-3"><b>{f.q}</b><p className="m-0">{f.a}</p></div>)}
+    </section>}
     <h2 className="mt-10 mb-3 text-2xl font-bold">עוד ספירות לאחור</h2>
     <div className="flex flex-wrap justify-center gap-2">{ALL_UNTIL.filter(s => s !== slug).map(s => { const x = untilItem(s); return x && <Link key={s} to={`/days-until/${s}`} className="rounded-full border-2 border-[var(--border)] bg-white px-3 py-1 font-bold">{x.emoji} {x.name}</Link> })}</div>
   </div>

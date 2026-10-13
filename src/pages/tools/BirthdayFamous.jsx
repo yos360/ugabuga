@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
+import ToolGuide from './ToolGuide'
+import { TOOL_GUIDES } from './toolGuides'
+import { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 
 // Kid-safe "who was born on my day": the first people shown come from the hand-curated,
@@ -175,7 +178,8 @@ export default function BirthdayFamous() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO
         title="מי נולד ביום שלי? מפורסמים לפי תאריך"
-        description="גלו אילו אנשים מפורסמים – ממציאים, סופרים, ספורטאים ואמנים – נולדו בתאריך שלכם."
+        description="מי נולד ביום שלי? בוחרים תאריך ומגלים אילו מפורסמים – ממציאים, סופרים, ספורטאים ואמנים מישראל ומהעולם – נולדו באותו יום. חינם."
+        structuredData={faqSchema(TOOL_GUIDES.birthdayFamous.faq)}
         path="/tools/birthday-famous"
       />
       <Breadcrumbs
@@ -256,6 +260,7 @@ export default function BirthdayFamous() {
           </p>
         </>
       )}
+      <div className="mx-auto max-w-3xl"><ToolGuide {...TOOL_GUIDES.birthdayFamous} /></div>
     </div>
   )
 }
