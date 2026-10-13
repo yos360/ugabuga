@@ -1,0 +1,32 @@
+# Checks every change before it reaches the live site (Cloudflare builds from main):
+# lint, unit tests and a production build. The full prerender (npm run build) runs on Cloudflare only.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      - name: Lint
+        run: npx oxlint
+      - name: Tests
+        run: node --test tests/*.mjs
+      - name: Build
+        run: npx vite build
