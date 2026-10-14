@@ -17,6 +17,7 @@ let knownPromise = null
 // that list with no prerendered snapshot is a made-up URL → real 404.
 const CLOSED_FAMILIES = [
   /^\/en\/hebrew-alphabet\/[^/]+$/,
+  /^\/parasha\/[^/]+$/,
   /^\/signs\/[^/]+$/,
   /^\/flags\/[^/]+$/,
   /^\/flags\/continents\/[^/]+$/,

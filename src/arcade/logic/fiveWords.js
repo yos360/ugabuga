@@ -3,6 +3,8 @@
 // hit = right letter in the right place, near = in the word but elsewhere, miss = not in the word.
 // Final letters count as their regular letter (ם = מ), and the last letter is shown in final form.
 
+import { WORD_TOPICS } from './fiveWordsData.js'
+
 export const WORD_LEN = 5
 export const MAX_TRIES = 6
 const FINAL = { 'ך': 'כ', 'ם': 'מ', 'ן': 'נ', 'ף': 'פ', 'ץ': 'צ' }
@@ -14,30 +16,13 @@ export const normWord = w => [...w].map(norm).join('')
 // Show the letter at `i` as it is written: final form at the end of the word.
 export const shown = (ch, i) => (i === WORD_LEN - 1 && TO_FINAL[ch]) || ch
 
-// Common, child-friendly five-letter words (full spelling). Checked in tests: 5 Hebrew letters,
-// final forms only at the end, no duplicates.
-export const FIVE_WORDS = [
-  'שולחן', 'מחברת', 'מספרה', 'ארנבת', 'גלידה', 'בננות', 'תותים', 'אבטיח', 'לימון',
-  'רימון', 'אפרסק', 'קיפוד', 'צפרדע', 'ינשוף', 'עכביש', 'דבורה', 'ציפור', 'תוכים', 'סוסים',
-  'כלבים', 'חתולה', 'אריות', 'זברות', 'קופים', 'פילים', 'כבשים', 'ברווז', 'יונים', 'זאבים',
-  'דובים', 'חסידה', 'מדוזה', 'תמנון', 'סוודר', 'חולצה', 'חצאית', 'כפפות', 'תיקים',
-  'מקלדת', 'טלפון', 'מצלמה', 'מנורה', 'שמיכה', 'מרפסת', 'מעלית', 'דלתות', 'ספרים', 'מחקים',
-  'לוחות', 'מורים', 'תלמיד', 'כיתות', 'הפסקה', 'שיעור', 'חופשה', 'משאית', 'צוללת', 'מונית',
-  'רמזור', 'גשרים', 'ארמון', 'מלכים', 'נסיכה', 'דרקון', 'שחייה', 'קפיצה', 'קלפים', 'בובות',
-  'נדנדה', 'מגלשה', 'צבעים', 'מכחול', 'פסלים', 'שירים', 'גיטרה', 'פסנתר', 'תופים', 'כינור',
-  'עוגות', 'סלטים', 'חביתה', 'ביצים', 'פיתות', 'חומוס', 'פלאפל', 'שניצל', 'קציצה', 'אפונה',
-  'גזרים', 'בצלים', 'ענבים', 'אגסים', 'קיווי', 'גבינה', 'קינוח', 'מסטיק', 'ארטיק', 'מיצים',
-  'בקבוק', 'כוסות', 'סירים', 'עננים', 'גשמים', 'ברקים', 'רעמים', 'רוחות', 'קרחון', 'נהרות',
-  'אגמים', 'יערות', 'פרחים', 'שושנה', 'כלנית', 'נרקיס', 'סביון', 'ענפים', 'זרעים', 'אבנים',
-  'סלעים', 'אוויר', 'מקלחת', 'מברשת', 'רופאה', 'שוטרת', 'כבאית', 'חקלאי', 'טבחית', 'ציירת',
-  'חללית', 'טילים', 'מאדים', 'שבתאי', 'רובוט', 'משפחה', 'אחיות', 'דודים', 'חברים', 'שכנים',
-  'תינוק', 'ילדים', 'מסיבה', 'מתנות', 'הפתעה', 'חגיגה', 'ברכות', 'חיבוק', 'נשיקה', 'לילות',
-  'רגעים', 'חנוכה', 'לביבה', 'פורים', 'מסכות', 'סוכות', 'אתרוג', 'בריכה', 'קניון', 'מסעדה',
-  'מדינה', 'דגלים', 'מנעול', 'מילים', 'סיפור', 'חידות', 'שאלות', 'תשובה', 'רעיון',
-  'מחשבה', 'חוכמה', 'בבקשה', 'סליחה', 'יהלום', 'חבלים', 'מדורה', 'פנסים', 'תרמיל',
-  'מפלים', 'מעיין', 'בארות', 'זחלים', 'אפרוח', 'עגלים', 'גדיים', 'גמלים', 'נמרים', 'עופות',
-  'נשרים', 'שבלול', 'נחשים', 'זיקית',
-]
+// ~1,000 answer words grouped by topic (fiveWordsData.js). The topic doubles as the first hint.
+export const TOPICS = Object.keys(WORD_TOPICS)
+const TOPIC_OF = {}
+for (const t of TOPICS) for (const w of WORD_TOPICS[t].split(' ')) TOPIC_OF[w] = t
+export const FIVE_WORDS = Object.keys(TOPIC_OF)
+export const topicOf = word => TOPIC_OF[word] || ''
+export const wordsIn = topic => topic && WORD_TOPICS[topic] ? WORD_TOPICS[topic].split(' ') : FIVE_WORDS
 
 // Same order for everyone: a fixed shuffle of the list, one word per Israeli calendar day.
 function shuffled(list, seed) {
@@ -47,12 +32,34 @@ function shuffled(list, seed) {
   for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1));[a[i], a[j]] = [a[j], a[i]] }
   return a
 }
-const DAILY_ORDER = shuffled(FIVE_WORDS, 20261011)
+const DAILY_ORDER = shuffled(FIVE_WORDS, 20261014)
 export const dailyWord = day => DAILY_ORDER[((day % DAILY_ORDER.length) + DAILY_ORDER.length) % DAILY_ORDER.length]
-export const randomWord = (rand = Math.random, avoid) => {
-  for (let t = 0; t < 20; t++) { const w = FIVE_WORDS[Math.floor(rand() * FIVE_WORDS.length)]; if (w !== avoid) return w }
-  return FIVE_WORDS[0]
+// A random word from `pool` that is not in `avoid` (a Set of words already played); when every word
+// of the pool was played, any word but the last one.
+export const randomWord = (rand = Math.random, avoid, pool = FIVE_WORDS) => {
+  const seen = avoid instanceof Set ? avoid : new Set(avoid ? [avoid] : [])
+  const fresh = pool.filter(w => !seen.has(w))
+  const from = fresh.length ? fresh : pool
+  return from[Math.floor(rand() * from.length)]
 }
+
+// Words accepted as guesses (~40,000 five-letter forms, incl. prefixes like ה/ו/ש/ל/ב). Stored without
+// final forms, one letter per ASCII char, no separators: public/data/words5-he.txt. Built from the
+// answer list plus the five-letter words of the FrequencyWords Hebrew list (Hermit Dave, CC BY-SA 4.0,
+// github.com/hermitdave/FrequencyWords) that appear at least 20 times. Loaded only when the game opens.
+const CODE = 'abcdefghijklmnopqrstuv'
+let dict = null, dictPromise = null
+export function parseDictionary(text) {
+  const out = new Set()
+  for (let i = 0; i + WORD_LEN <= text.length; i += WORD_LEN) out.add([...text.slice(i, i + WORD_LEN)].map(c => BASE_LETTERS[CODE.indexOf(c)]).join(''))
+  return out
+}
+export function loadDictionary() {
+  if (!dictPromise) dictPromise = fetch('/data/words5-he.txt').then(r => r.ok ? r.text() : '').then(t => { dict = t ? parseDictionary(t) : null; return dict }).catch(() => null)
+  return dictPromise
+}
+// true / false once the list is loaded; true while it is loading or if it failed (never block a guess).
+export const isKnownWord = word => !dict || dict.has(normWord(word))
 
 // Colour a guess against the answer (both compared without final forms). Repeated letters are
 // handled like the classic game: exact hits first, then each remaining answer letter can mark one "near".
