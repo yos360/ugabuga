@@ -2799,4 +2799,7 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/bmi</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/fraction-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/grade-average</loc><priority>0.7</priority></url>
 </urlset>

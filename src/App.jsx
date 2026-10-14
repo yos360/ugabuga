@@ -6,6 +6,9 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
+const BmiCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.BmiCalculator })))
+const FractionCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.FractionCalculator })))
+const GradeAverage = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.GradeAverage })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -531,6 +534,9 @@ export default function App() {
               <Route path="/new" element={<WhatsNew />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
+              <Route path="/tools/bmi" element={<BmiCalculator />} />
+              <Route path="/tools/fraction-calculator" element={<FractionCalculator />} />
+              <Route path="/tools/grade-average" element={<GradeAverage />} />
               <Route path="/tools/age-calculator" element={<AgeCalculator />} />
               <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />

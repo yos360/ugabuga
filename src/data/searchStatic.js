@@ -27,6 +27,9 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  {"to": "/tools/grade-average", "title": "מחשבון ממוצע ציונים", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון ממוצע ציונים מחשבון ממוצע בגרויות מחשבון בגרויות יחידות לימוד"},
+  {"to": "/tools/fraction-calculator", "title": "מחשבון שברים", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון שברים שבר עשרוני אחוזים מספר מעורב"},
+  {"to": "/tools/bmi", "title": "מחשבון BMI", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון BMI חישוב BMI מחשבון BMI ילדים נוער לפי גיל"},
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
