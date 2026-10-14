@@ -9,7 +9,7 @@ const SITE = 'https://ugabuga.co.il'
 // (e.g. the bingo maker's "כלים" step used to be plain text, leaving phones with no way back).
 const SECTION_HREF = { 'כלים': '/tools', 'משחקים': '/games' }
 
-export default function Breadcrumbs({ items: rawItems, back }) {
+export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
   const items = rawItems.map((item, i) => (!item.href && i < rawItems.length - 1 && SECTION_HREF[item.label] ? { ...item, href: SECTION_HREF[item.label] } : item))
   // BreadcrumbList structured data so Google can show the page's place in the
   // site (ראשי › משחקים › שם המשחק) instead of a bare URL in search results.
@@ -37,7 +37,7 @@ export default function Breadcrumbs({ items: rawItems, back }) {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
-      <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label="פירורי לחם">
+      <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label={lang === 'en' ? 'Breadcrumbs' : 'פירורי לחם'}>
         <ol className="flex flex-wrap gap-1 items-center">
           {shown.map((item, i) => (
             <li key={i} className="flex items-center gap-1">

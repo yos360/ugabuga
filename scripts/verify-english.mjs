@@ -47,10 +47,36 @@ try {
       assert.equal(await page.locator('link[hreflang=en]').getAttribute('href'), 'https://ugabuga.co.il' + p.path)
     } else assert.equal(pairs.length, 0)
   }
-  for (const path of ['/en', ...ENGLISH_PAGES.filter(p => !p.counterpart || !/\/[^/]+$/.test(p.path)).map(p=>p.path)].slice(0,5)) {
+  for (const path of ['/en', ...ENGLISH_PAGES.filter(p => /hebrew-alphabet|jewish-holidays|coloring/.test(p.path)).filter((_,i)=>i%7===0).map(p=>p.path)].slice(0,12)) {
     await page.goto(origin+path,{waitUntil:'networkidle'})
     await page.setViewportSize({width:390,height:900})
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth+1), path)
+  }
+  if (ENGLISH_PAGES.some(p=>p.path==='/en/hebrew-alphabet')) {
+    await page.goto(origin+'/en/hebrew-alphabet',{waitUntil:'networkidle'})
+    const quiz=page.locator('.en-quiz')
+    for(const name of ['Aleph','Kaf','Dalet','Tsadi','Tav']) {
+      await quiz.getByRole('button',{name,exact:true}).click()
+      await quiz.getByRole('button',{name:name==='Tav'?'See result':'Next letter',exact:true}).click()
+    }
+    assert.match(await quiz.innerText(),/5 of 5/)
+    await page.goto(origin+'/en/hebrew-alphabet/aleph',{waitUntil:'networkidle'})
+    assert.match(await page.locator('.en-script-samples .font-ktav').evaluate(e=>getComputedStyle(e).fontFamily),/KtavYad/)
+    assert.match(await page.locator('.en-script-samples .font-stam').evaluate(e=>getComputedStyle(e).fontFamily),/Stam/)
+    await page.screenshot({path:join(output,'aleph-mobile.png'),fullPage:true})
+    await page.setViewportSize({width:1280,height:960})
+    await page.screenshot({path:join(output,'aleph-desktop.png'),fullPage:true})
+    await page.locator('[data-print-main]').click()
+    const download=page.waitForEvent('download')
+    await page.getByRole('button',{name:'⬇️ Download PDF',exact:true}).click()
+    await (await download).saveAs(join(output,'aleph-tracing.pdf'))
+    await page.getByRole('button',{name:'Close print preview'}).click()
+    await page.goto(origin+'/en/hebrew-alphabet/song',{waitUntil:'networkidle'})
+    await page.getByRole('button',{name:'Play alphabet song',exact:true}).click()
+    await page.locator('.en-song .en-active').waitFor()
+    await page.getByRole('button',{name:'Stop song',exact:true}).click()
+    assert.equal(await page.locator('.en-song .en-active').count(),0)
+    await page.setViewportSize({width:390,height:900})
   }
   await page.goto(origin+'/en',{waitUntil:'networkidle'})
   await page.screenshot({path:join(output,'home-mobile.png'),fullPage:true})

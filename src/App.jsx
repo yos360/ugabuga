@@ -1,3 +1,4 @@
+const EnglishAlphabet = lazy(() => import('./en/EnglishAlphabet'))
 import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
@@ -324,6 +325,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/en" element={<EnglishHome />} />
+              <Route path="/en/hebrew-alphabet" element={<EnglishAlphabet />} />
+              <Route path="/en/hebrew-alphabet/:slug" element={<EnglishAlphabet />} />
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />

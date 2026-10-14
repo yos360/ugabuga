@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -217,7 +218,7 @@ export function FinalLetters() {
   ]
   const shown = [...r.q.w].map((ch, k) => (k === r.q.idx ? (r.picked ? r.q.answer : '_') : ch)).join('')
   return <div className={page} dir="rtl">
-    <SEO title="אותיות סופיות — ך ם ן ף ץ: משחק ודפי עבודה לכיתה א׳" description="אותיות סופיות בעברית (כמנפ״ץ): מה הן, מתי כותבים אותן, משחק השלמת מילים — אות רגילה או סופית? — ודפי עבודה להדפסה שמתחלפים. לכיתה א׳ ולהכנה לכיתה א׳." path="/letters/final" structuredData={faqSchema(faq)} />
+    <SEO title="אותיות סופיות — ך ם ן ף ץ: משחק ודפי עבודה לכיתה א׳" description="אותיות סופיות בעברית (כמנפ״ץ): מה הן, מתי כותבים אותן, משחק השלמת מילים — אות רגילה או סופית? — ודפי עבודה להדפסה שמתחלפים. לכיתה א׳ ולהכנה לכיתה א׳." counterpartPath={englishCounterpart('/letters/final')} path="/letters/final" structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לימוד אותיות', href: '/letters' }, { label: 'אותיות סופיות' }]} />
     <header className="mb-5 text-center">
       <h1 className="text-4xl sm:text-5xl mb-2">🔚 אותיות סופיות — ך ם ן ף ץ</h1>

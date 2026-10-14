@@ -48,26 +48,26 @@ export const letterH = (text, size, heb = true) => heb ? tracerSize(text, size) 
   : Math.min(tracerSize(text, size) * 0.66, 540 * HERSHEY_CAP / Math.max(latinUnits(text), 1))
 export const xHeight = (text, size) => letterH(text, size, false) * HERSHEY_XH / HERSHEY_CAP
 
-export function LetterSheet({letter}) {
+export function LetterSheet({letter, lang = 'he', name = letter}) {
   const heb = isHebrew(letter)
   if (!heb) return <EnglishLetterSheet letter={letter} />
-  return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
+  return <svg viewBox="0 0 600 820" role="img" aria-label={lang === 'en' ? `Trace ${name}` : `תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
-      <text x="300" y="36" fontSize="24" fontWeight="700">האות {letter}</text>
-      <text x="300" y="66" fontSize="15">שם: ____________    תאריך: ____________</text>
-      <Heading y={108}>עוברים על הקווים</Heading>
+      <text x="300" y="36" fontSize="24" fontWeight="700">{lang === 'en' ? `Letter ${name}` : `האות ${letter}`}</text>
+      <text x="300" y="66" fontSize="15">{lang === 'en' ? 'Name: ____________    Date: ____________' : 'שם: ____________    תאריך: ____________'}</text>
+      <Heading y={108}>{lang === 'en' ? 'Trace, then write from right to left' : 'עוברים על הקווים'}</Heading>
       <TraceText text={letter} x={300} y={335} size={190} />
       <Lines y={440} h={letterH(letter, 70)} />
       {[500, 400, 300, 200, 100].map(x => <TraceText key={x} text={letter} x={x} y={440} size={70} />)}
       <Lines y={530} h={letterH(letter, 70)} />
-      <Heading y={610}>צובעים את האות</Heading>
+      <Heading y={610}>{lang === 'en' ? 'Color the letter' : 'צובעים את האות'}</Heading>
       <ColorText text={letter} x={300} y={760} size={165} />
     </g>
   </svg>
 }
 
 // Capital + small letter on school handwriting lines (top, dashed middle, base).
-function EnglishLetterSheet({letter}) {
+function EnglishLetterSheet({letter, lang = 'he', name = letter}) {
   const big = letter + letter.toLowerCase(), cap = letterH('A', 64, false), mid = xHeight('A', 64)
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${big}`} style={{width:'100%',height:'100%',background:'white'}} direction="ltr">
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">

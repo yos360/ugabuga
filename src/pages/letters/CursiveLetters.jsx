@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -108,7 +109,7 @@ export default function CursiveLetters() {
   ]
   const btn = 'min-h-[48px] rounded-xl px-5 font-bold'
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="אותיות בכתב יד — טבלת דפוס וכתב ודפי תרגול להדפסה" description="אותיות בכתב יד בעברית: כל האותיות בדפוס ובכתב זו ליד זו, כולל סופיות, המרת מילים מדפוס לכתב, דפי תרגול כתיבה להדפסה לכיתה א׳–ב׳ וטבלת אותיות סת״ם. חינם." path="/letters/cursive" structuredData={faqSchema(faq)} />
+    <SEO counterpartPath={englishCounterpart('/letters/cursive')} title="אותיות בכתב יד — טבלת דפוס וכתב ודפי תרגול להדפסה" description="אותיות בכתב יד בעברית: כל האותיות בדפוס ובכתב זו ליד זו, כולל סופיות, המרת מילים מדפוס לכתב, דפי תרגול כתיבה להדפסה לכיתה א׳–ב׳ וטבלת אותיות סת״ם. חינם." path="/letters/cursive" structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לימוד אותיות', href: '/letters' }, { label: 'אותיות בכתב יד' }]} />
     <header className="mb-6 text-center">
       <h1 className="text-4xl sm:text-5xl mb-2">✍️ אותיות בכתב יד — מדפוס לכתב</h1>
