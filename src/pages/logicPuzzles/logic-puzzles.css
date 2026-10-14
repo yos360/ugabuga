@@ -5,7 +5,7 @@
 .lp-table{border-collapse:collapse;direction:rtl;margin:0 auto}
 .lp-table th{font-weight:700;font-size:13px;color:#222;padding:0}
 .lp-table thead th.lp-col{vertical-align:bottom;width:42px;min-width:42px}
-.lp-col span{display:inline-block;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;padding:4px 0;line-height:1.1}
+.lp-col-label{display:inline-block;max-width:none;vertical-align:bottom}
 .lp-table tbody th{text-align:start;padding-inline:6px 8px;white-space:nowrap;max-width:118px;overflow:hidden;text-overflow:ellipsis}
 .lp-table td{padding:0;border:1.5px solid #c9cddb}
 .lp-cell{display:flex;align-items:center;justify-content:center;width:42px;height:42px;font-size:22px;font-weight:900;background:#fff;color:#c33;cursor:pointer;touch-action:manipulation;transition:background .12s}

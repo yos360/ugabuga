@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { pairs, cellIndex, cellRefs, emptyState, nextStep, stepText, solveSteps, solutionGrid } from '../../logicgrid/engine'
 import { levelLine } from '../../logicgrid/themes'
 import './logic-puzzles.css'
@@ -6,13 +6,40 @@ import './logic-puzzles.css'
 const SYMBOL = { 1: '✓', '-1': '✗', 0: '' }
 const shortOf = item => item.short || item.label
 
+// SVG rotation survives PDF capture, unlike CSS writing-mode. Measure with the
+// actual inherited font so long labels keep their original space in the table.
+export function ColumnLabel({ children }) {
+  const text = useRef(null)
+  const [size, setSize] = useState({ height: 80, font: 'sans-serif', px: 13 })
+  useLayoutEffect(() => {
+    let active = true
+    const measure = () => {
+      if (!active || !text.current) return
+      const style = getComputedStyle(text.current.closest('th'))
+      const px = parseFloat(style.fontSize)
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      ctx.font = `700 ${px}px ${style.fontFamily}`
+      setSize({ height: Math.ceil(ctx.measureText(children).width) + 8, font: style.fontFamily, px })
+    }
+    measure()
+    document.fonts.ready.then(measure)
+    window.addEventListener('resize', measure)
+    return () => { active = false; window.removeEventListener('resize', measure) }
+  }, [children])
+  const width = size.px * 1.1
+  return <svg className="lp-col-label" width={width} height={size.height} style={{ width, height: size.height, display: 'inline-block' }} viewBox={`0 0 ${width} ${size.height}`} role="img" aria-label={children} fontFamily={size.font} fontSize={size.px} fontWeight="700" fill="#222">
+    <text ref={text} transform={`translate(${width / 2} ${size.height / 2}) rotate(-90)`} textAnchor="middle" dominantBaseline="central" direction="rtl">{children}</text>
+  </svg>
+}
+
 // One pair grid (category i down the side, category j across the top).
 export function GridBlock({ puz, i, j, marks, onCell, hl, wrong }) {
   const A = puz.cats[i], B = puz.cats[j]
   return <div className="lp-block">
     <h3>{A.label} × {B.label}</h3>
     <table className="lp-table">
-      <thead><tr><th aria-hidden="true" />{B.items.map((b, bi) => <th key={bi} className="lp-col" scope="col"><span>{shortOf(b)}</span></th>)}</tr></thead>
+      <thead><tr><th aria-hidden="true" />{B.items.map((b, bi) => <th key={bi} className="lp-col" scope="col"><ColumnLabel>{shortOf(b)}</ColumnLabel></th>)}</tr></thead>
       <tbody>{A.items.map((a, ai) => <tr key={ai}>
         <th scope="row">{shortOf(a)}</th>
         {B.items.map((b, bi) => {
