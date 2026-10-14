@@ -28,6 +28,7 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  {to:'/emoji/israeli',title:'אייקונים ישראליים ויהודיים להורדה',emoji:'🕎',kind:'tool',keys:'אייקונים מדבקות וואטסאפ סביבון חלה סופגנייה סמלים יהודיים',desc:'48 איורים מקוריים, PNG ו־WebP, מדבקות ודפי צביעה'},
   { to:'/emoji', title:'אימוג׳י וסמיילים להעתקה', emoji:'😀', kind:'tool', keys:'אימוגי סמיילים סמלים להעתקה וואטסאפ', desc:'ספריית אימוג׳י בעברית' },
   ...EMOJI_CATEGORIES.map(c=>({to:`/emoji/${c.slug}`,title:c.title,emoji:c.emoji,kind:'tool',keys:c.label,desc:c.description})),
   ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'idea',keys:s.label,desc:s.description})),
