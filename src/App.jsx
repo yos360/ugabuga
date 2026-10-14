@@ -6,6 +6,9 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
+const BmiCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.BmiCalculator })))
+const FractionCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.FractionCalculator })))
+const GradeAverage = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.GradeAverage })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -48,6 +51,10 @@ const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
 const ThemePage = lazy(() => import('./pages/ideas/ThemePage'))
 const ThemesHub = lazy(() => import('./pages/ideas/ThemesHub'))
+const HoursCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.HoursCalculator })))
+const DateCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.DateCalculator })))
+const WorldClock = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WorldClock })))
+const WordCount = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WordCount })))
 const Calculator = lazy(() => import('./pages/Calculator'))
 const Greeting = lazy(() => import('./pages/Greeting'))
 const Invitation = lazy(() => import('./pages/Invitation'))
@@ -78,6 +85,9 @@ const TicTacToeBoards = lazy(() => import('./pages/printables/TicTacToeBoards'))
 const NameColoring = lazy(() => import('./pages/printables/NameColoring'))
 const WinterPrintables = lazy(() => import('./pages/printables/WinterPrintables'))
 const MusicHub = lazy(() => import('./music/MusicPages').then(m => ({ default: m.MusicHub })))
+const Metronome = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Metronome })))
+const Tuner = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Tuner })))
+const NameLabels = lazy(() => import('./pages/printables/NameLabels').then(m => ({ default: m.NameLabels })))
 const PianoPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.PianoPage })))
 const SongsIndex = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongsIndex })))
 const SongPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongPage })))
@@ -163,6 +173,10 @@ const IsraelMapPage = lazy(() => import('./discover/DiscoverPages').then(m => ({
 const CapitalsPage = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.CapitalsPage })))
 const SolarSystem = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.SolarSystem })))
 const HumanBody = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.HumanBody })))
+const SignsHub = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsHub })))
+const SignsGame = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsGame })))
+const SignsTheory = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsTheory })))
+const SignPage = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignPage })))
 const FlagsHub = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsHub })))
 const FlagsQuiz = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsQuiz })))
 const FlagsContinent = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsContinent })))
@@ -224,6 +238,9 @@ const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
 const HolidayBlessings = lazy(() => import('./pages/holidays/HolidayBlessings'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
+const Stopwatch = lazy(() => import('./pages/tools/Stopwatch'))
+const QrCodeMaker = lazy(() => import('./pages/tools/QrCodeMaker'))
+const PercentCalculator = lazy(() => import('./pages/tools/PercentCalculator'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
 const TeamGenerator = lazy(() => import('./pages/tools/TeamGenerator'))
 const RandomPicker = lazy(() => import('./pages/tools/RandomPicker'))
@@ -492,6 +509,9 @@ export default function App() {
               <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
               <Route path="/printables/gift-box" element={<GiftBox />} />
               <Route path="/music" element={<MusicHub />} />
+              <Route path="/music/metronome" element={<Metronome />} />
+              <Route path="/music/tuner" element={<Tuner />} />
+              <Route path="/printables/name-labels" element={<NameLabels />} />
               <Route path="/music/piano" element={<PianoPage />} />
               <Route path="/music/songs" element={<SongsIndex />} />
               <Route path="/music/songs/:slug" element={<SongPage />} />
@@ -533,6 +553,9 @@ export default function App() {
               <Route path="/new" element={<WhatsNew />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
+              <Route path="/tools/bmi" element={<BmiCalculator />} />
+              <Route path="/tools/fraction-calculator" element={<FractionCalculator />} />
+              <Route path="/tools/grade-average" element={<GradeAverage />} />
               <Route path="/tools/age-calculator" element={<AgeCalculator />} />
               <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />
@@ -569,6 +592,10 @@ export default function App() {
               <Route path="/discover/capitals" element={<CapitalsPage />} />
               <Route path="/discover/solar-system" element={<SolarSystem />} />
               <Route path="/discover/human-body" element={<HumanBody />} />
+              <Route path="/signs" element={<SignsHub />} />
+              <Route path="/signs/game" element={<SignsGame />} />
+              <Route path="/signs/theory" element={<SignsTheory />} />
+              <Route path="/signs/:number" element={<SignPage />} />
               <Route path="/flags" element={<FlagsHub />} />
               <Route path="/flags/quiz" element={<FlagsQuiz />} />
               <Route path="/flags/print" element={<FlagsPrint />} />
@@ -658,7 +685,14 @@ export default function App() {
               <Route path="/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
               <Route path="/coin-flip" element={<CoinFlip />} />
+              <Route path="/tools/hours-calculator" element={<HoursCalculator />} />
+              <Route path="/tools/date-calculator" element={<DateCalculator />} />
+              <Route path="/tools/world-clock" element={<WorldClock />} />
+              <Route path="/tools/word-count" element={<WordCount />} />
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
+              <Route path="/tools/stopwatch" element={<Stopwatch />} />
+              <Route path="/tools/qr-code" element={<QrCodeMaker />} />
+              <Route path="/tools/percent-calculator" element={<PercentCalculator />} />
               <Route path="/tools/timer" element={<CountdownTimer />} />
               <Route path="/timer" element={<CountdownTimer />} />
               <Route path="/countdown" element={<CountdownTimer />} />

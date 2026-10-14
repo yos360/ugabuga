@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ugabuga.co.il/tools/stopwatch</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/qr-code</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/percent-calculator</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/</loc><lastmod>2026-10-11</lastmod><priority>1.0</priority></url>
   <url><loc>https://ugabuga.co.il/birthday</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/classroom</loc><priority>0.9</priority></url>
@@ -65,6 +68,10 @@
   <url><loc>https://ugabuga.co.il/tools/scavenger-hunt-maker</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/team-generator</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/random-picker</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/hours-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/date-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/world-clock</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/word-count</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/countdown-timer</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/scoreboard</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/dice</loc><priority>0.6</priority></url>
@@ -1236,6 +1243,9 @@
   <url><loc>https://ugabuga.co.il/days-until/sigd</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/days-until/summer-vacation</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/days-until/new-year</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/bmi</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/fraction-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/grade-average</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/age-calculator</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/gematria</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/new</loc><priority>0.6</priority></url>
@@ -1374,6 +1384,9 @@
   <url><loc>https://ugabuga.co.il/languages/am/more-animals</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/veggies-sweets</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/languages/am/toys</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/music/metronome</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/music/tuner</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/name-labels</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/music</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/music/piano</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/music/songs</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
@@ -2854,4 +2867,44 @@
   <url><loc>https://ugabuga.co.il/parasha/vayelech</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/parasha/haazinu</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/parasha/vezot-haberakhah</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/signs</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/game</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/theory</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/101</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/102</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/103</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/109</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/114</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/117</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/121</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/122</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/135</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/136</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/137</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/144</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/145</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/150</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/203</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/204</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/205</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/213</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/214</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/215</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/226</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/227</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/301</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/302</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/303</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/306</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/307</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/308</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/401</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/402</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/412</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/413</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/426</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/432</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/433</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/618</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/signs/623</loc><priority>0.7</priority></url>
 </urlset>
