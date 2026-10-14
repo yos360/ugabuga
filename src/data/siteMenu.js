@@ -71,17 +71,30 @@ export const MENU_DOMAINS = [
       {
         title: 'כלים למשחק', icon: '🎲',
         items: [
+          { to: '/tools/hours-calculator', label: 'מחשבון שעות', icon: '🕒' },
+          { to: '/tools/date-calculator', label: 'מחשבון תאריכים', icon: '📅' },
+          { to: '/tools/world-clock', label: 'שעון עולמי', icon: '🌍' },
+          { to: '/tools/word-count', label: 'ספירת מילים', icon: '📝' },
           { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '👥' },
           { to: '/tools/random-picker', label: 'גלגל מזל', icon: '🎡' },
           { to: '/tools/countdown-timer', label: 'טיימר', icon: '⏱️' },
+          { to: '/tools/stopwatch', label: 'סטופר עם הקפות', icon: '⏱️' },
+          { to: '/tools/qr-code', label: 'יצירת קוד QR', icon: '🔳' },
+          { to: '/tools/percent-calculator', label: 'מחשבון אחוזים', icon: '%' },
           { to: '/tools/scoreboard', label: 'לוח ניקוד', icon: '📊' },
           { to: '/tools/dice', label: 'קובייה', icon: '🎲' },
           { to: '/tools/coin-flip', label: 'הטלת מטבע', icon: '🪙' },
+          { to: '/tools/bmi', label: 'מחשבון BMI', icon: '⚖️' },
+          { to: '/tools/fraction-calculator', label: 'מחשבון שברים', icon: '➗' },
+          { to: '/tools/grade-average', label: 'מחשבון ממוצע ציונים', icon: '🎓' },
           { to: '/tools/age-calculator', label: 'בן כמה אני?', icon: '🎂' },
           { to: '/tools/gematria', label: 'מחשבון גימטריה', icon: '🔢' },
           { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
           { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🔄' },
           { to: '/tools/drawing-prompt', label: 'מה לצייר?', icon: '🎨' },
+          { to: '/music/metronome', label: 'מטרונום', icon: '🥁' },
+          { to: '/music/tuner', label: 'טיונר לגיטרה', icon: '🎸' },
+          { to: '/printables/name-labels', label: 'מדבקות שם', icon: '🏷️' },
           { to: '/rubiks-cube', label: 'פתרון קובייה הונגרית', icon: '🧊' },
           { to: '/tools/riddles', label: 'חידות', icon: '🧩' },
           { to: '/tools/joke', label: 'בדיחה של בוגה', icon: '😂' },
@@ -108,7 +121,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
     landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
     groups: [
       {
         title: 'חשבון', icon: '🧮', to: '/math',
@@ -161,6 +174,7 @@ export const MENU_DOMAINS = [
         title: 'עולם ומדע', icon: '🔭', to: '/discover',
         items: [
           { to: '/discover/israel-map', label: 'מפת ישראל — איפה העיר?', icon: '🗺️' },
+          { to: '/signs', label: 'תמרורים ובטיחות בדרך', icon: '🚸' },
           { to: '/flags', label: 'דגלי מדינות', icon: '🏳️' },
           { to: '/flags/quiz', label: 'חידון דגלים', icon: '🎯' },
           { to: '/discover/capitals', label: 'בירות ודגלים', icon: '🌍' },
@@ -263,7 +277,7 @@ export const MENU_DOMAINS = [
   {
     id: 'holidays', label: SECTION.holidays, icon: '🕎', to: '/holidays',
     landingLabel: 'כל החגים',
-    prefixes: ['/holidays', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until'],
+    prefixes: ['/holidays', '/parasha', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until'],
     groups: [
       {
         title: 'חגי ישראל', icon: '📅', to: '/holidays',
@@ -283,6 +297,7 @@ export const MENU_DOMAINS = [
       {
         title: 'שבת, ברכות ולוח שנה', icon: '🕯️',
         items: [
+          { to: '/parasha', label: 'פרשת השבוע לילדים', icon: '📖' },
           { to: '/holidays/blessings', label: 'ברכות וקריאות לחגים', icon: '🙏' },
           { to: '/games/shabbat', label: 'משחקים לשבת', icon: '🕯️' },
           { to: '/school-holidays', label: 'לוח חופשות 2026–2027', icon: '📅' },

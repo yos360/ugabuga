@@ -16,6 +16,8 @@ let knownPromise = null
 // Param routes whose full list of valid values is in the sitemap. A slug outside
 // that list with no prerendered snapshot is a made-up URL → real 404.
 const CLOSED_FAMILIES = [
+  /^\/parasha\/[^/]+$/,
+  /^\/signs\/[^/]+$/,
   /^\/flags\/[^/]+$/,
   /^\/flags\/continents\/[^/]+$/,
   /^\/printables\/coloring\/[^/]+(?:\/[^/]+)?$/,
@@ -116,13 +118,15 @@ export async function onRequest(context) {
   try {
     res = await handle(context)
   } catch {
-    return fallback(context)
+    res = await fallback(context)
   }
   try {
-    if (!res.headers.has('Access-Control-Allow-Origin')) return res
     if (!(res.headers.get('content-type') || '').includes('text/html')) return res
     const h = new Headers(res.headers)
     h.delete('Access-Control-Allow-Origin')
+    // _headers does not apply to generated Functions responses. Replace, never append.
+    const tuner = /^\/music\/tuner\/?$/.test(new URL(context.request.url).pathname)
+    h.set('Permissions-Policy', `camera=(), microphone=${tuner ? '(self)' : '()'}, geolocation=(), payment=(), usb=(), interest-cohort=()`)
     return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
   } catch {
     return res

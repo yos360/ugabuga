@@ -10,6 +10,8 @@ import { SONGS, LEVELS, song as findSong, parseNotes, rangeFor } from './songs'
 import './music.css'
 
 export const MUSIC_SECTIONS = [
+  ['/music/metronome', '⏱️', 'מטרונום', 'פעימות קבועות וטאפ טמפו לתרגול'],
+  ['/music/tuner', '🎸', 'טיונר לגיטרה', 'כיוון מיתרים במיקרופון או צליל ייחוס'],
   ['/music/piano', '🎹', 'פסנתר אונליין', 'מנגנים בלחיצה, במגע או מהמקלדת — עם שמות התווים'],
   ['/music/songs', '🎶', 'לומדים שירים בפסנתר', 'הקליד הבא נדלק — לוחצים ומנגנים שיר שלם'],
   ['/music/read-notes', '🎼', 'קריאת תווים', 'משחק: איזה תו זה? מהחמשה אל הפסנתר'],
@@ -67,7 +69,7 @@ export function PianoPage() {
       <WidePiano from={36} to={96} labels={labels} onPress={setLast} showKeys />
     </div>
     <div className="mt-6 text-center"><Link to="/music/songs" className="music-chip">🎶 רוצים לנגן שיר? לשירים עם קלידים שנדלקים ←</Link></div>
-    <div className="mt-12"><SeoBody paragraphs={['הפסנתר כאן מנגן ישר מהדפדפן, בלי להוריד אפליקציה. בטלפון ובטאבלט נוגעים בקלידים — גם בכמה אצבעות ביחד — ובמחשב אפשר לנגן מהמקלדת, כמו על פסנתר אמיתי.', 'מעל כל קליד מופיע שם התו: בשיטת דו-רה-מי שלומדים בישראל, או באותיות C-D-E שמופיעות בספרי תווים ובאקורדים. כך לומדים את המקום של כל תו בלי לשים לב.']} faq={faq} related={[{ label: 'לומדים שירים בפסנתר', href: '/music/songs' }, { label: 'קריאת תווים', href: '/music/read-notes' }, { label: 'מושגים במוזיקה', href: '/music/concepts' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['הפסנתר כאן מנגן ישר מהדפדפן, בלי להוריד אפליקציה. בטלפון ובטאבלט נוגעים בקלידים — גם בכמה אצבעות ביחד — ובמחשב אפשר לנגן מהמקלדת, כמו על פסנתר אמיתי.', 'מעל כל קליד מופיע שם התו: בשיטת דו-רה-מי שלומדים בישראל, או באותיות C-D-E שמופיעות בספרי תווים ובאקורדים. כך לומדים את המקום של כל תו בלי לשים לב.']} faq={faq} related={[{ label: 'מטרונום', href: '/music/metronome' }, { label: 'טיונר לגיטרה', href: '/music/tuner' }, { label: 'לומדים שירים בפסנתר', href: '/music/songs' }, { label: 'קריאת תווים', href: '/music/read-notes' }, { label: 'מושגים במוזיקה', href: '/music/concepts' }]} /></div>
   </div>
 }
 
@@ -158,4 +160,5 @@ export function SongPage() {
     <div className="mt-10"><SeoBody paragraphs={[`"${s.title}" — ${s.origin}. המנגינה בנויה מ-${seq.length} תווים, ובמצב "אני מנגן/ת" הקליד הבא נדלק בירוק ומחכה ללחיצה, כך שאפשר לנגן את כל השיר גם בלי לדעת לקרוא תווים.`, `מתחת לפסנתר רשומים כל התווים של השיר לפי הסדר${labels === 'none' ? '' : ', עם השמות שלהם'} — מי שרוצה יכול להעתיק אותם למחברת ולנגן מהדף, על פסנתר או אורגנית בבית.`]} faq={faq} related={[{ label: 'כל השירים', href: '/music/songs' }, { label: 'פסנתר חופשי', href: '/music/piano' }, { label: 'קריאת תווים', href: '/music/read-notes' }]} /></div>
   </div>
 }
+
 

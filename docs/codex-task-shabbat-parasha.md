@@ -14,14 +14,33 @@ Demand — Google Keyword Planner, Israel, Hebrew, Oct 2026, searches/month, com
 
 ## PR A — Shabbat times by city (`/shabbat-times`, `/shabbat-times/:city`)
 
-- Compute in the browser (and at build for the prerendered snapshot) — no runtime API dependency:
-  - Sunset/nightfall from a standard published solar algorithm (e.g. the NOAA solar calculator equations, public domain) using each city's coordinates and elevation policy, `Asia/Jerusalem` time zone incl. DST.
-  - Candle lighting = sunset − the city's customary offset (e.g. Jerusalem 40 min, Haifa 30 min, most other cities 20 or 18 min — **take the offset per city from an authoritative Israeli luach/rabbinate source and record it**); Shabbat end (צאת השבת) by a stated, sourced rule (e.g. sun 8.5° below the horizon) and optionally Rabbeinu Tam (72 min) as a second line.
-  - Record every rule and source in `docs/shabbat-times-sources.md`.
+> **Update (owner-approved, after draft PR #80):** official rabbinate tables were not reachable from Codex, so the
+> verification rule below is relaxed. Continue on branch `codex/shabbat-times` (PR #80): keep
+> `docs/shabbat-times-sources.md`, update it, and turn the draft into the full feature.
+
+- Compute in the browser (and at build for the prerendered snapshot) — no runtime API dependency. Use **`@hebcal/core`**
+  (already a dependency, used by the parasha pages): its zmanim / candle-lighting / havdalah calculations
+  (`Zmanim`, `Location`, `HebrewCalendar.calendar({ candlelighting: true, location, il: true, candleLightingMins, havdalahDeg })`),
+  `Asia/Jerusalem` time zone incl. DST, sea-level sunset (state it in the docs).
+- Candle lighting = sunset − the city's customary offset: **Jerusalem 40 min, Haifa 30 min, Petah Tikva 30 min**,
+  every other city **20 min** unless a source you can reach says otherwise for that city (record each offset + source
+  in a table in the docs; if no source for a city, use 20 and say "מנהג רווח"). Show the offset next to each city.
+- Shabbat end (צאת השבת): sun **8.5° below the horizon**, rounded **up** to the next minute. Optionally a second line
+  "רבנו תם" = sunset + 72 min. Candle lighting is rounded **down**.
+- Record every rule and source in `docs/shabbat-times-sources.md`.
 - Cities: the ~30 largest Israeli cities + Jerusalem, Tel Aviv, Haifa, Be'er Sheva, Eilat, Tiberias, Safed, Modi'in, Bnei Brak, Petah Tikva, Netanya, Ashdod, Rishon LeZion, Holon, Ramat Gan, Rehovot, Herzliya, Kfar Saba, Ra'anana, Beit Shemesh, Ashkelon, Afula, Karmiel, Nahariya, Hadera, Ariel, Ma'ale Adumim, Kiryat Shmona, Dimona, Arad.
 - `/shabbat-times`: this coming Shabbat for all cities in a table (candle lighting + Shabbat end), city search, the parasha name for this Shabbat (from PR B, or a simple placeholder if B isn't merged yet), link to the candle-lighting blessing page. `/shabbat-times/:city`: this Shabbat big, next 8 Shabbatot list, holidays (ערב חג) when they fall in range, printable monthly sheet for the fridge.
 - The prerendered HTML must not show stale dates: render the computed values client-side on load (the snapshot can show the computation for the build week, but the page must recompute immediately in the browser; label the date clearly).
-- **Tests:** for at least 5 cities × 6 dates across the year (incl. DST change weeks), compare candle lighting and Shabbat end with values published by an official Israeli source (rabbinate/luach); allowed difference ≤ 1 minute. List the reference values and source in the test file. If you cannot obtain official reference values in your environment, stop and say so in the PR instead of shipping.
+- **Tests (relaxed, owner-approved):** reference values from any **published Israeli luach you can actually reach**,
+  for example: the official Metar luach (`mdmetar.com`, already found in PR #80), the Knesset research document
+  (4 cities, Nov 2015, already found), Tu-Net (`calendar.2net.co.il`), Chabad / Yeshiva / municipal religious councils.
+  At least **25 pairs** (candle lighting + Shabbat end) covering **≥4 cities and ≥5 dates**, including summer, winter and
+  a DST-change week. Allowed difference **≤ 2 minutes** for candle lighting (sources round differently) and for Shabbat
+  end **when the source uses the same rule (8.5°)**; if a source uses a different rule (e.g. fixed minutes after
+  sunset), record that and compare only candle lighting from it. Put every reference value, its source URL and the rule
+  it uses in `tests/fixtures/shabbat-times-reference.json`. **Never generate reference values with Hebcal itself.**
+  If even this cannot be met, stop again and say exactly what is missing.
+- On every page, a short visible line: "הזמנים מחושבים לפי מיקום העיר ומנהגה. לשאלות הלכה ומנהג מקומי — התייעצו עם רב הקהילה."
 - Copy: short explanation of why cities differ (Jerusalem 40 minutes etc.), what "צאת השבת" means, and a note to follow the local rabbi/community custom.
 
 ## PR B — Weekly Torah portion for kids (`/parasha`, `/parasha/:slug`)
