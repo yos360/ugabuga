@@ -252,8 +252,27 @@ function Bar({ value, max, color, text }) {
   </div>
 }
 
+// A tile whose number just changed blinks red for two seconds (not on first load).
+// Inline styles, so it also works inside the floating picture-in-picture window.
+function useFlash(value) {
+  const prev = useRef(value), [on, setOn] = useState(false)
+  useEffect(() => {
+    if (prev.current === value) return
+    prev.current = value
+    let ticks = 0
+    const step = () => { ticks++; setOn(ticks < 8 && ticks % 2 === 1) }
+    const first = setTimeout(step, 0), timer = setInterval(() => { step(); if (ticks >= 8) clearInterval(timer) }, 250)
+    return () => { clearTimeout(first); clearInterval(timer); setOn(false) }
+  }, [value])
+  return on ? { backgroundColor: '#fca5a5', boxShadow: '0 0 0 3px #ef4444', transition: 'background-color .12s, box-shadow .12s' } : { transition: 'background-color .12s, box-shadow .12s' }
+}
+
+function MiniStat({ value, short, tone }) {
+  return <div className={`rounded-xl px-2 py-1.5 ${tone}`} style={useFlash(value)}><b className="block text-xl leading-tight">{value}</b><span className="text-[11px] leading-tight text-slate-700">{short}</span></div>
+}
+
 function StatCard({ value, text, tone }) {
-  return <div className={`rounded-2xl p-4 ${tone}`}>
+  return <div className={`rounded-2xl p-4 ${tone}`} style={useFlash(value)}>
     <b className="block text-3xl">{value}</b>
     <span className="text-sm text-slate-700">{text}</span>
   </div>
@@ -338,7 +357,7 @@ function MiniWidget({ data, live, updated, onRefresh, onClose }) {
       <span className="text-[11px] text-slate-500">{live ? '🟢 בלייב' : '⏱️ כל 30 שנ׳'} · {updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}</span>
     </div>
     {!data ? <p className="text-sm">טוענים…</p> : <>
-      <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone]) => <div key={short} className={`rounded-xl px-2 py-1.5 ${tone}`}><b className="block text-xl leading-tight">{v}</b><span className="text-[11px] leading-tight text-slate-700">{short}</span></div>)}</div>
+      <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone]) => <MiniStat key={short} value={v} short={short} tone={tone} />)}</div>
       <p className="mt-2 mb-1 text-xs font-bold text-slate-600">פעולות אחרונות</p>
       <ul className="space-y-0.5 text-[12px] leading-snug">{(data.recent || []).filter(r => r.action !== 'time').slice(0, 6).map((r, i) => <li key={i} className="truncate"><span className="text-slate-500">{fmtClock(r.at)}</span> · {ACTION_LABELS[r.action] || r.action} · <b>{pageName(r)}</b>{r.source === 'qr' ? ' 📱QR' : r.source === 'whatsapp' ? ' 💬' : ''}</li>)}</ul>
     </>}
