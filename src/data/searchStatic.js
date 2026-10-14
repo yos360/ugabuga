@@ -1,3 +1,4 @@
+import { CATEGORIES as EMOJI_CATEGORIES, SITUATIONS as EMOJI_SITUATIONS } from '../emoji/emojiCatalog'
 // Full static search catalog — every linkable page on the site. This pulls in
 // many content-data modules, so it lives in its own lazily-loaded chunk:
 // SiteSearchBox imports it with import() on first interaction.
@@ -33,6 +34,10 @@ const PAGES = [
   ...SHABBAT_CITIES.map(city => ({ to: `/shabbat-times/${city.slug}`, title: `כניסת שבת ${city.name} וצאת השבת`, emoji: '🕯️', kind: 'page', keys: `${city.name} זמני שבת יציאת שבת הדלקת נרות לוח חודשי` })),
   { to: '/parasha', title: 'פרשת השבוע לילדים — מה פרשת השבוע השבת?', emoji: '📖', kind: 'page', keys: 'פרשת השבוע פרשת השבוע היום מה פרשת השבוע השבת פרשת השבוע לפי תאריך פרשת השבוע לילדים תורה שבת שאלות תקציר' },
   ...PARASHOT.map(p => ({ to: parashaHref(p), title: `פרשת ${p.name} לילדים`, emoji: '📖', kind: 'page', desc: `תקציר בספר ${p.book}, שאלות ותשובות ודף להדפסה`, keys: `תורה פרשת השבוע ${p.name} ${p.book}` })),
+  {to:'/emoji/israeli',title:'אייקונים ישראליים ויהודיים להורדה',emoji:'🕎',kind:'tool',keys:'אייקונים מדבקות וואטסאפ סביבון חלה סופגנייה סמלים יהודיים',desc:'48 איורים מקוריים, PNG ו־WebP, מדבקות ודפי צביעה'},
+  { to:'/emoji', title:'אימוג׳י וסמיילים להעתקה', emoji:'😀', kind:'tool', keys:'אימוגי סמיילים סמלים להעתקה וואטסאפ', desc:'ספריית אימוג׳י בעברית' },
+  ...EMOJI_CATEGORIES.map(c=>({to:`/emoji/${c.slug}`,title:c.title,emoji:c.emoji,kind:'tool',keys:c.label,desc:c.description})),
+  ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'idea',keys:s.label,desc:s.description})),
   { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },
   { to: '/tools/qr-code', title: 'יצירת קוד QR בחינם', emoji: '🔳', kind: 'tool', keys: 'קוד QR QR קוד ברקוד QR קוד לסריקה מחולל קישור טקסט וואטסאפ וייפיי מדבקות' },
   { to: '/tools/percent-calculator', title: 'מחשבון אחוזים והנחות', emoji: '%', kind: 'tool', keys: 'מחשבון אחוזים מחשבון הנחה מחשבון אחוזים הנחה חישוב אחוזים שינוי באחוזים מעמ מע״מ' },

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import EmojiRelated from '../../emoji/EmojiRelated'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
@@ -58,6 +59,7 @@ export default function Layout({ children }) {
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
+      {!presenting && <EmojiRelated pathname={pathname} />}
       <PrintPreviewFigure pathname={pathname} />
       {!presenting && <Footer />}
     </>

@@ -88,6 +88,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/fraction-calculator', label: 'מחשבון שברים', icon: '➗' },
           { to: '/tools/grade-average', label: 'מחשבון ממוצע ציונים', icon: '🎓' },
           { to: '/tools/age-calculator', label: 'בן כמה אני?', icon: '🎂' },
+          { to: '/emoji', label: 'אימוג׳י וסמיילים להעתקה', icon: '😀' },
           { to: '/tools/gematria', label: 'מחשבון גימטריה', icon: '🔢' },
           { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
           { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🔄' },

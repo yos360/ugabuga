@@ -6,6 +6,9 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
+const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
+const EmojiLibrary = lazy(() => import('./emoji/EmojiPages'))
+const EmojiSituation = lazy(() => import('./emoji/EmojiPages').then(m => ({ default: m.EmojiSituation })))
 const BmiCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.BmiCalculator })))
 const FractionCalculator = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.FractionCalculator })))
 const GradeAverage = lazy(() => import('./pages/tools/LearningCalculators').then(m => ({ default: m.GradeAverage })))
@@ -594,6 +597,10 @@ export default function App() {
               <Route path="/discover/capitals" element={<CapitalsPage />} />
               <Route path="/discover/solar-system" element={<SolarSystem />} />
               <Route path="/discover/human-body" element={<HumanBody />} />
+              <Route path="/emoji" element={<EmojiLibrary />} />
+              <Route path="/emoji/israeli" element={<IsraeliIcons />} />
+              <Route path="/emoji/for/:slug" element={<EmojiSituation />} />
+              <Route path="/emoji/:category" element={<EmojiLibrary />} />
               <Route path="/signs" element={<SignsHub />} />
               <Route path="/signs/game" element={<SignsGame />} />
               <Route path="/signs/theory" element={<SignsTheory />} />

@@ -18,6 +18,8 @@ let knownPromise = null
 const CLOSED_FAMILIES = [
   /^\/parasha\/[^/]+$/,
   /^\/shabbat-times\/[^/]+$/,
+  /^\/emoji\/[^/]+$/,
+  /^\/emoji\/for\/[^/]+$/,
   /^\/signs\/[^/]+$/,
   /^\/flags\/[^/]+$/,
   /^\/flags\/continents\/[^/]+$/,
