@@ -98,7 +98,7 @@ export const SHABBAT_CITIES = [
     "geonameId": 293918,
     "offset": 30,
     "offsetSource": "docs/codex-task-shabbat-parasha.md",
-    "offsetLabel": "לפי הגדרת המשימה"
+    "offsetLabel": "מנהג רווח בעיר"
   },
   {
     "slug": "netanya",
