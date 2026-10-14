@@ -27,6 +27,9 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  {"to": "/printables/name-labels", "title": "מדבקות שם", "emoji": "🛠️", "kind": "tool", "keys": "מדבקות שם מדבקות שם לגן לבית ספר תוויות להדפסה"},
+  {"to": "/music/tuner", "title": "טיונר לגיטרה", "emoji": "🛠️", "kind": "tool", "keys": "טיונר לגיטרה טיונר אונליין כיוון גיטרה"},
+  {"to": "/music/metronome", "title": "מטרונום", "emoji": "🛠️", "kind": "tool", "keys": "מטרונום קצב BPM טאפ טמפו"},
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
