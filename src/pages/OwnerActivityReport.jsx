@@ -630,6 +630,12 @@ function sortEntries(obj, order) {
 function compareBadge(current, previous) {
   if (current == null || previous == null) return null
   if (previous === 0) return current > 0 ? <span className="text-emerald-700">▲ חדש</span> : null
+  // Small numbers (early morning, a quiet day): a percentage is noise — "−100%" for 2 → 0 looked like a
+  // breakdown. Show the plain difference in grey until there are enough visits to compare.
+  if (Math.max(current, previous) < 20) {
+    const diff = current - previous
+    return <span className="text-slate-500">{diff === 0 ? 'ללא שינוי' : diff > 0 ? `+${diff}` : `−${-diff}`}</span>
+  }
   const pct = Math.round(((current - previous) / previous) * 100)
   if (pct === 0) return <span className="text-slate-500">ללא שינוי</span>
   return pct > 0 ? <span className="text-emerald-700">▲ {pct}%</span> : <span className="text-red-600">▼ {Math.abs(pct)}%</span>
