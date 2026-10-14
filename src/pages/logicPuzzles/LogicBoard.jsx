@@ -52,7 +52,7 @@ export function SolutionSteps({ puz }) {
 // A4 sheet for printing (empty grids + answer table, or the filled solution).
 export function PuzzleSheet({ puz, title, solution }) {
   const marks = useMemo(() => (solution ? solutionGrid(puz) : null), [puz, solution])
-  const big = puz.K === 3
+  const big = puz.K === 3 && puz.n === 3
   return <article className="buga-a4">
     <h2>{solution ? `פתרון: ${title}` : title}</h2>
     <div className={`lp-sheet${big ? ' is-big' : ''}`}>
