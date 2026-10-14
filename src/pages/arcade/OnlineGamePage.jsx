@@ -90,7 +90,7 @@ export default function OnlineGamePage() {
         </p>
       )}
       <p style={{ textAlign: 'center', margin: '0 0 28px' }}>
-        <button type="button" className="arc-share" style={{ height: 50, fontSize: 18, padding: '0 22px' }} onClick={() => shareOnWhatsApp(shareGameText(game))}>
+        <button type="button" className="arc-share" style={{ width: 'auto', maxWidth: '100%', height: 'auto', minHeight: 50, fontSize: 18, padding: '10px 22px', whiteSpace: 'normal' }} onClick={() => shareOnWhatsApp(shareGameText(game))}>
           <WhatsAppIcon size={22} /> שתפו את המשחק בוואטסאפ
         </button>
       </p>
