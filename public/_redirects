@@ -1,3 +1,6 @@
+# Google Search Console verification file must answer 200 at the exact .html path
+/googlea660df33f66f7081.html /googlea660df33f66f7081 200
+
 /games/all /games 301
 
 # Printable slugs that never existed but were crawled (Search Console: noindex /
