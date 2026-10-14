@@ -51,10 +51,10 @@ export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
           ))}
         </ol>
         {/* Popular printables show how often they were printed (from the site's own stats). */}
-        <PrintCount className="mt-2" />
+        {lang !== 'en' && <PrintCount className="mt-2" />}
         {back?.href && (
           <Link to={back.href} onClick={stepBack(back.href)} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
-            → {back.label || 'חזרה'}
+            → {back.label || (lang === 'en' ? 'Back' : 'חזרה')}
           </Link>
         )}
       </nav>
