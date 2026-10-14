@@ -1,0 +1,87 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { elapsedTime, formatStopwatch, addLap, lapExtremes, lapsText } from '../src/utils/stopwatch.js'
+import { qrPayload, escapeWifi, contrastOnWhite } from '../src/utils/qrPayload.js'
+import { VAT_RATE, parseNumber, formatNumber, percentOf, whatPercent, percentChange, afterDiscount, beforeDiscount, addVat, removeVat } from '../src/utils/percent.js'
+import { creatorTool } from '../src/utils/creations.js'
+
+test('stopwatch formats hundredths, minutes and hours without rounding up', () => {
+  for (const [ms, expected] of [[0, '00:00.00'], [9, '00:00.00'], [19, '00:00.01'], [59999, '00:59.99'], [60000, '01:00.00'], [3600000, '01:00:00.00'], [3661234, '01:01:01.23'], [-1, '00:00.00'], [Infinity, '00:00.00']]) assert.equal(formatStopwatch(ms), expected)
+})
+test('elapsed time includes background gaps, excludes pauses, supports start at zero', () => {
+  assert.equal(elapsedTime(0, 0, 300000), 300000)
+  assert.equal(elapsedTime(1200, null, 999999), 1200)
+  assert.equal(elapsedTime(1200, 500000, 502000), 3200)
+})
+test('laps use cumulative totals, immutable history, ties, and valid increasing samples', () => {
+  const first = addLap([], 1000), second = addLap(first, 2500), third = addLap(second, 3500)
+  assert.deepEqual(first, [{ number: 1, duration: 1000, total: 1000 }])
+  assert.deepEqual(third.map(l => l.duration), [1000, 1500, 1000])
+  assert.deepEqual(lapExtremes(first), { best: null, worst: null })
+  assert.deepEqual(lapExtremes(third), { best: 1000, worst: 1500 })
+  for (const bad of [0, 2500, NaN, Infinity]) assert.equal(addLap(third, bad), third)
+  assert.match(lapsText(third), /3\t00:01.00\t00:03.50$/)
+})
+test('all six QR payload types encode their own syntax', () => {
+  assert.equal(qrPayload('link', { link: 'example.com/path?q=1' }), 'https://example.com/path?q=1')
+  assert.equal(qrPayload('link', { link: 'http://example.com' }), 'http://example.com/')
+  assert.equal(qrPayload('text', { text: 'שלום & עולם' }), 'שלום & עולם')
+  assert.equal(qrPayload('text', { text: '  שלום\n' }), '  שלום\n')
+  assert.equal(qrPayload('whatsapp', { phone: '+972 (50) 123-4567', message: 'שלום & היי' }), `https://wa.me/972501234567?text=${encodeURIComponent('שלום & היי')}`)
+  assert.equal(qrPayload('whatsapp', { phone: '972501234567' }), 'https://wa.me/972501234567')
+  assert.equal(qrPayload('phone', { phone: '050-1234567' }), 'tel:0501234567')
+  assert.equal(qrPayload('email', { email: 'teacher@example.com', subject: 'שיעור & בית', message: 'a\nb?' }), `mailto:teacher@example.com?subject=${encodeURIComponent('שיעור & בית')}&body=a%0Ab%3F`)
+  assert.equal(qrPayload('wifi', { ssid: 'Class;A', password: 'a:b\\c', encryption: 'WPA' }), 'WIFI:T:WPA;S:Class\\;A;P:a\\:b\\\\c;;')
+  assert.equal(qrPayload('wifi', { ssid: 'School', password: 'secret', encryption: 'WEP' }), 'WIFI:T:WEP;S:School;P:secret;;')
+  assert.equal(qrPayload('wifi', { ssid: 'Guest', password: 'ignored', encryption: 'nopass' }), 'WIFI:T:nopass;S:Guest;;')
+  assert.equal(qrPayload('wifi', { ssid: ' Guest ', encryption: 'nopass' }), 'WIFI:T:nopass;S: Guest ;;')
+  assert.equal(escapeWifi('a,b"c'), 'a\\,b\\"c')
+})
+test('QR rejects incomplete or unsafe payloads and checks contrast', () => {
+  for (const [type, fields] of [['text', {}], ['link', { link: 'javascript:alert(1)' }], ['link', { link: 'https://user:pass@example.com' }], ['whatsapp', { phone: '0501234567' }], ['phone', { phone: 'abc' }], ['email', { email: 'bad@example.com?body=oops' }], ['wifi', { ssid: 'School' }], ['wifi', { ssid: 'School', encryption: 'BAD' }], ['unknown', {}]]) assert.throws(() => qrPayload(type, fields))
+  assert.equal(contrastOnWhite('#ffffff'), 1)
+  assert.equal(contrastOnWhite('#000000'), 21)
+  assert.ok(contrastOnWhite('#182139') > 4.5)
+  assert.equal(creatorTool('/tools/qr-code'), null)
+})
+test('number input accepts Hebrew-friendly decimals/grouping and rejects junk', () => {
+  for (const [s, n] of [['12,5', 12.5], ['1,234', 1234], ['1,234.50', 1234.5], [' -12.5 ', -12.5], ['1 234', 1234], ['.5', 0.5], ['0', 0]]) assert.equal(parseNumber(s), n)
+  for (const s of ['', ' ', '1,2,3', 'Infinity', 'NaN', '12abc', '0x10', '--2']) assert.equal(parseNumber(s), null)
+  assert.equal(formatNumber(1234.567), '1,234.57')
+  assert.equal(formatNumber(-0), '0')
+})
+test('every percent formula handles ordinary, zero and negative values', () => {
+  assert.equal(percentOf(20, 150), 30)
+  assert.equal(percentOf(0, 150), 0)
+  assert.equal(percentOf(-20, 150), -30)
+  assert.equal(whatPercent(30, 150), 20)
+  assert.equal(whatPercent(0, 150), 0)
+  assert.equal(whatPercent(-30, 150), -20)
+  assert.equal(whatPercent(1, 0), null)
+  assert.equal(percentChange(100, 120), 20)
+  assert.equal(percentChange(100, 0), -100)
+  assert.equal(percentChange(-100, -50), 50)
+  assert.equal(percentChange(-100, -150), -50)
+  assert.equal(percentChange(0, 0), null)
+  assert.equal(afterDiscount(200, 25), 150)
+  assert.equal(afterDiscount(200, 100), 0)
+  assert.equal(afterDiscount(0, 25), 0)
+  assert.equal(beforeDiscount(150, 25), 200)
+  assert.equal(beforeDiscount(0, 25), 0)
+  for (const fn of [afterDiscount, beforeDiscount]) {
+    assert.equal(fn(100, 0), 100)
+    assert.equal(fn(-1, 20), null)
+    assert.equal(fn(100, -1), null)
+    assert.equal(fn(100, 101), null)
+  }
+  assert.equal(beforeDiscount(0, 100), null)
+  assert.equal(VAT_RATE, 18)
+  assert.equal(addVat(100), 118)
+  assert.equal(removeVat(118), 100)
+  assert.equal(addVat(0), 0)
+  assert.equal(removeVat(0), 0)
+  assert.equal(addVat(-100), -118)
+  assert.equal(removeVat(-118), -100)
+  assert.equal(addVat(Number.MAX_VALUE), null)
+  assert.equal(whatPercent(Number.MAX_VALUE, 0.01), null)
+})

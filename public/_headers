@@ -7,6 +7,13 @@
   Content-Security-Policy: object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
   ! Access-Control-Allow-Origin
+# Only the tuner may request microphone access. Detach the inherited policy before replacement.
+/music/tuner
+  ! Permissions-Policy
+  Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()
+/music/tuner/
+  ! Permissions-Policy
+  Permissions-Policy: camera=(), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()
 # Widgets other sites may embed in an <iframe> (see src/pages/embed/Embeds.jsx).
 /embed/*
   ! X-Frame-Options

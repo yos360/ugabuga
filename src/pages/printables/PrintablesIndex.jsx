@@ -29,9 +29,9 @@ const TOPICS = [
   { id: 'coloring', label: '🖍️ צביעה ויצירה', slugs: ['coloring', 'mandalas', 'symmetry', 'color-by-number', 'color-by-answer', 'color-by-letter', 'dot-to-dot', 'photo-props'] },
   { id: 'motor', label: '✂️ מוטוריקה וחשיבה', slugs: ['fine-motor', 'mazes', 'find-differences', 'complete-pattern', 'silhouette-match', 'cut-and-order', 'hidden-object', 'missing-picture', 'mixed-activities', 'symmetry', 'dot-to-dot'] },
   { id: 'holidays', label: '🕎 חגים', extra: HOLIDAY_SHEETS },
-  { id: 'home', label: '🏠 לבית ולארגון', slugs: ['allergy-signs', 'lunchbox-notes', 'home-charts', 'chore-chart', 'reward-chart', 'toothbrushing-chart', 'potty-chart', 'class-schedule', 'calendar-2027', 'calendar-5787', 'lined-paper'] },
+  { id: 'home', label: '🏠 לבית ולארגון', slugs: ['name-labels', 'allergy-signs', 'lunchbox-notes', 'home-charts', 'chore-chart', 'reward-chart', 'toothbrushing-chart', 'potty-chart', 'class-schedule', 'calendar-2027', 'calendar-5787', 'lined-paper'] },
   { id: 'crafts', label: '✂️ משחקים ויצירה מנייר', slugs: ['memory-game', 'tic-tac-toe', 'dominoes', 'fortune-teller', 'gift-box', 'purim-masks', 'birthday-crown', 'board-game', 'photo-props'] },
-  { id: 'school', label: '🏫 לכיתה ולגן', slugs: ['allergy-signs', 'class-schedule', 'calendar-5787', 'clock-worksheets', 'fractions-worksheets', 'lined-paper', 'roots-project', 'math-worksheets', 'letters', 'hebrew-letters', 'letter-flashcards', 'fine-motor', 'numbers', 'mixed-activities'] },
+  { id: 'school', label: '🏫 לכיתה ולגן', slugs: ['name-labels', 'allergy-signs', 'class-schedule', 'calendar-5787', 'clock-worksheets', 'fractions-worksheets', 'lined-paper', 'roots-project', 'math-worksheets', 'letters', 'hebrew-letters', 'letter-flashcards', 'fine-motor', 'numbers', 'mixed-activities'] },
 ]
 
 // "9 פעילויות ליום הולדת" / "6 פעילויות בנושא חשבון" — a label that already starts with "ל" needs no "בנושא".
@@ -88,3 +88,4 @@ export default function PrintablesIndex() {
     </div>
   )
 }
+

@@ -6,6 +6,7 @@
 
 // path → name shown in the report
 export const CREATOR_TOOLS = {
+  // /printables/name-labels is deliberately excluded: all label content stays local, including names.
   '/invitation': 'הזמנה ליום הולדת',
   '/greeting': 'מחולל ברכות',
   '/family/bedtime-story': 'סיפור לפני השינה',

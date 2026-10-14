@@ -27,6 +27,12 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },
+  { to: '/tools/qr-code', title: 'יצירת קוד QR בחינם', emoji: '🔳', kind: 'tool', keys: 'קוד QR QR קוד ברקוד QR קוד לסריקה מחולל קישור טקסט וואטסאפ וייפיי מדבקות' },
+  { to: '/tools/percent-calculator', title: 'מחשבון אחוזים והנחות', emoji: '%', kind: 'tool', keys: 'מחשבון אחוזים מחשבון הנחה מחשבון אחוזים הנחה חישוב אחוזים שינוי באחוזים מעמ מע״מ' },
+  { to: '/tools/grade-average', title: 'מחשבון ממוצע ציונים', emoji: '🎓', kind: 'tool', keys: 'מחשבון ממוצע ציונים מחשבון ממוצע בגרויות מחשבון בגרויות יחידות לימוד' },
+  { to: '/tools/fraction-calculator', title: 'מחשבון שברים', emoji: '➗', kind: 'tool', keys: 'מחשבון שברים שבר עשרוני אחוזים מספר מעורב' },
+  { to: '/tools/bmi', title: 'מחשבון BMI למבוגרים', emoji: '⚖️', kind: 'tool', keys: 'מחשבון BMI חישוב BMI מדד מסת גוף' },
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
@@ -41,6 +47,10 @@ const PAGES = [
   { to: '/suppliers/me', title: 'הצטרפות כספק', emoji: '🤝', kind: 'page', keys: 'ספק הרשמה כרטיס פרימיום' },
   { to: '/gifts', title: 'מתנות לילדים ליום הולדת', emoji: '🎁', kind: 'idea', desc: 'מתנות לפי גיל ותקציב.', keys: 'מתנה מתנות מתנות לילדים מתנה ליום הולדת מתנות לגיל' },
   { to: '/guides', title: 'מדריכים', emoji: '📚', kind: 'page', keys: 'מדריך' },
+  { to: '/tools/word-count', title: 'ספירת מילים', emoji: '📝', kind: 'tool', keys: 'ספירת מילים מונה מילים תווים זמן קריאה' },
+  { to: '/tools/world-clock', title: 'שעון עולמי', emoji: '🌍', kind: 'tool', keys: 'שעון עולמי שעה בעולם הפרשי שעות' },
+  { to: '/tools/date-calculator', title: 'מחשבון תאריכים', emoji: '📅', kind: 'tool', keys: 'מחשבון תאריכים חישוב ימים הפרש תאריכים תאריך עברי' },
+  { to: '/tools/hours-calculator', title: 'מחשבון שעות', emoji: '🕒', kind: 'tool', keys: 'מחשבון שעות מחשבון שעות עבודה חישוב שעות שעות ודקות' },
   { to: '/time-tunnel', title: 'היום בהיסטוריה – מנהרת הזמן', emoji: '⏳', kind: 'tool', desc: 'כל יום דברים שקרו בדיוק בתאריך הזה – מגלים בעזרת רמזים.', keys: 'מה היום חידון יומי היסטוריה תאריך יום מיוחד רמזים מנהרה זמן היום בהיסטוריה מה קרה היום ימים מיוחדים' },
   { to: '/words/opposites', title: 'הפכים לילדים – משחקים ודפי עבודה', emoji: '🔄', kind: 'tool', desc: 'משחק זיכרון, בחירת ההפך וחיבור זוגות, ודפי עבודה להדפסה.', keys: 'הפכים הפך מילים הפוכות אוצר מילים עברית לשון' },
   { to: '/words/synonyms', title: 'מילים נרדפות לילדים – משחקים ודפי עבודה', emoji: '🟰', kind: 'tool', desc: 'משחקים ודפי עבודה של מילים נרדפות לפי גיל.', keys: 'נרדפות נרדפת מילים דומות אוצר מילים עברית לשון' },
@@ -142,6 +152,9 @@ const PAGES = [
   // world & science (/discover/*)
   { to: '/discover', title: 'עולם ומדע', emoji: '🔭', kind: 'tool', desc: 'מפות, חלל וגוף האדם.', keys: 'מדע גאוגרפיה' },
   { to: '/discover/israel-map', title: 'מפת ישראל — חידון ערים', emoji: '🗺️', kind: 'tool', desc: 'איפה נמצאת העיר? משחק ודף להדפסה.', keys: 'מפה מפת ישראל ערים גאוגרפיה מולדת' },
+  { to: '/signs', title: 'תמרורים בישראל', emoji: '🚸', kind: 'tool', desc: 'תמרורים עם מספרים, הסברים והתנהגות בטוחה בדרך.', keys: 'תמרור תמרורים בטיחות בדרכים זכות קדימה עצור' },
+  { to: '/signs/game', title: 'משחק תמרורים וכרטיסיות', emoji: '🎯', kind: 'tool', desc: 'זיהוי תמרורים וכרטיסיות להדפסה.', keys: 'משחק תמרורים חידון כרטיסיות הדפסה' },
+  { to: '/signs/theory', title: 'מבחן תרגול בתמרורים לפי גיל', emoji: '📝', kind: 'tool', desc: 'תרגול לפי גיל עם ציון והסברים — אינו מבחן רשמי.', keys: 'תיאוריה תאוריה מבחן נהיגה אופניים גילאים תמרורים' },
   { to: '/flags', title: 'דגלי מדינות — כל דגלי העולם', emoji: '🏳️', kind: 'tool', desc: '195 דגלים עם שמות, בירות ויבשות.', keys: 'דגל דגלים דגלי מדינות דגל של מדינות דגלי העולם דגלי עולם מדינות העולם בירות' },
   { to: '/flags/quiz', title: 'חידון דגלים', emoji: '🎯', kind: 'tool', desc: 'מזהים דגל מתוך 4 תשובות, לפי רמה ויבשת.', keys: 'חידון דגלים משחק דגלים ניחוש דגל זיהוי דגלים טריוויה דגלים' },
   { to: '/flags/print', title: 'דגלים להדפסה', emoji: '🖨️', kind: 'printable', desc: 'כרטיסיות דגלים ודגלים לצביעה.', keys: 'דגלים להדפסה דגלים לצביעה כרטיסיות דגלים דף צביעה דגל' },
@@ -290,6 +303,9 @@ const PAGES = [
   { to: '/food/kids-recipes', title: 'מתכונים לילדים', emoji: '👩‍🍳', kind: 'tool', desc: 'מתכונים קלים שילדים מכינים.', keys: 'מתכונים מתכון ילדים בישול אפייה' },
   { to: '/food/kitchen-science', title: 'ניסויים מדעיים לילדים בבית', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי ניסויים מדעיים ניסויים לילדים בבית מדע הר געש סודה חומץ' },
   // music area (/music/*)
+  { to: '/printables/name-labels', title: 'מדבקות שם', emoji: '🏷️', kind: 'tool', keys: 'מדבקות שם מדבקות שם לגן לבית ספר תוויות להדפסה' },
+  { to: '/music/tuner', title: 'טיונר לגיטרה', emoji: '🎸', kind: 'tool', keys: 'טיונר לגיטרה טיונר אונליין כיוון גיטרה' },
+  { to: '/music/metronome', title: 'מטרונום', emoji: '🥁', kind: 'tool', keys: 'מטרונום קצב BPM טאפ טמפו' },
   { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
   { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },
   { to: '/music/songs', title: 'לומדים שירים בפסנתר', emoji: '🎶', kind: 'tool', desc: 'קלידים שנדלקים — לוחצים ומנגנים.', keys: 'שירים לפסנתר ללמוד לנגן שיר תווים לשירים' },
