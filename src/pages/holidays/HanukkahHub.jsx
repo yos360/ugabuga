@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useEffect, useState } from 'react'
 import { daysUntil } from '../../utils/israelDate'
 import { Link } from 'react-router-dom'
@@ -35,7 +36,7 @@ function Countdown() {
 export default function HanukkahHub() {
   return (
     <HanukkahShell>
-      <SEO title={`מתי חנוכה ${HANUKKAH.year}? תאריכים, הדלקת נרות, סביבון ודפי צביעה`} description="חנוכה 2026: נר ראשון ביום שישי 4.12 בערב, נר שמיני ב־11.12. כל מה שצריך לחנוכה עם ילדים: סביבון וירטואלי, חידון חנוכה, דפי צביעה ודפי עבודה להדפסה, ורעיונות מה עושים בחופשת חנוכה. תאריכי חנוכה 2026 וספירה לאחור." path="/holidays/hanukkah" structuredData={faqSchema(FAQ)} />
+      <SEO counterpartPath={englishCounterpart('/holidays/hanukkah')} title={`מתי חנוכה ${HANUKKAH.year}? תאריכים, הדלקת נרות, סביבון ודפי צביעה`} description="חנוכה 2026: נר ראשון ביום שישי 4.12 בערב, נר שמיני ב־11.12. כל מה שצריך לחנוכה עם ילדים: סביבון וירטואלי, חידון חנוכה, דפי צביעה ודפי עבודה להדפסה, ורעיונות מה עושים בחופשת חנוכה. תאריכי חנוכה 2026 וספירה לאחור." path="/holidays/hanukkah" structuredData={faqSchema(FAQ)} />
       <div className="mb-8 rounded-3xl border-2 border-slate-800 bg-gradient-to-b from-blue-700 to-indigo-900 p-6 text-center text-white sketch-shadow">
         <p className="text-6xl mb-2" aria-hidden="true">🕎</p>
         <h1 className="text-4xl sm:text-5xl mb-3 text-white">חנוכה {HANUKKAH.year} לילדים</h1>

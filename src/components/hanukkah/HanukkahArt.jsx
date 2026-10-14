@@ -1,13 +1,19 @@
+import { useContext } from 'react'
+import { HolidayPrintLanguage } from '../holidays/HolidayPrintLanguage'
 // Hanukkah line-art for colouring — drawn in code (thick outlines, white fills),
 // each one an A4 page: 600 × 820 with a title on top.
 
 const S = { fill: 'white', stroke: '#111', strokeWidth: 5, strokeLinejoin: 'round', strokeLinecap: 'round' }
 
-const Page = ({ title, children }) => <svg viewBox="0 0 600 820" role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
-  <text x="300" y="56" textAnchor="middle" fontFamily="Heebo, Arial, sans-serif" fontSize="40" fontWeight="800" fill="#111" direction="rtl">{title}</text>
-  <text x="300" y="92" textAnchor="middle" fontFamily="Heebo, Arial, sans-serif" fontSize="15" fill="#444" direction="rtl">שם: ________________</text>
+const Page = ({ title, children }) => {
+  const en = useContext(HolidayPrintLanguage)
+  if (en) { title = en.title }
+  return <svg viewBox="0 0 600 820" role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
+  <text x="300" y="56" textAnchor="middle" fontFamily="Heebo, Arial, sans-serif" fontSize={en ? Math.min(40, 500 / (title.length * .6)) : 40} fontWeight="800" fill="#111" direction={en ? 'ltr' : 'rtl'}>{title}</text>
+  <text x="300" y="92" textAnchor="middle" fontFamily="Heebo, Arial, sans-serif" fontSize="15" fill="#444" direction={en ? 'ltr' : 'rtl'}>{en ? 'Name: ________________' : 'שם: ________________'}</text>
   {children}
 </svg>
+}
 
 const Flame = ({ x, y, s = 1 }) => <g transform={`translate(${x} ${y}) scale(${s})`}>
   <path d="M0 -44 C 18 -22 18 -4 0 0 C -18 -4 -18 -22 0 -44 Z" {...S} strokeWidth={4} />

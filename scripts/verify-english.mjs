@@ -52,6 +52,29 @@ try {
     await page.setViewportSize({width:390,height:900})
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth+1), path)
   }
+  if (ENGLISH_PAGES.some(p=>p.path==='/en/jewish-holidays')) {
+    await page.goto(origin+'/en/jewish-holidays/passover',{waitUntil:'networkidle'})
+    const diaspora=await page.locator('.en-dates').innerText()
+    await page.getByLabel('Calendar tradition').selectOption('israel')
+    assert.notEqual(await page.locator('.en-dates').innerText(),diaspora)
+    await page.screenshot({path:join(output,'passover-mobile.png'),fullPage:true})
+    await page.getByRole('button',{name:'Print word match and answers',exact:true}).click()
+    assert.equal(await page.locator('dialog[open] .buga-a4').count(),2)
+    const match=page.waitForEvent('download')
+    await page.getByRole('button',{name:'⬇️ Download PDF',exact:true}).click()
+    await(await match).saveAs(join(output,'passover-word-match.pdf'))
+    await page.getByRole('button',{name:'Close print preview'}).click()
+    for(const [path,file] of [['/en/coloring/passover/1','seder-plate'],['/en/coloring/hanukkah/7','doughnut']]) {
+      await page.goto(origin+path,{waitUntil:'networkidle'})
+      await page.screenshot({path:join(output,file+'-mobile.png'),fullPage:true})
+      await page.locator('[data-print-main]').click()
+      assert.equal(await page.locator('dialog[open]').getAttribute('dir'),'ltr')
+      const pdf=page.waitForEvent('download')
+      await page.getByRole('button',{name:'⬇️ Download PDF',exact:true}).click()
+      await(await pdf).saveAs(join(output,file+'.pdf'))
+      await page.getByRole('button',{name:'Close print preview'}).click()
+    }
+  }
   if (ENGLISH_PAGES.some(p=>p.path==='/en/hebrew-alphabet')) {
     await page.goto(origin+'/en/hebrew-alphabet',{waitUntil:'networkidle'})
     const quiz=page.locator('.en-quiz')

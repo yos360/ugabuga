@@ -1,3 +1,5 @@
+const EnglishHolidays = lazy(() => import('./en/EnglishHolidays'))
+const EnglishHolidayColoring = lazy(() => import('./en/EnglishHolidays').then(m => ({default: m.EnglishHolidayColoring})))
 const EnglishAlphabet = lazy(() => import('./en/EnglishAlphabet'))
 import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
@@ -327,6 +329,9 @@ export default function App() {
               <Route path="/en" element={<EnglishHome />} />
               <Route path="/en/hebrew-alphabet" element={<EnglishAlphabet />} />
               <Route path="/en/hebrew-alphabet/:slug" element={<EnglishAlphabet />} />
+              <Route path="/en/jewish-holidays" element={<EnglishHolidays />} />
+              <Route path="/en/jewish-holidays/:slug" element={<EnglishHolidays />} />
+              <Route path="/en/coloring/:holiday/:n" element={<EnglishHolidayColoring />} />
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />

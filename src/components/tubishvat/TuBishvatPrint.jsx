@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { HolidayPrintLanguage } from '../holidays/HolidayPrintLanguage'
 import SpeciesIcon from './SpeciesIcon'
 import { SEVEN_SPECIES } from '../../data/tubishvat'
 
@@ -5,12 +7,16 @@ import { SEVEN_SPECIES } from '../../data/tubishvat'
 const FONT = 'Heebo, Arial, sans-serif'
 const S = { fill: 'white', stroke: '#111', strokeWidth: 5, strokeLinejoin: 'round', strokeLinecap: 'round' }
 
-const Page = ({ title, sub, children }) => <svg viewBox="0 0 600 820" role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
-  <text x="300" y="46" textAnchor="middle" fontFamily={FONT} fontSize="34" fontWeight="800" fill="#111" direction="rtl">{title}</text>
-  <text x="300" y="76" textAnchor="middle" fontFamily={FONT} fontSize="15" fill="#444" direction="rtl">שם: ____________    תאריך: ____________</text>
-  {sub && <text x="300" y="108" textAnchor="middle" fontFamily={FONT} fontSize="18" fontWeight="700" fill="#111" direction="rtl">{sub}</text>}
+const Page = ({ title, sub, children }) => {
+  const en = useContext(HolidayPrintLanguage)
+  if (en) { title = en.title; sub = undefined }
+  return <svg viewBox="0 0 600 820" role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
+  <text x="300" y="46" textAnchor="middle" fontFamily={FONT} fontSize={en ? Math.min(34, 500 / (title.length * .6)) : 34} fontWeight="800" fill="#111" direction={en ? 'ltr' : 'rtl'}>{title}</text>
+  <text x="300" y="76" textAnchor="middle" fontFamily={FONT} fontSize="15" fill="#444" direction={en ? 'ltr' : 'rtl'}>{en ? 'Name: ____________    Date: ____________' : 'שם: ____________    תאריך: ____________'}</text>
+  {sub && <text x="300" y="108" textAnchor="middle" fontFamily={FONT} fontSize="18" fontWeight="700" fill="#111" direction={en ? 'ltr' : 'rtl'}>{sub}</text>}
   {children}
 </svg>
+}
 
 const Icon = ({ id, x, y, size }) => <g transform={`translate(${x - size / 2} ${y - size / 2})`}><SpeciesIcon id={id} line size={size} /></g>
 
