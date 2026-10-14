@@ -30,7 +30,7 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 const PAGES = [
   { to:'/emoji', title:'אימוג׳י וסמיילים להעתקה', emoji:'😀', kind:'tool', keys:'אימוגי סמיילים סמלים להעתקה וואטסאפ', desc:'ספריית אימוג׳י בעברית' },
   ...EMOJI_CATEGORIES.map(c=>({to:`/emoji/${c.slug}`,title:c.title,emoji:c.emoji,kind:'tool',keys:c.label,desc:c.description})),
-  ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'tool',keys:s.label,desc:s.description})),
+  ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'idea',keys:s.label,desc:s.description})),
   { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },
   { to: '/tools/qr-code', title: 'יצירת קוד QR בחינם', emoji: '🔳', kind: 'tool', keys: 'קוד QR QR קוד ברקוד QR קוד לסריקה מחולל קישור טקסט וואטסאפ וייפיי מדבקות' },
   { to: '/tools/percent-calculator', title: 'מחשבון אחוזים והנחות', emoji: '%', kind: 'tool', keys: 'מחשבון אחוזים מחשבון הנחה מחשבון אחוזים הנחה חישוב אחוזים שינוי באחוזים מעמ מע״מ' },
