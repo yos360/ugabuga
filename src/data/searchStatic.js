@@ -27,10 +27,6 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
-  {"to": "/tools/word-count", "title": "ספירת מילים", "emoji": "🛠️", "kind": "tool", "keys": "ספירת מילים מונה מילים תווים זמן קריאה"},
-  {"to": "/tools/world-clock", "title": "שעון עולמי", "emoji": "🛠️", "kind": "tool", "keys": "שעון עולמי שעה בעולם הפרשי שעות"},
-  {"to": "/tools/date-calculator", "title": "מחשבון תאריכים", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון תאריכים חישוב ימים הפרש תאריכים תאריך עברי"},
-  {"to": "/tools/hours-calculator", "title": "מחשבון שעות", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון שעות מחשבון שעות עבודה חישוב שעות שעות ודקות"},
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
@@ -45,6 +41,10 @@ const PAGES = [
   { to: '/suppliers/me', title: 'הצטרפות כספק', emoji: '🤝', kind: 'page', keys: 'ספק הרשמה כרטיס פרימיום' },
   { to: '/gifts', title: 'מתנות לילדים ליום הולדת', emoji: '🎁', kind: 'idea', desc: 'מתנות לפי גיל ותקציב.', keys: 'מתנה מתנות מתנות לילדים מתנה ליום הולדת מתנות לגיל' },
   { to: '/guides', title: 'מדריכים', emoji: '📚', kind: 'page', keys: 'מדריך' },
+  {"to": "/tools/word-count", "title": "ספירת מילים", "emoji": "🛠️", "kind": "tool", "keys": "ספירת מילים מונה מילים תווים זמן קריאה"},
+  {"to": "/tools/world-clock", "title": "שעון עולמי", "emoji": "🛠️", "kind": "tool", "keys": "שעון עולמי שעה בעולם הפרשי שעות"},
+  {"to": "/tools/date-calculator", "title": "מחשבון תאריכים", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון תאריכים חישוב ימים הפרש תאריכים תאריך עברי"},
+  {"to": "/tools/hours-calculator", "title": "מחשבון שעות", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון שעות מחשבון שעות עבודה חישוב שעות שעות ודקות"},
   { to: '/time-tunnel', title: 'היום בהיסטוריה – מנהרת הזמן', emoji: '⏳', kind: 'tool', desc: 'כל יום דברים שקרו בדיוק בתאריך הזה – מגלים בעזרת רמזים.', keys: 'מה היום חידון יומי היסטוריה תאריך יום מיוחד רמזים מנהרה זמן היום בהיסטוריה מה קרה היום ימים מיוחדים' },
   { to: '/words/opposites', title: 'הפכים לילדים – משחקים ודפי עבודה', emoji: '🔄', kind: 'tool', desc: 'משחק זיכרון, בחירת ההפך וחיבור זוגות, ודפי עבודה להדפסה.', keys: 'הפכים הפך מילים הפוכות אוצר מילים עברית לשון' },
   { to: '/words/synonyms', title: 'מילים נרדפות לילדים – משחקים ודפי עבודה', emoji: '🟰', kind: 'tool', desc: 'משחקים ודפי עבודה של מילים נרדפות לפי גיל.', keys: 'נרדפות נרדפת מילים דומות אוצר מילים עברית לשון' },

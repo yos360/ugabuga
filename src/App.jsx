@@ -6,10 +6,6 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
-const HoursCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.HoursCalculator })))
-const DateCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.DateCalculator })))
-const WorldClock = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WorldClock })))
-const WordCount = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WordCount })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -52,6 +48,10 @@ const AgePage = lazy(() => import('./pages/ideas/AgePage'))
 const CategoryPage = lazy(() => import('./pages/games/CategoryPage'))
 const ThemePage = lazy(() => import('./pages/ideas/ThemePage'))
 const ThemesHub = lazy(() => import('./pages/ideas/ThemesHub'))
+const HoursCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.HoursCalculator })))
+const DateCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.DateCalculator })))
+const WorldClock = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WorldClock })))
+const WordCount = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WordCount })))
 const Calculator = lazy(() => import('./pages/Calculator'))
 const Greeting = lazy(() => import('./pages/Greeting'))
 const Invitation = lazy(() => import('./pages/Invitation'))
@@ -535,10 +535,6 @@ export default function App() {
               <Route path="/new" element={<WhatsNew />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
-              <Route path="/tools/hours-calculator" element={<HoursCalculator />} />
-              <Route path="/tools/date-calculator" element={<DateCalculator />} />
-              <Route path="/tools/world-clock" element={<WorldClock />} />
-              <Route path="/tools/word-count" element={<WordCount />} />
               <Route path="/tools/age-calculator" element={<AgeCalculator />} />
               <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />
@@ -664,6 +660,10 @@ export default function App() {
               <Route path="/dice" element={<Dice />} />
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
               <Route path="/coin-flip" element={<CoinFlip />} />
+              <Route path="/tools/hours-calculator" element={<HoursCalculator />} />
+              <Route path="/tools/date-calculator" element={<DateCalculator />} />
+              <Route path="/tools/world-clock" element={<WorldClock />} />
+              <Route path="/tools/word-count" element={<WordCount />} />
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
               <Route path="/tools/timer" element={<CountdownTimer />} />
               <Route path="/timer" element={<CountdownTimer />} />
