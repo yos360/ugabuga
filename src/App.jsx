@@ -163,6 +163,10 @@ const IsraelMapPage = lazy(() => import('./discover/DiscoverPages').then(m => ({
 const CapitalsPage = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.CapitalsPage })))
 const SolarSystem = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.SolarSystem })))
 const HumanBody = lazy(() => import('./discover/DiscoverPages').then(m => ({ default: m.HumanBody })))
+const SignsHub = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsHub })))
+const SignsGame = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsGame })))
+const SignsTheory = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignsTheory })))
+const SignPage = lazy(() => import('./signs/SignsPages').then(m => ({ default: m.SignPage })))
 const FlagsHub = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsHub })))
 const FlagsQuiz = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsQuiz })))
 const FlagsContinent = lazy(() => import('./flags/FlagsPages').then(m => ({ default: m.FlagsContinent })))
@@ -567,6 +571,10 @@ export default function App() {
               <Route path="/discover/capitals" element={<CapitalsPage />} />
               <Route path="/discover/solar-system" element={<SolarSystem />} />
               <Route path="/discover/human-body" element={<HumanBody />} />
+              <Route path="/signs" element={<SignsHub />} />
+              <Route path="/signs/game" element={<SignsGame />} />
+              <Route path="/signs/theory" element={<SignsTheory />} />
+              <Route path="/signs/:number" element={<SignPage />} />
               <Route path="/flags" element={<FlagsHub />} />
               <Route path="/flags/quiz" element={<FlagsQuiz />} />
               <Route path="/flags/print" element={<FlagsPrint />} />

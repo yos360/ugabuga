@@ -37,6 +37,7 @@ const LEARN_EXTRA = {
   '/letters': [{ to: '/words/synonyms', label: 'מילים נרדפות', icon: '🟰' }],
 }
 const LEARN_DESC = {
+  '/signs': 'מכירים תמרורים, משחקים ומתרגלים לפי גיל',
   '/math': 'תרגול, מבחנים ודפי עבודה לכל כיתה',
   '/learn/multiplication-table': 'טבלה צבעונית ולוח הכפל להדפסה',
   '/learn/times-tables': 'אתגר הדקה: כמה תרגילים תספיקו?',

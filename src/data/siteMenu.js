@@ -108,7 +108,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
     landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
     groups: [
       {
         title: 'חשבון', icon: '🧮', to: '/math',
@@ -161,6 +161,7 @@ export const MENU_DOMAINS = [
         title: 'עולם ומדע', icon: '🔭', to: '/discover',
         items: [
           { to: '/discover/israel-map', label: 'מפת ישראל — איפה העיר?', icon: '🗺️' },
+          { to: '/signs', label: 'תמרורים ובטיחות בדרך', icon: '🚸' },
           { to: '/flags', label: 'דגלי מדינות', icon: '🏳️' },
           { to: '/flags/quiz', label: 'חידון דגלים', icon: '🎯' },
           { to: '/discover/capitals', label: 'בירות ודגלים', icon: '🌍' },
