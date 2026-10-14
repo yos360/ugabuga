@@ -132,8 +132,10 @@ export async function onRequest(context) {
     const h = new Headers(res.headers)
     h.delete('Access-Control-Allow-Origin')
     // _headers does not apply to generated Functions responses. Replace, never append.
-    const tuner = /^\/music\/tuner\/?$/.test(new URL(context.request.url).pathname)
-    h.set('Permissions-Policy', `camera=(), microphone=${tuner ? '(self)' : '()'}, geolocation=(), payment=(), usb=(), interest-cohort=()`)
+    // Microphone (tuner) and location (Shabbat times) are allowed for this origin on every page:
+    // the policy is fixed by the first page loaded, and the app navigates without reloading.
+    // The browser still asks the visitor; third-party frames stay blocked.
+    h.set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(self), payment=(), usb=(), interest-cohort=()')
     return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h })
   } catch {
     return res

@@ -84,3 +84,13 @@ test('every city URL is in the sitemap and the route family rejects unknown slug
   const middleware = readFileSync(new URL('../functions/_middleware.js', import.meta.url), 'utf8')
   assert.ok(middleware.includes('/^\\/shabbat-times\\/[^/]+$/'))
 })
+
+test('every locality has a Hebrew name and a point inside Israel; the 30 cities are findable', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const list = JSON.parse(await readFile(new URL('../public/data/israel-localities.json', import.meta.url), 'utf8'))
+  assert.ok(list.length > 1000)
+  assert.equal(new Set(list.map(p => p.n)).size, list.length)
+  for (const p of list) { assert.match(p.n, /[א-ת]/, p.n); assert.ok(p.a > 29.4 && p.a < 33.4 && p.o > 34.2 && p.o < 35.95, p.n) }
+  for (const name of ['נהלל', 'עין גדי', 'יטבתה', 'מטולה', 'קצרין', 'נחל עוז']) assert.ok(list.some(p => p.n === name), name)
+  const jerusalem = list.find(p => p.n === 'ירושלים'); assert.ok(Math.abs(jerusalem.a - 31.77) < 0.05 && Math.abs(jerusalem.o - 35.22) < 0.05)
+})

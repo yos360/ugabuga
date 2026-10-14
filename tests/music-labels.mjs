@@ -40,15 +40,16 @@ test('label sheets fit A4 at their declared millimetre dimensions',()=>{
  assert.ok(labelFontSize('שם ארוך מאוד מאוד מאוד',60)<labelFontSize('דן',60))
  assert.equal(creatorTool('/printables/name-labels'),null)
 })
-test('only exact tuner document paths receive microphone permission, including fallback',async()=>{
- for(const path of ['/music/tuner','/music/tuner/','/music/piano','/music/tuner/other','/tools','/']){
+test('every document allows microphone and location for this origin only (SPA navigation keeps the first policy)',async()=>{
+ for(const path of ['/music/tuner','/music/tuner/','/shabbat-times','/tools','/']){
   for(const fail of [false,true]){
    const html=()=>new Response('<html></html>',{headers:{'content-type':'text/html','Access-Control-Allow-Origin':'*','Permissions-Policy':'microphone=()'}})
    const response=await onRequest({request:new Request('https://ugabuga.co.il'+path),next:async()=>{if(fail)throw new Error('test');return html()},env:{ASSETS:{fetch:async()=>html()}}})
-   assert.equal(response.headers.get('Permissions-Policy').includes('microphone=(self)'),/^\/music\/tuner\/?$/.test(path))
+   const policy=response.headers.get('Permissions-Policy')
+   assert.ok(policy.includes('microphone=(self)')&&policy.includes('geolocation=(self)')&&policy.includes('camera=()'),path)
    assert.equal(response.headers.has('Access-Control-Allow-Origin'),false)
   }
  }
  const headers=readFileSync(new URL('../public/_headers',import.meta.url),'utf8').replace(/\r\n/g,'\n')
- assert.match(headers,/\/music\/tuner\n\s+! Permissions-Policy\n\s+Permissions-Policy: camera=\(\), microphone=\(self\)/)
+ assert.match(headers,/\/\*\n(?:\s+[^\n]+\n)*?\s+Permissions-Policy: camera=\(\), microphone=\(self\), geolocation=\(self\)/)
 })

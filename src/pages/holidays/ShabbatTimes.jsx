@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -47,18 +47,76 @@ function Intro({ city }) {
   ]} faq={FAQ} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכת הדלקת נרות וברכות לשבת' }, { href: '/parasha', label: 'פרשת השבוע לילדים' }]} />
 }
 
+
+// ── Every locality + "my location" ─────────────────────────────
+// public/data/israel-localities.json: ~1,050 localities (CBS list, coordinates checked against
+// GeoNames; see docs/shabbat-times-sources.md). Loaded only on this page.
+const OFFSETS = [18, 20, 22, 30, 40]
+const clean = text => text.replace(/[׳״'"\s()-]/g, '')
+const km = (a, b) => Math.hypot((a.latitude - b.latitude) * 111, (a.longitude - b.longitude) * 94)
+let localitiesPromise = null
+const loadLocalities = () => (localitiesPromise ||= fetch('/data/israel-localities.json').then(r => r.ok ? r.json() : []).then(list => list.map(p => ({ name: p.n, latitude: p.a, longitude: p.o }))).catch(() => { localitiesPromise = null; return [] }))
+// A locality that is one of the 30 cities keeps that city's custom; any other place starts at 20 minutes.
+const placeFor = (spot, extra = {}) => {
+  const city = SHABBAT_CITIES.find(c => clean(c.name) === clean(spot.name)) || (extra.gps && SHABBAT_CITIES.find(c => km(c, spot) < 5))
+  return { ...spot, offset: city ? city.offset : 20, offsetLabel: city ? `כמנהג ${city.name}` : 'מנהג רווח', city, ...extra }
+}
+
+function PlacePanel({ place, today, onClose }) {
+  const [offset, setOffset] = useState(place.offset)
+  const spot = useMemo(() => ({ ...place, offset }), [place, offset])
+  const rows = useMemo(() => shabbatSeries(spot, today, 5), [spot, today]), current = rows[0]
+  return <section id="place" className="mt-6 rounded-3xl bg-[var(--postit)] p-5 sm:p-8 text-center" aria-label={`זמני השבת ב${place.name}`}>
+    <h2 className="text-2xl">{place.gps ? `📍 ${place.name}` : `כניסת שבת ${place.name}`}</h2>
+    <p className="mt-1">שבת {dateLabel(current.saturday)} · {current.reading.name}</p>
+    <div className="grid grid-cols-2 gap-3 mt-4"><div className="bg-[var(--card)] rounded-xl p-3"><h3>הדלקת נרות</h3><p className="text-4xl my-2"><Clock value={current.candles} /></p><p className="text-sm">שישי {dateLabel(current.friday)}</p></div><div className="bg-[var(--card)] rounded-xl p-3"><h3>צאת השבת</h3><p className="text-4xl my-2"><Clock value={current.end} /></p><p className="text-sm">שבת {dateLabel(current.saturday)} · 8.5°</p></div></div>
+    {current.candleNote && <p className="mt-3 font-bold">{current.candleNote}</p>}{current.endNote && <p className="mt-3 font-bold">{current.endNote}</p>}
+    <label className="block mt-4 font-bold">הדלקה לפני השקיעה{' '}
+      <select value={offset} onChange={e => setOffset(Number(e.target.value))} className="min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] px-2">
+        {OFFSETS.map(m => <option key={m} value={m}>{m} דקות{m === place.offset ? ` (${place.offsetLabel})` : ''}</option>)}
+      </select>
+    </label>
+    <p className="text-sm mt-2">{place.city ? <>לעמוד המלא: <Link className="underline font-bold" to={cityHref(place.city)}>זמני שבת {place.city.name}</Link> · </> : ''}בחרו את מספר הדקות לפי מנהג המקום.</p>
+    <div className="mt-4 text-start"><h3 className="text-xl text-center mb-2">ארבע השבתות הבאות</h3><ShabbatTable rows={rows.slice(1)} /></div>
+    <button type="button" className={`${button} mt-4`} onClick={onClose}>סגירה</button>
+  </section>
+}
+
 function Reading({ reading }) {
   return <p className="mt-2"><Link className="underline font-bold" to="/parasha">{reading.holiday ? 'קריאת השבת לחג' : 'פרשת השבוע'}: {reading.name}</Link> · {reading.hebrewDate}</p>
 }
 
 export function ShabbatTimesHub() {
   const today = useToday(), [query, setQuery] = useState('')
+  const [params, setParams] = useSearchParams()
+  const [localities, setLocalities] = useState([])
+  const [gpsPlace, setGpsPlace] = useState(null), [gpsState, setGpsState] = useState('')
+  useEffect(() => { let live = true; loadLocalities().then(list => { if (live) setLocalities(list) }); return () => { live = false } }, [])
+  const placeName = params.get('place')
+  const chosen = useMemo(() => { const spot = placeName && localities.find(p => p.name === placeName); return spot ? placeFor(spot) : null }, [placeName, localities])
+  const place = gpsPlace || chosen
+  const choose = name => { setGpsPlace(null); setParams({ place: name }); setTimeout(() => document.getElementById('place')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50) }
+  const closePlace = () => { setGpsPlace(null); setParams({}) }
+  const locate = () => {
+    if (!navigator.geolocation) { setGpsState('הדפדפן לא תומך באיתור מיקום. חפשו את היישוב לפי שם.'); return }
+    setGpsState('מאתרים מיקום…')
+    navigator.geolocation.getCurrentPosition(async pos => {
+      const spot = { latitude: pos.coords.latitude, longitude: pos.coords.longitude }
+      if (spot.latitude < 29.3 || spot.latitude > 33.5 || spot.longitude < 34.1 || spot.longitude > 36) { setGpsState('נראה שאתם מחוץ לישראל. הזמנים כאן מחושבים לשעון ישראל — חפשו יישוב בארץ לפי שם.'); return }
+      const list = await loadLocalities(), near = list.reduce((best, p) => !best || km(p, spot) < km(best, spot) ? p : best, null)
+      setParams({}); setGpsState('')
+      setGpsPlace(placeFor({ ...spot, name: near && km(near, spot) < 8 ? `המיקום שלכם (ליד ${near.name})` : 'המיקום שלכם' }, { gps: true }))
+      setTimeout(() => document.getElementById('place')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
+    }, () => setGpsState('לא קיבלנו אישור למיקום. אפשר לאשר בהגדרות הדפדפן, או לחפש את היישוב לפי שם.'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 })
+  }
   const reading = useMemo(() => readingForDate(today), [today])
   const all = useMemo(() => SHABBAT_CITIES.map(city => ({ city, times: shabbatForDate(city, today) })), [today])
   const normalized = query.replace(/[׳״'"\s-]/g, '')
   const rows = all.filter(({ city }) => city.name.replace(/[׳״'"\s-]/g, '').includes(normalized) || city.slug.includes(query.trim().toLowerCase()))
+  const cityNames = useMemo(() => new Set(SHABBAT_CITIES.map(c => clean(c.name))), [])
+  const more = normalized.length < 2 ? [] : localities.filter(p => clean(p.name).includes(clean(query)) && !cityNames.has(clean(p.name))).sort((a, b) => clean(a.name).indexOf(clean(query)) - clean(b.name).indexOf(clean(query)) || a.name.length - b.name.length).slice(0, 24)
   return <div className="max-w-5xl mx-auto px-4 py-8" dir="rtl">
-    <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת ב־30 ערים, לפי שעון ישראל ומנהג העיר. חיפוש עיר, פרשת השבוע, שמונה שבתות קדימה ולוח חודשי להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />
+    <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת לכל יישוב בישראל — ערים, מושבים, קיבוצים וכפרים — או לפי המיקום שלכם. פרשת השבוע ולוח חודשי להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חגים', href: '/holidays' }, { label: 'זמני שבת' }]} />
     <h1 className="text-center text-3xl sm:text-4xl mb-5">כניסת שבת וצאת השבת לפי עיר</h1>
     <section className="rounded-3xl bg-[var(--postit)] p-5 text-center" aria-label="השבת המוצגת">
@@ -69,10 +127,13 @@ export function ShabbatTimesHub() {
       {all[0].times.candleNote && <p className="font-bold mt-3">{all[0].times.candleNote}</p>}
     </section>
     <Notice />
-    <label className="block mt-6 font-bold">חיפוש עיר<input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="למשל ירושלים או תל אביב" className="block mt-2 w-full min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] p-3" /></label>
-    <p aria-live="polite" className="text-sm mt-2">{rows.length} ערים</p>
+    <div className="mt-6 text-center"><button type="button" className={`${button} bg-[var(--postit)]`} onClick={locate}>📍 זמני שבת לפי המיקום שלי</button>{gpsState && <p className="mt-2 text-sm" aria-live="polite">{gpsState}</p>}<p className="text-xs mt-1">המיקום משמש רק לחישוב בדפדפן ואינו נשלח לשום מקום.</p></div>
+    {place && <PlacePanel key={`${place.name}-${place.latitude}`} place={place} today={today} onClose={closePlace} />}
+    <label className="block mt-6 font-bold">חיפוש עיר, מושב, קיבוץ או כפר<input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="למשל ירושלים, נהלל או עין גדי" className="block mt-2 w-full min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] p-3" /></label>
+    <p aria-live="polite" className="text-sm mt-2">{rows.length} ערים{more.length ? ` · ${more.length}${more.length === 24 ? '+' : ''} יישובים נוספים` : ''}</p>
+    {more.length > 0 && <div className="mt-3"><h2 className="text-lg font-bold">יישובים נוספים</h2><div className="flex flex-wrap gap-2 mt-2">{more.map(p => <button key={p.name} type="button" className={button} onClick={() => choose(p.name)}>{p.name}</button>)}</div></div>}
     <table className="w-full mt-4 text-right text-sm sm:text-base"><caption className="sr-only">זמני השבת בתאריך {dateLabel(reading.date)}</caption><thead><tr className="border-b-2 border-[var(--border)]"><th scope="col" className="py-3">עיר ומנהג</th><th scope="col" className="px-2">הדלקת נרות</th><th scope="col">צאת שבת</th></tr></thead><tbody>{rows.map(({ city, times }) => <tr key={city.slug} className="border-b border-[var(--border)]"><th scope="row" className="py-3 font-normal"><Link className="underline font-bold inline-flex min-h-[44px] items-center" to={cityHref(city)}>{city.name}</Link><span className="block text-xs">{city.offset} דק׳ לפני השקיעה</span></th><td className="px-2"><Clock value={times.candles} /></td><td><Clock value={times.end} /></td></tr>)}</tbody></table>
-    {!rows.length && <p className="my-6">לא נמצאה עיר ברשימה. נסו לכתוב את השם בלי קיצורים.</p>}
+    {!rows.length && !more.length && <p className="my-6">לא מצאנו יישוב בשם הזה. נסו לכתוב בלי קיצורים, או השתמשו בכפתור "לפי המיקום שלי".</p>}
     <div className="mt-8"><Intro /></div>
   </div>
 }
