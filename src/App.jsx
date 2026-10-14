@@ -6,9 +6,6 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
-const Metronome = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Metronome })))
-const Tuner = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Tuner })))
-const NameLabels = lazy(() => import('./pages/printables/NameLabels').then(m => ({ default: m.NameLabels })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -81,6 +78,9 @@ const TicTacToeBoards = lazy(() => import('./pages/printables/TicTacToeBoards'))
 const NameColoring = lazy(() => import('./pages/printables/NameColoring'))
 const WinterPrintables = lazy(() => import('./pages/printables/WinterPrintables'))
 const MusicHub = lazy(() => import('./music/MusicPages').then(m => ({ default: m.MusicHub })))
+const Metronome = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Metronome })))
+const Tuner = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Tuner })))
+const NameLabels = lazy(() => import('./pages/printables/NameLabels').then(m => ({ default: m.NameLabels })))
 const PianoPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.PianoPage })))
 const SongsIndex = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongsIndex })))
 const SongPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongPage })))
@@ -493,6 +493,9 @@ export default function App() {
               <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
               <Route path="/printables/gift-box" element={<GiftBox />} />
               <Route path="/music" element={<MusicHub />} />
+              <Route path="/music/metronome" element={<Metronome />} />
+              <Route path="/music/tuner" element={<Tuner />} />
+              <Route path="/printables/name-labels" element={<NameLabels />} />
               <Route path="/music/piano" element={<PianoPage />} />
               <Route path="/music/songs" element={<SongsIndex />} />
               <Route path="/music/songs/:slug" element={<SongPage />} />
@@ -534,9 +537,6 @@ export default function App() {
               <Route path="/new" element={<WhatsNew />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
-              <Route path="/music/metronome" element={<Metronome />} />
-              <Route path="/music/tuner" element={<Tuner />} />
-              <Route path="/printables/name-labels" element={<NameLabels />} />
               <Route path="/tools/age-calculator" element={<AgeCalculator />} />
               <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />

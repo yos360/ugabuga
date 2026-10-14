@@ -27,9 +27,6 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
-  {"to": "/printables/name-labels", "title": "מדבקות שם", "emoji": "🛠️", "kind": "tool", "keys": "מדבקות שם מדבקות שם לגן לבית ספר תוויות להדפסה"},
-  {"to": "/music/tuner", "title": "טיונר לגיטרה", "emoji": "🛠️", "kind": "tool", "keys": "טיונר לגיטרה טיונר אונליין כיוון גיטרה"},
-  {"to": "/music/metronome", "title": "מטרונום", "emoji": "🛠️", "kind": "tool", "keys": "מטרונום קצב BPM טאפ טמפו"},
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
@@ -293,6 +290,9 @@ const PAGES = [
   { to: '/food/kids-recipes', title: 'מתכונים לילדים', emoji: '👩‍🍳', kind: 'tool', desc: 'מתכונים קלים שילדים מכינים.', keys: 'מתכונים מתכון ילדים בישול אפייה' },
   { to: '/food/kitchen-science', title: 'ניסויים מדעיים לילדים בבית', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי ניסויים מדעיים ניסויים לילדים בבית מדע הר געש סודה חומץ' },
   // music area (/music/*)
+  {"to": "/printables/name-labels", "title": "מדבקות שם", "emoji": "🛠️", "kind": "tool", "keys": "מדבקות שם מדבקות שם לגן לבית ספר תוויות להדפסה"},
+  {"to": "/music/tuner", "title": "טיונר לגיטרה", "emoji": "🛠️", "kind": "tool", "keys": "טיונר לגיטרה טיונר אונליין כיוון גיטרה"},
+  {"to": "/music/metronome", "title": "מטרונום", "emoji": "🛠️", "kind": "tool", "keys": "מטרונום קצב BPM טאפ טמפו"},
   { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
   { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },
   { to: '/music/songs', title: 'לומדים שירים בפסנתר', emoji: '🎶', kind: 'tool', desc: 'קלידים שנדלקים — לוחצים ומנגנים.', keys: 'שירים לפסנתר ללמוד לנגן שיר תווים לשירים' },
