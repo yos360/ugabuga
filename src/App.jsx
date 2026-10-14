@@ -273,6 +273,8 @@ const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const ParashaHub = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaHub })))
+const ParashaPage = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaPage })))
 const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
 const LogicHub = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicHub })))
 const LogicLevelPage = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicLevelPage })))
@@ -785,6 +787,8 @@ export default function App() {
               <Route path="/suppliers/category/:type" element={<SupplierCategory />} />
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
+              <Route path="/parasha" element={<ParashaHub />} />
+              <Route path="/parasha/:slug" element={<ParashaPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
