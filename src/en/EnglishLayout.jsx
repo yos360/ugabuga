@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import SEO from '../components/ui/SEO'
 import ScrollToTop from '../components/layout/ScrollToTop'
-import { ENGLISH_SECTIONS } from './englishRoutes'
+import { ENGLISH_SECTIONS } from './englishLinks'
 import './english.css'
 export default function EnglishLayout({ children }) {
   return <div className="english-site" lang="en" dir="ltr">

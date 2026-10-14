@@ -1,4 +1,4 @@
-import { englishCounterpart } from '../../en/englishRoutes'
+import { englishCounterpart } from '../../en/englishLinks'
 import { Link, useParams } from 'react-router-dom'
 import PrintableShell from '../../components/printables/PrintableShell'
 import NotFound from '../NotFound'

@@ -1,4 +1,4 @@
-import { englishCounterpart } from '../../en/englishRoutes'
+import { englishCounterpart } from '../../en/englishLinks'
 import { useEffect, useState } from 'react'
 import { daysUntil } from '../../utils/israelDate'
 import { Link } from 'react-router-dom'

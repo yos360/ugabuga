@@ -1,4 +1,4 @@
-import { englishCounterpart } from '../../en/englishRoutes'
+import { englishCounterpart } from '../../en/englishLinks'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'

@@ -1,4 +1,4 @@
-import { englishCounterpart } from '../../en/englishRoutes'
+import { englishCounterpart } from '../../en/englishLinks'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'

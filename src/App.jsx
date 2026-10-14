@@ -5,7 +5,7 @@ import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-route
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
-import Home from './pages/Home'
+const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 

@@ -4,7 +4,7 @@ import { Sheet } from '../components/printables/PrintableShell'
 import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
-import { ENGLISH_SECTIONS } from './englishRoutes'
+import { ENGLISH_SECTIONS } from './englishLinks'
 const faq = [
   { q: 'Who is the English edition for?', a: 'Parents, teachers and children exploring Hebrew and Jewish family traditions together. You do not need to read Hebrew to use the English instructions.' },
   { q: 'Do we need an account?', a: 'No. Activities in this edition are free to use, with no registration.' },

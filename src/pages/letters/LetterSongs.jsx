@@ -1,5 +1,5 @@
 import { ALPHABET_NOTES } from '../../data/alphabetMelody'
-import { englishCounterpart } from '../../en/englishRoutes'
+import { englishCounterpart } from '../../en/englishLinks'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
