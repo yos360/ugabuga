@@ -2,6 +2,7 @@
 // unfiltered list (they sit under their own hub card and topic chip), kept in its own
 // tiny module so HubPage (eager-ish) doesn't drag the whole printables page in.
 export const categories = [
+  { slug: 'name-labels', href: '/printables/name-labels', emoji: '🏷️', title: 'מדבקות שם', count: 'חדש', desc: 'שם, כיתה או טלפון על גיליון מדבקות A4 או נייר לגזירה', special: true },
   { slug: 'allergy-signs', href: '/printables/allergy-signs', emoji: '🥜', title: 'שלטי אלרגיה ומדבקות', count: 'חדש', desc: 'אצלנו בגן לא אוכלים בוטנים — שלט לכל אלרגיה ומדבקות עם שם', special: true },
   { slug: 'lunchbox-notes', href: '/printables/lunchbox-notes', emoji: '💌', title: 'פתקים לקופסת האוכל', count: 'חדש', desc: '12 פתקים בדף: מילים חמות, בדיחות ומשימות', special: true },
   { slug: 'home-charts', href: '/printables/home-charts', emoji: '🏠', title: 'לוחות לבית', count: 'חדש', desc: 'טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות — עם שם הילד', special: true },
@@ -62,3 +63,4 @@ export const categories = [
   { slug: 'mixed-activities', emoji: '🌟', title: 'דף פעילות משולב', count: 'חדש', desc: 'כמה משימות קצרות בדף אחד', generated: true },
   { slug: 'missing-picture', emoji: '🖍️', title: 'מה חסר בתמונה?', count: 'חדש', desc: 'משלימים ציור לפי רצף ורמזים', generated: true },
 ]
+

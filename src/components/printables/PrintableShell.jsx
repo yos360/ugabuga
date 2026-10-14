@@ -45,9 +45,9 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
   )
 }
 
-const sheets = list => list.map(p => <article className="buga-a4" key={p.key}><div className="print-art">{p.svg}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)
+const sheets = (list, sheetClassName = '') => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '' }) {
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
   const many = pages.length > 1
@@ -87,8 +87,8 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
       </div>
 
       {printing && (
-        <PrintPreview title={printTitle || h1} onClose={() => setPrinting(false)} onRefresh={onRefresh} variant={variant && (i => sheets(variant(i)))} copies={copies}>
-          {sheets(pages)}
+        <PrintPreview title={printTitle || h1} onClose={() => setPrinting(false)} onRefresh={onRefresh} variant={variant && (i => sheets(variant(i), sheetClassName))} copies={copies}>
+          {sheets(pages, sheetClassName)}
         </PrintPreview>
       )}
 

@@ -255,7 +255,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
