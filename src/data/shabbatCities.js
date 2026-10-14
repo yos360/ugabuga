@@ -1,4 +1,6 @@
 // Coordinates: GeoNames, CC BY 4.0. Rules and provenance: docs/shabbat-times-sources.md.
+import { SHABBAT_TOWNS } from './shabbatTowns.js'
+
 export const SHABBAT_CITIES = [
   {
     "slug": "jerusalem",
@@ -302,4 +304,6 @@ export const SHABBAT_CITIES = [
   }
 ]
 
-export const shabbatCity = slug => SHABBAT_CITIES.find(city => city.slug === slug)
+// The 30 documented cities first, then every other city and local council.
+export const SHABBAT_PLACES = [...SHABBAT_CITIES, ...SHABBAT_TOWNS]
+export const shabbatCity = slug => SHABBAT_PLACES.find(city => city.slug === slug)

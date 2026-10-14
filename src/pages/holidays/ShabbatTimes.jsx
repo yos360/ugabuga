@@ -5,7 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
-import { SHABBAT_CITIES, shabbatCity } from '../../data/shabbatCities'
+import { SHABBAT_PLACES, shabbatCity } from '../../data/shabbatCities'
 import { israelToday, readingForDate } from '../../utils/parashaCalendar'
 import { addDays, formatTime, holidayCandles, monthlySheet, SHABBAT_NOTICE, shabbatForDate, shabbatSeries } from '../../utils/shabbatTimes'
 
@@ -58,7 +58,7 @@ let localitiesPromise = null
 const loadLocalities = () => (localitiesPromise ||= fetch('/data/israel-localities.json').then(r => r.ok ? r.json() : []).then(list => list.map(p => ({ name: p.n, latitude: p.a, longitude: p.o }))).catch(() => { localitiesPromise = null; return [] }))
 // A locality that is one of the 30 cities keeps that city's custom; any other place starts at 20 minutes.
 const placeFor = (spot, extra = {}) => {
-  const city = SHABBAT_CITIES.find(c => clean(c.name) === clean(spot.name)) || (extra.gps && SHABBAT_CITIES.find(c => km(c, spot) < 5))
+  const city = SHABBAT_PLACES.find(c => clean(c.name.replace('קריית', 'קרית')) === clean(spot.name.replace('קריית', 'קרית'))) || (extra.gps && SHABBAT_PLACES.find(c => km(c, spot) < 3))
   return { ...spot, offset: city ? city.offset : 20, offsetLabel: city ? `כמנהג ${city.name}` : 'מנהג רווח', city, ...extra }
 }
 
@@ -110,13 +110,13 @@ export function ShabbatTimesHub() {
     }, () => setGpsState('לא קיבלנו אישור למיקום. אפשר לאשר בהגדרות הדפדפן, או לחפש את היישוב לפי שם.'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 600000 })
   }
   const reading = useMemo(() => readingForDate(today), [today])
-  const all = useMemo(() => SHABBAT_CITIES.map(city => ({ city, times: shabbatForDate(city, today) })), [today])
+  const all = useMemo(() => SHABBAT_PLACES.map(city => ({ city, times: shabbatForDate(city, today) })), [today])
   const normalized = query.replace(/[׳״'"\s-]/g, '')
   const rows = all.filter(({ city }) => city.name.replace(/[׳״'"\s-]/g, '').includes(normalized) || city.slug.includes(query.trim().toLowerCase()))
-  const cityNames = useMemo(() => new Set(SHABBAT_CITIES.map(c => clean(c.name))), [])
-  const more = normalized.length < 2 ? [] : localities.filter(p => clean(p.name).includes(clean(query)) && !cityNames.has(clean(p.name))).sort((a, b) => clean(a.name).indexOf(clean(query)) - clean(b.name).indexOf(clean(query)) || a.name.length - b.name.length).slice(0, 24)
+  const cityNames = useMemo(() => new Set(SHABBAT_PLACES.map(c => clean(c.name.replace('קריית', 'קרית')))), [])
+  const more = normalized.length < 2 ? [] : localities.filter(p => clean(p.name).includes(clean(query)) && !cityNames.has(clean(p.name.replace('קריית', 'קרית')))).sort((a, b) => clean(a.name).indexOf(clean(query)) - clean(b.name).indexOf(clean(query)) || a.name.length - b.name.length).slice(0, 24)
   return <div className="max-w-5xl mx-auto px-4 py-8" dir="rtl">
-    <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת לכל יישוב בישראל — ערים, מושבים, קיבוצים וכפרים — או לפי המיקום שלכם. פרשת השבוע ולוח חודשי להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />
+    <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת ב־170 ערים ולכל יישוב בישראל — מושבים, קיבוצים וכפרים — או לפי המיקום שלכם. לוח חודשי להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חגים', href: '/holidays' }, { label: 'זמני שבת' }]} />
     <h1 className="text-center text-3xl sm:text-4xl mb-5">כניסת שבת וצאת השבת לפי עיר</h1>
     <section className="rounded-3xl bg-[var(--postit)] p-5 text-center" aria-label="השבת המוצגת">
@@ -130,7 +130,7 @@ export function ShabbatTimesHub() {
     <div className="mt-6 text-center"><button type="button" className={`${button} bg-[var(--postit)]`} onClick={locate}>📍 זמני שבת לפי המיקום שלי</button>{gpsState && <p className="mt-2 text-sm" aria-live="polite">{gpsState}</p>}<p className="text-xs mt-1">המיקום משמש רק לחישוב בדפדפן ואינו נשלח לשום מקום.</p></div>
     {place && <PlacePanel key={`${place.name}-${place.latitude}`} place={place} today={today} onClose={closePlace} />}
     <label className="block mt-6 font-bold">חיפוש עיר, מושב, קיבוץ או כפר<input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="למשל ירושלים, נהלל או עין גדי" className="block mt-2 w-full min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] p-3" /></label>
-    <p aria-live="polite" className="text-sm mt-2">{rows.length} ערים{more.length ? ` · ${more.length}${more.length === 24 ? '+' : ''} יישובים נוספים` : ''}</p>
+    <p aria-live="polite" className="text-sm mt-2">{rows.length} ערים ומועצות{more.length ? ` · ${more.length}${more.length === 24 ? '+' : ''} יישובים נוספים` : ''}</p>
     {more.length > 0 && <div className="mt-3"><h2 className="text-lg font-bold">יישובים נוספים</h2><div className="flex flex-wrap gap-2 mt-2">{more.map(p => <button key={p.name} type="button" className={button} onClick={() => choose(p.name)}>{p.name}</button>)}</div></div>}
     <table className="w-full mt-4 text-right text-sm sm:text-base"><caption className="sr-only">זמני השבת בתאריך {dateLabel(reading.date)}</caption><thead><tr className="border-b-2 border-[var(--border)]"><th scope="col" className="py-3">עיר ומנהג</th><th scope="col" className="px-2">הדלקת נרות</th><th scope="col">צאת שבת</th></tr></thead><tbody>{rows.map(({ city, times }) => <tr key={city.slug} className="border-b border-[var(--border)]"><th scope="row" className="py-3 font-normal"><Link className="underline font-bold inline-flex min-h-[44px] items-center" to={cityHref(city)}>{city.name}</Link><span className="block text-xs">{city.offset} דק׳ לפני השקיעה</span></th><td className="px-2"><Clock value={times.candles} /></td><td><Clock value={times.end} /></td></tr>)}</tbody></table>
     {!rows.length && !more.length && <p className="my-6">לא מצאנו יישוב בשם הזה. נסו לכתוב בלי קיצורים, או השתמשו בכפתור "לפי המיקום שלי".</p>}
@@ -144,6 +144,19 @@ function ShabbatTable({ rows }) {
 
 function HolidayList({ rows }) {
   return rows.length ? <ul className="space-y-3 mt-3">{rows.map(h => <li key={h.date} className="border-b border-[var(--border)] pb-3"><b>{dateLabel(h.date)} · הדלקה ל{h.holiday}</b><p><Clock value={h.time} /> — {h.instruction}</p></li>)}</ul> : <p className="mt-3">אין הדלקת נרות לחג בטווח הזה.</p>
+}
+
+// Nearby cities (own pages) and smaller localities around this one (open on the hub).
+function Nearby({ city }) {
+  const [localities, setLocalities] = useState([])
+  useEffect(() => { let live = true; loadLocalities().then(list => { if (live) setLocalities(list) }); return () => { live = false } }, [])
+  const cities = useMemo(() => SHABBAT_PLACES.filter(c => c.slug !== city.slug).map(c => [km(c, city), c]).sort((a, b) => a[0] - b[0]).slice(0, 6), [city])
+  const own = useMemo(() => new Set(SHABBAT_PLACES.map(c => clean(c.name.replace('קריית', 'קרית')))), [])
+  const around = useMemo(() => localities.filter(p => !own.has(clean(p.name.replace('קריית', 'קרית')))).map(p => [km(p, city), p]).filter(([d]) => d < 12).sort((a, b) => a[0] - b[0]).slice(0, 12), [localities, city, own])
+  return <section className="mt-8"><h2 className="text-2xl">זמני שבת בסביבת {city.name}</h2>
+    <p className="mt-2">ערים קרובות:</p><div className="flex flex-wrap gap-2 mt-2">{cities.map(([d, c]) => <Link key={c.slug} className={button} to={cityHref(c)}>{c.name} <span className="text-xs font-normal ms-1">{Math.round(d)} ק״מ</span></Link>)}</div>
+    {around.length > 0 && <><p className="mt-4">יישובים סמוכים — מושבים, קיבוצים וכפרים:</p><div className="flex flex-wrap gap-2 mt-2">{around.map(([, p]) => <Link key={p.name} className={button} to={`/shabbat-times?place=${encodeURIComponent(p.name)}`}>{p.name}</Link>)}</div></>}
+  </section>
 }
 
 function CityPage({ city }) {
@@ -169,6 +182,7 @@ function CityPage({ city }) {
     <section className="mt-8"><h2 className="text-2xl">הדלקת נרות לחגים בטווח הקרוב</h2><p className="text-sm mt-2">מ־{dateLabel(today)} עד {dateLabel(rows.at(-1).saturday)} · לפי לוח ארץ ישראל</p><HolidayList rows={holidays} /></section>
     <section className="mt-8 rounded-2xl border-2 border-[var(--border)] p-4"><h2 className="text-2xl">לוח חודשי למקרר</h2><p className="my-3">בחרו חודש לועזי לקבלת זמני כל השבתות והדלקת נרות לחגים שבו.</p><div className="flex flex-wrap items-end gap-3"><label className="font-bold">חודש להדפסה<input type="month" min="2000-01" max="2099-12" value={month} onChange={e => setSelectedMonth(e.target.value)} className="block mt-2 min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] p-2" /></label><button disabled={!sheet} className={`${button} disabled:opacity-50`} onClick={() => setPrinting(true)}>תצוגה והדפסת הלוח</button></div>{!sheet && <p className="mt-3">בחרו חודש תקין.</p>}{sheet && <p className="text-sm mt-3">{monthLabel}: {sheet.shabbatot.length} שבתות ו־{sheet.holidays.length} מועדי הדלקה לחגים.</p>}</section>
     {printing && sheet && <PrintPreview title={`זמני שבת ${city.name} — ${monthLabel}`} onClose={() => setPrinting(false)}><article className="buga-flow" dir="rtl"><h2 className="text-2xl font-bold">זמני שבת ב{city.name} · {monthLabel}</h2><p>שעון ישראל · {city.offset} דקות לפני השקיעה · צאת שבת 8.5°</p><ShabbatTable rows={sheet.shabbatot} />{sheet.holidays.length > 0 && <><h3 className="text-xl font-bold mt-4">הדלקת נרות לחגים</h3><HolidayList rows={sheet.holidays} /></>}<p className="text-sm mt-4">שקיעה בגובה פני הים. הדלקה מעוגלת מטה, צאת שבת מעלה. תאריך ההדלקה מופיע לצד כל שבת.</p><p className="text-sm">{SHABBAT_NOTICE}</p></article></PrintPreview>}
+    <Nearby city={city} />
     <div className="mt-8"><Intro city={city} /></div><Link className={`${button} mt-5`} to="/shabbat-times">לזמני שבת בכל הערים</Link>
   </div>
 }

@@ -94,3 +94,18 @@ test('every locality has a Hebrew name and a point inside Israel; the 30 cities 
   for (const name of ['נהלל', 'עין גדי', 'יטבתה', 'מטולה', 'קצרין', 'נחל עוז']) assert.ok(list.some(p => p.n === name), name)
   const jerusalem = list.find(p => p.n === 'ירושלים'); assert.ok(Math.abs(jerusalem.a - 31.77) < 0.05 && Math.abs(jerusalem.o - 35.22) < 0.05)
 })
+
+test('every city and local council has a page: unique slugs, points in Israel, in the sitemap', async () => {
+  const { SHABBAT_PLACES } = await import('../src/data/shabbatCities.js')
+  const sitemap = readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8')
+  assert.ok(SHABBAT_PLACES.length >= 170)
+  assert.equal(new Set(SHABBAT_PLACES.map(c => c.slug)).size, SHABBAT_PLACES.length)
+  assert.equal(new Set(SHABBAT_PLACES.map(c => c.name)).size, SHABBAT_PLACES.length)
+  for (const c of SHABBAT_PLACES) {
+    assert.match(c.slug, /^[a-z0-9-]+$/, c.name)
+    assert.ok(c.latitude > 29.4 && c.latitude < 33.4 && c.longitude > 34.2 && c.longitude < 35.95, c.name)
+    assert.ok(sitemap.includes(`<loc>https://ugabuga.co.il/shabbat-times/${c.slug}</loc>`), c.slug)
+    assert.ok(shabbatForDate(c, '2026-10-14').candles < shabbatForDate(c, '2026-10-14').end, c.name)
+  }
+  for (const name of ['נתיבות', 'אופקים', 'שדרות', 'יבנה', 'קצרין', 'מצפה רמון']) assert.ok(SHABBAT_PLACES.some(c => c.name === name), name)
+})
