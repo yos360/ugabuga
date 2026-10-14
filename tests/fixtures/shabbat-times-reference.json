@@ -1,0 +1,512 @@
+[
+  {
+    "city": "tel-aviv",
+    "friday": "2024-10-25",
+    "saturday": "2024-10-26",
+    "candleLighting": "17:36",
+    "shabbatEnd": "18:34",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "tel-aviv",
+    "friday": "2024-11-01",
+    "saturday": "2024-11-02",
+    "candleLighting": "16:29",
+    "shabbatEnd": "17:28",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "tel-aviv",
+    "friday": "2024-12-20",
+    "saturday": "2024-12-21",
+    "candleLighting": "16:19",
+    "shabbatEnd": "17:21",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "tel-aviv",
+    "friday": "2025-03-21",
+    "saturday": "2025-03-22",
+    "candleLighting": "17:32",
+    "shabbatEnd": "18:31",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "tel-aviv",
+    "friday": "2025-03-28",
+    "saturday": "2025-03-29",
+    "candleLighting": "18:36",
+    "shabbatEnd": "19:36",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "tel-aviv",
+    "friday": "2025-06-20",
+    "saturday": "2025-06-21",
+    "candleLighting": "19:28",
+    "shabbatEnd": "20:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "9e9e8a33401acef548865b0ba617b0c54a59b329ec76fa774c638ce512cdaa47"
+  },
+  {
+    "city": "netanya",
+    "friday": "2024-10-25",
+    "saturday": "2024-10-26",
+    "candleLighting": "17:35",
+    "shabbatEnd": "18:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "netanya",
+    "friday": "2024-11-01",
+    "saturday": "2024-11-02",
+    "candleLighting": "16:28",
+    "shabbatEnd": "17:27",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "netanya",
+    "friday": "2024-12-20",
+    "saturday": "2024-12-21",
+    "candleLighting": "16:17",
+    "shabbatEnd": "17:20",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "netanya",
+    "friday": "2025-03-21",
+    "saturday": "2025-03-22",
+    "candleLighting": "17:31",
+    "shabbatEnd": "18:30",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "netanya",
+    "friday": "2025-03-28",
+    "saturday": "2025-03-29",
+    "candleLighting": "18:36",
+    "shabbatEnd": "19:36",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "netanya",
+    "friday": "2025-06-20",
+    "saturday": "2025-06-21",
+    "candleLighting": "19:28",
+    "shabbatEnd": "20:34",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%A0%D7%AA%D7%A0%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "0727e89a0e7c4469da4f0692f9ae4de10df3f2beac0240fe57b84828135d8bf5"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2024-10-25",
+    "saturday": "2024-10-26",
+    "candleLighting": "17:36",
+    "shabbatEnd": "18:34",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2024-11-01",
+    "saturday": "2024-11-02",
+    "candleLighting": "16:30",
+    "shabbatEnd": "17:28",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2024-12-20",
+    "saturday": "2024-12-21",
+    "candleLighting": "16:20",
+    "shabbatEnd": "17:22",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2025-03-21",
+    "saturday": "2025-03-22",
+    "candleLighting": "17:32",
+    "shabbatEnd": "18:31",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2025-03-28",
+    "saturday": "2025-03-29",
+    "candleLighting": "18:37",
+    "shabbatEnd": "19:36",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "ashdod",
+    "friday": "2025-06-20",
+    "saturday": "2025-06-21",
+    "candleLighting": "19:28",
+    "shabbatEnd": "20:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%90%D7%A9%D7%93%D7%95%D7%93&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "39551685c23e2e84a4b3d5a0631e509feb628b373bdd5281bc89ff0eba07dd85"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2024-10-25",
+    "saturday": "2024-10-26",
+    "candleLighting": "17:35",
+    "shabbatEnd": "18:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2024-11-01",
+    "saturday": "2024-11-02",
+    "candleLighting": "16:29",
+    "shabbatEnd": "17:27",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2024-12-20",
+    "saturday": "2024-12-21",
+    "candleLighting": "16:18",
+    "shabbatEnd": "17:21",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2025-03-21",
+    "saturday": "2025-03-22",
+    "candleLighting": "17:31",
+    "shabbatEnd": "18:30",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2025-03-28",
+    "saturday": "2025-03-29",
+    "candleLighting": "18:36",
+    "shabbatEnd": "19:35",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "herzliya",
+    "friday": "2025-06-20",
+    "saturday": "2025-06-21",
+    "candleLighting": "19:28",
+    "shabbatEnd": "20:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%94%D7%A8%D7%A6%D7%9C%D7%99%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 22,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "472bbe5b772356b26029b5fff8866fc2b1f1e653fa6949184bd54b20184e0910"
+  },
+  {
+    "city": "hadera",
+    "friday": "2024-10-25",
+    "saturday": "2024-10-26",
+    "candleLighting": "17:26",
+    "shabbatEnd": "18:33",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  },
+  {
+    "city": "hadera",
+    "friday": "2024-11-01",
+    "saturday": "2024-11-02",
+    "candleLighting": "16:20",
+    "shabbatEnd": "17:27",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  },
+  {
+    "city": "hadera",
+    "friday": "2024-12-20",
+    "saturday": "2024-12-21",
+    "candleLighting": "16:09",
+    "shabbatEnd": "17:20",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  },
+  {
+    "city": "hadera",
+    "friday": "2025-03-21",
+    "saturday": "2025-03-22",
+    "candleLighting": "17:23",
+    "shabbatEnd": "18:30",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  },
+  {
+    "city": "hadera",
+    "friday": "2025-03-28",
+    "saturday": "2025-03-29",
+    "candleLighting": "18:28",
+    "shabbatEnd": "19:35",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  },
+  {
+    "city": "hadera",
+    "friday": "2025-06-20",
+    "saturday": "2025-06-21",
+    "candleLighting": "19:21",
+    "shabbatEnd": "20:34",
+    "sourceUrl": "https://calendar.2net.co.il/parasha.aspx?city=%D7%97%D7%93%D7%A8%D7%94&hyear=5785",
+    "ruleSourceUrl": "https://calendar.2net.co.il/About.aspx",
+    "sourceRule": {
+      "method": "חזון שמים",
+      "candleLightingMinutesBeforeSunset": 30,
+      "sunset": "השקיעה הנראית",
+      "havdalahDegrees": 8.5
+    },
+    "retrieved": "2026-10-14",
+    "sourceSha256": "68d81186e7e06a7f23485ba761c237eda4368e40f655107cb582b7e34cdae100"
+  }
+]

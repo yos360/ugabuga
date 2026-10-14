@@ -5,6 +5,7 @@
 // guides, game categories). Games themselves come from the games database at search time.
 import { MENU_GROUPS } from './siteMenu'
 import { PARASHOT, parashaHref } from './parashot'
+import { SHABBAT_CITIES } from './shabbatCities'
 import { BEDTIME_STORY_COUNT } from './bedtimeStoryCount.js'
 import { CATEGORIES, CLASS_PAGES } from './gameCategories'
 import { IDEA_ARTICLES, PARTY_KITS } from './ideaArticlesExpanded'
@@ -28,6 +29,8 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: '/shabbat-times', title: 'כניסת שבת וצאת השבת לפי עיר', emoji: '🕯️', kind: 'page', keys: 'כניסת שבת היום יציאת שבת היום צאת השבת הדלקת נרות זמני שבת שקיעה לוח שבת' },
+  ...SHABBAT_CITIES.map(city => ({ to: `/shabbat-times/${city.slug}`, title: `כניסת שבת ${city.name} וצאת השבת`, emoji: '🕯️', kind: 'page', keys: `${city.name} זמני שבת יציאת שבת הדלקת נרות לוח חודשי` })),
   { to: '/parasha', title: 'פרשת השבוע לילדים — מה פרשת השבוע השבת?', emoji: '📖', kind: 'page', keys: 'פרשת השבוע פרשת השבוע היום מה פרשת השבוע השבת פרשת השבוע לפי תאריך פרשת השבוע לילדים תורה שבת שאלות תקציר' },
   ...PARASHOT.map(p => ({ to: parashaHref(p), title: `פרשת ${p.name} לילדים`, emoji: '📖', kind: 'page', desc: `תקציר בספר ${p.book}, שאלות ותשובות ודף להדפסה`, keys: `תורה פרשת השבוע ${p.name} ${p.book}` })),
   { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },

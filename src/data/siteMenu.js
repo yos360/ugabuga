@@ -277,7 +277,7 @@ export const MENU_DOMAINS = [
   {
     id: 'holidays', label: SECTION.holidays, icon: '🕎', to: '/holidays',
     landingLabel: 'כל החגים',
-    prefixes: ['/holidays', '/parasha', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until'],
+    prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until'],
     groups: [
       {
         title: 'חגי ישראל', icon: '📅', to: '/holidays',
@@ -298,6 +298,7 @@ export const MENU_DOMAINS = [
         title: 'שבת, ברכות ולוח שנה', icon: '🕯️',
         items: [
           { to: '/parasha', label: 'פרשת השבוע לילדים', icon: '📖' },
+          { to: '/shabbat-times', label: 'כניסת שבת וצאת השבת', icon: '🕯️' },
           { to: '/holidays/blessings', label: 'ברכות וקריאות לחגים', icon: '🙏' },
           { to: '/games/shabbat', label: 'משחקים לשבת', icon: '🕯️' },
           { to: '/school-holidays', label: 'לוח חופשות 2026–2027', icon: '📅' },

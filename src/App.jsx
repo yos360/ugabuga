@@ -274,6 +274,8 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ParashaHub = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaHub })))
+const ShabbatTimesHub = lazy(() => import('./pages/holidays/ShabbatTimes').then(m => ({ default: m.ShabbatTimesHub })))
+const ShabbatCityPage = lazy(() => import('./pages/holidays/ShabbatTimes').then(m => ({ default: m.ShabbatCityPage })))
 const ParashaPage = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaPage })))
 const MazesPage = lazy(() => import('./pages/printables/MazesPage'))
 const LogicHub = lazy(() => import('./pages/logicPuzzles/LogicPuzzlePages').then(m => ({ default: m.LogicHub })))
@@ -781,6 +783,8 @@ export default function App() {
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/parasha" element={<ParashaHub />} />
+              <Route path="/shabbat-times" element={<ShabbatTimesHub />} />
+              <Route path="/shabbat-times/:city" element={<ShabbatCityPage />} />
               <Route path="/parasha/:slug" element={<ParashaPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

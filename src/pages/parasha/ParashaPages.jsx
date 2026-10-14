@@ -55,7 +55,7 @@ export function ParashaHub() {
       'התקצירים מתבססים על פסוקי התורה, ללא הוספת מדרשים כאילו היו חלק מהסיפור המקראי. ליד כל פרשה נמצא קישור לטקסט המלא בספריא. אפשר להדפיס את התקציר ואת השאלות ולקחת לשולחן שבת.',
       'הקריאה בראש העמוד מחושבת במכשיר לפי לוח ארץ ישראל, ומתעדכנת בפתיחת הדף וגם אם הוא נשאר פתוח. בחגים ובשבתות של שתי פרשות מוצג המצב המתאים, בלי לנחש לפי מספר השבוע בשנה.',
     ]} faq={FAQ} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכות לשבת ולהדלקת נרות' }, { href: '/games/shabbat', label: 'משחקים לשבת' }]} />
-      <p className="mt-4"><a className="underline font-bold" href="https://calendar.2net.co.il/parasha.aspx" target="_blank" rel="noopener noreferrer">זמני שבת לפי עיר בלוח טו־נט ↗</a></p>
+      <p className="mt-4"><Link className="underline font-bold" to="/shabbat-times">כניסת שבת וצאת השבת לפי עיר ←</Link></p>
     </div>
   </div>
 }
