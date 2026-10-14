@@ -1,3 +1,5 @@
+import { ALPHABET_NOTES } from '../../data/alphabetMelody'
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -17,9 +19,9 @@ import { HEBREW } from '../../data/letterLearning'
 const NAME = Object.fromEntries(HEBREW.map(x => [x.l, x.name]))
 const heLetters = (ls, notes) => [...ls].map((l, i) => [l, notes[i], i === 6 ? 2 : 1, NAME[l]])
 const HE_LINES = [
-  heLetters('אבגדהוז', ['C4', 'C4', 'G4', 'G4', 'A4', 'A4', 'G4']),
-  heLetters('חטיכלמנ', ['F4', 'F4', 'E4', 'E4', 'D4', 'D4', 'C4']),
-  heLetters('סעפצקרש', ['G4', 'G4', 'F4', 'F4', 'E4', 'E4', 'D4']),
+  heLetters('אבגדהוז', ALPHABET_NOTES.slice(0, 7)),
+  heLetters('חטיכלמנ', ALPHABET_NOTES.slice(7, 14)),
+  heLetters('סעפצקרש', ALPHABET_NOTES.slice(14, 21)),
   [['ת!', 'G4', 1, NAME['ת']], ['וְ', 'G4', 1], ['~עַכְ', 'F4', 1], ['~שָׁו', 'F4', 1], ['כֻּ', 'E4', 1], ['~לָּ', 'E4', 1], ['~נוּ', 'D4', 2]],
   [['שָׁ', 'C4', 1], ['~רִים', 'C4', 1], ['אֶת', 'G4', 1], ['הָ', 'G4', 1], ['~אָ', 'A4', 1], ['~לֶף', 'A4', 1], ['בֵּית', 'G4', 2]],
   [['וְ', 'F4', 1], ['~שׁוּב', 'F4', 1], ['מֵ', 'E4', 1], ['~הַ', 'E4', 1], ['~הַתְ', 'D4', 1], ['~חָ', 'D4', 1], ['~לָה', 'C4', 2]],
@@ -102,7 +104,7 @@ export function HebrewLetterSong() {
     { q: 'זה מתאים לגן ולכיתה א׳?', a: 'כן. בגן שרים ומצביעים, בהכנה לכיתה א׳ ובכיתה א׳ אפשר לעצור באמצע ולשאול "איזו אות באה עכשיו?", או לבקש מילה שמתחילה באות שעליה עצרנו.' },
   ]
   return <div className={page} dir="rtl">
-    <SEO title="שיר האותיות — שיר האלף בית לילדים לשיר יחד (מנגינה ומילים)" description="שיר האותיות בעברית לילדים: א׳ עד ת׳ על מנגינה שכולם מכירים. לוחצים ▶️ — המנגינה מתנגנת, כל אות נדלקת ונשמעת בתורה. לגן, להכנה לכיתה א׳ ולכיתה א׳, עם דף מילים להדפסה." path="/letters/song" structuredData={faqSchema(faq)} />
+    <SEO title="שיר האותיות — שיר האלף בית לילדים לשיר יחד (מנגינה ומילים)" description="שיר האותיות בעברית לילדים: א׳ עד ת׳ על מנגינה שכולם מכירים. לוחצים ▶️ — המנגינה מתנגנת, כל אות נדלקת ונשמעת בתורה. לגן, להכנה לכיתה א׳ ולכיתה א׳, עם דף מילים להדפסה." counterpartPath={englishCounterpart('/letters/song')} path="/letters/song" structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לימוד אותיות', href: '/letters' }, { label: 'שיר האותיות' }]} />
     <header className="mb-6 text-center">
       <h1 className="text-4xl sm:text-5xl mb-2">🎵 שיר האותיות — שרים את האלף בית</h1>

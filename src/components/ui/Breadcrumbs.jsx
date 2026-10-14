@@ -9,7 +9,7 @@ const SITE = 'https://ugabuga.co.il'
 // (e.g. the bingo maker's "כלים" step used to be plain text, leaving phones with no way back).
 const SECTION_HREF = { 'כלים': '/tools', 'משחקים': '/games' }
 
-export default function Breadcrumbs({ items: rawItems, back }) {
+export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
   const items = rawItems.map((item, i) => (!item.href && i < rawItems.length - 1 && SECTION_HREF[item.label] ? { ...item, href: SECTION_HREF[item.label] } : item))
   // BreadcrumbList structured data so Google can show the page's place in the
   // site (ראשי › משחקים › שם המשחק) instead of a bare URL in search results.
@@ -37,7 +37,7 @@ export default function Breadcrumbs({ items: rawItems, back }) {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
-      <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label="פירורי לחם">
+      <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label={lang === 'en' ? 'Breadcrumbs' : 'פירורי לחם'}>
         <ol className="flex flex-wrap gap-1 items-center">
           {shown.map((item, i) => (
             <li key={i} className="flex items-center gap-1">
@@ -51,10 +51,10 @@ export default function Breadcrumbs({ items: rawItems, back }) {
           ))}
         </ol>
         {/* Popular printables show how often they were printed (from the site's own stats). */}
-        <PrintCount className="mt-2" />
+        {lang !== 'en' && <PrintCount className="mt-2" />}
         {back?.href && (
           <Link to={back.href} onClick={stepBack(back.href)} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
-            → {back.label || 'חזרה'}
+            → {back.label || (lang === 'en' ? 'Back' : 'חזרה')}
           </Link>
         )}
       </nav>

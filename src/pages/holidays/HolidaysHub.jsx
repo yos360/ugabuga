@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody from '../../components/ui/SeoBody'
@@ -21,7 +22,7 @@ export default function HolidaysHub() {
   const names = HOLIDAYS_BY_DATE.map(h => h.name).join(', ')
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-      <SEO title="חגים עם ילדים — משחקים, דפי צביעה ופעילויות לכל חג" description={`פעילויות לחגים עם ילדים: ${names} — חידונים, דפי צביעה ודפי עבודה להדפסה. בחינם.`} path="/holidays" />
+      <SEO counterpartPath={englishCounterpart('/holidays')} title="חגים עם ילדים — משחקים, דפי צביעה ופעילויות לכל חג" description={`פעילויות לחגים עם ילדים: ${names} — חידונים, דפי צביעה ודפי עבודה להדפסה. בחינם.`} path="/holidays" />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'חגים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2">🎉 חגים עם ילדים</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">משחקים, חידונים, דפים להדפסה ורעיונות — לפי סדר החגים בלוח השנה</p>

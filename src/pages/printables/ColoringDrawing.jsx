@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { Link, useParams } from 'react-router-dom'
 import PrintableShell from '../../components/printables/PrintableShell'
 import NotFound from '../NotFound'
@@ -20,7 +21,7 @@ export default function ColoringDrawing() {
     ...(s.slug === 'purim-masks' ? [{ q: 'איך הופכים את הציור למסכה?', a: 'אחרי הצביעה אפשר להדביק על קרטון ולגזור בעזרת מבוגר. מבוגר יגזור את פתחי העיניים; בדקו התאמה לפנים לפני חיבור מקל או גומייה.' }] : []),
   ]
   return <>
-    <PrintableShell key={path} path={path} seoTitle={title} h1={title} description={coloringDrawingDescription(drawing)}
+    <PrintableShell counterpartPath={englishCounterpart(path)} key={path} path={path} seoTitle={title} h1={title} description={coloringDrawingDescription(drawing)}
       image={coloringSrc(s.slug, drawing.n, 'webp')} emoji={s.emoji}
       sub={`ציור לצביעה · מומלץ לגילאי ${drawing.ages} · חינם להדפסה ולשמירה כ-PDF`}
       crumbs={[{ label: 'דפי צביעה', href: '/printables/coloring' }, { label: s.name, href: `/printables/coloring/${s.slug}` }]}

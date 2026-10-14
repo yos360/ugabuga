@@ -45,21 +45,22 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
   )
 }
 
-const sheets = (list, sheetClassName = '') => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>עוגה בוגה · ugabuga.co.il</footer></article>)
+const sheets = (list, sheetClassName = '', en = false) => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>{en ? 'Ugabuga' : 'עוגה בוגה'} · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '' }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath }) {
+  const en = lang === 'en'
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
   const many = pages.length > 1
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-      <SEO title={seoTitle} description={description} image={image} path={path} structuredData={faqSchema(faq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...crumbs, { label: h1 }]} />
+    <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir={en ? 'ltr' : 'rtl'}>
+      <SEO lang={lang} counterpartPath={counterpartPath} title={seoTitle} description={description} image={image} path={path} structuredData={faqSchema(faq)} />
+      <Breadcrumbs lang={lang} items={[...(en ? [{label: 'Home', href: '/en'}] : [{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }]), ...crumbs, { label: h1 }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{emoji} </span>{h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{sub}</p>
 
       {siblings.length > 0 && (
-        <nav aria-label="דפים נוספים מאותה משפחה" className="mb-6 flex flex-wrap justify-center gap-2">
+        <nav aria-label={en ? 'Related pages' : 'דפים נוספים מאותה משפחה'} className="mb-6 flex flex-wrap justify-center gap-2">
           {siblings.map(s => s.href === path
             ? <span key={s.href} aria-current="page" className="rounded-full border-2 border-[var(--border)] bg-[var(--yellow)] px-4 py-1.5 font-bold">{s.label}</span>
             : <Link key={s.href} to={s.href} className="rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-1.5 font-bold hover:bg-[var(--muted)]/30">{s.label}</Link>)}
@@ -71,29 +72,29 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
       <div className="mx-auto grid max-w-3xl items-start gap-6 md:grid-cols-[minmax(0,1fr)_220px]">
         {previewAll && many
           // Several chosen items (e.g. one sign per allergy): show every page, so it's clear they're all in.
-          ? <div className="mx-auto grid w-full max-w-[460px] grid-cols-2 gap-3" aria-label={`תצוגה מקדימה של ${pages.length} הדפים`}>
+          ? <div className="mx-auto grid w-full max-w-[460px] grid-cols-2 gap-3" aria-label={en ? `Preview of ${pages.length} pages` : `תצוגה מקדימה של ${pages.length} הדפים`}>
             {pages.map((p, i) => <div key={p.key} className="relative border-2 border-[var(--border)] bg-white p-1.5 sketch-shadow-sm">
               <span className="absolute -top-2 -right-2 z-10 rounded-full border-2 border-[var(--border)] bg-[var(--yellow)] px-2 text-sm font-black">{i + 1}</span>{p.svg}</div>)}
           </div>
-          : <div className="mx-auto w-full max-w-[420px] border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm" aria-label="תצוגה מקדימה של הדף הראשון">
+          : <div className="mx-auto w-full max-w-[420px] border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm" aria-label={en ? 'First page preview' : 'תצוגה מקדימה של הדף הראשון'}>
             {first?.svg}
           </div>}
         <div className="space-y-3 text-center md:text-right md:sticky md:top-24">
-          <p className="font-bold text-lg">{many ? `${pages.length} דפי A4 בהדפסה אחת` : 'דף A4 אחד'}</p>
-          <button type="button" data-print-main onClick={() => setPrinting(true)} className="w-full min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ {printLabel || 'הדפסה או PDF'}</button>
-          <p className="text-sm text-[var(--muted-foreground)]">חינם, בלי הרשמה. אפשר לשנות הגדרות ולהדפיס שוב כמה שרוצים.</p>
+          <p className="font-bold text-lg">{en ? `${pages.length} A4 ${many ? 'pages' : 'page'}` : many ? `${pages.length} דפי A4 בהדפסה אחת` : 'דף A4 אחד'}</p>
+          <button type="button" data-print-main onClick={() => setPrinting(true)} className="w-full min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ {printLabel || (en ? 'Print or download PDF' : 'הדפסה או PDF')}</button>
+          <p className="text-sm text-[var(--muted-foreground)]">{en ? 'Free, with no sign-up. Print again whenever you need.' : 'חינם, בלי הרשמה. אפשר לשנות הגדרות ולהדפיס שוב כמה שרוצים.'}</p>
           {extra}
         </div>
       </div>
 
       {printing && (
-        <PrintPreview title={printTitle || h1} onClose={() => setPrinting(false)} onRefresh={onRefresh} variant={variant && (i => sheets(variant(i), sheetClassName))} copies={copies}>
-          {sheets(pages, sheetClassName)}
+        <PrintPreview lang={lang} title={printTitle || h1} onClose={() => setPrinting(false)} onRefresh={onRefresh} variant={variant && (i => sheets(variant(i), sheetClassName, en))} copies={copies}>
+          {sheets(pages, sheetClassName, en)}
         </PrintPreview>
       )}
 
       <div className="mt-12">
-        <SeoBody paragraphs={paragraphs} faq={faq} related={related} />
+        <SeoBody lang={lang} paragraphs={paragraphs} faq={faq} related={related} />
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useEffect, useState } from 'react'
 import { daysUntil } from '../../utils/israelDate'
 import { Link } from 'react-router-dom'
@@ -25,7 +26,7 @@ export default function HolidayHub({ h }) {
   const c = h.hub
   return (
     <HolidayShell h={h}>
-      <SEO title={c.title} description={c.desc} path={h.base} structuredData={faqSchema(c.faq)} />
+      <SEO counterpartPath={englishCounterpart(h.base)} title={c.title} description={c.desc} path={h.base} structuredData={faqSchema(c.faq)} />
       <div className={`mb-8 rounded-3xl border-2 border-slate-800 bg-gradient-to-b ${c.gradient} p-6 text-center text-white sketch-shadow`}>
         <p className="text-6xl mb-2" aria-hidden="true">{h.emoji}</p>
         <h1 className="text-4xl sm:text-5xl mb-3 text-white">{c.h1}</h1>

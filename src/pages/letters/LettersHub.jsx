@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -15,7 +16,7 @@ const faq = [
 export default function LettersHub() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-      <SEO title="לימוד אותיות בעברית — משחקים, דפי עבודה וכרטיסיות" description="לימוד אותיות בעברית לגן ולכיתה א׳ בחינם: עמוד לכל אות עם איך כותבים אותה בכתב דפוס, מילים ומשחק, משחק אותיות לגן, כרטיסיות ודפי תרגול כתיבה להדפסה." path="/letters" structuredData={faqSchema(faq)} />
+      <SEO counterpartPath={englishCounterpart('/letters')} title="לימוד אותיות בעברית — משחקים, דפי עבודה וכרטיסיות" description="לימוד אותיות בעברית לגן ולכיתה א׳ בחינם: עמוד לכל אות עם איך כותבים אותה בכתב דפוס, מילים ומשחק, משחק אותיות לגן, כרטיסיות ודפי תרגול כתיבה להדפסה." path="/letters" structuredData={faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לימוד אותיות' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">🔤 לימוד אותיות בעברית</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-8">בחרו אות — ותמצאו איך כותבים אותה, מילים, משחק ודף תרגול להדפסה</p>

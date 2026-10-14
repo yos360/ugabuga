@@ -1,3 +1,4 @@
+import { englishCounterpart } from '../../en/englishRoutes'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -47,7 +48,7 @@ export default function LetterPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-      <SEO title={`לימוד האות ${l} — משחק, מילים ודף עבודה`} description={`לימוד האות ${l} (${name}) לגן ולכיתה א׳: איך כותבים את האות ${l} צעד אחר צעד, מילים שמתחילות ב־${l}, משחק זיהוי ודף תרגול כתיבה להדפסה — בחינם.`} path={`/letters/${slug}`} structuredData={faqSchema(faq)} />
+      <SEO counterpartPath={englishCounterpart(`/letters/${slug}`)} title={`לימוד האות ${l} — משחק, מילים ודף עבודה`} description={`לימוד האות ${l} (${name}) לגן ולכיתה א׳: איך כותבים את האות ${l} צעד אחר צעד, מילים שמתחילות ב־${l}, משחק זיהוי ודף תרגול כתיבה להדפסה — בחינם.`} path={`/letters/${slug}`} structuredData={faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לימוד אותיות', href: '/letters' }, { label: `האות ${l}` }]} />
 
       <div className="grid gap-6 md:grid-cols-[1fr_1.2fr] items-center mb-8">

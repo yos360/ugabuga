@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { HolidayPrintLanguage } from './HolidayPrintLanguage'
 // Shared building blocks for holiday A4 pages (600 × 820 SVG): the page frame,
 // traced words, a big hollow greeting, counting, and picture–word matching.
 // Each holiday only draws its own pictures; layout and fonts stay consistent.
@@ -7,10 +9,12 @@ export const S = { fill: 'white', stroke: '#111', strokeWidth: 5, strokeLinejoin
 export const S3 = { ...S, strokeWidth: 3 }
 
 export function Page({ title, sub, big = false, children }) {
+  const en = useContext(HolidayPrintLanguage)
+  if (en) { title = en.title; sub = undefined }
   return <svg viewBox="0 0 600 820" role="img" aria-label={title || sub || 'דף להדפסה'} style={{ width: '100%', height: '100%', background: 'white' }}>
-    {title && <text x="300" y="46" textAnchor="middle" fontFamily={FONT} fontSize={big ? 38 : 30} fontWeight="800" fill="#111" direction="rtl">{title}</text>}
-    <text x="300" y="76" textAnchor="middle" fontFamily={FONT} fontSize="15" fill="#444" direction="rtl">שם: ____________    תאריך: ____________</text>
-    {sub && <text x="300" y="108" textAnchor="middle" fontFamily={FONT} fontSize="18" fontWeight="700" fill="#111" direction="rtl">{sub}</text>}
+    {title && <text x="300" y="46" textAnchor="middle" fontFamily={FONT} fontSize={en ? Math.min(30, 500 / (title.length * .6)) : big ? 38 : 30} fontWeight="800" fill="#111" direction={en ? 'ltr' : 'rtl'}>{title}</text>}
+    <text x="300" y="76" textAnchor="middle" fontFamily={FONT} fontSize="15" fill="#444" direction={en ? 'ltr' : 'rtl'}>{en ? 'Name: ____________    Date: ____________' : 'שם: ____________    תאריך: ____________'}</text>
+    {sub && <text x="300" y="108" textAnchor="middle" fontFamily={FONT} fontSize="18" fontWeight="700" fill="#111" direction={en ? 'ltr' : 'rtl'}>{sub}</text>}
     {children}
   </svg>
 }
