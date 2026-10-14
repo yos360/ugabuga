@@ -157,7 +157,7 @@ export default function GamesIndex() {
       )}
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
-        <input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
+        <input type="search" aria-label="חיפוש משחקים" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
           className="wobbly flex-1 border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-3 text-lg placeholder:text-[var(--muted-foreground)] sketch-shadow" />
       </form>
 

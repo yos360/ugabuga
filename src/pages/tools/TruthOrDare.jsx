@@ -292,7 +292,7 @@ export default function TruthOrDare() {
           </section>
         </aside>
 
-        <main className="order-1 lg:order-2">
+        <div className="order-1 lg:order-2">
           <section className="wobbly border-[3px] border-[var(--border)] bg-white p-6 text-center sketch-shadow-rich">
             {!current ? (
               <div className="py-12">
@@ -327,7 +327,7 @@ export default function TruthOrDare() {
           <div className="mt-12">
             <SeoBody paragraphs={truthOrDareBody} faq={truthOrDareFaq} related={truthOrDareRelated} />
           </div>
-        </main>
+        </div>
       </div>
     </div>
   )
