@@ -303,6 +303,9 @@ const PAGES = [
   { to: '/food/kids-recipes', title: 'מתכונים לילדים', emoji: '👩‍🍳', kind: 'tool', desc: 'מתכונים קלים שילדים מכינים.', keys: 'מתכונים מתכון ילדים בישול אפייה' },
   { to: '/food/kitchen-science', title: 'ניסויים מדעיים לילדים בבית', emoji: '🧪', kind: 'tool', desc: 'מדע עם מה שיש בבית.', keys: 'ניסויים ניסוי ניסויים מדעיים ניסויים לילדים בבית מדע הר געש סודה חומץ' },
   // music area (/music/*)
+  {"to": "/printables/name-labels", "title": "מדבקות שם", "emoji": "🛠️", "kind": "tool", "keys": "מדבקות שם מדבקות שם לגן לבית ספר תוויות להדפסה"},
+  {"to": "/music/tuner", "title": "טיונר לגיטרה", "emoji": "🛠️", "kind": "tool", "keys": "טיונר לגיטרה טיונר אונליין כיוון גיטרה"},
+  {"to": "/music/metronome", "title": "מטרונום", "emoji": "🛠️", "kind": "tool", "keys": "מטרונום קצב BPM טאפ טמפו"},
   { to: '/music', title: 'לומדים מוזיקה', emoji: '🎵', kind: 'tool', desc: 'פסנתר, שירים, תווים ואקורדים.', keys: 'מוזיקה נגינה ללמוד לנגן' },
   { to: '/music/piano', title: 'פסנתר אונליין', emoji: '🎹', kind: 'tool', desc: 'מנגנים בלחיצה, במגע או מהמקלדת.', keys: 'פסנתר אונליין לנגן פסנתר קלידים אורגנית' },
   { to: '/music/songs', title: 'לומדים שירים בפסנתר', emoji: '🎶', kind: 'tool', desc: 'קלידים שנדלקים — לוחצים ומנגנים.', keys: 'שירים לפסנתר ללמוד לנגן שיר תווים לשירים' },

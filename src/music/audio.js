@@ -102,3 +102,18 @@ export function playDrum(kind, when, velocity = 1) {
   if (kind === 'snare') { const o = ac.createOscillator(), og = ac.createGain(); o.frequency.value = 190; og.gain.setValueAtTime(0.25 * velocity, t); og.gain.exponentialRampToValueAtTime(0.0001, t + 0.1); o.connect(og); og.connect(master); o.start(t); o.stop(t + 0.12) }
 }
 export const audioTime = () => audio()?.currentTime ?? 0
+
+// Absolute AudioContext time for the metronome look-ahead scheduler; cancellation stops queued clicks.
+export function scheduleClick(when, accent = false) {
+  const ac = audio(); if (!ac) return () => {}
+  const oscillator = ac.createOscillator(), gain = ac.createGain()
+  oscillator.frequency.value = accent ? 1200 : 800
+  const t = Math.max(when, ac.currentTime)
+  gain.gain.setValueAtTime(0.0001, t)
+  gain.gain.exponentialRampToValueAtTime(accent ? 0.2 : 0.12, t + 0.002)
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.045)
+  oscillator.connect(gain); gain.connect(master)
+  oscillator.start(t); oscillator.stop(t + 0.05)
+  oscillator.onended = () => { oscillator.disconnect(); gain.disconnect() }
+  return () => { try { oscillator.stop() } catch { /* already ended */ } }
+}
