@@ -78,6 +78,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/dice', label: 'קובייה', icon: '🎲' },
           { to: '/tools/coin-flip', label: 'הטלת מטבע', icon: '🪙' },
           { to: '/tools/age-calculator', label: 'בן כמה אני?', icon: '🎂' },
+          { to: '/emoji', label: 'אימוג׳י וסמיילים להעתקה', icon: '😀' },
           { to: '/tools/gematria', label: 'מחשבון גימטריה', icon: '🔢' },
           { to: '/tools/truth-or-buga', label: 'אמת או בוגה', icon: '🎭' },
           { to: '/tools/spin-the-bottle', label: 'סובב את הבקבוק', icon: '🔄' },

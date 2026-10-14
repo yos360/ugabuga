@@ -1,3 +1,4 @@
+import { CATEGORIES as EMOJI_CATEGORIES, SITUATIONS as EMOJI_SITUATIONS } from '../emoji/emojiCatalog'
 // Full static search catalog — every linkable page on the site. This pulls in
 // many content-data modules, so it lives in its own lazily-loaded chunk:
 // SiteSearchBox imports it with import() on first interaction.
@@ -27,6 +28,9 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to:'/emoji', title:'אימוג׳י וסמיילים להעתקה', emoji:'😀', kind:'tool', keys:'אימוגי סמיילים סמלים להעתקה וואטסאפ', desc:'ספריית אימוג׳י בעברית' },
+  ...EMOJI_CATEGORIES.map(c=>({to:`/emoji/${c.slug}`,title:c.title,emoji:c.emoji,kind:'tool',keys:c.label,desc:c.description})),
+  ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'tool',keys:s.label,desc:s.description})),
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },

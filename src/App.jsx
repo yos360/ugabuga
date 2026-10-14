@@ -6,6 +6,8 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
+const EmojiLibrary = lazy(() => import('./emoji/EmojiPages'))
+const EmojiSituation = lazy(() => import('./emoji/EmojiPages').then(m => ({ default: m.EmojiSituation })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -571,6 +573,9 @@ export default function App() {
               <Route path="/discover/capitals" element={<CapitalsPage />} />
               <Route path="/discover/solar-system" element={<SolarSystem />} />
               <Route path="/discover/human-body" element={<HumanBody />} />
+              <Route path="/emoji" element={<EmojiLibrary />} />
+              <Route path="/emoji/for/:slug" element={<EmojiSituation />} />
+              <Route path="/emoji/:category" element={<EmojiLibrary />} />
               <Route path="/signs" element={<SignsHub />} />
               <Route path="/signs/game" element={<SignsGame />} />
               <Route path="/signs/theory" element={<SignsTheory />} />

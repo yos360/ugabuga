@@ -72,6 +72,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [קובייה](https://ugabuga.co.il/tools/dice)
 - [הטלת מטבע](https://ugabuga.co.il/tools/coin-flip)
 - [בן כמה אני?](https://ugabuga.co.il/tools/age-calculator)
+- [אימוג׳י וסמיילים להעתקה](https://ugabuga.co.il/emoji)
 - [מחשבון גימטריה](https://ugabuga.co.il/tools/gematria)
 - [אמת או בוגה](https://ugabuga.co.il/tools/truth-or-buga)
 - [סובב את הבקבוק](https://ugabuga.co.il/tools/spin-the-bottle)
@@ -134,6 +135,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 
 ### עולם ומדע
 - [מפת ישראל — איפה העיר?](https://ugabuga.co.il/discover/israel-map)
+- [תמרורים ובטיחות בדרך](https://ugabuga.co.il/signs)
 - [דגלי מדינות](https://ugabuga.co.il/flags)
 - [חידון דגלים](https://ugabuga.co.il/flags/quiz)
 - [בירות ודגלים](https://ugabuga.co.il/discover/capitals)
