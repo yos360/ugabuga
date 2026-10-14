@@ -49,6 +49,6 @@ test('only exact tuner document paths receive microphone permission, including f
    assert.equal(response.headers.has('Access-Control-Allow-Origin'),false)
   }
  }
- const headers=readFileSync(new URL('../public/_headers',import.meta.url),'utf8')
+ const headers=readFileSync(new URL('../public/_headers',import.meta.url),'utf8').replace(/\r\n/g,'\n')
  assert.match(headers,/\/music\/tuner\n\s+! Permissions-Policy\n\s+Permissions-Policy: camera=\(\), microphone=\(self\)/)
 })
