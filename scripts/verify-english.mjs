@@ -24,6 +24,7 @@ try {
   await context.route('**/*', r => new URL(r.request().url()).origin === origin ? r.continue() : r.abort())
   const page = await context.newPage()
   page.on('pageerror', e => errors.push(e.message))
+  let verified = 0
   for (const p of ENGLISH_PAGES) {
     const html = await readFile(join(dist, p.path.slice(1), 'index.html'), 'utf8')
     assert.match(html, /<html[^>]*lang="en"/)
@@ -36,6 +37,8 @@ try {
     assert.equal(await page.locator('html').getAttribute('dir'), 'ltr')
     assert.equal(await page.locator('meta[property="og:locale"]').getAttribute('content'), 'en_US')
     assert.doesNotMatch(await page.title(), /[\u0590-\u05ff]/)
+    const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll(es=>es.map(e=>JSON.parse(e.textContent)))
+    assert.ok(schemas.some(s=>['WebPage','WebSite'].includes(s['@type']) && s.inLanguage==='en'))
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://ugabuga.co.il' + p.path)
     assert.ok((await page.locator('meta[name=description]').getAttribute('content')).length <= 165)
     const pairs = await page.locator('link[rel=alternate][hreflang]').evaluateAll(es => es.map(e => [e.hreflang, e.getAttribute('href')]))
@@ -46,6 +49,7 @@ try {
       assert.equal(await page.locator('html').getAttribute('lang'), 'he')
       assert.equal(await page.locator('link[hreflang=en]').getAttribute('href'), 'https://ugabuga.co.il' + p.path)
     } else assert.equal(pairs.length, 0)
+    if (++verified % 25 === 0) console.log(`Browser checked ${verified}/${ENGLISH_PAGES.length} English pages`)
   }
   for (const path of ['/en', ...ENGLISH_PAGES.filter(p => /hebrew-alphabet|jewish-holidays|coloring/.test(p.path)).filter((_,i)=>i%7===0).map(p=>p.path)].slice(0,12)) {
     await page.goto(origin+path,{waitUntil:'networkidle'})
@@ -117,9 +121,11 @@ try {
   await page.locator('footer a[href="/en"]').click()
   await page.locator('.en-page').waitFor()
   assert.equal(await page.locator('html').getAttribute('lang'),'en')
-  await page.goto(origin+'/en/not-a-real-page',{waitUntil:'networkidle'})
-  assert.match(await page.locator('meta[name=robots]').getAttribute('content'),/noindex/)
-  assert.doesNotMatch(await page.locator('main').innerText(),/[\u0590-\u05ff]/)
+  for (const invalid of ['/en/not-a-real-page','/en/hebrew-alphabet/unknown','/en/jewish-holidays/unknown','/en/coloring/hanukkah/0']) {
+    await page.goto(origin+invalid,{waitUntil:'networkidle'})
+    assert.match(await page.locator('meta[name=robots]').getAttribute('content'),/noindex/)
+    assert.doesNotMatch(await page.locator('main').innerText(),/[\u0590-\u05ff]/)
+  }
   assert.deepEqual(errors, [])
   await writeFile(join(output,'result.json'),JSON.stringify({pages:ENGLISH_PAGES.length,prerendered:true,reciprocalAlternates:true,englishPdf:true,errors},null,2))
   console.log(`Verified ${ENGLISH_PAGES.length} English pages, prerendered language, reciprocal links, navigation and PDF.`)

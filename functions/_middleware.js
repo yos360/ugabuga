@@ -19,6 +19,7 @@ const CLOSED_FAMILIES = [
   /^\/en\/jewish-holidays\/[^/]+$/,
   /^\/en\/coloring\/[^/]+(?:\/[^/]+)?$/,
   /^\/en\/hebrew-alphabet\/[^/]+$/,
+  /^\/parasha\/[^/]+$/,
   /^\/signs\/[^/]+$/,
   /^\/flags\/[^/]+$/,
   /^\/flags\/continents\/[^/]+$/,

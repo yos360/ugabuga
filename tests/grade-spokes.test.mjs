@@ -138,3 +138,19 @@ test('word of the day: deterministic, from the list, and changes from day to day
   for (let i = 1; i < days.length; i++) assert.notEqual(dailyWord(days[i]), dailyWord(days[i - 1]))
   assert.equal(new Set(days.map(dailyWord)).size, 30, 'no repeats within a month')
 })
+
+test('five-letter words: ~1,000 answers in topics, every answer accepted by the guess dictionary', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const { FIVE_WORDS, TOPICS, wordsIn, topicOf, parseDictionary, normWord, randomWord } = five
+  assert.ok(FIVE_WORDS.length >= 1000)
+  assert.ok(TOPICS.length >= 15)
+  for (const t of TOPICS) assert.ok(wordsIn(t).length >= 10, t)
+  for (const w of FIVE_WORDS) assert.ok(TOPICS.includes(topicOf(w)), w)
+  const dict = parseDictionary(await readFile(new URL('../public/data/words5-he.txt', import.meta.url), 'utf8'))
+  assert.ok(dict.size > 30000)
+  for (const w of FIVE_WORDS) assert.ok(dict.has(normWord(w)), w)
+  assert.ok(!dict.has('אאאאא'))
+  // no repeats until the pool runs out
+  const pool = wordsIn(TOPICS[0]), seen = new Set()
+  for (let i = 0; i < pool.length; i++) { const w = randomWord(Math.random, seen, pool); assert.ok(!seen.has(w), w); seen.add(w) }
+})

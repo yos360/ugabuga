@@ -430,3 +430,11 @@ button.bs2-cell{cursor:default}
 .ttta-cell.is-win .ttta-mark{animation:c4a-win .6s ease-in-out infinite alternate}
 @media (max-width:420px){.arc-seg button{padding:0 10px;font-size:15px}.tp-msg{font-size:17px}}
 @media (prefers-reduced-motion:reduce){.c4a-hole.is-new,.c4a-hole.is-win,.ttta-cell .ttta-mark{animation:none!important}}
+.wg5-opts{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;align-items:center;font-weight:700;font-size:15px;flex:none}
+.wg5-opts select{min-height:40px;border:2px solid #c9cedb;border-radius:10px;padding:2px 8px;background:#fff;color:var(--arc-ink);font:inherit;max-width:min(78vw,320px)}
+.wg5-opts input{width:18px;height:18px;vertical-align:-3px;accent-color:#22a35a}
+.wg5-hint{margin:0;text-align:center;font-weight:800;color:#8a5a00;background:#fff4d1;border-radius:10px;padding:4px 12px}
+.wg5-dist{display:grid;gap:3px;width:min(100%,320px);flex:none}
+.wg5-dist div{display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px}
+.wg5-dist i{font-style:normal;background:#8a90a0;color:#fff;border-radius:4px;padding:1px 6px;text-align:left;min-width:22px}
+.wg5-dist i.is-now{background:#22a35a}
