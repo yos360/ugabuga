@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import ToolGuide from './ToolGuide'
@@ -146,7 +147,7 @@ export default function CountdownTimer({ embed = false }) {
       )}
 
       {!embed && <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mt-6">💡 הזיזו את העכבר — השעון עוקב אחריו!</p>}
-      {!embed && <div className="no-present"><ToolGuide {...TOOL_GUIDES.timer} /></div>}
+      {!embed && <div className="no-present"><p className="text-center mt-6">רוצים למדוד זמן שעובר במקום לספור לאחור? <Link to="/tools/stopwatch" className="underline font-bold">פתחו סטופר עם הקפות</Link></p><ToolGuide {...TOOL_GUIDES.timer} /></div>}
     </div>
   )
 }

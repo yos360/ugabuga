@@ -27,6 +27,9 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },
+  { to: '/tools/qr-code', title: 'יצירת קוד QR בחינם', emoji: '▦', kind: 'tool', keys: 'קוד QR QR קוד ברקוד QR קוד לסריקה מחולל קישור טקסט וואטסאפ וייפיי מדבקות' },
+  { to: '/tools/percent-calculator', title: 'מחשבון אחוזים והנחות', emoji: '%', kind: 'tool', keys: 'מחשבון אחוזים מחשבון הנחה מחשבון אחוזים הנחה חישוב אחוזים שינוי באחוזים מעמ מע״מ' },
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
