@@ -6,6 +6,10 @@ import Home from './pages/Home'
 const HubPage = lazy(() => import('./pages/HubPage'))
 import { lazy, Suspense } from 'react'
 
+const HoursCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.HoursCalculator })))
+const DateCalculator = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.DateCalculator })))
+const WorldClock = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WorldClock })))
+const WordCount = lazy(() => import('./pages/tools/TimeTextTools').then(m => ({ default: m.WordCount })))
 const GamesIndex = lazy(() => import('./pages/games/GamesIndex'))
 const GamePage = lazy(() => import('./pages/games/GamePage'))
 const MaHayom = lazy(() => import('./pages/MaHayom'))
@@ -531,6 +535,10 @@ export default function App() {
               <Route path="/new" element={<WhatsNew />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
+              <Route path="/tools/hours-calculator" element={<HoursCalculator />} />
+              <Route path="/tools/date-calculator" element={<DateCalculator />} />
+              <Route path="/tools/world-clock" element={<WorldClock />} />
+              <Route path="/tools/word-count" element={<WordCount />} />
               <Route path="/tools/age-calculator" element={<AgeCalculator />} />
               <Route path="/tools/gematria" element={<Gematria />} />
               <Route path="/embed" element={<EmbedsHub />} />

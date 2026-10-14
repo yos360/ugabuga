@@ -27,6 +27,10 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  {"to": "/tools/word-count", "title": "ספירת מילים", "emoji": "🛠️", "kind": "tool", "keys": "ספירת מילים מונה מילים תווים זמן קריאה"},
+  {"to": "/tools/world-clock", "title": "שעון עולמי", "emoji": "🛠️", "kind": "tool", "keys": "שעון עולמי שעה בעולם הפרשי שעות"},
+  {"to": "/tools/date-calculator", "title": "מחשבון תאריכים", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון תאריכים חישוב ימים הפרש תאריכים תאריך עברי"},
+  {"to": "/tools/hours-calculator", "title": "מחשבון שעות", "emoji": "🛠️", "kind": "tool", "keys": "מחשבון שעות מחשבון שעות עבודה חישוב שעות שעות ודקות"},
   { to: '/', title: 'דף הבית', emoji: '🏠', kind: 'page', keys: 'ראשי בית' },
   { to: '/games', title: 'משחקים לילדים — כל המשחקים', emoji: '🎮', kind: 'page', desc: 'יותר מ-100 משחקים לילדים לפי גיל, זמן ומקום.', keys: 'משחק משחקים חיפוש משחקים לילדים משחקים לילדים בחינם' },
   { to: '/birthday', title: 'יום הולדת לילדים', emoji: '🎂', kind: 'page', desc: 'כל מה שצריך ליום הולדת: משחקים, הזמנות, מחשבון וספקים.', keys: 'מסיבה יומולדת יום הולדת לילדים מסיבת יום הולדת מתחם' },
