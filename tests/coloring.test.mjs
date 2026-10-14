@@ -6,7 +6,7 @@ const { COLORING_SUBJECTS } = await import('../src/data/coloringSubjects.js')
 test('coloring subjects point to existing drawing and WebP files', () => {
   assert.equal(new Set(COLORING_SUBJECTS.map(s => s.slug)).size, COLORING_SUBJECTS.length)
   for (const s of COLORING_SUBJECTS) {
-    assert.ok(s.items.length >= 3, s.slug)
+    assert.ok(s.items.length >= 9, s.slug)
     s.items.forEach((alt, i) => {
       for (const ext of [s.fmt || 'svg', 'webp']) {
         const f = new URL(`../public/coloring/${s.slug}/${s.slug}-${i + 1}.${ext}`, import.meta.url)
