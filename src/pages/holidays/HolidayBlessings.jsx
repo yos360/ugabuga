@@ -170,6 +170,7 @@ function HolidayPage({ h }) {
     </nav>
 
     <div className="mt-8"><SeoBody faq={h.faq} related={[
+      ...(h.slug === 'shabbat' ? [{ label: 'פרשת השבוע לילדים', href: '/parasha' }] : []),
       ...(h.hub ? [{ label: `${h.name} לילדים`, href: h.hub }] : []),
       { label: 'ברכות וקריאות לכל החגים', href: BLESSINGS_BASE },
       { label: 'כל החגים', href: '/holidays' },
