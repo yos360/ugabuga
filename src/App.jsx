@@ -228,6 +228,9 @@ const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
 const HolidayBlessings = lazy(() => import('./pages/holidays/HolidayBlessings'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
+const Stopwatch = lazy(() => import('./pages/tools/Stopwatch'))
+const QrCodeMaker = lazy(() => import('./pages/tools/QrCodeMaker'))
+const PercentCalculator = lazy(() => import('./pages/tools/PercentCalculator'))
 const Scoreboard = lazy(() => import('./pages/tools/Scoreboard'))
 const TeamGenerator = lazy(() => import('./pages/tools/TeamGenerator'))
 const RandomPicker = lazy(() => import('./pages/tools/RandomPicker'))
@@ -665,6 +668,9 @@ export default function App() {
               <Route path="/tools/coin-flip" element={<CoinFlip />} />
               <Route path="/coin-flip" element={<CoinFlip />} />
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
+              <Route path="/tools/stopwatch" element={<Stopwatch />} />
+              <Route path="/tools/qr-code" element={<QrCodeMaker />} />
+              <Route path="/tools/percent-calculator" element={<PercentCalculator />} />
               <Route path="/tools/timer" element={<CountdownTimer />} />
               <Route path="/timer" element={<CountdownTimer />} />
               <Route path="/countdown" element={<CountdownTimer />} />
