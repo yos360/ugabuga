@@ -1,0 +1,18 @@
+.buga-a4.legacy-sheet{padding:5% 5% 30mm!important;aspect-ratio:210/297;flex:none}
+.legacy-viewport{position:relative;width:100%;flex:1;min-height:0;overflow:hidden}
+.legacy-print{position:absolute;top:0;right:0;width:calc(100% / .88);transform:scale(.88);transform-origin:top right;pointer-events:none;color:#111;direction:rtl}
+.legacy-print .no-print,.legacy-print [class~="print:hidden"]{display:none!important}
+.legacy-print *{animation:none!important;transition:none!important}
+.legacy-print :is(.questions-sheet,.hunt-sheet,.puzzle-studio){width:100%;max-width:none;margin:0}
+.legacy-print :is(.questions-sheet,.hunt-sheet){padding-left:0!important;padding-right:0!important}
+.legacy-print .bring-print-source>div{display:block}
+.legacy-print .bring-print-source{padding:0}
+.legacy-print .bring-print-source input{text-align:right}
+.legacy-print .roots-book{display:block;padding:0;margin:0;background:#fff}
+.legacy-print .root-page{margin:0!important;min-height:0!important}
+.legacy-print .puzzle-paper{margin:0}
+.legacy-print :is(img,svg){max-width:100%}
+.legacy-print textarea{white-space:pre-wrap}
+@media print{#buga-print-output .legacy-sheet{height:265mm!important;overflow:hidden!important}}
+
+.legacy-print:has(.direct-roots){width:calc(100% / .7392);transform:scale(.7392)}.legacy-print :is(.family-view,.gallery){grid-template-columns:1fr 1fr}.legacy-print .hunt-sheet>ol{grid-template-columns:repeat(2,minmax(0,1fr))}

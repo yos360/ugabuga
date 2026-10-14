@@ -1,3 +1,4 @@
+import PrintExisting from '../../components/ui/PrintExisting'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
@@ -272,7 +273,7 @@ export default function BringList() {
         <button onClick={copyLink} disabled={sharing || !canShare} className="mt-2 w-full rounded-xl border-2 border-slate-800 bg-white px-4 py-3 font-bold disabled:opacity-60">🔗 העתקת קישור</button>
         {code && <p className="mt-3 rounded-lg bg-white/70 px-3 py-2 text-center text-sm">הקישור: <bdi dir="ltr" className="font-bold">{shortLink(code).replace(/^https?:\/\//, '')}</bdi></p>}
       </>}
-      <button onClick={() => window.print()} className="mt-2 w-full rounded-xl border-2 border-slate-800 bg-white px-4 py-3 font-bold">🖨️ הדפסה</button>
+      <PrintExisting selector="main .bring-print-source" className="mt-2 w-full rounded-xl border-2 border-slate-800 bg-white px-4 py-3 font-bold">🖨️ הדפסה</PrintExisting>
       {owner
         ? <p className="mt-4 text-sm text-slate-600">מי שמקבל את הקישור לא יכול לשנות או למחוק פריטים — רק לתפוס פריט פנוי.</p>
         : <p className="mt-4 text-sm text-slate-600">מארגנים משהו בעצמכם? <Link to="/tools/bring-list" className="font-bold underline">פתחו רשימה משלכם</Link></p>}
@@ -283,7 +284,7 @@ export default function BringList() {
   </div>
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 print:py-0">
+    <div className="bring-print-source mx-auto max-w-5xl px-4 py-8 print:py-0">
       <SEO title="מי מביא מה? רשימה שיתופית למסיבה" description="מי מביא מה? רשימה שיתופית למסיבה: מחלקים בין ההורים והאורחים מי מביא כיבוד, שתייה וציוד — קישור אחד לוואטסאפ, בלי בלגן ובלי כפילויות." path="/tools/bring-list" noindex={Boolean(code0 || legacy)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'מי מביא מה?' }]} />
       <header className="mb-7 text-center">

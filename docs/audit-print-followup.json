@@ -1,0 +1,3026 @@
+{
+  "baseCommit": "21cd7fa",
+  "desktop": {
+    "results": [
+      {
+        "path": "/tools/crossword-maker",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/tools/experiment-maker",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/tools/bring-list",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/printables/roots-project",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 10,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-teens",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-adults",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/team-building",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/family-dinner",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/would-you-rather-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/would-you-rather-teens",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/lesson-openers",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/road-trip",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/birthday-interview",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/end-of-year",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/holiday-table",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/morning-circle",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/couples",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/deep-questions-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/home",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/yard",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/park",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/classroom",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/birthday",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/kindergarten",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/teens",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/hanukkah",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/purim",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/pesach",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/summer",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/winter-rainy",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/outdoors-nature",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/shabbat-family",
+        "geometry": [
+          {
+            "ratio": 0.7070735552337132,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      }
+    ],
+    "edits": [
+      {
+        "case": "roots title/name/photo survive preview and close",
+        "pass": true
+      },
+      {
+        "case": "expanded family tree paginates all six members",
+        "pass": true
+      },
+      {
+        "case": "experiment long notes retained",
+        "pass": true
+      },
+      {
+        "case": "bring list item edits retained without publishing",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 0",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 1",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 2, 9x9",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 3",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 4",
+        "pass": true
+      }
+    ]
+  },
+  "phone": {
+    "results": [
+      {
+        "path": "/tools/crossword-maker",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/tools/experiment-maker",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/tools/bring-list",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/printables/roots-project",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 10,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-teens",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/icebreaker-adults",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/team-building",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/family-dinner",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/would-you-rather-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/would-you-rather-teens",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/lesson-openers",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/road-trip",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/birthday-interview",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/end-of-year",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/holiday-table",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/morning-circle",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/couples",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/questions/deep-questions-kids",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          },
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 4,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/home",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/yard",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/park",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/classroom",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/birthday",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/kindergarten",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/teens",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/hanukkah",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/purim",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/pesach",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/summer",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/winter-rainy",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/outdoors-nature",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      },
+      {
+        "path": "/treasure-hunt/shabbat-family",
+        "geometry": [
+          {
+            "ratio": 0.7070821529745043,
+            "outside": []
+          }
+        ],
+        "copies": 2,
+        "pass": true
+      }
+    ],
+    "edits": [
+      {
+        "case": "roots title/name/photo survive preview and close",
+        "pass": true
+      },
+      {
+        "case": "expanded family tree paginates all six members",
+        "pass": true
+      },
+      {
+        "case": "experiment long notes retained",
+        "pass": true
+      },
+      {
+        "case": "bring list item edits retained without publishing",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 0",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 1",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 2, 9x9",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 3",
+        "pass": true
+      },
+      {
+        "case": "puzzle type 4",
+        "pass": true
+      }
+    ]
+  },
+  "standardPrintAudit": [
+    {
+      "path": "/tools/crossword-maker",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/tools/experiment-maker",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/tools/bring-list",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/printables/roots-project",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 5,
+      "copies": {
+        "before": 5,
+        "after": 10
+      }
+    },
+    {
+      "path": "/questions/icebreaker-kids",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/icebreaker-teens",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/icebreaker-adults",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/team-building",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/family-dinner",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/would-you-rather-kids",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/would-you-rather-teens",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/lesson-openers",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/road-trip",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/birthday-interview",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/end-of-year",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/holiday-table",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/morning-circle",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/couples",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/questions/deep-questions-kids",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        },
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 2,
+      "copies": {
+        "before": 2,
+        "after": 4
+      }
+    },
+    {
+      "path": "/treasure-hunt/home",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/yard",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/park",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/classroom",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/birthday",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/kindergarten",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/teens",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/hanukkah",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/purim",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/pesach",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/summer",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/winter-rainy",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/outdoors-nature",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    {
+      "path": "/treasure-hunt/shabbat-family",
+      "opened": true,
+      "geometry": [
+        {
+          "fixed": true,
+          "width": 312,
+          "height": 441.25,
+          "ratio": 0.7070821529745043,
+          "outside": [],
+          "overflowX": false,
+          "overflowY": false
+        }
+      ],
+      "sheetCount": 1,
+      "copies": {
+        "before": 1,
+        "after": 2
+      }
+    }
+  ],
+  "pdf": [
+    {
+      "path": "/tools/crossword-maker",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/01.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/tools/experiment-maker",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/02.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/tools/bring-list",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/03.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/printables/roots-project",
+      "expected": 5,
+      "file": "out/audit/native-pdf-sample/04.pdf",
+      "pages": 5,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/questions/icebreaker-kids",
+      "expected": 2,
+      "file": "out/audit/native-pdf-sample/05.pdf",
+      "pages": 2,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/questions/family-dinner",
+      "expected": 2,
+      "file": "out/audit/native-pdf-sample/06.pdf",
+      "pages": 2,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/questions/couples",
+      "expected": 2,
+      "file": "out/audit/native-pdf-sample/07.pdf",
+      "pages": 2,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        },
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/treasure-hunt/home",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/08.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/treasure-hunt/park",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/09.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    },
+    {
+      "path": "/treasure-hunt/shabbat-family",
+      "expected": 1,
+      "file": "out/audit/native-pdf-sample/10.pdf",
+      "pages": 1,
+      "sizes": [
+        {
+          "width": 595.28,
+          "height": 841.89
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "finalJsBudget": {
+    "pages": 263,
+    "maximumGzipBytes": 374324,
+    "over400KB": 0,
+    "results": [
+      {
+        "path": "/tools/crossword-maker",
+        "gzipBytes": 229629
+      },
+      {
+        "path": "/tools/bring-list",
+        "gzipBytes": 226954
+      },
+      {
+        "path": "/tools/experiment-maker",
+        "gzipBytes": 223978
+      },
+      {
+        "path": "/holidays/hanukkah/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/hanukkah/crafts",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/hanukkah/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/hanukkah/word-search",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/hanukkah/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/hanukkah/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/tu-bishvat/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/tu-bishvat/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/tu-bishvat/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/tu-bishvat/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/printables/roots-project",
+        "gzipBytes": 224698
+      },
+      {
+        "path": "/questions/icebreaker-kids",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/icebreaker-teens",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/icebreaker-adults",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/team-building",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/family-dinner",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/would-you-rather-kids",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/would-you-rather-teens",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/lesson-openers",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/road-trip",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/birthday-interview",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/end-of-year",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/holiday-table",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/morning-circle",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/couples",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/questions/deep-questions-kids",
+        "gzipBytes": 240934
+      },
+      {
+        "path": "/treasure-hunt/home",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/yard",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/park",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/classroom",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/birthday",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/kindergarten",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/teens",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/hanukkah",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/purim",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/pesach",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/summer",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/winter-rainy",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/outdoors-nature",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/treasure-hunt/shabbat-family",
+        "gzipBytes": 283381
+      },
+      {
+        "path": "/time-tunnel/month/02",
+        "gzipBytes": 231450
+      },
+      {
+        "path": "/holidays/rabin",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rabin/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rabin/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rabin/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sigd",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sigd/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sigd/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sigd/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/lag-baomer",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/lag-baomer/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/lag-baomer/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/lag-baomer/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/lag-baomer/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach/seder",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/pesach/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/costumes",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/mishloach-manot",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/purim/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana/greetings",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/rosh-hashana/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/shavuot",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/shavuot/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/shavuot/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/shavuot/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/shavuot/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot/sukkah",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/sukkot/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut/symbols",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-haatzmaut/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur/sorry",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur/quiz",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur/coloring",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur/worksheets",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/holidays/yom-kippur/what-to-do",
+        "gzipBytes": 343585
+      },
+      {
+        "path": "/math",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-1",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/counting-20",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/compare-numbers",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/add-sub-10",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/add-sub-20",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/numbers-100",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/add-sub-tens",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/missing-number",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/number-patterns",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/shapes",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-1/word-problems-1",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-2",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/numbers-1000",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/add-sub-100",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/add-sub-1000",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/multiplication-meaning",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/times-tables-intro",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/division-meaning",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/even-odd",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/length",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/clock",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/polygons",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/money",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-2/word-problems-2",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-3",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/numbers-10000",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/add-sub-10000",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/times-table",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/multiply-tens",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/vertical-multiplication",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/division-remainder",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/simple-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/perimeter",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/angles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-3/word-problems-3",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-4",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/place-value-million",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/vertical-multiplication",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/long-division",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/order-of-operations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/divisibility-primes",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/fraction-of-number",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/equivalent-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/compare-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/add-subtract-like-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/angle-types",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/triangle-types",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/parallel-perpendicular",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-4/rectangle-area-perimeter",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-5",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/common-multiples-divisors",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/add-subtract-unlike-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/fraction-times-whole",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/decimals-place-value",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/decimals-add-subtract",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/decimals-times-10-100",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/measurement-units",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/triangle-quadrilateral-angles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/parallelogram-area",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/triangle-area",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/trapezoid-area",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-5/box-surface-area",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-6",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/fraction-multiplication",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/fraction-division",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/decimal-multiplication",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/decimal-division",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/fractions-decimals-percents",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/percent",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/ratio-scale",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/average",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/circle-circumference",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/circle-area",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-6/volume-box-cube",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-7",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/directed-numbers-add-sub",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/directed-numbers-mul-div",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/order-of-operations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/algebraic-substitution",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/like-terms",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/linear-equations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/ratio-proportion",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/percent",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/vertical-adjacent-angles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/triangle-angles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/coordinate-plane",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-7/area-triangle-parallelogram-trapezoid",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-8",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/distributive-law",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/equations-parentheses-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/linear-inequalities",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/slope",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/linear-function",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/system-of-equations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/powers",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/parallel-lines-angles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/pythagorean-theorem",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/triangle-congruence",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/quadrilaterals",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-8/mean-median-mode",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-9",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/short-multiplication-formulas",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/factoring",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/algebraic-fractions",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/quadratic-equation",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/discriminant",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/parabola-vertex",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/parabola-intersections",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/square-roots",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/similar-triangles",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/trigonometry-right-triangle",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-9/probability",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-10",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/quadratic-equations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/linear-systems",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/line-parabola-intersection",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/inequalities",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/slope-and-line",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/quadratic-function",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/distance-midpoint",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/parallel-perpendicular-lines",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/right-triangle-trigonometry",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/probability",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/statistics",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-10/exponents-roots",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-11",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/arithmetic-sequence",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/geometric-sequence",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/growth-decay",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/polynomial-derivatives",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/derivative-at-point",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/tangent-line",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/extremum-points",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/increase-decrease",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/circle-equation",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/sine-cosine-law",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/normal-distribution",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-11/trig-equations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/tests/grade-12",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/antiderivative",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/definite-integral",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/area-between-curves",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/volume-of-revolution",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/exponential-log-equations",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/logarithm-rules",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/exp-ln-derivatives",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/exp-log-extrema",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/chain-quotient-derivatives",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/vectors",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/complex-numbers",
+        "gzipBytes": 374324
+      },
+      {
+        "path": "/math/grade-12/induction",
+        "gzipBytes": 374324
+      }
+    ]
+  },
+  "screenshots": [
+    "screenshots/audit-followup/crossword-pdf.png",
+    "screenshots/audit-followup/experiment-pdf.png",
+    "screenshots/audit-followup/bring-list-pdf.png",
+    "screenshots/audit-followup/roots-cover-pdf.png",
+    "screenshots/audit-followup/questions-pdf.png",
+    "screenshots/audit-followup/treasure-hunt-pdf.png",
+    "screenshots/audit-followup/roots-family-pdf.png"
+  ]
+}

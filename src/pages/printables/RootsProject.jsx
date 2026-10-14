@@ -1,3 +1,4 @@
+import PrintExisting from '../../components/ui/PrintExisting'
 import { useRef, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -20,7 +21,7 @@ export default function RootsProject(){
  const editFamily=(i,v)=>setFamily(x=>x.map((a,n)=>n===i?v:a));const editEvent=(i,key,v)=>setEvents(x=>x.map((a,n)=>n===i?{...a,[key]:v}:a))
  return <div className="mx-auto max-w-6xl px-4 py-8 roots-editor direct-roots"><SEO title="עבודת שורשים דיגיטלית" description="עבודת שורשים שכותבים ישירות באתר: עץ משפחה, ציר זמן, ראיונות עם סבא וסבתא ותמונות — ובסוף מדפיסים חוברת מסודרת. חינם, בלי הרשמה." path="/printables/roots-project"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'עבודת שורשים'}]}/>
  <header className="no-print text-center mb-5"><b className="roots-tag">פרויקט משפחתי דיגיטלי</b><h1>🌳 בונים עבודת שורשים</h1><p>ספר אישי עם תמונות, סיפורים וראיונות — מוכן להדפסה או שמירה כ־PDF.</p></header>
- <div className="direct-toolbar no-print"><div><b>✍️ כותבים ישירות בדף</b><span>לחצו על כל טקסט, שנה או שאלה והתחילו לכתוב.</span></div><button onClick={()=>window.print()}>🖨️ הדפסה / PDF</button></div>
+ <div className="direct-toolbar no-print"><div><b>✍️ כותבים ישירות בדף</b><span>לחצו על כל טקסט, שנה או שאלה והתחילו לכתוב.</span></div><PrintExisting selector="main .root-page" wrapper="roots-editor direct-roots">🖨️ הדפסה / PDF</PrintExisting></div>
  {showHelp&&<div className="direct-help no-print"><b>איך עובדים?</b><span>1. לחצו בשדות הלבנים בדף. 2. כתבו או העלו תמונה. 3. הדפיסו כשתסיימו.</span><button onClick={()=>setShowHelp(false)}>הבנתי</button></div>}
  <div className="roots-book direct-book"><article className="root-page cover"><div className="cover-photo"><PhotoSlot label="תמונת כריכה"/></div><small>עוגה בוגה · עבודת שורשים</small><Field value={title} onChange={setTitle} placeholder="כותרת העבודה" className="cover-title"/><Area value={intro} onChange={setIntro} placeholder="כתבו פתיחה אישית" className="cover-intro"/><div className="student-row"><Field value={student} onChange={setStudent} placeholder="שם התלמיד/ה" label="שם התלמיד/ה"/><Field value={grade} onChange={setGrade} placeholder="כיתה" label="כיתה" blank="________"/></div></article>
  <article className="root-page"><h2>העץ המשפחתי שלי</h2><p className="page-hint no-print">לחצו על כל שם כדי להתאים את העץ למשפחה שלכם.</p><div className="family-view">{family.map((m,i)=><div key={i}><PhotoSlot label="תמונה"/><Field value={m} onChange={v=>editFamily(i,v)} placeholder="שם בן/בת משפחה"/></div>)}</div><button className="add-item no-print" onClick={()=>setFamily(x=>[...x,'בן/בת משפחה'])}>＋ הוסיפו ענף לעץ</button></article>

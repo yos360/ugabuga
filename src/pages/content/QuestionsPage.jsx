@@ -1,3 +1,4 @@
+import PrintExisting from '../../components/ui/PrintExisting'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -48,7 +49,7 @@ export default function QuestionsPage() {
           <ol className="space-y-2">{g.questions.map(q => { n += 1; return <li key={q} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{n}.</b> {q}</li> })}</ol>
         </section>
       ))}
-      <div className="no-print text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסת הרשימה</button></div>
+      <div className="no-print text-center my-6"><PrintExisting selector="main .questions-sheet" className="btn-secondary">🖨️ הדפסת הרשימה</PrintExisting></div>
       {x.game && (
         <WobblyCard hover={false} padding="p-5" className="no-print mt-8">
           <h2 className="text-2xl font-bold mb-3">{x.game.title}</h2>

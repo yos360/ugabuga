@@ -1,3 +1,4 @@
+import PrintExisting from '../../components/ui/PrintExisting'
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -46,7 +47,7 @@ export default function PuzzleStudio(){
   </div>
 }
 
-function Actions({check,reset,message,success}){return <div className="puzzle-actions no-print"><div><button className="puzzle-primary" onClick={check}>בדקו תשובות</button><button onClick={()=>window.print()}>הדפסה</button><button onClick={()=>{if(window.confirm('למחוק את התשובות בחידה הזאת?'))reset()}}>ניקוי תשובות</button></div><p role="status" className={success?'puzzle-success':''}>{message||'אפשר לטעות, למחוק ולנסות שוב.'}</p></div>}
+function Actions({check,reset,message,success}){return <div className="puzzle-actions no-print"><div><button className="puzzle-primary" onClick={check}>בדקו תשובות</button><PrintExisting selector="main .puzzle-paper" wrapper="puzzle-studio">הדפסה</PrintExisting><button onClick={()=>{if(window.confirm('למחוק את התשובות בחידה הזאת?'))reset()}}>ניקוי תשובות</button></div><p role="status" className={success?'puzzle-success':''}>{message||'אפשר לטעות, למחוק ולנסות שוב.'}</p></div>}
 
 function Crossword({entries,seed,title}){
   const puzzle=useMemo(()=>crossword(entries,seed),[entries,seed]),[answers,setAnswers]=useState({}),[selected,setSelected]=useState(0),[checked,setChecked]=useState(false),refs=useRef({})

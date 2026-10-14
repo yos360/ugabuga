@@ -1,3 +1,4 @@
+import PrintExisting from '../../components/ui/PrintExisting'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -97,7 +98,7 @@ export function HuntPage() {
       <h2 className="text-2xl font-bold mb-3">הרמזים (לגזור ולהחביא)</h2>
       <ol className="grid sm:grid-cols-2 gap-3">{p.clues.map((c, i) => <li key={i} className="break-inside-avoid border-2 border-dashed border-[var(--border)] bg-white p-4"><b>רמז {i + 1}</b><p className="whitespace-pre-line text-lg mt-1">{c.clue}</p></li>)}</ol>
       <details className="no-print mt-6 wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4"><summary className="font-bold cursor-pointer">🔑 איפה מחביאים כל רמז (למבוגר)</summary><p className="text-sm mt-2">רמז 1 נותנים ביד. כל רמז מחביאים במקום שהרמז הקודם מוביל אליו:</p><ol className="list-decimal pr-6 mt-2">{p.clues.map((c, i) => <li key={i}>רמז {i + 1} מוביל אל: <b>{c.answer}</b>{i < p.clues.length - 1 ? ` — שם מחביאים את רמז ${i + 2}` : ' — שם מחכה הפרס!'}</li>)}</ol></details>
-      <div className="no-print text-center my-6"><button onClick={() => window.print()} className="btn-secondary">🖨️ הדפסה</button> <Link to="/tools/scavenger-hunt-maker" className="btn-secondary">✏️ ליצור ציד משלכם</Link></div>
+      <div className="no-print text-center my-6"><PrintExisting selector="main .hunt-sheet" className="btn-secondary">🖨️ הדפסה</PrintExisting> <Link to="/tools/scavenger-hunt-maker" className="btn-secondary">✏️ ליצור ציד משלכם</Link></div>
       <div className="no-print"><Extras p={p} /></div>
       <div className="no-print"><More items={HUNT_PAGES} base="/treasure-hunt/" current={slug} all="/treasure-hunt/ready" allLabel="כל הצידים" /></div>
     </div>
