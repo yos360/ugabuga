@@ -46,6 +46,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
+        <Link to="/en" lang="en" className="mt-6 inline-block text-sm underline">English</Link>
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">✉️ hellohugabuga@gmail.com</a>
           <p className="mt-2">💛 רעיון למשחק? תיקון? משוב? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>

@@ -21,7 +21,8 @@ const ORGANIZATION = {
 // Google shows about 60–70 characters of a title and ~160 of a description. Past that, the brand
 // suffix is dropped first (the page's own words matter more), and descriptions are cut at a word.
 export const TITLE_MAX = 70, DESC_MAX = 165
-export function seoTitle(title) {
+export function seoTitle(title, lang = 'he') {
+  if (lang === 'en') { const full = `${title || "Ugabuga — Hebrew learning for families"} | Ugabuga`; return full.length <= TITLE_MAX ? full : title }
   if (!title) return 'עוגה בוגה — משחקים, דפי הדפסה ולמידה לילדים | UGABUGA'
   const full = title + (title.includes('עוגה בוגה') ? ' | UGABUGA' : ' | עוגה בוגה')
   return full.length <= TITLE_MAX ? full : title
@@ -32,10 +33,19 @@ export function seoDescription(d) {
   return cut.slice(0, Math.max(cut.lastIndexOf(' '), DESC_MAX - 30)).replace(/[\s,;:—–-]+$/, '') + '…'
 }
 
-export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website', structuredData = null }) {
+export function languageAlternates(path, counterpartPath, lang = 'he') {
+  if (!counterpartPath) return []
+  const he = lang === 'en' ? counterpartPath : path
+  const en = lang === 'en' ? path : counterpartPath
+  return [{ lang: 'he', href: 'https://ugabuga.co.il' + he }, { lang: 'en', href: 'https://ugabuga.co.il' + en }, { lang: 'x-default', href: 'https://ugabuga.co.il' + he }]
+}
+
+export default function SEO({ title, description, path, image = '/og-image.png', noindex = false, type = 'website', structuredData = null, lang = 'he', counterpartPath }) {
   const location = useLocation()
   // The Hebrew brand closes every title, so a search for "עוגה בוגה" matches the whole site.
-  const fullTitle = seoTitle(title)
+  const en = lang === 'en'
+  const siteName = en ? 'Ugabuga' : 'עוגה בוגה'
+  const fullTitle = seoTitle(title, lang)
   const canonicalPath = path ?? location.pathname
   const normalizedPath = canonicalPath === '/' ? '/' : canonicalPath.replace(/\/+$/, '')
   const url = 'https://ugabuga.co.il' + normalizedPath
@@ -45,6 +55,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const fullImage = shareImage.startsWith('http') ? shareImage : 'https://ugabuga.co.il' + shareImage
   const fullDescription = seoDescription(description) || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
   const isHome = normalizedPath === '/'
+  const alternates = languageAlternates(normalizedPath, counterpartPath, lang)
 
   // The site-wide WebSite + SearchAction schema only makes sense once, on the
   // homepage — repeating it identically on every game/category/tool page is
@@ -85,14 +96,16 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     ...(preview ? { 'primaryImageOfPage': fullImage } : {}),
   } : null
 
-  const schemas = [schemaData, pageSchema, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
+  const englishSchema = en && !noindex ? { '@context': 'https://schema.org', '@type': normalizedPath === '/en' ? 'WebSite' : 'WebPage', name: title || fullTitle, description: fullDescription, url, inLanguage: 'en', isAccessibleForFree: true, isPartOf: { '@type': 'WebSite', name: 'Ugabuga', url: 'https://ugabuga.co.il/en' }, publisher: { '@type': 'Organization', name: 'Ugabuga', url: 'https://ugabuga.co.il' } } : null
+  const schemas = [en ? englishSchema : schemaData, en ? null : pageSchema, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
 
   return (
-    <Helmet>
+    <Helmet htmlAttributes={{ lang, dir: en ? 'ltr' : 'rtl' }}>
       <title>{fullTitle}</title>
       <meta name="description" content={fullDescription} />
       <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
       <link rel="canonical" href={url} />
+      {alternates.map(a => <link key={a.lang} rel="alternate" hrefLang={a.lang} href={a.href} />)}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={fullDescription} />
       <meta property="og:url" content={url} />
@@ -101,8 +114,8 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       {!preview && <meta property="og:image:height" content="630" />}
       <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:type" content={type} />
-      <meta property="og:locale" content="he_IL" />
-      <meta property="og:site_name" content="עוגה בוגה" />
+      <meta property="og:locale" content={en ? 'en_US' : 'he_IL'} />
+      <meta property="og:site_name" content={siteName} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={fullDescription} />

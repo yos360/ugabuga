@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
@@ -277,7 +277,12 @@ const SupplierAccount = lazy(() => import('./pages/suppliers/SupplierAccount'))
 const AdminSuppliers = lazy(() => import('./pages/suppliers/AdminSuppliers'))
 const OwnerLogin = lazy(() => import('./pages/OwnerLogin'))
 
+const EnglishHome = lazy(() => import('./en/EnglishHome'))
+const EnglishNotFound = lazy(() => import('./en/EnglishLayout').then(m => ({ default: m.EnglishNotFound })))
+
 function Loading() {
+  const { pathname } = useLocation()
+  if (pathname === '/en' || pathname.startsWith('/en/')) return <p className="en-loading" role="status">Loading your activity…</p>
   return (
     <div className="flex min-h-[65vh] items-center justify-center px-4 py-16" role="status" aria-live="polite">
       <div className="w-full max-w-md rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-8 text-center shadow-[0_8px_0_var(--border)]">
@@ -301,6 +306,8 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/en" element={<EnglishHome />} />
+              <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />

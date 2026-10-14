@@ -9,6 +9,7 @@ class Boundary extends Component {
   componentDidCatch(error) { console.error('Page crashed:', error) }
   render() {
     if (!this.state.failed) return this.props.children
+    if (this.props.en) return <div className="en-page"><h1>Something went wrong</h1><p>Please reload this page and try again.</p><button onClick={() => window.location.reload()}>Reload page</button><p><a href="/en">English home</a></p></div>
     return (
       <div className="mx-auto max-w-xl px-4 py-16 text-center" dir="rtl">
         <p className="text-6xl mb-3" aria-hidden="true">🙈</p>
@@ -23,5 +24,5 @@ class Boundary extends Component {
 
 export default function PageErrorBoundary({ children }) {
   const { pathname } = useLocation()
-  return <Boundary key={pathname}>{children}</Boundary>
+  return <Boundary key={pathname} en={pathname === '/en' || pathname.startsWith('/en/')}>{children}</Boundary>
 }

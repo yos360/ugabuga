@@ -206,6 +206,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
     for (let i = 0; i < sheets.length; i++) {
       onProgress?.(i + 1, sheets.length)
       const clone = sheets[i].cloneNode(true)
+      clone.style.direction = getComputedStyle(sheets[i]).direction
       clone.style.width = PAGE_PX + 'px'; clone.style.maxWidth = 'none'; clone.style.zoom = '1'; clone.style.margin = '0'
       // A4 sheets fill exactly one page; flowing sheets are at least one page tall so the QR and credit sit at the bottom.
       if (clone.classList.contains('buga-a4')) clone.style.height = Math.round(PAGE_PX * 297 / 210) + 'px'

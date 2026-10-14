@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 // Reusable long-form SEO body block: paragraphs + FAQ + related links.
 // Used on pages that don't have their own body-copy section yet.
-export default function SeoBody({ paragraphs = [], faq = [], related = [] }) {
+export default function SeoBody({ paragraphs = [], faq = [], related = [], lang = 'he' }) {
   return (
     <div className="seo-body max-w-3xl mt-2">
       {paragraphs.length > 0 && (
@@ -14,7 +14,7 @@ export default function SeoBody({ paragraphs = [], faq = [], related = [] }) {
       )}
       {faq.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">שאלות נפוצות</h2>
+          <h2 className="text-2xl font-bold mb-4">{lang === 'en' ? 'Frequently asked questions' : 'שאלות נפוצות'}</h2>
           <div className="space-y-4">
             {faq.map((item, i) => (
               <div key={i}>
@@ -27,11 +27,11 @@ export default function SeoBody({ paragraphs = [], faq = [], related = [] }) {
       )}
       {related.length > 0 && (
         <p className="text-[var(--foreground)]/80 leading-relaxed">
-          {'שווה להסתכל גם על '}
+          {lang === 'en' ? 'Explore more: ' : 'שווה להסתכל גם על '}
           {related.map((r, i) => (
             <span key={r.href}>
               <Link to={r.href} className="underline font-bold">{r.label}</Link>
-              {i < related.length - 1 ? (i === related.length - 2 ? ', ו' : ', ') : '.'}
+              {i < related.length - 1 ? (i === related.length - 2 ? (lang === 'en' ? ', and ' : ', ו') : ', ') : '.'}
             </span>
           ))}
         </p>

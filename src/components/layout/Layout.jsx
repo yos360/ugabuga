@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
+import EnglishLayout from '../../en/EnglishLayout'
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
@@ -41,6 +42,7 @@ export default function Layout({ children }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+  if (pathname === '/en' || pathname.startsWith('/en/')) return <EnglishLayout>{children}</EnglishLayout>
   // The owner's mini widget is meant for a tiny window: no header, footer or floating buttons.
   // Widgets embedded on other sites (/embed/timer…): just the widget. The gallery is /embed itself.
   if (pathname === '/admin/mini' || pathname.startsWith('/embed/')) return <main id="site-content">{children}</main>

@@ -48,7 +48,8 @@ try {
   // are 100+ and change independently of a deploy, so they're discovered via
   // the sitemap and rendered client-side instead of being snapshotted here.
   const xml = await readFile('public/sitemap-static.xml', 'utf8')
-  const paths = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname)
+  const requestedPrefix = process.env.PRERENDER_PATH_PREFIX
+  const paths = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => !requestedPrefix || p === requestedPrefix || p.startsWith(requestedPrefix + '/'))
   const context = await browser.newContext()
   await context.addInitScript(() => { window.__PRERENDER__ = true })
   // Never record analytics/activity or depend on third-party availability at build time.
@@ -101,6 +102,11 @@ try {
       const destination = resolve(dist, row.path === '/' ? 'index.html' : row.path.slice(1) + '.html')
       await mkdir(dirname(destination), { recursive: true })
       await writeFile(destination, row.html)
+      if (row.path === '/en' || row.path.startsWith('/en/')) {
+        const directorySnapshot = resolve(dist, row.path.slice(1), 'index.html')
+        await mkdir(dirname(directorySnapshot), { recursive: true })
+        await writeFile(directorySnapshot, row.html)
+      }
       titles.add(row.title)
     } catch (err) {
       failures.push({ path: row.path, message: err.message })
@@ -119,7 +125,7 @@ try {
   try {
     const fullXml = await readFile('public/sitemap.xml', 'utf8')
     const staticSet = new Set(paths)
-    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => p.startsWith('/games/') && !staticSet.has(p))
+    const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => !requestedPrefix && p.startsWith('/games/') && !staticSet.has(p))
     let ok = 0, skipped = 0
     await renderPagePool(context, gamePaths, concurrency, async (page, path) => {
       try {

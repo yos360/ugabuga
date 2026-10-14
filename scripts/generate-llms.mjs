@@ -2,6 +2,7 @@
 // (ChatGPT, Perplexity, Claude, Gemini…), following the llms.txt convention: what the site is,
 // who it is for, and the main pages, grouped like the site menu (src/data/siteMenu.js).
 import { writeFile } from 'node:fs/promises'
+import { ENGLISH_SECTIONS } from '../src/en/englishRoutes.js'
 import { MENU_DOMAINS, CLASSROOM_MENU } from '../src/data/siteMenu.js'
 
 const SITE = 'https://ugabuga.co.il'
@@ -49,6 +50,8 @@ for (const d of MENU_DOMAINS) {
 }
 const classroom = CLASSROOM_MENU.items.filter(i => i.to && !i.shortcut)
 if (classroom.length) out.push(`## ${CLASSROOM_MENU.label} (למורות ולגננות)`, '', `- [${CLASSROOM_MENU.label}](${abs(CLASSROOM_MENU.to)})`, ...classroom.map(line), '')
+
+out.push('## English', '', '- [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.', ...ENGLISH_SECTIONS.map(s => `- [${s.title}](${abs(s.path)}): ${s.description}`), '')
 
 const text = out.join('\n').replace(/\n{3,}/g, '\n\n')
 await writeFile(new URL('../public/llms.txt', import.meta.url), text)
