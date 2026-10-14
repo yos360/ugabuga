@@ -1236,6 +1236,9 @@
   <url><loc>https://ugabuga.co.il/days-until/sigd</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/days-until/summer-vacation</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/days-until/new-year</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/bmi</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/fraction-calculator</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/grade-average</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/age-calculator</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/gematria</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/new</loc><priority>0.6</priority></url>
@@ -2799,7 +2802,4 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/fruits/9</loc><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/bmi</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/fraction-calculator</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/grade-average</loc><priority>0.7</priority></url>
 </urlset>
