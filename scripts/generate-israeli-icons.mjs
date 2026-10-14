@@ -15,7 +15,7 @@ const cup=(fill='purple')=>ellipse(50,83,22,5,'gold')+rect(46,56,8,25,'gold')+pa
 const apple=()=>path('M50 32C21 17 17 48 26 65C35 84 44 73 50 75C60 73 67 83 77 62C86 40 74 19 50 32Z','red')+path('M50 32Q45 19 54 13')+leaf(64,20,55)+path('M32 39Q26 46 31 53','none','stroke="#fffdf5"')
 const entries=[]
 function add(slug,name,group,situations,art){entries.push({slug,name,group,situations,art})}
-add('dreidel','סביבון','hanukkah',['hanukkah'],rect(45,12,10,20,'gold')+path('M25 34L52 25L76 37V65L51 89L25 66Z','blue')+path('M25 34L51 46L76 37M51 46V89')+path('M34 46V61H42V49')+star(83,20))
+add('dreidel','סביבון','hanukkah',['hanukkah'],rect(45,12,10,20,'gold')+path('M25 34L52 25L76 37V65L51 89L25 66Z','blue')+path('M25 34L51 46L76 37M51 46V89')+path('M35 46H41V62H33')+star(83,20))
 add('sufganiya','סופגנייה','hanukkah',['hanukkah'],ellipse(50,59,37,27,'orange')+path('M14 57Q50 71 86 57','cream')+ellipse(50,47,34,17,'gold')+path('M25 43Q36 34 48 36M60 37L68 40','none','stroke="#fffdf5" stroke-width="6"')+circle(51,43,7,'red')+path('M49 41Q51 38 54 41','none','stroke="#fffdf5" stroke-width="2"'))
 let menorah=rect(29,82,42,6,'gold')+line(50,23,50,82)
 for(const x of [14,23,32,41,59,68,77,86]) menorah+=path(`M${x} 43V${55+Math.abs(50-x)/3}Q${x} 76 50 76`)+rect(x-2,33,4,12,'cream',1)+`<g transform="translate(${x} 25) scale(.55)">${flame(0,0)}</g>`
@@ -62,7 +62,7 @@ add('peanut-snack','חטיף בוטנים','food',[],path('M19 20L75 16L82 82L26
 add('popsicle','ארטיק','summer',[],rect(45,63,12,27,'brown',6)+path('M28 31Q28 12 50 12Q74 12 74 31V67Q52 77 28 67Z','pink')+path('M28 46H74V66Q52 76 28 66Z','red')+line(40,26,40,40)+line(61,26,61,40))
 add('matkot','מטקות','summer',[],`<g transform="rotate(-24 32 50)">${rect(27,58,11,32,'brown')+ellipse(33,37,20,27,'gold')+ellipse(33,37,13,20,'cream')}</g><g transform="rotate(25 69 51)">${rect(64,62,10,27,'brown')+ellipse(69,40,19,26,'blue')+ellipse(69,40,12,18,'white')}</g>`+circle(51,80,8,'red'))
 add('watermelon','פלח אבטיח','summer',[],path('M13 32H87Q83 85 50 87Q18 84 13 32Z','green')+path('M18 33H82Q77 75 50 79Q24 75 18 33Z','cream')+path('M23 33H77Q71 67 50 72Q29 67 23 33Z','red')+[[34,43],[49,43],[64,43],[43,57],[57,58]].map(([x,y])=>ellipse(x,y,1.5,3,'ink')).join(''))
-add('sabra','צבר','nature',['tu-bishvat'],path('M42 85V65H30Q17 65 17 49V40Q17 32 26 32Q34 32 34 40V50H42V26Q42 15 51 15Q61 15 61 26V57H70V46Q70 37 79 37Q88 37 88 46V57Q88 72 61 72V85Z','green')+ellipse(51,13,7,6,'red')+ellipse(25,30,7,5,'red')+path('M47 34H53M47 49H53M47 66H53M22 46H28M75 52H81')+ellipse(51,88,30,4,'gold'))
+add('sabra','צבר','nature',['tu-bishvat'],ellipse(50,90,26,4,'gold')+ellipse(50,68,15,20,'green')+ellipse(33,41,10,15,'green','transform="rotate(-28 33 41)"')+ellipse(67,41,10,15,'green','transform="rotate(28 67 41)"')+ellipse(27,25,5,6,'red')+ellipse(39,24,5,6,'orange')+ellipse(73,25,5,6,'red')+ellipse(61,24,5,6,'orange')+path('M44 62H46M54 72H56M47 81H49M30 43H32M68 45H70M36 34H38M63 35H65'))
 let olive=path('M24 87Q44 54 75 19','none','stroke-width="4"')
 for(const [x,y,a] of [[37,64,-45],[50,59,45],[48,45,-45],[64,42,45],[62,27,-45]])olive+=leaf(x,y,a)
 add('olive-branch','ענף זית','nature',['tu-bishvat','independence-day'],olive+circle(39,75,5,'purple')+circle(57,51,5,'purple')+circle(71,33,5,'purple'))
@@ -82,7 +82,7 @@ for(const icon of entries){
   const header=`<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 100 100" role="img" aria-labelledby="title"><title id="title">${icon.name}</title><metadata>Original Ugabuga vector illustration. Creator: Ugabuga / Codex. License: CC0-1.0. https://creativecommons.org/publicdomain/zero/1.0/</metadata>`
   const wrap=art=>`${header}<g stroke="${C.ink}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">${art}</g></svg>\n`
   await writeFile(new URL(icon.slug+'.svg',folder),wrap(icon.art))
-  const outline=icon.art.replace(/fill="(?!none)[^"]*"/g,'fill="#ffffff"').replace(/stroke="[^"]*"/g,'stroke="#222222"')
+  const outline=icon.art.replace(/<path[^>]*stroke="#fffdf5"[^>]*\/>/g,'').replace(/fill="(?!none)[^"]*"/g,'fill="#ffffff"').replace(/stroke="[^"]*"/g,'stroke="#222222"')
   await writeFile(new URL(icon.slug+'-outline.svg',folder),wrap(outline).replace(`stroke="${C.ink}"`,'stroke="#222222"'))
 }
 const metadata=entries.map(({art,...i})=>({...i,creator:'Ugabuga / Codex',license:'CC0-1.0',licenseUrl:'https://creativecommons.org/publicdomain/zero/1.0/',src:`/icons/israeli/${i.slug}.svg`,outline:`/icons/israeli/${i.slug}-outline.svg`}))

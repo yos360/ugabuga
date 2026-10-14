@@ -54,3 +54,12 @@ test('emoji closed families return 404 for invented categories and occasions',as
     assert.equal(response.status,status,path)
   }
 })
+
+test('hearts page holds the hearts; search ranks whole words first and knows "סמיילים"', () => {
+  const hearts = filterEmoji(data.entries, '', 'hearts').map(e => e.emoji)
+  for (const h of ['❤️', '💔', '🩷', '💙']) assert.ok(hearts.includes(h), h)
+  assert.ok(!hearts.includes('💯'))
+  assert.equal(filterEmoji(data.entries, 'עוגה')[0].emoji, '🎂')
+  assert.ok(filterEmoji(data.entries, 'סמיילים').length > 50)
+  assert.ok(filterEmoji(data.entries, 'לב').slice(0, 20).some(e => e.emoji === '❤️'))
+})

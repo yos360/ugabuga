@@ -22,7 +22,7 @@ for (const line of sources[0].split(/\r?\n/)) {
   // CLDR's Hebrew DVD tts is "dvd". Keep it, adding its exact Hebrew keyword.
   const name = /[\u0590-\u05FF]/.test(annotation.tts[0]) ? annotation.tts[0] : `${annotation.tts[0]} — ${annotation.default.find(k => /[\u0590-\u05FF]/.test(k))}`
   if (!/[\u0590-\u05FF]/.test(name)) throw new Error(`Missing Hebrew name for ${emoji}`)
-  entries.push({ emoji, name, tts: annotation.tts[0], keywords: annotation.default || [], category: subgroup === 'emotion' ? 'hearts' : categories[group], version: m[3], component: m[2] === 'component' })
+  entries.push({ emoji, name, tts: annotation.tts[0], keywords: annotation.default || [], category: subgroup === 'heart' ? 'hearts' : categories[group], version: m[3], component: m[2] === 'component' })
 }
 if (entries.length !== 3953 || entries.some(e => !e.category)) throw new Error('Unexpected emoji coverage')
 const data = { unicodeVersion:'17.0', cldrVersion:'48.2.0', license:'Unicode-3.0', sourceSha256:sources.map(s => createHash('sha256').update(s).digest('hex')), entries }
