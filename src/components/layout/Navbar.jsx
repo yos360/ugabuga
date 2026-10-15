@@ -4,6 +4,7 @@ import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 
 import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
 import { englishCounterpart } from '../../en/englishLinks'
+import { SITE_SLOGAN } from '../../data/brand'
 
 function ItemLink({ item, onClick }) {
   return <Link to={item.to} onClick={onClick} className={item.highlight ? 'is-highlight' : undefined}><span aria-hidden="true">{item.icon}</span>{item.label}</Link>
@@ -116,7 +117,8 @@ export default function Navbar() {
         </div>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
-          <span className="site-brand-art" aria-hidden="true" />
+          <span className="site-brand-art" aria-hidden="true"><img src="/images/site-logo.webp" alt="" width="250" height="80" /></span>
+          <span className="site-brand-slogan">{SITE_SLOGAN}</span>
         </Link>
 
         <div className="site-header-side site-header-end">
