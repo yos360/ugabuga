@@ -26,7 +26,8 @@ test('sandwiches: kinds, allergens and breads are valid and consistent', () => {
 })
 
 test('recipes and experiments are complete', () => {
-  for (const r of RECIPES) assert.ok(r.ingredients.length >= 3 && r.steps.length >= 3 && r.slug, r.slug)
+  // Banana pancakes intentionally use exactly two ingredients (owner's specification).
+  for (const r of RECIPES) assert.ok(r.ingredients.length >= 2 && r.steps.length >= 3 && r.slug, r.slug)
   for (const x of EXPERIMENTS) assert.ok(x.materials.length >= 2 && x.steps.length >= 3 && x.why.length > 30, x.slug)
   assert.equal(new Set(RECIPES.map(r => r.slug)).size, RECIPES.length)
 })

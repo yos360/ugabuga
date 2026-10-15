@@ -16,6 +16,9 @@ let knownPromise = null
 // Param routes whose full list of valid values is in the sitemap. A slug outside
 // that list with no prerendered snapshot is a made-up URL → real 404.
 const CLOSED_FAMILIES = [
+  /^\/recipes\/shabbat\/[^/]+$/,
+  /^\/cakes\/[^/]+$/,
+  /^\/food\/kids-recipes\/[^/]+$/,
   /^\/en\/.+$/, // every English page is in the sitemap; anything else under /en is a made-up URL
   /^\/en\/jewish-holidays\/[^/]+$/,
   /^\/en\/coloring\/[^/]+(?:\/[^/]+)?$/,

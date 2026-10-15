@@ -5,6 +5,7 @@ import { chromium } from 'playwright'
 import { readFileSync, existsSync, mkdirSync, appendFileSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 import { createHash } from 'node:crypto'
+import { offlineSiteResponse } from './offline-site.mjs'
 const base=process.env.AUDIT_BASE||'http://127.0.0.1:5199'
 const output=process.env.AUDIT_OUTPUT||'out/audit/pages.jsonl'
 mkdirSync('out/audit',{recursive:true})
@@ -24,7 +25,7 @@ let cursor=0,finished=0
 await Promise.all(Array.from({length:Math.min(4,jobs.length)},async()=>{
  const context=await browser.newContext({timezoneId:'Asia/Jerusalem',reducedMotion:'reduce'})
  let external=new Set(),ownFailures=[],errors=[],js=new Set()
- await context.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin!==new URL(base).origin){external.add(u.hostname);return r.abort()}if(!['GET','HEAD'].includes(r.request().method()))return r.abort();return r.continue()})
+ await context.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin!==new URL(base).origin){external.add(u.hostname);return r.abort()}if(!['GET','HEAD'].includes(r.request().method()))return r.abort();return process.env.AUDIT_OFFLINE_DIR?r.fulfill(offlineSiteResponse(r.request().url(),process.env.AUDIT_OFFLINE_DIR)):r.continue()})
  const page=await context.newPage()
  page.on('pageerror',e=>errors.push(e.message))
  page.on('response',r=>{if(r.url().startsWith(base)){if(r.status()>=400)ownFailures.push({url:r.url().replace(base,''),status:r.status()});if(r.request().resourceType()==='script')js.add(new URL(r.url()).pathname)}})

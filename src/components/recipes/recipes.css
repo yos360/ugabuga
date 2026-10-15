@@ -1,0 +1,19 @@
+.recipe-print-sheet{display:flex;flex-direction:column;gap:8px}
+.recipe-print-card{width:100%;box-sizing:border-box;color:#111;border:1.5px solid #777;border-radius:12px;padding:18px;flex:1;min-height:0}
+.recipe-print-card h2{font-size:24px!important;line-height:1.2;margin:0 0 8px!important;text-align:center}
+.recipe-print-card h3{font-size:17px;margin:8px 0}
+.recipe-print-card p{font-size:13px;line-height:1.4;margin:6px 0}
+.recipe-print-columns{display:grid;grid-template-columns:.85fr 1.15fr;gap:18px}
+.recipe-print-card ul{list-style:none;padding:0;margin:0}
+.recipe-print-card ol{list-style:decimal;padding-inline-start:20px;margin:0}
+.recipe-print-card li{font-size:15px;line-height:1.65;margin-bottom:7px}
+.recipe-print-card.half{padding:10px;flex:1;box-sizing:border-box}
+.recipe-print-card.half h2{font-size:19px!important;margin-bottom:3px!important}
+.recipe-print-card.half h3{font-size:13px;margin:4px 0}
+.recipe-print-card.half li{font-size:11.5px;line-height:1.4;margin-bottom:3px}
+.recipe-print-card.half p{font-size:10px;line-height:1.3;margin:3px 0}
+.recipe-print-card.half .recipe-print-columns{gap:12px}
+.recipe-cut{border-top:1px dashed #777;text-align:center;font-size:10px;line-height:12px}
+.recipe-links{border:2px solid var(--border);border-radius:16px;padding:16px;margin:24px 0;background:var(--card)}
+.recipe-links a{display:inline-block;margin:4px 12px;text-decoration:underline;font-weight:700}
+@media print{.recipe-print-card{break-inside:avoid}}

@@ -334,6 +334,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/food/school-lunch', label: 'מה שמים בכריך? ארוחת עשר', icon: '🥪' },
           { to: '/food/lunch-planner', label: 'תכנון ארוחת עשר לשבוע', icon: '🗓️' },
+          { to: '/recipes/shabbat', label: 'מתכונים לשבת ולהדפסה', icon: '🍞' },
           { to: '/food/kids-recipes', label: 'מתכונים שילדים מכינים', icon: '👩‍🍳' },
           { to: '/food/kitchen-science', label: 'ניסויים במטבח', icon: '🧪' },
         ],

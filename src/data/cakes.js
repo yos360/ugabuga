@@ -1,3 +1,4 @@
+import { NEW_CAKES } from './recipesExpanded.js'
 // Birthday cakes section (/cakes): recipes + guides, pure data and helpers (no JSX, importable by node tests).
 // Base recipes were cross-checked against published sources (see the final report of the feature);
 // quantities use Israeli measures: 1 כוס = 240 מ"ל.
@@ -17,7 +18,9 @@ export const CAKE_TAGS = [
 ]
 
 export const ALLERGENS = {
-  gluten: 'גלוטן (חיטה)',
+  gluten: 'גלוטן (חיטה / שיבולת שועל)',
+  sesame: 'שומשום',
+  fish: 'דגים',
   eggs: 'ביצים',
   dairy: 'חלב',
   nuts: 'שקדים',
@@ -29,6 +32,7 @@ export const KOSHER_LABEL = { parve: 'פרווה', dairy: 'חלבי', 'dairy-or-
 
 // unit id → [singular, plural]
 export const UNITS = {
+  pinch: ['קורט', 'קורטים'],
   cup: ['כוס', 'כוסות'],
   tbsp: ['כף', 'כפות'],
   tsp: ['כפית', 'כפיות'],
@@ -45,7 +49,7 @@ export const UNITS = {
 const i = (q, u, name, note) => ({ q, u, name, ...(note ? { note } : {}) })
 const t = (name, note) => ({ q: null, u: '', name, ...(note ? { note } : {}) })
 
-const FRACTIONS = [[0, ''], [0.25, '¼'], [1 / 3, '⅓'], [0.5, '½'], [2 / 3, '⅔'], [0.75, '¾'], [1, '']]
+const FRACTIONS = [[0, ''], [0.25, '¼'], [1 / 3, '⅓'], [0.5, '½'], [2 / 3, '⅔'], [0.75, '¾'], [0.875, '⅞'], [1, '']]
 
 // 1.75 → "1¾", 0.5 → "½", 2 → "2", 2.2 → "2.2"
 export function formatQty(q) {
@@ -72,7 +76,7 @@ export function formatIngredient(item, factor = 1) {
   const q = scaleQty(item.q, item.u, factor)
   const [one, many] = UNITS[item.u] || ['', '']
   const unit = q > 1 ? many : one
-  return [formatQty(q), unit, item.name].filter(Boolean).join(' ') + (item.note ? ` (${item.note})` : '')
+  return [formatQty(q), unit, item.name].filter(Boolean).join(' ') + (item.metric != null ? ` (${formatQty(item.metric * factor)} ${item.metricUnit === 'ml' ? 'מ״ל' : 'גרם'})` : '') + (item.note ? ` (${item.note})` : '')
 }
 
 export const SCALES = [
@@ -133,6 +137,7 @@ export function ageDigits(age) {
 
 // ── the cakes ───────────────────────────────
 export const CAKES = [
+  ...NEW_CAKES,
   {
     slug: 'chocolate-birthday-cake',
     kind: 'recipe',
@@ -1133,7 +1138,7 @@ export const CAKES = [
 
 export const CAKE_SLUGS = CAKES.map(c => c.slug)
 export const getCake = slug => CAKES.find(c => c.slug === slug) || null
-export const cakePath = c => `${CAKES_HUB_PATH}/${typeof c === 'string' ? c : c.slug}`
+export const cakePath = c => typeof c === 'object' && c.path ? c.path : `${CAKES_HUB_PATH}/${typeof c === 'string' ? c : c.slug}`
 export const CAKE_PATHS = [CAKES_HUB_PATH, ...CAKES.map(cakePath)]
 export const relatedCakes = c => (c.related || []).map(getCake).filter(Boolean)
 export const cakeShortTitle = c => c.shortTitle || c.title
@@ -1159,7 +1164,7 @@ export function recipeSchema(c) {
     'url': url,
     'inLanguage': 'he',
     'author': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': SITE },
-    'recipeCategory': 'עוגות יום הולדת',
+    'recipeCategory': c.path?.startsWith('/recipes/shabbat') ? 'מתכונים לשבת' : c.path?.startsWith('/food') ? 'מתכונים לילדים' : 'עוגות יום הולדת',
     'recipeCuisine': 'ישראלית',
     'keywords': ['עוגת יום הולדת', ...c.tags.map(id => CAKE_TAGS.find(x => x.id === id)?.label).filter(Boolean)].join(', '),
     'recipeYield': c.yieldText,

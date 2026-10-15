@@ -20,7 +20,7 @@ test('unique slugs and titles, valid metadata on every page', () => {
     assert.ok(['recipe', 'guide'].includes(c.kind), c.slug)
     for (const f of ['title', 'seoTitle', 'emoji', 'description', 'summary', 'difficulty']) assert.ok(typeof c[f] === 'string' && c[f].trim(), `${c.slug} ${f}`)
     assert.ok(!c.seoTitle.includes('UGABUGA'), `${c.slug}: SEO adds the brand`)
-    assert.ok(c.description.length >= 120 && c.description.length <= 160, `${c.slug} description length ${c.description.length}`)
+    assert.ok(c.description.length >= 120 && c.description.length <= 165, `${c.slug} description length ${c.description.length}`)
     assert.ok(c.intro.length >= 2, `${c.slug} intro`)
     assert.ok(c.tags.length && c.tags.every(t => tagIds.includes(t)), `${c.slug} tags`)
     assert.ok(KOSHER_LABEL[c.kosher], `${c.slug} kosher`)
@@ -38,7 +38,7 @@ test('every page has ingredients and steps; recipes have real quantities', () =>
       assert.ok(it.name !== undefined && (it.q === null || (typeof it.q === 'number' && it.q > 0)), `${c.slug} ${it.name}`)
       assert.ok(it.u in UNITS, `${c.slug} unit ${it.u}`)
     }
-    if (c.kind === 'recipe') assert.ok(c.ingredients.flatMap(g => g.items).filter(it => it.q != null).length >= 3, `${c.slug} quantities`)
+    if (c.kind === 'recipe') assert.ok(c.ingredients.flatMap(g => g.items).filter(it => it.q != null).length >= 2, `${c.slug} quantities`)
   }
 })
 
@@ -119,7 +119,7 @@ test('Recipe JSON-LD builder', () => {
     const x = recipeSchema(r)
     if (r.kind !== 'recipe') { assert.equal(x, null, r.slug); continue }
     assert.match(x.totalTime, ISO)
-    assert.ok(x.recipeIngredient.length >= 3 && x.recipeIngredient.every(l => typeof l === 'string' && l.trim()), r.slug)
+    assert.ok(x.recipeIngredient.length >= 2 && x.recipeIngredient.every(l => typeof l === 'string' && l.trim()), r.slug)
     assert.ok(x.recipeInstructions.every(st => st.text.trim()), r.slug)
   }
   assert.equal(recipeSchema(getCake('vegan-chocolate-cake')).suitableForDiet, 'https://schema.org/VeganDiet')

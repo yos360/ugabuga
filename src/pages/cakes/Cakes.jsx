@@ -1,3 +1,4 @@
+import RecipeCardSheets from '../../components/recipes/RecipeCardSheets'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -138,8 +139,10 @@ export function CakePage() {
   return <Cake key={c.slug} c={c} />
 }
 
-function Cake({ c }) {
+export function Cake({ c }) {
   const [factor, setFactor] = useState(1)
+  const [cardSize, setCardSize] = useState('a4')
+  const hub = c.path?.startsWith('/recipes/shabbat') ? { label: 'מתכונים לשבת', href: '/recipes/shabbat' } : c.path?.startsWith('/food') ? { label: 'מתכונים לילדים', href: '/food/kids-recipes' } : HUB
   const [checked, setChecked] = useState(() => new Set())
   const [printing, setPrinting] = useState(false)
   const [age, setAge] = useState('5')
@@ -154,7 +157,7 @@ function Cake({ c }) {
 
   return <div className="ck-page mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={c.seoTitle} description={c.description} path={path} type="article" structuredData={schema} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, HUB, { label: cakeShortTitle(c) }]} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, hub, { label: cakeShortTitle(c) }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">{c.emoji}</div>
       <h1 className="mt-2 text-4xl sm:text-5xl">{c.title}</h1>
@@ -165,9 +168,10 @@ function Cake({ c }) {
     <div className="mt-5 space-y-3 text-lg leading-relaxed">{c.intro.map((p, k) => <p key={k} className="m-0">{p}</p>)}</div>
 
     <dl className="ck-facts mt-5">
+      {c.age && <div><dt>גיל להשתתפות</dt><dd>{c.age} · בליווי מבוגר</dd></div>}
       {c.yieldText && <div><dt>כמות</dt><dd>{c.yieldText}</dd></div>}
       {c.pan && <div><dt>תבנית</dt><dd>{c.pan}</dd></div>}
-      <div><dt>תנור</dt><dd>{c.ovenC ? `${c.ovenC} מעלות, חום עליון־תחתון` : 'בלי אפייה'}</dd></div>
+      <div><dt>תנור</dt><dd>{c.ovenC ? `${c.ovenC} מעלות, חום עליון־תחתון` : (c.heat || 'בלי אפייה')}</dd></div>
       <div><dt>זמנים</dt><dd>הכנה {minutesLabel(c.time.prep)}{c.time.cook ? ` · אפייה ${minutesLabel(c.time.cook)}` : ''}{c.time.chill ? ` · קירור ${minutesLabel(c.time.chill)}` : ''}</dd></div>
     </dl>
 
@@ -180,6 +184,7 @@ function Cake({ c }) {
       <button type="button" className="ln-btn alt" onClick={share}>💬 שליחה בוואטסאפ</button>
     </div>
 
+    {c.path && <div className="mt-4 flex justify-center gap-2"><label>גודל כרטיס להדפסה <select aria-label="גודל כרטיס להדפסה" value={cardSize} onChange={e => setCardSize(e.target.value)} className="ln-chip"><option value="a4">A4</option><option value="half">חצי A4 — שני כרטיסים בגיליון</option></select></label></div>}
     {c.diagram === 'digits' && <NumberCakeTool age={age} setAge={setAge} />}
 
     <section className="ln-box mt-6" aria-labelledby="ingredients">
@@ -244,7 +249,7 @@ function Cake({ c }) {
     </section>}
 
     {printing && <PrintPreview title={c.title} onClose={() => setPrinting(false)}>
-      <article className="buga-flow ck-print" dir="rtl">
+      {c.path ? <RecipeCardSheets c={c} factor={factor} size={cardSize} /> : <article className="buga-flow ck-print" dir="rtl">
         <h2>{c.emoji} {c.title}</h2>
         <p className="ck-print-meta">{[c.yieldText, c.ovenC ? `תנור ${c.ovenC}°` : 'בלי אפייה', `סה"כ ${minutesLabel(totalMinutes(c))}`, KOSHER_LABEL[c.kosher]].filter(Boolean).join(' · ')}{scalable && factor !== 1 ? ` · כמות: ${SCALES.find(s => s.f === factor)?.label}` : ''}</p>
         {c.ingredients.map((g, gi) => <div key={gi}>
@@ -257,7 +262,7 @@ function Cake({ c }) {
         </div>)}
         {c.tips.length > 0 && <><h3>טיפים</h3><ul>{c.tips.slice(0, 3).map((x, k) => <li key={k}>{x}</li>)}</ul></>}
         {allergens.length > 0 && <p className="ck-print-note">אלרגנים: {allergens.join(', ')}.</p>}
-      </article>
+      </article>}
       {c.diagram === 'digits' && ageDigits(age).map((d, k) => <article key={k} className="buga-a4">
         <h2>שרטוט חיתוך — ספרה {d}</h2>
         <p className="art-caption">עוגה בתבנית 20×30 ס"מ · קווי העזר מסמנים פסים ברוחב 6 ס"מ · החלק הכהה נשאר</p>
@@ -266,6 +271,7 @@ function Cake({ c }) {
       </article>)}
     </PrintPreview>}
 
+    <nav className="mt-8 flex flex-wrap justify-center gap-3" aria-label="עוד מתכונים"><Link to="/food/pancakes">🥞 פנקייקים</Link><Link to="/cakes/cupcakes">🧁 קאפקייקס וניל</Link><Link to="/cakes/chocolate-cupcakes">קאפקייקס שוקולד</Link><Link to="/cakes/vanilla-cupcakes-parve">קאפקייקס פרווה</Link><Link to="/cakes/frostings">ציפויים וקרמים</Link><Link to="/cakes/buttercream">קרם חמאה</Link><Link to="/cakes/ganache">גנאש</Link><Link to="/recipes/shabbat">מתכונים לשבת</Link>{c.category === 'challah' && <Link to="/recipes/shabbat/braiding">קליעת 3, 4 ו־6 רצועות</Link>}</nav>
     <section className="no-print mt-10">
       <h2 className="mb-4 text-center text-2xl font-black">עוד עוגות יום הולדת</h2>
       <div className="grid gap-4 sm:grid-cols-2">{related.map(r => <CakeCard key={r.slug} c={r} />)}</div>

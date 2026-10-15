@@ -1,3 +1,4 @@
+import { Cake } from '../pages/cakes/Cakes'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
@@ -56,6 +57,8 @@ function Badges({ s }) {
 
 // ── /food ───────────────────────────────
 export const FOOD_SECTIONS = [
+  ['/recipes/shabbat', '🍞', 'מתכונים לשבת', 'חלות, עוגות שישי ועוגיות עם כרטיס מתכון להדפסה'],
+  ['/food/pancakes', '🥞', 'פנקייק — כל הגרסאות', 'קלאסי, פרווה, בננה ושיבולת שועל'],
   ['/food/school-lunch', '🥪', 'מה שמים היום בכריך?', 'מחולל ארוחת עשר ו-50 רעיונות לכריכים, עם סינון לפי אלרגיות'],
   ['/food/lunch-planner', '🗓️', 'תכנון ארוחת עשר לשבוע', 'שבוע שלם בלחיצה, להדפסה — עם רשימת קניות'],
   ['/printables/lunchbox-notes', '💌', 'פתקים לקופסת האוכל', 'פתקים קטנים עם חיוך — לגזור ולשים בקופסה'],
@@ -178,6 +181,7 @@ export function KidsRecipe() {
   const r = RECIPES.find(x => x.slug === slug)
   const [printing, setPrinting] = useState(false)
   if (!r) return <NotFound />
+  if (r.recipe) return <Cake key={r.slug} c={r.recipe} />
   const card = <article className="buga-flow fam-print" dir="rtl"><h2>{r.emoji} {r.title}</h2><p>גיל {r.age} · {r.time} · {r.serves} מנות · {r.kind}</p>
     <h3>מה צריך</h3><ul>{r.ingredients.map(i => <li key={i}>☐ {i}</li>)}</ul>
     <h3>איך מכינים</h3><ol>{r.steps.map(s => <li key={s}>{s}</li>)}</ol>{r.tip && <p>💡 {r.tip}</p>}</article>

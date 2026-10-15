@@ -1,3 +1,4 @@
+import { ShabbatRecipeLinks } from '../../components/recipes/ShabbatRecipeLinks'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -41,11 +42,11 @@ function Clock({ value }) {
 }
 
 function Intro({ city }) {
-  return <SeoBody paragraphs={[
+  return <><ShabbatRecipeLinks /><SeoBody paragraphs={[
     city ? `זמני השבת ב${city.name} מחושבים לפי נקודת היישוב וכניסת שבת ${city.offset} דקות לפני השקיעה. המנהג המוצג הוא ${city.offsetLabel}; בחירת עיר אחרת עשויה לשנות את הזמנים גם אם היא קרובה.` : 'בחרו עיר כדי לראות מתי מדליקים נרות ומתי יוצאת השבת. בעמוד העיר תמצאו גם את שמונה השבתות הבאות, הדלקת נרות לחגים שבטווח ולוח חודשי ושנתי עם תמונה להדפסה למקרר.',
     'החישוב משתמש בשקיעה בגובה פני הים, ללא תיקון לגובה השכונה או להסתרת האופק על ידי הרים. הדלקת נרות מעוגלת כלפי מטה; צאת שבת בשיטת 8.5 מעלות מעוגלת כלפי מעלה. המספרים עשויים להיות שונים מלוח שמשתמש בשיטה אחרת.',
     'במהלך שבת נשארים זמני אותה שבת על המסך, ובחצות לפי שעון ישראל עוברים לשבוע הבא. בתאריך שבו חג מתחיל במוצאי שבת מופיעה הערה שאיסור המלאכה נמשך. הדלקת נרות בלילה השני של חג מסומנת בנפרד כהדלקה מאש קיימת לאחר צאת הכוכבים.',
-  ]} faq={FAQ} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכת הדלקת נרות וברכות לשבת' }, { href: '/parasha', label: 'פרשת השבוע לילדים' }]} />
+  ]} faq={FAQ} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכת הדלקת נרות וברכות לשבת' }, { href: '/parasha', label: 'פרשת השבוע לילדים' }]} /></>
 }
 
 

@@ -1,9 +1,13 @@
+import { CLASSIC_PANCAKES, NEW_KIDS_RECIPES } from '../data/recipesExpanded.js'
+import { ingredientLines, stepLines, totalMinutes, KOSHER_LABEL } from '../data/cakes.js'
+const detailed = c => ({ slug: c.slug, title: c.title, emoji: c.emoji, age: c.age, time: `${totalMinutes(c)} דקות`, serves: c.servings, ingredients: ingredientLines(c), steps: stepLines(c), adult: true, kind: KOSHER_LABEL[c.kosher], recipe: c })
 // Simple recipes children make (with a grown-up nearby) and safe kitchen-science experiments.
 // Quantities are ordinary home quantities; anything with heat, a sharp knife or an oven is marked
 // so an adult does that step.
 const r = (slug, title, emoji, age, time, serves, ingredients, steps, extra = {}) => ({ slug, title, emoji, age, time, serves, ingredients, steps, ...extra })
 
 export const RECIPES = [
+  ...NEW_KIDS_RECIPES.map(detailed),
   r('pita-pizza', 'פיצה בפיתה', '🍕', '5+', '15 דקות', 2, ['2 פיתות', '4 כפות רסק עגבניות', '1 כוס גבינה צהובה מגוררת', 'קורט אורגנו', 'תוספות: תירס, זיתים, פטריות'],
     ['מדליקים תנור על 200 מעלות (מבוגר).', 'מורחים על כל פיתה 2 כפות רסק עגבניות.', 'מפזרים גבינה צהובה ואורגנו.', 'מוסיפים תוספות לפי הטעם.', 'אופים 8–10 דקות עד שהגבינה נמסה (מבוגר מכניס ומוציא).'], { adult: true, kind: 'חלבי' }),
   r('fruit-skewers', 'שיפודי פירות', '🍓', '4+', '10 דקות', 4, ['תותים', 'ענבים', 'בננה', 'מלון או אבטיח', 'שיפודי עץ קצרים'],
@@ -14,8 +18,7 @@ export const RECIPES = [
     ['שמים בכוס שקופה שכבה של יוגורט.', 'מוסיפים שכבת פירות ואז שכבת גרנולה.', 'חוזרים על השכבות עד שהכוס מתמלאת.', 'מזלפים מעט דבש למעלה.'], { kind: 'חלבי' }),
   r('israeli-salad', 'סלט ירקות קצוץ', '🥗', '6+', '15 דקות', 4, ['2 עגבניות', '2 מלפפונים', '1/2 פלפל אדום', 'מעט פטרוזיליה', '1 כף שמן זית', 'מיץ מחצי לימון', 'מלח'],
     ['שוטפים את הירקות.', 'חותכים לקוביות קטנות — עם סכין ילדים או בעזרת מבוגר.', 'קוצצים פטרוזיליה במספריים.', 'מתבלים בשמן זית, לימון ומלח, ומערבבים.'], { kind: 'פרווה' }),
-  r('pancakes', 'פנקייק', '🥞', '7+', '25 דקות', 4, ['1 כוס קמח', '1 כוס חלב', '1 ביצה', '1 כף סוכר', '1 כפית אבקת אפייה', 'קורט מלח', 'מעט שמן למחבת'],
-    ['מערבבים בקערה קמח, סוכר, אבקת אפייה ומלח.', 'מוסיפים חלב וביצה ומערבבים עד שאין גושים.', 'מבוגר מחמם מחבת ומשמן קלות.', 'יוצקים חצי מצקת בלילה, וכשמופיעות בועות — הופכים (מבוגר או ילד גדול עם השגחה).', 'מגישים עם דבש, סילאן או פירות.'], { adult: true, kind: 'חלבי' }),
+  detailed(CLASSIC_PANCAKES),
   r('ants-on-a-log', 'סירות מלפפון', '🥒', '4+', '10 דקות', 2, ['2 מלפפונים', 'גבינה לבנה או חומוס', 'עגבניות שרי', 'זיתים'],
     ['מבוגר חוצה כל מלפפון לאורכו ומגרד החוצה את הזרעים בכפית.', 'ממלאים את ה"סירה" בגבינה או בחומוס.', 'מקשטים בחצאי עגבניות שרי וזיתים כ"נוסעים".'], { kind: 'חלבי או פרווה' }),
   r('frozen-banana', 'שלגון בננה ושוקולד', '🍌', '5+', '15 דקות + 3 שעות במקפיא', 4, ['2 בננות', '100 גרם שוקולד', 'מקלות ארטיק', 'סוכריות צבעוניות'],

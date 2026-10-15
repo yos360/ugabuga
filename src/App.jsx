@@ -140,6 +140,10 @@ const MultiplicationTable = lazy(() => import('./learn/MultiplicationTable.jsx')
 const MultiplicationTable100 = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationTable100 })))
 const MultiplicationTable1000 = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationTable1000 })))
 const MultiplicationNumber = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationNumber })))
+const ShabbatRecipes = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.ShabbatRecipes })))
+const ShabbatRecipe = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.ShabbatRecipe })))
+const PancakesHub = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.PancakesHub })))
+const BraidingGuide = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.BraidingGuide })))
 const CakesHub = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakesHub })))
 const CakePage = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakePage })))
 const BabyNamesHub = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesHub })))
@@ -589,6 +593,10 @@ export default function App() {
               <Route path="/math/tests/:gradeSlug" element={<MathTest />} />
               <Route path="/math/:gradeSlug" element={<MathGrade />} />
               <Route path="/math/:gradeSlug/:topicSlug" element={<MathTopic />} />
+              <Route path="/recipes/shabbat" element={<ShabbatRecipes />} />
+              <Route path="/recipes/shabbat/braiding" element={<BraidingGuide />} />
+              <Route path="/recipes/shabbat/:slug" element={<ShabbatRecipe />} />
+              <Route path="/food/pancakes" element={<PancakesHub />} />
               <Route path="/cakes" element={<CakesHub />} />
               <Route path="/cakes/:slug" element={<CakePage />} />
               <Route path="/baby-names" element={<BabyNamesHub />} />
