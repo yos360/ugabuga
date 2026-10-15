@@ -41,3 +41,17 @@ For Shabbat-observant families: **everything is printed and cut before Shabbat; 
 
 ## When finished
 Short summary in Hebrew: how many recipes/pages/activities were added, URLs to check, anything skipped and why.
+
+## Addition (owner request) — pancakes and cupcakes, with the exact recipes to use
+Searches: מתכון לפנקייק 49,500/mo · פנקייק מתכון 40,500 · פנקייק 33,100. Make a pancakes hub (fix the existing `/food/kids-recipes/pancakes` and link it) and add cupcake variants next to the existing `/cakes/cupcakes` (that vanilla recipe is correct — keep it).
+**Use these recipes exactly** (classic, widely published proportions; metric + cups). Test that the data matches these numbers.
+
+1. **פנקייק קלאסי (פנקייק אמריקאי)** — ~10 pancakes, dairy. 1½ כוסות (190 ג׳) קמח · 2 כפות (25 ג׳) סוכר · 1 כף (3 כפיות) אבקת אפייה · ¼ כפית מלח · 1¼ כוסות (300 מ״ל) חלב · 1 ביצה L · 3 כפות (40 ג׳) חמאה מומסת (או שמן) · 1 כפית תמצית וניל.
+   Mix dry, mix wet, combine just until no dry flour (small lumps are fine — don't overmix). Rest 5 min. Medium heat, lightly greased pan, ¼ cup batter each; flip when bubbles appear on top and the edges look set (~2 min), then ~1 min more. **This replaces the current recipe** (which has 1 tsp baking powder and no fat — pancakes come out flat).
+2. **פנקייק פרווה** — same as 1, with 1¼ כוסות משקה סויה/שיבולת שועל or water instead of milk, and 3 כפות שמן instead of butter.
+3. **פנקייק בננה (2 מרכיבים)** — 1 בננה בשלה מאוד + 2 ביצים (optional: קורט אבקת אפייה, קינמון). Mash smoothly, small pancakes (1 tbsp each), low–medium heat, flip carefully after ~1–2 min. Note: delicate, no flour; contains eggs.
+4. **פנקייק שיבולת שועל** — 1 כוס (90 ג׳) שיבולת שועל טחונה לקמח · 1 בננה מעוכה · 1 ביצה · ½ כוס (120 מ״ל) חלב · 1 כפית אבקת אפייה · קורט מלח. Rest 5 min; cook like 1.
+5. **קאפקייקס שוקולד** — ~15 cupcakes, 180°C, 18–20 min (toothpick comes out clean). 1 כוס (200 ג׳) סוכר · ⅞ כוס (110 ג׳) קמח · ⅓ כוס (35 ג׳) קקאו · ¾ כפית אבקת אפייה · ¾ כפית סודה לשתייה · ½ כפית מלח · 1 ביצה · ½ כוס (120 מ״ל) חלב · ¼ כוס (60 מ״ל) שמן · 1 כפית וניל · ½ כוס (120 מ״ל) מים רותחים (added last; batter is thin — that's correct). Fill liners ⅔. Parve: soy milk instead of milk.
+6. **קאפקייקס וניל פרווה** — 12 cupcakes, 180°C, 18–20 min. 2 ביצים · ¾ כוס (150 ג׳) סוכר · ½ כוס (120 מ״ל) שמן · ½ כוס (120 מ״ל) מיץ תפוזים או משקה סויה · 1 כפית וניל · 1½ כוסות (190 ג׳) קמח · 2 כפיות אבקת אפייה · קורט מלח. Whisk eggs+sugar 2 min, add liquids, fold in dry.
+7. **Frostings for cupcakes** (link from each cupcake page; keep the existing `/cakes/frostings` as the home for them): קרם חמאה (existing: 110 ג׳ חמאה + 1¾ כוסות אבקת סוכר + 1 כף חלב + ½ כפית וניל); **גנאש** — 100 ג׳ שוקולד מריר + 100 מ״ל שמנת מתוקה (1:1), heat cream, pour over chopped chocolate, stir, cool 20–30 min to spread; parve ganache with קרם קוקוס/שמנת צמחית.
+Each gets its own page (title/description/FAQ written for it), schema.org `Recipe`, printable card, kids-step marks (🧒/🧑 — hot pan and oven = adult), and links between pancakes ↔ cupcakes ↔ birthday cakes.
