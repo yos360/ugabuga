@@ -13,11 +13,12 @@ const loadActivity = () => {
 
 export function recordPreviewOpen() { void loadActivity().then(m => m?.logEvent('preview')).catch(() => {}) }
 // action: 'print' (the print dialog was opened), 'download' (a PDF was saved), 'refresh' (new exercises)
-export function recordSheetAction(action = 'print') {
+export function recordSheetAction(action = 'print', pathname = window.location.pathname) {
   void loadActivity().then(m => {
     if (!m) return
-    m.recordActivity(action, m.activityForPath(window.location.pathname))
-    m.logEvent(action)
+    m.recordActivity(action, m.activityForPath(pathname))
+    m.logEvent(action, pathname)
+    if (action === 'download') m.recordSuccessfulPdf(pathname)
   }).catch(() => {})
 }
 export const recordPrintPreview = () => recordSheetAction('print')

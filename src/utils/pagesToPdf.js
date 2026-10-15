@@ -233,7 +233,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
     try {
       const file = new File([blob], name, { type: 'application/pdf' })
       if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: name }); return 'shared' }
-    } catch (e) { if (e?.name === 'AbortError') return 'shared' }
+    } catch (e) { if (e?.name === 'AbortError') return 'cancelled' }
   }
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

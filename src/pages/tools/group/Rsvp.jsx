@@ -7,6 +7,8 @@ import PrintPreview from '../../../components/ui/PrintPreview'
 import { rsvpDb, groupMemory, groupErrorText, newToken, tokenFromHash, shareUrl, organizerUrl } from '../../../utils/groupDb'
 import { LIMITS, cleanText, parseNames, validateRsvpAnswer, rsvpTotals, missingInvitees, rsvpInviteText, rsvpReminderText, formatDate, peopleLabel, countLabel } from '../../../utils/groupTools'
 import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, ConfirmDialog, ErrorPanel, Stepper, Field, OrganizerTools } from './GroupUi'
+import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../../utils/rsvpExperience'
+import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
 
 const KIND = 'rsvp'
 const POLL_MS = 15000
@@ -20,7 +22,7 @@ const emptyEvent = params => ({
   title: cleanText(params.get('title'), LIMITS.title) || 'יום ההולדת של ___',
   date: /^\d{4}-\d{2}-\d{2}$/.test(params.get('date') || '') ? params.get('date') : '',
   time: cleanText(params.get('time'), 20), place: cleanText(params.get('place'), LIMITS.place),
-  deadline: '', note: '', invitees: '',
+  deadline: '', note: '', invitees: '', theme: 'party',
 })
 const toForm = ev => ({ kind: ev.kind, title: ev.title, date: ev.date || '', time: ev.time || '', place: ev.place || '', deadline: ev.deadline || '', note: ev.note || '', invitees: (ev.invitees || []).join('\n') })
 const fromForm = f => ({ kind: f.kind, title: cleanText(f.title, LIMITS.title), date: f.date || null, time: cleanText(f.time, 20), place: cleanText(f.place, LIMITS.place), deadline: f.deadline || null, note: cleanText(f.note, LIMITS.note, true), invitees: parseNames(f.invitees, LIMITS.maxInvitees).slice(0, LIMITS.maxInvitees) })
@@ -152,6 +154,9 @@ function Stat({ n, label, tone = 'bg-white' }) {
 }
 
 function HostView({ ev, setEv, token, show, reload, onDeleted }) {
+  const enhanced = isRsvpV2(ev)
+  const [filter, setFilter] = useState('all')
+  const [search, setSearch] = useState('')
   const [editing, setEditing] = useState(false)
   const [form, setForm] = useState(() => toForm(ev))
   const [busy, setBusy] = useState(false)
@@ -163,32 +168,35 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
   const link = shareUrl(KIND, ev.code)
   const save = async () => {
     setBusy(true)
-    try { const row = await rsvpDb.update(ev.code, token, fromForm(form)); setEv(e => ({ ...e, ...row })); setEditing(false); show('✓ הפרטים עודכנו') }
+    try { const row = enhanced ? await rsvpDb.updateV2(ev.code, token, { ...fromForm(form), theme: form.theme || ev.theme }) : await rsvpDb.update(ev.code, token, fromForm(form)); setEv(e => ({ ...e, ...row })); setEditing(false); show('✓ הפרטים עודכנו') }
     catch (e) { show(groupErrorText(e.code), 'err') } finally { setBusy(false) }
   }
   const csv = () => {
+    if (enhanced) { download(`אישורי הגעה - ${ev.title}.csv`, responseCsv(sorted, STATUS), 'text/csv;charset=utf-8'); return }
     const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`
     const rows = [['שם', 'תשובה', 'ילדים', 'מבוגרים', 'אלרגיות', 'מי אוסף', 'הערה'], ...responses.map(r => [r.name, STATUS[r.status].label, r.kids, r.adults, r.allergies, r.pickup, r.note])]
     download(`אישורי הגעה - ${ev.title}.csv`, '﻿' + rows.map(r => r.map(q).join(',')).join('\r\n'), 'text/csv;charset=utf-8')
   }
-  const sorted = ['yes', 'maybe', 'no'].flatMap(s => responses.filter(r => r.status === s))
-  return <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+  const sorted = enhanced ? filterResponses(responses, filter, search) : ['yes', 'maybe', 'no'].flatMap(s => responses.filter(r => r.status === s))
+  return <div className={`${enhanced ? 'rsvp-v2' : ''} grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]`}>
     <div className="space-y-5">
       <section className={card}>
         {editing
-          ? <><h2 className="mb-3 text-2xl font-bold">עריכת פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={save} busy={busy} submitLabel="שמירה" /><button onClick={() => setEditing(false)} className="mt-2 w-full py-2 text-slate-500 underline">ביטול</button></>
-          : <><EventHeader ev={ev} /><div className="mt-3 text-center"><button onClick={() => { setForm(toForm(ev)); setEditing(true) }} className="text-sm font-bold underline">✏️ עריכת פרטים</button></div></>}
+          ? <><h2 className="mb-3 text-2xl font-bold">עריכת פרטי האירוע</h2>{enhanced && <ThemePicker value={form.theme || ev.theme} onChange={theme => setForm(f => ({ ...f, theme }))} />}<EventForm value={form} onChange={setForm} onSubmit={save} busy={busy} submitLabel="שמירה" /><button onClick={() => setEditing(false)} className="mt-2 w-full py-2 text-slate-500 underline">ביטול</button></>
+          : <>{enhanced ? <InvitationCard ev={ev} /> : <EventHeader ev={ev} />}<div className="mt-3 text-center"><button onClick={() => { setForm({ ...toForm(ev), ...(enhanced ? { theme: ev.theme } : {}) }); setEditing(true) }} className="text-sm font-bold underline">✏️ עריכת פרטים</button></div></>}
+        {enhanced && !editing && <div className="mt-4"><EventActions ev={ev} download={download} /></div>}
       </section>
 
       <section className={card} aria-label="סיכום">
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-          <Stat n={totals.yes} label="מגיעים" tone="bg-emerald-50" />
+          <Stat n={enhanced ? totals.people : totals.yes} label={enhanced ? 'אנשים מגיעים' : 'מגיעים'} tone="bg-emerald-50" />
           <Stat n={totals.kids} label="ילדים" />
           <Stat n={totals.adults} label="מבוגרים" />
-          <Stat n={totals.maybe} label="אולי" tone="bg-amber-50" />
-          <Stat n={totals.no} label="לא מגיעים" />
+          <Stat n={totals.maybe} label={enhanced ? 'תשובות אולי' : 'אולי'} tone="bg-amber-50" />
+          <Stat n={totals.no} label={enhanced ? 'תשובות לא' : 'לא מגיעים'} />
           <Stat n={ev.invitees?.length ? missing.length : '—'} label="טרם ענו" tone="bg-rose-50" />
         </div>
+        {enhanced && <p className="mt-3 text-center text-sm">{totals.yes} תשובות „מגיעים” · {responses.length} תשובות בסך הכול{ev.invitees?.length > 0 && ` · ${ev.invitees.length - missing.length} מתוך ${ev.invitees.length} שמות ברשימת המוזמנים ענו`}</p>}
         {totals.maybe > 0 && <p className="mt-2 text-center text-sm text-slate-600">ועוד „אולי”: {peopleLabel(totals.maybeKids, totals.maybeAdults) || 'בלי מספר'}</p>}
         {totals.allergies.length > 0 && <div className="mt-4 rounded-xl border-2 border-rose-200 bg-rose-50 p-3">
           <h3 className="font-bold">⚠️ אלרגיות ורגישויות</h3>
@@ -201,15 +209,17 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
           <h2 className="text-2xl font-bold">התשובות ({responses.length})</h2>
           <div className="flex flex-wrap gap-2">
             <button onClick={reload} className="min-h-[44px] rounded-xl border-2 border-slate-200 px-3 font-bold" aria-label="רענון">🔄</button>
-            <button onClick={() => setPrinting(true)} disabled={!responses.length} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold disabled:opacity-40">🖨️ הדפסה</button>
-            <button onClick={csv} disabled={!responses.length} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold disabled:opacity-40">⬇️ אקסל</button>
+            <button onClick={() => setPrinting(true)} disabled={enhanced ? !sorted.length : !responses.length} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold disabled:opacity-40">🖨️ הדפסה</button>
+            <button onClick={csv} disabled={enhanced ? !sorted.length : !responses.length} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold disabled:opacity-40">⬇️ אקסל</button>
           </div>
         </div>
+        {enhanced && <><Field label="חיפוש לפי שם"><input className={input} type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="שם הילד או המשפחה" /></Field><div className="rsvp-filter-bar" role="group" aria-label="סינון תשובות">{RESPONSE_FILTERS.map(([id, label]) => <button key={id} type="button" aria-pressed={filter === id} onClick={() => setFilter(id)}>{label}</button>)}</div><p className="text-sm text-slate-600" aria-live="polite">מוצגות {sorted.length} מתוך {responses.length} תשובות. ההדפסה והייצוא כוללים את הרשימה המוצגת.</p></>}
+        {enhanced && responses.length > 0 && !sorted.length && <p className="py-6 text-center">אין תשובות שמתאימות לחיפוש. <button className="underline" onClick={() => { setSearch(''); setFilter('all') }}>הצגת הכול</button></p>}
         {!responses.length && <p className="py-6 text-center text-slate-500">עוד אין תשובות. שלחו את הקישור לקבוצה 👇 — התשובות יופיעו כאן מעצמן.</p>}
         <ul className="mt-3 space-y-2">{sorted.map(r => <li key={r.id} className="rounded-2xl border-2 border-slate-100 bg-slate-50 p-3">
-          <div className="flex items-start gap-2">
+          <div className={`flex items-start gap-2 ${enhanced ? 'rsvp-response-top' : ''}`}>
             <span className={`shrink-0 rounded-full border px-2 py-0.5 text-sm font-bold ${STATUS[r.status].cls}`}>{STATUS[r.status].emoji} {STATUS[r.status].label}</span>
-            <b className="min-w-0 flex-1 text-lg">{r.name}</b>
+            <b className={`min-w-0 flex-1 text-lg ${enhanced ? 'rsvp-response-name' : ''}`}>{r.name}</b>
             {r.status !== 'no' && <span className="shrink-0 text-sm text-slate-600">{peopleLabel(r.kids, r.adults)}</span>}
             <button onClick={() => setConfirm(r)} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`מחיקת התשובה של ${r.name}`}>✕</button>
           </div>
@@ -233,6 +243,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
           ? missing.length ? <p className="mt-1">{missing.join(' · ')}</p> : <p className="mt-1 font-bold text-emerald-700">כל המוזמנים ענו 🎉</p>
           : <p className="mt-1 text-sm text-slate-600">רוצים לראות בדיוק מי לא ענה? הוסיפו רשימת מוזמנים ב„עריכת פרטים”.</p>}
         <button onClick={() => openWhatsApp(rsvpReminderText(ev, missing, link))} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-3 w-full`}>💬 העתקת תזכורת לוואטסאפ</button>
+        {enhanced && <button onClick={() => copyText(rsvpReminderText(ev, missing, link), show, 'התזכורת הועתקה')} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-2 w-full`}>📋 העתקת נוסח התזכורת</button>}
         <a href={`/r/${ev.code}?guest=1`} target="_blank" rel="noopener" className="mt-3 block text-center text-sm font-bold underline">👀 איך זה נראה לאורחים</a>
         <OrganizerTools what="האירוע" onCopyOrganizer={() => copyText(organizerUrl(KIND, ev.code, token), show, 'קישור הניהול הועתק ✓ שמרו אותו לעצמכם בלבד')} onDelete={() => setConfirm('event')} />
       </section>
@@ -246,7 +257,8 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
       <div className="buga-flow" dir="rtl">
         <h2 style={{ fontSize: 26, margin: 0 }}>{ev.title}</h2>
         <p>{[ev.date && formatDate(ev.date), ev.time, ev.place].filter(Boolean).join(' · ')}</p>
-        <p><b>מגיעים: {totals.yes}</b> ({countLabel(totals.kids, 'ילד אחד', 'ילדים')}, {countLabel(totals.adults, 'מבוגר אחד', 'מבוגרים')}) · אולי: {totals.maybe} · לא מגיעים: {totals.no}{ev.invitees?.length ? ` · טרם ענו: ${missing.length}` : ''}</p>
+        <p><b>{enhanced ? `סיכום האירוע — אנשים מגיעים: ${totals.people}` : `מגיעים: ${totals.yes}`}</b> ({countLabel(totals.kids, 'ילד אחד', 'ילדים')}, {countLabel(totals.adults, 'מבוגר אחד', 'מבוגרים')}) · אולי: {totals.maybe} · לא מגיעים: {totals.no}{ev.invitees?.length ? ` · טרם ענו: ${missing.length}` : ''}</p>
+        {enhanced && <p>הרשימה המודפסת: {RESPONSE_FILTERS.find(([id]) => id === filter)?.[1]}{search && ` · חיפוש: ${search}`} · {sorted.length} תשובות</p>}
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, marginTop: 8 }}>
           <thead><tr>{['שם', 'תשובה', 'ילדים', 'מבוגרים', 'אלרגיות', 'מי אוסף', 'הערה'].map(h => <th key={h} style={{ borderBottom: '2px solid #333', textAlign: 'right', padding: 4 }}>{h}</th>)}</tr></thead>
           <tbody>{sorted.map(r => <tr key={r.id}>{[r.name, STATUS[r.status].label, r.kids || '', r.adults || '', r.allergies, r.pickup, r.note].map((c, i) => <td key={i} style={{ borderBottom: '1px solid #ddd', padding: 4 }}>{c}</td>)}</tr>)}</tbody>
@@ -292,10 +304,17 @@ export default function Rsvp() {
   const [loading, setLoading] = useState(Boolean(pathCode))
   const [form, setForm] = useState(() => emptyEvent(params))
   const [busy, setBusy] = useState(false)
+  const [newExperience, setNewExperience] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [toast, show] = useToast()
   const host = Boolean(token && ev?.responses)
   const loadSeq = useRef(0)
+  useEffect(() => {
+    if (pathCode) return
+    let alive = true
+    void rsvpDb.version().then(version => { if (alive) setNewExperience(version === 2) })
+    return () => { alive = false }
+  }, [pathCode])
 
   const load = useCallback(async () => {
     if (!code) return
@@ -320,7 +339,7 @@ export default function Rsvp() {
     setBusy(true)
     try {
       const t = newToken()
-      const row = await rsvpDb.create(t, fromForm(form))
+      const row = newExperience ? await rsvpDb.createV2(t, { ...fromForm(form), theme: form.theme }) : await rsvpDb.create(t, fromForm(form))
       groupMemory.rememberOwned(KIND, row.code, t, row.title)
       window.history.replaceState(window.history.state, '', `/r/${row.code}`)
       setToken(t); setEv({ ...row, responses: [] }); setCode(row.code)
@@ -335,19 +354,10 @@ export default function Rsvp() {
   else if (code && error) body = <ErrorPanel code={error} home="/rsvp" homeLabel="יצירת אישור הגעה חדש" />
   else if (code && (loading || !ev)) body = <p className="py-16 text-center text-lg">טוענים…</p>
   else if (code && host) body = <HostView ev={ev} setEv={setEv} token={token} show={show} reload={load} onDeleted={() => setDeleted(true)} />
+  else if (code && isRsvpV2(ev)) body = <RsvpGuestExperience ev={ev} show={show} onAnswer={r => setEv(e => ({ ...e, mine: r }))} AnswerForm={AnswerForm} download={download} statuses={STATUS} />
   else if (code) body = <GuestView ev={ev} show={show} onAnswer={r => setEv(e => ({ ...e, mine: r }))} />
-  else body = <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-    <section className={card}><h2 className="mb-4 text-2xl font-bold">פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" /></section>
-    <aside className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5">
-      <h2 className="font-display text-2xl font-bold">מה מקבלים?</h2>
-      <ul className="mt-3 space-y-2">
-        <li>📱 קישור אחד לשלוח בוואטסאפ</li><li>🎉 מגיעים / לא מגיעים / אולי</li><li>🧒 כמה ילדים וכמה מבוגרים</li><li>⚠️ אלרגיות ומי אוסף</li><li>⏰ תזכורת למי שלא ענה</li><li>🖨️ הדפסה וייצוא לאקסל</li>
-      </ul>
-      <p className="mt-4 text-sm text-slate-600">בחינם, בלי הרשמה. האורחים לא צריכים להתקין כלום.</p>
-      {mine.length > 0 && <p className="mt-4 text-sm"><b>האירועים שלי:</b> {mine.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<a className="underline" href={`/r/${l.code}`}>{l.title || l.code}</a></span>)}</p>}
-    </aside>
-  </div>
-
+  else body = newExperience ? <RsvpCreateExperience form={form} onChange={setForm} mine={mine}><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" /></RsvpCreateExperience>
+    : <section className={`${card} mx-auto max-w-xl`}><h2 className="mb-4 text-2xl font-bold">פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" />{mine.length > 0 && <p className="mt-4">האירועים שלי: {mine.map(e => <a key={e.code} className="underline mx-2" href={`/r/${e.code}`}>{e.title || e.code}</a>)}</p>}</section>
   const titleText = ev?.title ? `אישור הגעה — ${ev.title}` : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
     <SEO title={code ? titleText : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'} description="אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים בוואטסאפ, והאורחים עונים מגיעים, לא מגיעים או אולי. רואים כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה." path="/rsvp" noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(FAQ)} />

@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
+import PrintCount from '../components/ui/PrintCount'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
@@ -102,6 +103,7 @@ export default function Home() {
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>משחקים, דפי פעילות ולמידה לילדים — בחינם ובעברית</h1>
+      <PrintCount total className="mt-3" />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
     <section className="home-intents" aria-labelledby="home-intents-title">

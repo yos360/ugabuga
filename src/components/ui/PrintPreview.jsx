@@ -43,7 +43,7 @@ function fitPreview(pages){
 // repeated (a copy per child). Pages with their own page-count control pass copies={false}.
 const COPY_COUNTS=[1,2,3,4,5,6,8,10,15,20,25,30,35]
 
-export default function PrintPreview({title,children,onClose,onRefresh,variant,copies:allowCopies=true,lang='he'}){
+export default function PrintPreview({title,children,onClose,onRefresh,variant,copies:allowCopies=true,lang='he',downloadPath}){
   const en=lang==='en'
   const dialog=useRef(null),root=useRef(null),pages=useRef(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[pdf,setPdf]=useState(''),[done,setDone]=useState(false)
   const [count,setCount]=useState(1),[extras,setExtras]=useState([])
@@ -71,12 +71,13 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     setDone(true)
   }catch{setError(en?'The artwork is still loading. Please try again.':'האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
   // A real PDF file made in the browser — works even where the phone's print dialog can't save.
-  async function savePdf(){if(pdf)return;setError('');setPdf(en?'Preparing PDF…':'מכינים PDF…');try{
+  async function savePdf(){if(pdf)return;const sourcePath=downloadPath||location.pathname;setError('');setPdf(en?'Preparing PDF…':'מכינים PDF…');try{
     await document.fonts.ready
     const sheets=[...(pages.current?.children||[])].filter(el=>el.matches('.buga-a4, .buga-flow'))
     const {savePagesAsPdf}=await import('../../utils/pagesToPdf')
-    await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(en ? (n>1?`Preparing PDF… ${i}/${n}`:'Preparing PDF…') : (n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…')))
-    recordSheetAction('download');if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
+    const result=await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(en ? (n>1?`Preparing PDF… ${i}/${n}`:'Preparing PDF…') : (n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…')))
+    if(result==='cancelled')return
+    recordSheetAction('download',sourcePath);if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
   }catch{setError(en?'We could not create the PDF. Try again, or use Print.':'לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides

@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintCount from '../../components/ui/PrintCount'
 import PrintableShell, { Sheet, T } from '../../components/printables/PrintableShell'
 import { Cake } from '../cakes/Cakes'
 import NotFound from '../NotFound'
@@ -14,7 +15,7 @@ const shabbatFaq = [
   { q: 'איך מדפיסים כרטיס קטן?', a: 'פותחים מתכון, בוחרים חצי A4 ופותחים תצוגת הדפסה. כל גיליון מכיל שני כרטיסים; מספר העותקים משכפל גיליונות שלמים.' },
 ]
 function RecipeLinks({ recipes }) {
-  return <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{recipes.map(c => <Link key={c.slug} to={cakePath(c)} className="fam-card card-lift"><span className="text-3xl" aria-hidden="true">{c.emoji}</span><h3 className="text-xl font-bold">{c.title}</h3><p>{c.summary}</p></Link>)}</div>
+  return <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{recipes.map(c => <Link key={c.slug} to={cakePath(c)} className="fam-card card-lift"><span className="text-3xl" aria-hidden="true">{c.emoji}</span><h3 className="text-xl font-bold">{c.title}</h3><p>{c.summary}</p><PrintCount path={cakePath(c)} fallback /></Link>)}</div>
 }
 export function ShabbatRecipes() {
   return <main className="max-w-6xl mx-auto p-4 sm:p-8" dir="rtl">

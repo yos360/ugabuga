@@ -1,0 +1,29 @@
+.rsvp-v2 { min-width:0 }
+.rsvp-create-grid { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:24px;align-items:start;max-width:1100px;margin:auto }
+.rsvp-create-aside { position:sticky;top:20px;display:grid;gap:18px;min-width:0 }
+.rsvp-invitation { position:relative;overflow:hidden;border:2px solid var(--invite-accent);border-radius:28px;padding:30px 24px;text-align:center;background:var(--invite-bg);color:var(--invite-ink);overflow-wrap:anywhere }
+.rsvp-invitation-eyebrow { font-size:14px;font-weight:700;margin:0 0 16px;color:var(--invite-accent) }
+.rsvp-invitation-emoji { display:block;font-size:56px;margin-bottom:14px }
+.rsvp-invitation h1,.rsvp-invitation h3 { font-size:clamp(25px,4vw,38px);font-weight:900;line-height:1.3;margin:0 }
+.rsvp-invitation-date { font-size:19px;font-weight:700;margin:18px 0 8px }
+.rsvp-invitation-place { margin:8px 0;font-size:17px }
+.rsvp-invitation-note { white-space:pre-line;margin:22px 0;padding:16px;border-radius:14px;background:#ffffffb3 }
+.rsvp-invitation-deadline { font-size:14px;font-weight:700;margin:18px 0 0 }
+.rsvp-preview-answer { display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:24px }
+.rsvp-preview-answer span { border:1px solid var(--invite-accent);border-radius:10px;padding:8px;background:#fff;font-size:14px }
+.rsvp-theme-picker { border:0;padding:0;margin:0 0 24px }
+.rsvp-theme-picker legend { font-weight:700;margin-bottom:10px }
+.rsvp-theme-picker>div { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px }
+.rsvp-theme-picker button { display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border:2px solid transparent;border-radius:12px;padding:8px;background:var(--invite-bg);color:var(--invite-accent);font-weight:700 }
+.rsvp-theme-picker button[aria-pressed=true] { border-color:var(--invite-accent);box-shadow:0 0 0 1px var(--invite-accent) }
+.rsvp-info-box { background:var(--card);border:2px solid var(--border);border-radius:18px;padding:20px }
+.rsvp-info-box h2 { font-size:20px;font-weight:800;margin:0 0 12px }
+.rsvp-info-box li { margin:8px 0 }
+.rsvp-info-box p { font-size:14px;margin-top:14px }
+.rsvp-event-actions { display:flex;justify-content:center;flex-wrap:wrap;gap:10px }
+.rsvp-filter-bar { display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 }
+.rsvp-filter-bar button { border:1px solid #cbd5e1;background:#fff;border-radius:12px;padding:8px 12px;min-height:44px;font-weight:700 }
+.rsvp-filter-bar button[aria-pressed=true] { background:#0f172a;color:#fff;border-color:#0f172a }
+.rsvp-v2 .rsvp-response-top { flex-wrap:wrap }
+.rsvp-v2 .rsvp-response-name { overflow-wrap:anywhere }
+@media(max-width:800px) { .rsvp-create-grid {grid-template-columns:minmax(0,1fr)} .rsvp-create-aside{position:static;grid-row:1} .rsvp-create-aside .rsvp-info-box{display:none} .rsvp-invitation{padding:24px 18px} .rsvp-invitation-emoji{font-size:42px;margin-bottom:10px} }

@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import PrintCount from '../../components/ui/PrintCount'
 import PrintableShell, { Choice } from '../../components/printables/PrintableShell'
 import { ShabbatActivitySheets, shabbatPrintablePages } from '../../components/printables/ShabbatActivitySheets'
 import { SHABBAT_ACTIVITIES, SHABBAT_PREPARATION, SHABBAT_CUSTOM, QUIZ_AGES, activityBySlug, activityPrintPlan, weeklyActivity } from '../../data/shabbatActivities'
@@ -37,10 +38,11 @@ export function ShabbatActivitiesHub() {
       <p className="my-3" aria-live="polite">{weekly?.reading.holiday?'קריאת החג':'פרשת השבוע'}: <b>{weekly?.reading.name}</b> · {weekly?.reading.date} · לפי לוח ישראל</p>
       {weekly?.reading.holiday&&<p>בשבת זו מוצגת קריאת חג. אם אין פרשה רגילה, החבילה כוללת חידון משפחתי מסומן במקום שאלות פרשה.</p>}
       <p className="mb-4">חידון שבועי + אותיות + קטגוריות + חידות + מי אני</p>
+      <div className="mb-4"><PrintCount path="/shabbat-activities/pack" fallback /></div>
       <button type="button" data-print-main onClick={()=>setPrinting(true)} className="rounded-xl bg-purple-700 text-white px-6 py-4 font-bold text-xl">🖨️ חבילת שבת — הדפסה או PDF</button>
       <p className="mt-3"><Link to="/shabbat-activities/pack" className="underline font-bold">לראות את כל חמשת הדפים לפני ההדפסה ←</Link></p>
     </section>
-    {printing&&<PrintPreview title={`חבילת שבת — ${weekly?.reading.name}`} onClose={()=>setPrinting(false)}><ShabbatActivitySheets pages={pages}/></PrintPreview>}
+    {printing&&<PrintPreview downloadPath="/shabbat-activities/pack" title={`חבילת שבת — ${weekly?.reading.name}`} onClose={()=>setPrinting(false)}><ShabbatActivitySheets pages={pages}/></PrintPreview>}
     <h2 className="text-2xl font-bold my-6">בוחרים פעילות ומכינים את הקלפים</h2>
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{SHABBAT_ACTIVITIES.map(a=><Link key={a.slug} to={a.path} className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5 card-lift"><span className="text-3xl" aria-hidden="true">{a.emoji}</span><h3 className="text-xl font-bold my-2">{a.title}</h3><p>{a.description}</p><p className="text-sm mt-3">גיל {a.age} · {a.players} משתתפים · {a.minutes} דקות</p></Link>)}</div>
     <div className="mt-10"><SeoBody paragraphs={['מכינים את חבילת השבת ביום שישי ושמים את הקלפים בקופסה. בזמן הארוחה בוחרים חידה, ובהמשך אפשר לשחק ארץ עיר או מי אני. אין צורך להפעיל מסך, לכתוב תשובות או לגזור דבר במהלך השבת.', 'לכל פעילות יש הוראות נפרדות, גיל ומספר משתתפים. אפשר לבחור פעילות קצרה אחת או להדפיס את החבילה המוכנה; מונה העותקים משכפל את כל החמישה יחד, למשל לשתי משפחות.']} faq={HUB_FAQ} related={[{label:'פרשת השבוע לילדים',href:'/parasha'},{label:'זמני שבת',href:'/shabbat-times'},{label:'משחקים לשבת בלי ציוד',href:'/games/shabbat'},{label:'מתכונים לשבת',href:'/recipes/shabbat'}]}/></div>

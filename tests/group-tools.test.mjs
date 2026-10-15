@@ -138,8 +138,11 @@ test('sql: no direct table access, every public RPC granted to anon', () => {
     assert.match(sql, new RegExp(`revoke all on public\\.${t} from anon, authenticated`))
   }
   const db = readFileSync(new URL('../src/utils/groupDb.js', import.meta.url), 'utf8')
-  const called = [...db.matchAll(/call\('([a-z_]+)'/g)].map(m => m[1])
+  const called = [...db.matchAll(/(?:call|compatibleRsvpCall)\('([a-z0-9_]+)'/g)].map(m => m[1])
   assert.ok(called.length >= 20)
   const grantBlock = sql.slice(sql.lastIndexOf('do $$'))
-  for (const fn of called) assert.ok(grantBlock.includes(`'${fn}'`), `${fn} is not granted`)
+  const rollout = readFileSync(new URL('../supabase/manual/download_counts_rsvp_v2.sql', import.meta.url), 'utf8')
+  const extraGrants = (rollout.match(/grant execute on function [\s\S]*? to anon, authenticated;/g) || []).join('\n')
+  for (const fn of called) assert.ok(grantBlock.includes(`'${fn}'`) || extraGrants.includes(`public.${fn}(`), `${fn} is not granted`)
+  for (const t of ['pdf_download_totals', 'pdf_download_receipts', 'rsvp_presentations']) assert.ok(rollout.includes(`alter table public.${t} enable row level security`))
 })

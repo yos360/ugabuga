@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintCount from '../../components/ui/PrintCount'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
@@ -38,6 +39,7 @@ function CakeCard({ c }) {
       <h3 className="text-xl font-bold leading-snug">{cakeShortTitle(c)}</h3>
       <p className="m-0 text-[var(--muted-foreground)]">{c.summary}</p>
       <div className="mt-auto pt-2"><Badges c={c} /></div>
+      <PrintCount path={cakePath(c)} fallback />
     </div>
   </Link>
 }

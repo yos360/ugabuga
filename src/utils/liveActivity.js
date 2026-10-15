@@ -172,6 +172,18 @@ function flushDb() {
   const items = dbQueue; dbQueue = []
   for (const args of items) sendOne(args)
 }
+// Only explicit successful PDF exports call this, never heuristic click analytics.
+export function recordSuccessfulPdf(pathname) {
+  if (isOwnerBrowser() || automated()) return
+  whenHuman(() => {
+    void import('./printCounts').then(async ({ publicDownloadPath, invalidatePrintCounts }) => {
+      const path = publicDownloadPath(pathname)
+      if (!path) return
+      const res = await rpc('record_pdf_download', { p_path: path, p_request_id: crypto.randomUUID() })
+      if (res.ok && await res.json() === true) invalidatePrintCounts()
+    }).catch(() => {})
+  })
+}
 function excluded(pathname) {
   const parts = String(pathname).split('/').filter(Boolean)
   return ['admin','account','auth','login','q'].includes(parts[0]) || isOwnerBrowser()

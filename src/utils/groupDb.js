@@ -18,12 +18,16 @@ const call = (fn, args) => client.rpc(fn, args).then(({ data, error }) => {
   return data
 })
 
+const compatibleRsvpCall = (fn, legacy, args) => call(fn, args).catch(e => { if (e.code === 'not_installed') return call(legacy, args); throw e })
 export const rsvpDb = {
+  version: () => call('rsvp_experience_version', {}).catch(() => 1),
+  createV2: (hostToken, event) => call('rsvp_create_v2', { p_host_token: hostToken, p: event }),
+  updateV2: (code, hostToken, event) => call('rsvp_update_v2', { p_code: code, p_host_token: hostToken, p: event }),
   create: (hostToken, event) => call('rsvp_create', { p_host_token: hostToken, p: event }),
-  get: (code, deviceToken) => call('rsvp_get', { p_code: code, p_device_token: deviceToken || null }),
+  get: (code, deviceToken) => compatibleRsvpCall('rsvp_get_v2', 'rsvp_get', { p_code: code, p_device_token: deviceToken || null }),
   answer: (code, deviceToken, answer) => call('rsvp_answer', { p_code: code, p_device_token: deviceToken, p: answer }),
   withdraw: (code, deviceToken) => call('rsvp_withdraw', { p_code: code, p_device_token: deviceToken }),
-  host: (code, hostToken) => call('rsvp_host', { p_code: code, p_host_token: hostToken }),
+  host: (code, hostToken) => compatibleRsvpCall('rsvp_host_v2', 'rsvp_host', { p_code: code, p_host_token: hostToken }),
   update: (code, hostToken, event) => call('rsvp_update', { p_code: code, p_host_token: hostToken, p: event }),
   removeResponse: (code, hostToken, id) => call('rsvp_remove_response', { p_code: code, p_host_token: hostToken, p_response_id: id }),
   remove: (code, hostToken) => call('rsvp_delete', { p_code: code, p_host_token: hostToken }),
