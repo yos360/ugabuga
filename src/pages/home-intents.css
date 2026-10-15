@@ -1,5 +1,10 @@
 /* Home: "למה נכנסתם היום?" — the four intent doors under the hero (layout from .home-doors). */
 .home-intents { margin: 4px 0 22px; }
+/* Scoped rules stay authoritative when another lazy page loads Home.css later. */
+.home-intents .home-doors { grid-template-columns: repeat(2, minmax(0, 1fr)); direction: rtl; }
+.home-intents .home-intent { height: auto; min-height: 220px; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; padding: 28px 24px; }
+.home-intents .home-intent .home-door-copy { width: auto; min-width: 0; margin: 0; align-self: center; }
+.home-intents .home-intent .home-door-art { position: relative; grid-column: 2; grid-row: 1; align-self: stretch; left: auto; bottom: auto; width: 100% !important; max-width: 100% !important; height: auto !important; min-height: 160px; aspect-ratio: auto !important; background-position: center bottom !important; }
 .home-intents > h2 { text-align: center; font-family: Fredoka, Heebo, sans-serif; font-size: clamp(26px, 3vw, 36px); font-weight: 650; margin: 0 0 14px; }
 .home-intent .home-door-copy h3 { font-family: Fredoka, Heebo, sans-serif; font-size: clamp(23px, 2.1vw, 31px); font-weight: 650; line-height: 1.15; margin: 0 0 10px; color: #111329; }
 .home-intent .home-door-copy p { white-space: normal; font-size: clamp(15px, 1.2vw, 17px); color: #465671; line-height: 1.45; margin: 0; }
@@ -21,6 +26,9 @@
 @keyframes home-intent-bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-5px) rotate(-6deg) } }
 
 @media (max-width: 560px) {
+  .home-intents .home-doors { grid-template-columns: 1fr; }
+  .home-intents .home-intent { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 10px; padding: 24px 16px 42px; min-height: 200px; }
+  .home-intents .home-intent .home-door-art { min-height: 135px; }
   .home-intents { margin-bottom: 16px; }
   .home-intents > h2 { font-size: 26px; margin-bottom: 10px; }
   .home-intent .home-door-copy { width: 56%; }

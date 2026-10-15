@@ -44,8 +44,8 @@ const KINDS = {
     seoTitle: 'דף שורות לאנגלית להדפסה — 4 קווים לכתב יד', sub: 'שורות עם קו אמצע מקווקו — לתרגול אותיות באנגלית',
     description: 'דף שורות לאנגלית להדפסה: שורות כתב יד עם קו אמצע מקווקו, שעוזרות לכתוב אותיות גדולות וקטנות בגובה הנכון. רחבות לכיתות ג׳–ד׳ או רגילות.',
     options: [['big', 'רחבות למתחילים'], ['normal', 'רגילות']], def: 'big',
-    paragraphs: ['כשמתחילים לכתוב באנגלית, הקושי הגדול הוא גובה האותיות: אותיות גדולות מגיעות עד הקו העליון, אותיות קטנות כמו a ו-e רק עד הקו המקווקו באמצע, ואותיות כמו g ו-y יורדות מתחת לשורה. דף עם קווי עזר פותר את זה.', 'הדף כאן בנוי מימין לשמאל כמו מחברת באנגלית — שורה של שלושה קווים ורווח. לכיתות ג׳–ד׳ מומלצות שורות רחבות, ובהמשך אפשר לעבור לרגילות.'],
-    faq: [{ q: 'עד איפה מגיעות האותיות הקטנות?', a: 'אותיות כמו a, c, e, o מגיעות עד הקו המקווקו. אותיות עם "גבעול" כמו b, d, h, l מגיעות עד הקו העליון, ו-g, j, p, q, y יורדות מתחת לקו התחתון.' }],
+    paragraphs: ['כשמתחילים לכתוב באנגלית, הקושי הגדול הוא גובה האותיות: אותיות גדולות מגיעות עד הקו העליון, אותיות קטנות כמו a ו-e רק עד הקו המקווקו באמצע, ואותיות כמו g ו-y יורדות מתחת לקו הבסיס. דף עם קווי עזר עוזר לתרגל את ההבדלים.', 'באנגלית כותבים משמאל לימין. בכל שורה כאן ארבעה קווי עזר: קו עליון, קו אמצע מקווקו, קו בסיס מודגש וקו תחתון לאותיות שיורדות. השוליים נמצאים בצד שמאל. למתחילים אפשר לבחור שורות רחבות, ובהמשך לעבור לרגילות.'],
+    faq: [{ q: 'עד איפה מגיעות האותיות הקטנות?', a: 'אותיות כמו a, c, e, o מגיעות עד הקו המקווקו. אותיות עם "גבעול" כמו b, d, h, l מגיעות עד הקו העליון, ו-g, j, p, q, y יורדות מתחת לקו הבסיס המודגש, עד לקו התחתון.' }],
   },
   'music-paper': {
     emoji: '🎼', h1: 'דף תווים ריק להדפסה', label: '🎼 תווים',
@@ -79,9 +79,12 @@ function PaperSheet({ kind, opt }) {
     for (let i = 0; i <= nx; i++) for (let j = 0; j <= ny; j++) g.push(<circle key={g.length} cx={x0 + i * step} cy={TOP + j * step} r={step > 6 ? 0.7 : 0.4} fill="#555" />)
   } else if (kind === 'english-lines') {
     const big = opt === 'big', x = big ? 7 : 5, gap = big ? 9 : 6
+    g.push(<text key="name" x={16} y={7} fontSize={4} textAnchor="start" direction="ltr" fill="#555">Name: ____________________</text>)
+    g.push(<text key="date" x={W - 1} y={7} fontSize={4} textAnchor="end" direction="ltr" fill="#555">Date: ____________</text>)
+    line(12, TOP, 12, H, '#bd6464', 0.3)
     for (let y = TOP + 6; y + 3 * x <= H; y += 3 * x + gap) {
-      line(0, y, W, y, '#9aa4b2', 0.3); line(0, y + x, W, y + x, '#9aa4b2', 0.25, '1.5 1.2'); line(0, y + 2 * x, W, y + 2 * x, '#555', 0.4)
-      line(0, y + 3 * x, W, y + 3 * x, '#ddd', 0.2, '0.6 1')
+      line(16, y, W, y, '#70859b', 0.3); line(16, y + x, W, y + x, '#70859b', 0.25, '1.5 1.2'); line(16, y + 2 * x, W, y + 2 * x, '#333', 0.4)
+      line(16, y + 3 * x, W, y + 3 * x, '#70859b', 0.25)
     }
   } else if (kind === 'music-paper') {
     const n = +opt, sp = opt === '10' ? 1.9 : 1.75, block = (H - TOP) / n
@@ -94,7 +97,7 @@ function PaperSheet({ kind, opt }) {
   return <Sheet w={W} h={H} label={KINDS[kind].h1}>{g}</Sheet>
 }
 
-export default function WritingPaper({ kind }) {
+function WritingPaperContent({ kind }) {
   const k = KINDS[kind]
   const [opt, setOpt] = useState(k.def)
   return <PrintableShell path={`/printables/${kind}`} emoji={k.emoji} h1={k.h1} sub={k.sub} seoTitle={k.seoTitle} description={k.description}
@@ -104,4 +107,9 @@ export default function WritingPaper({ kind }) {
     extra={<p className="text-sm text-[var(--muted-foreground)]">טיפ: בחלון ההדפסה בחרו "גודל בפועל" (100%) כדי שהמרווחים יצאו מדויקים.</p>}
     paragraphs={k.paragraphs} faq={k.faq}
     related={[{ label: 'אותיות עברית למעבר בעיפרון', href: '/printables/hebrew-letters' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'מערכת שעות', href: '/printables/class-schedule' }]} />
+}
+
+// Sibling links reuse this route component; each paper starts with its own valid option.
+export default function WritingPaper({ kind }) {
+  return <WritingPaperContent key={kind} kind={kind} />
 }

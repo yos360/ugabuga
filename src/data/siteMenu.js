@@ -11,7 +11,7 @@ export const SECTION = {
   learn: 'לומדים',
   printables: 'להדפסה',
   birthday: 'יום הולדת',
-  holidays: 'חגים',
+  holidays: 'שבתות וחגים',
   family: 'משפחה',
   classroom: 'לכיתה',
   tools: 'כלים',
@@ -277,7 +277,7 @@ export const MENU_DOMAINS = [
   },
   {
     id: 'holidays', label: SECTION.holidays, icon: '🕎', to: '/holidays',
-    landingLabel: 'כל החגים',
+    landingLabel: 'כל השבתות והחגים',
     prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until'],
     groups: [
       {
@@ -298,7 +298,8 @@ export const MENU_DOMAINS = [
       {
         title: 'שבת, ברכות ולוח שנה', icon: '🕯️',
         items: [
-          { to: '/parasha', label: 'פרשת השבוע לילדים', icon: '📖' },
+          { to: '/holidays/shabbat-parents', label: 'אבא ואמא של שבת — עם תמונה', icon: '🖼️' },
+          { to: '/parasha', label: 'פרשת השבוע וחידון להדפסה', icon: '📖' },
           { to: '/shabbat-times', label: 'כניסת שבת וצאת השבת', icon: '🕯️' },
           { to: '/holidays/blessings', label: 'ברכות וקריאות לחגים', icon: '🙏' },
           { to: '/games/shabbat', label: 'משחקים לשבת', icon: '🕯️' },
@@ -492,9 +493,12 @@ export const FOOTER_COLUMNS = [
     ],
   },
   {
-    domain: 'holidays', title: '🕎 חגים',
+    domain: 'holidays', title: '🕯️ שבתות וחגים',
     links: [
-      ['/holidays', 'כל החגים'],
+      ['/holidays', 'כל השבתות והחגים'],
+      ['/holidays/shabbat-parents', 'אבא ואמא של שבת'],
+      ['/shabbat-times', 'זמני שבת ולוח עם תמונה'],
+      ['/parasha', 'חידון פרשת השבוע'],
       ['/holidays/hanukkah', 'חנוכה'],
       ['/holidays/tu-bishvat', 'ט״ו בשבט'],
       ['/holidays/purim', 'פורים'],

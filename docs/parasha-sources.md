@@ -36,3 +36,14 @@
 ## בדיקת דפדפן
 
 נבדקו ב־Chrome שולחן עבודה 1440px וטלפון 390px, לרבות כל 54 דפי הפרשות: חמש שאלות בכל דף, תיאורי SEO באורך המותר והיעדר גלילה אופקית. נבדקו בחירת פרשות מחוברות ושבת חול המועד, פתיחת תשובות, תצוגת הדפסה והוספת/השמטת תשובות. הופק PDF בדפדפן. אין שגיאות JavaScript. צילומי התצוגה נמצאים ב־`docs/screenshots/parasha/`.
+
+
+## Printable quiz expansion — 2026-10-15
+
+Each of the 54 portions now has 10 questions (540 total). Every answer has chapter-and-verse references using Hebrew/Masoretic numbering. The five original questions are retained except two general-knowledge questions (Masei and Vezot Haberakhah), replaced with questions directly supported by verses. Five further questions per portion were added.
+
+The Hebrew source text for all five books was fetched from Sefaria’s Texts API (`Genesis.1-50`, `Exodus.1-40`, `Leviticus.1-27`, `Numbers.1-36`, `Deuteronomy.1-34`, with `context=0&commentary=0`; version: Miqra according to the Masorah). All 540 answer/reference pairs were compared against the retrieved Hebrew passages during development; this is an editorial AI check, not a rabbinic certification. No generated claim of human review is shown. Questions and answers are original paraphrases; the site links to the primary text rather than reproducing a modern commentary.
+
+`tests/fixtures/torah-verse-counts.json` records the source chapter lengths. Tests independently check that every referenced verse exists and falls within its portion, and cover short/doubled/holiday quizzes and the 30-student-plus-one-teacher print plan. These structural tests do not replace semantic review. Existing published-calendar fixtures continue to validate the Israel weekly schedule.
+
+The student-only sheet does not render answers or source links in its sheet DOM. The teacher key includes every answer and source. Optional modes print answers inline or rotated 180 degrees at the bottom. A doubled reading uses five questions from each portion.
