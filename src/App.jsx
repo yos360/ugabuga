@@ -285,6 +285,9 @@ const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ParashaHub = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaHub })))
+const ShabbatActivitiesHub = lazy(() => import('./pages/holidays/ShabbatActivities').then(m => ({ default: m.ShabbatActivitiesHub })))
+const ShabbatActivityPage = lazy(() => import('./pages/holidays/ShabbatActivities').then(m => ({ default: m.ShabbatActivityPage })))
+const ShabbatPackPage = lazy(() => import('./pages/holidays/ShabbatActivities').then(m => ({ default: m.ShabbatPackPage })))
 const ShabbatTimesHub = lazy(() => import('./pages/holidays/ShabbatTimes').then(m => ({ default: m.ShabbatTimesHub })))
 const ShabbatCityPage = lazy(() => import('./pages/holidays/ShabbatTimes').then(m => ({ default: m.ShabbatCityPage })))
 const ParashaPage = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaPage })))
@@ -815,6 +818,9 @@ export default function App() {
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/parasha" element={<ParashaHub />} />
+              <Route path="/shabbat-activities" element={<ShabbatActivitiesHub />} />
+              <Route path="/shabbat-activities/pack" element={<ShabbatPackPage />} />
+              <Route path="/shabbat-activities/:slug" element={<ShabbatActivityPage />} />
               <Route path="/shabbat-times" element={<ShabbatTimesHub />} />
               <Route path="/shabbat-times/:city" element={<ShabbatCityPage />} />
               <Route path="/parasha/:slug" element={<ParashaPage />} />

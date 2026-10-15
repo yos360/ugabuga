@@ -1,3 +1,4 @@
+import ShabbatActivityLink from '../../components/printables/ShabbatActivityLink'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -48,6 +49,7 @@ export function ParashaHub() {
       <div className="mt-6 flex flex-wrap gap-3 items-end justify-center"><label className="font-bold">פרשת השבוע לפי תאריך<input type="date" min="1900-01-01" max="2199-12-31" value={selected ?? today} onChange={e => setSelected(e.target.value)} className="block mt-1 min-h-[44px] max-w-full rounded-xl border-2 border-[var(--border)] bg-white text-[#182139] px-3 py-2" /></label><button onClick={() => setSelected(null)} className={chip}>חזרה לשבוע הנוכחי</button></div>
       <p className="text-sm mt-4">מציגים את השבת שבתאריך שנבחר או אחריו. במהלך שבת מוצגת קריאת אותו היום; המעבר לשבוע הבא בחצות לפי שעון ישראל.</p>
     </section>
+    <ShabbatActivityLink />
     <ParashaQuiz reading={reading} />
     <nav aria-label="קפיצה לספר" className="flex flex-wrap gap-2 mt-6">{PARASHA_BOOKS.map((book, i) => <a key={book} className={chip} href={`#book-${i}`}>{book}</a>)}</nav>
     {PARASHA_BOOKS.map((book, i) => <section id={`book-${i}`} key={book} className="mt-8 scroll-mt-24"><h2 className="text-2xl mb-3">ספר {book}</h2><div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">{PARASHOT.filter(p => p.book === book).map(p => <Link key={p.slug} to={parashaHref(p)} className={`${chip} justify-center`}>{p.name}</Link>)}</div></section>)}
@@ -72,6 +74,7 @@ function Portion({ p }) {
     <h1 className="text-center text-3xl sm:text-4xl mt-2 mb-4">פרשת {p.name} לילדים</h1>
     <p className="text-center mb-6"><a href={parashaSource(p)} target="_blank" rel="noopener noreferrer" className="underline font-bold">לפסוקי הפרשה המלאים בספריא ↗</a></p>
     <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5 sm:p-7" aria-label="תקציר הפרשה"><h2 className="text-2xl mb-3">מה קורה בפרשה?</h2><div className="space-y-4 text-lg leading-relaxed">{p.paragraphs.map((text, i) => <p key={i}>{text}</p>)}</div></section>
+    <ShabbatActivityLink />
     <ParashaQuiz portions={[p]} />
     <section className="mt-8 bg-[var(--postit)] rounded-2xl p-5"><h2 className="text-2xl mb-2">מדברים על זה בשולחן שבת</h2><p className="text-lg">{p.discussion}</p><p className="text-sm mt-2">זו שאלה פתוחה למחשבה ולשיחה; אין לה תשובה אחת נכונה.</p></section>
     <nav aria-label="פרשה קודמת והבאה" className="mt-8 flex flex-wrap justify-between gap-3"><Link className={chip} to={parashaHref(prev)}>→ {prev.name}</Link><Link className={chip} to="/parasha">כל הפרשות</Link><Link className={chip} to={parashaHref(next)}>{next.name} ←</Link></nav>

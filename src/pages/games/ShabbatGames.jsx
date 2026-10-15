@@ -9,6 +9,7 @@ import '../../learn/learn.css'
 import '../../family/family.css'
 
 const PREP_LINKS = [
+  { href: '/shabbat-activities', label: 'פעילויות וחבילת שבת מוכנה', emoji: '🕯️' },
   { href: '/riddles/kids-easy', label: 'חידות קלות לילדים', emoji: '🧩' },
   { href: '/riddles/what-am-i', label: 'חידות "מי אני?"', emoji: '❓' },
   { href: '/trivia/with-answers', label: 'שאלות טריוויה עם תשובות', emoji: '🏆' },

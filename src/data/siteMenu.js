@@ -300,6 +300,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/holidays/shabbat-parents', label: 'אבא ואמא של שבת — עם תמונה', icon: '🖼️' },
           { to: '/parasha', label: 'פרשת השבוע וחידון להדפסה', icon: '📖' },
+          { to: '/shabbat-activities', label: 'חבילת פעילויות לשבת', icon: '🕯️' },
           { to: '/shabbat-times', label: 'כניסת שבת וצאת השבת', icon: '🕯️' },
           { to: '/holidays/blessings', label: 'ברכות וקריאות לחגים', icon: '🙏' },
           { to: '/games/shabbat', label: 'משחקים לשבת', icon: '🕯️' },
