@@ -246,6 +246,8 @@ export const MENU_DOMAINS = [
           { to: '/calculator', label: 'מחשבון מסיבה', icon: '🧮' },
           { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
           { to: '/rsvp', label: 'אישור הגעה אונליין', icon: '✅' },
+            { to: '/meet', label: 'מתי נפגשים?', icon: '🗓️' },
+            { to: '/party-album', label: 'אלבום מסיבה משותף', icon: '📸' },
           { to: '/tools/bring-list', label: 'רשימת "מי מביא מה"', icon: '📋' },
           { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
           { to: '/birthday-greetings', label: 'ברכות ליום הולדת', icon: '🎈' },
@@ -344,6 +346,7 @@ export const MENU_DOMAINS = [
         title: 'ביום-יום', icon: '🏠',
         items: [
           { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
+          { to: '/family-help', label: 'לוח עזרה למשפחה', icon: '💛' },
           { to: '/family/morning-routine', label: 'שגרת בוקר עם טיימר', icon: '⏰' },
           { to: '/family/car-games', label: 'משחקים לנסיעה', icon: '🚗' },
           { to: '/family/move', label: 'אתגר תנועה', icon: '🤸' },
@@ -363,6 +366,7 @@ export const CLASSROOM_MENU = {
   prefixes: ['/classroom', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w'],
   items: [
     { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
+      { to: '/parent-meetings', label: 'הרשמה לאספות הורים', icon: '🗓️' },
     { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
     { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
     { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕', shortcut: true },

@@ -265,6 +265,7 @@ const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
 const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
+const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
 const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
@@ -782,6 +783,11 @@ export default function App() {
               <Route path="/bring-list" element={<BringList />} />
               <Route path="/l/:code" element={<BringList />} />
               <Route path="/rsvp" element={<Rsvp />} />
+              <Route path="/meet" element={<SharedSpaces kind="meet" />} />
+              <Route path="/parent-meetings" element={<SharedSpaces kind="parents" />} />
+              <Route path="/family-help" element={<SharedSpaces kind="help" />} />
+              <Route path="/party-album" element={<SharedSpaces kind="album" />} />
+              <Route path="/t/:code" element={<SharedSpaces />} />
               <Route path="/r/:code" element={<Rsvp />} />
               <Route path="/secret-friend" element={<SecretFriend />} />
               <Route path="/g/:code" element={<SecretFriend />} />

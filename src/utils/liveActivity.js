@@ -79,6 +79,8 @@ const REPEAT_ACTIONS = ['use', 'play', 'check', 'refresh', 'create']
 const logged = new Map()
 function cleanPath(path) {
   const p = String(path || '').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/'
+  // A shared-space URL is itself a read capability; never put it in activity logs.
+  if (p.startsWith('/t/')) return '/shared-space'
   return /^\/[a-z0-9/_-]{0,119}$/.test(p) ? p : null
 }
 function deviceType() {

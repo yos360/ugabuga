@@ -166,7 +166,7 @@ async function handle(context) {
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
     if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
         noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/') ||
-        noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/')) {
+        noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/') || noindexPath.startsWith('/t/')) {
       const h = new Headers(res.headers)
       h.append('X-Robots-Tag', 'noindex')
       return new Response(work.body, { status: res.status, statusText: res.statusText, headers: h })

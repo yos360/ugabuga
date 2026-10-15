@@ -1,0 +1,22 @@
+name: Expired shared spaces cleanup
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+permissions: {}
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Remove expired album files and shared spaces
+        env:
+          # Explicit rollout switch: enable only after SQL and Edge Function verification.
+          ENABLED: ${{ vars.SHARED_SPACES_ENABLED }}
+        if: env.ENABLED == 'true'
+        run: |
+          curl --fail-with-body --max-time 90 \
+            -X POST https://efhgyispuwxcplvzipcy.supabase.co/functions/v1/shared-spaces \
+            -H 'Content-Type: application/json' \
+            -H 'apikey: sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7' \
+            --data '{"action":"cleanup"}'

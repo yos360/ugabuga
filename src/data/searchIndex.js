@@ -65,7 +65,9 @@ function variants(word) {
   for (let p = 1; p <= 2; p++) {
     if (u.length - p < 3 || !PREFIX.includes(u[p - 1])) break
     const r = u.slice(p)
-    add(r, 0.85, true)
+    // Stripping two possible prefixes is a weaker guess (שברים → רים must
+    // never rank an unrelated הורים tool above the exact worksheet title).
+    add(r, p === 1 ? 0.85 : 0.7, true)
     for (const s of SUFFIXES) if (r.length - s.length >= 4 && r.endsWith(s)) add(r.slice(0, -s.length), 0.8, false)
   }
   for (const g of SYNONYMS) if (out.some(v => g.includes(v.t))) for (const s of g) add(s, 0.6, false)

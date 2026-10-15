@@ -1,0 +1,2 @@
+# Custom project-key and per-operation capability authentication in index.ts.
+verify_jwt = false
