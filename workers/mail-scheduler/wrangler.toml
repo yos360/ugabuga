@@ -1,0 +1,8 @@
+name = "ugabuga-mail-scheduler"
+main = "index.js"
+compatibility_date = "2026-10-15"
+[triggers]
+crons = ["*/10 * * * *"]
+[vars]
+MAIL_ENABLED = "false"
+# Set MAIL_CRON_SECRET using the secret store; same value on Pages.

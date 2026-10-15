@@ -164,7 +164,7 @@ async function handle(context) {
     // App-only pages (search UI, supplier self-service): served as shells on
     // purpose, but they must not be indexed — they're linked from every page.
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
-    if (noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
+    if (noindexPath === '/mail-preferences' || noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
         noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/') ||
         noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/') || noindexPath.startsWith('/t/')) {
       const h = new Headers(res.headers)

@@ -1,4 +1,5 @@
 import ShabbatActivityLink from '../../components/printables/ShabbatActivityLink'
+import MailSignup from '../../components/mail/MailSignup'
 import { ShabbatRecipeLinks } from '../../components/recipes/ShabbatRecipeLinks'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
@@ -182,6 +183,7 @@ function CityPage({ city }) {
       <Link to="/holidays/blessings/shabbat" className={`${button} mt-4`}>לברכת הדלקת נרות</Link>
     </section>
     <Notice />
+    <MailSignup city={city} allowShabbat />
     <section className="mt-8"><h2 className="text-2xl">שמונה השבתות הבאות ב{city.name}</h2><ShabbatTable rows={rows.slice(1)} /></section>
     <section className="mt-8"><h2 className="text-2xl">הדלקת נרות לחגים בטווח הקרוב</h2><p className="text-sm mt-2">מ־{dateLabel(today)} עד {dateLabel(rows.at(-1).saturday)} · לפי לוח ארץ ישראל</p><HolidayList rows={holidays} /></section>
     <ShabbatCalendar city={city} />

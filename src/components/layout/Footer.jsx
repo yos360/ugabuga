@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { SITE_SLOGAN } from '../../data/brand'
+import MailSignup from '../mail/MailSignup'
+import '../mail/mail.css'
 
 import { FOOTER_COLUMNS as COLUMNS } from '../../data/siteMenu'
 
@@ -27,6 +29,7 @@ export default function Footer() {
   return (
     <footer className="site-footer mt-16 border-t border-[var(--border)] no-print">
       <div className="mx-auto max-w-6xl px-4 py-10">
+        {!/^\/(admin|en|mail-preferences)(\/|$)/.test(pathname) && !/^\/shabbat-times\/[^/]+\/?$/.test(pathname) && <MailSignup key={pathname} allowShabbat={/^\/(holidays|shabbat-times|shabbat-activities|shabbat-parents)(\/|$)/.test(pathname)} />}
         {/* Mobile: collapsed accordions to keep the footer short */}
         <div className="sm:hidden">
           {COLUMNS.map(col => (

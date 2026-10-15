@@ -306,6 +306,7 @@ const ColorByAnswerKind = lazy(() => import('./pages/printables/ColorByCode').th
 const ColorByLetter = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByLetter })))
 const ColorByLetterEnglish = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByLetterEnglish })))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
+const MailPreferences = lazy(() => import('./pages/MailPreferences'))
 const OwnerMini = lazy(() => import('./pages/OwnerActivityReport').then(m => ({ default: m.OwnerMini })))
 const SuppliersIndex = lazy(() => import('./pages/suppliers/SuppliersIndex'))
 const SupplierPage = lazy(() => import('./pages/suppliers/SupplierPage'))
@@ -838,6 +839,7 @@ export default function App() {
               <Route path="/shabbat-activities/pack" element={<ShabbatPackPage />} />
               <Route path="/shabbat-activities/:slug" element={<ShabbatActivityPage />} />
               <Route path="/shabbat-times" element={<ShabbatTimesHub />} />
+              <Route path="/mail-preferences" element={<MailPreferences />} />
               <Route path="/shabbat-times/:city" element={<ShabbatCityPage />} />
               <Route path="/parasha/:slug" element={<ParashaPage />} />
               <Route path="*" element={<NotFound />} />
