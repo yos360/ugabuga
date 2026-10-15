@@ -118,7 +118,7 @@ export default function Navbar() {
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
           <span className="site-brand-art" aria-hidden="true"><img src="/images/site-logo.webp" alt="" width="250" height="80" /></span>
-          <span className="site-brand-slogan">{SITE_SLOGAN}</span>
+          <span className="site-brand-slogan" aria-label={SITE_SLOGAN}><span>האתר שיש בו הכל</span><span>מעוגה ועד בוגה</span></span>
         </Link>
 
         <div className="site-header-side site-header-end">
