@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import PrintPreview from '../../components/ui/PrintPreview'
+import TriviaPrint from '../../components/quiz/TriviaPrint'
 import NotFound from '../NotFound'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
 import {
@@ -23,7 +23,7 @@ const RELATED = [
   { label: 'חידות לפי נושא', href: '/riddles/topics' },
 ]
 
-const PRINT_FAQ = { q: 'אפשר להדפיס את השאלות בלי התשובות?', a: 'כן. בכפתור "הדפסה" מקבלים דף שאלות עם מקום לכתוב תשובה, ואחריו דף תשובות נפרד למנחה. אפשר גם לשמור כ־PDF ולשלוח להורים או לצוות.' }
+const PRINT_FAQ = { q: 'אפשר להדפיס את השאלות בלי התשובות?', a: 'כן. באזור ההדפסה בוחרים שאלות בלבד, תשובות הפוכות או רגילות, או דפי שאלות וסט תשובות נפרד למנחה. אפשר גם לשמור כ־PDF ולשלוח להורים או לצוות.' }
 
 // How to run a trivia night — the hub's main body copy.
 const HOST_TIPS = [
@@ -46,7 +46,6 @@ function Page({ sec }) {
   const isHub = !sec
   const [filter, setFilter] = useState('')
   const [open, setOpen] = useState(() => new Set())
-  const [printing, setPrinting] = useState(false)
   const shown = isHub ? TRIVIA_WA_SECTIONS.filter(s => !filter || s.id === filter) : [sec]
 
   // A shared question arrives as …#kids-easy-3: bring it into view (its answer stays hidden).
@@ -97,10 +96,10 @@ function Page({ sec }) {
 
     <div className="no-print mt-4 flex flex-wrap justify-center gap-2">
       <button type="button" className="ln-btn alt" aria-pressed={allOpen} onClick={() => setOpen(allOpen ? new Set() : new Set(shownIds))}>{allOpen ? '🙈 הסתרת כל התשובות' : '👀 הצג את כל התשובות'}</button>
-      <button type="button" className="ln-btn alt" onClick={() => setPrinting(true)}>🖨️ הדפסה: שאלות + דף תשובות</button>
       <Link to="/tools/trivia-quiz" className="ln-btn go inline-flex items-center">🎮 מצב חידון עם ניקוד</Link>
     </div>
 
+    <TriviaPrint title={printTitle} questions={shown.flatMap(s => s.questions.map(q => ({ q: q.q, a: q.a, explain: q.fact })))} note="השאלות בקטגוריות שבחרתם, עם תשובות למנחה לפי אותו מספור" />
     {shown.map(s => <section key={s.id} className="mt-10" aria-labelledby={`h-${s.id}`}>
       <div className="twa-head">
         {isHub ? <h2 id={`h-${s.id}`} className="text-2xl font-black sm:text-3xl"><span aria-hidden="true">{s.emoji}</span> {s.label} <small className="twa-aud">{s.audience}</small></h2>
@@ -132,24 +131,6 @@ function Page({ sec }) {
       <ul className="twa-more">{TRIVIA_WA_SECTIONS.filter(s => s.id !== sec.id).map(s => <li key={s.id}><Link to={sectionPath(s.id)} className="font-bold underline">{s.emoji} {s.h1.replace(/ \(.*\)$/, '')}</Link> <span className="text-[var(--muted-foreground)]">· {s.audience}</span></li>)}</ul>
     </section>}
 
-    {printing && <PrintPreview title={printTitle} onClose={() => setPrinting(false)}>
-      <article className="buga-flow twa-print" dir="rtl">
-        <h2>{printTitle}</h2>
-        <p className="twa-print-sub">שם / קבוצה: ____________________ · ניקוד: ______</p>
-        {shown.map(s => <div key={s.id}>
-          {shown.length > 1 && <h3>{s.emoji} {s.label}</h3>}
-          <ol>{s.questions.map((q, i) => <li key={i}>{q.q}<span className="twa-line" /></li>)}</ol>
-        </div>)}
-      </article>
-      <article className="buga-flow twa-print" dir="rtl">
-        <h2>דף תשובות למנחה</h2>
-        <p className="twa-print-sub">{printTitle}</p>
-        {shown.map(s => <div key={s.id}>
-          {shown.length > 1 && <h3>{s.emoji} {s.label}</h3>}
-          <ol>{s.questions.map((q, i) => <li key={i}><b>{q.a}</b> — {q.fact}</li>)}</ol>
-        </div>)}
-      </article>
-    </PrintPreview>}
 
     <div className="mt-10"><SeoBody paragraphs={isHub ? [
       `בעמוד הזה ${TOTAL} שאלות טריוויה עם תשובות, מסודרות לפי קושי וקהל: שאלות קלות לילדים בגיל 6–9, שאלות מאתגרות לגיל 9–12, שאלות לכל המשפחה, ואחר כך ידע כללי, ישראל, מדע וטבע, ספורט וגאוגרפיה. לכל תשובה מצורף "הידעתם?" — משפט אחד שהופך ניחוש לעוד משהו שלמדנו.`,

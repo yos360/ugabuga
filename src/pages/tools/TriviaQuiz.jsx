@@ -1,3 +1,4 @@
+import TriviaPrint from '../../components/quiz/TriviaPrint'
 import { shuffle } from '../../utils/shuffle'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -78,6 +79,11 @@ export default function TriviaQuiz() {
 
   // Questions of exactly the chosen audience + level come first (the pool may be topped up with neighbours).
   const isExactLevel = useCallback((q) => q.audience === audience && q.difficulty === (mode === 'expert' ? 'hard' : difficulty) && (topic === 'all' || q.topic === topic), [audience, difficulty, mode, topic])
+
+  const printable = useMemo(() => {
+    const rest = [...questions.filter(q => q.id !== current?.id)].sort((a, b) => Number(isExactLevel(b)) - Number(isExactLevel(a)))
+    return [...(current ? [current] : []), ...rest].slice(0, 12).map(q => ({ q: q.question, a: q.answer, options: q.id === current?.id ? options : shuffleOptions(q.triviaOptions), explain: q.explanation || '' }))
+  }, [questions, current, options, isExactLevel])
 
   const chooseQuestion = useCallback((resetHistory = false) => {
     setSelected(null)
@@ -167,6 +173,7 @@ export default function TriviaQuiz() {
         משחק טריוויה אונליין: ענו על שאלות, צברו נקודות ושחקו גם עם חברים.
       </p>
 
+      <TriviaPrint title={`טריוויה — ${QUESTION_TOPICS.find(t => t.id === topic)?.label || 'כל הנושאים'} · ${currentAudience?.label} · ${currentDifficulty?.label}`} questions={printable} note="השאלה שעל המסך ועוד שאלות לפי הסינון; כשחסרות שאלות משלימים מרמה קרובה" />
       <div className="grid lg:grid-cols-[320px_1fr_300px] gap-6 items-start">
         <WobblyCard hover={false} padding="p-5" className="order-2 lg:order-1">
           <div className="space-y-5">

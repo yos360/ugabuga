@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
-import PrintPreview from '../../components/ui/PrintPreview'
+import TriviaPrint from '../../components/quiz/TriviaPrint'
 import HolidayShell from '../../components/holidays/HolidayShell'
 import { pickByLevel, seededRandom, seededShuffle } from '../../utils/difficultyLevels'
 
@@ -11,25 +11,6 @@ const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) 
 const ROUND = 10
 const MIN_ROUND = 6 // a level with fewer questions borrows from the next level up
 const LEVELS = [{ id: 1, label: 'גן וכיתה א׳' }, { id: 2, label: 'כיתות ב׳–ד׳' }, { id: 3, label: 'כיתות ה׳ ומעלה' }]
-const LETTERS = ['א', 'ב', 'ג', 'ד']
-
-function PrintQuiz({ list, name, emoji }) {
-  return <>
-    <article className="buga-flow" dir="rtl">
-      <h2 style={{ textAlign: 'center', fontSize: 24, fontWeight: 800, marginBottom: 4 }}>{emoji} חידון {name}</h2>
-      <p style={{ textAlign: 'center', marginBottom: 14 }}>שם: ______________ · הקיפו את התשובה הנכונה</p>
-      {list.map((x, i) => <div key={i} className="paper-block" style={{ marginBottom: 12, breakInside: 'avoid' }}>
-        <p style={{ fontWeight: 700 }}>{i + 1}. {x.q}</p>
-        <p style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 22px' }}>{x.shown.map((o, k) => <span key={k}>{LETTERS[k]}. {o}</span>)}</p>
-      </div>)}
-    </article>
-    <article className="buga-flow" dir="rtl">
-      <h2 style={{ textAlign: 'center', fontSize: 22, fontWeight: 800, marginBottom: 12 }}>תשובות — חידון {name}</h2>
-      {list.map((x, i) => <p key={i} style={{ marginBottom: 6 }}><b>{i + 1}. {LETTERS[x.shown.indexOf(x.options[0])]} — {x.options[0]}.</b> {x.why}</p>)}
-    </article>
-  </>
-}
-
 export default function HolidayQuiz({ h }) {
   const Q = h.quiz
   const [level, setLevel] = useState(1)
@@ -43,13 +24,11 @@ export default function HolidayQuiz({ h }) {
   const [i, setI] = useState(0)
   const [picked, setPicked] = useState(null)
   const [score, setScore] = useState(0)
-  const [print, setPrint] = useState(null)
   const done = i >= round.length
   const q = round[i]
 
   const restart = (lv = level) => { setLevel(lv); setSeed(s => s + 1); setI(0); setPicked(null); setScore(0) }
   const choose = o => { if (picked) return; setPicked(o); if (o === q.options[0]) setScore(s => s + 1) }
-  const printList = () => pickByLevel(Q.questions, level, 15, { min: MIN_ROUND }).map(x => ({ ...x, shown: shuffle(x.options) }))
 
   return (
     <HolidayShell h={h} crumb={`חידון ${h.name}`}>
@@ -64,9 +43,9 @@ export default function HolidayQuiz({ h }) {
       <div className="mb-5 flex flex-wrap justify-center gap-2" role="radiogroup" aria-label="רמה">
         {LEVELS.map(l => <button key={l.id} type="button" role="radio" aria-checked={level === l.id} onClick={() => restart(l.id)}
           className={`min-h-[44px] rounded-xl border-2 px-4 font-bold ${level === l.id ? 'border-slate-800 bg-yellow-200' : 'border-[var(--border)] bg-white'}`}>{l.label}</button>)}
-        <button data-print-main type="button" onClick={() => setPrint(printList())} className="min-h-[44px] rounded-xl border-2 border-slate-800 bg-white px-4 font-bold">🖨️ הדפיסו את החידון</button>
       </div>
 
+      <TriviaPrint title={`חידון ${h.name} — ${LEVELS.find(l => l.id === level).label}`} questions={round.map(q => ({ q: q.q, a: q.options[0], options: q.shown, explain: q.why }))} />
       <section className={`mx-auto mb-10 max-w-2xl rounded-3xl border-2 border-[var(--border)] ${h.soft} p-5 sketch-shadow`}>
         {done ? <div className="py-6 text-center">
           {/* Thresholds as a share of the round: level-1 rounds have only 6–8 questions. */}
@@ -93,7 +72,6 @@ export default function HolidayQuiz({ h }) {
       </section>
 
       <SeoBody paragraphs={Q.body} faq={Q.faq} related={Q.related} />
-      {print && <PrintPreview title={`חידון ${h.name}`} onClose={() => setPrint(null)}><PrintQuiz list={print} name={h.name} emoji={h.emoji} /></PrintPreview>}
     </HolidayShell>
   )
 }

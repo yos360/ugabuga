@@ -1,3 +1,5 @@
+import TriviaPrint from '../../components/quiz/TriviaPrint'
+import { topicPrintQuestions } from '../../utils/triviaPrint'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
@@ -12,8 +14,7 @@ import { nearby } from '../../utils/nearby'
 
 // A fresh quiz on every visit: 12 random questions out of the topic's whole pool, in a new
 // order, with the answers shuffled too — so playing again (or coming back tomorrow) never
-// feels like the same quiz. The SEO schema and the printable answer sheet keep the full,
-// stable pool.
+// feels like the same quiz. Printouts and the host key follow the current round.
 const QUIZ_SIZE = 12
 const deal = t => shuffle(t.questions).slice(0, QUIZ_SIZE).map(q => {
   const order = shuffle(q.options.map((_, i) => i))
@@ -73,6 +74,7 @@ export default function TriviaTopic() {
         <p className="text-sm text-[var(--muted-foreground)] mt-1">מתאים ל: {t.audience} · לחצו על תשובה כדי לבדוק</p>
       </header>
       {ex?.lead && <p className="mb-6 text-lg leading-relaxed text-[var(--foreground)]/85">{ex.lead}</p>}
+      <TriviaPrint key={slug} title={t.title} questions={topicPrintQuestions(questions)} />
       <ol className="space-y-4">
         {questions.map((q, i) => {
           const p = picked[i]
@@ -96,7 +98,7 @@ export default function TriviaTopic() {
       {answered === questions.length && <div className="text-center mb-6"><button onClick={replay} className="btn-secondary">🔄 עוד סיבוב — שאלות חדשות</button></div>}
       <details className="mt-8 wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4">
         <summary className="font-bold cursor-pointer">📋 דף תשובות למנחה</summary>
-        <ol className="list-decimal pr-6 mt-3 space-y-1">{t.questions.map((q, i) => <li key={i}>{q.q} <b>— {q.options[q.answer]}</b></li>)}</ol>
+        <ol className="list-decimal pr-6 mt-3 space-y-1">{questions.map((q, i) => <li key={i}>{q.q} <b>— {q.options[q.answer]}</b></li>)}</ol>
       </details>
       {ex?.host && <section className="mt-10"><h2 className="text-2xl font-bold mb-3">{ex.host.title}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{ex.host.items.map(it => <div key={it.t} className="wobbly-sm border-2 border-[var(--border)] bg-white p-4"><h3 className="text-lg font-bold mb-1">{it.t}</h3><p className="text-[var(--foreground)]/80">{it.d}</p></div>)}</div>
