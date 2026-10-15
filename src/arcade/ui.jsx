@@ -14,16 +14,16 @@ export function ToolButton({ onClick, disabled, children, label }) {
   return <button type="button" className="arc-tool" onClick={onClick} disabled={disabled} aria-label={label} title={label}>{children}</button>
 }
 
-export function Stars({ n }) {
-  return <p className="arc-stars" aria-label={`${n} כוכבים מתוך 3`}>{[1, 2, 3].map(i => <span key={i} className={i <= n ? 'on' : ''}>★</span>)}</p>
+export function Stars({ n, lang = 'he' }) {
+  return <p className="arc-stars" aria-label={lang === 'en' ? `${n} out of 3 stars` : `${n} כוכבים מתוך 3`}>{[1, 2, 3].map(i => <span key={i} className={i <= n ? 'on' : ''}>★</span>)}</p>
 }
 
-export function EndCard({ title, text, stars, primary, onPrimary, secondary, onSecondary }) {
+export function EndCard({ title, text, stars, primary, onPrimary, secondary, onSecondary, lang = 'he' }) {
   return (
     <div className="arc-end" role="alertdialog" aria-label={title}>
       <div className="arc-end-card">
         <h3>{title}</h3>
-        {stars ? <Stars n={stars} /> : null}
+        {stars ? <Stars n={stars} lang={lang} /> : null}
         {text && <p>{text}</p>}
         <div className="arc-end-actions">
           <button type="button" className="arc-btn arc-btn-main" onClick={onPrimary} autoFocus>{primary}</button>

@@ -3,6 +3,7 @@
 // This does not assert visual correctness; suspicious pages are reviewed separately.
 import{chromium}from'playwright'
 import{readFileSync,existsSync,appendFileSync,mkdirSync}from'node:fs'
+import { offlineSiteResponse } from './offline-site.mjs'
 const base=process.env.AUDIT_BASE||'http://127.0.0.1:5199',out=process.env.AUDIT_PRINT_OUTPUT||'out/audit/print.jsonl'
 mkdirSync('out/audit',{recursive:true})
 const rows=readFileSync(process.env.AUDIT_PAGES||'out/audit/pages.jsonl','utf8').trim().split('\n').map(JSON.parse).filter(r=>r.viewport==='phone'&&r.printButtons?.length)
@@ -10,7 +11,7 @@ const done=new Set(existsSync(out)?readFileSync(out,'utf8').trim().split('\n').f
 const jobs=rows.filter((r,i)=>i>=Number(process.env.AUDIT_SKIP_ROWS||0)&&i<Number(process.env.AUDIT_MAX_ROWS||Infinity)&&(!process.env.AUDIT_PART||i%3===Number(process.env.AUDIT_PART)-1)&&!done.has(r.path))
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined})
 const context=await browser.newContext({viewport:{width:390,height:844},timezoneId:'Asia/Jerusalem'})
-await context.route('**/*',r=>r.request().url().startsWith(base)&&['GET','HEAD'].includes(r.request().method())?r.continue():r.abort())
+await context.route('**/*',r=>r.request().url().startsWith(base)&&['GET','HEAD'].includes(r.request().method())?(process.env.AUDIT_OFFLINE_DIR?r.fulfill(offlineSiteResponse(r.request().url(),process.env.AUDIT_OFFLINE_DIR)):r.continue()):r.abort())
 await context.addInitScript(()=>{window.print=()=>{window.__auditNativePrint=true}})
 const page=await context.newPage();page.setDefaultTimeout(4000)
 let n=0

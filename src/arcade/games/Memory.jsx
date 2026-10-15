@@ -3,8 +3,10 @@ import { build, pairsFor, colsFor, starsForTurns } from '../logic/memory'
 import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import '../arcade.css'
 
-export default function Memory({ onReport, onShare, daily }) {
+export default function Memory({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('memory', { level: 1 })
   const [level, setLevel] = useState(daily?.level ?? progress.level)
   const deck = n => build(n, daily ? rng(daily.seed) : Math.random)
@@ -58,14 +60,14 @@ export default function Memory({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['שלב', level], ['זוגות', `${cards.filter(c => c.done).length / 2}/${pairs}`], ['תורות', turns]]}>
-        <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Level' : 'שלב', level], [en ? 'Pairs' : 'זוגות', `${cards.filter(c => c.done).length / 2}/${pairs}`], [en ? 'Turns' : 'תורות', turns]]}>
+        <ToolButton onClick={() => start(level)} label={en ? 'Restart level' : 'שלב מחדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field" ref={boxRef}>
         <div className="mm-grid" style={{ gridTemplateColumns: `repeat(${cols}, ${size}px)`, gap }}>
           {cards.map((c, i) => (
             <button key={c.id} type="button" className={`mm-card${c.open || c.done || peek ? ' is-open' : ''}${c.done ? ' is-done' : ''}`}
-              style={{ width: size, height: size }} onClick={() => flip(i)} aria-label={c.open || c.done ? c.face : 'קלף סגור'}>
+              style={{ width: size, height: size }} onClick={() => flip(i)} aria-label={c.open || c.done ? c.face : en ? `Face-down card ${i + 1}` : 'קלף סגור'}>
               <span className="mm-inner">
                 <span className="mm-back" aria-hidden="true">?</span>
                 <span className="mm-face" style={{ fontSize: size * 0.56 }}>{c.face}</span>
@@ -73,11 +75,11 @@ export default function Memory({ onReport, onShare, daily }) {
             </button>
           ))}
         </div>
-        {peek && <div className="arc-toast">👀 תסתכלו טוב… עוד רגע הקלפים מתהפכים!</div>}
+        {peek && <div className="arc-toast">{en ? '👀 Take a good look. The cards will turn over soon!' : '👀 תסתכלו טוב… עוד רגע הקלפים מתהפכים!'}</div>}
       </div>
-      {won && !daily && <EndCard title={stars === 3 ? '🎉 זיכרון של פיל!' : '🎉 כל הכבוד!'} stars={stars} text={`מצאתם ${pairs} זוגות ב־${turns} תורות.`}
-        primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🧠 מצאתי ${pairs} זוגות ב־${turns} תורות במשחק הזיכרון! מי מנצח אותי?`)} />}
+      {won && !daily && <EndCard lang={lang} title={en ? '🎉 You found every pair!' : stars === 3 ? '🎉 זיכרון של פיל!' : '🎉 כל הכבוד!'} stars={stars} text={en ? `You found ${pairs} pairs in ${turns} turns.` : `מצאתם ${pairs} זוגות ב־${turns} תורות.`}
+        primary={en ? '▶ Next level' : '▶ לשלב הבא'} onPrimary={() => start(level + 1)}
+        secondary={en ? 'Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `I found ${pairs} pairs in ${turns} turns on Ugabuga! Can you beat my score?` : `🧠 מצאתי ${pairs} זוגות ב־${turns} תורות במשחק הזיכרון! מי מנצח אותי?`)} />}
     </div>
   )
 }

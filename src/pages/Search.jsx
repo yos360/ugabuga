@@ -15,6 +15,16 @@ export default function Search() {
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
   const q = params.get('q') || ''
+  const visibleFor = kind => {
+    const initial = kind === 'game' ? 24 : 40
+    const value = Number(params.get('show_' + kind))
+    return Number.isSafeInteger(value) && value > initial ? Math.min(value, 10000) : initial
+  }
+  const showMore = kind => setParams(old => {
+    const next = new URLSearchParams(old)
+    next.set('show_' + kind, String(visibleFor(kind) + (kind === 'game' ? 24 : 40)))
+    return next
+  })
   const [input, setInput] = useState(q)
   useEffect(() => setInput(q), [q])
   const { games } = useGames()
@@ -48,11 +58,11 @@ export default function Search() {
         <section key={kind} className="site-search-group">
           <h2>{KINDS[kind].label} <small>({list.length})</small></h2>
           <ul>
-            {list.slice(0, kind === 'game' ? 24 : 40).map(r => (
+            {list.slice(0, visibleFor(kind)).map(r => (
               <li key={r.to}><Link to={r.to}><span className="site-search-emoji" aria-hidden="true">{r.emoji}</span><span><b>{r.title}</b>{r.desc && <small>{r.desc}</small>}</span></Link></li>
             ))}
           </ul>
-          {kind === 'game' && list.length > 24 && <Link className="site-search-more" to={'/games?q=' + encodeURIComponent(q)}>לכל {list.length} המשחקים ←</Link>}
+          {list.length > visibleFor(kind) && <button type="button" className="site-search-more" onClick={() => showMore(kind)}>הצגת תוצאות נוספות — מוצגות {visibleFor(kind)} מתוך {list.length}</button>}
         </section>
       ))}
       <style>{`.site-search-form{display:flex;gap:8px;border:2px solid #1d2233;border-radius:18px;background:#fff;padding:6px 8px;box-shadow:3px 3px 0 #1d2233}.site-search-form input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:19px;padding:6px 8px;background:transparent}.site-search-form button{width:46px;border-radius:12px;background:#ffd23f;display:grid;place-items:center}

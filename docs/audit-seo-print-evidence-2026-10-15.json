@@ -1,0 +1,1189 @@
+{
+  "scope": {
+    "environment": "Local production build with external services blocked; public web spot checks and remote deployment status checked separately",
+    "notVerified": [
+      "Live HTTP status and full deployed prerender output",
+      "Current Search Console rankings and indexing",
+      "Physical printers and every generated worksheet variant",
+      "Full accessibility compliance"
+    ],
+    "externalServiceStates": 52,
+    "externalServicePages": [
+      "/suppliers",
+      "/suppliers/category/entertainers",
+      "/suppliers/category/magic",
+      "/suppliers/category/clowns",
+      "/suppliers/category/science",
+      "/suppliers/category/spa",
+      "/suppliers/category/face-paint",
+      "/suppliers/category/bubbles",
+      "/suppliers/category/theater",
+      "/suppliers/category/animals",
+      "/suppliers/category/crafts",
+      "/suppliers/category/inflatables",
+      "/suppliers/category/water",
+      "/suppliers/category/laser-tag",
+      "/suppliers/category/balloons",
+      "/suppliers/category/cakes",
+      "/suppliers/category/candy-bar",
+      "/suppliers/category/food-machines",
+      "/suppliers/category/catering",
+      "/suppliers/category/venues",
+      "/suppliers/category/photo",
+      "/suppliers/category/video",
+      "/suppliers/category/music",
+      "/suppliers/category/mitzvah",
+      "/suppliers/category/design",
+      "/suppliers/category/costumes"
+    ]
+  },
+  "summary": {
+    "date": "2026-10-15",
+    "commit": "4de5c5cbe166601c66d2ce07212149f913129a1f",
+    "pageCount": 3387,
+    "visits": 6774,
+    "desktop": 3387,
+    "phone": 3387,
+    "printablePaths": 2026,
+    "issues": {
+      "missingMetadata": [],
+      "wrongCanonical": [],
+      "duplicateTitles": [],
+      "duplicateDescriptions": [],
+      "headings": [],
+      "robots": [],
+      "notFound": [],
+      "errors": [
+        {
+          "path": "/suppliers",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/entertainers",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/entertainers",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/magic",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/magic",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/clowns",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/clowns",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/science",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/science",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/spa",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/spa",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/face-paint",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/face-paint",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/bubbles",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/bubbles",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/theater",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/theater",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/animals",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/animals",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/crafts",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/crafts",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/inflatables",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/inflatables",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/water",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/water",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/laser-tag",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/laser-tag",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/balloons",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/balloons",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/cakes",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/cakes",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/candy-bar",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/candy-bar",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/food-machines",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/food-machines",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/catering",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/catering",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/venues",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/venues",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/photo",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/photo",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/video",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/video",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/music",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/music",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/mitzvah",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/mitzvah",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/design",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/design",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/costumes",
+          "viewport": "phone",
+          "error": [],
+          "boundary": true
+        },
+        {
+          "path": "/suppliers/category/costumes",
+          "viewport": "desktop",
+          "error": [],
+          "boundary": true
+        }
+      ],
+      "overflow": [],
+      "images": [],
+      "jsonLd": [],
+      "accessibility": []
+    },
+    "orphanCandidates": [
+      "/flags/cy",
+      "/flags/mt",
+      "/flags/sg",
+      "/flags/lk",
+      "/flags/cv",
+      "/flags/km",
+      "/flags/mg",
+      "/flags/mu",
+      "/flags/st",
+      "/flags/sc",
+      "/signs/426",
+      "/signs/623"
+    ],
+    "unknownLinks": [
+      {
+        "path": "/search",
+        "from": [
+          "/",
+          "/birthday",
+          "/classroom/first-grade"
+        ]
+      },
+      {
+        "path": "/suppliers/me",
+        "from": [
+          "/",
+          "/birthday",
+          "/classroom/first-grade"
+        ]
+      },
+      {
+        "path": "/purim",
+        "from": [
+          "/printables/coloring/purim-masks"
+        ]
+      },
+      {
+        "path": "/data/UNICODE-LICENSE.txt",
+        "from": [
+          "/emoji",
+          "/emoji/faces",
+          "/emoji/hearts"
+        ]
+      },
+      {
+        "path": "/greetings",
+        "from": [
+          "/emoji/for/birthday",
+          "/emoji/for/wedding",
+          "/emoji/for/get-well"
+        ]
+      },
+      {
+        "path": "/icons/israeli/LICENSE.txt",
+        "from": [
+          "/emoji/israeli"
+        ]
+      },
+      {
+        "path": "/tools/timer",
+        "from": [
+          "/tools/stopwatch"
+        ]
+      }
+    ],
+    "print": {
+      "checked": 2026,
+      "opened": 2020,
+      "flagged": [
+        {
+          "path": "/classroom/quiz",
+          "opened": false
+        },
+        {
+          "path": "/printables/birthday-checklist",
+          "nativePrint": true,
+          "opened": false
+        },
+        {
+          "path": "/faq",
+          "opened": false
+        },
+        {
+          "path": "/faq/classroom",
+          "opened": false
+        },
+        {
+          "path": "/faq/printables",
+          "opened": false
+        },
+        {
+          "path": "/new",
+          "opened": false
+        }
+      ],
+      "copiesChecked": 1703,
+      "copiesFailed": []
+    },
+    "largestJs": [
+      {
+        "path": "/math",
+        "gzip": 376270
+      },
+      {
+        "path": "/math/grade-1",
+        "gzip": 376270
+      },
+      {
+        "path": "/math/tests/grade-1",
+        "gzip": 376270
+      },
+      {
+        "path": "/math/grade-1/counting-20",
+        "gzip": 376270
+      },
+      {
+        "path": "/math/grade-1/compare-numbers",
+        "gzip": 376270
+      },
+      {
+        "path": "/math/grade-1/add-sub-10",
+        "gzip": 376270
+      }
+    ]
+  },
+  "art": {
+    "subjects": 48,
+    "drawings": 437,
+    "missing": [],
+    "exactDuplicates": [
+      [
+        "mandala-adults/6",
+        "mandala-adults/11"
+      ]
+    ],
+    "duplicateRows": [
+      {
+        "subject": "mandala-adults",
+        "n": 6,
+        "name": "מנדלת פרחים עדינה",
+        "preview": "/coloring/mandala-adults/mandala-adults-6.webp",
+        "print": "/coloring/mandala-adults/mandala-adults-6.png",
+        "previewExists": true,
+        "previewBytes": 21168,
+        "previewHash": "2ec2c0c3eafbdceb4237d2a4d1a62825ddd4a04598deb1a800b419442048de63",
+        "printExists": true,
+        "printBytes": 294482,
+        "printHash": "a4f6f08e2df8843751bc87e2b3b7dd0584ced94708007d43e51b148b8ad72b06",
+        "size": {
+          "width": 267,
+          "height": 400
+        }
+      },
+      {
+        "subject": "mandala-adults",
+        "n": 11,
+        "name": "מנדלת לוטוס",
+        "preview": "/coloring/mandala-adults/mandala-adults-11.webp",
+        "print": "/coloring/mandala-adults/mandala-adults-11.png",
+        "previewExists": true,
+        "previewBytes": 21168,
+        "previewHash": "2ec2c0c3eafbdceb4237d2a4d1a62825ddd4a04598deb1a800b419442048de63",
+        "printExists": true,
+        "printBytes": 294482,
+        "printHash": "a4f6f08e2df8843751bc87e2b3b7dd0584ced94708007d43e51b148b8ad72b06",
+        "size": {
+          "width": 267,
+          "height": 400
+        }
+      }
+    ]
+  },
+  "discovery": [
+    {
+      "q": "צביעה",
+      "status": "נמצאו 145 תוצאות ל\"צביעה\"",
+      "groups": [
+        {
+          "title": "כלים ומחוללים (9)",
+          "shown": 9,
+          "more": false
+        },
+        {
+          "title": "דפים להדפסה (121)",
+          "shown": 40,
+          "more": false
+        },
+        {
+          "title": "אזורים ועמודים (13)",
+          "shown": 13,
+          "more": false
+        },
+        {
+          "title": "משחקים (2)",
+          "shown": 2,
+          "more": false
+        }
+      ]
+    },
+    {
+      "q": "חמנייה",
+      "status": "לא נמצאו תוצאות ל\"חמנייה\". נסו מילה אחרת או קצרה יותר.",
+      "groups": []
+    },
+    {
+      "q": "קאפקייקס",
+      "status": "נמצאו 2 תוצאות ל\"קאפקייקס\"",
+      "groups": [
+        {
+          "title": "כלים ומחוללים (2)",
+          "shown": 2,
+          "more": false
+        }
+      ]
+    },
+    {
+      "q": "פנקייק",
+      "status": "נמצאו 1 תוצאות ל\"פנקייק\"",
+      "groups": [
+        {
+          "title": "כלים ומחוללים (1)",
+          "shown": 1,
+          "more": false
+        }
+      ]
+    },
+    {
+      "path": "/flags",
+      "pagination": {
+        "links": 0,
+        "buttons": 9
+      }
+    },
+    {
+      "flagPage2Url": "https://audit.local/flags",
+      "flagPage2Links": 24
+    },
+    {
+      "path": "/printables/birthday-checklist",
+      "pdfButton": 0
+    }
+  ],
+  "pdf": [
+    {
+      "path": "/printables/coloring/unicorn/1",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/coloring/unicorn/unicorn-1.webp",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "דף צביעה חד קרן דוהר באחו פרחים להדפסה — חינם | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 1,
+      "images": [
+        {
+          "src": "/coloring/unicorn/unicorn-1.svg",
+          "width": 150,
+          "height": 150
+        }
+      ],
+      "downloadRequested": "חד קרן דוהר באחו פרחים.pdf",
+      "pdf": {
+        "bytes": 345755,
+        "pages": 1,
+        "a4": [
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/coloring/mandala-adults/6",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/coloring/mandala-adults/mandala-adults-6.webp",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "דף צביעה מנדלת פרחים עדינה להדפסה — חינם | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 1,
+      "images": [
+        {
+          "src": "/coloring/mandala-adults/mandala-adults-6.png",
+          "width": 2304,
+          "height": 3456
+        }
+      ],
+      "downloadRequested": "מנדלת פרחים עדינה.pdf",
+      "pdf": {
+        "bytes": 684439,
+        "pages": 1,
+        "a4": [
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/color-by-number",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/previews/printables--color-by-number.jpg",
+          "og:image:alt": "צביעה לפי מספרים להדפסה — 57 דפים לילדים ולמבוגרים | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 57,
+      "images": [],
+      "downloadRequested": "צביעה לפי מספרים.pdf",
+      "pdf": {
+        "bytes": 10751144,
+        "pages": 57,
+        "a4": [
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/mazes",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/previews/printables--mazes.jpg",
+          "og:image:alt": "מבוך לילדים — מבוכים להדפסה ב-5 רמות קושי | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 6,
+      "images": [],
+      "downloadRequested": "מבוכים — קל מאוד.pdf",
+      "pdf": {
+        "bytes": 531958,
+        "pages": 6,
+        "a4": [
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/fine-motor",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/previews/printables--fine-motor.jpg",
+          "og:image:alt": "מוטוריקה עדינה – מחולל דפי תרגול | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 1,
+      "images": [],
+      "downloadRequested": "עזרו לחללית להגיע לכוכב.pdf",
+      "pdf": {
+        "bytes": 94237,
+        "pages": 1,
+        "a4": [
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/letter-flashcards",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/previews/printables--letter-flashcards.jpg",
+          "og:image:alt": "כרטיסיות אותיות להדפסה חינם — עברית ואנגלית | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 3,
+      "images": [],
+      "downloadRequested": "כרטיסיות אותיות בעברית.pdf",
+      "pdf": {
+        "bytes": 531491,
+        "pages": 3,
+        "a4": [
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/printables/math-worksheets",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/previews/printables--math-worksheets.jpg",
+          "og:image:alt": "דפי עבודה בחשבון לכיתות א׳–ג׳ — חיבור, חיסור ולוח הכפל להדפסה"
+        },
+        "alternates": []
+      },
+      "sheets": 1,
+      "images": [],
+      "downloadRequested": "חיבור וחיסור עד 10.pdf",
+      "pdf": {
+        "bytes": 125440,
+        "pages": 1,
+        "a4": [
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    },
+    {
+      "path": "/shabbat-activities/pack",
+      "meta": {
+        "og": {
+          "og:image": "https://ugabuga.co.il/og-image.png",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "חבילת שבת להדפסה — חמש פעילויות מוכנות לשולחן | עוגה בוגה"
+        },
+        "alternates": []
+      },
+      "sheets": 5,
+      "images": [],
+      "downloadRequested": "חבילת שבת — נח.pdf",
+      "pdf": {
+        "bytes": 781267,
+        "pages": 5,
+        "a4": [
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89",
+          "0 0 595.28 841.89"
+        ],
+        "imageSizes": [
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ],
+          [
+            1270,
+            1797
+          ]
+        ]
+      },
+      "pass": true
+    }
+  ]
+}

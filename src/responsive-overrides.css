@@ -40,6 +40,8 @@ canvas {
 .site-header-inner { height: 86px; }
 .site-header-side { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .site-header-end { justify-content: flex-end; }
+.site-language-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 999px; font-weight: 700; background: #fff; }
+.site-mobile-language { display: none; }
 .site-kids-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 18px; border-radius: 30px; background: #fff4c7; border: 1px solid #f1d46b; font-weight: 700; white-space: nowrap; }
 .site-kids-pill:hover, .site-kids-pill.is-active { background: #ffe991; }
 .site-classroom { position: relative; }
@@ -83,6 +85,8 @@ a.site-mega-heading:hover { background: #f2f4fc; }
 }
 @media (max-width: 800px) {
   .site-header-side, .site-domains { display: none; }
+  .site-mobile-language { display: flex; justify-content: flex-end; padding: 0 16px 6px; border-bottom: 1px solid #eef0f6; }
+  .site-mobile-language a { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 12px; border: 1px solid #cbd5e1; border-radius: 999px; font-weight: 700; font-size: 14px; }
 }
 
 /* Phone menu: kids zone first, then one accordion section per domain */

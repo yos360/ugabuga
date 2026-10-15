@@ -8,6 +8,7 @@ import './Home.css'
 import './home-responsive.css'
 import './home-intents.css'
 import { HOME_INTENTS } from '../data/kidsZone'
+import { SITE_SLOGAN } from '../data/brand'
 // The daily quiz/game widgets sit below the fold — keep their code (and the
 // month's quiz-data chunk) out of the home page's critical path.
 const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
@@ -85,7 +86,7 @@ export default function Home() {
       try {
         await navigator.share({
           title: 'עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים',
-          text: 'משחקים, דפי פעילות ולמידה לילדים — בחינם ובעברית',
+          text: SITE_SLOGAN,
           url: window.location.href,
         })
       } catch (err) {
@@ -102,7 +103,7 @@ export default function Home() {
 
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
-      <h1>משחקים, דפי פעילות ולמידה לילדים — בחינם ובעברית</h1>
+      <h1>{SITE_SLOGAN}</h1>
       <PrintCount total className="mt-3" />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>

@@ -1,3 +1,5 @@
+import { COLORING_DRAWINGS, coloringDrawingPath } from './coloringDrawings.js'
+import { ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
 import { CATEGORIES as EMOJI_CATEGORIES, SITUATIONS as EMOJI_SITUATIONS } from '../emoji/emojiCatalog'
 // Full static search catalog — every linkable page on the site. This pulls in
 // many content-data modules, so it lives in its own lazily-loaded chunk:
@@ -505,6 +507,8 @@ function buildStatic() {
   // every date page of the time tunnel ("מה קרה ב-14 במרץ?")
   const HM = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
   ;[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((len, m) => { for (let d = 1; d <= len; d++) out.push({ to: `/time-tunnel/${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, title: `מה קרה ב-${d} ב${HM[m]}?`, emoji: '⏳', kind: 'page', desc: 'ימים מיוחדים, אירועים ומי נולד בתאריך הזה', keys: `מנהרת הזמן תאריך ${d} ${HM[m]}`, low: true }) })
+  for (const [slug, drawings] of Object.entries(COLORING_DRAWINGS)) for (const d of drawings) out.push({ to: coloringDrawingPath(slug,d.n), title: 'דף צביעה '+d.name, emoji:'🎨', kind:'printable', desc:d.description, keys:'צביעה ציור להדפסה '+d.name })
+  for (const r of ALL_EXPANDED_RECIPES) out.push({ to:r.path, title:r.title, emoji:r.emoji, kind:'idea', desc:r.summary, keys:'מתכון מתכונים '+r.title })
   const seen = new Set() // one entry per link
   return out.filter(x => { if (seen.has(x.to)) return false; seen.add(x.to); return true })
     .map(x => BEST[x.to] ? { ...x, best: BEST[x.to] } : x)

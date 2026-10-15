@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import { SITE_SLOGAN } from '../data/brand'
 
 const WHAT = [
   ['🎮', 'משחקים', '100+ משחקים לפי גיל, זמן, ציוד ומקום — מתחילים לשחק ישר מהטלפון.', '/games', '#fff0ee'],
@@ -24,7 +25,7 @@ export default function About() {
     <header className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#fff4bb] via-[#ffe7ef] to-[#e6f0ff] px-5 py-10 text-center sm:px-10 sm:py-14">
       {['🎈', '🎂', '🎲', '🖍️', '🎉', '⭐'].map((e, i) => <span key={i} aria-hidden="true" className="absolute select-none text-3xl opacity-60 sm:text-4xl" style={{ top: `${[6, 78, 10, 80, 42, 3][i]}%`, left: `${[4, 6, 88, 86, 92, 48][i]}%`, transform: `rotate(${[-12, 10, 14, -8, 6, 0][i]}deg)` }}>{e}</span>)}
       <p className="relative inline-block rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold">🎂 עוגה בוגה · UGABUGA</p>
-      <h1 className="relative mx-auto mt-4 max-w-3xl text-4xl font-black leading-tight sm:text-6xl">כל מה שצריך כדי שיהיה כיף — במקום אחד</h1>
+      <h1 className="relative mx-auto mt-4 max-w-3xl text-4xl font-black leading-tight sm:text-6xl">{SITE_SLOGAN}</h1>
       <p className="relative mx-auto mt-4 max-w-2xl text-lg sm:text-xl">מאגר המשחקים והפעילויות בעברית: משחקים, דפים להדפסה, כלים למנחים, מתחם יום הולדת — ועכשיו גם ספקים לימי הולדת.</p>
       <div className="relative mt-6 flex flex-wrap justify-center gap-2">
         <Link to="/games" className="rounded-2xl bg-[var(--ink)] px-6 py-3 text-lg font-bold text-white">🎮 למשחקים</Link>

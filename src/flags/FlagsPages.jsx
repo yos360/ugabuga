@@ -54,6 +54,7 @@ function FlagGrid({ list, showContinent }) {
       {Array.from({ length: pages }, (_, i) => <button type="button" key={i} className="ln-chip" aria-pressed={page === i} aria-current={page === i ? 'page' : undefined} aria-label={`עמוד ${i + 1}`} onClick={() => setPage(i)}>{i + 1}</button>)}
       <span className="text-sm" aria-live="polite">עמוד {page + 1} מתוך {pages}</span>
     </nav>}
+    {pages > 1 && <details className="mt-5 rounded-xl border p-4"><summary className="cursor-pointer font-bold">אינדקס כל המדינות ברשימה</summary><ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">{list.map(c => <li key={c.code}><Link className="inline-flex min-h-[44px] items-center underline" to={`/flags/${c.code}`}>{c.name}</Link></li>)}</ul></details>}
   </>
 }
 

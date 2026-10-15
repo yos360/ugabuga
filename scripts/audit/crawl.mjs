@@ -9,7 +9,7 @@ import { offlineSiteResponse } from './offline-site.mjs'
 const base=process.env.AUDIT_BASE||'http://127.0.0.1:5199'
 const output=process.env.AUDIT_OUTPUT||'out/audit/pages.jsonl'
 mkdirSync('out/audit',{recursive:true})
-const paths=[...readFileSync('public/sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>new URL(m[1]).pathname)
+const paths=[...readFileSync(process.env.AUDIT_SITEMAP||'public/sitemap.xml','utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m=>new URL(m[1]).pathname)
 const stable=p=>createHash('sha256').update(p).digest('hex')
 const sorted=[...new Set(paths)].sort((a,b)=>stable(a).localeCompare(stable(b)))
 const sections=new Map();for(const p of sorted){const s=p.split('/').filter(Boolean)[0]||'home';if(!sections.has(s))sections.set(s,p)}

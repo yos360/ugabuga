@@ -312,6 +312,10 @@ const SupplierAccount = lazy(() => import('./pages/suppliers/SupplierAccount'))
 const AdminSuppliers = lazy(() => import('./pages/suppliers/AdminSuppliers'))
 const OwnerLogin = lazy(() => import('./pages/OwnerLogin'))
 
+const EnglishColoring = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishColoring })))
+const EnglishPrintables = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishPrintables })))
+const EnglishGames = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishGames })))
+const EnglishBirthday = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishBirthday })))
 const EnglishHome = lazy(() => import('./en/EnglishHome'))
 const EnglishNotFound = lazy(() => import('./en/EnglishLayout').then(m => ({ default: m.EnglishNotFound })))
 
@@ -342,6 +346,12 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/en" element={<EnglishHome />} />
+              <Route path="/en/coloring-pages" element={<EnglishColoring />} />
+              <Route path="/en/coloring-pages/:subject" element={<EnglishColoring />} />
+              <Route path="/en/printables" element={<EnglishPrintables />} />
+              <Route path="/en/games" element={<EnglishGames />} />
+              <Route path="/en/games/memory" element={<EnglishGames memory />} />
+              <Route path="/en/birthday" element={<EnglishBirthday />} />
               <Route path="/en/hebrew-alphabet" element={<EnglishAlphabet />} />
               <Route path="/en/hebrew-alphabet/:slug" element={<EnglishAlphabet />} />
               <Route path="/en/jewish-holidays" element={<EnglishHolidays />} />

@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import PrintPreview from '../components/ui/PrintPreview'
-import { Sheet } from '../components/printables/PrintableShell'
 import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
-import { ENGLISH_SECTIONS } from './englishLinks'
+import { ACTIVITY_SECTIONS, EN_COLORING } from './activityCatalog'
+import { coloringSrc } from '../data/coloringSubjects'
+import '../pages/Home.css'
+import '../pages/home-responsive.css'
+import '../pages/home-intents.css'
+
 const faq = [
-  { q: 'Who is the English edition for?', a: 'Parents, teachers and children exploring Hebrew and Jewish family traditions together. You do not need to read Hebrew to use the English instructions.' },
-  { q: 'Do we need an account?', a: 'No. Activities in this edition are free to use, with no registration.' },
-  { q: 'Is this the same as the English lessons on the Hebrew site?', a: 'No. Those lessons teach English to Hebrew-speaking children. This edition provides English instructions for families learning about Hebrew and Jewish traditions.' },
+  { q: 'Are these activities free?', a: 'Yes. The activities in this English collection are free to use, print and save as PDF, with no account required.' },
+  { q: 'Is this the same Ugabuga as the Hebrew site?', a: 'Yes. We share the same artwork and game engines. This English collection includes coloring, memory matching, a printable birthday kit, Hebrew learning and Jewish holiday activities. The Hebrew site still has additional tools and content.' },
+  { q: 'Can I use the printable pages in a classroom?', a: 'Yes. Choose the sheets you need, open the preview and print copies for your group. The PDF uses A4 pages; choose Fit to page if your printer uses US Letter.' },
 ]
+const art = ['home-detective-boy-720.webp','home-printer-720.webp','home-schoolgirl-720.webp','home-birthday-girl-720.webp']
+const colors = [['#fff1b8','#ff8a1f'],['#f3eaff','#a775ed'],['#dff2ff','#28a4ef'],['#ffe7e4','#ff6f7b']]
 export default function EnglishHome() {
-  const [printing, setPrinting] = useState(false)
-  return <div className="en-page"><SEO lang="en" counterpartPath="/" path="/en" title="Hebrew learning and Jewish family activities" description="Explore Hebrew and Jewish traditions together with Ugabuga: welcoming English instructions for parents, children and teachers. Free, with no sign-up." structuredData={faqSchema(faq)} />
-    <p className="en-eyebrow">Welcome to Ugabuga in English</p><h1>Small discoveries. Shared traditions.</h1><p className="en-lead">Make room for a little curiosity: a new Hebrew letter, a family tradition, or a question you can explore together.</p>
-    {ENGLISH_SECTIONS.length > 0 && <section><h2>Choose a place to start</h2><div className="en-cards">{ENGLISH_SECTIONS.map(s => <Link className="en-card" key={s.path} to={s.path}><h3>{s.title}</h3><p>{s.description}</p><span>Explore →</span></Link>)}</div></section>}
-    <section><h2>A place for your discoveries</h2><p>Print a simple learning page. Draw or write something you noticed, a new word, and a question to explore next.</p><button data-print-main onClick={() => setPrinting(true)}>Print my learning notes</button></section>
-    {printing && <PrintPreview lang="en" title="My learning notes" onClose={() => setPrinting(false)}><article className="buga-a4 en-print-sheet" dir="ltr"><div className="print-art"><Sheet label="My learning notes"><text x="100" y="20" textAnchor="middle" fontSize="10" fontWeight="700" direction="ltr">My learning notes</text><text x="15" y="38" fontSize="5" direction="ltr">Name: __________________   Date: __________</text>{['Something I noticed', 'A new word', 'My next question'].map((t,i) => <g key={t}><text x="15" y={60+i*65} fontSize="6" direction="ltr">{t}</text><rect x="15" y={65+i*65} width="170" height="45" fill="none" stroke="#777" strokeWidth=".4" /></g>)}</Sheet></div></article></PrintPreview>}
-    <SeoBody lang="en" paragraphs={['Ugabuga began as a Hebrew activity site for children in Israel. This English edition welcomes families and classrooms who want to explore Hebrew and Jewish traditions with clear explanations in English.', 'Learning works well in small moments. Read a short explanation together, let your child ask a question, and return to an activity when they feel ready. There is no need to complete everything in one sitting.', 'Hebrew is written from right to left, while these instructions read from left to right. As the English collection grows, each activity will keep Hebrew examples clearly marked and give adults the context they need.']} faq={faq} />
-  </div>
+  return <><SEO lang="en" counterpartPath="/" path="/en" title="Free games, coloring pages and activities for kids" description="Play, print, learn and celebrate with Ugabuga. Free coloring pages, memory games, printable birthday invitations and family learning activities in English." structuredData={faqSchema(faq)} />
+    <div className="home-v2 en-home">
+      <section className="home-intro"><p className="en-eyebrow">UGABUGA · PLAY, PRINT, LEARN & CELEBRATE</p><h1>A little bit of everything.<br/>A whole lot of fun.</h1><p>Games, coloring pages, learning activities and birthday ideas for children, families and classrooms. Free to enjoy, with no sign-up.</p></section>
+      <section className="home-intents" aria-labelledby="en-intents-title"><h2 id="en-intents-title">What brings you here today?</h2><div className="home-doors">{ACTIVITY_SECTIONS.map((s,i)=><Link className="home-door home-intent" to={s.path} key={s.path} style={{'--door-bg':colors[i][0],'--door-color':colors[i][1]}}><div className="home-door-copy"><h3>{s.title}</h3><p>{s.description}</p></div><img className="en-door-art" src={'/images/'+art[i]} alt="" width="720" height="720" /><span className="home-door-arrow" aria-hidden="true">→</span></Link>)}</div></section>
+      <section className="en-home-play"><div><p className="en-eyebrow">READY, SET, PLAY</p><h2>Two cards. One perfect match.</h2><p>Take a good look, turn the cards over and find the pairs. How many turns will you need?</p><Link to="/en/games/memory" className="en-button">Play the memory game →</Link></div><div className="en-mini-cards" aria-hidden="true"><span>🐶</span><span>🦄</span><span>🦄</span><span>🐶</span></div></section>
+      <section className="home-extra"><div className="en-section-heading"><div><h2>Grab your favorite colors</h2><p>Original drawings from the Ugabuga collection.</p></div><Link to="/en/coloring-pages">All {EN_COLORING.length} subjects →</Link></div><div className="en-cards en-coloring-grid">{['unicorn','dinosaur','cat','flowers','vehicles','mandala-kids'].map(slug=>{const s=EN_COLORING.find(x=>x.slug===slug);return <Link to={s.path} key={slug} className="en-card"><img src={coloringSrc(slug,1,'webp')} alt={`${s.name} coloring example`} width="400" height="400" loading="lazy"/><h3>{s.name}</h3><span>{s.count} free sheets →</span></Link>})}</div></section>
+      <section className="home-extra"><h2>Discover something together</h2><div className="home-extras"><Link to="/en/hebrew-alphabet"><h3>🔤 Learn Hebrew letters</h3><p>Listen, trace and get to know each letter.</p></Link><Link to="/en/jewish-holidays"><h3>🕎 Family traditions</h3><p>Explore Jewish holidays with stories, dates and activities.</p></Link><Link to="/en/birthday"><h3>🎂 Your party starts here</h3><p>Make an invitation, print your checklist and choose a game.</p></Link></div></section>
+      <section className="home-extra"><SeoBody lang="en" paragraphs={['Ugabuga brings playful, practical activities together: something to play now, a page to print, a little learning and a reason to celebrate. The English and Hebrew collections share the same drawings and the same colorful home.', 'Start with one small activity. Pick a coloring sheet, challenge a friend to a memory game, or make an invitation for the next birthday. Explore the alphabet and holiday collections when you want to learn together.']} faq={faq} /></section>
+    </div>
+  </>
 }

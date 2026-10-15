@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 import { previewFor } from '../layout/PrintPreviewFigure'
+import { englishCounterpart } from '../../en/englishLinks'
 
 // Other ways people write the name (search engines use these to match brand searches).
 export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוגה-בוגה', 'עוגהבוגה']
@@ -55,7 +56,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const fullImage = shareImage.startsWith('http') ? shareImage : 'https://ugabuga.co.il' + shareImage
   const fullDescription = seoDescription(description) || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
   const isHome = normalizedPath === '/'
-  const alternates = languageAlternates(normalizedPath, counterpartPath, lang)
+  const alternates = languageAlternates(normalizedPath, counterpartPath || (!en ? englishCounterpart(normalizedPath) : undefined), lang)
 
   // The site-wide WebSite + SearchAction schema only makes sense once, on the
   // homepage — repeating it identically on every game/category/tool page is
@@ -110,8 +111,8 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       <meta property="og:description" content={fullDescription} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={fullImage} />
-      {!preview && <meta property="og:image:width" content="1200" />}
-      {!preview && <meta property="og:image:height" content="630" />}
+      {!preview && image === '/og-image.png' && <meta property="og:image:width" content="1200" />}
+      {!preview && image === '/og-image.png' && <meta property="og:image:height" content="630" />}
       <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content={en ? 'en_US' : 'he_IL'} />

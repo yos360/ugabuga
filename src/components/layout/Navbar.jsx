@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 
 import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
+import { englishCounterpart } from '../../en/englishLinks'
 
 function ItemLink({ item, onClick }) {
   return <Link to={item.to} onClick={onClick} className={item.highlight ? 'is-highlight' : undefined}><span aria-hidden="true">{item.icon}</span>{item.label}</Link>
@@ -119,6 +120,7 @@ export default function Navbar() {
         </Link>
 
         <div className="site-header-side site-header-end">
+          <Link to={englishCounterpart(pathname) || '/en'} lang="en" hrefLang="en" className="site-language-link" aria-label="English — האתר באנגלית">English</Link>
           <ul className="site-classroom">
             <DomainItem domain={CLASSROOM_MENU} open={open} setOpen={setOpen} active={active === 'classroom'} className="is-classroom" />
           </ul>
@@ -130,6 +132,8 @@ export default function Navbar() {
         <button ref={mobileButtonRef} className="site-icon-button site-mobile-toggle" type="button" aria-expanded={mobileOpen} aria-controls="site-mobile-menu"
           aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => { if (!mobileOpen) setMobileSection(active); setMobileOpen(o => !o) }}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>
+
+      <div className="site-mobile-language"><Link to={englishCounterpart(pathname) || '/en'} lang="en" hrefLang="en" aria-label="English — האתר באנגלית">English <span aria-hidden="true">↗</span></Link></div>
 
       <nav className="site-domains" aria-label="ניווט ראשי">
         <ul>
