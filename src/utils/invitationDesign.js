@@ -1,3 +1,5 @@
+import { renderPremiumInvitation } from './invitationRenderer.js'
+
 export const INVITATION_THEMES = [
  {id:'balloons',name:'מסיבת בלונים',emoji:'🎈',bg:'#fff1e5',ink:'#74304e',accent:'#dc5c83',second:'#f6bd61',tag:'שמחה בצבעי פסטל'},
  {id:'space',name:'הרפתקה בחלל',emoji:'🚀',bg:'#101b48',ink:'#ffffff',accent:'#9de4ff',second:'#ffc773',tag:'כוכבים, מסלול והמראה'},
@@ -52,7 +54,7 @@ export async function readInvitePhoto(file) {
  } finally { URL.revokeObjectURL(url) }
 }
 
-export function renderInvitation(canvas,{theme,data,format='portrait',photo,art,crop={zoom:1,x:50,y:50},rsvp='',design=invitationStyleFor(theme)}) {
+export function renderInvitationLegacy(canvas,{theme,data,format='portrait',photo,art,crop={zoom:1,x:50,y:50},rsvp='',design=invitationStyleFor(theme)}) {
  const W=1080,H=format==='story'?1920:1350,extra=H-1350
  canvas.width=W;canvas.height=H
  const p={...theme,...design},c=canvas.getContext('2d')
@@ -139,3 +141,5 @@ export function renderInvitation(canvas,{theme,data,format='portrait',photo,art,
  text(p.footer||'מחכים לחגוג איתכם!',540,H-81,27)
  text('עוגה בוגה · ugabuga.co.il',540,H-38,20,p.ink,900,400)
 }
+
+export const renderInvitation = renderPremiumInvitation
