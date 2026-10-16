@@ -15,19 +15,18 @@ test('BugaPedia covers a broad, unique classroom subject catalog', () => {
   assert.match(bugaPediaUrl('מהי כבידה?', 'physics'), /^\/bugapedia\?q=.+&subject=physics$/)
 })
 
-test('BugaPedia is routed, searchable and included in both sitemaps', async () => {
-  const [app, search, sitemap, staticSitemap] = await Promise.all([
+test('BugaPedia keeps one canonical searchable URL and a working legacy alias', async () => {
+  const [app, search, staticSitemap] = await Promise.all([
     readFile(new URL('../src/App.jsx', import.meta.url), 'utf8'),
     readFile(new URL('../src/data/searchStatic.js', import.meta.url), 'utf8'),
-    readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8'),
     readFile(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8'),
   ])
-  for (const path of ['/bugapedia', '/classroom/subjects']) {
-    assert.ok(app.includes(`path="${path}"`))
-    assert.ok(search.includes(`to: '${path}'`))
-    assert.ok(sitemap.includes(`https://ugabuga.co.il${path}</loc>`))
-    assert.ok(staticSitemap.includes(`https://ugabuga.co.il${path}</loc>`))
-  }
+  assert.ok(app.includes('path="/bugapedia"'))
+  assert.ok(app.includes('path="/classroom/subjects"'))
+  assert.ok(search.includes("to: '/bugapedia'"))
+  assert.ok(!search.includes("to: '/classroom/subjects'"))
+  assert.ok(staticSitemap.includes('https://ugabuga.co.il/bugapedia</loc>'))
+  assert.ok(!staticSitemap.includes('https://ugabuga.co.il/classroom/subjects</loc>'))
 })
 
 test('site chat migration keeps tables private and owner RPCs authenticated', async () => {
