@@ -9,11 +9,11 @@ test('live quiz codes are normalised for QR and manual entry', () => {
 })
 
 test('live quiz validation protects playable question payloads', () => {
-  const good = [{ q: '���?', options: ['���', '�����'], correct: 1 }]
+  const good = [{ q: 'כמה?', options: ['אחד', 'שניים'], correct: 1 }]
   assert.equal(liveQuestionProblem(good), '')
-  assert.match(liveQuestionProblem([{ ...good[0], correct: null }]), /����/)
-  assert.match(liveQuestionProblem([{ ...good[0], options: ['���', ''] }]), /2-4/)
-  assert.match(liveQuestionProblem([]), /���� ���/)
+  assert.match(liveQuestionProblem([{ ...good[0], correct: null }]), /סמנו/)
+  assert.match(liveQuestionProblem([{ ...good[0], options: ['אחד', ''] }]), /2–4/)
+  assert.match(liveQuestionProblem([]), /שאלה אחת/)
 })
 
 test('live countdown is unknown until it has a valid server timestamp', () => {
@@ -38,4 +38,3 @@ test('automatic game avoids returning the exact previous question order', () => 
   const second = buildLiveQuiz('science', 'medium', 6, first.signature, () => 0.5)
   assert.notEqual(second.signature, first.signature)
 })
-

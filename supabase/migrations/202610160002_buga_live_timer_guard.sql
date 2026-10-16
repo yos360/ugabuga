@@ -49,4 +49,3 @@ begin
   end if;
   raise exception 'bad_action';
 end; $$;
-

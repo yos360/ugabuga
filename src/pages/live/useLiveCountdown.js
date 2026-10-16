@@ -14,4 +14,3 @@ export default function useLiveCountdown(end) {
   }, [end])
   return clock.end === end ? clock.left : null
 }
-

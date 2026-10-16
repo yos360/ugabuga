@@ -52,23 +52,22 @@ export const liveMemory = {
 }
 
 export const liveErrorText = code => ({
-  game_not_found: '�� ����� ���� �� ���� ���. ���� �� ���� ���� ���.',
-  game_finished: '����� ��� ��� ������.', game_started: '����� ��� ����� ��� ���� ������ �����.',
-  game_full: '����� ��� - ��� ������ 100 ������.', name_required: '���� ����� �����.',
-  name_taken: '������ ��� ��� ����. ��� ����� ���.', player_not_found: '���� ������ ���� �����.',
-  question_closed: '���� ����� ���� ����.', question_open: '����� ����� �����.', already_answered: '��� ����� �� ����� ����.',
-  not_owner: '����� ������ ���� ���� ������ ���.', bad_questions: '���� ��� ���� ��� �?50 �����.',
-  empty_question: '�� ���� ����.', empty_option: '�� ����� ����.', bad_options: '��� ���� ���� 2-4 ������.',
-  bad_correct: '���� ���� ����� ����� ��� ����.', not_installed: '���� ���� ����� �� ����� ���� �������.',
-}[code] || '������ ����. ���� �� �������� ���� ���.')
+  game_not_found: 'לא מצאנו משחק עם הקוד הזה. בדקו את הקוד ונסו שוב.',
+  game_finished: 'המשחק הזה כבר הסתיים.', game_started: 'המשחק כבר התחיל ואי אפשר להצטרף עכשיו.',
+  game_full: 'המשחק מלא — כבר הצטרפו 100 שחקנים.', name_required: 'צריך לבחור כינוי.',
+  name_taken: 'הכינוי הזה כבר תפוס. נסו כינוי אחר.', player_not_found: 'צריך להצטרף מחדש למשחק.',
+  question_closed: 'הזמן לשאלה הזאת נגמר.', question_open: 'השאלה עדיין פתוחה.', already_answered: 'כבר עניתם על השאלה הזאת.',
+  not_owner: 'קישור הניהול אינו תקין במכשיר הזה.', bad_questions: 'צריך בין שאלה אחת ל־50 שאלות.',
+  empty_question: 'יש שאלה ריקה.', empty_option: 'יש תשובה ריקה.', bad_options: 'לכל שאלה צריך 2–4 תשובות.',
+  bad_correct: 'צריך לסמן תשובה נכונה בכל שאלה.', not_installed: 'בוגה לייב עדיין לא הופעל במסד הנתונים.',
+}[code] || 'החיבור נקטע. בדקו את האינטרנט ונסו שוב.')
 
 export const liveQuestionProblem = questions => {
-  if (!questions.length || questions.length > 50) return '���� ��� ���� ��� �?50 �����.'
+  if (!questions.length || questions.length > 50) return 'צריך בין שאלה אחת ל־50 שאלות.'
   for (const [i, q] of questions.entries()) {
-    if (!q.q.trim()) return `���� ${i + 1}: ��� ���� �����.`
-    if (q.options.length < 2 || q.options.length > 4 || q.options.some(o => !o.trim())) return `���� ${i + 1}: ���� ���� 2-4 ������.`
-    if (q.correct == null || !q.options[q.correct]?.trim()) return `���� ${i + 1}: ���� �� ������ ������.`
+    if (!q.q.trim()) return `שאלה ${i + 1}: חסר נוסח השאלה.`
+    if (q.options.length < 2 || q.options.length > 4 || q.options.some(o => !o.trim())) return `שאלה ${i + 1}: צריך למלא 2–4 תשובות.`
+    if (q.correct == null || !q.options[q.correct]?.trim()) return `שאלה ${i + 1}: סמנו את התשובה הנכונה.`
   }
   return ''
 }
-
