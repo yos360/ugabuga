@@ -39,3 +39,16 @@ test('site chat migration keeps tables private and owner RPCs authenticated', as
   assert.match(permissions, /revoke execute on function public\.site_chat_owner_list\(int\) from public, anon/i)
   assert.match(permissions, /grant execute on function public\.site_chat_owner_list\(int\) to authenticated/i)
 })
+
+
+test('site chat invitation stays opposite the WhatsApp share button', async () => {
+  const [widget, chatCss, whatsappCss] = await Promise.all([
+    readFile(new URL('../src/components/chat/SiteChatWidget.jsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/chat/site-chat.css', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/layout/whatsapp-share.css', import.meta.url), 'utf8'),
+  ])
+  assert.ok(widget.includes('יש לכם רעיון? דברו עם בוגה'))
+  assert.match(chatCss, /\.site-chat\{[^}]*right:18px;left:auto/)
+  assert.match(chatCss, /\.site-chat-panel\{[^}]*right:0;left:auto/)
+  assert.match(whatsappCss, /\.wa-fab\{[^}]*left:16px/)
+})

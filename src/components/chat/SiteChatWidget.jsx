@@ -101,6 +101,6 @@ export default function SiteChatWidget() {
       </form>}
       {error && <p className="site-chat-error" role="alert">{error}</p>}
     </section>}
-    <button className="site-chat-launcher" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-label={open ? 'סגירת הצ׳אט' : 'פתיחת צ׳אט עם עוגה בוגה'}><span>{open ? '×' : '💬'}</span><b>{open ? 'סגירה' : 'יש לכם רעיון?'}</b>{unread && <i aria-label="התקבלה תשובה" />}</button>
+    <button className="site-chat-launcher" onClick={() => setOpen(value => !value)} aria-expanded={open} aria-label={open ? 'סגירת הצ׳אט' : 'יש לכם רעיון? דברו עם בוגה'}><span>{open ? '×' : '💬'}</span><b>{open ? 'סגירה' : 'יש לכם רעיון? דברו עם בוגה'}</b>{unread && <i aria-label="התקבלה תשובה" />}</button>
   </div>
 }
