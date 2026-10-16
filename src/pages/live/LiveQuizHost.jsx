@@ -29,8 +29,12 @@ export default function LiveQuizHost(){
    try{
      const key=`buga-live-generated-${topicId}-${difficultyId}`
      let previous=[];try{const raw=localStorage.getItem(key);previous=raw?(raw.startsWith('[')?JSON.parse(raw):raw):[]}catch{/* private mode */}
-     previous=[...new Set([...(Array.isArray(previous)?previous:[]),...(data?.questions||[]).map(item=>item.id)])]
-     const count=Math.max(5,Math.min(8,data?.questions?.length||6)),game=buildLiveQuiz(topicId,difficultyId,count,previous)
+     const samePack=topicId===detectedPack?.topicId&&difficultyId===detectedPack?.difficultyId
+     const currentIds=samePack?(detectedPack?.questionIds||[]):[]
+     previous=[...new Set([...(Array.isArray(previous)?previous:[]),...currentIds])]
+     const count=Math.max(3,Math.min(8,data?.questions?.length||6,14-currentIds.length))
+     let game=buildLiveQuiz(topicId,difficultyId,count,previous)
+     if(game.questions.some(item=>currentIds.includes(item.id)))game=buildLiveQuiz(topicId,difficultyId,count,currentIds)
      await liveQuizDb.replay(code,token,game.title,game.questions,data?.settings?.seconds||20)
      try{localStorage.setItem(key,JSON.stringify(game.history))}catch{/* private mode */}
      await load()

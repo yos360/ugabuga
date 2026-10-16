@@ -266,15 +266,17 @@ export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory 
 
 export function detectLiveQuizPack(questions = [], title = '') {
   const ids = new Set(questions.map(item => item?.id).filter(Boolean))
+  const texts = new Set(questions.map(item => item?.q).filter(Boolean))
   if (!ids.size) return null
   let best = null
   for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
     const pool = [...BANK[topic.id][difficulty.id], ...EXTRA_LIVE_QUIZ_BANK[topic.id][difficulty.id]]
-    const matches = pool.reduce((total, item) => total + Number(ids.has(item.id)), 0)
-    if (matches > (best?.matches || 0)) best = { topicId: topic.id, difficultyId: difficulty.id, matches }
+    const questionIds = pool.filter(item => ids.has(item.id) || texts.has(item.q)).map(item => item.id)
+    const matches = questionIds.length
+    if (matches > (best?.matches || 0)) best = { topicId: topic.id, difficultyId: difficulty.id, matches, questionIds }
   }
   if (best?.matches) return best
   const topic = LIVE_QUIZ_TOPICS.find(item => String(title).includes(item.label))
   const difficulty = LIVE_QUIZ_DIFFICULTIES.find(item => String(title).includes(item.label))
-  return topic && difficulty ? { topicId: topic.id, difficultyId: difficulty.id, matches: 0 } : null
+  return topic && difficulty ? { topicId: topic.id, difficultyId: difficulty.id, matches: 0, questionIds: [] } : null
 }

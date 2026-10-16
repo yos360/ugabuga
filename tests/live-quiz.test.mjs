@@ -68,7 +68,11 @@ test('ready games do not repeat a question before that pool is exhausted', () =>
 
 test('finished games can identify their ready-game topic for a fresh round', () => {
   const game = buildLiveQuiz('animals', 'hard', 6, [], () => 0.28)
-  assert.deepEqual(detectLiveQuizPack(game.questions), { topicId: 'animals', difficultyId: 'hard', matches: 6 })
-  assert.deepEqual(detectLiveQuizPack([{ id: 'legacy-random-id' }], game.title), { topicId: 'animals', difficultyId: 'hard', matches: 0 })
+  const detected = detectLiveQuizPack(game.questions)
+  assert.deepEqual({ ...detected, questionIds: detected.questionIds.toSorted() }, { topicId: 'animals', difficultyId: 'hard', matches: 6, questionIds: game.questions.map(item => item.id).toSorted() })
+  assert.deepEqual(detectLiveQuizPack([{ id: 'legacy-random-id' }], game.title), { topicId: 'animals', difficultyId: 'hard', matches: 0, questionIds: [] })
+  const legacy = game.questions.map(item => ({ ...item, id: `legacy-${item.id}` }))
+  const legacyDetected = detectLiveQuizPack(legacy)
+  assert.deepEqual({ ...legacyDetected, questionIds: legacyDetected.questionIds.toSorted() }, { topicId: 'animals', difficultyId: 'hard', matches: 6, questionIds: game.questions.map(item => item.id).toSorted() })
   assert.equal(detectLiveQuizPack([{ id: 'custom-question' }], 'החידון של הכיתה'), null)
 })
