@@ -23,7 +23,7 @@ export const MENU_DOMAINS = [
   {
     id: 'games', label: SECTION.games, icon: '🎮', to: '/games',
     landingLabel: 'כל המשחקים',
-    prefixes: ['/games', '/online-games', '/game-of-the-day', '/sudoku', '/chess', '/board-games', '/tools', '/trivia', '/riddles', '/jokes', '/joke', '/questions', '/dice-games', '/dice', '/time-tunnel', '/eretz-ir', '/kids', '/rubiks-cube', '/quiz', '/buga-town', '/bugatown', '/timer', '/countdown', '/scoreboard', '/team-generator', '/random-picker', '/wheel', '/coin-flip', '/truth-or-dare', '/truth-or-buga', '/emet-o-buga', '/spin-the-bottle', '/drawing-prompt'],
+    prefixes: ['/games', '/online-games', '/game-of-the-day', '/sudoku', '/chess', '/board-games', '/tools', '/trivia', '/riddles', '/jokes', '/joke', '/questions', '/dice-games', '/dice', '/time-tunnel', '/eretz-ir', '/kids', '/rubiks-cube', '/quiz', '/live', '/play', '/buga-town', '/bugatown', '/timer', '/countdown', '/scoreboard', '/team-generator', '/random-picker', '/wheel', '/coin-flip', '/truth-or-dare', '/truth-or-buga', '/emet-o-buga', '/spin-the-bottle', '/drawing-prompt'],
     groups: [
       {
         title: 'לשחק לבד', icon: '🧸',
@@ -57,6 +57,7 @@ export const MENU_DOMAINS = [
       {
         title: 'משחקים לקבוצה, לכיתה ולגן', icon: '👫', to: '/games',
         items: [
+          { to: '/live', label: 'בוגה לייב — חידון חי לעד 100 משתתפים', icon: '⚡' },
           { to: '/games/kindergarten', label: 'משחקים לגן', icon: '🧸' },
           { to: '/games/classroom', label: 'משחקים לכיתה', icon: '🏫' },
           { to: '/games/kita-a', label: 'משחקים לכיתה א׳', icon: '✏️' },
@@ -365,6 +366,7 @@ export const CLASSROOM_MENU = {
   landingLabel: 'כל הכלים לכיתה ולגן',
   prefixes: ['/classroom', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w'],
   items: [
+    { to: '/live', label: 'בוגה לייב — משחק חידון לכיתה', icon: '⚡', shortcut: true },
     { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
       { to: '/parent-meetings', label: 'הרשמה לאספות הורים', icon: '🗓️' },
     { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
@@ -413,6 +415,7 @@ export const FOOTER_COLUMNS = [
       ['/kids', 'אזור ילדים'],
       ['/games', 'כל המשחקים'],
       ['/online-games', 'משחקי אונליין'],
+      ['/live', 'בוגה לייב — חידון חי'],
       ['/online-games#two-players', 'משחקים לשניים'],
       ['/games/kindergarten', 'משחקים לגן'],
       ['/games/kita-a', 'משחקים לכיתה א׳'],

@@ -271,6 +271,9 @@ const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
 const QuizManage = lazy(() => import('./pages/quiz/QuizManage'))
 const QuizTake = lazy(() => import('./pages/quiz/QuizTake'))
+const LiveQuizHome = lazy(() => import('./pages/live/LiveQuizHome'))
+const LiveQuizHost = lazy(() => import('./pages/live/LiveQuizHost'))
+const LiveQuizPlay = lazy(() => import('./pages/live/LiveQuizPlay'))
 const EmojiStudio = lazy(() => import('./pages/tools/EmojiStudio'))
 const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
 const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
@@ -366,6 +369,9 @@ export default function App() {
               <Route path="/classroom/quiz" element={<QuizHome />} />
               <Route path="/classroom/quiz/:code" element={<QuizManage />} />
               <Route path="/q/:code" element={<QuizTake />} />
+              <Route path="/live" element={<LiveQuizHome />} />
+              <Route path="/live/:code/host" element={<LiveQuizHost />} />
+              <Route path="/play/:code" element={<LiveQuizPlay />} />
               <Route path="/create" element={<HubPage type="create" />} />
               <Route path="/games" element={<GamesIndex />} />
               <Route path="/games/all" element={<Navigate to="/games" replace />} />

@@ -3,12 +3,13 @@ import { Link, useSearchParams } from 'react-router-dom'
 import PrintPreview from '../ui/PrintPreview'
 import { formatDate } from '../../utils/groupTools'
 import { recordCreation } from '../../utils/creations'
-import { INVITATION_THEMES, INVITATION_FIELDS, invitationText, loadInviteImage, readInvitePhoto, renderInvitation } from '../../utils/invitationDesign'
+import { INVITATION_THEMES, INVITATION_FIELDS, INVITATION_FONTS, INVITATION_PALETTES, invitationStyleFor, invitationText, loadInviteImage, readInvitePhoto, renderInvitation } from '../../utils/invitationDesign'
 import './invitation-studio.css'
 
 const EMPTY = {name:'',age:'',date:'',time:'',place:'',phone:'',notes:''}
 export default function InvitationStudio() {
  const [theme,setTheme]=useState(INVITATION_THEMES[0]),[data,setData]=useState(EMPTY),[format,setFormat]=useState('portrait')
+ const [design,setDesign]=useState(()=>invitationStyleFor(INVITATION_THEMES[0]))
  const [photo,setPhoto]=useState(null),[crop,setCrop]=useState({zoom:1,x:50,y:50}),[loadingPhoto,setLoadingPhoto]=useState(false)
  const [output,setOutput]=useState(null),[busy,setBusy]=useState(false),[printing,setPrinting]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('')
  const canvas=useRef(null),upload=useRef(0),[params]=useSearchParams()
@@ -21,14 +22,14 @@ export default function InvitationStudio() {
   let live=true;setOutput(null);setError('')
   const timer=setTimeout(async()=>{
    try {
-    const [art]=await Promise.all([loadInviteImage(`/images/invitation-theme-${theme.id}.webp`),document.fonts.ready])
+    const [art]=await Promise.all([theme.art===false?Promise.resolve(null):loadInviteImage(`/images/invitation-theme-${theme.id}.webp`),document.fonts.load(`700 88px "${design.font}"`),document.fonts.ready])
     if(!live||!canvas.current)return
-    renderInvitation(canvas.current,{theme,data,format,photo,art,crop,rsvp:rsvpLink})
+    renderInvitation(canvas.current,{theme,data,format,photo,art,crop,rsvp:rsvpLink,design})
     canvas.current.toBlob(blob=>{if(live&&blob)setOutput({blob,url:canvas.current.toDataURL('image/png')})},'image/png')
    } catch(e){if(live)setError(e.message||'לא הצלחנו להכין את התמונה. נסו שוב.')}
   },120)
   return()=>{live=false;clearTimeout(timer)}
- },[theme,data,format,photo,crop,rsvpLink])
+ },[theme,data,format,photo,crop,rsvpLink,design])
  useEffect(()=>()=>{upload.current++},[])
  async function addPhoto(e) {
   const file=e.target.files?.[0];e.target.value='';if(!file)return
@@ -49,11 +50,25 @@ export default function InvitationStudio() {
  const createHref=`/rsvp?${new URLSearchParams({title:`יום ההולדת של ${data.name||'___'}`,time:data.time,place:data.place})}`
  return <section className="inv-studio" aria-label="עיצוב הזמנה ליום הולדת">
   <div className="inv-section-title"><span>01</span><div><h2>איזו מסיבה מתכננים?</h2><p>בחרו עיצוב — הפרטים והתמונה נשארים כשמחליפים סגנון.</p></div></div>
-  <div className="inv-themes">{INVITATION_THEMES.map(t=><button type="button" key={t.id} aria-pressed={theme.id===t.id} onClick={()=>{if(theme.id!==t.id){setOutput(null);setTheme(t)}}} style={{'--theme':t.bg,'--ink':t.ink,'--accent':t.accent}}><div className={`inv-theme-art inv-thumb-${t.id}`}><img src={`/images/invitation-theme-${t.id}.webp`} alt="" width="100" height="100"/><span aria-hidden="true">{theme.id===t.id?'✓':t.emoji}</span></div><strong>{t.name}</strong><small>{t.tag}</small></button>)}</div>
+  <div className="inv-themes">{INVITATION_THEMES.map(t=><button type="button" key={t.id} aria-pressed={theme.id===t.id} onClick={()=>{if(theme.id!==t.id){setOutput(null);setTheme(t);setDesign(d=>({...d,bg:t.bg,ink:t.ink,accent:t.accent,second:t.second,photoShape:['gaming','football','scrapbook','elegant'].includes(t.id)?'rounded':'circle'}))}}} style={{'--theme':t.bg,'--ink':t.ink,'--accent':t.accent,'--second':t.second}}><div className={`inv-theme-art inv-thumb-${t.id}`}>{t.art===false?<b className="inv-theme-symbol" aria-hidden="true">{t.emoji}</b>:<img src={`/images/invitation-theme-${t.id}.webp`} alt="" width="100" height="100"/>}<span aria-hidden="true">{theme.id===t.id?'✓':t.emoji}</span></div><strong>{t.name}</strong><small>{t.tag}</small></button>)}</div>
   <div className="inv-workspace">
    <div className="inv-controls">
     <div className="inv-section-title"><span>02</span><div><h2>הפרטים שהופכים אותה לשלכם</h2><p>ממלאים כאן, והתצוגה מתעדכנת מיד.</p></div></div>
     <div className="inv-fields">{INVITATION_FIELDS.map(([k,label,type,placeholder,max])=><label key={k} className={k==='place'?'inv-wide':''}>{label}<input type={type} value={data[k]} placeholder={placeholder} maxLength={max} dir={k==='time'||k==='phone'?'ltr':'auto'} inputMode={k==='age'?'numeric':undefined} onChange={e=>update(k,e.target.value)} /></label>)}<label className="inv-wide">משהו נוסף לאורחים<textarea value={data.notes} maxLength={110} rows={2} placeholder="מה להביא, בקשה לעדכן על אלרגיות, או פשוט: מחכים לכם!" onChange={e=>update('notes',e.target.value)} /></label></div>
+    <section className="inv-design-box"><div className="inv-design-head"><div><h3>סטודיו לעיצוב</h3><p>כל שינוי מופיע מיד בהזמנה.</p></div><button type="button" onClick={()=>{setOutput(null);setDesign(invitationStyleFor(theme))}}>איפוס העיצוב</button></div>
+      <div className="inv-palette-row"><button type="button" aria-pressed={design.bg===theme.bg&&design.accent===theme.accent} onClick={()=>{setOutput(null);setDesign(d=>({...d,bg:theme.bg,ink:theme.ink,accent:theme.accent,second:theme.second}))}} style={{'--p1':theme.bg,'--p2':theme.accent}}><i/><span>מקורי</span></button>{INVITATION_PALETTES.map(p=><button type="button" key={p.name} aria-pressed={design.bg===p.bg&&design.accent===p.accent} onClick={()=>{setOutput(null);setDesign(d=>({...d,...p}))}} style={{'--p1':p.bg,'--p2':p.accent}}><i/><span>{p.name}</span></button>)}</div>
+      <div className="inv-design-grid">
+       <label>סגנון הפונט<select value={design.font} onChange={e=>{setOutput(null);setDesign({...design,font:e.target.value})}}>{INVITATION_FONTS.map(([value,label])=><option value={value} key={value}>{label}</option>)}</select></label>
+       <label>סגנון הרקע<select value={design.effect} onChange={e=>{setOutput(null);setDesign({...design,effect:e.target.value})}}><option value="solid">צבע מלא</option><option value="gradient">מעבר צבעים</option></select></label>
+       <label>צורת התמונה<select value={design.photoShape} onChange={e=>{setOutput(null);setDesign({...design,photoShape:e.target.value})}}><option value="circle">עגולה</option><option value="rounded">מרובעת מעוגלת</option><option value="square">מרובעת</option></select></label>
+       <label>כרטיס הפרטים<select value={design.panel} onChange={e=>{setOutput(null);setDesign({...design,panel:e.target.value})}}><option value="card">לבן וברור</option><option value="glass">שקוף ועדין</option><option value="outline">מסגרת בלבד</option></select></label>
+       <label>מסגרת ההזמנה<select value={design.frame} onChange={e=>{setOutput(null);setDesign({...design,frame:e.target.value})}}><option value="theme">לפי העיצוב</option><option value="none">בלי מסגרת</option><option value="thin">מסגרת דקה</option><option value="double">מסגרת כפולה</option></select></label>
+       <label className="inv-check"><input type="checkbox" checked={design.decorations} onChange={e=>{setOutput(null);setDesign({...design,decorations:e.target.checked})}}/>הצגת קישוטי הרקע</label>
+      </div>
+      <div className="inv-colors"><label><input type="color" value={design.bg} onChange={e=>{setOutput(null);setDesign({...design,bg:e.target.value})}}/><span>רקע</span></label><label><input type="color" value={design.ink} onChange={e=>{setOutput(null);setDesign({...design,ink:e.target.value})}}/><span>טקסט</span></label><label><input type="color" value={design.accent} onChange={e=>{setOutput(null);setDesign({...design,accent:e.target.value})}}/><span>צבע מוביל</span></label><label><input type="color" value={design.second} onChange={e=>{setOutput(null);setDesign({...design,second:e.target.value})}}/><span>צבע משלים</span></label></div>
+      <div className="inv-design-sliders"><label>גודל שם החוגג/ת <b>{design.nameSize}</b><input type="range" min="64" max="112" step="2" value={design.nameSize} onChange={e=>{setOutput(null);setDesign({...design,nameSize:+e.target.value})}}/></label><label>גודל התמונה <b>{design.photoScale}%</b><input type="range" min="75" max="125" step="5" value={design.photoScale} onChange={e=>{setOutput(null);setDesign({...design,photoScale:+e.target.value})}}/></label></div>
+      <div className="inv-custom-copy"><label>כותרת אישית<input value={design.headline} maxLength={60} onChange={e=>{setOutput(null);setDesign({...design,headline:e.target.value})}} placeholder="ריק = הכותרת של העיצוב"/></label><label>משפט סיום<input value={design.footer} maxLength={45} onChange={e=>{setOutput(null);setDesign({...design,footer:e.target.value})}} placeholder="מחכים לחגוג איתכם!"/></label></div>
+    </section>
     <div className="inv-photo-box"><h3>תמונה אישית? בשמחה</h3><p>אפשר גם בלי — האיור של העיצוב יופיע במקומה.</p><label className="inv-upload">{loadingPhoto?'פותחים תמונה…':photo?'החלפת תמונה':'＋ הוספת תמונה'}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={addPhoto} disabled={loadingPhoto} /></label><small>JPG, PNG או WebP · עד 15MB. התמונה מעובדת בדפדפן ואינה עולה לשרת.</small>
     {photo&&<><div className="inv-crop">{[['zoom','הגדלת התמונה',1,2.5,.05],['x','מיקום אופקי',0,100,1],['y','מיקום אנכי',0,100,1]].map(([key,label,min,max,step])=><label key={key}>{label}<input type="range" min={min} max={max} step={step} value={crop[key]} onChange={e=>{setOutput(null);setCrop({...crop,[key]:Number(e.target.value)})}} /></label>)}</div><div className="inv-photo-actions"><button onClick={()=>{setOutput(null);setCrop({zoom:1,x:50,y:50})}}>מרכוז מחדש</button><button onClick={()=>{upload.current++;setOutput(null);setPhoto(null)}}>הסרת התמונה</button></div></>}
     </div>
