@@ -19,6 +19,7 @@ export const liveQuizDb = {
   player: (code, token) => call('live_quiz_player_state', { p_code: cleanCode(code), p_player_token: token }),
   answer: (code, token, index, option) => call('live_quiz_answer', { p_code: cleanCode(code), p_player_token: token, p_question_index: index, p_option_index: option }),
   action: (code, token, action) => call('live_quiz_host_action', { p_code: cleanCode(code), p_owner_token: token, p_action: action }),
+  replay: (code, token, title, questions, seconds) => call('live_quiz_host_replay', { p_code: cleanCode(code), p_owner_token: token, p_title: title, p_questions: questions, p_seconds: seconds }),
   state: code => client.from('live_quiz_public_states').select('code,phase,question_index,ends_at,payload,revision').eq('code', cleanCode(code)).maybeSingle().then(({ data, error }) => {
     if (error) throw Object.assign(new Error('network'), { code: 'network' })
     if (!data) throw Object.assign(new Error('game_not_found'), { code: 'game_not_found' })

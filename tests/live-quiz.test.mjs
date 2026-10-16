@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { buildLiveQuiz, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../src/data/liveQuizPacks.js'
+import { buildLiveQuiz, detectLiveQuizPack, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../src/data/liveQuizPacks.js'
 import { EXTRA_LIVE_QUIZ_BANK } from '../src/data/liveQuizExtraPacks.js'
 import { cleanCode, liveQuestionProblem, liveSecondsRemaining } from '../src/utils/liveQuizDb.js'
 
@@ -64,4 +64,11 @@ test('ready games do not repeat a question before that pool is exhausted', () =>
     assert.ok(second.questions.every(item => !firstIds.has(item.id)))
     assert.equal(new Set([...first.questions, ...second.questions].map(item => item.id)).size, 12)
   }
+})
+
+test('finished games can identify their ready-game topic for a fresh round', () => {
+  const game = buildLiveQuiz('animals', 'hard', 6, [], () => 0.28)
+  assert.deepEqual(detectLiveQuizPack(game.questions), { topicId: 'animals', difficultyId: 'hard', matches: 6 })
+  assert.deepEqual(detectLiveQuizPack([{ id: 'legacy-random-id' }], game.title), { topicId: 'animals', difficultyId: 'hard', matches: 0 })
+  assert.equal(detectLiveQuizPack([{ id: 'custom-question' }], 'החידון של הכיתה'), null)
 })

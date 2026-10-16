@@ -131,7 +131,7 @@ export default function Home() {
     <section className="home-extra">
       <h2>המשחקים הפופולריים</h2>
       <div className="home-extras">
-        <Link to="/tools/truth-or-buga"><h3>🎭 אמת או בוגה</h3><p>אמת או שקר, לבד או תחרות קבוצות.</p></Link>
+        <Link to="/live"><h3>🎮 בוגה לייב</h3><p>משחק שאלות חי עם QR ועד 100 משתתפים.</p></Link>
         <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>
         <Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link>
       </div>
