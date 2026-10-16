@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { faqSchema } from '../../components/ui/SeoBody'
 import ToolGuide from './ToolGuide'
 import { TOOL_GUIDES } from './toolGuides'
+import UseClassRoster from '../../components/ui/UseClassRoster'
 
 const guide = TOOL_GUIDES.teamGenerator
 
@@ -32,6 +33,8 @@ export default function TeamGenerator() {
       <SEO title="מחלק קבוצות אקראי — חלוקה הוגנת בלחיצה" description="מחלק קבוצות אקראי: כותבים את שמות המשתתפים, בוחרים 2 עד 5 קבוצות ומקבלים חלוקה אקראית ומאוזנת בלחיצה. לכיתה, לחוג, לקייטנה ולמשחקי ספורט — חינם." path="/tools/team-generator" structuredData={faqSchema(guide.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מחלק קבוצות' }]} />
       <h1 className="text-4xl text-center mb-6">🎲 מחלק קבוצות</h1>
+
+      <UseClassRoster className="mb-5" onUse={list => { setNames(list); setTeams(null) }} />
 
       <div className="mb-4">
         <label className="font-bold block mb-2">כמה קבוצות?</label>

@@ -7,6 +7,7 @@ import OwnerPartyLists, { partyPreview, usePartyLists } from '../components/owne
 import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
+import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 
 // Fixed categorical order (never reassigned per-render) — validated for
@@ -463,6 +464,7 @@ export default function OwnerActivityReport() {
       </div>
 
       <SiteChatInbox />
+      <BugaPediaQuestions from={from} to={to} tick={tick} />
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">

@@ -46,6 +46,7 @@ export default function RecentActivity() {
           // Shared with TrafficProof (suppliers pages) so they don't open a second live connection.
           window.__bugaLiveCount = next.count
           try { window.dispatchEvent(new CustomEvent('buga:live-count', { detail: { count: next.count } })) } catch { /* old browser */ }
+          try { window.dispatchEvent(new CustomEvent('buga:live-activity', { detail: { count: next.count, events: next.events.filter(event => !event.own) } })) } catch { /* old browser */ }
         })
       }).catch(() => {})
     })

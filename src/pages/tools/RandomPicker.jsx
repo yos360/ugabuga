@@ -3,6 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { planSpin } from '../../utils/wheel'
+import UseClassRoster from '../../components/ui/UseClassRoster'
 
 // גלגל מזל: a real spinning wheel. Slices are the lines the user typed; the pointer is at the top.
 const SAMPLE = ['נועה', 'איתי', 'מאיה', 'יונתן', 'תמר', 'דניאל']
@@ -84,6 +85,8 @@ export default function RandomPicker() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'גלגל מזל' }]} />
       <h1 className="text-4xl text-center mb-3">🎡 גלגל מזל — גלגל שמות להגרלה</h1>
       <p className="mx-auto mb-6 max-w-xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">גלגל מזל אונליין: כותבים את האפשרויות, מסובבים, והגלגל בוחר באקראי — מי עונה, מי מתחיל, איזה פרס או איזו משימה. בחינם ובלי הרשמה.</p>
+
+      <UseClassRoster className="mb-5" onUse={list => edit(list.join('\n'))} />
 
       <div className="grid items-start gap-6 md:grid-cols-[1fr_260px]">
         <div>

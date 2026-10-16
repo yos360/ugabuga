@@ -54,6 +54,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [נחש](https://ugabuga.co.il/online-games/snake)
 
 ### משחקים לקבוצה, לכיתה ולגן
+- [בוגה לייב — חידון חי לעד 100 משתתפים](https://ugabuga.co.il/live)
 - [משחקים לגן](https://ugabuga.co.il/games/kindergarten)
 - [משחקים לכיתה](https://ugabuga.co.il/games/classroom)
 - [משחקים לכיתה א׳](https://ugabuga.co.il/games/kita-a)
@@ -198,6 +199,8 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מחשבון מסיבה](https://ugabuga.co.il/calculator)
 - [מחולל הזמנות](https://ugabuga.co.il/invitation)
 - [אישור הגעה אונליין](https://ugabuga.co.il/rsvp)
+- [מתי נפגשים?](https://ugabuga.co.il/meet)
+- [אלבום מסיבה משותף](https://ugabuga.co.il/party-album)
 - [רשימת "מי מביא מה"](https://ugabuga.co.il/tools/bring-list)
 - [מחולל ברכות](https://ugabuga.co.il/greeting)
 - [ברכות ליום הולדת](https://ugabuga.co.il/birthday-greetings)
@@ -218,9 +221,9 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [ספקים לימי הולדת](https://ugabuga.co.il/suppliers)
 - [בר ובת מצווה — מדריך וכלים](https://ugabuga.co.il/bar-mitzvah)
 
-## חגים
+## שבתות וחגים
 
-- [כל החגים](https://ugabuga.co.il/holidays)
+- [כל השבתות והחגים](https://ugabuga.co.il/holidays)
 
 ### חגי ישראל
 - [ראש השנה](https://ugabuga.co.il/holidays/rosh-hashana)
@@ -235,7 +238,10 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [שבועות](https://ugabuga.co.il/holidays/shavuot)
 
 ### שבת, ברכות ולוח שנה
-- [פרשת השבוע לילדים](https://ugabuga.co.il/parasha)
+- [אבא ואמא של שבת — עם תמונה](https://ugabuga.co.il/holidays/shabbat-parents)
+- [פרשת השבוע וחידון להדפסה](https://ugabuga.co.il/parasha)
+- [חבילת פעילויות לשבת](https://ugabuga.co.il/shabbat-activities)
+- [כניסת שבת וצאת השבת](https://ugabuga.co.il/shabbat-times)
 - [ברכות וקריאות לחגים](https://ugabuga.co.il/holidays/blessings)
 - [משחקים לשבת](https://ugabuga.co.il/games/shabbat)
 - [לוח חופשות 2026–2027](https://ugabuga.co.il/school-holidays)
@@ -257,11 +263,13 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 ### אוכל לילדים
 - [מה שמים בכריך? ארוחת עשר](https://ugabuga.co.il/food/school-lunch)
 - [תכנון ארוחת עשר לשבוע](https://ugabuga.co.il/food/lunch-planner)
+- [מתכונים לשבת ולהדפסה](https://ugabuga.co.il/recipes/shabbat)
 - [מתכונים שילדים מכינים](https://ugabuga.co.il/food/kids-recipes)
 - [ניסויים במטבח](https://ugabuga.co.il/food/kitchen-science)
 
 ### ביום-יום
 - [מה עושים היום?](https://ugabuga.co.il/family/what-to-do)
+- [לוח עזרה למשפחה](https://ugabuga.co.il/family-help)
 - [שגרת בוקר עם טיימר](https://ugabuga.co.il/family/morning-routine)
 - [משחקים לנסיעה](https://ugabuga.co.il/family/car-games)
 - [אתגר תנועה](https://ugabuga.co.il/family/move)
@@ -273,11 +281,17 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 
 - [לכיתה](https://ugabuga.co.il/classroom)
 - [מבחן אמריקאי אונליין](https://ugabuga.co.il/classroom/quiz)
+- [הרשמה לאספות הורים](https://ugabuga.co.il/parent-meetings)
 - [גמד וענק — הגרלת שמות](https://ugabuga.co.il/secret-friend)
 - [קיר ברכות לגננת ולמורה](https://ugabuga.co.il/thank-you-wall)
 
 ## English
 
 - [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.
+- [Play a live quiz together](https://ugabuga.co.il/en/live): Create questions and let up to 100 players answer from their phones.
+- [Let’s play!](https://ugabuga.co.il/en/games): Match pairs and enjoy simple games together.
+- [Something to color](https://ugabuga.co.il/en/coloring-pages): Choose a drawing from the same collection as our Hebrew site.
+- [Ready for the classroom](https://ugabuga.co.il/en/printables): Coloring sheets, learning notes and letter practice.
+- [A birthday is coming!](https://ugabuga.co.il/en/birthday): Make an invitation and print a party activity kit.
 - [Learn the Hebrew alphabet](https://ugabuga.co.il/en/hebrew-alphabet): Meet the letters, hear their names, sing and print a practice page.
 - [Jewish holidays for families](https://ugabuga.co.il/en/jewish-holidays): Explore traditions, calendar dates, blessings and holiday coloring pages.

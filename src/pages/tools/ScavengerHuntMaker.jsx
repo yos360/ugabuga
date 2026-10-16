@@ -40,6 +40,8 @@ export default function ScavengerHuntMaker() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים', href: '/games' }, { label: 'ציד אוצרות' }]} back={{ href: '/games', label: 'חזרה למשחקים' }} />
       <h1 className="text-4xl text-center mb-6">🔎 יוצר ציד אוצרות</h1>
 
+      <Link to="/treasure-hunt/qr" className="mb-6 block rounded-3xl border-[3px] border-slate-900 bg-emerald-100 p-5 text-center shadow-[5px_5px_0_#1d2233] transition hover:-translate-y-1"><span className="text-5xl">🗺️</span><strong className="mt-2 block text-2xl">חדש: ציד אוצרות עם QR</strong><span className="mt-1 block">יוצרים רמזים, מדפיסים קודים ומחביאים תחנות לסריקה בטלפון.</span></Link>
+
       <div className="flex flex-wrap justify-center gap-2 mb-6">
         {[['home','🏠 בבית'],['outdoor','🌳 בחוץ'],['custom','✏️ מותאם אישית']].map(([k,l]) => (
           <button key={k} onClick={()=>{setMode(k);setList(null)}} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${mode===k?'bg-[var(--postit)]':'bg-white'}`}>{l}</button>

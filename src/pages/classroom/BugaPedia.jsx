@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { bugaPediaUrl, CLASSROOM_SUBJECTS, subjectById } from '../../data/classroomSubjects'
+import { recordBugaPediaQuery } from '../../utils/bugapediaAnalytics'
+import { bugaPediaSearchTerms, findBugaPediaKnowledge } from '../../data/bugapediaKnowledge'
 import './bugapedia.css'
 
 const API = 'https://he.wikipedia.org/w/api.php'
@@ -14,8 +16,12 @@ function cleanText(value = '') {
 async function searchWikipedia(question, signal) {
   const query = cleanText(question)
   if (query.length < 2) throw new Error('short')
+  const verified = findBugaPediaKnowledge(query)
+  if (verified) return [verified]
+  const terms = bugaPediaSearchTerms(query)
+  const search = terms.join(' ') || query
   const params = new URLSearchParams({
-    action: 'query', generator: 'search', gsrsearch: query, gsrlimit: '6',
+    action: 'query', generator: 'search', gsrsearch: search, gsrlimit: '8',
     prop: 'extracts|pageimages|info', exintro: '1', explaintext: '1',
     exsentences: '8', piprop: 'thumbnail', pithumbsize: '900', inprop: 'url',
     redirects: '1', format: 'json', origin: '*', formatversion: '2',
@@ -32,8 +38,11 @@ async function searchWikipedia(question, signal) {
       extract: cleanText(page.extract),
       url: page.fullurl || `https://he.wikipedia.org/wiki/${encodeURIComponent(page.title.replace(/ /g, '_'))}`,
       image: page.thumbnail?.source || '',
+      score: terms.filter(term => `${page.title} ${page.extract}`.toLocaleLowerCase('he-IL').includes(term)).length,
     }))
-  return pages
+    .filter(page => page.score >= Math.min(2, Math.max(1, terms.length)))
+    .sort((a, b) => b.score - a.score || (a.index ?? 999) - (b.index ?? 999))
+  return pages.slice(0, 6)
 }
 
 function SubjectCatalog() {
@@ -63,11 +72,12 @@ export default function BugaPedia() {
     searchWikipedia(asked, controller.signal).then(results => {
       setPages(results)
       setState(results.length ? 'ready' : 'empty')
+      recordBugaPediaQuery({ question: asked, subject: subject?.id, found: results.length > 0, resultTitle: results[0]?.title })
     }).catch(error => {
-      if (error.name !== 'AbortError') setState(error.message === 'short' ? 'short' : 'error')
+      if (error.name !== 'AbortError') { setState(error.message === 'short' ? 'short' : 'error'); recordBugaPediaQuery({ question: asked, subject: subject?.id, found: false }) }
     })
     return () => controller.abort()
-  }, [asked])
+  }, [asked, subject?.id])
 
   const ask = event => {
     event.preventDefault()
@@ -95,6 +105,7 @@ export default function BugaPedia() {
           <button>חיפוש תשובה</button>
         </form>
         <div className="bp-trust"><span>✓ תשובה מוויקיפדיה העברית</span><span>↗ תמיד עם קישור למקור</span><span>🔒 בלי הרשמה</span></div>
+        <p className="bp-analytics-note">השאלה נשמרת ללא שם או פרטים אישיים, כדי לשפר את בוגה־פדיה.</p>
       </header>
 
       {state === 'loading' && <section className="bp-answer bp-loading" role="status"><div /><p>מחפשים את הערך המתאים…</p></section>}

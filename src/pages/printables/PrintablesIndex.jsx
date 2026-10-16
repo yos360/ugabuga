@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { useActiveChipInView } from '../../hooks/useActiveChipInView'
 import PrintableCard from '../../components/ui/PrintableCard'
 import { categories } from '../../data/printableCategories'
+import PrintPulse from '../../components/ui/PrintPulse'
 export { categories }
 
 const PRINT_FAQ = [
@@ -65,6 +66,8 @@ export default function PrintablesIndex() {
         })}
       </nav>
       {topic && <p className="-mt-5 mb-5 text-center text-[var(--muted-foreground)]" role="status">{topicCountText(list.length, topic.label.replace(/^\S+\s/, ''))} · <Link to="/printables" onClick={e => { e.preventDefault(); pick('') }} className="underline font-bold">לכל הדפים</Link></p>}
+
+      <PrintPulse />
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((cat, i) => <PrintableCard key={cat.slug} cat={withCount(cat)} index={i} />)}

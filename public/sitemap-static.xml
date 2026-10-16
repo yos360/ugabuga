@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ugabuga.co.il/en</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/en/live</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/live</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/classroom/roster</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/treasure-hunt/qr</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/stopwatch</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/qr-code</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/percent-calculator</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>

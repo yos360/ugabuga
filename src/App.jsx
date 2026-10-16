@@ -8,6 +8,7 @@ import PageErrorBoundary from './components/layout/PageErrorBoundary'
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
 const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
+const ClassRoster = lazy(() => import('./pages/classroom/ClassRoster'))
 import { lazy, Suspense } from 'react'
 
 const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
@@ -280,6 +281,7 @@ const BirthdayFamous = lazy(() => import('./pages/tools/BirthdayFamous'))
 const ExperimentMaker = lazy(() => import('./pages/tools/ExperimentMaker'))
 const ClassOnePrep = lazy(() => import('./pages/ClassOnePrep'))
 const ScavengerHuntMaker = lazy(() => import('./pages/tools/ScavengerHuntMaker'))
+const QrTreasureHunt = lazy(() => import('./pages/tools/QrTreasureHunt'))
 const GiftsIndex = lazy(() => import('./pages/gifts/GiftsIndex'))
 const AgeGiftPage = lazy(() => import('./pages/gifts/AgeGiftPage'))
 const GuidesIndex = lazy(() => import('./pages/guides/GuidesIndex'))
@@ -323,6 +325,9 @@ const EnglishPrintables = lazy(() => import('./en/EnglishActivities').then(m => 
 const EnglishGames = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishGames })))
 const EnglishBirthday = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishBirthday })))
 const EnglishHome = lazy(() => import('./en/EnglishHome'))
+const EnglishLiveHome = lazy(() => import('./en/EnglishLiveHome'))
+const EnglishLiveHost = lazy(() => import('./en/EnglishLiveHost'))
+const EnglishLivePlay = lazy(() => import('./en/EnglishLivePlay'))
 const EnglishNotFound = lazy(() => import('./en/EnglishLayout').then(m => ({ default: m.EnglishNotFound })))
 
 function Loading() {
@@ -363,11 +368,15 @@ export default function App() {
               <Route path="/en/jewish-holidays" element={<EnglishHolidays />} />
               <Route path="/en/jewish-holidays/:slug" element={<EnglishHolidays />} />
               <Route path="/en/coloring/:holiday/:n" element={<EnglishHolidayColoring />} />
+              <Route path="/en/live" element={<EnglishLiveHome />} />
+              <Route path="/en/live/:code/host" element={<EnglishLiveHost />} />
+              <Route path="/en/play/:code" element={<EnglishLivePlay />} />
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/classroom/subjects" element={<BugaPedia />} />
               <Route path="/bugapedia" element={<BugaPedia />} />
+              <Route path="/classroom/roster" element={<ClassRoster />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/classroom/quiz" element={<QuizHome />} />
               <Route path="/classroom/quiz/:code" element={<QuizManage />} />
@@ -811,6 +820,8 @@ export default function App() {
               <Route path="/tools/scavenger-hunt" element={<ScavengerHuntMaker />} />
               <Route path="/scavenger-hunt" element={<ScavengerHuntMaker />} />
               <Route path="/treasure-hunt" element={<ScavengerHuntMaker />} />
+              <Route path="/treasure-hunt/qr" element={<QrTreasureHunt />} />
+              <Route path="/treasure-hunt/qr/play" element={<QrTreasureHunt />} />
               <Route path="/gifts" element={<GiftsIndex />} />
               <Route path="/gifts/boy" element={<Navigate to="/gifts" replace />} />
               <Route path="/gifts/girl" element={<Navigate to="/gifts" replace />} />
