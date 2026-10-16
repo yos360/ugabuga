@@ -7,6 +7,7 @@ import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
+const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
 import { lazy, Suspense } from 'react'
 
 const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
@@ -365,6 +366,8 @@ export default function App() {
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
+              <Route path="/classroom/subjects" element={<BugaPedia />} />
+              <Route path="/bugapedia" element={<BugaPedia />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/classroom/quiz" element={<QuizHome />} />
               <Route path="/classroom/quiz/:code" element={<QuizManage />} />

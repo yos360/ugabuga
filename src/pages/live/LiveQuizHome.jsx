@@ -20,10 +20,10 @@ function LiveEditor({ onCreate, busy }) {
   const move=(i,d)=>{const all=[...questions],n=i+d;if(n<0||n>=all.length)return;[all[i],all[n]]=[all[n],all[i]];setQuestions(all)}
   const generate=()=>{
     const key=`buga-live-generated-${topic}-${difficulty}`
-    let previous='';try{previous=localStorage.getItem(key)||''}catch{/* private mode */}
+    let previous=[];try{const raw=localStorage.getItem(key);previous=raw?(raw.startsWith('[')?JSON.parse(raw):raw):[]}catch{/* private mode */}
     const game=buildLiveQuiz(topic,difficulty,questionCount,previous)
     setTitle(game.title);setQuestions(game.questions.map(item=>({...item,id:Math.random().toString(36).slice(2,10)})));setError('');setGenerated(`${game.topic.icon} נוצר משחק ${game.topic.label} ברמה ${game.difficulty.label}`)
-    try{localStorage.setItem(key,game.signature)}catch{/* private mode */}
+    try{localStorage.setItem(key,JSON.stringify(game.history))}catch{/* private mode */}
   }
   const submit=e=>{e.preventDefault();const problem=liveQuestionProblem(questions);setError(problem);if(!problem)onCreate({title:title.trim()||'חידון חדש',questions:questions.map(item=>({...item,q:item.q.trim(),options:item.options.map(x=>x.trim())})),seconds})}
   return <form className="live-editor" onSubmit={submit}>
@@ -33,13 +33,14 @@ function LiveEditor({ onCreate, busy }) {
       <div className="live-generator-settings"><fieldset><legend>רמת קושי</legend>{LIVE_QUIZ_DIFFICULTIES.map(item=><button type="button" key={item.id} aria-pressed={difficulty===item.id} onClick={()=>setDifficulty(item.id)}><span>{item.icon} {item.label}</span><small>{item.description}</small></button>)}</fieldset>
         <label>מספר שאלות<select value={questionCount} onChange={e=>setQuestionCount(+e.target.value)}>{[5,6,7,8].map(n=><option value={n} key={n}>{n} שאלות</option>)}</select></label>
         <button type="button" className="live-generate" onClick={generate}>🎲 צור לי משחק אחר</button></div>
-      {generated&&<p className="live-generated-note" role="status">✓ {generated}. אפשר לשנות כל שאלה לפני שמתחילים.</p>}
+      {generated&&<p className="live-generated-note" role="status">✓ {generated}. השאלות לא יחזרו עד למיצוי המאגר, ואפשר לשנות כל שאלה לפני שמתחילים.</p>}
     </section>
     <div className="live-custom-divider"><span>עריכת המשחק</span></div>
     <div className="live-editor-top"><label>שם המשחק<input value={title} maxLength={80} onChange={e=>setTitle(e.target.value)} placeholder="למשל: החידון של כיתה ג׳2" /></label>
       <label>זמן לכל שאלה<select value={seconds} onChange={e=>setSeconds(+e.target.value)}>{[5,10,15,20,30,45,60].map(n=><option key={n} value={n}>{n} שניות</option>)}</select></label></div>
     {questions.map((item,i)=><fieldset className="live-question-edit" key={item.id}><legend>שאלה {i+1}</legend>
       <textarea value={item.q} maxLength={240} rows={2} onChange={e=>patch(i,{q:e.target.value})} placeholder="מה תרצו לשאול?" aria-label={`נוסח שאלה ${i+1}`} />
+      {item.verified&&item.source&&<a className="live-question-source" href={item.source.url} target="_blank" rel="noopener noreferrer">✓ שאלה מאומתת · {item.source.label} ↗</a>}
       <div className="live-option-edit">{item.options.map((answer,j)=><div className={`live-answer edit ${COLORS[j]}`} key={j}>
         <button type="button" onClick={()=>patch(i,{correct:j})} aria-label={`סימון תשובה ${j+1} כנכונה`} aria-pressed={item.correct===j}>{item.correct===j?'✓':MARKS[j]}</button>
         <input value={answer} maxLength={120} onChange={e=>option(i,j,e.target.value)} placeholder={`תשובה ${j+1}`} />

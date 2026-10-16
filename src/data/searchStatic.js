@@ -509,6 +509,8 @@ function buildStatic() {
   ;[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((len, m) => { for (let d = 1; d <= len; d++) out.push({ to: `/time-tunnel/${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, title: `מה קרה ב-${d} ב${HM[m]}?`, emoji: '⏳', kind: 'page', desc: 'ימים מיוחדים, אירועים ומי נולד בתאריך הזה', keys: `מנהרת הזמן תאריך ${d} ${HM[m]}`, low: true }) })
   for (const [slug, drawings] of Object.entries(COLORING_DRAWINGS)) for (const d of drawings) out.push({ to: coloringDrawingPath(slug,d.n), title: 'דף צביעה '+d.name, emoji:'🎨', kind:'printable', desc:d.description, keys:'צביעה ציור להדפסה '+d.name })
   for (const r of ALL_EXPANDED_RECIPES) out.push({ to:r.path, title:r.title, emoji:r.emoji, kind:'idea', desc:r.summary, keys:'מתכון מתכונים '+r.title })
+  out.push({ to: '/bugapedia', title: 'בוגה־פדיה — שואלים ומגלים', emoji: '🔎', kind: 'page', desc: 'תשובה בזמן אמת מוויקיפדיה העברית עם קישור למקור.', keys: 'בוגה פדיה אנציקלופדיה שאלה תשובה ויקיפדיה לימודים מקצועות' })
+  out.push({ to: '/classroom/subjects', title: 'כל מקצועות הלימוד', emoji: '📚', kind: 'page', desc: 'תנך, גאוגרפיה, מדעים, היסטוריה, אזרחות, אמנות, מחשבים ועוד.', keys: 'כיתה מקצועות לימוד תנך גאוגרפיה מדעים היסטוריה אזרחות' })
   const seen = new Set() // one entry per link
   return out.filter(x => { if (seen.has(x.to)) return false; seen.add(x.to); return true })
     .map(x => BEST[x.to] ? { ...x, best: BEST[x.to] } : x)

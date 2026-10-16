@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { buildLiveQuiz, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../src/data/liveQuizPacks.js'
+import { EXTRA_LIVE_QUIZ_BANK } from '../src/data/liveQuizExtraPacks.js'
 import { cleanCode, liveQuestionProblem, liveSecondsRemaining } from '../src/utils/liveQuizDb.js'
 
 test('live quiz codes are normalised for QR and manual entry', () => {
@@ -37,4 +38,30 @@ test('automatic game avoids returning the exact previous question order', () => 
   const first = buildLiveQuiz('science', 'medium', 6, '', () => 0.5)
   const second = buildLiveQuiz('science', 'medium', 6, first.signature, () => 0.5)
   assert.notEqual(second.signature, first.signature)
+})
+
+test('ready game bank adds at least 100 reviewed questions with sources', () => {
+  const extra = Object.values(EXTRA_LIVE_QUIZ_BANK).flatMap(levels => Object.values(levels).flat())
+  assert.equal(extra.length, 108)
+  for (const item of extra) {
+    assert.ok(item.id)
+    assert.equal(item.options.length, 4)
+    assert.ok(item.correct >= 0 && item.correct < item.options.length)
+    assert.ok(item.q.endsWith('?'))
+  }
+  for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
+    const game = buildLiveQuiz(topic.id, difficulty.id, 8, [], () => 0.37)
+    assert.equal(game.poolSize, 14)
+    assert.ok(game.questions.every(item => item.verified && item.source?.url?.startsWith('https://')))
+  }
+})
+
+test('ready games do not repeat a question before that pool is exhausted', () => {
+  for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
+    const first = buildLiveQuiz(topic.id, difficulty.id, 6, [], () => 0.21)
+    const second = buildLiveQuiz(topic.id, difficulty.id, 6, first.history, () => 0.21)
+    const firstIds = new Set(first.questions.map(item => item.id))
+    assert.ok(second.questions.every(item => !firstIds.has(item.id)))
+    assert.equal(new Set([...first.questions, ...second.questions].map(item => item.id)).size, 12)
+  }
 })

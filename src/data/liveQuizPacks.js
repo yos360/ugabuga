@@ -1,3 +1,5 @@
+import { EXTRA_LIVE_QUIZ_BANK, LIVE_QUIZ_SOURCE_BY_TOPIC } from './liveQuizExtraPacks.js'
+
 const question = (id, q, correct, ...options) => ({ id, q, options, correct })
 
 export const LIVE_QUIZ_DIFFICULTIES = [
@@ -224,22 +226,40 @@ const mixAnswers = (item, rng) => {
   return { ...item, options: answers.map(answer => answer.text), correct: answers.findIndex(answer => answer.correct) }
 }
 
-export function buildLiveQuiz(topicId, difficultyId, count = 6, previousSignature = '', rng = Math.random) {
+export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory = [], rng = Math.random) {
   const topic = LIVE_QUIZ_TOPICS.find(item => item.id === topicId) || LIVE_QUIZ_TOPICS[0]
   const difficulty = LIVE_QUIZ_DIFFICULTIES.find(item => item.id === difficultyId) || LIVE_QUIZ_DIFFICULTIES[1]
-  const pool = BANK[topic.id][difficulty.id]
+  const source = LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id]
+  const pool = [...BANK[topic.id][difficulty.id], ...EXTRA_LIVE_QUIZ_BANK[topic.id][difficulty.id]]
+    .map(item => ({ ...item, verified: true, source }))
   const size = Math.max(3, Math.min(Number(count) || 6, pool.length))
-  let picked = shuffled(pool, rng).slice(0, size)
-  let signature = picked.map(item => item.id).join('.')
-  if (signature === previousSignature && picked.length > 1) {
-    picked = [...picked.slice(1), picked[0]]
-    signature = picked.map(item => item.id).join('.')
+  const valid = new Set(pool.map(item => item.id))
+  const prior = Array.isArray(previousHistory)
+    ? previousHistory
+    : String(previousHistory || '').split('.').filter(Boolean)
+  let seen = new Set(prior.filter(id => valid.has(id)))
+  let available = shuffled(pool.filter(item => !seen.has(item.id)), rng)
+  let picked = available.slice(0, size)
+
+  // If this game crosses the end of a full cycle, finish the unseen questions first and only
+  // then begin a new cycle. Items already selected for this game are excluded from the refill,
+  // so a question can never appear twice in one game or repeat before the pool is exhausted.
+  if (picked.length < size) {
+    const selected = new Set(picked.map(item => item.id))
+    const refill = shuffled(pool.filter(item => !selected.has(item.id)), rng).slice(0, size - picked.length)
+    picked = [...picked, ...refill]
+    seen = new Set(picked.map(item => item.id))
+  } else {
+    picked.forEach(item => seen.add(item.id))
   }
+  const signature = picked.map(item => item.id).join('.')
   return {
     title: `${topic.label} · ${difficulty.label}`,
     topic,
     difficulty,
     signature,
+    history: [...seen],
+    poolSize: pool.length,
     questions: picked.map(item => mixAnswers(item, rng)),
   }
 }

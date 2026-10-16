@@ -6,6 +6,7 @@ import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
 import OwnerPartyLists, { partyPreview, usePartyLists } from '../components/owner/OwnerPartyLists'
 import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
+import SiteChatInbox from '../components/owner/SiteChatInbox'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 
 // Fixed categorical order (never reassigned per-render) — validated for
@@ -461,6 +462,7 @@ export default function OwnerActivityReport() {
         <span className="self-center text-sm text-slate-500">{live ? '🟢 בלייב — כל פעולה באתר מופיעה מיד' : 'מתעדכן כל 30 שניות'} · עודכן ב-{updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
       </div>
 
+      <SiteChatInbox />
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">

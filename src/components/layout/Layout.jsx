@@ -9,6 +9,7 @@ import PrintQrFallback from './PrintQrFallback'
 import WhatsAppShare from './WhatsAppShare'
 import NoVoiceNotice from './NoVoiceNotice'
 import PrintPreviewFigure from './PrintPreviewFigure'
+import SiteChatWidget from '../chat/SiteChatWidget'
 
 // Lazy: its situation table (greetings, combos) should not ride in the main bundle.
 const EmojiRelated = lazy(() => import('../../emoji/EmojiRelated'))
@@ -60,6 +61,7 @@ export default function Layout({ children }) {
       {/* /kids is for a child browsing alone: no share button there. */}
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
+      {mounted && !presenting && !/^\/(admin|embed|kids|play)(\/|$)/.test(pathname) && !/^\/live\/[^/]+\/host/.test(pathname) && <SiteChatWidget />}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{children}</main>
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
