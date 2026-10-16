@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import { MathText } from '../../components/quiz/QuizEditor'
-import { buildLiveQuiz, detectLiveQuizPack, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../../data/liveQuizPacks'
+import { buildLiveQuiz, detectLiveQuizMode, detectLiveQuizPack, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_MODES, LIVE_QUIZ_TOPICS } from '../../data/liveQuizPacks'
 import { liveErrorText, liveHostLink, liveMemory, livePlayLink, liveQuizDb } from '../../utils/liveQuizDb'
 import useLiveCountdown from './useLiveCountdown'
 import './live-quiz.css'
@@ -13,18 +13,19 @@ function Leaderboard({rows=[],limit=10}){return <ol className="live-leaders">{ro
 
 export default function LiveQuizHost(){
  const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'משחק חדש');history.replaceState(null,'',location.pathname)}return hash||liveMemory.hostToken(code)})
- const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('general'),[replayDifficulty,setReplayDifficulty]=useState('medium'),auto=useRef(''),finishSeen=useRef(false)
+ const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('mixed'),[replayDifficulty,setReplayDifficulty]=useState('medium'),[replayMode,setReplayMode]=useState('regular'),auto=useRef(''),finishSeen=useRef(false)
  const playLink=livePlayLink(code),qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
  const load=useCallback(()=>token&&liveQuizDb.host(code,token).then(d=>{setData(d);setError('');liveMemory.rememberHost(code,token,d.title)}).catch(e=>setError(liveErrorText(e.code))),[code,token])
  useEffect(()=>{load();const id=setInterval(()=>{if(document.visibilityState==='visible')load()},1200);return()=>clearInterval(id)},[load])
  useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{auto.current='';load()})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load])
  const detectedPack=detectLiveQuizPack(data?.questions,data?.title)
+ const detectedMode=detectLiveQuizMode(data?.questions)
  useEffect(()=>{
    if(data?.phase!=='finished'){finishSeen.current=false;return}
-   if(!finishSeen.current){setReplayTopic(detectedPack?.topicId||'general');setReplayDifficulty(detectedPack?.difficultyId||'medium');finishSeen.current=true}
- },[data?.phase,detectedPack?.topicId,detectedPack?.difficultyId])
+   if(!finishSeen.current){setReplayTopic(detectedPack?.topicId||'mixed');setReplayDifficulty(detectedPack?.difficultyId||'medium');setReplayMode(detectedMode);finishSeen.current=true}
+ },[data?.phase,detectedPack?.topicId,detectedPack?.difficultyId,detectedMode])
  const act=async action=>{setBusy(true);setError('');try{await liveQuizDb.action(code,token,action);await load()}catch(e){setError(liveErrorText(e.code))}finally{setBusy(false)}}
- const freshRound=async(topicId,difficultyId)=>{
+ const freshRound=async(topicId,difficultyId,modeId=replayMode)=>{
    setBusy(true);setError('')
    try{
      const key=`buga-live-generated-${topicId}-${difficultyId}`
@@ -32,9 +33,10 @@ export default function LiveQuizHost(){
      const samePack=topicId===detectedPack?.topicId&&difficultyId===detectedPack?.difficultyId
      const currentIds=samePack?(detectedPack?.questionIds||[]):[]
      previous=[...new Set([...(Array.isArray(previous)?previous:[]),...currentIds])]
-     const count=Math.max(3,Math.min(8,data?.questions?.length||6,14-currentIds.length))
-     let game=buildLiveQuiz(topicId,difficultyId,count,previous)
-     if(game.questions.some(item=>currentIds.includes(item.id)))game=buildLiveQuiz(topicId,difficultyId,count,currentIds)
+     const wanted=Math.max(3,Math.min(8,data?.questions?.length||6))
+     const count=topicId==='mixed'||topicId==='math'?wanted:Math.max(3,Math.min(wanted,14-currentIds.length))
+     let game=buildLiveQuiz(topicId,difficultyId,count,previous,Math.random,modeId)
+     if(game.questions.some(item=>currentIds.includes(item.id.replace(/-tf$/,''))))game=buildLiveQuiz(topicId,difficultyId,count,currentIds,Math.random,modeId)
      await liveQuizDb.replay(code,token,game.title,game.questions,data?.settings?.seconds||20)
      try{localStorage.setItem(key,JSON.stringify(game.history))}catch{/* private mode */}
      await load()
@@ -55,6 +57,7 @@ export default function LiveQuizHost(){
       <div className="live-share-buttons"><button onClick={()=>copy(playLink,'play')}>{copied==='play'?'✓ הועתק':'העתקת קישור למשתתפים'}</button><a href={`https://wa.me/?text=${encodeURIComponent(`🎮 מצטרפים לבוגה לייב: ${data.title}\nקוד: ${code}\n${playLink}`)}`} target="_blank" rel="noopener">שליחה בוואטסאפ</a><button onClick={()=>copy(liveHostLink(code,token),'host')}>{copied==='host'?'✓ הועתק':'העתקת קישור למנחה'}</button></div>
     </div>{qr&&<div className="live-qr" dangerouslySetInnerHTML={{__html:qr}} role="img" aria-label="QR להצטרפות למשחק"/>}
     <div className="live-player-lobby"><h2><span>{total}</span> משתתפים בחדר</h2>{total?<div>{data.players.map((p,i)=><span style={{'--delay':`${Math.min(i,15)*35}ms`}} key={p.id}>{p.name}</span>)}</div>:<p>מיד כשמישהו יצטרף הוא יופיע כאן.</p>}</div>
+    <p className="live-lobby-tip">{total?'כולם מופיעים ברשימה? אפשר להתחיל.':'שתפו את הקוד או ה־QR וחכו שהמשתתפים יופיעו ברשימה.'}</p>
     <button className="live-start-button" disabled={!total||busy} onClick={()=>act('start')}>{!total?'מחכים למשתתף הראשון…':'מתחילים את המשחק'} <span>←</span></button>
   </section>}
   {data.phase==='question'&&q&&<section className="live-question-stage"><div className="live-stage-meta"><span>שאלה {idx+1} מתוך {data.questions.length}</span><strong className={left!==null&&left<=5?'urgent':''}>{left??'–'}</strong><span>{data.answer_count}/{total} ענו</span></div>
@@ -71,6 +74,7 @@ export default function LiveQuizHost(){
       {detectedPack&&<button className="live-replay-primary" disabled={busy} onClick={()=>freshRound(detectedPack.topicId,detectedPack.difficultyId)}><b>🔄 אותו נושא, שאלות חדשות</b><span>{currentTopic?.label} · {currentDifficulty?.label} · בלי לחזור על שאלות הסבב</span></button>}
       <div className="live-replay-picker"><h3>או בוחרים נושא אחר</h3><div className="live-topic-grid">{LIVE_QUIZ_TOPICS.map(item=><button type="button" key={item.id} aria-pressed={replayTopic===item.id} style={{'--topic-color':item.color}} onClick={()=>setReplayTopic(item.id)}><i>{item.icon}</i><span>{item.label}</span></button>)}</div>
         <div className="live-replay-levels">{LIVE_QUIZ_DIFFICULTIES.map(item=><button type="button" key={item.id} aria-pressed={replayDifficulty===item.id} onClick={()=>setReplayDifficulty(item.id)}>{item.icon} {item.label}</button>)}</div>
+        <div className="live-replay-levels live-replay-modes">{LIVE_QUIZ_MODES.map(item=><button type="button" key={item.id} aria-pressed={replayMode===item.id} onClick={()=>setReplayMode(item.id)}>{item.label}</button>)}</div>
         <button className="live-replay-start" disabled={busy} onClick={()=>freshRound(replayTopic,replayDifficulty)}>{busy?'מכינים את הסיבוב…':'פתיחת סיבוב בנושא שבחרתם'}</button>
       </div>
       <button className="live-replay-same" disabled={busy} onClick={()=>act('reset')}>לשחק שוב בדיוק עם אותן שאלות</button>

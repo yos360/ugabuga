@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
-import { buildLiveQuiz, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../../data/liveQuizPacks'
+import { buildLiveQuiz, getLiveQuizBankStats, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_MODES, LIVE_QUIZ_TOPICS } from '../../data/liveQuizPacks'
 import { cleanCode, liveErrorText, liveMemory, liveQuestionProblem, liveQuizDb, newLiveToken } from '../../utils/liveQuizDb'
 import './live-quiz.css'
 
@@ -13,7 +13,7 @@ const readDraft = () => { try { return JSON.parse(localStorage.getItem('buga-liv
 function LiveEditor({ onCreate, busy }) {
   const [draft]=useState(readDraft)
   const [title,setTitle]=useState(()=>draft?.title||''),[questions,setQuestions]=useState(()=>draft?.questions?.length?draft.questions:[q()]),[seconds,setSeconds]=useState(()=>draft?.seconds||20),[error,setError]=useState('')
-  const [topic,setTopic]=useState('general'),[difficulty,setDifficulty]=useState('medium'),[questionCount,setQuestionCount]=useState(6),[generated,setGenerated]=useState('')
+  const [topic,setTopic]=useState('mixed'),[difficulty,setDifficulty]=useState('medium'),[mode,setMode]=useState('regular'),[questionCount,setQuestionCount]=useState(6),[generated,setGenerated]=useState('')
   useEffect(()=>{const t=setTimeout(()=>{try{localStorage.setItem('buga-live-draft',JSON.stringify({title,questions,seconds}))}catch{/* ignore */}},500);return()=>clearTimeout(t)},[title,questions,seconds])
   const patch=(i,data)=>setQuestions(all=>all.map((item,n)=>n===i?{...item,...data}:item))
   const option=(i,j,value)=>patch(i,{options:questions[i].options.map((x,n)=>n===j?value:x)})
@@ -21,8 +21,8 @@ function LiveEditor({ onCreate, busy }) {
   const generate=()=>{
     const key=`buga-live-generated-${topic}-${difficulty}`
     let previous=[];try{const raw=localStorage.getItem(key);previous=raw?(raw.startsWith('[')?JSON.parse(raw):raw):[]}catch{/* private mode */}
-    const game=buildLiveQuiz(topic,difficulty,questionCount,previous)
-    setTitle(game.title);setQuestions(game.questions);setError('');setGenerated(`${game.topic.icon} משחק מוכן בנושא ${game.topic.label} ברמת ${game.difficulty.label}`)
+    const game=buildLiveQuiz(topic,difficulty,questionCount,previous,Math.random,mode)
+    setTitle(game.title);setQuestions(game.questions);setError('');setGenerated(`${game.topic.icon} משחק מוכן: ${game.topic.label} · ${game.difficulty.label} · ${game.mode.label}`)
     try{localStorage.setItem(key,JSON.stringify(game.history))}catch{/* private mode */}
   }
   const submit=e=>{e.preventDefault();const problem=liveQuestionProblem(questions);setError(problem);if(!problem)onCreate({title:title.trim()||'משחק חדש',questions:questions.map(item=>({...item,q:item.q.trim(),options:item.options.map(x=>x.trim())})),seconds})}
@@ -30,6 +30,7 @@ function LiveEditor({ onCreate, busy }) {
     <section className="live-generator" aria-labelledby="live-generator-title">
       <div className="live-generator-head"><div><span>✨ משחק מוכן בשניות</span><h3 id="live-generator-title">בחרו נושא ורמה, ואנחנו נכין את השאלות</h3></div><b>{questionCount} שאלות</b></div>
       <div className="live-topic-grid">{LIVE_QUIZ_TOPICS.map(item=><button type="button" key={item.id} aria-pressed={topic===item.id} style={{'--topic-color':item.color}} onClick={()=>setTopic(item.id)}><i>{item.icon}</i><span>{item.label}</span></button>)}</div>
+      <fieldset className="live-mode-picker"><legend>סוג השאלות</legend>{LIVE_QUIZ_MODES.map(item=><button type="button" key={item.id} aria-pressed={mode===item.id} onClick={()=>setMode(item.id)}><span>{item.label}</span><small>{item.description}</small></button>)}</fieldset>
       <div className="live-generator-settings"><fieldset><legend>רמת קושי</legend>{LIVE_QUIZ_DIFFICULTIES.map(item=><button type="button" key={item.id} aria-pressed={difficulty===item.id} onClick={()=>setDifficulty(item.id)}><span>{item.icon} {item.label}</span><small>{item.description}</small></button>)}</fieldset>
         <label>מספר שאלות<select value={questionCount} onChange={e=>setQuestionCount(+e.target.value)}>{[5,6,7,8].map(n=><option value={n} key={n}>{n} שאלות</option>)}</select></label>
         <button type="button" className="live-generate" onClick={generate}>{generated?'🔄 שאלות חדשות באותו נושא':'✨ הכינו לי משחק'}</button></div>
@@ -69,6 +70,7 @@ export default function LiveQuizHome(){
    <header className="live-hero"><div className="live-logo-orb">B!</div><p>חידון משותף, בזמן אמת</p><h1>בוגה לייב</h1><h2>כולם עונים, המסך מתעורר לחיים</h2>
     <div className="live-hero-pills"><span>👥 עד 100 משתתפים</span><span>📱 כניסה עם QR</span><span>⚡ תוצאות חיות</span><span>✓ חינם ובלי חשבון</span></div></header>
    <div className="live-tabbar"><button aria-pressed={tab==='start'} onClick={()=>setTab('start')}>למנחה: פתיחת משחק</button><button aria-pressed={tab==='join'} onClick={()=>setTab('join')}>למשתתפים: כניסה בקוד</button></div>
+   <p className="live-bank-count">✓ {getLiveQuizBankStats().total.toLocaleString('he-IL')} שאלות תקינות וייחודיות במאגר</p>
    {error&&<p className="live-error" role="alert">{error}</p>}
    {tab==='join'?<section className="live-join-card"><span>🎮</span><h2>יש לכם קוד?</h2><p>הקלידו את קוד המשחק שקיבלתם מהמנחה</p><form onSubmit={join}><input dir="ltr" inputMode="text" autoCapitalize="characters" value={code} onChange={e=>setCode(cleanCode(e.target.value))} maxLength={12} placeholder="ABC123" aria-label="קוד משחק" autoFocus/><button>כניסה</button></form></section>
    :<><section className="live-builder"><div className="live-builder-title"><p>מתחילים מכאן</p><h2>בחרו משחק ופתחו חדר</h2><span>אפשר לבחור משחק מוכן, או לערוך שאלות משלכם.</span></div><LiveEditor onCreate={create} busy={busy}/></section>

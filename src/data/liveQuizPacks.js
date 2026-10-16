@@ -1,4 +1,5 @@
 import { EXTRA_LIVE_QUIZ_BANK, LIVE_QUIZ_SOURCE_BY_TOPIC } from './liveQuizExtraPacks.js'
+import { GENERATED_MATH_QUIZ_BANK } from './liveQuizGeneratedMath.js'
 
 const question = (id, q, correct, ...options) => ({ id, q, options, correct })
 
@@ -9,12 +10,20 @@ export const LIVE_QUIZ_DIFFICULTIES = [
 ]
 
 export const LIVE_QUIZ_TOPICS = [
+  { id: 'mixed', label: 'ערבוב נושאים', icon: '🎲', color: '#d13c78' },
   { id: 'general', label: 'ידע כללי', icon: '🧠', color: '#6d48e5' },
   { id: 'animals', label: 'חיות וטבע', icon: '🐾', color: '#23875a' },
   { id: 'science', label: 'מדע וחלל', icon: '🚀', color: '#176fbd' },
   { id: 'world', label: 'עולם וגאוגרפיה', icon: '🌍', color: '#0f8c91' },
   { id: 'israel', label: 'ישראל', icon: '🇮🇱', color: '#2466cb' },
   { id: 'sports', label: 'ספורט', icon: '⚽', color: '#d0671d' },
+  { id: 'math', label: 'מתמטיקה', icon: '➗', color: '#8b4ab8' },
+]
+
+export const LIVE_QUIZ_MODES = [
+  { id: 'regular', label: 'רגיל', description: 'ארבע תשובות' },
+  { id: 'truefalse', label: 'נכון / לא נכון', description: 'שתי תשובות' },
+  { id: 'blend', label: 'משולב', description: 'גם וגם' },
 ]
 
 const BANK = {
@@ -226,19 +235,47 @@ const mixAnswers = (item, rng) => {
   return { ...item, options: answers.map(answer => answer.text), correct: answers.findIndex(answer => answer.correct) }
 }
 
-export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory = [], rng = Math.random) {
-  const topic = LIVE_QUIZ_TOPICS.find(item => item.id === topicId) || LIVE_QUIZ_TOPICS[0]
+const playableTopics = () => LIVE_QUIZ_TOPICS.filter(item => item.id !== 'mixed')
+const rawPool = (topic, difficulty) => [
+  ...(BANK[topic.id]?.[difficulty.id] || []),
+  ...(EXTRA_LIVE_QUIZ_BANK[topic.id]?.[difficulty.id] || []),
+  ...(topic.id === 'math' ? GENERATED_MATH_QUIZ_BANK[difficulty.id] : []),
+].map(item => ({ ...item, verified: true, source: LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
+
+const spreadTopics = (items, rng) => {
+  const buckets = shuffled(playableTopics(), rng).map(topic => shuffled(items.filter(item => item.packTopicId === topic.id), rng))
+  const result = []
+  while (buckets.some(bucket => bucket.length)) for (const bucket of buckets) if (bucket.length) result.push(bucket.shift())
+  return result
+}
+
+const trueFalse = item => {
+  const truth = [...item.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % 2 === 0
+  const claimIndex = truth ? item.correct : (item.correct + 1) % item.options.length
+  return {
+    ...item,
+    id: `${item.id}-tf`,
+    q: `נכון או לא נכון: התשובה לשאלה "${item.q}" היא "${item.options[claimIndex]}".`,
+    options: ['נכון', 'לא נכון'],
+    correct: truth ? 0 : 1,
+  }
+}
+
+export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory = [], rng = Math.random, modeId = 'regular') {
+  const topic = LIVE_QUIZ_TOPICS.find(item => item.id === topicId) || LIVE_QUIZ_TOPICS.find(item => item.id === 'general')
   const difficulty = LIVE_QUIZ_DIFFICULTIES.find(item => item.id === difficultyId) || LIVE_QUIZ_DIFFICULTIES[1]
-  const source = LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id]
-  const pool = [...BANK[topic.id][difficulty.id], ...EXTRA_LIVE_QUIZ_BANK[topic.id][difficulty.id]]
-    .map(item => ({ ...item, verified: true, source }))
+  const mode = LIVE_QUIZ_MODES.find(item => item.id === modeId) || LIVE_QUIZ_MODES[0]
+  const pool = topic.id === 'mixed'
+    ? playableTopics().flatMap(item => rawPool(item, difficulty))
+    : rawPool(topic, difficulty)
   const size = Math.max(3, Math.min(Number(count) || 6, pool.length))
   const valid = new Set(pool.map(item => item.id))
   const prior = Array.isArray(previousHistory)
     ? previousHistory
     : String(previousHistory || '').split('.').filter(Boolean)
   let seen = new Set(prior.filter(id => valid.has(id)))
-  let available = shuffled(pool.filter(item => !seen.has(item.id)), rng)
+  const order = items => topic.id === 'mixed' ? spreadTopics(items, rng) : shuffled(items, rng)
+  let available = order(pool.filter(item => !seen.has(item.id)))
   let picked = available.slice(0, size)
 
   // If this game crosses the end of a full cycle, finish the unseen questions first and only
@@ -246,37 +283,63 @@ export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory 
   // so a question can never appear twice in one game or repeat before the pool is exhausted.
   if (picked.length < size) {
     const selected = new Set(picked.map(item => item.id))
-    const refill = shuffled(pool.filter(item => !selected.has(item.id)), rng).slice(0, size - picked.length)
+    const refill = order(pool.filter(item => !selected.has(item.id))).slice(0, size - picked.length)
     picked = [...picked, ...refill]
     seen = new Set(picked.map(item => item.id))
   } else {
     picked.forEach(item => seen.add(item.id))
   }
   const signature = picked.map(item => item.id).join('.')
+  const modeTitle = mode.id === 'regular' ? '' : ` · ${mode.label}`
   return {
-    title: `${topic.label} · ${difficulty.label}`,
+    title: `${topic.label} · ${difficulty.label}${modeTitle}`,
     topic,
     difficulty,
+    mode,
     signature,
     history: [...seen],
     poolSize: pool.length,
-    questions: picked.map(item => mixAnswers(item, rng)),
+    questions: shuffled(picked, rng).map((item, index) => {
+      const mixed = mixAnswers(item, rng)
+      return mode.id === 'truefalse' || (mode.id === 'blend' && index % 2 === 1) ? trueFalse(mixed) : mixed
+    }),
   }
 }
 
 export function detectLiveQuizPack(questions = [], title = '') {
-  const ids = new Set(questions.map(item => item?.id).filter(Boolean))
+  const ids = new Set(questions.map(item => item?.id?.replace(/-tf$/, '')).filter(Boolean))
   const texts = new Set(questions.map(item => item?.q).filter(Boolean))
   if (!ids.size) return null
-  let best = null
-  for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
-    const pool = [...BANK[topic.id][difficulty.id], ...EXTRA_LIVE_QUIZ_BANK[topic.id][difficulty.id]]
+  const matches = []
+  for (const topic of playableTopics()) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
+    const pool = rawPool(topic, difficulty)
     const questionIds = pool.filter(item => ids.has(item.id) || texts.has(item.q)).map(item => item.id)
-    const matches = questionIds.length
-    if (matches > (best?.matches || 0)) best = { topicId: topic.id, difficultyId: difficulty.id, matches, questionIds }
+    if (questionIds.length) matches.push({ topicId: topic.id, difficultyId: difficulty.id, matches: questionIds.length, questionIds })
   }
+  const byDifficulty = LIVE_QUIZ_DIFFICULTIES.map(difficulty => ({
+    difficultyId: difficulty.id,
+    packs: matches.filter(item => item.difficultyId === difficulty.id),
+  })).map(item => ({ ...item, total: item.packs.reduce((sum, pack) => sum + pack.matches, 0) })).sort((a, b) => b.total - a.total)[0]
+  if (byDifficulty?.packs.length > 1) return { topicId: 'mixed', difficultyId: byDifficulty.difficultyId, matches: byDifficulty.total, questionIds: byDifficulty.packs.flatMap(item => item.questionIds) }
+  const best = matches.sort((a, b) => b.matches - a.matches)[0]
   if (best?.matches) return best
   const topic = LIVE_QUIZ_TOPICS.find(item => String(title).includes(item.label))
   const difficulty = LIVE_QUIZ_DIFFICULTIES.find(item => String(title).includes(item.label))
   return topic && difficulty ? { topicId: topic.id, difficultyId: difficulty.id, matches: 0, questionIds: [] } : null
+}
+
+export function detectLiveQuizMode(questions = []) {
+  const trueFalseCount = questions.filter(item => item?.options?.length === 2 && item.options[0] === 'נכון' && item.options[1] === 'לא נכון').length
+  if (trueFalseCount === questions.length && questions.length) return 'truefalse'
+  if (trueFalseCount) return 'blend'
+  return 'regular'
+}
+
+let cachedBankStats
+export const getLiveQuizBankStats = () => {
+  if (cachedBankStats) return cachedBankStats
+  const all = playableTopics().flatMap(topic => LIVE_QUIZ_DIFFICULTIES.flatMap(difficulty => rawPool(topic, difficulty)))
+  const byTopic = Object.fromEntries(playableTopics().map(topic => [topic.id, all.filter(item => item.packTopicId === topic.id).length]))
+  cachedBankStats = { total: all.length, unique: new Set(all.map(item => item.id)).size, byTopic }
+  return cachedBankStats
 }

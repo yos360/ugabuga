@@ -46,6 +46,11 @@ export default function Layout({ children }) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+  // A live game is a focused, full-screen experience on phones and projectors.
+  // Keep the site navigation, newsletter and footer outside the host/player session.
+  if (/^\/(?:play\/[^/]+|live\/[^/]+\/host|en\/play\/[^/]+|en\/live\/[^/]+\/host)\/?$/.test(pathname)) {
+    return <><ScrollToTop /><main id="site-content" tabIndex={-1}>{children}</main></>
+  }
   if (pathname === '/en' || pathname.startsWith('/en/')) return <EnglishLayout>{children}</EnglishLayout>
   // The owner's mini widget is meant for a tiny window: no header, footer or floating buttons.
   // Widgets embedded on other sites (/embed/timer…): just the widget. The gallery is /embed itself.

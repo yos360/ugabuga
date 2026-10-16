@@ -7,6 +7,7 @@ export const LIVE_QUIZ_SOURCE_BY_TOPIC = {
   world: { label: 'The World Factbook', url: 'https://www.cia.gov/the-world-factbook/' },
   israel: { label: 'ממשלת ישראל והכנסת', url: 'https://www.gov.il/he/pages/israel_facts' },
   sports: { label: 'הוועד האולימפי הבין־לאומי', url: 'https://olympics.com/ioc/' },
+  math: { label: 'חישוב מתמטי שנבדק אוטומטית', url: 'https://www.britannica.com/science/arithmetic' },
 }
 
 // 108 additional, manually reviewed questions: six for every topic/difficulty combination.
