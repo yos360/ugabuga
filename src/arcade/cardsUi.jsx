@@ -1,4 +1,5 @@
 import { SUITS, isRed, rankLabel } from './logic/cards'
+import CourtArt from './games/solitaire/CourtArt'
 
 // One playing card. Face-down cards show the back pattern.
 export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer }) {
@@ -11,7 +12,7 @@ export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPoi
       aria-label={card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך'} role="img">
       {card.up && <>
         <span className="cd-corner">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>
-        <span className="cd-center">{card.rank > 10 ? ['👑', '👸', '🤴'][card.rank - 11] : SUITS[card.suit]}</span>
+        <span className="cd-center">{card.rank > 10 ? <CourtArt rank={card.rank} /> : SUITS[card.suit]}</span>
         <span className="cd-corner cd-br" aria-hidden="true">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>
       </>}
     </div>

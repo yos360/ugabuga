@@ -66,6 +66,7 @@ export default function FreeCell({ daily, onReport, onShare }) {
       <button type="button" className="fc-tool" onClick={() => start(state.dealNumber)} aria-label="התחלה מחדש" title="התחלה מחדש"><RotateCw aria-hidden="true" /><span>מחדש</span></button>
     </Hud>
     {!daily && <div className="fc-deal"><label htmlFor="fc-deal-number">חלוקה מספר</label><input id="fc-deal-number" type="number" min="1" max="999999" value={dealInput} onChange={event => setDealInput(event.target.value)} /><button type="button" onClick={() => start(dealInput)}>פתחו חלוקה</button><button type="button" onClick={() => start(Math.floor(Math.random() * 1_000_000) + 1)}>חלוקה אקראית</button></div>}
+    <p className="fc-guide">סדרו קלפים בסדר יורד ובצבעים מתחלפים. גררו קלף או לחצו עליו להעברה; התאים הפנויים עוזרים לפנות מקום.</p>
     <div className="arc-field cd-field fc-field" ref={boxRef}><div className="cd-table" style={{ width: box.w, height: box.h }}>
       {state.cells.map((_, index) => <Slot key={`cs${index}`} w={width} x={x(index)} y={gap} label="תא" dropKey={`c${index}`} active={hint?.target?.type === 'cell' && hint.target.pile === index} />)}
       {state.found.map((_, index) => <Slot key={`fs${index}`} w={width} x={x(index + 4)} y={gap} label={SUITS[index]} dropKey={`f${index}`} active={hint?.target?.type === 'found' && hint.target.pile === index} />)}
