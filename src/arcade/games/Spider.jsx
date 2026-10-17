@@ -2,9 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { rng } from '../logic/rng'
 import { deal, apply, dealRow, canDeal, bestTarget, legal, isWon, findHint, canPick } from '../logic/spider'
 import { SUITS } from '../logic/cards'
-import { useBox, useProgress, useCardDrag } from '../hooks'
+import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
-import { Card, Slot } from '../cardsUi'
+import { Card, Slot } from './spiderCards'
+
+import { useSpiderDrag } from './useSpiderDrag'
+import { cardSessionKey, readCardSession, writeCardSession } from '../logic/cardGameSessions'
+import CardRestartDialog from './CardRestartDialog'
+import './spider.css'
+import './cardGames.css'
 
 const LEVELS = [[1, 'קל · צורה אחת'], [2, 'בינוני · 2 צורות'], [4, 'קשה · 4 צורות']]
 
@@ -12,8 +18,13 @@ export default function Spider({ onReport, onShare, daily }) {
   // daily challenge: one suit, the same deal for everyone
   const newDeal = suits => (daily ? deal(1, rng(daily.seed)) : deal(suits))
   const [progress, saveProgress] = useProgress('spider', { suits: 1, wins: 0 })
-  const [s, setS] = useState(() => newDeal(progress.suits))
-  const [history, setHistory] = useState([])
+  const storageKey = cardSessionKey('spider', daily)
+  const [restored] = useState(() => { try { return readCardSession(localStorage, storageKey, 'spider', daily) } catch { return null } })
+  const [s, setS] = useState(() => restored?.s || newDeal([1, 2, 4].includes(progress.suits) ? progress.suits : 1))
+  const [confirm, setConfirm] = useState(null)
+  const [storageOk, setStorageOk] = useState(true)
+  const reported = useRef(restored?.reported || false)
+  const [history, setHistory] = useState(restored?.history || [])
   const [toast, setToast] = useState(null)
   const [hint, setHint] = useState(null)
   const [shake, setShake] = useState(null)
@@ -21,32 +32,40 @@ export default function Spider({ onReport, onShare, daily }) {
   const hintTimer = useRef(0)
   useEffect(() => () => clearTimeout(hintTimer.current), [])
   const won = isWon(s)
+  const shakeTimer = useRef(0)
+  useEffect(() => () => clearTimeout(shakeTimer.current), [])
+  useEffect(() => {
+    try { setStorageOk(writeCardSession(localStorage, storageKey, { s, history, reported: reported.current })) }
+    catch { setStorageOk(false) }
+  }, [s, history, storageKey])
+  const shakeCard = key => { setShake(key); clearTimeout(shakeTimer.current); shakeTimer.current = setTimeout(() => setShake(null), 350) }
 
   const say = text => setToast({ k: Date.now(), text })
-  const commit = n => { setHistory(h => [...h.slice(-200), s]); setS(n); setHint(null); if (n.done > s.done) say('🎉 רצף שלם עף הביתה!') }
+  const commit = n => { if (!n || n === s) return; setHistory(h => [...h.slice(-59), s]); setS(n); setHint(null); if (n.done > s.done) say('🎉 רצף שלם עף הביתה!') }
   const parse = key => key.slice(1).split(':').map(Number)
   const tap = key => {
-    if (won) return
+    if (won || confirm) return
     const [p, i] = parse(key)
-    if (!canPick(s.tab[p], i)) { setShake(key); setTimeout(() => setShake(null), 350); return }
+    if (!canPick(s.tab[p], i)) { shakeCard(key); return }
     const to = bestTarget(s, p, i)
-    if (to === null) { setShake(key); setTimeout(() => setShake(null), 350); return }
+    if (to === null) { shakeCard(key); return }
     commit(apply(s, p, i, to))
   }
   const drop = (key, dropKey) => {
-    if (!dropKey) return
+    if (won || confirm || !dropKey) return
     const [p, i] = parse(key)
     const to = +dropKey.slice(1)
     if (legal(s, p, i, to)) commit(apply(s, p, i, to))
   }
-  const [drag, handlers] = useCardDrag(tap, drop)
+  const [drag, handlers] = useSpiderDrag(tap, drop, won || confirm !== null)
   const doDeal = () => {
-    if (!s.stock.length) return
+    if (won || confirm || !s.stock.length) return
     if (!canDeal(s)) { say('קודם ממלאים כל עמודה ריקה בקלף, ואז מחלקים'); return }
     commit(dealRow(s))
   }
   const undo = () => { if (!history.length) return; setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
-  const restart = (suits = s.suits) => { setS(newDeal(suits)); setHistory([]); setHint(null); if (!daily) saveProgress({ suits }) }
+  const restart = (suits = s.suits) => { reported.current = false; setConfirm(null); setToast(null); setS(newDeal(suits)); setHistory([]); setHint(null); if (!daily) saveProgress({ suits }) }
+  const requestRestart = suits => { if (s.moves && !won) setConfirm(suits); else restart(suits) }
   const showHint = () => {
     const h = findHint(s)
     if (!h) say('אין מהלך — נסו לבטל כמה מהלכים אחורה')
@@ -54,28 +73,33 @@ export default function Spider({ onReport, onShare, daily }) {
   }
 
   useEffect(() => {
-    if (!won) return
+    if (!won || reported.current) return
+    reported.current = true
+    try { writeCardSession(localStorage, storageKey, { s, history, reported: true }) } catch { /* storage unavailable */ }
     if (daily) { daily.finish({ text: `🕷️ סוליטר עכביש: פירקתי את כל הרצפים ב־${s.moves} מהלכים`, score: s.moves, won: true }); return }
     saveProgress(p => ({ wins: p.wins + 1 }))
     onReport?.({ text: `🕷️ ניצחתי בסוליטר עכביש (${s.suits === 1 ? 'צורה אחת' : `${s.suits} צורות`}) ב־${s.moves} מהלכים!` })
-  }, [won, s.suits, s.moves, saveProgress, onReport, daily])
+  }, [won, s, history, storageKey, saveProgress, onReport, daily])
 
   // ----- layout -----
   // cards as big as the screen allows (big on a computer), the felt fills the rest
   const gap = Math.max(4, Math.min(14, box.w / 95))
-  const w = Math.max(26, Math.min((box.w - gap * 11) / 10, (box.h - gap * 4) / (1.4 * 3.3), 132))
+  const w = Math.max(24, Math.min((box.w - gap * 11) / 10, 116))
   const h = w * 1.4
   const left = (box.w - (w * 10 + gap * 9)) / 2
   const colX = i => left + i * (w + gap)
   const tabTop = h + gap * 2
-  const room = box.h - tabTop - h - gap
+  const minUp = Math.max(22, w * 0.35)
+  const needed = Math.max(...s.tab.map(p => p.filter(c => !c.up).length * h * 0.11 + Math.max(0, p.filter(c => c.up).length - 1) * minUp))
+  const tableHeight = Math.max(box.h, tabTop + h + gap + needed)
+  const room = Math.max(0, tableHeight - tabTop - h - gap)
   const dragging = drag && parse(drag.key)
   const hintKey = hint && !hint.deal ? `t${hint.from}:${hint.index}` : null
 
   const cards = []
   s.tab.forEach((pile, p) => {
     const down = pile.filter(c => !c.up).length, up = pile.length - down
-    let dOff = h * 0.11, uOff = h * 0.3
+    let dOff = h * 0.11, uOff = Math.max(minUp, h * 0.3)
     const need = down * dOff + Math.max(0, up - 1) * uOff
     if (need > room && need > 0) { const k = room / need; dOff *= k; uOff *= k }
     let y = tabTop
@@ -83,24 +107,25 @@ export default function Spider({ onReport, onShare, daily }) {
       const key = `t${p}:${i}`
       const isDrag = dragging && dragging[0] === p && i >= dragging[1] && canPick(pile, dragging[1])
       cards.push(<Card key={c.id} card={c} w={w} x={colX(p)} y={y} z={20 + i} dropKey={`t${p}`}
-        dragged={isDrag ? drag : null} hint={hintKey === key} selected={shake === key} onPointer={c.up ? handlers(key) : {}} />)
+        dragged={isDrag ? drag : null} hint={hintKey === key || (hint?.to === p && i === pile.length - 1)} selected={shake === key} onPointer={c.up ? handlers(key) : {}} />)
       y += c.up ? uOff : dOff
     })
   })
   const deals = s.stock.length / 10
 
   return (
-    <div className="arc-game">
+    <div className="arc-game spider-game">
       <Hud stats={[['רצפים', `${s.done}/8`], ['מהלכים', s.moves]]}>
-        <ToolButton onClick={undo} disabled={!history.length} label="ביטול מהלך">↩</ToolButton>
-        <ToolButton onClick={showHint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => restart()} label="משחק חדש">🔄</ToolButton>
+        <ToolButton onClick={undo} disabled={!history.length || won || confirm !== null} label="ביטול מהלך">↩</ToolButton>
+        <ToolButton onClick={showHint} disabled={won || confirm !== null} label="רמז">💡</ToolButton>
+        <ToolButton onClick={() => requestRestart(s.suits)} label="משחק חדש">🔄</ToolButton>
       </Hud>
       {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
-        {LEVELS.map(([n, label]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} onClick={() => restart(n)}>{label}</button>)}
+        {LEVELS.map(([n, label]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} aria-pressed={s.suits === n} onClick={() => requestRestart(n)}>{label}</button>)}
       </div>}
+      <span className="card-save" role="status">{storageOk ? 'המשחק נשמר במכשיר זה' : 'השמירה אינה זמינה במכשיר זה'}</span>
       <div className="arc-field cd-field" ref={boxRef}>
-        <div className="cd-table" style={{ width: box.w, height: box.h }}>
+        <div className="cd-table" style={{ width: box.w, height: tableHeight }}>
           {/* stock: one small card per remaining deal */}
           {deals > 0
             ? Array.from({ length: deals }, (_, i) => <Card key={`st${i}`} card={{ up: false }} w={w} x={colX(0) + i * w * 0.14} y={gap} z={5 + i} hint={hint?.deal && i === deals - 1} onPointer={{ onClick: doDeal }} />)
@@ -113,13 +138,14 @@ export default function Spider({ onReport, onShare, daily }) {
               ? <Card key={`d${i}`} card={{ up: true, rank: 13, suit: s.doneSuits[i] }} w={w} x={x} y={gap} z={5 + i} />
               : i === 0 ? <Slot key="dslot" w={w} x={x} y={gap} label={SUITS[0]} /> : null
           })}
-          {s.tab.map((_, p) => <Slot key={`ts${p}`} w={w} x={colX(p)} y={tabTop} label="" dropKey={`t${p}`} />)}
-          {s.tab.map((_, p) => <div key={`tz${p}`} className="cd-zone" data-drop={`t${p}`} style={{ width: w, height: box.h - tabTop, transform: `translate(${colX(p)}px, ${tabTop}px)` }} />)}
+          {s.tab.map((_, p) => <Slot key={`ts${p}`} w={w} x={colX(p)} y={tabTop} label="" active={hint?.to === p} dropKey={`t${p}`} />)}
+          {s.tab.map((_, p) => <div key={`tz${p}`} className="cd-zone" data-drop={`t${p}`} style={{ width: w, height: tableHeight - tabTop, transform: `translate(${colX(p)}px, ${tabTop}px)` }} />)}
           {cards}
         </div>
         {toast && <div key={toast.k} className="arc-toast">{toast.text}</div>}
         {hint?.deal && <div className="arc-toast">💡 אין מהלך טוב — חלקו שורה חדשה מהחפיסה</div>}
       </div>
+      {confirm !== null && <CardRestartDialog onCancel={() => setConfirm(null)} onConfirm={() => restart(confirm)} />}
       {won && !daily && <EndCard title="🎉 ניצחתם!" text={`פירקתם את כל 8 הרצפים ב־${s.moves} מהלכים.${s.suits < 4 ? ' מוכנים לרמה הבאה?' : ''}`}
         primary={s.suits < 4 ? '▶ לרמה הבאה' : '🕷️ משחק חדש'} onPrimary={() => restart(s.suits === 1 ? 2 : 4)}
         secondary="📱 שתפו את הניצחון" onSecondary={() => onShare?.(`🕷️ ניצחתי בסוליטר עכביש של עוגה בוגה! תצליחו גם?`)} />}

@@ -1,0 +1,12 @@
+.memory-game .memory-field{display:block;overflow:auto;overscroll-behavior:contain;padding:12px;box-sizing:border-box;border:2.5px solid var(--arc-ink);border-radius:22px;background:radial-gradient(#1d22330b 1px,transparent 1.5px) 0 0/20px 20px,#e4dcff;box-shadow:3px 3px 0 var(--arc-ink)}
+.memory-game .mm-grid{width:fit-content;margin:0 auto;padding-bottom:5px}
+.memory-game .mm-card{flex:none;touch-action:manipulation;border-radius:16px}
+.memory-game .mm-back{background:radial-gradient(#ffffff88 1.5px,transparent 2px) 0 0/12px 12px,#a9a0ed;color:var(--arc-ink);font-family:Fredoka,Heebo,sans-serif;font-size:clamp(13px,3vw,24px);text-shadow:1px 1px #fff}
+.memory-game .mm-face{background:#fffdf6}
+.memory-game .mm-card.is-done .mm-face{background:#bcebd1;border-color:#275c42}
+.memory-game .mm-card:disabled{cursor:default;opacity:1}
+.memory-game .mm-card:focus-visible{outline:4px solid #b04c00;outline-offset:4px}
+.memory-game .memory-guide{margin:0;font-weight:800;font-size:15px;text-align:center}
+.arc-stage .memory-game .arc-tool{min-height:44px;min-width:44px}
+@media(max-width:560px){.memory-game{padding:6px;gap:6px}.memory-game .mm-back,.memory-game .mm-face{border-radius:12px}.memory-game .memory-guide{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.memory-game .mm-inner{transition:none}.memory-game .mm-card.is-done .mm-face{animation:none}}
