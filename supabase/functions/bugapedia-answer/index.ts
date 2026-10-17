@@ -1,7 +1,6 @@
-// BugaPedia's answer writer: finds encyclopedia excerpts for a child's question and has Claude write a
+// BugaPedia's answer writer: finds encyclopedia excerpts for a child's question and has Gemini write a
 // short, accurate Hebrew answer from them. Answers are stored in public.bugapedia_answers, so a repeated
-// question costs nothing. Needs the ANTHROPIC_API_KEY secret on the Supabase project.
-import Anthropic from 'npm:@anthropic-ai/sdk@0.135.0'
+// question costs nothing. Needs the GEMINI_API_KEY secret on the Supabase project (aistudio.google.com).
 import { createClient } from 'npm:@supabase/supabase-js@2.116.0'
 import { checkBugaPediaQuery } from '../../../src/utils/bugapediaSafety.js'
 import { searchBugaPedia as searchJs } from '../../../src/utils/bugapediaSearch.js'
@@ -9,7 +8,9 @@ import { searchBugaPedia as searchJs } from '../../../src/utils/bugapediaSearch.
 const URL = Deno.env.get('SUPABASE_URL')!
 const secrets = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') || '{}')
 const db = createClient(URL, secrets.default || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false, autoRefreshToken: false } })
-const anthropic = new Anthropic({ apiKey: Deno.env.get('ANTHROPIC_API_KEY') })
+
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/interactions'
+const GEMINI_MODEL = 'gemini-3.8-flash'
 
 const ORIGINS = ['https://ugabuga.co.il', 'https://www.ugabuga.co.il']
 const PER_VISITOR_HOUR = 30
@@ -42,7 +43,6 @@ const SCHEMA = {
     sources: { type: 'array', items: { type: 'integer' } },
   },
   required: ['answer', 'confident', 'sources'],
-  additionalProperties: false,
 }
 
 type Source = { title: string, url?: string, extract?: string, verified?: boolean, computed?: boolean }
@@ -63,19 +63,28 @@ async function writeAnswer(question: string, subject: string | null, sources: So
   const excerpts = sources.length
     ? sources.map((source, index) => `[${index + 1}] ${source.title}\n${source.extract}`).join('\n\n')
     : '(no excerpts were found)'
-  const response = await anthropic.beta.messages.create({
-    model: 'claude-opus-5-5',
-    max_tokens: 4000,
-    betas: ['server-side-fallback-2026-07-01'],
-    fallbacks: 'default',
-    output_config: { effort: 'low', format: { type: 'json_schema', schema: SCHEMA } },
-    system: SYSTEM,
-    messages: [{ role: 'user', content: `Encyclopedia excerpts:\n\n${excerpts}\n\nSubject the child picked: ${subject || 'none'}\n\nThe child's question: ${question}` }],
+  const response = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': Deno.env.get('GEMINI_API_KEY')! },
+    body: JSON.stringify({
+      model: GEMINI_MODEL,
+      system_instruction: SYSTEM,
+      input: `Encyclopedia excerpts:\n\n${excerpts}\n\nSubject the child picked: ${subject || 'none'}\n\nThe child's question: ${question}`,
+      store: false,
+      generation_config: { max_output_tokens: 4000, thinking_level: 'low' },
+      response_format: { type: 'text', mime_type: 'application/json', schema: SCHEMA },
+    }),
   })
-  if (response.stop_reason === 'refusal') return null
-  const text = response.content.find(block => block.type === 'text')
-  if (!text || text.type !== 'text') return null
-  const parsed = JSON.parse(text.text)
+  if (!response.ok) {
+    console.error('gemini', response.status, (await response.text()).slice(0, 300))
+    return null
+  }
+  const data = await response.json()
+  if (data.status !== 'completed') return null
+  const output = (data.steps || []).find((step: { type: string }) => step.type === 'model_output')
+  const text = output?.content?.find((part: { type: string, text?: string }) => part.type === 'text')?.text
+  if (!text) return null
+  const parsed = JSON.parse(text)
   const answer = tidy(parsed.answer)
   if (answer.length < 10 || checkBugaPediaQuery(answer) === 'blocked') return null
   const used = (Array.isArray(parsed.sources) ? parsed.sources : []).map((n: number) => sources[n - 1]).filter((s?: Source) => s?.url)
