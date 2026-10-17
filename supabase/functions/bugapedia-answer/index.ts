@@ -13,7 +13,7 @@ const anthropic = new Anthropic({ apiKey: Deno.env.get('ANTHROPIC_API_KEY') })
 
 const ORIGINS = ['https://ugabuga.co.il', 'https://www.ugabuga.co.il']
 const PER_VISITOR_HOUR = 30
-const SITE_HOUR = 1500
+const SITE_HOUR = 400
 const CACHE_DAYS = 60
 
 const cors = (req: Request) => ({
