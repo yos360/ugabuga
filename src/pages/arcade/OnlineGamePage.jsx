@@ -10,6 +10,8 @@ import { shareGameText } from '../../arcade/stage'
 import { shareOnWhatsApp } from '../../utils/share'
 import { WhatsAppIcon } from '../../components/layout/WhatsAppShare'
 import '../../arcade/arcade.css'
+import CourtArt from '../../arcade/games/solitaire/CourtArt'
+import '../../arcade/games/solitaire/landing.css'
 
 // /online-games/:slug — the page explains the game (for parents and for Google);
 // "play" opens the full-screen stage on top (#play in the URL, so Back closes it).
@@ -49,15 +51,16 @@ export default function OnlineGamePage() {
   }
   const others = ARCADE.filter(g => g.slug !== game.slug)
   return (
-    <div className="arc-page" dir="rtl" style={{ '--game-color': game.color }}>
+    <div className={`arc-page${slug === 'solitaire' ? ' sol-page' : ''}`} dir="rtl" style={{ '--game-color': game.color }}>
       <SEO title={game.seoTitle} description={game.description} path={`/online-games/${game.slug}`} structuredData={game.faq ? [schema, faqSchema(game.faq)] : schema} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקי אונליין', href: '/online-games' }, { label: game.name }]} />
       <header className="arc-hero">
-        <h1>{game.emoji} {game.h1 || game.name}</h1>
+        <h1>{slug === 'solitaire' ? '♠' : game.emoji} {game.h1 || game.name}</h1>
       </header>
       <section className="arc-play-hero">
-        <div className="arc-play-art" aria-hidden="true">{game.emoji}</div>
+        {slug === 'solitaire' ? <div className="sol-hero-art" aria-hidden="true"><div className="sol-hero-card sol-hero-ace"><b>A<br />♠</b><span>♠</span></div><div className="sol-hero-card sol-hero-queen"><b>Q<br />♥</b><CourtArt rank={12} /></div><div className="sol-hero-card sol-hero-king"><b>K<br />♠</b><CourtArt rank={13} /></div></div> : <div className="arc-play-art" aria-hidden="true">{game.emoji}</div>}
         <div>
+          {slug === 'solitaire' && <><span className="sol-hero-kicker">הקלפים המוכרים. רגע חדש לעצמכם.</span><h2 className="sol-hero-title">פותחים שולחן.<br />עושים קצת סדר.</h2></>}
           <p>{game.description}</p>
           <button type="button" className="arc-play-btn" onClick={open}>▶ שחקו עכשיו</button>
           <div className="arc-meta">
