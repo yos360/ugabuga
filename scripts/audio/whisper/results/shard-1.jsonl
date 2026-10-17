@@ -1,0 +1,439 @@
+{"lang": "he", "id": "a27d96cc", "heard": "דוב", "duration": 0.54, "logprob": -0.294, "no_speech": 0.0}
+{"lang": "he", "id": "17399833", "heard": "לבן", "duration": 0.64, "logprob": -0.216, "no_speech": 0.0}
+{"lang": "he", "id": "320ca3f6", "heard": "שבע", "duration": 0.56, "logprob": -0.244, "no_speech": 0.0}
+{"lang": "he", "id": "9c0cf635", "heard": "סבא", "duration": 0.55, "logprob": -0.312, "no_speech": 0.0}
+{"lang": "he", "id": "8f01ecd4", "heard": "תפוז", "duration": 0.67, "logprob": -0.346, "no_speech": 0.0}
+{"lang": "he", "id": "b38348d8", "heard": "קצר", "duration": 0.64, "logprob": -0.226, "no_speech": 0.0}
+{"lang": "he", "id": "f4357f2e", "heard": "לילה", "duration": 0.57, "logprob": -0.305, "no_speech": 0.0}
+{"lang": "he", "id": "17e23182", "heard": "חדש", "duration": 0.72, "logprob": -0.215, "no_speech": 0.0}
+{"lang": "he", "id": "6b1790e8", "heard": "מחומש", "duration": 1.0, "logprob": -0.199, "no_speech": 0.0}
+{"lang": "he", "id": "37149393", "heard": "שתיים כפול שתיים", "duration": 2.04, "logprob": -0.15, "no_speech": 0.0}
+{"lang": "he", "id": "19eb271e", "heard": "שש עשרה", "duration": 0.77, "logprob": -0.322, "no_speech": 0.0}
+{"lang": "he", "id": "9527f264", "heard": "3 כפול 4", "duration": 1.61, "logprob": -0.361, "no_speech": 0.0}
+{"lang": "he", "id": "8a27e113", "heard": "שלוש כפול תשע.", "duration": 1.69, "logprob": -0.213, "no_speech": 0.0}
+{"lang": "he", "id": "520138b8", "heard": "ארבע כפול חמש.", "duration": 1.67, "logprob": -0.22, "no_speech": 0.0}
+{"lang": "he", "id": "97f67edc", "heard": "ארבע כפול עשר.", "duration": 1.74, "logprob": -0.201, "no_speech": 0.0}
+{"lang": "he", "id": "be10ed9c", "heard": "חמש כפול שש.", "duration": 1.7, "logprob": -0.181, "no_speech": 0.0}
+{"lang": "he", "id": "f290bb5a", "heard": "שש כפול אחת.", "duration": 1.82, "logprob": -0.202, "no_speech": 0.0}
+{"lang": "he", "id": "eb90b055", "heard": "שש כפול שמונה.", "duration": 1.64, "logprob": -0.219, "no_speech": 0.0}
+{"lang": "he", "id": "d6e6a265", "heard": "שבע כפול שלוש.", "duration": 1.68, "logprob": -0.224, "no_speech": 0.0}
+{"lang": "he", "id": "dce6abd7", "heard": "שבע כפול תשע.", "duration": 1.61, "logprob": -0.16, "no_speech": 0.0}
+{"lang": "he", "id": "81f63734", "heard": "שמונה כפול חמש.", "duration": 1.76, "logprob": -0.223, "no_speech": 0.0}
+{"lang": "he", "id": "9201aa55", "heard": "שמונים", "duration": 0.71, "logprob": -0.313, "no_speech": 0.0}
+{"lang": "he", "id": "e24204f2", "heard": "9 כפול 8.", "duration": 1.58, "logprob": -0.472, "no_speech": 0.0}
+{"lang": "he", "id": "de9538ee", "heard": "10 כפול 4.", "duration": 1.55, "logprob": -0.385, "no_speech": 0.0}
+{"lang": "he", "id": "63de7bf5", "heard": "אחת כפול אחת.", "duration": 1.72, "logprob": -0.201, "no_speech": 0.0}
+{"lang": "he", "id": "6bde888d", "heard": "אחת כפול תשע.", "duration": 1.61, "logprob": -0.164, "no_speech": 0.0}
+{"lang": "he", "id": "2b8eb337", "heard": "אחת ועוד ארבע.", "duration": 1.49, "logprob": -0.134, "no_speech": 0.0}
+{"lang": "he", "id": "b6c18b94", "heard": "חמש ועוד אחת.", "duration": 1.64, "logprob": -0.213, "no_speech": 0.0}
+{"lang": "he", "id": "a207d432", "heard": "שתיים ועוד שש.", "duration": 1.82, "logprob": -0.192, "no_speech": 0.0}
+{"lang": "he", "id": "082e9f73", "heard": "שלוש ועוד שש.", "duration": 1.71, "logprob": -0.195, "no_speech": 0.0}
+{"lang": "he", "id": "072e9de0", "heard": "שלוש ועוד שבע.", "duration": 1.63, "logprob": -0.267, "no_speech": 0.0}
+{"lang": "he", "id": "162eb57d", "heard": "שלוש ועוד שמונה.", "duration": 1.55, "logprob": -0.189, "no_speech": 0.0}
+{"lang": "he", "id": "152eb3ea", "heard": "שלוש ועוד תשע.", "duration": 1.66, "logprob": -0.193, "no_speech": 0.0}
+{"lang": "he", "id": "9546be46", "heard": "שתיים ועוד אחת עשרה.", "duration": 1.95, "logprob": -0.209, "no_speech": 0.0}
+{"lang": "he", "id": "3f60e4d6", "heard": "עשר ועוד שלוש.", "duration": 1.61, "logprob": -0.191, "no_speech": 0.0}
+{"lang": "he", "id": "cc3e3e64", "heard": "שמונה ועוד שש.", "duration": 1.71, "logprob": -0.144, "no_speech": 0.0}
+{"lang": "he", "id": "56aed32c", "heard": "חמש ועוד עשר.", "duration": 1.64, "logprob": -0.224, "no_speech": 0.0}
+{"lang": "he", "id": "63df7cbe", "heard": "שלוש עשרה ועוד שתיים.", "duration": 1.9, "logprob": -0.258, "no_speech": 0.0}
+{"lang": "he", "id": "4460ecb5", "heard": "עשר ועוד שש.", "duration": 1.53, "logprob": -0.162, "no_speech": 0.0}
+{"lang": "he", "id": "924da3fa", "heard": "שבע ועוד עשר.", "duration": 1.64, "logprob": -0.26, "no_speech": 0.0}
+{"lang": "he", "id": "27718725", "heard": "שלוש ועוד חמש עשרה.", "duration": 1.84, "logprob": -0.186, "no_speech": 0.0}
+{"lang": "he", "id": "a97f34a7", "heard": "11 ועוד 7.", "duration": 1.8, "logprob": -0.308, "no_speech": 0.0}
+{"lang": "he", "id": "398174c4", "heard": "שש ועוד שלוש עשרה.", "duration": 1.8, "logprob": -0.187, "no_speech": 0.0}
+{"lang": "he", "id": "ff566760", "heard": "ארבע עשרה ועוד חמש.", "duration": 2.18, "logprob": -0.228, "no_speech": 0.0}
+{"lang": "he", "id": "d5f9d959", "heard": "שמונה ועוד שתים עשרה.", "duration": 2.04, "logprob": -0.149, "no_speech": 0.0}
+{"lang": "he", "id": "962dcaa5", "heard": "16 ועוד 4.", "duration": 1.76, "logprob": -0.389, "no_speech": 0.0}
+{"lang": "he", "id": "70151352", "heard": "חודש אדר, עונת חורף", "duration": 2.39, "logprob": -0.252, "no_speech": 0.0}
+{"lang": "en", "id": "a4e23c54", "heard": "Alligator", "duration": 0.75, "logprob": -0.503, "no_speech": 0.0}
+{"lang": "en", "id": "67fd43b4", "heard": "‫אנ-אנט, אייט אנ-אפל.", "duration": 1.87, "logprob": -0.43, "no_speech": 0.0}
+{"lang": "en", "id": "c26f9aed", "heard": "דרום", "duration": 0.63, "logprob": -0.514, "no_speech": 0.0}
+{"lang": "en", "id": "8ac139b8", "heard": "The dog and the duck dance.", "duration": 1.99, "logprob": -0.224, "no_speech": 0.0}
+{"lang": "en", "id": "0a6db91a", "heard": "An elephant eats eggs.", "duration": 1.85, "logprob": -0.468, "no_speech": 0.0}
+{"lang": "en", "id": "3642a549", "heard": "A frog and a fish are friends.", "duration": 2.28, "logprob": -0.287, "no_speech": 0.0}
+{"lang": "en", "id": "f368cd1e", "heard": "גלב", "duration": 0.48, "logprob": -0.527, "no_speech": 0.0}
+{"lang": "en", "id": "316a8164", "heard": "אני", "duration": 0.46, "logprob": -0.666, "no_speech": 0.0}
+{"lang": "en", "id": "1d33a506", "heard": "איגואנה", "duration": 0.7, "logprob": -0.302, "no_speech": 0.0}
+{"lang": "en", "id": "5c1c35e9", "heard": "ג'לי פיש", "duration": 0.87, "logprob": -0.346, "no_speech": 0.0}
+{"lang": "en", "id": "d7e330f4", "heard": "ג'אט", "duration": 0.51, "logprob": -0.427, "no_speech": 0.0}
+{"lang": "en", "id": "bffdf499", "heard": "טיווי", "duration": 0.6, "logprob": -0.469, "no_speech": 0.0}
+{"lang": "en", "id": "2648cd55", "heard": "לייף", "duration": 0.41, "logprob": -0.744, "no_speech": 0.0}
+{"lang": "en", "id": "ea085305", "heard": "ליידי-בג", "duration": 0.79, "logprob": -0.423, "no_speech": 0.0}
+{"lang": "en", "id": "49cbe0a2", "heard": "מאונטן", "duration": 0.69, "logprob": -0.424, "no_speech": 0.0}
+{"lang": "en", "id": "20093d88", "heard": "ניוספייפר", "duration": 0.83, "logprob": -0.384, "no_speech": 0.0}
+{"lang": "en", "id": "bebfab0e", "heard": "אוקטופוס", "duration": 0.78, "logprob": -0.413, "no_speech": 0.0}
+{"lang": "en", "id": "218148db", "heard": "אוסטריץ'.", "duration": 0.75, "logprob": -0.415, "no_speech": 0.0}
+{"lang": "en", "id": "c2d8738d", "heard": "פאזל.", "duration": 0.54, "logprob": -0.604, "no_speech": 0.0}
+{"lang": "en", "id": "59c2cae7", "heard": "קורטר", "duration": 0.55, "logprob": -0.383, "no_speech": 0.0}
+{"lang": "en", "id": "ce1430df", "heard": "רובוט", "duration": 0.63, "logprob": -0.317, "no_speech": 0.0}
+{"lang": "en", "id": "aff5e25b", "heard": "סנייק", "duration": 0.61, "logprob": -0.464, "no_speech": 0.0}
+{"lang": "en", "id": "86adf0c8", "heard": "The snake sees the sun and the stars.", "duration": 2.66, "logprob": -0.37, "no_speech": 0.0}
+{"lang": "en", "id": "11439fd7", "heard": "יוניקורן", "duration": 1.08, "logprob": -0.173, "no_speech": 0.0}
+{"lang": "en", "id": "c9aefaf4", "heard": "יוקוללה", "duration": 0.78, "logprob": -0.185, "no_speech": 0.0}
+{"lang": "en", "id": "e63776b3", "heard": "וסט", "duration": 0.6, "logprob": -0.575, "no_speech": 0.0}
+{"lang": "en", "id": "fb42fc34", "heard": "A van with a violin drives to the volcano.", "duration": 3.04, "logprob": -0.257, "no_speech": 0.0}
+{"lang": "en", "id": "591aa460", "heard": "רווייץ'", "duration": 0.55, "logprob": -0.632, "no_speech": 0.0}
+{"lang": "en", "id": "1de2ccf7", "heard": "וואקס", "duration": 0.65, "logprob": -0.584, "no_speech": 0.0}
+{"lang": "en", "id": "576ecf72", "heard": "יוהאן", "duration": 0.67, "logprob": -0.452, "no_speech": 0.0}
+{"lang": "en", "id": "7499948f", "heard": "זיברה", "duration": 0.64, "logprob": -0.378, "no_speech": 0.0}
+{"lang": "en", "id": "0912b424", "heard": "זוכים.", "duration": 0.78, "logprob": -0.557, "no_speech": 0.0}
+{"lang": "he", "id": "394aaeb5", "heard": "איתי.", "duration": 0.51, "logprob": -0.488, "no_speech": 0.0}
+{"lang": "he", "id": "c2cec52b", "heard": "בחוץ.", "duration": 0.72, "logprob": -0.251, "no_speech": 0.0}
+{"lang": "he", "id": "ddbe33f4", "heard": "קרוב", "duration": 0.65, "logprob": -0.258, "no_speech": 0.0}
+{"lang": "he", "id": "6fc8fc91", "heard": "מתוק", "duration": 0.73, "logprob": -0.373, "no_speech": 0.0}
+{"lang": "he", "id": "c4109680", "heard": "צעיר", "duration": 0.62, "logprob": -0.156, "no_speech": 0.0}
+{"lang": "he", "id": "2fbf90a0", "heard": "חורף", "duration": 0.71, "logprob": -0.334, "no_speech": 0.0}
+{"lang": "he", "id": "e56dc6c0", "heard": "‫לוקח.", "duration": 0.82, "logprob": -0.416, "no_speech": 0.0}
+{"lang": "he", "id": "cf7a8963", "heard": "‫צער.", "duration": 0.5, "logprob": -0.448, "no_speech": 0.0}
+{"lang": "he", "id": "1764b9ab", "heard": "מחוספס", "duration": 1.01, "logprob": -0.292, "no_speech": 0.0}
+{"lang": "he", "id": "e5851a03", "heard": "לתפוס", "duration": 0.83, "logprob": -0.172, "no_speech": 0.0}
+{"lang": "he", "id": "bc51874c", "heard": "לרדת.", "duration": 0.84, "logprob": -0.322, "no_speech": 0.0}
+{"lang": "he", "id": "ff46e469", "heard": "אף פעם.", "duration": 0.79, "logprob": -0.282, "no_speech": 0.0}
+{"lang": "he", "id": "1a038b54", "heard": "מסודר", "duration": 0.81, "logprob": -0.343, "no_speech": 0.0}
+{"lang": "he", "id": "a26c1f6b", "heard": "ים", "duration": 0.53, "logprob": -0.203, "no_speech": 0.0}
+{"lang": "he", "id": "c585a933", "heard": "לקנות", "duration": 0.79, "logprob": -0.304, "no_speech": 0.0}
+{"lang": "he", "id": "396eaf34", "heard": "לאסוף.", "duration": 0.79, "logprob": -0.323, "no_speech": 0.0}
+{"lang": "he", "id": "23b05faa", "heard": "לפני.", "duration": 0.67, "logprob": -0.4, "no_speech": 0.0}
+{"lang": "he", "id": "0d254d02", "heard": "עליון", "duration": 0.66, "logprob": -0.314, "no_speech": 0.0}
+{"lang": "he", "id": "00debcd2", "heard": "אדיב", "duration": 0.61, "logprob": -0.16, "no_speech": 0.0}
+{"lang": "he", "id": "2251e367", "heard": "ראשי", "duration": 0.62, "logprob": -0.408, "no_speech": 0.0}
+{"lang": "he", "id": "7104e784", "heard": "חובה", "duration": 0.56, "logprob": -0.248, "no_speech": 0.0}
+{"lang": "he", "id": "772c3759", "heard": "גלוי", "duration": 0.67, "logprob": -0.258, "no_speech": 0.0}
+{"lang": "he", "id": "c6e463af", "heard": "להגדיל", "duration": 0.82, "logprob": -0.172, "no_speech": 0.0}
+{"lang": "he", "id": "97f2abd1", "heard": "חיבור", "duration": 0.65, "logprob": -0.211, "no_speech": 0.0}
+{"lang": "he", "id": "d544facf", "heard": "אמיתי", "duration": 0.59, "logprob": -0.315, "no_speech": 0.0}
+{"lang": "he", "id": "75796771", "heard": "עתיק", "duration": 0.64, "logprob": -0.302, "no_speech": 0.0}
+{"lang": "he", "id": "d946eaaa", "heard": "להיכנס.", "duration": 0.93, "logprob": -0.424, "no_speech": 0.0}
+{"lang": "he", "id": "2e3e5892", "heard": "לגנות", "duration": 0.82, "logprob": -0.245, "no_speech": 0.0}
+{"lang": "he", "id": "b05193ff", "heard": "לחשוף", "duration": 0.91, "logprob": -0.319, "no_speech": 0.0}
+{"lang": "he", "id": "29d30074", "heard": "שפל", "duration": 0.72, "logprob": -0.151, "no_speech": 0.0}
+{"lang": "he", "id": "08e74fc2", "heard": "מגן", "duration": 0.65, "logprob": -0.203, "no_speech": 0.0}
+{"lang": "he", "id": "f6736076", "heard": "רברבן", "duration": 0.9, "logprob": -0.238, "no_speech": 0.0}
+{"lang": "he", "id": "dc2d6458", "heard": "בוגד", "duration": 0.69, "logprob": -0.184, "no_speech": 0.0}
+{"lang": "he", "id": "1093ef42", "heard": "מסופק.", "duration": 0.83, "logprob": -0.239, "no_speech": 0.0}
+{"lang": "he", "id": "08e2730f", "heard": "מדוכדך", "duration": 0.93, "logprob": -0.225, "no_speech": 0.0}
+{"lang": "he", "id": "5eca3ec5", "heard": "ידיד", "duration": 0.63, "logprob": -0.237, "no_speech": 0.0}
+{"lang": "he", "id": "f0f71226", "heard": "לחכות.", "duration": 0.81, "logprob": -0.317, "no_speech": 0.0}
+{"lang": "he", "id": "fabd6fbb", "heard": "בגד", "duration": 0.65, "logprob": -0.216, "no_speech": 0.0}
+{"lang": "he", "id": "c3a950df", "heard": "חביב", "duration": 0.66, "logprob": -0.28, "no_speech": 0.0}
+{"lang": "he", "id": "bdf07ab6", "heard": "נבון", "duration": 0.67, "logprob": -0.225, "no_speech": 0.0}
+{"lang": "he", "id": "8050b7fb", "heard": "לצעוק.", "duration": 0.82, "logprob": -0.196, "no_speech": 0.0}
+{"lang": "he", "id": "88bd3ff8", "heard": "להקים", "duration": 0.77, "logprob": -0.221, "no_speech": 0.0}
+{"lang": "he", "id": "46bfc718", "heard": "לשוב.", "duration": 0.77, "logprob": -0.388, "no_speech": 0.0}
+{"lang": "he", "id": "a6b04d7f", "heard": "לבחון", "duration": 0.8, "logprob": -0.207, "no_speech": 0.0}
+{"lang": "he", "id": "e4315ac0", "heard": "עוצמה", "duration": 0.61, "logprob": -0.133, "no_speech": 0.0}
+{"lang": "he", "id": "ed3f997e", "heard": "המולה", "duration": 0.82, "logprob": -0.243, "no_speech": 0.0}
+{"lang": "he", "id": "03de40c6", "heard": "כעת", "duration": 0.61, "logprob": -0.219, "no_speech": 0.0}
+{"lang": "he", "id": "859ca916", "heard": "ידוע", "duration": 0.61, "logprob": -0.206, "no_speech": 0.0}
+{"lang": "he", "id": "17f548e4", "heard": "פוחד", "duration": 0.62, "logprob": -0.153, "no_speech": 0.0}
+{"lang": "he", "id": "03c103dd", "heard": "שיר", "duration": 0.57, "logprob": -0.284, "no_speech": 0.0}
+{"lang": "he", "id": "93edeff7", "heard": "ראשית.", "duration": 0.68, "logprob": -0.244, "no_speech": 0.0}
+{"lang": "he", "id": "b983611d", "heard": "עת", "duration": 0.48, "logprob": -0.577, "no_speech": 0.0}
+{"lang": "he", "id": "a693e0be", "heard": "רם", "duration": 0.52, "logprob": -0.276, "no_speech": 0.0}
+{"lang": "he", "id": "40b04f40", "heard": "לשמוח", "duration": 0.89, "logprob": -0.338, "no_speech": 0.0}
+{"lang": "he", "id": "a65c3b4e", "heard": "להסביר", "duration": 0.82, "logprob": -0.135, "no_speech": 0.0}
+{"lang": "he", "id": "67e2d7c8", "heard": "לנצור", "duration": 0.82, "logprob": -0.233, "no_speech": 0.0}
+{"lang": "he", "id": "f8046a89", "heard": "מטר", "duration": 0.61, "logprob": -0.212, "no_speech": 0.0}
+{"lang": "he", "id": "49e892b0", "heard": "אצל מבוגר במנוחה הוא פועם בערך 60 עד 100 פעמים בדקה, ואצל ילדים, מהר יותר.", "duration": 7.44, "logprob": -0.151, "no_speech": 0.0}
+{"lang": "he", "id": "3b5f0d5f", "heard": "כשהיא ריקה, היא קטנה, וכשאוכלים, היא נמתחת.", "duration": 4.28, "logprob": -0.129, "no_speech": 0.0}
+{"lang": "he", "id": "eccb51dd", "heard": "לכן חשוב לשתות מים.", "duration": 2.12, "logprob": -0.267, "no_speech": 0.0}
+{"lang": "he", "id": "c7b93f8e", "heard": "העצם הארוכה ביותר היא עצם הירך, והקטנה ביותר נמצאת באוזן.", "duration": 5.88, "logprob": -0.157, "no_speech": 0.0}
+{"lang": "he", "id": "e6cea404", "heard": "האוזניים הגדולות עוזרות לפיל להתקרר. כשהוא מנפנף בהן, הדם שזורם בהן מתקרר.", "duration": 7.5, "logprob": -0.106, "no_speech": 0.0}
+{"lang": "he", "id": "0a6ebb07", "heard": "את רוב הצייד בלהקה עושות הלוויות, והן צדות יחד כצוות.", "duration": 5.03, "logprob": -0.158, "no_speech": 0.0}
+{"lang": "he", "id": "19f0cc76", "heard": "בצוואר של הג'ירפה יש רק שבע חוליות, בדיוק כמו אצל בני אדם, פשוט כל חולייה ארוכה מאוד.", "duration": 7.93, "logprob": -0.152, "no_speech": 0.0}
+{"lang": "he", "id": "51fe7151", "heard": "לכל זברה יש דוגמת פסים משלה, ואין שתי זברות עם פסים זהים לגמרי, כמו טביעת אצבע.", "duration": 7.67, "logprob": -0.135, "no_speech": 0.0}
+{"lang": "he", "id": "03d45ecd", "heard": "היפופוטם", "duration": 0.92, "logprob": -0.193, "no_speech": 0.0}
+{"lang": "he", "id": "7f84fa64", "heard": "היפופוטמים יכולים להיות מסוכנים מאוד, ולכן חשוב מאוד לשמור מהם מרחק.", "duration": 6.02, "logprob": -0.117, "no_speech": 0.0}
+{"lang": "he", "id": "de74c898", "heard": "בעולם יש חמישה מינים של קרנפים, שניים באפריקה ושלושה באסיה.", "duration": 5.8, "logprob": -0.13, "no_speech": 0.0}
+{"lang": "he", "id": "5222bba3", "heard": "בניגוד לרוב החתולים, הברדלס לא מכניס את הציפורניים עד הסוף, והן עוזרות לו להיאחז בקרקע כמו נעלי ספורט.", "duration": 8.86, "logprob": -0.096, "no_speech": 0.0}
+{"lang": "he", "id": "1f03dac1", "heard": "גורילות הולכות על ארבע ונשענות על פרקי האצבעות של הידיים.", "duration": 4.7, "logprob": -0.079, "no_speech": 0.0}
+{"lang": "he", "id": "510a17e5", "heard": "שימפנזים חיים בקהילות גדולות ומתקשרים בקולות, בהבעות פנים ובתנועות ידיים.", "duration": 6.87, "logprob": -0.124, "no_speech": 0.0}
+{"lang": "he", "id": "32311c70", "heard": "הגור נשאר בכיס של אמא וגדל שם בערך 6-8 חודשים עד שהוא מוכן לצאת לעולם.", "duration": 7.19, "logprob": -0.109, "no_speech": 0.0}
+{"lang": "he", "id": "3badee30", "heard": "הדולפין נושם דרך נחיר בראש הנקרא נחיר נשיפה, ולכן הוא חייב לעלות אל פני המים כדי לנשום.", "duration": 8.48, "logprob": -0.097, "no_speech": 0.0}
+{"lang": "he", "id": "caef0b33", "heard": "הלוויתן הכחול הוא בעל החיים הגדול ביותר שחי אי פעם. אורכו יכול להגיע לכ-30 מטרים, כמו שלושה אוטובוסים בשורה.", "duration": 9.8, "logprob": -0.129, "no_speech": 0.0}
+{"lang": "he", "id": "ea41b98a", "heard": "כריש לבן גדול", "duration": 1.58, "logprob": -0.103, "no_speech": 0.0}
+{"lang": "he", "id": "c919b4e7", "heard": "הכריש הלבן מסוגל לשמור על חלקים מגופו חמים יותר מהמים שסביבו, וזה עוזר לו לשחות מהר במים קרים.", "duration": 8.42, "logprob": -0.095, "no_speech": 0.0}
+{"lang": "he", "id": "63e9f24c", "heard": "תמלונים נחשבים חכמים מאוד. במחקרים הם למדו לפתוח צנצנות ולפתור חידות כדי להגיע לאוכל.", "duration": 8.42, "logprob": -0.111, "no_speech": 0.0}
+{"lang": "he", "id": "b9503465", "heard": "צב ים לא יכול להכניס את הראש והרגליים לתוך השריון, כמו שעושים צבי יבשה רבים.", "duration": 6.45, "logprob": -0.133, "no_speech": 0.0}
+{"lang": "he", "id": "1dfb3246", "heard": "מדוזות קיימות על כדור הארץ יותר מ-500 מיליון שנה, הרבה לפני הדינוזאורים.", "duration": 6.37, "logprob": -0.145, "no_speech": 0.0}
+{"lang": "he", "id": "3454de6a", "heard": "העיניים של סוסון הים יכולות לזוז כל אחת לבד, כך שהוא מסתכל לשני כיוונים בבת אחת.", "duration": 7.11, "logprob": -0.107, "no_speech": 0.0}
+{"lang": "he", "id": "3799a1cc", "heard": "אחרי שהנקבה מטילה ביצה, האבא מחזיק אותה על כפות הרגליים מתחת לכפל עור חם במשך כחודשיים.", "duration": 8.63, "logprob": -0.114, "no_speech": 0.0}
+{"lang": "he", "id": "e5511578", "heard": "דוב הקוטב הוא אחד הטורפים הגדולים ביותר שחיים על היבשה. זכר גדול יכול לשקול יותר מ-700 קילוגרמים.", "duration": 8.71, "logprob": -0.091, "no_speech": 0.0}
+{"lang": "he", "id": "40b4eadf", "heard": "כלב הים הוא יונק, הוא נושם אוויר, והאימא מניקה את הגור בחלב שמן מאוד.", "duration": 7.08, "logprob": -0.177, "no_speech": 0.0}
+{"lang": "he", "id": "0c235e82", "heard": "הכלב הביתי מוצאו מהזאב האפור. לפני אלפי שנים בני אדם בהיותו אותו.", "duration": 6.76, "logprob": -0.174, "no_speech": 0.0}
+{"lang": "he", "id": "17b22b8e", "heard": "חתולים ישנים הרבה, בערך 12 עד 16 שעות ביום.", "duration": 4.95, "logprob": -0.21, "no_speech": 0.0}
+{"lang": "he", "id": "76b43432", "heard": "לסוס יש עיניים מהגדולות ביותר מכל היונקים שחיים על היבשה.", "duration": 5.0, "logprob": -0.088, "no_speech": 0.0}
+{"lang": "he", "id": "a62bb87c", "heard": "לקיבה של הפרה יש ארבעה חלקים, וכל אחד עוזר לעכל את העשב הקשה.", "duration": 6.19, "logprob": -0.131, "no_speech": 0.0}
+{"lang": "he", "id": "2d04d614", "heard": "כבשה", "duration": 0.64, "logprob": -0.201, "no_speech": 0.0}
+{"lang": "he", "id": "e777aba4", "heard": "כבשים ביותו לפני אלפי שנים והן מחיות המשק הוותיקות בעולם.", "duration": 5.73, "logprob": -0.142, "no_speech": 0.0}
+{"lang": "he", "id": "00ea971c", "heard": "לתרנגולות אין שיניים, הן בולעות אבנים קטנות שעוזרות לטחון את האוכל בקיבה.", "duration": 6.43, "logprob": -0.098, "no_speech": 0.0}
+{"lang": "he", "id": "98c805a2", "heard": "האוזניים הארוכות עוזרות לארנבון לשמוע טוב וגם לשחרר חום מהגוף.", "duration": 5.88, "logprob": -0.08, "no_speech": 0.0}
+{"lang": "he", "id": "b6b89a73", "heard": "השיניים הקדמיות של האוגר גדלות כל החיים, ולכן הוא צריך לכרסם.", "duration": 5.86, "logprob": -0.133, "no_speech": 0.0}
+{"lang": "he", "id": "fdd3f678", "heard": "טוקינגליים יכולים ללמוד לחכות מילים וצלילים ויש כאלה שלומדים הרבה מילים.", "duration": 6.39, "logprob": -0.109, "no_speech": 0.0}
+{"lang": "he", "id": "1a142759", "heard": "לדג זהב אין קיבה, האוכל עובר ישר למעיים, ולכן עדיף להאכיל אותו מעט ובתדירות.", "duration": 7.72, "logprob": -0.179, "no_speech": 0.0}
+{"lang": "he", "id": "b68bd223", "heard": "דבורים מכינות דבש מצוף הפרחים ושומרות אותו בתאים משושים עשויים שאבה.", "duration": 6.21, "logprob": -0.111, "no_speech": 0.0}
+{"lang": "he", "id": "559a2703", "heard": "זחל המונרך אוכל רק עלים של צמח בשם אסקלפיאס, צמח החלב.", "duration": 5.98, "logprob": -0.163, "no_speech": 0.0}
+{"lang": "he", "id": "e5880ace", "heard": "יש בעולם יותר מ-12,000 מינים של נמלים שהמדע כבר מכיר.", "duration": 4.95, "logprob": -0.078, "no_speech": 0.0}
+{"lang": "he", "id": "ad003e2a", "heard": "פרת משה רבנו", "duration": 1.44, "logprob": -0.155, "no_speech": 0.0}
+{"lang": "he", "id": "2e263a62", "heard": "כמו פרפר, גם היא עוברת גלגול מלא, ביצה, זחל, גולם ובוגרת.", "duration": 6.89, "logprob": -0.132, "no_speech": 0.0}
+{"lang": "he", "id": "9950b980", "heard": "יש בעולם יותר מחמישים אלף מינים של עכבישים.", "duration": 3.79, "logprob": -0.169, "no_speech": 0.0}
+{"lang": "he", "id": "03a2d83f", "heard": "בקיץ החם והיבש, חלזונות רבים נכנסים לקונכייה, סוגרים אותה בשכבת ריר מתייבש ומחכים לגשם.", "duration": 8.73, "logprob": -0.109, "no_speech": 0.0}
+{"lang": "he", "id": "c7af5db8", "heard": "הזכרים קורעים כדי למשוך נקבות, ולרבים מהם יש שק קול שמתנפח כמו בלון.", "duration": 7.05, "logprob": -0.094, "no_speech": 0.0}
+{"lang": "he", "id": "e8b657f5", "heard": "כשהנחש גדל, הוא משיל את האור הישן, לפעמים בחתיכה אחת שלמה.", "duration": 5.91, "logprob": -0.135, "no_speech": 0.0}
+{"lang": "he", "id": "096bc0be", "heard": "אמא טנינה מטילה ביצים בבור באדמה ושומרת עליו. כשהגורים בוקעים, היא נושאת אותם בזהירות בפה אל המים.", "duration": 9.21, "logprob": -0.135, "no_speech": 0.0}
+{"lang": "he", "id": "0711493b", "heard": "זיקיות משנות צבע בעיקר כדי לדבר עם זיקיות אחרות ובגלל שינויי חום ואור, לא רק כדי להסתתר.", "duration": 9.01, "logprob": -0.138, "no_speech": 0.0}
+{"lang": "he", "id": "3d933efb", "heard": "כשהוא צולל אל טרפו הוא יכול להגיע למהירות של יותר מ-200 קילומטר לשעה.", "duration": 6.18, "logprob": -0.101, "no_speech": 0.0}
+{"lang": "he", "id": "9bbd8159", "heard": "לתנשמת פנים בצורת לב והן עוזרות לה לאסוף קולות אל האוזניים כמו צלחת לווין.", "duration": 7.39, "logprob": -0.133, "no_speech": 0.0}
+{"lang": "he", "id": "3d24dde7", "heard": "דוכיפת", "duration": 0.95, "logprob": -0.305, "no_speech": 0.0}
+{"lang": "he", "id": "254ce884", "heard": "כשהיא עפה, רואים שהכנפיים שלה בשחור ולבן, ועל הזנב השחור יש פס לבן רחב.", "duration": 7.83, "logprob": -0.086, "no_speech": 0.0}
+{"lang": "he", "id": "d08c35b7", "heard": "שני ההורים מאכילים את הגוזל בנוזל מיוחד שהם מייצרים בגוף שנקרא חלב זפק.", "duration": 7.35, "logprob": -0.102, "no_speech": 0.0}
+{"lang": "he", "id": "0e564f64", "heard": "זה מיתוס שיענים טומנים את הראש בחול. כשהם מסתתרים, הם משכיבים את הראש והצוואר על האדמה, ומרחוק הם נראים כמו תלולית עפר.", "duration": 11.26, "logprob": -0.157, "no_speech": 0.0}
+{"lang": "he", "id": "e5bac909", "heard": "עטלף הפירות המצוי, הנפוץ בישראל, אוכל פירות ומנווט בחושך בעזרת קולות נקישה שהוא משמיע בלשון.", "duration": 8.9, "logprob": -0.095, "no_speech": 0.0}
+{"lang": "he", "id": "9f176747", "heard": "הקיפוד פעיל בעיקר בלילה ומחפש אוכל בעזרת חוש ריח מצוין.", "duration": 5.31, "logprob": -0.101, "no_speech": 0.0}
+{"lang": "he", "id": "b4bc84ad", "heard": "הוא מצליח לצוד מכרסמים גם כשהם מוסתרים מתחת לשלג או בתוך עשב גבוה.", "duration": 5.9, "logprob": -0.048, "no_speech": 0.0}
+{"lang": "he", "id": "c03e82a2", "heard": "הכלבים שלנו התפתחו מזאבים קדומים שבני אדם ביתו לפני אלפי שנים.", "duration": 5.6, "logprob": -0.059, "no_speech": 0.0}
+{"lang": "he", "id": "8439ca23", "heard": "הדוב החום הוא אוכל קול, אבל בערך 90% מהתפריט שלו הם צמחים, פירות יער ושורשים.", "duration": 7.85, "logprob": -0.145, "no_speech": 0.0}
+{"lang": "he", "id": "4a557822", "heard": "יש לי ידיים, אבל אני לא יכול למחוא כפיים. מה אני?", "duration": 4.27, "logprob": -0.213, "no_speech": 0.0}
+{"lang": "he", "id": "b753a42d", "heard": "מה עולה כל הזמן ואף פעם לא יורד?", "duration": 3.04, "logprob": -0.096, "no_speech": 0.0}
+{"lang": "he", "id": "16508bb1", "heard": "באור", "duration": 0.7, "logprob": -0.469, "no_speech": 0.0}
+{"lang": "he", "id": "32668177", "heard": "אני גרה בכוורת ומכינה דבש מתוק. מי אני?", "duration": 4.01, "logprob": -0.162, "no_speech": 0.0}
+{"lang": "he", "id": "bed46fbf", "heard": "הירח", "duration": 0.9, "logprob": -0.375, "no_speech": 0.0}
+{"lang": "he", "id": "80a61925", "heard": "קשת בענן", "duration": 1.2, "logprob": -0.101, "no_speech": 0.0}
+{"lang": "he", "id": "4f9f4435", "heard": "אמא שלי.", "duration": 0.67, "logprob": -0.384, "no_speech": 0.0}
+{"lang": "he", "id": "8aba0dcd", "heard": "שניים", "duration": 0.7, "logprob": -0.281, "no_speech": 0.0}
+{"lang": "he", "id": "ff917014", "heard": "מטבע", "duration": 0.7, "logprob": -0.266, "no_speech": 0.0}
+{"lang": "he", "id": "556cc67e", "heard": "ארבע עשרה. חצי מארבע עשרה הוא שבע, ושבע ועוד חמש שווה שתים עשרה.", "duration": 7.3, "logprob": -0.216, "no_speech": 0.0}
+{"lang": "he", "id": "416914e6", "heard": "33 פחות 3 שווה 30. אפשר גם 5 כפול 5 ועוד 5 או 6 כפול 6 פחות 6.", "duration": 9.73, "logprob": -0.175, "no_speech": 0.0}
+{"lang": "he", "id": "cc40ae27", "heard": "שלוש שבועות הם 21 ימים, יום אחד יותר.", "duration": 4.46, "logprob": -0.294, "no_speech": 0.0}
+{"lang": "he", "id": "ff637c35", "heard": "ככל שיש ממני יותר, רואים פחות. מה אני?", "duration": 4.28, "logprob": -0.234, "no_speech": 0.0}
+{"lang": "he", "id": "29f799f5", "heard": "אני מתחיל כשאתה נרדם, ונגמר כשאתה מתעורר, ומראה לך דברים שלא באמת קרו. מה אני?", "duration": 7.5, "logprob": -0.141, "no_speech": 0.0}
+{"lang": "he", "id": "f63aaab0", "heard": "ביום אני ישן תלוי הפוך, ובלילה אני יוצא לעוף. אני יונק, ולא ציפור. מי אני?", "duration": 7.79, "logprob": -0.206, "no_speech": 0.0}
+{"lang": "he", "id": "fa7defe1", "heard": "אני חי בים, אבל אני לא דג. אני נושם אוויר, קופץ מעל הגלים ומאוד חכם. מי אני?", "duration": 8.04, "logprob": -0.173, "no_speech": 0.0}
+{"lang": "he", "id": "f128cbc9", "heard": "מה צריך לשבור לפני שאפשר להשתמש בו?", "duration": 2.93, "logprob": -0.102, "no_speech": 0.0}
+{"lang": "he", "id": "46b22f43", "heard": "יש לי כתר על הראש ומאות גרעינים אדומים בתוכי. מה אני?", "duration": 4.84, "logprob": -0.199, "no_speech": 0.0}
+{"lang": "he", "id": "76a02ea7", "heard": "פופקורן", "duration": 0.74, "logprob": -0.13, "no_speech": 0.0}
+{"lang": "he", "id": "c7b8a295", "heard": "אני כדור קטן ומטוגן מחומוס טחון ושמים אותי בפיטה עם סלט. מה אני?", "duration": 6.01, "logprob": -0.153, "no_speech": 0.0}
+{"lang": "he", "id": "6306ed0b", "heard": "השמש", "duration": 0.84, "logprob": -0.317, "no_speech": 0.0}
+{"lang": "he", "id": "7bfedce0", "heard": "בלילה אנחנו מנצנצים בשמיים, ויש מאיתנו כל כך הרבה שאי אפשר לספור. מה אנחנו?", "duration": 7.77, "logprob": -0.187, "no_speech": 0.0}
+{"lang": "he", "id": "2bf11a66", "heard": "אני שומר על האוכל קר וטרי ונדלק בי עור כשפותחים את הדלת שלי. מה אני?", "duration": 6.18, "logprob": -0.162, "no_speech": 0.0}
+{"lang": "he", "id": "caa8e715", "heard": "מנגבים עליי את הנעליים לפני שנכנסים הביתה. מה אני?", "duration": 4.27, "logprob": -0.218, "no_speech": 0.0}
+{"lang": "he", "id": "bdd903ce", "heard": "לוחצים על המתג שלי, ואני מאירה את החדר. מה אני?", "duration": 4.3, "logprob": -0.213, "no_speech": 0.0}
+{"lang": "he", "id": "4153a18f", "heard": "מה יש פעם אחת באימא, פעמיים בממתק, ואין בכלל באבא?", "duration": 5.59, "logprob": -0.159, "no_speech": 0.0}
+{"lang": "he", "id": "25d345d2", "heard": "איזו חיה מסתתרת בתוך המילה דובדבן?", "duration": 3.42, "logprob": -0.096, "no_speech": 0.0}
+{"lang": "he", "id": "125a326f", "heard": "עין עכבר", "duration": 1.64, "logprob": -0.396, "no_speech": 0.0}
+{"lang": "he", "id": "8bbfff80", "heard": "כמו לכם, אתם הנהגים.", "duration": 2.39, "logprob": -0.211, "no_speech": 0.0}
+{"lang": "he", "id": "7bb0c3b7", "heard": "ארבעה חתולים", "duration": 1.11, "logprob": -0.126, "no_speech": 0.0}
+{"lang": "he", "id": "d6dfc794", "heard": "האור", "duration": 0.65, "logprob": -0.272, "no_speech": 0.0}
+{"lang": "he", "id": "edb2cb7e", "heard": "מה פירוש ארבע האותיות שעל הסביבון בארץ ישראל?", "duration": 4.04, "logprob": -0.085, "no_speech": 0.0}
+{"lang": "he", "id": "f32257d8", "heard": "לפי סיפור החג, כמה ימים דלק פח השמן הטטן שנמצא בבית המקדש?", "duration": 5.93, "logprob": -0.125, "no_speech": 0.0}
+{"lang": "he", "id": "193562aa", "heard": "על סביבונים מחוץ לארץ ישראל כתוב נג' השין. מה פירוש האות שין?", "duration": 7.6, "logprob": -0.226, "no_speech": 0.0}
+{"lang": "he", "id": "c5b689dd", "heard": "באיזה חודש עברי חוגגים את פורים?", "duration": 2.71, "logprob": -0.071, "no_speech": 0.0}
+{"lang": "he", "id": "5d58fd72", "heard": "מה שולחים לחברים ולשכנים בפורים עם לפחות שני סוגים של אוכל?", "duration": 4.99, "logprob": -0.103, "no_speech": 0.0}
+{"lang": "he", "id": "057ecd0b", "heard": "מה נותנים בפורים לאנשים שצריכים עזרה כדי שגם הם יסמכו בחג?", "duration": 5.14, "logprob": -0.099, "no_speech": 0.0}
+{"lang": "he", "id": "454ec2eb", "heard": "אני המלכה שסירבה להגיע למשתה של אחשוורוש, ולכן הוחלפתי. מי אני?", "duration": 6.39, "logprob": -0.164, "no_speech": 0.0}
+{"lang": "he", "id": "af470640", "heard": "אני לחם שטוח ופריך, כי לא הספקתי לטפוח. מה אני?", "duration": 4.75, "logprob": -0.206, "no_speech": 0.0}
+{"lang": "he", "id": "32b85257", "heard": "כמה מכות נחתו על מצרים לפי ההגדה?", "duration": 3.06, "logprob": -0.084, "no_speech": 0.0}
+{"lang": "he", "id": "d1cdf57b", "heard": "כמה בנים מופיעים בהגדה? חכם, רשע, תם ושאינו יודע לשאול?", "duration": 6.28, "logprob": -0.131, "no_speech": 0.0}
+{"lang": "he", "id": "7b3fbe24", "heard": "אני מספר, אם תכפילו אותי בכל מספר שבעולם, תמיד תקבלו אותי בחזרה. מי אני?", "duration": 7.36, "logprob": -0.188, "no_speech": 0.0}
+{"lang": "he", "id": "96324222", "heard": "איש מביט בתמונה ואומר, אין לי אחים ולא אחיות, אבל אבא של האיש שבתמונה הוא הבן של אבא שלי. מי בתמונה?", "duration": 9.71, "logprob": -0.178, "no_speech": 0.0}
+{"lang": "he", "id": "c1a3f20a", "heard": "יש לכם כלי של שלוש ליטרים וכלי של חמש ליטרים וברז בלי הגבלה. איך מודדים בדיוק ארבע ליטרים?", "duration": 8.64, "logprob": -0.152, "no_speech": 0.0}
+{"lang": "he", "id": "0399a34c", "heard": "לאימא של דני יש ארבעה ילדים אביב, קיץ, סתיו, ואיך קוראים לילד הרביעי?", "duration": 8.04, "logprob": -0.197, "no_speech": 0.0}
+{"lang": "he", "id": "fe41b784", "heard": "סבתא עפתה שלוש עוגות וחתכה כל אחת לשמונה פרוסות. כמה פרוסות יש בסך הכל?", "duration": 7.22, "logprob": -0.111, "no_speech": 0.0}
+{"lang": "he", "id": "ee1a1b3a", "heard": "במשפחה יש חמש אנשים. לכל אחד יש שתיים אוזניים ושתיים עיניים. כמה אוזניים ועיניים יש לכולם יחד?", "duration": 10.41, "logprob": -0.124, "no_speech": 0.0}
+{"lang": "he", "id": "60911669", "heard": "מה עולה אבל אף פעם לא יורד?", "duration": 2.67, "logprob": -0.129, "no_speech": 0.0}
+{"lang": "he", "id": "fdb1e190", "heard": "חילזון מטפס על עמוד של עשר מטר. ביום עולה שלוש, ובלילה יורד שתיים. אחרי כמה ימים יגיע לפסגה.", "duration": 9.73, "logprob": -0.143, "no_speech": 0.0}
+{"lang": "he", "id": "8f4be654", "heard": "אני צהוב, מתוק, מקלפים אותי ואוכלים. מה אני?", "duration": 4.83, "logprob": -0.239, "no_speech": 0.0}
+{"lang": "he", "id": "06f65b86", "heard": "אני עגול, בועטים בי ורצים אחרי. מה אני?", "duration": 4.24, "logprob": -0.197, "no_speech": 0.0}
+{"lang": "he", "id": "2a22c1f0", "heard": "פסנתר", "duration": 0.96, "logprob": -0.182, "no_speech": 0.0}
+{"lang": "he", "id": "7f4c2585", "heard": "איזה מספר מקבלים אם מחברים את כל המספרים מ-1 עד 10?", "duration": 4.77, "logprob": -0.101, "no_speech": 0.0}
+{"lang": "he", "id": "a5bdb7ec", "heard": "שלושה חשודים היו בחדר. רק לאחד מהם יש מפתח. הדלת ננעלה מבפנים. מי הכי הגיוני שפתח אותה קודם?", "duration": 9.59, "logprob": -0.186, "no_speech": 0.0}
+{"lang": "he", "id": "ac52721f", "heard": "איזו אות מופיעה במילים דקה ושקט, אבל לא מופיעה במילה שנה?", "duration": 5.87, "logprob": -0.116, "no_speech": 0.0}
+{"lang": "he", "id": "a8b13309", "heard": "למה אבא אמר לא לגעת?", "duration": 2.11, "logprob": -0.136, "no_speech": 0.0}
+{"lang": "he", "id": "3374905c", "heard": "כמה צלעות יש לתא בכוורת?", "duration": 2.35, "logprob": -0.093, "no_speech": 0.0}
+{"lang": "he", "id": "8410ed51", "heard": "מה עשתה הארנבת באמצע המרוץ?", "duration": 2.59, "logprob": -0.098, "no_speech": 0.0}
+{"lang": "he", "id": "2c90ea8f", "heard": "למה קל לצוף בים המלח?", "duration": 2.13, "logprob": -0.156, "no_speech": 0.0}
+{"lang": "he", "id": "199cc41c", "heard": "‫איפה היו הענבים?", "duration": 1.44, "logprob": -0.176, "no_speech": 0.0}
+{"lang": "he", "id": "89ab23e0", "heard": "במה הפינגווין משתמש כדי לסחוט?", "duration": 2.66, "logprob": -0.135, "no_speech": 0.0}
+{"lang": "he", "id": "df2c6f09", "heard": "מה צעירה מיה?", "duration": 1.13, "logprob": -0.318, "no_speech": 0.0}
+{"lang": "he", "id": "cf1951ac", "heard": "מה תפקיד השורשים?", "duration": 1.58, "logprob": -0.182, "no_speech": 0.0}
+{"lang": "he", "id": "10a4a99b", "heard": "איזה נהר עובר דרך הכינרת?", "duration": 2.38, "logprob": -0.123, "no_speech": 0.0}
+{"lang": "he", "id": "f67d352d", "heard": "כמה זמן נשאר לעידו לפי אימא?", "duration": 2.46, "logprob": -0.129, "no_speech": 0.0}
+{"lang": "he", "id": "92bde8f0", "heard": "אוטובוס", "duration": 0.75, "logprob": -0.211, "no_speech": 0.0}
+{"lang": "he", "id": "647636e3", "heard": "בלון", "duration": 0.7, "logprob": -0.187, "no_speech": 0.0}
+{"lang": "he", "id": "ac83586d", "heard": "גלידה", "duration": 0.62, "logprob": -0.21, "no_speech": 0.0}
+{"lang": "he", "id": "7665ab45", "heard": "דובי", "duration": 0.57, "logprob": -0.238, "no_speech": 0.0}
+{"lang": "he", "id": "722d3b5b", "heard": "הליקופטר", "duration": 0.91, "logprob": -0.151, "no_speech": 0.0}
+{"lang": "he", "id": "87aac14c", "heard": "זברה", "duration": 0.6, "logprob": -0.317, "no_speech": 0.0}
+{"lang": "he", "id": "baf603d8", "heard": "חמור", "duration": 0.69, "logprob": -0.231, "no_speech": 0.0}
+{"lang": "he", "id": "568b6cb9", "heard": "טרקטור", "duration": 0.7, "logprob": -0.16, "no_speech": 0.0}
+{"lang": "he", "id": "41b3c303", "heard": "ינשוף", "duration": 0.79, "logprob": -0.231, "no_speech": 0.0}
+{"lang": "he", "id": "964f732a", "heard": "כוכב", "duration": 0.64, "logprob": -0.196, "no_speech": 0.0}
+{"lang": "he", "id": "dadc2f4d", "heard": "לחם", "duration": 0.64, "logprob": -0.244, "no_speech": 0.0}
+{"lang": "he", "id": "9515c60d", "heard": "מכונית", "duration": 0.82, "logprob": -0.192, "no_speech": 0.0}
+{"lang": "he", "id": "5794dd71", "heard": "נמלה", "duration": 0.64, "logprob": -0.169, "no_speech": 0.0}
+{"lang": "he", "id": "aa3f7fe3", "heard": "סבון", "duration": 0.7, "logprob": -0.312, "no_speech": 0.0}
+{"lang": "he", "id": "49ce6a9a", "heard": "ענבים", "duration": 0.71, "logprob": -0.226, "no_speech": 0.0}
+{"lang": "he", "id": "339a5f9d", "heard": "פינגווין", "duration": 0.64, "logprob": -0.15, "no_speech": 0.0}
+{"lang": "he", "id": "72554984", "heard": "ציפור", "duration": 0.66, "logprob": -0.207, "no_speech": 0.0}
+{"lang": "he", "id": "41c016ae", "heard": "קרח", "duration": 0.65, "logprob": -0.254, "no_speech": 0.0}
+{"lang": "he", "id": "7441be70", "heard": "רדיו", "duration": 0.6, "logprob": -0.241, "no_speech": 0.0}
+{"lang": "he", "id": "b961019b", "heard": "שן", "duration": 0.56, "logprob": -0.467, "no_speech": 0.0}
+{"lang": "he", "id": "ba7a4a93", "heard": "תינוק", "duration": 0.65, "logprob": -0.294, "no_speech": 0.0}
+{"lang": "he", "id": "c58e6410", "heard": "ספר", "duration": 0.66, "logprob": -0.35, "no_speech": 0.0}
+{"lang": "he", "id": "e1033be9", "heard": "ציפור", "duration": 0.65, "logprob": -0.225, "no_speech": 0.0}
+{"lang": "he", "id": "6ac4b21d", "heard": "ארון", "duration": 0.58, "logprob": -0.222, "no_speech": 0.0}
+{"lang": "he", "id": "74d48773", "heard": "טלפון", "duration": 0.67, "logprob": -0.221, "no_speech": 0.0}
+{"lang": "he", "id": "a830505b", "heard": "מחבברת", "duration": 0.98, "logprob": -0.344, "no_speech": 0.0}
+{"lang": "he", "id": "bd7f86ff", "heard": "קיר", "duration": 0.49, "logprob": -0.304, "no_speech": 0.0}
+{"lang": "he", "id": "0c3849b1", "heard": "עין", "duration": 0.5, "logprob": -0.488, "no_speech": 0.0}
+{"lang": "he", "id": "cc885f83", "heard": "ארוחה", "duration": 0.61, "logprob": -0.219, "no_speech": 0.0}
+{"lang": "he", "id": "72476c65", "heard": "שדה", "duration": 0.56, "logprob": -0.196, "no_speech": 0.0}
+{"lang": "he", "id": "2e8d4a6b", "heard": "גבינה", "duration": 0.63, "logprob": -0.243, "no_speech": 0.0}
+{"lang": "he", "id": "5a5eb667", "heard": "אופניים", "duration": 0.81, "logprob": -0.15, "no_speech": 0.0}
+{"lang": "he", "id": "b68d9c08", "heard": "חישוון", "duration": 0.75, "logprob": -0.207, "no_speech": 0.0}
+{"lang": "he", "id": "0143aef6", "heard": "תמוז", "duration": 0.61, "logprob": -0.17, "no_speech": 0.0}
+{"lang": "he", "id": "09b7b030", "heard": "מצאו את המילה פרח.", "duration": 2.04, "logprob": -0.193, "no_speech": 0.0}
+{"lang": "en", "id": "cd0c04f7", "heard": "H", "duration": 0.45, "logprob": -0.482, "no_speech": 0.0}
+{"lang": "en", "id": "d50c118f", "heard": "‫פי.", "duration": 0.42, "logprob": -0.651, "no_speech": 0.0}
+{"lang": "en", "id": "dd0c1e27", "heard": "אקס", "duration": 0.49, "logprob": -0.396, "no_speech": 0.0}
+{"lang": "en", "id": "2fd9d583", "heard": "‫הששש.", "duration": 0.48, "logprob": -0.689, "no_speech": 0.0}
+{"lang": "en", "id": "1433f56a", "heard": "NOSE", "duration": 0.9, "logprob": -0.636, "no_speech": 0.0}
+{"lang": "en", "id": "0644fc10", "heard": "ויילן", "duration": 0.81, "logprob": -0.514, "no_speech": 0.0}
+{"lang": "en", "id": "05bf6449", "heard": "יאלו", "duration": 0.61, "logprob": -0.449, "no_speech": 0.0}
+{"lang": "en", "id": "be248829", "heard": "‫2.", "duration": 0.46, "logprob": -0.684, "no_speech": 0.0}
+{"lang": "en", "id": "bd01f454", "heard": "‫10.", "duration": 0.48, "logprob": -0.912, "no_speech": 0.0}
+{"lang": "en", "id": "a57e9c10", "heard": "אייטין", "duration": 0.7, "logprob": -0.511, "no_speech": 0.0}
+{"lang": "en", "id": "6840fb8f", "heard": "הג", "duration": 0.45, "logprob": -0.606, "no_speech": 0.0}
+{"lang": "en", "id": "cb619ce5", "heard": "ראביט", "duration": 0.56, "logprob": -0.441, "no_speech": 0.0}
+{"lang": "en", "id": "0a0a25b5", "heard": "‫טו.", "duration": 0.36, "logprob": -0.653, "no_speech": 0.0}
+{"lang": "en", "id": "e61cac07", "heard": "סעד", "duration": 0.6, "logprob": -0.208, "no_speech": 0.0}
+{"lang": "en", "id": "eda17c15", "heard": "בורד", "duration": 0.61, "logprob": -0.374, "no_speech": 0.0}
+{"lang": "en", "id": "72131c0e", "heard": "Good night.", "duration": 0.61, "logprob": -0.363, "no_speech": 0.0}
+{"lang": "en", "id": "bc09cf52", "heard": "פריידי", "duration": 0.57, "logprob": -0.489, "no_speech": 0.0}
+{"lang": "en", "id": "011ca01f", "heard": "ג'לי", "duration": 0.68, "logprob": -0.392, "no_speech": 0.0}
+{"lang": "en", "id": "5cb49d8a", "heard": "care", "duration": 0.55, "logprob": -0.696, "no_speech": 0.0}
+{"lang": "en", "id": "b1514998", "heard": "קומפיוטר", "duration": 0.73, "logprob": -0.218, "no_speech": 0.0}
+{"lang": "en", "id": "8827595f", "heard": "קארד", "duration": 0.55, "logprob": -0.506, "no_speech": 0.0}
+{"lang": "en", "id": "23d16399", "heard": "גריפס", "duration": 0.67, "logprob": -0.544, "no_speech": 0.0}
+{"lang": "en", "id": "0e74ffd5", "heard": "מיינגו", "duration": 0.67, "logprob": -0.371, "no_speech": 0.0}
+{"lang": "en", "id": "f624f702", "heard": "סוּפ", "duration": 0.83, "logprob": -0.448, "no_speech": 0.0}
+{"lang": "en", "id": "35bc1205", "heard": "פראד'ר", "duration": 0.51, "logprob": -0.63, "no_speech": 0.0}
+{"lang": "en", "id": "b3068a53", "heard": "שו״ז", "duration": 0.67, "logprob": -0.614, "no_speech": 0.0}
+{"lang": "en", "id": "89a3b5d3", "heard": "ריין", "duration": 0.57, "logprob": -0.303, "no_speech": 0.0}
+{"lang": "en", "id": "f590e1e5", "heard": "Umbrella", "duration": 0.7, "logprob": -0.419, "no_speech": 0.0}
+{"lang": "en", "id": "0e5e77a9", "heard": "טקסי", "duration": 0.65, "logprob": -0.25, "no_speech": 0.0}
+{"lang": "en", "id": "d13b2f71", "heard": "סטאר", "duration": 0.65, "logprob": -0.228, "no_speech": 0.0}
+{"lang": "en", "id": "7ecaa9ca", "heard": "‫לייטבלד.", "duration": 0.74, "logprob": -0.648, "no_speech": 0.0}
+{"lang": "en", "id": "23e3d71a", "heard": "mother", "duration": 0.51, "logprob": -0.443, "no_speech": 0.0}
+{"lang": "en", "id": "efb053bb", "heard": "כאוס", "duration": 0.56, "logprob": -0.555, "no_speech": 0.0}
+{"lang": "fr", "id": "7d13b16a", "heard": "סיל תפלי.", "duration": 0.75, "logprob": -0.549, "no_speech": 0.0}
+{"lang": "fr", "id": "5b23a0d6", "heard": "מרון", "duration": 0.49, "logprob": -0.357, "no_speech": 0.0}
+{"lang": "fr", "id": "11b57d04", "heard": "סנק", "duration": 0.51, "logprob": -0.655, "no_speech": 0.0}
+{"lang": "fr", "id": "f0d4e740", "heard": "שוואלה", "duration": 0.67, "logprob": -0.428, "no_speech": 0.0}
+{"lang": "fr", "id": "d52de1a1", "heard": "סאנג'", "duration": 0.62, "logprob": -0.382, "no_speech": 0.0}
+{"lang": "fr", "id": "d5b7f222", "heard": "סיטרון", "duration": 0.55, "logprob": -0.251, "no_speech": 0.0}
+{"lang": "fr", "id": "5a0906c7", "heard": "‫אוי.", "duration": 0.43, "logprob": -0.483, "no_speech": 0.0}
+{"lang": "fr", "id": "7eddd59a", "heard": "מזון", "duration": 0.5, "logprob": -0.486, "no_speech": 0.0}
+{"lang": "fr", "id": "d2b8ff50", "heard": "אביו", "duration": 0.63, "logprob": -0.369, "no_speech": 0.0}
+{"lang": "fr", "id": "d5ad6d4f", "heard": "מר", "duration": 0.49, "logprob": -0.592, "no_speech": 0.0}
+{"lang": "fr", "id": "f4193d65", "heard": "שוסט", "duration": 0.68, "logprob": -0.457, "no_speech": 0.0}
+{"lang": "fr", "id": "40f88cd7", "heard": "‫פייה.", "duration": 0.47, "logprob": -0.698, "no_speech": 0.0}
+{"lang": "fr", "id": "6c0df413", "heard": "רגל", "duration": 0.53, "logprob": -0.292, "no_speech": 0.0}
+{"lang": "fr", "id": "93041bb7", "heard": "רונה", "duration": 0.62, "logprob": -0.468, "no_speech": 0.0}
+{"lang": "fr", "id": "c71134f9", "heard": "סוריז", "duration": 0.75, "logprob": -0.537, "no_speech": 0.0}
+{"lang": "fr", "id": "24e203de", "heard": "גיטר", "duration": 0.65, "logprob": -0.361, "no_speech": 0.0}
+{"lang": "es", "id": "817bf290", "heard": "אמרידיו", "duration": 0.66, "logprob": -0.316, "no_speech": 0.0}
+{"lang": "es", "id": "da68aa25", "heard": "דוס", "duration": 0.52, "logprob": -0.505, "no_speech": 0.0}
+{"lang": "es", "id": "4e332f31", "heard": "B.S.", "duration": 0.57, "logprob": -0.629, "no_speech": 0.0}
+{"lang": "es", "id": "e82fd094", "heard": "פחדו.", "duration": 0.51, "logprob": -0.47, "no_speech": 0.0}
+{"lang": "es", "id": "b2ccca14", "heard": "‫הקלטנו.", "duration": 0.54, "logprob": -0.412, "no_speech": 0.0}
+{"lang": "es", "id": "0ed0d71c", "heard": "פקסו", "duration": 0.44, "logprob": -0.595, "no_speech": 0.0}
+{"lang": "es", "id": "6a40feb5", "heard": "תהיה", "duration": 0.29, "logprob": -0.648, "no_speech": 0.0}
+{"lang": "es", "id": "6613c672", "heard": "קארו", "duration": 0.43, "logprob": -0.406, "no_speech": 0.0}
+{"lang": "es", "id": "b8c80eb6", "heard": "פלור", "duration": 0.42, "logprob": -0.455, "no_speech": 0.0}
+{"lang": "es", "id": "93cbf874", "heard": "‫פנטלוניס.", "duration": 1.06, "logprob": -0.301, "no_speech": 0.0}
+{"lang": "es", "id": "b137e1be", "heard": "גורה", "duration": 0.56, "logprob": -0.44, "no_speech": 0.0}
+{"lang": "es", "id": "ff140057", "heard": "ביחדס.", "duration": 0.89, "logprob": -0.747, "no_speech": 0.0}
+{"lang": "es", "id": "f40f723c", "heard": "אביך", "duration": 0.58, "logprob": -0.32, "no_speech": 0.0}
+{"lang": "es", "id": "d7d88468", "heard": "מאייס", "duration": 0.62, "logprob": -0.497, "no_speech": 0.0}
+{"lang": "es", "id": "00a4f44c", "heard": "אוסיתו דה פלוצ'ה.", "duration": 1.21, "logprob": -0.316, "no_speech": 0.0}
+{"lang": "ru", "id": "d5e9fb6a", "heard": "בקעה.", "duration": 0.41, "logprob": -0.6, "no_speech": 0.0}
+{"lang": "ru", "id": "e937eeda", "heard": "צ'ורני", "duration": 0.61, "logprob": -0.303, "no_speech": 0.0}
+{"lang": "ru", "id": "9befe78b", "heard": "שיסט", "duration": 0.59, "logprob": -0.609, "no_speech": 0.0}
+{"lang": "ru", "id": "6b980e35", "heard": "קרובה", "duration": 0.99, "logprob": -0.372, "no_speech": 0.0}
+{"lang": "ru", "id": "deea3b26", "heard": "‫קרוליק.", "duration": 0.52, "logprob": -0.379, "no_speech": 0.0}
+{"lang": "ru", "id": "78bd99d9", "heard": "קלובניקה", "duration": 1.05, "logprob": -0.312, "no_speech": 0.0}
+{"lang": "ru", "id": "7ea840b1", "heard": "‫אוחה.", "duration": 0.49, "logprob": -0.617, "no_speech": 0.0}
+{"lang": "ru", "id": "da3e47d3", "heard": "קניגה", "duration": 0.59, "logprob": -0.368, "no_speech": 0.0}
+{"lang": "ru", "id": "bb8464e7", "heard": "סונצה", "duration": 0.73, "logprob": -0.307, "no_speech": 0.0}
+{"lang": "ru", "id": "0cddd98f", "heard": "‫אובלוקה.", "duration": 0.68, "logprob": -0.405, "no_speech": 0.0}
+{"lang": "ru", "id": "5c17426e", "heard": "קורטקה", "duration": 0.59, "logprob": -0.254, "no_speech": 0.0}
+{"lang": "ru", "id": "4a0df8cf", "heard": "זין שינה.", "duration": 0.78, "logprob": -0.466, "no_speech": 0.0}
+{"lang": "ru", "id": "abdda69d", "heard": "זירה", "duration": 0.5, "logprob": -0.396, "no_speech": 0.0}
+{"lang": "ru", "id": "f99f4e2f", "heard": "מרקוד", "duration": 0.53, "logprob": -0.367, "no_speech": 0.0}
+{"lang": "ru", "id": "362b32a8", "heard": "שכלה", "duration": 0.76, "logprob": -0.469, "no_speech": 0.0}
+{"lang": "ar", "id": "44073346", "heard": "שוכרן.", "duration": 0.71, "logprob": -0.341, "no_speech": 0.0}
+{"lang": "ar", "id": "b3be191c", "heard": "בוני", "duration": 0.7, "logprob": -0.354, "no_speech": 0.0}
+{"lang": "ar", "id": "970218b6", "heard": "‫חמסה.", "duration": 0.63, "logprob": -0.318, "no_speech": 0.0}
+{"lang": "ar", "id": "315c5e16", "heard": "חיסון", "duration": 0.78, "logprob": -0.403, "no_speech": 0.0}
+{"lang": "ar", "id": "51ec2815", "heard": "‫חרד.", "duration": 0.53, "logprob": -0.41, "no_speech": 0.0}
+{"lang": "ar", "id": "90eb66e5", "heard": "לאימון", "duration": 0.91, "logprob": -0.531, "no_speech": 0.0}
+{"lang": "ar", "id": "94bd1174", "heard": "‫עין.", "duration": 0.68, "logprob": -0.55, "no_speech": 0.0}
+{"lang": "ar", "id": "9ca5748b", "heard": "בית", "duration": 0.73, "logprob": -0.349, "no_speech": 0.0}
+{"lang": "ar", "id": "e96ed5b3", "heard": "תל אירה.", "duration": 0.71, "logprob": -0.793, "no_speech": 0.0}
+{"lang": "ar", "id": "af335dd3", "heard": "בהר", "duration": 0.68, "logprob": -0.683, "no_speech": 0.0}
+{"lang": "ar", "id": "6e83b40d", "heard": "מאה פאף.", "duration": 0.84, "logprob": -0.628, "no_speech": 0.0}
+{"lang": "ar", "id": "e3e809a3", "heard": "סיידה", "duration": 0.78, "logprob": -0.317, "no_speech": 0.0}
+{"lang": "ar", "id": "56c25487", "heard": "זרפה", "duration": 0.79, "logprob": -0.451, "no_speech": 0.0}
+{"lang": "ar", "id": "1554f37c", "heard": "חנזיר", "duration": 0.88, "logprob": -0.342, "no_speech": 0.0}
+{"lang": "ar", "id": "b205fe94", "heard": "שוקולדה", "duration": 0.87, "logprob": -0.223, "no_speech": 0.0}
+{"lang": "he", "id": "feb185f7", "heard": "אחת כפול שלוש שווה שלוש.", "duration": 2.66, "logprob": -0.203, "no_speech": 0.0}
+{"lang": "he", "id": "739217d7", "heard": "אחת כפול אחת עשרה שווה אחת עשרה.", "duration": 3.16, "logprob": -0.132, "no_speech": 0.0}
+{"lang": "he", "id": "198326b8", "heard": "שתיים כפול שבע שווה ארבע עשרה.", "duration": 3.34, "logprob": -0.218, "no_speech": 0.0}
+{"lang": "he", "id": "0e4bd133", "heard": "3 כפול 3 שווה 9.", "duration": 2.61, "logprob": -0.23, "no_speech": 0.0}
+{"lang": "he", "id": "e3791aa5", "heard": "3 כפול 11 שווה 33.", "duration": 3.75, "logprob": -0.279, "no_speech": 0.0}
+{"lang": "he", "id": "700030dd", "heard": "ארבע כפול שבע שווה עשרים ושמונה.", "duration": 3.07, "logprob": -0.09, "no_speech": 0.0}
+{"lang": "he", "id": "c056982c", "heard": "חמש כפול שלוש שווה חמש עשרה.", "duration": 2.95, "logprob": -0.17, "no_speech": 0.0}
+{"lang": "he", "id": "fd1dbd73", "heard": "חמש כפול אחת עשרה שווה חמישים וחמש.", "duration": 3.66, "logprob": -0.142, "no_speech": 0.0}
+{"lang": "he", "id": "3c98eccf", "heard": "6 כפול 7 שווה 42.", "duration": 3.32, "logprob": -0.3, "no_speech": 0.0}
+{"lang": "he", "id": "6d42b939", "heard": "שבע כפול שלוש שווה עשרים ואחת.", "duration": 3.17, "logprob": -0.17, "no_speech": 0.0}
+{"lang": "he", "id": "cd9b0761", "heard": "שבע כפול אחת עשרה שווה שבעים ושבע.", "duration": 3.62, "logprob": -0.136, "no_speech": 0.0}
+{"lang": "he", "id": "bcc2b83c", "heard": "שמונה כפול שבע שווה חמישים ושש.", "duration": 3.52, "logprob": -0.121, "no_speech": 0.0}
+{"lang": "he", "id": "c9a47361", "heard": "9 כפול 3 שווה 27.", "duration": 3.35, "logprob": -0.234, "no_speech": 0.0}
+{"lang": "he", "id": "7174723f", "heard": "9 כפול 11 שווה 99.", "duration": 3.68, "logprob": -0.246, "no_speech": 0.0}
+{"lang": "he", "id": "cd190d8d", "heard": "עשר כפול שבע שווה שבעים.", "duration": 2.73, "logprob": -0.158, "no_speech": 0.0}
+{"lang": "he", "id": "b2bbe115", "heard": "11 כפול 3 שווה 33.", "duration": 4.0, "logprob": -0.234, "no_speech": 0.0}
+{"lang": "he", "id": "863a2600", "heard": "11 כפול 11 שווה 121.", "duration": 4.61, "logprob": -0.205, "no_speech": 0.0}
+{"lang": "he", "id": "1eb6d040", "heard": "12 כפול 7 שווה 84.", "duration": 3.61, "logprob": -0.225, "no_speech": 0.0}
+{"lang": "he", "id": "0aa8dd95", "heard": "צביעה", "duration": 0.63, "logprob": -0.15, "no_speech": 0.0}
+{"lang": "he", "id": "c0b58896", "heard": "איקס עיגול", "duration": 0.98, "logprob": -0.174, "no_speech": 0.0}
+{"lang": "he", "id": "279aae36", "heard": "ברוך אתה השם, אלהינו מלך העולם, בורא פרי הגפן. ברוך אתה השם, אלהינו מלך העולם, אשר בחר בנו מכל עם, ורוממנו מכל לשון, וקדשנו במצותיו. ותיתן לנו השם אלהינו באהבה, מועדים לשמחה, חגים וזמנים לששון, את יום חג הסחות הזה, זמן שמחתנו, מקרא קדש, זכר ליציאת מצרים. כי בנו בחרת ואותנו קדשת מכל העמים ומועדי קודשך בשמחה ובששון הנחלתנו. ברוך אתה ה' מקדש ישראל והזמנים.", "duration": 40.7, "logprob": -0.18, "no_speech": 0.0}
+{"lang": "he", "id": "d4dbc19a", "heard": "ברוך אתה השם אלינו, מלך העולם, אשר קידשנו במצותיו, וצונו על מקרא מגלה.", "duration": 7.17, "logprob": -0.194, "no_speech": 0.0}
+{"lang": "he", "id": "a7ef4b9c", "heard": "ברוך אתה השם אלהינו מלך העולם, אשר קידשנו במצותיו, וצונו על ספירת האמר. היום יום אחד באמר.", "duration": 9.94, "logprob": -0.202, "no_speech": 0.0}
+{"lang": "he", "id": "9198e67c", "heard": "ביום שישי הלך תום עם אבא לפארק. על הראש שלו היה כובע כחול וחדש, מתנה מסבתא. תום אהב אותו מאוד, כי היה עליו ציור של רקטה.", "duration": 12.05, "logprob": -0.107, "no_speech": 0.0}
+{"lang": "he", "id": "9f922367", "heard": "החילזון הוא בעל חיים קטן ואיטי מאוד. על הגב שלו יש בית קשה, קונכייה. כשהחילזון מפחד, או כשחם מאוד בחוץ, הוא נכנס לתוך הקונכייה ומתחבא.", "duration": 13.56, "logprob": -0.132, "no_speech": 0.0}
+{"lang": "he", "id": "b4fae54a", "heard": "בתחילת החורף הביאה המורה רינה לכיתה שקית קטנה עם זרעים של שועית. היום נשתול גינה, אמרה.", "duration": 8.67, "logprob": -0.122, "no_speech": 0.0}
+{"lang": "he", "id": "69371a36", "heard": "מה פירוש המשפט סבלנות משתלמת?", "duration": 3.07, "logprob": -0.072, "no_speech": 0.0}
+{"lang": "he", "id": "0fa48fe7", "heard": "מה המסר של המשל?", "duration": 1.71, "logprob": -0.184, "no_speech": 0.0}
+{"lang": "he", "id": "56ffc6b7", "heard": "מה אפשר להבין מהמשפט רצה לכיתה עם לחיים אדומות?", "duration": 4.58, "logprob": -0.093, "no_speech": 0.0}
+{"lang": "he", "id": "7cd6b0de", "heard": "למה הגמל לא שוקע בחול?", "duration": 2.22, "logprob": -0.154, "no_speech": 0.0}
+{"lang": "he", "id": "07aad270", "heard": "למה הצרצר צחק על הנמלה?", "duration": 2.44, "logprob": -0.121, "no_speech": 0.0}
+{"lang": "he", "id": "cbc7a38e", "heard": "המחזור חוסך חומרי גלם ומקטין את כמות האשפה. ובכל זאת, הדרך הטובה ביותר היא להשתמש פחות בבקבוקים חד-פעמיים מלכתחילה, למשל בעזרת בקבוק שתייה אישי שאפשר למלא שוב ושוב.", "duration": 15.48, "logprob": -0.108, "no_speech": 0.0}
+{"lang": "he", "id": "f740af43", "heard": "כולם התיישבו סביב השולחן. סבתא סיפרה על הבית הקטן שגרה בו כילדה, על התנור שבישלו עליו ועל אחיה הגדול שהיה מספר סיפורי אימה מצחיקים לאור הנר. אחר כך לימדה אותם משחק ניחושים בצלליות. היא הניחה את הידיים מול הנר ועל הקיר הופיעו כלב, ציפור וארנב.", "duration": 23.52, "logprob": -0.115, "no_speech": 0.0}
+{"lang": "he", "id": "dc34da6b", "heard": "למה יובל הופתע לשמוע את עצמו מתאכזב?", "duration": 3.45, "logprob": -0.112, "no_speech": 0.0}
+{"lang": "he", "id": "fa7083ee", "heard": "למה חסידות מעדיפות לעוף מעל היבשה ולא מעל הים?", "duration": 4.39, "logprob": -0.094, "no_speech": 0.0}
+{"lang": "he", "id": "97f95c69", "heard": "השמועה עברה בכפר. שכן חמדן אחד שמע את הסיפור, הלך לנהר וזרק את הגרזן שלו למים בכוונה. כשהופיע הזקן והוציא גרזן מזהב, צעק השכן מיד, זה שלי! זה שלי! הזקן הביט בו בעצב, נעלם עם גרזן הזהב, והשכן נשאר בלי שום גרזן.", "duration": 23.06, "logprob": -0.169, "no_speech": 0.0}
+{"lang": "he", "id": "9f13e681", "heard": "עצי זית יכולים לגדול גם בלי השקייה רבה, ולכן נטעו אותם חקלאים כבר בימי קדם על מדרונות ההרים. כדי שהאדמה לא תיסחף בגשמים, בנו להם טרסות, מדרגות של אבן על צלע ההר. את הטרסות האלה אפשר לראות עד היום בהרי יהודה ובגליל.", "duration": 20.79, "logprob": -0.113, "no_speech": 0.0}
+{"lang": "he", "id": "ec638dae", "heard": "שלושה חודשים עבדו אלה, דניאל ואורי, על הרובוט שלהם. כל יום שלישי אחרי הלימודים נשארו במעבדה של בית הספר, הרכיבו גלגלים, חיברו חוטים וכתבו תוכנה. המטרה הייתה ברורה. בתחרות הרובוטיקה האזורית, הרובוט צריך לעבור מסלול מכשולים, להרים קובייה קטנה ולהניח אותה בתוך קופסה. הכול לבד, בלי שאף אחד ישלוט בו.", "duration": 28.77, "logprob": -0.122, "no_speech": 0.0}
+{"lang": "he", "id": "f495f070", "heard": "מה גרם לרובוט להיתקע בניסיון הראשון, לפי אורי?", "duration": 3.84, "logprob": -0.107, "no_speech": 0.0}
+{"lang": "he", "id": "1fd8bb23", "heard": "השלב הרביעי הוא איסוף. חלק מהמים זורמים על פני האדמה לנחלים ולנהרות, ומשם לאגמים ולם. חלק אחר מחלחל לתוך האדמה ונאגר בין שכבות הסלע. את המים האלה, שנקראים מי תהום, שואבים בעזרת בארות. ויש מים שנשארים קפואים בקרחונים במשך אלפי שנים.", "duration": 25.63, "logprob": -0.112, "no_speech": 0.0}
+{"lang": "he", "id": "eaa1eb6c", "heard": "מי שעומד על שפת מכתש רמון, ליד העיירה מצפה רמון, רואה מתחתיו נוף שנראה כמו כוכב לכת אחר. עמק עצום וסגור, בצבעים של אדום, צהוב, סגול ושחור. המכתש נמצא בלב הנגב, לא רחוק מהכביש לאילת. אורכו של המכתש כ-40 קילומטרים. רוחבו מגיע במקומות מסוימים לכ-10 קילומטרים, ובמקום העמוק ביותר הוא מגיע לעומק של כ-500 מטרים.", "duration": 32.84, "logprob": -0.092, "no_speech": 0.0}
+{"lang": "he", "id": "dcba2647", "heard": "מה מעידים המאובנים של צדפות שנמצאים במכתש?", "duration": 3.85, "logprob": -0.081, "no_speech": 0.0}
+{"lang": "he", "id": "ef5f6cb9", "heard": "שירה הופתעה. רגע היא שתקה, ואז אמרה, גם אני הגזמתי. לא הייתי צריכה לזרוק את הכדור וללכת.", "duration": 8.7, "logprob": -0.205, "no_speech": 0.0}
+{"lang": "he", "id": "c0a1aaf5", "heard": "בבוקר קר וסוער של 17 בדצמבר 1903, על גבעת חול ליד הכפר קיטי-הוק שבארצות הברית, שכב אורוויל רייט על כנף של מכונה מוזרה מעץ ובד. אחיו, וילבור, רץ לצידו והחזיק את קצה הכנף. המנוע שאג, המכונה החליקה על מסילת עץ והתרוממה. היא טסה 12 שניות בלבד ועברה כ-37 מטרים, פחות מאורכו של מטוס נוסעים בימינו. אבל באותן שניות קרה משהו שלא קרה מעולם. מכונה כבדה מהאוויר, עם מנוע, טסה כשאדם שולט בה.", "duration": 42.62, "logprob": -0.141, "no_speech": 0.0}
+{"lang": "he", "id": "583d90a6", "heard": "לפי האחים רייט, מה הייתה הבעיה החשובה ביותר בטיסה?", "duration": 4.71, "logprob": -0.161, "no_speech": 0.0}
+{"lang": "he", "id": "cbd6f11e", "heard": "רוני התחילה ללמוד אצל מורה בבית הספר למוזיקה. בחודשים הראשונים הצלילים שיצאו ממנו נשמעו כמו חתול שדרקו לו על הזנב, ואחיה הקטן ברח מהחדר בכל פעם שהתאמנה. אבל היא לא ויתרה.", "duration": 16.17, "logprob": -0.116, "no_speech": 0.0}
+{"lang": "he", "id": "895135b4", "heard": "מה מלמד התיאור הצלילים נשמעו כמו חתול שדרקו לו על הזנב.", "duration": 5.22, "logprob": -0.088, "no_speech": 0.0}
+{"lang": "he", "id": "5c43d1ce", "heard": "מה אפשר לעשות? מומחים ממליצים ללכת לישון ולקום בשעות קבועות, גם בסופי שבוע. להניח את המסכים בצד כשעה לפני השינה, ולשמור על חדר שינה חשוך, שקט ולא חם מדי. גם פעילות גופנית במהלך היום עוזרת להירדם בקלות בלילה. במקום המסך אפשר לקרוא ספר, לשמוע מוזיקה רגועה, או לדבר עם בני המשפחה על היום שעבר.", "duration": 28.36, "logprob": -0.13, "no_speech": 0.0}
+{"lang": "he", "id": "f30b4883", "heard": "עדי, שהתכוננה לנאום כל השבוע, עלתה ראשונה. הידיים שלה רעדו קצת, אבל הכל היה ברור. יש לי שלוש סיבות, פתחה. הראשונה היא שוויון. כשכולם לבושים אותו דבר, אף אחד לא נמדד לפי המותג של החולצה שלו. אני מכירה ילדים שמתביישים לבוא בבגדים פשוטים, ואחרים שמרגישים שהם חייבים לקנות כל הזמן בגדים חדשים כדי להתאים. היא המשיכה. הסיבה השנייה היא זמן ושקט בבוקר. אין ויכוחים מול הארון ואין התלבטויות. והשלישית, תחושת שייכות. כשאנחנו יוצאים לטיול או לתחרות, רואים מיד שאנחנו קבוצה אחת, וזה גם עוזר למורים לשמור עלינו.", "duration": 47.89, "logprob": -0.141, "no_speech": 0.0}
+{"lang": "he", "id": "1f487ec2", "heard": "מה אפשר להסיק מהמשפטים של עדי ויונתן בסוף?", "duration": 3.51, "logprob": -0.102, "no_speech": 0.0}
