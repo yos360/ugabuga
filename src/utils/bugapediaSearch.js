@@ -1,4 +1,5 @@
 import { bugaPediaSearchTerms, findBugaPediaKnowledge } from '../data/bugapediaKnowledge.js'
+import { checkBugaPediaQuery, filterSafeResults } from './bugapediaSafety.js'
 
 const HEBREW_WIKIPEDIA = 'https://he.wikipedia.org/w/api.php'
 const ENGLISH_WIKIPEDIA = 'https://en.wikipedia.org/w/api.php'
@@ -9,29 +10,58 @@ const cleanText = value => String(value || '').replace(/\s+/g, ' ').trim()
 const lower = value => cleanText(value).toLocaleLowerCase('he-IL')
 const coreTerm = value => lower(value).replace(/[\u0591-\u05C7]/g, '').replace(/^ה(?=[א-ת]{3,}$)/u, '')
 
+const QUESTION_PREFIX = /^(?:כמה|מה)\s+(?:זה|יוצא|הם|יהיה|שווה)\s*/u
+const WORD_OPERATORS = [[/לחלק\s*ל-?/gu, '/'], [/חלקי/gu, '/'], [/כפול/gu, '*'], [/פלוס/gu, '+'], [/ועוד/gu, '+'], [/פחות/gu, '-']]
+const SYMBOLS = { '×': '*', x: '*', '÷': '/' }
+const formatNumber = value => new Intl.NumberFormat('he-IL', { maximumFractionDigits: 10 }).format(value)
+
+// Evaluates "a op b op c…" (no parentheses) with * and / before + and -.
+function evaluate(tokens) {
+  const terms = [Number(tokens[0])]
+  const ops = []
+  for (let i = 1; i < tokens.length; i += 2) {
+    const op = tokens[i]
+    const right = Number(tokens[i + 1])
+    if (op === '*') terms.push(terms.pop() * right)
+    else if (op === '/') { if (right === 0) return NaN; terms.push(terms.pop() / right) }
+    else { ops.push(op); terms.push(right) }
+  }
+  return ops.reduce((total, op, i) => op === '+' ? total + terms[i + 1] : total - terms[i + 1], terms[0])
+}
+
+// Arithmetic only when the WHOLE question is an expression, e.g. "12*3" or "כמה זה 7+5?".
+export function calculateBugaPedia(question) {
+  let value = lower(question)
+  const explicit = QUESTION_PREFIX.test(value)
+  value = value.replace(QUESTION_PREFIX, '').replace(/[?？!=]/g, ' ').trim()
+  for (const [pattern, symbol] of WORD_OPERATORS) value = value.replace(pattern, ` ${symbol} `)
+  value = value.replace(/(\d),(?=\d{3}(?!\d))/g, '$1')
+  const percent = value.match(/^(\d+(?:\.\d+)?)\s*(?:%|אחוז(?:ים)?)\s*(?:מתוך|מ-?)\s*(\d+(?:\.\d+)?)$/u)
+  if (percent) {
+    const result = (Number(percent[1]) / 100) * Number(percent[2])
+    return { expression: `${percent[1]}% מתוך ${percent[2]}`, result }
+  }
+  const compact = value.replace(/\s+/g, '').replace(/[×x÷]/g, symbol => SYMBOLS[symbol])
+  if (!/^-?\d+(?:\.\d+)?(?:[+\-*/]-?\d+(?:\.\d+)?)+$/.test(compact)) return null
+  // A bare date or year range ("14/5/1948", "1939-1945") is not a calculation unless asked explicitly.
+  if (!explicit && (/^\d{1,2}([/.])\d{1,2}\1\d{2,4}$/.test(compact) || /^\d{4}-\d{4}$/.test(compact))) return null
+  const tokens = compact.match(/(?<=^|[+\-*/])-?\d+(?:\.\d+)?|[+\-*/]/g)
+  const result = evaluate(tokens)
+  return Number.isFinite(result) ? { expression: tokens.join(' ').replace(/\*/g, '×').replace(/\//g, '÷'), result } : null
+}
+
 function localAnswer(question) {
-  const value = lower(question).replace(/,/g, '.')
-  const math = value.match(/(?:כמה\s+(?:זה|הם)\s*)?(-?\d+(?:\.\d+)?)\s*(פלוס|פחות|כפול|לחלק ל|חלקי|אחוז מתוך|[+×x*÷/-])\s*(-?\d+(?:\.\d+)?)/)
+  const value = lower(question)
+  const math = calculateBugaPedia(question)
   if (math) {
-    const left = Number(math[1])
-    const right = Number(math[3])
-    const operator = math[2]
-    let result
-    if (operator === 'פלוס' || operator === '+') result = left + right
-    else if (operator === 'פחות' || operator === '-') result = left - right
-    else if (['כפול', '×', 'x', '*'].includes(operator)) result = left * right
-    else if (operator === 'אחוז מתוך') result = (left / 100) * right
-    else if (right !== 0) result = left / right
-    if (Number.isFinite(result)) {
-      const shown = new Intl.NumberFormat('he-IL', { maximumFractionDigits: 10 }).format(result)
-      return { id: `calculation-${left}-${operator}-${right}`, title: `התשובה היא ${shown}`, extract: `${math[1]} ${operator} ${math[3]} = ${shown}. החישוב בוצע ישירות בבוגה־פדיה.`, image: '', verified: true, sourceLabel: 'חישוב מדויק' }
-    }
+    const shown = formatNumber(math.result)
+    return { id: `calculation-${math.expression}`, title: `התשובה היא ${shown}`, extract: `${math.expression} = ${shown}. החישוב בוצע ישירות בבוגה־פדיה.`, image: '', verified: true, computed: true, sourceLabel: 'חישוב מדויק' }
   }
 
   if (/^(איזה יום היום|מה היום|מה התאריך היום|מה התאריך)$/u.test(value.replace(/[?!.,]/g, '').trim())) {
     const now = new Date()
     const fullDate = new Intl.DateTimeFormat('he-IL', { timeZone: 'Asia/Jerusalem', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(now)
-    return { id: 'date-today', title: `היום ${fullDate}`, extract: 'התאריך מוצג לפי שעון ישראל.', image: '', verified: true, sourceLabel: 'תאריך עדכני · שעון ישראל' }
+    return { id: 'date-today', title: `היום ${fullDate}`, extract: 'התאריך מוצג לפי שעון ישראל.', image: '', verified: true, computed: true, sourceLabel: 'תאריך עדכני · שעון ישראל' }
   }
 
   return null
@@ -48,12 +78,12 @@ function isDictionaryQuestion(question) {
   return /(?:מה\s+(?:הפירוש|פירוש|זה)|איך\s+אומרים|תרג(?:ם|ום)|מילה|משמעות)/u.test(value) || /^[a-z][a-z'-]{1,35}$/i.test(value)
 }
 
-async function searchMediaWiki({ api, query, signal, sourceLabel, linkLabel, language = 'he', dictionary = false }) {
+async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLabel, language = 'he', dictionary = false }) {
   const terms = bugaPediaSearchTerms(query)
   const params = new URLSearchParams({
     action: 'query', generator: 'search', gsrsearch: query, gsrlimit: '8',
     prop: 'extracts|pageimages|info', explaintext: '1',
-    piprop: 'thumbnail', pithumbsize: '900', inprop: 'url',
+    piprop: 'thumbnail', pithumbsize: '400', inprop: 'url',
     redirects: '1', format: 'json', origin: '*', formatversion: '2',
   })
   if (dictionary) params.set('exchars', '850')
@@ -78,6 +108,7 @@ async function searchMediaWiki({ api, query, signal, sourceLabel, linkLabel, lan
         url: page.fullurl,
         image: page.thumbnail?.source || '',
         score,
+        source,
         sourceLabel,
         linkLabel,
       }
@@ -97,6 +128,7 @@ async function searchWikidata(question, signal) {
     extract: item.description,
     url: item.concepturi || `https://www.wikidata.org/wiki/${item.id}`,
     image: '',
+    source: 'wikidata',
     sourceLabel: 'ויקינתונים',
     linkLabel: 'לפריט המלא בוויקינתונים ↗',
   }))
@@ -112,9 +144,13 @@ function uniqueResults(groups) {
   })
 }
 
+export const BUGAPEDIA_MAX_QUERY = 180
+
 export async function searchBugaPedia(question, signal) {
-  const query = cleanText(question)
+  const query = cleanText(String(question || '').slice(0, BUGAPEDIA_MAX_QUERY))
   if (query.length < 2) throw new Error('short')
+  const safety = checkBugaPediaQuery(query)
+  if (safety) throw new Error(safety)
 
   const verified = findBugaPediaKnowledge(query)
   if (verified) return [verified]
@@ -127,14 +163,21 @@ export async function searchBugaPedia(question, signal) {
   const dictionaryQuery = englishLookup(query) || encyclopediaQuery
   const mostlyEnglish = (query.match(/[a-z]/gi) || []).length > query.length / 3
 
-  const hebrewWikipedia = searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' })
+  const hebrewWikipedia = searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' })
   const tasks = [hebrewWikipedia, searchWikidata(encyclopediaQuery, signal)]
-  if (mostlyEnglish) tasks.unshift(searchMediaWiki({ api: ENGLISH_WIKIPEDIA, query, signal, language: 'en', sourceLabel: 'Wikipedia באנגלית', linkLabel: 'לערך המלא ב־Wikipedia ↗' }))
-  if (dictionaryQuestion) tasks.unshift(searchMediaWiki({ api: HEBREW_WIKTIONARY, query: dictionaryQuery, signal, dictionary: true, sourceLabel: 'ויקימילון העברי', linkLabel: 'לערך המלא בוויקימילון ↗' }))
+  if (mostlyEnglish) tasks.unshift(searchMediaWiki({ api: ENGLISH_WIKIPEDIA, query, signal, language: 'en', source: 'en-wikipedia', sourceLabel: 'Wikipedia באנגלית', linkLabel: 'לערך המלא ב־Wikipedia ↗' }))
+  if (dictionaryQuestion) tasks.unshift(searchMediaWiki({ api: HEBREW_WIKTIONARY, query: dictionaryQuery, signal, dictionary: true, source: 'he-wiktionary', sourceLabel: 'ויקימילון העברי', linkLabel: 'לערך המלא בוויקימילון ↗' }))
 
   const settled = await Promise.allSettled(tasks)
-  if (dictionaryQuestion && settled[0]?.status === 'fulfilled' && settled[0].value.length) return uniqueResults([settled[0].value]).slice(0, 3)
   const groups = settled.filter(result => result.status === 'fulfilled').map(result => result.value)
-  if (!groups.length && settled.some(result => result.status === 'rejected' && result.reason?.name === 'AbortError')) throw new DOMException('Aborted', 'AbortError')
-  return uniqueResults(groups).slice(0, 6)
+  if (!groups.length) {
+    if (signal?.aborted || settled.some(result => result.reason?.name === 'AbortError')) throw new DOMException('Aborted', 'AbortError')
+    throw new Error('network')
+  }
+  const safe = list => filterSafeResults(uniqueResults(list), query)
+  if (dictionaryQuestion && settled[0]?.status === 'fulfilled') {
+    const dictionary = safe([settled[0].value])
+    if (dictionary.length) return dictionary.slice(0, 3)
+  }
+  return safe(groups).slice(0, 6)
 }

@@ -17,5 +17,7 @@ const KNOWLEDGE = [{
     linkLabel: 'לבדיקה בוויקימילון ↗',
   },
 }]
-export function findBugaPediaKnowledge(question) { const value = normalize(question); const item = KNOWLEDGE.find(entry => entry.matches.some(match => normalize(match).split(' ').every(word => value.includes(word)))); return item ? { ...item.answer } : null }
+// Whole-word match: every word of a pattern must be a word of the question (a leading ה/ו/ב/ל prefix is allowed).
+const questionWords = value => new Set(value.split(' ').flatMap(word => /^[והבל][א-ת]{3,}$/u.test(word) ? [word, word.slice(1)] : [word]))
+export function findBugaPediaKnowledge(question) { const words = questionWords(normalize(question)); const item = KNOWLEDGE.find(entry => entry.matches.some(match => normalize(match).split(' ').every(word => words.has(word)))); return item ? { ...item.answer } : null }
 export function bugaPediaSearchTerms(question) { return normalize(question).split(' ').filter(word => word.length > 1).slice(0, 10) }

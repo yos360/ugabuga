@@ -7,11 +7,15 @@ import { INVITATION_THEMES, INVITATION_FIELDS, INVITATION_FONTS, INVITATION_PALE
 import './invitation-studio.css'
 
 const EMPTY = {name:'',age:'',date:'',time:'',place:'',phone:'',notes:''}
+// Weights renderInvitation draws with; Hebrew sample text makes the browser fetch the Hebrew subset too
+const FONT_WEIGHTS = [400,500,600,700,800]
+const FONT_SAMPLE = 'אבגדהו Aa0'
+const loadFonts = family => Promise.all([...new Set([family,'Heebo'])].flatMap(f=>FONT_WEIGHTS.map(w=>document.fonts.load(`${w} 40px "${f}"`,FONT_SAMPLE).catch(()=>[]))))
 export default function InvitationStudio() {
  const [theme,setTheme]=useState(INVITATION_THEMES[0]),[data,setData]=useState(EMPTY),[format,setFormat]=useState('portrait')
  const [design,setDesign]=useState(()=>invitationStyleFor(INVITATION_THEMES[0]))
  const [photo,setPhoto]=useState(null),[crop,setCrop]=useState({zoom:1,x:50,y:50}),[loadingPhoto,setLoadingPhoto]=useState(false)
- const [output,setOutput]=useState(null),[busy,setBusy]=useState(false),[printing,setPrinting]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('')
+ const [output,setOutput]=useState(null),[busy,setBusy]=useState(false),[printing,setPrinting]=useState(''),[message,setMessage]=useState(''),[error,setError]=useState('')
  const canvas=useRef(null),upload=useRef(0),[params]=useSearchParams()
  const [rsvp,setRsvp]=useState(()=>/^[a-z2-9]{6,12}$/.test(params.get('rsvp')||'')?params.get('rsvp'):'')
  const [attach,setAttach]=useState(true),[paste,setPaste]=useState('')
@@ -22,10 +26,13 @@ export default function InvitationStudio() {
   let live=true;setOutput(null);setError('')
   const timer=setTimeout(async()=>{
    try {
-    const [art]=await Promise.all([theme.art===false?Promise.resolve(null):loadInviteImage(`/images/invitation-theme-${theme.id}.webp`),document.fonts.load(`700 88px "${design.font}"`),document.fonts.ready])
+    const [art]=await Promise.all([theme.art===false?Promise.resolve(null):loadInviteImage(`/images/invitation-theme-${theme.id}.webp`),loadFonts(design.font)])
+    await document.fonts.ready
     if(!live||!canvas.current)return
     renderInvitation(canvas.current,{theme,data,format,photo,art,crop,rsvp:rsvpLink,design})
-    canvas.current.toBlob(blob=>{if(live&&blob)setOutput({blob,url:canvas.current.toDataURL('image/png')})},'image/png')
+    // The canvas is always fully painted (opaque), so a photo can go out as a much smaller JPEG; flat designs stay crisp PNG
+    const type=photo?'image/jpeg':'image/png'
+    canvas.current.toBlob(blob=>{if(live&&blob)setOutput({blob,type})},type,.9)
    } catch(e){if(live)setError(e.message||'לא הצלחנו להכין את התמונה. נסו שוב.')}
   },120)
   return()=>{live=false;clearTimeout(timer)}
@@ -37,11 +44,11 @@ export default function InvitationStudio() {
   try{const image=await readInvitePhoto(file);if(id===upload.current){setOutput(null);setPhoto(image);setCrop({zoom:1,x:50,y:50})}}catch(e){if(id===upload.current)setError(e.message)}finally{if(id===upload.current)setLoadingPhoto(false)}
  }
  const record=action=>data.name&&recordCreation(action,[`עיצוב: ${theme.name}`,`שם: ${data.name}`,data.age&&`גיל: ${data.age}`,data.date&&`תאריך: ${data.date}`,data.time&&`שעה: ${data.time}`,data.notes&&`הערות: ${data.notes}`].filter(Boolean).join('\n'))
- const filename=`ugabuga-invitation-${theme.id}.png`
+ const filename=`ugabuga-invitation-${theme.id}.${output?.type==='image/jpeg'?'jpg':'png'}`
  function download() {if(!output)return;const url=URL.createObjectURL(output.blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);record('download');setMessage('התמונה נשמרה. פתחו וואטסאפ וצרפו אותה מהתמונות או מהקבצים.')}
  async function shareImage() {
   if(!output)return
-  const file=new File([output.blob],filename,{type:'image/png'})
+  const file=new File([output.blob],filename,{type:output.type})
   if(!navigator.share||!navigator.canShare?.({files:[file]})){download();return}
   setBusy(true);setMessage('');setError('')
   try{await navigator.share({files:[file],title:'הזמנה ליום הולדת',text:invitationText(data,rsvpLink)});record('share');setMessage('ההזמנה הועברה לתפריט השיתוף. בחרו וואטסאפ ואת הנמענים הרצויים.')}catch(e){if(e.name!=='AbortError')setError('השיתוף לא נפתח. אפשר לשמור את התמונה ולצרף אותה לוואטסאפ.')}finally{setBusy(false)}
@@ -79,11 +86,11 @@ export default function InvitationStudio() {
    <div className="inv-preview-column"><div className="inv-preview-top"><h2>ההזמנה שלכם</h2><span>תצוגה חיה</span></div><div className="inv-formats" role="group" aria-label="צורת ההזמנה"><button aria-pressed={format==='portrait'} onClick={()=>{if(format!=='portrait'){setOutput(null);setFormat('portrait')}}}>הודעה בוואטסאפ · 4:5</button><button aria-pressed={format==='story'} onClick={()=>{if(format!=='story'){setOutput(null);setFormat('story')}}}>סטטוס / סטורי · 9:16</button></div>
     <div className="inv-canvas-wrap"><canvas ref={canvas} aria-label={`תצוגת הזמנה בעיצוב ${theme.name}. ${invitationText(data,rsvpLink)}`} role="img" style={{aspectRatio:format==='story'?'9 / 16':'4 / 5'}} /></div>
     <p className="inv-export-size">תמונה חדה בגודל {format==='story'?'1080 × 1920':'1080 × 1350'} פיקסלים</p>
-    <div className="inv-export-actions"><button className="inv-primary" onClick={shareImage} disabled={!output||busy||loadingPhoto}>{busy?'פותחים שיתוף…':'שיתוף ההזמנה כתמונה'}</button><button onClick={download} disabled={!output||loadingPhoto}>שמירת תמונה לוואטסאפ</button><button onClick={shareText}>שליחת הפרטים כטקסט בוואטסאפ</button><button data-print-main onClick={()=>{record('print');setPrinting(true)}} disabled={!output||loadingPhoto}>הדפסה / שמירה כ־PDF</button></div>
+    <div className="inv-export-actions"><button className="inv-primary" onClick={shareImage} disabled={!output||busy||loadingPhoto}>{busy?'פותחים שיתוף…':'שיתוף ההזמנה כתמונה'}</button><button onClick={download} disabled={!output||loadingPhoto}>שמירת תמונה לוואטסאפ</button><button onClick={shareText}>שליחת הפרטים כטקסט בוואטסאפ</button><button data-print-main onClick={()=>{if(!canvas.current)return;record('print');setPrinting(canvas.current.toDataURL('image/png'))}} disabled={!output||loadingPhoto}>הדפסה / שמירה כ־PDF</button></div>
     <p className="inv-hint">בטלפון תומך ייפתח תפריט השיתוף — בחרו וואטסאפ. במכשירים אחרים התמונה תישמר לצירוף ידני. אם הקישור לא צורף לתמונה, שלחו גם את הפרטים כטקסט.</p>
     <p className="inv-status" role="status">{message}</p>{error&&<p className="inv-error" role="alert">{error}</p>}
    </div>
   </div>
-  {printing&&output&&<PrintPreview title="הזמנה מעוצבת ליום הולדת" onClose={()=>setPrinting(false)} copies={false}><article className="buga-a4 inv-print-page"><img src={output.url} alt={invitationText(data,rsvpLink)} style={{display:'block',maxWidth:'100%',maxHeight:'240mm',margin:'0 auto'}} />{rsvpLink&&<p style={{textAlign:'center',fontSize:14}}>אישור הגעה: <a href={rsvpLink}>{rsvpLink}</a></p>}</article></PrintPreview>}
+  {printing&&output&&<PrintPreview title="הזמנה מעוצבת ליום הולדת" onClose={()=>setPrinting('')} copies={false}><article className="buga-a4 inv-print-page"><img src={printing} alt={invitationText(data,rsvpLink)} style={{display:'block',maxWidth:'100%',maxHeight:'240mm',margin:'0 auto'}} />{rsvpLink&&<p style={{textAlign:'center',fontSize:14}}>אישור הגעה: <a href={rsvpLink}>{rsvpLink}</a></p>}</article></PrintPreview>}
  </section>
 }

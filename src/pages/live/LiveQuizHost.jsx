@@ -8,23 +8,28 @@ import useLiveCountdown from './useLiveCountdown'
 import './live-quiz.css'
 
 const COLORS=['red','blue','gold','green'],MARKS=['▲','◆','●','■']
+const KICK_STYLE={marginInlineStart:8,padding:'1px 8px',border:'1px solid currentColor',borderRadius:999,background:'transparent',color:'inherit',font:'inherit',fontSize:'.75em',opacity:.7,cursor:'pointer'}
 function useQr(text){const[svg,setSvg]=useState('');useEffect(()=>{import('qrcode').then(({default:Q})=>Q.toString(text,{type:'svg',margin:1,width:240,color:{dark:'#111633',light:'#ffffff'}})).then(setSvg).catch(()=>{})},[text]);return svg}
 function Leaderboard({rows=[],limit=10}){return <ol className="live-leaders">{rows.slice(0,limit).map((p,i)=><li key={`${p.name}-${i}`}><b>{p.rank||i+1}</b><span>{p.name}</span><strong>{p.score.toLocaleString('he-IL')}</strong></li>)}</ol>}
 
 export default function LiveQuizHost(){
  const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'משחק חדש');history.replaceState(null,'',location.pathname)}return hash||liveMemory.hostToken(code)})
- const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('mixed'),[replayDifficulty,setReplayDifficulty]=useState('medium'),[replayMode,setReplayMode]=useState('regular'),auto=useRef(''),finishSeen=useRef(false)
+ const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('mixed'),[replayDifficulty,setReplayDifficulty]=useState('medium'),[replayMode,setReplayMode]=useState('regular'),[retry,setRetry]=useState(0),auto=useRef(''),retryTimer=useRef(0),finishSeen=useRef(false)
  const playLink=livePlayLink(code),qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
  const load=useCallback(()=>token&&liveQuizDb.host(code,token).then(d=>{setData(d);setError('');liveMemory.rememberHost(code,token,d.title)}).catch(e=>setError(liveErrorText(e.code))),[code,token])
  useEffect(()=>{load();const id=setInterval(()=>{if(document.visibilityState==='visible')load()},1200);return()=>clearInterval(id)},[load])
- useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{auto.current='';load()})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load])
+ // Auto-reveal when the timer hits zero. The server may refuse (`question_open` when this clock runs
+ // ahead of the database clock, or a network hiccup), so a failed attempt is retried a second later.
+ useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{load();clearTimeout(retryTimer.current);retryTimer.current=setTimeout(()=>{auto.current='';setRetry(n=>n+1)},1000)})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load,retry])
+ useEffect(()=>()=>clearTimeout(retryTimer.current),[])
  const detectedPack=detectLiveQuizPack(data?.questions,data?.title)
  const detectedMode=detectLiveQuizMode(data?.questions)
  useEffect(()=>{
    if(data?.phase!=='finished'){finishSeen.current=false;return}
    if(!finishSeen.current){setReplayTopic(detectedPack?.topicId||'mixed');setReplayDifficulty(detectedPack?.difficultyId||'medium');setReplayMode(detectedMode);finishSeen.current=true}
  },[data?.phase,detectedPack?.topicId,detectedPack?.difficultyId,detectedMode])
- const act=async action=>{setBusy(true);setError('');try{await liveQuizDb.action(code,token,action);await load()}catch(e){setError(liveErrorText(e.code))}finally{setBusy(false)}}
+ const act=async action=>{setBusy(true);setError('');try{await liveQuizDb.action(code,token,action);await load()}catch(e){setError(liveErrorText(e.code));if(e.code==='bad_phase')await load()}finally{setBusy(false)}}
+ const kick=async player=>{if(!window.confirm(`להוציא את ${player.name} מהמשחק?`))return;setBusy(true);setError('');try{await liveQuizDb.kick(code,token,player.id);await load()}catch(e){setError(e.code==='not_installed'?'כדי להוציא משתתפים צריך קודם להתקין את עדכון בוגה לייב במסד הנתונים.':liveErrorText(e.code))}finally{setBusy(false)}}
  const freshRound=async(topicId,difficultyId,modeId=replayMode)=>{
    setBusy(true);setError('')
    try{
@@ -56,7 +61,7 @@ export default function LiveQuizHost(){
     <div className="live-lobby-main"><p>המשתתפים נכנסים מהטלפון</p><h1 dir="ltr">{code}</h1><span className="live-url" dir="ltr">ugabuga.co.il/play/{code}</span>
       <div className="live-share-buttons"><button onClick={()=>copy(playLink,'play')}>{copied==='play'?'✓ הועתק':'העתקת קישור למשתתפים'}</button><a href={`https://wa.me/?text=${encodeURIComponent(`🎮 מצטרפים לבוגה לייב: ${data.title}\nקוד: ${code}\n${playLink}`)}`} target="_blank" rel="noopener">שליחה בוואטסאפ</a><button onClick={()=>copy(liveHostLink(code,token),'host')}>{copied==='host'?'✓ הועתק':'העתקת קישור למנחה'}</button></div>
     </div>{qr&&<div className="live-qr" dangerouslySetInnerHTML={{__html:qr}} role="img" aria-label="QR להצטרפות למשחק"/>}
-    <div className="live-player-lobby"><h2><span>{total}</span> משתתפים בחדר</h2>{total?<div>{data.players.map((p,i)=><span style={{'--delay':`${Math.min(i,15)*35}ms`}} key={p.id}>{p.name}</span>)}</div>:<p>מיד כשמישהו יצטרף הוא יופיע כאן.</p>}</div>
+    <div className="live-player-lobby"><h2><span>{total}</span> משתתפים בחדר</h2>{total?<div>{data.players.map((p,i)=><span style={{'--delay':`${Math.min(i,15)*35}ms`}} key={p.id}>{p.name}<button type="button" style={KICK_STYLE} disabled={busy} onClick={()=>kick(p)} aria-label={`הוצאת ${p.name} מהמשחק`}>הוצא</button></span>)}</div>:<p>מיד כשמישהו יצטרף הוא יופיע כאן.</p>}</div>
     <p className="live-lobby-tip">{total?'כולם מופיעים ברשימה? אפשר להתחיל.':'שתפו את הקוד או ה־QR וחכו שהמשתתפים יופיעו ברשימה.'}</p>
     <button className="live-start-button" disabled={!total||busy} onClick={()=>act('start')}>{!total?'מחכים למשתתף הראשון…':'מתחילים את המשחק'} <span>←</span></button>
   </section>}

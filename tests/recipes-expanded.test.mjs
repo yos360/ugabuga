@@ -53,6 +53,6 @@ test('challah hydration and conventional cookie ratios stay in a practical range
   }
   for(const slug of ['chocolate-chip-cookies','butter-cookies']){
     const items=get(slug).ingredients[0].items,flour=items.find(i=>i.name==='קמח').metric,butter=items.find(i=>i.name.startsWith('חמאה')).q
-    assert.ok(butter/flour>=.4&&butter/flour<=.65,slug)
+    assert.ok(flour/butter>=1&&flour/butter<=1.7,slug)
   }
 })

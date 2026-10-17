@@ -1,4 +1,4 @@
-import { NEW_CAKES } from './recipesExpanded.js'
+import { NEW_CAKES, ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
 // Birthday cakes section (/cakes): recipes + guides, pure data and helpers (no JSX, importable by node tests).
 // Base recipes were cross-checked against published sources (see the final report of the feature);
 // quantities use Israeli measures: 1 כוס = 240 מ"ל.
@@ -136,8 +136,8 @@ export function ageDigits(age) {
 }
 
 // ── the cakes ───────────────────────────────
+// Birthday cakes first; the newer cupcakes, frostings and cookies follow them on the hub.
 export const CAKES = [
-  ...NEW_CAKES,
   {
     slug: 'chocolate-birthday-cake',
     kind: 'recipe',
@@ -1134,13 +1134,16 @@ export const CAKES = [
     ],
     related: ['number-cake', 'frostings', 'cupcakes', 'chocolate-birthday-cake'],
   },
+  ...NEW_CAKES,
 ]
 
 export const CAKE_SLUGS = CAKES.map(c => c.slug)
 export const getCake = slug => CAKES.find(c => c.slug === slug) || null
 export const cakePath = c => typeof c === 'object' && c.path ? c.path : `${CAKES_HUB_PATH}/${typeof c === 'string' ? c : c.slug}`
 export const CAKE_PATHS = [CAKES_HUB_PATH, ...CAKES.map(cakePath)]
-export const relatedCakes = c => (c.related || []).map(getCake).filter(Boolean)
+// Related links may point to Shabbat or kids recipes too, so look beyond the cake hub.
+const getRelated = slug => getCake(slug) || ALL_EXPANDED_RECIPES.find(r => r.slug === slug) || null
+export const relatedCakes = c => (c.related || []).map(getRelated).filter(Boolean)
 export const cakeShortTitle = c => c.shortTitle || c.title
 
 export function allergenLabels(c) { return c.allergens.map(a => ALLERGENS[a]).filter(Boolean) }
@@ -1150,6 +1153,21 @@ export function ingredientLines(c, factor = 1) {
 }
 
 export function stepLines(c) { return c.steps.flatMap(g => g.items) }
+
+// Keywords follow the recipe's own family; "עוגת יום הולדת" is kept for the birthday-cake
+// collection itself (entries without their own path), not for challah, hummus or cookies.
+function recipeKeywords(c) {
+  const family = !c.path ? ['עוגת יום הולדת']
+    : c.category === 'challah' ? ['חלה', 'מתכון לשבת', 'אפייה עם ילדים']
+    : c.path.startsWith('/recipes/shabbat') ? ['מתכון לשבת', 'אפייה לשישי']
+    : c.category === 'pancakes' ? ['פנקייק', 'ארוחת בוקר לילדים']
+    : c.path.startsWith('/food') ? ['מתכונים לילדים', 'בישול עם ילדים']
+    : c.category === 'cupcakes' ? ['קאפקייקס', 'אפייה עם ילדים']
+    : c.category === 'frosting' ? ['ציפוי לקאפקייקס', 'קישוט עוגות']
+    : /cookies/.test(c.slug) ? ['עוגיות', 'אפייה עם ילדים']
+    : ['עוגה', 'אפייה עם ילדים']
+  return [...family, ...c.tags.map(id => CAKE_TAGS.find(x => x.id === id)?.label).filter(Boolean)].join(', ')
+}
 
 // schema.org Recipe for kind === 'recipe'; null for guides.
 export function recipeSchema(c) {
@@ -1166,7 +1184,7 @@ export function recipeSchema(c) {
     'author': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': SITE },
     'recipeCategory': c.path?.startsWith('/recipes/shabbat') ? 'מתכונים לשבת' : c.path?.startsWith('/food') ? 'מתכונים לילדים' : 'עוגות יום הולדת',
     'recipeCuisine': 'ישראלית',
-    'keywords': ['עוגת יום הולדת', ...c.tags.map(id => CAKE_TAGS.find(x => x.id === id)?.label).filter(Boolean)].join(', '),
+    'keywords': recipeKeywords(c),
     'recipeYield': c.yieldText,
     'prepTime': isoDuration(c.time.prep),
     'totalTime': isoDuration(totalMinutes(c)),

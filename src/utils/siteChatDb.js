@@ -5,8 +5,12 @@ const URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.s
 const KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 const client = createClient(URL, KEY, { auth: { storageKey: 'ugabuga-site-chat', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
+// PostgREST answers PGRST202 when the RPC does not exist yet (migration not run)
+export const isMissingFunctionError = error => error?.code === 'PGRST202' || /Could not find the function/i.test(error?.message || '')
+
 const run = ({ data, error }) => {
   if (!error) return data
+  if (isMissingFunctionError(error)) throw Object.assign(new Error('chat_unavailable'), { code: 'chat_unavailable' })
   const known = /chat_not_found|chat_closed|message_required|rate_limited|not_owner/.exec(error.message || '')?.[0]
   throw Object.assign(new Error(known || 'network'), { code: known || 'network' })
 }
@@ -30,4 +34,5 @@ export const siteChatErrorText = code => ({
   message_required: 'כתבו הודעה קצרה לפני השליחה.',
   rate_limited: 'נשלחו הרבה הודעות בזמן קצר. חכו כמה דקות ונסו שוב.',
   not_owner: 'אין הרשאה לצפות בפניות.',
+  chat_unavailable: 'הצ\'אט עוד לא הופעל. נחזור לכאן בקרוב 💜',
 }[code] || 'לא הצלחנו לשלוח כרגע. נסו שוב בעוד רגע.')

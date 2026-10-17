@@ -30,12 +30,17 @@ async function owner(env, request) {
  const user = await result.json()
  return Boolean(user.email_confirmed_at && await hash(String(user.email || '').trim().toLowerCase()) === OWNER_HASH)
 }
-async function send(env, email, subject, text, key, manage) {
+// Explicit conservative pilot cap (MAIL_DAILY_LIMIT, retries included). Confirmations are
+// triggered by anonymous visitors, so they get their own counter capped at 30% of the day;
+// reminders keep the rest, and a burst of subscribe requests cannot block them.
+export function mailQuota(limit, kind, day) {
+ const total = Math.min(10000, Math.max(1, Number(limit) || 50))
+ const confirm = Math.max(1, Math.floor(total * 0.3))
+ return kind === 'confirm' ? { key: `confirm:${day}`, max: confirm } : { key: `send:${day}`, max: Math.max(1, total - confirm) }
+}
+async function send(env, email, subject, text, key, manage, kind = 'reminder') {
  text += `\n\n${env.MAIL_SENDER_DETAILS}`
- const day = israelToday()
- // Explicit conservative pilot cap. Includes confirmation messages and retries.
- const max = Math.min(10000, Math.max(1, Number(env.MAIL_DAILY_LIMIT) || 50))
- if (!await rpc(env, 'limit', { key: `send:${day}`, max })) throw new Error('מכסת המיילים להיום הסתיימה. נסו שוב מחר.')
+ if (!await rpc(env, 'limit', mailQuota(env.MAIL_DAILY_LIMIT, kind, israelToday()))) throw new Error('מכסת המיילים להיום הסתיימה. נסו שוב מחר.')
  const response = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': key }, body: JSON.stringify({ from: env.MAIL_FROM, to: [email], subject, text,
   html: `<div dir="rtl" lang="he" style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:24px;color:#243e40;line-height:1.8"><h1 style="font-size:24px">${escape(subject)}</h1><div style="white-space:pre-line">${escape(text).replace(/https:\/\/ugabuga\.co\.il\/[^\s<]*/g, link => `<a href="${link}" style="color:#245f62">${link.includes('mail-preferences') ? 'פתיחת הקישור האישי' : 'לפתיחת התוכן באתר'}</a>`)}</div></div>`,
   ...(manage ? { headers: { 'List-Unsubscribe': `<${SITE}/api/mail?unsubscribe=${manage}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}) }), signal: AbortSignal.timeout(20000) })
@@ -124,7 +129,7 @@ export async function onRequest({ request, env }) {
    if (!shabbatCity(preferences.city)) return answer({ error: 'בחרו עיר מהרשימה.' }, 400)
    const token = hex(crypto.getRandomValues(new Uint8Array(32)))
    const result = await rpc(env, 'request', { email: preferences.email, preferences, confirm_hash: await hash(token), manage_hash: await hash(await manageToken(env, preferences.email)) })
-   if (result.send) await send(env, preferences.email, 'אישור ההרשמה לעוגה בוגה', `ביקשתם להירשם למיילים מעוגה בוגה.\n\n${preferences.shabbat ? `תזכורת שבת: ${shabbatCity(preferences.city).name}, ${preferences.minutes} דקות לפני כניסת שבת.\n` : ''}${preferences.weekly ? 'תוכן שבועי: כן.\n' : ''}${preferences.marketing ? 'הצעות ופרסומות: כן.\n' : ''}\nלאישור ההרשמה (בתוקף ל־24 שעות):\n${SITE}/mail-preferences#confirm=${token}\n\nאם לא ביקשתם להירשם, התעלמו מההודעה. לא נרשום אתכם ללא אישור.`, `confirm:${token}`)
+   if (result.send) await send(env, preferences.email, 'אישור ההרשמה לעוגה בוגה', `ביקשתם להירשם למיילים מעוגה בוגה.\n\n${preferences.shabbat ? `תזכורת שבת: ${shabbatCity(preferences.city).name}, ${preferences.minutes} דקות לפני כניסת שבת.\n` : ''}${preferences.weekly ? 'תוכן שבועי: כן.\n' : ''}${preferences.marketing ? 'הצעות ופרסומות: כן.\n' : ''}\nלאישור ההרשמה (בתוקף ל־24 שעות):\n${SITE}/mail-preferences#confirm=${token}\n\nאם לא ביקשתם להירשם, התעלמו מההודעה. לא נרשום אתכם ללא אישור.`, `confirm:${token}`, null, 'confirm')
    return answer({ ok: true })
   }
   if (!/^[a-f0-9]{64}$/.test(data.token || '')) return answer({ error: 'הקישור אינו תקף.' }, 400)

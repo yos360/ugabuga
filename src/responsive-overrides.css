@@ -133,7 +133,13 @@ a.site-mega-heading:hover { background: #f2f4fc; }
   .site-header-inner { min-height: 88px; gap: 8px; }
   .site-brand { width: 220px; flex: 0 0 220px; min-width: 0; }
   .site-brand-slogan { font-size: 11px; }
-  .site-mobile-kids-pill { display: none; }
-  .site-header-inner:has(.site-mobile-kids-pill) .site-brand,
-  .site-header-inner:has(.site-mobile-kids-pill) .site-brand-art { max-width: calc(100vw - 90px); }
+  /* Leave room for search + "🧸 ילדים" pill + menu; the brand may shrink instead of overflowing */
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand { width: min(220px, calc(100vw - 180px)); flex: 0 1 auto; }
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand-art { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .site-header-inner:has(.site-mobile-kids-pill) { gap: 4px; }
+  .site-header-inner:has(.site-mobile-kids-pill) .site-mobile-kids-pill { padding-inline: 8px; }
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand { width: min(220px, calc(100vw - 200px)); }
+  .site-header-inner:has(.site-mobile-kids-pill) .site-brand-slogan { font-size: 10px; }
 }

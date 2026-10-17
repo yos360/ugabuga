@@ -22,37 +22,66 @@ function SubjectCatalog() {
   </section>
 }
 
+const SOURCE_NAMES = {
+  'he-wikipedia': 'ויקיפדיה העברית',
+  'en-wikipedia': 'ויקיפדיה באנגלית',
+  'he-wiktionary': 'ויקימילון העברי',
+  wikidata: 'ויקינתונים',
+}
+
+function sourceNote(result) {
+  if (result.computed) return 'התשובה חושבה ישירות בבוגה־פדיה, בלי מקור חיצוני.'
+  if (result.verified) return 'התשובה נוסחה ונבדקה מראש, ומצורף קישור למקור פתוח להמשך קריאה.'
+  const name = SOURCE_NAMES[result.source] || result.sourceLabel || 'מקור מידע פתוח'
+  const license = result.source === 'wikidata' ? 'נתוני ויקינתונים זמינים לשימוש חופשי (CC0).' : 'התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור.'
+  return `התשובה נשלפה בזמן אמת מהמקור: ${name}. ${license}`
+}
+
 export default function BugaPedia() {
   const [params, setParams] = useSearchParams()
-  const initial = params.get('q') || ''
-  const [query, setQuery] = useState(initial)
-  const [asked, setAsked] = useState(initial)
-  const [pages, setPages] = useState([])
-  const [state, setState] = useState(initial ? 'loading' : 'idle')
-  const subject = useMemo(() => subjectById(params.get('subject')), [params])
+  // The URL is the single source of truth: sample links and Back/Forward change ?q=.
+  const asked = cleanText(params.get('q') || '').slice(0, 180)
+  const subjectId = params.get('subject')
+  const subject = useMemo(() => subjectById(subjectId), [subjectId])
+  const [query, setQuery] = useState(asked)
+  const [syncedAsked, setSyncedAsked] = useState(asked)
+  const [attempt, setAttempt] = useState(0)
+  const [tooShort, setTooShort] = useState(false)
+  // Outcome of the last finished search, tagged with the search it belongs to.
+  const [outcome, setOutcome] = useState({ key: '', state: 'idle', pages: [] })
+  const searchKey = `${asked}|${subject?.id || ''}|${attempt}`
+
+  // Keep the input in sync when ?q= changes from outside the form (links, Back/Forward).
+  if (syncedAsked !== asked) { setSyncedAsked(asked); setQuery(asked); setTooShort(false) }
 
   useEffect(() => {
     if (!asked) return
     const controller = new AbortController()
-    setState('loading')
+    const key = `${asked}|${subject?.id || ''}|${attempt}`
     searchBugaPedia(asked, controller.signal).then(results => {
-      setPages(results)
-      setState(results.length ? 'ready' : 'empty')
+      if (controller.signal.aborted) return
+      setOutcome({ key, state: results.length ? 'ready' : 'empty', pages: results })
       recordBugaPediaQuery({ question: asked, subject: subject?.id, found: results.length > 0, resultTitle: results[0]?.title })
     }).catch(error => {
-      if (error.name !== 'AbortError') { setState(error.message === 'short' ? 'short' : 'error'); recordBugaPediaQuery({ question: asked, subject: subject?.id, found: false }) }
+      if (controller.signal.aborted || error.name === 'AbortError') return
+      // Network failures, blocked and self-harm questions are not recorded.
+      setOutcome({ key, state: ['short', 'blocked', 'selfharm'].includes(error.message) ? error.message : 'error', pages: [] })
     })
     return () => controller.abort()
-  }, [asked, subject?.id])
+  }, [asked, subject?.id, attempt])
+
+  const state = tooShort ? 'short' : !asked ? 'idle' : outcome.key === searchKey ? outcome.state : 'loading'
+  const pages = outcome.key === searchKey ? outcome.pages : []
 
   const ask = event => {
     event.preventDefault()
-    const next = cleanText(query)
-    if (next.length < 2) { setState('short'); return }
+    const next = cleanText(query).slice(0, 180)
+    setTooShort(next.length < 2)
+    if (next.length < 2) return
+    if (next === asked) { setAttempt(value => value + 1); return }
     const nextParams = new URLSearchParams(params)
     nextParams.set('q', next)
     setParams(nextParams)
-    setAsked(next)
   }
   const requestIdea = () => window.dispatchEvent(new CustomEvent('buga-chat-open', { detail: { topic: 'רעיון או תוכן ייחודי', message: asked ? `חיפשתי בבוגה־פדיה: ${asked}\nאשמח שתוסיפו תוכן בנושא הזה.` : 'יש לי רעיון לתוכן או פעילות ייחודית:' } }))
   const primary = pages[0]
@@ -70,23 +99,28 @@ export default function BugaPedia() {
           <input value={query} onChange={event => setQuery(event.target.value)} placeholder="למשל: למה השמיים כחולים?" aria-label="השאלה שלכם" maxLength={180} autoFocus />
           <button>חיפוש תשובה</button>
         </form>
-        <div className="bp-trust"><span>✓ תשובות ממקורות פתוחים ומידע בדוק</span><span>↗ תמיד עם קישור למקור</span><span>🔒 בלי הרשמה</span></div>
-        <p className="bp-analytics-note">השאלה נשמרת ללא שם או פרטים אישיים, כדי לשפר את בוגה־פדיה.</p>
+        <div className="bp-trust"><span>✓ תשובות ממקורות פתוחים ומידע בדוק</span><span>↗ עם קישור למקור</span><span>🔒 בלי הרשמה</span></div>
+        <p className="bp-analytics-note">השאלה נשמרת בלי שם, כדי לשפר את בוגה־פדיה. אל תכתבו בה פרטים אישיים כמו טלפון או כתובת.</p>
       </header>
 
       {state === 'loading' && <section className="bp-answer bp-loading" role="status"><div /><p>מחפשים בכמה מקורות מידע…</p></section>}
       {state === 'short' && <p className="bp-message" role="alert">כתבו לפחות שתי אותיות כדי שנוכל לחפש.</p>}
-      {state === 'error' && <p className="bp-message" role="alert">לא הצלחנו להגיע למקורות המידע כרגע. נסו שוב בעוד רגע.</p>}
+      {state === 'error' && <p className="bp-message" role="alert">אין חיבור — נסו שוב. <button type="button" onClick={() => setAttempt(value => value + 1)}>לנסות שוב</button></p>}
+      {state === 'blocked' && <section className="bp-answer bp-empty" role="alert"><span>🤝</span><h2>זו שאלה שכדאי לשאול מבוגר שאתם סומכים עליו</h2><p>בוגה־פדיה לא מחפשת בנושא הזה. אפשר לדבר עליו עם הורה, מורה או מבוגר אחר שאתם סומכים עליו — ובינתיים לשאול כאן כל שאלה סקרנית אחרת.</p></section>}
+      {state === 'selfharm' && <section className="bp-answer bp-empty" role="alert"><span>💛</span><h2>אתם לא לבד, ומגיע לכם שיקשיבו לכם</h2><p>אם עצוב או קשה לכם עכשיו, ספרו על זה להורה, למורה או ליועצת בבית הספר. אפשר גם להתקשר לער״ן — קו חם לתמיכה רגשית בטלפון <a href="tel:1201"><b>1201</b></a>, בכל שעה. אם יש סכנה מיידית — חייגו 101 (מד״א).</p></section>}
       {state === 'empty' && <section className="bp-answer bp-empty"><span>🔎</span><h2>עוד אין תשובה אמינה לשאלה הזאת</h2><p>נסו לנסח את השאלה אחרת או לכתוב שם מדויק של אדם, מקום, אירוע, מילה או מושג. אפשר גם לשלוח לנו בקשה ונבדוק מה כדאי להוסיף.</p><button onClick={requestIdea}>שליחת בקשה אישית</button></section>}
       {state === 'ready' && primary && <section className="bp-results" aria-live="polite">
         <article className="bp-answer">
-          {primary.image && <img src={primary.image} alt="" />}
+          {primary.image && <img src={primary.image} alt="" loading="lazy" />}
           <div><p className="bp-kicker">{primary.sourceLabel || 'התשובה שמצאנו'}</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
-            <div className="bp-answer-actions"><a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.linkLabel || 'לערך המלא בוויקיפדיה ↗'}</a><button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
+            <div className="bp-answer-actions">{primary.url && <a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.linkLabel || 'לקריאה במקור ↗'}</a>}<button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
           </div>
         </article>
-        {pages.length > 1 && <div className="bp-related"><h3>אולי התכוונתם גם ל…</h3><div>{pages.slice(1).map(page => <a href={page.url} target="_blank" rel="noopener noreferrer" key={page.id}><b>{page.title}</b><span>{page.extract.slice(0, 130)}{page.extract.length > 130 ? '…' : ''}</span></a>)}</div></div>}
-        <p className="bp-license">{primary.verified ? 'התשובה נוסחה ונבדקה מראש, ומצורף קישור למקור פתוח להמשך קריאה.' : 'התשובה נשלפה בזמן אמת מוויקיפדיה העברית. התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור.'} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
+        {pages.length > 1 && <div className="bp-related"><h3>אולי התכוונתם גם ל…</h3><div>{pages.slice(1).map(page => {
+          const body = <><b>{page.title}</b><span>{page.extract.slice(0, 130)}{page.extract.length > 130 ? '…' : ''}</span></>
+          return page.url ? <a href={page.url} target="_blank" rel="noopener noreferrer" key={page.id}>{body}</a> : <div key={page.id}>{body}</div>
+        })}</div></div>}
+        <p className="bp-license">{sourceNote(primary)} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
       </section>}
 
       <SubjectCatalog />
