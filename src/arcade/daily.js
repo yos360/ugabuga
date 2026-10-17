@@ -17,6 +17,7 @@ export const DAILY_GAMES = [
   { slug: 'solitaire', name: 'סוליטר', emoji: '🃏', goal: 'מנצחים בחלוקת הקלפים של היום — היא בטוח פתירה!', extra: () => ({}) },
   { slug: 'snake', name: 'נחש', emoji: '🐍', goal: 'אוכלים כמה שיותר תפוחים — אותם תפוחים לכולם', extra: () => ({}) },
   { slug: 'spider-solitaire', name: 'סוליטר עכביש', emoji: '🕷️', goal: 'מפרקים את כל 8 הרצפים בכמה שפחות מהלכים', extra: () => ({}) },
+  { slug: 'poker-academy', name: 'אקדמיית פוקר', emoji: '🎓', goal: 'מזהים נכון את היד המנצחת בחידת הפוקר היומית', extra: () => ({}) },
   { slug: 'block-puzzle', name: 'מסיבת בלוקים', emoji: '🟨', goal: 'צוברים כמה שיותר נקודות עם הצורות של היום', extra: () => ({}) },
   { slug: 'word-guess', name: '5 אותיות', emoji: '🟩', goal: 'מוצאים את מילת היום בת 5 האותיות — בשישה ניסיונות לכל היותר', extra: () => ({}) },
   { slug: 'falling-blocks', name: 'בלוקים נופלים', emoji: '🧱', goal: 'צוברים כמה שיותר נקודות — אותן צורות לכולם', extra: () => ({}) },
