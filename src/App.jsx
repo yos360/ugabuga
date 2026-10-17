@@ -270,6 +270,10 @@ const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
 const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
 const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
+const TeacherHome = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.TeacherHome })))
+const HomeworkBuilderPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkBuilderPage })))
+const HomeworkResultsPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkResultsPage })))
+const StudentHomework = lazy(() => import('./pages/homework/StudentHomework'))
 const QuizHome = lazy(() => import('./pages/quiz/QuizHome'))
 const QuizManage = lazy(() => import('./pages/quiz/QuizManage'))
 const QuizTake = lazy(() => import('./pages/quiz/QuizTake'))
@@ -378,6 +382,11 @@ export default function App() {
               <Route path="/bugapedia" element={<BugaPedia />} />
               <Route path="/classroom/roster" element={<ClassRoster />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
+              <Route path="/teachers" element={<TeacherHome />} />
+              <Route path="/teachers/homework/new" element={<HomeworkBuilderPage />} />
+              <Route path="/teachers/homework/:code/edit" element={<HomeworkBuilderPage />} />
+              <Route path="/teachers/homework/:code" element={<HomeworkResultsPage />} />
+              <Route path="/hw/:code" element={<StudentHomework />} />
               <Route path="/classroom/quiz" element={<QuizHome />} />
               <Route path="/classroom/quiz/:code" element={<QuizManage />} />
               <Route path="/q/:code" element={<QuizTake />} />

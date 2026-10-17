@@ -1,0 +1,45 @@
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { cleanTask, dictationCorrect, mathItems, newTask, parseNames, READING_OPTIONS, readingPassage, taskProblems, taskTitle } from '../src/utils/homework/tasks.js'
+
+test('maths homework: the same settings give every student the same exercises', () => {
+  const task = { type: 'math', op: '-', range: 20, table: 'mix', kind: 'regular', count: 12, seed: 42 }
+  const a = mathItems(task), b = mathItems({ ...task })
+  assert.equal(a.length, 12)
+  assert.deepEqual(a, b)
+  for (const item of a) {
+    const [x, , y, , z] = item.parts
+    assert.equal(z, null)
+    assert.equal(item.answer, x - y)
+  }
+  const missing = mathItems({ type: 'math', op: 'x', table: 7, kind: 'missing', count: 8, seed: 3 })
+  for (const item of missing) {
+    const [x, , y, , z] = item.parts.map((p, i) => p === null ? (i === 0 ? item.answer : i === 2 ? item.answer : item.answer) : p)
+    assert.equal(x * y, z, item.text)
+  }
+  assert.notDeepEqual(mathItems({ ...task, seed: 43 }), a)
+})
+
+test('dictation ignores niqqud, spaces and punctuation but not spelling', () => {
+  assert.ok(dictationCorrect('תַּפּוּחַ', 'תפוח'))
+  assert.ok(dictationCorrect('עגבנייה', ' עגבנייה. '))
+  assert.ok(!dictationCorrect('כתום', 'קתום'))
+  assert.ok(!dictationCorrect('כתום', ''))
+})
+
+test('new tasks are valid, and broken ones are reported in Hebrew', () => {
+  for (const type of ['math', 'reading', 'dictation']) assert.deepEqual(taskProblems(newTask(type), 0), [], type)
+  assert.ok(taskProblems(newTask('questions'), 0).length)
+  assert.match(taskProblems({ type: 'reading', slug: 'nope' }, 1)[0], /משימה 2/)
+  assert.ok(READING_OPTIONS.length >= 20 && READING_OPTIONS.every(r => readingPassage(r.slug)?.q.length))
+  assert.match(taskTitle({ type: 'math', op: 'x', table: 6, count: 10, kind: 'regular' }), /לוח 6/)
+})
+
+test('saving a question drops empty answers and keeps the right one marked', () => {
+  const saved = cleanTask({ type: 'questions', title: ' חזרה ', items: [{ q: ' כמה רגליים לעכביש? ', options: ['6', '', '8', ' '], correct: 2 }] })
+  assert.deepEqual(saved, { type: 'questions', title: 'חזרה', items: [{ q: 'כמה רגליים לעכביש?', options: ['6', '8'], correct: 1 }] })
+})
+
+test('class names: one per line or comma, no duplicates', () => {
+  assert.deepEqual(parseNames('דנה\nיואב, נועה  כהן\nדנה\n\n'), ['דנה', 'יואב', 'נועה כהן'])
+})

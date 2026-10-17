@@ -364,9 +364,10 @@ export const MENU_DOMAINS = [
 export const CLASSROOM_MENU = {
   id: 'classroom', label: SECTION.classroom, icon: '🏫', to: '/classroom',
   landingLabel: 'כל הכלים לכיתה ולגן',
-  prefixes: ['/classroom', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w'],
+  prefixes: ['/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w'],
   items: [
     { to: '/live', label: 'בוגה לייב — משחק חידון לכיתה', icon: '⚡', shortcut: true },
+    { to: '/teachers', label: 'שיעורי בית אינטראקטיביים', icon: '📚' },
     { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
       { to: '/parent-meetings', label: 'הרשמה לאספות הורים', icon: '🗓️' },
     { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
@@ -538,6 +539,7 @@ export const FOOTER_COLUMNS = [
     domain: 'classroom', title: '🏫 לכיתה',
     links: [
       ['/classroom', 'כל הכלים לכיתה ולגן'],
+      ['/teachers', 'שיעורי בית אינטראקטיביים'],
       ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
       ['/secret-friend', 'גמד וענק'],
       ['/thank-you-wall', 'קיר ברכות לגננת'],

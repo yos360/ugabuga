@@ -116,3 +116,17 @@ export async function hasVoice(lang) {
 export async function voiceFor(lang) {
   try { return canSpeak() ? pickVoice(await loadVoices(), lang) : null } catch { return null }
 }
+
+// Like speak(), but resolves when the text has finished playing (false if nothing could play),
+// so several texts can be read one after another — a whole passage paragraph by paragraph.
+export function speakAndWait(text, lang = 'he-IL', options = {}) {
+  return new Promise(resolve => {
+    speak(text, lang, options).then(started => {
+      if (!started) { resolve(false); return }
+      const audio = current
+      if (audio) { audio.addEventListener('ended', () => resolve(true), { once: true }); audio.addEventListener('pause', () => resolve(audio.ended), { once: true }); return }
+      const synth = typeof window !== 'undefined' ? window.speechSynthesis : null
+      const poll = setInterval(() => { if (!synth?.speaking) { clearInterval(poll); resolve(true) } }, 250)
+    })
+  })
+}
