@@ -22,6 +22,7 @@ export const DAILY_GAMES = [
   { slug: 'crazy-eights', name: 'שמיניות משוגעות', emoji: '🎱', goal: 'מנצחים סיבוב מול המחשב ונשארים בלי קלפים', extra: () => ({}) },
   { slug: 'hearts', name: 'לבבות', emoji: '♥️', goal: 'מסיימים סיבוב לבבות עם הכי מעט נקודות', extra: () => ({}) },
   { slug: 'gin-rummy', name: 'ג׳ין רמי', emoji: '🃏', goal: 'מנצחים את המחשב בסיבוב ג׳ין רמי', extra: () => ({}) },
+  { slug: 'poker-academy', name: 'אקדמיית פוקר', emoji: '🎓', goal: 'מזהים נכון את היד המנצחת בחידת הפוקר היומית', extra: () => ({}) },
   { slug: 'block-puzzle', name: 'מסיבת בלוקים', emoji: '🟨', goal: 'צוברים כמה שיותר נקודות עם הצורות של היום', extra: () => ({}) },
   { slug: 'word-guess', name: '5 אותיות', emoji: '🟩', goal: 'מוצאים את מילת היום בת 5 האותיות — בשישה ניסיונות לכל היותר', extra: () => ({}) },
   { slug: 'falling-blocks', name: 'בלוקים נופלים', emoji: '🧱', goal: 'צוברים כמה שיותר נקודות — אותן צורות לכולם', extra: () => ({}) },
