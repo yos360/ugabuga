@@ -1,5 +1,7 @@
 import { bugaPediaSearchTerms, findBugaPediaKnowledge } from '../data/bugapediaKnowledge.js'
 import { checkBugaPediaQuery, filterSafeResults } from './bugapediaSafety.js'
+import { findBugaPediaSuperlative } from '../data/bugapediaSuperlatives.js'
+import { bugaPediaTopic } from './bugapediaTopic.js'
 import { englishFallback, findFactAnswer, findHolidayAnswer, parseFactQuestion, parseHolidayQuestion, searchSefaria } from './bugapediaSources.js'
 
 const HEBREW_WIKIPEDIA = 'https://he.wikipedia.org/w/api.php'
@@ -32,6 +34,11 @@ const SUBJECT_CONTEXT = {
   economics: ['כלכל', 'כסף', 'מחיר', 'שוק', 'בנק'],
 }
 const JEWISH_SUBJECTS = new Set(['bible', 'heritage'])
+// Wikipedia separates same-named articles with a field in brackets: "פועל (דקדוק)", "מעגל (מתמטיקה)".
+const SUBJECT_TITLE_FIELD = {
+  hebrew: 'דקדוק', english: 'דקדוק', math: 'מתמטיקה', geography: 'גאוגרפיה', science: 'מדע', biology: 'ביולוגיה',
+  chemistry: 'כימיה', physics: 'פיזיקה', literature: 'ספרות', art: 'אמנות', music: 'מוזיקה', computers: 'מדעי המחשב', economics: 'כלכלה',
+}
 const inSubject = (item, subjectId) => {
   if (item.sefaria && JEWISH_SUBJECTS.has(subjectId)) return true
   const words = SUBJECT_CONTEXT[subjectId]
@@ -105,13 +112,14 @@ function englishLookup(question) {
 
 function isDictionaryQuestion(question) {
   const value = lower(question)
-  return /(?:מה\s+(?:הפירוש|פירוש|זה)|איך\s+אומרים|תרג(?:ם|ום)|מילה|משמעות)/u.test(value) || /^[a-z][a-z'-]{1,35}$/i.test(value)
+  // "מה זה הר געש?" asks about a thing, not a word, so it goes to the encyclopedia.
+  return /(?:מה\s+(?:הפירוש|פירוש)|פירוש\s+המילה|איך\s+אומרים|תרג(?:ם|ום)|המילה|משמעות)/u.test(value) || /^[a-z][a-z'-]{1,35}$/i.test(value)
 }
 
 async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLabel, language = 'he', dictionary = false, exactTitle = false }) {
-  const terms = bugaPediaSearchTerms(query)
+  const terms = bugaPediaSearchTerms([query].flat().join(' '))
   const wanted = coreTerm(terms.join(' ') || query)
-  const lookup = exactTitle ? { titles: query } : { generator: 'search', gsrsearch: query, gsrlimit: '8' }
+  const lookup = exactTitle ? { titles: [query].flat().join('|') } : { generator: 'search', gsrsearch: query, gsrlimit: '8' }
   const params = new URLSearchParams({
     action: 'query', ...lookup,
     prop: 'extracts|pageimages|info|pageprops', ppprop: 'disambiguation', explaintext: '1',
@@ -133,14 +141,14 @@ async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLa
         const needle = coreTerm(term)
         return total + (title.includes(needle) ? 5 : 0) + (body.includes(needle) ? 1 : 0)
       }, 0)
-      const exact = coreTerm(page.title.replace(/\s*\(.*\)$/, '')) === wanted
+      const exact = exactTitle || coreTerm(page.title.replace(/\s*\(.*\)$/, '')) === wanted
       return {
         id: `${language}-${page.pageid}`,
         title: page.title,
         extract: cleanText(page.extract),
         url: page.fullurl,
         image: page.thumbnail?.source || '',
-        score: score + (exact ? 20 : 0),
+        score: score + (exact ? 20 : 0) + (exactTitle ? 15 : 0),
         exact,
         disambiguation: Boolean(page.pageprops && 'disambiguation' in page.pageprops),
         source,
@@ -152,12 +160,13 @@ async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLa
     .sort((a, b) => b.score - a.score)
 }
 
-async function searchWikidata(question, signal) {
+async function searchWikidata(question, signal, wanted = []) {
   const params = new URLSearchParams({ action: 'wbsearchentities', search: question, language: 'he', uselang: 'he', type: 'item', limit: '6', origin: '*', format: 'json' })
   const response = await fetch(`${WIKIDATA}?${params}`, { signal, headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error('network')
   const payload = await response.json()
-  return (payload?.search || []).filter(item => item.label && item.description).map(item => ({
+  const about = label => !wanted.length || wanted.some(word => coreTerm(label).includes(coreTerm(word)))
+  return (payload?.search || []).filter(item => item.label && item.description && about(item.label)).map(item => ({
     id: `wikidata-${item.id}`,
     title: item.label,
     extract: item.description,
@@ -170,14 +179,15 @@ async function searchWikidata(question, signal) {
   }))
 }
 
+// The same article can come from the word search and the title lookup; keep its best-scored copy.
 function uniqueResults(groups) {
-  const seen = new Set()
-  return groups.flat().filter(item => {
+  const best = new Map()
+  for (const item of groups.flat()) {
     const key = lower(`${item.title}|${item.url || ''}`)
-    if (seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
+    const kept = best.get(key)
+    if (!kept || (item.score || 0) > (kept.score || 0)) best.set(key, item)
+  }
+  return [...best.values()]
 }
 
 export const BUGAPEDIA_MAX_QUERY = 180
@@ -190,20 +200,24 @@ export async function searchBugaPedia(question, signal, subjectId = null) {
 
   const verified = findBugaPediaKnowledge(query)
   if (verified) return [verified]
-  const local = localAnswer(query)
+  const local = localAnswer(query) || findBugaPediaSuperlative(query)
   if (local) return [local]
 
-  const terms = bugaPediaSearchTerms(query)
+  // "מה זה הר געש?" is about the topic "הר געש": search for it, and look its article up by title.
+  const topic = bugaPediaTopic(query)
+  const terms = bugaPediaSearchTerms(topic?.topic || query)
   const encyclopediaQuery = terms.join(' ') || query
   const dictionaryQuestion = isDictionaryQuestion(query)
   const dictionaryQuery = englishLookup(query) || encyclopediaQuery
   const mostlyEnglish = (query.match(/[a-z]/gi) || []).length > query.length / 3
 
   const hebrewWikipedia = searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' })
-  const tasks = [hebrewWikipedia, searchWikidata(encyclopediaQuery, signal)]
+  const tasks = [hebrewWikipedia, searchWikidata(encyclopediaQuery, signal, topic ? topic.titles : [])]
   // Short questions ("מי היה אברהם?") also look up the article whose title is exactly the term,
   // because the search ranking alone can put a different person with the same first name first.
-  if (terms.length && terms.length <= 3) tasks.push(searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, exactTitle: true, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' }))
+  const field = SUBJECT_TITLE_FIELD[subjectId]
+  const titles = topic ? [...topic.titles, ...(field && !topic.pair ? topic.titles.map(title => `${title} (${field})`) : [])] : terms.length && terms.length <= 3 ? [encyclopediaQuery] : []
+  if (titles.length) tasks.push(searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: titles, signal, exactTitle: true, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' }))
   if (mostlyEnglish) tasks.unshift(searchMediaWiki({ api: ENGLISH_WIKIPEDIA, query, signal, language: 'en', source: 'en-wikipedia', sourceLabel: 'Wikipedia באנגלית', linkLabel: 'לערך המלא ב־Wikipedia ↗' }))
   if (dictionaryQuestion) tasks.unshift(searchMediaWiki({ api: HEBREW_WIKTIONARY, query: dictionaryQuery, signal, dictionary: true, source: 'he-wiktionary', sourceLabel: 'ויקימילון העברי', linkLabel: 'לערך המלא בוויקימילון ↗' }))
 
