@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { cleanTask, dictationCorrect, mathItems, newTask, parseNames, READING_OPTIONS, readingPassage, taskProblems, taskTitle } from '../src/utils/homework/tasks.js'
+import { bubbleChoices, challengeTask, cleanTask, dictationCorrect, gradeTemplate, matchAnswers, MATCH_MAX, mathItems, newTask, parseNames, READING_OPTIONS, readingPassage, taskProblems, taskTitle, TEMPLATE_GRADES } from '../src/utils/homework/tasks.js'
 
 test('maths homework: the same settings give every student the same exercises', () => {
   const task = { type: 'math', op: '-', range: 20, table: 'mix', kind: 'regular', count: 12, seed: 42 }
@@ -42,4 +42,50 @@ test('saving a question drops empty answers and keeps the right one marked', () 
 
 test('class names: one per line or comma, no duplicates', () => {
   assert.deepEqual(parseNames('דנה\nיואב, נועה  כהן\nדנה\n\n'), ['דנה', 'יואב', 'נועה כהן'])
+})
+
+test('balloons: four different choices with the answer, the same for every child', () => {
+  const task = { type: 'math', op: '+', range: 10, table: 'mix', kind: 'regular', count: 10, mode: 'bubbles', seed: 5 }
+  mathItems(task).forEach((item, i) => {
+    const choices = bubbleChoices(item, i, task.seed)
+    assert.equal(choices.length, 4)
+    assert.equal(new Set(choices).size, 4)
+    assert.ok(choices.includes(item.answer))
+    assert.ok(choices.every(n => n >= 0))
+    assert.deepEqual(bubbleChoices(item, i, task.seed), choices)
+  })
+})
+
+test('matching game: every answer appears once, and the game is capped', () => {
+  const task = { type: 'math', op: 'x', table: 4, kind: 'regular', count: 20, mode: 'match', seed: 9 }
+  const items = mathItems(task)
+  assert.equal(items.length, MATCH_MAX)
+  const answers = matchAnswers(items, task.seed)
+  assert.deepEqual(answers.map(a => a.i).sort((a, b) => a - b), items.map((_, i) => i))
+  assert.ok(answers.every(a => a.value === items[a.i].answer))
+  assert.match(taskProblems(task, 0)[0], /משחק ההתאמה/)
+  assert.deepEqual(taskProblems({ ...task, count: 6 }, 0), [])
+})
+
+test('the challenge level is harder and shared by the class', () => {
+  const easy = { type: 'math', op: '+', range: 10, table: 'mix', kind: 'regular', count: 10, seed: 3, levels: true }
+  assert.equal(challengeTask(easy).range, 20)
+  assert.equal(challengeTask({ ...easy, range: 100 }).kind, 'missing')
+  const table = challengeTask({ ...easy, op: 'x', table: 3 })
+  assert.equal(table.table, 'mix')
+  assert.equal(table.kind, 'missing')
+  assert.deepEqual(mathItems(challengeTask(easy)), mathItems(challengeTask({ ...easy })))
+  assert.equal(challengeTask(easy).levels, false)
+})
+
+test('grade templates are valid homework for every grade', () => {
+  assert.deepEqual(TEMPLATE_GRADES, ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳'])
+  for (const grade of TEMPLATE_GRADES) {
+    const t = gradeTemplate(grade, 100)
+    assert.match(t.title, new RegExp(grade))
+    assert.ok(t.tasks.length >= 2 && t.tasks.length <= 12, grade)
+    assert.deepEqual(t.tasks.flatMap(taskProblems), [], grade)
+    assert.ok(t.tasks.some(task => task.mode === 'bubbles' || task.mode === 'match' || task.levels), grade)
+  }
+  assert.equal(gradeTemplate('ז׳'), null)
 })

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import { DictationTask, MathTask, QuestionsTask, ReadingTask } from '../../components/homework/TaskPlayers'
 import { homeworkError, homeworkStudent } from '../../utils/homework/db'
-import { TASK_TYPES, taskTitle } from '../../utils/homework/tasks'
+import { TASK_TYPES, taskHint, taskTitle } from '../../utils/homework/tasks'
 
 const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask }
 const nameKey = code => `buga-homework-name-${code}`
@@ -89,7 +89,7 @@ export default function StudentHomework() {
           <button onClick={() => { setResult(null); setActive(i) }} disabled={homework.status === 'closed'}
             className={`flex w-full items-center gap-4 rounded-3xl border-2 p-4 text-right shadow-sm ${r ? 'border-emerald-300 bg-emerald-50' : 'border-violet-200 bg-white hover:border-violet-500'}`}>
             <span className="text-4xl">{r ? '✅' : info.emoji}</span>
-            <span className="flex-1"><b className="block text-lg">{taskTitle(task)}</b><span className="text-sm text-slate-600">{r ? `${r.score} מתוך ${r.total} · אפשר לנסות שוב` : info.hint}</span></span>
+            <span className="flex-1"><b className="block text-lg">{taskTitle(task)}</b><span className="text-sm text-slate-600">{r ? `${r.score} מתוך ${r.total} · אפשר לנסות שוב` : taskHint(task)}</span></span>
             <span className="text-2xl text-violet-500">←</span>
           </button>
         </li>

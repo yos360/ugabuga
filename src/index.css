@@ -309,3 +309,10 @@ body {
   .chip-scroll::-webkit-scrollbar { display: none; }
   .chip-scroll > * { flex: none; white-space: nowrap; scroll-snap-align: start; }
 }
+
+/* Homework games: balloons float gently, a wrong match card shakes. */
+@keyframes hw-float { 0%,100%{translate:0 0} 50%{translate:0 -6px} }
+@keyframes hw-shake { 0%,100%{translate:0} 25%{translate:-6px} 75%{translate:6px} }
+.hw-balloon { animation: hw-float 2.4s ease-in-out infinite; }
+.hw-shake { animation: hw-shake .35s ease-in-out 1; }
+@media (prefers-reduced-motion: reduce) { .hw-balloon, .hw-shake { animation: none; } }

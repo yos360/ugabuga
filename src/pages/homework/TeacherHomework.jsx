@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TeacherGate from './TeacherGate'
 import { homeworkError, homeworkLink, homeworkTeacher } from '../../utils/homework/db'
-import { DICTATION_LISTS, MATH_KINDS, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, cleanTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle } from '../../utils/homework/tasks'
+import { DICTATION_LISTS, MATCH_MAX, MATH_KINDS, MATH_MODES, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, TEMPLATE_GRADES, challengeTask, cleanTask, gradeTemplate, levelTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle } from '../../utils/homework/tasks'
 import { loadClassRoster } from '../../utils/classRoster'
 
 const btn = 'min-h-11 rounded-xl px-4 py-2 font-bold'
@@ -69,13 +69,18 @@ export function HomeworkBuilderPage() {
 function MathFields({ task, set }) {
   const tableOp = task.op === 'x' || task.op === '÷'
   const preview = useMemo(() => mathItems(task).slice(0, 4).map(i => i.text).join('   ·   '), [task])
+  const hardPreview = useMemo(() => task.levels ? mathItems(challengeTask(task)).slice(0, 3).map(i => i.text).join('   ·   ') : '', [task])
+  const maxCount = task.mode === 'match' ? MATCH_MAX : 40
   return <div className="grid gap-3 sm:grid-cols-2">
+    <label className="font-bold sm:col-span-2">איך פותרים<select className={field} value={task.mode || 'type'} onChange={e => set({ mode: e.target.value, ...(e.target.value === 'match' && task.count > MATCH_MAX ? { count: 6 } : {}) })}>{MATH_MODES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
     <label className="font-bold">פעולה<select className={field} value={task.op} onChange={e => set({ op: e.target.value })}>{MATH_OPS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
     {tableOp ? <label className="font-bold">לוח<select className={field} value={task.table} onChange={e => set({ table: e.target.value === 'mix' ? 'mix' : Number(e.target.value) })}>{MATH_TABLES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
       : <label className="font-bold">טווח<select className={field} value={task.range} onChange={e => set({ range: Number(e.target.value) })}>{MATH_RANGES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>}
     <label className="font-bold">סוג<select className={field} value={task.kind} onChange={e => set({ kind: e.target.value })}>{MATH_KINDS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>
-    <label className="font-bold">כמה תרגילים<input type="number" min="3" max="40" className={field} value={task.count} onChange={e => set({ count: Number(e.target.value) })} /></label>
+    <label className="font-bold">כמה תרגילים<input type="number" min="3" max={maxCount} className={field} value={task.count} onChange={e => set({ count: Number(e.target.value) })} /></label>
     <p className="text-sm text-slate-600 sm:col-span-2" dir="ltr">{preview} …</p>
+    <label className="flex items-start gap-2 rounded-xl bg-orange-50 p-3 sm:col-span-2"><input type="checkbox" className="mt-1.5" checked={Boolean(task.levels)} onChange={e => set({ levels: e.target.checked })} />
+      <span><b>הילדים בוחרים רמה: רגילה או 🌶️ מאתגרת</b><span className="block text-sm text-slate-600">{task.levels ? <>במאתגרת: <span dir="ltr">{hardPreview} …</span> · בטבלת התוצאות יופיע 🌶️ ליד מי שבחר אותה.</> : 'טוב לכיתה עם רמות שונות — כל ילד בוחר את האתגר שלו.'}</span></span></label>
     <p className="text-xs text-slate-500 sm:col-span-2">כל הילדים מקבלים את אותם תרגילים. <button type="button" className="underline" onClick={() => set({ seed: Math.floor(Math.random() * 1e9) + 1 })}>🎲 תרגילים אחרים</button></p>
   </div>
 }
@@ -164,6 +169,15 @@ function HomeworkBuilder({ code }) {
       </label>
     </section>
 
+    {!code && !tasks.length && <section className="rounded-3xl bg-amber-50 p-5">
+      <h2 className="text-xl font-black">⚡ התחלה מהירה: שיעורי בית מוכנים לפי כיתה</h2>
+      <p className="mb-3 text-sm text-slate-600">חשבון, משחק, קטע קריאה והכתבה שמתאימים לכיתה. אחרי הבחירה אפשר לשנות כל דבר.</p>
+      <div className="flex flex-wrap gap-2">{TEMPLATE_GRADES.map(grade => <button key={grade} type="button" className={ghost} onClick={() => {
+        const t = gradeTemplate(grade)
+        setTasks(t.tasks); if (!title.trim()) setTitle(t.title); if (!className.trim()) setClassName(grade)
+      }}>כיתה {grade}</button>)}</div>
+    </section>}
+
     <section className="grid gap-3">
       <h2 className="text-2xl font-black">משימות ({tasks.length})</h2>
       {tasks.map((task, i) => {
@@ -233,9 +247,15 @@ function HomeworkResults({ code }) {
   const hard = hw.tasks.map((task, t) => {
     const misses = {}
     let tried = 0
-    for (const r of rows.filter(x => x.task_index === t)) { tried++; for (const d of r.details || []) if (!d.ok) misses[d.i] = (misses[d.i] || 0) + 1 }
-    const label = i => task.type === 'math' ? mathItems(task)[i]?.text : task.type === 'reading' ? readingPassage(task.slug)?.q[i]?.[0] : task.type === 'dictation' ? task.words[i] : task.items[i]?.q
-    return { t, tried, top: Object.entries(misses).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([i, n]) => ({ text: label(Number(i)), n })) }
+    // A challenge exercise is a different exercise, so misses are kept per level ("hard:3").
+    for (const r of rows.filter(x => x.task_index === t)) { tried++; for (const d of r.details || []) if (!d.ok) { const k = `${d.lv === 'hard' ? 'hard' : ''}:${d.i}`; misses[k] = (misses[k] || 0) + 1 } }
+    const mathText = {}
+    const label = key => {
+      const [lv, raw] = key.split(':'), i = Number(raw)
+      if (task.type === 'math') return `${(mathText[lv] ||= mathItems(levelTask(task, lv)))[i]?.text || ''}${lv ? ' 🌶️' : ''}`
+      return task.type === 'reading' ? readingPassage(task.slug)?.q[i]?.[0] : task.type === 'dictation' ? task.words[i] : task.items[i]?.q
+    }
+    return { t, tried, top: Object.entries(misses).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([key, n]) => ({ text: label(key), n })) }
   }).filter(x => x.top.length)
   const shareText = `📚 ${hw.title}${hw.due_date ? ` (להגיש עד ${formatDate(hw.due_date)})` : ''}\nנכנסים, בוחרים את השם ופותרים 👇\n${link}`
   const copy = () => navigator.clipboard?.writeText(link).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1800) }).catch(() => {})
@@ -270,7 +290,7 @@ function HomeworkResults({ code }) {
           return <tr key={s.name} className="border-b">
             <td className="p-3 font-bold">{s.name}</td>
             {hw.tasks.map((_, i) => { const r = s.tasks[i]; return <td key={i} className="p-3">{r
-              ? <span title={`${Math.round(r.seconds / 60)} דק׳ · ${r.attempts} ניסיונות`} className={`rounded-lg px-2 py-0.5 font-bold ${TONES[scoreTone(r.score, r.total)]}`}>{r.score}/{r.total}</span>
+              ? <span title={`${Math.round(r.seconds / 60)} דק׳ · ${r.attempts} ניסיונות${r.details?.[0]?.lv === 'hard' ? ' · רמה מאתגרת' : ''}`} className={`rounded-lg px-2 py-0.5 font-bold ${TONES[scoreTone(r.score, r.total)]}`}>{r.score}/{r.total}{r.details?.[0]?.lv === 'hard' && ' 🌶️'}</span>
               : <span className="text-slate-300">—</span>}</td> })}
             <td className="p-3 font-bold">{list.length ? `${list.length}/${hw.tasks.length} · ${total ? Math.round((score / total) * 100) : 0}%` : <span className="font-normal text-slate-400">לא התחיל</span>}</td>
           </tr>
