@@ -6,6 +6,7 @@ import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
 import PrintQrFallback from './PrintQrFallback'
+import PrintFollowUp from '../print/PrintFollowUp'
 import WhatsAppShare from './WhatsAppShare'
 import NoVoiceNotice from './NoVoiceNotice'
 import PrintPreviewFigure from './PrintPreviewFigure'
@@ -63,6 +64,7 @@ export default function Layout({ children }) {
       {!presenting && <Navbar />}
       {mounted && !presenting && <RecentActivity />}
       {mounted && <PrintQrFallback />}
+      {mounted && <PrintFollowUp />}
       {/* /kids is for a child browsing alone: no share button there. */}
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}

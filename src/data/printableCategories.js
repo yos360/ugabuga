@@ -1,6 +1,9 @@
 // Printable categories — shared by PrintablesIndex and HubPage. `inHubOnly` sheets are left out of the
 // unfiltered list (they sit under their own hub card and topic chip), kept in its own
 // tiny module so HubPage (eager-ish) doesn't drag the whole printables page in.
+// A sheet's page: its own href, or the address its slug implies.
+export const printableHref = cat => cat.href || (cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug)
+
 export const categories = [
   { slug: 'name-labels', href: '/printables/name-labels', emoji: '🏷️', title: 'מדבקות שם', count: 'חדש', desc: 'שם, כיתה או טלפון על גיליון מדבקות A4 או נייר לגזירה', special: true },
   { slug: 'allergy-signs', href: '/printables/allergy-signs', emoji: '🥜', title: 'שלטי אלרגיה ומדבקות', count: 'חדש', desc: 'אצלנו בגן לא אוכלים בוטנים — שלט לכל אלרגיה ומדבקות עם שם', special: true },

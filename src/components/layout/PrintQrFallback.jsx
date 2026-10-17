@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import { recordPrintPreview } from './RecentActivity'
+import { announcePrint } from '../../utils/printEvents'
 import '../ui/print-preview.css'
 
 // Pages that print with a plain window.print() (or Ctrl+P) don't go through
@@ -27,8 +28,11 @@ export default function PrintQrFallback() {
   useEffect(() => {
     // Count direct prints too (PrintPreview already records its own).
     const onBeforePrint = () => { if (!document.getElementById('buga-print-output')) recordPrintPreview() }
+    // Direct prints get the same "what else to print" suggestion as PrintPreview, after the dialog closes.
+    const onAfterPrint = () => { if (!document.getElementById('buga-print-output')) announcePrint('print') }
     window.addEventListener('beforeprint', onBeforePrint)
-    return () => window.removeEventListener('beforeprint', onBeforePrint)
+    window.addEventListener('afterprint', onAfterPrint)
+    return () => { window.removeEventListener('beforeprint', onBeforePrint); window.removeEventListener('afterprint', onAfterPrint) }
   }, [])
   if (!svg) return null
   return createPortal(

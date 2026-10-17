@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import PrintCount from '../components/ui/PrintCount'
-import PrintPulse from '../components/ui/PrintPulse'
+import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
@@ -108,7 +108,7 @@ export default function Home() {
       <PrintCount total className="mt-3" />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
-    <PrintPulse compact />
+    <PrintStrip />
     <section className="home-intents" aria-labelledby="home-intents-title">
       <h2 id="home-intents-title">למה נכנסתם היום?</h2>
       <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>

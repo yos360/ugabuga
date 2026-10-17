@@ -4,6 +4,7 @@ import './print-preview.css'
 import { recordSheetAction, recordPreviewOpen } from '../layout/RecentActivity'
 import { sharePage, shareAudience } from '../../utils/share'
 import { recordCreation, sheetText, creatorTool } from '../../utils/creations'
+import { announcePrint } from '../../utils/printEvents'
 
 // A QR code is stamped onto every printed page with a short invitation next to it, linking back to
 // the exact page it came from (tagged so the owner's report can see scans separately from
@@ -69,6 +70,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('print',sheetText(dialog.current||root.current))
     window.print()
     setDone(true)
+    announcePrint('print',{title})
   }catch{setError(en?'The artwork is still loading. Please try again.':'האיור עדיין לא נטען. נסו שוב בעוד רגע.')}finally{setBusy(false)}}
   // A real PDF file made in the browser — works even where the phone's print dialog can't save.
   async function savePdf(){if(pdf)return;const sourcePath=downloadPath||location.pathname;setError('');setPdf(en?'Preparing PDF…':'מכינים PDF…');try{
@@ -79,6 +81,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     if(result==='cancelled')return
     recordSheetAction('download',sourcePath);if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
+    announcePrint('pdf',{title})
   }catch{setError(en?'We could not create the PDF. Try again, or use Print.':'לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
   // NOTE: both nodes must be direct children of <body> — print-preview.css hides
   // every body child except #buga-print-output, so no wrapper element here.

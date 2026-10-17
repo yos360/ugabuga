@@ -14,8 +14,11 @@ const customDefault=PACKS.nature.words.map(([w,c])=>`${w} | ${c}`).join('\n')
 // button advances the same seed, so it also cannot repeat the initial board.
 const freshSeed=()=>Math.floor(Math.random()*2147483647)
 
+const urlChoice=(key,allowed,fallback)=>{try{const v=new URLSearchParams(window.location.search).get(key);return allowed.includes(v)?v:fallback}catch{return fallback}}
+
 export default function PuzzleStudio(){
-  const [type,setType]=useState('crossword'),[pack,setPack]=useState('nature'),[seed,setSeed]=useState(freshSeed),[level,setLevel]=useState('easy')
+  // ?type=search&pack=birthday opens a ready topic (used by the "what else to print" suggestions).
+  const [type,setType]=useState(()=>urlChoice('type',TYPES.map(t=>t[0]),'crossword')),[pack,setPack]=useState(()=>urlChoice('pack',Object.keys(PACKS),'nature')),[seed,setSeed]=useState(freshSeed),[level,setLevel]=useState('easy')
   const [editing,setEditing]=useState(false),[draft,setDraft]=useState(customDefault),[custom,setCustom]=useState(null),[error,setError]=useState('')
   const entries=custom||PACKS[pack].words
   function changeType(id){setType(id);setEditing(false);setError('');setCustom(null)}
