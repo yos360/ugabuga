@@ -11,6 +11,7 @@ export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPoi
   return (
     <Tag type={interactive ? 'button' : undefined} className={cls} style={style} data-drop={dropKey} {...onPointer}
       aria-label={card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך'} role={interactive ? undefined : 'img'}>
+      {!card.up && <span className="sol-back-mark" aria-hidden="true">BUGA</span>}
       {card.up && <>
         <span className="cd-corner">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>
         <span className="cd-center">{card.rank > 10 ? rankLabel(card.rank) : SUITS[card.suit]}</span>

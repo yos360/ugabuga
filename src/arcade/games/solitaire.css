@@ -1,22 +1,27 @@
 /* Scoped to Klondike: shared cards, hooks and Spider styles are unchanged. */
-.solitaire-game .cd-field{background:radial-gradient(ellipse at 50% 10%,#247b68,#104a40 70%);border:1px solid #e6ca873d;box-shadow:inset 0 0 70px #001e2e66;overflow:auto;touch-action:pan-y;overscroll-behavior:contain;border-radius:16px}
+.solitaire-game .cd-field{background:radial-gradient(#1d22330b 1px,transparent 1.5px) 0 0/20px 20px,linear-gradient(160deg,#bcebd1,#8bd5b5);border:2.5px solid var(--arc-ink);box-shadow:3px 3px 0 var(--arc-ink);overflow:auto;touch-action:pan-y;overscroll-behavior:contain;border-radius:22px}
 .solitaire-game .cd-table{flex:none}
-.solitaire-game .cd{padding:0;text-align:left;box-sizing:border-box;font-family:Georgia,'Times New Roman',serif;background:linear-gradient(145deg,#fffef9,#f0ecdf);color:#152d3b;border:1px solid #122c3c66;box-shadow:0 2px 5px #001d2b70;min-height:0}
-.solitaire-game .cd.is-red{color:#b51e39}
-.solitaire-game .cd.is-back{background:repeating-linear-gradient(45deg,#153d64 0 4px,#1d507b 4px 8px);border:2px solid #eee4cc;cursor:pointer}
+.solitaire-game .cd{padding:0;text-align:left;box-sizing:border-box;font-family:Fredoka,Heebo,Arial,sans-serif;background:#fffdf6;color:var(--arc-ink);border:1.5px solid var(--arc-ink);box-shadow:1px 2px 0 #1d223366;min-height:0}
+.solitaire-game .cd.is-red{color:#c42d4b}
+.solitaire-game .cd.is-back{overflow:hidden;background:radial-gradient(#ffffff80 1.5px,transparent 2px) 0 0/10px 10px,#a9a0ed;border:1.5px solid var(--arc-ink);cursor:pointer}
+.solitaire-game .cd.is-back::after{border:1.5px solid #fffdf6;inset:8%;border-radius:8%}
+.solitaire-game .sol-back-mark{position:absolute;inset:0;display:grid;place-items:center;color:var(--arc-ink);font-family:Fredoka,Heebo,sans-serif;font-size:.8em;font-weight:900;letter-spacing:-.06em;transform:rotate(-12deg);text-shadow:1px 1px 0 #ffffff80}
 .solitaire-game .cd-corner{display:flex;gap:2px;align-items:center;font-size:.92em;left:6%;top:5%}
 .solitaire-game .cd-corner br{display:none}
 .solitaire-game .cd-corner.cd-br{left:auto;top:auto;right:6%;bottom:5%}
 .solitaire-game .cd-center{font-size:1.8em;padding-top:8%;pointer-events:none}
 .solitaire-game .cd.is-sm .cd-corner{font-size:1.08em;left:5%}
 .solitaire-game .cd.is-sm .cd-center{font-size:1.65em;padding-top:22%}
-.solitaire-game .cd-slot{box-sizing:border-box;font-family:Georgia,serif;padding:0;color:#f4e4b899}
+.solitaire-game .cd-slot{box-sizing:border-box;font-family:Fredoka,Heebo,sans-serif;padding:0;color:#315f4f;border:2px dashed #315f4f80;background:#ffffff30}
 .solitaire-game .cd:focus-visible,.solitaire-game button:focus-visible,.solitaire-game select:focus-visible{outline:3px solid #ffd76b;outline-offset:2px}
-.solitaire-game .cd.is-drag{transition:none;pointer-events:none;box-shadow:5px 12px 18px #001b2c88}
+.solitaire-game .cd.is-drag{transition:none;pointer-events:none;box-shadow:4px 7px 0 #1d223344}
 .solitaire-game .sol-controls{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 16px;width:100%;font-size:14px}
-.solitaire-game .sol-controls button,.solitaire-game .sol-controls select{min-height:44px;border:1px solid #9caaad;border-radius:10px;padding:6px 12px;background:#fff;color:#183b35;font:inherit;font-weight:700}
+.solitaire-game .sol-controls button,.solitaire-game .sol-controls select{min-height:44px;border:2px solid var(--arc-ink);border-radius:14px;padding:6px 12px;background:#fffdf6;color:var(--arc-ink);font:inherit;font-weight:800;box-shadow:2px 2px 0 var(--arc-ink)}
+.solitaire-game .sol-controls button{background:var(--arc-yellow)}
+.solitaire-game .sol-controls button:active{box-shadow:none;transform:translate(2px,2px)}
 .solitaire-game .sol-save{font-size:12px;color:#52635f}
 .arc-stage .solitaire-game .arc-tool{min-width:44px;min-height:44px}
 .solitaire-game .cd-field .arc-toast{position:sticky;bottom:8px;margin:auto;pointer-events:none}
 @media(max-width:560px){.solitaire-game{padding:5px 2px 8px;gap:5px}.solitaire-game .arc-hud{gap:5px}.solitaire-game .sol-controls{gap:4px 8px}.solitaire-game .sol-save{width:100%;text-align:center}.solitaire-game .cd-field{margin:0;width:100%}}
 @media(prefers-reduced-motion:reduce){.solitaire-game .cd{transition:none}.solitaire-game .is-hint,.solitaire-game .is-active{animation:none;outline:3px solid #ffd23f}}
+
