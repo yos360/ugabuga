@@ -4,7 +4,7 @@
 import { deck, shuffled, isRed, top, flipTop } from './cards.js'
 import { rng } from './rng.js'
 
-export function deal(rand = Math.random) {
+export function deal(rand = Math.random, drawCount = 1) {
   const cards = shuffled(deck(), rand)
   const tab = []
   let k = 0
@@ -13,7 +13,7 @@ export function deal(rand = Math.random) {
     k += i + 1
     tab.push(pile)
   }
-  return { stock: cards.slice(k).map(c => ({ ...c, up: false })), waste: [], found: [[], [], [], []], tab, moves: 0 }
+  return { stock: cards.slice(k).map(c => ({ ...c, up: false })), waste: [], found: [[], [], [], []], tab, moves: 0, drawCount: drawCount === 3 ? 3 : 1 }
 }
 
 export function canFound(card, pile) {
@@ -29,16 +29,19 @@ export function canTab(card, pile) {
 
 // Cards picked up from a source: { type: 'waste' } | { type: 'found', pile } | { type: 'tab', pile, index }
 export function pick(s, src) {
+  if (!src) return []
   if (src.type === 'waste') return s.waste.length ? [top(s.waste)] : []
-  if (src.type === 'found') return s.found[src.pile].length ? [top(s.found[src.pile])] : []
+  if (src.type === 'found') return s.found[src.pile]?.length ? [top(s.found[src.pile])] : []
+  if (src.type !== 'tab' || !Number.isInteger(src.index) || src.index < 0) return []
   const pile = s.tab[src.pile]
+  if (!pile) return []
   const run = pile.slice(src.index)
-  return run.length && run.every(c => c.up) ? run : []
+  return run.length && run.every((c, i) => c.up && (!i || canTab(c, [run[i - 1]]))) ? run : []
 }
 
 export function legal(s, src, dst) {
   const cards = pick(s, src)
-  if (!cards.length) return false
+  if (!cards.length || !dst || !Number.isInteger(dst.pile) || !(dst.type === 'found' ? s.found[dst.pile] : s.tab[dst.pile])) return false
   if (dst.type === 'found') return cards.length === 1 && src.type !== 'found' && canFound(cards[0], s.found[dst.pile])
   if (dst.type === 'tab') return !(src.type === 'tab' && src.pile === dst.pile) && canTab(cards[0], s.tab[dst.pile])
   return false
@@ -58,7 +61,10 @@ export function apply(s, src, dst) {
 
 // Tap the stock: turn one card over, or put the waste back when the stock is empty.
 export function draw(s) {
-  if (s.stock.length) return { ...s, stock: s.stock.slice(0, -1), waste: [...s.waste, { ...top(s.stock), up: true }], moves: s.moves + 1 }
+  if (s.stock.length) {
+    const count = Math.min(s.drawCount === 3 ? 3 : 1, s.stock.length)
+    return { ...s, stock: s.stock.slice(0, -count), waste: [...s.waste, ...s.stock.slice(-count).reverse().map(c => ({ ...c, up: true }))], moves: s.moves + 1 }
+  }
   if (!s.waste.length) return s
   return { ...s, stock: s.waste.slice().reverse().map(c => ({ ...c, up: false })), waste: [], moves: s.moves + 1 }
 }
@@ -122,7 +128,13 @@ export function findHint(s) {
 export function greedyWins(s, maxSteps = 1500) {
   let idle = 0
   for (let i = 0; i < maxSteps; i++) {
-    if (isWon(s) || canAutoFinish(s)) return true
+    if (isWon(s)) return true
+    if (canAutoFinish(s)) {
+      const next = autoStep(s)
+      if (!next) return false
+      s = next
+      continue
+    }
     const h = findHint(s)
     if (!h) return false
     if (h.draw) {
@@ -133,8 +145,8 @@ export function greedyWins(s, maxSteps = 1500) {
   return false
 }
 
-// A deal from this seed that is surely winnable (for the daily challenge: everyone gets
-// the same deal, and nobody gets a hopeless one).
+// Prefer a deal proven winnable by legal moves from this seed (for the daily challenge: everyone gets
+// the same deal). The bounded search can fall back to an unproven deal.
 export function winnableDeal(seed) {
   for (let t = 0; t < 400; t++) {
     const s = deal(rng(seed + t * 7777))
