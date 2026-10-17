@@ -28,3 +28,4 @@
 .sp-confetti i{--x:calc((var(--i) * 37) % 100);position:absolute;top:-24px;left:calc(var(--x) * 1%);width:10px;height:18px;border:2px solid var(--arc-ink);border-radius:4px;background:hsl(calc(var(--i) * 47) 85% 65%);animation:sp-fall 2.6s calc((var(--i) % 8) * -.16s) ease-in infinite}
 @keyframes sp-fall{to{transform:translate(calc((var(--i) % 5 - 2) * 18px),110vh) rotate(720deg)}}
 @media(prefers-reduced-motion:reduce){.sp-confetti{display:none}}
+.sp-guide{margin:0;padding:5px 10px;max-width:900px;border-radius:10px;background:#e9f4eb;color:#24473b;font-size:13px;font-weight:700;line-height:1.35;text-align:center}

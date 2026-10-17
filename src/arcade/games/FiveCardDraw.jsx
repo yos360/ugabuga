@@ -5,9 +5,10 @@ import { useProgress } from '../hooks'
 import { Hud, Segmented, ToolButton } from '../ui'
 import { sfx } from '../sfx'
 import './five-card-draw.css'
+import './card-polish.css'
 
 function PokerCard({ card, hidden, selected, onClick }) {
-  return <button type="button" className={`fd-card${hidden ? ' is-back' : ''}${selected ? ' is-selected' : ''}${!hidden && isRed(card) ? ' is-red' : ''}`} onClick={onClick} disabled={hidden} aria-pressed={selected}>{hidden ? <span>עוגה<br />בוגה</span> : <><b>{rankLabel(card.rank)}</b><i>{SUITS[card.suit]}</i><strong>{SUITS[card.suit]}</strong></>}</button>
+  return <button type="button" className={`fd-card${hidden ? ' is-back' : ''}${selected ? ' is-selected' : ''}${!hidden && isRed(card) ? ' is-red' : ''}`} onClick={onClick} disabled={hidden} aria-label={hidden ? 'קלף הפוך' : `${rankLabel(card.rank)}${SUITS[card.suit]}`} aria-pressed={selected}>{hidden ? <span>עוגה<br />בוגה</span> : <><b>{rankLabel(card.rank)}</b><i>{SUITS[card.suit]}</i><strong>{SUITS[card.suit]}</strong></>}</button>
 }
 
 export default function FiveCardDraw({ daily, onReport, onShare }) {
@@ -32,6 +33,7 @@ export default function FiveCardDraw({ daily, onReport, onShare }) {
   const reveal = game.stage === 'ended'
   return <div className="arc-game fd-game">
     <Hud stats={[['אסימונים', game.chips], ['קופה', game.pot], ['ניצחונות', progress.wins]]}><ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton></Hud>
+    <p className="card-guide">{game.stage === 'draw' ? 'בחרו עד שלושה קלפים להחלפה, ואז לחצו על כפתור ההחלפה. אפשר גם להחליף אפס קלפים.' : game.stage === 'ended' ? 'היד הסתיימה. לחצו על יד חדשה כדי להמשיך.' : 'בחרו בדיקה כדי להמשיך, הימור כדי להוסיף לקופה, או פרישה כדי לוותר על היד.'}</p>
     <div className="fd-table">
       <div className="fd-rival"><span className="fd-avatar">🤖</span><div><b>בוט בוגה</b><small>{game.computerChips} אסימונים</small></div></div>
       <div className="fd-hand" aria-label="היד של המחשב">{game.computer.map(card => <PokerCard key={card.id} card={card} hidden={!reveal} />)}</div>

@@ -128,6 +128,7 @@ export default function Spider({ onReport, onShare, daily }) {
       {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
         {LEVELS.map(([n, label]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} aria-pressed={s.suits === n} onClick={() => requestRestart(n)}>{label}</button>)}
       </div>}
+      <p className="sp-guide">סדרו קלפים בסדר יורד. גררו רצף מאותה סדרה; רצף שלם ממלך עד אס יורד מהשולחן.</p>
       <span className="card-save" role="status">{storageOk ? 'המשחק נשמר במכשיר זה' : 'השמירה אינה זמינה במכשיר זה'}</span>
       {!daily && <span className="sp-stats">שוחקו {progress.games || 0} משחקים · שיא ברמה הזאת: {progress.best?.[s.suits] ? `${progress.best[s.suits]} מהלכים` : 'עוד אין'}</span>}
       <div className="arc-field cd-field" ref={boxRef}>

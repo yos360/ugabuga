@@ -1,0 +1,46 @@
+/* Card-table controls are scoped to these games; other arcade games retain their themes. */
+:is(.ce-game,.ht-game,.gr-game,.fd-game,.th-game,.pa-game) .arc-hud{max-width:1000px}
+:is(.ce-game,.ht-game,.gr-game,.fd-game,.th-game,.pa-game) .arc-pill{background:#fffdf8;color:#203b35;border:1px solid #c9d9d0;box-shadow:none}
+:is(.ce-game,.ht-game,.gr-game,.fd-game,.th-game,.pa-game) .arc-pill b{color:#a34322}
+.arc-stage :is(.ce-game,.ht-game,.gr-game,.fd-game,.th-game,.pa-game) .arc-tool{min-width:44px;min-height:44px;background:#fffdf8;color:#203b35;border:1px solid #c9d9d0;box-shadow:none}
+body:has(.arc-stage :is(.ce-game,.ht-game,.gr-game,.fd-game,.th-game,.pa-game)) .site-chat{display:none}
+:is(.ce-game,.ht-game,.gr-game){background:radial-gradient(ellipse at 50% 35%,#26795f,#125440 70%,#0b3b30);color:#fff}
+:is(.ce-table,.ht-table,.gr-table){padding:clamp(12px,2vw,22px);border:1px solid #ffffff45;border-radius:24px;background:#082e2445;box-shadow:inset 0 1px 0 #ffffff24,0 12px 35px #082c2440;box-sizing:border-box}
+:is(.ce-settings,.ht-levels,.gr-levels){padding:7px;border-radius:16px;background:#082e2470}
+.arc-stage :is(.ce-settings,.ht-levels,.gr-levels) button{min-height:44px;padding:7px 14px;border:1px solid #d1ddd5;border-radius:11px;background:#fffdf8;color:#203b35;box-shadow:none}
+.arc-stage :is(.ce-settings,.ht-levels,.gr-levels) button.is-on{background:#f5d77e;color:#283c30;border-color:#e8c85f}
+:is(.ce-card,.ht-card,.gr-card){border:1px solid #d8d5cc;border-radius:10px;background:#fffdf8;color:#182a30;box-shadow:0 4px 10px #001b1450;transition:transform .18s ease,box-shadow .18s ease,outline-color .18s ease;touch-action:manipulation}
+:is(.ce-card,.ht-card,.gr-card).is-red{color:#b42343}
+:is(.ce-card,.ht-card,.gr-card,.fd-card):disabled{opacity:1}
+:is(.ce-card,.ht-card,.gr-card):not(:disabled):hover{transform:translateY(-5px)}
+:is(.ce-card,.ht-card,.gr-card):focus-visible,:is(.fd-card,.th-actions button,.pa-game button):focus-visible{outline:3px solid #ffe17d;outline-offset:3px}
+:is(.ce-card,.ht-card,.gr-card).is-back{border:3px solid #f3ead7;background:repeating-linear-gradient(45deg,#244d68 0 6px,#326d78 6px 12px);color:#fff}
+:is(.ce-hand,.ht-hand,.gr-hand){max-width:100%;justify-content:safe center;overscroll-behavior-inline:contain;scrollbar-width:thin;scrollbar-color:#c8dcd3 transparent}
+:is(.ce-human,.ht-human,.gr-human,.ce-me){min-width:0;width:100%;box-sizing:border-box}
+:is(.ce-message,.ht-message,.gr-message){padding:8px 12px;border-radius:12px;background:#092f28b5;color:#fff4c8}
+.arc-stage :is(.ht-pass,.gr-actions button){min-height:44px;border:0;border-radius:12px;background:#f5d77e;color:#203b35;box-shadow:none}
+.arc-stage :is(.ht-pass,.gr-actions button):disabled{opacity:.5;cursor:not-allowed}
+.arc-stage :is(.fd-actions,.th-actions) button,.arc-stage :is(.fd-share,.th-share){min-height:44px;cursor:pointer}
+.arc-stage :is(.fd-game,.th-game) .arc-seg button{min-height:44px;background:#fffdf8;color:#203b35}
+.arc-stage :is(.fd-game,.th-game) .arc-seg button.is-on{background:#f5d77e;color:#203b35}
+.arc-stage :is(.pa-tabs,.pa-streets,.pa-players) button,.arc-stage :is(.pa-feedback button,.pa-share){min-height:44px;color:#203b35;cursor:pointer}
+.pa-game .arc-pill{color:#203b35}
+.card-guide{width:min(100%,900px);box-sizing:border-box;margin:0;padding:9px 15px;border:1px solid #ffffff55;border-radius:13px;background:#082f28d9;color:#fff;font-size:14px;font-weight:700;line-height:1.5;text-align:center}
+.card-guide,:is(.ce-table,.ht-table,.gr-table,.fd-table,.th-table,.pa-ranking,.pa-quiz,.pa-odds){flex-shrink:0}
+.pa-game .card-guide{background:#fffdf8;color:#203b35;border-color:#d8cdb1}
+@media(max-width:650px){
+  :is(.ce-table,.ht-table,.gr-table){padding:10px 6px;border-radius:16px}
+  :is(.ce-hand,.ht-hand,.gr-hand){justify-content:flex-start}
+  .th-game{overflow:auto}
+  .th-table{display:flex;flex-direction:column;align-items:center;gap:12px;min-height:0;width:100%;padding:12px 4px 16px;box-sizing:border-box;border-radius:24px}
+  .th-opponents{width:100%;padding:0;justify-content:center}
+  .th-center,.th-player,.th-actions,.th-awards{position:static;transform:none;inset:auto}
+  .th-center{width:100%}.th-center p{min-height:2.5em}
+  .th-actions{width:100%;padding:0 4px;box-sizing:border-box}
+  .th-awards{order:4}.th-actions{order:5}
+  .th-settings{width:100%;display:flex;flex-direction:column;align-items:center}
+  .th-settings .arc-seg{max-width:100%;flex-wrap:wrap;justify-content:center;border-radius:14px}
+}
+@media(prefers-reduced-motion:reduce){:is(.ce-card,.ht-card,.gr-card){transition:none}}
+.gr-after{margin:0 0 8px;text-align:center;color:#fff4c8;font-weight:700}
+@media(max-width:650px){:is(.ce-game,.ht-game,.gr-game) .card-guide::after{content:' אפשר לגלול את היד לצדדים.'}}

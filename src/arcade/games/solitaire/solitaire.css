@@ -33,3 +33,4 @@ body:has(.sol-game) .site-chat-launcher{display:none}
 @media(max-width:600px) and (min-height:501px){.sol-help{display:inline-flex}.sol-tool-group [aria-label="ביטול מהלך"] span{display:none}}
 @media(max-width:360px){.sol-tool-group .sol-action span{display:none}.sol-tool-group{gap:4px}.sol-toolbar{gap:4px}.sol-brand h3{font-size:13px}.sol-stats{gap:8px}}
 
+.sol-guide{width:min(100%,1240px);box-sizing:border-box;flex:none;margin:0;padding:7px 12px;border-radius:12px;background:#ebe4f4;color:#473660;font-size:13px;font-weight:700;text-align:center;line-height:1.35}

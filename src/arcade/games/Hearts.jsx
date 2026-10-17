@@ -5,6 +5,7 @@ import { useProgress } from '../hooks'
 import { EndCard, Hud, ToolButton } from '../ui'
 import { sfx } from '../sfx'
 import './hearts.css'
+import './card-polish.css'
 
 const storageKey = 'buga-hearts-session-v1'
 const names = ['אתם', 'נועה', 'יואב', 'מאיה']
@@ -12,7 +13,7 @@ const passNames = { left: 'שמאלה', right: 'ימינה', across: 'ממול',
 
 function PlayingCard({ card, hidden = false, selected = false, playable = false, disabled = false, onClick }) {
   if (hidden) return <span className="ht-card is-back">♥</span>
-  return <button type="button" className={`ht-card${isRed(card) ? ' is-red' : ''}${selected ? ' is-selected' : ''}${playable ? ' is-playable' : ''}`} disabled={disabled} onClick={onClick} aria-label={`${rankLabel(card.rank)}${SUITS[card.suit]}`}><b>{rankLabel(card.rank)}</b><span>{SUITS[card.suit]}</span></button>
+  return <button type="button" className={`ht-card${isRed(card) ? ' is-red' : ''}${selected ? ' is-selected' : ''}${playable ? ' is-playable' : ''}`} disabled={disabled} onClick={onClick} aria-pressed={selected} aria-label={`${rankLabel(card.rank)}${SUITS[card.suit]}`}><b>{rankLabel(card.rank)}</b><span>{SUITS[card.suit]}</span></button>
 }
 
 export default function Hearts({ daily, onReport, onShare }) {
@@ -66,6 +67,7 @@ export default function Hearts({ daily, onReport, onShare }) {
     </Hud>
     {!daily && <div className="ht-levels" role="group" aria-label="רמת יריבים">{[['easy', 'רגוע'], ['normal', 'חכם'], ['hard', 'מומחה']].map(([value, label]) => <button type="button" key={value} className={difficulty === value ? 'is-on' : ''} onClick={() => setLevel(value)}>{label}</button>)}</div>}
     {rules && <aside className="ht-rules">חובה ללכת לפי הסדרה. אסור לפתוח בלב לפני שנשבר, ובלקיחה הראשונה לא משליכים לב או מלכת עלה אם יש קלף בטוח. כל לב שווה נקודה ומלכת עלה 13. מי שלוקח את כל 26 הנקודות “יורה בירח” ומעניק 26 לכל יריב.</aside>}
+    <p className="card-guide">{game.phase === 'pass' ? 'בחרו שלושה קלפים מהיד ואז לחצו על כפתור ההעברה.' : game.turn === 0 ? 'תורכם: בחרו קלף מסומן. השתדלו להימנע מלבבות וממלכת עלה.' : 'תור היריב — המתינו לתורכם.'}</p>
     <main className="ht-table">
       <div className="ht-opponents">{game.hands.slice(1).map((hand, index) => <section key={index} className={game.turn === index + 1 ? 'is-turn' : ''}><b>{names[index + 1]}</b><div>{hand.slice(0, 7).map(card => <PlayingCard key={card.id} card={card} hidden />)}</div><small>{hand.length} קלפים · {game.scores[index + 1]} נק׳ · {game.taken[index + 1].reduce((sum, card) => sum + (card.suit === 1 ? 1 : card.suit === 0 && card.rank === 12 ? 13 : 0), 0)} בסיבוב</small></section>)}</div>
       <div className="ht-trick" aria-label="הלקיחה הנוכחית">{[0, 1, 2, 3].map(player => { const item = game.trick.find(play => play.player === player); return <div key={player} className={`seat-${player}`}>{item ? <PlayingCard card={item.card} disabled /> : <span>{names[player]}</span>}</div> })}</div>

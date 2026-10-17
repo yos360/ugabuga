@@ -5,6 +5,7 @@ import { useProgress } from '../hooks'
 import { EndCard, Hud, ToolButton } from '../ui'
 import { sfx } from '../sfx'
 import './crazy-eights.css'
+import './card-polish.css'
 
 const key = 'buga-crazy-eights-session-v1'
 const labels = ['אתם', 'נועה', 'יואב', 'מאיה']
@@ -81,6 +82,7 @@ export default function CrazyEights({ daily, onReport, onShare }) {
       <span>רמה:</span>{difficulties.map(([value, label]) => <button type="button" key={value} className={difficulty === value ? 'is-on' : ''} onClick={() => configure(opponents, value)}>{label}</button>)}
     </div>}
     {showRules && <aside className="ce-rules"><b>איך משחקים?</b> מניחים קלף מאותה סדרה או אותו מספר. אם אין — מושכים. קלף 8 מתאים תמיד ואחריו בוחרים סדרה. הראשון שנפטר מכל הקלפים מקבל את ערך הקלפים שנשארו ליריבים; הראשון ל־100 מנצח במשחק.</aside>}
+    <p className="card-guide">{game.phase === 'choose-suit' ? 'בחרו את הסדרה שתרצו להמשיך בה.' : game.turn === 0 ? 'תורכם: בחרו קלף מסומן שתואם למספר או לסדרה. אין קלף מתאים? לחצו על החפיסה למשיכה.' : 'תור היריב — המתינו לתורכם.'}</p>
     <div className="ce-table">
       <div className="ce-opponents">{game.hands.slice(1).map((hand, index) => <section key={index} className={game.turn === index + 1 ? 'is-turn' : ''}><b>{labels[index + 1]}</b><span className="ce-fan">{hand.slice(0, 8).map(card => <Face key={card.id} card={card} hidden />)}</span><small>{hand.length} קלפים · {game.scores[index + 1]} נק׳</small></section>)}</div>
       <div className="ce-center"><button type="button" className="ce-stock" onClick={draw} disabled={game.turn !== 0 || game.phase !== 'play'}><span>✦</span><b>{game.stock.length || '↻'}</b><small>משיכה</small></button><div className="ce-discard"><Face card={top} disabled /><small>הסדרה הפעילה: <b className={game.activeSuit === 1 || game.activeSuit === 2 ? 'red' : ''}>{SUITS[game.activeSuit]}</b></small></div></div>

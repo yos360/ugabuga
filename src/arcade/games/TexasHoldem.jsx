@@ -5,6 +5,7 @@ import { useProgress } from '../hooks'
 import { Hud, Segmented, ToolButton } from '../ui'
 import { sfx } from '../sfx'
 import './texas-holdem.css'
+import './card-polish.css'
 
 function Card({ card, hidden, empty }) { return <span className={`th-card${hidden ? ' is-back' : ''}${empty ? ' is-empty' : ''}${card && isRed(card) ? ' is-red' : ''}`}>{empty ? '' : hidden ? 'UB' : <><b>{rankLabel(card.rank)}</b><i>{SUITS[card.suit]}</i></>}</span> }
 const prepare = options => runBots(newHoldem(options))
@@ -31,6 +32,7 @@ export default function TexasHoldem({ daily, onReport, onShare }) {
   const labels = { fold: 'פרישה', check: 'בדיקה', call: `השוואה ${toCall}`, bet: 'הימור', raise: 'העלאה', 'all-in': 'הכול בפנים' }
   return <div className="arc-game th-game">
     <Hud stats={[['אסימונים', game.players[0].stack], ['קופה', game.pot], ['בליינד', game.bigBlind], ['יד', game.handNumber + 1]]}><ToolButton onClick={() => start()} label="טורניר חדש">🔄</ToolButton></Hud>
+    <p className="card-guide">{game.stage === 'ended' ? 'היד הסתיימה. לחצו על היד הבאה כדי להמשיך.' : 'צרו את היד הטובה ביותר משני הקלפים שלכם ומהקלפים המשותפים. בחרו פעולה בכפתורים בתחתית השולחן.'}</p>
     <div className="th-table">
       <div className="th-opponents">{game.players.slice(1).map(player => <div key={player.id} className={`th-seat${game.current === player.id ? ' is-turn' : ''}${player.folded ? ' is-folded' : ''}`}><b>🤖 {player.name}</b><small>{player.stack} אסימונים {player.allIn && '• הכול בפנים'}</small><div><Card card={player.hole[0]} hidden={!reveal} /><Card card={player.hole[1]} hidden={!reveal} /></div><em>{player.bet ? `${player.bet} בקופה` : player.folded ? 'פרש' : ''}</em></div>)}</div>
       <div className="th-center"><span className="th-stage">{STREETS[game.stage]}</span><div className="th-board">{Array.from({ length: 5 }, (_, index) => <Card key={index} card={game.board[index]} empty={!game.board[index]} />)}</div><strong>🏆 {game.pot}</strong><p role="status">{game.message}</p></div>
