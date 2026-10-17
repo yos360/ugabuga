@@ -4,47 +4,11 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { bugaPediaUrl, CLASSROOM_SUBJECTS, subjectById } from '../../data/classroomSubjects'
 import { recordBugaPediaQuery } from '../../utils/bugapediaAnalytics'
-import { bugaPediaSearchTerms, findBugaPediaKnowledge } from '../../data/bugapediaKnowledge'
+import { searchBugaPedia } from '../../utils/bugapediaSearch'
 import './bugapedia.css'
-
-const API = 'https://he.wikipedia.org/w/api.php'
 
 function cleanText(value = '') {
   return value.replace(/\s+/g, ' ').trim()
-}
-
-async function searchWikipedia(question, signal) {
-  const query = cleanText(question)
-  if (query.length < 2) throw new Error('short')
-  const verified = findBugaPediaKnowledge(query)
-  if (verified) return [verified]
-  const terms = bugaPediaSearchTerms(query)
-  const search = terms.join(' ') || query
-  const params = new URLSearchParams({
-    action: 'query', generator: 'search', gsrsearch: search, gsrlimit: '8',
-    prop: 'extracts|pageimages|info', exintro: '1', explaintext: '1',
-    exsentences: '8', piprop: 'thumbnail', pithumbsize: '900', inprop: 'url',
-    redirects: '1', format: 'json', origin: '*', formatversion: '2',
-  })
-  const response = await fetch(`${API}?${params}`, { signal, headers: { Accept: 'application/json' } })
-  if (!response.ok) throw new Error('network')
-  const payload = await response.json()
-  const pages = (payload?.query?.pages || [])
-    .filter(page => !page.missing && cleanText(page.extract))
-    .sort((a, b) => (a.index ?? 999) - (b.index ?? 999))
-    .map(page => ({
-      id: page.pageid,
-      title: page.title,
-      extract: cleanText(page.extract),
-      url: page.fullurl || `https://he.wikipedia.org/wiki/${encodeURIComponent(page.title.replace(/ /g, '_'))}`,
-      image: page.thumbnail?.source || '',
-      sourceLabel: 'ויקיפדיה העברית',
-      linkLabel: 'לערך המלא בוויקיפדיה ↗',
-      score: terms.filter(term => `${page.title} ${page.extract}`.toLocaleLowerCase('he-IL').includes(term)).length,
-    }))
-    .filter(page => page.score >= Math.min(2, Math.max(1, terms.length)))
-    .sort((a, b) => b.score - a.score || (a.index ?? 999) - (b.index ?? 999))
-  return pages.slice(0, 6)
 }
 
 function SubjectCatalog() {
@@ -71,7 +35,7 @@ export default function BugaPedia() {
     if (!asked) return
     const controller = new AbortController()
     setState('loading')
-    searchWikipedia(asked, controller.signal).then(results => {
+    searchBugaPedia(asked, controller.signal).then(results => {
       setPages(results)
       setState(results.length ? 'ready' : 'empty')
       recordBugaPediaQuery({ question: asked, subject: subject?.id, found: results.length > 0, resultTitle: results[0]?.title })
@@ -94,7 +58,7 @@ export default function BugaPedia() {
   const primary = pages[0]
 
   return <div className="bugapedia-page" dir="rtl">
-    <SEO title="בוגה־פדיה — שואלים ומגלים בכל מקצוע" description="מחפשים תשובה בעברית בכל מקצוע לימוד דרך ויקיפדיה, עם מקור פתוח וקישור לערך המלא." path="/bugapedia" />
+    <SEO title="בוגה־פדיה — שואלים ומגלים בכל מקצוע" description="מחפשים תשובה בעברית במקורות ידע פתוחים: אנציקלופדיה, מילון, נתונים וחישובים, תמיד עם ציון המקור." path="/bugapedia" />
     <div className="bugapedia-shell">
       <Breadcrumbs items={[{ label: 'בית', href: '/' }, { label: 'לכיתה', href: '/classroom' }, { label: 'בוגה־פדיה' }]} />
       <header className="bp-hero">
@@ -110,10 +74,10 @@ export default function BugaPedia() {
         <p className="bp-analytics-note">השאלה נשמרת ללא שם או פרטים אישיים, כדי לשפר את בוגה־פדיה.</p>
       </header>
 
-      {state === 'loading' && <section className="bp-answer bp-loading" role="status"><div /><p>מחפשים את הערך המתאים…</p></section>}
+      {state === 'loading' && <section className="bp-answer bp-loading" role="status"><div /><p>מחפשים בכמה מקורות מידע…</p></section>}
       {state === 'short' && <p className="bp-message" role="alert">כתבו לפחות שתי אותיות כדי שנוכל לחפש.</p>}
-      {state === 'error' && <p className="bp-message" role="alert">לא הצלחנו להגיע לוויקיפדיה כרגע. נסו שוב בעוד רגע.</p>}
-      {state === 'empty' && <section className="bp-answer bp-empty"><span>🔎</span><h2>עוד אין תשובה טובה לשאלה הזאת</h2><p>נסו לכתוב שם של אדם, מקום, אירוע או מושג. אפשר גם לשלוח לנו בקשה ונבדוק מה כדאי להוסיף לאתר.</p><button onClick={requestIdea}>שליחת בקשה אישית</button></section>}
+      {state === 'error' && <p className="bp-message" role="alert">לא הצלחנו להגיע למקורות המידע כרגע. נסו שוב בעוד רגע.</p>}
+      {state === 'empty' && <section className="bp-answer bp-empty"><span>🔎</span><h2>עוד אין תשובה אמינה לשאלה הזאת</h2><p>נסו לנסח את השאלה אחרת או לכתוב שם מדויק של אדם, מקום, אירוע, מילה או מושג. אפשר גם לשלוח לנו בקשה ונבדוק מה כדאי להוסיף.</p><button onClick={requestIdea}>שליחת בקשה אישית</button></section>}
       {state === 'ready' && primary && <section className="bp-results" aria-live="polite">
         <article className="bp-answer">
           {primary.image && <img src={primary.image} alt="" />}
