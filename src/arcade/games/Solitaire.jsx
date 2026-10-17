@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { deal, winnableDeal, draw, apply, bestTarget, legal, isWon, canAutoFinish, autoStep, findHint } from '../logic/klondike'
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
-import { Hud, ToolButton, EndCard } from '../ui'
-import { Card, Slot } from '../cardsUi'
+import { EndCard } from '../ui'
+import { RotateCcw, Lightbulb, Plus, Trophy, Clock3, Layers3, Palette, X, CircleHelp } from 'lucide-react'
+import './solitaire/solitaire.css'
+import { Card, Slot } from './solitaire/Cards'
 
 // Keys: 'w' = waste top, 'f2' = foundation 2, 't3:5' = tableau pile 3 from card 5.
 const parse = key => {
@@ -20,6 +22,9 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('solitaire', { wins: 0, best: 0 })
   const [s, setS] = useState(newDeal)
   const [history, setHistory] = useState([])
+  const [appearance, saveAppearance] = useProgress('solitaire-appearance', { theme: 'velvet' })
+  const theme = ['velvet', 'garden', 'midnight'].includes(appearance.theme) ? appearance.theme : 'velvet'
+  const [panel, setPanel] = useState(null)
   const [shake, setShake] = useState(null)
   const [hint, setHint] = useState(null)
   const [boxRef, box] = useBox()
@@ -52,7 +57,8 @@ export default function Solitaire({ onReport, onShare, daily }) {
     const src = parse(key)
     if (dst && legal(s, src, dst)) commit(apply(s, src, dst))
   }
-  const [drag, handlers] = useCardDrag(tap, drop)
+  const [drag, pointerHandlers] = useCardDrag(tap, drop)
+  const handlers = key => ({ ...pointerHandlers(key), onKeyActivate: () => tap(key) })
 
   // Auto-finish once every card is face up.
   useEffect(() => {
@@ -78,8 +84,8 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const h = w * 1.4
   const left = (box.w - (w * 7 + gap * 6)) / 2
   const colX = i => left + i * (w + gap)
-  const tabTop = h + gap * 2
-  const room = box.h - tabTop - h - gap
+  const tabTop = h + gap * 2 + 24
+  const room = Math.max(0, box.h - tabTop - h - gap)
 
   const cards = []
   const isDragged = key => drag && dragKeys(drag.key).includes(key)
@@ -117,14 +123,33 @@ export default function Solitaire({ onReport, onShare, daily }) {
   })
 
   return (
-    <div className="arc-game">
-      <Hud stats={[['זמן', fmt(time)], ['מהלכים', s.moves], ['ניצחונות', progress.wins]]}>
-        <ToolButton onClick={undo} disabled={!history.length} label="ביטול מהלך">↩</ToolButton>
-        <ToolButton onClick={showHint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
-      </Hud>
+    <div className="arc-game sol-game" data-theme={theme}>
+      <div className="sol-dashboard">
+        <div className="sol-brand"><span className="sol-emblem" aria-hidden="true">♠</span><div><span className="sol-eyebrow">עוגה בוגה · זמן לשחק</span><h3>{daily ? 'האתגר היומי שלכם' : 'רגע קטן. משחק גדול.'}</h3></div></div>
+        <div className="sol-stats" aria-label="נתוני המשחק">
+          <div><Clock3 aria-hidden="true" /><span>זמן<strong dir="ltr">{fmt(time)}</strong></span></div>
+          <div><Layers3 aria-hidden="true" /><span>מהלכים<strong>{s.moves}</strong></span></div>
+          <div><Trophy aria-hidden="true" /><span>ניצחונות<strong>{progress.wins}</strong></span></div>
+        </div>
+      </div>
+      <div className="sol-toolbar" aria-label="כלי משחק">
+        <button className="sol-action sol-primary" onClick={() => started && !won ? setPanel('restart') : restart()}><Plus />משחק חדש</button>
+        <div className="sol-tool-group">
+          <button className="sol-action" onClick={undo} disabled={!history.length} aria-label="ביטול מהלך"><RotateCcw /><span>ביטול</span></button>
+          <button className="sol-action" onClick={showHint} aria-label="רמז"><Lightbulb /><span>רמז</span></button>
+          <button className="sol-action" onClick={() => setPanel(panel === 'themes' ? null : 'themes')} aria-expanded={panel === 'themes'} aria-label="בחירת רקע"><Palette /><span>רקע</span></button>
+          <button className="sol-action sol-help" onClick={() => setPanel('help')} aria-label="איך משחקים"><CircleHelp /></button>
+        </div>
+      </div>
+      {panel && <div className="sol-panel" role="region" aria-label={panel === 'themes' ? 'בחירת רקע' : panel === 'restart' ? 'משחק חדש' : 'איך משחקים'}>
+        <button className="sol-panel-close sol-action" onClick={() => setPanel(null)} aria-label="סגירת החלונית"><X /></button>
+        {panel === 'themes' ? <><h4>איזה שולחן מתאים לכם?</h4><div className="sol-themes">{[['velvet', 'קטיפה סגולה'], ['garden', 'גן ירוק'], ['midnight', 'לילה כחול']].map(([id, label]) => <button key={id} className="sol-theme" data-theme={id} aria-pressed={theme === id} onClick={() => saveAppearance({ theme: id })}><i />{label}<span>{theme === id ? '✓' : ''}</span></button>)}</div></> : panel === 'restart' ? <><h4>מתחילים משחק חדש?</h4><p>המשחק הנוכחי יוחלף בחלוקה חדשה.</p><button className="sol-action sol-primary" onClick={() => { restart(); setPanel(null) }}>כן, מתחילים</button><button className="sol-action" onClick={() => setPanel(null)}>ממשיכים לשחק</button></> : <><h4>מסדרים, מגלים, מנצחים</h4><p>בונים ארבע ערימות מאס עד מלך, לפי צורה. על השולחן מסדרים בסדר יורד ובצבעים מתחלפים. רק מלך יכול להתחיל עמודה ריקה.</p><p>לחצו על קלף להעברה אוטומטית או גררו למקום הרצוי. החפיסה נותנת קלף חדש, והרמז עוזר כשנתקעים.</p></>}
+      </div>}
       <div className="arc-field cd-field" ref={boxRef}>
+        <div className="sol-table-watermark" aria-hidden="true"><span>♠</span>עוגה בוגה<small>עוד קלף, עוד אפשרות</small></div>
         <div className="cd-table" style={{ width: box.w, height: box.h }}>
+          <span className="sol-pile-label" style={{ left: colX(0), top: h + gap + 5, width: w * 2 + gap }}>חפיסה · לחצו לשליפה</span>
+          <span className="sol-pile-label" style={{ left: colX(3), top: h + gap + 5, width: w * 4 + gap * 3 }}>ערימות הבית · מאס עד מלך</span>
           {stockTop
             ? <Card card={stockTop} w={w} x={colX(0)} y={gap} z={5} hint={hint?.draw} onPointer={{ onClick: () => tap('stock') }} />
             : <Slot w={w} x={colX(0)} y={gap} label="↻" onClick={() => tap('stock')} active={hint?.draw} />}
@@ -137,6 +162,7 @@ export default function Solitaire({ onReport, onShare, daily }) {
         {hint?.none && <div className="arc-toast">אין מהלך מועיל — נסו להפוך קלפים מהחפיסה</div>}
         {hint?.draw && <div className="arc-toast">💡 הפכו קלף מהחפיסה</div>}
       </div>
+      <div className="sol-footer"><span>קלונדייק · קלף אחד</span><span>לחיצה או גרירה — בקצב שלכם</span></div>
       {won && !daily && <EndCard title="🎉 ניצחתם!" text={`כל הקלפים הגיעו הביתה תוך ${fmt(time)} ו־${s.moves} מהלכים.`}
         primary="🃏 משחק חדש" onPrimary={restart}
         secondary="📱 שתפו את הניצחון" onSecondary={() => onShare?.(`🃏 ניצחתי בסוליטר תוך ${fmt(time)}! מי מהיר יותר?`)} />}
