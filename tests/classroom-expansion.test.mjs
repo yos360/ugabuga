@@ -12,7 +12,7 @@ test('class roster trims, de-duplicates and caps names', () => {
 test('BugaPedia answers the pirate eye-patch question truthfully', () => {
   const answer = findBugaPediaKnowledge('למה שודדי ים שמים רטיה?')
   assert.ok(answer?.verified)
-  assert.match(answer.extract, /אין לו הוכחה היסטורית טובה/)
+  assert.match(answer.extract, /אין הוכחות היסטוריות/)
   assert.deepEqual(bugaPediaSearchTerms('איך דב קוטב שומר על חום?'), ['דב', 'קוטב', 'שומר', 'על', 'חום'])
 })
 

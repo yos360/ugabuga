@@ -4,7 +4,7 @@ const normalize = value => String(value || '').normalize('NFKC').toLocaleLowerCa
   .replace(/רטיה/g, 'רטייה').replace(/פיראטים/g, 'שודדי ים').replace(/פיראט/g, 'שודד ים').replace(/\s+/g, ' ').trim()
 const KNOWLEDGE = [{
   matches: ['שודדי ים רטייה', 'שודד ים רטייה', 'שודדי ים שמים רטייה', 'שודד ים שם רטייה'],
-  answer: { id: 'verified-pirate-eye-patch', title: 'למה מציירים שודדי ים עם רטייה?', extract: 'לא ידוע ששודדי ים נהגו באופן קבוע לשים רטייה כדי לשפר ראיית לילה. רטייה יכלה לכסות עין פצועה או חסרה, אבל הדמות המוכרת של שודד הים עם רטייה התחזקה בעיקר בספרים, באיורים ובסרטים. הרעיון שהרטייה שמרה עין אחת מותאמת לחושך הוא הסבר פופולרי ומעניין, אך אין לו הוכחה היסטורית טובה.', url: 'https://he.wikipedia.org/wiki/%D7%A9%D7%95%D7%93%D7%93_%D7%99%D7%9D', image: '', verified: true, sourceLabel: 'תשובה בדוקה + קריאה נוספת בוויקיפדיה' },
+  answer: { id: 'verified-pirate-eye-patch', title: 'למה מציירים שודדי ים עם רטייה?', extract: 'ההסבר המפורסם והכי מגניב: שודד הים שמר עין אחת מכוסה ברטייה כדי שתישאר רגילה לחושך. על הסיפון, באור השמש, הוא ראה עם העין הגלויה — וכשהיה צריך לרדת פתאום לבטן הספינה החשוכה, הוא העביר את הרטייה לעין השנייה. העין שהייתה מכוסה כבר הייתה מורגלת לחושך, וכך הוא ראה מיד, בלי לחכות דקות ארוכות עד שהעיניים מתרגלות. מבחינת הגוף זה באמת אפשרי — ככה עיניים עובדות! — אבל אין הוכחות היסטוריות ששודדי ים באמת השתמשו בטריק הזה. ייתכן גם שהרטייה פשוט כיסתה עין שנפצעה בקרב, והדמות המוכרת של שודד ים עם רטייה התפרסמה בעיקר בזכות ספרים, איורים וסרטים.', url: 'https://he.wikipedia.org/wiki/%D7%A9%D7%95%D7%93%D7%93_%D7%99%D7%9D', image: '', verified: true, sourceLabel: 'תשובה בדוקה + קריאה נוספת בוויקיפדיה' },
 }, {
   matches: ['because'],
   answer: {
@@ -21,7 +21,7 @@ const KNOWLEDGE = [{
 // Whole-word match: every word of a pattern must be a word of the question (a leading ה/ו/ב/ל prefix is allowed).
 const questionWords = value => new Set(value.split(' ').flatMap(word => /^[והבל][א-ת]{3,}$/u.test(word) ? [word, word.slice(1)] : [word]))
 // The subject examples match only when asked as written (maqaf and punctuation aside), so "מהו קצב הלב?" still goes to the encyclopedia.
-const exampleKey = value => normalize(value).replace(/\u05BE/g, ' ').replace(/\s+/g, ' ').trim()
+const exampleKey = value => normalize(value).replace(/־/g, ' ').replace(/\s+/g, ' ').trim()
 const EXAMPLES = new Map(EXAMPLE_ANSWERS.map(entry => [exampleKey(entry.matches[0]), entry]))
 const exampleAnswer = question => EXAMPLES.get(exampleKey(question))
 export function findBugaPediaKnowledge(question) { const words = questionWords(normalize(question)); const item = KNOWLEDGE.find(entry => entry.matches.some(match => normalize(match).split(' ').every(word => words.has(word)))) || exampleAnswer(question); return item ? { ...item.answer } : null }

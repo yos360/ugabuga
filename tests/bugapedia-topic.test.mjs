@@ -10,6 +10,8 @@ test('topic is the thing the question asks about', () => {
   assert.equal(bugaPediaTopic('מיהו אלברט איינשטיין').topic, 'אלברט איינשטיין')
   assert.equal(bugaPediaTopic('תסביר לי מה זה פוטוסינתזה').topic, 'פוטוסינתזה')
   assert.deepEqual(bugaPediaTopic('מה ההבדל בין וירוס לחיידק?').pair, ['וירוס', 'חיידק'])
+  assert.equal(bugaPediaTopic('מי המציא את השפה הרוסית?').topic, 'השפה הרוסית')
+  assert.equal(bugaPediaTopic('מי גילה את אמריקה').topic, 'אמריקה')
   assert.equal(bugaPediaTopic('איך עפים מטוסים?'), null)
   assert.equal(bugaPediaTopic('כמה רגליים יש לעכביש?'), null)
   assert.equal(bugaPediaTopic('מה קרה ביציאת מצרים?'), null)

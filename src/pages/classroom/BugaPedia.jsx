@@ -100,7 +100,10 @@ export default function BugaPedia() {
   const state = answer && ['empty', 'error'].includes(searchState) ? 'ready' : ['empty', 'error'].includes(searchState) && writtenState === 'loading' ? 'loading' : searchState
   const found = outcome.key === searchKey ? outcome.pages : []
   const pickedId = picked.key === searchKey ? picked.id : ''
-  const choosing = state === 'ready' && !answer && outcome.key === searchKey && outcome.ambiguous && !pickedId
+  const checked = found[0]?.verified || found[0]?.computed
+  // While the written answer is on its way, one loading message — not a meaning-picker or raw results under it.
+  const writing = state === 'ready' && writtenState === 'loading' && !checked
+  const choosing = state === 'ready' && !writing && !answer && outcome.key === searchKey && outcome.ambiguous && !pickedId
   // The chosen meaning moves to the top; the other meanings stay below as "אולי התכוונתם גם ל…".
   const pages = pickedId ? [...found.filter(page => page.id === pickedId), ...found.filter(page => page.id !== pickedId)] : found
   const choose = id => setPicked({ key: searchKey, id })
@@ -118,6 +121,10 @@ export default function BugaPedia() {
   const requestIdea = () => window.dispatchEvent(new CustomEvent('buga-chat-open', { detail: { topic: 'רעיון או תוכן ייחודי', message: asked ? `חיפשתי בבוגה־פדיה: ${asked}\nאשמח שתוסיפו תוכן בנושא הזה.` : 'יש לי רעיון לתוכן או פעילות ייחודית:' } }))
   const primary = pages[0]
   const showWritten = answer && !(primary?.verified || primary?.computed)
+  // Under a written answer, "further reading" lists only the articles the answer actually used —
+  // the raw search can surface a namesake ("להמציא את אנה" for "מי המציא את השפה הרוסית").
+  const usedUrls = new Set((answer?.sources || []).map(source => source.url))
+  const reading = showWritten ? pages.filter(page => usedUrls.has(page.url)) : pages
 
   return <div className="bugapedia-page" dir="rtl">
     <SEO title="בוגה־פדיה — שואלים ומגלים בכל מקצוע" description="מחפשים תשובה בעברית במקורות ידע פתוחים: אנציקלופדיה, מילון, נתונים וחישובים, תמיד עם ציון המקור." path="/bugapedia" />
@@ -136,7 +143,7 @@ export default function BugaPedia() {
         <p className="bp-analytics-note">השאלה נשמרת בלי שם, כדי לשפר את בוגה־פדיה. אל תכתבו בה פרטים אישיים כמו טלפון או כתובת.</p>
       </header>
 
-      {state === 'loading' && <section className="bp-answer bp-loading" role="status"><div /><p>מחפשים בכמה מקורות מידע…</p></section>}
+      {(state === 'loading' || writing) && <section className="bp-answer bp-loading" role="status"><div /><p>{writing || outcome.key === searchKey ? '✨ בוגה־פדיה כותבת לכם תשובה…' : 'מחפשים בכמה מקורות מידע…'}</p></section>}
       {state === 'short' && <p className="bp-message" role="alert">כתבו לפחות שתי אותיות כדי שנוכל לחפש.</p>}
       {state === 'error' && <p className="bp-message" role="alert">אין חיבור — נסו שוב. <button type="button" onClick={() => setAttempt(value => value + 1)}>לנסות שוב</button></p>}
       {state === 'blocked' && <section className="bp-answer bp-empty" role="alert"><span>🤝</span><h2>זו שאלה שכדאי לשאול מבוגר שאתם סומכים עליו</h2><p>בוגה־פדיה לא מחפשת בנושא הזה. אפשר לדבר עליו עם הורה, מורה או מבוגר אחר שאתם סומכים עליו — ובינתיים לשאול כאן כל שאלה סקרנית אחרת.</p></section>}
@@ -158,20 +165,19 @@ export default function BugaPedia() {
         </article>
         <p className="bp-license">התשובה נכתבה בעזרת בינה מלאכותית (Claude) על סמך ערכים מוויקיפדיה ומקורות פתוחים. היא יכולה לטעות — בנושאים חשובים כדאי לבדוק גם במקור.</p>
       </section>}
-      {state === 'ready' && !showWritten && writtenState === 'loading' && !(primary?.verified || primary?.computed) && <p className="bp-writing" role="status">✨ בוגה־פדיה כותבת תשובה מותאמת…</p>}
-      {state === 'ready' && primary && !choosing && <section className="bp-results" aria-live="polite">
+      {state === 'ready' && !writing && reading[0] && !choosing && <section className="bp-results" aria-live="polite">
         {showWritten && <h3 className="bp-more-title">לקריאה נוספת</h3>}
         <article className={showWritten ? 'bp-answer bp-secondary' : 'bp-answer'}>
-          {primary.image && <img src={primary.image} alt="" loading="lazy" />}
-          <div><p className="bp-kicker">{primary.sourceLabel || 'התשובה שמצאנו'}</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
-            <div className="bp-answer-actions">{primary.url && <a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.linkLabel || 'לקריאה במקור ↗'}</a>}<button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
+          {reading[0].image && <img src={reading[0].image} alt="" loading="lazy" />}
+          <div><p className="bp-kicker">{reading[0].sourceLabel || 'התשובה שמצאנו'}</p><h2>{reading[0].title}</h2><p className="bp-extract">{reading[0].extract}</p>
+            <div className="bp-answer-actions">{reading[0].url && <a href={reading[0].url} target="_blank" rel="noopener noreferrer">{reading[0].linkLabel || 'לקריאה במקור ↗'}</a>}<button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
           </div>
         </article>
-        {pages.length > 1 && <div className="bp-related"><h3>אולי התכוונתם גם ל…</h3><div>{pages.slice(1).map(page => {
+        {reading.length > 1 && <div className="bp-related"><h3>אולי התכוונתם גם ל…</h3><div>{reading.slice(1).map(page => {
           const body = <><b>{page.title}</b><span>{page.extract.slice(0, 130)}{page.extract.length > 130 ? '…' : ''}</span></>
           return page.url ? <a href={page.url} target="_blank" rel="noopener noreferrer" key={page.id}>{body}</a> : <div key={page.id}>{body}</div>
         })}</div></div>}
-        <p className="bp-license">{sourceNote(primary)} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
+        <p className="bp-license">{sourceNote(reading[0])} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
       </section>}
 
       <SubjectCatalog />
