@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
 import OwnerPartyLists, { partyPreview, usePartyLists } from '../components/owner/OwnerPartyLists'
+import { englishSummary } from '../utils/ownerEnglish'
 import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
@@ -168,6 +169,28 @@ function BestPages({ stats }) {
         <td className="p-2 font-bold">{r.score}</td>
       </tr>)}</tbody>
     </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין מספיק נתונים לסינון הזה.</p>}
+  </>
+}
+
+function EnglishVisitors({ en }) {
+  return <>
+    <p className="mb-3 text-sm text-slate-600">כל העמודים באנגלית (כתובות שמתחילות ב־<span dir="ltr">/en</span>). <b>מבקר</b> = דפדפן אחד ביום אחד. <b>נכנסו דרך אנגלית</b> = העמוד הראשון שלהם באתר היה באנגלית.</p>
+    <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <StatCard value={en.visitors.length} text="מבקרים שראו עמוד באנגלית" tone="bg-sky-50" />
+      <StatCard value={en.landed.length} text="נכנסו לאתר דרך עמוד באנגלית" tone="bg-sky-50" />
+      <StatCard value={en.opens} text="כניסות לעמודים באנגלית" tone="bg-sky-50" />
+      <StatCard value={en.uses} text="שיחקו / השתמשו" tone="bg-sky-50" />
+      <StatCard value={en.prints} text="הדפיסו / הורידו" tone="bg-sky-50" />
+    </div>
+    {en.sources.length > 0 && <p className="mb-3 text-sm"><b>מאיפה הגיעו:</b> {en.sources.map(([source, n]) => `${SOURCE_LABELS[source] || source} ${n}`).join(' · ')}</p>}
+    {en.pages.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
+      <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">שיחקו/השתמשו</th><th className="p-2">הדפיסו/הורידו</th><th className="p-2">זמן ממוצע</th></tr></thead>
+      <tbody>{en.pages.map(r => <tr key={r.path} className="border-b">
+        <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path} /></td>
+        <td className="p-2">{r.opens}</td><td className="p-2">{r.uses || '—'}</td><td className="p-2">{r.prints || '—'}</td>
+        <td className="p-2">{r.avg == null ? '—' : fmtTime(r.avg)}</td>
+      </tr>)}</tbody>
+    </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אף אחד לא נכנס לעמודים באנגלית בתקופה הזו.</p>}
   </>
 }
 
@@ -419,6 +442,7 @@ export default function OwnerActivityReport() {
   const creations = useCreations(from, to, tick)
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.visitors)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
+  const english = useMemo(() => englishSummary(data || {}, pageStats), [data, pageStats])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
   const topDownloaded = useMemo(() => aggregateTop(data?.top, ['download', 'print']), [data])
   const pdfByPath = useMemo(() => { const m = new Map(); for (const t of data?.top || []) if (t.action === 'download') m.set(t.path || '', (m.get(t.path || '') || 0) + t.n); return m }, [data])
@@ -475,6 +499,7 @@ export default function OwnerActivityReport() {
           { id: 'creations', title: '✍️ מה יצרו באתר', badge: creations.rows?.length || null, empty: creations.error ? 'הטבלה עוד לא קיימת — צריך להריץ את המיגרציה owner_creations.' : 'אין עדיין יצירות בתקופה הזו.',
             preview: (creations.rows || []).slice(0, 3).map(r => <span key={r.id}><b>{r.tool}</b> · {CREATION_ACTIONS[r.action]} · {r.content.split('\n')[0].slice(0, 60)}</span>),
             render: () => <Creations rows={creations.rows} error={creations.error} /> },
+          { id: 'english', title: '🇬🇧 האתר באנגלית', badge: english.visitors.length || null, preview: [<span key="en">{english.visitors.length} מבקרים · {english.landed.length} נכנסו דרך אנגלית · {english.opens} כניסות לעמודים</span>], render: () => <EnglishVisitors en={english} /> },
           { id: 'best', title: '🏆 מה עובד הכי טוב', preview: lastEvents(data, r => r.action === 'open'), render: () => <BestPages stats={pageStats} /> },
           { id: 'top', title: '🔝 10 הכי: משחקים, הדפסות ושיתופים', preview: lastEvents(data, r => ['play', 'use', 'print', 'download', 'share'].includes(r.action)), render: () => <>
         <div className="grid gap-8 sm:grid-cols-2">
