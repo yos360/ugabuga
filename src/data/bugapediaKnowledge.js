@@ -1,3 +1,4 @@
+import { EXAMPLE_ANSWERS } from './bugapediaExamples.js'
 const normalize = value => String(value || '').normalize('NFKC').toLocaleLowerCase('he-IL')
   .replace(/[?!.،,:;"'׳״()-]/g, ' ').replace(/(^|\s)(למה|מדוע|איך|כיצד|מה|מי|מתי|איפה|היכן|האם|זה|זאת|הם|הן)(?=\s|$)/g, '$1')
   .replace(/רטיה/g, 'רטייה').replace(/פיראטים/g, 'שודדי ים').replace(/פיראט/g, 'שודד ים').replace(/\s+/g, ' ').trim()
@@ -19,5 +20,9 @@ const KNOWLEDGE = [{
 }]
 // Whole-word match: every word of a pattern must be a word of the question (a leading ה/ו/ב/ל prefix is allowed).
 const questionWords = value => new Set(value.split(' ').flatMap(word => /^[והבל][א-ת]{3,}$/u.test(word) ? [word, word.slice(1)] : [word]))
-export function findBugaPediaKnowledge(question) { const words = questionWords(normalize(question)); const item = KNOWLEDGE.find(entry => entry.matches.some(match => normalize(match).split(' ').every(word => words.has(word)))); return item ? { ...item.answer } : null }
+// The subject examples match only when asked as written (maqaf and punctuation aside), so "מהו קצב הלב?" still goes to the encyclopedia.
+const exampleKey = value => normalize(value).replace(/\u05BE/g, ' ').replace(/\s+/g, ' ').trim()
+const EXAMPLES = new Map(EXAMPLE_ANSWERS.map(entry => [exampleKey(entry.matches[0]), entry]))
+const exampleAnswer = question => EXAMPLES.get(exampleKey(question))
+export function findBugaPediaKnowledge(question) { const words = questionWords(normalize(question)); const item = KNOWLEDGE.find(entry => entry.matches.some(match => normalize(match).split(' ').every(word => words.has(word)))) || exampleAnswer(question); return item ? { ...item.answer } : null }
 export function bugaPediaSearchTerms(question) { return normalize(question).split(' ').filter(word => word.length > 1).slice(0, 10) }

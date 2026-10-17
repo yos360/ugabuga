@@ -77,3 +77,14 @@ test('BugaPedia reports a network error when every source fails', async () => {
   try { await assert.rejects(searchBugaPedia('דובי קוטב'), { message: 'network' }) }
   finally { globalThis.fetch = original }
 })
+
+test('every subject example question has a checked answer', async () => {
+  const { CLASSROOM_SUBJECTS } = await import('../src/data/classroomSubjects.js')
+  for (const subject of CLASSROOM_SUBJECTS) for (const question of subject.examples) {
+    const answer = findBugaPediaKnowledge(question)
+    assert.ok(answer?.verified, `no checked answer for "${question}"`)
+  }
+  assert.match(findBugaPediaKnowledge('מהי היבשת הגדולה בעולם?').title, /אסיה/)
+  assert.match(findBugaPediaKnowledge('מהו שם תואר').title, /שם תואר/)
+  assert.equal(findBugaPediaKnowledge('מהו קצב הלב?'), null)
+})
