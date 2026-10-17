@@ -3,7 +3,8 @@ import { deal, apply, legal, bestTarget, findHint, autoFinish, isWon, validState
 import { SUITS } from '../logic/cards'
 import { useBox, useCardDrag, useProgress } from '../hooks'
 import { Card, Slot } from '../cardsUi'
-import { EndCard, Hud, ToolButton } from '../ui'
+import { EndCard, Hud } from '../ui'
+import { RotateCcw, Lightbulb, Sparkles, RotateCw } from 'lucide-react'
 import { sfx } from '../sfx'
 import './freecell.css'
 
@@ -59,7 +60,10 @@ export default function FreeCell({ daily, onReport, onShare }) {
 
   return <div className="arc-game fc-game">
     <Hud stats={[['זמן', fmt(seconds)], ['מהלכים', state.moves], ['ניצחונות', progress.wins]]}>
-      <ToolButton onClick={undo} disabled={!history.length} label="ביטול מהלך">↩</ToolButton><ToolButton onClick={showHint} disabled={won} label="רמז">💡</ToolButton><ToolButton onClick={finish} disabled={won} label="השלמה אוטומטית">⚡</ToolButton><ToolButton onClick={() => start(state.dealNumber)} label="התחלה מחדש">🔄</ToolButton>
+      <button type="button" className="fc-tool" onClick={undo} disabled={!history.length} aria-label="ביטול מהלך" title="ביטול מהלך"><RotateCcw aria-hidden="true" /><span>ביטול</span></button>
+      <button type="button" className="fc-tool" onClick={showHint} disabled={won} aria-label="רמז" title="רמז"><Lightbulb aria-hidden="true" /><span>רמז</span></button>
+      <button type="button" className="fc-tool" onClick={finish} disabled={won} aria-label="השלמה אוטומטית" title="השלמה אוטומטית"><Sparkles aria-hidden="true" /><span>השלמה</span></button>
+      <button type="button" className="fc-tool" onClick={() => start(state.dealNumber)} aria-label="התחלה מחדש" title="התחלה מחדש"><RotateCw aria-hidden="true" /><span>מחדש</span></button>
     </Hud>
     {!daily && <div className="fc-deal"><label htmlFor="fc-deal-number">חלוקה מספר</label><input id="fc-deal-number" type="number" min="1" max="999999" value={dealInput} onChange={event => setDealInput(event.target.value)} /><button type="button" onClick={() => start(dealInput)}>פתחו חלוקה</button><button type="button" onClick={() => start(Math.floor(Math.random() * 1_000_000) + 1)}>חלוקה אקראית</button></div>}
     <div className="arc-field cd-field fc-field" ref={boxRef}><div className="cd-table" style={{ width: box.w, height: box.h }}>
