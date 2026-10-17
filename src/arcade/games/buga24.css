@@ -1,0 +1,15 @@
+.b24-game{background:radial-gradient(#1d22330b 1.2px,transparent 1.3px) 0 0/22px 22px,linear-gradient(180deg,#fff6c7,#ffe29d)}
+.b24-modes,.b24-levels{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.b24-modes button,.b24-levels button{min-height:44px;padding:7px 14px;border:2px solid var(--arc-ink);border-radius:999px;background:#fff;font:800 15px Heebo,sans-serif;color:var(--arc-ink);box-shadow:2px 2px 0 var(--arc-ink)}
+.b24-modes button.is-on,.b24-levels button.is-on{background:#a9a0ed}
+.b24-board{width:min(100%,650px);margin:auto;padding:clamp(14px,4vw,30px);box-sizing:border-box;text-align:center;background:#fffdf6;border:3px solid var(--arc-ink);border-radius:28px;box-shadow:6px 6px 0 var(--arc-ink)}
+.b24-board>p:first-child{font-size:clamp(16px,4vw,21px);font-weight:800;margin:0 0 16px}
+.b24-numbers{display:flex;direction:ltr;justify-content:center;gap:clamp(8px,3vw,18px);margin-bottom:18px}
+.b24-numbers span{display:grid;place-items:center;width:clamp(58px,16vw,92px);aspect-ratio:1;border:3px solid var(--arc-ink);border-radius:22px;background:#bcebd1;box-shadow:4px 4px 0 var(--arc-ink);font:900 clamp(30px,9vw,54px) Fredoka,Heebo,sans-serif}
+.b24-board label{display:block;font-weight:800;margin-bottom:6px}.b24-board input{width:100%;min-height:56px;box-sizing:border-box;border:3px solid var(--arc-ink);border-radius:16px;padding:8px 14px;font:800 25px Fredoka,Arial,sans-serif;text-align:center;background:#fff}
+.b24-pad{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:12px 0}.b24-pad button{min-width:48px;min-height:44px;border:2px solid var(--arc-ink);border-radius:12px;background:#e4dcff;font-size:21px;font-weight:900;box-shadow:2px 2px 0 var(--arc-ink)}
+.b24-check{min-height:50px;padding:8px 24px;border:3px solid var(--arc-ink);border-radius:16px;background:var(--arc-yellow);font:900 19px Heebo,sans-serif;box-shadow:3px 3px 0 var(--arc-ink)}
+.b24-message{min-height:28px;margin:12px 0 0;font-weight:800;color:#8a2c15}
+.b24-learning{margin-top:12px;padding:12px;border:2px dashed var(--arc-ink);border-radius:16px;background:#e9f8ef;text-align:right}.b24-learning p{margin:5px 0}.b24-learning span{font-weight:900}
+@media(max-width:420px){.b24-game{padding:6px}.b24-board{padding:12px}.b24-numbers span{border-radius:16px}.b24-pad button{min-width:43px}}
+@media(prefers-reduced-motion:reduce){.b24-game *{scroll-behavior:auto!important}}
