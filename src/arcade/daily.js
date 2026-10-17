@@ -19,6 +19,7 @@ export const DAILY_GAMES = [
   { slug: 'spider-solitaire', name: 'סוליטר עכביש', emoji: '🕷️', goal: 'מפרקים את כל 8 הרצפים בכמה שפחות מהלכים', extra: () => ({}) },
   { slug: 'buga-24', name: 'בוגה 24', emoji: '🧮', goal: 'משתמשים בכל ארבעת המספרים ומגיעים בדיוק ל־24', extra: () => ({}) },
   { slug: 'freecell', name: 'פריסל', emoji: '🂡', goal: 'פותרים את חלוקת הפריסל היומית בכמה שפחות מהלכים', extra: () => ({}) },
+  { slug: 'crazy-eights', name: 'שמיניות משוגעות', emoji: '🎱', goal: 'מנצחים סיבוב מול המחשב ונשארים בלי קלפים', extra: () => ({}) },
   { slug: 'block-puzzle', name: 'מסיבת בלוקים', emoji: '🟨', goal: 'צוברים כמה שיותר נקודות עם הצורות של היום', extra: () => ({}) },
   { slug: 'word-guess', name: '5 אותיות', emoji: '🟩', goal: 'מוצאים את מילת היום בת 5 האותיות — בשישה ניסיונות לכל היותר', extra: () => ({}) },
   { slug: 'falling-blocks', name: 'בלוקים נופלים', emoji: '🧱', goal: 'צוברים כמה שיותר נקודות — אותן צורות לכולם', extra: () => ({}) },
