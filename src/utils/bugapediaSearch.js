@@ -10,6 +10,33 @@ const cleanText = value => String(value || '').replace(/\s+/g, ' ').trim()
 const lower = value => cleanText(value).toLocaleLowerCase('he-IL')
 const coreTerm = value => lower(value).replace(/[\u0591-\u05C7]/g, '').replace(/^ה(?=[א-ת]{3,}$)/u, '')
 
+// Words that show a result belongs to the subject the child picked (תנ״ך → the patriarch, not a rabbi named Avraham).
+const SUBJECT_CONTEXT = {
+  bible: ['תנ"ך', 'תנך', 'מקרא', 'מקראי', 'בראשית', 'שמות', 'ויקרא', 'במדבר', 'דברים', 'נביא', 'האבות', 'בני ישראל', 'שופטים', 'מלכי', 'תורה'],
+  history: ['היסטורי', 'תקופת', 'מלחמת', 'אימפרי', 'ממלכת', 'המאה ה', 'עתיק'],
+  geography: ['יבשת', 'מדינה', 'נהר', 'אוקיינוס', 'רכס', 'אקלים', 'עיר'],
+  science: ['מדע', 'פיזיקל', 'כימי', 'ביולוגי', 'תופעה', 'טבע'],
+  biology: ['ביולוגי', 'תא', 'איבר', 'גוף', 'בעלי חיים', 'צמח', 'מערכת'],
+  chemistry: ['כימי', 'יסוד', 'תרכובת', 'מולקול', 'אטום'],
+  physics: ['פיזיק', 'כוח', 'אנרגיה', 'תנועה', 'גל'],
+  math: ['מתמטיק', 'מספר', 'חשבון', 'גאומטרי', 'משוואה'],
+  hebrew: ['דקדוק', 'לשון', 'מילה', 'עברית', 'תחביר'],
+  literature: ['ספרות', 'סופר', 'משורר', 'רומן', 'שיר', 'סיפור'],
+  art: ['אמנות', 'צייר', 'ציור', 'פסל', 'אמן'],
+  music: ['מוזיק', 'מלחין', 'נגינה', 'זמר', 'שיר'],
+  civics: ['חוק', 'דמוקרטי', 'כנסת', 'ממשלה', 'זכויות'],
+  heritage: ['יהדות', 'יהודי', 'חג', 'מסורת', 'ישראל'],
+  computers: ['מחשב', 'תוכנה', 'אינטרנט', 'מידע', 'קוד'],
+  environment: ['סביבה', 'אקלים', 'זיהום', 'מיחזור', 'טבע'],
+  economics: ['כלכל', 'כסף', 'מחיר', 'שוק', 'בנק'],
+}
+const inSubject = (item, subjectId) => {
+  const words = SUBJECT_CONTEXT[subjectId]
+  if (!words) return false
+  const text = `${item.title} ${item.extract}`
+  return words.some(word => text.includes(word))
+}
+
 const QUESTION_PREFIX = /^(?:כמה|מה)\s+(?:זה|יוצא|הם|יהיה|שווה)\s*/u
 const WORD_OPERATORS = [[/לחלק\s*ל-?/gu, '/'], [/חלקי/gu, '/'], [/כפול/gu, '*'], [/פלוס/gu, '+'], [/ועוד/gu, '+'], [/פחות/gu, '-']]
 const SYMBOLS = { '×': '*', x: '*', '÷': '/' }
@@ -78,11 +105,13 @@ function isDictionaryQuestion(question) {
   return /(?:מה\s+(?:הפירוש|פירוש|זה)|איך\s+אומרים|תרג(?:ם|ום)|מילה|משמעות)/u.test(value) || /^[a-z][a-z'-]{1,35}$/i.test(value)
 }
 
-async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLabel, language = 'he', dictionary = false }) {
+async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLabel, language = 'he', dictionary = false, exactTitle = false }) {
   const terms = bugaPediaSearchTerms(query)
+  const wanted = coreTerm(terms.join(' ') || query)
+  const lookup = exactTitle ? { titles: query } : { generator: 'search', gsrsearch: query, gsrlimit: '8' }
   const params = new URLSearchParams({
-    action: 'query', generator: 'search', gsrsearch: query, gsrlimit: '8',
-    prop: 'extracts|pageimages|info', explaintext: '1',
+    action: 'query', ...lookup,
+    prop: 'extracts|pageimages|info|pageprops', ppprop: 'disambiguation', explaintext: '1',
     piprop: 'thumbnail', pithumbsize: '400', inprop: 'url',
     redirects: '1', format: 'json', origin: '*', formatversion: '2',
   })
@@ -92,7 +121,7 @@ async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLa
   if (!response.ok) throw new Error('network')
   const payload = await response.json()
   return (payload?.query?.pages || [])
-    .filter(page => !page.missing && cleanText(page.extract))
+    .filter(page => !page.missing && !page.invalid && cleanText(page.extract))
     .sort((a, b) => (a.index ?? 999) - (b.index ?? 999))
     .map(page => {
       const title = coreTerm(page.title)
@@ -101,19 +130,22 @@ async function searchMediaWiki({ api, query, signal, source, sourceLabel, linkLa
         const needle = coreTerm(term)
         return total + (title.includes(needle) ? 5 : 0) + (body.includes(needle) ? 1 : 0)
       }, 0)
+      const exact = coreTerm(page.title.replace(/\s*\(.*\)$/, '')) === wanted
       return {
         id: `${language}-${page.pageid}`,
         title: page.title,
         extract: cleanText(page.extract),
         url: page.fullurl,
         image: page.thumbnail?.source || '',
-        score,
+        score: score + (exact ? 20 : 0),
+        exact,
+        disambiguation: Boolean(page.pageprops && 'disambiguation' in page.pageprops),
         source,
         sourceLabel,
         linkLabel,
       }
     })
-    .filter(page => page.score > 0 || dictionary)
+    .filter(page => page.score > 0 || dictionary || exactTitle)
     .sort((a, b) => b.score - a.score)
 }
 
@@ -128,6 +160,7 @@ async function searchWikidata(question, signal) {
     extract: item.description,
     url: item.concepturi || `https://www.wikidata.org/wiki/${item.id}`,
     image: '',
+    score: 1,
     source: 'wikidata',
     sourceLabel: 'ויקינתונים',
     linkLabel: 'לפריט המלא בוויקינתונים ↗',
@@ -146,7 +179,7 @@ function uniqueResults(groups) {
 
 export const BUGAPEDIA_MAX_QUERY = 180
 
-export async function searchBugaPedia(question, signal) {
+export async function searchBugaPedia(question, signal, subjectId = null) {
   const query = cleanText(String(question || '').slice(0, BUGAPEDIA_MAX_QUERY))
   if (query.length < 2) throw new Error('short')
   const safety = checkBugaPediaQuery(query)
@@ -165,6 +198,9 @@ export async function searchBugaPedia(question, signal) {
 
   const hebrewWikipedia = searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' })
   const tasks = [hebrewWikipedia, searchWikidata(encyclopediaQuery, signal)]
+  // Short questions ("מי היה אברהם?") also look up the article whose title is exactly the term,
+  // because the search ranking alone can put a different person with the same first name first.
+  if (terms.length && terms.length <= 3) tasks.push(searchMediaWiki({ api: HEBREW_WIKIPEDIA, query: encyclopediaQuery, signal, exactTitle: true, source: 'he-wikipedia', sourceLabel: 'ויקיפדיה העברית', linkLabel: 'לערך המלא בוויקיפדיה ↗' }))
   if (mostlyEnglish) tasks.unshift(searchMediaWiki({ api: ENGLISH_WIKIPEDIA, query, signal, language: 'en', source: 'en-wikipedia', sourceLabel: 'Wikipedia באנגלית', linkLabel: 'לערך המלא ב־Wikipedia ↗' }))
   if (dictionaryQuestion) tasks.unshift(searchMediaWiki({ api: HEBREW_WIKTIONARY, query: dictionaryQuery, signal, dictionary: true, source: 'he-wiktionary', sourceLabel: 'ויקימילון העברי', linkLabel: 'לערך המלא בוויקימילון ↗' }))
 
@@ -179,5 +215,20 @@ export async function searchBugaPedia(question, signal) {
     const dictionary = safe([settled[0].value])
     if (dictionary.length) return dictionary.slice(0, 3)
   }
-  return safe(groups).slice(0, 6)
+  return rankBugaPediaResults(safe(groups), subjectId)
+}
+
+// Orders results and decides whether the question is unclear enough to ask "למה התכוונתם?".
+export function rankBugaPediaResults(results, subjectId = null) {
+  const hadDisambiguation = results.some(item => item.disambiguation)
+  const ranked = results
+    .filter(item => !item.disambiguation)
+    .map(item => ({ ...item, score: (item.score || 0) + (inSubject(item, subjectId) ? 8 : 0) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 6)
+  const [top, second] = ranked
+  const close = Boolean(top && second && second.score >= top.score - 2)
+  const subjectClear = Boolean(subjectId && top && inSubject(top, subjectId))
+  const ambiguous = ranked.length >= 2 && !subjectClear && (hadDisambiguation || (!top.exact && close))
+  return Object.assign(ranked, { ambiguous })
 }

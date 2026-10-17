@@ -48,7 +48,9 @@ export default function BugaPedia() {
   const [attempt, setAttempt] = useState(0)
   const [tooShort, setTooShort] = useState(false)
   // Outcome of the last finished search, tagged with the search it belongs to.
-  const [outcome, setOutcome] = useState({ key: '', state: 'idle', pages: [] })
+  const [outcome, setOutcome] = useState({ key: '', state: 'idle', pages: [], ambiguous: false })
+  // When a question is unclear the child picks what they meant; the pick is tied to the search it belongs to.
+  const [picked, setPicked] = useState({ key: '', id: '' })
   const searchKey = `${asked}|${subject?.id || ''}|${attempt}`
 
   // Keep the input in sync when ?q= changes from outside the form (links, Back/Forward).
@@ -58,20 +60,25 @@ export default function BugaPedia() {
     if (!asked) return
     const controller = new AbortController()
     const key = `${asked}|${subject?.id || ''}|${attempt}`
-    searchBugaPedia(asked, controller.signal).then(results => {
+    searchBugaPedia(asked, controller.signal, subject?.id).then(results => {
       if (controller.signal.aborted) return
-      setOutcome({ key, state: results.length ? 'ready' : 'empty', pages: results })
+      setOutcome({ key, state: results.length ? 'ready' : 'empty', pages: [...results], ambiguous: Boolean(results.ambiguous) })
       recordBugaPediaQuery({ question: asked, subject: subject?.id, found: results.length > 0, resultTitle: results[0]?.title })
     }).catch(error => {
       if (controller.signal.aborted || error.name === 'AbortError') return
       // Network failures, blocked and self-harm questions are not recorded.
-      setOutcome({ key, state: ['short', 'blocked', 'selfharm'].includes(error.message) ? error.message : 'error', pages: [] })
+      setOutcome({ key, state: ['short', 'blocked', 'selfharm'].includes(error.message) ? error.message : 'error', pages: [], ambiguous: false })
     })
     return () => controller.abort()
   }, [asked, subject?.id, attempt])
 
   const state = tooShort ? 'short' : !asked ? 'idle' : outcome.key === searchKey ? outcome.state : 'loading'
-  const pages = outcome.key === searchKey ? outcome.pages : []
+  const found = outcome.key === searchKey ? outcome.pages : []
+  const pickedId = picked.key === searchKey ? picked.id : ''
+  const choosing = state === 'ready' && outcome.key === searchKey && outcome.ambiguous && !pickedId
+  // The chosen meaning moves to the top; the other meanings stay below as "אולי התכוונתם גם ל…".
+  const pages = pickedId ? [...found.filter(page => page.id === pickedId), ...found.filter(page => page.id !== pickedId)] : found
+  const choose = id => setPicked({ key: searchKey, id })
 
   const ask = event => {
     event.preventDefault()
@@ -109,7 +116,14 @@ export default function BugaPedia() {
       {state === 'blocked' && <section className="bp-answer bp-empty" role="alert"><span>🤝</span><h2>זו שאלה שכדאי לשאול מבוגר שאתם סומכים עליו</h2><p>בוגה־פדיה לא מחפשת בנושא הזה. אפשר לדבר עליו עם הורה, מורה או מבוגר אחר שאתם סומכים עליו — ובינתיים לשאול כאן כל שאלה סקרנית אחרת.</p></section>}
       {state === 'selfharm' && <section className="bp-answer bp-empty" role="alert"><span>💛</span><h2>אתם לא לבד, ומגיע לכם שיקשיבו לכם</h2><p>אם עצוב או קשה לכם עכשיו, ספרו על זה להורה, למורה או ליועצת בבית הספר. אפשר גם להתקשר לער״ן — קו חם לתמיכה רגשית בטלפון <a href="tel:1201"><b>1201</b></a>, בכל שעה. אם יש סכנה מיידית — חייגו 101 (מד״א).</p></section>}
       {state === 'empty' && <section className="bp-answer bp-empty"><span>🔎</span><h2>עוד אין תשובה אמינה לשאלה הזאת</h2><p>נסו לנסח את השאלה אחרת או לכתוב שם מדויק של אדם, מקום, אירוע, מילה או מושג. אפשר גם לשלוח לנו בקשה ונבדוק מה כדאי להוסיף.</p><button onClick={requestIdea}>שליחת בקשה אישית</button></section>}
-      {state === 'ready' && primary && <section className="bp-results" aria-live="polite">
+      {choosing && <section className="bp-choose" aria-live="polite">
+        <h2>למה התכוונתם?</h2>
+        <p>מצאנו כמה תשובות אפשריות לשאלה הזאת. בחרו את מה שחיפשתם:</p>
+        <div>{found.slice(0, 3).map(page => <button type="button" key={page.id} onClick={() => choose(page.id)}>
+          <b>{page.title}</b><span>{page.extract.slice(0, 110)}{page.extract.length > 110 ? '…' : ''}</span>
+        </button>)}</div>
+      </section>}
+      {state === 'ready' && primary && !choosing && <section className="bp-results" aria-live="polite">
         <article className="bp-answer">
           {primary.image && <img src={primary.image} alt="" loading="lazy" />}
           <div><p className="bp-kicker">{primary.sourceLabel || 'התשובה שמצאנו'}</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
