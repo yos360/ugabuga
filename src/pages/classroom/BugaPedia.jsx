@@ -3,7 +3,9 @@ import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { bugaPediaUrl, CLASSROOM_SUBJECTS, subjectById } from '../../data/classroomSubjects'
+import { askBugaPediaAI } from '../../utils/bugapediaAI'
 import { recordBugaPediaQuery } from '../../utils/bugapediaAnalytics'
+import { checkBugaPediaQuery } from '../../utils/bugapediaSafety'
 import { searchBugaPedia } from '../../utils/bugapediaSearch'
 import './bugapedia.css'
 
@@ -59,6 +61,8 @@ export default function BugaPedia() {
   // When a question is unclear the child picks what they meant; the pick is tied to the search it belongs to.
   const [picked, setPicked] = useState({ key: '', id: '' })
   const searchKey = `${asked}|${subject?.id || ''}|${attempt}`
+  // The written answer (Claude, from encyclopedia excerpts) arrives separately from the search results.
+  const [written, setWritten] = useState({ key: '', state: 'idle', data: null })
 
   // Keep the input in sync when ?q= changes from outside the form (links, Back/Forward).
   if (syncedAsked !== asked) { setSyncedAsked(asked); setQuery(asked); setTooShort(false) }
@@ -79,10 +83,24 @@ export default function BugaPedia() {
     return () => controller.abort()
   }, [asked, subject?.id, attempt])
 
-  const state = tooShort ? 'short' : !asked ? 'idle' : outcome.key === searchKey ? outcome.state : 'loading'
+  useEffect(() => {
+    if (!asked || asked.length < 2 || checkBugaPediaQuery(asked)) return
+    const controller = new AbortController()
+    const key = `${asked}|${subject?.id || ''}|${attempt}`
+    askBugaPediaAI(asked, subject?.id, controller.signal)
+      .then(data => { if (!controller.signal.aborted) setWritten({ key, state: data ? 'ready' : 'none', data }) })
+      .catch(() => { if (!controller.signal.aborted) setWritten({ key, state: 'none', data: null }) })
+    return () => controller.abort()
+  }, [asked, subject?.id, attempt])
+
+  const searchState = tooShort ? 'short' : !asked ? 'idle' : outcome.key === searchKey ? outcome.state : 'loading'
+  const writtenState = written.key === searchKey ? written.state : asked && !checkBugaPediaQuery(asked) ? 'loading' : 'none'
+  const answer = writtenState === 'ready' ? written.data : null
+  // A written answer replaces "no answer found" and connection errors; checked answers keep their own card.
+  const state = answer && ['empty', 'error'].includes(searchState) ? 'ready' : ['empty', 'error'].includes(searchState) && writtenState === 'loading' ? 'loading' : searchState
   const found = outcome.key === searchKey ? outcome.pages : []
   const pickedId = picked.key === searchKey ? picked.id : ''
-  const choosing = state === 'ready' && outcome.key === searchKey && outcome.ambiguous && !pickedId
+  const choosing = state === 'ready' && !answer && outcome.key === searchKey && outcome.ambiguous && !pickedId
   // The chosen meaning moves to the top; the other meanings stay below as "אולי התכוונתם גם ל…".
   const pages = pickedId ? [...found.filter(page => page.id === pickedId), ...found.filter(page => page.id !== pickedId)] : found
   const choose = id => setPicked({ key: searchKey, id })
@@ -99,6 +117,7 @@ export default function BugaPedia() {
   }
   const requestIdea = () => window.dispatchEvent(new CustomEvent('buga-chat-open', { detail: { topic: 'רעיון או תוכן ייחודי', message: asked ? `חיפשתי בבוגה־פדיה: ${asked}\nאשמח שתוסיפו תוכן בנושא הזה.` : 'יש לי רעיון לתוכן או פעילות ייחודית:' } }))
   const primary = pages[0]
+  const showWritten = answer && !(primary?.verified || primary?.computed)
 
   return <div className="bugapedia-page" dir="rtl">
     <SEO title="בוגה־פדיה — שואלים ומגלים בכל מקצוע" description="מחפשים תשובה בעברית במקורות ידע פתוחים: אנציקלופדיה, מילון, נתונים וחישובים, תמיד עם ציון המקור." path="/bugapedia" />
@@ -130,8 +149,19 @@ export default function BugaPedia() {
           <b>{page.title}</b><span>{page.extract.slice(0, 110)}{page.extract.length > 110 ? '…' : ''}</span>
         </button>)}</div>
       </section>}
+      {state === 'ready' && showWritten && <section className="bp-results" aria-live="polite">
+        <article className="bp-answer bp-written">
+          <div><p className="bp-kicker">✨ התשובה של בוגה־פדיה</p><h2>{asked}</h2><p className="bp-extract">{answer.answer}</p>
+            {!answer.confident && <p className="bp-unsure">לא בטוחים בכל הפרטים — כדאי לבדוק גם במקור או לשאול מורה.</p>}
+            {answer.sources.length > 0 && <div className="bp-answer-actions">{answer.sources.map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</a>)}</div>}
+          </div>
+        </article>
+        <p className="bp-license">התשובה נכתבה בעזרת בינה מלאכותית (Claude) על סמך ערכים מוויקיפדיה ומקורות פתוחים. היא יכולה לטעות — בנושאים חשובים כדאי לבדוק גם במקור.</p>
+      </section>}
+      {state === 'ready' && !showWritten && writtenState === 'loading' && !(primary?.verified || primary?.computed) && <p className="bp-writing" role="status">✨ בוגה־פדיה כותבת תשובה מותאמת…</p>}
       {state === 'ready' && primary && !choosing && <section className="bp-results" aria-live="polite">
-        <article className="bp-answer">
+        {showWritten && <h3 className="bp-more-title">לקריאה נוספת</h3>}
+        <article className={showWritten ? 'bp-answer bp-secondary' : 'bp-answer'}>
           {primary.image && <img src={primary.image} alt="" loading="lazy" />}
           <div><p className="bp-kicker">{primary.sourceLabel || 'התשובה שמצאנו'}</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
             <div className="bp-answer-actions">{primary.url && <a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.linkLabel || 'לקריאה במקור ↗'}</a>}<button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>

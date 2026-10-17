@@ -30,3 +30,19 @@ test('superlative questions get a checked answer', () => {
   assert.equal(findBugaPediaSuperlative('מה זה הר גבוה?'), null)
   assert.equal(findBugaPediaSuperlative('מי הזמר הכי טוב בעולם?'), null)
 })
+
+test('written answers: shown when the function answers, skipped otherwise', async () => {
+  const { askBugaPediaAI } = await import('../src/utils/bugapediaAI.js')
+  const original = globalThis.fetch
+  const reply = (status, body) => { globalThis.fetch = async () => new Response(JSON.stringify(body), { status }) }
+  try {
+    reply(200, { answer: 'לעכביש יש שמונה רגליים.', confident: true, sources: [{ title: 'עכבישאים', url: 'https://he.wikipedia.org/wiki/x' }, { title: 'bad', url: 'javascript:alert(1)' }] })
+    const answer = await askBugaPediaAI('כמה רגליים יש לעכביש?', 'biology')
+    assert.equal(answer.answer, 'לעכביש יש שמונה רגליים.')
+    assert.deepEqual(answer.sources.map(source => source.title), ['עכבישאים'])
+    reply(200, { skip: true })
+    assert.equal(await askBugaPediaAI('מהי היבשת הגדולה בעולם?'), null)
+    reply(404, {})
+    assert.equal(await askBugaPediaAI('שאלה'), null)
+  } finally { globalThis.fetch = original }
+})
