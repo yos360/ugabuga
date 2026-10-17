@@ -76,18 +76,23 @@ export function bestTarget(s, from, index) {
 }
 
 export function findHint(s) {
+  let best = null
   for (let from = 0; from < 10; from++) {
     const pile = s.tab[from]
     const i = runStart(pile)
     if (i < 0) continue
     for (let to = 0; to < 10; to++) {
-      if (!legal(s, from, i, to) || !s.tab[to].length) continue
+      if (!legal(s, from, i, to)) continue
       const dst = top(s.tab[to])
-      // useful: joins the same suit, or uncovers / frees something
-      if (dst.suit === pile[i].suit || i === 0 || !pile[i - 1].up || pile[i - 1].rank !== pile[i].rank + 1) return { from, index: i, to }
+      const reveals = i > 0 && !pile[i - 1].up
+      const joinsSuit = dst?.suit === pile[i].suit
+      const freesPile = i === 0
+      const usesEmpty = !dst
+      const score = (reveals ? 100 : 0) + (joinsSuit ? 40 : 0) + (freesPile ? 25 : 0) - (usesEmpty && !reveals ? 20 : 0)
+      if (!best || score > best.score) best = { from, index: i, to, score }
     }
   }
-  return canDeal(s) ? { deal: true } : null
+  return best ? { from: best.from, index: best.index, to: best.to } : canDeal(s) ? { deal: true } : null
 }
 
 export const isWon = s => s.done === 8

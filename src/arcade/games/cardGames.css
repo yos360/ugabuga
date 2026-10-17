@@ -1,0 +1,8 @@
+.card-restart{max-width:min(90vw,420px);padding:24px;border:3px solid var(--arc-ink);border-radius:24px;background:#fffdf6;color:var(--arc-ink);box-shadow:6px 6px 0 var(--arc-ink);font-family:Heebo,system-ui,sans-serif;text-align:center}
+.card-restart::backdrop{background:#fffaf0cf}
+.card-restart h3{font-family:Fredoka,Heebo,sans-serif;font-size:28px;margin:0}
+.card-restart p{margin:12px 0 20px}
+.card-restart>div{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.card-save{font-size:12px;color:#43584e;text-align:center}
+/* Keep every card reachable while these full-screen games are open. */
+body:has(.arc-stage .spider-game) .site-chat,body:has(.arc-stage .memory-game) .site-chat{display:none}
