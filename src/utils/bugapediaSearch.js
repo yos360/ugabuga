@@ -1,5 +1,6 @@
 import { bugaPediaSearchTerms, findBugaPediaKnowledge } from '../data/bugapediaKnowledge.js'
 import { checkBugaPediaQuery, filterSafeResults } from './bugapediaSafety.js'
+import { englishFallback, findFactAnswer, findHolidayAnswer, parseFactQuestion, parseHolidayQuestion, searchSefaria } from './bugapediaSources.js'
 
 const HEBREW_WIKIPEDIA = 'https://he.wikipedia.org/w/api.php'
 const ENGLISH_WIKIPEDIA = 'https://en.wikipedia.org/w/api.php'
@@ -30,7 +31,9 @@ const SUBJECT_CONTEXT = {
   environment: ['סביבה', 'אקלים', 'זיהום', 'מיחזור', 'טבע'],
   economics: ['כלכל', 'כסף', 'מחיר', 'שוק', 'בנק'],
 }
+const JEWISH_SUBJECTS = new Set(['bible', 'heritage'])
 const inSubject = (item, subjectId) => {
+  if (item.sefaria && JEWISH_SUBJECTS.has(subjectId)) return true
   const words = SUBJECT_CONTEXT[subjectId]
   if (!words) return false
   const text = `${item.title} ${item.extract}`
@@ -204,6 +207,13 @@ export async function searchBugaPedia(question, signal, subjectId = null) {
   if (mostlyEnglish) tasks.unshift(searchMediaWiki({ api: ENGLISH_WIKIPEDIA, query, signal, language: 'en', source: 'en-wikipedia', sourceLabel: 'Wikipedia באנגלית', linkLabel: 'לערך המלא ב־Wikipedia ↗' }))
   if (dictionaryQuestion) tasks.unshift(searchMediaWiki({ api: HEBREW_WIKTIONARY, query: dictionaryQuery, signal, dictionary: true, source: 'he-wiktionary', sourceLabel: 'ויקימילון העברי', linkLabel: 'לערך המלא בוויקימילון ↗' }))
 
+  // Trusted structured sources: Wikidata facts ("מה הבירה של צרפת?"), the Jewish calendar ("מתי חנוכה?")
+  // and Sefaria for תנ״ך/מורשת. A fact answer scores far above articles, so it is shown first.
+  const asList = promise => promise.then(item => item ? [item] : [])
+  if (parseFactQuestion(query)) tasks.push(asList(findFactAnswer(query, signal)))
+  if (parseHolidayQuestion(query)) tasks.push(asList(findHolidayAnswer(query, signal)))
+  if (JEWISH_SUBJECTS.has(subjectId) || (!subjectId && terms.length && terms.length <= 2)) tasks.push(searchSefaria(encyclopediaQuery, signal))
+
   const settled = await Promise.allSettled(tasks)
   const groups = settled.filter(result => result.status === 'fulfilled').map(result => result.value)
   if (!groups.length) {
@@ -215,7 +225,12 @@ export async function searchBugaPedia(question, signal, subjectId = null) {
     const dictionary = safe([settled[0].value])
     if (dictionary.length) return dictionary.slice(0, 3)
   }
-  return rankBugaPediaResults(safe(groups), subjectId)
+  const found = safe(groups)
+  if (!found.length && terms.length) {
+    // Nothing in Hebrew: fall back to the English Wikipedia article of the same Wikidata item.
+    try { return rankBugaPediaResults(safe([await englishFallback(encyclopediaQuery, signal)]), subjectId) } catch (error) { if (error.name === 'AbortError') throw error }
+  }
+  return rankBugaPediaResults(found, subjectId)
 }
 
 // Orders results and decides whether the question is unclear enough to ask "למה התכוונתם?".

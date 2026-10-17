@@ -27,13 +27,20 @@ const SOURCE_NAMES = {
   'en-wikipedia': 'ויקיפדיה באנגלית',
   'he-wiktionary': 'ויקימילון העברי',
   wikidata: 'ויקינתונים',
+  sefaria: 'ספריא',
+  hebcal: 'Hebcal — לוח השנה העברי',
+}
+const LICENSES = {
+  wikidata: 'נתוני ויקינתונים זמינים לשימוש חופשי (CC0).',
+  hebcal: 'נתוני Hebcal זמינים לפי רישיון CC BY 4.0.',
+  sefaria: 'התוכן מספריא, ספרייה דיגיטלית ללא מטרות רווח, בכפוף לרישיון המצוין בעמוד המקור.',
 }
 
 function sourceNote(result) {
   if (result.computed) return 'התשובה חושבה ישירות בבוגה־פדיה, בלי מקור חיצוני.'
   if (result.verified) return 'התשובה נוסחה ונבדקה מראש, ומצורף קישור למקור פתוח להמשך קריאה.'
   const name = SOURCE_NAMES[result.source] || result.sourceLabel || 'מקור מידע פתוח'
-  const license = result.source === 'wikidata' ? 'נתוני ויקינתונים זמינים לשימוש חופשי (CC0).' : 'התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור.'
+  const license = LICENSES[result.source] || 'התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור.'
   return `התשובה נשלפה בזמן אמת מהמקור: ${name}. ${license}`
 }
 
