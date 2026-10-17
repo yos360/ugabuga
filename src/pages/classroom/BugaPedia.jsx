@@ -38,6 +38,8 @@ async function searchWikipedia(question, signal) {
       extract: cleanText(page.extract),
       url: page.fullurl || `https://he.wikipedia.org/wiki/${encodeURIComponent(page.title.replace(/ /g, '_'))}`,
       image: page.thumbnail?.source || '',
+      sourceLabel: 'ויקיפדיה העברית',
+      linkLabel: 'לערך המלא בוויקיפדיה ↗',
       score: terms.filter(term => `${page.title} ${page.extract}`.toLocaleLowerCase('he-IL').includes(term)).length,
     }))
     .filter(page => page.score >= Math.min(2, Math.max(1, terms.length)))
@@ -104,7 +106,7 @@ export default function BugaPedia() {
           <input value={query} onChange={event => setQuery(event.target.value)} placeholder="למשל: למה השמיים כחולים?" aria-label="השאלה שלכם" maxLength={180} autoFocus />
           <button>חיפוש תשובה</button>
         </form>
-        <div className="bp-trust"><span>✓ תשובה מוויקיפדיה העברית</span><span>↗ תמיד עם קישור למקור</span><span>🔒 בלי הרשמה</span></div>
+        <div className="bp-trust"><span>✓ תשובות ממקורות פתוחים ומידע בדוק</span><span>↗ תמיד עם קישור למקור</span><span>🔒 בלי הרשמה</span></div>
         <p className="bp-analytics-note">השאלה נשמרת ללא שם או פרטים אישיים, כדי לשפר את בוגה־פדיה.</p>
       </header>
 
@@ -115,12 +117,12 @@ export default function BugaPedia() {
       {state === 'ready' && primary && <section className="bp-results" aria-live="polite">
         <article className="bp-answer">
           {primary.image && <img src={primary.image} alt="" />}
-          <div><p className="bp-kicker">התשובה שמצאנו</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
-            <div className="bp-answer-actions"><a href={primary.url} target="_blank" rel="noopener noreferrer">לערך המלא בוויקיפדיה ↗</a><button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
+          <div><p className="bp-kicker">{primary.sourceLabel || 'התשובה שמצאנו'}</p><h2>{primary.title}</h2><p className="bp-extract">{primary.extract}</p>
+            <div className="bp-answer-actions"><a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.linkLabel || 'לערך המלא בוויקיפדיה ↗'}</a><button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
           </div>
         </article>
         {pages.length > 1 && <div className="bp-related"><h3>אולי התכוונתם גם ל…</h3><div>{pages.slice(1).map(page => <a href={page.url} target="_blank" rel="noopener noreferrer" key={page.id}><b>{page.title}</b><span>{page.extract.slice(0, 130)}{page.extract.length > 130 ? '…' : ''}</span></a>)}</div></div>}
-        <p className="bp-license">התשובה נשלפה בזמן אמת מוויקיפדיה העברית. התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור. בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
+        <p className="bp-license">{primary.verified ? 'התשובה נוסחה ונבדקה מראש, ומצורף קישור למקור פתוח להמשך קריאה.' : 'התשובה נשלפה בזמן אמת מוויקיפדיה העברית. התוכן זמין לפי רישיון CC BY-SA; בוגה־פדיה אינה משנה את נוסח המקור.'} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
       </section>}
 
       <SubjectCatalog />
