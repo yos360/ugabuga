@@ -265,10 +265,11 @@ function Story({ story, params }) {
 
     <article className="st-night mt-4" aria-labelledby="story-title">
       <h2 id="story-title" className="mb-4 text-center text-3xl font-black">{story.emoji} {r.title}</h2>
-      {playlist && defaultText && !deviceVoice && <RecordedReader key={story.slug} playlist={playlist} paragraphCount={defaults.body.length} onSentence={setReading} />}
+      {playlist && defaultText && <RecordedReader key={story.slug} playlist={playlist} paragraphCount={defaults.body.length} onSentence={setReading} />}
       {playlist && !defaultText && <p className="st-reader-note no-print">🎧 ההקלטה המוקלטת זמינה רק עם השמות המקוריים של הסיפור. <button type="button" className="ln-chip" onClick={reset}>↺ חזרה לשמות המקוריים</button></p>}
-      {playlist && <div className="st-device-voice no-print">
-        <button type="button" className="ln-chip" aria-expanded={deviceVoice} onClick={() => setDeviceVoice(!deviceVoice)}>{deviceVoice && defaultText ? '🎧 חזרה להקלטה של נועה' : '🔈 קריאה בקול של המכשיר'}</button>
+      {/* Noa's recording is the only voice for the original text; the device voice is offered only for renamed heroes. */}
+      {playlist && !defaultText && <div className="st-device-voice no-print">
+        <button type="button" className="ln-chip" aria-expanded={deviceVoice} onClick={() => setDeviceVoice(!deviceVoice)}>🔈 קריאה בקול של המכשיר (עם השמות שבחרתם)</button>
         {deviceVoice && <StoryReader key={r.title + r.body.join('\n')} title={r.title} paragraphs={r.body} goodnight={goodnight} onSentence={setReading} />}
       </div>}
       <div className={`st-text ${big ? 'is-big' : ''}`}>{r.body.map((p, i) => <p key={i} className={reading?.p === i ? (reading.s === -1 ? 'is-reading is-now' : 'is-reading') : undefined}>

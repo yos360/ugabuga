@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { HEBREW, ENGLISH } from '../../data/letterLearning'
-import { speak } from '../../utils/speak'
+import { speak, stopSpeaking } from '../../utils/speak'
 
 // One engine for the Hebrew letters game (/letters/game), the English review game
 // (/abc/game) and the mini-game on every letter page (fixed = that letter).
@@ -105,7 +105,7 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
   const startedRef = useRef(false)
   const playRef = useRef(null)
   // Unmuting reads the current question again, so the child isn't left waiting for the next one.
-  const toggleMute = () => { startedRef.current = true; const v = !muted; setMuted(v); mutedRef.current = v; saveMuted(v); if (v) { try { window.speechSynthesis?.cancel() } catch { /* ignore */ } } else if (!done) askAloud() }
+  const toggleMute = () => { startedRef.current = true; const v = !muted; setMuted(v); mutedRef.current = v; saveMuted(v); if (v) stopSpeaking(); else if (!done) askAloud() }
   // On a phone, bring the question + all answer buttons into view when a game starts.
   const scrollToPlay = () => requestAnimationFrame(() => playRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
 
