@@ -1,0 +1,59 @@
+# Transcribes every recorded clip with a Hebrew Whisper model (free, on GitHub's runners) and saves
+# the results to scripts/audio/whisper/results/ on this branch. Runs only on the audio-check branch,
+# so it never touches main or the live site. Re-running continues from the saved results.
+name: Whisper audio check
+
+on:
+  push:
+    branches: [audio-check]
+    paths: ['scripts/audio/whisper/**', '.github/workflows/whisper-check.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: whisper-check
+  cancel-in-progress: false
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install faster-whisper==1.1.1
+      - name: Transcribe shard
+        run: |
+          mkdir -p scripts/audio/whisper/results
+          python scripts/audio/whisper/transcribe.py ${{ matrix.shard }} 8 scripts/audio/whisper/results/shard-${{ matrix.shard }}.jsonl
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shard-${{ matrix.shard }}
+          path: scripts/audio/whisper/results/shard-${{ matrix.shard }}.jsonl
+          if-no-files-found: ignore
+
+  save:
+    needs: transcribe
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: scripts/audio/whisper/results
+          merge-multiple: true
+      - name: Commit results to this branch
+        run: |
+          git config user.name "whisper-check"
+          git config user.email "actions@users.noreply.github.com"
+          git add scripts/audio/whisper/results
+          git commit -m "Whisper audio check results [skip ci]" || echo "nothing new"
+          git push origin HEAD:audio-check
