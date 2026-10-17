@@ -3,7 +3,8 @@ import { deal, winnableDeal, draw, apply, bestTarget, legal, isWon, canAutoFinis
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
 import { EndCard } from '../ui'
-import { RotateCcw, Lightbulb, Plus, Trophy, Clock3, Layers3, Palette, X, CircleHelp } from 'lucide-react'
+import { readGame, writeGame, saveKey, HISTORY_LIMIT } from '../logic/solitaireSave'
+import { RotateCcw, Lightbulb, Plus, Trophy, Clock3, Layers3, Palette, X, CircleHelp, Play, Pause } from 'lucide-react'
 import './solitaire/solitaire.css'
 import { Card, Slot } from './solitaire/Cards'
 
@@ -20,8 +21,11 @@ export default function Solitaire({ onReport, onShare, daily }) {
   // daily challenge: the same deal for everyone, picked so it can surely be won
   const newDeal = () => (daily ? winnableDeal(daily.seed) : deal())
   const [progress, saveProgress] = useProgress('solitaire', { wins: 0, best: 0 })
-  const [s, setS] = useState(newDeal)
-  const [history, setHistory] = useState([])
+  // A game left in the middle comes back as it was (the daily one only on its own day).
+  const key = saveKey(daily)
+  const [saved] = useState(() => typeof window === 'undefined' ? null : readGame(localStorage, key))
+  const [s, setS] = useState(() => saved?.s || newDeal())
+  const [history, setHistory] = useState(() => saved?.history || [])
   const [appearance, saveAppearance] = useProgress('solitaire-appearance', { theme: 'velvet' })
   const theme = ['velvet', 'garden', 'midnight'].includes(appearance.theme) ? appearance.theme : 'velvet'
   const [panel, setPanel] = useState(null)
@@ -30,10 +34,17 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const [boxRef, box] = useBox()
   const hintTimer = useRef(0)
   useEffect(() => () => clearTimeout(hintTimer.current), [])
-  const [time, setTime] = useState(0)
+  const [time, setTime] = useState(() => saved?.time || 0)
+  const [resumed, setResumed] = useState(Boolean(saved))
   const won = isWon(s)
   const started = s.moves > 0
   const autoRef = useRef(0)
+  // Finishing by itself is the player's choice: a button starts it, and it can be paused.
+  const [autoOn, setAutoOn] = useState(false)
+  const canAuto = canAutoFinish(s) && !won
+
+  useEffect(() => { writeGame(localStorage, key, { s, history, time }) }, [key, s, history, time])
+  useEffect(() => { if (!resumed) return undefined; const t = setTimeout(() => setResumed(false), 2600); return () => clearTimeout(t) }, [resumed])
 
   useEffect(() => {
     if (!started || won) return undefined
@@ -41,10 +52,10 @@ export default function Solitaire({ onReport, onShare, daily }) {
     return () => clearInterval(t)
   }, [started, won])
 
-  const commit = n => { setHistory(h => [...h.slice(-200), s]); setS(n); setHint(null) }
+  const commit = n => { setHistory(h => [...h.slice(-(HISTORY_LIMIT - 1)), s]); setS(n); setHint(null) }
   const tap = key => {
     if (won) return
-    if (key === 'stock') { commit(draw(s)); return }
+    if (key === 'stock') { const n = draw(s); if (n !== s) commit(n); return }
     const src = parse(key)
     const dst = bestTarget(s, src)
     const n = dst && apply(s, src, dst)
@@ -60,12 +71,13 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const [drag, pointerHandlers] = useCardDrag(tap, drop)
   const handlers = key => ({ ...pointerHandlers(key), onKeyActivate: () => tap(key) })
 
-  // Auto-finish once every card is face up.
+  // Once every card is face up the player may let the cards fly home; each step can be undone.
   useEffect(() => {
-    if (!canAutoFinish(s)) return undefined
-    autoRef.current = setTimeout(() => { const n = autoStep(s); if (n) setS(n) }, 110)
+    if (!autoOn || !canAutoFinish(s)) return undefined
+    autoRef.current = setTimeout(() => { const n = autoStep(s); if (n) commit(n); else setAutoOn(false) }, 140)
     return () => clearTimeout(autoRef.current)
-  }, [s])
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- commit reads the current s
+  }, [s, autoOn])
 
   useEffect(() => {
     if (!won) return
@@ -74,8 +86,8 @@ export default function Solitaire({ onReport, onShare, daily }) {
     onReport?.({ text: `🃏 ניצחתי בסוליטר תוך ${fmt(time)} ו־${s.moves} מהלכים!` })
   }, [won, time, s.moves, saveProgress, onReport, daily])
 
-  const undo = () => { if (!history.length) return; setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
-  const restart = () => { setS(newDeal()); setHistory([]); setTime(0); setHint(null) }
+  const undo = () => { if (!history.length) return; setAutoOn(false); setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
+  const restart = () => { setAutoOn(false); setResumed(false); setS(newDeal()); setHistory([]); setTime(0); setHint(null) }
   const showHint = () => { const h = findHint(s); setHint(h || { none: true }); clearTimeout(hintTimer.current); hintTimer.current = setTimeout(() => setHint(null), 2200) }
 
   // ----- layout -----
@@ -160,6 +172,10 @@ export default function Solitaire({ onReport, onShare, daily }) {
           {s.tab.map((_, p) => <div key={`tz${p}`} className="cd-zone" data-drop={`t${p}`} style={{ width: w, height: box.h - tabTop, transform: `translate(${colX(p)}px, ${tabTop}px)` }} />)}
           {cards}
         </div>
+        {canAuto && <button className={`sol-action sol-auto ${autoOn ? '' : 'sol-primary'}`} onClick={() => setAutoOn(!autoOn)}>
+          {autoOn ? <><Pause />עצירה</> : <><Play />כל הקלפים גלויים — לסיים אוטומטית</>}
+        </button>}
+        {resumed && !hint && <div className="arc-toast">♠ המשכנו מאיפה שעצרתם</div>}
         {hint?.none && <div className="arc-toast">אין מהלך מועיל — נסו להפוך קלפים מהחפיסה</div>}
         {hint?.draw && <div className="arc-toast">💡 הפכו קלף מהחפיסה</div>}
       </div>

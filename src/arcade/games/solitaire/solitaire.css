@@ -34,3 +34,5 @@ body:has(.sol-game) .site-chat-launcher{display:none}
 @media(max-width:360px){.sol-tool-group .sol-action span{display:none}.sol-tool-group{gap:4px}.sol-toolbar{gap:4px}.sol-brand h3{font-size:13px}.sol-stats{gap:8px}}
 
 .sol-guide{width:min(100%,1240px);box-sizing:border-box;flex:none;margin:0;padding:7px 12px;border-radius:12px;background:#ebe4f4;color:#473660;font-size:13px;font-weight:700;text-align:center;line-height:1.35}
+.sol-game .sol-auto{position:absolute;left:50%;bottom:14px;translate:-50% 0;z-index:300;min-height:44px;white-space:nowrap;box-shadow:0 6px 18px #2a173d40}
+.sol-game .sol-auto:active{translate:-50% 1px}
