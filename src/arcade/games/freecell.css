@@ -1,1 +1,32 @@
-.fc-game{background:radial-gradient(circle at 20% 10%,#ffffff18,transparent 32%),linear-gradient(145deg,#087150,#064c3a);color:#fff}.fc-deal{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px;padding:0 8px;font-weight:800}.fc-deal input{width:110px;min-height:38px;border:2px solid var(--arc-ink);border-radius:10px;padding:0 8px;font:800 16px Fredoka,Arial,sans-serif}.fc-deal button{min-height:40px;border:2px solid var(--arc-ink);border-radius:12px;background:#fff3a6;padding:5px 12px;font-weight:900;box-shadow:2px 2px 0 var(--arc-ink)}.fc-field{min-height:0}.fc-game .cd-slot{color:#ffffffaa;border-color:#ffffff88}.fc-game .cd-zone.is-active{outline:4px solid #ffe46b;border-radius:12px;background:#ffe46b22}.fc-game .arc-toast{color:var(--arc-ink)}@media(max-width:560px){.fc-deal{font-size:13px}.fc-deal input{width:85px}.fc-deal button{padding:4px 8px;font-size:12px}}
+/* FreeCell's palette is scoped to this game so other card games retain their styling. */
+.fc-game{background:#f4f6f2;color:#203b35;padding:14px 18px 16px;gap:10px}
+.fc-game .arc-hud{max-width:1120px;gap:10px}
+.fc-game .arc-pills{gap:7px}
+.fc-game .arc-pill{background:#fff;color:#344d45;border:1px solid #cadbd1;border-radius:12px;padding:8px 13px;box-shadow:none;font-size:14px}
+.fc-game .arc-pill b{color:#0d6753;font-variant-numeric:tabular-nums}
+.fc-game .arc-tools{gap:6px;flex-wrap:wrap}
+.fc-tool{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 12px;color:#294d42;background:#fff;border:1px solid #c9dbd1;border-radius:12px;font:700 14px Heebo,system-ui,sans-serif;cursor:pointer;transition:background .16s,transform .16s}
+.fc-tool svg{width:17px;height:17px}.fc-tool:hover:not(:disabled){background:#e6f3eb}.fc-tool:active:not(:disabled){transform:translateY(1px)}.fc-tool:disabled{color:#64786d;background:#e9efea;border-color:#d8e1d9;cursor:default}
+.fc-deal{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;width:100%;max-width:1120px;padding:10px 14px;background:#e5eee6;border:1px solid #d1e0d4;border-radius:15px;font-weight:700;color:#294d42}
+.fc-deal input{width:110px;min-height:44px;background:#fff;color:#203b35;border:1px solid #adc5b6;border-radius:10px;padding:0 10px;font:700 16px Heebo,system-ui,sans-serif}
+.fc-deal button{min-height:44px;border:1px solid #17664e;border-radius:10px;background:#17664e;color:#fff;padding:7px 16px;font:700 14px Heebo,system-ui,sans-serif;cursor:pointer}
+.fc-deal button:last-child{background:#fff;color:#174f3d;border-color:#9bb9a7}.fc-deal button:hover{filter:brightness(.94)}
+.fc-game :focus-visible{outline:3px solid #b36b04;outline-offset:3px}
+.fc-game .fc-field{min-height:0;max-width:1500px;width:100%;margin:0;border:1px solid #0c5745;border-radius:22px;background:radial-gradient(ellipse at 50% 18%,#34856f 0%,#176c56 52%,#0b5141 100%);box-shadow:inset 0 0 0 7px #ffffff0b,inset 0 1px 22px #082f2340,0 8px 22px #183a281c}
+.fc-game .cd-slot{color:#e3f4e9;border:1px dashed #b8ddc7;background:#0b4d3e55;text-shadow:0 1px 2px #083d30;border-radius:10px}
+.fc-game .cd-zone.is-active{outline:4px solid #ffe08a;border-radius:12px;background:#ffe08a33}.fc-game .arc-toast{z-index:800;color:#fff;background:#173e34;white-space:normal;text-align:center;max-width:90%}
+.fc-game .arc-end-card{color:#203b35}.fc-game .arc-btn{color:#203b35}
+@media(max-width:600px){.fc-game{padding:8px 7px 10px;gap:7px}.fc-game .arc-hud{gap:7px}.fc-game .arc-pill{font-size:12px;padding:6px 9px}.fc-game .arc-tools{gap:4px}.fc-tool{padding:0 9px}.fc-tool span{display:none}.fc-deal{gap:6px;padding:7px;font-size:12px}.fc-deal input{width:79px}.fc-deal button{padding:6px 9px;font-size:12px}.fc-game .fc-field{border-radius:16px}}
+@media(max-width:360px){.fc-deal{gap:4px}.fc-deal input{width:68px}.fc-deal button{padding:6px 7px;font-size:11px}.fc-game .arc-pill{padding:6px 7px}}
+@media(max-height:500px){.fc-game{padding:5px 8px;gap:5px}.fc-deal{padding:4px 8px}.fc-deal input,.fc-deal button{min-height:36px}.fc-game .arc-pill{padding:5px 9px}.fc-tool{min-height:38px}}
+@media(prefers-reduced-motion:reduce){.fc-tool{transition:none}}
+.fc-game .fc-tool{height:44px}
+.fc-game .fc-deal button{height:44px}
+body:has(.fc-game) .site-chat-launcher{display:none}
+@media(max-height:500px){.fc-game .fc-tool,.fc-game .fc-deal button{height:38px}}
+.fc-game .fc-tool{min-width:44px}
+@media(max-width:600px){.fc-deal input{width:96px}}
+@media(max-width:360px){.fc-deal input{width:86px}}
+.fc-deal input{direction:ltr;text-align:center}
+.fc-deal input[type=number]{appearance:textfield;-moz-appearance:textfield}
+.fc-deal input[type=number]::-webkit-inner-spin-button,.fc-deal input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
