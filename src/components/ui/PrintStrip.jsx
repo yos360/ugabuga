@@ -15,9 +15,8 @@ export default function PrintStrip() {
     return () => { live = false; window.removeEventListener('buga:downloads-changed', update) }
   }, [])
   return <Link to="/printables" className="print-strip no-print">
-    <span aria-hidden="true">🖨️</span>
-    <b>דפים להדפסה בחינם</b>
-    {total >= SHOW_FROM && <span className="print-strip-count">· כבר הורדו {total.toLocaleString('he-IL')} דפים</span>}
-    <span className="print-strip-cta">לכל ההדפסות ←</span>
+    <span className="print-strip-dot" aria-hidden="true" />
+    <span>🖨️ {total >= SHOW_FROM ? <>כבר הודפסו <b>{total.toLocaleString('he-IL')}</b> דפים מהאתר</> : <>דפים להדפסה בחינם</>}</span>
+    <span className="print-strip-cta">להדפסות ←</span>
   </Link>
 }
