@@ -610,6 +610,7 @@ export default function App() {
               <Route path="/learn/gifted-test/grade-2" element={<GiftedGrade key="grade-2" slug="grade-2" />} />
               <Route path="/learn/gifted-test/grade-3" element={<GiftedGrade key="grade-3" slug="grade-3" />} />
               <Route path="/learn/gifted-test/grade-6" element={<GiftedGrade key="grade-6" slug="grade-6" />} />
+              <Route path="/learn/gifted-test/stage-a" element={<GiftedGrade key="stage-a" slug="stage-a" />} />
               <Route path="/learn/gifted-test/stage-b" element={<GiftedGrade key="stage-b" slug="stage-b" />} />
               <Route path="/learn/gifted-test/practice" element={<GiftedPractice />} />
               <Route path="/learn/gifted-test/simulation" element={<GiftedSimulation />} />
