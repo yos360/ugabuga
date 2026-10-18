@@ -2,12 +2,27 @@
 
 > אתר ישראלי בעברית, חינמי ובלי הרשמה, עם משחקים, דפים להדפסה ולמידה לילדים בגילי 3–12: משחקים לימי הולדת, לכיתה ולגן, דפי צביעה ודפי עבודה להדפסה, תרגול חשבון, קריאה ואנגלית לפי כיתה, הכנה לכיתה א׳, חגים, וכלים להורים, לגננות ולמורות.
 
-Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew website for children aged 3–12, their parents and teachers: party and classroom games, free printable coloring pages and worksheets (A4, PDF), grade-by-grade math, reading-comprehension and English practice, first-grade readiness, Jewish/Israeli holiday activities and family tools. Everything is free, with no sign-up. Content is written for Israeli families and schools (Israeli curriculum, Hebrew, right-to-left).
+Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew website for children aged 3–12, their parents and teachers: free classroom tools for Israeli teachers (a live class quiz game, online multiple-choice tests, BugaPedia — a children's encyclopedia that answers questions, puzzle and word-search makers), party and classroom games, free printable coloring pages and worksheets (A4, PDF), grade-by-grade math, reading-comprehension and English practice, first-grade readiness, Jewish/Israeli holiday activities and family tools. Everything is free, with no sign-up. Content is written for Israeli families and schools (Israeli curriculum, Hebrew, right-to-left).
 
 - כל התוכן חינם ולא דורש הרשמה; דפי ההדפסה יוצאים נקיים על A4 וניתן לשמור אותם כ־PDF.
 - קהל: הורים, ילדים, גננות, מורות ומדריכים בישראל.
 - מפת האתר המלאה: https://ugabuga.co.il/sitemap.xml · כל העמודים במקום אחד: https://ugabuga.co.il/tools
 - אודות: https://ugabuga.co.il/about · פרטיות: https://ugabuga.co.il/privacy · יצירת קשר: hellohugabuga@gmail.com
+
+## למורות ולגננות — כלים חינמיים לכיתה
+
+- [מתחם לכיתה](https://ugabuga.co.il/classroom): כל הכלים למורות ולגננות במקום אחד, בחינם ובלי הרשמה
+- [בוגה לייב](https://ugabuga.co.il/live): חידון חי לכיתה: המורה מציגה שאלות על הלוח והתלמידים עונים מהטלפון (כמו קהוט, בעברית ובחינם)
+- [מבחן אמריקאי אונליין](https://ugabuga.co.il/classroom/quiz): בונים מבחן, שולחים קישור לתלמידים ורואים ציונים
+- [בוגה־פדיה](https://ugabuga.co.il/bugapedia): אנציקלופדיה לילדים: שואלים שאלה ומקבלים תשובה קצרה ומדויקת בעברית, לפי מקצוע
+- [מחולל תשבצים ותפזורות](https://ugabuga.co.il/tools/crossword-maker): מכינים דף משימה מהמילים של השיעור ומדפיסים
+- [מחולל תפזורת מילים](https://ugabuga.co.il/tools/word-search-maker): תפזורת מותאמת לשיעור, להדפסה
+- [הכנה לכיתה א׳](https://ugabuga.co.il/classroom/first-grade): משחקים וחוברת הכנה להדפסה
+- [הבנת הנקרא לפי כיתה (ב׳–ו׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות, הקראה בקול ודפים להדפסה
+- [דפי עבודה בחשבון](https://ugabuga.co.il/printables/math-worksheets): מחולל דפים לכיתה א׳–ב׳, עם דף תשובות לבדיקה
+- [משחקים לכיתה](https://ugabuga.co.il/games/classroom): משחקי פתיחה, הפסקה וחזרה על החומר, עם הוראות
+- [הרשמה לאספות הורים](https://ugabuga.co.il/parent-meetings): ההורים בוחרים שעה בקישור אחד
+- [גמד וענק](https://ugabuga.co.il/secret-friend): הגרלת שמות לכיתה
 
 ## עמודים מרכזיים
 
