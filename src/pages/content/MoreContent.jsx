@@ -14,7 +14,7 @@ import { ABC_LETTERS } from '../../data/content/abcLetters'
 import { ABC_MORE, ABC_HUB, ENGLISH_TOPICS } from '../../data/content/abcLettersMore'
 import { Chip, Header, Hub, More } from './contentUi'
 
-export const RiddlesHub = () => <Hub seo={{ title: 'חידות לפי נושא וגיל — דפי חידות לגן, היגיון, חשבון וחגים', description: `חידות לפי נושא: ${RIDDLE_PAGES.length} דפי חידות עם תשובות — חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="כל דף: 12 חידות, רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
+export const RiddlesHub = () => <Hub seo={{ title: 'חידות לפי נושא וגיל — דפי חידות לגן, היגיון, חשבון וחגים', description: `חידות לפי נושא: ${RIDDLE_PAGES.length} דפי חידות עם תשובות — חידות לילדים, לגן, היגיון, חשבון, "מה אני?", חגים ונוער — כל תשובה מוסתרת עד שלוחצים.`, path: '/riddles/topics' }} crumbs={[{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }, { label: 'לפי נושא' }]} emoji="🤔" title="חידות לפי נושא" intro="בכל דף 12–24 חידות, עם רמז ותשובה." items={RIDDLE_PAGES} base="/riddles/" />
 function Riddle({ r, n }) {
   const [hint, setHint] = useState(false), [ans, setAns] = useState(false)
   return (
