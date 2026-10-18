@@ -11,7 +11,7 @@ const five = await import('../src/arcade/logic/fiveWords.js')
 
 // ── gifted test by grade ──
 test('every gifted grade page has at least 25 fitting questions, each with exactly one correct option', () => {
-  assert.deepEqual(GRADE_SETS.map(g => g.slug), ['grade-2', 'grade-3', 'grade-6', 'stage-b'])
+  assert.deepEqual(GRADE_SETS.map(g => g.slug), ['grade-2', 'grade-3', 'grade-6', 'stage-a', 'stage-b'])
   for (const g of GRADE_SETS) {
     assert.ok(g.pool.length >= 25, `${g.slug}: ${g.pool.length} questions`)
     assert.ok(GRADE_TEXT[g.slug], `${g.slug} has page copy`)
