@@ -37,3 +37,8 @@
 /llms.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=86400
+
+# Internal search results: not prerendered, served from the SPA fallback whose
+# <head> is the homepage's - keep it out of Google at the HTTP level.
+/search
+  X-Robots-Tag: noindex
