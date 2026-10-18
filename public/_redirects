@@ -121,3 +121,38 @@
 
 # Pregnancy calculator removed (owner request)
 /tools/due-date /baby-names 301
+
+
+# Dead printable slugs reported as 404 in Search Console (Oct 2026 crawl).
+# They never existed on the new site; send each to the closest real page.
+/printables/mandala /printables/mandalas 301
+/printables/pattern-coloring /printables/mandalas 301
+/printables/paper-masks-animals /printables/purim-masks 301
+/printables/party-hats /printables/birthday-crown 301
+/printables/water-bottle-labels /printables/name-labels 301
+/printables/party-budget /calculator 301
+/printables/party-schedule /printables/birthday-checklist 301
+/printables/party-games-cards /printables/board-game 301
+/printables/battleship /printables/board-game 301
+/printables/hanukkah-printables /holidays/hanukkah 301
+/printables/sudoku-kids /printables/sudoku 301
+/printables/savings-tracker /printables/reward-chart 301
+/printables/math-multiplication /printables/math-worksheets/multiplication 301
+/printables/math-addition /printables/math-worksheets/addition-up-to-20 301
+/printables/clock-reading /printables/clock-worksheets 301
+/printables/bookmarks /origami/bookmark 301
+/printables/crossword /tools/crossword-maker 301
+/printables/word-search /tools/word-search-maker 301
+/printables/word-scramble /tools/word-search-maker 301
+/printables/treasure-map /tools/scavenger-hunt-maker 301
+/printables/dot-to-dot /printables/activity/dot-to-dot 301
+/printables/animals-worksheet /printables/activity/mixed-activities/animals 301
+/printables/seasons-worksheet /printables/activity/mixed-activities 301
+/printables/mad-libs /games 301
+/printables/hangman /games 301
+/printables/paper-dolls /printables/photo-props 301
+/printables/origami-instructions /origami 301
+/printables/paper-crafts /origami 301
+/printables/body-parts /printables 301
+/printables/days-months /printables 301
+/ideas/bachelorette-party /ideas 301
