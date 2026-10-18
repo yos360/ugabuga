@@ -130,7 +130,7 @@ export function GiftedHub() {
     </div>
     <h2 className="mt-10 mb-3 text-3xl font-black">תרגול לפי כיתה ולפי שלב</h2>
     <p className="mb-3 text-lg">כל עמוד כולל הסבר קצר על המבחן באותו שלב, ושאלות ברמת הקושי שמתאימה לו:</p>
-    <div className="grid gap-3 sm:grid-cols-2">{GRADE_SETS.map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{x.emoji} {x.slug === 'stage-b' ? 'מבחן מחוננים שלב ב׳' : `מבחני מחוננים ${x.label}`}</b><br /><small>{x.pool.length} שאלות · רמה: {x.levels.map(l => LEVELS[l]).join(' ו')}</small></Link>)}</div>
+    <div className="grid gap-3 sm:grid-cols-2">{GRADE_SETS.map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{x.emoji} {x.slug.startsWith('stage') ? `מבחן מחוננים ${x.label}` : `מבחני מחוננים ${x.label}`}</b><br /><small>{x.pool.length} שאלות · רמה: {x.levels.map(l => LEVELS[l]).join(' ו')}</small></Link>)}</div>
     <h2 className="mt-10 mb-3 text-3xl font-black">מבחן תרגול משולב</h2>
     <Quiz pool={pool} count={12} label="12 שאלות מעורבבות מכל ארבעת הסוגים. אחרי כל תשובה מופיע הסבר, ובסוף — הציון." />
     <h2 className="mt-10 mb-3 text-3xl font-black">איך נראה תהליך האיתור?</h2>
@@ -233,7 +233,7 @@ export function GiftedType() {
 }
 
 // ── grade spokes: /learn/gifted-test/grade-2, grade-3, grade-6, stage-b ──
-const gradeName = x => x.slug === 'stage-b' ? 'מבחן מחוננים שלב ב׳' : `מבחן מחוננים ${x.label}`
+const gradeName = x => `מבחן מחוננים ${x.label}`
 function MixedPrint({ title, items, from }) {
   return <>
     <article className="buga-flow ln-print gt-print" dir="rtl">
@@ -279,7 +279,7 @@ export function GiftedGrade({ slug }) {
       <div className="flex flex-wrap justify-center gap-2">{sets.map(f => <button key={f} type="button" className="ln-btn alt" onClick={() => setPrintFrom(f)}>שאלות {f + 1}–{last(f)}</button>)}</div>
     </div>
     {printFrom !== null && <PrintPreview title={`${gradeName(g)} — שאלות ${printFrom + 1}–${last(printFrom)}`} onClose={() => setPrintFrom(null)}><MixedPrint title={`תרגול ל${gradeName(g)}`} items={g.pool.slice(printFrom, printFrom + 10)} from={printFrom} /></PrintPreview>}
-    <h2 className="mt-10 mb-3 text-3xl font-black">{g.slug === 'stage-b' ? 'מה זה שלב ב׳?' : `איך נראה המבחן ב${g.label}?`}</h2>
+    <h2 className="mt-10 mb-3 text-3xl font-black">{g.slug.startsWith('stage') ? `מה זה ${g.label}?` : `איך נראה המבחן ב${g.label}?`}</h2>
     <div className="space-y-3 text-lg leading-relaxed">{txt.about.map(p => <p key={p}>{p}</p>)}</div>
     <h2 className="mt-10 mb-3 text-2xl font-black">תרגול לפי סוג שאלה</h2>
     <div className="grid gap-3 sm:grid-cols-2">{TYPES.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="ln-box card-lift text-right"><b>{t.emoji} {t.title}</b><br /><small>{t.how}</small></Link>)}</div>

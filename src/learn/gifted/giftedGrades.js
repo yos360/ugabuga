@@ -90,5 +90,6 @@ export const GRADE_SETS = [
   { slug: 'grade-2', label: 'כיתה ב׳', short: 'כיתה ב׳', emoji: '🌱', levels: [1, 2], keyword: 'מבחני מחוננים כיתה ב' },
   { slug: 'grade-3', label: 'כיתה ג׳', short: 'כיתה ג׳', emoji: '🌿', levels: [2, 3], keyword: 'מבחני מחוננים כיתה ג' },
   { slug: 'grade-6', label: 'כיתה ו׳', short: 'כיתה ו׳', emoji: '🌳', levels: [3, 4], keyword: 'מבחן מחוננים כיתה ו' },
+  { slug: 'stage-a', label: 'שלב א׳', short: 'שלב א׳', emoji: '📝', levels: [1, 2], keyword: 'מבחן מחוננים שלב א' },
   { slug: 'stage-b', label: 'שלב ב׳', short: 'שלב ב׳', emoji: '🎯', levels: [3], keyword: 'מבחן מחוננים שלב ב' },
 ].map(g => ({ ...g, pool: byLevels(g.levels) }))
