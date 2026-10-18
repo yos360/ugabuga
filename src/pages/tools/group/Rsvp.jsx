@@ -28,7 +28,13 @@ const toForm = ev => ({ kind: ev.kind, title: ev.title, date: ev.date || '', tim
 const fromForm = f => ({ kind: f.kind, title: cleanText(f.title, LIMITS.title), date: f.date || null, time: cleanText(f.time, 20), place: cleanText(f.place, LIMITS.place), deadline: f.deadline || null, note: cleanText(f.note, LIMITS.note, true), invitees: parseNames(f.invitees, LIMITS.maxInvitees).slice(0, LIMITS.maxInvitees) })
 
 // ── organizer: event details form (create + edit) ─────────────
-function EventForm({ value, onChange, onSubmit, busy, submitLabel }) {
+const pinOk = pin => /^\d{4}$/.test(pin || '')
+function PinInput({ value, onChange, label = 'הקוד' }) {
+  return <input className={`${input} max-w-[9rem] text-center text-2xl tracking-[0.4em]`} dir="ltr" inputMode="numeric" autoComplete="off" maxLength={4} aria-label={label}
+    value={value} onChange={e => onChange(e.target.value.replace(/\D/g, '').slice(0, 4))} placeholder="••••" />
+}
+
+function EventForm({ value, onChange, onSubmit, busy, submitLabel, withPin = false }) {
   const set = (k, v) => onChange({ ...value, [k]: v })
   const inviteeCount = parseNames(value.invitees, LIMITS.maxInvitees).length
   return <form onSubmit={e => { e.preventDefault(); onSubmit() }} className="space-y-4">
@@ -49,8 +55,12 @@ function EventForm({ value, onChange, onSubmit, busy, submitLabel }) {
       <textarea className={`${input} min-h-[96px]`} value={value.invitees} onChange={e => set('invitees', e.target.value)} placeholder={'נועה\nיואב\nאורי'} />
       {inviteeCount > 0 && <span className="mt-1 block text-sm font-normal text-slate-500">{inviteeCount} מוזמנים{inviteeCount >= LIMITS.maxInvitees ? ` (עד ${LIMITS.maxInvitees})` : ''}</span>}
     </Field>
+    {withPin && <div className="rounded-xl bg-amber-50 p-3">
+      <Field label="🔑 קוד מארגן — 4 ספרות שתזכרו"><PinInput value={value.pin || ''} onChange={v => set('pin', v)} label="קוד מארגן" /></Field>
+      <p className="mt-1 text-sm text-slate-600">כדי לראות את התשובות מכל טלפון: פותחים את הקישור ששלחתם לאורחים, לוחצים „אני המארגן/ת” ומקלידים את הקוד.</p>
+    </div>}
     <p className="text-sm text-slate-500">שמות פרטיים בלבד. הדף נמחק אוטומטית חודשיים אחרי האירוע.</p>
-    <button disabled={busy || !cleanText(value.title, LIMITS.title)} className={`${btnMain} w-full`}>{busy ? 'רגע…' : submitLabel}</button>
+    <button disabled={busy || !cleanText(value.title, LIMITS.title) || (withPin && !pinOk(value.pin))} className={`${btnMain} w-full`}>{busy ? 'רגע…' : submitLabel}</button>
   </form>
 }
 
@@ -153,6 +163,44 @@ function Stat({ n, label, tone = 'bg-white' }) {
   return <div className={`rounded-2xl border-2 border-[var(--border)] p-3 text-center ${tone}`}><div className="text-3xl font-black">{n}</div><div className="text-sm font-bold text-slate-600">{label}</div></div>
 }
 
+// Guests' page: the organizer types the 4-digit code and gets the management view on this phone too.
+function OrganizerLogin({ code, onIn }) {
+  const [open, setOpen] = useState(false), [pin, setPin] = useState(''), [busy, setBusy] = useState(false), [err, setErr] = useState('')
+  const submit = async e => {
+    e.preventDefault()
+    if (!pinOk(pin)) return
+    setBusy(true); setErr('')
+    try { const t = await rsvpDb.pinLogin(code, pin); if (t) onIn(t); else { setErr('הקוד לא נכון. נסו שוב.'); setPin('') } }
+    catch (e2) { setErr(groupErrorText(e2.code)) } finally { setBusy(false) }
+  }
+  if (!open) return <p className="mt-8 text-center"><button onClick={() => setOpen(true)} className="text-sm font-bold text-slate-600 underline">🔑 אני המארגן/ת</button></p>
+  return <form onSubmit={submit} className={`${card} mx-auto mt-8 max-w-sm text-center`}>
+    <h2 className="text-xl font-bold">🔑 כניסה למארגנים</h2>
+    <p className="mt-1 text-sm text-slate-600">הקלידו את קוד המארגן (4 ספרות) שבחרתם כשיצרתם את האירוע.</p>
+    <div className="mt-3 flex justify-center"><PinInput value={pin} onChange={setPin} label="קוד מארגן" /></div>
+    {err && <p className="mt-2 font-bold text-rose-700" role="alert">{err}</p>}
+    <button disabled={busy || !pinOk(pin)} className={`${btnMain} mt-3 w-full`}>{busy ? 'רגע…' : 'כניסה'}</button>
+  </form>
+}
+
+// Host view: the organizer code — set one (older events) or change it.
+function OrganizerPin({ code, token, show }) {
+  const [has, setHas] = useState(null), [editing, setEditing] = useState(false), [pin, setPin] = useState(''), [busy, setBusy] = useState(false)
+  useEffect(() => { let live = true; rsvpDb.hasPin(code, token).then(v => { if (live) setHas(Boolean(v)) }).catch(() => { if (live) setHas('off') }); return () => { live = false } }, [code, token])
+  if (has === null || has === 'off') return null
+  const save = async e => {
+    e.preventDefault()
+    setBusy(true)
+    try { await rsvpDb.setPin(code, token, pin); setHas(true); setEditing(false); setPin(''); show('✓ קוד המארגן נשמר') } catch (e2) { show(groupErrorText(e2.code), 'err') } finally { setBusy(false) }
+  }
+  if (has && !editing) return <p className="mt-4 text-sm text-slate-600">🔑 יש קוד מארגן: פותחים את הקישור מכל טלפון ולוחצים „אני המארגן/ת”. <button onClick={() => setEditing(true)} className="font-bold underline">שינוי הקוד</button></p>
+  return <form onSubmit={save} className="mt-4 rounded-xl bg-amber-50 p-3">
+    <p className="font-bold">🔑 {has ? 'קוד מארגן חדש' : 'בחרו קוד מארגן (4 ספרות)'}</p>
+    <p className="text-sm text-slate-600">כדי לראות את התשובות גם מטלפון אחר: פותחים את הקישור, לוחצים „אני המארגן/ת” ומקלידים את הקוד.</p>
+    <div className="mt-2 flex items-center gap-2"><PinInput value={pin} onChange={setPin} label="קוד מארגן" /><button disabled={busy || !pinOk(pin)} className={btn}>{busy ? 'רגע…' : 'שמירה'}</button></div>
+  </form>
+}
+
 function HostView({ ev, setEv, token, show, reload, onDeleted }) {
   const enhanced = isRsvpV2(ev)
   const [filter, setFilter] = useState('all')
@@ -245,6 +293,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         <button onClick={() => openWhatsApp(rsvpReminderText(ev, missing, link))} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-3 w-full`}>💬 העתקת תזכורת לוואטסאפ</button>
         {enhanced && <button onClick={() => copyText(rsvpReminderText(ev, missing, link), show, 'התזכורת הועתקה')} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-2 w-full`}>📋 העתקת נוסח התזכורת</button>}
         <a href={`/r/${ev.code}?guest=1`} target="_blank" rel="noopener" className="mt-3 block text-center text-sm font-bold underline">👀 איך זה נראה לאורחים</a>
+        <OrganizerPin code={ev.code} token={token} show={show} />
         <OrganizerTools what="האירוע" onCopyOrganizer={() => copyText(organizerUrl(KIND, ev.code, token), show, 'קישור הניהול הועתק ✓ שמרו אותו לעצמכם בלבד')} onDelete={() => setConfirm('event')} />
       </section>
     </aside>
@@ -341,6 +390,7 @@ export default function Rsvp() {
       const t = newToken()
       const row = newExperience ? await rsvpDb.createV2(t, { ...fromForm(form), theme: form.theme }) : await rsvpDb.create(t, fromForm(form))
       groupMemory.rememberOwned(KIND, row.code, t, row.title)
+      if (pinOk(form.pin)) await rsvpDb.setPin(row.code, t, form.pin).catch(() => {})
       window.history.replaceState(window.history.state, '', `/r/${row.code}`)
       setToken(t); setEv({ ...row, responses: [] }); setCode(row.code)
       show('✓ האירוע נוצר! עכשיו שולחים את הקישור')
@@ -348,6 +398,7 @@ export default function Rsvp() {
     } catch (e) { show(groupErrorText(e.code), 'err') } finally { setBusy(false) }
   }
 
+  const organizerIn = t => { groupMemory.rememberOwned(KIND, code, t, ev.title); setToken(t); show('✓ נכנסת לניהול האירוע') }
   const mine = groupMemory.owned(KIND).filter(x => x.code !== code).slice(0, 5)
   let body
   if (deleted) body = <div className="py-10 text-center"><p className="text-xl font-bold">🗑️ האירוע נמחק</p><a href="/rsvp" className={`${btn} mt-6`}>יצירת אירוע חדש</a></div>
@@ -356,8 +407,8 @@ export default function Rsvp() {
   else if (code && host) body = <HostView ev={ev} setEv={setEv} token={token} show={show} reload={load} onDeleted={() => setDeleted(true)} />
   else if (code && isRsvpV2(ev)) body = <RsvpGuestExperience ev={ev} show={show} onAnswer={r => setEv(e => ({ ...e, mine: r }))} AnswerForm={AnswerForm} download={download} statuses={STATUS} />
   else if (code) body = <GuestView ev={ev} show={show} onAnswer={r => setEv(e => ({ ...e, mine: r }))} />
-  else body = newExperience ? <RsvpCreateExperience form={form} onChange={setForm} mine={mine}><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" /></RsvpCreateExperience>
-    : <section className={`${card} mx-auto max-w-xl`}><h2 className="mb-4 text-2xl font-bold">פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" />{mine.length > 0 && <p className="mt-4">האירועים שלי: {mine.map(e => <a key={e.code} className="underline mx-2" href={`/r/${e.code}`}>{e.title || e.code}</a>)}</p>}</section>
+  else body = newExperience ? <RsvpCreateExperience form={form} onChange={setForm} mine={mine}><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" withPin /></RsvpCreateExperience>
+    : <section className={`${card} mx-auto max-w-xl`}><h2 className="mb-4 text-2xl font-bold">פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" withPin />{mine.length > 0 && <p className="mt-4">האירועים שלי: {mine.map(e => <a key={e.code} className="underline mx-2" href={`/r/${e.code}`}>{e.title || e.code}</a>)}</p>}</section>
   const titleText = ev?.title ? `אישור הגעה — ${ev.title}` : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
     <SEO title={code ? titleText : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'} description="אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים בוואטסאפ, והאורחים עונים מגיעים, לא מגיעים או אולי. רואים כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה." path="/rsvp" noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(FAQ)} />
@@ -367,6 +418,7 @@ export default function Rsvp() {
       <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים לקבוצה בוואטסאפ, וכל אורח עונה בלחיצה — מגיעים, לא מגיעים או אולי. אתם רואים כמה ילדים ומבוגרים מגיעים, מי אלרגי למה ומי עוד לא ענה.</p>
     </header>}
     {body}
+    {code && ev && !host && !error && !deleted && <OrganizerLogin code={code} onIn={organizerIn} />}
     {!code && <RsvpGuide />}
     {toast}
   </div>

@@ -8,7 +8,7 @@ const URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.s
 const KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 const client = createClient(URL, KEY, { auth: { storageKey: 'ugabuga-group-tools', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
-const CODES = /not_found|not_owner|not_yours|rate_limited|event_full|name_required|bad_status|bad_number|bad_token|too_few|too_many|duplicate_names|bad_names|draw_impossible|message_required|no_links|wall_full|too_many_notes/
+const CODES = /not_found|not_owner|not_yours|rate_limited|event_full|name_required|bad_status|bad_number|bad_token|too_few|too_many|duplicate_names|bad_names|draw_impossible|message_required|no_links|wall_full|too_many_notes|no_pin|pin_locked|bad_pin/
 const call = (fn, args) => client.rpc(fn, args).then(({ data, error }) => {
   if (error) {
     const text = `${error.code || ''} ${error.message || ''}`
@@ -31,6 +31,10 @@ export const rsvpDb = {
   update: (code, hostToken, event) => call('rsvp_update', { p_code: code, p_host_token: hostToken, p: event }),
   removeResponse: (code, hostToken, id) => call('rsvp_remove_response', { p_code: code, p_host_token: hostToken, p_response_id: id }),
   remove: (code, hostToken) => call('rsvp_delete', { p_code: code, p_host_token: hostToken }),
+  // Organizer code (4 digits): manage the event from any phone.
+  setPin: (code, hostToken, pin) => call('rsvp_set_pin', { p_code: code, p_host_token: hostToken, p_pin: pin }),
+  hasPin: (code, hostToken) => call('rsvp_has_pin', { p_code: code, p_host_token: hostToken }),
+  pinLogin: (code, pin) => call('rsvp_pin_login', { p_code: code, p_pin: pin }),
 }
 
 export const secretDb = {
@@ -58,6 +62,9 @@ export const groupErrorText = code => ({
   not_installed: 'הכלי הזה עוד בהקמה אצלנו ויפעל ממש בקרוב. נסו שוב מאוחר יותר 🙏',
   not_found: 'לא מצאנו את הדף. אולי הקישור נחתך, נמחק, או שעבר זמן רב מאז האירוע.',
   not_owner: 'רק מי שיצר/ה את הדף יכול/ה לשנות אותו מהמכשיר הזה.',
+  no_pin: 'לאירוע הזה לא הוגדר קוד מארגן. פתחו אותו מהטלפון שבו יצרתם אותו.',
+  pin_locked: 'היו יותר מדי ניסיונות. פתחו את האירוע מהטלפון שבו יצרתם אותו והגדירו קוד חדש.',
+  bad_pin: 'קוד המארגן הוא 4 ספרות.',
   not_yours: 'אפשר לשנות רק ברכה שכתבתם מהמכשיר הזה.',
   rate_limited: 'יותר מדי פעולות בזמן קצר. חכו כמה דקות ונסו שוב.',
   event_full: 'הגענו למספר התשובות המרבי לאירוע הזה.',
