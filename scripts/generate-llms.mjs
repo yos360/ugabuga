@@ -4,6 +4,7 @@
 import { writeFile } from 'node:fs/promises'
 import { ENGLISH_SECTIONS } from '../src/en/englishRoutes.js'
 import { MENU_DOMAINS, CLASSROOM_MENU } from '../src/data/siteMenu.js'
+import { HANUKKAH_ROOT, HANUKKAH_GUIDES } from '../src/en/hanukkahGuides.js'
 
 const SITE = 'https://ugabuga.co.il'
 const abs = to => SITE + (to.startsWith('/') ? to : '/' + to)
@@ -71,7 +72,8 @@ for (const d of MENU_DOMAINS) {
 const classroom = CLASSROOM_MENU.items.filter(i => i.to && !i.shortcut && i.to !== '/teachers')
 if (classroom.length) out.push(`## ${CLASSROOM_MENU.label} (למורות ולגננות)`, '', `- [${CLASSROOM_MENU.label}](${abs(CLASSROOM_MENU.to)})`, ...classroom.map(line), '')
 
-out.push('## English', '', '- [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.', ...ENGLISH_SECTIONS.map(s => `- [${s.title}](${abs(s.path)}): ${s.description}`), '')
+out.push('## English', '', '- [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.', ...ENGLISH_SECTIONS.map(s => `- [${s.title}](${abs(s.path)}): ${s.description}`), '',
+  '### Hanukkah for families (English)', '', `- [Hanukkah for kids](${abs(HANUKKAH_ROOT)}): the story, dates, blessing, coloring pages and a word match.`, ...HANUKKAH_GUIDES.map(g => `- [${g.short}](${abs(`${HANUKKAH_ROOT}/${g.slug}`)}): ${g.blurb}`), '')
 
 const text = out.join('\n').replace(/\n{3,}/g, '\n\n')
 await writeFile(new URL('../public/llms.txt', import.meta.url), text)

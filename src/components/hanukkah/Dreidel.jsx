@@ -1,6 +1,6 @@
 // A hand-drawn style dreidel: body, handle and point, with the letter on its face.
-export default function Dreidel({ letter, spinning = false, size = 220 }) {
-  return <svg viewBox="0 0 200 260" width={size} height={size * 1.3} role="img" aria-label={letter ? `הסביבון נפל על ${letter}` : 'סביבון'}
+export default function Dreidel({ letter, spinning = false, size = 220, label }) {
+  return <svg viewBox="0 0 200 260" width={size} height={size * 1.3} role="img" aria-label={label || (letter ? `הסביבון נפל על ${letter}` : 'סביבון')}
     style={{ animation: spinning ? 'buga-dreidel-spin 0.35s linear infinite' : 'none', transformOrigin: '50% 90%', overflow: 'visible' }}>
     <defs>
       <linearGradient id="dreidel-face" x1="0" x2="1">

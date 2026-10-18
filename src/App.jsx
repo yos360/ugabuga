@@ -1,4 +1,5 @@
 const EnglishHolidays = lazy(() => import('./en/EnglishHolidays'))
+const EnglishHanukkah = lazy(() => import('./en/EnglishHanukkah'))
 const EnglishHolidayColoring = lazy(() => import('./en/EnglishHolidays').then(m => ({default: m.EnglishHolidayColoring})))
 const EnglishAlphabet = lazy(() => import('./en/EnglishAlphabet'))
 import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-router-dom'
@@ -371,6 +372,7 @@ export default function App() {
               <Route path="/en/hebrew-alphabet/:slug" element={<EnglishAlphabet />} />
               <Route path="/en/jewish-holidays" element={<EnglishHolidays />} />
               <Route path="/en/jewish-holidays/:slug" element={<EnglishHolidays />} />
+              <Route path="/en/jewish-holidays/hanukkah/:guide" element={<EnglishHanukkah />} />
               <Route path="/en/coloring/:holiday/:n" element={<EnglishHolidayColoring />} />
               <Route path="/en/live" element={<EnglishLiveHome />} />
               <Route path="/en/live/:code/host" element={<EnglishLiveHost />} />

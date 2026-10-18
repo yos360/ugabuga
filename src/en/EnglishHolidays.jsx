@@ -10,6 +10,7 @@ import { holidayDates, nextShabbat, displayDate } from './holidayDates'
 import { ENGLISH_BLESSINGS } from './holidayBlessingsEn'
 import { HOLIDAY_DRAWINGS, drawingPath, drawingsFor } from './holidayColoringData'
 import HolidayDrawingArt from './HolidayDrawingArt'
+import { HanukkahGuideCards } from './EnglishHanukkah'
 
 function Dates({holiday:h}){
  const [israel,setIsrael]=useState(false),[today,setToday]=useState(()=>new Date())
@@ -36,7 +37,7 @@ function Gallery({holiday:h}){
 function HolidayPage({holiday:h}){
  const p=HOLIDAY_PAGES.find(p=>p.path===`${ROOT}/${h.slug}`)
  const faq=[{q:h.question,a:h.answer},{q:`Can I print the ${h.name} activities?`,a:'Yes. The word match includes a separate answer page, and each coloring drawing has its own print or PDF button. Prepare materials in advance if your family avoids writing or printing on the holiday.'},{q:'Why do some dates differ between Israel and abroad?',a:'Some festivals have an additional day in many communities outside Israel. Use the calendar selector and follow your local community calendar.'}]
- return <div className="en-page"><SEO lang="en" path={p.path} counterpartPath={p.counterpart} title={p.title} description={`Explore ${h.name} with children: clear English explanations, Hebrew-calendar dates, traditional blessings and free printable family activities.`} structuredData={faqSchema(faq)}/><Breadcrumbs lang="en" items={[{label:'Home',href:'/en'},{label:'Jewish holidays',href:ROOT},{label:h.name}]}/><p className="en-eyebrow">Discover a Jewish tradition</p><h1>{h.emoji} {h.name} for kids</h1><SeoBody lang="en" paragraphs={h.paragraphs}/><Dates holiday={h}/><Blessing holiday={h}/><Gallery holiday={h}/><Activity holiday={h}/><SeoBody lang="en" faq={faq} related={[{label:'All Jewish holidays',href:ROOT},{label:'Learn Hebrew letters',href:'/en/hebrew-alphabet'}]}/></div>
+ return <div className="en-page"><SEO lang="en" path={p.path} counterpartPath={p.counterpart} title={p.title} description={`Explore ${h.name} with children: clear English explanations, Hebrew-calendar dates, traditional blessings and free printable family activities.`} structuredData={faqSchema(faq)}/><Breadcrumbs lang="en" items={[{label:'Home',href:'/en'},{label:'Jewish holidays',href:ROOT},{label:h.name}]}/><p className="en-eyebrow">Discover a Jewish tradition</p><h1>{h.emoji} {h.name} for kids</h1><SeoBody lang="en" paragraphs={h.paragraphs}/><Dates holiday={h}/>{h.slug==='hanukkah'&&<HanukkahGuideCards/>}<Blessing holiday={h}/><Gallery holiday={h}/><Activity holiday={h}/><SeoBody lang="en" faq={faq} related={[{label:'All Jewish holidays',href:ROOT},{label:'Learn Hebrew letters',href:'/en/hebrew-alphabet'}]}/></div>
 }
 function Activity({holiday:h}){
  const [printing,setPrinting]=useState(false)
