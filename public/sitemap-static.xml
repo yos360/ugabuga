@@ -121,6 +121,10 @@
   <url><loc>https://ugabuga.co.il/ideas/age/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/12</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/13</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/14</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/15</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/16</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/30</loc><priority>0.4</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/themes</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/themes/football-birthday</loc><priority>0.7</priority></url>
@@ -1485,6 +1489,7 @@
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-2</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-3</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-6</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-a</loc><lastmod>2026-10-18</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/practice</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/simulation</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
