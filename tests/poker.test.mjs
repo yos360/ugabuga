@@ -36,3 +36,17 @@ test('draw odds use exact without-replacement probability', () => {
   const twoCards = 1 - (38 / 47) * (37 / 46)
   assert.ok(Math.abs(drawOdds(9, 47, 2) - twoCards) < 1e-12)
 })
+
+test('seven-card edge cases: double trips, three pairs, six-card flush and wheel', () => {
+  assert.deepEqual(bestHand(cards('AS AH AD KS KH KD 2C')).score,[6,14,13])
+  assert.deepEqual(bestHand(cards('AS AH KS KH QS QH 2C')).score,[2,14,13,12])
+  assert.deepEqual(bestHand(cards('AS JS 9S 7S 4S 2S KH')).score,[5,14,11,9,7,4])
+  assert.deepEqual(bestHand(cards('AS 2H 3D 4C 5S KD QH')).score,[4,5])
+  assert.deepEqual(bestHand(cards('AS KS QS JS 10S 2H 3C')).score,[8,14])
+})
+test('quads on board use the private kicker; invalid duplicate card IDs are rejected', () => {
+  const board=cards('9S 9H 9D 9C 2S')
+  assert.deepEqual(winners([cards('AS 3H'),cards('KS QH')],board).winners,[0])
+  const hand=cards('AS KS QS JS 10S');hand[4]=hand[0]
+  assert.throws(()=>evaluateFive(hand));assert.throws(()=>bestHand(hand))
+})
