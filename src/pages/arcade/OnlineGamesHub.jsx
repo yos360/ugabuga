@@ -51,6 +51,11 @@ export default function OnlineGamesHub() {
         <span><b>🏃 מרתון משחקים: 8 משחקים ברצף</b><small>כל שלב ממשחק אחר · שעון אחד · מי מסיים הכי מהר?</small></span>
         <span className="arc-play-chip">▶ למרתון</span>
       </Link>
+      <Link to="/brain-games" className="dl-banner" style={{ '--game-color': '#a5dac9' }}>
+        <span className="dl-banner-art" aria-hidden="true">🧠</span>
+        <span><b>מעבדת החשיבה: גפרורים, מים, נהר ובוגה IQ</b><small>שבעה משחקים · מדריכים · חידה יומית בתוך בוגה IQ</small></span>
+        <span className="arc-play-chip">לבחירת אתגר</span>
+      </Link>
       <div className="arc-grid">
         {ARCADE.map(g => (
           <Link key={g.slug} to={`/online-games/${g.slug}#play`} className="arc-card" style={{ '--game-color': g.color }}>
