@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import { DictationTask, MathTask, QuestionsTask, ReadingTask } from '../../components/homework/TaskPlayers'
 import { homeworkError, homeworkStudent } from '../../utils/homework/db'
 import { TASK_TYPES, taskHint, taskTitle } from '../../utils/homework/tasks'
+import SiteInvite from '../../components/ui/SiteInvite'
 
 const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask }
 const nameKey = code => `buga-homework-name-${code}`
@@ -95,6 +96,7 @@ export default function StudentHomework() {
         </li>
       })}</ol>
       {finished === total && <p className="mt-6 text-center text-2xl font-black">🎉 כל הכבוד! סיימת את כל שיעורי הבית</p>}
+      {finished === total && <SiteInvite context="kids" className="mt-6" />}
     </>}
   </>)
 }

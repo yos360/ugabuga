@@ -3,6 +3,7 @@ import { RSVP_THEMES, rsvpTheme, eventCalendar } from '../../../utils/rsvpExperi
 import { formatDate, peopleLabel } from '../../../utils/groupTools'
 import { btn, card } from './GroupUi'
 import './rsvp-experience.css'
+import SiteInvite from '../../../components/ui/SiteInvite'
 
 export function ThemePicker({ value, onChange }) {
   return <fieldset className="rsvp-theme-picker"><legend>העיצוב של ההזמנה</legend><div>{RSVP_THEMES.map(t => <button type="button" key={t.id} aria-pressed={value === t.id} onClick={() => onChange(t.id)} style={{ '--invite-bg': t.bg, '--invite-accent': t.accent }}><span aria-hidden="true">{t.emoji}</span>{t.label}</button>)}</div></fieldset>
@@ -43,7 +44,6 @@ export function RsvpGuestExperience({ ev, onAnswer, show, AnswerForm, download, 
       {editing || !mine ? <><h2 className="text-2xl font-bold mb-2">נשמח לראות אתכם!</h2><p className="mb-5 text-slate-600">כמה פרטים קטנים, כדי שנוכל להתכונן.</p><AnswerForm ev={ev} mine={mine} show={show} onSaved={r => { onAnswer(r); setEditing(false); show('✓ התשובה נשמרה. תודה!') }} /></>
         : <div className="text-center" role="status"><span className="text-4xl" aria-hidden="true">{statuses[mine.status].emoji}</span><h2 className="text-2xl font-bold mt-3">{mine.status === 'yes' ? 'איזה כיף, נתראה באירוע!' : mine.status === 'maybe' ? 'רשמנו שאולי תגיעו' : 'התשובה נשמרה, תודה שעדכנתם'}</h2><p className="mt-2">{mine.name} · {statuses[mine.status].label}</p>{mine.status !== 'no' && <p>{peopleLabel(mine.kids, mine.adults)}</p>}<button className={`${btn} mt-5`} onClick={() => setEditing(true)}>✏️ שינוי התשובה</button><p className="text-sm text-slate-500 mt-3">אפשר לחזור לקישור הזה מאותו מכשיר ולעדכן.</p></div>}
     </section>
-    <p className="text-center text-sm">גם לכם יש אירוע בקרוב? <a href="/rsvp" className="font-bold underline">יוצרים הזמנה ואישורי הגעה בחינם</a></p>
-    <p className="text-center text-sm"><a href="/" className="font-bold underline">🎂 עוד משחקים ופעילויות למשפחה בעוגה בוגה</a></p>
+    <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />
   </div>
 }

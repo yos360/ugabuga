@@ -9,6 +9,7 @@ import { LIMITS, cleanText, parseNames, validateRsvpAnswer, rsvpTotals, missingI
 import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, ConfirmDialog, ErrorPanel, Stepper, Field, OrganizerTools } from './GroupUi'
 import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../../utils/rsvpExperience'
 import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
+import SiteInvite from '../../../components/ui/SiteInvite'
 
 const KIND = 'rsvp'
 const POLL_MS = 15000
@@ -155,7 +156,7 @@ function GuestView({ ev, onAnswer, show }) {
           </div>
         </div>}
     </section>
-    <p className="text-center text-sm text-slate-600">מארגנים משהו בעצמכם? <Link to="/rsvp" className="font-bold underline">צרו אישור הגעה משלכם</Link> · <Link to="/tools/bring-list" className="font-bold underline">רשימת מי מביא מה</Link></p>
+    <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />
   </div>
 }
 

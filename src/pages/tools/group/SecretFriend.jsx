@@ -8,6 +8,7 @@ import { secretDb, groupMemory, groupErrorText, newToken, tokenFromHash, shareUr
 import { LIMITS, cleanText, parseNames, validateDrawNames, drawPairs, canDraw, DRAW_MODES } from '../../../utils/groupTools'
 import './group.css'
 import { card, input, btn, btnMain, useToast, copyText, openWhatsApp, ConfirmDialog, ErrorPanel, Field, OrganizerTools } from './GroupUi'
+import SiteInvite from '../../../components/ui/SiteInvite'
 
 const KIND = 'secret'
 const DEFAULT_TITLE = { gamad: 'גמד וענק', purim: 'משלוח מנות לפורים', hanukkah: 'מתנות לחנוכה' }
@@ -189,6 +190,7 @@ function ParticipantView({ code, ptoken, organizerHere, show }) {
     </section>
     {result && m === DRAW_MODES.gamad && <p className="text-sm">צריכים רעיונות? <Link to="/gifts" className="font-bold underline">רעיונות למתנות קטנות</Link></p>}
     {result && m === DRAW_MODES.purim && <p className="text-sm">צריכים רעיונות? <Link to="/holidays" className="font-bold underline">פעילויות לחגים</Link></p>}
+    {result && <SiteInvite context="gift" />}
   </div>
 }
 

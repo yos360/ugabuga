@@ -14,7 +14,6 @@ import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/
 // Fixed categorical order (never reassigned per-render) — validated for
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
 const HUES = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#4a3aa7', '#008300', '#e34948']
-const SEQUENTIAL = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95']
 const DEVICE_LABELS = { desktop: 'מחשב', mobile: 'טלפון/טאבלט', unknown: 'לא ידוע' }
 const SOURCE_LABELS = { direct: 'ישירות', internal: 'מהאתר עצמו', google: 'גוגל', bing: 'בינג', facebook: 'פייסבוק', instagram: 'אינסטגרם', whatsapp: 'וואטסאפ', tiktok: 'טיקטוק', youtube: 'יוטיוב', email: 'מייל', qr: 'סריקת QR מדף מודפס', other: 'אחר', unknown: 'לא ידוע' }
 const RANGES = [
@@ -194,20 +193,6 @@ function EnglishVisitors({ en }) {
   </>
 }
 
-function Bouncing({ stats }) {
-  // Pages people reach but leave fast without doing anything — worth improving or promoting less.
-  const list = stats.filter(r => r.opens >= 5 && r.rate < 0.1 && r.avg != null && r.avg < 20).sort((a, b) => b.opens - a.opens).slice(0, 15)
-  return <>
-    <p className="mb-3 text-sm text-slate-600">עמודים עם 5+ כניסות, זמן שהייה ממוצע מתחת ל-20 שניות, ופחות מ-10% שעשו בהם משהו. כדאי לבדוק אם הם ברורים, אם הם עובדים טוב בטלפון, ואם הם עונים על מה שאנשים חיפשו.</p>
-    {list.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
-      <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">זמן ממוצע</th><th className="p-2">אחוז פעולה</th></tr></thead>
-      <tbody>{list.map(r => <tr key={r.path} className="border-b">
-        <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path} /></td>
-        <td className="p-2">{r.opens}</td><td className="p-2 font-bold text-red-700">{fmtTime(r.avg)}</td><td className="p-2">{pct(r.rate)}</td>
-      </tr>)}</tbody>
-    </table></div> : <p className="rounded-xl bg-emerald-50 p-4 text-sm">אין עמודים כאלה בתקופה הזו 🎉</p>}
-  </>
-}
 // One row per anonymous visitor (a browser on one day — the id rotates every 24h, so it
 // names no one): how much they did, where they came from, and their path through the site.
 const visitorColor = v => HUES[parseInt(v || '0', 16) % HUES.length]
@@ -261,10 +246,6 @@ function TrackSelf() {
     <input type="checkbox" checked={on} onChange={toggle} className="mt-1 h-4 w-4" />
     <span><b>לספור גם את הגלישה שלי (לבדיקה)</b><br /><span className="text-slate-600">כברירת מחדל הדפדפן שלך לא נספר, כדי שהבדיקות שלך לא יעוותו את הנתונים. אם הדפסת בעצמך ולא ראית את זה בדוח, זו הסיבה.</span></span>
   </label>
-}
-function formatDay(iso) {
-  const d = new Date(iso + 'T00:00:00')
-  return d.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' })
 }
 
 function Bar({ value, max, color, text }) {
@@ -443,16 +424,11 @@ export default function OwnerActivityReport() {
 
   const creations = useCreations(from, to, tick)
   const things = useCreatedThings(from, to, tick)
-  const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.visitors)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const english = useMemo(() => englishSummary(data || {}, pageStats), [data, pageStats])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
   const topDownloaded = useMemo(() => aggregateTop(data?.top, ['download', 'print']), [data])
   const pdfByPath = useMemo(() => { const m = new Map(); for (const t of data?.top || []) if (t.action === 'download') m.set(t.path || '', (m.get(t.path || '') || 0) + t.n); return m }, [data])
-  const devices = useMemo(() => sortEntries(data?.devices, ['desktop', 'mobile', 'unknown']), [data])
-  const sources = useMemo(() => sortEntries(data?.sources), [data])
-  const deviceMax = Math.max(1, ...devices.map(([, n]) => n))
-  const sourceMax = Math.max(1, ...sources.map(([, n]) => n))
   const party = usePartyLists()
 
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
@@ -515,7 +491,6 @@ export default function OwnerActivityReport() {
         </div>
 
         </> },
-          { id: 'bounce', title: '🚪 נכנסים ויוצאים מהר', preview: bouncePreview(pageStats), empty: 'אין עמודים כאלה בתקופה הזו 🎉', render: () => <Bouncing stats={pageStats} /> },
           { id: 'party', title: '🧺 רשימות "מי מביא מה"', badge: party.lists?.length, preview: partyPreview(party.lists), empty: party.lists ? 'אין עדיין רשימות.' : 'טוענים…', render: () => <OwnerPartyLists {...party} /> },
           { id: 'time', title: '⏱️ כמה זמן נשארו בכל עמוד', preview: lastEvents(data, r => r.action === 'time'), render: () => <>
         <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>
@@ -540,28 +515,6 @@ export default function OwnerActivityReport() {
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 
         </> },
-          { id: 'qr', title: '📱 סריקות QR מדפים מודפסים', badge: data.sources?.qr || null, preview: lastEvents(data, r => r.source === 'qr' && r.action === 'open'), empty: 'אין עדיין סריקות QR בתקופה הזו.', render: () => <>
-        <p className="mb-3 text-sm text-slate-600">כל דף שמודפס מהאתר נושא QR שמחזיר לעמוד שממנו הודפס. כאן רואים איזה דף מודפס נסרק, וכמה אנשים שונים סרקו אותו.</p>
-        {data.qr_landing?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
-          <thead><tr className="border-b-2"><th className="p-2">הדף המודפס שנסרק</th><th className="p-2">סורקים</th></tr></thead>
-          <tbody>{data.qr_landing.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
-            <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path || '/'} /></td>
-            <td className="p-2 font-bold">{r.scans}</td>
-          </tr>)}</tbody>
-        </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">{data.qr_landing ? 'אין עדיין סריקות QR בתקופה הזו.' : `סה״כ ${data.sources?.qr || 0} סורקים. הפירוט לפי דף יופיע אחרי עדכון מסד הנתונים.`}</p>}
-
-        </> },
-          { id: 'days', title: '📅 מבקרים בכל יום', preview: (data.by_day || []).slice(-3).reverse().map(d => <><b>{formatDay(d.day)}</b><span>{d.visitors} מבקרים · {d.events} פעולות</span></>), render: () => <>
-        <p className="mb-3 text-sm text-slate-600">המספר מעל כל עמודה = מבקרים שונים באותו יום (שעון ישראל). מעבר עם העכבר מראה גם את מספר הפעולות.</p>
-        {data.by_day?.length ? <div className="flex items-end gap-1 overflow-x-auto rounded-2xl bg-slate-50 p-4" style={{ minHeight: 120 }}>
-          {data.by_day.map(d => <div key={d.day} className="flex flex-col items-center gap-1" title={`${formatDay(d.day)}: ${d.visitors} מבקרים, ${d.events} פעולות`}>
-            <b className="text-xs">{d.visitors}</b>
-            <div className="w-7 rounded-t-md" style={{ height: `${Math.max(4, Math.round((d.visitors / byDayMax) * 90))}px`, background: SEQUENTIAL[3] }} />
-            <span className="text-[10px] text-slate-500">{formatDay(d.day)}</span>
-          </div>)}
-        </div> : <p className="rounded-xl bg-slate-50 p-4">אין עדיין נתונים לתקופה הזו.</p>}
-
-        </> },
           { id: 'cats', title: '📊 לפי קטגוריה: שיחקו והדפיסו', preview: lastEvents(data, r => ['play', 'use', 'print', 'download'].includes(r.action)), render: () => <>
         <div className="grid gap-8 sm:grid-cols-2">
           <div>
@@ -571,19 +524,6 @@ export default function OwnerActivityReport() {
           <div>
             <h3 className="mb-3 text-lg font-black">הכי הורידו / הדפיסו (לפי קטגוריה)</h3>
             {topDownloaded.length ? <div className="space-y-2">{topDownloaded.map(([key, n], i) => <Bar key={key} value={n} max={topDownloaded[0][1]} color={HUES[i % HUES.length]} text={label(key)} />)}</div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתונים.</p>}
-          </div>
-        </div>
-
-        </> },
-          { id: 'devices', title: '💻 מכשירים ומאיפה הגיעו', preview: lastArrivals(data), render: () => <>
-        <div className="grid gap-8 sm:grid-cols-2">
-          <div>
-            <h3 className="mb-3 text-lg font-black">מכשירים</h3>
-            <div className="space-y-2">{devices.map(([key, n], i) => <Bar key={key} value={n} max={deviceMax} color={HUES[i]} text={DEVICE_LABELS[key] || key} />)}</div>
-          </div>
-          <div>
-            <h3 className="mb-3 text-lg font-black">מאיפה הגיעו</h3>
-            <div className="space-y-2">{sources.map(([key, n], i) => <Bar key={key} value={n} max={sourceMax} color={HUES[i % HUES.length]} text={SOURCE_LABELS[key] || key} />)}</div>
           </div>
         </div>
 
@@ -693,23 +633,9 @@ function CreatedThings({ rows, error }) {
 function lastEvents(data, keep) {
   return (data.recent || []).filter(keep).slice(0, 3).map((row, i) => <EventLine key={i} row={row} />)
 }
-function lastArrivals(data) {
-  const seen = new Set(), out = []
-  for (const r of data.recent || []) {
-    if (!r.visitor || seen.has(r.visitor)) continue
-    seen.add(r.visitor)
-    out.push(<><span className="text-slate-500">{fmtClock(r.at)}</span><VisitorTag v={r.visitor} /><span>{DEVICE_LABELS[r.device] || '—'}</span><span>· {SOURCE_LABELS[r.source] || '—'}</span></>)
-    if (out.length === 3) break
-  }
-  return out
-}
 function lastVisitors(data) {
   return (data.by_visitor || []).slice().sort((a, b) => String(b.last).localeCompare(String(a.last))).slice(0, 3)
     .map(r => <><span className="text-slate-500">{fmtClock(r.last)}</span><VisitorTag v={r.v} /><span><b>{r.events}</b> פעולות · {r.pages} דפים</span><span className="text-slate-600">{SOURCE_LABELS[r.source] || ''}</span></>)
-}
-function bouncePreview(stats) {
-  return stats.filter(r => r.opens >= 5 && r.rate < 0.1 && r.avg != null && r.avg < 20).sort((a, b) => b.opens - a.opens).slice(0, 3)
-    .map(r => <><b>{pageName(r)}</b><span>{r.opens} כניסות · {fmtTime(r.avg)}</span></>)
 }
 
 function aggregateTop(top, actions) {
@@ -717,13 +643,6 @@ function aggregateTop(top, actions) {
   const byCategory = {}
   for (const row of top) if (actions.includes(row.action)) byCategory[row.category] = (byCategory[row.category] || 0) + row.n
   return Object.entries(byCategory).sort((a, b) => b[1] - a[1]).slice(0, 8)
-}
-function sortEntries(obj, order) {
-  if (!obj) return []
-  const entries = Object.entries(obj).filter(([, n]) => n > 0)
-  if (order) entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
-  else entries.sort((a, b) => b[1] - a[1])
-  return entries.slice(0, 8)
 }
 function compareBadge(current, previous) {
   if (current == null || previous == null) return null

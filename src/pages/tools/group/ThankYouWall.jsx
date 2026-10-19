@@ -8,6 +8,7 @@ import { wallDb, groupMemory, groupErrorText, newToken, tokenFromHash, shareUrl,
 import { LIMITS, cleanName, cleanText, validateWallNote, OCCASIONS, STICKERS, bookletPages } from '../../../utils/groupTools'
 import './group.css'
 import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, ConfirmDialog, ErrorPanel, Field, OrganizerTools } from './GroupUi'
+import SiteInvite from '../../../components/ui/SiteInvite'
 
 const KIND = 'wall'
 const POLL_MS = 20000
@@ -205,7 +206,7 @@ function WallView({ code, token, show, onDeleted }) {
             <span><b>קיר הפתעה</b> — כל הורה רואה רק את הברכה שלו (מומלץ אם הגננת בקבוצה).</span></label>
           <OrganizerTools what="הקיר" onCopyOrganizer={() => copyText(organizerUrl(KIND, code, token), show, 'קישור הניהול הועתק ✓ שמרו אותו לעצמכם בלבד')} onDelete={() => setConfirm('wall')} />
         </section>}
-        {!owner && <p className="text-center text-sm text-slate-600">רוצים קיר כזה לגננת או למורה שלכם? <Link to="/thank-you-wall" className="font-bold underline">פתחו קיר ברכות</Link></p>}
+        {!owner && <SiteInvite context="teacher" />}
       </aside>
     </div>
     {confirm === 'wall' && <ConfirmDialog title="למחוק את הקיר?" text="כל הברכות יימחקו, והקישור יפסיק לעבוד. כדאי להוריד קודם את החוברת כ-PDF." yes="כן, למחוק" onClose={() => setConfirm(null)}

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import { quizDb, quizMemory, quizErrorText } from '../../utils/quizDb'
 import { MathText } from '../../components/quiz/QuizEditor'
+import SiteInvite from '../../components/ui/SiteInvite'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 // Deterministic shuffle per device+quiz, so a refresh keeps the same order.
@@ -88,6 +89,7 @@ export default function QuizTake() {
     {done.shown && done.score != null
       ? <p className="mt-4 text-2xl">ענית נכון על <b className="text-4xl">{done.score}</b> מתוך {done.total} שאלות</p>
       : <p className="mt-4 text-lg text-slate-600">התשובות נשלחו למורה.</p>}
+    <SiteInvite context="kids" className="mt-6" />
     {done.name && <p className="mx-auto mt-6 max-w-md rounded-2xl bg-white/80 p-3 text-sm text-slate-600">לא {done.name}? מכל מכשיר אפשר להגיש את המבחן פעם אחת בלבד. אם צריך להגיש ממכשיר זה — בקשו מהמורה.</p>}
   </div>)
   if (quiz.status !== 'open') return shell(<div className="rounded-3xl bg-slate-50 p-8 text-center text-lg font-bold">🔒 המבחן סגור כרגע.</div>)

@@ -5,6 +5,7 @@ import { MathText } from '../../components/quiz/QuizEditor'
 import { liveErrorText, liveMemory, liveQuizDb, newLiveToken } from '../../utils/liveQuizDb'
 import useLiveCountdown from './useLiveCountdown'
 import './live-quiz.css'
+import SiteInvite from '../../components/ui/SiteInvite'
 
 const COLORS=['red','blue','gold','green'],MARKS=['▲','◆','●','■']
 
@@ -36,5 +37,5 @@ export default function LiveQuizPlay(){
    <div className="live-result-icon">{answered?(correct?'✓':'×'):'–'}</div><h1>{!answered?'הזמן נגמר':correct?'תשובה נכונה!':'לא הפעם'}</h1><p>{correct?`קיבלתם ${player.points} נקודות`:!answered?'לא נשלחה תשובה בזמן':'מיד תראו את התשובה הנכונה'}</p>
    <div className="live-player-options compact">{payload.question?.options?.map((option,i)=><div className={`live-answer ${COLORS[i]} ${payload.correct===i?'correct':'dim'}`} key={i}><b>{payload.correct===i?'✓':MARKS[i]}</b><span><MathText>{option}</MathText></span></div>)}</div>
    <div className="live-rank-card"><span>המיקום שלכם</span><b>{player.rank}</b><em>{player.score.toLocaleString('he-IL')} נקודות</em></div><small>השאלה הבאה תופיע כאן אוטומטית.</small>{connectionNote}</section></main>
- return <main className="live-player-screen finish-bg"><section className="live-player-finish"><i className="live-mini-logo">B!</i><p>המשחק הסתיים</p><h1>{payload.title}</h1><div className="live-podium">{payload.leaderboard?.slice(0,3).map((p,i)=><div key={p.name} className={`place-${i+1}`}><b>{i===0?'🥇':i===1?'🥈':'🥉'}</b><span>{p.name}</span><strong>{p.score.toLocaleString('he-IL')}</strong></div>)}</div><div className="live-final-self"><span>{player.name}</span><b>מקום {player.rank}</b><strong>{player.score.toLocaleString('he-IL')} נקודות</strong></div><p className="live-next-round-note">אם המנחה פותח סיבוב נוסף, הוא יתחיל כאן אוטומטית.</p></section></main>
+ return <main className="live-player-screen finish-bg"><section className="live-player-finish"><i className="live-mini-logo">B!</i><p>המשחק הסתיים</p><h1>{payload.title}</h1><div className="live-podium">{payload.leaderboard?.slice(0,3).map((p,i)=><div key={p.name} className={`place-${i+1}`}><b>{i===0?'🥇':i===1?'🥈':'🥉'}</b><span>{p.name}</span><strong>{p.score.toLocaleString('he-IL')}</strong></div>)}</div><div className="live-final-self"><span>{player.name}</span><b>מקום {player.rank}</b><strong>{player.score.toLocaleString('he-IL')} נקודות</strong></div><p className="live-next-round-note">אם המנחה פותח סיבוב נוסף, הוא יתחיל כאן אוטומטית.</p><SiteInvite context="kids" className="mt-6 text-slate-900" /></section></main>
 }
