@@ -11,6 +11,15 @@ const TITLES = { matches: 'חידות גפרורים', water: 'כדי המים',
 const MODES = [['practice', 'עולמות'], ['daily', 'IQ יומי'], ['exam', 'מבחן בוגה'], ['timed', 'נגד השעון'], ['streak', 'רצף']]
 const ageLabel = age => age === 'adult' ? 'מבוגרים' : age
 const starsObject = value => value && typeof value === 'object' && !Array.isArray(value) ? value : {}
+const GUIDE = {
+  matches: ['בחרו ספרה', 'לחצו על גפרור', 'הזיזו או הסירו'],
+  water: ['בחרו כד', 'בחרו פעולה', 'הגיעו לכמות היעד'],
+  river: ['בחרו נוסעים', 'לחצו על הסירה', 'העבירו את כולם'],
+  wires: ['קראו את הרמזים', 'פסלו אפשרויות', 'חתכו חוט אחד'],
+  lights: ['לחצו על נורה', 'בדקו את השכנות', 'כבו את כל הלוח'],
+  one: ['עצרו ותכננו', 'בחרו פעולה אחת', 'פתרו במהלך יחיד'],
+  iq: ['קראו את המשימה', 'פעלו על הלוח', 'בדקו וקבלו כוכבים'],
+}
 
 export default function BrainGame({ kind, onReport }) {
   const [progress, save] = useProgress(`brain-${kind}`, { session: null, stars: {}, dailyWins: {} })
@@ -71,6 +80,10 @@ export default function BrainGame({ kind, onReport }) {
       {session.mode === 'daily' && <p className="brain-note">אותה חידה לכולם; מתחלפת בחצות לפי שעון ישראל. 🔥 רצף יומי: {streak(starsObject(progress.dailyWins), session.day)}</p>}
       {session.mode === 'practice' && <button type="button" className="brain-map-toggle" onClick={() => setMap(!map)} aria-expanded={map}>🗺️ {map ? 'סגירת מפת השלבים' : 'בחירת שלב ועולם'}</button>}
       {map && <section className="brain-map" aria-label="מפת שלבים">{kind === 'iq' && <div className="brain-worlds">{WORLDS.map(([id, name, emoji], i) => <button type="button" key={id} onClick={() => start('practice', i * 50)}>{emoji} {name}</button>)}</div>}<div className="brain-levels">{catalog(kind).filter((_, i) => kind !== 'iq' || Math.floor(i / 50) === Math.floor(session.index / 50)).map(item => <button type="button" key={item.id} aria-label={`שלב ${item.level}${item.boss ? ', בוס' : ''}`} aria-current={item.id === p.id ? 'step' : undefined} onClick={() => start('practice', item.level - 1)}>{kind === 'iq' ? (item.level - 1) % 50 + 1 : item.level}<small>{item.boss ? '👑' : ''}{'★'.repeat(Math.min(3, Math.max(0, Number(stars[item.id]) || 0)))}</small></button>)}</div></section>}
+      <section className="brain-how" aria-label="איך משחקים">
+        <div className="brain-how-title"><span aria-hidden="true">👆</span><div><b>מה עושים?</b><small>שלושה צעדים וזהו</small></div></div>
+        <ol>{GUIDE[kind].map((step, i) => <li key={step}><span>{i + 1}</span>{step}</li>)}</ol>
+      </section>
       <main className="brain-board" aria-label="לוח החידה">
         {p.oneMove && <div className="brain-one">☝️ אתגר במהלך אחד בלבד</div>}
         <PuzzleBoard key={`${p.id}-${session.actions.length === 0 ? 'start' : 'playing'}`} {...{ p, state, act }} disabled={blocked} />
