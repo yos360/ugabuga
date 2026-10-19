@@ -7,6 +7,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { TYPES, LEVELS, explain, describeCell } from './giftedData'
 import { GRADE_SETS } from './giftedGrades'
+import { SUBJECTS } from './giftedSubjects'
 import { GRADE_TEXT } from './giftedGradeText'
 import { MatrixFigure, CellFigure } from './Figures'
 import '../learn.css'
@@ -15,7 +16,8 @@ import './gifted.css'
 const HUB = '/learn/gifted-test'
 const HUB_CRUMB = { label: 'הכנה למבחן מחוננים', href: HUB }
 const LETTERS = ['א', 'ב', 'ג', 'ד']
-const TYPE_BY_KEY = Object.fromEntries(TYPES.map(t => [t.key, t]))
+const ALL_TYPES = [...TYPES, ...SUBJECTS]
+const TYPE_BY_KEY = Object.fromEntries(ALL_TYPES.map(t => [t.key, t]))
 const shuffle = a => { const x = [...a]; for (let i = x.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[x[i], x[j]] = [x[j], x[i]] } return x }
 const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
 const Chip = ({ on, onClick, children }) => <button type="button" className="ln-chip" aria-pressed={on} onClick={onClick}>{children}</button>
@@ -28,7 +30,7 @@ function Stem({ type, item, print = false }) {
   if (type === 'matrices') return <MatrixFigure m={item} className={print ? 'gt-matrix is-print' : 'gt-matrix'} />
   return <p className="gt-logic">{item.q}</p>
 }
-const OptionBody = ({ type, opt }) => type === 'matrices' ? <CellFigure c={opt} /> : <span>{opt}</span>
+const OptionBody = ({ type, opt }) => type === 'matrices' ? <CellFigure c={opt} /> : <span dir="auto">{opt}</span>
 const optionText = (type, opt) => type === 'matrices' ? describeCell(opt) : String(opt)
 const prompt = type => type === 'verbal' ? 'איזו מילה מתאימה במקום סימן השאלה?' : type === 'series' ? 'מה המספר הבא בסדרה?' : type === 'matrices' ? 'איזו צורה משלימה את המשבצת החסרה?' : null
 
@@ -115,8 +117,9 @@ export { Quiz, Stem, OptionBody, MixedPrint, prompt, LETTERS, HUB, HUB_CRUMB }
 
 export function GiftedHub() {
   const pool = useMemo(() => TYPES.flatMap(t => t.items.map(item => ({ type: t.key, item }))), [])
+  const subjectPool = useMemo(() => SUBJECTS.flatMap(t => t.items.map(item => ({ type: t.key, item }))), [])
   return <Page>
-    <SEO title="מבחן מחוננים — הכנה ותרגול: 120 שאלות לשלב א׳ ושלב ב׳" description="הכנה למבחן מחוננים בחינם: 120 שאלות מקוריות באנלוגיות, סדרות מספרים, מטריצות צורות וחשיבה לוגית — עם הסבר לכל תשובה, מבחן משולב אונליין ודפים להדפסה." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="מבחן מחוננים — הכנה ותרגול: 120 שאלות לשלב א׳ ושלב ב׳" description="הכנה למבחן מחוננים בחינם: 120 שאלות באנלוגיות, סדרות, מטריצות וחשיבה לוגית, ועוד 150 שאלות העשרה בחשבון, מדע, לשון, גאוגרפיה ואנגלית — עם הסבר לכל תשובה." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: HUB_CRUMB.label }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🧠 </span>מבחן מחוננים — הכנה ותרגול</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">תרגול לקראת מבחן מחוננים: 120 שאלות מקוריות בארבעה סוגים — עם הסבר לכל תשובה</p>
@@ -128,6 +131,10 @@ export function GiftedHub() {
       <Link to={`${HUB}/simulation`} className="ln-box card-lift text-right"><b className="text-xl">⏱️ מבחן לדוגמה</b><br /><small>שלושה פרקים עם שעון וציון</small></Link>
       <Link to="/learn/psychometric-kids" className="ln-box card-lift text-right"><b className="text-xl">🎓 פסיכומטרי לילדים</b><br /><small>שלושת סוגי החשיבה לפי גיל</small></Link>
     </div>
+    <h2 className="mt-10 mb-3 text-3xl font-black">אתגרים לפי מקצוע</h2>
+    <p className="mb-3 text-lg">לילדים סקרנים שרוצים עוד: 150 שאלות העשרה בחמישה מקצועות, מקל ועד מאתגר — עם הסבר לכל תשובה. כל התשובות נבדקו, ובחשבון גם חושבו מחדש אוטומטית.</p>
+    <div className="grid gap-3 sm:grid-cols-3">{SUBJECTS.map(t => <Link key={t.key} to={`${HUB}/${t.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{t.emoji} {t.title}</b><br /><small>30 שאלות · אונליין ולהדפסה</small></Link>)}</div>
+    <div className="mt-4"><Quiz pool={subjectPool} count={10} label="10 שאלות אקראיות מכל המקצועות: חשבון, מדע, לשון, גאוגרפיה ואנגלית. אחרי כל תשובה מופיע הסבר." /></div>
     <h2 className="mt-10 mb-3 text-3xl font-black">תרגול לפי כיתה ולפי שלב</h2>
     <p className="mb-3 text-lg">כל עמוד כולל הסבר קצר על המבחן באותו שלב, ושאלות ברמת הקושי שמתאימה לו:</p>
     <div className="grid gap-3 sm:grid-cols-2">{GRADE_SETS.map(x => <Link key={x.slug} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-xl">{x.emoji} {x.slug.startsWith('stage') ? `מבחן מחוננים ${x.label}` : `מבחני מחוננים ${x.label}`}</b><br /><small>{x.pool.length} שאלות · רמה: {x.levels.map(l => LEVELS[l]).join(' ו')}</small></Link>)}</div>
@@ -187,6 +194,51 @@ const TYPE_TEXT = {
       { q: 'מה עושים כשהילד נתקע?', a: 'מבקשים ממנו לצייר את השאלה או להמחיש אותה עם חפצים מהבית — כפיות, קוביות או מטבעות. ברוב המקרים הפתרון מופיע מעצמו.' },
       { q: 'יש כאן גם שאלות לכיתות גבוהות?', a: 'כן. השאלות ברמה "מאתגר" — כמו חתכים בחבל או ראשים ורגליים בחווה — מתאימות גם לכיתות ד׳–ו׳.' },
     ] },
+  'subj-math': {
+    seoTitle: 'אתגרי חשבון לילדים מחוננים — 30 שאלות עם פתרונות מלאים',
+    seoDesc: '30 שאלות חשבון ואתגרי מספרים לילדים סקרנים ומחוננים: בעיות מילוליות, שברים, אחוזים וחשיבה כמותית. אונליין עם הסבר לכל תשובה, ולהדפסה.',
+    paras: ['השאלות כאן מתחילות בחשבון של כיתות א׳–ב׳ ומגיעות לאתגרים של כיתות ד׳–ו׳: חלקים ושברים, אחוזים, זמן, שטח והיקף, ושאלות שבהן צריך לספור בחוכמה. בכל שאלה יש מלכודת קטנה אחת לפחות — תשובה שנראית נכונה במבט ראשון.', 'כל התשובות כאן חושבו ונבדקו אוטומטית: לכל שאלה שמור התרגיל המלא, והבדיקה מוודאת שהתשובה המסומנת היא התוצאה שלו.'],
+    faq: [
+      { q: 'לאיזה גיל מתאימות השאלות?', a: 'הרמה "קל" מתאימה לכיתות א׳–ב׳, "בינוני" לכיתות ב׳–ד׳, ו"מאתגר" — עם אחוזים, ממוצע ושאלות ספירה — לכיתות ד׳–ו׳ ולילדים שאוהבים אתגר.' },
+      { q: 'מה עושים כשהילד טועה?', a: 'קוראים יחד את ההסבר ומבקשים ממנו לכתוב את התרגיל בעצמו. לרוב הטעות היא בקריאת השאלה ולא בחשבון — למשל לענות כמה מכרו כששאלו כמה נשאר.' },
+      { q: 'זה מה שיש במבחן המחוננים?', a: 'לא בדיוק. מבחני האיתור בודקים בעיקר חשיבה כמותית — סדרות, בעיות היגיון — ולא ידע בחשבון. השאלות כאן הן העשרה; לתרגול לקראת המבחן יש עמודי סדרות מספרים וחשיבה לוגית.' },
+    ] },
+  'subj-science': {
+    seoTitle: 'שאלות מדע וטבע לילדים מחוננים — 30 שאלות עם הסברים',
+    seoDesc: '30 שאלות מדע לילדים סקרנים: גוף האדם, בעלי חיים, צמחים, חלל, חשמל ומצבי צבירה. כל תשובה עם הסבר קצר — אונליין ולהדפסה.',
+    paras: ['שאלות המדע עוברות על הנושאים שילדים פוגשים בבית הספר היסודי: מה ההבדל בין יונק לדו־חי, למה יש יום ולילה, מה עושה הלב, למה שומעים את הרעם אחרי הברק ולמה קרח צף.', 'ההסבר אחרי כל שאלה הוא הלב של התרגול: הוא מסביר לא רק מה התשובה, אלא גם למה התשובות האחרות לא נכונות — כך שגם טעות מלמדת משהו חדש.'],
+    faq: [
+      { q: 'האם המידע בשאלות בדוק?', a: 'כן. השאלות עוסקות בעובדות מדעיות בסיסיות ומוסכמות שנלמדות בבית הספר, וכל שאלה עברה בדיקה. אם בכל זאת מצאתם טעות — נשמח שתכתבו לנו בצ׳אט באתר.' },
+      { q: 'איך הופכים את זה לפעילות משפחתית?', a: 'שואלים שאלה אחת בארוחת ערב ונותנים לכל אחד לנחש לפני שקוראים את ההסבר. אחר כך אפשר לבדוק יחד בבית — למשל להכניס בקבוק מים למקפיא ולראות מה קורה.' },
+      { q: 'לאיזה גיל זה מתאים?', a: 'השאלות הקלות מתאימות כבר לגן חובה ולכיתה א׳ (בהקראה), והמאתגרות — לכיתות ד׳–ו׳.' },
+    ] },
+  'subj-hebrew': {
+    seoTitle: 'שאלות לשון ועברית לילדים מחוננים — 30 שאלות עם הסברים',
+    seoDesc: '30 שאלות לשון: הפכים ומילים נרדפות, שורשים, צורות רבים, ביטויים ופתגמים. תרגול העשרה לילדים, אונליין עם הסבר לכל תשובה ולהדפסה.',
+    paras: ['השאלות בלשון משלבות אוצר מילים (הפכים ומילים נרדפות), דקדוק שימושי (רבים, זכר ונקבה, זמנים, שורשים) וביטויים ופתגמים — כמו "לשבור את הראש" או "אל תסתכל בקנקן".', 'שאלות השורש והביטויים מתאימות במיוחד לילדים שאוהבים מילים: הן מלמדות לחפש את הקשר שבין מילים, אותו כישרון שנדרש גם באנלוגיות מילוליות.'],
+    faq: [
+      { q: 'איך מוצאים את השורש של מילה?', a: 'מורידים את האותיות שנוספו — כמו מ׳ בהתחלה או ־ים בסוף — ובודקים אילו שלוש אותיות חוזרות במילים מאותה משפחה: כותב, מכתב, כתובת — כ־ת־ב.' },
+      { q: 'למה יש כאן ביטויים ופתגמים?', a: 'כי הבנת ביטוי דורשת חשיבה מופשטת: להבין שהמשמעות היא לא מילה במילה. זה בדיוק סוג החשיבה שמחזק את ההבנה המילולית.' },
+      { q: 'זה מתאים גם לכיתה א׳?', a: 'השאלות ברמה "קל" — הפכים, רבים ויוצא דופן — מתאימות לכיתות א׳–ב׳, אפשר גם בהקראה. השורשים והפתגמים מתאימים לכיתות ג׳–ו׳.' },
+    ] },
+  'subj-geo': {
+    seoTitle: 'שאלות גאוגרפיה וידע עולם לילדים — 30 שאלות עם הסברים',
+    seoDesc: '30 שאלות גאוגרפיה לילדים סקרנים: ישראל, יבשות ואוקיינוסים, בירות, נהרות ומדבריות, קו המשווה ואזורי זמן. אונליין עם הסבר לכל תשובה ולהדפסה.',
+    paras: ['השאלות מתחילות בישראל — ימים, ערים ונהרות — ומתרחבות לעולם: יבשות ואוקיינוסים, ההרים והנהרות הגדולים, בירות שקל להתבלבל בהן, ולמה כשאצלנו בוקר באמריקה עוד לילה.', 'כדאי לפתור עם מפה או גלובוס ליד: אחרי כל תשובה מחפשים את המקום במפה. כך הידע נקשר לתמונה, ונשאר הרבה יותר זמן.'],
+    faq: [
+      { q: 'המידע מעודכן?', a: 'כן. השאלות עוסקות בעובדות יציבות — מקומות, בירות, יבשות. בשאלה שעשויה להשתנות (המדינה עם הכי הרבה תושבים) ההסבר מציין מאיזו שנה הנתון.' },
+      { q: 'מה המלכודות הנפוצות?', a: 'בירות שאינן העיר הגדולה במדינה — כמו אוטווה בקנדה וקנברה באוסטרליה — ובעלי חיים שמשייכים לקוטב הלא נכון: פינגווינים בדרום, דובי קוטב בצפון.' },
+      { q: 'לאיזה גיל?', a: 'השאלות על ישראל מתאימות לכיתות א׳–ג׳, ושאלות העולם ואזורי הזמן — לכיתות ד׳–ו׳.' },
+    ] },
+  'subj-english': {
+    seoTitle: 'שאלות אנגלית לילדים — 30 שאלות אוצר מילים ודקדוק עם הסברים',
+    seoDesc: '30 שאלות אנגלית לילדים דוברי עברית: מילים, צבעים ומספרים, רבים לא רגילים, זמן עבר ומשפטים נכונים. אונליין עם הסבר בעברית לכל תשובה, ולהדפסה.',
+    paras: ['השאלות באנגלית מיועדות לילדים דוברי עברית: הן מתחילות במילים בסיסיות (צבעים, מספרים, בעלי חיים), עוברות להשלמת משפטים פשוטים, ומגיעות לאתגרים כמו רבים לא רגילים (child — children, mouse — mice) וזמן עבר של פעלים לא רגילים.', 'ההסברים כתובים בעברית, ומלמדים את הכלל שמאחורי התשובה — למשל מתי מוסיפים s לפועל, ולמה אומרים bigger ולא more big.'],
+    faq: [
+      { q: 'מאיזו כיתה זה מתאים?', a: 'הרמה "קל" מתאימה לילדים שהתחילו ללמוד אנגלית (בדרך כלל כיתות ב׳–ג׳). "בינוני" ו"מאתגר" — עם זמנים ומשפטים שלמים — לכיתות ד׳–ו׳.' },
+      { q: 'צריך לדעת לקרוא באנגלית?', a: 'כן, ברמה בסיסית. לילדים צעירים אפשר להקריא את השאלה ואת האפשרויות בקול, ולתת להם לבחור.' },
+      { q: 'איך הכי טוב לתרגל?', a: 'סבב של 10 שאלות, ואחריו לקרוא יחד את ההסברים על השאלות שהיו בהן טעויות. כדאי גם להגיד כל משפט נכון בקול — ככה הוא נשאר בזיכרון.' },
+    ] },
 }
 function Sample({ t, item, n }) {
   return <div className="ln-q gt-sample">
@@ -199,7 +251,7 @@ function Sample({ t, item, n }) {
 }
 export function GiftedType() {
   const { type } = useParams()
-  const t = TYPES.find(x => x.slug === type)
+  const t = ALL_TYPES.find(x => x.slug === type)
   const [count, setCount] = useState(10)
   const [printFrom, setPrintFrom] = useState(null)
   const pool = useMemo(() => t ? t.items.map(item => ({ type: t.key, item })) : [], [t])
@@ -211,7 +263,7 @@ export function GiftedType() {
     <SEO title={txt.seoTitle} description={txt.seoDesc} path={`${HUB}/${t.slug}`} structuredData={faqSchema(txt.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, HUB_CRUMB, { label: t.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{t.emoji} </span>{t.title}</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">30 שאלות תרגול למבחן מחוננים · {levelCount(1)} קלות, {levelCount(2)} בינוניות, {levelCount(3)} מאתגרות</p>
+    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{t.subject ? '30 שאלות העשרה ואתגר' : '30 שאלות תרגול למבחן מחוננים'} · {levelCount(1)} קלות, {levelCount(2)} בינוניות, {levelCount(3)} מאתגרות</p>
     <p className="gt-note"><b>איך פותרים?</b> {t.how}</p>
     <div className="my-4 flex flex-wrap justify-center gap-2" role="group" aria-label="כמה שאלות">
       <Chip on={count === 10} onClick={() => setCount(10)}>10 שאלות אקראיות</Chip>
@@ -226,9 +278,11 @@ export function GiftedType() {
     {printFrom !== null && <PrintPreview title={`${t.title} — שאלות ${printFrom + 1}–${printFrom + 10}`} onClose={() => setPrintFrom(null)}><PrintSheets t={t} from={printFrom} /></PrintPreview>}
     <h2 className="mt-10 mb-3 text-3xl font-black">שאלות לדוגמה</h2>
     <div className="space-y-4">{samples.map((it, i) => <Sample key={it.id} t={t} item={it} n={i + 1} />)}</div>
-    <h2 className="mt-10 mb-3 text-2xl font-black">עוד סוגי שאלות</h2>
-    <div className="grid gap-3 sm:grid-cols-3">{TYPES.filter(x => x.key !== t.key).map(x => <Link key={x.key} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {x.title}</b></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={[...txt.paras, 'השאלות נכתבו במיוחד לאתר לצורך תרגול, ואינן לקוחות ממבחני האיתור של משרד החינוך. האתר אינו קשור למשרד החינוך.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים — עמוד ראשי', href: HUB }, { label: 'לומדים', href: '/learn' }]} /></div>
+    <h2 className="mt-10 mb-3 text-2xl font-black">{t.subject ? 'עוד מקצועות' : 'עוד סוגי שאלות'}</h2>
+    <div className="grid gap-3 sm:grid-cols-3">{(t.subject ? SUBJECTS : TYPES).filter(x => x.key !== t.key).map(x => <Link key={x.key} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {x.title}</b></Link>)}</div>
+    {t.subject && <><h2 className="mt-10 mb-3 text-2xl font-black">ולתרגול חשיבה למבחן עצמו</h2>
+    <div className="grid gap-3 sm:grid-cols-2">{TYPES.map(x => <Link key={x.key} to={`${HUB}/${x.slug}`} className="ln-box card-lift text-right"><b>{x.emoji} {x.title}</b></Link>)}</div></>}
+    <div className="mt-12"><SeoBody paragraphs={[...txt.paras, t.subject ? 'השאלות נכתבו במיוחד לאתר כהעשרה לילדים סקרנים ומחוננים, וכל תשובה נבדקה. מבחני האיתור עצמם בודקים בעיקר חשיבה ולא ידע — לתרגול לקראתם יש באתר עמודים נפרדים. האתר אינו קשור למשרד החינוך.' : 'השאלות נכתבו במיוחד לאתר לצורך תרגול, ואינן לקוחות ממבחני האיתור של משרד החינוך. האתר אינו קשור למשרד החינוך.']} faq={txt.faq} related={[{ label: 'הכנה למבחן מחוננים — עמוד ראשי', href: HUB }, { label: 'לומדים', href: '/learn' }]} /></div>
   </Page>
 }
 
