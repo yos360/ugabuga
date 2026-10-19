@@ -19,13 +19,20 @@ function Matches({ p, state, act, disabled }) {
   }
   const left = p.budget - state.used
   return <>
-    <Mission icon="🔥" title={`${p.mode === 'remove' ? 'הסירו' : 'הזיזו'} ${left} ${left === 1 ? 'גפרור' : 'גפרורים'}`}><p>הפכו את התרגיל לנכון. סימני החשבון נשארים במקום.</p></Mission>
-    <div className="brain-equation" dir="ltr" aria-label="בחרו ספרה לעריכת הגפרורים">{range(3).map(i => <span key={i}><button type="button" aria-pressed={digit === i} aria-label={`עריכת ספרה ${i + 1}`} onClick={() => setDigit(i)}><Digit mask={(state.mask >> (i * 7)) & 127} /></button>{i < 2 && <b>{i === 0 ? p.operator : '='}</b>}</span>)}</div>
-    <p className="brain-now"><span>עכשיו:</span> {p.mode === 'remove' ? 'לחצו על הגפרור שתרצו להסיר' : from === null ? 'בחרו גפרור מואר' : 'מצוין! בחרו מקום ריק שאליו יעבור הגפרור'}</p>
-    <div className="brain-digit" dir="ltr">{SEGMENTS.map(([x, y], i) => {
-      const cell = digit * 7 + i, lit = !!(state.mask & (1 << cell))
-      return <button type="button" key={cell} disabled={disabled} className={`${lit ? 'lit' : ''} ${from === cell ? 'selected' : ''} ${[0, 3, 6].includes(i) ? 'horizontal' : 'vertical'}`} style={{ gridColumn: x + 1, gridRow: y + 1 }} onClick={() => choose(cell)} aria-label={`${lit ? 'גפרור' : 'מקום'} מספר ${cell + 1}`} aria-pressed={from === cell}><span aria-hidden="true" /></button>
-    })}</div>
+    <section className={`brain-match-workbench ${from !== null ? 'is-carrying' : ''}`}>
+      <div className="brain-match-toolbar"><span>🔥 {p.mode === 'remove' ? 'הסירו' : 'הזיזו'} {left} {left === 1 ? 'גפרור' : 'גפרורים'} כדי לתקן את התרגיל</span><b>{left} מהלכים נותרו</b></div>
+      <p className="brain-match-pick">לחצו על אחת הספרות כדי לערוך אותה</p>
+      <div className="brain-equation" dir="ltr" aria-label="בחרו ספרה לעריכת הגפרורים">{range(3).map(i => <span key={i}><button type="button" className={digit === i ? 'active' : ''} aria-pressed={digit === i} aria-label={`עריכת ספרה ${i + 1}`} onClick={() => setDigit(i)}><Digit mask={(state.mask >> (i * 7)) & 127} /><small>{digit === i ? 'נבחרה' : 'עריכה'}</small></button>{i < 2 && <b>{i === 0 ? p.operator : '='}</b>}</span>)}</div>
+      <div className="brain-match-step" aria-live="polite"><strong>{from === null ? '1' : '2'}</strong><span>{p.mode === 'remove' ? 'לחצו על גפרור דולק כדי להסיר אותו' : from === null ? 'לחצו על גפרור דולק כדי להרים אותו' : 'הגפרור ביד — לחצו על מקום זוהר כדי להניח אותו'}</span></div>
+      <div className="brain-digit-wrap">
+        <span className="brain-digit-label">הספרה שבחרתם</span>
+        <div className="brain-digit" dir="ltr">{SEGMENTS.map(([x, y], i) => {
+          const cell = digit * 7 + i, lit = !!(state.mask & (1 << cell))
+          return <button type="button" key={cell} disabled={disabled} className={`${lit ? 'lit' : 'target'} ${from === cell ? 'selected' : ''} ${[0, 3, 6].includes(i) ? 'horizontal' : 'vertical'}`} style={{ gridColumn: x + 1, gridRow: y + 1 }} onClick={() => choose(cell)} aria-label={`${lit ? 'גפרור' : 'מקום'} מספר ${cell + 1}`} aria-pressed={from === cell}><span aria-hidden="true" />{from === cell && <em aria-hidden="true">מרימים</em>}</button>
+        })}</div>
+      </div>
+      <p className="brain-match-tip">💡 אפשר לעבור בין הספרות גם אחרי שהרמתם גפרור</p>
+    </section>
   </>
 }
 function Water({ p, state, act, disabled }) {
