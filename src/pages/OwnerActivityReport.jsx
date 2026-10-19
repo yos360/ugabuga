@@ -368,6 +368,8 @@ function statItems(data, multiDay = false) {
     [data.by_action?.preview || 0, 'פתחו תצוגת הדפסה', 'תצוגת הדפסה', 'bg-amber-50'],
     [data.by_action?.print || 0, 'לחצו הדפסה (נפתח חלון ההדפסה)', 'הדפסות', 'bg-orange-50'],
     [data.by_action?.download || 0, 'הורידו PDF / קובץ', 'PDF', 'bg-yellow-50'],
+    // Sheets: one print of 30 selected pages counts 30 (shown once the page-count update is in the database).
+    [data.pages_by_action ? (data.pages_by_action.print || 0) + (data.pages_by_action.download || 0) : '—', 'דפים שהודפסו או נשמרו כ־PDF (הדפסה של 30 דפים = 30)', 'דפים', 'bg-orange-100'],
     [data.sources?.qr || 0, 'אנשים שסרקו QR מדף מודפס', 'סרקו QR', 'bg-lime-50'],
     [data.by_action?.share || 0, 'שיתופים (וואטסאפ ושיתוף מהטלפון)', 'שיתופים', 'bg-green-50'],
     [data.sources?.whatsapp || 0, 'אנשים שהגיעו מקישור בוואטסאפ', 'מוואטסאפ', 'bg-teal-50'],
@@ -526,10 +528,10 @@ export default function OwnerActivityReport() {
           { id: 'prints', title: '🖨️ מה הדפיסו', preview: lastEvents(data, r => ['preview', 'print', 'download'].includes(r.action)), render: () => <>
         <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, כמה לחצו „הדפסה” (הדפדפן לא מדווח אם הדף באמת יצא מהמדפסת) וכמה שמרו PDF. מ-7.10.26 PDF נספר בנפרד; לפני כן הוא נספר כהדפסה.</p>
         {data.print_funnel?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
-          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">PDF</th></tr></thead>
+          <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">דפים</th><th className="p-2">PDF</th></tr></thead>
           <tbody>{data.print_funnel.slice(0, 25).map((r, i) => <tr key={i} className="border-b">
             <td className="p-2"><b>{pageName(r)}</b><PathLink path={r.path || '/'} /></td>
-            <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td><td className="p-2">{pdfByPath.get(r.path || '') || '—'}</td>
+            <td className="p-2">{r.opens}</td><td className="p-2">{r.previews}</td><td className="p-2 font-bold">{r.prints}</td><td className="p-2">{r.print_pages != null ? r.print_pages + (r.pdf_pages || 0) : '—'}</td><td className="p-2">{pdfByPath.get(r.path || '') || '—'}</td>
           </tr>)}</tbody>
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 
@@ -590,7 +592,7 @@ export default function OwnerActivityReport() {
             <tbody>{(data.recent || []).slice(0, 50).map((row, i) => <tr key={i} className="border-b">
               <td className="p-2"><VisitorTag v={row.visitor} /></td>
               <td className="p-2">{label(row.category, row.action)}</td>
-              <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</td>
+              <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}{row.pages > 1 && ` · ${row.pages} דפים`}</td>
               <td className="p-2"><PathLink path={row.path} className="text-slate-600" /></td>
               <td className="p-2 text-slate-600">{DEVICE_LABELS[row.device] || '—'}</td>
               <td className="p-2 text-slate-600">{SOURCE_LABELS[row.source] || '—'}</td>
@@ -608,7 +610,7 @@ export default function OwnerActivityReport() {
 // Collapsed-section previews: the 3 latest matching events / arrivals / visitors.
 function EventLine({ row }) {
   return <><span className="shrink-0 text-slate-500">{fmtClock(row.at)}</span><VisitorTag v={row.visitor} />
-    <b>{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}</b>
+    <b>{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}{row.pages > 1 && ` · ${row.pages} דפים`}</b>
     <span>{pageName(row)}</span></>
 }
 // ── what visitors created with the personal tools (owner_creations, masked, kept 90 days) ──

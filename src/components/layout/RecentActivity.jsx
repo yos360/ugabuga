@@ -12,12 +12,13 @@ const loadActivity = () => {
 }
 
 export function recordPreviewOpen() { void loadActivity().then(m => m?.logEvent('preview')).catch(() => {}) }
-// action: 'print' (the print dialog was opened), 'download' (a PDF was saved), 'refresh' (new exercises)
-export function recordSheetAction(action = 'print', pathname = window.location.pathname) {
+// action: 'print' (the print dialog was opened), 'download' (a PDF was saved), 'refresh' (new exercises).
+// pages: how many A4 sheets were printed or saved (copies included), when known.
+export function recordSheetAction(action = 'print', pathname = window.location.pathname, pages = null) {
   void loadActivity().then(m => {
     if (!m) return
     m.recordActivity(action, m.activityForPath(pathname))
-    m.logEvent(action, pathname)
+    m.logEvent(action, pathname, pages)
     if (action === 'download') m.recordSuccessfulPdf(pathname)
   }).catch(() => {})
 }

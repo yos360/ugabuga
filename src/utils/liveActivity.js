@@ -127,7 +127,7 @@ function isOwnerBrowser() {
   } catch { return false }
 }
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
-let hasV3 = true
+let hasV3 = true, hasPages = true
 // Plain fetch with keepalive (not the Supabase SDK): a share opens WhatsApp and a print opens
 // the print dialog, and on phones the page can be put to sleep right away — keepalive lets the
 // request finish anyway. It also means events don't wait for the SDK to load.
@@ -137,9 +137,14 @@ function rpc(fn, body) {
 function sendOne(args) {
   const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return rpc('record_site_event_v2', rest) } }
   if (!hasV3) return void Promise.resolve(v2()).catch(() => {})
-  void rpc('record_site_event_v3', args).then(res => {
+  const { p_pages, ...withoutPages } = args
+  const send = hasPages && p_pages ? args : withoutPages
+  void rpc('record_site_event_v3', send).then(res => {
+    if (res.status !== 404) return
+    // Until the page-count migration runs, send the event without its sheet count.
+    if (send.p_pages) { hasPages = false; return sendOne(withoutPages) }
     // Until the v3 migration runs, fall back so nothing is lost.
-    if (res.status === 404) { hasV3 = false; return v2() }
+    hasV3 = false; return v2()
   }).catch(() => {})
 }
 // ---- Human check ----
@@ -190,7 +195,7 @@ function excluded(pathname) {
   const parts = String(pathname).split('/').filter(Boolean)
   return ['admin','account','auth','login','q'].includes(parts[0]) || isOwnerBrowser()
 }
-export function logEvent(action, pathname = location.pathname) {
+export function logEvent(action, pathname = location.pathname, pages = null) {
   if (!Object.hasOwn(ACTION_LABELS, action)) return
   if (excluded(pathname)) return
   const path = cleanPath(pathname)
@@ -203,7 +208,8 @@ export function logEvent(action, pathname = location.pathname) {
   const category = activityForPath(path || '/') || 'page'
   visitorPromise ||= browserKey().catch(() => null)
   void visitorPromise.then(visitor => {
-    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null })
+    const sheets = (action === 'print' || action === 'download') && Number.isInteger(pages) && pages > 0 ? Math.min(pages, 500) : null
+    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null, ...(sheets ? { p_pages: sheets } : {}) })
     if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
     flushDb()
   })

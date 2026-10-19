@@ -69,7 +69,8 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     // SVG <image> artwork too (photo props): make sure it's loaded before the print dialog snapshots the page.
     const svgImages=[...document.querySelectorAll('#buga-print-output image')].map(el=>{const i=new Image();i.src=el.getAttribute('href');return i})
     await Promise.allSettled([...imgs,...svgImages].map(img=>img.decode()))
-    recordSheetAction('print')
+    // Sheets, not clicks: 30 selected coloring pages (or 3 copies of 10) are counted as 30.
+    recordSheetAction('print',location.pathname,root.current?.querySelectorAll('.buga-a4, .buga-flow').length||null)
     if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('print',sheetText(dialog.current||root.current))
     window.print()
     setDone(true)
@@ -83,7 +84,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     const result=await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(en ? (n>1?`Preparing PDF… ${i}/${n}`:'Preparing PDF…') : (n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…')))
     if(result==='cancelled')return
     if(result?.status==='prepared')setPreparedPdf({...result,children,count,extras})
-    recordSheetAction('download',sourcePath);if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
+    recordSheetAction('download',sourcePath,sheets.length||null);if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
     announcePrint('pdf',{title})
   }catch{setError(en?'We could not create the PDF. Try again, or use Print.':'לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}
