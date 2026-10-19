@@ -6,7 +6,7 @@ import { traceLaser } from '../../logic/brain/deduction.js'
 const COLORS = ['#ba294c', '#2759bb', '#227548', '#a75106', '#7949ab', '#007b85']
 const SEGMENTS = [[1, 0], [2, 1], [2, 3], [1, 4], [0, 3], [0, 1], [1, 2]]
 function Digit({ mask }) {
-  return <svg className="brain-digit-preview" viewBox="0 0 60 100" aria-hidden="true">{[[12, 5, 36, 7], [48, 14, 7, 31], [48, 55, 7, 31], [12, 88, 36, 7], [5, 55, 7, 31], [5, 14, 7, 31], [12, 47, 36, 7]].map(([x, y, width, height], i) => <rect key={i} {...{ x, y, width, height }} rx="4" className={mask & (1 << i) ? 'is-on' : ''} />)}</svg>
+  return <svg className="brain-digit-preview" viewBox="0 0 60 100" aria-hidden="true">{[[14, 7, 46, 7], [49, 14, 49, 44], [49, 56, 49, 86], [14, 92, 46, 92], [8, 56, 8, 86], [8, 14, 8, 44], [14, 50, 46, 50]].map(([x1, y1, x2, y2], i) => <g key={i} className={mask & (1 << i) ? 'is-on' : ''}><line {...{ x1, y1, x2, y2 }} /><circle cx={x2} cy={y2} r="5" /></g>)}</svg>
 }
 const Mission = ({ icon, title, children }) => <div className="brain-mission"><span className="brain-mission-icon" aria-hidden="true">{icon}</span><div><small>המשימה שלכם</small><h3>{title}</h3>{children}</div></div>
 function Matches({ p, state, act, disabled }) {
