@@ -24,7 +24,7 @@ for (const s of SUBJECTS) {
   }
   if (concepts.length) {
     add(`/learn/${s.key}/concepts`, '0.6', `title: 'מילון מושגים ב${q(s.short)}', emoji: '📘', kind: 'page', desc: '${concepts.length} מושגים בהסבר פשוט', keys: 'מושגים ${q(s.short)} מילון הגדרות'`)
-    for (const c of concepts) add(`/learn/${s.key}/concepts/${c.slug}`, '0.6', `title: '${q(c.term)}', emoji: '📘', kind: 'page', desc: '${q(s.short)} · מושג בהסבר פשוט', keys: 'מה זה ${q(c.term)} ${q(c.term)} ${q(s.short)}'`)
+    for (const c of concepts) add(`/learn/${s.key}/concepts/${c.slug}`, '0.6', `title: '${q(c.term)} (מושג ב${q(s.short)})', emoji: '📘', kind: 'page', low: true, desc: '${q(s.short)} · מושג בהסבר פשוט', keys: 'מה זה ${q(c.term)} ${q(c.term)} ${q(s.short)}'`)
   }
 }
 
