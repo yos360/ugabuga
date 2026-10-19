@@ -47,7 +47,7 @@ jobs:
                 sort
             )
           else
-            read -r -a files <<< "$FILES_INPUT"
+            mapfile -t files < <(printf '%s\n' "$FILES_INPUT" | tr ' ' '\n' | sed '/^$/d' | sort)
           fi
 
           if (( ${#files[@]} == 0 )); then
@@ -65,7 +65,7 @@ jobs:
             fi
 
             response_file="$(mktemp)"
-            status_code="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
+            status_code="$(curl --silent --output "$response_file" --write-out '%{http_code}' \
               --request POST "https://api.supabase.com/v1/projects/efhgyispuwxcplvzipcy/database/query" \
               --header "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
               --header "Content-Type: application/json" \
