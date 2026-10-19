@@ -124,6 +124,9 @@ const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
 const SubjectHub = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectHub })))
 const SubjectTopic = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectTopic })))
+const SubjectExam = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectExam })))
+const ConceptIndex = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.ConceptIndex })))
+const ConceptPage = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.ConceptPage })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
@@ -628,13 +631,35 @@ export default function App() {
               <Route path="/learn/psychometric-kids" element={<PsychometricKids />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/learn/tanakh" element={<SubjectHub key="tanakh" subjectKey="tanakh" />} />
+              <Route path="/learn/tanakh/concepts" element={<ConceptIndex key="tanakh-c" subjectKey="tanakh" />} />
+              <Route path="/learn/tanakh/concepts/:term" element={<ConceptPage key="tanakh-ct" subjectKey="tanakh" />} />
+              <Route path="/learn/tanakh/:slug/exam" element={<SubjectExam key="tanakh-e" subjectKey="tanakh" />} />
               <Route path="/learn/tanakh/:slug" element={<SubjectTopic key="tanakh" subjectKey="tanakh" />} />
               <Route path="/learn/lashon" element={<SubjectHub key="lashon" subjectKey="lashon" />} />
+              <Route path="/learn/lashon/concepts" element={<ConceptIndex key="lashon-c" subjectKey="lashon" />} />
+              <Route path="/learn/lashon/concepts/:term" element={<ConceptPage key="lashon-ct" subjectKey="lashon" />} />
+              <Route path="/learn/lashon/:slug/exam" element={<SubjectExam key="lashon-e" subjectKey="lashon" />} />
               <Route path="/learn/lashon/:slug" element={<SubjectTopic key="lashon" subjectKey="lashon" />} />
               <Route path="/learn/civics" element={<SubjectHub key="civics" subjectKey="civics" />} />
+              <Route path="/learn/civics/concepts" element={<ConceptIndex key="civics-c" subjectKey="civics" />} />
+              <Route path="/learn/civics/concepts/:term" element={<ConceptPage key="civics-ct" subjectKey="civics" />} />
+              <Route path="/learn/civics/:slug/exam" element={<SubjectExam key="civics-e" subjectKey="civics" />} />
               <Route path="/learn/civics/:slug" element={<SubjectTopic key="civics" subjectKey="civics" />} />
               <Route path="/learn/science" element={<SubjectHub key="science" subjectKey="science" />} />
+              <Route path="/learn/science/concepts" element={<ConceptIndex key="science-c" subjectKey="science" />} />
+              <Route path="/learn/science/concepts/:term" element={<ConceptPage key="science-ct" subjectKey="science" />} />
+              <Route path="/learn/science/:slug/exam" element={<SubjectExam key="science-e" subjectKey="science" />} />
               <Route path="/learn/science/:slug" element={<SubjectTopic key="science" subjectKey="science" />} />
+              <Route path="/learn/history" element={<SubjectHub key="history" subjectKey="history" />} />
+              <Route path="/learn/history/concepts" element={<ConceptIndex key="history-c" subjectKey="history" />} />
+              <Route path="/learn/history/concepts/:term" element={<ConceptPage key="history-ct" subjectKey="history" />} />
+              <Route path="/learn/history/:slug/exam" element={<SubjectExam key="history-e" subjectKey="history" />} />
+              <Route path="/learn/history/:slug" element={<SubjectTopic key="history" subjectKey="history" />} />
+              <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
+              <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
+              <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
+              <Route path="/learn/geography/:slug/exam" element={<SubjectExam key="geography-e" subjectKey="geography" />} />
+              <Route path="/learn/geography/:slug" element={<SubjectTopic key="geography" subjectKey="geography" />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />

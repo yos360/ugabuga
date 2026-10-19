@@ -1,7 +1,7 @@
 // School-subject lessons (/learn/<subject>/<topic>). Subject metadata only; each subject's lessons
 // live in ./data/<key>.js and are loaded on demand. Plain module (tests import it in Node).
 export const SUBJECTS = [
-  { key: 'tanakh', title: 'תנ״ך לילדים', emoji: '📖', short: 'תנ״ך', grades: 'ב׳–ו׳',
+  { key: 'tanakh', title: 'תנ״ך לילדים', emoji: '📖', short: 'תנ״ך', grades: 'ב׳–ו׳', files: ['tanakh', 'tanakh-figures', 'tanakh-books'], gradeList: [2, 3, 4, 5, 6, 7, 8],
     desc: 'הסיפורים והדמויות הגדולים של התנ״ך — מבריאת העולם ועד מגילת אסתר',
     seoTitle: 'תנ״ך לילדים — סיפורי התנ״ך, שאלות ודפי עבודה להדפסה',
     seoDesc: 'סיפורי התנ״ך לילדים בשפה פשוטה: נח, אברהם, יוסף, משה, דוד, יונה ואסתר. לכל סיפור הסבר, חידון עם תשובות, דף עבודה להדפסה ושאלות לשיחה.',
@@ -11,7 +11,7 @@ export const SUBJECTS = [
       { q: 'האם הטקסט הוא ציטוט מהתנ״ך?', a: 'לא. הסיפורים נכתבו מחדש בשפה פשוטה, עם הפניה לספר שבו הם מופיעים — כדי שיהיה קל לחזור למקור ולקרוא אותו יחד.' },
       { q: 'אפשר להשתמש בדפים בכיתה?', a: 'כן. כל דף עבודה מודפס בחינם, עם דף תשובות נפרד למורה או להורה.' },
     ] },
-  { key: 'lashon', title: 'לשון עברית', emoji: '✍️', short: 'לשון', grades: 'ב׳–ח׳',
+  { key: 'lashon', title: 'לשון עברית', emoji: '✍️', short: 'לשון', grades: 'ב׳–ח׳', files: ['lashon', 'lashon-more'], gradeList: [2, 3, 4, 5, 6, 7, 8],
     desc: 'שורשים, חלקי דיבר, זמנים, בניינים, סמיכות, פיסוק ועוד — עם תרגול',
     seoTitle: 'לשון עברית — שיעורים, הסברים ותרגול לכיתות ב׳–ח׳',
     seoDesc: 'שיעורי לשון בשפה פשוטה: שורש, חלקי דיבר, זמני הפועל, בניינים, סמיכות, זכר ונקבה, שם המספר ופיסוק. עם חידון, דף עבודה להדפסה ותשובות.',
@@ -21,7 +21,7 @@ export const SUBJECTS = [
       { q: 'איך מתרגלים לשון בבית?', a: 'עשר דקות ביום מספיקות: קוראים את ההסבר יחד, פותרים את החידון, ומחפשים דוגמאות לכלל בספר שהילד קורא.' },
       { q: 'יש דפי עבודה להדפסה?', a: 'כן. בכל שיעור יש כפתור להדפסה: דף שאלות ודף תשובות עם הסברים.' },
     ] },
-  { key: 'civics', title: 'אזרחות וחברה', emoji: '🏛️', short: 'אזרחות', grades: 'ד׳–ט׳',
+  { key: 'civics', title: 'אזרחות וחברה', emoji: '🏛️', short: 'אזרחות', grades: 'ד׳–ט׳', files: ['civics'], gradeList: [4, 5, 6, 7, 8, 9],
     desc: 'דמוקרטיה, הכנסת, הממשלה, בתי המשפט, בחירות, מגילת העצמאות וזכויות',
     seoTitle: 'אזרחות לילדים — דמוקרטיה, הכנסת, בחירות וזכויות האדם',
     seoDesc: 'שיעורי אזרחות בשפה פשוטה: מה זו דמוקרטיה, הפרדת רשויות, הכנסת, הממשלה, בתי המשפט, בחירות, מגילת העצמאות וסמלי המדינה. עם חידון ודף עבודה.',
@@ -31,7 +31,7 @@ export const SUBJECTS = [
       { q: 'יש כאן עמדה פוליטית?', a: 'לא. השיעורים מסבירים איך המדינה בנויה ואילו עקרונות עומדים ביסודה, ומשאירים את הדיון בשאלות פתוחות לשיחה בבית ובכיתה.' },
       { q: 'המידע מעודכן?', a: 'השיעורים עוסקים בעקרונות ובמבנה המוסדות, שמשתנים לאט. אם חוק משתנה, נעדכן את השיעור.' },
     ] },
-  { key: 'science', title: 'מדע וטכנולוגיה', emoji: '🔬', short: 'מדעים', grades: 'ב׳–ו׳',
+  { key: 'science', title: 'מדע וטכנולוגיה', emoji: '🔬', short: 'מדעים', grades: 'ב׳–ח׳', files: ['science', 'science-more-a', 'science-more-b'], gradeList: [2, 3, 4, 5, 6, 7, 8],
     desc: 'מחזור המים, מערכת השמש, גוף האדם, צמחים, חשמל, אור וקול — עם ניסויים',
     seoTitle: 'מדע לילדים — שיעורי מדע וטכנולוגיה עם ניסויים ודפי עבודה',
     seoDesc: 'שיעורי מדע לילדים: מחזור המים, מערכת השמש, מופעי הירח, עונות השנה, גוף האדם, צמחים, חשמל, אור וקול. עם ניסוי לבית, חידון ודף עבודה להדפסה.',
@@ -40,6 +40,26 @@ export const SUBJECTS = [
       { q: 'לאיזה גיל מתאימים השיעורים?', a: 'לכיתות ב׳–ו׳. ילדים צעירים ייהנו מהניסויים ומההסברים בהקראה, והגדולים יכולים ללמוד לבד ולפתור את החידון.' },
       { q: 'הניסויים בטוחים?', a: 'הניסויים פשוטים ונעשים עם חומרים מהבית. בכל ניסוי שיש בו משהו חם, חד או חשמלי מופיעה הערת בטיחות, ותמיד כדאי שמבוגר יהיה לידכם.' },
       { q: 'אפשר להדפיס?', a: 'כן. בכל שיעור יש דף עבודה להדפסה עם דף תשובות.' },
+    ] },
+  { key: 'history', title: 'היסטוריה לילדים', emoji: '🏺', short: 'היסטוריה', grades: 'ד׳–ט׳', files: ['history'], gradeList: [4, 5, 6, 7, 8, 9],
+    desc: 'מהאדם הקדמון ומצרים העתיקה, דרך ימי בית המקדש, ועד הציונות והקמת המדינה',
+    seoTitle: 'היסטוריה לילדים — שיעורים, חידונים ודפי עבודה לכיתות ד׳–ט׳',
+    seoDesc: 'שיעורי היסטוריה בשפה פשוטה: העולם העתיק, בית ראשון ושני, ימי הביניים, המהפכה התעשייתית, הציונות והקמת המדינה. עם חידון ודף עבודה להדפסה.',
+    paras: ['ההיסטוריה היא הסיפור של בני האדם: איך חיו, מה המציאו, אילו החלטות קיבלו ומה קרה בעקבותיהן. השיעורים כאן עוברים על התקופות שנלמדות בבית הספר — מהעולם העתיק ועד הקמת מדינת ישראל — בשפה ברורה ועם דגש על "למה זה חשוב".', 'בכל שיעור מוסבר גם איך אנחנו יודעים את מה שאנחנו יודעים: ממצאים ארכאולוגיים, מסמכים ועדויות. תאריכים מופיעים רק כשהם ידועים בוודאות, ובתקופות קדומות — בקירוב.'],
+    faq: [
+      { q: 'לאיזה גיל מתאימים השיעורים?', a: 'לכיתות ד׳–ט׳. השיעורים על העולם העתיק מתאימים לגילים צעירים יותר, והשיעורים על המאה ה־20 — לכיתות ו׳–ט׳.' },
+      { q: 'איך נבחרו הנושאים?', a: 'לפי הנושאים המרכזיים בתוכניות הלימודים בהיסטוריה ובמורשת בבתי הספר בישראל.' },
+      { q: 'יש דפי עבודה?', a: 'כן. בכל שיעור יש דף עבודה להדפסה עם דף תשובות, ובעמודי הכיתות יש חוברות ומבחנים לדוגמה.' },
+    ] },
+  { key: 'geography', title: 'גאוגרפיה ומולדת', emoji: '🗺️', short: 'גאוגרפיה', grades: 'ב׳–ט׳', files: ['geography'], gradeList: [2, 3, 4, 5, 6, 7, 8, 9],
+    desc: 'מפות ומצפן, יבשות ואוקיינוסים, אקלים, ואזורי ארץ ישראל — מהגליל ועד הנגב',
+    seoTitle: 'גאוגרפיה לילדים — מפות, יבשות ואזורי ישראל, עם חידון ודף עבודה',
+    seoDesc: 'שיעורי גאוגרפיה ומולדת: איך קוראים מפה, יבשות ואוקיינוסים, אקלים, הגליל, הנגב, ים המלח, הכנרת וירושלים. עם חידון ודף עבודה להדפסה.',
+    paras: ['גאוגרפיה עוזרת להבין את העולם שסביבנו: למה יורד גשם בצפון יותר מבדרום, איך קוראים מפה, ומה מיוחד בכל אזור בארץ ובעולם. השיעורים כאן מתחילים מהבית — המפה, המצפן והארץ — ומתרחבים לכל העולם.', 'הכי כדאי ללמוד עם מפה פתוחה לידכם: אחרי כל שיעור מחפשים במפה את המקומות שהוזכרו. כך הידע נקשר לתמונה, ונשאר הרבה יותר זמן.'],
+    faq: [
+      { q: 'לאיזה גיל מתאימים השיעורים?', a: 'השיעורים על המפה, המצפן ואזורי הארץ מתאימים כבר לכיתות ב׳–ד׳, והשיעורים על האקלים והעולם — לכיתות ה׳–ט׳.' },
+      { q: 'המספרים מעודכנים?', a: 'מספרים מופיעים רק כשהם ידועים בוודאות, ולרוב בקירוב (למשל "כ־"), כי נתונים כמו מספר תושבים משתנים עם השנים.' },
+      { q: 'אפשר להדפיס?', a: 'כן. בכל שיעור יש דף עבודה, ובעמודי הכיתות יש חוברת ומבחן לדוגמה.' },
     ] },
 ]
 export const SUBJECT_BY_KEY = Object.fromEntries(SUBJECTS.map(s => [s.key, s]))
@@ -52,4 +72,39 @@ export function placeQuiz(topicSlug, quiz) {
     const options = q.options.slice(1); options.splice(pos, 0, q.options[0])
     return { ...q, options, answer: pos }
   })
+}
+
+// All of a subject's lessons, from every data file it has (each file exports TOPICS).
+export async function loadTopics(key) {
+  const s = SUBJECT_BY_KEY[key]
+  if (!s) return []
+  const mods = await Promise.all(s.files.map(f => import(`./data/${f}.js`).catch(() => ({ TOPICS: [] }))))
+  return mods.flatMap(m => m.TOPICS || [])
+}
+// A subject's glossary (./data/<key>-concepts.js exports CONCEPTS); empty until written.
+export const loadConcepts = key => import(`./data/${key}-concepts.js`).then(m => m.CONCEPTS || []).catch(() => [])
+
+export const GRADE_LETTERS = ['', 'א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ז׳', 'ח׳', 'ט׳', 'י׳']
+const LETTER_NUM = Object.fromEntries(GRADE_LETTERS.map((l, i) => [l.replace('׳', ''), i]))
+// 'ג׳–ו׳' → [3, 4, 5, 6]
+export function gradeRange(text) {
+  const [a, b] = String(text).split(/[–-]/).map(x => LETTER_NUM[x.replace(/[׳'\s]/g, '')])
+  if (!a) return []
+  return Array.from({ length: (b || a) - a + 1 }, (_, i) => a + i)
+}
+export const topicsForGrade = (topics, grade) => topics.filter(t => gradeRange(t.grades).includes(grade))
+export const gradeSlug = n => `grade-${n}`
+
+// The sample exam for a grade: `count` questions spread over the grade's lessons, the same for
+// everyone with the same seed (seed 0 = the page's fixed exam).
+export function examQuestions(topics, count = 20, seed = 0) {
+  let x = (seed || 977) % 2147483648
+  const rnd = () => { x = (x * 1103515245 + 12345) % 2147483648; return x / 2147483648 }
+  const pools = topics.map(t => placeQuiz(t.slug, t.quiz).map((q, i) => ({ ...q, id: `${t.slug}#${i}`, topic: t })))
+  for (const p of pools) for (let i = p.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1));[p[i], p[j]] = [p[j], p[i]] }
+  const order = pools.map((_, i) => i)
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1));[order[i], order[j]] = [order[j], order[i]] }
+  const out = []
+  for (let round = 0; out.length < count && round < 8; round++) for (const i of order) { if (out.length >= count) break; if (pools[i][round]) out.push(pools[i][round]) }
+  return out
 }

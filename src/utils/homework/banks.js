@@ -1,7 +1,7 @@
 // Ready question banks a teacher can assign as homework ("שאלות מהאתר"): the gifted-area
 // enrichment questions and the school-subject lessons. A homework task stores the chosen question
 // ids, so the whole class gets the same questions even if a bank grows later.
-import { SUBJECTS as LESSON_SUBJECTS, placeQuiz } from '../../learn/subjects/subjects.js'
+import { SUBJECTS as LESSON_SUBJECTS, loadTopics, placeQuiz } from '../../learn/subjects/subjects.js'
 
 const GIFTED = [
   ['subj-math', '➗ חשבון ואתגרי מספרים'], ['subj-science', '🔬 מדע וטבע'], ['subj-hebrew', '📜 לשון ועברית'],
@@ -23,7 +23,7 @@ async function readBank(id) {
   const [kind, key] = String(id).split(':')
   if (kind === 'lesson') {
     if (!LESSON_SUBJECTS.some(s => s.key === key)) return []
-    const { TOPICS } = await import(`../../learn/subjects/data/${key}.js`)
+    const TOPICS = await loadTopics(key)
     return TOPICS.flatMap(t => placeQuiz(t.slug, t.quiz).map((x, i) => ({ id: `${t.slug}#${i}`, q: x.q, options: x.options, correct: x.answer, exp: x.exp, topic: t.slug, topicTitle: t.title })))
   }
   if (kind === 'gifted') {

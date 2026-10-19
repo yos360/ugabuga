@@ -1497,6 +1497,7 @@
   <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/practice</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/simulation</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
+  <!-- learn-subjects:start (scripts/generate-learn-subjects.mjs) -->
   <url><loc>https://ugabuga.co.il/learn/tanakh</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/creation</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/adam-eve</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
@@ -1518,6 +1519,54 @@
   <url><loc>https://ugabuga.co.il/learn/tanakh/jonah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/esther</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/daniel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/isaac-rebecca</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/rachel-leah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/cain-abel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/miriam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/gideon</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/hannah-samuel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/king-saul</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/david-jonathan</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/elisha</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/isaiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/jeremiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/nehemiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/tanakh-structure</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-genesis</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-exodus</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-leviticus</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-numbers</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-deuteronomy</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-joshua</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-judges</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-samuel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-kings</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-isaiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-jeremiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-ezekiel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-twelve-prophets</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-psalms</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-proverbs</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-job</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-song-of-songs</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-lamentations</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-ecclesiastes</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-ezra-nehemiah</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/book-chronicles</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-2</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-2/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-3</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-3/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/tanakh/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/lashon</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/lashon/root</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/lashon/parts-of-speech</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
@@ -1535,6 +1584,44 @@
   <url><loc>https://ugabuga.co.il/learn/lashon/idioms</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/lashon/proverbs</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/lashon/sentence</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/prefix-letters</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/definite-article</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/infinitive</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/adverbs</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/pronouns</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/possessive-suffixes</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/biblical-expressions</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/conjunctions</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/sentence-types</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/modifiers</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/objects</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/imperative</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/negation</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/verb-gzarot</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/mishkalim</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/acronyms</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/new-words</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/full-spelling</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/similar-letters</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/story-structure</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/text-types</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/letter-writing</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/figurative-language</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/rhyme-poetry</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-2</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-2/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-3</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-3/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/lashon/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/civics</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/civics/democracy</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/civics/separation-of-powers</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
@@ -1551,6 +1638,59 @@
   <url><loc>https://ugabuga.co.il/learn/civics/rule-of-law</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/civics/local-authority</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/civics/student-council</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-9</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/grade-9/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/direct-democracy</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/representative-democracy</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/pluralism</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/separation-of-powers</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/checks-and-balances</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/judicial-branch</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/legislative-branch</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/three-readings</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/basic-law</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/executive-branch</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/coalition</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/opposition</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/president-of-israel</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/pardon</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/appeal</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/high-court-of-justice</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/presumption-of-innocence</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/electoral-threshold</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/mandate</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/secret-ballot</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/declaration-of-independence</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/constitution</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/sovereignty</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/hatikva</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/state-emblem</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/human-rights</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/civil-rights</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/freedom-of-speech</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/convention-on-the-rights-of-the-child</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/best-interests-of-the-child</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/active-citizenship</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/taxes</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/rule-of-law</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/equality-before-the-law</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/state-comptroller</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/arnona</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/regional-council</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/municipal-bylaw</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/student-council</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/civics/concepts/majority-rule</loc><lastmod>2026-10-19</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/water-cycle</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/solar-system</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
@@ -1568,6 +1708,129 @@
   <url><loc>https://ugabuga.co.il/learn/science/electric-circuit</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/magnets</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/light-and-shadow</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/the-cell</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/germs-hygiene</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/nervous-system</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/senses</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/teeth-care</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/nutrition</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/sleep</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/animal-adaptations</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/bird-migration</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/bees-pollination</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/metamorphosis</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/seeds-germination</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/habitats-biodiversity</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/earth-layers</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/volcanoes</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/earthquakes</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/rocks-minerals</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/forces-motion</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/friction</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/gravity</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/simple-machines</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/floating-sinking</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/air-pressure</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/heat-conduction</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/sound-hearing</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/light-colors-rainbow</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/mixtures-solutions</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/chemical-reactions</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/acids-bases</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/materials-around-us</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/renewable-energy</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/recycling-waste</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/stars-galaxies</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/robots-algorithms</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-2</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-2/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-3</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-3/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/science/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/what-is-history</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/stone-age-agriculture</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/invention-of-writing</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-egypt</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-greece</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-rome</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/first-temple-period</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/babylonian-exile</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/return-to-zion</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/hasmoneans</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/great-revolt</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/masada</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/bar-kokhba</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/middle-ages</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/golden-age-spain</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/discovery-of-america</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/printing-press</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/industrial-revolution</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/herzl-zionism</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/aliyot</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ben-yehuda-hebrew</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/world-war-one</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/holocaust</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/israel-independence</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/kibbutz-galuyot</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/maps</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/compass</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/latitude-longitude</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/continents-oceans</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/climate-zones</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/time-zones</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/world-population</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/great-rivers</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/deserts</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/rainforests</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/mountains</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/israel-overview</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/galilee</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/negev</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/dead-sea</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/kinneret-jordan</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/jerusalem</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/coastal-plain</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/jezreel-valley</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/israel-climate</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/water-israel</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/nature-reserves</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/settlements</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/gps-digital-maps</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/natural-disasters</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-3</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-3/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-4</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-4/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-5</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-5/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-6</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-6/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-7</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-7/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-8</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/geography/grade-8/exam</loc><lastmod>2026-10-19</lastmod><priority>0.7</priority></url>
+  <!-- learn-subjects:end -->
   <url><loc>https://ugabuga.co.il/learn/psychometric-kids</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/grade-2</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/reading/grade-3</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
