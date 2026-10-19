@@ -2,6 +2,7 @@
 -- draws, quizzes, live quizzes, homework) with how many opened it and how many answered.
 -- Owner only (same e-mail check as the rest of the owner report). Counts only: no guest names,
 -- answers, allergies or tokens leave the database. Safe to run twice.
+-- Applied automatically by .github/workflows/apply-migrations.yml when pushed to main.
 create or replace function public.owner_created_things(p_from timestamptz, p_to timestamptz)
 returns jsonb language plpgsql stable security definer set search_path = '' as $$
 begin
