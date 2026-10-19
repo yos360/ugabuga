@@ -368,8 +368,8 @@ function statItems(data, multiDay = false) {
     [data.by_action?.preview || 0, 'פתחו תצוגת הדפסה', 'תצוגת הדפסה', 'bg-amber-50'],
     [data.by_action?.print || 0, 'לחצו הדפסה (נפתח חלון ההדפסה)', 'הדפסות', 'bg-orange-50'],
     [data.by_action?.download || 0, 'הורידו PDF / קובץ', 'PDF', 'bg-yellow-50'],
-    // Sheets: one print of 30 selected pages counts 30 (shown once the page-count update is in the database).
-    [data.pages_by_action ? (data.pages_by_action.print || 0) + (data.pages_by_action.download || 0) : '—', 'דפים שהודפסו או נשמרו כ־PDF (הדפסה של 30 דפים = 30)', 'דפים', 'bg-orange-100'],
+    // Sheets: every printed page counts, however many were printed at once (shown once the page-count update is in the database).
+    [data.pages_by_action ? (data.pages_by_action.print || 0) + (data.pages_by_action.download || 0) : '—', 'דפים שהודפסו או נשמרו כ־PDF (כל דף נספר, לא רק הלחיצה)', 'דפים', 'bg-orange-100'],
     [data.sources?.qr || 0, 'אנשים שסרקו QR מדף מודפס', 'סרקו QR', 'bg-lime-50'],
     [data.by_action?.share || 0, 'שיתופים (וואטסאפ ושיתוף מהטלפון)', 'שיתופים', 'bg-green-50'],
     [data.sources?.whatsapp || 0, 'אנשים שהגיעו מקישור בוואטסאפ', 'מוואטסאפ', 'bg-teal-50'],
