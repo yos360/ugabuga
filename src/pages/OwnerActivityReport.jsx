@@ -442,6 +442,7 @@ export default function OwnerActivityReport() {
   const sameTime = ySameTime.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
 
   const creations = useCreations(from, to, tick)
+  const things = useCreatedThings(from, to, tick)
   const byDayMax = useMemo(() => Math.max(1, ...(data?.by_day || []).map(d => d.visitors)), [data])
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const english = useMemo(() => englishSummary(data || {}, pageStats), [data, pageStats])
@@ -498,6 +499,9 @@ export default function OwnerActivityReport() {
         </div>
 
         <ReportSections sections={[
+          { id: 'things', title: '🎉 אירועים ודברים שיצרו (אישורי הגעה, קירות, מבחנים…)', badge: things.rows?.length || null, empty: things.error ? 'צריך להריץ ב-Supabase את supabase/migrations/202610190003_owner_created_things.sql.' : 'לא נוצר כלום בתקופה הזו.',
+            preview: (things.rows || []).slice(0, 3).map((r, i) => <span key={i}><b>{THING_KINDS[r.kind]?.split(' ')[0]} {r.title}</b> · {thingSummary(r)}</span>),
+            render: () => <CreatedThings rows={things.rows} error={things.error} /> },
           { id: 'creations', title: '✍️ מה יצרו באתר', badge: creations.rows?.length || null, empty: creations.error ? 'הטבלה עוד לא קיימת — צריך להריץ את המיגרציה owner_creations.' : 'אין עדיין יצירות בתקופה הזו.',
             preview: (creations.rows || []).slice(0, 3).map(r => <span key={r.id}><b>{r.tool}</b> · {CREATION_ACTIONS[r.action]} · {r.content.split('\n')[0].slice(0, 60)}</span>),
             render: () => <Creations rows={creations.rows} error={creations.error} /> },
@@ -641,6 +645,48 @@ function Creations({ rows, error }) {
         <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-slate-50 p-2 text-sm font-[inherit]" dir="rtl">{r.content}</pre></details>
     </li>)}</ul>
     <p className="text-xs text-slate-500">מספרי טלפון, מיילים ושורות כתובת מוסתרים לפני השמירה. הנתונים נמחקים אחרי 90 יום.</p>
+  </div>
+}
+
+// ── events and group tools visitors set up (RSVP, walls, draws, quizzes, homework): counts only ──
+const THING_KINDS = { rsvp: '✅ אישור הגעה', wall: '💌 קיר ברכות', secret: '🧙 גמד וענק', quiz: '📝 מבחן אונליין', live: '⚡ בוגה לייב', homework: '📚 שיעורי בית' }
+function useCreatedThings(from, to, tick) {
+  const [state, setState] = useState({ rows: null, error: null })
+  useEffect(() => {
+    let live = true
+    supabase.rpc('owner_created_things', { p_from: from.toISOString(), p_to: to.toISOString() })
+      .then(({ data, error }) => { if (live) setState({ rows: data || [], error: error?.message || null }) })
+    return () => { live = false }
+  }, [from, to, tick])
+  return state
+}
+function thingSummary(r) {
+  const opens = r.opens != null ? `${r.opens} פתיחות` : ''
+  const parts = {
+    rsvp: [`✅ ${r.yes} מגיעים${r.people ? ` (${r.people} אנשים)` : ''}`, `🤔 ${r.maybe} אולי`, `😢 ${r.no} לא`],
+    wall: [`💌 ${r.answers} ברכות`],
+    secret: [`👥 ${r.people} משתתפים`, `🔓 ${r.answers} פתחו את הקישור שלהם`],
+    quiz: [`✍️ ${r.answers} הגישו`, r.avg != null ? `ממוצע ${r.avg}%` : ''],
+    live: [`🎮 ${r.answers} שחקנים`],
+    homework: [`👧 ${r.people} תלמידים`, `✅ ${r.answers} משימות הוגשו`],
+  }[r.kind] || []
+  return [opens, ...parts].filter(Boolean).join(' · ')
+}
+function CreatedThings({ rows, error }) {
+  const [kind, setKind] = useState('all')
+  if (error) return <p className="text-slate-600">עוד אין נתונים: צריך להריץ ב-Supabase את supabase/migrations/202610190003_owner_created_things.sql.</p>
+  if (!rows) return <p>טוען…</p>
+  if (!rows.length) return <p className="text-slate-600">לא נוצר כלום בתקופה הזו.</p>
+  const kinds = [...new Set(rows.map(r => r.kind))]
+  const shown = kind === 'all' ? rows : rows.filter(r => r.kind === kind)
+  const day = d => d ? new Date(d).toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' }) : ''
+  return <div className="space-y-3">
+    <div className="flex flex-wrap gap-2">{['all', ...kinds].map(k => <button key={k} onClick={() => setKind(k)} className={`rounded-full border-2 px-3 py-1 text-sm font-bold ${kind === k ? 'border-violet-500 bg-violet-50' : 'border-slate-200 bg-white'}`}>{k === 'all' ? `הכל (${rows.length})` : `${THING_KINDS[k] || k} (${rows.filter(r => r.kind === k).length})`}</button>)}</div>
+    <ul className="space-y-2">{shown.map((r, i) => <li key={i} className="rounded-xl border-2 border-slate-100 p-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-2"><b className="text-lg">{r.title}</b><span className="text-sm text-slate-500">{THING_KINDS[r.kind]} · נוצר {day(r.created)}{r.date ? ` · האירוע ב־${day(r.date)}` : ''}</span></div>
+      <p className="mt-1">{thingSummary(r) || 'עוד אין תגובות'}</p>
+    </li>)}</ul>
+    <p className="text-xs text-slate-500">רק מספרים: שמות האורחים, התשובות והפרטים האישיים לא מוצגים כאן. „פתיחות” = כניסות לקישור (כולל של המארגן).</p>
   </div>
 }
 
