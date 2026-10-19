@@ -226,6 +226,7 @@ const ChessPuzzlesPage = lazy(() => import('./pages/chess/ChessPuzzlesPage'))
 const ChessHowToPage = lazy(() => import('./pages/chess/ChessHowToPage'))
 const ChessPrintablePage = lazy(() => import('./pages/chess/ChessPrintablePage'))
 const OnlineGamesHub = lazy(() => import('./pages/arcade/OnlineGamesHub'))
+const BrainGamesPage = lazy(() => import('./pages/arcade/BrainGamesPage'))
 const DailyChallenge = lazy(() => import('./pages/arcade/DailyChallenge'))
 const MarathonPage = lazy(() => import('./pages/arcade/MarathonPage'))
 const OnlineGamePage = lazy(() => import('./pages/arcade/OnlineGamePage'))
@@ -535,6 +536,12 @@ export default function App() {
               <Route path="/chess/how-to-play" element={<ChessHowToPage />} />
               <Route path="/chess/printable-board" element={<ChessPrintablePage />} />
               <Route path="/online-games" element={<OnlineGamesHub />} />
+              <Route path="/brain-games" element={<BrainGamesPage />} />
+              <Route path="/brain-games/matchsticks" element={<BrainGamesPage topic="matchsticks" />} />
+              <Route path="/brain-games/river-crossing" element={<BrainGamesPage topic="river-crossing" />} />
+              <Route path="/brain-games/lights-out" element={<BrainGamesPage topic="lights-out" />} />
+              <Route path="/brain-games/logic" element={<BrainGamesPage topic="logic" />} />
+              <Route path="/brain-games/kids" element={<BrainGamesPage topic="kids" />} />
               <Route path="/online-games/today" element={<DailyChallenge />} />
               <Route path="/online-games/marathon" element={<MarathonPage />} />
               <Route path="/online-games/:slug" element={<OnlineGamePage />} />
