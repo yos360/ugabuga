@@ -60,7 +60,7 @@ try {
     const url = new URL(route.request().url())
     // Never count prerender visits as supplier views or site activity.
     if (/\/rpc\/(supplier_track|record_site_event)/.test(url.pathname)) return route.abort()
-    return url.origin === origin || SUPABASE_ORIGINS.includes(url.origin) ? route.continue() : route.abort()
+    return url.origin === origin || (process.env.PRERENDER_OFFLINE !== '1' && SUPABASE_ORIGINS.includes(url.origin)) ? route.continue() : route.abort()
   })
   const failures = []
   console.log(`Prerendering with up to ${concurrency} tabs.`)

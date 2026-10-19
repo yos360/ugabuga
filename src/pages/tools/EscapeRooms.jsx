@@ -129,13 +129,14 @@ export default function EscapeRooms() {
   }, [])
 
   useEffect(() => {
+    const timers = advanceTimerRef
     setStepIndex(0)
     setAnswer('')
     setHintCount(0)
     setShowPrintKit(false)
     setStatus(null)
     setCompletedSteps([])
-    return () => clearTimeout(advanceTimerRef.current)
+    return () => clearTimeout(timers.current)
   }, [roomId, difficulty, roundSeed])
 
   const chooseRoom = (id) => {

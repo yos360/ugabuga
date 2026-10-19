@@ -1,7 +1,7 @@
 import { SUITS, isRed, rankLabel } from '../logic/cards'
 
 // One playing card. Face-down cards show the back pattern.
-export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer }) {
+export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer, label }) {
   const interactive = !!(onPointer?.onPointerDown || onPointer?.onClick)
   const Tag = interactive ? 'button' : 'div'
   const h = w * 1.4
@@ -10,7 +10,7 @@ export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPoi
   const cls = `cd${w < 60 ? ' is-sm' : ''}${card.up ? (isRed(card) ? ' is-red' : '') : ' is-back'}${dragged ? ' is-drag' : ''}${hint ? ' is-hint' : ''}${selected ? ' is-sel' : ''}`
   return (
     <Tag type={interactive ? 'button' : undefined} className={cls} style={style} data-drop={dropKey} {...onPointer}
-      aria-label={card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך'} role={interactive ? undefined : 'img'}>
+      aria-label={label || (card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך')} role={interactive ? undefined : 'img'}>
       {!card.up && <span className="sp-back-mark" aria-hidden="true">BUGA</span>}
       {card.up && <>
         <span className="cd-corner">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>

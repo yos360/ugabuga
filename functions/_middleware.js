@@ -10,12 +10,17 @@
 // Safety: any failure (missing routes.json, bad regex, thrown error) falls back
 // to the original response, so this can never take the site down.
 
+import { supplierShell } from '../server/supplier-shell.js'
+import { dailyShell } from '../server/daily-shell.js'
+
 let routesPromise = null
 let knownPromise = null
 
 // Param routes whose full list of valid values is in the sitemap. A slug outside
 // that list with no prerendered snapshot is a made-up URL → real 404.
 const CLOSED_FAMILIES = [
+  /^\/online-games\/[^/]+$/,
+  /^\/math\/.+$/,
   /^\/shabbat-activities\/[^/]+$/,
   /^\/recipes\/shabbat\/[^/]+$/,
   /^\/cakes\/[^/]+$/,
@@ -185,7 +190,11 @@ async function handle(context) {
     const path = url.pathname.replace(/\/+$/, '') || '/'
     if (!routes.some(re => re.test(path))) return notFound(work.body, res.headers)
     if (path === '/') return res
+    if (/^\/suppliers\/[a-z0-9-]{3,40}$/.test(path) && !['/suppliers/me', '/suppliers/category'].includes(path) && typeof HTMLRewriter !== 'undefined') {
+      return supplierShell(work, new URL(path, url), env)
+    }
     const shaped = await neutralShell(work)
+    if ((path === '/online-games' || path === '/online-games/today') && typeof HTMLRewriter !== 'undefined') return dailyShell(shaped, path)
     if (shaped.__homeFallback && CLOSED_FAMILIES.some(re => re.test(path))) {
       const known = await loadKnown(env, url)
       if (known && !known.has(path)) return notFound(shaped.body, shaped.headers)

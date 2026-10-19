@@ -5,19 +5,19 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { faqSchema } from '../../components/ui/SeoBody'
 import { ARCADE } from '../../arcade/registry'
 import { BOARD_GAMES } from '../../boardgames/registry'
-import { dailyFor } from '../../arcade/daily'
+import { useDailyChallenge } from '../../arcade/useDailyChallenge'
 import '../../arcade/arcade.css'
 
 // /online-games — quick puzzle games that open full screen on phone and computer.
 const FAQ = [
   { q: 'המשחקים באמת בחינם?', a: 'כן. כל משחקי האונליין חינמיים, בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. הם נפתחים ישר בדפדפן, בטלפון ובמחשב.' },
-  { q: 'אילו משחקי חשיבה מתאימים לילדים צעירים?', a: 'מגיל 5–6: משחק זיכרון, מיון כדורים וסודוקו 4×4. מגיל 8: פקק תנועה, 2048, פאזל 15 ושולה מוקשים. לכל משחק כתוב הגיל המומלץ, ויש כפתור רמז וביטול מהלך.' },
-  { q: 'אפשר לשחק שניים על אותו מסך?', a: 'כן. ארבע בשורה, איקס עיגול, צוללות ושחמט אפשר לשחק שניים על אותו טלפון או מחשב — או נגד המחשב.' },
+  { q: 'אילו משחקי חשיבה מתאימים לילדים צעירים?', a: 'מגיל 5–6: משחק זיכרון, מיון כדורים וסודוקו 4×4. מגיל 8: פקק תנועה, 2048, פאזל 15 ושולה מוקשים. לכל משחק כתוב הגיל המומלץ. בחלק מהמשחקים זמינים גם רמזים או ביטול מהלך.' },
+  { q: 'אפשר לשחק שניים על אותו מסך?', a: 'כן. ארבע בשורה, איקס עיגול ושחמט אפשר לשחק שניים על אותו טלפון או מחשב — או נגד המחשב. צוללות הוא משחק לשחקן אחד נגד המחשב.' },
 ]
 const TWO_PLAYER_BOARD = ['checkers', 'backgammon', 'chess', 'reversi', 'mancala', 'dots-and-boxes']
 
 export default function OnlineGamesHub() {
-  const daily = dailyFor()
+  const daily = useDailyChallenge()
   const { hash } = useLocation()
   // footer/board-games links point at #two-players; scroll there after the page's scroll-to-top
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function OnlineGamesHub() {
       <section className="arc-box" style={{ maxWidth: 860, margin: '30px auto 0' }}>
         <h2>למה משחקי חשיבה טובים לילדים?</h2>
         <p style={{ lineHeight: 1.75, fontSize: 17, margin: 0 }}>
-          פאזלים קצרים מאמנים תכנון, חשיבה מרחבית וסבלנות — ומרגישים כמו משחק ולא כמו שיעורי בית. כל השלבים אצלנו פתירים, יש כפתור רמז ואפשר לבטל מהלך, כך שגם ילדים צעירים מצליחים ונהנים.
+          פאזלים קצרים מאמנים תכנון, חשיבה מרחבית וסבלנות — ומרגישים כמו משחק ולא כמו שיעורי בית. בחלק מהמשחקים אפשר לקבל רמז או לבטל מהלך; האפשרויות מופיעות בתוך כל משחק.
           רוצים עוד? יש לנו גם <Link to="/board-games" className="underline font-bold">משחקי לוח קלאסיים</Link>, <Link to="/games" className="underline font-bold">מאגר משחקים לקבוצה ולכיתה</Link> ו<Link to="/letters/game" className="underline font-bold">משחק אותיות לגן</Link>.
         </p>
       </section>

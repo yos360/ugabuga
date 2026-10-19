@@ -54,6 +54,10 @@ async function getActiveGameSlugs() {
 const SITE_DB_URL = 'https://efhgyispuwxcplvzipcy.supabase.co'
 const SITE_DB_KEY = 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 async function getSupplierSlugs() {
+  if (process.env.SITEMAP_OFFLINE === '1') {
+    const previous = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+    return [...previous.matchAll(/<loc>https:\/\/ugabuga\.co\.il\/suppliers\/([a-z0-9-]{3,40})<\/loc>/g)].map(m => m[1]).filter(slug => slug !== 'me')
+  }
   const res = await fetch(`${SITE_DB_URL}/rest/v1/rpc/suppliers_public_list`, { method: 'POST', headers: { apikey: SITE_DB_KEY, 'Content-Type': 'application/json' }, body: '{}' })
   if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`)
   const rows = await res.json()

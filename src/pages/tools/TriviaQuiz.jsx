@@ -53,7 +53,7 @@ export default function TriviaQuiz() {
   const [mode, setMode] = useState('classic')
   const [current, setCurrent] = useState(null)
   const [options, setOptions] = useState([])
-  const [seenIds, setSeenIds] = useState([])
+  const seenIds = useRef([])
   const [selected, setSelected] = useState(null)
   const [score, setScore] = useState({ correct: 0, total: 0, streak: 0 })
   const [playerNames, setPlayerNames] = useState(['שחקן 1', 'שחקן 2'])
@@ -87,15 +87,12 @@ export default function TriviaQuiz() {
 
   const chooseQuestion = useCallback((resetHistory = false) => {
     setSelected(null)
-    setSeenIds((prevSeen) => {
-      const history = resetHistory ? [] : prevSeen
-      const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
-      setCurrent(nextQuestion)
-      setOptions(shuffleOptions(nextQuestion?.triviaOptions || []))
+    const history = resetHistory ? [] : seenIds.current
+    const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
+    setCurrent(nextQuestion)
+    setOptions(shuffleOptions(nextQuestion?.triviaOptions || []))
 
-      if (!nextQuestion) return []
-      return [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT)
-    })
+    seenIds.current = nextQuestion ? [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT) : []
   }, [questions, isExactLevel])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useImperativeHandle, useRef, useState } from 'react'
 import { W, H } from '../generators/maze'
 
 // Renderer: turns ActivityData into one SVG (180×190 mm drawing area). The same SVG is used on
@@ -98,7 +98,7 @@ export default function ActivitySvg({ activity, interactive = false, showSolutio
   const svgRef = useRef(null)
   const canDraw = interactive && activity.kind !== 'pattern'
   const pen = useDraw(svgRef, canDraw)
-  if (draw) draw.current = pen
+  useImperativeHandle(draw, () => pen, [pen])
   return (
     <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={activity.title} className="motor-svg"
       style={canDraw ? { touchAction: 'none', cursor: 'crosshair' } : undefined} {...pen.handlers}>

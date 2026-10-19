@@ -40,7 +40,7 @@ export default function TeamGenerator() {
         <label className="font-bold block mb-2">כמה קבוצות?</label>
         <div className="flex gap-2">
           {[2,3,4,5].map(n => (
-            <button key={n} onClick={() => setTeamCount(n)} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${teamCount===n?'bg-[var(--postit)]':'bg-white'}`}>{n}</button>
+            <button key={n} aria-pressed={teamCount === n} aria-label={`${n} קבוצות`} onClick={() => setTeamCount(n)} className={`wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold cursor-pointer ${teamCount===n?'bg-[var(--postit)]':'bg-white'}`}>{n}</button>
           ))}
         </div>
       </div>
@@ -50,8 +50,8 @@ export default function TeamGenerator() {
         {names.map((n, i) => (
           <div key={i} className="flex gap-2 mb-2">
             <span className="w-8 text-center font-bold pt-2">{i+1}.</span>
-            <input value={n} onChange={e => updateName(i, e.target.value)} placeholder="שם..." className="wobbly-sm flex-1 border-2 border-[var(--border)] bg-white px-3 py-2" />
-            {names.length > 1 && <button onClick={() => removeField(i)} className="text-[var(--accent)] px-2 cursor-pointer">✕</button>}
+            <input aria-label={`שם משתתף ${i + 1}`} value={n} onChange={e => updateName(i, e.target.value)} placeholder="שם..." className="wobbly-sm min-w-0 flex-1 border-2 border-[var(--border)] bg-white px-3 py-2" />
+            {names.length > 1 && <button aria-label={`מחיקת משתתף ${i + 1}`} onClick={() => removeField(i)} className="text-[var(--accent)] px-2 cursor-pointer">✕</button>}
           </div>
         ))}
         <button onClick={addField} className="wobbly-sm sketch-press border-2 border-dashed border-[var(--border)] px-4 py-2 font-bold cursor-pointer mt-1">+ הוסיפו שם</button>

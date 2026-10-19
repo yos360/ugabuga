@@ -61,16 +61,16 @@ function reducer(s, a) {
 export function useTyper(text) {
   const [s, dispatch] = useReducer(reducer, text, t => reducer(null, { type: 'reset', text: t }))
   useEffect(() => { dispatch({ type: 'reset', text }) }, [text])
-  const type = useCallback(ch => dispatch({ type: 'char', ch, now: performance.now() }), [])
+  const [now, tick] = useState(0)
+  const type = useCallback(ch => { const now = performance.now(); tick(now); dispatch({ type: 'char', ch, now }) }, [])
   const stop = useCallback(() => dispatch({ type: 'stop', now: performance.now() }), [])
-  const [, tick] = useState(0)
   const running = s.start != null && !s.end
   useEffect(() => {
     if (!running) return
-    const id = setInterval(() => tick(n => n + 1), 500)
+    const id = setInterval(() => tick(performance.now()), 500)
     return () => clearInterval(id)
   }, [running])
-  const elapsed = s.start == null ? 0 : (s.end ?? performance.now()) - s.start
+  const elapsed = s.start == null ? 0 : (s.end ?? Math.max(now, s.start)) - s.start
   return {
     ...s, type, stop, running, elapsed,
     done: s.text.length > 0 && s.pos >= s.text.length,

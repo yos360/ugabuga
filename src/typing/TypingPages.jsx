@@ -271,10 +271,11 @@ const GAME_LEVELS = [
   { id: 'all', title: 'כל המקלדת', emoji: '🚀', pool: () => poolUpTo('he-16', 6), speed: 24 },
 ]
 let dropId = 0
+const gameView = s => ({ score: s.score, lives: s.lives, target: s.target, drops: s.drops.map(d => ({ ...d })), pops: s.pops.map(p => ({ ...p })) })
 export function TypingGame() {
   const [level, setLevel] = useState(0)
   const [phase, setPhase] = useState('menu') // menu | play | over
-  const [, setFrame] = useState(0)
+  const [view, setView] = useState(null)
   const [best, setBest] = useState({})
   const [mobileTry, setMobileTry] = useState(false)
   const [wrongCode, setWrongCode] = useState(null)
@@ -287,6 +288,7 @@ export function TypingGame() {
   const start = i => {
     const lv = GAME_LEVELS[i]
     g.current = { pool: lv.pool(), base: lv.speed, drops: [], pops: [], target: null, score: 0, lives: 3, spawn: 0, last: null, hits: 0 }
+    setView(gameView(g.current))
     setLevel(i); setPhase('play'); blurActive()
     if (mobileTry) setTimeout(() => inputRef.current?.focus(), 0)
   }
@@ -316,11 +318,12 @@ export function TypingGame() {
       }
       s.pops = s.pops.filter(p => now - p.t < 600)
       if (s.lives <= 0) {
+        setView(gameView(s))
         setPhase('over')
         setBest(b => { const nb = { ...b, [GAME_LEVELS[level].id]: Math.max(b[GAME_LEVELS[level].id] || 0, s.score) }; storeSet('ugabuga-typing-game-best', nb); return nb })
         return
       }
-      setFrame(f => f + 1)
+      setView(gameView(s))
       raf = requestAnimationFrame(step)
     }
     raf = requestAnimationFrame(step)
@@ -347,7 +350,7 @@ export function TypingGame() {
     } else { setWrongCode(code || null); setTimeout(() => setWrongCode(null), 220) }
   }, [phase])
   const onInput = useKeyCapture(onChar, phase === 'play', LAYOUTS.he)
-  const s = g.current
+  const s = view
   const target = s?.drops.find(d => d.id === s.target)
   const next = target ? target.text[target.typed] : null
   const lv = GAME_LEVELS[level]

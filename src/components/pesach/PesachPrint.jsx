@@ -1,4 +1,4 @@
-import { Page, At, S, S3, TraceWordsPage, GreetingPage, CountPage, MatchPage, BigPage, FONT } from '../holidays/printKit'
+import { Page, At, S, TraceWordsPage, GreetingPage, CountPage, MatchPage, BigPage, FONT } from '../holidays/printKit'
 
 // Pesach line drawings, each in a 100×100 box (use with <At>).
 const L = { ...S, strokeWidth: 3 }

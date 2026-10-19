@@ -99,7 +99,6 @@ export const Wagon = () => <g>
   <path d="M96 66 H100" stroke="#111" strokeWidth={4} strokeLinecap="round" />
 </g>
 
-const draw = (C) => (x, y, size) => <At x={x} y={y} size={size}><C /></At>
 const species = (id) => (x, y, size) => <Sp id={id} x={x} y={y} size={size} />
 
 // ---------- colouring ----------

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -29,7 +29,7 @@ export default function Riddles() {
   const [difficulty, setDifficulty] = useState('easy')
   const [topic, setTopic] = useState('all')
   const [current, setCurrent] = useState(null)
-  const [seenIds, setSeenIds] = useState([])
+  const seenIds = useRef([])
   const [showAnswer, setShowAnswer] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
@@ -71,14 +71,11 @@ export default function Riddles() {
   const chooseQuestion = useCallback((resetHistory = false) => {
     resetReveal()
 
-    setSeenIds((prevSeen) => {
-      const history = resetHistory ? [] : prevSeen
-      const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
-      setCurrent(nextQuestion)
+    const history = resetHistory ? [] : seenIds.current
+    const nextQuestion = pickNextQuestion(questions, history, isExactLevel)
+    setCurrent(nextQuestion)
 
-      if (!nextQuestion) return []
-      return [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT)
-    })
+    seenIds.current = nextQuestion ? [nextQuestion.id, ...history.filter((id) => id !== nextQuestion.id)].slice(0, HISTORY_LIMIT) : []
   }, [questions, isExactLevel])
 
   useEffect(() => {

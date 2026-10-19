@@ -1,5 +1,5 @@
 # Checks every change before it reaches the live site (Cloudflare builds from main):
-# lint, unit tests and a production build. The full prerender (npm run build) runs on Cloudflare only.
+# lint, unit tests and the full production build, isolated from live services.
 name: CI
 
 on:
@@ -14,7 +14,7 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,5 +28,11 @@ jobs:
         run: npx oxlint
       - name: Tests
         run: node --test tests/*.mjs
-      - name: Build
-        run: npx vite build
+      - name: Install build browser
+        run: npx playwright install --with-deps chromium
+      - name: Full offline build and prerender
+        run: npm run build
+        env:
+          SITEMAP_OFFLINE: '1'
+          PRERENDER_OFFLINE: '1'
+          PRERENDER_CONCURRENCY: '4'

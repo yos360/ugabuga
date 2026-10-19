@@ -1,5 +1,5 @@
 import {chromium} from 'playwright'
-import {readFileSync,writeFileSync,mkdirSync} from 'node:fs'
+import {writeFileSync,mkdirSync} from 'node:fs'
 import {offlineSiteResponse} from './offline-site.mjs'
 const dir='out/audit/oct15-targeted';mkdirSync(dir,{recursive:true})
 const browser=await chromium.launch({headless:true}),page=await browser.newPage({viewport:{width:390,height:844},timezoneId:'Asia/Jerusalem'})

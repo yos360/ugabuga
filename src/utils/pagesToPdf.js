@@ -8,35 +8,18 @@ const PAGE_PX = 794 // A4 width at 96 dpi — sheets are laid out at this width 
 
 const latin1 = s => { const b = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 0xff; return b }
 
-// images: [{ bytes: Uint8Array (JPEG), width, height }] → PDF bytes, one A4 page per image.
-export function buildPdf(images) {
-  const chunks = [], offsets = []
-  let length = 0
-  const push = part => { const b = typeof part === 'string' ? latin1(part) : part; chunks.push(b); length += b.length }
-  const obj = (n, body) => { offsets[n] = length; push(`${n} 0 obj\n`); body(); push('\nendobj\n') }
+import { buildPdf } from './pdfWriter'
+export { buildPdf } from './pdfWriter'
 
-  push('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n')
-  const pageIds = images.map((_, i) => 3 + i * 3)
-  obj(1, () => push('<< /Type /Catalog /Pages 2 0 R >>'))
-  obj(2, () => push(`<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${images.length} >>`))
-  images.forEach((img, i) => {
-    const page = pageIds[i], content = page + 1, xobj = page + 2
-    // Fit the sheet inside the page, keeping its proportions, centred.
-    const scale = Math.min(A4_W / img.width, A4_H / img.height), w = img.width * scale, h = img.height * scale
-    const x = (A4_W - w) / 2, y = A4_H - h // top-aligned
-    obj(page, () => push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${A4_W} ${A4_H}] /Resources << /XObject << /Im${i} ${xobj} 0 R >> >> /Contents ${content} 0 R >>`))
-    const draw = `q ${w.toFixed(2)} 0 0 ${h.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm /Im${i} Do Q`
-    obj(content, () => push(`<< /Length ${draw.length} >>\nstream\n${draw}\nendstream`))
-    obj(xobj, () => { push(`<< /Type /XObject /Subtype /Image /Width ${img.width} /Height ${img.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${img.bytes.length} >>\nstream\n`); push(img.bytes); push('\nendstream') })
-  })
-  const xref = length, count = 3 + images.length * 3
-  push(`xref\n0 ${count}\n0000000000 65535 f \n`)
-  for (let n = 1; n < count; n++) push(`${String(offsets[n]).padStart(10, '0')} 00000 n \n`)
-  push(`trailer\n<< /Size ${count} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`)
-  const out = new Uint8Array(length)
-  let at = 0
-  for (const c of chunks) { out.set(c, at); at += c.length }
-  return out
+let pdfFontPromise
+function loadPdfFont() {
+  if (!pdfFontPromise) pdfFontPromise = Promise.all([
+    fetch('/fonts/pdf/NotoSansHebrew-Regular.ttf'), fetch('/fonts/pdf/metrics.json'),
+  ]).then(async ([font, metrics]) => {
+    if (!font.ok || !metrics.ok) throw new Error('PDF font could not be loaded')
+    return { bytes: new Uint8Array(await font.arrayBuffer()), metrics: await metrics.json() }
+  }).catch(error => { pdfFontPromise = null; throw error })
+  return pdfFontPromise
 }
 
 function canvasToJpeg(canvas) {
@@ -187,9 +170,31 @@ function sliceCanvas(canvas) {
   return out
 }
 
+// Read the printable DOM, never OCR or guessed content. Coordinates are kept
+// so a flowing sheet's text is assigned to the same PDF slice as its artwork.
+function printableText(root) {
+  const box = root.getBoundingClientRect(), blocks = []
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+  let node
+  while ((node = walker.nextNode())) {
+    const el = node.parentElement, text = node.textContent.replace(/\s+/g, ' ').trim()
+    if (!text || !el || el.closest('script,style')) continue
+    const hidden = el.closest('[aria-hidden="true"]')
+    if (hidden && root.contains(hidden)) continue
+    const style = getComputedStyle(el)
+    if (style.display === 'none' || style.visibility === 'hidden') continue
+    const range = document.createRange(); range.selectNodeContents(node)
+    const rect = range.getBoundingClientRect()
+    if (!rect.width || !rect.height) continue
+    blocks.push({ text, direction: style.direction, tag: el.closest('h1,h2,h3,h4,h5,h6')?.tagName || 'P', x: (rect.left - box.left) * SCALE, y: (rect.top - box.top) * SCALE, width: rect.width * SCALE })
+  }
+  return blocks
+}
+
 // Render the given sheet elements (.buga-a4 / .buga-flow) and save them as one PDF.
 export async function savePagesAsPdf(sheets, filename, onProgress) {
   const { default: html2canvas } = await import('html2canvas')
+  const textFont = await loadPdfFont()
   // Lay the sheets out off-screen at a fixed desktop width, unaffected by the dialog's phone zoom.
   const host = document.createElement('div')
   host.setAttribute('aria-hidden', 'true')
@@ -216,13 +221,20 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
       await Promise.all([...clone.querySelectorAll('svg')].filter(svg => !svg.parentElement?.closest('svg')).map(embedFonts))
       await Promise.allSettled([...clone.querySelectorAll('img')].map(img => img.decode?.()))
       const canvas = (await fastRender(clone, SCALE)) || await html2canvas(clone, { scale: SCALE, backgroundColor: '#ffffff', useCORS: true, logging: false, windowWidth: PAGE_PX })
-      for (const c of sliceCanvas(canvas)) images.push(canvasToJpeg(c))
+      const blocks = printableText(clone)
+      const alt = [...clone.querySelectorAll('img[alt],svg[aria-label]')].map(el => el.getAttribute('alt') || el.getAttribute('aria-label')).filter(Boolean).join('. ') || `${filename || 'עוגה בוגה'} — דף ${i + 1}`
+      let offset = 0
+      for (const c of sliceCanvas(canvas)) {
+        const textBlocks = blocks.filter(b => b.y >= offset && b.y < offset + c.height).map(b => ({ ...b, y: b.y - offset }))
+        images.push({ ...canvasToJpeg(c), alt, textBlocks })
+        offset += c.height
+      }
     }
   } finally {
     host.remove()
     probeFix.remove()
   }
-  const blob = new Blob([buildPdf(images)], { type: 'application/pdf' })
+  const blob = new Blob([buildPdf(images, { textFont, title: filename || 'עוגה בוגה', lang: sheets[0]?.closest('[lang]')?.getAttribute('lang') || document.documentElement.lang || 'he' })], { type: 'application/pdf' })
   const name = (filename || 'ugabuga').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 60) + '.pdf'
   // Remember where the file was made: a blob link that later loses its "blob:" prefix lands on
   // ugabuga.co.il/<uuid>, and the 404 page sends the visitor back here (see NotFound.jsx).
@@ -239,7 +251,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
   const a = document.createElement('a')
   a.href = url; a.download = name
   document.body.appendChild(a); a.click(); a.remove()
-  // generous: where the PDF opens in a tab instead of downloading, the tab must keep working
-  setTimeout(() => URL.revokeObjectURL(url), 10 * 60000)
-  return 'downloaded'
+  // Starting a download does not prove that the browser saved it. Keep a direct
+  // user-activated fallback link; the preview owns and releases this object URL.
+  return { status: 'prepared', url, name }
 }

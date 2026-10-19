@@ -147,7 +147,6 @@ const V = {
   'מה העלים קולטים?': 'מָה הֶעָלִים קוֹלְטִים?', 'למה השעון לא צלצל?': 'לָמָּה הַשָּׁעוֹן לֹא צִלְצֵל?',
 }
 
-const HE = /[א-ת]/
 const SHORT = 4 // words; longer Hebrew is sent to TTS as written
 const words = s => s.trim().split(/\s+/).length
 function heText(key) {

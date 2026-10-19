@@ -135,7 +135,7 @@ export default function Spider({ onReport, onShare, daily }) {
         <div className="cd-table" style={{ width: box.w, height: tableHeight }}>
           {/* stock: one small card per remaining deal */}
           {deals > 0
-            ? Array.from({ length: deals }, (_, i) => <Card key={`st${i}`} card={{ up: false }} w={w} x={colX(0) + i * w * 0.14} y={gap} z={5 + i} hint={hint?.deal && i === deals - 1} onPointer={{ onClick: doDeal }} />)
+            ? Array.from({ length: deals }, (_, i) => <Card key={`st${i}`} card={{ up: false }} w={w} x={colX(0) + i * w * 0.14} y={gap} z={5 + i} hint={hint?.deal && i === deals - 1} label={i === deals - 1 ? `חלוקת שורה חדשה — נותרו ${deals} חלוקות` : undefined} onPointer={i === deals - 1 ? { onClick: doDeal } : undefined} />)
             : <Slot w={w} x={colX(0)} y={gap} label="" />}
           {deals > 0 && <span className="cd-count" style={{ transform: `translate(${colX(0) + 4}px, ${gap + h - 22}px)` }}>{deals}</span>}
           {/* finished runs */}

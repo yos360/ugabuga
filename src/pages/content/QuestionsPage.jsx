@@ -28,7 +28,6 @@ export default function QuestionsPage() {
   const p = QUESTION_PAGES.find(x => x.slug === slug)
   if (!p) return <NotFound />
   const x = QUESTION_EXTRAS[slug] || {}
-  let n = 0
   return (
     <div className="questions-sheet max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title + ' — 30 שאלות מוכנות'} description={p.description} path={'/questions/' + slug} structuredData={faqSchema(x.faq)} />
@@ -43,10 +42,10 @@ export default function QuestionsPage() {
         <h2 className="text-xl font-bold mb-2">איך משתמשים</h2>
         <ul className="list-disc pr-5 space-y-1">{p.howTo.map(t => <li key={t}>{t}</li>)}</ul>
       </WobblyCard>
-      {p.groups.map(g => (
+      {p.groups.map((g, groupIndex) => (
         <section key={g.title} className="mb-6">
           <h2 className="text-2xl font-bold mb-3">{g.title}</h2>
-          <ol className="space-y-2">{g.questions.map(q => { n += 1; return <li key={q} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{n}.</b> {q}</li> })}</ol>
+          <ol className="space-y-2">{g.questions.map((q, questionIndex) => { return <li key={q} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{p.groups.slice(0, groupIndex).reduce((sum, group) => sum + group.questions.length, 0) + questionIndex + 1}.</b> {q}</li> })}</ol>
         </section>
       ))}
       <div className="no-print text-center my-6"><PrintExisting selector="main .questions-sheet" className="btn-secondary">🖨️ הדפסת הרשימה</PrintExisting></div>

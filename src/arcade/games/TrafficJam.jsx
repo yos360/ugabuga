@@ -50,6 +50,17 @@ export default function TrafficJam({ onReport, onShare, daily }) {
     setCars(next)
     if (isWon(next)) { setLeaving(true); setTimeout(() => setWon(true), 650) }
   }
+  const onCarKey = (e, car) => {
+    const steps = car.h ? ({ ArrowLeft: -1, ArrowRight: 1 })[e.key] : ({ ArrowUp: -1, ArrowDown: 1 })[e.key]
+    if (!steps) return
+    e.preventDefault()
+    if (won || leaving || dragRef.current) return
+    const [lo, hi] = range(cars, car.id)
+    if (steps < lo || steps > hi) return
+    const next = cars.map(c => c.id !== car.id ? c : c.h ? { ...c, x: c.x + steps } : { ...c, y: c.y + steps })
+    setHistory(h => [...h, cars]); setCars(next); setHintMove(null)
+    if (isWon(next)) { setLeaving(true); setTimeout(() => setWon(true), 650) }
+  }
 
   const start = n => {
     const d = buildLevel(n)
@@ -76,7 +87,7 @@ export default function TrafficJam({ onReport, onShare, daily }) {
       </Hud>
       <div className="arc-field" ref={boxRef}>
         <div className="tj-wrap">
-          <div className="tj-board" style={{ width: size, height: size, backgroundSize: `${cell}px ${cell}px`, backgroundPosition: '-1px -1px' }} aria-label="חניון 6 על 6. גררו מכוניות כדי לפנות דרך למשאית הגלידה">
+          <div className="tj-board" style={{ width: size, height: size, backgroundSize: `${cell}px ${cell}px`, backgroundPosition: '-1px -1px' }} aria-label="חניון 6 על 6. גררו מכוניות או בחרו מכונית והזיזו בחיצי המקלדת">
             <div className="tj-gate" style={{ top: EXIT_ROW * cell + pad, height: cell - pad * 2 }} aria-hidden="true" />
             {cars.map(c => {
               const isDrag = drag?.id === c.id
@@ -88,6 +99,7 @@ export default function TrafficJam({ onReport, onShare, daily }) {
               const hinted = hintMove?.id === c.id
               return (
                 <button type="button" key={c.id} aria-label={c.id === 0 ? 'משאית הגלידה' : `מכונית ${c.id}`}
+                  title={c.h ? 'הזזה בחיצים ימינה ושמאלה' : 'הזזה בחיצים למעלה ולמטה'} onKeyDown={e => onCarKey(e, c)}
                   className={`tj-car${isDrag ? ' is-drag' : ''}${hinted ? ' is-hint' : ''}${out ? ' is-out' : ''}`}
                   style={{ width: w, height: h, transform: `translate(${x}px, ${y}px)`, left: 0, top: 0, background: c.id === 0 ? '#ff5c8a' : CAR_COLORS[(c.id - 1) % CAR_COLORS.length], '--emoji': `${cell * 0.42}px`, opacity: out ? 0 : 1 }}
                   onPointerDown={e => onDown(e, c)} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={() => { dragRef.current = null; setDrag(null) }}>

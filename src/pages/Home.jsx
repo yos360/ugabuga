@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Search, Share2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Share2 } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'

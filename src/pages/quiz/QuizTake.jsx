@@ -19,7 +19,7 @@ export default function QuizTake() {
   const draft = useMemo(() => readDraft(code), [code])
   const [name, setName] = useState(draft?.name || ''), [started, setStarted] = useState(!!draft?.started)
   const [answers, setAnswers] = useState(draft?.answers || {}), [step, setStep] = useState(draft?.step || 0)
-  const [endsAt, setEndsAt] = useState(draft?.endsAt || 0), [now, setNow] = useState(Date.now())
+  const [endsAt, setEndsAt] = useState(draft?.endsAt || 0), [now, setNow] = useState(() => Date.now())
   const [sending, setSending] = useState(false), [sendErr, setSendErr] = useState('')
   const deviceId = useMemo(() => quizMemory.deviceId(), [])
   const submitted = useRef(false)

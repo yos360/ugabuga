@@ -198,7 +198,7 @@ export default function EretzIr() {
                   <span>{emo(c)} {c}</span>
                   <input ref={el => { inputs.current[i] = el }} value={v} enterKeyHint={i + 1 < categories.length ? 'next' : 'done'}
                     onChange={e => setAnswers(a => ({ ...a, [c]: e.target.value }))}
-                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); inputs.current[i + 1] ? inputs.current[i + 1].focus() : e.currentTarget.blur() } }}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (inputs.current[i + 1]) inputs.current[i + 1].focus(); else e.currentTarget.blur() } }}
                     placeholder={`${c} ב־${letter}…`} autoComplete="off" />
                   {bad && <small>⚠️ המילה צריכה להתחיל ב־{letter}</small>}
                 </label>

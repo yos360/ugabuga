@@ -71,6 +71,9 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
   const [won, setWon] = useState(false)
   const lost = mistakes >= LIVES
   const [toast, setToast] = useState(null)
+  const [keyboardOpen, setKeyboardOpen] = useState(false)
+  const [keyboardCubes, setKeyboardCubes] = useState([])
+  const [selectedCube, setSelectedCube] = useState('')
   const [boxRef, box] = useBox()
   const mountRef = useRef(null)
   const three = useRef(null)
@@ -197,6 +200,8 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
     if (!s) return
     const board = buildLevel(level)
     boardRef.current = board
+    setKeyboardCubes(board.cubes.map(c => ({ ...c })))
+    setSelectedCube(String(board.cubes[0]?.id ?? ''))
     s.group.clear(); s.meshes.clear(); s.anims = []
     for (const c of board.cubes) {
       const mesh = new THREE.Mesh(s.geo, s.mats[c.color % s.mats.length])
@@ -219,6 +224,9 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
     const at = nowSec()
     if (isFree(board.cubes, cube)) {
       cube.gone = true
+      const remainingCubes = board.cubes.filter(c => !c.gone)
+      setKeyboardCubes(remainingCubes.map(c => ({ ...c })))
+      setSelectedCube(current => current === String(cube.id) ? String(remainingCubes[0]?.id ?? '') : current)
       s.anims = s.anims.filter(a => a.mesh !== mesh)
       mesh.material = mesh.material.clone(); mesh.material.transparent = true
       mesh.children[0].material = s.arrowMat.clone(); mesh.children[0].material.transparent = true
@@ -290,10 +298,21 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
         {!daily && <ToolButton onClick={() => setMap(true)} label="מפת שלבים">🗺️</ToolButton>}
         <ToolButton onClick={hint} label="רמז">💡</ToolButton>
         <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
+        <ToolButton onClick={() => setKeyboardOpen(open => !open)} label="משחק במקלדת">⌨️</ToolButton>
       </Hud>
+      {keyboardOpen && <div className="fc-keyboard">
+        <label>בחירת קובייה<select value={selectedCube} onChange={e => setSelectedCube(e.target.value)} disabled={won || lost || !keyboardCubes.length}>
+          {keyboardCubes.map(c => <option key={c.id} value={String(c.id)}>{`קובייה ${c.id + 1}: עמודה ${c.x + 1}, שורה ${c.y + 1}, עומק ${c.z + 1}; חץ ${c.d[0] ? (c.d[0] > 0 ? 'ימינה' : 'שמאלה') : c.d[1] ? (c.d[1] > 0 ? 'למעלה' : 'למטה') : c.d[2] > 0 ? 'קדימה' : 'אחורה'}`}</option>)}
+        </select></label>
+        <button type="button" className="arc-btn" disabled={won || lost || !keyboardCubes.length} onClick={() => {
+          const cube = boardRef.current?.cubes.find(c => String(c.id) === selectedCube && !c.gone)
+          if (cube) tap(cube)
+        }}>העפת הקובייה שנבחרה</button>
+        <p role="status">נשארו {left} קוביות ו־{LIVES - mistakes} לבבות. בחרו קובייה שהדרך בכיוון החץ שלה פנויה.</p>
+      </div>}
       <div className="arc-field" ref={boxRef}>
         <div ref={mountRef} className="fc-mount" role="img" aria-label="קובייה עשויה מקוביות קטנות. גררו כדי לסובב, לחצו על קובייה כדי להעיף אותה" />
-        {toast && <div key={toast.k} className="arc-toast">{toast.text}</div>}
+        {toast && <div key={toast.k} className="arc-toast" role="status">{toast.text}</div>}
         <p className="fc-help" aria-hidden="true">👆 גוררים לסיבוב · לוחצים להעפה</p>
       </div>
       {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} worlds={WORLDS} unlocked={progress.level} stars={progress.stars} current={level}

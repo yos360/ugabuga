@@ -1,6 +1,6 @@
-import { useEffect, useId, useState } from 'react'
+import { lazy, Suspense, useEffect, useId, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SHABBAT_PLACES } from '../../data/shabbatCities'
+const ShabbatCitySelect = lazy(() => import('./ShabbatCitySelect'))
 import { mailApi, normalizeMail, REMINDER_OPTIONS } from '../../utils/mailPreferences'
 
 export default function MailSignup({ city, expanded = false, allowShabbat = false }) {
@@ -20,7 +20,7 @@ export default function MailSignup({ city, expanded = false, allowShabbat = fals
       <label>כתובת המייל שלכם<input type="email" autoComplete="email" required maxLength={254} dir="ltr" value={form.email} onChange={e => set('email', e.target.value)} /></label>
       <fieldset><legend>מה תרצו לקבל? בחרו רק מה שמתאים לכם</legend>
         {allowShabbat && <label className="mail-check"><input type="checkbox" checked={form.shabbat} onChange={e => set('shabbat', e.target.checked)} />תזכורת כניסת שבת לפי העיר שלי</label>}
-        {form.shabbat && <div className="mail-options"><label>עיר<select value={form.city} onChange={e => set('city', e.target.value)}>{SHABBAT_PLACES.map(c => <option key={c.slug} value={c.slug}>{c.name} · {c.offset} דק׳ לפני השקיעה</option>)}</select></label><label>מתי להזכיר לי?<select value={form.minutes} onChange={e => set('minutes', Number(e.target.value))}>{REMINDER_OPTIONS.map(([n, text]) => <option key={n} value={n}>{text}</option>)}</select></label></div>}
+        {form.shabbat && <div className="mail-options"><label>עיר<Suspense fallback={<select disabled value={form.city}><option value={form.city}>טוענים ערים…</option></select>}><ShabbatCitySelect value={form.city} onChange={e => set('city', e.target.value)} /></Suspense></label><label>מתי להזכיר לי?<select value={form.minutes} onChange={e => set('minutes', Number(e.target.value))}>{REMINDER_OPTIONS.map(([n, text]) => <option key={n} value={n}>{text}</option>)}</select></label></div>}
         <label className="mail-check"><input type="checkbox" checked={form.weekly} onChange={e => set('weekly', e.target.checked)} />אני רוצה לקבל תוכן שבועי מעוגה בוגה</label>
         <label className="mail-check"><input type="checkbox" checked={form.marketing} onChange={e => set('marketing', e.target.checked)} />אני מסכים/ה לקבל גם הצעות ופרסומות מעוגה בוגה במייל</label>
       </fieldset>

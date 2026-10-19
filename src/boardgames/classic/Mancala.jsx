@@ -46,7 +46,7 @@ function Play() {
   useComputerTurn(cpu, [s], () => play(cpuMove(s, level)), 800)
   const Pit = ({ i }) => {
     const can = !end && !cpu && own(s.turn).includes(i) && s.p[i] > 0
-    return <button type="button" className={`mc-pit${can ? ' is-can' : ''}${s.last === i ? ' is-last' : ''}`} disabled={!can} onClick={() => play(i)} aria-label={`גומה עם ${s.p[i]} אבנים`}>
+    return <button type="button" className={`mc-pit${can ? ' is-can' : ''}${s.last === i ? ' is-last' : ''}`} disabled={!can} onClick={() => play(i)} aria-label={`שורה ${i < 6 ? 'תחתונה' : 'עליונה'}, גומה ${i < 6 ? i + 1 : 13 - i} משמאל: ${s.p[i]} אבנים`}>
       <span className="mc-seeds">{Array.from({ length: Math.min(s.p[i], 12) }, (_, k) => <i key={k} />)}</span><b>{s.p[i]}</b>
     </button>
   }

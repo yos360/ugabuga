@@ -74,7 +74,7 @@ function IsraelMap({ marks = {}, onPick, labels, numbers, size = 1 }) {
     <polygon points={poly(IL_KINNERET)} fill="#8ec5ec" stroke="#4a8fc0" strokeWidth=".6" />
     <polygon points={poly(IL_DEADSEA)} fill="#8ec5ec" stroke="#4a8fc0" strokeWidth=".6" />
     <text x="6" y="190" fontSize={9 * size} fill="#4a8fc0" fontWeight="700" direction="rtl" textAnchor="start" transform="rotate(-70 6 190)">הים התיכון</text>
-    {IL_PLACES.map(([id, name, lat, lon, kind], i) => {
+    {IL_PLACES.map(([id, name, lat, lon, kind]) => {
       const [x, y] = px([lat, lon]).map(Number)
       const m = marks[id]
       const fill = m === 'right' ? '#2e9e2b' : m === 'wrong' ? '#d33' : m === 'hint' ? '#ffd23f' : kind === 'place' ? '#7548b3' : '#1d2233'

@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnAnswers, cbnMathGrid, cbnPath } from '../../data/colorByNumber'
+import { thumbnailPaths } from '../../data/cbnThumbnail'
 import './color-by-number.css'
 
 // Shared pieces of the color-by-number family: /printables/color-by-number (numbers + the picture's
@@ -86,8 +87,12 @@ export const sheetsFor = (list, kinds, withSolution) => list.flatMap(p => [...ki
 
 export function PictureCard({ p, to, sub }) {
   const level = cbnLevel(p.level), { cols, rows } = cbnSize(p)
+  const paths = useMemo(() => thumbnailPaths(cbnGrid(p)), [p])
+  const legend = cbnLegend(p)
   return <Link to={to || cbnPath(p)} className="wobbly group flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1">
-    <div className="cbn-thumb"><CbnSvg p={p} mode="solution" label={`צביעה לפי מספרים: ${p.name}`} /></div>
+    <div className="cbn-thumb"><svg viewBox={`-0.5 -0.5 ${cols * CELL + 1} ${rows * CELL + 1}`} className="cbn-svg" role="img" aria-label={`צביעה לפי מספרים: ${p.name}`} dir="ltr">
+      {paths.map(({ color, d }) => <path key={color} d={d} fill={legend[color - 1].hex} />)}
+    </svg></div>
     <b className="mt-2 text-lg">{p.emoji} {p.name}</b>
     <small className="text-[var(--muted-foreground)]">{sub || <><span className={`rounded-full px-2 ${level.badge}`}>{level.label}</span> · {cols}×{rows} · {p.colors.length} צבעים</>}</small>
   </Link>

@@ -21,3 +21,11 @@
 @media(max-width:700px){.live-create-quick{align-items:stretch;flex-direction:column}.live-create-quick .live-create{width:100%;min-width:0}.live-replay-primary{align-items:flex-start;flex-direction:column}.live-replay-picker .live-topic-grid{grid-template-columns:1fr 1fr}.live-replay-levels{grid-template-columns:1fr}}
 .live-mode-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border:0;padding:0;margin:0}.live-mode-picker legend{margin-bottom:6px;font-weight:900;color:var(--live-navy)}.live-mode-picker button{border:1px solid #d9dbea;border-radius:13px;background:#fff;color:var(--live-navy);padding:10px;font:inherit}.live-mode-picker button span,.live-mode-picker button small{display:block}.live-mode-picker button span{font-weight:900}.live-mode-picker button small{margin-top:2px;color:#74798e}.live-mode-picker button[aria-pressed=true]{border-color:var(--live-purple);background:#eee9ff;color:var(--live-purple)}.live-bank-count{width:max-content;max-width:100%;margin:0 auto 14px;border-radius:999px;background:#e7f9ee;color:#17653c;padding:7px 14px;font-weight:900;font-size:.9rem}.live-replay-modes{padding-top:4px;border-top:1px solid #e3e4ed}
 @media(max-width:700px){.live-mode-picker{grid-template-columns:1fr}.live-mode-picker button{display:flex;align-items:center;justify-content:space-between}.live-topic-grid button span{font-size:.9rem}}
+/* Keep the generator's intrinsic content inside narrow mobile screens. */
+.live-generator,.live-generator>*{min-width:0}
+.live-generator{grid-template-columns:minmax(0,1fr)}
+.live-topic-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.live-topic-grid button,.live-generator-settings fieldset{min-width:0}
+.live-generator-head{flex-wrap:wrap}
+@media(max-width:700px){.live-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.live-topic-grid button{gap:5px;overflow-wrap:anywhere}.live-topic-grid button i{flex-shrink:0;width:30px;height:30px}}
+@media(max-width:360px){.live-generator{padding:10px}.live-topic-grid button{padding:6px}.live-generator-head>b{white-space:normal}}

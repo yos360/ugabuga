@@ -2,14 +2,15 @@ import { SUITS, isRed, rankLabel } from './logic/cards'
 import CourtArt from './games/solitaire/CourtArt'
 
 // One playing card. Face-down cards show the back pattern.
-export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer }) {
+export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer, onActivate }) {
   const h = w * 1.4
   const style = { width: w, height: h, transform: `translate(${x}px, ${y}px)`, zIndex: z, fontSize: w * 0.26 }
   if (dragged) { style.transform = `translate(${x + dragged.dx}px, ${y + dragged.dy}px)`; style.zIndex = 500 + z }
   const cls = `cd${w < 60 ? ' is-sm' : ''}${card.up ? (isRed(card) ? ' is-red' : '') : ' is-back'}${dragged ? ' is-drag' : ''}${hint ? ' is-hint' : ''}${selected ? ' is-sel' : ''}`
   return (
     <div className={cls} style={style} data-drop={dropKey} {...onPointer}
-      aria-label={card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך'} role="img">
+      aria-label={card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך'} role={onActivate ? 'button' : 'img'} tabIndex={onActivate ? 0 : undefined}
+      onKeyDown={onActivate ? e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onActivate() } } : undefined}>
       {card.up && <>
         <span className="cd-corner">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>
         <span className="cd-center">{card.rank > 10 ? <CourtArt rank={card.rank} /> : SUITS[card.suit]}</span>

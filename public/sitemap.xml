@@ -121,6 +121,10 @@
   <url><loc>https://ugabuga.co.il/ideas/age/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/12</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/13</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/14</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/15</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/ideas/age/16</loc><lastmod>2026-10-18</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/age/30</loc><priority>0.4</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/themes</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/ideas/themes/football-birthday</loc><priority>0.7</priority></url>
@@ -161,7 +165,6 @@
   <url><loc>https://ugabuga.co.il/printables/birthday-crown</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--birthday-crown.jpg</image:loc><image:title>כתר יום הולדת להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/memory-game</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--memory-game.jpg</image:loc><image:title>משחק זיכרון להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/dominoes</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--dominoes.jpg</image:loc><image:title>דומינו להדפסה</image:title></image:image><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/tic-tac-toe</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--tic-tac-toe.jpg</image:loc><image:title>לוחות איקס עיגול להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/fortune-teller</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--fortune-teller.jpg</image:loc><image:title>קוטי פוטי להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/origami</loc><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/origami/paper-cup</loc><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
@@ -1485,6 +1488,7 @@
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-2</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-3</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/grade-6</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-a</loc><lastmod>2026-10-18</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/practice</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/simulation</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
@@ -3162,6 +3166,9 @@
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/sukkot</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/simchat-torah</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/hanukkah</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/en/jewish-holidays/hanukkah/how-to-play-dreidel</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/en/jewish-holidays/hanukkah/candle-lighting</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/en/jewish-holidays/hanukkah/activities</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/tu-bishvat</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/purim</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/en/jewish-holidays/passover</loc><priority>0.7</priority></url>

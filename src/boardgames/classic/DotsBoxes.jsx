@@ -55,13 +55,14 @@ function Play() {
         extra={<label>גודל: <select value={N} onChange={e => { setN(+e.target.value); setS(fresh()) }}>{SIZES.map(n => <option key={n} value={n}>{n}×{n}</option>)}</select></label>} />
       <p className="bg-status" role="status">{end ? (s.score[1] === s.score[-1] ? '🤝 תיקו!' : `🏆 ${(t => mode === 'computer' ? (t === 1 ? 'ניצחתם!' : 'המחשב ניצח!') : t === 1 ? 'הכחול ניצח!' : 'האדום ניצח!')(s.score[1] > s.score[-1] ? 1 : -1)}`) : cpu ? '🤔 המחשב חושב…' : `תור: ${name(s.turn)} – לחצו על קו בין שתי נקודות`}</p>
       <div className="db-board" dir="ltr">
-        <svg viewBox="-6 -6 112 112" role="img" aria-label="לוח נקודות">
+        <svg viewBox="-6 -6 112 112" role="group" aria-label="לוח נקודות — בחרו קו והקישו Enter או רווח">
           {Object.entries(s.owner).map(([k, t]) => { const [r, c] = k.split('-').map(Number); return <g key={k}><rect x={c * cell + 1} y={r * cell + 1} width={cell - 2} height={cell - 2} className={t === 1 ? 'db-box-a' : 'db-box-b'} /><text x={c * cell + cell / 2} y={r * cell + cell / 2 + 3} textAnchor="middle" fontSize={cell / 3}>{t === 1 ? '😀' : mode === 'computer' ? '🤖' : '😎'}</text></g> })}
           {allLines(N).map(l => {
             const [t, r, c] = [l[0], +l.split('-')[1], +l.split('-')[2]]
             const x1 = c * cell, y1 = r * cell, x2 = t === 'h' ? x1 + cell : x1, y2 = t === 'h' ? y1 : y1 + cell
             const d = s.drawn[l]
-            return <g key={l} className="db-line" onClick={() => !d && !cpu && !end && draw(l)}>
+            const can = !d && !cpu && !end
+            return <g key={l} className="db-line" role="button" tabIndex={can ? 0 : -1} aria-disabled={!can} aria-pressed={!!d} aria-label={`קו ${t === 'h' ? 'אופקי' : 'אנכי'}, שורה ${r + 1}, עמודה ${c + 1}${d ? ' — כבר סומן' : ''}`} onClick={() => can && draw(l)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (can) draw(l) } }}>
               <line x1={x1} y1={y1} x2={x2} y2={y2} className="db-hit" />
               <line x1={x1} y1={y1} x2={x2} y2={y2} className={d ? (d === 1 ? 'db-a' : 'db-b') + (s.last === l ? ' is-last' : '') : 'db-empty'} />
             </g>

@@ -137,7 +137,7 @@ export default function TodayGame({ dateKey: forcedKey, archive = false, fallbac
       {!done && <Question q={questions[idx]} n={idx} total={questions.length} dateKey={dateKey} state={states[idx]} last={idx === questions.length - 1}
         onHint={() => update(idx, { hints: states[idx].hints + 1 })}
         onAnswer={i => update(idx, { choice: i, points: i === questions[idx].answer ? Math.max(FULL - HINT_COST * states[idx].hints, HINT_COST) : 0 })}
-        onNext={() => { moved.current = true; idx === questions.length - 1 ? finish(states) : setIdx(idx + 1) }} />}
+        onNext={() => { moved.current = true; if (idx === questions.length - 1) finish(states); else setIdx(idx + 1) }} />}
       {done && (
         <div className="mh-end">
           <div className="mh-score"><b>{correct}/{questions.length}</b><span>{score} מתוך {max} נקודות</span>{!archive && <span>🔥 רצף: {streak} {streak === 1 ? 'יום' : 'ימים'}</span>}</div>

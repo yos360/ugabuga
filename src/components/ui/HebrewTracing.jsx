@@ -67,7 +67,7 @@ export function LetterSheet({letter, lang = 'he', name = letter}) {
 }
 
 // Capital + small letter on school handwriting lines (top, dashed middle, base).
-function EnglishLetterSheet({letter, lang = 'he', name = letter}) {
+function EnglishLetterSheet({letter}) {
   const big = letter + letter.toLowerCase(), cap = letterH('A', 64, false), mid = xHeight('A', 64)
   return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${big}`} style={{width:'100%',height:'100%',background:'white'}} direction="ltr">
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
@@ -89,7 +89,7 @@ function EnglishLetterSheet({letter, lang = 'he', name = letter}) {
 
 // One A4 sheet per name: trace it on a single dashed line, practise, then colour
 // it in. Hebrew and English are detected per name so a mixed class list works.
-export function NameSheet({name, dotted = true}) {
+export function NameSheet({name}) {
   const heb = isHebrew(name), font = heb ? 'Heebo' : 'Arial'
   const big = Math.min(130, Math.floor(520 / Math.max(name.length, 1) * (heb ? 1.45 : 1.55)))
   const row = Math.min(66, Math.floor(big * 0.5))

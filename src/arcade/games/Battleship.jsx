@@ -1,28 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { N, FLEET, randomFleet, newSea, fire, aiShot, allSunk, isSunk, shipAt } from '../logic/battleship'
-import { rng } from '../logic/rng'
+import { setupBattle } from '../logic/battleshipSetup'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
 
 const LETTERS = 'אבגדהוזחטי'
 
-function setup(daily) {
-  const enemyRand = daily ? rng(daily.seed) : Math.random
-  return {
-    phase: 'setup',
-    mine: newSea(randomFleet()),
-    enemy: newSea(randomFleet(enemyRand)),
-    turn: 'me',
-    myShots: 0,
-    aiRand: daily ? rng(daily.seed + 17) : Math.random,
-    msg: 'זה הצי שלכם. אפשר לערבב, ואז ▶ מתחילים!',
-  }
-}
-
 export default function Battleship({ onReport, onShare, daily }) {
   const [progress, saveProgress] = useProgress('battleship', { smart: true, wins: 0, best: 0 })
-  const [g, setG] = useState(() => setup(daily))
-  const [smart, setSmart] = useState(progress.smart)
+  const [g, setG] = useState(() => setupBattle(daily))
+  const [smart, setSmart] = useState(daily ? true : progress.smart)
   const [boxRef, box] = useBox()
   const [flash, setFlash] = useState(null)
   const doneRef = useRef(false)
@@ -65,7 +52,7 @@ export default function Battleship({ onReport, onShare, daily }) {
     } else daily?.finish({ text: `⚓ צוללות: המחשב ניצח הפעם (${g.myShots} יריות)`, score: null })
   }, [g.phase, g.myShots, won, saveProgress, onReport, daily])
 
-  const restart = () => { doneRef.current = false; setG(setup(daily)) }
+  const restart = () => { doneRef.current = false; setG(setupBattle(daily)) }
   const toggleSmart = () => { const v = !smart; setSmart(v); saveProgress({ smart: v }) }
 
   // layout: portrait → enemy sea big on top, my fleet small below; landscape → side by side
@@ -112,7 +99,7 @@ export default function Battleship({ onReport, onShare, daily }) {
             <h3>⚓ הצי שלכם</h3>
             {grid(g.mine, Math.max(22, Math.min(box.w - 16, box.h - 120) / (N + 1)), true)}
             <div className="bs2-setup-actions">
-              <button type="button" className="arc-btn" onClick={() => setG(x => ({ ...x, mine: newSea(randomFleet()) }))}>🔀 סידור אחר</button>
+              {!daily && <button type="button" className="arc-btn" onClick={() => setG(x => ({ ...x, mine: newSea(randomFleet()) }))}>🔀 סידור אחר</button>}
               <button type="button" className="arc-btn arc-btn-main" onClick={() => say('🎯 תורכם! לחצו על משבצת בים של המחשב', { phase: 'play' })}>▶ מתחילים!</button>
             </div>
           </div>

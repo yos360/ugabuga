@@ -59,6 +59,10 @@ export function FamilyHub() {
 
 // ── /family/what-to-do ───────────────────────────────
 const WHO_OK = { solo: ['solo', 'any'], parent: ['parent', 'any', 'solo'], group: ['group', 'any'] }
+const ActivityCard = ({ a }) => <div className="fam-card"><div className="flex items-start gap-3"><span className="text-4xl" aria-hidden="true">{a.e}</span><div><b className="text-lg">{a.t}</b><p className="m-0">{a.d}</p>
+    <small className="text-[var(--muted-foreground)]">{a.where === 'out' ? 'בחוץ' : a.where === 'in' ? 'בבית' : 'בבית או בחוץ'} · {a.time === 10 ? 'כ-10 דקות' : a.time === 30 ? 'כחצי שעה' : 'שעה ומעלה'}{a.mess === 2 ? ' · מלכלך קצת' : ''}</small>
+    {a.to && <div><Link to={a.to} className="font-bold underline">לפתוח באתר ←</Link></div>}</div></div></div>
+
 export function WhatToDo() {
   const [where, setWhere] = useState('any')
   const [time, setTime] = useState(60)
@@ -68,9 +72,7 @@ export function WhatToDo() {
   const [shown, setShown] = useState(null)
   const list = useMemo(() => ACTIVITIES.filter(a => (where === 'any' || a.where === 'any' || a.where === where) && a.time <= time && WHO_OK[who].includes(a.who) && age >= a.age[0] && age <= a.age[1] && (!clean || a.mess === 0)), [where, time, who, age, clean])
   const roll = () => setShown(list.length ? { a: pick(list.filter(x => x !== shown?.a).length ? list.filter(x => x !== shown?.a) : list), k: Date.now() } : null)
-  const Card = ({ a }) => <div className="fam-card"><div className="flex items-start gap-3"><span className="text-4xl" aria-hidden="true">{a.e}</span><div><b className="text-lg">{a.t}</b><p className="m-0">{a.d}</p>
-    <small className="text-[var(--muted-foreground)]">{a.where === 'out' ? 'בחוץ' : a.where === 'in' ? 'בבית' : 'בבית או בחוץ'} · {a.time === 10 ? 'כ-10 דקות' : a.time === 30 ? 'כחצי שעה' : 'שעה ומעלה'}{a.mess === 2 ? ' · מלכלך קצת' : ''}</small>
-    {a.to && <div><Link to={a.to} className="font-bold underline">לפתוח באתר ←</Link></div>}</div></div></div>
+
   return <Page>
     <SEO title="מה עושים היום עם הילדים? מחולל רעיונות לפעילות בבית ובחוץ" description={`${ACTIVITIES.length} רעיונות לפעילות עם ילדים: בבית או בחוץ, 10 דקות או שעה, לבד או עם חברים. בוחרים גיל ולוחצים — ומקבלים רעיון. גם "בלי בלגן".`} path="/family/what-to-do" />
     <Head emoji="🎲" h1="מה עושים היום?" sub="אמרו לנו איפה, כמה זמן ועם מי — ואנחנו נציע" crumb="מה עושים היום?" />
@@ -80,11 +82,11 @@ export function WhatToDo() {
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="עם מי">{[['solo', '🧒 לבד'], ['parent', '👨‍👧 עם הורה'], ['group', '👫 כמה ילדים']].map(([k, l]) => <Chip key={k} on={who === k} onClick={() => setWho(k)}>{l}</Chip>)}</div>
       <div className="flex flex-wrap items-center justify-center gap-3"><label className="font-bold">גיל: {age}<input type="range" min="2" max="14" value={age} onChange={e => setAge(+e.target.value)} className="mx-2 align-middle" /></label><Chip on={clean} onClick={() => setClean(!clean)}>🧼 בלי בלגן</Chip></div>
       <div className="text-center"><button type="button" className="fam-roll" onClick={roll}>🎲 {shown ? 'רעיון אחר' : 'מה עושים?'}</button></div>
-      {shown && <div key={shown.k} className="fam-pop"><Card a={shown.a} /></div>}
+      {shown && <div key={shown.k} className="fam-pop"><ActivityCard a={shown.a} /></div>}
       {!list.length && <p className="text-center font-bold">אין רעיון שמתאים לכל הבחירות — נסו לשנות אחת.</p>}
     </div>
     <h2 className="mt-10 mb-3 text-2xl font-black">כל הרעיונות שמתאימים ({list.length})</h2>
-    <div className="grid gap-3 sm:grid-cols-2">{list.map(a => <Card key={a.t} a={a} />)}</div>
+    <div className="grid gap-3 sm:grid-cols-2">{list.map(a => <ActivityCard key={a.t} a={a} />)}</div>
     <div className="mt-12"><SeoBody paragraphs={['"משעמם לי" הוא לא תמיד בעיה — לפעמים הוא הרגע שלפני רעיון טוב. אבל כשאין כוח לחשוב, טוב שיש רשימה. המחולל בוחר פעילות אחת שמתאימה למקום, לזמן, לגיל ולמספר הילדים.', 'יש כאן פעילויות שקטות (צביעה, פאזל, כתיבת ספר קטן), פעילויות תנועה (מסלול מכשולים, ריקוד פסלים), מטבח ומדע, ויציאות החוצה. סמנו "בלי בלגן" כשאין כוח לנקות אחר כך.']} faq={[{ q: 'מה עושים עם ילד משועמם בבית?', a: 'מציעים שתיים-שלוש אפשרויות ונותנים לו לבחור — בחירה מגבירה את המוטיבציה. פעילויות פתוחות כמו מבצר כריות, ספר קטן או עיר מקרטון מחזיקות הכי הרבה זמן.' }]} related={[{ label: 'משחקים לנסיעה', href: '/family/car-games' }, { label: 'אתגר תנועה', href: '/family/move' }, { label: 'דפי צביעה', href: '/printables/coloring' }]} /></div>
   </Page>
 }
@@ -104,7 +106,7 @@ export function MorningRoutine() {
   const [leave, setLeave] = useState('07:45')
   const [name, setName] = useState('')
   const [run, setRun] = useState(null) // {i, t0, done:[]}
-  const [now, setNow] = useState(Date.now())
+  const [now, setNow] = useState(() => Date.now())
   const [printing, setPrinting] = useState(false)
   const all = ROUTINE_TASKS[kind]
   const tasks = all.filter(t => sel[kind].includes(t[0])).map(t => [t[0], t[1], t[2], mins[kind + t[0]] ?? t[3]])
@@ -222,7 +224,7 @@ export function MoveChallenge() {
   const [count, setCount] = useState(8)
   const [secs, setSecs] = useState(30)
   const [run, setRun] = useState(null) // {list, i, t0, rest}
-  const [now, setNow] = useState(Date.now())
+  const [now, setNow] = useState(() => Date.now())
   const [one, setOne] = useState(null)
   const [printing, setPrinting] = useState(false)
   useEffect(() => { if (!run || run.over) return; const id = setInterval(() => setNow(Date.now()), 200); return () => clearInterval(id) }, [run])

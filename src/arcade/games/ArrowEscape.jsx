@@ -79,13 +79,16 @@ export default function ArrowEscape({ onReport, onShare, daily }) {
         <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
       </Hud>
       <div className="arc-field ae-field" ref={boxRef}>
-        {box.w > 0 && <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="ae-board" role="img" aria-label={`לוח של ${left} חיצים`} style={{ overflow: 'visible' }}>
+        {box.w > 0 && <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="ae-board" role="group" aria-label={`לוח של ${left} חיצים`} style={{ overflow: 'visible' }}>
           {board.tiles.map(t => {
             if (t.gone) return null
             const fly = flying.has(t.id), [vx, vy] = VEC[t.d], far = (board.w + board.h) * cell
             const isBump = bump && bump.id === t.id, isBlock = bump && bump.block === t.id
             const p = cell * 0.06, s = cell - p * 2
             return <g key={isBump || isBlock ? `${t.id}-${bump.k}` : t.id} className={`ae-tile ${isBump ? 'is-bump' : ''} ${isBlock ? 'is-block' : ''} ${hintId === t.id ? 'is-hint' : ''}`}
+              role="button" tabIndex={fly || won || lost ? -1 : 0} aria-disabled={fly || won || lost}
+              aria-label={`חץ בשורה ${t.y + 1}, עמודה ${t.x + 1}, ${vx > 0 ? 'ימינה' : vx < 0 ? 'שמאלה' : vy > 0 ? 'למטה' : 'למעלה'}`}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tap(t) } }}
               style={{ transform: `translate(${t.x * cell + (fly ? vx * far : 0)}px, ${t.y * cell + (fly ? vy * far : 0)}px)`, opacity: fly ? 0 : 1, '--bx': `${vx * cell * 0.18}px`, '--by': `${vy * cell * 0.18}px` }}
               onPointerDown={e => { e.preventDefault(); tap(t) }}>
               <rect x={p} y={p} width={s} height={s} rx={s * 0.22} fill={COLORS[t.color]} stroke="#25304f" strokeWidth={Math.max(1.2, cell * 0.035)} />

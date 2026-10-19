@@ -64,7 +64,7 @@ export default function LiveQuizHome(){
  const owned=liveMemory.owned()
  const create=async quiz=>{setBusy(true);setError('');try{const token=newLiveToken(),gameCode=await liveQuizDb.create(token,quiz.title,quiz.questions,quiz.seconds);liveMemory.rememberHost(gameCode,token,quiz.title);localStorage.removeItem('buga-live-draft');nav(`/live/${gameCode}/host`)}catch(e){setError(liveErrorText(e.code))}finally{setBusy(false)}}
  const join=e=>{e.preventDefault();const value=cleanCode(code);if(value.length===6)nav(`/play/${value}`);else setError('קוד משחק מכיל 6 אותיות ומספרים.')}
- return <main className="live-home">
+ return <div className="live-home">
   <SEO title="בוגה לייב — משחק לכיתה עם עד 100 משתתפים" description="יוצרים משחק שאלות, מצטרפים מהטלפון עם QR ורואים תוצאות בזמן אמת — בלי צורך בחשבון." path="/live" />
   <div className="live-home-inner"><Breadcrumbs items={[{label:'בית',href:'/'},{label:'משחקים',href:'/games'},{label:'בוגה לייב'}]} />
    <header className="live-hero"><div className="live-logo-orb">B!</div><p>חידון משותף, בזמן אמת</p><h1>בוגה לייב</h1><h2>כולם עונים, המסך מתעורר לחיים</h2>
@@ -78,5 +78,5 @@ export default function LiveQuizHome(){
     {owned.length>0&&<section className="live-owned"><h2>המשחקים שלי</h2><div>{owned.slice(0,6).map(game=><Link key={game.code} to={`/live/${game.code}/host`}><b>{game.title}</b><span dir="ltr">{game.code}</span></Link>)}</div></section>}
     </>}
   </div>
- </main>
+ </div>
 }

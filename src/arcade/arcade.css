@@ -438,3 +438,7 @@ button.bs2-cell{cursor:default}
 .wg5-dist div{display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px}
 .wg5-dist i{font-style:normal;background:#8a90a0;color:#fff;border-radius:4px;padding:1px 6px;text-align:left;min-width:22px}
 .wg5-dist i.is-now{background:#22a35a}
+.fc-keyboard{padding:8px 12px;background:var(--card,#fff);border-radius:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;max-width:100%;min-width:0}
+.fc-keyboard label{display:flex;flex-direction:column;flex:1;min-width:0;font-weight:700}
+.fc-keyboard select{max-width:100%;min-width:0;min-height:44px;font:inherit}
+.fc-keyboard p{margin:0;font-size:14px;width:100%}

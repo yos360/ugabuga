@@ -66,7 +66,7 @@ export default function DailyChallenge() {
           <div>
             <p className="dl-date">📅 {daily.label}</p>
             <h2 className="dl-game">{game.name}</h2>
-            <p>{daily.goal}</p>
+            <p className="dl-goal">{daily.goal}</p>
             {mine
               ? <p className="dl-mine">{mine.won ? '✅' : '🔁'} {mine.text}</p>
               : null}
@@ -105,7 +105,7 @@ export default function DailyChallenge() {
         </section>
       </div>
       <p style={{ textAlign: 'center' }}><Link to="/online-games" className="underline font-bold">לכל משחקי האונליין ←</Link></p>
-      {playing && game && <ArcadeStage game={game} daily={daily} onClose={close} />}
+      {playing && game && <ArcadeStage key={daily.day} game={game} daily={daily} onClose={close} />}
     </div>
   )
 }

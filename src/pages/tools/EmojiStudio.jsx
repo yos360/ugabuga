@@ -160,7 +160,7 @@ function Builder({ game, setGame, onPlay }) {
       </div>
       <details className="rounded-2xl bg-white p-4">
         <summary className="cursor-pointer font-bold">📚 עוד חידות מוכנות להוספה</summary>
-        <div className="mt-3 flex flex-wrap gap-2">{PUZZLE_PACKS.map(p => <button key={p.id} onClick={() => { setGame({ ...game, items: [...game.items, ...fromPack(p).map(({ pack, ...x }) => x)] }); flash(`✓ נוספו ${p.items.length} חידות`) }} className="rounded-full border-2 border-slate-200 px-3 py-1.5 text-sm font-bold">＋ {p.emoji} {p.name}</button>)}</div>
+        <div className="mt-3 flex flex-wrap gap-2">{PUZZLE_PACKS.map(p => <button key={p.id} onClick={() => { setGame({ ...game, items: [...game.items, ...fromPack(p).map(({ pack: _pack, ...x }) => x)] }); flash(`✓ נוספו ${p.items.length} חידות`) }} className="rounded-full border-2 border-slate-200 px-3 py-1.5 text-sm font-bold">＋ {p.emoji} {p.name}</button>)}</div>
       </details>
     </section>
   </div>

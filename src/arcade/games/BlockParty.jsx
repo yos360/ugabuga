@@ -14,6 +14,7 @@ export default function BlockParty({ onReport, onShare, daily }) {
   const [pieces, setPieces] = useState(() => dealPieces(rand))
   const [score, setScore] = useState(0)
   const [sel, setSel] = useState(null)
+  const [keyboardCell, setKeyboardCell] = useState(0)
   const [drag, setDrag] = useState(null)
   const [clearing, setClearing] = useState(null)
   const [over, setOver] = useState(false)
@@ -111,7 +112,16 @@ export default function BlockParty({ onReport, onShare, daily }) {
             const k = `${x},${y}`
             const g = ghostCells.get(k)
             const cls = `bp-cell${c ? ' is-full' : ''}${g ? ' is-ghost' : ''}${clearing?.keys.has(k) ? ' is-clear' : ''}`
-            return <div key={clearing?.keys.has(k) ? `${k}-${clearing.k}` : k} className={cls} style={c || g ? { background: c || g } : undefined} onClick={() => onCell(x, y)} role="gridcell" />
+            return <div key={clearing?.keys.has(k) ? `${k}-${clearing.k}` : k} className={cls} style={c || g ? { background: c || g } : undefined} onClick={() => onCell(x, y)} role="gridcell"
+              tabIndex={keyboardCell === y * N + x ? 0 : -1} aria-label={`שורה ${y + 1}, עמודה ${x + 1}: ${c ? 'תפוס' : 'פנוי'}`}
+              onFocus={() => setKeyboardCell(y * N + x)} onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onCell(x, y); return }
+                const offset = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -N, ArrowDown: N }[e.key]
+                if (!offset) return
+                e.preventDefault()
+                const next = Math.max(0, Math.min(N * N - 1, y * N + x + offset))
+                boardRef.current?.querySelectorAll('[role="gridcell"]')[next]?.focus()
+              }} />
           }))}
         </div>
         <div className="bp-tray" style={{ height: mini * 5 + 16 }}>
@@ -122,6 +132,7 @@ export default function BlockParty({ onReport, onShare, daily }) {
             const hidden = drag?.i === i
             return (
               <button type="button" key={p.id} className={`bp-slot${sel === i ? ' is-sel' : ''}`} aria-label={`צורה ${i + 1}${fits ? '' : ' (לא נכנסת)'}`}
+                aria-pressed={sel === i} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!over) { setSel(i); boardRef.current?.querySelectorAll('[role="gridcell"]')[keyboardCell]?.focus() } } }}
                 style={{ width: mini * 5, height: mini * 5, opacity: hidden ? 0.2 : fits ? 1 : 0.35 }}
                 onPointerDown={e => onSlotDown(e, i)} onPointerMove={onSlotMove} onPointerUp={onSlotUp} onPointerCancel={() => { dragRef.current = null; setDrag(null) }}>
                 <span className="bp-piece" style={{ gridTemplateColumns: `repeat(${w}, ${mini}px)`, gridTemplateRows: `repeat(${h}, ${mini}px)`, direction: 'ltr' }}>

@@ -39,7 +39,7 @@ function rangeBounds(id) {
   // daily chart is a whole day — it used to start at this clock time 7 days ago.
   return [dayBounds(1 - Number(id)), later]
 }
-function label(category, action) {
+function label(category) {
   return ACTIVITY_LABELS[category] || category || 'לא ידוע'
 }
 function fmtTime(sec) {
@@ -256,7 +256,7 @@ function fmtClock(iso) {
 }
 function TrackSelf() {
   const [on, setOn] = useState(() => { try { return localStorage.getItem('buga-track-self') === '1' } catch { return false } })
-  const toggle = e => { const v = e.target.checked; setOn(v); try { v ? localStorage.setItem('buga-track-self', '1') : localStorage.removeItem('buga-track-self') } catch { /* ignore */ } }
+  const toggle = e => { const v = e.target.checked; setOn(v); try { if (v) localStorage.setItem('buga-track-self', '1'); else localStorage.removeItem('buga-track-self') } catch { /* ignore */ } }
   return <label className="flex items-start gap-2 rounded-2xl bg-slate-50 p-3 text-sm">
     <input type="checkbox" checked={on} onChange={toggle} className="mt-1 h-4 w-4" />
     <span><b>לספור גם את הגלישה שלי (לבדיקה)</b><br /><span className="text-slate-600">כברירת מחדל הדפדפן שלך לא נספר, כדי שהבדיקות שלך לא יעוותו את הנתונים. אם הדפסת בעצמך ולא ראית את זה בדוח, זו הסיבה.</span></span>

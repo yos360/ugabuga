@@ -4,6 +4,7 @@ import { shareOnWhatsApp } from '../utils/share'
 import { exitFullscreen, enterFullscreen, shareGameText } from './stage'
 import { createMusic, musicPref, saveMusicPref } from './music'
 import { saveResult, streak, dailyShareText } from './daily'
+import { useGameDialog } from './useGameDialog'
 import { WhatsAppIcon } from '../components/layout/WhatsAppShare'
 import './arcade.css'
 
@@ -13,6 +14,8 @@ import './arcade.css'
 // With `daily` (from /online-games/today) the game plays today's fixed puzzle and the
 // stage shows the daily result card when it ends.
 export default function ArcadeStage({ game, onClose, daily }) {
+  const dialogRef = useRef(null)
+  useGameDialog(dialogRef)
   const [report, setReport] = useState(null)
   const [isFs, setIsFs] = useState(() => !!document.fullscreenElement)
   const [musicOn, setMusicOn] = useState(musicPref)
@@ -63,7 +66,7 @@ export default function ArcadeStage({ game, onClose, daily }) {
   const toggleMusic = () => setMusicOn(on => { saveMusicPref(!on); return !on })
 
   return createPortal(
-    <div className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir="rtl" style={{ '--game-color': game.color }}
+    <div ref={dialogRef} tabIndex={-1} className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir="rtl" style={{ '--game-color': game.color }}
       onPointerDownCapture={() => { if (musicOn) music.current?.resume() }}>
       <header className="arc-top">
         <button type="button" className="arc-icon-btn" onClick={onClose} aria-label="יציאה מהמשחק">✕</button>
@@ -71,7 +74,7 @@ export default function ArcadeStage({ game, onClose, daily }) {
         <div className="arc-top-actions">
           <button type="button" className="arc-icon-btn" onClick={toggleMusic} aria-pressed={musicOn}
             aria-label={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'} title={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'}>{musicOn ? '🎵' : '🔇'}</button>
-          <button type="button" className="arc-share" onClick={() => shareOnWhatsApp(shareGameText(game, report))}>
+          <button type="button" className="arc-share" aria-label="שיתוף המשחק בוואטסאפ" onClick={() => shareOnWhatsApp(shareGameText(game, report))}>
             <WhatsAppIcon size={20} /><span className="arc-share-text">שתפו</span>
           </button>
           {canFs && <button type="button" className="arc-icon-btn" onClick={() => (isFs ? exitFullscreen() : enterFullscreen())} aria-label={isFs ? 'יציאה ממסך מלא' : 'מסך מלא'} title={isFs ? 'יציאה ממסך מלא' : 'מסך מלא'}>{isFs ? '🗗' : '⛶'}</button>}

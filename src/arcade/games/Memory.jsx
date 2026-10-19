@@ -67,7 +67,7 @@ export default function Memory({ onReport, onShare, daily, lang = 'he' }) {
         <div className="mm-grid" style={{ gridTemplateColumns: `repeat(${cols}, ${size}px)`, gap }}>
           {cards.map((c, i) => (
             <button key={c.id} type="button" className={`mm-card${c.open || c.done || peek ? ' is-open' : ''}${c.done ? ' is-done' : ''}`}
-              style={{ width: size, height: size }} onClick={() => flip(i)} aria-label={c.open || c.done ? c.face : en ? `Face-down card ${i + 1}` : 'קלף סגור'}>
+              style={{ width: size, height: size }} onClick={() => flip(i)} aria-label={c.open || c.done || peek ? `${c.face} — ${en ? 'card' : 'קלף'} ${i + 1}` : en ? `Face-down card ${i + 1}` : `קלף סגור ${i + 1}`}>
               <span className="mm-inner">
                 <span className="mm-back" aria-hidden="true">?</span>
                 <span className="mm-face" style={{ fontSize: size * 0.56 }}>{c.face}</span>
