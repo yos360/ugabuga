@@ -1,9 +1,11 @@
 import { lazy } from 'react'
+import { BRAIN_GAMES } from './brainRegistry.js'
 
 // Online games zone (/online-games). Each game is our own code and artwork, built on a
 // classic, generic puzzle mechanic (tap-away blocks, sorting, doubling numbers, block
 // placing, sliding cars) — no names, graphics or levels taken from any existing app.
 export const ARCADE = [
+  ...BRAIN_GAMES,
   {
     slug: 'flying-cubes',
     mood: 'dreamy',

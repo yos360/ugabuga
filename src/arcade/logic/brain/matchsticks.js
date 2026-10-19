@@ -18,8 +18,23 @@ export function solveMatches(p, state = p.initial) {
   if (remaining < 0) return null
   for (const target of targets(p.operator)) {
     const remove = bits(state.mask & ~target), add = bits(target & ~state.mask)
-    if (remove.length !== remaining || (p.mode === 'remove' ? add.length !== 0 : add.length !== remaining)) continue
-    return remove.map((from, i) => p.mode === 'remove' ? { from } : { from, to: add[i] })
+    if (p.mode === 'remove') {
+      if (remove.length === remaining && add.length === 0) return remove.map(from => ({ from }))
+      continue
+    }
+    if (remove.length !== add.length || remove.length > remaining) continue
+    const path = remove.map((from, i) => ({ from, to: add[i] })), spare = range(21).filter(i => !(state.mask & (1 << i)) && !(target & (1 << i)))
+    const extra = remaining - path.length
+    if (extra === 0) return path
+    // Exact move budgets can include an intermediate empty location or a cycle.
+    if (extra === 1 && path.length && spare.length) {
+      const first = path.shift()
+      return [{ from: first.from, to: spare[0] }, { from: spare[0], to: first.to }, ...path]
+    }
+    if (extra >= 2 && spare.length >= extra - 1) {
+      const from = bits(state.mask)[0], stops = [from, ...spare.slice(0, extra - 1), from]
+      return [...stops.slice(1).map((to, i) => ({ from: stops[i], to })), ...path]
+    }
   }
   return null
 }

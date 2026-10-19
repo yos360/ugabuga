@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { catalog, COUNTS, validate, move, won, solve, dailyIQ, examIndices } from '../src/arcade/logic/brain/catalog.js'
 import { waterActions, riverActions, riverSafe, frogActions } from '../src/arcade/logic/brain/movement.js'
 import { lightMove, solveLights } from '../src/arcade/logic/brain/lights.js'
-import { matchMove, matchCatalog } from '../src/arcade/logic/brain/matchsticks.js'
+import { matchMove, matchCatalog, solveMatches, DIGITS } from '../src/arcade/logic/brain/matchsticks.js'
 import { bfs } from '../src/arcade/logic/brain/core.js'
 
 for (const [kind, count] of Object.entries(COUNTS)) test(`${kind}: ${count} deterministic validated puzzles`, () => {
@@ -24,7 +24,7 @@ for (const [kind, count] of Object.entries(COUNTS)) test(`${kind}: ${count} dete
 
 test('catalogs contain distinct rules and starting states, not numbered copies', () => {
   for (const kind of Object.keys(COUNTS).filter(k => k !== 'iq')) {
-    const signatures = catalog(kind).map(({ id, level, solution, ...rules }) => JSON.stringify(rules))
+    const signatures = catalog(kind).map(({ id: _id, level: _level, solution: _solution, ...rules }) => JSON.stringify(rules))
     assert.equal(new Set(signatures).size, signatures.length, kind)
   }
 })
@@ -77,6 +77,16 @@ test('frogs only move forward and jump over the other color', () => {
     assert.ok(distance === 1 || distance === 2)
     assert.equal(edge.state.filter(v => v === 0).length, 1)
   }
+})
+test('match hint handles exact budgets after a detour; lasers include multi-bend puzzles', () => {
+  for (const budget of [2, 3]) {
+    const p = { kind: 'matches', mode: 'move', operator: '+', budget, initial: { mask: DIGITS[1] | DIGITS[1] << 7 | DIGITS[2] << 14, used: 0 } }
+    const path = solveMatches(p)
+    assert.equal(path.length, budget)
+    const state = path.reduce((s, action) => move(p, s, action), p.initial)
+    assert.ok(won(p, state))
+  }
+  assert.ok(catalog('laser').some(p => p.solution.length === 3))
 })
 test('daily uses Israeli midnight; exam has ten worlds and age-specific bands', () => {
   assert.deepEqual(dailyIQ('2026-10-19T07:00:00Z'), dailyIQ('2026-10-19T18:00:00Z'))

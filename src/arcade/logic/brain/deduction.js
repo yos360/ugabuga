@@ -123,7 +123,15 @@ export function makeLaser(index) {
   const down = Math.floor(local / (size * (size - 1))) % 2 === 0
   const initial = Array(size * size).fill(0); initial[entry * size + col] = down ? 1 : 2
   const p = { kind: 'laser', size, entry, target: { row: down ? size : -1, col }, initial }
-  // A second mirror off the initial beam increases planning without obstructing the target.
-  if (index >= 25) initial[((entry + 1) % size) * size + (col + 1) % size] = 1
+  if (index >= 24) {
+    // Three bends: enter, turn vertically, turn right, then turn toward the target.
+    initial.fill(0)
+    const middle = (entry + 1 + Math.floor(local / size) % 4) % size
+    const cells = [entry * size + 1, middle * size + 1, middle * size + 3]
+    const correct = [middle > entry ? 2 : 1, middle > entry ? 2 : 1, down ? 2 : 1]
+    const flipped = 1 + local % 7
+    cells.forEach((cell, i) => { initial[cell] = flipped & (1 << i) ? 3 - correct[i] : correct[i] })
+    p.target.col = 3
+  }
   return { ...p, solution: solveLaser(p) }
 }
