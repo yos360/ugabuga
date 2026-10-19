@@ -76,3 +76,98 @@
 @keyframes brain-appear { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
 @media(max-width:520px) { .brain-shell { padding:14px 12px 28px; } .brain-board { padding:16px 10px; border-radius:18px; } .brain-hud { gap:8px 12px; font-size:13px; } .brain-grid { gap:4px; } .brain-banks { gap:10px; } .brain-banks section { padding:8px; } .brain-banks button { padding:8px 3px; } .brain-modes button { flex:1 1 90px; } }
 @media(prefers-reduced-motion:reduce) { .brain-game * { animation:none!important; transition:none!important; scroll-behavior:auto!important; } .brain-game button:hover { transform:none!important; } }
+
+
+/* ── Redesign (Oct 2026): a playful game look on top of the base layout ── */
+.brain-game { --accent:#7c4dff; --accent-soft:#efe8ff; --ink:#1f2340; --paper:#fff;
+  background:radial-gradient(circle at 15% 0%,var(--accent-soft) 0,transparent 55%),radial-gradient(circle at 100% 100%,#fff3c9 0,transparent 50%),#f7f5ff; }
+.brain-game[data-kind=matches] { --accent:#e2571c; --accent-soft:#ffe6d6; }
+.brain-game[data-kind=water] { --accent:#1b8fd6; --accent-soft:#dbf1ff; }
+.brain-game[data-kind=river] { --accent:#16a34a; --accent-soft:#dcf7e6; }
+.brain-game[data-kind=wires] { --accent:#e11d74; --accent-soft:#ffe1ee; }
+.brain-game[data-kind=lights] { --accent:#f2a900; --accent-soft:#fff2c4; }
+.brain-game[data-kind=one] { --accent:#7c3aed; --accent-soft:#ece3ff; }
+.brain-game[data-kind=iq] { --accent:#0f9f8f; --accent-soft:#d6f6f1; }
+.brain-shell { max-width:760px; padding:14px 16px 32px; }
+.brain-heading { margin-bottom:10px; }
+.brain-heading h2 { font-size:clamp(22px,4vw,32px); font-weight:900; color:var(--ink); }
+.brain-kicker { color:var(--accent); font-weight:800; }
+.brain-badge { min-width:0; min-height:0; border-radius:999px; padding:8px 14px; background:#fff; border:3px solid var(--ink); box-shadow:0 3px 0 var(--ink); font-size:18px; }
+.brain-hud { background:#fff; color:var(--ink); border:3px solid var(--ink); border-radius:18px; box-shadow:0 4px 0 var(--ink); padding:8px 14px; font-weight:700; }
+.brain-hud b { color:var(--accent); }
+.brain-game button,.brain-game select,.brain-game input { border:3px solid var(--ink); border-radius:14px; background:#fff; box-shadow:0 3px 0 var(--ink); font-weight:700; }
+.brain-game button:hover:not(:disabled) { background:var(--accent-soft); transform:translateY(-1px); }
+.brain-game button:active:not(:disabled) { transform:translateY(2px); box-shadow:0 1px 0 var(--ink); }
+.brain-game button[aria-pressed=true],.brain-game .selected { background:var(--accent-soft); border-color:var(--accent); box-shadow:0 3px 0 var(--accent); }
+.brain-map-toggle { margin:10px 0 0; font-size:14px; }
+.brain-board { margin-top:12px; background:#fff; border:3px solid var(--ink); border-radius:28px; box-shadow:0 6px 0 var(--ink); padding:18px 16px 22px; }
+.brain-board > p { color:#3b4060; }
+.brain-goal { font-size:clamp(18px,3.4vw,22px); font-weight:900; color:var(--ink)!important; margin-bottom:6px!important; }
+.brain-goal b { display:inline-grid; place-items:center; min-width:34px; height:34px; border-radius:50%; background:var(--accent); color:#fff; margin:0 4px; }
+.brain-howto { font-size:14px; color:#5a6080!important; }
+.brain-primary { background:var(--accent)!important; border-color:var(--ink)!important; color:#fff!important; }
+.brain-tools button { min-width:96px; }
+.brain-success { background:#fff; border:3px solid var(--ink); box-shadow:0 5px 0 var(--ink); }
+.brain-success h3 { color:var(--accent); font-size:26px; }
+
+/* Matchsticks: wooden sticks with red heads, edited right in the equation. Each button is a 44px+
+   tap area; the thin stick itself is drawn by ::before (wood) and ::after (red head). */
+.brain-equation { gap:4px; margin:16px auto 10px; flex-wrap:nowrap; }
+.brain-eq-part { display:flex; align-items:center; gap:clamp(2px,1.2vw,12px); }
+.brain-op { font-size:clamp(26px,7vw,46px)!important; font-weight:900; color:var(--ink); margin:0!important; }
+.brain-mdigit { position:relative; display:block; width:clamp(74px,20vw,104px); aspect-ratio:66/116; background:#fff8ec; border-radius:14px; box-shadow:inset 0 0 0 2px #f1dcc0; }
+.brain-game .brain-mdigit .stick { transition:none; position:absolute; padding:0; min-width:44px; min-height:44px; border:0; box-shadow:none; background:transparent; transform:none; border-radius:10px; z-index:1; }
+.brain-game .brain-mdigit .stick.h { width:62%; height:44px; }
+.brain-game .brain-mdigit .stick.v { width:44px; height:40%; }
+.brain-game .brain-mdigit .stick::before { content:''; position:absolute; inset:0; margin:auto; border-radius:6px; }
+.brain-game .brain-mdigit .stick.h::before { width:100%; height:24%; }
+.brain-game .brain-mdigit .stick.v::before { width:24%; height:100%; }
+.brain-game .brain-mdigit .stick.lit::before { background:linear-gradient(180deg,#f2c88c,#d89a52 60%,#c78440); box-shadow:0 2px 0 #8a5522; }
+.brain-game .brain-mdigit .stick.v.lit::before { background:linear-gradient(90deg,#f2c88c,#d89a52 60%,#c78440); }
+.brain-game .brain-mdigit .stick.lit::after { content:''; position:absolute; border-radius:50%; background:radial-gradient(circle at 35% 35%,#ff7a5c,#d3261a 70%); }
+.brain-game .brain-mdigit .stick.h.lit::after { width:18%; height:34%; right:-4%; top:33%; }
+.brain-game .brain-mdigit .stick.v.lit::after { width:34%; height:16%; left:33%; top:-3%; }
+.brain-game .brain-mdigit .stick.empty::before { border:2px dashed #e1c9a6; background:#fff3d6; opacity:0; }
+.brain-equation.moving .brain-mdigit .stick.empty::before { opacity:1; }
+.brain-equation.moving .brain-mdigit .stick.empty:hover::before { background:#ffe2a6; }
+.brain-game .brain-mdigit .stick.selected { background:transparent; box-shadow:none; }
+.brain-game .brain-mdigit .stick.selected::before { outline:3px solid var(--accent); outline-offset:2px; filter:drop-shadow(0 0 6px #ffb347); }
+.brain-game .brain-mdigit .stick:hover:not(:disabled) { background:transparent; transform:none; }
+.brain-game .brain-mdigit .stick:hover:not(:disabled)::before { filter:brightness(1.08) drop-shadow(0 0 4px #ffcf7a); }
+.brain-game .brain-mdigit .stick:active:not(:disabled) { box-shadow:none; transform:none; }
+.brain-game .brain-mdigit .stick:disabled { opacity:1; cursor:default; }
+.brain-game .brain-mdigit .stick.empty:disabled { visibility:hidden; }
+
+/* Water jugs: glass with marks */
+.brain-jug { height:180px!important; border:3px solid var(--ink)!important; border-radius:14px 14px 40px 40px!important; background:repeating-linear-gradient(0deg,transparent 0 17px,#cfe7f5 17px 19px),#f6fbff!important; box-shadow:inset 8px 0 0 #ffffff99,0 4px 0 var(--ink)!important; }
+.brain-water { background:linear-gradient(180deg,#7fd3f5,#2a8fd0)!important; border-top:4px solid #b9ecff; }
+
+/* River: two banks with water and the boat between them */
+.brain-banks { position:relative; grid-template-columns:1fr 56px 1fr!important; gap:0!important; background:linear-gradient(90deg,#9fd8ff,#5fb6ee,#9fd8ff) center/56px 100% no-repeat; border-radius:22px; }
+.brain-banks section { background:#c8ecb4!important; border:3px solid var(--ink)!important; border-radius:20px!important; }
+.brain-banks section:first-child { grid-column:1; }
+.brain-banks section:last-child { grid-column:3; }
+.brain-banks section.has-boat { background:#e6f9c8!important; box-shadow:0 0 0 4px #ffd54a; }
+.brain-banks::after { content:'🚣'; position:absolute; top:46%; font-size:34px; transition:right .4s,left .4s; }
+.brain-banks[data-boat="0"]::after { right:calc(50% - 6px); transform:translateX(50%) scaleX(-1); }
+.brain-banks[data-boat="1"]::after { left:calc(50% - 6px); transform:translateX(-50%); }
+.brain-banks button { font-size:17px; }
+
+/* Lights out: glowing bulbs */
+.brain-lights { gap:8px!important; }
+.brain-game .brain-light { border-radius:50%!important; background:radial-gradient(circle at 40% 35%,#5d6585,#2b3150)!important; border:3px solid var(--ink)!important; font-size:26px; }
+.brain-game .brain-light.on { background:radial-gradient(circle at 40% 35%,#fff8c9,#ffd23f 60%,#f2a900)!important; box-shadow:0 0 18px #ffd23f,0 3px 0 var(--ink)!important; }
+
+/* Frogs on lily pads */
+.brain-game .brain-frogs button { border-radius:50%; width:58px; height:58px; padding:0; background:#bfe9c0; }
+.brain-game .brain-frogs .purple { background:#ddd0f6; }
+.brain-game .brain-frogs button:not(.green):not(.purple) { background:#8fd0f0; }
+
+@media(max-width:520px) {
+  .brain-kicker { display:none; }
+  .brain-hud { font-size:12px; padding:6px 10px; }
+  .brain-board { padding:14px 10px 18px; border-radius:22px; }
+  .brain-jug { height:150px!important; }
+  .brain-banks { grid-template-columns:1fr 44px 1fr!important; background-size:44px 100%; }
+  .brain-banks::after { font-size:26px; }
+}

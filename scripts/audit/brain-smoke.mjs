@@ -15,10 +15,9 @@ const readSession = (page, kind) => page.evaluate(k => JSON.parse(localStorage.g
 async function perform(page, p, action) {
   const board = page.getByRole('main', { name: 'לוח החידה' })
   if (p.kind === 'matches') {
-    await board.getByRole('button', { name: `עריכת ספרה ${Math.floor(action.from / 7) + 1}`, exact: true }).click()
+    // Every matchstick and empty place is clickable right in the equation.
     await board.getByRole('button', { name: `גפרור מספר ${action.from + 1}`, exact: true }).click()
     if ('to' in action) {
-      await board.getByRole('button', { name: `עריכת ספרה ${Math.floor(action.to / 7) + 1}`, exact: true }).click()
       await board.getByRole('button', { name: `מקום מספר ${action.to + 1}`, exact: true }).click()
     }
   } else if (p.kind === 'water') {

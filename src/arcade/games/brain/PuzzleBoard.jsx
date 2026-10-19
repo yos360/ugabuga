@@ -4,26 +4,30 @@ import { range } from '../../logic/brain/core.js'
 import { traceLaser } from '../../logic/brain/deduction.js'
 
 const COLORS = ['#ba294c', '#2759bb', '#227548', '#a75106', '#7949ab', '#007b85']
-const SEGMENTS = [[1, 0], [2, 1], [2, 3], [1, 4], [0, 3], [0, 1], [1, 2]]
-function Digit({ mask }) {
-  return <svg width="34" height="58" viewBox="0 0 60 100" aria-hidden="true">{[[12, 5, 36, 6], [49, 13, 6, 32], [49, 55, 6, 32], [12, 89, 36, 6], [5, 55, 6, 32], [5, 13, 6, 32], [12, 47, 36, 6]].map(([x, y, width, height], i) => <rect key={i} {...{ x, y, width, height }} rx="3" fill={mask & (1 << i) ? '#934625' : '#e3d9ca'} />)}</svg>
-}
+// The seven matchstick places of a digit: [left, top, horizontal] in % of the digit box.
+// Bit order: top, top-right, bottom-right, bottom, bottom-left, top-left, middle.
+const STICKS = [[50, 4, true], [88, 27, false], [88, 73, false], [50, 96, true], [12, 73, false], [12, 27, false], [50, 50, true]]
 function Matches({ p, state, act, disabled }) {
-  const [digit, setDigit] = useState(0), [from, setFrom] = useState(null)
+  const [from, setFrom] = useState(null)
   const choose = cell => {
     const occupied = !!(state.mask & (1 << cell))
     if (p.mode === 'remove') { if (occupied) act({ from: cell }); return }
     if (occupied) setFrom(from === cell ? null : cell)
     else if (from !== null) { act({ from, to: cell }); setFrom(null) }
   }
+  const left = p.budget - state.used
   return <>
-    <p>צריך {p.mode === 'remove' ? 'להסיר' : 'להזיז'} בדיוק {p.budget - state.used} גפרורים כדי לקבל תרגיל נכון. סימני החשבון קבועים.</p>
-    <div className="brain-equation" dir="ltr" aria-label="בחרו ספרה לעריכת הגפרורים">{range(3).map(i => <span key={i}><button type="button" aria-pressed={digit === i} aria-label={`עריכת ספרה ${i + 1}`} onClick={() => setDigit(i)}><Digit mask={(state.mask >> (i * 7)) & 127} /></button>{i < 2 && <b>{i === 0 ? p.operator : '='}</b>}</span>)}</div>
-    <p>{p.mode === 'remove' ? 'לחצו על הגפרור שתרצו להסיר.' : from === null ? 'בחרו גפרור, ואז מקום ריק. אפשר לעבור בין הספרות.' : `גפרור ${from + 1} נבחר. בחרו מקום ריק או גפרור אחר.`}</p>
-    <div className="brain-digit" dir="ltr">{SEGMENTS.map(([x, y], i) => {
-      const cell = digit * 7 + i, lit = !!(state.mask & (1 << cell))
-      return <button type="button" key={cell} disabled={disabled} className={`${lit ? 'lit' : ''} ${from === cell ? 'selected' : ''}`} style={{ gridColumn: x + 1, gridRow: y + 1 }} onClick={() => choose(cell)} aria-label={`${lit ? 'גפרור' : 'מקום'} מספר ${cell + 1}`} aria-pressed={from === cell}><small>{cell + 1}</small><span aria-hidden="true">{[0, 3, 6].includes(i) ? '━' : '┃'}</span></button>
-    })}</div>
+    <p className="brain-goal">{p.mode === 'remove' ? 'הסירו' : 'הזיזו'} <b>{left}</b> {left === 1 ? 'גפרור' : 'גפרורים'} כדי שהתרגיל יהיה נכון</p>
+    <div className={`brain-equation ${from !== null ? 'moving' : ''}`} dir="ltr">{range(3).map(i => <span key={i} className="brain-eq-part">
+      <span className="brain-mdigit">{STICKS.map(([x, y, h], seg) => {
+        const cell = i * 7 + seg, lit = !!(state.mask & (1 << cell))
+        return <button type="button" key={cell} disabled={disabled || (!lit && (p.mode === 'remove' || from === null))}
+          className={`stick ${h ? 'h' : 'v'} ${lit ? 'lit' : 'empty'} ${from === cell ? 'selected' : ''}`} style={{ left: `calc(${x}% - ${h ? '31%' : '22px'})`, top: `calc(${y}% - ${h ? '22px' : '20%'})` }}
+          onClick={() => choose(cell)} aria-label={`${lit ? 'גפרור' : 'מקום'} מספר ${cell + 1}`} aria-pressed={from === cell} />
+      })}</span>
+      {i < 2 && <b className="brain-op">{i === 0 ? p.operator : '='}</b>}
+    </span>)}</div>
+    <p className="brain-howto">{p.mode === 'remove' ? 'לחצו על גפרור כדי להסיר אותו.' : from === null ? 'לחצו על גפרור, ואז על מקום ריק (מקווקו) — בכל ספרה.' : 'עכשיו לחצו על מקום ריק. לחיצה נוספת על הגפרור מבטלת.'}</p>
   </>
 }
 function Water({ p, state, act, disabled }) {
@@ -39,7 +43,7 @@ function River({ p, state, act, disabled }) {
   const [riders, setRiders] = useState([]), boat = (state >> p.n) & 1
   return <><p>העבירו את כולם לגדה השנייה. מבוגר חותר תמיד בסירה; יש מקום לעוד {p.capacity} נוסעים. מותר למבוגר לחזור לבדו.</p>
     <details open><summary>מי לא יכול להישאר יחד ללא המבוגר?</summary><ul>{p.conflicts.map(([a, b]) => <li key={`${a}-${b}`}>{FRIENDS[a]} ו־{FRIENDS[b]}</li>)}</ul></details>
-    <div className="brain-banks">{[0, 1].map(side => <section key={side}><h3>{side ? 'הגדה השנייה' : 'גדת ההתחלה'} {boat === side && '🚣'}</h3>{range(p.n).filter(i => ((state >> i) & 1) === side).map(i => <button type="button" key={i} disabled={disabled || boat !== side} aria-pressed={riders.includes(i)} onClick={() => setRiders(previous => previous.includes(i) ? previous.filter(x => x !== i) : [...previous, i].sort())}>{FRIENDS[i]}</button>)}</section>)}</div>
+    <div className="brain-banks" data-boat={boat}>{[0, 1].map(side => <section key={side} className={boat === side ? 'has-boat' : ''}><h3>{side ? '🏁 הגדה השנייה' : '🏕️ גדת ההתחלה'}</h3>{range(p.n).filter(i => ((state >> i) & 1) === side).map(i => <button type="button" key={i} disabled={disabled || boat !== side} aria-pressed={riders.includes(i)} onClick={() => setRiders(previous => previous.includes(i) ? previous.filter(x => x !== i) : [...previous, i].sort())}>{FRIENDS[i]}</button>)}</section>)}</div>
     <button type="button" className="brain-primary" disabled={disabled} onClick={() => { act({ riders }); setRiders([]) }}>חציית הנהר · {riders.length} נוסעים</button>
   </>
 }
@@ -58,7 +62,7 @@ export default function PuzzleBoard({ p, state, act, disabled }) {
   if (p.kind === 'matches') return <Matches {...{ p, state, act, disabled }} />
   if (p.kind === 'water') return <Water {...{ p, state, act, disabled }} />
   if (p.kind === 'river') return <River {...{ p, state, act, disabled }} />
-  if (p.kind === 'lights') return <><p>כבו את כל הנורות. כל לחיצה מחליפה את הנורה ואת ארבע השכנות הישירות שלה.</p><div className="brain-grid" dir="ltr" style={{ '--cols': p.size }}>{state.map((v, cell) => <button type="button" key={cell} className={v ? 'brain-light on' : 'brain-light'} disabled={disabled} aria-pressed={!!v} aria-label={`נורה ${cell + 1}, ${v ? 'דלוקה' : 'כבויה'}`} onClick={() => act({ cell })}>{v ? '☀' : '·'}</button>)}</div></>
+  if (p.kind === 'lights') return <><p className="brain-goal">כבו את כל הנורות 💡</p><p className="brain-howto">כל לחיצה מחליפה את הנורה ואת ארבע השכנות שלה.</p><div className="brain-grid brain-lights" dir="ltr" style={{ '--cols': p.size }}>{state.map((v, cell) => <button type="button" key={cell} className={v ? 'brain-light on' : 'brain-light'} disabled={disabled} aria-pressed={!!v} aria-label={`נורה ${cell + 1}, ${v ? 'דלוקה' : 'כבויה'}`} onClick={() => act({ cell })}><span aria-hidden="true">{v ? '💡' : ''}</span></button>)}</div></>
   if (p.kind === 'frogs') return <><p>החליפו צדדים: ירוקות נעות ימינה וסגולות שמאלה לפי מספרי המשבצות. צעד למשבצת ריקה, או קפיצה מעל צפרדע בצבע האחר.</p><div className="brain-frogs" dir="ltr">{state.map((v, from) => <button type="button" key={from} disabled={disabled || !v} onClick={() => act({ from })} aria-label={`משבצת ${from + 1}: ${v === 1 ? 'ירוקה ימינה' : v === -1 ? 'סגולה שמאלה' : 'ריקה'}`} className={v === 1 ? 'green' : v === -1 ? 'purple' : ''}><small>{from + 1}</small>{v === 1 ? '🐸→' : v === -1 ? '←🐸' : '○'}</button>)}</div></>
   if (p.kind === 'laser') {
     const beam = traceLaser(p, state)
