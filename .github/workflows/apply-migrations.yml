@@ -1,0 +1,88 @@
+name: Apply Supabase migrations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "supabase/migrations/**.sql"
+  workflow_dispatch:
+    inputs:
+      files:
+        description: "Space-separated migration paths to apply"
+        required: true
+        type: string
+
+concurrency: apply-migrations
+
+permissions:
+  contents: read
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          FILES_INPUT: ${{ inputs.files }}
+        shell: bash
+        run: |
+          set -uo pipefail
+
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Only files added or modified in this exact push are eligible.
+            mapfile -t files < <(
+              git diff --name-only --diff-filter=AM "$BEFORE" "$AFTER" |
+                while IFS= read -r file; do
+                  [[ "$file" == supabase/migrations/*.sql ]] && printf '%s\n' "$file"
+                done |
+                sort
+            )
+          else
+            read -r -a files <<< "$FILES_INPUT"
+          fi
+
+          if (( ${#files[@]} == 0 )); then
+            echo "No migration files to apply."
+            exit 0
+          fi
+
+          failed=0
+
+          for file in "${files[@]}"; do
+            if [[ "$file" != supabase/migrations/*.sql ]] || ! git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
+              echo "$file FAIL: invalid tracked migration path"
+              failed=1
+              continue
+            fi
+
+            response_file="$(mktemp)"
+            status_code="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
+              --request POST "https://api.supabase.com/v1/projects/efhgyispuwxcplvzipcy/database/query" \
+              --header "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              --header "Content-Type: application/json" \
+              --data "$(jq -Rs '{query: .}' < "$file")")"
+            curl_status=$?
+
+            if [[ $curl_status -eq 0 && "$status_code" == "201" ]]; then
+              echo "$file OK"
+            else
+              error_message="$(jq -r 'if type == "object" then (.message // .error // .hint // .code // "request failed") else "request failed" end' "$response_file" 2>/dev/null || true)"
+              error_message="${error_message//$'\n'/ }"
+              [[ -n "$error_message" ]] || error_message="request failed (HTTP $status_code)"
+              echo "$file FAIL: $error_message"
+              failed=1
+            fi
+
+            rm -f "$response_file"
+          done
+
+          exit "$failed"
