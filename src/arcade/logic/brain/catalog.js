@@ -67,7 +67,10 @@ export function catalog(kind) {
     }
   } else if (kind === 'iq') {
     all = WORLDS.flatMap(([world]) => {
-      const source = catalog(world)
+      // Order by actual search length and rule complexity; the boss is the last
+      // (and therefore hardest or tied-hardest) challenge in each ten-level block.
+      const complexity = p => p.solution.length * 10 + (p.n || 0) * 3 + (p.size || 0) + (p.clues?.length || 0) + (p.conflicts?.length || 0) + (p.sum || 0) / 100
+      const source = [...catalog(world)].sort((a, b) => complexity(a) - complexity(b))
       return range(50).map(i => ({ ...source[Math.floor(i * (source.length - 1) / 49)], world, boss: (i + 1) % 10 === 0 }))
     })
   } else {

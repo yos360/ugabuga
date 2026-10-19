@@ -2,7 +2,8 @@ import { israelDayNumber } from '../utils/israelDate.js'
 
 // Rotation order (one per day, then it repeats). `extra(day)` = per-game settings.
 // Poker games stay out: a daily challenge for the whole family is not the place for them.
-export const NOT_DAILY = ['poker-academy', 'five-card-draw', 'texas-holdem']
+// Brain campaigns use their own deterministic IQ daily mode and resumable session.
+export const NOT_DAILY = ['poker-academy', 'five-card-draw', 'texas-holdem', 'matchsticks', 'water-jugs', 'river-crossing', 'cut-the-wire', 'lights-out', 'one-move', 'buga-iq']
 export const DAILY_GAMES = [
   { slug: 'sudoku', name: 'סודוקו', emoji: '🔢', goal: 'פותרים את הסודוקו היומי — הכי מהר שאפשר', extra: () => ({ level: 'medium' }) },
   { slug: 'battleship', name: 'צוללות', emoji: '⚓', goal: 'מטביעים את הצי של המחשב בכמה שפחות יריות', extra: () => ({}) },

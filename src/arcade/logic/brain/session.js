@@ -43,7 +43,7 @@ export function attempt(session, action, now = Date.now()) {
   if (bad) return { ...session, mistakes: session.mistakes + 1, ended: session.mode === 'streak' }
   const result = { ...session, actions: [...session.actions, action], moves: session.moves + 1 }
   if (won(p, next)) { result.score += starsForSession(result, p) * 100; result.completed++ }
-  else if (p.oneMove) { result.mistakes++; result.ended = session.mode === 'streak' }
+  else if (p.oneMove || (p.kind === 'matches' && next.used >= p.budget)) { result.mistakes++; result.ended = session.mode === 'streak' }
   return result
 }
 export function nextSession(session, now = Date.now()) {

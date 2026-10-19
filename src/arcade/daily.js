@@ -9,12 +9,10 @@ export function readResults() {
 export function saveResult(day, result) {
   const all = readResults()
   const prev = all[day]
-  // keep a win over a loss; otherwise the newest
   if (!(prev?.won && !result.won)) all[day] = { ...result, at: Date.now() }
   try { localStorage.setItem(KEY, JSON.stringify(all)) } catch { /* private mode */ }
   return all
 }
-// Days in a row with a played challenge, counting back from today (or yesterday).
 export function streak(results, today) {
   let d = results[today] ? today : today - 1, n = 0
   while (results[d]) { n++; d-- }
