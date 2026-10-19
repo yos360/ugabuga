@@ -89,3 +89,27 @@ test('grade templates are valid homework for every grade', () => {
   }
   assert.equal(gradeTemplate('ז׳'), null)
 })
+
+test('bank and game tasks: titles, problems, and the same questions for the whole class', async () => {
+  const { HW_GAMES, hwGame } = await import('../src/utils/homework/tasks.js')
+  const { BANKS, loadBank, pickIds, filterBank, bankQuestions } = await import('../src/utils/homework/banks.js')
+  const { ARCADE } = await import('../src/arcade/registry.js')
+  for (const g of HW_GAMES) assert.ok(ARCADE.some(a => a.slug === g.slug), g.slug)
+  const game = newTask('game')
+  assert.ok(hwGame(game.game))
+  assert.deepEqual(taskProblems(game, 0), [])
+  for (const id of BANKS.filter(b => b.id.startsWith('gifted:')).map(b => b.id)) {
+    const items = await loadBank(id)
+    assert.equal(items.length, 30, id)
+    for (const q of items) assert.ok(q.q && q.options[q.correct] !== undefined && q.exp, `${id} ${q.id}`)
+    const ids = pickIds(items, 10, 7)
+    assert.equal(ids.length, 10)
+    assert.deepEqual(ids, pickIds(items, 10, 7), 'same seed, same questions')
+    assert.equal(bankQuestions(items, ids).length, 10)
+    assert.ok(filterBank(items, { level: 1 }).every(q => q.level === 1))
+  }
+  const bank = { ...newTask('bank'), bank: 'gifted:subj-science', ids: ['ss01', 'ss02', 'ss03'] }
+  assert.deepEqual(taskProblems(bank, 0), [])
+  assert.match(taskTitle(bank), /מדע וטבע · 3 שאלות/)
+  assert.equal(taskProblems({ ...bank, ids: ['ss01'] }, 0).length, 1)
+})

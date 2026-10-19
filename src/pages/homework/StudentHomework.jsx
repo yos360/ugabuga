@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
-import { DictationTask, MathTask, QuestionsTask, ReadingTask } from '../../components/homework/TaskPlayers'
+import { BankTask, DictationTask, GameTask, MathTask, QuestionsTask, ReadingTask } from '../../components/homework/TaskPlayers'
 import { homeworkError, homeworkStudent } from '../../utils/homework/db'
 import { TASK_TYPES, taskHint, taskTitle } from '../../utils/homework/tasks'
 import SiteInvite from '../../components/ui/SiteInvite'
 
-const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask }
+const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask, bank: BankTask, game: GameTask }
 const nameKey = code => `buga-homework-name-${code}`
 const loadName = code => { try { return localStorage.getItem(nameKey(code)) || '' } catch { return '' } }
 const saveName = (code, name) => { try { if (name) localStorage.setItem(nameKey(code), name); else localStorage.removeItem(nameKey(code)) } catch { /* ignore */ } }
@@ -80,8 +80,10 @@ export default function StudentHomework() {
         <button onClick={() => pick('')} className="text-sm font-bold text-slate-500 underline">זה לא אני</button>
       </div>
       {result && <div className={`mb-4 rounded-3xl p-5 text-center ${result.error ? 'bg-amber-50' : 'bg-emerald-50'}`} role="status">
-        <p className="text-4xl">{stars(result.score, result.total)}</p>
-        <p className="text-xl font-black">{result.score} מתוך {result.total} נכונות בניסיון הראשון</p>
+        {homework.tasks[result.task]?.type === 'game' ? <p className="text-xl font-black">🎮 {result.score ? 'סיימת את המשחק!' : 'המשחק נשלח'}</p> : <>
+          <p className="text-4xl">{stars(result.score, result.total)}</p>
+          <p className="text-xl font-black">{result.score} מתוך {result.total} נכונות בניסיון הראשון</p>
+        </>}
         <p className="text-sm text-slate-600">{sending ? 'שולחים למורה…' : result.error || 'נשלח למורה ✓'}</p>
       </div>}
       <ol className="space-y-3">{homework.tasks.map((task, i) => {
@@ -90,7 +92,7 @@ export default function StudentHomework() {
           <button onClick={() => { setResult(null); setActive(i) }} disabled={homework.status === 'closed'}
             className={`flex w-full items-center gap-4 rounded-3xl border-2 p-4 text-right shadow-sm ${r ? 'border-emerald-300 bg-emerald-50' : 'border-violet-200 bg-white hover:border-violet-500'}`}>
             <span className="text-4xl">{r ? '✅' : info.emoji}</span>
-            <span className="flex-1"><b className="block text-lg">{taskTitle(task)}</b><span className="text-sm text-slate-600">{r ? `${r.score} מתוך ${r.total} · אפשר לנסות שוב` : taskHint(task)}</span></span>
+            <span className="flex-1"><b className="block text-lg">{taskTitle(task)}</b><span className="text-sm text-slate-600">{r ? (task.type === 'game' ? `${r.score ? 'סיימת 🎉' : 'שוחק'} · אפשר לשחק שוב` : `${r.score} מתוך ${r.total} · אפשר לנסות שוב`) : taskHint(task)}</span></span>
             <span className="text-2xl text-violet-500">←</span>
           </button>
         </li>

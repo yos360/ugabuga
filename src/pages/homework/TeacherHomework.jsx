@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TeacherGate from './TeacherGate'
 import { homeworkError, homeworkLink, homeworkTeacher } from '../../utils/homework/db'
-import { DICTATION_LISTS, MATCH_MAX, MATH_KINDS, MATH_MODES, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, TEMPLATE_GRADES, challengeTask, cleanTask, gradeTemplate, levelTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle } from '../../utils/homework/tasks'
+import { BANK_COUNTS, DICTATION_LISTS, HW_GAMES, MATCH_MAX, MATH_KINDS, MATH_MODES, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, TEMPLATE_GRADES, challengeTask, cleanTask, gradeTemplate, levelTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle } from '../../utils/homework/tasks'
 import { loadClassRoster } from '../../utils/classRoster'
+import { BANKS, bankInfo, bankQuestions, filterBank, loadBank, pickIds } from '../../utils/homework/banks'
+import { LEVELS } from '../../learn/gifted/giftedData'
 
 const btn = 'min-h-11 rounded-xl px-4 py-2 font-bold'
 const primary = `${btn} bg-violet-600 text-white shadow-[0_3px_0_#4527a8] disabled:opacity-60`
@@ -128,7 +130,48 @@ function QuestionsFields({ task, set }) {
   </div>
 }
 
-const FIELDS = { math: MathFields, reading: ReadingFields, dictation: DictationFields, questions: QuestionsFields }
+// Questions from the site's banks: the teacher picks a subject (and a topic or level) and how many;
+// the chosen question ids are saved, so every child gets the same questions.
+function BankFields({ task, set }) {
+  const [items, setItems] = useState(null), [shown, setShown] = useState(false)
+  const info = bankInfo(task.bank)
+  useEffect(() => { let live = true; setItems(null); loadBank(task.bank).then(x => { if (live) setItems(x) }).catch(() => { if (live) setItems([]) }); return () => { live = false } }, [task.bank])
+  const pool = useMemo(() => items ? filterBank(items, task) : [], [items, task])
+  const topics = useMemo(() => items && info?.topics ? [...new Map(items.map(x => [x.topic, x.topicTitle])).entries()] : [], [items, info])
+  const ids = useMemo(() => pickIds(pool, Math.min(task.count, pool.length), task.seed), [pool, task.count, task.seed])
+  const topicTitle = task.topic ? topics.find(([k]) => k === task.topic)?.[1] || '' : ''
+  useEffect(() => { if (items && (ids.join() !== (task.ids || []).join() || topicTitle !== (task.topicTitle || ''))) set({ ids, topicTitle }) }, [items, ids, topicTitle]) // eslint-disable-line react-hooks/exhaustive-deps
+  const questions = items ? bankQuestions(items, ids) : []
+  return <div className="grid gap-3 sm:grid-cols-2">
+    <label className="font-bold sm:col-span-2">מאגר<select className={field} value={task.bank} onChange={e => set({ bank: e.target.value, topic: '', level: 0 })}>
+      {[...new Set(BANKS.map(b => b.group))].map(g => <optgroup key={g} label={g}>{BANKS.filter(b => b.group === g).map(b => <option key={b.id} value={b.id}>{b.label}</option>)}</optgroup>)}
+    </select></label>
+    {info?.topics && <label className="font-bold">נושא<select className={field} value={task.topic} onChange={e => set({ topic: e.target.value })} disabled={!items}>
+      <option value="">כל הנושאים</option>{topics.map(([k, title]) => <option key={k} value={k}>{title}</option>)}
+    </select></label>}
+    {info?.levels && <label className="font-bold">רמה<select className={field} value={task.level} onChange={e => set({ level: Number(e.target.value) })}>
+      <option value={0}>כל הרמות</option>{[1, 2, 3].map(l => <option key={l} value={l}>{LEVELS[l]}</option>)}
+    </select></label>}
+    <label className="font-bold">כמה שאלות<select className={field} value={task.count} onChange={e => set({ count: Number(e.target.value) })}>
+      {BANK_COUNTS.map(n => <option key={n} value={n} disabled={items && n > pool.length && n !== task.count}>{n}{items && n > pool.length ? ` (יש רק ${pool.length})` : ''}</option>)}
+    </select></label>
+    <p className="text-sm text-slate-600 sm:col-span-2">{!items ? 'טוענים את המאגר…' : `${ids.length} שאלות מתוך ${pool.length} במאגר${task.topic ? ' בנושא הזה' : ''}. אחרי כל תשובה הילד רואה הסבר.`}
+      {' '}<button type="button" className="underline" onClick={() => set({ seed: Math.floor(Math.random() * 1e9) + 1 })}>🎲 שאלות אחרות</button>
+      {' '}{questions.length > 0 && <button type="button" className="underline" onClick={() => setShown(!shown)}>{shown ? 'להסתיר את השאלות' : '👀 לראות את השאלות'}</button>}</p>
+    {shown && <ol className="list-decimal space-y-1 pr-6 text-sm sm:col-span-2">{questions.map(q => <li key={q.id}>{q.q} <b className="text-emerald-700">({q.options[q.correct]})</b></li>)}</ol>}
+  </div>
+}
+
+function GameFields({ task, set }) {
+  return <div>
+    <p className="mb-2 font-bold">איזה משחק?</p>
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-5" role="radiogroup" aria-label="משחק">{HW_GAMES.map(g => <button key={g.slug} type="button" role="radio" aria-checked={task.game === g.slug} onClick={() => set({ game: g.slug })}
+      className={`rounded-2xl border-2 p-2 text-center text-sm font-bold ${task.game === g.slug ? 'border-violet-500 bg-violet-50' : 'border-slate-200 bg-white hover:border-violet-300'}`}><span className="block text-2xl" aria-hidden="true">{g.emoji}</span>{g.name}</button>)}</div>
+    <p className="mt-2 text-sm text-slate-600">כל הילדים מקבלים את אותו שלב. כשהילד מסיים את המשחק — זה נרשם אצלכם בטבלה. <button type="button" className="underline" onClick={() => set({ seed: Math.floor(Math.random() * 1e9) + 1 })}>🎲 שלב אחר</button></p>
+  </div>
+}
+
+const FIELDS = { math: MathFields, reading: ReadingFields, dictation: DictationFields, questions: QuestionsFields, bank: BankFields, game: GameFields }
 
 function HomeworkBuilder({ code }) {
   const nav = useNavigate()
@@ -144,7 +187,7 @@ function HomeworkBuilder({ code }) {
       setTitle(hw.title); setClassName(hw.class_name || ''); setDueDate(hw.due_date || ''); setNames(hw.names.join('\n')); setTasks(hw.tasks); setLoaded(true)
     }).catch(() => setProblems(['לא הצלחנו לטעון את שיעורי הבית.']))
   }, [code])
-  const setTask = (i, patch) => setTasks(tasks.map((t, j) => j === i ? { ...t, ...patch } : t))
+  const setTask = (i, patch) => setTasks(list => list.map((t, j) => j === i ? { ...t, ...patch } : t))
   const move = (i, d) => { const next = [...tasks]; [next[i], next[i + d]] = [next[i + d], next[i]]; setTasks(next) }
   const save = async () => {
     const found = [...(title.trim() ? [] : ['תנו שם לשיעורי הבית']), ...(tasks.length ? [] : ['הוסיפו לפחות משימה אחת']), ...tasks.flatMap(taskProblems)]
@@ -194,7 +237,7 @@ function HomeworkBuilder({ code }) {
           <Fields task={task} set={patch => setTask(i, patch)} />
         </article>
       })}
-      {tasks.length < 12 && <div className="grid gap-2 rounded-3xl border-2 border-dashed border-violet-200 p-4 sm:grid-cols-4">
+      {tasks.length < 12 && <div className="grid gap-2 rounded-3xl border-2 border-dashed border-violet-200 p-4 sm:grid-cols-3">
         {Object.entries(TASK_TYPES).map(([type, info]) => <button key={type} type="button" onClick={() => setTasks([...tasks, newTask(type)])} className="rounded-2xl bg-violet-50 p-3 text-right hover:bg-violet-100">
           <span className="text-2xl">{info.emoji}</span><b className="block">+ {info.label}</b><span className="text-xs text-slate-600">{info.hint}</span>
         </button>)}
@@ -223,6 +266,9 @@ const TONES = { good: 'bg-emerald-100 text-emerald-800', ok: 'bg-amber-100 text-
 function HomeworkResults({ code }) {
   const [hw, setHw] = useState(null), [rows, setRows] = useState([]), [error, setError] = useState(''), [copied, setCopied] = useState(false)
   const link = homeworkLink(code), qr = useQr(link)
+  const [banks, setBanks] = useState({})
+  const bankIds = hw ? [...new Set(hw.tasks.filter(t => t.type === 'bank').map(t => t.bank))].join() : ''
+  useEffect(() => { for (const id of bankIds.split(',').filter(Boolean)) loadBank(id).then(items => setBanks(b => ({ ...b, [id]: items }))).catch(() => {}) }, [bankIds])
   const load = () => homeworkTeacher.get(code).then(data => {
     if (!data) { setError('שיעורי הבית לא נמצאו בחשבון שלך.'); return }
     setHw(data)
@@ -253,7 +299,8 @@ function HomeworkResults({ code }) {
     const label = key => {
       const [lv, raw] = key.split(':'), i = Number(raw)
       if (task.type === 'math') return `${(mathText[lv] ||= mathItems(levelTask(task, lv)))[i]?.text || ''}${lv ? ' 🌶️' : ''}`
-      return task.type === 'reading' ? readingPassage(task.slug)?.q[i]?.[0] : task.type === 'dictation' ? task.words[i] : task.items[i]?.q
+      if (task.type === 'bank') return bankQuestions(banks[task.bank] || [], [task.ids?.[i]])[0]?.q || `שאלה ${i + 1}`
+      return task.type === 'reading' ? readingPassage(task.slug)?.q[i]?.[0] : task.type === 'dictation' ? task.words[i] : task.items?.[i]?.q
     }
     return { t, tried, top: Object.entries(misses).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([key, n]) => ({ text: label(key), n })) }
   }).filter(x => x.top.length)
@@ -290,7 +337,7 @@ function HomeworkResults({ code }) {
           return <tr key={s.name} className="border-b">
             <td className="p-3 font-bold">{s.name}</td>
             {hw.tasks.map((_, i) => { const r = s.tasks[i]; return <td key={i} className="p-3">{r
-              ? <span title={`${Math.round(r.seconds / 60)} דק׳ · ${r.attempts} ניסיונות${r.details?.[0]?.lv === 'hard' ? ' · רמה מאתגרת' : ''}`} className={`rounded-lg px-2 py-0.5 font-bold ${TONES[scoreTone(r.score, r.total)]}`}>{r.score}/{r.total}{r.details?.[0]?.lv === 'hard' && ' 🌶️'}</span>
+              ? <span title={`${Math.round(r.seconds / 60)} דק׳ · ${r.attempts} ניסיונות${r.details?.[0]?.lv === 'hard' ? ' · רמה מאתגרת' : ''}`} className={`rounded-lg px-2 py-0.5 font-bold ${TONES[scoreTone(r.score, r.total)]}`}>{hw.tasks[i].type === 'game' ? (r.score ? '✓ סיים' : 'שיחק') : `${r.score}/${r.total}`}{r.details?.[0]?.lv === 'hard' && ' 🌶️'}</span>
               : <span className="text-slate-300">—</span>}</td> })}
             <td className="p-3 font-bold">{list.length ? `${list.length}/${hw.tasks.length} · ${total ? Math.round((score / total) * 100) : 0}%` : <span className="font-normal text-slate-400">לא התחיל</span>}</td>
           </tr>

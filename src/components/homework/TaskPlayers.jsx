@@ -1,9 +1,13 @@
 // The interactive side of each homework task. Every player gives instant feedback, lets the child
 // try again, and finally calls onDone({ score, total, seconds, details }) — score counts answers
 // that were right on the first try, details keeps which items were missed for the teacher.
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { speak, speakAndWait, stopSpeaking } from '../../utils/speak'
-import { bubbleChoices, dictationCorrect, levelTask, matchAnswers, mathItems, readingPassage } from '../../utils/homework/tasks'
+import { bubbleChoices, dictationCorrect, hwGame, levelTask, matchAnswers, mathItems, readingPassage } from '../../utils/homework/tasks'
+import { bankQuestions, loadBank } from '../../utils/homework/banks'
+import { ARCADE } from '../../arcade/registry'
+import '../../arcade/arcade.css'
 
 const now = () => Date.now()
 
@@ -22,7 +26,7 @@ function Feedback({ state, answer }) {
 }
 
 // Asks one item at a time; `check(value)` says whether it is right. Two wrong tries show the answer.
-function useStepper(items, onDone) {
+function useStepper(items, onDone, holdRight = () => false) {
   const start = useRef(now())
   const [at, setAt] = useState(0), [tries, setTries] = useState(0), [state, setState] = useState(''), [details, setDetails] = useState([])
   const finish = list => onDone({ score: list.filter(d => d.ok).length, total: items.length, seconds: (now() - start.current) / 1000, details: list })
@@ -33,7 +37,7 @@ function useStepper(items, onDone) {
   const record = (ok, extra = {}) => { const list = [...details, { i: at, ok, ...extra }]; setDetails(list); return list }
   const answer = (right, extra) => {
     if (state === 'right' || state === 'shown') return
-    if (right) { const list = record(tries === 0, extra); setState('right'); setTimeout(() => next(list), 700); return }
+    if (right) { const list = record(tries === 0, extra); setState('right'); if (!holdRight(items[at])) setTimeout(() => next(list), 700); return }
     if (tries >= 1) { record(false, extra); setState('shown'); return }
     setTries(tries + 1); setState('wrong')
   }
@@ -161,7 +165,7 @@ function ChoiceStep({ question, options, correct, state, onPick, picked }) {
 }
 
 function ChoiceQuiz({ questions, onDone }) {
-  const { at, state, answer, next, item } = useStepper(questions, onDone)
+  const { at, state, answer, next, item } = useStepper(questions, onDone, q => Boolean(q.exp))
   const [pickedAt, setPickedAt] = useState({ at: 0, list: [] })
   const picked = pickedAt.at === at ? pickedAt.list : []
   const setPicked = list => setPickedAt({ at, list })
@@ -169,7 +173,8 @@ function ChoiceQuiz({ questions, onDone }) {
     <Progress at={at} total={questions.length} />
     <ChoiceStep {...item} state={state} picked={picked} onPick={i => { setPicked([...picked, i]); answer(i === item.correct, { given: i }) }} />
     <Feedback state={state} answer={item.options[item.correct]} />
-    {state === 'shown' && <button onClick={() => next()} className="mt-4 min-h-12 w-full rounded-2xl bg-violet-600 text-lg font-black text-white">הבא ←</button>}
+    {item.exp && (state === 'shown' || state === 'right') && <p className="mt-2 rounded-2xl bg-sky-50 p-3 text-base leading-relaxed">💡 {item.exp}</p>}
+    {(state === 'shown' || (state === 'right' && item.exp)) && <button onClick={() => next()} className="mt-4 min-h-12 w-full rounded-2xl bg-violet-600 text-lg font-black text-white">הבא ←</button>}
   </div>
 }
 
@@ -244,3 +249,60 @@ export function DictationTask({ task, onDone }) {
   </form>
 }
 
+
+// Questions from the site's banks, with the explanation after each answer.
+export function BankTask({ task, onDone }) {
+  const [items, setItems] = useState(null)
+  useEffect(() => { loadBank(task.bank).then(setItems).catch(() => setItems([])) }, [task.bank])
+  const questions = useMemo(() => items ? bankQuestions(items, task.ids || []).map(x => ({ question: x.q, options: x.options, correct: x.correct, exp: x.exp })) : null, [items, task.ids])
+  if (!questions) return <p className="text-center" role="status">טוענים את השאלות…</p>
+  if (!questions.length) return <p className="rounded-2xl bg-amber-50 p-4">השאלות האלה לא נמצאו באתר. ספרו למורה.</p>
+  return <div className="mx-auto max-w-xl"><ChoiceQuiz questions={questions} onDone={onDone} /></div>
+}
+
+// A short game from the site, full screen. Every child gets the same board (the task's seed); the
+// game reports its end through the same `daily` hook the daily challenge uses.
+export function GameTask({ task, onDone }) {
+  const info = hwGame(task.game), game = ARCADE.find(g => g.slug === task.game)
+  const [playing, setPlaying] = useState(false), [run, setRun] = useState(0), [end, setEnd] = useState(null)
+  const start = useRef(0)
+  const daily = useMemo(() => ({ day: 0, seed: Number(task.seed) || 1, ...(info?.settings || {}),
+    finish: result => setEnd(prev => prev || result) }), [task.seed, info, run]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!playing) return
+    const html = document.documentElement, prev = html.style.overflow
+    html.style.overflow = 'hidden'
+    return () => { html.style.overflow = prev }
+  }, [playing])
+  if (!info || !game) return <p className="rounded-2xl bg-amber-50 p-4">המשחק הזה לא נמצא באתר.</p>
+  const Game = game.component
+  const send = () => { setPlaying(false); onDone({ score: end.won ? 1 : 0, total: 1, seconds: (now() - start.current) / 1000, details: [] }) }
+  if (!playing) return <div className="mx-auto max-w-md rounded-3xl bg-white p-6 text-center shadow-sm">
+    <p className="text-6xl" aria-hidden="true">{info.emoji}</p>
+    <h3 className="mt-2 text-2xl font-black">{info.name}</h3>
+    <p className="mt-1 text-lg">🎯 {info.goal}</p>
+    <p className="mt-1 text-sm text-slate-600">כל הכיתה מקבלת את אותו שלב. כשתסיימו — זה יישלח למורה.</p>
+    <button type="button" onClick={() => { start.current = now(); setEnd(null); setPlaying(true) }} className="mt-4 min-h-14 w-full rounded-2xl bg-violet-600 text-xl font-black text-white shadow-[0_4px_0_#4527a8]">▶ מתחילים לשחק</button>
+  </div>
+  return createPortal(<div className="arc-stage" role="dialog" aria-modal="true" aria-label={info.name} dir="rtl" style={{ '--game-color': game.color }}>
+    <header className="arc-top">
+      <button type="button" className="arc-icon-btn" onClick={() => setPlaying(false)} aria-label="יציאה מהמשחק">✕</button>
+      <h2 className="arc-title"><span aria-hidden="true">{info.emoji}</span> {info.name}</h2>
+      <span />
+    </header>
+    <div className="arc-body">
+      <Suspense fallback={<p className="arc-loading">טוענים את המשחק… 🎈</p>}>
+        <Game key={run} daily={daily} onReport={() => {}} onShare={() => {}} />
+      </Suspense>
+      {end && <div className="hw-game-end" role="status">
+        <p className="text-5xl" aria-hidden="true">{end.won ? '🎉' : '💪'}</p>
+        <p className="text-2xl font-black">{end.won ? 'כל הכבוד! סיימתם' : 'הפעם זה לא הצליח'}</p>
+        <div className="mt-4 grid gap-2">
+          {end.won ? <button type="button" onClick={send} className="min-h-12 rounded-2xl bg-emerald-600 px-4 text-lg font-black text-white">✓ שליחה למורה</button>
+            : <button type="button" onClick={() => { setEnd(null); setRun(r => r + 1) }} className="min-h-12 rounded-2xl bg-violet-600 px-4 text-lg font-black text-white">🔁 לנסות שוב</button>}
+          {!end.won && <button type="button" onClick={send} className="min-h-12 rounded-2xl border-2 border-slate-300 bg-white px-4 font-bold">לשלוח בכל זאת</button>}
+        </div>
+      </div>}
+    </div>
+  </div>, document.body)
+}

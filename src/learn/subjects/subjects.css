@@ -1,0 +1,32 @@
+.sj-count{text-align:center;font-weight:700;margin-bottom:14px}
+.sj-grid{display:grid;gap:12px;grid-template-columns:1fr;list-style:none;padding:0;margin:0}
+@media (min-width:640px){.sj-grid{grid-template-columns:1fr 1fr}}
+.sj-card{display:flex;gap:12px;align-items:flex-start;height:100%;padding:14px 16px;border:2px solid var(--border,#1d2233);border-radius:18px;background:var(--card,#fff);box-shadow:3px 3px 0 var(--border,#1d2233);text-align:right}
+.sj-card b{display:block;font-size:19px}
+.sj-card small{display:block;color:var(--muted-foreground,#555);line-height:1.45;margin-top:2px}
+.sj-ico{font-size:34px;line-height:1}
+.sj-intro{font-size:20px;line-height:1.6;font-weight:600;background:#fff6d1;border:2px dashed #e0b400;border-radius:16px;padding:14px 16px;color:#1d2233}
+.sj-jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
+.sj-article section{margin-top:22px}
+.sj-article h2{font-size:26px;font-weight:900;margin-bottom:8px}
+.sj-article p{font-size:18px;line-height:1.75;margin-bottom:10px}
+.sj-facts{margin-top:26px;border:2px solid var(--border,#1d2233);border-radius:20px;background:#e8f4ff;padding:16px 18px;color:#1d2233}
+.sj-facts h2{font-size:22px;font-weight:900;margin-bottom:6px}
+.sj-facts li{font-size:17px;line-height:1.6;padding-inline-start:4px;list-style:disc;margin-inline-start:20px}
+.sj-exp{margin-top:8px;padding:8px 12px;border-radius:12px;line-height:1.55}
+.sj-exp.ok{background:#e6f8e3}.sj-exp.no{background:#fff0f0}
+.sj-think li{list-style:decimal;margin-inline-start:22px;font-size:18px;line-height:1.6;margin-bottom:6px}
+.sj-print-intro{font-size:12pt;margin:0 0 8px}
+.sj-print-qs,.sj-print-think,.sj-print-key{list-style:decimal}
+.sj-print-qs{padding-inline-start:22px;margin:0;font-size:12.5pt}
+.sj-print-qs>li{break-inside:avoid;margin-bottom:7px}
+.sj-print-qs p{margin:0 0 2px;font-weight:700}
+.sj-print-qs ul{display:grid;grid-template-columns:1fr 1fr;gap:1px 14px;list-style:none;padding:0;margin:0}
+.ln-print h3{font-size:14pt;margin:10px 0 4px}
+.sj-print-think{padding-inline-start:22px;margin:0;font-size:12pt}
+.sj-print-think li{break-inside:avoid}
+.sj-print-think p{margin:0}
+.sj-print-think .line{border-bottom:1px solid #999;height:9mm}
+.sj-print-key{padding-inline-start:22px;font-size:12pt;line-height:1.5}
+.sj-print-key li{margin-bottom:5px}
+.sj-print-src{margin-top:8px;font-size:9pt;color:#666;text-align:center}

@@ -122,6 +122,8 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
+const SubjectHub = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectHub })))
+const SubjectTopic = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectTopic })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
@@ -625,6 +627,14 @@ export default function App() {
               <Route path="/learn/gifted-test/simulation" element={<GiftedSimulation />} />
               <Route path="/learn/psychometric-kids" element={<PsychometricKids />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
+              <Route path="/learn/tanakh" element={<SubjectHub key="tanakh" subjectKey="tanakh" />} />
+              <Route path="/learn/tanakh/:slug" element={<SubjectTopic key="tanakh" subjectKey="tanakh" />} />
+              <Route path="/learn/lashon" element={<SubjectHub key="lashon" subjectKey="lashon" />} />
+              <Route path="/learn/lashon/:slug" element={<SubjectTopic key="lashon" subjectKey="lashon" />} />
+              <Route path="/learn/civics" element={<SubjectHub key="civics" subjectKey="civics" />} />
+              <Route path="/learn/civics/:slug" element={<SubjectTopic key="civics" subjectKey="civics" />} />
+              <Route path="/learn/science" element={<SubjectHub key="science" subjectKey="science" />} />
+              <Route path="/learn/science/:slug" element={<SubjectTopic key="science" subjectKey="science" />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />

@@ -11,6 +11,7 @@ import { usePresentMode } from '../utils/presentMode'
 import { DICTATION, READING, plainWord } from './learnData'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import { MENU_DOMAINS } from '../data/siteMenu'
+import { SUBJECTS } from './subjects/subjects'
 import './learn.css'
 
 export const LEARN_CRUMB = { label: 'לומדים', href: '/learn' }
@@ -63,6 +64,13 @@ export function LearnHub() {
     <SEO title="לומדים — חשבון לפי כיתה, אותיות, קריאה ושפות לילדים" description="אזור הלמידה של עוגה בוגה: תרגילי חשבון לפי כיתה א׳–י״ב, לוח הכפל, אותיות וקריאה, הכתבה, אנגלית ושפות, הקלדה, מוזיקה ומדע — אונליין ולהדפסה, בחינם." path="/learn" />
     <Head emoji="📚" h1="לומדים: חשבון, עברית, אנגלית ומדע לילדים" sub="בוחרים נושא — ומתרגלים אונליין או מדפיסים" />
     <nav className="ln-hub-jump" aria-label="קפיצה לנושא">{LEARN_SECTIONS.map(s => <a key={s.id} href={`#${s.id}`} className="ln-chip"><span aria-hidden="true">{s.icon}</span> {s.title}</a>)}</nav>
+    <section className="ln-hub-sec" aria-labelledby="subjects-h">
+      <div className="ln-hub-head"><h2 id="subjects-h"><span aria-hidden="true">📚 </span>שיעורים לפי מקצוע</h2></div>
+      <ul className="ln-hub-grid">{SUBJECTS.map(x => <li key={x.key}><Link to={`/learn/${x.key}`} className="ln-hub-card">
+        <span className="ln-hub-ico" aria-hidden="true">{x.emoji}</span>
+        <span><b>{x.title}</b><small>{x.desc}</small></span>
+      </Link></li>)}</ul>
+    </section>
     {LEARN_SECTIONS.map(s => <section key={s.id} id={s.id} className="ln-hub-sec" aria-labelledby={`${s.id}-h`}>
       <div className="ln-hub-head">
         <h2 id={`${s.id}-h`}><span aria-hidden="true">{s.icon} </span>{s.title}</h2>

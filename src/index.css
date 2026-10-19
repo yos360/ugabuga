@@ -315,4 +315,5 @@ body {
 @keyframes hw-shake { 0%,100%{translate:0} 25%{translate:-6px} 75%{translate:6px} }
 .hw-balloon { animation: hw-float 2.4s ease-in-out infinite; }
 .hw-shake { animation: hw-shake .35s ease-in-out 1; }
+.hw-game-end { position: absolute; inset: auto 16px 24px; margin: 0 auto; max-width: 360px; z-index: 5; border-radius: 24px; background: #fff; padding: 20px; text-align: center; color: #1d2233; box-shadow: 0 10px 40px #0004; }
 @media (prefers-reduced-motion: reduce) { .hw-balloon, .hw-shake { animation: none; } }

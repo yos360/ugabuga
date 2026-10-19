@@ -3,6 +3,7 @@
 import { exercises, newSeed } from '../mathSheets.js'
 import { GRADED_READING } from '../../learn/readingGrades.js'
 import { DICTATION } from '../../learn/learnData.js'
+import { bankInfo } from './banks.js'
 
 export const MATH_OPS = [['+', 'חיבור'], ['-', 'חיסור'], ['mix', 'חיבור וחיסור'], ['x', 'כפל (לוח הכפל)'], ['÷', 'חילוק']]
 export const MATH_RANGES = [[10, 'עד 10'], [20, 'עד 20'], [100, 'עד 100']]
@@ -17,7 +18,26 @@ export const TASK_TYPES = {
   reading: { emoji: '📖', label: 'הבנת הנקרא', hint: 'קטע קריאה עם הקראה בקול ושאלות' },
   dictation: { emoji: '✍️', label: 'הכתבה', hint: 'שומעים מילה וכותבים אותה' },
   questions: { emoji: '❓', label: 'שאלות משלי', hint: 'שאלות אמריקאיות שהמורה כותבת' },
+  bank: { emoji: '🎯', label: 'שאלות מהאתר', hint: 'תנ״ך, לשון, מדע, אזרחות ועוד — בוחרים נושא וכמה שאלות' },
+  game: { emoji: '🎮', label: 'משחק קטן', hint: 'משחק חשיבה מהאתר — כל הכיתה מקבלת אותו שלב' },
 }
+
+// Games a class can get as a task: solo, short, and each reports when it ends. Every child gets
+// the same board (the task's seed), like the daily challenge.
+export const HW_GAMES = [
+  { slug: 'memory', name: 'משחק הזיכרון', emoji: '🧠', goal: 'מוצאים את כל הזוגות', settings: { level: 3 } },
+  { slug: 'sudoku', name: 'סודוקו', emoji: '🔢', goal: 'פותרים את הסודוקו', settings: { level: 'easy' } },
+  { slug: 'ball-sort', name: 'מיון כדורים', emoji: '🧪', goal: 'ממיינים את הכדורים לפי צבע', settings: { level: 6 } },
+  { slug: 'buga-24', name: 'בוגה 24', emoji: '🧮', goal: 'מגיעים בדיוק ל־24 עם ארבעת המספרים', settings: {} },
+  { slug: 'word-guess', name: '5 אותיות', emoji: '🟩', goal: 'מוצאים את המילה בת 5 האותיות', settings: {} },
+  { slug: 'traffic-jam', name: 'פקק תנועה', emoji: '🚚', goal: 'משחררים את משאית הגלידה מהפקק', settings: { level: 8 } },
+  { slug: 'sliding-puzzle', name: 'פאזל הזזה', emoji: '🧩', goal: 'מסדרים את המספרים בפאזל', settings: { level: 3 } },
+  { slug: 'arrow-escape', name: 'חיצים בורחים', emoji: '➡️', goal: 'מפנים את כל החיצים מהלוח', settings: { level: 4 } },
+  { slug: 'flying-cubes', name: 'קוביות מעופפות', emoji: '🧊', goal: 'מפרקים את הקובייה', settings: { level: 3 } },
+  { slug: 'merge-2048', name: 'מכפילים מספרים', emoji: '🔢', goal: 'מחברים מספרים זהים עד 256', settings: { target: 256 } },
+]
+export const hwGame = slug => HW_GAMES.find(g => g.slug === slug) || null
+export const BANK_COUNTS = [5, 8, 10, 15, 20, 25, 30]
 
 export const READING_OPTIONS = GRADED_READING.map(r => ({ slug: r.slug, title: r.title, grade: r.grade, emoji: r.emoji, level: r.level }))
 export const DICTATION_LISTS = DICTATION.map(d => ({ id: d.id, title: d.title, grade: d.grade, words: d.words }))
@@ -26,6 +46,8 @@ export function newTask(type) {
   if (type === 'math') return { type, op: '+', range: 20, table: 'mix', kind: 'regular', count: 10, mode: 'type', levels: false, seed: newSeed() }
   if (type === 'reading') return { type, slug: READING_OPTIONS[0]?.slug || '' }
   if (type === 'dictation') return { type, listId: DICTATION_LISTS[0]?.id || 'custom', words: [...(DICTATION_LISTS[0]?.words || [])] }
+  if (type === 'bank') return { type, bank: 'lesson:tanakh', topic: '', level: 0, count: 10, seed: newSeed(), ids: [] }
+  if (type === 'game') return { type, game: HW_GAMES[0].slug, seed: newSeed() }
   return { type: 'questions', title: '', items: [{ q: '', options: ['', ''], correct: 0 }] }
 }
 
@@ -34,6 +56,8 @@ export function taskHint(task) {
   if (task.type === 'math' && task.mode === 'bubbles') return 'בוחרים את התשובה הנכונה מבין הבלונים 🎈'
   if (task.type === 'math' && task.mode === 'match') return 'מחברים כל תרגיל לתשובה שלו 🧩'
   if (task.type === 'math') return 'פותרים על המסך, תרגיל אחרי תרגיל'
+  if (task.type === 'game') return hwGame(task.game)?.goal || 'משחקים עד הסוף'
+  if (task.type === 'bank') return 'שאלות אמריקאיות עם הסבר אחרי כל תשובה'
   return TASK_TYPES[task.type]?.hint || ''
 }
 
@@ -47,6 +71,8 @@ export function taskTitle(task) {
   }
   if (task.type === 'reading') { const r = readingPassage(task.slug); return r ? `${r.title} (כיתה ${r.grade})` : 'קטע קריאה' }
   if (task.type === 'dictation') return `הכתבה · ${task.words?.length || 0} מילים`
+  if (task.type === 'game') { const g = hwGame(task.game); return g ? `${g.emoji} ${g.name}` : 'משחק' }
+  if (task.type === 'bank') return `${task.topicTitle || bankInfo(task.bank)?.label.replace(/^\S+\s/, '') || 'שאלות'} · ${task.ids?.length || 0} שאלות`
   return task.title?.trim() || `שאלות · ${task.items?.length || 0}`
 }
 
@@ -113,6 +139,8 @@ export function taskProblems(task, index) {
   }
   if (task.type === 'reading') return readingPassage(task.slug) ? [] : [`${at}: בחרו קטע קריאה`]
   if (task.type === 'dictation') return task.words?.length ? [] : [`${at}: הוסיפו לפחות מילה אחת להכתבה`]
+  if (task.type === 'game') return hwGame(task.game) ? [] : [`${at}: בחרו משחק`]
+  if (task.type === 'bank') return task.ids?.length >= 3 ? [] : [`${at}: צריך לפחות 3 שאלות — בחרו נושא אחר או רמה אחרת`]
   if (task.type === 'questions') {
     if (!task.items?.length) return [`${at}: הוסיפו לפחות שאלה אחת`]
     return task.items.flatMap((item, i) => {
