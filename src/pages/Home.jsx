@@ -80,6 +80,28 @@ const QUICK_OPTIONS = {
   age: [['3-5', 'גיל 3–5'], ['6-8', 'גיל 6–8'], ['9-12', 'גיל 9–12']],
   time: [['5', '5 דקות'], ['15', 'רבע שעה'], ['30', 'חצי שעה+']],
 }
+// A small evening-only invitation: shown only from 18:00 to midnight in Israel.
+// The initial false avoids freezing the banner into the prerendered HTML; it is decided in each visitor's browser.
+function isBedtimeInIsrael() {
+  const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', hourCycle: 'h23' }).format(new Date()))
+  return hour >= 18 && hour < 24
+}
+function BedtimeStorySpotlight() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const update = () => setShow(isBedtimeInIsrael())
+    update()
+    const timer = window.setInterval(update, 60_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  if (!show) return null
+  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפורי בוגה לפני השינה — לקריאה עכשיו">
+    <span className="bedtime-moon" aria-hidden="true">🌙</span>
+    <span className="bedtime-copy"><b>סיפורי בוגה לפני השינה</b><small>סיפור קצר, רגוע ואישי לכל ערב</small></span>
+    <span className="bedtime-cta">לבחירת סיפור ←</span>
+  </Link>
+}
+
 function QuickMatch() {
   const [choice, setChoice] = useState({ place: 'home', age: '6-8', time: '15' })
   const pick = (key, value) => setChoice(current => ({ ...current, [key]: value }))
@@ -145,7 +167,7 @@ export default function Home() {
       <PrintStrip />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
-    <section className="home-intents" aria-labelledby="home-intents-title">
+    <BedtimeStorySpotlight />\n    <section className="home-intents" aria-labelledby="home-intents-title">
       <h2 id="home-intents-title">למה נכנסתם היום?</h2>
       <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
         <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
