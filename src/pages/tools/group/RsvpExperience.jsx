@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { RSVP_THEMES, rsvpTheme, eventCalendar } from '../../../utils/rsvpExperience'
 import { formatDate, peopleLabel } from '../../../utils/groupTools'
+import { RSVP_LANGS, langInfo, t, formatDateIn } from '../../../utils/rsvpI18n'
 import { btn, card } from './GroupUi'
 import './rsvp-experience.css'
 import SiteInvite from '../../../components/ui/SiteInvite'
@@ -8,16 +9,17 @@ import SiteInvite from '../../../components/ui/SiteInvite'
 export function ThemePicker({ value, onChange }) {
   return <fieldset className="rsvp-theme-picker"><legend>העיצוב של ההזמנה</legend><div>{RSVP_THEMES.map(t => <button type="button" key={t.id} aria-pressed={value === t.id} onClick={() => onChange(t.id)} style={{ '--invite-bg': t.bg, '--invite-accent': t.accent }}><span aria-hidden="true">{t.emoji}</span>{t.label}</button>)}</div></fieldset>
 }
-export function InvitationCard({ ev, preview = false }) {
+export function InvitationCard({ ev, preview = false, lang = 'he' }) {
   const theme = rsvpTheme(ev.theme), Heading = preview ? 'h3' : 'h1'
+  const date = iso => lang === 'he' ? formatDate(iso) : formatDateIn(lang, iso)
   return <header className="rsvp-invitation" style={{ '--invite-bg': theme.bg, '--invite-accent': theme.accent, '--invite-ink': theme.ink }}>
-    <p className="rsvp-invitation-eyebrow">{preview ? 'כך האורחים יראו את ההזמנה' : 'אתם מוזמנים!'}</p>
+    <p className="rsvp-invitation-eyebrow">{preview ? 'כך האורחים יראו את ההזמנה' : t(lang, 'invited')}</p>
     <span className="rsvp-invitation-emoji" aria-hidden="true">{theme.emoji}</span>
     <Heading>{ev.title?.replace(/___/g, '…') || 'האירוע שלנו'}</Heading>
-    {(ev.date || ev.time) && <p className="rsvp-invitation-date">{ev.date && formatDate(ev.date)}{ev.date && ev.time && ' · '}<bdi dir="ltr">{ev.time}</bdi></p>}
+    {(ev.date || ev.time) && <p className="rsvp-invitation-date">{ev.date && date(ev.date)}{ev.date && ev.time && ' · '}<bdi dir="ltr">{ev.time}</bdi></p>}
     {ev.place && <p className="rsvp-invitation-place">📍 {ev.place}</p>}
     {ev.note && <p className="rsvp-invitation-note">{ev.note}</p>}
-    {ev.deadline && <p className="rsvp-invitation-deadline">נשמח לאישור עד {formatDate(ev.deadline)}</p>}
+    {ev.deadline && <p className="rsvp-invitation-deadline">{t(lang, 'answerUntil', { d: date(ev.deadline) })}</p>}
     {preview && <div className="rsvp-preview-answer" aria-hidden="true"><span>🎉 מגיעים</span><span>🤔 אולי</span><span>לא מגיעים</span></div>}
   </header>
 }
@@ -29,20 +31,40 @@ export function RsvpCreateExperience({ form, onChange, children, mine }) {
     </aside>
   </div>
 }
-export function EventActions({ ev, download }) {
-  return <div className="rsvp-event-actions">
-    {ev.place && <a className={btn} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.place)}`} target="_blank" rel="noopener noreferrer">📍 ניווט למקום</a>}
-    {ev.date && <button type="button" className={btn} onClick={() => { const ics = eventCalendar(ev); if (ics) download('event.ics', ics, 'text/calendar;charset=utf-8') }}>🗓️ הוספה ליומן</button>}
+export function EventActions({ ev, download, lang = 'he' }) {
+  const parking = ev.extras?.parking
+  return <>
+    <div className="rsvp-event-actions">
+      {ev.place && <a className={btn} href={`https://waze.com/ul?q=${encodeURIComponent(ev.place)}&navigate=yes`} target="_blank" rel="noopener noreferrer">🚗 {t(lang, 'waze')}</a>}
+      {ev.place && <a className={btn} href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.place)}`} target="_blank" rel="noopener noreferrer">📍 {t(lang, 'maps')}</a>}
+      {ev.date && <button type="button" className={btn} onClick={() => { const ics = eventCalendar(ev); if (ics) download('event.ics', ics, 'text/calendar;charset=utf-8') }}>🗓️ {t(lang, 'calendar')}</button>}
+    </div>
+    {parking && <p className="rsvp-parking"><b>🅿️ {t(lang, 'parking')}:</b> {parking}</p>}
+  </>
+}
+// The fee and payment link (when the organizer set them) and the guest's own table.
+function GuestExtras({ ev, lang }) {
+  const x = ev.extras || {}
+  if (!x.price && !ev.my_table) return null
+  return <div className="rsvp-guest-extras">
+    {ev.my_table && <p className="text-xl font-black">🪑 {t(lang, 'table', { n: ev.my_table })}</p>}
+    {x.price > 0 && <p className="font-bold">💳 {t(lang, 'fee', { p: x.price })}{x.pay_link && <> · <a href={x.pay_link} target="_blank" rel="noopener noreferrer nofollow" className="underline">{t(lang, 'pay')}</a></>}</p>}
   </div>
+}
+export function LangSwitch({ lang, onChange }) {
+  return <nav className="rsvp-lang" aria-label="Language">{RSVP_LANGS.map(l => <button key={l.id} type="button" lang={l.id} aria-pressed={lang === l.id} onClick={() => onChange(l.id)}>{l.label}</button>)}</nav>
 }
 export function RsvpGuestExperience({ ev, onAnswer, show, AnswerForm, download, statuses }) {
   const [editing, setEditing] = useState(!ev.mine)
+  // The organizer's language for guests; each guest can switch it here.
+  const [lang, setLang] = useState(() => langInfo(ev.extras?.lang).id)
   const mine = ev.mine
-  return <div className="rsvp-v2 mx-auto max-w-xl space-y-5">
-    <InvitationCard ev={ev} /><EventActions ev={ev} download={download} />
+  return <div className="rsvp-v2 mx-auto max-w-xl space-y-5" dir={langInfo(lang).dir} lang={lang}>
+    <LangSwitch lang={lang} onChange={setLang} />
+    <InvitationCard ev={ev} lang={lang} /><EventActions ev={ev} download={download} lang={lang} /><GuestExtras ev={ev} lang={lang} />
     <section className={card}>
-      {editing || !mine ? <><h2 className="text-2xl font-bold mb-2">נשמח לראות אתכם!</h2><p className="mb-5 text-slate-600">כמה פרטים קטנים, כדי שנוכל להתכונן.</p><AnswerForm ev={ev} mine={mine} show={show} onSaved={r => { onAnswer(r); setEditing(false); show('✓ התשובה נשמרה. תודה!') }} /></>
-        : <div className="text-center" role="status"><span className="text-4xl" aria-hidden="true">{statuses[mine.status].emoji}</span><h2 className="text-2xl font-bold mt-3">{mine.status === 'yes' ? 'איזה כיף, נתראה באירוע!' : mine.status === 'maybe' ? 'רשמנו שאולי תגיעו' : 'התשובה נשמרה, תודה שעדכנתם'}</h2><p className="mt-2">{mine.name} · {statuses[mine.status].label}</p>{mine.status !== 'no' && <p>{peopleLabel(mine.kids, mine.adults)}</p>}<button className={`${btn} mt-5`} onClick={() => setEditing(true)}>✏️ שינוי התשובה</button><p className="text-sm text-slate-500 mt-3">אפשר לחזור לקישור הזה מאותו מכשיר ולעדכן.</p></div>}
+      {editing || !mine ? <><h2 className="text-2xl font-bold mb-2">{t(lang, 'glad')}</h2><p className="mb-5 text-slate-600">{t(lang, 'details')}</p><AnswerForm ev={ev} mine={mine} show={show} lang={lang} onSaved={r => { onAnswer(r); setEditing(false); show(t(lang, 'saved')) }} /></>
+        : <div className="text-center" role="status"><span className="text-4xl" aria-hidden="true">{statuses[mine.status].emoji}</span><h2 className="text-2xl font-bold mt-3">{t(lang, mine.status === 'yes' ? 'thanksYes' : mine.status === 'maybe' ? 'thanksMaybe' : 'thanksNo')}</h2><p className="mt-2">{mine.name} · {t(lang, mine.status)}</p>{mine.status !== 'no' && <p>{lang === 'he' ? peopleLabel(mine.kids, mine.adults) : t(lang, 'people', { n: Number(mine.kids) + Number(mine.adults) })}</p>}<button className={`${btn} mt-5`} onClick={() => setEditing(true)}>✏️ {t(lang, 'change')}</button></div>}
     </section>
     <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />
   </div>

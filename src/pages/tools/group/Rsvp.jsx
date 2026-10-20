@@ -10,6 +10,9 @@ import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, Con
 import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../../utils/rsvpExperience'
 import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
 import SiteInvite from '../../../components/ui/SiteInvite'
+import NotFound from '../../NotFound'
+import { RSVP_TYPES, rsvpType } from '../../../utils/rsvpTypes'
+import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
 
 const KIND = 'rsvp'
 const POLL_MS = 15000
@@ -18,14 +21,23 @@ const STATUS = {
   maybe: { label: 'אולי', emoji: '🤔', cls: 'bg-amber-100 text-amber-800 border-amber-300' },
   no: { label: 'לא מגיעים', emoji: '😢', cls: 'bg-slate-100 text-slate-600 border-slate-300' },
 }
-const emptyEvent = params => ({
-  kind: params.get('kind') === 'general' ? 'general' : 'kids',
-  title: cleanText(params.get('title'), LIMITS.title) || 'יום ההולדת של ___',
+const emptyEvent = (params, preset) => ({
+  kind: preset ? preset.kind : params.get('kind') === 'general' ? 'general' : 'kids',
+  title: cleanText(params.get('title'), LIMITS.title) || preset?.title || 'יום ההולדת של ___',
   date: /^\d{4}-\d{2}-\d{2}$/.test(params.get('date') || '') ? params.get('date') : '',
   time: cleanText(params.get('time'), 20), place: cleanText(params.get('place'), LIMITS.place),
-  deadline: '', note: '', invitees: '', theme: 'party',
+  deadline: '', note: '', invitees: '', theme: preset?.theme || 'party',
+  extras: preset ? { type: preset.slug } : {},
 })
-const toForm = ev => ({ kind: ev.kind, title: ev.title, date: ev.date || '', time: ev.time || '', place: ev.place || '', deadline: ev.deadline || '', note: ev.note || '', invitees: (ev.invitees || []).join('\n') })
+const toForm = ev => ({ extras: { ...(ev.extras || {}) }, kind: ev.kind, title: ev.title, date: ev.date || '', time: ev.time || '', place: ev.place || '', deadline: ev.deadline || '', note: ev.note || '', invitees: (ev.invitees || []).join('\n') })
+// The extras the organizer filled in (empty values are dropped by the database too).
+const extrasOf = f => {
+  const x = f.extras || {}
+  return { type: x.type, lang: x.lang && x.lang !== 'he' ? x.lang : undefined, parking: cleanText(x.parking, 300) || undefined,
+    price: Number(x.price) > 0 ? Number(x.price) : undefined, pay_link: /^https:\/\//.test(x.pay_link || '') ? x.pay_link.trim() : undefined,
+    tables: Number(x.tables) > 0 ? Math.min(200, Math.floor(Number(x.tables))) : undefined, show_table: Boolean(x.show_table) || undefined }
+}
+const hasExtras = x => Object.values(x).some(v => v !== undefined)
 const fromForm = f => ({ kind: f.kind, title: cleanText(f.title, LIMITS.title), date: f.date || null, time: cleanText(f.time, 20), place: cleanText(f.place, LIMITS.place), deadline: f.deadline || null, note: cleanText(f.note, LIMITS.note, true), invitees: parseNames(f.invitees, LIMITS.maxInvitees).slice(0, LIMITS.maxInvitees) })
 
 // ── organizer: event details form (create + edit) ─────────────
@@ -56,6 +68,7 @@ function EventForm({ value, onChange, onSubmit, busy, submitLabel, withPin = fal
       <textarea className={`${input} min-h-[96px]`} value={value.invitees} onChange={e => set('invitees', e.target.value)} placeholder={'נועה\nיואב\nאורי'} />
       {inviteeCount > 0 && <span className="mt-1 block text-sm font-normal text-slate-500">{inviteeCount} מוזמנים{inviteeCount >= LIMITS.maxInvitees ? ` (עד ${LIMITS.maxInvitees})` : ''}</span>}
     </Field>
+    <ExtrasFields value={value.extras || {}} onChange={x => set('extras', x)} open={Boolean(rsvpType(value.extras?.type)?.vaad)} />
     {withPin && <div className="rounded-xl bg-amber-50 p-3">
       <Field label="🔑 קוד מארגן — 4 ספרות שתזכרו"><PinInput value={value.pin || ''} onChange={v => set('pin', v)} label="קוד מארגן" /></Field>
       <p className="mt-1 text-sm text-slate-600">כדי לראות את התשובות מכל טלפון: פותחים את הקישור ששלחתם לאורחים, לוחצים „אני המארגן/ת” ומקלידים את הקוד.</p>
@@ -65,8 +78,33 @@ function EventForm({ value, onChange, onSubmit, busy, submitLabel, withPin = fal
   </form>
 }
 
+// Optional extras, folded away so the basic form stays short.
+function ExtrasFields({ value, onChange, open }) {
+  const set = (k, v) => onChange({ ...value, [k]: v })
+  const used = Boolean(value.lang && value.lang !== 'he') || value.parking || Number(value.price) > 0 || Number(value.tables) > 0
+  return <details className="rounded-xl border-2 border-slate-200 bg-slate-50 p-3" open={open || used || undefined}>
+    <summary className="cursor-pointer font-bold">⚙️ אפשרויות נוספות <span className="font-normal text-slate-500">(לא חובה)</span></summary>
+    <div className="mt-3 space-y-4">
+      <Field label="🌍 שפת הטופס לאורחים" hint="(כל אורח יכול גם להחליף בעצמו)">
+        <select className={input} value={value.lang || 'he'} onChange={e => set('lang', e.target.value)}>{RSVP_LANGS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select>
+      </Field>
+      <Field label="🅿️ חנייה והגעה" hint="(מופיע לאורחים ליד כפתורי Waze ו-Google Maps)"><input className={input} value={value.parking || ''} maxLength={300} onChange={e => set('parking', e.target.value)} placeholder="למשל: חניה חינם ברחוב הסמוך, כניסה מהשער האחורי" /></Field>
+      <div className="grid grid-cols-[8rem_1fr] gap-3">
+        <Field label="💳 דמי השתתפות"><input className={input} type="number" inputMode="decimal" min="0" max="10000" value={value.price || ''} onChange={e => set('price', e.target.value)} placeholder="₪" /></Field>
+        <Field label="קישור לתשלום" hint="(ביט, פייבוקס)"><input className={input} dir="ltr" value={value.pay_link || ''} maxLength={300} onChange={e => set('pay_link', e.target.value)} placeholder="https://" /></Field>
+      </div>
+      <div className="grid grid-cols-[8rem_1fr] items-end gap-3">
+        <Field label="🪑 מספר שולחנות"><input className={input} type="number" inputMode="numeric" min="0" max="200" value={value.tables || ''} onChange={e => set('tables', e.target.value)} placeholder="0" /></Field>
+        {Number(value.tables) > 0 && <label className="flex min-h-[48px] items-center gap-2 font-bold"><input type="checkbox" className="h-5 w-5" checked={Boolean(value.show_table)} onChange={e => set('show_table', e.target.checked)} /> להציג לכל אורח את השולחן שלו</label>}
+      </div>
+      <p className="text-sm text-slate-500">דמי השתתפות: האתר לא גובה כסף — רק מציג לאורחים את הסכום והקישור, ובדף הניהול מסמנים מי שילם.</p>
+    </div>
+  </details>
+}
+
 // ── guest: answer form ────────────────────────────────────────
-function AnswerForm({ ev, mine, onSaved, show }) {
+function AnswerForm({ ev, mine, onSaved, show, lang = 'he' }) {
+  const L = (key, vars) => t(lang, key, vars)
   const kids = ev.kind === 'kids'
   const [a, setA] = useState(() => mine ? { ...mine, allergies: mine.allergies || '', pickup: mine.pickup || '', note: mine.note || '' }
     : { name: groupMemory.get('rsvp-name', ''), status: '', kids: kids ? 1 : 0, adults: kids ? 0 : 1, allergies: '', pickup: '', note: '' })
@@ -76,7 +114,7 @@ function AnswerForm({ ev, mine, onSaved, show }) {
   const submit = async e => {
     e.preventDefault()
     const v = validateRsvpAnswer(a)
-    if (!v.ok) { setErr(v.error); return }
+    if (!v.ok) { setErr(translateError(lang, v.error)); return }
     setErr(''); setBusy(true)
     try {
       const saved = await rsvpDb.answer(ev.code, groupMemory.deviceToken(KIND), { ...a, name: cleanText(a.name, LIMITS.guestName) })
@@ -86,8 +124,8 @@ function AnswerForm({ ev, mine, onSaved, show }) {
   }
   const coming = a.status && a.status !== 'no'
   return <form onSubmit={submit} className="space-y-4">
-    <Field label={kids ? 'שם הילד/ה' : 'השם שלכם'}>
-      <input className={input} value={a.name} maxLength={LIMITS.guestName} onChange={e => set('name', e.target.value)} placeholder={kids ? 'למשל: יואב' : 'למשל: משפחת לוי'} autoComplete="given-name" />
+    <Field label={L(kids ? 'childName' : 'yourName')}>
+      <input className={input} value={a.name} maxLength={LIMITS.guestName} onChange={e => set('name', e.target.value)} placeholder={L(kids ? 'phChild' : 'phName')} autoComplete="given-name" />
     </Field>
     {ev.invitees?.length > 0 && !a.name && <div className="flex flex-wrap gap-2" aria-label="בחירה מהרשימה">
       {ev.invitees.map(n => <button type="button" key={n} onClick={() => set('name', n)} className="min-h-[40px] rounded-full border-2 border-slate-200 bg-white px-3 font-bold">{n}</button>)}
@@ -95,18 +133,18 @@ function AnswerForm({ ev, mine, onSaved, show }) {
     <div className="grid grid-cols-3 gap-2" role="group" aria-label="תשובה">
       {Object.entries(STATUS).map(([k, s]) => <button type="button" key={k} onClick={() => set('status', k)} aria-pressed={a.status === k}
         className={`min-h-[72px] rounded-2xl border-2 px-1 font-bold leading-tight ${a.status === k ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white'}`}>
-        <span className="block text-2xl" aria-hidden="true">{s.emoji}</span>{s.label}</button>)}
+        <span className="block text-2xl" aria-hidden="true">{s.emoji}</span>{L(k)}</button>)}
     </div>
     {coming && <div className="space-y-2">
-      {kids ? <><Stepper label="ילדים" value={Number(a.kids)} onChange={v => set('kids', v)} /><Stepper label="מבוגרים שנשארים" value={Number(a.adults)} onChange={v => set('adults', v)} /></>
-        : <><Stepper label="מבוגרים" value={Number(a.adults)} onChange={v => set('adults', v)} /><Stepper label="ילדים" value={Number(a.kids)} onChange={v => set('kids', v)} /></>}
-      <Field label="אלרגיות או רגישויות במזון" hint="(לא חובה)"><input className={input} value={a.allergies} maxLength={LIMITS.allergies} onChange={e => set('allergies', e.target.value)} placeholder="למשל: בוטנים, צמחוני" /></Field>
-      {kids && <Field label="מי אוסף בסוף?" hint="(לא חובה)"><input className={input} value={a.pickup} maxLength={LIMITS.pickup} onChange={e => set('pickup', e.target.value)} placeholder="למשל: אמא, ב-19:00" /></Field>}
+      {kids ? <><Stepper label={L('kids')} value={Number(a.kids)} onChange={v => set('kids', v)} /><Stepper label={L('adultsStay')} value={Number(a.adults)} onChange={v => set('adults', v)} /></>
+        : <><Stepper label={L('adults')} value={Number(a.adults)} onChange={v => set('adults', v)} /><Stepper label={L('kids')} value={Number(a.kids)} onChange={v => set('kids', v)} /></>}
+      <Field label={L('allergies')} hint={L('optional')}><input className={input} value={a.allergies} maxLength={LIMITS.allergies} onChange={e => set('allergies', e.target.value)} placeholder={L('phAllergies')} /></Field>
+      {kids && <Field label={L('pickup')} hint={L('optional')}><input className={input} value={a.pickup} maxLength={LIMITS.pickup} onChange={e => set('pickup', e.target.value)} placeholder={L('phPickup')} /></Field>}
     </div>}
-    {a.status && <Field label="הערה למארגנים" hint="(לא חובה)"><input className={input} value={a.note} maxLength={200} onChange={e => set('note', e.target.value)} placeholder={a.status === 'no' ? 'למשל: מצטערים, נהיה בחו״ל' : 'למשל: נגיע קצת באיחור'} /></Field>}
+    {a.status && <Field label={L('note')} hint={L('optional')}><input className={input} value={a.note} maxLength={200} onChange={e => set('note', e.target.value)} placeholder={L(a.status === 'no' ? 'phNoteNo' : 'phNoteYes')} /></Field>}
     {err && <p role="alert" className="rounded-xl bg-rose-50 px-3 py-2 font-bold text-rose-700">{err}</p>}
-    <button disabled={busy || !a.status} className={`${btnMain} w-full`}>{busy ? 'שולחים…' : mine ? 'עדכון התשובה' : 'שליחת אישור'}</button>
-    <p className="text-center text-sm text-slate-500">רק המארגנים רואים את התשובה. אפשר לשנות אותה מהמכשיר הזה בכל רגע.</p>
+    <button disabled={busy || !a.status} className={`${btnMain} w-full`}>{L(busy ? 'sending' : mine ? 'update' : 'send')}</button>
+    <p className="text-center text-sm text-slate-500">{L('privacy')}</p>
   </form>
 }
 
@@ -215,9 +253,23 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
   const totals = useMemo(() => rsvpTotals(responses), [responses])
   const missing = useMemo(() => missingInvitees(ev.invitees || [], responses), [ev.invitees, responses])
   const link = shareUrl(KIND, ev.code)
+  const x = ev.extras || {}, marks = ev.marks || {}
+  const mark = async (r, patch) => {
+    const before = marks[r.id] || {}
+    setEv(e => ({ ...e, marks: { ...e.marks, [r.id]: { ...before, ...patch } } }))
+    try { const m = await rsvpDb.mark(ev.code, token, r.id, patch); setEv(e => ({ ...e, marks: { ...e.marks, [r.id]: m } })) }
+    catch (e) { setEv(ev2 => ({ ...ev2, marks: { ...ev2.marks, [r.id]: before } })); show(groupErrorText(e.code), 'err') }
+  }
+  const coming = responses.filter(r => r.status !== 'no')
+  const paidCount = coming.filter(r => marks[r.id]?.paid).length
+  const [seating, setSeating] = useState(false)
   const save = async () => {
     setBusy(true)
-    try { const row = enhanced ? await rsvpDb.updateV2(ev.code, token, { ...fromForm(form), theme: form.theme || ev.theme }) : await rsvpDb.update(ev.code, token, fromForm(form)); setEv(e => ({ ...e, ...row })); setEditing(false); show('✓ הפרטים עודכנו') }
+    try {
+      const row = enhanced ? await rsvpDb.updateV2(ev.code, token, { ...fromForm(form), theme: form.theme || ev.theme }) : await rsvpDb.update(ev.code, token, fromForm(form))
+      const extras = await rsvpDb.extrasSet(ev.code, token, { ...extrasOf(form), type: ev.extras?.type }).catch(() => ev.extras)
+      setEv(e => ({ ...e, ...row, extras: extras || {} })); setEditing(false); show('✓ הפרטים עודכנו')
+    }
     catch (e) { show(groupErrorText(e.code), 'err') } finally { setBusy(false) }
   }
   const csv = () => {
@@ -249,8 +301,9 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         {totals.maybe > 0 && <p className="mt-2 text-center text-sm text-slate-600">ועוד „אולי”: {peopleLabel(totals.maybeKids, totals.maybeAdults) || 'בלי מספר'}</p>}
         {totals.allergies.length > 0 && <div className="mt-4 rounded-xl border-2 border-rose-200 bg-rose-50 p-3">
           <h3 className="font-bold">⚠️ אלרגיות ורגישויות</h3>
-          <ul className="mt-1 space-y-0.5">{totals.allergies.map((x, i) => <li key={i}><b>{x.name}:</b> {x.text}</li>)}</ul>
+          <ul className="mt-1 space-y-0.5">{totals.allergies.map((a, i) => <li key={i}><b>{a.name}:</b> {a.text}</li>)}</ul>
         </div>}
+        {x.price > 0 && <p className="mt-4 rounded-xl border-2 border-emerald-200 bg-emerald-50 p-3 text-center font-bold">💳 שילמו {paidCount} מתוך {coming.length} · נאסף {(paidCount * x.price).toLocaleString('he-IL')} ₪ <span className="font-normal text-slate-600">(לפי {x.price} ₪ לכל תשובה)</span></p>}
       </section>
 
       <section className={card}>
@@ -273,8 +326,16 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
             <button onClick={() => setConfirm(r)} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`מחיקת התשובה של ${r.name}`}>✕</button>
           </div>
           {(r.allergies || r.pickup || r.note) && <p className="mt-1 text-sm text-slate-700">{[r.allergies && `⚠️ ${r.allergies}`, r.pickup && `🚗 ${r.pickup}`, r.note && `💬 ${r.note}`].filter(Boolean).join(' · ')}</p>}
+          {r.status !== 'no' && (x.price > 0 || x.tables > 0) && <div className="mt-2 flex flex-wrap items-center gap-2">
+            {x.price > 0 && <button type="button" onClick={() => mark(r, { paid: !marks[r.id]?.paid })} aria-pressed={Boolean(marks[r.id]?.paid)}
+              className={`min-h-[40px] rounded-xl border-2 px-3 text-sm font-bold ${marks[r.id]?.paid ? 'border-emerald-500 bg-emerald-100 text-emerald-800' : 'border-slate-200 bg-white text-slate-600'}`}>{marks[r.id]?.paid ? '✓ שילם/ה' : '💳 לא שילם/ה'}</button>}
+            {x.tables > 0 && <select aria-label={`שולחן של ${r.name}`} value={marks[r.id]?.table || ''} onChange={e => mark(r, { table: e.target.value ? Number(e.target.value) : null })} className="min-h-[40px] rounded-xl border-2 border-slate-200 bg-white px-2 text-sm font-bold">
+              <option value="">🪑 בלי שולחן</option>{Array.from({ length: x.tables }, (_, i) => <option key={i + 1} value={i + 1}>שולחן {i + 1}</option>)}
+            </select>}
+          </div>}
         </li>)}</ul>
       </section>
+      {x.tables > 0 && <SeatingSection ev={ev} coming={coming} marks={marks} onPrint={() => setSeating(true)} />}
     </div>
 
     <aside className="space-y-4 lg:sticky lg:top-4">
@@ -303,6 +364,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
       onYes={async () => { try { await rsvpDb.remove(ev.code, token); groupMemory.forgetOwned(KIND, ev.code); onDeleted() } catch (e) { show(groupErrorText(e.code), 'err') } setConfirm(null) }} />}
     {confirm && confirm !== 'event' && <ConfirmDialog title={`למחוק את התשובה של ${confirm.name}?`} text="מתאים לתשובה כפולה או שגויה. מי שענה יוכל לענות שוב." yes="מחיקה" onClose={() => setConfirm(null)}
       onYes={async () => { const r = confirm; setConfirm(null); try { await rsvpDb.removeResponse(ev.code, token, r.id); setEv(e => ({ ...e, responses: e.responses.filter(x => x.id !== r.id) })) } catch (e) { show(groupErrorText(e.code), 'err') } }} />}
+    {seating && <PrintPreview title={`סידורי הושבה — ${ev.title}`} onClose={() => setSeating(false)}><SeatingPrint ev={ev} coming={coming} marks={marks} /></PrintPreview>}
     {printing && <PrintPreview title={`אישורי הגעה — ${ev.title}`} onClose={() => setPrinting(false)}>
       <div className="buga-flow" dir="rtl">
         <h2 style={{ fontSize: 26, margin: 0 }}>{ev.title}</h2>
@@ -316,6 +378,34 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         {missing.length > 0 && <p style={{ marginTop: 10 }}><b>טרם ענו:</b> {missing.join(', ')}</p>}
       </div>
     </PrintPreview>}
+  </div>
+}
+
+// ── seating: who sits at each table, and an alphabetical list for the entrance ──
+const headcount = r => (Number(r.kids) || 0) + (Number(r.adults) || 0)
+function SeatingSection({ ev, coming, marks, onPrint }) {
+  const tables = Array.from({ length: ev.extras.tables }, (_, i) => i + 1)
+  const at = n => coming.filter(r => marks[r.id]?.table === n)
+  const free = coming.filter(r => !marks[r.id]?.table)
+  return <section className={card}>
+    <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="text-2xl font-bold">🪑 סידורי הושבה</h2><button onClick={onPrint} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold">🖨️ רשימה לכניסה</button></div>
+    <p className="mt-1 text-sm text-slate-600">בוחרים שולחן לכל תשובה ברשימה למעלה. {ev.extras.show_table ? 'כל אורח רואה את השולחן שלו כשהוא פותח את הקישור.' : 'האורחים לא רואים את השולחנות.'}</p>
+    <div className="mt-3 grid gap-2 sm:grid-cols-2">{tables.map(n => { const list = at(n); return <div key={n} className="rounded-xl border-2 border-slate-100 bg-slate-50 p-3">
+      <b>שולחן {n}</b> <span className="text-sm text-slate-600">· {list.reduce((s, r) => s + headcount(r), 0)} מקומות</span>
+      <p className="text-sm">{list.map(r => r.name).join(' · ') || <span className="text-slate-400">ריק</span>}</p>
+    </div> })}</div>
+    {free.length > 0 && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm"><b>עוד בלי שולחן ({free.length}):</b> {free.map(r => r.name).join(' · ')}</p>}
+  </section>
+}
+function SeatingPrint({ ev, coming, marks }) {
+  const list = [...coming].sort((a, b) => a.name.localeCompare(b.name, 'he'))
+  return <div className="buga-flow" dir="rtl">
+    <h2 style={{ fontSize: 26, margin: 0 }}>סידורי הושבה — {ev.title}</h2>
+    <p>{[ev.date && formatDate(ev.date), ev.time, ev.place].filter(Boolean).join(' · ')}</p>
+    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, marginTop: 8 }}>
+      <thead><tr>{['שם', 'שולחן', 'מקומות'].map(h => <th key={h} style={{ borderBottom: '2px solid #333', textAlign: 'right', padding: 6 }}>{h}</th>)}</tr></thead>
+      <tbody>{list.map(r => <tr key={r.id}>{[r.name, marks[r.id]?.table || '—', headcount(r)].map((c, i) => <td key={i} style={{ borderBottom: '1px solid #ddd', padding: 6, fontWeight: i === 1 ? 800 : 400 }}>{c}</td>)}</tr>)}</tbody>
+    </table>
   </div>
 }
 
@@ -344,7 +434,29 @@ function RsvpGuide() {
   </section>
 }
 
-export default function Rsvp() {
+// /rsvp/<type>: the same page, started with that event type's defaults and advice.
+export function RsvpTypePage() {
+  const { type } = useParams()
+  const preset = rsvpType(type)
+  return preset ? <Rsvp key={type} preset={preset} /> : <NotFound />
+}
+
+function TypeGuide({ preset }) {
+  return <section className="mx-auto mt-14 max-w-3xl">
+    <h2 className="mb-3 text-3xl font-bold">טיפים: {preset.h1}</h2>
+    <ul className="mb-8 grid gap-3">{preset.tips.map((tip, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white p-4 text-lg">💡 {tip}</li>)}</ul>
+    <SeoBody paragraphs={[preset.intro, 'כל מה שצריך נמצא בדף אחד: האורחים עונים בלחיצה בלי הרשמה, ואתם רואים כמה מבוגרים וילדים מגיעים, אלרגיות ומי עוד לא ענה. אפשר להוריד לאקסל, להדפיס, ולשלוח תזכורת מנומסת למי שלא ענה.']}
+      faq={preset.faq} related={[{ label: 'אישור הגעה — כל סוגי האירועים', href: '/rsvp' }, ...(preset.vaad ? [{ label: 'כל הכלים לוועד הורים', href: '/vaad' }] : []), { label: 'הזמנה מעוצבת', href: '/invitation' }, { label: 'רשימת מי מביא מה', href: '/tools/bring-list' }]} />
+  </section>
+}
+export function RsvpTypeLinks({ current, list = RSVP_TYPES, title = 'אישור הגעה לפי סוג אירוע' }) {
+  return <section className="mx-auto mt-10 max-w-3xl">
+    <h2 className="mb-3 text-2xl font-bold">{title}</h2>
+    <div className="flex flex-wrap gap-2">{list.filter(x => x.slug !== current).map(x => <Link key={x.slug} to={`/rsvp/${x.slug}`} className="rounded-full border-2 border-slate-200 bg-white px-3 py-1.5 font-bold hover:border-slate-800">{x.emoji} {x.name}</Link>)}</div>
+  </section>
+}
+
+export default function Rsvp({ preset = null }) {
   const { code: pathCode } = useParams()
   const [params] = useSearchParams()
   const [code, setCode] = useState(pathCode || null)
@@ -352,7 +464,7 @@ export default function Rsvp() {
   const [ev, setEv] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(Boolean(pathCode))
-  const [form, setForm] = useState(() => emptyEvent(params))
+  const [form, setForm] = useState(() => emptyEvent(params, preset))
   const [busy, setBusy] = useState(false)
   const [newExperience, setNewExperience] = useState(false)
   const [deleted, setDeleted] = useState(false)
@@ -375,6 +487,8 @@ export default function Rsvp() {
         try { row = await rsvpDb.host(code, token) } catch (e) { if (e.code !== 'not_owner') throw e; setToken(null) }
       }
       if (!row) row = await rsvpDb.get(code, groupMemory.deviceToken(KIND))
+      const more = await rsvpDb.extrasGet(code, groupMemory.deviceToken(KIND), row.responses ? token : null)
+      row = { ...row, extras: more?.extras || {}, marks: more?.marks || {}, my_table: more?.my_table || null }
       if (seq === loadSeq.current) { setEv(row); setError('') }
     } catch (e) { if (seq === loadSeq.current) setError(e.code || 'network') } finally { setLoading(false) }
   }, [code, token])
@@ -392,8 +506,10 @@ export default function Rsvp() {
       const row = newExperience ? await rsvpDb.createV2(t, { ...fromForm(form), theme: form.theme }) : await rsvpDb.create(t, fromForm(form))
       groupMemory.rememberOwned(KIND, row.code, t, row.title)
       if (pinOk(form.pin)) await rsvpDb.setPin(row.code, t, form.pin).catch(() => {})
+      const wanted = extrasOf(form)
+      const extras = hasExtras(wanted) ? await rsvpDb.extrasSet(row.code, t, wanted).catch(() => ({})) : {}
       window.history.replaceState(window.history.state, '', `/r/${row.code}`)
-      setToken(t); setEv({ ...row, responses: [] }); setCode(row.code)
+      setToken(t); setEv({ ...row, responses: [], extras: extras || {}, marks: {} }); setCode(row.code)
       show('✓ האירוע נוצר! עכשיו שולחים את הקישור')
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (e) { show(groupErrorText(e.code), 'err') } finally { setBusy(false) }
@@ -411,16 +527,19 @@ export default function Rsvp() {
   else body = newExperience ? <RsvpCreateExperience form={form} onChange={setForm} mine={mine}><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" withPin /></RsvpCreateExperience>
     : <section className={`${card} mx-auto max-w-xl`}><h2 className="mb-4 text-2xl font-bold">פרטי האירוע</h2><EventForm value={form} onChange={setForm} onSubmit={create} busy={busy} submitLabel="✅ יצירת קישור לאישור הגעה" withPin />{mine.length > 0 && <p className="mt-4">האירועים שלי: {mine.map(e => <a key={e.code} className="underline mx-2" href={`/r/${e.code}`}>{e.title || e.code}</a>)}</p>}</section>
   const titleText = ev?.title ? `אישור הגעה — ${ev.title}` : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'
+  const pageTitle = preset ? `${preset.h1} — אונליין בחינם, בוואטסאפ` : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'
+  const pageDesc = preset ? preset.intro.slice(0, 158).replace(/\s\S*$/, '') + '…' : 'אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים בוואטסאפ, והאורחים עונים מגיעים, לא מגיעים או אולי. רואים כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.'
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title={code ? titleText : 'אישור הגעה אונליין בחינם — לאירוע וליום הולדת'} description="אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים בוואטסאפ, והאורחים עונים מגיעים, לא מגיעים או אולי. רואים כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה." path="/rsvp" noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(FAQ)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'אישור הגעה', href: code ? '/rsvp' : undefined }]} />
+    <SEO title={code ? titleText : pageTitle} description={pageDesc} path={preset ? `/rsvp/${preset.slug}` : '/rsvp'} noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(preset ? preset.faq : FAQ)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, preset?.vaad ? { label: 'ועד הורים', href: '/vaad' } : { label: 'כלים', href: '/tools' }, { label: 'אישור הגעה', href: code || preset ? '/rsvp' : undefined }, ...(preset && !code ? [{ label: preset.name }] : [])]} />
     {!code && <header className="mb-7 text-center">
-      <h1 className="text-4xl sm:text-5xl">✅ אישור הגעה אונליין</h1>
-      <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים לקבוצה בוואטסאפ, וכל אורח עונה בלחיצה — מגיעים, לא מגיעים או אולי. אתם רואים כמה ילדים ומבוגרים מגיעים, מי אלרגי למה ומי עוד לא ענה.</p>
+      <h1 className="text-4xl sm:text-5xl">{preset ? `${preset.emoji} ${preset.h1}` : '✅ אישור הגעה אונליין'}</h1>
+      <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">{preset ? preset.intro : 'אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים לקבוצה בוואטסאפ, וכל אורח עונה בלחיצה — מגיעים, לא מגיעים או אולי. אתם רואים כמה ילדים ומבוגרים מגיעים, מי אלרגי למה ומי עוד לא ענה.'}</p>
     </header>}
     {body}
     {code && ev && !host && !error && !deleted && <OrganizerLogin code={code} onIn={organizerIn} />}
-    {!code && <RsvpGuide />}
+    {!code && (preset ? <TypeGuide preset={preset} /> : <RsvpGuide />)}
+    {!code && <RsvpTypeLinks current={preset?.slug} />}
     {toast}
   </div>
 }

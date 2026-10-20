@@ -30,6 +30,7 @@ const CLOSED_FAMILIES = [
   /^\/en\/coloring\/[^/]+(?:\/[^/]+)?$/,
   /^\/en\/hebrew-alphabet\/[^/]+$/,
   /^\/parasha\/[^/]+$/,
+  /^\/rsvp\/[^/]+$/,
   /^\/learn\/(?:tanakh|lashon|civics|science|history|geography)\/.+$/,
   /^\/shabbat-times\/[^/]+$/,
   /^\/emoji\/[^/]+$/,

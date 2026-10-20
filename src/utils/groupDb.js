@@ -35,6 +35,10 @@ export const rsvpDb = {
   setPin: (code, hostToken, pin) => call('rsvp_set_pin', { p_code: code, p_host_token: hostToken, p_pin: pin }),
   hasPin: (code, hostToken) => call('rsvp_has_pin', { p_code: code, p_host_token: hostToken }),
   pinLogin: (code, pin) => call('rsvp_pin_login', { p_code: code, p_pin: pin }),
+  // Optional extras (event type, guests' language, parking, fee, tables); older databases simply have none.
+  extrasGet: (code, deviceToken, hostToken) => call('rsvp_extras_get', { p_code: code, p_device_token: deviceToken || null, p_host_token: hostToken || null }).catch(() => ({})),
+  extrasSet: (code, hostToken, extras) => call('rsvp_extras_set', { p_code: code, p_host_token: hostToken, p: extras }),
+  mark: (code, hostToken, responseId, patch) => call('rsvp_mark', { p_code: code, p_host_token: hostToken, p_response_id: responseId, p: patch }),
 }
 
 export const secretDb = {

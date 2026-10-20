@@ -27,3 +27,8 @@
 .rsvp-v2 .rsvp-response-top { flex-wrap:wrap }
 .rsvp-v2 .rsvp-response-name { overflow-wrap:anywhere }
 @media(max-width:800px) { .rsvp-create-grid {grid-template-columns:minmax(0,1fr)} .rsvp-create-aside{position:static;grid-row:1} .rsvp-create-aside .rsvp-info-box{display:none} .rsvp-invitation{padding:24px 18px} .rsvp-invitation-emoji{font-size:42px;margin-bottom:10px} }
+.rsvp-lang{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.rsvp-lang button{min-height:36px;padding:2px 12px;border-radius:999px;border:2px solid #e2e8f0;background:#fff;font-weight:700;font-size:14px}
+.rsvp-lang button[aria-pressed="true"]{border-color:#1e293b;background:#1e293b;color:#fff}
+.rsvp-parking{margin-top:8px;border-radius:14px;background:#f1f5f9;padding:10px 14px;line-height:1.5}
+.rsvp-guest-extras{border:2px dashed #cbd5e1;border-radius:18px;background:#fff;padding:12px 16px;text-align:center;display:grid;gap:4px}
