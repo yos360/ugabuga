@@ -5,7 +5,7 @@
 export const printableHref = cat => cat.href || (cat.slug === 'mandalas' ? '/printables/mandalas' : cat.generated ? '/printables/activity/' + cat.slug : '/printables/' + cat.slug)
 
 export const categories = [
-  { slug: 'name-labels', href: '/printables/name-labels', emoji: '🏷️', title: 'מדבקות שם', count: 'חדש', desc: 'שם, כיתה או טלפון על גיליון מדבקות A4 או נייר לגזירה', special: true },
+  { slug: 'name-labels', href: '/printables/name-labels', emoji: '🏷️', title: 'מדבקות שם', count: 'חדש', desc: 'מדבקות שם לספרים, מחברות, ציוד, כיתה או טלפון על גיליון A4', special: true },
   { slug: 'allergy-signs', href: '/printables/allergy-signs', emoji: '🥜', title: 'שלטי אלרגיה ומדבקות', count: 'חדש', desc: 'אצלנו בגן לא אוכלים בוטנים — שלט לכל אלרגיה ומדבקות עם שם', special: true },
   { slug: 'lunchbox-notes', href: '/printables/lunchbox-notes', emoji: '💌', title: 'פתקים לקופסת האוכל', count: 'חדש', desc: '12 פתקים בדף: מילים חמות, בדיחות ומשימות', special: true },
   { slug: 'home-charts', href: '/printables/home-charts', emoji: '🏠', title: 'לוחות לבית', count: 'חדש', desc: 'טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות — עם שם הילד', special: true },
