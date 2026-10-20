@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom'
 import { speak, speakAndWait, stopSpeaking } from '../../utils/speak'
 import { bubbleChoices, dictationCorrect, hwGame, levelTask, matchAnswers, mathItems, readingPassage } from '../../utils/homework/tasks'
 import { bankQuestions, loadBank } from '../../utils/homework/banks'
+import { applySay } from '../../utils/sayFixes'
 import { ARCADE } from '../../arcade/registry'
 import '../../arcade/arcade.css'
 
@@ -197,7 +198,7 @@ export function ReadingTask({ task, onDone }) {
     const run = ++readRun.current
     for (let p = i; p < passage.text.length && run === readRun.current; p++) {
       setReading(p)
-      if (!(await speakAndWait(passage.text[p], 'he-IL', { user: p === i }))) break
+      if (!(await speakAndWait(passage.text[p], 'he-IL', { user: p === i, ...(passage.say ? { say: applySay(passage.text[p], passage.say) } : {}) }))) break
     }
     if (run === readRun.current) setReading(-1)
   }

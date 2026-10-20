@@ -15,6 +15,7 @@ const { KIDS_TILES } = await src('data/kidsZone.js')
 const { HOLIDAY_BLESSINGS, speakText } = await src('data/holidayBlessings.js')
 const { HEBREW } = await src('data/letterLearning.js')
 const { DICTATION } = await src('learn/learnData.js')
+const { applySay } = await src('utils/sayFixes.js')
 const { GRADED_READING } = await src('learn/readingGrades.js')
 
 const KIDS_TITLE = 'מה בא לך לעשות?' // KidsZone SAY_TITLE
@@ -51,7 +52,8 @@ export function allItems() {
   }
   for (const w of CLASS_ONE_WORDS) add('he', `מצאו את המילה ${w}`, `מצאו את המילה ${w}`, 'class1')
   for (const d of DICTATION) for (const w of d.words) add('he', w, spoken(w), 'dictation')
-  for (const r of GRADED_READING) { for (const t of r.text) add('he', t, spoken(t), 'graded-reading'); for (const [q] of r.q) add('he', q, spoken(q), 'graded-reading') }
+  // a passage's `say` fixes (vowels for an ambiguous name) go into the recorded text too
+  for (const r of GRADED_READING) { for (const t of r.text) add('he', t, spoken(applySay(t, r.say)), 'graded-reading'); for (const [q] of r.q) add('he', q, spoken(applySay(q, r.say)), 'graded-reading') }
   return [...out.values()]
 }
 

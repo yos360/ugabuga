@@ -72,7 +72,9 @@ async function playRecorded(text, lang) {
   try { await a.play(); return true } catch { return false }
 }
 
-export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true } = {}) {
+// `say`: what the device voice should pronounce, when it differs from the shown text (vowels for an
+// ambiguous word). The recorded clip is still looked up by `text`.
+export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true, say } = {}) {
   try {
     if (!text) return false
     if (typeof window !== 'undefined' && await playRecorded(String(text), lang)) return true
@@ -80,7 +82,7 @@ export async function speak(text, lang = 'he-IL', { rate = 0.85, user = true } =
     const voice = pickVoice(await loadVoices(), lang)
     const synth = window.speechSynthesis
     stopSpeaking()
-    const u = new SpeechSynthesisUtterance(String(text))
+    const u = new SpeechSynthesisUtterance(String(say || text))
     u.lang = lang
     u.rate = rate
     if (voice) u.voice = voice
@@ -130,3 +132,10 @@ export function speakAndWait(text, lang = 'he-IL', options = {}) {
     })
   })
 }
+
+// Which text is playing now (null when silent), so a 🔊 button can turn into ⏹ and back.
+const listeners = new Set()
+let playingText = null
+export function onPlaying(fn) { listeners.add(fn); return () => listeners.delete(fn) }
+export function setPlaying(text) { playingText = text; for (const fn of listeners) fn(text) }
+export const nowPlaying = () => playingText

@@ -11,6 +11,7 @@ import { usePresentMode } from '../utils/presentMode'
 import { DICTATION, READING, plainWord } from './learnData'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import { MENU_DOMAINS } from '../data/siteMenu'
+import { applySay } from '../utils/sayFixes'
 import { SUBJECTS } from './subjects/subjects'
 import './learn.css'
 
@@ -219,9 +220,9 @@ function ReadingExercise({ r, headingLevel = 2 }) {
   const H = headingLevel === 2 ? 'h2' : 'h3'
   return <>
     <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
-    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p} <SpeakButton text={p} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
+    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p} <SpeakButton text={p} say={r.say && applySay(p, r.say)} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
     <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
-    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
+    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} say={r.say && applySay(q, r.say)} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
         className={`ln-opt ${(checked || shown[i]) && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}
       {teacher && !checked && <button type="button" className="ln-chip mt-2" onClick={() => setShown(s => ({ ...s, [i]: !s[i] }))}>{shown[i] ? '🙈 הסתרת התשובה' : '👁️ חשיפת התשובה'}</button>}</div>)}
