@@ -52,7 +52,7 @@ function AboutMe({ name, theme, photos }) {
 }
 function Moments({ theme, photos }) {
   const p = THEMES[theme]
-  return <Sheet label="הרגעים הכי יפים מהגן"><rect width="200" height="270" fill="#fffdf8" /><Header theme={theme} title="הרגעים הכי יפים שלי" subtitle="4 תמונות, 4 זיכרונות קטנים"} />
+  return <Sheet label="הרגעים הכי יפים מהגן"><rect width="200" height="270" fill="#fffdf8" /><Header theme={theme} title="הרגעים הכי יפים שלי" subtitle="4 תמונות, 4 זיכרונות קטנים" />
     {[[16,47],[107,47],[16,150],[107,150]].map(([x,y], i) => <g key={i}><Photo src={photos[i + 2]} x={x} y={y} w="77" h="70" label={`רגע ${i + 1}`} index={`moment-${i}`} theme={theme} /><T x={x + 38.5} y={y + 79} size="3.7" weight={800} fill={p.ink}>מה קרה כאן?</T><line x1={x + 5} x2={x + 72} y1={y + 86} y2={y + 86} stroke={p.ink} strokeWidth=".55" /><line x1={x + 5} x2={x + 72} y1={y + 93} y2={y + 93} stroke={p.ink} strokeWidth=".55" /></g>)}
     <path d="M12 260q25-13 48 0t48 0 48 0 44 0" fill="none" stroke={p.accent} strokeWidth="2" /><T x="100" y="267" size="2.7" fill={p.ink}>עוגה בוגה · ugabuga.co.il</T></Sheet>
 }
