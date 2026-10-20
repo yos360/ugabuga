@@ -82,10 +82,27 @@ const QUICK_OPTIONS = {
 }
 // A small evening-only invitation: shown only from 18:00 to midnight in Israel.
 // The initial false avoids freezing the banner into the prerendered HTML; it is decided in each visitor's browser.
-function isBedtimeInIsrael() {
-  const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', hourCycle: 'h23' }).format(new Date()))
-  return hour >= 18 && hour < 24
+function israelHour() {
+  return Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', hourCycle: 'h23' }).format(new Date()))
 }
+function isBedtimeInIsrael() { const hour = israelHour(); return hour >= 18 && hour < 24 }
+function isMorningInIsrael() { const hour = israelHour(); return hour >= 6 && hour < 9 }
+function MorningRoutineSpotlight() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const update = () => setShow(isMorningInIsrael())
+    update()
+    const timer = window.setInterval(update, 60_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  if (!show) return null
+  return <Link to="/family/morning-routine" className="morning-routine-spotlight" aria-label="שגרת בוקר בוגה — מתחילים עכשיו">
+    <span className="morning-sun" aria-hidden="true">☀️</span>
+    <span className="morning-copy"><b>שגרת בוקר בוגה</b><small>משימה אחרי משימה — ויוצאים מהבית בזמן</small></span>
+    <span className="morning-cta">מתחילים עכשיו ←</span>
+  </Link>
+}
+
 function BedtimeStorySpotlight() {
   const [show, setShow] = useState(false)
   useEffect(() => {
@@ -167,7 +184,7 @@ export default function Home() {
       <PrintStrip />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
-    <BedtimeStorySpotlight />\n    <section className="home-intents" aria-labelledby="home-intents-title">
+    <MorningRoutineSpotlight />\n    <BedtimeStorySpotlight />\n    <section className="home-intents" aria-labelledby="home-intents-title">
       <h2 id="home-intents-title">למה נכנסתם היום?</h2>
       <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
         <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
