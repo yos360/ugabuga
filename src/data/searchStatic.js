@@ -112,6 +112,12 @@ const PAGES = [
   { to: '/letters/game', title: 'משחק אותיות לגן', emoji: '🎮', kind: 'tool', desc: 'מצאו את האות, באיזו אות זה מתחיל ואיך קוראים לאות.', keys: 'משחק אותיות גן לימוד אותיות עברית חינם' },
   { to: '/abc/game', title: 'חזרה על אותיות באנגלית', emoji: '🔤', kind: 'tool', desc: 'משחק ABC: מצאו את האות, גדולה וקטנה, אות ראשונה.', keys: 'אנגלית אותיות abc חזרה משחק english letters' },
   { to: '/printables/letter-flashcards', title: 'כרטיסיות אותיות להדפסה', emoji: '🃏', kind: 'tool', desc: 'א–ת ו־A–Z עם תמונה ומילה, 8 בדף.', keys: 'כרטיסיות אותיות הדפסה חינם קלפים' },
+  { to: '/printables/kindergarten-worksheets', title: 'דפי עבודה לגן חובה להדפסה', emoji: '🧸', kind: 'printable', desc: '12 דפי הכנה לכיתה א׳: אותיות, צלילים, חרוזים, הברות וכתיבה עם פתרונות.', keys: 'דפי עבודה לגן חובה להדפסה הכנה לכיתה א חרוזים הברות אותיות' },
+  { to: '/printables/hebrew-worksheets-grade-1', title: 'דפי עבודה בעברית לכיתה א׳', emoji: '✏️', kind: 'printable', desc: 'קריאה, כתיבה, צליל פותח וסוגר, הברות ומשפטים — עם פתרונות.', keys: 'דפי עבודה בעברית כיתה א קריאה כתיבה צליל פותח הברות' },
+  { to: '/printables/opening-ending-sounds', title: 'צליל פותח וצליל סוגר — דפי עבודה', emoji: '👂', kind: 'printable', desc: '12 דפי תרגול לצליל הראשון והאחרון במילה, בשלוש רמות ועם פתרונות.', keys: 'צליל פותח צליל סוגר דפי עבודה מודעות פונולוגית' },
+  { to: '/printables/rhymes-syllables', title: 'חרוזים והברות — דפי עבודה', emoji: '🎵', kind: 'printable', desc: 'חרוזים, חלוקה להברות, ספירת הברות ובניית מילים עם פתרונות.', keys: 'חרוזים הברות דפי עבודה לגן כיתה א' },
+  { to: '/printables/reading-writing-words', title: 'קריאה וכתיבת מילים לכיתה א׳', emoji: '📖', kind: 'printable', desc: '12 דפי קריאה, כתיבה, בניית מילים, אותיות סופיות ומשפטים.', keys: 'קריאה וכתיבת מילים כיתה א דפי עבודה' },
+  { to: '/printables/hebrew-worksheets-grades-2-3', title: 'דפי עבודה בעברית לכיתה ב׳ ולכיתה ג׳', emoji: '📚', kind: 'printable', desc: 'אוצר מילים, משפטים, כתיבה והבנת שפה עם פתרונות.', keys: 'דפי עבודה עברית כיתה ב כיתה ג אוצר מילים משפטים' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
   { to: '/printables/coloring', title: 'דפי צביעה', emoji: '🎨', kind: 'printable', desc: 'מעל 300 ציורים מקוריים לצביעה, לפי נושא.', keys: 'דפי צביעה דף צביעה ציורים להדפסה ציור לצביעה דפים לצביעה דפי צביעה לילדים צביעה' },
   // coloring pages by subject
