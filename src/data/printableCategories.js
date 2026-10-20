@@ -9,6 +9,7 @@ export const categories = [
   { slug: 'allergy-signs', href: '/printables/allergy-signs', emoji: '🥜', title: 'שלטי אלרגיה ומדבקות', count: 'חדש', desc: 'אצלנו בגן לא אוכלים בוטנים — שלט לכל אלרגיה ומדבקות עם שם', special: true },
   { slug: 'lunchbox-notes', href: '/printables/lunchbox-notes', emoji: '💌', title: 'פתקים לקופסת האוכל', count: 'חדש', desc: '12 פתקים בדף: מילים חמות, בדיחות ומשימות', special: true },
   { slug: 'home-charts', href: '/printables/home-charts', emoji: '🏠', title: 'לוחות לבית', count: 'חדש', desc: 'טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות — עם שם הילד', special: true },
+  { slug: 'bookmarks', href: '/printables/bookmarks', emoji: '🔖', title: 'סימניות להדפסה', count: 'חדש', desc: '6 סימניות בדף עם מנדלות, איורים, שם אישי או תמונה', special: true },
   { slug: 'chore-chart', inHubOnly: true, href: '/printables/chore-chart', emoji: '📋', title: 'טבלת מטלות לילדים', count: 'חדש', desc: 'משימות משלכם לכל יום בשבוע, כוכב על כל משימה ופרס בסוף', special: true },
   { slug: 'reward-chart', inHubOnly: true, href: '/printables/reward-chart', emoji: '⭐', title: 'לוח מדבקות לחיזוק', count: 'חדש', desc: 'מטרה אחת, דרך של 10–30 מדבקות ופרס בסוף', special: true },
   { slug: 'toothbrushing-chart', inHubOnly: true, href: '/printables/toothbrushing-chart', emoji: '🦷', title: 'לוח צחצוח שיניים', count: 'חדש', desc: 'בוקר וערב — לשבוע או לחודש שלם', special: true },
