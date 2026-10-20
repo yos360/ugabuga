@@ -53,7 +53,7 @@ export function allItems() {
   for (const w of CLASS_ONE_WORDS) add('he', `מצאו את המילה ${w}`, `מצאו את המילה ${w}`, 'class1')
   for (const d of DICTATION) for (const w of d.words) add('he', w, spoken(w), 'dictation')
   // a passage's `say` fixes (vowels for an ambiguous name) go into the recorded text too
-  for (const r of GRADED_READING) { for (const t of r.text) add('he', t, spoken(applySay(t, r.say)), 'graded-reading'); for (const [q] of r.q) add('he', q, spoken(applySay(q, r.say)), 'graded-reading') }
+  for (const r of GRADED_READING) { for (const t of r.text) add('he', t, applySay(spoken(t), r.say), 'graded-reading'); for (const [q] of r.q) add('he', q, applySay(spoken(q), r.say), 'graded-reading') }
   return [...out.values()]
 }
 
