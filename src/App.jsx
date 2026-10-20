@@ -82,6 +82,7 @@ const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
 const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorksheetPacks'))
 const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
+const KindergartenMemoryBook = lazy(() => import('./pages/printables/KindergartenMemoryBook'))
 const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
 const PurimMasks = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.PurimMasks })))
 const BirthdayCrown = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.BirthdayCrown })))
@@ -490,6 +491,7 @@ export default function App() {
               <Route path="/printables/birthday-checklist" element={<BirthdayChecklist />} />
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/bookmarks" element={<BookmarkMaker />} />
+              <Route path="/printables/kindergarten-memory-book" element={<KindergartenMemoryBook />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
