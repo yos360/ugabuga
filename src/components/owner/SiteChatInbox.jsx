@@ -11,6 +11,9 @@ export default function SiteChatInbox() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [showClosed, setShowClosed] = useState(false)
+  // The whole inbox can be folded away; the choice is remembered on this device.
+  const [folded, setFolded] = useState(() => { try { return localStorage.getItem('owner-chat-folded') === '1' } catch { return false } })
+  const fold = value => { setFolded(value); try { localStorage.setItem('owner-chat-folded', value ? '1' : '0') } catch { /* ignore */ } }
   const load = useCallback(async () => {
     try { const data = await siteChatDb.ownerList(300); setThreads(data || []); setError('') }
     catch (e) { setError(siteChatErrorText(e.code)) }
@@ -52,7 +55,8 @@ export default function SiteChatInbox() {
   }
 
   return <section className="mb-8 rounded-3xl border-2 border-violet-200 bg-violet-50/40 p-4 sm:p-6" dir="rtl">
-    <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-black text-violet-600">💬 הצ׳אט של האתר</p><h2 className="text-2xl font-black">פניות ורעיונות מהגולשים</h2><p className="text-sm text-slate-600">התשובה שלך תופיע לגולש בצ׳אט כשיחזור מאותו דפדפן.</p></div><div className="flex gap-2"><span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-black text-amber-900">{waiting} ממתינות</span>{closedCount > 0 && <button onClick={() => setShowClosed(v => !v)} aria-pressed={showClosed} className="rounded-xl border-2 border-violet-200 bg-white px-3 py-1 text-sm font-bold">{showClosed ? 'הסתרת סגורות' : `סגורות (${closedCount})`}</button>}<button onClick={load} className="rounded-xl border-2 border-violet-200 bg-white px-3 py-1 text-sm font-bold">רענון</button></div></div>
+    <div className={`${folded ? '' : 'mb-4 '}flex flex-wrap items-center justify-between gap-3`}><div><p className="text-sm font-black text-violet-600">💬 הצ׳אט של האתר</p><h2 className="text-2xl font-black">פניות ורעיונות מהגולשים</h2><p className="text-sm text-slate-600">התשובה שלך תופיע לגולש בצ׳אט כשיחזור מאותו דפדפן.</p></div><div className="flex gap-2"><span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-black text-amber-900">{waiting} ממתינות</span>{!folded && closedCount > 0 && <button onClick={() => setShowClosed(v => !v)} aria-pressed={showClosed} className="rounded-xl border-2 border-violet-200 bg-white px-3 py-1 text-sm font-bold">{showClosed ? 'הסתרת סגורות' : `סגורות (${closedCount})`}</button>}{!folded && <button onClick={load} className="rounded-xl border-2 border-violet-200 bg-white px-3 py-1 text-sm font-bold">רענון</button>}<button onClick={() => fold(!folded)} aria-expanded={!folded} className="rounded-xl border-2 border-violet-300 bg-white px-3 py-1 text-sm font-bold">{folded ? '▾ פתיחת האזור' : '▴ סגירת האזור'}</button></div></div>
+    {!folded && <>
     {error && <p className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
     {!threads ? <p>טוענים פניות…</p> : !visible.length ? <p className="rounded-2xl bg-white p-5 text-center text-slate-500">{threads.length ? 'אין פניות פתוחות 🎉 השיחות הסגורות מוסתרות.' : 'עוד לא התקבלו פניות בצ׳אט.'}</p> : <div className="grid gap-4 lg:grid-cols-[310px_1fr]">
       <div className="max-h-[570px] space-y-2 overflow-auto rounded-2xl bg-white p-2">{visible.map(thread => {
@@ -69,5 +73,6 @@ export default function SiteChatInbox() {
         <div className="flex flex-wrap gap-2 border-t px-3 py-2 text-xs"><button disabled={busy} onClick={() => setStatus('open')} className="rounded-lg border px-2 py-1">סימון כממתינה</button><button disabled={busy} onClick={() => setStatus('answered')} className="rounded-lg border px-2 py-1">סימון כנענתה</button><button disabled={busy} onClick={() => setStatus('closed')} className="rounded-lg border px-2 py-1">✓ סגירת שיחה</button><button disabled={busy} onClick={removeThread} className="rounded-lg border border-red-200 px-2 py-1 text-red-700">🗑️ מחיקת השיחה</button></div>
       </div>}
     </div>}
+    </>}
   </section>
 }
