@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import PrintableShell, { Choice, Field, Sheet, T } from '../../components/printables/PrintableShell'
 
 const THEMES = [
@@ -39,7 +40,7 @@ function Space({ x, y, color, variant }) {
 function Animal({ x, y, color, variant }) {
   const kind = variant % 3
   if (kind === 1) return <g fill="none" stroke={color} strokeWidth="1.15"><ellipse cx={x} cy={y + 3} rx="20" ry="15" /><path d={`M${x - 16} ${y - 7}l-7 -10 13 4M${x + 16} ${y - 7}l7 -10 -13 4M${x - 9} ${y + 5}h5M${x + 4} ${y + 5}h5M${x - 3} ${y + 11}q3 3 6 0`} /><circle cx={x - 8} cy={y} r="1.4" fill={color} /><circle cx={x + 8} cy={y} r="1.4" fill={color} /></g>
-  if (kind === 2) return <g fill="none" stroke={color} strokeWidth="1.15"><path d={`M${x - 22} ${y + 3}q11 -18 22 0q-11 18 -22 0Z`} /><path d={`M${x} ${y + 3}q11 -18 22 0q-11 18 -22 0Z`} /><circle cx={x - 12} cy={y + 3} r="1.5" fill={color} /><circle cx={x + 10} cy={y + 3} r="1.5" fill={color} /><path d={`M${x - 3} ${y + 3}q3 -10 6 0`} /></g>
+  if (kind === 2) return <g fill="none" stroke={color} strokeWidth="1.15"><path d={`M${x - 22} ${y + 3}q11 -18 22 0q-11 18 -22 0Z`} /><path d={`M${x} ${y + 3}q11 -18 22 0Z`} /><circle cx={x - 12} cy={y + 3} r="1.5" fill={color} /><circle cx={x + 10} cy={y + 3} r="1.5" fill={color} /><path d={`M${x - 3} ${y + 3}q3 -10 6 0`} /></g>
   return <g fill="none" stroke={color} strokeWidth="1.15"><circle cx={x} cy={y + 2} r="17" /><path d={`M${x - 13} ${y - 7}l-3 -14 12 8M${x + 13} ${y - 7}l3 -14 -12 8M${x - 12} ${y + 4}l-11 -3M${x - 12} ${y + 9}l-11 3M${x + 12} ${y + 4}l11 -3M${x + 12} ${y + 9}l11 3`} /><circle cx={x - 7} cy={y} r="1.5" fill={color} /><circle cx={x + 7} cy={y} r="1.5" fill={color} /><path d={`M${x - 3} ${y + 10}q3 3 6 0`} /></g>
 }
 function Flower({ x, y, color, variant }) {
