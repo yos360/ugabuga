@@ -66,7 +66,8 @@ try {
   console.log(`Prerendering with up to ${concurrency} tabs.`)
   await renderPagePool(context, paths, concurrency, async (page, path, index) => {
     try {
-      await page.goto(origin + path, { waitUntil: 'networkidle' })
+      // Some interactive tools keep a short-lived request open on first load; allow time for their SEO snapshot.
+      await page.goto(origin + path, { waitUntil: 'networkidle', timeout: 60000 })
       await page.locator('main h1').waitFor()
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
