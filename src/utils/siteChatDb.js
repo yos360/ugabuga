@@ -26,6 +26,8 @@ export const siteChatDb = {
   ownerList: limit => ownerRpc('site_chat_owner_list', { p_limit: limit || 200 }),
   ownerReply: (threadId, body) => ownerRpc('site_chat_owner_reply', { p_thread_id: threadId, p_body: body }),
   ownerStatus: (threadId, status) => ownerRpc('site_chat_owner_status', { p_thread_id: threadId, p_status: status }),
+  ownerDelete: threadId => ownerRpc('site_chat_owner_delete', { p_thread_id: threadId }),
+  ownerDeleteMessage: messageId => ownerRpc('site_chat_owner_delete_message', { p_message_id: messageId }),
 }
 
 export const siteChatErrorText = code => ({
