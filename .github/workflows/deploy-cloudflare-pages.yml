@@ -1,0 +1,41 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: f2491a7809d71c149a38c8f2a16a716d
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Cloudflare deployment access
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Missing GitHub secret: CLOUDFLARE_API_TOKEN"
+            echo "Create a Cloudflare API token with Pages:Edit permission for this account."
+            exit 1
+          fi
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish production site
+        run: npx wrangler@4 pages deploy dist --project-name=ugabuga --branch=main
