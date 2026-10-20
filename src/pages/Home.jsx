@@ -103,22 +103,6 @@ function MorningRoutineSpotlight() {
   </Link>
 }
 
-function BedtimeStorySpotlight() {
-  const [show, setShow] = useState(false)
-  useEffect(() => {
-    const update = () => setShow(isBedtimeInIsrael())
-    update()
-    const timer = window.setInterval(update, 60_000)
-    return () => window.clearInterval(timer)
-  }, [])
-  if (!show) return null
-  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפורי בוגה לפני השינה — לקריאה עכשיו">
-    <span className="bedtime-moon" aria-hidden="true">🌙</span>
-    <span className="bedtime-copy"><b>סיפורי בוגה לפני השינה</b><small>סיפור קצר, רגוע ואישי לכל ערב</small></span>
-    <span className="bedtime-cta">לבחירת סיפור ←</span>
-  </Link>
-}
-
 function QuickMatch() {
   const [choice, setChoice] = useState({ place: 'home', age: '6-8', time: '15' })
   const pick = (key, value) => setChoice(current => ({ ...current, [key]: value }))
@@ -184,7 +168,8 @@ export default function Home() {
       <PrintStrip />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
-    <MorningRoutineSpotlight />\n    <BedtimeStorySpotlight />\n    <section className="home-intents" aria-labelledby="home-intents-title">
+    <MorningRoutineSpotlight />
+    <section className="home-intents" aria-labelledby="home-intents-title">
       <h2 id="home-intents-title">למה נכנסתם היום?</h2>
       <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
         <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
