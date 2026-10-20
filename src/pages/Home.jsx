@@ -61,6 +61,44 @@ const homeBody = [
 ]
 const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'רעיונות ליום הולדת', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
 
+// A deliberately small "help me choose" layer: three choices, then three useful links.
+// It keeps a visitor from having to understand the whole site before they can start.
+const QUICK_ACTIVITIES = [
+  { to: '/games/5-minutes', emoji: '⚡', title: 'משחק ל־5 דקות', text: 'פתרון מהיר למעבר, המתנה או הפסקה.', places: ['home', 'class', 'party'], ages: ['3-5', '6-8', '9-12'], times: ['5'] },
+  { to: '/letters/game', emoji: '🔤', title: 'משחק אותיות', text: 'מזהים אות, צליל ומילה במשחק קצר.', places: ['home', 'class'], ages: ['3-5', '6-8'], times: ['5', '15'] },
+  { to: '/printables/kindergarten-worksheets', emoji: '🧸', title: 'דפי עבודה לגן חובה', text: 'אותיות, צלילים וחרוזים עם פתרונות.', places: ['home', 'class'], ages: ['3-5'], times: ['15', '30'] },
+  { to: '/printables/hebrew-worksheets-grade-1', emoji: '✏️', title: 'דפי עברית לכיתה א׳', text: 'קריאה, כתיבה וצלילים לפי רמה.', places: ['home', 'class'], ages: ['6-8'], times: ['15', '30'] },
+  { to: '/printables/hebrew-worksheets-grades-2-3', emoji: '📚', title: 'דפי עברית לכיתות ב׳–ג׳', text: 'מילים, משפטים וכתיבה עם פתרונות.', places: ['home', 'class'], ages: ['9-12'], times: ['15', '30'] },
+  { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה לפי נושא', text: 'בוחרים נושא, גיל וקושי — ומתחילים.', places: ['home', 'class', 'party'], ages: ['6-8', '9-12'], times: ['5', '15'] },
+  { to: '/live', emoji: '🎮', title: 'בוגה לייב', text: 'חידון חי עם QR לכל הקבוצה.', places: ['class', 'party'], ages: ['6-8', '9-12'], times: ['15', '30'] },
+  { to: '/tools/bingo-maker', emoji: '🎟️', title: 'בינגו מוכן', text: 'כרטיסיות ופעילות משותפת להדפסה.', places: ['class', 'party', 'home'], ages: ['3-5', '6-8', '9-12'], times: ['15', '30'] },
+  { to: '/treasure-hunt/ready', emoji: '🗺️', title: 'ציד אוצרות מוכן', text: 'רמזים, משימות והדפסה — בלי להכין מאפס.', places: ['home', 'class', 'party'], ages: ['6-8', '9-12'], times: ['30'] },
+  { to: '/tools/escape-rooms', emoji: '🧩', title: 'חדר בריחה', text: 'משימה גדולה יותר למשפחה או לחברים.', places: ['home', 'party'], ages: ['6-8', '9-12'], times: ['30'] },
+]
+const QUICK_OPTIONS = {
+  place: [['home', '🏠 בבית'], ['class', '🏫 בכיתה או בגן'], ['party', '🎂 במסיבה']],
+  age: [['3-5', 'גיל 3–5'], ['6-8', 'גיל 6–8'], ['9-12', 'גיל 9–12']],
+  time: [['5', '5 דקות'], ['15', 'רבע שעה'], ['30', 'חצי שעה+']],
+}
+function QuickMatch() {
+  const [choice, setChoice] = useState({ place: 'home', age: '6-8', time: '15' })
+  const pick = (key, value) => setChoice(current => ({ ...current, [key]: value }))
+  const suggestions = QUICK_ACTIVITIES.map(item => ({ ...item,
+    score: (item.places.includes(choice.place) ? 5 : 0) + (item.ages.includes(choice.age) ? 4 : 0) + (item.times.includes(choice.time) ? 3 : 0),
+  })).sort((a, b) => b.score - a.score).slice(0, 3)
+  return <section className="home-quick-match" aria-labelledby="quick-match-title">
+    <div className="home-quick-heading"><span aria-hidden="true">✨</span><div><h2 id="quick-match-title">לא בטוחים במה לבחור?</h2><p>3 לחיצות — ונמצא פעילות שמתאימה לכם עכשיו.</p></div></div>
+    <div className="quick-choices">
+      {[['place', 'איפה אתם?'], ['age', 'בן/בת כמה?'], ['time', 'כמה זמן יש?']].map(([key, label]) => <div className="quick-choice" key={key} role="group" aria-label={label}>
+        <b>{label}</b><div>{QUICK_OPTIONS[key].map(([value, text]) => <button key={value} type="button" aria-pressed={choice[key] === value} onClick={() => pick(key, value)} className={choice[key] === value ? 'is-active' : ''}>{text}</button>)}</div>
+      </div>)}
+    </div>
+    <div className="quick-results" aria-live="polite">{suggestions.map(item => <Link key={item.to} to={item.to}>
+      <span aria-hidden="true">{item.emoji}</span><div><h3>{item.title}</h3><p>{item.text}</p></div><strong aria-hidden="true">←</strong>
+    </Link>)}</div>
+  </section>
+}
+
 // Home charts strip: after the featured games on desktop, further down on phones.
 function HomeCharts({ className }) {
   return <section className={`home-charts ${className}`} aria-label="לוחות לבית">
@@ -117,6 +155,7 @@ export default function Home() {
     </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
     <PlayNow />
+    <QuickMatch />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
     <section className="home-featured">
@@ -127,7 +166,7 @@ export default function Home() {
         <button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button>
       </div>
     </section>
-    <HomeCharts className="is-desktop" />
+    <HomeCharts />
     <section className="home-extra">
       <h2>המשחקים הפופולריים</h2>
       <div className="home-extras">
@@ -162,7 +201,6 @@ export default function Home() {
         ))}
       </div>
     </section>
-    <HomeCharts className="is-mobile" />
     <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
       <Share2 size={20} />
       <span>שיתוף האתר</span>
