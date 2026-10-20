@@ -13,6 +13,15 @@ const faq = [
   { q: 'איך מתרגלים כתיבת אותיות בבית?', a: 'מתחילים באצבע על השולחן או בחול, עוברים לעיפרון על קווים מקווקווים, ורק בסוף כותבים לבד על השורה. בכל עמוד אות יש דף תרגול להדפסה והדגמה של סדר הכתיבה.' },
 ]
 
+const WORKSHEET_PACKS = [
+  ['/printables/kindergarten-worksheets', '🧸', 'דפי עבודה לגן חובה', 'אותיות, צלילים, חרוזים והכנה לכיתה א׳.'],
+  ['/printables/hebrew-worksheets-grade-1', '✏️', 'דפי עבודה בעברית לכיתה א׳', 'קריאה, כתיבה, צליל פותח וסוגר ומשפטים.'],
+  ['/printables/opening-ending-sounds', '👂', 'צליל פותח וצליל סוגר', 'תרגול שמיעה של האות הראשונה והאחרונה במילה.'],
+  ['/printables/rhymes-syllables', '🎵', 'חרוזים והברות', 'חלוקת מילים, ספירת הברות ומילים מתחרזות.'],
+  ['/printables/reading-writing-words', '📖', 'קריאה וכתיבת מילים', 'בניית מילים, אותיות סופיות ומשפטים קצרים.'],
+  ['/printables/hebrew-worksheets-grades-2-3', '📚', 'דפי עבודה בעברית לכיתות ב׳–ג׳', 'אוצר מילים, כתיבה והבנת שפה.'],
+]
+
 export default function LettersHub() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
@@ -43,6 +52,16 @@ export default function LettersHub() {
           <p className="text-[var(--muted-foreground)]">אותיות דפוס בקווים מקווקווים למעבר בעיפרון — דף לכל אות.</p>
         </Link>
       </div>
+
+      <section className="mb-12" aria-labelledby="worksheet-packs">
+        <h2 id="worksheet-packs" className="text-3xl font-bold text-center mb-2">📚 דפי עבודה בעברית לפי גיל וכיתה</h2>
+        <p className="mx-auto mb-5 max-w-2xl text-center text-[var(--muted-foreground)]">חבילות מוכנות להדפסה בחינם, בשלוש רמות ועם דפי פתרונות נפרדים להורה או למורה.</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {WORKSHEET_PACKS.map(([to, emoji, title, description]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-sky-50 p-4 transition-transform hover:-translate-y-1">
+            <p className="mb-1 text-3xl">{emoji}</p><h3 className="text-xl font-bold">{title}</h3><p className="m-0 text-[var(--muted-foreground)]">{description}</p>
+          </Link>)}
+        </div>
+      </section>
 
       <h2 className="text-3xl font-bold text-center mb-4">עוד דרכים ללמוד אותיות</h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
