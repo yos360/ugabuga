@@ -58,7 +58,7 @@ function Moments({ theme, photos }) {
 }
 function Friends({ name, theme, photos }) {
   const p = THEMES[theme]
-  return <Sheet label="החברים והחוויות שלי בגן"><rect width="200" height="270" fill="#fffdf8" /><Header theme={theme} title="החברים והחוויות שלי" subtitle="כי בגן הכי כיף ביחד"} /><Photo src={photos[6]} x="40" y="45" w="120" h="75" label="חברים בגן" index="friends" theme={theme} round="10" />
+  return <Sheet label="החברים והחוויות שלי בגן"><rect width="200" height="270" fill="#fffdf8" /><Header theme={theme} title="החברים והחוויות שלי" subtitle="כי בגן הכי כיף ביחד" /><Photo src={photos[6]} x="40" y="45" w="120" h="75" label="חברים בגן" index="friends" theme={theme} round="10" />
     <rect x="16" y="137" width="168" height="40" rx="8" fill={p.soft} stroke={p.ink} strokeWidth=".8" /><T x="175" y="149" anchor="end" size="4.2" weight={900} fill={p.ink}>עם מי אני אוהב/ת לשחק?</T><Lines x="25" y="160" w="145" rows="2" color={p.ink} />
     <rect x="16" y="187" width="168" height="48" rx="8" fill={p.mint} stroke={p.ink} strokeWidth=".8" /><T x="175" y="199" anchor="end" size="4.2" weight={900} fill={p.ink}>הפעילות שהכי אהבתי בגן</T><Lines x="25" y="211" w="145" rows="2" color={p.ink} />
     <T x="100" y="253" size="5" weight={900} fill={p.ink}>{name ? `${name}, איזה כיף שהיה לך בגן!` : 'איזה כיף שהיה לי בגן!'}</T><T x="100" y="267" size="2.7" fill={p.ink}>עוגה בוגה · ugabuga.co.il</T></Sheet>
