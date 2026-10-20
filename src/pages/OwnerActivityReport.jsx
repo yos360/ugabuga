@@ -81,6 +81,28 @@ function PathLink({ path, className = 'text-xs text-slate-500' }) {
   return <a href={path} target="_blank" rel="noopener noreferrer" dir="ltr" className={`${className} block hover:text-blue-600 hover:underline`}>{path}</a>
 }
 
+// Event names are loaded separately from the private owner-only RPC, so every
+// activity row for /r/<code> stays understandable even when the event is older.
+const rsvpCode = path => /^\/r\/([a-z0-9]+)(?:[/?#]|$)/i.exec(path || '')?.[1] || ''
+function useRsvpEventTitles(data) {
+  const codes = useMemo(() => [...new Set((data?.recent || []).map(row => rsvpCode(row.path)).filter(Boolean))], [data])
+  const key = codes.join(',')
+  const [titles, setTitles] = useState({})
+  useEffect(() => {
+    let live = true
+    if (!codes.length) { setTitles({}); return () => { live = false } }
+    supabase.rpc('owner_rsvp_event_titles', { p_codes: codes }).then(({ data: rows, error }) => {
+      if (live && !error) setTitles(Object.fromEntries((rows || []).map(row => [row.code, row.title])))
+    })
+    return () => { live = false }
+  }, [key]) // codes are fully represented by key
+  return titles
+}
+function activityTargetName(row, rsvpTitles = {}) {
+  const title = rsvpTitles[rsvpCode(row.path)]
+  return title ? `🎉 ${title}` : pageName(row)
+}
+
 // ---- Per-page performance ("what works best") ----
 // Built only from keys the summary already returns: `top` (path × action counts),
 // `time_by_path` and `print_funnel`. Counts are events, not unique people.
@@ -424,6 +446,7 @@ export default function OwnerActivityReport() {
 
   const creations = useCreations(from, to, tick)
   const things = useCreatedThings(from, to, tick)
+  const rsvpTitles = useRsvpEventTitles(data)
   const pageStats = useMemo(() => buildPageStats(data), [data])
   const english = useMemo(() => englishSummary(data || {}, pageStats), [data, pageStats])
   const topPlayed = useMemo(() => aggregateTop(data?.top, ['play', 'use']), [data])
@@ -482,8 +505,8 @@ export default function OwnerActivityReport() {
             preview: (creations.rows || []).slice(0, 3).map(r => <span key={r.id}><b>{r.tool}</b> · {CREATION_ACTIONS[r.action]} · {r.content.split('\n')[0].slice(0, 60)}</span>),
             render: () => <Creations rows={creations.rows} error={creations.error} /> },
           { id: 'english', title: '🇬🇧 האתר באנגלית', badge: english.visitors.length || null, preview: [<span key="en">{english.visitors.length} מבקרים · {english.landed.length} נכנסו דרך אנגלית · {english.opens} כניסות לעמודים</span>], render: () => <EnglishVisitors en={english} /> },
-          { id: 'best', title: '🏆 מה עובד הכי טוב', preview: lastEvents(data, r => r.action === 'open'), render: () => <BestPages stats={pageStats} /> },
-          { id: 'top', title: '🔝 10 הכי: משחקים, הדפסות ושיתופים', preview: lastEvents(data, r => ['play', 'use', 'print', 'download', 'share'].includes(r.action)), render: () => <>
+          { id: 'best', title: '🏆 מה עובד הכי טוב', preview: lastEvents(data, r => r.action === 'open', rsvpTitles), render: () => <BestPages stats={pageStats} /> },
+          { id: 'top', title: '🔝 10 הכי: משחקים, הדפסות ושיתופים', preview: lastEvents(data, r => ['play', 'use', 'print', 'download', 'share'].includes(r.action), rsvpTitles), render: () => <>
         <div className="grid gap-8 sm:grid-cols-2">
           <TopItems title="🎮 10 המשחקים והכלים שהכי שיחקו" stats={pageStats} value={r => r.uses} empty="אין עדיין משחקים בתקופה הזו." />
           <TopItems title="🖨️ 10 הדפים שהכי הדפיסו / הורידו" stats={pageStats} value={r => r.prints} empty="אין עדיין הדפסות בתקופה הזו." />
@@ -492,7 +515,7 @@ export default function OwnerActivityReport() {
 
         </> },
           { id: 'party', title: '🧺 רשימות "מי מביא מה"', badge: party.lists?.length, preview: partyPreview(party.lists), empty: party.lists ? 'אין עדיין רשימות.' : 'טוענים…', render: () => <OwnerPartyLists {...party} /> },
-          { id: 'time', title: '⏱️ כמה זמן נשארו בכל עמוד', preview: lastEvents(data, r => r.action === 'time'), render: () => <>
+          { id: 'time', title: '⏱️ כמה זמן נשארו בכל עמוד', preview: lastEvents(data, r => r.action === 'time', rsvpTitles), render: () => <>
         <p className="mb-3 text-sm text-slate-600">נספר רק זמן שהלשונית פתוחה והמבקר עשה משהו בשתי הדקות האחרונות.</p>
         {data.time_by_path?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">כניסות</th><th className="p-2">מבקרים</th><th className="p-2">זמן ממוצע</th><th className="p-2">זמן כולל</th></tr></thead>
@@ -504,7 +527,7 @@ export default function OwnerActivityReport() {
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין נתוני זמן לתקופה הזו (המדידה מתחילה מעכשיו).</p>}
 
         </> },
-          { id: 'prints', title: '🖨️ מה הדפיסו', preview: lastEvents(data, r => ['preview', 'print', 'download'].includes(r.action)), render: () => <>
+          { id: 'prints', title: '🖨️ מה הדפיסו', preview: lastEvents(data, r => ['preview', 'print', 'download'].includes(r.action), rsvpTitles), render: () => <>
         <p className="mb-3 text-sm text-slate-600">כמה נכנסו לעמוד, כמה פתחו את תצוגת ההדפסה, כמה לחצו „הדפסה” (הדפדפן לא מדווח אם הדף באמת יצא מהמדפסת) וכמה שמרו PDF. מ-7.10.26 PDF נספר בנפרד; לפני כן הוא נספר כהדפסה.</p>
         {data.print_funnel?.length ? <div className="overflow-x-auto"><table className="w-full text-right text-sm">
           <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">נכנסו</th><th className="p-2">פתחו תצוגה</th><th className="p-2">הדפיסו</th><th className="p-2">דפים</th><th className="p-2">PDF</th></tr></thead>
@@ -515,7 +538,7 @@ export default function OwnerActivityReport() {
         </table></div> : <p className="rounded-xl bg-slate-50 p-4 text-sm">אין עדיין הדפסות בתקופה הזו.</p>}
 
         </> },
-          { id: 'cats', title: '📊 לפי קטגוריה: שיחקו והדפיסו', preview: lastEvents(data, r => ['play', 'use', 'print', 'download'].includes(r.action)), render: () => <>
+          { id: 'cats', title: '📊 לפי קטגוריה: שיחקו והדפיסו', preview: lastEvents(data, r => ['play', 'use', 'print', 'download'].includes(r.action), rsvpTitles), render: () => <>
         <div className="grid gap-8 sm:grid-cols-2">
           <div>
             <h3 className="mb-3 text-lg font-black">הכי שיחקו / השתמשו (לפי קטגוריה)</h3>
@@ -529,7 +552,7 @@ export default function OwnerActivityReport() {
 
         </> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
-          { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true), render: () => <>
+          { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true, rsvpTitles), render: () => <>
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
             <thead><tr className="border-b-2"><th className="p-2">מבקר</th><th className="p-2">פעילות</th><th className="p-2">מה עשו</th><th className="p-2">עמוד</th><th className="p-2">מכשיר</th><th className="p-2">מקור</th><th className="p-2">מועד</th></tr></thead>
@@ -537,7 +560,7 @@ export default function OwnerActivityReport() {
               <td className="p-2"><VisitorTag v={row.visitor} /></td>
               <td className="p-2">{label(row.category, row.action)}</td>
               <td className="p-2">{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}{row.pages > 1 && ` · ${row.pages} דפים`}</td>
-              <td className="p-2"><PathLink path={row.path} className="text-slate-600" /></td>
+              <td className="p-2"><b>{activityTargetName(row, rsvpTitles)}</b><PathLink path={row.path} className="text-slate-600" /></td>
               <td className="p-2 text-slate-600">{DEVICE_LABELS[row.device] || '—'}</td>
               <td className="p-2 text-slate-600">{SOURCE_LABELS[row.source] || '—'}</td>
               <td className="p-2 text-slate-600">{new Date(row.at).toLocaleString('he-IL')}</td>
@@ -552,10 +575,10 @@ export default function OwnerActivityReport() {
 }
 
 // Collapsed-section previews: the 3 latest matching events / arrivals / visitors.
-function EventLine({ row }) {
+function EventLine({ row, rsvpTitles }) {
   return <><span className="shrink-0 text-slate-500">{fmtClock(row.at)}</span><VisitorTag v={row.visitor} />
     <b>{row.action === 'time' ? `⏱️ שהו ${fmtTime(row.seconds)}` : ACTION_LABELS[row.action] || row.action}{row.pages > 1 && ` · ${row.pages} דפים`}</b>
-    <span>{pageName(row)}</span></>
+    <span>{activityTargetName(row, rsvpTitles)}</span></>
 }
 // ── what visitors created with the personal tools (owner_creations, masked, kept 90 days) ──
 const CREATION_ACTIONS = { print: '🖨️ הדפיסו', pdf: '📄 PDF', share: '📤 שיתפו', copy: '📋 העתיקו', create: '✨ יצרו' }
@@ -630,8 +653,8 @@ function CreatedThings({ rows, error }) {
   </div>
 }
 
-function lastEvents(data, keep) {
-  return (data.recent || []).filter(keep).slice(0, 3).map((row, i) => <EventLine key={i} row={row} />)
+function lastEvents(data, keep, rsvpTitles = {}) {
+  return (data.recent || []).filter(keep).slice(0, 3).map((row, i) => <EventLine key={i} row={row} rsvpTitles={rsvpTitles} />)
 }
 function lastVisitors(data) {
   return (data.by_visitor || []).slice().sort((a, b) => String(b.last).localeCompare(String(a.last))).slice(0, 3)
