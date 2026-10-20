@@ -52,6 +52,23 @@ export default function PrintablesIndex() {
         {list.map((cat, i) => <PrintableCard key={cat.slug} cat={withCount(cat)} index={i} />)}
       </div>
 
+      <section className="mt-10" aria-labelledby="hebrew-packs">
+        <h2 id="hebrew-packs" className="text-center text-3xl font-bold">📚 חבילות דפי עבודה בעברית</h2>
+        <p className="mx-auto mt-2 max-w-2xl text-center text-[var(--muted-foreground)]">בוחרים רמה, מסמנים דפים ומדפיסים חבילה עם פתרונות.</p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ['🧸', 'דפי עבודה לגן חובה', '12 דפים להכנה לכיתה א׳.', '/printables/kindergarten-worksheets'],
+            ['✏️', 'דפי עבודה בעברית לכיתה א׳', 'קריאה, כתיבה, צלילים ומשפטים.', '/printables/hebrew-worksheets-grade-1'],
+            ['👂', 'צליל פותח וצליל סוגר', 'זיהוי צליל ראשון ואחרון.', '/printables/opening-ending-sounds'],
+            ['🎵', 'חרוזים והברות', 'מתחרזים, מחלקים וסופרים.', '/printables/rhymes-syllables'],
+            ['📖', 'קריאה וכתיבת מילים', 'מילים, משפטים ואותיות סופיות.', '/printables/reading-writing-words'],
+            ['📚', 'עברית לכיתות ב׳–ג׳', 'אוצר מילים, כתיבה והבנת שפה.', '/printables/hebrew-worksheets-grades-2-3'],
+          ].map(([emoji, title, desc, to]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-sky-50 p-4 transition-transform hover:-translate-y-1">
+            <span className="text-3xl">{emoji}</span><h3 className="mt-1 text-xl font-bold">{title}</h3><p className="m-0 text-[var(--muted-foreground)]">{desc}</p>
+          </Link>)}
+        </div>
+      </section>
+
       <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-6 mt-10 text-center">
         <h2 className="font-display text-2xl font-bold mb-3">✏️ רוצים ליצור בעצמכם?</h2>
         <p className="font-hand text-lg mb-4">כמה מהדפים אפשר למלא עם התוכן שלכם — שמות, מילים, פריטים אישיים</p>
