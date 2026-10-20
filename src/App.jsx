@@ -80,6 +80,7 @@ const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
 const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
 const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'))
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
+const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorksheetPacks'))
 const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
 const PurimMasks = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.PurimMasks })))
 const BirthdayCrown = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.BirthdayCrown })))
@@ -490,6 +491,12 @@ export default function App() {
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
+              <Route path="/printables/kindergarten-worksheets" element={<ReadingWorksheetPacks packId="kindergarten" />} />
+              <Route path="/printables/hebrew-worksheets-grade-1" element={<ReadingWorksheetPacks packId="grade1" />} />
+              <Route path="/printables/opening-ending-sounds" element={<ReadingWorksheetPacks packId="sounds" />} />
+              <Route path="/printables/rhymes-syllables" element={<ReadingWorksheetPacks packId="rhymes" />} />
+              <Route path="/printables/reading-writing-words" element={<ReadingWorksheetPacks packId="reading" />} />
+              <Route path="/printables/hebrew-worksheets-grades-2-3" element={<ReadingWorksheetPacks packId="grades23" />} />
               <Route path="/printables/math-worksheets" element={<MathWorksheets key="hub" preset="hub" />} />
               <Route path="/printables/math-worksheets/up-to-10" element={<MathWorksheets key="10" preset="10" />} />
               <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />
