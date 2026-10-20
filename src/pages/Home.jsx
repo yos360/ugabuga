@@ -134,6 +134,7 @@ export default function Home() {
         <Link to="/live"><h3>🎮 בוגה לייב</h3><p>משחק שאלות חי עם QR ועד 100 משתתפים.</p></Link>
         <Link to="/tools/eretz-ir"><h3>🗺️ ארץ־עיר</h3><p>אות אקראית, טיימר וניקוד.</p></Link>
         <Link to="/tools/bingo-maker"><h3>🎟️ בינגו</h3><p>כרטיסיות מוכנות ומותאמות להדפסה.</p></Link>
+        <Link to="/tools/dice"><h3>🎲 קוביה וירטואלית</h3><p>הטלת קוביה אחת עד חמש, בחינם.</p></Link>
       </div>
     </section>
     <section className="home-extra">
