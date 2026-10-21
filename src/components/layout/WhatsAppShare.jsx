@@ -63,15 +63,13 @@ export default function WhatsAppShare() {
   const touch = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
   const share = async () => {
     setBubble(false)
-    if (touch && navigator.share) {
-      try { await navigator.share({ title: pageTitle(), text: audience.intro, url: shareLink(pathname, 'floating', 'native') }); return }
-      catch (e) { if (e?.name === 'AbortError') return }
-    }
     setCopied(false); setMenu(!menu)
   }
   const facebook = () => {
     // Count an intent to share, not a confirmed Facebook post.
     countShare()
+    // Channel-specific analytics, if GA4 is configured. The owner report's generic share counter remains intact.
+    window.gtag?.('event', 'facebook_share_click', { page_path: pathname, share_channel: 'facebook', method: 'sharer' })
     const url = shareLink(pathname, 'facebook_share', 'facebook')
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer')
     setMenu(false)
@@ -85,6 +83,7 @@ export default function WhatsAppShare() {
       <p className="wa-menu-title">{audience.invite}</p>
       <button type="button" role="menuitem" onClick={() => { setMenu(false); sharePage(pathname, 'floating') }}><WhatsAppIcon size={20} /> שליחה בוואטסאפ</button>
       <button type="button" role="menuitem" onClick={facebook}>📘 שיתוף בפייסבוק</button>
+      {touch && typeof navigator.share === 'function' && <button type="button" role="menuitem" onClick={async () => { setMenu(false); try { await navigator.share({ title: pageTitle(), text: audience.intro, url: shareLink(pathname, 'floating', 'native') }) } catch { /* cancelled */ } }}>📲 שיתוף באפליקציות</button>}
       <button type="button" role="menuitem" onClick={copy}>{copied ? '✅ הקישור הועתק' : '🔗 העתקת קישור'}</button>
       <a role="menuitem" href={mail} onClick={() => { countShare(); setMenu(false) }}>✉️ שליחה במייל</a>
     </div>}
