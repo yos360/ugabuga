@@ -69,6 +69,13 @@ export default function WhatsAppShare() {
     }
     setCopied(false); setMenu(!menu)
   }
+  const facebook = () => {
+    // Count an intent to share, not a confirmed Facebook post.
+    countShare()
+    const url = shareLink(pathname, 'facebook_share', 'facebook')
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer')
+    setMenu(false)
+  }
   const copy = async () => {
     try { await navigator.clipboard.writeText(shareLink(pathname, 'floating', 'copy')); countShare(); setCopied(true); setTimeout(() => setMenu(false), 1400) } catch { setCopied(false) }
   }
@@ -77,6 +84,7 @@ export default function WhatsAppShare() {
     {menu && <div className="wa-menu no-print" role="menu" dir="rtl" aria-label="שיתוף העמוד">
       <p className="wa-menu-title">{audience.invite}</p>
       <button type="button" role="menuitem" onClick={() => { setMenu(false); sharePage(pathname, 'floating') }}><WhatsAppIcon size={20} /> שליחה בוואטסאפ</button>
+      <button type="button" role="menuitem" onClick={facebook}>📘 שיתוף בפייסבוק</button>
       <button type="button" role="menuitem" onClick={copy}>{copied ? '✅ הקישור הועתק' : '🔗 העתקת קישור'}</button>
       <a role="menuitem" href={mail} onClick={() => { countShare(); setMenu(false) }}>✉️ שליחה במייל</a>
     </div>}
