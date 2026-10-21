@@ -220,7 +220,7 @@ function EnglishVisitors({ en }) {
 // names no one): how much they did, where they came from, and their path through the site.
 const visitorColor = v => HUES[parseInt(v || '0', 16) % HUES.length]
 // How many page entries each visitor code made in the report's period, so a name that shows up
-// again in the lists carries its count ("שועל סקרן · 5 כניסות"), and — from the browser's own
+// again in the lists carries its count ("שועל סקרן · פתח 5 עמודים"), and — from the browser's own
 // anonymous day counter — which visit to the site this is ("ביקור 3 באתר").
 const VisitorInfo = createContext({ entries: new Map(), returns: {} })
 function visitorEntries(data) {
@@ -244,7 +244,7 @@ function VisitorTag({ v }) {
   return <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs" title={`קוד מבקר ${v}`}>
     <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: visitorColor(v) }} />
     {who ? <b>{who.emoji} {who.name}</b> : <span className="font-mono" dir="ltr">{v}</span>}
-    {n > 1 && <span className="rounded-full bg-violet-100 px-1.5 font-bold text-violet-800">{n} כניסות</span>}
+    {n > 1 && <span className="rounded-full bg-violet-100 px-1.5 font-bold text-violet-800">פתח {n} עמודים</span>}
     {visit > 1 && <span className="rounded-full bg-emerald-100 px-1.5 font-bold text-emerald-800">🔁 ביקור {visit} באתר</span>}
   </span>
 }
@@ -255,7 +255,7 @@ function ByVisitor({ data }) {
   </>
   const list = showAll ? data.by_visitor : data.by_visitor.slice(0, 20)
   return <>
-    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. לכל מבקר יש שם בדוי קבוע (אותו שם מופיע גם ב„פעולות אחרונות”), ולידו כמה כניסות לעמודים היו לו בתקופה. „ביקור N באתר” = בכמה ימים שונים הדפדפן הזה כבר הגיע (מונה אנונימי שהדפדפן שומר אצלו; נספר מ־21.10).</p>
+    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. לכל מבקר יש שם בדוי קבוע (אותו שם מופיע גם ב„פעולות אחרונות”), ולידו כמה עמודים הוא פתח בתקופה. „ביקור N באתר” = בכמה ימים שונים הדפדפן הזה כבר הגיע (מונה אנונימי שהדפדפן שומר אצלו; נספר מ־21.10).</p>
     {list.length ? <div>
       {list.map(r => <details key={r.v + r.first} className="border-b py-2 text-sm">
         <summary className="flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1">
