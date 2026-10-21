@@ -37,5 +37,17 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Snapshot the sitemap that is live right now (before this deploy replaces it),
+      # so the IndexNow step below can submit only the pages that are new or changed.
+      - name: Snapshot live sitemap (IndexNow baseline)
+        run: curl -fsS --max-time 30 https://ugabuga.co.il/sitemap.xml -o "$RUNNER_TEMP/sitemap-before.xml" || echo "Could not fetch live sitemap; IndexNow will skip this run."
+
       - name: Publish production site
         run: npx wrangler@4 pages deploy dist --project-name=ugabuga --branch=main
+
+      # Tell Bing (and so ChatGPT search) about new/changed pages. Never fails the deploy.
+      - name: Submit new/changed pages to IndexNow
+        continue-on-error: true
+        env:
+          BASELINE_SITEMAP: ${{ runner.temp }}/sitemap-before.xml
+        run: sleep 20 && node scripts/indexnow-submit.mjs
