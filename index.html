@@ -86,6 +86,7 @@
         var q = new URLSearchParams(location.search), utm = q.get('utm_source');
         if (utm) {
           sessionStorage.setItem('buga-landing-utm', utm);
+          var medium = q.get('utm_medium'); if (medium) sessionStorage.setItem('buga-landing-medium', medium);
           ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (k) { q.delete(k); });
           var rest = q.toString();
           history.replaceState(history.state, '', location.pathname + (rest ? '?' + rest : '') + location.hash);

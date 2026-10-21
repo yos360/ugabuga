@@ -7,10 +7,13 @@ export function shareLink(path, campaign = 'site', source = 'whatsapp') {
   return `${SITE}${clean}?utm_source=${source}&utm_medium=share&utm_campaign=${encodeURIComponent(campaign)}`
 }
 
-export function countShare() {
+// `channel`: whatsapp / facebook / native (the phone's share sheet) / copy / email. It records a
+// click — Facebook and WhatsApp never report whether a post was actually published. 'native_done'
+// is the one completed share a site can know: the share sheet resolved after the visitor sent it.
+export function countShare(channel = null) {
   import('./liveActivity').then(m => {
-    m.recordActivity('share', m.activityForPath(location.pathname))
-    m.logEvent('share')
+    if (channel !== 'native_done') m.recordActivity('share', m.activityForPath(location.pathname))
+    m.logEvent('share', location.pathname, null, channel)
   }).catch(() => {})
 }
 
@@ -25,16 +28,16 @@ function installShareCounter() {
   window.__bugaShareCounter = true
   try {
     const open = window.open
-    window.open = function (url, ...rest) { if (isShareUrl(url)) countShare(); return open.call(window, url, ...rest) }
+    window.open = function (url, ...rest) { if (isShareUrl(url)) countShare('whatsapp'); return open.call(window, url, ...rest) }
   } catch { /* ignore */ }
   document.addEventListener('click', e => {
     const a = e.target instanceof Element ? e.target.closest('a[href]') : null
-    if (a && e.isTrusted && isShareUrl(a.getAttribute('href'))) countShare()
+    if (a && e.isTrusted && isShareUrl(a.getAttribute('href'))) countShare('whatsapp')
   }, true)
   try {
     if (navigator.share) {
       const share = navigator.share.bind(navigator)
-      navigator.share = data => { countShare(); return share(data) }
+      navigator.share = data => { countShare('native'); const done = share(data); void Promise.resolve(done).then(() => countShare('native_done'), () => {}); return done }
     }
   } catch { /* ignore */ }
 }

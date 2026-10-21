@@ -10,6 +10,7 @@ import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
+import SocialShares from '../components/owner/SocialShares'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 
 // Fixed categorical order (never reassigned per-render) — validated for
@@ -580,6 +581,7 @@ export default function OwnerActivityReport() {
         </div>
 
         </> },
+          { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
           { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true, rsvpTitles), render: () => <>
         <div className="overflow-x-auto">

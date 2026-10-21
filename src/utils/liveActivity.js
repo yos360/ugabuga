@@ -127,7 +127,7 @@ function isOwnerBrowser() {
   } catch { return false }
 }
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']
-let hasV3 = true, hasPages = true
+let hasV3 = true, hasPages = true, hasChannel = true
 // Plain fetch with keepalive (not the Supabase SDK): a share opens WhatsApp and a print opens
 // the print dialog, and on phones the page can be put to sleep right away — keepalive lets the
 // request finish anyway. It also means events don't wait for the SDK to load.
@@ -135,12 +135,15 @@ function rpc(fn, body) {
   return fetch(`${PARTY_URL}/rest/v1/rpc/${fn}`, { method: 'POST', keepalive: true, headers: { apikey: PARTY_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
 }
 function sendOne(args) {
-  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, ...rest } = args; void p_seconds; return rpc('record_site_event_v2', rest) } }
+  const v2 = () => { if (V2_ACTIONS.includes(args.p_action)) { const { p_seconds, p_channel, ...rest } = args; void p_seconds; void p_channel; return rpc('record_site_event_v2', rest) } }
   if (!hasV3) return void Promise.resolve(v2()).catch(() => {})
+  // Until the share-channel migration runs, send the event without its channel.
+  if (!hasChannel && 'p_channel' in args) { const { p_channel, ...rest } = args; void p_channel; return sendOne(rest) }
   const { p_pages, ...withoutPages } = args
   const send = hasPages && p_pages ? args : withoutPages
   void rpc('record_site_event_v3', send).then(res => {
     if (res.status !== 404) return
+    if ('p_channel' in send) { hasChannel = false; return sendOne(send) }
     // Until the page-count migration runs, send the event without its sheet count.
     if (send.p_pages) { hasPages = false; return sendOne(withoutPages) }
     // Until the v3 migration runs, fall back so nothing is lost.
@@ -195,11 +198,16 @@ function excluded(pathname) {
   const parts = String(pathname).split('/').filter(Boolean)
   return ['admin','account','auth','login','q'].includes(parts[0]) || isOwnerBrowser()
 }
-export function logEvent(action, pathname = location.pathname, pages = null) {
+// A visit that arrived through a link shared from the site (utm_medium=share, kept by index.html).
+function fromShare() { try { return sessionStorage.getItem('buga-landing-medium') === 'share' } catch { return false } }
+const SHARE_CHANNELS = ['whatsapp', 'facebook', 'native', 'copy', 'email', 'native_done']
+// `channel` (shares only): where the visitor chose to share — a click, not a confirmed post —
+// or 'native_done' when the phone's share sheet reported the share was sent.
+export function logEvent(action, pathname = location.pathname, pages = null, channel = null) {
   if (!Object.hasOwn(ACTION_LABELS, action)) return
   if (excluded(pathname)) return
   const path = cleanPath(pathname)
-  const key = `${action}:${path}`
+  const key = `${action}:${path}:${channel || ''}`
   // Double clicks are ignored; in-game clicks (a kid flipping memory cards) count once per
   // 30 seconds per page — "did they play" matters, not the click count — which also keeps an
   // active player under the server's per-visitor rate limit, so their next page view isn't dropped.
@@ -210,7 +218,8 @@ export function logEvent(action, pathname = location.pathname, pages = null) {
   void visitorPromise.then(visitor => {
     reportVisitDay(visitor)
     const sheets = (action === 'print' || action === 'download') && Number.isInteger(pages) && pages > 0 ? Math.min(pages, 500) : null
-    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null, ...(sheets ? { p_pages: sheets } : {}) })
+    const ch = action === 'share' && SHARE_CHANNELS.includes(channel) ? channel : action === 'open' && fromShare() ? 'from_share' : null
+    dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null, ...(sheets ? { p_pages: sheets } : {}), ...(ch ? { p_channel: ch } : {}) })
     if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
     flushDb()
   })
@@ -347,7 +356,8 @@ export function connectActivity(onChange) {
     const button=event.target instanceof Element?event.target.closest('button'):null
     if(!event.isTrusted||!button||button.disabled||!button.closest('main')||button.closest('form'))return
     const action=buttonAction(button.textContent||'')
-    if(action){recordActivity(action,activityForPath(location.pathname));logEvent(action)}
+    // shares are logged where they actually open (utils/share.js), with their channel — not from the button label
+    if(action){recordActivity(action,activityForPath(location.pathname));if(action!=='share')logEvent(action)}
   }
   window.addEventListener('beforeprint',onPrint)
   document.addEventListener('click',onClick)
