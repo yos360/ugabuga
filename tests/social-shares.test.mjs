@@ -21,6 +21,10 @@ test('the share menu stays off private links', () => {
 })
 
 test('every share option in the menu reports its channel', () => {
-  for (const ch of ['facebook', 'copy', 'email']) assert.ok(fab.includes(`countShare('${ch}')`), ch)
-  assert.match(fab, /facebook\.com\/sharer\/sharer\.php/)
+  const share = readFileSync(new URL('../src/utils/share.js', import.meta.url), 'utf8')
+  for (const ch of ['copy', 'email']) assert.ok(fab.includes(`countShare('${ch}')`), ch)
+  assert.match(fab, /shareOnFacebook\(/)
+  assert.match(share, /countShare\('facebook'\)[\s\S]*facebook\.com\/sharer\/sharer\.php/)
+  for (const f of ['src/pages/games/GamePage.jsx', 'src/pages/arcade/OnlineGamePage.jsx', 'src/components/ui/PrintPreview.jsx'])
+    assert.match(readFileSync(new URL(`../${f}`, import.meta.url), 'utf8'), /shareOnFacebook\(/, f)
 })

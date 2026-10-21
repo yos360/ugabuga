@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { sharePage, shareAudience, shareLink, pageTitle, countShare } from '../../utils/share'
+import { sharePage, shareAudience, shareLink, pageTitle, countShare, shareOnFacebook } from '../../utils/share'
 import './whatsapp-share.css'
 
 // Floating "share on WhatsApp" button on every public page. It shares the page
@@ -67,15 +67,7 @@ export default function WhatsAppShare() {
     setBubble(false)
     setCopied(false); setMenu(!menu)
   }
-  const facebook = () => {
-    // Count an intent to share, not a confirmed Facebook post.
-    countShare('facebook')
-    // Channel-specific analytics, if GA4 is configured. The owner report's generic share counter remains intact.
-    window.gtag?.('event', 'facebook_share_click', { page_path: pathname, share_channel: 'facebook', method: 'sharer' })
-    const url = shareLink(pathname, 'facebook_share', 'facebook')
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer')
-    setMenu(false)
-  }
+  const facebook = () => { shareOnFacebook(pathname, 'facebook_share'); setMenu(false) }
   const copy = async () => {
     try { await navigator.clipboard.writeText(shareLink(pathname, 'floating', 'copy')); countShare('copy'); setCopied(true); setTimeout(() => setMenu(false), 1400) } catch { setCopied(false) }
   }
@@ -93,8 +85,9 @@ export default function WhatsAppShare() {
       <button type="button" className="wa-bubble-text" onClick={share}>{audience.invite}</button>
       <button type="button" className="wa-bubble-x" onClick={() => setBubble(false)} aria-label="סגירה">×</button>
     </div>}
-    <button type="button" onClick={share} aria-expanded={menu} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שתפו את העמוד בוואטסאפ — ${audience.button}`} title={audience.invite}>
+    <button type="button" onClick={share} aria-expanded={menu} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שיתוף העמוד — וואטסאפ, פייסבוק ועוד · ${audience.button}`} title={audience.invite}>
       <WhatsAppIcon />
+      <span className="wa-fab-fb" aria-hidden="true">f</span>
       <span className="wa-fab-text">שתפו</span>
     </button>
   </>

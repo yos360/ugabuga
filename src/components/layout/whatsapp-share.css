@@ -1,6 +1,8 @@
 /* site-wide WhatsApp share button */
 .wa-fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;display:inline-flex;align-items:center;gap:6px;height:52px;padding:0 16px 0 14px;border-radius:999px;border:2.5px solid #1d2233;background:#25d366;color:#fff;font-weight:900;font-size:16px;box-shadow:3px 3px 0 #1d2233;cursor:pointer;transition:transform .15s}
 .wa-fab:hover{transform:translateY(-2px)}
+/* a small Facebook mark on the share button: Facebook is in the menu too */
+.wa-fab-fb{position:absolute;top:-6px;right:-6px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#1877f2;color:#fff;border:2px solid #fff;font:900 13px/1 Arial,sans-serif;box-shadow:0 0 0 1.5px #1d2233}
 .wa-fab:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #1d2233}
 /* phones: a small icon-only circle in the corner (the aria-label still says "share"), above the home-indicator
    safe area, tucked away while scrolling down (WhatsAppShare toggles .is-tucked) */

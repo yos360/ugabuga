@@ -10,6 +10,7 @@ import { gameHref } from '../../data/gameHref'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
 import { hubOrder } from '../../data/gameHubs'
+import { shareOnFacebook } from '../../utils/share'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 const PLAY_TOOL_ROUTES = {
@@ -229,6 +230,7 @@ export default function GamePage() {
                 : <a href="#game-instructions" className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[#4caf50] px-5 py-2 font-display text-lg font-bold text-white">📖 איך משחקים</a>
             )}
             <button onClick={shareGame} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#25D366] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">📱 שלחו בוואטסאפ</button>
+            <button type="button" onClick={() => shareOnFacebook(`/games/${slug}`, 'game')} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[#1877f2] px-5 py-2 font-display text-lg font-bold text-white cursor-pointer">📘 שתפו בפייסבוק</button>
             <button data-print-main type="button" onClick={() => setPrintingRules(true)} className="wobbly-md sketch-press min-h-[44px] border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🖨️ הדפסת הוראות</button>
             <button type="button" onClick={randomGame} className="wobbly-md sketch-press inline-flex min-h-[44px] items-center border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-2 font-display text-lg font-bold cursor-pointer">🎲 תנו לי משחק אחר</button>
           </div>

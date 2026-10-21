@@ -7,7 +7,7 @@ import NotFound from '../NotFound'
 import { ARCADE, arcadeGame } from '../../arcade/registry'
 import ArcadeStage from '../../arcade/ArcadeStage'
 import { shareGameText } from '../../arcade/stage'
-import { shareOnWhatsApp } from '../../utils/share'
+import { shareOnFacebook, shareOnWhatsApp } from '../../utils/share'
 import { WhatsAppIcon } from '../../components/layout/WhatsAppShare'
 import '../../arcade/arcade.css'
 import CourtArt from '../../arcade/games/solitaire/CourtArt'
@@ -95,6 +95,9 @@ export default function OnlineGamePage() {
       <p style={{ textAlign: 'center', margin: '0 0 28px' }}>
         <button type="button" className="arc-share" style={{ width: 'auto', maxWidth: '100%', height: 'auto', minHeight: 50, fontSize: 18, padding: '10px 22px', whiteSpace: 'normal' }} onClick={() => shareOnWhatsApp(shareGameText(game))}>
           <WhatsAppIcon size={22} /> שתפו את המשחק בוואטסאפ
+        </button>
+        <button type="button" className="arc-share" style={{ width: 'auto', maxWidth: '100%', height: 'auto', minHeight: 50, fontSize: 18, padding: '10px 22px', whiteSpace: 'normal', background: '#1877f2' }} onClick={() => shareOnFacebook()}>
+          📘 שתפו בפייסבוק
         </button>
       </p>
       <section className="arc-more">

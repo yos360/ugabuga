@@ -60,6 +60,14 @@ export function sharePage(pathname, campaign) {
   shareOnWhatsApp(`${title}\n${shareAudience(pathname).intro}\n${shareLink(pathname, campaign)}`)
 }
 
+// Facebook's share dialog for a page (Facebook reads the page's own title, description and image).
+// Counted as a click: Facebook doesn't tell the site whether the post was published.
+export function shareOnFacebook(pathname = location.pathname, campaign = 'site') {
+  countShare('facebook')
+  try { window.gtag?.('event', 'facebook_share_click', { page_path: pathname, share_channel: 'facebook', method: 'sharer' }) } catch { /* ignore */ }
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink(pathname, campaign, 'facebook'))}`, '_blank', 'noopener,noreferrer')
+}
+
 export function shareOnWhatsApp(text) {
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer') // counted by installShareCounter
 }
