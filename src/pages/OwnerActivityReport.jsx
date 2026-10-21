@@ -335,6 +335,16 @@ function StatCard({ value, text, tone }) {
   </div>
 }
 
+// Share clicks per channel for the stat cards (same range as the report).
+function useSocial(from, to, tick = 0) {
+  const [social, setSocial] = useState(null)
+  useEffect(() => {
+    let live = true
+    supabase.rpc('owner_social_report', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => { if (live) setSocial(error ? null : data) })
+    return () => { live = false }
+  }, [from.getTime(), to.getTime(), tick]) // eslint-disable-line react-hooks/exhaustive-deps
+  return social
+}
 function useSummary(from, to, tick = 0) {
   const [data, setData] = useState(null), [error, setError] = useState('')
   const shown = useRef('')
@@ -389,7 +399,7 @@ function useLiveRefresh(background = false) {
 }
 
 // The headline numbers, shared by the report and the mini widget: [value, label, short label, tone]
-function statItems(data, multiDay = false) {
+function statItems(data, multiDay = false, social = null) {
   return [
     // The anonymous id changes every midnight, so over several days a returning person is counted
     // once per day they came: that is "visits", not unique people.
@@ -402,7 +412,11 @@ function statItems(data, multiDay = false) {
     // Sheets: every printed page counts, however many were printed at once (shown once the page-count update is in the database).
     [data.pages_by_action ? (data.pages_by_action.print || 0) + (data.pages_by_action.download || 0) : '—', 'דפים שהודפסו או נשמרו כ־PDF (כל דף נספר, לא רק הלחיצה)', 'דפים', 'bg-orange-100'],
     [data.sources?.qr || 0, 'אנשים שסרקו QR מדף מודפס', 'סרקו QR', 'bg-lime-50'],
-    [data.by_action?.share || 0, 'שיתופים (וואטסאפ ושיתוף מהטלפון)', 'שיתופים', 'bg-green-50'],
+    [data.by_action?.share || 0, 'לחיצות על שיתוף (כל הערוצים)', 'שיתופים', 'bg-green-50'],
+    // Per channel, from owner_social_report: a click on "share", not a confirmed post.
+    [social ? social.clicks?.facebook || 0 : '—', 'לחיצות על שיתוף בפייסבוק', 'שיתוף פייסבוק', 'bg-blue-50'],
+    [social ? social.clicks?.whatsapp || 0 : '—', 'לחיצות על שיתוף בוואטסאפ', 'שיתוף וואטסאפ', 'bg-green-50'],
+    [data.sources?.facebook || 0, 'אנשים שהגיעו מפייסבוק (כולל מודעות)', 'מפייסבוק', 'bg-blue-50'],
     [data.sources?.whatsapp || 0, 'אנשים שהגיעו מקישור בוואטסאפ', 'מוואטסאפ', 'bg-teal-50'],
     [data.total, 'כל הפעולות שנרשמו', 'כל הפעולות', 'bg-violet-50'],
   ]
@@ -461,6 +475,7 @@ export default function OwnerActivityReport() {
   const day = updated.toDateString() // after midnight "today" moves to the new day
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data, error } = useSummary(from, to, tick)
+  const social = useSocial(from, to, tick)
   const [todayFrom, todayTo] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   // A fair comparison: today so far vs yesterday up to the same clock time (not all of yesterday,
   // which made every morning look like a drop). The full-day total is shown next to it.
@@ -524,7 +539,7 @@ export default function OwnerActivityReport() {
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {statItems(data, range === '7' || range === '30').map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
+          {statItems(data, range === '7' || range === '30', social).map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
         </div>
 
         <ReportSections sections={[
