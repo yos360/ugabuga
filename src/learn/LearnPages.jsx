@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
+import QuickAnswer from '../components/ui/QuickAnswer'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import SpeakButton from '../components/ui/SpeakButton'
@@ -248,6 +249,7 @@ export function ReadingIndex() {
   return <Page>
     <SEO title="הבנת הנקרא — קטעים עם שאלות לכיתות ב׳–ו׳, אונליין ולהדפסה" description={`הבנת הנקרא לילדים: ${ALL_READING.length} קטעים מקוריים — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. מחולק לפי כיתות ב׳ עד ו׳, אונליין ולהדפסה.`} path="/learn/reading" structuredData={faqSchema(READING_FAQ)} />
     <Head emoji="📖" h1="הבנת הנקרא" sub="קוראים קטע ועונים על שאלות — על המסך או על הדף" crumb="הבנת הנקרא" />
+    <QuickAnswer q="איפה מוצאים קטעי הבנת הנקרא עם שאלות בחינם?" a={<>כאן: {ALL_READING.length} קטעים מקוריים לכיתות ב׳–ו׳ — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. פותרים על המסך עם בדיקה מיידית, או מדפיסים חוברת לכל כיתה. בלי הרשמה ובלי תשלום.</>} rows={[['כיתות', 'ב׳ עד ו׳ (8 קטעים לכל כיתה) + קטעים קצרים לכיתות א׳–ד׳'], ['סוגי שאלות', 'איתור מידע, פירוש מילים, הסקת מסקנות, נימוק ודעה'], ['איך עובדים', 'אונליין עם בדיקה, או הדפסה כחוברת עם דף תשובות'], ['מחיר', 'חינם, בלי הרשמה']]} updated="2026-10-21" />
     <p className="text-lg leading-relaxed mb-6">תרגול הבנת הנקרא לפי כיתה: בכל עמוד שמונה קטעים חדשים באורך ובאוצר המילים שמתאימים לשכבה, עם שאלות סגורות, שאלות פתוחות ושאלות הסקה — ודף תשובות להדפסה.</p>
     <h2 className="mb-3 text-3xl font-black">בוחרים כיתה</h2>
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">{GRADE_LEVELS.map(g => <Link key={g} to={gradeHref(g)} className="ln-box card-lift text-center"><div className="text-3xl font-black">כיתה {GRADE_LETTER[g]}</div><small>{GRADED_READING.filter(r => r.level === g).length} קטעים עם שאלות</small></Link>)}</div>
@@ -256,7 +258,7 @@ export function ReadingIndex() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{GRADED_READING.filter(r => r.level === g).map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><span aria-hidden="true">{r.emoji} </span><b>{r.title}</b><br /><small>{r.kind} · {qCount(r)} שאלות</small></Link>)}</div></section>)}
     <h2 className="mt-10 mb-3 text-3xl font-black">קטעים קצרים לכיתות א׳–ד׳</h2>
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{READING.map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><div className="text-4xl" aria-hidden="true">{r.emoji}</div><h3 className="text-xl font-bold">{r.title}</h3><small>{r.kind} · כיתה {r.grade}</small></Link>)}</div>
-    <div className="mt-12"><SeoBody paragraphs={['הבנת הנקרא היא היכולת לא רק לקרוא את המילים, אלא להבין מה כתוב — למצוא מידע, להבין מילים חדשות מתוך ההקשר, להסיק מסקנות ולהביע דעה מנומקת. כמו כל מיומנות, היא משתפרת בתרגול קצר וקבוע.', 'בכל עמוד כיתה יש שמונה קטעים: סיפורים, משלים, קטעי מידע ובכיתות הגבוהות גם טקסט טיעון. אחרי כל קטע יש שאלות אמריקאיות ושאלות פתוחות, ואפשר לבדוק את התשובות על המסך או להדפיס את כל הקטעים כחוברת עם דף תשובות.', 'כל הקטעים נכתבו במיוחד לאתר. בקטעי המידע הקפדנו על עובדות פשוטות ומבוססות, והמשלים הם סיפורים חדשים על בסיס משלים עתיקים ומוכרים.']} faq={READING_FAQ} related={[{ label: 'הכתבה אונליין', href: '/learn/dictation' }, { label: 'הכנה למבחן מחוננים', href: '/learn/gifted-test' }, { label: 'סיפורים לפני השינה', href: '/stories' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['הבנת הנקרא היא היכולת לא רק לקרוא את המילים, אלא להבין מה כתוב — למצוא מידע, להבין מילים חדשות מתוך ההקשר, להסיק מסקנות ולהביע דעה מנומקת. כמו כל מיומנות, היא משתפרת בתרגול קצר וקבוע.', 'בכל עמוד כיתה יש שמונה קטעים: סיפורים, משלים, קטעי מידע ובכיתות הגבוהות גם טקסט טיעון. אחרי כל קטע יש שאלות אמריקאיות ושאלות פתוחות, ואפשר לבדוק את התשובות על המסך או להדפיס את כל הקטעים כחוברת עם דף תשובות.', 'כל הקטעים נכתבו במיוחד לאתר. בקטעי המידע הקפדנו על עובדות פשוטות ומבוססות, והמשלים הם סיפורים חדשים על בסיס משלים עתיקים ומוכרים.']} faq={READING_FAQ} related={[{ label: '10 טיפים לשיפור הבנת הנקרא', href: '/guides/reading-comprehension-tips' }, { label: 'הכתבה אונליין', href: '/learn/dictation' }, { label: 'הכנה למבחן מחוננים', href: '/learn/gifted-test' }, { label: 'סיפורים לפני השינה', href: '/stories' }]} /></div>
   </Page>
 }
 

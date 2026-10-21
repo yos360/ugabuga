@@ -1,0 +1,53 @@
+name: IndexNow — submit changed pages
+
+# The site is built and published by Cloudflare Pages' own Git integration (not by a
+# GitHub workflow), so this job runs alongside it: it snapshots the live sitemap right
+# away, waits until Cloudflare has published a new sitemap, then sends only the URLs that
+# are new or whose <lastmod> changed to IndexNow (Bing → ChatGPT search). Never blocks
+# or affects the deploy itself.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Snapshot live sitemap (before deploy)
+        run: curl -fsS --max-time 30 https://ugabuga.co.il/sitemap.xml -o "$RUNNER_TEMP/before.xml"
+
+      - name: Wait for Cloudflare to publish a new sitemap (up to 20 min)
+        id: wait
+        run: |
+          for i in $(seq 1 40); do
+            sleep 30
+            curl -fsS --max-time 30 "https://ugabuga.co.il/sitemap.xml?nocache=$(date +%s)" -o "$RUNNER_TEMP/after.xml" || continue
+            if ! cmp -s "$RUNNER_TEMP/before.xml" "$RUNNER_TEMP/after.xml"; then
+              echo "Live sitemap changed after $((i*30))s."
+              echo "changed=1" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "Live sitemap did not change — nothing new to submit."
+
+      - name: Submit new/changed URLs
+        if: steps.wait.outputs.changed == '1'
+        env:
+          BASELINE_SITEMAP: ${{ runner.temp }}/before.xml
+          NEW_SITEMAP: ${{ runner.temp }}/after.xml
+        run: node scripts/indexnow-submit.mjs

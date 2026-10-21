@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import { faqSchema } from '../../components/ui/SeoBody'
 import { ARCADE } from '../../arcade/registry'
 import { BOARD_GAMES } from '../../boardgames/registry'
@@ -41,6 +42,7 @@ export default function OnlineGamesHub() {
         <h1>🕹️ משחקי אונליין ומשחקי חשיבה – לוחצים ומשחקים</h1>
         <p>משחקי אונליין בחינם לילדים ולמבוגרים: הקלאסיקות שכולם אוהבים — צוללות, ארבע בשורה, איקס עיגול, סוליטר, שולה מוקשים, סודוקו, נחש ועוד — לצד משחקי חשיבה ופאזלים מקוריים. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. כל משחק נפתח על כל המסך, עם מוזיקת רקע נעימה (אפשר להשתיק ב־🎵).</p>
       </header>
+      <QuickAnswer q="איפה משחקים משחקי חשיבה אונליין בחינם בלי הורדה?" a="כאן: צוללות, ארבע בשורה, איקס עיגול, סוליטר, שולה מוקשים, סודוקו, נחש, 2048 ועוד משחקי חשיבה — ישר מהדפדפן, על כל המסך, בטלפון ובמחשב. בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק, וכל יום יש אתגר יומי חדש." rows={[['מספר משחקים', `${ARCADE.length} משחקים`], ['משחקים לשניים', 'ארבע בשורה, איקס עיגול, צוללות'], ['מתאים ל', 'ילדים ומבוגרים, בבית ובכיתה'], ['מחיר', 'חינם, בלי הורדה ובלי הרשמה']]} updated="2026-10-21" />
       <Link to="/online-games/today" className="dl-banner" style={{ '--game-color': ARCADE.find(g => g.slug === daily.slug)?.color }}>
         <span className="dl-banner-art" aria-hidden="true">{daily.emoji}</span>
         <span><b>🌟 אתגר היום: {daily.name}</b><small>{daily.goal} · אותו אתגר לכולם, מתחלף כל יום</small></span>

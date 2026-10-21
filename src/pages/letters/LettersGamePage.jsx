@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import LettersGame from '../../components/letters/LettersGame'
 
@@ -22,7 +23,8 @@ const COPY = {
       { q: 'המשחק בחינם?', a: 'כן, לגמרי. בלי הרשמה, בלי פרסומות קופצות ובלי הורדה — פותחים בדפדפן ומשחקים.' },
       { q: 'אין קול כשלוחצים על הרמקול — מה עושים?', a: 'הקול מגיע מהמכשיר עצמו. בחלק מהמכשירים צריך להגביר את הווליום או להתקין קול בעברית בהגדרות. המשחק עובד גם בלי קול.' },
     ],
-    related: [{ label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'כרטיסיות אותיות להדפסה', href: '/printables/letter-flashcards' }, { label: 'משחקים לגן', href: '/games/kindergarten' }],
+    quick: { q: 'איך מלמדים ילד אותיות בעברית בצורה משחקית?', a: 'משחקים 5–10 דקות ביום במשחק קצר שחוזר על אותן אותיות: מזהים את צורת האות, מחברים בין צליל לאות, ואומרים את שם האות. המשחק כאן עושה בדיוק את זה — חינם, בלי הרשמה, עם קול לכל אות ומילה.', rows: [['גיל', 'גן חובה (5–6), הכנה לכיתה א׳ וכיתה א׳'], ['סוגי משחק', 'מצאו את האות · באיזו אות זה מתחיל? · איך קוראים לאות?'], ['אורך סבב', '10 שאלות, כוכבים בסוף'], ['מחיר', 'חינם, בלי הורדה ובלי הרשמה']], updated: '2026-10-21' },
+    related: [{ label: 'איך מלמדים ילד אותיות — 12 פעילויות', href: '/guides/teach-letters-at-home' }, { label: 'לימוד אותיות בעברית', href: '/letters' }, { label: 'כרטיסיות אותיות להדפסה', href: '/printables/letter-flashcards' }, { label: 'משחקים לגן', href: '/games/kindergarten' }],
   },
   en: {
     path: '/abc/game',
@@ -51,6 +53,7 @@ export default function LettersGamePage({ lang = 'he' }) {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, lang === 'he' ? { label: 'לימוד אותיות', href: '/letters' } : { label: 'דפים להדפסה', href: '/printables' }, { label: c.crumb }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2">{c.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{c.sub}</p>
+      {c.quick && <QuickAnswer {...c.quick} />}
       <LettersGame key={lang} lang={lang} />
       <div className="my-8 flex flex-wrap justify-center gap-3">
         {lang === 'he'

@@ -5,6 +5,7 @@ import { writeFile } from 'node:fs/promises'
 import { ENGLISH_SECTIONS } from '../src/en/englishRoutes.js'
 import { MENU_DOMAINS, CLASSROOM_MENU } from '../src/data/siteMenu.js'
 import { HANUKKAH_ROOT, HANUKKAH_GUIDES } from '../src/en/hanukkahGuides.js'
+import { LIST_GUIDES } from '../src/data/guidesLists.js'
 
 const SITE = 'https://ugabuga.co.il'
 const abs = to => SITE + (to.startsWith('/') ? to : '/' + to)
@@ -58,6 +59,9 @@ const KEY_PAGES = [
   ['/birthday', 'יום הולדת לילדים — משחקים, הזמנות, רעיונות ועוגות לפי גיל'],
 ]
 out.push('## עמודים מרכזיים', '', ...KEY_PAGES.map(described), '')
+
+// Answer-first list guides — the "X ideas for Y" questions parents and teachers ask assistants.
+out.push('## מדריכים ורשימות — תשובות מהירות להורים ולמורות', '', ...LIST_GUIDES.map(g => `- [${g.title}](${abs('/guides/' + g.slug)}): ${g.quick.a.split('. ')[0].replace(/\.$/, '')}.`), '')
 
 for (const d of MENU_DOMAINS) {
   out.push(`## ${d.label}`, '', `- [${d.landingLabel || d.label}](${abs(d.to)})`)

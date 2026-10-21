@@ -36,7 +36,9 @@ function parseSitemap(xml) {
 }
 
 async function main() {
-  const newXml = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+  // NEW_SITEMAP: the sitemap to submit from (default: the freshly built public/sitemap.xml;
+  // the IndexNow workflow passes the live sitemap fetched after Cloudflare finished deploying).
+  const newXml = await readFile(process.env.NEW_SITEMAP || new URL('../public/sitemap.xml', import.meta.url), 'utf8')
   const next = parseSitemap(newXml)
   if (next.size === 0) {
     console.warn('indexnow: built sitemap parsed to 0 URLs — skipping (nothing to submit).')

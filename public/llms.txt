@@ -39,6 +39,13 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [משחקים לילדים](https://ugabuga.co.il/games): ליום הולדת, לכיתה, לגן ולצהרון, עם הוראות
 - [יום הולדת לילדים](https://ugabuga.co.il/birthday): משחקים, הזמנות, רעיונות ועוגות לפי גיל
 
+## מדריכים ורשימות — תשובות מהירות להורים ולמורות
+
+- [20 משחקים לכיתה בלי הכנה ובלי ציוד](https://ugabuga.co.il/guides/classroom-games-no-prep): המשחקים הכי בטוחים לכיתה בלי הכנה הם כאלה שצריך בשבילם רק קול וחוק אחד: המלך אמר, ארבע הפינות, קטגוריה בחמש שניות, שרשרת הזיכרון, אמת או BUGA ומה השתנה?.
+- [15 פעילויות לחנוכה לגן ולילדים בגיל 3–6](https://ugabuga.co.il/guides/hanukkah-activities-kindergarten): בגיל 3–6 עובדות הכי טוב פעילויות קצרות של 10–15 דקות שמשלבות ידיים ותנועה: לסובב סביבון, להכין חנוכייה מפלסטלינה או מקרטון ביצים, לצבוע דף צביעה של חנוכה, לשיר שירי חנוכה עם תנועות, ולמצוא "פך שמן" שהוחבא בחדר.
+- [איך מלמדים ילד אותיות: 12 פעילויות לבית](https://ugabuga.co.il/guides/teach-letters-at-home): לומדים מעט אותיות בכל פעם (2–3 בשבוע), ב-5–10 דקות ביום, ומחברים כל אות לצליל שלה ולמילה מוכרת — "מ׳ כמו מאמא".
+- [איך משפרים הבנת הנקרא: 10 טיפים להורים](https://ugabuga.co.il/guides/reading-comprehension-tips): מתרגלים קצר וקבוע — קטע אחד ביום או כמה פעמים בשבוע, 15 דקות.
+
 ## משחקים
 
 - [כל המשחקים](https://ugabuga.co.il/games)
@@ -145,6 +152,14 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [הבנת הנקרא](https://ugabuga.co.il/learn/reading)
 - [כרטיסיות לימוד](https://ugabuga.co.il/learn/flashcards)
 - [הפכים ומילים נרדפות](https://ugabuga.co.il/words/opposites)
+
+### מקצועות בית הספר
+- [תנ״ך לילדים](https://ugabuga.co.il/learn/tanakh)
+- [לשון עברית](https://ugabuga.co.il/learn/lashon)
+- [מדע וטכנולוגיה](https://ugabuga.co.il/learn/science)
+- [היסטוריה](https://ugabuga.co.il/learn/history)
+- [גאוגרפיה ומולדת](https://ugabuga.co.il/learn/geography)
+- [אזרחות וחברה](https://ugabuga.co.il/learn/civics)
 
 ### אנגלית, שפות והקלדה
 - [אנגלית לילדים — מילים ומשחקים](https://ugabuga.co.il/english)

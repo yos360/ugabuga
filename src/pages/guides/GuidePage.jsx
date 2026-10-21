@@ -3,6 +3,7 @@ import SEO from '../../components/ui/SEO'
 import WobblyCard from '../../components/ui/WobblyCard'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import { GUIDE_BY_SLUG, GUIDES } from '../../data/guides'
 import { GUIDE_DEEP } from '../../data/guidesDeep'
 import { nearby } from '../../utils/nearby'
@@ -20,10 +21,11 @@ export default function GuidePage() {
   const deep = GUIDE_DEEP[slug] || {}
   const sections = [...(deep.before || []), ...guide.sections, ...(deep.after || [])]
   const relatedLinks = [...(guide.relatedLinks || []), ...(deep.links || [])]
+  const faq = guide.faq || deep.faq
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <SEO title={guide.seoTitle || (guide.title.includes('מדריך') ? guide.title : `${guide.title} — מדריך מעשי`)} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(deep.faq)} />
+      <SEO title={guide.seoTitle || (guide.title.includes('מדריך') ? guide.title : `${guide.title} — מדריך מעשי`)} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(faq)} />
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },
@@ -48,6 +50,7 @@ export default function GuidePage() {
         </div>
       </header>
 
+      {guide.quick && <QuickAnswer {...guide.quick} />}
       {deep.lead && <p className="text-xl leading-relaxed mb-6">{deep.lead}</p>}
 
       <WobblyCard hover={false} padding="p-6 md:p-8">
@@ -60,9 +63,9 @@ export default function GuidePage() {
               ))}
               {section.list && (
                 <ul className="space-y-2 list-none pr-0">
-                  {section.list.map((item) => (
+                  {section.list.map((item, i) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-1">⭐</span>
+                      <span className="mt-1">{section.ordered ? <b>{i + 1}.</b> : '⭐'}</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -73,10 +76,10 @@ export default function GuidePage() {
         </div>
       </WobblyCard>
 
-      {deep.faq?.length > 0 && (
+      {faq?.length > 0 && (
         <section className="mt-8">
           <h2 className="text-2xl font-hand font-bold mb-4">שאלות נפוצות</h2>
-          <div className="space-y-4">{deep.faq.map((f) => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
+          <div className="space-y-4">{faq.map((f) => <div key={f.q}><h3 className="font-bold text-lg">{f.q}</h3><p className="leading-relaxed text-[var(--foreground)]/80">{f.a}</p></div>)}</div>
         </section>
       )}
 

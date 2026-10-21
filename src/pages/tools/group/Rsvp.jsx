@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../../components/ui/SeoBody'
+import QuickAnswer from '../../../components/ui/QuickAnswer'
 import Breadcrumbs from '../../../components/ui/Breadcrumbs'
 import PrintPreview from '../../../components/ui/PrintPreview'
 import { rsvpDb, groupMemory, groupErrorText, newToken, tokenFromHash, shareUrl, organizerUrl } from '../../../utils/groupDb'
@@ -536,6 +537,7 @@ export default function Rsvp({ preset = null }) {
       <h1 className="text-4xl sm:text-5xl">{preset ? `${preset.emoji} ${preset.h1}` : '✅ אישור הגעה אונליין'}</h1>
       <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">{preset ? preset.intro : 'אישור הגעה לאירוע בחינם: יוצרים קישור, שולחים לקבוצה בוואטסאפ, וכל אורח עונה בלחיצה — מגיעים, לא מגיעים או אולי. אתם רואים כמה ילדים ומבוגרים מגיעים, מי אלרגי למה ומי עוד לא ענה.'}</p>
     </header>}
+    {!code && !preset && <QuickAnswer q="איך עושים אישור הגעה לאירוע בחינם?" a="יוצרים כאן אירוע (שם, תאריך ומקום), מקבלים קישור ושולחים אותו לקבוצת הוואטסאפ. כל אורח עונה בלחיצה — מגיע, לא מגיע או אולי — ואתם רואים בדף אחד כמה ילדים ומבוגרים מגיעים, אלרגיות ומי עוד לא ענה. בלי תשלום, בלי הרשמה ובלי אפליקציה." rows={[['מחיר', 'חינם, גם למארגנים וגם לאורחים'], ['שליחה', 'קישור אחד בוואטסאפ, בקבוצה או בפרטי'], ['מה רואים', 'מגיעים/לא מגיעים/אולי, מספר ילדים ומבוגרים, אלרגיות, מי לא ענה'], ['ייצוא', 'הורדה לאקסל, הדפסה ותזכורת מוכנה למי שלא ענה'], ['פרטיות', 'הדף נמחק אוטומטית חודשיים אחרי האירוע']]} updated="2026-10-21" />}
     {body}
     {code && ev && !host && !error && !deleted && <OrganizerLogin code={code} onIn={organizerIn} />}
     {!code && (preset ? <TypeGuide preset={preset} /> : <RsvpGuide />)}

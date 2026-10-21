@@ -2,6 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import { useActiveChipInView } from '../../hooks/useActiveChipInView'
 import PrintableCard from '../../components/ui/PrintableCard'
 import { categories } from '../../data/printableCategories'
@@ -36,6 +37,7 @@ export default function PrintablesIndex() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפי פעילות להדפסה בחינם</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">דפים להדפסה לילדים: בוחרים נושא ופעילות — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
+      <QuickAnswer q="איפה מוצאים דפים להדפסה לילדים בחינם?" a="כאן — מאות דפים בעברית שמדפיסים מיד, בלי הרשמה ובלי תשלום: דפי צביעה לפי נושא, מבוכים, דפי עבודה בחשבון, אותיות ומספרים, משחקים להדפסה, תעודות ושלטים למסיבה. בוחרים נושא למעלה, פותחים דף ולוחצים הדפסה." rows={[['הכי מבוקשים', 'דפי צביעה, מבוכים, דפי עבודה בחשבון, כרטיסיות אותיות, מנדלות'], ['גילים', 'גן עד כיתה ו׳'], ['למי', 'הורים, גננות ומורות'], ['מחיר', 'חינם, בלי הרשמה']]} updated="2026-10-21" />
 
       <nav ref={chipsRef} aria-label="סינון לפי נושא" className="chip-scroll mb-8 flex flex-wrap justify-center gap-2">
         {[{ id: '', label: 'הכול' }, ...TOPICS].map(t => {

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { Sheet, T, Choice } from '../../components/printables/PrintableShell'
@@ -115,6 +116,7 @@ export default function CursiveLetters() {
       <h1 className="text-4xl sm:text-5xl mb-2">✍️ אותיות בכתב יד — מדפוס לכתב</h1>
       <p className="mx-auto max-w-2xl font-hand text-xl text-[var(--muted-foreground)]">כל אות בדפוס ובכתב, דפי תרגול להדפסה, ומכונה שהופכת כל מילה לכתב יד.</p>
     </header>
+    <QuickAnswer q="איך כותבים את האותיות בכתב יד?" a="לכל אות בדפוס יש אות מקבילה בכתב יד, ולחמש אותיות (כ, מ, נ, פ, צ) יש גם צורה סופית. הכי קל ללמוד בעזרת טבלה של דפוס מול כתב, ואז להעתיק מילים קצרות בדף תרגול. כאן יש את הטבלה המלאה, דפי תרגול להדפסה, וכלי שהופך כל מילה לכתב יד." rows={[['מה יש בעמוד', 'טבלת דפוס וכתב, אותיות סופיות, דפי תרגול, המרת מילים לכתב, טבלת סת״ם'], ['למי מתאים', 'כיתה א׳–ב׳ ומי שעובר מדפוס לכתב'], ['הדפסה', 'דפי תרגול כתיבה בחינם, בלי הרשמה']]} updated="2026-10-21" />
 
     <section className="grid items-center gap-6 rounded-3xl border-[3px] border-slate-800 bg-white p-5 sketch-shadow md:grid-cols-[1fr_1.4fr]">
       <div className="text-center">
