@@ -5,6 +5,7 @@ import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
 import { englishCounterpart } from '../../en/englishLinks'
 import { SITE_SLOGAN } from '../../data/brand'
+import ForestNavbar from '../home/ForestNavbar'
 
 function ItemLink({ item, onClick }) {
   return <Link to={item.to} onClick={onClick} className={item.highlight ? 'is-highlight' : undefined}><span aria-hidden="true">{item.icon}</span>{item.label}</Link>
@@ -98,6 +99,8 @@ export default function Navbar() {
   const closeMobile = () => setMobileOpen(false)
   const kidsActive = pathname === KIDS_ZONE.to
 
+  if (pathname === '/') return <ForestNavbar />
+
   return (
     <header className="site-header no-print">
       <a className="site-skip-link" href="#site-content" onClick={event => {
@@ -117,7 +120,7 @@ export default function Navbar() {
         </div>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
-          <span className="site-brand-art" aria-hidden="true"><img src="/images/site-logo.webp" alt="" width="250" height="80" /></span>
+          {pathname === '/' ? <span style={{fontFamily:'Arial, Heebo, sans-serif',fontSize:'clamp(28px, 4vw, 46px)',fontWeight:650,color:'#554633',whiteSpace:'nowrap',lineHeight:1.5}}>עוּגה בּוּגה</span> : <span className="site-brand-art" aria-hidden="true"><img src="/images/site-logo.webp" alt="" width="250" height="80" /></span>}
           {/* The home page already says it in its headline. */}
           {pathname !== '/' && <span className="site-brand-slogan" aria-label={SITE_SLOGAN}><span>האתר שיש בו הכל</span><span>מעוגה ועד בוגה</span></span>}
         </Link>

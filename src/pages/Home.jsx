@@ -1,12 +1,14 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Share2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Share2, Gamepad2, Printer, GraduationCap, Cake, Heart, Users, FileText, Lightbulb, Star } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import './Home.css'
 import './home-responsive.css'
 import './home-intents.css'
+import './home-woodland.css'
+
 import { HOME_INTENTS } from '../data/kidsZone'
 import { SITE_SLOGAN } from '../data/brand'
 // The daily quiz/game widgets sit below the fold — keep their code (and the
@@ -43,6 +45,14 @@ function Art({ crop, src, className = '' }) {
 // "Why are you here today?" — the four entry doors right under the hero (data in src/data/kidsZone.js).
 // They replace the old category doors (birthday / games / create / classroom), which pointed to
 // mostly the same places; games and create stay one tap away in the hero buttons, PlayNow and the menu.
+const HOME_DOORS = [
+  ['🎮', 'משחקים', 'משחקי אונליין, משחקי חשיבה ומשחקים לכל המשפחה.', '/games', [0,0,1,1], '#e3ebe1', '#557854'],
+  ['🖨️', 'דפי עבודה', 'דפי צביעה, מבוכים ודפי פעילות מוכנים להדפסה.', '/printables', [0,0,1,1], '#f2e6cf', '#a87738'],
+  ['📚', 'כיתה וחינוך', 'דפי עבודה לפי כיתה ורמה, כלי למידה ומשחקים לכיתה.', '/classroom', [0,0,1,1], '#e3e9ec', '#587583'],
+  ['🎂', 'ימי הולדת', 'רעיונות, משחקים למסיבה, הזמנות וכל מה שצריך לחגיגה.', '/birthday', [0,0,1,1], '#efdfdc', '#a66e70'],
+]
+const DOOR_ICONS = [Gamepad2, Printer, GraduationCap, Cake]
+const DOOR_IMAGES = ['games', 'print', 'school', 'birthday']
 const games = [
   ['תחנת החלל התקועה','חדר בריחה לילדים ולנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
   ['יוצרים ציד אוצרות','מסלול רמזים משלכם','/tools/scavenger-hunt-maker',[387,826,228,93]],
@@ -179,23 +189,35 @@ export default function Home() {
   }
 
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
-    <section className="home-intro">
-      <h1>{SITE_SLOGAN}</h1>
-      <PrintStrip />
-      <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
-    </section>
+    <div className="forest-opening">
+      <section className="forest-hero" aria-labelledby="forest-slogan">
+        <div className="forest-brand">
+          <div className="forest-sign"><span className="forest-wordmark">עוּגה בּוּגה</span></div>
+          <h1 id="forest-slogan">{SITE_SLOGAN}</h1>
+        </div>
+        <img className="forest-buga" src="/images/forest-buga.webp" width="650" height="975" fetchPriority="high" alt="בוגה הילד הקדמון מחייך ומנופף לשלום" />
+      </section>
+      <section className="forest-categories" aria-label="בוחרים עולם ומתחילים">
+        {HOME_DOORS.map(([,title,description,to,,,color], index) => {
+          const Icon = DOOR_ICONS[index]
+          return <Link className="forest-category" to={to} key={to} style={{'--category-color':color}}>
+            <img className="forest-category-image" src={`/images/forest-${DOOR_IMAGES[index]}.webp`} width="560" height="373" alt="" />
+            <div className="forest-category-caption"><span className="forest-category-icon" aria-hidden="true"><Icon size={28} /></span><h2>{title}</h2><p>{description}</p><span className="forest-category-arrow" aria-hidden="true"><ChevronLeft size={26}/></span></div>
+            <span className="forest-leaves" aria-hidden="true"><i/><i/><i/></span>
+          </Link>
+        })}
+      </section>
+      <div className="forest-benefits" aria-label="על האתר">
+        {[[Star,'משחקים ותכנים','לילדים ולהורים'],[Lightbulb,'רעיונות לפעילות','בבית ובכיתה'],[FileText,'דפי עבודה','להדפסה מיידית'],[Users,'לכל המשפחה','משחקים ויוצרים יחד'],[Heart,'הכל בחינם','וללא הרשמה']].map(([Icon,title,text]) => <div key={title}><Icon aria-hidden="true" size={31}/><span><b>{title}</b><small>{text}</small></span></div>)}
+      </div>
+    </div>
+    <div className="forest-content">
+    <section className="forest-welcome"><h2>מה עושים היום?</h2><p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p><PrintStrip /><nav aria-label="קיצורי דרך"><Link to="/kids">אזור ילדים ←</Link><Link to="/family">משהו לעשות עם הילדים ←</Link><Link to="/online-games">משחקי אונליין ←</Link><Link to="/create">מתחם יוצרים ←</Link></nav></section>
     <MorningRoutineSpotlight />
     <BedtimeStorySpotlight />
-    <section className="home-intents" aria-labelledby="home-intents-title">
-      <h2 id="home-intents-title">למה נכנסתם היום?</h2>
-      <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
-        <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
-        {index === 0 && <span className="home-intent-stickers" aria-hidden="true"><span>🎨</span><span>⭐</span><span>🔤</span></span>}
-        <Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span>
-      </Link>)}</div>
-    </section>
     <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
     <PlayNow />
+    <section className="woodland-original-intents" aria-label="פעילויות לפי הצורך">{HOME_INTENTS.map(([,title,description,to]) => <Link key={to} to={to}><h2>{title}</h2><p>{description}</p></Link>)}</section>
     <QuickMatch />
     <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
     <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
@@ -249,5 +271,5 @@ export default function Home() {
     <section className="home-extra">
       <SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} />
     </section>
-  </div></>
+  </div></div></>
 }
