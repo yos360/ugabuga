@@ -74,10 +74,9 @@ export default function BugaPedia() {
     searchBugaPedia(asked, controller.signal, subject?.id).then(results => {
       if (controller.signal.aborted) return
       setOutcome({ key, state: results.length ? 'ready' : 'empty', pages: [...results], ambiguous: Boolean(results.ambiguous) })
-      recordBugaPediaQuery({ question: asked, subject: subject?.id, found: results.length > 0, resultTitle: results[0]?.title })
     }).catch(error => {
       if (controller.signal.aborted || error.name === 'AbortError') return
-      // Network failures, blocked and self-harm questions are not recorded.
+      // Network failures, blocked and self-harm questions are not recorded (see the effect below).
       setOutcome({ key, state: ['short', 'blocked', 'selfharm'].includes(error.message) ? error.message : 'error', pages: [], ambiguous: false })
     })
     return () => controller.abort()
@@ -125,6 +124,15 @@ export default function BugaPedia() {
   // the raw search can surface a namesake ("להמציא את אנה" for "מי המציא את השפה הרוסית").
   const usedUrls = new Set((answer?.sources || []).map(source => source.url))
   const reading = showWritten ? pages.filter(page => usedUrls.has(page.url)) : pages
+
+  // Once the search and the written answer have both settled, record the question with what was shown.
+  const settled = outcome.key === searchKey && writtenState !== 'loading' && (['ready', 'empty'].includes(outcome.state) || Boolean(answer))
+  useEffect(() => {
+    // The owner's "open as the visitor saw it" link is not a new question.
+    if (!settled || params.get('from') === 'owner') return
+    const shown = showWritten ? { text: answer.answer, url: answer.sources[0]?.url, written: true } : primary ? { text: primary.extract, url: primary.url, written: false } : null
+    recordBugaPediaQuery({ question: asked, subject: subject?.id, found: Boolean(primary || answer), resultTitle: primary?.title, shown })
+  }, [settled, searchKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <div className="bugapedia-page" dir="rtl">
     <SEO title="בוגה־פדיה — שואלים ומגלים בכל מקצוע" description="מחפשים תשובה בעברית במקורות ידע פתוחים: אנציקלופדיה, מילון, נתונים וחישובים, תמיד עם ציון המקור." path="/bugapedia" />

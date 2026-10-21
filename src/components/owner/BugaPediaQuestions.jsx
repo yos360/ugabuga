@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
 const formatTime = value => new Date(value).toLocaleString('he-IL', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
-// What the child got: the written answer (when one was made for this question) with its sources,
-// otherwise the encyclopedia result's title.
+// What the visitor saw: the text recorded with the question (written answer or article excerpt);
+// older rows fall back to the written answer matched by question. Every row links to the live page.
 function Result({ row }) {
-  const head = row.found || row.answer ? <span className="text-emerald-700">✓ {row.result_title || 'תשובה כתובה'}</span> : <span className="font-bold text-red-700">לא נמצאה תשובה</span>
-  if (!row.answer) return head
+  const text = row.shown_text || row.answer
+  const written = row.shown_text ? row.shown_written : Boolean(row.answer)
+  const head = row.found || text ? <span className="text-emerald-700">✓ {row.result_title || 'תשובה כתובה'}</span> : <span className="font-bold text-red-700">לא נמצאה תשובה</span>
+  const page = `/bugapedia?from=owner&q=${encodeURIComponent(row.question)}${row.subject ? `&subject=${encodeURIComponent(row.subject)}` : ''}`
+  const live = <a href={page} target="_blank" rel="noopener noreferrer" className="mt-1 block text-xs font-bold text-violet-700 underline">פתיחת הדף כפי שהמבקר ראה ↗</a>
+  if (!text) return <>{head}{live}</>
+  const sources = row.shown_text ? (row.shown_url ? [{ url: row.shown_url, title: 'המקור' }] : []) : row.sources || []
   return <details>
     <summary className="cursor-pointer">{head} <span className="text-xs font-bold text-violet-700 underline">הצגת התשובה</span></summary>
     <div className="mt-2 rounded-xl bg-violet-50 p-3 text-slate-800">
-      {!row.confident && <p className="mb-1 text-xs font-bold text-amber-700">הבוט סימן שהוא לא בטוח בתשובה</p>}
-      <p className="whitespace-pre-wrap leading-relaxed">{row.answer}</p>
-      {row.sources?.length > 0 && <p className="mt-2 text-xs">מקורות: {row.sources.map((src, i) => <a key={i} href={src.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-violet-700 underline">{src.title || src.url}</a>)}</p>}
+      <p className="mb-1 text-xs font-bold text-violet-700">{written ? '✨ תשובה כתובה של בוגה־פדיה' : '📖 קטע מהערך שהוצג'}</p>
+      {!row.shown_text && row.confident === false && <p className="mb-1 text-xs font-bold text-amber-700">הבוט סימן שהוא לא בטוח בתשובה</p>}
+      <p className="whitespace-pre-wrap leading-relaxed">{text}</p>
+      {sources.length > 0 && <p className="mt-2 text-xs">מקורות: {sources.map((src, i) => <a key={i} href={src.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-violet-700 underline">{src.title || src.url}</a>)}</p>}
+      {live}
     </div>
   </details>
 }
