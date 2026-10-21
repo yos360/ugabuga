@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import SEO from '../components/ui/SEO'
 import { ownerSupabase as supabase } from '../utils/ownerAuth'
 import { ACTIVITY_LABELS, ACTION_LABELS } from '../utils/liveActivity'
 import OwnerPartyLists, { partyPreview, usePartyLists } from '../components/owner/OwnerPartyLists'
 import { englishSummary } from '../utils/ownerEnglish'
+import { visitorName } from '../utils/visitorNames'
 import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
@@ -218,10 +219,22 @@ function EnglishVisitors({ en }) {
 // One row per anonymous visitor (a browser on one day — the id rotates every 24h, so it
 // names no one): how much they did, where they came from, and their path through the site.
 const visitorColor = v => HUES[parseInt(v || '0', 16) % HUES.length]
+// How many page entries each visitor code made in the report's period, so a name that shows up
+// again in the lists carries its count ("שועל סקרן · 5 כניסות").
+const VisitorEntries = createContext(new Map())
+function visitorEntries(data) {
+  const m = new Map()
+  for (const r of data?.by_visitor || []) m.set(r.v, r.opens ?? r.pages ?? 0)
+  return m
+}
 function VisitorTag({ v }) {
+  const entries = useContext(VisitorEntries)
   if (!v) return '—'
-  return <span className="inline-flex items-center gap-1 whitespace-nowrap font-mono text-xs" dir="ltr">
-    <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: visitorColor(v) }} />{v}
+  const who = visitorName(v), n = entries.get(v)
+  return <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs" title={`קוד מבקר ${v}`}>
+    <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: visitorColor(v) }} />
+    {who ? <b>{who.emoji} {who.name}</b> : <span className="font-mono" dir="ltr">{v}</span>}
+    {n > 1 && <span className="rounded-full bg-violet-100 px-1.5 font-bold text-violet-800">{n} כניסות</span>}
   </span>
 }
 function ByVisitor({ data }) {
@@ -231,7 +244,7 @@ function ByVisitor({ data }) {
   </>
   const list = showAll ? data.by_visitor : data.by_visitor.slice(0, 20)
   return <>
-    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. אותו קוד מופיע גם ב„פעולות אחרונות”.</p>
+    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. לכל מבקר יש שם בדוי קבוע (אותו שם מופיע גם ב„פעולות אחרונות”), ולידו כמה כניסות לעמודים היו לו בתקופה.</p>
     {list.length ? <div>
       {list.map(r => <details key={r.v + r.first} className="border-b py-2 text-sm">
         <summary className="flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1">
@@ -454,7 +467,8 @@ export default function OwnerActivityReport() {
   const pdfByPath = useMemo(() => { const m = new Map(); for (const t of data?.top || []) if (t.action === 'download') m.set(t.path || '', (m.get(t.path || '') || 0) + t.n); return m }, [data])
   const party = usePartyLists()
 
-  return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
+  const entries = useMemo(() => visitorEntries(data), [data])
+  return <VisitorEntries.Provider value={entries}><div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
     {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} />, pip.document.body)}
     <SEO title="דוח פעילות בעלים" description="דוח פרטי ומפורט של פעילות באתר עוגה בוגה." noindex path="/admin/activity" />
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-[0_7px_0_#e5e7eb] sm:p-9">
@@ -571,7 +585,7 @@ export default function OwnerActivityReport() {
         ]} />
       </>}
     </div>
-  </div>
+  </div></VisitorEntries.Provider>
 }
 
 // Collapsed-section previews: the 3 latest matching events / arrivals / visitors.
