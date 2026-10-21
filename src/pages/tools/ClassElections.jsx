@@ -1,0 +1,48 @@
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import SEO from '../../components/ui/SEO'
+import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import PrintPreview from '../../components/ui/PrintPreview'
+import './classElections.css'
+
+const MODES = {
+  class: { emoji: '🎒', title: 'בחירות לוועד כיתה', names: ['נועה', 'איתי', 'מאיה'], note: 'בוחרים נציג או נציגה לכיתה. אפשר לשנות את השמות ואת כללי ההכרעה.' },
+  school: { emoji: '🏫', title: 'בחירות לוועד בית הספר', names: ['רשימת הקשבה', 'רשימת יוזמה', 'רשימת שותפות'], note: 'בוחרים נציגים או רשימות למועצת התלמידים, לפי הכללים של בית הספר.' },
+  parents: { emoji: '👨‍👩‍👧', title: 'בחירות לוועד הורים', names: ['הורה א׳', 'הורה ב׳', 'הורה ג׳'], note: 'בוחרים נציגות הורים ומגדירים מראש מי מצביע וכמה נציגים נבחרים.' },
+  national: { emoji: '🇮🇱', title: 'בחירות ארציות — הדמיה', names: ['רשימת אופק', 'רשימת יחד', 'רשימת מחר'], note: 'הדמיה חינוכית: בבחירות לכנסת מצביעים לרשימות, ולא בוחרים ישירות ראש ממשלה.' },
+  repeat: { emoji: '🔄', title: 'בחירות חוזרות', names: ['אפשרות א׳', 'אפשרות ב׳'], note: 'מתאימה לתיקו או למצב שבו הוחלט מראש שנדרש רוב מוחלט.' },
+}
+const lesson = [
+  ['מהי דמוקרטיה?', 'דרך לקבל החלטות משותפות שבה לאזרחים יש קול. בחירות הן חלק ממנה, יחד עם זכויות, חוק וביקורת על בעלי כוח.'],
+  ['רוב ומיעוט', 'הרוב מסייע להכריע בין אפשרויות. גם מי שלא נבחר זכאי לכבוד, להקשבה ולהשתתפות — ורוב לא רשאי לשלול זכויות.'],
+  ['בחירה חופשית וחשאית', 'כל משתתף בוחר בלי לחץ, ולכל קול אותו משקל. לא מבקשים מאף אחד להוכיח למי הצביע.'],
+  ['אחרי הבחירות', 'נציגים מקשיבים, מעדכנים ומסבירים מה התקדם. מי שלא נבחר עדיין יכול להשפיע ולהוביל רעיונות.'],
+]
+const fresh = mode => ({ mode, title: MODES[mode].title, names: MODES[mode].names, votes: MODES[mode].names.map(() => 0), ballots: 0, blank: 0, closed: false, round: 1, history: [] })
+
+export default function ClassElections() {
+  const [state, setState] = useState(() => fresh('class'))
+  const [step, setStep] = useState('learn'), [printing, setPrinting] = useState(false), [picked, setPicked] = useState(null)
+  const mode = MODES[state.mode], valid = state.ballots - state.blank
+  const ordered = useMemo(() => state.names.map((name, i) => ({ name, votes: state.votes[i], i })).sort((a, b) => b.votes - a.votes), [state])
+  const leaders = ordered.filter(x => x.votes === ordered[0]?.votes)
+  const choose = key => { setState(fresh(key)); setStep('setup'); setPicked(null) }
+  const saveSetup = form => { const names = form.get('names').split('\n').map(x => x.trim()).filter(Boolean); if (names.length < 2 || names.length > 8 || new Set(names).size !== names.length) return false; setState(x => ({ ...x, title: form.get('title').trim() || x.title, names, votes: names.map(() => 0) })); setStep('print'); return true }
+  const cast = blank => { if (blank) setState(x => ({ ...x, ballots: x.ballots + 1, blank: x.blank + 1 })); else if (picked !== null) setState(x => ({ ...x, ballots: x.ballots + 1, votes: x.votes.map((v, i) => i === picked ? v + 1 : v) })); setPicked(null) }
+  const newRound = list => setState(x => ({ ...x, names: list || x.names, votes: (list || x.names).map(() => 0), ballots: 0, blank: 0, closed: false, round: x.round + 1, history: [...x.history, { names: x.names, votes: x.votes, ballots: x.ballots, title: x.title, round: x.round }].slice(-5) }))
+  const result = !valid ? 'עדיין אין קולות תקפים.' : leaders.length > 1 ? `יש תיקו בין ${leaders.map(x => x.name).join(' ו־')}.` : `${leaders[0].name} מוביל/ה כרגע.`
+  return <main className="ce-page" dir="rtl">
+    <SEO title="בחירות בכיתה — קלפי, פתקים והדמיית דמוקרטיה" description="בונים בחירות לוועד כיתה, למועצת תלמידים או לוועד הורים: פתקים וקלפי להדפסה, הצבעה לדוגמה והסבר על דמוקרטיה." path="/tools/class-elections" />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'בחירות בכיתה' }]} />
+    <header className="ce-hero"><div><p className="ce-kicker">🏛️ אזרחות בגובה העיניים</p><h1>בוגה בוחר!<br />הבחירות שלנו</h1><p>לומדים דמוקרטיה, בונים קלפי, מצביעים ומגלים איך כל קול נספר.</p><div className="ce-tabs"><button onClick={() => setStep('learn')}>📚 לומדים</button><button onClick={() => setStep('setup')}>🗳️ יוצרים בחירות</button><button onClick={() => setStep('results')}>📊 תוצאות</button></div></div><div className="ce-box" aria-hidden="true"><span>✓ הקול שלי</span><b>הקלפי<br />שלנו</b></div></header>
+    <section className="ce-mode-grid" aria-label="סוג הבחירות">{Object.entries(MODES).map(([key, m]) => <button key={key} onClick={() => choose(key)} className={`ce-mode ${state.mode === key ? 'selected' : ''}`}><span>{m.emoji}</span><b>{m.title}</b><small>{m.note}</small></button>)}</section>
+    {step === 'learn' && <section className="ce-section"><h2>דמוקרטיה — מה צריך לדעת לפני הקלפי?</h2><div className="ce-learn-grid">{lesson.map(([title, text]) => <article key={title}><h3>{title}</h3><p>{text}</p></article>)}</div><aside className="ce-note"><b>ומה קורה בבחירות לכנסת?</b><p>בישראל מצביעים לרשימות מועמדים. ההדמיה הארצית כאן מציגה קולות ואחוזים בלבד — היא אינה מחשבת מנדטים או קובעת מי ירכיב ממשלה.</p><Link to="/learn/civics">לשיעורי אזרחות באתר ←</Link></aside></section>}
+    {step === 'setup' && <section className="ce-section ce-panel"><p className="ce-kicker">{mode.emoji} סבב {state.round}</p><h2>{mode.title}</h2><p>{mode.note}</p><form onSubmit={e => { e.preventDefault(); if (!saveSetup(new FormData(e.currentTarget))) e.currentTarget.querySelector('.ce-error').textContent = 'כתבו 2–8 שמות שונים, כל אחד בשורה חדשה.' }}><label>שם הבחירות<input name="title" defaultValue={state.title} maxLength="70" /></label><label>מועמדים או רשימות<textarea name="names" defaultValue={state.names.join('\n')} /></label><p className="ce-error" role="alert" /><button className="ce-primary">מכינים פתקים ←</button></form></section>}
+    {step === 'print' && <section className="ce-section ce-panel"><h2>הקלפי והפתקים מוכנים</h2><p>בערכת ההדפסה יש פתקים לכל מועמד, שלט לקלפי ודף ספירה. את ההצבעה בכיתה מבצעים בפרטיות, עם כללים שסוכמו מראש.</p><div className="ce-actions"><button className="ce-primary" onClick={() => setPrinting(true)}>🖨️ להדפסת ערכת בחירות</button><button onClick={() => setStep('vote')}>מתחילים להצביע ←</button></div>{printing && <PrintPreview title={`${state.title} — ערכת בחירות`} onClose={() => setPrinting(false)}><ElectionPrint state={state} /></PrintPreview>}</section>}
+    {step === 'vote' && <section className="ce-section ce-panel"><p className="ce-kicker">קלפי פתוחה · סבב {state.round}</p><h2>{state.title}</h2><p>בחרו פתק אחד. זו הדגמה מקומית; בכיתה משתמשים בפתקים שהדפסתם.</p><div className="ce-ballots">{state.names.map((name, i) => <button key={name} aria-pressed={picked === i} onClick={() => setPicked(i)} className={picked === i ? 'picked' : ''}>◯ {name}</button>)}</div><div className="ce-actions"><button className="ce-primary" disabled={picked === null || state.closed} onClick={() => cast(false)}>הכנסת הפתק לקלפי</button><button disabled={state.closed} onClick={() => cast(true)}>פתק ריק</button><button onClick={() => setStep('results')}>לספירה ←</button></div></section>}
+    {step === 'results' && <section className="ce-section ce-panel"><p className="ce-kicker">{state.closed ? 'הקלפי סגורה' : 'תוצאות ביניים'} · סבב {state.round}</p><h2>כל קול נספר</h2><p>{state.ballots} פתקים · {valid} תקפים · {state.blank} ריקים</p>{state.names.map((name, i) => <div className="ce-result" key={name}><div><b>{name}</b><span>{state.votes[i]} קולות · {valid ? Math.round(state.votes[i] / valid * 100) : 0}%</span></div><i><em style={{ width: `${valid ? state.votes[i] / valid * 100 : 0}%` }} /></i></div>)}<aside className="ce-note"><b>{leaders.length > 1 && valid ? 'תיקו — מה עושים?' : 'מה התוצאה אומרת?'}</b><p>{result} במקרה של תיקו או כשהכלל שנקבע מראש דורש זאת, אפשר לפתוח סבב נוסף. לא משנים את הכללים אחרי שרואים תוצאה.</p></aside><div className="ce-actions">{!state.closed && <button className="ce-primary" disabled={!state.ballots} onClick={() => setState(x => ({ ...x, closed: true }))}>סוגרים את הסבב</button>}{state.closed && <button className="ce-primary" onClick={() => { newRound(leaders.length > 1 ? leaders.map(x => x.name) : null); setStep('setup') }}>🔄 סבב חדש{leaders.length > 1 ? ' למובילים' : ''}</button>}<button onClick={() => setStep('vote')}>חזרה לקלפי</button></div>{state.history.length > 0 && <details><summary>סבבים קודמים</summary>{state.history.map(h => <p key={h.round}>סבב {h.round}: {h.names.map((n, i) => `${n} — ${h.votes[i]}`).join(' · ')}</p>)}</details>}</section>}
+    <section className="ce-section ce-teacher"><h2>למורה ולהורה: פעילות ב־45 דקות</h2><ol><li>5 דקות: איך מחליטים כשלא מסכימים?</li><li>8 דקות: רוב, מיעוט ובחירה חשאית.</li><li>10 דקות: מציגים מועמדים ורעיונות — זמן שווה לכולם.</li><li>10 דקות: מצביעים בפרטיות.</li><li>7 דקות: סופרים יחד.</li><li>5 דקות: מדברים על התוצאה וממשיכים לשתף את כולם.</li></ol></section>
+  </main>
+}
+
+function ElectionPrint({ state }) { return <div className="ce-print"><h1>{state.title}</h1><p>בוחרים פתק אחד ומכניסים לקלפי. כל קול חשוב.</p><div className="ce-print-tickets">{state.names.flatMap(name => [0, 1, 2, 3].map(n => <article key={`${name}-${n}`}><small>{state.title}</small><h2>{name}</h2><small>עוגה בוגה · בחירות בכיתה</small></article>))}</div><article className="ce-print-page"><h2>הקלפי שלנו</h2><p>קופסת קרטון עם חריץ תתאים מצוין. מציבים אותה במקום שמאפשר בחירה בפרטיות.</p><h2>דף ספירה</h2><table><thead><tr><th>מועמד/רשימה</th><th>סימוני ספירה</th><th>סך הכול</th></tr></thead><tbody>{state.names.map(n => <tr key={n}><td>{n}</td><td></td><td></td></tr>)}</tbody></table><p>פתקים ריקים: _______ · פתקים פסולים: _______</p></article></div> }
