@@ -58,8 +58,11 @@ function usePageTitles() {
     Promise.all([
       import('../data/searchStatic').then(m => m.STATIC_ITEMS).catch(() => []),
       fetch('/data/games.json').then(r => (r.ok ? r.json() : [])).catch(() => []),
-    ]).then(([items, games]) => {
+      // reading passages (/learn/reading/<slug>) aren't in site search, so name them here
+      Promise.all([import('../learn/learnData'), import('../learn/readingGrades')]).then(([a, b]) => [...a.READING, ...b.GRADED_READING]).catch(() => []),
+    ]).then(([items, games, reading]) => {
       const map = new Map()
+      for (const r of reading) map.set(`/learn/reading/${r.slug}`, `${r.emoji ? r.emoji + ' ' : ''}${r.title}${r.grade ? ` (כיתה ${r.grade})` : ''}`)
       for (const g of games) map.set(`/games/${g.slug}`, `🎮 ${g.name}`)
       for (const it of items) map.set(it.to.split('#')[0].replace(/\/+$/, '') || '/', `${it.emoji ? it.emoji + ' ' : ''}${it.title}`)
       map.set('/', '🏠 עמוד הבית')
