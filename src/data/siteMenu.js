@@ -151,6 +151,17 @@ export const MENU_DOMAINS = [
         ],
       },
       {
+        title: 'מקצועות בית הספר', icon: '🏫', to: '/learn',
+        items: [
+          { to: '/learn/tanakh', label: 'תנ״ך לילדים', icon: '📜' },
+          { to: '/learn/lashon', label: 'לשון עברית', icon: '✍️' },
+          { to: '/learn/science', label: 'מדע וטכנולוגיה', icon: '🔬' },
+          { to: '/learn/history', label: 'היסטוריה', icon: '🏺' },
+          { to: '/learn/geography', label: 'גאוגרפיה ומולדת', icon: '🗺️' },
+          { to: '/learn/civics', label: 'אזרחות וחברה', icon: '🏛️' },
+        ],
+      },
+      {
         title: 'אנגלית, שפות והקלדה', icon: '🇬🇧', to: '/english',
         items: [
           { to: '/english', label: 'אנגלית לילדים — מילים ומשחקים', icon: '🇬🇧' },
@@ -451,6 +462,12 @@ export const FOOTER_COLUMNS = [
       ['/printables/hebrew-letters', 'אותיות בעברית להדפסה'],
       ['/learn/dictation', 'הכתבה אונליין'],
       ['/learn/reading', 'הבנת הנקרא'],
+      ['/learn/tanakh', 'תנ״ך לילדים'],
+      ['/learn/lashon', 'לשון עברית'],
+      ['/learn/science', 'מדע וטכנולוגיה'],
+      ['/learn/history', 'היסטוריה'],
+      ['/learn/geography', 'גאוגרפיה ומולדת'],
+      ['/learn/civics', 'אזרחות וחברה'],
       ['/english', 'אנגלית לילדים'],
       ['/abc', 'לומדים אותיות באנגלית'],
       ['/typing', 'הקלדה עיוורת'],
