@@ -208,6 +208,7 @@ export function logEvent(action, pathname = location.pathname, pages = null) {
   const category = activityForPath(path || '/') || 'page'
   visitorPromise ||= browserKey().catch(() => null)
   void visitorPromise.then(visitor => {
+    reportVisitDay(visitor)
     const sheets = (action === 'print' || action === 'download') && Number.isInteger(pages) && pages > 0 ? Math.min(pages, 500) : null
     dbQueue.push({ p_category: category, p_action: action, p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null, ...(sheets ? { p_pages: sheets } : {}) })
     if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
@@ -233,6 +234,29 @@ async function browserKey() {
   }
   try { return navigator.locks ? await navigator.locks.request('buga-live-browser', read) : read() }
   catch { return crypto.randomUUID() }
+}
+
+// ---- Returning visitors ----
+// The browser counts on how many different days it has visited (a number, never an id across days)
+// and reports it once for each daily id, so the owner sees "ביקור 3 באתר" next to today's visitor.
+export function nextVisitDays(saved, visitor, now = Date.now()) {
+  const day = new Date(now).toDateString()
+  const n = Number.isInteger(saved?.n) && saved.n > 0 ? saved.n : 0
+  if (saved?.day === day) return { day, n: Math.max(n, 1), sent: saved.sent }
+  return { day, n: Math.min(n + 1, 10000), sent: null }
+}
+let visitDaySent = null
+function reportVisitDay(visitor) {
+  if (!visitor || visitDaySent === visitor) return
+  visitDaySent = visitor
+  whenHuman(() => {
+    try {
+      const key = 'buga-visit-days', next = nextVisitDays(JSON.parse(localStorage.getItem(key) || 'null'), visitor)
+      if (next.sent === visitor) { localStorage.setItem(key, JSON.stringify(next)); return }
+      localStorage.setItem(key, JSON.stringify({ ...next, sent: visitor }))
+      void rpc('record_visit_day', { p_visitor: visitor, p_visit_no: next.n }).catch(() => {})
+    } catch { /* ignore */ }
+  })
 }
 
 // ---- Time on page ----

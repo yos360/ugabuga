@@ -220,21 +220,32 @@ function EnglishVisitors({ en }) {
 // names no one): how much they did, where they came from, and their path through the site.
 const visitorColor = v => HUES[parseInt(v || '0', 16) % HUES.length]
 // How many page entries each visitor code made in the report's period, so a name that shows up
-// again in the lists carries its count ("שועל סקרן · 5 כניסות").
-const VisitorEntries = createContext(new Map())
+// again in the lists carries its count ("שועל סקרן · 5 כניסות"), and — from the browser's own
+// anonymous day counter — which visit to the site this is ("ביקור 3 באתר").
+const VisitorInfo = createContext({ entries: new Map(), returns: {} })
 function visitorEntries(data) {
   const m = new Map()
   for (const r of data?.by_visitor || []) m.set(r.v, r.opens ?? r.pages ?? 0)
   return m
 }
+function useVisitorReturns(from, to, tick) {
+  const [returns, setReturns] = useState({})
+  useEffect(() => {
+    let active = true
+    supabase.rpc('owner_visitor_returns', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => { if (active && !error && data && typeof data === 'object') setReturns(data) })
+    return () => { active = false }
+  }, [from, to, tick])
+  return returns
+}
 function VisitorTag({ v }) {
-  const entries = useContext(VisitorEntries)
+  const { entries, returns } = useContext(VisitorInfo)
   if (!v) return '—'
-  const who = visitorName(v), n = entries.get(v)
+  const who = visitorName(v), n = entries.get(v), visit = returns[v]
   return <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs" title={`קוד מבקר ${v}`}>
     <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: visitorColor(v) }} />
     {who ? <b>{who.emoji} {who.name}</b> : <span className="font-mono" dir="ltr">{v}</span>}
     {n > 1 && <span className="rounded-full bg-violet-100 px-1.5 font-bold text-violet-800">{n} כניסות</span>}
+    {visit > 1 && <span className="rounded-full bg-emerald-100 px-1.5 font-bold text-emerald-800">🔁 ביקור {visit} באתר</span>}
   </span>
 }
 function ByVisitor({ data }) {
@@ -244,7 +255,7 @@ function ByVisitor({ data }) {
   </>
   const list = showAll ? data.by_visitor : data.by_visitor.slice(0, 20)
   return <>
-    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. לכל מבקר יש שם בדוי קבוע (אותו שם מופיע גם ב„פעולות אחרונות”), ולידו כמה כניסות לעמודים היו לו בתקופה.</p>
+    <p className="mb-3 text-sm text-slate-600">כל שורה = דפדפן אחד ביום אחד (מזהה אקראי שמתחלף כל 24 שעות, בלי שם ובלי IP), כך שאותו אדם ביום אחר יופיע כמבקר חדש. לחצו על שורה כדי לראות את המסלול שלו באתר. לכל מבקר יש שם בדוי קבוע (אותו שם מופיע גם ב„פעולות אחרונות”), ולידו כמה כניסות לעמודים היו לו בתקופה. „ביקור N באתר” = בכמה ימים שונים הדפדפן הזה כבר הגיע (מונה אנונימי שהדפדפן שומר אצלו; נספר מ־21.10).</p>
     {list.length ? <div>
       {list.map(r => <details key={r.v + r.first} className="border-b py-2 text-sm">
         <summary className="flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1">
@@ -467,8 +478,9 @@ export default function OwnerActivityReport() {
   const pdfByPath = useMemo(() => { const m = new Map(); for (const t of data?.top || []) if (t.action === 'download') m.set(t.path || '', (m.get(t.path || '') || 0) + t.n); return m }, [data])
   const party = usePartyLists()
 
-  const entries = useMemo(() => visitorEntries(data), [data])
-  return <VisitorEntries.Provider value={entries}><div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
+  const returns = useVisitorReturns(from, to, tick)
+  const visitorInfo = useMemo(() => ({ entries: visitorEntries(data), returns }), [data, returns])
+  return <VisitorInfo.Provider value={visitorInfo}><div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
     {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} />, pip.document.body)}
     <SEO title="דוח פעילות בעלים" description="דוח פרטי ומפורט של פעילות באתר עוגה בוגה." noindex path="/admin/activity" />
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-[0_7px_0_#e5e7eb] sm:p-9">
@@ -585,7 +597,7 @@ export default function OwnerActivityReport() {
         ]} />
       </>}
     </div>
-  </div></VisitorEntries.Provider>
+  </div></VisitorInfo.Provider>
 }
 
 // Collapsed-section previews: the 3 latest matching events / arrivals / visitors.

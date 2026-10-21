@@ -20,3 +20,15 @@ test('rejects missing or broken ids', () => {
   assert.equal(visitorIdValid(null, at(9)), false)
   assert.equal(visitorIdValid({ expires: midnight(11) }, at(9)), false)
 })
+
+test('the day counter goes up once per new day and keeps no id across days', async () => {
+  const { nextVisitDays } = await import('../src/utils/liveActivity.js')
+  const d = (day, h = 10) => new Date(2026, 9, day, h).getTime()
+  const first = nextVisitDays(null, 'a', d(1))
+  assert.equal(first.n, 1)
+  const sameDay = nextVisitDays({ ...first, sent: 'a' }, 'a', d(1, 22))
+  assert.equal(sameDay.n, 1); assert.equal(sameDay.sent, 'a')
+  const nextDay = nextVisitDays({ ...first, sent: 'a' }, 'b', d(3))
+  assert.equal(nextDay.n, 2); assert.equal(nextDay.sent, null)
+  assert.equal(nextVisitDays({ day: 'x', n: 'junk' }, 'c', d(4)).n, 1)
+})
