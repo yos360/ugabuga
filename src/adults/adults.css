@@ -1,0 +1,51 @@
+/* Adults' leisure area: large type, large targets, high contrast */
+.adult-ui{font-size:20px;line-height:1.6;color:#111827}
+.adult-ui h1{line-height:1.2;margin-bottom:.4em}
+.adult-lead{max-width:44rem;margin:0 auto 1.2rem;text-align:center;font-size:1.25em;color:#1f2937}
+.adult-cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:1.5rem}
+.adult-cards.small{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.adult-card{display:flex;flex-direction:column;gap:6px;height:100%;padding:20px;border:3px solid #1f2937;border-radius:20px;background:#fff;color:#111827;text-decoration:none;box-shadow:4px 4px 0 #1f2937;transition:transform .15s}
+.adult-card:hover,.adult-card:focus-visible{transform:translateY(-2px);background:#fffbeb}
+.adult-card>span{font-size:44px;line-height:1}
+.adult-card b{font-size:1.3em}
+.adult-card small{font-size:.95em;color:#374151}
+.adult-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:56px;padding:0 24px;border:3px solid #1f2937;border-radius:16px;background:#7c3aed;color:#fff;font-size:1.05em;font-weight:800;text-decoration:none;cursor:pointer;box-shadow:3px 3px 0 #1f2937}
+.adult-btn.alt{background:#fff;color:#111827}
+.adult-btn:disabled{opacity:.6}
+.adult-chip{min-height:52px;padding:0 18px;border:3px solid #d1d5db;border-radius:14px;background:#fff;font-weight:800;font-size:1em;cursor:pointer}
+.adult-chip.on{border-color:#1f2937;background:#fef3c7}
+.adult-box{padding:18px 20px;border:2px solid #d1d5db;border-radius:18px;background:#fff}
+.adult-ui :focus-visible{outline:4px solid #0ea5e9;outline-offset:3px}
+
+/* crossword */
+.cw-wrap{max-width:640px;margin:16px auto}
+.cw-grid{display:grid;border:3px solid #111;direction:rtl;background:#111;gap:2px}
+.cw-black{background:#111;aspect-ratio:1}
+.cw-cell{position:relative;background:#fff;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.cw-num{position:absolute;top:1px;right:3px;font-size:12px;font-weight:800;line-height:1;color:#111}
+.cw-letter{font-size:clamp(18px,4vw,30px);font-weight:800}
+.cw-cell input{width:100%;height:100%;border:0;text-align:center;font-size:clamp(20px,4.5vw,32px);font-weight:800;background:transparent;color:#111;padding-top:6px}
+.cw-cell input:focus{background:#fef3c7;outline:none}
+.cw-cell input.ok{color:#047857}
+.cw-cell input.bad{color:#b91c1c;background:#fee2e2}
+.cw-clues{display:grid;gap:20px;grid-template-columns:1fr 1fr;margin-top:20px}
+.cw-clues h3{font-size:1.3em;font-weight:900;border-bottom:3px solid #111;margin-bottom:6px}
+.cw-clues ol{list-style:none;padding:0;margin:0}
+.cw-clues li{padding:3px 0}
+.cw-clues small{color:#4b5563}
+@media (max-width:640px){.cw-clues{grid-template-columns:1fr}.cw-num{font-size:9px}}
+/* printed crossword: grid on top, clues below in two columns, readable from arm's length */
+.cw-sheet{align-items:stretch!important}
+.cw-sheet .cw-print-grid{width:72%;margin:0 auto 8px}
+.cw-sheet .cw-clues{font-size:11.5pt;line-height:1.35;gap:12px;margin-top:4px}
+.cw-sheet .cw-clues h3{font-size:13pt}
+.cw-sheet .cw-num{font-size:8pt}
+.cw-sheet .cw-letter{font-size:16pt}
+
+/* interview booklet */
+.interview-sheet{align-items:stretch!important;font-size:12pt}
+.interview-sheet .iv-line{font-size:14pt;margin:10px 0}
+.interview-sheet .iv-photo{flex:1;margin-top:16px;border:2px dashed #999;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#888}
+.interview-sheet .iv-q{margin:6px 0 10px}
+.interview-sheet .iv-q b{display:block;font-size:12.5pt}
+.interview-sheet .iv-q span{display:block;border-bottom:1px solid #999;height:22px}
