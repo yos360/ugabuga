@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 // Shown on the pages people reach from a shared link (RSVP, thank-you wall, secret-friend draw,
 // homework, quizzes): they came for one thing, so offer three things from the site that fit why
 // they are here, and a way to make their own. Kept short and below the main task.
+// Right after answering an invitation people leave within seconds; a question about themselves
+// ("who was born on my day?") gets a click where a list of site sections does not.
+const HOOKS = {
+  title: 'רגע לפני שהולכים 👀',
+  links: [['/tools/birthday-famous', '🌟', 'מי נולד ביום שלכם?'], ['/tools/hebrew-birthday', '✡️', 'מה התאריך העברי שלכם?'], ['/tools/age-calculator', '⏳', 'בני כמה אתם — בימים?']],
+}
+
 const CONTEXTS = {
   party: {
     title: 'בזמן שאתם כאן 🎈',
@@ -41,8 +48,8 @@ export default function SiteInvite({ context = 'party', className = '', compact 
   // Right under a finished task (e.g. "see you there!" after an RSVP): guests on a phone rarely
   // scroll past the form to the full card, so the same links come as one short row here.
   if (compact) return <nav className={`mt-5 border-t-2 border-dashed border-violet-100 pt-4 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
-    <p className="text-sm font-bold text-slate-600">{c.title}</p>
-    <div className="mt-2 flex flex-wrap justify-center gap-2">{c.links.map(([to, emoji, label]) => <Link key={to} to={to} className="inline-flex min-h-11 items-center gap-1 rounded-full border-2 border-violet-200 bg-violet-50 px-3 text-sm font-bold text-violet-800 transition hover:border-violet-400">
+    <p className="text-sm font-bold text-slate-600">{HOOKS.title}</p>
+    <div className="mt-2 flex flex-wrap justify-center gap-2">{HOOKS.links.map(([to, emoji, label]) => <Link key={to} to={to} className="inline-flex min-h-11 items-center gap-1 rounded-full border-2 border-violet-200 bg-violet-50 px-3 text-sm font-bold text-violet-800 transition hover:border-violet-400">
       <span aria-hidden="true">{emoji}</span>{label}
     </Link>)}</div>
     {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
