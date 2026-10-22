@@ -11,7 +11,7 @@ const client = createClient(URL, KEY, {
 
 const one = ({ data, error }) => {
   if (error) {
-    const code = /item_already_taken|not_your_claim|not_owner|list_not_found|item_not_found|name_required/.exec(error.message || '')?.[0]
+    const code = /item_already_taken|not_your_claim|not_owner|list_not_found|item_not_found|name_required|no_links|inappropriate|no_contact/.exec(error.message || '')?.[0]
     throw Object.assign(new Error(code || error.message || 'error'), { code: code || 'network' })
   }
   const row = Array.isArray(data) ? data[0] : data

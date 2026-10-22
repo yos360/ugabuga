@@ -92,7 +92,7 @@ function ExtrasFields({ value, onChange, open }) {
       <Field label="🅿️ חנייה והגעה" hint="(מופיע לאורחים ליד כפתורי Waze ו-Google Maps)"><input className={input} value={value.parking || ''} maxLength={300} onChange={e => set('parking', e.target.value)} placeholder="למשל: חניה חינם ברחוב הסמוך, כניסה מהשער האחורי" /></Field>
       <div className="grid grid-cols-[8rem_1fr] gap-3">
         <Field label="💳 דמי השתתפות"><input className={input} type="number" inputMode="decimal" min="0" max="10000" value={value.price || ''} onChange={e => set('price', e.target.value)} placeholder="₪" /></Field>
-        <Field label="קישור לתשלום" hint="(ביט, פייבוקס)"><input className={input} dir="ltr" value={value.pay_link || ''} maxLength={300} onChange={e => set('pay_link', e.target.value)} placeholder="https://" /></Field>
+        <Field label="קישור לתשלום" hint="(ביט, פייבוקס או PayPal)"><input className={input} dir="ltr" value={value.pay_link || ''} maxLength={300} onChange={e => set('pay_link', e.target.value)} placeholder="https://" /></Field>
       </div>
       <div className="grid grid-cols-[8rem_1fr] items-end gap-3">
         <Field label="🪑 מספר שולחנות"><input className={input} type="number" inputMode="numeric" min="0" max="200" value={value.tables || ''} onChange={e => set('tables', e.target.value)} placeholder="0" /></Field>

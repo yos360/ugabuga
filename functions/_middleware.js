@@ -177,7 +177,9 @@ async function handle(context) {
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
     if (noindexPath === '/mail-preferences' || noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
         noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/') ||
-        noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/') || noindexPath.startsWith('/t/')) {
+        noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/') || noindexPath.startsWith('/t/') ||
+        // Private game rooms and homework links: content made by visitors, reachable only by link.
+        noindexPath.startsWith('/hw/') || noindexPath.startsWith('/play/') || noindexPath.startsWith('/en/play/') || /^\/(en\/)?live\/[^/]+\/host$/.test(noindexPath)) {
       const h = new Headers(res.headers)
       h.append('X-Robots-Tag', 'noindex')
       return new Response(work.body, { status: res.status, statusText: res.statusText, headers: h })

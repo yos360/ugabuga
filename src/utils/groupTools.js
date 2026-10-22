@@ -14,7 +14,9 @@ export function cleanText(value, max, multiline = false) {
 }
 export const cleanName = (value, max = LIMITS.name) => cleanText(value, max)
 // Same rule as gt_no_links() in the migration: no links on shared pages.
-export const hasLink = s => /(https?:\/\/|www\.|\.(com|co\.il|net|org|ly|me)(\/|\s|$))/i.test(String(s || ''))
+// Same rules as the database triggers (supabase/migrations/202610220001_content_filter.sql).
+import { hasLink, hasPhone, isInappropriate, FILTER_MESSAGES } from './contentFilter.js'
+export { hasLink }
 export const normName = s => cleanName(s).toLowerCase().replace(/["'׳״`]/g, '')
 
 // One name per line (or comma separated) → clean list, duplicates removed (first wins).
@@ -37,6 +39,7 @@ export function validateDrawNames(names) {
   for (const n of names) {
     if (!n) return { ok: false, error: 'יש שם ריק ברשימה.' }
     if (hasLink(n)) return { ok: false, error: 'שם לא יכול להכיל קישור.' }
+    if (isInappropriate(n)) return { ok: false, error: FILTER_MESSAGES.inappropriate }
     if (seen.has(normName(n))) return { ok: false, error: `השם "${n}" מופיע פעמיים. הוסיפו אות משם המשפחה (למשל: נועה כ.).` }
     seen.add(normName(n))
   }
@@ -53,6 +56,7 @@ export function validateRsvpAnswer(a) {
   }
   if (a.status !== 'no' && Number(a.kids || 0) + Number(a.adults || 0) === 0) return { ok: false, error: 'כמה מגיעים? סמנו לפחות משתתף אחד.' }
   if ([a.name, a.allergies, a.pickup, a.note].some(hasLink)) return { ok: false, error: 'אי אפשר לכתוב קישורים בתשובה.' }
+  if ([a.name, a.allergies, a.pickup, a.note].some(isInappropriate)) return { ok: false, error: FILTER_MESSAGES.inappropriate }
   return { ok: true, error: '' }
 }
 
@@ -60,7 +64,9 @@ export function validateWallNote({ child, message }) {
   if (!cleanName(child)) return { ok: false, error: 'כתבו את שם הילד/ה.' }
   const m = cleanText(message, LIMITS.message, true)
   if (m.length < 2) return { ok: false, error: 'כתבו ברכה קצרה.' }
-  if (hasLink(child) || hasLink(message)) return { ok: false, error: 'אי אפשר להוסיף קישורים לברכה.' }
+  if (hasLink(child) || hasLink(message)) return { ok: false, error: FILTER_MESSAGES.no_links }
+  if (isInappropriate(child) || isInappropriate(message)) return { ok: false, error: FILTER_MESSAGES.inappropriate }
+  if (hasPhone(child) || hasPhone(message)) return { ok: false, error: FILTER_MESSAGES.no_contact }
   return { ok: true, error: '' }
 }
 

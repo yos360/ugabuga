@@ -8,7 +8,7 @@ const URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.s
 const KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 const client = createClient(URL, KEY, { auth: { storageKey: 'ugabuga-group-tools', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
-const CODES = /not_found|not_owner|not_yours|rate_limited|event_full|name_required|bad_status|bad_number|bad_token|too_few|too_many|duplicate_names|bad_names|draw_impossible|message_required|no_links|wall_full|too_many_notes|no_pin|pin_locked|bad_pin/
+const CODES = /not_found|not_owner|not_yours|rate_limited|event_full|name_required|bad_status|bad_number|bad_token|too_few|too_many|duplicate_names|bad_names|draw_impossible|message_required|no_links|inappropriate|no_contact|bad_pay_link|wall_full|too_many_notes|no_pin|pin_locked|bad_pin/
 const call = (fn, args) => client.rpc(fn, args).then(({ data, error }) => {
   if (error) {
     const text = `${error.code || ''} ${error.message || ''}`
@@ -82,7 +82,10 @@ export const groupErrorText = code => ({
   bad_names: 'יש שם לא תקין ברשימה.',
   draw_impossible: 'עם ההחרגות שבחרתם אי אפשר להגריל לכולם. הורידו החרגה אחת או שתיים.',
   message_required: 'כתבו ברכה קצרה.',
-  no_links: 'אי אפשר להוסיף קישורים. כתבו טקסט בלבד.',
+  no_links: 'אי אפשר להוסיף קישורים, כתובות או שמות משתמש ברשתות חברתיות. כתבו טקסט בלבד.',
+  inappropriate: 'הטקסט כולל מילים שלא מתאימות לאתר לילדים. נסחו אחרת, בבקשה.',
+  no_contact: 'אי אפשר לכתוב מספר טלפון. כתבו טקסט בלבד.',
+  bad_pay_link: 'קישור התשלום צריך להיות של ביט, פייבוקס או PayPal.',
   wall_full: 'הקיר מלא — אפשר עד 150 ברכות.',
   too_many_notes: 'מהמכשיר הזה כבר נכתבו 6 ברכות לקיר.',
 }[code] || 'משהו השתבש בחיבור. נסו שוב בעוד רגע.')

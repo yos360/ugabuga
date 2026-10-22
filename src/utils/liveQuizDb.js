@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 const URL = import.meta.env?.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co'
 const KEY = import.meta.env?.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 const client = createClient(URL, KEY, { auth: { storageKey: 'ugabuga-live', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
-const KNOWN = 'game_not_found|game_finished|game_started|game_full|name_required|name_taken|player_not_found|question_closed|question_open|already_answered|bad_option|bad_phase|bad_action|not_owner|bad_questions|empty_question|bad_options|empty_option|bad_correct|rate_limited|no_links'
+const KNOWN = 'game_not_found|game_finished|game_started|game_full|name_required|name_taken|player_not_found|question_closed|question_open|already_answered|bad_option|bad_phase|bad_action|not_owner|bad_questions|empty_question|bad_options|empty_option|bad_correct|rate_limited|no_links|inappropriate|no_contact'
 const call = (fn, args) => client.rpc(fn, args).then(({ data, error }) => {
   if (error) {
     // A missing RPC (migration not run yet) is checked first, so its message can never be mistaken for a game error.
@@ -65,7 +65,7 @@ export const liveErrorText = code => code === 'bad_phase' ? '' : ({
   not_owner: 'קישור הניהול אינו תקין במכשיר הזה.', bad_questions: 'צריך בין שאלה אחת ל־50 שאלות.',
   empty_question: 'יש שאלה ריקה.', empty_option: 'יש תשובה ריקה.', bad_options: 'לכל שאלה צריך 2–4 תשובות.',
   bad_correct: 'צריך לסמן תשובה נכונה בכל שאלה.', not_installed: 'בוגה לייב עדיין לא הופעל במסד הנתונים.',
-  rate_limited: 'יותר מדי ניסיונות בזמן קצר. חכו כמה דקות ונסו שוב.', no_links: 'אי אפשר לכתוב קישור בכינוי.',
+  rate_limited: 'יותר מדי ניסיונות בזמן קצר. חכו כמה דקות ונסו שוב.', no_links: 'אי אפשר לכתוב קישורים או שמות משתמש ברשתות חברתיות.', inappropriate: 'יש כאן מילים שלא מתאימות לאתר לילדים. נסחו אחרת, בבקשה.', no_contact: 'אי אפשר לכתוב מספר טלפון.',
 }[code] || 'החיבור נקטע. בדקו את האינטרנט ונסו שוב.')
 
 export const liveQuestionProblem = questions => {

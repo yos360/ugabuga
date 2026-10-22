@@ -2,7 +2,7 @@
 // short, accurate Hebrew answer from them. Answers are stored in public.bugapedia_answers, so a repeated
 // question costs nothing. Needs the GEMINI_API_KEY secret on the Supabase project (aistudio.google.com).
 import { createClient } from 'npm:@supabase/supabase-js@2.116.0'
-import { checkBugaPediaQuery } from '../../../src/utils/bugapediaSafety.js'
+import { checkBugaPediaQuery, redactBugaPediaQuery } from '../../../src/utils/bugapediaSafety.js'
 import { searchBugaPedia as searchJs } from '../../../src/utils/bugapediaSearch.js'
 
 const URL = Deno.env.get('SUPABASE_URL')!
@@ -109,7 +109,8 @@ Deno.serve(async req => {
   try {
     if (Number(req.headers.get('content-length')) > 4000) return json({ error: 'bad_input' }, 400)
     const body = await req.json()
-    const question = tidy(body?.question).slice(0, 180)
+    // Phone numbers and e-mails a child may have typed never reach the model or the shared cache.
+    const question = tidy(redactBugaPediaQuery(tidy(body?.question))).slice(0, 180)
     const subject = tidy(body?.subject).slice(0, 40) || null
     const young = body?.level === 'young'
     if (question.length < 2) return json({ error: 'bad_input' }, 400)

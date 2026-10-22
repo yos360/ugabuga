@@ -17,6 +17,9 @@ const errorText = code => ({
   list_not_found: 'לא מצאנו את הרשימה. אולי הקישור נחתך?',
   not_owner: 'רק מי שיצר/ה את הרשימה יכול/ה לשנות אותה.',
   not_your_claim: 'אפשר לבטל רק פריט שתפסתם מהמכשיר הזה.',
+  no_links: 'אי אפשר להוסיף קישורים, כתובות או שמות משתמש ברשתות חברתיות. כתבו טקסט בלבד.',
+  inappropriate: 'הטקסט כולל מילים שלא מתאימות לאתר לילדים. נסחו אחרת, בבקשה.',
+  no_contact: 'אי אפשר לכתוב מספר טלפון. כתבו טקסט בלבד.',
 }[code] || 'משהו השתבש בחיבור. נסו שוב בעוד רגע.')
 // Starting title for a new list: from ?for=birthday|end-of-year|class, or from a birthday page that linked here;
 // otherwise a neutral one (it used to say "מסיבת סוף שנה" even when coming from a birthday page).

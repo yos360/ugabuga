@@ -6,7 +6,7 @@ const URL = import.meta.env.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.s
 const KEY = import.meta.env.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 const client = createClient(URL, KEY, { auth: { storageKey: 'ugabuga-quizzes', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
 
-const CODES = 'quiz_not_found|quiz_closed|name_required|name_taken|already_submitted|quiz_full|not_owner|has_submissions|bad_questions|empty_question|bad_options|empty_option|bad_correct'
+const CODES = 'quiz_not_found|quiz_closed|name_required|name_taken|already_submitted|quiz_full|not_owner|has_submissions|bad_questions|empty_question|bad_options|empty_option|bad_correct|no_links|inappropriate|no_contact'
 const call = (fn, args) => client.rpc(fn, args).then(({ data, error }) => {
   if (error) {
     const code = new RegExp(CODES).exec(error.message || '')?.[0] || (/PGRST202|Could not find the function/i.test(`${error.code} ${error.message}`) ? 'not_installed' : 'network')
@@ -44,6 +44,9 @@ export const quizErrorText = code => ({
   bad_correct: 'צריך לסמן תשובה נכונה לכל שאלה.',
   bad_questions: 'צריך בין שאלה אחת ל-50 שאלות.',
   not_installed: 'המבחנים עוד לא הופעלו במסד הנתונים.',
+  no_links: 'אי אפשר להוסיף קישורים, כתובות או שמות משתמש ברשתות חברתיות. כתבו טקסט בלבד.',
+  inappropriate: 'הטקסט כולל מילים שלא מתאימות לאתר לילדים. נסחו אחרת, בבקשה.',
+  no_contact: 'אי אפשר לכתוב מספר טלפון. כתבו טקסט בלבד.',
 }[code] || 'משהו השתבש בחיבור. נסו שוב בעוד רגע.')
 
 const read = (k, f) => { try { return JSON.parse(localStorage.getItem(k)) ?? f } catch { return f } }
