@@ -35,6 +35,7 @@ export default function BlogPost() {
               <h2 className="text-2xl md:text-3xl font-hand font-bold mb-3">{section.title}</h2>
               {section.body?.map(t => <p key={t} className="mb-3">{t}</p>)}
               {section.list && <ul className="space-y-2 list-none pr-0">{section.list.map(i => <li key={i} className="flex gap-3"><span className="mt-1">⭐</span><span>{i}</span></li>)}</ul>}
+              {section.cta && <Link to={section.cta.href} className="mt-1 inline-flex min-h-[44px] items-center gap-2 rounded-2xl bg-violet-600 px-5 py-2 font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-violet-700">{section.cta.label} ←</Link>}
             </section>
           ))}
         </div>
