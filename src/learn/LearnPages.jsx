@@ -51,7 +51,7 @@ const LEARN_DESC = {
   '/learn/gifted-test': 'אנלוגיות, סדרות, מטריצות וחשיבה',
   '/learn/psychometric-kids': 'חשיבה מילולית, כמותית וצורנית לפי גיל',
   '/learn/dictation': 'הורה מקריא או הקראה קולית — עם בדיקה',
-  '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות ב׳–ו׳`,
+  '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות א׳–ו׳`,
   '/learn/flashcards': 'אנגלית, הפכים, לוח הכפל — או משלכם',
   '/typing': 'שיעורים, מבחן מהירות ומשחק הקלדה',
 }
@@ -198,10 +198,11 @@ export function Dictation({ lang = 'he' }) {
 // ── /learn/reading ───────────────────────────────
 // Short passages (learnData READING) + graded passages for grades 2–6 (readingGrades.js).
 const ALL_READING = [...READING, ...GRADED_READING]
-const GRADE_LEVELS = [2, 3, 4, 5, 6]
-const GRADE_LETTER = { 2: 'ב׳', 3: 'ג׳', 4: 'ד׳', 5: 'ה׳', 6: 'ו׳' }
+const GRADE_LEVELS = Object.keys(READING_GRADE_PAGES).map(Number).sort((a, b) => a - b)
+const GRADE_LETTER = { 1: 'א׳', 2: 'ב׳', 3: 'ג׳', 4: 'ד׳', 5: 'ה׳', 6: 'ו׳', 7: 'ז׳', 8: 'ח׳' }
+const GRADE_SPAN = `${GRADE_LETTER[GRADE_LEVELS[0]]}–${GRADE_LETTER[GRADE_LEVELS[GRADE_LEVELS.length - 1]]}`
 // Older short passages that fit a grade page as extra practice (by their grade label).
-const SHORT_FOR = { 2: ['א׳–ב׳', 'ב׳–ג׳'], 3: ['ב׳–ג׳', 'ג׳–ד׳'], 4: ['ג׳–ד׳'] }
+const SHORT_FOR = { 1: ['א׳–ב׳'], 2: ['א׳–ב׳', 'ב׳–ג׳'], 3: ['ב׳–ג׳', 'ג׳–ד׳'], 4: ['ג׳–ד׳'] }
 const opensOf = r => Array.isArray(r.open) ? r.open : [[r.open, null]]
 // Every string of a passage (text, questions, options, model answers) — what the nikud toggle vocalizes.
 const readingStrings = r => [r.title, ...r.text, ...r.q.flatMap(([q, o]) => [q, ...o]), ...opensOf(r).flatMap(([q, a]) => (a ? [q, a] : [q]))]
@@ -293,10 +294,10 @@ const READING_FAQ = [
 ]
 export function ReadingIndex() {
   return <Page>
-    <SEO title="הבנת הנקרא — קטעים עם שאלות לכיתות ב׳–ו׳, אונליין ולהדפסה" description={`הבנת הנקרא לילדים: ${ALL_READING.length} קטעים מקוריים — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. מחולק לפי כיתות ב׳ עד ו׳, אונליין ולהדפסה.`} path="/learn/reading" structuredData={faqSchema(READING_FAQ)} />
+    <SEO title={`הבנת הנקרא — קטעים עם שאלות לכיתות ${GRADE_SPAN}, אונליין ולהדפסה`} description={`הבנת הנקרא לילדים: ${ALL_READING.length} קטעים מקוריים — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. מחולק לפי כיתות ${GRADE_SPAN}, אונליין ולהדפסה.`} path="/learn/reading" structuredData={faqSchema(READING_FAQ)} />
     <Head emoji="📖" h1="הבנת הנקרא" sub="קוראים קטע ועונים על שאלות — על המסך או על הדף" crumb="הבנת הנקרא" />
-    <QuickAnswer q="איפה מוצאים קטעי הבנת הנקרא עם שאלות בחינם?" a={<>כאן: {ALL_READING.length} קטעים מקוריים לכיתות ב׳–ו׳ — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. פותרים על המסך עם בדיקה מיידית, או מדפיסים חוברת לכל כיתה. בלי הרשמה ובלי תשלום.</>} rows={[['כיתות', 'ב׳ עד ו׳ (8 קטעים לכל כיתה) + קטעים קצרים לכיתות א׳–ד׳'], ['סוגי שאלות', 'איתור מידע, פירוש מילים, הסקת מסקנות, נימוק ודעה'], ['איך עובדים', 'אונליין עם בדיקה, או הדפסה כחוברת עם דף תשובות'], ['מחיר', 'חינם, בלי הרשמה']]} updated="2026-10-21" />
-    <p className="text-lg leading-relaxed mb-6">תרגול הבנת הנקרא לפי כיתה: בכל עמוד שמונה קטעים חדשים באורך ובאוצר המילים שמתאימים לשכבה, עם שאלות סגורות, שאלות פתוחות ושאלות הסקה — ודף תשובות להדפסה.</p>
+    <QuickAnswer q="איפה מוצאים קטעי הבנת הנקרא עם שאלות בחינם?" a={<>כאן: {ALL_READING.length} קטעים מקוריים לכיתות {GRADE_SPAN} — סיפורים, משלים, קטעי מידע וטקסט טיעון — עם שאלות סגורות ופתוחות ודף תשובות. פותרים על המסך עם בדיקה מיידית, או מדפיסים חוברת לכל כיתה. בלי הרשמה ובלי תשלום.</>} rows={[['כיתות', `${GRADE_SPAN} (עד 12 קטעים לכל כיתה) + קטעים קצרים לכיתות א׳–ד׳`], ['סוגי שאלות', 'איתור מידע, פירוש מילים, הסקת מסקנות, נימוק ודעה'], ['איך עובדים', 'אונליין עם בדיקה, או הדפסה כחוברת עם דף תשובות'], ['מחיר', 'חינם, בלי הרשמה']]} updated="2026-10-21" />
+    <p className="text-lg leading-relaxed mb-6">תרגול הבנת הנקרא לפי כיתה: בכל עמוד עד 12 קטעים באורך ובאוצר המילים שמתאימים לשכבה, עם שאלות סגורות, שאלות פתוחות ושאלות הסקה — ודף תשובות להדפסה.</p>
     <h2 className="mb-3 text-3xl font-black">בוחרים כיתה</h2>
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">{GRADE_LEVELS.map(g => <Link key={g} to={gradeHref(g)} className="ln-box card-lift text-center"><div className="text-3xl font-black">כיתה {GRADE_LETTER[g]}</div><small>{GRADED_READING.filter(r => r.level === g).length} קטעים עם שאלות</small></Link>)}</div>
     <h2 className="mt-10 mb-3 text-3xl font-black">כל הקטעים לפי כיתה</h2>

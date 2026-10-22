@@ -61,9 +61,10 @@ test('advanced (grade 6) questions: series answers follow the rule; written ques
 
 // ── reading comprehension by grade ──
 const words = r => r.text.join(' ').split(/\s+/).filter(Boolean).length
-test('reading: at least 4 original passages per grade 2–6, in the grade word range, with 5–7 questions', () => {
+test('reading: at least 4 original passages per grade, in the grade word range, with 5–7 questions', () => {
   const slugs = new Set(READING.map(r => r.slug))
-  for (const g of [2, 3, 4, 5, 6]) {
+  // Grades 2–6 always; first grade and middle school once their passages are in.
+  for (const g of [...new Set([2, 3, 4, 5, 6, ...GRADED_READING.map(r => r.level)])].sort((a, b) => a - b)) {
     const list = GRADED_READING.filter(r => r.level === g)
     assert.ok(list.length >= 4, `grade ${g}: ${list.length} passages`)
     const [lo, hi] = GRADE_WORDS[g]
@@ -84,7 +85,7 @@ test('reading: at least 4 original passages per grade 2–6, in the grade word r
       assert.ok(!/[a-zA-Z]/.test(r.text.join(' ')), `${r.slug}: Hebrew only`)
     }
     // lengths grow with the grade
-    if (g > 2) assert.ok(Math.min(...list.map(words)) > Math.max(...GRADED_READING.filter(r => r.level === g - 1).map(words)) * 0.9, `grade ${g} is longer than grade ${g - 1}`)
+    if (g > 1 && GRADE_WORDS[g - 1]) assert.ok(Math.min(...list.map(words)) > Math.max(...GRADED_READING.filter(r => r.level === g - 1).map(words)) * 0.9, `grade ${g} is longer than grade ${g - 1}`)
     const page = READING_GRADE_PAGES[g]
     assert.ok(page && page.faq.length >= 3 && page.faq.length <= 5 && page.intro.startsWith('הבנת הנקרא כיתה'), `grade ${g} page copy`)
   }

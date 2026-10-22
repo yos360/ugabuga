@@ -652,7 +652,10 @@ export default function App() {
               <Route path="/learn/reading/grade-3" element={<ReadingGrade key="g3" grade={3} />} />
               <Route path="/learn/reading/grade-4" element={<ReadingGrade key="g4" grade={4} />} />
               <Route path="/learn/reading/grade-5" element={<ReadingGrade key="g5" grade={5} />} />
+              <Route path="/learn/reading/grade-1" element={<ReadingGrade key="g1" grade={1} />} />
               <Route path="/learn/reading/grade-6" element={<ReadingGrade key="g6" grade={6} />} />
+              <Route path="/learn/reading/grade-7" element={<ReadingGrade key="g7" grade={7} />} />
+              <Route path="/learn/reading/grade-8" element={<ReadingGrade key="g8" grade={8} />} />
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
               <Route path="/learn/multiplication-table" element={<MultiplicationTable />} />
