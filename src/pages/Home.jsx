@@ -1,57 +1,19 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Share2 } from 'lucide-react'
+import { Search, Sparkles, ChevronLeft } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
-import './Home.css'
-import './home-responsive.css'
-import './home-intents.css'
 import { HOME_INTENTS } from '../data/kidsZone'
 import { SITE_SLOGAN } from '../data/brand'
-// The daily quiz/game widgets sit below the fold — keep their code (and the
-// month's quiz-data chunk) out of the home page's critical path.
-const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
-const TodayGame = lazy(() => import('../components/home/TodayGame'))
+import { ElectionChip } from '../components/home/HomeTopExtras'
+import './Home.css'
+import './home-v3.css'
 
-// Mounts children once the section scrolls near the viewport (immediately
-// during prerender, so the static snapshots still contain the content).
-function NearViewport({ children, minHeight = 320 }) {
-  const ref = useRef(null)
-  const [show, setShow] = useState(() => typeof window !== 'undefined' && !!window.__PRERENDER__)
-  useEffect(() => {
-    if (show || !ref.current) return
-    if (!('IntersectionObserver' in window)) { setShow(true); return }
-    const io = new IntersectionObserver(entries => {
-      if (entries.some(e => e.isIntersecting)) { setShow(true); io.disconnect() }
-    }, { rootMargin: '600px 0px' })
-    io.observe(ref.current)
-    return () => io.disconnect()
-  }, [show])
-  return <div ref={ref} style={show ? undefined : { minHeight }}>{show && <Suspense fallback={null}>{children}</Suspense>}</div>
-}
-// The banner pulls in every holiday's config (print sheets, quizzes); loading it lazily keeps all of
-// that out of the main bundle. The slot below reserves its height so nothing jumps when it appears.
-const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
-import SiteSearchBox from '../components/ui/SiteSearchBox'
-import PlayNow from '../components/home/PlayNow'
-import HomeBlog from '../components/home/HomeBlog'
-import { BugaPediaBox, ElectionChip } from '../components/home/HomeTopExtras'
+// Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
+// Each destination appears once. The holiday card and the blog list load after the first paint.
+const HolidayToday = lazy(() => import('../components/home/HolidayToday'))
 
-function Art({ crop, src, className = '' }) {
-  const [x,y,w,h] = crop
-  return <span aria-hidden="true" className={`home-art ${className}`} style={src ? {backgroundImage:`url(${src})`, backgroundSize:'contain', backgroundPosition:'center bottom', aspectRatio:'1 / 1'} : {aspectRatio:`${w}/${h}`,backgroundSize:`${1536/w*100}% ${1024/h*100}%`,backgroundPosition:`${x/(1536-w)*100}% ${y/(1024-h)*100}%`}} />
-}
-// "Why are you here today?" — the four entry doors right under the hero (data in src/data/kidsZone.js).
-// They replace the old category doors (birthday / games / create / classroom), which pointed to
-// mostly the same places; games and create stay one tap away in the hero buttons, PlayNow and the menu.
-const games = [
-  ['תחנת החלל התקועה','חדר בריחה לילדים ולנוער','/tools/escape-rooms?room=space-station',[116,826,232,93]],
-  ['יוצרים ציד אוצרות','מסלול רמזים משלכם','/tools/scavenger-hunt-maker',[387,826,228,93]],
-  ['תיק הבלש הסודי','חדר בריחה למבוגרים','/tools/escape-rooms?room=detective-case',[654,826,230,93]],
-  ['טריוויה לכל המשפחה','בוחרים נושא, גיל וקושי','/tools/trivia-quiz',[923,826,230,93]],
-  ['תעלומת העוגה הנעלמת','חדר בריחה לילדים','/tools/escape-rooms?room=lost-cake',[1190,826,231,93]],
-]
 const homeFaq = [
   { q: 'האתר באמת חינמי לגמרי, בלי תשלום נסתר?', a: 'כן, כל המשחקים, הכלים וההדפסות באתר זמינים לשימוש חינמי ללא הרשמה.' },
   { q: 'מתאים גם למורות ולא רק להורים?', a: 'בהחלט — יש מתחם ייעודי לכיתה עם כלים, משחקים ותכנים שנבנו במיוחד לשימוש בבית ספר.' },
@@ -63,192 +25,112 @@ const homeBody = [
 ]
 const homeRelated = [ { label: 'כל המשחקים', href: '/games' }, { label: 'רעיונות ליום הולדת', href: '/ideas' }, { label: 'מתחם יוצרים', href: '/create' }, { label: 'הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפים להדפסה', href: '/printables' } ]
 
-// A deliberately small "help me choose" layer: three choices, then three useful links.
-// It keeps a visitor from having to understand the whole site before they can start.
-const QUICK_ACTIVITIES = [
-  { to: '/games/5-minutes', emoji: '⚡', title: 'משחק ל־5 דקות', text: 'פתרון מהיר למעבר, המתנה או הפסקה.', places: ['home', 'class', 'party'], ages: ['3-5', '6-8', '9-12'], times: ['5'] },
-  { to: '/letters/game', emoji: '🔤', title: 'משחק אותיות', text: 'מזהים אות, צליל ומילה במשחק קצר.', places: ['home', 'class'], ages: ['3-5', '6-8'], times: ['5', '15'] },
-  { to: '/printables/kindergarten-worksheets', emoji: '🧸', title: 'דפי עבודה לגן חובה', text: 'אותיות, צלילים וחרוזים עם פתרונות.', places: ['home', 'class'], ages: ['3-5'], times: ['15', '30'] },
-  { to: '/printables/hebrew-worksheets-grade-1', emoji: '✏️', title: 'דפי עברית לכיתה א׳', text: 'קריאה, כתיבה וצלילים לפי רמה.', places: ['home', 'class'], ages: ['6-8'], times: ['15', '30'] },
-  { to: '/printables/hebrew-worksheets-grades-2-3', emoji: '📚', title: 'דפי עברית לכיתות ב׳–ג׳', text: 'מילים, משפטים וכתיבה עם פתרונות.', places: ['home', 'class'], ages: ['9-12'], times: ['15', '30'] },
-  { to: '/tools/trivia-quiz', emoji: '🎯', title: 'טריוויה לפי נושא', text: 'בוחרים נושא, גיל וקושי — ומתחילים.', places: ['home', 'class', 'party'], ages: ['6-8', '9-12'], times: ['5', '15'] },
-  { to: '/live', emoji: '🎮', title: 'בוגה לייב', text: 'חידון חי עם QR לכל הקבוצה.', places: ['class', 'party'], ages: ['6-8', '9-12'], times: ['15', '30'] },
-  { to: '/tools/bingo-maker', emoji: '🎟️', title: 'בינגו מוכן', text: 'כרטיסיות ופעילות משותפת להדפסה.', places: ['class', 'party', 'home'], ages: ['3-5', '6-8', '9-12'], times: ['15', '30'] },
-  { to: '/treasure-hunt/ready', emoji: '🗺️', title: 'ציד אוצרות מוכן', text: 'רמזים, משימות והדפסה — בלי להכין מאפס.', places: ['home', 'class', 'party'], ages: ['6-8', '9-12'], times: ['30'] },
-  { to: '/tools/escape-rooms', emoji: '🧩', title: 'חדר בריחה', text: 'משימה גדולה יותר למשפחה או לחברים.', places: ['home', 'party'], ages: ['6-8', '9-12'], times: ['30'] },
+const WORLDS = [
+  ['🕹️', 'משחקים אונליין', '/online-games', 'חשיבה, זיכרון ותגובה', '#fff3cf'],
+  ['📚', 'לומדים', '/learn', 'חשבון, קריאה, אנגלית, AI', '#e3f1ff'],
+  ['🖨️', 'דפים להדפסה', '/printables', 'צביעה, דפי עבודה, לוחות', '#ffe6ee'],
+  ['🕯️', 'שבתות וחגים', '/holidays', 'לוח עברי, פעילויות, ברכות', '#efe9ff'],
+  ['✂️', 'יצירה', '/crafts', 'רעיונות מחומרים שיש בבית', '#fff0e3'],
+  ['🦁', 'עולם החיות', '/animals', 'עובדות, תמונות וחידון', '#e6f7ec'],
+  ['🧰', 'כלים שימושיים', '/tools', 'גלגל מזל, טיימר, נקדן', '#e2f4f7'],
+  ['☕', 'פנאי למבוגרים', '/adults', 'תשבצים, מנדלות, זיכרון', '#f4efe6'],
 ]
-const QUICK_OPTIONS = {
-  place: [['home', '🏠 בבית'], ['class', '🏫 בכיתה או בגן'], ['party', '🎂 במסיבה']],
-  age: [['3-5', 'גיל 3–5'], ['6-8', 'גיל 6–8'], ['9-12', 'גיל 9–12']],
-  time: [['5', '5 דקות'], ['15', 'רבע שעה'], ['30', 'חצי שעה+']],
+const LOVED = [
+  ['🧩', 'חדר בריחה לילדים', '/tools/escape-rooms', 'תעלומה לכל המשפחה'],
+  ['🎯', 'טריוויה לפי נושא', '/tools/trivia-quiz', 'בוחרים גיל וקושי'],
+  ['🎨', 'צביעה לפי מספרים', '/printables/color-by-number', 'להדפסה ולמסך'],
+  ['🔤', 'משחק אותיות', '/letters/game', 'מזהים צליל ומילה'],
+  ['🗺️', 'ציד אוצרות מוכן', '/treasure-hunt/ready', 'רמזים מחורזים'],
+  ['🪄', 'נקדן אוטומטי', '/tools/nakdan', 'מדביקים ומקבלים ניקוד'],
+]
+const NEW = [['📅', 'לוח שנה עברי לועזי', '/hebrew-calendar'], ['⭐', 'כוכב/ת השבוע להדפסה', '/printables/star-of-the-week'], ['📖', 'הבנת הנקרא א׳–ח׳', '/learn/reading'], ['🤖', 'אקדמיית ה־AI של בוגה', '/learn/ai']]
+
+// The site's social accounts — an entry shows up only once its address is filled in.
+const SOCIAL = [
+  ['tiktok', 'טיקטוק', '', 'M12.53.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z'],
+  ['instagram', 'אינסטגרם', '', 'M12 2.2c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z'],
+  ['facebook', 'פייסבוק', '', 'M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07z'],
+  ['youtube', 'יוטיוב', '', 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z'],
+]
+const SOCIAL_LIVE = SOCIAL.filter(([, , href]) => href)
+const SocialIcons = () => SOCIAL_LIVE.length > 0 && <div className="hp-social">{SOCIAL_LIVE.map(([id, name, href, d]) =>
+  <a key={id} href={href} className={`hp-soc hp-soc-${id}`} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} fill="currentColor" /></svg>
+  </a>)}</div>
+
+function TodayCard() {
+  const [h, setH] = useState(12)
+  useEffect(() => { setH(new Date().getHours()) }, [])
+  if (h >= 5 && h < 10) return <Link to="/family/morning-routine" className="hp-today hp-today-morning"><span className="hp-today-ic">☀️</span><b>שגרת בוקר</b><small>משימה אחרי משימה, ויוצאים בזמן</small><i>מתחילים ←</i></Link>
+  if (h >= 18 || h < 5) return <Link to="/stories" className="hp-today hp-today-night"><span className="hp-today-ic">🌙</span><b>סיפור לפני השינה</b><small>קצר, רגוע ונעים</small><i>לבחירת סיפור ←</i></Link>
+  return <Link to="/game-of-the-day" className="hp-today hp-today-day"><span className="hp-today-ic">🎲</span><b>משחק היום</b><small>משחק חדש בכל יום</small><i>משחקים ←</i></Link>
 }
-// A small evening-only invitation: shown only from 18:00 to midnight in Israel.
-// The initial false avoids freezing the banner into the prerendered HTML; it is decided in each visitor's browser.
-function israelHour() {
-  return Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', hourCycle: 'h23' }).format(new Date()))
-}
-function isBedtimeInIsrael() { const hour = israelHour(); return hour >= 18 && hour < 24 }
-function isMorningInIsrael() { const hour = israelHour(); return hour >= 6 && hour < 9 }
-function MorningRoutineSpotlight() {
-  const [show, setShow] = useState(false)
+
+// The three newest posts, loaded after the first paint so the post data stays out of the home bundle.
+function useLatestPosts() {
+  const [posts, setPosts] = useState([])
   useEffect(() => {
-    const update = () => setShow(isMorningInIsrael())
-    update()
-    const timer = window.setInterval(update, 60_000)
-    return () => window.clearInterval(timer)
+    let alive = true
+    import('../data/blogPosts').then(m => { if (alive) setPosts([...m.BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)) }).catch(() => {})
+    return () => { alive = false }
   }, [])
-  if (!show) return null
-  return <Link to="/family/morning-routine" className="morning-routine-spotlight" aria-label="שגרת בוקר בוגה — מתחילים עכשיו">
-    <span className="morning-sun" aria-hidden="true">☀️</span>
-    <span className="morning-copy"><b>שגרת בוקר בוגה</b><small>משימה אחרי משימה — ויוצאים מהבית בזמן</small></span>
-    <span className="morning-cta">מתחילים עכשיו ←</span>
-  </Link>
-}
-
-function BedtimeStorySpotlight() {
-  const [show, setShow] = useState(false)
-  useEffect(() => {
-    const update = () => setShow(isBedtimeInIsrael())
-    update()
-    const timer = window.setInterval(update, 60_000)
-    return () => window.clearInterval(timer)
-  }, [])
-  if (!show) return null
-  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפורי בוגה לפני השינה — מתחילים עכשיו">
-    <span className="bedtime-moon" aria-hidden="true">🌙</span>
-    <span className="bedtime-copy"><b>סיפורי בוגה לפני השינה</b><small>סיפור קצר, רגוע ונעים לסיום היום</small></span>
-    <span className="bedtime-cta">לבחירת סיפור ←</span>
-  </Link>
-}
-
-function QuickMatch() {
-  const [choice, setChoice] = useState({ place: 'home', age: '6-8', time: '15' })
-  const pick = (key, value) => setChoice(current => ({ ...current, [key]: value }))
-  const suggestions = QUICK_ACTIVITIES.map(item => ({ ...item,
-    score: (item.places.includes(choice.place) ? 5 : 0) + (item.ages.includes(choice.age) ? 4 : 0) + (item.times.includes(choice.time) ? 3 : 0),
-  })).sort((a, b) => b.score - a.score).slice(0, 3)
-  return <section className="home-quick-match" aria-labelledby="quick-match-title">
-    <div className="home-quick-heading"><span aria-hidden="true">✨</span><div><h2 id="quick-match-title">לא בטוחים במה לבחור?</h2><p>3 לחיצות — ונמצא פעילות שמתאימה לכם עכשיו.</p></div></div>
-    <div className="quick-choices">
-      {[['place', 'איפה אתם?'], ['age', 'בן/בת כמה?'], ['time', 'כמה זמן יש?']].map(([key, label]) => <div className="quick-choice" key={key} role="group" aria-label={label}>
-        <b>{label}</b><div>{QUICK_OPTIONS[key].map(([value, text]) => <button key={value} type="button" aria-pressed={choice[key] === value} onClick={() => pick(key, value)} className={choice[key] === value ? 'is-active' : ''}>{text}</button>)}</div>
-      </div>)}
-    </div>
-    <div className="quick-results" aria-live="polite">{suggestions.map(item => <Link key={item.to} to={item.to}>
-      <span aria-hidden="true">{item.emoji}</span><div><h3>{item.title}</h3><p>{item.text}</p></div><strong aria-hidden="true">←</strong>
-    </Link>)}</div>
-  </section>
-}
-
-// Home charts strip: after the featured games on desktop, further down on phones.
-function HomeCharts({ className }) {
-  return <section className={`home-charts ${className}`} aria-label="לוחות לבית">
-      <div className="home-charts-copy">
-        <span className="home-charts-tag">חדש · להדפסה בחינם</span>
-        <h2>🏠 לוחות לבית — סדר בלי ויכוחים</h2>
-        <p>כותבים את השם של הילד — ומדפיסים.</p>
-        <Link to="/printables/home-charts" className="home-charts-cta">לכל הלוחות ←</Link>
-      </div>
-      <nav className="home-charts-grid" aria-label="לוחות לבית">
-        {[['📋', 'טבלת מטלות', '/printables/chore-chart'], ['⭐', 'לוח מדבקות', '/printables/reward-chart'], ['🦷', 'צחצוח שיניים', '/printables/toothbrushing-chart'], ['🚽', 'לוח גמילה', '/printables/potty-chart'], ['🗓️', 'מערכת שעות', '/printables/class-schedule'], ['📅', 'לוח שנה 2027', '/printables/calendar-2027']].map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span>{t}</Link>)}
-      </nav>
-    </section>
+  return posts
 }
 
 export default function Home() {
-  const [query,setQuery] = useState('')
-  const list = useRef(null)
-  const navigate = useNavigate()
-
-  const shareWebsite = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים',
-          text: SITE_SLOGAN,
-          url: window.location.href,
-        })
-      } catch (err) {
-        console.error('Error sharing:', err)
-      }
-    } else {
-      // Fallback: copy to clipboard
-      // writeText rejects when clipboard permission is missing (older Safari, in-app browsers).
-      (navigator.clipboard ? navigator.clipboard.writeText(window.location.href) : Promise.reject(new Error('no clipboard')))
-        .then(() => alert('הקישור הועתק ללוח'))
-        .catch(() => prompt('העתיקו את הקישור:', window.location.href))
-    }
-  }
-
-  return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
-    <section className="home-intro">
+  const [mode, setMode] = useState('site')
+  const [q, setQ] = useState('')
+  const nav = useNavigate()
+  const go = e => { e.preventDefault(); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
+  const posts = useLatestPosts()
+  return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
+    <section className="hp-hero">
+      <div className="hp-chips"><PrintStrip /><ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
-      <div className="home-chips"><PrintStrip /><ElectionChip /></div>
-      <BugaPediaBox />
-      <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
+      <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
+      <form className="hp-search" onSubmit={go} role="search">
+        <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
+          <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>
+          <button type="button" role="tab" aria-selected={mode === 'ask'} onClick={() => setMode('ask')}><Sparkles size={16} /> שאלה לבוגה־פדיה</button>
+        </div>
+        <div className="hp-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></div>
+      </form>
     </section>
-    <MorningRoutineSpotlight />
-    <BedtimeStorySpotlight />
-    <section className="home-intents" aria-labelledby="home-intents-title">
-      <h2 id="home-intents-title">למה נכנסתם היום?</h2>
-      <div className="home-doors">{HOME_INTENTS.map(([emoji,title,description,to,crop,bg,color,src], index)=><Link className={`home-door home-intent${index === 0 ? ' is-kids' : ''}`} to={to} key={to} style={{'--door-bg':bg,'--door-color':color}}>
-        <div className="home-door-copy"><h3><span aria-hidden="true">{emoji} </span>{title}</h3><p>{description}</p></div>
-        {index === 0 && <span className="home-intent-stickers" aria-hidden="true"><span>🎨</span><span>⭐</span><span>🔤</span></span>}
-        <Art crop={crop} src={src} className={`home-door-art door-art-${index}`} /><span className="home-door-arrow"><ChevronLeft aria-hidden="true"/></span>
+    <section className="hp-sec">
+      <h2 className="hp-h2">למה נכנסתם היום?</h2>
+      <div className="hp-doors">{HOME_INTENTS.map(([emoji, title, desc, to, , bg, color, src]) => <Link key={to} to={to} className="hp-door" style={{ '--bg': bg, '--c': color }}>
+        <span className="hp-door-text"><b>{emoji} {title}</b><small>{desc.split(/[.—]/)[0]}</small></span>
+        <img className="hp-door-art" src={src} alt="" width="720" height="720" />
+        <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
-    <Suspense fallback={<div className="holiday-banner-slot mb-5" aria-hidden="true" />}><HolidayBanner className="mb-5" /></Suspense>
-    <PlayNow />
-    <QuickMatch />
-    <SiteSearchBox className="home-search" buttonFirst iconSize={29} value={query} onChange={setQuery} placeholder="חפשו משחק, דף להדפסה או כלי" onSearch={v=>navigate('/search'+(v?'?q='+encodeURIComponent(v):''))}/>
-    <NearViewport><TodayGame fallback={<TodayQuiz />} /></NearViewport>
-    <section className="home-featured">
-      <h2>משחקים מומלצים</h2>
-      <div className="home-carousel-wrap">
-        <button className="home-scroll home-scroll-left" aria-label="גלילה שמאלה" onClick={()=>list.current.scrollBy({left:-270,behavior:'smooth'})}><ChevronLeft/></button>
-        <div ref={list} className="home-games">{games.map(([title,description,to,crop])=><Link to={to} className="home-game" key={to}><Art crop={crop}/><h3>{title}</h3><p>{description}</p></Link>)}</div>
-        <button className="home-scroll home-scroll-right" aria-label="גלילה ימינה" onClick={()=>list.current.scrollBy({left:270,behavior:'smooth'})}><ChevronRight/></button>
+    <section className="hp-sec">
+      <h2 className="hp-h2">היום בבוגה</h2>
+      <div className="hp-today-row">
+        <TodayCard />
+        <Suspense fallback={<span className="hp-today hp-today-holiday" aria-hidden="true" />}><HolidayToday /></Suspense>
+        <Link to="/trivia" className="hp-today hp-today-quiz"><span className="hp-today-ic">❓</span><b>חידון היום</b><small>5 שאלות, דקה אחת</small><i>לחידון ←</i></Link>
       </div>
     </section>
-    <HomeCharts />
-    <section className="home-extra" aria-labelledby="home-new-title">
-      <h2 id="home-new-title">✨ חדש באתר</h2>
-      <div className="home-shortcuts">
-        {[['🪄 נקדן אוטומטי', '/tools/nakdan'], ['📅 לוח שנה עברי לועזי', '/hebrew-calendar'], ['🤖 אקדמיית ה־AI של בוגה', '/learn/ai'], ['☕ פנאי למבוגרים', '/adults'], ['🔤 זיכרון אותיות', '/online-games/memory-letters'], ['🃏 חוקי משחקי קלפים', '/card-games']].map(([t, to]) => <Link key={to} to={to} className="font-bold">{t}</Link>)}
+    <section className="hp-sec">
+      <h2 className="hp-h2">כל העולמות של בוגה</h2>
+      <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
+    </section>
+    <section className="hp-sec">
+      <div className="hp-row-head"><h2 className="hp-h2">הכי אהובים השבוע</h2><Link to="/tools">לכל הכלים ←</Link></div>
+      <div className="hp-loved">{LOVED.map(([e, t, to, d]) => <Link key={to} to={to} className="hp-card"><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
+    </section>
+    <section className="hp-sec hp-news">
+      <div><h2 className="hp-h3">✨ חדש באתר</h2><ul>{NEW.map(([e, t, to]) => <li key={to}><Link to={to}><span aria-hidden="true">{e}</span> {t}</Link></li>)}</ul></div>
+      <div><h2 className="hp-h3">📰 מהבלוג</h2><ul>{posts.map(p => <li key={p.slug}><Link to={`/blog/${p.slug}`}><span aria-hidden="true">{p.emoji}</span> {p.title}</Link></li>)}</ul><Link className="hp-more" to="/blog">לכל הפוסטים ←</Link></div>
+    </section>
+    <footer className="hp-footer">
+      <div className="hp-foot-news"><b>קצת השראה, פעם בשבוע</b><span>עד שלושה רעיונות למשחק, יצירה וזמן ביחד</span><Link to="/mail-preferences">להרשמה ←</Link></div>
+      <div className="hp-foot-bottom">
+        <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<a href="mailto:hellobugabuga@gmail.com">צרו קשר</a></nav>
+        <SocialIcons />
       </div>
-    </section>
-    <section className="home-extra">
-      <h2>עולמות תוכן</h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-        {[
-          ['🎮','בוגה לייב','משחק שאלות חי עם QR לכל הקבוצה.','/live'],
-          ['🦁','עובדות על חיות','50 חיות עם עובדות וחידון.','/animals'],
-          ['🧩','חידות עם תשובות','חידות לפי נושא, עם רמז.','/riddles/topics'],
-          ['😂','בדיחות לילדים','בדיחות נקיות לפי נושא.','/jokes/topics'],
-          ['🗺️','ארץ־עיר','אות אקראית, טיימר וניקוד.','/tools/eretz-ir'],
-          ['🎟️','בינגו','כרטיסיות מוכנות להדפסה.','/tools/bingo-maker'],
-          ['🔤','אותיות באנגלית','A עד Z עם מילים ומשחק.','/abc'],
-          ['🎲','קוביה וירטואלית','הטלת קוביה אחת עד חמש.','/tools/dice'],
-          ['🎒','הכנה לכיתה א׳','כתיבה, קריאה, חשבון ושעון.','/classroom/first-grade'],
-          ['✏️','אותיות בעברית להדפסה','תרגול אותיות למעבר בעיפרון.','/printables/hebrew-letters'],
-          ['🔢','דפי עבודה בחשבון','חיבור וחיסור עד 10 ועד 20.','/printables/math-worksheets'],
-          ['🌀','מבוכים להדפסה','3 רמות קושי עם סיפור קצר.','/printables/mazes'],
-        ].map(([emoji,title,desc,to])=>(
-          <Link key={to} to={to} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
-            <div className="text-3xl mb-1">{emoji}</div>
-            <h3 className="text-xl font-bold">{title}</h3>
-            <p className="text-sm text-[var(--muted-foreground)]">{desc}</p>
-          </Link>
-        ))}
-      </div>
-    </section>
-    <NearViewport><HomeBlog /></NearViewport>
-    <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
-      <Share2 size={20} />
-      <span>שיתוף האתר</span>
-    </button>
-    <section className="home-extra">
-      <SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} />
-    </section>
+    </footer>
+    <details className="hp-about"><summary>על עוגה בוגה — מה יש כאן ולמי זה מתאים</summary><SeoBody paragraphs={homeBody} faq={homeFaq} related={homeRelated} /></details>
   </div></>
 }

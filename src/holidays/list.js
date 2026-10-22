@@ -20,6 +20,10 @@ export const whenOf = h => { const d = new Date(currentInfo(h).start); return `$
 
 // The banner shows a holiday from ~10 weeks before it starts until it ends.
 const LEAD_DAYS = 70
+// Memorial and fast days get no "happy …" greeting.
+const SOLEMN = new Set(['rabin', 'yom-kippur'])
+export const holidayHeadline = (h, started) => started ? (SOLEMN.has(h.slug) ? h.name : `${h.name} שמח!`) : `${h.name} מתקרב`
+
 export function upcomingHoliday(now = new Date()) {
   return HOLIDAYS_BY_DATE.find(h => { const o = currentInfo(h, now); return now < new Date(o.end) && now >= new Date(new Date(o.start).getTime() - LEAD_DAYS * 86400000) })
 }
