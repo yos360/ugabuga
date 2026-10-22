@@ -145,6 +145,7 @@ export const MENU_DOMAINS = [
           { to: '/letters/game', label: 'משחק אותיות לגן', icon: '🎮' },
           { to: '/printables/hebrew-letters', label: 'אותיות בעברית לכתיבה', icon: '✏️' },
           { to: '/learn/dictation', label: 'הכתבה', icon: '✍️' },
+          { to: '/tools/nakdan', label: 'נקדן אוטומטי', icon: '🪄' },
           { to: '/tools/nikud-keyboard', label: 'מקלדת ניקוד', icon: '🔡' },
           { to: '/learn/reading', label: 'הבנת הנקרא', icon: '📖' },
           { to: '/learn/flashcards', label: 'כרטיסיות לימוד', icon: '🃏' },

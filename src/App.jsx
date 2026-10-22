@@ -132,6 +132,7 @@ const NameThemePage = lazy(() => import('./pages/content/SearchGapPages').then(m
 const MitzvahInvitation = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.MitzvahInvitation })))
 const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.DictationEnglish })))
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
+const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
 const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
 const CrosswordList = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordList })))
 const CrosswordPage = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordPage })))
@@ -900,6 +901,7 @@ export default function App() {
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
               <Route path="/tools/nikud-keyboard" element={<NikudKeyboard />} />
+              <Route path="/tools/nakdan" element={<Nakdan />} />
               <Route path="/card-games" element={<CardGamesHub />} />
               <Route path="/card-games/:slug" element={<CardGamePage />} />
               <Route path="/tools/bring-list" element={<BringList />} />

@@ -63,11 +63,13 @@ const stripWiki = s => s
 async function bornOnDatePage(month, day, signal) {
   const parsed = await api({ action: 'parse', page: `${day} ב${MONTHS[month - 1]}`, prop: 'wikitext' }, signal)
   const text = parsed.parse?.wikitext || ''
-  const start = text.indexOf('== נולדו')
+  // Headings vary between pages ("== נולדו ==", "==נולדו =="), so match loosely.
+  const start = text.search(/^==\s*נולדו/m)
   if (start < 0) return []
-  const end = text.indexOf('\n== ', start + 5)
+  const next = text.slice(start + 2).search(/\n==[^=]/)
+  const end = next < 0 ? undefined : start + 2 + next
   const people = []
-  for (const line of text.slice(start, end > 0 ? end : undefined).split('\n')) {
+  for (const line of text.slice(start, end).split('\n')) {
     const m = line.match(/^\*\s*\[\[(\d{1,4})\]\]\s*[–—-]\s*'*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]'*(.*)$/)
     if (!m) continue
     people.push({ year: Number(m[1]), title: m[2].trim(), display: (m[3] || m[2]).trim(), rest: m[4] || '' })
