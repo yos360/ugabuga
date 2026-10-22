@@ -170,6 +170,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/english', label: 'אנגלית לילדים — מילים ומשחקים', icon: '🇬🇧' },
           { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
+          { to: '/learn/english/by-grade', label: 'אנגלית לפי כיתה', icon: '🇬🇧' },
           { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '✏️' },
           { to: '/languages', label: 'שפות לילדים: צרפתית, ספרדית, רוסית, ערבית, אמהרית', icon: '🌍' },
           { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
@@ -381,6 +382,9 @@ export const MENU_DOMAINS = [
           { to: '/family/move', label: 'אתגר תנועה', icon: '🤸' },
           { to: '/family/pocket-money', label: 'דמי כיס וחיסכון', icon: '🐷' },
           { to: '/ideas/what-to-do-weekend', label: 'פעילות לסוף שבוע', icon: '☀️' },
+          { to: '/movies-for-kids', label: 'סרטים לילדים לפי גיל', icon: '🎬' },
+          { to: '/crafts', label: 'יצירה מחומרים בבית', icon: '✂️' },
+          { to: '/family/baby-development', label: 'התפתחות תינוק', icon: '👶' },
           { to: '/blog', label: 'הבלוג', icon: '📰' },
         ],
       },
