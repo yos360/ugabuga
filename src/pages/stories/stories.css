@@ -48,3 +48,12 @@ p.st-reader-note.no-print{margin:0 0 16px;padding:10px 14px;border:2px dashed #f
 p.st-reader-note.no-print .ln-chip{color:#1d2233;margin-inline-start:6px}
 .st-personal-toggle{background:#fff4cc;color:#1d2233}
 .st-personal-toggle[aria-expanded="true"]{background:#ffd23f}
+
+/* favourites and the story of the night */
+.st-card-wrap{position:relative;height:100%}
+.st-fav{position:absolute;top:10px;left:10px;z-index:1;display:inline-grid;place-items:center;min-width:44px;min-height:44px;border:0;border-radius:999px;background:#ffffffd9;font-size:22px;line-height:1;cursor:pointer;box-shadow:0 1px 4px #0002;transition:transform .15s}
+.st-fav:hover{transform:scale(1.1)}.st-fav.is-on{background:#fff6cc}
+.st-fav:focus-visible{outline:3px solid #6d48e5;outline-offset:2px}
+.st-fav.is-big{position:static;display:inline-flex;gap:4px;padding:0 14px;font-size:16px;font-weight:700;box-shadow:none;border:2px solid var(--border);background:var(--card)}
+.st-fav.is-big.is-on{background:#fff6cc;border-color:#f3cf4a}
+.st-tonight{padding:18px;border-radius:24px;background:linear-gradient(160deg,#eef0ff,#fdf6ff);border:2px solid #dcd8f7}

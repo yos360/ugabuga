@@ -14,6 +14,7 @@ import './stories.css'
 import StoryReader from './StoryReader'
 import RecordedReader from './RecordedReader'
 import { splitSentences, loadRecordedIndex, recordedPlaylist } from './storyReading'
+import { useToday, useFavorites, storyOfDay, dailyOrder } from './storyDaily'
 
 // Keep the meta description near 160 characters: long summaries get the short suffix.
 const storyDescription = (summary, minutes) => {
@@ -42,16 +43,22 @@ function Badges({ s, minutes }) {
   </div>
 }
 
-function StoryCard({ s, custom }) {
+function FavButton({ on, onClick, big }) {
+  return <button type="button" className={`st-fav${on ? ' is-on' : ''}${big ? ' is-big' : ''}`} aria-pressed={on} aria-label={on ? 'הסרה מהמועדפים' : 'הוספה למועדפים'} title={on ? 'במועדפים' : 'הוספה למועדפים'} onClick={onClick}>
+    <span aria-hidden="true">{on ? '⭐' : '☆'}</span>{big && (on ? ' במועדפים' : ' למועדפים')}
+  </button>
+}
+
+function StoryCard({ s, custom, fav, onFav }) {
   const r = renderStory(s, custom)
-  return <Link to={`/stories/${s.slug}`} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
+  return <div className="st-card-wrap">{onFav && <FavButton on={fav} onClick={() => onFav(s.slug)} />}<Link to={`/stories/${s.slug}`} className="wobbly card-lift block h-full border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
     <div className="st-card">
       <div className="text-4xl" aria-hidden="true">{s.emoji}</div>
       <h3 className="text-xl font-bold leading-snug">{r.title}</h3>
       <p className="m-0 text-[var(--muted-foreground)]">{r.summary}</p>
       <div className="mt-auto pt-2"><Badges s={s} minutes={readingMinutes(storyWords(s, custom))} /></div>
     </div>
-  </Link>
+  </Link></div>
 }
 
 // ── /stories ───────────────────────────────
@@ -69,7 +76,13 @@ export function StoriesHub() {
   const [hero, setHero] = useState(() => loadSavedHero() || { name: '', g: '' })
   const setHeroSave = h => { setHero(h); saveHero(h) }
   const custom = hero.name || hero.g ? { hero: { name: hero.name, g: hero.g } } : undefined
-  const list = BEDTIME_STORIES.filter(s => (!age || s.age === age) && (!theme || s.theme === theme))
+  const day = useToday()
+  const [favs, toggleFav] = useFavorites()
+  const [onlyFav, setOnlyFav] = useState(false)
+  // Every night a different story on top, and the library itself in a new order each day.
+  const tonight = day === null ? null : storyOfDay(BEDTIME_STORIES, day)
+  const ordered = day === null ? BEDTIME_STORIES : dailyOrder(BEDTIME_STORIES, day)
+  const list = ordered.filter(s => (!age || s.age === age) && (!theme || s.theme === theme) && (!onlyFav || favs.includes(s.slug)))
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`סיפורים לילדים לפני השינה — ${BEDTIME_STORIES.length} סיפורים קצרים, גם עם שם הילד`} description={`סיפורים לילדים לפני השינה: ${BEDTIME_STORIES.length} סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם.`} path="/stories" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: HUB.label }]} />
@@ -91,10 +104,17 @@ export function StoriesHub() {
       <small className="block text-[var(--muted-foreground)]">השם נשמר רק בדפדפן שלכם ולא נשלח לשום מקום.</small>
     </section>
 
+    {tonight && <section className="st-tonight mx-auto mt-6 max-w-3xl" aria-labelledby="st-tonight-title">
+      <h2 id="st-tonight-title" className="text-center text-2xl font-black"><span aria-hidden="true">🌙 </span>הסיפור של הלילה</h2>
+      <p className="m-0 mb-3 text-center text-[var(--muted-foreground)]">כל ערב מחכה כאן סיפור אחר. מחר — סיפור חדש.</p>
+      <StoryCard s={tonight} custom={custom} fav={favs.includes(tonight.slug)} onFav={toggleFav} />
+    </section>}
+
     <section className="no-print mt-6 space-y-3" aria-label="סינון סיפורים">
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="גיל">
-        <Chip on={!age} onClick={() => setAge('')}>כל הגילים</Chip>
+        <Chip on={!age && !onlyFav} onClick={() => { setAge(''); setOnlyFav(false) }}>כל הגילים</Chip>
         {STORY_AGES.map(a => <Chip key={a.id} on={age === a.id} onClick={() => setAge(a.id)}>{a.label}</Chip>)}
+        {favs.length > 0 && <Chip on={onlyFav} onClick={() => setOnlyFav(!onlyFav)}>⭐ המועדפים שלי ({favs.length})</Chip>}
       </div>
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="נושא">
         <Chip on={!theme} onClick={() => setTheme('')}>כל הנושאים</Chip>
@@ -103,8 +123,8 @@ export function StoriesHub() {
     </section>
 
     <h2 className="mt-8 mb-4 text-center text-2xl font-black">{list.length === BEDTIME_STORIES.length ? 'כל הסיפורים' : `${list.length} סיפורים`}</h2>
-    {list.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{list.map(s => <StoryCard key={s.slug} s={s} custom={custom} />)}</div>
-      : <p className="text-center">אין עדיין סיפור שמתאים לשני הסינונים יחד. <button type="button" className="underline font-bold" onClick={() => { setAge(''); setTheme('') }}>הצגת כל הסיפורים</button></p>}
+    {list.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{list.map(s => <StoryCard key={s.slug} s={s} custom={custom} fav={favs.includes(s.slug)} onFav={toggleFav} />)}</div>
+      : <p className="text-center">אין עדיין סיפור שמתאים לשני הסינונים יחד. <button type="button" className="underline font-bold" onClick={() => { setAge(''); setTheme(''); setOnlyFav(false) }}>הצגת כל הסיפורים</button></p>}
 
     <div className="ln-box mt-10 text-center">
       <h2 className="text-2xl font-black">🪄 רוצים סיפור קצר עם השם ועם חיה שבוחרים?</h2>
@@ -145,6 +165,7 @@ function initialCast(story, params) {
 }
 
 function Story({ story, params }) {
+  const [favs, toggleFav] = useFavorites()
   const [custom, setCustom] = useState(() => initialCast(story, params))
   const [big, setBig] = useState(false)
   const [printing, setPrinting] = useState(false)
@@ -238,6 +259,7 @@ function Story({ story, params }) {
       <button type="button" className="ln-chip st-personal-toggle" aria-expanded={nameOpen} aria-controls={nameOpen ? 'your-story-panel' : undefined} onClick={() => setNameOpen(!nameOpen)}>
         {personalized ? `✨ ${heroName ? `הסיפור של ${heroName}` : 'השמות בסיפור'} · שינוי` : '✨ להכניס את שם הילד לסיפור'}
       </button>
+      <FavButton on={favs.includes(story.slug)} onClick={() => toggleFav(story.slug)} big />
       <button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ הדפסה</button>
       <Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip>
     </div>
