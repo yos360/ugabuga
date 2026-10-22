@@ -106,6 +106,8 @@ const exKey = ex => `${ex.q}|${ex.expr || ''}|${ex.svg ? ex.svg.length : ''}|${S
 // Exercises that an easier level of the same topic can also produce (e.g. "5 × 7" is in both "tables
 // 2–5" and "tables 6–9"). Sampled once per topic/level from fixed seeds, so it is deterministic.
 const lowerCache = new Map()
+// Tests set globalThis.__MATH_LOWER_BUDGET_MS = Infinity so the sample doesn't depend on machine load.
+const LOWER_BUDGET_MS = globalThis.__MATH_LOWER_BUDGET_MS ?? 50
 function lowerLevelKeys(topic, level) {
   const id = `${topic.grade}/${topic.slug}/${level}`
   if (!lowerCache.has(id)) {
@@ -114,7 +116,7 @@ function lowerLevelKeys(topic, level) {
     const keys = new Set()
     for (let l = 1; l < level; l++) {
       const t0 = Date.now()
-      for (let i = 1, lastNew = 0; i <= 2500 && i - lastNew <= 400 && Date.now() - t0 < 50; i++) {
+      for (let i = 1, lastNew = 0; i <= 2500 && i - lastNew <= 400 && Date.now() - t0 < LOWER_BUDGET_MS; i++) {
         const k = exKey(makeExercise(topic, l, i * 7919))
         if (!keys.has(k)) { keys.add(k); lastNew = i }
       }
