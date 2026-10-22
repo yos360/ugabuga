@@ -35,6 +35,7 @@ function NearViewport({ children, minHeight = 320 }) {
 const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
 import SiteSearchBox from '../components/ui/SiteSearchBox'
 import PlayNow from '../components/home/PlayNow'
+import HomeBlog from '../components/home/HomeBlog'
 
 function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
@@ -208,6 +209,12 @@ export default function Home() {
       </div>
     </section>
     <HomeCharts />
+    <section className="home-extra" aria-labelledby="home-new-title">
+      <h2 id="home-new-title">✨ חדש באתר</h2>
+      <div className="home-shortcuts">
+        {[['🪄 נקדן אוטומטי', '/tools/nakdan'], ['📅 לוח שנה עברי לועזי', '/hebrew-calendar'], ['🤖 אקדמיית ה־AI של בוגה', '/learn/ai'], ['☕ פנאי למבוגרים', '/adults'], ['🔤 זיכרון אותיות', '/online-games/memory-letters'], ['🃏 חוקי משחקי קלפים', '/card-games']].map(([t, to]) => <Link key={to} to={to} className="font-bold">{t}</Link>)}
+      </div>
+    </section>
     <section className="home-extra">
       <h2>המשחקים הפופולריים</h2>
       <div className="home-extras">
@@ -242,6 +249,7 @@ export default function Home() {
         ))}
       </div>
     </section>
+    <NearViewport><HomeBlog /></NearViewport>
     <button onClick={shareWebsite} className="share-button" aria-label="שיתוף האתר">
       <Share2 size={20} />
       <span>שיתוף האתר</span>

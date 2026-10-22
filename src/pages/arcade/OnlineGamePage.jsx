@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -24,6 +24,16 @@ export default function OnlineGamePage() {
   const playing = !!game && hash === '#play'
 
   useEffect(() => { if (!playing) pushed.current = false }, [playing])
+  // Phones: once the hero's play button scrolls away, a play bar stays at the bottom.
+  const playBtn = useRef(null)
+  const [heroGone, setHeroGone] = useState(false)
+  useEffect(() => {
+    const el = playBtn.current
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined
+    const io = new IntersectionObserver(([e]) => setHeroGone(!e.isIntersecting && e.boundingClientRect.top < 0))
+    io.observe(el)
+    return () => io.disconnect()
+  }, [slug])
   // No automatic full screen: the browser's "swipe to exit" banner covers the game. The ⛶ button is there for whoever wants it.
   const open = () => {
     pushed.current = true
@@ -62,7 +72,7 @@ export default function OnlineGamePage() {
         <div>
           {slug === 'solitaire' && <><span className="sol-hero-kicker">הקלפים המוכרים. רגע חדש לעצמכם.</span><h2 className="sol-hero-title">פותחים שולחן.<br />עושים קצת סדר.</h2></>}
           <p>{game.description}</p>
-          <button type="button" className="arc-play-btn" onClick={open}>▶ שחקו עכשיו</button>
+          <button ref={playBtn} type="button" className="arc-play-btn" onClick={open}>▶ שחקו עכשיו</button>
           <div className="arc-meta">
             <span>🎂 גיל {game.ages}</span><span>📱 טלפון ומחשב</span><span>🆓 חינם, בלי הרשמה</span>
           </div>
@@ -100,6 +110,7 @@ export default function OnlineGamePage() {
           📘 שתפו בפייסבוק
         </button>
       </p>
+      {heroGone && !playing && <button type="button" className="arc-sticky-play no-print" onClick={open}>▶ שחקו עכשיו — {game.name}</button>}
       <section className="arc-more">
         <h2>עוד משחקי אונליין</h2>
         <div className="arc-grid">

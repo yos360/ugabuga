@@ -3,6 +3,7 @@ import SEO from '../../components/ui/SEO'
 import { speak } from '../../utils/speak'
 import { KIDS_TILES } from '../../data/kidsZone'
 import './kids-zone.css'
+import { KidsLockControl } from '../../components/layout/KidsLock'
 
 // /kids — a page a child (about 4–9) can browse alone: big picture tiles, very little text, a 🔊 on
 // each tile that reads its name aloud. Only on-screen activities from this site: no printing, no
@@ -37,6 +38,7 @@ export default function KidsZone() {
     </ul>
     <aside className="kz-parents" aria-label="להורים">
       <p><b>להורים:</b> כאן יש רק פעילויות על המסך מתוך האתר — משחקים, צביעה, סיפורים מוקלטים, אותיות, מספרים ופסנתר. האריחים לא מובילים לפרסומות או לאתרים אחרים, ואין בעמוד טפסים או כפתורי שיתוף.</p>
+      <KidsLockControl />
     </aside>
   </div>
 }

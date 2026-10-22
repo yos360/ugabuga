@@ -17,6 +17,8 @@ const errorInfo = async error => {
 const TOKEN_KEY = 'ugabuga-site-chat-token'
 const SEEN_KEY = 'ugabuga-site-chat-seen'
 const TOPICS = ['משהו ייחודי בשבילי', 'רעיון שכדאי להוסיף', 'עזרה באתר', 'משהו אחר']
+const MINI_KEY = 'buga-chat-mini'
+const storedMini = () => { try { return localStorage.getItem(MINI_KEY) === '1' } catch { return false } }
 const storedToken = () => { try { return localStorage.getItem(TOKEN_KEY) || '' } catch { return '' } }
 const rememberToken = token => { try { localStorage.setItem(TOKEN_KEY, token) } catch { /* private mode */ } }
 const forgetToken = () => { try { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(SEEN_KEY) } catch { /* private mode */ } }
@@ -26,6 +28,7 @@ const latestOwnerTime = thread => (thread?.messages || []).reduce((latest, messa
 
 export default function SiteChatWidget() {
   const [open, setOpen] = useState(false)
+  const [mini, setMini] = useState(storedMini)
   const [token, setToken] = useState(storedToken)
   const [thread, setThread] = useState(null)
   const [loading, setLoading] = useState(Boolean(token))
@@ -122,6 +125,7 @@ export default function SiteChatWidget() {
   const restart = () => { forgetToken(); setToken(''); setThread(null); setBody(''); setReply(''); setError('') }
   const unread = !open && latestOwner > seen
 
+  const hideLabel = () => { setMini(true); try { localStorage.setItem(MINI_KEY, '1') } catch { /* private mode */ } }
   return <div className="site-chat no-print no-present" dir="rtl">
     {open && <section className="site-chat-panel" role="dialog" aria-label="שיחה עם עוגה בוגה">
       <header><div><span>💬</span><div><b>מדברים עם עוגה בוגה</b><small>רעיונות, בקשות ועזרה — הכול מתקבל בשמחה</small></div></div><button onClick={closePanel} aria-label="סגירת הצ׳אט">×</button></header>
@@ -142,6 +146,7 @@ export default function SiteChatWidget() {
       </form>}
       {error && !unavailable && <p className="site-chat-error" role="alert">{error}</p>}
     </section>}
-    <button className="site-chat-launcher" onClick={() => open ? closePanel() : setOpen(true)} aria-expanded={open} aria-label={open ? 'סגירת הצ׳אט' : 'יש לכם רעיון? דברו עם בוגה'}><span>{open ? '×' : '💬'}</span><b>{open ? 'סגירה' : 'יש לכם רעיון? דברו עם בוגה'}</b>{unread && <i aria-label="התקבלה תשובה" />}</button>
+    {!open && !mini && <button type="button" className="site-chat-hide" onClick={hideLabel} aria-label="להקטין את כפתור הצ׳אט לתמיד">×</button>}
+    <button className={`site-chat-launcher${mini && !open ? ' is-mini' : ''}`} onClick={() => open ? closePanel() : setOpen(true)} aria-expanded={open} aria-label={open ? 'סגירת הצ׳אט' : 'יש לכם רעיון? דברו עם בוגה'}><span>{open ? '×' : '💬'}</span><b>{open ? 'סגירה' : 'יש לכם רעיון? דברו עם בוגה'}</b>{unread && <i aria-label="התקבלה תשובה" />}</button>
   </div>
 }

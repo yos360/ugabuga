@@ -317,3 +317,10 @@ body {
 .hw-shake { animation: hw-shake .35s ease-in-out 1; }
 .hw-game-end { position: absolute; inset: auto 16px 24px; margin: 0 auto; max-width: 360px; z-index: 5; border-radius: 24px; background: #fff; padding: 20px; text-align: center; color: #1d2233; box-shadow: 0 10px 40px #0004; }
 @media (prefers-reduced-motion: reduce) { .hw-balloon, .hw-shake { animation: none; } }
+
+/* Dark mode (opt-in, ThemeToggle): one filter flips the whole page, and photos/drawings are flipped
+   back so they keep their real colors. Printing always uses the light page. */
+html[data-theme="dark"] { filter: invert(.9) hue-rotate(180deg); background: #fff; }
+html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors]) { filter: invert(1) hue-rotate(180deg); }
+.site-mobile-theme { display: flex; align-items: center; gap: 6px; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
+@media print { html[data-theme="dark"] { filter: none; } html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors]) { filter: none; } }

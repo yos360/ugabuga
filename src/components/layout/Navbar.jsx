@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
+import ThemeToggle from './ThemeToggle'
 
 import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
 import { englishCounterpart } from '../../en/englishLinks'
@@ -127,6 +128,7 @@ export default function Navbar() {
           <ul className="site-classroom">
             <DomainItem domain={CLASSROOM_MENU} open={open} setOpen={setOpen} active={active === 'classroom'} className="is-classroom" />
           </ul>
+          <ThemeToggle />
           <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
         </div>
 
@@ -171,7 +173,9 @@ export default function Navbar() {
           <div className="site-mobile-main-links">
             <Link to="/" onClick={closeMobile}>דף הבית</Link>
             <Link to={SITE_MAP_LINK.to} onClick={closeMobile}>{SITE_MAP_LINK.label}</Link>
+            <Link to="/blog" onClick={closeMobile}>הבלוג</Link>
             <Link to="/about" onClick={closeMobile}>אודות</Link>
+            <ThemeToggle className="site-mobile-theme" withLabel />
           </div>
         </nav>
       )}
