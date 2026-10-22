@@ -172,6 +172,7 @@ export function BabyNamesHub() {
     <div className="mt-6"><NameBrowser fav={fav} /></div>
     <LetterLinks gender="f" />
     <LetterLinks gender="m" />
+    <section className="mt-10"><h2 className="mb-3 text-2xl font-black">שמות לפי משמעות</h2><div className="flex flex-wrap gap-2">{[['strength','💪','כוח וגבורה'],['light','☀️','אור ושמש'],['joy','😊','שמחה'],['nature','🌿','טבע ופרחים'],['love','💗','אהבה וחסד'],['faith','🙏','אמונה'],['gift','🎁','מתנה וברכה'],['unique','✨','מיוחדים ונדירים']].map(([slug, e, t]) => <Link key={slug} to={`/baby-names/meaning/${slug}`} className="rounded-xl border-2 border-slate-200 bg-white px-3 py-2 font-bold">{e} {t}</Link>)}</div></section>
     <div className="mt-10"><SeoBody paragraphs={[...CHOOSING, `על הנתונים: המשמעויות נבדקו מול מקורות מקובלים — לשמות מקראיים מופיע המקום בתנ"ך, וכשמשמעות שנויה במחלוקת כתבנו זאת. התגית "פופולרי" מבוססת על נתוני הלמ"ס על ילידי 2024.`]} faq={HUB_FAQ} related={RELATED} /></div>
   </div>
 }

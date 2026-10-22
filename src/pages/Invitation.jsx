@@ -38,7 +38,7 @@ function InvitationGuide() {
       <h2 className="mb-2 mt-10 text-3xl font-bold">בחרתם עיצוב? יש גם רעיונות למסיבה</h2>
       <p className="mb-4 text-lg leading-relaxed">לכל עיצוב הזמנה יש מסיבה שמתאימה לו: משחקים, קישוטים ועוגה באותו נושא. כך ההזמנה פותחת את החגיגה עוד לפני שהאורחים מגיעים.</p>
       <div className="mb-10 flex flex-wrap gap-2">{THEME_LINKS.map(([e, t, to]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{e} {t}</Link>)}</div>
-      <SeoBody faq={FAQ} related={[{ label: 'אישור הגעה אונליין', href: '/rsvp' }, { label: 'מדריך הזמנות ליום הולדת', href: '/guides/birthday-invitation-guide' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'ברכות ליום הולדת', href: '/greeting' }, { label: 'שלטים ליום הולדת להדפסה', href: '/printables/birthday-signs' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }]} />
+      <SeoBody faq={FAQ} related={[{ label: 'הזמנה לבת מצווה', href: '/invitation/bat-mitzvah' }, { label: 'הזמנה לבר מצווה', href: '/invitation/bar-mitzvah' }, { label: 'אישור הגעה אונליין', href: '/rsvp' }, { label: 'מדריך הזמנות ליום הולדת', href: '/guides/birthday-invitation-guide' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'ברכות ליום הולדת', href: '/greeting' }, { label: 'שלטים ליום הולדת להדפסה', href: '/printables/birthday-signs' }, { label: 'איך מתכננים יום הולדת', href: '/guides/how-to-plan-birthday' }]} />
     </section>
   )
 }

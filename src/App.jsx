@@ -126,6 +126,11 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
+const CardGamesHub = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.CardGamesHub })))
+const CardGamePage = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.CardGamePage })))
+const NameThemePage = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.NameThemePage })))
+const MitzvahInvitation = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.MitzvahInvitation })))
+const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.DictationEnglish })))
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
 const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
@@ -487,6 +492,8 @@ export default function App() {
               <Route path="/tools/greeting-generator" element={<Greeting />} />
               <Route path="/tools/greetings" element={<Greeting />} />
               <Route path="/invitation" element={<Invitation />} />
+              <Route path="/invitation/bat-mitzvah" element={<MitzvahInvitation key="bat" occasion="bat-mitzvah" />} />
+              <Route path="/invitation/bar-mitzvah" element={<MitzvahInvitation key="bar" occasion="bar-mitzvah" />} />
               <Route path="/invitations" element={<Invitation />} />
               <Route path="/birthday-invitation" element={<Invitation />} />
               <Route path="/tools/invitation-generator" element={<Invitation />} />
@@ -626,6 +633,7 @@ export default function App() {
               <Route path="/typing/game" element={<TypingGame />} />
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
+              <Route path="/learn/dictation/english" element={<DictationEnglish />} />
               <Route path="/learn/reading" element={<ReadingIndex />} />
               <Route path="/learn/reading/grade-2" element={<ReadingGrade key="g2" grade={2} />} />
               <Route path="/learn/reading/grade-3" element={<ReadingGrade key="g3" grade={3} />} />
@@ -719,6 +727,7 @@ export default function App() {
               <Route path="/baby-names/unisex" element={<BabyNamesList key="u" gender="u" />} />
               <Route path="/baby-names/girls/letter/:letter" element={<BabyNamesLetter key="f" gender="f" />} />
               <Route path="/baby-names/boys/letter/:letter" element={<BabyNamesLetter key="m" gender="m" />} />
+              <Route path="/baby-names/meaning/:theme" element={<NameThemePage />} />
               <Route path="/baby-names/name/:slug" element={<BabyNamePage />} />
               <Route path="/school-holidays" element={<SchoolHolidaysHub />} />
               <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
@@ -879,6 +888,8 @@ export default function App() {
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
               <Route path="/tools/nikud-keyboard" element={<NikudKeyboard />} />
+              <Route path="/card-games" element={<CardGamesHub />} />
+              <Route path="/card-games/:slug" element={<CardGamePage />} />
               <Route path="/tools/bring-list" element={<BringList />} />
               <Route path="/tools/emoji-studio" element={<EmojiStudio />} />
               <Route path="/bring-list" element={<BringList />} />

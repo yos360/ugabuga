@@ -76,8 +76,10 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
   }
  }
 
- const headline=p.headline||({space:'המשימה מתחילה בעוד רגע',dino:'הרפתקה פראית מתחילה כאן',princess:'הזמנה לנשף בלתי נשכח',football:'הכרטיס שלכם לחגיגה',gaming:'שלב חדש עומד להתחיל',scrapbook:'רגעים טובים מתחילים יחד',ribbon:'נשמח לחגוג איתכם',retro:'מוכנים לחגיגה צבעונית?',disco:'הלילה כולו נוצץ',ocean:'צוללים לחגיגה קסומה',elegant:'ערב מיוחד. אנשים אהובים.'}[theme.id]||'יש סיבה טובה לחגוג')
- const name=data.name||'שם החוגג/ת',age=data.age||'?',date=data.date||'יום ותאריך',time=data.time||'שעת המסיבה',place=data.place||'מקום החגיגה'
+ // Bar/bat mitzvah invitations (data.occasion) keep every design but change the wording.
+ const occ={'bat-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגגת בת מצווה',title:'בת מצווה',age:'12'},'bar-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגג בר מצווה',title:'בר מצווה',age:'13'}}[data.occasion]
+ const headline=p.headline||(occ?occ.headline:null)||({space:'המשימה מתחילה בעוד רגע',dino:'הרפתקה פראית מתחילה כאן',princess:'הזמנה לנשף בלתי נשכח',football:'הכרטיס שלכם לחגיגה',gaming:'שלב חדש עומד להתחיל',scrapbook:'רגעים טובים מתחילים יחד',ribbon:'נשמח לחגוג איתכם',retro:'מוכנים לחגיגה צבעונית?',disco:'הלילה כולו נוצץ',ocean:'צוללים לחגיגה קסומה',elegant:'ערב מיוחד. אנשים אהובים.'}[theme.id]||'יש סיבה טובה לחגוג')
+ const name=data.name||'שם החוגג/ת',age=data.age||occ?.age||'?',ageLine=occ?occ.line:age==='?'?'יום הולדת':`חוגג/ת ${age}`,date=data.date||'יום ותאריך',time=data.time||'שעת המסיבה',place=data.place||'מקום החגיגה'
  const info=(y,color='#253144',panel='#ffffffed',variant='card')=>{
   if(variant==='card'){shadow(34,'rgba(20,18,35,.16)',0,14);rr(86,y,908,330,44,panel);noShadow()}
   text(date,540,y+58,38,color,820,750);text(time.includes(':')?`\u2066${time}\u2069`:time,540,y+108,34,color,820,600)
@@ -94,7 +96,7 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
   const dark='#ffffff',top=90+extra*.12
   c.save();c.translate(0,top);c.fillStyle=alpha('#000000',.18);c.beginPath();c.moveTo(0,0);c.lineTo(W,0);c.lineTo(W,710);c.lineTo(0,820);c.closePath();c.fill();c.restore()
   text(headline,500,top+70,28,dark,430,650,'right');text(name,500,top+155,p.nameSize||94,dark,440,850,'right')
-  text(age==='?'?'יום הולדת':`חוגג/ת ${age}`,500,top+245,40,p.second,430,750,'right')
+  text(ageLine,500,top+245,40,p.second,430,750,'right')
   if(image)drawFramed(image,560,top+55,405,520,p.photoShape||'rounded',theme.id==='gaming'?.035:-.025);else drawFramed(null,560,top+55,405,520,'rounded',-.025)
   if(theme.id==='football'){text(age,190,top+500,225,alpha('#ffffff',.14),310,900);rr(70,top+335,400,82,12,p.accent);text('כרטיס כניסה לחגיגה',270,top+377,30,p.ink,350,800)}
   if(theme.id==='gaming'){rr(70,top+340,360,72,4,alpha(p.accent,.18),p.accent,3);text('PRESS START',250,top+377,31,p.accent,320,800);for(let i=0;i<4;i++)rr(72+i*62,top+455,42,42,8,i%2?p.second:p.accent)}
@@ -115,10 +117,10 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
   if(theme.id==='ribbon')bow(540,top+45,165)
   else{text('✦',540,top+30,42,p.second,100,400);c.fillStyle=p.second;c.fillRect(390,top+30,90,2);c.fillRect(600,top+30,90,2)}
   text(headline,540,top+135,27,light,820,550);text(name,540,top+220,p.nameSize||90,light,850,800)
-  text(age==='?'?'יום הולדת':`חוגג/ת ${age}`,540,top+292,35,p.second,700,700)
+  text(ageLine,540,top+292,35,p.second,700,700)
   if(image)drawFramed(image,330,top+345,420,390,p.photoShape==='circle'?'circle':'rounded',0)
   else if(theme.id==='ribbon'){
-   c.strokeStyle=alpha(p.accent,.38);c.lineWidth=3;c.beginPath();c.moveTo(260,top+510);c.lineTo(440,top+510);c.moveTo(640,top+510);c.lineTo(820,top+510);c.stroke();text(age,540,top+515,210,alpha(p.accent,.23),260,900);text('יום הולדת',540,top+630,30,p.ink,440,650)
+   c.strokeStyle=alpha(p.accent,.38);c.lineWidth=3;c.beginPath();c.moveTo(260,top+510);c.lineTo(440,top+510);c.moveTo(640,top+510);c.lineTo(820,top+510);c.stroke();text(age,540,top+515,210,alpha(p.accent,.23),260,900);text(occ?occ.title:'יום הולדת',540,top+630,30,p.ink,440,650)
   }else{
    c.strokeStyle=alpha(p.second,.78);c.lineWidth=4;c.beginPath();c.arc(540,top+535,175,0,Math.PI*2);c.stroke();for(let i=0;i<14;i++)leaf(540+Math.cos(i*Math.PI/7)*210,top+535+Math.sin(i*Math.PI/7)*210,48,14,i*Math.PI/7,i%2?p.accent:p.second);text(age,540,top+535,185,p.second,260,850)
   }
@@ -126,7 +128,7 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
  }else{
   const top=75+extra*.12,light=['princess'].includes(theme.id)?p.ink:p.ink
   text(headline,540,top+45,29,light,900,650);text(name,540,top+128,p.nameSize||92,light,900,850)
-  rr(430,top+186,220,68,34,p.accent);text(age==='?'?'יום הולדת':`חוגג/ת ${age}`,540,top+221,31,theme.id==='space'?'#fff':p.bg,190,750)
+  rr(430,top+186,220,68,34,p.accent);text(ageLine,540,top+221,31,theme.id==='space'?'#fff':p.bg,190,750)
   if(image){
    if(!photo){shadow(38,'rgba(31,24,45,.22)',0,16);rr(130,top+285,820,475,64,'#fff');noShadow();drawCover(image,150,top+305,780,435,false);c.fillStyle=gradient(alpha('#ffffff',0),alpha(p.bg,.22),150,top+305,150,top+740);c.fillRect(150,top+305,780,435)}
    else drawFramed(photo,250,top+275,580,485,p.photoShape||'rounded',0)

@@ -1,5 +1,6 @@
 import { MORE_GUIDES } from './guidesMore'
 import { LIST_GUIDES } from './guidesLists'
+import { QUICK_DINNERS_GUIDE } from './guideQuickDinners'
 
 const BASE_GUIDES = [
   {
@@ -235,6 +236,6 @@ const BASE_GUIDES = [
   }
 ]
 
-export const GUIDES = [...BASE_GUIDES, ...MORE_GUIDES, ...LIST_GUIDES]
+export const GUIDES = [...BASE_GUIDES, ...MORE_GUIDES, ...LIST_GUIDES, QUICK_DINNERS_GUIDE]
 
 export const GUIDE_BY_SLUG = Object.fromEntries(GUIDES.map((guide) => [guide.slug, guide]))

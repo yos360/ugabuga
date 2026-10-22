@@ -485,5 +485,6 @@ export const GREETING_EXTRAS = {
 export const GREETING_GROUPS = {
   family: ['mom', 'dad', 'grandma', 'grandpa', 'brother', 'sister', 'son', 'daughter', 'husband', 'wife', 'aunt', 'uncle', 'grandson', 'granddaughter'],
   ages: ['age-1', 'age-3', 'age-5', 'age-6', 'age-10', 'bat-mitzvah', 'bar-mitzvah', 'age-16', 'age-18', 'age-20', 'age-30', 'age-40', 'age-50', 'age-60', 'age-70', 'age-80', 'age-90'],
+  feelings: ['from-the-heart', 'meaningful', 'for-him', 'for-her'],
   people: ['friend-m', 'friend-f', 'teacher-f', 'kindergarten-teacher', 'colleague', 'boss', 'funny', 'short', 'belated'],
 }

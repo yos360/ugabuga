@@ -10,6 +10,7 @@ import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
 import { usePresentMode } from '../utils/presentMode'
 import { DICTATION, READING, plainWord } from './learnData'
+import { DICTATION_EN } from './dictationEnglish.js'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import { MENU_DOMAINS } from '../data/siteMenu'
 import { applySay } from '../utils/sayFixes'
@@ -99,8 +100,18 @@ function DictationPrint({ title, words, name }) {
       <ol className="key">{words.map((w, i) => <li key={i}>{w}</li>)}</ol></article>
   </>
 }
-export function Dictation() {
-  const [listId, setListId] = useState(DICTATION[0].id)
+const EN_FAQ = [
+  { q: 'איך עושים הכתבה באנגלית בבית?', a: 'בוחרים רשימה לפי הכיתה. במצב ״הקראה קולית״ המכשיר מקריא כל מילה באנגלית, הילד מקליד ובסוף רואים מה נכון. אפשר גם שהורה יקריא, או להדפיס דף הכתבה עם דף תשובות.' },
+  { q: 'אפשר להכניס את המילים מהמחברת?', a: 'כן — בוחרים ״רשימה משלי״ וכותבים את המילים באנגלית, כל מילה בשורה או עם פסיק. עד 30 מילים.' },
+  { q: 'הבדיקה מבחינה בין אותיות גדולות לקטנות?', a: 'לא. בהכתבה בודקים את האיות, ולכן cat ו־Cat נחשבות אותה תשובה.' },
+]
+// English spelling lists (/learn/dictation/english) use the same screen, with an English voice,
+// left-to-right typing and case-insensitive checking.
+export function DictationEnglish() { return <Dictation lang="en" /> }
+export function Dictation({ lang = 'he' }) {
+  const en = lang === 'en', LISTS = en ? DICTATION_EN : DICTATION, VOICE = en ? 'en-US' : 'he-IL'
+  const same = (a, b) => en ? a.trim().toLowerCase() === b.trim().toLowerCase() : plainWord(a) === plainWord(b)
+  const [listId, setListId] = useState(LISTS[0].id)
   const [custom, setCustom] = useState('')
   const [mode, setMode] = useState('parent')
   const [mix, setMix] = useState(true)
@@ -110,12 +121,12 @@ export function Dictation() {
   const [printing, setPrinting] = useState(null)
   const [name, setName] = useState('')
   const inputRef = useRef(null)
-  useEffect(() => { hasVoice('he-IL').then(setVoiceOk) }, [])
-  const list = DICTATION.find(d => d.id === listId)
+  useEffect(() => { hasVoice(VOICE).then(setVoiceOk) }, [VOICE])
+  const list = LISTS.find(d => d.id === listId)
   const customWords = custom.split(/[\n,،]+/).map(w => w.trim()).filter(Boolean).slice(0, 30)
   const words = listId === 'custom' ? customWords : list.words
   const title = listId === 'custom' ? 'הרשימה שלי' : list.title
-  const start = () => { if (!words.length) return; const w = mix ? shuffle(words) : words; setRun({ words: w, i: 0, answers: [] }); setTyped(''); if (mode === 'voice') speak(w[0]) }
+  const start = () => { if (!words.length) return; const w = mix ? shuffle(words) : words; setRun({ words: w, i: 0, answers: [] }); setTyped(''); if (mode === 'voice') speak(w[0], VOICE) }
   const cur = run && run.words[run.i]
   const done = run && run.i >= run.words.length
   useEffect(() => { if (run && !done && mode === 'voice') inputRef.current?.focus() }, [run, done, mode])
@@ -123,20 +134,22 @@ export function Dictation() {
     const answers = mode === 'voice' ? [...run.answers, typed.trim()] : run.answers
     const i = run.i + 1
     setRun({ ...run, i, answers }); setTyped('')
-    if (mode === 'voice' && i < run.words.length) setTimeout(() => speak(run.words[i], 'he-IL', { user: false }), 250)
+    if (mode === 'voice' && i < run.words.length) setTimeout(() => speak(run.words[i], VOICE, { user: false }), 250)
   }
-  const right = done && mode === 'voice' ? run.words.filter((w, i) => plainWord(w) === plainWord(run.answers[i] || '')).length : 0
+  const right = done && mode === 'voice' ? run.words.filter((w, i) => same(w, run.answers[i] || '')).length : 0
   const faq = [
     { q: 'איך עושים הכתבה בבית?', a: 'בוחרים רשימה, ההורה מקריא כל מילה פעמיים והילד כותב בדף. בסוף פותחים את רשימת המילים ובודקים יחד. אפשר להדפיס דף הכתבה עם שורות ממוספרות ודף תשובות נפרד להורה.' },
     { q: 'הקול במכשיר מבטא מילה לא נכון — מה עושים?', a: 'הקראה קולית משתמשת בקול של המכשיר, ובעברית בלי ניקוד הוא טועה לפעמים בהגייה. לכן מצב "הורה מקריא" הוא ברירת המחדל, ובמצב הקולי תמיד אפשר לבקש מהורה לעזור.' },
     { q: 'אפשר להכניס את המילים מהמחברת?', a: 'כן — בוחרים "רשימה משלי" וכותבים את המילים, כל מילה בשורה או מופרדות בפסיק. עד 30 מילים.' },
   ]
   return <Page>
-    <SEO title="הכתבה אונליין לילדים — תרגול הכתבה עם בדיקה ודף להדפסה" description="תרגול הכתבה לכיתות א׳–ד׳: רשימות מוכנות (ט/ת, כ/ק, א/ע, ח/כ, אותיות סופיות) או רשימה משלכם. הורה מקריא או הקראה קולית עם בדיקה אוטומטית, ודף הכתבה להדפסה." path="/learn/dictation" structuredData={faqSchema(faq)} />
-    <Head emoji="✍️" h1="הכתבה" sub="בוחרים רשימה — ההורה מקריא, הילד כותב, ובסוף בודקים יחד" crumb="הכתבה" />
+    {en ? <SEO title="הכתבה באנגלית אונליין — מילים לכיתות ג׳–ו׳ עם הקראה ובדיקה" description="הכתבה באנגלית לילדים: 14 רשימות מילים לכיתות ג׳–ו׳ או רשימה משלכם. הקראה באנגלית במכשיר, הקלדה ובדיקה אוטומטית, או דף הכתבה להדפסה עם תשובות." path="/learn/dictation/english" structuredData={faqSchema(EN_FAQ)} />
+      : <SEO title="הכתבה אונליין לילדים — תרגול הכתבה עם בדיקה ודף להדפסה" description="תרגול הכתבה לכיתות א׳–ד׳: רשימות מוכנות (ט/ת, כ/ק, א/ע, ח/כ, אותיות סופיות) או רשימה משלכם. הורה מקריא או הקראה קולית עם בדיקה אוטומטית, ודף הכתבה להדפסה." path="/learn/dictation" structuredData={faqSchema(faq)} />}
+    <Head emoji={en ? '🇬🇧' : '✍️'} h1={en ? 'הכתבה באנגלית' : 'הכתבה'} sub={en ? 'Dictation — שומעים מילה באנגלית, כותבים, ובסוף בודקים' : 'בוחרים רשימה — ההורה מקריא, הילד כותב, ובסוף בודקים יחד'} crumb={en ? 'הכתבה באנגלית' : 'הכתבה'} />
+    <p className="mb-4 text-center">{en ? <Link to="/learn/dictation" className="underline">להכתבה בעברית ←</Link> : <Link to="/learn/dictation/english" className="underline">🇬🇧 חדש: הכתבה באנגלית ←</Link>}</p>
     {!run && <div className="ln-box space-y-4">
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="רשימה">
-        {DICTATION.map(d => <Chip key={d.id} on={listId === d.id} onClick={() => setListId(d.id)}>{d.title} <small className="opacity-70">· {d.grade}</small></Chip>)}
+        {LISTS.map(d => <Chip key={d.id} on={listId === d.id} onClick={() => setListId(d.id)}>{d.title} <small className="opacity-70">· {d.grade}</small></Chip>)}
         <Chip on={listId === 'custom'} onClick={() => setListId('custom')}>📝 רשימה משלי</Chip>
       </div>
       {listId === 'custom'
@@ -144,7 +157,7 @@ export function Dictation() {
         : <p className="text-center text-lg">{list.words.join(' · ')}</p>}
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="איך מקריאים">
         <Chip on={mode === 'parent'} onClick={() => setMode('parent')}>👩 הורה מקריא</Chip>
-        <Chip on={mode === 'voice'} onClick={() => setMode('voice')} disabled={!voiceOk} title={voiceOk ? '' : 'אין במכשיר קול בעברית'}>🔊 הקראה קולית והקלדה</Chip>
+        <Chip on={mode === 'voice'} onClick={() => setMode('voice')} disabled={!voiceOk} title={voiceOk ? '' : en ? 'אין במכשיר קול באנגלית' : 'אין במכשיר קול בעברית'}>🔊 הקראה קולית והקלדה</Chip>
         <Chip on={mix} onClick={() => setMix(!mix)}>🔀 סדר מעורבב</Chip>
       </div>
       {mode === 'voice' && <p className="text-center text-sm text-[var(--muted-foreground)]">הקול של המכשיר לפעמים מבטא לא מדויק מילים בלי ניקוד. אם משהו נשמע מוזר — עדיף שהורה יקריא.</p>}
@@ -158,10 +171,10 @@ export function Dictation() {
       <div className="ln-bar my-3"><i style={{ width: `${(run.i / run.words.length) * 100}%` }} /></div>
       {mode === 'parent'
         ? <><p className="text-[var(--muted-foreground)]">להורה: הקריאו את המילה פעמיים</p><div className="ln-big">{cur}</div>
-          <div className="flex flex-wrap justify-center gap-3">{voiceOk && <button type="button" className="ln-btn alt" onClick={() => speak(cur)}>🔊 השמעה</button>}<button type="button" className="ln-btn go" onClick={next}>הבאה ◀</button></div></>
+          <div className="flex flex-wrap justify-center gap-3">{voiceOk && <button type="button" className="ln-btn alt" onClick={() => speak(cur, VOICE)}>🔊 השמעה</button>}<button type="button" className="ln-btn go" onClick={next}>הבאה ◀</button></div></>
         : <form onSubmit={e => { e.preventDefault(); next() }} className="space-y-4">
-          <button type="button" className="ln-btn alt" onClick={() => speak(cur)}>🔊 שמיעה שוב</button>
-          <div><input ref={inputRef} className="ln-input" value={typed} onChange={e => setTyped(e.target.value)} dir="rtl" lang="he" autoComplete="off" autoCorrect="off" spellCheck={false} aria-label="מה שמעתם?" placeholder="מקלידים כאן" /></div>
+          <button type="button" className="ln-btn alt" onClick={() => speak(cur, VOICE)}>🔊 שמיעה שוב</button>
+          <div><input ref={inputRef} className="ln-input" value={typed} onChange={e => setTyped(e.target.value)} dir={en ? 'ltr' : 'rtl'} lang={en ? 'en' : 'he'} autoComplete="off" autoCorrect="off" spellCheck={false} aria-label="מה שמעתם?" placeholder="מקלידים כאן" /></div>
           <button type="submit" className="ln-btn go">הבאה ◀</button>
         </form>}
       <button type="button" className="mt-4 underline" onClick={() => setRun(null)}>יציאה</button>
@@ -169,7 +182,7 @@ export function Dictation() {
     {done && <div className="ln-box text-center space-y-4">
       <h2 className="text-3xl font-black">{mode === 'voice' ? `${right} מתוך ${run.words.length} נכונות` : 'סיימנו! עכשיו בודקים'}</h2>
       {mode === 'voice'
-        ? <ol className="text-right inline-block text-lg">{run.words.map((w, i) => { const ok = plainWord(w) === plainWord(run.answers[i] || ''); return <li key={i}>{ok ? '✅' : '❌'} <b>{w}</b>{!ok && <span className="text-[var(--muted-foreground)]"> — כתבת: {run.answers[i] || '(ריק)'}</span>}</li> })}</ol>
+        ? <ol className="text-right inline-block text-lg">{run.words.map((w, i) => { const ok = same(w, run.answers[i] || ''); return <li key={i}>{ok ? '✅' : '❌'} <b>{w}</b>{!ok && <span className="text-[var(--muted-foreground)]"> — כתבת: {run.answers[i] || '(ריק)'}</span>}</li> })}</ol>
         : <ol className="text-right inline-block text-2xl font-bold leading-relaxed">{run.words.map((w, i) => <li key={i}>{w}</li>)}</ol>}
       <div className="flex flex-wrap justify-center gap-3"><button type="button" className="ln-btn go" onClick={start}>🔁 שוב</button><button type="button" className="ln-btn alt" onClick={() => setRun(null)}>רשימה אחרת</button></div>
     </div>}

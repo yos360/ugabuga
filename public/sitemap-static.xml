@@ -1526,6 +1526,40 @@
   <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/practice</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/simulation</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
+  <!-- search-gaps:start (scripts/generate-search-gaps.mjs) -->
+  <url><loc>https://ugabuga.co.il/card-games</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/milchama</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/dag</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/yaniv</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/rami</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/speed</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/chamor</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/taki</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/crazy-eights</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/solitaire</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/zikaron</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/reviot</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/shakran</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/kapiot</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/card-games/slapjack</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/strength</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/light</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/joy</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/nature</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/love</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/faith</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/gift</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/baby-names/meaning/unique</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/dictation/english</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/invitation/bat-mitzvah</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/invitation/bar-mitzvah</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/greetings/from-the-heart</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/greetings/meaningful</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/greetings/for-him</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/greetings/for-her</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/shavuot/greetings</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/guides/quick-dinners-for-kids</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <!-- search-gaps:end -->
   <!-- learn-subjects:start (scripts/generate-learn-subjects.mjs) -->
   <url><loc>https://ugabuga.co.il/learn/tanakh</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/creation</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>

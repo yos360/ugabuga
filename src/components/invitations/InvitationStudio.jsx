@@ -11,9 +11,10 @@ const EMPTY = {name:'',age:'',date:'',time:'',place:'',phone:'',notes:''}
 const FONT_WEIGHTS = [400,500,600,700,800]
 const FONT_SAMPLE = 'אבגדהו Aa0'
 const loadFonts = family => Promise.all([...new Set([family,'Heebo'])].flatMap(f=>FONT_WEIGHTS.map(w=>document.fonts.load(`${w} 40px "${f}"`,FONT_SAMPLE).catch(()=>[]))))
-export default function InvitationStudio() {
- const [theme,setTheme]=useState(INVITATION_THEMES[0]),[data,setData]=useState(EMPTY),[format,setFormat]=useState('portrait')
- const [design,setDesign]=useState(()=>invitationStyleFor(INVITATION_THEMES[0]))
+export default function InvitationStudio({ occasion = null }) {
+ const start=occasion?INVITATION_THEMES.find(t=>t.id==='elegant')||INVITATION_THEMES[0]:INVITATION_THEMES[0]
+ const [theme,setTheme]=useState(start),[data,setData]=useState(()=>occasion?{...EMPTY,occasion}:EMPTY),[format,setFormat]=useState('portrait')
+ const [design,setDesign]=useState(()=>invitationStyleFor(start))
  const [photo,setPhoto]=useState(null),[crop,setCrop]=useState({zoom:1,x:50,y:50}),[loadingPhoto,setLoadingPhoto]=useState(false)
  const [output,setOutput]=useState(null),[busy,setBusy]=useState(false),[printing,setPrinting]=useState(''),[message,setMessage]=useState(''),[error,setError]=useState('')
  const canvas=useRef(null),upload=useRef(0),[params]=useSearchParams()

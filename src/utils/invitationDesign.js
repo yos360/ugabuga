@@ -29,9 +29,14 @@ export const invitationStyleFor = theme => ({
  photoShape:['gaming','football'].includes(theme.id)?'rounded':'circle',photoScale:100,panel:'card',effect:'solid',frame:'theme',decorations:true,
  headline:'',footer:'מחכים לחגוג איתכם!'
 })
+// Bar/bat mitzvah invitations use the same studio with their own wording (data.occasion).
+export const INVITATION_OCCASIONS = {
+ 'bat-mitzvah': { title: 'בת מצווה', headline: 'בשמחה רבה מזמינים אתכם לחגוג', line: 'חוגגת בת מצווה', invite: 'הוזמנתם לחגוג את בת המצווה של' },
+ 'bar-mitzvah': { title: 'בר מצווה', headline: 'בשמחה רבה מזמינים אתכם לחגוג', line: 'חוגג בר מצווה', invite: 'הוזמנתם לחגוג את בר המצווה של' },
+}
 export function invitationText(data, link='') {
- const ltr=v=>`\u2066${v}\u2069`
- return [`הוזמנתם ליום ההולדת של ${data.name || '___'}${data.age ? ` — חוגגים ${data.age}!` : '!'}`,`תאריך: ${data.date || '___'}`,`שעה: ${data.time ? ltr(data.time) : '___'}`,`מקום: ${data.place || '___'}`,data.phone && `אישור הגעה: ${ltr(data.phone)}`,link && `אישור הגעה אונליין: ${link}`,data.notes].filter(Boolean).join('\n')
+ const ltr=v=>`\u2066${v}\u2069`, occ=INVITATION_OCCASIONS[data.occasion]
+ return [occ ? `${occ.invite} ${data.name || '___'}!` : `הוזמנתם ליום ההולדת של ${data.name || '___'}${data.age ? ` — חוגגים ${data.age}!` : '!'}`,`תאריך: ${data.date || '___'}`,`שעה: ${data.time ? ltr(data.time) : '___'}`,`מקום: ${data.place || '___'}`,data.phone && `אישור הגעה: ${ltr(data.phone)}`,link && `אישור הגעה אונליין: ${link}`,data.notes].filter(Boolean).join('\n')
 }
 export function cropCover(width,height,size,zoom=1,x=50,y=50) {
  const scale=Math.max(size/width,size/height)*zoom,w=width*scale,h=height*scale
@@ -117,9 +122,10 @@ export function renderInvitationLegacy(canvas,{theme,data,format='portrait',phot
  if(p.frame==='double'){round(28,28,1024,H-56,42,null,p.accent);round(48,48,984,H-96,34,null,p.second)}
  const top=125+extra*.12
  const defaultHeadline=theme.id==='gaming'?'עולים שלב — חוגגים יום הולדת!':theme.id==='football'?'כרטיס כניסה למסיבת האלופים':theme.id==='space'?'מתכוננים להמראה למסיבת יום הולדת':theme.id==='dino'?'יוצאים להרפתקת יום הולדת':theme.id==='princess'?'הוזמנתם לחגיגה קסומה':'יש מסיבה, ואתם מוזמנים!'
- text(p.headline||defaultHeadline,540,top,32)
+ const occ=INVITATION_OCCASIONS[data.occasion]
+ text(p.headline||(occ?occ.headline:defaultHeadline),540,top,32)
  text(data.name||'שם החוגג/ת',540,top+85,p.nameSize||88,p.ink,850,800)
- text(data.age?`חוגגים ${data.age}`:'יום הולדת שמח',540,top+160,38,p.accent)
+ text(occ?occ.line:data.age?`חוגגים ${data.age}`:'יום הולדת שמח',540,top+160,38,p.accent)
  const size=(400+extra*.24)*(p.photoScale||100)/100,x=(W-size)/2,y=340+extra*.2+(400+extra*.24-size)/2
  c.save();c.beginPath();if(p.photoShape==='rounded')c.roundRect(x,y,size,size,38);else if(p.photoShape==='square')c.roundRect(x,y,size,size,4);else c.arc(540,y+size/2,size/2,0,Math.PI*2);c.clip()
  c.fillStyle='#fff';c.fillRect(x,y,size,size)

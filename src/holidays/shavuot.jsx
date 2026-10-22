@@ -1,5 +1,6 @@
 // Shavuot area config.
 import { SHAVUOT, SHAVUOT_QUIZ, SHAVUOT_IDEAS } from '../data/shavuot'
+import { SHAVUOT_GREETINGS, SHAVUOT_GREETINGS_FAQ } from '../data/shavuotGreetings'
 import { SHAVUOT_ART, SHAVUOT_SHEETS } from '../components/shavuot/ShavuotPrint'
 
 const base = '/holidays/shavuot'
@@ -13,6 +14,7 @@ export const SHAVUOT_H = {
     { to: base + '/quiz', label: 'חידון', emoji: '❓', title: 'חידון שבועות', blurb: '3 רמות, הסבר אחרי כל תשובה — גם להדפסה' },
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️', title: 'דפי צביעה', blurb: 'סל ביכורים, לוחות הברית, שיבולים ועוד — 6 דפים' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️', title: 'דפי עבודה', blurb: 'ספירה, שבעת המינים, כתיבה ו"מה עשוי מחלב?"' },
+    { to: base + '/greetings', label: 'ברכות', emoji: '💌', title: 'ברכות לשבועות', blurb: 'ברכות לחג שבועות שמח — לוואטסאפ, למשפחה, לחברים ולעבודה' },
     { to: base + '/what-to-do', label: 'פעילויות', emoji: '💡', title: 'פעילויות לשבועות', blurb: 'טקס ביכורים, עוגת גבינה עם הילדים וטיול לשדה' },
   ],
   hub: {
@@ -75,6 +77,15 @@ export const SHAVUOT_H = {
     },
   },
   lists: {
+    greetings: {
+      groups: SHAVUOT_GREETINGS, crumb: 'ברכות', emoji: '💌',
+      title: 'ברכות לשבועות — ברכות לחג שבועות שמח לוואטסאפ ולכרטיס', desc: 'ברכות לשבועות: {n} ברכות מקוריות לחג שבועות שמח — קצרות לוואטסאפ, למשפחה, לחברים, לעבודה ולגננת, וגם ברכות מרגשות על ביכורים, קציר ומגילת רות.',
+      h1: 'ברכות לשבועות', sub: 'ברכות לחג שבועות שמח — לוואטסאפ, למשפחה ולחברים',
+      tip: '💡 טיפ: הוסיפו לברכה שורה אישית — מתכון שאתם מכינים לחג, זיכרון משותף או איחול שמתאים רק למי שמקבל אותה.',
+      body: ['בשבועות נוהגים לאחל ״חג שמח״ — והחג, שהוא גם חג הביכורים, חג הקציר וזמן מתן תורה, מזמין ברכות על התחלות חדשות, על פירות ראשונים ועל שולחן משפחתי עם מאכלי חלב. כאן תמצאו ברכות מקוריות שכתבנו במיוחד, לפי מי שמקבל אותן.'],
+      faq: SHAVUOT_GREETINGS_FAQ,
+      related: [{ label: 'פעילויות לשבועות', href: base + '/what-to-do' }, { label: 'ברכות וקריאות לשבועות', href: '/holidays/blessings/shavuot' }],
+    },
     'what-to-do': {
       groups: SHAVUOT_IDEAS, crumb: 'פעילויות',
       title: 'פעילויות לשבועות לגן, לכיתה ולבית', desc: '{n} פעילויות לשבועות: טקס ביכורים בגן, הכנת סל ביכורים, עוגת גבינה עם הילדים, ביקור ברפת, טיול לשדה חיטה ועוד.',

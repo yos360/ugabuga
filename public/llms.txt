@@ -149,6 +149,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [משחק אותיות לגן](https://ugabuga.co.il/letters/game)
 - [אותיות בעברית לכתיבה](https://ugabuga.co.il/printables/hebrew-letters)
 - [הכתבה](https://ugabuga.co.il/learn/dictation)
+- [מקלדת ניקוד](https://ugabuga.co.il/tools/nikud-keyboard)
 - [הבנת הנקרא](https://ugabuga.co.il/learn/reading)
 - [כרטיסיות לימוד](https://ugabuga.co.il/learn/flashcards)
 - [הפכים ומילים נרדפות](https://ugabuga.co.il/words/opposites)
