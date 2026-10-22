@@ -9,14 +9,14 @@ import '../subjects/subjects.css'
 // Hands-on pages of the AI subject (/learn/ai). Nothing here calls an AI service: the "robot" is a
 // few lines of nearest-neighbour code in the browser, so children see exactly how it decides.
 const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
-const AI = { label: 'בינה מלאכותית לילדים', href: '/learn/ai' }
+const AI = { label: 'אקדמיית ה־AI של בוגה', href: '/learn/ai' }
 const crumbs = label => [{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, AI, { label }]
 const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]] } return b }
 const MoreTools = ({ not }) => <div className="mt-10 grid gap-3 sm:grid-cols-3">{[
   { to: '/learn/ai/teach-the-robot', label: '🧠 מלמדים את הרובוט' },
   { to: '/learn/ai/prompt-lab', label: '💬 מעבדת השאלות' },
   { to: '/learn/ai/spot-the-mistake', label: '🔎 תפסו את הטעות של הבוט' },
-  { to: '/learn/ai', label: '🤖 כל השיעורים על בינה מלאכותית' },
+  { to: '/learn/ai', label: '🤖 כל השיעורים באקדמיית ה־AI' },
 ].filter(t => t.to !== not).map(t => <Link key={t.to} to={t.to} className="ln-box card-lift text-center font-bold">{t.label}</Link>)}</div>
 
 // ---------- 1. Teach the robot ----------

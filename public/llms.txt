@@ -160,6 +160,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [היסטוריה](https://ugabuga.co.il/learn/history)
 - [גאוגרפיה ומולדת](https://ugabuga.co.il/learn/geography)
 - [אזרחות וחברה](https://ugabuga.co.il/learn/civics)
+- [אקדמיית ה־AI של בוגה](https://ugabuga.co.il/learn/ai)
 
 ### אנגלית, שפות והקלדה
 - [אנגלית לילדים — מילים ומשחקים](https://ugabuga.co.il/english)
