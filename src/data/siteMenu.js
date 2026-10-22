@@ -87,6 +87,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/coin-flip', label: 'הטלת מטבע', icon: '🪙' },
           { to: '/tools/bmi', label: 'מחשבון BMI', icon: '⚖️' },
           { to: '/tools/fraction-calculator', label: 'מחשבון שברים', icon: '➗' },
+          { to: '/tools/quadratic-equation', label: 'משוואה ריבועית', icon: '📐' },
           { to: '/tools/grade-average', label: 'מחשבון ממוצע ציונים', icon: '🎓' },
           { to: '/tools/age-calculator', label: 'בן כמה אני?', icon: '🎂' },
           { to: '/emoji', label: 'אימוג׳י וסמיילים להעתקה', icon: '😀' },
@@ -295,7 +296,7 @@ export const MENU_DOMAINS = [
   {
     id: 'holidays', label: SECTION.holidays, icon: '🕎', to: '/holidays',
     landingLabel: 'כל השבתות והחגים',
-    prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until', '/hebrew-calendar'],
+    prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until', '/hebrew-calendar', '/omer'],
     groups: [
       {
         title: 'חגי ישראל', icon: '📅', to: '/holidays',
@@ -324,6 +325,7 @@ export const MENU_DOMAINS = [
           { to: '/school-holidays', label: 'לוח חופשות 2026–2027', icon: '📅' },
           { to: '/hebrew-calendar', label: 'לוח שנה עברי לועזי', icon: '📅' },
           { to: '/tools/hebrew-birthday', label: 'יום הולדת עברי', icon: '✡️' },
+          { to: '/omer', label: 'ספירת העומר היום', icon: '🌾' },
           { to: '/days-until', label: 'כמה ימים עד החג?', icon: '⏳' },
         ],
       },

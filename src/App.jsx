@@ -134,6 +134,8 @@ const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ de
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
 const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
+const OmerCount = lazy(() => import('./pages/tools/OmerCount'))
+const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
 const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
@@ -908,6 +910,8 @@ export default function App() {
               <Route path="/tools/nikud-keyboard" element={<NikudKeyboard />} />
               <Route path="/tools/nakdan" element={<Nakdan />} />
               <Route path="/hebrew-calendar" element={<HebrewCalendarPage />} />
+              <Route path="/omer" element={<OmerCount />} />
+              <Route path="/tools/quadratic-equation" element={<QuadraticSolver />} />
               <Route path="/hebrew-calendar/:year" element={<HebrewCalendarPage />} />
               <Route path="/card-games" element={<CardGamesHub />} />
               <Route path="/card-games/:slug" element={<CardGamePage />} />
