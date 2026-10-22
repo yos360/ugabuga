@@ -1,0 +1,58 @@
+/* Site-wide look (v3) — brings every inner page in line with the home page: soft cards with a thin
+   ring and layered shadow, no tilted cards, a pastel glow at the top of the page, violet primary
+   buttons and a gentle lift on hover (pointer devices only). Print and reduced motion untouched. */
+:root {
+  --border: #e4e1f0;
+  --shadow-card: 0 1px 2px rgb(43 29 111 / 4%), 0 8px 24px rgb(43 29 111 / 7%);
+  --violet: #6d48e5;
+}
+
+@media screen {
+  /* a soft pastel glow behind the page title, like the home hero */
+  body main#site-content {
+    background-image:
+      radial-gradient(1100px 360px at 88% -80px, #ffe9f2 0, transparent 70%),
+      radial-gradient(1000px 360px at 8% -60px, #e4f5ff 0, transparent 70%);
+    background-repeat: no-repeat;
+  }
+
+  /* cards: thin soft ring instead of a thick border, and straight (never tilted) */
+  body .wobbly.border-2, body .wobbly-md.border-2, body .wobbly-sm.border-2 { border-width: 1px; }
+  body .wobbly, body .wobbly-md, body .wobbly-sm, body .card-lift { rotate: none !important; }
+  body .sketch-shadow { box-shadow: var(--shadow-card); }
+  body .sketch-shadow-rich { box-shadow: 0 2px 4px rgb(43 29 111 / 4%), 0 16px 40px rgb(43 29 111 / 10%); }
+  body .sketch-press { box-shadow: var(--shadow-card); transition: transform .25s cubic-bezier(.3,.7,.4,1.4), box-shadow .25s, border-color .25s; }
+  body .card-lift { transition: transform .25s cubic-bezier(.3,.7,.4,1.4), box-shadow .25s, border-color .25s; }
+
+  /* hard "sticker" offset shadows and extra-thick borders → the same soft card look everywhere */
+  body [class*="shadow-["]:is([class*="px_0_"], [class*="px_0px_"]) { box-shadow: var(--shadow-card) !important; }
+  body .border-\[3px\], body .border-\[4px\], body .border-4 { border-width: 2px; }
+
+  /* chips and boxes used across learning, stories and tools pages */
+  body .ln-chip { border-radius: 999px; transition: background .2s, border-color .2s, transform .2s; }
+  body .ln-chip[aria-pressed="true"] { background: linear-gradient(90deg, #efe8ff, #e3f6ff); border-color: #c9b8fb; color: #4b2fc0; }
+  body .ln-box { border-radius: 24px; box-shadow: var(--shadow-card); }
+
+  /* breadcrumbs: quieter */
+  body nav[aria-label="breadcrumb"], body nav[aria-label="פירורי לחם"] { opacity: .85; }
+}
+
+/* the lift and wiggle only where there is a real pointer */
+@media screen and (hover: hover) {
+  body .card-lift:hover, body .sketch-press:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 2px 4px rgb(43 29 111 / 5%), 0 18px 36px rgb(43 29 111 / 12%);
+    border-color: #cfc2f8;
+  }
+  body .sketch-press:active { transform: translateY(-1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .card-lift, body .sketch-press, body .ln-chip { transition: none !important; }
+  body .card-lift:hover, body .sketch-press:hover { transform: none !important; }
+}
+
+/* floating helpers (classroom "present" button): soft, not a black sticker */
+@media screen {
+  body .pm-open { border: 1px solid #e4e1f0 !important; box-shadow: var(--shadow-card) !important; background: #fff; }
+}

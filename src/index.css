@@ -10,6 +10,7 @@
 @import "tailwindcss";
 @import "./design-system.css";
 @import "./responsive-overrides.css";
+@import "./theme-v3.css";
 
 :root {
   --background: #fffefa;
