@@ -5,9 +5,10 @@ import assert from 'node:assert/strict'
 import { readFileSync, readdirSync } from 'node:fs'
 
 const read = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')
-const routes = [...read('src/App.jsx').matchAll(/path="([^"]+)"/g)].map(m => m[1])
+// The catch-all route (*) would make any path look valid, so it is left out.
+const routes = [...read('src/App.jsx').matchAll(/path="([^"]+)"/g)].map(m => m[1]).filter(r => !r.includes('*'))
 const known = new Set(JSON.parse(read('public/known-paths.json')))
-const routeRe = routes.map(r => new RegExp('^' + r.replace(/:[^/]+/g, '[^/]+').replace(/\*/g, '.*') + '$'))
+const routeRe = routes.map(r => new RegExp('^' + r.replace(/:[^/]+/g, '[^/]+') + '$'))
 const exists = path => known.has(path) || routeRe.some(re => re.test(path))
 
 const files = readdirSync(new URL('../src/data', import.meta.url)).filter(f => f.endsWith('.js')).map(f => `src/data/${f}`)
@@ -21,7 +22,7 @@ test('every inline content link points at a real page', () => {
     if (!path.startsWith('/') || !exists(path)) bad.push(`${f}: ${m[0]}`)
   }
   assert.deepEqual(bad, [])
-  assert.ok(count >= 0)
+  assert.ok(count > 300, `only ${count} links`)
 })
 
 test('no half-written link markup', () => {
