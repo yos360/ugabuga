@@ -37,6 +37,10 @@ export function SubjectHub({ subjectKey }) {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: s.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{s.emoji} </span>{s.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{s.desc} · לכיתות {s.grades}</p>
+    {s.tools && <section className="mb-8">
+      <h2 className="mb-3 text-2xl font-black">🧪 מתנסים בעצמכם</h2>
+      <div className="grid gap-3 sm:grid-cols-3">{s.tools.map(t => <Link key={t.to} to={t.to} className="ln-box card-lift text-right"><b className="text-lg">{t.emoji} {t.label}</b><br /><small>{t.desc}</small></Link>)}</div>
+    </section>}
     {!topics ? <Loading /> : <>
       <p className="sj-count">{topics.length} שיעורים · בכל שיעור: הסבר, חידון עם תשובות, דף עבודה להדפסה ושאלות לשיחה</p>
       <ul className="sj-grid">{topics.map(t => <li key={t.slug}><Link to={`/learn/${s.key}/${t.slug}`} className="sj-card card-lift">
