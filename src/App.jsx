@@ -126,6 +126,7 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
+const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
 const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
 const SpotTheMistake = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.SpotTheMistake })))
@@ -877,6 +878,7 @@ export default function App() {
               <Route path="/games/bingo" element={<BingoMaker />} />
               <Route path="/tools/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
+              <Route path="/tools/nikud-keyboard" element={<NikudKeyboard />} />
               <Route path="/tools/bring-list" element={<BringList />} />
               <Route path="/tools/emoji-studio" element={<EmojiStudio />} />
               <Route path="/bring-list" element={<BringList />} />
