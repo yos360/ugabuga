@@ -3,6 +3,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { faqSchema } from '../../components/ui/SeoBody'
 import ToolGuide from './ToolGuide'
+import UseClassRoster from '../../components/ui/UseClassRoster'
 import { TOOL_GUIDES } from './toolGuides'
 
 const guide = TOOL_GUIDES.scoreboard
@@ -34,6 +35,7 @@ export default function Scoreboard() {
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'לוח ניקוד' }]} />
       <h1 className="text-4xl text-center mb-6">📊 לוח ניקוד</h1>
 
+      <UseClassRoster className="mb-4" onUse={list => setPlayers(list.map(name => ({ name, score: 0 })))} />
       <div className="flex gap-2 mb-6">
         <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="שם שחקן/קבוצה..."
           onKeyDown={e => e.key === 'Enter' && addPlayer()}

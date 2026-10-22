@@ -10,18 +10,43 @@ import './live-quiz.css'
 const COLORS=['red','blue','gold','green'],MARKS=['▲','◆','●','■']
 const KICK_STYLE={marginInlineStart:8,padding:'1px 8px',border:'1px solid currentColor',borderRadius:999,background:'transparent',color:'inherit',font:'inherit',fontSize:'.75em',opacity:.7,cursor:'pointer'}
 function useQr(text){const[svg,setSvg]=useState('');useEffect(()=>{import('qrcode').then(({default:Q})=>Q.toString(text,{type:'svg',margin:1,width:240,color:{dark:'#111633',light:'#ffffff'}})).then(setSvg).catch(()=>{})},[text]);return svg}
+// Host summary: every reveal is recorded on this device (counts per answer), so the end screen can show
+// how the class did on each question and hand the teacher a CSV. Nothing extra is stored on the server.
+const statsKey=(code,title)=>`buga-live-stats-${code}-${title}`
+const readStats=key=>{try{return JSON.parse(localStorage.getItem(key)||'{}')}catch{return {}}}
+function HostSummary({stats,leaderboard,title}){
+ const rows=Object.values(stats).sort((a,b)=>a.i-b.i)
+ if(!rows.length)return null
+ const pct=r=>r.answered?Math.round(r.right/r.answered*100):0
+ const hardest=rows.filter(r=>r.answered).sort((a,b)=>pct(a)-pct(b))[0]
+ const csv=()=>{const esc=v=>`"${String(v).replace(/"/g,'""')}"`;const lines=[['שאלה','התשובה הנכונה','ענו','צדקו','אחוז הצלחה'].map(esc).join(','),...rows.map(r=>[r.q,r.answer,r.answered,r.right,`${pct(r)}%`].map(esc).join(',')),'',['מקום','שם','ניקוד'].map(esc).join(','),...leaderboard.map((p,i)=>[p.rank||i+1,p.name,p.score].map(esc).join(','))];const url=URL.createObjectURL(new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`buga-live-${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+ return <section className="live-summary"><h2>📊 סיכום למנחה</h2>
+  {hardest&&<p className="live-summary-hard">השאלה הכי קשה: <b>{hardest.q}</b> — {pct(hardest)}% צדקו</p>}
+  <ol>{rows.map(r=><li key={r.i}><span>{r.q}</span><i style={{'--pct':`${pct(r)}%`}}><em/></i><b>{pct(r)}%</b><small>{r.right}/{r.answered}</small></li>)}</ol>
+  <button type="button" onClick={csv}>⬇️ הורדת התוצאות לאקסל (CSV)</button>
+  <p className="live-summary-note">הסיכום נשמר רק במכשיר של המנחה.</p>
+ </section>}
 function Leaderboard({rows=[],limit=10}){return <ol className="live-leaders">{rows.slice(0,limit).map((p,i)=><li key={`${p.name}-${i}`}><b>{p.rank||i+1}</b><span>{p.name}</span><strong>{p.score.toLocaleString('he-IL')}</strong></li>)}</ol>}
 
 export default function LiveQuizHost(){
  const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'משחק חדש');history.replaceState(null,'',location.pathname)}return hash||liveMemory.hostToken(code)})
  const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('mixed'),[replayDifficulty,setReplayDifficulty]=useState('medium'),[replayMode,setReplayMode]=useState('regular'),[retry,setRetry]=useState(0),auto=useRef(''),retryTimer=useRef(0),finishSeen=useRef(false)
- const playLink=livePlayLink(code),qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
+ const[stats,setStats]=useState({}),playLink=livePlayLink(code),qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
  const load=useCallback(()=>token&&liveQuizDb.host(code,token).then(d=>{setData(d);setError('');liveMemory.rememberHost(code,token,d.title)}).catch(e=>setError(liveErrorText(e.code))),[code,token])
  useEffect(()=>{load();const id=setInterval(()=>{if(document.visibilityState==='visible')load()},1200);return()=>clearInterval(id)},[load])
  // Auto-reveal when the timer hits zero. The server may refuse (`question_open` when this clock runs
  // ahead of the database clock, or a network hiccup), so a failed attempt is retried a second later.
  useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{load();clearTimeout(retryTimer.current);retryTimer.current=setTimeout(()=>{auto.current='';setRetry(n=>n+1)},1000)})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load,retry])
  useEffect(()=>()=>clearTimeout(retryTimer.current),[])
+ // Record each revealed question (latest counts win; late answers can still arrive during reveal).
+ useEffect(()=>{
+   if(!data?.title)return
+   const key=statsKey(code,data.title)
+   if(data.phase==='lobby'){try{localStorage.removeItem(key)}catch{/* private mode */}setStats({});return}
+   const all=readStats(key)
+   if(data.phase==='reveal'){const q=data.questions[data.question_index];if(q){const counts=data.counts||{},answered=Object.values(counts).reduce((t,n)=>t+(Number(n)||0),0);all[data.question_index]={i:data.question_index,q:q.q,answer:q.options[q.correct],answered,right:Number(counts[q.correct])||0};try{localStorage.setItem(key,JSON.stringify(all))}catch{/* private mode */}}}
+   setStats(all)
+ },[data?.phase,data?.question_index,data?.answer_count,data?.title,code]) // eslint-disable-line react-hooks/exhaustive-deps
  const detectedPack=detectLiveQuizPack(data?.questions,data?.title)
  const detectedMode=detectLiveQuizMode(data?.questions)
  useEffect(()=>{
@@ -75,6 +100,7 @@ export default function LiveQuizHost(){
     <button className="live-start-button" disabled={busy} onClick={()=>act(isLast?'finish':'next')}>{isLast?'לתוצאות הסופיות':'לשאלה הבאה'} <span>←</span></button>
   </section>}
   {data.phase==='finished'&&<section className="live-finish-stage"><p>🏆 המשחק הסתיים</p><h1>{data.title}</h1>{data.leaderboard.length?<Leaderboard rows={data.leaderboard}/>:<p>הפעם לא היו תשובות.</p>}
+    <HostSummary stats={stats} leaderboard={data.leaderboard} title={data.title}/>
     <div className="live-replay-panel"><div className="live-replay-head"><span>עוד סיבוב?</span><h2>משחק חדש עם אותם משתתפים</h2><p>{total} המשתתפים נשארים בחדר עם אותו קוד. הניקוד מתאפס ומתחילים יחד.</p></div>
       {detectedPack&&<button className="live-replay-primary" disabled={busy} onClick={()=>freshRound(detectedPack.topicId,detectedPack.difficultyId)}><b>🔄 אותו נושא, שאלות חדשות</b><span>{currentTopic?.label} · {currentDifficulty?.label} · בלי לחזור על שאלות הסבב</span></button>}
       <div className="live-replay-picker"><h3>או בוחרים נושא אחר</h3><div className="live-topic-grid">{LIVE_QUIZ_TOPICS.map(item=><button type="button" key={item.id} aria-pressed={replayTopic===item.id} style={{'--topic-color':item.color}} onClick={()=>setReplayTopic(item.id)}><i>{item.icon}</i><span>{item.label}</span></button>)}</div>
