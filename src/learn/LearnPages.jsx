@@ -14,6 +14,7 @@ import { DICTATION_EN } from './dictationEnglish.js'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
 import { MENU_DOMAINS } from '../data/siteMenu'
 import { applySay } from '../utils/sayFixes'
+import { vocalizeAll } from '../utils/nikudText'
 import { SUBJECTS } from './subjects/subjects'
 import './learn.css'
 
@@ -202,22 +203,48 @@ const GRADE_LETTER = { 2: 'ב׳', 3: 'ג׳', 4: 'ד׳', 5: 'ה׳', 6: 'ו׳' }
 // Older short passages that fit a grade page as extra practice (by their grade label).
 const SHORT_FOR = { 2: ['א׳–ב׳', 'ב׳–ג׳'], 3: ['ב׳–ג׳', 'ג׳–ד׳'], 4: ['ג׳–ד׳'] }
 const opensOf = r => Array.isArray(r.open) ? r.open : [[r.open, null]]
+// Every string of a passage (text, questions, options, model answers) — what the nikud toggle vocalizes.
+const readingStrings = r => [r.title, ...r.text, ...r.q.flatMap(([q, o]) => [q, ...o]), ...opensOf(r).flatMap(([q, a]) => (a ? [q, a] : [q]))]
+// Nikud toggle: vocalizes the given passages through the site's nakdan (Dicta) once switched on.
+// Returns v(s) → the vocalized string when ready (the original until then) and the load state.
+function useNikud(list, on) {
+  const [res, setRes] = useState({ key: '', map: null, state: 'idle' })
+  const key = list.map(r => r.slug).join('|')
+  useEffect(() => {
+    if (!on || res.key === key) return undefined
+    let alive = true
+    vocalizeAll(list.flatMap(readingStrings)).then(map => { if (alive) setRes({ key, map, state: 'ready' }) }).catch(() => { if (alive) setRes({ key, map: null, state: 'error' }) })
+    return () => { alive = false }
+  }, [on, key]) // eslint-disable-line react-hooks/exhaustive-deps
+  const ready = on && res.key === key && res.map
+  return { v: s => (ready ? res.map.get(s) || s : s), state: !on ? 'off' : res.key === key ? res.state : 'loading' }
+}
+const NIKUD_NOTE = 'הניקוד נוסף אוטומטית (באדיבות מפעל דיקטה) ויכול לטעות במילים בודדות.'
 const qCount = r => r.q.length + opensOf(r).length
 const gradeHref = g => `/learn/reading/grade-${g}`
 
-function ReadingPrint({ r }) {
+function ReadingPrint({ r, v = s => s, answers = true }) {
   const opens = opensOf(r)
   return <>
-    <article className="buga-flow ln-print" dir="rtl"><h2>{r.title}</h2>
-      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind} · כיתה {r.grade}</span></div>
-      <div className="txt">{r.text.map((p, i) => <p key={i}>{p}</p>)}</div>
+    <article className="buga-flow ln-print" dir="rtl"><h2>{v(r.title)}</h2>
+      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind} · כיתה {r.grade}</span><span>ציון: ______</span></div>
+      <div className="txt">{r.text.map((p, i) => <p key={i}>{v(p)}</p>)}</div>
       <h3>שאלות</h3>
-      <ol className="qs">{r.q.map(([q, opts]) => <li key={q}><b>{q}</b><ul>{opts.map(o => <li key={o}>☐ {o}</li>)}</ul></li>)}
-        {opens.map(([q]) => <li key={q}><b>{q}</b><div className="write" /><div className="write" />{r.level >= 4 && <div className="write" />}</li>)}</ol></article>
-    <article className="buga-flow ln-print" dir="rtl"><h2>תשובות — {r.title}</h2>
+      <ol className="qs">{r.q.map(([q, opts]) => <li key={q}><b>{v(q)}</b><ul>{opts.map(o => <li key={o}>☐ {v(o)}</li>)}</ul></li>)}
+        {opens.map(([q]) => <li key={q}><b>{v(q)}</b><div className="write" /><div className="write" />{r.level >= 4 && <div className="write" />}</li>)}</ol></article>
+    {answers && <article className="buga-flow ln-print" dir="rtl"><h2>תשובות — {r.title}</h2>
       <ol>{r.q.map(([q, opts, c]) => <li key={q}>{q} <b>{opts[c]}</b></li>)}
-        {opens.map(([q, a]) => <li key={q}>{q} {a ? <><br /><i>תשובה אפשרית: {a}</i></> : <i>(תשובה פתוחה)</i>}</li>)}</ol></article>
+        {opens.map(([q, a]) => <li key={q}>{q} {a ? <><br /><i>תשובה אפשרית: {a}</i></> : <i>(תשובה פתוחה)</i>}</li>)}</ol></article>}
   </>
+}
+// Print options shared by a single passage and the grade booklet.
+function PrintChoices({ nikud, setNikud, answers, setAnswers, state }) {
+  return <div className="mb-3 flex flex-wrap items-center justify-center gap-2">
+    <Chip on={nikud} onClick={() => setNikud(!nikud)}>🔤 עם ניקוד</Chip>
+    <Chip on={answers} onClick={() => setAnswers(!answers)}>✅ עם דף תשובות</Chip>
+    {state === 'loading' && <span role="status">מנקדים…</span>}
+    {state === 'error' && <span role="alert">הניקוד לא זמין כרגע — אפשר להדפיס בלי ניקוד.</span>}
+  </div>
 }
 
 // One passage with its questions, solved on screen. Reset with `key` when the passage changes.
@@ -228,19 +255,25 @@ function ReadingExercise({ r, headingLevel = 2 }) {
   const [showAns, setShowAns] = useState(false)
   const [printing, setPrinting] = useState(false)
   const [shown, setShown] = useState({}) // projection: answers the teacher revealed, one question at a time
+  const [nikud, setNikud] = useState(r.level === 1)
+  const [answersOn, setAnswersOn] = useState(true)
+  const { v, state: nikudState } = useNikud([r], nikud)
   const { on: teacher } = usePresentMode()
   const opens = opensOf(r)
   const score = r.q.filter((q, i) => picks[i] === q[2]).length
   const H = headingLevel === 2 ? 'h2' : 'h3'
   return <>
-    <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
-    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{p} <SpeakButton text={p} say={r.say && applySay(p, r.say)} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
+    <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><Chip on={nikud} onClick={() => setNikud(!nikud)}>🔤 עם ניקוד</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
+    {nikudState === 'loading' && <p className="mb-2 text-center" role="status">מנקדים את הקטע…</p>}
+    {nikudState === 'error' && <p className="mb-2 text-center" role="alert">הניקוד לא זמין כרגע. נסו שוב בעוד רגע.</p>}
+    {nikudState === 'ready' && <p className="mb-2 text-center text-sm text-[var(--muted-foreground)]">{NIKUD_NOTE}</p>}
+    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{v(p)} <SpeakButton text={p} say={r.say && applySay(p, r.say)} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
     <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
-    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {q}</b> <SpeakButton text={q} say={r.say && applySay(q, r.say)} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
+    <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {v(q)}</b> <SpeakButton text={q} say={r.say && applySay(q, r.say)} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
-        className={`ln-opt ${(checked || shown[i]) && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{o}</button>)}
+        className={`ln-opt ${(checked || shown[i]) && j === c ? 'is-right' : ''} ${checked && picks[i] === j && j !== c ? 'is-wrong' : ''}`}>{v(o)}</button>)}
       {teacher && !checked && <button type="button" className="ln-chip mt-2" onClick={() => setShown(s => ({ ...s, [i]: !s[i] }))}>{shown[i] ? '🙈 הסתרת התשובה' : '👁️ חשיפת התשובה'}</button>}</div>)}
-      {opens.map(([q, a], k) => <div key={q} className="ln-q"><b>{r.q.length + k + 1}. {q}</b><textarea className="ln-ta mt-2" aria-label={`תשובה פתוחה ${k + 1}`} placeholder="כותבים כאן או בדף" />
+      {opens.map(([q, a], k) => <div key={q} className="ln-q"><b>{r.q.length + k + 1}. {v(q)}</b><textarea className="ln-ta mt-2" aria-label={`תשובה פתוחה ${k + 1}`} placeholder="כותבים כאן או בדף" />
         {a && (showAns || teacher) && <p className="mt-2 rounded-xl bg-[#e7f8e4] p-2"><b>תשובה אפשרית:</b> <span data-answer>{a}</span></p>}</div>)}
     </div>
     <div className="mt-5 text-center">{checked
@@ -248,7 +281,7 @@ function ReadingExercise({ r, headingLevel = 2 }) {
         <div className="mt-3 flex flex-wrap justify-center gap-2">{opens.some(o => o[1]) && <button type="button" className="ln-btn go" onClick={() => setShowAns(!showAns)}>{showAns ? 'הסתרת התשובות הפתוחות' : '💡 הצגת תשובות לשאלות הפתוחות'}</button>}
           <button type="button" className="ln-btn alt" onClick={() => { setPicks({}); setChecked(false); setShowAns(false) }}>🔁 לנסות שוב</button></div></>
       : <button type="button" className="ln-btn go" disabled={Object.keys(picks).length < r.q.length} onClick={() => setChecked(true)}>✓ בדיקה</button>}</div>
-    {printing && <PrintPreview title={r.title} onClose={() => setPrinting(false)}><ReadingPrint r={r} /></PrintPreview>}
+    {printing && <PrintPreview title={r.title} onClose={() => setPrinting(false)}><div className="no-print"><PrintChoices nikud={nikud} setNikud={setNikud} answers={answersOn} setAnswers={setAnswersOn} state={nikudState} /></div><ReadingPrint r={r} v={v} answers={answersOn} /></PrintPreview>}
   </>
 }
 
@@ -281,6 +314,9 @@ export function ReadingGrade({ grade }) {
   const list = useMemo(() => GRADED_READING.filter(r => r.level === g), [g])
   const [cur, setCur] = useState(0)
   const [printAll, setPrintAll] = useState(false)
+  const [bookNikud, setBookNikud] = useState(g === 1)
+  const [bookAnswers, setBookAnswers] = useState(true)
+  const book = useNikud(printAll ? list : [], printAll && bookNikud)
   if (!info) return <NotFound />
   const r = list[cur]
   const short = READING.filter(x => (SHORT_FOR[g] || []).includes(x.grade))
@@ -299,7 +335,7 @@ export function ReadingGrade({ grade }) {
       <p className="mb-3">כל {list.length} הקטעים עם השאלות, ובסוף כל קטע — דף תשובות להורה או למורה.</p>
       <button type="button" className="ln-btn go" onClick={() => setPrintAll(true)}>הדפסה או הורדה כ־PDF</button>
     </div>
-    {printAll && <PrintPreview title={`הבנת הנקרא כיתה ${GRADE_LETTER[g]} — ${list.length} קטעים`} onClose={() => setPrintAll(false)}>{list.map(x => <ReadingPrint key={x.slug} r={x} />)}</PrintPreview>}
+    {printAll && <PrintPreview title={`הבנת הנקרא כיתה ${GRADE_LETTER[g]} — ${list.length} קטעים`} onClose={() => setPrintAll(false)}><div className="no-print"><PrintChoices nikud={bookNikud} setNikud={setBookNikud} answers={bookAnswers} setAnswers={setBookAnswers} state={book.state} /></div>{list.map(x => <ReadingPrint key={x.slug} r={x} v={book.v} answers={bookAnswers} />)}</PrintPreview>}
     <h2 className="mt-10 mb-3 text-3xl font-black">מה מצופה בכיתה {GRADE_LETTER[g]}?</h2>
     <div className="space-y-3 text-lg leading-relaxed">{info.expect.map(p => <p key={p}>{p}</p>)}</div>
     <h2 className="mt-10 mb-3 text-2xl font-black">טיפים להורים</h2>
