@@ -95,3 +95,12 @@
 /* Morning-only counterpart of the bedtime invitation. */
 .morning-routine-spotlight{display:flex;align-items:center;gap:12px;max-width:980px;margin:0 auto 18px;padding:13px 16px;border:2px solid #7b4700;border-radius:20px;background:linear-gradient(115deg,#fff5bb 0%,#ffd36a 52%,#ffb86a 100%);color:#342000;text-decoration:none;box-shadow:4px 4px 0 #7b4700;transition:transform .16s,box-shadow .16s}.morning-routine-spotlight:hover,.morning-routine-spotlight:focus-visible{transform:translateY(-2px);box-shadow:5px 6px 0 #7b4700}.morning-sun{display:grid;place-items:center;width:45px;height:45px;flex:none;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff75;font-size:27px}.morning-copy{display:grid;gap:2px;min-width:0}.morning-copy b{font-family:Fredoka,Heebo,sans-serif;font-size:22px;line-height:1.1}.morning-copy small{font-size:14px}.morning-cta{margin-right:auto;flex:none;border:1px solid #7b470080;border-radius:999px;background:#fff8;padding:7px 12px;font-weight:800;font-size:14px}@media(max-width:600px){.morning-routine-spotlight{gap:9px;margin-bottom:14px;padding:11px 12px;border-radius:16px}.morning-sun{width:38px;height:38px;font-size:23px}.morning-copy b{font-size:18px}.morning-copy small{font-size:12px}.morning-cta{padding:5px 8px;font-size:12px;white-space:nowrap}}
 @media(prefers-reduced-motion:reduce){.morning-routine-spotlight{transition:none}}
+/* Top of the page: chips row + one-line BugaPedia question box */
+.home-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin:8px auto 2px}.home-chips .print-strip{margin:0}
+.election-chip{background:#e6f0ff;color:#14336b;box-shadow:0 2px 0 #b9cdf2}
+.home-bp{display:flex;align-items:center;gap:8px;width:min(620px,100%);margin:12px auto 6px;padding:5px 5px 5px 6px;border:1.5px solid #d9d2f4;border-radius:999px;background:#fff;box-shadow:0 4px 14px #5535aa14}
+.home-bp:focus-within{border-color:#6d48e5;box-shadow:0 0 0 3px #6d48e522}
+.home-bp-mark{display:grid;flex-shrink:0;width:34px;height:34px;place-items:center;border-radius:50%;background:#6d48e5;color:#fff;font-weight:900;font-size:19px}
+.home-bp input{flex:1;min-width:0;border:0;background:none;padding:6px 2px;font:inherit;font-size:16px;outline:none}
+.home-bp button{flex-shrink:0;border:0;border-radius:999px;background:#6d48e5;color:#fff;padding:9px 18px;font-weight:800;cursor:pointer}
+@media(max-width:560px){.home-bp input{font-size:15px}.home-bp button{padding:8px 14px}}

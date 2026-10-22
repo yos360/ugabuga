@@ -36,6 +36,7 @@ const HolidayBanner = lazy(() => import('../components/holidays/HolidayBanner'))
 import SiteSearchBox from '../components/ui/SiteSearchBox'
 import PlayNow from '../components/home/PlayNow'
 import HomeBlog from '../components/home/HomeBlog'
+import { BugaPediaBox, ElectionChip } from '../components/home/HomeTopExtras'
 
 function Art({ crop, src, className = '' }) {
   const [x,y,w,h] = crop
@@ -182,7 +183,8 @@ export default function Home() {
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="home-v2">
     <section className="home-intro">
       <h1>{SITE_SLOGAN}</h1>
-      <PrintStrip />
+      <div className="home-chips"><PrintStrip /><ElectionChip /></div>
+      <BugaPediaBox />
       <p>משחקי אונליין, דפי צביעה והדפסה, תרגול חשבון וקריאה וכלים ליום הולדת ולכיתה — הכול במקום אחד, בלי הרשמה.</p>
     </section>
     <MorningRoutineSpotlight />
