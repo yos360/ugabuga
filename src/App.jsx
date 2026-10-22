@@ -271,6 +271,7 @@ const SudokuSolver = lazy(() => import('./pages/sudoku/SudokuPages').then(m => (
 const ToolsIndex = lazy(() => import('./pages/tools/ToolsIndex'))
 const Riddles = lazy(() => import('./pages/tools/Riddles'))
 const TriviaQuiz = lazy(() => import('./pages/tools/TriviaQuiz'))
+const TrickQuestions = lazy(() => import('./pages/games/TrickQuestions'))
 const BugaTown = lazy(() => import('./pages/tools/BugaTown'))
 const EscapeRooms = lazy(() => import('./pages/tools/EscapeRooms'))
 const Dice = lazy(() => import('./pages/tools/Dice'))
@@ -809,6 +810,7 @@ export default function App() {
               <Route path="/games/riddles" element={<Riddles />} />
               <Route path="/tools/trivia-quiz" element={<TriviaQuiz />} />
               <Route path="/trivia" element={<TriviaQuiz />} />
+              <Route path="/trick-questions" element={<TrickQuestions />} />
               <Route path="/trivia/topics" element={<TriviaTopicsHub />} />
               <Route path="/trivia/with-answers" element={<TriviaWithAnswers />} />
               <Route path="/trivia/with-answers/:section" element={<TriviaWithAnswers />} />

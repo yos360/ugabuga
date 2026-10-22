@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom'
 // homework, quizzes): they came for one thing, so offer three things from the site that fit why
 // they are here, and a way to make their own. Kept short and below the main task.
 // Right after answering an invitation people leave within seconds; a question about themselves
-// ("who was born on my day?") gets a click where a list of site sections does not.
+// ("who was born on my day?", "think you're smart?") gets a click where a list of site sections does not.
 const HOOKS = {
-  title: 'רגע לפני שהולכים 👀',
-  links: [['/tools/birthday-famous', '🌟', 'מי נולד ביום שלכם?'], ['/tools/hebrew-birthday', '✡️', 'מה התאריך העברי שלכם?'], ['/tools/age-calculator', '⏳', 'בני כמה אתם — בימים?']],
+  title: '🎁 רגע לפני שהולכים…',
+  text: 'יש לנו משהו קטן בשבילכם. בחרו מה בא לכם לגלות!',
+  links: [
+    ['/tools/birthday-famous', '🎂', 'מי נולד ביום שלכם?', 'גלו אילו מפורסמים חוגגים איתכם'],
+    ['/trick-questions', '🧠', 'חושבים שאתם חכמים?', '12 שאלות מכשילות — כמה תצליחו?'],
+  ],
 }
 
 const CONTEXTS = {
@@ -47,11 +51,15 @@ export default function SiteInvite({ context = 'party', className = '', compact 
   const c = CONTEXTS[context] || CONTEXTS.party
   // Right under a finished task (e.g. "see you there!" after an RSVP): guests on a phone rarely
   // scroll past the form to the full card, so the same links come as one short row here.
-  if (compact) return <nav className={`mt-5 border-t-2 border-dashed border-violet-100 pt-4 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
-    <p className="text-sm font-bold text-slate-600">{HOOKS.title}</p>
-    <div className="mt-2 flex flex-wrap justify-center gap-2">{HOOKS.links.map(([to, emoji, label]) => <Link key={to} to={to} className="inline-flex min-h-11 items-center gap-1 rounded-full border-2 border-violet-200 bg-violet-50 px-3 text-sm font-bold text-violet-800 transition hover:border-violet-400">
-      <span aria-hidden="true">{emoji}</span>{label}
+  if (compact) return <nav className={`mt-6 border-t border-slate-200 pt-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
+    <p className="text-xl font-black">{HOOKS.title}</p>
+    <p className="mt-1 text-slate-600">{HOOKS.text}</p>
+    <div className="mt-4 grid gap-3">{HOOKS.links.map(([to, emoji, label, sub]) => <Link key={to} to={to} className="flex items-center gap-3 rounded-2xl bg-slate-100 p-4 text-right transition hover:-translate-y-0.5 hover:bg-violet-50">
+      <span className="text-4xl" aria-hidden="true">{emoji}</span>
+      <span className="flex-1"><b className="block text-lg">{label}</b><small className="text-sm text-slate-600">{sub}</small></span>
+      <span className="text-2xl text-slate-500" aria-hidden="true">‹</span>
     </Link>)}</div>
+    <p className="mt-3 text-sm text-slate-500">בחינם לגמרי · בלי הרשמה</p>
     {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
   </nav>
   return <aside className={`rounded-3xl border-2 border-violet-200 bg-gradient-to-b from-violet-50 to-white p-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
