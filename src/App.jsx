@@ -126,6 +126,12 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
+const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
+const CrosswordList = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordList })))
+const CrosswordPage = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordPage })))
+const MandalaMaker = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.MandalaMaker })))
+const Grandparents = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.Grandparents })))
+const GrandparentsInterview = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.GrandparentsInterview })))
 const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
 const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
 const SpotTheMistake = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.SpotTheMistake })))
@@ -673,6 +679,12 @@ export default function App() {
               <Route path="/learn/history/concepts/:term" element={<ConceptPage key="history-ct" subjectKey="history" />} />
               <Route path="/learn/history/:slug/exam" element={<SubjectExam key="history-e" subjectKey="history" />} />
               <Route path="/learn/history/:slug" element={<SubjectTopic key="history" subjectKey="history" />} />
+              <Route path="/adults" element={<AdultsHub />} />
+              <Route path="/adults/crosswords" element={<CrosswordList />} />
+              <Route path="/adults/crosswords/:id" element={<CrosswordPage />} />
+              <Route path="/adults/mandalas" element={<MandalaMaker />} />
+              <Route path="/adults/grandparents" element={<Grandparents />} />
+              <Route path="/adults/grandparents/interview" element={<GrandparentsInterview />} />
               <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />
               <Route path="/learn/ai/teach-the-robot" element={<TeachTheRobot />} />
               <Route path="/learn/ai/prompt-lab" element={<PromptLab />} />

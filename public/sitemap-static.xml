@@ -1525,6 +1525,13 @@
   <url><loc>https://ugabuga.co.il/learn/gifted-test/stage-b</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/practice</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/gifted-test/simulation</loc><lastmod>2026-10-13</lastmod><priority>0.8</priority></url>
+  <!-- adults:start (scripts/generate-crosswords.mjs) -->
+  <url><loc>https://ugabuga.co.il/adults</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/adults/crosswords</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/adults/mandalas</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/adults/grandparents</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/adults/grandparents/interview</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+  <!-- adults:end -->
   <!-- learn-subjects:start (scripts/generate-learn-subjects.mjs) -->
   <url><loc>https://ugabuga.co.il/learn/tanakh</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/tanakh/creation</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>

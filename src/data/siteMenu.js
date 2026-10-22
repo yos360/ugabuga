@@ -356,6 +356,16 @@ export const MENU_DOMAINS = [
         ],
       },
       {
+        title: 'פנאי למבוגרים', icon: '☕', to: '/adults',
+        items: [
+          { to: '/adults', label: 'פנאי למבוגרים — הכול בגדול', icon: '☕' },
+          { to: '/adults/crosswords', label: 'תשחצים להדפסה', icon: '✏️' },
+          { to: '/adults/mandalas', label: 'מחולל מנדלות לצביעה', icon: '🌸' },
+          { to: '/adults/grandparents', label: 'סבא וסבתא עם הנכדים', icon: '👵' },
+          { to: '/adults/grandparents/interview', label: 'ראיון סיפור חיים', icon: '📖' },
+        ],
+      },
+      {
         title: 'ביום-יום', icon: '🏠',
         items: [
           { to: '/family/what-to-do', label: 'מה עושים היום?', icon: '🎲' },
@@ -543,6 +553,8 @@ export const FOOTER_COLUMNS = [
     domain: 'family', title: '🏡 משפחה',
     links: [
       ['/family', 'בבית עם הילדים'],
+      ['/adults', 'פנאי למבוגרים'],
+      ['/adults/grandparents', 'סבא וסבתא עם הנכדים'],
       ['/stories', 'סיפורים לפני השינה'],
       ['/family/bedtime-story', 'סיפור עם השם של הילד'],
       ['/toddlers', 'פעילויות לפעוטות'],
