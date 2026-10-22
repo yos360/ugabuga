@@ -91,3 +91,9 @@
   body :is(.bg-tabs, .bg-actions, .bg-controls, .cz-seg, .wp-levels, .wp-tabs, .wp-opts, .wp-print-bar, .motor-pills, .motor-actions, .motor-bar) :is(button, select),
   body .tt-facts details { border-width: 1px !important; border-color: rgb(29 34 51 / 16%) !important; box-shadow: 0 1px 4px rgb(43 29 111 / 8%) !important; }
 }
+@media screen {
+  /* last pieces from the site scan: typing lessons frame, family planners, shared-space heroes, adults buttons, story pictures */
+  body :is(.ty-box, .ty-lesson, .fam-roll, .fam-box, .sg-hero) { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body :is(.ty-chip, .adult-btn, .adult-chip) { border-width: 1px !important; border-color: rgb(29 34 51 / 16%) !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
+  body .st-pic { border: 0 !important; box-shadow: 0 2px 8px rgb(43 29 111 / 12%) !important; }
+}
