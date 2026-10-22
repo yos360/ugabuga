@@ -137,6 +137,7 @@ const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
 const OmerCount = lazy(() => import('./pages/tools/OmerCount'))
 const LandingGuide = lazy(() => import('./pages/content/LandingGuide'))
 const StarOfTheWeek = lazy(() => import('./pages/printables/StarOfTheWeek'))
+const HomePreview = lazy(() => import('./pages/HomePreview'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
@@ -395,7 +396,8 @@ export default function App() {
           <PageErrorBoundary>
           <Suspense fallback={<Loading />}>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<HomePreview />} />
+              <Route path="/old-home" element={<Home />} />
               <Route path="/en" element={<EnglishHome />} />
               <Route path="/en/coloring-pages" element={<EnglishColoring />} />
               <Route path="/en/coloring-pages/:subject" element={<EnglishColoring />} />
