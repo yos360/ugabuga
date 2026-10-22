@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, Sparkles, ChevronLeft } from 'lucide-react'
 import SEO from '../components/ui/SEO'
@@ -13,6 +13,27 @@ import './home-v3.css'
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
 // Each destination appears once. The holiday card and the blog list load after the first paint.
 const HolidayToday = lazy(() => import('../components/home/HolidayToday'))
+// The daily family game (time tunnel, or the daily quiz on days without one) sits below the fold —
+// keep its code and the month's question data out of the home page's first load.
+const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
+const TodayGame = lazy(() => import('../components/home/TodayGame'))
+
+// Mounts children once the section scrolls near the viewport (immediately
+// during prerender, so the static snapshots still contain the content).
+function NearViewport({ children, minHeight = 320 }) {
+  const ref = useRef(null)
+  const [show, setShow] = useState(() => typeof window !== 'undefined' && !!window.__PRERENDER__)
+  useEffect(() => {
+    if (show || !ref.current) return
+    if (!('IntersectionObserver' in window)) { setShow(true); return }
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { setShow(true); io.disconnect() }
+    }, { rootMargin: '600px 0px' })
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [show])
+  return <div ref={ref} style={show ? undefined : { minHeight }}>{show && <Suspense fallback={null}>{children}</Suspense>}</div>
+}
 
 const homeFaq = [
   { q: 'האתר באמת חינמי לגמרי, בלי תשלום נסתר?', a: 'כן, כל המשחקים, הכלים וההדפסות באתר זמינים לשימוש חינמי ללא הרשמה.' },
@@ -112,6 +133,7 @@ export default function Home() {
         <Link to="/trivia" className="hp-today hp-today-quiz"><span className="hp-today-ic">❓</span><b>חידון היום</b><small>5 שאלות, דקה אחת</small><i>לחידון ←</i></Link>
       </div>
     </section>
+    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>
       <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
