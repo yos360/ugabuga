@@ -117,9 +117,9 @@ function BedtimeStorySpotlight() {
     return () => window.clearInterval(timer)
   }, [])
   if (!show) return null
-  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפורי בוגה לפני השינה — מתחילים עכשיו">
+  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפור קצר לילדים לפני השינה — לבחירת סיפור">
     <span className="bedtime-moon" aria-hidden="true">🌙</span>
-    <span className="bedtime-copy"><b>סיפורי בוגה לפני השינה</b><small>סיפור קצר, רגוע ונעים לסיום היום</small></span>
+    <span className="bedtime-copy"><b>סיפור קצר לילדים לפני השינה</b><small>בוחרים לפי גיל, 4 דקות, ונרדמים בשקט</small></span>
     <span className="bedtime-cta">לבחירת סיפור ←</span>
   </Link>
 }
