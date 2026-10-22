@@ -11,7 +11,7 @@ const norm = w => [...w].map(c => FINAL[c] || c).join('')
 // `node scripts/generate-crosswords.mjs merge <part files…>` then writes the data file and sitemap.
 const MERGE = process.argv[2] === 'merge'
 const COUNT = Number(process.argv[2] || 24)
-const OFFSET = Number(process.argv[4] || 0), PART = process.argv[5]
+const OFFSET = Number(process.argv[4] || 0), PART = MERGE ? null : process.argv[5]
 const SIZES = [{ n: 9, black: [0.14, 0.2], label: 'רגיל' }, { n: 11, black: [0.14, 0.19], label: 'גדול' }].filter(s => MERGE || !process.argv[3] || s.n === Number(process.argv[3]))
 
 function rng(seed) { let a = seed >>> 0 || 1; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }

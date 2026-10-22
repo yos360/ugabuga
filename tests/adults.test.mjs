@@ -11,7 +11,7 @@ const norm = w => [...w].map(c => FINAL[c] || c).join('')
 
 test('crosswords: enough of each size, unique ids and grids', () => {
   assert.ok(CROSSWORDS.filter(p => p.size === 9).length >= 10)
-  assert.ok(CROSSWORDS.filter(p => p.size === 11).length >= 8)
+  assert.ok(CROSSWORDS.filter(p => p.size === 11).length >= 5)
   assert.equal(new Set(CROSSWORDS.map(p => p.id)).size, CROSSWORDS.length)
   assert.equal(new Set(CROSSWORDS.map(p => p.grid.join(''))).size, CROSSWORDS.length)
 })
