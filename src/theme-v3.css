@@ -78,3 +78,16 @@
   body :is(.arc-play-btn, .arc-btn, .arc-share, .dl-share-btn, .arc-icon-btn, .arc-tool, .arc-pill, .arc-chip, .arc-seg) { border-color: rgb(29 34 51 / 14%) !important; border-width: 1px !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
   body :is(.arc-play-btn, .arc-btn):active { transform: translateY(1px); }
 }
+
+/* Time-tunnel day pages and the frames around board games, chess, sudoku and word games: soft cards
+   and buttons; the boards, keys and dice keep their strong outlines. */
+@media screen {
+  body :is(.tt-cal-month, .tt-year, .tt-soon, .mh-note, .bg-box, .bg-card, .cz-box, .cz-card, .cz-side, .wp-box, .wp-list, .ei-box, .motor-panel, .hb-hero) { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body .tt-cal-month details, body details.tt-year { border-color: var(--border) !important; }
+  body :is(.bg-primary, .cz-btn, .sdk-btn, .sdk-chip, .motor-primary, .motor-new) { border-width: 1px !important; border-color: rgb(29 34 51 / 14%) !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
+}
+@media screen {
+  /* tabs, segment buttons and selects inside those pages: thin edges; the selected one keeps its colour */
+  body :is(.bg-tabs, .bg-actions, .bg-controls, .cz-seg, .wp-levels, .wp-tabs, .wp-opts, .wp-print-bar, .motor-pills, .motor-actions, .motor-bar) :is(button, select),
+  body .tt-facts details { border-width: 1px !important; border-color: rgb(29 34 51 / 16%) !important; box-shadow: 0 1px 4px rgb(43 29 111 / 8%) !important; }
+}
