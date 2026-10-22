@@ -34,6 +34,14 @@ export default function Layout({ children }) {
     setMounted(true)
     installCreationCapture()
   }, [])
+  // The chat widget loads on the home page; anywhere else it loads the first time a page asks to open
+  // it ("send us a request" buttons), and gets that request once it's ready.
+  const [chatWanted, setChatWanted] = useState(false)
+  useEffect(() => {
+    const want = event => { if (!document.querySelector('.site-chat')) window.__bugaChatPending = event.detail || {}; setChatWanted(true) }
+    window.addEventListener('buga-chat-open', want)
+    return () => window.removeEventListener('buga-chat-open', want)
+  }, [])
   // On printable pages, Ctrl/Cmd+P opens the site's own print preview and prints from it — the raw page
   // (thumbnails, buttons, settings) is not what anyone wants on paper.
   useEffect(() => {
@@ -69,7 +77,7 @@ export default function Layout({ children }) {
       {/* /kids is for a child browsing alone: no share button there. */}
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
-      {mounted && !presenting && pathname === '/' && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
+      {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}

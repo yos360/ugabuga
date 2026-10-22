@@ -90,6 +90,8 @@ export default function SiteChatWidget() {
       if (event.detail?.message) { setBody(event.detail.message); setReply(event.detail.message) }
     }
     window.addEventListener('buga-chat-open', show)
+    // Opened from a page where the widget wasn't loaded yet: Layout keeps that first request for us.
+    if (window.__bugaChatPending) { show({ detail: window.__bugaChatPending }); window.__bugaChatPending = null }
     return () => window.removeEventListener('buga-chat-open', show)
   }, [])
   // Focus only when the panel opens, not on every refresh (avoids popping the mobile keyboard)

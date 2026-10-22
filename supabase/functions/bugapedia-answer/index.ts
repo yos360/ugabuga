@@ -66,7 +66,10 @@ async function findSources(question: string, subject: string | null): Promise<{ 
   }
 }
 
-async function writeAnswer(question: string, subject: string | null, sources: Source[]) {
+// "Explain it more simply" on the page: a younger reader, short words, one everyday example.
+const YOUNG = `\n\nThis reader asked for a simpler explanation: write for a 6–8 year old, in 3 to 4 very short sentences with everyday words, and include one concrete example from a child's daily life (home, school, the playground, food) that makes the idea easy to picture. Keep every fact correct.`
+
+async function writeAnswer(question: string, subject: string | null, sources: Source[], young = false) {
   const excerpts = sources.length
     ? sources.map((source, index) => `[${index + 1}] ${source.title}\n${source.extract}`).join('\n\n')
     : '(no excerpts were found)'
@@ -75,7 +78,7 @@ async function writeAnswer(question: string, subject: string | null, sources: So
     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': Deno.env.get('GEMINI_API_KEY')! },
     body: JSON.stringify({
       model: GEMINI_MODEL,
-      system_instruction: SYSTEM,
+      system_instruction: young ? SYSTEM + YOUNG : SYSTEM,
       input: `Encyclopedia excerpts:\n\n${excerpts}\n\nSubject the child picked: ${subject || 'none'}\n\nThe child's question: ${question}`,
       store: false,
       generation_config: { max_output_tokens: 4000, thinking_level: 'low' },
@@ -108,11 +111,12 @@ Deno.serve(async req => {
     const body = await req.json()
     const question = tidy(body?.question).slice(0, 180)
     const subject = tidy(body?.subject).slice(0, 40) || null
+    const young = body?.level === 'young'
     if (question.length < 2) return json({ error: 'bad_input' }, 400)
     if (checkBugaPediaQuery(question)) return json({ error: 'blocked' }, 400)
 
     // v2 in the key retires answers cached under the old, drier prompt.
-    const key = await hash(`v2|${subject || ''}|${question.toLocaleLowerCase('he-IL').replace(/[?!.,״"׳']/g, '')}`)
+    const key = await hash(`v2${young ? 'y' : ''}|${subject || ''}|${question.toLocaleLowerCase('he-IL').replace(/[?!.,״"׳']/g, '')}`)
     const { data: cached } = await db.from('bugapedia_answers').select('answer,confident,sources,created_at').eq('key', key).maybeSingle()
     if (cached && Date.now() - new Date(cached.created_at).getTime() < CACHE_DAYS * 86400e3) return json({ answer: plainHebrew(cached.answer), confident: cached.confident, sources: cached.sources })
 
@@ -127,7 +131,7 @@ Deno.serve(async req => {
       if (error) return json({ error: 'rate_limited' }, 429)
     }
 
-    const result = await writeAnswer(question, subject, sources)
+    const result = await writeAnswer(question, subject, sources, young)
     if (!result) return json({ error: 'no_answer' }, 422)
     await db.from('bugapedia_answers').upsert({ key, question, subject, answer: result.answer, confident: result.confident, sources: result.sources, created_at: new Date().toISOString() })
     return json(result)

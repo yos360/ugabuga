@@ -4,12 +4,12 @@
 const URL = import.meta.env?.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co'
 const KEY = import.meta.env?.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 
-export async function askBugaPediaAI(question, subject, signal) {
+export async function askBugaPediaAI(question, subject, signal, level) {
   const timeout = AbortSignal.timeout(30000)
   const response = await fetch(`${URL}/functions/v1/bugapedia-answer`, {
     method: 'POST',
     headers: { apikey: KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question, subject: subject || null }),
+    body: JSON.stringify({ question, subject: subject || null, ...(level ? { level } : {}) }),
     signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
   })
   if (!response.ok) return null

@@ -7,6 +7,7 @@ import { askBugaPediaAI } from '../../utils/bugapediaAI'
 import { recordBugaPediaQuery } from '../../utils/bugapediaAnalytics'
 import { checkBugaPediaQuery } from '../../utils/bugapediaSafety'
 import { searchBugaPedia } from '../../utils/bugapediaSearch'
+import { clearHistory, isFavorite, readFavorites, readHistory, rememberQuestion, siteLinksFor, toggleFavorite } from '../../utils/bugapediaLocal'
 import './bugapedia.css'
 
 function cleanText(value = '') {
@@ -22,6 +23,34 @@ function SubjectCatalog() {
       {subject.href && <Link className="bp-site-link" to={subject.href}>לתרגול ולפעילויות באתר ←</Link>}
     </article>)}</div>
   </section>
+}
+
+// The questions asked and starred on this device (localStorage only).
+function MyQuestions({ version }) {
+  const [, bump] = useState(0)
+  const favorites = readFavorites(), history = readHistory().slice(0, 12)
+  void version
+  if (!favorites.length && !history.length) return null
+  const chip = item => <Link key={`${item.q}|${item.subject}`} to={bugaPediaUrl(item.q, item.subject || undefined)}>{item.q}</Link>
+  return <section className="bp-subjects bp-mine" aria-labelledby="bp-mine-title">
+    <div className="bp-section-title"><h2 id="bp-mine-title">השאלות שלי</h2><p>נשמרות רק במכשיר הזה.</p></div>
+    {favorites.length > 0 && <><h3>⭐ מועדפות</h3><div className="bp-examples">{favorites.map(chip)}</div></>}
+    {history.length > 0 && <><h3>🕘 שאלתי לאחרונה <button type="button" className="bp-clear" onClick={() => { clearHistory(); bump(v => v + 1) }}>ניקוי</button></h3><div className="bp-examples">{history.map(chip)}</div></>}
+  </section>
+}
+
+// "Practice it here": pages on this site that fit the question.
+function SiteLinks({ question, answer }) {
+  const [links, setLinks] = useState({ key: '', items: [] })
+  const key = question + '|' + (answer || '').slice(0, 40)
+  useEffect(() => {
+    let alive = true
+    siteLinksFor(question, answer).then(items => { if (alive) setLinks({ key, items }) }).catch(() => {})
+    return () => { alive = false }
+  }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
+  const items = links.key === key ? links.items : []
+  if (!items.length) return null
+  return <div className="bp-site-links"><h3>🎯 רוצים להמשיך באתר?</h3><div>{items.map(item => <Link key={item.to} to={item.to}><span aria-hidden="true">{item.emoji}</span> <b>{item.title}</b>{item.desc && <small>{item.desc}</small>}</Link>)}</div></div>
 }
 
 const SOURCE_NAMES = {
@@ -52,6 +81,8 @@ export default function BugaPedia() {
   const asked = cleanText(params.get('q') || '').slice(0, 180)
   const subjectId = params.get('subject')
   const subject = useMemo(() => subjectById(subjectId), [subjectId])
+  const young = params.get('level') === 'young'
+  const [favVersion, setFavVersion] = useState(0)
   const [query, setQuery] = useState(asked)
   const [syncedAsked, setSyncedAsked] = useState(asked)
   const [attempt, setAttempt] = useState(0)
@@ -60,7 +91,7 @@ export default function BugaPedia() {
   const [outcome, setOutcome] = useState({ key: '', state: 'idle', pages: [], ambiguous: false })
   // When a question is unclear the child picks what they meant; the pick is tied to the search it belongs to.
   const [picked, setPicked] = useState({ key: '', id: '' })
-  const searchKey = `${asked}|${subject?.id || ''}|${attempt}`
+  const searchKey = `${asked}|${subject?.id || ''}|${attempt}|${params.get('level') === 'young' ? 'y' : ''}`
   // The written answer (Claude, from encyclopedia excerpts) arrives separately from the search results.
   const [written, setWritten] = useState({ key: '', state: 'idle', data: null })
 
@@ -70,7 +101,7 @@ export default function BugaPedia() {
   useEffect(() => {
     if (!asked) return
     const controller = new AbortController()
-    const key = `${asked}|${subject?.id || ''}|${attempt}`
+    const key = `${asked}|${subject?.id || ''}|${attempt}|${params.get('level') === 'young' ? 'y' : ''}`
     searchBugaPedia(asked, controller.signal, subject?.id).then(results => {
       if (controller.signal.aborted) return
       setOutcome({ key, state: results.length ? 'ready' : 'empty', pages: [...results], ambiguous: Boolean(results.ambiguous) })
@@ -85,12 +116,12 @@ export default function BugaPedia() {
   useEffect(() => {
     if (!asked || asked.length < 2 || checkBugaPediaQuery(asked)) return
     const controller = new AbortController()
-    const key = `${asked}|${subject?.id || ''}|${attempt}`
-    askBugaPediaAI(asked, subject?.id, controller.signal)
+    const key = `${asked}|${subject?.id || ''}|${attempt}|${young ? 'y' : ''}`
+    askBugaPediaAI(asked, subject?.id, controller.signal, young ? 'young' : undefined)
       .then(data => { if (!controller.signal.aborted) setWritten({ key, state: data ? 'ready' : 'none', data }) })
       .catch(() => { if (!controller.signal.aborted) setWritten({ key, state: 'none', data: null }) })
     return () => controller.abort()
-  }, [asked, subject?.id, attempt])
+  }, [asked, subject?.id, attempt, young])
 
   const searchState = tooShort ? 'short' : !asked ? 'idle' : outcome.key === searchKey ? outcome.state : 'loading'
   const writtenState = written.key === searchKey ? written.state : asked && !checkBugaPediaQuery(asked) ? 'loading' : 'none'
@@ -118,12 +149,16 @@ export default function BugaPedia() {
     setParams(nextParams)
   }
   const requestIdea = () => window.dispatchEvent(new CustomEvent('buga-chat-open', { detail: { topic: 'רעיון או תוכן ייחודי', message: asked ? `חיפשתי בבוגה־פדיה: ${asked}\nאשמח שתוסיפו תוכן בנושא הזה.` : 'יש לי רעיון לתוכן או פעילות ייחודית:' } }))
+  const reportMistake = () => window.dispatchEvent(new CustomEvent('buga-chat-open', { detail: { topic: 'טעות בבוגה־פדיה', message: `שאלתי בבוגה־פדיה: ${asked}\nנראה לי שיש טעות בתשובה: ` } }))
+  const starred = asked ? (void favVersion, isFavorite(asked, subject?.id)) : false
   const primary = pages[0]
   const showWritten = answer && !(primary?.verified || primary?.computed)
   // Under a written answer, "further reading" lists only the articles the answer actually used —
   // the raw search can surface a namesake ("להמציא את אנה" for "מי המציא את השפה הרוסית").
   const usedUrls = new Set((answer?.sources || []).map(source => source.url))
   const reading = showWritten ? pages.filter(page => usedUrls.has(page.url)) : pages
+  // A picture for the written answer: the encyclopedia article it relied on, when that has one.
+  const writtenImage = showWritten ? (pages.find(page => usedUrls.has(page.url) && page.image)?.image || null) : null
 
   // Once the search and the written answer have both settled, record the question with what was shown.
   const settled = outcome.key === searchKey && writtenState !== 'loading' && (['ready', 'empty'].includes(outcome.state) || Boolean(answer))
@@ -131,6 +166,7 @@ export default function BugaPedia() {
     // The owner's "open as the visitor saw it" link is not a new question.
     if (!settled || params.get('from') === 'owner') return
     const shown = showWritten ? { text: answer.answer, url: answer.sources[0]?.url, written: true } : primary ? { text: primary.extract, url: primary.url, written: false } : null
+    if (primary || answer) { rememberQuestion(asked, subject?.id); setFavVersion(v => v + 1) }
     recordBugaPediaQuery({ question: asked, subject: subject?.id, found: Boolean(primary || answer), resultTitle: primary?.title, shown })
   }, [settled, searchKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -166,17 +202,24 @@ export default function BugaPedia() {
       </section>}
       {state === 'ready' && showWritten && <section className="bp-results" aria-live="polite">
         <article className="bp-answer bp-written">
-          <div><p className="bp-kicker">✨ התשובה של בוגה־פדיה</p><h2>{asked}</h2><p className="bp-extract">{answer.answer}</p>
+          {writtenImage && <img src={writtenImage} alt="" loading="lazy" />}
+          <div><p className="bp-kicker">✨ התשובה של בוגה־פדיה{young ? ' · בפשטות' : ''}</p><h2>{asked}</h2><p className="bp-extract">{answer.answer}</p>
             {!answer.confident && <p className="bp-unsure">לא בטוחים בכל הפרטים — כדאי לבדוק גם במקור או לשאול מורה.</p>}
             {answer.sources.length > 0 && <div className="bp-answer-actions">{answer.sources.map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.title} ↗</a>)}</div>}
+            <div className="bp-answer-tools">
+              <button type="button" onClick={() => { toggleFavorite(asked, subject?.id); setFavVersion(v => v + 1) }} aria-pressed={starred}>{starred ? '⭐ שמור במועדפים' : '☆ שמירה במועדפים'}</button>
+              <button type="button" onClick={() => { const next = new URLSearchParams(params); if (young) next.delete('level'); else next.set('level', 'young'); setParams(next) }}>{young ? '🎓 תשובה רגילה' : '🧸 תסבירו לי יותר פשוט'}</button>
+              <button type="button" onClick={reportMistake}>👎 משהו לא נכון?</button>
+            </div>
           </div>
         </article>
-        <p className="bp-license">התשובה נכתבה בעזרת בינה מלאכותית (Claude) על סמך ערכים מוויקיפדיה ומקורות פתוחים. היא יכולה לטעות — בנושאים חשובים כדאי לבדוק גם במקור.</p>
+        <SiteLinks question={asked} answer={answer.answer} />
+        <p className="bp-license">🤖 את התשובה כתבה בינה מלאכותית, על סמך ערכים מוויקיפדיה ומקורות פתוחים שמופיעים בקישורים. בוגה בודק, אבל גם בוגה טועה לפעמים — בדברים חשובים כדאי לבדוק במקור או לשאול מורה.</p>
       </section>}
       {state === 'ready' && !writing && reading[0] && !choosing && <section className="bp-results" aria-live="polite">
         {showWritten && <h3 className="bp-more-title">לקריאה נוספת</h3>}
         <article className={showWritten ? 'bp-answer bp-secondary' : 'bp-answer'}>
-          {reading[0].image && <img src={reading[0].image} alt="" loading="lazy" />}
+          {reading[0].image && !writtenImage && <img src={reading[0].image} alt="" loading="lazy" />}
           <div><p className="bp-kicker">{reading[0].sourceLabel || 'התשובה שמצאנו'}</p><h2>{reading[0].title}</h2><p className="bp-extract">{reading[0].extract}</p>
             <div className="bp-answer-actions">{reading[0].url && <a href={reading[0].url} target="_blank" rel="noopener noreferrer">{reading[0].linkLabel || 'לקריאה במקור ↗'}</a>}<button onClick={requestIdea}>רוצים תוכן מיוחד בנושא הזה?</button></div>
           </div>
@@ -185,9 +228,11 @@ export default function BugaPedia() {
           const body = <><b>{page.title}</b><span>{page.extract.slice(0, 130)}{page.extract.length > 130 ? '…' : ''}</span></>
           return page.url ? <a href={page.url} target="_blank" rel="noopener noreferrer" key={page.id}>{body}</a> : <div key={page.id}>{body}</div>
         })}</div></div>}
+        {!showWritten && <SiteLinks question={asked} answer={reading[0].extract} />}
         <p className="bp-license">{sourceNote(reading[0])} בנושאים רפואיים, משפטיים או בטיחותיים יש לבדוק גם מקור מקצועי.</p>
       </section>}
 
+      <MyQuestions version={favVersion} />
       <SubjectCatalog />
       <section className="bp-custom"><div><span>💡</span><h2>לא מצאתם בדיוק את מה שרציתם?</h2><p>ספרו לנו מה חסר — פעילות לכיתה, נושא לימודי, משחק או רעיון שעוד לא קיים. נעים לנו לקבל רעיונות.</p></div><button onClick={requestIdea}>יש לי רעיון בשבילכם</button></section>
     </div>
