@@ -51,7 +51,7 @@ const LEARN_DESC = {
   '/learn/gifted-test': 'אנלוגיות, סדרות, מטריצות וחשיבה',
   '/learn/psychometric-kids': 'חשיבה מילולית, כמותית וצורנית לפי גיל',
   '/learn/dictation': 'הורה מקריא או הקראה קולית — עם בדיקה',
-  '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות א׳–ו׳`,
+  '/learn/reading': `${READING.length + GRADED_READING.length} קטעים עם שאלות לכיתות א׳–ח׳`,
   '/learn/flashcards': 'אנגלית, הפכים, לוח הכפל — או משלכם',
   '/typing': 'שיעורים, מבחן מהירות ומשחק הקלדה',
 }
