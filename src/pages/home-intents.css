@@ -43,3 +43,21 @@
   .home-intent-stickers > span { animation: none; }
   .home-intent.is-kids:hover { transform: none; }
 }
+
+/* The characters stand on the card's bottom edge and fill its height (no fade, no padding under them). */
+.home-intents .home-intent { position: relative; padding-bottom: 76px; min-height: 250px; }
+.home-intents .home-intent .home-door-art {
+  position: absolute !important; grid-column: auto !important; grid-row: auto !important; z-index: 1; left: 2%; right: auto; bottom: 0; top: 8px;
+  width: 44% !important; max-width: 44% !important; min-height: 0; height: auto !important;
+  aspect-ratio: auto !important; background-size: contain !important; background-position: center bottom !important; mask-image: none; -webkit-mask-image: none;
+}
+/* the printer picture has a little empty space under it */
+.home-intents .home-intent .home-door-art.door-art-1 { bottom: -6%; top: 14px; }
+.home-intents .home-intent .home-door-copy { grid-column: 1; position: relative; z-index: 2; }
+/* the arrow moves next to the text so it doesn't cover the characters' feet */
+.home-intents .home-intent .home-door-arrow { left: calc(46% + 6px); bottom: 18px; }
+@media (max-width: 560px) {
+  .home-intents .home-intent { padding-bottom: 74px; min-height: 0; }
+  .home-intents .home-intent .home-door-art { width: 40% !important; max-width: 40% !important; top: 14px; left: 0; }
+  .home-intents .home-intent .home-door-arrow { left: calc(42% + 4px); bottom: 12px; }
+}
