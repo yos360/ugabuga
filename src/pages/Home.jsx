@@ -79,12 +79,49 @@ const SocialIcons = () => SOCIAL_LIVE.length > 0 && <div className="hp-social">{
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} fill="currentColor" /></svg>
   </a>)}</div>
 
+// The morning routine and the bedtime story have their own strips at the top (in their hours),
+// so this card is always the game of the day.
 function TodayCard() {
-  const [h, setH] = useState(12)
-  useEffect(() => { setH(new Date().getHours()) }, [])
-  if (h >= 5 && h < 10) return <Link to="/family/morning-routine" className="hp-today hp-today-morning"><span className="hp-today-ic">☀️</span><b>שגרת בוקר</b><small>משימה אחרי משימה, ויוצאים בזמן</small><i>מתחילים ←</i></Link>
-  if (h >= 18 || h < 5) return <Link to="/stories" className="hp-today hp-today-night"><span className="hp-today-ic">🌙</span><b>סיפור לפני השינה</b><small>קצר, רגוע ונעים</small><i>לבחירת סיפור ←</i></Link>
   return <Link to="/game-of-the-day" className="hp-today hp-today-day"><span className="hp-today-ic">🎲</span><b>משחק היום</b><small>משחק חדש בכל יום</small><i>משחקים ←</i></Link>
+}
+
+// A small evening-only invitation: shown only from 18:00 to midnight in Israel.
+// The initial false avoids freezing the banner into the prerendered HTML; it is decided in each visitor's browser.
+function israelHour() {
+  return Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', hour: '2-digit', hourCycle: 'h23' }).format(new Date()))
+}
+function isBedtimeInIsrael() { const hour = israelHour(); return hour >= 18 && hour < 24 }
+function isMorningInIsrael() { const hour = israelHour(); return hour >= 6 && hour < 9 }
+function MorningRoutineSpotlight() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const update = () => setShow(isMorningInIsrael())
+    update()
+    const timer = window.setInterval(update, 60_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  if (!show) return null
+  return <Link to="/family/morning-routine" className="morning-routine-spotlight" aria-label="שגרת בוקר בוגה — מתחילים עכשיו">
+    <span className="morning-sun" aria-hidden="true">☀️</span>
+    <span className="morning-copy"><b>שגרת בוקר בוגה</b><small>משימה אחרי משימה — ויוצאים מהבית בזמן</small></span>
+    <span className="morning-cta">מתחילים עכשיו ←</span>
+  </Link>
+}
+
+function BedtimeStorySpotlight() {
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const update = () => setShow(isBedtimeInIsrael())
+    update()
+    const timer = window.setInterval(update, 60_000)
+    return () => window.clearInterval(timer)
+  }, [])
+  if (!show) return null
+  return <Link to="/stories" className="bedtime-story-spotlight" aria-label="סיפורי בוגה לפני השינה — מתחילים עכשיו">
+    <span className="bedtime-moon" aria-hidden="true">🌙</span>
+    <span className="bedtime-copy"><b>סיפורי בוגה לפני השינה</b><small>סיפור קצר, רגוע ונעים לסיום היום</small></span>
+    <span className="bedtime-cta">לבחירת סיפור ←</span>
+  </Link>
 }
 
 // The three newest posts, loaded after the first paint so the post data stays out of the home bundle.
@@ -117,6 +154,8 @@ export default function Home() {
         <div className="hp-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></div>
       </form>
     </section>
+    <MorningRoutineSpotlight />
+    <BedtimeStorySpotlight />
     <section className="hp-sec">
       <h2 className="hp-h2">למה נכנסתם היום?</h2>
       <div className="hp-doors">{HOME_INTENTS.map(([emoji, title, desc, to, , bg, color, src]) => <Link key={to} to={to} className="hp-door" style={{ '--bg': bg, '--c': color }}>
@@ -125,6 +164,7 @@ export default function Home() {
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
+    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <section className="hp-sec">
       <h2 className="hp-h2">היום בבוגה</h2>
       <div className="hp-today-row">
@@ -133,7 +173,6 @@ export default function Home() {
         <Link to="/trivia" className="hp-today hp-today-quiz"><span className="hp-today-ic">❓</span><b>חידון היום</b><small>5 שאלות, דקה אחת</small><i>לחידון ←</i></Link>
       </div>
     </section>
-    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>
       <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
