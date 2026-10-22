@@ -364,6 +364,7 @@ export const MENU_DOMAINS = [
           { to: '/adults', label: 'פנאי למבוגרים — הכול בגדול', icon: '☕' },
           { to: '/adults/crosswords', label: 'תשחצים להדפסה', icon: '✏️' },
           { to: '/adults/mandalas', label: 'מחולל מנדלות לצביעה', icon: '🌸' },
+          { to: '/adults/memory', label: 'משחק זיכרון בקלפים גדולים', icon: '🧠' },
           { to: '/adults/grandparents', label: 'סבא וסבתא עם הנכדים', icon: '👵' },
           { to: '/adults/grandparents/interview', label: 'ראיון סיפור חיים', icon: '📖' },
         ],

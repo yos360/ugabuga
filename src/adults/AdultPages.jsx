@@ -21,6 +21,7 @@ const loadGrand = () => import('./grandparentsData')
 // ---------- hub ----------
 const CARDS = [
   { to: '/adults/crosswords', emoji: '✏️', title: 'תשחצים להדפסה', text: 'תשבצים מלאים כמו בעיתון, עם הגדרות ופתרון. אפשר גם לפתור על המסך.' },
+  { to: '/adults/memory', emoji: '🧠', title: 'משחק זיכרון בקלפים גדולים', text: 'מחפשים זוגות של תמונות, בלי שעון ובלי לחץ. מ־3 זוגות ועד 8.' },
   { to: '/adults/mandalas', emoji: '🌸', title: 'מנדלות לצביעה', text: 'מנדלה חדשה בכל לחיצה — מפשוטה ועד מפורטת מאוד. מדפיסים וצובעים.' },
   { to: '/sudoku/print', emoji: '🔢', title: 'סודוקו להדפסה', text: 'מקל ועד קשה מאוד, דף מלא להדפסה עם פתרונות.' },
   { to: '/tools/word-search-maker', emoji: '🔤', title: 'תפזורת להדפסה', text: 'כותבים מילים או בוחרים נושא — ומקבלים תפזורת מוכנה.' },

@@ -41,7 +41,7 @@ for (const p of CROSSWORDS) test(`crossword ${p.id}: full grid, answers match th
 })
 
 test('adults pages are in the sitemap', () => {
-  for (const path of ['/adults', '/adults/crosswords', '/adults/mandalas', '/adults/grandparents', '/adults/grandparents/interview'])
+  for (const path of ['/adults', '/adults/crosswords', '/adults/mandalas', '/adults/memory', '/adults/grandparents', '/adults/grandparents/interview'])
     assert.ok(sitemap.includes(`<loc>https://ugabuga.co.il${path}</loc>`), path)
 })
 

@@ -134,6 +134,8 @@ const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ de
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
 const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
+const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
+const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
 const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
 const CrosswordList = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordList })))
 const CrosswordPage = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordPage })))
@@ -694,6 +696,8 @@ export default function App() {
               <Route path="/adults/crosswords" element={<CrosswordList />} />
               <Route path="/adults/crosswords/:id" element={<CrosswordPage />} />
               <Route path="/adults/mandalas" element={<MandalaMaker />} />
+              <Route path="/adults/memory" element={<MemorySeniors />} />
+              <Route path="/online-games/memory-letters" element={<MemoryLetters />} />
               <Route path="/adults/grandparents" element={<Grandparents />} />
               <Route path="/adults/grandparents/interview" element={<GrandparentsInterview />} />
               <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />
