@@ -33,7 +33,6 @@ export default function Nakdan() {
   }
   const update = (i, patch) => { setWords(ws => ws.map((w, j) => (j === i ? { ...w, ...patch } : w))); setCopied(false) }
   const copy = async () => { try { await navigator.clipboard.writeText(result); setCopied(true) } catch { /* clipboard blocked */ } }
-  const unsure = words ? words.filter(w => w.s && w.custom == null).length : 0
 
   return <div className="mx-auto max-w-4xl px-4 py-8" dir="rtl">
     <SEO title="נקדן אוטומטי — ניקוד טקסט אונליין בחינם, עם אפשרות לתקן כל מילה" description="נקדן אוטומטי בחינם: מדביקים טקסט בעברית ומקבלים אותו מנוקד. לוחצים על מילה כדי לבחור ניקוד אחר או לתקן ידנית, ומעתיקים. הניקוד באדיבות מפעל דיקטה." path="/tools/nakdan" structuredData={faqSchema(FAQ)} />
@@ -50,10 +49,10 @@ export default function Nakdan() {
 
     {words && <section className="mt-6 rounded-2xl border-[3px] border-violet-300 bg-violet-50/40 p-4">
       <h2 className="mb-1 text-xl font-black">הטקסט המנוקד</h2>
-      <p className="mb-3 text-sm text-slate-600">לחיצה על מילה פותחת את אפשרויות הניקוד שלה.{unsure > 0 && <> מילים <span className="rounded bg-amber-200 px-1">מסומנות בצהוב</span> — כדאי לבדוק אותן ({unsure}).</>}</p>
+      <p className="mb-3 text-sm text-slate-600">לחיצה על מילה פותחת את אפשרויות הניקוד שלה. כדאי לעבור על הטקסט — במיוחד על שמות ועל מילים שאפשר לקרוא בכמה דרכים.</p>
       <div className="whitespace-pre-wrap text-3xl leading-[2.2]" style={FONT} lang="he">
         {words.map((w, i) => !w.o?.length ? <span key={i}>{w.t}</span> : <span key={i}>
-          <button type="button" onClick={() => { setOpen(open === i ? -1 : i); setDraft(shown(w)) }} aria-expanded={open === i} className={`rounded-md px-0.5 hover:bg-violet-200 ${w.s && w.custom == null ? 'bg-amber-200' : ''} ${open === i ? 'ring-2 ring-violet-600' : ''}`}>{shown(w)}</button>
+          <button type="button" onClick={() => { setOpen(open === i ? -1 : i); setDraft(shown(w)) }} aria-expanded={open === i} className={`rounded-md px-0.5 hover:bg-violet-200 ${open === i ? 'ring-2 ring-violet-600' : ''}`}>{shown(w)}</button>
         </span>)}
       </div>
       {open >= 0 && words[open]?.o && (() => { const w = words[open], i = open; return <div className="mt-3 rounded-xl border-2 border-violet-400 bg-white p-3">
@@ -77,7 +76,7 @@ export default function Nakdan() {
 const FAQ = [
   { q: 'הנקדן חינמי?', a: 'כן, לגמרי ובלי הרשמה. הניקוד נעשה בשירות החינמי של מפעל דיקטה, ואנחנו מוסיפים מעליו את האפשרות לבחור ולתקן כל מילה ולהעתיק.' },
   { q: 'כמה טקסט אפשר לנקד בבת אחת?', a: `עד ${MAX.toLocaleString('he-IL')} תווים בכל פעם — בערך עמוד וחצי. לטקסט ארוך יותר מנקדים בחלקים.` },
-  { q: 'הניקוד מדויק?', a: 'ברוב המילים כן, אבל לא תמיד. מילים שהמנוע פחות בטוח בהן מסומנות בצהוב. כדאי לעבור על הטקסט, במיוחד בשמות ובמילים נדירות, ולתקן בלחיצה.' },
+  { q: 'הניקוד מדויק?', a: 'ברוב המילים כן, אבל לא תמיד — יש מילים שנכתבות אותו דבר ונקראות אחרת. כדאי לעבור על הטקסט, במיוחד בשמות ובמילים נדירות, ולתקן בלחיצה.' },
   { q: 'מה קורה לטקסט שאני מדביק?', a: 'הוא נשלח לשירות הניקוד של דיקטה רק כדי לנקד אותו, ואנחנו לא שומרים אותו. בכל זאת, לא מומלץ להדביק פרטים אישיים.' },
   { q: 'הטקסט כבר מנוקד בחלקו — זה בעיה?', a: 'לא. לפני הניקוד מסירים את הניקוד הקיים ומנקדים מחדש. אם רציתם ניקוד מסוים במילה, מתקנים אותה אחר כך בלחיצה.' },
 ]
