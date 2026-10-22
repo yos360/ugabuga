@@ -193,9 +193,10 @@ function GuestView({ ev, onAnswer, show }) {
             <button onClick={() => setEditing(true)} className={btn}>✏️ שינוי התשובה</button>
             {ev.date && mine.status !== 'no' && <button onClick={() => download('event.ics', icsFile(ev), 'text/calendar')} className={btn}>🗓️ הוספה ליומן</button>}
           </div>
+          <SiteInvite compact context={ev.kind === 'kids' ? 'party' : 'event'} />
         </div>}
     </section>
-    <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />
+    {(editing || !mine) && <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />}
   </div>
 }
 

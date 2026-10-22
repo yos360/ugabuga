@@ -64,8 +64,8 @@ export function RsvpGuestExperience({ ev, onAnswer, show, AnswerForm, download, 
     <InvitationCard ev={ev} lang={lang} /><EventActions ev={ev} download={download} lang={lang} /><GuestExtras ev={ev} lang={lang} />
     <section className={card}>
       {editing || !mine ? <><h2 className="text-2xl font-bold mb-2">{t(lang, 'glad')}</h2><p className="mb-5 text-slate-600">{t(lang, 'details')}</p><AnswerForm ev={ev} mine={mine} show={show} lang={lang} onSaved={r => { onAnswer(r); setEditing(false); show(t(lang, 'saved')) }} /></>
-        : <div className="text-center" role="status"><span className="text-4xl" aria-hidden="true">{statuses[mine.status].emoji}</span><h2 className="text-2xl font-bold mt-3">{t(lang, mine.status === 'yes' ? 'thanksYes' : mine.status === 'maybe' ? 'thanksMaybe' : 'thanksNo')}</h2><p className="mt-2">{mine.name} · {t(lang, mine.status)}</p>{mine.status !== 'no' && <p>{lang === 'he' ? peopleLabel(mine.kids, mine.adults) : t(lang, 'people', { n: Number(mine.kids) + Number(mine.adults) })}</p>}<button className={`${btn} mt-5`} onClick={() => setEditing(true)}>✏️ {t(lang, 'change')}</button></div>}
+        : <div className="text-center" role="status"><span className="text-4xl" aria-hidden="true">{statuses[mine.status].emoji}</span><h2 className="text-2xl font-bold mt-3">{t(lang, mine.status === 'yes' ? 'thanksYes' : mine.status === 'maybe' ? 'thanksMaybe' : 'thanksNo')}</h2><p className="mt-2">{mine.name} · {t(lang, mine.status)}</p>{mine.status !== 'no' && <p>{lang === 'he' ? peopleLabel(mine.kids, mine.adults) : t(lang, 'people', { n: Number(mine.kids) + Number(mine.adults) })}</p>}<button className={`${btn} mt-5`} onClick={() => setEditing(true)}>✏️ {t(lang, 'change')}</button><SiteInvite compact context={ev.kind === 'kids' ? 'party' : 'event'} /></div>}
     </section>
-    <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />
+    {(editing || !mine) && <SiteInvite context={ev.kind === 'kids' ? 'party' : 'event'} />}
   </div>
 }

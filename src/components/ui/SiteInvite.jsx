@@ -36,8 +36,17 @@ const CONTEXTS = {
   },
 }
 
-export default function SiteInvite({ context = 'party', className = '' }) {
+export default function SiteInvite({ context = 'party', className = '', compact = false }) {
   const c = CONTEXTS[context] || CONTEXTS.party
+  // Right under a finished task (e.g. "see you there!" after an RSVP): guests on a phone rarely
+  // scroll past the form to the full card, so the same links come as one short row here.
+  if (compact) return <nav className={`mt-5 border-t-2 border-dashed border-violet-100 pt-4 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
+    <p className="text-sm font-bold text-slate-600">{c.title}</p>
+    <div className="mt-2 flex flex-wrap justify-center gap-2">{c.links.map(([to, emoji, label]) => <Link key={to} to={to} className="inline-flex min-h-11 items-center gap-1 rounded-full border-2 border-violet-200 bg-violet-50 px-3 text-sm font-bold text-violet-800 transition hover:border-violet-400">
+      <span aria-hidden="true">{emoji}</span>{label}
+    </Link>)}</div>
+    {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
+  </nav>
   return <aside className={`rounded-3xl border-2 border-violet-200 bg-gradient-to-b from-violet-50 to-white p-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
     <h2 className="text-xl font-black">{c.title}</h2>
     <p className="mt-1 text-sm text-slate-600">{c.text}</p>
