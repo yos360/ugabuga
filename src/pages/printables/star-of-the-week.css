@@ -1,0 +1,17 @@
+/* כוכב/ת השבוע — sizes in container units so the same certificate scales from the preview to half or full A4. */
+.sw-preview{max-width:320px;margin:auto;aspect-ratio:210/148;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px #0002}
+.sw-page{padding:0!important;gap:0;justify-content:stretch;align-items:stretch}
+.sw-page.per-2 .sw-cert{flex:0 0 50%;border-bottom:1px dashed #bbb}.sw-page.per-2 .sw-cert:last-child{border-bottom:0}
+.sw-page.per-1 .sw-cert{flex:1}.sw-page.per-1 .sw-card{height:70cqh;width:84cqw}
+.sw-cert{position:relative;container-type:size;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.sw-cert .sw-rays{position:absolute;inset:0;width:100%!important;height:100%!important}.ink-light .sw-rays{opacity:.28}
+.sw-card{position:relative;width:78cqw;height:84cqh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4cqh 5cqw 3cqh;background:#fffdf7;border-radius:4cqw;box-shadow:0 0 0 1.2cqw #fff;text-align:center;color:#2b2350}
+.sw-star{position:absolute;top:-3cqmin;inset-inline-start:-2cqw;font-size:17cqmin;line-height:1;color:#ffc531;text-shadow:0 .6cqmin 0 #e59a00;transform:rotate(-12deg)}
+.sw-title{margin:0!important;font-family:Fredoka,Heebo,sans-serif;font-weight:800;font-size:12cqmin!important;line-height:1.05;color:#e8457a;text-shadow:.5cqmin .5cqmin 0 #ffd66b}
+.sw-to{margin:0;font-size:4.6cqmin;font-weight:700}
+.sw-name{min-width:60%;padding:0 3cqw .6cqmin;border-bottom:.5cqmin solid #2b2350;font-size:9.5cqmin;font-weight:900;line-height:1.2}
+.sw-reason{margin:0;max-width:92%;font-size:4.8cqmin;line-height:1.35;font-weight:600}
+.sw-sign{display:flex;justify-content:space-between;width:90%;font-size:3.6cqmin;color:#5b5678}
+.sw-sign span{display:flex;flex-direction:column;align-items:center;min-width:32%;gap:.4cqmin}
+.sw-sign b{display:block;width:100%;border-bottom:.35cqmin solid #5b5678;font-size:4.4cqmin;color:#2b2350;min-height:5cqmin}
+.sw-page.per-1 .sw-title{font-size:10cqmin!important}.sw-page.per-1 .sw-star{font-size:13cqmin;top:-1cqmin}

@@ -404,6 +404,7 @@ export const CLASSROOM_MENU = {
       { to: '/parent-meetings', label: 'הרשמה לאספות הורים', icon: '🗓️' },
     { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
     { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
+    { to: '/printables/star-of-the-week', label: 'כוכב/ת השבוע — תעודה להדפסה', icon: '⭐' },
     { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕', shortcut: true },
     { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐', shortcut: true },
     { to: '/games/classroom', label: 'משחקים לכיתה', icon: '🏫', shortcut: true },

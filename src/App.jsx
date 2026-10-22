@@ -136,6 +136,7 @@ const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
 const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
 const OmerCount = lazy(() => import('./pages/tools/OmerCount'))
 const LandingGuide = lazy(() => import('./pages/content/LandingGuide'))
+const StarOfTheWeek = lazy(() => import('./pages/printables/StarOfTheWeek'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
@@ -607,6 +608,7 @@ export default function App() {
               <Route path="/printables/calendar-5787" element={<CalendarPrint key="5787" preset="school-year-5787" />} />
               <Route path="/printables/home-charts" element={<HomeChartsHub />} />
               <Route path="/printables/chore-chart" element={<HomeChart key="chore-chart" preset="chore-chart" />} />
+              <Route path="/printables/star-of-the-week" element={<StarOfTheWeek />} />
               <Route path="/printables/reward-chart" element={<HomeChart key="reward-chart" preset="reward-chart" />} />
               <Route path="/printables/toothbrushing-chart" element={<HomeChart key="toothbrushing-chart" preset="toothbrushing-chart" />} />
               <Route path="/printables/potty-chart" element={<HomeChart key="potty-chart" preset="potty-chart" />} />
