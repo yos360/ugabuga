@@ -4,6 +4,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../NotFound'
 import { LANDING_PAGES } from '../../data/landingPages'
+import RichText, { plainText } from '../../components/ui/RichText'
 
 // Content landing pages built from Google search demand (movies by age, crafts, English by grade,
 // baby development, Purim costumes). One template; the data lives in src/data/landingPages.js.
@@ -12,9 +13,9 @@ const howToSchema = page => page.sections.flatMap(s => s.items).filter(i => i.st
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   name: i.name,
-  description: i.text,
+  description: plainText(i.text),
   ...(i.materials?.length ? { supply: i.materials.map(name => ({ '@type': 'HowToSupply', name })) } : {}),
-  step: i.steps.map((text, n) => ({ '@type': 'HowToStep', position: n + 1, text })),
+  step: i.steps.map((text, n) => ({ '@type': 'HowToStep', position: n + 1, text: plainText(text) })),
 }))
 
 export default function LandingGuide() {
@@ -33,9 +34,9 @@ export default function LandingGuide() {
       {s.intro && <p className="mt-1 text-slate-600">{s.intro}</p>}
       <div className="mt-3 grid gap-3 sm:grid-cols-2">{s.items.map(item => <article key={item.name} className="rounded-2xl border-2 border-slate-200 bg-white p-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2"><h3 className="text-xl font-black">{item.name}</h3>{item.tag && <span className="rounded-full bg-violet-100 px-2 py-0.5 text-sm font-bold text-violet-800" dir="auto">{item.tag}</span>}</div>
-        <p className="mt-1">{item.text}</p>
+        <p className="mt-1"><RichText text={item.text} /></p>
         {item.materials?.length > 0 && <p className="mt-2 text-sm"><b>צריך:</b> {item.materials.join(', ')}</p>}
-        {item.steps?.length > 0 && <ol className="mt-2 list-decimal space-y-1 pr-5 text-[15px]">{item.steps.map(st => <li key={st}>{st}</li>)}</ol>}
+        {item.steps?.length > 0 && <ol className="mt-2 list-decimal space-y-1 pr-5 text-[15px]">{item.steps.map(st => <li key={st}><RichText text={st} /></li>)}</ol>}
       </article>)}</div>
     </section>)}
     <div className="mt-12"><SeoBody paragraphs={[]} faq={page.faq} related={page.related} /></div>

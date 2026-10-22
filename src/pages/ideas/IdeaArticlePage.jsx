@@ -8,6 +8,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { IDEA_ARTICLES } from '../../data/ideaArticlesExpanded'
 import { IDEA_DEEP } from '../../data/ideaArticlesDeep'
 import { nearby } from '../../utils/nearby'
+import RichText from '../../components/ui/RichText'
 
 const ARTICLE_SLUGS = Object.keys(IDEA_ARTICLES)
 
@@ -61,7 +62,7 @@ export default function IdeaArticlePage() {
         {article.sections.map((section, index) => (
           <WobblyCard key={section.title} hover={false} className={index % 2 ? 'rotate-[0.4deg]' : '-rotate-[0.4deg]'}>
             <h2 className="text-2xl mb-3">{section.title}</h2>
-            <p className="text-lg leading-relaxed text-[var(--foreground)]/85">{section.body}</p>
+            <p className="text-lg leading-relaxed text-[var(--foreground)]/85"><RichText text={section.body} /></p>
           </WobblyCard>
         ))}
       </div>
@@ -81,7 +82,7 @@ export default function IdeaArticlePage() {
             <WobblyCard hover={false} className="-rotate-[0.3deg]">
               <h2 className="text-2xl mb-3">תוכנית עבודה צעד אחר צעד</h2>
               <ol className="grid gap-2 text-lg leading-relaxed">
-                {deep.steps.map((step, i) => <li key={step} className="flex gap-2"><span className="font-display font-bold text-[var(--pen)]">{i + 1}.</span><span>{step}</span></li>)}
+                {deep.steps.map((step, i) => <li key={step} className="flex gap-2"><span className="font-display font-bold text-[var(--pen)]">{i + 1}.</span><span><RichText text={step} /></span></li>)}
               </ol>
             </WobblyCard>
             <WobblyCard hover={false} className="rotate-[0.3deg]">

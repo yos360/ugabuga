@@ -8,6 +8,7 @@ import { GUIDE_BY_SLUG, GUIDES } from '../../data/guides'
 import { GUIDE_DEEP } from '../../data/guidesDeep'
 import { nearby } from '../../utils/nearby'
 import NotFound from '../NotFound'
+import RichText from '../../components/ui/RichText'
 
 export default function GuidePage() {
   const { slug } = useParams()
@@ -59,14 +60,14 @@ export default function GuidePage() {
             <section key={section.title}>
               <h2 className="text-2xl md:text-3xl font-hand font-bold mb-3">{section.title}</h2>
               {section.body?.map((paragraph) => (
-                <p key={paragraph} className="mb-3 text-[var(--foreground)]">{paragraph}</p>
+                <p key={paragraph} className="mb-3 text-[var(--foreground)]"><RichText text={paragraph} /></p>
               ))}
               {section.list && (
                 <ul className="space-y-2 list-none pr-0">
                   {section.list.map((item, i) => (
                     <li key={item} className="flex gap-3">
                       <span className="mt-1">{section.ordered ? <b>{i + 1}.</b> : '⭐'}</span>
-                      <span>{item}</span>
+                      <span><RichText text={item} /></span>
                     </li>
                   ))}
                 </ul>
