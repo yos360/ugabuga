@@ -133,6 +133,7 @@ const MitzvahInvitation = lazy(() => import('./pages/content/SearchGapPages').th
 const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.DictationEnglish })))
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
+const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
 const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
 const CrosswordList = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordList })))
 const CrosswordPage = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordPage })))
@@ -902,6 +903,8 @@ export default function App() {
               <Route path="/tools/crossword-maker" element={<CrosswordMaker />} />
               <Route path="/tools/nikud-keyboard" element={<NikudKeyboard />} />
               <Route path="/tools/nakdan" element={<Nakdan />} />
+              <Route path="/hebrew-calendar" element={<HebrewCalendarPage />} />
+              <Route path="/hebrew-calendar/:year" element={<HebrewCalendarPage />} />
               <Route path="/card-games" element={<CardGamesHub />} />
               <Route path="/card-games/:slug" element={<CardGamePage />} />
               <Route path="/tools/bring-list" element={<BringList />} />
