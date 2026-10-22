@@ -7,7 +7,9 @@ import { readFileSync, readdirSync } from 'node:fs'
 const read = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')
 // The catch-all route (*) would make any path look valid, so it is left out.
 const routes = [...read('src/App.jsx').matchAll(/path="([^"]+)"/g)].map(m => m[1]).filter(r => !r.includes('*'))
-const known = new Set(JSON.parse(read('public/known-paths.json')))
+// known-paths.json is generated at build time; the hand-kept sitemap is always in the repo.
+const known = new Set([...read('public/sitemap-static.xml').matchAll(/<loc>https:\/\/ugabuga\.co\.il([^<]*)<\/loc>/g)].map(m => m[1] || '/'))
+try { for (const p of JSON.parse(read('public/known-paths.json'))) known.add(p) } catch { /* not built yet */ }
 const routeRe = routes.map(r => new RegExp('^' + r.replace(/:[^/]+/g, '[^/]+') + '$'))
 const exists = path => known.has(path) || routeRe.some(re => re.test(path))
 
