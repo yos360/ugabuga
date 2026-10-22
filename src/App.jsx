@@ -126,6 +126,9 @@ const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
+const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
+const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
+const SpotTheMistake = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.SpotTheMistake })))
 const SubjectHub = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectHub })))
 const SubjectTopic = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectTopic })))
 const SubjectExam = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectExam })))
@@ -670,6 +673,14 @@ export default function App() {
               <Route path="/learn/history/concepts/:term" element={<ConceptPage key="history-ct" subjectKey="history" />} />
               <Route path="/learn/history/:slug/exam" element={<SubjectExam key="history-e" subjectKey="history" />} />
               <Route path="/learn/history/:slug" element={<SubjectTopic key="history" subjectKey="history" />} />
+              <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />
+              <Route path="/learn/ai/teach-the-robot" element={<TeachTheRobot />} />
+              <Route path="/learn/ai/prompt-lab" element={<PromptLab />} />
+              <Route path="/learn/ai/spot-the-mistake" element={<SpotTheMistake />} />
+              <Route path="/learn/ai/concepts" element={<ConceptIndex key="ai-c" subjectKey="ai" />} />
+              <Route path="/learn/ai/concepts/:term" element={<ConceptPage key="ai-ct" subjectKey="ai" />} />
+              <Route path="/learn/ai/:slug/exam" element={<SubjectExam key="ai-e" subjectKey="ai" />} />
+              <Route path="/learn/ai/:slug" element={<SubjectTopic key="ai" subjectKey="ai" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />

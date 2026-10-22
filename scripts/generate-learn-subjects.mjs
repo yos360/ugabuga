@@ -16,6 +16,7 @@ const add = (path, prio, row) => { urls.push(`  <url><loc>https://ugabuga.co.il$
 for (const s of SUBJECTS) {
   const topics = await loadTopics(s.key), concepts = await loadConcepts(s.key)
   add(`/learn/${s.key}`, '0.8', `title: '${q(s.title)}', emoji: '${s.emoji}', kind: 'page', desc: '${q(s.desc)}', keys: '${q(s.title)} ${q(s.short)} שיעורים לימוד'`)
+  for (const t of s.tools || []) add(t.to, '0.8', `title: '${q(t.label)}', emoji: '${t.emoji}', kind: 'tool', desc: '${q(t.desc)}', keys: '${q(t.label)} ${q(s.short)} משחק'`)
   for (const t of topics) add(`/learn/${s.key}/${t.slug}`, '0.7', `title: '${q(t.title)}', emoji: '${t.emoji}', kind: 'page', desc: '${q(s.short)} · שיעור, חידון ודף עבודה', keys: '${q(t.title)} ${q(s.short)} ${q(t.seoTitle.replace(/[—|·–-]/g, ' '))}'`)
   for (const g of s.gradeList.filter(g => topicsForGrade(topics, g).length >= MIN_GRADE_TOPICS)) {
     const name = `${s.short} לכיתה ${GRADE_LETTERS[g]}`
