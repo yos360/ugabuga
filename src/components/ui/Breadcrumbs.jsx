@@ -2,6 +2,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { isPreviousPage } from '../../utils/navMemory'
 import PrintCount from './PrintCount'
 import { Helmet } from 'react-helmet-async'
+import BackLink from './BackLink'
+import { useBackNavigation } from '../layout/NavigationHistory'
 
 const SITE = 'https://ugabuga.co.il'
 
@@ -29,6 +31,9 @@ export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
   const via = useLocation().state?.via
   // A crumb for the page we just came from steps back instead, so its filters and scroll stay.
   const navigate = useNavigate()
+  const returnEntry = useBackNavigation()
+  const parent = items.slice(0, -1).findLast(item => item.href)
+  const fallbackBack = back || (parent && { href: parent.href, label: lang === 'en' ? `Back to ${parent.label}` : `חזרה ל${parent.label}` })
   const stepBack = href => e => { if (!e.metaKey && !e.ctrlKey && !e.shiftKey && isPreviousPage(href)) { e.preventDefault(); navigate(-1) } }
   const shown = via?.href && via?.label && items[1]?.href === '/printables' ? [items[0], via, ...items.slice(2)] : items
 
@@ -52,10 +57,10 @@ export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
         </ol>
         {/* Popular printables show how often they were printed (from the site's own stats). */}
         {lang !== 'en' && <PrintCount className="mt-2" />}
-        {back?.href && (
-          <Link to={back.href} onClick={stepBack(back.href)} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[40px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
-            → {back.label || (lang === 'en' ? 'Back' : 'חזרה')}
-          </Link>
+        {fallbackBack?.href && !(returnEntry?.index > 0) && (
+          <BackLink to={fallbackBack.href} lang={lang} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[44px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
+            → {fallbackBack.label || (lang === 'en' ? 'Back' : 'חזרה')}
+          </BackLink>
         )}
       </nav>
     </>

@@ -6,7 +6,7 @@ export const readLocal=(key,fallback)=>{try{return JSON.parse(localStorage.getIt
 export const writeLocal=(key,value)=>{memory.set(key,value);try{localStorage.setItem(`uga-space:${key}`,JSON.stringify(value))}catch{/* Link recovery remains available. */}}
 export const secureToken=()=>Array.from(crypto.getRandomValues(new Uint8Array(32))).map(x=>x.toString(16).padStart(2,'0')).join('')
 export function deviceToken(){let token=readLocal('device','');if(!/^[a-f0-9]{64}$/.test(token)){token=secureToken();writeLocal('device',token)}return token}
-export function ownerToken(code){const token=new URLSearchParams(location.hash.slice(1)).get('manage');if(token&&/^[a-f0-9]{64}$/.test(token)){writeLocal(`owner:${code}`,token);history.replaceState(null,'',location.pathname+location.search)}return readLocal(`owner:${code}`,'')}
+export function ownerToken(code){const token=new URLSearchParams(location.hash.slice(1)).get('manage');if(token&&/^[a-f0-9]{64}$/.test(token)){writeLocal(`owner:${code}`,token);history.replaceState(history.state,'',location.pathname+location.search)}return readLocal(`owner:${code}`,'')}
 export async function spaceRequest(action,code='',owner='',payload={}){
   let response
   try{response=await fetch(`${URL}/functions/v1/shared-spaces`,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action,code,owner,device:deviceToken(),payload}),signal:AbortSignal.timeout(30000)})}catch{throw new Error('network')}

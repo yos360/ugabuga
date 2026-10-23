@@ -3,6 +3,7 @@ const EnglishHanukkah = lazy(() => import('./en/EnglishHanukkah'))
 const EnglishHolidayColoring = lazy(() => import('./en/EnglishHolidays').then(m => ({default: m.EnglishHolidayColoring})))
 const EnglishAlphabet = lazy(() => import('./en/EnglishAlphabet'))
 import { BrowserRouter, useLocation, Routes, Route, Navigate } from 'react-router-dom'
+import { NavigationHistoryProvider } from './components/layout/NavigationHistory'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
@@ -392,7 +393,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Layout>
+        <NavigationHistoryProvider><Layout>
           <PageErrorBoundary>
           <Suspense fallback={<Loading />}>
             <Routes>
@@ -998,7 +999,7 @@ export default function App() {
             </Routes>
           </Suspense>
           </PageErrorBoundary>
-        </Layout>
+        </Layout></NavigationHistoryProvider>
       </BrowserRouter>
     </HelmetProvider>
   )

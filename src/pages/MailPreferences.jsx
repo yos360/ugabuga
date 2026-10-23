@@ -8,7 +8,7 @@ export default function MailPreferences() {
  const [link] = useState(() => new URLSearchParams(typeof window === 'undefined' ? '' : window.location.hash.slice(1)))
  const [token, setToken] = useState(link.get('manage') || ''), [form, setForm] = useState(null)
  const [message, setMessage] = useState(''), [busy, setBusy] = useState(false), [confirmed, setConfirmed] = useState(false)
- useEffect(() => { history.replaceState(null, '', window.location.pathname) }, [])
+ useEffect(() => { history.replaceState(history.state, '', window.location.pathname) }, [])
  useEffect(() => { if (!token) return; let live = true; mailApi('get', { token }).then(d => { if (live) setForm(d) }).catch(e => { if (live) setMessage(e.message) }); return () => { live = false } }, [token])
  async function confirm() { setBusy(true); try { const result = await mailApi('confirm', { token: link.get('confirm') }); setToken(result.token); setConfirmed(true); setMessage('ההרשמה אושרה! כאן אפשר לעדכן את ההעדפות בכל רגע.') } catch (e) { setMessage(e.message) } finally { setBusy(false) } }
  async function save(e, allOff = false) { e.preventDefault(); setBusy(true); try { const preferences = allOff ? { ...form, shabbat: false, weekly: false, marketing: false } : form; await mailApi('update', { token, preferences }); setForm(preferences); setMessage(allOff ? 'הוסרתם מכל המיילים. לא נשלח מיילים נוספים.' : 'ההעדפות נשמרו.'); } catch (e) { setMessage(e.message) } finally { setBusy(false) } }

@@ -12,7 +12,7 @@ const KICK_STYLE={marginInlineStart:8,padding:'1px 8px',border:'1px solid curren
 function useQr(text){const[svg,setSvg]=useState('');useEffect(()=>{import('qrcode').then(({default:Q})=>Q.toString(text,{type:'svg',margin:1,width:240,color:{dark:'#111633',light:'#ffffff'}})).then(setSvg).catch(()=>{})},[text]);return svg}
 function Leaders({rows=[],limit=10}){return <ol className="live-leaders">{rows.slice(0,limit).map((p,i)=><li key={`${p.name}-${i}`}><b>{p.rank||i+1}</b><span>{p.name}</span><strong>{p.score.toLocaleString('en-US')}</strong></li>)}</ol>}
 export default function EnglishLiveHost(){
- const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'Live quiz');history.replaceState(null,'',location.pathname)}return hash||liveMemory.hostToken(code)})
+ const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'Live quiz');history.replaceState(history.state,'',location.pathname)}return hash||liveMemory.hostToken(code)})
  const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[retry,setRetry]=useState(0),auto=useRef(''),retryTimer=useRef(0)
  const playLink=`${location.origin}/en/play/${code}`,hostLink=`${location.origin}/en/live/${code}/host#k=${token}`,qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
  const load=useCallback(()=>token&&liveQuizDb.host(code,token).then(d=>{setData(d);setError('');liveMemory.rememberHost(code,token,d.title)}).catch(e=>setError(englishError(e.code))),[code,token])

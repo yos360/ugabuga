@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import BackLink from '../../components/ui/BackLink'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -89,7 +89,7 @@ export function MemorySeniors() {
     <div className="mb-4 flex flex-wrap justify-center gap-2">{Object.entries(SENIOR_THEMES).map(([k, t]) => <button key={k} type="button" onClick={() => setTheme(k)} className={`min-h-14 rounded-xl border-[3px] px-5 text-xl font-bold ${k === theme ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white'}`}>{t.items[0]} {t.label}</button>)}</div>
     <Board key={theme} makeDeck={n => emojiDeck(SENIOR_THEMES[theme].items, n)} sizes={[3, 4, 6, 8]} big peekMs={3000} labelOf={c => c.face} />
     <div className="mt-10"><SeoBody paragraphs={['משחק זיכרון הוא דרך נעימה להעסיק את הראש: צריך לשים לב, לזכור מיקומים ולהתרכז לכמה דקות. כאן הקלפים גדולים, התמונות ברורות ואין שעון — אפשר להתחיל ב־3 זוגות ולהתקדם לאט עד 8. אפשר לשחק לבד, או עם הנכדים על אותו מסך, כל אחד בתורו.', 'רוצים גם משהו על הנייר? באזור הפנאי למבוגרים יש תשבצים להדפסה באותיות גדולות ומנדלות לצביעה.']} faq={FAQ_SENIORS} related={[{ label: 'תשבצים למבוגרים', href: '/adults/crosswords' }, { label: 'מנדלות לצביעה', href: '/adults/mandalas' }, { label: 'פינת סבא וסבתא', href: '/adults/grandparents' }]} /></div>
-    <p className="mt-6 text-center text-lg"><Link to="/adults" className="underline">← חזרה לפנאי למבוגרים</Link></p>
+    <p className="mt-6 text-center text-lg"><BackLink to="/adults" className="underline">← חזרה לפנאי למבוגרים</BackLink></p>
   </div>
 }
 

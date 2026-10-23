@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { IDEA_SEO } from '../../data/ideaSeo'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import BackLink from '../../components/ui/BackLink'
 import Badge from '../../components/ui/Badge'
 import WobblyCard from '../../components/ui/WobblyCard'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -22,7 +23,7 @@ export default function IdeaArticlePage() {
       <div className="mx-auto max-w-3xl px-4 py-20 text-center">
         <SEO title="רעיון לא נמצא" path={'/ideas/' + slug} noindex />
         <h1 className="text-4xl mb-4">הרעיון לא נמצא</h1>
-        <Link to="/ideas" className="font-display text-xl font-bold text-[var(--pen)] underline decoration-dashed">חזרה לעולם ההשראה ←</Link>
+        <BackLink to="/ideas" className="font-display text-xl font-bold text-[var(--pen)] underline decoration-dashed">חזרה לעולם ההשראה ←</BackLink>
       </div>
     )
   }

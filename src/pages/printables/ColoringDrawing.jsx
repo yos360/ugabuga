@@ -1,6 +1,7 @@
 import { englishCounterpart } from '../../en/englishLinks'
 import { Link, useParams } from 'react-router-dom'
 import PrintableShell from '../../components/printables/PrintableShell'
+import BackLink from '../../components/ui/BackLink'
 import NotFound from '../NotFound'
 import { COLORING_SUBJECTS, coloringFmt, coloringSrc } from '../../data/coloringSubjects'
 import { findColoringDrawing, coloringDrawingPath, coloringDrawingTitle, coloringDrawingDescription, moreColoringDrawings, relatedColoringSubjects } from '../../data/coloringDrawings'
@@ -29,7 +30,7 @@ export default function ColoringDrawing() {
       printTitle={drawing.name} printLabel="הדפסה או הורדה כ-PDF"
       paragraphs={[drawing.description, drawing.tip]} faq={faq}
       related={[{ label: `כל דפי הצביעה בנושא ${s.name}`, href: `/printables/coloring/${s.slug}` }, ...related.map(item => ({ label: `דפי צביעה ${item.name}`, href: `/printables/coloring/${item.slug}` }))]}
-      extra={<Link to={`/printables/coloring/${s.slug}`} className="block py-2 font-bold underline">חזרה לכל ציורי {s.name}</Link>} />
+      extra={<BackLink to={`/printables/coloring/${s.slug}`} className="block py-2 font-bold underline">חזרה לכל ציורי {s.name}</BackLink>} />
     <section className="no-print mx-auto mb-12 max-w-4xl px-4" dir="rtl" aria-labelledby="more-coloring-title">
       <h2 id="more-coloring-title" className="mb-4 text-2xl font-black">עוד ציורים בנושא {s.name}</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{more.map(item =>

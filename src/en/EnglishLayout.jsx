@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet-async'
 import { Menu, X } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import ScrollToTop from '../components/layout/ScrollToTop'
+import ReturnNavigation from '../components/layout/ReturnNavigation'
+import BackLink from '../components/ui/BackLink'
 import { ENGLISH_SECTIONS, hebrewCounterpart } from './englishLinks'
 import './english.css'
 export default function EnglishLayout({ children }) {
@@ -30,10 +32,10 @@ export default function EnglishLayout({ children }) {
       <nav className="en-desktop-nav" aria-label="Main navigation">{nav}</nav>
       {open&&<nav ref={panel} id="en-mobile-menu" className="en-mobile-nav" aria-label="Mobile navigation">{nav}</nav>}
     </header>
-    <main id="site-content" tabIndex={-1}>{children}</main>
+    <main id="site-content" tabIndex={-1}><ReturnNavigation lang="en" />{children}</main>
     <footer className="en-footer"><p><strong>UGABUGA</strong> · A little bit of everything. A whole lot of fun.</p><nav aria-label="Footer navigation"><Link to="/en">Home</Link>{nav}<Link to={he} lang="he">עברית</Link></nav><p>Games, printable activities and happy moments together.</p><p><a href="mailto:hellohugabuga@gmail.com">Contact us</a> · <Link to="/privacy">Privacy policy (Hebrew)</Link></p></footer>
   </div>
 }
 export function EnglishNotFound() {
-  return <div className="en-page"><SEO lang="en" title="Page not found" description="This English page is not available. Return to the Ugabuga English home." noindex /><h1>We could not find that page</h1><p>The address may be incomplete, or this activity may not be available in English yet.</p><Link to="/en">Back to English home</Link></div>
+  return <div className="en-page"><SEO lang="en" title="Page not found" description="This English page is not available. Return to the Ugabuga English home." noindex /><h1>We could not find that page</h1><p>The address may be incomplete, or this activity may not be available in English yet.</p><BackLink to="/en" lang="en">Back to English home</BackLink></div>
 }

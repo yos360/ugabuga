@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
+import ReturnNavigation from './ReturnNavigation'
 const EnglishLayout = lazy(() => import('../../en/EnglishLayout'))
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
@@ -79,7 +80,7 @@ export default function Layout({ children }) {
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
-      <main id="site-content" tabIndex={-1} className="min-h-screen">{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
+      <main id="site-content" tabIndex={-1} className="min-h-screen">{!presenting && <ReturnNavigation />}{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
       {mounted && !presenting && isUgcPath(pathname) && <ReportContent />}
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}

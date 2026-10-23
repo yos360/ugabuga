@@ -25,7 +25,7 @@ export default function QuizManage() {
   const nav = useNavigate()
   const [token] = useState(() => {
     const fromHash = /[#&]k=([\w-]+)/.exec(location.hash)?.[1]
-    if (fromHash) { quizMemory.remember(code, fromHash, 'מבחן'); history.replaceState(null, '', location.pathname) }
+    if (fromHash) { quizMemory.remember(code, fromHash, 'מבחן'); history.replaceState(history.state, '', location.pathname) }
     return fromHash || quizMemory.token(code)
   })
   const [data, setData] = useState(null), [err, setErr] = useState('')

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import BackLink from '../../components/ui/BackLink'
 import SEO from '../../components/ui/SEO'
 import { MathText } from '../../components/quiz/QuizEditor'
 import { liveErrorText, liveMemory, liveQuizDb, newLiveToken } from '../../utils/liveQuizDb'
@@ -24,7 +25,7 @@ export default function LiveQuizPlay(){
  const join=async e=>{e.preventDefault();if(!name.trim()){setError('כתבו שם או כינוי.');return}setBusy(true);setError('');try{const t=token||newLiveToken();await liveQuizDb.join(code,t,name.trim());liveMemory.rememberPlayer(code,t,name.trim());setToken(t);await sync(t)}catch(err){setError(liveErrorText(err.code))}finally{setBusy(false)}}
  const answered=Boolean(player?.answered)&&playerIndex===index,correct=answered&&Boolean(player?.correct)
  const answer=async option=>{if(busy||answered)return;setBusy(true);setError('');try{await liveQuizDb.answer(code,token,index,option);setPlayer(current=>current?{...current,answered:true,option}:current);setPlayerIndex(index);await refreshPlayer(undefined,index)}catch(e){setError(liveErrorText(e.code));await sync()}finally{setBusy(false)}}
- if(error&&!state)return <main className="live-player-screen"><SEO title="כניסה לבוגה לייב" path={`/play/${code}`} noindex/><div className="live-player-card"><i className="live-mini-logo">B!</i><h1>לא הצלחנו להתחבר</h1><p>{error}</p><Link to="/live">חזרה לעמוד המשחק</Link></div></main>
+ if(error&&!state)return <main className="live-player-screen"><SEO title="כניסה לבוגה לייב" path={`/play/${code}`} noindex/><div className="live-player-card"><i className="live-mini-logo">B!</i><h1>לא הצלחנו להתחבר</h1><p>{error}</p><BackLink to="/live">חזרה לעמוד המשחק</BackLink></div></main>
  if(!state)return <main className="live-player-screen live-loading">מתחברים למשחק…</main>
  if(!player)return <main className="live-player-screen lobby-bg"><SEO title={`כניסה למשחק ${code} — בוגה לייב`} path={`/play/${code}`} noindex/><form className="live-player-card" onSubmit={join}><i className="live-mini-logo">B!</i><p className="live-player-code">קוד <b dir="ltr">{code}</b></p><h1>{payload.title||'בוגה לייב'}</h1><label>איך לקרוא לכם במשחק?<input value={name} onChange={e=>setName(e.target.value)} maxLength={24} autoFocus autoComplete="nickname" placeholder="שם או כינוי" /></label>{error&&<p className="live-error" role="alert">{error}</p>}<button disabled={busy}>{busy?'נכנסים…':'כניסה למשחק'}</button><small>לא צריך להירשם. השם משמש רק במשחק הזה.</small></form></main>
  const connectionNote=connection!=='SUBSCRIBED'?<span className="live-connection" role="status">מחדשים את החיבור… המשחק ימשיך אוטומטית.</span>:null

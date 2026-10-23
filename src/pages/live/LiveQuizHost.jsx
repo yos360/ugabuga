@@ -29,7 +29,7 @@ function HostSummary({stats,leaderboard,title}){
 function Leaderboard({rows=[],limit=10}){return <ol className="live-leaders">{rows.slice(0,limit).map((p,i)=><li key={`${p.name}-${i}`}><b>{p.rank||i+1}</b><span>{p.name}</span><strong>{p.score.toLocaleString('he-IL')}</strong></li>)}</ol>}
 
 export default function LiveQuizHost(){
- const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'משחק חדש');history.replaceState(null,'',location.pathname)}return hash||liveMemory.hostToken(code)})
+ const {code}=useParams(),[token]=useState(()=>{const hash=/#k=([\w-]+)/.exec(location.hash)?.[1];if(hash){liveMemory.rememberHost(code,hash,'משחק חדש');history.replaceState(history.state,'',location.pathname)}return hash||liveMemory.hostToken(code)})
  const[data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[copied,setCopied]=useState(''),[replayTopic,setReplayTopic]=useState('mixed'),[replayDifficulty,setReplayDifficulty]=useState('medium'),[replayMode,setReplayMode]=useState('regular'),[retry,setRetry]=useState(0),auto=useRef(''),retryTimer=useRef(0),finishSeen=useRef(false)
  const[stats,setStats]=useState({}),playLink=livePlayLink(code),qr=useQr(playLink),left=useLiveCountdown(data?.ends_at)
  const load=useCallback(()=>token&&liveQuizDb.host(code,token).then(d=>{setData(d);setError('');liveMemory.rememberHost(code,token,d.title)}).catch(e=>setError(liveErrorText(e.code))),[code,token])

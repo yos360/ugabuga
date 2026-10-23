@@ -1,6 +1,7 @@
 import {useEffect,useRef,useState} from 'react'
 import {Link,useNavigate,useParams,useSearchParams} from 'react-router-dom'
 import SEO from '../../../components/ui/SEO'
+import BackLink from '../../../components/ui/BackLink'
 import {SPACE_TYPES,SPACE_ERRORS,normalizeSpace,makeTimeSlots,itemLabel,bestMeeting,spaceCsv,calendarEvent} from '../../../utils/sharedSpaces'
 import {spaceRequest,readLocal,writeLocal,secureToken,ownerToken,compressedPhoto,saveFile} from '../../../utils/sharedSpaceApi'
 import './shared-spaces.css'
@@ -134,7 +135,7 @@ function SpaceView({demoKind,code}){
  if(!space)return <div className="sg-page sg-card"><SEO title="דף משותף" noindex/><h1>{error?'לא הצלחנו לפתוח את הדף':'טוענים את הדף המשותף…'}</h1>{error&&<><p role="alert">{error}</p><button onClick={()=>refresh().catch(e=>setError(errorText(e)))}>ניסיון נוסף</button></>}<ToolLinks/></div>
  const t=SPACE_TYPES[space.kind],selected=space.config.items.find(x=>x.id===space.selected)
  return <div className="sg-page"><SEO title="דף משותף בעוגה בוגה" description="משתתפים יחד בקישור שקיבלתם מהמארגן." noindex/>
-   {demo&&<div className="sg-demo"><b>👀 זו הדגמה — הפעולות כאן אינן נשמרות בשרת</b><Link to={t.path}>חזרה ליצירת דף</Link><button onClick={()=>setSpace(s=>({...s,owner:!s.owner}))}>{space.owner?'צפייה כמשתתף':'צפייה כמארגן'}</button></div>}
+   {demo&&<div className="sg-demo"><b>👀 זו הדגמה — הפעולות כאן אינן נשמרות בשרת</b><BackLink to={t.path}>חזרה ליצירת דף</BackLink><button onClick={()=>setSpace(s=>({...s,owner:!s.owner}))}>{space.owner?'צפייה כמשתתף':'צפייה כמארגן'}</button></div>}
    <header className="sg-event" style={{'--sg-tint':t.color}}><span className="sg-eyebrow">{t.icon} {t.title} · עוגה בוגה</span><h1>{space.config.title}</h1>{space.config.place&&<p>📍 {space.config.place}</p>}<p className="sg-preserve">{space.config.note}</p><span className="sg-status">{space.closed?'🔒 ההרשמה סגורה':'🟢 פתוח להשתתפות'}</span>{selected&&<div className="sg-final"><b>🎉 נקבע! {itemLabel(selected)}</b><button onClick={()=>saveFile(calendarEvent(space,selected),'ugabuga-meeting.ics','text/calendar')}>שמירה ביומן</button></div>}</header>
    {error&&<p className="sg-error" role="alert">{error}</p>}<p className="sg-notice" role="status">{notice}</p>
    <div className="sg-card sg-name"><Field label={space.kind==='parents'?'שם פרטי של ההורה או הילד':'איך קוראים לכם?'}><input maxLength={40} value={name} onChange={e=>setName(e.target.value)} placeholder="שם פרטי" autoComplete="given-name"/></Field><p>{space.kind==='parents'?'השם גלוי רק למארגן ולכם.':'השם יוצג למשתתפי הדף.'} שמרו את הקישור וחזרו מאותו מכשיר כדי לשנות את הבחירה.</p></div>
