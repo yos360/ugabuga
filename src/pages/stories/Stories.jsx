@@ -8,7 +8,7 @@ import NotFound from '../NotFound'
 import {
   STORY_AGES, STORY_THEMES, MAX_NAME, cleanName, renderStory, fillText, storyWords, readingMinutes,
   ageLabel, themeOf, relatedStories,
-} from '../../data/bedtimeStories'
+} from '../../data/storyHelpers'
 import { STORY_INDEX, storyMeta, loadStory } from '../../data/storyLibrary'
 import '../../learn/learn.css'
 import './stories.css'
