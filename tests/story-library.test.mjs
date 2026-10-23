@@ -4,6 +4,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 
 const { BEDTIME_STORIES, storyWords } = await import('../src/data/bedtimeStories.js')
 const { STORY_INDEX } = await import('../src/data/storyIndex.js')
@@ -13,7 +14,7 @@ const added = []
 for (const f of readdirSync(dir).filter(f => /^batch-\d+\.js$/.test(f)).sort()) for (const s of (await import(new URL(f, dir).href)).STORIES) added.push({ s, src: f.replace(/\.js$/, '') })
 
 test('every added story passes the story checker (length, genders, tokens, pictures, uniqueness)', () => {
-  execFileSync(process.execPath, [new URL('../scripts/check-stories.mjs', import.meta.url).pathname], { stdio: 'pipe' })
+  execFileSync(process.execPath, [fileURLToPath(new URL('../scripts/check-stories.mjs', import.meta.url))], { stdio: 'pipe' })
 })
 
 test('the index lists exactly the original and added stories, in order, with their source file and word count', () => {
