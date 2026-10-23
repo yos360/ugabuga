@@ -29,6 +29,7 @@ const latestOwnerTime = thread => (thread?.messages || []).reduce((latest, messa
 export default function SiteChatWidget() {
   const [open, setOpen] = useState(false)
   const [mini, setMini] = useState(storedMini)
+  const closePanelRef = useRef(null)
   const [token, setToken] = useState(storedToken)
   const [thread, setThread] = useState(null)
   const [loading, setLoading] = useState(Boolean(token))
@@ -97,12 +98,16 @@ export default function SiteChatWidget() {
   // Focus only when the panel opens, not on every refresh (avoids popping the mobile keyboard)
   useEffect(() => {
     if (!open) return
-    requestAnimationFrame(() => document.querySelector('.site-chat-panel textarea')?.focus())
+    if (window.matchMedia?.('(pointer: fine)').matches) requestAnimationFrame(() => document.querySelector('.site-chat-panel textarea')?.focus())
+    const onKey = e => { if (e.key === 'Escape') closePanelRef.current?.() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [open])
   const latestOwner = latestOwnerTime(thread)
   // While the panel is open every owner reply counts as seen; the state is synced when it closes
   useEffect(() => { if (open && latestOwner > seenAt()) rememberSeen(latestOwner) }, [open, latestOwner])
   const closePanel = () => { setSeen(value => Math.max(value, latestOwner)); setOpen(false) }
+  closePanelRef.current = closePanel
 
   const start = async event => {
     event.preventDefault()
@@ -129,8 +134,9 @@ export default function SiteChatWidget() {
 
   const hideLabel = () => { setMini(true); try { localStorage.setItem(MINI_KEY, '1') } catch { /* private mode */ } }
   return <div className="site-chat no-print no-present" dir="rtl">
+    {open && <div className="site-chat-backdrop" onClick={closePanel} aria-hidden="true" />}
     {open && <section className="site-chat-panel" role="dialog" aria-label="שיחה עם עוגה בוגה">
-      <header><div><span>💬</span><div><b>מדברים עם עוגה בוגה</b><small>רעיונות, בקשות ועזרה — הכול מתקבל בשמחה</small></div></div><button onClick={closePanel} aria-label="סגירת הצ׳אט">×</button></header>
+      <header><div><span>💬</span><div><b>מדברים עם עוגה בוגה</b><small>רעיונות, בקשות ועזרה — הכול מתקבל בשמחה</small></div></div><button type="button" className="site-chat-x" onClick={closePanel} aria-label="סגירת הצ׳אט">✕</button></header>
       {unavailable ? <div className="site-chat-closed" role="status"><p>הצ׳אט עוד לא הופעל. נחזור לכאן בקרוב 💜</p></div> : loading ? <div className="site-chat-loading" role="status">טוענים את השיחה…</div> : thread ? <>
         <div className="site-chat-messages">
           <div className="site-chat-welcome">היי {thread.name || ''} 👋 ההודעה הגיעה אלינו. אפשר להמשיך לכתוב כאן ולחזור לשיחה מאותו דפדפן.</div>

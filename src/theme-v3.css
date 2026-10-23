@@ -1,0 +1,99 @@
+/* Site-wide look (v3) — brings every inner page in line with the home page: soft cards with a thin
+   ring and layered shadow, no tilted cards, a pastel glow at the top of the page, violet primary
+   buttons and a gentle lift on hover (pointer devices only). Print and reduced motion untouched. */
+:root {
+  --border: #e4e1f0;
+  --shadow-card: 0 1px 2px rgb(43 29 111 / 4%), 0 8px 24px rgb(43 29 111 / 7%);
+  --violet: #6d48e5;
+}
+
+@media screen {
+  /* a soft pastel glow behind the page title, like the home hero */
+  body main#site-content {
+    background-image:
+      radial-gradient(1100px 360px at 88% -80px, #ffe9f2 0, transparent 70%),
+      radial-gradient(1000px 360px at 8% -60px, #e4f5ff 0, transparent 70%);
+    background-repeat: no-repeat;
+  }
+
+  /* cards: thin soft ring instead of a thick border, and straight (never tilted) */
+  body .wobbly.border-2, body .wobbly-md.border-2, body .wobbly-sm.border-2 { border-width: 1px; }
+  body .wobbly, body .wobbly-md, body .wobbly-sm, body .card-lift { rotate: none !important; }
+  body .sketch-shadow { box-shadow: var(--shadow-card); }
+  body .sketch-shadow-rich { box-shadow: 0 2px 4px rgb(43 29 111 / 4%), 0 16px 40px rgb(43 29 111 / 10%); }
+  body .sketch-press { box-shadow: var(--shadow-card); transition: transform .25s cubic-bezier(.3,.7,.4,1.4), box-shadow .25s, border-color .25s; }
+  body .card-lift { transition: transform .25s cubic-bezier(.3,.7,.4,1.4), box-shadow .25s, border-color .25s; }
+
+  /* hard "sticker" offset shadows and extra-thick borders → the same soft card look everywhere */
+  body [class*="shadow-["]:is([class*="px_0_"], [class*="px_0px_"]) { box-shadow: var(--shadow-card) !important; }
+  body .border-\[3px\], body .border-\[4px\], body .border-4 { border-width: 2px; }
+
+  /* chips and boxes used across learning, stories and tools pages */
+  body .ln-chip { border-radius: 999px; transition: background .2s, border-color .2s, transform .2s; }
+  body .ln-chip[aria-pressed="true"] { background: linear-gradient(90deg, #efe8ff, #e3f6ff); border-color: #c9b8fb; color: #4b2fc0; }
+  body .ln-box { border-radius: 24px; box-shadow: var(--shadow-card); }
+
+  /* breadcrumbs: quieter */
+  body nav[aria-label="breadcrumb"], body nav[aria-label="פירורי לחם"] { opacity: .85; }
+}
+
+/* the lift and wiggle only where there is a real pointer */
+@media screen and (hover: hover) {
+  body .card-lift:hover, body .sketch-press:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 2px 4px rgb(43 29 111 / 5%), 0 18px 36px rgb(43 29 111 / 12%);
+    border-color: #cfc2f8;
+  }
+  body .sketch-press:active { transform: translateY(-1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .card-lift, body .sketch-press, body .ln-chip { transition: none !important; }
+  body .card-lift:hover, body .sketch-press:hover { transform: none !important; }
+}
+
+/* floating helpers (classroom "present" button): soft, not a black sticker */
+@media screen {
+  body .pm-open { border: 1px solid #e4e1f0 !important; box-shadow: var(--shadow-card) !important; background: #fff; }
+}
+
+/* Page-level "sticker" pieces found by a scan of the site (games hub, adults area, daily game on the
+   home page): same soft card look. Game boards and keyboards keep their strong outlines on purpose. */
+@media screen {
+  body .arc-card, body .arc-box, body .dl-banner, body .today-quiz { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body .arc-card-art { border-bottom: 1px solid var(--border) !important; }
+  body .dl-banner-art { border: 0 !important; }
+  body .arc-card:hover, body .arc-card:focus-visible { rotate: none; transform: translateY(-5px); }
+  /* the adults area keeps a clear (high-contrast) edge, just without the black frame */
+  body .adult-card { border: 2px solid #cfd3e0 !important; box-shadow: var(--shadow-card); }
+  body .today-option:not([class*="is-"]):not(:disabled) { border-color: #d9d5ea !important; box-shadow: none !important; }
+  body .today-date, body .mh-hint-btn { border: 0 !important; box-shadow: 0 2px 6px rgb(43 29 111 / 10%) !important; }
+  body .mh-clue { border: 2px dashed #cfc7ee !important; }
+}
+
+/* online-game pages: the frame around the game (hero, buttons, chips, end card) goes soft; boards stay bold */
+@media screen {
+  body :is(.arc-play-hero, .arc-end-card, .arc-related a) { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body :is(.arc-play-art) { border: 0 !important; box-shadow: none !important; }
+  body :is(.arc-play-btn, .arc-btn, .arc-share, .dl-share-btn, .arc-icon-btn, .arc-tool, .arc-pill, .arc-chip, .arc-seg) { border-color: rgb(29 34 51 / 14%) !important; border-width: 1px !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
+  body :is(.arc-play-btn, .arc-btn):active { transform: translateY(1px); }
+}
+
+/* Time-tunnel day pages and the frames around board games, chess, sudoku and word games: soft cards
+   and buttons; the boards, keys and dice keep their strong outlines. */
+@media screen {
+  body :is(.tt-cal-month, .tt-year, .tt-soon, .mh-note, .bg-box, .bg-card, .cz-box, .cz-card, .cz-side, .wp-box, .wp-list, .ei-box, .motor-panel, .hb-hero) { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body .tt-cal-month details, body details.tt-year { border-color: var(--border) !important; }
+  body :is(.bg-primary, .cz-btn, .sdk-btn, .sdk-chip, .motor-primary, .motor-new) { border-width: 1px !important; border-color: rgb(29 34 51 / 14%) !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
+}
+@media screen {
+  /* tabs, segment buttons and selects inside those pages: thin edges; the selected one keeps its colour */
+  body :is(.bg-tabs, .bg-actions, .bg-controls, .cz-seg, .wp-levels, .wp-tabs, .wp-opts, .wp-print-bar, .motor-pills, .motor-actions, .motor-bar) :is(button, select),
+  body .tt-facts details { border-width: 1px !important; border-color: rgb(29 34 51 / 16%) !important; box-shadow: 0 1px 4px rgb(43 29 111 / 8%) !important; }
+}
+@media screen {
+  /* last pieces from the site scan: typing lessons frame, family planners, shared-space heroes, adults buttons, story pictures */
+  body :is(.ty-box, .ty-lesson, .fam-roll, .fam-box, .sg-hero) { border: 1px solid var(--border) !important; box-shadow: var(--shadow-card) !important; }
+  body :is(.ty-chip, .adult-btn, .adult-chip) { border-width: 1px !important; border-color: rgb(29 34 51 / 16%) !important; box-shadow: 0 2px 8px rgb(43 29 111 / 10%) !important; }
+  body .st-pic { border: 0 !important; box-shadow: 0 2px 8px rgb(43 29 111 / 12%) !important; }
+}

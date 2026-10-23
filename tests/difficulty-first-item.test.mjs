@@ -18,6 +18,8 @@ export async function resolve(spec, ctx, next) {
   return next(spec, ctx)
 }`
 register('data:text/javascript,' + encodeURIComponent(hooks), import.meta.url)
+// The easier-level sample is time-capped for phones; here it must not depend on how busy the machine is.
+globalThis.__MATH_LOWER_BUDGET_MS = Infinity
 
 const { pickByLevel, seededRandom, newAtLevel, buildLeveledPool } = await import('../src/utils/difficultyLevels.js')
 const { QUESTION_BANK_EXPANDED, AUDIENCES, DIFFICULTIES, pickNextQuestion } = await import('../src/data/questionBankExpanded.js')
