@@ -6,9 +6,10 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import {
-  BEDTIME_STORIES, STORY_AGES, STORY_THEMES, MAX_NAME, cleanName, renderStory, storyWords, readingMinutes,
+  STORY_AGES, STORY_THEMES, MAX_NAME, cleanName, renderStory, fillText, storyWords, readingMinutes,
   ageLabel, themeOf, relatedStories,
 } from '../../data/bedtimeStories'
+import { STORY_INDEX, storyMeta, loadStory } from '../../data/storyLibrary'
 import '../../learn/learn.css'
 import './stories.css'
 import StoryReader from './StoryReader'
@@ -50,13 +51,13 @@ function FavButton({ on, onClick, big }) {
 }
 
 function StoryCard({ s, custom, fav, onFav }) {
-  const r = renderStory(s, custom)
+  const r = { title: fillText(s.title, s, custom), summary: fillText(s.summary, s, custom) }
   return <div className="st-card-wrap">{onFav && <FavButton on={fav} onClick={() => onFav(s.slug)} />}<Link to={`/stories/${s.slug}`} className="wobbly card-lift block h-full border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right">
     <div className="st-card">
       <div className="text-4xl" aria-hidden="true">{s.emoji}</div>
       <h3 className="text-xl font-bold leading-snug">{r.title}</h3>
       <p className="m-0 text-[var(--muted-foreground)]">{r.summary}</p>
-      <div className="mt-auto pt-2"><Badges s={s} minutes={readingMinutes(storyWords(s, custom))} /></div>
+      <div className="mt-auto pt-2"><Badges s={s} minutes={readingMinutes(s.words ?? storyWords(s, custom))} /></div>
     </div>
   </Link></div>
 }
@@ -80,14 +81,14 @@ export function StoriesHub() {
   const [favs, toggleFav] = useFavorites()
   const [onlyFav, setOnlyFav] = useState(false)
   // Every night a different story on top, and the library itself in a new order each day.
-  const tonight = day === null ? null : storyOfDay(BEDTIME_STORIES, day)
-  const ordered = day === null ? BEDTIME_STORIES : dailyOrder(BEDTIME_STORIES, day)
+  const tonight = day === null ? null : storyOfDay(STORY_INDEX, day)
+  const ordered = day === null ? STORY_INDEX : dailyOrder(STORY_INDEX, day)
   const list = ordered.filter(s => (!age || s.age === age) && (!theme || s.theme === theme) && (!onlyFav || favs.includes(s.slug)))
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`סיפורים לילדים לפני השינה — ${BEDTIME_STORIES.length} סיפורים קצרים, גם עם שם הילד`} description={`סיפורים לילדים לפני השינה: ${BEDTIME_STORIES.length} סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם.`} path="/stories" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title={`סיפורים לילדים לפני השינה — ${STORY_INDEX.length} סיפורים קצרים, גם עם שם הילד`} description={`סיפורים לילדים לפני השינה: ${STORY_INDEX.length} סיפורים מקוריים וקצרים בעברית לגילאי 3–9, לפי גיל ונושא. סיפור אישי עם שם הילד, זמן קריאה, מסר קטן והדפסה נקייה. חינם.`} path="/stories" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: HUB.label }]} />
     <header className="text-center">
-      <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 font-bold text-[#1d2233]">{BEDTIME_STORIES.length} סיפורים מקוריים · חינם</span>
+      <span className="inline-flex rounded-full bg-indigo-100 px-4 py-2 font-bold text-[#1d2233]">{STORY_INDEX.length} סיפורים מקוריים · חינם</span>
       <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🌙 </span>סיפורים לילדים לפני השינה</h1>
       <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">סיפורים לילדים לפני השינה: קצרים, חמים ורגועים — על חברות, חיות, משפחה, פחדים קטנים ודמיון גדול. כל סיפור נגמר בשקט, בדיוק כשהעיניים נעצמות.</p>
     </header>
@@ -122,7 +123,7 @@ export function StoriesHub() {
       </div>
     </section>
 
-    <h2 className="mt-8 mb-4 text-center text-2xl font-black">{list.length === BEDTIME_STORIES.length ? 'כל הסיפורים' : `${list.length} סיפורים`}</h2>
+    <h2 className="mt-8 mb-4 text-center text-2xl font-black">{list.length === STORY_INDEX.length ? 'כל הסיפורים' : `${list.length} סיפורים`}</h2>
     {list.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{list.map(s => <StoryCard key={s.slug} s={s} custom={custom} fav={favs.includes(s.slug)} onFav={toggleFav} />)}</div>
       : <p className="text-center">אין עדיין סיפור שמתאים לשני הסינונים יחד. <button type="button" className="underline font-bold" onClick={() => { setAge(''); setTheme(''); setOnlyFav(false) }}>הצגת כל הסיפורים</button></p>}
 
@@ -132,7 +133,7 @@ export function StoriesHub() {
     </div>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `סיפור לפני השינה הוא אחד הרגעים הכי שקטים וקרובים ביום: האור כבר נמוך, השמיכה חמימה, וההורה והילד יחד, בלי מסכים. בספרייה הזאת יש ${BEDTIME_STORIES.length} סיפורים לילדים שנכתבו במיוחד לרגע הזה — קצרים מספיק כדי להיגמר לפני שהעיניים נעצמות, ורגועים מספיק כדי לא להעיר אותן מחדש.`,
+      `סיפור לפני השינה הוא אחד הרגעים הכי שקטים וקרובים ביום: האור כבר נמוך, השמיכה חמימה, וההורה והילד יחד, בלי מסכים. בספרייה הזאת יש ${STORY_INDEX.length} סיפורים לילדים שנכתבו במיוחד לרגע הזה — קצרים מספיק כדי להיגמר לפני שהעיניים נעצמות, ורגועים מספיק כדי לא להעיר אותן מחדש.`,
       'כל סיפור מתאים לטווח גילים מסוים: לגילאי 3–5 יש סיפורים פשוטים עם חזרות וקצב איטי, לגילאי 5–7 עלילה קצת יותר מפותחת, ולגילאי 7–9 סיפורים עם רגש ומחשבה, שאפשר לדבר עליהם אחרי הקריאה. בסוף כל סיפור יש "מסר" קצר — רעיון אחד לשיחה, בלי הטפה.',
       'הנושאים מגוונים: חברות ושיתוף, חיות וטבע, משפחה, פחד מהחושך ומרעמים, דמיון, וגם חגים ועונות — סוכות, חנוכה והגשם הראשון. וכל סיפור יכול להפוך לסיפור אישי: כותבים את שם הילד, בוחרים בן או בת, והסיפור מתאים את עצמו.',
     ]} faq={HUB_FAQ} related={[{ label: 'סיפור לפני השינה עם השם של הילד', href: '/family/bedtime-story' }, { label: 'בבית עם הילדים', href: '/family' }, { label: 'הבנת הנקרא', href: '/learn/reading' }, { label: 'דפי צביעה', href: '/printables/coloring' }]} /></div>
@@ -144,9 +145,24 @@ const PARAM = { hero: ['hero', 'hg'], friend: ['friend', 'fg'], pet: ['pet', 'pg
 
 export function StoryPage() {
   const { slug } = useParams()
-  const story = BEDTIME_STORIES.find(s => s.slug === slug)
+  const meta = storyMeta(slug)
   const [params] = useSearchParams()
-  if (!story) return <NotFound />
+  const [story, setStory] = useState(null)
+  useEffect(() => {
+    let live = true
+    setStory(null)
+    if (meta) loadStory(slug).then(s => { if (live) setStory(s) }).catch(() => {})
+    return () => { live = false }
+  }, [slug, meta])
+  if (!meta) return <NotFound />
+  // While the text loads: the title and summary (from the index), so the page never jumps from empty.
+  if (!story) return <div className="mx-auto max-w-3xl px-4 py-8 text-center" dir="rtl">
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, HUB, { label: fillText(meta.title, meta) }]} />
+    <div className="text-5xl" aria-hidden="true">{meta.emoji}</div>
+    <h1 className="mt-2 text-4xl sm:text-5xl">{fillText(meta.title, meta)}</h1>
+    <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{fillText(meta.summary, meta)}</p>
+    <p className="mt-6 text-[var(--muted-foreground)]" role="status">טוענים את הסיפור…</p>
+  </div>
   // Remount per story and per share link, so the panel starts fresh from the link or the saved name.
   return <Story key={`${slug}?${params.toString()}`} story={story} params={params} />
 }
@@ -213,7 +229,7 @@ function Story({ story, params }) {
     const url = shareUrl()
     try { await navigator.clipboard.writeText(url); setCopied('הקישור הועתק — אפשר לשלוח לסבא, לסבתא או לגננת.') } catch { setCopied(url) }
   }
-  const related = relatedStories(story)
+  const related = relatedStories(story, STORY_INDEX)
   const t = themeOf(story.theme)
   const faq = [
     { q: `לאיזה גיל מתאים הסיפור "${defaults.title}"?`, a: `הסיפור נכתב ל${ageLabel(story.age)}, אבל ילדים קטנים או גדולים יותר ייהנו ממנו גם. הוא באורך של ${words} מילים — כ־${minutes} דקות של הקראה רגועה.` },
@@ -316,7 +332,7 @@ function Story({ story, params }) {
     <section className="no-print mt-10">
       <h2 className="mb-4 text-center text-2xl font-black">עוד סיפורים לפני השינה</h2>
       <div className="grid gap-4 sm:grid-cols-3">{related.map(s => <StoryCard key={s.slug} s={s} custom={custom.hero ? { hero: custom.hero } : undefined} />)}</div>
-      <p className="mt-4 text-center"><Link to="/stories" className="font-bold underline">לכל {BEDTIME_STORIES.length} הסיפורים ←</Link></p>
+      <p className="mt-4 text-center"><Link to="/stories" className="font-bold underline">לכל {STORY_INDEX.length} הסיפורים ←</Link></p>
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[

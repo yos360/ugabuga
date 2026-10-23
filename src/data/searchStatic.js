@@ -10,6 +10,7 @@ import { MENU_GROUPS } from './siteMenu'
 import { PARASHOT, parashaHref } from './parashot'
 import { SHABBAT_PLACES } from './shabbatCities'
 import { BEDTIME_STORY_COUNT } from './bedtimeStoryCount.js'
+import { STORY_SEARCH } from './storySearch.js'
 import { CATEGORIES, CLASS_PAGES } from './gameCategories'
 import { IDEA_ARTICLES, PARTY_KITS } from './ideaArticlesExpanded'
 import { GUIDES } from './guides'
@@ -291,6 +292,8 @@ const PAGES = [
   { to: '/stories/a-night-in-the-sukkah', title: 'לילה בסוכה — סיפור לפני השינה', emoji: '🌿', kind: 'tool', desc: 'גילאי 5–7 · חגים ועונות', keys: 'סיפור לפני השינה סיפור ילדים חגים ועונות' },
   { to: '/stories/the-little-shamash', title: 'הַשַּׁמָּשׁ הקטן — סיפור לפני השינה', emoji: '🕎', kind: 'tool', desc: 'גילאי 7–9 · חגים ועונות', keys: 'סיפור לפני השינה סיפור ילדים חגים ועונות' },
   { to: '/stories/the-first-rain', title: 'הגשם הראשון — סיפור לפני השינה', emoji: '🌧️', kind: 'tool', desc: 'גילאי 3–5 · חגים ועונות', keys: 'סיפור לפני השינה סיפור ילדים חגים ועונות' },
+  // the added bedtime stories (generated list)
+  ...STORY_SEARCH,
   // learning at home (/learn/*)
   { to: '/learn', title: 'לומדים — חשבון, עברית, אנגלית ומדע', emoji: '📚', kind: 'tool', desc: 'חשבון לפי כיתה, אותיות וקריאה, הכתבה, אנגלית ושפות, מוזיקה ומדע.', keys: 'תרגול לימודים שיעורי בית לומדים בבית למידה' },
   { to: '/typing', title: 'הקלדה עיוורת בעברית', emoji: '⌨️', kind: 'tool', desc: 'קורס חינם: 25 שיעורים, מקלדת צבעונית ומילים לדקה.', keys: 'הקלדה עיוורת הקלדה עיוורת בעברית כתיבה עיוורת שיטה עיוורת לימוד הקלדה קורס הקלדה הקלדה בעשר אצבעות מקלדת תרגול הקלדה' },

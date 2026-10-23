@@ -107,7 +107,8 @@ test('hub and every story page are in the sitemap and in site search', () => {
   }
 })
 
-test('the light story-count module matches the library', async () => {
+test('the light story-count module matches the whole library (original + added stories)', async () => {
   const { BEDTIME_STORY_COUNT } = await import('../src/data/bedtimeStoryCount.js')
-  assert.equal(BEDTIME_STORY_COUNT, BEDTIME_STORIES.length)
+  const { STORY_INDEX } = await import('../src/data/storyIndex.js')
+  assert.equal(BEDTIME_STORY_COUNT, STORY_INDEX.length)
 })

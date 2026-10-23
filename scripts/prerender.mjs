@@ -71,6 +71,8 @@ try {
       await page.locator('main h1').waitFor()
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
+      // Story pages load their text from a lazy chunk; snapshot once the story itself is on the page.
+      if (/^\/stories\/[a-z0-9-]+$/.test(path)) await page.locator('article.st-night').waitFor({ state: 'attached' })
       const result = await page.evaluate(() => {
         const canonical = [...document.querySelectorAll('link[rel="canonical"]')]
         const descriptions = [...document.querySelectorAll('meta[name="description"]')]
