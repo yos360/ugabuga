@@ -33,12 +33,11 @@ export function advanceNavigationHistory(history, location, type, index, restore
 }
 
 export function internalNavigationHref(href, currentHref) {
-  if (!href || href.startsWith('#')) return null
+  if (!href) return null
   try {
     const current = new URL(currentHref)
     const url = new URL(href, current)
     if (!/^https?:$/.test(url.protocol) || url.origin !== current.origin || /\.[a-z0-9]+$/i.test(url.pathname) || /^\/(?:api|assets|functions|rest)(?:\/|$)/.test(url.pathname)) return null
-    if (url.pathname === current.pathname && url.search === current.search && url.hash) return null
     return url.pathname + url.search + url.hash
   } catch { return null }
 }

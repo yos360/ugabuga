@@ -26,8 +26,19 @@ export function NavigationHistoryProvider({ children }) {
       if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self') || link.relList.contains('external') || link.hasAttribute('data-full-page')) return
       const href = internalNavigationHref(link.getAttribute('href'), window.location.href)
       if (!href) return
+      const url = new URL(href, window.location.href)
+      const inPage = url.pathname === window.location.pathname && url.search === window.location.search && (url.hash || link.getAttribute('href').endsWith('#'))
       event.preventDefault()
       navigate(href)
+      if (inPage) requestAnimationFrame(() => {
+        // Router-owned fragment entries keep page-level Back separate from in-page jumps.
+        if (!url.hash) window.scrollTo(0, 0)
+        else {
+          let id = url.hash.slice(1)
+          try { id = decodeURIComponent(id) } catch { /* Use the literal fragment. */ }
+          document.getElementById(id)?.scrollIntoView({ block: 'start' })
+        }
+      })
     }
     document.addEventListener('click', followInternalLink)
     return () => document.removeEventListener('click', followInternalLink)

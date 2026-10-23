@@ -54,12 +54,14 @@ test('reload restores a source without persisting query strings or fragments', (
   assert.equal(start(at('direct', '/sudoku/print')).current.from, null)
 })
 
-test('ordinary internal links use router history while downloads, outside links and in-page anchors stay native', () => {
+test('internal page and fragment links use router history while downloads and outside links stay native', () => {
   const current = 'https://ugabuga.co.il/printables?topic=math'
   assert.equal(internalNavigationHref('/tools/word-search-maker', current), '/tools/word-search-maker')
   assert.equal(internalNavigationHref('https://ugabuga.co.il/sudoku/print?level=easy', current), '/sudoku/print?level=easy')
   assert.equal(internalNavigationHref('/printables?topic=letters', current), '/printables?topic=letters')
-  for (const href of ['#math', '/printables?topic=math#math', '/files/activity.pdf', '/api/download', '/assets/main.js', 'https://example.com/games', 'mailto:hello@example.com', 'http://[']) {
+  assert.equal(internalNavigationHref('#math', current), '/printables?topic=math#math')
+  assert.equal(internalNavigationHref('/printables?topic=math#math', current), '/printables?topic=math#math')
+  for (const href of ['/files/activity.pdf', '/api/download', '/assets/main.js', 'https://example.com/games', 'mailto:hello@example.com', 'http://[']) {
     assert.equal(internalNavigationHref(href, current), null, href)
   }
 })
