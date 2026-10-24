@@ -336,6 +336,8 @@ const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
 const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
 const RsvpTypePage = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ default: m.RsvpTypePage })))
+const EnglishRsvp = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ default: m.EnglishRsvp })))
+const EnglishRsvpType = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ default: m.EnglishRsvpType })))
 const VaadHub = lazy(() => import('./pages/tools/group/VaadHub'))
 const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
@@ -447,6 +449,9 @@ export default function App() {
               <Route path="/en/live" element={<EnglishLiveHome />} />
               <Route path="/en/live/:code/host" element={<EnglishLiveHost />} />
               <Route path="/en/play/:code" element={<EnglishLivePlay />} />
+              <Route path="/en/rsvp" element={<EnglishRsvp />} />
+              <Route path="/en/rsvp/:type" element={<EnglishRsvpType />} />
+              <Route path="/en/r/:code" element={<EnglishRsvp />} />
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />

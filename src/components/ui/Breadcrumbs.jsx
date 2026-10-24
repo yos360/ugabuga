@@ -59,7 +59,7 @@ export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
         {lang !== 'en' && <PrintCount className="mt-2" />}
         {fallbackBack?.href && !(returnEntry?.index > 0) && (
           <BackLink to={fallbackBack.href} lang={lang} className="wobbly-sm mt-2 inline-flex items-center gap-1 min-h-[44px] border-2 border-[var(--border)] bg-[var(--card)] px-3 py-1 font-bold text-[var(--ink)] hover:bg-[var(--postit)]" data-back-link>
-            → {fallbackBack.label || (lang === 'en' ? 'Back' : 'חזרה')}
+            {lang === 'en' ? '←' : '→'} {fallbackBack.label || (lang === 'en' ? 'Back' : 'חזרה')}
           </BackLink>
         )}
       </nav>

@@ -90,8 +90,8 @@ function PathLink({ path, className = 'text-xs text-slate-500' }) {
 }
 
 // Event names are loaded separately from the private owner-only RPC, so every
-// activity row for /r/<code> stays understandable even when the event is older.
-const rsvpCode = path => /^\/r\/([a-z0-9]+)(?:[/?#]|$)/i.exec(path || '')?.[1] || ''
+// activity row for /r/<code> (or the English /en/r/<code>) stays understandable even when the event is older.
+const rsvpCode = path => /^(?:\/en)?\/r\/([a-z0-9]+)(?:[/?#]|$)/i.exec(path || '')?.[1] || ''
 function useRsvpEventTitles(data) {
   const codes = useMemo(() => [...new Set((data?.recent || []).map(row => rsvpCode(row.path)).filter(Boolean))], [data])
   const key = codes.join(',')
@@ -447,7 +447,7 @@ function statItems(data, multiDay = false, social = null, sponsors = null, rsvp 
     [rsvp ? rsvp.events_created : '—', 'אישורי הגעה (RSVP) שנוצרו', 'RSVP נוצרו', 'bg-rose-50'],
     [rsvp ? rsvp.guests_opened : '—', 'אורחים שפתחו הזמנת RSVP', 'פתחו RSVP', 'bg-rose-50'],
     [rsvp ? rsvp.responses : '—', 'תשובות שהתקבלו ב־RSVP', 'ענו RSVP', 'bg-rose-50'],
-    [rsvp ? `${rsvp.to_birthday_famous} / ${rsvp.to_trick_questions}` : '—', 'אורחי RSVP שהמשיכו ל„מי נולד ביום שלכם” / ל„שאלות מכשילות”', 'RSVP → קישורים', 'bg-rose-50'],
+    [rsvp ? `${rsvp.to_birthday_famous} / ${rsvp.to_trick_questions}` : '—', 'אורחי RSVP שהמשיכו ל„מי נולד ביום שלכם” / ל„שאלות מכשילות” (באנגלית: יום הולדת / משחק הזיכרון)', 'RSVP → קישורים', 'bg-rose-50'],
     [sponsors ? sponsors.find(r => r.sponsor === 'eureka')?.clicks || 0 : '—', 'לחיצות על הבאנר של אאורקה (חכם על קטנים)', 'באנר אאורקה', 'bg-amber-50'],
     [data.total, 'כל הפעולות שנרשמו', 'כל הפעולות', 'bg-violet-50'],
   ]

@@ -45,6 +45,7 @@ const T = {
   change: { he: 'שינוי התשובה', ar: 'تغيير الرد', ru: 'Изменить ответ', en: 'Change reply' },
   saved: { he: '✓ התשובה נשמרה. תודה!', ar: '✓ تم حفظ الرد. شكرًا!', ru: '✓ Ответ сохранён. Спасибо!', en: '✓ Reply saved. Thank you!' },
   fee: { he: 'דמי השתתפות: {p} ₪', ar: 'رسوم المشاركة: {p} ₪', ru: 'Взнос: {p} ₪', en: 'Contribution: ₪{p}' },
+  feeAny: { he: 'דמי השתתפות: {p}', ar: 'رسوم المشاركة: {p}', ru: 'Взнос: {p}', en: 'Contribution: {p}' },
   pay: { he: 'לתשלום', ar: 'للدفع', ru: 'Оплатить', en: 'Pay' },
   table: { he: 'השולחן שלכם: {n}', ar: 'طاولتكم: {n}', ru: 'Ваш стол: {n}', en: 'Your table: {n}' },
   people: { he: '{n} משתתפים', ar: '{n} مشاركين', ru: 'участников: {n}', en: '{n} people' },

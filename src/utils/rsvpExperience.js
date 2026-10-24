@@ -14,28 +14,40 @@ export function filterResponses(responses, status = 'all', query = '') {
   return ['yes', 'maybe', 'no'].flatMap(s => responses.filter(r => r.status === s))
     .filter(r => (status === 'all' || (status === 'allergies' ? r.status !== 'no' && cleanText(r.allergies, 200) : r.status === status)) && (!term || normName(r.name).includes(term)))
 }
-export function responseCsv(responses, labels) {
+const CSV_HEADERS = ['שם', 'תשובה', 'ילדים', 'מבוגרים', 'אלרגיות', 'מי אוסף', 'הערה']
+export function responseCsv(responses, labels, headers = CSV_HEADERS) {
   // Spreadsheet formulas must remain literal text, even when guest input begins with = / + / - / @.
   const cell = v => {
     let text = String(v ?? '')
     if (/^[\s]*[=+@-]/.test(text)) text = "'" + text
     return `"${text.replace(/"/g, '""')}"`
   }
-  const rows = [['שם', 'תשובה', 'ילדים', 'מבוגרים', 'אלרגיות', 'מי אוסף', 'הערה'], ...responses.map(r => [r.name, labels[r.status].label, r.kids, r.adults, r.allergies, r.pickup, r.note])]
+  const rows = [headers, ...responses.map(r => [r.name, labels[r.status].label, r.kids, r.adults, r.allergies, r.pickup, r.note])]
   return '\uFEFF' + rows.map(r => r.map(cell).join(',')).join('\r\n')
 }
-export function eventCalendar(ev, now = new Date()) {
+// Times as written by the organizer: "17:00–19:00", "4:30 pm", "4:00–6:00 pm" (a range shares the
+// later am/pm unless that would put the start after the end, as in "11:00–1:00 pm").
+export function eventTimes(text) {
+  const found = [...String(text || '').matchAll(/(?:^|[^\d:])(\d{1,2})(?::(\d{2}))?(?!\d)(?:\s*([ap])\.?m\b\.?)?/gi)]
+    .filter(m => m[2] !== undefined || m[3]).map(m => ({ h: +m[1], min: m[2] === undefined ? 0 : +m[2], ap: m[3]?.toLowerCase() || null }))
+  for (let i = found.length - 2; i >= 0; i--) if (!found[i].ap && found[i + 1].ap && found[i].h <= found[i + 1].h && found[i + 1].h <= 12) found[i].ap = found[i + 1].ap
+  return found.map(t => ({ ...t, h: t.ap && t.h >= 1 && t.h <= 12 ? (t.h % 12) + (t.ap === 'p' ? 12 : 0) : t.h }))
+    .filter(t => t.h < 24 && t.min < 60).map(t => [String(t.h).padStart(2, '0'), String(t.min).padStart(2, '0')])
+}
+// tz: the event's time zone (Hebrew events: Israel); null = "floating" local time, for the English site.
+export function eventCalendar(ev, now = new Date(), { tz = 'Asia/Jerusalem' } = {}) {
   const date = /^\d{4}-\d{2}-\d{2}$/.test(ev.date || '') ? ev.date.replaceAll('-', '') : ''
   if (!date) return null
-  const times = [...String(ev.time || '').matchAll(/(?:^|[^\d])(\d{1,2}):(\d{2})(?!\d)/g)].filter(m => +m[1] < 24 && +m[2] < 60)
-  const clock = m => `${m[1].padStart(2, '0')}${m[2]}00`
+  const times = eventTimes(ev.time).map(([h, m]) => [null, h, m])
+  const clock = m => `${m[1]}${m[2]}00`
+  const at = tz ? `;TZID=${tz}` : ''
   const esc = v => String(v || '').replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/[;,]/g, m => '\\' + m)
   const nextDay = new Date(`${ev.date}T12:00:00Z`); nextDay.setUTCDate(nextDay.getUTCDate() + 1)
   const tomorrow = nextDay.toISOString().slice(0, 10).replaceAll('-', '')
   const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Ugabuga//RSVP//HE', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
     `UID:${esc(ev.code)}@ugabuga.co.il`, `DTSTAMP:${now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}`,
-    times.length ? `DTSTART;TZID=Asia/Jerusalem:${date}T${clock(times[0])}` : `DTSTART;VALUE=DATE:${date}`,
-    times.length > 1 ? `DTEND;TZID=Asia/Jerusalem:${clock(times[1]) <= clock(times[0]) ? tomorrow : date}T${clock(times[1])}` : !times.length ? `DTEND;VALUE=DATE:${tomorrow}` : 'DURATION:PT1H',
+    times.length ? `DTSTART${at}:${date}T${clock(times[0])}` : `DTSTART;VALUE=DATE:${date}`,
+    times.length > 1 ? `DTEND${at}:${clock(times[1]) <= clock(times[0]) ? tomorrow : date}T${clock(times[1])}` : !times.length ? `DTEND;VALUE=DATE:${tomorrow}` : 'DURATION:PT1H',
     `SUMMARY:${esc(ev.title)}`, `LOCATION:${esc(ev.place)}`, `DESCRIPTION:${esc(ev.note)}`, 'END:VEVENT', 'END:VCALENDAR']
   // RFC 5545: fold UTF-8 lines at 75 octets, without splitting a code point.
   return lines.map(line => {

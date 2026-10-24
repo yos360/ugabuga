@@ -21,7 +21,21 @@ export default function EnglishLayout({ children }) {
     document.addEventListener('keydown',escape);document.addEventListener('pointerdown',outside)
     return()=>{document.removeEventListener('keydown',escape);document.removeEventListener('pointerdown',outside)}
   },[open])
-  const he = hebrewCounterpart(pathname) || '/'
+  // Same private owner analytics as the Hebrew pages (RecentActivity there): page opens, time on page
+  // and the human check. Paths only — never typed text, guest answers or the "#k=" organizer token.
+  useEffect(()=>{
+    if(typeof window==='undefined'||window.__PRERENDER__)return undefined
+    let stop=null,gone=false
+    import('../utils/liveActivity').then(m=>{if(!gone)stop=m.connectActivity(()=>{})}).catch(()=>{})
+    return()=>{gone=true;if(stop)stop()}
+  },[])
+  useEffect(()=>{
+    if(typeof window==='undefined'||window.__PRERENDER__)return
+    import('../utils/liveActivity').then(m=>{m.logEvent('open',pathname);m.trackTime(pathname)}).catch(()=>{})
+  },[pathname])
+  // An English guest link (/en/r/<code>) switches to the same invitation on the Hebrew site.
+  const guest = /^\/en\/r\/([a-z0-9]+)\/?$/i.exec(pathname)
+  const he = guest ? `/r/${guest[1]}` : hebrewCounterpart(pathname) || '/'
   const nav = ENGLISH_SECTIONS.map(s=><Link key={s.path} to={s.path} aria-current={pathname===s.path?'page':undefined}>{s.label}</Link>)
   return <div className="english-site" lang="en" dir="ltr">
     <Helmet htmlAttributes={{ lang: 'en', dir: 'ltr' }} />
