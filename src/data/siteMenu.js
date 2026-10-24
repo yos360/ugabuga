@@ -166,6 +166,8 @@ export const MENU_DOMAINS = [
           { to: '/speech/sounds/z', label: 'תרגול האות ז׳', icon: '🦓' },
           { to: '/speech/sounds/l', label: 'תרגול האות ל׳', icon: '🍋' },
           { to: '/speech/sounds/ch', label: 'תרגול האות ח׳', icon: '🐈' },
+          { to: '/speech/sounds/k', label: 'תרגול האות ק׳', icon: '🐒' },
+          { to: '/speech/sounds/g', label: 'תרגול האות ג׳', icon: '🐫' },
           { to: '/speech/card-maker', label: 'מחולל כרטיסיות היגוי', icon: '🃏' },
           { to: '/speech/minimal-pairs', label: 'זוגות מינימליים — משחק והדפסה', icon: '👂' },
           { to: '/speech/parents/language-milestones', label: 'התפתחות שפה לפי גיל', icon: '👶' },

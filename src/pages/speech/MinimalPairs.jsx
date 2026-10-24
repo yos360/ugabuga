@@ -321,6 +321,8 @@ const related = [
   { label: 'תרגול הצליל ש׳', href: '/speech/sounds/sh' },
   { label: 'תרגול הצליל ר׳', href: '/speech/sounds/r' },
   { label: 'תרגול הצליל ח׳', href: '/speech/sounds/ch' },
+  { label: 'תרגול הצליל ק׳', href: '/speech/sounds/k' },
+  { label: 'תרגול הצליל ג׳', href: '/speech/sounds/g' },
   { label: 'מחולל כרטיסיות היגוי', href: '/speech/card-maker' },
   { label: 'באיזה גיל רוכשים כל צליל', href: '/speech/parents/sound-acquisition' },
   { label: 'משחק צליל פותח וסוגר', href: '/letters/sounds' },

@@ -85,6 +85,14 @@ for (const { meta, data } of all) {
   })
 }
 
+test('the ג page has no ג׳ (/dʒ/) words in its practice items', () => {
+  const g = all.find(x => x.meta.id === 'g')
+  if (!g) return
+  const { data } = g
+  const texts = [...wordsFor(data).map(w => w.w), ...data.phrases.map(p => p.t), ...data.sentences.map(s => s.t), data.story.text]
+  assert.deepEqual(texts.filter(t => /ג['׳]/.test(t)), [])
+})
+
 test('letter units keep the marks that decide a sound', () => {
   assert.deepEqual(letterUnits('שִׂמְלָה'), ['שׂ', 'מ', 'ל', 'ה'])
   assert.ok(unitMatches('שׂ', 'שׂ') && !unitMatches('שׂ', 'ש') && unitMatches('שׁ', 'ש') && !unitMatches('כ', 'כּ') && unitMatches('כּ', 'כ'))
