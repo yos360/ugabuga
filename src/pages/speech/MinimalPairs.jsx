@@ -318,6 +318,7 @@ const faq = [
 const related = [
   { label: 'קלינאות תקשורת — כל החומרים', href: '/speech' },
   { label: 'תרגול הצליל ס׳', href: '/speech/sounds/s' },
+  { label: 'תרגול הצליל ש׳', href: '/speech/sounds/sh' },
   { label: 'תרגול הצליל ר׳', href: '/speech/sounds/r' },
   { label: 'מחולל כרטיסיות היגוי', href: '/speech/card-maker' },
   { label: 'באיזה גיל רוכשים כל צליל', href: '/speech/parents/sound-acquisition' },
