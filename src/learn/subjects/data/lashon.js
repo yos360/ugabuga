@@ -377,7 +377,9 @@ export const TOPICS = [
       { q: 'מה ההבדל בין ״ימים״ ל״יומיים״?', a: '״ימים״ זה רבים — כמה ימים, בלי מספר מסוים. ״יומיים״ זה זוגי, ופירושו בדיוק שני ימים.' },
       { q: 'איך אומרים ״משקפיים״ ביחיד?', a: 'אין ביחיד. גם על זוג אחד אומרים ״משקפיים״, ומבקשים למשל ״זוג משקפיים חדש״.' }
     ],
-    related: ['gender', 'adjectives', 'numbers']
+    related: ['gender', 'adjectives', 'numbers'],
+    // Extra practice pages shown under the lesson's worksheet box.
+    more: [{ to: '/printables/singular-plural-verbs-workbook', emoji: '📒', title: 'חוברת עבודה: יחיד ורבים והטיית פעלים', desc: '21 דפים בשלוש רמות לכיתות ג׳–ד׳, עם תשובות ותרגול על המסך.' }]
   },
   {
     slug: 'verb-tenses',
@@ -453,7 +455,8 @@ export const TOPICS = [
       { q: 'למה ״אני אלך״ ולא ״אני ילך״?', a: 'בעתיד כל גוף מקבל אות אחרת בהתחלה: א לאני, נ לאנחנו, ת לאתה ולאת, י להוא ולהם. לכן ״אני אלך״ ו״הוא ילך״.' },
       { q: 'האם שם הפועל הוא זמן?', a: 'לא. שם הפועל, כמו ״לרוץ״, הוא צורה בלי זמן ובלי גוף. הזמן נקבע לפי פועל אחר במשפט: ״רציתי לרוץ״ או ״ארצה לרוץ״.' }
     ],
-    related: ['verb-persons', 'binyanim', 'parts-of-speech']
+    related: ['verb-persons', 'binyanim', 'parts-of-speech'],
+    more: [{ to: '/printables/singular-plural-verbs-workbook', emoji: '📒', title: 'חוברת עבודה: יחיד ורבים והטיית פעלים', desc: 'טבלאות הטיה בהווה, בעבר ובעתיד ועוד, בשלוש רמות ועם תשובות.' }]
   },
   {
     slug: 'verb-persons',
@@ -529,7 +532,8 @@ export const TOPICS = [
       { q: 'האם נכון לומר ״אתן תשמרו״?', a: 'כן, בעברית של ימינו זו הצורה המקובלת. בלשון ספרותית אפשר לומר גם ״אתן תשמורנה״.' },
       { q: 'איך זוכרים את סימני העתיד?', a: 'יש מי שזוכרים את ארבע האותיות א, י, ת, נ שמופיעות בתחילת פעלים בעתיד, וכל אחת מהן שייכת לגופים מסוימים: א לאני, נ לאנחנו, י להוא ולהם, ת לאתה, לאת, להיא ולאתם.' }
     ],
-    related: ['verb-tenses', 'binyanim', 'prepositions']
+    related: ['verb-tenses', 'binyanim', 'prepositions'],
+    more: [{ to: '/printables/singular-plural-verbs-workbook', emoji: '📒', title: 'חוברת עבודה: יחיד ורבים והטיית פעלים', desc: 'טבלאות הטיה בהווה, בעבר ובעתיד ועוד, בשלוש רמות ועם תשובות.' }]
   },
   {
     slug: 'binyanim',

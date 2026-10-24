@@ -1,0 +1,48 @@
+/* On-screen practice for the singular/plural & verbs workbook (/printables/singular-plural-verbs-workbook). */
+.spw-practice{max-width:48rem;margin:3rem auto 0}
+.spw-practice h2{font-size:1.875rem;font-weight:900;text-align:center;margin-bottom:.5rem}
+.spw-lead{text-align:center;color:var(--muted-foreground);margin-bottom:1rem}
+.spw-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:1rem}
+.spw-tabs button{min-height:42px;padding:.4rem .9rem;border:2px solid var(--border);border-radius:999px;background:var(--card);font-weight:700}
+.spw-tabs button[aria-pressed="true"]{background:var(--yellow)}
+.spw-card{border:2px solid var(--border);border-radius:16px;background:var(--card);padding:1.25rem}
+.spw-card h3{font-size:1.5rem;font-weight:900;margin-bottom:.5rem}
+.spw-instr{font-size:1.125rem;font-weight:700;margin-bottom:.5rem;line-height:1.7}
+.spw-ex{background:color-mix(in srgb,var(--muted) 30%,transparent);border-radius:10px;padding:.5rem .75rem;margin-bottom:1rem}
+.spw-ex mark{background:transparent;color:inherit;font-weight:900;text-decoration:underline;text-decoration-thickness:2px}
+.spw-list{list-style:decimal;padding-inline-start:1.5rem;display:grid;gap:.75rem}
+.spw-list li::marker{font-weight:700;color:var(--muted-foreground)}
+.spw-list li{font-size:1.15rem;line-height:2.2}
+.spw-list li>*{vertical-align:middle}
+.spw-q{font-weight:800;margin-inline-end:.5rem;display:inline-flex;align-items:center;gap:.4rem}
+.spw-emoji{font-size:1.6rem;line-height:1}
+.spw-grid{grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.spw-opts{display:inline-flex;flex-wrap:wrap;gap:.5rem}
+.spw-opt{min-height:44px;min-width:4.5rem;padding:.35rem .9rem;border:2px solid var(--border);border-radius:999px;background:#fff;color:#111;font-weight:700;font-size:1.1rem}
+.spw-opt.ok,.spw-answer input.ok,.spw-practice select.ok{border-color:#15803d;background:#dcfce7;color:#14532d}
+.spw-opt.bad,.spw-answer input.bad,.spw-practice select.bad{border-color:#b91c1c;background:#fee2e2;color:#7f1d1d}
+.spw-answer{display:inline-flex;align-items:center;gap:.35rem;margin:0 .25rem}
+.spw-answer input,.spw-practice select{min-height:44px;width:8.5rem;max-width:100%;padding:.3rem .6rem;border:2px solid var(--border);border-radius:10px;background:#fff;color:#111;font-size:1.1rem;font-weight:700}
+.spw-practice select{width:auto;min-width:8rem}
+.spw-mark{font-weight:900;font-size:.95rem}
+.spw-mark.ok{color:#15803d}
+.spw-mark.bad{color:#b91c1c}
+.spw-reveal{font-weight:800;color:#b91c1c;border-bottom:2px dashed currentColor}
+.spw-hint{color:var(--muted-foreground);margin:0 .25rem}
+.spw-sentence{line-height:2.3}
+.spw-bank{margin-top:1rem;padding:.5rem .75rem;border:2px dashed var(--border);border-radius:10px}
+.spw-table-wrap{overflow-x:auto}
+.spw-table{width:100%;border-collapse:collapse;font-size:1.05rem}
+.spw-table th,.spw-table td{border:1.5px solid var(--border);padding:.35rem;text-align:center}
+.spw-table thead th{background:color-mix(in srgb,var(--muted) 45%,transparent);font-size:.9rem}
+.spw-table tbody th{background:color-mix(in srgb,var(--muted) 30%,transparent)}
+.spw-table tr.ex td,.spw-table td.given{color:var(--muted-foreground);font-weight:700}
+.spw-table td.base{font-weight:900}
+.spw-table .spw-answer{margin:0;flex-direction:column}
+.spw-table .spw-answer input{width:100%;min-width:4.5rem}
+.spw-foot{margin-top:1.25rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem}
+.spw-score{font-size:1.15rem;font-weight:900}
+.spw-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.spw-actions button{min-height:44px;padding:.4rem 1rem;border:2px solid var(--border);border-radius:12px;background:var(--card);font-weight:700}
+.spw-actions .next{background:var(--yellow);color:#111}
+@media (max-width:480px){.spw-card{padding:.9rem}.spw-table{font-size:.9rem}.spw-table thead th{font-size:.72rem}.spw-table .spw-answer input{min-width:3.6rem;font-size:1rem;padding:.25rem}}

@@ -114,6 +114,7 @@ function TopicPage({ subjectKey, slug }) {
       <p className="mb-3">8 שאלות, שאלות לחשיבה ודף תשובות עם הסברים.</p>
       <button type="button" className="ln-btn alt" onClick={() => setPrinting(true)}>להדפסה</button>
     </div>
+    {t.more?.map(m => <Link key={m.to} to={m.to} className="ln-box card-lift mt-4 block text-center"><b className="text-xl">{m.emoji} {m.title} ←</b><span className="mt-1 block">{m.desc}</span></Link>)}
     {printing && <PrintPreview title={`${s.short}: ${t.title} — דף עבודה`} onClose={() => setPrinting(false)}><Worksheet s={s} t={t} quiz={quiz} /></PrintPreview>}
     {concepts?.some(c => c.lesson === t.slug) && <section className="mt-6" aria-labelledby="concepts-h"><h2 id="concepts-h" className="text-2xl font-black mb-2">📘 מושגים מהשיעור</h2>
       <div className="flex flex-wrap gap-2">{concepts.filter(c => c.lesson === t.slug).map(c => <Link key={c.slug} to={`/learn/${s.key}/concepts/${c.slug}`} className="ln-chip">{c.term}</Link>)}</div></section>}

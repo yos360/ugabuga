@@ -121,6 +121,7 @@ const PAGES = [
   { to: '/printables/rhymes-syllables', title: 'חרוזים והברות — דפי עבודה', emoji: '🎵', kind: 'printable', desc: 'חרוזים, חלוקה להברות, ספירת הברות ובניית מילים עם פתרונות.', keys: 'חרוזים הברות דפי עבודה לגן כיתה א' },
   { to: '/printables/reading-writing-words', title: 'קריאה וכתיבת מילים לכיתה א׳', emoji: '📖', kind: 'printable', desc: '12 דפי קריאה, כתיבה, בניית מילים, אותיות סופיות ומשפטים.', keys: 'קריאה וכתיבת מילים כיתה א דפי עבודה' },
   { to: '/printables/hebrew-worksheets-grades-2-3', title: 'דפי עברית לב׳–ג׳', emoji: '📚', kind: 'printable', desc: 'אוצר מילים, משפטים, כתיבה והבנת שפה עם פתרונות.', keys: 'עברית ב ג אוצר מילים משפטים כתיבה הבנת שפה' },
+  { to: '/printables/singular-plural-verbs-workbook', title: 'חוברת יחיד ורבים והטיית פעלים', emoji: '📒', kind: 'printable', desc: '21 דפי עבודה בשלוש רמות לכיתות ג׳–ד׳, עם תשובות ותרגול על המסך.', keys: 'דפי עבודה יחיד ורבים הטיית פעלים כיתה ג ד חוברת לשון שם תואר הווה עבר עתיד זוגי חינוך מיוחד' },
   { to: '/printables/math-worksheets', title: 'דפי עבודה בחשבון לכיתה א׳', emoji: '➕', kind: 'tool', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים.', keys: 'חשבון דפי עבודה חיבור חיסור עד 10 עד 20 כיתה א תרגילים' },
   { to: '/printables/coloring', title: 'דפי צביעה', emoji: '🎨', kind: 'printable', desc: 'מעל 300 ציורים מקוריים לצביעה, לפי נושא.', keys: 'דפי צביעה דף צביעה ציורים להדפסה ציור לצביעה דפים לצביעה דפי צביעה לילדים צביעה' },
   // coloring pages by subject

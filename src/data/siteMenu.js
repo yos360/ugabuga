@@ -124,7 +124,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
     landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook'],
     groups: [
       {
         title: 'חשבון', icon: '🧮', to: '/math',
@@ -160,6 +160,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/learn/tanakh', label: 'תנ״ך לילדים', icon: '📜' },
           { to: '/learn/lashon', label: 'לשון עברית', icon: '✍️' },
+          { to: '/printables/singular-plural-verbs-workbook', label: 'חוברת יחיד ורבים ופעלים', icon: '📒' },
           { to: '/learn/science', label: 'מדע וטכנולוגיה', icon: '🔬' },
           { to: '/learn/history', label: 'היסטוריה', icon: '🏺' },
           { to: '/learn/geography', label: 'גאוגרפיה ומולדת', icon: '🗺️' },

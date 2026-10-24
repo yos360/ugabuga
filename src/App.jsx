@@ -84,6 +84,7 @@ const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'
 const SensoryCommunicationCards = lazy(() => import('./pages/printables/SensoryCommunicationCards'))
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
 const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorksheetPacks'))
+const SingularPluralWorkbook = lazy(() => import('./pages/printables/SingularPluralWorkbook'))
 const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
 const KindergartenMemoryBook = lazy(() => import('./pages/printables/KindergartenMemoryBook'))
 const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
@@ -542,6 +543,7 @@ export default function App() {
               <Route path="/printables/rhymes-syllables" element={<ReadingWorksheetPacks packId="rhymes" />} />
               <Route path="/printables/reading-writing-words" element={<ReadingWorksheetPacks packId="reading" />} />
               <Route path="/printables/hebrew-worksheets-grades-2-3" element={<ReadingWorksheetPacks packId="grades23" />} />
+              <Route path="/printables/singular-plural-verbs-workbook" element={<SingularPluralWorkbook />} />
               <Route path="/printables/math-worksheets" element={<MathWorksheets key="hub" preset="hub" />} />
               <Route path="/printables/math-worksheets/up-to-10" element={<MathWorksheets key="10" preset="10" />} />
               <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />

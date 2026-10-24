@@ -65,6 +65,7 @@ export default function PrintablesIndex() {
             ['🎵', 'חרוזים והברות', 'מתחרזים, מחלקים וסופרים.', '/printables/rhymes-syllables'],
             ['📖', 'קריאה וכתיבת מילים', 'מילים, משפטים ואותיות סופיות.', '/printables/reading-writing-words'],
             ['📚', 'עברית לכיתות ב׳–ג׳', 'אוצר מילים, כתיבה והבנת שפה.', '/printables/hebrew-worksheets-grades-2-3'],
+            ['📒', 'יחיד ורבים והטיית פעלים', 'חוברת לשון לג׳–ד׳ בשלוש רמות.', '/printables/singular-plural-verbs-workbook'],
           ].map(([emoji, title, desc, to]) => <Link key={to} to={to} className="wobbly-sm border-2 border-[var(--border)] bg-sky-50 p-4 transition-transform hover:-translate-y-1">
             <span className="text-3xl">{emoji}</span><h3 className="mt-1 text-xl font-bold">{title}</h3><p className="m-0 text-[var(--muted-foreground)]">{desc}</p>
           </Link>)}
