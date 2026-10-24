@@ -15,7 +15,7 @@ import NotFound from '../../NotFound'
 import { RSVP_TYPES, rsvpType } from '../../../utils/rsvpTypes'
 import { RSVP_TYPES_EN, rsvpTypeEn } from '../../../utils/rsvpTypesEn'
 import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
-import { rsvpUi, money, CURRENCIES, guessCurrency, PAY_LINK } from '../../../utils/rsvpUi'
+import { rsvpUi, money, CURRENCIES, PAY_LINK } from '../../../utils/rsvpUi'
 import { RSVP_PAGE_COPY as PAGE } from '../../../utils/rsvpPageCopy'
 
 // One tool, two sites: Hebrew (/rsvp, /r/<code>) and English (/en/rsvp, /en/r/<code>).
@@ -42,16 +42,17 @@ const emptyEvent = (params, preset, site) => ({
   time: cleanText(params.get('time'), 20), place: cleanText(params.get('place'), LIMITS.place),
   deadline: '', note: '', invitees: '', theme: preset?.theme || 'party',
   // English events keep their guests' language ('en'), so their link opens in English everywhere.
-  extras: { ...(preset ? { type: preset.slug } : {}), ...(site === 'en' ? { lang: 'en', currency: guessCurrency() } : {}) },
+  extras: { ...(preset ? { type: preset.slug } : {}), ...(site === 'en' ? { lang: 'en' } : {}) },
 })
 const toForm = ev => ({ extras: { ...(ev.extras || {}) }, kind: ev.kind, title: ev.title, date: ev.date || '', time: ev.time || '', place: ev.place || '', deadline: ev.deadline || '', note: ev.note || '', invitees: (ev.invitees || []).join('\n') })
 // The extras the organizer filled in (empty values are dropped by the database too). A payment link the
 // database would refuse is left out here, so it can't take the event's other extras down with it.
 const extrasOf = (f, site = 'he') => {
   const x = f.extras || {}
-  const price = Number(x.price) > 0 ? Number(x.price) : undefined
+  // The English site has no participation fee.
+  const price = site !== 'en' && Number(x.price) > 0 ? Number(x.price) : undefined
   return { type: x.type, lang: site === 'en' ? x.lang || 'en' : x.lang && x.lang !== 'he' ? x.lang : undefined, parking: cleanText(x.parking, 300) || undefined,
-    price, currency: price && CURRENCIES.includes(x.currency) ? x.currency : undefined, pay_link: PAY_LINK.test((x.pay_link || '').trim()) ? x.pay_link.trim() : undefined,
+    price, currency: price && CURRENCIES.includes(x.currency) ? x.currency : undefined, pay_link: price && PAY_LINK.test((x.pay_link || '').trim()) ? x.pay_link.trim() : undefined,
     tables: Number(x.tables) > 0 ? Math.min(200, Math.floor(Number(x.tables))) : undefined, show_table: Boolean(x.show_table) || undefined }
 }
 const hasExtras = x => Object.values(x).some(v => v !== undefined)
@@ -110,17 +111,19 @@ function ExtrasFields({ value, onChange, open }) {
         <select className={input} value={value.lang || defaultLang} onChange={e => set('lang', e.target.value)}>{RSVP_LANGS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select>
       </Field>
       <Field label={S.parking} hint={S.parkingHint}><input className={input} value={value.parking || ''} maxLength={300} onChange={e => set('parking', e.target.value)} placeholder={S.parkingPh} /></Field>
+      {site !== 'en' && <>
       <div className={`grid gap-3 ${S.currency ? 'grid-cols-2 sm:grid-cols-[minmax(0,9rem)_minmax(0,7rem)_minmax(0,1fr)]' : 'grid-cols-[8rem_1fr]'}`}>
         <Field label={S.fee}><input className={input} type="number" inputMode="decimal" min="0" max="10000" step="any" value={value.price || ''} onChange={e => set('price', e.target.value)} placeholder={S.feePh} /></Field>
         {S.currency && <Field label={S.currency}><select className={input} aria-label={S.currencyAria} value={CURRENCIES.includes(value.currency) ? value.currency : 'USD'} onChange={e => set('currency', e.target.value)}>{CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}</select></Field>}
         <div className={S.currency ? 'col-span-2 sm:col-span-1' : ''}><Field label={S.payLink} hint={S.payHint}><input className={input} dir="ltr" value={value.pay_link || ''} maxLength={300} onChange={e => set('pay_link', e.target.value)} placeholder="https://" /></Field></div>
       </div>
       {badLink && <p className="text-sm font-bold text-amber-800" role="status">{S.payLinkBad}</p>}
+      </>}
       <div className="grid grid-cols-[8rem_1fr] items-end gap-3">
         <Field label={S.tables}><input className={input} type="number" inputMode="numeric" min="0" max="200" value={value.tables || ''} onChange={e => set('tables', e.target.value)} placeholder="0" /></Field>
         {Number(value.tables) > 0 && <label className="flex min-h-[48px] items-center gap-2 font-bold"><input type="checkbox" className="h-5 w-5" checked={Boolean(value.show_table)} onChange={e => set('show_table', e.target.checked)} /> {S.showTable}</label>}
       </div>
-      <p className="text-sm text-slate-500">{S.feeNote}</p>
+      {site !== 'en' && <p className="text-sm text-slate-500">{S.feeNote}</p>}
     </div>
   </details>
 }
@@ -299,7 +302,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
   const totals = useMemo(() => rsvpTotals(responses), [responses])
   const missing = useMemo(() => missingInvitees(ev.invitees || [], responses), [ev.invitees, responses])
   const link = guestLink(site, ev.code)
-  const x = ev.extras || {}, marks = ev.marks || {}
+  const x = site === 'en' ? { ...(ev.extras || {}), price: 0 } : ev.extras || {}, marks = ev.marks || {}
   const mark = async (r, patch) => {
     const before = marks[r.id] || {}
     setEv(e => ({ ...e, marks: { ...e.marks, [r.id]: { ...before, ...patch } } }))
