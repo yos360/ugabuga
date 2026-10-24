@@ -57,6 +57,8 @@ function recordedFor(lang) {
   if (!recorded[l]) recorded[l] = fetch(`/audio/${l}/index.json`).then(r => (r.ok ? r.json() : [])).then(a => new Set(a)).catch(() => new Set())
   return recorded[l]
 }
+// Clips replaced in place (same text, new take): a version so browsers don't keep the old file.
+const RERECORDED = { c0f51608: 2 }
 let current = null
 export function stopSpeaking() {
   try { current?.pause() } catch { /* ignore */ }
@@ -67,7 +69,7 @@ async function playRecorded(text, lang) {
   const key = audioKey(text)
   if (!(await recordedFor(lang)).has(key)) return false
   stopSpeaking()
-  const a = new Audio(`/audio/${lang.slice(0, 2).toLowerCase()}/${key}.mp3`)
+  const a = new Audio(`/audio/${lang.slice(0, 2).toLowerCase()}/${key}.mp3${RERECORDED[key] ? `?v=${RERECORDED[key]}` : ''}`)
   current = a
   try { await a.play(); return true } catch { return false }
 }
