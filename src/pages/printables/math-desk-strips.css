@@ -1,0 +1,17 @@
+/* Math desk strips: the artwork is a whole A4 page drawn in millimetres (viewBox 210×297), with
+   everything inside a 10 mm margin. That keeps the centimetre ruler true to size:
+   - on screen and in the downloaded PDF the sheet fills the A4 page edge to edge (1 unit = 1 mm);
+   - when printing, the site's @page already has 10 mm margins, so the sheet is the 190×276 mm
+     inner window of the artwork at absolute size — still 1 unit = 1 mm at "actual size" (100%),
+     whatever margins the print dialog adds.
+   The site footer and QR are drawn inside the artwork instead. */
+.buga-a4.desk-strip-sheet,
+.buga-a4.desk-strip-sheet:has(.buga-qr){padding:0!important;aspect-ratio:210/297}
+.buga-a4.desk-strip-sheet .buga-qr,.buga-a4.desk-strip-sheet footer{display:none!important}
+.buga-a4.desk-strip-sheet .print-art{width:100%;height:100%;flex:none}
+@media print{
+  #buga-print-output .buga-a4.desk-strip-sheet{display:block;width:190mm;max-width:190mm;height:276mm;padding:0!important;margin:0;overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  #buga-print-output .buga-a4.desk-strip-sheet .print-art{display:block;direction:ltr;width:190mm;height:276mm;overflow:hidden}
+  #buga-print-output .buga-a4.desk-strip-sheet .print-art svg{display:block;width:210mm;height:297mm;max-width:none;margin:-10mm 0 0 -10mm}
+  #buga-print-output .buga-a4.desk-strip-sheet footer,#buga-print-output .buga-a4.desk-strip-sheet .buga-qr{display:none!important}
+}

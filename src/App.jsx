@@ -256,6 +256,8 @@ const OpeningSounds = lazy(() => import('./pages/letters/LetterPractice').then(m
 const NikudKamatzPatach = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.NikudKamatzPatach })))
 const FinalLetters = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.FinalLetters })))
 const LetterStrip = lazy(() => import('./pages/printables/LetterStrip'))
+const TimesTableStrips = lazy(() => import('./pages/printables/MathDeskStrips').then(m => ({ default: m.TimesTableStrips })))
+const NumberStripPage = lazy(() => import('./pages/printables/MathDeskStrips').then(m => ({ default: m.NumberStripPage })))
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
@@ -532,6 +534,8 @@ export default function App() {
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
               <Route path="/printables/sensory-communication-cards" element={<SensoryCommunicationCards />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
+              <Route path="/printables/multiplication-strips" element={<TimesTableStrips />} />
+              <Route path="/printables/number-strip" element={<NumberStripPage />} />
               <Route path="/printables/kindergarten-worksheets" element={<ReadingWorksheetPacks packId="kindergarten" />} />
               <Route path="/printables/hebrew-worksheets-grade-1" element={<ReadingWorksheetPacks packId="grade1" />} />
               <Route path="/printables/opening-ending-sounds" element={<ReadingWorksheetPacks packId="sounds" />} />

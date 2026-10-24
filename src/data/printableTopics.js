@@ -12,7 +12,7 @@ export const HOLIDAY_SHEETS = [
 // Topic chips. Each sheet can sit under more than one topic.
 export const TOPICS = [
   { id: 'birthday', label: '🎂 ליום הולדת', slugs: ['birthday-crown', 'gift-box', 'fortune-teller', 'birthday-newspaper', 'birthday-checklist', 'birthday-signs', 'certificates', 'name-tags', 'thank-you', 'photo-props', 'board-game', 'coloring'] },
-  { id: 'math', label: '🔢 חשבון', slugs: ['math-worksheets', 'clock-worksheets', 'fractions-worksheets', 'dominoes', 'numbers', 'sudoku', 'count-and-write', 'color-by-number', 'color-by-answer', 'dot-to-dot'] },
+  { id: 'math', label: '🔢 חשבון', slugs: ['math-worksheets', 'multiplication-strips', 'number-strip', 'clock-worksheets', 'fractions-worksheets', 'dominoes', 'numbers', 'sudoku', 'count-and-write', 'color-by-number', 'color-by-answer', 'dot-to-dot'] },
   { id: 'letters', label: '🔤 אותיות ומילים', slugs: ['letters', 'hebrew-letters', 'abc-letters', 'letter-flashcards', 'letter-strip', 'word-tracing', 'match-word', 'opposites', 'synonyms', 'color-by-letter'] },
   { id: 'coloring', label: '🖍️ צביעה ויצירה', slugs: ['coloring', 'mandalas', 'symmetry', 'color-by-number', 'color-by-answer', 'color-by-letter', 'dot-to-dot', 'photo-props'] },
   { id: 'motor', label: '✂️ מוטוריקה וחשיבה', slugs: ['fine-motor', 'mazes', 'find-differences', 'complete-pattern', 'silhouette-match', 'cut-and-order', 'hidden-object', 'missing-picture', 'mixed-activities', 'symmetry', 'dot-to-dot'] },

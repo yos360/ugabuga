@@ -229,6 +229,7 @@ function usePrint() {
 const RELATED = [
   { label: 'תרגול לוח הכפל', href: GAME },
   { label: 'כרטיסיות לוח הכפל', href: '/learn/flashcards' },
+  { label: 'סרגל כפולות להדפסה', href: '/printables/multiplication-strips' },
   { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' },
   { label: 'צביעה לפי לוח הכפל', href: '/printables/color-by-answer/multiplication' },
   { label: 'לומדים', href: '/learn' },
