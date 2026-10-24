@@ -34,9 +34,33 @@ export function heNum(n) {
   if (r % 10 === 0) return `${head} ${AT[r / 10]}`
   return `${head} ${heNum(r)}`
 }
+// Counting a masculine noun ("32 ילדים", "10 ק״מ") takes the masculine number: שלושים ושניים ילדים,
+// עשרה קילומטרים — heNum alone gives the feminine forms used for bare numbers and math.
+const MU = ['', 'אחד', 'שניים', 'שלושה', 'ארבעה', 'חמישה', 'שישה', 'שבעה', 'שמונה', 'תשעה']
+const MTEEN = ['עשרה', 'אחד עשר', 'שנים עשר', 'שלושה עשר', 'ארבעה עשר', 'חמישה עשר', 'שישה עשר', 'שבעה עשר', 'שמונה עשר', 'תשעה עשר']
+export function heNumM(n) {
+  if (n < 10) return n === 2 ? 'שני' : MU[n]
+  if (n < 20) return MTEEN[n - 10]
+  if (n < 100) return n % 10 ? `${T[Math.floor(n / 10)]} ו${MU[n % 10]}` : T[n / 10]
+  if (n < 1000) { const r = n % 100, f = heNum(n - r); return r ? (r < 20 || r % 10 === 0 ? `${f} ו${heNumM(r) === 'שני' ? 'שניים' : heNumM(r)}` : `${f} ${heNumM(r)}`) : f }
+  return heNum(n)
+}
+const MASC_UNITS = { 'ס"מ': 'סנטימטרים', 'ס״מ': 'סנטימטרים', 'מ"מ': 'מילימטרים', 'מ״מ': 'מילימטרים', 'ק"מ': 'קילומטרים', 'ק״מ': 'קילומטרים', 'ק"ג': 'קילוגרמים', 'ק״ג': 'קילוגרמים' }
+// Only nouns listed here: a guess from the -ים ending also catches verbs ("ה׳2 מתחלפים").
+const MASC = new Set(['ילדים', 'הורים', 'תלמידים', 'אנשים', 'מטרים', 'קילומטרים', 'סנטימטרים', 'מילימטרים', 'קילוגרמים', 'גרמים', 'ליטרים', 'טונות',
+  'ימים', 'חודשים', 'שבועות', 'עמודים', 'נרות', 'ראשים', 'חתולים', 'כלבים', 'תפוחים', 'ספרים', 'שקלים', 'אחוזים', 'מטר', 'אחוז', 'גרם', 'ליטר', 'טון', 'יום', 'חודש', 'שבוע', 'ילד', 'נר'])
+const MONTH = /^ב(ינואר|פברואר|מרץ|אפריל|מאי|יוני|יולי|אוגוסט|ספטמבר|אוקטובר|נובמבר|דצמבר)$/ // "17 בדצמבר": שבעה עשר
+const mascNoun = w => MASC.has(w.replace(/^ו/, '')) || MONTH.test(w)
+const two = w => (w === 'שני' ? 'שניים' : w)
+const countMasc = t => t
+  .replace(/(\d+)(\s+)(ס"מ|ס״מ|מ"מ|מ״מ|ק"מ|ק״מ|ק"ג|ק״ג)(?![\u05D0-\u05EA])/g, (_, d, sp, u) => `${d}${sp}${MASC_UNITS[u]}`)
+  .replace(/(\d\.\d+)\s*[–-]\s*(\d)/g, '$1 עד $2')
+  .replace(/(^|[^\d.,])(\d{1,3})(\s+)ל[־-]?(\d{1,3})(\s+)([\u05D0-\u05EA]+)/g, (m, pre, a, s1, b, s2, w) => (mascNoun(w) ? `${pre}${two(heNumM(+a))}${s1}ל${heNumM(+b)}${s2}${w}` : m))
+  .replace(/(^|[^\d.,])(\d{1,3})\s*(?:[–-]|עד)\s*(\d{1,3})(\s+)([\u05D0-\u05EA]+)/g, (m, pre, a, b, sp, w) => (mascNoun(w) ? `${pre}${two(heNumM(+a))} עד ${heNumM(+b)}${sp}${w}` : m))
+  .replace(/(^|[^\d.,])(\d{1,3})(\s+)([\u05D0-\u05EA]+)/g, (m, pre, d, sp, w) => (mascNoun(w) ? `${pre}${+d === 1 ? `${w} אחד` : `${heNumM(+d)}${sp}${w}`}` : m))
 // Spoken text for a key with digits: "3 כפול 4 שווה 12" → "שלוש כפול ארבע שווה שתים עשרה."
 const AGOROT = n => (n === 1 ? 'אגורה אחת' : `${heNum(n)} אגורות`)
-const sayDigits = key => key
+const sayDigits = key => countMasc(key)
   .replace(/(\d+)\.(\d\d)\s*₪/g, (_, s, a) => `${+s === 1 ? 'שקל' : `${heNum(+s)} שקלים`}${+a ? ` ו${AGOROT(+a)}` : ''}`)
   .replace(/(\d+)\s*₪/g, (_, s) => (+s === 1 ? 'שקל אחד' : `${heNum(+s)} שקלים`))
   .replace(/\b(\d{1,2}):(\d\d)\b/g, (_, h, m) => `${heNum(+h)}${+m ? ` ו${heNum(+m)} דקות` : ''}`)
@@ -58,7 +82,7 @@ export function spoken(key) {
   for (const [v, p] of Object.entries(LETTER_PLAIN)) t = t.replaceAll(v, p)
   // "חד־פעמי" (maqaf) would lose its maqaf with the niqqud below and become one word; "ג׳2" needs a space.
   t = t.replace(/\u05BE/g, '-').replace(/([\u05D0-\u05EA][׳'"]?)(\d)/g, '$1 $2')
-  if (/\d/.test(t)) t = sayDigits(t)
+  if (/\d/.test(t)) t = sayDigits(t.replace(/(^|[\s"(])([ובכלמשה]{1,2})-(?=\d)/g, '$1$2')) // "ו־15" → "וחמישה עשר"
   if (hasNiqqud(t)) { STRIPPED.push(key); t = plain(t) } // e.g. a shin/sin dot only: stripping keeps the full spelling
   return t
 }

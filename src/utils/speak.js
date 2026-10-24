@@ -58,7 +58,7 @@ function recordedFor(lang) {
   return recorded[l]
 }
 // Clips replaced in place (same text, new take): a version so browsers don't keep the old file.
-const RERECORDED = { c0f51608: 2 }
+const RERECORDED = { c0f51608: 2, c98f0977: 2, eaa1eb6c: 2, c0a1aaf5: 2, '24fde4f3': 2 }
 let current = null
 export function stopSpeaking() {
   try { current?.pause() } catch { /* ignore */ }
