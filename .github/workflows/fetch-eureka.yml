@@ -1,0 +1,39 @@
+name: fetch-eureka
+on:
+  push:
+    branches: [fetch-eureka]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download catalog page and product images
+        run: |
+          mkdir -p out/img
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
+          curl -sSL -A "$UA" "https://eureka2010.co.il/catalog.asp?Action=Search&SW=%D7%97%D7%9B%D7%9D%20%D7%A2%D7%9C%20%D7%A7%D7%98%D7%A0%D7%99%D7%9D" -o out/search.html || true
+          curl -sSL -A "$UA" "https://eureka2010.co.il/" -o out/home.html || true
+          python3 - <<'PY'
+          import re, html, urllib.parse, subprocess, os
+          base = "https://eureka2010.co.il/"
+          urls = set()
+          for f in ("out/search.html", "out/home.html"):
+              try: s = open(f, encoding="utf-8", errors="ignore").read()
+              except Exception: continue
+              for m in re.findall(r'(?:src|data-src|href)=["\']([^"\']+\.(?:jpg|jpeg|png|webp|gif|svg))', s, re.I):
+                  urls.add(urllib.parse.urljoin(base, html.unescape(m)))
+          open("out/image-urls.txt", "w").write("\n".join(sorted(urls)))
+          for i, u in enumerate(sorted(urls)[:120]):
+              name = re.sub(r'[^A-Za-z0-9._-]', '_', urllib.parse.unquote(u.split('/')[-1]))[-80:]
+              subprocess.run(["curl", "-sSL", "-A", "Mozilla/5.0", "--max-time", "30", "-o", f"out/img/{i:03d}_{name}", u])
+          PY
+          ls -la out out/img | head -150
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add out
+          git commit -m "eureka fetch results" || true
+          git push
