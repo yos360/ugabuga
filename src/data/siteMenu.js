@@ -161,6 +161,7 @@ export const MENU_DOMAINS = [
           { to: '/speech', label: 'קלינאות תקשורת — חומרי היגוי ושפה', icon: '🗣️' },
           { to: '/speech/sounds/r', label: 'תרגול האות ר׳', icon: '🚂' },
           { to: '/speech/sounds/s', label: 'תרגול האות ס׳', icon: '🐴' },
+          { to: '/speech/sounds/sh', label: 'תרגול האות ש׳', icon: '☀️' },
           { to: '/speech/card-maker', label: 'מחולל כרטיסיות היגוי', icon: '🃏' },
           { to: '/speech/minimal-pairs', label: 'זוגות מינימליים — משחק והדפסה', icon: '👂' },
           { to: '/speech/parents/language-milestones', label: 'התפתחות שפה לפי גיל', icon: '👶' },

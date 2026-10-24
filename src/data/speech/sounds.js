@@ -54,6 +54,7 @@ export const PLANNED_SOUNDS = [
 export const SOUNDS = [
   { id: 'r', sound: 'ר', label: 'ר׳', path: '/speech/sounds/r', emoji: '🚂', load: () => import('./sound-r.js') },
   { id: 's', sound: 'ס', label: 'ס׳ / שׂ', path: '/speech/sounds/s', emoji: '🐴', load: () => import('./sound-s.js') },
+  { id: 'sh', sound: 'ש', label: 'ש׳', path: '/speech/sounds/sh', emoji: '☀️', load: () => import('./sound-sh.js') },
 ]
 
 export const soundMeta = id => SOUNDS.find(s => s.id === id) || null
