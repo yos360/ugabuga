@@ -107,7 +107,7 @@ test('English texts: invitation, reminder, people, money', () => {
   assert.equal(guessCurrency('de-DE'), 'EUR')
   assert.ok(CURRENCIES.includes('ILS'))
   assert.ok(responseCsv([{ name: 'Ava', status: 'yes', kids: 1, adults: 0 }], { yes: { label: 'Coming' } }, en.csvHeaders).includes('"Name","Reply"'))
-  assert.ok(PAY_LINK.test('https://paypal.me/someone') && !PAY_LINK.test('https://venmo.com/x'))
+  assert.ok(PAY_LINK.test('https://paypal.me/someone') && PAY_LINK.test('https://account.venmo.com/u/x') && PAY_LINK.test('https://revolut.me/x') && !PAY_LINK.test('https://example.com/x') && !PAY_LINK.test('https://venmo.com.evil.io/x'))
 })
 
 test('calendar: 12-hour times, and floating local time on the English site', () => {

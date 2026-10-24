@@ -24,7 +24,7 @@ export function money(lang, amount, currency) {
   try { return new Intl.NumberFormat(lang === 'he' ? 'he-IL' : 'en-US', { style: 'currency', currency: cur, minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n) } catch { return `${n} ${cur}` }
 }
 // Payment links the database accepts (see gt_filter_row in 202610220001_content_filter.sql).
-export const PAY_LINK = /^https:\/\/([a-z0-9-]+\.)*(paypal\.me|paypal\.com|payboxapp\.com|payboxapp\.page\.link|bitpay\.co\.il)(\/|$)/i
+export const PAY_LINK = /^https:\/\/([a-z0-9-]+\.)*(paypal\.me|paypal\.com|payboxapp\.com|payboxapp\.page\.link|bitpay\.co\.il|venmo\.com|revolut\.me|revolut\.com|cash\.app|monzo\.me|wise\.com|buy\.stripe\.com|square\.link|checkout\.square\.site|pay\.google\.com|ko-fi\.com|buymeacoffee\.com)(\/|$)/i
 
 // "Noah, Ava and Liam"
 export const enList = items => items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`
@@ -164,7 +164,7 @@ const en = {
     no_links: 'Links, web addresses and social media handles can’t be added. Please write text only.',
     inappropriate: 'The text includes words that aren’t suitable for a family site. Please rephrase.',
     no_contact: 'Phone numbers can’t be added. Please write text only.',
-    bad_pay_link: 'The payment link must be a PayPal link.',
+    bad_pay_link: 'Please use a payment link from PayPal, Venmo, Revolut, Cash App, Monzo, Wise, Stripe or Square.',
   }[code] || 'Something went wrong with the connection. Please try again in a moment.'),
   kindGroup: 'Event type',
   kinds: { kids: '🎈 Kids’ party', general: '🥂 Other event' },
@@ -183,7 +183,7 @@ const en = {
   guestLang: '🌍 Language for guests', guestLangHint: '(each guest can also switch it)',
   parking: '🅿️ Parking & directions', parkingHint: '(shown to guests next to the Waze and Google Maps buttons)', parkingPh: 'e.g. Free parking on the next street; use the back gate',
   fee: '💳 Contribution', feePh: 'Amount', currency: 'Currency', currencyAria: 'Currency',
-  payLink: 'Payment link', payHint: '(a PayPal link)', payLinkBad: 'Only PayPal links can be shown to guests — this one will be left out.',
+  payLink: 'Payment link', payHint: '(PayPal, Venmo, Revolut, Cash App and more)', payLinkBad: 'This link isn’t from a payment service we support (PayPal, Venmo, Revolut, Cash App, Monzo, Wise, Stripe, Square), so it won’t be shown to guests.',
   tables: '🪑 Tables', showTable: 'Show each guest their table',
   feeNote: 'About contributions: we never handle money. Guests just see the amount and your link, and you tick off who has paid.',
   pickFromList: 'Choose from the list', answerGroup: 'Reply',
