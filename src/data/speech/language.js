@@ -30,5 +30,8 @@ export const LANGUAGE_PAGES = [
     id: 'prepositions', path: '/speech/language/prepositions', emoji: '📦',
     title: 'מילות יחס ומושגים מרחביים',
     desc: 'על, מתחת, בתוך, ליד, לפני, מאחורי, בין — „איפה החתול?”, „שימו את…”, גזור והדבק ובינגו מילות יחס להדפסה.',
+    id: 'describing', path: '/speech/language/describing', emoji: '⭐',
+    title: 'תיאור חפצים ואוצר מילים',
+    desc: 'כוכב התיאור, חידות „מי אני?”, בונים תיאור ו„מה דומה, מה שונה?” — עם לוח כוכב, כרטיסי חידות, מפת מילה ומשחק „נחשו מי אני” להדפסה.',
   },
 ]
