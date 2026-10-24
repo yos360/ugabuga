@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import PrintPreview from './PrintPreview'
 import { HERSHEY, HERSHEY_CAP, HERSHEY_BASE, HERSHEY_XH } from '../../data/hersheyLatin'
@@ -16,7 +17,7 @@ function TraceText({ text, x, y, size, color = '#444', heb = true }) {
 }
 
 const SPACE = 8
-const latinUnits = text => [...text].reduce((w, c) => w + 2 * (HERSHEY[c]?.[1] ?? SPACE), 0)
+export const latinUnits = text => [...text].reduce((w, c) => w + 2 * (HERSHEY[c]?.[1] ?? SPACE), 0)
 export function LatinTrace({ text, x, y, cap, color, solidOps = false }) {
   const k = cap / HERSHEY_CAP
   let cursor = x - latinUnits(text) * k / 2
@@ -144,6 +145,7 @@ export function ClassNames({dotted}) {
   return <div id="names" className="mb-10 scroll-mt-4 rounded-3xl border-2 border-[var(--border)] bg-[var(--postit)] p-5 sketch-shadow-sm">
     <h2 className="mb-2 text-2xl font-bold">📝 שמות לכל הכיתה או הגן — בהדפסה אחת</h2>
     <p className="mb-3">מדביקים את רשימת השמות (שם בכל שורה), בעברית או באנגלית. כל ילד מקבל דף A4 משלו עם השם שלו למעבר בעיפרון — מתאים גם לכל מי שחוגג יום הולדת החודש.</p>
+    <p className="mb-3 rounded-xl border-2 border-dashed border-[var(--border)] bg-white px-3 py-2 text-sm">🖍️ רוצים גם ציורים לצביעה ומשחקי אותיות? ב<Link to="/printables/name-coloring" className="font-bold underline">דף שם לצביעה ולמידת אותיות</Link> השם מופיע באותיות בועה, עם ציורים מסביב ופעילות: מקיפים את אותיות השם, סופרים ועוברים על הקו.</p>
 
     {lists.length>0 && <div className="mb-3">
       <p className="mb-1.5 text-sm font-bold">📋 הרשימות השמורות שלי:</p>

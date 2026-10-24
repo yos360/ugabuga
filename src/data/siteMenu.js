@@ -229,7 +229,6 @@ export const MENU_DOMAINS = [
         title: 'צביעה ויצירה', icon: '🖍️', to: '/printables',
         items: [
           { to: '/printables/coloring', label: 'דפי צביעה', icon: '🖍️' },
-          { to: '/printables/name-coloring', label: 'דף צביעה עם השם', icon: '✍️' },
           { to: '/printables/winter', label: 'דפי חורף וגשם', icon: '🌧️' },
           { to: '/printables/color-by-number', label: 'צביעה לפי מספרים', icon: '🔢' },
           { to: '/printables/color-by-answer', label: 'צביעה לפי תשובה', icon: '➕' },
@@ -259,6 +258,7 @@ export const MENU_DOMAINS = [
       {
         title: 'לגן ולבית הספר', icon: '🎒',
         items: [
+          { to: '/printables/name-coloring', label: 'דף שם לצביעה ולמידת אותיות', icon: '🖍️' },
           { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
           { to: '/printables/allergy-signs', label: 'שלטי אלרגיה ומדבקות', icon: '🥜' },
           { to: '/printables/sensory-communication-cards', label: 'כרטיסיות ויסות, תקשורת וסדר יום', icon: '🧩' },

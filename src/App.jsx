@@ -99,6 +99,7 @@ const FortuneTeller = lazy(() => import('./pages/printables/PaperGames').then(m 
 const GiftBox = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.GiftBox })))
 const TicTacToeBoards = lazy(() => import('./pages/printables/TicTacToeBoards'))
 const NameColoring = lazy(() => import('./pages/printables/NameColoring'))
+const NameColoringName = lazy(() => import('./pages/printables/NameColoring').then(m => ({ default: m.NameColoringName })))
 const WinterPrintables = lazy(() => import('./pages/printables/WinterPrintables'))
 const MusicHub = lazy(() => import('./music/MusicPages').then(m => ({ default: m.MusicHub })))
 const Metronome = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Metronome })))
@@ -658,6 +659,7 @@ export default function App() {
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/tic-tac-toe" element={<TicTacToeBoards />} />
               <Route path="/printables/name-coloring" element={<NameColoring />} />
+              <Route path="/printables/name-coloring/:name" element={<NameColoringName />} />
               <Route path="/printables/winter" element={<WinterPrintables />} />
               <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
               <Route path="/printables/gift-box" element={<GiftBox />} />
