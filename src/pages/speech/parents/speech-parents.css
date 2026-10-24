@@ -23,3 +23,7 @@
 .spk-sheet thead th{background:#f1f3f7}
 .spk-sheet .spk-letter{font-size:15pt;font-weight:800;white-space:nowrap}
 @media print{.spk-sheet .spk-consult{print-color-adjust:exact}}
+.buga-a4.spk-sheet.spk-stutter{font-size:11pt}
+.buga-a4.spk-sheet.spk-stutter.spk-roomy{font-size:12.5pt}
+.spk-roomy .spk-box h3{font-size:13pt}
+.spk-stutter .spk-box p{line-height:1.38}

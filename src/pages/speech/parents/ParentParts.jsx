@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 const PARENT_PAGES = [
   { href: '/speech/parents/language-milestones', label: '🗣️ התפתחות שפה לפי גיל' },
   { href: '/speech/parents/sound-acquisition', label: '🔤 גיל רכישת הצלילים' },
+  { href: '/speech/parents/stuttering', label: '💬 גמגום אצל ילדים' },
 ]
 
 export function Section({ id, title, children, intro }) {
@@ -33,10 +34,12 @@ export function SiblingNav({ path }) {
   </nav>
 }
 
-export function Sources({ list }) {
+const SOURCES_NOTE = 'התוכן נכתב על בסיס המקורות האלה ומוצג בטווחים מעוגלים. מקורות שונים מגדירים "גיל רכישה" בדרכים שונות, ולכן הגילים בהם אינם זהים.'
+
+export function Sources({ list, note = SOURCES_NOTE }) {
   return <section id="sources" className="mt-12 scroll-mt-24">
     <h2 className="text-2xl font-black">מקורות</h2>
-    <p className="mt-1 text-sm text-[var(--muted-foreground)]">התוכן נכתב על בסיס המקורות האלה ומוצג בטווחים מעוגלים. מקורות שונים מגדירים "גיל רכישה" בדרכים שונות, ולכן הגילים בהם אינם זהים.</p>
+    <p className="mt-1 text-sm text-[var(--muted-foreground)]">{note}</p>
     <ol className="mt-3 list-decimal space-y-1.5 pr-6 text-[15px] leading-relaxed">
       {list.map(s => <li key={s.title}>{s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline">{s.title}</a> : s.title}</li>)}
     </ol>

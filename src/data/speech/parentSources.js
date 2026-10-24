@@ -11,6 +11,18 @@ export const SOURCES = {
   moe36: { title: 'משרד החינוך — התפתחות שפה מגיל 3 עד 6', url: 'https://pop.education.gov.il/kindergarten/magar-ganey-yeladim/language-development-from-age-four-to-three-to-age-six/' },
   stuttering: { title: 'The Stuttering Foundation — מתי כדאי לפנות להערכה', url: 'https://www.stutteringhelp.org/' },
   ambi: { title: 'כל זכות — אמב״י, ארגון מגמגמים בישראל', url: 'https://www.kolzchut.org.il/he/%D7%90%D7%9E%D7%91%22%D7%99_-_%D7%90%D7%A8%D7%92%D7%95%D7%9F_%D7%9E%D7%92%D7%9E%D7%92%D7%9E%D7%99%D7%9D_%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C' },
+  ashaFluency: { title: 'ASHA Practice Portal — Childhood Fluency Disorders (גמגום אצל ילדים)', url: 'https://www.asha.org/practice-portal/clinical-topics/childhood-fluency-disorders/' },
+  ashaDisfluency: { title: 'ASHA Practice Portal — Characteristics of Typical Disfluency and Stuttering (טבלת ההבדלים, מבוססת על Coleman, 2013)', url: 'https://www.asha.org/practice-portal/clinical-topics/fluency-disorders/characteristics-of-typical-disfluency-and-stuttering/' },
+  ashaFacts: { title: 'ASHA — The Facts About Stuttering (מיתוסים ועובדות, כולל "לא אומרים דבר לאט")', url: 'https://www.asha.org/slp/the-facts-about-stuttering/' },
+  sfRisk: { title: 'The Stuttering Foundation — Risk Factors (היסטוריה משפחתית, גיל ההתחלה, משך הגמגום, מין, קשיי דיבור ושפה נוספים)', url: 'https://www.stutteringhelp.org/risk-factors' },
+  sfPrevalence: { title: 'The Stuttering Foundation — Prevalence (שכיחות הגמגום בילדות ובבגרות)', url: 'https://www.stutteringhelp.org/prevalence' },
+  sfIfYouThink: { title: 'The Stuttering Foundation — If You Think Your Child Is Stuttering (75%–80% מהילדים מפסיקים בתוך 12–24 חודשים; התחלה לפני גיל 3.5 קשורה לסיכוי טוב יותר)', url: 'https://www.stutteringhelp.org/sites/default/files/ifYouthink.pdf' },
+  sf7tips: { title: 'The Stuttering Foundation — 7 Tips for Talking with Your Child (דף טיפים להורים לגיל הגן)' },
+  sfTeacher: { title: 'The Stuttering Foundation — Notes to the Teacher: The Child Who Stutters at School', url: 'https://www.stutteringhelp.org/sites/default/files/TeacherNotes-english.pdf' },
+  nidcd: { title: 'NIDCD (המכון הלאומי האמריקאי לחירשות והפרעות תקשורת) — Stuttering: גורמים גנטיים ומוחיים', url: 'https://www.nidcd.nih.gov/health/stuttering' },
+  yairi1999: { title: 'Yairi & Ambrose (1999). Early childhood stuttering I: Persistency and recovery rates. JSLHR 42(5), 1097–1112 — כ־74% החלמה טבעית', url: 'https://doi.org/10.1044/jslhr.4205.1097' },
+  yairi2013: { title: 'Yairi & Ambrose (2013). Epidemiology of stuttering: 21st century advances. Journal of Fluency Disorders 38(2), 66–87', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC3687212' },
+  lidcombe: { title: 'Jones et al. (2005). Randomised controlled trial of the Lidcombe programme of early stuttering intervention. BMJ 331, 659', url: 'https://pubmed.ncbi.nlm.nih.gov/16096286/' },
   hanen: { title: 'The Hanen Centre — Observe, Wait and Listen (OWL)', url: 'https://www.hanen.org/' },
   aap: { title: 'American Academy of Pediatrics (2016). Media and Young Minds. Pediatrics 138(5)', url: 'https://doi.org/10.1542/peds.2016-2591' },
   coplan: { title: 'Coplan & Gleason (1988). Unclear speech: recognition and significance of unintelligible speech in preschool children. Pediatrics 82(3) — מקור "כלל האצבע" למובנות הדיבור' },
@@ -22,3 +34,4 @@ export const SOURCES = {
 
 export const MILESTONE_SOURCES = ['asha', 'cdc', 'zubler', 'ishla', 'moh', 'moe03', 'moe36', 'coplan', 'lateTalkers', 'hanen', 'aap', 'ishlaBilingual', 'armonLotem', 'stuttering', 'ambi'].map(k => SOURCES[k])
 export const SOUND_SOURCES = ['benDavid', 'meuhedet', 'maccabi', 'ishla', 'asha', 'coplan'].map(k => SOURCES[k])
+export const STUTTER_SOURCES = ['ashaFluency', 'ashaDisfluency', 'ashaFacts', 'sfRisk', 'sfIfYouThink', 'sfPrevalence', 'sf7tips', 'sfTeacher', 'nidcd', 'yairi1999', 'yairi2013', 'lidcombe', 'ambi'].map(k => SOURCES[k])
