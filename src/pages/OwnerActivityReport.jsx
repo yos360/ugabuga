@@ -348,6 +348,17 @@ function useSocial(from, to, tick = 0) {
   }, [from.getTime(), to.getTime(), tick]) // eslint-disable-line react-hooks/exhaustive-deps
   return social
 }
+
+// Clicks on sponsored banners (owner_sponsor_clicks) for the headline cards, same range as the report.
+function useSponsorClicks(from, to, tick = 0) {
+  const [rows, setRows] = useState(null)
+  useEffect(() => {
+    let live = true
+    supabase.rpc('owner_sponsor_clicks', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => { if (live) setRows(error || !Array.isArray(data) ? null : data) })
+    return () => { live = false }
+  }, [from.getTime(), to.getTime(), tick]) // eslint-disable-line react-hooks/exhaustive-deps
+  return rows
+}
 function useSummary(from, to, tick = 0) {
   const [data, setData] = useState(null), [error, setError] = useState('')
   const shown = useRef('')
@@ -402,7 +413,7 @@ function useLiveRefresh(background = false) {
 }
 
 // The headline numbers, shared by the report and the mini widget: [value, label, short label, tone]
-function statItems(data, multiDay = false, social = null) {
+function statItems(data, multiDay = false, social = null, sponsors = null) {
   return [
     // The anonymous id changes every midnight, so over several days a returning person is counted
     // once per day they came: that is "visits", not unique people.
@@ -421,6 +432,7 @@ function statItems(data, multiDay = false, social = null) {
     [social ? social.clicks?.whatsapp || 0 : '—', 'לחיצות על שיתוף בוואטסאפ', 'שיתוף וואטסאפ', 'bg-green-50'],
     [data.sources?.facebook || 0, 'אנשים שהגיעו מפייסבוק (כולל מודעות)', 'מפייסבוק', 'bg-blue-50'],
     [data.sources?.whatsapp || 0, 'אנשים שהגיעו מקישור בוואטסאפ', 'מוואטסאפ', 'bg-teal-50'],
+    [sponsors ? sponsors.find(r => r.sponsor === 'eureka')?.clicks || 0 : '—', 'לחיצות על הבאנר של אאורקה (חכם על קטנים)', 'באנר אאורקה', 'bg-amber-50'],
     [data.total, 'כל הפעולות שנרשמו', 'כל הפעולות', 'bg-violet-50'],
   ]
 }
@@ -479,6 +491,7 @@ export default function OwnerActivityReport() {
   const [from, to] = useMemo(() => rangeBounds(range), [range, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data, error } = useSummary(from, to, tick)
   const social = useSocial(from, to, tick)
+  const sponsorClicks = useSponsorClicks(from, to, tick)
   const [todayFrom, todayTo] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   // A fair comparison: today so far vs yesterday up to the same clock time (not all of yesterday,
   // which made every morning look like a drop). The full-day total is shown next to it.
@@ -542,7 +555,7 @@ export default function OwnerActivityReport() {
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {statItems(data, range === '7' || range === '30', social).map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
+          {statItems(data, range === '7' || range === '30', social, sponsorClicks).map(([v, text, , tone]) => <StatCard key={text} value={v} text={text} tone={tone} />)}
         </div>
 
         <ReportSections sections={[
