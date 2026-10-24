@@ -38,7 +38,7 @@ export default function SponsorBanner({ className = '' }) {
     <div className={`sponsor-banner no-print mx-auto my-10 w-full max-w-3xl ${className}`} dir="rtl">
       <style>{'@media print{.sponsor-banner{display:none!important}}'}</style>
       <aside aria-label={`${SPONSOR_LABEL}: ${sponsor.name}`} data-sponsor={sponsor.id}
-        className="relative border-2 border-dashed border-[var(--border)] bg-[var(--card)] px-4 pb-4 pt-3 wobbly">
+        className="relative border-2 border-[var(--border)] bg-[var(--card)] px-4 pb-4 pt-3 wobbly sketch-shadow">
         <div className="mb-2 flex items-center justify-between gap-2 text-xs">
           <span className="rounded-full border border-[var(--border)] bg-[var(--postit)] px-2 py-0.5 font-bold text-[var(--ink)]">{sponsor.label || SPONSOR_LABEL} · בשיתוף {sponsor.name}</span>
           <button type="button" onClick={close} aria-label="סגירת הפרסומת"
@@ -51,10 +51,10 @@ export default function SponsorBanner({ className = '' }) {
               className="block h-[88px] w-[88px] object-contain sm:h-[120px] sm:w-[120px]" />
           </a>}
           <div className="min-w-0 flex-1">
-            <p className="m-0 text-lg font-bold leading-snug sm:text-xl">{sponsor.title}</p>
+            <p className="m-0 font-hand text-2xl font-bold leading-tight sm:text-3xl">{sponsor.title}</p>
             <p className="m-0 mt-1 text-sm leading-relaxed text-[var(--foreground)]/80 sm:text-base">{sponsor.text}</p>
             <a href={sponsor.url} target="_blank" rel="sponsored noopener" onClick={() => trackClick(sponsor)}
-              className="wobbly-sm sketch-press mt-3 inline-flex min-h-[44px] items-center border-2 border-[var(--ink)] bg-[var(--postit)] px-4 py-2 font-bold text-[var(--ink)]">
+              className="wobbly-sm sketch-shadow sketch-press mt-3 inline-flex min-h-[44px] items-center border-2 border-[var(--ink)] bg-[var(--postit)] px-4 py-2 font-bold text-[var(--ink)]">
               {sponsor.cta}
             </a>
           </div>
