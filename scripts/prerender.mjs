@@ -71,6 +71,10 @@ try {
       await page.locator('main h1').waitFor()
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
+      // Dictionary letter pages load the word list from a lazy chunk.
+      if (/^\/dictionary\/english\/[a-z]$/.test(path)) await page.locator('ul.dc-list').waitFor({ state: 'attached' })
+      // Unseen test pages load the test's text from a lazy chunk.
+      if (/^\/unseen\/(english|hebrew)\/(en|he)-/.test(path)) await page.locator('.us-passage').waitFor({ state: 'attached' })
       const result = await page.evaluate(() => {
         const canonical = [...document.querySelectorAll('link[rel="canonical"]')]
         const descriptions = [...document.querySelectorAll('meta[name="description"]')]

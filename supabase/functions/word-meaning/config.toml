@@ -1,0 +1,2 @@
+# Called with the public project key; the function rate-limits and caches on its own (index.ts).
+verify_jwt = false

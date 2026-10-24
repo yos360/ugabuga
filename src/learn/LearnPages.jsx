@@ -300,6 +300,7 @@ export function ReadingIndex() {
     <p className="text-lg leading-relaxed mb-6">תרגול הבנת הנקרא לפי כיתה: בכל עמוד עד 12 קטעים באורך ובאוצר המילים שמתאימים לשכבה, עם שאלות סגורות, שאלות פתוחות ושאלות הסקה — ודף תשובות להדפסה.</p>
     <h2 className="mb-3 text-3xl font-black">בוחרים כיתה</h2>
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">{GRADE_LEVELS.map(g => <Link key={g} to={gradeHref(g)} className="ln-box card-lift text-center"><div className="text-3xl font-black">כיתה {GRADE_LETTER[g]}</div><small>{GRADED_READING.filter(r => r.level === g).length} קטעים עם שאלות</small></Link>)}</div>
+    <p className="ln-box mt-6 text-lg">🎓 לכיתות ט׳–י״ב ולבגרות: <Link to="/unseen" className="font-bold underline">אנסין — תרגול באנגלית ובעברית</Link>, עם שאלות אמריקאיות, הסבר לכל תשובה וטיימר.</p>
     <h2 className="mt-10 mb-3 text-3xl font-black">כל הקטעים לפי כיתה</h2>
     {GRADE_LEVELS.map(g => <section key={g} className="mb-6"><h3 className="mb-2 text-xl font-bold"><Link to={gradeHref(g)} className="underline">כיתה {GRADE_LETTER[g]}</Link></h3>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{GRADED_READING.filter(r => r.level === g).map(r => <Link key={r.slug} to={`/learn/reading/${r.slug}`} className="ln-box card-lift text-right"><span aria-hidden="true">{r.emoji} </span><b>{r.title}</b><br /><small>{r.kind} · {qCount(r)} שאלות</small></Link>)}</div></section>)}

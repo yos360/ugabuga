@@ -1,0 +1,37 @@
+# Deploys the word-meaning Edge Function (dictionary meanings) to Supabase whenever it changes.
+# Needs two repository secrets: SUPABASE_ACCESS_TOKEN (supabase.com → Account → Access Tokens) and
+# GEMINI_API_KEY (aistudio.google.com → Get API key). Without them the job does nothing.
+name: Deploy word meanings
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/functions/word-meaning/**'
+      - '.github/workflows/deploy-word-meaning.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-word-meaning
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      PROJECT_REF: efhgyispuwxcplvzipcy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ] || [ -z "$GEMINI_API_KEY" ]; then
+            echo "::notice::SUPABASE_ACCESS_TOKEN or GEMINI_API_KEY is not set; skipping deploy."
+            exit 0
+          fi
+          supabase secrets set GEMINI_API_KEY="$GEMINI_API_KEY" --project-ref "$PROJECT_REF"
+          supabase functions deploy word-meaning --project-ref "$PROJECT_REF" --no-verify-jwt --use-api

@@ -116,6 +116,10 @@ const TypingEnglish = lazy(() => import('./typing/TypingPages').then(m => ({ def
 const TypingGame = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingGame })))
 const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
+const DictionaryHub = lazy(() => import('./pages/dictionary/Dictionary').then(m => ({ default: m.DictionaryHub })))
+const DictionaryLetter = lazy(() => import('./pages/dictionary/Dictionary').then(m => ({ default: m.DictionaryLetter })))
+const UnseenHub = lazy(() => import('./pages/unseen/Unseen').then(m => ({ default: m.UnseenHub })))
+const UnseenRoute = lazy(() => import('./pages/unseen/Unseen').then(m => ({ default: m.UnseenRoute })))
 const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
 const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingGrade })))
@@ -651,6 +655,11 @@ export default function App() {
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
               <Route path="/learn/dictation/english" element={<DictationEnglish />} />
+              <Route path="/dictionary" element={<DictionaryHub />} />
+              <Route path="/dictionary/english/:letter" element={<DictionaryLetter />} />
+              <Route path="/unseen" element={<UnseenHub />} />
+              <Route path="/unseen/:lang" element={<UnseenRoute />} />
+              <Route path="/unseen/:lang/:x" element={<UnseenRoute />} />
               <Route path="/learn/reading" element={<ReadingIndex />} />
               <Route path="/learn/reading/grade-2" element={<ReadingGrade key="g2" grade={2} />} />
               <Route path="/learn/reading/grade-3" element={<ReadingGrade key="g3" grade={3} />} />
