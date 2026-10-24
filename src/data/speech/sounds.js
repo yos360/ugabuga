@@ -47,7 +47,7 @@ export const PLANNED_SOUNDS = [
   { id: 'z', sound: 'ז', label: 'ז׳' },
   { id: 'k', sound: 'ק', label: 'ק׳ / כּ' },
   { id: 'g', sound: 'ג', label: 'ג׳' },
-  { id: 'x', sound: 'ח', label: 'ח׳ / כ' },
+  { id: 'ch', sound: 'ח', label: 'ח׳ / כ' },
 ]
 
 // The sounds that exist. `load()` resolves to the data module (default export = the data object).
@@ -56,6 +56,7 @@ export const SOUNDS = [
   { id: 'l', sound: 'ל', label: 'ל׳', path: '/speech/sounds/l', emoji: '🍋', load: () => import('./sound-l.js') },
   { id: 's', sound: 'ס', label: 'ס׳ / שׂ', path: '/speech/sounds/s', emoji: '🐴', load: () => import('./sound-s.js') },
   { id: 'sh', sound: 'ש', label: 'ש׳', path: '/speech/sounds/sh', emoji: '☀️', load: () => import('./sound-sh.js') },
+  { id: 'ch', sound: 'ח', label: 'ח׳ / כ', path: '/speech/sounds/ch', emoji: '🐈', load: () => import('./sound-ch.js') },
 ]
 
 export const soundMeta = id => SOUNDS.find(s => s.id === id) || null

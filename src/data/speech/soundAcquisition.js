@@ -27,7 +27,7 @@ export const SOUNDS = [
     swaps: [{ said: 'תף', target: 'כף', text: 'ק/כּ מוחלפת ב־ת (קדמה)' }] },
   { id: 'g', letters: 'ג', ipa: 'g', group: 'middle', from: 3, to: 4, late: 4.5, example: { word: 'גמל', emoji: '🐫' },
     swaps: [{ said: 'דמל', target: 'גמל', text: 'ג מוחלפת ב־ד (קדמה)' }] },
-  { id: 'x', letters: 'ח / כ', ipa: 'χ', group: 'middle', from: 3, to: 4, example: { word: 'חתול', emoji: '🐈' } },
+  { id: 'ch', letters: 'ח / כ', ipa: 'χ', group: 'middle', from: 3, to: 4, page: '/speech/sounds/ch', example: { word: 'חתול', emoji: '🐈' } },
   { id: 'r', letters: 'ר', ipa: 'ʁ', group: 'middle', from: 3.5, to: 4, late: 4.5, page: '/speech/sounds/r', example: { word: 'רכבת', emoji: '🚆' },
     swaps: [{ said: 'לכבת', target: 'רכבת', text: 'ר מוחלפת ב־ל' }, { said: 'יכבת', target: 'רכבת', text: 'ר מוחלפת ב־י' }] },
   { id: 's', letters: 'ס / שׂ', ipa: 's', group: 'late', from: 4, to: 6, late: 7, page: '/speech/sounds/s', example: { word: 'סוס', emoji: '🐎' },
