@@ -243,6 +243,7 @@ const KitchenScience = lazy(() => import('./family/FoodPages').then(m => ({ defa
 const Experiment = lazy(() => import('./family/FoodPages').then(m => ({ default: m.Experiment })))
 const LunchboxNotes = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchboxNotes })))
 const AllergySigns = lazy(() => import('./family/AllergySigns'))
+const ClassroomSigns = lazy(() => import('./pages/printables/ClassroomSigns'))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
@@ -807,6 +808,7 @@ export default function App() {
               <Route path="/food/kitchen-science/:slug" element={<Experiment />} />
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
+              <Route path="/printables/classroom-signs" element={<ClassroomSigns />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
               <Route path="/logic-puzzles" element={<LogicHub />} />
               <Route path="/logic-puzzles/kids" element={<LogicLevelPage key="kids" variant="kids" />} />

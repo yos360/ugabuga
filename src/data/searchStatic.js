@@ -1285,6 +1285,7 @@ const PAGES = [
   { to: '/printables/reward-chart', title: 'לוח מדבקות לחיזוק', emoji: '⭐', kind: 'printable', desc: 'מטרה, דרך של מדבקות ופרס.', keys: 'לוח מדבקות חיזוקים חיזוק חיובי פרס התנהגות' },
   { to: '/printables/toothbrushing-chart', title: 'לוח צחצוח שיניים', emoji: '🦷', kind: 'printable', desc: 'בוקר וערב, לשבוע או לחודש.', keys: 'צחצוח שיניים שיניים מברשת לוח' },
   { to: '/printables/potty-chart', title: 'לוח גמילה מחיתולים', emoji: '🚽', kind: 'printable', desc: 'מדבקה על כל הצלחה.', keys: 'גמילה חיתולים סיר שירותים לוח מדבקות' },
+  { to: '/printables/classroom-signs', title: 'שלטי מקצועות לכיתה וללוח מערכת', emoji: '🏫', kind: 'printable', desc: 'שלט לכל מקצוע, 2 או 3 בדף, עם ניקוד או בלי.', keys: 'שלטים לכיתה שלטי מקצועות לוח מערכת שלטים ללוח מערכת קישוט כיתה ימות השבוע הפסקה אומנות מקצועות' },
   { to: '/printables/class-schedule', title: 'מערכת שעות להדפסה', emoji: '🗓️', kind: 'printable', desc: 'מערכת שעות ריקה או עם שם וכיתה.', keys: 'מערכת שעות בית ספר שיעורים' },
   { to: '/printables/calendar-2027', title: 'לוח שנה 2027 להדפסה', emoji: '📅', kind: 'printable', desc: 'עברי ולועזי עם חגים.', keys: 'לוח שנה 2027 לוח שנה עברי חגים תאריך עברי' },
   { to: '/printables/calendar-5787', title: 'לוח שנה תשפ״ז', emoji: '🎒', kind: 'printable', desc: 'שנת הלימודים עם כל החגים.', keys: 'לוח שנה תשפז תשפ"ז שנת לימודים 2026 חגים' },

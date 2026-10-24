@@ -48,7 +48,7 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
 
 const sheets = (list, sheetClassName = '', en = false) => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>{en ? 'Ugabuga' : 'עוגה בוגה'} · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath, lead, children }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath, lead, children, intro, body }) {
   const en = lang === 'en'
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
@@ -60,6 +60,7 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
       <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{emoji} </span>{h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{sub}</p>
       {lead}
+      {intro}
 
       {siblings.length > 0 && (
         <nav aria-label={en ? 'Related pages' : 'דפים נוספים מאותה משפחה'} className="mb-6 flex flex-wrap justify-center gap-2">
@@ -98,6 +99,7 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
       {children}
 
       <div className="mt-12">
+        {body}
         <SeoBody lang={lang} paragraphs={paragraphs} faq={faq} related={related} />
       </div>
     </div>

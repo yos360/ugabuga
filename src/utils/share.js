@@ -44,7 +44,7 @@ function installShareCounter() {
 installShareCounter()
 
 // Who a page is most useful to — decides the invitation to share and the WhatsApp message.
-const TEACHER = /^\/(classroom|learn|discover)(\/|$)|^\/games\/(kindergarten|kita-a|classroom|icebreaker)|^\/printables\/(math|hebrew-letters|abc-letters|letter-flashcards|numbers|lined-paper|grid-paper|graph-paper|dot-paper|english-lines|clock|fraction|allergy-signs|name-tags|certificates|class-schedule|word-tracing|count-and-write|complete-pattern|cut-and-order|dot-to-dot)/
+const TEACHER = /^\/(classroom|learn|discover)(\/|$)|^\/games\/(kindergarten|kita-a|classroom|icebreaker)|^\/printables\/(math|hebrew-letters|abc-letters|letter-flashcards|numbers|lined-paper|grid-paper|graph-paper|dot-paper|english-lines|clock|fraction|allergy-signs|classroom-signs|name-tags|certificates|class-schedule|word-tracing|count-and-write|complete-pattern|cut-and-order|dot-to-dot)/
 const PRINTABLE = /^\/printables(\/|$)|^\/(abc|animals)(\/|$)/
 const PARENT = /^\/(food|family|music|birthday|ideas|gifts|calculator|invitation|greeting|treasure-hunt)(\/|$)/
 export function shareAudience(pathname = '/') {
