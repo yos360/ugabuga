@@ -11,6 +11,9 @@ import { Section, Bullets, OnThisPage, SiblingNav, Sources } from './ParentParts
 import { AXIS, SOUND_GROUPS, SOUNDS, PROCESSES } from '../../../data/speech/soundAcquisition'
 import { SOUND_SOURCES } from '../../../data/speech/parentSources'
 import './speech-parents.css'
+import { soundMeta } from '../../../data/speech/sounds.js'
+// Link a sound only once its practice page exists (sounds are added one by one).
+const live = s => Boolean(s.page && soundMeta(s.id))
 
 // Parents' guide: at what age children say each Hebrew consonant — an RTL timeline of approximate
 // ranges, the ר question (uvular is standard, trilled is an accent), typical simplifications on the way,
@@ -45,7 +48,7 @@ function Timeline() {
           <div className="flex min-w-0 items-center gap-1.5">
             <span className="min-w-[2.6rem] text-xl font-black">{s.letters}</span>
             <span className="hidden truncate text-sm sm:inline">{s.example.emoji} {s.example.word}</span>
-            {s.page && <Link to={s.page} className="whitespace-nowrap rounded-full border border-[var(--border)] px-1.5 text-xs font-bold hover:bg-[var(--postit)]" aria-label={`תרגול הצליל ${s.letters}`}>תרגול</Link>}
+            {live(s) && <Link to={s.page} className="whitespace-nowrap rounded-full border border-[var(--border)] px-1.5 text-xs font-bold hover:bg-[var(--postit)]" aria-label={`תרגול הצליל ${s.letters}`}>תרגול</Link>}
           </div>
           <div>
             <div className="spk-bar-track" role="img" aria-label={`${s.letters}: ${rangeText(s)}`}>
@@ -67,7 +70,7 @@ function SoundTable() {
       <caption className="sr-only">טבלת גיל רכישת צלילים בעברית</caption>
       <thead><tr className="bg-[var(--muted)]/30"><th className="p-2">צליל</th><th className="p-2">דוגמה</th><th className="p-2">גיל משוער</th><th className="p-2">שיבוש נפוץ בדרך</th></tr></thead>
       <tbody>{SOUNDS.map(s => <tr key={s.id} className="border-t border-[var(--border)] align-top">
-        <th scope="row" className="p-2 text-xl font-black whitespace-nowrap">{s.page ? <Link to={s.page} className="underline">{s.letters}</Link> : s.letters}</th>
+        <th scope="row" className="p-2 text-xl font-black whitespace-nowrap">{live(s) ? <Link to={s.page} className="underline">{s.letters}</Link> : s.letters}</th>
         <td className="p-2 whitespace-nowrap"><span aria-hidden="true">{s.example.emoji} </span>{s.example.word} <SpeakButton text={s.example.word} className="mr-1 align-middle" /></td>
         <td className="p-2">{rangeText(s)}</td>
         <td className="p-2 text-sm">{s.swaps ? s.swaps.map(w => <span key={w.said} className="block">"{w.said}" במקום "{w.target}"</span>) : '—'}</td>
