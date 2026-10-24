@@ -171,6 +171,8 @@ export const MENU_DOMAINS = [
           { to: '/speech/card-maker', label: 'מחולל כרטיסיות היגוי', icon: '🃏' },
           { to: '/speech/minimal-pairs', label: 'זוגות מינימליים — משחק והדפסה', icon: '👂' },
           { to: '/speech/aac', label: 'לוחות תקשורת תת״ח', icon: '💬' },
+          { to: '/speech/language/directions', label: 'הוראות בשלבים — תרגול הקשבה', icon: '🎧' },
+          { to: '/speech/language/sequencing', label: 'סיפור ברצף — כרטיסי רצף', icon: '🧩' },
           { to: '/speech/parents/language-milestones', label: 'התפתחות שפה לפי גיל', icon: '👶' },
           { to: '/speech/parents/sound-acquisition', label: 'באיזה גיל אומרים כל צליל', icon: '🔤' },
         ],
