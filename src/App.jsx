@@ -273,6 +273,7 @@ const SpeechLanguageHub = lazy(() => import('./pages/speech/LanguageHub'))
 const SpeechLanguageCategories = lazy(() => import('./pages/speech/LanguageCategories'))
 const SpeechLanguageWhQuestions = lazy(() => import('./pages/speech/LanguageWhQuestions'))
 const SpeechGrammar = lazy(() => import('./pages/speech/language/Grammar'))
+const SpeechPrepositions = lazy(() => import('./pages/speech/language/Prepositions'))
 const FinalLetters = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.FinalLetters })))
 const LetterStrip = lazy(() => import('./pages/printables/LetterStrip'))
 const TimesTableStrips = lazy(() => import('./pages/printables/MathDeskStrips').then(m => ({ default: m.TimesTableStrips })))
@@ -579,6 +580,7 @@ export default function App() {
               <Route path="/speech/language/categories" element={<SpeechLanguageCategories />} />
               <Route path="/speech/language/wh-questions" element={<SpeechLanguageWhQuestions />} />
               <Route path="/speech/language/grammar" element={<SpeechGrammar />} />
+              <Route path="/speech/language/prepositions" element={<SpeechPrepositions />} />
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
               <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/:slug" element={<LetterPage />} />

@@ -27,5 +27,8 @@ export const LANGUAGE_PAGES = [
     id: 'grammar', path: '/speech/language/grammar', emoji: '🧱',
     title: 'דקדוק לגן',
     desc: 'יחיד ורבים (גם עפרונות, ביצים ונשים), זכר ונקבה, עבר הווה ועתיד, שלי־שלך־שלו־שלה ומשפטים עם ו, כי, אבל — משחקים עם שמע ודפים להדפסה.',
+    id: 'prepositions', path: '/speech/language/prepositions', emoji: '📦',
+    title: 'מילות יחס ומושגים מרחביים',
+    desc: 'על, מתחת, בתוך, ליד, לפני, מאחורי, בין — „איפה החתול?”, „שימו את…”, גזור והדבק ובינגו מילות יחס להדפסה.',
   },
 ]

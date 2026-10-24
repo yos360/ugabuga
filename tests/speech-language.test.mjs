@@ -105,4 +105,6 @@ test('language section lists its pages under /speech/language', () => {
   assert.ok(paths.includes('/speech/language/grammar'))
   assert.equal(new Set(paths).size, paths.length)
   for (const p of LANGUAGE_PAGES) assert.match(p.path, /^\/speech\/language\/[a-z-]+$/)
+test('language section pages under /speech/language', () => {
+  assert.deepEqual(LANGUAGE_PAGES.map(p => p.path), ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing', '/speech/language/prepositions'])
 })
