@@ -20,6 +20,7 @@ export const gradeName = g => GRADE_NAMES[g] || ''
 const SHEET_EXTRA = {
   'math-worksheets': { type: 'worksheet', grades: range(0, 3), pop: 10 },
   'clock-worksheets': { type: 'worksheet', grades: range(1, 3), pop: 6 },
+  'math-order-puzzles': { type: 'worksheet', grades: range(0, 3), pop: 7 },
   'fractions-worksheets': { type: 'worksheet', grades: range(2, 5), pop: 6 },
   'count-and-write': { type: 'worksheet', grades: range(0, 1), pop: 5 },
   numbers: { type: 'worksheet', grades: range(0, 1), pop: 6 },

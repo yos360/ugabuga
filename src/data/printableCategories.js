@@ -31,6 +31,7 @@ export const categories = [
   { slug: 'fortune-teller', href: '/printables/fortune-teller', emoji: '🌸', title: 'קוטי פוטי', count: 'חדש', desc: 'תבנית לקיפול עם משפטים מוכנים או שלכם' },
   { slug: 'gift-box', href: '/printables/gift-box', emoji: '🎁', title: 'קופסת מתנה לקיפול', count: 'חדש', desc: 'קופסה עם מכסה, דוגמה ושם המקבל' },
   { slug: 'math-worksheets', href: '/printables/math-worksheets', emoji: '➕', title: 'דפי עבודה בחשבון לכיתה א׳', count: 'חדש', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים — דף חדש בכל לחיצה, עם פתרונות', special: true },
+  { slug: 'math-order-puzzles', href: '/printables/math-order-puzzles', emoji: '🧩', title: 'פותרים ומסדרים', count: 'חדש', desc: 'פותרים תרגילים ומסדרים את התוצאות מהקטן לגדול על ציור — רכבת, מדרגות, זחל, טיל ועוד', special: true },
   { slug: 'multiplication-strips', href: '/printables/multiplication-strips', emoji: '✖️', title: 'סרגלי כפולות', count: 'חדש', desc: 'רצועה לכל מספר 1–10: עם תשובות, לתרגול או עם תשובות מתקפלות', special: true },
   { slug: 'number-strip', href: '/printables/number-strip', emoji: '🔢', title: 'סרגל מספרים לשולחן', count: 'חדש', desc: 'ישר מספרים עד 20 עם נקודות במסגרת עשר וסרגל ס״מ אמיתי', special: true },
   { slug: 'letter-strip', href: '/printables/letter-strip', emoji: '📏', title: 'סרגל אותיות', count: 'חדש', desc: 'א׳–ת׳ בדפוס ובכתב, עם סופיות ותמונות — לגזור ולהדביק על השולחן', special: true },

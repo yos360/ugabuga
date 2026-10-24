@@ -83,6 +83,7 @@ const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
 const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'))
 const SensoryCommunicationCards = lazy(() => import('./pages/printables/SensoryCommunicationCards'))
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
+const MathOrderPuzzles = lazy(() => import('./pages/printables/MathOrderPuzzles'))
 const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorksheetPacks'))
 const SingularPluralWorkbook = lazy(() => import('./pages/printables/SingularPluralWorkbook'))
 const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
@@ -570,6 +571,8 @@ export default function App() {
               <Route path="/printables/math-worksheets/up-to-20" element={<MathWorksheets key="20" preset="20" />} />
               <Route path="/printables/math-worksheets/:slug" element={<MathWorksheets key="slug" />} />
               <Route path="/printables/math-paths" element={<MathWorksheets key="paths" preset="paths" />} />
+              <Route path="/printables/math-order-puzzles" element={<MathOrderPuzzles />} />
+              <Route path="/printables/math-order-puzzles/:slug" element={<MathOrderPuzzles />} />
               <Route path="/letters" element={<LettersHub />} />
               <Route path="/letters/game" element={<LettersGamePage key="he" lang="he" />} />
               <Route path="/letters/song" element={<HebrewLetterSong />} />

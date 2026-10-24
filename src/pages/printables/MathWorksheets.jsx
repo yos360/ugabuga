@@ -194,7 +194,7 @@ export default function MathWorksheets({ preset: fixedPreset }) {
           is chosen with the "תחום" buttons below, so these links name whole pages, not ranges. */}
       {!isTable && <nav className="mb-6 flex flex-wrap items-center justify-center gap-2" aria-label="סוגי דפי עבודה">
         <span className="font-bold">דפים מוכנים:</span>
-        {[['10', 'חיבור וחיסור עד 10', '/printables/math-worksheets/up-to-10'], ['20', 'חיבור וחיסור עד 20', '/printables/math-worksheets/up-to-20'], ['paths', '🛤️ שבילים', '/printables/math-paths']].filter(([id]) => id !== preset).map(([id, label, href]) =>
+        {[['10', 'חיבור וחיסור עד 10', '/printables/math-worksheets/up-to-10'], ['20', 'חיבור וחיסור עד 20', '/printables/math-worksheets/up-to-20'], ['paths', '🛤️ שבילים', '/printables/math-paths'], ['order', '🧩 פותרים ומסדרים', '/printables/math-order-puzzles']].filter(([id]) => id !== preset).map(([id, label, href]) =>
           <Link key={id} to={href} className="rounded-full border-2 border-[var(--border)] bg-white px-4 py-1.5 font-bold">{label}</Link>)}
       </nav>}
 

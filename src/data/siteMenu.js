@@ -124,7 +124,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
     landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook', '/speech'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook', '/speech'],
     groups: [
       {
         title: 'חשבון', icon: '🧮', to: '/math',
@@ -133,6 +133,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/multiplication-table', label: 'לוח הכפל', icon: '✖️' },
           { to: '/learn/times-tables', label: 'תרגול לוח הכפל', icon: '⏱️' },
           { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
+          { to: '/printables/math-order-puzzles', label: 'פותרים ומסדרים', icon: '🧩' },
           { to: '/logic-puzzles', label: 'תשבצי היגיון', icon: '🧠' },
           { to: '/learn/gifted-test', label: 'הכנה למבחן מחוננים', icon: '💡' },
           { to: '/learn/psychometric-kids', label: 'פסיכומטרי לילדים', icon: '🎓' },

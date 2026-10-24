@@ -1398,6 +1398,11 @@ const PAGES = [
   // one page per age (/games/age/N, see GamesIndex)
   ...[4, 5, 6, 7, 8, 9, 10].map(a => ({ to: `/games/age/${a}`, title: `משחקים לגיל ${a}`, emoji: '🎲', kind: 'page', desc: `כל המשחקים שמתאימים לילדים בני ${a}.`, keys: `משחקים גיל ${a} בני ${a}`, ages: [a, a] })),
   { to: '/printables/math-paths', title: 'שבילים בחשבון לכיתה א׳', emoji: '🛤️', kind: 'tool', desc: 'משלימים מספרים ופעולות לאורך השביל.', keys: 'שבילים חשבון כיתה א דפי עבודה' },
+  { to: '/printables/math-order-puzzles', title: 'פותרים ומסדרים — דפי עבודה בחשבון', emoji: '🧩', kind: 'tool', desc: 'פותרים תרגילים ומסדרים את התוצאות מהקטן לגדול על ציור: רכבת, מדרגות, זחל, טיל ועוד.', keys: 'סדר מהקטן לגדול מהגדול לקטן סידור מספרים דף עבודה חשבון להדפסה חיבור חיסור עד 20 כיתה א גן חובה' },
+  { to: '/printables/math-order-puzzles/up-to-10', title: 'חיבור וחיסור עד 10 — פותרים ומסדרים', emoji: '🧩', kind: 'printable', desc: 'לגן חובה ולכיתה א׳: פותרים ומסדרים את התוצאות על ציור.', keys: 'חיבור עד 10 סדר מהקטן לגדול גן חובה כיתה א דף עבודה' },
+  { to: '/printables/math-order-puzzles/up-to-20', title: 'חיבור וחיסור עד 20 – מסדרים מהקטן לגדול', emoji: '🧩', kind: 'printable', desc: 'דפי עבודה לכיתה א׳: מעבר עשרת וסידור התוצאות על ציור.', keys: 'דפי עבודה חיבור וחיסור עד 20 סדר מהקטן לגדול דף עבודה חשבון כיתה א להדפסה' },
+  { to: '/printables/math-order-puzzles/up-to-100', title: 'חיבור וחיסור עד 100 — פותרים ומסדרים', emoji: '🧩', kind: 'printable', desc: 'לכיתה ב׳: מספרים דו-ספרתיים וסידור מהקטן לגדול.', keys: 'חיבור חיסור עד 100 סידור מספרים כיתה ב דף עבודה' },
+  { to: '/printables/math-order-puzzles/multiplication', title: 'כפל וחילוק — פותרים ומסדרים', emoji: '🧩', kind: 'printable', desc: 'לוח הכפל וחילוק בלי שארית, ואז סידור התוצאות.', keys: 'כפל לוח הכפל חילוק סידור מהקטן לגדול כיתה ג דף עבודה' },
   { to: '/printables/fine-motor', title: 'מוטוריקה עדינה – מחולל דפי תרגול', emoji: '✏️', kind: 'tool', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים לפי גיל.', keys: 'מבוך מבוכים עקיבה קווים דפוס מוטוריקה גן' },
   { to: '/game-of-the-day', title: 'משחק היום', emoji: '⭐', kind: 'page', keys: 'יומי' },
   { to: '/music/songs/happy-birthday', title: 'שירי יום הולדת', emoji: '🎵', kind: 'idea', keys: 'שיר שירים' },
