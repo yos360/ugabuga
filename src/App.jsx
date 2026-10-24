@@ -262,6 +262,7 @@ const AbcSong = lazy(() => import('./pages/letters/LetterSongs').then(m => ({ de
 const CursiveLetters = lazy(() => import('./pages/letters/CursiveLetters'))
 const OpeningSounds = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.OpeningSounds })))
 const NikudKamatzPatach = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.NikudKamatzPatach })))
+const SpeechMinimalPairs = lazy(() => import('./pages/speech/MinimalPairs'))
 const FinalLetters = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.FinalLetters })))
 const LetterStrip = lazy(() => import('./pages/printables/LetterStrip'))
 const TimesTableStrips = lazy(() => import('./pages/printables/MathDeskStrips').then(m => ({ default: m.TimesTableStrips })))
@@ -561,6 +562,7 @@ export default function App() {
               <Route path="/letters/song" element={<HebrewLetterSong />} />
               <Route path="/letters/cursive" element={<CursiveLetters />} />
               <Route path="/letters/sounds" element={<OpeningSounds />} />
+              <Route path="/speech/minimal-pairs" element={<SpeechMinimalPairs />} />
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
               <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/:slug" element={<LetterPage />} />
