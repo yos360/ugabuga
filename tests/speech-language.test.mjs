@@ -102,12 +102,7 @@ test('wh scenes: every scene covers every question word, three distinct answers 
 test('language section lists its pages under /speech/language', () => {
   const paths = LANGUAGE_PAGES.map(p => p.path)
   assert.deepEqual(paths.slice(0, 4), ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing'])
-  assert.ok(paths.includes('/speech/language/grammar'))
+  for (const p of ['/speech/language/grammar', '/speech/language/prepositions', '/speech/language/describing']) assert.ok(paths.includes(p), p)
   assert.equal(new Set(paths).size, paths.length)
-  for (const p of LANGUAGE_PAGES) assert.match(p.path, /^\/speech\/language\/[a-z-]+$/)
-test('language section pages under /speech/language', () => {
-  assert.deepEqual(LANGUAGE_PAGES.map(p => p.path), ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing', '/speech/language/prepositions'])
-  for (const p of ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing', '/speech/language/describing']) assert.ok(paths.includes(p), p)
-  assert.equal(new Set(paths).size, paths.length)
-  for (const p of LANGUAGE_PAGES) assert.ok(p.path.startsWith('/speech/language/') && p.id && p.title && p.emoji && p.desc, p.path)
+  for (const p of LANGUAGE_PAGES) assert.ok(/^\/speech\/language\/[a-z-]+$/.test(p.path) && p.id && p.title && p.emoji && p.desc, p.path)
 })
