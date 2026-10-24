@@ -99,6 +99,10 @@ test('wh scenes: every scene covers every question word, three distinct answers 
   for (const c of ANY_BOOK) assert.ok(whById[c.w] && c.t.endsWith('?'))
 })
 
-test('language section lists four pages under /speech/language', () => {
-  assert.deepEqual(LANGUAGE_PAGES.map(p => p.path), ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing'])
+test('language section lists its pages under /speech/language', () => {
+  const paths = LANGUAGE_PAGES.map(p => p.path)
+  assert.deepEqual(paths.slice(0, 4), ['/speech/language/categories', '/speech/language/wh-questions', '/speech/language/directions', '/speech/language/sequencing'])
+  assert.ok(paths.includes('/speech/language/grammar'))
+  assert.equal(new Set(paths).size, paths.length)
+  for (const p of LANGUAGE_PAGES) assert.match(p.path, /^\/speech\/language\/[a-z-]+$/)
 })

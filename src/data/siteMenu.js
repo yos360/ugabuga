@@ -177,6 +177,7 @@ export const MENU_DOMAINS = [
           { to: '/speech/language/wh-questions', label: 'שאלות מי, מה, איפה, למה', icon: '❓' },
           { to: '/speech/language/directions', label: 'הוראות בשלבים — תרגול הקשבה', icon: '🎧' },
           { to: '/speech/language/sequencing', label: 'סיפור ברצף — כרטיסי רצף', icon: '🧩' },
+          { to: '/speech/language/grammar', label: 'דקדוק לגן: יחיד ורבים, זכר ונקבה', icon: '🧱' },
           { to: '/speech/parents/language-milestones', label: 'התפתחות שפה לפי גיל', icon: '👶' },
           { to: '/speech/parents/sound-acquisition', label: 'באיזה גיל אומרים כל צליל', icon: '🔤' },
           { to: '/speech/parents/stuttering', label: 'גמגום אצל ילדים — מידע להורים', icon: '💬' },
