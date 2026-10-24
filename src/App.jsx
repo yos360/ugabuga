@@ -153,6 +153,7 @@ const TeacherTemplatePage = lazy(() => import('./pages/printables/TeacherTemplat
 const SpeechHub = lazy(() => import('./pages/speech/SpeechHub'))
 const SpeechSoundPage = lazy(() => import('./pages/speech/SoundPage'))
 const SpeechCardMaker = lazy(() => import('./pages/speech/CardMaker'))
+const SpeechAac = lazy(() => import('./pages/speech/AacBoards'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
@@ -639,6 +640,7 @@ export default function App() {
               <Route path="/printables/teacher-templates/:slug" element={<TeacherTemplatePage />} />
               <Route path="/speech" element={<SpeechHub />} />
               <Route path="/speech/card-maker" element={<SpeechCardMaker />} />
+              <Route path="/speech/aac" element={<SpeechAac />} />
               <Route path="/speech/sounds/r" element={<SpeechSoundPage key="r" id="r" />} />
               <Route path="/speech/sounds/s" element={<SpeechSoundPage key="s" id="s" />} />
               <Route path="/speech/sounds/sh" element={<SpeechSoundPage key="sh" id="sh" />} />
