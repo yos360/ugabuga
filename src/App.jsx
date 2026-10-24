@@ -144,6 +144,8 @@ const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
 const HebrewCalendarPage = lazy(() => import('./pages/tools/HebrewCalendar'))
 const OmerCount = lazy(() => import('./pages/tools/OmerCount'))
 const LandingGuide = lazy(() => import('./pages/content/LandingGuide'))
+const SpeechLanguageMilestones = lazy(() => import('./pages/speech/parents/LanguageMilestones'))
+const SpeechSoundAcquisition = lazy(() => import('./pages/speech/parents/SoundAcquisition'))
 const StarOfTheWeek = lazy(() => import('./pages/printables/StarOfTheWeek'))
 const TeacherTemplatesHub = lazy(() => import('./pages/printables/TeacherTemplates'))
 const TeacherTemplatePage = lazy(() => import('./pages/printables/TeacherTemplates').then(m => ({ default: m.TeacherTemplatePage })))
@@ -956,6 +958,8 @@ export default function App() {
               <Route path="/crafts" element={<LandingGuide />} />
               <Route path="/learn/english/by-grade" element={<LandingGuide />} />
               <Route path="/family/baby-development" element={<LandingGuide />} />
+              <Route path="/speech/parents/language-milestones" element={<SpeechLanguageMilestones />} />
+              <Route path="/speech/parents/sound-acquisition" element={<SpeechSoundAcquisition />} />
               <Route path="/tools/quadratic-equation" element={<QuadraticSolver />} />
               <Route path="/hebrew-calendar/:year" element={<HebrewCalendarPage />} />
               <Route path="/card-games" element={<CardGamesHub />} />

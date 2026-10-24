@@ -1,0 +1,25 @@
+/* /speech/parents pages: the age timeline and the one-page A4 summaries (inside .buga-a4). */
+.spk-bar-track{position:relative;height:14px;border-radius:999px;background:#eef0f4}
+.spk-bar-late{position:absolute;top:0;bottom:0;border-radius:999px;opacity:.28}
+.spk-bar{position:absolute;top:0;bottom:0;border-radius:999px}
+.spk-axis{position:relative;height:18px;font-size:12px;color:#5b6475}
+.spk-axis span{position:absolute;transform:translateX(50%);white-space:nowrap}
+
+.buga-a4.spk-sheet{align-items:stretch;padding:9mm 10mm;font-size:10.5pt;line-height:1.4;text-align:right;gap:0}
+.buga-a4.spk-sheet.spk-band{font-size:12pt}
+.spk-band .spk-box h3{font-size:12.5pt}
+.spk-sheet h2{font-size:17pt!important;margin:0 0 1mm!important;text-align:right!important}
+.spk-sheet .spk-sub{margin:0 0 3mm;color:#444;font-size:10pt}
+.spk-sheet .spk-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm}
+.spk-sheet .spk-box{border:.35mm solid #9aa3b2;border-radius:2.5mm;padding:2mm 3mm}
+.spk-sheet .spk-box h3{font-size:11.5pt;margin:0 0 1mm;font-weight:800}
+.spk-sheet ul{margin:0;padding:0 4mm 0 0;list-style:disc}
+.spk-sheet li{margin:0 0 .6mm}
+.spk-sheet .spk-wide{grid-column:1 / -1}
+.spk-sheet .spk-consult{border:.6mm solid #111;background:#fff8e1}
+.spk-sheet .spk-foot{margin-top:2.5mm;font-size:8.6pt;color:#333;border-top:.3mm solid #ccc;padding-top:1.5mm}
+.spk-sheet table{width:100%;border-collapse:collapse;font-size:10.5pt}
+.spk-sheet th,.spk-sheet td{border:.3mm solid #9aa3b2;padding:1.4mm 2mm;text-align:right;vertical-align:top}
+.spk-sheet thead th{background:#f1f3f7}
+.spk-sheet .spk-letter{font-size:15pt;font-weight:800;white-space:nowrap}
+@media print{.spk-sheet .spk-consult{print-color-adjust:exact}}
