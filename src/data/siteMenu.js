@@ -162,6 +162,8 @@ export const MENU_DOMAINS = [
           { to: '/speech/sounds/r', label: 'תרגול האות ר׳', icon: '🚂' },
           { to: '/speech/sounds/s', label: 'תרגול האות ס׳', icon: '🐴' },
           { to: '/speech/sounds/sh', label: 'תרגול האות ש׳', icon: '☀️' },
+          { to: '/speech/sounds/ts', label: 'תרגול האות צ׳', icon: '🐢' },
+          { to: '/speech/sounds/z', label: 'תרגול האות ז׳', icon: '🦓' },
           { to: '/speech/sounds/l', label: 'תרגול האות ל׳', icon: '🍋' },
           { to: '/speech/sounds/ch', label: 'תרגול האות ח׳', icon: '🐈' },
           { to: '/speech/card-maker', label: 'מחולל כרטיסיות היגוי', icon: '🃏' },

@@ -34,9 +34,9 @@ export const SOUNDS = [
     swaps: [{ said: 'תבון', target: 'סבון', text: 'ס מוחלפת ב־ת (סתימה, בגילים הצעירים)' }] },
   { id: 'sh', letters: 'ש', ipa: 'ʃ', group: 'late', from: 4, to: 6, late: 7, page: '/speech/sounds/sh', example: { word: 'שמש', emoji: '☀️' },
     swaps: [{ said: 'סמס', target: 'שמש', text: 'ש מוחלפת ב־ס' }] },
-  { id: 'ts', letters: 'צ', ipa: 'ts', group: 'late', from: 4, to: 6, late: 7, example: { word: 'צב', emoji: '🐢' },
+  { id: 'ts', letters: 'צ', ipa: 'ts', group: 'late', from: 4, to: 6, late: 7, page: '/speech/sounds/ts', example: { word: 'צב', emoji: '🐢' },
     swaps: [{ said: 'תב', target: 'צב', text: 'צ מוחלפת ב־ת' }] },
-  { id: 'z', letters: 'ז', ipa: 'z', group: 'late', from: 4, to: 6, late: 7, example: { word: 'זברה', emoji: '🦓' },
+  { id: 'z', letters: 'ז', ipa: 'z', group: 'late', from: 4, to: 6, late: 7, page: '/speech/sounds/z', example: { word: 'זברה', emoji: '🦓' },
     swaps: [{ said: 'דברה', target: 'זברה', text: 'ז מוחלפת ב־ד' }] },
 ]
 

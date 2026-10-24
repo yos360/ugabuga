@@ -57,6 +57,8 @@ export const SOUNDS = [
   { id: 's', sound: 'ס', label: 'ס׳ / שׂ', path: '/speech/sounds/s', emoji: '🐴', load: () => import('./sound-s.js') },
   { id: 'sh', sound: 'ש', label: 'ש׳', path: '/speech/sounds/sh', emoji: '☀️', load: () => import('./sound-sh.js') },
   { id: 'ch', sound: 'ח', label: 'ח׳ / כ', path: '/speech/sounds/ch', emoji: '🐈', load: () => import('./sound-ch.js') },
+  { id: 'ts', sound: 'צ', label: 'צ׳', path: '/speech/sounds/ts', emoji: '🐢', load: () => import('./sound-ts.js') },
+  { id: 'z', sound: 'ז', label: 'ז׳', path: '/speech/sounds/z', emoji: '🦓', load: () => import('./sound-z.js') },
 ]
 
 export const soundMeta = id => SOUNDS.find(s => s.id === id) || null

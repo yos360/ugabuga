@@ -642,6 +642,8 @@ export default function App() {
               <Route path="/speech/sounds/r" element={<SpeechSoundPage key="r" id="r" />} />
               <Route path="/speech/sounds/s" element={<SpeechSoundPage key="s" id="s" />} />
               <Route path="/speech/sounds/sh" element={<SpeechSoundPage key="sh" id="sh" />} />
+              <Route path="/speech/sounds/ts" element={<SpeechSoundPage key="ts" id="ts" />} />
+              <Route path="/speech/sounds/z" element={<SpeechSoundPage key="z" id="z" />} />
               <Route path="/speech/sounds/l" element={<SpeechSoundPage key="l" id="l" />} />
               <Route path="/speech/sounds/ch" element={<SpeechSoundPage key="ch" id="ch" />} />
               <Route path="/printables/reward-chart" element={<HomeChart key="reward-chart" preset="reward-chart" />} />
