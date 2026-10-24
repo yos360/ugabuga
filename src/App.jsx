@@ -118,6 +118,7 @@ const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
 const DictionaryHub = lazy(() => import('./pages/dictionary/Dictionary').then(m => ({ default: m.DictionaryHub })))
 const DictionaryLetter = lazy(() => import('./pages/dictionary/Dictionary').then(m => ({ default: m.DictionaryLetter })))
+const ClockChange = lazy(() => import('./pages/learn/ClockChange'))
 const UnseenHub = lazy(() => import('./pages/unseen/Unseen').then(m => ({ default: m.UnseenHub })))
 const UnseenRoute = lazy(() => import('./pages/unseen/Unseen').then(m => ({ default: m.UnseenRoute })))
 const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingIndex })))
@@ -657,6 +658,7 @@ export default function App() {
               <Route path="/learn/dictation/english" element={<DictationEnglish />} />
               <Route path="/dictionary" element={<DictionaryHub />} />
               <Route path="/dictionary/english/:letter" element={<DictionaryLetter />} />
+              <Route path="/learn/clock-change" element={<ClockChange />} />
               <Route path="/unseen" element={<UnseenHub />} />
               <Route path="/unseen/:lang" element={<UnseenRoute />} />
               <Route path="/unseen/:lang/:x" element={<UnseenRoute />} />

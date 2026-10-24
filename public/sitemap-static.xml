@@ -1620,6 +1620,7 @@
   <url><loc>https://ugabuga.co.il/adults/crosswords/11-2</loc><lastmod>2026-10-22</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/adults/crosswords/11-3</loc><lastmod>2026-10-22</lastmod><priority>0.6</priority></url>
   <!-- adults:end -->
+  <url><loc>https://ugabuga.co.il/learn/clock-change</loc><lastmod>2026-10-24</lastmod><priority>0.8</priority></url>
   <!-- unseen:start (scripts/generate-unseen.mjs) -->
   <url><loc>https://ugabuga.co.il/unseen</loc><lastmod>2026-10-24</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/unseen/english</loc><lastmod>2026-10-24</lastmod><priority>0.8</priority></url>
