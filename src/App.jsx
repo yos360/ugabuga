@@ -267,6 +267,9 @@ const NikudKamatzPatach = lazy(() => import('./pages/letters/LetterPractice').th
 const SpeechMinimalPairs = lazy(() => import('./pages/speech/MinimalPairs'))
 const SpeechDirections = lazy(() => import('./pages/speech/language/Directions'))
 const SpeechSequencing = lazy(() => import('./pages/speech/language/Sequencing'))
+const SpeechLanguageHub = lazy(() => import('./pages/speech/LanguageHub'))
+const SpeechLanguageCategories = lazy(() => import('./pages/speech/LanguageCategories'))
+const SpeechLanguageWhQuestions = lazy(() => import('./pages/speech/LanguageWhQuestions'))
 const FinalLetters = lazy(() => import('./pages/letters/LetterPractice').then(m => ({ default: m.FinalLetters })))
 const LetterStrip = lazy(() => import('./pages/printables/LetterStrip'))
 const TimesTableStrips = lazy(() => import('./pages/printables/MathDeskStrips').then(m => ({ default: m.TimesTableStrips })))
@@ -569,6 +572,9 @@ export default function App() {
               <Route path="/speech/minimal-pairs" element={<SpeechMinimalPairs />} />
               <Route path="/speech/language/directions" element={<SpeechDirections />} />
               <Route path="/speech/language/sequencing" element={<SpeechSequencing />} />
+              <Route path="/speech/language" element={<SpeechLanguageHub />} />
+              <Route path="/speech/language/categories" element={<SpeechLanguageCategories />} />
+              <Route path="/speech/language/wh-questions" element={<SpeechLanguageWhQuestions />} />
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
               <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/:slug" element={<LetterPage />} />

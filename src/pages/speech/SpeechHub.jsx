@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import QuickAnswer from '../../components/ui/QuickAnswer'
 import { PLANNED_SOUNDS, SOUNDS } from '../../data/speech/sounds'
 import SpeechNote from './SpeechNote'
+import { LANGUAGE_HUB, LANGUAGE_PAGES } from '../../data/speech/language'
 
 // /speech — hub of the speech-therapy practice category: sounds (from the registry), tools,
 // information for parents, and existing site pages for phonological awareness and communication.
@@ -49,6 +50,7 @@ export default function SpeechHub() {
     <QuickAnswer q="איפה מוצאים חומרים לקלינאית תקשורת בעברית?"
       a="כאן: לכל צליל יש עמוד עם מילים בתחילת המילה, באמצע ובסוף, צירופים, הברות, משפטים וסיפור — עם שמע ומצב תרגול — ודפי עבודה להדפסה: כרטיסיות עם תמונות, בינגו, לוטו, זיכרון וטבלת תרגול בבית. המחולל משלב כמה צלילים באותו דף."
       rows={[['צלילים', `${SOUNDS.map(s => s.label).join(', ')} — ועוד בקרוב`], ['כלים', 'מחולל כרטיסיות, זוגות מינימליים, לוחות תקשורת תת״ח'], ['להורים', 'התפתחות שפה לפי גיל, גיל רכישת הצלילים'], ['מחיר', 'חינם, בלי הרשמה']]}
+      rows={[['צלילים', `${SOUNDS.map(s => s.label).join(', ')} — ועוד בקרוב`], ['כלים', 'מחולל כרטיסיות, זוגות מינימליים'], ['שפה', 'קטגוריות, שאלות מי/מה/איפה, הוראות, רצף וסיפור'], ['להורים', 'התפתחות שפה לפי גיל, גיל רכישת הצלילים'], ['מחיר', 'חינם, בלי הרשמה']]}
       updated="2026-10-24" />
     <SpeechNote />
 
@@ -72,6 +74,12 @@ export default function SpeechHub() {
     <section aria-labelledby="sp-tools" className="mt-10">
       <h2 id="sp-tools" className="mb-4 text-center text-3xl font-black">🧰 כלים לקלינאית</h2>
       <div className="grid gap-4 sm:grid-cols-2">{TOOLS.map(Card)}</div>
+    </section>
+
+    <section aria-labelledby="sp-language" className="mt-10">
+      <h2 id="sp-language" className="mb-2 text-center text-3xl font-black">💬 שפה</h2>
+      <p className="mb-4 text-center text-[var(--muted-foreground)]">אוצר מילים, הבנת שאלות והוראות, ורצף וסיפור — <Link to={LANGUAGE_HUB} className="font-bold underline">כל עמודי השפה</Link></p>
+      <div className="grid gap-4 sm:grid-cols-2">{LANGUAGE_PAGES.map(p => Card([p.emoji, p.title, p.desc, p.path]))}</div>
     </section>
 
     <section aria-labelledby="sp-parents" className="mt-10">
