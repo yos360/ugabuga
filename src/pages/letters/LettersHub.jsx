@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SpeakButton from '../../components/ui/SpeakButton'
 import { HEBREW } from '../../data/letterLearning'
+import SponsorBanner from '../../components/ui/SponsorBanner'
 
 const faq = [
   { q: 'באיזה סדר כדאי ללמד אותיות בעברית?', a: 'אין חובה ללמד לפי סדר הא״ב. הרבה גננות ומורות מתחילות מאותיות שבשם של הילד ובמילים שהוא אוהב, ואז מוסיפות אות־שתיים בשבוע. מה שחשוב הוא לחזור הרבה ובקצרה.' },
@@ -83,6 +84,8 @@ export default function LettersHub() {
           <Link to="/abc/game" className="inline-block rounded-xl border-2 border-slate-800 bg-cyan-100 px-5 py-2 font-bold">🔤 משחק חזרה על אותיות באנגלית ←</Link>
         </div>
       </div>
+
+      <SponsorBanner />
 
       <SeoBody
         paragraphs={[

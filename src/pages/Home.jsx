@@ -9,6 +9,7 @@ import { SITE_SLOGAN } from '../data/brand'
 import { ElectionChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
+import SponsorBanner from '../components/ui/SponsorBanner'
 
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
 // Each destination appears once. The holiday card and the blog list load after the first paint.
@@ -185,10 +186,11 @@ export default function Home() {
       <div><h2 className="hp-h3">✨ חדש באתר</h2><ul>{NEW.map(([e, t, to]) => <li key={to}><Link to={to}><span aria-hidden="true">{e}</span> {t}</Link></li>)}</ul></div>
       <div><h2 className="hp-h3">📰 מהבלוג</h2><ul>{posts.map(p => <li key={p.slug}><Link to={`/blog/${p.slug}`}><span aria-hidden="true">{p.emoji}</span> {p.title}</Link></li>)}</ul><Link className="hp-more" to="/blog">לכל הפוסטים ←</Link></div>
     </section>
+    <SponsorBanner />
     <footer className="hp-footer">
       <div className="hp-foot-news"><b>קצת השראה, פעם בשבוע</b><span>עד שלושה רעיונות למשחק, יצירה וזמן ביחד</span><Link to="/mail-preferences">להרשמה ←</Link></div>
       <div className="hp-foot-bottom">
-        <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<a href="mailto:hellobugabuga@gmail.com">צרו קשר</a></nav>
+        <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['פרסום באתר', '/advertise'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<a href="mailto:hellobugabuga@gmail.com">צרו קשר</a></nav>
         <SocialIcons />
       </div>
     </footer>

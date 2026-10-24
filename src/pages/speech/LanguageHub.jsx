@@ -6,6 +6,7 @@ import QuickAnswer from '../../components/ui/QuickAnswer'
 import SpeechNote from './SpeechNote'
 import { Guide, Li } from './languageShared'
 import { LANGUAGE_HUB, LANGUAGE_PAGES } from '../../data/speech/language'
+import SponsorBanner from '../../components/ui/SponsorBanner'
 
 // /speech/language — hub of the language section: categories, wh-questions, directions and
 // sequencing, plus short guidance on language (as opposed to speech-sound) practice.
@@ -71,6 +72,8 @@ export default function LanguageHub() {
         {MORE.map(([e, t, href]) => <Link key={href} to={href} className="flex min-h-[52px] items-center gap-3 rounded-xl border-2 border-slate-200 bg-white px-4 py-2 font-bold hover:border-slate-500"><span className="text-2xl" aria-hidden="true">{e}</span>{t}</Link>)}
       </div>
     </section>
+
+    <SponsorBanner />
 
     <div className="mx-auto mt-12 max-w-3xl">
       <SeoBody paragraphs={[

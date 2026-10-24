@@ -1436,6 +1436,7 @@ const PAGES = [
   { to: '/chess/printable-board', title: 'לוח שחמט להדפסה + כלים לגזירה', emoji: '🖨️', kind: 'printable', desc: 'לוח A4, כלים לגזירה ודף עזר.', keys: 'לוח שחמט להדפסה לוח שחמט כלי שחמט להדפסה שחמט להדפסה' },
   { to: '/faq', title: 'שאלות נפוצות', emoji: '❓', kind: 'page', keys: 'עזרה' },
   { to: '/about', title: 'אודות עוגה בוגה', emoji: '🎂', kind: 'page', keys: 'קשר מי אנחנו' },
+  { to: '/advertise', title: 'פרסום בעוגה בוגה', emoji: '📣', kind: 'page', desc: 'פרסום מסומן ומותאם נושא להורים, גננות ומורות.', keys: 'פרסום באתר פרסומת מודעה באנר חסות שיתוף פעולה עסקים מפרסמים' },
 ]
 
 const TOOL_DESC = {

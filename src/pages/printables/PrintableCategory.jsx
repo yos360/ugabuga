@@ -7,6 +7,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import { useEffect, useState } from 'react'
 import HebrewTracing from '../../components/ui/HebrewTracing'
 import NumberTracing from '../../components/ui/NumberTracing'
+import SponsorBanner from '../../components/ui/SponsorBanner'
 
 const HEBREW_LETTERS = [
   ['alef','א'],['bet','ב'],['gimel','ג'],['dalet','ד'],['he','ה'],['vav','ו'],['zayin','ז'],
@@ -139,9 +140,9 @@ export default function PrintableCategory() {
     )
   }
 
-  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
+  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/><SponsorBanner/></div>
   if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
-  if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers" structuredData={schema}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-4 text-center">{cat.desc}</p><Intro copy={copy}/><NumberTracing/><CategoryCopy copy={copy} title={cat.title}/></div>
+  if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers" structuredData={schema}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-4 text-center">{cat.desc}</p><Intro copy={copy}/><NumberTracing/><SponsorBanner/><CategoryCopy copy={copy} title={cat.title}/></div>
 
   const printAll = () => setSelected(cat.files)
 
@@ -175,6 +176,7 @@ export default function PrintableCategory() {
           🖨️ הדפיסו הכול ({cat.files.length} דפים)
         </button>
       </div>
+      <SponsorBanner />
       <CategoryCopy copy={copy} title={cat.title} />
     </div>
   )

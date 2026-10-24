@@ -11,6 +11,7 @@ import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
 import SocialShares from '../components/owner/SocialShares'
+import SponsorClicks from '../components/owner/SponsorClicks'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 import OwnerTakedown from '../components/owner/OwnerTakedown'
 
@@ -42,6 +43,7 @@ function rangeBounds(id) {
   return [dayBounds(1 - Number(id)), later]
 }
 function label(category) {
+  if (String(category || '').startsWith('sponsor:')) return `📣 באנר: ${category.slice(8)}`
   return ACTIVITY_LABELS[category] || category || 'לא ידוע'
 }
 function fmtTime(sec) {
@@ -599,6 +601,7 @@ export default function OwnerActivityReport() {
         </> },
           { id: 'takedown', title: '🗑️ הסרת תוכן שדווח', preview: [<span key="t">מדביקים קישור לתוכן של גולשים ומוחקים אותו</span>], render: () => <OwnerTakedown /> },
           { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
+          { id: 'sponsors', title: '📣 לחיצות על באנרים', preview: [<span key="b">כמה לחצו על באנר הפרסומת (למשל אאורקה) בתקופה שנבחרה</span>], render: () => <SponsorClicks from={from} to={to} tick={tick} pageName={pageName} /> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
           { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true, rsvpTitles), render: () => <>
         <div className="overflow-x-auto">

@@ -55,6 +55,7 @@ export default function Footer() {
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">✉️ hellohugabuga@gmail.com</a>
           <p className="mt-2">💛 רעיון למשחק? תיקון? משוב? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
           <p className="mt-2">🎪 נותנים שירות לימי הולדת? <Link to="/suppliers/me" className="underline decoration-dashed">הצטרפו למאגר הספקים בחינם</Link></p>
+          <p className="mt-2">📣 רוצים להגיע להורים ולגננות? <Link to="/advertise" className="underline decoration-dashed">פרסום בעוגה בוגה</Link></p>
           <p className="mt-4 text-[var(--muted-foreground)]">עוגה בוגה 🎂 {SITE_SLOGAN} · כל הזכויות שמורות.</p>
         </div>
       </div>
