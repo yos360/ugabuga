@@ -9,6 +9,7 @@ import PrintPreview from '../ui/PrintPreview'
 // SEO + breadcrumbs + one h1, a controls area, an on-screen preview of the first sheet,
 // one print button that opens PrintPreview with every sheet, and long-form SEO copy.
 // `pages` is an array of { key, svg } — each svg is drawn in a 200×270 (mm-like) box.
+// Optional `lead` sits under the subtitle (e.g. a QuickAnswer); `children` go between the preview and the SEO copy.
 export function Sheet({ children, w = 200, h = 270, label }) {
   return (
     <svg viewBox={`0 0 ${w} ${h}`} xmlns="http://www.w3.org/2000/svg" role="img" aria-label={label}
@@ -47,7 +48,7 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
 
 const sheets = (list, sheetClassName = '', en = false) => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>{en ? 'Ugabuga' : 'עוגה בוגה'} · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath, lead, children }) {
   const en = lang === 'en'
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
@@ -58,6 +59,7 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
       <Breadcrumbs lang={lang} items={[...(en ? [{label: 'Home', href: '/en'}] : [{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }]), ...crumbs, { label: h1 }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{emoji} </span>{h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{sub}</p>
+      {lead}
 
       {siblings.length > 0 && (
         <nav aria-label={en ? 'Related pages' : 'דפים נוספים מאותה משפחה'} className="mb-6 flex flex-wrap justify-center gap-2">
@@ -92,6 +94,8 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
           {sheets(pages, sheetClassName, en)}
         </PrintPreview>
       )}
+
+      {children}
 
       <div className="mt-12">
         <SeoBody lang={lang} paragraphs={paragraphs} faq={faq} related={related} />

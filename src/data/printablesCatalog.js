@@ -28,6 +28,7 @@ const SHEET_EXTRA = {
   'hebrew-letters': { type: 'worksheet', grades: range(0, 1), pop: 8 },
   'letter-strip': { type: 'organizer', grades: range(0, 1), pop: 4 },
   'letter-flashcards': { type: 'worksheet', grades: range(0, 1), pop: 6 },
+  'sensory-communication-cards': { type: 'organizer', grades: range(0, 2), pop: 5 },
   'word-tracing': { type: 'worksheet', grades: range(0, 1), pop: 5 },
   'match-word': { type: 'worksheet', grades: range(0, 2), pop: 4 },
   opposites: { type: 'worksheet', grades: range(1, 3), pop: 4 },

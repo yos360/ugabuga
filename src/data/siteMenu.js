@@ -248,6 +248,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/printables/hebrew-letters#names', label: 'דף שם לכל ילד בכיתה', icon: '🧒' },
           { to: '/printables/allergy-signs', label: 'שלטי אלרגיה ומדבקות', icon: '🥜' },
+          { to: '/printables/sensory-communication-cards', label: 'כרטיסיות ויסות, תקשורת וסדר יום', icon: '🧩' },
           { to: '/printables/lunchbox-notes', label: 'פתקים לקופסת האוכל', icon: '💌' },
           { to: '/printables/school-supplies-list', label: 'רשימת ציוד לבית הספר', icon: '📝' },
         ],

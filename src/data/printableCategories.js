@@ -30,6 +30,7 @@ export const categories = [
   { slug: 'gift-box', href: '/printables/gift-box', emoji: '🎁', title: 'קופסת מתנה לקיפול', count: 'חדש', desc: 'קופסה עם מכסה, דוגמה ושם המקבל' },
   { slug: 'math-worksheets', href: '/printables/math-worksheets', emoji: '➕', title: 'דפי עבודה בחשבון לכיתה א׳', count: 'חדש', desc: 'חיבור וחיסור עד 10 ועד 20, מספר חסר, במאונך ושבילים — דף חדש בכל לחיצה, עם פתרונות', special: true },
   { slug: 'letter-strip', href: '/printables/letter-strip', emoji: '📏', title: 'סרגל אותיות', count: 'חדש', desc: 'א׳–ת׳ בדפוס ובכתב, עם סופיות ותמונות — לגזור ולהדביק על השולחן', special: true },
+  { slug: 'sensory-communication-cards', href: '/printables/sensory-communication-cards', emoji: '🧩', title: 'כרטיסיות ויסות, תקשורת וסדר יום', count: 'חדש', desc: 'כרטיסי הרגעה, חושים, לוח תקשורת ורגשות, סדר יום, בקשת עזרה והליכת חיות — לגן ולחינוך המיוחד', special: true },
   { slug: 'letter-flashcards', href: '/printables/letter-flashcards', emoji: '🃏', title: 'כרטיסיות אותיות', count: 'חדש', desc: 'א׳–ת׳ ו־A–Z עם תמונה ומילה, 8 כרטיסיות בדף לגזירה', special: true },
   { slug: 'letters', href: '/letters', emoji: '🔤', title: 'לימוד אותיות בעברית', count: 22, desc: 'עמוד לכל אות: איך כותבים, מילים, משחק ודף תרגול', special: true },
   { slug: 'fine-motor', emoji: '✏️', title: 'מוטוריקה עדינה – מחולל', count: 'חדש', desc: 'מבוכים, עקיבה אחרי קווים והמשך דפוסים – דף חדש בכל לחיצה, לפי גיל ונושא', special: true },

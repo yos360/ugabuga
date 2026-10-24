@@ -81,6 +81,7 @@ const ColoringPages = lazy(() => import('./pages/printables/ColoringPages'))
 const MandalaStudio = lazy(() => import('./pages/printables/MandalaStudio'))
 const FineMotorStudio = lazy(() => import('./pages/printables/FineMotorStudio'))
 const LetterFlashcards = lazy(() => import('./pages/printables/LetterFlashcards'))
+const SensoryCommunicationCards = lazy(() => import('./pages/printables/SensoryCommunicationCards'))
 const MathWorksheets = lazy(() => import('./pages/printables/MathWorksheets'))
 const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorksheetPacks'))
 const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
@@ -528,6 +529,7 @@ export default function App() {
               <Route path="/printables/kindergarten-memory-book" element={<KindergartenMemoryBook />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
+              <Route path="/printables/sensory-communication-cards" element={<SensoryCommunicationCards />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
               <Route path="/printables/kindergarten-worksheets" element={<ReadingWorksheetPacks packId="kindergarten" />} />
               <Route path="/printables/hebrew-worksheets-grade-1" element={<ReadingWorksheetPacks packId="grade1" />} />
