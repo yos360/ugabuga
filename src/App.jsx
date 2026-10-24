@@ -642,6 +642,7 @@ export default function App() {
               <Route path="/speech/sounds/r" element={<SpeechSoundPage key="r" id="r" />} />
               <Route path="/speech/sounds/s" element={<SpeechSoundPage key="s" id="s" />} />
               <Route path="/speech/sounds/sh" element={<SpeechSoundPage key="sh" id="sh" />} />
+              <Route path="/speech/sounds/l" element={<SpeechSoundPage key="l" id="l" />} />
               <Route path="/printables/reward-chart" element={<HomeChart key="reward-chart" preset="reward-chart" />} />
               <Route path="/printables/toothbrushing-chart" element={<HomeChart key="toothbrushing-chart" preset="toothbrushing-chart" />} />
               <Route path="/printables/potty-chart" element={<HomeChart key="potty-chart" preset="potty-chart" />} />
