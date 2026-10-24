@@ -5,7 +5,6 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SpeakButton from '../../components/ui/SpeakButton'
 import { HEBREW } from '../../data/letterLearning'
-import SponsorBanner from '../../components/ui/SponsorBanner'
 
 const faq = [
   { q: 'באיזה סדר כדאי ללמד אותיות בעברית?', a: 'אין חובה ללמד לפי סדר הא״ב. הרבה גננות ומורות מתחילות מאותיות שבשם של הילד ובמילים שהוא אוהב, ואז מוסיפות אות־שתיים בשבוע. מה שחשוב הוא לחזור הרבה ובקצרה.' },
@@ -85,7 +84,6 @@ export default function LettersHub() {
         </div>
       </div>
 
-      <SponsorBanner />
 
       <SeoBody
         paragraphs={[

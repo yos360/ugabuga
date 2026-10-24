@@ -12,7 +12,6 @@ import {
 import '../../learn/learn.css'
 import '../../family/family.css'
 import './toddlers.css'
-import SponsorBanner from '../../components/ui/SponsorBanner'
 
 const HUB = { label: 'פעילויות לפעוטות', href: '/toddlers' }
 const HOME = { label: 'ראשי', href: '/' }
@@ -82,7 +81,6 @@ export function ToddlersHub() {
     <SafetyBox />
     <ScreenNote />
 
-    <SponsorBanner />
 
     <div className="mt-12"><SeoBody paragraphs={[
       'פעוטות לומדים דרך הידיים, הפה, הרגליים והאוזניים: כשהם שופכים מים מכוס לכוס, מפילים מגדל, מטפסים על כרית או שומעים את אותו שיר בפעם העשרים. הדף הזה מרכז פעילויות קצרות לגיל שנה, שנתיים ושלוש, כמעט כולן עם ציוד שכבר נמצא בבית.',
@@ -164,7 +162,6 @@ function AgePage({ age }) {
       </article>
     </PrintPreview>}
 
-    <SponsorBanner />
 
     <div className="mt-12"><SeoBody paragraphs={[
       `ריכזנו כאן ${all.length} משחקים ופעילויות ל${age.label} (${age.range}). ליד כל פעילות כתוב כמה זמן היא לוקחת, מה צריך ומה היא מפתחת, ואפשר לסנן לפי תחום — למשל רק פעילויות לשפה ודיבור או רק משחקי תנועה.`,

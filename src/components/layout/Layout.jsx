@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
+import SponsorBanner from '../ui/SponsorBanner'
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import ReturnNavigation from './ReturnNavigation'
@@ -86,6 +87,8 @@ export default function Layout({ children }) {
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
       {!presenting && <Suspense fallback={null}><EmojiRelated pathname={pathname} /></Suspense>}
       <PrintPreviewFigure pathname={pathname} />
+      {/* Sponsored card on matching topic pages (the home page places its own between sections). */}
+      {mounted && !presenting && pathname !== '/' && <div className="px-4"><SponsorBanner /></div>}
       {!presenting && <Footer />}
     </>
   )

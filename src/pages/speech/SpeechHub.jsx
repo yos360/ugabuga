@@ -6,7 +6,6 @@ import QuickAnswer from '../../components/ui/QuickAnswer'
 import { PLANNED_SOUNDS, SOUNDS } from '../../data/speech/sounds'
 import SpeechNote from './SpeechNote'
 import { LANGUAGE_HUB, LANGUAGE_PAGES } from '../../data/speech/language'
-import SponsorBanner from '../../components/ui/SponsorBanner'
 
 // /speech — hub of the speech-therapy practice category: sounds (from the registry), tools,
 // information for parents, and existing site pages for phonological awareness and communication.
@@ -109,7 +108,6 @@ export default function SpeechHub() {
       </ul>
     </section>
 
-    <SponsorBanner />
 
     <div className="mx-auto mt-12 max-w-3xl">
       <SeoBody paragraphs={[

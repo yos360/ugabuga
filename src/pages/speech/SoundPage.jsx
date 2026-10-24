@@ -10,7 +10,6 @@ import { speak } from '../../utils/speak'
 import { loadSound, soundMeta, itemsFor, plainHebrew, POSITIONS, LEVELS } from '../../data/speech/sounds'
 import SpeechNote from './SpeechNote'
 import { buildSheets, SheetsPreview, OUTPUTS, CARD_COUNTS } from './speechSheets'
-import SponsorBanner from '../../components/ui/SponsorBanner'
 
 // One page per speech sound (/speech/sounds/<id>), drawn entirely from its data file
 // (src/data/speech/sound-<id>.js): about the sound, words by position and level with audio,
@@ -166,7 +165,6 @@ export default function SoundPage({ id }) {
       </ul>
     </Section>
 
-    <SponsorBanner />
 
     <div className="mx-auto mt-12 max-w-3xl">
       <SeoBody faq={faq} related={[
