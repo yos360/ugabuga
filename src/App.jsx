@@ -270,6 +270,7 @@ const SpeechMinimalPairs = lazy(() => import('./pages/speech/MinimalPairs'))
 const SpeechDirections = lazy(() => import('./pages/speech/language/Directions'))
 const SpeechSequencing = lazy(() => import('./pages/speech/language/Sequencing'))
 const SpeechDescribing = lazy(() => import('./pages/speech/language/Describing'))
+const SpeechSocial = lazy(() => import('./pages/speech/language/Social'))
 const SpeechLanguageHub = lazy(() => import('./pages/speech/LanguageHub'))
 const SpeechLanguageCategories = lazy(() => import('./pages/speech/LanguageCategories'))
 const SpeechLanguageWhQuestions = lazy(() => import('./pages/speech/LanguageWhQuestions'))
@@ -578,6 +579,7 @@ export default function App() {
               <Route path="/speech/language/directions" element={<SpeechDirections />} />
               <Route path="/speech/language/sequencing" element={<SpeechSequencing />} />
               <Route path="/speech/language/describing" element={<SpeechDescribing />} />
+              <Route path="/speech/language/social" element={<SpeechSocial />} />
               <Route path="/speech/language" element={<SpeechLanguageHub />} />
               <Route path="/speech/language/categories" element={<SpeechLanguageCategories />} />
               <Route path="/speech/language/wh-questions" element={<SpeechLanguageWhQuestions />} />
