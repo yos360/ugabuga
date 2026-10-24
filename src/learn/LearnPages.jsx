@@ -268,7 +268,7 @@ function ReadingExercise({ r, headingLevel = 2 }) {
     {nikudState === 'loading' && <p className="mb-2 text-center" role="status">מנקדים את הקטע…</p>}
     {nikudState === 'error' && <p className="mb-2 text-center" role="alert">הניקוד לא זמין כרגע. נסו שוב בעוד רגע.</p>}
     {nikudState === 'ready' && <p className="mb-2 text-center text-sm text-[var(--muted-foreground)]">{NIKUD_NOTE}</p>}
-    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{v(p)} <SpeakButton text={p} say={r.say && applySay(p, r.say)} label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
+    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{v(p)} <SpeakButton text={p} say={r.say && applySay(p, r.say)} chain="passage" label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
     <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
     <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {v(q)}</b> <SpeakButton text={q} say={r.say && applySay(q, r.say)} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}

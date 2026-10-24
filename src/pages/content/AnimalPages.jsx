@@ -60,7 +60,7 @@ export function AnimalPage() {
       </WobblyCard>
       {m.about && <section className="mb-8"><h2 className="text-2xl font-bold mb-3">קצת יותר על {subject}</h2><div className="space-y-3 text-lg leading-relaxed">{m.about.map(t => <p key={t}>{t}</p>)}</div></section>}
       <h2 className="text-2xl font-bold mb-3">8 עובדות מעניינות</h2>
-      <ol className="space-y-2 mb-8">{a.facts.map((f, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{i + 1}.</b> {f} <SpeakButton text={f} label="השמעת העובדה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></li>)}</ol>
+      <ol className="space-y-2 mb-8">{a.facts.map((f, i) => <li key={i} className="wobbly-sm border-2 border-[var(--border)] bg-white px-4 py-3 text-lg"><b>{i + 1}.</b> {f} <SpeakButton text={f} chain="facts" label="השמעת העובדה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></li>)}</ol>
       <h2 className="text-2xl font-bold mb-3">🧠 חידון קצר</h2>
       <div className="space-y-4">
         {a.quiz.map((q, i) => { const p = picked[i]; return (
