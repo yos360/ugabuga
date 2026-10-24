@@ -147,6 +147,9 @@ const LandingGuide = lazy(() => import('./pages/content/LandingGuide'))
 const StarOfTheWeek = lazy(() => import('./pages/printables/StarOfTheWeek'))
 const TeacherTemplatesHub = lazy(() => import('./pages/printables/TeacherTemplates'))
 const TeacherTemplatePage = lazy(() => import('./pages/printables/TeacherTemplates').then(m => ({ default: m.TeacherTemplatePage })))
+const SpeechHub = lazy(() => import('./pages/speech/SpeechHub'))
+const SpeechSoundPage = lazy(() => import('./pages/speech/SoundPage'))
+const SpeechCardMaker = lazy(() => import('./pages/speech/CardMaker'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
@@ -629,6 +632,10 @@ export default function App() {
               <Route path="/printables/star-of-the-week" element={<StarOfTheWeek />} />
               <Route path="/printables/teacher-templates" element={<TeacherTemplatesHub />} />
               <Route path="/printables/teacher-templates/:slug" element={<TeacherTemplatePage />} />
+              <Route path="/speech" element={<SpeechHub />} />
+              <Route path="/speech/card-maker" element={<SpeechCardMaker />} />
+              <Route path="/speech/sounds/r" element={<SpeechSoundPage key="r" id="r" />} />
+              <Route path="/speech/sounds/s" element={<SpeechSoundPage key="s" id="s" />} />
               <Route path="/printables/reward-chart" element={<HomeChart key="reward-chart" preset="reward-chart" />} />
               <Route path="/printables/toothbrushing-chart" element={<HomeChart key="toothbrushing-chart" preset="toothbrushing-chart" />} />
               <Route path="/printables/potty-chart" element={<HomeChart key="potty-chart" preset="potty-chart" />} />

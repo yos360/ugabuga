@@ -124,7 +124,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
     landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook', '/speech'],
     groups: [
       {
         title: 'חשבון', icon: '🧮', to: '/math',
@@ -153,6 +153,15 @@ export const MENU_DOMAINS = [
           { to: '/dictionary', label: 'מילון לתלמידים', icon: '📘' },
           { to: '/learn/flashcards', label: 'כרטיסיות לימוד', icon: '🃏' },
           { to: '/words/opposites', label: 'הפכים ומילים נרדפות', icon: '🔄' },
+        ],
+      },
+      {
+        title: 'קלינאות תקשורת', icon: '🗣️', to: '/speech',
+        items: [
+          { to: '/speech', label: 'קלינאות תקשורת — חומרי היגוי ושפה', icon: '🗣️' },
+          { to: '/speech/sounds/r', label: 'תרגול האות ר׳', icon: '🚂' },
+          { to: '/speech/sounds/s', label: 'תרגול האות ס׳', icon: '🐴' },
+          { to: '/speech/card-maker', label: 'מחולל כרטיסיות היגוי', icon: '🃏' },
         ],
       },
       {
