@@ -192,7 +192,7 @@ function printableText(root) {
 }
 
 // Render the given sheet elements (.buga-a4 / .buga-flow) and save them as one PDF.
-export async function savePagesAsPdf(sheets, filename, onProgress) {
+export async function savePagesAsPdf(sheets, filename, onProgress, options = {}) {
   const { default: html2canvas } = await import('html2canvas')
   const textFont = await loadPdfFont()
   // Lay the sheets out off-screen at a fixed desktop width, unaffected by the dialog's phone zoom.
@@ -235,6 +235,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress) {
     probeFix.remove()
   }
   const blob = new Blob([buildPdf(images, { textFont, title: filename || 'עוגה בוגה', lang: sheets[0]?.closest('[lang]')?.getAttribute('lang') || document.documentElement.lang || 'he' })], { type: 'application/pdf' })
+  await options.onBlob?.(blob)
   const name = (filename || 'ugabuga').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 60) + '.pdf'
   // Remember where the file was made: a blob link that later loses its "blob:" prefix lands on
   // ugabuga.co.il/<uuid>, and the 404 page sends the visitor back here (see NotFound.jsx).

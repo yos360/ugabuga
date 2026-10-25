@@ -5,6 +5,7 @@ const server=await preview({preview:{host:'127.0.0.1',port:4173,strictPort:true}
 const browser=await chromium.launch({headless:true,...(process.env.TRAVEL_CHROMIUM_PATH?{executablePath:process.env.TRAVEL_CHROMIUM_PATH,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-zygote','--single-process']}: {})})
 try {
  const context=await browser.newContext(),page=await context.newPage()
+ await context.route('**/*',route=>new URL(route.request().url()).origin==='http://127.0.0.1:4173'?route.continue():route.abort())
  const origin='http://127.0.0.1:4173'
  for(const width of [390,1280]) {
   await page.setViewportSize({width,height:900})

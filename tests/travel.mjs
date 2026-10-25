@@ -33,3 +33,18 @@ test('flight screens never show sponsors, even when a travel placement is config
  for(const path of ['/travel/play','/travel/offline','/travel/play/','/travel/offline?foo=bar'])assert.equal(sponsorForPath(path,list),null)
  assert.ok(sponsorForPath('/travel',list))
 })
+import { AGES, DURATIONS, KIT_COUNTS, kitPlan, BINGO, bingoBoards } from '../src/travel/printData.js'
+test('all bingo cells and all six board subsets are distinct in each setting',()=>{
+ for(const kind of Object.keys(BINGO))for(const size of [3,4]){
+  const boards=bingoBoards(kind,size);assert.equal(boards.length,6)
+  const signatures=boards.map(board=>{const labels=board.map(x=>x[1]);assert.equal(labels.length,size*size);assert.equal(new Set(labels).size,labels.length);return labels.sort().join('|')})
+  assert.equal(new Set(signatures).size,6,kind+size)
+ }
+})
+test('kit includes exactly the promised number of pages for every age and duration',()=>{
+ for(let age=0;age<AGES.length;age++)for(let duration=0;duration<DURATIONS.length;duration++){
+  const plan=kitPlan(age,duration);assert.equal(plan.length,KIT_COUNTS[duration]);assert.equal(plan[0],'cover')
+  if(age===0)assert.ok(plan.every(k=>!['wordsearch','sudoku','dots'].includes(k)))
+ }
+ assert.throws(()=>kitPlan(4,0));assert.throws(()=>kitPlan(0,-1))
+})

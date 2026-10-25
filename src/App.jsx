@@ -9,6 +9,11 @@ import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
 const TravelOffline = lazy(() => import('./travel/TravelOffline'))
 const TravelPlay = lazy(() => import('./travel/TravelPlay'))
+const TravelKit = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelKit })))
+const TravelBingo = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelBingo })))
+const TravelPassport = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelPassport })))
+const TravelJournal = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelJournal })))
+const TravelSurprises = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelSurprises })))
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
@@ -436,6 +441,11 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/travel/kit" element={<TravelKit />} />
+              <Route path="/travel/bingo" element={<TravelBingo />} />
+              <Route path="/travel/passport" element={<TravelPassport />} />
+              <Route path="/travel/journal" element={<TravelJournal />} />
+              <Route path="/travel/surprise-bags" element={<TravelSurprises />} />
               <Route path="/travel" element={<TravelHub />} />
               <Route path="/travel/offline" element={<TravelOffline />} />
               <Route path="/travel/play" element={<TravelPlay />} />

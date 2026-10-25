@@ -20,3 +20,51 @@
 .travel-locked { position:fixed; inset:0; z-index:10000; overflow:auto; border-radius:0; }
 .travel-locked:fullscreen { background:var(--background); }
 .travel-unlock { position:sticky; top:0; z-index:2; user-select:none; touch-action:none; }
+.travel-preview { width:100%; overflow:hidden; }
+.travel-paper { width:794px!important; max-width:none!important; height:1123px!important; padding:46px!important; margin:12px auto!important; background:#fff!important; color:#111!important; box-sizing:border-box; overflow:hidden; display:flex; flex-direction:column; zoom:var(--travel-zoom,1); font-family:Heebo,Arial,sans-serif; }
+.travel-paper h2 { font-size:28px; margin:0 0 18px; color:#111; }
+.travel-paper p { font-size:20px; line-height:1.65; margin:14px 0; }
+.travel-paper-body { flex:1; min-height:0; }
+.travel-paper-body>svg { width:100%; max-height:810px; }
+.travel-paper footer { display:block!important; color:#333; padding-top:12px; font-size:14px; text-align:center; }
+.travel-cover { text-align:center; padding-top:100px; }
+.travel-cover svg { width:80%; }
+.travel-number-grid { display:grid; margin:50px auto; max-width:620px; border:3px solid #222; }
+.travel-number-grid>div { border:1px solid #444; min-height:58px; aspect-ratio:1; display:grid; place-items:center; font-size:34px; }
+.travel-drawing-box { height:420px; border:2px dashed #666; margin-top:20px; }
+.travel-drawing-box.small { height:250px; }
+.travel-writing-lines { height:320px; background:repeating-linear-gradient(#fff 0px,#fff 43px,#777 44px,#fff 45px); }
+.travel-bingo { background:var(--card); padding:12px; border-radius:16px; }
+.travel-bingo-grid { display:grid; border:1px solid #555; }
+.travel-bingo-grid>div,.travel-bingo-grid>button { border:1px solid #555; border-radius:0; aspect-ratio:1; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:3px; min-width:0; }
+.travel-bingo-grid span { font-size:clamp(24px,6vw,54px); }
+.travel-bingo-grid b { font-size:clamp(12px,2vw,21px); }
+.travel-mark { position:absolute; inset:0; display:grid; place-items:center; background:#d8f4d9cc; font-size:60px; color:#17491e; }
+.travel-paper .travel-bingo { background:#fff; color:#000; }
+.travel-paper .travel-bingo-grid span { font-size:56px; filter:grayscale(1); }
+.travel-paper .travel-bingo-grid b { font-size:22px; }
+.travel-passport { height:940px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; }
+.travel-passport>section { border:1px dashed #555; padding:18px; }
+.travel-passport h2 { font-size:25px; }
+.travel-passport p { font-size:17px; }
+.travel-passport svg { width:120px; }
+.travel-stamp { border:2px dashed #555; border-radius:50%; text-align:center; padding:12px; font-size:16px; }
+.travel-passport-draw { height:90px; border:1px solid #888; }
+.travel-envelope-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.travel-envelope-grid>section { border:2px dashed #555; padding:20px; height:430px; text-align:center; }
+.travel-envelope-grid svg { width:160px; margin:auto; }
+@media print {
+ .travel-print-output { display:block!important; }
+ #buga-print-output .travel-paper { zoom:1!important; width:190mm!important; height:275mm!important; max-width:190mm!important; padding:6mm!important; margin:0!important; break-after:page; }
+ #buga-print-output .travel-paper:last-child { break-after:auto; }
+ .travel-print-output .travel-paper * { color:#000!important; }
+}
+.travel-line-icon { width:58px!important; height:58px!important; flex:none; margin:auto; }
+.travel-paper .travel-line-icon { width:72px!important; height:72px!important; }
+.travel-passport { height:860px; }
+.travel-passport svg { width:110px!important; height:110px!important; display:block; margin:10px auto; }
+.travel-envelope-grid svg { width:160px!important; height:100px!important; display:block; margin:16px auto; }
+.travel-paper h3 { font-size:23px; margin:18px 0 12px; }
+.travel-paper .travel-drawing-box { height:360px; }
+.travel-paper .travel-drawing-box.small { height:210px; }
+.travel-paper .travel-writing-lines { height:280px; }
