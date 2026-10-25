@@ -2,7 +2,7 @@
 const PREFIX = 'buga-travel-'
 const STATE = PREFIX + 'state'
 const KEY = '/travel-cache-state'
-const ROUTES = ['/travel/offline', '/travel/play']
+const ROUTES = ['/travel/offline', '/travel/play', '/travel/stories']
 function allowed(value) {
   const u = new URL(value, self.location.origin)
   if (u.origin !== self.location.origin || u.hash || u.search) return false

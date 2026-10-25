@@ -68,3 +68,14 @@
 .travel-paper .travel-drawing-box { height:360px; }
 .travel-paper .travel-drawing-box.small { height:210px; }
 .travel-paper .travel-writing-lines { height:280px; }
+.travel-prompt { padding:1.8rem; font-size:1.2rem; }
+.travel-prompt h3 { margin:1.5rem 0; font-size:1.5rem; font-weight:700; }
+.travel-cut-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.travel-cut-cards>section { border:1px dashed #333; height:286px; padding:16px; }
+.travel-cut-cards h3 { font-size:21px; margin:0 0 12px; }
+.travel-cut-cards p { font-size:16px; }
+.travel-radio { padding:1.2rem; border:2px solid var(--border); border-radius:20px; }
+.travel-radio.night { color:#e5edf5; background:#0c1422; }
+.travel-radio.night :is(button,select) { color:#e5edf5; background:#18283e; border-color:#62748b; }
+.travel-player button { flex:1; min-height:68px; font-size:1.3rem; }
+.travel-radio.night { position:fixed; inset:0; z-index:9000; overflow:auto; border-radius:0; }

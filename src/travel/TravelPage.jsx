@@ -18,6 +18,10 @@ export function TravelPage({ title, path, intro, faq = [{ q: 'האם צריך ל
 export default function TravelHub() {
   return <TravelPage title="נוסעים עם בוגה" path="/travel" intro={TRAVEL_INTRO} faq={[{ q: 'מה כדאי להכין לפני שיוצאים?', a: 'התחילו במשחק משפחתי בלי ציוד, והכינו דפים מודפסים ומים. פעילות קצרה ומתחלפת מתאימה יותר מתוכנית נוקשה.' }, { q: 'איך משתמשים בלי אינטרנט?', a: 'כשכלי תיק הטיסה זמין, שומרים בו מראש את התוכן הנבחר ופותחים אותו פעם אחת עם אינטרנט לפני היציאה.' }]}>
     <section className="travel-grid">
+<Link className="travel-card wobbly sketch-shadow" to="/travel/talk-games"><h2>משחקי דיבור למשפחה</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>
+<Link className="travel-card wobbly sketch-shadow" to="/travel/listen"><h2>משחקי שמע וחידות</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>
+<Link className="travel-card wobbly sketch-shadow" to="/travel/stories"><h2>רדיו בוגה — סיפורים לדרך</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>
+
 <Link className="travel-card wobbly sketch-shadow" to="/travel/kit"><h2>ערכת טיסה ונסיעה</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>
 <Link className="travel-card wobbly sketch-shadow" to="/travel/bingo"><h2>בינגו דרכים ושדה תעופה</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>
 <Link className="travel-card wobbly sketch-shadow" to="/travel/passport"><h2>דרכון נסיעה לילדים</h2><p>פותחים, בוחרים ומכינים לדרך.</p></Link>

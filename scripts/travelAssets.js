@@ -14,7 +14,7 @@ export default function travelAssets() {
         for (const m of String(item.source).matchAll(/\/assets\/([\w.-]+)/g)) visit('assets/' + m[1])
       }
     }
-    for (const [name, item] of Object.entries(bundle)) if (item.type === 'chunk' && (item.isEntry || /\/travel\/(TravelOffline|TravelPlay)\.jsx$/.test(item.facadeModuleId || ''))) visit(name)
+    for (const [name, item] of Object.entries(bundle)) if (item.type === 'chunk' && (item.isEntry || /\/travel\/(TravelOffline|TravelPlay|TravelRadio)\.jsx$/.test(item.facadeModuleId || ''))) visit(name)
     this.emitFile({type:'asset',fileName:'travel-assets.json',source:JSON.stringify({version:[...seen].sort().join('|'),assets:[...seen].map(x=>'/' + x)})})
   } }
 }

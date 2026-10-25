@@ -48,3 +48,11 @@ test('kit includes exactly the promised number of pages for every age and durati
  }
  assert.throws(()=>kitPlan(4,0));assert.throws(()=>kitPlan(0,-1))
 })
+import { STORY_STARTS, TALK_GAMES, FACTS } from '../src/travel/gameData.js'
+test('travel conversation cards have 30 original openings and sourced facts',()=>{
+ assert.equal(STORY_STARTS.length,30);assert.equal(new Set(STORY_STARTS).size,30)
+ assert.equal(TALK_GAMES.length,7)
+ for(const fact of FACTS){assert.ok(fact.source.startsWith('https://'));assert.equal(typeof fact.answer,'boolean')}
+ assert.ok(!read('src/travel/storyCatalog.js').includes('stories-365'))
+ assert.match(read('src/travel/storyCatalog.js'),/BEDTIME_STORIES/)
+})

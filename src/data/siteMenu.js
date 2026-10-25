@@ -374,7 +374,7 @@ export const MENU_DOMAINS = [
     landingLabel: 'בבית עם הילדים — הכול',
     prefixes: ['/travel', '/family', '/stories', '/toddlers', '/baby-names', '/food', '/blog', '/ma-hayom', '/ideas/what-to-do-weekend'],
     groups: [
-      { title: '✈️ נוסעים עם בוגה', icon: '✈️', to: '/travel', items: [{ to: '/travel/kit', label: 'ערכת טיסה ונסיעה', icon: '✈️' }, { to: '/travel/bingo', label: 'בינגו דרכים ושדה תעופה', icon: '✈️' }, { to: '/travel/passport', label: 'דרכון נסיעה לילדים', icon: '✈️' }, { to: '/travel/journal', label: 'יומן טיול לילדים', icon: '✈️' }, { to: '/travel/surprise-bags', label: 'מעטפות הפתעה לכל שעה', icon: '✈️' }, { to: '/travel', label: 'נוסעים עם בוגה — לכל מקום', icon: '✈️' }, { to: '/travel/offline', label: 'תיק טיסה — שמירה בלי אינטרנט', icon: '💼' }, { to: '/travel/play', label: 'מסך הטיסה', icon: '🎮' }] },
+      { title: '✈️ נוסעים עם בוגה', icon: '✈️', to: '/travel', items: [{ to: '/travel/kit', label: 'ערכת טיסה ונסיעה', icon: '✈️' }, { to: '/travel/bingo', label: 'בינגו דרכים ושדה תעופה', icon: '✈️' }, { to: '/travel/passport', label: 'דרכון נסיעה לילדים', icon: '✈️' }, { to: '/travel/journal', label: 'יומן טיול לילדים', icon: '✈️' }, { to: '/travel/surprise-bags', label: 'מעטפות הפתעה לכל שעה', icon: '✈️' }, { to: '/travel/talk-games', label: 'משחקי דיבור למשפחה', icon: '✈️' }, { to: '/travel/listen', label: 'משחקי שמע וחידות', icon: '✈️' }, { to: '/travel/stories', label: 'רדיו בוגה — סיפורים לדרך', icon: '✈️' }, { to: '/travel', label: 'נוסעים עם בוגה — לכל מקום', icon: '✈️' }, { to: '/travel/offline', label: 'תיק טיסה — שמירה בלי אינטרנט', icon: '💼' }, { to: '/travel/play', label: 'מסך הטיסה', icon: '🎮' }] },
       {
         title: 'לפני השינה', icon: '🌙',
         items: [

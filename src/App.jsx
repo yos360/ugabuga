@@ -14,6 +14,9 @@ const TravelBingo = lazy(() => import('./travel/TravelPrintables').then(m => ({ 
 const TravelPassport = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelPassport })))
 const TravelJournal = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelJournal })))
 const TravelSurprises = lazy(() => import('./travel/TravelPrintables').then(m => ({ default: m.TravelSurprises })))
+const TravelTalk = lazy(() => import('./travel/TravelTalkListen').then(m => ({ default: m.TravelTalk })))
+const TravelListen = lazy(() => import('./travel/TravelTalkListen').then(m => ({ default: m.TravelListen })))
+const TravelRadio = lazy(() => import('./travel/TravelRadio').then(m => ({ default: m.TravelRadio })))
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
@@ -446,6 +449,9 @@ export default function App() {
               <Route path="/travel/passport" element={<TravelPassport />} />
               <Route path="/travel/journal" element={<TravelJournal />} />
               <Route path="/travel/surprise-bags" element={<TravelSurprises />} />
+              <Route path="/travel/talk-games" element={<TravelTalk />} />
+              <Route path="/travel/listen" element={<TravelListen />} />
+              <Route path="/travel/stories" element={<TravelRadio />} />
               <Route path="/travel" element={<TravelHub />} />
               <Route path="/travel/offline" element={<TravelOffline />} />
               <Route path="/travel/play" element={<TravelPlay />} />
