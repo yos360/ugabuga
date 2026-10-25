@@ -32,6 +32,8 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: '/travel/offline', title: 'תיק טיסה — משחקים בלי אינטרנט', emoji: '💼', kind: 'tool' },
+  { to: '/travel/play', title: 'מסך הטיסה של בוגה', emoji: '🎮', kind: 'tool' },
   { to: '/travel', title: 'נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט', emoji: '✈️', kind: 'page', keys: 'נסיעה טיסה רכבת ילדים פעילות דרך' },
   { to: '/holidays/shabbat-parents', title: 'אבא של שבת ואמא של שבת עם תמונה', emoji: '🖼️', kind: 'tool', keys: 'אבא אמא של שבת תמונה ילד ילדה גן מזכרת להדפסה תעודה' },
   { to: '/shabbat-times', title: 'כניסת שבת וצאת השבת לפי עיר', emoji: '🕯️', kind: 'page', keys: 'כניסת שבת היום יציאת שבת היום צאת השבת הדלקת נרות זמני שבת שקיעה לוח שבת חודשי שנתי תמונה' },

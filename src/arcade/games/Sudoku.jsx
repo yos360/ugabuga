@@ -9,9 +9,9 @@ function newGame(level, daily) {
   return { level, puzzle, solution, grid: puzzle.slice(), notes: puzzle.map(() => []), mistakes: 0, hints: 0 }
 }
 
-export default function Sudoku({ onReport, onShare, daily }) {
+export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
   const [progress, saveProgress] = useProgress('sudoku', { level: 'easy', solved: 0 })
-  const [g, setG] = useState(() => newGame(LEVELS.find(l => l.id === (daily?.level || progress.level)) || LEVELS[2], daily))
+  const [g, setG] = useState(() => newGame(LEVELS.find(l => l.id === (daily?.level || initialLevel || progress.level)) || LEVELS[2], daily))
   const [sel, setSel] = useState(null)
   const [notesMode, setNotesMode] = useState(false)
   const [time, setTime] = useState(0)

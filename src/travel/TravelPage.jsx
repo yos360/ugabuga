@@ -18,6 +18,7 @@ export function TravelPage({ title, path, intro, faq = [{ q: 'האם צריך ל
 export default function TravelHub() {
   return <TravelPage title="נוסעים עם בוגה" path="/travel" intro={TRAVEL_INTRO} faq={[{ q: 'מה כדאי להכין לפני שיוצאים?', a: 'התחילו במשחק משפחתי בלי ציוד, והכינו דפים מודפסים ומים. פעילות קצרה ומתחלפת מתאימה יותר מתוכנית נוקשה.' }, { q: 'איך משתמשים בלי אינטרנט?', a: 'כשכלי תיק הטיסה זמין, שומרים בו מראש את התוכן הנבחר ופותחים אותו פעם אחת עם אינטרנט לפני היציאה.' }]}>
     <section className="travel-grid">
+      <Link className="travel-card wobbly sketch-shadow" to="/travel/offline"><span>💼</span><h2>תיק טיסה — גם בלי אינטרנט</h2><p>שומרים מראש חבילת משחקים למכשיר ופותחים במסך הטיסה.</p></Link>
       <Link className="travel-card wobbly sketch-shadow" to="/family/car-games"><span>🚗</span><h2>משחקים לנסיעה לכל המשפחה</h2><p>משחקי דיבור בלי ציוד ובינגו קיים להדפסה — מתחילים כאן.</p></Link>
     </section>
     <section className="travel-card"><h2>דרך נעימה, בקצב שלכם</h2><p>לא חייבים להעסיק בכל רגע. אפשר להסתכל מהחלון, לדבר, לנוח ולהחליף פעילות כשמתחשק. ההורה הנוסע מפעיל את הפעילויות; הנהג מתרכז בנהיגה.</p></section>

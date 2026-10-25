@@ -68,5 +68,6 @@ export function matchesPlacement(placement, path) {
 
 // The active sponsor for a page (first match wins), or null.
 export function sponsorForPath(path, list = SPONSORS) {
+  if (['/travel/play', '/travel/offline'].includes(clean(path))) return null
   return list.find(s => s.active && (s.placements || []).some(p => matchesPlacement(p, path))) || null
 }
