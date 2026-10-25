@@ -8,6 +8,7 @@ try{
  await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort())
  for(const width of [390,1280]){await page.setViewportSize({width,height:900});for(const path of ['packing-list','waiting-games','countdown','play']){
  await page.goto(origin+'/travel/'+path,{waitUntil:'domcontentloaded'});await page.locator('.travel h1').first().waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path+' overflow')
+ if(path==='play')await page.screenshot({path:`/tmp/buga-play-final-${width}.png`,fullPage:true})
  if(width===1280&&['packing-list','waiting-games'].includes(path)){await page.emulateMedia({media:'print'});await page.pdf({path:'/tmp/buga-travel-'+path+'.pdf',format:'A4',preferCSSPageSize:true});await page.emulateMedia({media:'screen'})}
  }}
  await page.goto(origin+'/travel/play',{waitUntil:'domcontentloaded'});await page.locator('[data-activity]').first().waitFor();assert.equal(await page.locator('[data-activity]').count(),6)

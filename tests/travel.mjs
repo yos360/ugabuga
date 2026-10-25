@@ -42,6 +42,7 @@ test('all bingo cells and all six board subsets are distinct in each setting',()
  }
 })
 test('kit includes exactly the promised number of pages for every age and duration',()=>{
+ assert.deepEqual(KIT_COUNTS,[5,9,15])
  for(let age=0;age<AGES.length;age++)for(let duration=0;duration<DURATIONS.length;duration++){
   const plan=kitPlan(age,duration);assert.equal(plan.length,KIT_COUNTS[duration]);assert.equal(plan[0],'cover')
   if(age===0)assert.ok(plan.every(k=>!['wordsearch','sudoku','dots'].includes(k)))
@@ -70,4 +71,20 @@ test('travel personalization never opts into visitor creation capture',()=>{
 test('offline manifest contains only real emitted assets after Vite removes CSS proxy chunks', {skip:!existsSync(new URL('../dist/travel-assets.json',import.meta.url))},()=>{
  const manifest=JSON.parse(read('dist/travel-assets.json'));assert.ok(manifest.assets.length>0)
  for(const asset of manifest.assets){assert.ok(existsSync(new URL('../dist'+asset,import.meta.url)),asset);assert.ok(cacheAllowed(asset,'https://ugabuga.co.il'),asset)}
+})
+import { TRAVEL_GUIDES } from '../src/travel/guideData.js'
+import { TRAVEL_FAQ } from '../src/travel/travelFaq.js'
+test('five substantial guides link to real tools and contain sources, FAQs and no doses',()=>{
+ assert.equal(Object.keys(TRAVEL_GUIDES).length,5)
+ const app=read('src/App.jsx');const paths=new Set([...app.matchAll(/path="([^"]+)"/g)].map(m=>m[1]))
+ for(const [slug,g] of Object.entries(TRAVEL_GUIDES)){
+  assert.ok(paths.has('/travel/guides/'+slug));assert.ok(g.sections.length>=6);assert.ok(g.faq.length>=2);assert.ok(g.sources.length>0)
+  const text=g.sections.map(x=>x[1]).join(' ');assert.ok(text.split(/\s+/).length>=280,slug)
+  for(const m of text.matchAll(/\[\[([^|]+)\|/g))assert.ok(paths.has('/travel/'+m[1]),m[1])
+  assert.ok(!/\d+\s*(מ״ג|מיליגרם|מ"ל|mg\b)/i.test(text))
+ }
+ for(const path of ['/travel/bingo','/travel/passport','/travel/journal','/travel/listen','/travel/packing-list','/travel/waiting-games'])assert.ok(TRAVEL_FAQ[path].length>=2)
+})
+test('waiting filters have an age-appropriate option in every location and sound mode',()=>{
+ for(const age of [2,4,6,8])for(const place of ['queue','restaurant','airport'])for(const quiet of [false,true])assert.ok(WAITING_GAMES.some(g=>g.age<=age&&g.places.includes(place)&&g.quiet===quiet),`${age} ${place} ${quiet}`)
 })

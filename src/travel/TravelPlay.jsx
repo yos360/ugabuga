@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TravelPage } from './TravelPage'
+import TravelIcon from './TravelIcon'
 import { TravelRadio } from './TravelRadio'
 import { TravelListen } from './TravelTalkListen'
 import { TravelCountdown } from './TravelTools'
@@ -33,7 +34,7 @@ export default function TravelPlay() {
   return <TravelPage title="מסך הטיסה של בוגה" path="/travel/play" intro="בוחרים פעילות אחת ונהנים בקצב שלכם. כדי שהמשחקים יעבדו במצב טיסה, שומרים קודם את תיק הטיסה." faq={[{q:'איך נועלים את המסך לקטנים?',a:'לחצו על מנעול הילדים. הניווט החוצה מוסתר, ולשחרור מחזיקים את כפתור הפתיחה כשתי שניות. זו עזרה נגד נגיעות מקריות, ולא חסימה של כפתורי המכשיר.'}]}>
     <div ref={root} className={locked?'travel-play travel-locked':'travel-play'}>
       {locked ? <button className="travel-unlock" onPointerDown={unlock} onPointerUp={cancel} onPointerLeave={cancel} onPointerCancel={cancel} onKeyDown={e=>{if(e.key===' '&&!e.repeat)unlock()}} onKeyUp={cancel}>{hold?'ממשיכים להחזיק…':'🔒 לחצו והחזיקו כדי לצאת'}</button> : <div className="travel-controls"><Link to="/travel/offline">💼 לתיק הטיסה</Link><button onClick={lock}>🔒 מנעול ילדים</button></div>}
-      {game==='picker'?<><button onClick={()=>setGame('')}>← למסך הטיסה</button><div className="travel-grid">{['memory','puzzle','maze','sudoku'].map(id=><button key={id} onClick={()=>setGame(id)}>{games[id][0]} {games[id][1]}</button>)}</div></>:game ? <><button onClick={()=>setGame('')}>← בחירת פעילות אחרת</button><h2>{games[game][0]} {games[game][1]}</h2><div className="travel-game ar-game"><G initialLevel="kids" /></div></> : <div className="travel-grid">{tiles.map(([id,icon,title])=><button data-activity={id} className="travel-card" key={id} onClick={()=>setGame(id)}><span>{icon}</span><h2>{title}</h2></button>)}</div>}
+      {game==='picker'?<><button onClick={()=>setGame('')}>← למסך הטיסה</button><div className="travel-grid">{['memory','puzzle','maze','sudoku'].map(id=><button key={id} onClick={()=>setGame(id)}>{games[id][0]} {games[id][1]}</button>)}</div></>:game ? <><button onClick={()=>setGame('')}>← בחירת פעילות אחרת</button><h2>{games[game][0]} {games[game][1]}</h2><div className="travel-game ar-game"><G initialLevel="kids" /></div></> : <div className="travel-grid">{tiles.map(([id,icon,title])=><button data-activity={id} className="travel-card" key={id} onClick={()=>setGame(id)}><TravelIcon icon={icon}/><h2>{title}</h2></button>)}</div>}
     </div>
   </TravelPage>
 }

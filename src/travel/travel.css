@@ -96,3 +96,18 @@
 .travel-locked a { display:none!important; }
 .travel-game .travel-player { gap:4px; }
 .travel-game .travel-player button { padding:6px; font-size:1rem; }
+.travel-hero { display:flex; align-items:center; gap:1.3rem; padding:1.5rem; background:var(--postit,#fff3bd); border:2px solid var(--border); border-radius:20px; margin:2rem 0; }
+.travel-hero>.travel-line-icon { width:90px!important; height:90px!important; margin:0; }
+.travel-cta { display:inline-block; padding:12px 18px; border:2px solid var(--foreground); border-radius:12px; font-weight:700; background:var(--card); }
+.travel-section { margin:2.5rem 0; }
+.travel-section h3 { font-size:1.35rem; font-weight:700; margin:.8rem 0 .4rem; }
+.travel-section .travel-line-icon { margin:0; }
+.travel-guide { max-width:48rem; margin:auto; }
+.travel-guide>section { margin:2rem 0; }
+.travel-guide p { font-size:1.1rem; line-height:1.95; }
+.travel button:disabled { opacity:.5; cursor:not-allowed; }
+@media(max-width:500px){.travel-hero{align-items:flex-start;gap:.8rem;padding:1rem}.travel-hero>.travel-line-icon{width:52px!important;height:52px!important}.travel-grid{gap:.8rem}}
+.travel-play>.travel-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.travel-play>.travel-grid>.travel-card { margin-bottom:0; min-height:150px; }
+.travel-envelope-template { width:100%!important; height:790px!important; display:block; margin:auto; }
+@media(min-width:768px){.travel-play>.travel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}

@@ -20,6 +20,11 @@ const TravelRadio = lazy(() => import('./travel/TravelRadio').then(m => ({ defau
 const TravelCountdown = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelCountdown })))
 const TravelPacking = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelPacking })))
 const TravelWaiting = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelWaiting })))
+const ToddlerFlight = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.ToddlerFlight })))
+const LongCarRide = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.LongCarRide })))
+const CarryOnKids = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.CarryOnKids })))
+const FlyingBaby = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.FlyingBaby })))
+const CarSickness = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.CarSickness })))
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
@@ -458,6 +463,11 @@ export default function App() {
               <Route path="/travel/countdown" element={<TravelCountdown />} />
               <Route path="/travel/packing-list" element={<TravelPacking />} />
               <Route path="/travel/waiting-games" element={<TravelWaiting />} />
+              <Route path="/travel/guides/toddler-flight" element={<ToddlerFlight />} />
+              <Route path="/travel/guides/long-car-ride" element={<LongCarRide />} />
+              <Route path="/travel/guides/carry-on-for-kids" element={<CarryOnKids />} />
+              <Route path="/travel/guides/flying-with-baby" element={<FlyingBaby />} />
+              <Route path="/travel/guides/car-sickness" element={<CarSickness />} />
               <Route path="/travel" element={<TravelHub />} />
               <Route path="/travel/offline" element={<TravelOffline />} />
               <Route path="/travel/play" element={<TravelPlay />} />

@@ -21,7 +21,9 @@ try{
  }
  }
  await page.goto('http://127.0.0.1:4173/travel/kit',{waitUntil:'domcontentloaded'})
+ await page.getByLabel('שם הילד — לא חובה').fill('נועם')
  await page.getByRole('button',{name:'יצירת ערכה',exact:true}).click()
+ assert.match(await page.locator('.travel-preview .travel-paper').first().innerText(),/נועם/)
  const dl=page.waitForEvent('download',{timeout:120000})
  await page.getByRole('button',{name:'הורדת PDF',exact:true}).click()
  await(await dl).saveAs('/tmp/buga-travel-kit-export.pdf')
