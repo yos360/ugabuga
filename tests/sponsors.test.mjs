@@ -34,7 +34,10 @@ test('placements match by path prefix; "/" is the home page only', () => {
   assert.ok(matchesPlacement('/speech', '/speech/'))
   assert.ok(!matchesPlacement('/speech', '/speechless'))
   assert.equal(sponsorForPath('/speech/sounds/r')?.id, 'eureka')
-  assert.equal(sponsorForPath('/games/birthday'), null)
+  // Sitewide now, except the kids zone, private/shared links, live games, embeds and the English site.
+  assert.equal(sponsorForPath('/games/birthday')?.id, 'eureka')
+  assert.equal(sponsorForPath('/learn/math')?.id, 'eureka')
+  for (const p of ['/kids', '/kids/games', '/admin/activity', '/r/abc234', '/t/xyz', '/play/ABC123', '/live/ABC123/host', '/en', '/en/rsvp', '/en/r/abc', '/advertise', '/embed/x']) assert.equal(sponsorForPath(p), null, p)
   assert.equal(sponsorForPath('/speech', [{ ...SPONSORS[0], active: false }]), null)
 })
 
