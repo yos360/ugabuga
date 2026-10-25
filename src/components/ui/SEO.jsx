@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 import { previewFor } from '../layout/PrintPreviewFigure'
 import { englishCounterpart } from '../../en/englishLinks'
+import { SOCIAL_LIVE } from '../../data/social'
 
 // Other ways people write the name (search engines use these to match brand searches).
 export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוגה-בוגה', 'עוגהבוגה']
@@ -17,6 +18,7 @@ const ORGANIZATION = {
   'email': 'hellohugabuga@gmail.com',
   'areaServed': { '@type': 'Country', 'name': 'Israel' },
   'knowsLanguage': 'he',
+  ...(SOCIAL_LIVE.length ? { 'sameAs': SOCIAL_LIVE.map(([, , href]) => href) } : {}),
 }
 
 // Google shows about 60–70 characters of a title and ~160 of a description. Past that, the brand
