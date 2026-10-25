@@ -155,6 +155,7 @@ export default function Home() {
         <div className="hp-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></div>
       </form>
     </section>
+    <section className="hp-sec"><Link to="/travel" className="hp-card wobbly sketch-shadow"><span aria-hidden="true">✈️</span><b>נוסעים עם בוגה</b><small>לכל מקום, גם בלי אינטרנט — פעילויות לילדים לדרך</small></Link></section>
     <MorningRoutineSpotlight />
     <BedtimeStorySpotlight />
     <section className="hp-sec">

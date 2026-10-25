@@ -1,0 +1,16 @@
+.travel { overflow-wrap:anywhere; color:var(--foreground); }
+.travel-nav { display:flex; gap:.5rem; flex-wrap:wrap; font-size:.9rem; }
+.travel a { text-underline-offset:4px; }
+.travel-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:1rem; margin:1.5rem 0; }
+.travel-card { display:block; padding:1.3rem; border:2px solid var(--border); border-radius:18px; background:var(--card); margin-bottom:1rem; }
+.travel-card>span { font-size:2.5rem; }
+.travel h2 { font-size:1.5rem; font-weight:700; margin-bottom:.6rem; }
+.travel p { line-height:1.8; }
+.travel .quick-answer { background:var(--card); }
+.travel-faq { margin-top:2.5rem; }
+.travel button,.travel input,.travel select { max-width:100%; min-height:48px; border:2px solid var(--border); border-radius:12px; padding:.65rem .9rem; background:var(--card); color:var(--foreground); }
+.travel button { cursor:pointer; font-weight:700; }
+.travel button:focus-visible,.travel a:focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+.travel-controls { display:flex; flex-wrap:wrap; gap:.7rem; margin:1rem 0; align-items:end; }
+.travel-controls label { display:grid; gap:.35rem; flex:1 1 150px; }
+@media print { .travel-nav,.travel-faq,.travel .quick-answer,.travel-controls { display:none!important; } }

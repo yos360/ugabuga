@@ -372,8 +372,9 @@ export const MENU_DOMAINS = [
   {
     id: 'family', label: SECTION.family, icon: '🏡', to: '/family',
     landingLabel: 'בבית עם הילדים — הכול',
-    prefixes: ['/family', '/stories', '/toddlers', '/baby-names', '/food', '/blog', '/ma-hayom', '/ideas/what-to-do-weekend'],
+    prefixes: ['/travel', '/family', '/stories', '/toddlers', '/baby-names', '/food', '/blog', '/ma-hayom', '/ideas/what-to-do-weekend'],
     groups: [
+      { title: '✈️ נוסעים עם בוגה', icon: '✈️', to: '/travel', items: [{ to: '/travel', label: 'נוסעים עם בוגה — לכל מקום', icon: '✈️' }] },
       {
         title: 'לפני השינה', icon: '🌙',
         items: [

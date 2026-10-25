@@ -7,6 +7,7 @@ import { NavigationHistoryProvider } from './components/layout/NavigationHistory
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from './components/layout/Layout'
 import PageErrorBoundary from './components/layout/PageErrorBoundary'
+const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
 const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
@@ -433,6 +434,7 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/travel" element={<TravelHub />} />
               <Route path="/en" element={<EnglishHome />} />
               <Route path="/en/coloring-pages" element={<EnglishColoring />} />
               <Route path="/en/coloring-pages/:subject" element={<EnglishColoring />} />

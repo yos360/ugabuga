@@ -204,6 +204,7 @@ export function CarGames() {
   if (cards) for (let i = 0; i < cards.length; i += 2) pages.push(<A4 key={i}><Sheet label="בינגו נסיעה"><BingoCard words={cards[i]} y0={4} idx={i + 1} />{cards[i + 1] && <BingoCard words={cards[i + 1]} y0={136} idx={i + 2} />}</Sheet></A4>)
   return <Page>
     <SEO title="משחקים לנסיעה עם ילדים — 14 משחקים בלי כלום ביד ובינגו נסיעה להדפסה" description="משחקים לנסיעה ארוכה באוטו עם ילדים: אני רואה משהו, שרשרת מילים, 20 שאלות, ארץ עיר בעל פה ועוד — בלי מסכים ובלי ציוד. וגם בינגו נסיעה להדפסה, לוח שונה לכל ילד." path="/family/car-games" structuredData={faqSchema([{ q: 'מה משחקים בנסיעה ארוכה עם ילדים?', a: 'משחקים שלא צריך בשבילם כלום: אני רואה משהו, שרשרת מילים, 20 שאלות, סיפור שרשרת וספירת מכוניות לפי צבע. לנסיעות ארוכות כדאי להדפיס מראש בינגו נסיעה — לוח שונה לכל ילד.' }])} />
+    <Link to="/travel" className="underline font-bold">✈️ לכל אזור נוסעים עם בוגה</Link>
     <Head emoji="🚗" h1="משחקים לנסיעה" sub="בלי מסכים, בלי ציוד — רק מה שרואים מהחלון ומה שיש בראש" crumb="משחקים לנסיעה" />
     <div className="ln-box space-y-3 text-center">
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="גיל הקטן ביותר">{[[0, 'כל הגילים'], [3, 'מגיל 3'], [5, 'מגיל 5'], [7, 'מגיל 7']].map(([k, l]) => <Chip key={k} on={age === k} onClick={() => setAge(k)}>{l}</Chip>)}</div>
