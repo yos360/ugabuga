@@ -1,3 +1,4 @@
+import { TRAVEL_PAGES as EN_TRAVEL_PAGES } from '../en/travel/catalog.js'
 import { COLORING_DRAWINGS, coloringDrawingPath } from './coloringDrawings.js'
 import { ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
 import { CATEGORIES as EMOJI_CATEGORIES, SITUATIONS as EMOJI_SITUATIONS } from '../emoji/emojiCatalog'
@@ -32,6 +33,7 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  ...EN_TRAVEL_PAGES.map(p=>({to:p.path,title:p.title,desc:p.description,emoji:'✈️',kind:'page',keys:'travel airplane road trip children offline flight bag'})),
   { to: '/travel/guides/toddler-flight', title: 'איך להעסיק פעוט בטיסה', emoji: '✈️', kind: 'tool' },
   { to: '/travel/guides/long-car-ride', title: 'משחקים לנסיעה ארוכה ברכב', emoji: '✈️', kind: 'tool' },
   { to: '/travel/guides/carry-on-for-kids', title: 'מה לארוז לילד בתיק יד', emoji: '✈️', kind: 'tool' },

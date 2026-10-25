@@ -1,0 +1,14 @@
+.en-travel { text-align:left; }
+.en-travel .travel-paper { direction:ltr; font-family:Arial,Helvetica,sans-serif; }
+.en-travel .travel-paper p { line-height:1.5; }
+.en-travel .travel-bingo-grid b { font-size:clamp(11px,2vw,19px); text-align:center; }
+.en-travel .travel-bingo-grid { direction:ltr; }
+.en-travel .travel-controls label { text-align:left; }
+.en-travel .travel-time { direction:ltr; }
+.en-travel .travel-player { flex-direction:row; }
+.travel-paper[lang=en] { direction:ltr; font-family:Arial,Helvetica,sans-serif; }
+.travel-paper[lang=en] .travel-bingo-grid b { font-size:21px; }
+.travel-print-output[lang=en] { direction:ltr!important; }
+@media print {#buga-print-output[lang=en]{direction:ltr!important}}
+.en-travel-home>img {width:250px;max-width:40%;object-fit:contain;align-self:center}
+@media(max-width:600px){.en-travel-home>img{width:140px;max-width:65%;margin:auto}}

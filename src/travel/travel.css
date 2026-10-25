@@ -111,3 +111,46 @@
 .travel-play>.travel-grid>.travel-card { margin-bottom:0; min-height:150px; }
 .travel-envelope-template { width:100%!important; height:790px!important; display:block; margin:auto; }
 @media(min-width:768px){.travel-play>.travel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* Travel shares Ugabuga's playful paper, ink and soft-color arcade language. */
+@media screen {
+ .travel { --trip-ink:#1d2233; --trip-yellow:#ffd23f; }
+ .travel>.quick-answer { border:2px solid var(--trip-ink); border-radius:22px 18px 24px 17px; box-shadow:4px 4px 0 var(--trip-ink); }
+ .travel>.quick-answer h2 { font-family:var(--font-heading); }
+ .travel-card { border:2.5px solid var(--trip-ink); border-radius:22px 18px 24px 20px; box-shadow:4px 4px 0 var(--trip-ink); }
+ .travel-section>.travel-grid>.travel-card:nth-child(4n+1) {background:#fff1b8}
+ .travel-section>.travel-grid>.travel-card:nth-child(4n+2) {background:#e8defb}
+ .travel-section>.travel-grid>.travel-card:nth-child(4n+3) {background:#dff2ff}
+ .travel-section>.travel-grid>.travel-card:nth-child(4n+4) {background:#e0f5df}
+ .travel-section a.travel-card { transition:transform .16s,box-shadow .16s; }
+ .travel-section a.travel-card:hover { transform:translateY(-4px) rotate(-.4deg); box-shadow:6px 7px 0 var(--trip-ink); }
+ .travel button:not(.mm-card,.sl-tile,.sd-cell,.sd-key,.arc-chip,.arc-tool),.travel input,.travel select { border:2px solid var(--trip-ink); box-shadow:2px 3px 0 var(--trip-ink); }
+ .travel-controls>button:first-of-type,.travel-cta { background:var(--trip-yellow); border:2.5px solid var(--trip-ink); box-shadow:3px 4px 0 var(--trip-ink); }
+ .travel-controls>button:active,.travel-cta:active {transform:translate(2px,2px);box-shadow:1px 1px 0 var(--trip-ink)}
+ .travel-hero { border:3px solid var(--trip-ink); box-shadow:6px 6px 0 var(--trip-ink); background:linear-gradient(120deg,#fff1b8,#ffe7df); position:relative; }
+ .travel-hero h2 {font-size:clamp(26px,4vw,36px);font-weight:900}
+ .travel-play {border:3px solid var(--trip-ink);box-shadow:6px 6px 0 var(--trip-ink);background:radial-gradient(#1d223312 1px,transparent 1.5px) 0 0/20px 20px,#fffaf0;border-radius:25px;padding:18px}
+ .travel-play>.travel-grid>.travel-card {border:2.5px solid var(--trip-ink);box-shadow:4px 5px 0 var(--trip-ink);border-radius:24px 19px 25px 19px;transition:transform .15s;min-height:160px}
+ .travel-play>.travel-grid>.travel-card:hover {transform:translateY(-4px) rotate(-1deg)}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+1){background:#fff0ad}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+2){background:#ffe0e9}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+3){background:#e7ddfc}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+4){background:#dcf2ff}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+5){background:#dff4d8}
+ .travel-play>.travel-grid>.travel-card:nth-child(6n+6){background:#ffe5ca}
+ .travel-play>.travel-grid>.travel-card h2{font-size:clamp(21px,3vw,28px);font-weight:900;margin:8px 0 0}
+ .travel:has(>.travel-play)>.quick-answer {padding:12px 18px;margin:10px 0 20px;max-width:none;background:#fff1b8}
+ .travel:has(>.travel-play)>.quick-answer>:is(h2,p:first-child,p:last-child){display:none}
+ .travel:has(>.travel-play)>.quick-answer>p:nth-of-type(2){display:block;margin:0;font-size:16px}
+ .travel:has(>.travel-play)>h1{font-size:clamp(30px,5vw,44px);margin:12px 0}
+ .travel-game {display:flex;flex-direction:column;width:100%;min-height:520px;height:68vh;max-height:820px;border:2.5px solid var(--trip-ink);box-shadow:4px 4px 0 var(--trip-ink);border-radius:22px;background:linear-gradient(150deg,#e2f4ff,#fff9e7);padding:12px}
+ .travel-game>.arc-game {width:100%;height:100%;min-height:0;flex:1;align-self:stretch}
+ .travel-game .mm-card {padding:0;border:0;border-radius:0;min-height:0;background:transparent;box-shadow:none}
+ .travel-game .arc-game .arc-field {min-height:220px;flex:1}
+ .travel-game .sd-cell,.travel-game .sd-key,.travel-game .sl-tile {padding:0;min-height:0}
+ .travel-game .mm-inner {height:100%;width:100%}
+ .travel-locked {border-radius:0;border:0;box-shadow:none;padding:12px}
+ .travel-locked .travel-game {height:calc(100dvh - 150px);max-height:none;min-height:300px}
+ @media(max-width:500px){.travel-play{padding:12px}.travel-game{padding:6px;min-height:440px;height:65vh}.travel-play>.travel-grid{gap:12px}.travel-play>.travel-grid>.travel-card{padding:12px 8px;min-height:145px}.travel-game .arc-hud{gap:6px}.travel-game .arc-pill{font-size:13px;padding:4px 8px}}
+}
+.travel-mascot {width:200px;max-width:30%;height:auto;object-fit:contain;flex:none;filter:none}
+@media(max-width:600px){.travel-mascot{width:120px;max-width:28%}}

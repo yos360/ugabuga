@@ -61,6 +61,7 @@ export default function Layout({ children }) {
   }, [])
   // A live game is a focused, full-screen experience on phones and projectors.
   // Keep the site navigation, newsletter and footer outside the host/player session.
+  if (['/en/travel/play','/en/travel/offline'].includes(pathname)) return <main id="site-content" tabIndex={-1}>{children}</main>
   if (['/travel/play', '/travel/offline'].includes(pathname)) return <><ScrollToTop /><main id="site-content" tabIndex={-1}><KidsLockGate>{children}</KidsLockGate></main></>
   if (/^\/(?:play\/[^/]+|live\/[^/]+\/host|en\/play\/[^/]+|en\/live\/[^/]+\/host)\/?$/.test(pathname)) {
     return <><ScrollToTop /><main id="site-content" tabIndex={-1}>{children}</main></>

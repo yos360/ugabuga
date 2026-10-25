@@ -1,0 +1,1 @@
+English adaptations of the thirty Ugabuga stories already on main. Offline narration generated locally with eSpeak NG, using @echogarden/espeak-ng-emscripten 0.3.5, at no cost. The speech engine is not distributed with this site. These are computer-generated recordings, not a human narrator.

@@ -25,6 +25,25 @@ const LongCarRide = lazy(() => import('./travel/TravelGuides').then(m => ({ defa
 const CarryOnKids = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.CarryOnKids })))
 const FlyingBaby = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.FlyingBaby })))
 const CarSickness = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.CarSickness })))
+const EnglishTravelHub = lazy(() => import('./en/travel/EnglishTravelPage'))
+const EnglishTravelKit = lazy(() => import('./en/travel/EnglishTravelPrintables').then(m => ({ default: m.EnglishTravelKit })))
+const EnglishTravelBingo = lazy(() => import('./en/travel/EnglishTravelPrintables').then(m => ({ default: m.EnglishTravelBingo })))
+const EnglishTravelPassport = lazy(() => import('./en/travel/EnglishTravelPrintables').then(m => ({ default: m.EnglishTravelPassport })))
+const EnglishTravelJournal = lazy(() => import('./en/travel/EnglishTravelPrintables').then(m => ({ default: m.EnglishTravelJournal })))
+const EnglishTravelPacking = lazy(() => import('./en/travel/EnglishTravelTools').then(m => ({ default: m.EnglishTravelPacking })))
+const EnglishTravelRadio = lazy(() => import('./en/travel/EnglishTravelRadio').then(m => ({ default: m.EnglishTravelRadio })))
+const EnglishTravelListen = lazy(() => import('./en/travel/EnglishTravelTalkListen').then(m => ({ default: m.EnglishTravelListen })))
+const EnglishTravelTalk = lazy(() => import('./en/travel/EnglishTravelTalkListen').then(m => ({ default: m.EnglishTravelTalk })))
+const EnglishTravelOffline = lazy(() => import('./en/travel/EnglishTravelOffline'))
+const EnglishTravelPlay = lazy(() => import('./en/travel/EnglishTravelPlay'))
+const EnglishTravelCountdown = lazy(() => import('./en/travel/EnglishTravelCountdown').then(m => ({ default: m.EnglishTravelCountdown })))
+const EnglishTravelSurprises = lazy(() => import('./en/travel/EnglishTravelPrintables').then(m => ({ default: m.EnglishTravelSurprises })))
+const EnglishTravelWaiting = lazy(() => import('./en/travel/EnglishTravelTools').then(m => ({ default: m.EnglishTravelWaiting })))
+const EnglishToddlerFlight = lazy(() => import('./en/travel/EnglishTravelGuides').then(m => ({ default: m.EnglishToddlerFlight })))
+const EnglishLongCarRide = lazy(() => import('./en/travel/EnglishTravelGuides').then(m => ({ default: m.EnglishLongCarRide })))
+const EnglishCarryOnKids = lazy(() => import('./en/travel/EnglishTravelGuides').then(m => ({ default: m.EnglishCarryOnKids })))
+const EnglishFlyingBaby = lazy(() => import('./en/travel/EnglishTravelGuides').then(m => ({ default: m.EnglishFlyingBaby })))
+const EnglishCarSickness = lazy(() => import('./en/travel/EnglishTravelGuides').then(m => ({ default: m.EnglishCarSickness })))
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
@@ -471,6 +490,25 @@ export default function App() {
               <Route path="/travel" element={<TravelHub />} />
               <Route path="/travel/offline" element={<TravelOffline />} />
               <Route path="/travel/play" element={<TravelPlay />} />
+              <Route path="/en/travel" element={<EnglishTravelHub />} />
+              <Route path="/en/travel/kit" element={<EnglishTravelKit />} />
+              <Route path="/en/travel/bingo" element={<EnglishTravelBingo />} />
+              <Route path="/en/travel/passport" element={<EnglishTravelPassport />} />
+              <Route path="/en/travel/journal" element={<EnglishTravelJournal />} />
+              <Route path="/en/travel/packing-list" element={<EnglishTravelPacking />} />
+              <Route path="/en/travel/stories" element={<EnglishTravelRadio />} />
+              <Route path="/en/travel/listen" element={<EnglishTravelListen />} />
+              <Route path="/en/travel/talk-games" element={<EnglishTravelTalk />} />
+              <Route path="/en/travel/offline" element={<EnglishTravelOffline />} />
+              <Route path="/en/travel/play" element={<EnglishTravelPlay />} />
+              <Route path="/en/travel/countdown" element={<EnglishTravelCountdown />} />
+              <Route path="/en/travel/surprise-bags" element={<EnglishTravelSurprises />} />
+              <Route path="/en/travel/waiting-games" element={<EnglishTravelWaiting />} />
+              <Route path="/en/travel/guides/toddler-flight" element={<EnglishToddlerFlight />} />
+              <Route path="/en/travel/guides/long-car-ride" element={<EnglishLongCarRide />} />
+              <Route path="/en/travel/guides/carry-on-for-kids" element={<EnglishCarryOnKids />} />
+              <Route path="/en/travel/guides/flying-with-baby" element={<EnglishFlyingBaby />} />
+              <Route path="/en/travel/guides/car-sickness" element={<EnglishCarSickness />} />
               <Route path="/en" element={<EnglishHome />} />
               <Route path="/en/coloring-pages" element={<EnglishColoring />} />
               <Route path="/en/coloring-pages/:subject" element={<EnglishColoring />} />

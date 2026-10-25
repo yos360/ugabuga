@@ -6,14 +6,14 @@ const OUTLINES={
   football:[[[120,75],[360,75],[360,200],[300,265],[265,265],[265,310],[330,310],[330,355],[150,355],[150,310],[215,310],[215,265],[180,265],[120,200]],[[130,65],[350,65],[420,190],[350,315],[130,315],[60,190]]],
   unicorn:[[[85,330],[55,125],[155,205],[240,55],[325,205],[425,125],[395,330]],[[240,125],[165,55],[80,105],[70,205],[150,295],[240,365],[330,295],[410,205],[400,105],[315,55]]],
 }
-export default function DotWorksheet({theme,age,version}){
+export default function DotWorksheet({theme,age,version,lang="he"}){
   const choices=OUTLINES[theme]||OUTLINES.space, outline=choices[version%choices.length]
   const divisions=age==='3–4'?1:age==='5–6'?2:3
   const points=outline.flatMap(([x,y],i)=>{
     const [nx,ny]=outline[(i+1)%outline.length]
     return Array.from({length:divisions},(_,j)=>[x+(nx-x)*j/divisions,y+(ny-y)*j/divisions])
   })
-  return <svg viewBox="0 0 480 410" className="worksheet-dots" role="img" aria-label={`ציור לחיבור ${points.length} נקודות`}>
+  return <svg viewBox="0 0 480 410" className="worksheet-dots" role="img" aria-label={lang==='en'?`Connect ${points.length} dots`:`ציור לחיבור ${points.length} נקודות`}>
     <rect width="480" height="410" fill="white"/>
     {points.map(([x,y],i)=><g key={i}><circle cx={x} cy={y} r="3.2" fill="#111"/><text x={x+(x<240?-10:10)} y={y-8} textAnchor={x<240?'end':'start'} fontSize="12" fill="#111">{i+1}</text></g>)}
   </svg>

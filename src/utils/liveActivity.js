@@ -28,6 +28,7 @@ export function activityForPath(path) {
   if (['admin','account','auth','login','q'].includes(parts[0])) return null
   if (Object.hasOwn(ALIASES, slug)) return ALIASES[slug]
   if (Object.hasOwn(ACTIVITY_LABELS, slug)) return slug
+  if (parts[0] === 'en' && parts[1] === 'travel') return 'tool'
   if (parts[0] === 'travel') return 'tool'
   if (parts[0] === 'games') return 'game'
   if (parts[0] === 'online-games') return 'online-games'
