@@ -33,4 +33,6 @@ try{
  const local=page.waitForEvent('download');await page.getByRole('link',{name:'פתיחת הערכה בלי אינטרנט'}).click();await(await local).saveAs('/tmp/buga-travel-kit-offline.pdf')
  console.log('Actual kit PDF downloaded and reopened from local storage offline')
  await ctx.close()
-}finally{await browser.close();server.httpServer.closeAllConnections();await new Promise(r=>server.httpServer.close(r))}
+}finally{await browser.close();server.httpServer.closeAllConnections();server.httpServer.close()}
+
+process.exit(0)

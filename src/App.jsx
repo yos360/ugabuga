@@ -17,6 +17,9 @@ const TravelSurprises = lazy(() => import('./travel/TravelPrintables').then(m =>
 const TravelTalk = lazy(() => import('./travel/TravelTalkListen').then(m => ({ default: m.TravelTalk })))
 const TravelListen = lazy(() => import('./travel/TravelTalkListen').then(m => ({ default: m.TravelListen })))
 const TravelRadio = lazy(() => import('./travel/TravelRadio').then(m => ({ default: m.TravelRadio })))
+const TravelCountdown = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelCountdown })))
+const TravelPacking = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelPacking })))
+const TravelWaiting = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelWaiting })))
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
@@ -452,6 +455,9 @@ export default function App() {
               <Route path="/travel/talk-games" element={<TravelTalk />} />
               <Route path="/travel/listen" element={<TravelListen />} />
               <Route path="/travel/stories" element={<TravelRadio />} />
+              <Route path="/travel/countdown" element={<TravelCountdown />} />
+              <Route path="/travel/packing-list" element={<TravelPacking />} />
+              <Route path="/travel/waiting-games" element={<TravelWaiting />} />
               <Route path="/travel" element={<TravelHub />} />
               <Route path="/travel/offline" element={<TravelOffline />} />
               <Route path="/travel/play" element={<TravelPlay />} />

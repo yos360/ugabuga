@@ -1,4 +1,4 @@
-export const OFFLINE_ROUTES = ['/travel/offline', '/travel/play', '/travel/stories']
+export const OFFLINE_ROUTES = ['/travel/offline', '/travel/play', '/travel/stories', '/travel/countdown']
 export function cacheAllowed(value, origin) {
   const u = new URL(value, origin)
   if (u.origin !== origin || u.hash || u.search) return false

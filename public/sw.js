@@ -2,7 +2,7 @@
 const PREFIX = 'buga-travel-'
 const STATE = PREFIX + 'state'
 const KEY = '/travel-cache-state'
-const ROUTES = ['/travel/offline', '/travel/play', '/travel/stories']
+const ROUTES = ['/travel/offline', '/travel/play', '/travel/stories', '/travel/countdown']
 function allowed(value) {
   const u = new URL(value, self.location.origin)
   if (u.origin !== self.location.origin || u.hash || u.search) return false
@@ -39,6 +39,7 @@ self.addEventListener('message', e => {
       for (const u of urls) {
         const r = await fetch(u, {cache:'reload'})
         if (!r.ok || r.redirected || (u.endsWith('.mp3') && !r.headers.get('content-type')?.includes('audio'))) throw Error('אחד הקבצים לא ירד. בדקו את החיבור ונסו שוב.')
+        if(!ROUTES.includes(u)&&u!=='/index.html'&&r.headers.get('content-type')?.includes('text/html'))throw Error('קובץ חסר בגרסה הנוכחית. רעננו ונסו שוב.')
         bytes += (await r.clone().arrayBuffer()).byteLength
         await cache.put(u, r)
       }

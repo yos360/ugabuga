@@ -4748,4 +4748,7 @@
   <url><loc>https://ugabuga.co.il/travel/talk-games</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/travel/listen</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/travel/stories</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/travel/countdown</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/travel/packing-list</loc><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/travel/waiting-games</loc><priority>0.8</priority></url>
 </urlset>

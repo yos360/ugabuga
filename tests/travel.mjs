@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 const read = p => readFileSync(new URL('../' + p, import.meta.url), 'utf8')
 test('travel landing is registered across routes, navigation, search and sitemap', () => {
   for (const file of ['src/App.jsx', 'src/data/siteMenu.js', 'src/data/searchStatic.js', 'public/sitemap-static.xml']) assert.ok(read(file).includes('/travel'), file)
@@ -55,4 +55,19 @@ test('travel conversation cards have 30 original openings and sourced facts',()=
  for(const fact of FACTS){assert.ok(fact.source.startsWith('https://'));assert.equal(typeof fact.answer,'boolean')}
  assert.ok(!read('src/travel/storyCatalog.js').includes('stories-365'))
  assert.match(read('src/travel/storyCatalog.js'),/BEDTIME_STORIES/)
+})
+import { WAITING_GAMES, packingItems } from '../src/travel/waitingData.js'
+test('waiting games offer 28 unique seated activities and each packing setting has unique keys',()=>{
+ assert.equal(WAITING_GAMES.length,28);assert.equal(new Set(WAITING_GAMES.map(g=>g.title)).size,28)
+ for(const age of ['baby','toddler','child'])for(const type of ['car','plane','train']){const items=packingItems(age,type);assert.equal(new Set(items.map(x=>x[0])).size,items.length)}
+})
+import { creatorTool } from '../src/utils/creations.js'
+test('travel personalization never opts into visitor creation capture',()=>{
+ for(const path of ['/travel/kit','/travel/passport','/travel/journal'])assert.equal(creatorTool(path),null)
+ assert.ok(!read('src/travel/TravelPrint.jsx').includes('recordCreation'))
+})
+
+test('offline manifest contains only real emitted assets after Vite removes CSS proxy chunks', {skip:!existsSync(new URL('../dist/travel-assets.json',import.meta.url))},()=>{
+ const manifest=JSON.parse(read('dist/travel-assets.json'));assert.ok(manifest.assets.length>0)
+ for(const asset of manifest.assets){assert.ok(existsSync(new URL('../dist'+asset,import.meta.url)),asset);assert.ok(cacheAllowed(asset,'https://ugabuga.co.il'),asset)}
 })

@@ -32,6 +32,10 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: '/travel/countdown', title: 'כמה עוד נשאר? טיימר לנסיעה', emoji: '✈️', kind: 'tool' },
+  { to: '/travel/packing-list', title: 'מה לוקחים לנסיעה עם ילדים', emoji: '✈️', kind: 'tool' },
+  { to: '/travel/waiting-games', title: 'משחקים לתור ולמסעדה', emoji: '✈️', kind: 'tool' },
+
   { to: '/travel/talk-games', title: 'משחקי דיבור למשפחה', emoji: '✈️', kind: 'tool' },
   { to: '/travel/listen', title: 'משחקי שמע וחידות', emoji: '✈️', kind: 'tool' },
   { to: '/travel/stories', title: 'רדיו בוגה — סיפורים לדרך', emoji: '✈️', kind: 'tool' },

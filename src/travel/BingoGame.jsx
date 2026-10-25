@@ -1,0 +1,4 @@
+import { useState } from 'react'
+import { BingoBoard } from './BingoBoard'
+import { BINGO, bingoBoards } from './printData'
+export default function BingoGame(){const [kind,setKind]=useState('road'),[size,setSize]=useState(3),[board,setBoard]=useState(0);return <><div className="travel-controls"><label>סוג בינגו<select value={kind} onChange={e=>setKind(e.target.value)}>{Object.entries(BINGO).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></label><label>גודל לוח<select value={size} onChange={e=>setSize(+e.target.value)}><option value={3}>3×3</option><option value={4}>4×4</option></select></label><button onClick={()=>setBoard(v=>(v+1)%6)}>לוח אחר</button></div><BingoBoard key={kind+size+board} items={bingoBoards(kind,size)[board]} size={size} number={board+1} interactive/></>}

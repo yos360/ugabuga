@@ -23,6 +23,9 @@ try{
  assert.ok(await page.evaluate(()=>window.__played.length>=2),'continuous title to paragraph playback')
  await page.getByRole('button',{name:'השהיה',exact:true}).click();assert.ok(await page.evaluate(()=>window.__travelAudio.paused))
  await page.getByRole('button',{name:'מסך כהה',exact:true}).click();assert.ok(await page.locator('.travel-radio.night').count())
+ await page.goto(origin+'/travel/play',{waitUntil:'domcontentloaded'});await page.locator('[data-activity=story]').click();await page.getByRole('button',{name:'השמעה',exact:true}).click();await page.waitForFunction(()=>window.__travelAudio?.currentTime>.1&&!window.__travelAudio.paused,{timeout:15000})
  console.log('Audio games, 30 story starts, print cards, saved recordings and offline playback passed; audio files:',audio.length)
  await ctx.close()
-}finally{await browser.close();server.httpServer.closeAllConnections();await new Promise(r=>server.httpServer.close(r))}
+}finally{await browser.close();server.httpServer.closeAllConnections();server.httpServer.close()}
+
+process.exit(0)

@@ -9,7 +9,9 @@ export async function changeOffline(type, extra = {}) {
   const reg = type === 'SAVE' ? await navigator.serviceWorker.register('/sw.js', {scope:'/', updateViaCache:'none'}) : await navigator.serviceWorker.getRegistration('/sw.js')
   if (!reg) return {ok:true}
   await navigator.serviceWorker.ready
-  const worker = reg.active || reg.waiting || reg.installing
+  if(type==='SAVE')await reg.update()
+  const worker = reg.installing || reg.waiting || reg.active
+  if(worker.state!=='activated')await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>{worker.removeEventListener('statechange',changed);reject(Error('עדכון תיק הטיסה לא הסתיים. נסו שוב.'))},30000);const changed=()=>{if(worker.state==='activated'){clearTimeout(timeout);worker.removeEventListener('statechange',changed);resolve()}else if(worker.state==='redundant'){clearTimeout(timeout);worker.removeEventListener('statechange',changed);reject(Error('העדכון הוחלף. נסו לשמור שוב.'))}};worker.addEventListener('statechange',changed);changed()})
   return new Promise((resolve,reject) => {
     const channel = new MessageChannel()
     const timeout = setTimeout(()=>{channel.port1.close();reject(Error('השמירה ארכה יותר מדי. נסו שוב.'))},300000)

@@ -19,7 +19,7 @@ try {
  await page.screenshot({path:'/tmp/ugabuga-travel-play.png',fullPage:true})
  await page.goto(origin+'/travel/offline')
  await page.getByRole('button',{name:'שמרו לטיסה',exact:true}).click()
- await page.getByText('✓ שמור לשימוש בלי אינטרנט',{exact:true}).waitFor({timeout:120000})
+ await page.getByText('✓ שמור לשימוש בלי אינטרנט',{exact:true}).waitFor({timeout:60000}).catch(async e=>{console.log('Save failure:',await page.locator('.travel').innerText());throw e})
  const keys=await page.evaluate(async()=>{let a=[];for(const k of await caches.keys())for(const r of await(await caches.open(k)).keys())a.push(r.url);return a})
  assert.ok(!keys.some(k=>/supabase|analytics|\/admin|\/r\/|\/t\//.test(k)))
  console.log('Saved',keys.length,'requests')
@@ -29,6 +29,7 @@ try {
  await page.getByRole('link',{name:'✈️ פותחים את מסך הטיסה',exact:true}).click()
  const actions=[['זיכרון','.mm-card'],['פאזל','.sl-tile'],['צביעה','.cbn-svg'],['מבוך','svg'],['סודוקו','.sd-cell']]
  for(const [name,selector] of actions){
+  if(name!=='צביעה')await page.locator('[data-activity=picker]').click()
   await page.getByRole('button',{name:new RegExp(name),exact:false}).first().click()
   await page.waitForTimeout(1800)
   assert.ok(await page.locator('.travel-game '+selector).count(),name+' board exists')
@@ -40,6 +41,8 @@ try {
   console.log('Offline game',name,selector,'opened')
   await page.getByRole('button',{name:'← בחירת פעילות אחרת',exact:true}).click()
  }
+ await page.locator('[data-activity=countdown]').click();await page.getByRole('button',{name:'התחלת נסיעה',exact:true}).click();const before=await page.locator('.travel-time').innerText();await page.waitForTimeout(1200);assert.notEqual(await page.locator('.travel-time').innerText(),before,'offline timer runs');await page.getByRole('button',{name:'← בחירת פעילות אחרת',exact:true}).click()
+ await page.locator('[data-activity=bingo]').click();await page.locator('.travel-bingo-grid button').first().click();assert.equal(await page.locator('.travel-bingo-grid button').first().getAttribute('aria-pressed'),'true');await page.getByRole('button',{name:'← בחירת פעילות אחרת',exact:true}).click()
  await page.getByRole('button',{name:'🔒 מנעול ילדים',exact:true}).click()
  await page.getByRole('button',{name:'🔒 לחצו והחזיקו כדי לצאת',exact:true}).waitFor()
  const unlock=page.getByRole('button',{name:'🔒 לחצו והחזיקו כדי לצאת',exact:true});await unlock.dispatchEvent('pointerdown');await page.waitForTimeout(2400)
@@ -48,4 +51,6 @@ try {
  await page.getByText('✓ שמור לשימוש בלי אינטרנט',{exact:true}).waitFor({state:'hidden'})
  console.log('Offline save, navigation, games, lock and deletion passed')
  await context.close()
-} finally {await browser.close();await new Promise(resolve=>server.httpServer.close(resolve))}
+} finally {await browser.close();server.httpServer.close()}
+
+process.exit(0)
