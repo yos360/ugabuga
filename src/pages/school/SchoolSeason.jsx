@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 import { shareOnWhatsApp } from '../../utils/share'
 import {
   SCHOOL_PAGES, groupGift, groupGiftMessage, perFamilyFor, WEIGHT_OPTIONS, MAX_FAMILIES, MAX_PER_FAMILY, clampInt,
@@ -262,6 +263,7 @@ export function TeacherGiftPage() {
       { emoji: '😄', label: 'בדיחות על מורים', href: '/jokes/teachers' },
       { emoji: '🛍️', label: 'כל רעיונות המתנות', href: '/gifts' },
     ]} />
+    <BuyingGuideLink id="teacher-gift" />
   </div>
 }
 
