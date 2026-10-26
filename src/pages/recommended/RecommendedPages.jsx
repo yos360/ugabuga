@@ -86,7 +86,7 @@ export function RecommendedGuide({ id }) {
                 <div className="min-w-0 flex-1">
                   <h3 className="m-0 text-xl font-bold">{it.name}</h3>
                   <p className="m-0 mt-1 flex flex-wrap gap-2 text-sm">
-                    <span className="rounded-full bg-[var(--muted)] px-2 py-0.5"><b>גיל:</b> {it.age}</span>
+                    <span className="rounded-full bg-[var(--muted)] px-2 py-0.5"><b>{guide.ageLabel || 'גיל'}:</b> {it.age}</span>
                     <span className="rounded-full bg-[var(--muted)] px-2 py-0.5"><b>מתי:</b> {it.when}</span>
                   </p>
                   <p className="m-0 mt-2 leading-relaxed">{it.why}</p>
@@ -103,7 +103,7 @@ export function RecommendedGuide({ id }) {
         <div className="overflow-x-auto wobbly-md border-2 border-[var(--border)] bg-[var(--card)]">
           <table className="w-full border-collapse text-sm sm:text-base">
             <caption className="sr-only">{guide.title} — סיכום</caption>
-            <thead><tr className="bg-[var(--postit)] text-[var(--ink)]"><th scope="col" className="p-2 text-right">פריט</th><th scope="col" className="p-2 text-right">גיל</th><th scope="col" className="p-2 text-right">מתי שימושי</th></tr></thead>
+            <thead><tr className="bg-[var(--postit)] text-[var(--ink)]"><th scope="col" className="p-2 text-right">פריט</th><th scope="col" className="p-2 text-right">{guide.ageLabel || 'גיל'}</th><th scope="col" className="p-2 text-right">מתי שימושי</th></tr></thead>
             <tbody>{guide.items.map(it => <tr key={it.name} className="border-t border-[var(--border)]"><th scope="row" className="p-2 text-right align-top font-bold">{it.name}</th><td className="p-2 align-top whitespace-nowrap">{it.age}</td><td className="p-2 align-top">{it.when}</td></tr>)}</tbody>
           </table>
         </div>
