@@ -5,7 +5,8 @@ import { SPONSORS } from '../../data/sponsors'
 // Clicks on sponsored banners (owner_sponsor_clicks), for the report's selected period.
 // A click = someone pressed the banner's link (it opens the advertiser's site in a new tab).
 // The owner's own browser is never counted.
-const sponsorName = id => SPONSORS.find(s => s.id === id)?.name || id
+const ALI_TOPICS = { travel: 'נסיעות', party: 'מסיבה', crafts: 'יצירה', speech: 'קלינאות', teacher: 'גננת ומורה', hanukkah: 'חנוכה' }
+const sponsorName = id => SPONSORS.find(s => s.id === id)?.name || (String(id).startsWith('ali-') ? `עלי אקספרס · ${ALI_TOPICS[id.slice(4)] || id.slice(4)}` : id)
 
 export default function SponsorClicks({ from, to, tick = 0, pageName }) {
   const [rows, setRows] = useState(null), [error, setError] = useState('')

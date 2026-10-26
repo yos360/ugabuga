@@ -449,6 +449,8 @@ function statItems(data, multiDay = false, social = null, sponsors = null, rsvp 
     [rsvp ? rsvp.responses : '—', 'תשובות שהתקבלו ב־RSVP', 'ענו RSVP', 'bg-rose-50'],
     [rsvp ? `${rsvp.to_birthday_famous} / ${rsvp.to_trick_questions}` : '—', 'אורחי RSVP שהמשיכו ל„מי נולד ביום שלכם” / ל„שאלות מכשילות” (באנגלית: יום הולדת / משחק הזיכרון)', 'RSVP → קישורים', 'bg-rose-50'],
     [sponsors ? sponsors.find(r => r.sponsor === 'eureka')?.clicks || 0 : '—', 'לחיצות על הבאנר של אאורקה (חכם על קטנים)', 'באנר אאורקה', 'bg-amber-50'],
+    // AliExpress affiliate boxes log their clicks as sponsor 'ali-<topic>'.
+    [sponsors ? sponsors.filter(r => String(r.sponsor).startsWith('ali-')).reduce((n, r) => n + (r.clicks || 0), 0) : '—', 'לחיצות על קישורי עלי אקספרס (כל המוצרים)', 'עלי אקספרס', 'bg-orange-50'],
     [data.total, 'כל הפעולות שנרשמו', 'כל הפעולות', 'bg-violet-50'],
   ]
 }
