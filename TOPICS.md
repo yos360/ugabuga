@@ -10,7 +10,7 @@ One line per day, newest at the bottom ("?" = made before this log existed, uplo
 | earlier | Shabbat: candle lighting + parashat Lech Lecha | /shabbat-activities, /shabbat-times | ? | ? | ? | ? |
 | earlier | Buga Live (live quiz from the phone) | /live | ? | ? | ? | ? |
 | 2026-10-25 | "הפעם מצביעים בוגה" — all 5 election types | /tools/class-elections | ✓ | ✓ | ✓ | ✓ |
-| 2026-10-26 | "כמה עוד נשאר?!" — נוסעים עם בוגה (travel kit, bingo, waiting games, timer) | /travel | ✓ | ✓ | (see note) | ✓ |
+| 2026-10-26 | "כמה עוד נשאר?!" — נוסעים עם בוגה (travel kit, bingo, waiting games, timer) | /travel | ✓ | ✓ | ✓ | ✓ |
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
