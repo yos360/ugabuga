@@ -83,7 +83,7 @@ export const AFFILIATE_TOPICS = [
     { name: 'סינר שף לילדים', url: 'https://s.click.aliexpress.com/e/_c3W9hlML', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sf32fa2f0369f4261ba2fac42c9e47e2aL.jpg' },
     { name: 'סט טופרים Happy Birthday לעוגה', url: 'https://s.click.aliexpress.com/e/_c4L6xvRp', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S7983011399924426b88c81c7f61b1032D.jpg' },
   ] },
-  { id: 'adventure', title: '🗺️ לציד אוצר ומשחקי בריחה', placements: ['/treasure-hunt', '/scavenger-hunt', '/escape-room', '/escape-rooms', '/secret-friend'], products: [
+  { id: 'adventure', title: '🗺️ לציד אוצר ומשחקי בריחה', placements: ['/treasure-hunt', '/scavenger-hunt', '/escape-room', '/escape-rooms', '/secret-friend', '/tools/scavenger-hunt-maker', '/tools/escape-rooms'], products: [
     { name: 'זוג מכשירי קשר לילדים', url: 'https://s.click.aliexpress.com/e/_c309Kxub', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S154c28ab622b46068f5928359824c556O.jpg' },
     { name: 'עטי דיו נעלם עם פנס UV', url: 'https://s.click.aliexpress.com/e/_c4Puo2Oj', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S75ae324ce095491f88b01947572263eau.jpg' },
     { name: 'מטבעות זהב של פיראטים', url: 'https://s.click.aliexpress.com/e/_c4aoYYgR', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S91b43f0d8acd4560bf9fa53c0ae64e20t.jpg' },
@@ -94,7 +94,7 @@ export const AFFILIATE_TOPICS = [
     { name: 'אלבום ברכות ותמונות לאירוע', url: 'https://s.click.aliexpress.com/e/_c3zMHQ7d', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sb31c580bbcd94af882559243ae78ccb6i.jpg' },
     { name: 'סט בלוני Happy Birthday עגולים', url: 'https://s.click.aliexpress.com/e/_c32Qx1CT', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sdaa759c281c44671affc2364064ed428p.jpg' },
   ] },
-  { id: 'tubishvat', title: '🌳 לטו בשבט ושתילה', placements: ['/tu-bishvat'], products: [
+  { id: 'tubishvat', title: '🌳 לטו בשבט ושתילה', placements: ['/tu-bishvat', '/holidays/tu-bishvat', '/printables/coloring/tu-bishvat'], products: [
     { name: 'עציצי שתילה שקופים לילדים', url: 'https://s.click.aliexpress.com/e/_c3knqxuT', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S21a9454003cc4eabb3a6610b2f6daef8X.jpg' },
     { name: 'סט כלי גינון קטנים', url: 'https://s.click.aliexpress.com/e/_c31EarEX', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sc5af9a83737640eab97f3689e2a1b21av.jpg' },
     { name: 'בונסאי מלאכותי בעציץ', url: 'https://s.click.aliexpress.com/e/_c3PUSwCJ', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S2dd262d196de4accb238b3a7214aa11bw.jpg' },
@@ -110,7 +110,7 @@ export const AFFILIATE_TOPICS = [
     { name: 'קובייה הונגרית מהירה 3x3', url: 'https://s.click.aliexpress.com/e/_c2zYQcbV', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S928804116a824a9ab82e88d92f340b32c.jpg' },
     { name: 'טנגרם עץ תלת־ממדי', url: 'https://s.click.aliexpress.com/e/_c2ulyOSx', image: 'https://ae-pic-a1.aliexpress-media.com/kf/H0c41d0378c4c45e18cd3ecc025fdadb9b.jpg' },
   ] },
-  { id: 'quiz', title: '🏆 לערב חידון', placements: ['/quiz', '/trivia', '/riddles', '/trick-questions', '/eretz-ir'], products: [
+  { id: 'quiz', title: '🏆 לערב חידון', placements: ['/quiz', '/trivia', '/riddles', '/trick-questions', '/eretz-ir', '/tools/trivia-quiz', '/tools/riddles', '/tools/eretz-ir'], products: [
     { name: 'סט 4 לחצני תשובה לחידון', url: 'https://s.click.aliexpress.com/e/_c4DRjOUr', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S87497956c6774432b9f53997b77a8b129.jpg' },
     { name: 'שעון חול צבעוני', url: 'https://s.click.aliexpress.com/e/_c4OMl0Vt', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sda6158d13f964f9ca72974e5434e5762a.jpg' },
     { name: 'לוח מגנטי מחיק לניקוד', url: 'https://s.click.aliexpress.com/e/_c3GeCQVp', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S689fa8b7c78b414aa8517d6c36298f78c.jpg' },
