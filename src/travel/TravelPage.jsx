@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { TRAVEL_FAQ } from './travelFaq'
 import TravelIcon from './TravelIcon'
 import './travel.css'
+import BuyingGuideLink from '../components/ui/BuyingGuideLink'
 
 export const TRAVEL_INTRO = 'נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט. כל מה שצריך כדי שהדרך תעבור בכיף: חוברות להדפסה לפני שיוצאים, משחקים בלי מסך לכל המשפחה, סיפורים לשמיעה, ו"תיק טיסה" שנשמר בטלפון ועובד גם במצב טיסה. בחינם, בלי הרשמה.'
 export function TravelPage({ title, path, intro, faq, children }) {
@@ -46,5 +47,6 @@ export default function TravelHub() {
  {GROUPS.map(([title,items])=><section key={title} className="travel-section"><h2>{title}</h2><div className="travel-grid">{items.map(([path,label,desc,icon])=><Link key={path} to={'/travel/'+path} className="travel-card wobbly sketch-shadow"><TravelIcon icon={icon}/><h3>{label}</h3><p>{desc}</p></Link>)}</div></section>)}
  <section className="travel-card"><h2>עוד משחקים בלי ציוד</h2><p><Link to="/family/car-games" className="underline font-bold">למשחקי הנסיעה הקיימים לכל המשפחה</Link> — כל הרעיונות נשארים בעמוד המקורי.</p></section>
  <p>ההורה הנוסע מפעיל את הפעילויות; הנהג מתרכז בנהיגה. עושים הפסקה ונחים כשצריך.</p>
+ <BuyingGuideLink id="travel" />
  </TravelPage>
 }

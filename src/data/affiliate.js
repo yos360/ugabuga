@@ -22,9 +22,15 @@ export const AFFILIATE_TOPICS = [
 ]
 
 // Never on pages a child uses alone (the kids zone and the games), nor wherever sponsors are off.
-const NO_AFFILIATE = [...NO_SPONSOR, '/games', '/online-games', '/brain-games']
+// The buying guides (/recommended) show their topic's picks in their own grid, so no extra box there.
+export const NO_AFFILIATE = [...NO_SPONSOR, '/games', '/online-games', '/brain-games', '/recommended']
 
 const valid = p => p && p.name && /^https:\/\//.test(p.url || '') && /^https:\/\//.test(p.image || '')
+
+// All valid products of a topic (by id) — the buying guide's own grid. [] when none.
+export function affiliateProducts(id, topics = AFFILIATE_TOPICS) {
+  return (topics.find(t => t.id === id)?.products || []).filter(valid)
+}
 
 // The topic (with at least one valid product) for a page, or null.
 export function affiliateForPath(path, topics = AFFILIATE_TOPICS) {

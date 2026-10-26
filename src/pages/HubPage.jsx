@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintableCard from '../components/ui/PrintableCard'
 import { categories as PRINTABLES } from '../data/printableCategories'
+import BuyingGuideLink from '../components/ui/BuyingGuideLink'
 
 const HUBS = {
   birthday: {
@@ -148,6 +149,8 @@ export default function HubPage({ type }) {
       <h2 className="mb-3 text-2xl font-black">🎯 משחקים לפי כיתה</h2>
       <div className="flex flex-wrap justify-center gap-2">{hub.grades.map(([label, href]) => <Link key={href} to={href} className="rounded-full border-2 border-slate-200 bg-white px-4 py-2 font-bold hover:border-slate-500">{label}</Link>)}</div>
     </nav>}
+    {type === 'birthday' && <BuyingGuideLink id="party" />}
+    {type === 'classroom' && <BuyingGuideLink id="teacher" />}
     {hub.body && <div className="mt-12"><SeoBody paragraphs={hub.body} faq={hub.faq} related={hub.related} /></div>}
   </div>
 }

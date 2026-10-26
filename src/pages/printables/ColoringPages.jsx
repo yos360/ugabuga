@@ -6,6 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { ColoringSubjectsGrid } from './ColoringSubject'
 import { COLORING_SUBJECTS } from '../../data/coloringSubjects'
+import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 // One page per drawing: titles must match what actually prints (several titles used to share a drawing).
 const PAGES = [
@@ -89,6 +90,7 @@ export default function ColoringPages() {
     <section className="no-print grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">{pages.map((page) => <article key={page[1]} className="group rounded-3xl border-2 border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"><button className="block w-full text-right" onClick={() => setSelected(page)}><div className="aspect-[4/3] overflow-hidden rounded-2xl border bg-slate-50"><LineArt kind={page[2]} /></div><h3 className="mt-3 min-h-[3.5rem] text-center text-lg font-bold">{page[1]}</h3><p className="mt-1 text-center text-sm text-slate-500">{CATEGORY[page[0]]}</p></button><button onClick={() => print(page)} className="mt-3 w-full rounded-xl bg-pink-500 px-3 py-2 font-bold text-white">🖨️ הדפסה</button></article>)}</section>
     <section className="no-print mt-10 rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50 p-6 text-center"><h2 className="text-2xl font-bold">רוצים עמוד חדש?</h2><p className="mt-2 text-slate-600">כל קטגוריה כוללת כמה דפים שונים — בחרו נושא אחר כדי לראות עוד.</p></section>
     <section className="no-print mx-auto mt-10 max-w-3xl"><h2 className="mb-3 text-2xl font-bold">רעיונות לשימוש בדפי הצביעה</h2><ul className="mb-8 list-disc space-y-1 pr-6 leading-relaxed text-[var(--foreground)]/80">{TIPS.map(x => <li key={x}>{x}</li>)}</ul>
+      <BuyingGuideLink id="crafts" />
       <SeoBody faq={FAQ} related={[{ label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'צביעה לפי מספרים', href: '/printables/color-by-number' }, { label: 'ציור סימטרי', href: '/printables/symmetry' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'דפי צביעה לפורים', href: '/holidays/purim/coloring' }]} /></section>
 
   </div>

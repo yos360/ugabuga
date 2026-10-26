@@ -1,4 +1,5 @@
 import { TRAVEL_PAGES as EN_TRAVEL_PAGES } from '../en/travel/catalog.js'
+import { BUYING_HUB, BUYING_GUIDES, buyingPath } from './buyingGuides.js'
 import { COLORING_DRAWINGS, coloringDrawingPath } from './coloringDrawings.js'
 import { ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
 import { CATEGORIES as EMOJI_CATEGORIES, SITUATIONS as EMOJI_SITUATIONS } from '../emoji/emojiCatalog'
@@ -33,6 +34,8 @@ import { HOLIDAY_BLESSINGS, blessingsHref } from './holidayBlessings'
 
 // Hubs and pages that are not in the tools menu, with the words people search for.
 const PAGES = [
+  { to: BUYING_HUB.path, title: BUYING_HUB.title, desc: BUYING_HUB.description, emoji: '🛒', kind: 'page', keys: 'המלצות קנייה מה לקנות מה כדאי לקנות ציוד מתנה מדריך קנייה' },
+  ...BUYING_GUIDES.map(g => ({ to: buyingPath(g.id), title: g.title, desc: g.short, emoji: g.emoji, kind: 'page', keys: 'מה לקנות מה כדאי לקנות המלצות ציוד רשימת קניות' })),
   ...EN_TRAVEL_PAGES.map(p=>({to:p.path,title:p.title,desc:p.description,emoji:'✈️',kind:'page',keys:'travel airplane road trip children offline flight bag'})),
   { to: '/travel/guides/toddler-flight', title: 'איך להעסיק פעוט בטיסה', emoji: '✈️', kind: 'tool' },
   { to: '/travel/guides/long-car-ride', title: 'משחקים לנסיעה ארוכה ברכב', emoji: '✈️', kind: 'tool' },

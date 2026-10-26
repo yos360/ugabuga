@@ -47,6 +47,8 @@ const EnglishCarSickness = lazy(() => import('./en/travel/EnglishTravelGuides').
 const TravelHub = lazy(() => import('./travel/TravelPage'))
 const Home = lazy(() => import('./pages/Home'))
 const HubPage = lazy(() => import('./pages/HubPage'))
+const RecommendedHub = lazy(() => import('./pages/recommended/RecommendedPages'))
+const RecommendedGuide = lazy(() => import('./pages/recommended/RecommendedPages').then(m => ({ default: m.RecommendedGuide })))
 const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
 const ClassRoster = lazy(() => import('./pages/classroom/ClassRoster'))
 const ClassElections = lazy(() => import('./pages/tools/ClassElections'))
@@ -1119,6 +1121,13 @@ export default function App() {
               <Route path="/gifts/teacher-end-of-year" element={<TeacherGiftPage />} />
               <Route path="/gifts/gananet" element={<GananetGiftPage />} />
               <Route path="/gifts/:age" element={<AgeGiftPage />} />
+              <Route path="/recommended" element={<RecommendedHub />} />
+              <Route path="/recommended/travel" element={<RecommendedGuide id="travel" />} />
+              <Route path="/recommended/party" element={<RecommendedGuide id="party" />} />
+              <Route path="/recommended/crafts" element={<RecommendedGuide id="crafts" />} />
+              <Route path="/recommended/speech" element={<RecommendedGuide id="speech" />} />
+              <Route path="/recommended/teacher" element={<RecommendedGuide id="teacher" />} />
+              <Route path="/recommended/hanukkah" element={<RecommendedGuide id="hanukkah" />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/birthday-in-kindergarten" element={<GanBirthdayGuide />} />
               <Route path="/guides/:slug" element={<GuidePage />} />

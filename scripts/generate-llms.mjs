@@ -6,6 +6,7 @@ import { ENGLISH_SECTIONS } from '../src/en/englishRoutes.js'
 import { MENU_DOMAINS, CLASSROOM_MENU } from '../src/data/siteMenu.js'
 import { HANUKKAH_ROOT, HANUKKAH_GUIDES } from '../src/en/hanukkahGuides.js'
 import { LIST_GUIDES } from '../src/data/guidesLists.js'
+import { BUYING_HUB, BUYING_GUIDES, buyingPath } from '../src/data/buyingGuides.js'
 
 const SITE = 'https://ugabuga.co.il'
 const abs = to => SITE + (to.startsWith('/') ? to : '/' + to)
@@ -62,6 +63,9 @@ out.push('## עמודים מרכזיים', '', ...KEY_PAGES.map(described), '')
 
 // Answer-first list guides — the "X ideas for Y" questions parents and teachers ask assistants.
 out.push('## מדריכים ורשימות — תשובות מהירות להורים ולמורות', '', ...LIST_GUIDES.map(g => `- [${g.title}](${abs('/guides/' + g.slug)}): ${g.quick.a.split('. ')[0].replace(/\.$/, '')}.`), '')
+
+// Buying guides — "what should I buy for…" questions, answered by item type and age (no brands).
+out.push('## המלצות לקנייה', '', `- [${BUYING_HUB.title}](${abs(BUYING_HUB.path)}): מדריכי קנייה לפי גיל, עם הערות בטיחות, מה לא לקנות וחלופות חינמיות באתר.`, ...BUYING_GUIDES.map(g => `- [${g.title}](${abs(buyingPath(g.id))}): ${g.short}`), '')
 
 for (const d of MENU_DOMAINS) {
   out.push(`## ${d.label}`, '', `- [${d.landingLabel || d.label}](${abs(d.to)})`)

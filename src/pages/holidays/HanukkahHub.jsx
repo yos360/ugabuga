@@ -6,6 +6,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HanukkahShell, { HANUKKAH_PAGES } from '../../components/hanukkah/HanukkahShell'
 import { HANUKKAH } from '../../data/hanukkah'
+import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
   '/holidays/hanukkah/songs': 'סביבון, כד קטן, מעוז צור וברכות ההדלקה',
@@ -85,6 +86,7 @@ export default function HanukkahHub() {
         <p className="mt-3 text-sm text-[var(--muted-foreground)]">חשוב: לא משאירים נרות דולקים בלי השגחה של מבוגר, ומרחיקים אותם מווילונות.</p>
       </section>
 
+      <BuyingGuideLink id="hanukkah" />
       <SeoBody
         paragraphs={[
           'חנוכה הוא חג האורים: שמונה ימים שבהם מדליקים נרות, אוכלים סופגניות ולביבות ומשחקים בסביבון — לזכר ניצחון המכבים ונס פך השמן שדלק שמונה ימים בבית המקדש.',

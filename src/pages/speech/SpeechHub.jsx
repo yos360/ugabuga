@@ -6,6 +6,7 @@ import QuickAnswer from '../../components/ui/QuickAnswer'
 import { PLANNED_SOUNDS, SOUNDS } from '../../data/speech/sounds'
 import SpeechNote from './SpeechNote'
 import { LANGUAGE_HUB, LANGUAGE_PAGES } from '../../data/speech/language'
+import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 // /speech — hub of the speech-therapy practice category: sounds (from the registry), tools,
 // information for parents, and existing site pages for phonological awareness and communication.
@@ -109,6 +110,7 @@ export default function SpeechHub() {
     </section>
 
 
+    <BuyingGuideLink id="speech" />
     <div className="mx-auto mt-12 max-w-3xl">
       <SeoBody paragraphs={[
         'בעברית יש מעט חומרי היגוי חינמיים ומסודרים לפי צליל. כאן כל צליל מקבל עמוד משלו: רשימות מילים שנבדקו לפי ההגייה ולא רק לפי האות, תמונות, שמע לכל מילה, ודפים להדפסה שאפשר להתאים לכל ילד.',
