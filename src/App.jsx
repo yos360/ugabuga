@@ -135,6 +135,7 @@ const ClockWorksheets = lazy(() => import('./pages/printables/MathVisualSheets')
 const FractionWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.FractionWorksheets })))
 const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
+const EnglishMemoryCards = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.EnglishMemoryCards })))
 const Dominoes = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.Dominoes })))
 const FortuneTeller = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.FortuneTeller })))
 const GiftBox = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.GiftBox })))
@@ -199,6 +200,7 @@ const SpeechAac = lazy(() => import('./pages/speech/AacBoards'))
 const SpeechPracticeSheets = lazy(() => import('./pages/speech/PracticeSheets'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
+const MemoryEnglish = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryEnglish })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
 const AdultsHub = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultsHub })))
 const CrosswordList = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.CrosswordList })))
@@ -773,6 +775,7 @@ export default function App() {
               <Route path="/printables/english-lines" element={<WritingPaper key="english-lines" kind="english-lines" />} />
               <Route path="/printables/music-paper" element={<WritingPaper key="music-paper" kind="music-paper" />} />
               <Route path="/printables/memory-game" element={<MemoryGame />} />
+              <Route path="/printables/memory-english" element={<EnglishMemoryCards />} />
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/tic-tac-toe" element={<TicTacToeBoards />} />
               <Route path="/printables/name-coloring" element={<NameColoring />} />
@@ -862,6 +865,7 @@ export default function App() {
               <Route path="/adults/mandalas" element={<MandalaMaker />} />
               <Route path="/adults/memory" element={<MemorySeniors />} />
               <Route path="/online-games/memory-letters" element={<MemoryLetters />} />
+              <Route path="/online-games/memory-english" element={<MemoryEnglish />} />
               <Route path="/adults/grandparents" element={<Grandparents />} />
               <Route path="/adults/grandparents/interview" element={<GrandparentsInterview />} />
               <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />

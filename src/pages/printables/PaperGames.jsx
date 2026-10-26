@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
 import PrintableShell, { Sheet, T, Choice, Field } from '../../components/printables/PrintableShell'
 import { ENGLISH_TOPICS, emojiFile } from '../../data/englishWords'
+import { MEMORY_WORD_GROUPS, MEMORY_WORDS } from '../../data/englishMemoryWords'
 
 // Paper games and crafts: memory cards, dominoes, a folding gift box and a fortune teller (קוטי פוטי).
 
 const SIBLINGS = [
-  { href: '/printables/memory-game', label: '🃏 משחק זיכרון' }, { href: '/printables/dominoes', label: '🁫 דומינו' },
+  { href: '/printables/memory-game', label: '🃏 משחק זיכרון' }, { href: '/printables/memory-english', label: '🇬🇧 זיכרון באנגלית' }, { href: '/printables/dominoes', label: '🁫 דומינו' },
   { href: '/printables/fortune-teller', label: '🌸 קוטי פוטי' }, { href: '/printables/gift-box', label: '🎁 קופסת מתנה' },
 ]
 const CRUMBS = [{ label: 'משחקים ויצירה מנייר', href: '/printables?topic=crafts' }]
@@ -47,6 +48,48 @@ export function MemoryGame() {
     paragraphs={['משחק זיכרון הוא משחק הקלפים הראשון של כמעט כל ילד: מניחים את הקלפים הפוכים, הופכים שניים בכל תור ומחפשים זוגות. הוא מאמן ריכוז וזיכרון חזותי, ומתאים כבר מגיל 3.', 'הגרסה עם תמונה ומילה הופכת את המשחק לתרגול קריאה: ילד שמוצא את הזוג "כלב" — תמונה ומילה — קורא את המילה בלי להרגיש שהוא לומד. בגרסה באנגלית זה תרגול מילים ראשונות באנגלית.', 'מדפיסים על בריסטול או מדביקים על קרטון לפני הגזירה, כדי שלא יראו את התמונה מבעד לקלף. דף אחד נותן 20 קלפים; לשני דפים בנושאים שונים יש משחק גדול יותר.']}
     faq={[{ q: 'מאיזה גיל משחקים במשחק זיכרון?', a: 'מגיל 3 עם 6–8 זוגות, ומגיל 5 עם כל 10 הזוגות. אפשר להתחיל עם חלק מהקלפים ולהוסיף בהדרגה.' }, { q: 'איך עושים שהקלפים לא יהיו שקופים?', a: 'מדפיסים על בריסטול, או מדביקים את הדף על קרטון דק לפני הגזירה.' }]}
     related={[{ label: 'דומינו להדפסה', href: '/printables/dominoes' }, { label: 'אנגלית לילדים', href: '/english' }, { label: 'כרטיסיות אותיות', href: '/printables/letter-flashcards' }]} />
+}
+
+// ── English memory: Hebrew word ↔ English word ─────────────
+// Each page holds 10 pairs. Within a page the Hebrew cards fill the first half and the English cards the
+// second, so a child can lay them out as a matching game before turning them over for memory.
+function EnglishMemorySheet({ words, title, page, pages }) {
+  const cw = 44, ch = 46, gx = 4.5, gy = 3.5, x0 = (200 - 4 * cw - 3 * gx) / 2, y0 = 21
+  const cards = [...words.map(w => ({ w, he: true })), ...words.map(w => ({ w }))]
+  return <Sheet label={title}>
+    <T x={100} y={14} size={7} weight={800}>{title}{pages > 1 ? ` (${page}/${pages})` : ''}</T>
+    {cards.map(({ w, he }, i) => { const col = i % 4, row = Math.floor(i / 4), x = x0 + (3 - col) * (cw + gx), y = y0 + row * (ch + gy), cx = x + cw / 2; return <g key={i}>
+      <rect x={x} y={y} width={cw} height={ch} rx={4} fill="#fff" stroke="#111" strokeWidth={0.5} strokeDasharray="2 1.2" />
+      {he ? <>
+        {w.color && <circle cx={cx} cy={y + 15} r={6.5} fill={w.color} stroke="#111" strokeWidth={0.5} />}
+        <T x={cx} y={y + (w.color ? 33 : ch / 2 + 3)} size={w.he.length > 8 ? 6.5 : 9} weight={800}>{w.he}</T>
+      </> : <>
+        <T x={cx} y={y + ch / 2} size={w.en.length > 9 ? 6.5 : w.en.length > 6 ? 7.5 : 9} weight={800} direction="ltr">{w.en}</T>
+        <T x={cx} y={y + ch / 2 + 9} size={w.say.length > 10 ? 4.5 : 5.5} fill="#555">{w.say}</T>
+      </>}
+    </g> })}
+  </Sheet>
+}
+
+export function EnglishMemoryCards() {
+  const [groups, setGroups] = useState(() => MEMORY_WORD_GROUPS.map(g => g.slug))
+  const toggle = slug => setGroups(g => g.includes(slug) ? (g.length > 1 ? g.filter(x => x !== slug) : g) : [...g, slug])
+  const words = MEMORY_WORDS.filter(w => groups.includes(w.group))
+  const chunks = Array.from({ length: Math.ceil(words.length / 10) }, (_, i) => words.slice(i * 10, i * 10 + 10))
+  return <PrintableShell path="/printables/memory-english" emoji="🇬🇧" h1="משחק זיכרון באנגלית להדפסה"
+    seoTitle="משחק זיכרון באנגלית להדפסה — מילה בעברית ומילה באנגלית"
+    description="קלפי משחק זיכרון באנגלית להדפסה בחינם: 52 מילים ראשונות — צבעים, מספרים, משפחה, פעולות ומשפטים מהכיתה. בכל זוג מילה בעברית ומילה באנגלית עם הגייה באותיות עבריות."
+    sub="10 זוגות בכל דף — מילה בעברית, ומילה באנגלית עם ההגייה שלה"
+    crumbs={CRUMBS} siblings={SIBLINGS} previewAll
+    controls={<div role="group" aria-label="נושאים" className="flex flex-wrap justify-center gap-2">
+      {MEMORY_WORD_GROUPS.map(g => <button key={g.slug} type="button" aria-pressed={groups.includes(g.slug)} onClick={() => toggle(g.slug)}
+        className={`min-h-[44px] wobbly-sm border-2 border-[var(--border)] px-4 py-2 font-bold ${groups.includes(g.slug) ? 'bg-[var(--yellow)]' : 'bg-[var(--card)] text-[var(--muted-foreground)]'}`}>{g.emoji} {g.title}</button>)}
+      <p className="w-full text-center text-sm">{words.length} זוגות · {chunks.length} {chunks.length === 1 ? 'דף' : 'דפים'}</p>
+    </div>}
+    pages={chunks.map((chunk, i) => ({ key: `${groups.join()}-${i}`, svg: <EnglishMemorySheet words={chunk} title="משחק זיכרון באנגלית" page={i + 1} pages={chunks.length} /> }))}
+    paragraphs={['במשחק הזיכרון הזה כל זוג הוא מילה בעברית והמילה באנגלית. מתחת למילה באנגלית כתוב באותיות עבריות איך אומרים אותה, כך שגם הורה שלא בטוח בהגייה יכול לשחק.', 'יש 52 מילים בשבעה נושאים: צבעים, מספרים מאחת עד עשר, משפחה, משפטים מהכיתה, פעולות, טבע ועוד מילים. בוחרים את הנושאים שהילד לומד עכשיו ומדפיסים רק אותם.', 'לפני משחק הזיכרון אפשר לשחק במשחק התאמה: מניחים את כל הקלפים פתוחים ומחברים כל מילה בעברית למילה באנגלית. כשזה כבר קל, הופכים את הקלפים ומשחקים זיכרון.']}
+    faq={[{ q: 'איך מדפיסים כדי שלא יראו את המילים מבעד לקלף?', a: 'מדפיסים על בריסטול, או מדביקים את הדף על קרטון דק לפני הגזירה.' }, { q: 'יש גרסה לשחק במחשב?', a: 'כן — משחק הזיכרון באנגלית אונליין, עם אותן מילים והקראה בקול של המילה באנגלית.' }]}
+    related={[{ label: 'משחק זיכרון באנגלית אונליין', href: '/online-games/memory-english' }, { label: 'אנגלית לילדים', href: '/english' }, { label: 'משחק זיכרון בתמונות להדפסה', href: '/printables/memory-game' }]} />
 }
 
 // ── Dominoes ─────────────────────────────────
