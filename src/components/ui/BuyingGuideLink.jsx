@@ -10,6 +10,7 @@ const BUYING_LINK_LABELS = {
   speech: 'עזרים לתרגול דיבור ושפה בבית',
   teacher: 'ציוד לגננת ולמורה',
   hanukkah: 'מה לקנות לחנוכה לילדים',
+  'teacher-gift': 'מתנה לגננת ולמורה לסוף שנה',
 }
 
 export default function BuyingGuideLink({ id, className = '' }) {
