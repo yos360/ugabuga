@@ -1,0 +1,3 @@
+#!/bin/sh
+# headless Chrome for the renderer when running as root
+exec "$(ls -d /opt/pw-browsers/chromium-*/chrome-linux/chrome | head -1)" --no-sandbox "$@"

@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8">
+<style>
+@font-face{font-family:'Heebo';src:url(fonts/Heebo.ttf);font-weight:100 900}
+@font-face{font-family:'Fredoka';src:url(fonts/Fredoka.ttf);font-weight:300 700}
+@font-face{font-family:'KtavYad';src:url(fonts/ktav-yad.woff2)}
+body{margin:0;background:#fff}
+</style>
+<canvas id="c"></canvas>
+<script type="module">
+import { INVITATION_THEMES, invitationStyleFor, loadInviteImage, renderInvitation } from './invitationDesign.js'
+const S='אבגדהו Aa0'
+await Promise.all(['Heebo','Fredoka','KtavYad'].flatMap(f=>[400,500,600,700,800].map(w=>document.fonts.load(`${w} 40px "${f}"`,S).catch(()=>0))))
+await document.fonts.ready
+const kids={balloons:['נועה','6'],space:['איתי','7'],dino:['יואב','5'],princess:['מאיה','6'],football:['עומר','8'],gaming:['דניאל','9'],disco:['תמר','10'],ocean:['שירה','4']}
+window.out={}
+for (const theme of INVITATION_THEMES) {
+  const [name,age]=kids[theme.id]||['נועה','7']
+  const data={name,age,date:'שישי, 14.11',time:'17:00–19:00',place:'גן השעשועים ברחוב הרצל',phone:'',notes:''}
+  const art=theme.art===false?null:await loadInviteImage(`images/invitation-theme-${theme.id}.webp`)
+  const c=document.getElementById('c')
+  renderInvitation(c,{theme,data,format:'portrait',photo:null,art,design:invitationStyleFor(theme)})
+  out[theme.id]=c.toDataURL('image/png')
+}
+// live-typing steps on the balloons design
+const th=INVITATION_THEMES[0], art0=await loadInviteImage('images/invitation-theme-balloons.webp')
+const steps=[{name:'',age:'',date:'',time:'',place:''},{name:'נ'},{name:'נו'},{name:'נוע'},{name:'נועה'},{name:'נועה',age:'6'},{name:'נועה',age:'6',date:'שישי, 14.11'},{name:'נועה',age:'6',date:'שישי, 14.11',time:'17:00–19:00'},{name:'נועה',age:'6',date:'שישי, 14.11',time:'17:00–19:00',place:'גן השעשועים ברחוב הרצל'}]
+steps.forEach((d,i)=>{const c=document.getElementById('c');renderInvitation(c,{theme:th,data:{name:'',age:'',date:'',time:'',place:'',phone:'',notes:'',...d},format:'portrait',art:art0,design:invitationStyleFor(th)});out['type'+i]=c.toDataURL('image/png')})
+// customise: palettes and fonts on the balloons design
+const full={name:'נועה',age:'6',date:'שישי, 14.11',time:'17:00–19:00',place:'גן השעשועים ברחוב הרצל',phone:'',notes:''}
+const vars=[{bg:'#eaf8ff',ink:'#153f63',accent:'#168fc5',second:'#ffca5c',font:'Fredoka'},{bg:'#f4edff',ink:'#4c2870',accent:'#9254c8',second:'#e5b653',font:'KtavYad'},{bg:'#edf5e6',ink:'#254936',accent:'#47885d',second:'#e49d55',font:'Heebo',photoShape:'rounded'},{bg:'#17132f',ink:'#ffffff',accent:'#68efd1',second:'#d08bff',font:'Fredoka'}]
+vars.forEach((v,i)=>{const c=document.getElementById('c');renderInvitation(c,{theme:th,data:full,format:'portrait',art:art0,design:{...invitationStyleFor(th),...v}});out['var'+i]=c.toDataURL('image/png')})
+window.done=true
+</script>
