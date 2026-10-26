@@ -13,8 +13,21 @@ const STATIC = new Set(routes.filter(p => !p.includes(':') && !p.includes('*')))
 const PARAM = routes.filter(p => p.includes(':') || p.endsWith('/*')).map(p => new RegExp(`^${p.replace(/\/\*$/, '(/.*)?').replace(/:[^/]+/g, '[^/]+')}$`))
 const routeExists = href => STATIC.has(href) || PARAM.some(re => re.test(href))
 
-test('every affiliate topic has a buying guide, and every guide a topic', () => {
-  assert.deepEqual(BUYING_GUIDES.map(g => g.id).sort(), AFFILIATE_TOPICS.map(t => t.id).sort())
+// Topics may exist without a guide (the AffiliatePicks box stands on its own on section pages),
+// but every guide page needs its topic for the products grid, and every topic must be well-formed.
+test('every buying guide has an affiliate topic, and every topic is well-formed', () => {
+  const topicIds = new Set(AFFILIATE_TOPICS.map(t => t.id))
+  assert.equal(topicIds.size, AFFILIATE_TOPICS.length, 'duplicate topic id')
+  for (const g of BUYING_GUIDES) assert.ok(topicIds.has(g.id), `guide ${g.id} has no affiliate topic`)
+  for (const t of AFFILIATE_TOPICS) {
+    assert.ok(t.title && Array.isArray(t.placements) && t.placements.length >= 1, `${t.id}: title/placements`)
+    for (const p of t.products) {
+      assert.ok(p.name, `${t.id}: product name`)
+      assert.match(p.url || '', /^https:\/\/s\.click\.aliexpress\.com\//, `${t.id}: ${p.name} url`)
+      assert.match(p.image || '', /^https:\/\//, `${t.id}: ${p.name} image`)
+    }
+    assert.equal(new Set(t.products.map(p => p.url)).size, t.products.length, `${t.id}: duplicate product url`)
+  }
 })
 
 test('each guide is complete: quick answer, age criteria, checklist, avoid, budget, links, 5–7 FAQs', () => {
@@ -82,7 +95,7 @@ test('routes, sitemap, menu, search and section links are registered', async () 
   // The link labels (kept light in the component) match the start of each guide's title.
   const linkSrc = read('../src/components/ui/BuyingGuideLink.jsx')
   for (const g of BUYING_GUIDES) {
-    const label = linkSrc.match(new RegExp(`\\b${g.id}: '([^']+)'`))?.[1]
+    const label = linkSrc.match(new RegExp(`'?\\b${g.id}\\b'?: '([^']+)'`))?.[1]
     assert.ok(label && g.title.startsWith(label), `${g.id}: link label`)
   }
 })
