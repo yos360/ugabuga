@@ -1128,6 +1128,7 @@ export default function App() {
               <Route path="/recommended/speech" element={<RecommendedGuide id="speech" />} />
               <Route path="/recommended/teacher" element={<RecommendedGuide id="teacher" />} />
               <Route path="/recommended/hanukkah" element={<RecommendedGuide id="hanukkah" />} />
+              <Route path="/recommended/teacher-gift" element={<RecommendedGuide id="teacher-gift" />} />
               <Route path="/guides" element={<GuidesIndex />} />
               <Route path="/guides/birthday-in-kindergarten" element={<GanBirthdayGuide />} />
               <Route path="/guides/:slug" element={<GuidePage />} />
