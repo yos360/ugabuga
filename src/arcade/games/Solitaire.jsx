@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { deal, winnableDeal, draw, apply, bestTarget, legal, isWon, canAutoFinish, autoStep, findHint } from '../logic/klondike'
-import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
 import { EndCard } from '../ui'
 import { readGame, writeGame, saveKey, HISTORY_LIMIT } from '../logic/solitaireSave'
@@ -26,8 +25,8 @@ export default function Solitaire({ onReport, onShare, daily }) {
   const [saved] = useState(() => typeof window === 'undefined' ? null : readGame(localStorage, key))
   const [s, setS] = useState(() => saved?.s || newDeal())
   const [history, setHistory] = useState(() => saved?.history || [])
-  const [appearance, saveAppearance] = useProgress('solitaire-appearance', { theme: 'velvet' })
-  const theme = ['velvet', 'garden', 'midnight'].includes(appearance.theme) ? appearance.theme : 'velvet'
+  const [appearance, saveAppearance] = useProgress('solitaire-appearance', { theme: 'slate' })
+  const theme = ['slate', 'velvet', 'garden', 'midnight'].includes(appearance.theme) ? appearance.theme : 'slate'
   const [panel, setPanel] = useState(null)
   const [shake, setShake] = useState(null)
   const [hint, setHint] = useState(null)
@@ -156,7 +155,7 @@ export default function Solitaire({ onReport, onShare, daily }) {
       <p className="sol-guide">סדרו את הקלפים בסדר יורד ובצבעים מתחלפים. לחצו או גררו קלף; המטרה היא לבנות ארבע ערימות מאס עד מלך.</p>
       {panel && <div className="sol-panel" role="region" aria-label={panel === 'themes' ? 'בחירת רקע' : panel === 'restart' ? 'משחק חדש' : 'איך משחקים'}>
         <button className="sol-panel-close sol-action" onClick={() => setPanel(null)} aria-label="סגירת החלונית"><X /></button>
-        {panel === 'themes' ? <><h4>איזה שולחן מתאים לכם?</h4><div className="sol-themes">{[['velvet', 'קטיפה סגולה'], ['garden', 'גן ירוק'], ['midnight', 'לילה כחול']].map(([id, label]) => <button key={id} className="sol-theme" data-theme={id} aria-pressed={theme === id} onClick={() => saveAppearance({ theme: id })}><i />{label}<span>{theme === id ? '✓' : ''}</span></button>)}</div></> : panel === 'restart' ? <><h4>מתחילים משחק חדש?</h4><p>המשחק הנוכחי יוחלף בחלוקה חדשה.</p><button className="sol-action sol-primary" onClick={() => { restart(); setPanel(null) }}>כן, מתחילים</button><button className="sol-action" onClick={() => setPanel(null)}>ממשיכים לשחק</button></> : <><h4>מסדרים, מגלים, מנצחים</h4><p>בונים ארבע ערימות מאס עד מלך, לפי צורה. על השולחן מסדרים בסדר יורד ובצבעים מתחלפים. רק מלך יכול להתחיל עמודה ריקה.</p><p>לחצו על קלף להעברה אוטומטית או גררו למקום הרצוי. החפיסה נותנת קלף חדש, והרמז עוזר כשנתקעים.</p></>}
+        {panel === 'themes' ? <><h4>איזה שולחן מתאים לכם?</h4><div className="sol-themes">{[['slate', 'אפור כחלחל'], ['velvet', 'קטיפה סגולה'], ['garden', 'גן ירוק'], ['midnight', 'לילה כחול']].map(([id, label]) => <button key={id} className="sol-theme" data-theme={id} aria-pressed={theme === id} onClick={() => saveAppearance({ theme: id })}><i />{label}<span>{theme === id ? '✓' : ''}</span></button>)}</div></> : panel === 'restart' ? <><h4>מתחילים משחק חדש?</h4><p>המשחק הנוכחי יוחלף בחלוקה חדשה.</p><button className="sol-action sol-primary" onClick={() => { restart(); setPanel(null) }}>כן, מתחילים</button><button className="sol-action" onClick={() => setPanel(null)}>ממשיכים לשחק</button></> : <><h4>מסדרים, מגלים, מנצחים</h4><p>בונים ארבע ערימות מאס עד מלך, לפי צורה. על השולחן מסדרים בסדר יורד ובצבעים מתחלפים. רק מלך יכול להתחיל עמודה ריקה.</p><p>לחצו על קלף להעברה אוטומטית או גררו למקום הרצוי. החפיסה נותנת קלף חדש, והרמז עוזר כשנתקעים.</p></>}
       </div>}
       <div className="arc-field cd-field" ref={boxRef}>
         <div className="sol-table-watermark" aria-hidden="true"><span>♠</span>עוגה בוגה<small>עוד קלף, עוד אפשרות</small></div>
@@ -167,7 +166,7 @@ export default function Solitaire({ onReport, onShare, daily }) {
             ? <Card card={stockTop} w={w} x={colX(0)} y={gap} z={5} hint={hint?.draw} onPointer={{ onClick: () => tap('stock') }} />
             : <Slot w={w} x={colX(0)} y={gap} label="↻" onClick={() => tap('stock')} active={hint?.draw} />}
           {s.stock.length > 0 && <span className="cd-count" style={{ transform: `translate(${colX(0) + 4}px, ${gap + h - 22}px)` }}>{s.stock.length}</span>}
-          {s.found.map((pile, f) => <Slot key={`fs${f}`} w={w} x={colX(3 + f)} y={gap} label={SUITS[f]} dropKey={`f${f}`} />)}
+          {s.found.map((pile, f) => <Slot key={`fs${f}`} w={w} x={colX(3 + f)} y={gap} suit={f} dropKey={`f${f}`} />)}
           {s.tab.map((_, p) => <Slot key={`ts${p}`} w={w} x={colX(p)} y={tabTop} label="K" dropKey={`t${p}`} />)}
           {s.tab.map((_, p) => <div key={`tz${p}`} className="cd-zone" data-drop={`t${p}`} style={{ width: w, height: box.h - tabTop, transform: `translate(${colX(p)}px, ${tabTop}px)` }} />)}
           {cards}
