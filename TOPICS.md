@@ -14,6 +14,7 @@ One line per day, newest at the bottom ("?" = made before this log existed, uplo
 | 2026-10-27 | "העוגה נעלמה!" — חדרי בריחה BUGA (42 rooms, 3 levels, graded hints, print kit) | /tools/escape-rooms | ✗ | ✗ | ✗ | ✗ |
 
 Note 2026-10-27: no uploads — Claude in Chrome was not available to the scheduled run (cloud session, no browser tools). Reel + captions are in examples/escape-rooms/; upload manually or on the next run.
+Update 2026-10-27 (08:50, manual run from the Chrome side panel): the YouTube Studio upload page opened fine, but the side panel's `file_upload` only accepts files attached to the chat, not files from the repo clone, so nothing was uploaded. All four networks stay ✗. To finish: attach `uploads/2026-10-27/reel-upload.mp4` and `reel-cover.jpg` to the chat, or upload by hand.
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
