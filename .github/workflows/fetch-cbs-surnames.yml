@@ -1,0 +1,28 @@
+name: fetch-cbs-surnames
+on:
+  push:
+    branches: [fetch-cbs-surnames]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: fetch-cbs-surnames }
+      - name: Download CBS surname tables (public PDFs) and convert to text
+        shell: bash
+        run: |
+          sudo apt-get install -y poppler-utils >/dev/null 2>&1 || true
+          mkdir -p cbs
+          for y in 2017/051/11_17_051 2018/039/11_18_039 2019/037/11_19_037; do
+            for t in b t1 t2 t3 t4 t5 t6 t7 t8 t9 t10; do
+              f="cbs/$(basename $y)$t"
+              curl -sSL -m 60 -A "Mozilla/5.0" -o "$f.pdf" "https://www.cbs.gov.il/he/mediarelease/DocLib/$y$t.pdf" || true
+              if file "$f.pdf" | grep -q PDF; then pdftotext -layout "$f.pdf" "$f.txt"; echo "$f ok $(wc -l < $f.txt)"; fi
+              rm -f "$f.pdf"
+            done
+          done
+          ls cbs
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add cbs && git commit -qm "CBS surname tables (text)" && git push -q origin HEAD:fetch-cbs-surnames-data || echo nothing
