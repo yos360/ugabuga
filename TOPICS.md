@@ -30,3 +30,4 @@ Update 2026-10-27 (08:50, manual run from the Chrome side panel): the YouTube St
 - Hebrew/Gregorian calendar (/hebrew-calendar), star of the week (/printables/star-of-the-week)
 - Reading comprehension (/learn/reading), Buga AI academy (/learn/ai)
 - Upcoming holiday (check the Hebrew calendar: Hanukkah, Tu BiShvat, Purim, Pesach…) — a holiday reel the week before beats any other topic
+Update 2026-10-27 (09:07, second scheduled firing): today's reel already existed, so no new reel was made (one per day). Claude in Chrome was again not available to the cloud run — uploads still ✗. Reel re-sent to the owner.
