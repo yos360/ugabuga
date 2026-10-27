@@ -37,6 +37,7 @@ export const categories = [
   { slug: 'multiplication-strips', href: '/printables/multiplication-strips', emoji: '✖️', title: 'סרגלי כפולות', count: 'חדש', desc: 'רצועה לכל מספר 1–10: עם תשובות, לתרגול או עם תשובות מתקפלות', special: true },
   { slug: 'number-strip', href: '/printables/number-strip', emoji: '🔢', title: 'סרגל מספרים לשולחן', count: 'חדש', desc: 'ישר מספרים עד 20 עם נקודות במסגרת עשר וסרגל ס״מ אמיתי', special: true },
   { slug: 'letter-strip', href: '/printables/letter-strip', emoji: '📏', title: 'סרגל אותיות', count: 'חדש', desc: 'א׳–ת׳ בדפוס ובכתב, עם סופיות ותמונות — לגזור ולהדביק על השולחן', special: true },
+  { slug: 'emotion-cards', href: '/printables/emotion-cards', emoji: '😊', title: 'כרטיסיות רגשות', count: 24, desc: 'רגש ושאלה לשיחה על כל כרטיס, ולוח רגשות לקיר' },
   { slug: 'sensory-communication-cards', href: '/printables/sensory-communication-cards', emoji: '🧩', title: 'כרטיסיות ויסות, תקשורת וסדר יום', count: 'חדש', desc: 'כרטיסי הרגעה, חושים, לוח תקשורת ורגשות, סדר יום, בקשת עזרה והליכת חיות — לגן ולחינוך המיוחד', special: true },
   { slug: 'letter-flashcards', href: '/printables/letter-flashcards', emoji: '🃏', title: 'כרטיסיות אותיות', count: 'חדש', desc: 'א׳–ת׳ ו־A–Z עם תמונה ומילה, 8 כרטיסיות בדף לגזירה', special: true },
   { slug: 'letters', href: '/letters', emoji: '🔤', title: 'לימוד אותיות בעברית', count: 22, desc: 'עמוד לכל אות: איך כותבים, מילים, משחק ודף תרגול', special: true },

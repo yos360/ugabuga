@@ -1402,6 +1402,7 @@ const PAGES = [
   ...FAMILY_NAMES.map(x => ({ to: familyNamePath(x), title: `שם המשפחה ${x.name} — פירוש`, emoji: '🏷️', kind: 'page', keys: `פירוש שם המשפחה ${x.name} ${x.en || ''}` })),
   { to: '/holidays/hanukkah/candle-times', title: 'זמני הדלקת נרות חנוכה', emoji: '🕯️', kind: 'page', desc: 'מתי מדליקים בכל לילה, לפי עיר', keys: 'הדלקת נרות חנוכה זמני הדלקה חנוכה מתי מדליקים נרות חנוכה שעה' },
   { to: '/letters/reading-practice', title: 'תרגול קריאה לפי האותיות שלמדנו', emoji: '📖', kind: 'printable', desc: 'דף קריאה מנוקד רק מהאותיות והניקוד שהילד מכיר', keys: 'תרגול קריאה כיתה א דפי קריאה ניקוד הברות מילים משפטים מנוקדים קריאה לשבת' },
+  { to: '/printables/emotion-cards', title: 'כרטיסיות רגשות להדפסה', emoji: '😊', kind: 'printable', desc: '24 רגשות עם שאלה לשיחה, ולוח רגשות לקיר', keys: 'כרטיסיות רגשות רגשות לילדים לוח רגשות פינת רגשות גן כרטיסי רגשות להדפסה' },
   { to: '/request', title: 'מבקשים דף — מכינים לפי בקשה', emoji: '📝', kind: 'tool', desc: 'חסר לכם דף? ספרו לנו ונכין, בחינם.', keys: 'בקשה לבקש דף הצעה חסר דף להכין לי דף עבודה לפי הזמנה' },
   { to: '/booklets', title: 'חוברות עבודה להדפסה', emoji: '📚', kind: 'printable', desc: 'חוברות שלמות לפי כיתה ונושא, להורדה כ־PDF.', keys: 'חוברות עבודה חוברת עבודה להדפסה pdf חינם' },
   { to: '/booklets/english-grade-3', title: 'חוברת אנגלית לכיתה ג׳', emoji: '🇬🇧', kind: 'printable', desc: '15 עמודים: ABC, צלילים ומילים ראשונות.', keys: 'חוברת אנגלית לכיתה ג חוברות אנגלית חוברת עבודה באנגלית pdf' },
