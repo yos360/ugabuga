@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom'
 import { recordPrintPreview } from './RecentActivity'
 import { announcePrint } from '../../utils/printEvents'
 import '../ui/print-preview.css'
+import { pickQrVariant, qrUrl } from '../../data/printMessages'
+import { recordQrVariant } from '../../utils/qrVariants'
 
 // Pages that print with a plain window.print() (or Ctrl+P) don't go through
 // PrintPreview, so they never got the QR stamp. This badge lives on every page,
@@ -16,9 +18,13 @@ import '../ui/print-preview.css'
 export default function PrintQrFallback() {
   const { pathname } = useLocation()
   const [svg, setSvg] = useState('')
+  // One rotating message per page visit (see printMessages.js); English pages keep the plain badge.
+  const [variant, setVariant] = useState(null)
   useEffect(() => {
     let alive = true
-    const url = `${window.location.origin}${pathname}?utm_source=qr&utm_medium=print`
+    const v = pathname.startsWith('/en') ? null : pickQrVariant()
+    setVariant(v)
+    const url = v ? qrUrl(window.location.origin, pathname, v) : `${window.location.origin}${pathname}?utm_source=qr&utm_medium=print`
     import('qrcode')
       .then(({ default: QRCode }) => QRCode.toString(url, { type: 'svg', margin: 0, color: { dark: '#181828', light: '#ffffff00' } }))
       .then(s => { if (alive) setSvg(s) })
@@ -27,7 +33,7 @@ export default function PrintQrFallback() {
   }, [pathname])
   useEffect(() => {
     // Count direct prints too (PrintPreview already records its own).
-    const onBeforePrint = () => { if (!document.getElementById('buga-print-output')) recordPrintPreview() }
+    const onBeforePrint = () => { if (!document.getElementById('buga-print-output')) { recordPrintPreview(); const v = document.querySelector('.buga-print-fallback')?.dataset.variant; if (v) recordQrVariant(v, 'printed', window.location.pathname) } }
     // Direct prints get the same "what else to print" suggestion as PrintPreview, after the dialog closes.
     const onAfterPrint = () => { if (!document.getElementById('buga-print-output')) announcePrint('print') }
     window.addEventListener('beforeprint', onBeforePrint)
@@ -36,8 +42,8 @@ export default function PrintQrFallback() {
   }, [])
   if (!svg) return null
   return createPortal(
-    <div className="buga-print-fallback" aria-hidden="true">
-      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: `${svg}<span class="buga-qr-label">🎂 עוגה בוגה — עוד דפי עבודה,<br/>צביעה ומשחקים בחינם<span class="buga-qr-credit">חפשו „עוגה בוגה” · ugabuga.co.il</span></span>` }} />
+    <div className="buga-print-fallback" aria-hidden="true" data-variant={variant?.id || undefined}>
+      <div className="buga-qr" dangerouslySetInnerHTML={{ __html: variant ? `${svg}<span class="buga-qr-label">${variant.title}<span class="buga-qr-credit">${variant.line}</span></span>` : `${svg}<span class="buga-qr-label">🎂 עוגה בוגה — עוד דפי עבודה,<br/>צביעה ומשחקים בחינם<span class="buga-qr-credit">חפשו „עוגה בוגה” · ugabuga.co.il</span></span>` }} />
     </div>,
     document.body,
   )

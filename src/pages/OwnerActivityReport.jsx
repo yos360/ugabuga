@@ -10,6 +10,7 @@ import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
+import PageRequests from '../components/owner/PageRequests'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
@@ -570,6 +571,7 @@ export default function OwnerActivityReport() {
       </div>
 
       <SiteChatInbox />
+      <PageRequests from={from} to={to} tick={tick} />
       <BugaPediaQuestions from={from} to={to} tick={tick} />
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>

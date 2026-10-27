@@ -53,6 +53,8 @@ export default function RecentActivity() {
     })
     return () => { stopped = true; cancelIdle(handle); if (disconnect) disconnect() }
   }, [])
+  // Arrived from a printed QR: count which rotating message brought this visitor.
+  useEffect(() => { void import('../../utils/qrVariants').then(m => m.noteQrScan()).catch(() => {}) }, [])
   useEffect(() => {
     // Every page view goes to the private owner log; the public live banner
     // still only shows the curated activity categories.

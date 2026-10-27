@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
+import RequestBanner from '../ui/RequestBanner'
 import AffiliatePicks from '../ui/AffiliatePicks'
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -91,7 +92,7 @@ export default function Layout({ children }) {
       {!presenting && <Suspense fallback={null}><EmojiRelated pathname={pathname} /></Suspense>}
       <PrintPreviewFigure pathname={pathname} />
       {/* Sponsored card on matching topic pages (the home page places its own between sections). */}
-      {mounted && !presenting && pathname !== '/' && <div className="px-4"><AffiliatePicks /><SponsorBanner /></div>}
+      {mounted && !presenting && pathname !== '/' && <div className="px-4"><AffiliatePicks /><SponsorBanner /><RequestBanner key={pathname} /></div>}
       {!presenting && <Footer />}
     </>
   )

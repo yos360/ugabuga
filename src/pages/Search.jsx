@@ -7,6 +7,7 @@ import { useGames } from '../hooks/useGames'
 import { KINDS, byPopularity, gameItem, rankWords, searchItems } from '../data/searchIndex'
 import { loadPagePopularity } from '../utils/pagePopularity'
 import { STATIC_ITEMS } from '../data/searchStatic'
+import { RequestCard } from '../components/ui/RequestBanner'
 
 const SUGGESTIONS = ['מבוך', 'יום הולדת', 'צביעה', 'כיתה א', 'בינגו', 'חדר בריחה', 'אותיות', 'מתנות', 'טריוויה']
 
@@ -54,6 +55,7 @@ export default function Search() {
       <SiteSearchBox className="site-search-form" value={input} onChange={setInput} onSearch={v => run(v)} placeholder="מה מחפשים? משחק, דף להדפסה, כלי…" autoFocus />
       {!q && <div className="site-search-sugg"><span>אפשר לנסות:</span>{suggestions.map(s => <button key={s} type="button" onClick={() => navigate('/search?q=' + encodeURIComponent(s))}>{s}</button>)}</div>}
       {q && <p className="site-search-count" role="status">{results.length ? `נמצאו ${results.length} תוצאות ל"${q}"` : `לא נמצאו תוצאות ל"${q}". נסו מילה אחרת או קצרה יותר.`}</p>}
+      {q && !results.length && <RequestCard className="mt-4" from="/search" source="search" query={q} message={{ title: `לא מצאתם „${q}”? נכין לכם`, line: 'ספרו לנו מה בדיוק צריך — ובכל שבוע אנחנו מכינים את מה שהכי מבקשים. בחינם.' }} />}
       {groups.map(([kind, list]) => (
         <section key={kind} className="site-search-group">
           <h2>{KINDS[kind].label} <small>({list.length})</small></h2>
