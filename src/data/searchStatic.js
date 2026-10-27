@@ -1400,6 +1400,7 @@ const PAGES = [
   { to: '/family-names', title: 'שמות משפחה — פירוש ומקור', emoji: '🏷️', kind: 'page', desc: 'מה פירוש שם המשפחה שלכם?', keys: 'שמות משפחה פירוש שם משפחה מקור שם המשפחה' },
   ...Object.values(NAME_CATEGORIES).map(c => ({ to: c.path, title: c.title, emoji: c.emoji, kind: 'page', keys: 'שמות משפחה פירוש' })),
   ...FAMILY_NAMES.map(x => ({ to: familyNamePath(x), title: `שם המשפחה ${x.name} — פירוש`, emoji: '🏷️', kind: 'page', keys: `פירוש שם המשפחה ${x.name} ${x.en || ''}` })),
+  { to: '/holidays/hanukkah/candle-times', title: 'זמני הדלקת נרות חנוכה', emoji: '🕯️', kind: 'page', desc: 'מתי מדליקים בכל לילה, לפי עיר', keys: 'הדלקת נרות חנוכה זמני הדלקה חנוכה מתי מדליקים נרות חנוכה שעה' },
   { to: '/request', title: 'מבקשים דף — מכינים לפי בקשה', emoji: '📝', kind: 'tool', desc: 'חסר לכם דף? ספרו לנו ונכין, בחינם.', keys: 'בקשה לבקש דף הצעה חסר דף להכין לי דף עבודה לפי הזמנה' },
   { to: '/booklets', title: 'חוברות עבודה להדפסה', emoji: '📚', kind: 'printable', desc: 'חוברות שלמות לפי כיתה ונושא, להורדה כ־PDF.', keys: 'חוברות עבודה חוברת עבודה להדפסה pdf חינם' },
   { to: '/booklets/english-grade-3', title: 'חוברת אנגלית לכיתה ג׳', emoji: '🇬🇧', kind: 'printable', desc: '15 עמודים: ABC, צלילים ומילים ראשונות.', keys: 'חוברת אנגלית לכיתה ג חוברות אנגלית חוברת עבודה באנגלית pdf' },

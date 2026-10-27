@@ -9,6 +9,7 @@ import { HANUKKAH } from '../../data/hanukkah'
 import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
+  '/holidays/hanukkah/candle-times': 'מתי מדליקים בכל אחד משמונת הלילות — לפי עיר, עם לוח למקרר',
   '/holidays/hanukkah/songs': 'סביבון, כד קטן, מעוז צור וברכות ההדלקה',
   '/holidays/hanukkah/sevivon': 'מסובבים בלחיצה, עם ניקוד אוטומטי לכל המשפחה',
   '/holidays/hanukkah/quiz': '3 רמות, הסבר אחרי כל תשובה — גם להדפסה',
@@ -46,7 +47,7 @@ export default function HanukkahHub() {
       </div>
 
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {HANUKKAH_PAGES.slice(1).map((p, i) => <Link key={p.to} to={p.to} className={`wobbly flex flex-col border-2 border-[var(--border)] ${COLORS[i]} p-5 sketch-shadow transition-transform hover:-translate-y-1`}>
+        {HANUKKAH_PAGES.slice(1).map((p, i) => <Link key={p.to} to={p.to} className={`wobbly flex flex-col border-2 border-[var(--border)] ${COLORS[i % COLORS.length]} p-5 sketch-shadow transition-transform hover:-translate-y-1`}>
           <span className="text-4xl mb-1" aria-hidden="true">{p.emoji}</span>
           <h2 className="text-2xl font-bold">{p.label}</h2>
           <p className="flex-1 text-[var(--muted-foreground)]">{BLURB[p.to]}</p>

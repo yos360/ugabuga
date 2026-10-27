@@ -13,6 +13,7 @@ export const HANUKKAH_H = {
   tab: 'bg-blue-200', soft: 'bg-blue-50',
   pages: [
     { to: base, label: 'הכול על חנוכה', emoji: '🕎' },
+    { to: base + '/candle-times', label: 'זמני הדלקת נרות', emoji: '🕯️' },
     { to: base + '/sevivon', label: 'סביבון וירטואלי', emoji: '🎲' },
     { to: base + '/quiz', label: 'חידון חנוכה', emoji: '❓' },
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
