@@ -18,7 +18,7 @@ function LiveEditor({ onCreate, busy }) {
   const [title,setTitle]=useState(()=>draft?.title||''),[questions,setQuestions]=useState(()=>draft?.questions?.length?draft.questions:[q()]),[seconds,setSeconds]=useState(()=>draft?.seconds||20),[error,setError]=useState('')
   const [topic,setTopic]=useState('mixed'),[difficulty,setDifficulty]=useState('medium'),[mode,setMode]=useState('regular'),[questionCount,setQuestionCount]=useState(6)
   const hasDraft=Boolean(draft?.questions?.some(item=>item.q?.trim()))
-  const [editing,setEditing]=useState(false)
+  const [editing,setEditing]=useState(false),[allTopics,setAllTopics]=useState(false)
   useEffect(()=>{const t=setTimeout(()=>{try{localStorage.setItem('buga-live-draft',JSON.stringify({title,questions,seconds}))}catch{/* ignore */}},500);return()=>clearTimeout(t)},[title,questions,seconds])
   const patch=(i,data)=>setQuestions(all=>all.map((item,n)=>n===i?{...item,...data}:item))
   const option=(i,j,value)=>patch(i,{options:questions[i].options.map((x,n)=>n===j?value:x)})
@@ -39,7 +39,8 @@ function LiveEditor({ onCreate, busy }) {
 
   if(!editing)return <section className="live-generator live-quick" aria-labelledby="live-quick-title">
     <h3 id="live-quick-title" className="live-step"><b>1</b> על מה החידון?</h3>
-    <div className="live-topic-grid">{LIVE_QUIZ_TOPICS.map(item=><button type="button" key={item.id} aria-pressed={topic===item.id} style={{'--topic-color':item.color}} onClick={()=>setTopic(item.id)}><i>{item.icon}</i><span>{item.label}</span></button>)}</div>
+    <div className="live-topic-grid">{(allTopics?LIVE_QUIZ_TOPICS:LIVE_QUIZ_TOPICS.filter((item,i)=>i<4||item.id===topic)).map(item=><button type="button" key={item.id} aria-pressed={topic===item.id} style={{'--topic-color':item.color}} onClick={()=>setTopic(item.id)}><i>{item.icon}</i><span>{item.label}</span></button>)}</div>
+    {!allTopics&&LIVE_QUIZ_TOPICS.length>4&&<button type="button" className="live-more-topics" onClick={()=>setAllTopics(true)}>עוד נושאים ({LIVE_QUIZ_TOPICS.length-4}) ▾</button>}
     <h3 className="live-step"><b>2</b> באיזו רמה?</h3>
     <div className="live-levels" role="group" aria-label="רמת קושי">{LIVE_QUIZ_DIFFICULTIES.map(item=><button type="button" key={item.id} aria-pressed={difficulty===item.id} onClick={()=>setDifficulty(item.id)}><span>{item.icon} {item.label}</span><small>{item.description}</small></button>)}</div>
     <details className="live-more"><summary>⚙️ הגדרות נוספות <small>{LIVE_QUIZ_MODES.find(m=>m.id===mode)?.label} · {questionCount} שאלות · {seconds} שניות לשאלה</small></summary>
@@ -48,8 +49,7 @@ function LiveEditor({ onCreate, busy }) {
         <label>זמן לכל שאלה<select value={seconds} onChange={e=>setSeconds(+e.target.value)}>{[5,10,15,20,30,45,60].map(n=><option key={n} value={n}>{n} שניות</option>)}</select></label></div>
     </details>
     <button type="button" className="live-create live-go" disabled={busy} onClick={quickStart}>{busy?'פותחים את החדר…':<>פותחים חדר ← {current?.icon} {current?.label}, {questionCount} שאלות</>}</button>
-    <p className="live-go-note">מקבלים מיד קוד ו־QR למשתתפים. השאלות נבדקו מול מקור אמין ולא חוזרות על עצמן.</p>
-    <div className="live-alt"><button type="button" onClick={preview}>👀 להציץ בשאלות ולערוך לפני</button><button type="button" onClick={writeOwn}>✏️ {hasDraft?'להמשיך את השאלות שלי':'לכתוב שאלות משלי'}</button></div>
+    <p className="live-alt-links"><button type="button" onClick={preview}>להציץ בשאלות לפני</button> · <button type="button" onClick={writeOwn}>{hasDraft?'להמשיך את השאלות שלי':'לכתוב שאלות משלי'}</button></p>
   </section>
 
   return <form className="live-editor" onSubmit={submit}>
@@ -85,7 +85,7 @@ export default function LiveQuizHome(){
   <SEO title="בוגה לייב — משחק לכיתה עם עד 100 משתתפים" description="יוצרים משחק שאלות, מצטרפים מהטלפון עם QR ורואים תוצאות בזמן אמת — בלי צורך בחשבון." path="/live" />
   <div className="live-home-inner"><Breadcrumbs items={[{label:'בית',href:'/'},{label:'משחקים',href:'/games'},{label:'בוגה לייב'}]} />
    <header className="live-hero live-hero-compact"><div className="live-logo-orb">B!</div><h1>בוגה לייב</h1><h2>חידון לכל הכיתה: אתם על המסך, כולם עונים מהטלפון</h2>
-    <div className="live-hero-pills"><span>👥 עד 100 משתתפים</span><span>📱 כניסה עם QR</span><span>✓ {getLiveQuizBankStats().total.toLocaleString('he-IL')} שאלות בדוקות</span><span>🆓 בלי חשבון</span></div></header>
+    <p className="live-hero-line">עד 100 משתתפים · כניסה עם <bdi>QR</bdi> · {getLiveQuizBankStats().total.toLocaleString('he-IL')} שאלות בדוקות · בלי חשבון</p></header>
    <div className="live-tabbar"><button aria-pressed={tab==='start'} onClick={()=>setTab('start')}>🎤 אני מנחה</button><button aria-pressed={tab==='join'} onClick={()=>setTab('join')}>📱 יש לי קוד</button></div>
    {error&&<p className="live-error" role="alert">{error}</p>}
    {tab==='join'?<section className="live-join-card"><span>🎮</span><h2>יש לכם קוד?</h2><p>הקלידו את קוד המשחק שקיבלתם מהמנחה</p><form onSubmit={join}><input dir="ltr" inputMode="text" autoCapitalize="characters" value={code} onChange={e=>setCode(cleanCode(e.target.value))} maxLength={12} placeholder="ABC123" aria-label="קוד משחק" autoFocus/><button>כניסה</button></form></section>

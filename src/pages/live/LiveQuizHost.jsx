@@ -6,6 +6,8 @@ import { buildLiveQuiz, detectLiveQuizMode, detectLiveQuizPack, LIVE_QUIZ_DIFFIC
 import { liveErrorText, liveHostLink, liveMemory, livePlayLink, liveQuizDb } from '../../utils/liveQuizDb'
 import useLiveCountdown from './useLiveCountdown'
 import './live-quiz.css'
+import { liveSoundOnce, markHeard } from './liveSounds'
+import LiveSoundToggle from './LiveSoundToggle'
 
 const COLORS=['red','blue','gold','green'],MARKS=['▲','◆','●','■']
 const KICK_STYLE={marginInlineStart:8,padding:'1px 8px',border:'1px solid currentColor',borderRadius:999,background:'transparent',color:'inherit',font:'inherit',fontSize:'.75em',opacity:.7,cursor:'pointer'}
@@ -38,6 +40,10 @@ export default function LiveQuizHost(){
  // ahead of the database clock, or a network hiccup), so a failed attempt is retried a second later.
  useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{load();clearTimeout(retryTimer.current);retryTimer.current=setTimeout(()=>{auto.current='';setRetry(n=>n+1)},1000)})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load,retry])
  useEffect(()=>()=>clearTimeout(retryTimer.current),[])
+ // Sounds on the shared screen: a chord when an answer is revealed, a fanfare at the end. Whatever was
+ // already on screen when the page loaded stays quiet.
+ const firstPhase=useRef(true)
+ useEffect(()=>{if(!data)return;const key=`host-${code}-${data.phase}-${data.question_index}`;if(firstPhase.current){firstPhase.current=false;markHeard(key);return}if(data.phase==='reveal')liveSoundOnce(key,'reveal');if(data.phase==='finished')liveSoundOnce(key,'finish')},[data?.phase,data?.question_index,code]) // eslint-disable-line react-hooks/exhaustive-deps
  // Everyone answered: show the answer right away instead of waiting out the clock. Uses the same
  // once-per-question guard as the timeout, so the two never fire together. A participant who left
  // mid-game never answers — then the timer still ends the question as before.
@@ -84,7 +90,7 @@ export default function LiveQuizHost(){
  const idx=data.question_index,q=data.questions[idx],isLast=idx===data.questions.length-1,total=data.players.length
  const currentTopic=LIVE_QUIZ_TOPICS.find(item=>item.id===detectedPack?.topicId),currentDifficulty=LIVE_QUIZ_DIFFICULTIES.find(item=>item.id===detectedPack?.difficultyId)
  return <main className={`live-stage phase-${data.phase}`}><SEO title={`ניהול: ${data.title}`} path={`/live/${code}/host`} noindex/>
-  <header className="live-stage-head"><Link to="/live" className="live-stage-brand"><i>B!</i><span>בוגה לייב</span></Link><div><b>{data.title}</b><span>קוד משחק <strong dir="ltr">{code}</strong></span></div><button onClick={fullscreen}>⛶ מסך מלא</button></header>
+  <header className="live-stage-head"><Link to="/live" className="live-stage-brand"><i>B!</i><span>בוגה לייב</span></Link><div><b>{data.title}</b><span>קוד משחק <strong dir="ltr">{code}</strong></span></div><LiveSoundToggle label={false} /><button onClick={fullscreen}>⛶ מסך מלא</button></header>
   {error&&<p className="live-error stage-error" role="alert">{error}</p>}
   {data.phase==='lobby'&&<section className="live-lobby">
     <div className="live-lobby-main"><p>המשתתפים נכנסים מהטלפון</p><h1 dir="ltr">{code}</h1><span className="live-url" dir="ltr">ugabuga.co.il/play/{code}</span>

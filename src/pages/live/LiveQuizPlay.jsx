@@ -6,6 +6,8 @@ import { MathText } from '../../components/quiz/QuizEditor'
 import { liveErrorText, liveMemory, liveQuizDb, newLiveToken } from '../../utils/liveQuizDb'
 import useLiveCountdown from './useLiveCountdown'
 import './live-quiz.css'
+import { liveSoundOnce, markHeard } from './liveSounds'
+import LiveSoundToggle from './LiveSoundToggle'
 import SiteInvite from '../../components/ui/SiteInvite'
 
 const COLORS=['red','blue','gold','green'],MARKS=['▲','◆','●','■']
@@ -25,11 +27,15 @@ export default function LiveQuizPlay(){
  const join=async e=>{e.preventDefault();if(!name.trim()){setError('כתבו שם או כינוי.');return}setBusy(true);setError('');try{const t=token||newLiveToken();await liveQuizDb.join(code,t,name.trim());liveMemory.rememberPlayer(code,t,name.trim());setToken(t);await sync(t)}catch(err){setError(liveErrorText(err.code))}finally{setBusy(false)}}
  const answered=Boolean(player?.answered)&&playerIndex===index,correct=answered&&Boolean(player?.correct)
  const answer=async option=>{if(busy||answered)return;setBusy(true);setError('');try{await liveQuizDb.answer(code,token,index,option);setPlayer(current=>current?{...current,answered:true,option}:current);setPlayerIndex(index);await refreshPlayer(undefined,index)}catch(e){setError(liveErrorText(e.code));await sync()}finally{setBusy(false)}}
+ // Sound on reveal: a chime when this player was right, a soft low tone when wrong (nothing if they didn't answer).
+ // A reveal already on screen when the page loads stays quiet.
+ const firstPhase=useRef(true)
+ useEffect(()=>{if(!state||!player)return;const key=`play-${code}-${index}`;if(firstPhase.current){firstPhase.current=false;if(state.phase==='reveal'){markHeard(key);return}}if(state.phase==='reveal'&&answered&&typeof player.correct==='boolean')liveSoundOnce(key,correct?'right':'wrong')},[state?.phase,index,answered,correct,player,code]) // eslint-disable-line react-hooks/exhaustive-deps
  if(error&&!state)return <main className="live-player-screen"><SEO title="כניסה לבוגה לייב" path={`/play/${code}`} noindex/><div className="live-player-card"><i className="live-mini-logo">B!</i><h1>לא הצלחנו להתחבר</h1><p>{error}</p><BackLink to="/live">חזרה לעמוד המשחק</BackLink></div></main>
  if(!state)return <main className="live-player-screen live-loading">מתחברים למשחק…</main>
  if(!player)return <main className="live-player-screen lobby-bg"><SEO title={`כניסה למשחק ${code} — בוגה לייב`} path={`/play/${code}`} noindex/><form className="live-player-card" onSubmit={join}><i className="live-mini-logo">B!</i><p className="live-player-code">קוד <b dir="ltr">{code}</b></p><h1>{payload.title||'בוגה לייב'}</h1><label>איך לקרוא לכם במשחק?<input value={name} onChange={e=>setName(e.target.value)} maxLength={24} autoFocus autoComplete="nickname" placeholder="שם או כינוי" /></label>{error&&<p className="live-error" role="alert">{error}</p>}<button disabled={busy}>{busy?'נכנסים…':'כניסה למשחק'}</button><small>לא צריך להירשם. השם משמש רק במשחק הזה.</small></form></main>
  const connectionNote=connection!=='SUBSCRIBED'?<span className="live-connection" role="status">מחדשים את החיבור… המשחק ימשיך אוטומטית.</span>:null
- if(state.phase==='lobby')return <main className="live-player-screen lobby-bg"><div className="live-player-card wait-card"><i className="live-mini-logo">B!</i><p>היי {player.name} 👋</p><h1>אתם בפנים!</h1><div className="live-wait-dots" aria-hidden="true"><b/><b/><b/></div><h2>ממתינים שהמנחה יתחיל</h2><span>{payload.player_count||1} משתתפים כבר בחדר</span><small>אפשר להשאיר את המסך פתוח — המשחק יתחיל כאן לבד.</small>{connectionNote}</div></main>
+ if(state.phase==='lobby')return <main className="live-player-screen lobby-bg"><div className="live-player-card wait-card"><i className="live-mini-logo">B!</i><LiveSoundToggle className="live-sound-toggle" /><p>היי {player.name} 👋</p><h1>אתם בפנים!</h1><div className="live-wait-dots" aria-hidden="true"><b/><b/><b/></div><h2>ממתינים שהמנחה יתחיל</h2><span>{payload.player_count||1} משתתפים כבר בחדר</span><small>אפשר להשאיר את המסך פתוח — המשחק יתחיל כאן לבד.</small>{connectionNote}</div></main>
  if(state.phase==='question')return <main className="live-player-screen question-bg"><div className="live-player-top"><span>{player.name}</span><b>{player.score.toLocaleString('he-IL')} נק׳</b><span>שאלה {payload.index}/{payload.total}</span></div>
   <section className="live-player-question"><div className={`live-player-clock ${left!==null&&left<=5?'urgent':''}`} aria-label={left===null?'הטיימר נטען':`נותרו ${left} שניות`}><b>{left??'–'}</b><small>שניות</small></div><div className="live-player-timer-track" aria-hidden="true"><span style={{width:`${left===null?100:Math.max(0,left)/(payload.seconds||20)*100}%`}}/></div><h1><MathText>{payload.question?.q}</MathText></h1>
    {answered?<div className="live-locked" role="status"><strong>✓ התשובה נקלטה</strong><p>עכשיו מחכים לחשיפת התשובה.</p><div className={`live-answer ${COLORS[player.option]}`}><b>{MARKS[player.option]}</b><span><MathText>{payload.question?.options?.[player.option]}</MathText></span></div></div>
