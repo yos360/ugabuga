@@ -43,3 +43,9 @@ test('the page is routed, in the sitemap and in the site search', () => {
   assert.ok(readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8').includes('https://ugabuga.co.il/printables/sound-position</loc>'))
   assert.ok(readFileSync(new URL('../src/data/searchStatic.js', import.meta.url), 'utf8').includes("to: '/printables/sound-position'"))
 })
+
+test('the online game has its own page, in the sitemap and in the site search', () => {
+  assert.match(readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8'), /path="\/online-games\/sound-position" element=\{<SoundPositionOnline \/>\}/)
+  assert.ok(readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8').includes('https://ugabuga.co.il/online-games/sound-position</loc>'))
+  assert.ok(readFileSync(new URL('../src/data/searchStatic.js', import.meta.url), 'utf8').includes("to: '/online-games/sound-position'"))
+})

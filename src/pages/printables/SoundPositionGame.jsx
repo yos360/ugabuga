@@ -1,5 +1,9 @@
 import { useMemo, useState } from 'react'
-import { POSITIONS, pickSoundQuestions } from '../../data/soundPosition'
+import { Link } from 'react-router-dom'
+import SEO from '../../components/ui/SEO'
+import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { POSITIONS, SOUND_LETTERS, pickSoundQuestions } from '../../data/soundPosition'
 import { emojiFile } from '../../data/englishWords'
 import { makeRng, newSeed } from '../../motor/rng'
 import { speak } from '../../utils/speak'
@@ -17,7 +21,7 @@ function Word({ q }) {
   return <span className="text-4xl font-bold" dir="rtl">{clusters(q.word).map((c, i) => <span key={i} className={(FINAL[c[0]] || c[0]) === q.letter ? 'text-rose-600' : ''}>{c}</span>)}</span>
 }
 
-export default function SoundPositionGame({ letters, positions }) {
+export default function SoundPositionGame({ letters, positions, printLink = false }) {
   const [seed, setSeed] = useState(() => newSeed())
   const qs = useMemo(() => pickSoundQuestions(makeRng(seed), { count: ROUNDS, letters, positions }), [seed, letters, positions])
   const [i, setI] = useState(0), [pick, setPick] = useState(null), [score, setScore] = useState(0)
@@ -61,6 +65,32 @@ export default function SoundPositionGame({ letters, positions }) {
         <button type="button" onClick={next} autoFocus className="mt-4 min-h-[48px] rounded-2xl bg-violet-700 px-6 text-lg font-bold text-white hover:bg-violet-800">{i + 1 < qs.length ? 'הבא ←' : 'לסיכום ←'}</button>
       </div>}
     </>}
-    <p className="mt-4 text-sm text-slate-600">המשבצת הימנית היא ההתחלה · אפשר גם להדפיס דפים למטה ⬇️</p>
+    <p className="mt-4 text-sm text-slate-600">המשבצת הימנית היא ההתחלה · {printLink ? <Link to="/printables/sound-position" className="font-bold underline">רוצים דפים להדפסה? ←</Link> : 'אפשר גם להדפיס דפים למטה ⬇️'}</p>
   </section>
+}
+
+// /online-games/sound-position — the same game on its own page, for players who came for a game.
+const ALL = ['start', 'middle', 'end'], EDGES = ['start', 'end']
+const FAQ = [
+  { q: 'לאיזה גיל מתאים המשחק?', a: 'לגן חובה ולכיתה א׳. לקטנים כדאי להתחיל ב"רק התחלה וסוף", ולהוסיף את האמצע כשזה כבר קל להם.' },
+  { q: 'איך יודעים איפה הצליל?', a: 'אומרים את שם התמונה לאט ומותחים את הצלילים: "גגגגֶ־זֶר". אפשר ללחוץ על 🔊 ולשמוע את המילה. אחרי כל תשובה מופיעה המילה המנוקדת, והאות שחיפשנו צבועה בה.' },
+  { q: 'יש גם דפים להדפסה?', a: 'כן — אותן שאלות בדפי עבודה להדפסה, 12 כרטיסים בדף ודף תשובות.' },
+]
+export function SoundPositionOnline() {
+  const [level, setLevel] = useState('all')
+  return <div className="mx-auto max-w-4xl px-3 py-8 sm:px-4" dir="rtl">
+    <SEO title="איפה שומעים את הצליל — משחק אונליין: בהתחלה, באמצע או בסוף" description="משחק אונליין בחינם במודעות פונולוגית: אות ותמונה, שומעים את המילה ובוחרים — הצליל בהתחלה, באמצע או בסוף? 10 שאלות בסיבוב, עם הקראה וצליל לתשובה נכונה. לגן חובה ולכיתה א׳." path="/online-games/sound-position" structuredData={faqSchema(FAQ)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים אונליין', href: '/online-games' }, { label: 'איפה שומעים את הצליל?' }]} />
+    <h1 className="text-center text-3xl font-black sm:text-5xl">👂 איפה שומעים את הצליל?</h1>
+    <p className="mx-auto mb-4 mt-2 max-w-2xl text-center text-lg text-slate-600">רואים אות ותמונה, אומרים את המילה בקול — ובוחרים: בהתחלה, באמצע או בסוף.</p>
+    <div role="group" aria-label="רמה" className="mb-4 flex flex-wrap justify-center gap-2">
+      {[['all', 'התחלה, אמצע וסוף'], ['edges', 'רק התחלה וסוף (קל יותר)']].map(([v, l]) => <button key={v} type="button" aria-pressed={level === v} onClick={() => setLevel(v)}
+        className={`min-h-11 rounded-xl border-2 px-3 font-bold ${level === v ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white text-slate-500'}`}>{l}</button>)}
+    </div>
+    <SoundPositionGame key={level} letters={SOUND_LETTERS} positions={level === 'edges' ? EDGES : ALL} printLink />
+    <div className="mt-10"><SeoBody paragraphs={[
+      'לפני שקוראים, צריך לשמוע. ילד שיודע לומר איפה במילה מסתתר צליל — בהתחלה, באמצע או בסוף — מוכן לחבר אותיות למילים. במשחק הזה מתרגלים את זה עם תמונות: אות למעלה, תמונה, ושלושה כפתורים.',
+      'אחרי כל תשובה מופיעה המילה המנוקדת והאות שחיפשנו צבועה בה, כך שגם טעות מלמדת. כל המילים נבדקו: לא שואלים על אות שלא שומעים, ולא על מילה שיש בה שתי אותיות עם אותו צליל.',
+    ]} faq={FAQ} related={[{ label: 'איפה שומעים את הצליל — דפים להדפסה', href: '/printables/sound-position' }, { label: 'קוראים רק מה שלמדנו', href: '/letters/reading-practice' }, { label: 'משחק זיכרון אותיות', href: '/online-games/memory-letters' }]} /></div>
+  </div>
 }

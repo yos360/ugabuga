@@ -138,6 +138,7 @@ const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => 
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
+const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionGame').then(m => ({ default: m.SoundPositionOnline })))
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
@@ -885,6 +886,7 @@ export default function App() {
               <Route path="/adults/memory" element={<MemorySeniors />} />
               <Route path="/online-games/memory-letters" element={<MemoryLetters />} />
               <Route path="/online-games/memory-english" element={<MemoryEnglish />} />
+              <Route path="/online-games/sound-position" element={<SoundPositionOnline />} />
               <Route path="/adults/grandparents" element={<Grandparents />} />
               <Route path="/adults/grandparents/interview" element={<GrandparentsInterview />} />
               <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />

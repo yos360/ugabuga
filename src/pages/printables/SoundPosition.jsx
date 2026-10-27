@@ -17,7 +17,7 @@ const COLS = 4, CW = 45, CH = 76, GX = (200 - 10 - COLS * CW) / (COLS - 1), GY =
 const at = i => ({ X: 5 + (COLS - 1 - (i % COLS)) * (CW + GX), Y: Y0 + Math.floor(i / COLS) * (CH + GY) })
 
 function Card({ q, i, color, showWord, answer }) {
-  const { X, Y } = at(i), pic = showWord ? 30 : 36
+  const { X, Y } = at(i), pic = showWord ? 30 : 38
   return <g fontFamily={FONT}>
     <rect x={X} y={Y} width={CW} height={CH} rx={3} fill="#fff" stroke="#555" strokeWidth={0.5} />
     <path d={`M${X} ${Y + 14}V${Y + 3}a3 3 0 0 1 3-3h${CW - 6}a3 3 0 0 1 3 3V${Y + 14}Z`} fill={color ? TINTS[i % TINTS.length] : '#fff'} />
@@ -25,10 +25,10 @@ function Card({ q, i, color, showWord, answer }) {
     <T x={X + CW / 2} y={Y + 11} size={11} weight={800}>{q.show}</T>
     <image href={art(q.emoji)} x={X + (CW - pic) / 2} y={Y + 17} width={pic} height={pic} />
     {showWord && <T x={X + CW / 2} y={Y + 55} size={6.5} weight={700}>{q.word}</T>}
-    {POSITIONS.map((p, k) => { const bx = X + CW - 4 - 8 - k * 14.5; return <g key={p.id}>
-      <T x={bx + 4} y={Y + 62} size={3.6}>{p.label}</T>
-      <rect x={bx} y={Y + 64} width={8} height={8} rx={1} fill="#fff" stroke="#222" strokeWidth={0.5} />
-      {answer && p.id === q.pos && <T x={bx + 4} y={Y + 70.6} size={7} weight={800} fill="#15803d">✓</T>}
+    {POSITIONS.map((p, k) => { const bx = X + CW - 3 - 9 - k * 14.5; return <g key={p.id}>
+      <T x={bx + 4.5} y={Y + 61.5} size={4.2} weight={700}>{p.short}</T>
+      <rect x={bx} y={Y + 63.5} width={9} height={9} rx={1} fill="#fff" stroke="#222" strokeWidth={0.6} />
+      {answer && p.id === q.pos && <T x={bx + 4.5} y={Y + 71} size={8} weight={800} fill="#15803d">✓</T>}
     </g> })}
   </g>
 }
@@ -64,7 +64,7 @@ export default function SoundPosition() {
     description="מודעות פונולוגית בחינם: אות, תמונה ושלוש משבצות — שומעים את הצליל בהתחלה, באמצע או בסוף המילה? משחק אונליין עם הקראה, ודפי עבודה להדפסה עם 12 כרטיסים בדף ודף תשובות. לגן חובה ולכיתה א׳."
     sub="משחקים אונליין או מדפיסים · אות, תמונה ושלוש משבצות · דפים חדשים בכל לחיצה"
     lead={<SoundPositionGame key={`${level}-${letters.join('')}`} letters={letters} positions={level === 'edges' ? EDGES : ALL} />}
-    crumbs={[{ label: 'אותיות', href: '/letters' }]} previewAll onRefresh={() => setSeed(newSeed())}
+    crumbs={[{ label: 'אותיות', href: '/letters' }]} wide onRefresh={() => setSeed(newSeed())}
     controls={<>
       <Choice label="מה מתרגלים" value={level} onChange={v => { setLevel(v); setSeed(newSeed()) }} options={[['all', 'התחלה, אמצע וסוף'], ['edges', 'רק התחלה וסוף (קל יותר)']]} />
       <Choice label="כמה דפים" value={count} onChange={setCount} options={[['1', 'דף אחד'], ['2', '2 דפים'], ['3', '3 דפים'], ['5', '5 דפים']]} />
@@ -91,5 +91,5 @@ export default function SoundPosition() {
       { q: 'אפשר לתרגל רק כמה אותיות?', a: 'כן. ב"לבחור אותיות" מסמנים רק את האותיות שלמדתם, והדפים והמשחק אונליין ייבנו רק מהן.' },
       { q: 'אפשר לשחק בטלפון או בטאבלט?', a: 'כן. המשחק בראש העמוד עובד בכל דפדפן, בלי הורדה ובלי הרשמה. כדי לשמוע את המילה לוחצים על 🔊.' },
     ]}
-    related={[{ label: 'קוראים רק מה שלמדנו', href: '/letters/reading-practice' }, { label: 'כרטיסיות אותיות', href: '/printables/letter-flashcards' }, { label: 'פאזל מילה', href: '/printables/word-puzzles' }]} />
+    related={[{ label: 'המשחק בעמוד משלו (טוב לטאבלט)', href: '/online-games/sound-position' }, { label: 'קוראים רק מה שלמדנו', href: '/letters/reading-practice' }, { label: 'כרטיסיות אותיות', href: '/printables/letter-flashcards' }, { label: 'פאזל מילה', href: '/printables/word-puzzles' }]} />
 }

@@ -57,9 +57,9 @@ export function soundUnits(word) {
 }
 
 export const POSITIONS = [
-  { id: 'start', label: 'בהתחלה' },
-  { id: 'middle', label: 'באמצע' },
-  { id: 'end', label: 'בסוף' },
+  { id: 'start', label: 'בהתחלה', short: 'התחלה' },
+  { id: 'middle', label: 'באמצע', short: 'אמצע' },
+  { id: 'end', label: 'בסוף', short: 'סוף' },
 ]
 
 // Every picture word the site has, pointed (one entry per emoji). Left out: pictures a child would name

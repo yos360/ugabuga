@@ -48,7 +48,7 @@ export function Field({ label, value, onChange, placeholder, maxLength = 30, typ
 
 const sheets = (list, sheetClassName = '', en = false) => list.map(p => <article className={`buga-a4 ${sheetClassName}`} key={p.key}><div className="print-art">{p.svg}</div><footer>{en ? 'Ugabuga' : 'עוגה בוגה'} · ugabuga.co.il</footer></article>)
 
-export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', lang = 'he', counterpartPath, lead, children, intro, body, after }) {
+export default function PrintableShell({ path, seoTitle, description, image, emoji, h1, sub, crumbs = [], controls, pages, printTitle, printLabel, onRefresh, variant, copies, paragraphs = [], faq = [], related = [], siblings = [], extra, previewAll = false, sheetClassName = '', wide = false, lang = 'he', counterpartPath, lead, children, intro, body, after }) {
   const en = lang === 'en'
   const [printing, setPrinting] = useState(false)
   const first = pages[0]
@@ -72,17 +72,18 @@ export default function PrintableShell({ path, seoTitle, description, image, emo
 
       {controls && <div className="mx-auto mb-8 max-w-3xl space-y-4 wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-4 sketch-shadow-sm">{controls}</div>}
 
-      <div className="mx-auto grid max-w-3xl items-start gap-6 md:grid-cols-[minmax(0,1fr)_220px]">
+      {/* `wide`: a dense sheet (many small cards) previews at full width, with the print button below it. */}
+      <div className={`mx-auto grid max-w-3xl items-start gap-6 ${wide ? '' : 'md:grid-cols-[minmax(0,1fr)_220px]'}`}>
         {previewAll && many
           // Several chosen items (e.g. one sign per allergy): show every page, so it's clear they're all in.
           ? <div className="mx-auto grid w-full max-w-[460px] grid-cols-2 gap-3" aria-label={en ? `Preview of ${pages.length} pages` : `תצוגה מקדימה של ${pages.length} הדפים`}>
             {pages.map((p, i) => <div key={p.key} className="relative border-2 border-[var(--border)] bg-white p-1.5 sketch-shadow-sm">
               <span className="absolute -top-2 -right-2 z-10 rounded-full border-2 border-[var(--border)] bg-[var(--yellow)] px-2 text-sm font-black">{i + 1}</span>{p.svg}</div>)}
           </div>
-          : <div className="mx-auto w-full max-w-[420px] border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm" aria-label={en ? 'First page preview' : 'תצוגה מקדימה של הדף הראשון'}>
+          : <div className={`mx-auto w-full ${wide ? 'max-w-[680px]' : 'max-w-[420px]'} border-2 border-[var(--border)] bg-white p-3 sketch-shadow-sm`} aria-label={en ? 'First page preview' : 'תצוגה מקדימה של הדף הראשון'}>
             {first?.svg}
           </div>}
-        <div className="space-y-3 text-center md:text-right md:sticky md:top-24">
+        <div className={`space-y-3 text-center ${wide ? 'mx-auto w-full max-w-sm' : 'md:text-right md:sticky md:top-24'}`}>
           <p className="font-bold text-lg">{en ? `${pages.length} A4 ${many ? 'pages' : 'page'}` : many ? `${pages.length} דפי A4 בהדפסה אחת` : 'דף A4 אחד'}</p>
           <button type="button" data-print-main onClick={() => setPrinting(true)} className="w-full min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ {printLabel || (en ? 'Print or download PDF' : 'הדפסה או PDF')}</button>
           <p className="text-sm text-[var(--muted-foreground)]">{en ? 'Free, with no sign-up. Print again whenever you need.' : 'חינם, בלי הרשמה. אפשר לשנות הגדרות ולהדפיס שוב כמה שרוצים.'}</p>
