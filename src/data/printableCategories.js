@@ -26,6 +26,7 @@ export const categories = [
   { slug: 'purim-masks', href: '/printables/purim-masks', emoji: '🎭', title: 'מסכות לפורים', count: 9, desc: 'חיות, פרפר, גיבור-על וחד-קרן — בצבע או לצביעה' },
   { slug: 'birthday-crown', href: '/printables/birthday-crown', emoji: '👑', title: 'כתר יום הולדת', count: 'חדש', desc: 'כתר לגזירה עם שם החוגג/ת והגיל' },
   { slug: 'booklets', href: '/booklets', emoji: '📚', title: 'חוברות עבודה', count: 'חדש', desc: 'חוברות שלמות לפי כיתה ונושא — להורדה כ־PDF' },
+  { slug: 'sound-position', href: '/printables/sound-position', emoji: '👂', title: 'איפה שומעים את הצליל?', count: 'חדש', desc: 'בהתחלה, באמצע או בסוף — 12 כרטיסים בדף, דפים חדשים בכל לחיצה' },
   { slug: 'word-puzzles', href: '/printables/word-puzzles', emoji: '🧩', title: 'פאזל מילה', count: 'חדש', desc: 'תמונה ברצועות — מרכיבים לפי האותיות' },
   { slug: 'memory-game', href: '/printables/memory-game', emoji: '🃏', title: 'משחק זיכרון', count: 'חדש', desc: '10 זוגות — תמונה ותמונה, או תמונה ומילה' },
   { slug: 'memory-english', href: '/printables/memory-english', emoji: '🇬🇧', title: 'משחק זיכרון באנגלית', count: 'חדש', desc: '52 מילים — עברית ואנגלית עם הגייה' },

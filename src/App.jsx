@@ -137,6 +137,7 @@ const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
+const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
@@ -655,6 +656,7 @@ export default function App() {
               <Route path="/printables/sensory-communication-cards" element={<SensoryCommunicationCards />} />
               <Route path="/printables/emotion-cards" element={<EmotionCards />} />
               <Route path="/printables/word-puzzles" element={<WordPuzzles />} />
+              <Route path="/printables/sound-position" element={<SoundPosition />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
               <Route path="/printables/multiplication-strips" element={<TimesTableStrips />} />
               <Route path="/printables/number-strip" element={<NumberStripPage />} />
