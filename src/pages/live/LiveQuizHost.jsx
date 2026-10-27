@@ -38,6 +38,10 @@ export default function LiveQuizHost(){
  // ahead of the database clock, or a network hiccup), so a failed attempt is retried a second later.
  useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{load();clearTimeout(retryTimer.current);retryTimer.current=setTimeout(()=>{auto.current='';setRetry(n=>n+1)},1000)})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load,retry])
  useEffect(()=>()=>clearTimeout(retryTimer.current),[])
+ // Everyone answered: show the answer right away instead of waiting out the clock. Uses the same
+ // once-per-question guard as the timeout, so the two never fire together. A participant who left
+ // mid-game never answers — then the timer still ends the question as before.
+ useEffect(()=>{const total=data?.players?.length||0;if(data?.phase==='question'&&total>0&&(data.answer_count||0)>=total&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'reveal').then(load).catch(load)}},[data?.phase,data?.question_index,data?.answer_count,data?.players?.length,code,token,load])
  // Record each revealed question (latest counts win; late answers can still arrive during reveal).
  useEffect(()=>{
    if(!data?.title)return

@@ -41,3 +41,7 @@
 .live-alt{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.live-alt button{min-height:44px;border:1.5px solid #d9d2f4;border-radius:14px;background:#fff;padding:0 14px;font:inherit;font-weight:800;color:#4b3a8c;cursor:pointer}
 .live-back{justify-self:start;border:0;background:none;color:var(--live-purple,#6d48e5);font:inherit;font-weight:800;cursor:pointer;padding:4px 0}
 @media(max-width:700px){.live-levels button small{display:none}.live-levels button{min-height:48px}.live-tabbar{margin:8px auto 16px}}
+
+/* Host on a phone: the main action (start / show the answer / next question) stays in reach at the bottom
+   of the screen instead of below the leaderboard. Fixed, not sticky: a page wrapper sets overflow. */
+@media(max-width:700px){.live-stage .live-start-button,.live-question-stage .live-reveal-now{position:fixed;inset-inline-start:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:30;width:calc(100% - 24px);margin:0;justify-self:auto;box-shadow:0 10px 30px #0009}.live-question-stage .live-reveal-now{background:var(--live-navy);border-color:#ffffff66;padding:13px;font-size:1.05rem}.live-stage.phase-lobby,.live-stage.phase-question,.live-stage.phase-reveal,.live-stage.phase-finished{padding-bottom:96px}}
