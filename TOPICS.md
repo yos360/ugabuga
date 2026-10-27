@@ -11,10 +11,10 @@ One line per day, newest at the bottom ("?" = made before this log existed, uplo
 | earlier | Buga Live (live quiz from the phone) | /live | ? | ? | ? | ? |
 | 2026-10-25 | "הפעם מצביעים בוגה" — all 5 election types | /tools/class-elections | ✓ | ✓ | ✓ | ✓ |
 | 2026-10-26 | "כמה עוד נשאר?!" — נוסעים עם בוגה (travel kit, bingo, waiting games, timer) | /travel | ✓ | ✓ | ✓ | ✓ |
-| 2026-10-27 | "העוגה נעלמה!" — חדרי בריחה BUGA (42 rooms, 3 levels, graded hints, print kit) | /tools/escape-rooms | ✓ | ✓ | ✓ (sent, not seen in reels list) | ✗ |
+| 2026-10-27 | "העוגה נעלמה!" — חדרי בריחה BUGA (42 rooms, 3 levels, graded hints, print kit) | /tools/escape-rooms | ✓ | ✓ | ✓ (sent, not seen in reels list) | ✓ (sent, shows in review) |
 
 Note 2026-10-27: no uploads — Claude in Chrome was not available to the scheduled run (cloud session, no browser tools). Reel + captions are in examples/escape-rooms/; upload manually or on the next run.
-Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to the chat): YouTube https://youtube.com/shorts/1YnuhkZy1Nk, Instagram and Facebook posted. YouTube cover could not be set (frame picker was empty while processing), YouTube picked a frame. TikTok NOT posted: Chrome is logged in to the "אלוף המצגות" account, not עוגה בוגה (@hellorwsvm8); switching needs a login. Side-panel file upload only accepts files attached to the chat, so a scheduled run cannot upload.
+Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to the chat): YouTube https://youtube.com/shorts/1YnuhkZy1Nk, Instagram and Facebook posted. YouTube cover could not be set (frame picker was empty while processing), YouTube picked a frame. TikTok: Chrome was first logged in to "אלוף המצגות", so it was held back; after the owner logged in to עוגה בוגה it was posted (09:35), not yet listed in Studio. Side-panel file upload only accepts files attached to the chat, so a scheduled run cannot upload.
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
