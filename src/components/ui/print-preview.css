@@ -74,3 +74,9 @@
 /* "How many pages" selector in the print toolbar */
 .buga-print-tip a[download]{display:inline-block;min-height:44px;padding:10px 12px;color:#56309b;font-weight:700;text-decoration:underline;border:1px solid currentColor;border-radius:8px}
 .buga-print-count{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px}.buga-print-count select{min-height:44px;border:2px solid #d7dae3;border-radius:10px;padding:6px 10px;background:white;font-weight:700}
+
+/* After printing: "what else is missing?" (PrintAsk). */
+.buga-print-ask{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px;margin:10px 18px 0;padding:10px 14px;border-radius:14px;background:#f1ecff;border:2px dashed #a78bfa}
+.buga-print-ask label{flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px}.buga-print-ask input{min-height:44px;border-radius:10px;border:2px solid #c4b5fd;padding:6px 10px;font:inherit;background:#fff}
+.buga-print-ask button{background:#6d3ff0!important;color:#fff;min-height:44px;padding:8px 16px;border-radius:10px;font-weight:800}.buga-print-ask small{flex-basis:100%;color:#b42318;font-weight:700}
+@media print{.buga-print-ask{display:none!important}}

@@ -21,24 +21,45 @@ function QrVariants({ from, to, tick }) {
   </div>
 }
 
+// Marking a request done: a public title and the page's link show it in "הכנו לפי בקשה" on the site;
+// when the visitor left an email, a ready "your page is ready" message opens in the owner's mail app.
+function DoneEditor({ row, onSaved }) {
+  const [title, setTitle] = useState(row.public_title || ''), [path, setPath] = useState(row.result_path || ''), [msg, setMsg] = useState('')
+  const save = async () => {
+    const clean = path.trim().replace(/^https?:\/\/(www\.)?ugabuga\.co\.il/, '').split(/[?#]/)[0]
+    const { error } = await ownerSupabase.rpc('page_request_done', { p_id: row.id, p_title: title, p_path: clean })
+    if (error) { setMsg('צריך כותרת וקישור לעמוד באתר (מתחיל ב־/)'); return }
+    setMsg('נשמר ✓'); onSaved({ status: 'done', public_title: title.trim(), result_path: clean })
+  }
+  const link = row.result_path ? `https://ugabuga.co.il${row.result_path}` : ''
+  const mail = row.email && link ? `mailto:${row.email}?subject=${encodeURIComponent('הדף שביקשתם מעוגה בוגה מוכן 🎂')}&body=${encodeURIComponent(`שלום,\n\nביקשתם מאיתנו: "${row.request}"\nהכנו את זה, והוא כבר באתר, בחינם:\n${link}\n\nתודה שכתבתם לנו! אם חסר עוד משהו — אפשר לבקש כאן: https://ugabuga.co.il/request\n\nעוגה בוגה`)}` : ''
+  return <div className="mt-2 space-y-1 rounded-xl bg-emerald-50 p-2 text-xs">
+    <input value={title} onChange={e => setTitle(e.target.value)} placeholder="כותרת לאתר: דפי צביעה של כלבי ים" className="w-full rounded border p-1" />
+    <input value={path} onChange={e => setPath(e.target.value)} dir="ltr" placeholder="/printables/coloring/seal" className="w-full rounded border p-1" />
+    <button type="button" onClick={save} className="rounded bg-emerald-600 px-2 py-1 font-bold text-white">שמירה והצגה באתר</button> {msg}
+    {mail && <a href={mail} className="block font-bold text-violet-700 underline">✉️ לשלוח למבקש/ת "הדף מוכן"</a>}
+  </div>
+}
+
 export default function PageRequests({ from, to, tick = 0 }) {
   const [rows, setRows] = useState([]), [error, setError] = useState('')
   useEffect(() => { let live = true; ownerSupabase.rpc('page_requests_owner', { p_from: from.toISOString(), p_to: to.toISOString(), p_limit: 500 }).then(({ data, error: rpcError }) => { if (!live) return; if (rpcError) { setError('הנתונים יופיעו לאחר הפעלת עדכון מסד הנתונים.'); return } setRows(Array.isArray(data) ? data : []); setError('') }); return () => { live = false } }, [from, to, tick])
   const setStatus = async (id, status) => {
+    if (status === 'done') { setRows(list => list.map(r => r.id === id ? { ...r, status } : r)); return } // saved with a title and link in DoneEditor
     const { error: rpcError } = await ownerSupabase.rpc('page_request_set_status', { p_id: id, p_status: status })
     if (!rpcError) setRows(list => list.map(r => r.id === id ? { ...r, status } : r))
   }
   const open = rows.filter(r => r.status === 'new').length
   return <section className="mb-6 rounded-3xl border-2 border-violet-200 bg-white p-5 shadow-sm">
     <div className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-sm font-bold text-violet-700">מבקשים דף</p><h2 className="text-2xl font-black">מה ביקשו שנכין?</h2></div><span className="rounded-full bg-violet-100 px-3 py-1 font-black">{rows.length} בקשות · {open} חדשות</span></div>
-    <p className="mt-2 text-sm text-slate-600">מייל נשמר רק כשהמבקר בחר להשאיר אותו, כדי לעדכן שהדף מוכן. לא לפרסם ולא להעביר.</p>
+    <p className="mt-2 text-sm text-slate-600">מייל נשמר רק כשהמבקר בחר להשאיר אותו, כדי לעדכן שהדף מוכן. לא לפרסם ולא להעביר. כשבקשה הוכנה: בוחרים "הוכן", כותבים כותרת וקישור — והיא מופיעה באתר תחת "הכנו לפי בקשה" (בלי נוסח הבקשה ובלי המייל).</p>
     {error && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm font-bold">{error}</p>}
     {!error && (rows.length ? <div className="mt-4 max-h-[440px] overflow-auto"><table className="w-full text-right text-sm"><thead className="sticky top-0 bg-white"><tr className="border-b-2"><th className="p-2">זמן</th><th className="p-2">הבקשה</th><th className="p-2">סטטוס</th></tr></thead>
       <tbody>{rows.map(r => <tr key={r.id} className="border-b align-top"><td className="whitespace-nowrap p-2 text-slate-500">{formatTime(r.created_at)}</td>
         <td className="p-2"><b className="whitespace-pre-wrap">{r.request}</b>
           <span className="mt-1 block text-xs text-slate-500">{[r.audience && `גיל: ${r.audience}`, SOURCE[r.source] || r.source, r.from_path && `מהדף ${r.from_path}`].filter(Boolean).join(' · ')}</span>
           {r.email && <a href={`mailto:${r.email}`} dir="ltr" className="mt-1 block text-xs font-bold text-violet-700 underline">{r.email}</a>}</td>
-        <td className="p-2"><select value={r.status} onChange={e => setStatus(r.id, e.target.value)} className="rounded-lg border-2 border-slate-200 p-1" aria-label="סטטוס הבקשה">{Object.entries(STATUS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select></td></tr>)}</tbody></table></div>
+        <td className="p-2"><select value={r.status} onChange={e => setStatus(r.id, e.target.value)} className="rounded-lg border-2 border-slate-200 p-1" aria-label="סטטוס הבקשה">{Object.entries(STATUS).map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select>{r.status === 'done' && <DoneEditor row={r} onSaved={patch => setRows(list => list.map(x => x.id === r.id ? { ...x, ...patch } : x))} />}</td></tr>)}</tbody></table></div>
       : <p className="mt-4 rounded-xl bg-slate-50 p-4">עדיין אין בקשות בטווח הזמן שנבחר.</p>)}
     <QrVariants from={from} to={to} tick={tick} />
   </section>

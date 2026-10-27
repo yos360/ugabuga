@@ -12,6 +12,7 @@ import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
 import { LiveTop, RequestTop } from '../components/home/HomeTopVariant'
+import DoneRequests from '../components/ui/DoneRequests'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
@@ -188,6 +189,7 @@ export default function Home() {
       <div className="hp-row-head"><h2 className="hp-h2">הכי אהובים השבוע</h2><Link to="/tools">לכל הכלים ←</Link></div>
       <div className="hp-loved">{LOVED.map(([e, t, to, d]) => <Link key={to} to={to} className="hp-card"><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
     </section>
+    <NearViewport minHeight={0}><DoneRequests className="hp-sec" /></NearViewport>
     <section className="hp-sec hp-news">
       <div><h2 className="hp-h3">✨ חדש באתר</h2><ul>{NEW.map(([e, t, to]) => <li key={to}><Link to={to}><span aria-hidden="true">{e}</span> {t}</Link></li>)}</ul></div>
       <div><h2 className="hp-h3">📰 מהבלוג</h2><ul>{posts.map(p => <li key={p.slug}><Link to={`/blog/${p.slug}`}><span aria-hidden="true">{p.emoji}</span> {p.title}</Link></li>)}</ul><Link className="hp-more" to="/blog">לכל הפוסטים ←</Link></div>

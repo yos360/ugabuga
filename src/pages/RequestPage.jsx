@@ -4,11 +4,13 @@ import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { submitPageRequest } from '../utils/pageRequests'
+import DoneRequests, { WhatsAppAsk } from '../components/ui/DoneRequests'
 import { landingTags } from '../utils/qrVariants'
 import { recordExperiment } from '../utils/experiments'
 
 // /request — "מבקשים דף": visitors tell the owner which page, booklet or game is missing.
 // Reached from the banner, empty search results and the QR on printed pages (?from=<printed page>).
+const ROLES = ['הורה', 'גננת', 'מורה', 'קלינאית / מטפלת']
 const AUDIENCES = ['גן', 'כיתה א׳–ב׳', 'כיתה ג׳–ד׳', 'כיתה ה׳–ו׳', 'חטיבת ביניים', 'חינוך מיוחד', 'מבוגרים', 'אחר']
 const EXAMPLES = ['חוברת חשבון לכיתה ב׳ עם חיבור עד 100', 'דפי צביעה של כלבי ים לגן', 'תפזורת לחנוכה באנגלית', 'דף עבודה על החלל לכיתה ד׳']
 const FAQ = [
@@ -22,14 +24,14 @@ export default function RequestPage() {
   const [params] = useSearchParams()
   const from = params.get('from') || '', source = landingTags().source === 'qr' ? 'qr' : ['search', 'print', 'site'].includes(params.get('src')) ? params.get('src') : 'site'
   const [request, setRequest] = useState(() => (params.get('q') ? `${params.get('q')}` : ''))
-  const [audience, setAudience] = useState(''), [email, setEmail] = useState('')
+  const [audience, setAudience] = useState(''), [role, setRole] = useState(''), [email, setEmail] = useState('')
   const [state, setState] = useState('idle')
   useEffect(() => { if (state === 'sent') document.getElementById('request-done')?.focus() }, [state])
   const send = async e => {
     e.preventDefault()
     if (request.trim().length < 3) { setState('short'); return }
     setState('sending')
-    const ok = await submitPageRequest({ request, audience, email, fromPath: from, source })
+    const ok = await submitPageRequest({ request, audience: [role, audience].filter(Boolean).join(' · '), email, fromPath: from, source })
     if (ok) recordExperiment('request')
     setState(ok ? 'sent' : 'error')
   }
@@ -52,6 +54,9 @@ export default function RequestPage() {
         </label>
         <p id="request-examples" className="-mt-3 text-sm text-[var(--muted-foreground)]">רעיונות: {EXAMPLES.slice(1).join(' · ')}</p>
         {state === 'short' && <p className="font-bold text-red-700" role="alert">כתבו בכמה מילים מה צריך.</p>}
+        <fieldset><legend className="font-bold">מי אתם? <span className="font-normal text-[var(--muted-foreground)]">(רשות — גננות ומורות: ספרו מה הנושא השבועי)</span></legend>
+          <div className="mt-2 flex flex-wrap gap-2">{ROLES.map(a => <button key={a} type="button" aria-pressed={role === a} onClick={() => setRole(role === a ? '' : a)} className={`min-h-[44px] rounded-xl border-2 px-3 font-bold ${role === a ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white'}`}>{a}</button>)}</div>
+        </fieldset>
         <fieldset><legend className="font-bold">לאיזה גיל? <span className="font-normal text-[var(--muted-foreground)]">(רשות)</span></legend>
           <div className="mt-2 flex flex-wrap gap-2">{AUDIENCES.map(a => <button key={a} type="button" aria-pressed={audience === a} onClick={() => setAudience(audience === a ? '' : a)} className={`min-h-[44px] rounded-xl border-2 px-3 font-bold ${audience === a ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white'}`}>{a}</button>)}</div>
         </fieldset>
@@ -61,7 +66,9 @@ export default function RequestPage() {
         <p className="text-xs text-[var(--muted-foreground)]">המייל משמש רק כדי לעדכן שהדף מוכן — לא מתפרסם ולא נמסר לאף אחד. אל תכתבו בבקשה שמות של ילדים או מספרי טלפון. <Link to="/privacy" className="underline">מדיניות הפרטיות</Link></p>
         {state === 'error' && <p className="font-bold text-red-700" role="alert">משהו השתבש בשליחה. נסו שוב בעוד רגע.</p>}
         <button type="submit" disabled={state === 'sending'} className="min-h-[52px] w-full rounded-2xl bg-violet-700 px-6 text-lg font-black text-white disabled:opacity-60">{state === 'sending' ? 'שולחים…' : 'שליחת הבקשה'}</button>
+        <div className="text-center"><WhatsAppAsk /></div>
       </form>}
+    <DoneRequests className="mt-10" />
     <div className="mt-10"><SeoBody paragraphs={['עוגה בוגה נבנה מבקשות של הורים, גננות ומורות. אם חיפשתם דף מסוים ולא מצאתם — דף עבודה בנושא שלומדים עכשיו בכיתה, חוברת לחג, דף צביעה של דמות שהילד אוהב או משחק לקבוצה — כתבו לנו כאן.', 'הבקשות מגיעות ישירות אלינו. כל שבוע אנחנו עוברים עליהן, ומה שהכי מבקשים נכנס לאתר כדף חדש, בחינם ולכולם.']} faq={FAQ} related={[{ label: 'כל הדפים להדפסה', href: '/printables' }, { label: 'חוברות עבודה להדפסה', href: '/booklets' }, { label: 'דפי צביעה', href: '/printables/coloring' }]} /></div>
   </div>
 }

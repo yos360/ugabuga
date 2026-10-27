@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { NO_SPONSOR } from '../../data/sponsors'
 import { pickBanner } from '../../data/printMessages'
+import { OWNER_WHATSAPP_LINK } from './DoneRequests'
 
 // "Ask us for a page" — a small card below the content on Hebrew pages (same exclusions as the sponsor
 // card: kids zone, live games, English site…). The wording rotates per page view; closing it hides it
@@ -16,6 +17,7 @@ export function RequestCard({ from, source = 'site', message, query, className =
     <span className="text-3xl" aria-hidden="true">📝</span>
     <div className="min-w-[12rem] flex-1"><b className="block text-lg">{m.title}</b><span className="text-sm">{m.line}</span></div>
     <Link to={`/request?from=${encodeURIComponent(from || '/')}&src=${source}${query ? `&q=${encodeURIComponent(query.slice(0, 120))}` : ''}`} className="inline-flex min-h-[44px] items-center rounded-2xl bg-violet-700 px-5 font-bold text-white hover:bg-violet-800">לבקשת דף ←</Link>
+    <a href={OWNER_WHATSAPP_LINK('היי עוגה בוגה 👋 אשמח שתכינו לי דף: ')} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-emerald-700 underline">או בוואטסאפ</a>
   </div>
 }
 

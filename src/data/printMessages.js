@@ -9,6 +9,7 @@ export const QR_VARIANTS = [
   { id: 'g4', to: 'page', title: '🎁 בקשו מאבא או מאמא לסרוק', line: 'מחכים לכם עוד דפים ומשחקים · ugabuga.co.il' },
   { id: 'r1', to: 'request', title: '✨ חסר לכם דף? סרקו וספרו לנו', line: 'מכינים דפים לפי בקשה — בחינם · ugabuga.co.il' },
   { id: 'r2', to: 'request', title: 'גננות, מורות והורים: איזה דף להכין לכם?', line: 'סרקו ובקשו — אנחנו מכינים, בחינם' },
+  { id: 'r3', to: 'request', title: '🎯 רוצים את הדף הזה בנושא אחר?', line: 'סרקו ובקשו — נכין לכם גרסה חדשה, בחינם' },
 ]
 export const qrVariant = id => QR_VARIANTS.find(v => v.id === id)
 export const pickQrVariant = (rand = Math.random()) => QR_VARIANTS[Math.floor(rand * QR_VARIANTS.length) % QR_VARIANTS.length]
