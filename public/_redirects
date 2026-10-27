@@ -157,3 +157,34 @@
 /printables/body-parts /printables 301
 /printables/days-months /printables 301
 /ideas/bachelorette-party /ideas 301
+
+# Slugs that never existed but were crawled (Search Console 404 list, 2026-10-27). Each goes to the closest real page.
+/printables/matching-game /printables/memory-game 301
+/blog/how-to-keep-kids-engaged /blog/10-games-no-equipment 301
+/printables/rhyming /printables/rhymes-syllables 301
+/printables/dot-art /printables/activity/dot-to-dot 301
+/printables/purim-printables /holidays/purim 301
+/blog/games-for-rainy-day /ideas/what-to-do-rainy-day 301
+/printables/spot-the-difference /printables/activity/find-differences 301
+/shabbat- /shabbat-times 301
+/printables/shapes /printables/kindergarten-worksheets 301
+/printables/favor-bag-labels /printables/birthday-signs 301
+/printables/opposites /printables/hebrew-worksheets-grade-1 301
+/printables/party-planner /printables/birthday-checklist 301
+/printables/rosh-hashana /holidays/rosh-hashana 301
+/printables/growth-chart /printables/home-charts 301
+/ideas/themes/escape-room /tools/escape-rooms 301
+/ideas/themes/dinosaur-birthday /ideas/dinosaur-birthday 301
+/printables/bookplate /printables/name-tags 301
+/printables/colors-worksheet /printables/kindergarten-worksheets 301
+/printables/thank-you-cards /printables/thank-you 301
+/printables/stencils /printables/coloring 301
+/printables/drawing-step-by-step /tools/drawing-prompt 301
+/printables/door-signs /printables/birthday-signs 301
+/printables/jokes-cards /tools/joke 301
+/printables/finger-puppets /printables 301
+/printables/sequencing /printables/activity/cut-and-order 301
+/printables/independence-day /holidays/yom-haatzmaut 301
+/printables/passover-printables /holidays/pesach 301
+/printables/conversation-starters /questions/icebreaker-kids 301
+/printables/charades-cards /games 301

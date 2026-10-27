@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../NotFound'
+import { NAME_NOTES } from '../../data/babyNameNotes'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
 import {
   BABY_NAMES, GENDERS, LETTERS, LETTER_NAMES, ORIGIN_FILTERS, POPULAR_NOTE, LETTER_PAGE_MIN,
@@ -319,6 +320,7 @@ export function BabyNamePage() {
     <section className="mt-8 space-y-3" aria-labelledby="bn-about-h">
       <h2 id="bn-about-h" className="text-2xl font-black">על השם {n.name}</h2>
       <p>{(ORIGIN_TEXT[n.origin] || ORIGIN_TEXT['עברי'])(n)}</p>
+      {NAME_NOTES[n.name] && <p>{NAME_NOTES[n.name]}</p>}
       <p>{n.name} — {genderText(n.gender)}. השם מתחיל באות {LETTER_NAMES[n.letter]} ויש בו {len} אותיות{len <= 3 ? ' — שם קצר שקל לומר, לאיית ולקרוא בקול רם בגן' : ''}. באנגלית נהוג לכתוב אותו {n.en}{n.tags.includes('קלאסי') ? '; זה שם קלאסי שעובר מדור לדור' : n.tags.includes('מודרני') ? '; זה שם עכשווי שנעשה נפוץ בעשורים האחרונים' : ''}.</p>
       <p>לפני שמחליטים, כדאי לומר את השם בקול יחד עם שם המשפחה, לבדוק את ראשי התיבות ואת הכתיב באנגלית, ולשמוע איך הוא נשמע כשקוראים לילד או לילדה מהצד השני של הגן.</p>
     </section>

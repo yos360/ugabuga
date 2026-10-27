@@ -123,3 +123,12 @@ test('favourites share text lists the names and the link', () => {
   const t = favoritesShareText([nameBySlug('noa'), nameBySlug('david')], 'https://ugabuga.co.il/baby-names')
   assert.ok(t.includes('נועה') && t.includes('דוד') && t.endsWith('https://ugabuga.co.il/baby-names'))
 })
+
+test('extra name notes belong to real names and are substantial', async () => {
+  const { NAME_NOTES } = await import('../src/data/babyNameNotes.js')
+  const known = new Set(BABY_NAMES.map(n => n.name))
+  for (const [name, note] of Object.entries(NAME_NOTES)) {
+    assert.ok(known.has(name), `${name}: note for a name that is not in babyNames.js`)
+    assert.ok(note.trim().split(/\s+/).length >= 15, `${name}: note too short`)
+  }
+})
