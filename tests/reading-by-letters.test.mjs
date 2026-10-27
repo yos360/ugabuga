@@ -23,7 +23,7 @@ test('the analyzer treats וֹ / וּ as vowels, final letters as base letters, 
 })
 
 test('a first-week selection only gets words made of those letters', () => {
-  const letters = [...'אבגדמ'], sounds = ['a']
+  const letters = [...'אבגדלמ'], sounds = ['a']
   const words = WORDS.filter(w => readable(w, letters, sounds))
   assert.ok(words.includes('אַבָּא') && words.includes('דָּג') && words.includes('גָּמָל'))
   assert.ok(!words.includes('כֶּלֶב') && !words.includes('שָׁלוֹם'))
