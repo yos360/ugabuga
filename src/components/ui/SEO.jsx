@@ -56,7 +56,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const preview = image === '/og-image.png' ? previewFor(normalizedPath) : null
   const shareImage = preview ? preview.src : image
   const fullImage = shareImage.startsWith('http') ? shareImage : 'https://ugabuga.co.il' + shareImage
-  const fullDescription = seoDescription(description) || 'מאגר משחקים ופעילויות בעברית — 100+ משחקים לימי הולדת, כיתה, צהרון ומשפחה. חינם.'
+  const fullDescription = seoDescription(description) || 'משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה.'
   const isHome = normalizedPath === '/'
   const alternates = languageAlternates(normalizedPath, counterpartPath || (!en ? englishCounterpart(normalizedPath) : undefined), lang)
 
