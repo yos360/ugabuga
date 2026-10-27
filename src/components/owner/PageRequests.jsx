@@ -34,8 +34,8 @@ function DoneEditor({ row, onSaved }) {
   const link = row.result_path ? `https://ugabuga.co.il${row.result_path}` : ''
   const mail = row.email && link ? `mailto:${row.email}?subject=${encodeURIComponent('הדף שביקשתם מעוגה בוגה מוכן 🎂')}&body=${encodeURIComponent(`שלום,\n\nביקשתם מאיתנו: "${row.request}"\nהכנו את זה, והוא כבר באתר, בחינם:\n${link}\n\nתודה שכתבתם לנו! אם חסר עוד משהו — אפשר לבקש כאן: https://ugabuga.co.il/request\n\nעוגה בוגה`)}` : ''
   return <div className="mt-2 space-y-1 rounded-xl bg-emerald-50 p-2 text-xs">
-    <input value={title} onChange={e => setTitle(e.target.value)} placeholder="כותרת לאתר: דפי צביעה של כלבי ים" className="w-full rounded border p-1" />
-    <input value={path} onChange={e => setPath(e.target.value)} dir="ltr" placeholder="/printables/coloring/seal" className="w-full rounded border p-1" />
+    <input value={title} onChange={e => setTitle(e.target.value)} placeholder="כותרת לאתר (לדוגמה: דפי צביעה של כלבי ים)" className="w-full rounded border p-1" />
+    <input value={path} onChange={e => setPath(e.target.value)} placeholder="קישור לדף (לדוגמה: /printables/coloring/seal)" className="w-full rounded border p-1" />
     <button type="button" onClick={save} className="rounded bg-emerald-600 px-2 py-1 font-bold text-white">שמירה והצגה באתר</button> {msg}
     {mail && <a href={mail} className="block font-bold text-violet-700 underline">✉️ לשלוח למבקש/ת "הדף מוכן"</a>}
   </div>
