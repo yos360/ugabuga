@@ -1,0 +1,46 @@
+name: requests-inbox
+# The daily page-requests task reads new requests through this workflow. It pushes a short-lived branch
+# requests-inbox-<stamp> holding a one-time RSA public key (.requests-inbox.pub); the workflow reads the open
+# requests (text, age group, page — never the visitor's email), encrypts them to that key (AES-256 +
+# RSA-OAEP), prints only the ciphertext and a count as annotations, and deletes the branch. The private key
+# never leaves the task's own sandbox, so request texts never appear in this public repository or its logs.
+# The owner emails visitors from the owner report (mailto button). See scripts/requests-inbox.mjs.
+on:
+  push:
+    branches: ['requests-inbox-*']
+permissions:
+  contents: write
+jobs:
+  inbox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read open requests, encrypted to the one-time key
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s .requests-inbox.pub
+          query="select coalesce(jsonb_agg(to_jsonb(r) order by r.created_at), '[]'::jsonb) as inbox from (
+            select id, request, audience, from_path, source, created_at
+            from public.page_requests where status = 'new'
+            order by created_at limit 20) r"
+          curl -sf -X POST "https://api.supabase.com/v1/projects/efhgyispuwxcplvzipcy/database/query" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" \
+            --data "$(jq -n --arg q "$query" '{query: $q}')" -o rows.json
+          jq -c '.[0].inbox' rows.json > inbox.json
+          echo "::notice title=inbox-count::$(jq 'length' inbox.json)"
+          key=$(openssl rand -hex 32)
+          openssl enc -aes-256-cbc -pbkdf2 -salt -pass "pass:$key" -in inbox.json | base64 -w0 > data.b64
+          printf '%s' "$key" | openssl pkeyutl -encrypt -pubin -inkey .requests-inbox.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 | base64 -w0 > key.b64
+          rm -f rows.json inbox.json
+          echo "::notice title=inbox-key::$(cat key.b64)"
+          n=0; while IFS= read -r chunk || [ -n "$chunk" ]; do n=$((n+1)); echo "::notice title=inbox-data-$n::$chunk"; done < <(fold -w 20000 data.b64)
+          echo "::notice title=inbox-parts::$n"
+      - name: Delete this temporary branch
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.deleteRef({ owner: context.repo.owner, repo: context.repo.repo, ref: `heads/${context.ref.replace('refs/heads/', '')}` })
