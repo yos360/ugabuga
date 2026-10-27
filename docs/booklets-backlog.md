@@ -20,6 +20,8 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 
 ## Next (top first)
 - [ ] `hanukkah` — חוברת עבודה לחנוכה (20/mo, competition 0; Hanukkah starts 4.12.2026 — build first). Reuse src/data/hanukkah.js (quiz facts), coloring 'sufganiyah', dreidel counting, candles math (1+2+…), word search in Hebrew.
+- [ ] `role-models` — חוברת דמויות מופת ישראליות לכיתות א׳–ב׳: 12 דמויות (למשל דוד בן־גוריון, אליעזר בן־יהודה, עדה יונת, אילן רמון, יעל ארד, נעמי שמר, ירדנה ארזי? — choose only people with well-documented public lives), a short pointed text each, comprehension questions, matching page, certificate. Use a symbol per field (no portraits of real people). Check every fact against two sources.
+- [ ] `yard-animals` — "מי גר בחצר?" מגדיר חיות קטנות לגן: 12 small animals (נמלה, חילזון, פרת משה רבנו, דבורה, פרפר, תולעת אדמה, חיפושית, עכביש, שממית, ציפור דרור, חרגול, זבוב) — a riddle card each ("יש לי 8 רגליים…"), a picture from the word bank's print art where it exists, and a "מצאתי!" checklist for a yard walk. Facts checked.
 - [ ] `age-4` — חוברת עבודה לגיל 4 להדפסה (110/mo). Easier than kindergarten: big shapes, colors, counting to 5, motor age '3-4'/'4-5'.
 - [ ] `math-grade-2` — חוברת חשבון לכיתה ב׳ (110/mo). Addition/subtraction to 100, place value, multiplication intro, clock, money, word problems + answer key.
 - [ ] `spelling` — חוברת שגיאות כתיב (90/mo). Common Hebrew spelling confusions (א/ע, ט/ת, כ/ח, ס/ש, ק/כ, ו/ב) — fill the missing letter, find the mistake; answer key.
