@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { WHATSAPP_CHANNEL } from '../data/brand'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
@@ -47,6 +48,7 @@ export default function RequestPage() {
         <h2 className="mt-2 text-2xl font-black">תודה! הבקשה התקבלה</h2>
         <p className="mt-2">{email ? 'נכתוב לכם למייל כשהדף יהיה מוכן.' : 'כשהדף יהיה מוכן הוא יופיע באתר.'} בינתיים אפשר להציץ בדפים שכבר יש:</p>
         <div className="mt-4 flex flex-wrap justify-center gap-2"><Link to="/printables" className="rounded-2xl bg-violet-700 px-5 py-3 font-bold text-white">כל הדפים להדפסה</Link><Link to="/booklets" className="rounded-2xl border-2 border-violet-300 bg-white px-5 py-3 font-bold">חוברות עבודה</Link><button type="button" onClick={() => { setRequest(''); setState('idle') }} className="rounded-2xl border-2 border-slate-300 bg-white px-5 py-3 font-bold">בקשה נוספת</button></div>
+        <a href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">📢 דף חדש כל יום — הצטרפו לערוץ הוואטסאפ</a>
       </section>
       : <form onSubmit={send} className="mt-8 space-y-5 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5 sm:p-7" noValidate>
         <label className="block font-bold">מה להכין לכם?
