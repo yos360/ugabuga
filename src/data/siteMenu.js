@@ -436,8 +436,10 @@ export const MENU_DOMAINS = [
 export const CLASSROOM_MENU = {
   id: 'classroom', label: SECTION.classroom, icon: '🏫', to: '/classroom',
   landingLabel: 'כל הכלים לכיתה ולגן',
-  prefixes: ['/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w'],
+  prefixes: ['/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan'],
   items: [
+    { to: '/gan', label: 'לגננת — כל מה שצריך לגן', icon: '🧸' },
+    { to: '/classroom/by-grade', label: 'למורה — חומרים לפי כיתה', icon: '🧑‍🏫' },
     { to: '/live', label: 'בוגה לייב — משחק חידון לכיתה', icon: '⚡', shortcut: true },
     { to: '/teachers', label: 'שיעורי בית אינטראקטיביים', icon: '📚' },
     { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },

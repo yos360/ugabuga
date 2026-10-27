@@ -138,6 +138,8 @@ const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => 
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
+const GanHub = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.GanHub })))
+const TeacherByGrade = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.TeacherByGrade })))
 const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionGame').then(m => ({ default: m.SoundPositionOnline })))
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
@@ -547,6 +549,8 @@ export default function App() {
               <Route path="/en/*" element={<EnglishNotFound />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
+              <Route path="/gan" element={<GanHub />} />
+              <Route path="/classroom/by-grade" element={<TeacherByGrade />} />
               <Route path="/classroom/subjects" element={<BugaPedia />} />
               <Route path="/bugapedia" element={<BugaPedia />} />
               <Route path="/classroom/roster" element={<ClassRoster />} />
