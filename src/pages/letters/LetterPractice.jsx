@@ -148,6 +148,7 @@ export function NikudKamatzPatach() {
     <header className="mb-5 text-center">
       <h1 className="text-4xl sm:text-5xl mb-2">🔡 קמץ ופתח — קוראים עם ניקוד</h1>
       <p className="mx-auto max-w-2xl font-hand text-xl text-[var(--muted-foreground)]">קָמָץ ( ָ ) ופַתָּח ( ַ ) — שני סימנים, צליל אחד: "אַ"</p>
+      <p className="mt-2"><Link to="/letters/reading-practice" className="font-bold underline">📖 חדש: דף קריאה רק מהאותיות שהילד כבר למד ←</Link></p>
     </header>
     <section className={card}>
       <h2 className="mb-3 text-center text-2xl font-bold">1. הברות: לוחצים ושומעים</h2>

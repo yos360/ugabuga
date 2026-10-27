@@ -1,0 +1,6 @@
+/* The on-screen reading sheet is a real A4 page; scale it down on narrow screens. */
+.reading-sheet-preview>.buga-a4{margin:0;box-shadow:none;border:0}
+@media(max-width:860px){.reading-sheet-preview>.buga-a4{zoom:.85}}
+@media(max-width:700px){.reading-sheet-preview>.buga-a4{zoom:.62}}
+@media(max-width:520px){.reading-sheet-preview>.buga-a4{zoom:.46}}
+@media(max-width:400px){.reading-sheet-preview>.buga-a4{zoom:.42}}

@@ -135,6 +135,7 @@ const ClockWorksheets = lazy(() => import('./pages/printables/MathVisualSheets')
 const FractionWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.FractionWorksheets })))
 const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
+const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
 const BookletsHub = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletsHub })))
 const BookletPage = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletPage })))
@@ -681,6 +682,7 @@ export default function App() {
               <Route path="/speech/language/grammar" element={<SpeechGrammar />} />
               <Route path="/speech/language/prepositions" element={<SpeechPrepositions />} />
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
+              <Route path="/letters/reading-practice" element={<ReadingByLetters />} />
               <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/:slug" element={<LetterPage />} />
               <Route path="/animals" element={<AnimalsHub />} />
