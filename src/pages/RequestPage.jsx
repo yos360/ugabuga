@@ -5,6 +5,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { submitPageRequest } from '../utils/pageRequests'
 import { landingTags } from '../utils/qrVariants'
+import { recordExperiment } from '../utils/experiments'
 
 // /request — "מבקשים דף": visitors tell the owner which page, booklet or game is missing.
 // Reached from the banner, empty search results and the QR on printed pages (?from=<printed page>).
@@ -28,7 +29,9 @@ export default function RequestPage() {
     e.preventDefault()
     if (request.trim().length < 3) { setState('short'); return }
     setState('sending')
-    setState(await submitPageRequest({ request, audience, email, fromPath: from, source }) ? 'sent' : 'error')
+    const ok = await submitPageRequest({ request, audience, email, fromPath: from, source })
+    if (ok) recordExperiment('request')
+    setState(ok ? 'sent' : 'error')
   }
   return <div className="mx-auto max-w-3xl px-4 py-8" dir="rtl">
     <SEO title="מבקשים דף — מכינים דפי עבודה וחוברות לפי בקשה, בחינם" description="חסר לכם דף עבודה, חוברת, דף צביעה או משחק? ספרו לנו מה צריך ולאיזה גיל — ובכל שבוע אנחנו מכינים את הבקשות הכי מבוקשות, בחינם." path="/request" structuredData={faqSchema(FAQ)} />

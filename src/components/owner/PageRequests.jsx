@@ -6,7 +6,7 @@ import { QR_VARIANTS } from '../../data/printMessages'
 // rotating QR message on printed pages was printed vs scanned.
 const formatTime = value => new Date(value).toLocaleString('he-IL', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
 const STATUS = { new: 'חדשה', planned: 'בתכנון', done: 'הוכן', declined: 'לא נכין' }
-const SOURCE = { site: 'מהבאנר באתר', qr: 'מ־QR בדף מודפס', search: 'מחיפוש בלי תוצאות', print: 'מדף מודפס' }
+const SOURCE = { home: 'מעמוד הבית', site: 'מהבאנר באתר', qr: 'מ־QR בדף מודפס', search: 'מחיפוש בלי תוצאות', print: 'מדף מודפס' }
 
 function QrVariants({ from, to, tick }) {
   const [rows, setRows] = useState(null)

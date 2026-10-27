@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { pickQrVariant, qrUrl } from '../../data/printMessages'
 import { recordQrVariant } from '../../utils/qrVariants'
+import { recordExperiment } from '../../utils/experiments'
 import { createPortal } from 'react-dom'
 import './print-preview.css'
 import { recordSheetAction, recordPreviewOpen } from '../layout/RecentActivity'
@@ -77,6 +78,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     // Sheets, not clicks: 30 selected coloring pages (or 3 copies of 10) are counted as 30.
     recordSheetAction('print',location.pathname,root.current?.querySelectorAll('.buga-a4, .buga-flow').length||null)
     if(qr)recordQrVariant(qr.id,'printed',location.pathname)
+    recordExperiment('print')
     if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('print',sheetText(dialog.current||root.current))
     window.print()
     setDone(true)
@@ -90,7 +92,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     const result=await savePagesAsPdf(sheets.length?sheets:[...(pages.current?.children||[])],title,(i,n)=>setPdf(en ? (n>1?`Preparing PDF… ${i}/${n}`:'Preparing PDF…') : (n>1?`מכינים PDF… ${i}/${n}`:'מכינים PDF…')))
     if(result==='cancelled')return
     if(result?.status==='prepared')setPreparedPdf({...result,children,count,extras})
-    recordSheetAction('download',sourcePath,sheets.length||null);if(qr)recordQrVariant(qr.id,'printed',sourcePath);if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
+    recordSheetAction('download',sourcePath,sheets.length||null);if(qr)recordQrVariant(qr.id,'printed',sourcePath);recordExperiment('print');if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
     announcePrint('pdf',{title})
   }catch{setError(en?'We could not create the PDF. Try again, or use Print.':'לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}

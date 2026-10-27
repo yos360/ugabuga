@@ -36,3 +36,16 @@ test('the request page is routed, in the sitemap and in the site search', () => 
   assert.ok(readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8').includes('https://ugabuga.co.il/request</loc>'))
   assert.ok(readFileSync(new URL('../src/data/searchStatic.js', import.meta.url), 'utf8').includes("to: '/request'"))
 })
+
+test('home experiment variants match the database checks and assignment is sticky', async () => {
+  const { HOME_EXPERIMENT, HOME_VARIANTS, homeVariant } = await import('../src/utils/experiments.js')
+  assert.match(HOME_EXPERIMENT, /^[a-z][a-z0-9-]{1,30}$/)
+  for (const v of HOME_VARIANTS) assert.match(v, /^[a-z][a-z0-9-]{0,20}$/)
+  const store = new Map()
+  globalThis.localStorage = { getItem: k => store.get(k) ?? null, setItem: (k, v) => store.set(k, String(v)) }
+  const first = homeVariant('', 0.9)
+  assert.equal(first, HOME_VARIANTS.at(-1))
+  assert.equal(homeVariant('', 0.0), first, 'a returning visitor keeps the variant')
+  assert.equal(homeVariant('?exp=live', 0.0), 'live', 'the owner can preview a variant')
+  delete globalThis.localStorage
+})

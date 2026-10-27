@@ -11,6 +11,8 @@ import { ElectionChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
+import { LiveTop, RequestTop } from '../components/home/HomeTopVariant'
+import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
 // Each destination appears once. The holiday card and the blog list load after the first paint.
@@ -133,13 +135,19 @@ export default function Home() {
   const [mode, setMode] = useState('site')
   const [q, setQ] = useState('')
   const nav = useNavigate()
-  const go = e => { e.preventDefault(); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
+  // Experiment: what a visitor sees first under the title. Prerender (and the first paint) show the
+  // search, the page as it has always been; the visitor's own variant takes over after hydration.
+  const [variant, setVariant] = useState('search')
+  useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); recordExperiment('shown', v) }, [])
+  const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
   const posts = useLatestPosts()
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
       <div className="hp-chips"><PrintStrip /><ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
+      {variant === 'live' && <LiveTop variant={variant} />}
+      {variant === 'request' && <RequestTop variant={variant} />}
       <form className="hp-search" onSubmit={go} role="search">
         <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
           <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>

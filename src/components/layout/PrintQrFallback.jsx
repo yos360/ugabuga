@@ -6,6 +6,7 @@ import { announcePrint } from '../../utils/printEvents'
 import '../ui/print-preview.css'
 import { pickQrVariant, qrUrl } from '../../data/printMessages'
 import { recordQrVariant } from '../../utils/qrVariants'
+import { recordExperiment } from '../../utils/experiments'
 
 // Pages that print with a plain window.print() (or Ctrl+P) don't go through
 // PrintPreview, so they never got the QR stamp. This badge lives on every page,
@@ -33,7 +34,7 @@ export default function PrintQrFallback() {
   }, [pathname])
   useEffect(() => {
     // Count direct prints too (PrintPreview already records its own).
-    const onBeforePrint = () => { if (!document.getElementById('buga-print-output')) { recordPrintPreview(); const v = document.querySelector('.buga-print-fallback')?.dataset.variant; if (v) recordQrVariant(v, 'printed', window.location.pathname) } }
+    const onBeforePrint = () => { if (!document.getElementById('buga-print-output')) { recordPrintPreview(); recordExperiment('print'); const v = document.querySelector('.buga-print-fallback')?.dataset.variant; if (v) recordQrVariant(v, 'printed', window.location.pathname) } }
     // Direct prints get the same "what else to print" suggestion as PrintPreview, after the dialog closes.
     const onAfterPrint = () => { if (!document.getElementById('buga-print-output')) announcePrint('print') }
     window.addEventListener('beforeprint', onBeforePrint)

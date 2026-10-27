@@ -76,3 +76,11 @@ body:has(.hp) .site-footer{display:none}
 @keyframes hp-in{from{opacity:0;transform:translateY(12px)}}
 @media(max-width:560px){.hp-hero{margin:0 -16px;padding:24px 16px 32px}.hp-foot-bottom{justify-content:center;text-align:center}.hp-foot-bottom nav{justify-content:center}}
 @media(prefers-reduced-motion:reduce){.hp *,.hp *::before,.hp::after,.hp-hero::before,.hp-hero::after{animation:none!important;transition:none!important}}
+/* Home-page experiment: the block a visitor sees first (Buga Live / "what should we make?"). */
+.hp-exp{width:min(680px,100%);margin:20px auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;padding:16px 18px;border-radius:26px;text-align:right;color:#1d1640;box-shadow:0 14px 40px #2b1d6f17,0 0 0 1px var(--line);text-decoration:none}
+.hp-exp-live{background:linear-gradient(120deg,#fff4c9,#ffe2f1)}.hp-exp-request{background:linear-gradient(120deg,#efe9ff,#e3f7ff)}
+.hp-exp-ic{font-size:36px;line-height:1}.hp-exp-copy{flex:1;min-width:14rem;display:flex;flex-direction:column;gap:3px}.hp-exp-copy b{font-size:19px;font-weight:800}.hp-exp-copy small{font-size:14px;color:#4b4470}
+.hp-exp-input{margin-top:8px;width:100%;min-height:46px;border-radius:16px;border:2px solid #cfc5f5;background:#fff;padding:8px 12px;font:inherit;font-size:16px}.hp-exp-input:focus{outline:none;border-color:#7c4dff}
+.hp-exp-cta{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border:0;border-radius:16px;background:#6d3ff0;color:#fff;font-weight:800;font-size:16px;cursor:pointer;white-space:nowrap}.hp-exp-cta:disabled{opacity:.6}
+.hp-exp-request .hp-exp-cta{align-self:flex-end}.hp-exp-msg{flex-basis:100%;color:#b42318;font-weight:700}
+@media(max-width:520px){.hp-exp{padding:14px}.hp-exp-cta{width:100%}.hp-exp-ic{font-size:30px}}
