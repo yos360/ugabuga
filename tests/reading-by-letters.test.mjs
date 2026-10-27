@@ -27,6 +27,6 @@ test('a first-week selection only gets words made of those letters', () => {
   const words = WORDS.filter(w => readable(w, letters, sounds))
   assert.ok(words.includes('אַבָּא') && words.includes('דָּג') && words.includes('גָּמָל'))
   assert.ok(!words.includes('כֶּלֶב') && !words.includes('שָׁלוֹם'))
-  assert.equal(syllable('ב', 'o'), 'בֹּ')
-  assert.equal(syllable('ש', 'u'), 'שׁוּ')
+  assert.equal(syllable('ב', 'o').normalize('NFC'), 'בֹּ'.normalize('NFC'))
+  assert.equal(syllable('ש', 'u').normalize('NFC'), 'שׁוּ'.normalize('NFC'))
 })
