@@ -19,6 +19,8 @@ export default function EnglishLiveHost(){
  useEffect(()=>{load();const id=setInterval(()=>{if(document.visibilityState==='visible')load()},1200);return()=>clearInterval(id)},[load])
  // Auto-reveal at zero; a refused attempt (host clock ahead of the database, network) retries a second later.
  useEffect(()=>{if(data?.phase==='question'&&left===0&&data.ends_at&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'timeout').then(load).catch(()=>{load();clearTimeout(retryTimer.current);retryTimer.current=setTimeout(()=>{auto.current='';setRetry(n=>n+1)},1000)})}},[data?.phase,data?.question_index,data?.ends_at,left,code,token,load,retry])
+ // Everyone answered: reveal at once (same guard as the timeout; see the Hebrew host).
+ useEffect(()=>{const total=data?.players?.length||0;if(data?.phase==='question'&&total>0&&(data.answer_count||0)>=total&&auto.current!==`${data.question_index}`){auto.current=`${data.question_index}`;liveQuizDb.action(code,token,'reveal').then(load).catch(load)}},[data?.phase,data?.question_index,data?.answer_count,data?.players?.length,code,token,load])
  useEffect(()=>()=>clearTimeout(retryTimer.current),[])
  const act=async action=>{setBusy(true);setError('');try{await liveQuizDb.action(code,token,action);await load()}catch(e){setError(englishError(e.code));if(e.code==='bad_phase')await load()}finally{setBusy(false)}}
  const kick=async player=>{if(!window.confirm(`Remove ${player.name} from the game?`))return;setBusy(true);setError('');try{await liveQuizDb.kick(code,token,player.id);await load()}catch(e){setError(e.code==='not_installed'?'Removing players needs the latest Buga Live database update to be installed first.':englishError(e.code))}finally{setBusy(false)}}
