@@ -135,6 +135,7 @@ const ClockWorksheets = lazy(() => import('./pages/printables/MathVisualSheets')
 const FractionWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.FractionWorksheets })))
 const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
+const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
@@ -549,6 +550,7 @@ export default function App() {
               <Route path="/classroom/roster" element={<ClassRoster />} />
               <Route path="/tools/class-elections" element={<ClassElections />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
+              <Route path="/classroom/kindergarten-year-plan" element={<KindergartenYearPlan />} />
               <Route path="/teachers" element={<TeacherHome />} />
               <Route path="/teachers/homework/new" element={<HomeworkBuilderPage />} />
               <Route path="/teachers/homework/:code/edit" element={<HomeworkBuilderPage />} />
