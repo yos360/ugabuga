@@ -85,7 +85,7 @@ export default function LiveQuizHome(){
   <SEO title="בוגה לייב — משחק לכיתה עם עד 100 משתתפים" description="יוצרים משחק שאלות, מצטרפים מהטלפון עם QR ורואים תוצאות בזמן אמת — בלי צורך בחשבון." path="/live" />
   <div className="live-home-inner"><Breadcrumbs items={[{label:'בית',href:'/'},{label:'משחקים',href:'/games'},{label:'בוגה לייב'}]} />
    <header className="live-hero live-hero-compact"><div className="live-logo-orb">B!</div><h1>בוגה לייב</h1><h2>חידון לכל הכיתה: אתם על המסך, כולם עונים מהטלפון</h2>
-    <p className="live-hero-line">עד 100 משתתפים · כניסה עם <bdi>QR</bdi> · {getLiveQuizBankStats().total.toLocaleString('he-IL')} שאלות בדוקות · בלי חשבון</p></header>
+    <p className="live-hero-line" dir="rtl">{[['👥','עד 100 משתתפים'],['📱','מצטרפים בסריקת QR'],['✓',`${getLiveQuizBankStats().total.toLocaleString('he-IL')} שאלות בדוקות`],['🆓','בלי חשבון']].map(([icon,t])=><span key={t} dir="rtl"><i aria-hidden="true">{icon}</i> {t}</span>)}</p></header>
    <div className="live-tabbar"><button aria-pressed={tab==='start'} onClick={()=>setTab('start')}>🎤 אני מנחה</button><button aria-pressed={tab==='join'} onClick={()=>setTab('join')}>📱 יש לי קוד</button></div>
    {error&&<p className="live-error" role="alert">{error}</p>}
    {tab==='join'?<section className="live-join-card"><span>🎮</span><h2>יש לכם קוד?</h2><p>הקלידו את קוד המשחק שקיבלתם מהמנחה</p><form onSubmit={join}><input dir="ltr" inputMode="text" autoCapitalize="characters" value={code} onChange={e=>setCode(cleanCode(e.target.value))} maxLength={12} placeholder="ABC123" aria-label="קוד משחק" autoFocus/><button>כניסה</button></form></section>
