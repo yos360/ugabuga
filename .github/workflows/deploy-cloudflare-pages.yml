@@ -1,8 +1,9 @@
 name: Deploy to Cloudflare Pages
 
+# The site deploys through Cloudflare's own build on every push to main. This workflow needs a
+# CLOUDFLARE_API_TOKEN secret that isn't set, so on push it only ever failed and buried real failures;
+# it now runs only by hand (Actions → Run workflow), for a manual deploy once that secret exists.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
