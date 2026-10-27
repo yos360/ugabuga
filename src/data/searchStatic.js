@@ -1,4 +1,5 @@
 import { TRAVEL_PAGES as EN_TRAVEL_PAGES } from '../en/travel/catalog.js'
+import { FAMILY_NAMES, NAME_CATEGORIES, familyNamePath } from './familyNames.js'
 import { BUYING_HUB, BUYING_GUIDES, buyingPath } from './buyingGuides.js'
 import { COLORING_DRAWINGS, coloringDrawingPath } from './coloringDrawings.js'
 import { ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
@@ -1396,6 +1397,9 @@ const PAGES = [
   { to: '/printables/color-by-letter', title: 'צביעה לפי אותיות — דפי צביעה עם אותיות בעברית', emoji: '🔤', kind: 'printable', desc: 'בכל משבצת אות: אותיות שונות, אותיות דומות ואותיות סופיות.', keys: 'צביעה לפי אותיות צבעו לפי אות אותיות דומות אותיות סופיות דף צביעה אותיות א ב' },
   { to: '/printables/color-by-letter/english', title: 'צביעה לפי אותיות באנגלית — Color by Letter', emoji: '🔠', kind: 'printable', desc: 'אותיות גדולות, קטנות (b/d/p/q) והתאמה בין גדולה לקטנה.', keys: 'צביעה לפי אותיות באנגלית color by letter אנגלית ABC אותיות גדולות קטנות' },
   { to: '/printables/activity/color-by-number', title: 'פסיפס לצביעה לפי מספר — דף חדש בכל לחיצה', emoji: '🎨', kind: 'printable', desc: 'פסיפס צבעוני לצביעה לפי מספר, בשלוש רמות גיל.', keys: 'צבעו לפי מספר פסיפס צביעה' },
+  { to: '/family-names', title: 'שמות משפחה — פירוש ומקור', emoji: '🏷️', kind: 'page', desc: 'מה פירוש שם המשפחה שלכם?', keys: 'שמות משפחה פירוש שם משפחה מקור שם המשפחה' },
+  ...Object.values(NAME_CATEGORIES).map(c => ({ to: c.path, title: c.title, emoji: c.emoji, kind: 'page', keys: 'שמות משפחה פירוש' })),
+  ...FAMILY_NAMES.map(x => ({ to: familyNamePath(x), title: `שם המשפחה ${x.name} — פירוש`, emoji: '🏷️', kind: 'page', keys: `פירוש שם המשפחה ${x.name} ${x.en || ''}` })),
   { to: '/request', title: 'מבקשים דף — מכינים לפי בקשה', emoji: '📝', kind: 'tool', desc: 'חסר לכם דף? ספרו לנו ונכין, בחינם.', keys: 'בקשה לבקש דף הצעה חסר דף להכין לי דף עבודה לפי הזמנה' },
   { to: '/booklets', title: 'חוברות עבודה להדפסה', emoji: '📚', kind: 'printable', desc: 'חוברות שלמות לפי כיתה ונושא, להורדה כ־PDF.', keys: 'חוברות עבודה חוברת עבודה להדפסה pdf חינם' },
   { to: '/booklets/english-grade-3', title: 'חוברת אנגלית לכיתה ג׳', emoji: '🇬🇧', kind: 'printable', desc: '15 עמודים: ABC, צלילים ומילים ראשונות.', keys: 'חוברת אנגלית לכיתה ג חוברות אנגלית חוברת עבודה באנגלית pdf' },

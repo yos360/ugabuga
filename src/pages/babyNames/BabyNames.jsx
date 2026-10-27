@@ -17,7 +17,7 @@ import './babyNames.css'
 const HUB = { label: 'שמות לתינוקות', href: '/baby-names' }
 const FAV_KEY = 'ugabuga-baby-names-favs' // per-viewer convenience only
 const FILTER_TAGS = ['תנ"כי', 'קצר', 'פופולרי', 'קלאסי', 'מודרני', 'טבע']
-const RELATED = [
+const RELATED = [{ label: 'שמות משפחה — פירוש ומקור', href: '/family-names' }, 
   { label: 'סיפורים לפני השינה', href: '/stories' },
   { label: 'רעיונות ליום הולדת', href: '/birthday' },
 ]

@@ -246,6 +246,8 @@ const PancakesHub = lazy(() => import('./pages/recipes/Recipes').then(m => ({ de
 const BraidingGuide = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.BraidingGuide })))
 const CakesHub = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakesHub })))
 const CakePage = lazy(() => import('./pages/cakes/Cakes').then(m => ({ default: m.CakePage })))
+const FamilyNamesHub = lazy(() => import('./pages/familyNames/FamilyNames').then(m => ({ default: m.FamilyNamesHub })))
+const FamilyNameRoute = lazy(() => import('./pages/familyNames/FamilyNames').then(m => ({ default: m.FamilyNameRoute })))
 const BabyNamesHub = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesHub })))
 const BabyNamesList = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesList })))
 const BabyNamesLetter = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamesLetter })))
@@ -913,6 +915,8 @@ export default function App() {
               <Route path="/food/pancakes" element={<PancakesHub />} />
               <Route path="/cakes" element={<CakesHub />} />
               <Route path="/cakes/:slug" element={<CakePage />} />
+              <Route path="/family-names" element={<FamilyNamesHub />} />
+              <Route path="/family-names/:slug" element={<FamilyNameRoute />} />
               <Route path="/baby-names" element={<BabyNamesHub />} />
               <Route path="/baby-names/girls" element={<BabyNamesList key="f" gender="f" />} />
               <Route path="/baby-names/boys" element={<BabyNamesList key="m" gender="m" />} />

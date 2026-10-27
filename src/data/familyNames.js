@@ -1,0 +1,185 @@
+// Family names in Israel — meaning and origin, one page each (/family-names/:slug).
+// Only names whose origin is well documented are here; where scholars disagree, `unsure` is set and
+// the text says so instead of guessing. No rankings or counts beyond what the CBS published
+// (press release 051/2017, data to April 2016). Add names in batches via docs/family-names-backlog.md.
+const n = (slug, name, cat, origin, meaning, extra = {}) => ({ slug, name, cat, origin, meaning, ...extra })
+
+export const NAME_CATEGORIES = {
+  occupation: { title: 'שמות לפי בעלי מקצוע', emoji: '🔨', path: '/family-names/occupations', intro: 'הרבה שמות משפחה נולדו מהמקצוע של אחד הסבים: החייט, הנפח, האופה או החזן של העיירה. כשהשלטונות באירופה חייבו את היהודים לבחור שם משפחה, בסוף המאה ה־18 ובתחילת המאה ה־19, רבים בחרו פשוט במה שעשו — ובארצות האסלאם שמות כאלה נוצרו בערבית מאות שנים קודם.' },
+  priestly: { title: 'שמות של כהנים ולוויים', emoji: '🕍', path: '/family-names/kohanim-leviim', intro: 'כהנים ולוויים שמרו על הייחוס שלהם במשך דורות, ולכן לא מעט שמות משפחה מסמנים אותו — לפעמים בגלוי (כהן, לוי) ולפעמים בראשי תיבות או בתרגום (כ״ץ, סג״ל, קפלן).' },
+  place: { title: 'שמות לפי מקומות וערים', emoji: '🗺️', path: '/family-names/places', intro: 'משפחות רבות נקראו על שם העיר או הארץ שממנה הגיעו: מגורשי ספרד שמרו את שמות הערים בספרד, ויהודי אשכנז נקראו על שם עיירות בגרמניה, בפולין ובצ׳כיה.' },
+  patronymic: { title: 'שמות לפי שם האב', emoji: '👨‍👦', path: '/family-names/son-of', intro: 'הדרך העתיקה ביותר לזהות אדם היא לפי אביו: "בן דוד", "אבן ישראל". באשכנז הוסיפו לשם האב סיומת של "בן" — ־זון, ־סון, ־וביץ׳ או ־ביץ׳ — ובארצות האסלאם נשארו לפעמים שמות פרטיים כמו אברהם או יוסף כשם המשפחה כולו.' },
+  ornamental: { title: 'שמות נוי — פרחים, הרים וזהב', emoji: '🌹', path: '/family-names/ornamental', intro: 'כשהשלטונות באוסטריה, בפרוסיה וברוסיה חייבו את היהודים לבחור שם משפחה, רבים בחרו צירופים יפים בגרמנית: הר ורדים (רוזנברג), אבן זהב (גולדשטיין), כוכב (שטרן). שמות כאלה נקראים "שמות נוי".' },
+  trait: { title: 'שמות לפי מראה ותכונה', emoji: '🧑', path: '/family-names/traits', intro: 'כמו כינוי בשכונה: הגבוה, הקטן, השחור או הלבן. חלק משמות המשפחה החלו ככינוי של אדם אחד ועברו לכל צאצאיו.' },
+  other: { title: 'שמות נפוצים מצפון אפריקה', emoji: '🌍', path: '/family-names/north-africa', intro: 'כמה משמות המשפחה הנפוצים ביותר בישראל הגיעו עם יהודי מרוקו, תוניסיה ואלג׳יריה. לחלקם מקור ברור, אבל לרבים — כמו ביטון ואזולאי — אין פירוש מוסכם, והחוקרים מציעים כמה אפשרויות.' },
+  hebrew: { title: 'שמות עבריים ושמות שעוברתו', emoji: '🇮🇱', path: '/family-names/hebrew', intro: 'אחרי קום המדינה החליפו רבים את שם המשפחה הלועזי בשם עברי — לפעמים בתרגום, לפעמים בצליל דומה ולפעמים בשם חדש לגמרי מהטבע או מהתנ״ך. דוד בן־גוריון, למשל, נולד בשם גרין.' },
+}
+export const ORIGINS = { ashkenazi: 'יהדות אשכנז (מרכז ומזרח אירופה)', sephardi: 'יהדות ספרד וצפון אפריקה', mizrahi: 'יהדות ארצות האסלאם', hebrew: 'עברית', general: 'משותף לעדות רבות' }
+
+export const FAMILY_NAMES = [
+  // ── כהנים ולוויים ──
+  n('cohen', 'כהן', 'priestly', 'general', 'מהכהנים — צאצאי אהרן הכהן, שעבדו בבית המקדש. זה שם המשפחה הנפוץ ביותר בישראל: לפי הלמ״ס (2016) נושאים אותו יותר מ־180 אלף איש.', { en: 'Cohen', top: 1 }),
+  n('levi', 'לוי', 'priestly', 'general', 'מבני שבט לוי, שסייעו לכהנים בבית המקדש. לפי הלמ״ס זה שם המשפחה השני בשכיחותו בישראל.', { en: 'Levi', top: 2 }),
+  n('katz', 'כ״ץ', 'priestly', 'ashkenazi', 'ראשי תיבות של "כהן צדק". משפחת כ״ץ היא משפחת כהנים.', { en: 'Katz' }),
+  n('segal', 'סג״ל', 'priestly', 'ashkenazi', 'ראשי תיבות של "סגן לוייה" — משפחה משבט לוי.', { en: 'Segal' }),
+  n('kaplan', 'קפלן', 'priestly', 'ashkenazi', 'מהמילה הפולנית והגרמנית "קפלן" — כומר. אצל יהודים זה תרגום של "כהן", ומשפחות קפלן הן בדרך כלל כהנים.', { en: 'Kaplan' }),
+  n('kahana', 'כהנא', 'priestly', 'ashkenazi', 'כהן בארמית. שם של משפחות כהנים.', { en: 'Kahana' }),
+  n('levin', 'לוין', 'priestly', 'ashkenazi', 'צורה רוסית ופולנית של "לוי" — בן למשפחה משבט לוי.', { en: 'Levin' }),
+  n('levinson', 'לוינסון', 'priestly', 'ashkenazi', '"בנו של לוי" — שם משפחה של לוויים.', { en: 'Levinson' }),
+  n('kagan', 'קגן', 'priestly', 'ashkenazi', 'צורה רוסית של "כהן": ברוסית אין צליל ה׳, והוא נכתב כ־ג׳.', { en: 'Kagan' }),
+  // ── שמות לפי בעלי מקצוע ──
+  n('schneider', 'שניידר', 'occupation', 'ashkenazi', 'חייט — ביידיש ובגרמנית Schneider הוא "חותך", כלומר מי שגוזר ותופר בגדים.', { en: 'Schneider', job: 'חייט' }),
+  n('schuster', 'שוסטר', 'occupation', 'ashkenazi', 'סנדלר — ביידיש ובגרמנית Schuster.', { en: 'Schuster', job: 'סנדלר' }),
+  n('becker', 'בקר', 'occupation', 'ashkenazi', 'אופה — בגרמנית Bäcker. האופה היה מבעלי המקצוע החשובים בכל עיירה, ושמות כמו בקר ובקרמן נפוצים בקרב יהודי אשכנז.', { en: 'Becker', job: 'אופה' }),
+  n('fisher', 'פישר', 'occupation', 'ashkenazi', 'דייג — בגרמנית ובאנגלית Fischer/Fisher.', { en: 'Fisher', job: 'דייג' }),
+  n('shochat', 'שוחט', 'occupation', 'general', 'שוחט — מי ששוחט בהמות ועופות לפי ההלכה.', { en: 'Shochat', job: 'שוחט' }),
+  n('schechter', 'שכטר', 'occupation', 'ashkenazi', 'הצורה הגרמנית־יידית של "שוחט".', { en: 'Schechter', job: 'שוחט' }),
+  n('schmidt', 'שמידט', 'occupation', 'ashkenazi', 'נפח — מי שעובד במתכת. בגרמנית Schmied/Schmidt.', { en: 'Schmidt', job: 'נפח' }),
+  n('goldschmidt', 'גולדשמידט', 'occupation', 'ashkenazi', 'צורף — "נפח זהב" בגרמנית.', { en: 'Goldschmidt', job: 'צורף' }),
+  n('kramer', 'קרמר', 'occupation', 'ashkenazi', 'חנווני או רוכל — בגרמנית Krämer.', { en: 'Kramer', job: 'חנווני' }),
+  n('miller', 'מילר', 'occupation', 'ashkenazi', 'טוחן קמח — בגרמנית Müller.', { en: 'Miller', job: 'טוחן' }),
+  n('zimmerman', 'צימרמן', 'occupation', 'ashkenazi', 'נגר בניין — מי שבונה את שלד העץ של הבית. בגרמנית Zimmermann.', { en: 'Zimmerman', job: 'נגר' }),
+  n('tischler', 'טישלר', 'occupation', 'ashkenazi', 'נגר רהיטים — בגרמנית Tischler, מהמילה Tisch, שולחן.', { en: 'Tischler', job: 'נגר' }),
+  n('glazer', 'גלזר', 'occupation', 'ashkenazi', 'זגג — מי שעובד בזכוכית. בגרמנית Glaser.', { en: 'Glazer', job: 'זגג' }),
+  n('farber', 'פרבר', 'occupation', 'ashkenazi', 'צובע בדים — בגרמנית Färber.', { en: 'Farber', job: 'צובע' }),
+  n('kirshner', 'קירשנר', 'occupation', 'ashkenazi', 'פרוון — מי שתופר בגדים מפרווה. בגרמנית Kürschner.', { en: 'Kirshner', job: 'פרוון' }),
+  n('schreiber', 'שרייבר', 'occupation', 'ashkenazi', 'סופר או לבלר — מי שכותב מסמכים. בגרמנית Schreiber.', { en: 'Schreiber', job: 'סופר' }),
+  n('sofer', 'סופר', 'occupation', 'general', 'סופר סת״ם — מי שכותב ספרי תורה, תפילין ומזוזות.', { en: 'Sofer', job: 'סופר סת״ם' }),
+  n('melamed', 'מלמד', 'occupation', 'general', 'מלמד — מורה לילדים קטנים ב"חדר".', { en: 'Melamed', job: 'מורה' }),
+  n('hazan', 'חזן', 'occupation', 'general', 'חזן — שליח הציבור שמוביל את התפילה בבית הכנסת. שם נפוץ גם באשכנז וגם בארצות האסלאם.', { en: 'Hazan', job: 'חזן' }),
+  n('gabay', 'גבאי', 'occupation', 'general', 'גבאי — מי שמנהל את ענייני בית הכנסת או הקהילה וגובה את הכספים.', { en: 'Gabay', job: 'גבאי' }),
+  n('shamash', 'שמש', 'occupation', 'general', 'שמש בית הכנסת — מי שדאג לסדר, לניקיון ולקריאה לתפילה.', { en: 'Shamash', job: 'שמש בית כנסת' }),
+  n('dayan', 'דיין', 'occupation', 'general', 'דיין — שופט בבית דין רבני.', { en: 'Dayan', job: 'דיין' }),
+  n('katzav', 'קצב', 'occupation', 'general', 'קצב — מי שמוכר בשר. בקהילות היהודיות עבד הקצב יחד עם השוחט, כדי שהבשר יהיה כשר.', { en: 'Katzav', job: 'קצב' }),
+  n('hadad', 'חדד', 'occupation', 'mizrahi', 'נפח — בערבית "חדאד" הוא מי שעובד בברזל (חדיד = ברזל).', { en: 'Hadad', job: 'נפח' }),
+  n('sabag', 'סבג', 'occupation', 'mizrahi', 'צובע בדים — בערבית "צבאע׳".', { en: 'Sabag', job: 'צובע' }),
+  n('attar', 'עטר', 'occupation', 'mizrahi', 'בשם או מוכר בשמים ותבלינים — בערבית "עטאר".', { en: 'Attar', job: 'בשם' }),
+  n('najar', 'נגאר', 'occupation', 'mizrahi', 'נגר — בערבית "נג׳אר". שם שנוצר בארצות האסלאם, כמו חדד (נפח) וסבג (צובע).', { en: 'Najar', job: 'נגר' }),
+  n('hayat', 'חייט', 'occupation', 'mizrahi', 'חייט — בעברית ובערבית ("ח׳יאט"). המקביל האשכנזי הוא שניידר.', { en: 'Hayat', job: 'חייט' }),
+  n('bender', 'בנדר', 'occupation', 'ashkenazi', 'חבתן — מי שמכין חביות. בגרמנית Binder/Bender.', { en: 'Bender', job: 'חבתן' }),
+  n('wagner', 'וגנר', 'occupation', 'ashkenazi', 'בונה עגלות — בגרמנית Wagner, מהמילה Wagen, עגלה.', { en: 'Wagner', job: 'בונה עגלות' }),
+  n('fuhrman', 'פורמן', 'occupation', 'ashkenazi', 'עגלון — מי שמוביל סחורות בעגלה. בגרמנית Fuhrmann.', { en: 'Fuhrman', job: 'עגלון' }),
+  n('schlosser', 'שלוסר', 'occupation', 'ashkenazi', 'מסגר — בגרמנית Schlosser, מהמילה Schloss, מנעול.', { en: 'Schlosser', job: 'מסגר' }),
+  n('drucker', 'דרוקר', 'occupation', 'ashkenazi', 'מדפיס — בגרמנית Drucker. יהודים עסקו בדפוס ספרים עבריים כבר מהמאה ה־15.', { en: 'Drucker', job: 'מדפיס' }),
+  n('brenner', 'ברנר', 'occupation', 'ashkenazi', 'מזקק משקאות — בגרמנית Brenner, "שורף". יוסף חיים ברנר, הסופר, נשא את השם הזה.', { en: 'Brenner', job: 'מזקק' }),
+  n('kretchmer', 'קרצ׳מר', 'occupation', 'ashkenazi', 'בעל פונדק או מוזג — מהמילה הסלאבית־גרמנית Kretscham, פונדק.', { en: 'Kretchmer', job: 'בעל פונדק' }),
+  n('gartner', 'גרטנר', 'occupation', 'ashkenazi', 'גנן — בגרמנית Gärtner, מהמילה Garten, גן.', { en: 'Gartner', job: 'גנן' }),
+  n('jager', 'יגר', 'occupation', 'ashkenazi', 'צייד — בגרמנית Jäger, מהפועל jagen, לצוד.', { en: 'Jager', job: 'צייד' }),
+  n('buchbinder', 'בוכבינדר', 'occupation', 'ashkenazi', 'כורך ספרים — בגרמנית Buchbinder.', { en: 'Buchbinder', job: 'כורך ספרים' }),
+  n('kaufman', 'קאופמן', 'occupation', 'ashkenazi', 'סוחר — בגרמנית Kaufmann, מהפועל kaufen, לקנות. מסחר היה אחד העיסוקים הנפוצים של יהודי אשכנז.', { en: 'Kaufman', job: 'סוחר' }),
+  n('handler', 'הנדלר', 'occupation', 'ashkenazi', 'סוחר או רוכל — בגרמנית Händler.', { en: 'Handler', job: 'סוחר' }),
+  n('weber', 'וובר', 'occupation', 'ashkenazi', 'אורג — בגרמנית Weber, מי שאורג בדים על נול.', { en: 'Weber', job: 'אורג' }),
+  n('koch', 'קוך', 'occupation', 'ashkenazi', 'טבח — בגרמנית Koch, מהפועל kochen, לבשל.', { en: 'Koch', job: 'טבח' }),
+  n('shusterman', 'שוסטרמן', 'occupation', 'ashkenazi', '"איש הסנדלר" — גרסה מורחבת של שוסטר, סנדלר.', { en: 'Shusterman', job: 'סנדלר' }),
+  n('schneiderman', 'שניידרמן', 'occupation', 'ashkenazi', '"איש החייט" — גרסה מורחבת של שניידר, חייט.', { en: 'Schneiderman', job: 'חייט' }),
+  n('rabinovich', 'רבינוביץ׳', 'patronymic', 'ashkenazi', '"בן הרב" — ־וביץ׳ היא סיומת סלאבית שפירושה "בן של". המשפחה ייחסה את עצמה לרב.', { en: 'Rabinovich' }),
+  // ── לפי שם האב ──
+  n('abraham', 'אברהם', 'patronymic', 'mizrahi', 'על שם אברהם אבינו — שם פרטי של אחד האבות שהפך לשם המשפחה. לפי הלמ״ס זה אחד משמות המשפחה הנפוצים בישראל.', { en: 'Avraham', top: 7 }),
+  n('david', 'דוד', 'patronymic', 'general', 'על שם דוד המלך — שם פרטי של אב המשפחה שהפך לשם המשפחה.', { en: 'David' }),
+  n('yosef', 'יוסף', 'patronymic', 'general', 'על שם אב המשפחה, יוסף. שם פרטי שהפך לשם משפחה.', { en: 'Yosef' }),
+  n('moshe', 'משה', 'patronymic', 'general', 'על שם אב המשפחה, משה. שם פרטי שהפך לשם משפחה.', { en: 'Moshe' }),
+  n('ben-david', 'בן דוד', 'patronymic', 'general', '"בנו של דוד" — הצורה העברית העתיקה של שם לפי האב.', { en: 'Ben David' }),
+  n('ben-haim', 'בן חיים', 'patronymic', 'general', '"בנו של חיים" — השם בנוי משם האב, כמו בן דוד ובן שמעון. נפוץ בקרב יהודי צפון אפריקה.', { en: 'Ben Haim' }),
+  n('ben-shimon', 'בן שמעון', 'patronymic', 'general', '"בנו של שמעון" — השם בנוי משם האב, כמו בן דוד ובן חיים.', { en: 'Ben Shimon' }),
+  n('mendelson', 'מנדלסון', 'patronymic', 'ashkenazi', '"בנו של מנדל" — מנדל הוא שם יידי מקוצר של מנחם. הפילוסוף משה מנדלסון והמלחין פליקס מנדלסון נשאו את השם.', { en: 'Mendelssohn' }),
+  n('abramovich', 'אברמוביץ׳', 'patronymic', 'ashkenazi', '"בנו של אברהם" בסיומת הסלאבית ־וביץ׳.', { en: 'Abramovich' }),
+  n('jacobson', 'יעקובסון', 'patronymic', 'ashkenazi', '"בנו של יעקב" — הסיומת ־סון פירושה "בן", כמו במנדלסון.', { en: 'Jacobson' }),
+  n('leibovich', 'לייבוביץ׳', 'patronymic', 'ashkenazi', '"בנו של לייב" — לייב ביידיש הוא "אריה".', { en: 'Leibovich' }),
+  n('mordechai', 'מרדכי', 'patronymic', 'general', 'על שם אב המשפחה, מרדכי — שם פרטי מספר אסתר שהפך לשם משפחה.', { en: 'Mordechai' }),
+  n('nahum', 'נחום', 'patronymic', 'general', 'על שם אב המשפחה, נחום — שם של אחד מתרי עשר הנביאים.', { en: 'Nahum' }),
+  n('maimon', 'מימון', 'patronymic', 'sephardi', 'משם פרטי ערבי־יהודי שפירושו "בר מזל". הרמב״ם נקרא רבי משה בן מימון — על שם אביו.', { en: 'Maimon' }),
+  n('amar', 'עמר', 'patronymic', 'sephardi', 'משם פרטי בערבית, "עמאר" או "עמר". נפוץ בקרב יהודי מרוקו. פירוש השם אינו ידוע בוודאות.', { en: 'Amar', unsure: true }),
+  // ── לפי מקום ──
+  n('mizrahi', 'מזרחי', 'place', 'mizrahi', '"מן המזרח" — שם שניתן ליהודים שהגיעו מארצות המזרח לקהילה אחרת. לפי הלמ״ס זה שם המשפחה השלישי בשכיחותו בישראל.', { en: 'Mizrahi', top: 3 }),
+  n('ashkenazi', 'אשכנזי', 'place', 'general', '"מאשכנז" — אשכנז הוא השם העברי הישן של גרמניה. כך כינו בארצות ספרד והמזרח יהודי שהגיע מאירופה.', { en: 'Ashkenazi' }),
+  n('sephardi', 'ספרדי', 'place', 'general', '"מספרד" — שם שניתן ליהודי שמוצאו מספרד.', { en: 'Sephardi' }),
+  n('toledano', 'טולדנו', 'place', 'sephardi', 'על שם העיר טולדו בספרד. משפחה שגורשה מספרד ב־1492 ושמרה את שם עירה.', { en: 'Toledano' }),
+  n('shapira', 'שפירא', 'place', 'ashkenazi', 'על שם העיר שפייר (Speyer) שבגרמניה — אחת הקהילות היהודיות הוותיקות באירופה.', { en: 'Shapira' }),
+  n('horovitz', 'הורוביץ', 'place', 'ashkenazi', 'על שם העיירה הורוביצה (Hořovice) בבוהמיה, היום בצ׳כיה.', { en: 'Horowitz' }),
+  n('landau', 'לנדאו', 'place', 'ashkenazi', 'על שם העיר לנדאו שבגרמניה.', { en: 'Landau' }),
+  n('berliner', 'ברלינר', 'place', 'ashkenazi', '"מברלין" — שם שניתן ליהודי שהגיע מבירת פרוסיה.', { en: 'Berliner' }),
+  n('pollak', 'פולק', 'place', 'ashkenazi', '"פולני" — שם שניתן ליהודי שהגיע מפולין.', { en: 'Pollak' }),
+  n('epstein', 'אפשטיין', 'place', 'ashkenazi', 'על שם העיירה אפשטיין (Eppstein) שבגרמניה.', { en: 'Epstein' }),
+  n('frankel', 'פרנקל', 'place', 'ashkenazi', '"מפרנקוניה" — חבל ארץ בדרום גרמניה.', { en: 'Frankel' }),
+  n('halabi', 'חלבי', 'place', 'mizrahi', '"מחלב" — העיר חלב (Aleppo) שבסוריה, שהייתה בה קהילה יהודית עתיקה.', { en: 'Halabi' }),
+  n('bavli', 'בבלי', 'place', 'mizrahi', '"מבבל" — כלומר מעיראק, שבה חיה אחת הקהילות היהודיות העתיקות בעולם.', { en: 'Bavli' }),
+  n('teimani', 'תימני', 'place', 'mizrahi', '"מתימן" — שם שניתן ליהודי שהגיע מתימן לקהילה אחרת.', { en: 'Teimani' }),
+  n('parsi', 'פרסי', 'place', 'mizrahi', '"מפרס" — כלומר מאיראן. שם שניתן ליהודי שהגיע מפרס לקהילה אחרת.', { en: 'Parsi' }),
+  // ── שמות נוי ──
+  n('rosenberg', 'רוזנברג', 'ornamental', 'ashkenazi', '"הר ורדים" בגרמנית — שם נוי.', { en: 'Rosenberg' }),
+  n('goldberg', 'גולדברג', 'ornamental', 'ashkenazi', '"הר זהב" בגרמנית — שם נוי.', { en: 'Goldberg' }),
+  n('goldstein', 'גולדשטיין', 'ornamental', 'ashkenazi', '"אבן זהב" בגרמנית — שם נוי.', { en: 'Goldstein' }),
+  n('greenberg', 'גרינברג', 'ornamental', 'ashkenazi', '"הר ירוק" בגרמנית — שם נוי.', { en: 'Greenberg' }),
+  n('rosenthal', 'רוזנטל', 'ornamental', 'ashkenazi', '"עמק ורדים" בגרמנית — שם נוי.', { en: 'Rosenthal' }),
+  n('lilienthal', 'ליליינטל', 'ornamental', 'ashkenazi', '"עמק שושנים" בגרמנית — שם נוי.', { en: 'Lilienthal' }),
+  n('stern', 'שטרן', 'ornamental', 'ashkenazi', '"כוכב" בגרמנית — שם נוי, כמו רוזנברג וגולדשטיין. ביידיש אומרים "שטערן".', { en: 'Stern' }),
+  n('blum', 'בלום', 'ornamental', 'ashkenazi', '"פרח" בגרמנית וביידיש — שם נוי.', { en: 'Blum' }),
+  n('rosen', 'רוזן', 'ornamental', 'ashkenazi', '"ורדים" בגרמנית — שם נוי. בעברית הוא נשמע כמו "רוזן", אבל המקור שונה.', { en: 'Rosen' }),
+  n('silverstein', 'זילברשטיין', 'ornamental', 'ashkenazi', '"אבן כסף" בגרמנית — שם נוי.', { en: 'Silverstein' }),
+  n('weinberg', 'ויינברג', 'ornamental', 'ashkenazi', '"הר הגפן" או "כרם" בגרמנית — שם נוי.', { en: 'Weinberg' }),
+  n('rothschild', 'רוטשילד', 'ornamental', 'ashkenazi', '"מגן אדום" — על שם השלט האדום שהיה תלוי על בית המשפחה ברחוב היהודים בפרנקפורט. כך נקראו בתים לפני שהיו להם מספרים.', { en: 'Rothschild' }),
+  n('adler', 'אדלר', 'ornamental', 'ashkenazi', '"נשר" בגרמנית. לפעמים שמות כאלה ניתנו על פי השלט שהיה תלוי על הבית, כמו רוטשילד.', { en: 'Adler' }),
+  n('perlman', 'פרלמן', 'ornamental', 'ashkenazi', 'מהמילה "פרל", פנינה. ייתכן ששם נוי וייתכן שקשור לסוחר פנינים.', { en: 'Perlman', unsure: true }),
+  n('friedman', 'פרידמן', 'ornamental', 'ashkenazi', 'מהמילה הגרמנית והיידית "פריד" — שלום. ייתכן שנגזר משם פרטי. לפי הלמ״ס (2016) הוא בין שמונת שמות המשפחה הנפוצים בישראל.', { en: 'Friedman', top: 8 }),
+  // ── מראה ותכונה ──
+  n('klein', 'קליין', 'trait', 'ashkenazi', '"קטן" בגרמנית וביידיש — אולי כינוי לאדם נמוך, או לבן הצעיר.', { en: 'Klein' }),
+  n('gross', 'גרוס', 'trait', 'ashkenazi', '"גדול" בגרמנית — כנראה כינוי לאדם גבוה או רחב, ההפך מקליין.', { en: 'Gross' }),
+  n('lang', 'לנג', 'trait', 'ashkenazi', '"ארוך" או "גבוה" בגרמנית.', { en: 'Lang' }),
+  n('schwartz', 'שוורץ', 'trait', 'ashkenazi', '"שחור" בגרמנית — כנראה כינוי לאדם כהה שיער.', { en: 'Schwartz' }),
+  n('weiss', 'וייס', 'trait', 'ashkenazi', '"לבן" בגרמנית — כנראה כינוי לאדם בהיר שיער.', { en: 'Weiss' }),
+  n('roth', 'רות׳', 'trait', 'ashkenazi', '"אדום" בגרמנית — כינוי לאדם ג׳ינג׳י.', { en: 'Roth' }),
+  n('kurtz', 'קורץ', 'trait', 'ashkenazi', '"קצר" בגרמנית — כנראה כינוי לאדם נמוך.', { en: 'Kurtz' }),
+  n('jung', 'יונג', 'trait', 'ashkenazi', '"צעיר" בגרמנית — כנראה כינוי שהבדיל בין אב לבנו בעלי אותו שם.', { en: 'Jung' }),
+  // ── עברי ──
+  n('peretz', 'פרץ', 'hebrew', 'sephardi', 'מהתנ״ך: פרץ היה בנו של יהודה, ומצאצאיו בא דוד המלך. לפי הלמ״ס זה שם המשפחה הרביעי בשכיחותו בישראל.', { en: 'Peretz', top: 4 }),
+  n('malka', 'מלכה', 'hebrew', 'sephardi', '"מלכה" בעברית. שם נפוץ בקרב יהודי מרוקו.', { en: 'Malka' }),
+  n('shalom', 'שלום', 'hebrew', 'general', 'מהמילה "שלום" — שם פרטי עתיק שהפך לשם משפחה.', { en: 'Shalom' }),
+  n('tal', 'טל', 'hebrew', 'hebrew', '"טל" — הלחות שנאספת על הצמחים בלילה. שם עברי שבחרו רבים כשעברתו את שמם.', { en: 'Tal' }),
+  n('chen', 'חן', 'hebrew', 'hebrew', '"חן" — יופי ונחמדות. שם עברי קצר שבחרו רבים בעברות.', { en: 'Chen' }),
+  n('golan', 'גולן', 'hebrew', 'hebrew', 'על שם הגולן — עיר מקלט בתנ״ך, והיום רמת הגולן. שם שבחרו רבים כשעברתו את שמם.', { en: 'Golan' }),
+  n('barak', 'ברק', 'hebrew', 'hebrew', 'מהתנ״ך: ברק בן אבינועם, שיצא עם דבורה הנביאה לקרב. גם "ברק" כמו בסערה. אהוד ברק נולד בשם ברוג.', { en: 'Barak' }),
+  n('shahar', 'שחר', 'hebrew', 'hebrew', '"שחר" — תחילת הבוקר. שם עברי חדש.', { en: 'Shahar' }),
+  n('alon', 'אלון', 'hebrew', 'hebrew', 'עץ האלון — עץ חזק ונפוץ בארץ. שם עברי חדש.', { en: 'Alon' }),
+  n('oren', 'אורן', 'hebrew', 'hebrew', 'עץ האורן — עץ מחטני שנטעו הרבה ביערות בארץ. שם עברי חדש.', { en: 'Oren' }),
+  n('erez', 'ארז', 'hebrew', 'hebrew', 'עץ הארז, שמוזכר בתנ״ך כעץ חזק וגבוה. שם עברי חדש.', { en: 'Erez' }),
+  n('shoshan', 'שושן', 'hebrew', 'general', '"שושן" — פרח השושן. נפוץ בקרב יהודי צפון אפריקה, גם בצורה "בן שושן".', { en: 'Shoshan' }),
+  n('ben-gurion', 'בן־גוריון', 'hebrew', 'hebrew', 'דוד בן־גוריון נולד בשם גרין ובחר בשם של יוסף בן גוריון, ממנהיגי המרד הגדול ברומאים. זו דוגמה מפורסמת לעברות שם.', { en: 'Ben-Gurion' }),
+  // ── שמות נפוצים שמקורם שנוי במחלוקת ──
+  n('biton', 'ביטון', 'other', 'sephardi', 'שם נפוץ מאוד בקרב יהודי מרוקו; לפי הלמ״ס הוא החמישי בשכיחותו בישראל. מקורו אינו ידוע בוודאות — יש המייחסים אותו לשפה הברברית.', { en: 'Biton', top: 5, unsure: true }),
+  n('dahan', 'דהן', 'other', 'sephardi', 'שם נפוץ בקרב יהודי מרוקו; לפי הלמ״ס הוא השישי בשכיחותו בישראל. לפי פירוש מקובל הוא בא מהערבית "דהאן" — מי שעוסק בשמנים או בצבע — אבל אין לכך הוכחה חד־משמעית.', { en: 'Dahan', top: 6, unsure: true }),
+  n('azoulay', 'אזולאי', 'other', 'sephardi', 'שם של משפחה ותיקה ממרוקו, שממנה בא החיד״א, רבי חיים יוסף דוד אזולאי. מקור השם אינו ידוע בוודאות.', { en: 'Azoulay', unsure: true }),
+  n('ohayon', 'אוחיון', 'other', 'sephardi', 'שם נפוץ בקרב יהודי מרוקו. מקורו אינו ידוע בוודאות; יש המקשרים אותו לשם הפרטי יוחנן.', { en: 'Ohayon', unsure: true }),
+  n('abutbul', 'אבוטבול', 'occupation', 'sephardi', '"אבו טבול" בערבית — "בעל התופים", כלומר מתופף. שם נפוץ בקרב יהודי מרוקו.', { en: 'Abutbul', job: 'מתופף' }),
+  n('elmaleh', 'אלמליח', 'other', 'sephardi', 'מהערבית "אל־מליח" — הקשור למלח, ואולי גם "הנאה, הטוב". שם נפוץ בקרב יהודי מרוקו.', { en: 'Elmaleh', unsure: true }),
+]
+  .filter(x => x.name)
+
+export const familyName = slug => FAMILY_NAMES.find(x => x.slug === slug)
+export const familyNamePath = x => `/family-names/${x.slug}`
+export const namesIn = cat => FAMILY_NAMES.filter(x => x.cat === cat)
+export const categoryBySlug = slug => Object.entries(NAME_CATEGORIES).find(([, c]) => c.path === `/family-names/${slug}`)
+
+// "How was my name formed?" — safe, general rules only (endings and prefixes whose meaning is
+// well documented). A name in the list gets its own answer instead.
+const RULES = [
+  [/(וביץ|וביץ׳|ביץ|ביץ׳|וויץ|וויטש|ביטש)$/, 'patronymic', 'הסיומת ־וביץ׳/־ביץ׳ היא סלאבית ופירושה "בן של". השם בנוי כנראה משם האב או מכינוי שלו.'],
+  [/(זון|סון|זאהן|זן)$/, 'patronymic', 'הסיומת ־זון/־סון פירושה "בן" בגרמנית וביידיש — "בנו של…".'],
+  [/^(בן|אבן) /, 'patronymic', '"בן" או "אבן" בתחילת השם פירושם "בנו של" — השם בנוי משם האב.'],
+  [/^בן[־-]/, 'patronymic', '"בן" בתחילת השם פירושו "בנו של" — השם בנוי משם האב.'],
+  [/(סקי|צקי|סקה|צקה)$/, 'place', 'הסיומת ־סקי/־צקי היא סלאבית ופירושה "של" או "מ…". שמות כאלה נוצרו פעמים רבות משם של עיר או כפר.'],
+  [/^אבו ?/, 'patronymic', '"אבו" בערבית פירושו "אבא של" או "בעל". שמות כאלה הם לפעמים כינוי — "אבו טבול" הוא בעל התופים.'],
+  [/(ברג|בורג)$/, 'ornamental', '־ברג פירושו "הר" בגרמנית. רבים מהשמות האלה הם שמות נוי: רוזנברג (הר ורדים), גולדברג (הר זהב).'],
+  [/(שטיין|שטין)$/, 'ornamental', '־שטיין פירושו "אבן" בגרמנית. רבים מהשמות האלה הם שמות נוי: גולדשטיין (אבן זהב).'],
+  [/(טל|תל)$/, 'ornamental', 'אם השם גרמני, ־טל פירושו "עמק": רוזנטל (עמק ורדים). שמות כאלה הם בדרך כלל שמות נוי.'],
+  [/(מן|מאן)$/, 'occupation', '־מן פירושו "איש" בגרמנית וביידיש. לפעמים הוא מצטרף למקצוע (שניידרמן — איש החייט), לפעמים לשם פרטי ולפעמים לשם נוי.'],
+]
+export function explainName(input) {
+  const v = String(input || '').trim().replace(/[׳']/g, '׳').replace(/\s+/g, ' ')
+  if (v.length < 2) return null
+  const key = t => t.replace(/["״׳'־\s-]/g, '')
+  const exact = FAMILY_NAMES.find(x => key(x.name) === key(v))
+  if (exact) return { exact }
+  const plain = v.replace(/׳/g, '')
+  const hit = RULES.find(([re]) => re.test(plain) || re.test(v))
+  return hit ? { cat: hit[1], text: hit[2] } : { none: true }
+}
