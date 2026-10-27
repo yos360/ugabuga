@@ -11,11 +11,13 @@ One line per day, newest at the bottom ("?" = made before this log existed, uplo
 | earlier | Buga Live (live quiz from the phone) | /live | ? | ? | ? | ? |
 | 2026-10-25 | "הפעם מצביעים בוגה" — all 5 election types | /tools/class-elections | ✓ | ✓ | ✓ | ✓ |
 | 2026-10-26 | "כמה עוד נשאר?!" — נוסעים עם בוגה (travel kit, bingo, waiting games, timer) | /travel | ✓ | ✓ | ✓ | ✓ |
+| 2026-10-27 | "העוגה נעלמה!" — חדרי בריחה BUGA (42 rooms, 3 levels, graded hints, print kit) | /tools/escape-rooms | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-10-27: no uploads — Claude in Chrome was not available to the scheduled run (cloud session, no browser tools). Reel + captions are in examples/escape-rooms/; upload manually or on the next run.
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
 - QR treasure hunt / ready treasure hunt (/treasure-hunt/ready)
-- Escape rooms for kids (/tools/escape-rooms)
 - RSVP / אישור הגעה אונליין
 - Party calculator (מחשבון מסיבה)
 - Bingo maker

@@ -1,3 +1,3 @@
 #!/bin/sh
-# headless Chrome for the renderer when running as root
-exec "$(ls -d /opt/pw-browsers/chromium-*/chrome-linux/chrome | head -1)" --no-sandbox "$@"
+# headless Chrome for the renderer when running as root (Playwright's folder is chrome-linux or chrome-linux64)
+exec "$(ls -d /opt/pw-browsers/chromium-*/chrome-linux*/chrome | head -1)" --no-sandbox "$@"
