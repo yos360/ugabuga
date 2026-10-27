@@ -135,6 +135,8 @@ const ClockWorksheets = lazy(() => import('./pages/printables/MathVisualSheets')
 const FractionWorksheets = lazy(() => import('./pages/printables/MathVisualSheets').then(m => ({ default: m.FractionWorksheets })))
 const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
+const BookletsHub = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletsHub })))
+const BookletPage = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletPage })))
 const EnglishMemoryCards = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.EnglishMemoryCards })))
 const Dominoes = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.Dominoes })))
 const FortuneTeller = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.FortuneTeller })))
@@ -776,6 +778,8 @@ export default function App() {
               <Route path="/printables/music-paper" element={<WritingPaper key="music-paper" kind="music-paper" />} />
               <Route path="/printables/memory-game" element={<MemoryGame />} />
               <Route path="/printables/memory-english" element={<EnglishMemoryCards />} />
+              <Route path="/booklets" element={<BookletsHub />} />
+              <Route path="/booklets/:slug" element={<BookletPage />} />
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/tic-tac-toe" element={<TicTacToeBoards />} />
               <Route path="/printables/name-coloring" element={<NameColoring />} />
