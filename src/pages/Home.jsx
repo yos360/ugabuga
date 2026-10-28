@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO'
 import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { HOME_INTENTS } from '../data/kidsZone'
-import { SITE_SLOGAN } from '../data/brand'
+import { SITE_SLOGAN, CHANNEL_GO } from '../data/brand'
 import { SOCIAL_LIVE } from '../data/social'
 import { ElectionChip } from '../components/home/HomeTopExtras'
 import './Home.css'
@@ -156,6 +156,7 @@ export default function Home() {
         </div>
         <div className="hp-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></div>
       </form>
+      <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ — הצטרפו לערוץ</a>
     </section>
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>

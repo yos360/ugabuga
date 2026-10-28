@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
 import RequestBanner from '../ui/RequestBanner'
+import ChannelBar from '../ui/ChannelBar'
 import AffiliatePicks from '../ui/AffiliatePicks'
 import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -78,6 +79,7 @@ export default function Layout({ children }) {
       {mounted && <PresentMode />}
       {!presenting && <ScrollToTop />}
       {!presenting && <Navbar />}
+      {mounted && !presenting && <ChannelBar />}
       {mounted && !presenting && <RecentActivity />}
       {mounted && <PrintQrFallback />}
       {mounted && <PrintFollowUp />}

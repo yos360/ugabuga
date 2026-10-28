@@ -8,7 +8,7 @@ test('QR variants have unique ids the database accepts, and short printable text
   assert.equal(new Set(ids).size, ids.length)
   for (const v of QR_VARIANTS) {
     assert.match(v.id, /^[a-z][0-9]{1,2}$/, v.id) // same check as record_qr_variant
-    assert.ok(['page', 'request'].includes(v.to), v.id)
+    assert.ok(['page', 'request', 'channel'].includes(v.to), v.id)
     assert.ok(v.title.length <= 45 && v.line.length <= 50, `${v.id} is too long for the badge`)
     assert.ok(!/פתרונ/.test(v.title + v.line), 'no "scan for answers" promise')
   }
@@ -23,6 +23,15 @@ test('QR links carry the variant and lead to the page or to the request form', (
   assert.equal(r.searchParams.get('from'), '/learn/reading/grade-3')
   assert.equal(r.searchParams.get('utm_source'), 'qr')
   assert.equal(r.searchParams.get('utm_content'), req.id)
+})
+
+test('channel QR variants lead to the WhatsApp landing page', () => {
+  const w = QR_VARIANTS.find(v => v.to === 'channel')
+  assert.ok(w, 'some prints invite to the channel')
+  const u = new URL(qrUrl('https://ugabuga.co.il', '/printables/mazes', w))
+  assert.equal(u.pathname, '/whatsapp')
+  assert.equal(u.searchParams.get('utm_content'), w.id)
+  assert.match(readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8'), /path="\/whatsapp" element=\{<WhatsAppChannel \/>\}/)
 })
 
 test('every variant and banner can be picked', () => {

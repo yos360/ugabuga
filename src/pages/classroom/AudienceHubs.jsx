@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { GAN_YEAR } from '../../data/kindergartenYear'
-import { WHATSAPP_CHANNEL } from '../../data/brand'
+import { CHANNEL_GO } from '../../data/brand'
 
 // Two entrances by audience: /gan for kindergarten teachers (this month in the gan first, then by area) and
 // /classroom/by-grade for teachers (one card per grade). Only links to existing pages — tests/audience-hubs.test.mjs.
@@ -44,7 +44,7 @@ const LinkList = ({ links }) => <ul className="mt-3 grid gap-1">{links.map(([lab
 function Channel() {
   return <div className="mt-8 flex flex-wrap items-center justify-center gap-3 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-5 text-center">
     <p className="text-lg font-bold">📢 דף חדש כל יום, ישר לוואטסאפ</p>
-    <a href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">הצטרפו לערוץ</a>
+    <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">הצטרפו לערוץ</a>
     <Link to="/request" className="inline-flex min-h-[48px] items-center rounded-2xl border-2 border-violet-300 bg-white px-5 font-bold">חסר לכם דף? בקשו ונכין</Link>
   </div>
 }

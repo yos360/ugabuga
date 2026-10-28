@@ -1,5 +1,6 @@
 // Messages that rotate on printed pages (next to the QR) and on the "ask us for a page" banner.
-// QR variants: `g` = leads back to the printed page, `r` = leads to the page-request form (/request).
+// QR variants: `g` = leads back to the printed page, `r` = leads to the page-request form (/request),
+// `w` = leads to the WhatsApp channel's landing page (/whatsapp).
 // Each print shows one variant; the owner report compares how often each was printed vs scanned.
 // Ids are permanent — change the wording of a variant by adding a new id, so old prints still count.
 export const QR_VARIANTS = [
@@ -9,6 +10,8 @@ export const QR_VARIANTS = [
   { id: 'g4', to: 'page', title: '🎁 בקשו מאבא או מאמא לסרוק', line: 'מחכים לכם עוד דפים ומשחקים · ugabuga.co.il' },
   { id: 'r1', to: 'request', title: '✨ חסר לכם דף? סרקו וספרו לנו', line: 'מכינים דפים לפי בקשה — בחינם · ugabuga.co.il' },
   { id: 'r2', to: 'request', title: 'גננות, מורות והורים: איזה דף להכין לכם?', line: 'סרקו ובקשו — אנחנו מכינים, בחינם' },
+  { id: 'w1', to: 'channel', title: '📲 דף חדש כל יום — בוואטסאפ', line: 'סרקו והצטרפו לערוץ · בחינם · ugabuga.co.il' },
+  { id: 'w2', to: 'channel', title: 'הורים וגננות: דף חדש כל בוקר', line: 'סרקו והצטרפו לערוץ הוואטסאפ — בחינם' },
   { id: 'r3', to: 'request', title: '🎯 רוצים את הדף הזה בנושא אחר?', line: 'סרקו ובקשו — נכין לכם גרסה חדשה, בחינם' },
 ]
 export const qrVariant = id => QR_VARIANTS.find(v => v.id === id)
@@ -17,6 +20,7 @@ export const pickQrVariant = (rand = Math.random()) => QR_VARIANTS[Math.floor(ra
 // The link inside the QR. Request variants open the form with the printed page attached.
 export function qrUrl(origin, pathname, variant) {
   const tag = `utm_source=qr&utm_medium=print&utm_content=${variant.id}`
+  if (variant.to === 'channel') return `${origin}/whatsapp?${tag}`
   return variant.to === 'request' ? `${origin}/request?from=${encodeURIComponent(pathname)}&${tag}` : `${origin}${pathname}?${tag}`
 }
 

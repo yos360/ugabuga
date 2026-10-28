@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { recordExperiment } from '../../utils/experiments'
-import { WHATSAPP_CHANNEL } from '../../data/brand'
+import { CHANNEL_GO } from '../../data/brand'
 
 // Right after a print or PDF — the moment a visitor is most involved — one line: "what else is missing?"
 // The request goes to /request's table (source 'print'); the request code loads only on send.
 // Below it, a link to the WhatsApp channel ("a new page every day").
-const Channel = () => <a className="buga-print-channel" href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer" dir="rtl">📢 אהבתם? דף חדש כל יום בוואטסאפ — <b>הצטרפו לערוץ</b></a>
+const Channel = () => <a className="buga-print-channel" href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" dir="rtl">📢 אהבתם? דף חדש כל יום בוואטסאפ — <b>הצטרפו לערוץ</b></a>
 export default function PrintAsk({ path }) {
   const [text, setText] = useState(''), [state, setState] = useState('idle')
   const send = async e => {

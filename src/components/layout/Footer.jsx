@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { SITE_SLOGAN, WHATSAPP_CHANNEL } from '../../data/brand'
+import { SITE_SLOGAN, CHANNEL_GO } from '../../data/brand'
 import { SOCIAL_LIVE } from '../../data/social'
 import MailSignup from '../mail/MailSignup'
 import '../mail/mail.css'
@@ -54,7 +54,7 @@ export default function Footer() {
         <Link to="/en" lang="en" className="mt-6 inline-block text-sm underline">English</Link>
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">✉️ hellohugabuga@gmail.com</a>
-          <p className="mt-2">📢 דף חדש כל יום: <a href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-dashed">הצטרפו לערוץ הוואטסאפ שלנו</a></p>
+          <p className="mt-2">📢 דף חדש כל יום: <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-dashed">הצטרפו לערוץ הוואטסאפ שלנו</a></p>
           <p className="mt-2">💛 רעיון למשחק? תיקון? משוב? כתבו לנו בוואטסאפ: <a href="https://wa.me/972507772930" target="_blank" rel="noopener noreferrer" className="underline decoration-dashed">050-7772930</a></p>
           {SOCIAL_LIVE.length > 0 && <div className="mt-2 flex flex-wrap items-center gap-2"><span>📱 עקבו אחרינו:</span>{SOCIAL_LIVE.map(([id, name, href, d]) => <a key={id} href={href} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`} title={name} className="grid h-11 w-11 place-items-center rounded-full border border-[var(--border)] hover:bg-[var(--muted)]"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={d} fill="currentColor" /></svg></a>)}</div>}
           <p className="mt-2">🎪 נותנים שירות לימי הולדת? <Link to="/suppliers/me" className="underline decoration-dashed">הצטרפו למאגר הספקים בחינם</Link></p>
