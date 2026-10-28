@@ -39,6 +39,14 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   constellation behind it, the matching Hebrew month, what each sign is traditionally said to stand for — presented
   as a cultural tradition, never as prediction or advice. A "which sign am I?" tool by birth date. Google: מזלות 8,100;
   each sign 5,400–8,100 a month; מזלות לפי חודשים 2,400; תאריכי מזלות 1,000.
+- [ ] `communities` — עדות ישראל (approved by the owner 2026-10-28): a page per community — אשכנזים (by region: פולין,
+  רוסיה, גרמניה, הונגריה, רומניה), ספרדים, מרוקו, תימן, עיראק, פרס, כורדיסטן, בוכרה, קווקז (הרי), גאורגיה, אתיופיה,
+  תוניסיה, לוב, מצרים, סוריה, טורקיה, יוון, הודו (בני ישראל, קוצ׳ין), איטליה, ועוד: where they lived, how and when
+  they came to Israel, customs and holidays (e.g. מימונה, סיגד, חינה), traditional foods (a page per famous dish:
+  ג׳חנון, מלאווח, קובה, צ׳ולנט, גפילטע פיש, מופלטה, שקשוקה, סביח…), music, dress and language (יידיש, לדינו,
+  ערבית־יהודית, אמהרית). Also "how do I know which community I come from" — family names, places, family stories,
+  and that many Israelis belong to several. Respectful, warm and accurate; no stereotypes, no ranking; facts and
+  dates checked against two sources. Link the family-names pages (/family-names) and the holiday pages.
 - [ ] `dinosaurs` — דינוזאורים: מה זה דינוזאור, תקופות (טריאס, יורה, קרטיקון), איך יודעים — מאובנים ופלאונטולוגים,
   דינוזאורים אוכלי בשר וצמחים, דינוזאורים מפורסמים (טירנוזאורוס, טריצרטופס, סטגוזאורוס, ברכיוזאורוס, ולוצירפטור,
   ספינוזאורוס, אנקילוזאורוס ועוד) — a lesson or concept per dinosaur, the extinction, birds as dinosaurs,
