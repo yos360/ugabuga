@@ -465,7 +465,7 @@ export default [
         if (r.bool()) return { q: 'פריסה של קובייה מורכבת מכמה ריבועים?', type: 'number', answer: 6, explain: 'לקובייה 6 פאות ריבועיות, ולכן בפריסה 6 ריבועים.' }
         return { q: `לקובייה אורך כל קצה ${e} ס״מ. מהו שטח פאה אחת?`, type: 'number', answer: e * e, unit: 'סמ״ר', explain: `פאה היא ריבוע: ${e} × ${e} = ${e * e} סמ״ר.` }
       }
-      const a = r.int(2, 9), b = r.int(2, 9), c = r.int(2, 9)
+      const [a, b, c] = r.shuffle([2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 3) // distinct, so exactly 4 edges have each length
       const k = r.int(0, 2)
       const svg = cuboidSvg(a, b, c)
       if (k === 0) return { q: 'מהו שטח הפאה הקדמית? (אורכה מסומן למטה וגובהה בצד שמאל)', svg, type: 'number', answer: a * c, unit: 'סמ״ר', explain: `הפאה הקדמית היא מלבן ${a} על ${c}: ${a} × ${c} = ${a * c}.` }

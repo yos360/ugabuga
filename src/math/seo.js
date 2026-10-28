@@ -6,9 +6,14 @@ const MAX_TITLE = 57 // the site appends " | עוגה בוגה" (12 chars) — k
 
 export const isElementary = n => Number(n) <= 6
 
+// Names of a grade inside Hebrew sentences: "כיתה ג׳" / "לכיתה ג׳" / "בכיתה ג׳", and for גן חובה "גן חובה" / "לגן חובה" / "בגן חובה".
+export const gradeName = g => (g.n === 0 ? g.label : `כיתה ${g.label}`)
+export const toGrade = g => (g.n === 0 ? `ל${g.label}` : `לכיתה ${g.label}`)
+export const inGrade = g => (g.n === 0 ? `ב${g.label}` : `בכיתה ${g.label}`)
+
 // Primary keyword of a grade page (/math/grade-N).
 export function gradeKeyword(g) {
-  return isElementary(g.n) ? `תרגילי חשבון לכיתה ${g.label}` : `מתמטיקה לכיתה ${g.label}`
+  return isElementary(g.n) ? `תרגילי חשבון ${toGrade(g)}` : `מתמטיקה ${toGrade(g)}`
 }
 
 export function gradeSeo(g, topicCount) {
@@ -31,7 +36,7 @@ export function gradeSeo(g, topicCount) {
 
 // Primary keyword of a summary-test page (/math/tests/grade-N).
 export function testKeyword(g) {
-  return isElementary(g.n) ? `מבחן בחשבון לכיתה ${g.label}` : `מבחן במתמטיקה לכיתה ${g.label}`
+  return isElementary(g.n) ? `מבחן בחשבון ${toGrade(g)}` : `מבחן במתמטיקה ${toGrade(g)}`
 }
 
 export function testSeo(g) {
@@ -39,7 +44,7 @@ export function testSeo(g) {
   return {
     title: `${kw} עם תשובות — אונליין ולהדפסה`,
     h1: kw,
-    description: `${kw} עם תשובות: מבחן מסכם מכל הנושאים של כיתה ${g.label}, 10 או 20 שאלות בשלוש רמות, טיימר וציון — וגם מבחן להדפסה עם דף תשובות. חינם.`,
+    description: `${kw} עם תשובות: מבחן מסכם מכל הנושאים של ${gradeName(g)}, 10 או 20 שאלות בשלוש רמות, טיימר וציון — וגם מבחן להדפסה עם דף תשובות. חינם.`,
   }
 }
 
@@ -50,14 +55,14 @@ export function topicBaseTitle(topic) {
 
 export function topicH1(topic, g) {
   const base = topicBaseTitle(topic)
-  return base.includes(`כיתה ${g.label}`) ? topic.title : `${topic.title} — כיתה ${g.label}`
+  return base.includes(gradeName(g)) ? topic.title : `${topic.title} — ${gradeName(g)}`
 }
 
 // "<topic> לכיתה <grade> — תרגול ודף עבודה", shortened step by step to stay near 60 characters.
 export function topicSeoTitle(topic, g) {
   if (topic.seoTitle) return topic.seoTitle
   const base = topicBaseTitle(topic)
-  const core = base.includes(`כיתה ${g.label}`) ? base : `${base} לכיתה ${g.label}`
+  const core = base.includes(gradeName(g)) ? base : `${base} ${toGrade(g)}`
   const options = [`${core} — הסבר, תרגול ודף עבודה`, `${core} — תרגול ודף עבודה`, `${core} — תרגול`, core]
   return options.find(t => t.length <= MAX_TITLE) || core
 }

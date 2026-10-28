@@ -127,12 +127,27 @@ test('allMathPaths: unique, well-formed, covers every topic', () => {
   const paths = R.allMathPaths()
   assert.equal(new Set(paths).size, paths.length)
   assert.equal(paths[0], '/math')
-  for (const p of paths) assert.match(p, /^\/math(\/grade-\d{1,2}(\/[a-z0-9-]+)?|\/tests\/grade-\d{1,2})?$/, p)
+  for (const p of paths) assert.match(p, /^\/math(\/grade-\d{1,2}(\/[a-z0-9-]+)?|\/tests\/grade-\d{1,2}|\/kindergarten(\/[a-z0-9-]+)?|\/tests\/kindergarten)?$/, p)
   for (const g of R.GRADES) {
     assert.ok(paths.includes(g.path))
     for (const t of R.topicsFor(g.n)) assert.ok(paths.includes(`/math/grade-${g.n}/${t.slug}`))
     assert.equal(paths.includes(g.testPath), R.topicsFor(g.n).length > 0)
   }
+})
+
+test('kindergarten (grade 0) is reachable like a grade, without joining GRADES or STAGES', () => {
+  assert.equal(R.parseGradeParam('kindergarten'), 0)
+  assert.equal(R.gradeInfo(0).path, '/math/kindergarten')
+  assert.equal(R.gradeInfo(0).testPath, '/math/tests/kindergarten')
+  assert.equal(R.gradeInfo(-1), null)
+  assert.equal(R.gradeInfo(1).label, 'א׳')
+  assert.ok(R.topicsFor(0).length >= 8)
+  assert.equal(R.topicPath(R.topicsFor(0)[0]), `/math/kindergarten/${R.topicsFor(0)[0].slug}`)
+  assert.equal(R.findTopic(0, R.topicsFor(0)[0].slug).grade, 0)
+  const paths = R.allMathPaths()
+  for (const p of ['/math/kindergarten', '/math/tests/kindergarten', ...R.topicsFor(0).map(R.topicPath)]) assert.ok(paths.includes(p), p)
+  assert.equal(R.makeTest(0, 10, 3).length, 10)
+  assert.ok(R.makeTest(0, 10, 3).every(e => exerciseProblems(e).length === 0))
 })
 
 test('worksheets and tests are reproducible, sized and varied', () => {

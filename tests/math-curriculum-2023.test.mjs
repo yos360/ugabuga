@@ -10,7 +10,8 @@ import g1 from '../src/math/topics/grade1.js'
 import g2 from '../src/math/topics/grade2.js'
 import g3 from '../src/math/topics/grade3.js'
 import g4 from '../src/math/topics/grade4.js'
-const all = { 1: g1, 2: g2, 3: g3 }
+import gK from '../src/math/topics/gradeK.js'
+const all = { 0: gK, 1: g1, 2: g2, 3: g3 }
 test('grades 1–3 follow the 2023 curriculum and every answer recomputes', () => {
 let bad = 0, n = 0
 const fails = []
@@ -51,6 +52,8 @@ for (let i = 1; i <= N; i++) { const e = gen(find(3, 'time-minutes'), 3, i); con
 for (let i = 1; i <= N; i++) for (const [s, gr, L] of [['time-minutes', 3, 1], ['clock', 2, 1], ['clock', 2, 2], ['clock-hours', 1, 1]]) { const e = gen(find(gr, s), L, i); const [h, m] = e.answer.split(':').map(Number); const ds = e.svg; if (!ds.includes('<svg')) fail('clock svg'); void h; void m }
 // data: recompute from the drawn svg heights
 for (const [gr, s] of [[1, 'data-basic'], [2, 'data-bar-charts'], [3, 'data-double-bar']]) for (let l = 1; l <= 3; l++) for (let i = 1; i <= 500; i++) { const e = gen(find(gr, s), l, i); if (e.type === 'choice' && !e.choices.includes(e.answer)) fail('data choice'); if (e.type === 'number' && e.answer === 0) fail(`data zero ${s} L${l} ${e.q}`) }
+// cuboids: the three drawn edge lengths are distinct (so '4 edges of length c' is true)
+for (let i = 1; i <= N; i++) { const e = gen(find(3, 'cuboids-nets'), 3, i); const labs = [...e.svg.matchAll(/>(\d+)<\/text>/g)].map(m => m[1]); if (new Set(labs).size !== 3) fail(`cuboid labels ${labs}`) }
 // triangles: sides labelled in svg satisfy triangle inequality and classification
 for (let i = 1; i <= N; i++) { const e = gen(find(2, 'triangles-right-angle'), 2, i); const sides = [...e.svg.matchAll(/>(\d+)<\/text>/g)].map(m => Number(m[1])); const [a, b, c] = sides; if (!(a + b > c && a + c > b && b + c > a)) fail(`tri ineq ${sides}`); const k = new Set(sides).size === 1 ? 'שווה צלעות' : new Set(sides).size === 2 ? 'שווה שוקיים' : 'שונה צלעות'; if (k !== e.answer) fail(`tri class ${sides} ${e.answer}`) }
 // grade-2 limits: times tables only 2,4,5,10 and division by those
@@ -62,4 +65,39 @@ for (let i = 1; i <= N; i++) { const e = gen(find(1, 'shapes'), 1, i); if (e.ans
 for (let i = 1; i <= 1000; i++) for (const l of [1, 2, 3]) { const e = g4.find(t => t.slug === 'simple-fractions').gen(l, createRng(mixSeed(i))); if (exerciseProblems(e).length) fail('g4 frac') }
 assert.deepEqual(fails, [], `${bad} failures in ${n} exercises`)
 
+})
+
+test('גן חובה: answers recompute and stay within 10', () => {
+  const K = slug => gK.find(t => t.slug === slug)
+  const run = (slug, l, i) => K(slug).gen(l, createRng(mixSeed(i * 31337 + l)))
+  const errs = []
+  const bad = m => { if (errs.length < 20) errs.push(m) }
+  for (let i = 1; i <= 400; i++) for (const l of [1, 2, 3]) {
+    const c = run('count-10', l, i); const dots = (c.svg.match(/<circle/g) || []).length
+    if (l < 3 ? dots !== c.answer : dots + c.answer !== 10) bad(`count ${l} ${c.answer} ${dots}`)
+    const m = run('more-less', l, i); const rows = [...m.svg.matchAll(/<circle cx="([\d.]+)" cy="(\d+)"/g)]; const a = rows.filter(r => Number(r[2]) < 40).length, b = rows.length - a
+    if (l === 1 && m.answer !== (a > b ? 'בשורה א׳' : 'בשורה ב׳')) bad(`more ${a} ${b} ${m.answer}`)
+    if (l === 2 && m.answer !== (a === b ? 'שוות' : a > b ? 'בשורה א׳ יש יותר' : 'בשורה ב׳ יש יותר')) bad(`more2 ${a} ${b} ${m.answer}`)
+    if (l === 3 && m.answer !== Math.abs(a - b)) bad(`more3 ${a} ${b} ${m.answer}`)
+    const o = run('number-order-10', l, i); const nums = (o.q.match(/\d+/g) || []).map(Number)
+    if (l === 1 && o.answer !== nums[0] + 1) bad(`order1 ${o.q}`)
+    if (l === 2 && (o.q.includes('לפני') ? o.answer !== nums[0] - 1 : o.answer !== (nums[0] + nums[1]) / 2)) bad(`order2 ${o.q} ${o.answer}`)
+    if (l === 3 && o.answer !== String(o.q.includes('גדול') ? Math.max(...nums) : Math.min(...nums))) bad(`order3 ${o.q}`)
+    const sp = run('split-numbers-10', l, i); const sn = (sp.q.match(/\d+/g) || []).map(Number)
+    if (l < 3 ? sp.answer !== sn[0] - sn[1] : sp.answer !== 10 - sn[0]) bad(`split ${sp.q} ${sp.answer}`)
+    const st = run('story-add-sub-10', l, i); const tn = (st.q.match(/\d+/g) || []).map(Number)
+    if (l < 3 ? st.answer !== tn[0] + tn[1] : st.answer !== tn[0] - tn[1]) bad(`story ${st.q}`)
+    if (st.answer > 10 || sp.answer > 10) bad('range')
+    const sh = run('shapes-kg', l, i)
+    if (l === 2) { const verts = { 0: 'circle' }; void verts; if (![0, 3, 4].includes(sh.answer)) bad(`corners ${sh.answer}`) }
+    const pt = run('patterns-kg', l, i); if (!pt.svg.includes('?') || !pt.choices.includes(pt.answer)) bad('pattern')
+    const ps = run('position-kg', l, i)
+    if (l === 2) { const cols = [...ps.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g)].map(x => x[1]); if (cols[1] !== ps.answer) bad(`between ${cols} ${ps.answer}`) }
+    if (l === 3) { const cols = [...ps.svg.matchAll(/<text[^>]*>([^<]+)<\/text>/g)].map(x => x[1]); const ORD = ['הראשון', 'השני', 'השלישי', 'הרביעי'], k = ORD.findIndex(w => ps.q.includes(w)); if (cols[3 - k] !== ps.answer) bad(`ordinal ${cols} ${ps.q} ${ps.answer}`) }
+    const ln = run('compare-length-kg', l, i); const rects = [...ln.svg.matchAll(/<rect x="[\d.]+" y="(\d+)"/g)]; const ra = rects.filter(r => Number(r[1]) < 40).length, rb = rects.length - ra
+    if (l === 1 && ln.answer !== (ra > rb ? 'פס א׳' : 'פס ב׳')) bad(`len ${ra} ${rb}`)
+    if (l === 2 && ln.answer !== (ln.q.includes('א׳') ? ra : rb)) bad(`len2 ${ln.q} ${ra} ${rb}`)
+    if (l === 3 && ln.answer !== Math.abs(ra - rb)) bad(`len3 ${ra} ${rb}`)
+  }
+  assert.deepEqual(errs, [])
 })

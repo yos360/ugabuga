@@ -6,17 +6,17 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import NotFound from '../pages/NotFound'
 import {
-  GRADES, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
+  GRADES, KINDERGARTEN, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
   makeExercise, makeLevelExercise, makeWorksheet, makeTest, STRANDS,
 } from './registry'
 import { checkAnswer, formatAnswer, isBlank } from './check'
-import { gradeSeo, gradeKeyword, testSeo, testKeyword, topicH1, topicSeoTitle, isElementary } from './seo'
+import { gradeSeo, gradeKeyword, testSeo, testKeyword, topicH1, topicSeoTitle, isElementary, gradeName, toGrade, inGrade } from './seo'
 import '../learn/learn.css'
 import './math.css'
 
 const HOME = { label: 'ראשי', href: '/' }
 const HUB = { label: 'מתמטיקה', href: '/math' }
-const gradeCrumb = g => ({ label: `כיתה ${g.label}`, href: g.path })
+const gradeCrumb = g => ({ label: `${gradeName(g)}`, href: g.path })
 const newSeed = () => Math.floor(Math.random() * 2 ** 31) + 1
 // Stable per-page seed so the prerendered first exercise matches the one rendered on hydration.
 const pageSeed = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return (h >>> 0) || 1 }
@@ -225,14 +225,14 @@ const HUB_FAQ = [
 
 export function MathHub() {
   const [q, setQ] = useState('')
-  const all = useMemo(() => GRADES.flatMap(g => topicsFor(g.n).map(t => ({ t, g }))), [])
+  const all = useMemo(() => [KINDERGARTEN, ...GRADES].flatMap(g => topicsFor(g.n).map(t => ({ t, g }))), [])
   const term = q.trim()
-  const hits = term.length >= 2 ? all.filter(({ t, g }) => `${t.title} ${g.label} כיתה ${g.label} ${STRANDS[t.strand]?.label || ''}`.includes(term)).slice(0, 24) : []
+  const hits = term.length >= 2 ? all.filter(({ t, g }) => `${t.title} ${g.label} ${gradeName(g)} ${STRANDS[t.strand]?.label || ''}`.includes(term)).slice(0, 24) : []
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title="תרגילי חשבון ומתמטיקה מכיתה א׳ עד י״ב — תרגול ומבחנים" description="תרגילי חשבון ומתמטיקה לפי כיתה, מכיתה א׳ עד י״ב: הסבר קצר, תרגול אונליין בשלוש רמות, מבחנים מסכמים ודפי עבודה להדפסה עם תשובות. חינם." path="/math" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[HOME, { label: HUB.label }]} />
     <header className="text-center">
-      <span className="inline-flex rounded-full bg-sky-100 px-4 py-2 font-bold text-[#1d2233]">{all.length} נושאים · 12 כיתות · חינם</span>
+      <span className="inline-flex rounded-full bg-sky-100 px-4 py-2 font-bold text-[#1d2233]">{all.length} נושאים · גן + 12 כיתות · חינם</span>
       <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🧮 </span>תרגילי חשבון ומתמטיקה מכיתה א׳ עד י״ב</h1>
       <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">תרגילי חשבון ומתמטיקה לפי כיתות: בוחרים כיתה ונושא — ומקבלים הסבר קצר, דוגמה פתורה, תרגול בלי סוף בשלוש רמות, מבחן עם ציון ודף עבודה להדפסה עם דף תשובות.</p>
     </header>
@@ -240,14 +240,23 @@ export function MathHub() {
     <div className="mx-auto mt-6 max-w-xl no-print">
       <label htmlFor="math-q" className="sr-only">חיפוש נושא</label>
       <input id="math-q" type="search" className="mth-search" value={q} onChange={e => setQ(e.target.value)} placeholder="חיפוש נושא: שברים, היקף, משוואות…" />
-      {term.length >= 2 && <div className="mth-hits" aria-live="polite">{hits.length ? hits.map(({ t, g }) => <Link key={`${g.n}/${t.slug}`} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title} · כיתה {g.label}</Link>) : <p className="m-0">לא נמצא נושא כזה. נסו מילה אחרת.</p>}</div>}
+      {term.length >= 2 && <div className="mth-hits" aria-live="polite">{hits.length ? hits.map(({ t, g }) => <Link key={`${g.n}/${t.slug}`} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title} · {gradeName(g)}</Link>) : <p className="m-0">לא נמצא נושא כזה. נסו מילה אחרת.</p>}</div>}
     </div>
+
+    <section className="mt-10" aria-labelledby="st-kg">
+      <h2 id="st-kg" className="mb-4 text-2xl font-black">גן <small className="text-base font-bold text-[var(--muted-foreground)]">· גן חובה</small></h2>
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"><Link to={KINDERGARTEN.path} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-center mth-grade-card">
+        <span className="text-3xl" aria-hidden="true">{KINDERGARTEN.emoji}</span>
+        <span className="block text-xl font-black">{KINDERGARTEN.label}</span>
+        <small className="block text-[var(--muted-foreground)]">{topicsFor(0).length} נושאים · גילאי {KINDERGARTEN.ages}</small>
+      </Link></div>
+    </section>
 
     {STAGES.map(st => <section key={st.id} className="mt-10" aria-labelledby={`st-${st.id}`}>
       <h2 id={`st-${st.id}`} className="mb-4 text-2xl font-black">{st.label} <small className="text-base font-bold text-[var(--muted-foreground)]">· {st.range}</small></h2>
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">{st.grades.map(n => { const g = gradeInfo(n), c = topicsFor(n).length; return <Link key={n} to={g.path} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-center mth-grade-card">
         <span className="text-3xl" aria-hidden="true">{g.emoji}</span>
-        <span className="block text-xl font-black">כיתה {g.label}</span>
+        <span className="block text-xl font-black">{gradeName(g)}</span>
         <small className="block text-[var(--muted-foreground)]">{c ? `${c} נושאים` : 'בקרוב'} · גילאי {g.ages}</small>
       </Link> })}</div>
     </section>)}
@@ -261,6 +270,7 @@ export function MathHub() {
 
 // ── /math/grade-N ───────────────────────────────
 const GRADE_COPY = {
+  0: 'בגן חובה מכירים את עולם המספרים עד 10: סופרים, משווים כמויות, מפרקים מספרים ופותרים סיפורים קצרים של חיבור וחיסור, ולצד זה מכירים צורות, דפוסים, מיקום והשוואת אורכים.',
   1: 'בכיתה א׳ מכירים את המספרים — קודם עד 20 ואחר כך עד 100 — סופרים, משווים, מחברים ומחסרים, ומתחילים להכיר צורות.',
   2: 'בכיתה ב׳ מרחיבים את המספרים עד 1000, מחברים ומחסרים עם המרה, לומדים את משמעות הכפל והחילוק, ומודדים אורך וזמן.',
   3: 'בכיתה ג׳ מגיעים לרבבה (10,000), משלימים את לוח הכפל בעל פה, מחלקים עם שארית, מכירים שברים פשוטים ולומדים היקף וזוויות.',
@@ -279,7 +289,7 @@ function listHe(xs) { return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).jo
 
 export function MathGrade() {
   const n = parseGradeParam(useParams().gradeSlug)
-  if (!n) return <NotFound />
+  if (n === null) return <NotFound />
   return <GradePage key={n} n={n} />
 }
 
@@ -289,15 +299,15 @@ function GradePage({ n }) {
   const topics = topicsFor(n)
   const prev = gradeInfo(n - 1), next = gradeInfo(n + 1)
   const faq = [
-    { q: `מה לומדים במתמטיקה בכיתה ${g.label}?`, a: `${GRADE_COPY[n]}${topics.length ? ` בעמוד הזה יש ${topics.length} נושאים: ${listHe(topics.map(t => t.title))}.` : ''}` },
-    { q: `איך מתכוננים למבחן במתמטיקה בכיתה ${g.label}?`, a: `מתרגלים כל נושא בנפרד ברמה 2 ו-3, עוברים על ההסברים של הטעויות, ובסוף עושים את המבחן המסכם לכיתה ${g.label} — מבחן שמערבב שאלות מכל הנושאים, עם ציון וסקירה בסוף.` },
+    { q: `מה לומדים במתמטיקה ${inGrade(g)}?`, a: `${GRADE_COPY[n]}${topics.length ? ` בעמוד הזה יש ${topics.length} נושאים: ${listHe(topics.map(t => t.title))}.` : ''}` },
+    { q: `איך מתכוננים למבחן במתמטיקה ${inGrade(g)}?`, a: `מתרגלים כל נושא בנפרד ברמה 2 ו-3, עוברים על ההסברים של הטעויות, ובסוף עושים את המבחן המסכם ${toGrade(g)} — מבחן שמערבב שאלות מכל הנושאים, עם ציון וסקירה בסוף.` },
     { q: 'אפשר להדפיס דפי עבודה?', a: 'כן. בכל נושא יש כפתור הדפסה שמכין דף של 20 תרגילים ודף תשובות נפרד. בכל לחיצה על "תרגילים אחרים" מקבלים דף חדש. גם את המבחן המסכם אפשר להדפיס עם התשובות.' },
   ]
   const seo = gradeSeo(g, topics.length)
   const kw = gradeKeyword(g)
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={seo.title} description={seo.description} path={g.path} structuredData={faqSchema(faq)} />
-    <Breadcrumbs items={[HOME, HUB, { label: `כיתה ${g.label}` }]} />
+    <Breadcrumbs items={[HOME, HUB, { label: `${gradeName(g)}` }]} />
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">{g.emoji}</div>
       <h1 className="mt-2 text-4xl sm:text-5xl">{seo.h1}</h1>
@@ -313,17 +323,17 @@ function GradePage({ n }) {
           <span><span className="block text-lg font-black leading-snug">{t.title}</span><small className="block text-[var(--muted-foreground)]">{t.levels.join(' · ')}</small></span>
         </Link>)}</div>
       </section>)}
-    </> : <p className="ln-box mt-6 text-center">הנושאים לכיתה {g.label} יעלו בקרוב. בינתיים אפשר לתרגל נושאים של כיתות אחרות.</p>}
+    </> : <p className="ln-box mt-6 text-center">הנושאים {toGrade(g)} יעלו בקרוב. בינתיים אפשר לתרגל נושאים של כיתות אחרות.</p>}
 
     <nav className="mth-grade-nav mt-10" aria-label="כיתות סמוכות">
-      {prev && <Link to={prev.path} className="ln-chip">→ כיתה {prev.label}</Link>}
+      {prev && <Link to={prev.path} className="ln-chip">→ {gradeName(prev)}</Link>}
       <Link to="/math" className="ln-chip">כל הכיתות</Link>
-      {next && <Link to={next.path} className="ln-chip">כיתה {next.label} ←</Link>}
+      {next && <Link to={next.path} className="ln-chip">{gradeName(next)} ←</Link>}
     </nav>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `${GRADE_COPY[n]} כאן מרוכזים הנושאים של כיתה ${g.label} לפי תחומים, וכל נושא מוביל לעמוד עם הסבר קצר, דוגמה פתורה ותרגול בשלוש רמות קושי.`,
-      `התרגילים נוצרים מחדש בכל פעם, כך שאפשר לחזור לאותו נושא שוב ושוב בלי לפגוש את אותם תרגילים. אחרי כל תשובה מופיע הסבר קצר, ובסוף אפשר לבדוק את עצמכם במבחן המסכם לכיתה ${g.label} או להדפיס דף עבודה עם דף תשובות.`,
+      `${GRADE_COPY[n]} כאן מרוכזים הנושאים של ${gradeName(g)} לפי תחומים, וכל נושא מוביל לעמוד עם הסבר קצר, דוגמה פתורה ותרגול בשלוש רמות קושי.`,
+      `התרגילים נוצרים מחדש בכל פעם, כך שאפשר לחזור לאותו נושא שוב ושוב בלי לפגוש את אותם תרגילים. אחרי כל תשובה מופיע הסבר קצר, ובסוף אפשר לבדוק את עצמכם במבחן המסכם ${toGrade(g)} או להדפיס דף עבודה עם דף תשובות.`,
     ]} faq={faq} related={[HUB, { label: testKeyword(g), href: g.testPath }, ...(prev ? [{ label: gradeKeyword(prev), href: prev.path }] : []), ...(next ? [{ label: gradeKeyword(next), href: next.path }] : []), ...(isElementary(n) ? [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }] : []), ...(n === 2 || n === 3 ? [{ label: 'לוח הכפל', href: '/learn/multiplication-table' }] : [])]} /></div>
   </div>
 }
@@ -332,7 +342,7 @@ function GradePage({ n }) {
 export function MathTopic() {
   const { gradeSlug, topicSlug } = useParams()
   const n = parseGradeParam(gradeSlug)
-  const topic = n ? findTopic(n, topicSlug) : null
+  const topic = n !== null ? findTopic(n, topicSlug) : null
   if (!topic) return <NotFound />
   return <TopicPage key={`${n}/${topicSlug}`} topic={topic} />
 }
@@ -347,14 +357,14 @@ function TopicPage({ topic }) {
   const openPrint = (lv = level) => setPrint({ items: makeWorksheet(topic, lv, 20, newSeed()), level: lv })
   const siblings = topicsFor(topic.grade).filter(t => t.slug !== topic.slug)
   const h1 = topicH1(topic, g)
-  const faq = [...topic.faq, { q: `איך מתרגלים ${topic.title} בכיתה ${g.label}?`, a: `בוחרים רמה (${topic.levels.map((l, i) => `${i + 1} — ${l}`).join('; ')}), פותרים תרגיל אחרי תרגיל ורואים הסבר אחרי כל תשובה. אפשר גם לעבור למצב מבחן של 10 שאלות או להדפיס דף עבודה של 20 תרגילים עם דף תשובות.` }]
+  const faq = [...topic.faq, { q: `איך מתרגלים ${topic.title} ${inGrade(g)}?`, a: `בוחרים רמה (${topic.levels.map((l, i) => `${i + 1} — ${l}`).join('; ')}), פותרים תרגיל אחרי תרגיל ורואים הסבר אחרי כל תשובה. אפשר גם לעבור למצב מבחן של 10 שאלות או להדפיס דף עבודה של 20 תרגילים עם דף תשובות.` }]
   const schema = [faqSchema(faq), {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
     'name': h1,
     'description': topic.desc,
     'inLanguage': 'he',
-    'educationalLevel': `כיתה ${g.label}`,
+    'educationalLevel': `${gradeName(g)}`,
     'learningResourceType': ['תרגול', 'דף עבודה', 'מבחן'],
     'about': STRANDS[topic.strand]?.label,
     'isAccessibleForFree': true,
@@ -399,19 +409,19 @@ function TopicPage({ topic }) {
         : <div className="ln-box text-center space-y-3"><p className="m-0 text-lg">10 שאלות ברמה {level} ({topic.levels[level - 1]}). עונים על הכול — והבדיקה, הציון וההסברים מגיעים בסוף. השעון סופר את הזמן.</p><button type="button" className="ln-btn go" onClick={startQuiz}>▶ מתחילים מבחן</button></div>)}
     </div>
 
-    {print && <PrintPreview title={`${topic.title} — כיתה ${g.label}`} onClose={() => setPrint(null)} onRefresh={() => openPrint(print.level)}
-      variant={() => <PrintSheets title={`${topic.title} — כיתה ${g.label}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={makeWorksheet(topic, print.level, 20, newSeed())} />}>
-      <PrintSheets title={`${topic.title} — כיתה ${g.label}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={print.items} />
+    {print && <PrintPreview title={`${topic.title} — ${gradeName(g)}`} onClose={() => setPrint(null)} onRefresh={() => openPrint(print.level)}
+      variant={() => <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={makeWorksheet(topic, print.level, 20, newSeed())} />}>
+      <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={print.items} />
     </PrintPreview>}
 
     <section className="no-print mt-10" aria-labelledby="more-h">
-      <h2 id="more-h" className="mb-3 text-2xl font-black text-center">עוד נושאים לכיתה {g.label}</h2>
+      <h2 id="more-h" className="mb-3 text-2xl font-black text-center">עוד נושאים {toGrade(g)}</h2>
       <div className="flex flex-wrap justify-center gap-2">{siblings.map(t => <Link key={t.slug} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title}</Link>)}</div>
       <p className="mt-4 text-center"><Link to={g.testPath} className="font-bold underline">📝 {testKeyword(g)}</Link> · <Link to={g.path} className="font-bold underline">{gradeKeyword(g)}</Link></p>
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `${topic.title} הוא אחד הנושאים במתמטיקה לכיתה ${g.label}, בתחום ${STRANDS[topic.strand]?.label || ''}. בעמוד הזה יש הסבר קצר, טיפים ודוגמה פתורה, ואחריהם תרגול בשלוש רמות: ${topic.levels.map((l, i) => `רמה ${i + 1} — ${l}`).join(', ')}.`,
+      `${topic.title} הוא אחד הנושאים במתמטיקה ${toGrade(g)}, בתחום ${STRANDS[topic.strand]?.label || ''}. בעמוד הזה יש הסבר קצר, טיפים ודוגמה פתורה, ואחריהם תרגול בשלוש רמות: ${topic.levels.map((l, i) => `רמה ${i + 1} — ${l}`).join(', ')}.`,
       'כל תרגיל נוצר מחדש, ולכן אפשר להמשיך לתרגל כמה שרוצים. אחרי כל תשובה מופיעים בדיקה והסבר קצר; במצב מבחן הבדיקה מגיעה רק בסוף, עם ציון וסקירה של כל השאלות. לדף עבודה מודפס יש דף תשובות נפרד, כך שהילדים יכולים לבדוק את עצמם או שההורה או המורה יבדקו.',
     ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, { label: testKeyword(g), href: g.testPath }, ...(topic.related || []), HUB]} /></div>
   </div>
@@ -420,7 +430,7 @@ function TopicPage({ topic }) {
 // ── /math/tests/grade-N ───────────────────────────────
 export function MathTest() {
   const n = parseGradeParam(useParams().gradeSlug)
-  if (!n || !topicsFor(n).length) return <NotFound />
+  if (n === null || !topicsFor(n).length) return <NotFound />
   return <TestPage key={n} n={n} />
 }
 
@@ -440,7 +450,7 @@ function TestPage({ n }) {
   const h1 = seo.h1
   const lvLabel = TEST_LEVELS.find(l => l.v === level).label.replace(/^\S+ /, '')
   const faq = [
-    { q: `מה כולל ה${h1}?`, a: `שאלות מכל ${topics.length} הנושאים של כיתה ${g.label}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
+    { q: `מה כולל ה${h1}?`, a: `שאלות מכל ${topics.length} הנושאים של ${gradeName(g)}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
     { q: 'איך מחושב הציון?', a: 'כל שאלה שווה אותו מספר נקודות. בסוף המבחן מקבלים את מספר התשובות הנכונות, ציון בין 0 ל-100 וסקירה של כל השאלות — עם התשובה הנכונה והסבר לכל טעות.' },
     { q: 'אפשר להדפיס את המבחן?', a: 'כן. לוחצים על "הדפסת מבחן" ומקבלים דף מבחן עם מקום לשם ולציון, ודף תשובות נפרד לבדיקה. בכל פעם נוצר מבחן חדש.' },
   ]
@@ -450,7 +460,7 @@ function TestPage({ n }) {
     <header className="text-center">
       <div className="text-5xl" aria-hidden="true">📝</div>
       <h1 className="mt-2 text-3xl sm:text-5xl">{h1}</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של כיתה {g.label}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של {gradeName(g)}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
     </header>
 
     {!quiz && <section className="ln-box mt-6 space-y-4 text-center" aria-label="הגדרות המבחן">
@@ -474,7 +484,7 @@ function TestPage({ n }) {
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `המבחן המסכם לכיתה ${g.label} בונה בכל פעם מבחן חדש משאלות בכל הנושאים של הכיתה, כך שכל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
+      `המבחן המסכם ${toGrade(g)} בונה בכל פעם מבחן חדש משאלות בכל הנושאים של הכיתה, כך שכל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
       'אפשר לעבור בין השאלות, לדלג ולחזור, ורק בלחיצה על "סיום ובדיקה" מתקבלים הציון, הזמן וסקירה מלאה. מבחן מודפס מגיע עם דף תשובות נפרד — נוח להורים שרוצים לבדוק, ולמורים שמחפשים מבחן חזרה.',
     ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, HUB]} /></div>
   </div>

@@ -1,4 +1,4 @@
-// /math topics for grades 1–3: metadata per the contract, and 500 seeds × 3 levels of every generator.
+// /math topics for גן חובה (grade 0) and grades 1–3: metadata per the contract, and 500 seeds × 3 levels of every generator.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 const { createRng } = await import('../src/math/rng.js')
@@ -6,6 +6,7 @@ const { mixSeed } = await import('../src/math/gen.js')
 const { exerciseProblems, exprHolds } = await import('../src/math/validate.js')
 const { checkAnswer, formatNumber } = await import('../src/math/check.js')
 const grades = {
+  0: (await import('../src/math/topics/gradeK.js')).default,
   1: (await import('../src/math/topics/grade1.js')).default,
   2: (await import('../src/math/topics/grade2.js')).default,
   3: (await import('../src/math/topics/grade3.js')).default,
@@ -67,6 +68,7 @@ test('levels genuinely differ', () => {
 
 test('number ranges follow the grade', () => {
   const maxIn = (t, level) => Math.max(...Array.from({ length: 300 }, (_, i) => { const e = run(t, level, i + 1); return Math.max(...`${e.q} ${e.expr || ''}`.replace(/,(?=\d{3})/g, '').match(/\d+/g)?.map(Number) || [0], typeof e.answer === 'number' ? e.answer : 0) }))
+  for (const t of grades[0]) for (const l of [1, 2, 3]) assert.ok(maxIn(t, l) <= 20, `${t.slug} L${l} stays within 20`)
   for (const t of grades[1]) for (const l of [1, 2, 3]) assert.ok(maxIn(t, l) <= 100, `${t.slug} L${l} stays within 100`)
   for (const t of grades[2]) for (const l of [1, 2, 3]) assert.ok(maxIn(t, l) <= 1000, `${t.slug} L${l} stays within 1000`)
   for (const t of grades[3]) for (const l of [1, 2, 3]) assert.ok(maxIn(t, l) <= 10000, `${t.slug} L${l} stays within 10,000`)

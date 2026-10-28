@@ -2,6 +2,7 @@
 // the pages and the sitemap script can all import it.
 import { createRng } from './rng.js'
 import { mixSeed } from './gen.js'
+import gradeK from './topics/gradeK.js'
 import grade1 from './topics/grade1.js'
 import grade2 from './topics/grade2.js'
 import grade3 from './topics/grade3.js'
@@ -15,7 +16,7 @@ import grade10 from './topics/grade10.js'
 import grade11 from './topics/grade11.js'
 import grade12 from './topics/grade12.js'
 
-const TOPICS = { 1: grade1, 2: grade2, 3: grade3, 4: grade4, 5: grade5, 6: grade6, 7: grade7, 8: grade8, 9: grade9, 10: grade10, 11: grade11, 12: grade12 }
+const TOPICS = { 0: gradeK, 1: grade1, 2: grade2, 3: grade3, 4: grade4, 5: grade5, 6: grade6, 7: grade7, 8: grade8, 9: grade9, 10: grade10, 11: grade11, 12: grade12 }
 
 export const STAGES = [
   { id: 'elementary', label: 'יסודי', range: 'כיתות א׳–ו׳', grades: [1, 2, 3, 4, 5, 6] },
@@ -49,10 +50,14 @@ export const STRANDS = {
 }
 export const STRAND_ORDER = Object.keys(STRANDS)
 
-export const gradeInfo = n => GRADES[Number(n) - 1] || null
+// גן חובה sits before grade 1 as "grade 0" (its own /math/kindergarten URLs); it is not part of GRADES / STAGES.
+export const KINDERGARTEN = { n: 0, label: 'גן חובה', ages: '5–6', emoji: '🌈', stage: 'kindergarten', stageLabel: 'גן', path: '/math/kindergarten', testPath: '/math/tests/kindergarten' }
 
-// '/math/grade-3' → 3 ; anything else → null.
+export const gradeInfo = n => (n != null && n !== '' && Number(n) === 0 ? KINDERGARTEN : GRADES[Number(n) - 1] || null)
+
+// '/math/grade-3' → 3 ; 'kindergarten' → 0 ; anything else → null (so callers must test `=== null`, not falsiness).
 export function parseGradeParam(p) {
+  if (p === 'kindergarten') return 0
   const m = String(p ?? '').match(/^grade-(\d{1,2})$/)
   const n = m ? Number(m[1]) : NaN
   return n >= 1 && n <= 12 ? n : null
@@ -67,7 +72,7 @@ export function findTopic(grade, slug) {
   return topicsFor(grade).find(t => t.slug === slug) || null
 }
 
-export const topicPath = t => `/math/grade-${t.grade}/${t.slug}`
+export const topicPath = t => `${gradeInfo(t.grade).path}/${t.slug}`
 
 // Topics of a grade grouped by strand, in a stable strand order.
 export function topicsByStrand(grade) {
@@ -84,7 +89,7 @@ export function topicsByStrand(grade) {
 // Every /math URL — for the sitemap and the prerender list.
 export function allMathPaths() {
   const out = ['/math']
-  for (const g of GRADES) {
+  for (const g of [KINDERGARTEN, ...GRADES]) {
     out.push(g.path)
     if (topicsFor(g.n).length) out.push(g.testPath)
     for (const t of topicsFor(g.n)) out.push(topicPath(t))

@@ -260,3 +260,33 @@ export function gridMapSvg(cols, rows, marks = []) {
   })
   return wrap(W, H, body, 'מפת משבצות')
 }
+
+// Two labelled rows to compare: kind 'dots' draws a / b circles, kind 'bars' draws bars of a / b unit squares.
+export function compareRowsSvg(a, b, { kind = 'dots' } = {}) {
+  const s = 24, max = Math.max(a, b), W = 44 + max * s, H = 84
+  let body = ''
+  ;[[a, 'א', 0], [b, 'ב', 1]].forEach(([n, lab, row]) => {
+    const y = 10 + row * 38
+    body += text(16, y + 14, lab, 15, ' font-weight="700"')
+    for (let i = 0; i < n; i++) {
+      if (kind === 'bars') body += `<rect x="${32 + i * s}" y="${y}" width="${s}" height="28" fill="${FILLS[row ? 2 : 1]}" stroke="currentColor" stroke-width="1.5"/>`
+      else body += `<circle cx="${f(44 + i * s)}" cy="${y + 14}" r="9.5" fill="${FILLS[row ? 2 : 1]}" stroke="currentColor" stroke-width="1.5"/>`
+    }
+  })
+  return wrap(W, H, body, kind === 'bars' ? 'שני פסים להשוואה' : 'שתי קבוצות להשוואה')
+}
+
+// A row of coloured shapes for patterns; a token is [shape, colorIndex], null draws a "?" box.
+export function patternSvg(tokens) {
+  const s = 40, W = 12 + tokens.length * s
+  let body = ''
+  tokens.forEach((t, i) => {
+    const cx = 6 + i * s + s / 2, cy = 24
+    if (!t) { body += `<rect x="${f(cx - 15)}" y="${cy - 15}" width="30" height="30" rx="6" fill="#fff" stroke="#d33" stroke-width="2" stroke-dasharray="4 3"/>` + text(cx, cy + 1, '?', 18, ' font-weight="700"', '#d33'); return }
+    const [shape, color] = t, fill = FILLS[color % FILLS.length], st = `fill="${fill}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"`
+    if (shape === 'square') body += `<rect x="${f(cx - 14)}" y="${cy - 14}" width="28" height="28" ${st}/>`
+    else if (shape === 'triangle') body += `<polygon points="${f(cx)},${cy - 16} ${f(cx + 16)},${cy + 13} ${f(cx - 16)},${cy + 13}" ${st}/>`
+    else body += `<circle cx="${f(cx)}" cy="${cy}" r="15" ${st}/>`
+  })
+  return wrap(W, 50, body, 'דפוס של צורות')
+}

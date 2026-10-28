@@ -80,7 +80,7 @@ export function LearnHub() {
         <h2 id={`${s.id}-h`}><span aria-hidden="true">{s.icon} </span>{s.title}</h2>
         <Link to={s.to} className="ln-hub-all">לכל העמוד ←</Link>
       </div>
-      {s.to === '/math' && <nav className="ln-hub-grades" aria-label="מתמטיקה לפי כיתה">{MATH_GRADES.map((l, i) => <Link key={l} to={`/math/grade-${i + 1}`} className="ln-chip">כיתה {l}</Link>)}</nav>}
+      {s.to === '/math' && <nav className="ln-hub-grades" aria-label="מתמטיקה לפי כיתה"><Link to="/math/kindergarten" className="ln-chip">גן חובה</Link>{MATH_GRADES.map((l, i) => <Link key={l} to={`/math/grade-${i + 1}`} className="ln-chip">כיתה {l}</Link>)}</nav>}
       <ul className="ln-hub-grid">{s.items.map(it => <li key={it.to}><Link to={it.to} className="ln-hub-card">
         <span className="ln-hub-ico" aria-hidden="true">{it.icon}</span>
         <span><b>{it.label}</b>{LEARN_DESC[it.to] && <small>{LEARN_DESC[it.to]}</small>}</span>
