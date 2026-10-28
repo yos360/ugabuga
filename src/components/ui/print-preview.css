@@ -81,3 +81,11 @@
 .buga-print-channel{display:block;margin:8px 18px 0;padding:10px 14px;border-radius:14px;background:#e7f8ee;border:2px solid #86d9a6;color:#14532d;text-align:center;text-decoration:none;min-height:44px}.buga-print-channel b{text-decoration:underline}
 .buga-print-ask button{background:#6d3ff0!important;color:#fff;min-height:44px;padding:8px 16px;border-radius:10px;font-weight:800}.buga-print-ask small{flex-basis:100%;color:#b42318;font-weight:700}
 @media print{.buga-print-ask{display:none!important}}
+
+/* "Print for the whole class" */
+.buga-class-btn{background:#fff7d6!important;border:2px solid #f2c94c!important;color:#5b4300!important}
+.buga-class-panel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 18px 0;padding:10px 14px;border-radius:14px;background:#fff7d6;border:2px solid #f2c94c;font-weight:700}
+.buga-class-panel input{width:80px;min-height:44px;margin-inline-start:6px;border:2px solid #d7dae3;border-radius:10px;padding:6px 10px;font:inherit;background:#fff;text-align:center}
+.buga-class-panel button{background:#f59e0b!important;color:#fff;min-height:44px;padding:8px 16px;border-radius:10px;font-weight:800}
+.buga-class-panel span{flex-basis:100%;font-weight:500;font-size:14px}
+@media print{.buga-class-panel{display:none}}
