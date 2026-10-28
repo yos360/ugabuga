@@ -67,11 +67,11 @@ function LevelCards({ lang }) {
 // ── /unseen ──
 export function UnseenHub() {
   return <Page>
-    <SEO title="אנסין — תרגול Unseen באנגלית ובעברית לכיתות ז׳–י״ב ולבגרות" description={`${UNSEEN_INDEX.length} אנסינים מקוריים לתרגול: אנגלית לכיתות ז׳–ט׳ ולרמות 3, 4 ו־5 יחידות, ועברית לכיתה ט׳ ולבגרות בלשון. שאלות אמריקאיות ופתוחות, הסבר לכל תשובה, טיימר והדפסה. בחינם.`} path="/unseen" structuredData={faqSchema(HUB_FAQ)} />
+    <SEO title="אנסין — תרגול Unseen באנגלית ובעברית לכיתות ה׳–י״ב ולבגרות" description={`${UNSEEN_INDEX.length} אנסינים מקוריים לתרגול: אנגלית לכיתות ה׳–ט׳ ולרמות 3, 4 ו־5 יחידות, ועברית לכיתות ז׳–ט׳ ולבגרות בלשון. שאלות אמריקאיות ופתוחות, הסבר לכל תשובה, טיימר והדפסה. בחינם.`} path="/unseen" structuredData={faqSchema(HUB_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: HUB.label }]} />
     <h1 className="mb-2 text-center text-4xl sm:text-5xl"><span aria-hidden="true">📝 </span>אנסין — תרגול באנגלית ובעברית</h1>
-    <p className="mb-6 text-center font-hand text-lg text-[var(--muted-foreground)]">קטעי Unseen מקוריים לכיתות ז׳–י״ב ולבגרות, עם הסבר לכל תשובה</p>
-    <QuickAnswer q="איפה אפשר לתרגל אנסין בחינם?" a={<>כאן: {UNSEEN_INDEX.length} אנסינים מקוריים — באנגלית לכיתות ז׳–ט׳ ולרמות 3, 4 ו־5 יחידות, ובעברית לכיתה ט׳ ולבגרות בלשון. עם שאלות אמריקאיות ופתוחות, הסבר וסימון בטקסט לכל תשובה, טיימר למצב מבחן והדפסה עם דף תשובות.</>} />
+    <p className="mb-6 text-center font-hand text-lg text-[var(--muted-foreground)]">קטעי Unseen מקוריים לכיתות ה׳–י״ב ולבגרות, עם הסבר לכל תשובה</p>
+    <QuickAnswer q="איפה אפשר לתרגל אנסין בחינם?" a={<>כאן: {UNSEEN_INDEX.length} אנסינים מקוריים — באנגלית לכיתות ה׳–ט׳ ולרמות 3, 4 ו־5 יחידות, ובעברית לכיתות ז׳–ט׳ ולבגרות בלשון. עם שאלות אמריקאיות ופתוחות, הסבר וסימון בטקסט לכל תשובה, טיימר למצב מבחן והדפסה עם דף תשובות.</>} />
     <div className="us-hero">
       <Link to="/unseen/english" className="us-hero-card is-en"><span aria-hidden="true">🇬🇧</span><b>אנסין באנגלית</b><small>ז׳ · ח׳ · ט׳ · 3, 4 ו־5 יחידות</small></Link>
       <Link to="/unseen/hebrew" className="us-hero-card is-he"><span aria-hidden="true">📖</span><b>אנסין בעברית</b><small>ט׳ · בגרות בלשון</small></Link>

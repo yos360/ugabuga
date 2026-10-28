@@ -19,6 +19,10 @@ export const SKILLS = {
 }
 
 export const UNSEEN_LEVELS = [
+  { id: 'g5', lang: 'en', path: 'grade-5', name: 'כיתה ה׳', short: 'ה׳', words: [70, 120], questions: [6, 8], minutes: 20,
+    about: 'האנסין הראשון: טקסט קצרצר במשפטים פשוטים בזמן הווה, עם מילון מילים, שאלות אמריקאיות ושאלת העתקה אחת.' },
+  { id: 'g6', lang: 'en', path: 'grade-6', name: 'כיתה ו׳', short: 'ו׳', words: [100, 150], questions: [6, 8], minutes: 20,
+    about: 'טקסט קצר — סיפור, מכתב, מודעה או טקסט מידע — עם שאלות אמריקאיות, איתור מידע ושאלה פתוחה קצרה, כמו לקראת המיצ״ב.' },
   { id: 'g7', lang: 'en', path: 'grade-7', name: 'כיתה ז׳', short: 'ז׳', words: [120, 190], questions: [7, 9], minutes: 25,
     about: 'טקסט קצר בשפה פשוטה — סיפור אישי או טקסט מידע — עם שאלות אמריקאיות ושאלות העתקה קצרות.' },
   { id: 'g8', lang: 'en', path: 'grade-8', name: 'כיתה ח׳', short: 'ח׳', words: [180, 250], questions: [8, 10], minutes: 30,
@@ -33,6 +37,10 @@ export const UNSEEN_LEVELS = [
     about: 'טקסט עד כ־400 מילים עם רשימת מילים מוסברות (Glossary), שאלות הבנה ושאלות אוצר מילים בהקשר.' },
   { id: 'mod-g', lang: 'en', path: 'module-g', name: '5 יחידות (Module G)', short: 'Module G', words: [420, 530], questions: [8, 10], minutes: 75,
     about: 'הטקסט הארוך והמורכב ביותר: מאמר, כתבה עיונית או טקסט טיעון, עם שאלות היסק, עמדת הכותב ומטרת פסקאות, ומטלת חיבור.' },
+  { id: 'g7', lang: 'he', path: 'grade-7', name: 'כיתה ז׳', short: 'ז׳', words: [300, 520], texts: 2, questions: [8, 11], minutes: 45,
+    about: 'טקסט מידע וטקסט בלתי רציף (טבלה או תרשים) עם שאלות סגורות ופתוחות — איתור מידע, משמעות מילה, הסקה והשוואה.' },
+  { id: 'g8', lang: 'he', path: 'grade-8', name: 'כיתה ח׳', short: 'ח׳', words: [380, 650], texts: [2, 3], questions: [9, 12], minutes: 50,
+    about: 'טקסט עיוני או טיעוני וטקסט בלתי רציף — זיהוי עמדה וטיעונים, מטרת פסקה, הסקה ושאלת השוואה בין הטקסטים.' },
   { id: 'g9', lang: 'he', path: 'grade-9', name: 'כיתה ט׳', short: 'ט׳', words: [450, 800], texts: [2, 3], questions: [10, 14], minutes: 60,
     about: 'שניים־שלושה טקסטים — עיוני, טיעוני וטקסט בלתי רציף (טבלה) — עם שאלות סגורות ופתוחות, כמו במבחנים של סוף כיתה ט׳.' },
   { id: 'bagrut', lang: 'he', path: 'bagrut', name: 'בגרות בלשון', short: 'בגרות', words: [900, 1400], texts: 3, questions: [9, 13], minutes: 90,

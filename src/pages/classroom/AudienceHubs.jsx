@@ -30,6 +30,8 @@ export const GRADE_CARDS = GRADE_NAMES.map((name, i) => {
     ...(n === 1 ? [['קוראים רק מה שלמדנו', '/letters/reading-practice'], ['איפה שומעים את הצליל?', '/printables/sound-position']] : []),
     ...(n <= 4 ? [['הכתבה', '/learn/dictation']] : []),
     ...(n >= 3 ? [['אנגלית לפי כיתה', '/learn/english/by-grade']] : []),
+    ...(n >= 5 ? [[`אנסין באנגלית לכיתה ${name}`, `/unseen/english/grade-${n}`]] : []),
+    ...(n >= 7 ? [[`אנסין בעברית לכיתה ${name}`, `/unseen/hebrew/grade-${n}`]] : []),
     ...(n === 3 ? [['חוברת אנגלית לכיתה ג׳', '/booklets/english-grade-3']] : []),
     ...(GIFTED[n] ? [['הכנה למבחן מחוננים', GIFTED[n]]] : []),
     ...(GAMES[i] ? [[`משחקים לכיתה ${name}`, `/games/${GAMES[i]}`]] : []),

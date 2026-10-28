@@ -1044,4 +1044,8 @@ export default {
   "runway": "מסלול המראה",
   "rust": "חלודה",
   "rusty": "חלוד",
+  "marshmallow": "מרשמלו",
+  "pal": "חבר (pen pal: חבר לעט)",
+  "pedal": "דוושה; לדווש",
+  "penny": "פני (מטבע קטן)",
 }

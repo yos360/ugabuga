@@ -28,12 +28,12 @@ const today = new Date().toISOString().slice(0, 10)
 const q = s => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")
 const urls = [], rows = []
 const add = (path, prio, row) => { urls.push(`  <url><loc>https://ugabuga.co.il${path}</loc><lastmod>${today}</lastmod><priority>${prio}</priority></url>`); if (row) rows.push(`  { to: '${path}', ${row} },`) }
-add('/unseen', '0.9', `title: 'אנסין — תרגול באנגלית ובעברית', emoji: '📝', kind: 'tool', desc: 'אנסינים מקוריים לכיתות ז׳–י״ב ולבגרות, עם שאלות אמריקאיות, הסברים וטיימר.', keys: 'אנסין אנסינים unseen אנסין באנגלית אנסין בגרות תרגול אנסין הבנת הנקרא בגרות'`)
+add('/unseen', '0.9', `title: 'אנסין — תרגול באנגלית ובעברית', emoji: '📝', kind: 'tool', desc: 'אנסינים מקוריים לכיתות ה׳–י״ב ולבגרות, עם שאלות אמריקאיות, הסברים וטיימר.', keys: 'אנסין אנסינים unseen אנסין באנגלית אנסין בגרות תרגול אנסין הבנת הנקרא בגרות'`)
 for (const [lang, path] of Object.entries(LANG_PATH)) {
   const he = lang === 'he'
   add(`/unseen/${path}`, '0.8', he
-    ? `title: 'אנסין בעברית — הבנת הנקרא לכיתה ט׳ ולבגרות', emoji: '📝', kind: 'tool', desc: 'טקסט עיוני, טיעוני וטבלה, כמו בבגרות בלשון.', keys: 'אנסין בעברית הבנת הנקרא בגרות לשון בגרות בלשון הבנה והבעה מטלת מיזוג'`
-    : `title: 'אנסין באנגלית — Unseen לכיתות ז׳–י״ב', emoji: '📝', kind: 'tool', desc: 'Unseen באנגלית לפי רמה: ז׳, ח׳, ט׳, 3, 4 ו־5 יחידות.', keys: 'אנסין באנגלית unseen english אנסין מודול C מודול E מודול G אנסין 5 יחידות אנסין 4 יחידות'`)
+    ? `title: 'אנסין בעברית — הבנת הנקרא לכיתות ז׳–ט׳ ולבגרות', emoji: '📝', kind: 'tool', desc: 'טקסט עיוני, טיעוני וטבלה, כמו בבגרות בלשון.', keys: 'אנסין בעברית הבנת הנקרא בגרות לשון בגרות בלשון הבנה והבעה מטלת מיזוג'`
+    : `title: 'אנסין באנגלית — Unseen לכיתות ה׳–י״ב', emoji: '📝', kind: 'tool', desc: 'Unseen באנגלית לפי רמה: ה׳, ו׳, ז׳, ח׳, ט׳, 3, 4 ו־5 יחידות.', keys: 'אנסין באנגלית unseen english אנסין מודול C מודול E מודול G אנסין 5 יחידות אנסין 4 יחידות'`)
   for (const L of UNSEEN_LEVELS.filter(l => l.lang === lang)) {
     const name = he ? `אנסין בעברית — ${L.name}` : `אנסין באנגלית — ${L.name}`
     add(`/unseen/${path}/${L.path}`, '0.8', `title: '${q(name)}', emoji: '📝', kind: 'tool', desc: '${q(L.about)}', keys: '${q(name)} אנסין ${q(L.short)} ${he ? 'הבנת הנקרא' : 'unseen'} ${q(L.name)}'`)

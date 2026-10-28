@@ -1125,4 +1125,9 @@ export default {
   "lung": "ריאה",
   "luxury": "מותרות, יוקרה",
   "lyrics": "מילות שיר",
+  "electrician": "חשמלאי",
+  "eyelash": "ריס",
+  "farthing": "פרדינג (מטבע בריטי קטן ישן)",
+  "handwriting": "כתב יד",
+  "hump": "דבשת",
 }

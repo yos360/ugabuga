@@ -1045,4 +1045,12 @@ export default {
   "zipper": "רוכסן",
   "zone": "אזור",
   "zoo": "גן חיות",
+  "screwdriver": "מברג",
+  "seaweed": "אצת ים",
+  "steer": "לנווט, להיגוי",
+  "superhero": "גיבור־על",
+  "tailor": "חייט",
+  "texture": "מרקם",
+  "toaster": "טוסטר",
+  "yeast": "שמרים",
 }
