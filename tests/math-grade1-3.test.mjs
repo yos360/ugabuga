@@ -10,15 +10,16 @@ const grades = {
   2: (await import('../src/math/topics/grade2.js')).default,
   3: (await import('../src/math/topics/grade3.js')).default,
 }
+const grade4 = (await import('../src/math/topics/grade4.js')).default
 const STRANDS = ['arithmetic', 'geometry', 'algebra', 'fractions', 'measurement', 'data', 'probability', 'functions', 'trigonometry', 'calculus', 'sequences', 'vectors']
 const SEEDS = 500
 const run = (t, level, seed) => t.gen(level, createRng(mixSeed(seed)))
 const find = (g, slug) => grades[g].find(t => t.slug === slug)
 
-test('each grade has 8–12 topics with complete, unique metadata', () => {
+test('each grade has 8–18 topics with complete, unique metadata', () => {
   const descs = new Set()
   for (const [g, topics] of Object.entries(grades)) {
-    assert.ok(topics.length >= 8 && topics.length <= 12, `grade ${g}: ${topics.length} topics`)
+    assert.ok(topics.length >= 8 && topics.length <= 18, `grade ${g}: ${topics.length} topics`)
     assert.equal(new Set(topics.map(t => t.slug)).size, topics.length, `grade ${g} slugs unique`)
     assert.equal(new Set(topics.map(t => t.title)).size, topics.length, `grade ${g} titles unique`)
     for (const t of topics) {
@@ -97,18 +98,18 @@ test('topic-specific answers are right', () => {
   const clock = find(2, 'clock')
   for (let s = 1; s <= SEEDS; s++) for (const l of [1, 2, 3]) {
     const e = run(clock, l, s), [h, m] = e.answer.split(':').map(Number)
-    assert.ok(h >= 1 && h <= 12 && m % 5 === 0 && m < 60, e.answer)
+    assert.ok(h >= 1 && h <= 12 && (m === 0 || m === 30), e.answer) // grade 2: whole and half hours only
     if (l === 1) assert.equal(m, 0)
-    if (l === 2) assert.ok([15, 30, 45].includes(m))
-    for (const c of e.choices) assert.match(c, /^(1[0-2]|[1-9]):[0-5][05]$/)
+    if (l === 2) assert.equal(m, 30)
+    for (const c of e.choices) assert.match(c, /^(1[0-2]|[1-9]):(00|30)$/)
   }
-  const frac = find(3, 'simple-fractions')
+  const frac = grade4.find(t => t.slug === 'simple-fractions')
   for (let s = 1; s <= SEEDS; s++) {
     const e = run(frac, 2, s)
     const shaded = (e.svg.match(/#7dd3fc/g) || []).length, parts = (e.svg.match(/<(path|rect)/g) || []).length
     assert.ok(checkAnswer(e, `${shaded}/${parts}`), `${shaded}/${parts} vs ${e.answer}`)
   }
-  const per = find(3, 'perimeter')
+  const per = find(2, 'perimeter')
   for (let s = 1; s <= SEEDS; s++) {
     const e = run(per, 2, s)
     const sides = [...e.svg.matchAll(/>(\d+)<\/text>/g)].map(m => Number(m[1]))

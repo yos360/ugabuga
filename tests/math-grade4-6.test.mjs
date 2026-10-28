@@ -88,6 +88,14 @@ const EXPECT = {
     const m = ex.q.match(/האם ([\d,]+) מתחלק ב-(\d+)/)
     return Number(m[1].replace(/,/g, '')) % Number(m[2]) === 0 ? 'כן' : 'לא'
   },
+  'simple-fractions'(ex, lv) {
+    if (lv < 3) {
+      const shaded = (ex.svg.match(/#7dd3fc/g) || []).length, parts = (ex.svg.match(/<(path|rect)/g) || []).length
+      return R(shaded, parts)
+    }
+    const [k, n, total] = nums(ex.q)
+    return (total / n) * k
+  },
   'fraction-of-number'(ex, lv) {
     const n = nums(ex.q)
     if (lv < 3) return (n[2] * n[0]) / n[1]

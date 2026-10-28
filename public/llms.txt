@@ -18,7 +18,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מחולל תשבצים ותפזורות](https://ugabuga.co.il/tools/crossword-maker): מכינים דף משימה מהמילים של השיעור ומדפיסים
 - [מחולל תפזורת מילים](https://ugabuga.co.il/tools/word-search-maker): תפזורת מותאמת לשיעור, להדפסה
 - [הכנה לכיתה א׳](https://ugabuga.co.il/classroom/first-grade): משחקים וחוברת הכנה להדפסה
-- [הבנת הנקרא לפי כיתה (ב׳–ו׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות, הקראה בקול ודפים להדפסה
+- [הבנת הנקרא לפי כיתה (א׳–ח׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות, הקראה בקול ודפים להדפסה
 - [דפי עבודה בחשבון](https://ugabuga.co.il/printables/math-worksheets): מחולל דפים לכיתה א׳–ב׳, עם דף תשובות לבדיקה
 - [משחקים לכיתה](https://ugabuga.co.il/games/classroom): משחקי פתיחה, הפסקה וחזרה על החומר, עם הוראות
 - [הרשמה לאספות הורים](https://ugabuga.co.il/parent-meetings): ההורים בוחרים שעה בקישור אחד
@@ -33,7 +33,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [אותיות בכתב יד](https://ugabuga.co.il/letters/cursive): טבלת דפוס וכתב, מדפוס לכתב ודפי תרגול
 - [חשבון לפי כיתה (א׳–י״ב)](https://ugabuga.co.il/math): תרגול, מבחנים ודפי עבודה עם תשובות
 - [דפי עבודה בחשבון לכיתה א׳–ב׳](https://ugabuga.co.il/printables/math-worksheets): חיבור וחיסור עד 10 ועד 20
-- [הבנת הנקרא לפי כיתה (ב׳–ו׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות ותשובות
+- [הבנת הנקרא לפי כיתה (א׳–ח׳)](https://ugabuga.co.il/learn/reading): קטעים עם שאלות ותשובות
 - [לוח הכפל](https://ugabuga.co.il/learn/multiplication-table): תרגול, משחק ודפים להדפסה
 - [אותיות באנגלית לילדים](https://ugabuga.co.il/abc): A–Z עם מילים, משחק ושיר ה־ABC
 - [משחקים לילדים](https://ugabuga.co.il/games): ליום הולדת, לכיתה, לגן ולצהרון, עם הוראות
@@ -45,6 +45,17 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [15 פעילויות לחנוכה לגן ולילדים בגיל 3–6](https://ugabuga.co.il/guides/hanukkah-activities-kindergarten): בגיל 3–6 עובדות הכי טוב פעילויות קצרות של 10–15 דקות שמשלבות ידיים ותנועה: לסובב סביבון, להכין חנוכייה מפלסטלינה או מקרטון ביצים, לצבוע דף צביעה של חנוכה, לשיר שירי חנוכה עם תנועות, ולמצוא "פך שמן" שהוחבא בחדר.
 - [איך מלמדים ילד אותיות: 12 פעילויות לבית](https://ugabuga.co.il/guides/teach-letters-at-home): לומדים מעט אותיות בכל פעם (2–3 בשבוע), ב-5–10 דקות ביום, ומחברים כל אות לצליל שלה ולמילה מוכרת — "מ׳ כמו מאמא".
 - [איך משפרים הבנת הנקרא: 10 טיפים להורים](https://ugabuga.co.il/guides/reading-comprehension-tips): מתרגלים קצר וקבוע — קטע אחד ביום או כמה פעמים בשבוע, 15 דקות.
+
+## המלצות לקנייה
+
+- [המלצות לקנייה להורים, לגננות ולמורות](https://ugabuga.co.il/recommended): מדריכי קנייה לפי גיל, עם הערות בטיחות, מה לא לקנות וחלופות חינמיות באתר.
+- [מה לקחת לטיסה עם ילדים — 15 דברים שעוזרים בדרך](https://ugabuga.co.il/recommended/travel): רשימת 15 סוגי פריטים לטיסה ולנסיעה ארוכה עם ילדים, לפי גיל, עם כללי בטיחות ומה לא לארוז.
+- [מה צריך למסיבת יום הולדת לילדים — רשימת קניות](https://ugabuga.co.il/recommended/party): רשימת קניות למסיבת יום הולדת בבית, בגן או בפארק: קישוט, אירוח, משחקים ושקיות הפתעה — עם בטיחות לפי גיל.
+- [ציוד יצירה לילדים — מה באמת שווה לקנות](https://ugabuga.co.il/recommended/crafts): ציוד יצירה בסיסי לבית לפי גיל: מה שווה לקנות, מה לא רעיל ורחיץ, ומה עדיף לא להכניס הביתה.
+- [עזרים לתרגול דיבור ושפה בבית](https://ugabuga.co.il/recommended/speech): עזרים פשוטים לתרגול היגוי ושפה בבית בין הפגישות עם הקלינאית — מה שימושי, מה בחינם ומה לא הוכח כמועיל.
+- [ציוד לגננת ולמורה — מה באמת שימושי בגן ובכיתה](https://ugabuga.co.il/recommended/teacher): ציוד שימושי לגן ולכיתה: טיימר, למינטור, מגבר קול, אחסון וחיזוקים — ומה אפשר לקבל בחינם באתר במקום לקנות.
+- [מתנה לגננת ולמורה לסוף שנה — 10 רעיונות שעובדים](https://ugabuga.co.il/recommended/teacher-gift): 10 סוגי מתנות לגננת, לסייעת ולמורה לסוף השנה: מתנה אישית מהילד או מתנה כיתתית אחת, מה עדיף להשאיר בחנות ואיך לחסוך.
+- [מה לקנות לחנוכה לילדים — חנוכייה, סביבונים ומתנות](https://ugabuga.co.il/recommended/hanukkah): מה כדאי לקנות לחנוכה עם ילדים: חנוכייה משלהם, סביבונים, ציוד ליצירה ולאפייה ומתנות לחופשה — עם כללי בטיחות לנרות.
 
 ## משחקים
 
@@ -103,6 +114,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [הטלת מטבע](https://ugabuga.co.il/tools/coin-flip)
 - [מחשבון BMI](https://ugabuga.co.il/tools/bmi)
 - [מחשבון שברים](https://ugabuga.co.il/tools/fraction-calculator)
+- [משוואה ריבועית](https://ugabuga.co.il/tools/quadratic-equation)
 - [מחשבון ממוצע ציונים](https://ugabuga.co.il/tools/grade-average)
 - [בן כמה אני?](https://ugabuga.co.il/tools/age-calculator)
 - [אימוג׳י וסמיילים להעתקה](https://ugabuga.co.il/emoji)
@@ -139,6 +151,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [לוח הכפל](https://ugabuga.co.il/learn/multiplication-table)
 - [תרגול לוח הכפל](https://ugabuga.co.il/learn/times-tables)
 - [דפי עבודה בחשבון](https://ugabuga.co.il/printables/math-worksheets)
+- [פותרים ומסדרים](https://ugabuga.co.il/printables/math-order-puzzles)
 - [תשבצי היגיון](https://ugabuga.co.il/logic-puzzles)
 - [הכנה למבחן מחוננים](https://ugabuga.co.il/learn/gifted-test)
 - [פסיכומטרי לילדים](https://ugabuga.co.il/learn/psychometric-kids)
@@ -149,14 +162,46 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [משחק אותיות לגן](https://ugabuga.co.il/letters/game)
 - [אותיות בעברית לכתיבה](https://ugabuga.co.il/printables/hebrew-letters)
 - [הכתבה](https://ugabuga.co.il/learn/dictation)
+- [נקדן אוטומטי](https://ugabuga.co.il/tools/nakdan)
 - [מקלדת ניקוד](https://ugabuga.co.il/tools/nikud-keyboard)
 - [הבנת הנקרא](https://ugabuga.co.il/learn/reading)
+- [אנסין — אנגלית ועברית](https://ugabuga.co.il/unseen)
+- [מילון לתלמידים](https://ugabuga.co.il/dictionary)
 - [כרטיסיות לימוד](https://ugabuga.co.il/learn/flashcards)
 - [הפכים ומילים נרדפות](https://ugabuga.co.il/words/opposites)
+
+### קלינאות תקשורת
+- [קלינאות תקשורת — חומרי היגוי ושפה](https://ugabuga.co.il/speech)
+- [תרגול האות ר׳](https://ugabuga.co.il/speech/sounds/r)
+- [תרגול האות ס׳](https://ugabuga.co.il/speech/sounds/s)
+- [תרגול האות ש׳](https://ugabuga.co.il/speech/sounds/sh)
+- [תרגול האות צ׳](https://ugabuga.co.il/speech/sounds/ts)
+- [תרגול האות ז׳](https://ugabuga.co.il/speech/sounds/z)
+- [תרגול האות ל׳](https://ugabuga.co.il/speech/sounds/l)
+- [תרגול האות ח׳](https://ugabuga.co.il/speech/sounds/ch)
+- [תרגול האות ק׳](https://ugabuga.co.il/speech/sounds/k)
+- [תרגול האות ג׳](https://ugabuga.co.il/speech/sounds/g)
+- [מחולל כרטיסיות היגוי](https://ugabuga.co.il/speech/card-maker)
+- [זוגות מינימליים — משחק והדפסה](https://ugabuga.co.il/speech/minimal-pairs)
+- [לוחות תקשורת תת״ח](https://ugabuga.co.il/speech/aac)
+- [דפי עבודה לקלינאית — מעקב ותעודות](https://ugabuga.co.il/speech/tools/practice-sheets)
+- [תרגול שפה — כל העמודים](https://ugabuga.co.il/speech/language)
+- [קטגוריות ומה לא שייך](https://ugabuga.co.il/speech/language/categories)
+- [שאלות מי, מה, איפה, למה](https://ugabuga.co.il/speech/language/wh-questions)
+- [הוראות בשלבים — תרגול הקשבה](https://ugabuga.co.il/speech/language/directions)
+- [סיפור ברצף — כרטיסי רצף](https://ugabuga.co.il/speech/language/sequencing)
+- [דקדוק לגן: יחיד ורבים, זכר ונקבה](https://ugabuga.co.il/speech/language/grammar)
+- [מילות יחס — על, מתחת, בתוך, ליד](https://ugabuga.co.il/speech/language/prepositions)
+- [תיאור חפצים וחידות „מי אני?”](https://ugabuga.co.il/speech/language/describing)
+- [שפה חברתית — רגשות ושיחה](https://ugabuga.co.il/speech/language/social)
+- [התפתחות שפה לפי גיל](https://ugabuga.co.il/speech/parents/language-milestones)
+- [באיזה גיל אומרים כל צליל](https://ugabuga.co.il/speech/parents/sound-acquisition)
+- [גמגום אצל ילדים — מידע להורים](https://ugabuga.co.il/speech/parents/stuttering)
 
 ### מקצועות בית הספר
 - [תנ״ך לילדים](https://ugabuga.co.il/learn/tanakh)
 - [לשון עברית](https://ugabuga.co.il/learn/lashon)
+- [חוברת יחיד ורבים ופעלים](https://ugabuga.co.il/printables/singular-plural-verbs-workbook)
 - [מדע וטכנולוגיה](https://ugabuga.co.il/learn/science)
 - [היסטוריה](https://ugabuga.co.il/learn/history)
 - [גאוגרפיה ומולדת](https://ugabuga.co.il/learn/geography)
@@ -166,6 +211,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 ### אנגלית, שפות והקלדה
 - [אנגלית לילדים — מילים ומשחקים](https://ugabuga.co.il/english)
 - [אותיות באנגלית A–Z](https://ugabuga.co.il/abc)
+- [אנגלית לפי כיתה](https://ugabuga.co.il/learn/english/by-grade)
 - [אותיות באנגלית לכתיבה](https://ugabuga.co.il/printables/abc-letters)
 - [שפות לילדים: צרפתית, ספרדית, רוסית, ערבית, אמהרית](https://ugabuga.co.il/languages)
 - [הקלדה עיוורת](https://ugabuga.co.il/typing)
@@ -197,7 +243,6 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 
 ### צביעה ויצירה
 - [דפי צביעה](https://ugabuga.co.il/printables/coloring)
-- [דף צביעה עם השם](https://ugabuga.co.il/printables/name-coloring)
 - [דפי חורף וגשם](https://ugabuga.co.il/printables/winter)
 - [צביעה לפי מספרים](https://ugabuga.co.il/printables/color-by-number)
 - [צביעה לפי תשובה](https://ugabuga.co.il/printables/color-by-answer)
@@ -218,8 +263,11 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [חדרי בריחה](https://ugabuga.co.il/tools/escape-rooms)
 
 ### לגן ולבית הספר
+- [דף שם לצביעה ולמידת אותיות](https://ugabuga.co.il/printables/name-coloring)
 - [דף שם לכל ילד בכיתה](https://ugabuga.co.il/printables/hebrew-letters#names)
 - [שלטי אלרגיה ומדבקות](https://ugabuga.co.il/printables/allergy-signs)
+- [כרטיסיות ויסות, תקשורת וסדר יום](https://ugabuga.co.il/printables/sensory-communication-cards)
+- [שלטי מקצועות לכיתה](https://ugabuga.co.il/printables/classroom-signs)
 - [פתקים לקופסת האוכל](https://ugabuga.co.il/printables/lunchbox-notes)
 - [רשימת ציוד לבית הספר](https://ugabuga.co.il/printables/school-supplies-list)
 
@@ -277,12 +325,35 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [ברכות וקריאות לחגים](https://ugabuga.co.il/holidays/blessings)
 - [משחקים לשבת](https://ugabuga.co.il/games/shabbat)
 - [לוח חופשות 2026–2027](https://ugabuga.co.il/school-holidays)
+- [לוח שנה עברי לועזי](https://ugabuga.co.il/hebrew-calendar)
 - [יום הולדת עברי](https://ugabuga.co.il/tools/hebrew-birthday)
+- [ספירת העומר היום](https://ugabuga.co.il/omer)
 - [כמה ימים עד החג?](https://ugabuga.co.il/days-until)
 
 ## משפחה
 
 - [בבית עם הילדים — הכול](https://ugabuga.co.il/family)
+
+### ✈️ נוסעים עם בוגה
+- [ערכת טיסה ונסיעה](https://ugabuga.co.il/travel/kit)
+- [בינגו דרכים ושדה תעופה](https://ugabuga.co.il/travel/bingo)
+- [דרכון נסיעה לילדים](https://ugabuga.co.il/travel/passport)
+- [יומן טיול לילדים](https://ugabuga.co.il/travel/journal)
+- [מעטפות הפתעה לכל שעה](https://ugabuga.co.il/travel/surprise-bags)
+- [משחקי דיבור למשפחה](https://ugabuga.co.il/travel/talk-games)
+- [משחקי שמע וחידות](https://ugabuga.co.il/travel/listen)
+- [רדיו בוגה — סיפורים לדרך](https://ugabuga.co.il/travel/stories)
+- [כמה עוד נשאר? טיימר לנסיעה](https://ugabuga.co.il/travel/countdown)
+- [מה לוקחים לנסיעה עם ילדים](https://ugabuga.co.il/travel/packing-list)
+- [משחקים לתור ולמסעדה](https://ugabuga.co.il/travel/waiting-games)
+- [איך להעסיק פעוט בטיסה](https://ugabuga.co.il/travel/guides/toddler-flight)
+- [משחקים לנסיעה ארוכה ברכב](https://ugabuga.co.il/travel/guides/long-car-ride)
+- [מה לארוז לילד בתיק יד](https://ugabuga.co.il/travel/guides/carry-on-for-kids)
+- [טיסה עם תינוק: מה חשוב לדעת](https://ugabuga.co.il/travel/guides/flying-with-baby)
+- [בחילה בנסיעה אצל ילדים](https://ugabuga.co.il/travel/guides/car-sickness)
+- [נוסעים עם בוגה — לכל מקום](https://ugabuga.co.il/travel)
+- [תיק טיסה — שמירה בלי אינטרנט](https://ugabuga.co.il/travel/offline)
+- [מסך הטיסה](https://ugabuga.co.il/travel/play)
 
 ### לפני השינה
 - [סיפורים לפני השינה](https://ugabuga.co.il/stories)
@@ -299,6 +370,15 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מתכונים שילדים מכינים](https://ugabuga.co.il/food/kids-recipes)
 - [ניסויים במטבח](https://ugabuga.co.il/food/kitchen-science)
 
+### פנאי למבוגרים
+- [פנאי למבוגרים — הכול בגדול](https://ugabuga.co.il/adults)
+- [תשחצים להדפסה](https://ugabuga.co.il/adults/crosswords)
+- [מחולל מנדלות לצביעה](https://ugabuga.co.il/adults/mandalas)
+- [משחק זיכרון בקלפים גדולים](https://ugabuga.co.il/adults/memory)
+- [שאלות מכשילות](https://ugabuga.co.il/trick-questions)
+- [סבא וסבתא עם הנכדים](https://ugabuga.co.il/adults/grandparents)
+- [ראיון סיפור חיים](https://ugabuga.co.il/adults/grandparents/interview)
+
 ### ביום-יום
 - [מה עושים היום?](https://ugabuga.co.il/family/what-to-do)
 - [לוח עזרה למשפחה](https://ugabuga.co.il/family-help)
@@ -307,19 +387,28 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [אתגר תנועה](https://ugabuga.co.il/family/move)
 - [דמי כיס וחיסכון](https://ugabuga.co.il/family/pocket-money)
 - [פעילות לסוף שבוע](https://ugabuga.co.il/ideas/what-to-do-weekend)
+- [סרטים לילדים לפי גיל](https://ugabuga.co.il/movies-for-kids)
+- [יצירה מחומרים בבית](https://ugabuga.co.il/crafts)
+- [המלצות לקנייה להורים ולגננות](https://ugabuga.co.il/recommended)
+- [התפתחות תינוק](https://ugabuga.co.il/family/baby-development)
 - [הבלוג](https://ugabuga.co.il/blog)
 
 ## לכיתה (למורות ולגננות)
 
 - [לכיתה](https://ugabuga.co.il/classroom)
+- [לגננת — כל מה שצריך לגן](https://ugabuga.co.il/gan)
+- [למורה — חומרים לפי כיתה](https://ugabuga.co.il/classroom/by-grade)
 - [מבחן אמריקאי אונליין](https://ugabuga.co.il/classroom/quiz)
 - [הרשמה לאספות הורים](https://ugabuga.co.il/parent-meetings)
 - [גמד וענק — הגרלת שמות](https://ugabuga.co.il/secret-friend)
 - [קיר ברכות לגננת ולמורה](https://ugabuga.co.il/thank-you-wall)
+- [קבצים לרכזות, לכיתה ולגן](https://ugabuga.co.il/printables/teacher-templates)
+- [כוכב/ת השבוע — תעודה להדפסה](https://ugabuga.co.il/printables/star-of-the-week)
 
 ## English
 
 - [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.
+- [Travel with Buga](https://ugabuga.co.il/en/travel): Print, play, listen and save for airplane mode.
 - [Play a live quiz together](https://ugabuga.co.il/en/live): Create questions and let up to 100 players answer from their phones.
 - [Let’s play!](https://ugabuga.co.il/en/games): Match pairs and enjoy simple games together.
 - [Something to color](https://ugabuga.co.il/en/coloring-pages): Choose a drawing from the same collection as our Hebrew site.
@@ -327,6 +416,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [A birthday is coming!](https://ugabuga.co.il/en/birthday): Make an invitation and print a party activity kit.
 - [Learn the Hebrew alphabet](https://ugabuga.co.il/en/hebrew-alphabet): Meet the letters, hear their names, sing and print a practice page.
 - [Jewish holidays for families](https://ugabuga.co.il/en/jewish-holidays): Explore traditions, calendar dates, blessings and holiday coloring pages.
+- [Free online RSVP](https://ugabuga.co.il/en/rsvp): Send one link and see who is coming, how many children and adults, and any allergies.
 
 ### Hanukkah for families (English)
 

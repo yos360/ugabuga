@@ -188,3 +188,10 @@
 /printables/passover-printables /holidays/pesach 301
 /printables/conversation-starters /questions/icebreaker-kids 301
 /printables/charades-cards /games 301
+
+# Math topics moved to the grade the Ministry curriculum teaches them in (2026-10)
+/math/grade-2/add-sub-1000 /math/grade-3/add-sub-1000 301
+/math/grade-3/perimeter /math/grade-2/perimeter 301
+/math/grade-3/simple-fractions /math/grade-4/simple-fractions 301
+/math/grade-3/vertical-multiplication /math/grade-3/distributive-law 301
+/math/grade-2/polygons /math/grade-2/triangles-right-angle 301

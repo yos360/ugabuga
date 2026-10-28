@@ -2,6 +2,8 @@
 // order of operations, divisibility and primes, simple fractions, angles, triangles, parallel and
 // perpendicular lines, rectangle perimeter/area. Pure data + generators (see the /math contract).
 
+import { fractionSvg } from '../svg.js'
+
 // ---------- helpers ----------
 const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a }
 // Integers ≥ 10,000 get a thousands comma (Israeli textbook style), smaller ones stay plain.
@@ -791,4 +793,40 @@ const rectangle = {
   },
 }
 
-export default [placeValue, verticalMult, longDivision, orderOps, divisibility, fractionOfNumber, equivalentFractions, compareFractions, likeFractions, angleTypes, triangleTypes, parallelPerp, rectangle]
+const simpleFractions = {
+    slug: 'simple-fractions',
+    grade: 4,
+    strand: 'fractions',
+    title: 'שברים פשוטים: חצי, שליש ורבע',
+    emoji: '🍕',
+    desc: 'שברים לכיתה ד׳: מזהים חצי, שליש ורבע בציור, כותבים שבר לפי חלקים צבועים (מונה ומכנה) ומחשבים שבר מכמות, כמו רבע מ-20. תרגול עם ציורים ודף עבודה להדפסה.',
+    intro: 'שבר מתאר חלק משלם שחולק לחלקים שווים. המכנה (המספר שמתחת לקו) אומר לכמה חלקים שווים חילקנו את השלם, והמונה (המספר שמעל הקו) אומר כמה חלקים לקחנו. שלושה רבעים (3/4) הם 3 חלקים מתוך 4 חלקים שווים. כדי למצוא רבע מכמות מחלקים אותה ל-4.',
+    tips: ['החלקים חייבים להיות שווים — אחרת זה לא שבר.', 'מונה = כמה צבועים, מכנה = לכמה חלקים חילקו.', 'רבע מ-20: 20 ÷ 4 = 5. שלושה רבעים מ-20: 5 × 3 = 15.'],
+    example: { q: 'כמה זה 3/4 מ-12?', steps: ['רבע מ-12: 12 ÷ 4 = 3.', 'שלושה רבעים: 3 × 3 = 9.'], a: '9' },
+    faq: [
+      { q: 'מה זה מונה ומכנה?', a: 'בשבר 3/4 המכנה הוא 4 — השלם חולק ל-4 חלקים שווים, והמונה הוא 3 — לקחנו 3 מהחלקים. את השבר קוראים "שלושה רבעים".' },
+      { q: 'מה זה שבר יסודי?', a: 'שבר שהמונה שלו 1, כמו 1/2 (חצי), 1/3 (שליש) ו-1/4 (רבע). ככל שהמכנה גדול יותר — כל חלק קטן יותר.' },
+      { q: 'איך כותבים שבר בתשובה?', a: 'מקלידים את המונה, קו נטוי ואת המכנה, למשל 3/4. גם שבר שקול (כמו 6/8 במקום 3/4) יתקבל כתשובה נכונה.' },
+    ],
+    levels: ['חצי, שליש, רבע', 'מונה ומכנה', 'שבר מכמות'],
+    gen(level, r) {
+      const kind = r.pick(['circle', 'bar'])
+      if (level === 1) {
+        const n = r.int(2, 4)
+        const word = { 2: 'חצי', 3: 'שליש', 4: 'רבע' }[n]
+        return { q: 'איזה חלק מהצורה צבוע? כתבו כשבר.', svg: fractionSvg(n, 1, kind), type: 'fraction', answer: `1/${n}`, explain: `הצורה חולקה ל-${n} חלקים שווים ואחד מהם צבוע: 1/${n} (${word}).` }
+      }
+      if (level === 2) {
+        const n = r.int(3, 8)
+        let k
+        do k = r.int(2, n - 1); while (gcd(k, n) !== 1)
+        return { q: 'איזה חלק מהצורה צבוע? כתבו כשבר.', svg: fractionSvg(n, k, kind), type: 'fraction', answer: `${k}/${n}`, explain: `${n} חלקים שווים (מכנה ${n}), מתוכם ${k} צבועים (מונה ${k}): ${k}/${n}.` }
+      }
+      const n = r.pick([2, 3, 4, 5, 10]), each = r.int(2, n === 10 ? 5 : 9), total = n * each
+      const k = r.bool(0.6) ? 1 : r.int(2, n - 1)
+      if (k > 1 && gcd(k, n) !== 1) return { q: `כמה זה 1/${n} מ-${total}?`, type: 'number', answer: each, explain: `מחלקים ל-${n} חלקים שווים: ${total} ÷ ${n} = ${each}.` }
+      return { q: `כמה זה ${k}/${n} מ-${total}?`, type: 'number', answer: each * k, explain: k === 1 ? `מחלקים ל-${n} חלקים שווים: ${total} ÷ ${n} = ${each}.` : `חלק אחד: ${total} ÷ ${n} = ${each}. ${k} חלקים: ${each} × ${k} = ${each * k}.` }
+    },
+  }
+
+export default [placeValue, verticalMult, longDivision, orderOps, divisibility, simpleFractions, fractionOfNumber, equivalentFractions, compareFractions, likeFractions, angleTypes, triangleTypes, parallelPerp, rectangle]

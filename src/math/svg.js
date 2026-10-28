@@ -193,3 +193,70 @@ export function numberLineSvg(a, b, step, mark) {
   body += `<path d="M${f(x(mark))},30 l-6,-10 h12 z" fill="#d33"/>` + text(x(mark), 12, '?', 13, ' font-weight="700"', '#d33')
   return wrap(W, 70, body, 'ישר מספרים')
 }
+
+// Bar chart: `labels` under bars of height `values` (y axis 0..max, one tick per unit when max <= 12).
+// With `values2` + `legend` it draws a double bar chart (two bars per label).
+export function barChartSvg(labels, values, { max, values2 = null, legend = null } = {}) {
+  const top = max ?? Math.max(...values, ...(values2 || [0])), n = labels.length
+  const u = Math.min(22, 170 / top), slot = values2 ? 64 : 48, W = 46 + n * slot, H = 30 + top * u + 34
+  const base = 14 + top * u
+  let body = `<line x1="36" y1="${f(base)}" x2="${W - 6}" y2="${f(base)}" stroke="currentColor" stroke-width="2"/><line x1="36" y1="10" x2="36" y2="${f(base)}" stroke="currentColor" stroke-width="2"/>`
+  const step = top > 12 ? 5 : top > 6 ? 2 : 1
+  for (let v = 0; v <= top; v += step) {
+    body += `<line x1="32" y1="${f(base - v * u)}" x2="${W - 6}" y2="${f(base - v * u)}" stroke="#c9cdd8" stroke-width="${v ? 0.8 : 0}"/>` + text(22, base - v * u, String(v), 11)
+  }
+  labels.forEach((lab, i) => {
+    const x0 = 44 + i * slot
+    if (values2) {
+      body += `<rect x="${f(x0 + 2)}" y="${f(base - values[i] * u)}" width="22" height="${f(values[i] * u)}" fill="${FILLS[1]}" stroke="currentColor" stroke-width="1.5"/>`
+      body += `<rect x="${f(x0 + 26)}" y="${f(base - values2[i] * u)}" width="22" height="${f(values2[i] * u)}" fill="${FILLS[2]}" stroke="currentColor" stroke-width="1.5"/>`
+      body += text(x0 + 25, base + 14, lab, 12)
+    } else {
+      body += `<rect x="${f(x0 + 6)}" y="${f(base - values[i] * u)}" width="30" height="${f(values[i] * u)}" fill="${FILLS[i % FILLS.length]}" stroke="currentColor" stroke-width="1.5"/>`
+      body += text(x0 + 21, base + 14, lab, 12)
+    }
+  })
+  if (values2 && legend) {
+    body += `<rect x="40" y="${f(base + 24)}" width="10" height="10" fill="${FILLS[1]}" stroke="currentColor"/>` + text(58 + legend[0].length * 3.5, base + 29, legend[0], 11)
+    const lx = 120 + legend[0].length * 3
+    body += `<rect x="${f(lx)}" y="${f(base + 24)}" width="10" height="10" fill="${FILLS[2]}" stroke="currentColor"/>` + text(lx + 18 + legend[1].length * 3.5, base + 29, legend[1], 11)
+  }
+  return wrap(W, H + (values2 ? 6 : 0), body, 'תרשים עמודות')
+}
+
+// Pictogram: one row per label, each symbol stands for `per` items (default 1).
+export function pictogramSvg(labels, counts, { per = 1 } = {}) {
+  const maxN = Math.max(...counts), W = 70 + maxN * 24, H = 12 + labels.length * 30 + (per > 1 ? 24 : 0)
+  let body = ''
+  labels.forEach((lab, i) => {
+    const y = 20 + i * 30
+    body += text(32, y, lab, 12)
+    for (let k = 0; k < counts[i]; k++) body += `<circle cx="${f(70 + k * 24)}" cy="${y}" r="9" fill="${FILLS[i % FILLS.length]}" stroke="currentColor" stroke-width="1.5"/>`
+  })
+  if (per > 1) body += text(W / 2, H - 10, `כל עיגול מייצג ${per}`, 12)
+  return wrap(W, H, body, 'תרשים תמונות')
+}
+
+// Cuboid (a × b × c, drawn obliquely). Edge labels shown when label = true.
+export function cuboidSvg(a, b, c, { label = true, color = 1 } = {}) {
+  const k = Math.min(16, 120 / Math.max(a, b, c)), w = a * k, h = c * k, d = b * k * 0.5, x0 = 14, y0 = 16 + d
+  const fill = FILLS[color % FILLS.length]
+  const front = `<rect x="${f(x0)}" y="${f(y0)}" width="${f(w)}" height="${f(h)}" fill="${fill}" fill-opacity=".6" stroke="currentColor" stroke-width="2"/>`
+  const topF = `<polygon points="${f(x0)},${f(y0)} ${f(x0 + d)},${f(y0 - d)} ${f(x0 + w + d)},${f(y0 - d)} ${f(x0 + w)},${f(y0)}" fill="${fill}" fill-opacity=".35" stroke="currentColor" stroke-width="2"/>`
+  const side = `<polygon points="${f(x0 + w)},${f(y0)} ${f(x0 + w + d)},${f(y0 - d)} ${f(x0 + w + d)},${f(y0 - d + h)} ${f(x0 + w)},${f(y0 + h)}" fill="${fill}" fill-opacity=".2" stroke="currentColor" stroke-width="2"/>`
+  let body = front + topF + side
+  if (label) body += text(x0 + w / 2, y0 + h + 12, String(a), 13, ' font-weight="700"') + text(x0 - 8, y0 + h / 2, String(c), 13, ' font-weight="700"') + text(x0 + w + d + 10, y0 - d / 2 + 4, String(b), 13, ' font-weight="700"')
+  return wrap(x0 + w + d + 26, y0 + h + 24, body, `תיבה ${a} על ${b} על ${c}`)
+}
+
+// A square grid with a coloured cell at (col,row), rows counted from the top. Used for position/direction.
+export function gridMapSvg(cols, rows, marks = []) {
+  const s = 34, W = cols * s + 4, H = rows * s + 4
+  let body = ''
+  for (let i = 0; i <= cols; i++) body += `<line x1="${2 + i * s}" y1="2" x2="${2 + i * s}" y2="${H - 2}" stroke="currentColor" stroke-width="1.2"/>`
+  for (let j = 0; j <= rows; j++) body += `<line x1="2" y1="${2 + j * s}" x2="${W - 2}" y2="${2 + j * s}" stroke="currentColor" stroke-width="1.2"/>`
+  marks.forEach(({ col, row, label, color = 0 }) => {
+    body += `<circle cx="${2 + col * s + s / 2}" cy="${2 + row * s + s / 2}" r="12" fill="${FILLS[color % FILLS.length]}" stroke="currentColor" stroke-width="1.5"/>` + text(2 + col * s + s / 2, 2 + row * s + s / 2 + 1, label, 13, ' font-weight="700"')
+  })
+  return wrap(W, H, body, 'מפת משבצות')
+}
