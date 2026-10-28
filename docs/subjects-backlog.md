@@ -16,6 +16,16 @@ concept has its own page. A daily scheduled task builds the **next unchecked sub
 4. `node scripts/generate-learn-subjects.mjs` (sitemap + site search), then the CLAUDE.md checks.
 5. Link the new hub from the menu (src/data/siteMenu.js) in the fitting domain.
 
+Depth (owner, 2026-10-28): go wide and deep — "10,000 pages is fine". Inside a subject, give every item its own
+concept page: every musical instrument in the world (from the cymbal up), every composer and painter of note, every
+dinosaur, every planet, every dog breed, every fruit. A first run builds the subject (12+ lessons + glossary); later
+runs add "<key> part N" batches of 30–60 more concept pages until the area is covered.
+
+Copyright (owner: "the most important thing"): every text is original. No copied text, song lyrics, musical scores,
+photos or artwork under copyright. Pictures only from the site's own drawings or public-domain sources, with the
+source and license recorded in the data. Famous paintings and music are described, not reproduced, unless the work
+and the image are both in the public domain.
+
 Content rules: original Hebrew, plain and accurate. Every number, date or record checked against two
 sources; where sources disagree use the cautious form ("כ־", "לפי ההערכות") or leave it out. No brand or
 price claims. Israeli names in examples. Kids' safety first (no dangerous experiments without an adult).
@@ -25,6 +35,10 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   עדשות (מוקד, זווית, סוגי עדשות: רחבה, טלה, מאקרו, פריים, זום), פוקוס ועומק שדה, קומפוזיציה (חוק השלישים,
   קווים מובילים, מסגור, סימטריה, נקודת מבט), סוגי צילום (נוף, דיוקן, מאקרו, ספורט, רחוב, לילה), צבע ואיזון לבן,
   תאורה (שעת הזהב, אור רך וקשה), עריכת תמונות (חיתוך, חשיפה, ניגודיות, ויניאט), צילום בטלפון, היסטוריה של הצילום.
+- [ ] `zodiac` — מזלות (approved by the owner 2026-10-28): the 12 signs — name, dates, symbol, element, the
+  constellation behind it, the matching Hebrew month, what each sign is traditionally said to stand for — presented
+  as a cultural tradition, never as prediction or advice. A "which sign am I?" tool by birth date. Google: מזלות 8,100;
+  each sign 5,400–8,100 a month; מזלות לפי חודשים 2,400; תאריכי מזלות 1,000.
 - [ ] `dinosaurs` — דינוזאורים: מה זה דינוזאור, תקופות (טריאס, יורה, קרטיקון), איך יודעים — מאובנים ופלאונטולוגים,
   דינוזאורים אוכלי בשר וצמחים, דינוזאורים מפורסמים (טירנוזאורוס, טריצרטופס, סטגוזאורוס, ברכיוזאורוס, ולוצירפטור,
   ספינוזאורוס, אנקילוזאורוס ועוד) — a lesson or concept per dinosaur, the extinction, birds as dinosaurs,
@@ -105,12 +119,8 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   Google: כלי נגינה 3,600 · מלחינים 880 · ציירים מפורסמים 720 · עוד 880 · טובה 590 · מנדולינה 390.
 - [ ] `sports` — ספורט: האולימפיאדה (היסטוריה, ענפים, ישראל באולימפיאדה), חוקי משחקים (כדורגל, כדורסל, טניס, שחמט),
   ענפי ספורט. Google: אולימפיאדה 2,900 · התעמלות קרקע 1,600 · התעמלות מכשירים 590 · שחמט חוקים 210.
-- [ ] `sign-language` — שפת הסימנים הישראלית: מה זה, אצבוע, סימנים בסיסיים, תרבות החירשים. Google: שפת הסימנים 1,000.
-  Needs pictures of hand signs — ask the owner before making drawings.
 
-Owner decision needed (not built until approved): `zodiac` — מזלות: dates and traits of the 12 signs are searched
-heavily (מזלות 8,100; each sign 5,400–8,100 a month), but astrology isn't science. If approved, present it as a
-cultural tradition (names, dates, the constellations behind them, the Hebrew months), never as prediction.
+Dropped by the owner: sign language.
 
 When the list runs out, add subjects from what people search (Keyword Planner via Windsor.ai, and the
 site's own search gaps — scripts/generate-search-gaps.mjs).
