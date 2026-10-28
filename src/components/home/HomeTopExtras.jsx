@@ -17,6 +17,11 @@ export function ElectionChip() {
   return <Link to="/tools/class-elections" className="print-strip election-chip no-print"><span aria-hidden="true">🗳️</span><span>{label} — <b>מה זה בחירות?</b> הדמיה לכיתה</span></Link>
 }
 
+// The shared "who brings what" list for parties and class events — the owner asked for it at the top.
+export function BringChip() {
+  return <Link to="/tools/bring-list" className="print-strip election-chip no-print"><span aria-hidden="true">🧺</span><span><b>מי מביא מה?</b> רשימה שיתופית למסיבה — בלי בלגן</span></Link>
+}
+
 export function BugaPediaBox() {
   const [q, setQ] = useState('')
   const navigate = useNavigate()

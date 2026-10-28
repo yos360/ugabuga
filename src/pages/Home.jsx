@@ -7,7 +7,7 @@ import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { HOME_INTENTS } from '../data/kidsZone'
 import { SITE_SLOGAN, CHANNEL_GO } from '../data/brand'
 import { SOCIAL_LIVE } from '../data/social'
-import { ElectionChip } from '../components/home/HomeTopExtras'
+import { ElectionChip, BringChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
@@ -144,7 +144,7 @@ export default function Home() {
   const posts = useLatestPosts()
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
-      <div className="hp-chips"><PrintStrip /><ElectionChip /></div>
+      <div className="hp-chips"><PrintStrip /><BringChip /><ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
       {variant === 'live' && <LiveTop variant={variant} />}
