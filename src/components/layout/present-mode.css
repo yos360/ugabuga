@@ -1,6 +1,7 @@
 .pm-open{position:fixed;right:16px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:44;display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:999px;border:2.5px solid #1d2233;background:#fff;color:#1d2233;font-weight:900;font-size:15px;box-shadow:3px 3px 0 #1d2233;cursor:pointer}
 .pm-open:hover{background:#fff3c4}
-@media (max-width:640px){.pm-open span{display:none}.pm-open{width:44px;padding:0;justify-content:center}}
+/* Phones: no "project on the board" button — it covered page content, and projecting is done from a computer or tablet. */
+@media (max-width:640px){.pm-open{display:none}}
 .pm-bar{position:fixed;top:10px;left:10px;z-index:70;display:flex;align-items:center;gap:6px;padding:6px;border-radius:14px;background:#ffffffe6;border:2px solid #1d2233;box-shadow:3px 3px 0 #1d2233;opacity:.35;transition:opacity .2s}
 .pm-bar:hover,.pm-bar:focus-within{opacity:1}
 .pm-bar button{min-width:40px;height:36px;padding:0 10px;border-radius:10px;border:2px solid #1d2233;background:#fff;font-weight:900;cursor:pointer}
