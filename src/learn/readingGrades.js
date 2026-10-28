@@ -11,6 +11,7 @@ import { EXTRA_GRADED_READING, EXTRA_GRADE_WORDS, EXTRA_GRADE_PAGES } from './re
 import { TOPICS_YOUNG_READING } from './readingGradesTopics-young.js'
 import { TOPICS_MIDDLE_READING } from './readingGradesTopics-middle.js'
 import { TOPICS_OLDER_READING } from './readingGradesTopics-older.js'
+import { MIDDLE2_READING } from './readingGradesMiddle2.js'
 
 const BASE_READING = [
   // ───────────── כיתה ב׳ (~120 מילים) ─────────────
@@ -442,7 +443,7 @@ const BASE_READING = [
     ],
   },
 ]
-export const GRADED_READING = [...BASE_READING, ...MORE_GRADED_READING, ...EXTRA_GRADED_READING, ...TOPICS_YOUNG_READING, ...TOPICS_MIDDLE_READING, ...TOPICS_OLDER_READING].sort((a, b) => a.level - b.level)
+export const GRADED_READING = [...BASE_READING, ...MORE_GRADED_READING, ...EXTRA_GRADED_READING, ...TOPICS_YOUNG_READING, ...TOPICS_MIDDLE_READING, ...TOPICS_OLDER_READING, ...MIDDLE2_READING].sort((a, b) => a.level - b.level)
 
 // Page copy for /learn/reading/grade-N (primary keyword: "הבנת הנקרא כיתה X").
 const BASE_GRADE_PAGES = {
