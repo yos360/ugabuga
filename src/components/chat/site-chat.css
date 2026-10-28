@@ -6,3 +6,5 @@
 .site-chat-panel>header>button.site-chat-x{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:#ffffff2e;font-size:22px;line-height:1}
 .site-chat-panel>header>button.site-chat-x:hover,.site-chat-panel>header>button.site-chat-x:focus-visible{background:#ffffff4d;outline:none}
 @media(max-width:520px){.site-chat-panel{max-height:min(72vh,560px);max-height:min(72dvh,560px)}}
+/* Phones: just the 💬 icon — the wide label covered the page (search, buttons). */
+@media(max-width:640px){.site-chat-launcher[aria-expanded="false"]{padding:8px}.site-chat-launcher[aria-expanded="false"] b{display:none}.site-chat-hide{display:none}}
