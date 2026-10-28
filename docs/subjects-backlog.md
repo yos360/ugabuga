@@ -85,8 +85,32 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   and a long tail — טרם, מנדט, משנה, פדיון, קונטור, צוהר, שבח, נדל״ן, פרקליטות…). One page per term: meaning, example,
   where the word comes from. Not a school subject — build it as its own glossary area (like the subject concept pages),
   picking terms from Keyword Planner ("מה זה" seeds) and the site's search gaps. Neutral, accurate, no legal/medical advice.
-- [ ] `planets` — כוכבי הלכת: a page per planet and for the Sun, Moon and dwarf planets (Google: כוכבי לכת 4,400 ·
-  כוכבי הלכת 720 · מערכת השמש לילדים 880 · כוכבי לכת שמות 320). Extend /discover/solar-system, don't duplicate it.
+- [ ] `space` — החלל: כוכבי הלכת (עמוד לכל כוכב לכת, לשמש, לירח ולכוכבי לכת ננסיים), כוכבים וגלקסיות, חורים שחורים,
+  אסטרונאוטים, חלליות ומעבורות, טלסקופים. Extend /discover/solar-system, don't duplicate it. Google: כוכבי לכת 4,400 ·
+  חלל 5,400 · חלליות 5,400 · חורים שחורים 2,900 · החלל החיצון 1,900 · מערכת השמש לילדים 880 · כוכבי הלכת 720.
+- [ ] `animals` — עולם החי לעומק: כרישים, נחשים, עכבישים, חרקים, לווייתנים, דולפינים, תמנונים, זוחלים, דו־חיים,
+  יונקים בישראל. A page per animal group and per well-known species. Google: כרישים 9,900 · נחשים 9,900 · עכבישים
+  4,400 · חרקים 2,400 · לווייתנים 320 · סוגי כרישים 320. Check what /learn/science and the animal-facts pages already
+  cover; link, don't duplicate. Safety facts (venomous snakes/spiders in Israel) checked carefully.
+- [ ] `pets-breeds` — כלבים, חתולים וחיות מחמד: גזעי כלבים (קטנים, בינוניים, גדולים; הכלב הכנעני), גזעי חתולים,
+  סוגי סוסים, איך מטפלים בחיית מחמד, אחריות. Google: סוגי כלבים 6,600 · כלבים קטנים 1,600 · רועה כנעני 1,900 ·
+  כלבים גדולים 880 · פודל 590 · גזעי חתולים 320 · סוגי סוסים 320. No buying advice, no brands.
+- [ ] `earth-science` — כדור הארץ: רעידות אדמה (מה קורה ואיך מתכוננים — Pikud HaOref guidance), הרי געש, סוגי עננים,
+  קשת בענן, מזג אוויר ואקלים, סלעים ומינרלים, אבני חן (as minerals, not jewelry). Google: רעידת אדמה 27,100 · קשת
+  בענן 8,100 · מינרלים 1,300 · סוגי עננים 590 · הר געש מתפרץ 390.
+- [ ] `ancient-worlds` — עולמות עתיקים: מצרים העתיקה והפירמידות, יוון העתיקה והמיתולוגיה היוונית (האלים), רומא, האבירים
+  וימי הביניים, טירות, הוויקינגים. Google: אבירים 4,400 · פירמידות 2,900 · מיתולוגיה יוונית 880+880 · מצרים העתיקה 720 ·
+  אלים יוונים 720. Check /learn/history first; this goes deeper (a page per god, per famous pharaoh/structure).
+- [ ] `arts` — אמנות ומוזיקה: כלי נגינה (עמוד לכל כלי — כלי מיתר, נשיפה, הקשה), מלחינים מפורסמים, ציירים מפורסמים ויצירות.
+  Google: כלי נגינה 3,600 · מלחינים 880 · ציירים מפורסמים 720 · עוד 880 · טובה 590 · מנדולינה 390.
+- [ ] `sports` — ספורט: האולימפיאדה (היסטוריה, ענפים, ישראל באולימפיאדה), חוקי משחקים (כדורגל, כדורסל, טניס, שחמט),
+  ענפי ספורט. Google: אולימפיאדה 2,900 · התעמלות קרקע 1,600 · התעמלות מכשירים 590 · שחמט חוקים 210.
+- [ ] `sign-language` — שפת הסימנים הישראלית: מה זה, אצבוע, סימנים בסיסיים, תרבות החירשים. Google: שפת הסימנים 1,000.
+  Needs pictures of hand signs — ask the owner before making drawings.
+
+Owner decision needed (not built until approved): `zodiac` — מזלות: dates and traits of the 12 signs are searched
+heavily (מזלות 8,100; each sign 5,400–8,100 a month), but astrology isn't science. If approved, present it as a
+cultural tradition (names, dates, the constellations behind them, the Hebrew months), never as prediction.
 
 When the list runs out, add subjects from what people search (Keyword Planner via Windsor.ai, and the
 site's own search gaps — scripts/generate-search-gaps.mjs).
