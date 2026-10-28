@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { SHABBAT_CITIES } from '../../data/shabbatCities'
+import PuddleJump from './PuddleJump'
 
 // /weather — "מזג האוויר היום: צריך מטרייה?" for a chosen city: today's forecast, an umbrella verdict a child
 // can read, rain chance by hour and the next 7 days. Forecast data: Open-Meteo (free, no key, CC BY 4.0 —
@@ -113,6 +114,7 @@ export default function Weather() {
       </section>
     </>}
 
+    <PuddleJump />
     <p className="mt-6 text-center text-xs text-slate-500">נתוני מזג האוויר: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="underline">Open-Meteo.com</a> (CC BY 4.0). תחזית ממוחשבת — לאזהרות רשמיות ראו את השירות המטאורולוגי.</p>
     <div className="mt-10"><SeoBody paragraphs={[
       'בבוקר של חורף השאלה הכי חשובה היא פשוטה: לקחת מטרייה או לא? בעמוד הזה בוחרים עיר פעם אחת, והיא נשמרת. מיד רואים תשובה ברורה — קחו מטרייה, כדאי מטרייה קטנה, או לא צריך — וגם את הטמפרטורה, את הסיכוי לגשם בכל שעתיים ואת התחזית לשבוע.',
