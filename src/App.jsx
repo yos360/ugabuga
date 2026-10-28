@@ -138,6 +138,7 @@ const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => 
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
+const Weather = lazy(() => import('./pages/tools/Weather'))
 const GanHub = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.GanHub })))
 const TeacherByGrade = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.TeacherByGrade })))
 const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionGame').then(m => ({ default: m.SoundPositionOnline })))
@@ -550,6 +551,7 @@ export default function App() {
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />
+              <Route path="/weather" element={<Weather />} />
               <Route path="/classroom/by-grade" element={<TeacherByGrade />} />
               <Route path="/classroom/subjects" element={<BugaPedia />} />
               <Route path="/bugapedia" element={<BugaPedia />} />

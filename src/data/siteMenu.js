@@ -75,6 +75,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/hours-calculator', label: 'מחשבון שעות', icon: '🕒' },
           { to: '/tools/date-calculator', label: 'מחשבון תאריכים', icon: '📅' },
           { to: '/tools/world-clock', label: 'שעון עולמי', icon: '🌍' },
+          { to: '/weather', label: 'מזג האוויר היום — צריך מטרייה?', icon: '☂️' },
           { to: '/tools/word-count', label: 'ספירת מילים', icon: '📝' },
           { to: '/tools/team-generator', label: 'מחלק קבוצות', icon: '👥' },
           { to: '/tools/random-picker', label: 'גלגל מזל', icon: '🎡' },
