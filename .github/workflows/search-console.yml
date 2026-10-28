@@ -1,0 +1,22 @@
+name: search-console
+# Daily Google Search Console report (positions, clicks, impressions, opportunities) through the official
+# API with a read-only service account — no browser or owner's computer needed. Results are annotations
+# and the run summary; scheduled tasks read the latest run. Setup: docs/search-console-setup.md.
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Search Console report
+        env:
+          GSC_SERVICE_ACCOUNT: ${{ secrets.GSC_SERVICE_ACCOUNT }}
+        run: node scripts/search-console.mjs
