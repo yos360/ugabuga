@@ -137,12 +137,14 @@ export function FillPage({ n, title, instruction, sub, lines, ltr, size = 30 }) 
   </SvgPage>
 }
 
-// Word search, left to right and top to bottom only (young readers). Deterministic for a seed.
-export function buildWordSearch(words, size, seed) {
+// Word search, in reading direction and top to bottom only (young readers). Deterministic for a seed.
+// `he`: Hebrew letters, words run right to left (the page draws column 0 on the right).
+const HE_FILL = 'אבגדהוזחטיכלמנסעפצקרשת'
+export function buildWordSearch(words, size, seed, he = false) {
   const rng = rngFor(seed, 97), grid = Array.from({ length: size }, () => Array(size).fill(''))
   const placed = []
   for (const word of words) {
-    const w = word.toUpperCase()
+    const w = he ? word : word.toUpperCase()
     for (let tries = 0; tries < 200; tries++) {
       const down = rng.chance(0.4), r = rng.int(0, down ? size - w.length : size - 1), c = rng.int(0, down ? size - 1 : size - w.length)
       if ([...w].every((ch, k) => { const v = grid[down ? r + k : r][down ? c : c + k]; return !v || v === ch })) {
@@ -150,22 +152,22 @@ export function buildWordSearch(words, size, seed) {
       }
     }
   }
-  const abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  return { grid: grid.map(row => row.map(v => v || abc[rng.int(0, 25)])), placed }
+  const abc = he ? HE_FILL : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  return { grid: grid.map(row => row.map(v => v || abc[rng.int(0, abc.length - 1)])), placed }
 }
-export function WordSearchPage({ n, title, instruction, words, seed, size = 10 }) {
-  const { grid, placed } = buildWordSearch(words.map(w => w.word), size, seed)
+export function WordSearchPage({ n, title, instruction, words, seed, size = 10, he = false }) {
+  const { grid, placed } = buildWordSearch(words.map(w => w.word), size, seed, he)
   const cell = 44, x0 = (W - cell * size) / 2, y0 = 140
   return <SvgPage label={title}>
     <Head n={n} title={title} instruction={instruction} />
     <g fontFamily={FONT} fontSize="24" fontWeight="700" textAnchor="middle">
       <rect x={x0} y={y0} width={cell * size} height={cell * size} fill="none" stroke={INK} strokeWidth="2" rx="8" />
-      {grid.map((row, r) => row.map((ch, c) => <text key={`${r}-${c}`} x={x0 + c * cell + cell / 2} y={y0 + r * cell + cell / 2 + 8}>{ch}</text>))}
+      {grid.map((row, r) => row.map((ch, c) => <text key={`${r}-${c}`} x={x0 + (he ? size - 1 - c : c) * cell + cell / 2} y={y0 + r * cell + cell / 2 + 8}>{ch}</text>))}
     </g>
     <g fontFamily={FONT} fontSize="18" textAnchor="middle">
       {words.filter(w => placed.includes(w.word)).map((w, i) => { const col = i % 4, row = Math.floor(i / 4), x = 525 - col * 150, y = y0 + cell * size + 50 + row * 70; return <g key={w.word}>
         {w.pic && <Pic item={w.pic} x={x} y={y - 8} size={36} />}
-        <text x={x} y={y + 30} direction="ltr">{w.word}</text>
+        <text x={x} y={y + 30} direction={he ? 'rtl' : 'ltr'}>{w.word}</text>
       </g> })}
     </g>
   </SvgPage>
