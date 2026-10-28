@@ -3,13 +3,21 @@ import { Link } from 'react-router-dom'
 import { submitPageRequest } from '../../utils/pageRequests'
 import { recordExperiment } from '../../utils/experiments'
 
-// The two non-search openings of the home-page experiment (see utils/experiments.js).
+// The non-search openings of the home-page experiment (see utils/experiments.js).
 // "search" is the page as it always was, so it needs no block here.
 export function LiveTop({ variant }) {
   return <Link to="/live" onClick={() => recordExperiment('click', variant)} className="hp-exp hp-exp-live">
     <span className="hp-exp-ic" aria-hidden="true">⚡</span>
     <span className="hp-exp-copy"><b>בוגה לייב — חידון חי לכיתה, למשפחה ולמסיבה</b><small>מקרינים על המסך, וכל אחד עונה מהטלפון. עד 100 משתתפים, בלי הרשמה.</small></span>
     <span className="hp-exp-cta">מתחילים חידון ←</span>
+  </Link>
+}
+
+export function BringTop({ variant }) {
+  return <Link to="/tools/bring-list" onClick={() => recordExperiment('click', variant)} className="hp-exp hp-exp-live">
+    <span className="hp-exp-ic" aria-hidden="true">🧺</span>
+    <span className="hp-exp-copy"><b>מי מביא מה? רשימה שיתופית למסיבה</b><small>יום הולדת, מסיבת כיתה או ארוחת חג: שולחים קישור אחד בוואטסאפ, וכל אחד מסמן מה הוא מביא. בלי בלגן ובלי כפילויות.</small></span>
+    <span className="hp-exp-cta">יוצרים רשימה ←</span>
   </Link>
 }
 

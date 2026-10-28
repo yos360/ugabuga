@@ -5,7 +5,7 @@ import { rpcInit, rpcUrl } from './qrVariants.js'
 // for tabs that saw the home page — so the report compares like with like. The owner's browser is left
 // out (it can preview a variant with /?exp=live). Kept tiny: PrintPreview imports it.
 export const HOME_EXPERIMENT = 'home-top'
-export const HOME_VARIANTS = ['search', 'live', 'request']
+export const HOME_VARIANTS = ['search', 'live', 'request', 'bring']
 const KEY = `buga-exp-${HOME_EXPERIMENT}`, SEEN = `buga-exp-seen-${HOME_EXPERIMENT}`
 const ownerDevice = () => { try { return localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1' } catch { return false } }
 

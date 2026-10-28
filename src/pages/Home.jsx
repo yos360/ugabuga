@@ -11,7 +11,7 @@ import { ElectionChip, BringChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
-import { LiveTop, RequestTop } from '../components/home/HomeTopVariant'
+import { LiveTop, RequestTop, BringTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
@@ -144,11 +144,12 @@ export default function Home() {
   const posts = useLatestPosts()
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
-      <div className="hp-chips"><PrintStrip /><BringChip /><ElectionChip /></div>
+      <div className="hp-chips"><PrintStrip />{variant !== 'bring' && <BringChip />}<ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
       {variant === 'live' && <LiveTop variant={variant} />}
       {variant === 'request' && <RequestTop variant={variant} />}
+      {variant === 'bring' && <BringTop variant={variant} />}
       <form className="hp-search" onSubmit={go} role="search">
         <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
           <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>

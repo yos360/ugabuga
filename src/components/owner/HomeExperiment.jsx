@@ -3,7 +3,7 @@ import { ownerSupabase } from '../../utils/ownerAuth'
 import { HOME_EXPERIMENT, HOME_VARIANTS } from '../../utils/experiments'
 
 // Owner report: the home-page experiment. Counts are per browser tab that opened the home page.
-const LABEL = { search: '🔎 חיפוש בהתחלה (כמו תמיד)', live: '⚡ בוגה לייב בהתחלה', request: '📝 "מה אתם מבקשים?" בהתחלה' }
+const LABEL = { search: '🔎 חיפוש בהתחלה (כמו תמיד)', live: '⚡ בוגה לייב בהתחלה', request: '📝 "מה אתם מבקשים?" בהתחלה', bring: '🧺 "מי מביא מה?" בהתחלה' }
 const pct = (n, d) => (d ? `${Math.round((n / d) * 100)}%` : '—')
 
 export default function HomeExperiment({ from, to, tick = 0 }) {
