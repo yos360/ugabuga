@@ -5,6 +5,7 @@ import ToolGuide from './ToolGuide'
 import { TOOL_GUIDES } from './toolGuides'
 import { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import { DEAD, extraPeople, nameKey, parseBorn } from '../../utils/birthdayFamous'
 
 // Kid-safe "who was born on my day": the first people shown come from the hand-curated,
 // source-checked births in src/data/today-game/MM.json (items with type "born"). On top of
@@ -21,8 +22,6 @@ const MONTH_FILES = import.meta.glob('../../data/today-game/*.json')
 const API = 'https://he.wikipedia.org/w/api.php'
 
 const wikiUrl = title => `https://he.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`
-// Loose name key so "ג'יי. קיי. רולינג" and "ג'יי קיי רולינג" compare equal
-const nameKey = s => s.replace(/["'׳״.\-־–\s]/g, '')
 
 async function curatedPeople(month, day) {
   const loader = MONTH_FILES[`../../data/today-game/${pad(month)}.json`]
@@ -46,65 +45,17 @@ async function api(params, signal) {
   return res.json()
 }
 
-const DEAD = /נפטר|נרצח|נהרג|הוצא|התאבד|(^|[\s(])מתה?([\s,)]|$)/
-// Professions a child may meet here (allowlist) — and everyone we keep out (blocklist),
-// including politicians, military, royalty, religion and crime. A person appears only if
-// their description matches SAFE and not BLOCK.
-const SAFE = /זמר|שחקן|שחקנית|כדורגל|כדורסל|טניסא|שחיין|אצן|מתעמל|ספורטא|שחמטא|גולש|אלוף אולימפי|מדען|פיזיקא|כימא|אסטרונום|ממציא|סופר|משורר|מאייר|צייר|פסל|נגן|פסנתרן|כנר|מלחין|מוזיקא|יוצר|במאי|במאית|רקדן|שף\b|קוסם|אסטרונאוט|צלם|בדרן|קומיקא|כוריאוגרף|אמן|אמנית|דוגמנ|מאמן|זואולוג|חוקרת? טבע/
-const BLOCK = /פוליטיקא|ראש ממשלה|ראש הממשלה|נשיא|שר\s|שרת\s|חבר כנסת|מושל|דיפלומט|גנרל|מצביא|קצין|מפקד|לוחם|צבא|מהפכן|פושע|רוצח|עבריין|נאצי|דיקטטור|מלך|מלכה|קיסר|נסיך|נסיכה|דוכס|אציל|רב\s|הרב\s|כומר|בישוף|אפיפיור|תאולוג|טרור|מאפי|כנופי|פורנו|ארוטי|הימור/
-const stripWiki = s => s
-  .replace(/<ref[^>]*\/>/g, '').replace(/<ref[\s\S]*?<\/ref>/g, '')
-  .replace(/\{\{[^}]*\}\}/g, '')
-  .replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2').replace(/\[\[([^\]]*)\]\]/g, '$1')
-  .replace(/'{2,}/g, '').trim()
-
-// All people the Hebrew Wikipedia date page lists as born: year, name(s) and description.
-// Used both for the curated people's alive check and to add more kid-safe people.
+// Births list of the date page (helpers and filters in src/utils/birthdayFamous.js).
 async function bornOnDatePage(month, day, signal) {
   const parsed = await api({ action: 'parse', page: `${day} ב${MONTHS[month - 1]}`, prop: 'wikitext' }, signal)
-  const text = parsed.parse?.wikitext || ''
-  // Headings vary between pages ("== נולדו ==", "==נולדו =="), so match loosely.
-  const start = text.search(/^==\s*נולדו/m)
-  if (start < 0) return []
-  const next = text.slice(start + 2).search(/\n==[^=]/)
-  const end = next < 0 ? undefined : start + 2 + next
-  const people = []
-  for (const line of text.slice(start, end).split('\n')) {
-    const m = line.match(/^\*\s*\[\[(\d{1,4})\]\]\s*[–—-]\s*'*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]'*(.*)$/)
-    if (!m) continue
-    people.push({ year: Number(m[1]), title: m[2].trim(), display: (m[3] || m[2]).trim(), rest: m[4] || '' })
-  }
-  return people
-}
-
-// Short role text for the card: the description up to the first period/parenthesis.
-function roleOf(rest) {
-  const clean = stripWiki(rest).replace(/^[\s,،–—-]+/, '')
-  const cut = clean.search(/[.(]/)
-  const role = (cut > 0 ? clean.slice(0, cut) : clean).replace(/[\s,;–—-]+$/, '')
-  return role.length > 60 ? role.slice(0, 57) + '…' : role
-}
-
-// Kid-safe extra people from the date page, newest first, skipping anyone already curated.
-function extraPeople(born, curated, limit) {
-  const have = new Set(curated.map(p => nameKey(p.name)))
-  const extras = []
-  for (const p of [...born].sort((a, b) => b.year - a.year)) {
-    const desc = stripWiki(p.rest)
-    if (have.has(nameKey(p.title)) || have.has(nameKey(p.display))) continue
-    if (!SAFE.test(desc) || BLOCK.test(desc)) continue
-    have.add(nameKey(p.title)); have.add(nameKey(p.display))
-    extras.push({ name: p.title, role: roleOf(p.rest), year: p.year, desc: '', emoji: '🌟', image: null, url: null, alive: p.year > 1930 && !DEAD.test(p.rest) })
-    if (extras.length >= limit) break
-  }
-  return extras
+  return parseBorn(parsed.parse?.wikitext || '')
 }
 
 // Adds photo + article link (skipping missing and disambiguation pages).
 async function enrich(people, signal) {
   const data = await api({
     action: 'query',
-    titles: people.map(p => p.name).join('|'),
+    titles: people.map(p => p.title || p.name).join('|'),
     prop: 'pageimages|pageprops',
     piprop: 'thumbnail',
     pithumbsize: '400',
@@ -119,7 +70,7 @@ async function enrich(people, signal) {
   for (const rd of data.query?.redirects || []) if (pages[rd.to]) pages[rd.from] = pages[rd.to]
   for (const n of data.query?.normalized || []) if (pages[n.to]) pages[n.from] = pages[n.to]
 
-  return people.map(p => ({ ...p, ...(pages[p.name] || {}) }))
+  return people.map(p => ({ ...p, ...(pages[p.title || p.name] || {}) }))
 }
 
 // Age on today's date: one less if this year's birthday hasn't arrived yet
