@@ -199,6 +199,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/geography', label: 'גאוגרפיה ומולדת', icon: '🗺️' },
           { to: '/learn/civics', label: 'אזרחות וחברה', icon: '🏛️' },
           { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
+          { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
         ],
       },
       {
@@ -535,6 +536,7 @@ export const FOOTER_COLUMNS = [
       ['/learn/geography', 'גאוגרפיה ומולדת'],
       ['/learn/civics', 'אזרחות וחברה'],
       ['/learn/ai', 'אקדמיית ה־AI של בוגה'],
+      ['/learn/photography', 'צילום לילדים ולמתחילים'],
       ['/english', 'אנגלית לילדים'],
       ['/abc', 'לומדים אותיות באנגלית'],
       ['/typing', 'הקלדה עיוורת'],

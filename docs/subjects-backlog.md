@@ -31,7 +31,7 @@ sources; where sources disagree use the cautious form ("כ־", "לפי ההער�
 price claims. Israeli names in examples. Kids' safety first (no dangerous experiments without an adult).
 
 ## Next (top first, by Google volume — Keyword Planner, Israel, Hebrew, 2026-10-28)
-- [ ] `photography` — צילום: מה זו מצלמה ואיך היא בנויה, אור וחשיפה, צמצם, תריס (שאטר), ISO, משולש החשיפה,
+- [x] `photography` (done 2026-10-28) — צילום: מה זו מצלמה ואיך היא בנויה, אור וחשיפה, צמצם, תריס (שאטר), ISO, משולש החשיפה,
   עדשות (מוקד, זווית, סוגי עדשות: רחבה, טלה, מאקרו, פריים, זום), פוקוס ועומק שדה, קומפוזיציה (חוק השלישים,
   קווים מובילים, מסגור, סימטריה, נקודת מבט), סוגי צילום (נוף, דיוקן, מאקרו, ספורט, רחוב, לילה), צבע ואיזון לבן,
   תאורה (שעת הזהב, אור רך וקשה), עריכת תמונות (חיתוך, חשיפה, ניגודיות, ויניאט), צילום בטלפון, היסטוריה של הצילום.

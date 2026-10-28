@@ -903,6 +903,11 @@ export default function App() {
               <Route path="/learn/ai/concepts/:term" element={<ConceptPage key="ai-ct" subjectKey="ai" />} />
               <Route path="/learn/ai/:slug/exam" element={<SubjectExam key="ai-e" subjectKey="ai" />} />
               <Route path="/learn/ai/:slug" element={<SubjectTopic key="ai" subjectKey="ai" />} />
+              <Route path="/learn/photography" element={<SubjectHub key="photography" subjectKey="photography" />} />
+              <Route path="/learn/photography/concepts" element={<ConceptIndex key="photography-c" subjectKey="photography" />} />
+              <Route path="/learn/photography/concepts/:term" element={<ConceptPage key="photography-ct" subjectKey="photography" />} />
+              <Route path="/learn/photography/:slug/exam" element={<SubjectExam key="photography-e" subjectKey="photography" />} />
+              <Route path="/learn/photography/:slug" element={<SubjectTopic key="photography" subjectKey="photography" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
