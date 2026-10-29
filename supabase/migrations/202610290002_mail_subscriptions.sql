@@ -1,4 +1,5 @@
 -- Mail subscriptions (approved by the site owner). Safe to re-run; does not change existing tables or recipients.
+-- Touched so the apply workflow (diff-filter=AM) picks it up: the earlier push was a rename and was skipped.
 begin;
 create table if not exists public.mail_subscriptions (
  id uuid primary key default gen_random_uuid(), email text not null unique,
