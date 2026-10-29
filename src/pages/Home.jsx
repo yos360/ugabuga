@@ -18,6 +18,8 @@ import { homeVariant, recordExperiment } from '../utils/experiments'
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
 // Each destination appears once. The holiday card and the blog list load after the first paint.
 const HolidayToday = lazy(() => import('../components/home/HolidayToday'))
+// Road safety week (1–6.11): an animated banner at the top, rendered only until the week ends.
+const RoadWeekBanner = lazy(() => import('../components/roadsafety/RoadWeekBanner'))
 // The daily family game (time tunnel, or the daily quiz on days without one) sits below the fold —
 // keep its code and the month's question data out of the home page's first load.
 const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
@@ -144,6 +146,7 @@ export default function Home() {
   const posts = useLatestPosts()
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
+      <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip />{variant !== 'bring' && <BringChip />}<ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>

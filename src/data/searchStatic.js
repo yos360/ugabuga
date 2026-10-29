@@ -1569,6 +1569,7 @@ const PAGES = [
   { to: '/family-names', title: 'שמות משפחה — פירוש ומקור', emoji: '🏷️', kind: 'page', desc: 'מה פירוש שם המשפחה שלכם?', keys: 'שמות משפחה פירוש שם משפחה מקור שם המשפחה' },
   ...Object.values(NAME_CATEGORIES).map(c => ({ to: c.path, title: c.title, emoji: c.emoji, kind: 'page', keys: 'שמות משפחה פירוש' })),
   ...FAMILY_NAMES.map(x => ({ to: familyNamePath(x), title: `שם המשפחה ${x.name} — פירוש`, emoji: '🏷️', kind: 'page', keys: `פירוש שם המשפחה ${x.name} ${x.en || ''}` })),
+  { to: '/road-safety-week', title: 'שבוע זהירות בדרכים', emoji: '🚦', kind: 'page', desc: 'חידון לכל כיתה, רמזור, דפי עבודה וצביעה', keys: 'זהירות בדרכים בטיחות בדרכים רמזור מעבר חצייה חגורה קסדה חידון דפי עבודה צביעה הבנת הנקרא כיתה א ב ג ד ה ו' },
   { to: '/holidays/hanukkah/candle-times', title: 'זמני הדלקת נרות חנוכה', emoji: '🕯️', kind: 'page', desc: 'מתי מדליקים בכל לילה, לפי עיר', keys: 'הדלקת נרות חנוכה זמני הדלקה חנוכה מתי מדליקים נרות חנוכה שעה' },
   { to: '/letters/reading-practice', title: 'תרגול קריאה לפי האותיות שלמדנו', emoji: '📖', kind: 'printable', desc: 'דף קריאה מנוקד רק מהאותיות והניקוד שהילד מכיר', keys: 'תרגול קריאה כיתה א דפי קריאה ניקוד הברות מילים משפטים מנוקדים קריאה לשבת' },
   { to: '/printables/emotion-cards', title: 'כרטיסיות רגשות להדפסה', emoji: '😊', kind: 'printable', desc: '24 רגשות עם שאלה לשיחה, ולוח רגשות לקיר', keys: 'כרטיסיות רגשות רגשות לילדים לוח רגשות פינת רגשות גן כרטיסי רגשות להדפסה' },

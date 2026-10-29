@@ -1,0 +1,41 @@
+.rw-banner { display: flex; flex-direction: column; align-items: stretch; gap: .5rem; margin: 0 auto 1rem; max-width: 760px; padding: .6rem; border: 3px solid #1f2937; border-radius: 22px; background: #fde047; box-shadow: 4px 4px 0 #1f2937; text-decoration: none; color: #111; text-align: center; transition: transform .15s }
+.rw-banner:hover { transform: translateY(-2px) }
+.rw-copy { display: flex; flex-direction: column; gap: .15rem }
+.rw-copy b { font-size: 1.5rem; line-height: 1.2 }
+.rw-copy small { font-size: 1rem }
+.rw-cta { align-self: center; padding: .35rem 1.2rem; border-radius: 999px; background: #1f2937; color: #fff; font-weight: 800 }
+.rw-scene { width: 100%; height: auto; border-radius: 14px; display: block }
+
+/* 9-second loop: car drives in and stops (0–28%), child crosses on green (32–66%), car drives on. */
+.rw-car { animation: rw-car 9s infinite }
+.rw-kid { animation: rw-kid 9s infinite }
+.rw-bob { animation: rw-bob .45s infinite alternate ease-in-out }
+.rw-green { animation: rw-green 9s infinite steps(1, end) }
+.rw-red { animation: rw-red 9s infinite steps(1, end) }
+.rw-bubble { animation: rw-bubble 9s infinite }
+@keyframes rw-car { 0% { transform: translateX(-200px); animation-timing-function: cubic-bezier(.2,.7,.3,1) } 28%, 72% { transform: translateX(105px); animation-timing-function: ease-in } 100% { transform: translateX(680px) } }
+@keyframes rw-kid { 0% { transform: translateY(0); opacity: 0 } 5%, 32% { transform: translateY(0); opacity: 1 } 66% { transform: translateY(-140px); opacity: 1 } 92% { transform: translateY(-140px); opacity: 1 } 100% { transform: translateY(-140px); opacity: 0 } }
+@keyframes rw-bob { to { transform: translateY(-2px) } }
+@keyframes rw-green { 0% { opacity: .15 } 30% { opacity: 1 } 68% { opacity: .15 } }
+@keyframes rw-red { 0% { opacity: 1 } 30% { opacity: .15 } 68% { opacity: 1 } }
+@keyframes rw-bubble { 0%, 26% { opacity: 0 } 30%, 66% { opacity: 1 } 70%, 100% { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) {
+  .rw-car, .rw-kid, .rw-bob, .rw-green, .rw-red, .rw-bubble { animation: none }
+  .rw-car { transform: translateX(105px) }
+  .rw-kid { transform: translateY(-70px) }
+  .rw-red { opacity: .15 }
+}
+@media (min-width: 640px) {
+  .rw-banner { flex-direction: row; align-items: center; text-align: right }
+  .rw-scene { width: 46% }
+  .rw-copy { flex: 1 }
+}
+
+/* Traffic-light lab on the hub page */
+.rw-lamp { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #111; background: #374151; transition: background .2s, box-shadow .2s }
+.rw-lamp.on-red { background: #ef4444; box-shadow: 0 0 18px #ef4444 }
+.rw-lamp.on-yellow { background: #facc15; box-shadow: 0 0 18px #facc15 }
+.rw-lamp.on-green { background: #22c55e; box-shadow: 0 0 18px #22c55e }
+.rw-lamp.blink { animation: rw-blink .6s infinite steps(1, end) }
+@keyframes rw-blink { 50% { background: #374151; box-shadow: none } }
+@media (prefers-reduced-motion: reduce) { .rw-lamp.blink { animation: none } }

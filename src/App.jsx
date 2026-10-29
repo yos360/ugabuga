@@ -52,6 +52,7 @@ const RecommendedGuide = lazy(() => import('./pages/recommended/RecommendedPages
 const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
 const ClassRoster = lazy(() => import('./pages/classroom/ClassRoster'))
 const ClassElections = lazy(() => import('./pages/tools/ClassElections'))
+const RoadSafetyWeek = lazy(() => import('./pages/RoadSafetyWeek'))
 import { lazy, Suspense } from 'react'
 
 const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
@@ -559,6 +560,7 @@ export default function App() {
               <Route path="/bugapedia" element={<BugaPedia />} />
               <Route path="/classroom/roster" element={<ClassRoster />} />
               <Route path="/tools/class-elections" element={<ClassElections />} />
+              <Route path="/road-safety-week" element={<RoadSafetyWeek />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/classroom/kindergarten-year-plan" element={<KindergartenYearPlan />} />
               <Route path="/teachers" element={<TeacherHome />} />
