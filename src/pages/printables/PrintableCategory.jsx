@@ -105,6 +105,21 @@ function CategoryCopy({ copy, title }) {
     <SeoBody faq={copy.faq} related={copy.related} />
   </section>
 }
+// Next-step block for the Hebrew tracing page: most visitors print and leave, so offer what comes after the pencil practice.
+function HebrewLettersNext() {
+  const li = 'leading-relaxed text-[var(--foreground)]/80'
+  return <section className="mx-auto mt-10 max-w-3xl" aria-label="מה עושים אחרי שמדפיסים">
+    <h2 className="mb-3 text-2xl font-bold">אחרי שהדפסתם — מה הלאה?</h2>
+    <ul className="list-disc space-y-2 pr-6">
+      <li className={li}>כדי שהאות תיכנס לאצבעות, אפשר לתרגל על דף שורות: <Link to="/printables/lined-paper" className="underline font-bold">דף שורות להדפסה</Link> לכתיבה חופשית של אותיות ומילים.</li>
+      <li className={li}>מכירים את הצורה אבל קשה לזכור את השם והצליל? <Link to="/letters/game" className="underline font-bold">משחק האותיות</Link> מתאים לתרגול קצר של דקה-שתיים, גם בנייד.</li>
+      <li className={li}>לחיזוק הזיכרון החזותי: <Link to="/printables/letter-flashcards" className="underline font-bold">כרטיסיות אותיות להדפסה</Link> שאפשר לגזור ולשחק בהן.</li>
+      <li className={li}>כשהכתב המודפס בטוח, עוברים לכתב רהוט: <Link to="/letters/cursive" className="underline font-bold">אותיות בכתב יד</Link>.</li>
+      <li className={li}>מתחילים לקרוא? <Link to="/learn/reading" className="underline font-bold">תרגול קריאה לפי כיתות</Link> עם טקסטים קצרים.</li>
+    </ul>
+    <p className="mt-4 text-sm text-[var(--muted-foreground)]">טיפ: עדיף שלוש אותיות ביום בהתמדה מכל האלף-בית בישיבה אחת — ילדים מתעייפים מהר ואיכות הכתיבה יורדת.</p>
+  </section>
+}
 const Intro = ({ copy }) => copy ? <p className="mx-auto mb-8 max-w-3xl text-center text-lg leading-relaxed">{copy.intro}</p> : null
 
 // Landscape artwork (297×210 certificates, the snakes-and-ladders board) is turned 90° on the portrait
@@ -139,7 +154,7 @@ export default function PrintableCategory() {
     )
   }
 
-  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/></div>
+  if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/><HebrewLettersNext/></div>
   if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
   if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers" structuredData={schema}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-4 text-center">{cat.desc}</p><Intro copy={copy}/><NumberTracing/><CategoryCopy copy={copy} title={cat.title}/></div>
 
