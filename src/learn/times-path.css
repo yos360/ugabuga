@@ -1,0 +1,32 @@
+/* Times-table path game (/learn/multiplication-game) */
+.ttp-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;scroll-margin-top:80px}
+.ttp-total{font-size:22px;font-weight:900;padding:6px 14px;border:2px solid var(--border,#1d2233);border-radius:999px;background:#fff3c4;color:#1d2233}
+.ttp-stars{display:inline-flex;gap:1px;font-size:15px;line-height:1;color:#cfd3dc}
+.ttp-stars .on{color:#f5b700;text-shadow:0 0 1px #8a6500}
+.ttp-stars.is-big{font-size:46px;gap:6px;margin:6px 0}
+
+.ttp-map{position:relative;max-width:520px;margin:0 auto 10px}
+.ttp-line{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ttp-nodes{list-style:none;margin:0;padding:0}
+.ttp-nodes li{position:absolute;transform:translate(-50%,-34px);display:flex;flex-direction:column;align-items:center;width:132px}
+.ttp-node{width:68px;height:68px;border-radius:50%;border:3px solid var(--border,#1d2233);background:#ffd23f;box-shadow:3px 3px 0 var(--border,#1d2233);font-size:28px;font-weight:900;color:#1d2233;display:grid;place-items:center;touch-action:manipulation}
+.ttp-node.is-review{background:#c9b6ff;border-radius:22px}
+.ttp-node.is-done{background:#7dd87a}
+.ttp-node.is-locked{background:#e6e8ef;color:#888;box-shadow:none;cursor:not-allowed;font-size:24px}
+.ttp-node.is-next{animation:ttp-pulse 1.3s ease-in-out infinite}
+.ttp-node:not(:disabled):active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--border,#1d2233)}
+.ttp-node-cap{margin-top:4px;padding:1px 8px;border-radius:10px;background:var(--card,#fff);border:1px solid var(--border,#1d2233);text-align:center;font-size:13px;line-height:1.25;display:flex;flex-direction:column;align-items:center}
+.ttp-node-cap b{font-weight:800;white-space:nowrap;max-width:126px;overflow:hidden;text-overflow:ellipsis}
+@keyframes ttp-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.ttp-node.is-next{animation:none;outline:4px dashed #7548b3;outline-offset:4px}}
+
+.ttp-game-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.ttp-feedback{min-height:2.2em;text-align:center}
+.ttp-ok{font-size:26px;font-weight:900;color:#2e9e2b;margin:0}
+.ttp-no{background:#fff1f1;border:2px solid #e8a3a3;border-radius:14px;padding:10px 12px;margin-top:6px;line-height:1.6}
+.ttp-eq{font-weight:900;white-space:nowrap}
+.ttp-check{background:#7dd87a!important}
+.ttp-check:disabled{opacity:.45}
+.ttp-result{padding-top:22px}
+.ttp-order{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;list-style:none;padding:0}
+.ttp-order li{padding:6px 10px;border:1px solid var(--border,#1d2233);border-radius:10px;background:var(--card,#fff)}

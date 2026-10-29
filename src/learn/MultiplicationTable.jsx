@@ -215,8 +215,11 @@ function Section({ title, children }) {
 function GameCta() {
   return <div className="ln-box text-center mt-8">
     <p className="text-xl font-black mb-2">🎮 רוצים לבדוק את עצמכם?</p>
-    <p className="mb-3">באתגר לוח הכפל פותרים כמה שיותר תרגילים בדקה ושוברים שיאים.</p>
-    <Link to={GAME} className="ln-btn go inline-flex items-center">לתרגול במשחק ←</Link>
+    <p className="mb-3">באתגר הדקה פותרים כמה שיותר תרגילים ושוברים שיאים, ובמסלול השלבים מתקדמים לוח אחרי לוח ואוספים כוכבים.</p>
+    <div className="flex flex-wrap justify-center gap-3">
+      <Link to={GAME} className="ln-btn go inline-flex items-center">⏱️ לאתגר הדקה ←</Link>
+      <Link to="/learn/multiplication-game" className="ln-btn alt inline-flex items-center">🗺️ למסלול השלבים ←</Link>
+    </div>
   </div>
 }
 

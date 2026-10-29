@@ -46,6 +46,7 @@ const LEARN_DESC = {
   '/math': 'תרגול, מבחנים ודפי עבודה לכל כיתה',
   '/learn/multiplication-table': 'טבלה צבעונית ולוח הכפל להדפסה',
   '/learn/times-tables': 'אתגר הדקה: כמה תרגילים תספיקו?',
+  '/learn/multiplication-game': 'מסלול שלבים מ-1 עד 10 עם כוכבים',
   '/printables/math-worksheets': 'חיבור, חיסור וכפל — להדפסה עם תשובות',
   '/printables/color-by-answer': 'פותרים תרגיל — וצובעים לפי התשובה',
   '/learn/gifted-test': 'אנלוגיות, סדרות, מטריצות וחשיבה',
