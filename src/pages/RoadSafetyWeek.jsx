@@ -5,7 +5,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import PrintPreview from '../components/ui/PrintPreview'
 import TriviaPrint from '../components/quiz/TriviaPrint'
-import { RoadVideo } from '../components/roadsafety/RoadWeekBanner'
+import { RoadScene } from '../components/roadsafety/RoadWeekBanner'
 import { COLORING, WORKSHEETS } from '../components/roadsafety/RoadSafetyArt'
 import { GRADES, READING, SAFE_OR_NOT, WEEK_PLAN, ROAD_FAQ, ROAD_WEEK } from '../data/roadSafetyWeek'
 import { seededRandom, seededShuffle } from '../utils/difficultyLevels'
@@ -148,7 +148,7 @@ export default function RoadSafetyWeek() {
     <SEO title="שבוע זהירות בדרכים 2026 — חידון לכל כיתה, דפי עבודה, צביעה והבנת הנקרא" description="שבוע זהירות בדרכים 1–6.11.2026: מבחן אמריקאי לכל כיתה א׳–ו׳, לימוד רמזור אינטראקטיבי, דפי עבודה אונליין ולהדפסה, דפי צביעה, קטעי הבנת הנקרא ותוכנית יומית לכיתה — בחינם." path="/road-safety-week" structuredData={faqSchema(ROAD_FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שבוע זהירות בדרכים' }]} />
     <header className="mb-6 overflow-hidden rounded-3xl border-2 border-slate-800 bg-yellow-300 p-5 text-center sketch-shadow">
-      <div className="mx-auto max-w-2xl"><RoadVideo /></div>
+      <RoadScene />
       <h1 className="mt-4 text-4xl sm:text-5xl">🚦 שבוע זהירות בדרכים</h1>
       <p className="text-lg font-bold">{ROAD_WEEK.datesText}</p>
       <Status />
