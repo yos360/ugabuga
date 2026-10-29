@@ -15,9 +15,9 @@ One line per day, newest at the bottom ("?" = made before this log existed, uplo
 
 | 2026-10-28 | "איך אני מרגיש/ה היום?" — כרטיסיות רגשות (24 feelings, question on each, boy/girl/both, nikud, wall board) | /printables/emotion-cards | ✗ | ✗ | ✗ | ✗ |
 
-| 2026-10-29 | "אירוע בלי כאב ראש" — אישורי הגעה, מי מביא מה, גמד וענק | /rsvp, /bring-list, /secret-friend | ✗ | ✗ | ✗ | ✗ |
+| 2026-10-29 | "אירוע בלי כאב ראש" — אישורי הגעה, מי מביא מה, גמד וענק | /rsvp, /bring-list, /secret-friend | ✓ | ✓ | ✓ | ✓ |
 
-Note 2026-10-29: upload scheduled 08:00 from the owner's Chrome. Reel, cover and captions are in uploads/2026-10-29/; source in examples/rsvp-trio/.
+Note 2026-10-29: the 08:00 scheduled upload was blocked (its session could not read the ugabuga-reels folder); uploaded at ~08:20 from the owner's Chrome session instead: YouTube https://youtube.com/shorts/-4RMMZdPBVc, Instagram, TikTok, Facebook (עוגה בוגה profile) and the WhatsApp channel. Same cover (the hook frame / cover.jpg) on every network — the owner wants the cover uniform everywhere; on YouTube Shorts a custom image upload did not apply, so pick the hook frame with 'בחירה מהסרטון'. Reel, cover and captions are in uploads/2026-10-29/; source in examples/rsvp-trio/.
 
 Note 2026-10-27: no uploads — Claude in Chrome was not available to the scheduled run (cloud session, no browser tools). Reel + captions are in examples/escape-rooms/; upload manually or on the next run.
 Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to the chat): YouTube https://youtube.com/shorts/1YnuhkZy1Nk, Instagram and Facebook posted. YouTube cover could not be set (frame picker was empty while processing), YouTube picked a frame. TikTok: Chrome was first logged in to "אלוף המצגות", so it was held back; after the owner logged in to עוגה בוגה it was posted (09:35), not yet listed in Studio. Side-panel file upload only accepts files attached to the chat, so a scheduled run cannot upload.
