@@ -120,8 +120,8 @@ export function TimesTables() {
   ]
   const over = game?.over
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="תרגול לוח הכפל — משחק כפל אונליין נגד השעון" description="תרגול לוח הכפל במשחק: כמה תרגילים תפתרו בדקה? בוחרים לוחות 1–10, מקלידים במקלדת גדולה ושוברים שיאים. וגם דפי תרגילים בלוח הכפל להדפסה עם תשובות." path="/learn/times-tables" structuredData={faqSchema(faq)} />
-    <Head emoji="✖️" h1="תרגול לוח הכפל — אתגר הדקה" sub="תרגול לוח הכפל נגד השעון: כמה תרגילים תספיקו בדקה אחת? בוחרים לוחות — ויוצאים לדרך" crumb="תרגול לוח הכפל" />
+    <SEO title="אתגר לוח הכפל בדקה — תרגול כפל נגד השעון" description="אתגר לוח הכפל: כמה תרגילים תפתרו בדקה? בוחרים לוחות 1–10, מקלידים במקלדת גדולה ושוברים שיאים. וגם דפי תרגילים בלוח הכפל להדפסה עם תשובות." path="/learn/times-tables" structuredData={faqSchema(faq)} />
+    <Head emoji="✖️" h1="אתגר לוח הכפל בדקה" sub="תרגול לוח הכפל נגד השעון: כמה תרגילים תספיקו בדקה אחת? בוחרים לוחות — ויוצאים לדרך" crumb="תרגול לוח הכפל" />
     <p className="mb-4 text-center"><a href="/learn/multiplication-table" className="font-bold underline">📋 לוח הכפל המלא להדפסה, ולוח הכפל של כל מספר ←</a><br /><a href="/learn/multiplication-game" className="font-bold underline">🗺️ מעדיפים להתקדם בשלבים? משחק לוח הכפל — מסלול עם כוכבים ←</a></p>
     {!game && <div className="ln-box space-y-4">
       <p className="text-center font-bold">אילו לוחות מתרגלים?</p>

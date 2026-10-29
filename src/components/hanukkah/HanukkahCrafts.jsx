@@ -94,6 +94,6 @@ function Garland() {
 
 export const HANUKKAH_CRAFTS = [
   { id: 'paper-sevivon', name: 'סביבון מנייר לגזירה', age: 'גן–ב׳', C: SevivonNet },
-  { id: 'hanukkiah-cut-glue', name: 'חנוכייה לגזירה ולהדבקה', age: 'גן–א׳', C: HanukkiahCutGlue },
+  { id: 'hanukkiah-cut-glue', name: 'חנוכייה פשוטה להדבקה (דף אחד)', age: 'גן–א׳', C: HanukkiahCutGlue },
   { id: 'garland', name: 'שרשרת חנוכה', age: 'גן–ב׳', C: Garland },
 ]
