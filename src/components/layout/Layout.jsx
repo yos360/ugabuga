@@ -20,9 +20,9 @@ const SiteChatWidget = lazy(() => import('../chat/SiteChatWidget'))
 
 // Lazy: its situation table (greetings, combos) should not ride in the main bundle.
 const EmojiRelated = lazy(() => import('../../emoji/EmojiRelated'))
-// "How it works" video under tool pages: only the path lookup is in the entry, the player is lazy.
+// "How it works" video under tool pages. Lazy along with its data (src/data/videos.js grows daily and
+// must stay out of the entry); it renders nothing on pages without a video.
 const ToolVideos = lazy(() => import('./ToolVideos'))
-import { videosForPath } from '../../data/videos'
 import PresentMode from './PresentMode'
 import { usePresentMode } from '../../utils/presentMode'
 import { creatorTool, installCreationCapture } from '../../utils/creations'
@@ -94,7 +94,7 @@ export default function Layout({ children }) {
       {mounted && <NoVoiceNotice />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{!presenting && <ReturnNavigation />}{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
-      {!presenting && videosForPath(pathname).length > 0 && <Suspense fallback={null}><ToolVideos key={pathname} pathname={pathname} /></Suspense>}
+      {!presenting && pathname !== '/' && <Suspense fallback={null}><ToolVideos key={pathname} pathname={pathname} /></Suspense>}
       {mounted && !presenting && feedbackEligible(pathname) && <PageFeedback key={pathname} pathname={pathname} />}
       {mounted && !presenting && isUgcPath(pathname) && <ReportContent />}
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}

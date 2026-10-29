@@ -9,6 +9,6 @@ test('production entry stays under 150 KB gzip without the full search/content c
   assert.ok(entry)
   assert.ok(gzipSync(entry.code).length <= 150000, 'main entry must fit the decimal 150 KB budget')
   for (const source of entry.map.sources) {
-    assert.doesNotMatch(source, /\/(searchStatic|coloringDrawings|holidayColoringData|alphabetData)\.js$/, `${source} must not be in the entry`)
+    assert.doesNotMatch(source, /\/(searchStatic|coloringDrawings|holidayColoringData|alphabetData|videos)\.js$/, `${source} must not be in the entry`)
   }
 })

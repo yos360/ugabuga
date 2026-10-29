@@ -75,5 +75,6 @@ test('the player stays out of the main entry (lazy in Layout)', () => {
   const layout = read('../src/components/layout/Layout.jsx')
   assert.match(layout, /lazy\(\(\) => import\('\.\/ToolVideos'\)\)/)
   assert.doesNotMatch(layout, /import\s+\w+\s+from\s+'\.\.\/ui\/VideoFacade'/)
+  assert.doesNotMatch(layout, /from\s+'\.\.\/\.\.\/data\/videos'/, 'videos.js grows daily: keep it out of the entry')
   assert.match(app, /const Videos = lazy\(\(\) => import\('\.\/pages\/Videos'\)\)/)
 })
