@@ -224,6 +224,7 @@ const GrandparentsInterview = lazy(() => import('./adults/AdultPages').then(m =>
 const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
 const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
 const SpotTheMistake = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.SpotTheMistake })))
+const WhichSign = lazy(() => import('./learn/zodiac/ZodiacTools').then(m => ({ default: m.WhichSign })))
 const SubjectHub = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectHub })))
 const SubjectTopic = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectTopic })))
 const SubjectExam = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectExam })))
@@ -910,6 +911,12 @@ export default function App() {
               <Route path="/learn/photography/concepts/:term" element={<ConceptPage key="photography-ct" subjectKey="photography" />} />
               <Route path="/learn/photography/:slug/exam" element={<SubjectExam key="photography-e" subjectKey="photography" />} />
               <Route path="/learn/photography/:slug" element={<SubjectTopic key="photography" subjectKey="photography" />} />
+              <Route path="/learn/zodiac" element={<SubjectHub key="zodiac" subjectKey="zodiac" />} />
+              <Route path="/learn/zodiac/which-sign" element={<WhichSign />} />
+              <Route path="/learn/zodiac/concepts" element={<ConceptIndex key="zodiac-c" subjectKey="zodiac" />} />
+              <Route path="/learn/zodiac/concepts/:term" element={<ConceptPage key="zodiac-ct" subjectKey="zodiac" />} />
+              <Route path="/learn/zodiac/:slug/exam" element={<SubjectExam key="zodiac-e" subjectKey="zodiac" />} />
+              <Route path="/learn/zodiac/:slug" element={<SubjectTopic key="zodiac" subjectKey="zodiac" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />

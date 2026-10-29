@@ -35,7 +35,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   עדשות (מוקד, זווית, סוגי עדשות: רחבה, טלה, מאקרו, פריים, זום), פוקוס ועומק שדה, קומפוזיציה (חוק השלישים,
   קווים מובילים, מסגור, סימטריה, נקודת מבט), סוגי צילום (נוף, דיוקן, מאקרו, ספורט, רחוב, לילה), צבע ואיזון לבן,
   תאורה (שעת הזהב, אור רך וקשה), עריכת תמונות (חיתוך, חשיפה, ניגודיות, ויניאט), צילום בטלפון, היסטוריה של הצילום.
-- [ ] `zodiac` — מזלות (approved by the owner 2026-10-28): the 12 signs — name, dates, symbol, element, the
+- [x] `zodiac` (done 2026-10-29: 13 lessons, 33 concepts incl. a page per sign, "which sign am I?" tool; part 2 ideas: Chinese zodiac years, planets traditionally linked to signs, a page per Hebrew month) — מזלות (approved by the owner 2026-10-28): the 12 signs — name, dates, symbol, element, the
   constellation behind it, the matching Hebrew month, what each sign is traditionally said to stand for — presented
   as a cultural tradition, never as prediction or advice. A "which sign am I?" tool by birth date. Google: מזלות 8,100;
   each sign 5,400–8,100 a month; מזלות לפי חודשים 2,400; תאריכי מזלות 1,000.
