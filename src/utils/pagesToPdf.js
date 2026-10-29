@@ -9,6 +9,7 @@ const PAGE_PX = 794 // A4 width at 96 dpi — sheets are laid out at this width 
 const latin1 = s => { const b = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 0xff; return b }
 
 import { buildPdf } from './pdfWriter'
+import { isInAppBrowser } from './pdfLink'
 export { buildPdf } from './pdfWriter'
 
 let pdfFontPromise
@@ -152,7 +153,6 @@ async function fastRender(sheet, scale) {
   return canvas
 }
 
-const IN_APP = /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|Snapchat|TikTok|musical_ly|; wv\)/i
 
 // Slice a tall canvas (a flowing text sheet) into A4-proportioned pieces.
 function sliceCanvas(canvas) {
@@ -240,13 +240,15 @@ export async function savePagesAsPdf(sheets, filename, onProgress, options = {})
   // Remember where the file was made: a blob link that later loses its "blob:" prefix lands on
   // ugabuga.co.il/<uuid>, and the 404 page sends the visitor back here (see NotFound.jsx).
   try { localStorage.setItem('buga-last-pdf', JSON.stringify({ path: location.pathname + location.search, title: filename || '', at: Date.now() })) } catch { /* ignore */ }
-  // In-app browsers (WhatsApp, Facebook, Instagram…) ignore `download` and open the blob URL itself,
-  // which breaks once it is revoked — hand them the file through the share sheet instead.
-  if (IN_APP.test(navigator.userAgent || '')) {
+  // In-app browsers (WhatsApp, Facebook, Instagram…) ignore `download` and open the blob URL itself, which
+  // later surfaces as ugabuga.co.il/<uuid>. Hand them the file through the share sheet; if that is not
+  // possible, do NOT create a blob link — the caller tells the visitor to open the page in Chrome/Safari.
+  if (isInAppBrowser(navigator.userAgent)) {
     try {
       const file = new File([blob], name, { type: 'application/pdf' })
       if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: name }); return 'shared' }
     } catch (e) { if (e?.name === 'AbortError') return 'cancelled' }
+    return { status: 'needs-browser' }
   }
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')

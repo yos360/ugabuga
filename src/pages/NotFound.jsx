@@ -34,7 +34,7 @@ function ExpiredFile() {
         <h1 className="text-3xl sm:text-4xl mb-3">הקובץ כבר לא זמין בקישור הזה</h1>
         <p className="mx-auto max-w-xl text-lg text-[var(--ink)]/75 mb-6">
           זה היה קישור זמני לקובץ PDF שנוצר אצלכם בדפדפן — הקובץ עצמו לא נשמר באתר. חוזרים לדף, לוחצים שוב על "⬇️ הורדה כ-PDF", ושומרים את הקובץ בטלפון או במחשב.
-          {' '}אם פתחתם את האתר מתוך וואטסאפ או פייסבוק, כדאי לפתוח אותו בכרום או בספארי (⋮ ← "פתיחה בדפדפן").
+          {' '}כדי לשמור PDF צריך לפתוח את הדף בכרום או בספארי — אם הגעתם מוואטסאפ, פייסבוק או אינסטגרם, לוחצים ⋮ או ⋯ ← "פתיחה בדפדפן".
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           {last && <Link to={last.path}><WobblyButton>↩️ חזרה ל{last.title ? `"${last.title}"` : 'דף שממנו הורדתם'}</WobblyButton></Link>}
