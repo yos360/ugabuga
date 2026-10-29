@@ -39,3 +39,7 @@ Data rules: read-only, aggregate numbers and page paths only.
 - Covered dates: 10-29 … 11-29 (22 of 33 dates have a verified entry). No verified entry yet: 11-01, 11-05, 11-06, 11-08, 11-11, 11-14, 11-17, 11-21, 11-28, 11-30.
 - Left: the other ~330 dates. Dropped for uncertainty (do not re-add without a better source): Trumpeldor birth 21.11.1880 (Julian/Gregorian unclear), Hanna Maron birth (22 vs 23.11), Sharon/Kadima 21.11.2005 (day disputed), Operation Yachin 28.11.1961 (single source).
 - To extend: add keys to `TT_ISRAEL` (tests/time-tunnel-israel.test.mjs enforces two distinct https sources per entry).
+
+### Thin templated pages (2026-10-29)
+- No page was noindexed: no Search Console page data is available yet (the `search-console` workflow never ran), and every family has per-page text. Family counts, suggestions and the reversible procedure are in `docs/seo/noindex-thin-pages.md`.
+- Next step: set `GSC_SERVICE_ACCOUNT`, wait 4–8 weeks, then decide on `/printables/coloring/<subject>/N` and `/en/coloring/<holiday>/N`.
