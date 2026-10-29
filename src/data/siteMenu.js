@@ -132,6 +132,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/math', label: 'מתמטיקה לפי כיתה (א׳–י״ב)', icon: '🧮' },
           { to: '/learn/multiplication-table', label: 'לוח הכפל', icon: '✖️' },
+          { to: '/learn/multiplication-game', label: 'משחק לוח הכפל', icon: '🗺️' },
           { to: '/learn/times-tables', label: 'תרגול לוח הכפל', icon: '⏱️' },
           { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
           { to: '/printables/math-order-puzzles', label: 'פותרים ומסדרים', icon: '🧩' },

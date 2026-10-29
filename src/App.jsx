@@ -188,6 +188,7 @@ const ReadingIndex = lazy(() => import('./learn/LearnPages').then(m => ({ defaul
 const ReadingPage = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingPage })))
 const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.ReadingGrade })))
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
+const TimesTablePath = lazy(() => import('./learn/TimesTablePath.jsx'))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
 const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
@@ -860,6 +861,7 @@ export default function App() {
               <Route path="/learn/reading/grade-8" element={<ReadingGrade key="g8" grade={8} />} />
               <Route path="/learn/reading/:slug" element={<ReadingPage />} />
               <Route path="/learn/times-tables" element={<TimesTables />} />
+              <Route path="/learn/multiplication-game" element={<TimesTablePath />} />
               <Route path="/learn/multiplication-table" element={<MultiplicationTable />} />
               <Route path="/learn/multiplication-table/100" element={<MultiplicationTable100 />} />
               <Route path="/learn/multiplication-table/1000" element={<MultiplicationTable1000 />} />

@@ -244,6 +244,11 @@ export function MathHub() {
       <p className="mt-4 text-center text-lg"><span aria-hidden="true">❌⭕ </span>למורים: <Link to="/classroom/math-tic-tac-toe" className="font-bold underline">איקס־עיגול חשבוני לכיתה</Link> — משחק קבוצות על המקרן, כיתות א׳–ד׳</p>
     </div>
 
+    <Link to="/learn/multiplication-game" className="mx-auto mt-8 flex max-w-2xl items-center gap-4 rounded-3xl border-2 border-[var(--border)] bg-amber-50 p-4 sketch-shadow-sm card-lift text-[#1d2233]">
+      <span className="text-5xl" aria-hidden="true">🗺️</span>
+      <span><b className="block text-xl font-black">משחק לוח הכפל — מסלול השלבים</b><small className="block text-base">מהלוח של 1 עד הלוח של 10: משוב מיידי, כוכבים ודף תרגול להדפסה ←</small></span>
+    </Link>
+
     <section className="mt-10" aria-labelledby="st-kg">
       <h2 id="st-kg" className="mb-4 text-2xl font-black">גן <small className="text-base font-bold text-[var(--muted-foreground)]">· גן חובה</small></h2>
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"><Link to={KINDERGARTEN.path} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-center mth-grade-card">
@@ -265,7 +270,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'משחק לוח הכפל', href: '/learn/multiplication-game' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
