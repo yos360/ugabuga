@@ -13,6 +13,7 @@ export const SIGD_H = {
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️', title: 'דפי צביעה', blurb: 'מטרייה צבעונית, חומות ירושלים, ספר האורית ולחם הדאבו — 6 דפים' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️', title: 'דפי עבודה', blurb: 'מקשטים מטרייה, ספירה, התאמה ומילים של סיגד' },
     { to: base + '/what-to-do', label: 'פעילויות', emoji: '💡', title: 'פעילויות לסיגד', blurb: 'תהלוכת מטריות, "הר" בגן, טעמים ומוזיקה' },
+    { to: base + '/special-ed-grade-3', label: 'קוראים ועונים', emoji: '📖', title: 'כיתה ג׳ חינוך מיוחד', blurb: 'טקסט קצר מנוקד ושאלות עם תמונות' },
   ],
   hub: {
     title: `מתי סיגד ${SIGD.year}? מה זה סיגד — דפי צביעה ופעילויות לילדים`,

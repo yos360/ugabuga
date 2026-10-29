@@ -53,6 +53,7 @@ const BugaPedia = lazy(() => import('./pages/classroom/BugaPedia'))
 const ClassRoster = lazy(() => import('./pages/classroom/ClassRoster'))
 const ClassElections = lazy(() => import('./pages/tools/ClassElections'))
 const RoadSafetyWeek = lazy(() => import('./pages/RoadSafetyWeek'))
+const SigdSpecialEd = lazy(() => import('./pages/SigdSpecialEd'))
 import { lazy, Suspense } from 'react'
 
 const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
@@ -1067,6 +1068,7 @@ export default function App() {
               <Route path="/holidays/tu-bishvat/worksheets" element={<HolidayRoute key="tu-bishvat-worksheets" slug="tu-bishvat" kind="worksheets" />} />
               <Route path="/holidays/tu-bishvat/what-to-do" element={<HolidayRoute key="tu-bishvat-what-to-do" slug="tu-bishvat" kind="what-to-do" />} />
               <Route path="/tu-bishvat" element={<Navigate to="/holidays/tu-bishvat" replace />} />
+              <Route path="/holidays/sigd/special-ed-grade-3" element={<SigdSpecialEd />} />
               <Route path="/holidays/:slug" element={<HolidayRoute />} />
               <Route path="/holidays/:slug/:kind" element={<HolidayRoute />} />
               <Route path="/purim" element={<Navigate to="/holidays/purim" replace />} />
