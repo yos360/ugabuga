@@ -241,6 +241,7 @@ export function MathHub() {
       <label htmlFor="math-q" className="sr-only">חיפוש נושא</label>
       <input id="math-q" type="search" className="mth-search" value={q} onChange={e => setQ(e.target.value)} placeholder="חיפוש נושא: שברים, היקף, משוואות…" />
       {term.length >= 2 && <div className="mth-hits" aria-live="polite">{hits.length ? hits.map(({ t, g }) => <Link key={`${g.n}/${t.slug}`} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title} · {gradeName(g)}</Link>) : <p className="m-0">לא נמצא נושא כזה. נסו מילה אחרת.</p>}</div>}
+      <p className="mt-4 text-center text-lg"><span aria-hidden="true">❌⭕ </span>למורים: <Link to="/classroom/math-tic-tac-toe" className="font-bold underline">איקס־עיגול חשבוני לכיתה</Link> — משחק קבוצות על המקרן, כיתות א׳–ד׳</p>
     </div>
 
     <section className="mt-10" aria-labelledby="st-kg">
@@ -264,7 +265,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
