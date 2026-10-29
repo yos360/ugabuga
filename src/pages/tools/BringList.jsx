@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import SiteInvite from '../../components/ui/SiteInvite'
+import { logInviteCta } from '../../utils/liveActivity'
 import { partyDb, partyMemory, shortLink, newId } from '../../utils/partyDb'
 
 const POLL_MS = 10000
@@ -42,7 +44,7 @@ function tokenFromHash(code) {
 }
 const organizerLink = (code, token) => `${shortLink(code)}#k=${token}`
 // "?wa" marks visits that come from the WhatsApp invite (the app sends no referrer).
-const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}?wa`
+const inviteText = (title, code) => `🧺 מי מביא מה ל${title || 'מסיבה'}?\nתפסו פריט בלחיצה — בלי הרשמה 👇\n${shortLink(code)}?wa\nנוצר בחינם בעוגה בוגה 🎂`
 
 function useToast() {
   const [toast, setToast] = useState(null)
@@ -279,7 +281,7 @@ export default function BringList() {
       <PrintExisting selector="main .bring-print-source" className="mt-2 w-full rounded-xl border-2 border-slate-800 bg-white px-4 py-3 font-bold">🖨️ הדפסה</PrintExisting>
       {owner
         ? <p className="mt-4 text-sm text-slate-600">מי שמקבל את הקישור לא יכול לשנות או למחוק פריטים — רק לתפוס פריט פנוי.</p>
-        : <p className="mt-4 text-sm text-slate-600">מארגנים משהו בעצמכם? <Link to="/tools/bring-list" className="font-bold underline">פתחו רשימה משלכם</Link></p>}
+        : <p className="mt-4 text-sm text-slate-600">מארגנים משהו בעצמכם? <Link to="/tools/bring-list" onClick={() => logInviteCta('bring-line', '/tools/bring-list')} className="font-bold underline">פתחו רשימה משלכם</Link></p>}
       {owner && code && <p className="mt-3 text-sm text-slate-600">פותחים את הרשימה מתוך וואטסאפ או מטלפון אחר? <button onClick={copyOrganizerLink} className="font-bold underline">🔑 העתקת קישור ניהול</button> — רק לכם, לא לשלוח לקבוצה.</p>}
       {owner && code && <button onClick={() => setConfirmDelete(true)} className="mt-3 text-sm text-rose-700 underline">🗑️ מחיקת הרשימה</button>}
       {owner && !code && myLists.length > 0 && <p className="mt-4 text-sm"><b>הרשימות שלי:</b> {myLists.map((l, n) => <span key={l.code}>{n > 0 && ' · '}<a className="underline" href={`/l/${l.code}`}>{l.title}</a></span>)}</p>}
@@ -295,6 +297,7 @@ export default function BringList() {
         <p className="mt-2 text-lg text-[var(--muted-foreground)]">רשימה שיתופית למסיבה — כל אחד תופס פריט, בלי הרשמה.</p>
       </header>
       {body}
+      {!owner && code && !deleted && !error && !loading && <SiteInvite context="bring" className="no-print mt-8" />}
       {confirmDelete && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setConfirmDelete(false)}>
         <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="bl-del-q">
           <h2 id="bl-del-q" className="text-xl font-bold">למחוק את הרשימה?</h2>

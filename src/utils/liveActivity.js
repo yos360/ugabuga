@@ -248,6 +248,24 @@ export function logSponsorClick(id, pathname = location.pathname) {
     flushDb()
   })
 }
+// A guest clicking "make your own" in SiteInvite / the bring list, for counting how much the shared
+// event links bring back. Stored as action 'use' with category 'invite-cta:<context>' on a fixed tool
+// path (never the guest's /r/<code> link, which is a capability) — nothing personal, same daily anonymous id.
+export function logInviteCta(context, toolPath) {
+  const clean = String(context || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30)
+  const path = cleanPath(toolPath)
+  if (!clean || !path || excluded(path)) return
+  const category = `invite-cta:${clean}`, key = `${category}:${path}`
+  if (Date.now() - (logged.get(key) || 0) < 3000) return
+  logged.set(key, Date.now())
+  markHuman()
+  visitorPromise ||= browserKey().catch(() => null)
+  void visitorPromise.then(visitor => {
+    dbQueue.push({ p_category: category, p_action: 'use', p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null })
+    if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
+    flushDb()
+  })
+}
 // The anonymous id lives for one calendar day (until local midnight), so "visitors today" counts
 // each browser exactly once. It used to live 24 hours from the first visit, which split a person
 // who came back the same day into two visitors and carried yesterday's id into today.

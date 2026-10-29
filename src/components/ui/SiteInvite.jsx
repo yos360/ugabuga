@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { logInviteCta } from '../../utils/liveActivity'
 
 // Shown on the pages people reach from a shared link (RSVP, thank-you wall, secret-friend draw,
 // homework, quizzes): they came for one thing, so offer three things from the site that fit why
@@ -26,6 +27,12 @@ const CONTEXTS = {
     text: 'עוגה בוגה — כלים חינמיים לאירועים, ומשחקים ודפי פעילות לילדים.',
     links: [['/invitation', '💌', 'הזמנה מעוצבת'], ['/tools', '🧰', 'כל הכלים למארגנים'], ['/games', '🎲', 'משחקים לילדים']],
     own: ['/rsvp', 'גם לכם יש אירוע? יוצרים אישור הגעה בחינם'],
+  },
+  bring: {
+    title: 'בזמן שאתם כאן 🧺',
+    text: 'עוגה בוגה — אתר חינמי למשפחה עם כל מה שצריך למסיבה הבאה.',
+    links: [['/games/birthday', '🎲', 'משחקים למסיבה'], ['/invitation', '💌', 'הזמנה מעוצבת בחינם'], ['/rsvp', '✅', 'אישורי הגעה בחינם']],
+    own: ['/tools/bring-list', 'מארגנים אירוע? פותחים רשימת "מי מביא מה" בחינם'],
   },
   teacher: {
     title: 'עוד מעוגה בוגה לגן ולכיתה 🍎',
@@ -85,7 +92,7 @@ export default function SiteInvite({ context = 'party', className = '', compact 
       <span className="text-2xl text-slate-500" aria-hidden="true">‹</span>
     </Link>)}</div>
     <p className="mt-3 text-sm text-slate-500">בחינם לגמרי · בלי הרשמה</p>
-    {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
+    {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} onClick={() => logInviteCta(context, c.own[0])} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
   </nav>
   return <aside className={`rounded-3xl border-2 border-violet-200 bg-gradient-to-b from-violet-50 to-white p-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
     <h2 className="text-xl font-black">{c.title}</h2>
@@ -93,7 +100,7 @@ export default function SiteInvite({ context = 'party', className = '', compact 
     <div className="mt-4 grid grid-cols-3 gap-2">{c.links.map(([to, emoji, label]) => <Link key={to} to={to} className="rounded-2xl border-2 border-slate-100 bg-white p-3 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300">
       <span className="block text-3xl" aria-hidden="true">{emoji}</span>{label}
     </Link>)}</div>
-    {c.own && <p className="mt-4 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
+    {c.own && <p className="mt-4 text-sm"><Link to={c.own[0]} onClick={() => logInviteCta(context, c.own[0])} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
     <p className="mt-2 text-sm"><Link to="/" className="font-bold underline">🎂 לכל האתר</Link></p>
   </aside>
 }
@@ -109,7 +116,7 @@ function SiteInviteEn({ context, className, compact }) {
       <span className="text-2xl text-slate-500" aria-hidden="true">›</span>
     </Link>)}</div>
     <p className="mt-3 text-sm text-slate-500">Completely free · No sign-up</p>
-    <p className="mt-3 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} →</Link></p>
+    <p className="mt-3 text-sm"><Link to={c.own[0]} onClick={() => logInviteCta(`${context}-en`, c.own[0])} className="font-bold text-violet-700 underline">{c.own[1]} →</Link></p>
   </nav>
   return <aside className={`rounded-3xl border-2 border-violet-200 bg-gradient-to-b from-violet-50 to-white p-5 text-center ${className}`} aria-label="More from Ugabuga" dir="ltr" lang="en">
     <h2 className="text-xl font-black">{c.title}</h2>
@@ -117,7 +124,7 @@ function SiteInviteEn({ context, className, compact }) {
     <div className="mt-4 grid grid-cols-3 gap-2">{c.links.map(([to, emoji, label]) => <Link key={to} to={to} className="rounded-2xl border-2 border-slate-100 bg-white p-3 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300">
       <span className="block text-3xl" aria-hidden="true">{emoji}</span>{label}
     </Link>)}</div>
-    <p className="mt-4 text-sm"><Link to={c.own[0]} className="font-bold text-violet-700 underline">{c.own[1]} →</Link></p>
+    <p className="mt-4 text-sm"><Link to={c.own[0]} onClick={() => logInviteCta(`${context}-en`, c.own[0])} className="font-bold text-violet-700 underline">{c.own[1]} →</Link></p>
     <p className="mt-2 text-sm"><Link to="/en" className="font-bold underline">🎂 Explore Ugabuga</Link></p>
   </aside>
 }
