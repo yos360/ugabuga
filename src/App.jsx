@@ -283,6 +283,7 @@ const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ 
 const ShabbatGames = lazy(() => import('./pages/games/ShabbatGames'))
 const TeacherGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.TeacherGiftPage })))
 const GananetGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.GananetGiftPage })))
+const HanukkahStaffGift = lazy(() => import('./pages/gifts/HanukkahStaffGift'))
 const KindergartenGraduation = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.KindergartenGraduation })))
 const SixthGradeGraduation = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.SixthGradeGraduation })))
 const SchoolSuppliesList = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.SchoolSuppliesList })))
@@ -1174,6 +1175,7 @@ export default function App() {
               <Route path="/gifts/under-100" element={<GiftsIndex />} />
               <Route path="/gifts/teacher-end-of-year" element={<TeacherGiftPage />} />
               <Route path="/gifts/gananet" element={<GananetGiftPage />} />
+              <Route path="/gifts/hanukkah-staff" element={<HanukkahStaffGift />} />
               <Route path="/gifts/:age" element={<AgeGiftPage />} />
               <Route path="/recommended" element={<RecommendedHub />} />
               <Route path="/recommended/travel" element={<RecommendedGuide id="travel" />} />
