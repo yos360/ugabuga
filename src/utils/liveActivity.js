@@ -1,3 +1,4 @@
+import { isUuidPath, EXPIRED_PDF_PATH } from './pdfLink.js'
 // Separate public Realtime connection. No changes to the content database.
 // Only fixed codes leave the browser: never names, form values or full URLs.
 export const ACTIVITY_LABELS = Object.freeze({
@@ -83,6 +84,8 @@ function cleanPath(path) {
   const p = String(path || '').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/'
   // A shared-space URL is itself a read capability; never put it in activity logs.
   if (p.startsWith('/t/')) return '/shared-space'
+  // ugabuga.co.il/<uuid> is a PDF blob link that lost its "blob:" prefix; count them as one page.
+  if (isUuidPath(p)) return EXPIRED_PDF_PATH
   return /^\/[a-z0-9/_-]{0,119}$/.test(p) ? p : null
 }
 function deviceType() {

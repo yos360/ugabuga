@@ -17,6 +17,7 @@ import SponsorClicks from '../components/owner/SponsorClicks'
 import SiteSignals from '../components/owner/SiteSignals'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 import OwnerTakedown from '../components/owner/OwnerTakedown'
+import { EXPIRED_PDF_PATH, isUuidPath } from '../utils/pdfLink'
 
 // Fixed categorical order (never reassigned per-render) — validated for
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
@@ -81,6 +82,7 @@ function usePageTitles() {
 }
 function pageName(row) {
   const path = (row.path || '/').replace(/\/+$/, '') || '/'
+  if (path === EXPIRED_PDF_PATH || isUuidPath(path)) return '📄 קישור PDF שפג (הורדה שנכשלה)'
   if (pageTitles.has(path)) return pageTitles.get(path)
   const base = ACTIVITY_LABELS[row.category] || row.category || 'עמוד'
   return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
