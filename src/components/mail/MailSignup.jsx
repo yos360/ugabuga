@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useId, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 const ShabbatCitySelect = lazy(() => import('./ShabbatCitySelect'))
 import { mailApi, normalizeMail, REMINDER_OPTIONS } from '../../utils/mailPreferences'
 
@@ -8,12 +8,15 @@ export default function MailSignup({ city, expanded = false, allowShabbat = fals
   const [form, setForm] = useState({ email: '', city: city?.slug || 'jerusalem', minutes: 60, shabbat: false, weekly: false, marketing: false })
   const [message, setMessage] = useState(''), [busy, setBusy] = useState(false), [sent, setSent] = useState(false)
   useEffect(() => { if (!open) return; let live = true; mailApi('health').then(d => { if (live) setReady(d.ready) }).catch(() => { if (live) setReady(false) }); return () => { live = false } }, [open])
+  // "#mail-signup" links (e.g. the home page CTA) open the form and scroll to it
+  const { hash, key } = useLocation()
+  useEffect(() => { if (hash !== '#mail-signup') return; setOpen(true); document.getElementById('mail-signup')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, [hash, key])
   const set = (key, value) => setForm(f => ({ ...f, [key]: value }))
   async function submit(e) {
     e.preventDefault(); setBusy(true); setMessage('')
     try { await mailApi('subscribe', { preferences: normalizeMail(form) }); setSent(true); setMessage('אם ניתן לשלוח לכתובת הזו, יגיע אליכם מייל עם קישור לאישור. בדקו גם בתיקיית הספאם. ההרשמה תופעל רק לאחר האישור.') } catch (e) { setMessage(e.message) } finally { setBusy(false) }
   }
-  return <section className="mail-signup no-print" aria-labelledby={`${id}-title`}>
+  return <section id="mail-signup" className="mail-signup no-print" aria-labelledby={`${id}-title`}>
     <div className="mail-signup-intro"><div><h2 id={`${id}-title`}>{allowShabbat ? 'תזכורת לשבת, בזמן שמתאים לכם' : 'קצת השראה, פעם בשבוע'}</h2><p>{allowShabbat ? 'בוחרים עיר ומתי לקבל תזכורת במייל לפני כניסת שבת.' : 'עד שלושה רעיונות למשחק, יצירה וזמן ביחד.'}</p></div><button type="button" className="mail-button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? 'סגירה' : 'מה אפשר לקבל במייל?'}</button></div>
     {open && <form onSubmit={submit} className="mail-form">
       <p>אתם בוחרים מה לקבל. בלי חשבון, בלי סיסמה, ואפשר לבטל בכל רגע.</p>

@@ -202,7 +202,7 @@ export default function Home() {
     </section>
     <SponsorBanner />
     <footer className="hp-footer">
-      <div className="hp-foot-news"><b>קצת השראה, פעם בשבוע</b><span>עד שלושה רעיונות למשחק, יצירה וזמן ביחד</span><Link to="/mail-preferences">להרשמה ←</Link></div>
+      <div className="hp-foot-news"><b>קצת השראה, פעם בשבוע</b><span>עד שלושה רעיונות למשחק, יצירה וזמן ביחד</span><Link to="#mail-signup">להרשמה ←</Link></div>
       <div className="hp-foot-bottom">
         <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['פרסום באתר', '/advertise'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<a href="mailto:hellobugabuga@gmail.com">צרו קשר</a></nav>
         <SocialIcons />
