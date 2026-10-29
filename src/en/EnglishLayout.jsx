@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react'
 import SEO from '../components/ui/SEO'
 import ScrollToTop from '../components/layout/ScrollToTop'
 import ReturnNavigation from '../components/layout/ReturnNavigation'
+import { recordNotFound } from '../components/layout/RecentActivity'
 import BackLink from '../components/ui/BackLink'
 import { ENGLISH_SECTIONS, hebrewCounterpart } from './englishLinks'
 import './english.css'
@@ -51,5 +52,7 @@ export default function EnglishLayout({ children }) {
   </div>
 }
 export function EnglishNotFound() {
+  const { pathname } = useLocation()
+  useEffect(() => { recordNotFound(pathname) }, [pathname])
   return <div className="en-page"><SEO lang="en" title="Page not found" description="This English page is not available. Return to the Ugabuga English home." noindex /><h1>We could not find that page</h1><p>The address may be incomplete, or this activity may not be available in English yet.</p><BackLink to="/en" lang="en">Back to English home</BackLink></div>
 }

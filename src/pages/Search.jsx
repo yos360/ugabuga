@@ -8,6 +8,7 @@ import { KINDS, byPopularity, gameItem, rankWords, searchItems } from '../data/s
 import { loadPagePopularity } from '../utils/pagePopularity'
 import { STATIC_ITEMS } from '../data/searchStatic'
 import { RequestCard } from '../components/ui/RequestBanner'
+import { recordSearchResult } from '../components/layout/RecentActivity'
 
 const SUGGESTIONS = ['מבוך', 'יום הולדת', 'צביעה', 'כיתה א', 'בינגו', 'חדר בריחה', 'אותיות', 'מתנות', 'טריוויה']
 
@@ -28,12 +29,19 @@ export default function Search() {
   })
   const [input, setInput] = useState(q)
   useEffect(() => setInput(q), [q])
-  const { games } = useGames()
+  const { games, loading: gamesLoading } = useGames()
   const items = useMemo(() => [...STATIC_ITEMS, ...games.map(gameItem)], [games])
   const [pop, setPop] = useState(null)
   useEffect(() => { let alive = true; loadPagePopularity().then(m => { if (alive) setPop(m) }); return () => { alive = false } }, [])
   const results = useMemo(() => byPopularity(searchItems(items, q), pop), [items, q, pop])
   const suggestions = useMemo(() => rankWords(SUGGESTIONS, items, pop), [items, pop])
+  // Measured once the query has stayed put for 2 seconds and the games list has loaded: only the size bucket
+  // is stored, plus the words of a zero-result search if they are 1-3 plain words (see utils/liveActivity.js).
+  useEffect(() => {
+    if (!q || gamesLoading) return
+    const t = setTimeout(() => recordSearchResult(results.length, q), 2000)
+    return () => clearTimeout(t)
+  }, [q, gamesLoading, results.length])
   const groups = useMemo(() => {
     const by = {}
     for (const r of results) (by[r.kind] ||= []).push(r)

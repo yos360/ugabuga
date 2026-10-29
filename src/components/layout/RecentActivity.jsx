@@ -22,6 +22,11 @@ export function recordSheetAction(action = 'print', pathname = window.location.p
     if (action === 'download') m.recordSuccessfulPdf(pathname)
   }).catch(() => {})
 }
+// Site signals (see utils/liveActivity.js): no visitor id, best-effort.
+export function recordNotFound(pathname = window.location.pathname) { void loadActivity().then(m => m?.logSignal('notfound', pathname)).catch(() => {}) }
+export function recordPageError(error) { void loadActivity().then(m => m?.logSignal('jserror', window.location.pathname, { value: m.errorClass(error) || 'other' })).catch(() => {}) }
+export function recordSearchResult(count, term) { void loadActivity().then(m => m?.recordSearch(count, term)).catch(() => {}) }
+export function recordHelpful(vote, pathname = window.location.pathname) { void loadActivity().then(m => m?.logSignal('helpful', pathname, { value: vote, click: true })).catch(() => {}) }
 export const recordPrintPreview = () => recordSheetAction('print')
 
 // Closing the banner hides it for a month on this browser.
@@ -58,14 +63,15 @@ export default function RecentActivity() {
   useEffect(() => {
     // Every page view goes to the private owner log; the public live banner
     // still only shows the curated activity categories.
-    let timer = null
+    let timer = null, stopScroll = null, gone = false
     void loadActivity().then(m => {
-      if (!m) return
+      if (!m || gone) return
       m.logEvent('open', pathname)
       m.trackTime(pathname)
+      stopScroll = m.watchScroll(pathname)
       timer = setTimeout(() => m.recordActivity('open', m.activityForPath(pathname)), 1800)
     }).catch(() => {})
-    return () => clearTimeout(timer)
+    return () => { gone = true; clearTimeout(timer); if (stopScroll) stopScroll() }
   }, [pathname])
   if (hidden || !mod || !state.count) return null
   const { ACTIVITY_LABELS, ACTION_LABELS } = mod

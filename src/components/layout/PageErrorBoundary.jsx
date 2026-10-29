@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import { useLocation } from 'react-router-dom'
+import { recordPageError } from './RecentActivity'
 
 // If one page crashes, show a friendly message inside the normal layout instead of a blank site.
 // Keyed by path, so moving to another page starts fresh.
 class Boundary extends Component {
   state = { failed: false }
   static getDerivedStateFromError() { return { failed: true } }
-  componentDidCatch(error) { console.error('Page crashed:', error) }
+  componentDidCatch(error) { console.error('Page crashed:', error); recordPageError(error) }
   render() {
     if (!this.state.failed) return this.props.children
     if (this.props.en) return <div className="en-page"><h1>Something went wrong</h1><p>Please reload this page and try again.</p><button onClick={() => window.location.reload()}>Reload page</button><p><a href="/en">English home</a></p></div>

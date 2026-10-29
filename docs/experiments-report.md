@@ -1,5 +1,7 @@
 # Weekly long-term check — "מה עובד באתר?"
 
+> What the site measures (scroll reach, 404s, searches with no results, next-step links, 👍/👎, JS errors), table/action names and example SQL: see [analytics.md](analytics.md).
+
 A scheduled task runs this every week and sends the owner a short Hebrew summary of the changes made on
 28–29.10.2026, measured over time (one day is noise; weeks show the truth):
 

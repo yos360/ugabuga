@@ -1,5 +1,7 @@
 # Daily print analyst — "למה היום הדפיסו יותר/פחות?"
 
+> All site measurements, their tables and example SQL: see [analytics.md](analytics.md).
+
 A scheduled task reads the site's own activity numbers every evening and sends the owner a short Hebrew
 explanation: how today compares with yesterday and with the same weekday last week, *why* (one heavy printer,
 a traffic source that spiked or dropped, a page that took off), and one or two concrete things to try.

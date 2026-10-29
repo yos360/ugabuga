@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { recordNotFound } from '../components/layout/RecentActivity'
 import WobblyCard from '../components/ui/WobblyCard'
 import WobblyButton from '../components/ui/WobblyButton'
 import SEO from '../components/ui/SEO'
@@ -45,6 +47,7 @@ function ExpiredFile() {
 
 export default function NotFound() {
   const { pathname } = useLocation()
+  useEffect(() => { if (!BLOB_ID.test(pathname)) recordNotFound(pathname) }, [pathname])
   if (BLOB_ID.test(pathname)) return <ExpiredFile />
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 text-center">

@@ -266,6 +266,102 @@ export function logInviteCta(context, toolPath) {
     flushDb()
   })
 }
+// ---- Site signals: scroll reach, 404s, JS errors, search, next-step links, "האם זה עזר?" ----
+// Stored in their own table (record_site_signal) with NO visitor id: only a clean path, a fixed
+// code and the device type. Same rules as above: waits for the human check, never the owner's browser.
+const SIGNAL_KINDS = ['scroll', 'notfound', 'jserror', 'search', 'nav', 'helpful']
+// A path safe to log: lowercase, no query/hash, and any segment that looks like an id or token
+// (a UUID, or a long hyphen-less mix of letters and digits) becomes "_id" — shared links are capabilities.
+export function signalPath(raw) {
+  const p = cleanPath(raw)
+  if (!p) return null
+  return p.split('/').map(s => /^[0-9a-f]{8}-[0-9a-f]{4}-/.test(s) || /^\d{8,}$/.test(s) || (s.length >= 12 && !/[-_]/.test(s) && /\d/.test(s) && /[a-z]/.test(s)) ? '_id' : s).join('/') || '/'
+}
+// The internal page a link leads to, or null for other sites, downloads and mailto/tel links.
+export function internalTarget(href, origin) {
+  try {
+    const u = new URL(href, origin)
+    if (!/^https?:$/.test(u.protocol) || u.origin !== origin) return null
+    return signalPath(u.pathname)
+  } catch { return null }
+}
+export function scrollable(viewport, total) { return viewport > 0 && total >= viewport * 1.3 }
+export function scrollRatio(y, viewport, total) { return total > 0 ? Math.min(1, Math.max(0, (y + viewport) / total)) : 0 }
+// Milestones (50 / 90 percent) newly passed; both are returned if the visitor jumps straight to the end.
+export function newMilestones(ratio, done) { return [50, 90].filter(m => ratio * 100 >= m && !done.has(m)) }
+export function searchBucket(count) {
+  if (!Number.isInteger(count) || count < 0) return null
+  return count === 0 ? 'r0' : count <= 5 ? 'r1_5' : 'r6p'
+}
+// The only search words that may leave the browser: 1-3 plain words of Hebrew/English letters, 2-30 chars
+// (no digits, @, links or punctuation). The server repeats this and runs the content filter.
+export function safeSearchTerm(raw) {
+  const t = String(raw ?? '').trim().replace(/\s+/g, ' ').toLowerCase()
+  return t.length >= 2 && t.length <= 30 && /^[a-zא-ת]+( [a-zא-ת]+){0,2}$/.test(t) ? t : null
+}
+// Error class only, never the message. null = ignore (offline / aborted requests are not site bugs).
+export function errorClass(err, message = '') {
+  const text = `${err?.name || ''} ${err?.message || message || ''}`
+  if (/dynamically imported module|importing a module script|ChunkLoad|Loading chunk|Loading CSS chunk/i.test(text)) return 'chunk'
+  if (/failed to fetch|networkerror|load failed|network request failed|abort/i.test(text)) return null
+  const name = String(err?.name || '')
+  return name === 'TypeError' ? 'type' : name === 'ReferenceError' ? 'ref' : name === 'SyntaxError' ? 'syntax' : name === 'RangeError' ? 'range' : 'other'
+}
+let hasSignals = true
+const signalSeen = new Map()
+let errorsSent = 0
+// Options: target (nav), value (see the migration), click (a tap is itself a human sign).
+export function logSignal(kind, pathname = location.pathname, { target = null, value = null, click = false } = {}) {
+  if (!hasSignals || !SIGNAL_KINDS.includes(kind) || excluded(pathname)) return
+  const path = signalPath(pathname) || (kind === 'notfound' ? '/_invalid' : null)
+  if (!path) return
+  let to = null
+  if (kind === 'nav') {
+    if (!target || excluded(target)) return
+    to = signalPath(target)
+    if (!to || to === path) return
+  }
+  if (kind === 'jserror' && errorsSent >= 10) return // an error loop must not flood
+  const key = `${kind}:${path}:${to || ''}:${value || ''}`
+  if (Date.now() - (signalSeen.get(key) || 0) < 3000) return
+  signalSeen.set(key, Date.now())
+  if (kind === 'jserror') errorsSent++
+  if (click) markHuman()
+  whenHuman(() => {
+    void rpc('record_site_signal', { p_kind: kind, p_path: path, p_target: to, p_value: value, p_device: deviceType() })
+      .then(res => { if (res.status === 404) hasSignals = false }).catch(() => {})
+  })
+}
+// A search that finished (the results were on screen): its size bucket, and — only for zero results
+// and only when it passes safeSearchTerm — the words, in a table with no visitor id.
+export function recordSearch(resultCount, term) {
+  const bucket = searchBucket(resultCount)
+  if (!bucket) return
+  logSignal('search', '/search', { value: bucket })
+  const word = bucket === 'r0' ? safeSearchTerm(term) : null
+  if (!word || !hasSignals || isOwnerBrowser()) return
+  const key = `miss:${word}`
+  if (Date.now() - (signalSeen.get(key) || 0) < 60000) return
+  signalSeen.set(key, Date.now())
+  whenHuman(() => { void rpc('record_search_miss', { p_term: word }).catch(() => {}) })
+}
+// Reach of the current page: once per page view that a person saw a long page ('0'), and when they pass 50% and 90%.
+export function watchScroll(pathname) {
+  if (excluded(pathname)) return () => {}
+  const done = new Set()
+  let seen = false, timer = null
+  const check = () => {
+    const el = document.documentElement, viewport = window.innerHeight, total = el.scrollHeight
+    if (!scrollable(viewport, total)) return
+    if (!seen) { seen = true; logSignal('scroll', pathname, { value: '0' }) }
+    for (const m of newMilestones(scrollRatio(window.scrollY || el.scrollTop || 0, viewport, total), done)) { done.add(m); logSignal('scroll', pathname, { value: String(m) }) }
+  }
+  const onScroll = () => { if (!timer) timer = setTimeout(() => { timer = null; check() }, 250) }
+  const first = setTimeout(check, 2000), later = setTimeout(check, 6000) // lazy content settles
+  window.addEventListener('scroll', onScroll, { passive: true })
+  return () => { clearTimeout(first); clearTimeout(later); clearTimeout(timer); window.removeEventListener('scroll', onScroll) }
+}
+
 // The anonymous id lives for one calendar day (until local midnight), so "visitors today" counts
 // each browser exactly once. It used to live 24 hours from the first visit, which split a person
 // who came back the same day into two visitors and carried yesterday's id into today.
@@ -395,16 +491,32 @@ export function connectActivity(onChange) {
   }
   const onPrint=()=>{recordActivity('print',activityForPath(location.pathname));logEvent('print')}
   const onClick=event=>{
+    // Next steps: a click on an internal link inside the page content (not the back link, not downloads).
+    const link=event.isTrusted&&event.target instanceof Element?event.target.closest('a[href]'):null
+    if(link&&link.closest('main')&&!link.closest('[data-back-link]')&&!link.hasAttribute('download')){
+      const to=internalTarget(link.href,location.origin)
+      if(to)logSignal('nav',location.pathname,{target:to,click:true})
+    }
     const button=event.target instanceof Element?event.target.closest('button'):null
     if(!event.isTrusted||!button||button.disabled||!button.closest('main')||button.closest('form'))return
     const action=buttonAction(button.textContent||'')
     // shares are logged where they actually open (utils/share.js), with their channel — not from the button label
     if(action){recordActivity(action,activityForPath(location.pathname));if(action!=='share')logEvent(action)}
   }
+  // Uncaught errors, counted per page by class only (never the message). Other sites' scripts and extensions are ignored.
+  const onError=e=>{
+    if(e.target&&e.target!==window)return
+    if(e.filename&&!e.filename.startsWith(location.origin))return
+    const value=errorClass(e.error,e.message)
+    if(value)logSignal('jserror',location.pathname,{value})
+  }
+  const onRejection=e=>{const value=errorClass(e.reason);if(value)logSignal('jserror',location.pathname,{value})}
+  window.addEventListener('error',onError)
+  window.addEventListener('unhandledrejection',onRejection)
   window.addEventListener('beforeprint',onPrint)
   document.addEventListener('click',onClick)
   expiry=setInterval(sync,15000)
   const stopTime=startTimeTracking()
   void start()
-  return ()=>{stopped=true;stopTime();clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
+  return ()=>{stopped=true;stopTime();clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onRejection);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
 }

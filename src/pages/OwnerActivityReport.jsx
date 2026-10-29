@@ -14,6 +14,7 @@ import PageRequests from '../components/owner/PageRequests'
 import HomeExperiment from '../components/owner/HomeExperiment'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
+import SiteSignals from '../components/owner/SiteSignals'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 import OwnerTakedown from '../components/owner/OwnerTakedown'
 
@@ -638,6 +639,7 @@ export default function OwnerActivityReport() {
           { id: 'takedown', title: '🗑️ הסרת תוכן שדווח', preview: [<span key="t">מדביקים קישור לתוכן של גולשים ומוחקים אותו</span>], render: () => <OwnerTakedown /> },
           { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
           { id: 'sponsors', title: '📣 לחיצות על באנרים', preview: [<span key="b">כמה לחצו על באנר הפרסומת (למשל אאורקה) בתקופה שנבחרה</span>], render: () => <SponsorClicks from={from} to={to} tick={tick} pageName={pageName} /> },
+          { id: 'signals', title: '🧭 גלילה, חיפוש, 404 ו"האם זה עזר?"', preview: [<span key="g">עד כמה גוללים, מה מחפשים ולא מוצאים, לאן ממשיכים, שגיאות ו־👍👎 לכל עמוד</span>], render: () => <SiteSignals from={from} to={to} tick={tick} pageName={pageName} /> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
           { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true, rsvpTitles), render: () => <>
         <div className="overflow-x-auto">

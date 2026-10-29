@@ -24,6 +24,8 @@ import { usePresentMode } from '../../utils/presentMode'
 import { creatorTool, installCreationCapture } from '../../utils/creations'
 import { KidsLockGate } from './KidsLock'
 import ReportContent, { isUgcPath } from './ReportContent'
+import PageFeedback from './PageFeedback'
+import { feedbackEligible } from '../../utils/feedbackPages'
 
 export default function Layout({ children }) {
   // Only mount RecentActivity AFTER hydration. The old `!window.__PRERENDER__`
@@ -88,6 +90,7 @@ export default function Layout({ children }) {
       {mounted && <NoVoiceNotice />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{!presenting && <ReturnNavigation />}{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
+      {mounted && !presenting && feedbackEligible(pathname) && <PageFeedback key={pathname} pathname={pathname} />}
       {mounted && !presenting && isUgcPath(pathname) && <ReportContent />}
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
