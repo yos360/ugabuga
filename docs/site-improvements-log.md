@@ -26,3 +26,16 @@ Data rules: read-only, aggregate numbers and page paths only.
 
 ## Measured results
 (nothing yet)
+
+# Site improvements log
+
+## 2026-10-29 — Search Console review (28 days to 28.10.2026)
+
+### Time tunnel (/time-tunnel/MM-DD)
+- Added `src/data/timeTunnelIsrael.js`: Israeli / Jewish events, births and deaths, each confirmed by two independent sources on the exact day and year. Shown in a new "בישראל ובעם היהודי" section and in the date's FAQ/JSON-LD.
+- Date pages now link explicitly to yesterday and tomorrow; on today's page a "מה קרה היום" line is shown.
+- The hub `/time-tunnel` has a "מה קרה היום?" section linking today's and tomorrow's date pages.
+- Home page: not changed (no existing slot; it already embeds the daily game with a link to the hub).
+- Covered dates: 10-29 … 11-29 (22 of 33 dates have a verified entry). No verified entry yet: 11-01, 11-05, 11-06, 11-08, 11-11, 11-14, 11-17, 11-21, 11-28, 11-30.
+- Left: the other ~330 dates. Dropped for uncertainty (do not re-add without a better source): Trumpeldor birth 21.11.1880 (Julian/Gregorian unclear), Hanna Maron birth (22 vs 23.11), Sharon/Kadima 21.11.2005 (day disputed), Operation Yachin 28.11.1961 (single source).
+- To extend: add keys to `TT_ISRAEL` (tests/time-tunnel-israel.test.mjs enforces two distinct https sources per entry).

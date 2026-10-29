@@ -6,6 +6,7 @@ import TodayGame, { dateLabel, loadDay } from '../components/home/TodayGame'
 import { faqSchema } from '../components/ui/SeoBody'
 import { gematria, hebrewParts, holidayMap, dayKey, HEB_DAYS } from '../utils/hebrewCalendar'
 import { TT_EXTRA } from '../data/timeTunnelExtra'
+import { TT_ISRAEL } from '../data/timeTunnelIsrael'
 import '../pages/Home.css'
 
 const pad = n => String(n).padStart(2, '0')
@@ -86,6 +87,9 @@ export default function MaHayom() {
   return isDate ? <DatePage key={day} dateKey={day} /> : <Hub badDay={!!day} />
 }
 
+const stepKey = (k, n) => ALL_DATES[(ALL_DATES.indexOf(k) + n + ALL_DATES.length) % ALL_DATES.length]
+const nextKey = k => stepKey(k, 1)
+
 function useToday() {
   const [now] = useState(() => new Date())
   return `${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
@@ -121,6 +125,14 @@ function Hub({ badDay }) {
       <h1 className="mh-page-title">⏳ מנהרת הזמן – מה קרה היום בהיסטוריה?</h1>
       {badDay && <p className="mh-note">לא מצאנו את התאריך הזה 🙂 הנה המשחק של היום:</p>}
       <TodayGame hideTitle fallback={<p className="mh-note">עוד אין משחק להיום – בחרו תאריך מלוח השנה.</p>} />
+      <section className="mh-archive" aria-label="מה קרה היום">
+        <h2>📖 מה קרה היום?</h2>
+        <p className="mh-note tt-lead">אירועים, ימים מיוחדים ואנשים שנולדו בתאריך של היום ובתאריך של מחר – כולל מה שקרה בישראל ובעם היהודי.</p>
+        <nav className="tt-prevnext" aria-label="היום ומחר בהיסטוריה">
+          <Link to={`/time-tunnel/${today}`}>מה קרה היום, {dateLabel(today)}?</Link>
+          <Link to={`/time-tunnel/${nextKey(today)}`}>ומה יקרה מחר, {dateLabel(nextKey(today))}?</Link>
+        </nav>
+      </section>
       <section id="archive" className="mh-archive">
         <h2>📅 מה קרה ב…? כל התאריכים בשנה</h2>
         <p className="mh-note tt-lead">בחרו תאריך – יום ההולדת שלכם, של חבר או סתם יום – וגלו מה קרה בו בהיסטוריה ואילו ימים מיוחדים מציינים בו.</p>
@@ -160,6 +172,9 @@ function DatePage({ dateKey }) {
   ].sort((a, b) => (a.year ?? -1e4) - (b.year ?? -1e4)) : []
   const openDays = [...new Set([...more.filter(x => x.kind === 'day').map(x => x.text.split(' – ')[0]), ...(data ? data.days.map(d => d.name).filter(n => !gameDays.includes(n)) : [])])]
   const datedMore = more.filter(x => x.kind !== 'day')
+  const israel = TT_ISRAEL[dateKey] || []
+  const isToday = dateKey === today
+  const prevKey = stepKey(dateKey, -1), tomorrowKey = stepKey(dateKey, 1)
   const i = ALL_DATES.indexOf(dateKey)
   const around = [-3, -2, -1, 1, 2, 3].map(n => ALL_DATES[(i + n + ALL_DATES.length) % ALL_DATES.length])
   // SEO: short title (<=60 with the auto " | עוגה בוגה" suffix) and a <=160-char
@@ -191,6 +206,7 @@ function DatePage({ dateKey }) {
   const lead = `${label} – ${part} ${MONTHS[cal.m - 1]}, עונת ה${cal.season}. ${datedMore[0] ? `ב-${datedMore[0].year} ${sent(datedMore[0].text)} ` : ''}בדף הזה מחכים לכם ${found ? found + ' בתאריך הזה' : 'עובדות על התאריך הזה'}, התאריך העברי והיום בשבוע שבו הוא יחול.`
   const faq = [
     datedMore.length > 0 && { q: `מה קרה ב-${label}?`, a: datedMore.slice(0, 3).map(x => sent(`ב-${x.year} ${x.text}`)).join(' ') },
+    israel.length > 0 && { q: `מה קרה ב-${label} בישראל ובעם היהודי?`, a: israel.map(x => sent(`ב-${x.year} ${x.text.replace(/[.]+$/, '')}`)).join(' ') },
     openDays.length > 0 && { q: `מה מציינים ב-${label}?`, a: `ב-${label} מציינים בין השאר את ${openDays.slice(0, 3).join(', ')}.` },
     { q: `באיזה יום בשבוע יחול ${label} ${o2.y}?`, a: `ביום ${o2.dow}${o2.heb ? `, ובלוח העברי – ${o2.heb}` : ''}. בשנת ${o1.y} הוא ${when(o1)}.` },
     !cal.leapDay && { q: `איזה יום בשנה הוא ${label}?`, a: `זה היום ה-${cal.doy} בשנה רגילה${cal.m > 2 ? ` וה-${cal.doy + 1} בשנה מעוברת` : ''}.` },
@@ -208,6 +224,7 @@ function DatePage({ dateKey }) {
         <span className="block text-base text-[#4d556a]">וב־{o2.y}: ביום {o2.dow}{o2.heb ? ` · ${o2.heb}` : ''}</span>
       </p>
       <p className="mh-note tt-lead">{lead}</p>
+      {isToday && <p className="mh-note tt-lead"><b>📖 מה קרה היום?</b> זה התאריך של היום – הנה מה שקרה בו בעבר. אפשר להציץ גם ב<Link to={`/time-tunnel/${prevKey}`} className="underline font-bold">אתמול ({dateLabel(prevKey)})</Link> ובמה שמחכה ב<Link to={`/time-tunnel/${tomorrowKey}`} className="underline font-bold">מחר ({dateLabel(tomorrowKey)})</Link>.</p>}
 
       {playable
         ? <TodayGame dateKey={dateKey} archive={dateKey !== today} hideTitle fallback={null} />
@@ -237,6 +254,23 @@ function DatePage({ dateKey }) {
           )}
         </details>
       </section>
+
+      {israel.length > 0 && (
+        <section className="tt-facts" aria-label={`ישראל והעם היהודי ב-${label}`}>
+          <div className="rounded-2xl border-2 border-[#222] bg-white px-4 py-3">
+            <h2>🇮🇱 בישראל ובעם היהודי ב-{label}</h2>
+            <p className="text-[15px] text-[#4d556a]">כל פריט נבדק בשני מקורות לפחות. אלה לא חלק מהמשחק – אפשר לקרוא בלי ספוילרים.</p>
+            <ul className="tt-fact-list">
+              {israel.map(x => (
+                <li key={x.text}>
+                  <span className="tt-year">{x.year}</span>
+                  <div><b>{x.emoji} {x.text}</b> {x.srcs.map((u, n) => <a key={u} href={u} target="_blank" rel="noopener noreferrer" className="ml-2">{n ? 'מקור 2' : 'מקור 1'}</a>)}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {more.length > 0 && (
         <section className="tt-facts" aria-label={`עוד מ-${label}`}>
@@ -275,6 +309,10 @@ function DatePage({ dateKey }) {
         </section>
       )}
 
+      <nav className="tt-prevnext" aria-label="אתמול ומחר">
+        <Link to={`/time-tunnel/${prevKey}`}>→ אתמול: {dateLabel(prevKey)}</Link>
+        <Link to={`/time-tunnel/${tomorrowKey}`}>מחר: {dateLabel(tomorrowKey)} ←</Link>
+      </nav>
       <nav className="tt-prevnext" aria-label="תאריכים סמוכים">
         {around.slice(0, 3).map(k => <Link key={k} to={`/time-tunnel/${k}`}>→ {dateLabel(k)}</Link>)}
         <Link to="/time-tunnel">היום במנהרת הזמן</Link>
