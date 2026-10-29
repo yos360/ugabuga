@@ -1,5 +1,5 @@
 // Purim area config.
-import { PURIM, PURIM_QUIZ, PURIM_COSTUMES, PURIM_MISHLOACH, PURIM_IDEAS } from '../data/purim'
+import { PURIM, PURIM_QUIZ, PURIM_MISHLOACH, PURIM_IDEAS } from '../data/purim'
 import { PURIM_ART, PURIM_SHEETS } from '../components/purim/PurimPrint'
 
 const base = '/holidays/purim'
@@ -10,7 +10,7 @@ export const PURIM_H = {
   tab: 'bg-purple-200', soft: 'bg-purple-50',
   pages: [
     { to: base, label: 'הכול על פורים', emoji: '🎭' },
-    { to: base + '/costumes', label: 'תחפושות', emoji: '👑', title: 'רעיונות לתחפושות', blurb: '14 תחפושות ביתיות — ממה שיש בבית' },
+    { to: base + '/costumes', label: 'תחפושות', emoji: '👑', title: 'רעיונות לתחפושות', blurb: '68 תחפושות ביתיות — סינון לפי גיל, זמן ותקציב' },
     { to: base + '/mishloach-manot', label: 'משלוח מנות', emoji: '🎁', title: 'רעיונות למשלוח מנות', blurb: 'משלוחים לפי נושא, מה הילדים מכינים, ולכל הכיתה' },
     { to: base + '/quiz', label: 'חידון', emoji: '❓', title: 'חידון פורים', blurb: '3 רמות, הסבר אחרי כל תשובה — גם להדפסה' },
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️', blurb: 'מסכה, רעשן, אוזני המן, כתר ועוד — 6 דפים' },
@@ -69,15 +69,7 @@ export const PURIM_H = {
     },
   },
   lists: {
-    costumes: {
-      groups: PURIM_COSTUMES, crumb: 'תחפושות', emoji: '👑',
-      title: 'תחפושות לפורים — רעיונות לתחפושות ביתיות לילדים', desc: 'תחפושות לפורים בלי לקנות: {n} רעיונות לתחפושות ביתיות — רובוט, מלכה, חתול, אסטרונאוט ועוד, מדברים שיש בבית, ותחפושות משפחתיות וקבוצתיות.',
-      h1: 'תחפושות לפורים — רעיונות ביתיים', sub: 'תחפושות ביתיות — ממה שכבר יש בבית',
-      tip: '💡 טיפ: תנו לילדים לבחור ולהכין חלק מהתחפושת בעצמם — גם אם יוצא פחות מושלם, הם הרבה יותר גאים בה.',
-      body: ['לא צריך לקנות תחפושת יקרה: עם קופסת קרטון, נייר כסף, קצת צבע ובגדים שיש בבית אפשר להכין תחפושות מקוריות — וההכנה עצמה היא חלק מהכיף של פורים.'],
-      faq: [{ q: 'איך מכינים תחפושת לפורים בבית?', a: 'מתחילים מהבגדים שיש בבית ומוסיפים פריט אחד שמסמן את הדמות — כתר, אוזניים, כובע או כנפיים. ברשימה יש לכל תחפושת גם מה צריך.' }],
-      related: [{ label: 'דף "התחפושת שלי" להדפסה', href: base + '/worksheets' }, { label: 'רעיונות למשלוח מנות', href: base + '/mishloach-manot' }],
-    },
+    // costumes: its own filterable page (src/pages/holidays/PurimCostumes.jsx, static route in App.jsx).
     'mishloach-manot': {
       groups: PURIM_MISHLOACH, crumb: 'משלוח מנות', emoji: '🎁',
       title: 'רעיונות למשלוח מנות לפורים — לילדים, לגן ולכיתה', desc: '{n} רעיונות למשלוח מנות: משלוחים לפי נושא, משלוחים שהילדים מכינים בעצמם, ורעיונות למשלוח מנות לכל הכיתה והגן.',
