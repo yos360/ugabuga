@@ -207,6 +207,7 @@ const PAGES = [
   { to: '/printables/coloring/tu-bishvat', title: 'דפי צביעה לט״ו בשבט להדפסה', emoji: '🌳', kind: 'printable', desc: 'דפי צביעה לט״ו בשבט להדפסה בחינם.', keys: 'ט"ו בשבט טו בשבט צביעה דף צביעה עץ שבעת המינים' },
   { to: '/printables/coloring/purim-masks', title: 'מסכות לפורים לצביעה והדפסה', emoji: '🎭', kind: 'printable', desc: 'מסכות לפורים להדפסה וצביעה בחינם.', keys: 'פורים מסכות מסכה לצביעה להדפסה' },
   { to: '/printables/coloring/sweets', title: 'ממתקים לצביעה — דפי צביעה להדפסה', emoji: '🍭', kind: 'printable', desc: 'דפי צביעה של ממתקים להדפסה בחינם.', keys: 'צביעה ממתקים סוכרייה ארטיק' },
+  { to: '/printables/winter-fruits-vegetables', title: 'פירות וירקות של החורף בעברית ובאנגלית — דפי עבודה', emoji: '🍊', kind: 'printable', desc: 'התאמה עברית–אנגלית, כתיבת המילה, מיון פרי או ירק, כרטיסיות ודפי צביעה לגן ולכיתות א׳–ג׳.', keys: 'פירות וירקות דפי עבודה פירות וירקות פירות החורף לגן ירקות החורף פירות וירקות באנגלית fruits vegetables worksheet hebrew english winter fruits תפוז קלמנטינה אשכולית לימון תות קיווי כרובית ברוקולי כרוב גזר סלק אפונה פרי או ירק מיון אנגלית לגן' },
   { to: '/printables/coloring/fruits', title: 'פירות לצביעה — אבטיח ואננס להדפסה', emoji: '🍉', kind: 'printable', desc: 'דפי צביעה של פירות להדפסה בחינם.', keys: 'צביעה פירות אבטיח אננס' },
   // world & science (/discover/*)
   { to: '/discover', title: 'עולם ומדע', emoji: '🔭', kind: 'tool', desc: 'מפות, חלל וגוף האדם.', keys: 'מדע גאוגרפיה' },

@@ -158,6 +158,7 @@ const TicTacToeBoards = lazy(() => import('./pages/printables/TicTacToeBoards'))
 const NameColoring = lazy(() => import('./pages/printables/NameColoring'))
 const NameColoringName = lazy(() => import('./pages/printables/NameColoring').then(m => ({ default: m.NameColoringName })))
 const WinterPrintables = lazy(() => import('./pages/printables/WinterPrintables'))
+const WinterProduce = lazy(() => import('./pages/printables/WinterProduce'))
 const MusicHub = lazy(() => import('./music/MusicPages').then(m => ({ default: m.MusicHub })))
 const Metronome = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Metronome })))
 const Tuner = lazy(() => import('./music/PracticeTools').then(m => ({ default: m.Tuner })))
@@ -815,6 +816,7 @@ export default function App() {
               <Route path="/printables/name-coloring" element={<NameColoring />} />
               <Route path="/printables/name-coloring/:name" element={<NameColoringName />} />
               <Route path="/printables/winter" element={<WinterPrintables />} />
+              <Route path="/printables/winter-fruits-vegetables" element={<WinterProduce />} />
               <Route path="/printables/fortune-teller" element={<FortuneTeller />} />
               <Route path="/printables/gift-box" element={<GiftBox />} />
               <Route path="/music" element={<MusicHub />} />
