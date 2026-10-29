@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { recordNotFound } from '../components/layout/RecentActivity'
+import { recordNotFound, recordExpiredPdf } from '../components/layout/RecentActivity'
 import WobblyCard from '../components/ui/WobblyCard'
 import WobblyButton from '../components/ui/WobblyButton'
 import SEO from '../components/ui/SEO'
@@ -25,6 +25,7 @@ function lastPdf() {
 
 function ExpiredFile() {
   const last = lastPdf()
+  useEffect(() => { if (last?.path) recordExpiredPdf(last.path) }, [last?.path])
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 text-center">
       <SEO title="הקובץ כבר לא זמין" description="קישור זמני לקובץ PDF שנוצר בדפדפן." noindex />

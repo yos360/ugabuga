@@ -24,6 +24,9 @@ export function recordSheetAction(action = 'print', pathname = window.location.p
 }
 // Site signals (see utils/liveActivity.js): no visitor id, best-effort.
 export function recordNotFound(pathname = window.location.pathname) { void loadActivity().then(m => m?.logSignal('notfound', pathname)).catch(() => {}) }
+// A visitor landed on ugabuga.co.il/<uuid> (a PDF blob link that lost its prefix). Stored as a 'nav' signal
+// from /expired-pdf-link to the page the PDF was made on — a clean path only, no title.
+export function recordExpiredPdf(sourcePath) { void loadActivity().then(m => m?.logSignal('nav', '/expired-pdf-link', { target: sourcePath })).catch(() => {}) }
 export function recordPageError(error) { void loadActivity().then(m => m?.logSignal('jserror', window.location.pathname, { value: m.errorClass(error) || 'other' })).catch(() => {}) }
 export function recordSearchResult(count, term) { void loadActivity().then(m => m?.recordSearch(count, term)).catch(() => {}) }
 export function recordHelpful(vote, pathname = window.location.pathname) { void loadActivity().then(m => m?.logSignal('helpful', pathname, { value: vote, click: true })).catch(() => {}) }
