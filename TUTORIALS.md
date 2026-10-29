@@ -2,7 +2,7 @@
 
 Landscape screen-recorded walkthroughs of real site tools, uploaded to **YouTube only**, into the playlist
 "איך משתמשים בעוגה בוגה". They are separate from the daily reel (which stays as it is).
-One tutorial per day, prepared in the cloud at 10:05 and uploaded from the owner's Chrome at 12:00.
+Three tutorials per day (owner's request, from 2026-10-30): prepared in the cloud at 10:05, 13:05 and 16:05, uploaded from the owner's Chrome at 12:00, 15:00 and 18:00. Folders: uploads/tutorials/<YYYY-MM-DD>-<slot 1|2|3>/.
 
 ## Rules
 - Record the REAL site (built from `main`), not drawings. Every label, button and number on screen is real.
@@ -34,3 +34,18 @@ One tutorial per day, prepared in the cloud at 10:05 and uploaded from the owner
 | 13 | איקס־עיגול חשבוני לכיתה על המקרן | /classroom/math-tic-tac-toe | classroom | |
 | 14 | הבנת הנקרא לפי כיתה — פותרים ומדפיסים עם דף תשובות | /learn/reading | learning | |
 | 15 | כרטיסיות אותיות להדפסה | /printables/letter-flashcards | learning | |
+| 16 | מחולל תפזורות — יוצרים תפזורת משלכם ומדפיסים | /tools/word-search-maker | learning | |
+| 17 | מחולל בינגו — לוחות בינגו למסיבה ולכיתה | /tools/bingo-maker | party | |
+| 18 | ציד אוצרות עם QR — מכינים ומשחקים | /treasure-hunt/qr | party | |
+| 19 | ציד אוצרות מוכן — מדפיסים ומחביאים | /treasure-hunt/ready | party | |
+| 20 | גלגל המזל — הגרלה בכיתה ובמסיבה | /tools/wheel | tools | |
+| 21 | מחלק קבוצות — חלוקה הוגנת לקבוצות | /tools/team-generator | classroom | |
+| 22 | מחשבון מסיבה — כמה פיצות ושתייה | /tools/party-calculator | party | |
+| 23 | קיר ברכות לגננת ולמורה | /thank-you-wall | party | |
+| 24 | מחולל תשבצים | /tools/crossword-maker | learning | |
+| 25 | טיימר לכיתה | /tools/timer | classroom | |
+| 26 | לוח ניקוד לתחרות בכיתה | /tools/scoreboard | classroom | |
+| 27 | משחק אותיות לילדים | /letters/game | learning | |
+| 28 | צביעה לפי מספרים | /printables/color-by-number | learning | |
+| 29 | דפי עבודה בחשבון — בוחרים ומדפיסים | /printables/math-worksheets | learning | |
+| 30 | שבוע זהירות בדרכים — חידון לפי כיתה | /road-safety-week | classroom | |
