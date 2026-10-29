@@ -1,4 +1,4 @@
--- Manual activation after review. Does not change existing tables or recipients.
+-- Mail subscriptions (approved by the site owner). Safe to re-run; does not change existing tables or recipients.
 begin;
 create table if not exists public.mail_subscriptions (
  id uuid primary key default gen_random_uuid(), email text not null unique,
