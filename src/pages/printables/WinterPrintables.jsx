@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -29,9 +30,10 @@ export default function WinterPrintables() {
     <h1 className="mb-2 text-center text-4xl font-black sm:text-5xl">🌧️ דפי חורף וגשם לגן</h1>
     <p className="mb-5 text-center text-lg text-[var(--muted-foreground)]">6 דפי צביעה ו־4 דפי עבודה — ספירה, התאמה, כתיבה ו"מה לובשים בחורף"</p>
     <div className="mb-8 text-center"><button data-print-main type="button" onClick={() => setPrint(all)} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ הדפיסו את כל {all.length} הדפים</button></div>
+    <p className="mb-8 text-center"><Link to="/printables/winter-fruits-vegetables" className="inline-block rounded-2xl border-2 border-slate-800 bg-orange-100 px-5 py-3 text-lg font-bold">🍊 חדש: פירות וירקות של החורף — בעברית ובאנגלית ←</Link></p>
     <Gallery title="🖍️ דפי צביעה לחורף" list={WINTER_ART} onPrint={setPrint} />
     <Gallery title="✏️ דפי עבודה לחורף" list={WINTER_SHEETS} onPrint={setPrint} />
-    <SeoBody paragraphs={['החורף מגיע לגן עם גשם, מטריות ומגפיים. דפי החורף כאן משלבים את מה שהילדים רואים בחוץ עם ספירה, קריאה וכתיבה: סופרים טיפות, מתאימים תמונה למילה ומקיפים את בגדי החורף. דף "משיב הרוח ומוריד הגשם" מתאים לפתיחת עונת הגשמים בגן.']} faq={FAQ} related={[{ label: 'דפי צביעה', href: '/printables/coloring' }, { label: 'מה עושים ביום גשום', href: '/ideas/what-to-do-rainy-day' }, { label: 'חנוכה — יצירה לגזירה', href: '/holidays/hanukkah/crafts' }]} />
+    <SeoBody paragraphs={['החורף מגיע לגן עם גשם, מטריות ומגפיים. דפי החורף כאן משלבים את מה שהילדים רואים בחוץ עם ספירה, קריאה וכתיבה: סופרים טיפות, מתאימים תמונה למילה ומקיפים את בגדי החורף. דף "משיב הרוח ומוריד הגשם" מתאים לפתיחת עונת הגשמים בגן.']} faq={FAQ} related={[{ label: 'פירות וירקות של החורף בעברית ובאנגלית', href: '/printables/winter-fruits-vegetables' }, { label: 'דפי צביעה', href: '/printables/coloring' }, { label: 'מה עושים ביום גשום', href: '/ideas/what-to-do-rainy-day' }, { label: 'חנוכה — יצירה לגזירה', href: '/holidays/hanukkah/crafts' }]} />
     {print && <PrintPreview title="דפי חורף" onClose={() => setPrint(null)}>{print.map(item => <article className="buga-a4" key={item.id}><div className="print-art"><item.C /></div></article>)}</PrintPreview>}
   </div>
 }

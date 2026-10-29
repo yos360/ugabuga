@@ -235,6 +235,7 @@ export function EnglishHub() {
       <Link to="/abc" className="rounded-2xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-3 font-bold">🔤 אותיות באנגלית A–Z</Link>
       <Link to="/abc/game" className="rounded-2xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">🎮 משחק אותיות באנגלית</Link>
       <Link to="/printables/letter-flashcards" className="rounded-2xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">🃏 כרטיסיות אותיות להדפסה</Link>
+      <Link to="/printables/winter-fruits-vegetables" className="rounded-2xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">🍊 פירות וירקות של החורף — דפי עבודה</Link>
       <Link to="/unseen/english" className="rounded-2xl border-2 border-slate-800 bg-white px-5 py-3 font-bold">📝 אנסין באנגלית ה׳–י״ב</Link>
     </div>
     <SeoBody paragraphs={[
