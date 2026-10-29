@@ -6,6 +6,8 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HanukkahShell, { HANUKKAH_PAGES } from '../../components/hanukkah/HanukkahShell'
 import { HANUKKAH } from '../../data/hanukkah'
+import HanukkahOrganize from '../../components/hanukkah/HanukkahOrganize'
+import HanukkahPlan from '../../components/hanukkah/HanukkahPlan'
 import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
@@ -23,6 +25,11 @@ const FAQ = [
   { q: 'מתי חנוכה 2026?', a: 'את הנר הראשון מדליקים ביום שישי, 4 בדצמבר 2026 בערב (כ״ד בכסלו תשפ״ז). את הנר השמיני מדליקים ב־11 בדצמבר, והחג מסתיים ב־12 בדצמבר.' },
   { q: 'כמה נרות מדליקים בכל ערב?', a: 'בערב הראשון נר אחד, ובכל ערב מוסיפים נר — עד שמונה בערב האחרון. בנוסף יש תמיד את השמש, שבעזרתו מדליקים את כולם.' },
   { q: 'אילו ברכות מברכים בהדלקת נרות חנוכה?', a: 'בכל ערב: "ברוך אתה ה׳ אלוהינו מלך העולם אשר קידשנו במצוותיו וציוונו להדליק נר של חנוכה" ו"ברוך אתה ה׳ אלוהינו מלך העולם שעשה ניסים לאבותינו בימים ההם בזמן הזה". בערב הראשון מוסיפים גם "שהחיינו".' },
+  { q: 'למה חנוכה נמשך שמונה ימים?', a: 'לפי המסורת שבתלמוד, כשהמכבים חנכו מחדש את בית המקדש הם מצאו פך שמן קטן שהספיק ליום אחד בלבד, והוא דלק שמונה ימים. לזכר הנס מדליקים שמונה ימים.' },
+  { q: 'מה כתוב על הסביבון?', a: 'ארבע אותיות: נ, ג, ה, פ — ראשי תיבות של "נס גדול היה פה". מחוץ לישראל נהוג "נס גדול היה שם" והאות האחרונה היא ש.' },
+  { q: 'למה אוכלים סופגניות ולביבות?', a: 'כי הן מטוגנות בשמן, וכך נזכרים בנס פך השמן. זה מנהג, לא מצווה, ומי שמעדיף יכול להכין גם מאכלים אפויים.' },
+  { q: 'אילו ילדים יכולים להדליק נרות?', a: 'ילדים אוהבים להדליק, ומתאים לתת להם לעשות זאת בליווי מבוגר, עם גפרור ארוך ובמרחק מווילונות ומנייר. את השמש עדיף שיחזיק מבוגר.' },
+  { q: 'מה עושים אם הערב הראשון חל ביום שישי?', a: 'מדליקים את נרות החנוכה לפני נרות השבת, כמו בחנוכה 2026. את הנר השני מדליקים במוצאי שבת, אחרי צאת השבת.' },
 ]
 
 function Countdown() {
@@ -75,6 +82,9 @@ export default function HanukkahHub() {
           <Link to="/printables/color-by-number?theme=holidays" className="mt-2 font-bold underline decoration-dashed">לכל דפי החגים ←</Link>
         </div>
       </div>
+
+      <HanukkahPlan />
+      <HanukkahOrganize className="mb-10" />
 
       <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="text-2xl font-bold mb-3">🕯️ איך מדליקים נרות חנוכה?</h2>

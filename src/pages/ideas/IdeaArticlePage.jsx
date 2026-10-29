@@ -9,6 +9,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { IDEA_ARTICLES } from '../../data/ideaArticlesExpanded'
 import { IDEA_DEEP } from '../../data/ideaArticlesDeep'
 import { nearby } from '../../utils/nearby'
+import HanukkahOrganize from '../../components/hanukkah/HanukkahOrganize'
 import RichText from '../../components/ui/RichText'
 
 const ARTICLE_SLUGS = Object.keys(IDEA_ARTICLES)
@@ -67,6 +68,8 @@ export default function IdeaArticlePage() {
           </WobblyCard>
         ))}
       </div>
+
+      {slug === 'hanukkah-party' && <HanukkahOrganize className="mt-8" />}
 
       {article.tips?.length > 0 && (
         <div className="wobbly relative mt-8 border-2 border-[var(--border)] bg-[var(--postit)] p-6 sketch-shadow pin">
