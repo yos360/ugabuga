@@ -19,6 +19,14 @@ const dateLabel = iso => iso.split('-').reverse().slice(0, 2).join('.')
 const savedCity = () => { try { return shabbatCity(localStorage.getItem(KEY)) } catch { return null } }
 const sortedPlaces = [...SHABBAT_PLACES].sort((a, b) => a.name.localeCompare(b.name, 'he'))
 
+// "How many candles tonight": the night whose lighting date is today (Israel), else when the next night is.
+function tonightText(nights, today) {
+  const tonight = nights.find(x => x.date === today), next = nights.find(x => x.date > today)
+  if (tonight) return { big: `הערב מדליקים ${tonight.n === 1 ? 'נר אחד' : `${NIGHTS_N[tonight.n - 1]} נרות`}`, small: `נר ${NIGHTS[tonight.n - 1]} של חנוכה, ועוד השמש · ${howTo(tonight)}` }
+  if (next) return { big: next.n === 1 ? `נר ראשון: יום ${DAYS[next.dow]}, ${dateLabel(next.date)}` : `הלילה הבא: נר ${NIGHTS[next.n - 1]}, ${dateLabel(next.date)}`, small: 'בכל ערב מוסיפים נר: אחד בערב הראשון ועד שמונה בערב האחרון, ועוד השמש.' }
+  return null
+}
+const NIGHTS_N = ['אחד', 'שני', 'שלושה', 'ארבעה', 'חמישה', 'שישה', 'שבעה', 'שמונה']
 const howTo = x => x.kind === 'friday' ? `לפני נרות שבת — עד ${formatTime(x.time)}` : x.kind === 'saturday' ? `אחרי צאת השבת — ${formatTime(x.time)} ואילך` : `בצאת הכוכבים — ${formatTime(x.time)}`
 const FAQ = [
   { q: 'מתי מדליקים נרות חנוכה?', a: 'ביום חול נוהגים להדליק עם רדת החשכה. יש מקהילות ישראל שנוהגות להדליק בשקיעה ויש שנוהגות בצאת הכוכבים, ובעמוד מוצגות שתי השעות. אפשר להדליק גם מאוחר יותר בערב, כל עוד בני הבית ערים — לשאלות מנהג כדאי לפנות לרב הקהילה.' },
@@ -31,7 +39,7 @@ function NightsTable({ nights }) {
     <caption className="sr-only">זמני הדלקת נרות חנוכה</caption>
     <thead><tr className="border-b-2 border-[var(--border)]"><th scope="col" className="py-2">נר</th><th scope="col" className="px-2">תאריך</th><th scope="col" className="px-2">שקיעה</th><th scope="col" className="px-2">מתי מדליקים</th></tr></thead>
     <tbody>{nights.map(x => <tr key={x.n} className="border-b border-[var(--border)] align-top">
-      <th scope="row" className="py-3"><span className="block text-lg">🕯️ {x.n}</span><span className="text-xs font-normal">נר {NIGHTS[x.n - 1]}</span></th>
+      <th scope="row" className="py-3"><span className="block text-lg">🕯️ {x.n === 1 ? 'נר אחד' : `${NIGHTS_N[x.n - 1]} נרות`}</span><span className="text-xs font-normal">נר {NIGHTS[x.n - 1]}</span></th>
       <td className="px-2 py-3">יום {DAYS[x.dow]}, {dateLabel(x.date)}<span className="block text-xs">אור ל{x.hebrewDate}</span></td>
       <td className="px-2 py-3 tabular-nums" dir="ltr">{formatTime(x.sunset)}</td>
       <td className="px-2 py-3 font-bold">{howTo(x)}</td>
@@ -59,11 +67,15 @@ export default function HanukkahCandleTimes() {
   const nights = useMemo(() => hanukkahNights(city, from), [city, from])
   const major = useMemo(() => MAJOR.map(shabbatCity).filter(Boolean).map(c => [c, hanukkahNights(c, from)[0]]), [from])
   const choose = slug => { const c = shabbatCity(slug); if (!c) return; setCity(c); try { localStorage.setItem(KEY, slug) } catch { /* ignore */ } }
+  const today = israelToday(), tonight = tonightText(nights, today)
   const first = nights[0], year = first ? first.date.slice(0, 4) : '', fridays = nights.filter(x => x.kind === 'friday')
   return <HanukkahShell crumb="זמני הדלקת נרות">
     <SEO title={`זמני הדלקת נרות חנוכה ${year} — לפי עיר, לכל שמונת הלילות`} description={`מתי מדליקים נרות חנוכה ${year}? זמני הדלקה לכל שמונת הלילות לפי עיר: נר ראשון ביום ${first ? `${DAYS[first.dow]} ${dateLabel(first.date)}` : ''}, שישי לפני נרות שבת ומוצאי שבת אחרי צאת השבת. לוח להדפסה למקרר.`} path={PATH} structuredData={faqSchema(FAQ)} />
     <h1 className="text-center text-4xl sm:text-5xl">🕯️ זמני הדלקת נרות חנוכה {year}</h1>
     <p className="mx-auto mb-6 mt-3 max-w-2xl text-center text-lg">שמונה לילות, שמונה זמנים. בחרו עיר וראו מתי מדליקים בכל ערב — כולל יום שישי, שבו מדליקים לפני נרות השבת, ומוצאי שבת, שבו מדליקים רק אחרי צאת השבת.</p>
+    {tonight && <section className="mx-auto mb-5 max-w-2xl rounded-3xl border-2 border-slate-800 bg-gradient-to-b from-blue-700 to-indigo-900 p-5 text-center text-white" aria-label="כמה נרות הערב">
+      <p className="text-3xl font-black">🕯️ {tonight.big}</p><p className="mt-1 text-blue-100">{tonight.small}</p>
+    </section>}
     <label className="mx-auto block max-w-md text-center font-bold">העיר שלכם
       <select value={city.slug} onChange={e => choose(e.target.value)} className="mt-1 block w-full min-h-[48px] rounded-xl border-2 border-[var(--border)] bg-[var(--card)] p-2">{sortedPlaces.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}</select>
     </label>
