@@ -42,6 +42,15 @@ export function RoadScene() {
   </svg>
 }
 
+// The owner's own clip (a child crossing, a car stopping): muted, looping, inline. With reduced motion
+// only its first frame is shown.
+export function RoadVideo() {
+  const [still, setStill] = useState(false)
+  useEffect(() => { setStill(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) }, [])
+  if (still) return <img className="rw-scene rw-video" src="/media/road-week.jpg" alt="" width="640" height="360" />
+  return <video className="rw-scene rw-video" src="/media/road-week.mp4" poster="/media/road-week.jpg" width="640" height="360" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
+}
+
 // Home-page banner, shown from mount (the home page is prerendered) until the last day of the week.
 export default function RoadWeekBanner() {
   const [today, setToday] = useState('')
@@ -49,7 +58,7 @@ export default function RoadWeekBanner() {
   if (!today || today > ROAD_WEEK.end) return null
   const label = today < ROAD_WEEK.start ? 'מתחיל ב־1.11' : 'השבוע!'
   return <Link to="/road-safety-week" className="rw-banner no-print" aria-label="שבוע זהירות בדרכים — חידון לכל כיתה, דפי עבודה, דפי צביעה והבנת הנקרא">
-    <RoadScene />
+    <RoadVideo />
     <span className="rw-copy"><b>🚦 שבוע זהירות בדרכים — {label}</b><small>חידון לכל כיתה א׳–ו׳, דפי עבודה אונליין ולהדפסה, צביעה, הבנת הנקרא ולימוד רמזור</small></span>
     <span className="rw-cta">לכל הפעילויות ←</span>
   </Link>

@@ -5,6 +5,7 @@
 .rw-copy small { font-size: 1rem }
 .rw-cta { align-self: center; padding: .35rem 1.2rem; border-radius: 999px; background: #1f2937; color: #fff; font-weight: 800 }
 .rw-scene { width: 100%; height: auto; border-radius: 14px; display: block }
+.rw-video { aspect-ratio: 16 / 9; object-fit: cover; background: #bfe6ff }
 
 /* 9-second loop: car drives in and stops (0–28%), child crosses on green (32–66%), car drives on. */
 .rw-car { animation: rw-car 9s infinite }
