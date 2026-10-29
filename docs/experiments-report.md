@@ -1,11 +1,13 @@
 # Weekly long-term check — "מה עובד באתר?"
 
 A scheduled task runs this every week and sends the owner a short Hebrew summary of the changes made on
-28.10.2026, measured over time (one day is noise; weeks show the truth):
+28–29.10.2026, measured over time (one day is noise; weeks show the truth):
 
-1. **Home top block (experiment `home-top`)** — search / live / request / bring ("מי מביא מה?", added 28.10).
+1. **Home top block (experiment `home-top`)** — search / live / request / bring ("מי מביא מה?", added 28.10) / rsvp ("אישורי הגעה בחינם", added 29.10).
    Per variant: shown, click rate, print rate, request rate. Compare only from 2026-10-28 (when `bring`
-   joined). Call a winner only with ≥300 "shown" per variant and a clear gap; otherwise say "עוד מוקדם".
+   joined). `rsvp` starts 2026-10-29: compare it only from that date, and it needs its own ≥300 "shown"
+   before calling a winner (the other four can be read from 28.10; don't compare `rsvp` against their
+   earlier days). Call a winner only with ≥300 "shown" per variant and a clear gap; otherwise say "עוד מוקדם".
 2. **WhatsApp channel** — page views of `/whatsapp` per day (every site button goes through it), and the
    printed-QR channel variants `w1`/`w2`: printed vs scanned, next to the other QR variants.
 3. **"לכל הכיתה" button** (print preview, 28.10) — proxy: prints/PDFs of 10+ sheets per day, before vs after.

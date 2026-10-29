@@ -11,7 +11,7 @@ import { ElectionChip, BringChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
-import { LiveTop, RequestTop, BringTop } from '../components/home/HomeTopVariant'
+import { LiveTop, RequestTop, BringTop, RsvpTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
@@ -150,6 +150,7 @@ export default function Home() {
       {variant === 'live' && <LiveTop variant={variant} />}
       {variant === 'request' && <RequestTop variant={variant} />}
       {variant === 'bring' && <BringTop variant={variant} />}
+      {variant === 'rsvp' && <RsvpTop variant={variant} />}
       <form className="hp-search" onSubmit={go} role="search">
         <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
           <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>

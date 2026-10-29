@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitPageRequest } from '../../utils/pageRequests'
 import { recordExperiment } from '../../utils/experiments'
+import { rsvpType } from '../../utils/rsvpTypes'
 
 // The non-search openings of the home-page experiment (see utils/experiments.js).
 // "search" is the page as it always was, so it needs no block here.
@@ -19,6 +20,18 @@ export function BringTop({ variant }) {
     <span className="hp-exp-copy"><b>מי מביא מה? רשימה שיתופית למסיבה</b><small>יום הולדת, מסיבת כיתה או ארוחת חג: שולחים קישור אחד בוואטסאפ, וכל אחד מסמן מה הוא מביא. בלי בלגן ובלי כפילויות.</small></span>
     <span className="hp-exp-cta">יוצרים רשימה ←</span>
   </Link>
+}
+
+const RSVP_CHIPS = ['wedding', 'bar-mitzvah', 'class-party'].map(rsvpType).filter(Boolean)
+
+export function RsvpTop({ variant }) {
+  const click = () => recordExperiment('click', variant)
+  return <div className="hp-exp hp-exp-live">
+    <span className="hp-exp-ic" aria-hidden="true">💌</span>
+    <span className="hp-exp-copy"><b>מזמינים אורחים? אישורי הגעה בחינם, בלי הרשמה</b><small>שולחים קישור אחד בוואטסאפ, וכל אורח מאשר בלחיצה. אתם רואים מי מגיע, כמה ילדים ומבוגרים, ומי עוד לא ענה.</small></span>
+    <Link to="/rsvp" onClick={click} className="hp-exp-cta">יוצרים אישורי הגעה ←</Link>
+    {RSVP_CHIPS.length > 0 && <span className="hp-exp-chips">{RSVP_CHIPS.map(t => <Link key={t.slug} to={`/rsvp/${t.slug}`} onClick={click} className="hp-exp-chip">{t.emoji} {t.name}</Link>)}</span>}
+  </div>
 }
 
 export function RequestTop({ variant }) {
