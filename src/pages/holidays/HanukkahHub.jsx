@@ -16,7 +16,8 @@ const BLURB = {
   '/holidays/hanukkah/sevivon': 'מסובבים בלחיצה, עם ניקוד אוטומטי לכל המשפחה',
   '/holidays/hanukkah/quiz': '3 רמות, הסבר אחרי כל תשובה — גם להדפסה',
   '/holidays/hanukkah/coloring': 'חנוכייה, סביבון, סופגניות ועוד — 6 דפים',
-  '/holidays/hanukkah/worksheets': 'ספירה, חשבון וכתיבה לגן ולכיתה א׳',
+  '/holidays/hanukkah/cut-out-hanukkiah': 'מדפיסים, גוזרים 9 נרות ומדביקים נר בכל ערב — גם בגרסה לצביעה',
+  '/holidays/hanukkah/worksheets':'ספירה, חשבון וכתיבה לגן ולכיתה א׳',
   '/holidays/hanukkah/what-to-do': 'רעיונות לחופשה — בבית, בחוץ ובדרך',
 }
 const COLORS = ['bg-blue-100', 'bg-yellow-100', 'bg-pink-100', 'bg-green-100', 'bg-orange-100', 'bg-purple-100']
