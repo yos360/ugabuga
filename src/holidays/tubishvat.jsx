@@ -15,6 +15,7 @@ export const TUBISHVAT_H = {
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️' },
     { to: base + '/what-to-do', label: 'פעילויות', emoji: '💡' },
+    { to: base + '/seder', label: 'סדר ט״ו בשבט', emoji: '🍷' },
   ],
   quiz: {
     questions: TUBISHVAT_QUIZ,

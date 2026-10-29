@@ -383,6 +383,7 @@ const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
 const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
 const TuBishvatHub = lazy(() => import('./pages/holidays/TuBishvatHub'))
 const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
+const TuBishvatSeder = lazy(() => import('./pages/holidays/TuBishvatSeder'))
 const HolidayBlessings = lazy(() => import('./pages/holidays/HolidayBlessings'))
 const CoinFlip = lazy(() => import('./pages/tools/CoinFlip'))
 const CountdownTimer = lazy(() => import('./pages/tools/CountdownTimer'))
@@ -1075,6 +1076,7 @@ export default function App() {
               <Route path="/holidays/hanukkah/what-to-do" element={<HolidayRoute key="hanukkah-what-to-do" slug="hanukkah" kind="what-to-do" />} />
               <Route path="/holidays/tu-bishvat" element={<TuBishvatHub />} />
               <Route path="/holidays/tu-bishvat/seven-species" element={<SevenSpecies />} />
+              <Route path="/holidays/tu-bishvat/seder" element={<TuBishvatSeder />} />
               <Route path="/holidays/tu-bishvat/quiz" element={<HolidayRoute key="tu-bishvat-quiz" slug="tu-bishvat" kind="quiz" />} />
               <Route path="/holidays/tu-bishvat/coloring" element={<HolidayRoute key="tu-bishvat-coloring" slug="tu-bishvat" kind="coloring" />} />
               <Route path="/holidays/tu-bishvat/worksheets" element={<HolidayRoute key="tu-bishvat-worksheets" slug="tu-bishvat" kind="worksheets" />} />

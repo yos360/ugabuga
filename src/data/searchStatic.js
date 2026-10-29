@@ -102,6 +102,7 @@ const PAGES = [
   { to: '/holidays/purim/mishloach-manot', title: 'רעיונות למשלוח מנות', emoji: '🎁', kind: 'idea', keys: 'משלוח מנות משלוחי מנות פורים' },
   { to: '/holidays/tu-bishvat', title: 'ט״ו בשבט לילדים', emoji: '🌳', kind: 'page', desc: 'שבעת המינים, חידון, דפי צביעה ופעילויות.', keys: 'ט״ו בשבט טו בשבט עצים שתילה נטיעות חג האילנות' },
   { to: '/holidays/tu-bishvat/seven-species', title: 'שבעת המינים לילדים', emoji: '🍇', kind: 'tool', desc: 'הסבר ומשחק זיכרון.', keys: 'שבעת המינים חיטה שעורה גפן תאנה רימון זית תמר' },
+  { to: '/holidays/tu-bishvat/seder', title: 'סדר ט״ו בשבט להדפסה', emoji: '🍷', kind: 'printable', desc: 'הגדה לט״ו בשבט למשפחה, לגן ולכיתה, ו־6 יצירות.', keys: 'סדר ט״ו בשבט סדר ט"ו בשבט סדר טו בשבט הגדה לט״ו בשבט הגדה לט"ו בשבט סדר ט"ו בשבט לגן לכיתה למשפחה ארבע כוסות שבעת המינים יצירה לט״ו בשבט יצירה לט"ו בשבט שקדייה' },
   { to: '/holidays/tu-bishvat/coloring', title: 'דפי צביעה לט״ו בשבט', emoji: '🖍️', kind: 'tool', keys: 'צביעה ט״ו בשבט עץ שקדייה רימון' },
   { to: '/holidays/sukkot', title: 'סוכות ושמחת תורה לילדים', emoji: '🌿', kind: 'page', desc: 'קישוטים לסוכה, ארבעת המינים, חידון ודפי צביעה.', keys: 'סוכות סוכה שמחת תורה ארבעת המינים לולב אתרוג הדס ערבה חול המועד' },
   { to: '/holidays/sukkot/sukkah', title: 'קישוטים לסוכה', emoji: '⛓️', kind: 'idea', desc: '15 קישוטים שהילדים מכינים בעצמם.', keys: 'קישוטים לסוכה קישוט סוכה שרשראות יצירה' },
