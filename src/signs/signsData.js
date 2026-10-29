@@ -1,5 +1,6 @@
 // Meanings verified against the Ministry of Transport table (September 2022).
 // Names are short labels from the official meanings, not a separate official naming scheme.
+import { WARNING_MORE } from './signsWarningMore.js'
 export const SIGN_SOURCE = "https://www.gov.il/BlobFolder/policy/tamrurim_7924_01_18/he/1694327856_%D7%9C%D7%95%D7%AA_%D7%9D_%D7%9E%D7%A9%D7%95%D7%9C%D7%91_0922.pdf"
 export const SIGN_CATEGORIES = [
   { id: 'warning', name: 'אזהרה והתראה', hint: 'משולש עם מסגרת אדומה מזהיר בדרך כלל על מה שמחכה בהמשך.' },
@@ -8,7 +9,7 @@ export const SIGN_CATEGORIES = [
   { id: 'prohibition', name: 'איסורים והגבלות', hint: 'מסגרת אדומה בעיגול מסמנת בדרך כלל איסור או הגבלה. בודקים גם את הסמל שבתוכה.' },
   { id: 'information', name: 'מודיעין והדרכה', hint: 'שלטים מרובעים ומלבניים מוסרים מידע על הדרך. הצורה לבדה אינה מספיקה לזיהוי.' },
 ]
-export const TRAFFIC_SIGNS = [
+const BASE_SIGNS = [
   {
     "number": "101",
     "sourcePage": 7,
@@ -1218,7 +1219,10 @@ export const TRAFFIC_SIGNS = [
     }
   }
 ]
-export const findSign = number => TRAFFIC_SIGNS.find(sign => sign.number === number)
+const ARTWORK = { creator: 'עוגה בוגה — איור SVG מקורי', license: 'CC0-1.0', licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/' }
+const withSource = s => ({ ...s, category: s.category || 'warning', image: `/signs/${s.number}.svg`, source: `${SIGN_SOURCE}#page=${s.sourcePage}`, artwork: { ...ARTWORK, reference: `${SIGN_SOURCE}#page=${s.sourcePage}` } })
+export const TRAFFIC_SIGNS = [...BASE_SIGNS, ...WARNING_MORE.map(withSource)].sort((a, b) => a.number.localeCompare(b.number))
+export const findSign =number => TRAFFIC_SIGNS.find(sign => sign.number === number)
 export const signPath = sign => `/signs/${sign.number}`
 export const signTitle = sign => `תמרור ${sign.number}: ${sign.name}`
 export const signDescription = sign => `תמרור ${sign.number} — ${sign.name}: הסבר, התנהגות בדרך, תמרורים דומים ושאלת תרגול עם תשובה.`

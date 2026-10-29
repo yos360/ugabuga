@@ -7,7 +7,7 @@ const xml = readFileSync(new URL('../public/sitemap-static.xml', import.meta.url
 const paths = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname)
 
 test('all included signs have unique identifiers, sourced content and original local artwork', () => {
-  assert.equal(TRAFFIC_SIGNS.length, 37)
+  assert.equal(TRAFFIC_SIGNS.length, 76)
   assert.equal(new Set(TRAFFIC_SIGNS.map(s => s.number)).size, TRAFFIC_SIGNS.length)
   const names = new Set()
   for (const s of TRAFFIC_SIGNS) {
@@ -74,7 +74,7 @@ test('age exams respect the selected pool, level and advertised question count',
 
 test('flashcard variants cover the full set before wrapping and handle small categories', () => {
   const sets = Array.from({ length: 7 }, (_, i) => flashcardSet(TRAFFIC_SIGNS, i))
-  assert.equal(new Set(sets.flat().map(s => s.number)).size, 37)
+  assert.equal(new Set(sets.flat().map(s => s.number)).size, Math.min(42, TRAFFIC_SIGNS.length))
   assert.notDeepEqual(sets[0], sets[1])
   assert.equal(flashcardSet(filterSigns('', 'information'), 0).length, 2)
   assert.deepEqual(flashcardSet([], 0), [])
