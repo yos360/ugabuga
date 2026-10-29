@@ -24,6 +24,8 @@ Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
+**NEXT — 2026-10-30 (owner's pick, use this one):** "מסלול לוח הכפל" — the new times-table stage-path game: 14 stages, stars, a hint after every mistake (e.g. 7×8 = 40+16), printable A4 sheet per stage with answers. Path: /learn/multiplication-game (also mention the one-minute challenge /learn/times-tables).
+
 - QR treasure hunt / ready treasure hunt (/treasure-hunt/ready)
 - Party calculator (מחשבון מסיבה)
 - Bingo maker
