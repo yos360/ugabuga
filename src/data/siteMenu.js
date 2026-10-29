@@ -642,6 +642,7 @@ export const FOOTER_COLUMNS = [
     domain: null, title: 'אודות',
     links: [
       ['/new', '✨ חדש באתר'],
+      ['/videos', '🎬 סרטונים — איך משתמשים'],
       ['/embed', '🧩 כלים להטמעה באתר'],
       ['/about', 'אודות עוגה בוגה'],
       ['/faq', 'שאלות נפוצות'],

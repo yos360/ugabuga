@@ -240,6 +240,7 @@ const ConceptPage = lazy(() => import('./learn/subjects/SubjectPages').then(m =>
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
+const Videos = lazy(() => import('./pages/Videos'))
 const DaysUntilHub = lazy(() => import('./pages/calc/DaysUntil'))
 const DaysUntilPage = lazy(() => import('./pages/calc/DaysUntil').then(m => ({ default: m.DaysUntilPage })))
 const AgeCalculator = lazy(() => import('./pages/calc/AgeCalculator'))
@@ -941,6 +942,7 @@ export default function App() {
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />
+              <Route path="/videos" element={<Videos />} />
               <Route path="/days-until" element={<DaysUntilHub />} />
               <Route path="/days-until/:slug" element={<DaysUntilPage />} />
               <Route path="/tools/bmi" element={<BmiCalculator />} />
