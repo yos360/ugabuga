@@ -302,6 +302,8 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
   const totals = useMemo(() => rsvpTotals(responses), [responses])
   const missing = useMemo(() => missingInvitees(ev.invitees || [], responses), [ev.invitees, responses])
   const link = guestLink(site, ev.code)
+  // Texts and copied links carry "?wa" so arrivals from shared links are counted; the shown link, QR and organizer link stay clean.
+  const sharedLink = `${link}?wa`
   const x = site === 'en' ? { ...(ev.extras || {}), price: 0 } : ev.extras || {}, marks = ev.marks || {}
   const mark = async (r, patch) => {
     const before = marks[r.id] || {}
@@ -392,8 +394,8 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
     <aside className="space-y-4 lg:sticky lg:top-4">
       <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="font-display text-2xl font-bold">{S.sendTitle}</h2>
-        <button onClick={() => openWhatsApp(S.inviteText(ev, link))} className={`${btnWa} mt-3 w-full`}>{S.sendWa}</button>
-        <button onClick={() => copyText(link, show, S.linkCopied)} className={`${btn} mt-2 w-full`}>{S.copyLink}</button>
+        <button onClick={() => openWhatsApp(S.inviteText(ev, sharedLink))} className={`${btnWa} mt-3 w-full`}>{S.sendWa}</button>
+        <button onClick={() => copyText(sharedLink, show, S.linkCopied)} className={`${btn} mt-2 w-full`}>{S.copyLink}</button>
         <p className="mt-3 rounded-lg bg-white/70 px-3 py-2 text-center text-sm">{S.linkLabel} <bdi dir="ltr" className="font-bold">{link.replace(/^https?:\/\//, '')}</bdi></p>
         {S.qr && <LinkQr link={link} />}
         <Link to={invitation.to} className={`${btn} mt-3 w-full`}>{invitation.label}</Link>
@@ -404,8 +406,8 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         {ev.invitees?.length > 0
           ? missing.length ? <p className="mt-1">{missing.join(' · ')}</p> : <p className="mt-1 font-bold text-emerald-700">{S.allAnswered}</p>
           : <p className="mt-1 text-sm text-slate-600">{S.addListHint}</p>}
-        <button onClick={() => openWhatsApp(S.reminderText(ev, missing, link))} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-3 w-full`}>{S.reminderWa}</button>
-        {enhanced && <button onClick={() => copyText(S.reminderText(ev, missing, link), show, S.reminderCopied)} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-2 w-full`}>{S.reminderCopy}</button>}
+        <button onClick={() => openWhatsApp(S.reminderText(ev, missing, sharedLink))} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-3 w-full`}>{S.reminderWa}</button>
+        {enhanced && <button onClick={() => copyText(S.reminderText(ev, missing, sharedLink), show, S.reminderCopied)} disabled={ev.invitees?.length > 0 && !missing.length} className={`${btn} mt-2 w-full`}>{S.reminderCopy}</button>}
         <a href={`${S.base}/r/${ev.code}?guest=1`} target="_blank" rel="noopener" className="mt-3 block text-center text-sm font-bold underline">{S.guestPreview}</a>
         <OrganizerPin code={ev.code} token={token} show={show} />
         <OrganizerTools what="האירוע" labels={site === 'he' ? undefined : S.organizerTools} onCopyOrganizer={() => copyText(`${link}#k=${token}`, show, S.organizerCopied)} onDelete={() => setConfirm('event')} />

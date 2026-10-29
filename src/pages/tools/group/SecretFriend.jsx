@@ -13,8 +13,9 @@ import UseClassRoster from '../../../components/ui/UseClassRoster'
 
 const KIND = 'secret'
 const DEFAULT_TITLE = { gamad: 'גמד וענק', purim: 'משלוח מנות לפורים', hanukkah: 'מתנות לחנוכה' }
-const personalLink = (code, token) => `${shareUrl(KIND, code)}#p=${token}`
-const personalText = (d, p) => `${DRAW_MODES[d.mode].emoji} ${p.name}, זה הקישור האישי שלך ל„${d.title}”.\nרק את/ה תראו בו את מי הגרלת — לא להעביר לאחרים 🤫\n${personalLink(d.code, p.token)}`
+// "?wa" goes before the #p= fragment, so the personal token is untouched.
+const personalLink = (code, token) => `${shareUrl(KIND, code)}?wa#p=${token}`
+const personalText = (d, p) => `${DRAW_MODES[d.mode].emoji} ${p.name}, זה הקישור האישי שלך ל„${d.title}”.\nרק את/ה תראו בו את מי הגרלת — לא להעביר לאחרים 🤫\n${personalLink(d.code, p.token)}\nנוצר בחינם בעוגה בוגה 🎂`
 const groupText = d => `${DRAW_MODES[d.mode].emoji} ההגרלה ל„${d.title}” בוצעה!${d.budget ? `\n💰 תקציב: ${d.budget}` : ''}${d.note ? `\n📝 ${d.note}` : ''}\nכל אחד/ת יקבל/תקבל ממני קישור אישי בהודעה פרטית — שם מגלים את מי הגרלתם. שומרים על סוד! 🤫`
 const participantKey = code => `secret-p-${code}`
 

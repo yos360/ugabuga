@@ -164,10 +164,13 @@ export function formatDate(iso) {
   return `יום ${HE_DAYS[d.getUTCDay()]} ${+m[3]}.${+m[2]}`
 }
 
+// Last line of the texts guests receive on WhatsApp, so the site is named where the link is shared.
+export const SITE_TAG = 'נוצר בחינם בעוגה בוגה 🎂'
+
 export function rsvpInviteText(ev, link) {
   const when = [formatDate(ev.date), ev.time && `בשעה ${ltr(ev.time)}`].filter(Boolean).join(' ')
   return [`🎉 ${ev.title}`, when && `📅 ${when}`, ev.place && `📍 ${ev.place}`,
-    `✅ אשרו הגעה בלחיצה${ev.deadline ? ` עד ${formatDate(ev.deadline)}` : ''}:`, link].filter(Boolean).join('\n')
+    `✅ אשרו הגעה בלחיצה${ev.deadline ? ` עד ${formatDate(ev.deadline)}` : ''}:`, link, SITE_TAG].filter(Boolean).join('\n')
 }
 
 // "ילד אחד" / "3 ילדים", "מבוגר אחד" / "2 מבוגרים"
@@ -181,7 +184,7 @@ export function rsvpReminderText(ev, missing, link) {
   const head = missing.length
     ? `⏰ תזכורת קטנה לגבי ${ev.title}: עוד לא אישרו הגעה — ${heList(missing)}.`
     : `⏰ תזכורת קטנה לגבי ${ev.title}: מי שעוד לא אישר/ה הגעה, זה הזמן 🙂`
-  return [head, ev.deadline ? `נשמח לתשובה עד ${formatDate(ev.deadline)}, בלחיצה אחת 🙏` : 'נשמח לתשובה בלחיצה אחת, כדי שנדע כמה להכין 🙏', link].join('\n')
+  return [head, ev.deadline ? `נשמח לתשובה עד ${formatDate(ev.deadline)}, בלחיצה אחת 🙏` : 'נשמח לתשובה בלחיצה אחת, כדי שנדע כמה להכין 🙏', link, SITE_TAG].join('\n')
 }
 
 // ── thank-you wall ────────────────────────────────────────────

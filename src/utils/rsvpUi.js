@@ -143,11 +143,11 @@ const en = {
   people: enPeople,
   inviteText: (ev, link) => {
     const when = [enDate(ev.date), ev.time && `at ${ev.time}`].filter(Boolean).join(' ')
-    return [`🎉 ${ev.title}`, when && `📅 ${when}`, ev.place && `📍 ${ev.place}`, `✅ Please RSVP${ev.deadline ? ` by ${enDate(ev.deadline)}` : ''} — it takes one tap:`, link].filter(Boolean).join('\n')
+    return [`🎉 ${ev.title}`, when && `📅 ${when}`, ev.place && `📍 ${ev.place}`, `✅ Please RSVP${ev.deadline ? ` by ${enDate(ev.deadline)}` : ''} — it takes one tap:`, link, 'Made free with UgaBuga 🎂'].filter(Boolean).join('\n')
   },
   reminderText: (ev, missing, link) => [
     missing.length ? `⏰ A quick reminder about ${ev.title}: we haven’t heard from ${enList(missing)} yet.` : `⏰ A quick reminder about ${ev.title}: if you haven’t replied yet, now’s the time 🙂`,
-    ev.deadline ? `Please reply by ${enDate(ev.deadline)} — it only takes a tap 🙏` : 'Please reply with one tap, so we know how much to prepare 🙏', link].join('\n'),
+    ev.deadline ? `Please reply by ${enDate(ev.deadline)} — it only takes a tap 🙏` : 'Please reply with one tap, so we know how much to prepare 🙏', link, 'Made free with UgaBuga 🎂'].join('\n'),
   error: code => ({
     not_installed: 'This tool is still being set up and will be ready very soon. Please try again later 🙏',
     not_found: 'We couldn’t find this page. The link may be incomplete or deleted, or the event was a long time ago.',

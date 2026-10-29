@@ -111,10 +111,11 @@ test('rsvp: who has not answered yet', () => {
   assert.deepEqual(missingInvitees([], answers), [])
   const text = rsvpReminderText({ title: 'יום ההולדת של נועה', deadline: '2026-11-10' }, ['אורי', 'מיכל'], 'https://ugabuga.co.il/r/abc')
   assert.match(text, /אורי ומיכל/)
-  assert.match(text, /https:\/\/ugabuga\.co\.il\/r\/abc$/)
+  assert.match(text, /https:\/\/ugabuga\.co\.il\/r\/abc\nנוצר בחינם בעוגה בוגה 🎂$/)
   assert.equal(heList(['א']), 'א')
   assert.equal(heList(['א', 'ב', 'ג']), 'א, ב וג')
   assert.match(rsvpInviteText({ title: 'מסיבה', date: '2026-11-14', time: '17:00' }, 'L'), /יום שבת 14\.11/)
+  assert.match(rsvpInviteText({ title: 'מסיבה' }, 'L'), /\nL\nנוצר בחינם בעוגה בוגה 🎂$/)
   assert.equal(formatDate('nope'), '')
 })
 
