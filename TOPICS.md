@@ -38,3 +38,5 @@ Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to
 Update 2026-10-27 (09:07, second scheduled firing): today's reel already existed, so no new reel was made (one per day). Claude in Chrome was again not available to the cloud run — uploads still ✗. Reel re-sent to the owner.
 
 Note 2026-10-28: scheduled cloud run, Claude in Chrome tools not available, so no uploads (all ✗). Reel, cover and captions are in uploads/2026-10-28/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/emotion-cards/. Upload manually or from a Chrome-enabled session.
+
+Update 2026-10-29 (second scheduled firing): today's reel already existed (uploads/2026-10-29/), so no new reel was made. Claude in Chrome tools still not available to the cloud run — uploads remain ✗.
