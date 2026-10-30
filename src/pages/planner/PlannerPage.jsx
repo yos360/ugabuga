@@ -5,7 +5,8 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { PLANNER_SUBJECTS } from '../../data/planner/schema'
 import { SCHOOL_YEAR, addDays, isoOf, weekStart } from '../../data/planner/schoolYear'
-import { DAYS, GRADE_LETTERS, LINK_LABELS, PERIODS, emptyPlan, linkHref, weekPlan } from '../../data/planner/engine'
+import { DAYS, GRADE_LETTERS, LINK_LABELS, MARKS, PERIODS, emptyPlan, linkHref, markKey, weekPlan } from '../../data/planner/engine'
+import { LEVELS, SheetPages, useLessonSheet } from './LessonSheets'
 
 // /planner — "מערכת השעות שלי": the teacher adds classes, places them in the weekly timetable, and sees each
 // week's periods with the lesson that falls on them (official curriculum order, school holidays skipped),
@@ -105,11 +106,49 @@ function LessonPlan({ p, compact }) {
   </div>
 }
 
+// A period's printable worksheet (or unit quiz) at a level, after its lesson plan.
+function PeriodSheet({ p, level, unitQuiz }) {
+  const parts = useLessonSheet(p.lesson, p.cls.grade, level, unitQuiz)
+  if (!p.lesson || !parts?.length) return null
+  const lv = LEVELS.find(l => l[0] === level)[1]
+  return <SheetPages parts={parts} title={`${unitQuiz ? 'בוחן סיום יחידה' : 'דף עבודה'}: ${unitQuiz ? p.lesson.unit.title : p.lesson.step.title}`} sub={`${classLabel(p.cls)} · ${lv}`} />
+}
+
+// Under an opened period: mark it, print its worksheet at a level, the unit quiz, or a page for a substitute.
+function LessonTools({ p, iso, plan, setPlan }) {
+  const [level, setLevel] = useState('regular')
+  const [print, setPrint] = useState(null) // 'sheet' | 'quiz' | 'sub'
+  const key = markKey(iso, p.period), mark = plan.marks?.[key]?.s
+  const setMark = s => setPlan(pl => { const marks = { ...(pl.marks || {}) }; if (marks[key]?.s === s) delete marks[key]; else marks[key] = { c: p.cls.id, s }; return { ...pl, marks } })
+  const last = p.lesson && p.lesson.k === p.lesson.unit.hours && !p.lesson.dated
+  return <div className="mt-2 space-y-2 border-t pt-2 text-sm no-print">
+    <div className="flex flex-wrap gap-1">{MARKS.map(([s, label]) => <button key={s} type="button" aria-pressed={mark === s} onClick={() => setMark(s)} className={`rounded-full border-2 px-2 py-1 ${mark === s ? 'border-violet-500 bg-violet-100 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
+    {(mark === 'missed' || mark === 'repeat') && <p className="text-xs">השיעור הבא של הכיתה יחזור על השיעור הזה.</p>}
+    <div className="flex flex-wrap items-center gap-1"><span className="font-bold">רמת הדף:</span>{LEVELS.map(([l, label]) => <button key={l} type="button" aria-pressed={level === l} onClick={() => setLevel(l)} className={`rounded-full border-2 px-2 py-1 ${level === l ? 'border-emerald-500 bg-emerald-50 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
+    <div className="flex flex-wrap gap-2">
+      <button type="button" className="rounded-xl bg-violet-600 px-3 py-1.5 font-bold text-white" onClick={() => setPrint('sheet')}>🖨️ דף עבודה לשיעור</button>
+      {last && <button type="button" className="rounded-xl bg-amber-500 px-3 py-1.5 font-bold text-white" onClick={() => setPrint('quiz')}>📝 בוחן סיום יחידה</button>}
+      <button type="button" className="rounded-xl border-2 border-slate-300 px-3 py-1.5 font-bold" onClick={() => setPrint('sub')}>📋 לממלא מקום</button>
+    </div>
+    {print && <PrintPreview title={print === 'sub' ? `לממלא מקום — ${classLabel(p.cls)}` : `${classLabel(p.cls)} — ${print === 'quiz' ? 'בוחן' : 'דף עבודה'}`} onClose={() => setPrint(null)}>
+      {print === 'sub' && <article className="buga-flow buga-a4" dir="rtl" style={{ padding: '12mm' }}>
+        <h2 className="text-2xl font-black">📋 לממלא/ת מקום · {classLabel(p.cls)} · שעה {p.period}</h2>
+        <p className="mt-1">תודה שאתם מחליפים אותי היום! הכול מוכן — אין צורך להכין דבר.</p>
+        <div className="mt-3 rounded-2xl border-2 border-slate-300 p-3"><LessonPlan p={p} /></div>
+        <p className="mt-3"><b>דף העבודה מצורף בעמוד הבא.</b> אחרי השיעור: אספו את הדפים והשאירו לי פתק — מה הספקתם ומי היה חסר.</p>
+        <p className="mt-6">פתק למורה: ___________________________________________</p>
+      </article>}
+      <PeriodSheet p={p} level={level} unitQuiz={print === 'quiz'} />
+    </PrintPreview>}
+  </div>
+}
+
 function Week({ plan, setPlan, seqs }) {
   const today = isoOf(new Date())
   const [sunday, setSunday] = useState(() => weekStart(today < SCHOOL_YEAR.start ? SCHOOL_YEAR.start : today))
   const [open, setOpen] = useState(null)
   const [printing, setPrinting] = useState(false)
+  const [withSheets, setWithSheets] = useState(true), [weekLevel, setWeekLevel] = useState('regular')
   const week = useMemo(() => weekPlan(plan, seqs, sunday), [plan, seqs, sunday])
   const shift = (id, d) => setPlan(p => ({ ...p, shifts: { ...p.shifts, [id]: (p.shifts[id] || 0) + d } }))
   const dayOff = (iso, on) => setPlan(p => ({ ...p, extraOff: on ? [...p.extraOff, [iso, 'אין לימודים']] : p.extraOff.filter(([d]) => d !== iso) }))
@@ -133,15 +172,24 @@ function Week({ plan, setPlan, seqs }) {
             <span className="text-sm">{p.why ? `🌴 ${p.why}` : p.lesson ? p.lesson.step.title : 'חזרה וסיכום'}</span>
           </button>
           {open === key && !p.why && <div className="mt-2 border-t pt-2"><LessonPlan p={p} />
-            <div className="mt-2 flex gap-2 text-sm"><button type="button" className="underline" onClick={() => shift(p.cls.id, 1)}>⏭️ דלגו לשיעור הבא</button><button type="button" className="underline" onClick={() => shift(p.cls.id, -1)}>🔁 חזרו על השיעור</button></div>
+            <LessonTools p={p} iso={d.iso} plan={plan} setPlan={setPlan} />
+            <div className="mt-2 flex gap-2 text-xs"><button type="button" className="underline" onClick={() => shift(p.cls.id, 1)}>⏭️ לדלג על השיעור</button><button type="button" className="underline" onClick={() => shift(p.cls.id, -1)}>↩️ לחזור שיעור אחד אחורה</button></div>
           </div>}
+          {plan.marks?.[markKey(d.iso, p.period)] && <span className="text-xs">{MARKS.find(m => m[0] === plan.marks[markKey(d.iso, p.period)].s)?.[1]}</span>}
         </li> })}</ul>}
     </div>)}</div>
     {printing && <PrintPreview title={`השבוע שלי ${shortDate(sunday)}`} onClose={() => setPrinting(false)}>
-      {week.filter(d => d.periods.some(p => !p.why)).map(d => <article key={d.iso} className="buga-flow buga-a4" dir="rtl" style={{ padding: '10mm 12mm' }}>
-        <h2 className="text-2xl font-black">יום {d.label} · {shortDate(d.iso)}</h2>
-        {d.periods.filter(p => !p.why).map(p => <section key={p.period} className="mt-3 border-b border-slate-300 pb-3"><p className="text-lg font-black">שעה {p.period} · {classLabel(p.cls)}</p><LessonPlan p={p} /></section>)}
-      </article>)}
+      <div className="no-print mb-3 flex flex-wrap items-center gap-2" dir="rtl">
+        <label className="font-bold"><input type="checkbox" checked={withSheets} onChange={e => setWithSheets(e.target.checked)} /> עם דפי עבודה</label>
+        {withSheets && LEVELS.map(([l, label]) => <button key={l} type="button" aria-pressed={weekLevel === l} onClick={() => setWeekLevel(l)} className={`rounded-full border-2 px-3 py-1 ${weekLevel === l ? 'border-emerald-500 bg-emerald-50 font-bold' : 'border-slate-200 bg-white'}`}>{label}</button>)}
+      </div>
+      {week.filter(d => d.periods.some(p => !p.why)).map(d => <div key={d.iso}>
+        <article className="buga-flow buga-a4" dir="rtl" style={{ padding: '10mm 12mm' }}>
+          <h2 className="text-2xl font-black">יום {d.label} · {shortDate(d.iso)}</h2>
+          {d.periods.filter(p => !p.why).map(p => <section key={p.period} className="mt-3 border-b border-slate-300 pb-3"><p className="text-lg font-black">שעה {p.period} · {classLabel(p.cls)}</p><LessonPlan p={p} /></section>)}
+        </article>
+        {withSheets && d.periods.filter(p => !p.why).map(p => <PeriodSheet key={p.period} p={p} level={weekLevel} />)}
+      </div>)}
     </PrintPreview>}
   </section>
 }

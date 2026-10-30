@@ -27,6 +27,11 @@ test('lessons are counted from the first school day, skipping holidays', () => {
   assert.equal(lessonIndex(plan(), cls, '2026-09-15', 2), 3) // Tue 15.9: Sun 13.9 was Rosh Hashana
   const p = plan(); p.shifts.c1 = 2
   assert.equal(lessonIndex(p, cls, '2026-09-01', 2), 2)
+  // "Didn't get to it" on Tue 1.9 → Sun 6.9 repeats the first lesson.
+  const m = plan(); m.marks = { '2026-09-01#2': { c: 'c1', s: 'missed' } }
+  assert.equal(lessonIndex(m, cls, '2026-09-06', 2), 0)
+  m.marks['2026-09-01#2'].s = 'done'
+  assert.equal(lessonIndex(m, cls, '2026-09-06', 2), 1)
 })
 
 test('the lesson at an index walks the units by their hours', () => {

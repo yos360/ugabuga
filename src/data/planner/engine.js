@@ -8,7 +8,7 @@ export const DAYS = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳']
 export const PERIODS = [1, 2, 3, 4, 5, 6, 7, 8]
 export const GRADE_LETTERS = ['', 'א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ז׳', 'ח׳', 'ט׳', 'י׳', 'י״א', 'י״ב']
 export const levelOf = grade => (grade >= 7 ? 'secondary' : 'elementary')
-export const emptyPlan = () => ({ classes: [], slots: {}, extraOff: [], shifts: {} })
+export const emptyPlan = () => ({ classes: [], slots: {}, extraOff: [], shifts: {}, marks: {} })
 const slotKey = (day, period) => `${day}-${period}`
 export const slotsOf = (plan, classId) => Object.entries(plan.slots).filter(([, id]) => id === classId).map(([k]) => k.split('-').map(Number))
 
@@ -25,8 +25,14 @@ export function lessonIndex(plan, cls, iso, period) {
   }
   const today = new Date(`${iso}T12:00:00`).getDay()
   n += mine.filter(([sd, sp]) => sd === today && sp < period).length
-  return Math.max(0, n + (plan.shifts[cls.id] || 0))
+  // A period marked "didn't get to it" or "needs repeating" repeats its lesson next time.
+  const here = markKey(iso, period)
+  const held = Object.entries(plan.marks || {}).filter(([k, m]) => m.c === cls.id && HOLD.includes(m.s) && k < here).length
+  return Math.max(0, n + (plan.shifts[cls.id] || 0) - held)
 }
+export const markKey = (iso, period) => `${iso}#${period}`
+export const MARKS = [['done', '✅ לימדתי'], ['missed', '⏸️ לא הספקתי'], ['repeat', '🔁 צריך חזרה']]
+const HOLD = ['missed', 'repeat']
 
 // The lesson at position `index` of a sequence: its unit, the lesson's number within the unit and the step.
 export function lessonAt(seq, index) {
