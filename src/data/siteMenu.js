@@ -250,6 +250,7 @@ export const MENU_DOMAINS = [
           { to: '/music/concepts', label: 'מושגים במוזיקה', icon: '📖' },
           { to: '/music/styles', label: 'סגנונות מוזיקה', icon: '🎷' },
           { to: '/learn/arts', label: 'אמנות ומוזיקה: כלי נגינה, מלחינים וציירים', icon: '🎨' },
+          { to: '/learn/dj-music', label: 'די־ג׳יי ויצירת שירים: BPM, טמפו ואיך כותבים שיר', icon: '🎧' },
         ],
       },
       {
