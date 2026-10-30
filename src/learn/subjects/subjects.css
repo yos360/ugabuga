@@ -13,6 +13,7 @@
 .sj-facts{margin-top:26px;border:2px solid var(--border,#1d2233);border-radius:20px;background:#e8f4ff;padding:16px 18px;color:#1d2233}
 .sj-facts h2{font-size:22px;font-weight:900;margin-bottom:6px}
 .sj-facts li{font-size:17px;line-height:1.6;padding-inline-start:4px;list-style:disc;margin-inline-start:20px}
+.sj-code{display:inline-block;max-width:100%;direction:ltr;unicode-bidi:isolate;text-align:left;font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:.88em;line-height:1.5;padding:0 .35em;border-radius:6px;background:rgba(124,58,237,.12);overflow-wrap:anywhere}
 .sj-exp{margin-top:8px;padding:8px 12px;border-radius:12px;line-height:1.55}
 .sj-exp.ok{background:#e6f8e3}.sj-exp.no{background:#fff0f0}
 .sj-think li{list-style:decimal;margin-inline-start:22px;font-size:18px;line-height:1.6;margin-bottom:6px}

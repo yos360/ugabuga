@@ -5,6 +5,14 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 //   one at a time with a "🔄 קטע אחר" button, questions with feedback and printing (ReadingExercise).
 // - InteractiveLesson: the lesson as steps — one section at a time, a check question after each one,
 //   a progress bar and a summary with the score. Built from the lesson's own sections and quiz.
+// Lesson text is plain text. Code inside it is marked with U+2066 … U+2069 (LTR isolate, see data/coding.js) and
+// rendered as an LTR <code> box, so a snippet reads left-to-right, never splits across lines, and copies without
+// the invisible marks. Text without the mark comes back unchanged.
+export function Rich({ text }) {
+  if (!text.includes('⁦')) return text
+  return text.split(/⁦([^⁩]*)⁩/).map((part, i) => i % 2 ? <code key={i} dir="ltr" className="sj-code">{part}</code> : part)
+}
+
 const ReadingExercise = lazy(() => import('../LearnPages').then(m => ({ default: m.ReadingExercise })))
 const READING_FILES = import.meta.glob('./readings/*.js')
 
@@ -57,7 +65,7 @@ export function InteractiveLesson({ t, quiz, onClose }) {
     </div>
     {!done ? <div key={k} className="buga-fade-in mt-4">
       <h2 className="text-2xl font-black">{step.s.h}</h2>
-      <div className="mt-2 space-y-2 text-lg leading-relaxed">{step.s.p.map((p, j) => <p key={j}>{p}</p>)}</div>
+      <div className="mt-2 space-y-2 text-lg leading-relaxed">{step.s.p.map((p, j) => <p key={j}><Rich text={p} /></p>)}</div>
       <div className="mt-5 rounded-2xl bg-white p-4">
         <p className="font-black">🤔 בודקים: {step.q.q}</p>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">{step.q.options.map((o, j) => <button key={j} type="button" onClick={() => answer(j)} disabled={pick != null}

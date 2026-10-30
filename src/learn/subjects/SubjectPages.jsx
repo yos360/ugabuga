@@ -6,7 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { SUBJECTS, SUBJECT_BY_KEY, GRADE_LETTERS, examQuestions, gradeRange, gradeSlug, loadConcepts, loadTopics, placeQuiz, topicsForGrade } from './subjects'
-import { InteractiveLesson, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
+import { InteractiveLesson, Rich, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
 import PlannerBanner from '../../components/ui/PlannerBanner'
 import '../learn.css'
 import './subjects.css'
@@ -155,7 +155,7 @@ function TopicPage({ subjectKey, slug }) {
       <a href="#quiz" className="ln-chip">✅ חידון</a>
     </nav>
     <article className="sj-article">{t.sections.map((x, i) => <section key={i} id={`s${i + 1}`}>
-      <h2>{x.h}</h2>{x.p.map((p, j) => <p key={j}>{p}</p>)}
+      <h2>{x.h}</h2>{x.p.map((p, j) => <p key={j}><Rich text={p} /></p>)}
     </section>)}</article>
     <aside className="sj-facts" aria-labelledby="facts-h"><h2 id="facts-h">📌 חשוב לזכור</h2><ul>{t.facts.map((f, i) => <li key={i}>{f}</li>)}</ul></aside>
     <h2 id="quiz" className="mt-10 mb-3 text-3xl font-black">✅ חידון: {t.title}</h2>
@@ -362,7 +362,7 @@ export function ConceptIndex({ subjectKey }) {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: 'מילון מושגים' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">📘 </span>מילון מושגים ב{s.short}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{concepts.length} מושגים · הגדרה, דוגמאות ושיעור מלא לכל מושג</p>
-    <ul className="sj-grid">{sorted.map(c => <li key={c.slug}><Link to={`/learn/${s.key}/concepts/${c.slug}`} className="sj-card card-lift"><span><b>{c.term}</b><small>{c.short}</small></span></Link></li>)}</ul>
+    <ul className="sj-grid">{sorted.map(c => <li key={c.slug}><Link to={`/learn/${s.key}/concepts/${c.slug}`} className="sj-card card-lift"><span><b>{c.term}</b><small><Rich text={c.short} /></small></span></Link></li>)}</ul>
     <div className="mt-12"><SeoBody paragraphs={[`במילון הזה מוסברים המושגים החשובים ב${s.short}, כל אחד בעמוד משלו: הגדרה קצרה, הסבר, דוגמאות, טיפ לזכירה ושאלות קצרות לבדיקה. מכל מושג יש קישור לשיעור המלא שבו הוא נלמד.`]} related={[crumb(s), LEARN_CRUMB]} /></div>
   </Page>
 }
@@ -382,9 +382,9 @@ export function ConceptPage({ subjectKey }) {
     <SEO title={c.seoTitle} description={c.seoDesc} path={`/learn/${s.key}/concepts/${c.slug}`} type="article" structuredData={[term_, faqSchema(faq)]} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: 'מילון מושגים', href: `/learn/${s.key}/concepts` }, { label: c.term }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-4">{c.title || `מה זה ${c.term}?`}</h1>
-    <p className="sj-intro">{c.short}</p>
-    <article className="sj-article">{c.body.map((p, i) => <p key={i}>{p}</p>)}</article>
-    <aside className="sj-facts" aria-labelledby="ex-h"><h2 id="ex-h">🔎 דוגמאות</h2><ul>{c.examples.map((e, i) => <li key={i}>{e}</li>)}</ul></aside>
+    <p className="sj-intro"><Rich text={c.short} /></p>
+    <article className="sj-article">{c.body.map((p, i) => <p key={i}><Rich text={p} /></p>)}</article>
+    <aside className="sj-facts" aria-labelledby="ex-h"><h2 id="ex-h">🔎 דוגמאות</h2><ul>{c.examples.map((e, i) => <li key={i}><Rich text={e} /></li>)}</ul></aside>
     {c.remember && <p className="ln-box mt-4"><b>💡 איך זוכרים?</b> {c.remember}</p>}
     <h2 className="mt-8 mb-3 text-2xl font-black">✅ בודקים את עצמנו</h2>
     <Quiz key={c.slug} quiz={quiz} />
