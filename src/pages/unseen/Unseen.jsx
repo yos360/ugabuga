@@ -163,6 +163,8 @@ function UnseenTest({ t, L }) {
   const [submitted, setSubmitted] = useState(false)
   const [mark, setMark] = useState(null)
   const [gloss, setGloss] = useState(null)
+  // The exam time is the level's suggestion, but the teacher or pupil picks it (0 = no time limit).
+  const [minutes, setMinutes] = useState(L.minutes)
   const [left, setLeft] = useState(L.minutes * 60)
   const [printing, setPrinting] = useState(false)
   const [withAnswers, setWithAnswers] = useState(true)
@@ -171,10 +173,10 @@ function UnseenTest({ t, L }) {
   const exam = mode === 'exam'
   const showResult = i => (exam ? submitted : picks[i] !== undefined)
   useEffect(() => {
-    if (!exam || submitted) return
+    if (!exam || submitted || !minutes) return
     const id = setInterval(() => setLeft(s => (s > 0 ? s - 1 : 0)), 1000)
     return () => clearInterval(id)
-  }, [exam, submitted])
+  }, [exam, submitted, minutes])
   useEffect(() => {
     if (!gloss) return
     const opened = Date.now(), y = window.scrollY
@@ -193,7 +195,8 @@ function UnseenTest({ t, L }) {
     qs.forEach((q, i) => { const b = (by[q.skill] ||= [0, 0]); b[1]++; if (q.type === 'mc' ? picks[i] === q.answer : picks[i] === true) b[0]++ })
     saveResult(t.slug, right, qs.length, by)
   }, [finished]) // eslint-disable-line react-hooks/exhaustive-deps
-  const reset = m => { setMode(m); setPicks({}); setRevealed({}); setSubmitted(false); setMark(null); setLeft(L.minutes * 60); saved.current = false }
+  const reset = (m, mins = minutes) => { setMode(m); setPicks({}); setRevealed({}); setSubmitted(false); setMark(null); setMinutes(mins); setLeft(mins * 60); saved.current = false }
+  const TIME_CHOICES = [...new Set([10, 15, 20, 30, 45, 60, 75, 90, L.minutes])].sort((a, b) => a - b)
   const show = ev => { setMark(ev); requestAnimationFrame(() => document.getElementById('us-mark')?.scrollIntoView({ behavior: 'smooth', block: 'center' })) }
   // Tapping a word: the glossary's meaning, else the built-in dictionary, else a meaning for this sentence.
   const onWord = e => {
@@ -214,10 +217,15 @@ function UnseenTest({ t, L }) {
   return <>
     <div className="us-modes" role="group" aria-label="מצב">
       <button type="button" className="ln-chip" aria-pressed={!exam} onClick={() => reset('practice')}>✏️ תרגול — משוב מיידי</button>
-      <button type="button" className="ln-chip" aria-pressed={exam} onClick={() => reset('exam')}>⏱️ מבחן — {L.minutes} דקות</button>
+      <button type="button" className="ln-chip" aria-pressed={exam} onClick={() => reset('exam')}>⏱️ מבחן</button>
       <button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה</button>
     </div>
-    {exam && !submitted && <p className={`us-timer ${left === 0 ? 'is-over' : ''}`} role="timer" aria-live="off">⏱️ {fmt(left)}{left === 0 ? ' — הזמן נגמר, אפשר לסיים ולהגיש' : ''}</p>}
+    {exam && !submitted && <div className="mb-2 flex flex-wrap items-center justify-center gap-2" role="group" aria-label="זמן המבחן">
+      <span className="font-bold">כמה זמן?</span>
+      {TIME_CHOICES.map(n => <button key={n} type="button" className="ln-chip !min-h-[36px]" aria-pressed={minutes === n} onClick={() => reset('exam', n)}>{n} דק׳{n === L.minutes ? ' (מומלץ)' : ''}</button>)}
+      <button type="button" className="ln-chip !min-h-[36px]" aria-pressed={minutes === 0} onClick={() => reset('exam', 0)}>בלי הגבלה</button>
+    </div>}
+    {exam && !submitted && minutes > 0 && <p className={`us-timer ${left === 0 ? 'is-over' : ''}`} role="timer" aria-live="off">⏱️ {fmt(left)}{left === 0 ? ' — הזמן נגמר, אפשר לסיים ולהגיש' : ''}</p>}
     <p className="mb-2 text-center text-sm text-[var(--muted-foreground)]">{en ? 'נגעו בכל מילה לתרגום ולהשמעה · מילים עם קו מקווקו — ברשימת המילים המוסברות' : 'מילה קשה? נגעו בה וקבלו הסבר קצר'}</p>
 
     <div className="us-passage" onClick={onWord}>

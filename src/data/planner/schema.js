@@ -39,6 +39,12 @@ export const PLANNER_SUBJECTS = {
   geography: { title: 'מולדת וגאוגרפיה', emoji: '🗺️' },
   history: { title: 'היסטוריה', emoji: '🏺' },
   civics: { title: 'אזרחות', emoji: '🏛️' },
+  literature: { title: 'ספרות', emoji: '📚' },
+  arabic: { title: 'ערבית', emoji: '🗣️' },
+  heritage: { title: 'בשבילי מורשת', emoji: '🕍' },
+  pe: { title: 'חינוך גופני', emoji: '🏃' },
+  music: { title: 'מוזיקה', emoji: '🎵' },
+  art: { title: 'אמנות', emoji: '🎨' },
   homeroom: { title: 'שעת חינוך', emoji: '🤝' },
 }
 export const LINK_TYPES = ['math-topic', 'tanakh-topic', 'lesson', 'parasha', 'grammar', 'vocab', 'reading', 'unseen', 'heb-reading', 'booklet', 'page']
