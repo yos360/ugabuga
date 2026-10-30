@@ -2,9 +2,15 @@
 
 Visitors ask for pages at /request (and from the request cards and print QR codes). A daily scheduled
 task builds what they ask for and marks each request done, so it shows under "הכנו לפי בקשה" on the site.
-Visitors who left an address get a "your page is ready" mail automatically: the mail scheduler
-(functions/api/mail.js, every 10 minutes, 08:00–21:00 Israel time) sends one mail per done request with
-its public title and link (migration 20261030120000). Planned and declined requests get no mail. The owner
+**Nothing goes public before the page is live** (owner's standing rule, migration 20261030130000): a done
+request gets `live_at` only when the mail scheduler (functions/api/mail.js, every 10 minutes) finds its path
+in the deployed sitemap-static.xml / sitemap.xml — the site answers 200 for every path, so a status check
+proves nothing, and Cloudflare builds can take over half an hour. "הכנו לפי בקשה" on the site, the mail and
+the Facebook post all wait for `live_at`. Then, 08:00–21:00 Israel time:
+- Visitors who left an address get one "your page is ready" mail with its public title and link.
+- One Facebook post every 30 minutes, oldest live page first (`announced_at`), when the Pages secrets
+  `FB_PAGE_ID` and `FB_PAGE_TOKEN` are set. Text: src/utils/requestAnnounce.js.
+- WhatsApp has no API for channels: the owner report shows a "📣 שיתוף בווטסאפ" button per live page. Planned and declined requests get no mail. The owner
 report still has a manual mail button. The task itself never sees visitors' emails.
 
 ## Privacy rules (do not bend)

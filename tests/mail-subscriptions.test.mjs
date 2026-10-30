@@ -2,6 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { normalizeMail, csvCell } from '../src/utils/mailPreferences.js'
 import { dueShabbat, weeklyWindow, readyWindow, readyMail, listedIn, onRequest } from '../functions/api/mail.js'
+import { announceText } from '../src/utils/requestAnnounce.js'
 import { shabbatForDate } from '../src/utils/shabbatTimes.js'
 import { shabbatCity } from '../src/data/shabbatCities.js'
 import { WEEKLY_MAIL, MAIL_OFFERS } from '../src/data/weeklyMail.js'
@@ -45,6 +46,12 @@ test('"page ready" mail waits until the deployed sitemap lists the page', () => 
  assert.equal(listedIn([map, ''], '/booklets/nikud'), true)
  assert.equal(listedIn([map, ''], '/booklets/nikud-2'), false)
  assert.equal(listedIn(['', ''], '/booklets/nikud'), false)
+})
+test('Facebook post says it was made on request, with the link, never the request text', () => {
+ const text = announceText({ id: 9, public_title: 'חוברת פירות הדר', result_path: '/booklets/citrus', audience: 'מורה · כיתה א׳–ב׳' })
+ assert.ok(text.includes('https://ugabuga.co.il/booklets/citrus\n'))
+ assert.ok(text.includes('מבקשה שקיבלנו באתר (מורה)'))
+ assert.ok(text.includes('https://ugabuga.co.il/request'))
 })
 test('unconfigured backend does not collect data or pretend registration succeeded', async () => {
  const response = await onRequest({env:{},request:new Request('https://ugabuga.co.il/api/mail',{method:'POST',body:JSON.stringify({action:'subscribe'})})})

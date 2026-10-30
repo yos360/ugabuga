@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
 import { QR_VARIANTS } from '../../data/printMessages'
+import { announceText } from '../../utils/requestAnnounce'
 
 // Owner report: what visitors asked us to make (/request), with a status per request, and which
 // rotating QR message on printed pages was printed vs scanned.
@@ -23,6 +24,7 @@ function QrVariants({ from, to, tick }) {
 
 // Marking a request done: a public title and the page's link show it in "הכנו לפי בקשה" on the site;
 // when the visitor left an email, a ready "your page is ready" message opens in the owner's mail app.
+// Mail, share and post links show only once the page is live (live_at, migration 20261030130000).
 function DoneEditor({ row, onSaved }) {
   const [title, setTitle] = useState(row.public_title || ''), [path, setPath] = useState(row.result_path || ''), [msg, setMsg] = useState('')
   const save = async () => {
@@ -37,7 +39,11 @@ function DoneEditor({ row, onSaved }) {
     <input value={title} onChange={e => setTitle(e.target.value)} placeholder="כותרת לאתר (לדוגמה: דפי צביעה של כלבי ים)" className="w-full rounded border p-1" />
     <input value={path} onChange={e => setPath(e.target.value)} placeholder="קישור לדף (לדוגמה: /printables/coloring/seal)" className="w-full rounded border p-1" />
     <button type="button" onClick={save} className="rounded bg-emerald-600 px-2 py-1 font-bold text-white">שמירה והצגה באתר</button> {msg}
-    {mail && <a href={mail} className="block font-bold text-violet-700 underline">✉️ שליחה ידנית (בדרך כלל המייל יוצא אוטומטית)</a>}
+    {row.result_path && (row.live_at
+      ? <p className="font-bold text-emerald-800">🟢 באוויר באתר{row.mailed_at ? ' · ✉️ המייל נשלח' : ''}{row.announced_at ? ' · 📣 פורסם בפייסבוק' : ''}</p>
+      : <p className="font-bold text-amber-700">⏳ מחכה שהדף יעלה לאתר — עד אז שום דבר לא נשלח ולא מתפרסם</p>)}
+    {row.live_at && <a href={`https://wa.me/?text=${encodeURIComponent(announceText(row))}`} target="_blank" rel="noopener noreferrer" className="block font-bold text-emerald-700 underline">📣 שיתוף בווטסאפ (ערוץ או קבוצה)</a>}
+    {mail && row.live_at && <a href={mail} className="block font-bold text-violet-700 underline">✉️ שליחה ידנית (בדרך כלל המייל יוצא אוטומטית)</a>}
   </div>
 }
 

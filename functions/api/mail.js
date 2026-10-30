@@ -3,6 +3,7 @@ import { shabbatCity } from '../../src/data/shabbatCities.js'
 import { shabbatForDate, formatTime, SHABBAT_NOTICE } from '../../src/utils/shabbatTimes.js'
 import { israelToday } from '../../src/utils/parashaCalendar.js'
 import { WEEKLY_MAIL, MAIL_OFFERS } from '../../src/data/weeklyMail.js'
+import { announceText } from '../../src/utils/requestAnnounce.js'
 
 const SITE = 'https://ugabuga.co.il'
 const OWNER_HASH = 'd42cc7d2d976d54fa6d766d61033e18a27177a09e690039e1439dee73b0a47d6'
@@ -75,15 +76,32 @@ export function readyMail(row) {
 export const listedIn = (sitemaps, path) => sitemaps.some(s => s.includes(`<loc>${SITE}${path}</loc>`))
 const liveSitemaps = () => Promise.all(['/sitemap-static.xml', '/sitemap.xml'].map(p =>
  fetch(`${SITE}${p}`, { cache: 'no-store', signal: AbortSignal.timeout(10000) }).then(r => r.ok ? r.text() : '', () => '')))
+// Facebook post for a request whose page is live: one every 30 minutes (page_request_mail 'announce_next'),
+// only when FB_PAGE_ID and FB_PAGE_TOKEN are set. Says it was made on request, never quotes the visitor.
+async function announce(env) {
+ if (!env.FB_PAGE_ID || !env.FB_PAGE_TOKEN) return 0
+ const row = await rpc(env, 'announce_next', {}, 'page_request_mail')
+ if (!row || !await rpc(env, 'announce_claim', { id: row.id }, 'page_request_mail')) return 0
+ const body = new URLSearchParams({ message: announceText(row), link: `${SITE}${row.result_path}`, access_token: env.FB_PAGE_TOKEN })
+ const response = await fetch(`https://graph.facebook.com/v21.0/${env.FB_PAGE_ID}/feed`, { method: 'POST', body, signal: AbortSignal.timeout(20000) }).catch(() => null)
+ if (!response?.ok) { await rpc(env, 'announce_release', { id: row.id }, 'page_request_mail').catch(() => {}); throw new Error('facebook') }
+ return 1
+}
 async function readyMails(env, now) {
  let sent = 0, failed = 0
+ // First mark pages live once the deployed sitemaps list them (any hour): the public list, the mail and the
+ // Facebook post all wait for that mark, so nobody is sent to a page that is still deploying.
+ const pending = await rpc(env, 'unverified', {}, 'page_request_mail').catch(() => null)
+ if (pending?.length) {
+  const sitemaps = await liveSitemaps()
+  for (const row of pending) if (listedIn(sitemaps, row.result_path)) await rpc(env, 'live', { id: row.id }, 'page_request_mail').catch(() => {})
+ }
  if (!readyWindow(now)) return { sent, failed }
+ await announce(env).catch(() => { failed++ })
  // A failure here must not hold back the Shabbat/weekly mails below.
  const rows = await rpc(env, 'due', {}, 'page_request_mail').catch(() => null)
- if (!rows) return { sent, failed: 1 }
- const sitemaps = rows.length ? await liveSitemaps() : []
+ if (!rows) return { sent, failed: failed + 1 }
  for (const row of rows) {
-  if (!listedIn(sitemaps, row.result_path)) continue
   try {
    if (!await rpc(env, 'claim', { id: row.id }, 'page_request_mail')) continue
    const { subject, text } = readyMail(row)
