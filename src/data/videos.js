@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '_UCm6JYhOyI', kind: 'tutorial', title: 'איך אוספים אישורי הגעה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/rsvp'], category: 'party', date: '2026-10-30',
+    desc: 'מדריך קצר לדף אישור ההגעה: כותבים שם, תאריך ומקום, שולחים קישור אחד בוואטסאפ ורואים מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.' },
   { id: 'DpbSovICUFA', kind: 'tutorial', title: 'איך מטילים קובייה אונליין — מדריך קצר', paths: ['/tools/dice'], category: 'tools', date: '2026-10-30',
     desc: 'מדריך קצר לקובייה הווירטואלית: 1 עד 5 קוביות, סכום אוטומטי והיסטוריית הטלות — לסולמות ונחשים, מונופול, שש־בש וכל משחק שהקובייה שלו הלכה לאיבוד.' },
   { id: '-4RMMZdPBVc', kind: 'short', title: 'אירוע בלי כאב ראש: אישורי הגעה, מי מביא מה וגמד וענק', paths: ['/rsvp', '/tools/bring-list', '/secret-friend'], category: 'party', date: '2026-10-29',

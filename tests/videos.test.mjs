@@ -46,7 +46,8 @@ test('videosForPath matches exactly and ignores a trailing slash', () => {
   assert.deepEqual(videosForPath('/'), [])
   assert.deepEqual(videosForPath(''), [])
   assert.deepEqual(videosForPath('/no-such-page'), [])
-  for (const p of ['/rsvp', '/tools/bring-list', '/secret-friend']) assert.deepEqual(videosForPath(p).map(v => v.id), ['-4RMMZdPBVc'])
+  assert.deepEqual(videosForPath('/rsvp').map(v => v.id), ['_UCm6JYhOyI', '-4RMMZdPBVc'])
+  for (const p of ['/tools/bring-list', '/secret-friend']) assert.deepEqual(videosForPath(p).map(v => v.id), ['-4RMMZdPBVc'])
 })
 
 test('VideoObject structured data has what Google requires', () => {
