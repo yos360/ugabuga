@@ -163,6 +163,24 @@ async function main() {
     console.warn(`generate-sitemap: could not add preview images. ${err.message}`)
   }
 
+  // The site's YouTube videos (src/data/videos.js): listed on each tool page that shows one and
+  // on /videos, so Google can pick them up for video results.
+  try {
+    const { videoSitemapPages, videoSitemapTag } = await import('../src/data/videos.js')
+    const pages = videoSitemapPages()
+    let added = 0
+    merged = merged.replace(/<loc>https:\/\/ugabuga\.co\.il([^<]*)<\/loc>/g, (m, path) => {
+      const vids = pages[path]
+      if (!vids) return m
+      added += vids.length
+      return m + vids.map(videoSitemapTag).join('')
+    })
+    if (added && !merged.includes('xmlns:video')) merged = merged.replace('<urlset ', '<urlset xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" ')
+    console.log(`generate-sitemap: added ${added} video entries.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not add videos. ${err.message}`)
+  }
+
   await writeFile(new URL('../public/sitemap.xml', import.meta.url), merged)
   console.log('generate-sitemap: wrote public/sitemap.xml')
 }

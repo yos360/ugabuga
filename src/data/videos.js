@@ -52,6 +52,27 @@ export const videoThumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
 export const videoEmbed = id => `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`
 export const videoWatchUrl = v => v.kind === 'short' ? `https://www.youtube.com/shorts/${v.id}` : `https://www.youtube.com/watch?v=${v.id}`
 
+/** Pages a video sitemap entry belongs to: its tool pages and /videos. */
+export function videoSitemapPages() {
+  const pages = { '/videos': VIDEOS }
+  for (const v of VIDEOS) for (const p of v.paths) (pages[p] ||= []).push(v)
+  return pages
+}
+
+const xmlEsc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/** <video:video> block for the sitemap (https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps). */
+export function videoSitemapTag(v) {
+  return '<video:video>'
+    + `<video:thumbnail_loc>${videoThumb(v.id)}</video:thumbnail_loc>`
+    + `<video:title>${xmlEsc(v.title)}</video:title>`
+    + `<video:description>${xmlEsc(v.desc || v.title)}</video:description>`
+    + `<video:player_loc>https://www.youtube.com/embed/${v.id}</video:player_loc>`
+    + `<video:publication_date>${v.date}T12:00:00+02:00</video:publication_date>`
+    + '<video:family_friendly>yes</video:family_friendly>'
+    + '</video:video>'
+}
+
 /** schema.org VideoObject for one video. */
 export function videoSchema(v, withContext = true) {
   return {

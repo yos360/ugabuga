@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { VIDEOS, VIDEO_CATEGORIES, VIDEO_PAGE_LABELS, videosForPath, videoSchema } from '../src/data/videos.js'
+import { VIDEOS, VIDEO_CATEGORIES, VIDEO_PAGE_LABELS, videosForPath, videoSchema, videoSitemapPages, videoSitemapTag } from '../src/data/videos.js'
 
 const read = p => readFileSync(new URL(p, import.meta.url), 'utf8')
 const app = read('../src/App.jsx')
@@ -60,6 +60,18 @@ test('VideoObject structured data has what Google requires', () => {
     assert.equal(s.contentUrl, v.kind === 'short' ? `https://www.youtube.com/shorts/${v.id}` : `https://www.youtube.com/watch?v=${v.id}`)
   }
   assert.equal(videoSchema(VIDEOS[0], false)['@context'], undefined)
+})
+
+test('video sitemap entries: every video on /videos and on its tool pages, escaped, with the required tags', () => {
+  const pages = videoSitemapPages()
+  assert.equal(pages['/videos'].length, VIDEOS.length)
+  for (const v of VIDEOS) for (const p of v.paths) assert.ok(pages[p].includes(v), `${v.id} on ${p}`)
+  for (const v of VIDEOS) {
+    const tag = videoSitemapTag(v)
+    for (const k of ['thumbnail_loc', 'title', 'description', 'player_loc', 'publication_date']) assert.match(tag, new RegExp(`<video:${k}>[^<]+</video:${k}>`), `${v.id}: ${k}`)
+  }
+  assert.match(videoSitemapTag({ ...VIDEOS[0], title: 'a & b <c>' }), /<video:title>a &amp; b &lt;c&gt;<\/video:title>/)
+  assert.match(read('../scripts/generate-sitemap.mjs'), /xmlns:video="http:\/\/www\.google\.com\/schemas\/sitemap-video\/1\.1"/)
 })
 
 test('/videos is routed, in the sitemap, in site search and in the footer', async () => {
