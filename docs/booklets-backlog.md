@@ -21,10 +21,10 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `role-models` — חוברת דמויות מופת ישראליות לכיתות א׳–ב׳ (facts checked against two sources; texts unpointed, read together in grade 1) — 2026-10-28
 - [x] `yard-animals` — "מי גר בחצר?" מגדיר חיות קטנות, 15 עמודים (12 חיות; facts checked; emoji art where the word bank has no print art) — 2026-10-29
 - [x] `age-4` — חוברת עבודה לגיל 4 (110/mo), 15 עמודים — 2026-10-29
+- [x] `math-grade-2` — חוברת חשבון לכיתה ב׳ (110/mo), 15 עמודים: חיבור וחיסור עד 100, ערך המקום, כפל 2/5/10, שעון, כסף, בעיות מילוליות — 2026-10-30
+- [x] `spelling` — חוברת שגיאות כתיב (90/mo), 14 עמודים: א/ע ט/ת כ/ח ס/ש ק/כ ב/ו, אם/עם, מציאת טעויות, תפזורת — 2026-10-30
 
 ## Next (top first)
-- [ ] `math-grade-2` — חוברת חשבון לכיתה ב׳ (110/mo). Addition/subtraction to 100, place value, multiplication intro, clock, money, word problems + answer key.
-- [ ] `spelling` — חוברת שגיאות כתיב (90/mo). Common Hebrew spelling confusions (א/ע, ט/ת, כ/ח, ס/ש, ק/כ, ו/ב) — fill the missing letter, find the mistake; answer key.
 - [ ] `grade-7-prep` — חוברת הכנה לכיתה ז׳ (70/mo). Math (fractions, decimals, percent, order of operations) + reading comprehension (grade 6–7 passages) + answer key.
 - [ ] `age-3` — חוברת עבודה לגיל 3 (50/mo). Coloring, big tracing lines, matching pairs, more/less, colors.
 - [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
