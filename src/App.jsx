@@ -237,6 +237,12 @@ const SubjectTopic = lazy(() => import('./learn/subjects/SubjectPages').then(m =
 const SubjectExam = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.SubjectExam })))
 const ConceptIndex = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.ConceptIndex })))
 const ConceptPage = lazy(() => import('./learn/subjects/SubjectPages').then(m => ({ default: m.ConceptPage })))
+const GrammarHub = lazy(() => import('./learn/englishGrammar/EnglishGrammarPages').then(m => ({ default: m.GrammarHub })))
+const GrammarTopic = lazy(() => import('./learn/englishGrammar/EnglishGrammarPages').then(m => ({ default: m.GrammarTopic })))
+const ReadingHub = lazy(() => import('./learn/englishReading/EnglishReadingPages').then(m => ({ default: m.ReadingHub })))
+const ReadingStory = lazy(() => import('./learn/englishReading/EnglishReadingPages').then(m => ({ default: m.ReadingStory })))
+const EnglishGradesHub = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradesHub })))
+const EnglishGradePage = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradePage })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
@@ -945,6 +951,12 @@ export default function App() {
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
               <Route path="/learn/geography/:slug/exam" element={<SubjectExam key="geography-e" subjectKey="geography" />} />
               <Route path="/learn/geography/:slug" element={<SubjectTopic key="geography" subjectKey="geography" />} />
+              <Route path="/learn/english-grammar" element={<GrammarHub />} />
+              <Route path="/learn/english-grammar/:slug" element={<GrammarTopic />} />
+              <Route path="/learn/english-reading" element={<ReadingHub />} />
+              <Route path="/learn/english-reading/:slug" element={<ReadingStory />} />
+              <Route path="/learn/english" element={<EnglishGradesHub />} />
+              <Route path="/learn/english/:grade" element={<EnglishGradePage />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />

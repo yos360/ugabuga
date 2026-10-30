@@ -19,6 +19,10 @@ export const SKILLS = {
 }
 
 export const UNSEEN_LEVELS = [
+  { id: 'g3', lang: 'en', path: 'grade-3', name: 'כיתה ג׳', short: 'ג׳', words: [25, 60], questions: [4, 6], minutes: 15,
+    about: 'הקריאה הראשונה באנגלית: כמה משפטים קצרים על נושא מוכר (משפחה, חיות, צבעים), מילון מילים מלא, שאלות התאמה ובחירה ושאלת העתקה של מילה אחת.' },
+  { id: 'g4', lang: 'en', path: 'grade-4', name: 'כיתה ד׳', short: 'ד׳', words: [45, 85], questions: [5, 7], minutes: 15,
+    about: 'טקסט קצר בזמן הווה — כרטיס היכרות, הזמנה או תיאור — עם מילון מילים, שאלות אמריקאיות ושאלת העתקה קצרה.' },
   { id: 'g5', lang: 'en', path: 'grade-5', name: 'כיתה ה׳', short: 'ה׳', words: [70, 120], questions: [6, 8], minutes: 20,
     about: 'האנסין הראשון: טקסט קצרצר במשפטים פשוטים בזמן הווה, עם מילון מילים, שאלות אמריקאיות ושאלת העתקה אחת.' },
   { id: 'g6', lang: 'en', path: 'grade-6', name: 'כיתה ו׳', short: 'ו׳', words: [100, 150], questions: [6, 8], minutes: 20,

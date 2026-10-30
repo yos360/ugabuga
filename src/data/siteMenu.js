@@ -142,6 +142,23 @@ export const MENU_DOMAINS = [
         ],
       },
       {
+        title: 'אנגלית', icon: '🇬🇧', to: '/learn/english',
+        items: [
+          { to: '/learn/english', label: 'אנגלית לפי כיתה — לפי תוכנית משרד החינוך', icon: '🇬🇧' },
+          { to: '/learn/english/grade-1', label: 'כיתות א׳–ב׳ — התחלה מוקדמת', icon: '🌱' },
+          { to: '/learn/english/grade-3', label: 'כיתות ג׳–ו׳ — רמת יסוד', icon: '🌿' },
+          { to: '/learn/english/grade-7', label: 'כיתות ז׳–ט׳ — רמת ביניים', icon: '🌳' },
+          { to: '/learn/english/grade-10', label: 'כיתות י׳–י״ב — בגרות', icon: '🎓' },
+          { to: '/learn/english-grammar', label: 'דקדוק באנגלית — הסבר, חידון ודף עבודה', icon: '📘' },
+          { to: '/unseen/english', label: 'אנסין באנגלית — תרגול ומבחנים', icon: '📝' },
+          { to: '/learn/english-reading', label: 'קטעי קריאה עם מילון לכל מילה', icon: '📖' },
+          { to: '/booklets', label: 'חוברות אנגלית להדפסה', icon: '📚' },
+          { to: '/english', label: 'מילים ומשחקים באנגלית', icon: '🎮' },
+          { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
+          { to: '/learn/dictation/english', label: 'הכתבה באנגלית', icon: '✍️' },
+        ],
+      },
+      {
         title: 'עברית וקריאה', icon: '🔤', to: '/letters',
         items: [
           { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
@@ -206,11 +223,8 @@ export const MENU_DOMAINS = [
         ],
       },
       {
-        title: 'אנגלית, שפות והקלדה', icon: '🇬🇧', to: '/english',
+        title: 'שפות והקלדה', icon: '🌍', to: '/languages',
         items: [
-          { to: '/english', label: 'אנגלית לילדים — מילים ומשחקים', icon: '🇬🇧' },
-          { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
-          { to: '/learn/english/by-grade', label: 'אנגלית לפי כיתה', icon: '🇬🇧' },
           { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '✏️' },
           { to: '/languages', label: 'שפות לילדים: צרפתית, ספרדית, רוסית, ערבית, אמהרית', icon: '🌍' },
           { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
