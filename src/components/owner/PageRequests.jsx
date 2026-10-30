@@ -37,7 +37,7 @@ function DoneEditor({ row, onSaved }) {
     <input value={title} onChange={e => setTitle(e.target.value)} placeholder="כותרת לאתר (לדוגמה: דפי צביעה של כלבי ים)" className="w-full rounded border p-1" />
     <input value={path} onChange={e => setPath(e.target.value)} placeholder="קישור לדף (לדוגמה: /printables/coloring/seal)" className="w-full rounded border p-1" />
     <button type="button" onClick={save} className="rounded bg-emerald-600 px-2 py-1 font-bold text-white">שמירה והצגה באתר</button> {msg}
-    {mail && <a href={mail} className="block font-bold text-violet-700 underline">✉️ לשלוח למבקש/ת "הדף מוכן"</a>}
+    {mail && <a href={mail} className="block font-bold text-violet-700 underline">✉️ שליחה ידנית (בדרך כלל המייל יוצא אוטומטית)</a>}
   </div>
 }
 
@@ -52,7 +52,7 @@ export default function PageRequests({ from, to, tick = 0 }) {
   const open = rows.filter(r => r.status === 'new').length
   return <section className="mb-6 rounded-3xl border-2 border-violet-200 bg-white p-5 shadow-sm">
     <div className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-sm font-bold text-violet-700">מבקשים דף</p><h2 className="text-2xl font-black">מה ביקשו שנכין?</h2></div><span className="rounded-full bg-violet-100 px-3 py-1 font-black">{rows.length} בקשות · {open} חדשות</span></div>
-    <p className="mt-2 text-sm text-slate-600">מייל נשמר רק כשהמבקר בחר להשאיר אותו, כדי לעדכן שהדף מוכן. לא לפרסם ולא להעביר. כשבקשה הוכנה: בוחרים "הוכן", כותבים כותרת וקישור — והיא מופיעה באתר תחת "הכנו לפי בקשה" (בלי נוסח הבקשה ובלי המייל).</p>
+    <p className="mt-2 text-sm text-slate-600">מייל נשמר רק כשהמבקר בחר להשאיר אותו, כדי לעדכן שהדף מוכן. לא לפרסם ולא להעביר. כשבקשה הוכנה: בוחרים "הוכן", כותבים כותרת וקישור — והיא מופיעה באתר תחת "הכנו לפי בקשה" (בלי נוסח הבקשה ובלי המייל). מי שהשאיר מייל מקבל אוטומטית תוך כ־10 דקות מייל "הדף מוכן" עם הקישור (08:00–21:00).</p>
     {error && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm font-bold">{error}</p>}
     {!error && (rows.length ? <div className="mt-4 max-h-[440px] overflow-auto"><table className="w-full text-right text-sm"><thead className="sticky top-0 bg-white"><tr className="border-b-2"><th className="p-2">זמן</th><th className="p-2">הבקשה</th><th className="p-2">סטטוס</th></tr></thead>
       <tbody>{rows.map(r => <tr key={r.id} className="border-b align-top"><td className="whitespace-nowrap p-2 text-slate-500">{formatTime(r.created_at)}</td>

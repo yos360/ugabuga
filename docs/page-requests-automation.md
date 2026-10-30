@@ -2,8 +2,10 @@
 
 Visitors ask for pages at /request (and from the request cards and print QR codes). A daily scheduled
 task builds what they ask for and marks each request done, so it shows under "הכנו לפי בקשה" on the site.
-The owner emails visitors who left an address: in the owner report a done request with an email has a
-ready "your page is ready" mail button (one click). The task itself never sees visitors' emails.
+Visitors who left an address get a "your page is ready" mail automatically: the mail scheduler
+(functions/api/mail.js, every 10 minutes, 08:00–21:00 Israel time) sends one mail per done request with
+its public title and link (migration 20261030120000). Planned and declined requests get no mail. The owner
+report still has a manual mail button. The task itself never sees visitors' emails.
 
 ## Privacy rules (do not bend)
 - Request texts never go into the repo, commit messages, code comments, logs or annotations. They live only

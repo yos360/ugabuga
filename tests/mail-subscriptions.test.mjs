@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { normalizeMail, csvCell } from '../src/utils/mailPreferences.js'
-import { dueShabbat, weeklyWindow, onRequest } from '../functions/api/mail.js'
+import { dueShabbat, weeklyWindow, readyWindow, readyMail, onRequest } from '../functions/api/mail.js'
 import { shabbatForDate } from '../src/utils/shabbatTimes.js'
 import { shabbatCity } from '../src/data/shabbatCities.js'
 import { WEEKLY_MAIL, MAIL_OFFERS } from '../src/data/weeklyMail.js'
@@ -29,6 +29,15 @@ test('weekly email window is Thursday morning Israel time, not browser/UTC time'
  assert.equal(weeklyWindow(new Date('2026-10-15T11:00:00Z')),false)
  assert.equal(weeklyWindow(new Date('2026-10-16T07:00:00Z')),false)
  assert.equal(weeklyWindow(new Date('2026-10-29T08:00:00Z')),true)
+})
+test('"page ready" mail: daytime Israel time, public title and link only', () => {
+ assert.equal(readyWindow(new Date('2026-10-30T06:00:00Z')),true)
+ assert.equal(readyWindow(new Date('2026-10-30T05:59:00Z')),false)
+ assert.equal(readyWindow(new Date('2026-10-30T19:00:00Z')),false)
+ const {subject,text}=readyMail({id:4,email:'x@example.com',public_title:'חוקי החשבון',result_path:'/math/grade-6/arithmetic-laws'})
+ assert.ok(subject.includes('מוכן'))
+ assert.ok(text.includes('https://ugabuga.co.il/math/grade-6/arithmetic-laws\n'))
+ assert.ok(!text.includes('x@example.com'))
 })
 test('unconfigured backend does not collect data or pretend registration succeeded', async () => {
  const response = await onRequest({env:{},request:new Request('https://ugabuga.co.il/api/mail',{method:'POST',body:JSON.stringify({action:'subscribe'})})})
