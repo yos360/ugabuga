@@ -394,6 +394,7 @@ const ShabbatParents = lazy(() => import('./pages/holidays/ShabbatParents'))
 const HolidaysHub = lazy(() => import('./pages/holidays/HolidaysHub'))
 const HanukkahHub = lazy(() => import('./pages/holidays/HanukkahHub'))
 const HanukkahCandleTimes = lazy(() => import('./pages/holidays/HanukkahCandleTimes'))
+const HanukkahGrade = lazy(() => import('./pages/holidays/HanukkahGrade'))
 const HanukkiahCutOut = lazy(() => import('./pages/holidays/HanukkiahCutOut'))
 const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
 const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
@@ -1102,6 +1103,7 @@ export default function App() {
               <Route path="/holidays/blessings/:slug" element={<HolidayBlessings />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
               <Route path="/holidays/hanukkah/candle-times" element={<HanukkahCandleTimes />} />
+              <Route path="/holidays/hanukkah/grade/:gradeSlug" element={<HanukkahGrade />} />
               <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
               <Route path="/holidays/hanukkah/songs" element={<HanukkahSongs />} />
               <Route path="/holidays/hanukkah/cut-out-hanukkiah" element={<HanukkiahCutOut />} />

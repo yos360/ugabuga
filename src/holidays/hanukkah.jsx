@@ -66,7 +66,7 @@ export const HANUKKAH_H = {
     faq: [{ q: 'כמה דפי צביעה לחנוכה יש כאן?', a: '6 ציורים: חנוכייה, סביבון, סופגניות, פך השמן, שמונה נרות ו"חנוכה שמח". כולם בחינם, בלי הרשמה.' }, { q: 'איך מדפיסים?', a: 'לוחצים על ציור כדי להדפיס אותו, או על "הדפיסו את כל הדפים". כל ציור ממלא דף A4.' }],
   },
   worksheets: {
-    list: HANUKKAH_SHEETS, crumb: 'דפי עבודה', related: [{ label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'חידון חנוכה', href: '/holidays/hanukkah/quiz' }, { label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }],
+    list: HANUKKAH_SHEETS, crumb: 'דפי עבודה', related: [{ label: 'דפי עבודה לחנוכה לכיתה א׳', href: '/holidays/hanukkah/grade/grade-1' }, { label: 'פעילות לחנוכה לגן', href: '/holidays/hanukkah/grade/kindergarten' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'חידון חנוכה', href: '/holidays/hanukkah/quiz' }, { label: 'סביבון וירטואלי', href: '/holidays/hanukkah/sevivon' }],
     title: 'דפי עבודה לחנוכה לגן ולכיתה א׳ — להדפסה', h1: '✏️ דפי עבודה לחנוכה',
     desc: 'דפי עבודה לחנוכה לגן ולכיתה א׳: ספירת נרות בחנוכייה, חשבון סופגניות, מעקב על מילים של חנוכה והתאמת אותיות הסביבון — להדפסה בחינם.',
     sub: 'ספירה · חשבון · כתיבה · התאמה — לגן ולכיתה א׳',

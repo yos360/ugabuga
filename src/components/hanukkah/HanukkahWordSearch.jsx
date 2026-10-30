@@ -10,7 +10,8 @@ const LEVELS = [
   { id: 'hard', name: 'קשה', age: 'ד׳–ו׳', size: 12, words: ['חנוכייה', 'סופגניות', 'המכבים', 'ביתהמקדש', 'יהודה', 'אנטיוכוס', 'לביבות', 'פךהשמן', 'נסגדול', 'מודיעין'], seed: 23 },
 ]
 
-function Sheet({ level, answers }) {
+// Also used by the by-grade pages with their own words: level = { name, size, words, seed, labels? }.
+export function HanukkahWordSearchSheet({ level, answers }) {
   const { grid, placed } = wordSearch(level.words, level.size, level.seed)
   const area = 470, cell = area / level.size, x0 = 300 + area / 2, y0 = 140
   const hit = new Set(answers ? placed.flatMap(p => p.cells.map(([r, c]) => `${r},${c}`)) : [])
@@ -25,12 +26,12 @@ function Sheet({ level, answers }) {
     <rect x={x0 - area} y={y0} width={area} height={area} fill="none" stroke="#111" strokeWidth="3" />
     {level.words.map((w, i) => {
       const col = i % 3, row = Math.floor(i / 3)
-      return <text key={w} x={500 - col * 170} y={y0 + area + 50 + row * 36} textAnchor="middle" fontFamily={FONT} fontSize="22" fontWeight="700" direction="rtl">☐ {LABEL[w] || w}</text>
+      return <text key={w} x={500 - col * 170} y={y0 + area + 50 + row * 36} textAnchor="middle" fontFamily={FONT} fontSize="22" fontWeight="700" direction="rtl">☐ {level.labels?.[w] || LABEL[w] || w}</text>
     })}
   </Page>
 }
 
 export const HANUKKAH_WORD_SEARCH = LEVELS.flatMap(l => [
-  { id: `ws-${l.id}`, name: `תפזורת חנוכה — ${l.name}`, age: l.age, C: () => <Sheet level={l} /> },
-  { id: `ws-${l.id}-answers`, name: `פתרון — ${l.name}`, age: l.age, C: () => <Sheet level={l} answers /> },
+  { id: `ws-${l.id}`, name: `תפזורת חנוכה — ${l.name}`, age: l.age, C: () => <HanukkahWordSearchSheet level={l} /> },
+  { id: `ws-${l.id}-answers`, name: `פתרון — ${l.name}`, age: l.age, C: () => <HanukkahWordSearchSheet level={l} answers /> },
 ])

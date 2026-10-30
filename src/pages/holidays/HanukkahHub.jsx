@@ -8,6 +8,7 @@ import HanukkahShell, { HANUKKAH_PAGES } from '../../components/hanukkah/Hanukka
 import { HANUKKAH } from '../../data/hanukkah'
 import HanukkahOrganize from '../../components/hanukkah/HanukkahOrganize'
 import HanukkahPlan from '../../components/hanukkah/HanukkahPlan'
+import HanukkahGradeChooser from '../../components/hanukkah/HanukkahGradeChooser'
 import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
@@ -84,6 +85,7 @@ export default function HanukkahHub() {
         </div>
       </div>
 
+      <HanukkahGradeChooser />
       <HanukkahPlan />
       <HanukkahOrganize className="mb-10" />
 
