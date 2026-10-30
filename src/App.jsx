@@ -245,6 +245,9 @@ const ReadingStory = lazy(() => import('./learn/englishReading/EnglishReadingPag
 const FavoritesPage = lazy(() => import('./pages/FavoritesPage'))
 const EnglishGradesHub = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradesHub })))
 const EnglishGradePage = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradePage })))
+const VocabGrade = lazy(() => import('./learn/englishVocab/EnglishVocabPages').then(m => ({ default: m.VocabGrade })))
+const VocabUnit = lazy(() => import('./learn/englishVocab/EnglishVocabPages').then(m => ({ default: m.VocabUnit })))
+const EnglishCategoryPage = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishCategoryPage })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
 const KidsZone = lazy(() => import('./pages/kids/KidsZone'))
 const WhatsNew = lazy(() => import('./pages/WhatsNew'))
@@ -961,6 +964,9 @@ export default function App() {
               <Route path="/learn/english-reading/:slug" element={<ReadingStory />} />
               <Route path="/learn/english" element={<EnglishGradesHub />} />
               <Route path="/learn/english/:grade" element={<EnglishGradePage />} />
+              <Route path="/learn/english/:grade/vocabulary" element={<VocabGrade />} />
+              <Route path="/learn/english/:grade/vocabulary/:unit" element={<VocabUnit />} />
+              <Route path="/learn/english/:grade/:cat" element={<EnglishCategoryPage />} />
               <Route path="/family" element={<FamilyHub />} />
               <Route path="/kids" element={<KidsZone />} />
               <Route path="/new" element={<WhatsNew />} />

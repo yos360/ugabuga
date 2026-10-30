@@ -252,7 +252,7 @@ function PrintChoices({ nikud, setNikud, answers, setAnswers, state }) {
 }
 
 // One passage with its questions, solved on screen. Reset with `key` when the passage changes.
-function ReadingExercise({ r, headingLevel = 2 }) {
+export function ReadingExercise({ r, headingLevel = 2 }) {
   const [picks, setPicks] = useState({})
   const [checked, setChecked] = useState(false)
   const [big, setBig] = useState(false)

@@ -1,0 +1,57 @@
+/* English vocabulary by grade — big colourful unit tiles, word cards, flip cards and the quiz. */
+.ev-tiles{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;padding:0;margin:0}
+@media (min-width:640px){.ev-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ev-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;min-height:150px;padding:16px 10px;text-align:center;
+  border:3px solid #1d2233;border-radius:24px;background:var(--tile,#fff6d1);color:#1d2233;box-shadow:4px 4px 0 #1d2233;transition:transform .15s ease,box-shadow .15s ease}
+.ev-tile:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:6px 6px 0 #1d2233}
+.ev-tile:focus-visible{outline:3px solid #2563eb;outline-offset:3px}
+.ev-tile[aria-current="page"]{outline:4px solid #1d2233;outline-offset:3px}
+.ev-tile-emoji{font-size:52px;line-height:1}
+.ev-tile b{font-size:21px;font-weight:900;line-height:1.2}
+.ev-tile-en{font-size:15px;font-weight:700;opacity:.8}
+.ev-tile small{font-size:13px;opacity:.75;line-height:1.35}
+.ev-tiles.is-compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (min-width:640px){.ev-tiles.is-compact{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.ev-tiles.is-compact .ev-tile{min-height:88px;padding:8px 4px;border-width:2px;border-radius:16px;box-shadow:2px 2px 0 #1d2233}
+.ev-tiles.is-compact .ev-tile-emoji{font-size:30px}
+.ev-tiles.is-compact .ev-tile b{font-size:14px}
+.ev-tiles.is-compact .ev-tile-en{display:none}
+
+.ev-grades{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ev-grades [aria-current="page"]{background:var(--yellow,#ffd23f)}
+.ev-modes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 18px}
+
+.ev-words{display:grid;gap:12px;grid-template-columns:1fr;list-style:none;padding:0;margin:0}
+@media (min-width:640px){.ev-words{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:960px){.ev-words{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ev-word{border:2px solid #1d2233;border-radius:20px;background:var(--card,#fff);box-shadow:3px 3px 0 #1d2233;overflow:hidden}
+.ev-word-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;background:var(--tile,#fff6d1);color:#1d2233}
+.ev-word-en{font-size:28px;font-weight:900;direction:ltr}
+.ev-word-he{font-size:20px;font-weight:800;margin:10px 14px 4px}
+.ev-word-ex{margin:0 14px 12px;color:var(--muted-foreground,#555);font-size:16px;line-height:1.45;text-align:left}
+.ev-say{min-width:48px;min-height:48px;border:2px solid #1d2233;border-radius:999px;background:#fff;font-size:22px;color:#1d2233}
+.ev-say:active{transform:scale(.94)}
+.ev-say-mini{min-width:32px;min-height:32px;border:0;background:transparent;font-size:17px;vertical-align:middle;margin-inline:4px}
+
+.ev-flash{max-width:560px;margin:0 auto}
+.ev-flash-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.ev-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;min-height:240px;padding:20px;
+  border:3px solid #1d2233;border-radius:28px;background:linear-gradient(135deg,#c9f0ff,#e5d9ff);color:#1d2233;box-shadow:5px 5px 0 #1d2233;cursor:pointer;transition:transform .35s ease}
+.ev-card.is-flipped{background:linear-gradient(135deg,#ffe9a8,#ffd6e0);transform:rotateY(360deg)}
+.ev-card-face{display:flex;flex-direction:column;align-items:center;gap:10px}
+.ev-card-en{font-size:clamp(34px,9vw,52px);font-weight:900;line-height:1.1}
+.ev-card-he{font-size:clamp(28px,7vw,42px);font-weight:900;line-height:1.2}
+.ev-card small{font-size:17px;line-height:1.4;opacity:.85}
+.ev-card-hint{font-size:13px;opacity:.65}
+.ev-flash-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-top:14px}
+@media (prefers-reduced-motion:reduce){.ev-card,.ev-tile{transition:none}.ev-card.is-flipped{transform:none}}
+
+.ev-q-word{display:inline-block;padding:0 8px;border-radius:8px;background:#fff6d1;color:#1d2233;font-size:1.15em}
+.ev-opts{display:grid;gap:0 10px;grid-template-columns:1fr}
+@media (min-width:640px){.ev-opts{grid-template-columns:1fr 1fr}}
+.ev-opts[dir="ltr"] .ln-opt{text-align:left}
+
+.ev-print-table{width:100%;border-collapse:collapse;font-size:11.5pt}
+.ev-print-table th,.ev-print-table td{border:1px solid #999;padding:3px 6px;vertical-align:top;text-align:start}
+.ev-print-table th{background:#f2f2f2}
+.ev-print-table tr{break-inside:avoid}

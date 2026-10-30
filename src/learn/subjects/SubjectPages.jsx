@@ -6,6 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { SUBJECTS, SUBJECT_BY_KEY, GRADE_LETTERS, examQuestions, gradeRange, gradeSlug, loadConcepts, loadTopics, placeQuiz, topicsForGrade } from './subjects'
+import { InteractiveLesson, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
 import '../learn.css'
 import './subjects.css'
 
@@ -29,14 +30,27 @@ const LEARN_CRUMB = { label: 'לומדים', href: '/learn' }
 const crumb = s => ({ label: s.title, href: `/learn/${s.key}` })
 const Loading = () => <p className="text-center py-16 text-lg" role="status">טוען…</p>
 
+// Search within a subject: every word typed must appear in the lesson's title, intro or headings.
+const norm = t => String(t || '').replace(/[֑-ׇ״׳"'`]/g, '').toLowerCase()
+const matches = (t, q) => { const hay = norm([t.title, t.intro, ...(t.sections || []).map(x => x.h)].join(' ')); return norm(q).split(/\s+/).filter(Boolean).every(w => hay.includes(w)) }
+
 export function SubjectHub({ subjectKey }) {
   const s = SUBJECT_BY_KEY[subjectKey]
-  const topics = useTopics(subjectKey)
+  const all = useTopics(subjectKey)
+  const [query, setQuery] = useState('')
+  const topics = all && query.trim() ? all.filter(t => matches(t, query)) : all
   return <Page>
     <SEO title={s.seoTitle} description={s.seoDesc} path={`/learn/${s.key}`} structuredData={faqSchema(s.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: s.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{s.emoji} </span>{s.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{s.desc} · לכיתות {s.grades}</p>
+    <label className="mx-auto mb-5 flex max-w-xl items-center gap-2 rounded-full border-2 border-violet-300 bg-white px-4 py-2 shadow-sm">
+      <span aria-hidden="true">🔍</span>
+      <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={`חיפוש ב${s.short} — למשל: ${s.key === 'tanakh' ? 'יוסף, דוד, משה' : 'כתבו נושא'}`} className="min-h-[40px] flex-1 bg-transparent text-lg outline-none" aria-label={`חיפוש שיעורים ב${s.short}`} />
+    </label>
+    {query.trim() && all && <p className="mb-4 text-center font-bold" role="status">{topics.length ? `נמצאו ${topics.length} שיעורים` : 'לא נמצאו שיעורים — נסו מילה אחרת'}{s.key === 'tanakh' && <> · <Link to="/parasha" className="underline">חיפוש בפרשות השבוע</Link></>}</p>}
+    {all && !query.trim() && <BigGrades s={s} topics={all} />}
+    {s.key === 'tanakh' && !query.trim() && <div className="mb-8"><ParashaTile /></div>}
     {s.tools && <section className="mb-8">
       <h2 className="mb-3 text-2xl font-black">🧪 מתנסים בעצמכם</h2>
       <div className="grid gap-3 sm:grid-cols-3">{s.tools.map(t => <Link key={t.to} to={t.to} className="ln-box card-lift text-right"><b className="text-lg">{t.emoji} {t.label}</b><br /><small>{t.desc}</small></Link>)}</div>
@@ -48,7 +62,7 @@ export function SubjectHub({ subjectKey }) {
         <span><b>{t.title}</b><small>{t.intro.length > 90 ? `${t.intro.slice(0, t.intro.lastIndexOf(' ', 88))}…` : t.intro}</small></span>
       </Link></li>)}</ul>
       <h2 className="mt-10 mb-3 text-2xl font-black">📚 לפי כיתה: חוברות ומבחנים לדוגמה</h2>
-      <GradeChips s={s} topics={topics} />
+      <GradeChips s={s} topics={all} />
     </>}
     <ConceptsLink s={s} />
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד מקצועות</h2>
@@ -67,6 +81,37 @@ const liveGrades = (s, topics) => s.gradeList.filter(g => topicsForGrade(topics,
 function GradeChips({ s, topics, current }) {
   return <nav className="flex flex-wrap gap-2" aria-label={`${s.short} לפי כיתה`}>{liveGrades(s, topics).map(g => <Link key={g} to={`/learn/${s.key}/${gradeSlug(g)}`} className="ln-chip" aria-current={g === current ? 'page' : undefined}>כיתה {GRADE_LETTERS[g]}</Link>)}</nav>
 }
+// The big grade row on top of a subject (and of each grade page): pick a grade, see everything for it.
+function BigGrades({ s, topics, current }) {
+  const grades = liveGrades(s, topics)
+  return <nav className="sticky top-0 z-10 -mx-2 mb-6 bg-[var(--background)]/90 px-2 py-2 text-center backdrop-blur" aria-label={`${s.short} לפי כיתה`}>
+    {current == null && <p className="mb-2 text-xl font-black">בוחרים כיתה 👇</p>}
+    <div className="flex flex-wrap justify-center gap-2">{grades.map(g => <Link key={g} to={`/learn/${s.key}/${gradeSlug(g)}`} aria-current={g === current ? 'page' : undefined}
+      className={`min-h-[48px] min-w-[54px] rounded-2xl border-2 px-3 py-2 text-lg font-black transition ${g === current ? 'scale-110 border-violet-600 bg-violet-600 text-white' : 'border-[var(--border)] bg-white hover:border-violet-400'}`}>{GRADE_LETTERS[g]}</Link>)}</div>
+  </nav>
+}
+
+// Big colourful tiles for one grade (lessons, booklet, exam, glossary, and for Tanakh the week's parasha).
+const TILE = 'flex min-h-[150px] flex-col items-center justify-center rounded-[28px] border-2 border-white/60 p-4 text-center shadow-[0_6px_0_rgba(0,0,0,.08)] transition hover:-translate-y-1'
+function Tile({ to, onClick, icon, title, sub, color }) {
+  const inner = <><span className="text-5xl" aria-hidden="true">{icon}</span><b className="mt-2 text-xl">{title}</b>{sub && <span className="mt-1 text-sm opacity-80">{sub}</span>}</>
+  if (onClick) return <button type="button" onClick={onClick} className={TILE} style={{ background: color }}>{inner}</button>
+  return to.startsWith('#') ? <a href={to} className={TILE} style={{ background: color }}>{inner}</a> : <Link to={to} className={TILE} style={{ background: color }}>{inner}</Link>
+}
+
+// This week's Torah portion (Israel), always first in Tanakh. The calendar is loaded only here.
+function ParashaTile() {
+  const [reading, setReading] = useState(null)
+  useEffect(() => {
+    let live = true
+    import('../../utils/parashaCalendar').then(m => { if (live) setReading(m.readingForDate(m.israelToday())) })
+    return () => { live = false }
+  }, [])
+  const p = reading?.portions?.[0]
+  return <Tile to={p ? `/parasha/${p.slug}` : '/parasha'} icon="📅" color="#fde68a"
+    title={reading ? `פרשת השבוע: ${reading.name}` : 'פרשת השבוע'} sub="סיכום, שאלות וחוברת עבודה לשבוע — מתעדכן כל שבת" />
+}
+
 function ConceptsLink({ s }) {
   const concepts = useConcepts(s.key)
   if (!concepts?.length) return null
@@ -85,6 +130,8 @@ function TopicPage({ subjectKey, slug }) {
   const concepts = useConcepts(subjectKey)
   const topics = useTopics(subjectKey)
   const [printing, setPrinting] = useState(false)
+  const [lesson, setLesson] = useState(false)
+  const readings = useReadings(subjectKey)
   const t = topics?.find(x => x.slug === slug)
   const quiz = useMemo(() => t ? placeQuiz(t.slug, t.quiz) : [], [t])
   if (!topics) return <Page><Loading /></Page>
@@ -99,6 +146,8 @@ function TopicPage({ subjectKey, slug }) {
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{t.emoji} </span>{t.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{s.short} · לכיתות {t.grades}</p>
     <p className="sj-intro">{t.intro}</p>
+    {lesson ? <InteractiveLesson t={t} quiz={quiz} onClose={() => setLesson(false)} />
+      : <div className="mb-6 text-center"><button type="button" onClick={() => setLesson(true)} className="min-h-[56px] rounded-3xl bg-violet-600 px-7 text-xl font-black text-white shadow-[0_5px_0_#5b21b6] hover:bg-violet-700">🎓 התחילו שיעור אינטראקטיבי — צעד אחרי צעד</button></div>}
     <nav className="sj-jump" aria-label="בשיעור הזה">
       {t.sections.map((x, i) => <a key={i} href={`#s${i + 1}`} className="ln-chip">{x.h}</a>)}
       <a href="#quiz" className="ln-chip">✅ חידון</a>
@@ -119,6 +168,7 @@ function TopicPage({ subjectKey, slug }) {
     {concepts?.some(c => c.lesson === t.slug) && <section className="mt-6" aria-labelledby="concepts-h"><h2 id="concepts-h" className="text-2xl font-black mb-2">📘 מושגים מהשיעור</h2>
       <div className="flex flex-wrap gap-2">{concepts.filter(c => c.lesson === t.slug).map(c => <Link key={c.slug} to={`/learn/${s.key}/concepts/${c.slug}`} className="ln-chip">{c.term}</Link>)}</div></section>}
     <section className="ln-box mt-6" aria-labelledby="think-h"><h2 id="think-h" className="text-2xl font-black mb-2">💬 שאלות לשיחה</h2><ol className="sj-think">{t.think.map((q, i) => <li key={i}>{q}</li>)}</ol></section>
+    <SubjectReadings list={readingsFor(readings, { topic: t.slug, grades: gradeRange(t.grades) })} title="📖 קטע קריאה בנושא" />
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד שיעורים ב{s.short}</h2>
     <div className="grid gap-3 sm:grid-cols-2">{[...related, ...(related.includes(next) ? [] : [next])].map(x => <Link key={x.slug} to={`/learn/${s.key}/${x.slug}`} className="ln-box card-lift text-right"><b className="text-lg">{x.emoji} {x.title}</b></Link>)}</div>
     <p className="mt-4 text-center"><Link to={`/learn/${s.key}`} className="font-bold underline">לכל {topics.length} השיעורים ב{s.short} ←</Link></p>
@@ -174,9 +224,11 @@ const gradeName = (s, g) => `${s.short} לכיתה ${GRADE_LETTERS[g]}`
 function GradePage({ subjectKey, grade }) {
   const s = SUBJECT_BY_KEY[subjectKey]
   const topics = useTopics(subjectKey)
+  const readings = useReadings(subjectKey)
   const [printing, setPrinting] = useState(false)
   if (!topics) return <Page><Loading /></Page>
   const list = topicsForGrade(topics, grade)
+  const gradeReadings = readingsFor(readings, { grade })
   if (!s.gradeList.includes(grade) || list.length < MIN_GRADE_TOPICS) return <NotFound />
   const L = GRADE_LETTERS[grade], name = gradeName(s, grade), path = `/learn/${s.key}/${gradeSlug(grade)}`
   const faq = [
@@ -188,16 +240,21 @@ function GradePage({ subjectKey, grade }) {
     <SEO title={`${name} — שיעורים, חוברת להדפסה ומבחן לדוגמה`} description={`${list.length} שיעורי ${s.short} לכיתה ${L}: הסבר, חידון ודף עבודה לכל נושא, חוברת אחת להדפסה עם תשובות, ומבחן סוף שנה לדוגמה — בחינם.`} path={path} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: `כיתה ${L}` }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{s.emoji} </span>{name}</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{list.length} שיעורים · חוברת להדפסה · מבחן לדוגמה</p>
-    <div className="grid gap-3 sm:grid-cols-2">
-      <button type="button" className="ln-box card-lift text-right" onClick={() => setPrinting(true)}><b className="text-xl">🖨️ חוברת {name}</b><br /><small>{list.length} שיעורים בקובץ אחד, עם דף תשובות</small></button>
-      <Link to={`${path}/exam`} className="ln-box card-lift text-right"><b className="text-xl">📝 מבחן לדוגמה לכיתה {L}</b><br /><small>20 שאלות, ציון והסברים — אונליין ולהדפסה</small></Link>
+    <BigGrades s={s} topics={topics} current={grade} />
+    <div className={`tile-grid tile-cols-${(s.key === 'tanakh' ? 5 : 4) + (gradeReadings.length ? 1 : 0) > 4 ? 3 : 4}`}>
+      {s.key === 'tanakh' && <ParashaTile />}
+      <Tile to="#lessons" icon="📚" title={`${list.length} שיעורים`} sub="הסבר, שיעור אינטראקטיבי, חידון ודף עבודה" color="#bfdbfe" />
+      {gradeReadings.length > 0 && <Tile to="#readings" icon="📖" title={`${gradeReadings.length} קטעי קריאה`} sub="עם שאלות — מתחלפים בלחיצה" color="#e9d5ff" />}
+      <Tile onClick={() => setPrinting(true)} icon="🖨️" title="חוברת הכיתה" sub="כל השיעורים בקובץ אחד, עם תשובות" color="#fed7aa" />
+      <Tile to={`${path}/exam`} icon="📝" title="מבחן לדוגמה" sub="20 שאלות, ציון והסברים" color="#fecaca" />
+      <Tile to={`/learn/${s.key}/concepts`} icon="🧠" title="מילון מושגים" sub={`המושגים החשובים ב${s.short}`} color="#bbf7d0" />
     </div>
     {printing && <PrintPreview title={`חוברת ${name}`} onClose={() => setPrinting(false)}><Booklet s={s} grade={grade} list={list} /></PrintPreview>}
-    <h2 className="mt-10 mb-3 text-2xl font-black">השיעורים לכיתה {L}</h2>
+    <h2 id="lessons" className="mt-10 mb-3 scroll-mt-24 text-2xl font-black">השיעורים לכיתה {L}</h2>
     <ul className="sj-grid">{list.map(t => <li key={t.slug}><Link to={`/learn/${s.key}/${t.slug}`} className="sj-card card-lift">
       <span className="sj-ico" aria-hidden="true">{t.emoji}</span><span><b>{t.title}</b><small>{t.intro.length > 90 ? `${t.intro.slice(0, t.intro.lastIndexOf(' ', 88))}…` : t.intro}</small></span>
     </Link></li>)}</ul>
+    <SubjectReadings list={gradeReadings} title={`📖 קריאה ב${s.short} לכיתה ${L}`} />
     <h2 className="mt-10 mb-3 text-2xl font-black">כיתות אחרות</h2>
     <GradeChips s={s} topics={topics} current={grade} />
     <div className="mt-12"><SeoBody paragraphs={[`כאן מרוכזים שיעורי ${s.short} שמתאימים לכיתה ${L}. כל שיעור עומד בפני עצמו: הסבר בשפה פשוטה, "חשוב לזכור", חידון של 8 שאלות עם הסבר לכל תשובה, ודף עבודה להדפסה.`, 'החוברת מאגדת את כל השיעורים לקובץ אחד שנוח להדפיס לכיתה או לשמור כ־PDF, והמבחן לדוגמה עוזר לחזור על החומר לפני מבחן או בסוף השנה.', ...s.paras.slice(0, 1)]} faq={faq} related={[crumb(s), LEARN_CRUMB]} /></div>

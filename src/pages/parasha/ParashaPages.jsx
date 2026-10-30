@@ -8,6 +8,31 @@ import ParashaQuiz from '../../components/parasha/ParashaQuiz'
 import NotFound from '../NotFound'
 import { PARASHOT, PARASHA_BOOKS, parashaBySlug, parashaHref, parashaSource } from '../../data/parashot'
 import { israelToday, readingForDate } from '../../utils/parashaCalendar'
+import PrintPreview from '../../components/ui/PrintPreview'
+import ParashaWorkbook from './ParashaWorkbook'
+
+// Workbook data per book (events, concepts, true/false, easy questions…), loaded only when printing.
+const WORKBOOK_FILES = import.meta.glob('../../data/parasha/workbook-*.js')
+const BOOK_FILE = { 'בראשית': 'genesis', 'שמות': 'exodus', 'ויקרא': 'leviticus', 'במדבר': 'numbers', 'דברים': 'deuteronomy' }
+const loadWorkbooks = books => Promise.all(books.map(b => WORKBOOK_FILES[`../../data/parasha/workbook-${BOOK_FILE[b]}.js`]?.().then(m => m.default) ?? {})).then(parts => Object.assign({}, ...parts))
+
+// Print one portion's workbook, or every portion of a book / the whole year, in either level.
+function WorkbookPrint({ portions, title, onClose, level }) {
+  const [data, setData] = useState(null)
+  useEffect(() => { let live = true; loadWorkbooks([...new Set(portions.map(p => p.book))]).then(d => { if (live) setData(d) }); return () => { live = false } }, [portions])
+  const ready = data && portions.filter(p => data[p.slug])
+  return <PrintPreview title={title} onClose={onClose}>
+    {!data ? <p role="status">טוענים את החוברת…</p> : ready.length ? ready.map(p => <ParashaWorkbook key={p.slug} p={p} w={data[p.slug]} level={level} />) : <p>החוברת לפרשה הזו עוד בהכנה.</p>}
+  </PrintPreview>
+}
+function WorkbookButtons({ portions, label }) {
+  const [level, setLevel] = useState(null)
+  return <div className="mt-4 flex flex-wrap justify-center gap-3">
+    <button type="button" onClick={() => setLevel('regular')} className="min-h-[48px] rounded-2xl bg-violet-600 px-5 font-black text-white shadow-[0_4px_0_#5b21b6]">🖨️ חוברת עבודה {label}</button>
+    <button type="button" onClick={() => setLevel('easy')} className="min-h-[48px] rounded-2xl border-2 border-violet-300 bg-white px-5 font-black">🌱 חוברת מותאמת — למתקשים ולחינוך מיוחד</button>
+    {level && <WorkbookPrint portions={portions} level={level} title={`חוברת עבודה ${label}${level === 'easy' ? ' — רמה מותאמת' : ''}`} onClose={() => setLevel(null)} />}
+  </div>
+}
 
 const FAQ = [
   { q: 'מה פרשת השבוע השבת?', a: 'הכותרת בראש הדף מציגה את הקריאה בשבת של השבוע הנבחר לפי לוח ארץ ישראל. בשבתות חג מוצגת קריאת החג במקום פרשה רגילה.' },
@@ -49,6 +74,13 @@ export function ParashaHub() {
       <div className="mt-6 flex flex-wrap gap-3 items-end justify-center"><label className="font-bold">פרשת השבוע לפי תאריך<input type="date" min="1900-01-01" max="2199-12-31" value={selected ?? today} onChange={e => setSelected(e.target.value)} className="block mt-1 min-h-[44px] max-w-full rounded-xl border-2 border-[var(--border)] bg-white text-[#182139] px-3 py-2" /></label><button onClick={() => setSelected(null)} className={chip}>חזרה לשבוע הנוכחי</button></div>
       <p className="text-sm mt-4">מציגים את השבת שבתאריך שנבחר או אחריו. במהלך שבת מוצגת קריאת אותו היום; המעבר לשבוע הבא בחצות לפי שעון ישראל.</p>
     </section>
+    {reading?.portions?.length > 0 && <WorkbookButtons portions={reading.portions} label={`לפרשת ${reading.name}`} />}
+    <section className="mt-6 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-4 text-center" aria-label="הדפסה מראש">
+      <p className="text-xl font-black">🗓️ למורים: מדפיסים מראש</p>
+      <p>חוברות העבודה של כל הפרשות — לכל ספר או לכל השנה, בשתי רמות</p>
+      <WorkbookButtons portions={PARASHOT} label="לכל השנה" />
+      <div className="mt-2 flex flex-wrap justify-center gap-2">{PARASHA_BOOKS.map(b => <BookPrint key={b} book={b} />)}</div>
+    </section>
     <ShabbatActivityLink />
     <ParashaQuiz reading={reading} />
     <nav aria-label="קפיצה לספר" className="flex flex-wrap gap-2 mt-6">{PARASHA_BOOKS.map((book, i) => <a key={book} className={chip} href={`#book-${i}`}>{book}</a>)}</nav>
@@ -63,6 +95,15 @@ export function ParashaHub() {
   </div>
 }
 
+function BookPrint({ book }) {
+  const [open, setOpen] = useState(false)
+  const portions = PARASHOT.filter(p => p.book === book)
+  return <>
+    <button type="button" onClick={() => setOpen(true)} className={chip}>🖨️ ספר {book} ({portions.length})</button>
+    {open && <WorkbookPrint portions={portions} level="regular" title={`חוברות עבודה — ספר ${book}`} onClose={() => setOpen(false)} />}
+  </>
+}
+
 function Portion({ p }) {
   const index = PARASHOT.indexOf(p)
   const prev = PARASHOT[(index + 53) % 54], next = PARASHOT[(index + 1) % 54]
@@ -73,6 +114,11 @@ function Portion({ p }) {
     <p className="text-center text-[var(--muted-foreground)]">ספר {p.book} · לגילי 6–12</p>
     <h1 className="text-center text-3xl sm:text-4xl mt-2 mb-4">פרשת {p.name} לילדים</h1>
     <p className="text-center mb-6"><a href={parashaSource(p)} target="_blank" rel="noopener noreferrer" className="underline font-bold">לפסוקי הפרשה המלאים בספריא ↗</a></p>
+    <section className="mb-6 rounded-3xl border-2 border-amber-300 bg-amber-50 p-4 text-center" aria-label="חוברת עבודה">
+      <p className="text-xl font-black">📒 חוברת עבודה לפרשת {p.name}</p>
+      <p>סיכום, דמויות, סדר אירועים, מושגים, שאלות, ציור ודף תשובות — בשתי רמות</p>
+      <WorkbookButtons portions={[p]} label={`לפרשת ${p.name}`} />
+    </section>
     <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5 sm:p-7" aria-label="תקציר הפרשה"><h2 className="text-2xl mb-3">מה קורה בפרשה?</h2><div className="space-y-4 text-lg leading-relaxed">{p.paragraphs.map((text, i) => <p key={i}>{text}</p>)}</div></section>
     <ShabbatActivityLink />
     <ParashaQuiz portions={[p]} />

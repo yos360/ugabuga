@@ -68,3 +68,8 @@
 .ln-hub-card small{display:block;font-size:14px;color:var(--muted-foreground,#5b6275);line-height:1.35;margin-top:2px}
 .ln-hub-ico{font-size:28px;flex-shrink:0;width:36px;text-align:center}
 @media (max-width:520px){.ln-hub-grid{grid-template-columns:1fr}.ln-hub-grades{grid-template-columns:repeat(4,1fr);gap:6px}.ln-hub-grades .ln-chip{font-size:14px;padding:6px 2px;white-space:nowrap}.ln-hub-jump{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none}.ln-hub-jump .ln-chip{flex-shrink:0;min-height:40px;padding:6px 12px;font-size:15px}}
+/* Big subject tiles (English and the school subjects): flex rows so a short last row stays centred. */
+.tile-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.tile-grid>*{flex:0 0 calc(50% - 6px)}
+@media (min-width:640px){.tile-grid{gap:16px}.tile-cols-3>*,.tile-cols-4>*{flex-basis:calc(33.333% - 11px)}.tile-cols-1>*{flex-basis:min(100%,420px)}.tile-cols-2>*{flex-basis:calc(50% - 8px)}}
+@media (min-width:1024px){.tile-cols-4>*{flex-basis:calc(25% - 12px)}}
