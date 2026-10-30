@@ -15,11 +15,14 @@ report still has a manual mail button. The task itself never sees visitors' emai
   something else (links, code, other actions).
 
 ## Each run
-A new request flags itself: a database trigger (migration 20261030111500) sends GitHub a
-repository_dispatch, and the page-request-flag workflow sets the tag `page-request-pending`. The trigger needs a
+A new request starts a build at once: a database trigger (migration 20261030111500) sends GitHub a
+repository_dispatch, and `.github/workflows/page-request-flag.yml` (page-request-build) reads the open requests
+into the runner's temp folder and runs Claude Code on them (secret `CLAUDE_CODE_OAUTH_TOKEN`), then starts
+apply-migrations itself (pushes made with the workflow token start no other workflow). The trigger needs a
 GitHub token in Supabase Vault named `github_dispatch_token` (fine-grained, this repo only, Contents: read and
-write; saved 2026-10-30). The routine runs every hour 07:05–23:05 and, when the tag is set, builds (it is also
-wired to fire on the dispatch directly, which so far does not arrive).
+write; saved 2026-10-30).
+Fallback: without that secret, or when the build fails, the job sets the tag `page-request-pending`, and the
+cloud routine (every hour 07:05–23:05) builds as described below.
 0. First a cheap check: `git ls-remote --tags origin page-request-pending`. Empty → stop with one short line
    ("אין בקשות חדשות"), no inbox, no commit (except the 07:05 run, which always goes on as a safety net).
    Set → go on. The requests-inbox workflow clears the tag when it reads the inbox, and sets it again when
