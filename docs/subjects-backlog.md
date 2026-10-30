@@ -62,7 +62,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   המאורים, האינואיטים, הבדואים, עמי אפריקה, האבוריג׳ינים. Respectful, current, no stereotypes; present them as
   living peoples, not museum pieces. Facts checked.
   Google: אינדיאנים 3,600.
-- [ ] `birds` — ציפורים: מבנה הציפור ומעוף, נדידה מעל ישראל (חסידות, עגורים, שקנאים, דורסים), ציפורים נפוצות
+- [x] `birds` (done 2026-10-30: 15 lessons, 63 concepts — a page per common bird of Israel (city, garden, song, water, raptors, owls, desert), 5 record-holders of the world and 12 key terms; birds already on /animals/* and /learn/animals/concepts/* are linked, not repeated; migration totals written as estimates/ranges; part 2 ideas: more Israeli species (black stork, coot, crested lark, scops owl, Pharaoh eagle-owl as its own page, sparrowhawk, Levant sparrowhawk, white-tailed eagle, sandgrouse, sunbird already in animals), penguins and parrots of the world, a page per Israeli birding site (Agamon Hula, Eilat, Jerusalem Bird Observatory, Ma'agan Michael), birds in the Bible, a bird-ID quiz by sound after the owner approves recordings) — ציפורים: מבנה הציפור ומעוף, נדידה מעל ישראל (חסידות, עגורים, שקנאים, דורסים), ציפורים נפוצות
   בישראל (דרור, בולבול, צופית, דוכיפת — ציפור הלאומית, עורב, יונה, תוכי נזירי), ציפורי לילה, ציפורי מים, קינון
   וגוזלים, איך מתחילים לצפות בציפורים, שמירה על ציפורים, בעלי כנף שאינם ציפורים (עטלפים, חרקים).
   Google: ציפורים בישראל 880 · ציפורים נפוצות בישראל 590 · מגדיר ציפורים 260 · תמונות 210 · נודדות 110+140.

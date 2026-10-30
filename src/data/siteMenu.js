@@ -260,6 +260,7 @@ export const MENU_DOMAINS = [
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
           { to: '/learn/fruits-vegetables', label: 'פירות וירקות: פרי או ירק? מאיפה הגיעו', icon: '🍎' },
+          { to: '/learn/birds', label: 'ציפורים: נדידה, קנים וציפורי ישראל', icon: '🐦' },
           { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
           { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
         ],
