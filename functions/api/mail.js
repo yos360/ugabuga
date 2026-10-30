@@ -42,7 +42,7 @@ async function send(env, email, subject, text, key, manage, kind = 'reminder') {
  text += `\n\n${env.MAIL_SENDER_DETAILS}`
  if (!await rpc(env, 'limit', mailQuota(env.MAIL_DAILY_LIMIT, kind, israelToday()))) throw new Error('מכסת המיילים להיום הסתיימה. נסו שוב מחר.')
  const response = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': key }, body: JSON.stringify({ from: env.MAIL_FROM, to: [email], subject, text,
-  html: `<div dir="rtl" lang="he" style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:24px;color:#243e40;line-height:1.8"><h1 style="font-size:24px">${escape(subject)}</h1><div style="white-space:pre-line">${escape(text).replace(/https:\/\/ugabuga\.co\.il\/[^\s<]*/g, link => `<a href="${link}" style="color:#245f62">${link.includes('mail-preferences') ? 'פתיחת הקישור האישי' : link === `${SITE}/request` ? 'לבקשת דף נוסף' : 'לפתיחת התוכן באתר'}</a>`)}</div></div>`,
+  html: `<div dir="rtl" lang="he" style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:24px;color:#243e40;line-height:1.8"><h1 style="font-size:24px">${escape(subject)}</h1><div style="white-space:pre-line">${escape(text).replace(/https:\/\/ugabuga\.co\.il\/[^\s<]*/g, link => `<a href="${link}" style="color:#245f62">${link.includes('mail-preferences') ? 'פתיחת הקישור האישי' : link === `${SITE}/request` ? 'לבקשת דף נוסף' : link === `${SITE}/whatsapp` ? 'להצטרפות לערוץ' : 'לפתיחת התוכן באתר'}</a>`)}</div></div>`,
   ...(manage ? { headers: { 'List-Unsubscribe': `<${SITE}/api/mail?unsubscribe=${manage}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}) }), signal: AbortSignal.timeout(20000) })
  if (!response.ok) throw new Error('שליחת המייל לא הושלמה. נסו שוב מאוחר יותר.')
  return response.json()
@@ -63,9 +63,14 @@ export function weeklyWindow(now) {
 // "Your page is ready": a visitor who left an email on /request gets one mail once the request is done
 // (by the requests task or the owner). Daytime only; the public title, never the request text.
 export const readyWindow = now => israelHour(now) >= 8 && israelHour(now) < 21
+// Google review link for עוגה בוגה; the review line is left out of the mail until it is set.
+export const GOOGLE_REVIEW_URL = ''
 export function readyMail(row) {
- return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂', text: `שלום,\n\nהדף שביקשתם מאיתנו מוכן, והוא כבר באתר, בחינם:\n${row.public_title}\n${SITE}${row.result_path}\n\nתודה שכתבתם לנו! אם חסר עוד משהו, אפשר לבקש כאן:\n${SITE}/request\n\nעוגה בוגה · hellohugabuga@gmail.com` }
+ const review = GOOGLE_REVIEW_URL ? `אם אהבתם, נשמח מאוד להמלצה קצרה בגוגל:\n${GOOGLE_REVIEW_URL}\n\n` : ''
+ return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂', text: `שלום,\n\nהדף שביקשתם מאיתנו מוכן, והוא כבר באתר, בחינם:\n${row.public_title}\n${SITE}${row.result_path}\n\nנשמח מאוד אם תשתפו אותו עם חברים, הורים ומורים. כך נוכל להמשיך להכין דפים בחינם.\n\nרוצים דף חדש כל יום? הצטרפו לערוץ הווטסאפ שלנו:\n${SITE}/whatsapp\n\n${review}תודה שכתבתם לנו! אם חסר עוד משהו, אפשר לבקש כאן:\n${SITE}/request\n\nעוגה בוגה · hellohugabuga@gmail.com` }
 }
+// The mail goes out only once the page answers on the live site (a fresh page may still be deploying).
+const isLive = path => fetch(`${SITE}${path}`, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(10000) }).then(r => r.ok, () => false)
 async function readyMails(env, now) {
  let sent = 0, failed = 0
  if (!readyWindow(now)) return { sent, failed }
@@ -73,6 +78,7 @@ async function readyMails(env, now) {
  const rows = await rpc(env, 'due', {}, 'page_request_mail').catch(() => null)
  if (!rows) return { sent, failed: 1 }
  for (const row of rows) {
+  if (!await isLive(row.result_path)) continue
   try {
    if (!await rpc(env, 'claim', { id: row.id }, 'page_request_mail')) continue
    const { subject, text } = readyMail(row)

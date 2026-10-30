@@ -38,6 +38,7 @@ test('"page ready" mail: daytime Israel time, public title and link only', () =>
  assert.ok(subject.includes('מוכן'))
  assert.ok(text.includes('https://ugabuga.co.il/math/grade-6/arithmetic-laws\n'))
  assert.ok(!text.includes('x@example.com'))
+ assert.ok(text.includes('https://ugabuga.co.il/whatsapp\n'))
 })
 test('unconfigured backend does not collect data or pretend registration succeeded', async () => {
  const response = await onRequest({env:{},request:new Request('https://ugabuga.co.il/api/mail',{method:'POST',body:JSON.stringify({action:'subscribe'})})})
