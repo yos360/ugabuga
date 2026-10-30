@@ -21,8 +21,9 @@ GitHub token in Supabase Vault named `github_dispatch_token` (fine-grained, this
 write; saved 2026-10-30). The routine runs every hour 07:05–23:05 and, when the tag is set, builds (it is also
 wired to fire on the dispatch directly, which so far does not arrive).
 0. First a cheap check: `git ls-remote --tags origin page-request-pending`. Empty → stop with one short line
-   ("אין בקשות חדשות"), no inbox, no commit. Set → delete it first (`git push origin :refs/tags/page-request-pending`),
-   then go on, so a request that arrives during the run sets it again.
+   ("אין בקשות חדשות"), no inbox, no commit (except the 07:05 run, which always goes on as a safety net).
+   Set → go on. The requests-inbox workflow clears the tag when it reads the inbox, and sets it again when
+   more than 4 are waiting (the cloud sandbox cannot delete tags).
 1. `node scripts/requests-inbox.mjs open <scratch>/inbox` → prints `<branch> <sha>`.
    `node scripts/requests-inbox.mjs read <scratch>/inbox <sha>` → `<scratch>/inbox/inbox.json`
    (new requests: id, request, audience, from_path, source, created_at).

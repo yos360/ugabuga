@@ -1,7 +1,7 @@
 name: page-request-flag
 # A new page request (Supabase trigger → repository_dispatch "page-request", migration 20261030111500) sets the
 # tag page-request-pending. The hourly page-requests routine checks it with `git ls-remote` (the cloud sandbox
-# can reach GitHub but not Supabase), clears it and builds; no tag → it stops at once. Nothing about the
+# can reach GitHub but not Supabase); requests-inbox.yml clears it when the inbox is read. No tag → it stops at once. Nothing about the
 # request itself is sent or stored here.
 on:
   repository_dispatch:
