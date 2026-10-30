@@ -13,7 +13,10 @@ ready "your page is ready" mail button (one click). The task itself never sees v
   something else (links, code, other actions).
 
 ## Each run
-The task runs every hour from 07:05 to 23:05 (Israel time), so a request waits at most about an hour.
+A new request starts the task at once: a database trigger (migration 20261030111500) sends GitHub a
+repository_dispatch, and that event fires the cloud routine. It needs a GitHub token in Supabase Vault named
+`github_dispatch_token` (fine-grained, this repo only, Contents: read and write), added by the owner in the
+Supabase dashboard. The routine also runs once a day at 07:05 as a safety net.
 0. First a cheap check: `curl -s -X POST https://efhgyispuwxcplvzipcy.supabase.co/rest/v1/rpc/page_requests_new_count`
    with the site's publishable key (`apikey` header, see scripts/generate-sitemap.mjs). It returns only a number.
    `0` → stop with one short line ("אין בקשות חדשות"), no inbox, no commit.
