@@ -835,7 +835,7 @@ export default function App() {
               <Route path="/booklets" element={<BookletsHub />} />
               <Route path="/request" element={<RequestPage />} />
               <Route path="/whatsapp" element={<WhatsAppChannel />} />
-              <Route path="/winter-games" element={<WinterGames />} />
+              <Route path="/winter" element={<WinterGames />} />
               <Route path="/booklets/:slug" element={<BookletPage />} />
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/tic-tac-toe" element={<TicTacToeBoards />} />

@@ -58,7 +58,7 @@ export const MENU_DOMAINS = [
         title: 'משחקים לקבוצה, לכיתה ולגן', icon: '👫', to: '/games',
         items: [
           { to: '/live', label: 'בוגה לייב — חידון חי לעד 100 משתתפים', icon: '⚡' },
-          { to: '/winter-games', label: 'בוגה שוקו חם — משחקים לבית בחורף', icon: '☕' },
+          { to: '/winter', label: 'בוגה שוקו חם — אזור החורף', icon: '☕' },
           { to: '/games/kindergarten', label: 'משחקים לגן', icon: '🧸' },
           { to: '/games/classroom', label: 'משחקים לכיתה', icon: '🏫' },
           { to: '/games/kita-a', label: 'משחקים לכיתה א׳', icon: '✏️' },

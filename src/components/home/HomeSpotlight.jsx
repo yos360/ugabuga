@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 export const SPOTLIGHTS = [
   { to: '/live', icon: '🔴', title: 'בוגה לייב', line: 'חידון חי לכל המשפחה או הכיתה — כולם עונים מהטלפון', cta: 'לשחק עכשיו' },
   { to: '/tools/eretz-ir', icon: '🌍', title: 'ארץ עיר אונליין', line: 'מגרילים אות, ממלאים, והאתר סופר את הנקודות', cta: 'למשחק' },
-  { to: '/winter-games', icon: '☕', title: 'בוגה שוקו חם', line: 'כל המשחקים לבית בחורף: יחד, להדפסה ובלי ציוד', cta: 'לרשימה' },
+  { to: '/winter', icon: '☕', title: 'בוגה שוקו חם — אזור החורף', line: 'משחקים, יצירה, מטבח חם וחגי החורף — לימי גשם בבית', cta: 'לאזור החורף' },
   { to: '/tools/crossword-maker', icon: '✏️', title: 'בונים תשבץ לבד', line: 'כותבים מילים והגדרות — ומקבלים תשבץ מוכן להדפסה', cta: 'לבנות תשבץ' },
   { to: '/online-games/solitaire', icon: '🃏', title: 'סוליטר', line: 'הקלאסיקה, בחינם ובלי פרסומות קופצות', cta: 'לשחק' },
   { to: '/learn/english', icon: '🔤', title: 'לומדים אנגלית', line: 'מילים שמדברות, דקדוק וקריאה — לפי כיתה', cta: 'ללמוד' },
