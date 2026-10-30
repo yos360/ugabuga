@@ -22,9 +22,10 @@ Note 2026-10-29: the 08:00 scheduled upload was blocked (its session could not r
 Note 2026-10-27: no uploads — Claude in Chrome was not available to the scheduled run (cloud session, no browser tools). Reel + captions are in examples/escape-rooms/; upload manually or on the next run.
 Update 2026-10-27 (09:30, manual run in the Chrome side panel, files attached to the chat): YouTube https://youtube.com/shorts/1YnuhkZy1Nk, Instagram and Facebook posted. YouTube cover could not be set (frame picker was empty while processing), YouTube picked a frame. TikTok: Chrome was first logged in to "אלוף המצגות", so it was held back; after the owner logged in to עוגה בוגה it was posted (09:35), not yet listed in Studio. Side-panel file upload only accepts files attached to the chat, so a scheduled run cannot upload.
 
-| 2026-10-30 | "7 × 8 = ?" — מסלול לוח הכפל (14 stages, 10 questions each, hint after a mistake, 3 stars, printable A4 sheet + answers) | /learn/multiplication-game | ✗ | ✗ | ✗ | ✗ |
+| 2026-10-30 | "7 × 8 = ?" — מסלול לוח הכפל (14 stages, 10 questions each, hint after a mistake, 3 stars, printable A4 sheet + answers) | /learn/multiplication-game | ✓ | ✓ | ✓ | ✓ |
 
 Note 2026-10-30: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-10-30/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/times-path/.
+Update 2026-10-30 (08:00 scheduled upload, owner's Chrome): YouTube https://youtube.com/shorts/PiGHMWJLITc (made for kids, Education, public; thumbnail = hook frame via 'בחירה מהסרטון'), Instagram (original crop, cover.jpg, FB share off), TikTok (עוגהבוגה, cover.jpg, everyone), Facebook (עוגה בוגה profile, cover.jpg, public) and the WhatsApp channel "עוגה בוגה 🎂 דף חדש כל יום" (video + caption with the full link) — all posted.
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
