@@ -41,8 +41,8 @@ jobs:
           jq -c '.[0].inbox' rows.json > inbox.json
           count=$(jq 'length' inbox.json)
           echo "::notice title=inbox-count::$count"
-          # One run handles up to 4; more waiting → flag again so the next hour continues.
-          if [ "$count" -gt 4 ]; then
+          # One run handles up to 6; more waiting → flag again so the next hour continues.
+          if [ "$count" -gt 6 ]; then
             gh api "repos/$GITHUB_REPOSITORY/git/refs" -f ref=refs/tags/page-request-pending -f sha="$GITHUB_SHA" >/dev/null || true
           fi
           key=$(openssl rand -hex 32)

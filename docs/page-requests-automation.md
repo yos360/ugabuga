@@ -23,11 +23,11 @@ wired to fire on the dispatch directly, which so far does not arrive).
 0. First a cheap check: `git ls-remote --tags origin page-request-pending`. Empty → stop with one short line
    ("אין בקשות חדשות"), no inbox, no commit (except the 07:05 run, which always goes on as a safety net).
    Set → go on. The requests-inbox workflow clears the tag when it reads the inbox, and sets it again when
-   more than 4 are waiting (the cloud sandbox cannot delete tags).
+   more than 6 are waiting (the cloud sandbox cannot delete tags).
 1. `node scripts/requests-inbox.mjs open <scratch>/inbox` → prints `<branch> <sha>`.
    `node scripts/requests-inbox.mjs read <scratch>/inbox <sha>` → `<scratch>/inbox/inbox.json`
    (new requests: id, request, audience, from_path, source, created_at).
-2. Oldest first, at most 4 per run. The owner's rule (2026-10-27): build only things that belong on the
+2. Oldest first, at most 6 per run. The owner's rule (2026-10-27): build only things that belong on the
    site, as public pages for everyone — never a personal job for one person.
    - Fits an existing page well → mark done with that page.
    - **Build on your own:** the kind of thing the site already makes — worksheets, coloring pages, word
