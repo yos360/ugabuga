@@ -1,0 +1,5 @@
+-- Page requests handled by the daily requests task (scripts/requests-inbox.mjs). Safe to run again.
+update public.page_requests set status = 'done', public_title = 'חוברת העשרה וכיף לחנוכה — כיתות ה׳–ו׳', result_path = '/booklets/hanukkah-grade5', done_at = coalesce(done_at, now()) where id = 9 and status in ('new', 'planned');
+update public.page_requests set status = 'done', public_title = 'חוברת לשיפור שטף ודיוק בקריאה — חטיבת ביניים', result_path = '/booklets/reading-fluency', done_at = coalesce(done_at, now()) where id = 11 and status in ('new', 'planned');
+update public.page_requests set status = 'done', public_title = 'חוברת פירות הדר — דפי עבודה ומשחק', result_path = '/booklets/citrus', done_at = coalesce(done_at, now()) where id = 12 and status in ('new', 'planned');
+update public.page_requests set status = 'done', public_title = 'חומרים וחפצים — דפי עבודה במדעים לכיתה ב׳', result_path = '/booklets/materials-grade2', done_at = coalesce(done_at, now()) where id = 14 and status in ('new', 'planned');
