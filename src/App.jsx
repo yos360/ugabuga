@@ -993,6 +993,11 @@ export default function App() {
               <Route path="/learn/space/concepts/:term" element={<ConceptPage key="space-ct" subjectKey="space" />} />
               <Route path="/learn/space/:slug/exam" element={<SubjectExam key="space-e" subjectKey="space" />} />
               <Route path="/learn/space/:slug" element={<SubjectTopic key="space" subjectKey="space" />} />
+              <Route path="/learn/ancient-worlds" element={<SubjectHub key="ancient-worlds" subjectKey="ancient-worlds" />} />
+              <Route path="/learn/ancient-worlds/concepts" element={<ConceptIndex key="ancient-worlds-c" subjectKey="ancient-worlds" />} />
+              <Route path="/learn/ancient-worlds/concepts/:term" element={<ConceptPage key="ancient-worlds-ct" subjectKey="ancient-worlds" />} />
+              <Route path="/learn/ancient-worlds/:slug/exam" element={<SubjectExam key="ancient-worlds-e" subjectKey="ancient-worlds" />} />
+              <Route path="/learn/ancient-worlds/:slug" element={<SubjectTopic key="ancient-worlds" subjectKey="ancient-worlds" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />

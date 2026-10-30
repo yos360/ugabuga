@@ -224,6 +224,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
           { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
           { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
+          { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
         ],
       },
       {
