@@ -219,6 +219,7 @@ const SpeechCardMaker = lazy(() => import('./pages/speech/CardMaker'))
 const SpeechAac = lazy(() => import('./pages/speech/AacBoards'))
 const SpeechPracticeSheets = lazy(() => import('./pages/speech/PracticeSheets'))
 const QuadraticSolver = lazy(() => import('./pages/tools/QuadraticSolver'))
+const MemoryCitrus = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryCitrus })))
 const MemoryLetters = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryLetters })))
 const MemoryEnglish = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemoryEnglish })))
 const MemorySeniors = lazy(() => import('./pages/games/MemoryThemed').then(m => ({ default: m.MemorySeniors })))
@@ -918,6 +919,7 @@ export default function App() {
               <Route path="/adults/mandalas" element={<MandalaMaker />} />
               <Route path="/adults/memory" element={<MemorySeniors />} />
               <Route path="/online-games/memory-letters" element={<MemoryLetters />} />
+              <Route path="/online-games/memory-citrus" element={<MemoryCitrus />} />
               <Route path="/online-games/memory-english" element={<MemoryEnglish />} />
               <Route path="/online-games/sound-position" element={<SoundPositionOnline />} />
               <Route path="/adults/grandparents" element={<Grandparents />} />

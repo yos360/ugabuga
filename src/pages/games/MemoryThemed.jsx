@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import BackLink from '../../components/ui/BackLink'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -83,6 +83,71 @@ export function MemoryLetters() {
   </div>
 }
 
+// Citrus memory for first graders: every word is fully pointed (with niqqud), cards match a picture to its word.
+const CITRUS_WORDS = [['תַּפּוּז', '🍊'], ['לִימוֹן', '🍋'], ['מִיץ', '🧃'], ['עֵץ', '🌳'], ['פֶּרַח', '🌸'], ['שֶׁמֶשׁ', '☀️'], ['עָלֶה', '🍃'], ['סַל', '🧺'], ['זֶרַע', '🌱'], ['כּוֹס', '🥤']]
+const citrusDeck = n => shuffle(shuffle(CITRUS_WORDS).slice(0, n).flatMap(([w, e]) => [{ key: w, kind: 'pic', face: e, word: w }, { key: w, kind: 'word', face: w, word: w }]))
+// Syllable puzzle: the word is cut into pieces (each piece keeps its niqqud) and put back in order.
+const CITRUS_PUZZLES = [['תַּ', 'פּוּ', 'ז', '🍊'], ['לִי', 'מוֹ', 'ן', '🍋'], ['מִיץ', '🧃'], ['פֶּ', 'רַח', '🌸'], ['שֶׁ', 'מֶ', 'שׁ', '☀️'], ['עָ', 'לֶה', '🍃'], ['זֶ', 'רַע', '🌱'], ['כּוֹס', '🥤']]
+
+function SyllablePuzzle() {
+  const [i, setI] = useState(0)
+  const [order, setOrder] = useState(() => [])
+  const [msg, setMsg] = useState('')
+  const timer = useRef(0)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  const pz = CITRUS_PUZZLES[i]
+  const emoji = pz[pz.length - 1]
+  const parts = pz.slice(0, -1)
+  const tiles = useMemo(() => {
+    const idx = parts.map((_, k) => k)
+    return parts.length < 2 ? idx : (() => { let t = shuffle(idx); while (t.every((v, k) => v === k)) t = shuffle(idx); return t })()
+  }, [i]) // eslint-disable-line react-hooks/exhaustive-deps
+  const built = order.map(k => parts[k]).join('')
+  const word = parts.join('')
+  const solved = order.length === parts.length && built === word
+  const tap = k => {
+    if (solved || order.includes(k) || order.length === parts.length) return
+    const next = [...order, k]
+    setOrder(next)
+    if (next.length === parts.length && next.map(x => parts[x]).join('') !== word) {
+      setMsg('כמעט! ננסה שוב')
+      timer.current = setTimeout(() => { setOrder([]); setMsg('') }, 1100)
+    }
+  }
+  const go = n => { clearTimeout(timer.current); setI(n); setOrder([]); setMsg('') }
+  return <div className="mx-auto max-w-xl rounded-3xl border-[3px] border-orange-400 bg-orange-50 p-4 text-center">
+    <div aria-hidden="true" className="text-7xl sm:text-8xl">{emoji}</div>
+    <div className="my-3 flex min-h-20 flex-row-reverse flex-wrap items-center justify-center gap-2" dir="ltr" aria-live="polite">
+      {parts.map((_, k) => <span key={k} dir="rtl" className="flex min-h-16 min-w-16 items-center justify-center rounded-2xl border-[3px] border-dashed border-orange-400 bg-white px-3 text-4xl font-black">{order[k] !== undefined ? parts[order[k]] : ''}</span>)}
+    </div>
+    <div className="flex flex-wrap justify-center gap-2">
+      {tiles.map(k => <button key={k} type="button" disabled={order.includes(k)} onClick={() => tap(k)} className="min-h-16 min-w-16 rounded-2xl border-[3px] border-violet-700 bg-violet-600 px-4 text-4xl font-black text-white disabled:opacity-30">{parts[k]}</button>)}
+    </div>
+    <p className="mt-3 min-h-8 text-xl font-bold text-rose-700" role="status">{msg}</p>
+    {solved && <p className="text-2xl font-black text-emerald-700">🎉 כל הכבוד! {word}</p>}
+    <div className="mt-2 flex flex-wrap justify-center gap-2">
+      <button type="button" onClick={() => { clearTimeout(timer.current); setOrder([]); setMsg('') }} className="min-h-12 rounded-xl border-2 border-slate-300 bg-white px-4 font-bold">מתחילים מחדש</button>
+      <button type="button" onClick={() => go((i + 1) % CITRUS_PUZZLES.length)} className="min-h-12 rounded-xl bg-violet-700 px-5 font-bold text-white">פאזל הבא ({i + 1}/{CITRUS_PUZZLES.length})</button>
+    </div>
+  </div>
+}
+
+export function MemoryCitrus() {
+  return <div className="mx-auto max-w-4xl px-3 py-8 sm:px-4" dir="rtl">
+    <SEO title="משחק זיכרון ופאזל פירות הדר עם ניקוד — לכיתה א׳, אונליין בחינם" description="משחק זיכרון ופאזל הברות לכיתה א׳ עם ניקוד מלא: מתאימים תמונה למילה — תפוז, לימון, מיץ — ומרכיבים מילים מהברות. בלי הרשמה." path="/online-games/memory-citrus" structuredData={faqSchema(FAQ_CITRUS)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקים אונליין', href: '/online-games' }, { label: 'זיכרון ופאזל פירות הדר' }]} />
+    <h1 className="text-center text-3xl font-black sm:text-5xl">🍊 זיכרון ופאזל פירות הדר</h1>
+    <p className="mx-auto mb-5 mt-2 max-w-2xl text-center text-lg text-slate-600">כל המילים כתובות עם ניקוד. בזיכרון מחפשים זוגות של תמונה והמילה שלה, ובפאזל מסדרים הברות כדי להרכיב מילה.</p>
+    <h2 className="mb-2 text-center text-2xl font-black">🃏 משחק הזיכרון</h2>
+    <Board makeDeck={citrusDeck} sizes={[4, 6, 8, 10]} peekMs={2200} cardClass="aspect-[4/5]" labelOf={c => (c.kind === 'word' ? c.word : `תמונה: ${c.word}`)}
+      renderFace={c => (c.kind === 'word' ? <span className="px-1 text-2xl font-black sm:text-4xl">{c.word}</span> : <span aria-hidden="true" className="text-5xl sm:text-7xl">{c.face}</span>)} />
+    <h2 className="mb-2 mt-10 text-center text-2xl font-black">🧩 פאזל הברות</h2>
+    <p className="mx-auto mb-3 max-w-xl text-center text-lg text-slate-600">לוחצים על ההברות לפי הסדר, מההתחלה של המילה, עד שהמילה של התמונה שלמה.</p>
+    <SyllablePuzzle />
+    <div className="mt-10"><SeoBody paragraphs={['המשחק בנוי לילדים בכיתה א׳ שקוראים בעזרת ניקוד: כל המילים כתובות עם ניקוד מלא וההוראות קצרות. בזיכרון כל זוג הוא תמונה והמילה שלה — תפוז, לימון, מיץ, עץ, פרח ועוד — ולכן כדי למצוא זוג צריך לקרוא את המילה ולא רק לזכור מיקום.', 'פאזל ההברות חותך מילה לחלקים, למשל תַּ־פּוּ־ז, והילד מחזיר אותם לסדר הנכון לפי התמונה. כדאי לקרוא בקול כל הברה ואחר כך את המילה כולה.', 'מתחילים מארבעה זוגות, ועוברים ל־6, 8 ו־10 כשזה נהיה קל. אין שעון ואין ניקוד שמלחיץ.']} faq={FAQ_CITRUS} related={[{ label: 'משחק זיכרון אותיות', href: '/online-games/memory-letters' }, { label: 'משחק הזיכרון הקלאסי להדפסה', href: '/printables/memory-game' }, { label: 'לומדים אותיות', href: '/letters' }]} /></div>
+  </div>
+}
+
 // Hebrew word ↔ English word. The English card shows how the word sounds in Hebrew letters, and can say it aloud.
 const englishDeck = (groups, n) => {
   const pool = MEMORY_WORDS.filter(w => groups.includes(w.group))
@@ -144,6 +209,11 @@ const FAQ_LETTERS = [
   { q: 'לאיזה גיל מתאים משחק זיכרון האותיות?', a: 'בעיקר לגן חובה ולכיתה א׳ — לילדים שמכירים חלק מהאותיות. ילדים צעירים יותר יכולים לשחק עם הורה שאומר את שם האות בקול.' },
   { q: 'איך יודעים שמצאתי זוג?', a: 'זוג הוא אות ותמונה של מילה שמתחילה בה: ש ו־☀️ שמש, ת ו־🍎 תפוח. כשמוצאים זוג, שני הקלפים נצבעים בירוק ונשארים פתוחים.' },
   { q: 'אפשר להדפיס משחק זיכרון?', a: 'כן — באתר יש משחק זיכרון להדפסה עם 10 זוגות, שגוזרים ומשחקים על השולחן.' },
+]
+const FAQ_CITRUS = [
+  { q: 'לאיזה גיל מתאים המשחק?', a: 'בעיקר לכיתה א׳ וב׳, וגם לגן חובה עם הורה שקורא יחד. כל המילים מנוקדות.' },
+  { q: 'איך עובד הפאזל?', a: 'המילה חתוכה להברות. לוחצים על ההברות לפי הסדר, ואם הסדר נכון המילה נשלמת. אם טעו, מתחילים שוב.' },
+  { q: 'אפשר לשחק בטלפון?', a: 'כן, המשחק עובד בטלפון, בטאבלט ובמחשב, בלי הרשמה.' },
 ]
 const FAQ_SENIORS = [
   { q: 'האם המשחק מתאים לגיל השלישי?', a: 'כן. הקלפים גדולים, אין מגבלת זמן, הקלפים נשארים פתוחים יותר זמן בתחילת המשחק ואחרי טעות, ואפשר להתחיל בשלושה זוגות בלבד.' },
