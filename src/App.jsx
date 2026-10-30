@@ -998,6 +998,11 @@ export default function App() {
               <Route path="/learn/ancient-worlds/concepts/:term" element={<ConceptPage key="ancient-worlds-ct" subjectKey="ancient-worlds" />} />
               <Route path="/learn/ancient-worlds/:slug/exam" element={<SubjectExam key="ancient-worlds-e" subjectKey="ancient-worlds" />} />
               <Route path="/learn/ancient-worlds/:slug" element={<SubjectTopic key="ancient-worlds" subjectKey="ancient-worlds" />} />
+              <Route path="/learn/earth-science" element={<SubjectHub key="earth-science" subjectKey="earth-science" />} />
+              <Route path="/learn/earth-science/concepts" element={<ConceptIndex key="earth-science-c" subjectKey="earth-science" />} />
+              <Route path="/learn/earth-science/concepts/:term" element={<ConceptPage key="earth-science-ct" subjectKey="earth-science" />} />
+              <Route path="/learn/earth-science/:slug/exam" element={<SubjectExam key="earth-science-e" subjectKey="earth-science" />} />
+              <Route path="/learn/earth-science/:slug" element={<SubjectTopic key="earth-science" subjectKey="earth-science" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
