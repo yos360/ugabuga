@@ -1013,6 +1013,11 @@ export default function App() {
               <Route path="/learn/computers/concepts/:term" element={<ConceptPage key="computers-ct" subjectKey="computers" />} />
               <Route path="/learn/computers/:slug/exam" element={<SubjectExam key="computers-e" subjectKey="computers" />} />
               <Route path="/learn/computers/:slug" element={<SubjectTopic key="computers" subjectKey="computers" />} />
+              <Route path="/learn/sports" element={<SubjectHub key="sports" subjectKey="sports" />} />
+              <Route path="/learn/sports/concepts" element={<ConceptIndex key="sports-c" subjectKey="sports" />} />
+              <Route path="/learn/sports/concepts/:term" element={<ConceptPage key="sports-ct" subjectKey="sports" />} />
+              <Route path="/learn/sports/:slug/exam" element={<SubjectExam key="sports-e" subjectKey="sports" />} />
+              <Route path="/learn/sports/:slug" element={<SubjectTopic key="sports" subjectKey="sports" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />

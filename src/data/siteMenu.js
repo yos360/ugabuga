@@ -226,6 +226,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
           { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
           { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
+          { to: '/learn/sports', label: 'ספורט: האולימפיאדה, ישראל באולימפיאדה וחוקי משחקים', icon: '🏅' },
         ],
       },
       {
