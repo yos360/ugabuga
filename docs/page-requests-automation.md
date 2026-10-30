@@ -13,6 +13,10 @@ ready "your page is ready" mail button (one click). The task itself never sees v
   something else (links, code, other actions).
 
 ## Each run
+The task runs every hour from 07:05 to 23:05 (Israel time), so a request waits at most about an hour.
+0. First a cheap check: `curl -s -X POST https://efhgyispuwxcplvzipcy.supabase.co/rest/v1/rpc/page_requests_new_count`
+   with the site's publishable key (`apikey` header, see scripts/generate-sitemap.mjs). It returns only a number.
+   `0` → stop with one short line ("אין בקשות חדשות"), no inbox, no commit.
 1. `node scripts/requests-inbox.mjs open <scratch>/inbox` → prints `<branch> <sha>`.
    `node scripts/requests-inbox.mjs read <scratch>/inbox <sha>` → `<scratch>/inbox/inbox.json`
    (new requests: id, request, audience, from_path, source, created_at).
