@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -5,128 +6,128 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../../pages/NotFound'
 import { CURRICULUM_DOMAINS, CURRICULUM_STAGES, ENGLISH_GRADES, englishGrade, stageOf } from '../../data/englishCurriculum'
 import { GRAMMAR_BANDS, grammarHref, topicsInBand } from '../../data/englishGrammar'
+import { readingHref, storiesInBand } from '../../data/englishReading'
+import { ENGLISH_TOPICS } from '../../data/englishWords'
 import { UNSEEN_LEVELS } from '../../data/unseen/levels'
 import { levelHref, testsOf } from '../../data/unseen/library'
 import { bookletBySlug, bookletHref } from '../../booklets/registry'
 import { DICTATION_EN } from '../dictationEnglish'
 import '../learn.css'
-import '../subjects/subjects.css'
 
-// /learn/english — English by grade, arranged by the Ministry of Education curriculum stages;
-// /learn/english/grade-N — one grade: what the curriculum expects, then every piece of the site's
-// material for it (grammar, unseen tests, booklet, reading with a dictionary, dictation, words and games).
+// /learn/english and /learn/english/grade-N — one dashboard (like IXL): pick a grade at the top and
+// everything for it is on one screen, in columns: the booklet and the year's goals, grammar, unseen
+// tests, reading with a dictionary, dictation and words & games. Arranged by the curriculum stages.
 const HUB = '/learn/english'
-const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
-const crumbs = last => [{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, ...(last ? [{ label: 'אנגלית לפי כיתה', href: HUB }, { label: last }] : [{ label: 'אנגלית לפי כיתה' }])]
-const box = 'rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5'
+const LAST_KEY = 'ugabuga:english-grade'
+const READING_BAND = { 3: 'g3-4', 4: 'g3-4', 5: 'g5-6', 6: 'g5-6', 7: 'g7-8', 8: 'g7-8', 9: 'g9', 10: 'g10-12', 11: 'g10-12', 12: 'g10-12' }
 
 const HUB_FAQ = [
   { q: 'מאיזו כיתה לומדים אנגלית בישראל?', a: 'לפי תוכנית הלימודים הלימוד הסדיר מתחיל בכיתה ג׳, ובהרבה בתי ספר מתחילים כבר בכיתות א׳–ב׳ בעל פה. בסוף כיתה ו׳ מגיעים לרמת יסוד (Foundation), בסוף ט׳ לרמת ביניים (Intermediate) ובתיכון לרמת שליטה (Proficiency) ולבגרות.' },
-  { q: 'מה יש כאן לכל כיתה?', a: 'לכל כיתה יש עמוד עם מה שלומדים בה לפי התוכנית, נושאי הדקדוק עם הסבר וחידון, אנסינים לתרגול ולמבחן, חוברת עבודה להדפסה, קטעי קריאה עם מילון לכל מילה, ובכיתות ג׳–ו׳ גם רשימות הכתבה.' },
+  { q: 'מה יש כאן לכל כיתה?', a: 'בוחרים כיתה למעלה, ורואים הכול במסך אחד: החוברת של הכיתה, נושאי הדקדוק עם הסבר וחידון, אנסינים לתרגול ולמבחן, קטעי קריאה עם מילון לכל מילה, רשימות הכתבה ומשחקי מילים.' },
   { q: 'הכול בחינם?', a: 'כן. כל החומרים בחינם ובלי הרשמה, להדפסה או לתרגול באתר.' },
   { q: 'זו התוכנית הרשמית של משרד החינוך?', a: 'העמודים מסודרים לפי השלבים והתחומים של תוכנית הלימודים באנגלית, אבל החומרים עצמם נכתבו כאן. כל מורה בונה את הסדר שלו, ולכן כדאי לבדוק מול המחברת והמורה.' },
 ]
 
-export function EnglishGradesHub() {
-  return <Page>
-    <SEO title="אנגלית לפי כיתה — לפי תוכנית משרד החינוך, מכיתה א׳ ועד הבגרות" description="אנגלית לכל כיתה מא׳ ועד י״ב לפי שלבי תוכנית הלימודים: מה לומדים, דקדוק עם חידונים, אנסינים ומבחנים, חוברת להדפסה וקטעי קריאה עם מילון — בחינם." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
-    <Breadcrumbs items={crumbs()} />
-    <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🇬🇧 </span>אנגלית לפי כיתה</h1>
-    <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">לפי תוכנית הלימודים של משרד החינוך · מכיתה א׳ ועד הבגרות</p>
-    {CURRICULUM_STAGES.map(s => <section key={s.id} className="mb-6 rounded-3xl border-2 border-[var(--border)] p-5" style={{ background: s.color }} aria-labelledby={`st-${s.id}`}>
-      <h2 id={`st-${s.id}`} className="text-2xl font-black">{s.label} <bdi dir="ltr" className="text-lg font-bold opacity-70">{s.en}</bdi></h2>
-      <p className="mt-1">{s.about}</p>
-      <ul className="mt-3 grid gap-3 sm:grid-cols-2">{ENGLISH_GRADES.filter(x => x.stage === s.id).map(x => <li key={x.n}>
-        <Link to={`${HUB}/${x.slug}`} className="block h-full rounded-2xl border-2 border-white/70 bg-white p-4 card-lift">
-          <b className="text-xl">אנגלית ל{x.name}</b><p className="mt-1 text-[var(--muted-foreground)]">{x.focus}</p>
-        </Link></li>)}</ul>
-    </section>)}
-    <section className={`${box} mt-8`} aria-labelledby="domains-h">
-      <h2 id="domains-h" className="text-2xl font-black">ארבעת התחומים שלומדים בכל כיתה</h2>
-      <ul className="mt-3 grid gap-3 sm:grid-cols-2">{CURRICULUM_DOMAINS.map(([e, t, d]) => <li key={t}><b>{e} {t}</b> — {d}</li>)}</ul>
-    </section>
-    <div className="mt-6 flex flex-wrap justify-center gap-2">
-      <Link to="/learn/english-grammar" className="ln-chip">📘 דקדוק באנגלית</Link>
-      <Link to="/unseen/english" className="ln-chip">📝 אנסין באנגלית</Link>
-      <Link to="/learn/english-reading" className="ln-chip">📖 קריאה עם מילון</Link>
-      <Link to="/booklets" className="ln-chip">📚 חוברות להדפסה</Link>
-      <Link to="/english" className="ln-chip">🎮 מילים ומשחקים</Link>
+// One column of the dashboard: a title and a compact list of links.
+function Column({ icon, title, more, items, empty, children }) {
+  return <section className="flex flex-col rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-4" aria-label={title}>
+    <h2 className="text-xl font-black"><span aria-hidden="true">{icon} </span>{title}</h2>
+    {children}
+    {items?.length > 0 && <ul className="mt-2 flex-1 space-y-1">{items.map(x => <li key={x.to}>
+      <Link to={x.to} className="flex items-baseline gap-2 rounded-lg px-2 py-1 hover:bg-[var(--postit)]">
+        {x.emoji && <span aria-hidden="true">{x.emoji}</span>}
+        <span className="font-bold">{x.label}</span>{x.sub && <bdi dir="ltr" className="text-sm text-[var(--muted-foreground)]">{x.sub}</bdi>}
+      </Link></li>)}</ul>}
+    {!items?.length && empty && <p className="mt-2 text-[var(--muted-foreground)]">{empty}</p>}
+    {more && <Link to={more.to} className="mt-3 font-bold underline">{more.label} ←</Link>}
+  </section>
+}
+
+function Dashboard({ grade }) {
+  const stage = stageOf(grade)
+  const band = GRAMMAR_BANDS.find(b => b.id === grade.grammar)
+  const level = UNSEEN_LEVELS.find(l => l.lang === 'en' && l.path === grade.unseen)
+  const tests = level ? testsOf('en', level.id) : []
+  const stories = READING_BAND[grade.n] ? storiesInBand(READING_BAND[grade.n]) : []
+  const booklet = grade.booklet && bookletBySlug(grade.booklet)
+  const dictation = grade.dictation ? DICTATION_EN.filter(d => d.grade === grade.dictation) : []
+  const young = grade.n <= 4
+  return <>
+    <nav className="mt-4 flex flex-wrap justify-center gap-2" aria-label="בחירת כיתה">
+      {ENGLISH_GRADES.map(x => <Link key={x.n} to={`${HUB}/${x.slug}`} aria-current={x.n === grade.n ? 'page' : undefined}
+        className={`min-h-[44px] min-w-[52px] rounded-2xl border-2 px-3 py-2 text-center text-lg font-black ${x.n === grade.n ? 'border-violet-600 bg-violet-600 text-white' : 'border-[var(--border)] bg-white hover:border-violet-300'}`}>
+        {x.name.replace('כיתה ', '')}</Link>)}
+    </nav>
+    <div className="mt-4 rounded-3xl border-2 border-[var(--border)] p-4 text-center" style={{ background: stage.color }}>
+      <p className="text-2xl font-black">אנגלית ל{grade.name} <span className="text-base font-bold opacity-75">· {stage.label} · <bdi dir="ltr">{stage.en}</bdi></span></p>
+      <p className="mt-1">{grade.focus}</p>
     </div>
-    <div className="mt-10"><SeoBody paragraphs={['תוכנית הלימודים באנגלית בישראל מחולקת לשלבים: התחלה מוקדמת בכיתות א׳–ב׳, רמת יסוד עד סוף כיתה ו׳, רמת ביניים עד סוף ט׳ ורמת שליטה בתיכון, שבסופה הבגרות. בכל שלב עובדים על ארבעה תחומים: אינטראקציה חברתית, גישה למידע, הצגה, וספרות, תרבות ושפה.', 'בכל עמוד כיתה ריכזנו את מה שצריך כדי להתכונן למבחן: הסבר של נושאי הדקדוק, אנסינים עם הסבר לכל תשובה, חוברת להדפסה עם דף תשובות, וקטעי קריאה שבהם אפשר ללחוץ על כל מילה ולראות את הפירוש בעברית.']} faq={HUB_FAQ} related={[{ label: 'דקדוק באנגלית לפי כיתה', href: '/learn/english-grammar' }, { label: 'אנסין באנגלית', href: '/unseen/english' }, { label: 'אנגלית לילדים — מילים ומשחקים', href: '/english' }]} /></div>
-  </Page>
+    <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Column icon="🎯" title="מה לומדים השנה">
+        <ul className="mt-2 list-disc space-y-1 pr-5">{grade.goals.map(x => <li key={x}>{x}</li>)}</ul>
+        <p className="mt-2 text-sm"><b>מילים:</b> {grade.vocab.join(' · ')}</p>
+        {booklet && <Link to={bookletHref(booklet)} className="mt-3 flex items-center gap-3 rounded-2xl bg-violet-50 p-3 hover:bg-violet-100">
+          <span className="text-4xl" aria-hidden="true">{booklet.emoji}</span>
+          <span><b>החוברת של {grade.name}</b><br /><span className="text-sm text-[var(--muted-foreground)]">{booklet.pages.length} עמודים · הדפסה או PDF · עם תשובות</span></span>
+        </Link>}
+      </Column>
+      {band && <Column icon="📘" title="דקדוק" more={{ to: '/learn/english-grammar', label: 'כל נושאי הדקדוק' }}
+        items={topicsInBand(band.id).map(t => ({ to: grammarHref(t), emoji: t.emoji, label: t.title, sub: t.en }))} />}
+      {level && <Column icon="📝" title={`אנסין ומבחנים — ${tests.length}`} more={{ to: levelHref(level), label: `לכל האנסינים של ${level.name}` }}
+        items={tests.slice(0, 10).map(t => ({ to: `/unseen/english/${t.slug}`, label: t.title }))}>
+        <p className="mt-1 text-sm text-[var(--muted-foreground)]">תרגול עם הסבר לכל תשובה, או מבחן עם טיימר של {level.minutes} דקות.</p>
+      </Column>}
+      {stories.length > 0 && <Column icon="📖" title="קריאה עם מילון לכל מילה" more={{ to: '/learn/english-reading', label: 'כל קטעי הקריאה' }}
+        items={stories.map(s => ({ to: readingHref(s), emoji: s.emoji, label: s.title }))}>
+        <p className="mt-1 text-sm text-[var(--muted-foreground)]">לוחצים על מילה — רואים פירוש ושומעים אותה.</p>
+      </Column>}
+      {young && <Column icon="🎮" title="מילים ומשחקים" more={{ to: '/english', label: 'כל נושאי המילים' }}
+        items={ENGLISH_TOPICS.slice(0, 12).map(t => ({ to: `/english/${t.slug}`, emoji: t.emoji, label: t.title }))} />}
+      <Column icon="✨" title="עוד לתרגול" items={[
+        ...(dictation.length ? [{ to: '/learn/dictation/english', emoji: '✍️', label: `הכתבה — ${dictation.length} רשימות` }] : []),
+        ...(grade.n <= 4 ? [{ to: '/abc', emoji: '🔤', label: 'אותיות A–Z' }, { to: '/printables/abc-letters', emoji: '✏️', label: 'אותיות לכתיבה' }] : []),
+        ...(grade.n <= 6 ? [{ to: '/learn/flashcards', emoji: '🃏', label: 'כרטיסיות' }, { to: '/online-games/memory-english', emoji: '🧠', label: 'משחק זיכרון באנגלית' }] : []),
+        ...(!young ? [{ to: '/english', emoji: '🎮', label: 'מילים ומשחקים' }] : []),
+        { to: '/dictionary', emoji: '📗', label: 'מילון אנגלית–עברית' },
+        ...(grade.n >= 5 ? [{ to: '/typing/english', emoji: '⌨️', label: 'הקלדה באנגלית' }] : []),
+      ]} />
+    </div>
+  </>
+}
+
+export function EnglishGradesHub() {
+  // The hub opens on the grade the visitor looked at last (default: ג׳, the first school year of English).
+  const [n, setN] = useState(3)
+  useEffect(() => { try { const v = Number(localStorage.getItem(LAST_KEY)); if (v >= 1 && v <= 12) setN(v) } catch { /* storage blocked */ } }, [])
+  const grade = ENGLISH_GRADES.find(x => x.n === n)
+  return <div className="mx-auto max-w-6xl px-4 py-6" dir="rtl">
+    <SEO title="אנגלית לפי כיתה — לפי תוכנית משרד החינוך, מכיתה א׳ ועד הבגרות" description="אנגלית לכל כיתה מא׳ ועד י״ב במסך אחד: דקדוק עם חידונים, אנסינים ומבחנים, חוברת להדפסה, קריאה עם מילון והכתבה — לפי תוכנית הלימודים, בחינם." path={HUB} structuredData={faqSchema(HUB_FAQ)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: 'אנגלית לפי כיתה' }]} />
+    <h1 className="text-center text-4xl sm:text-5xl"><span aria-hidden="true">🇬🇧 </span>אנגלית לפי כיתה</h1>
+    <p className="text-center text-lg text-[var(--muted-foreground)]">בוחרים כיתה — והכול מול העיניים · לפי תוכנית הלימודים של משרד החינוך</p>
+    <Dashboard grade={grade} />
+    <section className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="שלבי התוכנית">
+      {CURRICULUM_STAGES.map(s => <div key={s.id} className="rounded-2xl p-3 text-sm" style={{ background: s.color }}><b>{s.label} (<bdi dir="ltr">{s.en}</bdi>)</b> — {s.about}</div>)}
+    </section>
+    <div className="mt-8"><SeoBody paragraphs={['תוכנית הלימודים באנגלית בישראל מחולקת לשלבים: התחלה מוקדמת בכיתות א׳–ב׳, רמת יסוד עד סוף כיתה ו׳, רמת ביניים עד סוף ט׳ ורמת שליטה בתיכון, שבסופה הבגרות. בכל שלב עובדים על ארבעה תחומים: ' + CURRICULUM_DOMAINS.map(d => d[1]).join(', ') + '.']} faq={HUB_FAQ} related={[{ label: 'דקדוק באנגלית לפי כיתה', href: '/learn/english-grammar' }, { label: 'אנסין באנגלית', href: '/unseen/english' }, { label: 'אנגלית לילדים — מילים ומשחקים', href: '/english' }]} /></div>
+  </div>
 }
 
 function GradeView({ grade }) {
   const stage = stageOf(grade)
-  const band = GRAMMAR_BANDS.find(b => b.id === grade.grammar)
-  const topics = band ? topicsInBand(band.id) : []
-  const level = UNSEEN_LEVELS.find(l => l.lang === 'en' && l.path === grade.unseen)
-  const tests = level ? testsOf('en', level.id) : []
-  const booklet = grade.booklet && bookletBySlug(grade.booklet)
-  const dictation = grade.dictation ? DICTATION_EN.filter(d => d.grade === grade.dictation) : []
-  const prev = ENGLISH_GRADES.find(x => x.n === grade.n - 1), next = ENGLISH_GRADES.find(x => x.n === grade.n + 1)
+  useEffect(() => { try { localStorage.setItem(LAST_KEY, String(grade.n)) } catch { /* storage blocked */ } }, [grade.n])
   const faq = [
     { q: `מה לומדים באנגלית ב${grade.name}?`, a: `${grade.focus} ${grade.goals.join('; ')}.` },
-    { q: `איך מתכוננים למבחן באנגלית ב${grade.name}?`, a: `${topics.length ? 'עוברים על נושאי הדקדוק — קוראים את ההסבר ועושים את החידון. ' : ''}${tests.length ? 'פותרים אנסין במצב תרגול ואחר כך במצב מבחן עם טיימר. ' : ''}${booklet ? 'מדפיסים את החוברת ופותרים בלי עזרה, ובודקים מול דף התשובות.' : ''}` },
+    { q: `איך מתכוננים למבחן באנגלית ב${grade.name}?`, a: 'עוברים על נושאי הדקדוק — קוראים את ההסבר ועושים את החידון — פותרים אנסין במצב תרגול ואחר כך במצב מבחן, ומדפיסים את החוברת ובודקים מול דף התשובות.' },
     { q: 'זה לפי תוכנית משרד החינוך?', a: `העמוד מסודר לפי שלב "${stage.label}" (${stage.en}) בתוכנית הלימודים באנגלית. החומרים נכתבו כאן, וכדאי לבדוק את סדר הנושאים מול המורה.` },
   ]
-  return <Page>
-    <SEO title={`אנגלית ל${grade.name} — חומר למבחן, דקדוק, אנסין וחוברת`} description={`אנגלית ל${grade.name} לפי תוכנית הלימודים: ${grade.focus} דקדוק עם חידונים, ${tests.length ? `${tests.length} אנסינים, ` : ''}חוברת להדפסה וקריאה עם מילון — בחינם.`} path={`${HUB}/${grade.slug}`} structuredData={faqSchema(faq)} />
-    <Breadcrumbs items={crumbs(grade.name)} />
-    <header className="rounded-[32px] border-2 border-[var(--border)] p-6 text-center sm:p-8" style={{ background: stage.color }}>
-      <p className="font-bold">{stage.label} · <bdi dir="ltr">{stage.en}</bdi></p>
-      <h1 className="mt-1 text-4xl sm:text-5xl">אנגלית ל{grade.name}</h1>
-      <p className="mx-auto mt-3 max-w-2xl text-lg">{grade.focus}</p>
-    </header>
-
-    <section className={`${box} mt-6`} aria-labelledby="goals-h">
-      <h2 id="goals-h" className="text-2xl font-black">🎯 מה לומדים השנה</h2>
-      <ul className="mt-2 list-disc space-y-1 pr-6">{grade.goals.map(x => <li key={x}>{x}</li>)}</ul>
-      <p className="mt-3"><b>נושאי אוצר מילים:</b> {grade.vocab.join(' · ')}</p>
-    </section>
-
-    {booklet && <section className={`${box} mt-6`} aria-labelledby="booklet-h">
-      <h2 id="booklet-h" className="text-2xl font-black">📒 החוברת של {grade.name}</h2>
-      <Link to={bookletHref(booklet)} className="mt-3 flex items-center gap-4 rounded-2xl bg-violet-50 p-4 card-lift">
-        <span className="text-5xl" aria-hidden="true">{booklet.emoji}</span>
-        <span><b className="text-xl">{booklet.title}</b><br /><span className="text-[var(--muted-foreground)]">{booklet.pages.length} עמודים · להדפסה או PDF · עם דף תשובות</span></span>
-      </Link>
-    </section>}
-
-    {topics.length > 0 && <section className={`${box} mt-6`} aria-labelledby="grammar-h">
-      <h2 id="grammar-h" className="text-2xl font-black">📘 דקדוק — {band.label}</h2>
-      <p className="text-[var(--muted-foreground)]">הסבר בעברית, טעויות נפוצות, חידון ודף עבודה לכל נושא.</p>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-2">{topics.map(t => <li key={t.slug}><Link to={grammarHref(t)} className="block rounded-xl border-2 border-[var(--border)] bg-white p-3 font-bold card-lift">{t.emoji} {t.title} <bdi dir="ltr" className="font-normal text-[var(--muted-foreground)]">{t.en}</bdi></Link></li>)}</ul>
-    </section>}
-
-    {level && <section className={`${box} mt-6`} aria-labelledby="unseen-h">
-      <h2 id="unseen-h" className="text-2xl font-black">📝 אנסין ומבחנים — {level.name}</h2>
-      <p className="text-[var(--muted-foreground)]">{level.about} כל אנסין במצב תרגול עם הסבר, או במצב מבחן עם טיימר של {level.minutes} דקות.</p>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-2">{tests.slice(0, 8).map(t => <li key={t.slug}><Link to={`/unseen/english/${t.slug}`} className="block rounded-xl border-2 border-[var(--border)] bg-white p-3 card-lift"><bdi dir="ltr" className="font-bold">{t.title}</bdi></Link></li>)}</ul>
-      <Link to={levelHref(level)} className="mt-3 inline-block font-bold underline">לכל {tests.length} האנסינים של {level.name} ←</Link>
-      {grade.n >= 10 && <p className="mt-2">מודולים נוספים: {UNSEEN_LEVELS.filter(l => l.lang === 'en' && l.id.startsWith('mod-') && l.path !== grade.unseen).map(l => <Link key={l.id} to={levelHref(l)} className="ln-chip ml-1">{l.name}</Link>)}</p>}
-    </section>}
-
-    <section className={`${box} mt-6`} aria-labelledby="more-h">
-      <h2 id="more-h" className="text-2xl font-black">✨ עוד לתרגול</h2>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {grade.n >= 3 && <Link to="/learn/english-reading" className="ln-chip">📖 קטעי קריאה עם מילון לכל מילה</Link>}
-        {dictation.length > 0 && <Link to="/learn/dictation/english" className="ln-chip">✍️ הכתבה — {dictation.length} רשימות ל{grade.name}</Link>}
-        {grade.n <= 6 && <Link to="/english" className="ln-chip">🎮 מילים ומשחקים</Link>}
-        {grade.n <= 4 && <Link to="/abc" className="ln-chip">🔤 אותיות A–Z</Link>}
-        {grade.n <= 6 && <Link to="/learn/flashcards" className="ln-chip">🃏 כרטיסיות</Link>}
-        <Link to="/dictionary" className="ln-chip">📘 מילון אנגלית–עברית</Link>
-        {grade.n >= 7 && <Link to="/typing/english" className="ln-chip">⌨️ הקלדה באנגלית</Link>}
-      </div>
-    </section>
-
-    <nav className="mt-8 flex justify-between gap-2" aria-label="כיתות">
-      {prev ? <Link to={`${HUB}/${prev.slug}`} className="ln-chip">→ {prev.name}</Link> : <span />}
-      <Link to={HUB} className="ln-chip">כל הכיתות</Link>
-      {next ? <Link to={`${HUB}/${next.slug}`} className="ln-chip">{next.name} ←</Link> : <span />}
-    </nav>
-    <div className="mt-10"><SeoBody paragraphs={[`${grade.name} נמצאת בשלב "${stage.label}" של תוכנית הלימודים באנגלית. ${stage.about}`]} faq={faq} related={[{ label: 'אנגלית לפי כיתה', href: HUB }, { label: 'דקדוק באנגלית', href: '/learn/english-grammar' }, { label: 'אנסין באנגלית', href: '/unseen/english' }]} /></div>
-  </Page>
+  return <div className="mx-auto max-w-6xl px-4 py-6" dir="rtl">
+    <SEO title={`אנגלית ל${grade.name} — חומר למבחן, דקדוק, אנסין וחוברת`} description={`אנגלית ל${grade.name} לפי תוכנית הלימודים, הכול במסך אחד: ${grade.focus} דקדוק עם חידונים, אנסינים, חוברת להדפסה וקריאה עם מילון — בחינם.`} path={`${HUB}/${grade.slug}`} structuredData={faqSchema(faq)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: 'אנגלית לפי כיתה', href: HUB }, { label: grade.name }]} />
+    <h1 className="sr-only">אנגלית ל{grade.name}</h1>
+    <Dashboard grade={grade} />
+    <div className="mt-8"><SeoBody paragraphs={[`${grade.name} נמצאת בשלב "${stage.label}" של תוכנית הלימודים באנגלית. ${stage.about}`]} faq={faq} related={[{ label: 'אנגלית לפי כיתה', href: HUB }, { label: 'דקדוק באנגלית', href: '/learn/english-grammar' }, { label: 'אנסין באנגלית', href: '/unseen/english' }]} /></div>
+  </div>
 }
 
 export function EnglishGradePage() {

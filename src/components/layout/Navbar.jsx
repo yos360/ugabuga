@@ -129,6 +129,7 @@ export default function Navbar() {
             <DomainItem domain={CLASSROOM_MENU} open={open} setOpen={setOpen} active={active === 'classroom'} className="is-classroom" />
           </ul>
           <ThemeToggle />
+          <Link to="/favorites" className="site-icon-button" aria-label="המועדפים שלי" title="המועדפים שלי"><span aria-hidden="true">❤️</span></Link>
           <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
         </div>
 
@@ -138,7 +139,7 @@ export default function Navbar() {
           aria-label={mobileOpen ? 'סגירת תפריט' : 'פתיחת תפריט'} onClick={() => { if (!mobileOpen) setMobileSection(active); setMobileOpen(o => !o) }}>{mobileOpen ? <X size={25} /> : <Menu size={25} />}</button>
       </div>
 
-      <div className="site-mobile-language"><Link to={englishCounterpart(pathname) || '/en'} lang="en" hrefLang="en" aria-label="English — האתר באנגלית">English <span aria-hidden="true">↗</span></Link></div>
+      <div className="site-mobile-language"><Link to="/favorites">❤️ המועדפים שלי</Link> · <Link to={englishCounterpart(pathname) || '/en'} lang="en" hrefLang="en" aria-label="English — האתר באנגלית">English <span aria-hidden="true">↗</span></Link></div>
 
       <nav className="site-domains" aria-label="ניווט ראשי">
         <ul>

@@ -224,6 +224,8 @@ export function EnglishHub() {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'אנגלית לילדים' }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">🇬🇧 לימוד אנגלית לילדים</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">לימוד אנגלית לילדים דרך מילים ראשונות לפי נושאים — עם תמונה, קול והגייה, משחק קצר וכרטיסיות להדפסה. בלי הרשמה ובלי קורס: 10 דקות ביום מספיקות.</p>
+    <Link to="/learn/english" className="mx-auto mb-8 flex max-w-2xl items-center justify-center gap-3 rounded-3xl bg-violet-600 px-5 py-4 text-center text-xl font-black text-white shadow-[0_4px_0_#5b21b6] hover:bg-violet-700">
+      🎒 לומדים לבית הספר? אנגלית לפי כיתה — דקדוק, אנסין, חוברת וקריאה, הכול במסך אחד ←</Link>
     <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {ENGLISH_TOPICS.map(x => <Link key={x.slug} to={`/english/${x.slug}`} className="flex flex-col items-center rounded-2xl border-2 border-[var(--border)] bg-white p-4 text-center shadow-sm transition hover:-translate-y-0.5">
         <Pic word={x.words.find(w => w.emoji) || x.words[0]} size={64} />

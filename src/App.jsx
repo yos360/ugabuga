@@ -242,6 +242,7 @@ const GrammarHub = lazy(() => import('./learn/englishGrammar/EnglishGrammarPages
 const GrammarTopic = lazy(() => import('./learn/englishGrammar/EnglishGrammarPages').then(m => ({ default: m.GrammarTopic })))
 const ReadingHub = lazy(() => import('./learn/englishReading/EnglishReadingPages').then(m => ({ default: m.ReadingHub })))
 const ReadingStory = lazy(() => import('./learn/englishReading/EnglishReadingPages').then(m => ({ default: m.ReadingStory })))
+const FavoritesPage = lazy(() => import('./pages/FavoritesPage'))
 const EnglishGradesHub = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradesHub })))
 const EnglishGradePage = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradePage })))
 const FamilyHub = lazy(() => import('./family/FamilyTools').then(m => ({ default: m.FamilyHub })))
@@ -631,6 +632,7 @@ export default function App() {
               <Route path="/games/shabbat" element={<ShabbatGames />} />
               <Route path="/games/:slug" element={<GamePage />} />
               <Route path="/search" element={<Search />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
               <Route path="/time-tunnel" element={<MaHayom />} />
               <Route path="/time-tunnel/:day" element={<MaHayom />} />
               <Route path="/time-tunnel/month/:month" element={<TimeTunnelMonth />} />
