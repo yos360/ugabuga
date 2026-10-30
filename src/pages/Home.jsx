@@ -13,6 +13,7 @@ import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
 import { LiveTop, RequestTop, BringTop, RsvpTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
+import HomeSpotlight from '../components/home/HomeSpotlight'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
@@ -163,6 +164,7 @@ export default function Home() {
       </form>
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
+    <HomeSpotlight />
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
       <span className="travel-copy"><b>נוסעים עם בוגה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>
