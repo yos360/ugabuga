@@ -506,4 +506,82 @@ const volume = {
   },
 }
 
-export default [fracMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, circumference, circleArea, volume]
+// Laws of arithmetic: commutative / associative / distributive and order of operations (whole numbers).
+const COMPLEMENT_PAIRS = [[25, 4], [50, 2], [125, 8], [5, 2], [20, 5], [250, 4]]
+const lawsOfArithmetic = {
+  slug: 'arithmetic-laws',
+  grade: 6,
+  strand: 'arithmetic',
+  title: 'חוקי החשבון וסדר פעולות — חילוף, קיבוץ ופילוג',
+  emoji: '🧠',
+  desc: 'חוק החילוף, חוק הקיבוץ וחוק הפילוג לכיתה ו׳: חישוב נוח בראש, השלמת מספר חסר והוצאת גורם משותף, וסדר פעולות עם סוגריים — עם פתרון מוסבר ודף עבודה.',
+  intro: 'שלושה חוקים עוזרים לחשב בראש. חוק החילוף: בחיבור ובכפל אפשר להחליף את סדר המספרים (3 × 8 = 8 × 3). חוק הקיבוץ: בחיבור ובכפל אפשר לבחור איזה שני מספרים לחשב קודם ((25 × 7) × 4 = 7 × (25 × 4) = 700). חוק הפילוג: a × (b + c) = a × b + a × c, למשל 6 × 47 = 6 × 40 + 6 × 7 = 282. החוקים נכונים לחיבור ולכפל, אבל לא לחיסור ולחילוק: 10 − 4 אינו 4 − 10. כשיש בתרגיל כמה פעולות, מחשבים קודם סוגריים, אחר כך כפל וחילוק, ובסוף חיבור וחיסור.',
+  tips: [
+    'מחפשים זוגות שנותנים מספר עגול: 25 × 4 = 100, 8 × 125 = 1,000, 36 + 64 = 100.',
+    'חוק הפילוג עובד גם לאחור: 8 × 57 + 8 × 43 = 8 × (57 + 43) = 800.',
+    'חילוף וקיבוץ לא מתאימים לחיסור ולחילוק — שם הסדר משנה את התוצאה.',
+  ],
+  example: { q: '25 × 7 × 4 = ?', steps: ['מחליפים סדר ומקבצים: 25 × 4 = 100.', 'ממשיכים: 100 × 7 = 700.'], a: '700' },
+  faq: [
+    { q: 'האם חוק החילוף נכון גם לחיסור?', a: 'לא. 10 − 4 = 6 אבל 4 − 10 = −6, ולכן בחיסור הסדר משנה את התוצאה. אותו דבר בחילוק: 12 ÷ 3 אינו 3 ÷ 12.' },
+    { q: 'מה ההבדל בין חוק החילוף לחוק הקיבוץ?', a: 'החילוף משנה את סדר המספרים (a + b = b + a), והקיבוץ משנה את הסוגריים, כלומר מי מחושב קודם ((a + b) + c = a + (b + c)).' },
+    { q: 'מתי כדאי להשתמש בחוק הפילוג?', a: 'כשמכפילים במספר קרוב למספר עגול, כמו 7 × 98 = 7 × 100 − 7 × 2 = 686, או כשיש שני כפלים עם גורם משותף.' },
+  ],
+  levels: ['חילוף וקיבוץ — חישוב נוח', 'חוק הפילוג — השלמה וחישוב', 'גורם משותף וסדר פעולות'],
+  gen(level, r) {
+    if (level === 1) {
+      const f = r.int(0, 3)
+      if (f === 0) {
+        const p = r.int(12, 48), q = 100 - p, m = r.int(11, 99), e = r.pick([`${p} + ${m} + ${q}`, `${m} + ${p} + ${q}`])
+        return { q: 'חשבו בדרך הנוחה (אפשר להחליף סדר ולקבץ):', expr: `${e} = ?`, type: 'number', answer: 100 + m, explain: `מקבצים את ${p} עם ${q}: ${p} + ${q} = 100, ואז 100 + ${m} = ${100 + m}.` }
+      }
+      if (f === 1) {
+        const [x, y] = r.pick(COMPLEMENT_PAIRS), m = r.int(3, 9), v = x * y * m
+        return { q: 'חשבו בדרך הנוחה (אפשר להחליף סדר ולקבץ):', expr: `${x} × ${m} × ${y} = ?`, type: 'number', answer: v, explain: `מקבצים את ${x} עם ${y}: ${x} × ${y} = ${x * y}, ואז ${x * y} × ${m} = ${v}.` }
+      }
+      if (f === 2) {
+        const a = r.int(12, 99), b = r.int(12, 99) + (r.bool() ? 100 : 0)
+        return { q: 'השלימו את המספר החסר לפי חוק החילוף:', expr: `${a} + ${b} = ${b} + ?`, type: 'number', answer: a, explain: `בחיבור אפשר להחליף סדר, לכן המספר החסר הוא ${a}.` }
+      }
+      const a = r.int(6, 19), b = r.int(6, 19)
+      return { q: 'השלימו את המספר החסר לפי חוק החילוף:', expr: `${a} × ${b} = ? × ${a}`, type: 'number', answer: b, explain: `בכפל אפשר להחליף סדר, לכן המספר החסר הוא ${b}.` }
+    }
+    if (level === 2) {
+      const f = r.int(0, 3), a = r.int(3, 9)
+      if (f === 0) {
+        const t = 10 * r.int(1, 9), u = r.int(2, 9)
+        return { q: 'השלימו את המספר החסר לפי חוק הפילוג:', expr: `${a} × ${t + u} = ${a} × ${t} + ${a} × ?`, type: 'number', answer: u, explain: `מפרקים ${t + u} = ${t} + ${u}, לכן המספר החסר הוא ${u}.` }
+      }
+      if (f === 1) {
+        const u = r.int(1, 3), base = r.pick([100, 100, 1000])
+        return { q: 'השלימו את המספר החסר לפי חוק הפילוג:', expr: `${a} × ${base - u} = ${a} × ${base} − ${a} × ?`, type: 'number', answer: u, explain: `${base - u} = ${base} − ${u}, לכן המספר החסר הוא ${u}.` }
+      }
+      if (f === 2) {
+        const b = r.int(10, 40), c = r.int(2, 9)
+        return { q: 'השלימו את המספר החסר לפי חוק הפילוג:', expr: `${a} × (${b} + ${c}) = ? + ${a} × ${c}`, type: 'number', answer: a * b, explain: `כופלים כל מחובר בסוגריים ב-${a}: ${a} × ${b} = ${a * b}.` }
+      }
+      const b = r.pick([98, 99, 101, 102, 103, 199, 201]), near = b < 150 ? 100 : 200, d = b - near
+      const ans = a * b
+      return { q: 'חשבו בעזרת חוק הפילוג:', expr: `${a} × ${b} = ?`, type: 'number', answer: ans, explain: `${b} = ${near} ${d < 0 ? '−' : '+'} ${Math.abs(d)}, לכן ${a} × ${near} ${d < 0 ? '−' : '+'} ${a} × ${Math.abs(d)} = ${a * near} ${d < 0 ? '−' : '+'} ${a * Math.abs(d)} = ${ans}.` }
+    }
+    const f = r.int(0, 3)
+    if (f === 0) {
+      const a = r.int(3, 9), s = r.pick([10, 100]), b = r.int(s === 10 ? 2 : 12, s === 10 ? 8 : 88), c = s - b
+      return { q: 'חשבו בדרך הנוחה (הוציאו גורם משותף):', expr: `${a} × ${b} + ${a} × ${c} = ?`, type: 'number', answer: a * s, explain: `גורם משותף: ${a} × (${b} + ${c}) = ${a} × ${s} = ${a * s}.` }
+    }
+    if (f === 1) {
+      const a = r.int(3, 9), s = r.pick([10, 100]), c = r.int(12, 60), b = c + s
+      return { q: 'חשבו בדרך הנוחה (הוציאו גורם משותף):', expr: `${a} × ${b} − ${a} × ${c} = ?`, type: 'number', answer: a * s, explain: `גורם משותף: ${a} × (${b} − ${c}) = ${a} × ${s} = ${a * s}.` }
+    }
+    if (f === 2) {
+      const a = r.int(10, 60), b = r.int(2, 9), c = r.int(2, 15), d = r.int(2, 15), e = r.int(1, a)
+      const v = a + b * (c + d) - e
+      return { q: 'חשבו לפי סדר פעולות החשבון:', expr: `${a} + ${b} × (${c} + ${d}) − ${e} = ?`, type: 'number', answer: v, explain: `סוגריים: ${c} + ${d} = ${c + d}. כפל: ${b} × ${c + d} = ${b * (c + d)}. חיבור וחיסור משמאל לימין: ${a} + ${b * (c + d)} = ${a + b * (c + d)}, ואז − ${e} = ${v}.` }
+    }
+    const e = r.int(2, 9), k = r.int(2, 9), b = r.int(2, 30), a = b + r.int(2, 30), c = r.int(2, 9)
+    const v = (a - b) * c + k
+    return { q: 'חשבו לפי סדר פעולות החשבון:', expr: `(${a} − ${b}) × ${c} + ${e * k} ÷ ${e} = ?`, type: 'number', answer: v, explain: `סוגריים: ${a} − ${b} = ${a - b}. כפל וחילוק: ${a - b} × ${c} = ${(a - b) * c}, ${e * k} ÷ ${e} = ${k}. חיבור: ${(a - b) * c} + ${k} = ${v}.` }
+  },
+}
+
+export default [fracMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, circumference, circleArea, volume, lawsOfArithmetic]
