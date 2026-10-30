@@ -21,7 +21,8 @@ export default function DoneRequests({ limit = 6, className = '' }) {
   if (!rows.length) return null
   return <section className={`no-print ${className}`} aria-label="הכנו לפי בקשה" dir="rtl">
     <h2 className="text-2xl font-black">🎁 הכנו לפי בקשה</h2>
-    <p className="mt-1 text-[var(--muted-foreground)]">ביקשתם — הכנו. כל הדפים בחינם, לכולם. <Link to="/request" className="font-bold underline">גם לכם חסר משהו?</Link></p>
+    <p className="mt-1 text-[var(--muted-foreground)]">ביקשתם — הכנו. כל הדפים בחינם, לכולם.</p>
+    <Link to="/request" className="mt-3 inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-violet-600 px-5 text-lg font-black text-white shadow-sm hover:bg-violet-700">📝 גם לכם חסר משהו? לחצו כאן ובקשו ←</Link>
     <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{rows.map(r => <li key={`${r.path}-${r.done_at}`}>
       <Link to={r.path} className="flex h-full flex-col rounded-2xl border-2 border-violet-200 bg-white p-4 hover:-translate-y-0.5 transition-transform">
         <b>{r.title}</b>
