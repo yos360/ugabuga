@@ -41,6 +41,21 @@ export function lessonAt(seq, index) {
   return null // past the end of the year's sequence: review time
 }
 
+// A dated (calendar) unit as a one-off lesson.
+const datedLesson = c => ({ unit: { title: c.title, hours: 1, goals: c.goals || [] }, unitNumber: 0, units: 0, k: 1, step: c.steps[0], dated: true })
+// How many of a class's periods before (date, period) fell inside calendar windows.
+function datedBefore(plan, cls, seq, iso, period) {
+  const mine = slotsOf(plan, cls.id)
+  const off = { level: levelOf(cls.grade), extra: plan.extraOff }
+  let n = 0
+  for (const c of seq.calendar) for (let d = c.from; d <= c.to && d <= iso; d = addDays(d, 1)) {
+    if (noSchool(d, off)) continue
+    const day = new Date(`${d}T12:00:00`).getDay()
+    n += mine.filter(([sd, sp]) => sd === day && (d < iso || sp < period)).length
+  }
+  return n
+}
+
 // Every period of one week (Sunday iso), day by day: the class and its lesson, or why there's no school.
 export function weekPlan(plan, sequences, sunday) {
   return DAYS.map((label, day) => {
@@ -50,8 +65,12 @@ export function weekPlan(plan, sequences, sunday) {
       if (!cls) return null
       const why = noSchool(iso, { level: levelOf(cls.grade), extra: plan.extraOff })
       const seq = sequences[`${cls.subject}-${cls.grade}`]
-      const index = lessonIndex(plan, cls, iso, period)
-      return { period, cls, why, index, lesson: !why && seq ? lessonAt(seq, index) : null, seq }
+      const dated = !why && seq?.calendar?.find(c => iso >= c.from && iso <= c.to)
+      // Homeroom: a dated unit (a holiday, a memorial day) takes the period; other weeks count only the
+      // undated periods, so the routine units carry on where they stopped.
+      const index = lessonIndex(plan, cls, iso, period) - (seq?.calendar ? datedBefore(plan, cls, seq, iso, period) : 0)
+      const lesson = why || !seq ? null : dated ? datedLesson(dated) : lessonAt(seq, index)
+      return { period, cls, why, index, lesson, seq }
     }).filter(Boolean)
     return { day, label, iso, periods }
   })
@@ -63,6 +82,9 @@ export function linkHref(link, grade) {
   switch (link.type) {
     case 'math-topic': return `/math/grade-${grade}/${s}`
     case 'tanakh-topic': return `/learn/tanakh/${s}`
+    case 'lesson': return `/learn/${s}`
+    case 'heb-reading': return `/learn/reading/${s}`
+    case 'page': return s.startsWith('/') ? s : null
     case 'parasha': return `/parasha/${s}`
     case 'grammar': return `/learn/english-grammar/${s}`
     case 'vocab': { const [g, unit] = s.split('/'); return `/learn/english/${g}/vocabulary/${unit}` }
@@ -72,4 +94,4 @@ export function linkHref(link, grade) {
     default: return null
   }
 }
-export const LINK_LABELS = { 'math-topic': '🧮 תרגול באתר', 'tanakh-topic': '📖 השיעור באתר', parasha: '📜 פרשת השבוע', grammar: '📘 דקדוק + דף עבודה', vocab: '🔤 אוצר מילים', reading: '📖 קריאה עם מילון', unseen: '📝 אנסין', booklet: '📒 חוברת' }
+export const LINK_LABELS = { 'math-topic': '🧮 תרגול באתר', 'tanakh-topic': '📖 השיעור באתר', lesson: '🎓 שיעור אינטראקטיבי + דף עבודה', 'heb-reading': '📖 הבנת הנקרא', page: '🔗 באתר', parasha: '📜 פרשת השבוע', grammar: '📘 דקדוק + דף עבודה', vocab: '🔤 אוצר מילים', reading: '📖 קריאה עם מילון', unseen: '📝 אנסין', booklet: '📒 חוברת' }

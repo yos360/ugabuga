@@ -25,7 +25,7 @@ export default function PlannerBanner({ className = '' }) {
       <div className="min-w-[240px] flex-1">
         <p className="text-sm font-black text-violet-700">חדש · למורים · <span className="rounded-full bg-amber-300 px-2 text-[var(--ink)]">בטא</span></p>
         <h2 className="text-2xl font-black">מערכת השעות המתעדכנת — כל שיעור מוכן</h2>
-        <p className="mt-1">לכל שעה במערכת שלכם: השיעור הבא לפי תוכנית הלימודים של משרד החינוך, מערך שיעור קצר וקישורים לתרגול, והדפסה של כל השבוע. החגים והחופשות כבר בפנים. בתקופת הבטא — בחינם.</p>
+        <p className="mt-1">לכל שעה במערכת שלכם: השיעור הבא לפי תוכנית הלימודים של משרד החינוך, מערך שיעור קצר וקישורים לתרגול, והדפסה של כל השבוע. החגים והחופשות כבר בפנים.</p>
       </div>
       {pathname !== '/planner' && <Link to="/planner" className="min-h-[52px] self-center rounded-2xl bg-violet-600 px-6 py-3 text-lg font-black text-white shadow-[0_4px_0_#5b21b6] hover:bg-violet-700">לבנות את המערכת שלי ←</Link>}
     </div>

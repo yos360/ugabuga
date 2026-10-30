@@ -11,6 +11,7 @@ import MailSubscribers from '../components/owner/MailSubscribers'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
 import PageRequests from '../components/owner/PageRequests'
+import PlannerTeachers from '../components/owner/PlannerTeachers'
 import HomeExperiment from '../components/owner/HomeExperiment'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
@@ -576,6 +577,7 @@ export default function OwnerActivityReport() {
 
       <SiteChatInbox />
       <HomeExperiment from={from} to={to} tick={tick} />
+      <PlannerTeachers tick={tick} />
       <PageRequests from={from} to={to} tick={tick} />
       <BugaPediaQuestions from={from} to={to} tick={tick} />
       <MailSubscribers />
