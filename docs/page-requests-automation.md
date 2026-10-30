@@ -45,10 +45,13 @@ cloud routine (every hour 07:05–23:05) builds as described below.
      sitemap, search, CLAUDE.md checks), facts checked, Israeli names, original content. Mark done with
      the new path. A new booklet gets `onRequest: true` in src/booklets/registry.js (shows the "made on
      request" box with the WhatsApp channel and weekly-mail sign-up).
-   - **Owner decides first** — anything bigger or unusual: a new kind of tool or section, something that
-     needs a new design, the database, accounts or outside services, or that you're unsure fits the site.
-     Don't build it: mark it `planned` (it shows as "בתכנון" in the owner report) and list it in the run's
-     final message.
+   - **Owner's rule (2026-10-30): everything requested that the site doesn't have yet gets built and added.**
+     Booklets for any subject, grade or level (including higher grades, special education, struggling
+     pupils), reading passages, worksheets, games of the kinds the site already has — build them, even if
+     long. If a page exists but not for that grade/level, build the version they need.
+   - **Owner decides first** — only what needs new infrastructure: accounts, the database, outside
+     services, or a brand-new kind of interactive tool with its own design. Mark it `planned` (it shows as
+     "בתכנון" in the owner report) and list it in the run's final message.
    - **Decline** (`declined`): a personal job for one person (a PowerPoint for her class, a file sent only
      to them, homework done for them, anything private), adult/commercial/offensive content, spam or
      nonsense.

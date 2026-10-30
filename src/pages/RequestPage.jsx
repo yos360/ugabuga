@@ -9,6 +9,21 @@ import DoneRequests, { WhatsAppAsk } from '../components/ui/DoneRequests'
 import { landingTags } from '../utils/qrVariants'
 import { recordExperiment } from '../utils/experiments'
 import { mailApi, normalizeMail } from '../utils/mailPreferences'
+import { searchItems } from '../data/searchIndex'
+
+// While the visitor types, pages the site already has that match the request ("אולי זה מה שחיפשתם?").
+// The static catalog is loaded only once someone starts typing.
+function useMatches(text) {
+  const [items, setItems] = useState(null), [hits, setHits] = useState([])
+  const q = text.trim()
+  useEffect(() => { if (q.length >= 4 && !items) import('../data/searchStatic').then(m => setItems(m.STATIC_ITEMS)).catch(() => {}) }, [q, items])
+  useEffect(() => {
+    if (!items || q.length < 4) { setHits([]); return }
+    const timer = setTimeout(() => setHits(searchItems(items, q).slice(0, 3)), 350)
+    return () => clearTimeout(timer)
+  }, [items, q])
+  return hits
+}
 
 // /request — "מבקשים דף": visitors tell the owner which page, booklet or game is missing.
 // Reached from the banner, empty search results and the QR on printed pages (?from=<printed page>).
@@ -28,6 +43,7 @@ export default function RequestPage() {
   const [request, setRequest] = useState(() => (params.get('q') ? `${params.get('q')}` : ''))
   const [audience, setAudience] = useState(''), [role, setRole] = useState(''), [email, setEmail] = useState('')
   const [state, setState] = useState('idle'), [weekly, setWeekly] = useState(false), [weeklySent, setWeeklySent] = useState(false)
+  const matches = useMatches(request)
   useEffect(() => { if (state === 'sent') document.getElementById('request-done')?.focus() }, [state])
   const send = async e => {
     e.preventDefault()
@@ -59,6 +75,11 @@ export default function RequestPage() {
           <textarea value={request} onChange={e => { setRequest(e.target.value); if (state === 'short') setState('idle') }} maxLength={400} rows={4} required className={field} placeholder={`למשל: ${EXAMPLES[0]}`} aria-describedby="request-examples" />
         </label>
         <p id="request-examples" className="-mt-3 text-sm text-[var(--muted-foreground)]">רעיונות: {EXAMPLES.slice(1).join(' · ')}</p>
+        {matches.length > 0 && <div className="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-3" aria-live="polite">
+          <p className="font-black">💡 אולי זה מה שחיפשתם? כבר יש באתר:</p>
+          <ul className="mt-2 space-y-1">{matches.map(m => <li key={m.to}><Link to={m.to} target="_blank" className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 font-bold hover:bg-emerald-100"><span aria-hidden="true">{m.emoji}</span>{m.title} <span className="text-sm font-normal text-[var(--muted-foreground)]">↗</span></Link></li>)}</ul>
+          <p className="mt-2 text-sm">לא בדיוק זה? שלחו את הבקשה ונכין בדיוק מה שצריך.</p>
+        </div>}
         {state === 'short' && <p className="font-bold text-red-700" role="alert">כתבו בכמה מילים מה צריך.</p>}
         <fieldset><legend className="font-bold">מי אתם? <span className="font-normal text-[var(--muted-foreground)]">(רשות — גננות ומורות: ספרו מה הנושא השבועי)</span></legend>
           <div className="mt-2 flex flex-wrap gap-2">{ROLES.map(a => <button key={a} type="button" aria-pressed={role === a} onClick={() => setRole(role === a ? '' : a)} className={`min-h-[44px] rounded-xl border-2 px-3 font-bold ${role === a ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white'}`}>{a}</button>)}</div>
