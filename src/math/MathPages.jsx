@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
+import PlannerBanner from '../components/ui/PlannerBanner'
 import NotFound from '../pages/NotFound'
 import {
   GRADES, KINDERGARTEN, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
@@ -266,6 +267,7 @@ export function MathHub() {
         <small className="block text-[var(--muted-foreground)]">{c ? `${c} נושאים` : 'בקרוב'} · גילאי {g.ages}</small>
       </Link> })}</div>
     </section>)}
+    <PlannerBanner className="mt-10" />
 
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',

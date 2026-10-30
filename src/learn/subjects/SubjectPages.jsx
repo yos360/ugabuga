@@ -7,6 +7,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { SUBJECTS, SUBJECT_BY_KEY, GRADE_LETTERS, examQuestions, gradeRange, gradeSlug, loadConcepts, loadTopics, placeQuiz, topicsForGrade } from './subjects'
 import { InteractiveLesson, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
+import PlannerBanner from '../../components/ui/PlannerBanner'
 import '../learn.css'
 import './subjects.css'
 
@@ -65,6 +66,7 @@ export function SubjectHub({ subjectKey }) {
       <GradeChips s={s} topics={all} />
     </>}
     <ConceptsLink s={s} />
+    <PlannerBanner className="mt-10" />
     <h2 className="mt-10 mb-3 text-2xl font-black">עוד מקצועות</h2>
     <OtherSubjects not={s.key} />
     <div className="mt-12"><SeoBody paragraphs={s.paras} faq={s.faq} related={[LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, { label: 'הכנה למבחן מחוננים', href: '/learn/gifted-test' }]} /></div>
@@ -255,6 +257,7 @@ function GradePage({ subjectKey, grade }) {
       <span className="sj-ico" aria-hidden="true">{t.emoji}</span><span><b>{t.title}</b><small>{t.intro.length > 90 ? `${t.intro.slice(0, t.intro.lastIndexOf(' ', 88))}…` : t.intro}</small></span>
     </Link></li>)}</ul>
     <SubjectReadings list={gradeReadings} title={`📖 קריאה ב${s.short} לכיתה ${L}`} />
+    <PlannerBanner className="mt-10" />
     <h2 className="mt-10 mb-3 text-2xl font-black">כיתות אחרות</h2>
     <GradeChips s={s} topics={topics} current={grade} />
     <div className="mt-12"><SeoBody paragraphs={[`כאן מרוכזים שיעורי ${s.short} שמתאימים לכיתה ${L}. כל שיעור עומד בפני עצמו: הסבר בשפה פשוטה, "חשוב לזכור", חידון של 8 שאלות עם הסבר לכל תשובה, ודף עבודה להדפסה.`, 'החוברת מאגדת את כל השיעורים לקובץ אחד שנוח להדפיס לכיתה או לשמור כ־PDF, והמבחן לדוגמה עוזר לחזור על החומר לפני מבחן או בסוף השנה.', ...s.paras.slice(0, 1)]} faq={faq} related={[crumb(s), LEARN_CRUMB]} /></div>

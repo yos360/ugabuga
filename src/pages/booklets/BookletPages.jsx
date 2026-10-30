@@ -8,6 +8,7 @@ import NotFound from '../NotFound'
 import { BOOKLETS, bookletBySlug, bookletHref } from '../../booklets/registry'
 import { newSeed } from '../../motor/rng'
 import { CHANNEL_GO } from '../../data/brand'
+import PlannerBanner from '../../components/ui/PlannerBanner'
 import './booklets.css'
 
 // /booklets — every downloadable workbook; /booklets/:slug — one workbook: what's inside, a peek at the
@@ -38,6 +39,7 @@ export function BookletsHub() {
     <h1 className="mb-2 text-center text-4xl sm:text-5xl"><span aria-hidden="true">📚 </span>חוברות עבודה להדפסה</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">חוברות שלמות לפי כיתה ונושא, להדפסה או לשמירה כ־PDF. בכל חוברת יש שער עם שם הילד, עמודי תרגול מגוונים ותעודת סיום.</p>
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{BOOKLETS.map(b => <Card key={b.slug} b={b} />)}</div>
+    <PlannerBanner className="mt-10" />
     <div className="mt-10"><SeoBody paragraphs={[
       'חוברת עבודה נותנת לילד משהו שדף בודד לא נותן: התחלה, אמצע וסוף. יש שער שכותבים עליו את השם, עמודים שמתקדמים בהדרגה, ותעודה בסוף שאפשר לתלות על המקרר.',
       'כל החוברות כאן בחינם ובלי הרשמה. פותחים את החוברת, רואים את כל העמודים בתצוגה מקדימה, ובוחרים אם להדפיס או לשמור כ־PDF ולשלוח לטלפון או למורה.',

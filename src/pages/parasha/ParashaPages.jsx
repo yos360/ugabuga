@@ -10,6 +10,7 @@ import { PARASHOT, PARASHA_BOOKS, parashaBySlug, parashaHref, parashaSource } fr
 import { israelToday, readingForDate } from '../../utils/parashaCalendar'
 import PrintPreview from '../../components/ui/PrintPreview'
 import ParashaWorkbook from './ParashaWorkbook'
+import PlannerBanner from '../../components/ui/PlannerBanner'
 
 // Workbook data per book (events, concepts, true/false, easy questions…), loaded only when printing.
 const WORKBOOK_FILES = import.meta.glob('../../data/parasha/workbook-*.js')
@@ -81,6 +82,7 @@ export function ParashaHub() {
       <WorkbookButtons portions={PARASHOT} label="לכל השנה" />
       <div className="mt-2 flex flex-wrap justify-center gap-2">{PARASHA_BOOKS.map(b => <BookPrint key={b} book={b} />)}</div>
     </section>
+    <PlannerBanner className="mt-6" />
     <ShabbatActivityLink />
     <ParashaQuiz reading={reading} />
     <nav aria-label="קפיצה לספר" className="flex flex-wrap gap-2 mt-6">{PARASHA_BOOKS.map((book, i) => <a key={book} className={chip} href={`#book-${i}`}>{book}</a>)}</nav>

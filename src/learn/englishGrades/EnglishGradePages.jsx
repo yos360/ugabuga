@@ -12,6 +12,7 @@ import { UNSEEN_LEVELS } from '../../data/unseen/levels'
 import { levelHref, testsOf } from '../../data/unseen/library'
 import { bookletBySlug, bookletHref } from '../../booklets/registry'
 import { DICTATION_EN } from '../dictationEnglish'
+import PlannerBanner from '../../components/ui/PlannerBanner'
 import '../learn.css'
 
 // /learn/english — big subject tiles (vocabulary, verbs & grammar, reading, unseen, writing, booklet,
@@ -95,6 +96,7 @@ export function EnglishGradesHub() {
     {pending && <p className="mt-2 text-center text-xl font-black text-violet-700" role="status">👆 בחרו כיתה — ונפתח לכם את „{tileFor(pending).title}”</p>}
     {last && !pending && <p className="mt-2 text-center"><Link to={gradeHref(last)} className="font-bold underline">להמשיך מ{last.name} ←</Link></p>}
     <Tiles grade={null} onPick={pick} />
+    <PlannerBanner className="mt-8" />
     <section className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="שלבי התוכנית">
       {CURRICULUM_STAGES.map(s => <div key={s.id} className="rounded-2xl p-3 text-sm" style={{ background: s.color }}><b>{s.label} (<bdi dir="ltr">{s.en}</bdi>)</b> — {s.about}</div>)}
     </section>
@@ -125,6 +127,7 @@ function GradeView({ grade }) {
       <ul className="mt-2 list-disc space-y-1 pr-6">{grade.goals.map(x => <li key={x}>{x}</li>)}</ul>
       <p className="mt-2"><b>נושאי מילים:</b> {grade.vocab.join(' · ')}</p>
     </details>
+    <PlannerBanner className="mt-6" />
     <div className="mt-8"><SeoBody paragraphs={[`${grade.name} נמצאת בשלב "${stage.label}" של תוכנית הלימודים באנגלית. ${stage.about}`]} faq={faq} related={[{ label: 'אנגלית לפי כיתה', href: HUB }, { label: 'דקדוק באנגלית', href: '/learn/english-grammar' }, { label: 'אנסין באנגלית', href: '/unseen/english' }]} /></div>
   </Wrap>
 }
