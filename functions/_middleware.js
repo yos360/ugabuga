@@ -35,7 +35,7 @@ const CLOSED_FAMILIES = [
   /^\/hebrew-calendar\/[^/]+$/,
   /^\/adults\/crosswords\/[^/]+$/,
   /^\/baby-names\/meaning\/[^/]+$/,
-  /^\/learn\/(?:tanakh|lashon|civics|science|history|geography|ai|photography)\/.+$/,
+  /^\/learn\/(?:tanakh|lashon|civics|science|history|geography|ai|photography|zodiac|communities)\/.+$/,
   /^\/shabbat-times\/[^/]+$/,
   /^\/emoji\/[^/]+$/,
   /^\/emoji\/for\/[^/]+$/,

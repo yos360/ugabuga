@@ -202,6 +202,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
           { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
+          { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
         ],
       },
       {
@@ -540,6 +541,7 @@ export const FOOTER_COLUMNS = [
       ['/learn/ai', 'אקדמיית ה־AI של בוגה'],
       ['/learn/photography', 'צילום לילדים ולמתחילים'],
       ['/learn/zodiac', 'מזלות לילדים'],
+      ['/learn/communities', 'עדות ישראל'],
       ['/english', 'אנגלית לילדים'],
       ['/abc', 'לומדים אותיות באנגלית'],
       ['/typing', 'הקלדה עיוורת'],

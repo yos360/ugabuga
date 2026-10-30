@@ -934,6 +934,11 @@ export default function App() {
               <Route path="/learn/zodiac/concepts/:term" element={<ConceptPage key="zodiac-ct" subjectKey="zodiac" />} />
               <Route path="/learn/zodiac/:slug/exam" element={<SubjectExam key="zodiac-e" subjectKey="zodiac" />} />
               <Route path="/learn/zodiac/:slug" element={<SubjectTopic key="zodiac" subjectKey="zodiac" />} />
+              <Route path="/learn/communities" element={<SubjectHub key="communities" subjectKey="communities" />} />
+              <Route path="/learn/communities/concepts" element={<ConceptIndex key="communities-c" subjectKey="communities" />} />
+              <Route path="/learn/communities/concepts/:term" element={<ConceptPage key="communities-ct" subjectKey="communities" />} />
+              <Route path="/learn/communities/:slug/exam" element={<SubjectExam key="communities-e" subjectKey="communities" />} />
+              <Route path="/learn/communities/:slug" element={<SubjectTopic key="communities" subjectKey="communities" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
