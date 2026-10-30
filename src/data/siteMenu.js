@@ -223,6 +223,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
           { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
+          { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
         ],
       },
       {

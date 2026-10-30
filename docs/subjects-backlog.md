@@ -48,7 +48,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   and that many Israelis belong to several. Respectful, warm and accurate; no stereotypes, no ranking; facts and
   dates checked against two sources. Link the family-names pages (/family-names) and the holiday pages.
 - [ ] `communities` part 2 — more concept pages: Algerian, Lebanese, Afghan, Indian (Bene Menashe), Cuban/Latin-American, Bulgarian, Yugoslav, Czech, Dutch, French, American Jewish communities; more dishes (קוסקוס, מרק חריירה, קציצות, קוגל, לביבות, סופגניות, מלוחיה, בריק, חצ׳פורי, פלוב, אינג׳רה, דורו וואט); Tu BiShvat/Purim customs by community; a lesson per region (Ashkenazi by country). Link /family-names and the holiday pages from lessons.
-- [ ] `dinosaurs` — דינוזאורים: מה זה דינוזאור, תקופות (טריאס, יורה, קרטיקון), איך יודעים — מאובנים ופלאונטולוגים,
+- [x] `dinosaurs` (done 2026-10-30: 16 lessons, 65 concepts — a page per famous dinosaur (34), per non-dinosaur reptile/ammonite (8) and per key term (23); part 2 ideas: more dinosaurs (Pachyrhinosaurus, Styracosaurus, Kentrosaurus, Amargasaurus, Patagotitan, Sinosauropteryx, Troodon-group, Mapusaurus, Tarbosaurus, Ouranosaurus, Leaellynasaura), museums, coloring pages per dinosaur after the owner approves drawings) — דינוזאורים: מה זה דינוזאור, תקופות (טריאס, יורה, קרטיקון), איך יודעים — מאובנים ופלאונטולוגים,
   דינוזאורים אוכלי בשר וצמחים, דינוזאורים מפורסמים (טירנוזאורוס, טריצרטופס, סטגוזאורוס, ברכיוזאורוס, ולוצירפטור,
   ספינוזאורוס, אנקילוזאורוס ועוד) — a lesson or concept per dinosaur, the extinction, birds as dinosaurs,
   pterosaurs and marine reptiles (not dinosaurs). Only what paleontology supports; say "לפי מה שמוכר היום".

@@ -963,6 +963,11 @@ export default function App() {
               <Route path="/learn/how-its-made/concepts/:term" element={<ConceptPage key="how-its-made-ct" subjectKey="how-its-made" />} />
               <Route path="/learn/how-its-made/:slug/exam" element={<SubjectExam key="how-its-made-e" subjectKey="how-its-made" />} />
               <Route path="/learn/how-its-made/:slug" element={<SubjectTopic key="how-its-made" subjectKey="how-its-made" />} />
+              <Route path="/learn/dinosaurs" element={<SubjectHub key="dinosaurs" subjectKey="dinosaurs" />} />
+              <Route path="/learn/dinosaurs/concepts" element={<ConceptIndex key="dinosaurs-c" subjectKey="dinosaurs" />} />
+              <Route path="/learn/dinosaurs/concepts/:term" element={<ConceptPage key="dinosaurs-ct" subjectKey="dinosaurs" />} />
+              <Route path="/learn/dinosaurs/:slug/exam" element={<SubjectExam key="dinosaurs-e" subjectKey="dinosaurs" />} />
+              <Route path="/learn/dinosaurs/:slug" element={<SubjectTopic key="dinosaurs" subjectKey="dinosaurs" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
