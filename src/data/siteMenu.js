@@ -209,6 +209,7 @@ export const MENU_DOMAINS = [
       {
         title: 'מקצועות בית הספר', icon: '🏫', to: '/learn',
         items: [
+          { to: '/planner', label: 'מערכת השעות שלי — שיעור מוכן לכל שעה', icon: '🗓️' },
           { to: '/learn/tanakh', label: 'תנ״ך לילדים', icon: '📜' },
           { to: '/learn/lashon', label: 'לשון עברית', icon: '✍️' },
           { to: '/printables/singular-plural-verbs-workbook', label: 'חוברת יחיד ורבים ופעלים', icon: '📒' },
