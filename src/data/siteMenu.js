@@ -222,6 +222,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/computers', label: 'מחשבים: מה יש בפנים, בינארי ואינטרנט', icon: '💻' },
           { to: '/learn/coding', label: 'תכנות לילדים — סקראץ׳, פייתון ואלגוריתמים', icon: '💻' },
           { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
+          { to: '/learn/video', label: 'וידאו וקולנוע — מצלמים ועורכים סרטון', icon: '🎬' },
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
           { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
