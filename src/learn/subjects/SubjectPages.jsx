@@ -388,6 +388,7 @@ export function ConceptPage({ subjectKey }) {
     {c.remember && <p className="ln-box mt-4"><b>💡 איך זוכרים?</b> {c.remember}</p>}
     <h2 className="mt-8 mb-3 text-2xl font-black">✅ בודקים את עצמנו</h2>
     <Quiz key={c.slug} quiz={quiz} />
+    {c.more?.length > 0 && <><h2 className="mt-8 mb-3 text-xl font-black">📚 לעומק באתר</h2><div className="flex flex-wrap gap-2">{c.more.map(m => <Link key={m.to} to={m.to} className="ln-chip">{m.label}</Link>)}</div></>}
     {lesson && <Link to={`/learn/${s.key}/${lesson.slug}`} className="ln-box card-lift mt-6 block text-right"><b className="text-xl">{lesson.emoji} לשיעור המלא: {lesson.title}</b><br /><small>הסבר מלא, חידון של 8 שאלות ודף עבודה להדפסה</small></Link>}
     {related.length > 0 && <><h2 className="mt-8 mb-3 text-xl font-black">מושגים קשורים</h2><div className="flex flex-wrap gap-2">{related.map(r => <Link key={r.slug} to={`/learn/${s.key}/concepts/${r.slug}`} className="ln-chip">{r.term}</Link>)}</div></>}
     <p className="mt-6 text-center"><Link to={`/learn/${s.key}/concepts`} className="font-bold underline">לכל {concepts.length} המושגים ב{s.short} ←</Link></p>

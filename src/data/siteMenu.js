@@ -229,6 +229,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
           { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
           { to: '/learn/sports', label: 'ספורט: האולימפיאדה, ישראל באולימפיאדה וחוקי משחקים', icon: '🏅' },
+          { to: '/learn/what-is', label: 'מה זה? מילים שכולם שואלים — ריבית, קראש, טרם', icon: '❓' },
         ],
       },
       {
