@@ -958,6 +958,11 @@ export default function App() {
               <Route path="/learn/communities/concepts/:term" element={<ConceptPage key="communities-ct" subjectKey="communities" />} />
               <Route path="/learn/communities/:slug/exam" element={<SubjectExam key="communities-e" subjectKey="communities" />} />
               <Route path="/learn/communities/:slug" element={<SubjectTopic key="communities" subjectKey="communities" />} />
+              <Route path="/learn/how-its-made" element={<SubjectHub key="how-its-made" subjectKey="how-its-made" />} />
+              <Route path="/learn/how-its-made/concepts" element={<ConceptIndex key="how-its-made-c" subjectKey="how-its-made" />} />
+              <Route path="/learn/how-its-made/concepts/:term" element={<ConceptPage key="how-its-made-ct" subjectKey="how-its-made" />} />
+              <Route path="/learn/how-its-made/:slug/exam" element={<SubjectExam key="how-its-made-e" subjectKey="how-its-made" />} />
+              <Route path="/learn/how-its-made/:slug" element={<SubjectTopic key="how-its-made" subjectKey="how-its-made" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />

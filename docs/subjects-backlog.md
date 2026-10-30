@@ -94,7 +94,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   The process each went through (attempts, failures, who else worked on it — most inventions had several
   inventors). Disputed "firsts" are presented as disputed. A concept page per invention.
   Google: מי המציא את המטוס 170 · ממציאים מפורסמים 40.
-- [ ] `how-its-made` — איך מכינים את זה: הדברים שיש בבית ובמטבח ואיך הם מגיעים אלינו — אורז (משדה מוצף ועד שקית),
+- [x] `how-its-made` (done 2026-10-30: 16 lessons — food, materials, clothes, energy & water, phone, car, house — and 59 concepts, a page per product and process; part 2 ideas: pasta/coffee/tea/honey lessons of their own, soap, toothpaste, cans, bicycles, books/printing, medicines, eggs) — איך מכינים את זה: הדברים שיש בבית ובמטבח ואיך הם מגיעים אלינו — אורז (משדה מוצף ועד שקית),
   גרעינים (חמנייה, קלייה), קטשופ, לחם וקמח, שוקולד (מפולי קקאו), חלב וגבינה, סוכר (קנה וסלק), שמן זית, פסטה,
   פופקורן, קפה, תה, דבש, מלח, גלידה, ובהמשך גם חפצים: עיפרון, נייר, זכוכית, פלסטיק. NOT home recipes — the
   owner means how the product itself comes to exist: where it grows, how it's harvested, what the factory does

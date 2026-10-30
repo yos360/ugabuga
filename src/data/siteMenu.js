@@ -222,6 +222,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
+          { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
         ],
       },
       {
@@ -554,6 +555,7 @@ export const FOOTER_COLUMNS = [
       ['/learn/photography', 'צילום לילדים ולמתחילים'],
       ['/learn/zodiac', 'מזלות לילדים'],
       ['/learn/communities', 'עדות ישראל'],
+      ['/learn/how-its-made', 'איך מכינים את זה?'],
       ['/english', 'אנגלית לילדים'],
       ['/abc', 'לומדים אותיות באנגלית'],
       ['/typing', 'הקלדה עיוורת'],
