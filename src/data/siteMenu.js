@@ -219,6 +219,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/geography', label: 'גאוגרפיה ומולדת', icon: '🗺️' },
           { to: '/learn/civics', label: 'אזרחות וחברה', icon: '🏛️' },
           { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
+          { to: '/learn/computers', label: 'מחשבים: מה יש בפנים, בינארי ואינטרנט', icon: '💻' },
           { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
