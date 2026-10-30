@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'u3HvcewrSVc', kind: 'tutorial', title: 'איך מעצבים הזמנה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/invitation'], category: 'party', date: '2026-10-30',
+    desc: 'מדריך קצר להזמנה ליום הולדת: בוחרים אחד מ־12 סגנונות, ממלאים שם, גיל, תאריך ומקום, משנים צבעים ופונט, שומרים כתמונה לוואטסאפ או לסטטוס ומוסיפים קישור לאישור הגעה.' },
   { id: '_UCm6JYhOyI', kind: 'tutorial', title: 'איך אוספים אישורי הגעה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/rsvp'], category: 'party', date: '2026-10-30',
     desc: 'מדריך קצר לדף אישור ההגעה: כותבים שם, תאריך ומקום, שולחים קישור אחד בוואטסאפ ורואים מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.' },
   { id: 'DpbSovICUFA', kind: 'tutorial', title: 'איך מטילים קובייה אונליין — מדריך קצר', paths: ['/tools/dice'], category: 'tools', date: '2026-10-30',
