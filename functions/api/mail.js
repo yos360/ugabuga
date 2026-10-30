@@ -69,16 +69,21 @@ export function readyMail(row) {
  const review = GOOGLE_REVIEW_URL ? `אם אהבתם, נשמח מאוד להמלצה קצרה בגוגל:\n${GOOGLE_REVIEW_URL}\n\n` : ''
  return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂', text: `שלום,\n\nהדף שביקשתם מאיתנו מוכן, והוא כבר באתר, בחינם:\n${row.public_title}\n${SITE}${row.result_path}\n\nנשמח מאוד אם תשתפו אותו עם חברים, הורים ומורים. כך נוכל להמשיך להכין דפים בחינם.\n\nרוצים דף חדש כל יום? הצטרפו לערוץ הווטסאפ שלנו:\n${SITE}/whatsapp\n\n${review}תודה שכתבתם לנו! אם חסר עוד משהו, אפשר לבקש כאן:\n${SITE}/request\n\nעוגה בוגה · hellohugabuga@gmail.com` }
 }
-// The mail goes out only once the page answers on the live site (a fresh page may still be deploying).
-const isLive = path => fetch(`${SITE}${path}`, { method: 'HEAD', redirect: 'follow', signal: AbortSignal.timeout(10000) }).then(r => r.ok, () => false)
+// The mail goes out only once the page is on the live site. Every path answers 200 (the app shows its own 404),
+// so a status check proves nothing: the page counts as live once the deployed sitemaps list it — they ship in the
+// same deploy as the page itself.
+export const listedIn = (sitemaps, path) => sitemaps.some(s => s.includes(`<loc>${SITE}${path}</loc>`))
+const liveSitemaps = () => Promise.all(['/sitemap-static.xml', '/sitemap.xml'].map(p =>
+ fetch(`${SITE}${p}`, { cache: 'no-store', signal: AbortSignal.timeout(10000) }).then(r => r.ok ? r.text() : '', () => '')))
 async function readyMails(env, now) {
  let sent = 0, failed = 0
  if (!readyWindow(now)) return { sent, failed }
  // A failure here must not hold back the Shabbat/weekly mails below.
  const rows = await rpc(env, 'due', {}, 'page_request_mail').catch(() => null)
  if (!rows) return { sent, failed: 1 }
+ const sitemaps = rows.length ? await liveSitemaps() : []
  for (const row of rows) {
-  if (!await isLive(row.result_path)) continue
+  if (!listedIn(sitemaps, row.result_path)) continue
   try {
    if (!await rpc(env, 'claim', { id: row.id }, 'page_request_mail')) continue
    const { subject, text } = readyMail(row)

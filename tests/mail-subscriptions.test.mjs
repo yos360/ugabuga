@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { normalizeMail, csvCell } from '../src/utils/mailPreferences.js'
-import { dueShabbat, weeklyWindow, readyWindow, readyMail, onRequest } from '../functions/api/mail.js'
+import { dueShabbat, weeklyWindow, readyWindow, readyMail, listedIn, onRequest } from '../functions/api/mail.js'
 import { shabbatForDate } from '../src/utils/shabbatTimes.js'
 import { shabbatCity } from '../src/data/shabbatCities.js'
 import { WEEKLY_MAIL, MAIL_OFFERS } from '../src/data/weeklyMail.js'
@@ -39,6 +39,12 @@ test('"page ready" mail: daytime Israel time, public title and link only', () =>
  assert.ok(text.includes('https://ugabuga.co.il/math/grade-6/arithmetic-laws\n'))
  assert.ok(!text.includes('x@example.com'))
  assert.ok(text.includes('https://ugabuga.co.il/whatsapp\n'))
+})
+test('"page ready" mail waits until the deployed sitemap lists the page', () => {
+ const map = '<url><loc>https://ugabuga.co.il/booklets/nikud</loc></url>'
+ assert.equal(listedIn([map, ''], '/booklets/nikud'), true)
+ assert.equal(listedIn([map, ''], '/booklets/nikud-2'), false)
+ assert.equal(listedIn(['', ''], '/booklets/nikud'), false)
 })
 test('unconfigured backend does not collect data or pretend registration succeeded', async () => {
  const response = await onRequest({env:{},request:new Request('https://ugabuga.co.il/api/mail',{method:'POST',body:JSON.stringify({action:'subscribe'})})})
