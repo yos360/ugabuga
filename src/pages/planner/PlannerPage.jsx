@@ -122,9 +122,10 @@ export default function PlannerPage() {
   const removeClass = id => setPlan(p => ({ ...p, classes: p.classes.filter(c => c.id !== id), slots: Object.fromEntries(Object.entries(p.slots).filter(([, v]) => v !== id)) }))
   const hasSlots = Object.keys(plan.slots).length > 0
   return <div className="mx-auto max-w-6xl px-4 py-8" dir="rtl">
-    <SEO title="מערכת השעות שלי — מערך שיעור לכל שעה לפי תוכנית הלימודים" description="מורים מכניסים את מערכת השעות ומקבלים לכל שעה את השיעור הבא לפי תוכנית משרד החינוך, עם מערך שיעור קצר, קישורים לתרגול והדפסה של כל השבוע. בחינם." path="/planner" />
+    <SEO title="מערכת השעות המתעדכנת (בטא) — מערך שיעור לכל שעה לפי תוכנית הלימודים" description="מורים מכניסים את מערכת השעות ומקבלים לכל שעה את השיעור הבא לפי תוכנית משרד החינוך, עם מערך שיעור קצר, קישורים לתרגול והדפסה של כל השבוע. בחינם." path="/planner" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: 'מערכת השעות שלי' }]} />
-    <h1 className="text-center text-4xl sm:text-5xl"><span aria-hidden="true">🗓️ </span>מערכת השעות שלי</h1>
+    <h1 className="text-center text-4xl sm:text-5xl"><span aria-hidden="true">🗓️ </span>מערכת השעות המתעדכנת <span className="align-middle rounded-full bg-amber-300 px-3 py-1 text-base font-black">בטא</span></h1>
+    <p className="mx-auto mt-3 max-w-2xl rounded-2xl bg-amber-50 p-3 text-center">🧪 <b>גרסת בטא — אנחנו בונים את זה יחד איתכם.</b> בתקופת הבטא הכול בחינם. בהמשך יתווספו גם אפשרויות פרימיום בתשלום. משהו חסר או לא מדויק? <Link to="/request" className="font-bold underline">ספרו לנו</Link>.</p>
     <p className="mx-auto mt-2 max-w-2xl text-center text-lg">מכניסים את המערכת פעם אחת — ולכל שעה מקבלים את השיעור הבא לפי תוכנית הלימודים, מערך שיעור קצר וקישורים לתרגול. החגים והחופשות של {SCHOOL_YEAR.name} כבר בפנים.</p>
     <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-[var(--muted-foreground)]">גרסה ראשונה: מתמטיקה, תנ״ך ואנגלית. הכול נשמר רק בדפדפן הזה. אתם תמיד יכולים לדלג, לחזור או לשנות.</p>
     {!seqs ? <p className="mt-8 text-center" role="status">טוענים…</p> : <>
