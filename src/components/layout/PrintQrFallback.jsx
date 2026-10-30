@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { recordPrintPreview } from './RecentActivity'
 import { announcePrint } from '../../utils/printEvents'
 import '../ui/print-preview.css'
-import { pickQrVariant, qrUrl } from '../../data/printMessages'
+import { pickQrVariant, qrShortUrl } from '../../data/printMessages'
 import { recordQrVariant } from '../../utils/qrVariants'
 import { recordExperiment } from '../../utils/experiments'
 
@@ -25,7 +25,7 @@ export default function PrintQrFallback() {
     let alive = true
     const v = pathname.startsWith('/en') ? null : pickQrVariant()
     setVariant(v)
-    const url = v ? qrUrl(window.location.origin, pathname, v) : `${window.location.origin}${pathname}?utm_source=qr&utm_medium=print`
+    const url = v ? qrShortUrl(window.location.origin, pathname, v) : `${window.location.origin}${pathname}?utm_source=qr&utm_medium=print`
     import('qrcode')
       .then(({ default: QRCode }) => QRCode.toString(url, { type: 'svg', margin: 0, color: { dark: '#181828', light: '#ffffff00' } }))
       .then(s => { if (alive) setSvg(s) })

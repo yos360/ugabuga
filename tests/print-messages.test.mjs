@@ -1,7 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { QR_VARIANTS, REQUEST_BANNERS, pickBanner, pickQrVariant, qrUrl } from '../src/data/printMessages.js'
+import { QR_VARIANTS, REQUEST_BANNERS, pickBanner, pickQrVariant, qrUrl, qrShortUrl, qrVariant } from '../src/data/printMessages.js'
+import { shortTarget } from '../functions/p/[[path]].js'
 
 test('QR variants have unique ids the database accepts, and short printable text', () => {
   const ids = QR_VARIANTS.map(v => v.id)
@@ -12,11 +13,12 @@ test('QR variants have unique ids the database accepts, and short printable text
     assert.ok(v.title.length <= 45 && v.line.length <= 50, `${v.id} is too long for the badge`)
     assert.ok(!/פתרונ/.test(v.title + v.line), 'no "scan for answers" promise')
   }
-  assert.ok(QR_VARIANTS.some(v => v.to === 'request'), 'some prints invite a page request')
+  // Retired ids never come back with new wording: old prints keep counting under their own message.
+  for (const id of ['g1', 'g2', 'g3', 'g4', 'r1', 'r2', 'r3', 'w1', 'w2']) assert.ok(qrVariant(id) && !ids.includes(id), id)
 })
 
 test('QR links carry the variant and lead to the page or to the request form', () => {
-  const page = QR_VARIANTS.find(v => v.to === 'page'), req = QR_VARIANTS.find(v => v.to === 'request')
+  const page = QR_VARIANTS.find(v => v.to === 'page'), req = qrVariant('r1')
   assert.equal(qrUrl('https://ugabuga.co.il', '/printables/hebrew-letters', page), `https://ugabuga.co.il/printables/hebrew-letters?utm_source=qr&utm_medium=print&utm_content=${page.id}`)
   const r = new URL(qrUrl('https://ugabuga.co.il', '/learn/reading/grade-3', req))
   assert.equal(r.pathname, '/request')
@@ -25,9 +27,23 @@ test('QR links carry the variant and lead to the page or to the request form', (
   assert.equal(r.searchParams.get('utm_content'), req.id)
 })
 
+test('the printed QR holds a short link that redirects to the tagged page', () => {
+  const o = 'https://ugabuga.co.il'
+  for (const v of QR_VARIANTS) {
+    const short = qrShortUrl(o, '/printables/mazes', v)
+    assert.ok(short.length <= 50, short)
+    const parts = new URL(short).pathname.split('/').slice(2)
+    assert.equal(shortTarget(o, parts), qrUrl(o, '/printables/mazes', v))
+  }
+  assert.equal(qrShortUrl(o, '/', QR_VARIANTS[0]), `${o}/p/${QR_VARIANTS[0].id}`)
+  assert.equal(shortTarget(o, ['r2', 'learn', 'reading']), qrUrl(o, '/learn/reading', qrVariant('r2')))
+  // Junk never breaks the redirect: unknown ids and odd paths land on a tagged page.
+  assert.equal(shortTarget(o, ['zz', 'a b']), qrUrl(o, '/', qrVariant('g1')))
+})
+
 test('channel QR variants lead to the WhatsApp landing page', () => {
-  const w = QR_VARIANTS.find(v => v.to === 'channel')
-  assert.ok(w, 'some prints invite to the channel')
+  const w = qrVariant('w1')
+  assert.ok(w, 'the channel message still resolves for sheets already printed')
   const u = new URL(qrUrl('https://ugabuga.co.il', '/printables/mazes', w))
   assert.equal(u.pathname, '/whatsapp')
   assert.equal(u.searchParams.get('utm_content'), w.id)
