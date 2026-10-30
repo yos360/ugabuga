@@ -54,7 +54,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   pterosaurs and marine reptiles (not dinosaurs). Only what paleontology supports; say "לפי מה שמוכר היום".
   A coloring page per dinosaur needs new drawings — ask the owner first (image generation costs credits).
   Google, Israel, Hebrew, monthly: דינוזאורים 9,900 · סוגי דינוזאורים 880 · טי רקס 390 · דינוזאור מעופף 390 · שלד/מאובן/עצמות ~500.
-- [ ] `fruits-vegetables` — פירות וירקות: לכל פרי וירק — מאיפה הגיע (ארץ המוצא ואיך הגיע לישראל ולעולם), איך הוא
+- [x] `fruits-vegetables` (done 2026-10-30: 15 lessons, 76 concepts — a page per common fruit (34), vegetable (20), legume (7), nut/seed (4) and key term (11); lessons link /printables/winter-fruits-vegetables, /booklets/citrus, /holidays/tu-bishvat/seven-species, /food/kids-recipes and the how-its-made pages; part 2 ideas: more produce pages (kumquat, nectarine, blueberry, raspberry, cranberry, quince, jujube, carob, dragon fruit, starfruit, artichoke, asparagus, leek, celery, parsley, dill, coriander, mint, okra, turnip, kale, Brussels sprouts, hazelnut, cashew, pecan, chestnut, sunflower, pumpkin seeds, chia, quinoa, rice), herbs of Israel, a "פרי או ירק?" quiz tool, a seasonal produce calendar printable) — פירות וירקות: לכל פרי וירק — מאיפה הגיע (ארץ המוצא ואיך הגיע לישראל ולעולם), איך הוא
   גדל (עץ, שיח, אדמה, מטפס), באיזו עונה בישראל, מה מיוחד בו. עונות הפירות והירקות בישראל, שבעת המינים, פירות
   הדר, ירקות שורש, "פרי או ירק?" (עגבנייה). A concept page per fruit and vegetable.
   Google: "<X> פרי או ירק" ~3,000 together (עגבנייה 720+320+320, אבוקדו 320+210, מלפפון 210, בננה, לימון, גמבה, אבטיח 90 each).
