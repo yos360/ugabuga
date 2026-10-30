@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'DpbSovICUFA', kind: 'tutorial', title: 'איך מטילים קובייה אונליין — מדריך קצר', paths: ['/tools/dice'], category: 'tools', date: '2026-10-30',
+    desc: 'מדריך קצר לקובייה הווירטואלית: 1 עד 5 קוביות, סכום אוטומטי והיסטוריית הטלות — לסולמות ונחשים, מונופול, שש־בש וכל משחק שהקובייה שלו הלכה לאיבוד.' },
   { id: '-4RMMZdPBVc', kind: 'short', title: 'אירוע בלי כאב ראש: אישורי הגעה, מי מביא מה וגמד וענק', paths: ['/rsvp', '/tools/bring-list', '/secret-friend'], category: 'party', date: '2026-10-29',
     desc: 'שלושה כלים חינמיים שחוסכים את הבלגן של כל אירוע: טופס אישורי הגעה, רשימת "מי מביא מה" והגרלת גמד וענק — שולחים קישור בוואטסאפ וזהו.' },
   { id: '1YnuhkZy1Nk', kind: 'short', title: 'העוגה נעלמה! חדר בריחה מודפס לילדים', paths: ['/tools/escape-rooms'], category: 'party', date: '2026-10-27',
@@ -36,6 +38,7 @@ export const VIDEO_PAGE_LABELS = {
   '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
+  '/tools/dice': 'קובייה וירטואלית',
 }
 
 const SITE = 'https://ugabuga.co.il'
