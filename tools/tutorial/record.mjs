@@ -9,20 +9,25 @@ const { chromium } = createRequire(import.meta.url)('playwright')
 const [specPath, out] = process.argv.slice(2)
 const spec = (await import(new URL(specPath, 'file://' + process.cwd() + '/'))).default
 fs.mkdirSync(out, { recursive: true })
-const URL_BASE = 'http://127.0.0.1:4173'
+// BASE=http://ugabuga.co.il HOSTMAP='MAP ugabuga.co.il 127.0.0.1' (preview on :80) makes links shown on screen read ugabuga.co.il instead of 127.0.0.1
+const URL_BASE = process.env.BASE || 'http://127.0.0.1:4173'
 
-const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] })
+const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required', '--lang=he-IL', ...(process.env.HOSTMAP ? ['--host-resolver-rules=' + process.env.HOSTMAP, '--unsafely-treat-insecure-origin-as-secure=' + process.env.BASE] : [])] })
 const t0 = Date.now()
 const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, locale: 'he-IL', timezoneId: 'Asia/Jerusalem', recordVideo: { dir: out + '/raw', size: { width: 1920, height: 1080 } } })
+if (spec.setup) await spec.setup(ctx) // optional: route mocks for tools that need a backend
 const page = await ctx.newPage()
-await page.goto(URL_BASE + spec.path, { waitUntil: 'networkidle' })
-await page.addStyleTag({ content: `html{scroll-behavior:auto!important}#root{zoom:${spec.zoom || 1.5}}` }) // bigger page = readable at 1080p
-await installOverlay(page)
+const openPage = async path => { // goto + bigger page (readable at 1080p) + overlay; also used by specs that navigate
+  await page.goto(URL_BASE + path, { waitUntil: 'networkidle' })
+  await page.addStyleTag({ content: `html{scroll-behavior:auto!important}#root{zoom:${spec.zoom || 1.5}}` })
+  await installOverlay(page)
+}
+await openPage(spec.path)
 await page.mouse.move(960, 540)
 await page.waitForTimeout(600)
 const trim = (Date.now() - t0) / 1000 - 0.3 // everything before this is page loading
 const marks = [] // chapter start times (seconds into the recording, after trim)
-const h = { page, mark: () => marks.push((Date.now() - t0) / 1000 - trim), caption, unring }
+const h = { page, goto: openPage, mark: () => marks.push((Date.now() - t0) / 1000 - trim), caption, unring }
 await spec.steps(page, h)
 await page.waitForTimeout(800)
 const total = (Date.now() - t0) / 1000 - trim

@@ -14,6 +14,7 @@ export async function installOverlay(page) {
   box-shadow:6px 6px 0 rgba(20,22,45,.85);color:#14162d;font-size:44px;font-weight:700;white-space:nowrap;transition:opacity .35s,transform .35s}
 #tut-cap.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #tut-cap b{display:grid;place-items:center;min-width:64px;height:64px;border-radius:50%;background:#226bd7;color:#fff;font-size:40px;border:3px solid #14162d}
+div[role=status].fixed{bottom:150px!important} /* site toasts sit above the caption bar */
 #tut-ring{position:fixed;z-index:2147483645;pointer-events:none;border:6px solid #cf2f56;border-radius:18px;box-shadow:0 0 0 6px rgba(207,47,86,.28);opacity:0;transition:all .35s}
 #tut-ring.on{opacity:1;animation:tutpulse 1s ease-in-out infinite}
 @keyframes tutpulse{50%{box-shadow:0 0 0 14px rgba(207,47,86,.12)}}
