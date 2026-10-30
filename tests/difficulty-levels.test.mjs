@@ -55,11 +55,12 @@ test('trivia: fallback order is nearest-first (kids hard ← teens medium, adult
   assert.ok(adultsHard.indexOf('adults/easy') > adultsHard.indexOf('adults/medium'))
 })
 
-test('trivia: a narrow topic still yields a non-empty pool for every level', () => {
+test('trivia: a chosen topic only ever gives questions from that topic, at every level', () => {
   const topics = [...new Set(trivia.map((q) => q.topic))]
   for (const t of topics) for (const a of audienceIds) for (const d of difficultyIds) {
     const p = pool(a, d, t)
-    assert.ok(p.length >= 8, `${t}/${a}/${d}: ${p.length}`)
+    assert.ok(p.length >= Math.min(8, trivia.filter((q) => q.topic === t).length), `${t}/${a}/${d}: ${p.length}`)
+    assert.ok(p.every((q) => q.topic === t), `${t}/${a}/${d}: off-topic question`)
     assert.equal(new Set(p.map((q) => q.id)).size, p.length, 'no duplicates')
   }
 })

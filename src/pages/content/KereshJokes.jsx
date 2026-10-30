@@ -56,7 +56,8 @@ export function KereshJokes() {
   const isOpen = j => all || opened.has(j.n)
   const toggle = n => setOpened(prev => { const s = new Set(prev); s.add(n); return s })
   const toggleAll = () => { if (all) setOpened(new Set()); setAll(!all) }
-  const pickRandom = () => { setRand(randomJoke(KERESH_JOKES, rand?.n)); setRandOpen(false) }
+  // A random joke stays within the chosen category.
+  const pickRandom = () => { setRand(randomJoke(list, rand?.n)); setRandOpen(false) }
 
   const schema = [faqSchema(FAQ), {
     '@context': 'https://schema.org',
@@ -84,7 +85,7 @@ export function KereshJokes() {
         <p className="kr-setup">{rand.setup}</p>
         {randOpen ? <p className="kr-punch">😂 {rand.punchline}</p>
           : <button type="button" className="kr-reveal" onClick={() => setRandOpen(true)}>👀 גלו את התשובה</button>}
-      </div> : <p className="m-0 mt-1">לחצו וקבלו בדיחת קרש מתוך כל ה־{TOTAL}.</p>}
+      </div> : <p className="m-0 mt-1">{cat ? `לחצו וקבלו בדיחת קרש מהנושא ${categoryOf(cat).label}.` : `לחצו וקבלו בדיחת קרש מתוך כל ה־${TOTAL}.`}</p>}
       <div className="mt-3 flex flex-wrap justify-center gap-2">
         <button type="button" className="ln-btn" onClick={pickRandom}>{rand ? '🎲 עוד בדיחה' : '🎲 בדיחה אקראית'}</button>
         {rand && <button type="button" className="ln-btn alt" onClick={() => share(rand)}>💬 שליחה בוואטסאפ</button>}

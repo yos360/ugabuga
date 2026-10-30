@@ -81,10 +81,10 @@ export function buildLeveledPool(items, { audience, difficulty, topic = 'all', m
       add(items.filter((q) => topicOk(q) && q.audience === g.audience && q.difficulty === g.difficulty))
     }
   }
+  // A chosen topic is never mixed with other topics: short on its own level, it borrows the topic's other levels.
   fill(inTopic, maxDist)
-  if (pool.length < min && topic !== 'all') fill(() => true, maxDist)
   if (pool.length < min) fill(inTopic, Infinity)
-  if (pool.length < min) fill(() => true, Infinity)
+  if (!pool.length) fill(() => true, Infinity)
   return pool
 }
 

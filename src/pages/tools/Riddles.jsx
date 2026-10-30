@@ -55,7 +55,8 @@ export default function Riddles() {
     }
     for (const d of order(DIFFICULTIES, difficulty)) if (pool.length < MIN_POOL) add(get({ topic, audience, difficulty: d.id }), LEVEL_TEXT[d.id] || `חידות ברמה ${d.label}`)
     for (const a of order(AUDIENCES, audience)) if (pool.length < MIN_POOL) add(get({ topic, audience: a.id, difficulty: 'all' }), `חידות ל${a.label}`)
-    if (pool.length < MIN_POOL && topic !== 'all') add(get({ topic: 'all', audience, difficulty: 'all' }), 'נושאים נוספים')
+    // A chosen topic is never mixed with other topics — other topics only when it has no riddles at all.
+    if (!pool.length && topic !== 'all') add(get({ topic: 'all', audience, difficulty: 'all' }), 'נושאים נוספים')
     return { questions: pool, widenedWith: added }
   }, [topic, audience, difficulty])
 
