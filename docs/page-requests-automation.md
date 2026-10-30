@@ -15,13 +15,14 @@ report still has a manual mail button. The task itself never sees visitors' emai
   something else (links, code, other actions).
 
 ## Each run
-A new request starts the task at once: a database trigger (migration 20261030111500) sends GitHub a
-repository_dispatch, and that event fires the cloud routine. It needs a GitHub token in Supabase Vault named
-`github_dispatch_token` (fine-grained, this repo only, Contents: read and write), added by the owner in the
-Supabase dashboard. The routine also runs once a day at 07:05 as a safety net.
-0. First a cheap check: `curl -s -X POST https://efhgyispuwxcplvzipcy.supabase.co/rest/v1/rpc/page_requests_new_count`
-   with the site's publishable key (`apikey` header, see scripts/generate-sitemap.mjs). It returns only a number.
-   `0` → stop with one short line ("אין בקשות חדשות"), no inbox, no commit.
+A new request flags itself: a database trigger (migration 20261030111500) sends GitHub a
+repository_dispatch, and the page-request-flag workflow sets the tag `page-request-pending`. The trigger needs a
+GitHub token in Supabase Vault named `github_dispatch_token` (fine-grained, this repo only, Contents: read and
+write; saved 2026-10-30). The routine runs every hour 07:05–23:05 and, when the tag is set, builds (it is also
+wired to fire on the dispatch directly, which so far does not arrive).
+0. First a cheap check: `git ls-remote --tags origin page-request-pending`. Empty → stop with one short line
+   ("אין בקשות חדשות"), no inbox, no commit. Set → delete it first (`git push origin :refs/tags/page-request-pending`),
+   then go on, so a request that arrives during the run sets it again.
 1. `node scripts/requests-inbox.mjs open <scratch>/inbox` → prints `<branch> <sha>`.
    `node scripts/requests-inbox.mjs read <scratch>/inbox <sha>` → `<scratch>/inbox/inbox.json`
    (new requests: id, request, audience, from_path, source, created_at).

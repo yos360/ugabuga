@@ -1,0 +1,23 @@
+name: page-request-flag
+# A new page request (Supabase trigger → repository_dispatch "page-request", migration 20261030111500) sets the
+# tag page-request-pending. The hourly page-requests routine checks it with `git ls-remote` (the cloud sandbox
+# can reach GitHub but not Supabase), clears it and builds; no tag → it stops at once. Nothing about the
+# request itself is sent or stored here.
+on:
+  repository_dispatch:
+    types: [page-request]
+permissions:
+  contents: write
+jobs:
+  flag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set page-request-pending
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.git.createRef({ owner: context.repo.owner, repo: context.repo.repo, ref: 'refs/tags/page-request-pending', sha: context.sha })
+            } catch (e) {
+              if (e.status !== 422) throw e // 422: already set
+            }
