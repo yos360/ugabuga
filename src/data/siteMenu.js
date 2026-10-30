@@ -255,6 +255,7 @@ export const MENU_DOMAINS = [
           { to: '/flags/quiz', label: 'חידון דגלים', icon: '🎯' },
           { to: '/discover/capitals', label: 'בירות ודגלים', icon: '🌍' },
           { to: '/discover/solar-system', label: 'מערכת השמש', icon: '🪐' },
+          { to: '/learn/space', label: 'החלל — כוכבי לכת, כוכבים ואסטרונאוטים', icon: '🚀' },
           { to: '/discover/human-body', label: 'גוף האדם', icon: '🫀' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },

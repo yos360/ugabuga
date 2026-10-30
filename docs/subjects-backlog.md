@@ -108,7 +108,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
   and a long tail — טרם, מנדט, משנה, פדיון, קונטור, צוהר, שבח, נדל״ן, פרקליטות…). One page per term: meaning, example,
   where the word comes from. Not a school subject — build it as its own glossary area (like the subject concept pages),
   picking terms from Keyword Planner ("מה זה" seeds) and the site's search gaps. Neutral, accurate, no legal/medical advice.
-- [ ] `space` — החלל: כוכבי הלכת (עמוד לכל כוכב לכת, לשמש, לירח ולכוכבי לכת ננסיים), כוכבים וגלקסיות, חורים שחורים,
+- [x] `space` (done 2026-10-30: 16 lessons, 74 concepts — a page per planet, the Sun, the Moon, 6 moons of note, 5 dwarf planets, famous stars and constellations, black holes, telescopes, missions incl. Artemis II, Israel in space; numbers checked against NASA/ESA + a second source; part 2 ideas: more moons (Callisto, Phobos, Charon), more stars (Vega, Antares, Rigel), constellation pages for all 12 zodiac + Scorpius/Cygnus, space agencies, Chinese/Indian missions, eclipses calendar for Israel) — החלל: כוכבי הלכת (עמוד לכל כוכב לכת, לשמש, לירח ולכוכבי לכת ננסיים), כוכבים וגלקסיות, חורים שחורים,
   אסטרונאוטים, חלליות ומעבורות, טלסקופים. Extend /discover/solar-system, don't duplicate it. Google: כוכבי לכת 4,400 ·
   חלל 5,400 · חלליות 5,400 · חורים שחורים 2,900 · החלל החיצון 1,900 · מערכת השמש לילדים 880 · כוכבי הלכת 720.
 - [ ] `animals` — עולם החי לעומק: כרישים, נחשים, עכבישים, חרקים, לווייתנים, דולפינים, תמנונים, זוחלים, דו־חיים,
