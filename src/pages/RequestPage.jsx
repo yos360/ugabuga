@@ -8,6 +8,7 @@ import { submitPageRequest } from '../utils/pageRequests'
 import DoneRequests, { WhatsAppAsk } from '../components/ui/DoneRequests'
 import { landingTags } from '../utils/qrVariants'
 import { recordExperiment } from '../utils/experiments'
+import { mailApi, normalizeMail } from '../utils/mailPreferences'
 
 // /request — "מבקשים דף": visitors tell the owner which page, booklet or game is missing.
 // Reached from the banner, empty search results and the QR on printed pages (?from=<printed page>).
@@ -17,7 +18,7 @@ const EXAMPLES = ['חוברת חשבון לכיתה ב׳ עם חיבור עד 10
 const FAQ = [
   { q: 'כמה זה עולה?', a: 'כלום. הדפים שמכינים לפי בקשה עולים לאתר בחינם, לכל מי שצריך אותם.' },
   { q: 'תוך כמה זמן הדף יהיה מוכן?', a: 'כל שבוע אנחנו בוחרים את הבקשות שהכי מבוקשות ומכינים אותן. אי אפשר להבטיח שכל בקשה תיענה, אבל כל בקשה נקראת.' },
-  { q: 'מה עושים עם המייל שלי?', a: 'המייל הוא רשות, ומשמש רק כדי לכתוב לכם שהדף מוכן. הוא לא מתפרסם, לא נמסר לאף אחד ולא נשלח אליו שום דבר אחר.' },
+  { q: 'מה עושים עם המייל שלי?', a: 'המייל הוא רשות, ומשמש רק כדי לכתוב לכם שהדף מוכן. הוא לא מתפרסם ולא נמסר לאף אחד. את הדפים החדשים של השבוע נשלח רק אם סימנתם זאת ואישרתם במייל — ואפשר לבטל בכל רגע.' },
 ]
 const field = 'mt-1 block w-full rounded-2xl border-2 border-[var(--border)] bg-white p-3 font-normal'
 
@@ -26,7 +27,7 @@ export default function RequestPage() {
   const from = params.get('from') || '', source = landingTags().source === 'qr' ? 'qr' : ['search', 'print', 'site'].includes(params.get('src')) ? params.get('src') : 'site'
   const [request, setRequest] = useState(() => (params.get('q') ? `${params.get('q')}` : ''))
   const [audience, setAudience] = useState(''), [role, setRole] = useState(''), [email, setEmail] = useState('')
-  const [state, setState] = useState('idle')
+  const [state, setState] = useState('idle'), [weekly, setWeekly] = useState(false), [weeklySent, setWeeklySent] = useState(false)
   useEffect(() => { if (state === 'sent') document.getElementById('request-done')?.focus() }, [state])
   const send = async e => {
     e.preventDefault()
@@ -34,6 +35,8 @@ export default function RequestPage() {
     setState('sending')
     const ok = await submitPageRequest({ request, audience: [role, audience].filter(Boolean).join(' · '), email, fromPath: from, source })
     if (ok) recordExperiment('request')
+    // The weekly mail only by explicit opt-in (unchecked by default), confirmed by a link the visitor gets.
+    if (ok && weekly && email.trim()) setWeeklySent(await mailApi('subscribe', { preferences: normalizeMail({ email, weekly: true, city: 'jerusalem', minutes: 60 }) }).then(() => true, () => false))
     setState(ok ? 'sent' : 'error')
   }
   return <div className="mx-auto max-w-3xl px-4 py-8" dir="rtl">
@@ -47,6 +50,7 @@ export default function RequestPage() {
         <p className="text-5xl" aria-hidden="true">🎉</p>
         <h2 className="mt-2 text-2xl font-black">תודה! הבקשה התקבלה</h2>
         <p className="mt-2">{email ? 'נכתוב לכם למייל כשהדף יהיה מוכן.' : 'כשהדף יהיה מוכן הוא יופיע באתר.'} בינתיים אפשר להציץ בדפים שכבר יש:</p>
+        {weeklySent && <p className="mt-2 font-bold">📬 שלחנו לכם גם מייל לאישור ההרשמה לדפים של השבוע — לוחצים על הקישור שבו, וזהו.</p>}
         <div className="mt-4 flex flex-wrap justify-center gap-2"><Link to="/printables" className="rounded-2xl bg-violet-700 px-5 py-3 font-bold text-white">כל הדפים להדפסה</Link><Link to="/booklets" className="rounded-2xl border-2 border-violet-300 bg-white px-5 py-3 font-bold">חוברות עבודה</Link><button type="button" onClick={() => { setRequest(''); setState('idle') }} className="rounded-2xl border-2 border-slate-300 bg-white px-5 py-3 font-bold">בקשה נוספת</button></div>
         <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">📢 דף חדש כל יום — הצטרפו לערוץ הוואטסאפ</a>
       </section>
@@ -65,7 +69,9 @@ export default function RequestPage() {
         <label className="block font-bold">מייל, אם תרצו שנכתוב לכם כשהדף מוכן <span className="font-normal text-[var(--muted-foreground)]">(רשות)</span>
           <input type="email" dir="ltr" value={email} onChange={e => setEmail(e.target.value)} maxLength={120} autoComplete="email" className={field} />
         </label>
-        <p className="text-xs text-[var(--muted-foreground)]">המייל משמש רק כדי לעדכן שהדף מוכן — לא מתפרסם ולא נמסר לאף אחד. אל תכתבו בבקשה שמות של ילדים או מספרי טלפון. <Link to="/privacy" className="underline">מדיניות הפרטיות</Link></p>
+        {email.trim() && <label className="-mt-2 flex items-start gap-2 font-bold"><input type="checkbox" checked={weekly} onChange={e => setWeekly(e.target.checked)} className="mt-1 h-5 w-5 flex-none" />
+          <span>שלחו לי גם את הדפים החדשים של השבוע <span className="font-normal text-[var(--muted-foreground)]">(מייל אחד בשבוע, אפשר לבטל בכל רגע)</span></span></label>}
+        <p className="text-xs text-[var(--muted-foreground)]">המייל משמש כדי לעדכן שהדף מוכן, ואם סימנתם — גם לדפים של השבוע. הוא לא מתפרסם ולא נמסר לאף אחד. אל תכתבו בבקשה שמות של ילדים או מספרי טלפון. <Link to="/privacy" className="underline">מדיניות הפרטיות</Link></p>
         {state === 'error' && <p className="font-bold text-red-700" role="alert">משהו השתבש בשליחה. נסו שוב בעוד רגע.</p>}
         <button type="submit" disabled={state === 'sending'} className="min-h-[52px] w-full rounded-2xl bg-violet-700 px-6 text-lg font-black text-white disabled:opacity-60">{state === 'sending' ? 'שולחים…' : 'שליחת הבקשה'}</button>
         <div className="text-center"><WhatsAppAsk /></div>

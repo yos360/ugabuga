@@ -192,7 +192,7 @@ export const BOOKLETS = [
     load: () => import('./spelling.jsx'),
   },
   {
-    slug: 'nikud', emoji: '🔤', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'עברית — תנועות',
+    slug: 'nikud', onRequest: true, emoji: '🔤', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'עברית — תנועות',
     title: 'חוברת תנועות וניקוד',
     seoTitle: 'חוברת תנועות וניקוד להדפסה — PDF בחינם, עמוד לכל תנועה',
     description: 'חוברת תנועות וניקוד להורדה כ־PDF: עמוד נפרד לפתח, קמץ, צירה, סגול, חיריק, חולם ושורוק — אות עם ניקוד ותמונה לכל מילה, קריאת הברות, התאמה ודף תשובות.',
@@ -215,7 +215,7 @@ export const BOOKLETS = [
     load: () => import('./nikud.jsx'),
   },
   {
-    slug: 'hygiene-first-sound', emoji: '🧼', added: '2026-10-30', audience: 'גן עד כיתה ב׳, חינוך מיוחד', subject: 'צליל פותח — היגיינה',
+    slug: 'hygiene-first-sound', onRequest: true, emoji: '🧼', added: '2026-10-30', audience: 'גן עד כיתה ב׳, חינוך מיוחד', subject: 'צליל פותח — היגיינה',
     title: 'חוברת צליל פותח — היגיינה אישית',
     seoTitle: 'חוברת צליל פותח היגיינה אישית להדפסה — PDF בחינם',
     description: 'חוברת צליל פותח בנושא היגיינה אישית להורדה כ־PDF: סבון, מים, שיניים, מקלחת וניקיון — תמונות גדולות, התאמת אות לתמונה, תפזורת, דף תשובות ותעודה.',
@@ -238,7 +238,7 @@ export const BOOKLETS = [
     load: () => import('./hygieneSounds.jsx'),
   },
   {
-    slug: 'materials-grade2', emoji: '🪑', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'מדע וטכנולוגיה',
+    slug: 'materials-grade2', onRequest: true, emoji: '🪑', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'מדע וטכנולוגיה',
     title: 'חומרים וחפצים — דפי עבודה במדעים לכיתה ב׳',
     seoTitle: 'חומרים וחפצים — דפי עבודה במדעים לכיתה ב׳ להדפסה, PDF בחינם עם תשובות',
     description: 'דפי עבודה במדעים לכיתה ב׳ על חומרים להורדה כ־PDF: חפץ וחומר, עץ, מתכת, פלסטיק וזכוכית, שקוף ואטום, ניסויי צף ושוקע ומגנט, מיחזור ותפזורת — עם דף תשובות.',
@@ -261,7 +261,7 @@ export const BOOKLETS = [
     load: () => import('./materialsGrade2.jsx'),
   },
   {
-    slug: 'citrus', emoji: '🍊', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'טבע ומדע',
+    slug: 'citrus', onRequest: true, emoji: '🍊', added: '2026-10-30', audience: 'כיתות א׳–ב׳', subject: 'טבע ומדע',
     title: 'חוברת פירות הדר — דפי עבודה ומשחק',
     seoTitle: 'חוברת פירות הדר להדפסה — דפי עבודה ומשחק לוח לכיתות א׳–ב׳, PDF בחינם',
     description: 'חוברת פירות הדר להורדה כ־PDF: תשעה פירות — תפוז, לימון, אשכולית, פומלה, אתרוג ועוד — קטע קריאה, אות ראשונה, ספירה, חשבון, חלקי התפוז, תפזורת ומשחק לוח "מסע בפרדס".',
@@ -284,7 +284,7 @@ export const BOOKLETS = [
     load: () => import('./citrus.jsx'),
   },
   {
-    slug: 'hanukkah-grade5', emoji: '🕯️', added: '2026-10-30', audience: 'כיתות ה׳–ו׳', subject: 'חגים',
+    slug: 'hanukkah-grade5', onRequest: true, emoji: '🕯️', added: '2026-10-30', audience: 'כיתות ה׳–ו׳', subject: 'חגים',
     title: 'חוברת העשרה וכיף לחנוכה — כיתות ה׳–ו׳',
     seoTitle: 'חוברת חנוכה לכיתה ה׳ ו־ו׳ להדפסה — PDF בחינם, חידות, תשבץ ומבוך',
     description: 'חוברת העשרה לחנוכה לכיתות ה׳–ו׳ להורדה כ־PDF: הבנת הנקרא, נכון או לא נכון, מבוך, תשבץ, תפזורת, חידות, בעיות מילוליות, צופן גימטריה וסודוקו — עם תשובות ותעודה.',
@@ -309,7 +309,7 @@ export const BOOKLETS = [
     load: () => import('./hanukkahGrade5.jsx'),
   },
   {
-    slug: 'reading-fluency', emoji: '📖', added: '2026-10-30', audience: 'כיתה ז׳ (חטיבת ביניים)', subject: 'עברית — שטף קריאה',
+    slug: 'reading-fluency', onRequest: true, emoji: '📖', added: '2026-10-30', audience: 'כיתה ז׳ (חטיבת ביניים)', subject: 'עברית — שטף קריאה',
     title: 'חוברת לשיפור שטף ודיוק בקריאה — חטיבת ביניים',
     seoTitle: 'חוברת שטף ודיוק בקריאה לכיתה ז׳ — קריאה חוזרת, PDF בחינם',
     description: 'חוברת לשיפור שטף ודיוק בקריאה לחטיבת ביניים להורדה כ־PDF: תחיליות, אותיות דומות, טבלאות מהירות, קריאה בצירופים, 4 קטעים לקריאה חוזרת עם טבלת מדידה, גרף התקדמות ודף למורה.',
@@ -333,7 +333,7 @@ export const BOOKLETS = [
     load: () => import('./readingFluency.jsx'),
   },
   {
-    slug: 'shemot-special-ed', emoji: '🧺', added: '2026-10-30', audience: 'חינוך מיוחד, גן עד כיתה ג׳', subject: 'תנ״ך — ספר שמות',
+    slug: 'shemot-special-ed', onRequest: true, emoji: '🧺', added: '2026-10-30', audience: 'חינוך מיוחד, גן עד כיתה ג׳', subject: 'תנ״ך — ספר שמות',
     title: 'דפי עבודה קלים לספר שמות — חינוך מיוחד',
     seoTitle: 'דפי עבודה ספר שמות לחינוך מיוחד להדפסה — PDF בחינם',
     description: 'דפי עבודה קלים לספר שמות להורדה כ־PDF: משה בתיבה, הסנה הבוער, עשר המכות, קריעת ים סוף, המן ומתן תורה — תמונות גדולות, גזור והדבק, התאמה, צביעה, תפזורת ותעודה.',

@@ -40,6 +40,7 @@ test('"page ready" mail: daytime Israel time, public title and link only', () =>
  assert.ok(text.includes('https://ugabuga.co.il/math/grade-6/arithmetic-laws\n'))
  assert.ok(!text.includes('x@example.com'))
  assert.ok(text.includes('https://ugabuga.co.il/whatsapp\n'))
+ assert.ok(text.includes('https://ugabuga.co.il/booklets#mail-signup\n'), 'weekly mail is an opt-in link, never automatic')
 })
 test('"page ready" mail waits until the deployed sitemap lists the page', () => {
  const map = '<url><loc>https://ugabuga.co.il/booklets/nikud</loc></url>'

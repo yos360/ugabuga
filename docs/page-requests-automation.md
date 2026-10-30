@@ -43,7 +43,8 @@ cloud routine (every hour 07:05–23:05) builds as described below.
      puzzles, printable cards and games, a simple online game, a booklet, a reading page — for kids,
      parents, teachers or kindergarten. Build it the way the site builds pages (same components, tests,
      sitemap, search, CLAUDE.md checks), facts checked, Israeli names, original content. Mark done with
-     the new path.
+     the new path. A new booklet gets `onRequest: true` in src/booklets/registry.js (shows the "made on
+     request" box with the WhatsApp channel and weekly-mail sign-up).
    - **Owner decides first** — anything bigger or unusual: a new kind of tool or section, something that
      needs a new design, the database, accounts or outside services, or that you're unsure fits the site.
      Don't build it: mark it `planned` (it shows as "בתכנון" in the owner report) and list it in the run's

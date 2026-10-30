@@ -7,6 +7,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { BOOKLETS, bookletBySlug, bookletHref } from '../../booklets/registry'
 import { newSeed } from '../../motor/rng'
+import { CHANNEL_GO } from '../../data/brand'
 import './booklets.css'
 
 // /booklets — every downloadable workbook; /booklets/:slug — one workbook: what's inside, a peek at the
@@ -44,6 +45,20 @@ export function BookletsHub() {
   </div>
 }
 
+// Booklets made from a visitor's request (registry `onRequest`): say so, and offer ways to get the next one —
+// the WhatsApp channel first, the weekly mail (the footer signup) second, and asking for a page of your own.
+function RequestedBox() {
+  return <section className="mt-8 rounded-3xl border-2 border-violet-200 bg-violet-50 p-5 text-center no-print" aria-label="הוכן לפי בקשה">
+    <p className="text-xl font-black">💛 החוברת הזאת נולדה מבקשה ששלחו לנו באתר</p>
+    <p className="mt-1">ככה זה עובד אצלנו: מבקשים — ואנחנו מכינים, בחינם, לכולם. רוצים לקבל את החוברת הבאה?</p>
+    <div className="mt-4 flex flex-wrap justify-center gap-2">
+      <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">📢 דף חדש כל יום בערוץ הוואטסאפ</a>
+      <Link to="#mail-signup" className="inline-flex min-h-[48px] items-center rounded-2xl border-2 border-violet-300 bg-white px-5 font-bold">📬 הדפים של השבוע במייל</Link>
+      <Link to="/request" className="inline-flex min-h-[48px] items-center rounded-2xl border-2 border-violet-300 bg-white px-5 font-bold">📝 גם לכם חסר משהו? בקשו</Link>
+    </div>
+  </section>
+}
+
 function BookletView({ b }) {
   const Booklet = useBooklet(b)
   const [seed, setSeed] = useState(null)
@@ -67,6 +82,7 @@ function BookletView({ b }) {
       <div className="booklet-peek mt-3">{Booklet ? <Booklet seed={1} /> : <p>טוענים את העמודים…</p>}</div>
       <button type="button" onClick={() => setSeed(newSeed())} className={`${button} mt-4 bg-slate-900 text-white`}>🖨️ לכל {b.pages.length} העמודים</button>
     </section>
+    {b.onRequest && <RequestedBox />}
     {seed && Booklet && <PrintPreview title={`${b.title} — ${b.pages.length} עמודים`} onClose={() => setSeed(null)}><Booklet seed={seed} /></PrintPreview>}
     {others.length > 0 && <section className="mt-10"><h2 className="text-2xl font-bold">חוברות נוספות</h2><div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{others.map(o => <Card key={o.slug} b={o} />)}</div></section>}
     <div className="mt-10"><SeoBody paragraphs={b.paragraphs} faq={b.faq} related={b.related} /></div>
