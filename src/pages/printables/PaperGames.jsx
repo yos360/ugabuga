@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import PrintableShell, { Sheet, T, Choice, Field } from '../../components/printables/PrintableShell'
 import { ENGLISH_TOPICS, emojiFile } from '../../data/englishWords'
 import { MEMORY_WORD_GROUPS, MEMORY_WORDS } from '../../data/englishMemoryWords'
@@ -71,6 +72,22 @@ function EnglishMemorySheet({ words, title, page, pages }) {
   </Sheet>
 }
 
+// Most visitors print the cards and leave, so show what comes after the printout, right under the preview.
+function EnglishMemoryNext() {
+  const li = 'leading-relaxed text-[var(--foreground)]/80'
+  const a = 'underline font-bold'
+  return <section className="mx-auto mt-10 max-w-3xl" aria-label="מה עושים אחרי שמדפיסים">
+    <h2 className="mb-3 text-2xl font-bold">הדפסתם? כך ממשיכים</h2>
+    <ul className="list-disc space-y-2 pr-6">
+      <li className={li}>רוצים לתרגל לפני שמשחקים בקלפים? <Link to="/online-games/memory-english" className={a}>משחק זיכרון באנגלית אונליין</Link> — אותן מילים, עם הקראה בקול.</li>
+      <li className={li}>ללמוד את המילים בנושא אחד בכל פעם: <Link to="/english" className={a}>אנגלית לילדים לפי נושאים</Link>, למשל <Link to="/english/colors" className={a}>צבעים</Link> או <Link to="/english/animals" className={a}>חיות</Link>.</li>
+      <li className={li}>לכתוב את המילים בעצמם: <Link to="/printables/english-lines" className={a}>דף שורות לאנגלית</Link>.</li>
+      <li className={li}>משחק זיכרון בתמונות לגיל הרך: <Link to="/printables/memory-game" className={a}>זיכרון בתמונות להדפסה</Link>.</li>
+    </ul>
+    <p className="mt-4 text-sm text-[var(--muted-foreground)]">טיפ: מתחילים עם נושא אחד (10 זוגות), ורק כשהוא קל מוסיפים נושא — עדיף 5 דקות ביום מחצי שעה פעם בשבוע.</p>
+  </section>
+}
+
 export function EnglishMemoryCards() {
   const [groups, setGroups] = useState(() => MEMORY_WORD_GROUPS.map(g => g.slug))
   const toggle = slug => setGroups(g => g.includes(slug) ? (g.length > 1 ? g.filter(x => x !== slug) : g) : [...g, slug])
@@ -89,7 +106,7 @@ export function EnglishMemoryCards() {
     pages={chunks.map((chunk, i) => ({ key: `${groups.join()}-${i}`, svg: <EnglishMemorySheet words={chunk} title="משחק זיכרון באנגלית" page={i + 1} pages={chunks.length} /> }))}
     paragraphs={['במשחק הזיכרון הזה כל זוג הוא מילה בעברית והמילה באנגלית. מתחת למילה באנגלית כתוב באותיות עבריות איך אומרים אותה, כך שגם הורה שלא בטוח בהגייה יכול לשחק.', 'יש 52 מילים בשבעה נושאים: צבעים, מספרים מאחת עד עשר, משפחה, משפטים מהכיתה, פעולות, טבע ועוד מילים. בוחרים את הנושאים שהילד לומד עכשיו ומדפיסים רק אותם.', 'לפני משחק הזיכרון אפשר לשחק במשחק התאמה: מניחים את כל הקלפים פתוחים ומחברים כל מילה בעברית למילה באנגלית. כשזה כבר קל, הופכים את הקלפים ומשחקים זיכרון.']}
     faq={[{ q: 'איך מדפיסים כדי שלא יראו את המילים מבעד לקלף?', a: 'מדפיסים על בריסטול, או מדביקים את הדף על קרטון דק לפני הגזירה.' }, { q: 'יש גרסה לשחק במחשב?', a: 'כן — משחק הזיכרון באנגלית אונליין, עם אותן מילים והקראה בקול של המילה באנגלית.' }]}
-    related={[{ label: 'משחק זיכרון באנגלית אונליין', href: '/online-games/memory-english' }, { label: 'אנגלית לילדים', href: '/english' }, { label: 'משחק זיכרון בתמונות להדפסה', href: '/printables/memory-game' }]} />
+    related={[{ label: 'משחק זיכרון באנגלית אונליין', href: '/online-games/memory-english' }, { label: 'אנגלית לילדים', href: '/english' }, { label: 'משחק זיכרון בתמונות להדפסה', href: '/printables/memory-game' }]} after={<EnglishMemoryNext />} />
 }
 
 // ── Dominoes ─────────────────────────────────
