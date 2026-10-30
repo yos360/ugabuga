@@ -1043,6 +1043,11 @@ export default function App() {
               <Route path="/learn/dj-music/concepts/:term" element={<ConceptPage key="dj-music-ct" subjectKey="dj-music" />} />
               <Route path="/learn/dj-music/:slug/exam" element={<SubjectExam key="dj-music-e" subjectKey="dj-music" />} />
               <Route path="/learn/dj-music/:slug" element={<SubjectTopic key="dj-music" subjectKey="dj-music" />} />
+              <Route path="/learn/peoples" element={<SubjectHub key="peoples" subjectKey="peoples" />} />
+              <Route path="/learn/peoples/concepts" element={<ConceptIndex key="peoples-c" subjectKey="peoples" />} />
+              <Route path="/learn/peoples/concepts/:term" element={<ConceptPage key="peoples-ct" subjectKey="peoples" />} />
+              <Route path="/learn/peoples/:slug/exam" element={<SubjectExam key="peoples-e" subjectKey="peoples" />} />
+              <Route path="/learn/peoples/:slug" element={<SubjectTopic key="peoples" subjectKey="peoples" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
