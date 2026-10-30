@@ -968,6 +968,11 @@ export default function App() {
               <Route path="/learn/birds/concepts/:term" element={<ConceptPage key="birds-ct" subjectKey="birds" />} />
               <Route path="/learn/birds/:slug/exam" element={<SubjectExam key="birds-e" subjectKey="birds" />} />
               <Route path="/learn/birds/:slug" element={<SubjectTopic key="birds" subjectKey="birds" />} />
+              <Route path="/learn/pets-breeds" element={<SubjectHub key="pets-breeds" subjectKey="pets-breeds" />} />
+              <Route path="/learn/pets-breeds/concepts" element={<ConceptIndex key="pets-breeds-c" subjectKey="pets-breeds" />} />
+              <Route path="/learn/pets-breeds/concepts/:term" element={<ConceptPage key="pets-breeds-ct" subjectKey="pets-breeds" />} />
+              <Route path="/learn/pets-breeds/:slug/exam" element={<SubjectExam key="pets-breeds-e" subjectKey="pets-breeds" />} />
+              <Route path="/learn/pets-breeds/:slug" element={<SubjectTopic key="pets-breeds" subjectKey="pets-breeds" />} />
               <Route path="/learn/communities" element={<SubjectHub key="communities" subjectKey="communities" />} />
               <Route path="/learn/communities/concepts" element={<ConceptIndex key="communities-c" subjectKey="communities" />} />
               <Route path="/learn/communities/concepts/:term" element={<ConceptPage key="communities-ct" subjectKey="communities" />} />
