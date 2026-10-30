@@ -258,6 +258,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/space', label: 'החלל — כוכבי לכת, כוכבים ואסטרונאוטים', icon: '🚀' },
           { to: '/discover/human-body', label: 'גוף האדם', icon: '🫀' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
+          { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
           { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
           { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
         ],
