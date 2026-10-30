@@ -1023,6 +1023,11 @@ export default function App() {
               <Route path="/learn/coding/concepts/:term" element={<ConceptPage key="coding-ct" subjectKey="coding" />} />
               <Route path="/learn/coding/:slug/exam" element={<SubjectExam key="coding-e" subjectKey="coding" />} />
               <Route path="/learn/coding/:slug" element={<SubjectTopic key="coding" subjectKey="coding" />} />
+              <Route path="/learn/world-wonders" element={<SubjectHub key="world-wonders" subjectKey="world-wonders" />} />
+              <Route path="/learn/world-wonders/concepts" element={<ConceptIndex key="world-wonders-c" subjectKey="world-wonders" />} />
+              <Route path="/learn/world-wonders/concepts/:term" element={<ConceptPage key="world-wonders-ct" subjectKey="world-wonders" />} />
+              <Route path="/learn/world-wonders/:slug/exam" element={<SubjectExam key="world-wonders-e" subjectKey="world-wonders" />} />
+              <Route path="/learn/world-wonders/:slug" element={<SubjectTopic key="world-wonders" subjectKey="world-wonders" />} />
               <Route path="/learn/geography" element={<SubjectHub key="geography" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts" element={<ConceptIndex key="geography-c" subjectKey="geography" />} />
               <Route path="/learn/geography/concepts/:term" element={<ConceptPage key="geography-ct" subjectKey="geography" />} />
