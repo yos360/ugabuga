@@ -175,7 +175,9 @@ async function handle(context) {
     // App-only pages (search UI, supplier self-service): served as shells on
     // purpose, but they must not be indexed — they're linked from every page.
     const noindexPath = url.pathname.replace(/\/+$/, '') || '/'
-    if (noindexPath === '/mail-preferences' || noindexPath === '/search' || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
+    // The four shared tools (/meet, /parent-meetings, /family-help, /party-album) only show a demo until
+    // their server side is switched on (docs/shared-spaces-rollout.md) — keep them out of the index.
+    if (noindexPath === '/mail-preferences' || noindexPath === '/search' || ['/meet', '/parent-meetings', '/family-help', '/party-album'].includes(noindexPath) || noindexPath === '/suppliers/me' || noindexPath.startsWith('/suppliers/me/') ||
         noindexPath.startsWith('/l/') || noindexPath.startsWith('/q/') ||
         noindexPath.startsWith('/r/') || noindexPath.startsWith('/g/') || noindexPath.startsWith('/w/') || noindexPath.startsWith('/t/') ||
         // Private game rooms and homework links: content made by visitors, reachable only by link.

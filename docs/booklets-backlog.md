@@ -24,18 +24,17 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `math-grade-2` — חוברת חשבון לכיתה ב׳ (110/mo), 15 עמודים: חיבור וחיסור עד 100, ערך המקום, כפל 2/5/10, שעון, כסף, בעיות מילוליות — 2026-10-30
 - [x] `spelling` — חוברת שגיאות כתיב (90/mo), 14 עמודים: א/ע ט/ת כ/ח ס/ש ק/כ ב/ו, אם/עם, מציאת טעויות, תפזורת — 2026-10-30
 
+- [x] `nikud`, `hygiene-first-sound`, `materials-grade2`, `citrus`, `hanukkah-grade5`, `reading-fluency`, `shemot-special-ed`, `math-special-ed` — on visitors' request — 2026-10-30
+- [x] `english-grade-1` … `english-grade-9`, `english-bagrut` — the English expansion — 2026-10-30
+
 ## Next (top first)
 - [ ] `grade-7-prep` — חוברת הכנה לכיתה ז׳ (70/mo). Math (fractions, decimals, percent, order of operations) + reading comprehension (grade 6–7 passages) + answer key.
 - [ ] `age-3` — חוברת עבודה לגיל 3 (50/mo). Coloring, big tracing lines, matching pairs, more/less, colors.
 - [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
 - [ ] `grade-2-prep` — חוברת הכנה לכיתה ב׳ (50/mo). Reading, writing, math to 20/100, clock.
 - [ ] `age-5` — חוברת עבודה לגיל 5 (30/mo).
-- [ ] `english-grade-4` — חוברת עבודה באנגלית לכיתה ד׳ (10/mo, plus "חוברות עבודה באנגלית" 30/mo).
-- [ ] `english-grade-5` — חוברת עבודה באנגלית לכיתה ה׳ (20/mo).
 - [ ] `math-grade-3` — חוברת עבודה בחשבון לכיתה ג׳ (20/mo).
 - [ ] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).
-- [ ] `english-grade-7` — חוברת עבודה באנגלית לכיתה ז׳ (20/mo).
-- [ ] `english-grade-8` — חוברת עבודה באנגלית לכיתה ח׳ (20/mo).
 - [ ] `math-grade-4` — חוברת עבודה בחשבון לכיתה ד׳ (10/mo).
 - [ ] `math-grade-5` — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
 - [ ] `math-grade-6` — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).

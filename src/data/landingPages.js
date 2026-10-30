@@ -1212,10 +1212,6 @@ export const LANDING_PAGES = [
     "href": "/family/bedtime-story"
    },
    {
-    "label": "עזרה להורים",
-    "href": "/family-help"
-   },
-   {
     "label": "כל המדורים למשפחה",
     "href": "/family"
    }

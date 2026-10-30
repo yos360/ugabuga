@@ -616,14 +616,14 @@ const SENSORY = { href: '/printables/sensory-communication-cards', label: 'כר�
 const RELATED = {
   'student-list': [{ href: '/classroom/roster', label: 'רשימת הכיתה שלי' }, { href: '/tools/team-generator', label: 'חלוקה לקבוצות' }, { href: '/printables/name-labels', label: 'מדבקות שם' }],
   attendance: [{ href: '/school-holidays', label: 'חופשות בית הספר' }, { href: '/printables/calendar-5787', label: 'לוח שנה תשפ״ז' }, { href: '/classroom/roster', label: 'רשימת הכיתה שלי' }],
-  'skills-tracker': [{ href: '/printables/kindergarten-worksheets', label: 'דפי עבודה לגן' }, { href: '/printables/fine-motor', label: 'דפי מוטוריקה עדינה' }, { href: '/parent-meetings', label: 'הרשמה לאספות הורים' }],
+  'skills-tracker': [{ href: '/printables/kindergarten-worksheets', label: 'דפי עבודה לגן' }, { href: '/printables/fine-motor', label: 'דפי מוטוריקה עדינה' }, { href: '/printables/star-of-the-week', label: 'כוכב/ת השבוע' }],
   'duty-roster': [{ href: '/tools/random-picker', label: 'גלגל שמות' }, { href: '/printables/chore-chart', label: 'טבלת מטלות לילדים' }, { href: '/classroom/roster', label: 'רשימת הכיתה שלי' }],
   birthdays: [{ href: '/guides/birthday-in-kindergarten', label: 'יום הולדת בגן' }, { href: '/printables/birthday-crown', label: 'כתר יום הולדת' }, { href: '/tools/hebrew-birthday', label: 'תאריך לידה עברי' }],
   'weekly-plan': [{ href: '/printables/class-schedule', label: 'מערכת שעות' }, { href: '/printables/calendar-5787', label: 'לוח שנה תשפ״ז' }, { href: '/games/classroom', label: 'משחקים לכיתה' }],
   'yearly-plan': [{ href: '/printables/calendar-5787', label: 'לוח שנה תשפ״ז' }, { href: '/school-holidays', label: 'חופשות בית הספר' }, { href: '/holidays', label: 'כל החגים' }],
-  'coordinator-tasks': [{ href: '/parent-meetings', label: 'הרשמה לאספות הורים' }, { href: '/tools/bring-list', label: 'רשימת מי מביא מה' }, { href: '/classroom', label: 'כל הכלים לכיתה' }],
-  'staff-meeting': [{ href: '/parent-meetings', label: 'הרשמה לאספות הורים' }, { href: '/tools/countdown-timer', label: 'טיימר לישיבה' }, { href: '/classroom', label: 'כל הכלים לכיתה' }],
-  'parent-meeting': [{ href: '/parent-meetings', label: 'הרשמה לאספות הורים' }, { href: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה' }],
+  'coordinator-tasks': [{ href: '/planner', label: 'מערכת השעות המתעדכנת' },{ href: '/tools/bring-list', label: 'רשימת מי מביא מה' }, { href: '/classroom', label: 'כל הכלים לכיתה' }],
+  'staff-meeting': [{ href: '/planner', label: 'מערכת השעות המתעדכנת' },{ href: '/tools/countdown-timer', label: 'טיימר לישיבה' }, { href: '/classroom', label: 'כל הכלים לכיתה' }],
+  'parent-meeting': [{ href: '/printables/class-schedule', label: 'מערכת שעות להדפסה' },{ href: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה' }],
   'trip-permission': [{ href: '/tools/bring-list', label: 'רשימת מי מביא מה' }, { href: '/school-holidays', label: 'חופשות בית הספר' }],
   'equipment-list': [{ href: '/printables/school-supplies-list', label: 'רשימת ציוד לבית הספר' }, { href: '/tools/bring-list', label: 'מי מביא מה — רשימה שיתופית' }],
   appreciation: [{ href: '/printables/star-of-the-week', label: 'כוכב/ת השבוע' }, { href: '/printables/certificates', label: 'תעודות להדפסה' }, { href: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה' }],
@@ -862,7 +862,7 @@ function TemplateView({ slug, meta }) {
 const ALSO = {
   class: [['/classroom/roster', '👩‍🏫', 'רשימת הכיתה שלי', 'שומרים את השמות פעם אחת — לגלגל השמות, לחלוקה לקבוצות ולתבניות כאן'], ['/printables/name-labels', '🏷️', 'מדבקות שם', 'לספרים, למחברות ולציוד']],
   plan: [['/printables/class-schedule', '🕘', 'מערכת שעות', 'מערכת שעות ריקה או עם שם, 5 או 6 ימים'], ['/printables/calendar-5787', '📅', 'לוח שנה תשפ״ז', 'דף לכל חודש בשנת הלימודים, עם כל החגים'], ['/school-holidays', '🏖️', 'חופשות בית הספר', 'מתי לא לומדים השנה']],
-  staff: [['/parent-meetings', '🗓️', 'הרשמה לאספות הורים', 'ההורים בוחרים שעה בקישור אחד']],
+  staff: [['/planner', '🗓️', 'מערכת השעות המתעדכנת', 'מערך שיעור ודף עבודה לכל שעה, לפי תוכנית הלימודים']],
   events: [['/printables/school-supplies-list', '✏️', 'רשימת ציוד לבית הספר', 'לפי כיתה, עם סימון'], ['/tools/bring-list', '🧺', 'מי מביא מה?', 'רשימה שיתופית לקבוצת ההורים'], ['/printables/star-of-the-week', '⭐', 'כוכב/ת השבוע', 'תעודה צבעונית לגן ולכיתה'], ['/printables/certificates', '🏆', 'תעודות להדפסה', 'ליום הולדת, למשחקים ועוד']],
   gan: [[SENSORY.href, '🧩', 'כרטיסי תקשורת וויסות חושי', 'כרטיסים חזותיים לסדר היום ולרגשות'], ['/printables/kindergarten-memory-book', '📔', 'יומן גן אישי', 'חוברת זיכרונות לסוף השנה'], ['/printables/kindergarten-worksheets', '📝', 'דפי עבודה לגן', 'צלילים, אותיות ומוטוריקה']],
 }
