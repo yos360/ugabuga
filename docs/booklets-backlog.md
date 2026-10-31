@@ -26,10 +26,10 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 
 - [x] `nikud`, `hygiene-first-sound`, `materials-grade2`, `citrus`, `hanukkah-grade5`, `reading-fluency`, `shemot-special-ed`, `math-special-ed` — on visitors' request — 2026-10-30
 - [x] `english-grade-1` … `english-grade-9`, `english-bagrut` — the English expansion — 2026-10-30
+- [x] `grade-7-prep` — חוברת הכנה לכיתה ז׳ (70/mo), 16 עמודים: שברים, עשרוניים, אחוזים, סדר פעולות, בעיות מילוליות ושני קטעי הבנת הנקרא מאוסף האתר — 2026-10-31
+- [x] `age-3` — חוברת עבודה לגיל 3 (50/mo), 15 עמודים — 2026-10-31
 
 ## Next (top first)
-- [ ] `grade-7-prep` — חוברת הכנה לכיתה ז׳ (70/mo). Math (fractions, decimals, percent, order of operations) + reading comprehension (grade 6–7 passages) + answer key.
-- [ ] `age-3` — חוברת עבודה לגיל 3 (50/mo). Coloring, big tracing lines, matching pairs, more/less, colors.
 - [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
 - [ ] `grade-2-prep` — חוברת הכנה לכיתה ב׳ (50/mo). Reading, writing, math to 20/100, clock.
 - [ ] `age-5` — חוברת עבודה לגיל 5 (30/mo).
