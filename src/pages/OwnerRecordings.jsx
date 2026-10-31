@@ -7,8 +7,10 @@ import { SAMPLE_RATE } from '../utils/sessionRecorder'
 // Owner-only replays of anonymous visits (see src/utils/sessionRecorder.js). rrweb-player loads on first play.
 const RANGES = [[1, 'היום'], [7, '7 ימים'], [30, '30 ימים']]
 const decode = path => { try { return decodeURIComponent(path) } catch { return path } }
+// Chunks are sent every ~10 s while something happens, so their count approximates active time
+// (wall-clock time also counts a tab left open in the background).
 const minutes = s => {
-  const secs = Math.max(10, Math.round((new Date(s.last) - new Date(s.started)) / 1000) + 10)
+  const secs = Math.max(10, Math.min(s.chunks * 10, Math.round((new Date(s.last) - new Date(s.started)) / 1000) + 10))
   return secs < 60 ? `${secs} שנ׳` : `${Math.round(secs / 60)} דק׳`
 }
 const when = iso => new Date(iso).toLocaleString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
@@ -47,7 +49,8 @@ export default function OwnerRecordings() {
       if (e) throw e
       const events = await unpackSession(data || [])
       if (events.length < 2) { setStatus('ההקלטה הזו קצרה מדי לצפייה.'); return }
-      const width = Math.min(stage.current.clientWidth, 1000)
+      // The stage is hidden while empty, so measure its parent.
+      const width = Math.min(stage.current.parentElement.clientWidth - 32, 1000)
       player.current = new Player({ target: stage.current, props: {
         events, width, height: Math.round(width * 0.6), autoPlay: true, skipInactive: true, speedOption: [1, 2, 4, 8], mouseTail: false,
       } })
