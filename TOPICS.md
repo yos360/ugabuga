@@ -29,7 +29,7 @@ Update 2026-10-30 (08:00 scheduled upload, owner's Chrome): YouTube https://yout
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
-**NEXT — 2026-10-30 (owner's pick, use this one):** "מסלול לוח הכפל" — the new times-table stage-path game: 14 stages, stars, a hint after every mistake (e.g. 7×8 = 40+16), printable A4 sheet per stage with answers. Path: /learn/multiplication-game (also mention the one-minute challenge /learn/times-tables).
+**NEXT — 2026-11-01 (owner's pick, use this one):** "מערכת השעות המתעדכנת" — the new teacher timetable planner (beta): a teacher enters the weekly timetable (day × period → subject, grade, class) and gets, for every period, a short lesson plan and a printable worksheet that follow the Ministry of Education curriculum and continue where the last lesson stopped; print a whole week. Path: /planner. Audience: teachers. Say "בטא"; never mention payment or prices. Check the live /planner page first and show only what it really does.
 
 - QR treasure hunt / ready treasure hunt (/treasure-hunt/ready)
 - Party calculator (מחשבון מסיבה)
