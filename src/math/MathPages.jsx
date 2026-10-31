@@ -245,7 +245,12 @@ export function MathHub() {
       <p className="mt-4 text-center text-lg"><span aria-hidden="true">❌⭕ </span>למורים: <Link to="/classroom/math-tic-tac-toe" className="font-bold underline">איקס־עיגול חשבוני לכיתה</Link> — משחק קבוצות על המקרן, כיתות א׳–ד׳</p>
     </div>
 
-    <Link to="/learn/multiplication-game" className="mx-auto mt-8 flex max-w-2xl items-center gap-4 rounded-3xl border-2 border-[var(--border)] bg-amber-50 p-4 sketch-shadow-sm card-lift text-[#1d2233]">
+    <Link to="/path?subject=math" className="mx-auto mt-8 flex max-w-2xl items-center gap-4 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-4 sketch-shadow-sm card-lift text-[#1d2233]">
+      <span className="text-5xl" aria-hidden="true">🧭</span>
+      <span><b className="block text-xl font-black">מסלול לימוד אישי — שיעור אחד ביום</b><small className="block text-base">לבד, בבית עם הורה או עם מורה פרטי: כל יום השיעור הבא לפי תוכנית הלימודים, עם תרגול ודף עבודה ←</small></span>
+    </Link>
+
+    <Link to="/learn/multiplication-game" className="mx-auto mt-4 flex max-w-2xl items-center gap-4 rounded-3xl border-2 border-[var(--border)] bg-amber-50 p-4 sketch-shadow-sm card-lift text-[#1d2233]">
       <span className="text-5xl" aria-hidden="true">🗺️</span>
       <span><b className="block text-xl font-black">משחק לוח הכפל — מסלול השלבים</b><small className="block text-base">מהלוח של 1 עד הלוח של 10: משוב מיידי, כוכבים ודף תרגול להדפסה ←</small></span>
     </Link>

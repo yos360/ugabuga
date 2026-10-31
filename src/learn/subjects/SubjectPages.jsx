@@ -8,6 +8,7 @@ import NotFound from '../../pages/NotFound'
 import { SUBJECTS, SUBJECT_BY_KEY, GRADE_LETTERS, examQuestions, gradeRange, gradeSlug, loadConcepts, loadTopics, placeQuiz, topicsForGrade } from './subjects'
 import { InteractiveLesson, Rich, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
 import PlannerBanner from '../../components/ui/PlannerBanner'
+import { PLANNER_SUBJECTS } from '../../data/planner/schema'
 import '../learn.css'
 import './subjects.css'
 
@@ -51,6 +52,10 @@ export function SubjectHub({ subjectKey }) {
     </label>
     {query.trim() && all && <p className="mb-4 text-center font-bold" role="status">{topics.length ? `נמצאו ${topics.length} שיעורים` : 'לא נמצאו שיעורים — נסו מילה אחרת'}{s.key === 'tanakh' && <> · <Link to="/parasha" className="underline">חיפוש בפרשות השבוע</Link></>}</p>}
     {all && !query.trim() && <BigGrades s={s} topics={all} />}
+    {PLANNER_SUBJECTS[s.key] && !query.trim() && <Link to={`/path?subject=${s.key}`} className="mx-auto mb-8 flex max-w-2xl items-center gap-4 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-4 card-lift text-[#1d2233]">
+      <span className="text-5xl" aria-hidden="true">🧭</span>
+      <span><b className="block text-xl font-black">מסלול לימוד אישי ב{s.short} — שיעור אחד ביום</b><small className="block text-base">לבד, בבית עם הורה או עם מורה פרטי: השיעור הבא לפי תוכנית הלימודים, עם תרגול ודף עבודה ←</small></span>
+    </Link>}
     {s.key === 'tanakh' && !query.trim() && <div className="mb-8"><ParashaTile /></div>}
     {s.tools && <section className="mb-8">
       <h2 className="mb-3 text-2xl font-black">🧪 מתנסים בעצמכם</h2>
@@ -243,12 +248,13 @@ function GradePage({ subjectKey, grade }) {
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: `כיתה ${L}` }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{s.emoji} </span>{name}</h1>
     <BigGrades s={s} topics={topics} current={grade} />
-    <div className={`tile-grid tile-cols-${(s.key === 'tanakh' ? 5 : 4) + (gradeReadings.length ? 1 : 0) > 4 ? 3 : 4}`}>
+    <div className={`tile-grid tile-cols-${(s.key === 'tanakh' ? 5 : 4) + (gradeReadings.length ? 1 : 0) + (PLANNER_SUBJECTS[s.key] ? 1 : 0) > 4 ? 3 : 4}`}>
       {s.key === 'tanakh' && <ParashaTile />}
       <Tile to="#lessons" icon="📚" title={`${list.length} שיעורים`} sub="הסבר, שיעור אינטראקטיבי, חידון ודף עבודה" color="#bfdbfe" />
       {gradeReadings.length > 0 && <Tile to="#readings" icon="📖" title={`${gradeReadings.length} קטעי קריאה`} sub="עם שאלות — מתחלפים בלחיצה" color="#e9d5ff" />}
       <Tile onClick={() => setPrinting(true)} icon="🖨️" title="חוברת הכיתה" sub="כל השיעורים בקובץ אחד, עם תשובות" color="#fed7aa" />
       <Tile to={`${path}/exam`} icon="📝" title="מבחן לדוגמה" sub="20 שאלות, ציון והסברים" color="#fecaca" />
+      {PLANNER_SUBJECTS[s.key] && <Tile to={`/path?subject=${s.key}&grade=${grade}`} icon="🧭" title="מסלול אישי" sub="שיעור אחד ביום, לבד או בבית" color="#a7f3d0" />}
       <Tile to={`/learn/${s.key}/concepts`} icon="🧠" title="מילון מושגים" sub={`המושגים החשובים ב${s.short}`} color="#bbf7d0" />
     </div>
     {printing && <PrintPreview title={`חוברת ${name}`} onClose={() => setPrinting(false)}><Booklet s={s} grade={grade} list={list} /></PrintPreview>}

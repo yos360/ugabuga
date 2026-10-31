@@ -60,7 +60,7 @@ function SaveBadge({ plan, cloud }) {
 const shortDate = iso => iso.split('-').slice(1).reverse().join('.')
 const classLabel = c => `${PLANNER_SUBJECTS[c.subject].emoji} ${c.name || `${PLANNER_SUBJECTS[c.subject].title} ${GRADE_LETTERS[c.grade]}`}`
 
-function useSequences() {
+export function useSequences() {
   const [seqs, setSeqs] = useState(null)
   useEffect(() => {
     let live = true
@@ -118,7 +118,7 @@ function Timetable({ plan, setPlan, active }) {
 }
 
 // The short lesson plan for one period, built from the sequence step.
-function LessonPlan({ p, compact }) {
+export function LessonPlan({ p, compact }) {
   const { lesson, cls } = p
   if (!lesson) return <p className="text-[var(--muted-foreground)]">סיימתם את הרצף של השנה — זמן לחזרה ולסיכום 🎉</p>
   const { unit, step, k } = lesson
@@ -139,7 +139,7 @@ function LessonPlan({ p, compact }) {
 }
 
 // A period's printable worksheet (or unit quiz) at a level, after its lesson plan.
-function PeriodSheet({ p, level, unitQuiz }) {
+export function PeriodSheet({ p, level, unitQuiz }) {
   const parts = useLessonSheet(p.lesson, p.cls.grade, level, unitQuiz)
   if (!p.lesson) return null
   if (!parts) return <p className="p-4 text-center" role="status">מכינים את הדף…</p>
