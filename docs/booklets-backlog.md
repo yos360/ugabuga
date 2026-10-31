@@ -30,6 +30,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `age-3` — חוברת עבודה לגיל 3 (50/mo), 15 עמודים — 2026-10-31
 - [x] `add-to-20` — חוברת חיבור עד 20, 16 עמודים — on visitors' request — 2026-10-31
 - [x] `transport-kindergarten` — חוברת כלי תחבורה לגן חובה, 16 עמודים — on visitors' request — 2026-10-31
+- [x] `word-problems-special-ed` — שאלות מילוליות בעשרת הראשונה, כיתה א׳ חינוך מיוחד, 16 עמודים — on visitors' request — 2026-10-31
 
 ## Next (top first)
 - [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
