@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'Rgg_WzsP01Q', kind: 'tutorial', title: 'איך משחקים ומדפיסים חדר בריחה — מדריך קצר', paths: ['/tools/escape-rooms'], category: 'party', date: '2026-10-31',
+    desc: 'מדריך קצר לחדר הבריחה: בוחרים רמת קושי וחדר, פותרים חידות עם רמזים, ומדפיסים קיט למנחה עם כל התשובות וכרטיס לכל שלב.' },
   { id: '3R4R1nnYNSs', kind: 'tutorial', title: 'איך משחקים במשחק לוח הכפל — מדריך קצר', paths: ['/learn/multiplication-game'], category: 'learning', date: '2026-10-31',
     desc: 'מדריך קצר למשחק לוח הכפל: מסלול שלבים מהלוח של 1 עד הלוח של 10, משוב מיידי על כל תשובה, כוכבים ודף תרגול להדפסה עם תשובות.' },
   { id: 'u3HvcewrSVc', kind: 'tutorial', title: 'איך מעצבים הזמנה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/invitation'], category: 'party', date: '2026-10-30',
