@@ -20,6 +20,11 @@ export function toggleSaved({ path, title }) {
   write([{ path, title: String(title || path).slice(0, 120), at: Date.now() }, ...list])
   return true
 }
+// Visiting a saved page refreshes its stored title (older saves kept only the last breadcrumb).
+export function retitleSaved(path, title) {
+  const list = savedPages(), clean = String(title || '').slice(0, 120)
+  if (clean && list.some(x => x.path === path && x.title !== clean)) write(list.map(x => x.path === path ? { ...x, title: clean } : x))
+}
 export const removeSaved = path => write(savedPages().filter(x => x.path !== path))
 export function onSavedChange(fn) {
   const handler = () => fn(savedPages())

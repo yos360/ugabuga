@@ -45,7 +45,7 @@ export default function Breadcrumbs({ items: rawItems, back, lang = 'he' }) {
       </Helmet>
       <nav className="text-sm text-[var(--muted-foreground)] mb-4 no-print" aria-label={lang === 'en' ? 'Breadcrumbs' : 'פירורי לחם'}>
         <ol className="flex flex-wrap gap-1 items-center">
-          {lang !== 'en' && <li className="order-last ms-auto"><SaveButton title={items.at(-1)?.label} /></li>}
+          {lang !== 'en' && <li className="order-last ms-auto"><SaveButton title={items.slice(1).slice(-3).map(item => item.label).join(' · ') || items.at(-1)?.label} /></li>}
           {shown.map((item, i) => (
             <li key={i} className="flex items-center gap-1">
               {i > 0 && <span className="mx-1">{'›'}</span>}
