@@ -47,3 +47,7 @@ Update 2026-10-27 (09:07, second scheduled firing): today's reel already existed
 Note 2026-10-28: scheduled cloud run, Claude in Chrome tools not available, so no uploads (all ✗). Reel, cover and captions are in uploads/2026-10-28/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/emotion-cards/. Upload manually or from a Chrome-enabled session.
 
 Update 2026-10-29 (second scheduled firing): today's reel already existed (uploads/2026-10-29/), so no new reel was made. Claude in Chrome tools still not available to the cloud run — uploads remain ✗.
+
+| 2026-10-31 | "גשם בחוץ, מה עושים?" — בוגה שוקו חם, אזור החורף (screen games, printables, no-equipment living-room games, warm kitchen, winter holidays) | /winter | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-10-31: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-10-31/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/winter-cocoa/.
