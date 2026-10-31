@@ -11,6 +11,8 @@
 .ln-text{font-size:20px;line-height:1.9}
 .ln-text.is-big{font-size:26px}
 .ln-text p{margin:0 0 12px}
+.ln-dict-word{display:inline;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted #0284c7 2px;text-underline-offset:5px;min-height:0}
+.ln-dict-word:hover,.ln-dict-word:focus-visible{background:#e0f2fe;border-radius:4px}
 .ln-q{border:2px solid var(--border,#1d2233);border-radius:16px;padding:12px 14px;background:var(--card,#fff)}
 .ln-opt{display:block;width:100%;text-align:right;min-height:44px;padding:8px 12px;margin-top:6px;border:2px solid #cfd3e0;border-radius:12px;background:#fff;font-size:17px}
 .ln-opt[aria-pressed="true"]{border-color:var(--border,#1d2233);background:#fff6d1}

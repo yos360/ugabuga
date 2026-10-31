@@ -227,12 +227,13 @@ const NIKUD_NOTE = 'הניקוד נוסף אוטומטית (באדיבות מפ�
 const qCount = r => r.q.length + opensOf(r).length
 const gradeHref = g => `/learn/reading/grade-${g}`
 
-function ReadingPrint({ r, v = s => s, answers = true }) {
+function ReadingPrint({ r, v = s => s, answers = true, words = null }) {
   const opens = opensOf(r)
   return <>
     <article className="buga-flow ln-print" dir="rtl"><h2>{v(r.title)}</h2>
-      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind} · כיתה {r.grade}</span><span>ציון: ______</span></div>
+      <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind}{r.grade ? ` · כיתה ${r.grade}` : ''}</span><span>ציון: ______</span></div>
       <div className="txt">{r.text.map((p, i) => <p key={i}>{v(p)}</p>)}</div>
+      {words?.length > 0 && <p className="mt-2 text-sm"><b>מילון:</b> {words.map(([w, m]) => `${w} — ${m}`).join(' · ')}</p>}
       <h3>שאלות</h3>
       <ol className="qs">{r.q.map(([q, opts]) => <li key={q}><b>{v(q)}</b><ul>{opts.map(o => <li key={o}>☐ {v(o)}</li>)}</ul></li>)}
         {opens.map(([q]) => <li key={q}><b>{v(q)}</b><div className="write" /><div className="write" />{r.level >= 4 && <div className="write" />}</li>)}</ol></article>
@@ -252,6 +253,35 @@ function PrintChoices({ nikud, setNikud, answers, setAnswers, state }) {
 }
 
 // One passage with its questions, solved on screen. Reset with `key` when the passage changes.
+// A passage's own dictionary (r.words: [[word, meaning]]): its words are marked in the text — a tap shows the
+// meaning — and listed under it. The visitor can turn it off; the choice is remembered on this device.
+const DICT_KEY = 'ugabuga:reading-dictionary'
+const readDict = () => { try { return localStorage.getItem(DICT_KEY) !== 'off' } catch { return true } }
+const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+function DictText({ text, words, onPick }) {
+  if (!words?.length) return text
+  // Hebrew words may carry a one- or two-letter prefix (ו, ה, ב, ל, מ, ש, כ).
+  const re = new RegExp(`(^|[^\\u0590-\\u05FFA-Za-z])((?:[והבלמשכ]{0,2})(?:${words.map(([w]) => escapeRe(w)).join('|')}))(?=[^\\u0590-\\u05FFA-Za-z]|$)`, 'g')
+  const out = []
+  let last = 0
+  for (const m of text.matchAll(re)) {
+    const start = m.index + m[1].length
+    out.push(text.slice(last, start))
+    const hit = m[2], entry = words.find(([w]) => hit.endsWith(w))
+    out.push(<button key={start} type="button" className="ln-dict-word" onClick={() => onPick(entry)}>{hit}</button>)
+    last = start + hit.length
+  }
+  out.push(text.slice(last))
+  return out
+}
+function DictBox({ words, picked, onClose }) {
+  return <div className="mt-3 rounded-2xl border-2 border-sky-200 bg-sky-50 p-3">
+    {picked && <p className="mb-2 rounded-xl bg-white p-2 text-lg" role="status"><b>{picked[0]}</b> — {picked[1]} <button type="button" className="mr-2 text-sm underline" onClick={onClose}>סגירה</button></p>}
+    <b>📖 מילון הקטע</b>
+    <ul className="mt-1 grid gap-x-6 sm:grid-cols-2">{words.map(([w, m]) => <li key={w}><b>{w}</b> — {m}</li>)}</ul>
+  </div>
+}
+
 export function ReadingExercise({ r, headingLevel = 2 }) {
   const [picks, setPicks] = useState({})
   const [checked, setChecked] = useState(false)
@@ -261,17 +291,22 @@ export function ReadingExercise({ r, headingLevel = 2 }) {
   const [shown, setShown] = useState({}) // projection: answers the teacher revealed, one question at a time
   const [nikud, setNikud] = useState(r.level === 1)
   const [answersOn, setAnswersOn] = useState(true)
+  const [dictOn, setDictOn] = useState(true), [picked, setPicked] = useState(null)
+  useEffect(() => { setDictOn(readDict()) }, [])
+  const toggleDict = () => setDictOn(on => { try { localStorage.setItem(DICT_KEY, on ? 'off' : 'on') } catch { /* storage blocked */ } setPicked(null); return !on })
+  const dict = dictOn && r.words?.length ? r.words : null
   const { v, state: nikudState } = useNikud([r], nikud)
   const { on: teacher } = usePresentMode()
   const opens = opensOf(r)
   const score = r.q.filter((q, i) => picks[i] === q[2]).length
   const H = headingLevel === 2 ? 'h2' : 'h3'
   return <>
-    <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><Chip on={nikud} onClick={() => setNikud(!nikud)}>🔤 עם ניקוד</Chip><button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
+    <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><Chip on={nikud} onClick={() => setNikud(!nikud)}>🔤 עם ניקוד</Chip>{r.words?.length > 0 && <Chip on={dictOn} onClick={toggleDict}>📖 מילון {dictOn ? 'מופעל' : 'כבוי'}</Chip>}<button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
     {nikudState === 'loading' && <p className="mb-2 text-center" role="status">מנקדים את הקטע…</p>}
     {nikudState === 'error' && <p className="mb-2 text-center" role="alert">הניקוד לא זמין כרגע. נסו שוב בעוד רגע.</p>}
     {nikudState === 'ready' && <p className="mb-2 text-center text-sm text-[var(--muted-foreground)]">{NIKUD_NOTE}</p>}
-    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{v(p)} <SpeakButton text={p} say={r.say && applySay(p, r.say)} chain="passage" label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
+    <div className={`ln-box ln-text ${big ? 'is-big' : ''}`}>{r.text.map((p, i) => <p key={i}>{dict && !nikud ? <DictText text={p} words={dict} onPick={setPicked} /> : v(p)} <SpeakButton text={p} say={r.say && applySay(p, r.say)} chain="passage" label={`השמעת פסקה ${i + 1}`} className="!min-h-[30px] !min-w-[30px] !text-base align-middle" /></p>)}</div>
+    {dict && <DictBox words={dict} picked={picked} onClose={() => setPicked(null)} />}
     <H className="mt-8 mb-3 text-2xl font-black">שאלות</H>
     <div className="space-y-3">{r.q.map(([q, opts, c], i) => <div key={q} className="ln-q"><b>{i + 1}. {v(q)}</b> <SpeakButton text={q} say={r.say && applySay(q, r.say)} label="השמעת השאלה" className="!min-h-[30px] !min-w-[30px] !text-base align-middle" />
       {opts.map((o, j) => <button key={o} type="button" aria-pressed={picks[i] === j} disabled={checked} onClick={() => setPicks(p => ({ ...p, [i]: j }))}
@@ -285,7 +320,7 @@ export function ReadingExercise({ r, headingLevel = 2 }) {
         <div className="mt-3 flex flex-wrap justify-center gap-2">{opens.some(o => o[1]) && <button type="button" className="ln-btn go" onClick={() => setShowAns(!showAns)}>{showAns ? 'הסתרת התשובות הפתוחות' : '💡 הצגת תשובות לשאלות הפתוחות'}</button>}
           <button type="button" className="ln-btn alt" onClick={() => { setPicks({}); setChecked(false); setShowAns(false) }}>🔁 לנסות שוב</button></div></>
       : <button type="button" className="ln-btn go" disabled={Object.keys(picks).length < r.q.length} onClick={() => setChecked(true)}>✓ בדיקה</button>}</div>
-    {printing && <PrintPreview title={r.title} onClose={() => setPrinting(false)}><div className="no-print"><PrintChoices nikud={nikud} setNikud={setNikud} answers={answersOn} setAnswers={setAnswersOn} state={nikudState} /></div><ReadingPrint r={r} v={v} answers={answersOn} /></PrintPreview>}
+    {printing && <PrintPreview title={r.title} onClose={() => setPrinting(false)}><div className="no-print"><PrintChoices nikud={nikud} setNikud={setNikud} answers={answersOn} setAnswers={setAnswersOn} state={nikudState} /></div><ReadingPrint r={r} v={v} answers={answersOn} words={dict} /></PrintPreview>}
   </>
 }
 

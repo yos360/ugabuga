@@ -253,41 +253,6 @@ export const MENU_DOMAINS = [
     prefixes: ['/discover', '/music', '/signs', '/flags', '/animals', '/tools/experiment-maker'],
     groups: [
       {
-        title: 'מחשבים וטכנולוגיה', icon: '💻', to: '/learn/ai',
-        items: [
-          { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
-          { to: '/learn/computers', label: 'מחשבים: מה יש בפנים, בינארי ואינטרנט', icon: '💻' },
-          { to: '/learn/coding', label: 'תכנות לילדים — סקראץ׳, פייתון ואלגוריתמים', icon: '💻' },
-          { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
-          { to: '/learn/video', label: 'וידאו וקולנוע — מצלמים ועורכים סרטון', icon: '🎬' },
-        ],
-      },
-      {
-        title: 'סקרנות', icon: '✨', to: '/learn/what-is',
-        items: [
-          { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
-          { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
-          { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
-          { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
-          { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
-          { to: '/learn/sports', label: 'ספורט: האולימפיאדה, ישראל באולימפיאדה וחוקי משחקים', icon: '🏅' },
-          { to: '/learn/what-is', label: 'מה זה? מילים שכולם שואלים — ריבית, קראש, טרם', icon: '❓' },
-        ],
-      },
-      {
-        title: 'מוזיקה', icon: '🎵', to: '/music',
-        items: [
-          { to: '/music/piano', label: 'פסנתר אונליין', icon: '🎹' },
-          { to: '/music/songs', label: 'לומדים שירים בפסנתר', icon: '🎶' },
-          { to: '/music/read-notes', label: 'משחק קריאת תווים', icon: '🎼' },
-          { to: '/music/guitar-chords', label: 'אקורדים לגיטרה', icon: '🎸' },
-          { to: '/music/concepts', label: 'מושגים במוזיקה', icon: '📖' },
-          { to: '/music/styles', label: 'סגנונות מוזיקה', icon: '🎷' },
-          { to: '/learn/arts', label: 'אמנות ומוזיקה: כלי נגינה, מלחינים וציירים', icon: '🎨' },
-          { to: '/learn/dj-music', label: 'די־ג׳יי ויצירת שירים: BPM, טמפו ואיך כותבים שיר', icon: '🎧' },
-        ],
-      },
-      {
         title: 'עולם ומדע', icon: '🔭', to: '/discover',
         items: [
           { to: '/discover/israel-map', label: 'מפת ישראל — איפה העיר?', icon: '🗺️' },
@@ -309,6 +274,41 @@ export const MENU_DOMAINS = [
           { to: '/learn/birds', label: 'ציפורים: נדידה, קנים וציפורי ישראל', icon: '🐦' },
           { to: '/learn/pets-breeds', label: 'כלבים, חתולים וחיות מחמד', icon: '🐶' },
           { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
+        ],
+      },
+      {
+        title: 'מוזיקה', icon: '🎵', to: '/music',
+        items: [
+          { to: '/music/piano', label: 'פסנתר אונליין', icon: '🎹' },
+          { to: '/music/songs', label: 'לומדים שירים בפסנתר', icon: '🎶' },
+          { to: '/music/read-notes', label: 'משחק קריאת תווים', icon: '🎼' },
+          { to: '/music/guitar-chords', label: 'אקורדים לגיטרה', icon: '🎸' },
+          { to: '/music/concepts', label: 'מושגים במוזיקה', icon: '📖' },
+          { to: '/music/styles', label: 'סגנונות מוזיקה', icon: '🎷' },
+          { to: '/learn/arts', label: 'אמנות ומוזיקה: כלי נגינה, מלחינים וציירים', icon: '🎨' },
+          { to: '/learn/dj-music', label: 'די־ג׳יי ויצירת שירים: BPM, טמפו ואיך כותבים שיר', icon: '🎧' },
+        ],
+      },
+      {
+        title: 'מחשבים וטכנולוגיה', icon: '💻', to: '/learn/ai',
+        items: [
+          { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
+          { to: '/learn/computers', label: 'מחשבים: מה יש בפנים, בינארי ואינטרנט', icon: '💻' },
+          { to: '/learn/coding', label: 'תכנות לילדים — סקראץ׳, פייתון ואלגוריתמים', icon: '💻' },
+          { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
+          { to: '/learn/video', label: 'וידאו וקולנוע — מצלמים ועורכים סרטון', icon: '🎬' },
+        ],
+      },
+      {
+        title: 'סקרנות', icon: '✨', to: '/learn/what-is',
+        items: [
+          { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
+          { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
+          { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
+          { to: '/learn/dinosaurs', label: 'דינוזאורים לילדים', icon: '🦕' },
+          { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
+          { to: '/learn/sports', label: 'ספורט: האולימפיאדה, ישראל באולימפיאדה וחוקי משחקים', icon: '🏅' },
+          { to: '/learn/what-is', label: 'מה זה? מילים שכולם שואלים — ריבית, קראש, טרם', icon: '❓' },
         ],
       },
     ],
