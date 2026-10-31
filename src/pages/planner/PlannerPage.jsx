@@ -4,8 +4,8 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { PLANNER_SUBJECTS } from '../../data/planner/schema'
-import { SCHOOL_YEAR, addDays, isoOf, weekStart } from '../../data/planner/schoolYear'
-import { DAYS, GRADE_LETTERS, LINK_LABELS, MARKS, PERIODS, emptyPlan, linkHref, markKey, weekPlan } from '../../data/planner/engine'
+import { SCHOOL_YEAR, addDays, isoOf, noSchool, weekStart } from '../../data/planner/schoolYear'
+import { DAYS, GRADE_LETTERS, LINK_LABELS, MARKS, PERIODS, emptyPlan, lessonAt, levelOf, linkHref, markKey, weekPlan } from '../../data/planner/engine'
 import { LEVELS, SheetPages, useLessonSheet } from './LessonSheets'
 
 // /planner — "מערכת השעות שלי": the teacher adds classes, places them in the weekly timetable, and sees each
@@ -73,15 +73,21 @@ function AddClass({ seqs, onAdd }) {
   </form>
 }
 
-function Timetable({ plan, setPlan }) {
-  const set = (day, period, id) => setPlan(p => { const slots = { ...p.slots }; if (id) slots[`${day}-${period}`] = id; else delete slots[`${day}-${period}`]; return { ...p, slots } })
+// Each class gets its own colour, in the class chips and in the timetable.
+const COLORS = ['border-violet-400 bg-violet-100', 'border-sky-400 bg-sky-100', 'border-amber-400 bg-amber-100', 'border-emerald-400 bg-emerald-100', 'border-rose-400 bg-rose-100', 'border-lime-400 bg-lime-100']
+const colorOf = (plan, id) => COLORS[Math.max(0, plan.classes.findIndex(c => c.id === id)) % COLORS.length]
+
+// Pick a class above, then tap the periods it is taught in; tapping a period of that class again clears it.
+function Timetable({ plan, setPlan, active }) {
+  const byId = Object.fromEntries(plan.classes.map(c => [c.id, c]))
+  const tap = key => { if (!active) return; setPlan(p => { const slots = { ...p.slots }; if (slots[key] === active) delete slots[key]; else slots[key] = active; return { ...p, slots } }) }
   return <div className="overflow-x-auto"><table className="w-full min-w-[640px] border-collapse text-center">
     <thead><tr><th className="p-1">שעה</th>{DAYS.map(d => <th key={d} className="p-1">יום {d}</th>)}</tr></thead>
-    <tbody>{PERIODS.map(p => <tr key={p}><th className="p-1">{p}</th>{DAYS.map((d, day) => <td key={d} className="p-1">
-      <select value={plan.slots[`${day}-${p}`] || ''} onChange={e => set(day, p, e.target.value)} aria-label={`יום ${d} שעה ${p}`}
-        className={`min-h-[40px] w-full rounded-lg border-2 px-1 text-sm ${plan.slots[`${day}-${p}`] ? 'border-violet-300 bg-violet-50 font-bold' : 'border-slate-200 bg-white'}`}>
-        <option value="">—</option>{plan.classes.map(c => <option key={c.id} value={c.id}>{classLabel(c)}</option>)}
-      </select></td>)}</tr>)}</tbody>
+    <tbody>{PERIODS.map(p => <tr key={p}><th className="p-1">{p}</th>{DAYS.map((d, day) => { const key = `${day}-${p}`, cls = byId[plan.slots[key]]; return <td key={d} className="p-1">
+      <button type="button" onClick={() => tap(key)} aria-label={`יום ${d} שעה ${p}: ${cls ? classLabel(cls) : 'ריק'}`}
+        className={`min-h-[44px] w-full rounded-lg border-2 px-1 text-sm ${cls ? `${colorOf(plan, cls.id)} font-bold` : 'border-dashed border-slate-300 bg-white text-slate-400 hover:border-violet-400 hover:text-violet-600'}`}>
+        {cls ? classLabel(cls) : '+'}
+      </button></td> })}</tr>)}</tbody>
   </table></div>
 }
 
@@ -143,6 +149,74 @@ function LessonTools({ p, iso, plan, setPlan }) {
   </div>
 }
 
+// The quick way, no timetable: subject, grade and the topic the class is on now → today's lesson, which moves
+// on by one every school day, a worksheet for it, or worksheets for the whole week. Saved in this browser.
+const QUICK_KEY = 'ugabuga:planner-quick'
+const unitStart = (seq, u) => seq.units.slice(0, u).reduce((n, x) => n + x.hours, 0)
+function QuickLesson({ seqs }) {
+  const today = isoOf(new Date())
+  const [q, setQ] = useState(null)
+  const [level, setLevel] = useState('regular'), [print, setPrint] = useState(0)
+  useEffect(() => {
+    let saved = null
+    try { saved = JSON.parse(localStorage.getItem(QUICK_KEY) || 'null') } catch { /* storage blocked */ }
+    if (saved?.subject && seqs[`${saved.subject}-${saved.grade}`]) {
+      // One lesson further for every school day since the last visit.
+      let pos = saved.pos || 0
+      for (let d = addDays(saved.date || today, 1); d <= today; d = addDays(d, 1)) if (!noSchool(d, { level: levelOf(saved.grade), extra: [] })) pos++
+      setQ({ ...saved, pos, date: today })
+    } else {
+      const first = Object.values(seqs).find(s => s.subject === 'math') || Object.values(seqs)[0]
+      setQ(first ? { subject: first.subject, grade: first.grade, unit: 0, pos: 0, date: today } : null)
+    }
+  }, [seqs, today])
+  useEffect(() => { if (q) try { localStorage.setItem(QUICK_KEY, JSON.stringify(q)) } catch { /* storage blocked */ } }, [q])
+  if (!q) return null
+  const seq = seqs[`${q.subject}-${q.grade}`]
+  const subjects = Object.entries(PLANNER_SUBJECTS).filter(([k]) => Object.values(seqs).some(s => s.subject === k))
+  const grades = Object.values(seqs).filter(s => s.subject === q.subject).map(s => s.grade).sort((a, b) => a - b)
+  const cls = { id: 'quick', subject: q.subject, grade: q.grade, name: '' }
+  const lessonOf = n => ({ period: n + 1, cls, lesson: lessonAt(seq, unitStart(seq, q.unit) + q.pos + n) })
+  const p = lessonOf(0)
+  // A step can span a few lessons; the week's pack prints each different worksheet once.
+  const weekSheets = count => {
+    const out = []
+    for (let n = 0; out.length < count && n < 40; n++) { const x = lessonOf(n); if (!x.lesson) break; if (!out.some(o => o.lesson.step === x.lesson.step)) out.push(x) }
+    return out
+  }
+  const choose = patch => setQ(x => ({ ...x, ...patch, pos: 0, date: today }))
+  const field = 'min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-white px-3 block'
+  return <section className="mt-8 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-5" aria-labelledby="quick-h">
+    <h2 id="quick-h" className="text-2xl font-black">⚡ השיעור של היום — בלי למלא מערכת</h2>
+    <p className="mb-3">בוחרים מקצוע, כיתה ובמה הכיתה נמצאת עכשיו. כל יום לימודים השיעור מתקדם לבד לשיעור הבא.</p>
+    <div className="flex flex-wrap items-end gap-2">
+      <label className="font-bold">מקצוע<select value={q.subject} onChange={e => { const g = Object.values(seqs).filter(s => s.subject === e.target.value).map(s => s.grade).sort((a, b) => a - b)[0]; choose({ subject: e.target.value, grade: g, unit: 0 }) }} className={field}>{subjects.map(([k, s]) => <option key={k} value={k}>{s.emoji} {s.title}</option>)}</select></label>
+      <label className="font-bold">כיתה<select value={q.grade} onChange={e => choose({ grade: Number(e.target.value), unit: 0 })} className={field}>{grades.map(g => <option key={g} value={g}>{GRADE_LETTERS[g]}</option>)}</select></label>
+      <label className="font-bold">הנושא עכשיו<select value={q.unit} onChange={e => choose({ unit: Number(e.target.value) })} className={`${field} max-w-[320px]`}>{seq.units.map((u, i) => <option key={i} value={i}>{u.title}</option>)}</select></label>
+    </div>
+    <div className="mt-4 rounded-2xl bg-white p-4">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <b className="text-lg">📅 היום · {shortDate(today)}</b>
+        <div className="flex gap-2">
+          <button type="button" className="ln-chip" disabled={q.pos === 0 && q.unit === 0} onClick={() => setQ(x => x.pos > 0 ? { ...x, pos: x.pos - 1 } : x.unit > 0 ? { ...x, unit: x.unit - 1, pos: seq.units[x.unit - 1].hours - 1 } : x)}>→ השיעור הקודם</button>
+          <button type="button" className="ln-chip" onClick={() => setQ(x => ({ ...x, pos: x.pos + 1 }))}>השיעור הבא ←</button>
+        </div>
+      </div>
+      <LessonPlan p={p} />
+      {p.lesson && <div className="mt-3 space-y-2 border-t pt-3 no-print">
+        <div className="flex flex-wrap items-center gap-1"><span className="font-bold">רמת הדף:</span>{LEVELS.map(([l, label]) => <button key={l} type="button" aria-pressed={level === l} onClick={() => setLevel(l)} className={`rounded-full border-2 px-2 py-1 ${level === l ? 'border-emerald-500 bg-emerald-50 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className="min-h-[44px] rounded-xl bg-violet-600 px-4 font-black text-white" onClick={() => setPrint(1)}>🖨️ דף עבודה להיום</button>
+          <button type="button" className="min-h-[44px] rounded-xl bg-emerald-600 px-4 font-black text-white" onClick={() => setPrint(5)}>🖨️ דפי עבודה לכל השבוע (5 דפים)</button>
+        </div>
+      </div>}
+    </div>
+    {print > 0 && <PrintPreview title={`${classLabel(cls)} — ${print === 1 ? 'דף עבודה' : 'דפי עבודה לשבוע'}`} onClose={() => setPrint(0)}>
+      {weekSheets(print).map(x => <PeriodSheet key={x.period} p={x} level={level} />)}
+    </PrintPreview>}
+  </section>
+}
+
 function Week({ plan, setPlan, seqs }) {
   const today = isoOf(new Date())
   const [sunday, setSunday] = useState(() => weekStart(today < SCHOOL_YEAR.start ? SCHOOL_YEAR.start : today))
@@ -154,7 +228,8 @@ function Week({ plan, setPlan, seqs }) {
   const dayOff = (iso, on) => setPlan(p => ({ ...p, extraOff: on ? [...p.extraOff, [iso, 'אין לימודים']] : p.extraOff.filter(([d]) => d !== iso) }))
   return <section aria-labelledby="week-h">
     <div className="flex flex-wrap items-center justify-between gap-2">
-      <h2 id="week-h" className="text-2xl font-black">📅 השבוע שלי · {shortDate(sunday)}–{shortDate(addDays(sunday, 5))}</h2>
+      <div><h2 id="week-h" className="text-2xl font-black">3. מה מלמדים השבוע · {shortDate(sunday)}–{shortDate(addDays(sunday, 5))}</h2>
+        <p className="text-sm">לכל שעה כבר מחכה השיעור הבא. לחצו על שיעור — ותקבלו מערך שיעור ודף עבודה להדפסה.</p></div>
       <div className="flex flex-wrap gap-2">
         <button type="button" className="ln-chip" onClick={() => setSunday(addDays(sunday, -7))}>→ שבוע קודם</button>
         <button type="button" className="ln-chip" onClick={() => setSunday(weekStart(today))}>השבוע</button>
@@ -225,6 +300,16 @@ export default function PlannerPage() {
   const logout = () => { writeStore(TOKEN_KEY, null); setCloud({ token: null, email: null, saving: false }) }
   const removeClass = id => setPlan(p => ({ ...p, classes: p.classes.filter(c => c.id !== id), slots: Object.fromEntries(Object.entries(p.slots).filter(([, v]) => v !== id)) }))
   const hasSlots = Object.keys(plan.slots).length > 0
+  // The class being placed in the timetable: the one picked, else the newest.
+  const [picked, setPicked] = useState(null)
+  const active = plan.classes.some(c => c.id === picked) ? picked : plan.classes.at(-1)?.id
+  // "See an example": one class with a few periods, so the week below fills in at once.
+  const example = () => {
+    const s = seqs['math-3'] || Object.values(seqs)[0]
+    if (!s) return
+    const id = `c${Date.now().toString(36)}`
+    setPlan(p => ({ ...p, classes: [...p.classes, { id, subject: s.subject, grade: s.grade, name: '' }], slots: { ...p.slots, '0-1': id, '1-2': id, '2-1': id, '3-3': id, '4-2': id } }))
+  }
   return <div className="mx-auto max-w-6xl px-4 py-8" dir="rtl">
     <SEO title="מערכת השעות המתעדכנת (בטא) — מערך שיעור לכל שעה לפי תוכנית הלימודים" description="מורים מכניסים את מערכת השעות ומקבלים לכל שעה את השיעור הבא לפי תוכנית משרד החינוך, עם מערך שיעור קצר, קישורים לתרגול והדפסה של כל השבוע. בחינם." path="/planner" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: 'מערכת השעות שלי' }]} />
@@ -232,20 +317,35 @@ export default function PlannerPage() {
     <p className="mx-auto mt-3 max-w-2xl rounded-2xl bg-amber-50 p-3 text-center">🧪 <b>גרסת בטא — אנחנו בונים את זה יחד איתכם.</b> המערכת עוד משתפרת כל הזמן. משהו חסר או לא מדויק? <Link to="/request" className="font-bold underline">ספרו לנו</Link>.</p>
     <p className="mx-auto mt-2 max-w-2xl text-center text-lg">מכניסים את המערכת פעם אחת — ולכל שעה מקבלים את השיעור הבא לפי תוכנית הלימודים, מערך שיעור קצר וקישורים לתרגול. החגים והחופשות של {SCHOOL_YEAR.name} כבר בפנים.</p>
     <p className="mx-auto mt-1 max-w-2xl text-center text-sm text-[var(--muted-foreground)]">אתם תמיד יכולים לדלג, לחזור או לשנות. בלי כניסה — המערכת נשמרת רק בדפדפן הזה.</p>
+    {seqs && <QuickLesson seqs={seqs} />}
+    <h2 className="mt-10 text-center text-3xl font-black">🗓️ או: כל המערכת שלכם</h2>
+    <p className="mx-auto mt-1 max-w-2xl text-center">מלמדים כמה כיתות? מכניסים את המערכת פעם אחת, ולכל שעה בשבוע מחכה השיעור הבא — לפי תוכנית הלימודים, עם החגים והחופשות.</p>
     <CloudBox cloud={cloud} onLogout={logout} />
+    <ol className="mx-auto mt-6 grid max-w-4xl gap-2 sm:grid-cols-3" aria-label="איך זה עובד">
+      {[['1', 'מוסיפים כיתה', 'מקצוע ושכבה — למשל מתמטיקה ג׳'], ['2', 'מסמנים מתי היא לומדת', 'לוחצים על השעות שלה במערכת'], ['3', 'מקבלים את השיעורים', 'לכל שעה: מה מלמדים, מערך שיעור ודף עבודה']].map(([n, t, s]) =>
+        <li key={n} className="rounded-2xl border-2 border-violet-200 bg-violet-50 p-3 text-center"><span className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full bg-violet-600 font-black text-white">{n}</span><b className="block">{t}</b><span className="text-sm">{s}</span></li>)}
+    </ol>
     {!seqs ? <p className="mt-8 text-center" role="status">טוענים…</p> : <>
       <section className="mt-8 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-labelledby="classes-h">
         <h2 id="classes-h" className="text-2xl font-black">1. הכיתות שלי</h2>
-        <div className="mt-3"><AddClass seqs={seqs} onAdd={c => setPlan(p => ({ ...p, classes: [...p.classes, c] }))} /></div>
-        {plan.classes.length > 0 && <ul className="mt-3 flex flex-wrap gap-2">{plan.classes.map(c => { const s = seqs[`${c.subject}-${c.grade}`]; return <li key={c.id} className="flex items-center gap-2 rounded-full border-2 border-violet-200 bg-violet-50 px-3 py-1">
+        <p className="mb-2 text-sm">מוסיפים כל כיתה שאתם מלמדים. מלמדים את אותה שכבה בשתי כיתות? הוסיפו פעמיים ותנו שם (ג׳1, ג׳2).</p>
+        <AddClass seqs={seqs} onAdd={c => { setPlan(p => ({ ...p, classes: [...p.classes, c] })); setPicked(c.id) }} />
+        {!plan.classes.length && <p className="mt-3 text-sm">רק רוצים לראות איך זה נראה? <button type="button" onClick={example} className="font-bold text-violet-700 underline">👀 מלאו לי דוגמה</button></p>}
+        {plan.classes.length > 0 && <ul className="mt-3 flex flex-wrap gap-2">{plan.classes.map(c => { const s = seqs[`${c.subject}-${c.grade}`]; return <li key={c.id} className={`flex items-center gap-2 rounded-full border-2 px-3 py-1 ${colorOf(plan, c.id)}`}>
           <b>{classLabel(c)}</b><span className="text-xs">{s?.official ? '· לפי הסדר הרשמי' : '· סדר מומלץ'}</span>
           <button type="button" onClick={() => removeClass(c.id)} aria-label={`הסרת ${classLabel(c)}`}>✕</button></li> })}</ul>}
       </section>
       {plan.classes.length > 0 && <section className="mt-6 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-labelledby="tt-h">
-        <h2 id="tt-h" className="text-2xl font-black">2. המערכת השבועית</h2>
-        <p className="mb-2 text-sm">בוחרים בכל משבצת איזו כיתה לומדת בה.</p>
-        <Timetable plan={plan} setPlan={setPlan} />
+        <h2 id="tt-h" className="text-2xl font-black">2. מתי כל כיתה לומדת?</h2>
+        <div className="my-2 flex flex-wrap items-center gap-2"><span className="font-bold">בחרו כיתה:</span>
+          {plan.classes.map(c => <button key={c.id} type="button" aria-pressed={active === c.id} onClick={() => setPicked(c.id)}
+            className={`min-h-[40px] rounded-full border-2 px-3 font-bold ${colorOf(plan, c.id)} ${active === c.id ? 'ring-2 ring-violet-700 ring-offset-1' : 'opacity-70'}`}>{active === c.id ? '✓ ' : ''}{classLabel(c)}</button>)}
+        </div>
+        <p className="mb-2 text-sm">ועכשיו לחצו במערכת על כל השעות שבהן <b>{plan.classes.find(c => c.id === active) && classLabel(plan.classes.find(c => c.id === active))}</b> לומדת. לחיצה נוספת מוחקת.</p>
+        <Timetable plan={plan} setPlan={setPlan} active={active} />
+        {hasSlots && <p className="mt-3 text-center"><a href="#week-h" className="inline-flex min-h-[44px] items-center rounded-full bg-violet-600 px-5 font-black text-white" style={{ color: '#fff' }}>⬇️ לשיעורים של השבוע</a></p>}
       </section>}
+      {plan.classes.length > 0 && !hasSlots && <p className="mt-6 rounded-2xl bg-amber-50 p-3 text-center font-bold">👆 סמנו לפחות שעה אחת במערכת — והשיעורים של השבוע יופיעו כאן.</p>}
       {hasSlots && <div className="mt-6"><Week plan={plan} setPlan={setPlan} seqs={seqs} /></div>}
       {plan.classes.length > 0 && <details className="mt-6 text-sm"><summary className="cursor-pointer font-bold">מאיפה הסדר?</summary>
         <ul className="mt-2 list-disc pr-5">{plan.classes.map(c => { const s = seqs[`${c.subject}-${c.grade}`]; return s && <li key={c.id}>{classLabel(c)}: {s.official ? 'לפי ' : 'סדר מומלץ על בסיס '}<a href={s.source.url} target="_blank" rel="noopener noreferrer" className="underline">{s.source.title}</a>{s.note ? ` — ${s.note}` : ''}</li> })}</ul>
