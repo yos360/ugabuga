@@ -48,6 +48,7 @@ Note 2026-10-28: scheduled cloud run, Claude in Chrome tools not available, so n
 
 Update 2026-10-29 (second scheduled firing): today's reel already existed (uploads/2026-10-29/), so no new reel was made. Claude in Chrome tools still not available to the cloud run — uploads remain ✗.
 
-| 2026-10-31 | "גשם בחוץ, מה עושים?" — בוגה שוקו חם, אזור החורף (screen games, printables, no-equipment living-room games, warm kitchen, winter holidays) | /winter | ✗ | ✗ | ✗ | ✗ |
+| 2026-10-31 | "גשם בחוץ, מה עושים?" — בוגה שוקו חם, אזור החורף (screen games, printables, no-equipment living-room games, warm kitchen, winter holidays) | /winter | ✓ | ✓ | ✓ | ✓ |
 
 Note 2026-10-31: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-10-31/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/winter-cocoa/.
+Update 2026-10-31 (08:00 scheduled upload, owner's Chrome): YouTube https://youtube.com/shorts/N6Gwa0TeJ2o (made for kids, Education, public; thumbnail = hook frame via 'בחירה מהסרטון'), Instagram (original crop, cover.jpg, FB share off), TikTok (עוגהבוגה, cover.jpg, everyone), Facebook (עוגה בוגה profile, cover.jpg, public) and the WhatsApp channel "עוגה בוגה 🎂 דף חדש כל יום" (video + caption with the full link) — all posted.
