@@ -13,9 +13,22 @@ Data rules: read-only, aggregate numbers and page paths only.
 | 5 | Suppliers search: 192 of 200 searches (28d) returned zero results — widen supplier list or show "request this supplier" | suppliers search | searches with results | suggested (owner decision) |
 | 6 | Short links `/r/…` and `/l/…` bring ~230 entries/week (QR/print/share) but 70-90% leave after one page: put a "more like this" strip on the landing page they point to | landing pages of `/r/*` | single-page visits 85% -> 65% | suggested |
 | 7 | `/en/rsvp` (52 entries/week, 13% use) and `/rsvp` (42% use) convert well; add a one-line "free RSVP" link from `/invitation` (28 shares/week, no next step) | `/invitation` | opens of `/rsvp` from `/invitation` | suggested |
+| 9 | `/invitation` already links to `/rsvp` (related list + RSVP-link button inside the studio) — idea 7 needs no change; measure `/rsvp` entries from `/invitation` via nav signals | `/invitation` | n/a | closed (already exists) |
 | 8 | Home: 49% of visits end on `/` and only 3% act; the 5-way top-block experiment has too few views (<12 per variant) — wait for ≥300 shown before changing | `/` | see idea 1 | suggested (wait) |
 
 ## Data findings
+### 2026-10-31 (7d vs previous 7d; Saturday morning, 31.10 itself is partial = noise)
+- Opens 3360 vs 3817 (-12%); visits 969 vs 762 (+27%); prints 260 vs 111 (x2.3); PDFs 117 vs 65 (+80%); shares 112 vs 27 (x4); plays 24 vs 126.
+- Mobile 714 vs desktop 264 visits (73%). Sources (7d visits): direct 394, google 249, other 204, facebook 75, bing 34, whatsapp 13.
+- Bounce (7d, visit opens one page, no action): `/r/3rt6xgjk` 63 of 99, `/en/rsvp` 38 of 49, `/printables/memory-english` 27 of 41, `/r/zf7bafzp` 22 of 30, `/` 11 of 89 (but only 43 acted). `/learn/reading` only 5 of 33 bounce.
+- Open to action (28d): `/letters/game` 67%, `/rsvp` 43%, `/printables` 36%, `/printables/hebrew-letters` 11%, `/` 4%, hubs `/classroom`, `/math`, `/letters`, `/online-games` 0% (the action is the next click).
+- Rising (7d): `/r/3rt6xgjk` +178, `/rsvp` 79 vs 36, `/en/rsvp` 57 (new), `/printables/memory-english` 54 (new), `/request` 53 (new), `/tools/dice/story-dice` 37 vs 2. Falling: `/` 150 vs 373, `/classroom` 42 vs 119, `/learn` 61 vs 133, `/online-games`, `/bugapedia`, `/parasha`, `/shabbat-times`.
+- Scroll (14d, long pages): home 74 views, 28% reach 50%; `/learn/reading` 18 views, 0% scroll; `/classroom` 15 views, 27%. Next-step clicks: too few (9 clicks). Zero-result searches: 1 term; 2 searches counted with no/many results — too few to read.
+- 404s (14d): `/booklets/shemot-special-ed` 7, `/booklets/nikud` 5, `/booklets/hygiene-first-sound` 3 — these pages exist in the registry now (likely opened before the deploy finished); recheck in a week. Page requests: 17 in the week of 26.10.
+- RSVP/invitation (28d): `/rsvp` 134 opens, 49 uses; `/en/rsvp` 57 opens, 8 uses; `/invitation` 43 opens, 32 shares, 22 uses; `/live` 21 opens; `/secret-friend` 12 opens, 0 uses.
+- JS errors: 4 singles on Hanukkah and crosswords pages — noise.
+- Returning visitors cannot be measured (visitor id lives one day).
+
 ### 2026-10-30 (7d vs previous 7d / 28d)
 - Opens 3059 vs 4429 (-31%, the 17.10 spike and the online-games fall); prints 200 vs 118 (+69%); PDFs 95 vs 92; shares 109 vs 40 (x2.7); plays 24 vs 133.
 - Daily visitors 81-206; 25.10 (206) and 27.10 (169) are peaks. Visits (7d) mobile 712 vs desktop 240 (75%). Sources (7d visits): direct 375, google 301, other 194, facebook 53, bing 33. Busiest day: Saturday (2551 opens/28d), evening hours 18-21 and 14:00.
@@ -37,6 +50,9 @@ Data rules: read-only, aggregate numbers and page paths only.
 - Returning visitors cannot be measured: the id lives one day, 99% appear on one day only.
 - Page requests: 1 in the last 28 days. Experiment home-top: 2 views since 28.10 — far too early.
 - Small numbers: single days are noise; weekly trends only.
+
+## Done
+- 2026-10-31: `/tools/dice/story-dice` was a 2-paragraph page that jumped from 2 to 37 opens/week: added a how-to guide, 6 activities, tips, 2 FAQ entries and more related links (measure: scroll reach and opens in 2 weeks).
 
 ## Measured results
 (nothing yet)
