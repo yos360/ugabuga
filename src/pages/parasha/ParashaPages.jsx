@@ -116,6 +116,7 @@ function Portion({ p }) {
     <p className="text-center text-[var(--muted-foreground)]">ספר {p.book} · לגילי 6–12</p>
     <h1 className="text-center text-3xl sm:text-4xl mt-2 mb-4">פרשת {p.name} לילדים</h1>
     <p className="text-center mb-6"><a href={parashaSource(p)} target="_blank" rel="noopener noreferrer" className="underline font-bold">לפסוקי הפרשה המלאים בספריא ↗</a></p>
+    <nav aria-label="מעבר בין פרשות" className="mb-6 flex flex-wrap items-center justify-between gap-2"><Link className={chip} to={parashaHref(prev)}>→ פרשת {prev.name}</Link><Link className="inline-flex min-h-[44px] items-center rounded-2xl bg-violet-600 px-4 font-black text-white shadow-sm hover:bg-violet-700" style={{ color: '#fff' }} to={parashaHref(next)}>הפרשה הבאה: {next.name} ←</Link></nav>
     <section className="mb-6 rounded-3xl border-2 border-amber-300 bg-amber-50 p-4 text-center" aria-label="חוברת עבודה">
       <p className="text-xl font-black">📒 חוברת עבודה לפרשת {p.name}</p>
       <p>סיכום, דמויות, סדר אירועים, מושגים, שאלות, ציור ודף תשובות — בשתי רמות</p>
