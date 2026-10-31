@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
 import { QR_VARIANTS } from '../../data/printMessages'
 import { announceText } from '../../utils/requestAnnounce'
+import { WHATSAPP_CHANNEL } from '../../data/brand'
 
 // Owner report: what visitors asked us to make (/request), with a status per request, and which
 // rotating QR message on printed pages was printed vs scanned.
@@ -19,6 +20,34 @@ function QrVariants({ from, to, tick }) {
     <p className="text-sm text-slate-600">כל הדפסה מקבלת אחד מהמשפטים. מודפס = כמה פעמים הודפס, נסרק = כמה אנשים סרקו אותו.</p>
     <table className="mt-2 w-full text-right text-sm"><thead><tr className="border-b-2"><th className="p-2">המשפט</th><th className="p-2">לאן מוביל</th><th className="p-2">מודפס</th><th className="p-2">נסרק</th></tr></thead>
       <tbody>{QR_VARIANTS.map(v => { const r = by[v.id] || {}; return <tr key={v.id} className="border-b align-top"><td className="p-2"><b>{v.title}</b><span className="block text-xs text-slate-500">{v.line}</span></td><td className="p-2">{v.to === 'request' ? 'טופס בקשה' : 'הדף שהודפס'}</td><td className="p-2 font-bold">{r.printed || 0}</td><td className="p-2 font-bold">{r.scanned || 0}</td></tr> })}</tbody></table>
+  </div>
+}
+
+// WhatsApp channel queue (migration 20261031150000): one live page at a time, oldest first, at least 30
+// minutes apart and only 08:00–21:00. WhatsApp has no channel API, so it is posted by hand or by the
+// scheduled Chrome task, which reads #wa-queue and presses "פורסם בערוץ" after posting.
+function WhatsAppQueue({ tick }) {
+  const [q, setQ] = useState(null), [msg, setMsg] = useState(''), [reload, setReload] = useState(0)
+  useEffect(() => { let live = true; ownerSupabase.rpc('page_request_whatsapp_owner', { p_action: 'next' }).then(({ data, error }) => { if (live) setQ(error ? null : data) }); return () => { live = false } }, [tick, reload])
+  if (!q) return null
+  const text = q.next ? announceText(q.next) : ''
+  const ready = q.next && !q.wait_minutes && !q.quiet_hours
+  const posted = async () => {
+    const { error } = await ownerSupabase.rpc('page_request_whatsapp_owner', { p_action: 'posted', p_id: q.next.id })
+    setMsg(error ? 'לא נשמר, נסו שוב' : 'סומן כפורסם ✓'); setReload(n => n + 1)
+  }
+  return <div id="wa-queue" data-id={q.next?.id || ''} data-ready={ready ? '1' : '0'} className="mt-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-3 text-sm">
+    <p className="font-black">📣 תור לערוץ הוואטסאפ · {q.waiting} מחכים</p>
+    {!q.next ? <p className="mt-1">אין כרגע דפים שמחכים לערוץ.</p> : <>
+      <p className="mt-1">{ready ? 'הבא בתור — אפשר לפרסם עכשיו:' : q.quiet_hours ? 'הבא בתור — מפרסמים רק בין 08:00 ל־21:00.' : `הבא בתור — אפשר לפרסם בעוד ${q.wait_minutes} דקות (פוסט אחד כל חצי שעה).`}</p>
+      <pre id="wa-queue-text" className="mt-2 whitespace-pre-wrap rounded-xl bg-white p-2 font-sans">{text}</pre>
+      <div className="mt-2 flex flex-wrap gap-2">
+        <button type="button" onClick={() => navigator.clipboard?.writeText(text).then(() => setMsg('הועתק ✓'))} className="rounded-lg border-2 border-emerald-600 bg-white px-3 py-1 font-bold">📋 העתקת הטקסט</button>
+        <a href={WHATSAPP_CHANNEL} target="_blank" rel="noopener noreferrer" className="rounded-lg border-2 border-emerald-600 bg-white px-3 py-1 font-bold">פתיחת הערוץ</a>
+        <button type="button" disabled={!ready} onClick={posted} className="rounded-lg bg-emerald-600 px-3 py-1 font-bold text-white disabled:opacity-50">✓ פורסם בערוץ</button>
+        {msg && <span className="self-center font-bold">{msg}</span>}
+      </div>
+    </>}
   </div>
 }
 
@@ -59,6 +88,7 @@ export default function PageRequests({ from, to, tick = 0 }) {
   return <section className="mb-6 rounded-3xl border-2 border-violet-200 bg-white p-5 shadow-sm">
     <div className="flex flex-wrap items-center justify-between gap-2"><div><p className="text-sm font-bold text-violet-700">מבקשים דף</p><h2 className="text-2xl font-black">מה ביקשו שנכין?</h2></div><span className="rounded-full bg-violet-100 px-3 py-1 font-black">{rows.length} בקשות · {open} חדשות</span></div>
     <p className="mt-2 text-sm text-slate-600">מייל נשמר רק כשהמבקר בחר להשאיר אותו, כדי לעדכן שהדף מוכן. לא לפרסם ולא להעביר. כשבקשה הוכנה: בוחרים "הוכן", כותבים כותרת וקישור — והיא מופיעה באתר תחת "הכנו לפי בקשה" (בלי נוסח הבקשה ובלי המייל). מי שהשאיר מייל מקבל אוטומטית תוך כ־10 דקות מייל "הדף מוכן" עם הקישור (08:00–21:00).</p>
+    <WhatsAppQueue tick={tick} />
     {error && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm font-bold">{error}</p>}
     {!error && (rows.length ? <div className="mt-4 max-h-[440px] overflow-auto"><table className="w-full text-right text-sm"><thead className="sticky top-0 bg-white"><tr className="border-b-2"><th className="p-2">זמן</th><th className="p-2">הבקשה</th><th className="p-2">סטטוס</th></tr></thead>
       <tbody>{rows.map(r => <tr key={r.id} className="border-b align-top"><td className="whitespace-nowrap p-2 text-slate-500">{formatTime(r.created_at)}</td>

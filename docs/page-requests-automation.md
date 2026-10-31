@@ -10,7 +10,9 @@ the Facebook post all wait for `live_at`. Then, 08:00–21:00 Israel time:
 - Visitors who left an address get one "your page is ready" mail with its public title and link.
 - One Facebook post every 30 minutes, oldest live page first (`announced_at`), when the Pages secrets
   `FB_PAGE_ID` and `FB_PAGE_TOKEN` are set. Text: src/utils/requestAnnounce.js.
-- WhatsApp has no API for channels: the owner report shows a "📣 שיתוף בווטסאפ" button per live page. Planned and declined requests get no mail. The owner
+- WhatsApp has no API for channels: the owner report has a channel queue (#wa-queue, migration
+  20261031150000) — one live page at a time, oldest first, at least 30 minutes apart, 08:00–21:00. The
+  scheduled Chrome task posts it in WhatsApp Web and presses "✓ פורסם בערוץ" (`whatsapp_at`). Planned and declined requests get no mail. The owner
 report still has a manual mail button. The task itself never sees visitors' emails.
 
 ## Privacy rules (do not bend)
