@@ -13,7 +13,7 @@ the Facebook post all wait for `live_at`. Then, 08:00–21:00 Israel time:
 - WhatsApp has no API for channels: the owner report has a channel queue (#wa-queue, migration
   20261031150000) — one live page at a time, oldest first, at least 30 minutes apart, 08:00–21:00. Text:
   `whatsappText` (owner's wording: only "ביקשו — קיבלו", no timing). The scheduled Chrome task
-  `whatsapp-requests-queue` (from 2026-11-01, every two hours) screenshots the live page, posts it with the
+  `whatsapp-requests-queue` (from 2026-11-01, one a day at 12:00; the daily reel goes out at 08:00) screenshots the live page, posts it with the
   text in WhatsApp Web and presses "✓ פורסם בערוץ" (`whatsapp_at`). Planned and declined requests get no mail. The owner
 report still has a manual mail button. The task itself never sees visitors' emails.
 
