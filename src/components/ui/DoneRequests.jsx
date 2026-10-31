@@ -40,7 +40,7 @@ export default function DoneRequests({ limit = 6, className = '' }) {
     <h2 className="text-2xl font-black">🎁 הכנו לפי בקשה</h2>
     <p className="mt-1 text-[var(--muted-foreground)]">ביקשתם — הכנו. כל הדפים בחינם, לכולם.</p>
     <div className="mt-3 flex flex-wrap gap-2">
-      <Link to="/request" className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-violet-600 px-5 text-lg font-black text-white shadow-sm hover:bg-violet-700">📝 גם לכם חסר משהו? לחצו כאן ובקשו ←</Link>
+      <Link to="/request" style={{ color: '#fff' }} className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl bg-violet-600 px-5 text-lg font-black text-white shadow-sm hover:bg-violet-700">📝 גם לכם חסר משהו? לחצו כאן ובקשו ←</Link>
       <Link to={DONE_PATH} className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl border-2 border-violet-300 bg-white px-5 font-bold">כל מה שהכנו לפי בקשה ←</Link>
     </div>
     <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{rows.map(r => <li key={`${r.path}-${r.done_at}`}><DoneCard r={r} /></li>)}</ul>
