@@ -150,6 +150,7 @@ const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionG
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
+const RequestDone = lazy(() => import('./pages/RequestDone'))
 const WhatsAppChannel = lazy(() => import('./pages/WhatsAppChannel'))
 const WinterGames = lazy(() => import('./pages/WinterGames'))
 const BookletsHub = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletsHub })))
@@ -836,6 +837,7 @@ export default function App() {
               <Route path="/printables/memory-english" element={<EnglishMemoryCards />} />
               <Route path="/booklets" element={<BookletsHub />} />
               <Route path="/request" element={<RequestPage />} />
+              <Route path="/request/done" element={<RequestDone />} />
               <Route path="/whatsapp" element={<WhatsAppChannel />} />
               <Route path="/winter" element={<WinterGames />} />
               <Route path="/booklets/:slug" element={<BookletPage />} />

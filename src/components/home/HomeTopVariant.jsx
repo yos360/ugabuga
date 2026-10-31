@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { submitPageRequest } from '../../utils/pageRequests'
+import { DONE_PATH, REQUEST_ETA } from '../ui/DoneRequests'
 import { recordExperiment } from '../../utils/experiments'
 import { rsvpType } from '../../utils/rsvpTypes'
 
@@ -45,7 +46,7 @@ export function RequestTop({ variant }) {
     if (ok) recordExperiment('request', variant)
     setState(ok ? 'sent' : 'error')
   }
-  if (state === 'sent') return <div className="hp-exp hp-exp-request" role="status"><span className="hp-exp-ic" aria-hidden="true">🎉</span><span className="hp-exp-copy"><b>תודה! הבקשה הגיעה אלינו</b><small>כל שבוע אנחנו מכינים את מה שהכי מבקשים. רוצים שנעדכן אתכם במייל? <Link to="/request" className="underline">לטופס המלא</Link></small></span></div>
+  if (state === 'sent') return <div className="hp-exp hp-exp-request" role="status"><span className="hp-exp-ic" aria-hidden="true">🎉</span><span className="hp-exp-copy"><b>תודה! הבקשה הגיעה אלינו</b><small>המערכת כבר בונה את זה — {REQUEST_ETA}. כשזה מוכן זה מופיע ב<Link to={DONE_PATH} className="font-bold underline">״הכנו לפי בקשה״</Link>. רוצים גם מייל? <Link to="/request" className="underline">לטופס המלא</Link></small></span></div>
   return <form onSubmit={send} className="hp-exp hp-exp-request">
     <span className="hp-exp-ic" aria-hidden="true">📝</span>
     <label className="hp-exp-copy"><b>מה אתם מבקשים מעוגה בוגה?</b><small>חסר לכם דף עבודה, חוברת, דף צביעה או משחק? כתבו — ואנחנו מכינים, בחינם.</small>

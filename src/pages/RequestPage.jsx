@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { submitPageRequest } from '../utils/pageRequests'
-import DoneRequests, { WhatsAppAsk } from '../components/ui/DoneRequests'
+import DoneRequests, { DONE_PATH, REQUEST_ETA, WhatsAppAsk } from '../components/ui/DoneRequests'
 import { landingTags } from '../utils/qrVariants'
 import { recordExperiment } from '../utils/experiments'
 import { mailApi, normalizeMail } from '../utils/mailPreferences'
@@ -32,7 +32,8 @@ const AUDIENCES = ['גן', 'כיתה א׳–ב׳', 'כיתה ג׳–ד׳', 'כי
 const EXAMPLES = ['חוברת חשבון לכיתה ב׳ עם חיבור עד 100', 'דפי צביעה של כלבי ים לגן', 'תפזורת לחנוכה באנגלית', 'דף עבודה על החלל לכיתה ד׳']
 const FAQ = [
   { q: 'כמה זה עולה?', a: 'כלום. הדפים שמכינים לפי בקשה עולים לאתר בחינם, לכל מי שצריך אותם.' },
-  { q: 'תוך כמה זמן הדף יהיה מוכן?', a: 'כל שבוע אנחנו בוחרים את הבקשות שהכי מבוקשות ומכינים אותן. אי אפשר להבטיח שכל בקשה תיענה, אבל כל בקשה נקראת.' },
+  { q: 'תוך כמה זמן הדף יהיה מוכן?', a: `ברגע שבקשה מגיעה המערכת מתחילה לבנות אותה — ${REQUEST_ETA}. בקשות אישיות (קובץ לאדם אחד, שיעורי בית במקום הילד) לא מוכנות.` },
+  { q: 'לא השארתי מייל — איך אמצא את הדף?', a: 'כל מה שמכינים לפי בקשה מופיע במקום אחד: בדף "הכנו לפי בקשה" (ugabuga.co.il/request/done). גם אם הדף נכנס למקום שלו באתר, למשל לחוברות, הוא מופיע שם.' },
   { q: 'מה עושים עם המייל שלי?', a: 'המייל הוא רשות, ומשמש רק כדי לכתוב לכם שהדף מוכן. הוא לא מתפרסם ולא נמסר לאף אחד. את הדפים החדשים של השבוע נשלח רק אם סימנתם זאת ואישרתם במייל — ואפשר לבטל בכל רגע.' },
 ]
 const field = 'mt-1 block w-full rounded-2xl border-2 border-[var(--border)] bg-white p-3 font-normal'
@@ -59,13 +60,16 @@ export default function RequestPage() {
     <SEO title="מבקשים דף — מכינים דפי עבודה וחוברות לפי בקשה, בחינם" description="חסר לכם דף עבודה, חוברת, דף צביעה או משחק? ספרו לנו מה צריך ולאיזה גיל — ובכל שבוע אנחנו מכינים את הבקשות הכי מבוקשות, בחינם." path="/request" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מבקשים דף' }]} />
     <h1 className="text-center text-4xl sm:text-5xl"><span aria-hidden="true">📝 </span>מבקשים דף — ואנחנו מכינים</h1>
-    <p className="mx-auto mt-3 max-w-2xl text-center text-lg">חסר לכם דף עבודה, חוברת, דף צביעה או משחק? ספרו לנו מה צריך ולאיזה גיל. כל שבוע אנחנו מכינים את מה שהכי מבקשים — בחינם, לכולם.</p>
+    <p className="mx-auto mt-3 max-w-2xl text-center text-lg">חסר לכם דף עבודה, חוברת, דף צביעה או משחק? ספרו לנו מה צריך ולאיזה גיל, והמערכת מתחילה לבנות — {REQUEST_ETA}. בחינם, לכולם.</p>
     {from && source === 'qr' && <p className="mx-auto mt-3 max-w-2xl rounded-2xl bg-[var(--postit)] p-3 text-center">👋 הגעתם מדף מודפס של עוגה בוגה. <Link to={from} className="font-bold underline">לדף שהודפס</Link></p>}
     {state === 'sent'
       ? <section id="request-done" tabIndex={-1} className="mt-8 rounded-3xl border-2 border-emerald-400 bg-emerald-50 p-6 text-center outline-none" aria-live="polite">
         <p className="text-5xl" aria-hidden="true">🎉</p>
         <h2 className="mt-2 text-2xl font-black">תודה! הבקשה התקבלה</h2>
-        <p className="mt-2">{email ? 'נכתוב לכם למייל כשהדף יהיה מוכן.' : 'כשהדף יהיה מוכן הוא יופיע באתר.'} בינתיים אפשר להציץ בדפים שכבר יש:</p>
+        <p className="mt-2 font-bold">⏱️ המערכת כבר בונה את זה — {REQUEST_ETA}.</p>
+        <p className="mt-2">{email ? 'כשהדף יהיה מוכן נשלח לכם מייל עם הקישור, והוא יופיע גם בדף "הכנו לפי בקשה".' : 'כשהדף יהיה מוכן הוא יופיע בדף "הכנו לפי בקשה" — שם מופיע כל מה שמכינים לפי בקשה, גם אם הוא נכנס למקום שלו באתר. שמרו את הקישור:'}</p>
+        <Link to={DONE_PATH} className="mt-3 inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-black text-white">🎁 לדף &quot;הכנו לפי בקשה&quot; ←</Link>
+        <p className="mt-4">בינתיים אפשר להציץ בדפים שכבר יש:</p>
         {weeklySent && <p className="mt-2 font-bold">📬 שלחנו לכם גם מייל לאישור ההרשמה לדפים של השבוע — לוחצים על הקישור שבו, וזהו.</p>}
         <div className="mt-4 flex flex-wrap justify-center gap-2"><Link to="/printables" className="rounded-2xl bg-violet-700 px-5 py-3 font-bold text-white">כל הדפים להדפסה</Link><Link to="/booklets" className="rounded-2xl border-2 border-violet-300 bg-white px-5 py-3 font-bold">חוברות עבודה</Link><button type="button" onClick={() => { setRequest(''); setState('idle') }} className="rounded-2xl border-2 border-slate-300 bg-white px-5 py-3 font-bold">בקשה נוספת</button></div>
         <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-[48px] items-center rounded-2xl bg-emerald-600 px-5 font-bold text-white hover:bg-emerald-700">📢 דף חדש כל יום — הצטרפו לערוץ הוואטסאפ</a>
@@ -90,6 +94,7 @@ export default function RequestPage() {
         <label className="block font-bold">מייל, אם תרצו שנכתוב לכם כשהדף מוכן <span className="font-normal text-[var(--muted-foreground)]">(רשות)</span>
           <input type="email" dir="ltr" value={email} onChange={e => setEmail(e.target.value)} maxLength={120} autoComplete="email" className={field} />
         </label>
+        {!email.trim() && <p className="-mt-3 text-sm">בלי מייל? אין בעיה — כל מה שמכינים לפי בקשה מופיע בדף <Link to={DONE_PATH} className="font-bold underline">״הכנו לפי בקשה״</Link>, {REQUEST_ETA}.</p>}
         {email.trim() && <label className="-mt-2 flex items-start gap-2 font-bold"><input type="checkbox" checked={weekly} onChange={e => setWeekly(e.target.checked)} className="mt-1 h-5 w-5 flex-none" />
           <span>שלחו לי גם את הדפים החדשים של השבוע <span className="font-normal text-[var(--muted-foreground)]">(מייל אחד בשבוע, אפשר לבטל בכל רגע)</span></span></label>}
         <p className="text-xs text-[var(--muted-foreground)]">המייל משמש כדי לעדכן שהדף מוכן, ואם סימנתם — גם לדפים של השבוע. הוא לא מתפרסם ולא נמסר לאף אחד. אל תכתבו בבקשה שמות של ילדים או מספרי טלפון. <Link to="/privacy" className="underline">מדיניות הפרטיות</Link></p>

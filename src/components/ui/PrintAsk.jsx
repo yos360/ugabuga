@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { recordExperiment } from '../../utils/experiments'
 import { CHANNEL_GO } from '../../data/brand'
+import { DONE_PATH, REQUEST_ETA } from './DoneRequests'
 
 // Right after a print or PDF — the moment a visitor is most involved — one line: "what else is missing?"
 // The request goes to /request's table (source 'print'); the request code loads only on send.
@@ -16,7 +17,7 @@ export default function PrintAsk({ path }) {
     if (ok) recordExperiment('request')
     setState(ok ? 'sent' : 'error')
   }
-  if (state === 'sent') return <><p className="buga-print-ask" dir="rtl" role="status">🎉 תודה! קיבלנו. כל שבוע אנחנו מכינים את מה שהכי מבקשים.</p><Channel /></>
+  if (state === 'sent') return <><p className="buga-print-ask" dir="rtl" role="status">🎉 תודה! המערכת כבר בונה את זה — {REQUEST_ETA}. כשזה מוכן זה מופיע ב<a href={DONE_PATH} target="_blank" rel="noopener"><b>״הכנו לפי בקשה״</b></a>.</p><Channel /></>
   return <><form className="buga-print-ask" dir="rtl" onSubmit={send}>
     <label><b>📝 חסר לכם דף אחר? ספרו לנו ונכין, בחינם</b>
       <input value={text} onChange={e => { setText(e.target.value); if (state !== 'sending') setState('idle') }} maxLength={400} placeholder="למשל: אותו דף בנושא חנוכה, או לכיתה ג׳" /></label>
