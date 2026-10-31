@@ -28,6 +28,7 @@ module.exports.chromium = {
             await new Promise(resolve => setTimeout(resolve, path === '/first' ? 20 : 1))
           },
           locator: () => ({ waitFor: async () => {} }),
+          waitForFunction: async () => {},
           evaluate: async () => ({ title: path === '/duplicate' ? '/first' : path,
             canonical: ['https://ugabuga.co.il' + path], descriptions: 1, h1: 1, robots: '' }),
           content: async () => '<h1>' + path + '</h1><script src="' + origin + '/assets/app.js"></script>',
