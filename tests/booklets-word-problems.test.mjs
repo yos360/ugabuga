@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 
 // The word-problems booklet builds its answers from its data; check the data is well-formed.
-const src = readFileSync(new URL('../src/booklets/wordProblemsSpecialEd.jsx', import.meta.url), 'utf8')
+const src = readFileSync(new URL('../src/booklets/wordProblemsSpecialEd.jsx', import.meta.url), 'utf8').replace(/\r\n/g, '\n') // CRLF on Windows checkouts
 const block = name => src.match(new RegExp(`export const ${name} = \\[([\\s\\S]*?)\\n\\](?:\\n|$)`))[1]
 const rows = name => [...block(name).matchAll(/^\s*\[(.*)\],?$/gm)].map(m => m[1])
 
