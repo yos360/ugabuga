@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
 import { QR_VARIANTS } from '../../data/printMessages'
-import { announceText } from '../../utils/requestAnnounce'
+import { announceText, whatsappText } from '../../utils/requestAnnounce'
 import { WHATSAPP_CHANNEL } from '../../data/brand'
 
 // Owner report: what visitors asked us to make (/request), with a status per request, and which
@@ -30,7 +30,7 @@ function WhatsAppQueue({ tick }) {
   const [q, setQ] = useState(null), [msg, setMsg] = useState(''), [reload, setReload] = useState(0)
   useEffect(() => { let live = true; ownerSupabase.rpc('page_request_whatsapp_owner', { p_action: 'next' }).then(({ data, error }) => { if (live) setQ(error ? null : data) }); return () => { live = false } }, [tick, reload])
   if (!q) return null
-  const text = q.next ? announceText(q.next) : ''
+  const text = q.next ? whatsappText(q.next) : ''
   const ready = q.next && !q.wait_minutes && !q.quiet_hours
   const posted = async () => {
     const { error } = await ownerSupabase.rpc('page_request_whatsapp_owner', { p_action: 'posted', p_id: q.next.id })
