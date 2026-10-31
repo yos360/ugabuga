@@ -29,6 +29,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `grade-7-prep` — חוברת הכנה לכיתה ז׳ (70/mo), 16 עמודים: שברים, עשרוניים, אחוזים, סדר פעולות, בעיות מילוליות ושני קטעי הבנת הנקרא מאוסף האתר — 2026-10-31
 - [x] `age-3` — חוברת עבודה לגיל 3 (50/mo), 15 עמודים — 2026-10-31
 - [x] `add-to-20` — חוברת חיבור עד 20, 16 עמודים — on visitors' request — 2026-10-31
+- [x] `transport-kindergarten` — חוברת כלי תחבורה לגן חובה, 16 עמודים — on visitors' request — 2026-10-31
 
 ## Next (top first)
 - [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
