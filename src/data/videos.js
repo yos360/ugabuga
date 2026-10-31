@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '3R4R1nnYNSs', kind: 'tutorial', title: 'איך משחקים במשחק לוח הכפל — מדריך קצר', paths: ['/learn/multiplication-game'], category: 'learning', date: '2026-10-31',
+    desc: 'מדריך קצר למשחק לוח הכפל: מסלול שלבים מהלוח של 1 עד הלוח של 10, משוב מיידי על כל תשובה, כוכבים ודף תרגול להדפסה עם תשובות.' },
   { id: 'u3HvcewrSVc', kind: 'tutorial', title: 'איך מעצבים הזמנה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/invitation'], category: 'party', date: '2026-10-30',
     desc: 'מדריך קצר להזמנה ליום הולדת: בוחרים אחד מ־12 סגנונות, ממלאים שם, גיל, תאריך ומקום, משנים צבעים ופונט, שומרים כתמונה לוואטסאפ או לסטטוס ומוסיפים קישור לאישור הגעה.' },
   { id: '_UCm6JYhOyI', kind: 'tutorial', title: 'איך אוספים אישורי הגעה ליום הולדת בוואטסאפ — מדריך קצר', paths: ['/rsvp'], category: 'party', date: '2026-10-30',
@@ -42,7 +44,7 @@ export const VIDEO_PAGE_LABELS = {
   '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
-  '/tools/dice': 'קובייה וירטואלית',
+  '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
 }
 
 const SITE = 'https://ugabuga.co.il'
