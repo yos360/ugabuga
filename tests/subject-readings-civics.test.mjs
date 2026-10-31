@@ -29,9 +29,9 @@ test('civics readings: shape and answers', () => {
   }
 })
 
-test('civics readings: three per grade, longer as grades rise, answers spread', () => {
+test('civics readings: six per grade, longer as grades rise, answers spread', () => {
   const avg = g => { const list = READINGS.filter(r => r.grade === g); return list.reduce((n, r) => n + words(r.text.join(' ')), 0) / list.length }
-  for (let g = 4; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 3, `grade ${g}`)
+  for (let g = 4; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 6, `grade ${g}`)
   for (let g = 5; g <= 9; g++) assert.ok(avg(g) > avg(g - 1), `grade ${g} passages should be longer than grade ${g - 1}`)
   const pos = READINGS.flatMap(r => r.q.map(q => q[2]))
   for (const p of [0, 1, 2, 3]) assert.ok(pos.filter(x => x === p).length >= pos.length / 8, `answer position ${p} is rare`)

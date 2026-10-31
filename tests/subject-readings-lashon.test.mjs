@@ -1,4 +1,4 @@
-// Lashon reading passages (src/learn/subjects/readings/lashon.js): three per grade ב׳–ט׳, well-formed
+// Lashon reading passages (src/learn/subjects/readings/lashon.js): six per grade ב׳–ט׳, well-formed
 // questions, an answer-key open question, lengths that grow with the grade, and topics that exist.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
@@ -37,8 +37,8 @@ test('lashon readings: shape, questions and answers', () => {
   }
 })
 
-test('lashon readings: three per grade, varied answer positions', () => {
-  for (let g = 2; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 3, `grade ${g}`)
+test('lashon readings: six per grade, varied answer positions', () => {
+  for (let g = 2; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 6, `grade ${g}`)
   const pos = READINGS.flatMap(r => r.q.map(x => x[2]))
   for (const p of [0, 1, 2, 3]) assert.ok(pos.filter(x => x === p).length >= pos.length / 8, `answers spread (position ${p})`)
 })

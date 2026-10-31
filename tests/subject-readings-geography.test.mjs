@@ -18,9 +18,9 @@ test('geography readings: unique slugs and complete fields', () => {
   }
 })
 
-test('geography readings: three per grade, ב׳–ט׳, longer in higher grades', () => {
+test('geography readings: six per grade, ב׳–ט׳, longer in higher grades', () => {
   for (const r of READINGS) assert.ok(Number.isInteger(r.grade) && r.grade >= 2 && r.grade <= 9, `${r.slug}: grade ${r.grade}`)
-  for (let g = 2; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 3, `grade ${g}`)
+  for (let g = 2; g <= 9; g++) assert.equal(READINGS.filter(r => r.grade === g).length, 6, `grade ${g}`)
   const avg = g => { const l = READINGS.filter(r => r.grade === g); return l.reduce((n, r) => n + words(r.text.join(' ')), 0) / l.length }
   for (const r of READINGS) assert.ok(words(r.text.join(' ')) >= 70, `${r.slug}: too short`)
   assert.ok(avg(9) > avg(2) * 2, 'grade 9 passages are much longer than grade 2')
