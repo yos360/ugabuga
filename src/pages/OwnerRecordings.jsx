@@ -38,9 +38,22 @@ export default function OwnerRecordings() {
     return (rows || []).filter(r => !q || (r.paths || []).some(p => decode(p).includes(q)))
   }, [rows, filter])
 
-  async function play(row) {
-    setActive(row.id); setStatus('טוען את ההקלטה…')
+  function close() {
     player.current?.$destroy(); player.current = null
+    setActive(null); setStatus('')
+  }
+
+  useEffect(() => {
+    if (!active) return
+    const onKey = e => { if (e.key === 'Escape') close() }
+    addEventListener('keydown', onKey)
+    return () => removeEventListener('keydown', onKey)
+  }, [active])
+
+  // Plays in a full-screen layer: inside the page flow the replay iframe upset the footer grid's layout.
+  async function play(row) {
+    player.current?.$destroy(); player.current = null
+    setActive(row.id); setStatus('טוען את ההקלטה…')
     try {
       const [{ data, error: e }, { default: Player }] = await Promise.all([
         ownerSupabase.rpc('session_recording_chunks_owner', { p_session: row.id }),
@@ -49,13 +62,13 @@ export default function OwnerRecordings() {
       if (e) throw e
       const events = await unpackSession(data || [])
       if (events.length < 2) { setStatus('ההקלטה הזו קצרה מדי לצפייה.'); return }
-      // The stage is hidden while empty, so measure its parent.
-      const width = Math.min(stage.current.parentElement.clientWidth - 32, 1000)
+      if (!stage.current) return // closed while loading
+      const width = Math.min(innerWidth - 48, 1200)
+      const height = Math.min(innerHeight - 170, Math.round(width * 0.62))
       player.current = new Player({ target: stage.current, props: {
-        events, width, height: Math.round(width * 0.6), autoPlay: true, skipInactive: true, speedOption: [1, 2, 4, 8], mouseTail: false,
+        events, width, height, autoPlay: true, skipInactive: true, speedOption: [1, 2, 4, 8], mouseTail: false,
       } })
       setStatus('')
-      stage.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } catch {
       setStatus('לא הצלחנו לטעון את ההקלטה. נסו שוב.')
     }
@@ -77,8 +90,11 @@ export default function OwnerRecordings() {
         aria-label="סינון לפי דף" className="min-h-11 flex-1 rounded-xl border-2 border-slate-200 px-3" />
     </div>
 
-    <div ref={stage} className="mt-5 empty:hidden" dir="ltr" />
-    {status && <p role="status" className="mt-3 rounded-xl bg-slate-50 p-3 font-bold">{status}</p>}
+    {active && <div role="dialog" aria-modal="true" aria-label="צפייה בהקלטה" className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-3 bg-slate-900/90 p-4">
+      <button onClick={close} className="min-h-11 rounded-xl bg-white px-5 font-bold">✕ סגירה</button>
+      {status && <p role="status" className="rounded-xl bg-white p-3 font-bold">{status}</p>}
+      <div ref={stage} dir="ltr" className="overflow-hidden rounded-xl bg-white" />
+    </div>}
 
     {error ? <p className="mt-5 rounded-xl bg-amber-50 p-3 font-bold">{error}</p>
       : !rows ? <p className="mt-5 text-slate-500">טוען…</p>
