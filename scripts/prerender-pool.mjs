@@ -1,4 +1,4 @@
-export function prerenderConcurrency(value = '6') {
+export function prerenderConcurrency(value = '8') {
   const concurrency = Number(value)
   if (!Number.isSafeInteger(concurrency) || concurrency < 1 || concurrency > 32) {
     throw new Error('PRERENDER_CONCURRENCY must be an integer from 1 to 32')

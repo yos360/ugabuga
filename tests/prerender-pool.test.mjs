@@ -4,7 +4,7 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { prerenderConcurrency, renderPagePool } from '../scripts/prerender-pool.mjs'
 
 test('concurrency defaults to six and rejects unsafe settings', () => {
-  assert.equal(prerenderConcurrency(), 6)
+  assert.equal(prerenderConcurrency(), 8)
   for (const n of ['1', '8', '32']) assert.equal(prerenderConcurrency(n), Number(n))
   for (const n of ['', '0', '-1', '1.5', 'Infinity', 'abc', '33']) {
     assert.throws(() => prerenderConcurrency(n), /PRERENDER_CONCURRENCY/)

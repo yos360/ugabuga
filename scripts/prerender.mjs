@@ -60,6 +60,9 @@ try {
     const url = new URL(route.request().url())
     // Never count prerender visits as supplier views or site activity.
     if (/\/rpc\/(supplier_track|record_site_event)/.test(url.pathname)) return route.abort()
+    // Snapshots keep the <img>/<video> tags; the bytes themselves are never needed, and fetching
+    // thousands of images per build pushed it past Cloudflare's time limit.
+    if (['image', 'media', 'font'].includes(route.request().resourceType())) return route.abort()
     return url.origin === origin || (process.env.PRERENDER_OFFLINE !== '1' && SUPABASE_ORIGINS.includes(url.origin)) ? route.continue() : route.abort()
   })
   const failures = []
@@ -67,8 +70,13 @@ try {
   await renderPagePool(context, paths, concurrency, async (page, path, index) => {
     try {
       // Some interactive tools keep a short-lived request open on first load; allow time for their SEO snapshot.
-      await page.goto(origin + path, { waitUntil: 'networkidle', timeout: 60000 })
+      // 'load' plus explicit readiness checks instead of 'networkidle': networkidle adds at least
+      // half a second of waiting to every page, which over 8,000+ pages exceeded the build limit.
+      // The page is ready once its h1 is in and its own canonical (set together with the title and
+      // description) points at this path — the checks below still reject anything incomplete.
+      await page.goto(origin + path, { waitUntil: 'load', timeout: 60000 })
       await page.locator('main h1').waitFor()
+      await page.waitForFunction(p => [...document.querySelectorAll('link[rel="canonical"]')].some(l => l.href === `https://ugabuga.co.il${p}`), path, { timeout: 30000 }).catch(() => {})
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
       if (/^\/time-tunnel\/\d\d-\d\d$/.test(path)) await page.locator('.tt-facts-body').waitFor({ state: 'attached' })
       // Dictionary letter pages load the word list from a lazy chunk.
