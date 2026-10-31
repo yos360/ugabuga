@@ -54,3 +54,9 @@ test('the database keeps recordings bounded and owner-only', () => {
   assert.match(sql, /grant execute on function public\.session_recordings_owner\(timestamptz,timestamptz\) to authenticated;/)
   assert.doesNotMatch(sql, /session_recordings_owner[^;]*to anon/)
 })
+
+test('no migration uses a regex repetition Postgres rejects (max {n,255})', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261031093000_session_recordings_path.sql', import.meta.url), 'utf8')
+  for (const [, n] of sql.matchAll(/\{\d*,(\d+)\}/g)) assert.ok(Number(n) <= 255, `repetition {,${n}}`)
+  assert.match(sql, /drop constraint if exists session_recordings_path_check/)
+})

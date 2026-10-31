@@ -13,7 +13,7 @@ const STATE_KEY = 'buga-rec'
 export const PRIVATE_PATHS = /^\/(?:en\/)?(?:admin|live|play|r|hw|q|l|t|g|w|meet|parent-meetings|family-help|party-album|__test|teachers\/homework|classroom\/quiz)(?:\/|$)/
 
 export const recordablePath = path => !PRIVATE_PATHS.test(path)
-export const chunkPath = path => (/^\/[a-zA-Z0-9/_%.-]{0,299}$/.test(path) ? path : '/')
+export const chunkPath = path => (/^\/[a-zA-Z0-9/_%.-]*$/.test(path) && path.length <= 300 ? path : '/')
 
 // Decided once per tab. `force` (?rec=1) lets the owner test it on their own device.
 export function recordingDecision({ path, random, ownerDevice, webdriver, privacySignal, force }) {
@@ -41,10 +41,10 @@ function ownerDevice() {
 
 export async function startSessionRecording() {
   if (typeof CompressionStream === 'undefined' || !crypto.randomUUID) return
+  const force = new URLSearchParams(location.search).get('rec') === '1'
   let state = storage.get()
-  if (state === 'off') return
-  if (!state) {
-    const force = new URLSearchParams(location.search).get('rec') === '1'
+  if (state === 'off' && !force) return
+  if (!state || state === 'off') {
     const on = recordingDecision({ path: location.pathname, random: Math.random(), ownerDevice: ownerDevice(), force,
       webdriver: navigator.webdriver, privacySignal: navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' })
     state = on ? { id: crypto.randomUUID(), chunk: 0 } : 'off'
