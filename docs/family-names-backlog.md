@@ -27,6 +27,8 @@ Rules (from the site owner — never bend them):
   - Given-name surnames יצחק, יעקב, יהודה, אליהו, עזרא, שמואלי — need two sources that say the surname comes from the given name (ANU alone covers אליהו and עזרא).
   - מועלם ("teacher" — ANU only), נעים and סלאמה (Geneanet only), צדוק, קדוש, שאשא (only low-quality name sites), נהון (Nahum link only on weak sites), אלגזי ("from Gaza" is unsourced).
   - קמחי — both sources say the origin is disputed and give no meaning; no category page fits a Provençal/Sephardi name of unknown origin.
+  - Retried again 2026-10-31 (0 added): יוסקוביץ (no source states the meaning), מועלם (still ANU only), חזות (no etymology found),
+    קדוש (only low-quality name sites). Searching the web again will not help — these need a printed dictionary (Beider) or a new source.
 - [ ] Continue with the most common names that remain (ask the owner for the CBS file to know which ones).
 
 ## Sources checked on 2026-10-30
