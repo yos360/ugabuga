@@ -2,17 +2,18 @@
 // mobile accordion), Footer, the /tools site map and the static search index
 // all read from here, so a section is called the same thing everywhere.
 //
-// Information architecture (owner-approved, Oct 2026): six domains, each page
-// listed in exactly ONE domain, plus a separate "לכיתה" button for teachers.
-// Items marked `shortcut: true` (only inside the classroom panel) are links to
-// pages whose primary home is another domain.
+// Information architecture (owner-approved, 31.10.2026): six domains, each page listed in exactly ONE
+// domain — games, school (every school subject, with teachers and the classroom first), world and hobbies,
+// printables, birthday, and family with Shabbat and holidays. CLASSROOM_MENU is kept only as a list of
+// shortcuts (`shortcut: true`) to teachers' pages whose home is the school domain.
 export const SECTION = {
   games: 'משחקים',
-  learn: 'לומדים',
+  learn: 'בית ספר',
+  world: 'עולם ותחביבים',
   printables: 'להדפסה',
   birthday: 'יום הולדת',
   holidays: 'שבתות וחגים',
-  family: 'משפחה',
+  family: 'משפחה וחגים',
   classroom: 'לכיתה',
   tools: 'כלים',
 }
@@ -124,10 +125,33 @@ export const MENU_DOMAINS = [
     ],
   },
   {
-    id: 'learn', label: SECTION.learn, icon: '📚', to: '/learn',
-    landingLabel: 'לומדים — כל הנושאים',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/music', '/discover', '/signs', '/flags', '/animals', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/roots-project', '/printables/singular-plural-verbs-workbook', '/speech'],
+    id: 'learn', label: SECTION.learn, icon: '🏫', to: '/learn',
+    landingLabel: 'בית ספר — כל המקצועות',
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/singular-plural-verbs-workbook', '/speech', '/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan', '/planner', '/path'],
     groups: [
+      {
+        title: 'למורים ולכיתה', icon: '🧑‍🏫', to: '/classroom',
+        items: [
+          { to: '/planner', label: 'מערכת השעות — שיעור מוכן לכל שעה', icon: '🗓️' },
+          { to: '/classroom/by-grade', label: 'חומרים לפי כיתה', icon: '🧑‍🏫' },
+          { to: '/gan', label: 'לגננת — כל מה שצריך לגן', icon: '🧸' },
+          { to: '/teachers', label: 'שיעורי בית אינטראקטיביים', icon: '📚' },
+          { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
+          { to: '/printables/teacher-templates', label: 'קבצים לרכזות, לכיתה ולגן', icon: '🗂️' },
+          { to: '/printables/star-of-the-week', label: 'כוכב/ת השבוע — תעודה', icon: '⭐' },
+          { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
+          { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
+        ],
+      },
+      {
+        title: 'ללמוד לבד ובבית', icon: '🧭', to: '/path',
+        items: [
+          { to: '/path', label: 'מסלול לימוד אישי — שיעור אחד ביום', icon: '🧭' },
+          { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
+          { to: '/learn/gifted-test', label: 'הכנה למבחן מחוננים', icon: '💡' },
+          { to: '/learn/psychometric-kids', label: 'פסיכומטרי לילדים', icon: '🎓' },
+        ],
+      },
       {
         title: 'חשבון', icon: '🧮', to: '/math',
         items: [
@@ -138,8 +162,6 @@ export const MENU_DOMAINS = [
           { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕' },
           { to: '/printables/math-order-puzzles', label: 'פותרים ומסדרים', icon: '🧩' },
           { to: '/logic-puzzles', label: 'תשבצי היגיון', icon: '🧠' },
-          { to: '/learn/gifted-test', label: 'הכנה למבחן מחוננים', icon: '💡' },
-          { to: '/learn/psychometric-kids', label: 'פסיכומטרי לילדים', icon: '🎓' },
         ],
       },
       {
@@ -156,13 +178,15 @@ export const MENU_DOMAINS = [
           { to: '/booklets', label: 'חוברות אנגלית להדפסה', icon: '📚' },
           { to: '/english', label: 'מילים ומשחקים באנגלית', icon: '🎮' },
           { to: '/abc', label: 'אותיות באנגלית A–Z', icon: '🔤' },
+          { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '✏️' },
           { to: '/learn/dictation/english', label: 'הכתבה באנגלית', icon: '✍️' },
         ],
       },
       {
-        title: 'עברית וקריאה', icon: '🔤', to: '/letters',
+        title: 'עברית, לשון וקריאה', icon: '🔤', to: '/letters',
         items: [
-          { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
+          { to: '/learn/lashon', label: 'לשון עברית', icon: '✍️' },
+          { to: '/printables/singular-plural-verbs-workbook', label: 'חוברת יחיד ורבים ופעלים', icon: '📒' },
           { to: '/letters', label: 'לימוד אותיות בעברית', icon: '🔤' },
           { to: '/letters/game', label: 'משחק אותיות לגן', icon: '🎮' },
           { to: '/printables/hebrew-letters', label: 'אותיות בעברית לכתיבה', icon: '✏️' },
@@ -208,21 +232,39 @@ export const MENU_DOMAINS = [
         ],
       },
       {
-        title: 'מקצועות בית הספר', icon: '🏫', to: '/learn',
+        title: 'מקצועות', icon: '📚', to: '/learn',
         items: [
-          { to: '/planner', label: 'מערכת השעות שלי — שיעור מוכן לכל שעה', icon: '🗓️' },
           { to: '/learn/tanakh', label: 'תנ״ך לילדים', icon: '📜' },
-          { to: '/learn/lashon', label: 'לשון עברית', icon: '✍️' },
-          { to: '/printables/singular-plural-verbs-workbook', label: 'חוברת יחיד ורבים ופעלים', icon: '📒' },
           { to: '/learn/science', label: 'מדע וטכנולוגיה', icon: '🔬' },
           { to: '/learn/history', label: 'היסטוריה', icon: '🏺' },
           { to: '/learn/geography', label: 'גאוגרפיה ומולדת', icon: '🗺️' },
           { to: '/learn/civics', label: 'אזרחות וחברה', icon: '🏛️' },
+          { to: '/languages', label: 'שפות: ערבית, צרפתית, ספרדית, רוסית, אמהרית', icon: '🌍' },
+          { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
+          { to: '/typing/test', label: 'מבחן מהירות הקלדה', icon: '⏱️' },
+          { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'world', label: SECTION.world, icon: '🔭', to: '/discover',
+    landingLabel: 'עולם ותחביבים — הכול',
+    prefixes: ['/discover', '/music', '/signs', '/flags', '/animals', '/tools/experiment-maker'],
+    groups: [
+      {
+        title: 'מחשבים וטכנולוגיה', icon: '💻', to: '/learn/ai',
+        items: [
           { to: '/learn/ai', label: 'אקדמיית ה־AI של בוגה', icon: '🤖' },
           { to: '/learn/computers', label: 'מחשבים: מה יש בפנים, בינארי ואינטרנט', icon: '💻' },
           { to: '/learn/coding', label: 'תכנות לילדים — סקראץ׳, פייתון ואלגוריתמים', icon: '💻' },
           { to: '/learn/photography', label: 'צילום לילדים ולמתחילים', icon: '📷' },
           { to: '/learn/video', label: 'וידאו וקולנוע — מצלמים ועורכים סרטון', icon: '🎬' },
+        ],
+      },
+      {
+        title: 'סקרנות', icon: '✨', to: '/learn/what-is',
+        items: [
           { to: '/learn/zodiac', label: 'מזלות לילדים', icon: '♈' },
           { to: '/learn/communities', label: 'עדות ישראל', icon: '🧭' },
           { to: '/learn/how-its-made', label: 'איך מכינים את זה?', icon: '🏭' },
@@ -230,15 +272,6 @@ export const MENU_DOMAINS = [
           { to: '/learn/ancient-worlds', label: 'עולמות עתיקים: מצרים, יוון, רומא ואבירים', icon: '🏛️' },
           { to: '/learn/sports', label: 'ספורט: האולימפיאדה, ישראל באולימפיאדה וחוקי משחקים', icon: '🏅' },
           { to: '/learn/what-is', label: 'מה זה? מילים שכולם שואלים — ריבית, קראש, טרם', icon: '❓' },
-        ],
-      },
-      {
-        title: 'שפות והקלדה', icon: '🌍', to: '/languages',
-        items: [
-          { to: '/printables/abc-letters', label: 'אותיות באנגלית לכתיבה', icon: '✏️' },
-          { to: '/languages', label: 'שפות לילדים: צרפתית, ספרדית, רוסית, ערבית, אמהרית', icon: '🌍' },
-          { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
-          { to: '/typing/test', label: 'מבחן מהירות הקלדה', icon: '⏱️' },
         ],
       },
       {
@@ -276,7 +309,6 @@ export const MENU_DOMAINS = [
           { to: '/learn/birds', label: 'ציפורים: נדידה, קנים וציפורי ישראל', icon: '🐦' },
           { to: '/learn/pets-breeds', label: 'כלבים, חתולים וחיות מחמד', icon: '🐶' },
           { to: '/tools/experiment-maker', label: 'מחולל ניסויים', icon: '🧪' },
-          { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
         ],
       },
     ],
@@ -371,9 +403,10 @@ export const MENU_DOMAINS = [
     ],
   },
   {
-    id: 'holidays', label: SECTION.holidays, icon: '🕎', to: '/holidays',
-    landingLabel: 'כל השבתות והחגים',
-    prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until', '/hebrew-calendar', '/omer'],
+    id: 'family', label: SECTION.family, icon: '🏡', to: '/family',
+    landingLabel: 'משפחה, שבתות וחגים — הכול',
+    prefixes: ['/holidays', '/parasha', '/shabbat-times', '/school-holidays', '/hanukkah', '/sevivon', '/purim', '/tu-bishvat', '/games/shabbat', '/tools/hebrew-birthday', '/days-until', '/hebrew-calendar', '/omer',
+      '/travel', '/family', '/stories', '/toddlers', '/baby-names', '/food', '/blog', '/ma-hayom', '/ideas/what-to-do-weekend'],
     groups: [
       {
         title: 'חגי ישראל', icon: '📅', to: '/holidays',
@@ -406,13 +439,6 @@ export const MENU_DOMAINS = [
           { to: '/days-until', label: 'כמה ימים עד החג?', icon: '⏳' },
         ],
       },
-    ],
-  },
-  {
-    id: 'family', label: SECTION.family, icon: '🏡', to: '/family',
-    landingLabel: 'בבית עם הילדים — הכול',
-    prefixes: ['/travel', '/family', '/stories', '/toddlers', '/baby-names', '/food', '/blog', '/ma-hayom', '/ideas/what-to-do-weekend'],
-    groups: [
       { title: '✈️ נוסעים עם בוגה', icon: '✈️', to: '/travel', items: [{ to: '/travel/kit', label: 'ערכת טיסה ונסיעה', icon: '✈️' }, { to: '/travel/bingo', label: 'בינגו דרכים ושדה תעופה', icon: '✈️' }, { to: '/travel/passport', label: 'דרכון נסיעה לילדים', icon: '✈️' }, { to: '/travel/journal', label: 'יומן טיול לילדים', icon: '✈️' }, { to: '/travel/surprise-bags', label: 'מעטפות הפתעה לכל שעה', icon: '✈️' }, { to: '/travel/talk-games', label: 'משחקי דיבור למשפחה', icon: '✈️' }, { to: '/travel/listen', label: 'משחקי שמע וחידות', icon: '✈️' }, { to: '/travel/stories', label: 'רדיו בוגה — סיפורים לדרך', icon: '✈️' }, { to: '/travel/countdown', label: 'כמה עוד נשאר? טיימר לנסיעה', icon: '✈️' }, { to: '/travel/packing-list', label: 'מה לוקחים לנסיעה עם ילדים', icon: '✈️' }, { to: '/travel/waiting-games', label: 'משחקים לתור ולמסעדה', icon: '✈️' }, { to: '/travel/guides/toddler-flight', label: 'איך להעסיק פעוט בטיסה', icon: '✈️' }, { to: '/travel/guides/long-car-ride', label: 'משחקים לנסיעה ארוכה ברכב', icon: '✈️' }, { to: '/travel/guides/carry-on-for-kids', label: 'מה לארוז לילד בתיק יד', icon: '✈️' }, { to: '/travel/guides/flying-with-baby', label: 'טיסה עם תינוק: מה חשוב לדעת', icon: '✈️' }, { to: '/travel/guides/car-sickness', label: 'בחילה בנסיעה אצל ילדים', icon: '✈️' }, { to: '/travel', label: 'נוסעים עם בוגה — לכל מקום', icon: '✈️' }, { to: '/travel/offline', label: 'תיק טיסה — שמירה בלי אינטרנט', icon: '💼' }, { to: '/travel/play', label: 'מסך הטיסה', icon: '🎮' }] },
       {
         title: 'לפני השינה', icon: '🌙',
@@ -470,21 +496,18 @@ export const MENU_DOMAINS = [
   },
 ]
 
-// The teachers' hub is a single button in the top bar with a small panel.
+// Teachers' shortcuts (the site map and "back to" labels): every page here lives in another domain —
+// the classroom pages in the school domain's first group.
 export const CLASSROOM_MENU = {
   id: 'classroom', label: SECTION.classroom, icon: '🏫', to: '/classroom',
   landingLabel: 'כל הכלים לכיתה ולגן',
-  prefixes: ['/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan'],
+  prefixes: [],
   items: [
-    { to: '/gan', label: 'לגננת — כל מה שצריך לגן', icon: '🧸' },
-    { to: '/classroom/by-grade', label: 'למורה — חומרים לפי כיתה', icon: '🧑‍🏫' },
+    { to: '/gan', label: 'לגננת — כל מה שצריך לגן', icon: '🧸', shortcut: true },
+    { to: '/classroom/by-grade', label: 'למורה — חומרים לפי כיתה', icon: '🧑‍🏫', shortcut: true },
     { to: '/live', label: 'בוגה לייב — משחק חידון לכיתה', icon: '⚡', shortcut: true },
-    { to: '/teachers', label: 'שיעורי בית אינטראקטיביים', icon: '📚' },
-    { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝' },
-    { to: '/secret-friend', label: 'גמד וענק — הגרלת שמות', icon: '🧙' },
-    { to: '/thank-you-wall', label: 'קיר ברכות לגננת ולמורה', icon: '💌' },
-    { to: '/printables/teacher-templates', label: 'קבצים לרכזות, לכיתה ולגן', icon: '🗂️' },
-    { to: '/printables/star-of-the-week', label: 'כוכב/ת השבוע — תעודה להדפסה', icon: '⭐' },
+    { to: '/teachers', label: 'שיעורי בית אינטראקטיביים', icon: '📚', shortcut: true },
+    { to: '/classroom/quiz', label: 'מבחן אמריקאי אונליין', icon: '📝', shortcut: true },
     { to: '/printables/math-worksheets', label: 'דפי עבודה בחשבון', icon: '➕', shortcut: true },
     { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐', shortcut: true },
     { to: '/games/classroom', label: 'משחקים לכיתה', icon: '🏫', shortcut: true },
@@ -497,8 +520,8 @@ const matches = (pathname, prefix) => pathname === prefix || pathname.startsWith
 
 // Every path that marks a domain as "active": its landing page, group hubs,
 // its own items and the extra prefixes above (aliases and sub-pages).
-export const MENU_ACTIVE_PREFIXES = Object.fromEntries([...MENU_DOMAINS, CLASSROOM_MENU].map(d => {
-  const items = d.groups ? d.groups.flatMap(g => [g.to, ...g.items.map(i => i.to)]) : d.items.filter(i => !i.shortcut).map(i => i.to)
+export const MENU_ACTIVE_PREFIXES = Object.fromEntries(MENU_DOMAINS.map(d => {
+  const items = d.groups.flatMap(g => [g.to, ...g.items.map(i => i.to)])
   // Anchor links (e.g. /printables/hebrew-letters#names) point into another
   // domain's page, so they don't claim that page for this domain.
   return [d.id, [...new Set([d.to, ...d.prefixes, ...items].filter(to => to && !to.includes('#')))]]
@@ -517,7 +540,6 @@ export function activeDomainFor(pathname) {
 // Flat list of groups (with their domain) for the /tools site map and the search index.
 export const MENU_GROUPS = [
   ...MENU_DOMAINS.flatMap(d => d.groups.map(g => ({ domain: d.id, title: `${g.icon} ${g.title}`, to: g.to || d.to, items: g.items }))),
-  { domain: 'classroom', title: `${CLASSROOM_MENU.icon} ${CLASSROOM_MENU.label}`, to: CLASSROOM_MENU.to, items: CLASSROOM_MENU.items.filter(i => !i.shortcut) },
 ]
 
 // Footer columns follow the same domains. Every link here must live in the same
@@ -551,9 +573,17 @@ export const FOOTER_COLUMNS = [
     ],
   },
   {
-    domain: 'learn', title: '📚 לומדים',
+    domain: 'learn', title: '🏫 בית ספר',
     links: [
-      ['/learn', 'לומדים — כל הנושאים'],
+      ['/classroom', 'כל הכלים לכיתה ולגן'],
+      ['/planner', 'מערכת השעות למורים'],
+      ['/path', 'מסלול לימוד אישי'],
+      ['/teachers', 'שיעורי בית אינטראקטיביים'],
+      ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
+      ['/printables/teacher-templates', 'קבצים לרכזות ולגננות'],
+      ['/secret-friend', 'גמד וענק'],
+      ['/thank-you-wall', 'קיר ברכות לגננת'],
+      ['/learn', 'כל המקצועות'],
       ['/math', 'מתמטיקה לפי כיתה'],
       ['/learn/multiplication-table', 'לוח הכפל'],
       ['/learn/times-tables', 'תרגול לוח הכפל'],
@@ -570,21 +600,27 @@ export const FOOTER_COLUMNS = [
       ['/learn/history', 'היסטוריה'],
       ['/learn/geography', 'גאוגרפיה ומולדת'],
       ['/learn/civics', 'אזרחות וחברה'],
+      ['/english', 'אנגלית לילדים'],
+      ['/abc', 'לומדים אותיות באנגלית'],
+      ['/languages', 'שפות לילדים'],
+      ['/typing', 'הקלדה עיוורת'],
+      ['/learn/gifted-test', 'הכנה למבחן מחוננים'],
+      ['/printables/roots-project', 'עבודת שורשים'],
+    ],
+  },
+  {
+    domain: 'world', title: '🔭 עולם ותחביבים',
+    links: [
+      ['/discover', 'עולם ומדע'],
+      ['/discover/israel-map', 'מפת ישראל לילדים'],
+      ['/flags', 'דגלי מדינות'],
+      ['/animals', 'עולם החיות'],
+      ['/music', 'לומדים מוזיקה ופסנתר'],
       ['/learn/ai', 'אקדמיית ה־AI של בוגה'],
       ['/learn/photography', 'צילום לילדים ולמתחילים'],
       ['/learn/zodiac', 'מזלות לילדים'],
       ['/learn/communities', 'עדות ישראל'],
       ['/learn/how-its-made', 'איך מכינים את זה?'],
-      ['/english', 'אנגלית לילדים'],
-      ['/abc', 'לומדים אותיות באנגלית'],
-      ['/typing', 'הקלדה עיוורת'],
-      ['/music', 'לומדים מוזיקה ופסנתר'],
-      ['/discover', 'עולם ומדע'],
-      ['/discover/israel-map', 'מפת ישראל לילדים'],
-      ['/flags', 'דגלי מדינות'],
-      ['/animals', 'עולם החיות'],
-      ['/learn/gifted-test', 'הכנה למבחן מחוננים'],
-      ['/printables/roots-project', 'עבודת שורשים'],
     ],
   },
   {
@@ -627,7 +663,7 @@ export const FOOTER_COLUMNS = [
     ],
   },
   {
-    domain: 'holidays', title: '🕯️ שבתות וחגים',
+    domain: 'family', title: '🏡 משפחה וחגים',
     links: [
       ['/holidays', 'כל השבתות והחגים'],
       ['/holidays/shabbat-parents', 'אבא ואמא של שבת'],
@@ -642,11 +678,6 @@ export const FOOTER_COLUMNS = [
       ['/games/shabbat', 'משחקים לשבת'],
       ['/days-until', 'כמה ימים עד החג?'],
       ['/tools/hebrew-birthday', 'יום הולדת עברי'],
-    ],
-  },
-  {
-    domain: 'family', title: '🏡 משפחה',
-    links: [
       ['/family', 'בבית עם הילדים'],
       ['/adults', 'פנאי למבוגרים'],
       ['/adults/grandparents', 'סבא וסבתא עם הנכדים'],
@@ -660,17 +691,6 @@ export const FOOTER_COLUMNS = [
       ['/ideas/what-to-do-weekend', 'פעילות לסוף שבוע'],
       ['/recommended', 'המלצות לקנייה'],
       ['/blog', 'הבלוג שלנו'],
-    ],
-  },
-  {
-    domain: 'classroom', title: '🏫 לכיתה',
-    links: [
-      ['/classroom', 'כל הכלים לכיתה ולגן'],
-      ['/teachers', 'שיעורי בית אינטראקטיביים'],
-      ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
-      ['/printables/teacher-templates', 'קבצים לרכזות ולגננות'],
-      ['/secret-friend', 'גמד וענק'],
-      ['/thank-you-wall', 'קיר ברכות לגננת'],
     ],
   },
   {

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, ArrowLeft } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 
-import { MENU_DOMAINS, CLASSROOM_MENU, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
+import { MENU_DOMAINS, KIDS_ZONE, SITE_MAP_LINK, activeDomainFor } from '../../data/siteMenu'
 import { englishCounterpart } from '../../en/englishLinks'
 import { SITE_SLOGAN } from '../../data/brand'
 
@@ -125,9 +125,6 @@ export default function Navbar() {
 
         <div className="site-header-side site-header-end">
           <Link to={englishCounterpart(pathname) || '/en'} lang="en" hrefLang="en" className="site-language-link" aria-label="English — האתר באנגלית">English</Link>
-          <ul className="site-classroom">
-            <DomainItem domain={CLASSROOM_MENU} open={open} setOpen={setOpen} active={active === 'classroom'} className="is-classroom" />
-          </ul>
           <ThemeToggle />
           <Link to="/favorites" className="site-icon-button" aria-label="המועדפים שלי" title="המועדפים שלי"><span aria-hidden="true">❤️</span></Link>
           <Link to="/search" className="site-icon-button" aria-label="חיפוש באתר"><Search size={24} strokeWidth={1.7} /></Link>
@@ -151,7 +148,7 @@ export default function Navbar() {
         <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
           <Link to={KIDS_ZONE.to} className="site-mobile-kids" onClick={closeMobile}><span aria-hidden="true">{KIDS_ZONE.icon}</span> אזור ילדים — לשחק לבד</Link>
           <ul className="site-mobile-sections">
-            {[...MENU_DOMAINS, CLASSROOM_MENU].map(domain => {
+            {MENU_DOMAINS.map(domain => {
               const expanded = mobileSection === domain.id
               // The kids zone already leads the phone menu, so its group isn't repeated here.
               const groups = (domain.groups || [{ title: null, items: domain.items }]).filter(g => !g.items.some(i => i.highlight))

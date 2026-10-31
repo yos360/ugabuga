@@ -67,7 +67,7 @@ export const LEARN_SECTIONS = LEARN_DOMAIN.groups.map(g => ({
 export function LearnHub() {
   return <Page wide>
     <SEO title="לומדים — חשבון לפי כיתה, אותיות, קריאה ושפות לילדים" description="אזור הלמידה של עוגה בוגה: תרגילי חשבון לפי כיתה א׳–י״ב, לוח הכפל, אותיות וקריאה, הכתבה, אנגלית ושפות, הקלדה, מוזיקה ומדע — אונליין ולהדפסה, בחינם." path="/learn" />
-    <Head emoji="📚" h1="לומדים: חשבון, עברית, אנגלית ומדע לילדים" sub="בוחרים נושא — ומתרגלים אונליין או מדפיסים" />
+    <Head emoji="🏫" h1="בית ספר: כל המקצועות, למורים ולתלמידים" sub="מערכת שעות למורים, מסלול לימוד אישי, וכל מקצוע לפי כיתה — אונליין ולהדפסה" />
     <nav className="ln-hub-jump" aria-label="קפיצה לנושא">{LEARN_SECTIONS.map(s => <a key={s.id} href={`#${s.id}`} className="ln-chip"><span aria-hidden="true">{s.icon}</span> {s.title}</a>)}</nav>
     <section className="ln-hub-sec" aria-labelledby="subjects-h">
       <div className="ln-hub-head"><h2 id="subjects-h"><span aria-hidden="true">📚 </span>שיעורים לפי מקצוע</h2></div>

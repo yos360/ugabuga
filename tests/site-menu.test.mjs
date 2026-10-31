@@ -1,4 +1,4 @@
-// Site navigation: six domains + the classroom button. Every menu and footer
+// Site navigation: six domains (the classroom lives inside "בית ספר"). Every menu and footer
 // link must resolve to a real route, and each page lives in exactly one domain.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
@@ -17,12 +17,13 @@ const routeExists = href => STATIC.has(pathOf(href)) || PARAM.some(re => re.test
 const domainLinks = d => d.groups
   ? [d.to, ...d.groups.flatMap(g => [g.to, ...g.items.map(i => i.to)])].filter(Boolean)
   : [d.to, ...d.items.filter(i => !i.shortcut).map(i => i.to)]
-const ALL_DOMAINS = [...MENU_DOMAINS, CLASSROOM_MENU]
+const ALL_DOMAINS = MENU_DOMAINS
 
-test('six domains in the agreed order, plus the classroom button', () => {
-  assert.deepEqual(MENU_DOMAINS.map(d => d.id), ['games', 'learn', 'printables', 'birthday', 'holidays', 'family'])
-  assert.deepEqual(MENU_DOMAINS.map(d => d.to), ['/games', '/learn', '/printables', '/birthday', '/holidays', '/family'])
-  assert.equal(CLASSROOM_MENU.to, '/classroom')
+test('six domains in the agreed order, teachers first in the school domain', () => {
+  assert.deepEqual(MENU_DOMAINS.map(d => d.id), ['games', 'learn', 'world', 'printables', 'birthday', 'family'])
+  assert.deepEqual(MENU_DOMAINS.map(d => d.to), ['/games', '/learn', '/discover', '/printables', '/birthday', '/family'])
+  assert.equal(MENU_DOMAINS[1].groups[0].to, '/classroom')
+  assert.ok(CLASSROOM_MENU.items.every(i => i.shortcut))
   for (const d of ALL_DOMAINS) assert.ok(d.label && d.icon && d.landingLabel, d.id)
 })
 
@@ -62,12 +63,15 @@ test('every menu page highlights its own domain', () => {
     if (href.includes('#')) continue // anchors into another domain's page
     assert.equal(activeDomainFor(href), d.id, href)
   }
-  assert.equal(activeDomainFor('/games/shabbat'), 'holidays')
+  assert.equal(activeDomainFor('/games/shabbat'), 'family')
   assert.equal(activeDomainFor('/tools/bring-list'), 'birthday')
   assert.equal(activeDomainFor('/tools/dice/dnd'), 'games')
   assert.equal(activeDomainFor('/online-games/snake'), 'games')
-  assert.equal(activeDomainFor('/holidays/purim/quiz'), 'holidays')
-  assert.equal(activeDomainFor('/school-holidays/pesach'), 'holidays')
+  assert.equal(activeDomainFor('/holidays/purim/quiz'), 'family')
+  assert.equal(activeDomainFor('/school-holidays/pesach'), 'family')
+  assert.equal(activeDomainFor('/classroom/quiz'), 'learn')
+  assert.equal(activeDomainFor('/learn/space'), 'world')
+  assert.equal(activeDomainFor('/learn/science'), 'learn')
   assert.equal(activeDomainFor('/about'), null)
   assert.deepEqual(Object.keys(MENU_ACTIVE_PREFIXES).sort(), [...ALL_DOMAINS.map(d => d.id)].sort())
 })
