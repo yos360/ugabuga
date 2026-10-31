@@ -25,6 +25,7 @@ const RoadWeekBanner = lazy(() => import('../components/roadsafety/RoadWeekBanne
 // keep its code and the month's question data out of the home page's first load.
 const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
 const TodayGame = lazy(() => import('../components/home/TodayGame'))
+const SiteSearchBox = lazy(() => import('../components/ui/SiteSearchBox'))
 
 // Mounts children once the section scrolls near the viewport (immediately
 // during prerender, so the static snapshots still contain the content).
@@ -145,6 +146,9 @@ export default function Home() {
   useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); recordExperiment('shown', v) }, [])
   const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
   const posts = useLatestPosts()
+  const [liveBox, setLiveBox] = useState(false)
+  const startLive = () => { if (mode === 'site') setLiveBox(true) }
+  const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
@@ -155,13 +159,17 @@ export default function Home() {
       {variant === 'request' && <RequestTop variant={variant} />}
       {variant === 'bring' && <BringTop variant={variant} />}
       {variant === 'rsvp' && <RsvpTop variant={variant} />}
-      <form className="hp-search" onSubmit={go} role="search">
+      <div className="hp-search" role="search">
         <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
           <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>
           <button type="button" role="tab" aria-selected={mode === 'ask'} onClick={() => setMode('ask')}><Sparkles size={16} /> שאלה לבוגה־פדיה</button>
         </div>
-        <div className="hp-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></div>
-      </form>
+        {/* Site search gets the live suggestions box (as on /search) once the visitor starts — loaded only then. */}
+        {mode === 'site' && liveBox ? <Suspense fallback={plainField}>
+          <SiteSearchBox className="hp-field" value={q} onChange={setQ} autoFocus placeholder="משחק, דף צביעה, כלי…"
+            onSearch={v => { recordExperiment('click', variant); nav(`/search${v ? `?q=${encodeURIComponent(v)}` : ''}`) }} />
+        </Suspense> : plainField}
+      </div>
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
     <HomeSpotlight />

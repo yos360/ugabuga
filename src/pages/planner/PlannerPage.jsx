@@ -33,9 +33,9 @@ function CloudBox({ cloud, onLogout }) {
     e.preventDefault(); setState('sending')
     try { await api({ action: 'login', email }); setState('sent') } catch (err) { setMsg(err.message); setState('error') }
   }
-  return <div className="mx-auto mt-4 max-w-2xl rounded-2xl border-2 border-sky-200 bg-sky-50 p-3 text-center">
+  return <div id="cloud-box" className="mx-auto mt-4 max-w-2xl scroll-mt-24 rounded-2xl border-2 border-sky-200 bg-sky-50 p-3 text-center">
     {state === 'sent' ? <p className="font-bold" role="status">📬 שלחנו לכם קישור כניסה למייל. לחצו עליו בכל מכשיר — והמערכת תופיע שם.</p> : <>
-      <p className="font-bold">☁️ רוצים את המערכת גם בטלפון ובמחשב של בית הספר? הכניסו מייל ונשלח קישור כניסה.</p>
+      <p className="font-bold">☁️ שמירה בטוחה: הכניסו מייל, והיומן שלכם יישמר בענן — לא ילך לאיבוד ויופיע בטלפון ובמחשב של בית הספר.</p>
       <form onSubmit={send} className="mt-2 flex flex-wrap justify-center gap-2">
         <input type="email" dir="ltr" required value={email} onChange={e => setEmail(e.target.value)} placeholder="המייל שלכם" aria-label="המייל שלכם" className="min-h-[44px] min-w-[220px] rounded-xl border-2 border-sky-200 bg-white px-3" />
         <button type="submit" disabled={state === 'sending'} className="min-h-[44px] rounded-xl bg-sky-600 px-4 font-black text-white disabled:opacity-60">{state === 'sending' ? 'שולחים…' : 'שלחו לי קישור'}</button>
@@ -43,6 +43,18 @@ function CloudBox({ cloud, onLogout }) {
       {state === 'error' && <p className="mt-1 font-bold text-red-700" role="alert">{msg}</p>}
       <p className="mt-1 text-xs text-[var(--muted-foreground)]">בלי סיסמה. המייל משמש לכניסה ולעדכונים על מערכת השעות, ולא נמסר לאף אחד.</p>
     </>}
+  </div>
+}
+// Always on screen while the diary has something: that it is saved, when, and where.
+function SaveBadge({ plan, cloud }) {
+  if (!plan.classes.length || !plan.savedAt) return null
+  const time = new Date(plan.savedAt).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
+  const [text, tone] = cloud.email
+    ? cloud.saving ? ['☁️ שומרים…', 'bg-sky-100 border-sky-300'] : cloud.failed ? ['⚠️ נשמר רק במכשיר — הענן לא זמין כרגע', 'bg-amber-100 border-amber-400'] : [`✓ נשמר בענן · ${time}`, 'bg-emerald-100 border-emerald-400']
+    : [`✓ נשמר במכשיר הזה · ${time}`, 'bg-emerald-50 border-emerald-300']
+  return <div className="sticky top-2 z-20 mx-auto mt-4 flex w-fit max-w-full flex-wrap items-center justify-center gap-2 rounded-full border-2 bg-white/95 px-3 py-1 text-sm font-bold shadow-sm" role="status">
+    <span className={`rounded-full border px-2 ${tone}`}>{text}</span>
+    {!cloud.email && <a href="#cloud-box" className="text-sky-700 underline">לשמירה בענן</a>}
   </div>
 }
 const shortDate = iso => iso.split('-').slice(1).reverse().join('.')
@@ -129,10 +141,88 @@ function LessonPlan({ p, compact }) {
 // A period's printable worksheet (or unit quiz) at a level, after its lesson plan.
 function PeriodSheet({ p, level, unitQuiz }) {
   const parts = useLessonSheet(p.lesson, p.cls.grade, level, unitQuiz)
-  if (!p.lesson || !parts?.length) return null
+  if (!p.lesson) return null
+  if (!parts) return <p className="p-4 text-center" role="status">מכינים את הדף…</p>
   const lv = LEVELS.find(l => l[0] === level)[1]
+  // Lessons with no quiz source on the site (literature, reading, homeroom…) still print: a task page built from
+  // the lesson itself, with room to write — never an empty print.
+  if (!parts.length) {
+    const { step, unit } = p.lesson
+    const lines = n => Array.from({ length: n }, (_, i) => <div key={i} className="mt-6 border-b border-slate-400" />)
+    return <article className="buga-flow buga-a4" dir="rtl" style={{ padding: '10mm 12mm' }}>
+      <h2 className="text-2xl font-black">דף משימה: {step.title}</h2>
+      <p className="flex justify-between text-sm"><span>שם: ______________</span><span>תאריך: ________</span></p>
+      <p className="mt-1 font-bold">{classLabel(p.cls)} · {unit.title}</p>
+      <p className="mt-3"><b>🎯 מה לומדים היום:</b> {step.goal}</p>
+      <h3 className="mt-4 text-lg font-black">✏️ המשימה</h3>
+      <p>{step.practice}</p>
+      {lines(level === 'easy' ? 6 : level === 'advanced' ? 12 : 9)}
+      <h3 className="mt-6 text-lg font-black">🏁 מה למדתי היום?</h3>
+      {lines(2)}
+    </article>
+  }
   return <SheetPages parts={parts} title={`${unitQuiz ? 'בוחן סיום יחידה' : 'דף עבודה'}: ${unitQuiz ? p.lesson.unit.title : p.lesson.step.title}`} sub={`${classLabel(p.cls)} · ${lv}`} />
 }
+
+// A teacher's note on a lesson. With "remind me" on, it shows at the class's following lessons until marked done.
+// Saved while typing (after a short pause) and when the checkbox changes; an emptied note is removed.
+function NoteBox({ note, onSave }) {
+  const [text, setText] = useState(note?.t || ''), [saved, setSaved] = useState(false)
+  const next = note ? note.next : true
+  const save = (t, n) => { const clean = t.trim(); if (clean === (note?.t || '') && n === next) return; onSave(clean ? { t: clean, next: n } : null); setSaved(true) }
+  useEffect(() => { const t = setTimeout(() => save(text, next), 600); return () => clearTimeout(t) }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
+  return <div className="rounded-xl border-2 border-yellow-200 bg-yellow-50 p-2">
+    <label className="font-bold">📝 הערות לשיעור
+      <textarea value={text} onChange={e => { setText(e.target.value); setSaved(false) }} rows={2} maxLength={500}
+        placeholder="למשל: לא הספקנו את תרגיל 4 · להביא קוביות · נועה ואיתי היו חסרים" className="mt-1 block w-full rounded-lg border-2 border-yellow-200 bg-white p-2 font-normal" /></label>
+    <div className="mt-1 flex flex-wrap items-center gap-3">
+      <label className="flex items-center gap-1"><input type="checkbox" checked={next} onChange={e => save(text || note?.t || '', e.target.checked)} disabled={!text.trim() && !note} /> 🔔 להזכיר לי בשיעור הבא של הכיתה</label>
+      {saved && <span className="text-xs font-bold text-emerald-700">נשמר ✓</span>}
+    </div>
+  </div>
+}
+// Reminders waiting for this lesson, each with "done".
+function Reminders({ list, onDone }) {
+  if (!list.length) return null
+  return <div className="mb-2 space-y-1">{list.map(([k, n]) => <div key={k} className="flex items-start justify-between gap-2 rounded-xl border-2 border-amber-300 bg-amber-50 p-2 text-sm">
+    <span>🔔 <b>תזכורת מ{n.from}:</b> {n.t}</span>
+    <button type="button" onClick={() => onDone(k)} className="min-h-[32px] shrink-0 rounded-lg border-2 border-amber-400 bg-white px-2 font-bold">✓ טופל</button>
+  </div>)}</div>
+}
+// The class list, one name per line (saved when the box loses focus).
+function StudentsEditor({ cls, onSave }) {
+  const [text, setText] = useState((cls.students || []).join('\n'))
+  const names = text.split('\n').map(s => s.trim()).filter(Boolean)
+  // Saved while typing (after a short pause), so closing the page never loses the list.
+  useEffect(() => {
+    const clean = [...new Set(names)].slice(0, 60)
+    if (clean.join('\n') === (cls.students || []).join('\n')) return
+    const t = setTimeout(() => onSave(clean), 600)
+    return () => clearTimeout(t)
+  }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
+  return <label className="mt-2 block w-full rounded-xl border-2 border-violet-200 bg-white p-2 text-sm font-bold">👥 התלמידים של {classLabel(cls)} — שם בכל שורה (אפשר להדביק רשימה)
+    <textarea value={text} onChange={e => setText(e.target.value)} rows={5}
+      className="mt-1 block w-full rounded-lg border-2 border-slate-200 p-2 font-normal" placeholder={'נועה כהן\nאיתי לוי\n…'} />
+    <span className="font-normal text-[var(--muted-foreground)]">נשמר אצלכם בלבד (ובענן שלכם אם התחברתם). לא נמסר לאף אחד.</span>
+  </label>
+}
+// Per lesson, one tap per student cycles: — → ✅ → 🟡 → ❌ → 🏠 (absent).
+const STUDENT_MARKS = [['', '—'], ['done', '✅'], ['part', '🟡'], ['no', '❌'], ['absent', '🏠']]
+const STUDENT_LEGEND = '✅ עשה · 🟡 חלקית · ❌ לא עשה · 🏠 חסר'
+function StudentMarks({ names, marks, onChange }) {
+  if (!names?.length) return null
+  const cycle = name => { const i = STUDENT_MARKS.findIndex(([s]) => s === (marks[name] || '')); onChange({ ...marks, [name]: STUDENT_MARKS[(i + 1) % STUDENT_MARKS.length][0] }) }
+  const count = s => names.filter(n => marks[n] === s).length
+  return <div className="rounded-xl border-2 border-violet-200 bg-violet-50 p-2">
+    <div className="flex flex-wrap items-center justify-between gap-2"><b>👥 מה כל תלמיד עשה</b>
+      <button type="button" className="rounded-lg border-2 border-emerald-400 bg-white px-2 text-xs font-bold" onClick={() => onChange(Object.fromEntries(names.map(n => [n, marks[n] === 'absent' ? 'absent' : 'done'])))}>✅ כולם עשו</button></div>
+    <p className="text-xs">לחיצה על שם מחליפה: {STUDENT_LEGEND}</p>
+    <div className="mt-1 flex flex-wrap gap-1">{names.map(n => <button key={n} type="button" onClick={() => cycle(n)} className={`min-h-[36px] rounded-full border-2 px-2 text-sm ${marks[n] ? 'border-violet-400 bg-white font-bold' : 'border-slate-200 bg-white'}`}>{STUDENT_MARKS.find(([s]) => s === (marks[n] || ''))[1]} {n}</button>)}</div>
+    <p className="mt-1 text-xs">✅ {count('done')} · 🟡 {count('part')} · ❌ {count('no')} · 🏠 {count('absent')}</p>
+  </div>
+}
+// Notes of a class written before `key` that still ask to be reminded.
+const remindersFor = (notes, classId, key) => Object.entries(notes || {}).filter(([k, n]) => n.c === classId && n.next && !n.done && k < key).sort()
 
 // Under an opened period: mark it, print its worksheet at a level, the unit quiz, or a page for a substitute.
 function LessonTools({ p, iso, plan, setPlan }) {
@@ -144,6 +234,9 @@ function LessonTools({ p, iso, plan, setPlan }) {
   return <div className="mt-2 space-y-2 border-t pt-2 text-sm no-print">
     <div className="flex flex-wrap gap-1">{MARKS.map(([s, label]) => <button key={s} type="button" aria-pressed={mark === s} onClick={() => setMark(s)} className={`rounded-full border-2 px-2 py-1 ${mark === s ? 'border-violet-500 bg-violet-100 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
     {(mark === 'missed' || mark === 'repeat') && <p className="text-xs">השיעור הבא של הכיתה יחזור על השיעור הזה.</p>}
+    {p.cls.students?.length ? <StudentMarks names={p.cls.students} marks={plan.att?.[key]?.s || {}} onChange={s => setPlan(pl => ({ ...pl, att: { ...(pl.att || {}), [key]: { c: p.cls.id, s } } }))} />
+      : <p className="text-xs">💡 רוצים לסמן מה כל תלמיד עשה? הוסיפו רשימת תלמידים ב״הכיתות שלי״ (👥).</p>}
+    <NoteBox key={key} note={plan.notes?.[key]} onSave={n => setPlan(pl => { const notes = { ...(pl.notes || {}) }; if (n) notes[key] = { ...n, c: p.cls.id, from: `יום ${DAYS[new Date(`${iso}T12:00:00`).getDay()]} ${shortDate(iso)}, שעה ${p.period}` }; else delete notes[key]; return { ...pl, notes } })} />
     <div className="flex flex-wrap items-center gap-1"><span className="font-bold">רמת הדף:</span>{LEVELS.map(([l, label]) => <button key={l} type="button" aria-pressed={level === l} onClick={() => setLevel(l)} className={`rounded-full border-2 px-2 py-1 ${level === l ? 'border-emerald-500 bg-emerald-50 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
     <div className="flex flex-wrap gap-2">
       <button type="button" className="rounded-xl bg-violet-600 px-3 py-1.5 font-bold text-white" onClick={() => setPrint('sheet')}>🖨️ דף עבודה לשיעור</button>
@@ -186,7 +279,7 @@ function QuickLesson({ seqs }) {
       let idx = saved.idx ?? unitStart(seq, saved.unit || 0) + (saved.pos || 0)
       // Moves on for every school day that passed since the last visit.
       for (let d = saved.date || today; d < today; d = addDays(d, 1)) if (isSchoolDay(d, saved.grade)) idx += perDay
-      setQ({ subject: saved.subject, grade: saved.grade, hpw, idx: Math.min(idx, yearLessons(seq)), date: today })
+      setQ({ subject: saved.subject, grade: saved.grade, hpw, idx: Math.min(idx, yearLessons(seq)), date: today, notes: saved.notes || {} })
     } else {
       const first = Object.values(seqs).find(s => s.subject === 'math') || Object.values(seqs)[0]
       setQ(first ? { subject: first.subject, grade: first.grade, hpw: 5, idx: 0, date: today } : null)
@@ -212,6 +305,8 @@ function QuickLesson({ seqs }) {
     return out
   }
   const choose = patch => setQ(x => ({ ...x, idx: 0, ...patch, date: today }))
+  // Notes are kept per subject and grade, so switching never loses them.
+  const qc = `quick-${q.subject}-${q.grade}`, nk = `${qc}:${String(at).padStart(4, '0')}`
   const goTo = idx => setQ(x => ({ ...x, idx: Math.max(0, Math.min(idx, yearLessons(seq))), date: today }))
   const field = 'min-h-[44px] w-full rounded-xl border-2 border-[var(--border)] bg-white px-3 block'
   return <section className="mt-8 rounded-3xl border-2 border-emerald-300 bg-emerald-50 p-4 sm:p-5" aria-labelledby="quick-h">
@@ -232,8 +327,10 @@ function QuickLesson({ seqs }) {
           <button type="button" className="ln-chip" onClick={() => goTo(at + 1)}>הבא ←</button>
         </div>
       </div>
+      <Reminders list={remindersFor(q.notes, qc, nk)} onDone={k => setQ(x => ({ ...x, notes: { ...x.notes, [k]: { ...x.notes[k], done: true } } }))} />
       <LessonPlan p={p} />
       {p.lesson && <div className="mt-3 space-y-2 border-t pt-3 no-print">
+        <NoteBox key={nk} note={q.notes?.[nk]} onSave={n => setQ(x => { const notes = { ...(x.notes || {}) }; if (n) notes[nk] = { ...n, c: qc, from: `השיעור של ${shortDate(day)}` }; else delete notes[nk]; return { ...x, notes } })} />
         <div className="flex flex-wrap items-center gap-1"><span className="font-bold">רמת הדף:</span>{LEVELS.map(([l, label]) => <button key={l} type="button" aria-pressed={level === l} onClick={() => setLevel(l)} className={`rounded-full border-2 px-2 py-1 ${level === l ? 'border-emerald-500 bg-emerald-50 font-bold' : 'border-slate-200'}`}>{label}</button>)}</div>
         <div className="flex flex-wrap gap-2">
           <button type="button" className="min-h-[44px] rounded-xl bg-violet-600 px-4 font-black text-white" onClick={() => setPrint(1)}>🖨️ דף עבודה לשיעור הזה</button>
@@ -245,6 +342,43 @@ function QuickLesson({ seqs }) {
       {weekSheets(print).map(x => <PeriodSheet key={x.period} p={x} level={level} />)}
     </PrintPreview>}
   </section>
+}
+
+// "Add to my calendar": the next 8 weeks of lessons as an .ics file (iPhone, Outlook, Google). Bell times are a
+// common Israeli schedule, editable here; each event has a stable UID, so importing again updates it.
+const BELLS = ['08:00', '08:50', '09:55', '10:45', '11:50', '12:40', '13:30', '14:20']
+const LESSON_MINUTES = 45
+const icsText = s => String(s).replace(/\\/g, '\\\\').replace(/[,;]/g, m => `\\${m}`).replace(/\n/g, '\\n')
+const icsTime = (iso, hhmm, plus = 0) => { const [h, m] = hhmm.split(':').map(Number), t = h * 60 + m + plus; return `${iso.replace(/-/g, '')}T${String(Math.floor(t / 60)).padStart(2, '0')}${String(t % 60).padStart(2, '0')}00` }
+function CalendarExport({ plan, setPlan, seqs, sunday }) {
+  const [open, setOpen] = useState(false)
+  const bells = plan.bells || BELLS
+  const download = () => {
+    const events = []
+    for (let w = 0; w < 8; w++) for (const d of weekPlan(plan, seqs, addDays(sunday, w * 7))) for (const p of d.periods) {
+      if (p.why) continue
+      const name = p.cls.name || `${PLANNER_SUBJECTS[p.cls.subject].title} ${GRADE_LETTERS[p.cls.grade]}`
+      const what = p.lesson ? p.lesson.step.title : 'חזרה וסיכום'
+      events.push(['BEGIN:VEVENT', `UID:${d.iso}-${p.period}-${p.cls.id}@ugabuga.co.il`, `DTSTAMP:${icsTime(isoOf(new Date()), '00:00')}Z`,
+        `DTSTART;TZID=Asia/Jerusalem:${icsTime(d.iso, bells[p.period - 1])}`, `DTEND;TZID=Asia/Jerusalem:${icsTime(d.iso, bells[p.period - 1], LESSON_MINUTES)}`,
+        `SUMMARY:${icsText(`${name} · ${what}`)}`, `DESCRIPTION:${icsText(`${p.lesson ? `מטרה: ${p.lesson.step.goal}\n` : ''}מערך שיעור ודף עבודה: https://ugabuga.co.il/planner`)}`, 'END:VEVENT'].join('\r\n'))
+    }
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ugabuga//planner//HE', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:מערכת השעות שלי', 'X-WR-TIMEZONE:Asia/Jerusalem', ...events, 'END:VCALENDAR'].join('\r\n')
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })); a.download = 'מערכת-השעות.ics'; a.click()
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000)
+  }
+  return <>
+    <button type="button" className="ln-chip" aria-expanded={open} onClick={() => setOpen(!open)}>📅 להוסיף ליומן שלי</button>
+    {open && <div className="w-full rounded-2xl border-2 border-sky-200 bg-sky-50 p-3 text-sm">
+      <p>השיעורים של 8 השבועות הקרובים ייכנסו ליומן בטלפון או במחשב (אייפון, אאוטלוק, גוגל). שיניתם משהו? מורידים שוב — השיעורים מתעדכנים.</p>
+      <details className="mt-1"><summary className="cursor-pointer font-bold">שעות הצלצול בבית הספר שלכם</summary>
+        <div className="mt-1 grid grid-cols-4 gap-1 sm:grid-cols-8">{bells.map((t, i) => <label key={i} className="text-xs">שעה {i + 1}<input type="time" value={t} onChange={e => setPlan(p => { const b = [...(p.bells || BELLS)]; b[i] = e.target.value || BELLS[i]; return { ...p, bells: b } })} className="block w-full rounded border p-1" /></label>)}</div>
+      </details>
+      <button type="button" onClick={download} className="mt-2 min-h-[44px] rounded-xl bg-sky-600 px-4 font-black text-white">⬇️ הורדה ליומן</button>
+      <p className="mt-1 text-xs">ביומן גוגל: calendar.google.com ← הגדרות ← ייבוא, ובוחרים את הקובץ.</p>
+    </div>}
+  </>
 }
 
 function Week({ plan, setPlan, seqs }) {
@@ -265,18 +399,19 @@ function Week({ plan, setPlan, seqs }) {
         <button type="button" className="ln-chip" onClick={() => setSunday(weekStart(today))}>השבוע</button>
         <button type="button" className="ln-chip" onClick={() => setSunday(addDays(sunday, 7))}>שבוע הבא ←</button>
         <button type="button" className="min-h-[44px] rounded-full bg-violet-600 px-4 font-black text-white" onClick={() => setPrinting(true)}>🖨️ הדפסת השבוע</button>
+        <CalendarExport plan={plan} setPlan={setPlan} seqs={seqs} sunday={sunday} />
       </div>
     </div>
     <div className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-3">{week.map(d => <div key={d.iso} className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-3">
       <div className="flex items-center justify-between"><b>יום {d.label} · {shortDate(d.iso)}</b>
         {d.periods.length > 0 && <label className="text-xs"><input type="checkbox" checked={plan.extraOff.some(([x]) => x === d.iso)} onChange={e => dayOff(d.iso, e.target.checked)} /> אין לימודים</label>}</div>
       {!d.periods.length ? <p className="mt-2 text-sm text-[var(--muted-foreground)]">אין שיעורים במערכת</p>
-        : <ul className="mt-2 space-y-2">{d.periods.map(p => { const key = `${d.iso}-${p.period}`; return <li key={key} className="rounded-xl bg-white p-2">
+        : <ul className="mt-2 space-y-2">{d.periods.map(p => { const key = `${d.iso}-${p.period}`, mk = markKey(d.iso, p.period), rem = p.why ? [] : remindersFor(plan.notes, p.cls.id, mk); return <li key={key} className="rounded-xl bg-white p-2">
           <button type="button" className="w-full text-right" onClick={() => setOpen(open === key ? null : key)} aria-expanded={open === key}>
-            <b>שעה {p.period} · {classLabel(p.cls)}</b><br />
+            <b>שעה {p.period} · {classLabel(p.cls)}</b>{rem.length > 0 && <span className="ms-1 rounded-full bg-amber-200 px-2 text-xs font-bold">🔔 {rem.length}</span>}{plan.notes?.[mk] && <span className="ms-1 text-xs">📝</span>}<br />
             <span className="text-sm">{p.why ? `🌴 ${p.why}` : p.lesson ? p.lesson.step.title : 'חזרה וסיכום'}</span>
           </button>
-          {open === key && !p.why && <div className="mt-2 border-t pt-2"><LessonPlan p={p} />
+          {open === key && !p.why && <div className="mt-2 border-t pt-2"><Reminders list={rem} onDone={k => setPlan(pl => ({ ...pl, notes: { ...pl.notes, [k]: { ...pl.notes[k], done: true } } }))} /><LessonPlan p={p} />
             <LessonTools p={p} iso={d.iso} plan={plan} setPlan={setPlan} />
             <div className="mt-2 flex gap-2 text-xs"><button type="button" className="underline" onClick={() => shift(p.cls.id, 1)}>⏭️ לדלג על השיעור</button><button type="button" className="underline" onClick={() => shift(p.cls.id, -1)}>↩️ לחזור שיעור אחד אחורה</button></div>
           </div>}
@@ -336,11 +471,11 @@ export default function PlannerPage() {
   }, [plan, cloud.token])
   const setPlan = f => setPlanState(p => { const next = { ...(typeof f === 'function' ? f(p) : f), savedAt: new Date().toISOString() }; save(next); return next })
   const logout = () => { writeStore(TOKEN_KEY, null); setCloud({ token: null, email: null, saving: false }) }
-  const removeClass = id => window.confirm(`למחוק את ${classLabel(plan.classes.find(c => c.id === id))} וכל השעות שלה במערכת?`) && setPlan(p => ({ ...p, classes: p.classes.filter(c => c.id !== id), slots: Object.fromEntries(Object.entries(p.slots).filter(([, v]) => v !== id)),
-    marks: Object.fromEntries(Object.entries(p.marks || {}).filter(([, m]) => m.c !== id)), shifts: Object.fromEntries(Object.entries(p.shifts || {}).filter(([k]) => k !== id)) }))
+  const removeClass = id => window.confirm(`למחוק את ${classLabel(plan.classes.find(c => c.id === id))} עם כל השעות, ההערות וסימוני התלמידים שלה?`) && setPlan(p => ({ ...p, classes: p.classes.filter(c => c.id !== id), slots: Object.fromEntries(Object.entries(p.slots).filter(([, v]) => v !== id)),
+    marks: Object.fromEntries(Object.entries(p.marks || {}).filter(([, m]) => m.c !== id)), notes: Object.fromEntries(Object.entries(p.notes || {}).filter(([, m]) => m.c !== id)), att: Object.fromEntries(Object.entries(p.att || {}).filter(([, m]) => m.c !== id)), shifts: Object.fromEntries(Object.entries(p.shifts || {}).filter(([k]) => k !== id)) }))
   const hasSlots = Object.keys(plan.slots).length > 0
   // The class being placed in the timetable: the one picked, else the newest.
-  const [picked, setPicked] = useState(null)
+  const [picked, setPicked] = useState(null), [editStudents, setEditStudents] = useState(null)
   const active = plan.classes.some(c => c.id === picked) ? picked : plan.classes.at(-1)?.id
   // "See an example": one class with a few periods, so the week below fills in at once.
   const example = () => {
@@ -358,10 +493,11 @@ export default function PlannerPage() {
     {seqs && <QuickLesson seqs={seqs} />}
     <h2 className="mt-10 text-center text-3xl font-black">🗓️ או: כל המערכת שלכם</h2>
     <p className="mx-auto mt-1 max-w-2xl text-center">מלמדים כמה כיתות? מכניסים את המערכת פעם אחת, ולכל שעה בשבוע מחכה השיעור הבא — לפי תוכנית הלימודים, עם החגים והחופשות.</p>
-    <ol className="mx-auto mt-6 grid max-w-4xl gap-2 sm:grid-cols-3" aria-label="איך זה עובד">
+    <SaveBadge plan={plan} cloud={cloud} />
+    {!plan.classes.length && <ol className="mx-auto mt-6 grid max-w-4xl gap-2 sm:grid-cols-3" aria-label="איך זה עובד">
       {[['1', 'מוסיפים כיתה', 'מקצוע ושכבה — למשל מתמטיקה ג׳'], ['2', 'מסמנים מתי היא לומדת', 'לוחצים על השעות שלה במערכת'], ['3', 'מקבלים את השיעורים', 'לכל שעה: מה מלמדים, מערך שיעור ודף עבודה']].map(([n, t, s]) =>
         <li key={n} className="rounded-2xl border-2 border-violet-200 bg-violet-50 p-3 text-center"><span className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full bg-violet-600 font-black text-white">{n}</span><b className="block">{t}</b><span className="text-sm">{s}</span></li>)}
-    </ol>
+    </ol>}
     {!seqs ? <p className="mt-8 text-center" role="status">טוענים…</p> : <>
       <section className="mt-8 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-labelledby="classes-h">
         <h2 id="classes-h" className="text-2xl font-black">1. הכיתות שלי</h2>
@@ -370,7 +506,9 @@ export default function PlannerPage() {
         {!plan.classes.length && <p className="mt-3 text-sm">רק רוצים לראות איך זה נראה? <button type="button" onClick={example} className="font-bold text-violet-700 underline">👀 מלאו לי דוגמה</button></p>}
         {plan.classes.length > 0 && <ul className="mt-3 flex flex-wrap gap-2">{plan.classes.map(c => { const s = seqs[`${c.subject}-${c.grade}`]; return <li key={c.id} className={`flex items-center gap-2 rounded-full border-2 px-3 py-1 ${colorOf(plan, c.id)}`}>
           <b>{classLabel(c)}</b><span className="text-xs">{s?.official ? '· לפי הסדר הרשמי' : '· סדר מומלץ'}</span>
+          <button type="button" onClick={() => setEditStudents(editStudents === c.id ? null : c.id)} aria-expanded={editStudents === c.id} className="rounded-full bg-white px-2 text-xs font-bold">👥 {c.students?.length ? `${c.students.length} תלמידים` : 'רשימת תלמידים'}</button>
           <button type="button" onClick={() => removeClass(c.id)} aria-label={`הסרת ${classLabel(c)}`}>✕</button></li> })}</ul>}
+        {plan.classes.some(c => c.id === editStudents) && <StudentsEditor key={editStudents} cls={plan.classes.find(c => c.id === editStudents)} onSave={students => setPlan(p => ({ ...p, classes: p.classes.map(c => c.id === editStudents ? { ...c, students } : c) }))} />}
       </section>
       {plan.classes.length > 0 && <section className="mt-6 rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5" aria-labelledby="tt-h">
         <h2 id="tt-h" className="text-2xl font-black">2. מתי כל כיתה לומדת?</h2>
@@ -382,7 +520,7 @@ export default function PlannerPage() {
         <Timetable plan={plan} setPlan={setPlan} active={active} />
         {hasSlots && <p className="mt-3 text-center"><a href="#week-h" className="inline-flex min-h-[44px] items-center rounded-full bg-violet-600 px-5 font-black text-white" style={{ color: '#fff' }}>⬇️ לשיעורים של השבוע</a></p>}
       </section>}
-      {(hasSlots || cloud.email) && <CloudBox cloud={cloud} onLogout={logout} />}
+      {(plan.classes.length > 0 || cloud.email) && <CloudBox cloud={cloud} onLogout={logout} />}
       {plan.classes.length > 0 && !hasSlots && <p className="mt-6 rounded-2xl bg-amber-50 p-3 text-center font-bold">👆 סמנו לפחות שעה אחת במערכת — והשיעורים של השבוע יופיעו כאן.</p>}
       {hasSlots && <div className="mt-6"><Week plan={plan} setPlan={setPlan} seqs={seqs} /></div>}
       {plan.classes.length > 0 && <details className="mt-6 text-sm"><summary className="cursor-pointer font-bold">מאיפה הסדר?</summary>
