@@ -475,6 +475,7 @@ const ColorByAnswerKind = lazy(() => import('./pages/printables/ColorByCode').th
 const ColorByLetter = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByLetter })))
 const ColorByLetterEnglish = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByLetterEnglish })))
 const OwnerActivityReport = lazy(() => import('./pages/OwnerActivityReport'))
+const OwnerRecordings = lazy(() => import('./pages/OwnerRecordings'))
 const MailPreferences = lazy(() => import('./pages/MailPreferences'))
 const OwnerMini = lazy(() => import('./pages/OwnerActivityReport').then(m => ({ default: m.OwnerMini })))
 const SuppliersIndex = lazy(() => import('./pages/suppliers/SuppliersIndex'))
@@ -1352,6 +1353,7 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin/login" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
               <Route path="/admin/activity" element={<OwnerLogin><OwnerActivityReport /></OwnerLogin>} />
+              <Route path="/admin/recordings" element={<OwnerLogin><OwnerRecordings /></OwnerLogin>} />
               <Route path="/admin/mini" element={<OwnerLogin><OwnerMini /></OwnerLogin>} />
               <Route path="/admin/suppliers" element={<OwnerLogin><AdminSuppliers /></OwnerLogin>} />
               {import.meta.env.VITE_TEST_OWNER_CLAIMS && <Route path="/__test/admin-suppliers" element={<AdminSuppliers />} />}

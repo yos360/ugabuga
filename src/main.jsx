@@ -16,3 +16,10 @@ createRoot(rootElement).render(
     <App />
   </StrictMode>,
 )
+
+// Sampled anonymous session recording for the owner's replays; loaded only once the page has settled.
+const startRecorder = () => (window.requestIdleCallback || setTimeout)(() => {
+  void import('./utils/sessionRecorder.js').then(m => m.startSessionRecording()).catch(() => {})
+})
+if (document.readyState === 'complete') startRecorder()
+else addEventListener('load', startRecorder, { once: true })
