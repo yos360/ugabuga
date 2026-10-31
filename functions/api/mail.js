@@ -39,11 +39,12 @@ export function mailQuota(limit, kind, day) {
  const confirm = Math.max(1, Math.floor(total * 0.3))
  return kind === 'confirm' ? { key: `confirm:${day}`, max: confirm } : { key: `send:${day}`, max: Math.max(1, total - confirm) }
 }
-async function send(env, email, subject, text, key, manage, kind = 'reminder') {
+async function send(env, email, subject, text, key, manage, kind = 'reminder', attachments = null) {
  text += `\n\n${env.MAIL_SENDER_DETAILS}`
  if (!await rpc(env, 'limit', mailQuota(env.MAIL_DAILY_LIMIT, kind, israelToday()))) throw new Error('מכסת המיילים להיום הסתיימה. נסו שוב מחר.')
  const response = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': key }, body: JSON.stringify({ from: env.MAIL_FROM, to: [email], subject, text,
   html: `<div dir="rtl" lang="he" style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:24px;color:#243e40;line-height:1.8"><h1 style="font-size:24px">${escape(subject)}</h1><div style="white-space:pre-line">${escape(text).replace(/https:\/\/ugabuga\.co\.il\/[^\s<]*/g, link => `<a href="${link}" style="color:#245f62">${link.includes('mail-preferences') ? 'פתיחת הקישור האישי' : link === `${SITE}/request` ? 'לבקשת דף נוסף' : link === `${SITE}/whatsapp` ? 'להצטרפות לערוץ' : link.endsWith('#mail-signup') ? 'להרשמה לדפים של השבוע' : 'לפתיחת התוכן באתר'}</a>`)}</div></div>`,
+  ...(attachments ? { attachments } : {}),
   ...(manage ? { headers: { 'List-Unsubscribe': `<${SITE}/api/mail?unsubscribe=${manage}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } } : {}) }), signal: AbortSignal.timeout(20000) })
  if (!response.ok) throw new Error('שליחת המייל לא הושלמה. נסו שוב מאוחר יותר.')
  return response.json()
@@ -66,9 +67,14 @@ export function weeklyWindow(now) {
 export const readyWindow = now => israelHour(now) >= 8 && israelHour(now) < 21
 // Google review link for עוגה בוגה; the review line is left out of the mail until it is set.
 export const GOOGLE_REVIEW_URL = ''
+const readyTail = () => `📢 רוצים דף חדש כל יום? הצטרפו לערוץ הווטסאפ שלנו:\n${SITE}/whatsapp\n\nמעדיפים מייל? הדפים החדשים של השבוע, פעם בשבוע:\n${SITE}/booklets#mail-signup\n\nומכירים מורה או הורה שזה ישמח? שתפו איתם את הקישור 💛\n\n${GOOGLE_REVIEW_URL ? `אם אהבתם, נשמח מאוד להמלצה קצרה בגוגל:\n${GOOGLE_REVIEW_URL}\n\n` : ''}תודה שכתבתם לנו! אם חסר עוד משהו, אפשר לבקש כאן:\n${SITE}/request\n\nעוגה בוגה · hellohugabuga@gmail.com`
 export function readyMail(row) {
- const review = GOOGLE_REVIEW_URL ? `אם אהבתם, נשמח מאוד להמלצה קצרה בגוגל:\n${GOOGLE_REVIEW_URL}\n\n` : ''
- return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂', text: `שלום,\n\nהדף שביקשתם מאיתנו מוכן, והוא כבר באתר, בחינם:\n${row.public_title}\n${SITE}${row.result_path}\n\n📢 רוצים דף חדש כל יום? הצטרפו לערוץ הווטסאפ שלנו:\n${SITE}/whatsapp\n\nמעדיפים מייל? הדפים החדשים של השבוע, פעם בשבוע:\n${SITE}/booklets#mail-signup\n\nומכירים מורה או הורה שזה ישמח? שתפו איתם את הקישור 💛\n\n${review}תודה שכתבתם לנו! אם חסר עוד משהו, אפשר לבקש כאן:\n${SITE}/request\n\nעוגה בוגה · hellohugabuga@gmail.com` }
+ return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂', text: `שלום,\n\nהדף שביקשתם מאיתנו מוכן, והוא כבר באתר, בחינם:\n${row.public_title}\n${SITE}${row.result_path}\n\n${readyTail()}` }
+}
+// PDF by mail (owner's decision 2026-11-01): a printable page made by the instant build goes out at once with
+// the PDF attached (page_request_pdfs, made by scripts/request-pdf.mjs); the site link works after the deploy.
+export function pdfMail(row) {
+ return { subject: 'הדף שביקשתם מעוגה בוגה מוכן 🎂 — מצורף PDF', text: `שלום,\n\nהכנו את מה שביקשתם:\n${row.public_title}\n\nהקובץ מצורף למייל הזה, מוכן להדפסה 🖨️\nבעוד כשעה הוא יהיה גם באתר, בחינם לכולם:\n${SITE}${row.result_path}\n\n${readyTail()}` }
 }
 // The mail goes out only once the page is on the live site. Every path answers 200 (the app shows its own 404),
 // so a status check proves nothing: the page counts as live once the deployed sitemaps list it — they ship in the
@@ -98,6 +104,16 @@ async function readyMails(env, now) {
  }
  if (!readyWindow(now)) return { sent, failed }
  await announce(env).catch(() => { failed++ })
+ // PDFs first: they do not wait for the deploy, and their requests are left out of the link mails below.
+ for (const row of await rpc(env, 'pdf_due', {}, 'page_request_mail').catch(() => { failed++; return [] })) {
+  try {
+   if (!await rpc(env, 'claim', { id: row.id }, 'page_request_mail')) continue
+   const file = await rpc(env, 'pdf_get', { id: row.id }, 'page_request_mail')
+   const { subject, text } = pdfMail(row)
+   await send(env, row.email, subject, text, `page-pdf:${row.id}`, null, 'reminder', [{ filename: file.file_name, content: file.content }]); sent++
+   await rpc(env, 'pdf_drop', { id: row.id }, 'page_request_mail').catch(() => {})
+  } catch { failed++; await rpc(env, 'release', { id: row.id }, 'page_request_mail').catch(() => {}) }
+ }
  // A failure here must not hold back the Shabbat/weekly mails below.
  const rows = await rpc(env, 'due', {}, 'page_request_mail').catch(() => null)
  if (!rows) return { sent, failed: failed + 1 }

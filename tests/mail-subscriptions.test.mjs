@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { normalizeMail, csvCell } from '../src/utils/mailPreferences.js'
-import { dueShabbat, weeklyWindow, readyWindow, readyMail, listedIn, onRequest } from '../functions/api/mail.js'
+import { dueShabbat, weeklyWindow, readyWindow, readyMail, pdfMail, listedIn, onRequest } from '../functions/api/mail.js'
 import { announceText } from '../src/utils/requestAnnounce.js'
 import { shabbatForDate } from '../src/utils/shabbatTimes.js'
 import { shabbatCity } from '../src/data/shabbatCities.js'
@@ -41,6 +41,16 @@ test('"page ready" mail: daytime Israel time, public title and link only', () =>
  assert.ok(!text.includes('x@example.com'))
  assert.ok(text.includes('https://ugabuga.co.il/whatsapp\n'))
  assert.ok(text.includes('https://ugabuga.co.il/booklets#mail-signup\n'), 'weekly mail is an opt-in link, never automatic')
+})
+test('PDF mail: says the file is attached, links the page, never the address', async () => {
+ const {subject,text}=pdfMail({id:23,email:'x@example.com',public_title:'שאלות מילוליות בעשרת הראשונה',result_path:'/booklets/word-problems-special-ed'})
+ assert.ok(subject.includes('PDF'))
+ assert.ok(text.includes('מצורף'))
+ assert.ok(text.includes('https://ugabuga.co.il/booklets/word-problems-special-ed\n'))
+ assert.ok(!text.includes('x@example.com'))
+ const { fileName } = await import('../scripts/request-pdf.mjs')
+ assert.equal(fileName('חוברת: "כיתה א׳"/חינוך מיוחד'), 'חוברת כיתה א׳חינוך מיוחד.pdf')
+ assert.equal(fileName(''), 'עוגה בוגה.pdf')
 })
 test('"page ready" mail waits until the deployed sitemap lists the page', () => {
  const map = '<url><loc>https://ugabuga.co.il/booklets/nikud</loc></url>'

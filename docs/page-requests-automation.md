@@ -8,6 +8,13 @@ in the deployed sitemap-static.xml / sitemap.xml — the site answers 200 for ev
 proves nothing, and Cloudflare builds can take over half an hour. "הכנו לפי בקשה" on the site, the mail and
 the Facebook post all wait for `live_at`. Then, 08:00–21:00 Israel time:
 - Visitors who left an address get one "your page is ready" mail with its public title and link.
+- **PDF by mail (owner's decision 2026-11-01, an exception to the live gate):** when the instant build makes a
+  page that has print sheets, `scripts/request-pdf.mjs` (last step of page-request-build) serves the new build
+  locally, opens the page's print preview and prints exactly those sheets to an A4 PDF — only for requests that
+  left an email (it learns ids only, never addresses). The file waits in `page_request_pdfs` (migration
+  20261101090000); the mail scheduler sends it at once, attached, without waiting for live_at, and deletes it.
+  That request then gets no second link mail. Pages without print sheets (games, existing pages), files over
+  12 MB, and requests built by the hourly fallback routine keep the link mail after the deploy.
 - One Facebook post every 30 minutes, oldest live page first (`announced_at`), when the Pages secrets
   `FB_PAGE_ID` and `FB_PAGE_TOKEN` are set. Text: src/utils/requestAnnounce.js.
 - WhatsApp has no API for channels: the owner report has a channel queue (#wa-queue, migration
