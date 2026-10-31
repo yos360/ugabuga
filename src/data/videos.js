@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'UMESYjdB0oQ', kind: 'tutorial', title: 'איך מקימים בחירות בכיתה — מדריך קצר', paths: ['/tools/class-elections'], category: 'classroom', date: '2026-10-31',
+    desc: 'מדריך קצר לבחירות בכיתה: בוחרים סוג בחירות, כותבים מועמדים, מדפיסים פתקים וקלפי, מצביעים ורואים תוצאות עם אחוזים — לוועד כיתה ולמועצת תלמידים.' },
   { id: 'Rgg_WzsP01Q', kind: 'tutorial', title: 'איך משחקים ומדפיסים חדר בריחה — מדריך קצר', paths: ['/tools/escape-rooms'], category: 'party', date: '2026-10-31',
     desc: 'מדריך קצר לחדר הבריחה: בוחרים רמת קושי וחדר, פותרים חידות עם רמזים, ומדפיסים קיט למנחה עם כל התשובות וכרטיס לכל שלב.' },
   { id: '3R4R1nnYNSs', kind: 'tutorial', title: 'איך משחקים במשחק לוח הכפל — מדריך קצר', paths: ['/learn/multiplication-game'], category: 'learning', date: '2026-10-31',
