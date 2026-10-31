@@ -22,7 +22,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 1 | קובייה וירטואלית — מטילים 1–5 קוביות, היסטוריה וכפולים | /tools/dice | tools | 2026-10-30 slot 1 — DpbSovICUFA |
 | 2 | אישור הגעה ליום הולדת — יוצרים, שולחים בוואטסאפ, רואים מי מגיע | /rsvp | party | 2026-10-30 slot 2 — _UCm6JYhOyI |
 | 3 | הזמנה ליום הולדת בדקה | /invitation | party | 2026-10-30 slot 3 — u3HvcewrSVc |
-| 4 | משחק לוח הכפל — מסלול שלבים וכוכבים, ודף תרגול להדפסה | /learn/multiplication-game | learning | 2026-10-31 slot 1 — ready, upload from the owner's Chrome |
+| 4 | משחק לוח הכפל — מסלול שלבים וכוכבים, ודף תרגול להדפסה | /learn/multiplication-game | learning | 2026-10-31 slot 1 — 3R4R1nnYNSs |
 | 5 | חדר בריחה מודפס — בוחרים חדר, מדפיסים ומשחקים | /tools/escape-rooms | party | |
 | 6 | בחירות בכיתה — מקימים הצבעה ומקבלים תוצאות | /tools/class-elections | classroom | |
 | 7 | מי מביא מה — רשימה משותפת למסיבה ולטיול | /tools/bring-list | party | |
