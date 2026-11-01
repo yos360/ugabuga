@@ -120,6 +120,20 @@ function HebrewLettersNext() {
     <p className="mt-4 text-sm text-[var(--muted-foreground)]">טיפ: עדיף שלוש אותיות ביום בהתמדה מכל האלף-בית בישיבה אחת — ילדים מתעייפים מהר ואיכות הכתיבה יורדת.</p>
   </section>
 }
+function AbcLettersNext() {
+  const li = 'leading-relaxed text-[var(--foreground)]/80'
+  return <section className="mx-auto mt-10 max-w-3xl" aria-label="מה עושים אחרי שמדפיסים">
+    <h2 className="mb-3 text-2xl font-bold">אחרי שהדפסתם — מה הלאה?</h2>
+    <ul className="list-disc space-y-2 pr-6">
+      <li className={li}>לזכור איך נשמעת כל אות: <Link to="/abc/game" className="underline font-bold">משחק ABC</Link> — מוצאים את האות, מתאימים גדולה לקטנה ושומעים את הצליל. דקה-שתיים בנייד מספיקות.</li>
+      <li className={li}>אותיות על כרטיסים שאפשר לגזור ולשחק בהן: <Link to="/printables/letter-flashcards" className="underline font-bold">כרטיסיות ABC להדפסה</Link>.</li>
+      <li className={li}>משחק זיכרון עם מילים באנגלית: <Link to="/printables/memory-english" className="underline font-bold">קלפי זיכרון באנגלית</Link>.</li>
+      <li className={li}>כשהאותיות יושבות, עוברים לכתיבה חופשית על <Link to="/printables/lined-paper" className="underline font-bold">דף שורות</Link> — קודם שם פרטי, אחר כך מילים קצרות.</li>
+      <li className={li}>עוד חומרי לימוד אנגלית בגיל הצעיר: <Link to="/abc" className="underline font-bold">מרכז ה־ABC</Link> ו<Link to="/english" className="underline font-bold">אנגלית לילדים</Link>.</li>
+    </ul>
+    <p className="mt-4 text-sm text-[var(--muted-foreground)]">טיפ: מתחילים באותיות הגדולות ורק אחר כך בקטנות; ילדים רבים מתבלבלים בין b ל־d ובין p ל־q, אז כדאי להתאמן עליהן בנפרד, בזוגות.</p>
+  </section>
+}
 const Intro = ({ copy }) => copy ? <p className="mx-auto mb-8 max-w-3xl text-center text-lg leading-relaxed">{copy.intro}</p> : null
 
 // Landscape artwork (297×210 certificates, the snakes-and-ladders board) is turned 90° on the portrait
@@ -155,7 +169,7 @@ export default function PrintableCategory() {
   }
 
   if (slug === 'hebrew-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות עברית לתרגול כתיבה" description={cat.desc} path="/printables/hebrew-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות עברית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing/><HebrewLettersNext/></div>
-  if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/></div>
+  if (slug === 'abc-letters') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="אותיות באנגלית לתרגול כתיבה — ABC למעבר בעיפרון" description={cat.desc} path="/printables/abc-letters"/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">אותיות באנגלית למעבר בעיפרון</h1><p className="mb-7 text-center">{cat.desc}</p><HebrewTracing lang="en"/><AbcLettersNext/></div>
   if (slug === 'numbers') return <div className="mx-auto max-w-6xl px-4 py-8"><SEO title="מספרים ותרגילים לתרגול כתיבה — 0 עד 10 למעבר בעיפרון" description={cat.desc} path="/printables/numbers" structuredData={schema}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:cat.title}]}/><h1 className="mb-3 text-center text-4xl">מספרים ותרגילים למעבר בעיפרון</h1><p className="mb-4 text-center">{cat.desc}</p><Intro copy={copy}/><NumberTracing/><CategoryCopy copy={copy} title={cat.title}/></div>
 
   const printAll = () => setSelected(cat.files)

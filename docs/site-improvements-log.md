@@ -7,16 +7,32 @@ Data rules: read-only, aggregate numbers and page paths only.
 | # | Idea | Page | Metric it should move | Status |
 |---|------|------|-----------------------|--------|
 | 1 | Home page: shorter "pick your goal" row (print / play / learn / party) above the fold; today only 29% of home visits go on and 3% act | `/` | home visit -> any action: 3% -> 8% | suggested |
-| 2 | "Next step" block after printing on top dead-end print pages (hebrew-letters done 29.10; memory-english done 30.10; shabbat-times, abc-letters next) | `/printables/*` | single-page visits 85% -> 65% | done (hebrew-letters, memory-english), measure 5-6.11 |
+| 2 | "Next step" block after printing on top dead-end print pages (hebrew-letters done 29.10; memory-english done 30.10; abc-letters done 1.11; shabbat-times next) | `/printables/*` | single-page visits 85% -> 65% | done (hebrew-letters, memory-english, abc-letters), measure 5-8.11 |
 | 3 | `/classroom` (219 visits/28d, 0 actions, 26% single page): add 3 big buttons to the most used class tools (print, quiz, live) | `/classroom` | actions per visit 0 -> 10% | suggested |
-| 4 | Reading hub `/learn/reading` (130 visits, 1% action, 8% leave): link straight into one text per grade with a "start" button | `/learn/reading` | opens of `/learn/reading/grade-*` | suggested |
+| 4 | Reading hub `/learn/reading` (130 visits, 1% action, 8% leave): link straight into one text per grade with a "start" button | `/learn/reading` | opens of `/learn/reading/grade-*` | closed 1.11: the hub already works (112 entries/28d, 9% bounce, 66% act later in the visit) |
 | 5 | Suppliers search: 192 of 200 searches (28d) returned zero results — widen supplier list or show "request this supplier" | suppliers search | searches with results | suggested (owner decision) |
 | 6 | Short links `/r/…` and `/l/…` bring ~230 entries/week (QR/print/share) but 70-90% leave after one page: put a "more like this" strip on the landing page they point to | landing pages of `/r/*` | single-page visits 85% -> 65% | suggested |
 | 7 | `/en/rsvp` (52 entries/week, 13% use) and `/rsvp` (42% use) convert well; add a one-line "free RSVP" link from `/invitation` (28 shares/week, no next step) | `/invitation` | opens of `/rsvp` from `/invitation` | suggested |
 | 9 | `/invitation` already links to `/rsvp` (related list + RSVP-link button inside the studio) — idea 7 needs no change; measure `/rsvp` entries from `/invitation` via nav signals | `/invitation` | n/a | closed (already exists) |
 | 8 | Home: 49% of visits end on `/` and only 3% act; the 5-way top-block experiment has too few views (<12 per variant) — wait for ≥300 shown before changing | `/` | see idea 1 | suggested (wait) |
+| 10 | Shabbat times pages end the visit: `/shabbat-times` 44 of 49 entries and `/shabbat-times/jerusalem` 34 of 37 are single-page (28d). Add a "this Shabbat" strip: this week's parasha, candle blessing, Shabbat table activities, kids' Shabbat games | `/shabbat-times`, `/shabbat-times/*` | single-page visits 90% -> 70% | suggested (small, safe: can implement without approval next) |
+| 11 | `/en/rsvp`: 53 entries/28d, 77% single page, 8 uses vs Hebrew `/rsvp` 54 uses on 169 opens (32%). Show a ready sample invitation + a one-tap "start with wedding / birthday" above the fold in English | `/en/rsvp` | uses per open 13% -> 25% | suggested (owner decision: layout change) |
+| 12 | Saturday is the strongest day (2439 opens/28d vs ~1000-1300 Sun-Tue) and 14:00-18:00 the peak: publish new content and share posts Thursday evening/Friday so it is live for Saturday | content schedule | opens on Saturday | suggested |
 
 ## Data findings
+### 2026-11-01 (7d vs previous 7d; 1.11 itself is partial = noise; Sunday morning)
+- Visits 869 vs 816 (+6%); single-page visits without action 386 (44%) vs 451 (55%) - better; visits with an action 346 (40%) vs 259 (32%); avg pages per visit 2.27 vs 2.43; deep visits (4+ pages) 118 vs 114.
+- Daily visitors 121-183 on normal days (28d range 24-206). Busiest day: Saturday (2439 opens, 515 visits per day-of-week sum over 28d), weakest Monday (1004 opens). Hours: peak 14:00 (272 visits) and 17:00 (233); a second hump 18-21; almost nothing 01-05.
+- Device x source (7d visits): mobile direct 400, mobile google 161, mobile other 161, desktop google 106, mobile facebook 100, desktop direct 64, mobile whatsapp 22. Mobile is about 80%.
+- Entry pages (28d entries / single-page visits with no action): `/` 347 / 110 (32%); `/printables/hebrew-letters` 151 / 108 (72%); `/classroom` 137 / 58 (42%); `/learn/reading` 112 / 10 (9%, works as a hub); short links `/r/3rt6xgjk` 104 / 83, `/l/qszgkcz` 95 / 89 (94%), `/r/g2jcufxb` 48 / 47, `/r/xyn84758` 37 / 34; `/rsvp` 99 / 34; `/en/rsvp` 53 / 41 (77%); `/shabbat-times` 49 / 44; `/shabbat-times/jerusalem` 37 / 34; `/printables/memory-english` 48 / 28; `/request` 37 / 14.
+- Open to action (28d, direct): `/letters/game` 155 opens, 537 clicks; `/printables/hebrew-letters` 180 opens, 72 print/PDF; `/learn/reading/grade-2..6` 53-74 opens each with 20-58 prints; `/rsvp` 169 opens, 54 uses; `/invitation` 46 opens, 33 shares, 25 uses; `/printables` 175 opens, 46 clicks. Hubs `/classroom` 388, `/learn` 226, `/trivia/topics` 156, `/letters` 154, `/online-games` 152, `/math` 142: no direct action (the action is the next click).
+- Rising (7d): `/request` 66 (new), `/en/r/wghvx53q` 57, `/printables/memory-english` 55, `/r/cv7uqapk` 49, `/tools/dice/story-dice` 39, `/holidays/sigd/coloring` 33 vs 5, `/unseen` 26 and `/unseen/english` 25 (new). Falling: `/` 173 vs 242, `/learn` 60 vs 125, `/trivia/topics` 14 vs 78, `/parasha` 9 vs 63, `/kids`, `/letters/game` 28 vs 69, `/shabbat-times*`.
+- Time on page (14d avg seconds, n>=60): `/letters/game` 109, `/learn/reading/grade-3` 108, `/letters/cursive` 91, `/learn/reading/grade-6` 70, `/rsvp` 68; short: `/kids` 11, `/learn/reading` 12, `/classroom` 16 (hubs people pass through).
+- Last page of a visit (7d): `/r/3rt6xgjk` 97, `/en/rsvp` 51, `/rsvp` 48, `/` 46, `/printables/memory-english` 42, `/live` 23, `/request` 22.
+- Site search (30d): 29 searches, 18 with 6+ results, 4 with 1-5, 7 with none (24%); no zero-result term repeated twice, so nothing to act on. Page requests: 23 in the week of 26.10. Next-step clicks: too few (10 in 14d, 4 of them `/` to `/whatsapp`). Scroll (14d): `/learn/reading` 42 views, 5% reach half; `/` 125 views, 29%. 404: `/booklets/shemot-special-ed` 7, `/booklets/nikud` 5, `/booklets/hygiene-first-sound` 3 (same as last week; exist in the registry - maybe cached old links, recheck 8.11). Search Console: the workflow still reports that `GSC_SERVICE_ACCOUNT` is not set, so no Google data.
+- Funnels (28d): `/rsvp` 169 opens, 54 uses; `/en/rsvp` 60 opens, 8 uses; `/invitation` 46 opens, 25 uses, 33 shares; `/live` 41 opens, 7 uses; `/birthday` 44 opens, no action; `/secret-friend` 12 opens, 0 uses; `/planner` 12 opens. Unfinished funnels cannot be seen (no create/finish events).
+- Returning visitors cannot be measured (visitor id lives one day).
+
 ### 2026-10-31 (7d vs previous 7d; Saturday morning, 31.10 itself is partial = noise)
 - Opens 3360 vs 3817 (-12%); visits 969 vs 762 (+27%); prints 260 vs 111 (x2.3); PDFs 117 vs 65 (+80%); shares 112 vs 27 (x4); plays 24 vs 126.
 - Mobile 714 vs desktop 264 visits (73%). Sources (7d visits): direct 394, google 249, other 204, facebook 75, bing 34, whatsapp 13.
@@ -52,6 +68,7 @@ Data rules: read-only, aggregate numbers and page paths only.
 - Small numbers: single days are noise; weekly trends only.
 
 ## Done
+- 2026-11-01: `/printables/abc-letters` (82% single-page visits) had no next step after printing: added a "what next" block with 5 links (ABC game, flashcards, English memory cards, lined paper, ABC hub) and a tip about b/d and p/q confusion (measure: single-page visits 8.11).
 - 2026-10-31: `/tools/dice/story-dice` was a 2-paragraph page that jumped from 2 to 37 opens/week: added a how-to guide, 6 activities, tips, 2 FAQ entries and more related links (measure: scroll reach and opens in 2 weeks).
 
 ## Measured results
