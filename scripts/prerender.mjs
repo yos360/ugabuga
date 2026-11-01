@@ -11,12 +11,51 @@ const concurrency = prerenderConcurrency(process.env.PRERENDER_CONCURRENCY)
 // <body>, outside #root. A snapshot would freeze them into the static HTML, and
 // on hydration React creates its own copy — leaving a dead duplicate on screen.
 // Strip everything outside #root that isn't a script/style before serializing.
+// The tab keeps running React after the snapshot (the next page is reached client-side), so the
+// portals are only taken out for the moment of serializing and put back right after.
 const stripPortals = page => page.evaluate(() => {
+  window.__prerenderPortals = []
   for (const el of [...document.body.children]) {
     if (el.id === 'root' || ['SCRIPT', 'NOSCRIPT', 'STYLE', 'LINK', 'TEMPLATE'].includes(el.tagName)) continue
+    window.__prerenderPortals.push([el, el.nextSibling])
     el.remove()
   }
 })
+const restorePortals = page => page.evaluate(() => {
+  for (const [el, next] of (window.__prerenderPortals || []).reverse()) document.body.insertBefore(el, next && next.parentNode === document.body ? next : null)
+  window.__prerenderPortals = []
+})
+
+// A full page load boots the whole app again (parse + run the entry bundle), which is most of the
+// time per page; with ~8,000 pages that passed Cloudflare's build limit. After a tab's first load,
+// the next pages are opened inside the running app (pushState + popstate, which React Router
+// follows), and the snapshot is taken once the new page's own title and canonical are in. Only
+// pages in the same folder as the tab's last one are opened that way: they use the same chunks, so
+// the <link rel="modulepreload"> tags the app collects along the way stay the ones a full load of
+// that page would have. A new folder, pages that fill in from a lazy chunk after mounting, a
+// failed client-side open and every 60th page (memory) still get a full load.
+const FULL_LOAD = /^\/time-tunnel\/\d\d-\d\d$|^\/dictionary\/english\/[a-z]$|^\/unseen\/(english|hebrew)\/(en|he)-/
+const folder = path => path.slice(0, path.lastIndexOf('/'))
+const clientOpens = new WeakMap()
+async function openPage(page, origin, path) {
+  const { opened, from } = clientOpens.get(page) || {}
+  if (opened !== undefined && opened < 60 && from === folder(path) && !FULL_LOAD.test(path)) {
+    try {
+      const previous = await page.evaluate(p => {
+        const title = document.title
+        history.pushState(null, '', p)
+        dispatchEvent(new PopStateEvent('popstate'))
+        return title
+      }, path)
+      await page.waitForFunction(({ p, previous }) => document.title !== previous && document.querySelector('main h1')
+        && [...document.querySelectorAll('link[rel="canonical"]')].some(l => l.href === `https://ugabuga.co.il${p}`), { p: path, previous }, { timeout: 20000 })
+      clientOpens.set(page, { opened: opened + 1, from })
+      return
+    } catch { /* fall back to a full load */ }
+  }
+  await page.goto(origin + path, { waitUntil: 'load', timeout: 60000 })
+  clientOpens.set(page, { opened: 0, from: folder(path) })
+}
 
 
 const require = createRequire(import.meta.url)
@@ -74,7 +113,7 @@ try {
       // half a second of waiting to every page, which over 8,000+ pages exceeded the build limit.
       // The page is ready once its h1 is in and its own canonical (set together with the title and
       // description) points at this path — the checks below still reject anything incomplete.
-      await page.goto(origin + path, { waitUntil: 'load', timeout: 60000 })
+      await openPage(page, origin, path)
       await page.locator('main h1').waitFor()
       await page.waitForFunction(p => [...document.querySelectorAll('link[rel="canonical"]')].some(l => l.href === `https://ugabuga.co.il${p}`), path, { timeout: 30000 }).catch(() => {})
       // Time-tunnel date pages load their facts from a lazy month chunk; snapshot only once they're in.
@@ -97,6 +136,7 @@ try {
       // otherwise every visitor's browser tries to load files from its own localhost.
       await stripPortals(page)
       const html = (await page.content()).replaceAll(origin + '/', '/')
+      await restorePortals(page)
       snapshots.push({ path, html, title: result.title, index })
       if (snapshots.length % 25 === 0) console.log(`Pre-rendered ${snapshots.length}/${paths.length}`)
     } catch (err) {

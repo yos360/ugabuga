@@ -29,8 +29,9 @@ module.exports.chromium = {
           },
           locator: () => ({ waitFor: async () => {} }),
           waitForFunction: async () => {},
-          evaluate: async () => ({ title: path === '/duplicate' ? '/first' : path,
-            canonical: ['https://ugabuga.co.il' + path], descriptions: 1, h1: 1, robots: '' }),
+          // a path argument is a client-side open (pushState) inside the already-loaded app
+          evaluate: async (fn, arg) => { if (typeof arg === 'string') path = arg; return { title: path === '/duplicate' ? '/first' : path,
+            canonical: ['https://ugabuga.co.il' + path], descriptions: 1, h1: 1, robots: '' } },
           content: async () => '<h1>' + path + '</h1><script src="' + origin + '/assets/app.js"></script>',
           close: async () => {}, setViewportSize: async () => {}, setContent: async () => {},
           screenshot: async ({ path }) => writeFile(path, 'icon'),
