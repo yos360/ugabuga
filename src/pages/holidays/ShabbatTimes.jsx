@@ -39,6 +39,19 @@ function Notice() {
   return <p className="mt-4 rounded-xl border border-[var(--border)] p-3 text-sm">{SHABBAT_NOTICE}</p>
 }
 
+function ShabbatNextStrip() {
+  const chip = 'rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold min-h-[44px] inline-flex items-center'
+  return <nav className="mt-4 rounded-2xl border border-[var(--border)] p-4 text-center" aria-label="עוד לשבת הזו">
+    <h2 className="text-lg font-bold">🕯️ עוד לשבת הזו</h2>
+    <div className="mt-3 flex flex-wrap justify-center gap-2">
+      <Link to="/parasha" className={chip}>📖 פרשת השבוע לילדים</Link>
+      <Link to="/holidays/blessings/shabbat" className={chip}>🕯️ ברכת הדלקת נרות</Link>
+      <Link to="/shabbat-activities" className={chip}>🎲 פעילויות לשולחן השבת</Link>
+      <Link to="/shabbat-activities/pack" className={chip}>🖨️ חוברת שבת להדפסה</Link>
+    </div>
+  </nav>
+}
+
 function Clock({ value }) {
   return <time dateTime={value.toISOString()} dir="ltr" className="font-bold tabular-nums whitespace-nowrap">{formatTime(value)}</time>
 }
@@ -132,6 +145,7 @@ export function ShabbatTimesHub() {
       {all[0].times.candleNote && <p className="font-bold mt-3">{all[0].times.candleNote}</p>}
     </section>
     <Notice />
+    <ShabbatNextStrip />
     <div className="my-4 text-center"><a href="#calendar" className={button}>לוח חודשי ושנתי עם תמונה ↓</a> <a href="#weekly-quiz" className={button}>חידון הפרשה להדפסה ↓</a></div>
     <div className="mt-6 text-center"><button type="button" className={`${button} bg-[var(--postit)]`} onClick={locate}>📍 זמני שבת לפי המיקום שלי</button>{gpsState && <p className="mt-2 text-sm" aria-live="polite">{gpsState}</p>}<p className="text-xs mt-1">המיקום משמש רק לחישוב בדפדפן ואינו נשלח לשום מקום.</p></div>
     {place && <PlacePanel key={`${place.name}-${place.latitude}`} place={place} today={today} onClose={closePlace} />}
@@ -183,6 +197,7 @@ function CityPage({ city }) {
       <Link to="/holidays/blessings/shabbat" className={`${button} mt-4`}>לברכת הדלקת נרות</Link>
     </section>
     <Notice />
+    <ShabbatNextStrip />
     <MailSignup city={city} allowShabbat />
     <section className="mt-8"><h2 className="text-2xl">שמונה השבתות הבאות ב{city.name}</h2><ShabbatTable rows={rows.slice(1)} /></section>
     <section className="mt-8"><h2 className="text-2xl">הדלקת נרות לחגים בטווח הקרוב</h2><p className="text-sm mt-2">מ־{dateLabel(today)} עד {dateLabel(rows.at(-1).saturday)} · לפי לוח ארץ ישראל</p><HolidayList rows={holidays} /></section>

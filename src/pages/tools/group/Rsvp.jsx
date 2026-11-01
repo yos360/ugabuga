@@ -598,10 +598,11 @@ function RsvpPage({ preset }) {
       <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">{preset ? preset.intro : P.lead}</p>
     </header>}
     {!code && !preset && <QuickAnswer lang={site} q={P.quick.q} a={P.quick.a} rows={P.quick.rows} updated={P.quick.updated} />}
+    {!code && !preset && en && <RsvpTypeLinks site={site} title="Start from a ready template — pick your event" />}
     {body}
     {code && ev && !host && !error && !deleted && <OrganizerLogin code={code} onIn={organizerIn} />}
     {!code && (preset ? <TypeGuide preset={preset} /> : <RsvpGuide />)}
-    {!code && <RsvpTypeLinks current={preset?.slug} site={site} />}
+    {!code && !(en && !preset) && <RsvpTypeLinks current={preset?.slug} site={site} />}
     {toast}
   </div>
 }
