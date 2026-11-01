@@ -31,10 +31,10 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `add-to-20` — חוברת חיבור עד 20, 16 עמודים — on visitors' request — 2026-10-31
 - [x] `transport-kindergarten` — חוברת כלי תחבורה לגן חובה, 16 עמודים — on visitors' request — 2026-10-31
 - [x] `word-problems-special-ed` — שאלות מילוליות בעשרת הראשונה, כיתה א׳ חינוך מיוחד, 16 עמודים — on visitors' request — 2026-10-31
+- [x] `bereshit` — חוברת עבודה לספר בראשית (50/mo), 16 עמודים: 12 הפרשות, סידור סיפורים (בראשית, נח, יוסף), דמויות ומושגים, נכון/לא נכון, שאלות, השלמת פסוקים, הורים, תפזורת, ציור ודף תשובות (data from src/data/parasha/workbook-genesis.js) — 2026-11-01
+- [x] `grade-2-prep` — חוברת הכנה לכיתה ב׳ (50/mo), 16 עמודים: שני קטעי קריאה מאוסף האתר, אות ראשונה, יחיד ורבים, הפכים, פיסוק, סדר האלף־בית, חיבור וחיסור עד 20 ועד 100, השוואה, סדרות, שעון, בעיות מילוליות — 2026-11-01
 
 ## Next (top first)
-- [ ] `bereshit` — חוברת עבודה לספר בראשית (50/mo). Parashot of Bereshit from src/data/parasha: questions, sequencing, matching characters, word search; answer key.
-- [ ] `grade-2-prep` — חוברת הכנה לכיתה ב׳ (50/mo). Reading, writing, math to 20/100, clock.
 - [ ] `age-5` — חוברת עבודה לגיל 5 (30/mo).
 - [ ] `math-grade-3` — חוברת עבודה בחשבון לכיתה ג׳ (20/mo).
 - [ ] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).

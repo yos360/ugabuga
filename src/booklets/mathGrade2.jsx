@@ -41,7 +41,7 @@ export const WORD_PROBLEMS = [
 ]
 
 // Two columns of numbered exercises, the first column on the right.
-function Problems({ n, title, instruction, items }) {
+export function Problems({ n, title, instruction, items }) {
   const rows = Math.ceil(items.length / 2), rowH = Math.min(100, 640 / rows)
   return <SvgPage label={title}>
     <Head n={n} title={title} instruction={instruction} />
@@ -80,7 +80,7 @@ function ComparePage({ n }) {
   </SvgPage>
 }
 
-function Clock({ cx, cy, h, m }) {
+export function Clock({ cx, cy, h, m }) {
   const r = 72, pt = (deg, len) => [cx + len * Math.sin(deg * Math.PI / 180), cy - len * Math.cos(deg * Math.PI / 180)]
   const [hx, hy] = pt((h % 12) * 30 + m * 0.5, r * 0.5), [mx, my] = pt(m * 6, r * 0.78)
   return <g fontFamily={FONT} textAnchor="middle">
