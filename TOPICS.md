@@ -52,3 +52,7 @@ Update 2026-10-29 (second scheduled firing): today's reel already existed (uploa
 
 Note 2026-10-31: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-10-31/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/winter-cocoa/.
 Update 2026-10-31 (08:00 scheduled upload, owner's Chrome): YouTube https://youtube.com/shorts/N6Gwa0TeJ2o (made for kids, Education, public; thumbnail = hook frame via 'בחירה מהסרטון'), Instagram (original crop, cover.jpg, FB share off), TikTok (עוגהבוגה, cover.jpg, everyone), Facebook (עוגה בוגה profile, cover.jpg, public) and the WhatsApp channel "עוגה בוגה 🎂 דף חדש כל יום" (video + caption with the full link) — all posted.
+
+| 2026-11-01 | "השיעור הבא כבר מוכן" — מערכת השעות המתעדכנת (בטא): the quick lesson, weekly timetable, next lesson per period, lesson plan, 3-level worksheets, print the week, calendar, holidays | /planner | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-11-01: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-01/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/planner-next/. The sync check left one "unclear" marker (more, 20.15s), everything else verified.
