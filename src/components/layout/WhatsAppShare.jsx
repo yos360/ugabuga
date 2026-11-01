@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { sharePage, shareAudience, shareLink, pageTitle, countShare, shareOnFacebook } from '../../utils/share'
+import { sharePage, shareAudience, shareLink, pageLink, pageTitle, countShare, shareOnFacebook } from '../../utils/share'
 import './whatsapp-share.css'
 
 // Floating "share on WhatsApp" button on every public page. It shares the page
@@ -69,7 +69,7 @@ export default function WhatsAppShare() {
   }
   const facebook = () => { shareOnFacebook(pathname, 'facebook_share'); setMenu(false) }
   const copy = async () => {
-    try { await navigator.clipboard.writeText(shareLink(pathname, 'floating', 'copy')); countShare('copy'); setCopied(true); setTimeout(() => setMenu(false), 1400) } catch { setCopied(false) }
+    try { await navigator.clipboard.writeText(pageLink(pathname)); countShare('copy'); setCopied(true); setTimeout(() => setMenu(false), 1400) } catch { setCopied(false) }
   }
   const mail = `mailto:?subject=${encodeURIComponent(pageTitle())}&body=${encodeURIComponent(`${audience.intro}\n${shareLink(pathname, 'floating', 'email')}`)}`
   return <>

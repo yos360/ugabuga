@@ -2,9 +2,12 @@
 // owner report (/admin/activity) as action "share" on the page it came from.
 export const SITE = 'https://ugabuga.co.il'
 
+// The page's plain address, for "copy link": people paste it into ads, posts and forms, where the
+// utm tail looks long and messy (owner's request). Copies are still counted by countShare('copy').
+export const pageLink = path => `${SITE}${String(path || '/').split(/[?#]/)[0] || '/'}`
+
 export function shareLink(path, campaign = 'site', source = 'whatsapp') {
-  const clean = String(path || '/').split(/[?#]/)[0] || '/'
-  return `${SITE}${clean}?utm_source=${source}&utm_medium=share&utm_campaign=${encodeURIComponent(campaign)}`
+  return `${pageLink(path)}?utm_source=${source}&utm_medium=share&utm_campaign=${encodeURIComponent(campaign)}`
 }
 
 // `channel`: whatsapp / facebook / native (the phone's share sheet) / copy / email. It records a

@@ -19,6 +19,8 @@ export const CREATOR_TOOLS = {
   '/printables/roots-project': 'עבודת שורשים',
 }
 const clean = p => (String(p || '/').toLowerCase().split(/[?#]/)[0].replace(/\/+$/, '') || '/')
+// "copy link" on the share menu copies the page's plain address — that's a share, not something made here
+const isPageLink = text => /^https:\/\/ugabuga\.co\.il\//.test(String(text)) && clean(String(text).slice(21)) === clean(location.pathname)
 export const creatorTool = path => CREATOR_TOOLS[clean(path)] || null
 
 // Masks contact details; keeps everything else as written.
@@ -98,7 +100,7 @@ export function installCreationCapture() {
   if (clip?.writeText) {
     const write = clip.writeText.bind(clip)
     try {
-      clip.writeText = text => { if (creatorTool(location.pathname) && clean(location.pathname) !== '/invitation' && !/utm_medium=share/.test(String(text))) recordCreation('copy', text); return write(text) }
+      clip.writeText = text => { if (creatorTool(location.pathname) && clean(location.pathname) !== '/invitation' && !/utm_medium=share/.test(String(text)) && !isPageLink(text)) recordCreation('copy', text); return write(text) }
     } catch { /* read-only in some browsers */ }
   }
 }
