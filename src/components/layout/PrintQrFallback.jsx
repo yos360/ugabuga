@@ -27,7 +27,7 @@ export default function PrintQrFallback() {
     setVariant(v)
     const url = v ? qrShortUrl(window.location.origin, pathname, v) : `${window.location.origin}${pathname}?utm_source=qr&utm_medium=print`
     import('qrcode')
-      .then(({ default: QRCode }) => QRCode.toString(url, { type: 'svg', margin: 0, color: { dark: '#181828', light: '#ffffff00' } }))
+      .then(({ default: QRCode }) => QRCode.toString(url, { type: 'svg', margin: 2, color: { dark: '#181828', light: '#ffffff' } }))
       .then(s => { if (alive) setSvg(s) })
       .catch(() => {})
     return () => { alive = false }

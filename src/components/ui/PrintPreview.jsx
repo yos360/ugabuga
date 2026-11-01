@@ -22,7 +22,7 @@ import { loadClassSize, saveClassSize, clampClassSize, countOptions, CLASS_MIN, 
 function stampQrCodes(root, en = false, variant = null){
   if(!root)return
   const url=variant?qrShortUrl(location.origin,location.pathname,variant):`${location.origin}${location.pathname}?utm_source=qr&utm_medium=print`
-  import('qrcode').then(({default:QRCode})=>QRCode.toString(url,{type:'svg',margin:0,color:{dark:'#181828',light:'#ffffff00'}}))
+  import('qrcode').then(({default:QRCode})=>QRCode.toString(url,{type:'svg',margin:2,color:{dark:'#181828',light:'#ffffff'}}))
     .then(svg=>{
       root.querySelectorAll('.buga-a4, .buga-flow').forEach(page=>{
         if(page.querySelector('.buga-qr'))return
