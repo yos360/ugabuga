@@ -25,7 +25,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 4 | משחק לוח הכפל — מסלול שלבים וכוכבים, ודף תרגול להדפסה | /learn/multiplication-game | learning | 2026-10-31 slot 1 — 3R4R1nnYNSs |
 | 5 | חדר בריחה מודפס — בוחרים חדר, מדפיסים ומשחקים | /tools/escape-rooms | party | 2026-10-31 slot 2 — Rgg_WzsP01Q |
 | 6 | בחירות בכיתה — מקימים הצבעה ומקבלים תוצאות | /tools/class-elections | classroom | 2026-10-31 slot 3 — UMESYjdB0oQ |
-| 7 | מי מביא מה — רשימה משותפת למסיבה ולטיול | /tools/bring-list | party 2026-11-01 slot 1 — ready, upload from the owner's Chrome |
+| 7 | מי מביא מה — רשימה משותפת למסיבה ולטיול | /tools/bring-list | party | 2026-11-01 slot 1 — RhER-DXr9zQ |
 | 8 | גמד וענק (חבר סודי) — הגרלה עם קישור אישי | /secret-friend | party | |
 | 9 | בוגה לייב — חידון חי לכל הכיתה מהטלפון | /live | classroom | |
 | 10 | תקציב ועד הורים לשנה | /vaad/budget | tools | |
