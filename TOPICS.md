@@ -29,7 +29,9 @@ Update 2026-10-30 (08:00 scheduled upload, owner's Chrome): YouTube https://yout
 
 ## Ideas not done yet (pick one, or find a newer section in `git log` of main)
 
-**NEXT — 2026-11-01 (owner's pick, use this one):** "מערכת השעות המתעדכנת" — the new teacher timetable planner (beta): a teacher enters the weekly timetable (day × period → subject, grade, class) and gets, for every period, a short lesson plan and a printable worksheet that follow the Ministry of Education curriculum and continue where the last lesson stopped; print a whole week. Path: /planner. Audience: teachers. Say "בטא"; never mention payment or prices. Check the live /planner page first and show only what it really does.
+**NEXT — 2026-11-02 (owner's pick, use this one):** "אנסין באנגלית ובעברית — עם מילון בלחיצה": the unseen reading tests for English (grades ג׳–ט׳ and bagrut modules A/C/E/G, /unseen/english) and Hebrew (grades ז׳–ט׳ and bagrut, /unseen/hebrew) — an original passage, multiple-choice and open questions, answers with an explanation in Hebrew, and the built-in dictionary: tap any word you don't understand in the passage and its meaning appears (English → Hebrew, and Hebrew words explained too); also the full English–Hebrew dictionary at /dictionary/english. Audience: students in grades 7–8 and their parents, before the English exam. Main link: /unseen. Check the live pages first (tap a word to see the meaning pop-up) and show only what they really do; read the real test counts from the live grade pages, don't guess numbers.
+
+**Done 2026-11-01:** "מערכת השעות המתעדכנת" — the new teacher timetable planner (beta): a teacher enters the weekly timetable (day × period → subject, grade, class) and gets, for every period, a short lesson plan and a printable worksheet that follow the Ministry of Education curriculum and continue where the last lesson stopped; print a whole week. Path: /planner. Audience: teachers. Say "בטא"; never mention payment or prices. Check the live /planner page first and show only what it really does.
 
 - QR treasure hunt / ready treasure hunt (/treasure-hunt/ready)
 - Party calculator (מחשבון מסיבה)
