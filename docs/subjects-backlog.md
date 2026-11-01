@@ -129,6 +129,30 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
 - [x] `sports` (done 2026-10-31: 16 lessons — ancient and modern Olympics, the Paralympics, Israel at the Olympics (all 20 medals 1992–2024: 4 gold, 6 silver, 10 bronze, each checked against Wikipedia's medal table + Israeli sports news/OCI), football, basketball, tennis, chess (links /board-games/chess), swimming + beach-flag safety, athletics, gymnastics, judo and martial arts, cycling (helmet under 18, e-bikes from 16, Giro 2018 from Jerusalem), sailing/windsurfing/kayak/rowing, team sports at school (links /tools/team-generator, /scoreboard, /games/movement, /planner PE), sport and health — and 77 concepts: a page per sport/discipline (44), key rule or term, and per Israeli Olympic medallist incl. the 2020 judo team and 2024 rhythmic group, Esther Roth-Shahamorov and four Paralympic champions (Gershony, Shalabi, Dadaon, Samuel); part 2 ideas: more sports (rugby, baseball, golf, archery, weightlifting, skateboarding, surfing, climbing, skiing, figure skating, ice hockey, water polo, diving, equestrian, boxing, wrestling as its own page), more terms (corner, free throw, traveling, deuce, stalemate, en passant, medley, photo finish), Israeli Paralympic history (Tel Aviv 1968 athletes), Winter Olympics and Israel's winter athletes, a page per Summer Games host city, World Cup history) — ספורט: האולימפיאדה (היסטוריה, ענפים, ישראל באולימפיאדה), חוקי משחקים (כדורגל, כדורסל, טניס, שחמט),
   ענפי ספורט. Google: אולימפיאדה 2,900 · התעמלות קרקע 1,600 · התעמלות מכשירים 590 · שחמט חוקים 210.
 
+## Next round (approved by the owner 2026-11-01: "refill the list") — top first
+Google volumes for the new subjects were not checked yet; build them anyway, top first. Before each one, read
+/learn/science (and the subject named in the line) and link what is already there instead of repeating it.
+- [ ] `human-body` — גוף האדם: מערכות הגוף (שלד ושרירים, לב ודם, נשימה, עיכול, עצבים והמוח, החושים, עור, שיניים),
+  איך גדלים, שינה, היגיינה, חיסונים בקצרה (בלי ייעוץ רפואי). A concept page per organ, bone group and sense.
+  Ages 6–12. Check what /learn/science already teaches on the body; this goes deeper.
+- [ ] `nutrition` — תזונה ובריאות לילדים: קבוצות מזון, ויטמינים ומינרלים (concept page each), מים, ארוחה מאוזנת,
+  קריאת תווית מזון, סוכר ומלח, תנועה וכושר. General knowledge only — no diets, no medical advice, no brands.
+  Link /learn/fruits-vegetables and /learn/how-its-made.
+- [ ] `oceans` — ימים ואוקיינוסים: חמשת האוקיינוסים, הים התיכון, ים סוף והכנרת, גלים וגאות ושפל, מעמקי הים,
+  שוניות אלמוגים, יצורי ים (concept page per creature not already on /animals or /learn/animals), זיהום וחופים
+  נקיים, בטיחות בחוף (מצילים, דגל שחור/אדום/לבן). Numbers checked against two sources.
+- [ ] `environment` — סביבה וקיימות: מחזור (פח כתום, כחול, ירוק, סגול — לפי הכללים בישראל, checked), חיסכון במים
+  ובחשמל, אקלים ושינוי האקלים (cautious, NASA/IPCC level facts), אנרגיה מתחדשת, שמורות טבע בישראל, בעלי חיים
+  בסכנה (link /learn/animals). Practical, not preachy.
+- [ ] `countries` — מדינות העולם: a concept page per country (capital, continent, flag described in words, language,
+  a few facts), lessons per continent. Check /learn/geography first; link, don't duplicate.
+- [ ] `dinosaurs` part 2 — the more-dinosaurs list noted in the done line above (30–60 concept pages).
+- [ ] `animals` part 2 — the more-species list noted in the done line above.
+- [ ] `zodiac` part 2 — Chinese zodiac years, a page per Hebrew month (as a cultural tradition, no predictions).
+- [ ] `how-its-made` part 2 — pasta, coffee, tea and honey lessons of their own; soap, toothpaste, cans, bicycles,
+  books and printing, eggs (no brands).
+- [ ] `space` part 2 — more moons, famous comets and asteroids, more missions and constellations.
+
 Dropped by the owner: sign language.
 
 When the list runs out, add subjects from what people search (Keyword Planner via Windsor.ai, and the
