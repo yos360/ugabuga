@@ -1,0 +1,7 @@
+/* A strip over the top of the home hero; the car crosses it from the right edge to the left edge
+   (--dx, set from the strip's width, is the whole way). */
+.bcr{position:absolute;inset:0 0 auto 0;height:110px;overflow:hidden;pointer-events:none;z-index:5}
+.bcr-car{position:absolute;top:4px;left:100%;width:150px;aspect-ratio:224/143;background-size:1200% 900%;background-repeat:no-repeat;
+  animation:bcr-drive linear forwards;will-change:transform}
+@keyframes bcr-drive{from{transform:translateX(0)}to{transform:translateX(calc(-1 * var(--dx, 100vw)))}}
+@media(min-width:768px){.bcr{height:140px}.bcr-car{width:190px}}

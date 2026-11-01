@@ -14,6 +14,7 @@ import SponsorBanner from '../components/ui/SponsorBanner'
 import { LiveTop, RequestTop, BringTop, RsvpTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
+import BugaCarRun from '../components/home/BugaCarRun'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
@@ -151,6 +152,7 @@ export default function Home() {
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
+      <BugaCarRun />
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip />{variant !== 'bring' && <BringChip />}<ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
