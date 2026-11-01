@@ -152,10 +152,10 @@ export default function Home() {
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
     <section className="hp-hero">
-      <BugaCarRun />
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip />{variant !== 'bring' && <BringChip />}<ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
+      <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
       {variant === 'live' && <LiveTop variant={variant} />}
       {variant === 'request' && <RequestTop variant={variant} />}
