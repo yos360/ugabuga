@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'RhER-DXr9zQ', kind: 'tutorial', title: 'איך מארגנים מי מביא מה למסיבה — מדריך קצר', paths: ['/tools/bring-list'], category: 'party', date: '2026-11-01',
+    desc: 'מדריך קצר לרשימת מי מביא מה: פותחים רשימה מוכנה, מוסיפים פריטים, שולחים קישור אחד בוואטסאפ וכל אורח תופס פריט בלחיצה, בלי כפילויות.' },
   { id: 'UMESYjdB0oQ', kind: 'tutorial', title: 'איך מקימים בחירות בכיתה — מדריך קצר', paths: ['/tools/class-elections'], category: 'classroom', date: '2026-10-31',
     desc: 'מדריך קצר לבחירות בכיתה: בוחרים סוג בחירות, כותבים מועמדים, מדפיסים פתקים וקלפי, מצביעים ורואים תוצאות עם אחוזים — לוועד כיתה ולמועצת תלמידים.' },
   { id: 'Rgg_WzsP01Q', kind: 'tutorial', title: 'איך משחקים ומדפיסים חדר בריחה — מדריך קצר', paths: ['/tools/escape-rooms'], category: 'party', date: '2026-10-31',
