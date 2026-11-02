@@ -175,6 +175,7 @@ export default function Home() {
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
     <HomeSpotlight />
+    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
       <span className="travel-copy"><b>נוסעים עם בוגה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>
@@ -190,13 +191,12 @@ export default function Home() {
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
-    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <section className="hp-sec">
       <h2 className="hp-h2">היום בבוגה</h2>
       <div className="hp-today-row">
         <TodayCard />
         <Suspense fallback={<span className="hp-today hp-today-holiday" aria-hidden="true" />}><HolidayToday /></Suspense>
-        <Link to="/trivia" className="hp-today hp-today-quiz"><span className="hp-today-ic">❓</span><b>חידון היום</b><small>5 שאלות, דקה אחת</small><i>לחידון ←</i></Link>
+        <Link to="/time-tunnel" className="hp-today hp-today-quiz"><span className="hp-today-ic">⏳</span><b>חידון היום</b><small>מנהרת הזמן — מה קרה בתאריך הזה?</small><i>לחידון ←</i></Link>
       </div>
     </section>
     <section className="hp-sec">

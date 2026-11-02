@@ -122,9 +122,9 @@
 .hp-spot-copy small{font-size:1rem;color:#4b5563}
 .hp-spot-cta{flex:none;background:#1f2937;color:#fff;font-weight:800;border-radius:12px;padding:10px 14px;min-height:44px;display:inline-flex;align-items:center}
 .hp-spot-card:hover .hp-spot-cta{background:#7c3aed}
-.hp-spot-dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
-.hp-spot-dots button{width:10px;height:10px;border-radius:999px;background:#d1d5db;padding:0;border:0;min-height:0}
-.hp-spot-dots button[aria-current="true"]{background:#1f2937;width:22px}
+.hp-spot-nav{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;font-size:.9rem;color:#6b7280;font-weight:700}
+.hp-spot-nav button{width:36px;height:36px;border-radius:999px;background:#f3f4f6;border:2px solid #d1d5db;font-weight:900;color:#1f2937}
+.hp-spot-nav button:hover{background:#1f2937;color:#fff}
 @keyframes hp-spot-pop{0%{opacity:0;transform:translateY(10px) scale(.94)}100%{opacity:1;transform:none}}
 @media (max-width:560px){.hp-spot-card{flex-wrap:wrap}.hp-spot-cta{width:100%;justify-content:center}.hp-spot-copy b{font-size:1.25rem}}
 @media (prefers-reduced-motion:reduce){.hp-spot-card{animation:none}}
