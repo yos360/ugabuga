@@ -132,7 +132,7 @@ price claims. Israeli names in examples. Kids' safety first (no dangerous experi
 ## Next round (approved by the owner 2026-11-01: "refill the list") — top first
 Google volumes for the new subjects were not checked yet; build them anyway, top first. Before each one, read
 /learn/science (and the subject named in the line) and link what is already there instead of repeating it.
-- [ ] `human-body` — גוף האדם: מערכות הגוף (שלד ושרירים, לב ודם, נשימה, עיכול, עצבים והמוח, החושים, עור, שיניים),
+- [x] `human-body` (done 2026-11-02: 14 lessons, 32 concepts — a page per organ, bone group, blood cell, sense and key term; figures written as round/"about" (206 bones, ~300 at birth per sources that differ, 70–100 resting pulse for school age, 9–12 h sleep per AASM); part 2 ideas: more organs (kidneys, bladder, pancreas, thyroid, appendix, tonsils), a page per bone (humerus, tibia, skull bones), hormones, blood groups, immune system, puberty, first aid basics) — גוף האדם: מערכות הגוף (שלד ושרירים, לב ודם, נשימה, עיכול, עצבים והמוח, החושים, עור, שיניים),
   איך גדלים, שינה, היגיינה, חיסונים בקצרה (בלי ייעוץ רפואי). A concept page per organ, bone group and sense.
   Ages 6–12. Check what /learn/science already teaches on the body; this goes deeper.
 - [ ] `nutrition` — תזונה ובריאות לילדים: קבוצות מזון, ויטמינים ומינרלים (concept page each), מים, ארוחה מאוזנת,

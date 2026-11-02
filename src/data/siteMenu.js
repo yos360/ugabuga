@@ -268,6 +268,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/world-wonders', label: 'מקומות מפורסמים בעולם — האוורסט, האמזונס וים המלח', icon: '🏔️' },
           { to: '/learn/peoples', label: 'עמים ושבטים בעולם — אינואיט, מאורים, בדואים ועוד', icon: '🌍' },
           { to: '/discover/human-body', label: 'גוף האדם', icon: '🫀' },
+          { to: '/learn/human-body', label: 'גוף האדם לעומק: לב, מוח, עצמות וחושים', icon: '🫀' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
           { to: '/learn/fruits-vegetables', label: 'פירות וירקות: פרי או ירק? מאיפה הגיעו', icon: '🍎' },

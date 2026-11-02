@@ -493,13 +493,17 @@ export function connectActivity(onChange) {
     } catch {state.count=null;publish()}
   }
   const onPrint=()=>{recordActivity('print',activityForPath(location.pathname));logEvent('print')}
-  const onClick=event=>{
-    // Next steps: a click on an internal link inside the page content (not the back link, not downloads).
+  // Next steps: a click on an internal link inside the page content (not the back link, not downloads).
+  // Runs in the CAPTURE phase: React Router changes location.pathname inside its own click handler, so a
+  // bubbling listener saw the new page as the source and every client-side link was dropped (path === target).
+  const onLinkClick=event=>{
     const link=event.isTrusted&&event.target instanceof Element?event.target.closest('a[href]'):null
     if(link&&link.closest('main')&&!link.closest('[data-back-link]')&&!link.hasAttribute('download')){
       const to=internalTarget(link.href,location.origin)
       if(to)logSignal('nav',location.pathname,{target:to,click:true})
     }
+  }
+  const onClick=event=>{
     const button=event.target instanceof Element?event.target.closest('button'):null
     if(!event.isTrusted||!button||button.disabled||!button.closest('main')||button.closest('form'))return
     const action=buttonAction(button.textContent||'')
@@ -517,9 +521,10 @@ export function connectActivity(onChange) {
   window.addEventListener('error',onError)
   window.addEventListener('unhandledrejection',onRejection)
   window.addEventListener('beforeprint',onPrint)
+  document.addEventListener('click',onLinkClick,true)
   document.addEventListener('click',onClick)
   expiry=setInterval(sync,15000)
   const stopTime=startTimeTracking()
   void start()
-  return ()=>{stopped=true;stopTime();clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onRejection);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
+  return ()=>{stopped=true;stopTime();clearInterval(expiry);window.removeEventListener('beforeprint',onPrint);window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onRejection);document.removeEventListener('click',onLinkClick,true);document.removeEventListener('click',onClick);if(connection===channel)connection=null;if(client&&channel)void client.removeChannel(channel).catch(()=>{})}
 }
