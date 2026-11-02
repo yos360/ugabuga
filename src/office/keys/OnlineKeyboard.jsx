@@ -18,11 +18,11 @@ const save = v => { try { localStorage.setItem(STORE, JSON.stringify(v)) } catch
 // Width of each special key, in key units; every row adds up to 15.
 const MOD = {
   Backspace: ['⌫', 2], Tab: ['Tab', 1.5], CapsLock: ['Caps', 1.75], Enter: ['Enter ↵', 2.25],
-  ShiftLeft: ['⇧ Shift', 2.25], ShiftRight: ['⇧ Shift', 2.75], Lang: ['', 2.5], Space: ['רווח', 10], Clear: ['', 2.5],
+  ShiftLeft: ['⇧ Shift', 2.25], ShiftRight: ['⇧ Shift', 2.75], Lang: ['', 2.5], At: ['@', 1.5], Space: ['רווח', 8.5], Clear: ['', 2.5],
 }
 const ROWS = lang => {
   const r = KB_LAYOUTS[lang].rows
-  return [[...r[0], 'Backspace'], ['Tab', ...r[1]], ['CapsLock', ...r[2], 'Enter'], ['ShiftLeft', ...r[3], 'ShiftRight'], ['Lang', 'Space', 'Clear']]
+  return [[...r[0], 'Backspace'], ['Tab', ...r[1]], ['CapsLock', ...r[2], 'Enter'], ['ShiftLeft', ...r[3], 'ShiftRight'], ['Lang', 'At', 'Space', 'Clear']]
 }
 const HE_ON_KEY = Object.fromEntries(Object.values(KB_LAYOUTS.he.byCode).map(k => [k.code, k.base]))
 const COURSE = [
@@ -87,6 +87,7 @@ export default function OnlineKeyboard() {
     if (code === 'Backspace') return edit(backspaceAt)
     if (code === 'Enter') return type('\n')
     if (code === 'Space') return type(' ')
+    if (code === 'At') return type('@')
     if (code === 'Tab') return type('\t')
     if (code === 'ShiftLeft' || code === 'ShiftRight') return setShift(s => !s)
     if (code === 'CapsLock') return setCaps(c => !c)

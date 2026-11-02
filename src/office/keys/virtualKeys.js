@@ -60,7 +60,7 @@ export const NIQQUD = [
   { mark: 'ׁ', name: 'שִׁי״ן ימנית' }, { mark: 'ׂ', name: 'שִׂי״ן שמאלית' },
 ]
 export const VAV_VOWELS = [{ text: 'וּ', name: 'שׁוּרוּק' }, { text: 'וֹ', name: 'חוֹלָם מָלֵא' }]
-export const SYMBOLS = ['₪', '״', '׳', '־', '–', '…', '€', '$', '%', '°', '×', '÷', '«', '»', '❤️', '🙂']
+export const SYMBOLS = ['@', '₪', '״', '׳', '־', '–', '…', '€', '$', '%', '°', '×', '÷', '«', '»', '❤️', '🙂']
 
 const NIQQUD_RE = /[֑-ׇֽֿׁׂׅׄ]/g
 /** Strip niqqud and cantillation, keeping maqaf (־), geresh and gershayim. */
