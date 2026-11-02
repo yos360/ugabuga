@@ -157,6 +157,8 @@ export default function Home() {
       <h1>{SITE_SLOGAN}</h1>
       <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
+      {/* The daily time tunnel opens the page, right under the heading (owner's request). */}
+      <NearViewport><div className="hp-sec hp-daily hp-daily-top"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
       {variant === 'live' && <LiveTop variant={variant} />}
       {variant === 'request' && <RequestTop variant={variant} />}
       {variant === 'bring' && <BringTop variant={variant} />}
@@ -175,7 +177,6 @@ export default function Home() {
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
     <HomeSpotlight />
-    <NearViewport><div className="hp-sec hp-daily"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
       <span className="travel-copy"><b>נוסעים עם בוגה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>

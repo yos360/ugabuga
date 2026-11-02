@@ -85,3 +85,4 @@ body:has(.hp) .site-footer{display:none}
 .hp-exp-request .hp-exp-cta{align-self:flex-end}.hp-exp-msg{flex-basis:100%;color:#b42318;font-weight:700}
 .hp-exp-chips{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px}.hp-exp-chip{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;background:#fff;color:#1d1640;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 0 0 1px var(--line)}
 @media(max-width:520px){.hp-exp{padding:14px}.hp-exp-cta{width:100%}.hp-exp-ic{font-size:30px}}
+.hp-daily-top{margin:20px auto 28px;max-width:960px;text-align:right}
