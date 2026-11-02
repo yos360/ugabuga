@@ -1,5 +1,6 @@
 // /tools/keyboard: layouts, typing Hebrew on an English computer, niqqud and caret editing
 import test from 'node:test'
+import { PLAYLISTS, spotifyUri, fmtTime } from '../src/office/keys/spotifyLinks.js'
 import assert from 'node:assert/strict'
 import { KB_LAYOUTS, charFor, remapPhysical, removeNiqqud, insertAt, backspaceAt, countText, NIQQUD } from '../src/office/keys/virtualKeys.js'
 
@@ -40,4 +41,13 @@ test('niqqud and editing', () => {
   assert.deepEqual(backspaceAt('a❤️', 3, 3), { text: 'a', caret: 1 })
   assert.deepEqual(backspaceAt('abc', 0, 0), { text: 'abc', caret: 0 })
   assert.deepEqual(countText(' שָׁלוֹם  לכם '), { chars: 11, words: 2 })
+})
+
+test('music: playlists are valid and pasted Spotify links parse', () => {
+  for (const p of PLAYLISTS) assert.equal(spotifyUri(p.uri), p.uri)
+  assert.equal(spotifyUri('https://open.spotify.com/intl-he/playlist/37i9dQZF1DX4sWSpwq3LiO?si=abc'), 'spotify:playlist:37i9dQZF1DX4sWSpwq3LiO')
+  assert.equal(spotifyUri('open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy'), 'spotify:album:4aawyAB9vmqN3uQ7FjRGTy')
+  assert.equal(spotifyUri('https://evil.com/open.spotify.com/track/4aawyAB9vmqN3uQ7FjRGTy'), null)
+  assert.equal(spotifyUri('שיר'), null)
+  assert.equal(fmtTime(65400), '1:05')
 })

@@ -9,6 +9,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { FINGERS, FINGER_OF } from '../../typing/typingData'
 import { KB_LAYOUTS, LATIN_ON_KEY, NIQQUD, VAV_VOWELS, SYMBOLS, charFor, remapPhysical, removeNiqqud, insertAt, backspaceAt, countText } from './virtualKeys'
 import EmojiPicker from './EmojiPicker'
+import SpotifyPlayer from './SpotifyPlayer'
 import './virtualKeys.css'
 
 const STORE = 'ugabuga-online-keyboard'
@@ -50,6 +51,7 @@ export default function OnlineKeyboard() {
   const [siteKb, setSiteKb] = useState(false)
   const [wpm, setWpm] = useState(0)
   const [emoji, setEmoji] = useState(false)
+  const [music, setMusic] = useState(false)
   const ta = useRef(null), stamps = useRef([]), flashT = useRef(0)
   // The latest text and caret, ahead of React's render, so fast taps never overwrite each other.
   const live = useRef({ text, caret: null })
@@ -139,6 +141,7 @@ export default function OnlineKeyboard() {
         </div>
         <button type="button" className="okb-btn" aria-pressed={fingers} onClick={() => setFingers(f => !f)}>🖐️ צבעי אצבעות</button>
         <button type="button" className="okb-btn" aria-pressed={emoji} onClick={() => setEmoji(v => !v)}>😀 אימוג׳ים</button>
+        <button type="button" className="okb-btn" aria-pressed={music} onClick={() => setMusic(v => !v)}>🎵 מוזיקה</button>
         <span className="okb-size" role="group" aria-label="גודל הטקסט">
           <button type="button" className="okb-btn" onClick={() => setSize(s => Math.max(16, s - 4))} aria-label="הקטנת הטקסט">א-</button>
           <button type="button" className="okb-btn" onClick={() => setSize(s => Math.min(48, s + 4))} aria-label="הגדלת הטקסט">א+</button>
@@ -172,6 +175,7 @@ export default function OnlineKeyboard() {
         })}</div>)}
       </div>
 
+      {music && <SpotifyPlayer />}
       {emoji && <div className="mt-3"><EmojiPicker onPick={type} /></div>}
       {lang === 'he' && <div className="okb-extra" aria-label="ניקוד">
         <span className="okb-extra-title">ניקוד:</span>
