@@ -21,7 +21,7 @@ concurrency:
 jobs:
   submit:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,10 +31,10 @@ jobs:
       - name: Snapshot live sitemap (before deploy)
         run: curl -fsS --max-time 30 https://ugabuga.co.il/sitemap.xml -o "$RUNNER_TEMP/before.xml"
 
-      - name: Wait for Cloudflare to publish a new sitemap (up to 20 min)
+      - name: Wait for Cloudflare to publish a new sitemap (up to 60 min)
         id: wait
         run: |
-          for i in $(seq 1 40); do
+          for i in $(seq 1 120); do
             sleep 30
             curl -fsS --max-time 30 "https://ugabuga.co.il/sitemap.xml?nocache=$(date +%s)" -o "$RUNNER_TEMP/after.xml" || continue
             if ! cmp -s "$RUNNER_TEMP/before.xml" "$RUNNER_TEMP/after.xml"; then

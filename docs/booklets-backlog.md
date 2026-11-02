@@ -38,6 +38,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `math-grade-3` — חוברת חשבון לכיתה ג׳ (20/mo), 16 עמודים: לוח הכפל, משלימים בכפל, חילוק, חיבור וחיסור עד 1000, מאות עשרות ויחידות, השוואה, ספירה בקפיצות, שברים, היקף, שעון, בעיות מילוליות ודף תשובות — 2026-11-02
 - [x] `first-math-age-4` — חשבון ראשון לגיל 4–5, 14 עמודים — on visitors' request — 2026-11-02
 - [x] `math-grade-1-compare` — השוואה, חיבור וחיסור עד 20 לכיתה א׳, 16 עמודים — on visitors' request — 2026-11-02
+- [x] `sentence-pyramids` — משפטי פירמידה מנוקדים, 16 פירמידות עם 2 שאלות, כיתות א׳–ב׳, 12 עמודים — on a visitor's request (id 26) — 2026-11-02
 
 ## Next (top first)
 - [ ] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).
