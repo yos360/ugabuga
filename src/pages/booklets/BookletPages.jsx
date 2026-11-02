@@ -32,13 +32,36 @@ function Card({ b }) {
   </Link>
 }
 
+// Filters on the hub: the school stage (from `stage`, or guessed from `audience`) and a subject group.
+const STAGES = ['גן', 'יסודי', 'חטיבת ביניים', 'תיכון']
+const stageOf = b => b.stage || (/גיל|גן/.test(b.audience) && !/כית/.test(b.audience) ? 'גן' : /תיכון|י׳|י״א|י״ב/.test(b.audience) ? 'תיכון' : /ז׳|ח׳|ט׳|חטיבת/.test(b.audience) ? 'חטיבת ביניים' : /גן/.test(b.audience) ? 'גן' : 'יסודי')
+const SUBJECTS = [
+  ['חשבון ומתמטיקה', /חשבון|מתמטיקה/], ['עברית ולשון', /עברית|לשון|קריאה|כתיב|תנועות|צליל/], ['אנגלית', /אנגלית/],
+  ['מדע וטבע', /מדע|טבע/], ['תנ״ך', /תנ״ך|בראשית|שמות/], ['היסטוריה', /היסטוריה|מורשת/], ['מולדת וגאוגרפיה', /מולדת|גאוגרפיה/],
+  ['אזרחות', /אזרחות/], ['חגים', /חגים/],
+]
+const subjectOf = b => (SUBJECTS.find(([, re]) => re.test(b.subject)) || ['עוד'])[0]
+const Chip = ({ on, onClick, children }) => <button type="button" aria-pressed={on} onClick={onClick} className={`min-h-[44px] rounded-full border-2 px-4 font-bold ${on ? 'border-violet-600 bg-violet-600 text-white' : 'border-[var(--border)] bg-[var(--card)]'}`}>{children}</button>
+
 export function BookletsHub() {
+  const [stage, setStage] = useState(null), [subject, setSubject] = useState(null)
+  const shown = BOOKLETS.filter(b => (!stage || stageOf(b) === stage) && (!subject || subjectOf(b) === subject))
+  const subjects = [...SUBJECTS.map(s => s[0]), 'עוד'].filter(s => BOOKLETS.some(b => subjectOf(b) === s && (!stage || stageOf(b) === stage)))
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
-    <SEO title="חוברות עבודה להדפסה — PDF בחינם לגן ולבית הספר" description={`חוברות עבודה להדפסה בחינם: ${BOOKLETS.map(b => b.title).join(', ')}. כל חוברת להורדה כ־PDF, עם תעודת סיום.`} path="/booklets" />
+    <SEO title="חוברות עבודה להדפסה — PDF בחינם לגן ולבית הספר" description={`${BOOKLETS.length} חוברות עבודה להדפסה בחינם, מגיל 3 ועד התיכון: חשבון, עברית, אנגלית, מדעים, תנ״ך, היסטוריה וגאוגרפיה. כל חוברת להורדה כ־PDF, עם דף תשובות ותעודת סיום.`} path="/booklets" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: CRUMB.label }]} />
     <h1 className="mb-2 text-center text-4xl sm:text-5xl"><span aria-hidden="true">📚 </span>חוברות עבודה להדפסה</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">חוברות שלמות לפי כיתה ונושא, להדפסה או לשמירה כ־PDF. בכל חוברת יש שער עם שם הילד, עמודי תרגול מגוונים ותעודת סיום.</p>
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{BOOKLETS.map(b => <Card key={b.slug} b={b} />)}</div>
+    <div className="mb-3 flex flex-wrap justify-center gap-2" role="group" aria-label="גיל">
+      <Chip on={!stage} onClick={() => setStage(null)}>כל הגילאים</Chip>
+      {STAGES.map(s => <Chip key={s} on={stage === s} onClick={() => { setStage(s); setSubject(null) }}>{s}</Chip>)}
+    </div>
+    <div className="mb-6 flex flex-wrap justify-center gap-2" role="group" aria-label="מקצוע">
+      <Chip on={!subject} onClick={() => setSubject(null)}>כל המקצועות</Chip>
+      {subjects.map(s => <Chip key={s} on={subject === s} onClick={() => setSubject(s)}>{s}</Chip>)}
+    </div>
+    <p className="mb-3 text-center font-bold text-[var(--muted-foreground)]" aria-live="polite">{shown.length} חוברות</p>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{shown.map(b => <Card key={b.slug} b={b} />)}</div>
     <PlannerBanner className="mt-10" />
     <div className="mt-10"><SeoBody paragraphs={[
       'חוברת עבודה נותנת לילד משהו שדף בודד לא נותן: התחלה, אמצע וסוף. יש שער שכותבים עליו את השם, עמודים שמתקדמים בהדרגה, ותעודה בסוף שאפשר לתלות על המקרר.',
@@ -64,7 +87,10 @@ function RequestedBox() {
 function BookletView({ b }) {
   const Booklet = useBooklet(b)
   const [seed, setSeed] = useState(null)
+  // Same subject first, then same stage — six at most (the hub has the rest).
   const others = BOOKLETS.filter(o => o.slug !== b.slug)
+    .map(o => ({ o, score: (subjectOf(o) === subjectOf(b) ? 2 : 0) + (stageOf(o) === stageOf(b) ? 1 : 0) }))
+    .filter(x => x.score > 0).sort((x, y) => y.score - x.score).slice(0, 6).map(x => x.o)
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
     <SEO title={b.seoTitle} description={b.description} path={bookletHref(b)} structuredData={faqSchema(b.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, CRUMB, { label: b.title }]} />

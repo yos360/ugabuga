@@ -39,14 +39,15 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `first-math-age-4` — חשבון ראשון לגיל 4–5, 14 עמודים — on visitors' request — 2026-11-02
 - [x] `math-grade-1-compare` — השוואה, חיבור וחיסור עד 20 לכיתה א׳, 16 עמודים — on visitors' request — 2026-11-02
 - [x] `sentence-pyramids` — משפטי פירמידה מנוקדים, 16 פירמידות עם 2 שאלות, כיתות א׳–ב׳, 12 עמודים — on a visitor's request (id 26) — 2026-11-02
+- [x] 40 grade-by-grade subject booklets (math 4–9 + high school, Hebrew 2–9, science 1–9, Tanakh 3–8, moledet 2–4, geography 5–8, history 6–9, civics) — data only: `src/booklets/content|meta/<slug>.js` drawn by `subjectKit.jsx`, checked by `tests/subject-booklets.test.mjs` — on the owner's request ("for all ages and all subjects") — 2026-11-03
 
 ## Next (top first)
 - [ ] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).
-- [ ] `math-grade-4` — חוברת עבודה בחשבון לכיתה ד׳ (10/mo).
-- [ ] `math-grade-5` — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
-- [ ] `math-grade-6` — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).
+- [x] `math-grade-4` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ד׳ (10/mo).
+- [x] `math-grade-5` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
+- [x] `math-grade-6` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).
 - [ ] `reading-grade-3` — חוברת עבודה בהבנת הנקרא כיתה ג׳ (10/mo). Passages from src/learn/readingGrades*.
-- [ ] `hebrew-grade-2` — חוברת עבודה בעברית לכיתה ב׳ (10/mo).
+- [x] `hebrew-grade-2` (done in the subject batch) — חוברת עבודה בעברית לכיתה ב׳ (10/mo).
 - [ ] `shemot` — חוברת עבודה לספר שמות (10/mo).
 - [ ] `new-immigrants` — חוברת עבודה לעולים חדשים (10/mo). First Hebrew words with English/Russian-free pictures.
 - [ ] `tu-bishvat` — חוברת עבודה לט״ו בשבט (seasonal: Tu BiShvat 23.1.2027 — build in early January).

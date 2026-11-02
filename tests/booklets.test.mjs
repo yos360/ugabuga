@@ -34,5 +34,6 @@ test('every booklet module exists and reads its page list from the registry', ()
     assert.ok(existsSync(new URL(`../src/booklets/${m[1]}`, import.meta.url)), m[1])
     assert.match(read(`src/booklets/${m[1]}`), /bookletBySlug\('[a-z0-9-]+'\)\.pages/, `${m[1]} uses the registry page list`)
   }
-  assert.equal([...registry.matchAll(/load: \(\) => import/g)].length, BOOKLETS.length)
+  const subjects = read('src/booklets/registry-subjects.js')
+  assert.equal([...registry.matchAll(/load: \(\) => import/g)].length + [...subjects.matchAll(/load: subject\(/g)].length, BOOKLETS.length)
 })

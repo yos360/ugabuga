@@ -2,7 +2,10 @@
 // pages (shown on the page and on the booklet's cover) and a lazy loader for the printable pages.
 // New booklets come from docs/booklets-backlog.md, chosen by real Google search volumes — add the entry
 // here, a module next to this file, and the URL to public/sitemap-static.xml and src/data/searchStatic.js
-// (tests/booklets.test.mjs checks all of these).
+// (tests/booklets.test.mjs checks all of these). Grade-by-grade subject booklets are data only: see
+// registry-subjects.js.
+import { SUBJECT_BOOKLETS } from './registry-subjects.js'
+
 export const BOOKLETS = [
   {
     slug: 'english-grade-3', emoji: '🇬🇧', added: '2026-10-27', audience: 'כיתה ג׳', subject: 'אנגלית',
@@ -909,6 +912,7 @@ export const BOOKLETS = [
     related: [{ label: 'חוברת תנועות וניקוד', href: '/booklets/nikud' }, { label: 'דיוק בקריאה — שלב הקמץ ועיצור', href: '/booklets/kamatz-accuracy' }, { label: 'דפי קריאה לפי האותיות שלמדנו', href: '/letters/reading-practice' }, { label: 'חוברות עבודה להדפסה', href: '/booklets' }],
     load: () => import('./sentencePyramids.jsx'),
   },
+  ...SUBJECT_BOOKLETS,
 ]
 
 export const bookletBySlug = slug => BOOKLETS.find(b => b.slug === slug)
