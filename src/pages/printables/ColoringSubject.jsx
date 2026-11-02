@@ -6,6 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { COLORING_SUBJECTS, coloringSrc, coloringFmt, coloringDrawingPath } from '../../data/coloringSubjects'
+import { coloringSubjectSummary } from '../../data/coloringDrawings'
 
 // Subject grid for the coloring hub: one card per subject, linking to its own page.
 export function ColoringSubjectsGrid({ exclude, title = 'דפי צביעה לפי נושא' }) {
@@ -26,7 +27,9 @@ export default function ColoringSubject() {
   const [printing, setPrinting] = useState(null) // array of 1-based numbers
   if (!s) return <NotFound />
   const all = s.items.map((_, i) => i + 1)
+  const summary = coloringSubjectSummary(s.slug)
   const faq = [
+    ...summary.faq,
     { q: `איך מדפיסים את דפי הצביעה של ${s.name}?`, a: 'לוחצים על ציור כדי לפתוח את הדף שלו, או על כפתור "הדפסה" שמתחתיו להדפסה מהירה. "הדפסת כל הדפים" פותחת את כולם — כל ציור על דף A4. בתצוגת ההדפסה אפשר גם להוריד PDF.' },
     { q: 'הדפים בחינם?', a: 'כן, כל דפי הצביעה באתר חינמיים לשימוש אישי, בבית, בגן ובכיתה — בלי הרשמה.' },
     { q: 'הציור יוצא חד בהדפסה?', a: 'כן. הקווים שחורים ונקיים, בלי טשטוש ובלי רקע אפור, והציור ממלא דף A4 שלם.' },
@@ -52,6 +55,6 @@ export default function ColoringSubject() {
       {printing.map(n => <article className="buga-a4" key={n}><div className="print-art"><img src={coloringSrc(s.slug, n, coloringFmt(s))} alt={s.items[n - 1]} /></div></article>)}
     </PrintPreview>}
     <ColoringSubjectsGrid exclude={s.slug} title="עוד דפי צביעה לפי נושא" />
-    <div className="mt-6"><SeoBody paragraphs={[s.desc, s.fmt ? 'כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווים דקים ומדויקים עם הרבה פרטים, שמתאימים לטושים דקים או לצבעי עיפרון מחודדים, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.' : `כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווי מתאר שחורים ועבים, שטחים גדולים שנוח למלא בטושים או בצבעי עיפרון, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.`, 'אפשר להדפיס ציור אחד או את כולם יחד, להוריד כ-PDF מהטלפון, ולשלוח לחברים או לקבוצת הגן בוואטסאפ. בתחתית כל דף יש קוד QR שמחזיר בדיוק לעמוד הזה — למי שירצה עוד.']} faq={faq} related={[...(s.holiday ? [s.holiday] : []), ...(['sufganiyah', 'dreidel', 'hanukkiah'].includes(s.slug) ? [{ label: 'הכול לחנוכה', href: '/holidays/hanukkah' }] : []), ...(s.related || []), { label: 'כל דפי הצביעה', href: '/printables/coloring' }, ...(s.related ? [] : [{ label: 'מנדלות להדפסה', href: '/printables/mandalas' }]), { label: 'דפים להדפסה', href: '/printables' }]} /></div>
+    <div className="mt-6"><SeoBody paragraphs={[s.desc, summary.spread, s.fmt ? 'כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווים דקים ומדויקים עם הרבה פרטים, שמתאימים לטושים דקים או לצבעי עיפרון מחודדים, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.' : `כל הציורים בעמוד הזה מקוריים ומצוירים במיוחד לצביעה: קווי מתאר שחורים ועבים, שטחים גדולים שנוח למלא בטושים או בצבעי עיפרון, ורקע לבן נקי שלא מבזבז דיו. כל ציור מודפס על דף A4 שלם.`, 'אפשר להדפיס ציור אחד או את כולם יחד, להוריד כ-PDF מהטלפון, ולשלוח לחברים או לקבוצת הגן בוואטסאפ. בתחתית כל דף יש קוד QR שמחזיר בדיוק לעמוד הזה — למי שירצה עוד.']} faq={faq} related={[...(s.holiday ? [s.holiday] : []), ...(['sufganiyah', 'dreidel', 'hanukkiah'].includes(s.slug) ? [{ label: 'הכול לחנוכה', href: '/holidays/hanukkah' }] : []), ...(s.related || []), { label: 'כל דפי הצביעה', href: '/printables/coloring' }, ...(s.related ? [] : [{ label: 'מנדלות להדפסה', href: '/printables/mandalas' }]), { label: 'דפים להדפסה', href: '/printables' }]} /></div>
   </div>
 }

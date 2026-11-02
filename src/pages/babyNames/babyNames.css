@@ -27,3 +27,6 @@
 .bn-fact{border:2px solid var(--border,#1d2233);border-radius:14px;padding:8px 12px;background:var(--card,#fff)}
 .bn-fact b{display:block;font-size:13px;color:var(--muted-foreground,#555)}
 .bn-fact span{font-size:18px;font-weight:800;overflow-wrap:anywhere}
+ul.bn-facts{list-style:none;padding:0;margin:0}
+.bn-letter-facts .bn-fact b{font-size:28px;color:inherit;line-height:1.1}
+.bn-letter-facts .bn-fact span{font-size:15px;font-weight:700}

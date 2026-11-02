@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { WORLD_COUNTRIES, CONTINENTS, COUNTRY_BY_CODE } from '../src/flags/flagsData.js'
 import { COUNTRY_DETAILS, countrySource } from '../src/flags/countryDetails.js'
 import { buildCountryRound } from '../src/flags/countryQuiz.js'
+import { countryLead, rememberTips, letterParagraph, similarColorFlags, flagFeatures } from '../src/flags/countryInsights.js'
 import { findCountry, countryTitle, countryDescription, countryFaq, coloringFor, relatedCountries } from '../src/flags/countryPageData.js'
 
 const xml = readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8')
@@ -23,13 +24,38 @@ test('all 195 country pages have sourced individual copy, SEO, FAQ and a sitemap
     assert.ok(title.length <= 70 && description.length <= 165, c.code)
     assert.ok(!titles.has(title) && !descriptions.has(description), c.code)
     titles.add(title); descriptions.add(description)
-    assert.equal(countryFaq(c).length, 3)
+    assert.ok(countryFaq(c).length >= 4, c.code)
     assert.equal(paths.filter(p => p === `/flags/${c.code}`).length, 1, c.code)
   }
   assert.equal(WORLD_COUNTRIES.filter(c => coloringFor(c.code)).length, 35)
   assert.equal(COUNTRY_BY_CODE.gq.capital, 'סיודאד דה לה פאס')
   assert.match(countryFaq(COUNTRY_BY_CODE.nr)[1].a, /אין בירה רשמית/)
   assert.match(COUNTRY_DETAILS.af.description, /לשעבר/)
+})
+
+test('country pages get distinct, data-driven body copy (not one template with the name swapped)', () => {
+  const words = s => s.split(/\s+/).filter(Boolean).length
+  const leads = new Set(), tipSets = new Set(), faqs = new Set()
+  for (const c of WORLD_COUNTRIES) {
+    const lead = countryLead(c), tips = rememberTips(c), faq = countryFaq(c)
+    const body = [lead, ...tips, letterParagraph(c), ...faq.flatMap(x => [x.q, x.a])].join(' ')
+    assert.ok(words(body) >= 150, `${c.code}: ${words(body)} words`)
+    assert.ok(tips.length >= 2, c.code)
+    // Strip the country name so only the data-driven parts are compared.
+    const strip = s => s.replaceAll(c.name, '#')
+    leads.add(strip(lead)); tipSets.add(strip(tips.join('|'))); faqs.add(strip(faq.map(x => x.a).join('|')))
+    for (const p of similarColorFlags(c)) assert.notEqual(p.code, c.code)
+  }
+  assert.ok(faqs.size === WORLD_COUNTRIES.length, 'every FAQ is unique')
+  assert.ok(tipSets.size > 60 && leads.size > 50, `tips ${tipSets.size}, leads ${leads.size}`)
+  // Detected colours/symbols are read from the sourced descriptions — spot checks.
+  assert.deepEqual(flagFeatures('fr').colors, ['red', 'white', 'blue'])
+  assert.deepEqual(flagFeatures('ke').colors, ['red', 'white', 'green', 'black'])
+  assert.ok(!flagFeatures('pl').symbols.includes('plant'), 'למעלה is not a leaf')
+  assert.ok(!flagFeatures('au').symbols.includes('cross'), 'Southern Cross is stars')
+  assert.ok(!flagFeatures('va').symbols.includes('cross'), 'crossed keys are not a cross')
+  assert.ok(flagFeatures('nz').unionJack && flagFeatures('nz').colors.includes('blue'))
+  assert.notEqual(countryLead(COUNTRY_BY_CODE.fr), countryLead(COUNTRY_BY_CODE.de))
 })
 
 test('invalid and prototype country codes are rejected without crashing', () => {

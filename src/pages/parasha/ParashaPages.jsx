@@ -1,5 +1,5 @@
 import ShabbatActivityLink from '../../components/printables/ShabbatActivityLink'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -11,19 +11,21 @@ import { israelToday, readingForDate } from '../../utils/parashaCalendar'
 import PrintPreview from '../../components/ui/PrintPreview'
 import ParashaWorkbook from './ParashaWorkbook'
 import PlannerBanner from '../../components/ui/PlannerBanner'
+import { parashaDescription, parashaFacts, parashaFaq, parashaParagraphs } from '../../utils/parashaFacts'
+import wbGenesis from '../../data/parasha/workbook-genesis.js'
+import wbExodus from '../../data/parasha/workbook-exodus.js'
+import wbLeviticus from '../../data/parasha/workbook-leviticus.js'
+import wbNumbers from '../../data/parasha/workbook-numbers.js'
+import wbDeuteronomy from '../../data/parasha/workbook-deuteronomy.js'
 
-// Workbook data per book (events, concepts, true/false, easy questions…), loaded only when printing.
-const WORKBOOK_FILES = import.meta.glob('../../data/parasha/workbook-*.js')
-const BOOK_FILE = { 'בראשית': 'genesis', 'שמות': 'exodus', 'ויקרא': 'leviticus', 'במדבר': 'numbers', 'דברים': 'deuteronomy' }
-const loadWorkbooks = books => Promise.all(books.map(b => WORKBOOK_FILES[`../../data/parasha/workbook-${BOOK_FILE[b]}.js`]?.().then(m => m.default) ?? {})).then(parts => Object.assign({}, ...parts))
+// All portions' workbook data, in this lazy chunk only: the portion pages show it in their HTML.
+const WORKBOOK = { ...wbGenesis, ...wbExodus, ...wbLeviticus, ...wbNumbers, ...wbDeuteronomy }
 
 // Print one portion's workbook, or every portion of a book / the whole year, in either level.
 function WorkbookPrint({ portions, title, onClose, level }) {
-  const [data, setData] = useState(null)
-  useEffect(() => { let live = true; loadWorkbooks([...new Set(portions.map(p => p.book))]).then(d => { if (live) setData(d) }); return () => { live = false } }, [portions])
-  const ready = data && portions.filter(p => data[p.slug])
+  const ready = portions.filter(p => WORKBOOK[p.slug])
   return <PrintPreview title={title} onClose={onClose}>
-    {!data ? <p role="status">טוענים את החוברת…</p> : ready.length ? ready.map(p => <ParashaWorkbook key={p.slug} p={p} w={data[p.slug]} level={level} />) : <p>החוברת לפרשה הזו עוד בהכנה.</p>}
+    {ready.length ? ready.map(p => <ParashaWorkbook key={p.slug} p={p} w={WORKBOOK[p.slug]} level={level} />) : <p>החוברת לפרשה הזו עוד בהכנה.</p>}
   </PrintPreview>
 }
 function WorkbookButtons({ portions, label }) {
@@ -106,12 +108,29 @@ function BookPrint({ book }) {
   </>
 }
 
+// Events, characters, concepts, verse, true/false and drawing prompt from the portion's workbook data,
+// shown on the page itself (prerendered) so every portion page carries its own material.
+function PortionDetails({ w, name }) {
+  const box = 'mt-8 rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5'
+  return <>
+    <section className={box}><h2 className="text-2xl mb-3">סדר האירועים בפרשת {name}</h2><ol className="list-decimal ps-6 space-y-1 text-lg">{w.events.map(e => <li key={e}>{e}</li>)}</ol></section>
+    <section className={box}><h2 className="text-2xl mb-3">מי בפרשה?</h2><dl className="space-y-2">{w.characters.map(([who, about]) => <div key={who}><dt className="font-bold inline">{who}: </dt><dd className="inline">{about}</dd></div>)}</dl></section>
+    <section className={box}><h2 className="text-2xl mb-3">מילים ומושגים מהפרשה</h2><dl className="space-y-2">{w.concepts.map(([word, meaning]) => <div key={word}><dt className="font-bold inline">{word} — </dt><dd className="inline">{meaning}</dd></div>)}</dl></section>
+    <section className="mt-8 rounded-2xl bg-[var(--postit)] p-5 text-center"><h2 className="text-2xl mb-2">פסוק לזכור</h2><blockquote className="text-xl font-bold">״{w.verse.text}״</blockquote><p className="mt-1 text-sm">{w.verse.ref}</p></section>
+    <section className={box}><h2 className="text-2xl mb-3">נכון או לא נכון?</h2><p className="text-sm mb-2">קראו כל משפט, נחשו, ובדקו בתשובה שבסוגריים.</p><ul className="space-y-1">{w.truefalse.map(([text, ok]) => <li key={text}>{text} <span className="text-sm font-bold">({ok ? 'נכון' : 'לא נכון'})</span></li>)}</ul></section>
+    <section className={box}><h2 className="text-2xl mb-2">רעיון לציור</h2><p className="text-lg">{w.draw}</p></section>
+  </>
+}
+
 function Portion({ p }) {
   const index = PARASHOT.indexOf(p)
   const prev = PARASHOT[(index + 53) % 54], next = PARASHOT[(index + 1) % 54]
-  const faq = [{ q: `באיזה ספר נמצאת פרשת ${p.name}?`, a: `בספר ${p.book}. הקישור למקור בראש הדף מוביל לפסוקים המלאים.` }, { q: 'מה אפשר להדפיס מהדף?', a: 'חידון של עשר שאלות או חימום קצר, עם שאלות בלבד, תשובות הפוכות או רגילות, ודף מורה נפרד עם מקורות.' }]
+  const today = useIsraelToday(), w = WORKBOOK[p.slug]
+  const facts = useMemo(() => parashaFacts(p, w, today), [p, w, today])
+  const faq = parashaFaq(facts)
+  const sameBook = PARASHOT.filter(x => x.book === p.book && x !== p && x !== prev && x !== next)
   return <div className="mx-auto max-w-3xl px-4 py-8" dir="rtl">
-    <SEO title={`פרשת ${p.name} לילדים — תקציר, שאלות ודף להדפסה`} description={`פרשת ${p.name} בספר ${p.book}: תקציר מקורי לילדים, 10 שאלות ותשובות, שאלה לשולחן שבת ודף להדפסה. לפי פסוקי התורה, עם קישור למקור בספריא.`} path={parashaHref(p)} structuredData={faqSchema(faq)} />
+    <SEO title={`פרשת ${p.name} לילדים — תקציר, שאלות ודף להדפסה`} description={parashaDescription(facts)} path={parashaHref(p)} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'פרשת השבוע', href: '/parasha' }, { label: p.name }]} />
     <p className="text-center text-[var(--muted-foreground)]">ספר {p.book} · לגילי 6–12</p>
     <h1 className="text-center text-3xl sm:text-4xl mt-2 mb-4">פרשת {p.name} לילדים</h1>
@@ -123,11 +142,13 @@ function Portion({ p }) {
       <WorkbookButtons portions={[p]} label={`לפרשת ${p.name}`} />
     </section>
     <section className="rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-5 sm:p-7" aria-label="תקציר הפרשה"><h2 className="text-2xl mb-3">מה קורה בפרשה?</h2><div className="space-y-4 text-lg leading-relaxed">{p.paragraphs.map((text, i) => <p key={i}>{text}</p>)}</div></section>
+    {w && <PortionDetails w={w} name={p.name} />}
     <ShabbatActivityLink />
     <ParashaQuiz portions={[p]} />
     <section className="mt-8 bg-[var(--postit)] rounded-2xl p-5"><h2 className="text-2xl mb-2">מדברים על זה בשולחן שבת</h2><p className="text-lg">{p.discussion}</p><p className="text-sm mt-2">זו שאלה פתוחה למחשבה ולשיחה; אין לה תשובה אחת נכונה.</p></section>
     <nav aria-label="פרשה קודמת והבאה" className="mt-8 flex flex-wrap justify-between gap-3"><Link className={chip} to={parashaHref(prev)}>→ {prev.name}</Link><Link className={chip} to="/parasha">כל הפרשות</Link><Link className={chip} to={parashaHref(next)}>{next.name} ←</Link></nav>
-    <div className="mt-8"><SeoBody faq={faq} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכות לשבת' }]} /></div>
+    <div className="mt-8"><h2 className="text-2xl mb-3">על פרשת {p.name}</h2><SeoBody paragraphs={parashaParagraphs(facts)} faq={faq} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכות לשבת' }, { href: '/shabbat-times', label: 'כניסת שבת וצאת השבת לפי עיר' }]} /></div>
+    {sameBook.length > 0 && <nav aria-label={`עוד פרשות בספר ${p.book}`} className="mt-6"><h2 className="text-xl mb-2">עוד פרשות בספר {p.book}</h2><div className="flex flex-wrap gap-2">{sameBook.map(x => <Link key={x.slug} className={chip} to={parashaHref(x)}>{x.name}</Link>)}</div></nav>}
   </div>
 }
 

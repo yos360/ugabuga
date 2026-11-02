@@ -6,6 +6,9 @@ import { Sheet } from '../components/printables/PrintableShell'
 import { coloringSrc } from '../data/coloringSubjects'
 import { EN_COLORING } from './activityCatalog'
 import { EnglishNotFound } from './EnglishLayout'
+import SeoBody, { faqSchema } from '../components/ui/SeoBody'
+import { subjectCopy } from './coloringInsights'
+import { drawingPath } from './holidayColoringData'
 const Memory = lazy(() => import('../arcade/games/Memory'))
 
 export function EnglishColoring() {
@@ -18,9 +21,10 @@ export function EnglishColoring() {
   if (subject && !topic) return <EnglishNotFound />
   const title = topic ? `${topic.name} coloring pages` : 'Free coloring pages to print'
   const path = topic?.path || '/en/coloring-pages'
+  const copy = topic ? subjectCopy(topic) : null
   const toggle = n => setSelected(old => old.includes(n) ? old.filter(x => x !== n) : [...old, n].sort((a,b) => a-b))
   return <div className="en-page">
-    <SEO lang="en" title={title} path={path} counterpartPath={topic?.counterpart || '/printables/coloring'} description={topic ? `${topic.count} free ${topic.name.toLowerCase()} coloring pages. Choose your sheets, preview, print or save a PDF. ${topic.tip}` : 'Browse the Ugabuga coloring collection in English: animals, dinosaurs, unicorns, flowers, mandalas and more. Select sheets and print or save a free PDF.'} image={topic ? coloringSrc(topic.slug, 1, 'webp') : '/og-image.png'} />
+    <SEO lang="en" title={title} path={path} counterpartPath={topic?.counterpart || '/printables/coloring'} description={topic ? `${topic.count} free ${topic.name.toLowerCase()} coloring pages. Choose your sheets, preview, print or save a PDF. ${topic.tip}` : 'Browse the Ugabuga coloring collection in English: animals, dinosaurs, unicorns, flowers, mandalas and more. Select sheets and print or save a free PDF.'} image={topic ? coloringSrc(topic.slug, 1, 'webp') : '/og-image.png'} structuredData={copy ? faqSchema(copy.faq) : undefined} />
     <nav className="en-breadcrumb" aria-label="Breadcrumb"><Link to="/en">Home</Link> / {topic ? <Link to="/en/coloring-pages">Coloring</Link> : 'Coloring'}{topic && <> / {topic.name}</>}</nav>
     <h1>{title}</h1>
     <p className="en-lead">{topic ? topic.tip : 'The same original drawings you know from Ugabuga, ready to enjoy with English instructions. Pick a subject and choose the sheets you want.'}</p>
@@ -32,7 +36,10 @@ export function EnglishColoring() {
       <p>{topic.count} drawings. Select one or more sheets below. Your PDF contains only the sheets you select.</p>
       <div className="en-selection-bar"><span role="status">{selected.length} selected</span><button type="button" onClick={() => setSelected(Array.from({length:topic.count},(_,i)=>i+1))}>Select all</button><button type="button" disabled={!selected.length} onClick={() => setSelected([])}>Clear</button><button data-print-main type="button" disabled={!selected.length} onClick={() => setPrinting(true)}>Preview, print or save PDF</button></div>
       <div className="en-cards en-coloring-grid">{Array.from({length:topic.count},(_,i)=>i+1).map(n => <label className={`en-card en-select-sheet${selected.includes(n) ? ' is-selected' : ''}`} key={n}><img loading="lazy" width="400" height="400" src={coloringSrc(topic.slug,n,'webp')} alt={`${topic.name} coloring sheet ${n}`} /><span><input type="checkbox" checked={selected.includes(n)} onChange={() => toggle(n)} /> {topic.name} · Sheet {n}</span></label>)}</div>
+      {copy.paragraphs.length > 0 && <section><h2>Which {topic.name.toLowerCase()} sheet to choose</h2>{copy.paragraphs.map(p => <p key={p}>{p}</p>)}{copy.ageGroups.length > 1 && <ul>{copy.ageGroups.map(([ages, ns]) => <li key={ages}>Ages {ages}: {ns.length === 1 ? 'sheet' : 'sheets'} {ns.join(', ')}</li>)}</ul>}</section>}
+      {copy.holidays.length > 0 && <section><h2>Each drawing on its own page</h2><ul>{copy.holidays.map(d => <li key={d.n}><Link to={drawingPath(d)}>{d.name}</Link></li>)}</ul></section>}
       <section><h2>A little more than coloring</h2><p>Choose a small set of colors before you begin. When your drawing is ready, give it a title and tell someone what is happening in the picture.</p><h2>Printing tips</h2><p>Open the preview to print or save a PDF. The sheets use an A4 page. For US Letter paper, choose “Fit to page” in your printer settings. Colored pencils work well for fine details; crayons are useful for larger shapes.</p></section>
+      <SeoBody lang="en" faq={copy.faq} related={[...copy.related.map(r => ({ label: `${r.name} coloring pages`, href: r.path })), { label: 'All coloring subjects', href: '/en/coloring-pages' }]} />
       {printing && <PrintPreview lang="en" title={title} onClose={() => setPrinting(false)}>{selected.map(n => <article className="buga-a4 en-print-sheet" key={n} dir="ltr"><div className="print-art"><img src={coloringSrc(topic.slug,n,topic.fmt)} alt={`${topic.name} coloring sheet ${n}`} style={{width:'100%',height:'100%',objectFit:'contain'}} /></div></article>)}</PrintPreview>}
     </>}
   </div>

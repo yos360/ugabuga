@@ -9,7 +9,7 @@ import NotFound from '../pages/NotFound'
 import { LEARN_CRUMB } from './LearnPages'
 import {
   MT_PAGES, MT_NUMBERS, GRIDS, NUMBER_INFO, buildGrid, range, timesList, decompose, quizFor, roundExercises,
-  numberMeta, numberFaq, numberPath, shuffled, seeded,
+  numberMeta, numberFaq, numberPath, shuffled, seeded, numberFacts,
 } from './multiplicationTable'
 import './learn.css'
 import './multiplication-table.css'
@@ -469,7 +469,12 @@ export function MultiplicationNumber() {
   const sound = useSound()
   if (!meta) return <NotFound />
   const info = NUMBER_INFO[n]
-  const faq = numberFaq(n)
+  const fx = numberFacts(n)
+  const faq = [...numberFaq(n),
+    { q: `באיזו כיתה לומדים את לוח הכפל של ${n}?`, a: fx.grade },
+    ...(n > 1 && n <= 10 ? [{ q: `כמה תרגילים חדשים באמת יש בלוח הכפל של ${n}?`, a: `מי שכבר יודע את הלוחות של 1 עד ${n - 1} מכיר את ${n}×1 עד ${n}×${n - 1} בזכות חוק החילוף. נשאר${fx.newFacts.length === 1 ? ' תרגיל חדש אחד' : `ים ${fx.newFacts.length} תרגילים חדשים`}: ${fx.newFacts.join(', ')}.` }] : []),
+    { q: `כמה כפולות של ${n} יש עד 100?`, a: `${fx.multiples.length} כפולות: ${fx.multiples.join(', ')}.` },
+  ]
   const list = timesList(n, 12)
   const prev = n > 1 ? n - 1 : null, next = n < 12 ? n + 1 : null
   const flip = b => setPeek(s => { const x = new Set(s); if (x.has(b)) x.delete(b); else x.add(b); return x })
@@ -494,6 +499,23 @@ export function MultiplicationNumber() {
       <p className="leading-relaxed mb-3">{info.intro}</p>
       <div className="mt-tips">{info.tips.map((t, i) => <div key={i} className="mt-tip"><p>{t}</p></div>)}</div>
       <p className="mt-3 leading-relaxed">{info.relation}</p>
+    </Section>
+
+    <Section title={`מה מיוחד בלוח הכפל של ${n}?`}>
+      <ul className="space-y-2 list-disc pr-6">
+        <li><b>ספרת האחדות:</b> בתשובות {n}×1 עד {n}×10 ספרות האחדות הן <bdi dir="ltr">{fx.units.join(', ')}</bdi>{fx.distinctUnits === 10 ? ' — כל עשר הספרות מופיעות, כל אחת פעם אחת.' : fx.distinctUnits === 1 ? ' — תמיד אותה ספרה.' : ` — רק ${fx.distinctUnits} ספרות שונות חוזרות על עצמן.`}</li>
+        <li><b>זוגי או אי-זוגי:</b> {fx.even === 10 ? `כל עשר התשובות זוגיות, כי ${n} זוגי.` : `${fx.even} מתוך 10 התשובות זוגיות — אלה של ${n} כפול מספר זוגי.`}</li>
+        <li><b>הריבוע:</b> {n}×{n} = {fx.square}{n <= 10 ? ', והוא יושב על האלכסון של לוח הכפל.' : '.'}</li>
+        {n <= 10 && <li><b>כמה פעמים כל תשובה מופיעה בטבלת 10×10:</b> {fx.byCount.map(({ times, values }, i) => <span key={times}>{i ? '; ' : ''}<bdi dir="ltr">{values.join(', ')}</bdi> — {times === 1 ? 'פעם אחת' : times === 2 ? 'פעמיים' : `${times} פעמים`}</span>)}.</li>}
+        {fx.newFacts.length > 0 && n > 1 && <li><b>מה באמת חדש:</b> אחרי הלוחות של 1 עד {n - 1} נשארים ללמוד {fx.newFacts.length === 1 ? 'תרגיל אחד' : `${fx.newFacts.length} תרגילים`}:<bdi dir="ltr">{fx.newFacts.join(', ')}</bdi>.</li>}
+        <li><b>כל הכפולות עד 100:</b> <bdi dir="ltr">{fx.multiples.join(', ')}</bdi> ({fx.multiples.length} מספרים).</li>
+      </ul>
+      <p className="mt-3 leading-relaxed">{fx.grade}</p>
+    </Section>
+
+    <Section title={`חילוק בעזרת לוח הכפל של ${n}`}>
+      <p className="mb-2">כל תרגיל כפל הוא גם שני תרגילי חילוק. אם יודעים ש-{n}×{Math.min(n + 2, 9)} = {n * Math.min(n + 2, 9)}, יודעים גם ש-{n * Math.min(n + 2, 9)} ÷ {n} = {Math.min(n + 2, 9)}.</p>
+      <div className="mt-hundreds">{fx.row.map(x => <span key={x.k} dir="ltr">{`${x.v} ÷ ${n} = ${x.k}`}</span>)}</div>
     </Section>
 
     <Section title={`בוחן קצר: לוח הכפל של ${n}`}>

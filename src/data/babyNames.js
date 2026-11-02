@@ -375,7 +375,9 @@ function clip(text, max) {
   return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,.;:—–\s]+$/, '') + '…'
 }
 
-export function nameTitle(n) { return `משמעות השם ${n.name} — מקור, פירוש ושמות דומים` }
+export function nameTitle(n) {
+  return n.origin === 'תנ"כי' ? `משמעות השם ${n.name} — פירוש, מקור בתנ"ך וגימטריה` : `משמעות השם ${n.name} — פירוש, מקור, גימטריה ושמות דומים`
+}
 
 // 120–160 chars, for the name page meta description.
 export function nameDescription(n) {

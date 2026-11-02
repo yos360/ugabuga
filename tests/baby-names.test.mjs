@@ -124,6 +124,69 @@ test('favourites share text lists the names and the link', () => {
   assert.ok(t.includes('נועה') && t.includes('דוד') && t.endsWith('https://ugabuga.co.il/baby-names'))
 })
 
+test('computed facts: gematria, letters, endings, Tanakh books', async () => {
+  const F = await import('../src/data/babyNameFacts.js')
+  assert.equal(F.gematria('דניאל'), 95)
+  assert.equal(F.gematria('דן'), 54) // final nun counts as 50
+  assert.equal(F.gematria('אורית'), 617)
+  assert.equal(F.gematriaBreakdown('דן'), 'ד (4) + ן (50)')
+  assert.deepEqual(F.repeatedLetters('מתתיהו'), [['ת', 2]])
+  assert.deepEqual(F.finalLetters('מנחם'), ['ם'])
+  assert.equal(F.letterLabel('ן'), 'נו"ן סופית')
+  assert.equal(F.bibleBook('שמואל א\' כ"ה').book, 'שמואל')
+  assert.equal(F.bibleBook('דברי הימים א\' ד\' י"ח').book, 'דברי הימים')
+  assert.equal(F.bibleBook('מגילת רות').label, 'מגילת רות')
+  assert.equal(F.bibleBook('ספר יונה').part, 'נביאים')
+  assert.equal(F.bibleBook(''), null)
+  // every biblical name's source maps to a known book
+  for (const n of BABY_NAMES.filter(x => x.origin === 'תנ"כי')) assert.ok(F.bibleBook(n.source), `${n.name}: ${n.source}`)
+  assert.equal(F.counterpart(nameBySlug('daniela')).name, 'דניאל')
+  assert.equal(F.counterpart(nameBySlug('daniel')).name, 'דניאלה')
+  assert.ok(F.hiddenNames(nameBySlug('lior')).some(o => o.name === 'אור'))
+  assert.ok(F.containingNames(nameBySlug('dan')).some(o => o.name === 'דניאל'))
+  for (const n of BABY_NAMES) {
+    for (const o of [...F.sameStart(n), ...F.sameEnding(n), ...F.sameBook(n)]) {
+      assert.notEqual(o, n)
+      assert.ok(n.gender === 'u' || o.gender === 'u' || o.gender === n.gender, `${n.name} → ${o.name}: gender`)
+    }
+    for (const t of F.nameThemes(n)) assert.ok(t.slug && t.label)
+  }
+})
+
+test('name pages get distinct, substantial generated text', async () => {
+  const F = await import('../src/data/babyNameFacts.js')
+  const words = s => s.split(/\s+/).filter(Boolean).length
+  const texts = BABY_NAMES.map(n => {
+    const faq = [...nameFaq(n), ...F.nameExtraFaq(n)]
+    assert.ok(faq.length >= 5 && faq.every(f => f.q && f.a), `${n.name}: faq`)
+    return [F.nameIntro(n), ...F.nameTips(n), ...faq.map(f => f.q + ' ' + f.a)].join(' ')
+  })
+  for (const [i, t] of texts.entries()) {
+    assert.ok(words(t) >= 230, `${BABY_NAMES[i].name}: only ${words(t)} generated words`)
+    assert.ok(!/undefined|NaN|null/.test(t), `${BABY_NAMES[i].name}: broken text`)
+  }
+  assert.equal(new Set(texts).size, texts.length, 'two names share identical generated text')
+  assert.equal(new Set(BABY_NAMES.map(n => F.nameIntro(n))).size, BABY_NAMES.length, 'intros must differ')
+  assert.equal(new Set(BABY_NAMES.map(nameTitle)).size, BABY_NAMES.length, 'titles must differ')
+  // two siblings from the same letter differ in most of their sentences
+  const a = new Set(texts[BABY_NAMES.indexOf(nameBySlug('noa'))].split(/[.?]/).map(s => s.trim()))
+  const b = texts[BABY_NAMES.indexOf(nameBySlug('naomi'))].split(/[.?]/).map(s => s.trim())
+  assert.ok(b.filter(s => a.has(s)).length / b.length < 0.3, 'נועה and נעמי share too many sentences')
+})
+
+test('letter pages get computed facts', async () => {
+  const F = await import('../src/data/babyNameFacts.js')
+  const seen = new Set()
+  for (const g of ['f', 'm']) for (const l of lettersWithNames(g, LETTER_PAGE_MIN)) {
+    const items = filterNames(BABY_NAMES, { gender: g, letter: l })
+    const { text, faq } = F.letterFacts(g, l, items)
+    assert.ok(text.split(/\s+/).length >= 35 && !/undefined|NaN|Infinity/.test(text), `${g}/${l}: ${text}`)
+    assert.ok(faq.q && faq.a)
+    seen.add(text)
+  }
+  assert.ok(seen.size >= 20, 'letter facts differ per page')
+})
+
 test('extra name notes belong to real names and are substantial', async () => {
   const { NAME_NOTES } = await import('../src/data/babyNameNotes.js')
   const known = new Set(BABY_NAMES.map(n => n.name))

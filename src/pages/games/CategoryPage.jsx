@@ -8,6 +8,7 @@ import { useGames } from '../../hooks/useGames'
 import { CATEGORIES, CLASS_PAGES } from '../../data/gameCategories'
 import { HUB_EXTRAS, HUB_VISIBLE, hubOrder } from '../../data/gameHubs'
 import { gameHref } from '../../data/gameHref'
+import { hubStatsParagraphs, hubStatsFaq } from '../../data/gameHubStats'
 import { gamesCountText, durationLabel, fitsAge, fitsDuration, fitsMovement, fitsNoEquipment, fitsQuiet } from '../../data/gameFilters'
 
 const rotations = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
@@ -97,7 +98,9 @@ export default function CategoryPage() {
   const collapsed = !tests.length && expandedFor !== slug && filtered.length > HUB_VISIBLE + 2
   const shown = collapsed ? filtered.slice(0, HUB_VISIBLE) : filtered
   const picks = (extra.picks || []).map(([s, why]) => ({ game: games.find(g => g.slug === s), why })).filter(p => p.game)
-  const faq = [...(data.faq || []), ...(extra.faq || [])]
+  const hubLabel = `אוסף ${cls ? `משחקים ל${cls.breadcrumb}` : data.title.split(' — ')[0]}`
+  const statsParagraphs = loading ? [] : hubStatsParagraphs(inCategory, hubLabel)
+  const faq = [...(data.faq || []), ...(extra.faq || []), ...(loading ? [] : hubStatsFaq(inCategory, hubLabel))]
   const related = [...(data.related || []), ...(extra.links || [])].filter((r, i, list) => list.findIndex(x => x.href === r.href) === i)
 
   return (
@@ -152,6 +155,13 @@ export default function CategoryPage() {
           )}
           {filtered.length === 0 && <p className="text-center py-12 text-lg text-[var(--muted-foreground)]">{inCategory.length ? '🤔 אין משחקים שמתאימים לכל הסינונים — נסו להסיר אחד מהם' : '🤔 לא נמצאו משחקים בקטגוריה זו כרגע'}</p>}
         </>
+      )}
+
+      {statsParagraphs.length > 0 && (
+        <section className="max-w-3xl mt-12" aria-labelledby="hub-stats">
+          <h2 id="hub-stats" className="text-2xl font-bold mb-4">{cls ? `המשחקים ל${cls.breadcrumb} במספרים` : 'מה יש באוסף הזה'}</h2>
+          <div className="space-y-4">{statsParagraphs.map(p => <p key={p} className="text-base leading-relaxed text-[var(--foreground)]/80">{p}</p>)}</div>
+        </section>
       )}
 
       {faq.length > 0 && (

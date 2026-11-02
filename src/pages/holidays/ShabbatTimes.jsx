@@ -12,6 +12,8 @@ import NotFound from '../NotFound'
 import { SHABBAT_PLACES, shabbatCity } from '../../data/shabbatCities'
 import { israelToday, readingForDate } from '../../utils/parashaCalendar'
 import { addDays, formatTime, holidayCandles, SHABBAT_NOTICE, shabbatForDate, shabbatSeries } from '../../utils/shabbatTimes'
+import { cityDescription, cityFacts, cityFaq, cityParagraphs, durationText } from '../../utils/shabbatCityFacts'
+import { SHABBAT_NEARBY } from '../../data/shabbatNearby'
 
 const dateLabel = iso => iso.split('-').reverse().join('.')
 const cityHref = city => `/shabbat-times/${city.slug}`
@@ -56,12 +58,16 @@ function Clock({ value }) {
   return <time dateTime={value.toISOString()} dir="ltr" className="font-bold tabular-nums whitespace-nowrap">{formatTime(value)}</time>
 }
 
-function Intro({ city }) {
-  return <><ShabbatRecipeLinks /><ShabbatActivityLink /><SeoBody paragraphs={[
-    city ? `זמני השבת ב${city.name} מחושבים לפי נקודת היישוב וכניסת שבת ${city.offset} דקות לפני השקיעה. המנהג המוצג הוא ${city.offsetLabel}; בחירת עיר אחרת עשויה לשנות את הזמנים גם אם היא קרובה.` : 'בחרו עיר כדי לראות מתי מדליקים נרות ומתי יוצאת השבת. בעמוד העיר תמצאו גם את שמונה השבתות הבאות, הדלקת נרות לחגים שבטווח ולוח חודשי ושנתי עם תמונה להדפסה למקרר.',
-    'החישוב משתמש בשקיעה בגובה פני הים, ללא תיקון לגובה השכונה או להסתרת האופק על ידי הרים. הדלקת נרות מעוגלת כלפי מטה; צאת שבת בשיטת 8.5 מעלות מעוגלת כלפי מעלה. המספרים עשויים להיות שונים מלוח שמשתמש בשיטה אחרת.',
-    'במהלך שבת נשארים זמני אותה שבת על המסך, ובחצות לפי שעון ישראל עוברים לשבוע הבא. בתאריך שבו חג מתחיל במוצאי שבת מופיעה הערה שאיסור המלאכה נמשך. הדלקת נרות בלילה השני של חג מסומנת בנפרד כהדלקה מאש קיימת לאחר צאת הכוכבים.',
-  ]} faq={FAQ} related={[{ href: '/holidays/blessings/shabbat', label: 'ברכת הדלקת נרות וברכות לשבת' }, { href: '/parasha', label: 'פרשת השבוע לילדים' }]} /></>
+const METHOD = 'החישוב משתמש בשקיעה בגובה פני הים, ללא תיקון לגובה השכונה או להסתרת האופק על ידי הרים. הדלקת נרות מעוגלת כלפי מטה; צאת שבת בשיטת 8.5 מעלות מעוגלת כלפי מעלה. המספרים עשויים להיות שונים מלוח שמשתמש בשיטה אחרת.'
+function Intro({ facts }) {
+  const related = [{ href: '/holidays/blessings/shabbat', label: 'ברכת הדלקת נרות וברכות לשבת' }, { href: '/parasha', label: 'פרשת השבוע לילדים' }]
+  return <><ShabbatRecipeLinks /><ShabbatActivityLink />{facts
+    ? <><h2 className="text-2xl mb-3">על זמני השבת ב{facts.city.name}</h2><SeoBody paragraphs={[...cityParagraphs(facts), METHOD]} faq={cityFaq(facts)} related={related} /></>
+    : <SeoBody paragraphs={[
+      'בחרו עיר כדי לראות מתי מדליקים נרות ומתי יוצאת השבת. בעמוד העיר תמצאו גם את שמונה השבתות הבאות, הדלקת נרות לחגים שבטווח ולוח חודשי ושנתי עם תמונה להדפסה למקרר.',
+      METHOD,
+      'במהלך שבת נשארים זמני אותה שבת על המסך, ובחצות לפי שעון ישראל עוברים לשבוע הבא. בתאריך שבו חג מתחיל במוצאי שבת מופיעה הערה שאיסור המלאכה נמשך. הדלקת נרות בלילה השני של חג מסומנת בנפרד כהדלקה מאש קיימת לאחר צאת הכוכבים.',
+    ]} faq={FAQ} related={related} />}</>
 }
 
 
@@ -168,16 +174,33 @@ function HolidayList({ rows }) {
   return rows.length ? <ul className="space-y-3 mt-3">{rows.map(h => <li key={h.date} className="border-b border-[var(--border)] pb-3"><b>{dateLabel(h.date)} · הדלקה ל{h.holiday}</b><p><Clock value={h.time} /> — {h.instruction}</p></li>)}</ul> : <p className="mt-3">אין הדלקת נרות לחג בטווח הזה.</p>
 }
 
-// Nearby cities (own pages) and smaller localities around this one (open on the hub).
-function Nearby({ city }) {
-  const [localities, setLocalities] = useState([])
-  useEffect(() => { let live = true; loadLocalities().then(list => { if (live) setLocalities(list) }); return () => { live = false } }, [])
-  const cities = useMemo(() => SHABBAT_PLACES.filter(c => c.slug !== city.slug).map(c => [km(c, city), c]).sort((a, b) => a[0] - b[0]).slice(0, 6), [city])
-  const own = useMemo(() => new Set(SHABBAT_PLACES.map(c => clean(c.name.replace('קריית', 'קרית')))), [])
-  const around = useMemo(() => localities.filter(p => !own.has(clean(p.name.replace('קריית', 'קרית')))).map(p => [km(p, city), p]).filter(([d]) => d < 12).sort((a, b) => a[0] - b[0]).slice(0, 12), [localities, city, own])
+const signed = n => n === 0 ? 'אותה דקה' : `${Math.abs(n)} דק׳ ${n < 0 ? 'מוקדם' : 'מאוחר'}`
+// Nearby cities (own pages, with this week's difference) and the smaller localities around this one
+// (static list, so it is in the prerendered HTML; each opens on the hub).
+function Nearby({ facts }) {
+  const { city, neighbours } = facts, around = SHABBAT_NEARBY[city.slug] || []
   return <section className="mt-8"><h2 className="text-2xl">זמני שבת בסביבת {city.name}</h2>
-    <p className="mt-2">ערים קרובות:</p><div className="flex flex-wrap gap-2 mt-2">{cities.map(([d, c]) => <Link key={c.slug} className={button} to={cityHref(c)}>{c.name} <span className="text-xs font-normal ms-1">{Math.round(d)} ק״מ</span></Link>)}</div>
-    {around.length > 0 && <><p className="mt-4">יישובים סמוכים — מושבים, קיבוצים וכפרים:</p><div className="flex flex-wrap gap-2 mt-2">{around.map(([, p]) => <Link key={p.name} className={button} to={`/shabbat-times?place=${encodeURIComponent(p.name)}`}>{p.name}</Link>)}</div></>}
+    <table className="w-full mt-3 text-right text-sm sm:text-base"><caption className="text-start text-sm mb-1">הערים הקרובות ל{city.name} — הדלקת הנרות השבת לעומת {city.name}</caption>
+      <thead><tr className="border-b-2 border-[var(--border)]"><th scope="col" className="py-2">עיר</th><th scope="col" className="px-2">מרחק וכיוון</th><th scope="col" className="px-2">מנהג</th><th scope="col">הדלקה</th></tr></thead>
+      <tbody>{neighbours.map(n => <tr key={n.city.slug} className="border-b border-[var(--border)]"><th scope="row" className="py-2 font-normal"><Link className="underline font-bold inline-flex min-h-[44px] items-center" to={cityHref(n.city)}>{n.city.name}</Link></th><td className="px-2">{n.km} ק״מ, {n.dir}</td><td className="px-2">{n.offset} דק׳</td><td>{signed(n.candles)}</td></tr>)}</tbody>
+    </table>
+    {around.length > 0 && <><p className="mt-4">יישובים סמוכים בלי עמוד נפרד — מושבים, קיבוצים וכפרים עד 12 ק״מ מ{city.name}:</p><div className="flex flex-wrap gap-2 mt-2">{around.map(([name, d]) => <Link key={name} className={button} to={`/shabbat-times?place=${encodeURIComponent(name)}`}>{name} <span className="text-xs font-normal ms-1">{d} ק״מ</span></Link>)}</div></>}
+  </section>
+}
+
+// This week against the reference cities, and the coming year's extremes, as a quick table.
+function CityNumbers({ facts }) {
+  const { city, compare } = facts
+  const rows = [
+    ['הדלקה מוקדמת ביותר בשנה', `${formatTime(facts.earliest.candles)} · שישי ${dateLabel(facts.earliest.friday)}`],
+    ['הדלקה מאוחרת ביותר בשנה', `${formatTime(facts.latest.candles)} · שישי ${dateLabel(facts.latest.friday)}`],
+    ['צאת שבת מוקדמת ביותר', `${formatTime(facts.earliestEnd.end)} · ${dateLabel(facts.earliestEnd.saturday)}`],
+    ['צאת שבת מאוחרת ביותר', `${formatTime(facts.latestEnd.end)} · ${dateLabel(facts.latestEnd.saturday)}`],
+    ['משך השבת הזו', durationText(facts.weekLength)],
+    ...compare.map(c => [`השבת לעומת ${c.ref.name} (${c.km} ק״מ)`, `הדלקה: ${signed(c.candles)} · צאת שבת: ${signed(c.end)}`]),
+  ]
+  return <section className="mt-8"><h2 className="text-2xl">{city.name} במספרים — השנה הקרובה</h2>
+    <table className="w-full mt-3 text-right text-sm sm:text-base"><tbody>{rows.map(([k, v]) => <tr key={k} className="border-b border-[var(--border)]"><th scope="row" className="py-2 font-normal">{k}</th><td className="font-bold">{v}</td></tr>)}</tbody></table>
   </section>
 }
 
@@ -185,8 +208,9 @@ function CityPage({ city }) {
   const today = useToday()
   const rows = useMemo(() => shabbatSeries(city, today), [city, today]), current = rows[0]
   const holidays = useMemo(() => holidayCandles(city, today, rows.at(-1).saturday), [city, today, rows])
+  const facts = useMemo(() => cityFacts(city, today), [city, today])
   return <div className="max-w-3xl mx-auto px-4 py-8" dir="rtl">
-    <SEO title={`כניסת שבת ${city.name} וצאת השבת — זמנים ולוח להדפסה`} description={`זמני שבת ב${city.name}: הדלקת נרות ${city.offset} דקות לפני השקיעה, צאת שבת בשיטת 8.5°, פרשת השבוע, שמונה שבתות קדימה וחגים. לוח חודשי ושנתי עם תמונה להדפסה.`} path={cityHref(city)} structuredData={faqSchema(FAQ)} />
+    <SEO title={`כניסת שבת ${city.name} וצאת השבת — זמנים ולוח להדפסה`} description={cityDescription(facts)} path={cityHref(city)} structuredData={faqSchema(cityFaq(facts))} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'זמני שבת', href: '/shabbat-times' }, { label: city.name }]} />
     <h1 className="text-center text-3xl sm:text-4xl mb-5">כניסת שבת {city.name} וצאת השבת</h1>
     <section className="rounded-3xl bg-[var(--postit)] p-5 sm:p-8 text-center" aria-label="זמני השבת בעיר">
@@ -201,10 +225,11 @@ function CityPage({ city }) {
     <MailSignup city={city} allowShabbat />
     <section className="mt-8"><h2 className="text-2xl">שמונה השבתות הבאות ב{city.name}</h2><ShabbatTable rows={rows.slice(1)} /></section>
     <section className="mt-8"><h2 className="text-2xl">הדלקת נרות לחגים בטווח הקרוב</h2><p className="text-sm mt-2">מ־{dateLabel(today)} עד {dateLabel(rows.at(-1).saturday)} · לפי לוח ארץ ישראל</p><HolidayList rows={holidays} /></section>
+    <CityNumbers facts={facts} />
     <ShabbatCalendar city={city} />
     <ParashaQuiz reading={current.reading} compact />
-    <Nearby city={city} />
-    <div className="mt-8"><Intro city={city} /></div><Link className={`${button} mt-5`} to="/shabbat-times">לזמני שבת בכל הערים</Link>
+    <Nearby facts={facts} />
+    <div className="mt-8"><Intro facts={facts} /></div><Link className={`${button} mt-5`} to="/shabbat-times">לזמני שבת בכל הערים</Link>
   </div>
 }
 

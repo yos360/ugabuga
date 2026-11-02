@@ -12,7 +12,7 @@ import { THEMES, Motifs, cloudPath } from './nameColoringArt'
 import {
   NC_BASE, NC_MAX, cleanName, plainName, nameLetters, isHebrew, letterGrid, firstLetterChoices, fitName,
   NAME_PAGES, nameColoringPath, resolveNameParam, namePageTitle, namePageDescription, namePageIntro, similarNamePages,
-  THEME_IDS, themeForName, countText,
+  THEME_IDS, themeForName, countText, nameColoringGuide, letterName,
 } from './nameColoringData'
 
 // "דף שם לצביעה ולמידת אותיות" (/printables/name-coloring and /printables/name-coloring/:name):
@@ -217,6 +217,7 @@ function NameColoringTool({ preset }) {
     : isPreset ? `דף צביעה עם השם ${preset.name}: אותיות בועה גדולות לצביעה, ציורים ופעילות לזיהוי אותיות השם. חינם להדפסה, A4.`
       : 'מקלידים שם או מדביקים את רשימת הכיתה ומקבלים דף A4 לכל ילד: השם באותיות בועה לצביעה, ציורים לצביעה ופעילות אותיות לגן ולכיתה א׳. חינם, בלי הרשמה.'
   const shareHref = entry && entry.name === shown ? nameColoringPath(entry) : null
+  const guide = useMemo(() => entry ? nameColoringGuide(entry) : null, [entry])
 
   const controls = <>
     <Choice label="כמה דפים" value={mode} onChange={setMode} options={[['one', '🧒 שם אחד'], ['list', '👩‍🏫 כל הכיתה — שם בכל שורה']]} />
@@ -240,20 +241,39 @@ function NameColoringTool({ preset }) {
 
   const intro = entry ? <div className="mx-auto mb-6 max-w-3xl space-y-2 rounded-2xl border border-[var(--border)] bg-white p-5 text-right shadow-sm">
     <p className="m-0 leading-relaxed">{namePageIntro(entry)}</p>
-    <p className="m-0 leading-relaxed"><b>מה פירוש השם {entry.name}?</b> {entry.meaning} <Link to={namePath(entry)} className="font-bold underline">עוד על השם {entry.name}</Link></p>
+    <p className="m-0 leading-relaxed"><b>מה פירוש השם {entry.name}?</b> {entry.meaning} {guide.about} <Link to={namePath(entry)} className="font-bold underline">עוד על השם {entry.name}</Link></p>
   </div> : isPreset ? <p className="mx-auto mb-6 max-w-3xl text-center">ב„{shown}” יש {countText(facts.length)}. אפשר לשנות את השם, את הציורים ואת הרמה — ולהדפיס.</p> : null
 
   const after = <>
+    {entry && <section className="mx-auto mt-10 max-w-3xl space-y-3" aria-labelledby="nc-letters">
+      <h2 id="nc-letters" className="mb-2 text-2xl font-bold">האותיות של {entry.name}, אחת אחת</h2>
+      <ol className="flex flex-wrap gap-2" aria-label={`אותיות השם ${entry.name}`}>{guide.breakdown.map(x => <li key={x} className="rounded-xl border-2 border-[var(--border)] bg-white px-3 py-1 font-bold">{x}</li>)}</ol>
+      <p className="leading-relaxed">{guide.length}{guide.repeats.length > 0 && ` בשם יש אות שחוזרת: ${guide.repeats.join('; ')}.`}</p>
+      <h2 className="mb-2 mt-6 text-2xl font-bold">מה בדיוק יש בדף של {entry.name}</h2>
+      <p className="leading-relaxed">{guide.sheet} בדף הקבוע הזה הציורים מסביב לשם הם בנושא {THEMES[themeForName(entry.name)].label}, ואפשר להחליף נושא בבחירה למעלה.</p>
+      <h2 className="mb-2 mt-6 text-2xl font-bold">אותיות שכדאי לתרגל</h2>
+      <p className="leading-relaxed">{guide.practice}</p>
+    </section>}
     {entry && <section className="mx-auto mt-10 max-w-3xl">
       <h2 className="mb-2 text-2xl font-bold">דפי צביעה עם שמות דומים</h2>
       <div className="flex flex-wrap gap-2">{similarNamePages(entry).map(n => <Link key={n.slug} to={nameColoringPath(n)} className={chipCls}>{n.name}</Link>)}</div>
+      {guide.sameLetter.length > 0 && <>
+        <h3 className="mb-2 mt-5 text-xl font-bold">עוד שמות שמתחילים ב{letterName(guide.facts.first)}</h3>
+        <div className="flex flex-wrap gap-2">{guide.sameLetter.map(n => <Link key={n.slug} to={nameColoringPath(n)} className={chipCls}>{n.name}</Link>)}</div>
+      </>}
+      {guide.sameLength.length > 0 && <>
+        <h3 className="mb-2 mt-5 text-xl font-bold">שמות {entry.gender === 'f' ? 'לבנות' : entry.gender === 'm' ? 'לבנים' : 'יוניסקס'} עם {countText(guide.facts.count)}, כמו {entry.name}</h3>
+        <div className="flex flex-wrap gap-2">{guide.sameLength.map(n => <Link key={n.slug} to={nameColoringPath(n)} className={chipCls}>{n.name}</Link>)}</div>
+      </>}
       <p className="mt-3"><Link to={NC_BASE} className="font-bold underline">לכל השמות, ולהכנת דף לכל הכיתה בבת אחת</Link></p>
     </section>}
     {!isPreset && <AllNames />}
   </>
 
   const h1 = isPreset ? `דף צביעה עם השם ${preset.name}` : 'דף שם לצביעה ולמידת אותיות'
-  const paragraphs = isPreset ? [
+  const paragraphs = entry ? [
+    `הדף של ${preset.name} בנוי משני חלקים. למעלה — השם באותיות בועה גדולות בתוך ענן, ומסביב ציורים לצביעה. למטה — פעילות קצרה: מוצאים ומקיפים את האותיות של ${preset.name} בין אותיות אחרות, סופרים כמה אותיות יש בשם, מזהים את האות הראשונה ועוברים על השם בקו מקווקו. מי שרוצה רק לצבוע בוחר „צביעה בלבד”.`,
+  ] : isPreset ? [
     `הדף של ${preset.name} בנוי משני חלקים. למעלה — השם באותיות בועה גדולות בתוך ענן, ומסביב ציורים לצביעה. למטה — פעילות קצרה: מוצאים ומקיפים את האותיות של ${preset.name} בין אותיות אחרות, סופרים כמה אותיות יש בשם, מזהים את האות הראשונה ועוברים על השם בקו מקווקו.`,
     `מתאים לגן ולכיתה א׳: ברמת גן יש פחות אותיות להקפה, וצביעת משבצת לכל אות במקום כתיבת מספר. בכיתה א׳ מופיעות גם אותיות דומות (כמו ב ו־כ, ד ו־ר), שואלים על האות האחרונה ועל אות סופית, ויש שורה לכתיבה עצמאית. מי שרוצה רק לצבוע בוחר „צביעה בלבד”.`,
   ] : [
@@ -264,8 +284,9 @@ function NameColoringTool({ preset }) {
   ]
   const faq = isPreset ? [
     { q: `כמה אותיות יש בשם ${preset.name}?`, a: `בשם ${preset.name} יש ${countText(facts.length)}${facts.length ? `, והוא מתחיל באות ${facts[0]}` : ''}.` },
+    ...(guide ? guide.faq : []),
     { q: 'אפשר להכין את הדף לכל הכיתה?', a: `כן. בדף הראשי של הכלי מדביקים את רשימת השמות (או טוענים את רשימת הכיתה השמורה) ומקבלים דף לכל ילד בהדפסה אחת.` },
-    { q: 'האם הדף בצבע?', a: 'לא — הדף בשחור־לבן בכוונה, כדי שהילדים יצבעו אותו בעצמם. הוא מודפס יפה בכל מדפסת.' },
+    ...(guide ? [] : [{ q: 'האם הדף בצבע?', a: 'לא — הדף בשחור־לבן בכוונה, כדי שהילדים יצבעו אותו בעצמם. הוא מודפס יפה בכל מדפסת.' }]),
   ] : [
     { q: 'איך מכינים דף שם לכל ילד בכיתה?', a: 'בוחרים „כל הכיתה”, מדביקים את השמות (שם בכל שורה) או טוענים את רשימת הכיתה השמורה באתר, ולוחצים הדפסה — כל שם מקבל דף A4 משלו.' },
     { q: 'מה ההבדל בין רמת גן לכיתה א׳?', a: 'בגן: 12 אותיות להקפה, צביעת משבצת לכל אות ובחירת האות הראשונה מבין שלוש. בכיתה א׳: 18 אותיות כולל אותיות דומות, כתיבת מספר האותיות, האות הראשונה והאחרונה, שאלה על אות סופית ושורה לכתיבה עצמאית.' },

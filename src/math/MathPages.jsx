@@ -12,6 +12,8 @@ import {
 } from './registry'
 import { checkAnswer, formatAnswer, isBlank } from './check'
 import { gradeSeo, gradeKeyword, testSeo, testKeyword, topicH1, topicSeoTitle, isElementary, gradeName, toGrade, inGrade } from './seo'
+import { GRADE_ASSESSMENT } from './curriculum'
+import { topicContext, sampleExercises, gradeChapters, testSampleItems } from './pageContent'
 import '../learn/learn.css'
 import './math.css'
 
@@ -216,6 +218,17 @@ function PrintSheets({ title, sub, items }) {
   </>
 }
 
+// A generated exercise shown solved (question, answer, explanation) — part of the static page text.
+function SolvedItem({ ex, tag }) {
+  return <li className="mth-solved">
+    {tag && <small className="mth-tag">{tag}</small>}
+    <Expr ex={ex} big={false} />
+    {ex.type === 'choice' && <p className="m-0 text-sm">אפשרויות: {ex.choices.map((c, k) => <span key={k}>{k ? ' · ' : ''}<MathText>{c}</MathText></span>)}</p>}
+    <p className="m-0 font-bold">✅ תשובה: <bdi dir="ltr" className="mth-ltr">{formatAnswer(ex)}</bdi>{ex.unit ? ` ${ex.unit}` : ''}</p>
+    {ex.explain && <MathText as="p" className="mth-explain">{ex.explain}</MathText>}
+  </li>
+}
+
 // ── /math ───────────────────────────────
 const HUB_FAQ = [
   { q: 'לאילו כיתות מתאים התרגול?', a: 'לכל שתים-עשרה שנות הלימוד: מכיתה א׳ ועד י״ב — יסודי, חטיבת ביניים ותיכון (3, 4 ו-5 יחידות לימוד). הנושאים מסודרים לפי כיתה ולפי תחום, בהתאם לתכנית הלימודים במתמטיקה של משרד החינוך.' },
@@ -311,8 +324,11 @@ function GradePage({ n }) {
   const groups = topicsByStrand(n)
   const topics = topicsFor(n)
   const prev = gradeInfo(n - 1), next = gradeInfo(n + 1)
+  const cur = gradeChapters(n)
   const faq = [
     { q: `מה לומדים במתמטיקה ${inGrade(g)}?`, a: `${GRADE_COPY[n]}${topics.length ? ` בעמוד הזה יש ${topics.length} נושאים: ${listHe(topics.map(t => t.title))}.` : ''}` },
+    ...(cur ? [{ q: `לפי איזו תוכנית לימודים לומדים מתמטיקה ${inGrade(g)}?`, a: `בשנת הלימודים תשפ״ז: ${cur.program}${cur.hours ? `, ${cur.hours}` : ''}. ${cur.focus}` }] : []),
+    ...(GRADE_ASSESSMENT[n] ? [{ q: `יש מבחן ארצי במתמטיקה ${inGrade(g)}?`, a: GRADE_ASSESSMENT[n] }] : []),
     { q: `איך מתכוננים למבחן במתמטיקה ${inGrade(g)}?`, a: `מתרגלים כל נושא בנפרד ברמה 2 ו-3, עוברים על ההסברים של הטעויות, ובסוף עושים את המבחן המסכם ${toGrade(g)} — מבחן שמערבב שאלות מכל הנושאים, עם ציון וסקירה בסוף.` },
     { q: 'אפשר להדפיס דפי עבודה?', a: 'כן. בכל נושא יש כפתור הדפסה שמכין דף של 20 תרגילים ודף תשובות נפרד. בכל לחיצה על "תרגילים אחרים" מקבלים דף חדש. גם את המבחן המסכם אפשר להדפיס עם התשובות.' },
   ]
@@ -337,6 +353,20 @@ function GradePage({ n }) {
         </Link>)}</div>
       </section>)}
     </> : <p className="ln-box mt-6 text-center">הנושאים {toGrade(g)} יעלו בקרוב. בינתיים אפשר לתרגל נושאים של כיתות אחרות.</p>}
+
+    {cur && <section className="ln-box mt-10" aria-labelledby="moe-h">
+      <h2 id="moe-h" className="text-2xl font-black">📚 תוכנית הלימודים של משרד החינוך {toGrade(g)}</h2>
+      <p>בשנת הלימודים תשפ״ז {gradeName(g)} לומדת לפי {cur.program}{cur.hours ? ` (${cur.hours})` : ''}. {cur.focus}</p>
+      {cur.chapters.length > 0 && <>
+        <h3 className="text-lg font-black">פרקי התוכנית לפי הסדר, והנושאים שלהם באתר</h3>
+        <ul>{cur.chapters.map(c => <li key={c.key}><b>{c.label}</b>{c.topics.length ? <>: {c.topics.map((t, k) => <span key={t.slug}>{k ? ', ' : ''}<Link to={topicPath(t)} className="underline">{t.title}</Link></span>)}</> : ''}</li>)}</ul>
+      </>}
+      {cur.notes.length > 0 && <>
+        <h3 className="text-lg font-black">מתי לומדים כל נושא</h3>
+        <ul>{cur.notes.map(({ t, note }) => <li key={t.slug}><Link to={topicPath(t)} className="font-bold underline">{t.title}</Link>: {note}</li>)}</ul>
+      </>}
+      {GRADE_ASSESSMENT[n] && <p className="m-0">📝 {GRADE_ASSESSMENT[n]}</p>}
+    </section>}
 
     <nav className="mth-grade-nav mt-10" aria-label="כיתות סמוכות">
       {prev && <Link to={prev.path} className="ln-chip">→ {gradeName(prev)}</Link>}
@@ -370,7 +400,9 @@ function TopicPage({ topic }) {
   const openPrint = (lv = level) => setPrint({ items: makeWorksheet(topic, lv, 20, newSeed()), level: lv })
   const siblings = topicsFor(topic.grade).filter(t => t.slug !== topic.slug)
   const h1 = topicH1(topic, g)
-  const faq = [...topic.faq, { q: `איך מתרגלים ${topic.title} ${inGrade(g)}?`, a: `בוחרים רמה (${topic.levels.map((l, i) => `${i + 1} — ${l}`).join('; ')}), פותרים תרגיל אחרי תרגיל ורואים הסבר אחרי כל תשובה. אפשר גם לעבור למצב מבחן של 10 שאלות או להדפיס דף עבודה של 20 תרגילים עם דף תשובות.` }]
+  const ctx = useMemo(() => topicContext(topic), [topic])
+  const samples = useMemo(() => sampleExercises(topic), [topic])
+  const faq = [...topic.faq, ...ctx.faq, { q:`איך מתרגלים ${topic.title} ${inGrade(g)}?`, a: `בוחרים רמה (${topic.levels.map((l, i) => `${i + 1} — ${l}`).join('; ')}), פותרים תרגיל אחרי תרגיל ורואים הסבר אחרי כל תשובה. אפשר גם לעבור למצב מבחן של 10 שאלות או להדפיס דף עבודה של 20 תרגילים עם דף תשובות.` }]
   const schema = [faqSchema(faq), {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
@@ -404,6 +436,20 @@ function TopicPage({ topic }) {
       </div>
     </section>
 
+    <section className="ln-box mt-6" aria-labelledby="lv-h">
+      <h2 id="lv-h" className="text-2xl font-black">🧩 תרגיל פתור מכל רמה</h2>
+      <p className="m-0">כך נראים התרגילים בעמוד הזה, מהקל אל הקשה. בתרגול עצמו כל תרגיל נוצר מחדש, עם מספרים אחרים.</p>
+      <ol className="mth-review">{samples.map(s => <SolvedItem key={s.level} ex={s.ex} tag={`${['🟢', '🟡', '🔴'][s.level - 1]} רמה ${s.level}: ${s.label}`} />)}</ol>
+    </section>
+
+    {(ctx.unitText || ctx.prev || ctx.next) && <section className="ln-box mt-6" aria-labelledby="cur-h">
+      <h2 id="cur-h" className="text-2xl font-black">📚 איפה הנושא ברצף הלימודים</h2>
+      <p>{ctx.summary}</p>
+      {ctx.unitText && <MathText as="p">{ctx.unitText}</MathText>}
+      {ctx.prev && <p className="m-0">⬅️ <b>לפני כן ({gradeName(ctx.prev.grade)}):</b> {ctx.prev.topics.map((t, k) => <span key={t.slug}>{k ? ' · ' : ''}<Link to={topicPath(t)} className="underline">{t.title}</Link></span>)}</p>}
+      {ctx.next && <p className="m-0 mt-2">➡️ <b>אחר כך ({gradeName(ctx.next.grade)}):</b> {ctx.next.topics.map((t, k) => <span key={t.slug}>{k ? ' · ' : ''}<Link to={topicPath(t)} className="underline">{t.title}</Link></span>)}</p>}
+    </section>}
+
     <section className="no-print mt-6" aria-label="רמה ומצב">
       <div className="flex flex-wrap justify-center gap-2" role="group" aria-label="רמת קושי">
         {topic.levels.map((l, i) => <Chip key={i} on={level === i + 1} onClick={() => { setLevel(i + 1); setQuiz(null) }}>{['🟢', '🟡', '🔴'][i]} רמה {i + 1}: {l}</Chip>)}
@@ -434,9 +480,11 @@ function TopicPage({ topic }) {
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `${topic.title} הוא אחד הנושאים במתמטיקה ${toGrade(g)}, בתחום ${STRANDS[topic.strand]?.label || ''}. בעמוד הזה יש הסבר קצר, טיפים ודוגמה פתורה, ואחריהם תרגול בשלוש רמות: ${topic.levels.map((l, i) => `רמה ${i + 1} — ${l}`).join(', ')}.`,
+      `${ctx.summary} בעמוד הזה יש הסבר קצר, טיפים ודוגמה פתורה, ואחריהם תרגול בשלוש רמות: ${topic.levels.map((l, i) => `רמה ${i + 1} — ${l}`).join(', ')}.`,
       'כל תרגיל נוצר מחדש, ולכן אפשר להמשיך לתרגל כמה שרוצים. אחרי כל תשובה מופיעים בדיקה והסבר קצר; במצב מבחן הבדיקה מגיעה רק בסוף, עם ציון וסקירה של כל השאלות. לדף עבודה מודפס יש דף תשובות נפרד, כך שהילדים יכולים לבדוק את עצמם או שההורה או המורה יבדקו.',
-    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, { label: testKeyword(g), href: g.testPath }, ...(topic.related || []), HUB]} /></div>
+    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, { label: testKeyword(g), href: g.testPath }, ...(topic.related || []),
+      ...ctx.sameStrand.slice(0, 3).map(t => ({ label: t.title, href: topicPath(t) })),
+      ...[ctx.prev, ctx.next].filter(Boolean).map(x => ({ label: `${x.topics[0].title} — ${gradeName(x.grade)}`, href: topicPath(x.topics[0]) })), HUB]} /></div>
   </div>
 }
 
@@ -462,7 +510,11 @@ function TestPage({ n }) {
   const seo = testSeo(g)
   const h1 = seo.h1
   const lvLabel = TEST_LEVELS.find(l => l.v === level).label.replace(/^\S+ /, '')
+  const sample = useMemo(() => testSampleItems(n), [n])
+  const strands = topicsByStrand(n)
   const faq = [
+    { q: `באילו תחומים יש שאלות במבחן ${toGrade(g)}?`, a: `${listHe(strands.map(s => `${s.label} (${s.topics.length} ${s.topics.length === 1 ? 'נושא' : 'נושאים'})`))}. במבחן של 10 שאלות מופיעים 10 נושאים שונים, ובמבחן של 20 שאלות כל הנושאים מופיעים לפני שנושא כלשהו חוזר.` },
+    ...(GRADE_ASSESSMENT[n] ? [{ q: `יש מבחן ארצי במתמטיקה ${inGrade(g)}?`, a: `${GRADE_ASSESSMENT[n]} המבחן כאן הוא תרגול חופשי ואינו המבחן הרשמי, אבל הוא עובר על כל הנושאים של השנה.` }] : []),
     { q: `מה כולל ה${h1}?`, a: `שאלות מכל ${topics.length} הנושאים של ${gradeName(g)}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
     { q: 'איך מחושב הציון?', a: 'כל שאלה שווה אותו מספר נקודות. בסוף המבחן מקבלים את מספר התשובות הנכונות, ציון בין 0 ל-100 וסקירה של כל השאלות — עם התשובה הנכונה והסבר לכל טעות.' },
     { q: 'אפשר להדפיס את המבחן?', a: 'כן. לוחצים על "הדפסת מבחן" ומקבלים דף מבחן עם מקום לשם ולציון, ודף תשובות נפרד לבדיקה. בכל פעם נוצר מבחן חדש.' },
@@ -491,13 +543,19 @@ function TestPage({ n }) {
       <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${print.items.length} שאלות`} items={print.items} />
     </PrintPreview>}
 
+    {!quiz && sample.length > 0 && <section className="ln-box mt-8" aria-labelledby="sample-h">
+      <h2 id="sample-h" className="text-2xl font-black">👀 דוגמה: {sample.length} שאלות כמו במבחן, עם פתרון</h2>
+      <p className="m-0">שאלה אחת מכל נושא, מהקל אל הקשה. במבחן עצמו השאלות נוצרות מחדש בכל פעם.</p>
+      <ol className="mth-review">{sample.map((s, k) => <SolvedItem key={k} ex={s.ex} tag={`${s.topic.emoji} ${s.topic.title} · רמה ${s.level}`} />)}</ol>
+    </section>}
+
     <section className="no-print mt-10" aria-labelledby="topics-h">
       <h2 id="topics-h" className="mb-3 text-2xl font-black text-center">רוצים לתרגל נושא אחד?</h2>
       <div className="flex flex-wrap justify-center gap-2">{topics.map(t => <Link key={t.slug} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title}</Link>)}</div>
     </section>
 
     <div className="mt-10"><SeoBody paragraphs={[
-      `המבחן המסכם ${toGrade(g)} בונה בכל פעם מבחן חדש משאלות בכל הנושאים של הכיתה, כך שכל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
+      `המבחן המסכם ${toGrade(g)} בונה בכל פעם מבחן חדש משאלות בכל ${topics.length} הנושאים של הכיתה, ב-${strands.length} ${strands.length === 1 ? 'תחום' : 'תחומים'}: ${listHe(strands.map(s => s.label))}. כל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
       'אפשר לעבור בין השאלות, לדלג ולחזור, ורק בלחיצה על "סיום ובדיקה" מתקבלים הציון, הזמן וסקירה מלאה. מבחן מודפס מגיע עם דף תשובות נפרד — נוח להורים שרוצים לבדוק, ולמורים שמחפשים מבחן חזרה.',
     ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, HUB]} /></div>
   </div>

@@ -9,8 +9,12 @@ import { shareOnWhatsApp, shareLink } from '../../utils/share'
 import {
   BABY_NAMES, GENDERS, LETTERS, LETTER_NAMES, ORIGIN_FILTERS, POPULAR_NOTE, LETTER_PAGE_MIN,
   filterNames, sortNames, lettersWithNames, letterPagePath, letterFromSlug, namePath, nameBySlug, nameLength,
-  genderText, similarNames, nameTitle, nameDescription, nameFaq, favoritesShareText, firstLetter,
+  similarNames, nameTitle, nameDescription, nameFaq, favoritesShareText, firstLetter,
 } from '../../data/babyNames'
+import {
+  gematria, nameChars, letterLabel, letterValue, sameGematria, hiddenNames, containingNames, counterpart, sameStart, sameEnding, nameEnding,
+  sameBook, bibleBook, nameThemes, nameIntro, nameTips, nameExtraFaq, letterFacts,
+} from '../../data/babyNameFacts'
 import '../../learn/learn.css'
 import './babyNames.css'
 
@@ -241,11 +245,13 @@ export function BabyNamesLetter({ gender = 'f' }) {
   const short = names.filter(n => n.tags.includes('קצר')).map(n => n.name)
   const bible = names.filter(n => n.origin === 'תנ"כי').map(n => n.name)
   const sample = names.slice(0, 5).map(n => n.name).join(', ')
+  const stats = letterFacts(g.id, letter, names)
   const faq = [
     { q: `אילו ${g.title} מתחילים באות ${letter}?`, a: `ברשימה יש ${names.length} שמות באות ${letter}, ביניהם ${sample}. לכל שם מופיעים המשמעות והמקור.` },
     bible.length
       ? { q: `אילו ${g.title} תנ"כיים יש באות ${letter}?`, a: `${bible.slice(0, 8).join(', ')}. ליד כל שם מקראי מופיע המקום בתנ"ך שבו הוא מוזכר.` }
       : { q: `אילו ${g.title} קצרים יש באות ${letter}?`, a: short.length ? `${short.join(', ')}.` : `באות ${letter} רוב השמות ברשימה ארוכים משלוש אותיות.` },
+    stats.faq,
   ]
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={`${heading} — ${names.length} שמות עם משמעות`} description={`${heading}: ${sample} ועוד — ${names.length} שמות עם משמעות, מקור וכתיב באנגלית. שומרים את האהובים לרשימה ושולחים בוואטסאפ.`} path={letterPagePath(g.id, letter)} structuredData={faqSchema(faq)} />
@@ -259,6 +265,7 @@ export function BabyNamesLetter({ gender = 'f' }) {
     <LetterLinks gender={g.id} current={letter} />
     <div className="mt-10"><SeoBody paragraphs={[
       `כאן תמצאו ${g.title} באות ${letter}: ${names.map(n => n.name).join(', ')}. לחיצה על שם פותחת עמוד עם המשמעות המלאה, המקור, הכתיב באנגלית ושמות דומים.`,
+      stats.text,
       `יש משפחות שבוחרות שם שמתחיל באות מסוימת — למשל על שם סבא או סבתא — בלי לתת בדיוק את אותו השם. ${bible.length ? `באות ${letter} יש גם שמות מקראיים, כמו ${bible.slice(0, 4).join(', ')}.` : ''} ${short.length ? `ואם אתם מחפשים שם קצר: ${short.slice(0, 5).join(', ')}.` : ''}`.replace(/\s+/g, ' ').trim(),
       CHOOSING[1],
     ]} faq={faq} related={[{ label: g.title, href: g.path }, HUB, ...RELATED.slice(0, 2)]} /></div>
@@ -274,6 +281,14 @@ const ORIGIN_TEXT = {
   'יידיש': n => `${n.name} הוא שם ממקור יידיש, שפתם של יהודי מזרח אירופה, ונפוץ במשפחות רבות כשם על שם סבתא או סבתא רבתא.`,
 }
 
+// Comma-separated name links ("א, ב ו־ג").
+function NameLinks({ items, max = 8 }) {
+  const shown = items.slice(0, max)
+  return shown.map((o, i) => <span key={o.slug}>
+    {i > 0 && (i === shown.length - 1 ? ' ו' : ', ')}<Link to={namePath(o)} className="font-bold underline">{o.name}</Link>
+  </span>)
+}
+
 export function BabyNamePage() {
   const { slug } = useParams()
   const n = nameBySlug(slug)
@@ -281,8 +296,21 @@ export function BabyNamePage() {
   if (!n) return <NotFound />
   const isFav = fav.favs.includes(n.slug)
   const similar = similarNames(n, 6)
-  const faq = nameFaq(n)
+  const faq = [...nameFaq(n), ...nameExtraFaq(n)]
   const len = nameLength(n.name)
+  const chars = nameChars(n.name)
+  const gem = gematria(n.name)
+  const sameGem = sameGematria(n)
+  const hidden = hiddenNames(n)
+  const containing = containingNames(n)
+  const pair = counterpart(n)
+  const start = sameStart(n)
+  const end = sameEnding(n)
+  const book = n.origin === 'תנ"כי' ? bibleBook(n.source) : null
+  const bookNames = sameBook(n)
+  const themes = nameThemes(n)
+  const tips = nameTips(n)
+  const coloring = { label: `דף צביעה עם השם ${n.name}`, href: `/printables/name-coloring/${n.slug}` }
   const listG = n.gender === 'u' ? 'u' : n.gender
   const letterPage = n.gender !== 'u' && lettersWithNames(n.gender, LETTER_PAGE_MIN).includes(n.letter) ? letterPagePath(n.gender, n.letter) : ''
   const share = () => shareOnWhatsApp(`משמעות השם ${n.name}: ${n.meaning}\n${shareLink(namePath(n), 'baby-name')}`)
@@ -291,6 +319,7 @@ export function BabyNamePage() {
     ['מתאים ל', n.gender === 'f' ? 'בנות' : n.gender === 'm' ? 'בנים' : 'בנים ובנות'],
     ['אות ראשונה', `${n.letter} (${LETTER_NAMES[n.letter]})`],
     ['מספר אותיות', String(len)],
+    ['גימטריה', String(gem)],
     ['באנגלית', n.en],
     ...(n.source ? [['בתנ"ך', n.source]] : []),
   ]
@@ -321,8 +350,33 @@ export function BabyNamePage() {
       <h2 id="bn-about-h" className="text-2xl font-black">על השם {n.name}</h2>
       <p>{(ORIGIN_TEXT[n.origin] || ORIGIN_TEXT['עברי'])(n)}</p>
       {NAME_NOTES[n.name] && <p>{NAME_NOTES[n.name]}</p>}
-      <p>{n.name} — {genderText(n.gender)}. השם מתחיל באות {LETTER_NAMES[n.letter]} ויש בו {len} אותיות{len <= 3 ? ' — שם קצר שקל לומר, לאיית ולקרוא בקול רם בגן' : ''}. באנגלית נהוג לכתוב אותו {n.en}{n.tags.includes('קלאסי') ? '; זה שם קלאסי שעובר מדור לדור' : n.tags.includes('מודרני') ? '; זה שם עכשווי שנעשה נפוץ בעשורים האחרונים' : ''}.</p>
-      <p>לפני שמחליטים, כדאי לומר את השם בקול יחד עם שם המשפחה, לבדוק את ראשי התיבות ואת הכתיב באנגלית, ולשמוע איך הוא נשמע כשקוראים לילד או לילדה מהצד השני של הגן.</p>
+      <p>{nameIntro(n)}{n.tags.includes('קלאסי') ? ' זה שם קלאסי שעובר מדור לדור.' : n.tags.includes('מודרני') ? ' זה שם עכשווי שנעשה נפוץ בעשורים האחרונים.' : ''}</p>
+    </section>
+
+    <section className="mt-8 space-y-3" aria-labelledby="bn-letters-h">
+      <h2 id="bn-letters-h" className="text-2xl font-black">האותיות והגימטריה של {n.name}</h2>
+      <ul className="bn-facts bn-letter-facts" aria-label={`האותיות בשם ${n.name}`}>
+        {chars.map((c, i) => <li key={i} className="bn-fact"><b>{c}</b><span>{letterLabel(c)} = {letterValue(c)}</span></li>)}
+      </ul>
+      <p>בגימטריה הרגילה (לאות סופית אותו ערך כמו לאות הרגילה) {n.name} שווה {chars.map(letterValue).join(' + ')} = <b>{gem}</b>.
+        {sameGem.length > 0 ? <> אותה גימטריה יש ברשימה שלנו גם ל<NameLinks items={sameGem} max={5} />.</> : ' אין ברשימה שלנו שם אחר עם אותה גימטריה.'}</p>
+      {hidden.length > 0 && <p>בתוך האותיות של {n.name} מסתתר{hidden.length > 1 ? 'ים השמות' : ' השם'} <NameLinks items={hidden} max={5} /> — אותיות שמופיעות ברצף בתוך השם. משחק נחמד לילדים שלומדים לקרוא: לחפש שמות בתוך שמות.</p>}
+      {containing.length > 0 && <p>ולהפך: השם {n.name} מסתתר בתוך {containing.length > 1 ? 'השמות' : 'השם'} <NameLinks items={containing} max={6} />.</p>}
+    </section>
+
+    {(pair || start.length > 0 || end.length > 0 || bookNames.length > 0 || themes.length > 0) && <section className="mt-8 space-y-3" aria-labelledby="bn-family-h">
+      <h2 id="bn-family-h" className="text-2xl font-black">שמות קרובים ל{n.name}</h2>
+      {pair && <p>{n.gender === 'f' ? `${n.name} היא צורת הנקבה של` : `צורת הנקבה של ${n.name} היא`} <Link to={namePath(pair)} className="font-bold underline">{pair.name}</Link>.</p>}
+      {start.length > 0 && <p>שמות שמתחילים כמו {n.name} ב־"{n.name.slice(0, 2)}": <NameLinks items={start} />.</p>}
+      {end.length > 0 && <p>שמות שמסתיימים כמו {n.name} ב־"{nameEnding(n)}": <NameLinks items={end} />.</p>}
+      {book && bookNames.length > 0 && <p>שמות נוספים מ{book.label} ({book.part === 'תורה' ? 'מחמשת חומשי התורה' : book.part === 'נביאים' ? 'מספרי הנביאים' : 'מספרי הכתובים'}): <NameLinks items={bookNames} />.</p>}
+      {themes.length > 0 && <p>השם {n.name} מופיע גם ברשימות לפי משמעות: {themes.map((t, i) => <span key={t.slug}>{i > 0 && ', '}<Link to={`/baby-names/meaning/${t.slug}`} className="font-bold underline">{t.label}</Link></span>)}.</p>}
+    </section>}
+
+    <section className="mt-8" aria-labelledby="bn-tips-h">
+      <h2 id="bn-tips-h" className="mb-3 text-2xl font-black">לפני שבוחרים בשם {n.name}</h2>
+      <ul className="list-disc space-y-2 pr-6">{tips.map((t, i) => <li key={i}>{t}</li>)}</ul>
+      <p className="mt-3">רוצים לראות את השם על הדף? <Link to={coloring.href} className="font-bold underline">{coloring.label}</Link> — להדפסה ולצביעה.</p>
     </section>
 
     <section className="mt-8" aria-labelledby="bn-sim-h">
@@ -336,6 +390,6 @@ export function BabyNamePage() {
 
     <FavoritesPanel {...fav} />
 
-    <div className="mt-10"><SeoBody faq={faq} related={[HUB, { label: GENDERS[listG].title, href: GENDERS[listG].path }, ...RELATED]} /></div>
+    <div className="mt-10"><SeoBody faq={faq} related={[HUB, { label: GENDERS[listG].title, href: GENDERS[listG].path }, ...(letterPage ? [{ label: `${GENDERS[n.gender].title} באות ${n.letter}`, href: letterPage }] : []), coloring, ...RELATED]} /></div>
   </div>
 }

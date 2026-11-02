@@ -13,7 +13,8 @@ export const SHABBAT_TOWNS = [
   {"slug": "givatayim","name": "גבעתיים","latitude": 32.073,"longitude": 34.8113,"offset": 20,"offsetLabel": "מנהג רווח"},
   {"slug": "hod-hasharon","name": "הוד השרון","latitude": 32.1562,"longitude": 34.893,"offset": 20,"offsetLabel": "מנהג רווח"},
   {"slug": "harish","name": "חריש","latitude": 32.4596,"longitude": 35.0511,"offset": 20,"offsetLabel": "מנהג רווח"},
-  {"slug": "tayibe","name": "טייבה","latitude": 32.6043,"longitude": 35.444,"offset": 20,"offsetLabel": "מנהג רווח"},
+  // The city in the Triangle (32°16′N 35°00′E); the localities list only had the Jezreel-valley village of the same name.
+  {"slug": "tayibe","name": "טייבה","latitude": 32.2667,"longitude": 35.0083,"offset": 20,"offsetLabel": "מנהג רווח"},
   {"slug": "tirat-karmel","name": "טירת כרמל","latitude": 32.7614,"longitude": 34.9716,"offset": 20,"offsetLabel": "מנהג רווח"},
   {"slug": "tamra","name": "טמרה","latitude": 32.6343,"longitude": 35.4043,"offset": 20,"offsetLabel": "מנהג רווח"},
   {"slug": "yavne","name": "יבנה","latitude": 31.8769,"longitude": 34.7383,"offset": 20,"offsetLabel": "מנהג רווח"},

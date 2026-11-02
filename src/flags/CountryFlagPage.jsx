@@ -10,6 +10,7 @@ import { CONTINENT_BY_SLUG, FLAG_NOTES, flagSrc } from './flagsData'
 import { COUNTRY_DETAILS, countrySource } from './countryDetails'
 import { findCountry, countryTitle, countryDescription, countryFaq, coloringFor, relatedCountries } from './countryPageData'
 import { buildCountryRound } from './countryQuiz'
+import { countryLead, rememberTips, similarColorFlags, letterParagraph } from './countryInsights'
 import { ColoringFlag, FlagImg } from './FlagsPages'
 import { PAINT } from './coloringFlags'
 import '../learn/learn.css'
@@ -89,12 +90,13 @@ function CountryContent({ country: c }) {
   const [printing, setPrinting] = useState(null)
   const detail = COUNTRY_DETAILS[c.code], continent = CONTINENT_BY_SLUG[c.continent]
   const faq = countryFaq(c), f = coloringFor(c.code), related = relatedCountries(c)
+  const tips = rememberTips(c), similar = similarColorFlags(c)
   const linkList = (list, label) => <nav aria-label={label} className="flex flex-wrap gap-2">{list.map(p => <Link key={p.code} className="ln-chip inline-flex items-center gap-2" to={`/flags/${p.code}`}><FlagImg code={p.code} alt="" className="w-8 h-6" />{p.name}</Link>)}</nav>
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title={countryTitle(c)} description={countryDescription(c)} path={`/flags/${c.code}`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דגלי מדינות', href: '/flags' }, { label: `דגלי ${continent.name}`, href: `/flags/continents/${continent.slug}` }, { label: `דגל ${c.name}` }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-4">דגל {c.name}</h1>
-    <p className="text-center text-lg mb-6">מכירים את הצבעים והסמלים, בודקים מה זוכרים ומדפיסים פעילות.</p>
+    <p className="text-lg mb-6">{countryLead(c)}</p>
     <figure className="ln-box">
       <FlagImg code={c.code} eager className="!w-full !h-auto max-w-md mx-auto" alt={`דגל ${c.name}${c.code === 'af' ? ' — דגל הרפובליקה לשעבר' : ''}`} />
       <figcaption className="mt-3 text-center text-sm">{c.code === 'af' ? FLAG_NOTES.af : 'איור לימודי במסגרת אחידה של 4:3; יחסי הממדים המקוריים של הדגל עשויים להיות שונים.'}</figcaption>
@@ -108,6 +110,19 @@ function CountryContent({ country: c }) {
       <SeoBody paragraphs={[detail.description, detail.meaning, `בכרטיס המדינה של ${c.name} מופיעים ${c.capital} ו${continent.name}. נסו לתאר את הדגל בלי להביט בתמונה, ואז השוו את התיאור לפרטים שלמעלה. בחידון תפגשו גם דגל נוסף מאותה יבשת.`]} />
       {FLAG_NOTES[c.code] && <p className="ln-q mt-3">{FLAG_NOTES[c.code]}</p>}
       {c.code === 'id' && <p className="ln-q mt-3">אינדונזיה בונה את הבירה החדשה נוסנטרה. המעבר הרשמי תלוי בצו נשיאותי; בכרטיס מוצגת ג׳קרטה.</p>}
+    </section>
+    {tips.length > 0 && <section className="mt-6" aria-labelledby="flag-remember">
+      <h2 id="flag-remember" className="text-2xl font-black mb-3">איך זוכרים את דגל {c.name}?</h2>
+      <ul className="list-disc pr-6 space-y-2">{tips.map(t => <li key={t}>{t}</li>)}</ul>
+    </section>}
+    {similar.length > 0 && <section className="mt-6" aria-labelledby="flag-similar">
+      <h2 id="flag-similar" className="text-2xl font-black mb-3">דגלים בצבעים דומים לדגל {c.name}</h2>
+      <p className="mb-3">אותם צבעים בולטים, או כמעט אותם — טוב לתרגל אותם יחד כדי לא להתבלבל בחידון.</p>
+      {linkList(similar, `דגלים בצבעים דומים לדגל ${c.name}`)}
+    </section>}
+    <section className="mt-6" aria-labelledby="flag-letter">
+      <h2 id="flag-letter" className="text-2xl font-black mb-3">{c.name} בארץ עיר</h2>
+      <p>{letterParagraph(c)}</p>
     </section>
     <section className="ln-box mt-6" aria-labelledby="country-print-title">
       <h2 id="country-print-title" className="text-2xl font-black mb-3">דגל {c.name} להדפסה</h2>

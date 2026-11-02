@@ -617,3 +617,91 @@ export function moreColoringDrawings(slug, n) {
   if (index < 0) return []
   return [...drawings.slice(index + 1), ...drawings.slice(0, index)].slice(0, 8)
 }
+
+// ── Per-drawing guide: computed from the drawing's own data (ages, place in its subject,
+// the subject's other drawings and its related subjects), so each page says something its
+// siblings don't. Nothing here is invented: every sentence is derived from the rows above.
+
+// '4–7' → { min: 4, max: 7 }; '10 ומעלה' → { min: 10, max: null }.
+export function parseAges(ages) {
+  const [min, max] = String(ages).match(/\d+/g).map(Number)
+  return { min, max: /ומעלה/.test(ages) ? null : max }
+}
+const ageMid = ({ min, max }) => max == null ? min + 3 : (min + max) / 2
+const ORDINAL = ['', 'הראשון', 'השני', 'השלישי', 'הרביעי', 'החמישי', 'השישי', 'השביעי', 'השמיני', 'התשיעי', 'העשירי', 'האחד־עשר', 'השנים־עשר']
+const ordinal = n => ORDINAL[n] || `מספר ${n}`
+
+// Who the drawing suits and what to colour it with — follows the suggested starting age.
+function levelFor({ min, max }) {
+  if (min >= 9) return { id: 'expert', label: 'מאתגר — לגדולים', short: 'מאתגר', tools: 'הציור צפוף בפרטים קטנים, ולכן הכי נוח לצבוע אותו בצבעי עיפרון מחודדים או בטושים דקים (פיינליינרים). אפשר לעבוד עליו בכמה ישיבות ולא חייבים לסיים בפעם אחת.', gan: false }
+  if (min >= 6) return { id: 'detailed', label: 'מפורט', short: 'מפורט', tools: 'יש בציור שטחים קטנים לצד שטחים בינוניים, ולכן מומלצים צבעי עיפרון מחודדים לפרטים וטושים רגילים לשטחים הגדולים.', gan: false }
+  if (min >= 5) return { id: 'medium', label: 'בינוני', short: 'בינוני', tools: 'הציור משלב צורות גדולות עם כמה פרטים קטנים: טושים רגילים מתאימים לשטחים, וצבע עיפרון מחודד עוזר בפינות הצרות.', gan: true }
+  if (min >= 4) return { id: 'easy', label: 'פשוט', short: 'פשוט', tools: 'הקווים עבים והשטחים רחבים, כך שאפשר לצבוע בטושים עבים, בפנדה או בצבעי שעווה בלי לצאת הרבה מהקו.', gan: true }
+  return { id: 'first', label: 'פשוט מאוד — לקטנטנים', short: 'פשוט מאוד', tools: 'צורות גדולות ומעט פרטים: מתאים לצבעי שעווה עבים או לטושים עבים שקל לאחוז ביד קטנה. גם קשקוש חופשי בתוך הקווים הוא הצלחה בגיל הזה.', gan: true }
+}
+
+// Subject page (/printables/coloring/:subject): what the subject's drawings span, from their rows.
+export function coloringSubjectSummary(slug) {
+  const s = COLORING_SUBJECTS.find(x => x.slug === slug)
+  const drawings = COLORING_DRAWINGS[slug]
+  if (!s || !drawings) return null
+  const rows = drawings.map(d => ({ ...d, range: parseAges(d.ages), level: levelFor(parseAges(d.ages)) }))
+  const byMin = [...rows].sort((a, b) => a.range.min - b.range.min || a.n - b.n)
+  const first = byMin[0], last = byMin[byMin.length - 1]
+  const gan = rows.filter(d => d.level.gan)
+  const groups = new Map()
+  for (const d of rows) groups.set(d.level.short, [...(groups.get(d.level.short) || []), d])
+  const spread = first.range.min === last.range.min
+    ? `כל ${rows.length} הציורים בנושא ${s.name} מומלצים מגיל ${first.range.min}.`
+    : `הציורים בנושא ${s.name} מתאימים לגילאים שונים: הפשוט ביותר הוא „${first.name}” (${first.ages}), והמפורט ביותר הוא „${last.name}” (${last.ages}).`
+  const levels = [...groups].map(([label, list]) => `${label} — ${list.length}`).join(', ')
+  const faq = [
+    { q: `באיזה ציור ${s.name} כדאי להתחיל?`, a: `${spread} ${gan.length ? `${gan.length === rows.length ? 'כל הציורים' : `${gan.length} מתוך ${rows.length} הציורים`} מתאימים גם לילדי גן.` : 'כל הציורים בנושא מפורטים, ומתאימים לילדים גדולים ולמבוגרים.'}` },
+    { q: `כמה דפי צביעה ${s.name} יש באתר?`, a: `${rows.length} ציורים מקוריים, כל אחד בדף משלו. לפי רמת פרטים: ${levels}.` },
+  ]
+  return { spread, levels, faq, total: rows.length }
+}
+
+
+export function coloringDrawingGuide(slug, n) {
+  const s = COLORING_SUBJECTS.find(x => x.slug === slug)
+  const drawings = COLORING_DRAWINGS[slug] || []
+  const drawing = drawings.find(d => d.n === Number(n))
+  if (!s || !drawing) return null
+  const ages = parseAges(drawing.ages)
+  const level = levelFor(ages)
+  const others = drawings.filter(d => d.n !== drawing.n).map(d => ({ ...d, range: parseAges(d.ages) }))
+  const mid = ageMid(ages)
+  const younger = others.filter(d => d.range.min < ages.min).sort((a, b) => b.range.min - a.range.min || a.n - b.n)
+  const older = others.filter(d => d.range.min > ages.min).sort((a, b) => a.range.min - b.range.min || a.n - b.n)
+  const sameAge = others.filter(d => d.ages === drawing.ages)
+  const mins = drawings.map(d => parseAges(d.ages).min)
+  const lowest = Math.min(...mins), highest = Math.max(...mins)
+  const place = lowest === highest ? 'all-same'
+    : ages.min === lowest ? 'simplest' : ages.min === highest ? 'hardest' : 'middle'
+  const placeText = {
+    'all-same': `כל ${drawings.length} הציורים בנושא ${s.name} מומלצים לאותו טווח גיל, כך שאפשר לבחור ביניהם לפי הציור שהכי מושך את העין.`,
+    simplest: `מבין ${drawings.length} הציורים בנושא ${s.name} באתר, זה אחד הפשוטים ביותר${sameAge.length ? '' : ' — הוא היחיד בנושא שמומלץ כבר מגיל ' + ages.min}.`,
+    hardest: `מבין ${drawings.length} הציורים בנושא ${s.name} באתר, זה אחד המפורטים ביותר — מתאים למי שכבר צבע את הציורים הפשוטים בנושא ורוצה אתגר.`,
+    middle: `מבין ${drawings.length} הציורים בנושא ${s.name} באתר, הוא באמצע: יש בנושא ציורים פשוטים ממנו (מגיל ${lowest}) וגם מפורטים ממנו (מגיל ${highest}).`,
+  }[place]
+  const intro = `„${drawing.name}” הוא הציור ${ordinal(drawing.n)} מתוך ${drawings.length} ציורים בנושא ${s.name}. הוא מומלץ לגילאי ${drawing.ages}, ורמת הפרטים בו: ${level.label}. ${placeText}`
+
+  // From each related subject: the drawing whose age range sits closest to this one.
+  const cross = relatedColoringSubjects(slug).filter(Boolean).map(rs => {
+    const best = COLORING_DRAWINGS[rs.slug]
+      .map(d => ({ d, gap: Math.abs(ageMid(parseAges(d.ages)) - mid) + (d.n === drawing.n ? 0 : 0.01 * Math.abs(d.n - drawing.n)) }))
+      .sort((a, b) => a.gap - b.gap)[0].d
+    return { subject: rs, drawing: best }
+  })
+
+  const simpler = younger[0] || null
+  const harder = older[0] || null
+  const faq = [
+    level.gan
+      ? { q: `האם הציור „${drawing.name}” מתאים לילדי גן?`, a: `כן. „${drawing.name}” מומלץ מגיל ${ages.min}, ורמת הפרטים בו: ${level.short}. ${ages.min <= 4 ? 'הוא מתאים גם לצביעה ראשונה בגן.' : `לילדים צעירים יותר כדאי לצבוע רק את השטחים הגדולים, או לבחור ${simpler ? `את „${simpler.name}”, שמומלץ מגיל ${simpler.range.min}` : 'ציור פשוט מנושא אחר'}.`}` }
+      : { q: `האם הציור „${drawing.name}” מתאים לילדי גן?`, a: `„${drawing.name}” מומלץ מגיל ${ages.min}, כי יש בו ${level.id === 'expert' ? 'הרבה פרטים קטנים וצפופים' : 'לא מעט פרטים קטנים'}. ${simpler ? `לילדי גן מתאים יותר „${simpler.name}” מאותו נושא, שמומלץ מגיל ${simpler.range.min}.` : 'לילדי גן כדאי לבחור ציור עם שטחים גדולים מנושא אחר.'}` },
+    { q: harder ? `יש בנושא ${s.name} ציור מאתגר יותר מ„${drawing.name}”?` : `מה לצבוע אחרי „${drawing.name}”?`, a: harder ? `כן — אחרי „${drawing.name}” אפשר לעבור ל„${harder.name}”, שמומלץ לגילאי ${harder.ages}. ${sameAge.length ? `ובאותה רמה בדיוק יש גם את „${sameAge[0].name}”.` : ''}`.trim() : `„${drawing.name}” הוא מהציורים המפורטים ביותר בנושא. ${sameAge.length ? `באותה רמה יש גם את „${sameAge[0].name}”.` : `אפשר לנסות את „${cross[0]?.drawing.name}” מנושא ${cross[0]?.subject.name}.`}` },
+  ]
+  return { drawing, subject: s, ages, level, intro, tools: level.tools, sameAge: sameAge.slice(0, 4), simpler, harder, cross, faq, total: drawings.length }
+}

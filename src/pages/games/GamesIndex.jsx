@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import { hubStatsParagraphs, hubStatsFaq } from '../../data/gameHubStats'
 import Badge from '../../components/ui/Badge'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { useGames } from '../../hooks/useGames'
@@ -112,6 +113,10 @@ export default function GamesIndex() {
   const listed = plainAge ? filtered.filter(g => !agePicks.some(p => p.game.slug === g.slug)) : filtered
   const ageCollapsed = plainAge && expandedAge !== ageNumber && listed.length > HUB_VISIBLE + 2
   const shownGames = ageCollapsed ? listed.slice(0, HUB_VISIBLE) : listed
+  // Age pages: numbers and examples computed from the games that fit this age (unaffected by search/filters).
+  const ageGames = ageHub && games.length ? games.filter(g => fitsAge(g, ageNumber)) : []
+  const ageStatsParagraphs = ageGames.length ? hubStatsParagraphs(ageGames, `אוסף המשחקים לגיל ${age}`) : []
+  const ageFaq = ageHub ? [...ageHub.faq, ...(ageGames.length ? hubStatsFaq(ageGames, `אוסף המשחקים לגיל ${age}`, { skipAge: true }) : [])] : []
 
   // age and filter buttons keep each other: /games/age/7?context=שקטים
   const query = searchParams.toString()
@@ -122,7 +127,7 @@ export default function GamesIndex() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO title={isGameOfDay ? 'משחק היום — משחק חדש לילדים בכל יום' : ageNumber ? `משחקים לגיל ${age} — ליום הולדת, לכיתה ולבית` : `משחקים לילדים בחינם — ${gamesTotal} לבית, לכיתה ולמסיבה`} description={isGameOfDay ? 'משחק היום של עוגה בוגה: בכל יום נבחר משחק אחר מתוך מאגר של 100+ משחקים לילדים, עם הוראות, גילאים ומספר משתתפים. חוזרים מחר למשחק חדש — חינם.' : ageNumber ? `משחקים לילדים בני ${age}: כל המשחקים מהמאגר שמתאימים לגיל ${age} — ליום הולדת, לכיתה, לצהרון ולמשפחה. רבים מהם בלי ציוד ובלי הכנה, וכולם חינם.` : 'משחקים לילדים בחינם: יותר מ-100 משחקים לבית, לכיתה, ליום הולדת ולצהרון, עם הוראות, גילאים ומספר משתתפים. מסננים לפי גיל וציוד — רבים בלי ציוד ובלי הכנה.'} path={isGameOfDay ? '/game-of-the-day' : ageNumber ? `/games/age/${age}` : '/games'}
-        structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : ageHub && !isGameOfDay ? faqSchema(ageHub.faq) : null} />
+        structuredData={(!isGameOfDay && !ageNumber && !goalFilter && !contextFilter) ? faqSchema(gamesIndexFaq) : ageHub && !isGameOfDay ? faqSchema(ageFaq) : null} />
       <Breadcrumbs items={ageNumber ? [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים', href: '/games' }, { label: `גיל ${age}` }] : [{ label: 'ראשי', href: '/' }, { label: 'כל המשחקים' }]} />
       <h1 className="text-4xl sm:text-5xl text-center mb-6">🎮 {heading}</h1>
       {ageHub && <p className="mx-auto -mt-3 mb-6 max-w-2xl text-center text-lg leading-relaxed text-[var(--muted-foreground)]">{ageHub.intro[0]}</p>}
@@ -255,7 +260,7 @@ export default function GamesIndex() {
       {ageHub && !isGameOfDay && (
         <div className="mx-auto mt-12 max-w-3xl">
           <h2 className="mb-4 text-2xl font-bold">איך בוחרים משחק לגיל {age}</h2>
-          <SeoBody paragraphs={ageHub.intro.slice(1)} faq={ageHub.faq} related={ageHub.links} />
+          <SeoBody paragraphs={[...ageHub.intro.slice(1), ...ageStatsParagraphs]} faq={ageFaq} related={ageHub.links} />
         </div>
       )}
 

@@ -230,5 +230,26 @@ export function numberFaq(n) {
   ]
 }
 
+// Facts computed from the numbers themselves, so every /of/:n page says something only it can say.
+// grade: placement per the Ministry of Education's new elementary program (docs/curriculum/math.md).
+export function numberFacts(n) {
+  const row = range(1, 10).map(k => ({ k, v: n * k }))
+  const units = row.map(x => x.v % 10)
+  const distinctUnits = new Set(units).size
+  const even = row.filter(x => x.v % 2 === 0).length
+  const multiples = range(1, Math.floor(100 / n)).map(k => n * k)
+  const newFacts = n <= 10 ? range(n, 10).map(k => `${n}×${k}`) : []
+  // How often each answer of this row appears in the whole 10×10 table, grouped: [{ times, values }].
+  const groups = new Map()
+  for (const x of row) { const k = occurrences(x.v); groups.set(k, [...(groups.get(k) || []), x.v]) }
+  const byCount = [...groups.entries()].sort((a, b) => b[0] - a[0]).map(([times, values]) => ({ times, values }))
+  const grade = n > 10
+    ? `הלוח של ${n} לא נמצא בטבלת 10×10 שלומדים בבית הספר היסודי, ולכן הוא העשרה.`
+    : [2, 4, 5, 10].includes(n)
+      ? `לפי תוכנית הלימודים החדשה של משרד החינוך, הכפולות של ${n} הן מנושאי סוף השנה של כיתה ב׳ (יחד עם 2, 4, 5 ו-10), ובכיתה ג׳ משלימים ומבססים את כל לוח הכפל.`
+      : `לפי תוכנית הלימודים החדשה של משרד החינוך, בכיתה ב׳ מתחילים מהכפולות של 2, 4, 5 ו-10, ואת שאר לוח הכפל, כולל הלוח של ${n}, משלימים ומבססים בכיתה ג׳.`
+  return { row, units, distinctUnits, even, multiples, newFacts, byCount, square: n * n, grade }
+}
+
 export const MT_PATHS = [MT_PAGES.main.path, MT_PAGES[100].path, MT_PAGES[1000].path, ...MT_NUMBERS.map(numberPath)]
 export const allPageMeta = () => [MT_PAGES.main, MT_PAGES[100], MT_PAGES[1000], ...MT_NUMBERS.map(numberMeta)]
