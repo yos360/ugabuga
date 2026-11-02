@@ -83,6 +83,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/vat', label: 'מחשבון מע״מ 18%', icon: '🧾' },
           { to: '/tools/calculator', label: 'מחשבון מדעי', icon: '🧮' },
           { to: '/tools/keyboard-fix', label: 'תיקון טקסט שנכתב בשפה הלא נכונה', icon: '⌨️' },
+          { to: '/tools/shopping-list', label: 'רשימת קניות משותפת בלייב', icon: '🛒' },
         ],
       },
       {
