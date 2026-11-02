@@ -438,6 +438,7 @@ const EnglishRsvp = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ d
 const EnglishRsvpType = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ default: m.EnglishRsvpType })))
 const VaadHub = lazy(() => import('./pages/tools/group/VaadHub'))
 const VaadBudget = lazy(() => import('./pages/tools/group/VaadBudget'))
+const VaadFundraising = lazy(() => import('./pages/tools/group/VaadFundraising'))
 const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
 const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
@@ -1333,6 +1334,7 @@ export default function App() {
               <Route path="/rsvp/:type" element={<RsvpTypePage />} />
               <Route path="/vaad" element={<VaadHub />} />
               <Route path="/vaad/budget" element={<VaadBudget />} />
+              <Route path="/vaad/fundraising" element={<VaadFundraising />} />
               <Route path="/meet" element={<SharedSpaces kind="meet" />} />
               <Route path="/parent-meetings" element={<SharedSpaces kind="parents" />} />
               <Route path="/family-help" element={<SharedSpaces kind="help" />} />
