@@ -48,6 +48,7 @@ export const SPOTLIGHTS = [
   { to: '/tools/shopping-list', icon: '🛒', title: 'רשימת קניות משותפת', line: 'קישור אחד לכל המשפחה, מתעדכן אצל כולם בלייב', cta: 'לרשימה' },
   { to: '/tools/currency', icon: '💱', title: 'המרת מטבע', line: 'כ־45 מטבעות לשקל, בשערים עדכניים', cta: 'להמיר' },
   { to: '/tools/percent-calculator', icon: '%', title: 'מחשבון אחוזים והנחות', line: 'כמה זה 30% הנחה? תשובה בשנייה', cta: 'לחשב' },
+  { to: '/tools/tip-calculator', icon: '🍽️', title: 'מחשבון טיפים', line: 'כמה טיפ להשאיר, וכמה כל אחד משלם', cta: 'לחשב' },
   { to: '/tools/hebrew-birthday', icon: '✡️', title: 'יום הולדת עברי', line: 'תאריך עברי לפי לועזי, ומועד בר או בת מצווה', cta: 'לבדוק' },
   { to: '/tools/stopwatch', icon: '⏲️', title: 'סטופר אונליין', line: 'שעון עצר עם הקפות — לספורט ולמשחקים', cta: 'להפעיל' },
   { to: '/music/piano', icon: '🎹', title: 'פסנתר אונליין', line: 'מנגנים בלחיצה, במגע או מהמקלדת', cta: 'לנגן' },

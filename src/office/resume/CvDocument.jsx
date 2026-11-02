@@ -2,6 +2,7 @@
 // 'print' (clean, empty fields dropped) or 'thumb' (template picker).
 import { memo, useRef } from 'react'
 import { buildLayout } from './templates'
+import { fontStack } from '../fonts/googleFonts'
 import { label, lines, LIST_SECTIONS, PX_PER_MM, PAGE_W_MM } from './resumeLogic'
 
 const PH = {
@@ -195,7 +196,7 @@ function CvDocument({ cv, design, tpl, extras = [], mode = 'print', onEdit, onPh
   const head = <Header ctx={ctx} lay={lay} tpl={tpl} />
   const secs = list => list.map(s => <Section key={s} ctx={ctx} s={s} lay={lay} />)
   return (
-    <div ref={cvRef} className={lay.cls.join(' ')} style={{ '--acc': lay.accent, width: `${PAGE_W_MM}mm` }} dir="rtl" lang="he">
+    <div ref={cvRef} className={lay.cls.join(' ')} style={{ '--acc': lay.accent, width: `${PAGE_W_MM}mm`, fontFamily: fontStack(design.font) || undefined }} dir="rtl" lang="he">
       {!lay.headerInSide && !lay.headerInMain && head}
       <div className="rs-body">
         <div className="rs-main">{lay.headerInMain && head}{secs(lay.main)}</div>

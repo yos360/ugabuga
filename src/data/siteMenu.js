@@ -81,6 +81,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/shifts', label: 'סידור משמרות ותורנויות', icon: '📋' },
           { to: '/tools/currency', label: 'המרת מטבע', icon: '💱' },
           { to: '/tools/vat', label: 'מחשבון מע״מ 18%', icon: '🧾' },
+          { to: '/tools/tip-calculator', label: 'מחשבון טיפים', icon: '🍽️' },
           { to: '/tools/calculator', label: 'מחשבון מדעי', icon: '🧮' },
           { to: '/tools/keyboard', label: 'מקלדת עברית אונליין עם ניקוד', icon: '⌨️' },
           { to: '/tools/emoji', label: 'מקלדת אימוג׳ים — חיפוש בעברית', icon: '😀' },

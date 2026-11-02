@@ -50,7 +50,7 @@ export function emptyCv() {
   }
 }
 
-export const emptyState = () => ({ cv: emptyCv(), design: { template: 'classic', accent: '', compact: false }, extras: [] })
+export const emptyState = () => ({ cv: emptyCv(), design: { template: 'classic', accent: '', compact: false, font: '' }, extras: [] })
 
 // A fictional sample used for the "fill an example" button and the template thumbnails.
 export function sampleCv() {
@@ -136,7 +136,8 @@ export function sanitizeState(raw, templateIds = null) {
   let template = typeof d.template === 'string' ? d.template : 'classic'
   if (templateIds && !templateIds.includes(template)) template = templateIds[0]
   const accent = typeof d.accent === 'string' && /^#[0-9a-f]{6}$/i.test(d.accent) ? d.accent : ''
-  return { cv: sanitizeCv(r.cv), design: { template, accent, compact: !!d.compact }, extras: sanitizeExtras(r.extras) }
+  const font = typeof d.font === 'string' && /^[a-z0-9-]{1,40}$/.test(d.font) ? d.font : ''
+  return { cv: sanitizeCv(r.cv), design: { template, accent, compact: !!d.compact, font }, extras: sanitizeExtras(r.extras) }
 }
 
 export function loadState(storage, templateIds) {

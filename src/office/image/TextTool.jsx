@@ -5,6 +5,7 @@ import { useWorkImage } from './useWorkImage'
 import { newCanvas, freeImage, encodeCanvas } from './imageIO'
 import { hitRect, clamp, outName, defaultFormat } from './imageLogic'
 import { Seg, Range, FormatPick, PhotoPicker, DownloadBar } from './ui'
+import { GOOGLE_FONTS, loadGoogleFont } from '../fonts/googleFonts'
 
 const FONTS = [
   { id: 'heavy', label: 'עבה', family: 'Heebo', weight: 900 },
@@ -13,8 +14,11 @@ const FONTS = [
   { id: 'stam', label: 'סת״ם', family: 'Stam', weight: 400 },
   { id: 'serif', label: 'קלאסי', family: 'Frank Ruhl Libre', weight: 700, fallback: '"Times New Roman", David, serif' },
 ]
+// More Hebrew Google fonts, offered in a select under the quick picks
+const MORE_FONTS = GOOGLE_FONTS.filter(f => f.he && !['heebo', 'frank-ruhl-libre'].includes(f.id))
+  .map(f => ({ id: 'g-' + f.id, gid: f.id, label: f.label, family: f.family, weight: f.weights === '400' ? 400 : 700 }))
 const COLORS = ['#ffffff', '#14162d', '#ffd23f', '#ff4d6d', '#2bb673', '#3a86ff']
-const fontOf = id => FONTS.find(f => f.id === id) || FONTS[0]
+const fontOf = id => FONTS.find(f => f.id === id) || MORE_FONTS.find(f => f.id === id) || FONTS[0]
 const cssFont = (f, px) => `${f.weight} ${px}px "${f.family}", ${f.fallback || 'Heebo, Arial, sans-serif'}`
 
 let nextId = 1
@@ -79,7 +83,10 @@ export default function TextTool() {
   const fontKey = [...new Set(layers.map(l => l.font))].sort().join(',')
   useEffect(() => {
     if (typeof document === 'undefined' || !document.fonts || !fontKey) return
-    const want = fontKey.split(',').map(id => document.fonts.load(cssFont(fontOf(id), 40), 'אבג'))
+    const want = fontKey.split(',').map(id => {
+      const f = fontOf(id)
+      return (f.gid ? loadGoogleFont(f.gid) : Promise.resolve()).then(() => document.fonts.load(cssFont(f, 40), 'אבג'))
+    })
     Promise.all(want).then(() => setFontsReady(n => n + 1)).catch(() => {})
   }, [fontKey])
 
@@ -156,6 +163,13 @@ export default function TextTool() {
             <textarea className="im-text" dir="rtl" value={cur.text} onChange={e => set({ text: e.target.value })} rows={2} />
           </label>
           <Seg label="גופן" small value={cur.font} onChange={font => set({ font })} options={FONTS.map(f => ({ value: f.id, label: f.label }))} />
+          <label className="im-field">
+            <span className="im-label">עוד גופנים</span>
+            <select value={cur.font.startsWith('g-') ? cur.font : ''} onChange={e => e.target.value && set({ font: e.target.value })} className="min-h-[40px] rounded-xl border-2 border-slate-200 bg-white px-2 font-semibold">
+              <option value="">בחרו גופן מגוגל…</option>
+              {MORE_FONTS.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
+            </select>
+          </label>
           <Range label="גודל" value={cur.size} min={2} max={30} step={0.5} onChange={size => set({ size })} />
           <div className="im-field">
             <span className="im-label">צבע</span>

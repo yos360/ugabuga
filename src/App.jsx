@@ -187,6 +187,7 @@ const DocEditor = lazy(() => import('./office/docs/DocEditor'))
 const PdfStudio = lazy(() => import('./office/pdf/PdfStudio'))
 const CurrencyConverter = lazy(() => import('./office/money/CurrencyConverter'))
 const VatCalculator = lazy(() => import('./office/money/VatCalculator'))
+const TipCalculator = lazy(() => import('./office/money/TipCalculator'))
 const KeyboardFix = lazy(() => import('./office/keys/KeyboardFix'))
 const ShoppingList = lazy(() => import('./pages/tools/ShoppingList'))
 const OnlineKeyboard = lazy(() => import('./office/keys/OnlineKeyboard'))
@@ -1274,6 +1275,7 @@ export default function App() {
               <Route path="/tools/pdf/:action" element={<PdfStudio />} />
               <Route path="/tools/currency" element={<CurrencyConverter />} />
               <Route path="/tools/vat" element={<VatCalculator />} />
+              <Route path="/tools/tip-calculator" element={<TipCalculator />} />
               <Route path="/tools/keyboard-fix" element={<KeyboardFix />} />
               <Route path="/tools/keyboard" element={<OnlineKeyboard />} />
               <Route path="/tools/emoji" element={<EmojiKeyboard />} />

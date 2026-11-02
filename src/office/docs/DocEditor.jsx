@@ -9,6 +9,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../../pages/NotFound'
 import { TEMPLATES, templateBySlug, BLANK_HTML, PAGE_W, PAGE_H } from './docTemplates'
 import { sanitizeHtml, buildDocFile, DOC_MIME, docToText, itemsToHtml, fileName, newId, shortWhen, textToHtml } from './docLogic'
+import { GOOGLE_FONTS, fontStack, loadGoogleFont } from '../fonts/googleFonts'
 import './docs.css'
 
 // ── local storage ───────────────────────────────────────────
@@ -230,6 +231,8 @@ function Editor({ initial, fresh }) {
   const [inCell, setInCell] = useState(false)
   const [fmt, setFmt] = useState({})
   const [menu, setMenu] = useState(null)
+  // Google fonts picked earlier in this document come back with it
+  useEffect(() => { const s = JSON.stringify(initial); GOOGLE_FONTS.forEach(f => { if (s.includes(f.family)) loadGoogleFont(f.id) }) }, [initial])
   const [status, setStatus] = useState('')
   const [toast, setToast] = useState('')
   const [scale, setScale] = useState(1)
@@ -417,6 +420,7 @@ function Editor({ initial, fresh }) {
     return () => { removeEventListener('pointerdown', down); removeEventListener('scroll', scroll, true) }
   }, [menu])
   const openMenu = (id, e) => {
+    if (id === 'font') GOOGLE_FONTS.forEach(f => loadGoogleFont(f.id)) // so each name shows in its own font
     const r = e.currentTarget.getBoundingClientRect()
     setMenu(m => (m?.id === id ? null : { id, top: r.bottom + 6, right: clamp(innerWidth - r.right, 8, Math.max(8, innerWidth - 200)) }))
   }
@@ -484,6 +488,7 @@ function Editor({ initial, fresh }) {
   const fixFonts = host => host.querySelectorAll('font').forEach(f => {
     const span = document.createElement('span')
     if (f.color) span.style.color = f.color
+    if (f.face) span.style.fontFamily = f.face
     if (FONT_PT[f.size]) span.style.fontSize = FONT_PT[f.size] + 'pt'
     span.append(...f.childNodes); f.replaceWith(span)
   })
@@ -690,6 +695,7 @@ function Editor({ initial, fresh }) {
   const selItem = items.find(it => it.id === sel)
   const menuItems = {
     style: STYLES.map(([tag, label]) => <button key={tag} type="button" role="menuitem" onMouseDown={e => e.preventDefault()} onClick={() => setBlock(tag)} style={{ fontSize: tag === 'h1' ? 22 : tag === 'h2' ? 19 : tag === 'h3' ? 17 : 15 }}>{label}</button>),
+    font: GOOGLE_FONTS.map(f => <button key={f.id} type="button" role="menuitem" onMouseDown={e => e.preventDefault()} onClick={() => exec('fontName', f.family, true)} style={{ fontFamily: fontStack(f.id), fontSize: 17 }}>{f.he ? 'אבג ' : ''}{f.label}{f.he ? '' : ' (אנגלית)'}</button>),
     size: SIZES.map(pt => <button key={pt} type="button" role="menuitem" onMouseDown={e => e.preventDefault()} onClick={() => setSize(pt)}>{pt}</button>),
     color: TEXT_COLORS.map(c => <button key={c} type="button" className="dc-sw" style={{ background: c }} aria-label={`צבע ${c}`} onMouseDown={e => e.preventDefault()} onClick={() => exec('foreColor', c, true)} />),
     mark: [...MARKS.map(c => <button key={c} type="button" className="dc-sw" style={{ background: c }} aria-label={`סימון ${c}`} onMouseDown={e => e.preventDefault()} onClick={() => exec('hiliteColor', c, true)} />),
@@ -721,6 +727,7 @@ function Editor({ initial, fresh }) {
           <Tb title="חזרה (Ctrl+Y)" onClick={redo}><Ico d={ICON.redo} /></Tb>
           <span className="dc-sep" />
           <Tb title="סגנון: כותרת או טקסט" menu="style" onClick={e => openMenu('style', e)}><span className="lbl">סגנון ▾</span></Tb>
+          <Tb title="גופן (פונטים של גוגל)" menu="font" onClick={e => openMenu('font', e)}><span className="lbl">גופן ▾</span></Tb>
           <Tb title="גודל אות" menu="size" onClick={e => openMenu('size', e)}><span className="lbl">גודל ▾</span></Tb>
           <span className="dc-sep" />
           <Tb title="מודגש (Ctrl+B)" pressed={!!fmt.b} onClick={() => exec('bold')}><b>B</b></Tb>

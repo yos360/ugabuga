@@ -6,6 +6,8 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import CvDocument from './CvDocument'
+import FontSelect from '../fonts/FontSelect'
+import { loadGoogleFont } from '../fonts/googleFonts'
 import { TEMPLATES, TEMPLATE_IDS, TEMPLATE_TAGS, templateById } from './templates'
 import {
   ACCENTS, DEFAULT_LABELS, PAGE_H_MM, PAGE_W_MM, PX_PER_MM, SECTIONS, OPTIONAL_SECTIONS,
@@ -161,6 +163,7 @@ function Gallery({ design, setDesign }) {
         <button type="button" className={'rs-swatch rs-swatch-auto' + (!design.accent ? ' on' : '')} onClick={() => setDesign(d => ({ ...d, accent: '' }))} aria-label="צבע התבנית" title="צבע התבנית">✦</button>
         {ACCENTS.map(c => <button key={c} type="button" className={'rs-swatch' + (design.accent === c ? ' on' : '')} style={{ background: c }} onClick={() => setDesign(d => ({ ...d, accent: c }))} aria-label={`צבע ${c}`} />)}
         <label className="rs-check"><input type="checkbox" checked={design.compact} onChange={e => setDesign(d => ({ ...d, compact: e.target.checked }))} /> צפוף (יותר נכנס בעמוד)</label>
+        <FontSelect value={design.font} onChange={font => setDesign(d => ({ ...d, font }))} empty="הגופן של התבנית" />
       </div>
     </div>
   )
@@ -220,7 +223,7 @@ export default function ResumeBuilder() {
 
   useEffect(() => {
     const saved = loadState(window.localStorage, TEMPLATE_IDS)
-    if (saved) { stRef.current = saved; setSt(saved) }
+    if (saved) { stRef.current = saved; setSt(saved); if (saved.design.font) loadGoogleFont(saved.design.font) }
     setReady(true); setMounted(true)
   }, [])
   useEffect(() => {
