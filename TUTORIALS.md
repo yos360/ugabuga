@@ -28,7 +28,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 7 | מי מביא מה — רשימה משותפת למסיבה ולטיול | /tools/bring-list | party | 2026-11-01 slot 1 — RhER-DXr9zQ |
 | 8 | גמד וענק (חבר סודי) — הגרלה עם קישור אישי | /secret-friend | party | 2026-11-01 slot 2 — ready, upload from the owner's Chrome |
 | 9 | בוגה לייב — חידון חי לכל הכיתה מהטלפון | /live | classroom | 2026-11-01 slot 3 — ready, upload from the owner's Chrome |
-| 10 | תקציב ועד הורים לשנה | /vaad/budget | tools | |
+| 10 | תקציב ועד הורים לשנה | /vaad/budget | tools | 2026-11-02 slot 1 — ready, upload from the owner's Chrome |
 | 11 | חנוכייה להדפסה וגזירה | /holidays/hanukkah/cut-out-hanukkiah | holidays | |
 | 12 | תחפושות לפורים — איך מסננים ומוצאים רעיון | /holidays/purim/costumes | holidays | |
 | 13 | איקס־עיגול חשבוני לכיתה על המקרן | /classroom/math-tic-tac-toe | classroom | |
