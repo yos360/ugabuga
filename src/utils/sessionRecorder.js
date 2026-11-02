@@ -10,7 +10,7 @@ const FLUSH_MS = 10000
 const MAX_CHUNKS = 120 // about 20 minutes
 const MAX_CHUNK_TEXT = 400000
 const STATE_KEY = 'buga-rec'
-export const PRIVATE_PATHS = /^\/(?:en\/)?(?:admin|live|play|r|hw|q|l|t|g|w|meet|parent-meetings|family-help|party-album|__test|teachers\/homework|classroom\/quiz)(?:\/|$)/
+export const PRIVATE_PATHS = /^\/(?:en\/)?(?:admin|live|play|r|hw|q|l|t|g|w|meet|parent-meetings|family-help|party-album|__test|teachers\/homework|classroom\/quiz|tools\/(?:image|resume|document|pdf|shifts))(?:\/|$)/
 
 export const recordablePath = path => !PRIVATE_PATHS.test(path)
 export const chunkPath = path => (/^\/[a-zA-Z0-9/_%.-]*$/.test(path) && path.length <= 300 ? path : '/')

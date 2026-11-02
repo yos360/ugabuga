@@ -180,6 +180,10 @@ const TypingCourse = lazy(() => import('./typing/TypingPages').then(m => ({ defa
 const TypingTest = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingTest })))
 const TypingEnglish = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingEnglish })))
 const TypingGame = lazy(() => import('./typing/TypingPages').then(m => ({ default: m.TypingGame })))
+const ResumeBuilder = lazy(() => import('./office/resume/ResumeBuilder'))
+const ImageStudio = lazy(() => import('./office/image/ImageStudio'))
+const ShiftPlanner = lazy(() => import('./office/shifts/ShiftPlanner'))
+const DocEditor = lazy(() => import('./office/docs/DocEditor'))
 const ExcelCourse = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelCourse })))
 const ExcelLesson = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelLesson })))
 const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
@@ -1251,6 +1255,12 @@ export default function App() {
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
               <Route path="/tools/stopwatch" element={<Stopwatch />} />
               <Route path="/tools/qr-code" element={<QrCodeMaker />} />
+              <Route path="/tools/resume" element={<ResumeBuilder />} />
+              <Route path="/tools/shifts" element={<ShiftPlanner />} />
+              <Route path="/tools/document" element={<DocEditor />} />
+              <Route path="/tools/document/:template" element={<DocEditor />} />
+              <Route path="/tools/image" element={<ImageStudio />} />
+              <Route path="/tools/image/:action" element={<ImageStudio />} />
               <Route path="/tools/percent-calculator" element={<PercentCalculator />} />
               <Route path="/tools/timer" element={<CountdownTimer />} />
               <Route path="/timer" element={<CountdownTimer />} />
