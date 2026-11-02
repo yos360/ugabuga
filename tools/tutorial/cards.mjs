@@ -28,5 +28,5 @@ export const endCard = ({ url, line, where }) => base({
 .card{width:1500px}.logo{height:150px}h1{font-size:96px;margin:6px 0;font-weight:900}.line{font-size:46px;font-weight:600;color:#3a3f66;margin-bottom:26px}
 .free{background:#fff4bb;font-size:46px;margin-bottom:26px}.url{background:#226bd7;color:#fff;font-family:F,H;font-size:64px;letter-spacing:.5px;direction:ltr}
 .where{margin-top:26px;font-size:36px;color:#7a7f9a;font-weight:600}`,
-  html: `<div class="card"><img class="logo" src="${logo}"><h1>עוגה בוגה</h1><div class="line">${line}</div><div class="pill free">בחינם, בלי הרשמה</div><br><div class="pill url">${url}</div><div class="where">${where}</div></div>`,
+  html: `<div class="card"><img class="logo" src="${logo}"><h1>עוגה בוגה</h1><div class="line">${line}</div><div class="pill free">בחינם, בלי הרשמה</div><br><div class="pill url" style="font-size:${url.length > 30 ? Math.floor(64 * 30 / url.length) : 64}px;white-space:nowrap">${url}</div><div class="where">${where}</div></div>`,
 })

@@ -29,8 +29,8 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 8 | גמד וענק (חבר סודי) — הגרלה עם קישור אישי | /secret-friend | party | 2026-11-01 slot 2 — DB-Zn6ZHnTs (duplicate upload _cM0CTrTYHc — owner to remove) |
 | 9 | בוגה לייב — חידון חי לכל הכיתה מהטלפון | /live | classroom | 2026-11-01 slot 3 — ready, upload from the owner's Chrome |
 | 10 | תקציב ועד הורים לשנה | /vaad/budget | tools | 2026-11-02 slot 1 — ready, upload from the owner's Chrome |
-| 11 | חנוכייה להדפסה וגזירה | /holidays/hanukkah/cut-out-hanukkiah | holidays | |
-| 12 | תחפושות לפורים — איך מסננים ומוצאים רעיון | /holidays/purim/costumes | holidays | |
+| 11 | חנוכייה להדפסה וגזירה | /holidays/hanukkah/cut-out-hanukkiah | holidays | 2026-11-02 slot 2 — ready, upload from the owner's Chrome |
+| 12 | תחפושות לפורים — איך מסננים ומוצאים רעיון | /holidays/purim/costumes | holidays | 2026-11-02 slot 3 — ready, upload from the owner's Chrome |
 | 13 | איקס־עיגול חשבוני לכיתה על המקרן | /classroom/math-tic-tac-toe | classroom | |
 | 14 | הבנת הנקרא לפי כיתה — פותרים ומדפיסים עם דף תשובות | /learn/reading | learning | |
 | 15 | כרטיסיות אותיות להדפסה | /printables/letter-flashcards | learning | |
