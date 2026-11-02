@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
-import { onSavedChange, removeSaved, savedPages } from '../utils/savedPages'
+import { describeSaved, onSavedChange, removeSaved, savedPages } from '../utils/savedPages'
 
 // /favorites — "המועדפים שלי": every page saved with the ❤️ next to the breadcrumbs, newest first.
 // Lives only in this browser; nothing is sent anywhere.
 export default function FavoritesPage() {
   const [list, setList] = useState([])
   useEffect(() => { setList(savedPages()); return onSavedChange(setList) }, [])
+  // Older saves have no full title: read it from each page's prerendered <title>, once.
+  useEffect(() => {
+    for (const x of savedPages().filter(x => x.desc === undefined).slice(0, 30)) {
+      fetch(x.path).then(r => (r.ok ? r.text() : '')).then(html => describeSaved(x.path, /<title>([^<]*)<\/title>/.exec(html)?.[1] || '')).catch(() => {})
+    }
+  }, [])
   return <div className="mx-auto max-w-3xl px-4 py-8" dir="rtl">
     <SEO title="המועדפים שלי" description="הדפים, המשחקים והשיעורים ששמרתם בעוגה בוגה בלחיצה על הלב." path="/favorites" noindex />
     <h1 className="text-center text-4xl sm:text-5xl"><span aria-hidden="true">❤️ </span>המועדפים שלי</h1>
     <p className="mt-2 text-center text-lg text-[var(--muted-foreground)]">כל דף באתר אפשר לשמור כאן בלחיצה על 🤍 שליד הכותרת למעלה.</p>
     {list.length ? <ul className="mt-6 grid gap-3 sm:grid-cols-2">{list.map(x => <li key={x.path} className="flex items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] p-3">
-      <Link to={x.path} className="flex-1 font-bold hover:underline">{x.title}</Link>
+      <Link to={x.path} className="flex-1 hover:underline"><b>{x.title}</b>
+        {x.desc && x.desc !== x.title && <small className="mt-0.5 block text-[var(--muted-foreground)]">{x.desc}</small>}</Link>
       <button type="button" onClick={() => removeSaved(x.path)} className="min-h-[40px] rounded-xl px-2 text-sm" aria-label={`הסרת ${x.title} מהמועדפים`}>✕</button>
     </li>)}</ul>
       : <div className="mt-8 rounded-3xl border-2 border-dashed border-[var(--border)] p-8 text-center">

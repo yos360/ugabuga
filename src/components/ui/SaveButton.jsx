@@ -10,7 +10,7 @@ export default function SaveButton({ title }) {
   useEffect(() => { setSaved(isSaved(pathname)); return onSavedChange(list => setSaved(list.some(x => x.path === pathname))) }, [pathname])
   const label = title || (typeof document !== 'undefined' ? document.title.replace(/\s*\|\s*עוגה בוגה\s*$/, '') : '')
   useEffect(() => { if (title) retitleSaved(pathname, title) }, [pathname, title])
-  return <button type="button" onClick={() => setSaved(toggleSaved({ path: pathname, title: label }))} aria-pressed={saved}
+  return <button type="button" onClick={() => setSaved(toggleSaved({ path: pathname, title: label, desc: document.title }))} aria-pressed={saved}
     className="inline-flex min-h-[32px] items-center gap-1 rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-3 text-sm font-bold text-[var(--ink)] hover:border-rose-300"
     aria-label={saved ? 'הסרה מהמועדפים' : 'שמירה במועדפים'}>
     <span aria-hidden="true">{saved ? '❤️' : '🤍'}</span>{saved ? 'במועדפים' : 'למועדפים'}

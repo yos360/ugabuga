@@ -14,11 +14,23 @@ const write = list => {
 }
 export const isSaved = path => savedPages().some(x => x.path === path)
 // Adds the page (newest first) or removes it; returns whether it is saved now.
-export function toggleSaved({ path, title }) {
+// `desc` is the page's full title ("מבחן מחוננים לדוגמה — סימולציה עם שעון"), shown under the short
+// title so a generic name like "מבחן לדוגמה" still says what the page is.
+export function toggleSaved({ path, title, desc }) {
   const list = savedPages()
   if (list.some(x => x.path === path)) { write(list.filter(x => x.path !== path)); return false }
-  write([{ path, title: String(title || path).slice(0, 120), at: Date.now() }, ...list])
+  write([{ path, title: String(title || path).slice(0, 120), desc: cleanDesc(desc), at: Date.now() }, ...list])
   return true
+}
+const SITE_HOME_TITLE = /^עוגה בוגה —/
+export function cleanDesc(t) {
+  const s = String(t || '').replace(/\s*\|\s*(עוגה בוגה|UGABUGA)\s*$/, '').trim()
+  return SITE_HOME_TITLE.test(s) ? '' : s.slice(0, 160)
+}
+// Fills in `desc` for pages saved before it existed (the favorites page reads each page's <title>).
+export function describeSaved(path, desc) {
+  const clean = cleanDesc(desc), list = savedPages()
+  if (clean && list.some(x => x.path === path && x.desc !== clean)) write(list.map(x => x.path === path ? { ...x, desc: clean } : x))
 }
 // Visiting a saved page refreshes its stored title (older saves kept only the last breadcrumb).
 export function retitleSaved(path, title) {
