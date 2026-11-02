@@ -63,10 +63,26 @@ ffmpeg -y -ss 3.9 -i out/<name>.mp4 -frames:v 1 -q:v 2 /home/claude/reel-cover.j
 ffmpeg -y -i out/<name>.mp4 -c:v libx264 -crf 24 -preset slow -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart /home/claude/reel-upload.mp4
 ```
 
+### The engagement rule (owner, 2026-11-02 — every reel)
+
+Stats of the first 9 reels (views across TikTok/Instagram/Facebook/YouTube): "7 × 8 = ?" 364 and the live quiz
+349 won; the 3-tools "event" reel (122) and the long "winter" list (149) lost. 7 likes and 1 comment in total,
+because no reel asked the audience anything. So every reel **must make the viewer answer**:
+- **Hook = a question or challenge the viewer answers in their head in the first second** (a sum, a riddle,
+  "what does this word mean?", "which one is the odd one out?", "how many…?"), taken from the real page content.
+  Not a statement, not a list of features.
+- **One tool per reel.** At most one main feature shown in depth; no "three tools in one" reels.
+- **Leave the answer open on screen and ask for a comment.** The end card (or the last step) shows
+  "✍️ כתבו את התשובה בתגובות" (or a fitting variant: "מה הייתם בוחרים? כתבו בתגובות"). Do not reveal the answer
+  in the video — reveal it on the site.
+- **Captions open with the same question** and end with the comment request (before the link and hashtags).
+- If a topic is in the news or on the calendar this week, say so in the hook ("השבוע כולם מדברים על…").
+
 ## 3. Captions (Hebrew)
 
-- Main caption (Instagram/Facebook/TikTok/YouTube description): hook line with emoji, one line "בעוגה בוגה יש…",
-  3–5 emoji bullet lines with real features, "הכול בחינם, בלי הרשמה 💛", the link
+- Main caption (Instagram/Facebook/TikTok/YouTube description): the hook question with emoji, one line "בעוגה בוגה יש…",
+  3–5 emoji bullet lines with real features, "הכול בחינם, בלי הרשמה 💛", the comment request
+  ("✍️ כתבו את התשובה בתגובות"), the link
   (`https://ugabuga.co.il/<path>`; on Instagram write "הקישור בביו"), then 4–6 Hebrew hashtags starting with `#עוגה_בוגה`.
 - YouTube title ≤ 100 chars ending with `#shorts`.
 - TikTok: one paragraph + hashtags typed one by one, each followed by a space.
