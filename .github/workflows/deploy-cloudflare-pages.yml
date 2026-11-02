@@ -1,9 +1,11 @@
 name: Deploy to Cloudflare Pages
 
-# The site deploys through Cloudflare's own build on every push to main. This workflow needs a
-# CLOUDFLARE_API_TOKEN secret that isn't set, so on push it only ever failed and buried real failures;
-# it now runs only by hand (Actions → Run workflow), for a manual deploy once that secret exists.
+# Builds the site here (6 h job limit) and uploads it with wrangler, instead of Cloudflare's own build,
+# which kills builds past ~35 minutes. Until the CLOUDFLARE_API_TOKEN secret exists every step is
+# skipped, so a push only shows a skipped run, never a failure; Cloudflare's own build keeps deploying.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -22,25 +24,28 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: f2491a7809d71c149a38c8f2a16a716d
     steps:
+      - name: No token yet
+        if: env.CLOUDFLARE_API_TOKEN == ''
+        run: echo "::notice::CLOUDFLARE_API_TOKEN is not set; Cloudflare's own build deploys this push."
+
       - uses: actions/checkout@v4
+        if: env.CLOUDFLARE_API_TOKEN != ''
 
       - uses: actions/setup-node@v4
+        if: env.CLOUDFLARE_API_TOKEN != ''
         with:
           node-version: 22
           cache: npm
 
-      - name: Verify Cloudflare deployment access
-        run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "Missing GitHub secret: CLOUDFLARE_API_TOKEN"
-            echo "Create a Cloudflare API token with Pages:Edit permission for this account."
-            exit 1
-          fi
-
-      - run: npm ci
+      - if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npm ci
       # The prerender step drives headless Chromium, which needs its system libraries on Ubuntu.
-      - run: npx playwright install --with-deps chromium
-      - run: npm run build
+      - if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx playwright install --with-deps chromium
+      - if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npm run build
 
+      # Run from the repo root so wrangler also bundles ./functions (the /api Pages Functions).
       - name: Publish production site
-        run: npx wrangler@4 pages deploy dist --project-name=ugabuga --branch=main
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx wrangler@4 pages deploy dist --project-name=ugabuga --branch=main --commit-hash=${{ github.sha }}
