@@ -132,3 +132,13 @@ test('suggestions and results put the most visited pages first', async () => {
   assert.deepEqual(rankWords(['מבוך גדול', 'צביעה'], items, pop), ['צביעה', 'מבוך גדול'])
   assert.deepEqual(rankWords(['מבוך', 'צביעה'], items, new Map()), ['מבוך', 'צביעה'])
 })
+
+test('search: niqqud synonyms and typo suggestions', async () => {
+  const { searchItems, suggestCorrection } = await import('../src/data/searchIndex.js')
+  const items = STATIC_ITEMS
+  assert.ok(searchItems(items, 'vowels').length > 0, 'vowels finds nikud pages')
+  assert.ok(searchItems(items, 'ניקוד').length > 0)
+  const fix = suggestCorrection(items, 'דפי צהיעה')
+  assert.ok(fix.includes('צביעה'), 'typo corrected: ' + fix)
+  assert.equal(suggestCorrection(items, 'צביעה'), '')
+})

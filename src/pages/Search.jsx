@@ -4,7 +4,7 @@ import SiteSearchBox from '../components/ui/SiteSearchBox'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useGames } from '../hooks/useGames'
-import { KINDS, byPopularity, gameItem, rankWords, searchItems } from '../data/searchIndex'
+import { KINDS, byPopularity, gameItem, rankWords, searchItems, suggestCorrection } from '../data/searchIndex'
 import { loadPagePopularity } from '../utils/pagePopularity'
 import { STATIC_ITEMS } from '../data/searchStatic'
 import { RequestCard } from '../components/ui/RequestBanner'
@@ -34,6 +34,7 @@ export default function Search() {
   const [pop, setPop] = useState(null)
   useEffect(() => { let alive = true; loadPagePopularity().then(m => { if (alive) setPop(m) }); return () => { alive = false } }, [])
   const results = useMemo(() => byPopularity(searchItems(items, q), pop), [items, q, pop])
+  const didYouMean = useMemo(() => (q && !results.length && items.length > STATIC_ITEMS.length ? suggestCorrection(items, q) : ''), [items, q, results.length])
   const suggestions = useMemo(() => rankWords(SUGGESTIONS, items, pop), [items, pop])
   // Measured once the query has stayed put for 2 seconds and the games list has loaded: only the size bucket
   // is stored, plus the words of a zero-result search if they are 1-3 plain words (see utils/liveActivity.js).
@@ -63,6 +64,7 @@ export default function Search() {
       <SiteSearchBox className="site-search-form" value={input} onChange={setInput} onSearch={v => run(v)} placeholder="מה מחפשים? משחק, דף להדפסה, כלי…" autoFocus />
       {!q && <div className="site-search-sugg"><span>אפשר לנסות:</span>{suggestions.map(s => <button key={s} type="button" onClick={() => navigate('/search?q=' + encodeURIComponent(s))}>{s}</button>)}</div>}
       {q && <p className="site-search-count" role="status">{results.length ? `נמצאו ${results.length} תוצאות ל"${q}"` : `לא נמצאו תוצאות ל"${q}". נסו מילה אחרת או קצרה יותר.`}</p>}
+      {didYouMean && <p className="site-search-count">אולי התכוונתם: <Link to={'/search?q=' + encodeURIComponent(didYouMean)} style={{ fontWeight: 800, textDecoration: 'underline' }}>{didYouMean}</Link>?</p>}
       {q && !results.length && <RequestCard className="mt-4" from="/search" source="search" query={q} message={{ title: `לא מצאתם „${q}”? נכין לכם`, line: 'ספרו לנו מה בדיוק צריך — ובכל שבוע אנחנו מכינים את מה שהכי מבקשים. בחינם.' }} />}
       {groups.map(([kind, list]) => (
         <section key={kind} className="site-search-group">

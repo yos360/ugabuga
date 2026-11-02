@@ -37,6 +37,8 @@ const SYNONYMS = [
   ['משועמם', 'משועממת', 'משועממים', 'משעמם', 'שעמום', 'לבד', 'סולו'],
   ['חשבון', 'מתמטיקה'],
   ['יומולדת', 'יומהולדת'],
+  ['ניקוד', 'נקודות', 'תנועות', 'vowels', 'niqqud', 'nikud', 'nikkud'],
+  ['צביעה', 'צבעים', 'colouring', 'coloring'],
 ].map(g => g.map(unfinal))
 
 // Does one search word match one word of the item? 3 = same word, 2.5 = same word + ending, 2 = word start.
@@ -166,6 +168,40 @@ export function searchItems(items, query) {
   let out = scored.filter(x => x.hits === tiers[0])
   if (tiers.length > 1 && out.length < 6 && tiers[1] > 0) out = out.concat(scored.filter(x => x.hits === tiers[1]))
   return out.sort((a, b) => b.hits - a.hits || b.score - a.score || (a.low && b.low ? a.to.localeCompare(b.to) : a.title.length - b.title.length))
+}
+
+// "Did you mean": when a search finds nothing, look for site words one letter away from each typed word
+// ("דפי צהיעה" → "דפי צביעה"). Only words of 4+ letters, only when a vocabulary word is clearly closer.
+const near = (a, b) => { // true when a and b differ by one substitution, insertion, deletion or swap
+  if (a === b) return false
+  const la = a.length, lb = b.length
+  if (Math.abs(la - lb) > 1) return false
+  let i = 0
+  while (i < la && i < lb && a[i] === b[i]) i++
+  if (la === lb) return a.slice(i + 1) === b.slice(i + 1) || (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2))
+  return la > lb ? a.slice(i + 1) === b.slice(i) : a.slice(i) === b.slice(i + 1)
+}
+export function suggestCorrection(items, query) {
+  const words = norm(query).split(' ').filter(Boolean)
+  if (!words.length) return ''
+  const count = new Map()
+  for (const it of items) {
+    const p = prep(it)
+    for (const w of [...p.title, ...p.best, ...p.rest]) if (w.length >= 3 && !isNum(w)) count.set(w, (count.get(w) || 0) + 1)
+  }
+  let changed = false
+  const fixed = words.map(w => {
+    const u = unfinal(w)
+    if (u.length < 4 || isNum(u) || count.has(u)) return w
+    let best = '', n = 0
+    for (const [c, k] of count) if (k > n && near(u, c)) { best = c; n = k }
+    if (!best) return w
+    changed = true
+    return best
+  })
+  if (!changed) return ''
+  const out = fixed.join(' ')
+  return searchItems(items, out).length ? out : ''
 }
 
 // Autocomplete: phrases that really appear on the site (titles, 1–4 words; keywords, single words) that
