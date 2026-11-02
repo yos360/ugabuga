@@ -53,6 +53,7 @@ const TOPICS = {
   fruits: ['Fruit', 'Compare real fruit colors or design a playful imaginary fruit bowl.'],
   mermaid: ['Mermaids', 'Give each tail its own color pattern and fill the sea with bright fish.'],
   space: ['Space', 'Color planets, rockets and stars, then talk about what you might see in the night sky.'],
+  professions: ['Jobs and professions', 'Color firefighters, doctors, chefs and pilots, then talk about what you want to be when you grow up.'],
 }
 export const EN_COLORING = COLORING_SUBJECTS.map(s => ({
   slug: s.slug, emoji: s.emoji, count: s.items.length, fmt: s.fmt || 'svg',

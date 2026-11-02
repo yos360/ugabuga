@@ -18,7 +18,7 @@ const GROUPS = {
   food: ['food', 'ice-cream', 'sweets', 'fruits', 'cake', 'sufganiyah'],
   nature: ['flowers', 'rainbow-sun', 'umbrella', 'birds', 'tu-bishvat'],
   detailed: ['mandala-kids', 'mandala-animals', 'mandala-adults', 'older-kids'],
-  moving: ['vehicles', 'airplane', 'soccer', 'superhero', 'space'],
+  moving: ['vehicles', 'airplane', 'soccer', 'superhero', 'space', 'professions'],
   hanukkah: ['sufganiyah', 'dreidel', 'hanukkiah'],
   holidays: ['tu-bishvat', 'purim-masks', 'hanukkiah', 'dreidel'],
 }

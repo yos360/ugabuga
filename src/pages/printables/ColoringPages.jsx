@@ -91,7 +91,7 @@ export default function ColoringPages() {
     <section className="no-print mt-10 rounded-3xl border-2 border-dashed border-pink-300 bg-pink-50 p-6 text-center"><h2 className="text-2xl font-bold">רוצים עמוד חדש?</h2><p className="mt-2 text-slate-600">כל קטגוריה כוללת כמה דפים שונים — בחרו נושא אחר כדי לראות עוד.</p></section>
     <section className="no-print mx-auto mt-10 max-w-3xl"><h2 className="mb-3 text-2xl font-bold">רעיונות לשימוש בדפי הצביעה</h2><ul className="mb-8 list-disc space-y-1 pr-6 leading-relaxed text-[var(--foreground)]/80">{TIPS.map(x => <li key={x}>{x}</li>)}</ul>
       <BuyingGuideLink id="crafts" />
-      <SeoBody faq={FAQ} related={[{ label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'צביעה לפי מספרים', href: '/printables/color-by-number' }, { label: 'ציור סימטרי', href: '/printables/symmetry' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'דפי צביעה לפורים', href: '/holidays/purim/coloring' }]} /></section>
+      <SeoBody faq={FAQ} related={[{ label: 'איך מציירים שלב אחר שלב', href: '/how-to-draw' }, { label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'צביעה לפי מספרים', href: '/printables/color-by-number' }, { label: 'ציור סימטרי', href: '/printables/symmetry' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }, { label: 'דפי צביעה לפורים', href: '/holidays/purim/coloring' }]} /></section>
 
   </div>
 }
