@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'DB-Zn6ZHnTs', kind: 'tutorial', title: 'איך עושים הגרלת גמד וענק עם קישור אישי — מדריך קצר', paths: ['/secret-friend'], category: 'party', date: '2026-11-02',
+    desc: 'מדריך קצר להגרלת גמד וענק: כותבים שמות, מסמנים מי לא יגרילו זה את זה, מגרילים בלחיצה וכל משתתף מקבל קישור אישי שבו רק הוא רואה את מי הגריל.' },
   { id: 'RhER-DXr9zQ', kind: 'tutorial', title: 'איך מארגנים מי מביא מה למסיבה — מדריך קצר', paths: ['/tools/bring-list'], category: 'party', date: '2026-11-01',
     desc: 'מדריך קצר לרשימת מי מביא מה: פותחים רשימה מוכנה, מוסיפים פריטים, שולחים קישור אחד בוואטסאפ וכל אורח תופס פריט בלחיצה, בלי כפילויות.' },
   { id: 'UMESYjdB0oQ', kind: 'tutorial', title: 'איך מקימים בחירות בכיתה — מדריך קצר', paths: ['/tools/class-elections'], category: 'classroom', date: '2026-10-31',
