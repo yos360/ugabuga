@@ -41,7 +41,7 @@ export const WORD_PROBLEMS = [
 ]
 
 // Two columns of numbered exercises, the first column on the right.
-export function Problems({ n, title, instruction, items }) {
+export function Problems({ n, title, instruction, items, size = 28 }) {
   const rows = Math.ceil(items.length / 2), rowH = Math.min(100, 640 / rows)
   return <SvgPage label={title}>
     <Head n={n} title={title} instruction={instruction} />
@@ -49,7 +49,7 @@ export function Problems({ n, title, instruction, items }) {
       const col = i % 2, y = 150 + Math.floor(i / 2) * rowH + rowH / 2, cx = col ? 150 : 440
       return <g key={i} fontFamily={FONT}>
         <text x={cx + 130} y={y + 4} fontSize="14" fill="#666" textAnchor="middle">{i + 1}.</text>
-        <text x={cx} y={y + 10} fontSize="28" fontWeight="700" textAnchor="middle" direction="ltr" style={{ whiteSpace: 'pre' }}>{it.text}</text>
+        <text x={cx} y={y + 10} fontSize={size} fontWeight="700" textAnchor="middle" direction="ltr" style={{ whiteSpace: 'pre' }}>{it.text}</text>
         <path d={`M${col ? 20 : 310} ${y + rowH / 2} H${col ? 290 : 580}`} stroke="#eee" />
       </g>
     })}
