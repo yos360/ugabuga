@@ -118,7 +118,7 @@ export default function Navbar() {
         </div>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
-          <span className="site-brand-art" aria-hidden="true"><img src="/images/site-logo-mascot.webp" alt="" width="250" height="80" /></span>
+          <span className="site-brand-art" aria-hidden="true"><img className="site-logo-light" src="/images/site-logo-mascot-2.webp" alt="" width="250" height="80" /><img className="site-logo-dark" src="/images/site-logo-mascot-dark.webp" alt="" width="250" height="80" loading="lazy" /></span>
           {/* The home page already says it in its headline. */}
           {pathname !== '/' && <span className="site-brand-slogan" aria-label={SITE_SLOGAN}><span>האתר שיש בו הכל</span><span>מעוגה ועד בוגה</span></span>}
         </Link>

@@ -129,6 +129,11 @@ a.site-mega-heading:hover { background: #f2f4fc; }
 .site-brand-art img { display: block; width: 100%; height: auto; clip-path: polygon(0 0, 100% 0, 100% 68%, 36% 68%, 36% 100%, 0 100%); }
 .site-brand-slogan { position: absolute; top: 66%; right: 1%; width: 63%; display: flex; flex-direction: column; text-align: center; font-size: 12px; line-height: 1.25; font-weight: 600; color: #344951; letter-spacing: 0; }
 .site-brand-slogan span { white-space: nowrap; }
+/* Transparent wordmark: dark ink in light mode, a light-ink copy in dark mode. */
+.site-brand-art .site-logo-dark { display: none; }
+[data-theme="dark"] .site-brand-art .site-logo-light { display: none; }
+[data-theme="dark"] .site-brand-art .site-logo-dark { display: block; }
+[data-theme="dark"] .site-brand-slogan { color: #c9d3e0; }
 @media (max-width: 800px) {
   .site-header-inner { min-height: 88px; gap: 8px; }
   .site-brand { width: 220px; flex: 0 0 220px; min-width: 0; }
