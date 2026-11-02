@@ -75,6 +75,7 @@ export const MENU_DOMAINS = [
         title: 'כלים חינמיים לבית ולעבודה', icon: '🧰',
         items: [
           { to: '/tools/document', label: 'וורד אונליין — מסמכים ותבניות', icon: '📝' },
+          { to: '/tools/pdf', label: 'כלי PDF — איחוד, פיצול, דחיסה, וורד', icon: '📕' },
           { to: '/tools/resume', label: 'קורות חיים', icon: '📄' },
           { to: '/tools/image', label: 'עורך תמונות', icon: '🖼️' },
           { to: '/tools/shifts', label: 'סידור משמרות ותורנויות', icon: '📋' },

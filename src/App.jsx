@@ -184,6 +184,7 @@ const ResumeBuilder = lazy(() => import('./office/resume/ResumeBuilder'))
 const ImageStudio = lazy(() => import('./office/image/ImageStudio'))
 const ShiftPlanner = lazy(() => import('./office/shifts/ShiftPlanner'))
 const DocEditor = lazy(() => import('./office/docs/DocEditor'))
+const PdfStudio = lazy(() => import('./office/pdf/PdfStudio'))
 const CurrencyConverter = lazy(() => import('./office/money/CurrencyConverter'))
 const VatCalculator = lazy(() => import('./office/money/VatCalculator'))
 const ExcelCourse = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelCourse })))
@@ -1263,6 +1264,8 @@ export default function App() {
               <Route path="/tools/document/:template" element={<DocEditor />} />
               <Route path="/tools/image" element={<ImageStudio />} />
               <Route path="/tools/image/:action" element={<ImageStudio />} />
+              <Route path="/tools/pdf" element={<PdfStudio />} />
+              <Route path="/tools/pdf/:action" element={<PdfStudio />} />
               <Route path="/tools/currency" element={<CurrencyConverter />} />
               <Route path="/tools/vat" element={<VatCalculator />} />
               <Route path="/tools/percent-calculator" element={<PercentCalculator />} />

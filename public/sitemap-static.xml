@@ -23,6 +23,16 @@
   <url><loc>https://ugabuga.co.il/treasure-hunt/qr</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/stopwatch</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/qr-code</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/merge</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/split</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/compress</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/images-to-pdf</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/pdf-to-images</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/sign</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/edit</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/to-word</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/pdf/from-word</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/tools/resume</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/shifts</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/currency</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
