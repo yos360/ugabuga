@@ -32,6 +32,13 @@ test('every template is already clean: the sanitiser returns it unchanged', () =
   }
 })
 
+test('templates hold no h1: the page heading must stay the only h1 (prerender rejects two)', () => {
+  for (const t of TEMPLATES) {
+    assert.doesNotMatch(t.html, /<h1[\s>]/i, t.slug)
+    for (const it of t.items || []) if (it.html) assert.doesNotMatch(it.html, /<h1[\s>]/i, t.slug)
+  }
+})
+
 test('no legal or tax documents among the templates', () => {
   for (const t of TEMPLATES) assert.doesNotMatch(t.name + t.html, /חשבונית מס|ייפוי כוח|הסכם שכירות|חוזה/, t.slug)
 })
