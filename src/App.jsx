@@ -189,6 +189,7 @@ const CurrencyConverter = lazy(() => import('./office/money/CurrencyConverter'))
 const VatCalculator = lazy(() => import('./office/money/VatCalculator'))
 const KeyboardFix = lazy(() => import('./office/keys/KeyboardFix'))
 const ShoppingList = lazy(() => import('./pages/tools/ShoppingList'))
+const OnlineKeyboard = lazy(() => import('./office/keys/OnlineKeyboard'))
 const ScientificCalculator = lazy(() => import('./office/calc/ScientificCalculator'))
 const ExcelCourse = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelCourse })))
 const ExcelLesson = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelLesson })))
@@ -1273,6 +1274,7 @@ export default function App() {
               <Route path="/tools/currency" element={<CurrencyConverter />} />
               <Route path="/tools/vat" element={<VatCalculator />} />
               <Route path="/tools/keyboard-fix" element={<KeyboardFix />} />
+              <Route path="/tools/keyboard" element={<OnlineKeyboard />} />
               <Route path="/tools/shopping-list" element={<ShoppingList />} />
               <Route path="/tools/shopping-list/:code" element={<ShoppingList />} />
               <Route path="/tools/calculator" element={<ScientificCalculator />} />
