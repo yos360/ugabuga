@@ -1,5 +1,5 @@
 /* "Already printing? Maybe also…": a small card — bottom of the screen on phones, a corner on wider screens. */
-.buga-suggest{position:fixed;inset:auto 10px calc(10px + env(safe-area-inset-bottom,0px)) 10px;margin:0;width:auto;max-width:none;padding:0;border:0;background:transparent;color:#1f2440;overflow:visible}
+.buga-suggest{position:fixed;z-index:20;inset:auto 10px calc(10px + env(safe-area-inset-bottom,0px)) 10px;margin:0;width:auto;max-width:none;padding:0;border:0;background:transparent;color:#1f2440;overflow:visible}
 .buga-suggest::backdrop{background:transparent}
 .buga-suggest-box{padding:10px 12px 8px;border:2px solid #1d2233;border-radius:18px;background:#fffdf3;box-shadow:3px 3px 0 #1d2233;animation:buga-suggest-up .2s ease-out}
 .buga-suggest-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
