@@ -51,6 +51,8 @@ const TOPICS = {
   'purim-masks': ['Purim masks', 'Decorate the masks on paper. These are coloring pictures, not fitted wearable templates.'],
   sweets: ['Sweets', 'Create imaginary candy flavors with surprising colors.'],
   fruits: ['Fruit', 'Compare real fruit colors or design a playful imaginary fruit bowl.'],
+  mermaid: ['Mermaids', 'Give each tail its own color pattern and fill the sea with bright fish.'],
+  space: ['Space', 'Color planets, rockets and stars, then talk about what you might see in the night sky.'],
 }
 export const EN_COLORING = COLORING_SUBJECTS.map(s => ({
   slug: s.slug, emoji: s.emoji, count: s.items.length, fmt: s.fmt || 'svg',

@@ -234,6 +234,8 @@ const PAGES = [
   { to: '/printables/coloring/sweets', title: 'ממתקים לצביעה — דפי צביעה להדפסה', emoji: '🍭', kind: 'printable', desc: 'דפי צביעה של ממתקים להדפסה בחינם.', keys: 'צביעה ממתקים סוכרייה ארטיק' },
   { to: '/printables/winter-fruits-vegetables', title: 'פירות וירקות של החורף בעברית ובאנגלית — דפי עבודה', emoji: '🍊', kind: 'printable', desc: 'התאמה עברית–אנגלית, כתיבת המילה, מיון פרי או ירק, כרטיסיות ודפי צביעה לגן ולכיתות א׳–ג׳.', keys: 'פירות וירקות דפי עבודה פירות וירקות פירות החורף לגן ירקות החורף פירות וירקות באנגלית fruits vegetables worksheet hebrew english winter fruits תפוז קלמנטינה אשכולית לימון תות קיווי כרובית ברוקולי כרוב גזר סלק אפונה פרי או ירק מיון אנגלית לגן' },
   { to: '/printables/coloring/fruits', title: 'פירות לצביעה — אבטיח ואננס להדפסה', emoji: '🍉', kind: 'printable', desc: 'דפי צביעה של פירות להדפסה בחינם.', keys: 'צביעה פירות אבטיח אננס' },
+  { to: '/printables/coloring/mermaid', title: 'בנות ים לצביעה — דפי צביעה להדפסה', emoji: '🧜‍♀️', kind: 'printable', desc: 'דפי צביעה של בנות ים להדפסה בחינם.', keys: 'צביעה בת ים בנות ים בתולת ים דולפין צדף ים mermaid' },
+  { to: '/printables/coloring/space', title: 'חלל לצביעה — דפי צביעה של חלל להדפסה', emoji: '🚀', kind: 'printable', desc: 'דפי צביעה של חלל להדפסה בחינם.', keys: 'צביעה חלל אסטרונאוט רקטה חללית חייזר ירח כוכבי לכת מערכת השמש space' },
   // world & science (/discover/*)
   { to: '/discover', title: 'עולם ומדע', emoji: '🔭', kind: 'tool', desc: 'מפות, חלל וגוף האדם.', keys: 'מדע גאוגרפיה' },
   { to: '/discover/israel-map', title: 'מפת ישראל — חידון ערים', emoji: '🗺️', kind: 'tool', desc: 'איפה נמצאת העיר? משחק ודף להדפסה.', keys: 'מפה מפת ישראל ערים גאוגרפיה מולדת' },
