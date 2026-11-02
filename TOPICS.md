@@ -64,3 +64,6 @@ Update 2026-11-01 (08:00 scheduled upload, owner's Chrome): YouTube https://yout
 
 Note 2026-11-02: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-02/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/unseen-dict/.
 Update 2026-11-02 (scheduled upload, owner's Chrome): YouTube https://youtube.com/shorts/czg0_PicnUw (made for kids, Education, public; thumbnail = hook frame via 'בחירה מהסרטון'), Instagram (original crop, cover.jpg, FB share off), TikTok (עוגהבוגה, cover.jpg, everyone), Facebook (עוגה בוגה profile, cover.jpg, public) and the WhatsApp channel "עוגה בוגה 🎂 דף חדש כל יום" (video + caption with full /unseen/english, /unseen/hebrew and /dictionary/english links) — all posted.
+
+| 2026-11-02 | "חידת החניה" — חידה קשה מאוד, 10 שניות, "כתבו את התשובה בתגובות" (הדמות החדשה לראשונה) | /riddles/teens | ✓ | ✓ | ✓ | ✓ |
+Update 2026-11-02 evening: YouTube https://youtube.com/shorts/yb9mdaotP-8 (made for kids, Education, public), Instagram (original crop, cover, FB share off), Facebook (עוגה בוגה profile, public), TikTok (everyone, in review), WhatsApp channel — all posted. New mascot cut-out in template/img/mascot.png.
