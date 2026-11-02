@@ -78,6 +78,8 @@ export const MENU_DOMAINS = [
           { to: '/tools/resume', label: 'קורות חיים', icon: '📄' },
           { to: '/tools/image', label: 'עורך תמונות', icon: '🖼️' },
           { to: '/tools/shifts', label: 'סידור משמרות ותורנויות', icon: '📋' },
+          { to: '/tools/currency', label: 'המרת מטבע', icon: '💱' },
+          { to: '/tools/vat', label: 'מחשבון מע״מ 18%', icon: '🧾' },
         ],
       },
       {
