@@ -333,8 +333,34 @@ function useFlash(value) {
   return on ? { backgroundColor: '#fca5a5', boxShadow: '0 0 0 3px #ef4444', transition: 'background-color .12s, box-shadow .12s' } : { transition: 'background-color .12s, box-shadow .12s' }
 }
 
-function MiniStat({ value, short, tone }) {
-  return <div className={`rounded-xl px-2 py-1.5 ${tone}`} style={useFlash(value)}><b className="block text-xl leading-tight">{value}</b><span className="text-[11px] leading-tight text-slate-700">{short}</span></div>
+// Best single day before today for each mini tile (owner_daily_records), fetched once a day.
+const RECORD_KEYS = ['visitors', 'pageviews', 'avg_time', 'preview', 'print', 'download', 'pages', 'qr', 'share']
+function recordValues(data) {
+  return [data.visitors, data.pageviews, data.time_visitors ? (data.time_total || 0) / data.time_visitors : 0,
+    data.by_action?.preview || 0, data.by_action?.print || 0, data.by_action?.download || 0,
+    (data.pages_by_action?.print || 0) + (data.pages_by_action?.download || 0), data.sources?.qr || 0, data.by_action?.share || 0]
+}
+function useDailyRecords(day) {
+  const [records, setRecords] = useState(null)
+  useEffect(() => {
+    let live = true
+    supabase.rpc('owner_daily_records', { p_before: dayBounds(0).toISOString() }).then(({ data, error }) => { if (live) setRecords(error || !data ? null : data) })
+    return () => { live = false }
+  }, [day])
+  return records
+}
+const fmtDay = day => { const [, m, d] = String(day).split('-'); return `${+d}.${+m}` }
+
+function MiniStat({ value, short, tone, now, record, isTime }) {
+  const show = n => (isTime ? fmtTime(n) : Math.round(n))
+  const broke = record && now > record.value
+  return <div className={`rounded-xl px-2 py-1.5 ${broke ? 'bg-amber-200 ring-2 ring-amber-400' : tone}`} style={useFlash(value)}>
+    <b className="block text-xl leading-tight">{broke && '🏆 '}{value}</b>
+    <span className="text-[11px] leading-tight text-slate-700">{short}</span>
+    {record && <span className={`block text-[10px] leading-tight ${broke ? 'font-bold text-amber-900' : 'text-slate-500'}`}>
+      {broke ? `שיא חדש! הקודם ${show(record.value)}` : `שיא: ${show(record.value)} · ${fmtDay(record.day)}`}
+    </span>}
+  </div>
 }
 
 function StatCard({ value, text, tone }) {
@@ -462,14 +488,15 @@ function statItems(data, multiDay = false, social = null, sponsors = null, rsvp 
 }
 
 // Small always-on-top style widget: today's numbers + the last few actions.
-function MiniWidget({ data, live, updated, onRefresh, onClose }) {
+function MiniWidget({ data, live, updated, onRefresh, onClose, records }) {
+  const now = data ? recordValues(data) : []
   return <div dir="rtl" className="min-h-full bg-white p-3 font-sans text-slate-900">
     <div className="mb-2 flex items-center justify-between gap-2">
       <b className="text-base">🎂 עוגה בוגה · היום</b>
       <span className="text-[11px] text-slate-500">{live ? '🟢 בלייב' : '⏱️ כל 30 שנ׳'} · {updated.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })}</span>
     </div>
     {!data ? <p className="text-sm">טוענים…</p> : <>
-      <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone]) => <MiniStat key={short} value={v} short={short} tone={tone} />)}</div>
+      <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone], i) => <MiniStat key={short} value={v} short={short} tone={tone} now={now[i]} record={records?.[RECORD_KEYS[i]]} isTime={RECORD_KEYS[i] === 'avg_time'} />)}</div>
       <p className="mt-2 mb-1 text-xs font-bold text-slate-600">פעולות אחרונות</p>
       <ul className="space-y-0.5 text-[12px] leading-snug">{(data.recent || []).filter(r => r.action !== 'time').slice(0, 6).map((r, i) => <li key={i} className="truncate"><span className="text-slate-500">{fmtClock(r.at)}</span> · {ACTION_LABELS[r.action] || r.action} · <b>{pageName(r)}</b>{r.source === 'qr' ? ' 📱QR' : r.source === 'whatsapp' ? ' 💬' : ''}</li>)}</ul>
     </>}
@@ -488,8 +515,9 @@ export function OwnerMini() {
   const day = updated.toDateString()
   const [from, to] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data } = useSummary(from, to, tick)
+  const records = useDailyRecords(day)
   useArrivalSound(data, sound)
-  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} /><div className="px-3 pb-3" dir="rtl"><SoundSettings settings={sound} update={setSound} compact /></div></>
+  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} records={records} /><div className="px-3 pb-3" dir="rtl"><SoundSettings settings={sound} update={setSound} compact /></div></>
 }
 
 // Chrome/Edge (desktop) can open a real always-on-top mini window (Document Picture-in-Picture).
@@ -523,6 +551,7 @@ export default function OwnerActivityReport() {
   const [yFrom, yFullTo] = useMemo(() => rangeBounds('yesterday'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   const ySameTime = useMemo(() => new Date(Date.now() - 86400000), [tick, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const today = useSummary(todayFrom, todayTo, tick)
+  const records = useDailyRecords(day)
   useArrivalSound(today.data, sound)
   const yesterday = useSummary(yFrom, ySameTime, tick)
   const yesterdayFull = useSummary(yFrom, yFullTo)
@@ -541,7 +570,7 @@ export default function OwnerActivityReport() {
   const returns = useVisitorReturns(from, to, tick)
   const visitorInfo = useMemo(() => ({ entries: visitorEntries(data), returns }), [data, returns])
   return <VisitorInfo.Provider value={visitorInfo}><div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
-    {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} />, pip.document.body)}
+    {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} records={records} />, pip.document.body)}
     <SEO title="דוח פעילות בעלים" description="דוח פרטי ומפורט של פעילות באתר עוגה בוגה." noindex path="/admin/activity" />
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-[0_7px_0_#e5e7eb] sm:p-9">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
