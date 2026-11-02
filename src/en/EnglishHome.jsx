@@ -12,7 +12,7 @@ const faq = [
   { q: 'Is this the same Ugabuga as the Hebrew site?', a: 'Yes. We share the same artwork and game engines. This English collection includes coloring, memory matching, a printable birthday kit, Hebrew learning and Jewish holiday activities. The Hebrew site still has additional tools and content.' },
   { q: 'Can I use the printable pages in a classroom?', a: 'Yes. Choose the sheets you need, open the preview and print copies for your group. The PDF uses A4 pages; choose Fit to page if your printer uses US Letter.' },
 ]
-const art = ['home-detective-boy-720.webp','home-printer-720.webp','home-schoolgirl-720.webp','home-birthday-girl-720.webp']
+const art = ['home-mascot-play.webp','home-mascot-family.webp','home-mascot-class.webp','home-mascot-birthday.webp']
 const colors = [['#fff1b8','#ff8a1f'],['#f3eaff','#a775ed'],['#dff2ff','#28a4ef'],['#ffe7e4','#ff6f7b']]
 export default function EnglishHome() {
   return <><SEO lang="en" counterpartPath="/" path="/en" title="Free games, coloring pages and activities for kids" description="Play, print, learn and celebrate with Ugabuga. Free coloring pages, memory games, printable birthday invitations and family learning activities in English." structuredData={faqSchema(faq)} />

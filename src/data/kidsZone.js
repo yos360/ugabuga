@@ -21,8 +21,8 @@ export const KIDS_TILES = [
 // Home page, right under the hero: one card per reason people come to the site.
 // [emoji, title, description, link, crop (fallback art), background, accent, illustration]
 export const HOME_INTENTS = [
-  ['🎮', 'בא לי לשחק!', 'משחקים, צביעה במסך, סיפורים שמקריאים לך ואותיות עם קול — הכול לבד.', '/kids', [577, 257, 191, 187], '#fff1b8', '#ff8a1f', '/images/home-detective-boy-720.webp'],
-  ['🏠', 'משהו לעשות עם הילדים', 'דפי צביעה, סיפורים לפני השינה, ניסויים מהמטבח ומשחקים לכל המשפחה. מוכן תוך דקה, בלי הכנות.', '/family', [1022, 272, 187, 162], '#f3eaff', '#a775ed', '/images/home-printer-720.webp'],
-  ['🏫', 'חומר מוכן לכיתה', 'דפי עבודה לפי כיתה ורמה, מבחנים שבודקים את עצמם, חדרי בריחה ומשחקים לכל הכיתה.', '/classroom', [1019, 481, 173, 170], '#dff2ff', '#28a4ef', '/images/home-schoolgirl-720.webp'],
-  ['🎂', 'יום הולדת מתקרב', "רעיונות לפי גיל, משחקים למסיבה, הזמנות, רשימת 'מי מביא מה' וספקים.", '/birthday', [124, 268, 188, 176], '#ffe7e4', '#ff6f7b', '/images/home-birthday-girl-720.webp'],
+  ['🎮', 'בא לי לשחק!', 'משחקים, צביעה במסך, סיפורים שמקריאים לך ואותיות עם קול — הכול לבד.', '/kids', [577, 257, 191, 187], '#fff1b8', '#ff8a1f', '/images/home-mascot-play.webp'],
+  ['🏠', 'משהו לעשות עם הילדים', 'דפי צביעה, סיפורים לפני השינה, ניסויים מהמטבח ומשחקים לכל המשפחה. מוכן תוך דקה, בלי הכנות.', '/family', [1022, 272, 187, 162], '#f3eaff', '#a775ed', '/images/home-mascot-family.webp'],
+  ['🏫', 'חומר מוכן לכיתה', 'דפי עבודה לפי כיתה ורמה, מבחנים שבודקים את עצמם, חדרי בריחה ומשחקים לכל הכיתה.', '/classroom', [1019, 481, 173, 170], '#dff2ff', '#28a4ef', '/images/home-mascot-class.webp'],
+  ['🎂', 'יום הולדת מתקרב', "רעיונות לפי גיל, משחקים למסיבה, הזמנות, רשימת 'מי מביא מה' וספקים.", '/birthday', [124, 268, 188, 176], '#ffe7e4', '#ff6f7b', '/images/home-mascot-birthday.webp'],
 ]
