@@ -8,6 +8,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { FINGERS, FINGER_OF } from '../../typing/typingData'
 import { KB_LAYOUTS, LATIN_ON_KEY, NIQQUD, VAV_VOWELS, SYMBOLS, charFor, remapPhysical, removeNiqqud, insertAt, backspaceAt, countText } from './virtualKeys'
+import EmojiPicker from './EmojiPicker'
 import './virtualKeys.css'
 
 const STORE = 'ugabuga-online-keyboard'
@@ -48,6 +49,7 @@ export default function OnlineKeyboard() {
   const [last, setLast] = useState(null), [copied, setCopied] = useState(false)
   const [siteKb, setSiteKb] = useState(false)
   const [wpm, setWpm] = useState(0)
+  const [emoji, setEmoji] = useState(false)
   const ta = useRef(null), stamps = useRef([]), flashT = useRef(0)
   // The latest text and caret, ahead of React's render, so fast taps never overwrite each other.
   const live = useRef({ text, caret: null })
@@ -135,6 +137,7 @@ export default function OnlineKeyboard() {
           {[['he', 'עברית'], ['en', 'English']].map(([id, label]) => <button key={id} type="button" role="radio" aria-checked={lang === id} onClick={() => { setLang(id); ta.current?.focus() }}>{label}</button>)}
         </div>
         <button type="button" className="okb-btn" aria-pressed={fingers} onClick={() => setFingers(f => !f)}>🖐️ צבעי אצבעות</button>
+        <button type="button" className="okb-btn" aria-pressed={emoji} onClick={() => setEmoji(v => !v)}>😀 אימוג׳ים</button>
         <span className="okb-size" role="group" aria-label="גודל הטקסט">
           <button type="button" className="okb-btn" onClick={() => setSize(s => Math.max(16, s - 4))} aria-label="הקטנת הטקסט">א-</button>
           <button type="button" className="okb-btn" onClick={() => setSize(s => Math.min(48, s + 4))} aria-label="הגדלת הטקסט">א+</button>
@@ -168,6 +171,7 @@ export default function OnlineKeyboard() {
         })}</div>)}
       </div>
 
+      {emoji && <div className="mt-3"><EmojiPicker onPick={type} /></div>}
       {lang === 'he' && <div className="okb-extra" aria-label="ניקוד">
         <span className="okb-extra-title">ניקוד:</span>
         {NIQQUD.map(n => <button key={n.mark} type="button" className="okb-chip" title={n.name} aria-label={n.name} onMouseDown={e => e.preventDefault()} onClick={() => type(n.mark)}>
