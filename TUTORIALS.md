@@ -32,7 +32,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 11 | חנוכייה להדפסה וגזירה | /holidays/hanukkah/cut-out-hanukkiah | holidays | 2026-11-02 slot 2 — ready, upload from the owner's Chrome |
 | 12 | תחפושות לפורים — איך מסננים ומוצאים רעיון | /holidays/purim/costumes | holidays | 2026-11-02 slot 3 — ready, upload from the owner's Chrome |
 | 13 | איקס־עיגול חשבוני לכיתה על המקרן | /classroom/math-tic-tac-toe | classroom | 2026-11-03 slot 1 — ready, upload from the owner's Chrome |
-| 14 | הבנת הנקרא לפי כיתה — פותרים ומדפיסים עם דף תשובות | /learn/reading | learning | |
+| 14 | הבנת הנקרא לפי כיתה — פותרים ומדפיסים עם דף תשובות | /learn/reading | learning | 2026-11-03 slot 2 — ready, upload from the owner's Chrome |
 | 15 | כרטיסיות אותיות להדפסה | /printables/letter-flashcards | learning | |
 | 16 | מחולל תפזורות — יוצרים תפזורת משלכם ומדפיסים | /tools/word-search-maker | learning | |
 | 17 | מחולל בינגו — לוחות בינגו למסיבה ולכיתה | /tools/bingo-maker | party | |
