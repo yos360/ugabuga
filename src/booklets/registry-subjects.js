@@ -7,6 +7,8 @@ import mathGrade7 from './meta/math-grade-7.js'
 import mathGrade8 from './meta/math-grade-8.js'
 import mathGrade9 from './meta/math-grade-9.js'
 import mathHighSchool from './meta/math-high-school.js'
+import hebrewGrade1 from './meta/hebrew-grade-1.js'
+import readingGrade3 from './meta/reading-grade-3.js'
 import hebrewGrade2 from './meta/hebrew-grade-2.js'
 import hebrewGrade3 from './meta/hebrew-grade-3.js'
 import hebrewGrade4 from './meta/hebrew-grade-4.js'
@@ -51,7 +53,9 @@ export const SUBJECT_BOOKLETS = [
   { ...mathGrade8, load: subject(() => import('./content/math-grade-8.js')) },
   { ...mathGrade9, load: subject(() => import('./content/math-grade-9.js')) },
   { ...mathHighSchool, load: subject(() => import('./content/math-high-school.js')) },
+  { ...hebrewGrade1, load: subject(() => import('./content/hebrew-grade-1.js')) },
   { ...hebrewGrade2, load: subject(() => import('./content/hebrew-grade-2.js')) },
+  { ...readingGrade3, load: subject(() => import('./content/reading-grade-3.js')) },
   { ...hebrewGrade3, load: subject(() => import('./content/hebrew-grade-3.js')) },
   { ...hebrewGrade4, load: subject(() => import('./content/hebrew-grade-4.js')) },
   { ...hebrewGrade5, load: subject(() => import('./content/hebrew-grade-5.js')) },
