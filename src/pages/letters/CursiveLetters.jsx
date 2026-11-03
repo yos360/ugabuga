@@ -180,6 +180,20 @@ export default function CursiveLetters() {
       variant={i => a4(`w${i}`, <WordsSheet list={shuffle(WORDS).slice(0, 8)} help={help === 'yes'} />)}>{a4('w', <WordsSheet list={wordSet} help={help === 'yes'} />)}</PrintPreview>}
     {print === 'stam' && <PrintPreview title="אותיות סת״ם" onClose={() => setPrint(null)}>{a4('s', <StamSheet />)}</PrintPreview>}
 
+    <section className="mt-10 rounded-3xl border-2 border-[var(--border)] bg-white p-5" aria-label="טיפים ומה הלאה">
+      <h2 className="mb-2 text-2xl font-bold">✍️ איך מתרגלים כתב יד בלי מאבקים</h2>
+      <ul className="list-disc space-y-1 pr-6">
+        <li><b>חמש דקות ביום</b> עדיפות על חצי שעה פעם בשבוע. שלוש אותיות בכל פעם מספיקות.</li>
+        <li><b>קודם באוויר:</b> ילדים רבים מציירים את האות באוויר או באצבע על השולחן לפני שהם מחזיקים עיפרון.</li>
+        <li><b>כיוון התנועה:</b> כותבים מימין לשמאל, ורוב האותיות מתחילות מלמעלה. אם האות יוצאת הפוכה, חוזרים לאותיות האפורות בדף התרגול.</li>
+        <li><b>אותיות דומות לא ביחד:</b> כדאי להפריד בין ב ל־כ, בין ד ל־ר ובין ו ל־ז, ולתרגל אותן בימים שונים.</li>
+      </ul>
+      <h3 className="mt-4 text-xl font-bold">מה עושים אחרי ההדפסה?</h3>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {[['/printables/lined-paper', '📝 דף שורות לתרגול חופשי'], ['/letters/game', '🎮 משחק אותיות'], ['/printables/hebrew-letters', '🔤 דפי אותיות להדפסה'], ['/letters/final', '🔚 האותיות הסופיות'], ['/classroom/first-grade', '🎒 הכנה לכיתה א׳']].map(([to, label]) => <Link key={to} to={to} className="inline-flex min-h-[44px] items-center rounded-2xl border-2 border-[var(--border)] bg-cyan-50 px-4 font-bold hover:bg-cyan-100">{label}</Link>)}
+      </div>
+    </section>
+
     <div className="mt-12"><SeoBody paragraphs={[
       'בכיתה א׳ לומדים קודם לקרוא ולכתוב בכתב דפוס, ובהמשך עוברים לכתב יד — האותיות שכותבים במחברת. חלק מהאותיות כמעט לא משתנות (ו, ז, ס), וחלק נראות אחרת לגמרי (א, ג, ה, ע, ק). לכן כדאי לראות את שתי הצורות זו ליד זו, ולתרגל אות אחרי אות.',
       'בעמוד הזה יש טבלה של כל האותיות בדפוס ובכתב — כולל חמש האותיות הסופיות ך ם ן ף ץ. לחיצה על אות מגדילה אותה ומשמיעה את שמה. במכונת "מדפוס לכתב" מקלידים כל מילה, למשל את השם של הילד, ורואים איך כותבים אותה בכתב יד.',
