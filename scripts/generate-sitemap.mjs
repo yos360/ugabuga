@@ -141,6 +141,20 @@ async function main() {
     console.warn(`generate-sitemap: could not read holiday configs. ${err.message}`)
   }
 
+  // Blog posts and the daily blog (src/data/blogPosts.js): every post not already listed, dated by its publish day.
+  try {
+    const { ALL_POSTS } = await import('../src/data/blogPosts.js')
+    let added = 0
+    for (const post of ALL_POSTS) {
+      const u = `/blog/${post.slug}`
+      if (staticXml.includes(`https://ugabuga.co.il${u}</loc>`)) continue
+      lines.push(`  <url><loc>https://ugabuga.co.il${u}</loc> <lastmod>${post.date}</lastmod> <priority>${post.daily ? '0.5' : '0.7'}</priority></url>`); added++
+    }
+    console.log(`generate-sitemap: added ${added} blog posts.`)
+  } catch (err) {
+    console.warn(`generate-sitemap: could not read blog posts. ${err.message}`)
+  }
+
   const gameUrls = lines.join('\n')
   let merged = gameUrls
     ? staticXml.replace('</urlset>', `${gameUrls}\n</urlset>`)

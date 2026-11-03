@@ -66,26 +66,66 @@ const WORLDS = [
   ['🧰', 'כלים שימושיים', '/tools', 'גלגל מזל, טיימר, נקדן', '#e2f4f7'],
   ['☕', 'פנאי למבוגרים', '/adults', 'תשבצים, מנדלות, זיכרון', '#f4efe6'],
 ]
-const LOVED = [
+
+// Quick links at the top: the pages visitors open most (real counts, last 30 days — see
+// utils/pagePopularity.js), with the season's holiday always in. The order below is the fallback
+// for the prerendered page and for when the counts can't load.
+const SEASON = ['🕎', 'חנוכה', '/holidays/hanukkah']
+const SEASON_ENDS = new Date('2026-12-13T00:00:00+02:00') // the day after the last night of Hanukkah 2026
+const QUICK = [
+  ['💌', 'אישורי הגעה', '/rsvp'],
+  ['📖', 'הבנת הנקרא', '/learn/reading'],
+  ['🔤', 'דפי אותיות', '/printables/hebrew-letters'],
+  ['🎨', 'דפי צביעה', '/printables/coloring'],
+  ['➕', 'חשבון לפי כיתה', '/math'],
+  ['🕹️', 'משחקים אונליין', '/online-games'],
+  ['🕯️', 'זמני שבת', '/shabbat-times'],
+  ['🅰️', 'משחק אותיות', '/letters/game'],
+  ['✍️', 'כתב יד', '/letters/cursive'],
+  ['👶', 'שמות לתינוקות', '/baby-names'],
+  ['✏️', 'דפי עבודה בחשבון', '/printables/math-worksheets'],
+  ['📜', 'פרשת השבוע', '/parasha'],
+]
+const QUICK_SHOWN = 7
+
+// "Most loved": the same real counts decide which of these show and in what order.
+const LOVED_POOL = [
   ['🧩', 'חדר בריחה לילדים', '/tools/escape-rooms', 'תעלומה לכל המשפחה'],
   ['🎯', 'טריוויה לפי נושא', '/tools/trivia-quiz', 'בוחרים גיל וקושי'],
   ['🎨', 'צביעה לפי מספרים', '/printables/color-by-number', 'להדפסה ולמסך'],
   ['🔤', 'משחק אותיות', '/letters/game', 'מזהים צליל ומילה'],
   ['🗺️', 'ציד אוצרות מוכן', '/treasure-hunt/ready', 'רמזים מחורזים'],
   ['🪄', 'נקדן אוטומטי', '/tools/nakdan', 'מדביקים ומקבלים ניקוד'],
+  ['💌', 'אישורי הגעה בחינם', '/rsvp', 'הזמנה עם קישור לאישור'],
+  ['📖', 'הבנת הנקרא', '/learn/reading', 'קטעים ושאלות לפי כיתה'],
+  ['🖨️', 'דפי אותיות להדפסה', '/printables/hebrew-letters', 'כתיבה וזיהוי אותיות'],
+  ['✍️', 'כתב יד עברי', '/letters/cursive', 'מתרגלים אות אחרי אות'],
+  ['📺', 'בוגה לייב', '/live', 'חידון חי לכל הכיתה'],
+  ['🎲', 'קוביות סיפור', '/tools/dice/story-dice', 'מגלגלים וממציאים סיפור'],
+  ['🧠', 'זיכרון באנגלית', '/printables/memory-english', 'זוגות מילים להדפסה'],
+  ['🦉', 'בוגה־פדיה', '/bugapedia', 'שואלים ומקבלים תשובה'],
 ]
-// The season's holiday and the daily time tunnel already open the page, so "today" here is only the game of the day.
-const NEW = [['🎲', 'משחק היום — חדש בכל יום', '/game-of-the-day'], ['📅', 'לוח שנה עברי לועזי', '/hebrew-calendar'], ['⭐', 'כוכב/ת השבוע להדפסה', '/printables/star-of-the-week'], ['📖', 'הבנת הנקרא א׳–ח׳', '/learn/reading'], ['🤖', 'אקדמיית ה־AI של בוגה', '/learn/ai']]
+const byVisits = (list, counts) => counts.size ? [...list].sort((a, b) => (counts.get(b[2]) || 0) - (counts.get(a[2]) || 0)) : list
 
-// What most visitors come from Google for — one tap from the top of the page.
-const QUICK = [
-  ['🎨', 'דפי צביעה', '/printables/coloring'],
-  ['✏️', 'דפי עבודה בחשבון', '/printables/math-worksheets'],
-  ['🕎', 'חנוכה', '/holidays/hanukkah'],
-  ['🕯️', 'זמני שבת', '/shabbat-times'],
-  ['👶', 'שמות לתינוקות', '/baby-names'],
-  ['🕹️', 'משחקים אונליין', '/online-games'],
-]
+function usePopularity() {
+  const [counts, setCounts] = useState(() => new Map())
+  useEffect(() => {
+    if (window.__PRERENDER__) return
+    let alive = true
+    const start = () => import('../utils/pagePopularity').then(m => m.loadPagePopularity()).then(c => { if (alive) setCounts(c) }).catch(() => {})
+    const id = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200)
+    return () => { alive = false; if (window.cancelIdleCallback) cancelIdleCallback(id); else clearTimeout(id) }
+  }, [])
+  return counts
+}
+
+// Every visitor sees something a little different: the newest additions always, the rest drawn at random.
+function pickFresh(list, keepNewest, total, shuffle) {
+  if (!shuffle) return list.slice(0, total)
+  const head = list.slice(0, keepNewest), rest = list.slice(keepNewest)
+  for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]] }
+  return [...head, ...rest].slice(0, total)
+}
 
 const SocialIcons = () => SOCIAL_LIVE.length > 0 && <div className="hp-social">{SOCIAL_LIVE.map(([id, name, href, d]) =>
   <a key={id} href={href} className={`hp-soc hp-soc-${id}`} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`}>
@@ -131,15 +171,24 @@ function BedtimeStorySpotlight() {
   </Link>
 }
 
-// The three newest posts, loaded after the first paint so the post data stays out of the home bundle.
-function useLatestPosts() {
-  const [posts, setPosts] = useState([])
+// "New on the site" and "From the blog", loaded after the first paint so their data stays out of the
+// home bundle. The newest item always shows; the rest change from visit to visit (prerender: newest only).
+function useFreshLists() {
+  const [lists, setLists] = useState({ news: [], posts: [] })
   useEffect(() => {
     let alive = true
-    import('../data/blogPosts').then(m => { if (alive) setPosts([...m.BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)) }).catch(() => {})
+    const shuffle = !window.__PRERENDER__
+    import('../data/blogPosts').then(m => {
+      if (!alive) return
+      const news = pickFresh(m.WHATS_NEW.slice(0, 20), 2, 5, shuffle)
+      const daily = [...m.DAILY_POSTS].sort((a, b) => b.date.localeCompare(a.date))[0]
+      const articles = [...m.BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date))
+      const posts = [...(daily ? [daily] : []), ...pickFresh(articles, 1, 3, shuffle)]
+      setLists({ news, posts })
+    }).catch(() => {})
     return () => { alive = false }
   }, [])
-  return posts
+  return lists
 }
 
 export default function Home() {
@@ -151,7 +200,11 @@ export default function Home() {
   const [variant, setVariant] = useState('search')
   useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); recordExperiment('shown', v) }, [])
   const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
-  const posts = useLatestPosts()
+  const { news, posts } = useFreshLists()
+  const counts = usePopularity()
+  const quick = [...(new Date() < SEASON_ENDS ? [SEASON] : []), ...byVisits(QUICK, counts).slice(0, QUICK_SHOWN)]
+  // A page already in the quick links doesn't show again in "most loved".
+  const loved = byVisits(LOVED_POOL.filter(x => !quick.some(q => q[2] === x[2])), counts).slice(0, 6)
   const [liveBox, setLiveBox] = useState(false)
   const startLive = () => { if (mode === 'site') setLiveBox(true) }
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
@@ -162,7 +215,7 @@ export default function Home() {
       <h1>{SITE_SLOGAN}</h1>
       <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
-      <nav className="hp-quick" aria-label="הכי מחפשים">{QUICK.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
+      <nav className="hp-quick" aria-label="הכי נצפים באתר">{quick.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
       {/* The daily time tunnel opens the page, right under the heading (owner's request). */}
       <NearViewport><div className="hp-sec hp-daily hp-daily-top"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
       {variant === 'live' && <LiveTop variant={variant} />}
@@ -204,12 +257,12 @@ export default function Home() {
       <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
     </section>
     <section className="hp-sec">
-      <div className="hp-row-head"><h2 className="hp-h2">הכי אהובים השבוע</h2><Link to="/tools">לכל הכלים ←</Link></div>
-      <div className="hp-loved">{LOVED.map(([e, t, to, d]) => <Link key={to} to={to} className="hp-card"><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
+      <div className="hp-row-head"><h2 className="hp-h2">הכי אהובים החודש</h2><Link to="/tools">לכל הכלים ←</Link></div>
+      <div className="hp-loved">{loved.map(([e, t, to, d]) => <Link key={to} to={to} className="hp-card"><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
     </section>
     <NearViewport minHeight={0}><DoneRequests className="hp-sec" /></NearViewport>
     <section className="hp-sec hp-news">
-      <div><h2 className="hp-h3">✨ חדש באתר</h2><ul>{NEW.map(([e, t, to]) => <li key={to}><Link to={to}><span aria-hidden="true">{e}</span> {t}</Link></li>)}</ul></div>
+      <div><h2 className="hp-h3">✨ חדש באתר</h2><ul>{news.map(x => <li key={x.to + x.title}><Link to={x.to}><span aria-hidden="true">{x.emoji}</span> {x.title}</Link></li>)}</ul><Link className="hp-more" to="/new">לכל החדש באתר ←</Link></div>
       <div><h2 className="hp-h3">📰 מהבלוג</h2><ul>{posts.map(p => <li key={p.slug}><Link to={`/blog/${p.slug}`}><span aria-hidden="true">{p.emoji}</span> {p.title}</Link></li>)}</ul><Link className="hp-more" to="/blog">לכל הפוסטים ←</Link></div>
     </section>
     <SponsorBanner />
