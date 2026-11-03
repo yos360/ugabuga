@@ -85,6 +85,10 @@ export default function RequestPage() {
           <p className="mt-2 text-sm">לא בדיוק זה? שלחו את הבקשה ונכין בדיוק מה שצריך.</p>
         </div>}
         {state === 'short' && <p className="font-bold text-red-700" role="alert">כתבו בכמה מילים מה צריך.</p>}
+        {/* One box is enough to send; the optional fields wait behind "more details" (96 opens a week, 2 requests). */}
+        <details className="rounded-2xl border-2 border-slate-200 bg-white/60 p-3">
+          <summary className="min-h-[44px] cursor-pointer content-center font-bold">➕ עוד פרטים <span className="font-normal text-[var(--muted-foreground)]">(רשות: גיל, מי אתם, מייל לעדכון)</span></summary>
+          <div className="mt-3 space-y-5">
         <fieldset><legend className="font-bold">מי אתם? <span className="font-normal text-[var(--muted-foreground)]">(רשות — גננות ומורות: ספרו מה הנושא השבועי)</span></legend>
           <div className="mt-2 flex flex-wrap gap-2">{ROLES.map(a => <button key={a} type="button" aria-pressed={role === a} onClick={() => setRole(role === a ? '' : a)} className={`min-h-[44px] rounded-xl border-2 px-3 font-bold ${role === a ? 'border-violet-600 bg-violet-100' : 'border-slate-300 bg-white'}`}>{a}</button>)}</div>
         </fieldset>
@@ -97,6 +101,8 @@ export default function RequestPage() {
         {!email.trim() && <p className="-mt-3 text-sm">בלי מייל? אין בעיה — כל מה שמכינים לפי בקשה מופיע בדף <Link to={DONE_PATH} className="font-bold underline">״הכנו לפי בקשה״</Link>, {REQUEST_ETA}.</p>}
         {email.trim() && <label className="-mt-2 flex items-start gap-2 font-bold"><input type="checkbox" checked={weekly} onChange={e => setWeekly(e.target.checked)} className="mt-1 h-5 w-5 flex-none" />
           <span>שלחו לי גם את הדפים החדשים של השבוע <span className="font-normal text-[var(--muted-foreground)]">(מייל אחד בשבוע, אפשר לבטל בכל רגע)</span></span></label>}
+          </div>
+        </details>
         <p className="text-xs text-[var(--muted-foreground)]">המייל משמש כדי לעדכן שהדף מוכן, ואם סימנתם — גם לדפים של השבוע. הוא לא מתפרסם ולא נמסר לאף אחד. אל תכתבו בבקשה שמות של ילדים או מספרי טלפון. <Link to="/privacy" className="underline">מדיניות הפרטיות</Link></p>
         {state === 'error' && <p className="font-bold text-red-700" role="alert">משהו השתבש בשליחה. נסו שוב בעוד רגע.</p>}
         <button type="submit" disabled={state === 'sending'} className="min-h-[52px] w-full rounded-2xl bg-violet-700 px-6 text-lg font-black text-white disabled:opacity-60">{state === 'sending' ? 'שולחים…' : 'שליחת הבקשה'}</button>

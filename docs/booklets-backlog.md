@@ -41,7 +41,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `sentence-pyramids` — משפטי פירמידה מנוקדים, 16 פירמידות עם 2 שאלות, כיתות א׳–ב׳, 12 עמודים — on a visitor's request (id 26) — 2026-11-02
 
 - [x] 40 grade-by-grade subject booklets (math 4–9 + high school, Hebrew 2–9, science 1–9, Tanakh 3–8, moledet 2–4, geography 5–8, history 6–9, civics) — data only: `src/booklets/content|meta/<slug>.js` drawn by `subjectKit.jsx`, checked by `tests/subject-booklets.test.mjs` — on the owner's request ("for all ages and all subjects") — 2026-11-03
-- [x] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo), 16 עמודים: שני קטעי קריאה קצרים, אות ראשונה, יחיד ורבים, זכר ונקבה, סדר האלף־בית, סימני סוף משפט, תפזורת ודף תשובות (data only, texts unpointed) — 2026-11-03
+- [x] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳, 16 עמודים (the owner's subject batch version; same day, with math-grade-1, hebrew-grade-7, science-grade-2, tanakh-grade-2/9 and high school Hebrew, Tanakh, history, literature, biology) — 2026-11-03
 - [x] `reading-grade-3` — חוברת הבנת הנקרא לכיתה ג׳ (10/mo), 15 עמודים: שישה קטעים מאוסף האתר (סיפור, מידע, משל, יומן, ראיון, אגדה), סדר אירועים, נכון/לא נכון, סוגי טקסט, פירוש מילים ודף תשובות — 2026-11-03
 
 ## Next (top first)

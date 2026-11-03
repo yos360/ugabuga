@@ -20,6 +20,7 @@ import { homeVariant, recordExperiment } from '../utils/experiments'
 // Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
 // Each destination appears once. The holiday card and the blog list load after the first paint.
 const HolidayToday = lazy(() => import('../components/home/HolidayToday'))
+const SeasonColoring = lazy(() => import('../components/home/SeasonColoring'))
 // Road safety week (1–6.11): an animated banner at the top, rendered only until the week ends.
 const RoadWeekBanner = lazy(() => import('../components/roadsafety/RoadWeekBanner'))
 // The daily family game (time tunnel, or the daily quiz on days without one) sits below the fold —
@@ -176,6 +177,7 @@ export default function Home() {
       </div>
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
+    <Suspense fallback={null}><SeasonColoring /></Suspense>
     <HomeSpotlight />
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>

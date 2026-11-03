@@ -158,6 +158,11 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height
   input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: 16px; }
 }
 
+/* Phones: print / PDF pill between the share button (left) and back-to-top (right); see MobilePrintBar.jsx */
+.mobile-print-bar { position: fixed; z-index: 44; left: 68px; right: 68px; bottom: calc(12px + env(safe-area-inset-bottom)); height: 48px; border-radius: 999px; border: 2px solid #1d2233; background: #ef4444; color: #fff; font-weight: 900; font-size: 17px; box-shadow: 2px 2px 0 #1d2233; }
+body:has(dialog[open], .cookie-banner, .st-float, [data-bottom-bar]) .mobile-print-bar { display: none; }
+@media (min-width: 641px) { .mobile-print-bar { display: none; } }
+
 /* Print */
 @media print {
   @page { size: A4; margin: 10mm; } /* keep in sync with print-preview.css; the later @page rule wins */
