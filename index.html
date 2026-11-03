@@ -85,6 +85,11 @@
         if (localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1') window['ga-disable-G-5XK1W5R504'] = true;
       } catch (e) {}
       function gtag(){dataLayer.push(arguments);}
+      // Consent mode: no analytics cookies until the visitor agrees in the consent bar (src/utils/consentBanner.js);
+      // ads storage is never granted.
+      var consented = false;
+      try { consented = localStorage.getItem('buga-consent') === 'yes'; } catch (e) {}
+      gtag('consent', 'default', { analytics_storage: consented ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
       gtag('js', new Date());
       // Campaign tags (?utm_source=qr from a printed page…) count once, for the landing, and are
       // then removed from the address bar — otherwise a link copied or shared afterwards carries

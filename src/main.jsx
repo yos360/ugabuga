@@ -17,9 +17,15 @@ createRoot(rootElement).render(
   </StrictMode>,
 )
 
-// Sampled anonymous session recording for the owner's replays; loaded only once the page has settled.
-const startRecorder = () => (window.requestIdleCallback || setTimeout)(() => {
-  void import('./utils/sessionRecorder.js').then(m => m.startSessionRecording()).catch(() => {})
+// Once the page has settled: the cookie-consent bar (first visit only), and the sampled anonymous
+// session recording for the owner's replays, which runs only after the visitor agreed.
+const record = () => void import('./utils/sessionRecorder.js').then(m => m.startSessionRecording()).catch(() => {})
+const afterLoad = () => (window.requestIdleCallback || setTimeout)(() => {
+  void import('./utils/consentBanner.js').then(({ getConsent, showConsentBanner }) => {
+    if (getConsent() === 'yes') return record()
+    addEventListener('buga:consent', e => { if (e.detail === 'yes') record() }, { once: true })
+    if (!window.__PRERENDER__ && !navigator.webdriver) showConsentBanner()
+  }).catch(() => {})
 })
-if (document.readyState === 'complete') startRecorder()
-else addEventListener('load', startRecorder, { once: true })
+if (document.readyState === 'complete') afterLoad()
+else addEventListener('load', afterLoad, { once: true })
