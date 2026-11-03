@@ -11,7 +11,7 @@ import { ElectionChip, BringChip } from '../components/home/HomeTopExtras'
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
-import { LiveTop, RequestTop, BringTop, RsvpTop } from '../components/home/HomeTopVariant'
+import { RequestTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
@@ -198,8 +198,8 @@ export default function Home() {
   const nav = useNavigate()
   // Experiment: what a visitor sees first under the title. Prerender (and the first paint) show the
   // search, the page as it has always been; the visitor's own variant takes over after hydration.
-  const [variant, setVariant] = useState('search')
-  useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); recordExperiment('shown', v) }, [])
+  const [variant, setVariant] = useState('tunnel')
+  useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); if (v === 'ai') setMode('ask'); recordExperiment('shown', v) }, [])
   const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
   const { news, posts } = useFreshLists()
   const counts = usePopularity()
@@ -209,31 +209,32 @@ export default function Home() {
   const [liveBox, setLiveBox] = useState(false)
   const startLive = () => { if (mode === 'site') setLiveBox(true) }
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
-  return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className="hp" dir="rtl">
+  // Three versions of the opening (utils/experiments.js), each with its own look (.hp-v-*): the time
+  // tunnel first, "what should we make for you?" first, or a question to Buga-pedia's AI first.
+  const tunnel = <NearViewport key="tunnel"><div className="hp-sec hp-daily hp-daily-top" onClickCapture={() => recordExperiment('click', variant)}><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
+  const search = <div key="search" className="hp-search" role="search">
+    {variant === 'ai' && <p className="hp-ai-title"><Sparkles size={20} aria-hidden="true" /> שאלו את בוגה — בינה מלאכותית שעונה לילדים בעברית</p>}
+    <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
+      <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>
+      <button type="button" role="tab" aria-selected={mode === 'ask'} onClick={() => setMode('ask')}><Sparkles size={16} /> שאלה לבוגה־פדיה</button>
+    </div>
+    {/* Site search gets the live suggestions box (as on /search) once the visitor starts — loaded only then. */}
+    {mode === 'site' && liveBox ? <Suspense fallback={plainField}>
+      <SiteSearchBox className="hp-field" value={q} onChange={setQ} autoFocus placeholder="משחק, דף צביעה, כלי…"
+        onSearch={v => { recordExperiment('click', variant); nav(`/search${v ? `?q=${encodeURIComponent(v)}` : ''}`) }} />
+    </Suspense> : plainField}
+  </div>
+  const request = <RequestTop key="request" variant={variant} />
+  const opening = variant === 'request' ? [request, tunnel, search] : variant === 'ai' ? [search, tunnel] : [tunnel, search]
+  return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className={`hp hp-v-${variant}`} dir="rtl">
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
-      <div className="hp-chips"><PrintStrip />{variant !== 'bring' && <BringChip />}<ElectionChip /></div>
+      <div className="hp-chips"><PrintStrip /><BringChip /><ElectionChip /></div>
       <h1>{SITE_SLOGAN}</h1>
       <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
       <nav className="hp-quick" aria-label="הכי נצפים באתר">{quick.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
-      {/* The daily time tunnel opens the page, right under the heading (owner's request). */}
-      <NearViewport><div className="hp-sec hp-daily hp-daily-top"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
-      {variant === 'live' && <LiveTop variant={variant} />}
-      {variant === 'request' && <RequestTop variant={variant} />}
-      {variant === 'bring' && <BringTop variant={variant} />}
-      {variant === 'rsvp' && <RsvpTop variant={variant} />}
-      <div className="hp-search" role="search">
-        <div className="hp-modes" role="tablist" aria-label="סוג החיפוש">
-          <button type="button" role="tab" aria-selected={mode === 'site'} onClick={() => setMode('site')}><Search size={16} /> חיפוש באתר</button>
-          <button type="button" role="tab" aria-selected={mode === 'ask'} onClick={() => setMode('ask')}><Sparkles size={16} /> שאלה לבוגה־פדיה</button>
-        </div>
-        {/* Site search gets the live suggestions box (as on /search) once the visitor starts — loaded only then. */}
-        {mode === 'site' && liveBox ? <Suspense fallback={plainField}>
-          <SiteSearchBox className="hp-field" value={q} onChange={setQ} autoFocus placeholder="משחק, דף צביעה, כלי…"
-            onSearch={v => { recordExperiment('click', variant); nav(`/search${v ? `?q=${encodeURIComponent(v)}` : ''}`) }} />
-        </Suspense> : plainField}
-      </div>
+      {opening}
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
     <Suspense fallback={null}><SeasonColoring /></Suspense>

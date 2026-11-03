@@ -62,15 +62,21 @@ test('the request page is routed, in the sitemap and in the site search', () => 
   assert.ok(readFileSync(new URL('../src/data/searchStatic.js', import.meta.url), 'utf8').includes("to: '/request'"))
 })
 
-test('home experiment variants match the database checks and assignment is sticky', async () => {
+test('home experiment: three versions, stable within a day, a different one every day', async () => {
   const { HOME_EXPERIMENT, HOME_VARIANTS, homeVariant } = await import('../src/utils/experiments.js')
   assert.match(HOME_EXPERIMENT, /^[a-z][a-z0-9-]{1,30}$/)
+  assert.equal(HOME_VARIANTS.length, 3)
   for (const v of HOME_VARIANTS) assert.match(v, /^[a-z][a-z0-9-]{0,20}$/)
   const store = new Map()
   globalThis.localStorage = { getItem: k => store.get(k) ?? null, setItem: (k, v) => store.set(k, String(v)) }
-  const first = homeVariant('', 0.9)
-  assert.equal(first, HOME_VARIANTS.at(-1))
-  assert.equal(homeVariant('', 0.0), first, 'a returning visitor keeps the variant')
-  assert.equal(homeVariant('?exp=live', 0.0), 'live', 'the owner can preview a variant')
+  const day = 86400000, noon = Date.UTC(2026, 10, 3, 10)
+  const today = homeVariant('', 0.9, noon)
+  assert.equal(homeVariant('', 0.0, noon + 3600000), today, 'same visitor, same day: same version')
+  const week = [0, 1, 2].map(d => homeVariant('', 0.0, noon + d * day))
+  assert.deepEqual([...new Set(week)].sort(), [...HOME_VARIANTS].sort(), 'three days in a row show all three versions')
+  assert.equal(homeVariant('?exp=ai', 0.0, noon), 'ai', 'the owner can preview a version')
+  // On one day, the three starting points cover all three versions (balanced across visitors).
+  const visitors = [0, 1, 2].map(o => { store.clear(); return homeVariant('', o / 3 + 0.01, noon) })
+  assert.deepEqual([...new Set(visitors)].sort(), [...HOME_VARIANTS].sort())
   delete globalThis.localStorage
 })
