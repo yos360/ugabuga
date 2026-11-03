@@ -14,6 +14,14 @@ const HOOKS = {
     ['/trick-questions', '🧠', 'חושבים שאתם חכמים?', '12 שאלות מכשילות — כמה תצליחו?'],
   ],
 }
+// A holiday that is close gets the first card: it is what families are looking for that week.
+const SEASONAL = [
+  { ends: '2026-12-13', link: ['/holidays/hanukkah', '🕎', 'חנוכה מתקרב!', 'סביבונים, דפי צביעה, מתכונים ומשחקים לכל המשפחה'] },
+]
+const seasonalHook = () => {
+  const today = new Date().toISOString().slice(0, 10)
+  return SEASONAL.find(s => today <= s.ends)?.link
+}
 
 const CONTEXTS = {
   party: {
@@ -83,16 +91,22 @@ export default function SiteInvite({ context = 'party', className = '', compact 
   const c = CONTEXTS[context] || CONTEXTS.party
   // Right under a finished task (e.g. "see you there!" after an RSVP): guests on a phone rarely
   // scroll past the form to the full card, so the same links come as one short row here.
+  // Guests who just answered are the people most likely to host the next event, so making their own
+  // comes first as a real button; the cards after it are for staying a minute.
   if (compact) return <nav className={`mt-6 border-t border-slate-200 pt-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
+    {c.own && <Link to={c.own[0]} onClick={() => logInviteCta(context, c.own[0])} className="mb-6 block rounded-2xl bg-violet-600 p-4 text-white shadow-md transition hover:-translate-y-0.5 hover:bg-violet-700">
+      <b className="block text-lg">✅ {c.own[1]}</b>
+      <small className="text-sm text-violet-100">כמו ההזמנה הזאת — בחינם, בלי הרשמה, שולחים בוואטסאפ</small>
+    </Link>}
     <p className="text-xl font-black">{HOOKS.title}</p>
     <p className="mt-1 text-slate-600">{HOOKS.text}</p>
-    <div className="mt-4 grid gap-3">{HOOKS.links.map(([to, emoji, label, sub]) => <Link key={to} to={to} className="flex items-center gap-3 rounded-2xl bg-slate-100 p-4 text-right transition hover:-translate-y-0.5 hover:bg-violet-50">
+    <div className="mt-4 grid gap-3">{[seasonalHook(), ...HOOKS.links].filter(Boolean).map(([to, emoji, label, sub]) => <Link key={to} to={to} className="flex items-center gap-3 rounded-2xl bg-slate-100 p-4 text-right transition hover:-translate-y-0.5 hover:bg-violet-50">
       <span className="text-4xl" aria-hidden="true">{emoji}</span>
       <span className="flex-1"><b className="block text-lg">{label}</b><small className="text-sm text-slate-600">{sub}</small></span>
       <span className="text-2xl text-slate-500" aria-hidden="true">‹</span>
     </Link>)}</div>
     <p className="mt-3 text-sm text-slate-500">בחינם לגמרי · בלי הרשמה</p>
-    {c.own && <p className="mt-3 text-sm"><Link to={c.own[0]} onClick={() => logInviteCta(context, c.own[0])} className="font-bold text-violet-700 underline">{c.own[1]} ←</Link></p>}
+    <p className="mt-2 text-sm"><Link to="/" className="font-bold underline">🎂 לכל האתר</Link></p>
   </nav>
   return <aside className={`rounded-3xl border-2 border-violet-200 bg-gradient-to-b from-violet-50 to-white p-5 text-center ${className}`} aria-label="עוד באתר עוגה בוגה" dir="rtl">
     <h2 className="text-xl font-black">{c.title}</h2>
