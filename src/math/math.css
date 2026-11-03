@@ -43,6 +43,12 @@
 .mth-tips{margin:10px 0;padding-inline-start:22px;list-style:'✔️ ';line-height:1.7}
 .mth-example{border:2px dashed #b9bfd0;border-radius:14px;padding:10px 14px;background:#fffdf3;color:#1d2233}
 .mth-example ol{margin:6px 0;padding-inline-start:22px;line-height:1.7}
+.mth-guided .is-hidden{filter:blur(6px);opacity:.45;user-select:none;transition:filter .35s,opacity .35s}
+.mth-guided .is-shown{filter:none;opacity:1;transition:filter .35s,opacity .35s}
+.mth-guided li.is-shown{animation:mth-step .35s ease}
+@keyframes mth-step{from{background:#fff3b0}to{background:transparent}}
+@media (prefers-reduced-motion:reduce){.mth-guided .is-hidden,.mth-guided .is-shown{transition:none}.mth-guided li.is-shown{animation:none}}
+@media print{.mth-guided .is-hidden{filter:none;opacity:1}}
 .mth-search{width:100%;min-height:52px;font-size:18px;padding:10px 16px;border:2px solid var(--border,#1d2233);border-radius:999px;background:var(--card,#fff)}
 .mth-hits{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
 .mth-grade-card{display:flex;flex-direction:column;align-items:center;gap:2px}

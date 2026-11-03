@@ -390,6 +390,27 @@ export function MathTopic() {
   return <TopicPage key={`${n}/${topicSlug}`} topic={topic} />
 }
 
+// The solved example as a short guided lesson: steps unblur one at a time, then "now you try".
+// Every step stays in the DOM (blurred), so the prerendered page still carries the full solution.
+function GuidedExample({ example, onPractice }) {
+  const total = example.steps.length
+  const [shown, setShown] = useState(0)
+  const done = shown > total
+  return <div className="mth-example mth-guided">
+    <h3 className="text-lg font-black">דוגמה פתורה — שלב אחרי שלב</h3>
+    <MathText as="p" className="font-bold">{example.q}</MathText>
+    {shown === 0 && <p className="m-0 text-sm text-[var(--muted-foreground)]">🤔 נסו לחשוב איך פותרים, ואז גלו את הפתרון צעד אחר צעד.</p>}
+    <ol>{example.steps.map((s, i) => <li key={i} className={i < shown ? 'is-shown' : 'is-hidden'} aria-hidden={i < shown ? undefined : 'true'}><MathText>{s}</MathText></li>)}</ol>
+    <p className={`m-0 ${done ? 'is-shown' : 'is-hidden'}`} aria-hidden={done ? undefined : 'true'}>✅ תשובה: <MathText>{example.a}</MathText></p>
+    <div className="no-print mt-3 flex flex-wrap gap-2">
+      {!done && <button type="button" className="ln-btn go" onClick={() => setShown(n => n + 1)}>{shown < total ? `👉 ${shown ? 'לשלב הבא' : 'לשלב הראשון'} (${shown + 1}/${total})` : '✅ לתשובה'}</button>}
+      {!done && <button type="button" className="ln-btn" onClick={() => setShown(total + 1)}>להציג הכול</button>}
+      {done && <button type="button" className="ln-btn go" onClick={onPractice}>✏️ עכשיו תורכם — לתרגיל ראשון</button>}
+      {done && <button type="button" className="ln-btn" onClick={() => setShown(0)}>↺ מההתחלה</button>}
+    </div>
+  </div>
+}
+
 function TopicPage({ topic }) {
   const g = gradeInfo(topic.grade)
   const [level, setLevel] = useState(1)
@@ -428,12 +449,7 @@ function TopicPage({ topic }) {
       <h2 id="exp-h" className="text-2xl font-black">💡 מה צריך לדעת</h2>
       <MathText as="p" className="text-lg leading-relaxed">{topic.intro}</MathText>
       <ul className="mth-tips">{topic.tips.map((t, i) => <li key={i}><MathText>{t}</MathText></li>)}</ul>
-      <div className="mth-example">
-        <h3 className="text-lg font-black">דוגמה פתורה</h3>
-        <MathText as="p" className="font-bold">{topic.example.q}</MathText>
-        <ol>{topic.example.steps.map((s, i) => <li key={i}><MathText>{s}</MathText></li>)}</ol>
-        <p className="m-0">✅ תשובה: <MathText>{topic.example.a}</MathText></p>
-      </div>
+      <GuidedExample key={topic.slug} example={topic.example} onPractice={() => { setLevel(1); setMode('practice'); document.getElementById('lv-practice')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} />
     </section>
 
     <section className="ln-box mt-6" aria-labelledby="lv-h">
@@ -461,7 +477,7 @@ function TopicPage({ topic }) {
       </div>
     </section>
 
-    <div className="mt-5">
+    <div className="mt-5" id="lv-practice">
       {mode === 'practice' && <Practice topic={topic} level={level} />}
       {mode === 'quiz' && (quiz
         ? <Quiz key={quiz.key} items={quiz.items} timer title={`מבחן: ${topic.title}`} onRestart={startQuiz} onPrint={() => setPrint({ items: quiz.items, level })} />
