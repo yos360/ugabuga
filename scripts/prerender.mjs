@@ -88,7 +88,12 @@ try {
   // the sitemap and rendered client-side instead of being snapshotted here.
   const xml = await readFile('public/sitemap-static.xml', 'utf8')
   const requestedPrefix = process.env.PRERENDER_PATH_PREFIX
-  const paths = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => !requestedPrefix || p === requestedPrefix || p.startsWith(requestedPrefix + '/'))
+  const listed = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname)
+  // Blog posts (articles and the daily blog) are added straight from the data, so a new post is
+  // snapshotted for search engines without also being typed into sitemap-static.xml.
+  const { ALL_POSTS } = await import('../src/data/blogPosts.js')
+  const posts = ALL_POSTS.map(p => `/blog/${p.slug}`).filter(p => !listed.includes(p))
+  const paths = [...listed, ...posts].filter(p => !requestedPrefix || p === requestedPrefix || p.startsWith(requestedPrefix + '/'))
   const context = await browser.newContext()
   await context.addInitScript(() => { window.__PRERENDER__ = true })
   // Never record analytics/activity or depend on third-party availability at build time.
