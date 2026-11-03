@@ -1,4 +1,5 @@
-import { readFile, writeFile, readdir } from 'node:fs/promises'
+import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises'
+import { GROUPS, HELD_BACK } from './sitemap-groups.mjs'
 
 // Builds public/sitemap.xml (submitted to Google via robots.txt) from two sources:
 //   1. public/sitemap-static.xml — the hand-curated hub/category/idea/tool pages.
@@ -55,7 +56,7 @@ const SITE_DB_URL = 'https://efhgyispuwxcplvzipcy.supabase.co'
 const SITE_DB_KEY = 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 async function getSupplierSlugs() {
   if (process.env.SITEMAP_OFFLINE === '1') {
-    const previous = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+    const previous = await readFile(new URL('../public/sitemap-full.xml', import.meta.url), 'utf8').catch(() => readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8'))
     return [...previous.matchAll(/<loc>https:\/\/ugabuga\.co\.il\/suppliers\/([a-z0-9-]{3,40})<\/loc>/g)].map(m => m[1]).filter(slug => slug !== 'me')
   }
   const res = await fetch(`${SITE_DB_URL}/rest/v1/rpc/suppliers_public_list`, { method: 'POST', headers: { apikey: SITE_DB_KEY, 'Content-Type': 'application/json' }, body: '{}' })
@@ -181,8 +182,35 @@ async function main() {
     console.warn(`generate-sitemap: could not add videos. ${err.message}`)
   }
 
-  await writeFile(new URL('../public/sitemap.xml', import.meta.url), merged)
-  console.log('generate-sitemap: wrote public/sitemap.xml')
+  // public/sitemap-full.xml: every page (prerender, known-paths.json, IndexNow and the mail digest read it).
+  await writeFile(new URL('../public/sitemap-full.xml', import.meta.url), merged)
+  console.log('generate-sitemap: wrote public/sitemap-full.xml')
+  await writeGroups(merged)
+}
+
+// What Google gets (public/sitemap.xml, named in robots.txt) is an index of one sitemap per page
+// group, so Search Console reports indexing for each group separately. Template-heavy groups are
+// held back: their pages stay live, prerendered and linked, they are just not submitted until the
+// groups already submitted are indexed. To submit a group again, delete it from HELD_BACK.
+async function writeGroups(full) {
+  const head = full.slice(0, full.indexOf('>', full.indexOf('<urlset')) + 1)
+  const buckets = new Map(GROUPS.map(([name]) => [name, []]))
+  let held = 0
+  for (const entry of full.match(/<url>[\s\S]*?<\/url>/g) || []) {
+    const path = new URL(entry.match(/<loc>(.*?)<\/loc>/)[1]).pathname
+    if (HELD_BACK.some(re => re.test(path))) { held++; continue }
+    buckets.get(GROUPS.find(([, re]) => re.test(path))[0]).push(`  ${entry}`)
+  }
+  await mkdir(new URL('../public/sitemaps/', import.meta.url), { recursive: true })
+  const index = []
+  for (const [name, entries] of buckets) {
+    if (!entries.length) continue
+    await writeFile(new URL(`../public/sitemaps/${name}.xml`, import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>\n${head}\n${entries.join('\n')}\n</urlset>\n`)
+    index.push(`  <sitemap><loc>https://ugabuga.co.il/sitemaps/${name}.xml</loc></sitemap>`)
+    console.log(`generate-sitemap: sitemaps/${name}.xml — ${entries.length} pages`)
+  }
+  await writeFile(new URL('../public/sitemap.xml', import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('\n')}\n</sitemapindex>\n`)
+  console.log(`generate-sitemap: wrote the sitemap.xml index (${held} template pages held back)`)
 }
 
 await main()

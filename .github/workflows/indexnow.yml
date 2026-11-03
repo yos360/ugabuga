@@ -29,14 +29,14 @@ jobs:
           node-version: 22
 
       - name: Snapshot live sitemap (before deploy)
-        run: curl -fsS --max-time 30 https://ugabuga.co.il/sitemap.xml -o "$RUNNER_TEMP/before.xml"
+        run: curl -fsS --max-time 30 https://ugabuga.co.il/sitemap-full.xml -o "$RUNNER_TEMP/before.xml" || curl -fsS --max-time 30 https://ugabuga.co.il/sitemap.xml -o "$RUNNER_TEMP/before.xml"
 
       - name: Wait for Cloudflare to publish a new sitemap (up to 60 min)
         id: wait
         run: |
           for i in $(seq 1 120); do
             sleep 30
-            curl -fsS --max-time 30 "https://ugabuga.co.il/sitemap.xml?nocache=$(date +%s)" -o "$RUNNER_TEMP/after.xml" || continue
+            curl -fsS --max-time 30 "https://ugabuga.co.il/sitemap-full.xml?nocache=$(date +%s)" -o "$RUNNER_TEMP/after.xml" || continue
             if ! cmp -s "$RUNNER_TEMP/before.xml" "$RUNNER_TEMP/after.xml"; then
               echo "Live sitemap changed after $((i*30))s."
               echo "changed=1" >> "$GITHUB_OUTPUT"

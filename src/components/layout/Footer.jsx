@@ -4,7 +4,13 @@ import { SOCIAL_LIVE } from '../../data/social'
 import MailSignup from '../mail/MailSignup'
 import '../mail/mail.css'
 
-import { FOOTER_COLUMNS as COLUMNS } from '../../data/siteMenu'
+import { FOOTER_COLUMNS, SITE_MAP_LINK } from '../../data/siteMenu'
+
+// The footer is on every page, so it carries only the top links of each domain; the full list is
+// one click away on the site map (SITE_MAP_LINK). 260+ footer links outweighed the content of short
+// pages and spread internal links thin.
+const FOOTER_MAX = 5
+const COLUMNS = FOOTER_COLUMNS.map(c => (c.domain ? { ...c, links: c.links.slice(0, FOOTER_MAX) } : c))
 
 function FooterLink({ to, children }) {
   return <li><Link to={to} className="flex min-h-[44px] w-full items-center py-1.5 hover:underline underline-offset-4">{children}</Link></li>
@@ -51,7 +57,8 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <Link to="/en" lang="en" className="mt-6 inline-block text-sm underline">English</Link>
+        <Link to={SITE_MAP_LINK.to} className="mt-6 flex min-h-[44px] items-center text-lg font-bold underline underline-offset-4">🗺️ {SITE_MAP_LINK.label} ←</Link>
+        <Link to="/en" lang="en" className="mt-2 inline-block text-sm underline">English</Link>
         <div className="mt-8 border-t border-[var(--border)] pt-6 text-base">
           <a href="mailto:hellohugabuga@gmail.com" className="flex min-h-[44px] items-center underline decoration-dashed" dir="ltr">✉️ hellohugabuga@gmail.com</a>
           <p className="mt-2">📢 דף חדש כל יום: <a href={CHANNEL_GO} target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-dashed">הצטרפו לערוץ הוואטסאפ שלנו</a></p>

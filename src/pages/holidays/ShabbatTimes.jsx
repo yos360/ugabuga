@@ -124,7 +124,7 @@ export function ShabbatTimesHub() {
   const placeWeek = useMemo(() => chosen ? shabbatSeries(chosen, today, 1)[0] : null, [chosen, today])
   const placeSeo = placeWeek && {
     title: `צאת שבת ב${chosen.name} השבוע — כניסת שבת והדלקת נרות`,
-    description: `צאת שבת ב${chosen.name} בשבת ${dateLabel(placeWeek.saturday)}: ${formatTime(placeWeek.end)}. הדלקת נרות ביום שישי: ${formatTime(placeWeek.candles)} (${chosen.offset} דקות לפני השקיעה). ארבע השבתות הבאות ולוח להדפסה.`,
+    description: `זמני כניסת ויציאת שבת ב${chosen.name} השבוע: הדלקת נרות (${chosen.offset} דקות לפני השקיעה), צאת שבת והבדלה. ארבע השבתות הבאות ולוח להדפסה.`,
     path: chosen.city ? cityHref(chosen.city) : `/shabbat-times?place=${encodeURIComponent(chosen.name)}`,
   }
   const choose = name => { setGpsPlace(null); setParams({ place: name }); setTimeout(() => document.getElementById('place')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50) }

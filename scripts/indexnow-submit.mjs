@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises'
 // next full sitemap crawl.
 //
 // How it decides WHAT to submit: it compares the freshly built sitemap
-// (public/sitemap.xml, regenerated on every `npm run build`) against a BASELINE
+// (public/sitemap-full.xml, regenerated on every `npm run build`) against a BASELINE
 // snapshot of the sitemap that was live on ugabuga.co.il *before* this deploy
 // (the workflow saves it to a temp file right after the build step). A URL is
 // submitted when it is new (not in the baseline) or when its <lastmod> changed.
@@ -36,9 +36,9 @@ function parseSitemap(xml) {
 }
 
 async function main() {
-  // NEW_SITEMAP: the sitemap to submit from (default: the freshly built public/sitemap.xml;
+  // NEW_SITEMAP: the sitemap to submit from (default: the freshly built public/sitemap-full.xml;
   // the IndexNow workflow passes the live sitemap fetched after Cloudflare finished deploying).
-  const newXml = await readFile(process.env.NEW_SITEMAP || new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+  const newXml = await readFile(process.env.NEW_SITEMAP || new URL('../public/sitemap-full.xml', import.meta.url), 'utf8')
   const next = parseSitemap(newXml)
   if (next.size === 0) {
     console.warn('indexnow: built sitemap parsed to 0 URLs — skipping (nothing to submit).')

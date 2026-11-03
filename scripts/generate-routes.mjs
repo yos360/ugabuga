@@ -23,7 +23,7 @@ console.log(`generate-routes: wrote ${routes.length} route patterns to public/ro
 // values is known at build time, so the middleware can 404 a made-up slug instead of
 // answering it with an empty 200 shell. Only used together with the "no snapshot"
 // check in functions/_middleware.js, so a real page is never 404'd by mistake.
-const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+const sitemap = await readFile(new URL('../public/sitemap-full.xml', import.meta.url), 'utf8')
 const known = [...new Set([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname.replace(/\/+$/, '') || '/'))]
 if (known.length < 100) throw new Error(`generate-routes: sitemap has only ${known.length} URLs — refusing to write known-paths.json`)
 await writeFile(new URL('../public/known-paths.json', import.meta.url), JSON.stringify(known))

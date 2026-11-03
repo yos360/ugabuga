@@ -66,7 +66,15 @@ const CLOSED_FAMILIES = [
   /^\/tools\/escape-rooms\/[^/]+$/,
   /^\/tools\/escape-rooms\/topic\/[^/]+$/,
   /^\/faq\/[^/]+$/,
+  /^\/baby-names\/name\/[^/]+$/,
+  /^\/printables\/name-coloring\/[^/]+$/,
+  /^\/family-names\/[^/]+$/,
+  /^\/booklets\/[^/]+$/,
+  /^\/unseen\/english\/[^/]+$/,
 ]
+
+// Short links and visitor-made rooms carry case-sensitive codes; every other path is lower-case.
+const CASE_SENSITIVE = /^\/(?:l|q|r|g|w|t|hw|play|en\/play|live|en\/live|suppliers\/me)(?:\/|$)/i
 
 function loadKnown(env, url) {
   if (!knownPromise) {
@@ -194,6 +202,13 @@ async function handle(context) {
     if (/\.[a-z0-9]{1,8}$/i.test(url.pathname)) {
       if (/\.html?$/i.test(url.pathname)) return res
       return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } })
+    }
+    // React Router matches /BABY-NAMES like /baby-names, so a capitalised link would be a duplicate page.
+    // Redirect ASCII capitals to lower case (Hebrew and %-escapes are left as they are).
+    const decoded = (() => { try { return decodeURIComponent(url.pathname) } catch { return url.pathname } })()
+    if (/[A-Z]/.test(decoded) && !CASE_SENSITIVE.test(url.pathname)) {
+      const lower = url.pathname.replace(/%[0-9A-F]{2}|[A-Z]+/g, s => (s[0] === '%' ? s : s.toLowerCase()))
+      if (lower !== url.pathname) return Response.redirect(new URL(lower + url.search, url).toString(), 301)
     }
     const routes = await loadRoutes(env, url)
     if (!routes) return res

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 
 // The JSX pages can't be imported in node; read their link lists from the source.
 const src = f => readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8')
-const sitemap = ['../public/sitemap-static.xml', '../public/sitemap.xml'].map(f => readFileSync(new URL(f, import.meta.url), 'utf8')).join('\n')
+const sitemap = ['../public/sitemap-static.xml', '../public/sitemap-full.xml'].map(f => readFileSync(new URL(f, import.meta.url), 'utf8')).join('\n')
 const listed = path => sitemap.includes(`https://ugabuga.co.il${path}</loc>`)
 
 test('the winter area "בוגה שוקו חם" links only to pages that exist, and is itself listed and routed', () => {

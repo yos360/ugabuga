@@ -189,10 +189,8 @@ function DatePage({ dateKey }) {
   }
 
   const [o1, o2] = cal.occ
-  // People searching a bare date ("11 בנובמבר") mostly want to know which weekday it falls on:
-  // say it up front, in the title and the snippet.
-  description = `${label} ${o1.y} חל ביום ${o1.dow}. ${description}`
-  if (description.length > 160) { const cut = description.slice(0, 159); description = cut.slice(0, cut.lastIndexOf(' ')) + '…' }
+  // The title and description stay evergreen: no year or weekday (they are baked in at build time and go stale);
+  // the weekday and year live in the body, which is computed on the client.
   const doyText = cal.leapDay
     ? `${label} מופיע רק בשנה מעוברת – פעם בארבע שנים בערך – והוא היום ה-60 בשנה.`
     : `${label} הוא היום ה-${cal.doy} בשנה${cal.m > 2 ? ` (וה-${cal.doy + 1} בשנה מעוברת)` : ''}, ואחריו נשארים עוד ${daysWord(365 - cal.doy)} עד סוף השנה.`
@@ -215,7 +213,7 @@ function DatePage({ dateKey }) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={`${label} ${o1.y} – מה קרה ומה מציינים ביום הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
+      <SEO title={`${label} – מה קרה ומה מציינים ביום הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label: MONTHS[cal.m - 1], href: `/time-tunnel/month/${pad(cal.m)}` }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       {/* The quick answer most date searches want: which weekday (and Hebrew date) it falls on. */}

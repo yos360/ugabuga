@@ -80,7 +80,7 @@ export function pdfMail(row) {
 // so a status check proves nothing: the page counts as live once the deployed sitemaps list it — they ship in the
 // same deploy as the page itself.
 export const listedIn = (sitemaps, path) => sitemaps.some(s => s.includes(`<loc>${SITE}${path}</loc>`))
-const liveSitemaps = () => Promise.all(['/sitemap-static.xml', '/sitemap.xml'].map(p =>
+const liveSitemaps = () => Promise.all(['/sitemap-static.xml', '/sitemap-full.xml'].map(p =>
  fetch(`${SITE}${p}`, { cache: 'no-store', signal: AbortSignal.timeout(10000) }).then(r => r.ok ? r.text() : '', () => '')))
 // Facebook post for a request whose page is live: one every 30 minutes (page_request_mail 'announce_next'),
 // only when FB_PAGE_ID and FB_PAGE_TOKEN are set. Says it was made on request, never quotes the visitor.

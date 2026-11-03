@@ -171,12 +171,12 @@ try {
   // or deletes it, until the next deploy. They render client-side from the live database instead.
   // Without a snapshot, a shared game link shows the *homepage* title/OG image in
   // WhatsApp/Facebook previews, because those bots read the static shell and never
-  // run React. So we snapshot every /games/{slug} from the generated sitemap.xml.
+  // run React. So we snapshot every /games/{slug} from the generated sitemap-full.xml.
   // This pass must NEVER fail the build: Supabase might be slow or a game might be
   // mid-edit, so each page is try/catch'd and simply skipped (it then keeps working
   // client-side exactly as before).
   try {
-    const fullXml = await readFile('public/sitemap.xml', 'utf8')
+    const fullXml = await readFile('public/sitemap-full.xml', 'utf8')
     const staticSet = new Set(paths)
     const gamePaths = [...fullXml.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname).filter(p => !requestedPrefix && p.startsWith('/games/') && !staticSet.has(p))
     let ok = 0, skipped = 0

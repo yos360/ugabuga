@@ -51,7 +51,7 @@ async function fixture(t, paths, concurrency) {
   await writeFile(join(cwd, 'public/favicon.svg'), '<svg/>')
   const sitemap = rows => '<urlset>' + rows.map(path => '<url><loc>https://ugabuga.co.il' + path + '</loc></url>').join('') + '</urlset>'
   await writeFile(join(cwd, 'public/sitemap-static.xml'), sitemap(paths))
-  await writeFile(join(cwd, 'public/sitemap.xml'), sitemap(['/games/broken', '/games/valid']))
+  await writeFile(join(cwd, 'public/sitemap-full.xml'), sitemap(['/games/broken', '/games/valid']))
   const stub = join(cwd, 'browser.cjs')
   await writeFile(stub, browserStub)
   const result = await run(process.execPath, [script], {

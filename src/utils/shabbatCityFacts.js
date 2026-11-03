@@ -123,6 +123,7 @@ export function cityFaq(f) {
 }
 
 export function cityDescription(f) {
-  const { city, week, compare } = f
-  return `זמני שבת ב${city.name}: בשבת ${dateLabel(week.saturday)} הדלקת נרות ${formatTime(week.candles)} וצאת שבת ${formatTime(week.end)}. השוואה ל${compare[0].ref.name}, הזמנים המוקדמים והמאוחרים בשנה ולוח להדפסה.`
+  const { city, compare } = f
+  // Evergreen on purpose: the prerendered HTML must not carry a specific date or time that goes stale after that Shabbat.
+  return `זמני כניסת ויציאת שבת ב${city.name} השבוע: הדלקת נרות, צאת שבת ופרשת השבוע. השוואה ל${compare[0].ref.name}, הזמנים המוקדמים והמאוחרים בשנה ולוח להדפסה.`
 }

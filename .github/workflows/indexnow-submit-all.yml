@@ -1,6 +1,6 @@
 name: IndexNow — submit all pages
 
-# Manual, one-off: sends every URL in public/sitemap.xml to IndexNow (Bing, Yandex, etc.).
+# Manual, one-off: sends every URL in public/sitemap-full.xml to IndexNow (Bing, Yandex, etc.).
 # Run it once after the site is verified in Bing Webmaster Tools, to seed the index.
 # Day-to-day submissions happen automatically in deploy-cloudflare-pages.yml
 # (only new/changed pages).

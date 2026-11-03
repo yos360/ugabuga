@@ -75,8 +75,8 @@ jobs:
             declined (never build them).
             Then write ${{ steps.inbox.outputs.dir }}/spec.json and run
             `node scripts/requests-inbox.mjs migration ${{ steps.inbox.outputs.dir }}/spec.json`.
-            Before committing: restore public/llms.txt and public/sitemap.xml
-            (`git checkout -- $(git ls-files public/llms.txt public/sitemap.xml)`); `npx vite build` passes,
+            Before committing: restore public/llms.txt and the generated sitemaps
+            (`git checkout -- $(git ls-files public/llms.txt public/sitemap.xml public/sitemap-full.xml public/sitemaps)`); `npx vite build` passes,
             `npx oxlint` has no errors, `node --test tests/*.mjs` has 0 failures.
             Commit the migration with the new pages (request ids only in the message; git user
             "claude[bot]" / 41898282+claude[bot]@users.noreply.github.com), then `git pull --rebase origin main`

@@ -399,8 +399,15 @@ export function ReadingPage() {
   }, [slug, r])
   if (!r) return <NotFound />
   const n = qCount(r)
+  // Meta description: fixed head + a passage excerpt cut at a word boundary + the call to action (kept whole, ≤ ~155 chars).
+  const descHead = `קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}`
+  const descTail = `עם ${n} שאלות, דף תשובות ודף להדפסה.`
+  const room = 155 - descHead.length - descTail.length - 5
+  const cut = r.text[0].slice(0, Math.max(room, 0))
+  const excerpt = room >= 25 ? (r.text[0].length > room ? cut.slice(0, cut.lastIndexOf(' ')) : cut).replace(/[\s,;:—–-]+$/, '') : ''
+  const readingDesc = excerpt ? `${descHead}: ${excerpt}… ${descTail}` : `${descHead} ${descTail}`
   return <Page>
-    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={`קטע הבנת הנקרא "${r.title}" (${r.kind}) לכיתה ${r.grade}: ${r.text[0].slice(0, r.title.length > 18 ? 60 : 75)}… עם ${n} שאלות, דף תשובות ודף להדפסה.`} path={`/learn/reading/${r.slug}`} />
+    <SEO title={`${r.title} — הבנת הנקרא לכיתה ${r.grade} עם שאלות`} description={readingDesc} path={`/learn/reading/${r.slug}`} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, { label: 'הבנת הנקרא', href: '/learn/reading' }, ...(r.level ? [{ label: `כיתה ${GRADE_LETTER[r.level]}`, href: gradeHref(r.level) }] : []), { label: r.title }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade} · {n} שאלות</p>
