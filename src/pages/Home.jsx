@@ -15,6 +15,7 @@ import { LiveTop, RequestTop, BringTop, RsvpTop } from '../components/home/HomeT
 import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
+import HomeDiscover from '../components/home/HomeDiscover'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, eight worlds, favourites, news.
@@ -252,6 +253,7 @@ export default function Home() {
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
+    <HomeDiscover />
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>
       <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
