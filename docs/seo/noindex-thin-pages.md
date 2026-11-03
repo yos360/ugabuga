@@ -46,4 +46,15 @@ When in doubt the rule is not to noindex, so these are suggestions only.
 
 ## Noindexed patterns now
 
-None.
+**2026-11-03 — 381 exact URLs, listed in `scripts/noindex-paths.mjs`.** Source: the Search Console "Crawled – not indexed" examples export (1,000 of 1,475 URLs), read on 2026-11-03. Not indexed means 0 clicks and 0 impressions. Only the near-identical template families were taken:
+
+| Family | URLs |
+|---|---|
+| `/printables/coloring/<subject>/N` (numbered drawings; hubs kept) | 171 |
+| `/baby-names/name/<name>` (letter and gender pages kept) | 141 |
+| `/en/coloring/<holiday>/N` | 36 |
+| `/printables/color-by-number/<sheet>` | 33 |
+
+Left alone on purpose, although some are on the same Search Console list: `/shabbat-times/*` (never noindex), `/flags/*`, `/math/*`, `/learn/*` and the rest. Those need more content, not noindex.
+
+How it works: prerender writes `noindex, follow` into those snapshots, and `scripts/sitemap-groups.mjs` holds them back from the sitemaps sent to Google. The pages stay live and linked. Undo: delete entries from `scripts/noindex-paths.mjs` and push.

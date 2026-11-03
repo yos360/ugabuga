@@ -4,6 +4,7 @@ import { resolve, dirname, extname } from 'node:path'
 import { createRequire } from 'node:module'
 import { execFileSync } from 'node:child_process'
 import { prerenderConcurrency, renderPagePool } from './prerender-pool.mjs'
+import { NOINDEX_PATHS } from './noindex-paths.mjs'
 
 const concurrency = prerenderConcurrency(process.env.PRERENDER_CONCURRENCY)
 
@@ -140,7 +141,13 @@ try {
       // temporary build server (http://127.0.0.1:PORT/...). Make them site-relative,
       // otherwise every visitor's browser tries to load files from its own localhost.
       await stripPortals(page)
-      const html = (await page.content()).replaceAll(origin + '/', '/')
+      let html = (await page.content()).replaceAll(origin + '/', '/')
+      // Thin pages Google declined (scripts/noindex-paths.mjs): same snapshot, robots set to noindex.
+      if (NOINDEX_PATHS.has(path)) {
+        const tagged = html.replace(/<meta name="robots" content="[^"]*"/, '<meta name="robots" content="noindex, follow"')
+        if (tagged === html) throw new Error(`No robots tag to mark noindex on ${path}`)
+        html = tagged
+      }
       await restorePortals(page)
       snapshots.push({ path, html, title: result.title, index })
       if (snapshots.length % 25 === 0) console.log(`Pre-rendered ${snapshots.length}/${paths.length}`)
