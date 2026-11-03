@@ -33,6 +33,26 @@ export default function WhatsAppShare() {
     const t = setTimeout(() => { if (!bubbleSeen() && !document.querySelector('dialog[open]')) { setBubble(true); markBubble() } }, 25000)
     return () => clearTimeout(t)
   }, [pathname, audience.key])
+  // Someone else printed the same kind of page in the last two minutes (live presence from RecentActivity,
+  // real events only, never this visitor's own): the bubble says so instead of the general invitation.
+  const [printedNow, setPrintedNow] = useState(false)
+  useEffect(() => {
+    let on = true
+    setPrintedNow(false)
+    const onLive = e => {
+      const prints = (e.detail?.events || []).filter(x => x.action === 'print' || x.action === 'download')
+      if (!prints.length) { setPrintedNow(false); return }
+      import('../../utils/liveActivity').then(m => {
+        const mine = m.activityForPath(pathname)
+        // On a printables page any printed worksheet counts as similar; elsewhere only the same activity.
+        const printables = pathname.startsWith('/printables/')
+        const NOT_PAPER = ['game', 'online-games', 'tool']
+        if (on) setPrintedNow(!!mine && prints.some(x => x.category === mine || (printables && !NOT_PAPER.includes(x.category))))
+      }).catch(() => {})
+    }
+    window.addEventListener('buga:live-activity', onLive)
+    return () => { on = false; window.removeEventListener('buga:live-activity', onLive) }
+  }, [pathname])
   // Phones: tuck the button away while the page scrolls down (it would sit on cards, fields and
   // buttons), bring it back on scroll up or once scrolling stops. CSS applies this on small screens only.
   const [tucked, setTucked] = useState(false)
@@ -82,7 +102,7 @@ export default function WhatsAppShare() {
       <a role="menuitem" href={mail} onClick={() => { countShare('email'); setMenu(false) }}>✉️ שליחה במייל</a>
     </div>}
     {bubble && <div className={`wa-bubble no-print${tucked ? ' is-tucked' : ''}`} role="status" dir="rtl">
-      <button type="button" className="wa-bubble-text" onClick={share}>{audience.invite}</button>
+      <button type="button" className="wa-bubble-text" onClick={share}>{printedNow ? '🖨️ עוד מישהו הדפיס עכשיו משהו דומה · שתפו גם אתם 💛' : audience.invite}</button>
       <button type="button" className="wa-bubble-x" onClick={() => setBubble(false)} aria-label="סגירה">×</button>
     </div>}
     <button type="button" onClick={share} aria-expanded={menu} className={`wa-fab no-print${tucked ? ' is-tucked' : ''}`} aria-label={`שיתוף העמוד — וואטסאפ, פייסבוק ועוד · ${audience.button}`} title={audience.invite}>
