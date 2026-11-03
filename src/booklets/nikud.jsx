@@ -27,7 +27,9 @@ function VowelPage({ n, vowel }) {
 }
 
 const ROWS = 'למנרסזה'
-const SYLLABLE_LINES = [...ROWS].map(l => ['ַ', 'ָ', 'ֵ', 'ֶ', 'ִ', 'ֹ'].map(m => l + m).concat(l + 'וּ').join('   '))
+const SYLLABLE_LINES = [...ROWS].map(l => ['ַ', 'ָ', 'ֵ', 'ֶ', 'ִ', 'ֹ'].map(m => l + m).concat(l + 'וּ', l + 'ֻ').join('   '))
+// Practice pages follow the vowel pages (cover is page 1).
+const P = VOWELS.length + 2
 const MATCH = [['בָּ', '🎈'], ['דַּ', '🐟'], ['לֵ', '❤️'], ['דֶּ', '🚪'], ['פִּ', '🐘'], ['סוֹ', '🐴']]
 const CHOICE = [
   { pic: '🎈', options: ['בִּ', 'בָּ', 'בּוּ'], answer: 'בָּ' }, { pic: '🐟', options: ['דַּ', 'דִּ', 'דֹּ'], answer: 'דַּ' },
@@ -38,14 +40,14 @@ const CHOICE = [
 export default function NikudBooklet({ seed }) {
   return <>
     <Cover emoji="🔤✨" title="חוברת תנועות וניקוד" subtitle="עמוד לכל תנועה: אות, ניקוד ותמונה של מילה שמתחילה בהן" pages={PAGES}
-      note="כל התנועות בעברית מופיעות כאן. פַּתָח וקָמָץ נשמעות אותו דבר (אַ), וגם צֵירֶה וסֶגּוֹל (אֵ). שׁוּרוּק וקֻבּוּץ נשמעות אוּ — בעמוד שׁוּרוּק כל המילים נפתחות באות עם וּ. כדאי לקרוא כל הברה בקול, ואחר כך את המילה כולה." />
+      note="שמונה התנועות הבסיסיות מופיעות כאן. פַּתָח וקָמָץ נשמעות אותו דבר (אַ), וגם צֵירֶה וסֶגּוֹל (אֵ), ושׁוּרוּק וקֻבּוּץ נשמעות אוּ. החטפים והשווא יבואו בשלב מאוחר יותר. כדאי לקרוא כל הברה בקול, ואחר כך את המילה כולה." />
     {VOWELS.map((v, i) => <VowelPage key={v.key} n={i + 2} vowel={v} />)}
-    <FillPage n={9} title="קוראים הברות" instruction="קוראים בקול כל שורה — אותה אות עם כל התנועות" lines={SYLLABLE_LINES} size={30} />
-    <MatchPage n={10} title="מתאימים הברה לתמונה" instruction="מושכים קו מההברה לתמונה שהמילה שלה מתחילה בה" pairs={MATCH.map(([s, e]) => [{ text: s }, { emoji: e }])} seed={seed} />
-    <ChoicePage n={11} title="באיזו הברה מתחילה המילה?" instruction="מקיפים את ההברה הנכונה" items={CHOICE.map(c => ({ pic: { emoji: c.pic }, options: c.options }))} />
-    <AnswerKey n={12} sections={[
-      { title: 'עמוד 10 — התאמה', answers: MATCH.map(([s, e]) => `${s} ← ${e}`) },
-      { title: 'עמוד 11 — באיזו הברה מתחילה המילה', answers: CHOICE.map(c => `${c.pic} ${c.answer}`) },
+    <FillPage n={P} title="קוראים הברות" instruction="קוראים בקול כל שורה — אותה אות עם כל התנועות" lines={SYLLABLE_LINES} size={28} />
+    <MatchPage n={P + 1} title="מתאימים הברה לתמונה" instruction="מושכים קו מההברה לתמונה שהמילה שלה מתחילה בה" pairs={MATCH.map(([s, e]) => [{ text: s }, { emoji: e }])} seed={seed} />
+    <ChoicePage n={P + 2} title="באיזו הברה מתחילה המילה?" instruction="מקיפים את ההברה הנכונה" items={CHOICE.map(c => ({ pic: { emoji: c.pic }, options: c.options }))} />
+    <AnswerKey n={P + 3} sections={[
+      { title: `עמוד ${P + 1} — התאמה`, answers: MATCH.map(([s, e]) => `${s} ← ${e}`) },
+      { title: `עמוד ${P + 2} — באיזו הברה מתחילה המילה`, answers: CHOICE.map(c => `${c.pic} ${c.answer}`) },
     ]} />
     <Certificate booklet="חוברת התנועות" done="קראתי את כל התנועות, הברות ומילים עם ניקוד." cheer="כל הכבוד, קורא/ת מצוין/ת!" />
   </>

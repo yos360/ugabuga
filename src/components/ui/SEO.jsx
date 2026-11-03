@@ -78,7 +78,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
       '@type': 'SearchAction',
       'target': {
         '@type': 'EntryPoint',
-        'urlTemplate': 'https://ugabuga.co.il/games?q={search_term_string}'
+        'urlTemplate': 'https://ugabuga.co.il/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     },

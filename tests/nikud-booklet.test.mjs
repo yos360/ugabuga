@@ -2,10 +2,10 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { VOWELS, syllable } from '../src/booklets/nikudData.js'
 
-const MARK = { patach: 'ַ', kamatz: 'ָ', tzere: 'ֵ', segol: 'ֶ', chirik: 'ִ', cholam: 'ֹ' }
+const MARK = { patach: 'ַ', kamatz: 'ָ', tzere: 'ֵ', segol: 'ֶ', chirik: 'ִ', cholam: 'ֹ', kubutz: 'ֻ' }
 
 test('every vowel page has six words with distinct opening letters', () => {
-  assert.equal(VOWELS.length, 7)
+  assert.equal(VOWELS.length, 8)
   for (const v of VOWELS) {
     assert.equal(v.words.length, 6, v.key)
     const letters = v.words.map(([w]) => w[0])
