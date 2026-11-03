@@ -10,16 +10,21 @@ export const BRAND_ALIASES = ['UGABUGA', 'Ugabuga', 'אוגה בוגה', 'עוג
 // Who runs the site — on the homepage, so search engines and AI assistants can describe the brand.
 const ORGANIZATION = {
   '@type': 'Organization',
+  '@id': 'https://ugabuga.co.il/#organization',
   'name': 'עוגה בוגה',
   'alternateName': BRAND_ALIASES,
   'url': 'https://ugabuga.co.il',
-  'logo': { '@type': 'ImageObject', 'url': 'https://ugabuga.co.il/og-image.png' },
+  'logo': { '@type': 'ImageObject', 'url': 'https://ugabuga.co.il/icons/ugabuga-v2-512.png', 'width': 512, 'height': 512 },
   'description': 'אתר ישראלי חינמי בעברית עם משחקים, דפים להדפסה ולמידה לילדים בגילאי 3–12 — להורים, לגננות ולמורות.',
   'email': 'hellohugabuga@gmail.com',
   'areaServed': { '@type': 'Country', 'name': 'Israel' },
   'knowsLanguage': 'he',
   ...(SOCIAL_LIVE.length ? { 'sameAs': SOCIAL_LIVE.map(([, , href]) => href) } : {}),
 }
+
+// Other pages point at the homepage's WebSite and Organization nodes by @id (name and url kept for parsers that don't follow it).
+const WEBSITE_REF = { '@type': 'WebSite', '@id': 'https://ugabuga.co.il/#website', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' }
+const ORGANIZATION_REF = { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' }
 
 // Google shows about 60–70 characters of a title and ~160 of a description. Past that, the brand
 // suffix is dropped first (the page's own words matter more), and descriptions are cut at a word.
@@ -68,6 +73,7 @@ export default function SEO({ title, description, path, image = '/og-image.png',
   const schemaData = isHome ? {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': 'https://ugabuga.co.il/#website',
     'name': 'עוגה בוגה',
     'alternateName': BRAND_ALIASES,
     'url': 'https://ugabuga.co.il',
@@ -93,8 +99,8 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     'description': fullDescription,
     'url': url,
     'inLanguage': 'he',
-    'isPartOf': { '@type': 'WebSite', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
-    'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
+    'isPartOf': WEBSITE_REF,
+    'publisher': ORGANIZATION_REF,
     'isAccessibleForFree': true,
     ...(preview ? { 'primaryImageOfPage': fullImage } : {}),
   } : null
@@ -113,10 +119,10 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     'inLanguage': 'he',
     'isAccessibleForFree': true,
     'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'ILS' },
-    'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
+    'publisher': ORGANIZATION_REF,
   } : null
 
-  const englishSchema = en && !noindex ? { '@context': 'https://schema.org', '@type': normalizedPath === '/en' ? 'WebSite' : 'WebPage', name: title || fullTitle, description: fullDescription, url, inLanguage: 'en', isAccessibleForFree: true, isPartOf: { '@type': 'WebSite', name: 'Ugabuga', url: 'https://ugabuga.co.il/en' }, publisher: { '@type': 'Organization', name: 'Ugabuga', url: 'https://ugabuga.co.il' } } : null
+  const englishSchema = en && !noindex ? { '@context': 'https://schema.org', '@type': 'WebPage', name: title || fullTitle, description: fullDescription, url, inLanguage: 'en', isAccessibleForFree: true, isPartOf: WEBSITE_REF, publisher: ORGANIZATION_REF } : null
   const schemas = [en ? englishSchema : schemaData, en ? null : pageSchema, toolSchema, ...extra].filter(Boolean)
 
   return (
