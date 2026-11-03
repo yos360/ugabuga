@@ -12,7 +12,8 @@ test('every booklet is complete and has a unique slug and title', () => {
     assert.ok(!slugs.has(b.slug) && !titles.has(b.title), `duplicate ${b.slug}`)
     slugs.add(b.slug); titles.add(b.title)
     for (const k of ['emoji', 'title', 'seoTitle', 'description', 'intro', 'audience', 'subject', 'added']) assert.ok(b[k], `${b.slug}: missing ${k}`)
-    assert.ok(b.pages.length >= 10, `${b.slug}: a booklet has at least 10 pages`)
+    // Practice bagrut exams (bagrut-*) are a few question pages; workbooks have at least 10.
+    assert.ok(b.pages.length >= (b.slug.startsWith('bagrut-') ? 6 : 10), `${b.slug}: a booklet has at least 10 pages`)
     assert.equal(new Set(b.pages).size, b.pages.length, `${b.slug}: page titles repeat`)
     assert.ok(b.paragraphs.length >= 2 && b.faq.length >= 2 && b.related.length >= 2, `${b.slug}: page copy`)
     assert.ok(b.description.length >= 80 && b.description.length <= 220, `${b.slug}: description length ${b.description.length}`)

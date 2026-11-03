@@ -60,6 +60,7 @@ export function BookletsHub() {
       <Chip on={!subject} onClick={() => setSubject(null)}>כל המקצועות</Chip>
       {subjects.map(s => <Chip key={s} on={subject === s} onClick={() => setSubject(s)}>{s}</Chip>)}
     </div>
+    {stage === 'תיכון' && <p className="mb-4 text-center"><Link to="/bagrut" className="inline-flex min-h-[48px] items-center rounded-2xl bg-violet-700 px-5 font-bold text-white">🎓 מבחני בגרות לתרגול, לפי מקצוע ויחידות ←</Link></p>}
     <p className="mb-3 text-center font-bold text-[var(--muted-foreground)]" aria-live="polite">{shown.length} חוברות</p>
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{shown.map(b => <Card key={b.slug} b={b} />)}</div>
     <PlannerBanner className="mt-10" />
@@ -67,6 +68,35 @@ export function BookletsHub() {
       'חוברת עבודה נותנת לילד משהו שדף בודד לא נותן: התחלה, אמצע וסוף. יש שער שכותבים עליו את השם, עמודים שמתקדמים בהדרגה, ותעודה בסוף שאפשר לתלות על המקרר.',
       'כל החוברות כאן בחינם ובלי הרשמה. פותחים את החוברת, רואים את כל העמודים בתצוגה מקדימה, ובוחרים אם להדפיס או לשמור כ־PDF ולשלוח לטלפון או למורה.',
     ]} related={[{ label: 'כל הדפים להדפסה', href: '/printables' }, { label: 'חוברת הכנה לכיתה א׳', href: '/classroom/first-grade' }, { label: 'דפי עבודה לגן חובה', href: '/printables/kindergarten-worksheets' }]} /></div>
+  </div>
+}
+
+// /bagrut — the practice bagrut exams (bagrut-* booklets, plus the English bagrut booklet), by subject and units.
+const isBagrut = b => b.slug.startsWith('bagrut-') || b.slug === 'english-bagrut'
+const bagrutSubject = b => b.subject.split(' —')[0]
+export function BagrutHub() {
+  const exams = BOOKLETS.filter(isBagrut)
+  const ORDER = ['מתמטיקה', 'אנגלית', 'לשון', 'ספרות', 'תנ״ך', 'היסטוריה', 'אזרחות', 'ביולוגיה', 'כימיה', 'פיזיקה']
+  const rank = s => (ORDER.indexOf(s) + 1) || 99
+  const subjects = [...new Set(exams.map(bagrutSubject))].sort((a, b) => rank(a) - rank(b))
+  return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
+    <SEO title="מבחני בגרות לתרגול להדפסה — PDF בחינם עם פתרונות, לפי מקצוע ויחידות" description={`${exams.length} מבחני בגרות לתרגול בחינם: מתמטיקה 3, 4 ו־5 יחידות, לשון, ספרות, תנ״ך, היסטוריה, אזרחות, אנגלית, ביולוגיה, פיזיקה וכימיה. כל מבחן להדפסה או כ־PDF, עם דף תשובות.`} path="/bagrut" />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, CRUMB, { label: 'מבחני בגרות לתרגול' }]} />
+    <h1 className="mb-2 text-center text-4xl sm:text-5xl"><span aria-hidden="true">🎓 </span>מבחני בגרות לתרגול</h1>
+    <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">מבחנים מקוריים במבנה הדומה לבחינות הבגרות, לפי מקצוע ומספר יחידות. מדפיסים, פותרים בזמן אמת, ובודקים בדף התשובות שבסוף.</p>
+    {subjects.map(s => <section key={s} className="mb-8">
+      <h2 className="mb-3 text-2xl font-bold">{s}</h2>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{exams.filter(b => bagrutSubject(b) === s).sort((x, y) => (x.units || 0) - (y.units || 0)).map(b => <Card key={b.slug} b={b} />)}</div>
+    </section>)}
+    <div className="mt-10"><SeoBody paragraphs={[
+      'כל מבחן כאן נכתב במיוחד לתרגול: השאלות מקוריות, והמבנה דומה לבחינת הבגרות במקצוע — פרקים, ניקוד לכל שאלה וסעיפים. את הבחינות הרשמיות של השנים הקודמות מפרסם משרד החינוך באתר אגף הבחינות.',
+      'הדרך הטובה לתרגל: להדפיס, לשבת עם שעון ובלי טלפון, לפתור כמו בבחינה, ורק בסוף לבדוק בדף התשובות. שאלות שלא הצלחתם — חוזרים לחומר ופותרים שוב אחרי כמה ימים.',
+      'במתמטיקה יש מבחן לכל רמה: 3, 4 ו־5 יחידות (ב־5 יחידות שני שאלונים). במקצועות החובה — לשון, ספרות, תנ״ך, היסטוריה ואזרחות — מבחן ברמת 2 יחידות, ובמגמות המדעיות מבחן ברמת 5 יחידות.',
+    ]} faq={[
+      { q: 'האם אלה מבחנים אמיתיים של משרד החינוך?', a: 'לא. אלה מבחני תרגול מקוריים במבנה דומה. את הבחינות הרשמיות מפרסם משרד החינוך.' },
+      { q: 'יש פתרונות?', a: 'כן. בכל מבחן יש דף תשובות לפני העמוד האחרון, עם התשובה הסופית לכל סעיף.' },
+      { q: 'אפשר להוריד כ־PDF?', a: 'כן. פותחים את המבחן, לוחצים על "הדפסה או PDF" ובוחרים לשמור כ־PDF.' },
+    ]} related={[{ label: 'כל החוברות להדפסה', href: '/booklets' }, { label: 'חוברת מתמטיקה לתיכון', href: '/booklets/math-high-school' }, { label: 'חוברת אנגלית לבגרות', href: '/booklets/english-bagrut' }]} /></div>
   </div>
 }
 

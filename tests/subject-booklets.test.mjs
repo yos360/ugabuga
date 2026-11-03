@@ -9,7 +9,7 @@ const read = p => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')
 // BOOKLETS=slug,slug limits the run to some booklets while writing them.
 const only = process.env.BOOKLETS ? process.env.BOOKLETS.split(',') : null
 const slugs = readdirSync(new URL('../src/booklets/content/', import.meta.url)).filter(f => f.endsWith('.js')).map(f => f.slice(0, -3)).filter(s => !only || only.includes(s))
-const TYPES = new Set(['read', 'choice', 'truefalse', 'match', 'fill', 'order', 'problems', 'words', 'search', 'open'])
+const TYPES = new Set(['read', 'choice', 'truefalse', 'match', 'fill', 'order', 'problems', 'words', 'search', 'open', 'exam'])
 const words = t => t.trim().split(/\s+/).length
 const load = async (dir, slug) => (await import(`../src/booklets/${dir}/${slug}.js`)).default
 
@@ -49,13 +49,23 @@ test('subject booklet content fits the layout and its answers are right', async 
     for (const k of ['emoji', 'title', 'subtitle', 'note', 'done', 'cheer']) assert.ok(c[k], `${slug}: ${k}`)
     assert.equal(c.title, b.title, `${slug}: cover title = meta title`)
     assert.equal(b.pages.length, c.sections.length + 3, `${slug}: pages = cover + sections + key + certificate`)
-    assert.ok(b.pages.length >= 12 && b.pages.length <= 18, `${slug}: ${b.pages.length} pages`)
+    // Practice bagrut exams (bagrut-*) are shorter: a few question pages.
+    assert.ok(b.pages.length >= (slug.startsWith('bagrut-') ? 6 : 12) && b.pages.length <= 18, `${slug}: ${b.pages.length} pages`)
     assert.match(b.pages.at(-2), /תשובות/, `${slug}: answer key page`)
     assert.match(b.pages.at(-1), /תעודת סיום/, `${slug}: certificate page`)
     c.sections.forEach((s, i) => {
       assert.ok(TYPES.has(s.type), `${at(i)}: type ${s.type}`)
       const items = s.items || s.pairs || s.questions || s.prompts || s.words
-      assert.ok(Array.isArray(items) && items.length >= 3, `${at(i)}: at least 3 items`)
+      assert.ok(Array.isArray(items) && items.length >= (s.type === 'exam' ? 1 : 3), `${at(i)}: at least 3 items`)
+      if (s.type === 'exam') {
+        assert.ok(s.questions.length <= 2, `${at(i)}: up to 2 exam questions per page`)
+        s.questions.forEach((q, k) => {
+          const stem = [].concat(q.text || []).join(' '), all = stem + ' ' + q.parts.map(p => p[0]).join(' ')
+          assert.ok(q.parts.length >= 1 && q.parts.length <= 5, `${at(i)}: question ${k + 1} has 1–5 parts`)
+          assert.ok(words(all) <= (s.questions.length === 1 ? 260 : 120), `${at(i)}: question ${k + 1} is ${words(all)} words`)
+          q.parts.forEach(([p, a]) => assert.ok(a && String(a).length <= 90, `${at(i)}: a short key answer for — ${p}`))
+        })
+      }
       if (s.type === 'read') {
         assert.ok(words(s.text.join(' ')) <= 200, `${at(i)}: passage of ${words(s.text.join(' '))} words (max 200)`)
         assert.ok(s.questions.length <= 6, `${at(i)}: up to 6 questions`)
