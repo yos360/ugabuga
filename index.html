@@ -4,7 +4,7 @@
     <!-- Theme before first paint. A saved "dark" stays dark; a saved "light" holds for 12 hours. Otherwise, like
          Waze, the site turns dark from dusk to sunrise: daylight length from the date (latitude ~32°), solar noon
          from the device clock and its daylight-saving offset. -->
-    <script>try{var t=localStorage.getItem('buga-theme'),lightHeld=t==='light'&&Date.now()-(+localStorage.getItem('buga-theme-at')||0)<432e5;if(t==='dark'||(!lightHeld&&(function(){var d=new Date(),y=d.getFullYear(),j=new Date(y,0,1),n=(d-j)/864e5,dst=d.getTimezoneOffset()<Math.max(j.getTimezoneOffset(),new Date(y,6,1).getTimezoneOffset())?1:0,r=Math.PI/180,dec=23.44*r*Math.sin(2*Math.PI*(284+n)/365),l=32*r,h=Math.acos((Math.sin(-.833*r)-Math.sin(l)*Math.sin(dec))/(Math.cos(l)*Math.cos(dec)))*12/Math.PI,noon=11.75+dst,x=d.getHours()+d.getMinutes()/60;return x>noon+h+.33||x<noon-h})())){document.documentElement.dataset.theme='dark';if(t!=='dark')document.documentElement.dataset.themeAuto='1'}}catch(e){}</script>
+    <script>try{if(localStorage.getItem('buga-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="google6a2153ff6b2d0a78" />
