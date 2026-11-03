@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/learn.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/printables.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/names.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/games.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/shabbat-holidays.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/english.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/suppliers.xml</loc></sitemap>
-  <sitemap><loc>https://ugabuga.co.il/sitemaps/pages.xml</loc></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/learn.xml</loc><lastmod>2026-11-03</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/printables.xml</loc><lastmod>2026-11-03</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/names.xml</loc><lastmod>2026-10-30</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/games.xml</loc><lastmod>2026-10-30</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/shabbat-holidays.xml</loc><lastmod>2026-10-30</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/english.xml</loc><lastmod>2026-11-01</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/suppliers.xml</loc><lastmod>2026-10-10</lastmod></sitemap>
+  <sitemap><loc>https://ugabuga.co.il/sitemaps/pages.xml</loc><lastmod>2026-11-03</lastmod></sitemap>
 </sitemapindex>

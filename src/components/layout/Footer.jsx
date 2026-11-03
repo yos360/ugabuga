@@ -1,8 +1,11 @@
+import { lazy, Suspense } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { SITE_SLOGAN, CHANNEL_GO } from '../../data/brand'
 import { SOCIAL_LIVE } from '../../data/social'
-import MailSignup from '../mail/MailSignup'
 import '../mail/mail.css'
+
+// The signup box sits at the bottom of every page — its code stays out of the entry bundle.
+const MailSignup = lazy(() => import('../mail/MailSignup'))
 
 import { FOOTER_COLUMNS, SITE_MAP_LINK } from '../../data/siteMenu'
 
@@ -36,7 +39,7 @@ export default function Footer() {
   return (
     <footer className="site-footer mt-16 border-t border-[var(--border)] no-print">
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {!/^\/(admin|en|mail-preferences)(\/|$)/.test(pathname) && !/^\/shabbat-times\/[^/]+\/?$/.test(pathname) && <MailSignup key={pathname} allowShabbat={/^\/(holidays|shabbat-times|shabbat-activities|shabbat-parents)(\/|$)/.test(pathname)} />}
+        {!/^\/(admin|en|mail-preferences)(\/|$)/.test(pathname) && !/^\/shabbat-times\/[^/]+\/?$/.test(pathname) && <Suspense fallback={null}><MailSignup key={pathname} allowShabbat={/^\/(holidays|shabbat-times|shabbat-activities|shabbat-parents)(\/|$)/.test(pathname)} /></Suspense>}
         {/* Mobile: collapsed accordions to keep the footer short */}
         <div className="sm:hidden">
           {COLUMNS.map(col => (
@@ -66,6 +69,7 @@ export default function Footer() {
           {SOCIAL_LIVE.length > 0 && <div className="mt-2 flex flex-wrap items-center gap-2"><span>📱 עקבו אחרינו:</span>{SOCIAL_LIVE.map(([id, name, href, d]) => <a key={id} href={href} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`} title={name} className="grid h-11 w-11 place-items-center rounded-full border border-[var(--border)] hover:bg-[var(--muted)]"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d={d} fill="currentColor" /></svg></a>)}</div>}
           <p className="mt-2">🎪 נותנים שירות לימי הולדת? <Link to="/suppliers/me" className="underline decoration-dashed">הצטרפו למאגר הספקים בחינם</Link></p>
           <p className="mt-2">📣 רוצים להגיע להורים ולגננות? <Link to="/advertise" className="underline decoration-dashed">פרסום בעוגה בוגה</Link></p>
+          <p className="mt-2"><Link to="/about" className="underline decoration-dashed">אודות</Link> · <Link to="/contact" className="underline decoration-dashed">צור קשר</Link> · <Link to="/editorial-policy" className="underline decoration-dashed">מדיניות עריכה</Link></p>
           <p className="mt-4 text-[var(--muted-foreground)]">עוגה בוגה 🎂 {SITE_SLOGAN} · כל הזכויות שמורות.</p>
         </div>
       </div>

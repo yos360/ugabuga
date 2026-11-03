@@ -77,6 +77,16 @@ const LOVED = [
 ]
 const NEW = [['📅', 'לוח שנה עברי לועזי', '/hebrew-calendar'], ['⭐', 'כוכב/ת השבוע להדפסה', '/printables/star-of-the-week'], ['📖', 'הבנת הנקרא א׳–ח׳', '/learn/reading'], ['🤖', 'אקדמיית ה־AI של בוגה', '/learn/ai']]
 
+// What most visitors come from Google for — one tap from the top of the page.
+const QUICK = [
+  ['🎨', 'דפי צביעה', '/printables/coloring'],
+  ['✏️', 'דפי עבודה בחשבון', '/printables/math-worksheets'],
+  ['🕎', 'חנוכה', '/holidays/hanukkah'],
+  ['🕯️', 'זמני שבת', '/shabbat-times'],
+  ['👶', 'שמות לתינוקות', '/baby-names'],
+  ['🕹️', 'משחקים אונליין', '/online-games'],
+]
+
 const SocialIcons = () => SOCIAL_LIVE.length > 0 && <div className="hp-social">{SOCIAL_LIVE.map(([id, name, href, d]) =>
   <a key={id} href={href} className={`hp-soc hp-soc-${id}`} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`}>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} fill="currentColor" /></svg>
@@ -158,6 +168,7 @@ export default function Home() {
       <h1>{SITE_SLOGAN}</h1>
       <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
+      <nav className="hp-quick" aria-label="הכי מחפשים">{QUICK.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
       {/* The daily time tunnel opens the page, right under the heading (owner's request). */}
       <NearViewport><div className="hp-sec hp-daily hp-daily-top"><TodayGame fallback={<TodayQuiz />} /></div></NearViewport>
       {variant === 'live' && <LiveTop variant={variant} />}
@@ -190,7 +201,7 @@ export default function Home() {
       <h2 className="hp-h2">למה נכנסתם היום?</h2>
       <div className="hp-doors">{HOME_INTENTS.map(([emoji, title, desc, to, , bg, color, src]) => <Link key={to} to={to} className="hp-door" style={{ '--bg': bg, '--c': color }}>
         <span className="hp-door-text"><b>{emoji} {title}</b><small>{desc.split(/[.—]/)[0]}</small></span>
-        <img className="hp-door-art" src={src} alt="" width="720" height="720" />
+        <img className="hp-door-art" src={src} alt="" width="720" height="720" loading="lazy" decoding="async" />
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
@@ -219,7 +230,7 @@ export default function Home() {
     <footer className="hp-footer">
       <div className="hp-foot-news"><b>קצת השראה, פעם בשבוע</b><span>עד שלושה רעיונות למשחק, יצירה וזמן ביחד</span><Link to="/mail-preferences">להרשמה ←</Link></div>
       <div className="hp-foot-bottom">
-        <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['פרסום באתר', '/advertise'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<a href="mailto:hellobugabuga@gmail.com">צרו קשר</a></nav>
+        <nav aria-label="קישורי האתר">{[['אודות', '/about'], ['פרסום באתר', '/advertise'], ['מפת האתר', '/tools'], ['פרטיות', '/privacy'], ['תנאי שימוש', '/terms']].map(([t, to]) => <Link key={to} to={to}>{t}</Link>)}<Link to="/contact">צרו קשר</Link></nav>
         <SocialIcons />
       </div>
     </footer>

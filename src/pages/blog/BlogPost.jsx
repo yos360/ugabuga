@@ -15,9 +15,10 @@ export default function BlogPost() {
   const more = BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 3)
   const schema = {
     '@context': 'https://schema.org', '@type': 'BlogPosting',
-    headline: post.title, description: post.description, datePublished: post.date,
-    mainEntityOfPage: 'https://ugabuga.co.il/blog/' + slug,
-    author: { '@type': 'Organization', name: 'עוגה בוגה' },
+    headline: post.title, description: post.description, datePublished: post.date, dateModified: post.updated || post.date,
+    inLanguage: 'he', mainEntityOfPage: 'https://ugabuga.co.il/blog/' + slug,
+    author: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il/about' },
+    publisher: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il' },
   }
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
@@ -27,7 +28,7 @@ export default function BlogPost() {
         <div className="text-6xl mb-4">{post.emoji}</div>
         <h1 className="text-4xl md:text-5xl font-hand font-bold mb-4">{post.title}</h1>
         <p className="text-lg text-[var(--muted-foreground)] leading-relaxed max-w-2xl mx-auto">{post.description}</p>
-        <p className="mt-4 text-sm text-[var(--muted-foreground)]">{fmt(post.date)} · {post.minutes} דקות קריאה</p>
+        <p className="mt-4 text-sm text-[var(--muted-foreground)]">{fmt(post.date)} · {post.minutes} דקות קריאה · צוות עוגה בוגה · <Link to="/editorial-policy" className="underline">איך אנחנו בודקים</Link></p>
       </header>
       <WobblyCard hover={false} padding="p-6 md:p-8">
         <div className="space-y-8 leading-relaxed text-lg">

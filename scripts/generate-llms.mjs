@@ -22,7 +22,7 @@ const out = [
   '- כל התוכן חינם ולא דורש הרשמה; דפי ההדפסה יוצאים נקיים על A4 וניתן לשמור אותם כ־PDF.',
   '- קהל: הורים, ילדים, גננות, מורות ומדריכים בישראל.',
   `- מפת האתר המלאה: ${SITE}/sitemap.xml · כל העמודים במקום אחד: ${SITE}/tools`,
-  `- אודות: ${SITE}/about · פרטיות: ${SITE}/privacy · יצירת קשר: hellohugabuga@gmail.com`,
+  `- אודות: ${SITE}/about · מדיניות עריכה: ${SITE}/editorial-policy · יצירת קשר: ${SITE}/contact (hellohugabuga@gmail.com) · פרטיות: ${SITE}/privacy`,
   '',
 ]
 // Teachers are a large share of the visitors AI assistants send (mostly to /classroom), so their

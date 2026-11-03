@@ -79,8 +79,8 @@
 /scavenger-hunt /tools/scavenger-hunt-maker 301
 /treasure-hunt /tools/scavenger-hunt-maker 301
 
-/songs/birthday-songs /ideas 301
-/birthday-songs /ideas 301
+/songs/birthday-songs /music/songs/happy-birthday 301
+/birthday-songs /music/songs/happy-birthday 301
 
 # ארץ-עיר: the /games/ and root aliases all render the same tool; keep one canonical URL.
 /games/eretz-ir-buga /tools/eretz-ir 301
@@ -149,14 +149,9 @@
 /printables/dot-to-dot /printables/activity/dot-to-dot 301
 /printables/animals-worksheet /printables/activity/mixed-activities/animals 301
 /printables/seasons-worksheet /printables/activity/mixed-activities 301
-/printables/mad-libs /games 301
-/printables/hangman /games 301
 /printables/paper-dolls /printables/photo-props 301
 /printables/origami-instructions /origami 301
 /printables/paper-crafts /origami 301
-/printables/body-parts /printables 301
-/printables/days-months /printables 301
-/ideas/bachelorette-party /ideas 301
 
 # Slugs that never existed but were crawled (Search Console 404 list, 2026-10-27). Each goes to the closest real page.
 /printables/matching-game /printables/memory-game 301
@@ -182,12 +177,10 @@
 /printables/drawing-step-by-step /tools/drawing-prompt 301
 /printables/door-signs /printables/birthday-signs 301
 /printables/jokes-cards /tools/joke 301
-/printables/finger-puppets /printables 301
 /printables/sequencing /printables/activity/cut-and-order 301
 /printables/independence-day /holidays/yom-haatzmaut 301
 /printables/passover-printables /holidays/pesach 301
 /printables/conversation-starters /questions/icebreaker-kids 301
-/printables/charades-cards /games 301
 
 # Math topics moved to the grade the Ministry curriculum teaches them in (2026-10)
 /math/grade-2/add-sub-1000 /math/grade-3/add-sub-1000 301

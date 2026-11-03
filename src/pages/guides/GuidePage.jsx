@@ -10,6 +10,11 @@ import { nearby } from '../../utils/nearby'
 import NotFound from '../NotFound'
 import RichText from '../../components/ui/RichText'
 
+// Set at build time from git (vite.config.js); empty outside a Vite build.
+// eslint-disable-next-line no-undef
+const UPDATED = typeof __GUIDES_UPDATED__ === 'string' ? __GUIDES_UPDATED__ : ''
+const fmt = d => d.split('-').reverse().join('.')
+
 export default function GuidePage() {
   const { slug } = useParams()
   const guide = GUIDE_BY_SLUG[slug]
@@ -23,10 +28,18 @@ export default function GuidePage() {
   const sections = [...(deep.before || []), ...guide.sections, ...(deep.after || [])]
   const relatedLinks = [...(guide.relatedLinks || []), ...(deep.links || [])]
   const faq = guide.faq || deep.faq
+  const url = `https://ugabuga.co.il/guides/${guide.slug}`
+  const article = {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: guide.title, description: guide.description, inLanguage: 'he', mainEntityOfPage: url,
+    ...(UPDATED ? { dateModified: UPDATED } : {}),
+    author: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il/about' },
+    publisher: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il' },
+  }
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
-      <SEO title={guide.seoTitle || (guide.title.includes('מדריך') ? guide.title : `${guide.title} — מדריך מעשי`)} description={guide.description} path={`/guides/${guide.slug}`} structuredData={faqSchema(faq)} />
+      <SEO title={guide.seoTitle || (guide.title.includes('מדריך') ? guide.title : `${guide.title} — מדריך מעשי`)} description={guide.description} path={`/guides/${guide.slug}`} type="article" structuredData={[article, faqSchema(faq)].filter(Boolean)} />
       <Breadcrumbs
         items={[
           { label: 'ראשי', href: '/' },
@@ -48,7 +61,9 @@ export default function GuidePage() {
           <span className="px-3 py-1 rounded-full bg-white border border-[var(--border)]">
             {guide.audience}
           </span>
+          {UPDATED && <span className="px-3 py-1 rounded-full bg-white border border-[var(--border)]">עודכן: {fmt(UPDATED)}</span>}
         </div>
+        <p className="mt-3 text-sm text-[var(--muted-foreground)]">נכתב ונבדק על ידי צוות עוגה בוגה · <Link to="/editorial-policy" className="underline">איך אנחנו בודקים</Link></p>
       </header>
 
       {guide.quick && <QuickAnswer {...guide.quick} />}

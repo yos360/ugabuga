@@ -98,6 +98,17 @@ function loadKnown(env, url) {
   return knownPromise
 }
 
+// Old pages that were removed with no real replacement on the site: 410 tells search engines to drop
+// them for good (a 301 to a general hub would be read as a soft 404).
+const GONE = new Set(['/printables/mad-libs', '/printables/hangman', '/printables/charades-cards', '/printables/body-parts', '/printables/days-months', '/printables/finger-puppets', '/ideas/bachelorette-party'])
+
+function gone(body, headers) {
+  const h = new Headers(headers)
+  h.set('X-Robots-Tag', 'noindex')
+  h.set('Cache-Control', 'public, max-age=3600')
+  return new Response(body, { status: 410, statusText: 'Gone', headers: h })
+}
+
 function notFound(body, headers) {
   const h = new Headers(headers)
   h.set('X-Robots-Tag', 'noindex')
@@ -182,6 +193,13 @@ async function fallback({ request, env }) {
 
 async function handle(context) {
   const { request, env, next } = context
+  // HEAD gets the same status and headers as GET (validators and uptime checkers use HEAD, and a
+  // made-up URL must not answer 200 there while GET answers 404) — just without the body.
+  if (request.method === 'HEAD') {
+    const get = new Request(request.url, { method: 'GET', headers: request.headers, redirect: 'manual' })
+    const r = await handle({ ...context, request: get, next: () => next(get) })
+    return new Response(null, { status: r.status, statusText: r.statusText, headers: r.headers })
+  }
   const res = await next()
   // Work on a clone: if anything below throws after reading the body, the
   // untouched original is still safe to return.
@@ -219,11 +237,22 @@ async function handle(context) {
     const decoded = (() => { try { return decodeURIComponent(url.pathname) } catch { return url.pathname } })()
     if (/[A-Z]/.test(decoded) && !CASE_SENSITIVE.test(url.pathname)) {
       const lower = url.pathname.replace(/%[0-9A-F]{2}|[A-Z]+/g, s => (s[0] === '%' ? s : s.toLowerCase()))
-      if (lower !== url.pathname) return Response.redirect(new URL(lower + url.search, url).toString(), 301)
+      if (lower !== url.pathname) {
+        // If the lower-case path is itself redirected (public/_redirects), go straight to the final
+        // address — one hop instead of two.
+        let target = new URL(lower + url.search, url)
+        try {
+          const probe = await env.ASSETS.fetch(new Request(target, { method: 'HEAD', redirect: 'manual' }))
+          const loc = probe.status >= 301 && probe.status <= 308 && probe.headers.get('location')
+          if (loc) { const dest = new URL(loc, target); if (dest.origin === url.origin) target = dest }
+        } catch { /* keep the plain lower-case redirect */ }
+        return Response.redirect(target.toString(), 301)
+      }
     }
+    const path = url.pathname.replace(/\/+$/, '') || '/'
+    if (GONE.has(path)) return gone(work.body, res.headers)
     const routes = await loadRoutes(env, url)
     if (!routes) return res
-    const path = url.pathname.replace(/\/+$/, '') || '/'
     if (!routes.some(re => re.test(path))) return notFound(work.body, res.headers)
     if (path === '/') return res
     if (/^\/suppliers\/[a-z0-9-]{3,40}$/.test(path) && !['/suppliers/me', '/suppliers/category'].includes(path) && typeof HTMLRewriter !== 'undefined') {

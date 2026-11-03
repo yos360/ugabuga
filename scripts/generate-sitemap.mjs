@@ -206,7 +206,9 @@ async function writeGroups(full) {
   for (const [name, entries] of buckets) {
     if (!entries.length) continue
     await writeFile(new URL(`../public/sitemaps/${name}.xml`, import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>\n${head}\n${entries.join('\n')}\n</urlset>\n`)
-    index.push(`  <sitemap><loc>https://ugabuga.co.il/sitemaps/${name}.xml</loc></sitemap>`)
+    // The group's newest page date, so Google re-reads only the groups that changed.
+    const newest = entries.map(e => e.match(/<lastmod>(\d{4}-\d{2}-\d{2})/)?.[1]).filter(Boolean).sort().at(-1)
+    index.push(`  <sitemap><loc>https://ugabuga.co.il/sitemaps/${name}.xml</loc>${newest ? `<lastmod>${newest}</lastmod>` : ''}</sitemap>`)
     console.log(`generate-sitemap: sitemaps/${name}.xml — ${entries.length} pages`)
   }
   await writeFile(new URL('../public/sitemap.xml', import.meta.url), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('\n')}\n</sitemapindex>\n`)

@@ -472,6 +472,8 @@ const Terms = lazy(() => import('./pages/Terms'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const About = lazy(() => import('./pages/About'))
 const Advertise = lazy(() => import('./pages/Advertise'))
+const Contact = lazy(() => import('./pages/Contact'))
+const EditorialPolicy = lazy(() => import('./pages/EditorialPolicy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ParashaHub = lazy(() => import('./pages/parasha/ParashaPages').then(m => ({ default: m.ParashaHub })))
 const ShabbatActivitiesHub = lazy(() => import('./pages/holidays/ShabbatActivities').then(m => ({ default: m.ShabbatActivitiesHub })))
@@ -1419,6 +1421,8 @@ export default function App() {
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/advertise" element={<Advertise />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/editorial-policy" element={<EditorialPolicy />} />
               <Route path="/parasha" element={<ParashaHub />} />
               <Route path="/shabbat-activities" element={<ShabbatActivitiesHub />} />
               <Route path="/shabbat-activities/pack" element={<ShabbatPackPage />} />

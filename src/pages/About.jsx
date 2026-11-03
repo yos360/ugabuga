@@ -70,6 +70,7 @@ export default function About() {
         <li><b>מורים והורים מתקנים איתנו.</b> מצאתם טעות? כתבו לנו בוואטסאפ או במייל. בדרך כלל מתקנים באותו יום, ובכל חוברת מופיע התאריך שבו נוספה או עודכנה.</li>
         <li><b>בטוח לילדים.</b> אין באתר הרשמה, צ׳אט או איסוף פרטים מילדים, והתוכן מותאם לגיל.</li>
       </ul>
+      <p className="mt-5 text-center"><Link to="/editorial-policy" className="font-bold underline">למדיניות העריכה המלאה ←</Link></p>
     </section>
 
     <section className="mt-12 rounded-[32px] bg-[var(--ink)] p-8 text-center text-white sm:p-12">
