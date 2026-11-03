@@ -139,7 +139,7 @@ export default function GamePage() {
     let d = (game?.short_description || '').trim().replace(/[.،]+$/, '')
     if (d) d += '.'
     const plain = (game?.instructions || '')
-      .replace(/[#*_`>\[\]()-]/g, ' ').replace(/\s+/g, ' ').trim()
+      .replace(/(\d)-(?=\d)/g, '$1–').replace(/^\s*-\s+/gm, ' ').replace(/[#*_`>\[\]()]/g, ' ').replace(/\s+/g, ' ').trim()
     for (const s of plain.split(/(?<=\.)\s+/)) {
       if (d.length >= 120) break
       if (d.length + s.length + 1 > 160) break

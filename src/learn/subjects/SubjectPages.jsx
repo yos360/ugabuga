@@ -10,6 +10,9 @@ import { InteractiveLesson, Rich, SubjectReadings, readingsFor, useReadings } fr
 import PlannerBanner from '../../components/ui/PlannerBanner'
 import { PLANNER_SUBJECTS } from '../../data/planner/schema'
 import '../learn.css'
+
+// "ב" + subject name; subjects whose short name doesn't take a plain prefix (החלל, מה זה) carry inShort.
+const inSubject = s => s.inShort || `ב${s.short}`
 import './subjects.css'
 
 // Each subject's lessons (and glossary) are separate chunks, loaded only on that subject's pages.
@@ -48,7 +51,7 @@ export function SubjectHub({ subjectKey }) {
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{s.desc} · לכיתות {s.grades}</p>
     <label className="mx-auto mb-5 flex max-w-xl items-center gap-2 rounded-full border-2 border-violet-300 bg-white px-4 py-2 shadow-sm">
       <span aria-hidden="true">🔍</span>
-      <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={`חיפוש ב${s.short} — למשל: ${s.key === 'tanakh' ? 'יוסף, דוד, משה' : 'כתבו נושא'}`} className="min-h-[40px] flex-1 bg-transparent text-lg outline-none" aria-label={`חיפוש שיעורים ב${s.short}`} />
+      <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={`חיפוש ${inSubject(s)} — למשל: ${s.key === 'tanakh' ? 'יוסף, דוד, משה' : 'כתבו נושא'}`} className="min-h-[40px] flex-1 bg-transparent text-lg outline-none" aria-label={`חיפוש שיעורים ${inSubject(s)}`} />
     </label>
     {query.trim() && all && <p className="mb-4 text-center font-bold" role="status">{topics.length ? `נמצאו ${topics.length} שיעורים` : 'לא נמצאו שיעורים — נסו מילה אחרת'}{s.key === 'tanakh' && <> · <Link to="/parasha" className="underline">חיפוש בפרשות השבוע</Link></>}</p>}
     {all && !query.trim() && <BigGrades s={s} topics={all} />}
@@ -239,7 +242,7 @@ function GradePage({ subjectKey, grade }) {
   if (!s.gradeList.includes(grade) || list.length < MIN_GRADE_TOPICS) return <NotFound />
   const L = GRADE_LETTERS[grade], name = gradeName(s, grade), path = `/learn/${s.key}/${gradeSlug(grade)}`
   const faq = [
-    { q: `מה לומדים ב${s.short} בכיתה ${L}?`, a: `בעמוד הזה מרוכזים ${list.length} שיעורים שמתאימים לכיתה ${L}, ביניהם ${list.slice(0, 3).map(t => t.title).join(', ')}. הנושאים המדויקים משתנים בין בתי ספר — כדאי לבדוק מה לומדים בכיתה עכשיו ולהתחיל משם.` },
+    { q: `מה לומדים ${inSubject(s)} בכיתה ${L}?`, a: `בעמוד הזה מרוכזים ${list.length} שיעורים שמתאימים לכיתה ${L}, ביניהם ${list.slice(0, 3).map(t => t.title).join(', ')}. הנושאים המדויקים משתנים בין בתי ספר — כדאי לבדוק מה לומדים בכיתה עכשיו ולהתחיל משם.` },
     { q: 'מה יש בחוברת להדפסה?', a: `החוברת כוללת עמוד שער ועמוד לכל שיעור — פתיח, "חשוב לזכור" ו־8 שאלות — ובסופה דף תשובות. ${list.length} שיעורים, מוכנים להדפסה או לשמירה כ־PDF.` },
     { q: 'איך עובד המבחן לדוגמה?', a: 'המבחן כולל 20 שאלות אמריקאיות מכל השיעורים של הכיתה. אפשר לפתור אונליין ולקבל ציון והסברים, ללחוץ על "מבחן חדש" לשאלות אחרות, או להדפיס עם דף תשובות.' },
   ]
@@ -255,14 +258,14 @@ function GradePage({ subjectKey, grade }) {
       <Tile onClick={() => setPrinting(true)} icon="🖨️" title="חוברת הכיתה" sub="כל השיעורים בקובץ אחד, עם תשובות" color="#fed7aa" />
       <Tile to={`${path}/exam`} icon="📝" title="מבחן לדוגמה" sub="20 שאלות, ציון והסברים" color="#fecaca" />
       {PLANNER_SUBJECTS[s.key] && <Tile to={`/path?subject=${s.key}&grade=${grade}`} icon="🧭" title="מסלול אישי" sub="שיעור אחד ביום, לבד או בבית" color="#a7f3d0" />}
-      <Tile to={`/learn/${s.key}/concepts`} icon="🧠" title="מילון מושגים" sub={`המושגים החשובים ב${s.short}`} color="#bbf7d0" />
+      <Tile to={`/learn/${s.key}/concepts`} icon="🧠" title="מילון מושגים" sub={`המושגים החשובים ${inSubject(s)}`} color="#bbf7d0" />
     </div>
     {printing && <PrintPreview title={`חוברת ${name}`} onClose={() => setPrinting(false)}><Booklet s={s} grade={grade} list={list} /></PrintPreview>}
     <h2 id="lessons" className="mt-10 mb-3 scroll-mt-24 text-2xl font-black">השיעורים לכיתה {L}</h2>
     <ul className="sj-grid">{list.map(t => <li key={t.slug}><Link to={`/learn/${s.key}/${t.slug}`} className="sj-card card-lift">
       <span className="sj-ico" aria-hidden="true">{t.emoji}</span><span><b>{t.title}</b><small>{t.intro.length > 90 ? `${t.intro.slice(0, t.intro.lastIndexOf(' ', 88))}…` : t.intro}</small></span>
     </Link></li>)}</ul>
-    <SubjectReadings list={gradeReadings} title={`📖 קריאה ב${s.short} לכיתה ${L}`} />
+    <SubjectReadings list={gradeReadings} title={`📖 קריאה ${inSubject(s)} לכיתה ${L}`} />
     <PlannerBanner className="mt-10" />
     <h2 className="mt-10 mb-3 text-2xl font-black">כיתות אחרות</h2>
     <GradeChips s={s} topics={topics} current={grade} />
@@ -312,12 +315,12 @@ function ExamPage({ subjectKey, grade }) {
   const answered = qs.filter(q => picks[q.id] !== undefined).length
   const fresh = () => { setSeed(Math.floor(Math.random() * 1e9) + 1); setPicks({}); setDone(false); window.scrollTo(0, 0) }
   const faq = [
-    { q: `ממה בנוי המבחן ב${s.short} לכיתה ${L}?`, a: `מ־20 שאלות אמריקאיות שנבחרות מתוך ${list.length} השיעורים של כיתה ${L}, משאלה אחת או שתיים מכל נושא. בכל לחיצה על "מבחן חדש" מתקבלות שאלות אחרות.` },
+    { q: `ממה בנוי המבחן ${inSubject(s)} לכיתה ${L}?`, a: `מ־20 שאלות אמריקאיות שנבחרות מתוך ${list.length} השיעורים של כיתה ${L}, משאלה אחת או שתיים מכל נושא. בכל לחיצה על "מבחן חדש" מתקבלות שאלות אחרות.` },
     { q: 'זה המבחן האמיתי של בית הספר?', a: 'לא. זה מבחן לדוגמה לתרגול, שנבנה מהשיעורים באתר. המבחנים בבית הספר נכתבים בידי המורים ויכולים לכלול נושאים אחרים.' },
     { q: 'אפשר להדפיס?', a: 'כן. הכפתור "להדפסה" מפיק את המבחן עם מקום לשם, ודף תשובות נפרד עם הסבר לכל שאלה.' },
   ]
   return <Page>
-    <SEO title={`מבחן ${name} — מבחן סוף שנה לדוגמה עם תשובות`} description={`מבחן לדוגמה ב${s.short} לכיתה ${L}: 20 שאלות מכל נושאי השנה, עם ציון והסבר לכל תשובה. פותרים אונליין או מדפיסים עם דף תשובות — בחינם.`} path={`${path}/exam`} structuredData={faqSchema(faq)} />
+    <SEO title={`מבחן ${name} — מבחן סוף שנה לדוגמה עם תשובות`} description={`מבחן לדוגמה ${inSubject(s)} לכיתה ${L}: 20 שאלות מכל נושאי השנה, עם ציון והסבר לכל תשובה. פותרים אונליין או מדפיסים עם דף תשובות — בחינם.`} path={`${path}/exam`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: `כיתה ${L}`, href: path }, { label: 'מבחן לדוגמה' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">📝 </span>מבחן {name}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">מבחן סוף שנה לדוגמה · 20 שאלות · {list.length} נושאים</p>
@@ -339,7 +342,7 @@ function ExamPage({ subjectKey, grade }) {
     {!done ? <div className="ln-box mt-6 text-center"><p className="mb-3">ענית על {answered} מתוך {qs.length} שאלות</p><button type="button" className="ln-btn go" onClick={() => { setDone(true); window.scrollTo(0, 0) }}>סיום ובדיקה ✓</button></div>
       : <div className="ln-box mt-6 text-center" role="status"><p className="text-3xl font-black">הציון: {Math.round((score / qs.length) * 100)} ({score} מתוך {qs.length})</p><p className="mt-1">ליד כל שאלה מופיע הסבר וקישור לשיעור.</p><button type="button" className="ln-btn go mt-3" onClick={fresh}>🎲 מבחן חדש</button></div>}
     <p className="mt-6 text-center"><Link to={path} className="font-bold underline">לשיעורים ולחוברת של כיתה {L} ←</Link></p>
-    <div className="mt-12"><SeoBody paragraphs={[`מבחן לדוגמה ב${s.short} לכיתה ${L}, לחזרה לפני מבחן או בסוף השנה. השאלות נבחרות מכל נושאי הכיתה, ואחרי הבדיקה מופיע הסבר לכל שאלה עם קישור לשיעור המלא.`]} faq={faq} related={[{ label: name, href: path }, crumb(s)]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={[`מבחן לדוגמה ${inSubject(s)} לכיתה ${L}, לחזרה לפני מבחן או בסוף השנה. השאלות נבחרות מכל נושאי הכיתה, ואחרי הבדיקה מופיע הסבר לכל שאלה עם קישור לשיעור המלא.`]} faq={faq} related={[{ label: name, href: path }, crumb(s)]} /></div>
   </Page>
 }
 function ExamSheet({ name, qs }) {
@@ -364,12 +367,12 @@ export function ConceptIndex({ subjectKey }) {
   if (!concepts.length) return <NotFound />
   const sorted = [...concepts].sort((a, b) => a.term.localeCompare(b.term, 'he'))
   return <Page>
-    <SEO title={`מילון מושגים ב${s.short} — ${concepts.length} מושגים בהסבר פשוט`} description={`${concepts.length} מושגים ב${s.short} בשפה פשוטה: מה זה, דוגמאות, איך זוכרים ושאלות קצרות — עם קישור לשיעור המלא.`} path={`/learn/${s.key}/concepts`} />
+    <SEO title={`מילון מושגים ${inSubject(s)} — ${concepts.length} מושגים בהסבר פשוט`} description={`${concepts.length} מושגים ${inSubject(s)} בשפה פשוטה: מה זה, דוגמאות, איך זוכרים ושאלות קצרות — עם קישור לשיעור המלא.`} path={`/learn/${s.key}/concepts`} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: 'מילון מושגים' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">📘 </span>מילון מושגים ב{s.short}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{concepts.length} מושגים · הגדרה, דוגמאות ושיעור מלא לכל מושג</p>
     <ul className="sj-grid">{sorted.map(c => <li key={c.slug}><Link to={`/learn/${s.key}/concepts/${c.slug}`} className="sj-card card-lift"><span><b>{c.term}</b><small><Rich text={c.short} /></small></span></Link></li>)}</ul>
-    <div className="mt-12"><SeoBody paragraphs={[`במילון הזה מוסברים המושגים החשובים ב${s.short}, כל אחד בעמוד משלו: הגדרה קצרה, הסבר, דוגמאות, טיפ לזכירה ושאלות קצרות לבדיקה. מכל מושג יש קישור לשיעור המלא שבו הוא נלמד.`]} related={[crumb(s), LEARN_CRUMB]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={[`במילון הזה מוסברים המושגים החשובים ${inSubject(s)}, כל אחד בעמוד משלו: הגדרה קצרה, הסבר, דוגמאות, טיפ לזכירה ושאלות קצרות לבדיקה. מכל מושג יש קישור לשיעור המלא שבו הוא נלמד.`]} related={[crumb(s), LEARN_CRUMB]} /></div>
   </Page>
 }
 export function ConceptPage({ subjectKey }) {
@@ -387,7 +390,7 @@ export function ConceptPage({ subjectKey }) {
   const faq = [{ q: `מה זה ${c.term}?`, a: c.short },
     ...(c.remember ? [{ q: `איך זוכרים מה זה ${c.term}?`, a: c.remember }] : []),
     ...(related.length ? [{ q: `אילו מושגים קשורים ל${c.term}?`, a: `${related.map(r => r.term).join(', ')}. ההגדרה הקצרה של כל אחד מהם מופיעה למעלה, ומכל אחד יש קישור לעמוד משלו.` }] : [])]
-  const term_ = { '@context': 'https://schema.org', '@type': 'DefinedTerm', name: c.term, description: c.short, inDefinedTermSet: `מילון מושגים ב${s.short} — עוגה בוגה`, inLanguage: 'he' }
+  const term_ = { '@context': 'https://schema.org', '@type': 'DefinedTerm', name: c.term, description: c.short, inDefinedTermSet: `מילון מושגים ${inSubject(s)} — עוגה בוגה`, inLanguage: 'he' }
   return <Page>
     <SEO title={c.seoTitle} description={c.seoDesc} path={`/learn/${s.key}/concepts/${c.slug}`} type="article" structuredData={[term_, faqSchema(faq)]} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: 'מילון מושגים', href: `/learn/${s.key}/concepts` }, { label: c.term }]} />

@@ -45,7 +45,7 @@ export const CBN_MORE_WAYS = [
 ]
 function MoreWays({ p }) {
   return <section className="no-print mt-10" aria-labelledby="cbn-more-ways">
-    <h2 id="cbn-more-ways" className="mb-4 text-center text-2xl font-black">{p ? `עוד דרכים לצבוע את ה${p.name}` : 'אותם ציורים — עוד דרכים לצבוע'}</h2>
+    <h2 id="cbn-more-ways" className="mb-4 text-center text-2xl font-black">{p ? `עוד דרכים לצבוע את ${p.name.includes(' ') ? `הציור "${p.name}"` : `ה${p.name}`}` : 'אותם ציורים — עוד דרכים לצבוע'}</h2>
     <div className="grid gap-3 sm:grid-cols-3">{CBN_MORE_WAYS.map(w => <Link key={w.href} to={p ? `${w.href}?p=${p.slug}` : w.href} className="wobbly flex items-center gap-3 border-2 border-[var(--border)] bg-[var(--card)] p-4 sketch-shadow transition-transform hover:-translate-y-1">
       <span className="grid h-12 w-12 flex-none place-items-center rounded-xl bg-[var(--postit)] text-2xl font-black" aria-hidden="true">{w.emoji}</span>
       <span><b className="block text-lg">{w.title}</b><small className="text-[var(--muted-foreground)]">{w.desc}</small></span>
