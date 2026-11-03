@@ -44,6 +44,42 @@ export function SubjectReadings({ list, title = '📖 קטע קריאה', id = '
   </section>
 }
 
+// A tap-to-match game on a concept page: four terms (this one and three neighbours) against their
+// definitions. Order comes from a hash of the slug and the round, so the prerendered HTML and the
+// hydrated page agree. The term is blanked inside its own definition so the match isn't a giveaway.
+const hash = s => [...s].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7)
+const blank = (text, term) => term.length > 1 ? text.split(term).join('____') : text
+export function ConceptMatch({ c, pool }) {
+  const [round, setRound] = useState(0)
+  const [sel, setSel] = useState(null)
+  const [done, setDone] = useState([])
+  const [miss, setMiss] = useState(null)
+  const others = pool.filter(x => x.slug !== c.slug).slice(0, 9) // pool comes nearest-first
+  if (others.length < 3) return null
+  const start = (hash(c.slug) + round * 3) % others.length
+  const terms = [c, ...[0, 1, 2].map(i => others[(start + i) % others.length])]
+  const defs = terms.map((t, i) => ({ t, i })).sort((a, b) => hash(a.t.slug + round) - hash(b.t.slug + round))
+  const pickDef = d => {
+    if (sel == null || done.includes(d.t.slug)) return
+    if (terms[sel].slug === d.t.slug) { setDone(x => [...x, d.t.slug]); setSel(null) }
+    else { setMiss(d.t.slug); setTimeout(() => setMiss(null), 600) }
+  }
+  const all = done.length === terms.length
+  const again = () => { setRound(n => n + 1); setDone([]); setSel(null) }
+  return <section className="sj-match ln-box mt-8" aria-labelledby="match-h">
+    <h2 id="match-h" className="text-2xl font-black">🎯 משחק התאמה: מושג והגדרה</h2>
+    <p className="m-0">לוחצים על מושג, ואז על ההגדרה שלו.</p>
+    <div className="sj-match-grid">
+      <div className="sj-match-col" role="group" aria-label="מושגים">{terms.map((t, i) => <button key={t.slug} type="button" disabled={done.includes(t.slug)} aria-pressed={sel === i}
+        onClick={() => setSel(i)} className={`sj-m-term ${sel === i ? 'is-sel' : ''} ${done.includes(t.slug) ? 'is-ok' : ''}`}>{t.term}</button>)}</div>
+      <div className="sj-match-col" role="group" aria-label="הגדרות">{defs.map(d => <button key={d.t.slug} type="button" disabled={done.includes(d.t.slug)}
+        onClick={() => pickDef(d)} className={`sj-m-def ${done.includes(d.t.slug) ? 'is-ok' : ''} ${miss === d.t.slug ? 'is-miss' : ''}`}>{done.includes(d.t.slug) && <b>{d.t.term}: </b>}<Rich text={done.includes(d.t.slug) ? d.t.short : blank(d.t.short, d.t.term)} /></button>)}</div>
+    </div>
+    <p className="m-0 mt-3 font-bold" role="status">{all ? '🎉 כל הכבוד — כל ההתאמות נכונות!' : sel != null ? `ועכשיו: איזו הגדרה מתאימה ל"${terms[sel].term}"?` : `${done.length} מתוך ${terms.length}`}</p>
+    {all && <button type="button" className="ln-btn go mt-2" onClick={again}>🔁 עוד סיבוב, עם מושגים אחרים</button>}
+  </section>
+}
+
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 export function InteractiveLesson({ t, quiz, onClose }) {
   // Step k shows section k and then its check question (quiz[k], wrapping if there are more sections).

@@ -7,6 +7,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { Sheet, T } from '../../components/printables/PrintableShell'
 import { speak } from '../../utils/speak'
+import NikudLesson from './NikudLesson'
 import { HEBREW } from '../../data/letterLearning'
 import { KAMATZ, PATACH, SYL_LETTERS, syl, NIKUD_WORDS } from '../../data/letterSkills'
 
@@ -151,6 +152,7 @@ export function NikudKamatzPatach() {
       <p className="mt-2"><Link to="/letters/reading-practice" className="font-bold underline">📖 חדש: דף קריאה רק מהאותיות שהילד כבר למד ←</Link></p>
       <p className="mt-1"><Link to="/printables/sound-position" className="font-bold underline">👂 חדש: איפה שומעים את הצליל? בהתחלה, באמצע או בסוף ←</Link></p>
     </header>
+    <NikudLesson />
     <section className={card}>
       <h2 className="mb-3 text-center text-2xl font-bold">1. הברות: לוחצים ושומעים</h2>
       <div className="mb-3 flex justify-center gap-2">

@@ -6,7 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../../pages/NotFound'
 import { SUBJECTS, SUBJECT_BY_KEY, GRADE_LETTERS, examQuestions, gradeRange, gradeSlug, loadConcepts, loadTopics, placeQuiz, topicsForGrade } from './subjects'
-import { InteractiveLesson, Rich, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
+import { ConceptMatch, InteractiveLesson, Rich, SubjectReadings, readingsFor, useReadings } from './LessonExtras'
 import PlannerBanner from '../../components/ui/PlannerBanner'
 import { PLANNER_SUBJECTS } from '../../data/planner/schema'
 import '../learn.css'
@@ -399,6 +399,8 @@ export function ConceptPage({ subjectKey }) {
     <article className="sj-article">{c.body.map((p, i) => <p key={i}><Rich text={p} /></p>)}</article>
     <aside className="sj-facts" aria-labelledby="ex-h"><h2 id="ex-h">🔎 דוגמאות</h2><ul>{c.examples.map((e, i) => <li key={i}><Rich text={e} /></li>)}</ul></aside>
     {c.remember && <p className="ln-box mt-4"><b>💡 איך זוכרים?</b> {c.remember}</p>}
+    <ConceptMatch key={c.slug} c={c} pool={[...related, ...sameLesson, ...concepts.filter(x => x.lesson === c.lesson), ...concepts]
+      .filter((x, i, a) => a.findIndex(y => y.slug === x.slug) === i)} />
     <h2 className="mt-8 mb-3 text-2xl font-black">✅ בודקים את עצמנו</h2>
     <Quiz key={c.slug} quiz={quiz} />
     {c.more?.length > 0 && <><h2 className="mt-8 mb-3 text-xl font-black">📚 לעומק באתר</h2><div className="flex flex-wrap gap-2">{c.more.map(m => <Link key={m.to} to={m.to} className="ln-chip">{m.label}</Link>)}</div></>}
