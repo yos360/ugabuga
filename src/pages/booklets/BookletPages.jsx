@@ -7,6 +7,8 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { BOOKLETS, bookletBySlug, bookletHref } from '../../booklets/registry'
 import { newSeed } from '../../motor/rng'
+import { parsePageRange, pageKind } from '../../utils/pageRange'
+import { GRADES, gradesOf } from '../../booklets/grades'
 import { CHANNEL_GO } from '../../data/brand'
 import PlannerBanner from '../../components/ui/PlannerBanner'
 import './booklets.css'
@@ -41,21 +43,29 @@ const SUBJECTS = [
   ['אזרחות', /אזרחות/], ['חגים', /חגים/],
 ]
 const subjectOf = b => (SUBJECTS.find(([, re]) => re.test(b.subject)) || ['עוד'])[0]
+// A grade row under the stage, for the stages that have grades.
+const STAGE_GRADES = { 'יסודי': [1, 2, 3, 4, 5, 6], 'חטיבת ביניים': [7, 8, 9] }
 const Chip = ({ on, onClick, children }) => <button type="button" aria-pressed={on} onClick={onClick} className={`min-h-[44px] rounded-full border-2 px-4 font-bold ${on ? 'border-violet-600 bg-violet-600 text-white' : 'border-[var(--border)] bg-[var(--card)]'}`}>{children}</button>
 
 export function BookletsHub() {
-  const [stage, setStage] = useState(null), [subject, setSubject] = useState(null)
-  const shown = BOOKLETS.filter(b => (!stage || stageOf(b) === stage) && (!subject || subjectOf(b) === subject))
-  const subjects = [...SUBJECTS.map(s => s[0]), 'עוד'].filter(s => BOOKLETS.some(b => subjectOf(b) === s && (!stage || stageOf(b) === stage)))
+  const [stage, setStage] = useState(null), [grade, setGrade] = useState(null), [subject, setSubject] = useState(null)
+  const inLevel = b => (!stage || stageOf(b) === stage) && (!grade || gradesOf(b.audience).includes(grade))
+  const shown = BOOKLETS.filter(b => inLevel(b) && (!subject || subjectOf(b) === subject))
+  const subjects = [...SUBJECTS.map(s => s[0]), 'עוד'].filter(s => BOOKLETS.some(b => subjectOf(b) === s && inLevel(b)))
+  const grades = (STAGE_GRADES[stage] || []).filter(n => BOOKLETS.some(b => stageOf(b) === stage && gradesOf(b.audience).includes(n)))
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
     <SEO title="חוברות עבודה להדפסה — PDF בחינם לגן ולבית הספר" description={`${BOOKLETS.length} חוברות עבודה להדפסה בחינם, מגיל 3 ועד התיכון: חשבון, עברית, אנגלית, מדעים, תנ״ך, היסטוריה וגאוגרפיה. כל חוברת להורדה כ־PDF, עם דף תשובות ותעודת סיום.`} path="/booklets" />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: CRUMB.label }]} />
     <h1 className="mb-2 text-center text-4xl sm:text-5xl"><span aria-hidden="true">📚 </span>חוברות עבודה להדפסה</h1>
     <p className="mx-auto mb-8 max-w-2xl text-center text-lg text-[var(--muted-foreground)]">חוברות שלמות לפי כיתה ונושא, להדפסה או לשמירה כ־PDF. בכל חוברת יש שער עם שם הילד, עמודי תרגול מגוונים ותעודת סיום.</p>
     <div className="mb-3 flex flex-wrap justify-center gap-2" role="group" aria-label="גיל">
-      <Chip on={!stage} onClick={() => setStage(null)}>כל הגילאים</Chip>
-      {STAGES.map(s => <Chip key={s} on={stage === s} onClick={() => { setStage(s); setSubject(null) }}>{s}</Chip>)}
+      <Chip on={!stage} onClick={() => { setStage(null); setGrade(null) }}>כל הגילאים</Chip>
+      {STAGES.map(s => <Chip key={s} on={stage === s} onClick={() => { setStage(s); setGrade(null); setSubject(null) }}>{s}</Chip>)}
     </div>
+    {grades.length > 1 && <div className="mb-3 flex flex-wrap justify-center gap-2" role="group" aria-label="כיתה">
+      <Chip on={!grade} onClick={() => setGrade(null)}>כל הכיתות</Chip>
+      {grades.map(n => <Chip key={n} on={grade === n} onClick={() => { setGrade(n); setSubject(null) }}>כיתה {GRADES[n - 1]}׳</Chip>)}
+    </div>}
     <div className="mb-6 flex flex-wrap justify-center gap-2" role="group" aria-label="מקצוע">
       <Chip on={!subject} onClick={() => setSubject(null)}>כל המקצועות</Chip>
       {subjects.map(s => <Chip key={s} on={subject === s} onClick={() => setSubject(s)}>{s}</Chip>)}
@@ -114,9 +124,31 @@ function RequestedBox() {
   </section>
 }
 
+// In the print dialog: the whole booklet, a student copy (no answer key) or the answer key alone, and
+// optionally only some pages. Page kinds come from the registry titles, so they apply only when the
+// rendered booklet has exactly that many pages.
+const MODES = [['all', 'החוברת המלאה'], ['student', 'לתלמיד — בלי דף התשובות'], ['teacher', 'למורה — רק דף התשובות']]
+function usePageChoice(b) {
+  const [mode, setMode] = useState('all'), [range, setRange] = useState('')
+  const kinds = b.pages.map(pageKind), hasKey = kinds.includes('key')
+  const wanted = parsePageRange(range, b.pages.length)
+  const keepPage = mode === 'all' && !wanted ? undefined : (i, per) => {
+    if (wanted && !wanted.has(i + 1)) return false
+    if (mode === 'all' || per !== kinds.length) return true
+    return mode === 'teacher' ? kinds[i] === 'key' : kinds[i] !== 'key'
+  }
+  const options = <div className="buga-page-options" dir="rtl">
+    {hasKey && <label>מה להדפיס? <select value={mode} onChange={e => setMode(e.target.value)} data-booklet-mode>{MODES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>}
+    <label>רק עמודים: <input value={range} onChange={e => setRange(e.target.value)} placeholder={`למשל 2-5, ${b.pages.length}`} inputMode="numeric" data-booklet-pages /></label>
+    {wanted === false ? <span role="alert">כתבו מספרי עמודים בין 1 ל־{b.pages.length}, למשל 2-5, 9</span> : (wanted || mode !== 'all') && <output>מדפיסים {b.pages.filter((_, i) => keepPage(i, b.pages.length)).length} מתוך {b.pages.length} העמודים.</output>}
+  </div>
+  return { keepPage, options, reset: () => { setMode('all'); setRange('') } }
+}
+
 function BookletView({ b }) {
   const Booklet = useBooklet(b)
   const [seed, setSeed] = useState(null)
+  const choice = usePageChoice(b)
   // Same subject first, then same stage — six at most (the hub has the rest).
   const others = BOOKLETS.filter(o => o.slug !== b.slug)
     .map(o => ({ o, score: (subjectOf(o) === subjectOf(b) ? 2 : 0) + (stageOf(o) === stageOf(b) ? 1 : 0) }))
@@ -141,7 +173,7 @@ function BookletView({ b }) {
       <button type="button" onClick={() => setSeed(newSeed())} className={`${button} mt-4 bg-slate-900 text-white`}>🖨️ לכל {b.pages.length} העמודים</button>
     </section>
     {b.onRequest && <RequestedBox />}
-    {seed && Booklet && <PrintPreview title={`${b.title} — ${b.pages.length} עמודים`} onClose={() => setSeed(null)}><Booklet seed={seed} /></PrintPreview>}
+    {seed && Booklet && <PrintPreview title={`${b.title} — ${b.pages.length} עמודים`} onClose={() => { setSeed(null); choice.reset() }} keepPage={choice.keepPage} options={choice.options}><Booklet seed={seed} /></PrintPreview>}
     {others.length > 0 && <section className="mt-10"><h2 className="text-2xl font-bold">חוברות נוספות</h2><div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{others.map(o => <Card key={o.slug} b={o} />)}</div></section>}
     <div className="mt-10"><SeoBody paragraphs={b.paragraphs} faq={b.faq} related={b.related} /></div>
   </div>

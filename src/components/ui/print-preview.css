@@ -90,3 +90,11 @@
 .buga-class-panel button{background:#f59e0b!important;color:#fff;min-height:44px;padding:8px 16px;border-radius:10px;font-weight:800}
 .buga-class-panel span{flex-basis:100%;font-weight:500;font-size:14px}
 @media print{.buga-class-panel{display:none}}
+/* Page choice (booklets): pages left out stay in the DOM but are neither shown, printed nor saved. */
+.buga-page-options{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:10px 18px 0;padding:10px 14px;border-radius:14px;background:#eef2ff;border:2px solid #c7d2fe;font-weight:700}
+.buga-page-options select,.buga-page-options input{min-height:44px;margin-inline-start:6px;border:2px solid #d7dae3;border-radius:10px;padding:6px 10px;font:inherit;background:#fff}
+.buga-page-options input{width:150px}
+.buga-page-options [role=alert],.buga-page-options output{flex-basis:100%;font-weight:500;font-size:14px}
+.buga-skip{display:none!important}
+#buga-print-output .buga-last{break-after:auto!important;page-break-after:auto!important}
+@media print{.buga-page-options{display:none}}
