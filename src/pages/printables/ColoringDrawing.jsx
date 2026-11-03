@@ -21,6 +21,10 @@ function DrawingGuide({ g }) {
       <li><b>טיפ לצביעה:</b> {drawing.tip}</li>
       <li><b>אחרי הצביעה:</b> {drawing.activity}</li>
     </ul>
+    {g.fact && <div className="mt-4 rounded-2xl bg-[var(--postit)] p-4 leading-relaxed">
+      <p className="m-0"><b>💡 הידעתם?</b> {g.fact[0]}</p>
+      <p className="m-0 mt-2"><b>💬 שאלה לשיחה בזמן הצביעה:</b> {g.fact[1]}</p>
+    </div>}
     {next.length > 0 && <>
       <h2 className={h2}>להמשיך באותו נושא: פשוט יותר או מאתגר יותר</h2>
       <div className="grid grid-cols-2 gap-4 sm:max-w-md">{next.map(({ d, why }) =>
@@ -52,6 +56,7 @@ export default function ColoringDrawing() {
   const faq = [
     { q: `למי מתאים הציור של ${drawing.name}?`, a: `המלצת הגיל היא ${drawing.ages}, בהתאם לכמות הפרטים. זו הכוונה בלבד: אפשר לבחור לפי העניין והנוחות של מי שצובע. ${drawing.tip}` },
     ...guide.faq,
+    ...(guide.fact ? [{ q: `מה אפשר לספר לילדים כשצובעים את ${drawing.name}?`, a: `${guide.fact[0]} ואפשר לשאול: ${guide.fact[1]}` }] : []),
     { q: `איזו פעילות אפשר לשלב עם הציור של ${drawing.name}?`, a: drawing.activity },
     { q: `איך מדפיסים את ${drawing.name} או שומרים כ-PDF?`, a: 'פותחים את תצוגת ההדפסה ובוחרים הדפסה או הורדה כ-PDF. הציור מופיע לבדו על דף A4 לאורך. בהדפסה מומלץ לבטל כותרות עליונות ותחתונות בחלון המדפסת.' },
     ...(s.slug === 'purim-masks' ? [{ q: 'איך הופכים את הציור למסכה?', a: 'אחרי הצביעה אפשר להדביק על קרטון ולגזור בעזרת מבוגר. מבוגר יגזור את פתחי העיניים; בדקו התאמה לפנים לפני חיבור מקל או גומייה.' }] : []),

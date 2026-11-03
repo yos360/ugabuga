@@ -1,4 +1,5 @@
 import { COLORING_SUBJECTS } from './coloringSubjects.js'
+import { COLORING_FACTS } from './coloringFacts.js'
 
 // Copy follows the actual artwork. Ages are suggestions, not ability requirements.
 // Each row: suggested ages, scene description, coloring technique, extra activity.
@@ -716,5 +717,6 @@ export function coloringDrawingGuide(slug, n) {
       : { q: `האם הציור „${drawing.name}” מתאים לילדי גן?`, a: `„${drawing.name}” מומלץ מגיל ${ages.min}, כי יש בו ${level.id === 'expert' ? 'הרבה פרטים קטנים וצפופים' : 'לא מעט פרטים קטנים'}. ${simpler ? `לילדי גן מתאים יותר „${simpler.name}” מאותו נושא, שמומלץ מגיל ${simpler.range.min}.` : 'לילדי גן כדאי לבחור ציור עם שטחים גדולים מנושא אחר.'}` },
     { q: harder ? `יש בנושא ${s.name} ציור מאתגר יותר מ„${drawing.name}”?` : `מה לצבוע אחרי „${drawing.name}”?`, a: harder ? `כן — אחרי „${drawing.name}” אפשר לעבור ל„${harder.name}”, שמומלץ לגילאי ${harder.ages}. ${sameAge.length ? `ובאותה רמה בדיוק יש גם את „${sameAge[0].name}”.` : ''}`.trim() : `„${drawing.name}” הוא מהציורים המפורטים ביותר בנושא. ${sameAge.length ? `באותה רמה יש גם את „${sameAge[0].name}”.` : `אפשר לנסות את „${cross[0]?.drawing.name}” מנושא ${cross[0]?.subject.name}.`}` },
   ]
-  return { drawing, subject: s, ages, level, intro, tools: level.tools, sameAge: sameAge.slice(0, 4), simpler, harder, cross, faq, total: drawings.length }
+  const fact = COLORING_FACTS[slug]?.[drawing.n] || null
+  return { drawing, subject: s, ages, level, intro, tools: level.tools, sameAge: sameAge.slice(0, 4), simpler, harder, cross, faq, fact, total: drawings.length }
 }

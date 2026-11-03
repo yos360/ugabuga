@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../NotFound'
 import { NAME_NOTES } from '../../data/babyNameNotes'
+import { NAME_STORIES } from '../../data/babyNameStories'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
 import {
   BABY_NAMES, GENDERS, LETTERS, LETTER_NAMES, ORIGIN_FILTERS, POPULAR_NOTE, LETTER_PAGE_MIN,
@@ -296,7 +297,8 @@ export function BabyNamePage() {
   if (!n) return <NotFound />
   const isFav = fav.favs.includes(n.slug)
   const similar = similarNames(n, 6)
-  const faq = [...nameFaq(n), ...nameExtraFaq(n)]
+  const story = NAME_STORIES[n.slug]
+  const faq = [...nameFaq(n), ...nameExtraFaq(n), ...(story?.[1].length ? [{ q: `מה כינויי החיבה לשם ${n.name}?`, a: `כינויי חיבה נפוצים לשם ${n.name}: ${story[1].join(', ')}.` }] : [])]
   const len = nameLength(n.name)
   const chars = nameChars(n.name)
   const gem = gematria(n.name)
@@ -350,6 +352,8 @@ export function BabyNamePage() {
       <h2 id="bn-about-h" className="text-2xl font-black">על השם {n.name}</h2>
       <p>{(ORIGIN_TEXT[n.origin] || ORIGIN_TEXT['עברי'])(n)}</p>
       {NAME_NOTES[n.name] && <p>{NAME_NOTES[n.name]}</p>}
+      {story && <p>{story[0]}</p>}
+      {story?.[1].length > 0 && <p><b>כינויי חיבה:</b> {story[1].join(', ')}.</p>}
       <p>{nameIntro(n)}{n.tags.includes('קלאסי') ? ' זה שם קלאסי שעובר מדור לדור.' : n.tags.includes('מודרני') ? ' זה שם עכשווי שנעשה נפוץ בעשורים האחרונים.' : ''}</p>
     </section>
 
