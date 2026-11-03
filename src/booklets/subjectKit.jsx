@@ -17,6 +17,8 @@ import { bookletBySlug } from './registry'
 //   words     { items: [[word problem, answer]] }                               exercise + answer lines
 //   search    { words: [Hebrew words] }                                         word search
 //   open      { prompts: [questions] }                                          thinking / drawing boxes
+//   exam      { questions: [{ text, points, parts: [[part, answer]] }] }        bagrut-style questions with parts
+//             (one or two per page; `text` may be an array of paragraphs; the key lists each part's answer)
 // Every section may also carry `instruction` (else a default one). Answers are computed from the data, so
 // the key cannot drift from the pages.
 
@@ -32,6 +34,7 @@ const DEFAULT_INSTRUCTION = {
   words: 'קוראים, כותבים תרגיל ופותרים',
   search: 'מוצאים את המילים: הן כתובות מימין לשמאל או מלמעלה למטה',
   open: 'חושבים ועונים — אין כאן תשובה אחת נכונה',
+  exam: 'עונים על כל הסעיפים. כותבים את דרך הפתרון ולא רק את התשובה',
 }
 
 // A permutation of 0..len-1 that is never the identity, fixed by the seed.
@@ -61,7 +64,7 @@ const Bank = ({ words }) => <div style={{ display: 'flex', justifyContent: 'cent
 // Numbers with a minus sign, coordinates and short formulas inside Hebrew text keep their left-to-right order
 // (otherwise "−5" prints as "5−" and "(−3, 2)" flips).
 // A run is any stretch of Latin letters, digits and math signs; only runs with a letter or a sign are wrapped.
-const LTR = /([A-Za-z0-9(√−-][A-Za-z0-9₀-₉ +−×÷=<>≤≥().,/²³√^%-]*[A-Za-z0-9₀-₉)²³%])/
+const LTR = /([A-Za-z0-9(√−-][A-Za-z0-9₀-₉ₐ-ₜ_ +−×÷=<>≤≥().,/²³√^%-]*[A-Za-z0-9₀-₉ₐ-ₜ)²³%])/
 const NEEDS = /[A-Za-z−×÷=<>≤≥√²³^(]|^-/
 function bidi(text) {
   if (typeof text !== 'string' || !NEEDS.test(text)) return text
@@ -189,6 +192,22 @@ function OpenPage({ n, title, s }) {
   </Sheet>
 }
 
+// Bagrut-style page: each question has its points, its stem (paragraphs) and lettered parts with writing space.
+function ExamPage({ n, title, s }) {
+  const first = s.questionNumber || 1
+  return <Sheet n={n} title={title} instruction={s.instruction || DEFAULT_INSTRUCTION.exam}>
+    <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateRows: `repeat(${s.questions.length}, 1fr)`, gap: '4mm' }}>
+      {s.questions.map((q, i) => <div key={i} style={{ display: 'flex', flexDirection: 'column', minHeight: 0, border: '0.6mm solid #111', borderRadius: '4mm', padding: '3mm 4mm' }}>
+        <b style={{ fontSize: '13pt' }}>שאלה {first + i}{q.points ? ` (${q.points} נקודות)` : ''}</b>
+        {[].concat(q.text || []).map((p, j) => <p key={j} style={{ margin: '1mm 0 0', fontSize: '12pt', lineHeight: 1.45 }}>{bidi(p)}</p>)}
+        <div style={{ flex: 1, minHeight: 0, display: 'grid', gridTemplateRows: `repeat(${q.parts.length}, 1fr)`, marginTop: '1.5mm' }}>
+          {q.parts.map(([part], j) => <div key={j} style={{ minHeight: 0, borderTop: '0.3mm dashed #bbb', paddingTop: '1mm', fontSize: '12pt', lineHeight: 1.4 }}><b>{LETTERS[j]}.</b> {bidi(part)}</div>)}
+        </div>
+      </div>)}
+    </div>
+  </Sheet>
+}
+
 function Section({ n, title, s, seed }) {
   const p = { n, title, s, seed }
   switch (s.type) {
@@ -201,6 +220,7 @@ function Section({ n, title, s, seed }) {
     case 'problems': return <ProblemsPage {...p} />
     case 'words': return <WordsPage {...p} />
     case 'open': return <OpenPage {...p} />
+    case 'exam': return <ExamPage {...p} />
     case 'search': return <WordSearchPage n={n} seed={seed + n} he size={s.size || 10} title={title} instruction={s.instruction || DEFAULT_INSTRUCTION.search} words={s.words.map(word => ({ word }))} />
     default: throw new Error(`unknown section type ${s.type}`)
   }
@@ -216,6 +236,7 @@ export function answersOf(s, seed, n) {
     case 'fill': return s.items.map(it => it[1])
     case 'order': return [`מלמעלה למטה: ${orderShown(s, seed, n).map(k => k + 1).join(', ')}`]
     case 'problems': case 'words': return s.items.map(it => String(it[1]))
+    case 'exam': return s.questions.map((q, i) => `שאלה ${(s.questionNumber || 1) + i}: ${q.parts.map(([, a], j) => `${LETTERS[j]}. ${a}`).join(' · ')}`)
     default: return null
   }
 }

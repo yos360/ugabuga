@@ -52,6 +52,18 @@ import historyHighSchool from './meta/history-high-school.js'
 import civicsHighSchool from './meta/civics-high-school.js'
 import biologyHighSchool from './meta/biology-high-school.js'
 import literatureHighSchool from './meta/literature-high-school.js'
+import bagrutBiology5Units from './meta/bagrut-biology-5-units.js'
+import bagrutChemistry5Units from './meta/bagrut-chemistry-5-units.js'
+import bagrutCivics2Units from './meta/bagrut-civics-2-units.js'
+import bagrutHistory2Units from './meta/bagrut-history-2-units.js'
+import bagrutLashon2Units from './meta/bagrut-lashon-2-units.js'
+import bagrutLiterature2Units from './meta/bagrut-literature-2-units.js'
+import bagrutMath3Units from './meta/bagrut-math-3-units.js'
+import bagrutMath4Units from './meta/bagrut-math-4-units.js'
+import bagrutMath5UnitsA from './meta/bagrut-math-5-units-a.js'
+import bagrutMath5UnitsB from './meta/bagrut-math-5-units-b.js'
+import bagrutPhysics5Units from './meta/bagrut-physics-5-units.js'
+import bagrutTanakh2Units from './meta/bagrut-tanakh-2-units.js'
 
 const subject = content => () => Promise.all([import('./subjectKit.jsx'), content()]).then(([kit, c]) => ({ default: kit.bookletFor(c.default) }))
 
@@ -108,4 +120,16 @@ export const SUBJECT_BOOKLETS = [
   { ...civicsHighSchool, load: subject(() => import('./content/civics-high-school.js')) },
   { ...biologyHighSchool, load: subject(() => import('./content/biology-high-school.js')) },
   { ...literatureHighSchool, load: subject(() => import('./content/literature-high-school.js')) },
+  { ...bagrutBiology5Units, load: subject(() => import('./content/bagrut-biology-5-units.js')) },
+  { ...bagrutChemistry5Units, load: subject(() => import('./content/bagrut-chemistry-5-units.js')) },
+  { ...bagrutCivics2Units, load: subject(() => import('./content/bagrut-civics-2-units.js')) },
+  { ...bagrutHistory2Units, load: subject(() => import('./content/bagrut-history-2-units.js')) },
+  { ...bagrutLashon2Units, load: subject(() => import('./content/bagrut-lashon-2-units.js')) },
+  { ...bagrutLiterature2Units, load: subject(() => import('./content/bagrut-literature-2-units.js')) },
+  { ...bagrutMath3Units, load: subject(() => import('./content/bagrut-math-3-units.js')) },
+  { ...bagrutMath4Units, load: subject(() => import('./content/bagrut-math-4-units.js')) },
+  { ...bagrutMath5UnitsA, load: subject(() => import('./content/bagrut-math-5-units-a.js')) },
+  { ...bagrutMath5UnitsB, load: subject(() => import('./content/bagrut-math-5-units-b.js')) },
+  { ...bagrutPhysics5Units, load: subject(() => import('./content/bagrut-physics-5-units.js')) },
+  { ...bagrutTanakh2Units, load: subject(() => import('./content/bagrut-tanakh-2-units.js')) },
 ]

@@ -154,6 +154,7 @@ const RequestDone = lazy(() => import('./pages/RequestDone'))
 const WhatsAppChannel = lazy(() => import('./pages/WhatsAppChannel'))
 const WinterGames = lazy(() => import('./pages/WinterGames'))
 const BookletsHub = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletsHub })))
+const BagrutHub = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BagrutHub })))
 const BookletPage = lazy(() => import('./pages/booklets/BookletPages').then(m => ({ default: m.BookletPage })))
 const EnglishMemoryCards = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.EnglishMemoryCards })))
 const Dominoes = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.Dominoes })))
@@ -858,6 +859,7 @@ export default function App() {
               <Route path="/printables/memory-game" element={<MemoryGame />} />
               <Route path="/printables/memory-english" element={<EnglishMemoryCards />} />
               <Route path="/booklets" element={<BookletsHub />} />
+              <Route path="/bagrut" element={<BagrutHub />} />
               <Route path="/request" element={<RequestPage />} />
               <Route path="/request/done" element={<RequestDone />} />
               <Route path="/whatsapp" element={<WhatsAppChannel />} />
