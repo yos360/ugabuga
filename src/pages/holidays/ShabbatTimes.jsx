@@ -220,7 +220,8 @@ function CityPage({ city }) {
   return <div className="max-w-3xl mx-auto px-4 py-8" dir="rtl">
     <SEO title={`כניסת שבת ${city.name} וצאת השבת — זמנים ולוח להדפסה`} description={cityDescription(facts)} path={cityHref(city)} structuredData={faqSchema(cityFaq(facts))} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'זמני שבת', href: '/shabbat-times' }, { label: city.name }]} />
-    <h1 className="text-center text-3xl sm:text-4xl mb-5">כניסת שבת {city.name} וצאת השבת</h1>
+    <h1 className="text-center text-3xl sm:text-4xl mb-3">כניסת שבת {city.name} וצאת השבת</h1>
+    <p className="text-center text-lg mb-5" data-answer>בקצרה: בשבת {dateLabel(current.saturday)} הדלקת הנרות ב{city.name} היא ב־{formatTime(current.candles)} ביום שישי, וצאת השבת ב־{formatTime(current.end)}.</p>
     <section className="rounded-3xl bg-[var(--postit)] p-5 sm:p-8 text-center" aria-label="זמני השבת בעיר">
       <h2 className="text-2xl">שבת {dateLabel(current.saturday)}</h2><Reading reading={current.reading} />
       <div className="grid grid-cols-2 gap-3 mt-5"><div className="bg-[var(--card)] rounded-xl p-3"><h3>הדלקת נרות</h3><p className="text-4xl my-2"><Clock value={current.candles} /></p><p className="text-sm">שישי {dateLabel(current.friday)}</p></div><div className="bg-[var(--card)] rounded-xl p-3"><h3>צאת השבת</h3><p className="text-4xl my-2"><Clock value={current.end} /></p><p className="text-sm">שבת {dateLabel(current.saturday)} · 8.5°</p></div></div>

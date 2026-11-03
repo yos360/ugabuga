@@ -44,7 +44,16 @@ const SUBJECTS = [
 ]
 const subjectOf = b => (SUBJECTS.find(([, re]) => re.test(b.subject)) || ['עוד'])[0]
 // A grade row under the stage, for the stages that have grades.
-const STAGE_GRADES = { 'יסודי': [1, 2, 3, 4, 5, 6], 'חטיבת ביניים': [7, 8, 9] }
+const dayLabel = iso => iso.split('-').map(Number).reverse().join('.')
+// What the booklet is, for search engines and answer engines: a free printable workbook for a stage and subject.
+const learningSchema = b => ({
+  '@context': 'https://schema.org', '@type': 'LearningResource', name: b.title, description: b.description,
+  url: 'https://ugabuga.co.il' + bookletHref(b), inLanguage: 'he', isAccessibleForFree: true,
+  learningResourceType: 'חוברת עבודה', educationalLevel: b.audience, teaches: b.subject, numberOfPages: b.pages.length,
+  ...(b.added ? { datePublished: b.added } : {}),
+  publisher: { '@type': 'Organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il' },
+})
+const STAGE_GRADES ={ 'יסודי': [1, 2, 3, 4, 5, 6], 'חטיבת ביניים': [7, 8, 9] }
 const Chip = ({ on, onClick, children }) => <button type="button" aria-pressed={on} onClick={onClick} className={`min-h-[44px] rounded-full border-2 px-4 font-bold ${on ? 'border-violet-600 bg-violet-600 text-white' : 'border-[var(--border)] bg-[var(--card)]'}`}>{children}</button>
 
 export function BookletsHub() {
@@ -153,14 +162,16 @@ function BookletView({ b }) {
   const others = BOOKLETS.filter(o => o.slug !== b.slug)
     .map(o => ({ o, score: (subjectOf(o) === subjectOf(b) ? 2 : 0) + (stageOf(o) === stageOf(b) ? 1 : 0) }))
     .filter(x => x.score > 0).sort((x, y) => y.score - x.score).slice(0, 6).map(x => x.o)
+  const school = stageOf(b) !== 'גן' && !['חגים', 'עוד'].includes(subjectOf(b))
   return <div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
-    <SEO title={b.seoTitle} description={b.description} path={bookletHref(b)} structuredData={faqSchema(b.faq)} />
+    <SEO title={b.seoTitle} description={b.description} path={bookletHref(b)} structuredData={[learningSchema(b), faqSchema(b.faq)].filter(Boolean)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, CRUMB, { label: b.title }]} />
     <header className="rounded-[32px] border-2 border-[var(--border)] bg-[var(--postit)] p-6 text-center sketch-shadow-sm sm:p-10">
       <div className="text-6xl" aria-hidden="true">{b.emoji}</div>
       <h1 className="mt-2 text-4xl sm:text-5xl">{b.title}</h1>
       <p className="mt-2 font-bold">{b.audience} · {b.subject} · {b.pages.length} עמודים · להדפסה או להורדה כ־PDF</p>
       <p className="mx-auto mt-3 max-w-2xl text-lg">{b.intro}</p>
+      <p className="mx-auto mt-3 max-w-2xl text-sm text-[var(--muted-foreground)]">✍️ נכתבה במיוחד לעוגה בוגה{school ? ', לפי תוכנית הלימודים של משרד החינוך' : ''}{b.added ? ` · נוספה ב־${dayLabel(b.added)}` : ''} · <Link to="/about" className="underline">איך אנחנו כותבים ובודקים</Link></p>
       <button type="button" onClick={() => setSeed(newSeed())} className={`${button} mt-5 bg-violet-600 text-white shadow-[0_4px_0_#5b21b6]`}>📘 לחוברת המלאה — הדפסה או PDF</button>
     </header>
     <section className="mt-8" aria-label="מה יש בחוברת">

@@ -61,6 +61,17 @@ export default function About() {
       <p className="mt-5 text-center"><Link to="/suppliers/me" className="inline-block rounded-2xl bg-[var(--ink)] px-6 py-3 font-bold text-white">ספקים? הצטרפו בחינם ←</Link></p>
     </section>
 
+    <section className="mt-12 wobbly border-2 border-[var(--border)] bg-white p-6 sm:p-8" aria-labelledby="how-we-check">
+      <h2 id="how-we-check" className="text-center text-3xl font-black sm:text-4xl">איך אנחנו כותבים ובודקים את התוכן</h2>
+      <ul className="mx-auto mt-5 max-w-3xl list-disc space-y-3 pr-5 text-lg leading-relaxed">
+        <li><b>תוכן מקורי.</b> הקטעים, החוברות, השאלות והמשחקים נכתבים במיוחד לאתר. לא מעתיקים מספרי לימוד או מאתרים אחרים.</li>
+        <li><b>לפי תוכנית הלימודים.</b> דפי הלימוד והחוברות לבית הספר נבנים לפי תוכניות הלימודים של משרד החינוך לכל כיתה. מבחני הבגרות לתרגול נבנים לפי המיקוד וטבלת זמני הבחינות של משרד החינוך לאותה שנה.</li>
+        <li><b>בדיקות קבועות.</b> כל עדכון באתר עובר מאות בדיקות אוטומטיות לפני שהוא עולה: אורך הקטע מתאים לכיתה, לכל שאלה יש תשובה אחת נכונה, הניקוד מלא איפה שצריך, ודפי התשובות תואמים לשאלות.</li>
+        <li><b>מורים והורים מתקנים איתנו.</b> מצאתם טעות? כתבו לנו בוואטסאפ או במייל. בדרך כלל מתקנים באותו יום, ובכל חוברת מופיע התאריך שבו נוספה או עודכנה.</li>
+        <li><b>בטוח לילדים.</b> אין באתר הרשמה, צ׳אט או איסוף פרטים מילדים, והתוכן מותאם לגיל.</li>
+      </ul>
+    </section>
+
     <section className="mt-12 rounded-[32px] bg-[var(--ink)] p-8 text-center text-white sm:p-12">
       <p className="text-lg opacity-80">כמה זה עולה?</p>
       <p className="mt-2 text-5xl font-black sm:text-7xl">חינם להורים ולמורים. תמיד.</p>

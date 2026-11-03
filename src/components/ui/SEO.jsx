@@ -99,8 +99,25 @@ export default function SEO({ title, description, path, image = '/og-image.png',
     ...(preview ? { 'primaryImageOfPage': fullImage } : {}),
   } : null
 
+  // Every tool page (/tools/<name>…) is a free web app — say so, unless the page already describes itself as one.
+  const extra = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : []
+  const toolSchema = !en && !noindex && /^\/tools\/[^/]+/.test(normalizedPath) && !extra.some(s => s?.['@type'] === 'WebApplication') ? {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': (title || fullTitle).split(/\s[—|–]\s/)[0],
+    'description': fullDescription,
+    'url': url,
+    'applicationCategory': /dice|coin|random|spin|wheel/.test(normalizedPath) ? 'GameApplication' : 'UtilitiesApplication',
+    'operatingSystem': 'Any',
+    'browserRequirements': 'דפדפן אינטרנט',
+    'inLanguage': 'he',
+    'isAccessibleForFree': true,
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'ILS' },
+    'publisher': { '@type': 'Organization', 'name': 'עוגה בוגה', 'url': 'https://ugabuga.co.il' },
+  } : null
+
   const englishSchema = en && !noindex ? { '@context': 'https://schema.org', '@type': normalizedPath === '/en' ? 'WebSite' : 'WebPage', name: title || fullTitle, description: fullDescription, url, inLanguage: 'en', isAccessibleForFree: true, isPartOf: { '@type': 'WebSite', name: 'Ugabuga', url: 'https://ugabuga.co.il/en' }, publisher: { '@type': 'Organization', name: 'Ugabuga', url: 'https://ugabuga.co.il' } } : null
-  const schemas = [en ? englishSchema : schemaData, en ? null : pageSchema, ...(Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [])].filter(Boolean)
+  const schemas = [en ? englishSchema : schemaData, en ? null : pageSchema, toolSchema, ...extra].filter(Boolean)
 
   return (
     <Helmet htmlAttributes={{ lang, dir: en ? 'ltr' : 'rtl' }}>
