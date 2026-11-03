@@ -12,7 +12,12 @@ test('sitemap.xml is an index whose group files all exist', () => {
   assert.match(index, /<sitemapindex /)
   const groups = locs(index)
   assert.ok(groups.length >= 5)
-  for (const u of groups) assert.ok(existsSync(new URL(`../public${new URL(u).pathname}`, import.meta.url)), u)
+  for (const u of groups) {
+    assert.ok(existsSync(new URL(`../public${new URL(u).pathname}`, import.meta.url)), u)
+    const xml = read(new URL(u).pathname.slice(1))
+    assert.equal(xml.match(/<\?xml /g).length, 1, `${u} must have exactly one XML declaration`)
+    assert.ok(xml.startsWith('<?xml ') && /<\/urlset>\s*$/.test(xml), u)
+  }
 })
 
 test('every page is submitted once or held back, and robots.txt points at the index', async () => {

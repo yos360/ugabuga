@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ugabuga.co.il/live</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/MernkShUmoc/hqdefault.jpg</video:thumbnail_loc><video:title>חידון חי לכל הכיתה — בוגה לייב</video:title><video:description>חידון בזמן אמת לכל הכיתה: מקרינים את השאלות על הלוח, והמשתתפים עונים מהטלפון.</video:description><video:player_loc>https://www.youtube.com/embed/MernkShUmoc</video:player_loc><video:publication_date>2026-10-22T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/classroom/roster</loc><priority>0.7</priority></url>

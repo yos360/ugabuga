@@ -193,7 +193,7 @@ async function main() {
 // held back: their pages stay live, prerendered and linked, they are just not submitted until the
 // groups already submitted are indexed. To submit a group again, delete it from HELD_BACK.
 async function writeGroups(full) {
-  const head = full.slice(0, full.indexOf('>', full.indexOf('<urlset')) + 1)
+  const head = full.slice(full.indexOf('<urlset'), full.indexOf('>', full.indexOf('<urlset')) + 1)
   const buckets = new Map(GROUPS.map(([name]) => [name, []]))
   let held = 0
   for (const entry of full.match(/<url>[\s\S]*?<\/url>/g) || []) {

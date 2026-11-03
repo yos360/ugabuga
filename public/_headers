@@ -42,3 +42,7 @@
 # <head> is the homepage's - keep it out of Google at the HTTP level.
 /search
   X-Robots-Tag: noindex
+
+# The full URL list feeds prerender and IndexNow; search engines get /sitemap.xml (the index).
+/sitemap-full.xml
+  X-Robots-Tag: noindex
