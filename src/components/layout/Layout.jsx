@@ -15,6 +15,7 @@ import PrintQrFallback from './PrintQrFallback'
 import PrintFollowUp from '../print/PrintFollowUp'
 import WhatsAppShare from './WhatsAppShare'
 import NoVoiceNotice from './NoVoiceNotice'
+import MobilePrintBar from './MobilePrintBar'
 import PrintPreviewFigure from './PrintPreviewFigure'
 const SiteChatWidget = lazy(() => import('../chat/SiteChatWidget'))
 
@@ -92,6 +93,7 @@ export default function Layout({ children }) {
       {/* /kids is for a child browsing alone: no share button there. */}
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
       {mounted && <NoVoiceNotice />}
+      {mounted && !presenting && <MobilePrintBar />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{!presenting && <ReturnNavigation />}{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
       {!presenting && pathname !== '/' && <Suspense fallback={null}><ToolVideos key={pathname} pathname={pathname} /></Suspense>}

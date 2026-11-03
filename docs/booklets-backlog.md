@@ -42,7 +42,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] 40 grade-by-grade subject booklets (math 4–9 + high school, Hebrew 2–9, science 1–9, Tanakh 3–8, moledet 2–4, geography 5–8, history 6–9, civics) — data only: `src/booklets/content|meta/<slug>.js` drawn by `subjectKit.jsx`, checked by `tests/subject-booklets.test.mjs` — on the owner's request ("for all ages and all subjects") — 2026-11-03
 
 ## Next (top first)
-- [ ] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).
+- [x] `hebrew-grade-1` (done 2026-11-03 with 10 more: math-grade-1, hebrew-grade-7, science-grade-2, tanakh-grade-2/9, and high school Hebrew, Tanakh, history, literature, biology) — חוברת עבודה בעברית לכיתה א׳ (10/mo, + "חוברות עבודה לכיתה א" 110/mo).
 - [x] `math-grade-4` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ד׳ (10/mo).
 - [x] `math-grade-5` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
 - [x] `math-grade-6` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).
