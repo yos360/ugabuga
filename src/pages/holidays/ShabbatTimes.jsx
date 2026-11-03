@@ -119,6 +119,14 @@ export function ShabbatTimesHub() {
   const placeName = params.get('place')
   const chosen = useMemo(() => { const spot = placeName && localities.find(p => p.name === placeName); return spot ? placeFor(spot) : null }, [placeName, localities])
   const place = gpsPlace || chosen
+  // A chosen locality (/shabbat-times?place=…) is what Google shows for "צאת שבת" near it, so it gets its own
+  // title with the place's name and this week's times; a place that has a city page points there.
+  const placeWeek = useMemo(() => chosen ? shabbatSeries(chosen, today, 1)[0] : null, [chosen, today])
+  const placeSeo = placeWeek && {
+    title: `צאת שבת ב${chosen.name} השבוע — כניסת שבת והדלקת נרות`,
+    description: `צאת שבת ב${chosen.name} בשבת ${dateLabel(placeWeek.saturday)}: ${formatTime(placeWeek.end)}. הדלקת נרות ביום שישי: ${formatTime(placeWeek.candles)} (${chosen.offset} דקות לפני השקיעה). ארבע השבתות הבאות ולוח להדפסה.`,
+    path: chosen.city ? cityHref(chosen.city) : `/shabbat-times?place=${encodeURIComponent(chosen.name)}`,
+  }
   const choose = name => { setGpsPlace(null); setParams({ place: name }); setTimeout(() => document.getElementById('place')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50) }
   const closePlace = () => { setGpsPlace(null); setParams({}) }
   const locate = () => {
@@ -140,7 +148,7 @@ export function ShabbatTimesHub() {
   const cityNames = useMemo(() => new Set(SHABBAT_PLACES.map(c => clean(c.name.replace('קריית', 'קרית')))), [])
   const more = normalized.length < 2 ? [] : localities.filter(p => clean(p.name).includes(clean(query)) && !cityNames.has(clean(p.name.replace('קריית', 'קרית')))).sort((a, b) => clean(a.name).indexOf(clean(query)) - clean(b.name).indexOf(clean(query)) || a.name.length - b.name.length).slice(0, 24)
   return <div className="max-w-5xl mx-auto px-4 py-8" dir="rtl">
-    <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת ב־170 ערים ולכל יישוב בישראל — מושבים, קיבוצים וכפרים — או לפי המיקום שלכם. לוח חודשי ושנתי עם תמונה להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />
+    {placeSeo ? <SEO {...placeSeo} /> : <SEO title="כניסת שבת וצאת השבת — זמני שבת לפי עיר" description="זמני כניסת שבת וצאת השבת ב־170 ערים ולכל יישוב בישראל — מושבים, קיבוצים וכפרים — או לפי המיקום שלכם. לוח חודשי ושנתי עם תמונה להדפסה." path="/shabbat-times" structuredData={faqSchema(FAQ)} />}
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שבתות וחגים', href: '/holidays' }, { label: 'זמני שבת' }]} />
     <h1 className="text-center text-3xl sm:text-4xl mb-5">כניסת שבת וצאת השבת לפי עיר</h1>
     <section className="rounded-3xl bg-[var(--postit)] p-5 text-center" aria-label="השבת המוצגת">
