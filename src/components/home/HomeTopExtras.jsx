@@ -22,6 +22,10 @@ export function BringChip() {
   return <Link to="/tools/bring-list" className="print-strip election-chip no-print"><span aria-hidden="true">🧺</span><span><b>מי מביא מה?</b> רשימה שיתופית למסיבה — בלי בלגן</span></Link>
 }
 
+export function ShoppingChip() {
+  return <Link to="/tools/shopping-list" className="print-strip election-chip no-print"><span aria-hidden="true">🛒</span><span><b>רשימת קניות משותפת</b> קישור אחד לכל המשפחה, מתעדכן אצל כולם בלייב</span></Link>
+}
+
 export function BugaPediaBox() {
   const [q, setQ] = useState('')
   const navigate = useNavigate()
