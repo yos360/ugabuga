@@ -67,3 +67,7 @@ Update 2026-11-02 (scheduled upload, owner's Chrome): YouTube https://youtube.co
 
 | 2026-11-02 | "חידת החניה" — חידה קשה מאוד, 10 שניות, "כתבו את התשובה בתגובות" (הדמות החדשה לראשונה) | /riddles/teens | ✓ | ✓ | ✓ | ✓ |
 Update 2026-11-02 evening: YouTube https://youtube.com/shorts/yb9mdaotP-8 (made for kids, Education, public), Instagram (original crop, cover, FB share off), Facebook (עוגה בוגה profile, public), TikTok (everyone, in review), WhatsApp channel — all posted. New mascot cut-out in template/img/mascot.png.
+
+| 2026-11-03 | "באיזו אות מתחילה 🚂?" — משחק אותיות לגן (3 modes: find the letter / first letter / letter name, 10 questions, stars, look-alike letters ד/ר ה/ח ב/כ, sound on every letter) | /letters/game | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-11-03: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-03/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/letters-game/. Sync check passed (count marker has no sync, logo is audio-only).
