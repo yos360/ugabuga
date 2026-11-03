@@ -28,7 +28,7 @@ export default function SlidingPuzzle({ onReport, onShare, daily }) {
   useEffect(() => {
     if (!won || !started) return
     sfx('win')
-    if (daily) { daily.finish({ text: `🧩 Puzzle sliding ${n}×${n}: Solved in ${moves} moves, ${time} seconds`, score: time, won: true }); return }
+    if (daily) { daily.finish({ text: `🧩 Sliding puzzle ${n}×${n}: Solved in ${moves} moves, ${time} seconds`, score: time, won: true }); return }
     saveProgress(p => ({ best: { ...p.best, [n]: p.best[n] ? Math.min(p.best[n], moves) : moves } }))
     onReport?.({ text: `🧩 Solved Puzzle ${n}×${n} in ${moves} moves!` })
   }, [won, started, n, moves, time, daily, saveProgress, onReport])
@@ -64,7 +64,7 @@ export default function SlidingPuzzle({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['moves', moves], ['⏱️', time], ['In place', `${inPlace(board)}/${n * n - 1}`]]}>
+      <Hud stats={[['Moves', moves], ['⏱️', time], ['In place', `${inPlace(board)}/${n * n - 1}`]]}>
         <ToolButton onClick={() => start(n)} label="Shuffle again">🔀</ToolButton>
       </Hud>
       {!daily && <div className="sp-levels" role="group" aria-label="Size">

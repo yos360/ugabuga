@@ -204,7 +204,7 @@ export const TEMPLATES = [
     slug: 'printable-sign', name: 'שלט להדפסה', emoji: '🪧', cat: 'שלטים ומודעות',
     seoTitle: 'שלט להדפסה — כותבים כל טקסט ומדפיסים ב-A4',
     seoDesc: 'יוצרים שלט להדפסה בעברית: כותרת ענקית, שורת הסבר וחץ. לשירותים, לכניסה, לחדר, לאירוע או לחנייה. עורכים אונליין ומדפיסים בחינם.',
-    about: 'בשלט טוב יש עד חמש מילים בכותרת, אייקון אחד ושורה קטנה מתחת. לחץ ענק עוזר כשהשלט מכוון אנשים למקום אחר.',
+    about: 'בשלט טוב יש עד חמש מילים בכותרת, אייקון אחד ושורה קטנה מתחת. חץ ענק עוזר כשהשלט מכוון אנשים למקום אחר.',
     html: '<p>&nbsp;</p><p>&nbsp;</p><p style="text-align:center"><span style="font-size:90pt">⬅️</span></p><h2 style="font-size:22pt;text-align:center"><span style="font-size:64pt">[הטקסט של השלט]</span></h2><p>&nbsp;</p><p style="text-align:center"><span style="font-size:26pt">[שורת הסבר קצרה]</span></p>',
     items: frame('#14162d', 8, 30),
   },

@@ -162,7 +162,7 @@ export default function MitzvahQuiz() {
 
       <section className="ln-box mt-8 text-center" aria-label="מה עושים עם החידון">
         <p className="m-0 text-xl font-bold">{questions.length ? `מוכן! ${questions.length} שאלות בחידון` : 'כתבו תשובה נכונה לפחות לשאלה אחת'}</p>
-        {missing > 0 && <p className="m-0 mt-1 text-sm text-[var(--muted-foreground)]">{missing} שאלות מסומנות עדיין בלי תשובה נכונה או בלי תשובה שגויה, והן לא ייכנסו.</p>}
+        {missing > 0 && <p className="m-0 mt-1 text-sm text-[var(--muted-foreground)]">{missing === 1 ? 'שאלה אחת מסומנת עדיין בלי תשובה נכונה או בלי תשובה שגויה, והיא לא תיכנס.' : `${missing} שאלות מסומנות עדיין בלי תשובה נכונה או בלי תשובה שגויה, והן לא ייכנסו.`}</p>}
         <div className="mt-4 flex flex-wrap justify-center gap-3">
           <button type="button" className="ln-btn" disabled={!questions.length} onClick={() => setMode('host')}>🎉 משחק על המסך</button>
           <button type="button" className="ln-btn alt" disabled={!questions.length || busy} onClick={online}>{busy ? 'יוצרים…' : '📲 חידון בטלפונים של האורחים'}</button>

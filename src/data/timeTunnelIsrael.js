@@ -28,7 +28,7 @@ export const TT_ISRAEL = {
     e(1942, '🎹', 'born', 'נולד דניאל ברנבוים בבואנוס איירס, פסנתרן ומנצח מפורסם בעולם.', 'https://cso.org/about/performers/visiting-artists/conductors/daniel-barenboim', 'https://interlude.hk/on-this-day-15-november-daniel-barenboim-was-born/'),
     e(1948, '✈️', 'event', 'חברת התעופה אל על נרשמה רשמית כחברה, והפכה לחברת התעופה הלאומית של ישראל.', 'https://www.jewishvirtuallibrary.org/el-al-timeline-highlights', 'https://www.israelairlinemuseum.org/el-al-key-dates/'),
   ],
-  '11-16': [e(1924, '🎖️', 'born', 'נולד חיים בר-לב בווינה, שהיה לימים הרמטכ"ל השישי של צה"ל.', 'https://en.wikipedia.org/wiki/Haim_Bar-Lev', 'https://www.jta.org/archive/haim-bar-lev-dead-at-69-was-general-and-ambassador')],
+  '11-16': [e(1924, '🎖️', 'born', 'נולד חיים בר-לב בווינה, שהיה לימים הרמטכ"ל השמיני של צה"ל.', 'https://en.wikipedia.org/wiki/Haim_Bar-Lev', 'https://www.jta.org/archive/haim-bar-lev-dead-at-69-was-general-and-ambassador')],
   '11-18': [e(1951, '🎹', 'born', 'נולד יוני רכטר בתל אביב, מלחין ונגן קלידים וחבר להקת כוורת.', 'https://israeled.org/rock-star-yoni-rechter-is-born', 'https://en.wikipedia.org/wiki/Yoni_Rechter')],
   '11-19': [
     e(1957, '🎤', 'born', 'נולדה עפרה חזה בתל אביב, זמרת ישראלית אהובה שזכתה להצלחה גם בעולם.', 'https://israeled.org/singer-ofra-haza-is-born', 'https://www.britannica.com/biography/Ofra-Haza'),

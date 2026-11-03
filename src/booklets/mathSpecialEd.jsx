@@ -82,7 +82,7 @@ function CutOrderPage({ n, seed }) {
 function CutMatchPage({ n, seed }) {
   const cards = rngFor(seed, 9).shuffle(MATCH)
   return <SvgPage label="גוזרים ומדביקים כמה יש">
-    <Head n={n} title="גוזרים ומדביקים: כמה יש?" instruction="גוזרים כל קבוצת תמונות ומדביקה ליד המספר שמתאים לה" />
+    <Head n={n} title="גוזרים ומדביקים: כמה יש?" instruction="גוזרים כל קבוצת תמונות ומדביקים אותה ליד המספר שמתאים לה" />
     <g fontFamily={FONT} textAnchor="middle">
       {MATCH.map(([, k], i) => { const y = 135 + i * 74; return <g key={i}>
         <circle cx="520" cy={y + 30} r="28" fill="white" stroke={INK} strokeWidth="2.5" /><text x="520" y={y + 46} fontSize="38" fontWeight="800">{k}</text>

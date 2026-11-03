@@ -58,7 +58,7 @@ export default function VatCalculator() {
   const customBad = custom !== '' && (cr === null || cr < 0 || cr > 100)
 
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="מחשבון מע״מ 18% — הוספת מע״מ והורדת מע״מ מהמחיר" description="מחשבון מעמ 18 חינם: ממחיר לפני מע״מ למחיר כולל מע״מ ולהפך, עם סכום המע״מ מדויק לאגורה, נוסחה ברורה וכפתורי העתקה. כולל אפשרות 0% לאילת." path="/tools/vat" structuredData={faqSchema(FAQ)} />
+    <SEO title="מחשבון מע״מ 18% — הוספת מע״מ והורדת מע״מ מהמחיר" description="מחשבון מע״מ 18 חינם: ממחיר לפני מע״מ למחיר כולל מע״מ ולהפך, עם סכום המע״מ מדויק לאגורה, נוסחה ברורה וכפתורי העתקה. כולל אפשרות 0% לאילת." path="/tools/vat" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'מחשבון מע״מ' }]} />
     <h1 className="text-3xl sm:text-4xl text-center mb-3">מחשבון מע״מ {VAT_RATE}%</h1>
     <p className="text-center mb-6">מקלידים מחיר, בוחרים אם הוא לפני מע״מ או כבר כולל, ומקבלים הכול מיד, מדויק לאגורה.</p>

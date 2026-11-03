@@ -39,7 +39,7 @@ export default {
   "eyelid": "עפעף",
   "factual": "עובדתי",
   "falafel": "פלאפל",
-  "fallow": "(צבי) יחמור; שדה מוברר",
+  "fallow": "(צבי) יחמור; שדה בור",
   "fawn": "עופר, גור צבי",
   "fragment": "שבר, רסיס",
   "freshwater": "של מים מתוקים",

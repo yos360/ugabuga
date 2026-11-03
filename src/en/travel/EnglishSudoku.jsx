@@ -29,7 +29,7 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
   }, [won])
   useEffect(() => {
     if (!won) return
-    if (daily) { daily.finish({ text: `🔢 Sudoku: Solved in ${fmt(time)}${g.mistakes ? ` (${g.mistakes} Mistakes)` : ' without mistakes'}${g.hints ? `, ${g.hints} hints` : ''}`, score: time + g.mistakes * 30 + g.hints * 60, won: true }); return }
+    if (daily) { daily.finish({ text: `🔢 Sudoku: Solved in ${fmt(time)}${g.mistakes ? ` (${g.mistakes} ${g.mistakes === 1 ? 'mistake' : 'mistakes'})` : ' without mistakes'}${g.hints ? `, ${g.hints} ${g.hints === 1 ? 'hint' : 'hints'}` : ''}`, score: time + g.mistakes * 30 + g.hints * 60, won: true }); return }
     saveProgress(p => ({ solved: p.solved + 1 }))
     onReport?.({ text: `🔢 Solved Sudoku ${g.level.name} in ${fmt(time)}!` })
   }, [won, g.level.name, g.mistakes, g.hints, time, saveProgress, onReport, daily])
@@ -119,7 +119,7 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
           ))}
         </div>
       </div>
-      {won && !daily && <EndCard lang="en" title="🎉 Solved!" text={`Sudoku ${g.level.name} in ${fmt(time)}${g.mistakes ? ` with ${g.mistakes} Mistakes` : ' without mistakes'}${g.hints ? ` and ${g.hints} hints` : ''}.`}
+      {won && !daily && <EndCard lang="en" title="🎉 Solved!" text={`Sudoku ${g.level.name} in ${fmt(time)}${g.mistakes ? ` with ${g.mistakes} ${g.mistakes === 1 ? 'mistake' : 'mistakes'}` : ' without mistakes'}${g.hints ? ` and ${g.hints} ${g.hints === 1 ? 'hint' : 'hints'}` : ''}.`}
         primary="▶ New sudoku" onPrimary={() => start(g.level)}
         secondary="📱 Share achievement" onSecondary={() => onShare?.(`🔢 Solved Sudoku ${g.level.name} in ${fmt(time)}! Can you do it faster?`)} />}
     </div>

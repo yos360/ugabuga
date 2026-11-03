@@ -94,7 +94,7 @@ function GiftCalculator({ presets, occasion }) {
     </div>
     <div className="sc-card" aria-live="polite">
       <p className="m-0">סך הכול בקופה: <span className="sc-total">{res.total.toLocaleString('he-IL')} ₪</span></p>
-      <div className="mt-2">{res.shares.length ? res.shares.map(s => <div key={s.label} className="sc-share"><span>{s.label}</span><b>{s.amount.toLocaleString('he-IL')} ₪</b></div>) : <p>סמנו לפחות אחת מאנשי הצוות.</p>}</div>
+      <div className="mt-2">{res.shares.length ? res.shares.map(s => <div key={s.label} className="sc-share"><span>{s.label}</span><b>{s.amount.toLocaleString('he-IL')} ₪</b></div>) : <p>סמנו לפחות אחד מאנשי הצוות.</p>}</div>
     </div>
     <div className="sc-row">
       <label className="sc-field" style={{ flex: '1 1 220px' }}>יש לכם סכום יעד? (₪)

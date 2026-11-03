@@ -15,7 +15,7 @@ const KIND = 'secret'
 const DEFAULT_TITLE = { gamad: 'גמד וענק', purim: 'משלוח מנות לפורים', hanukkah: 'מתנות לחנוכה' }
 // "?wa" goes before the #p= fragment, so the personal token is untouched.
 const personalLink = (code, token) => `${shareUrl(KIND, code)}?wa#p=${token}`
-const personalText = (d, p) => `${DRAW_MODES[d.mode].emoji} ${p.name}, זה הקישור האישי שלך ל„${d.title}”.\nרק את/ה תראו בו את מי הגרלת — לא להעביר לאחרים 🤫\n${personalLink(d.code, p.token)}\nנוצר בחינם בעוגה בוגה 🎂`
+const personalText = (d, p) => `${DRAW_MODES[d.mode].emoji} ${p.name}, זה הקישור האישי שלך ל„${d.title}”.\nרק את/ה רואה בו את מי הגרלת — לא להעביר לאחרים 🤫\n${personalLink(d.code, p.token)}\nנוצר בחינם בעוגה בוגה 🎂`
 const groupText = d => `${DRAW_MODES[d.mode].emoji} ההגרלה ל„${d.title}” בוצעה!${d.budget ? `\n💰 תקציב: ${d.budget}` : ''}${d.note ? `\n📝 ${d.note}` : ''}\nכל אחד/ת יקבל/תקבל ממני קישור אישי בהודעה פרטית — שם מגלים את מי הגרלתם. שומרים על סוד! 🤫`
 const participantKey = code => `secret-p-${code}`
 
@@ -180,7 +180,7 @@ function ParticipantView({ code, ptoken, organizerHere, show }) {
       <h1 className="mt-1 text-3xl font-black">שלום {me.name}!</h1>
       {!result ? <>
         {organizerHere && <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-sm">שימו לב: זה הקישור האישי של <b>{me.name}</b>. אם אתם המארגנים ופתחתם אותו בטעות — אל תלחצו, כדי לא לגלות את הסוד.</p>}
-        <p className="mt-3 text-lg">ההגרלה מחכה לך. רק את/ה רואים את התוצאה.</p>
+        <p className="mt-3 text-lg">ההגרלה מחכה לך. רק את/ה רואה את התוצאה.</p>
         <button onClick={reveal} disabled={busy} className="mt-5 min-h-[64px] w-full rounded-2xl bg-[var(--accent)] text-xl font-black text-white shadow-lg disabled:opacity-60">{busy ? 'פותחים…' : '🎁 גלו את מי הגרלתם'}</button>
       </> : <div className="gt-reveal mt-4">
         <p className="text-lg">{m.verb}:</p>

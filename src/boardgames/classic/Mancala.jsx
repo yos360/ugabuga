@@ -42,7 +42,7 @@ function Play() {
   const end = over(s)
   const cpu = mode === 'computer' && s.turn === -1 && !end
   const name = t => (t === 1 ? (mode === 'computer' ? 'אתם (למטה)' : 'השחקן למטה') : mode === 'computer' ? 'המחשב (למעלה)' : 'השחקן למעלה')
-  const play = i => { const n = sow(s, i); setS(n); setNote(n.captured ? `💥 ${name(s.turn)} לכדו ${n.captured} אבנים!` : n.again ? `⭐ ${name(s.turn)} סיימו במחסן – עוד תור!` : '') }
+  const play = i => { const n = sow(s, i); setS(n); setNote(n.captured ? `💥 ${name(s.turn)} ${mode === 'computer' && s.turn === 1 ? 'לכדו' : 'לכד'} ${n.captured} אבנים!` : n.again ? `⭐ ${name(s.turn)} ${mode === 'computer' && s.turn === 1 ? 'סיימו' : 'סיים'} במחסן – עוד תור!` : '') }
   useComputerTurn(cpu, [s], () => play(cpuMove(s, level)), 800)
   const Pit = ({ i }) => {
     const can = !end && !cpu && own(s.turn).includes(i) && s.p[i] > 0

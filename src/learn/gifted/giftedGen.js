@@ -184,11 +184,13 @@ export function genOddOne(level, r = Math.random) {
 // ── quantitative word problems ──
 const NAMES = ['נועה', 'איתי', 'מאיה', 'יונתן', 'תמר', 'עומר', 'שירה', 'אורי', 'ליה', 'דניאל']
 const DAYS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת']
+const FEM_NAMES = new Set(['נועה', 'מאיה', 'תמר', 'שירה', 'ליה'])
+const g = (n, m, f) => FEM_NAMES.has(n) ? f : m // verb/adjective agreement with the name's gender
 const QUANT = {
   // a + b, take away, equal sharing
   share: (r, level) => {
     const kids = int(r, 2, level >= 2 ? 6 : 4), each = int(r, 2, level >= 2 ? 9 : 5), total = kids * each, n = pick(r, NAMES)
-    return { q: `ל${n} יש ${total} סוכריות. היא מחלקת אותן שווה בשווה בין ${kids} חברים. כמה סוכריות יקבל כל חבר?`, ok: each, wrong: [total - kids, each + 1, each - 1, kids], exp: `${total} לחלק ל־${kids} זה ${each}, כי ${kids}×${each}=${total}.` }
+    return { q: `ל${n} יש ${total} סוכריות. ${g(n, 'הוא מחלק', 'היא מחלקת')} אותן שווה בשווה בין ${kids} חברים. כמה סוכריות יקבל כל חבר?`, ok: each, wrong: [total - kids, each + 1, each - 1, kids], exp: `${total} לחלק ל־${kids} זה ${each}, כי ${kids}×${each}=${total}.` }
   },
   think: (r, level) => {
     const x = int(r, 2, level >= 3 ? 15 : 9), m = level >= 3 ? int(r, 2, 4) : 1, a = int(r, 1, 9), res = x * m + a
@@ -198,7 +200,7 @@ const QUANT = {
   },
   change: (r) => {
     const items = int(r, 2, 5), price = int(r, 3, 9), bill = pick(r, [50, 100]), n = pick(r, NAMES), cost = items * price
-    return { q: `${n} קנה ${items} מחברות, כל אחת ב־${price} שקלים, ושילם בשטר של ${bill}. כמה עודף קיבל?`, ok: bill - cost, wrong: [cost, bill - price, bill - cost + price, bill - cost - 1], exp: `${items}×${price}=${cost} שקלים. ${bill} פחות ${cost} זה ${bill - cost}.` }
+    return { q: `${n} ${g(n, 'קנה', 'קנתה')} ${items} מחברות, כל אחת ב־${price} שקלים, ו${g(n, 'שילם', 'שילמה')} בשטר של ${bill}. כמה עודף ${g(n, 'קיבל', 'קיבלה')}?`, ok: bill - cost, wrong: [cost, bill - price, bill - cost + price, bill - cost - 1], exp: `${items}×${price}=${cost} שקלים. ${bill} פחות ${cost} זה ${bill - cost}.` }
   },
   legs: (r) => {
     const hens = int(r, 2, 8), dogs = int(r, 1, 6), heads = hens + dogs, legs = hens * 2 + dogs * 4
@@ -215,7 +217,7 @@ const QUANT = {
   },
   ages: (r) => {
     const younger = int(r, 5, 12), d = int(r, 2, 6), k = int(r, 2, 5), older = younger + d, sum = older + younger + 2 * k, [a, b] = shuffle(r, NAMES).slice(0, 2)
-    return { q: `${a} מבוגר מ${b} ב־${d} שנים. בעוד ${k} שנים סכום הגילים שלהם יהיה ${sum}. בן כמה ${a} היום?`, ok: older, wrong: [older + k, younger, (sum + d) / 2, older - 1].filter(Number.isInteger), exp: `בעוד ${k} שנים כל אחד גדל ב־${k}, אז היום הסכום הוא ${sum}−${2 * k}=${sum - 2 * k}. אם ${a} מבוגר ב־${d}: (${sum - 2 * k}+${d})÷2=${older}.` }
+    return { q: `${a} ${g(a, 'מבוגר', 'מבוגרת')} מ${b} ב־${d} שנים. בעוד ${k} שנים סכום הגילים שלהם יהיה ${sum}. ${g(a, 'בן', 'בת')} כמה ${a} היום?`, ok: older, wrong: [older + k, younger, (sum + d) / 2, older - 1].filter(Number.isInteger), exp: `בעוד ${k} שנים כל אחד גדל ב־${k}, אז היום הסכום הוא ${sum}−${2 * k}=${sum - 2 * k}. אם ${a} ${g(a, 'מבוגר', 'מבוגרת')} ב־${d}: (${sum - 2 * k}+${d})÷2=${older}.` }
   },
   fraction: (r) => {
     const parts = pick(r, [3, 4, 5]), total = parts * int(r, 4, 12) * 2, first = total / parts, rest = total - first

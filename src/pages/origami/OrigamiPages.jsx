@@ -103,7 +103,7 @@ function ModelPage({ model }) {
 
       <section className="mt-8" aria-labelledby="steps-h">
         <h2 id="steps-h" className="text-2xl font-bold">שלב אחר שלב</h2>
-        <p className="mt-1 text-slate-600">קו מקווקו כחול = מקפלים כלפיכם, קו אדום של קווקוו ונקודות = מקפלים אחורה. <Link to={`${HUB}#legend`} className="underline">מה אומר כל סימן?</Link></p>
+        <p className="mt-1 text-slate-600">קו מקווקו כחול = מקפלים כלפיכם, קו אדום של קווקו ונקודות = מקפלים אחורה. <Link to={`${HUB}#legend`} className="underline">מה אומר כל סימן?</Link></p>
         <Steps model={model} dgs={dgs} />
       </section>
 

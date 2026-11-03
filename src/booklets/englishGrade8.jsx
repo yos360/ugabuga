@@ -176,7 +176,7 @@ const PREFIX = [['not healthy', 'unhealthy'], ['use again', 'reuse'], ['not agre
 const U1 = {
   title: 'The Wrong Bus', kind: 'A story',
   paras: [
-    'It was Gal\'s first week in Jerusalem. His family had just moved from a small town in the south, and he was still learning his way around the big city. On Thursday afternoon, he was waiting at the bus stop near his new school when a bus with the number 18 arrived. Gal was busy texting his old friends, so he got on without looking twice.',
+    'It was Gal\'s first week in Jerusalem. His family had just moved from a small town in the south, and he was still learning his way around the big city. On Thursday afternoon, he was waiting at the bus stop near his new school when a bus with the number 13 arrived. Gal was busy texting his old friends, so he got on without looking twice.',
     'For twenty minutes, Gal was listening to music and looking out of the window. Slowly, he realized that the streets looked strange. He wasn\'t passing the big park or the shopping center. When the bus stopped next to a hospital he had never seen before, he jumped up in a panic. He was on bus 13, not 18!',
     'Gal got off and looked at his phone. The battery was almost dead. While he was trying to find the right way on the map, an old man came over. "You look lost," he said kindly. "Where do you need to go?" The man took Gal to the right bus stop and even waited with him until bus 18 came.',
     'When Gal finally got home, his mother was standing at the door. "Where were you?" she asked. Gal smiled. "I took a tour of Jerusalem," he said. "And I met my first friend here."',

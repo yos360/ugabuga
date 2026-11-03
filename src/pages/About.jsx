@@ -38,7 +38,7 @@ export default function About() {
         <h2 className="font-display text-3xl font-bold">איך זה התחיל?</h2>
         <p className="mt-3 text-lg leading-relaxed">בנינו את עוגה בוגה כי נמאס לנו לחפש בגוגל „משחקים ליום הולדת” ולקבל 10 אתרים עם אותם 5 רעיונות.</p>
         <p className="mt-3 text-lg leading-relaxed">השם? עוגה בוגה — באנגלית UGABUGA, ויש שכותבים „אוגה בוגה”. עוגה כי הכול התחיל מימי הולדת, ובוגה כי זה פשוט כיף להגיד.</p>
-        <p className="mt-3 text-lg leading-relaxed">רצינו מקום אחד שבו מורה תמצא משחק ב-10 שניות, הורה יתכנן מסיבה בלי 15 אתרים, וגננת תפתח את הטלפון ותתחיל לשחק — בלי מאמר של 2,000 מילה.</p>
+        <p className="mt-3 text-lg leading-relaxed">רצינו מקום אחד שבו מורה תמצא משחק ב-10 שניות, הורה יתכנן מסיבה בלי 15 אתרים, וגננת תפתח את הטלפון ותתחיל לשחק — בלי מאמר של 2,000 מילים.</p>
       </div>
       <img src="/images/home-birthday-girl-720.webp" alt="" className="mx-auto w-52 sm:w-full" loading="lazy" />
     </section>

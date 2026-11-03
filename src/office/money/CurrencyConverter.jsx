@@ -176,7 +176,7 @@ export default function CurrencyConverter() {
       </div>
 
       <div className="mc-result" aria-live="polite">
-        {missing ? <p>אין לנו כרגע שער למטבע הזה. נסו מטבע אחר או לנסות שוב מאוחר יותר.</p>
+        {missing ? <p>אין לנו כרגע שער למטבע הזה. נסו מטבע אחר או נסו שוב מאוחר יותר.</p>
           : result === null ? <p className="mc-result-empty">הקלידו סכום כדי לראות כמה זה שווה.</p>
           : <>
             <p className="mc-from" dir="ltr"><bdi>{formatMoney(n, from)} {F.symbol}</bdi> <span>{F.code}</span> =</p>
@@ -201,7 +201,7 @@ export default function CurrencyConverter() {
           <td dir="ltr"><bdi>{formatMoney(row.result, table.other)} {BY_CODE[table.other].symbol}</bdi></td>
         </tr>)}</tbody>
       </table>
-      <p className="mc-hint mt-2">טיפ: צלמו את הטבלה מסך לפני הטיסה, כדי לבדוק מחירים גם בלי אינטרנט.</p>
+      <p className="mc-hint mt-2">טיפ: צלמו מסך של הטבלה לפני הטיסה, כדי לבדוק מחירים גם בלי אינטרנט.</p>
     </section>}
 
     <aside className="mc-note">

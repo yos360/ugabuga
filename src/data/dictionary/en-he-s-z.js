@@ -1047,7 +1047,7 @@ export default {
   "zoo": "גן חיות",
   "screwdriver": "מברג",
   "seaweed": "אצת ים",
-  "steer": "לנווט, להיגוי",
+  "steer": "לנווט, לכוון",
   "superhero": "גיבור־על",
   "tailor": "חייט",
   "texture": "מרקם",

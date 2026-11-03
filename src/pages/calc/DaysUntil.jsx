@@ -87,7 +87,7 @@ export default function DaysUntilHub() {
     <h1 className="mb-4 text-center text-4xl font-black">⏳ כמה ימים עד…?</h1>
     <ul className="space-y-2">{items.map(it => <li key={it.slug}><Link to={`/days-until/${it.slug}`} className="flex items-center justify-between gap-3 rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 hover:bg-[var(--postit)]">
       <span><span className="text-2xl" aria-hidden="true">{it.emoji}</span> <b className="text-lg">{it.name}</b><span className="block text-sm text-[var(--muted-foreground)]">{it.datesText}</span></span>
-      <b className="shrink-0 text-xl">{now == null ? '' : daysUntil(it.start, now) > 0 ? `עוד ${daysUntil(it.start, now)} ימים` : daysUntil(it.start, now) === 0 ? 'היום!' : ''}</b>
+      <b className="shrink-0 text-xl">{now == null ? '' : daysUntil(it.start, now) === 1 ? 'מחר!' : daysUntil(it.start, now) > 0 ? `עוד ${daysUntil(it.start, now)} ימים` : daysUntil(it.start, now) === 0 ? 'היום!' : ''}</b>
     </Link></li>)}</ul>
   </div>
 }

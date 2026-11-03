@@ -33,7 +33,7 @@ export default function AgeCalculator() {
       <p className="text-3xl font-black">{a.y} שנים, {a.m} חודשים ו־{a.d} ימים</p>
       <p className="text-xl">כלומר <b>{a.days.toLocaleString('he-IL')}</b> ימים 🎉</p>
       <p className="text-lg">נולדתם ביום <b>{HEB_DAYS[birth.getDay()]}</b>{h ? <>, <b>{gematria(h.day)} ב{h.month} {gematria(h.year)}</b></> : null}</p>
-      <p className="text-lg">{a.toNext === 0 ? '🎂 יום הולדת שמח! היום!' : `עוד ${a.toNext} ימים ליום ההולדת ה־${a.nextAge}`}</p>
+      <p className="text-lg">{a.toNext === 0 ? '🎂 יום הולדת שמח! היום!' : a.toNext === 1 ? `מחר יום ההולדת ה־${a.nextAge}! 🎂` : `עוד ${a.toNext} ימים ליום ההולדת ה־${a.nextAge}`}</p>
     </div>}
     <div className="mt-8 flex flex-wrap justify-center gap-2 text-sm">
       <Link to="/tools/hebrew-birthday" className="rounded-full border-2 border-[var(--border)] bg-white px-3 py-1 font-bold">📅 יום הולדת עברי</Link>

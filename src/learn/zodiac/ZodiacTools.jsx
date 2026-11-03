@@ -64,7 +64,7 @@ export function WhichSign() {
       <p className="mt-3 text-sm text-slate-600">זו עובדה על לוח השנה והמסורת, לא תיאור של האופי שלכם ולא ניבוי.</p>
       <p className="mt-4"><Link to={`/learn/zodiac/concepts/${slugOf(sign.name)}`} className="ln-btn">קראו על מזל {sign.name}</Link></p>
     </section>}
-    <div className="mt-10"><SeoBody paragraphs={['מזל הלידה נקבע לפי היום והחודש, בלי קשר לשנה. הכלי משתמש בתאריכים הנפוצים של שנים־עשר המזלות, ולכן בימים שליד המעבר בין שני מזלות עשויה להיות הבדל קטן בין אתרים.', 'המזלות הם מסורת תרבותית ולא מדע: אין הוכחה שהם משפיעים על אופי או על עתיד. לכן הכלי מציג רק עובדות — סמל, יסוד, חודש עברי וקבוצת כוכבים — ולא תיאורי אישיות.']} faq={FAQ} related={[{ label: 'מה זה גלגל המזלות', href: '/learn/zodiac/what-is-the-zodiac' }, { label: 'כל המושגים בנושא מזלות', href: '/learn/zodiac/concepts' }, { label: 'מזלות לילדים', href: '/learn/zodiac' }]} /></div>
+    <div className="mt-10"><SeoBody paragraphs={['מזל הלידה נקבע לפי היום והחודש, בלי קשר לשנה. הכלי משתמש בתאריכים הנפוצים של שנים־עשר המזלות, ולכן בימים שליד המעבר בין שני מזלות עשוי להיות הבדל קטן בין אתרים.', 'המזלות הם מסורת תרבותית ולא מדע: אין הוכחה שהם משפיעים על אופי או על עתיד. לכן הכלי מציג רק עובדות — סמל, יסוד, חודש עברי וקבוצת כוכבים — ולא תיאורי אישיות.']} faq={FAQ} related={[{ label: 'מה זה גלגל המזלות', href: '/learn/zodiac/what-is-the-zodiac' }, { label: 'כל המושגים בנושא מזלות', href: '/learn/zodiac/concepts' }, { label: 'מזלות לילדים', href: '/learn/zodiac' }]} /></div>
   </div>
 }
 export const SLUGS = { טלה: 'aries', שור: 'taurus', תאומים: 'gemini', סרטן: 'cancer', אריה: 'leo', בתולה: 'virgo', מאזניים: 'libra', עקרב: 'scorpio', קשת: 'sagittarius', גדי: 'capricorn', דלי: 'aquarius', דגים: 'pisces' }

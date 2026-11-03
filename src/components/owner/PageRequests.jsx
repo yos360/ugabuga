@@ -71,7 +71,7 @@ function DoneEditor({ row, onSaved }) {
     {row.result_path && (row.live_at
       ? <p className="font-bold text-emerald-800">🟢 באוויר באתר{row.mailed_at ? ' · ✉️ המייל נשלח' : ''}{row.announced_at ? ' · 📣 פורסם בפייסבוק' : ''}</p>
       : <p className="font-bold text-amber-700">⏳ מחכה שהדף יעלה לאתר — עד אז שום דבר לא נשלח ולא מתפרסם</p>)}
-    {row.live_at && <a href={`https://wa.me/?text=${encodeURIComponent(announceText(row))}`} target="_blank" rel="noopener noreferrer" className="block font-bold text-emerald-700 underline">📣 שיתוף בווטסאפ (ערוץ או קבוצה)</a>}
+    {row.live_at && <a href={`https://wa.me/?text=${encodeURIComponent(announceText(row))}`} target="_blank" rel="noopener noreferrer" className="block font-bold text-emerald-700 underline">📣 שיתוף בוואטסאפ (ערוץ או קבוצה)</a>}
     {mail && row.live_at && <a href={mail} className="block font-bold text-violet-700 underline">✉️ שליחה ידנית (בדרך כלל המייל יוצא אוטומטית)</a>}
   </div>
 }

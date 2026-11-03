@@ -259,7 +259,7 @@ export function TimesTablePath() {
     <section className="mt-8">
       <h2 className="text-2xl font-black mb-2">סדר השלבים במסלול</h2>
       <ol className="ttp-order">{STAGES.map((s, i) => <li key={s.id}><b>{i + 1}.</b> {s.title}</li>)}</ol>
-      <p className="mt-3 leading-relaxed">המסלול מתחיל בלוחות הקלים ומסתיים בקשים. כשמגיעים ללוח של 7, רוב התרגילים שלו כבר מוכרים מהלוחות הקודמים — 7×3 הוא בדיוק 3×7 — ונשארים רק 7×7, 7×8, 7×9 ועוד מעטים.</p>
+      <p className="mt-3 leading-relaxed">המסלול מתחיל בלוחות הקלים ומסתיים בקשים. כשמגיעים ללוח של 7, כמעט כל התרגילים שלו כבר מוכרים מהלוחות הקודמים — 7×3 הוא בדיוק 3×7 — ונשאר חדש רק 7×7.</p>
     </section>
 
     <section className="mt-8">

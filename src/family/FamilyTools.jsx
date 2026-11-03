@@ -296,7 +296,7 @@ export function PocketMoney() {
       <h2 className="text-2xl font-black text-center">🎯 כמה זמן עד שאקנה?</h2>
       <label className="block font-bold text-center">מה רוצים לקנות?<input value={goal} maxLength={24} onChange={e => setGoal(e.target.value)} placeholder="למשל: לגו, כדורגל, אופניים" className="fam-input mt-1 w-full text-center" /></label>
       <div className="grid gap-3 sm:grid-cols-3">{num(price, setPrice, 'מחיר (₪)')}{num(have, setHave, 'כבר יש לי (₪)')}{num(weekly, setWeekly, 'חוסך/ת כל שבוע (₪)')}</div>
-      <div className="text-center text-2xl font-black">{need === 0 ? '🎉 יש מספיק כסף — אפשר לקנות!' : weeks != null ? <>עוד <span className="text-4xl">{weeks}</span> שבועות{weeks > 0 && <div className="text-base font-bold">בערך ב-{date}</div>}</> : 'כמה חוסכים כל שבוע?'}</div>
+      <div className="text-center text-2xl font-black">{need === 0 ? '🎉 יש מספיק כסף — אפשר לקנות!' : weeks != null ? <>{weeks === 1 ? <>עוד <span className="text-4xl">שבוע</span> אחד</> : <>עוד <span className="text-4xl">{weeks}</span> שבועות</>}{weeks > 0 && <div className="text-base font-bold">בערך ב-{date}</div>}</> : 'כמה חוסכים כל שבוע?'}</div>
       {price > 0 && <div className="ln-bar"><i style={{ width: `${Math.min(100, (have / price) * 100)}%`, background: '#2e9e2b' }} /></div>}
       <div className="text-center"><button type="button" className="ln-btn alt" onClick={() => setPrinting('save')}>🖨️ דף מעקב חיסכון</button></div>
     </div>

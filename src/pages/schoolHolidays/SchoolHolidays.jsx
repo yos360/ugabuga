@@ -39,7 +39,7 @@ function Countdown({ b, level, today }) {
   if (!today || !b) return <p className="sh-count-text">&nbsp;</p>
   const c = countdown(b, level, today)
   if (!c) return null
-  if (c.state === 'during') return <p className="sh-count-text">🎉 {b.name} עכשיו! {c.days === 0 ? 'היום הוא היום האחרון של החופשה.' : `נשארו עוד ${c.days} ימים עד שחוזרים ללימודים.`}</p>
+  if (c.state === 'during') return <p className="sh-count-text">🎉 {b.name} עכשיו! {c.days === 0 ? 'היום הוא היום האחרון של החופשה.' : c.days === 1 ? 'נשאר עוד יום אחד עד שחוזרים ללימודים.' : `נשארו עוד ${c.days} ימים עד שחוזרים ללימודים.`}</p>
   if (c.state === 'after') return null
   return <p className="sh-count-text">{c.days === 0 ? `${b.emoji} ${b.name} מתחילה היום!` : c.days === 1 ? `${b.emoji} ${b.name} מתחילה מחר!` : <>עוד <b className="sh-big">{c.days}</b> ימים עד {b.name} {b.emoji}</>}</p>
 }

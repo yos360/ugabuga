@@ -507,7 +507,7 @@ export function MultiplicationNumber() {
         <li><b>זוגי או אי-זוגי:</b> {fx.even === 10 ? `כל עשר התשובות זוגיות, כי ${n} זוגי.` : `${fx.even} מתוך 10 התשובות זוגיות — אלה של ${n} כפול מספר זוגי.`}</li>
         <li><b>הריבוע:</b> {n}×{n} = {fx.square}{n <= 10 ? ', והוא יושב על האלכסון של לוח הכפל.' : '.'}</li>
         {n <= 10 && <li><b>כמה פעמים כל תשובה מופיעה בטבלת 10×10:</b> {fx.byCount.map(({ times, values }, i) => <span key={times}>{i ? '; ' : ''}<bdi dir="ltr">{values.join(', ')}</bdi> — {times === 1 ? 'פעם אחת' : times === 2 ? 'פעמיים' : `${times} פעמים`}</span>)}.</li>}
-        {fx.newFacts.length > 0 && n > 1 && <li><b>מה באמת חדש:</b> אחרי הלוחות של 1 עד {n - 1} נשארים ללמוד {fx.newFacts.length === 1 ? 'תרגיל אחד' : `${fx.newFacts.length} תרגילים`}:<bdi dir="ltr">{fx.newFacts.join(', ')}</bdi>.</li>}
+        {fx.newFacts.length > 0 && n > 1 && <li><b>מה באמת חדש:</b> אחרי הלוחות של 1 עד {n - 1} נשארים ללמוד {fx.newFacts.length === 1 ? 'תרגיל אחד' : `${fx.newFacts.length} תרגילים`}: <bdi dir="ltr">{fx.newFacts.join(', ')}</bdi>.</li>}
         <li><b>כל הכפולות עד 100:</b> <bdi dir="ltr">{fx.multiples.join(', ')}</bdi> ({fx.multiples.length} מספרים).</li>
       </ul>
       <p className="mt-3 leading-relaxed">{fx.grade}</p>

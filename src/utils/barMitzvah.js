@@ -161,7 +161,7 @@ export function buildSpeech(a, variant = 0) {
   const mean = []
   if (meanings.length) mean.push(`בשבילי, להגיע ל${event} זה ${heList(meanings.map(x => g(x.m, x.f)))}.`)
   if (clean(a.project)) mean.push(`לקראת היום הזה עשיתי גם פרויקט: ${sentence(a.project)}`)
-  if (mean.length) sections.push({ id: 'meaning', title: `מה ${event} אומרת לי`, text: mean.join(' ') })
+  if (mean.length) sections.push({ id: 'meaning', title: `מה ${event} ${g('אומר', 'אומרת')} לי`, text: mean.join(' ') })
 
   const th = []
   if (clean(a.parents)) th.push(`תודה ל${clean(a.parents)} — על כל מה שאתם עושים בשבילי כל יום, ועל החגיגה הזאת.`)

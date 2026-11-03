@@ -53,7 +53,7 @@ function youngAdditions(room, rank, n) {
   const shapes = [
     ['שלוש פינות', 'משולש', '🔺'],
     ['ארבע פינות וארבע צלעות שוות', 'ריבוע', '🟥'],
-    ['אין לה פינות בכלל, היא עגולה', 'עיגול', '⚪'],
+    ['קו אחד עגול וחלק, בלי פינות בכלל', 'עיגול', '⚪'],
   ]
   const [shapeClue, shape, shapeEmoji] = shapes[(n + rank) % shapes.length]
   return [

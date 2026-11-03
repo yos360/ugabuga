@@ -14,7 +14,7 @@ const ORGANIZATION = {
   'alternateName': BRAND_ALIASES,
   'url': 'https://ugabuga.co.il',
   'logo': { '@type': 'ImageObject', 'url': 'https://ugabuga.co.il/og-image.png' },
-  'description': 'אתר ישראלי חינמי בעברית עם משחקים, דפים להדפסה ולמידה לילדים בגילי 3–12 — להורים, לגננות ולמורות.',
+  'description': 'אתר ישראלי חינמי בעברית עם משחקים, דפים להדפסה ולמידה לילדים בגילאי 3–12 — להורים, לגננות ולמורות.',
   'email': 'hellohugabuga@gmail.com',
   'areaServed': { '@type': 'Country', 'name': 'Israel' },
   'knowsLanguage': 'he',

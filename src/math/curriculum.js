@@ -180,7 +180,7 @@ export const TOPIC_UNITS = {
   // כיתה ד׳
   '4/place-value-million': { ch: 'numbers' },
   '4/vertical-multiplication': { ch: 'ops' },
-  '4/long-division': { ch: 'ops', note: 'בכיתה ד׳ מחלקים בחילוק ארוך במחלק חד-ספרתי או בעשרת שלמה.' },
+  '4/long-division': { ch: 'ops', note: 'בכיתה ד׳ מחלקים בחילוק ארוך במחלק חד-ספרתי או בעשרות שלמות.' },
   '4/order-of-operations': { ch: 'ops' },
   '4/divisibility-primes': { ch: 'ops', note: 'בפרק מופיעים ראשוניים ופריקים וסימני התחלקות ב-3, 6 ו-9.' },
   '4/simple-fractions': { ch: 'fractions' },

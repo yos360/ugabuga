@@ -113,7 +113,7 @@ export default function MitzvahSpeech() {
           </fieldset>
 
           <fieldset className="ln-box space-y-3">
-            <legend className="px-2 text-xl font-bold">4. מה {g('בר המצווה', 'בת המצווה')} אומרת לי</legend>
+            <legend className="px-2 text-xl font-bold">4. מה {g('בר המצווה אומר', 'בת המצווה אומרת')} לי</legend>
             <div className="flex flex-wrap gap-2">
               {MEANINGS.map(m => <Chip key={m.id} on={a.meanings.includes(m.id)} onClick={() => toggleMeaning(m.id)}>{g(m.m, m.f)}</Chip>)}
             </div>
