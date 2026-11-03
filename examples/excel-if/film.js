@@ -1,4 +1,4 @@
-// THE FILM (9:16) — "משחק אותיות לגן": one question from the site's letters game, a 4-second countdown and a call to answer
+// THE FILM (9:16) — "קורס אקסל": one question from the site's Excel IF lesson, a 4-second countdown and a call to answer
 // in the comments. Site look (paper + dot grid, ink-outlined cards with an offset shadow, Heebo). Pure function of t.
 (function () {
   const U = globalThis.U, G = globalThis.G, UI = globalThis.UI, S = globalThis.SCORE, Studio = globalThis.Studio;
@@ -91,13 +91,12 @@
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.q, W / 2, 330, (c) => { he(c, '🔤', 0, -120, { size: 130, w: 400 }); he(c, 'באיזו אות מתחיל…', 0, 50, { size: 112, w: 900, maxW: SAFE.w }); }, { rot: -0.03, dur: 0.35 });
+    popAt(ctx, t, ev.q, W / 2, 360, (c) => { he(c, '📗', 0, -120, { size: 130, w: 400 }); he(c, 'כמה תלמידים', 0, 30, { size: 108, w: 900, maxW: SAFE.w }); he(c, 'עברו את המבחן?', 0, 150, { size: 108, w: 900, color: C.red, maxW: SAFE.w }); }, { rot: -0.03, dur: 0.35 });
     popAt(ctx, t, ev.pic, W / 2, 800, (c) => {
-      card(c, -230, -230, 460, 460, { fill: '#fff', r: 60, seed: 11, shadow: 14 });
-      const k = 1 + 0.04 * Math.sin((t - ev.pic) * 6);
-      c.scale(k, k);
-      he(c, '🚂', 0, 80, { size: 270, w: 400 });
-    }, { rot: 0.03, dur: 0.4, over: 2.2 });
+      card(c, -SAFE.w / 2, -140, SAFE.w, 280, { fill: '#fff', r: 40, seed: 11, shadow: 14 });
+      he(c, '=IF(B2>=55, ... )', 0, 22, { size: 64, w: 700, dir: 'ltr', color: C.green, maxW: SAFE.w - 60, fam: 'Fredoka' });
+      he(c, 'ציון עובר: ⁦55⁩ ומעלה', 0, 100, { size: 46, w: 800, color: C.muted });
+    }, { rot: 0.02, dur: 0.4, over: 2.2 });
     const sp = clamp((t - ev.ready) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.ready + 0.18, 12);
@@ -105,28 +104,28 @@
       pill(ctx, 0, 0, '⏱️ יש לכם 4 שניות', { size: 70, w: 900, bg: C.red, fg: '#fff', padX: 48 });
       ctx.restore();
     }
-    he(ctx, 'ילדי גן עונים מהר. ואתם?', W / 2, 1290, { size: 52, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.ready + 0.3, 0.3), maxW: SAFE.w });
+    he(ctx, 'שישה ציונים בגיליון אקסל', W / 2, 1290, { size: 52, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.ready + 0.3, 0.3), maxW: SAFE.w });
     mascot(ctx, W / 2, 1530 - hop(t, 10) * (t > ev.ready ? 1 : 0), 360, t, ev.ready);
   }
 
   // ================= THE QUESTION =================
   function shotQuiz(ctx, t) {
     bg(ctx);
-    he(ctx, 'באיזו אות מתחילה', W / 2, 250, { size: 80, w: 900, alpha: UI.fadeIn(t, T(2), 0.2) });
-    he(ctx, 'המילה של התמונה?', W / 2, 345, { size: 80, w: 900, color: C.red, alpha: UI.fadeIn(t, T(2) + 0.1, 0.2) });
-    popAt(ctx, t, T(2) + 0.15, W / 2, 640, (c) => {
-      card(c, -190, -190, 380, 380, { fill: '#fff', r: 56, seed: 21, shadow: 14 });
-      he(c, '🚂', 0, 70, { size: 230, w: 400 });
-    }, { rot: -0.02 });
-    // the four options (2×2), like the game's buttons
-    const TW = 340, TH = 210, gx = 40, x0 = W / 2 - TW - gx / 2, y0 = 930;
+    he(ctx, 'כמה תלמידים עברו', W / 2, 220, { size: 80, w: 900, alpha: UI.fadeIn(t, T(2), 0.2), maxW: SAFE.w });
+    popAt(ctx, t, T(2) + 0.15, W / 2, 330, (c) => pill(c, 0, 0, 'ציון עובר: ⁦55⁩ ומעלה', { size: 54, w: 900, bg: C.yellow, padX: 50, seed: 21, maxW: SAFE.w }), { rot: -0.015 });
+    const SC = [85, 48, 72, 54, 95, 55], TX = SAFE.x, TY = 440, RH = 120;
+    popAt(ctx, t, T(2) + 0.2, W / 2, TY + 50, (c) => {
+      card(c, -SAFE.w / 2, -50, SAFE.w, 100 + RH * 6, { fill: '#fff', r: 24, seed: 22, shadow: 12, lw: 4 });
+      c.fillStyle = '#eef0f7'; c.fillRect(-SAFE.w / 2 + 3, -47, SAFE.w - 6, 94);
+      he(c, 'תלמיד/ה', SAFE.w / 2 - 40, 22, { size: 48, w: 900, align: 'right' });
+      he(c, 'ציון', -SAFE.w / 2 + 150, 22, { size: 48, w: 900 });
+    }, { dur: 0.25, over: 1.2 });
     S.opts.forEach((o) => {
-      const col = o.i % 2, row = Math.floor(o.i / 2);
-      const cx = W / 2 + (col ? -1 : 1) * (TW + gx) / 2, cy = y0 + row * (TH + 36) + TH / 2;
-      popAt(ctx, t, o.t, cx, cy, (c) => {
-        card(c, -TW / 2, -TH / 2, TW, TH, { fill: '#fff', r: 40, seed: 30 + o.i, shadow: 12 });
-        he(c, o.label, 0, 62, { size: 170, w: 900 });
-      }, { dur: 0.28, over: 2.4 });
+      popAt(ctx, t, o.t, W / 2, TY + 100 + o.i * RH + RH / 2, (c) => {
+        c.fillStyle = C.ink; c.globalAlpha = 0.12; c.fillRect(-SAFE.w / 2 + 20, RH / 2 - 2, SAFE.w - 40, 3); c.globalAlpha = 1;
+        he(c, o.label, SAFE.w / 2 - 40, 16, { size: 56, w: 700, align: 'right' });
+        he(c, String(SC[o.i]), -SAFE.w / 2 + 150, 16, { size: 60, w: 900, dir: 'ltr', color: C.blue });
+      }, { dur: 0.22, over: 1.6 });
     });
     const started = t >= ev.count, up = t >= ev.ring;
     if (started) {
@@ -151,9 +150,9 @@
   // ================= HOW THE GAME WORKS =================
   function shotModes(ctx, t) {
     bg(ctx);
-    he(ctx, 'משחק אותיות לגן', W / 2, 230, { size: 92, w: 900, alpha: UI.fadeIn(t, ev.head, 0.2), maxW: SAFE.w });
-    he(ctx, 'שלושה משחקים קצרים', W / 2, 320, { size: 50, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.head + 0.1, 0.25) });
-    const MODES = [['🔎', 'מצאו את האות', C.blue], ['🖼️', 'באיזו אות זה מתחיל?', C.red], ['🗣️', 'איך קוראים לאות?', C.green]];
+    he(ctx, 'קורס אקסל חינם', W / 2, 230, { size: 92, w: 900, alpha: UI.fadeIn(t, ev.head, 0.2), maxW: SAFE.w });
+    he(ctx, '⁦10⁩ שיעורים, אפס הרצאות', W / 2, 320, { size: 50, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.head + 0.1, 0.25) });
+    const MODES = [['🧮', 'SUM · AVERAGE · IF · COUNTIF', C.blue], ['📊', 'מיון, גרירה עם $ וגרפים', C.red], ['🏠', 'פרויקט: תקציב משפחתי', C.green]];
     MODES.forEach(([em, label, col], i) => {
       const cy = 520 + i * 210;
       popAt(ctx, t, ev.cards[i], W / 2, cy, (c) => {
@@ -165,14 +164,14 @@
       }, { rot: i % 2 ? 0.012 : -0.012, dur: 0.3 });
     });
     // letter sets
-    ['כל האותיות', 'א–כ', 'ל–ת'].forEach((s, i) => {
+    ['גיליון חי בדף', 'בדיקה מיידית', 'בלי להתקין'].forEach((s, i) => {
       popAt(ctx, t, ev.chips + i * BEAT / 2, W / 2 + (1 - i) * 330, 1190, (c) => pill(c, 0, 0, s, { size: 42, w: 900, bg: i === 0 ? '#ffc8dd' : '#fff', padX: 30, seed: 50 + i }), { dur: 0.25 });
     });
-    popAt(ctx, t, ev.sim, W / 2, 1330, (c) => pill(c, 0, 0, 'ד׳ ור׳ · ה׳ וח׳ · ב׳ וכ׳ — דומות בכוונה', { size: 42, w: 800, bg: C.yellow, padX: 36, seed: 55, maxW: SAFE.w }), { rot: -0.015 });
+    popAt(ctx, t, ev.sim, W / 2, 1330, (c) => pill(c, 0, 0, 'מהקל לקשה, למתחילים מאפס', { size: 42, w: 800, bg: C.yellow, padX: 36, seed: 55, maxW: SAFE.w }), { rot: -0.015 });
     popAt(ctx, t, ev.stars, W / 2, 1500, (c) => {
-      he(c, '⭐⭐⭐', 0, 30, { size: 110, w: 400 });
+      he(c, '📗', 0, 30, { size: 110, w: 400 });
     }, { dur: 0.4 });
-    he(ctx, '10 שאלות · כוכבים בסוף · עם קול לכל אות', W / 2, 1620, { size: 42, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.stars + 0.15, 0.25), maxW: SAFE.w });
+    he(ctx, 'משימה בגיליון, והאתר בודק מיד', W / 2, 1620, { size: 42, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.stars + 0.15, 0.25), maxW: SAFE.w });
   }
 
   // ================= END: answer in the comments =================
@@ -180,17 +179,17 @@
     heroBg(ctx);
     popAt(ctx, t, ev.comment, W / 2, 330, (c) => {
       card(c, -SAFE.w / 2, -170, SAFE.w, 340, { fill: C.yellow, r: 40, seed: 401, shadow: 14 });
-      he(c, 'אז באיזו אות מתחילה 🚂?', 0, -70, { size: 60, w: 900, color: C.red, maxW: SAFE.w - 60 });
+      he(c, 'אז כמה עברו? 📗', 0, -70, { size: 60, w: 900, color: C.red, maxW: SAFE.w - 60 });
       he(c, '✍️ כתבו את התשובה', 0, 30, { size: 84, w: 900, maxW: SAFE.w - 60 });
       he(c, 'בתגובות', 0, 125, { size: 84, w: 900, color: C.blue });
     }, { rot: -0.02, dur: 0.4 });
-    he(ctx, 'ואל תגלו לילדים 🤫', W / 2, 580, { size: 46, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.comment + 0.5, 0.3), maxW: SAFE.w });
+    he(ctx, 'ואל תפתחו אקסל 🤫', W / 2, 580, { size: 46, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.comment + 0.5, 0.3), maxW: SAFE.w });
     mascot(ctx, W / 2, 880, 400, t, ev.logo);
     const L = S.endLines;
-    he(ctx, 'משחק אותיות לגן ולכיתה א׳', W / 2, 1180, { size: 54, w: 800, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'קורס אקסל למתחילים', W / 2, 1180, { size: 54, w: 800, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 1290, (c) => pill(c, 0, 0, 'בחינם · בלי הרשמה', { size: 48, w: 900, bg: '#fff', seed: 402, padX: 40, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, L[2].t, W / 2, 1430, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 66, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 403 }));
-    he(ctx, 'בתפריט: בית ספר ← לימוד אותיות ← משחק אותיות לגן', W / 2, 1570, { size: 36, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'בתפריט: בית ספר ← קורס אקסל', W / 2, 1570, { size: 36, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
     confetti(ctx, t, ev.logo, W / 2, 880, { n: 70, seed: 9, spread: 950 });
   }
 

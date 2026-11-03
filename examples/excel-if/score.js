@@ -1,5 +1,4 @@
-// UGABUGA "משחק אותיות לגן" letters game (9:16 Reel). The game at /letters/game (src/components/letters/LettersGame.jsx): "באיזו אות זה מתחיל?" with a
-// picture (🚂 from src/data/letterLearning.js) and 4 options incl. look-alike letters. The answer is NOT shown: the end card asks for it in the comments.
+// UGABUGA "קורס אקסל" Excel course (9:16 Reel). /excel, lesson 'IF' (src/excel/excelLessons.js): six real grades, pass mark 55 — how many passed? (answer 4, not shown) The answer is NOT shown: the end card asks for it in the comments.
 (function () {
   const node = typeof require !== 'undefined';
   const U = node ? require('./engine/util') : globalThis.U;
@@ -35,9 +34,9 @@
     head: T(5, 0), cards: [T(5, 2), T(6, 0), T(6, 2)], chips: T(7, 0), sim: T(7, 2), stars: T(8, 0),
     comment: T(9, 0) + 0.25, logo: T(10, 0),
   };
-  // the four answer tiles, as the game shows them (the target + similar-looking letters)
-  const OPTS = ['ד', 'ת', 'ר', 'ק'];
-  const opts = OPTS.map((label, i) => ({ label, i, t: T(2, 0.5) + i * BEAT / 2, midi: m(['A4', 'C5', 'E5', 'A5'][i]) }));
+  // the six students of the IF lesson (src/excel/excelLessons.js, slug 'if'); pass mark 55
+  const OPTS = ['נועה', 'איתי', 'מאיה', 'יונתן', 'שירה', 'עומר'];
+  const opts = OPTS.map((label, i) => ({ label, i, t: T(2, 0.5) + i * BEAT / 2, midi: m(['A4', 'C5', 'E5', 'A5', 'C6', 'E6'][i]) }));
   const ticks = Array.from({ length: 4 }, (_, k) => ({ n: 4 - k, k, t: ev.count + k * 2 * BEAT, midi: m(k >= 2 ? 'E6' : 'A5') }));
   const endLines = [{ t: T(10, 2) }, { t: T(11, 0) }, { t: T(11, 2) }, { t: T(12, 0) }];
 
