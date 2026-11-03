@@ -9,7 +9,12 @@ const PICS = ['🍎', '⭐', '🎈', '🐟', '🌸', '🚗', '🧁', '⚽']
 const BLANK = '____'
 const ANS = '#db2777'
 
-function Header({ title, instruction, answers }) {
+function Header({ title, instruction, answers, lang = 'he' }) {
+  if (lang === 'en') return <g fontFamily={FONT} textAnchor="middle" fill="#111" direction="ltr">
+    <text x={W / 2} y="38" fontSize="24" fontWeight="700">{answers ? 'Answers: ' + title : title}</text>
+    {!answers && <text x={W / 2} y="66" fontSize="15">Name: ____________    Date: ____________</text>}
+    <text x={W / 2} y="96" fontSize="17" fontWeight="700">{answers ? 'Answer key: the answers are in color' : instruction}</text>
+  </g>
   return <g fontFamily={FONT} textAnchor="middle" fill="#111">
     <text x={W / 2} y="38" fontSize="24" fontWeight="700" direction="rtl">{answers ? 'פתרון: ' + title : title}</text>
     {!answers && <text x={W / 2} y="66" fontSize="15" direction="rtl">שם: ____________    תאריך: ____________</text>}
@@ -53,12 +58,13 @@ function IconBlock({ n, cx, y, pic, gap = 22 }) {
   })}</g>
 }
 
-function Pictures({ e, x, y, answers, pic }) {
+function Pictures({ e, x, y, answers, pic, lang = 'he' }) {
   return <g>
     {e.o === '+'
       ? <><IconBlock n={e.a} cx={x - 72} y={y} pic={pic} /><text x={x} y={y + 8} fontFamily={FONT} fontSize="28" fontWeight="700" textAnchor="middle">+</text><IconBlock n={e.b} cx={x + 72} y={y} pic={pic} /></>
       : <IconBlock n={e.a} cx={x} y={y} pic={pic} />}
-    {e.o === '-' && <text x={x} y={y - 32} fontSize="15" fontFamily={FONT} textAnchor="middle" direction="rtl" fill="#555">מחקו {e.b} בקו — כמה נשארו?</text>}
+    {e.o === '-' && lang === 'en' && <text x={x} y={y - 32} fontSize="15" fontFamily={FONT} textAnchor="middle" direction="ltr" fill="#555">Cross out {e.b}. How many are left?</text>}
+    {e.o === '-' && lang !== 'en' && <text x={x} y={y - 32} fontSize="15" fontFamily={FONT} textAnchor="middle" direction="rtl" fill="#555">מחקו {e.b} בקו — כמה נשארו?</text>}
     <Inline e={{ ...e, hide: 'c' }} x={x} y={y + 52} answers={answers} size={26} />
   </g>
 }
@@ -70,25 +76,34 @@ const INSTRUCTIONS = {
   pictures: 'ספרו את הציורים ופתרו',
 }
 
-export function ExerciseSheet({ items, title, type, answers = false }) {
+const INSTRUCTIONS_EN = {
+  regular: 'Solve the problems and write each answer on the line',
+  missing: 'Which number is missing? Write it on the line',
+  vertical: 'Solve the problems in columns',
+  pictures: 'Count the pictures and solve',
+}
+
+export function ExerciseSheet({ items, title, type, answers = false, lang = 'he' }) {
+  const en = lang === 'en'
+  // English reads left to right: the first column of exercises sits on the left and the numbers on the left of each.
   return <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
-    <Header title={title} instruction={INSTRUCTIONS[type]} answers={answers} />
+    <Header title={title} instruction={(en ? INSTRUCTIONS_EN : INSTRUCTIONS)[type]} answers={answers} lang={lang} />
     {type === 'vertical'
-      ? items.map((e, i) => { const col = i % 4, row = Math.floor(i / 4), x = 510 - col * 140, y = 150 + row * 134; return <g key={i}><Num x={x + 55} y={y - 24} n={i + 1} /><Vertical e={e} x={x} y={y} answers={answers} /></g> })
+      ? items.map((e, i) => { const col = i % 4, row = Math.floor(i / 4), x = en ? 90 + col * 140 : 510 - col * 140, y = 150 + row * 134; return <g key={i}><Num x={x + 55} y={y - 24} n={i + 1} /><Vertical e={e} x={x} y={y} answers={answers} /></g> })
       : type === 'pictures'
-        ? items.map((e, i) => { const col = i % 2, row = Math.floor(i / 2), x = 450 - col * 300, y = 170 + row * 160; return <g key={i}><Num x={x + 135} y={y - 34} n={i + 1} /><Pictures e={e} x={x} y={y} answers={answers} pic={PICS[i % PICS.length]} /></g> })
-        : items.map((e, i) => { const col = Math.floor(i / 10), row = i % 10, x = 450 - col * 300, y = 150 + row * 64; return <g key={i}><Num x={x + 125} y={y} n={i + 1} /><Inline e={e} x={x} y={y} answers={answers} /></g> })}
+        ? items.map((e, i) => { const col = i % 2, row = Math.floor(i / 2), x = en ? 150 + col * 300 : 450 - col * 300, y = 170 + row * 160; return <g key={i}><Num x={en ? x - 135 : x + 135} y={y - 34} n={i + 1} /><Pictures e={e} x={x} y={y} answers={answers} pic={PICS[i % PICS.length]} lang={lang} /></g> })
+        : items.map((e, i) => { const col = Math.floor(i / 10), row = i % 10, x = en ? 150 + col * 300 : 450 - col * 300, y = 150 + row * 64; return <g key={i}><Num x={en ? x - 125 : x + 125} y={y} n={i + 1} /><Inline e={e} x={x} y={y} answers={answers} /></g> })}
   </svg>
 }
 
 // שבילים: circles joined by arrows, the step written above each arrow.
-export function PathSheet({ items, title, answers = false }) {
+export function PathSheet({ items, title, answers = false, lang = 'he' }) {
   const xs = [58, 179, 300, 421, 542]
   // PrintPreview renders every page twice (dialog + print copy) — a fixed marker id would resolve to
   // the copy hidden in print and the arrowheads would vanish on paper.
   const arrowId = 'buga-arrow-' + useId().replace(/[^a-zA-Z0-9_-]/g, '')
   return <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title} style={{ width: '100%', height: '100%', background: 'white' }}>
-    <Header title={title} instruction="השלימו את השבילים — מה חסר בעיגול או על החץ?" answers={answers} />
+    <Header title={title} instruction={lang === 'en' ? 'Complete the paths: what is missing in the circle or on the arrow?' : 'השלימו את השבילים — מה חסר בעיגול או על החץ?'} answers={answers} lang={lang} />
     <defs><marker id={arrowId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#111" /></marker></defs>
     {items.map((p, i) => {
       const y = 170 + i * 90

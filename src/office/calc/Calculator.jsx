@@ -91,7 +91,9 @@ async function copyText(text) {
   } catch { return false }
 }
 
-export default function Calculator({ active = true }) {
+// `t` translates a Hebrew UI string; the English page (/en/tools/calculator) passes its own, Hebrew leaves it as is.
+const same = s => s
+export default function Calculator({ active = true, t = same }) {
   const [src, setSrc] = useState('')
   const [cur, setCur] = useState(0)
   const [done, setDone] = useState(false) // the shown result belongs to src
@@ -185,14 +187,14 @@ export default function Calculator({ active = true }) {
       return
     }
     if (id === 'ran') { const t = String(Math.floor(Math.random() * 1000) / 1000); insert({ ins: [t, t.length] }); return }
-    if (id === 'mc') { setMem(0); flash('הזיכרון נוקה'); return }
+    if (id === 'mc') { setMem(0); flash(t('הזיכרון נוקה')); return }
     if (id === 'mr') { insert({ ins: ['M', 1] }); return }
     if (id === 'mplus' || id === 'mminus') {
       const v = currentValue()
-      if (v === null) { flash('אין תוצאה להוסיף לזיכרון'); return }
+      if (v === null) { flash(t('אין תוצאה להוסיף לזיכרון')); return }
       setMem(m => Number((id === 'mplus' ? m + v : m - v).toPrecision(15)))
       if (!d && s) equals()
-      flash(id === 'mplus' ? 'נוסף לזיכרון (M+)' : 'הופחת מהזיכרון (M−)')
+      flash(t(id === 'mplus' ? 'נוסף לזיכרון (M+)' : 'הופחת מהזיכרון (M−)'))
       return
     }
     if (K[id]) insert(K[id])
@@ -266,29 +268,30 @@ export default function Calculator({ active = true }) {
     }[id]
     const k = special || K[id]
     const cls = special ? special.cls : /^\d$/.test(id) || id === 'dot' ? 'sc-k-num' : ['plus', 'minus', 'times', 'divide'].includes(id) ? 'sc-k-op' : id === 'ans' ? 'sc-k-word' : ''
-    return <button key={id} type="button" className={`sc-key ${cls} ${extraCls}`} title={k.title} aria-label={typeof k.label === 'string' ? undefined : k.title} onClick={() => action(id)}>{k.label}</button>
+    return <button key={id} type="button" className={`sc-key ${cls} ${extraCls}`} title={t(k.title)} aria-label={typeof k.label === 'string' ? undefined : t(k.title)} onClick={() => action(id)}>{k.label}</button>
   }
 
+  const dirAttr = t === same ? 'rtl' : 'ltr'
   const recent = history.slice(0, 3)
   const err = shown?.error ? shown : null
 
   return <div className="sc-wrap">
     <div className="sc-calc" data-keep-colors="">
       <div className="sc-top">
-        <button type="button" className="sc-pill" onClick={() => setAngle(a => (a === 'deg' ? 'rad' : 'deg'))} title="מעלות או רדיאנים — בבית הספר משתמשים במעלות" aria-label={`יחידת זווית: ${angle === 'deg' ? 'מעלות' : 'רדיאנים'}. לחצו להחלפה`}>
+        <button type="button" className="sc-pill" onClick={() => setAngle(a => (a === 'deg' ? 'rad' : 'deg'))} title={t('מעלות או רדיאנים — בבית הספר משתמשים במעלות')} aria-label={t(`יחידת זווית: ${angle === 'deg' ? 'מעלות' : 'רדיאנים'}. לחצו להחלפה`)}>
           <b className={angle === 'deg' ? 'on' : ''}>DEG</b><b className={angle === 'rad' ? 'on' : ''}>RAD</b>
         </button>
-        <span className="sc-ind">{mem !== 0 && <span title={`בזיכרון: ${formatDecimal(mem).text}`}>M</span>}</span>
-        <button type="button" className="sc-pill sc-nav" onClick={() => action('left')} title="הזזת הסמן שמאלה (←)" aria-label="הזזת הסמן שמאלה">◀</button>
-        <button type="button" className="sc-pill sc-nav" onClick={() => action('right')} title="הזזת הסמן ימינה (→)" aria-label="הזזת הסמן ימינה">▶</button>
+        <span className="sc-ind">{mem !== 0 && <span title={t(`בזיכרון: ${formatDecimal(mem).text}`)}>M</span>}</span>
+        <button type="button" className="sc-pill sc-nav" onClick={() => action('left')} title={t('הזזת הסמן שמאלה (←)')} aria-label={t('הזזת הסמן שמאלה')}>◀</button>
+        <button type="button" className="sc-pill sc-nav" onClick={() => action('right')} title={t('הזזת הסמן ימינה (→)')} aria-label={t('הזזת הסמן ימינה')}>▶</button>
       </div>
 
-      <div className={`sc-display${err ? ' sc-has-err' : ''}`} ref={dispRef} dir="ltr" tabIndex={0} aria-label="תצוגת המחשבון" onClick={() => { if (S.current.done) put({ done: false, cur: S.current.src.length }) }}>
+      <div className={`sc-display${err ? ' sc-has-err' : ''}`} ref={dispRef} dir="ltr" tabIndex={0} aria-label={t('תצוגת המחשבון')} onClick={() => { if (S.current.done) put({ done: false, cur: S.current.src.length }) }}>
         <div className="sc-expr">
           <MathView src={src} cursor={done ? null : cur} err={err} onPlace={p => put({ done: false, cur: p })} empty={<span className="sc-hint">0</span>} />
         </div>
         <div className="sc-result" aria-live="polite">
-          {err ? <span className="sc-err" dir="rtl">⚠ {err.error}</span>
+          {err ? <span className="sc-err" dir={t === same ? 'rtl' : 'ltr'}>⚠ {t(err.error)}</span>
             : value !== null ? <>
               <span className="sc-eq">=</span>
               <span className="sc-main">{mode === 'exact' && nice ? <ExactView x={ex} /> : mode === 'mixed' && canMixed ? <MixedView x={ex} /> : dec.text}</span>
@@ -298,61 +301,61 @@ export default function Calculator({ active = true }) {
         {value !== null && nice && <div className="sc-alt">{mode === 'dec' ? <>= {exactText(ex)}</> : <>≈ {dec.text}</>}</div>}
       </div>
 
-      {value !== null && <div className="sc-actions" dir="rtl">
-        {nice && <button type="button" className="sc-pill" onClick={toggleSD} title="מעבר בין תשובה מדויקת (שבר, שורש, π) לעשרונית">S⇔D</button>}
-        {canMixed && <button type="button" className="sc-pill" onClick={toggleMixed} title="שבר מעורב: 7/4 = 1¾">a b/c</button>}
-        <button type="button" className="sc-pill" onClick={async () => flash(await copyText(resultText) ? 'התוצאה הועתקה' : 'לא הצלחנו להעתיק')}>📋 העתקה</button>
-        <button type="button" className="sc-pill sc-why" onClick={showSteps} aria-expanded={!!steps}>🤔 איך הגענו לזה?</button>
+      {value !== null && <div className="sc-actions" dir={dirAttr}>
+        {nice && <button type="button" className="sc-pill" onClick={toggleSD} title={t('מעבר בין תשובה מדויקת (שבר, שורש, π) לעשרונית')}>S⇔D</button>}
+        {canMixed && <button type="button" className="sc-pill" onClick={toggleMixed} title={t('שבר מעורב: 7/4 = 1¾')}>a b/c</button>}
+        <button type="button" className="sc-pill" onClick={async () => flash(t(await copyText(resultText) ? 'התוצאה הועתקה' : 'לא הצלחנו להעתיק'))}>{t('📋 העתקה')}</button>
+        <button type="button" className="sc-pill sc-why" onClick={showSteps} aria-expanded={!!steps}>{t('🤔 איך הגענו לזה?')}</button>
       </div>}
-      {err && <div className="sc-actions" dir="rtl"><button type="button" className="sc-pill" onClick={() => { const r = explain(src, ctx); setSteps(r) }}>🤔 מה לא בסדר?</button></div>}
+      {err && <div className="sc-actions" dir={dirAttr}><button type="button" className="sc-pill" onClick={() => { const r = explain(src, ctx); setSteps(r) }}>{t('🤔 מה לא בסדר?')}</button></div>}
 
-      {steps && <ol className="sc-steps" dir="rtl">
-        {steps.steps?.length === 0 && !steps.error && <li>המספר הזה כבר מחושב — אין שלבים.</li>}
+      {steps && <ol className="sc-steps" dir={dirAttr}>
+        {steps.steps?.length === 0 && !steps.error && <li>{t('המספר הזה כבר מחושב — אין שלבים.')}</li>}
         {steps.steps?.map((s, i) => <li key={i}>
-          <div className="sc-step-label">{s.inParens ? 'קודם הסוגריים · ' : ''}{s.label}</div>
+          <div className="sc-step-label">{s.inParens ? t('קודם הסוגריים · ') : ''}{t(s.label)}</div>
           <div className="sc-step-calc" dir="ltr">{s.before} = <b>{s.result}</b></div>
           {s.expr !== s.result && <div className="sc-step-expr" dir="ltr">← {s.expr}</div>}
         </li>)}
-        {steps.error && <li className="sc-step-err">⚠ {steps.error}</li>}
+        {steps.error && <li className="sc-step-err">⚠ {t(steps.error)}</li>}
       </ol>}
 
-      {(recent.length > 0 || ans !== 0) && <div className="sc-chips" aria-label="תוצאות קודמות">
-        <button type="button" className="sc-chip" onClick={() => action('ans')} title="Ans — התוצאה האחרונה">Ans = {formatDecimal(ans).text}</button>
-        {recent.slice(1).map(h => <button key={h.id} type="button" className="sc-chip" onClick={() => insertValue(h.value)} title="הכנסת התוצאה לתרגיל">{(() => { const x = exactForm(h.value); return isNiceExact(x) ? exactText(x) : formatDecimal(h.value).text })()}</button>)}
+      {(recent.length > 0 || ans !== 0) && <div className="sc-chips" aria-label={t('תוצאות קודמות')}>
+        <button type="button" className="sc-chip" onClick={() => action('ans')} title={t('Ans — התוצאה האחרונה')}>Ans = {formatDecimal(ans).text}</button>
+        {recent.slice(1).map(h => <button key={h.id} type="button" className="sc-chip" onClick={() => insertValue(h.value)} title={t('הכנסת התוצאה לתרגיל')}>{(() => { const x = exactForm(h.value); return isNiceExact(x) ? exactText(x) : formatDecimal(h.value).text })()}</button>)}
       </div>}
 
       <div className="sc-mem">
-        {[['mc', 'MC', 'ניקוי הזיכרון'], ['mr', 'MR', 'הכנסת הערך שבזיכרון (M)'], ['mplus', 'M+', 'הוספת התוצאה לזיכרון'], ['mminus', 'M−', 'הפחתת התוצאה מהזיכרון']].map(([id, l, t]) =>
-          <button key={id} type="button" className="sc-key sc-k-mem" title={t} onClick={() => action(id)}>{l}</button>)}
+        {[['mc', 'MC', 'ניקוי הזיכרון'], ['mr', 'MR', 'הכנסת הערך שבזיכרון (M)'], ['mplus', 'M+', 'הוספת התוצאה לזיכרון'], ['mminus', 'M−', 'הפחתת התוצאה מהזיכרון']].map(([id, l, ttl]) =>
+          <button key={id} type="button" className="sc-key sc-k-mem" title={t(ttl)} onClick={() => action(id)}>{l}</button>)}
       </div>
       <div className="sc-keys">
         <div className="sc-sci">{SCI.map(id => keyBtn(id))}{EXTRA.map(id => keyBtn(id, 'sc-extra'))}</div>
         <div className="sc-mainkeys">{MAIN.map(id => keyBtn(id))}</div>
       </div>
-      {toast && <div className="sc-toast" role="status" dir="rtl">{toast}</div>}
+      {toast && <div className="sc-toast" role="status" dir={dirAttr}>{toast}</div>}
     </div>
 
-    <aside className="sc-side" aria-label="היסטוריה">
+    <aside className="sc-side" aria-label={t('היסטוריה')}>
       <div className="sc-side-head">
-        <h2>📜 היסטוריה</h2>
-        {history.length > 0 && <button type="button" className="sc-link" onClick={() => setHistory([])}>ניקוי</button>}
+        <h2>{t('📜 היסטוריה')}</h2>
+        {history.length > 0 && <button type="button" className="sc-link" onClick={() => setHistory([])}>{t('ניקוי')}</button>}
       </div>
-      {history.length === 0 ? <p className="sc-empty">כאן יופיעו התרגילים שחישבתם. הם נשמרים בדפדפן הזה בלבד.</p>
+      {history.length === 0 ? <p className="sc-empty">{t('כאן יופיעו התרגילים שחישבתם. הם נשמרים בדפדפן הזה בלבד.')}</p>
         : <ul className="sc-tape">{history.map(h => {
           const x = exactForm(h.value)
           const txt = isNiceExact(x) ? `${exactText(x)} ≈ ${formatDecimal(h.value).text}` : formatDecimal(h.value).text
           return <li key={h.id}>
-            <button type="button" className="sc-tape-expr" onClick={() => edit(h.src, h.src.length)} title="לעריכת התרגיל"><MathView src={h.src} /></button>
+            <button type="button" className="sc-tape-expr" onClick={() => edit(h.src, h.src.length)} title={t('לעריכת התרגיל')}><MathView src={h.src} /></button>
             <div className="sc-tape-row">
-              <button type="button" className="sc-tape-val" onClick={() => insertValue(h.value)} title="הכנסת התוצאה לתרגיל" dir="ltr">= {txt}</button>
+              <button type="button" className="sc-tape-val" onClick={() => insertValue(h.value)} title={t('הכנסת התוצאה לתרגיל')} dir="ltr">= {txt}</button>
               {h.angle === 'rad' && /sin|cos|tan/.test(h.src) && <span className="sc-tag">RAD</span>}
-              <button type="button" className="sc-icon" onClick={async () => flash(await copyText(`${h.src} = ${txt}`) ? 'השורה הועתקה' : 'לא הצלחנו להעתיק')} aria-label="העתקת השורה" title="העתקה">📋</button>
+              <button type="button" className="sc-icon" onClick={async () => flash(t(await copyText(`${h.src} = ${txt}`) ? 'השורה הועתקה' : 'לא הצלחנו להעתיק'))} aria-label={t('העתקת השורה')} title={t('העתקה')}>📋</button>
             </div>
           </li>
         })}</ul>}
       <details className="sc-help">
-        <summary>⌨️ קיצורי מקלדת</summary>
-        <p dir="rtl">ספרות ו־+ - * / ^ ( ) ! % · Enter לחישוב · Backspace למחיקה · Esc לניקוי · חצים להזזת הסמן · ↑ לתרגיל הקודם · s c t לסינוס, קוסינוס, טנגנס · l ל־log · n ל־ln · r לשורש · q לריבוע · f לשבר · p ל־π · a ל־Ans. אפשר גם להדביק תרגיל (Ctrl+V).</p>
+        <summary>{t('⌨️ קיצורי מקלדת')}</summary>
+        <p dir={dirAttr}>{t('ספרות ו־+ - * / ^ ( ) ! % · Enter לחישוב · Backspace למחיקה · Esc לניקוי · חצים להזזת הסמן · ↑ לתרגיל הקודם · s c t לסינוס, קוסינוס, טנגנס · l ל־log · n ל־ln · r לשורש · q לריבוע · f לשבר · p ל־π · a ל־Ans. אפשר גם להדביק תרגיל (Ctrl+V).')}</p>
       </details>
     </aside>
   </div>

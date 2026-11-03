@@ -6,7 +6,8 @@ import { Hud, ToolButton, EndCard } from '../ui'
 
 const PAD = 5, GAP = 3
 
-export default function BlockParty({ onReport, onShare, daily }) {
+export default function BlockParty({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('block-puzzle', { best: 0 })
   const [board, setBoard] = useState(emptyBoard)
   // the daily challenge deals the same shapes to everyone
@@ -91,11 +92,11 @@ export default function BlockParty({ onReport, onShare, daily }) {
   }
 
   useEffect(() => {
-    if (daily?.target && score >= daily.target) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score, won: true })
-    else if (over && daily) daily.finish({ text: `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score: -score, won: !daily.target })
-  }, [over, daily, score])
+    if (daily?.target && score >= daily.target) daily.finish({ text: en ? `🟨 Block Party: I scored ${score} points` : `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score, won: true })
+    else if (over && daily) daily.finish({ text: en ? `🟨 Block Party: I scored ${score} points` : `🟨 מסיבת בלוקים: צברתי ${score} נקודות`, score: -score, won: !daily.target })
+  }, [over, daily, score, en])
   useEffect(() => { if (score > progress.best) saveProgress({ best: score }) }, [score, progress.best, saveProgress])
-  useEffect(() => { if (score) onReport?.({ text: `🟨 צברתי ${score} נקודות במסיבת בלוקים!` }) }, [score, onReport])
+  useEffect(() => { if (score) onReport?.({ text: en ? `🟨 I scored ${score} points in Block Party!` : `🟨 צברתי ${score} נקודות במסיבת בלוקים!` }) }, [score, onReport, en])
 
   const restart = () => { const r = daily ? rng(daily.seed) : Math.random; setRand(() => r); setBoard(emptyBoard()); setPieces(dealPieces(r)); setScore(0); setSel(null); setOver(false) }
   const ghostCells = new Map()
@@ -103,17 +104,17 @@ export default function BlockParty({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', daily?.target ? `${score}/${daily.target}` : score], ['שיא', Math.max(progress.best, score)]]}>
-        <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Score' : 'ניקוד', daily?.target ? `${score}/${daily.target}` : score], [en ? 'Best' : 'שיא', Math.max(progress.best, score)]]}>
+        <ToolButton onClick={restart} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field" ref={boxRef} style={{ flexDirection: 'column', gap: 12 }}>
-        <div className="bp-board" ref={boardRef} style={{ width: size, gap: GAP, padding: PAD, direction: 'ltr' }} aria-label="לוח 8 על 8" role="grid">
+        <div className="bp-board" ref={boardRef} style={{ width: size, gap: GAP, padding: PAD, direction: 'ltr' }} aria-label={en ? 'Board, 8 by 8' : 'לוח 8 על 8'} role="grid">
           {board.flatMap((row, y) => row.map((c, x) => {
             const k = `${x},${y}`
             const g = ghostCells.get(k)
             const cls = `bp-cell${c ? ' is-full' : ''}${g ? ' is-ghost' : ''}${clearing?.keys.has(k) ? ' is-clear' : ''}`
             return <div key={clearing?.keys.has(k) ? `${k}-${clearing.k}` : k} className={cls} style={c || g ? { background: c || g } : undefined} onClick={() => onCell(x, y)} role="gridcell"
-              tabIndex={keyboardCell === y * N + x ? 0 : -1} aria-label={`שורה ${y + 1}, עמודה ${x + 1}: ${c ? 'תפוס' : 'פנוי'}`}
+              tabIndex={keyboardCell === y * N + x ? 0 : -1} aria-label={en ? `Row ${y + 1}, column ${x + 1}: ${c ? 'filled' : 'empty'}` : `שורה ${y + 1}, עמודה ${x + 1}: ${c ? 'תפוס' : 'פנוי'}`}
               onFocus={() => setKeyboardCell(y * N + x)} onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onCell(x, y); return }
                 const offset = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -N, ArrowDown: N }[e.key]
@@ -131,7 +132,7 @@ export default function BlockParty({ onReport, onShare, daily }) {
             const fits = fitsAnywhere(board, p.cells)
             const hidden = drag?.i === i
             return (
-              <button type="button" key={p.id} className={`bp-slot${sel === i ? ' is-sel' : ''}`} aria-label={`צורה ${i + 1}${fits ? '' : ' (לא נכנסת)'}`}
+              <button type="button" key={p.id} className={`bp-slot${sel === i ? ' is-sel' : ''}`} aria-label={en ? `Shape ${i + 1}${fits ? '' : ' (does not fit)'}` : `צורה ${i + 1}${fits ? '' : ' (לא נכנסת)'}`}
                 aria-pressed={sel === i} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!over) { setSel(i); boardRef.current?.querySelectorAll('[role="gridcell"]')[keyboardCell]?.focus() } } }}
                 style={{ width: mini * 5, height: mini * 5, opacity: hidden ? 0.2 : fits ? 1 : 0.35 }}
                 onPointerDown={e => onSlotDown(e, i)} onPointerMove={onSlotMove} onPointerUp={onSlotUp} onPointerCancel={() => { dragRef.current = null; setDrag(null) }}>
@@ -151,9 +152,9 @@ export default function BlockParty({ onReport, onShare, daily }) {
           </div>
         )
       })()}
-      {over && !daily && <EndCard title="🎊 אין יותר מקום!" text={`צברתם ${score} נקודות${score >= progress.best && score > 0 ? ' — שיא חדש! 🎉' : ''}`}
-        primary="🔄 משחק חדש" onPrimary={restart}
-        secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🟨 צברתי ${score} נקודות במסיבת בלוקים! מי עובר אותי?`)} />}
+      {over && !daily && <EndCard lang={lang} title={en ? '🎊 No more room!' : '🎊 אין יותר מקום!'} text={en ? `You scored ${score} points${score >= progress.best && score > 0 ? ' - a new record! 🎉' : ''}` : `צברתם ${score} נקודות${score >= progress.best && score > 0 ? ' — שיא חדש! 🎉' : ''}`}
+        primary={en ? '🔄 New game' : '🔄 משחק חדש'} onPrimary={restart}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את הניקוד'} onSecondary={() => onShare?.(en ? `🟨 I scored ${score} points in Block Party! Can you beat me?` : `🟨 צברתי ${score} נקודות במסיבת בלוקים! מי עובר אותי?`)} />}
     </div>
   )
 }

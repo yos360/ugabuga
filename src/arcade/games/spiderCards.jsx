@@ -1,7 +1,8 @@
-import { SUITS, isRed, rankLabel } from '../logic/cards'
+import { SUITS, isRed, rankLabel, cardNameEn } from '../logic/cards'
 
 // One playing card. Face-down cards show the back pattern.
-export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer, label }) {
+export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPointer, label, lang = 'he' }) {
+  const en = lang === 'en'
   const interactive = !!(onPointer?.onPointerDown || onPointer?.onClick)
   const Tag = interactive ? 'button' : 'div'
   const h = w * 1.4
@@ -10,7 +11,7 @@ export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPoi
   const cls = `cd${w < 60 ? ' is-sm' : ''}${card.up ? (isRed(card) ? ' is-red' : '') : ' is-back'}${dragged ? ' is-drag' : ''}${hint ? ' is-hint' : ''}${selected ? ' is-sel' : ''}`
   return (
     <Tag type={interactive ? 'button' : undefined} className={cls} style={style} data-drop={dropKey} {...onPointer}
-      aria-label={label || (card.up ? `${rankLabel(card.rank)}${SUITS[card.suit]}` : 'קלף הפוך')} role={interactive ? undefined : 'img'}>
+      aria-label={label || (card.up ? (en ? cardNameEn(card) : `${rankLabel(card.rank)}${SUITS[card.suit]}`) : (en ? 'Face-down card' : 'קלף הפוך'))} role={interactive ? undefined : 'img'}>
       {!card.up && <span className="sp-back-mark" aria-hidden="true">BUGA</span>}
       {card.up && <>
         <span className="cd-corner">{rankLabel(card.rank)}<br />{SUITS[card.suit]}</span>
@@ -22,10 +23,10 @@ export function Card({ card, w, x, y, z, dragged, hint, selected, dropKey, onPoi
 }
 
 // An empty spot (pile base / foundation / stock).
-export function Slot({ w, x, y, label, dropKey, onClick, active }) {
+export function Slot({ w, x, y, label, dropKey, onClick, active, lang = 'he' }) {
   const Tag = onClick ? 'button' : 'div'
   return (
     <Tag type={onClick ? 'button' : undefined} className={`cd-slot${active ? ' is-active' : ''}`} style={{ width: w, height: w * 1.4, transform: `translate(${x}px, ${y}px)`, fontSize: w * 0.34 }}
-      data-drop={dropKey} onClick={onClick} aria-label={onClick ? 'מחזור החפיסה' : undefined}>{label}</Tag>
+      data-drop={dropKey} onClick={onClick} aria-label={onClick ? (lang === 'en' ? 'Recycle the deck' : 'מחזור החפיסה') : undefined}>{label}</Tag>
   )
 }

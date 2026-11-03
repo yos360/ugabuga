@@ -6,7 +6,8 @@ import { Hud, ToolButton, EndCard } from '../ui'
 const CAR_COLORS = ['#4cc3ff', '#7fd8ae', '#ffd23f', '#b26bff', '#ffa62b', '#5b6cff', '#c9ced8', '#a5733f', '#ff7ad1', '#45c4ff', '#9be15d', '#ffb8d9', '#8fcaff']
 const BORDER = 4
 
-export default function TrafficJam({ onReport, onShare, daily }) {
+export default function TrafficJam({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('traffic-jam', { level: 1 })
   const [level, setLevel] = useState(daily?.level ?? progress.level)
   const [data, setData] = useState(() => buildLevel(daily?.level ?? progress.level))
@@ -73,21 +74,21 @@ export default function TrafficJam({ onReport, onShare, daily }) {
   const stars = starsFor(moves, data.best, Math.ceil(data.best * 1.5))
   useEffect(() => {
     if (!won) return
-    if (daily) { daily.finish({ text: `🚚 פקק תנועה: שחררתי את המשאית ב־${moves} מהלכים (הכי טוב: ${data.best})`, score: moves, won: true }); return }
+    if (daily) { daily.finish({ text: en ? `🚚 Traffic Jam: I freed the truck in ${moves} moves (best: ${data.best})` : `🚚 פקק תנועה: שחררתי את המשאית ב־${moves} מהלכים (הכי טוב: ${data.best})`, score: moves, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
-    onReport?.({ text: `🚚 שחררתי את משאית הגלידה בשלב ${level} של פקק תנועה ב־${moves} מהלכים!` })
-  }, [won, level, moves, saveProgress, onReport, daily, data.best])
+    onReport?.({ text: en ? `🚚 I freed the ice cream truck on level ${level} of Traffic Jam in ${moves} moves!` : `🚚 שחררתי את משאית הגלידה בשלב ${level} של פקק תנועה ב־${moves} מהלכים!` })
+  }, [won, level, moves, saveProgress, onReport, daily, data.best, en])
 
   return (
     <div className="arc-game">
-      <Hud stats={[['שלב', level], ['מהלכים', moves], ['שיא אפשרי', data.best]]}>
-        <ToolButton onClick={undo} disabled={!history.length} label="ביטול מהלך">↩</ToolButton>
-        <ToolButton onClick={showHint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Level' : 'שלב', level], [en ? 'Moves' : 'מהלכים', moves], [en ? 'Best possible' : 'שיא אפשרי', data.best]]}>
+        <ToolButton onClick={undo} disabled={!history.length} label={en ? 'Undo' : 'ביטול מהלך'}>↩</ToolButton>
+        <ToolButton onClick={showHint} label={en ? 'Hint' : 'רמז'}>💡</ToolButton>
+        <ToolButton onClick={() => start(level)} label={en ? 'Restart level' : 'שלב מחדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field" ref={boxRef}>
         <div className="tj-wrap">
-          <div className="tj-board" style={{ width: size, height: size, backgroundSize: `${cell}px ${cell}px`, backgroundPosition: '-1px -1px' }} aria-label="חניון 6 על 6. גררו מכוניות או בחרו מכונית והזיזו בחיצי המקלדת">
+          <div className="tj-board" style={{ width: size, height: size, backgroundSize: `${cell}px ${cell}px`, backgroundPosition: '-1px -1px' }} aria-label={en ? 'Parking lot, 6 by 6. Drag cars, or pick a car and move it with the arrow keys' : 'חניון 6 על 6. גררו מכוניות או בחרו מכונית והזיזו בחיצי המקלדת'}>
             <div className="tj-gate" style={{ top: EXIT_ROW * cell + pad, height: cell - pad * 2 }} aria-hidden="true" />
             {cars.map(c => {
               const isDrag = drag?.id === c.id
@@ -98,8 +99,8 @@ export default function TrafficJam({ onReport, onShare, daily }) {
               const w = (c.h ? c.len : 1) * cell - pad * 2, h = (c.h ? 1 : c.len) * cell - pad * 2
               const hinted = hintMove?.id === c.id
               return (
-                <button type="button" key={c.id} aria-label={c.id === 0 ? 'משאית הגלידה' : `מכונית ${c.id}`}
-                  title={c.h ? 'הזזה בחיצים ימינה ושמאלה' : 'הזזה בחיצים למעלה ולמטה'} onKeyDown={e => onCarKey(e, c)}
+                <button type="button" key={c.id} aria-label={c.id === 0 ? (en ? 'Ice cream truck' : 'משאית הגלידה') : (en ? `Car ${c.id}` : `מכונית ${c.id}`)}
+                  title={c.h ? (en ? 'Move with the left and right arrows' : 'הזזה בחיצים ימינה ושמאלה') : (en ? 'Move with the up and down arrows' : 'הזזה בחיצים למעלה ולמטה')} onKeyDown={e => onCarKey(e, c)}
                   className={`tj-car${isDrag ? ' is-drag' : ''}${hinted ? ' is-hint' : ''}${out ? ' is-out' : ''}`}
                   style={{ width: w, height: h, transform: `translate(${x}px, ${y}px)`, left: 0, top: 0, background: c.id === 0 ? '#ff5c8a' : CAR_COLORS[(c.id - 1) % CAR_COLORS.length], '--emoji': `${cell * 0.42}px`, opacity: out ? 0 : 1 }}
                   onPointerDown={e => onDown(e, c)} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={() => { dragRef.current = null; setDrag(null) }}>
@@ -109,12 +110,12 @@ export default function TrafficJam({ onReport, onShare, daily }) {
             })}
           </div>
         </div>
-        {hintMove && <div className="arc-toast" key={`${hintMove.id}-${hintMove.to}`}>💡 הזיזו את המכונית המהבהבת {hintMove.to > (cars[hintMove.id].h ? cars[hintMove.id].x : cars[hintMove.id].y) ? (cars[hintMove.id].h ? 'ימינה' : 'למטה') : (cars[hintMove.id].h ? 'שמאלה' : 'למעלה')}</div>}
+        {hintMove && <div className="arc-toast" key={`${hintMove.id}-${hintMove.to}`}>💡 {en ? 'Move the flashing car ' : 'הזיזו את המכונית המהבהבת '}{hintMove.to > (cars[hintMove.id].h ? cars[hintMove.id].x : cars[hintMove.id].y) ? (cars[hintMove.id].h ? (en ? 'right' : 'ימינה') : (en ? 'down' : 'למטה')) : (cars[hintMove.id].h ? (en ? 'left' : 'שמאלה') : (en ? 'up' : 'למעלה'))}</div>}
       </div>
-      {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 המשאית יצאה!'} stars={stars}
-        text={`פתרתם ב־${moves} מהלכים (הכי מעט אפשרי: ${data.best}).${level >= LEVEL_COUNT ? ' סיימתם את כל השלבים — מתחילים סבב חדש!' : ''}`}
-        primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🚚 פתרתי את שלב ${level} בפקק תנועה ב־${moves} מהלכים! תצליחו בפחות?`)} />}
+      {won && !daily && <EndCard lang={lang} title={stars === 3 ? (en ? '🎉 Perfect!' : '🎉 מושלם!') : (en ? '🎉 The truck is out!' : '🎉 המשאית יצאה!')} stars={stars}
+        text={en ? `Solved in ${moves} moves (fewest possible: ${data.best}).${level >= LEVEL_COUNT ? ' You finished every level. Starting a new round!' : ''}` : `פתרתם ב־${moves} מהלכים (הכי מעט אפשרי: ${data.best}).${level >= LEVEL_COUNT ? ' סיימתם את כל השלבים — מתחילים סבב חדש!' : ''}`}
+        primary={en ? '▶ Next level' : '▶ לשלב הבא'} onPrimary={() => start(level + 1)}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `🚚 I solved level ${level} of Traffic Jam in ${moves} moves! Can you do it in fewer?` : `🚚 פתרתי את שלב ${level} בפקק תנועה ב־${moves} מהלכים! תצליחו בפחות?`)} />}
     </div>
   )
 }

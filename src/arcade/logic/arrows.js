@@ -70,3 +70,6 @@ export function blocker(tiles, t) {
 }
 export const isFree = (tiles, t) => !blocker(tiles, t)
 export const freeTiles = tiles => tiles.filter(t => !t.gone && isFree(tiles, t))
+
+// English world names, same order as WORLDS (used by the English site).
+export const WORLD_NAMES_EN = ['Square', 'Diamond', 'Circle', 'Heart', 'Plus', 'Frame', 'House', 'Stairs', 'Triangle', 'Chess', 'Ring', 'Maze', 'Butterfly', 'Waves', 'Giant']

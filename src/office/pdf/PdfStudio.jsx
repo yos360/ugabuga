@@ -1,6 +1,6 @@
 // /tools/pdf and /tools/pdf/:action — one studio for every everyday PDF job, all inside the browser.
 // pdf.js + pdf-lib arrive only when the first file is added (pdfEngine.js), so the page itself stays light.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -35,6 +35,8 @@ const FAQ = [
 ]
 
 let nextId = 1
+// `t` translates a Hebrew UI string; /en/tools/pdf passes its own and `embedded` (the page chrome is English there).
+const same = s => s
 
 function download(data, name, type) {
   const url = URL.createObjectURL(data instanceof Blob ? data : new Blob([data], { type }))
@@ -44,43 +46,45 @@ function download(data, name, type) {
   setTimeout(() => URL.revokeObjectURL(url), 60000)
 }
 
-function errorText(e, name) {
+function errorText(e, name, t = same) {
   const who = name ? `"${name}": ` : ''
-  if (e?.code === 'password') return `${who}הקובץ נעול בסיסמה, ובלי הסיסמה אי אפשר לפתוח אותו.`
-  if (e?.code === 'badpassword') return `${who}הסיסמה לא נכונה.`
-  if (e?.code === 'broken') return `${who}הקובץ פגום או שהוא לא באמת PDF. נסו לשמור אותו שוב כ-PDF ולהוסיף מחדש.`
-  if (e?.code === 'image') return `${who}לא הצלחנו לפתוח את התמונה. תמונות HEIC מאייפון: שלחו לעצמכם כ-JPG או צלמו מסך, ונסו שוב.`
-  if (e?.code === 'memory' || e?.name === 'RangeError') return 'הקובץ גדול מדי לזיכרון של המכשיר. נסו פחות עמודים בכל פעם, או במחשב.'
-  if (e?.name === 'ChunkLoadError' || /dynamically imported|Failed to fetch/i.test(e?.message || '')) return 'הכלי לא נטען (אולי האינטרנט התנתק). רעננו את הדף ונסו שוב.'
-  if (e?.code === 'docx') return `${who}לא הצלחנו לקרוא את קובץ הוורד. פתחו אותו בוורד, שמרו שוב כ-docx (או ישר כ-PDF) ונסו שוב.`
-  return `${who}משהו השתבש. נסו שוב, ואם זה חוזר, נסו קובץ אחר.`
+  if (e?.code === 'password') return who + t('הקובץ נעול בסיסמה, ובלי הסיסמה אי אפשר לפתוח אותו.')
+  if (e?.code === 'badpassword') return who + t('הסיסמה לא נכונה.')
+  if (e?.code === 'broken') return who + t('הקובץ פגום או שהוא לא באמת PDF. נסו לשמור אותו שוב כ-PDF ולהוסיף מחדש.')
+  if (e?.code === 'image') return who + t('לא הצלחנו לפתוח את התמונה. תמונות HEIC מאייפון: שלחו לעצמכם כ-JPG או צלמו מסך, ונסו שוב.')
+  if (e?.code === 'memory' || e?.name === 'RangeError') return t('הקובץ גדול מדי לזיכרון של המכשיר. נסו פחות עמודים בכל פעם, או במחשב.')
+  if (e?.name === 'ChunkLoadError' || /dynamically imported|Failed to fetch/i.test(e?.message || '')) return t('הכלי לא נטען (אולי האינטרנט התנתק). רעננו את הדף ונסו שוב.')
+  if (e?.code === 'docx') return who + t('לא הצלחנו לקרוא את קובץ הוורד. פתחו אותו בוורד, שמרו שוב כ-docx (או ישר כ-PDF) ונסו שוב.')
+  return who + t('משהו השתבש. נסו שוב, ואם זה חוזר, נסו קובץ אחר.')
 }
 
 // ── one page card in the grid ──
-function PageCard({ item, n, total, selected, dragging, multiSrc, srcName, onToggle, onRotate, onDelete, onMove, onDragStart }) {
+function PageCard({ item, n, total, selected, dragging, multiSrc, srcName, onToggle, onRotate, onDelete, onMove, onDragStart, t = same }) {
+  // In the English (left-to-right) grid the "earlier" arrow points left.
+  const [earlier, later] = t === same ? ['→', '←'] : ['←', '→']
   return (
     <li data-pid={item.id} className={'pdf-card' + (selected ? ' sel' : '') + (dragging ? ' drag' : '')}>
       <div className="pdf-card-top">
-        <button type="button" className="pdf-handle" aria-label={`גרירת עמוד ${n} למקום אחר`} title="גררו כדי לשנות את הסדר" onPointerDown={e => onDragStart(e, item.id)}>⠿</button>
+        <button type="button" className="pdf-handle" aria-label={t(`גרירת עמוד ${n} למקום אחר`)} title={t('גררו כדי לשנות את הסדר')} onPointerDown={e => onDragStart(e, item.id)}>⠿</button>
         <span className="pdf-num">{n}</span>
-        <input type="checkbox" checked={selected} onChange={() => onToggle(item.id)} aria-label={`סימון עמוד ${n}`} />
+        <input type="checkbox" checked={selected} onChange={() => onToggle(item.id)} aria-label={t(`סימון עמוד ${n}`)} />
       </div>
-      <button type="button" className="pdf-thumb" onClick={() => onToggle(item.id)} aria-label={`עמוד ${n}${selected ? ', מסומן' : ''}`}>
+      <button type="button" className="pdf-thumb" onClick={() => onToggle(item.id)} aria-label={t(`עמוד ${n}${selected ? ', מסומן' : ''}`)}>
         {item.thumb ? <img src={item.thumb} alt="" draggable="false" style={{ transform: `rotate(${item.rot}deg)${item.rot % 180 ? ' scale(0.83)' : ''}` }} /> : <span className="pdf-wait" aria-hidden="true" />}
-        {item.overlays.length > 0 && <span className="pdf-badge" title="יש חתימה או טקסט בעמוד">✍️</span>}
+        {item.overlays.length > 0 && <span className="pdf-badge" title={t('יש חתימה או טקסט בעמוד')}>✍️</span>}
       </button>
       {multiSrc && <small className="pdf-src" title={srcName}>{srcName}</small>}
       <div className="pdf-card-tools">
-        <button type="button" disabled={n === 1} onClick={() => onMove(item.id, -1)} aria-label={`העברת עמוד ${n} לפני הקודם`} title="מקום אחד קדימה">→</button>
-        <button type="button" onClick={() => onRotate([item.id])} aria-label={`סיבוב עמוד ${n}`} title="סיבוב">⟳</button>
-        <button type="button" onClick={() => onDelete([item.id])} aria-label={`מחיקת עמוד ${n}`} title="מחיקה">🗑</button>
-        <button type="button" disabled={n === total} onClick={() => onMove(item.id, 1)} aria-label={`העברת עמוד ${n} אחרי הבא`} title="מקום אחד אחורה">←</button>
+        <button type="button" disabled={n === 1} onClick={() => onMove(item.id, -1)} aria-label={t(`העברת עמוד ${n} לפני הקודם`)} title={t('מקום אחד קדימה')}>{earlier}</button>
+        <button type="button" onClick={() => onRotate([item.id])} aria-label={t(`סיבוב עמוד ${n}`)} title={t('סיבוב')}>⟳</button>
+        <button type="button" onClick={() => onDelete([item.id])} aria-label={t(`מחיקת עמוד ${n}`)} title={t('מחיקה')}>🗑</button>
+        <button type="button" disabled={n === total} onClick={() => onMove(item.id, 1)} aria-label={t(`העברת עמוד ${n} אחרי הבא`)} title={t('מקום אחד אחורה')}>{later}</button>
       </div>
     </li>
   )
 }
 
-export default function PdfStudio() {
+export default function PdfStudio({ t = same, embedded = false }) {
   const { action } = useParams()
   const meta = ACTIONS[action ?? '']
   const [tool, setTool] = useState(meta?.tool || 'merge')
@@ -145,24 +149,24 @@ export default function PdfStudio() {
     const files = [...(fileList || [])]
     if (!files.length) return
     setErrors([]); setDone('')
-    setBusy({ msg: 'פותחים את הקבצים…', i: 0, n: files.length })
+    setBusy({ msg: t('פותחים את הקבצים…'), i: 0, n: files.length })
     const errs = [], added = [], notes = []
     let eng
-    try { eng = await getEngine() } catch (e) { setBusy(null); setErrors([errorText(e)]); return }
+    try { eng = await getEngine() } catch (e) { setBusy(null); setErrors([errorText(e, undefined, t)]); return }
     for (let f = 0; f < files.length; f++) {
       const file = files[f]
-      setBusy({ msg: `פותחים את "${file.name}"…`, i: f, n: files.length })
+      setBusy({ msg: t(`פותחים את "${file.name}"…`), i: f, n: files.length })
       const kind = fileKind(file)
       try {
         if (kind === 'docx') {
           // Word → PDF pages, which then behave like any other PDF here
           const we = await import('./wordEngine')
-          const res = await we.docxToPdf(file, (i, n) => setBusy({ msg: `ממירים את "${file.name}" ל-PDF…`, i, n }))
+          const res = await we.docxToPdf(file, (i, n) => setBusy({ msg: t(`ממירים את "${file.name}" ל-PDF…`), i, n }))
           const opened = await eng.openPdf(res.bytes)
           const id = nextId++
           sources.current.set(id, { id, kind: 'pdf', name: baseName(file.name) + '.pdf', size: res.bytes.length, bytes: res.bytes, pdf: opened.pdf, raster: false, word: { name: file.name, html: res.html } })
           for (let i = 0; i < opened.numPages; i++) added.push({ id: nextId++, src: id, index: i, rot: 0, thumb: null, overlays: [] })
-          notes.push(`✅ "${file.name}" הפך ל-${opened.numPages === 1 ? 'עמוד אחד' : `${opened.numPages} עמודים`}. בדקו שהכל נראה טוב ולחצו "הורדה כ-PDF אחד".`)
+          notes.push(t(`✅ "${file.name}" הפך ל-${opened.numPages === 1 ? 'עמוד אחד' : `${opened.numPages} עמודים`}. בדקו שהכל נראה טוב ולחצו "הורדה כ-PDF אחד".`))
         } else if (kind === 'pdf') {
           const bytes = new Uint8Array(await file.arrayBuffer())
           let opened, password
@@ -170,7 +174,7 @@ export default function PdfStudio() {
             try { opened = await eng.openPdf(bytes, password); break }
             catch (e) {
               if (e.code !== 'password' && e.code !== 'badpassword') throw e
-              const p = window.prompt(`${e.code === 'badpassword' ? 'הסיסמה לא נכונה. ' : ''}הקובץ "${file.name}" נעול. מה הסיסמה?`)
+              const p = window.prompt(t(`${e.code === 'badpassword' ? 'הסיסמה לא נכונה. ' : ''}הקובץ "${file.name}" נעול. מה הסיסמה?`))
               if (p === null) throw e
               password = p
             }
@@ -184,17 +188,17 @@ export default function PdfStudio() {
           sources.current.set(id, { id, kind: 'image', name: file.name, size: file.size, ...img })
           added.push({ id: nextId++, src: id, index: 0, rot: 0, thumb: img.url, overlays: [] })
         } else if (kind === 'word') {
-          errs.push(`"${file.name}" הוא קובץ וורד ישן. פתחו אותו בוורד ושמרו כ-docx (קובץ ← שמירה בשם), ואז הוסיפו כאן.`)
+          errs.push(t(`"${file.name}" הוא קובץ וורד ישן. פתחו אותו בוורד ושמרו כ-docx (קובץ ← שמירה בשם), ואז הוסיפו כאן.`))
         } else {
-          errs.push(`"${file.name}" הוא לא PDF, תמונה או Word, אז דילגנו עליו.`)
+          errs.push(t(`"${file.name}" הוא לא PDF, תמונה או Word, אז דילגנו עליו.`))
         }
-      } catch (e) { errs.push(errorText(e, file.name)) }
+      } catch (e) { errs.push(errorText(e, file.name, t)) }
     }
     setItems(list => [...list, ...added])
     setErrors(errs)
     setBusy(null)
     if (notes.length) { setDone(notes.join(' ')); setTool(t => t === 'text' || t === 'fromword' ? 'merge' : t) }
-  }, [getEngine])
+  }, [getEngine, t])
 
   useEffect(() => { if (engine && items.some(p => !p.thumb && !p.thumbFail)) pumpThumbs() }, [items, engine, pumpThumbs])
 
@@ -207,7 +211,7 @@ export default function PdfStudio() {
   }
   const move = (id, d) => setItems(list => { const i = list.findIndex(p => p.id === id); return moveItem(list, i, i + d) })
   const reset = () => {
-    if (items.length && !window.confirm('להתחיל מחדש? כל העמודים יוסרו מהמסך.')) return
+    if (items.length && !window.confirm(t('להתחיל מחדש? כל העמודים יוסרו מהמסך.'))) return
     for (const s of sources.current.values()) engine?.closeSource(s)
     sources.current.clear()
     setItems([]); setSel(new Set()); setErrors([]); setDone(''); setSignTarget(null)
@@ -235,23 +239,23 @@ export default function PdfStudio() {
   // ── what the action works on ──
   const targets = useMemo(() => sel.size ? items.filter(p => sel.has(p.id)) : items, [items, sel])
   const srcNames = useMemo(() => [...new Set(targets.map(p => p.src))].map(id => sources.current.get(id)), [targets])
-  const base = srcNames.length === 1 ? baseName(srcNames[0].name) : srcNames.every(s => s?.kind === 'image') ? 'תמונות' : 'מסמך מאוחד'
+  const base = srcNames.length === 1 ? baseName(srcNames[0].name) : srcNames.every(s => s?.kind === 'image') ? t('תמונות') : t('מסמך מאוחד')
   const multiSrc = sources.current.size > 1
 
   const run = async (label, job) => {
     setErrors([]); setDone('')
     setBusy({ msg: label, i: 0, n: 0 })
     try { await job((i, n) => setBusy({ msg: label, i, n })) }
-    catch (e) { console.error(e); setErrors([errorText(e)]) }
+    catch (e) { console.error(e); setErrors([errorText(e, undefined, t)]) }
     finally { setBusy(null) }
   }
 
-  const doMerge = suffix => run('מכינים את ה-PDF…', async prog => {
+  const doMerge = suffix => run(t('מכינים את ה-PDF…'), async prog => {
     const eng = await getEngine()
     const bytes = await eng.buildPdf(targets, sources.current, { fit, onProgress: prog })
-    const name = outName(base, suffix ?? (srcNames.length === 1 && srcNames[0].kind === 'pdf' ? 'ערוך' : ''), 'pdf')
+    const name = outName(base, suffix ?? (srcNames.length === 1 && srcNames[0].kind === 'pdf' ? t('ערוך') : ''), 'pdf')
     download(bytes, name, 'application/pdf')
-    setDone(`✅ ירד: ${name} (${formatBytes(bytes.length)})`)
+    setDone(t(`✅ ירד: ${name} (${formatBytes(bytes.length)})`))
   })
 
   const split = useMemo(() => {
@@ -259,49 +263,49 @@ export default function PdfStudio() {
     return parseRanges(ranges, targets.length)
   }, [splitMode, ranges, targets])
 
-  const doSplit = () => run('מפצלים…', async prog => {
+  const doSplit = () => run(t('מפצלים…'), async prog => {
     const eng = await getEngine()
     const files = []
     for (let g = 0; g < split.groups.length; g++) {
       prog(g, split.groups.length)
       const nums = split.groups[g]
       const bytes = await eng.buildPdf(nums.map(k => targets[k - 1]), sources.current, { fit })
-      files.push({ name: outName(base, nums.length === 1 ? `עמוד ${nums[0]}` : `עמודים ${describePages(nums)}`, 'pdf'), data: bytes })
+      files.push({ name: outName(base, nums.length === 1 ? t(`עמוד ${nums[0]}`) : t(`עמודים ${describePages(nums)}`), 'pdf'), data: bytes })
     }
-    if (files.length === 1) { download(files[0].data, files[0].name, 'application/pdf'); setDone(`✅ ירד: ${files[0].name}`); return }
+    if (files.length === 1) { download(files[0].data, files[0].name, 'application/pdf'); setDone(t(`✅ ירד: ${files[0].name}`)); return }
     const zip = makeZip(files)
-    const name = outName(base, `${files.length} חלקים`, 'zip')
+    const name = outName(base, t(`${files.length} חלקים`), 'zip')
     download(zip, name, 'application/zip')
-    setDone(`✅ ירד קובץ ZIP עם ${files.length} קבצי PDF (${formatBytes(zip.length)}). פותחים אותו בלחיצה כפולה.`)
+    setDone(t(`✅ ירד קובץ ZIP עם ${files.length} קבצי PDF (${formatBytes(zip.length)}). פותחים אותו בלחיצה כפולה.`))
   })
 
-  const doCompress = () => run('דוחסים…', async prog => {
+  const doCompress = () => run(t('דוחסים…'), async prog => {
     const eng = await getEngine()
     const before = await eng.buildPdf(targets, sources.current, { fit })
     const after = await eng.buildPdf(targets, sources.current, { fit, compress: level, onProgress: prog })
-    setSqueeze({ before: before.length, after: after.length, bytes: after, orig: before, name: outName(base, 'דחוס', 'pdf') })
+    setSqueeze({ before: before.length, after: after.length, bytes: after, orig: before, name: outName(base, t('דחוס'), 'pdf') })
   })
 
-  const doImages = () => run('הופכים לתמונות…', async prog => {
+  const doImages = () => run(t('הופכים לתמונות…'), async prog => {
     const eng = await getEngine()
     const datas = await eng.pagesToImages(targets, sources.current, imgFmt, prog)
-    const files = datas.map((im, i) => ({ name: outName(base, `עמוד ${items.indexOf(targets[i]) + 1}`, imgFmt), data: im.data }))
+    const files = datas.map((im, i) => ({ name: outName(base, t(`עמוד ${items.indexOf(targets[i]) + 1}`), imgFmt), data: im.data }))
     const type = imgFmt === 'png' ? 'image/png' : 'image/jpeg'
-    if (files.length === 1) { download(files[0].data, files[0].name, type); setDone(`✅ ירדה תמונה: ${files[0].name}`); return }
+    if (files.length === 1) { download(files[0].data, files[0].name, type); setDone(t(`✅ ירדה תמונה: ${files[0].name}`)); return }
     const zip = makeZip(files)
-    const name = outName(base, 'תמונות', 'zip')
+    const name = outName(base, t('תמונות'), 'zip')
     download(zip, name, 'application/zip')
-    setDone(`✅ ירד קובץ ZIP עם ${files.length} תמונות (${formatBytes(zip.length)}).`)
+    setDone(t(`✅ ירד קובץ ZIP עם ${files.length} תמונות (${formatBytes(zip.length)}).`))
   })
 
-  const doText = () => run('מוציאים טקסט…', async prog => {
+  const doText = () => run(t('מוציאים טקסט…'), async prog => {
     const eng = await getEngine()
     setText(await eng.extractText(targets, sources.current, prog))
   })
 
   // PDF → .docx: editable text (rebuilt paragraphs) or every page as a picture
   const DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  const doWord = mode => run('מכינים קובץ Word…', async prog => {
+  const doWord = mode => run(t('מכינים קובץ Word…'), async prog => {
     const eng = await getEngine()
     const W = await import('./wordLogic')
     let bytes
@@ -314,18 +318,18 @@ export default function PdfStudio() {
     }
     const name = outName(base, '', 'docx')
     download(bytes, name, DOCX)
-    setDone(`✅ ירד: ${name} (${formatBytes(bytes.length)}). פותחים בוורד, ב-Google Docs או ב-LibreOffice.`)
+    setDone(t(`✅ ירד: ${name} (${formatBytes(bytes.length)}). פותחים בוורד, ב-Google Docs או ב-LibreOffice.`))
   })
 
   const printWord = () => {
     const w = srcNames.find(s => s?.word)
     if (!w) return
-    import('./wordEngine').then(we => { if (!we.printDocx(w.word.html, baseName(w.word.name))) setErrors(['הדפדפן חסם חלון חדש. אשרו חלונות קופצים לאתר ונסו שוב.']) })
+    import('./wordEngine').then(we => { if (!we.printDocx(w.word.html, baseName(w.word.name))) setErrors([t('הדפדפן חסם חלון חדש. אשרו חלונות קופצים לאתר ונסו שוב.')]) })
   }
 
   const copyText = async () => {
-    try { await navigator.clipboard.writeText(text); setDone('✅ הטקסט הועתק. עכשיו מדביקים בוורד (Ctrl+V).') }
-    catch { setDone('סמנו את הטקסט בתיבה והעתיקו (Ctrl+C).') }
+    try { await navigator.clipboard.writeText(text); setDone(t('✅ הטקסט הועתק. עכשיו מדביקים בוורד (Ctrl+V).')) }
+    catch { setDone(t('סמנו את הטקסט בתיבה והעתיקו (Ctrl+C).')) }
   }
 
   const addOverlay = (id, o) => setItems(list => list.map(p => p.id === id ? { ...p, overlays: [...p.overlays, { ...o, id: nextId++ }] } : p))
@@ -337,16 +341,19 @@ export default function PdfStudio() {
   const hasPdf = targets.some(p => sources.current.get(p.src)?.kind === 'pdf')
   const wordSrc = srcNames.some(s => s?.word)
   const scope = sel.size
-    ? <p className="pdf-scope">רק {sel.size === 1 ? 'העמוד שסימנתם' : `${sel.size} העמודים שסימנתם`} · <button type="button" className="pdf-link" onClick={() => setSel(new Set())}>לכל העמודים</button></p>
-    : items.length > 1 ? <p className="pdf-scope">כל {items.length} העמודים, לפי הסדר שעל המסך. רוצים רק חלק? סמנו אותם.</p> : null
+    ? <p className="pdf-scope">{t(sel.size === 1 ? 'רק העמוד שסימנתם' : `רק ${sel.size} העמודים שסימנתם`)} · <button type="button" className="pdf-link" onClick={() => setSel(new Set())}>{t('לכל העמודים')}</button></p>
+    : items.length > 1 ? <p className="pdf-scope">{t(`כל ${items.length} העמודים, לפי הסדר שעל המסך. רוצים רק חלק? סמנו אותם.`)}</p> : null
   const isBusy = !!busy
   const crumbs = [{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, ...(action ? [{ label: 'כלי PDF', href: '/tools/pdf' }, { label: meta.h1 }] : [{ label: 'כלי PDF' }])]
 
-  return <Page>
-    <SEO title={meta.title} description={meta.desc} path={path} structuredData={action ? null : faqSchema(FAQ)} />
-    <Breadcrumbs items={crumbs} />
-    <h1 className="text-3xl sm:text-4xl text-center mb-1"><span aria-hidden="true">{meta.emoji} </span>{meta.h1}</h1>
-    <p className="pdf-safe"><span aria-hidden="true">🔒</span> חינם, בלי הרשמה, והקבצים לא יוצאים מהמחשב: הכל קורה כאן בדפדפן.</p>
+  const Wrap = embedded ? Fragment : Page
+  return <Wrap>
+    {!embedded && <>
+      <SEO title={meta.title} description={meta.desc} path={path} structuredData={action ? null : faqSchema(FAQ)} />
+      <Breadcrumbs items={crumbs} />
+      <h1 className="text-3xl sm:text-4xl text-center mb-1"><span aria-hidden="true">{meta.emoji} </span>{meta.h1}</h1>
+    </>}
+    <p className="pdf-safe"><span aria-hidden="true">🔒</span> {t('חינם, בלי הרשמה, והקבצים לא יוצאים מהמחשב: הכל קורה כאן בדפדפן.')}</p>
 
     <div className={'pdf-studio' + (hover ? ' hover' : '')}
       onDragOver={e => { if ([...e.dataTransfer.types].includes('Files')) { e.preventDefault(); setHover(true) } }}
@@ -358,114 +365,114 @@ export default function PdfStudio() {
       {!items.length ? (
         <button type="button" className="pdf-drop" onClick={() => fileInput.current?.click()} disabled={isBusy}>
           <span className="pdf-drop-icon" aria-hidden="true">📂</span>
-          <b>בחירת קבצים</b>
-          <span>{tool === 'fromword' ? 'או גוררים לכאן קובץ Word ‏(docx). אפשר גם כמה, ולצרף PDF ותמונות.' : 'או גוררים לכאן. PDF, תמונות וקובצי Word, כמה שרוצים, גם מגלריית הטלפון.'}</span>
+          <b>{t('בחירת קבצים')}</b>
+          <span>{t(tool === 'fromword' ? 'או גוררים לכאן קובץ Word ‏(docx). אפשר גם כמה, ולצרף PDF ותמונות.' : 'או גוררים לכאן. PDF, תמונות וקובצי Word, כמה שרוצים, גם מגלריית הטלפון.')}</span>
         </button>
       ) : null}
 
-      <div className="pdf-tools" role="tablist" aria-label="מה עושים עם הקבצים?">
+      <div className="pdf-tools" role="tablist" aria-label={t('מה עושים עם הקבצים?')}>
         {TOOLS.map(([k, e, l]) => (
           <button key={k} type="button" role="tab" aria-selected={tool === k} className="pdf-tool" onClick={() => { setTool(k); setDone('') }}>
-            <span aria-hidden="true">{e}</span> {l}
+            <span aria-hidden="true">{e}</span> {t(l)}
           </button>
         ))}
       </div>
 
       {busy && <div className="pdf-busy" role="status" aria-live="polite">
-        <span>⏳ {busy.msg}{busy.n > 1 ? ` ${Math.min(busy.i + 1, busy.n)} מתוך ${busy.n}` : ''}</span>
+        <span>⏳ {busy.msg}{busy.n > 1 ? t(` ${Math.min(busy.i + 1, busy.n)} מתוך ${busy.n}`) : ''}</span>
         <progress max={busy.n || 1} value={busy.n ? busy.i : undefined} />
       </div>}
       {errors.map((e, i) => <p key={i} className="pdf-err" role="alert">⚠️ {e}</p>)}
 
-      {items.length > 0 && <section className="xl-box pdf-panel" aria-label="הפעולה">
+      {items.length > 0 && <section className="xl-box pdf-panel" aria-label={t('הפעולה')}>
         {tool === 'merge' && <>
           {scope}
-          {hasImages && <fieldset className="pdf-row"><legend className="sr-only">גודל עמוד לתמונות</legend>
-            <span>תמונות על דף:</span>
+          {hasImages && <fieldset className="pdf-row"><legend className="sr-only">{t('גודל עמוד לתמונות')}</legend>
+            <span>{t('תמונות על דף:')}</span>
             <label className="pdf-chip"><input type="radio" name="fit" checked={fit === 'a4'} onChange={() => setFit('a4')} /> A4</label>
-            <label className="pdf-chip"><input type="radio" name="fit" checked={fit === 'image'} onChange={() => setFit('image')} /> בגודל התמונה</label>
+            <label className="pdf-chip"><input type="radio" name="fit" checked={fit === 'image'} onChange={() => setFit('image')} /> {t('בגודל התמונה')}</label>
           </fieldset>}
-          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length} onClick={() => doMerge()}>⬇️ הורדה כ-PDF אחד</button>
+          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length} onClick={() => doMerge()}>{t('⬇️ הורדה כ-PDF אחד')}</button>
           {wordSrc && <>
-            <button type="button" className="xl-btn alt" onClick={printWord}>🖨️ הדפסה או שמירה כ-PDF עם טקסט חד</button>
-            <p className="pdf-hint">ב-PDF שיורד מוורד כל עמוד הוא תמונה. רוצים טקסט שאפשר לסמן? לחצו הדפסה ובחרו &quot;שמירה כ-PDF&quot;. תיבות טקסט צפות, עמודות ועימוד מורכב עלולים לצאת קצת אחרת מבוורד.</p>
+            <button type="button" className="xl-btn alt" onClick={printWord}>{t('🖨️ הדפסה או שמירה כ-PDF עם טקסט חד')}</button>
+            <p className="pdf-hint">{t('ב-PDF שיורד מוורד כל עמוד הוא תמונה. רוצים טקסט שאפשר לסמן? לחצו הדפסה ובחרו "שמירה כ-PDF". תיבות טקסט צפות, עמודות ועימוד מורכב עלולים לצאת קצת אחרת מבוורד.')}</p>
           </>}
         </>}
 
         {tool === 'split' && <>
           {scope}
           <div className="pdf-row">
-            <label className="pdf-chip"><input type="radio" name="split" checked={splitMode === 'each'} onChange={() => setSplitMode('each')} /> כל עמוד לקובץ נפרד</label>
-            <label className="pdf-chip"><input type="radio" name="split" checked={splitMode === 'ranges'} onChange={() => setSplitMode('ranges')} /> לפי עמודים שאבחר</label>
+            <label className="pdf-chip"><input type="radio" name="split" checked={splitMode === 'each'} onChange={() => setSplitMode('each')} /> {t('כל עמוד לקובץ נפרד')}</label>
+            <label className="pdf-chip"><input type="radio" name="split" checked={splitMode === 'ranges'} onChange={() => setSplitMode('ranges')} /> {t('לפי עמודים שאבחר')}</label>
           </div>
           {splitMode === 'ranges' && <div>
-            <input className="pdf-input" dir="ltr" inputMode="numeric" value={ranges} onChange={e => setRanges(e.target.value)} placeholder="1-3, 5, 8-10" aria-label="אילו עמודים בכל קובץ" />
-            <p className="pdf-hint">כל פסיק = קובץ נפרד. המספרים הם המספרים שעל העמודים כאן.</p>
+            <input className="pdf-input" dir="ltr" inputMode="numeric" value={ranges} onChange={e => setRanges(e.target.value)} placeholder="1-3, 5, 8-10" aria-label={t('אילו עמודים בכל קובץ')} />
+            <p className="pdf-hint">{t('כל פסיק = קובץ נפרד. המספרים הם המספרים שעל העמודים כאן.')}</p>
           </div>}
-          {split.error && ranges ? <p className="pdf-err">{split.error}</p>
-            : split.groups.length > 0 && <p className="pdf-hint">יווצרו {split.groups.length} קבצים{split.groups.length > 1 ? ', בתוך קובץ ZIP אחד' : ''}: {split.groups.slice(0, 8).map(g => describePages(g)).join(' · ')}{split.groups.length > 8 ? ' …' : ''}</p>}
-          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !!split.error || !split.groups.length} onClick={doSplit}>✂️ פיצול והורדה</button>
+          {split.error && ranges ? <p className="pdf-err">{t(split.error)}</p>
+            : split.groups.length > 0 && <p className="pdf-hint">{t(`יווצרו ${split.groups.length} קבצים${split.groups.length > 1 ? ', בתוך קובץ ZIP אחד' : ''}:`)} {split.groups.slice(0, 8).map(g => describePages(g)).join(' · ')}{split.groups.length > 8 ? ' …' : ''}</p>}
+          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !!split.error || !split.groups.length} onClick={doSplit}>{t('✂️ פיצול והורדה')}</button>
         </>}
 
         {tool === 'compress' && <>
           {scope}
-          <div className="pdf-row" role="radiogroup" aria-label="רמת דחיסה">
+          <div className="pdf-row" role="radiogroup" aria-label={t('רמת דחיסה')}>
             {Object.entries(COMPRESS).map(([k, c]) => (
-              <label key={k} className="pdf-chip"><input type="radio" name="level" checked={level === k} onChange={() => setLevel(k)} /> {c.label} <small>({c.hint})</small></label>
+              <label key={k} className="pdf-chip"><input type="radio" name="level" checked={level === k} onChange={() => setLevel(k)} /> {t(c.label)} <small>({t(c.hint)})</small></label>
             ))}
           </div>
-          {!squeeze && <button type="button" className="xl-btn pdf-main" disabled={isBusy} onClick={doCompress}>🗜️ דחיסה</button>}
+          {!squeeze && <button type="button" className="xl-btn pdf-main" disabled={isBusy} onClick={doCompress}>{t('🗜️ דחיסה')}</button>}
           {squeeze && (savedPercent(squeeze.before, squeeze.after) >= 3 ? <div className="pdf-ok" role="status">
-            <span className="pdf-sizes"><s>{formatBytes(squeeze.before)}</s> ← <b>{formatBytes(squeeze.after)}</b> · קטן ב-{savedPercent(squeeze.before, squeeze.after)}%</span>
-            <button type="button" className="xl-btn go" onClick={() => download(squeeze.bytes, squeeze.name, 'application/pdf')}>⬇️ הורדת הקובץ הדחוס</button>
+            <span className="pdf-sizes"><s>{formatBytes(squeeze.before)}</s> {t === same ? '←' : '→'} <b>{formatBytes(squeeze.after)}</b> · {t(`קטן ב-${savedPercent(squeeze.before, squeeze.after)}%`)}</span>
+            <button type="button" className="xl-btn go" onClick={() => download(squeeze.bytes, squeeze.name, 'application/pdf')}>{t('⬇️ הורדת הקובץ הדחוס')}</button>
           </div> : <div className="pdf-ok" role="status">
-            <span>הקובץ כבר קטן ({formatBytes(squeeze.before)}), ודחיסה {COMPRESS[level].label} לא מקטינה אותו.{level !== 'strong' ? ' נסו דחיסה חזקה.' : ''}</span>
-            <button type="button" className="xl-btn alt" onClick={() => download(squeeze.orig, outName(base, '', 'pdf'), 'application/pdf')}>⬇️ הורדה בלי דחיסה</button>
+            <span>{t(`הקובץ כבר קטן (${formatBytes(squeeze.before)}), ודחיסה ${COMPRESS[level].label} לא מקטינה אותו.${level !== 'strong' ? ' נסו דחיסה חזקה.' : ''}`)}</span>
+            <button type="button" className="xl-btn alt" onClick={() => download(squeeze.orig, outName(base, '', 'pdf'), 'application/pdf')}>{t('⬇️ הורדה בלי דחיסה')}</button>
           </div>)}
-          {hasPdf && <p className="pdf-hint">בקובץ הדחוס כל עמוד נשמר כתמונה: נראה אותו דבר, אבל אי אפשר לסמן בו טקסט.</p>}
+          {hasPdf && <p className="pdf-hint">{t('בקובץ הדחוס כל עמוד נשמר כתמונה: נראה אותו דבר, אבל אי אפשר לסמן בו טקסט.')}</p>}
         </>}
 
         {tool === 'images' && <>
           {scope}
           <div className="pdf-row">
-            <span>סוג:</span>
-            <label className="pdf-chip"><input type="radio" name="fmt" checked={imgFmt === 'jpg'} onChange={() => setImgFmt('jpg')} /> JPG <small>(קטן, לשליחה)</small></label>
-            <label className="pdf-chip"><input type="radio" name="fmt" checked={imgFmt === 'png'} onChange={() => setImgFmt('png')} /> PNG <small>(חד, לטקסט)</small></label>
+            <span>{t('סוג:')}</span>
+            <label className="pdf-chip"><input type="radio" name="fmt" checked={imgFmt === 'jpg'} onChange={() => setImgFmt('jpg')} /> JPG <small>{t('(קטן, לשליחה)')}</small></label>
+            <label className="pdf-chip"><input type="radio" name="fmt" checked={imgFmt === 'png'} onChange={() => setImgFmt('png')} /> PNG <small>{t('(חד, לטקסט)')}</small></label>
           </div>
-          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length} onClick={doImages}>🖼️ {targets.length > 1 ? `הורדת ${targets.length} תמונות (ZIP)` : 'הורדת התמונה'}</button>
+          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length} onClick={doImages}>🖼️ {t(targets.length > 1 ? `הורדת ${targets.length} תמונות (ZIP)` : 'הורדת התמונה')}</button>
         </>}
 
         {tool === 'sign' && engine && <SignPanel items={items} engine={engine} sources={sources.current} targetId={signTarget} busy={isBusy}
-          onAdd={addOverlay} onRemove={clearOverlays} onDownload={() => doMerge('חתום')} />}
+          onAdd={addOverlay} onRemove={clearOverlays} onDownload={() => doMerge(t('חתום'))} t={t} />}
 
         {tool === 'text' && <>
           {scope}
-          <div className="pdf-row" role="radiogroup" aria-label="איזה קובץ Word">
-            <label className="pdf-chip"><input type="radio" name="wmode" checked={wordMode === 'text'} onChange={() => setWordMode('text')} /> טקסט לעריכה <small>(מומלץ)</small></label>
-            <label className="pdf-chip"><input type="radio" name="wmode" checked={wordMode === 'layout'} onChange={() => setWordMode('layout')} /> שמירת העיצוב <small>(כתמונה)</small></label>
+          <div className="pdf-row" role="radiogroup" aria-label={t('איזה קובץ Word')}>
+            <label className="pdf-chip"><input type="radio" name="wmode" checked={wordMode === 'text'} onChange={() => setWordMode('text')} /> {t('טקסט לעריכה')} <small>{t('(מומלץ)')}</small></label>
+            <label className="pdf-chip"><input type="radio" name="wmode" checked={wordMode === 'layout'} onChange={() => setWordMode('layout')} /> {t('שמירת העיצוב')} <small>{t('(כתמונה)')}</small></label>
           </div>
-          <p className="pdf-hint">{wordMode === 'text'
+          <p className="pdf-hint">{t(wordMode === 'text'
             ? 'בונים מחדש פסקאות, כותרות ורשימות, עברית מימין לשמאל. העיצוב המדויק, טבלאות ותמונות לא עוברים.'
-            : 'כל עמוד נכנס לקובץ Word כתמונה: נראה בדיוק כמו המקור, אבל אי אפשר לערוך את הטקסט.'}</p>
-          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length || (wordMode === 'text' && !hasPdf)} onClick={() => doWord(wordMode)}>⬇️ הורדה כקובץ Word</button>
+            : 'כל עמוד נכנס לקובץ Word כתמונה: נראה בדיוק כמו המקור, אבל אי אפשר לערוך את הטקסט.')}</p>
+          <button type="button" className="xl-btn pdf-main" disabled={isBusy || !targets.length || (wordMode === 'text' && !hasPdf)} onClick={() => doWord(wordMode)}>{t('⬇️ הורדה כקובץ Word')}</button>
           {noText && <div className="pdf-ok pdf-warn" role="status">
-            <span>לא נמצא טקסט ב-PDF: כנראה הוא סרוק או מצולם, והמילים הן חלק מהתמונה (לזה צריך זיהוי טקסט, OCR). אפשר לשמור את העיצוב.</span>
-            <button type="button" className="xl-btn" disabled={isBusy} onClick={() => { setWordMode('layout'); setNoText(false); doWord('layout') }}>⬇️ Word עם העמודים כתמונה</button>
+            <span>{t('לא נמצא טקסט ב-PDF: כנראה הוא סרוק או מצולם, והמילים הן חלק מהתמונה (לזה צריך זיהוי טקסט, OCR). אפשר לשמור את העיצוב.')}</span>
+            <button type="button" className="xl-btn" disabled={isBusy} onClick={() => { setWordMode('layout'); setNoText(false); doWord('layout') }}>{t('⬇️ Word עם העמודים כתמונה')}</button>
           </div>}
-          {text === null ? <button type="button" className="pdf-link" disabled={isBusy || !hasPdf} onClick={doText}>או רק להעתיק את הטקסט</button>
+          {text === null ? <button type="button" className="pdf-link" disabled={isBusy || !hasPdf} onClick={doText}>{t('או רק להעתיק את הטקסט')}</button>
             : text ? <>
-              <textarea className="pdf-text" dir="auto" readOnly value={text} aria-label="הטקסט מה-PDF" />
+              <textarea className="pdf-text" dir="auto" readOnly value={text} aria-label={t('הטקסט מה-PDF')} />
               <div className="pdf-row">
-                <button type="button" className="xl-btn" onClick={copyText}>📋 העתקה</button>
-                <button type="button" className="xl-btn alt" onClick={() => download(new Blob(['﻿' + text], { type: 'text/plain;charset=utf-8' }), outName(base, 'טקסט', 'txt'))}>⬇️ קובץ טקסט</button>
+                <button type="button" className="xl-btn" onClick={copyText}>{t('📋 העתקה')}</button>
+                <button type="button" className="xl-btn alt" onClick={() => download(new Blob(['﻿' + text], { type: 'text/plain;charset=utf-8' }), outName(base, t('טקסט'), 'txt'))}>{t('⬇️ קובץ טקסט')}</button>
               </div>
-            </> : <p className="pdf-err">לא נמצא טקסט. כנראה זה מסמך סרוק או צילום, ובו המילים הן חלק מהתמונה. לזה צריך תוכנת זיהוי טקסט (OCR).</p>}
-          {!hasPdf && <p className="pdf-hint">בתמונות אין טקסט לעריכה. הוסיפו קובץ PDF, או בחרו &quot;שמירת העיצוב&quot;.</p>}
+            </> : <p className="pdf-err">{t('לא נמצא טקסט. כנראה זה מסמך סרוק או צילום, ובו המילים הן חלק מהתמונה. לזה צריך תוכנת זיהוי טקסט (OCR).')}</p>}
+          {!hasPdf && <p className="pdf-hint">{t('בתמונות אין טקסט לעריכה. הוסיפו קובץ PDF, או בחרו "שמירת העיצוב".')}</p>}
         </>}
 
         {tool === 'fromword' && <>
-          <p className="pdf-hint">קובץ Word ‏(docx) שמוסיפים הופך לעמודי PDF כאן על המסך. משם מורידים, מצרפים ל-PDF אחר או חותמים.</p>
-          <button type="button" className="xl-btn pdf-main" disabled={isBusy} onClick={() => fileInput.current?.click()}>📃 בחירת קובץ Word</button>
+          <p className="pdf-hint">{t('קובץ Word ‏(docx) שמוסיפים הופך לעמודי PDF כאן על המסך. משם מורידים, מצרפים ל-PDF אחר או חותמים.')}</p>
+          <button type="button" className="xl-btn pdf-main" disabled={isBusy} onClick={() => fileInput.current?.click()}>{t('📃 בחירת קובץ Word')}</button>
         </>}
 
         {done && <p className="pdf-done" role="status">{done}</p>}
@@ -473,37 +480,37 @@ export default function PdfStudio() {
 
       {items.length > 0 && <>
         <div className="pdf-bulk">
-          <button type="button" className="xl-btn" onClick={() => fileInput.current?.click()} disabled={isBusy}>＋ עוד קבצים</button>
-          <button type="button" className="xl-btn alt" onClick={() => setSel(sel.size === items.length ? new Set() : new Set(items.map(p => p.id)))}>{sel.size === items.length ? 'ביטול סימון' : 'סימון הכל'}</button>
+          <button type="button" className="xl-btn" onClick={() => fileInput.current?.click()} disabled={isBusy}>{t('＋ עוד קבצים')}</button>
+          <button type="button" className="xl-btn alt" onClick={() => setSel(sel.size === items.length ? new Set() : new Set(items.map(p => p.id)))}>{t(sel.size === items.length ? 'ביטול סימון' : 'סימון הכל')}</button>
           {sel.size > 0 && <>
-            <button type="button" className="xl-btn alt" onClick={() => rotate([...sel])}>⟳ סיבוב ({sel.size})</button>
-            <button type="button" className="xl-btn alt" onClick={() => remove([...sel])}>🗑 מחיקה ({sel.size})</button>
-            {tool === 'sign' && sel.size === 1 && <button type="button" className="xl-btn alt" onClick={() => setSignTarget([...sel][0])}>✍️ לחתום על העמוד הזה</button>}
+            <button type="button" className="xl-btn alt" onClick={() => rotate([...sel])}>{t(`⟳ סיבוב (${sel.size})`)}</button>
+            <button type="button" className="xl-btn alt" onClick={() => remove([...sel])}>{t(`🗑 מחיקה (${sel.size})`)}</button>
+            {tool === 'sign' && sel.size === 1 && <button type="button" className="xl-btn alt" onClick={() => setSignTarget([...sel][0])}>{t('✍️ לחתום על העמוד הזה')}</button>}
           </>}
-          <button type="button" className="xl-btn alt" onClick={reset}>🧹 מההתחלה</button>
+          <button type="button" className="xl-btn alt" onClick={reset}>{t('🧹 מההתחלה')}</button>
         </div>
-        <p className="pdf-hint">{items.length} עמודים · גוררים ב-⠿ כדי לשנות סדר · לוחצים על עמוד כדי לסמן אותו</p>
+        <p className="pdf-hint">{t(`${items.length} עמודים · גוררים ב-⠿ כדי לשנות סדר · לוחצים על עמוד כדי לסמן אותו`)}</p>
         <ol className="pdf-grid">
           {items.map((it, i) => <PageCard key={it.id} item={it} n={i + 1} total={items.length} selected={sel.has(it.id)} dragging={dragId === it.id}
             multiSrc={multiSrc} srcName={sources.current.get(it.src)?.name}
-            onToggle={toggle} onRotate={rotate} onDelete={remove} onMove={move} onDragStart={onDragStart} />)}
+            onToggle={toggle} onRotate={rotate} onDelete={remove} onMove={move} onDragStart={onDragStart} t={t} />)}
         </ol>
       </>}
-      {hover && <div className="pdf-hover" aria-hidden="true">שחררו כאן ⬇️</div>}
+      {hover && <div className="pdf-hover" aria-hidden="true">{t('שחררו כאן ⬇️')}</div>}
     </div>
 
-    <nav className="pdf-more" aria-label="עוד כלי PDF">
+    {!embedded && <nav className="pdf-more" aria-label="עוד כלי PDF">
       {Object.entries(ACTIONS).filter(([k]) => k && k !== action).map(([k, a]) => <Link key={k} to={`/tools/pdf/${k}`}>{a.emoji} {a.h1}</Link>)}
       {action && <Link to="/tools/pdf">📄 כל כלי ה-PDF</Link>}
-    </nav>
+    </nav>}
 
-    <div className="mt-10"><SeoBody
+    {!embedded && <div className="mt-10"><SeoBody
       paragraphs={[
         'כלי PDF אחד שעושה את מה שצריך ביום-יום: לחבר כמה קבצים לאחד, להפוך צילומים מהטלפון ל-PDF, לפצל קובץ ארוך, להקטין קובץ כבד לשליחה במייל, לחתום על טופס בלי מדפסת, לסובב עמוד הפוך ולמחוק עמודים מיותרים. בלי הרשמה, בלי סימן מים ובלי הגבלה על מספר הקבצים.',
         'שלא כמו רוב האתרים, כאן הקבצים לא עולים לשום שרת: כל העבודה נעשית בתוך הדפדפן במכשיר שלכם. זה חשוב במיוחד לתלושי שכר, חוזים, תעודות ומסמכים רפואיים.',
       ]}
       faq={FAQ}
       related={[{ label: 'סורק QR ויצירת קוד QR', href: '/tools/qr-code' }, { label: 'ספירת מילים', href: '/tools/word-count' }, { label: 'קורס אקסל חינם', href: '/excel' }, { label: 'כל הכלים', href: '/tools' }]}
-    /></div>
-  </Page>
+    /></div>}
+  </Wrap>
 }

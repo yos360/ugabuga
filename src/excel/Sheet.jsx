@@ -11,7 +11,8 @@ const cellAt = (x, y) => {
   return td ? { c: Number(td.dataset.c), r: Number(td.dataset.r) } : null
 }
 
-export default function Sheet({ sheet, initial, onChange }) {
+export default function Sheet({ sheet, initial, onChange, lang = 'he' }) {
+  const en = lang === 'en', T = en ? TXT_EN : TXT_HE
   const cols = sheet.cols, rows = sheet.rows
   const [state, setState] = useState(initial)
   const [sel, setSel] = useState({ a: { c: 0, r: 0 }, f: { c: 0, r: 0 } })
@@ -83,7 +84,7 @@ export default function Sheet({ sheet, initial, onChange }) {
     if (mod && (k === 'd' || k === 'D' || k === 'ג')) { e.preventDefault(); fillDown(); return }
     if (mod) return
     // RTL sheet: ArrowLeft goes to the next column. Shift extends from the moving corner.
-    const ARROWS = { ArrowDown: [0, 1], ArrowUp: [0, -1], ArrowLeft: [1, 0], ArrowRight: [-1, 0] }
+    const ARROWS = { ArrowDown: [0, 1], ArrowUp: [0, -1], ArrowLeft: [en ? -1 : 1, 0], ArrowRight: [en ? 1 : -1, 0] }
     const from = e.shiftKey ? sel.f : active
     if (ARROWS[k]) { e.preventDefault(); move(from.c + ARROWS[k][0], from.r + ARROWS[k][1], e.shiftKey) }
     else if (k === 'Enter') { e.preventDefault(); move(active.c, active.r + (e.shiftKey ? -1 : 1)) }
@@ -150,35 +151,35 @@ export default function Sheet({ sheet, initial, onChange }) {
   const bold = !!state.fmt[activeRef]?.b, cur = !!state.fmt[activeRef]?.cur
 
   return (
-    <div className="xl-sheet" dir="rtl">
-      <div className="xl-tools" role="toolbar" aria-label="כלים">
-        <button type="button" className="xl-tool" aria-pressed={bold} onClick={() => { toggleFmt('b'); focusGrid() }} title="הדגשה (Ctrl+B)"><b>B</b></button>
-        <button type="button" className="xl-tool" aria-pressed={cur} onClick={() => { toggleFmt('cur'); focusGrid() }} title="עיצוב ש״ח">₪</button>
+    <div className="xl-sheet" dir={en ? 'ltr' : 'rtl'}>
+      <div className="xl-tools" role="toolbar" aria-label={T.tools}>
+        <button type="button" className="xl-tool" aria-pressed={bold} onClick={() => { toggleFmt('b'); focusGrid() }} title={T.boldTip}><b>B</b></button>
+        <button type="button" className="xl-tool" aria-pressed={cur} onClick={() => { toggleFmt('cur'); focusGrid() }} title={T.curTip}>{T.cur}</button>
         <span className="xl-sep" />
-        <button type="button" className="xl-tool" onClick={() => { fillDown(); focusGrid() }} title="מילוי למטה (Ctrl+D)">מילוי ⬇</button>
+        <button type="button" className="xl-tool" onClick={() => { fillDown(); focusGrid() }} title={T.fillTip}>{T.fill}</button>
         <span className="xl-sep" />
-        <button type="button" className="xl-tool" onClick={() => { sortBy('asc'); focusGrid() }} title="מיון מהקטן לגדול">מהקטן לגדול / א→ת</button>
-        <button type="button" className="xl-tool" onClick={() => { sortBy('desc'); focusGrid() }} title="מיון מהגדול לקטן">מהגדול לקטן</button>
+        <button type="button" className="xl-tool" onClick={() => { sortBy('asc'); focusGrid() }} title={T.ascTip}>{T.asc}</button>
+        <button type="button" className="xl-tool" onClick={() => { sortBy('desc'); focusGrid() }} title={T.descTip}>{T.desc}</button>
         <span className="xl-sep" />
-        <button type="button" className="xl-tool" onClick={() => { makeChart('bar'); focusGrid() }}>📊 עמודות</button>
-        <button type="button" className="xl-tool" onClick={() => { makeChart('pie'); focusGrid() }}>🥧 עוגה</button>
+        <button type="button" className="xl-tool" onClick={() => { makeChart('bar'); focusGrid() }}>{T.bar}</button>
+        <button type="button" className="xl-tool" onClick={() => { makeChart('pie'); focusGrid() }}>{T.pie}</button>
         <span className="xl-sep" />
-        <button type="button" className="xl-tool" onClick={() => { doUndo(); focusGrid() }} title="ביטול (Ctrl+Z)">↶ ביטול</button>
+        <button type="button" className="xl-tool" onClick={() => { doUndo(); focusGrid() }} title={T.undoTip}>{T.undo}</button>
       </div>
       <div className="xl-bar">
-        <NameBox value={rangeName(g)} onGo={box => { setSel({ a: { c: box.c0, r: box.r0 }, f: { c: Math.min(cols - 1, box.c1), r: Math.min(rows - 1, box.r1) } }); focusGrid() }} />
+        <NameBox label={T.nameBox} value={rangeName(g)} onGo={box => { setSel({ a: { c: box.c0, r: box.r0 }, f: { c: Math.min(cols - 1, box.c1), r: Math.min(rows - 1, box.r1) } }); focusGrid() }} />
         <span className="xl-fx" aria-hidden="true">fx</span>
-        <input ref={barInput} className="xl-barin" dir="auto" value={draftShown} aria-label="שורת הנוסחאות"
+        <input ref={barInput} className="xl-barin" dir="auto" value={draftShown} aria-label={T.formulaBar}
           onFocus={() => { if (!edit) setEdit({ c: active.c, r: active.r, draft: state.cells[activeRef] ?? '', where: 'bar' }) }}
           onChange={e => setEdit(ed => ({ ...(ed || { c: active.c, r: active.r, where: 'bar' }), draft: e.target.value }))}
           onKeyDown={onEditKey} />
       </div>
-      {heb && <p className="xl-warn" role="alert">⌨️ המקלדת בעברית. נוסחאות כותבים באנגלית: החליפו שפה (Alt+Shift) ואז ‎=SUM ולא ‎=דוצ.</p>}
+      {heb && <p className="xl-warn" role="alert">{T.hebWarn}</p>}
       <div className="xl-scroll">
         {/* Keyboard capture: arrows/shortcuts via keydown, typed text via input (works with IMEs and phone keyboards). */}
-        <input ref={wrapRef} className="xl-cap" aria-label={`תא ${activeRef}: הקלידו כדי לכתוב בתא`} value="" autoComplete="off" autoCorrect="off" spellCheck={false}
+        <input ref={wrapRef} className="xl-cap" aria-label={T.cellCap(activeRef)} value="" autoComplete="off" autoCorrect="off" spellCheck={false}
           onKeyDown={onGridKey} onChange={e => { const v = e.target.value; if (v && !edit) startEdit(v) }} />
-        <table className="xl-grid" onPointerMove={onMove} aria-label="גיליון">
+        <table className="xl-grid" onPointerMove={onMove} aria-label={T.sheet}>
           <thead><tr><th className="xl-corner" />{Array.from({ length: cols }, (_, c) => <th key={c} className={c >= g.c0 && c <= g.c1 ? 'on' : ''} style={{ width: widths[colName(c)] || 84 }}>{colName(c)}</th>)}</tr></thead>
           <tbody>
             {Array.from({ length: rows }, (_, r) => (
@@ -193,8 +194,8 @@ export default function Sheet({ sheet, initial, onChange }) {
                   return (
                     <td key={c} data-c={c} data-r={r} className={cls} onPointerDown={e => onCellDown(e, c, r)} onDoubleClick={() => onCellDouble(c, r)}>
                       {editing
-                        ? <input ref={cellInput} autoFocus className="xl-in" dir="auto" value={edit.draft} onChange={e => setEdit(ed => ({ ...ed, draft: e.target.value }))} onKeyDown={onEditKey} aria-label={`עריכת ${ref}`} />
-                        : <span>{display(v, f)}</span>}
+                        ? <input ref={cellInput} autoFocus className="xl-in" dir="auto" value={edit.draft} onChange={e => setEdit(ed => ({ ...ed, draft: e.target.value }))} onKeyDown={onEditKey} aria-label={T.editing(ref)} />
+                        : <span>{display(v, f, T.cursym)}</span>}
                       {c === g.c1 && r === g.r1 && !edit && <span className="xl-handle" onPointerDown={onFillDown} aria-hidden="true" />}
                     </td>
                   )
@@ -204,21 +205,45 @@ export default function Sheet({ sheet, initial, onChange }) {
           </tbody>
         </table>
       </div>
-      {!edit && isErr(activeVal) && <p className="xl-warn" role="status">{ERR_HELP[activeVal.code] || 'יש שגיאה בנוסחה.'}</p>}
-      {state.chart && <Chart state={state} />}
+      {!edit && isErr(activeVal) && <p className="xl-warn" role="status">{(en ? ERR_HELP_EN : ERR_HELP)[activeVal.code] || T.errDefault}</p>}
+      {state.chart && <Chart state={state} T={T} />}
     </div>
   )
 }
 
 // The name box: shows the selection, and typing a range there (A1:C1 + Enter) selects it —
 // the easy way to select a range on a phone.
-function NameBox({ value, onGo }) {
+function NameBox({ value, onGo, label }) {
   const [txt, setTxt] = useState(null)
-  return <input className="xl-name" dir="ltr" value={txt ?? value} aria-label="תיבת השם: הקלידו טווח, למשל A1:C1"
+  return <input className="xl-name" dir="ltr" value={txt ?? value} aria-label={label}
     onFocus={e => { setTxt(value); e.target.select() }} onBlur={() => setTxt(null)} onChange={e => setTxt(e.target.value.toUpperCase())}
     onKeyDown={e => { if (e.key === 'Enter') { const box = parseRange(txt || ''); if (box) onGo(box); setTxt(null); e.target.blur() } else if (e.key === 'Escape') e.target.blur() }} />
 }
 
+const TXT_HE = {
+  tools: 'כלים', boldTip: 'הדגשה (Ctrl+B)', curTip: 'עיצוב ש״ח', cur: '₪', cursym: '₪', fillTip: 'מילוי למטה (Ctrl+D)', fill: 'מילוי ⬇',
+  ascTip: 'מיון מהקטן לגדול', asc: 'מהקטן לגדול / א→ת', descTip: 'מיון מהגדול לקטן', desc: 'מהגדול לקטן', bar: '📊 עמודות', pie: '🥧 עוגה',
+  undoTip: 'ביטול (Ctrl+Z)', undo: '↶ ביטול', formulaBar: 'שורת הנוסחאות', sheet: 'גיליון', pieChart: 'גרף עוגה', barChart: 'גרף עמודות',
+  nameBox: 'תיבת השם: הקלידו טווח, למשל A1:C1', errDefault: 'יש שגיאה בנוסחה.',
+  hebWarn: '⌨️ המקלדת בעברית. נוסחאות כותבים באנגלית: החליפו שפה (Alt+Shift) ואז ‎=SUM ולא ‎=דוצ.',
+  cellCap: ref => `תא ${ref}: הקלידו כדי לכתוב בתא`, editing: ref => `עריכת ${ref}`,
+}
+const TXT_EN = {
+  tools: 'Tools', boldTip: 'Bold (Ctrl+B)', curTip: 'Dollar format', cur: '$', cursym: '$', fillTip: 'Fill down (Ctrl+D)', fill: 'Fill down ⬇',
+  ascTip: 'Sort smallest to largest', asc: 'Sort A→Z / low to high', descTip: 'Sort largest to smallest', desc: 'Sort high to low', bar: '📊 Bar chart', pie: '🥧 Pie chart',
+  undoTip: 'Undo (Ctrl+Z)', undo: '↶ Undo', formulaBar: 'Formula bar', sheet: 'Spreadsheet', pieChart: 'Pie chart', barChart: 'Bar chart',
+  nameBox: 'Name box: type a range, for example A1:C1', errDefault: 'There is an error in the formula.',
+  hebWarn: '⌨️ Formulas use English letters and function names, like =SUM. Check that your keyboard is set to English.',
+  cellCap: ref => `Cell ${ref}: type to write in the cell`, editing: ref => `Editing ${ref}`,
+}
+const ERR_HELP_EN = {
+  '#NAME?': '#NAME? = Excel does not know that name. Check the spelling (SUM, AVERAGE…). Text needs quotation marks.',
+  '#DIV/0!': '#DIV/0! = dividing by zero, or averaging empty cells.',
+  '#VALUE!': '#VALUE! = math with text instead of a number.',
+  '#CIRC!': 'The formula points to itself (a circular reference).',
+  '#ERROR!': 'Something is missing in the formula: a parenthesis, a comma or a cell.',
+  '#REF!': '#REF! = a reference to a cell that does not exist.',
+}
 const ERR_HELP = {
   '#NAME?': '#NAME? = אקסל לא מכיר את השם. בדקו את האיות (SUM, AVERAGE…) ושהמקלדת באנגלית. טקסט צריך מירכאות.',
   '#DIV/0!': '#DIV/0! = חילוק באפס או ממוצע של תאים ריקים.',
@@ -229,14 +254,14 @@ const ERR_HELP = {
 }
 
 const COLORS = ['#226bd7', '#cf2f56', '#23874d', '#e08a00', '#8a4fd8', '#0aa5a5', '#7a5c2e', '#d64fa0']
-function Chart({ state }) {
+function Chart({ state, T }) {
   const data = chartData(state, state.chart)
   const max = Math.max(1, ...data.map(d => d.value))
   if (state.chart.kind === 'pie') {
     const total = data.reduce((a, d) => a + Math.max(0, d.value), 0) || 1
     const starts = data.reduce((acc, d) => [...acc, acc[acc.length - 1] + (Math.max(0, d.value) / total) * Math.PI * 2], [-Math.PI / 2])
     return (
-      <figure className="xl-chart" aria-label="גרף עוגה">
+      <figure className="xl-chart" aria-label={T.pieChart}>
         <svg viewBox="0 0 200 200" width="200" height="200" role="img">
           {data.map((d, i) => {
             const frac = Math.max(0, d.value) / total
@@ -252,7 +277,7 @@ function Chart({ state }) {
     )
   }
   return (
-    <figure className="xl-chart" aria-label="גרף עמודות">
+    <figure className="xl-chart" aria-label={T.barChart}>
       <div className="xl-bars">{data.map((d, i) => (
         <div key={i} className="xl-barcol">
           <small>{display(d.value)}</small>

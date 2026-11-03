@@ -326,7 +326,12 @@ body {
 
 /* Dark mode (opt-in, ThemeToggle): one filter flips the whole page, and photos/drawings are flipped
    back so they keep their real colors. Printing always uses the light page. */
-html[data-theme="dark"] { filter: invert(.9) hue-rotate(180deg); background: #fff; }
-html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors]) { filter: invert(1) hue-rotate(180deg); }
+/* Dark mode inverts the whole page and turns the hues back, with extra saturation so colors stay lively.
+   The page background is a light blue here, so after the inversion it is a deep night blue (not brown-black).
+   Pictures, and elements drawn with a background-image (the home-page car sprite), are turned back to
+   their real colors by the opposite filter. Never add [data-theme=dark] color rules elsewhere: they get inverted. */
+html[data-theme="dark"] { filter: invert(.93) hue-rotate(180deg) saturate(1.6) contrast(1.05); background: #fff; }
+html[data-theme="dark"] body { background-color: #d7defa; }
+html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors], .bcr-car, [style*="background-image"]) { filter: contrast(.95) saturate(.62) hue-rotate(180deg) invert(1); }
 .site-mobile-theme { display: flex; align-items: center; gap: 6px; background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; }
-@media print { html[data-theme="dark"] { filter: none; } html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors]) { filter: none; } }
+@media print { html[data-theme="dark"] { filter: none; } html[data-theme="dark"] body { background-color: var(--background); } html[data-theme="dark"] :is(img, video, canvas, picture, iframe, .home-art, [data-keep-colors], .bcr-car, [style*="background-image"]) { filter: none; } }

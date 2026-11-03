@@ -1,0 +1,10 @@
+// English pages of this area: pure data (path, title, counterpart or unpairedReason, emoji, description).
+// Read by englishRoutes.js, the sitemap scripts and the English hubs.
+export const TOOLS_PAGES = [
+  { path: '/en/tools', title: 'Free online tools: calculator, PDF, QR codes and more', emoji: '🧰', counterpart: '/tools', description: 'Free tools that work in your browser: a scientific calculator, PDF merge, split and sign, a QR code maker, a Hebrew keyboard and a touch typing course.' },
+  { path: '/en/tools/calculator', title: 'Scientific calculator online', emoji: '🧮', counterpart: '/tools/calculator', description: 'A free scientific calculator with exact fractions and roots, step-by-step explanations, equation solving, graphs and statistics. No ads, no sign-up.' },
+  { path: '/en/tools/hebrew-keyboard', title: 'Hebrew keyboard online, with niqqud', emoji: '⌨️', counterpart: '/tools/keyboard', description: 'Type Hebrew with your mouse or your normal keyboard, even with no Hebrew installed. Add niqqud and symbols, copy in one click, with finger colors for touch typing.' },
+  { path: '/en/tools/pdf', title: 'Free PDF tools: merge, split, compress and sign', emoji: '📄', counterpart: '/tools/pdf', description: 'Merge PDFs, split a file, shrink it, turn images into a PDF, sign a form and convert to or from Word. It all runs in your browser, so files never leave your device.' },
+  { path: '/en/tools/qr-code', title: 'Free QR code maker for links, text and WhatsApp', emoji: '🔳', counterpart: '/tools/qr-code', description: 'Make a QR code for a link, text, WhatsApp, Wi-Fi, phone or email. Live preview, PNG and SVG download, and printable labels. Your content stays in your browser.' },
+  { path: '/en/typing', title: 'Touch typing course, free', emoji: '🎹', counterpart: '/typing/english', description: 'Learn to type with ten fingers: eleven short lessons from the home row to whole sentences, a keyboard that shows which finger to use, and speed and accuracy scores.' },
+]

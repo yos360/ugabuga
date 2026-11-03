@@ -9,7 +9,8 @@ import { Hud, ToolButton, EndCard } from '../ui'
 const HOLES = 9
 const KINDS = { mole: { face: '🐹', pts: 1 }, gold: { face: '🐹', pts: 3, crown: true }, bunny: { face: '🐰', pts: -2 } }
 
-export default function WhackAMole({ onReport, onShare, daily }) {
+export default function WhackAMole({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('whack-a-mole', { best: 0 })
   const roundSec = daily?.target ? 35 : 45
   const [holes, setHoles] = useState(() => Array(HOLES).fill(null)) // { kind, until, id, hit }
@@ -78,27 +79,27 @@ export default function WhackAMole({ onReport, onShare, daily }) {
 
   // marathon goal: enough hits ends the stage right away
   useEffect(() => {
-    if (daily?.target && phase === 'run' && hits >= daily.target) daily.finish({ text: `🔨 הכה בחפרפרת: ${hits} פגיעות`, score: hits, won: true })
-  }, [hits, phase, daily])
+    if (daily?.target && phase === 'run' && hits >= daily.target) daily.finish({ text: en ? `🔨 Whack-a-Mole: ${hits} hits` : `🔨 הכה בחפרפרת: ${hits} פגיעות`, score: hits, won: true })
+  }, [hits, phase, daily, en])
   useEffect(() => {
     if (phase !== 'over') return
-    if (daily) { daily.finish({ text: `🔨 הכה בחפרפרת: ${score} נקודות (${hits} פגיעות)`, score: -score, won: !daily.target }); return }
+    if (daily) { daily.finish({ text: en ? `🔨 Whack-a-Mole: ${score} points (${hits} hits)` : `🔨 הכה בחפרפרת: ${score} נקודות (${hits} פגיעות)`, score: -score, won: !daily.target }); return }
     saveProgress(p => ({ best: Math.max(p.best, score) }))
-    if (score) onReport?.({ text: `🔨 הכיתי ${hits} חפרפרות וצברתי ${score} נקודות!` })
-  }, [phase, score, hits, daily, saveProgress, onReport])
+    if (score) onReport?.({ text: en ? `🔨 I whacked ${hits} moles and scored ${score} points!` : `🔨 הכיתי ${hits} חפרפרות וצברתי ${score} נקודות!` })
+  }, [phase, score, hits, daily, saveProgress, onReport, en])
 
   const size = Math.max(70, Math.min((box.w - 40) / 3, (box.h - 40) / 3, 170))
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', score], ['⏱️', Math.ceil(left / 1000)], daily?.target ? ['פגיעות', `${hits}/${daily.target}`] : ['שיא', Math.max(progress.best, score)]]}>
-        <ToolButton onClick={start} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Score' : 'ניקוד', score], ['⏱️', Math.ceil(left / 1000)], daily?.target ? [en ? 'Hits' : 'פגיעות', `${hits}/${daily.target}`] : [en ? 'Best' : 'שיא', Math.max(progress.best, score)]]}>
+        <ToolButton onClick={start} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
-      {combo >= 4 && phase === 'run' && <p className="wm-combo">🔥 קומבו! כל פגיעה ×2</p>}
+      {combo >= 4 && phase === 'run' && <p className="wm-combo">{en ? '🔥 Combo! Every hit ×2' : '🔥 קומבו! כל פגיעה ×2'}</p>}
       <div className="arc-field" ref={boxRef}>
         <div className="wm-grid" style={{ gridTemplateColumns: `repeat(3, ${size}px)` }}>
           {holes.map((h, i) => (
             <button key={i} type="button" className="wm-hole" style={{ width: size, height: size }} onPointerDown={e => { e.preventDefault(); whack(i) }}
-              aria-label={h ? (h.kind === 'bunny' ? 'ארנב — לא להכות!' : 'חפרפרת!') : 'גומה ריקה'}>
+              aria-label={h ? (h.kind === 'bunny' ? (en ? 'Bunny - do not whack!' : 'ארנב — לא להכות!') : (en ? 'Mole!' : 'חפרפרת!')) : (en ? 'Empty hole' : 'גומה ריקה')}>
               <span className="wm-pit" />
               <span key={h?.id} className={`wm-critter${h ? ' is-up' : ''}${h?.hit ? ' is-hit' : ''}`} style={{ fontSize: size * 0.5 }}>
                 {h && <>{KINDS[h.kind].crown && <i className="wm-crown">👑</i>}{h.hit && h.kind !== 'bunny' ? '😵' : KINDS[h.kind].face}</>}
@@ -108,11 +109,11 @@ export default function WhackAMole({ onReport, onShare, daily }) {
             </button>
           ))}
         </div>
-        {phase === 'ready' && <div className="sn-start">🔨 לחצו על גומה כדי להתחיל!<small>🐹 = 1 · 👑🐹 = 3 · 🐰 לא להכות! (−2) · 5 ברצף = קומבו ×2{daily?.target ? ` · המטרה: ${daily.target} פגיעות` : ''}</small></div>}
+        {phase === 'ready' && <div className="sn-start">{en ? '🔨 Tap a hole to start!' : '🔨 לחצו על גומה כדי להתחיל!'}<small>{en ? `🐹 = 1 · 👑🐹 = 3 · 🐰 do not whack! (−2) · 5 in a row = combo ×2${daily?.target ? ` · Goal: ${daily.target} hits` : ''}` : `🐹 = 1 · 👑🐹 = 3 · 🐰 לא להכות! (−2) · 5 ברצף = קומבו ×2${daily?.target ? ` · המטרה: ${daily.target} פגיעות` : ''}`}</small></div>}
       </div>
-      {phase === 'over' && !daily && <EndCard title="⏰ נגמר הזמן!" text={`פגעתם ב־${hits} חפרפרות וצברתם ${score} נקודות${score > progress.best ? ' — שיא חדש! 🎉' : ''}.`}
-        primary="🔨 עוד סיבוב" onPrimary={start}
-        secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🔨 צברתי ${score} נקודות בהכה בחפרפרת! מי מהיר יותר?`)} />}
+      {phase === 'over' && !daily && <EndCard lang={lang} title={en ? '⏰ Time is up!' : '⏰ נגמר הזמן!'} text={en ? `You whacked ${hits} moles and scored ${score} points${score > progress.best ? ' - a new best! 🎉' : ''}.` : `פגעתם ב־${hits} חפרפרות וצברתם ${score} נקודות${score > progress.best ? ' — שיא חדש! 🎉' : ''}.`}
+        primary={en ? '🔨 Another round' : '🔨 עוד סיבוב'} onPrimary={start}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את הניקוד'} onSecondary={() => onShare?.(en ? `🔨 I scored ${score} points in Whack-a-Mole! Who is faster?` : `🔨 צברתי ${score} נקודות בהכה בחפרפרת! מי מהיר יותר?`)} />}
     </div>
   )
 }

@@ -98,3 +98,6 @@ export function buildLevel(level) {
 }
 
 export const freeCubes = cubes => cubes.filter(c => !c.gone && isFree(cubes, c))
+
+// English world names, same order as WORLDS (used by the English site).
+export const WORLD_NAMES_EN = ['Cube', 'Tower', 'Pyramid', 'Plus', 'Stairs', 'Ring', 'Diamond', 'Heart', 'Ball', 'Bridge', 'Star', 'Frame', 'Dumbbell', 'Maze', 'Rocks']

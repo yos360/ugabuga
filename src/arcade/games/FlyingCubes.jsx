@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { buildLevel, isFree, blocker, freeCubes, DIRS, WORLDS, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/cubes'
+import { buildLevel, isFree, blocker, freeCubes, DIRS, WORLDS, WORLD_NAMES_EN, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/cubes'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard, LevelMap } from '../ui'
 
@@ -61,7 +61,8 @@ function fitCamera(s, reset) {
   s.camGoal = null
 }
 
-export default function FlyingCubes({ onReport, onShare, daily }) {
+export default function FlyingCubes({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('flying-cubes', { level: 1, stars: {} })
   const [map, setMap] = useState(false)
   const [level, setLevel] = useState(daily?.level ?? progress.level)
@@ -236,7 +237,7 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
       if (!remaining) setTimeout(() => setWon(true), 650)
     } else {
       setMistakes(m => m + 1)
-      setToast({ k: performance.now(), text: 'חסום! יש קובייה בדרך — איבדתם לב 💔' })
+      setToast({ k: performance.now(), text: en ? 'Blocked! A cube is in the way. You lost a heart 💔' : 'חסום! יש קובייה בדרך — איבדתם לב 💔' })
       if (!s.anims.some(a => a.mesh === mesh)) {
         mesh.material = mesh.material.clone()
         s.anims.push({ type: 'bump', mesh, cube, t0: at, dur: 0.35, color: '#ff3b3b' })
@@ -287,42 +288,42 @@ export default function FlyingCubes({ onReport, onShare, daily }) {
 
   useEffect(() => {
     if (!won) return
-    if (daily) { daily.finish({ text: `🧊 קוביות מעופפות: פירקתי את הקובייה עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
+    if (daily) { daily.finish({ text: en ? `🧊 Flying Cubes: I took the cube apart with ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'}` : `🧊 קוביות מעופפות: פירקתי את הקובייה עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1), stars: { ...(p.stars || {}), [level]: Math.max((p.stars || {})[level] || 0, Math.max(1, LIVES - mistakes)) } }))
-    onReport?.({ text: `🏆 עברתי את שלב ${level} בקוביות מעופפות${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
-  }, [won, level, mistakes, saveProgress, onReport, daily])
+    onReport?.({ text: en ? `🏆 I beat level ${level} of Flying Cubes${mistakes ? '' : ' with no mistakes'}! Can you beat me?` : `🏆 עברתי את שלב ${level} בקוביות מעופפות${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
+  }, [won, level, mistakes, saveProgress, onReport, daily, en])
 
   return (
     <div className="arc-game fc-game">
-      <Hud stats={[['שלב', `${level} ${worldOf(level).emoji}`], ['נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={`${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
-        {!daily && <ToolButton onClick={() => setMap(true)} label="מפת שלבים">🗺️</ToolButton>}
-        <ToolButton onClick={hint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
-        <ToolButton onClick={() => setKeyboardOpen(open => !open)} label="משחק במקלדת">⌨️</ToolButton>
+      <Hud stats={[[en ? 'Level' : 'שלב', `${level} ${worldOf(level).emoji}`], [en ? 'Left' : 'נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={en ? `${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'}` : `${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
+        {!daily && <ToolButton onClick={() => setMap(true)} label={en ? 'Level map' : 'מפת שלבים'}>🗺️</ToolButton>}
+        <ToolButton onClick={hint} label={en ? 'Hint' : 'רמז'}>💡</ToolButton>
+        <ToolButton onClick={() => start(level)} label={en ? 'Restart level' : 'שלב מחדש'}>🔄</ToolButton>
+        <ToolButton onClick={() => setKeyboardOpen(open => !open)} label={en ? 'Play with the keyboard' : 'משחק במקלדת'}>⌨️</ToolButton>
       </Hud>
       {keyboardOpen && <div className="fc-keyboard">
-        <label>בחירת קובייה<select value={selectedCube} onChange={e => setSelectedCube(e.target.value)} disabled={won || lost || !keyboardCubes.length}>
-          {keyboardCubes.map(c => <option key={c.id} value={String(c.id)}>{`קובייה ${c.id + 1}: עמודה ${c.x + 1}, שורה ${c.y + 1}, עומק ${c.z + 1}; חץ ${c.d[0] ? (c.d[0] > 0 ? 'ימינה' : 'שמאלה') : c.d[1] ? (c.d[1] > 0 ? 'למעלה' : 'למטה') : c.d[2] > 0 ? 'קדימה' : 'אחורה'}`}</option>)}
+        <label>{en ? 'Choose a cube' : 'בחירת קובייה'}<select value={selectedCube} onChange={e => setSelectedCube(e.target.value)} disabled={won || lost || !keyboardCubes.length}>
+          {keyboardCubes.map(c => <option key={c.id} value={String(c.id)}>{en ? `Cube ${c.id + 1}: column ${c.x + 1}, row ${c.y + 1}, depth ${c.z + 1}; arrow ${c.d[0] ? (c.d[0] > 0 ? 'right' : 'left') : c.d[1] ? (c.d[1] > 0 ? 'up' : 'down') : c.d[2] > 0 ? 'forward' : 'backward'}` : `קובייה ${c.id + 1}: עמודה ${c.x + 1}, שורה ${c.y + 1}, עומק ${c.z + 1}; חץ ${c.d[0] ? (c.d[0] > 0 ? 'ימינה' : 'שמאלה') : c.d[1] ? (c.d[1] > 0 ? 'למעלה' : 'למטה') : c.d[2] > 0 ? 'קדימה' : 'אחורה'}`}</option>)}
         </select></label>
         <button type="button" className="arc-btn" disabled={won || lost || !keyboardCubes.length} onClick={() => {
           const cube = boardRef.current?.cubes.find(c => String(c.id) === selectedCube && !c.gone)
           if (cube) tap(cube)
-        }}>העפת הקובייה שנבחרה</button>
-        <p role="status">נשארו {left} קוביות ו־{LIVES - mistakes} לבבות. בחרו קובייה שהדרך בכיוון החץ שלה פנויה.</p>
+        }}>{en ? 'Launch the chosen cube' : 'העפת הקובייה שנבחרה'}</button>
+        <p role="status">{en ? `${left} cubes and ${LIVES - mistakes} hearts left. Choose a cube whose way along its arrow is clear.` : `נשארו ${left} קוביות ו־${LIVES - mistakes} לבבות. בחרו קובייה שהדרך בכיוון החץ שלה פנויה.`}</p>
       </div>}
       <div className="arc-field" ref={boxRef}>
-        <div ref={mountRef} className="fc-mount" role="img" aria-label="קובייה עשויה מקוביות קטנות. גררו כדי לסובב, לחצו על קובייה כדי להעיף אותה" />
+        <div ref={mountRef} className="fc-mount" role="img" aria-label={en ? 'A big cube made of small cubes. Drag to rotate, tap a cube to launch it' : 'קובייה עשויה מקוביות קטנות. גררו כדי לסובב, לחצו על קובייה כדי להעיף אותה'} />
         {toast && <div key={toast.k} className="arc-toast" role="status">{toast.text}</div>}
-        <p className="fc-help" aria-hidden="true">👆 גוררים לסיבוב · לוחצים להעפה</p>
+        <p className="fc-help" aria-hidden="true">{en ? '👆 Drag to rotate · tap to launch' : '👆 גוררים לסיבוב · לוחצים להעפה'}</p>
       </div>
-      {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} worlds={WORLDS} unlocked={progress.level} stars={progress.stars} current={level}
+      {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} lang={lang} worlds={en ? WORLDS.map((w, i) => ({ ...w, name: WORLD_NAMES_EN[i] })) : WORLDS} unlocked={progress.level} stars={progress.stars} current={level}
         onPick={n => { setMap(false); start(n) }} onClose={() => setMap(false)} />}
-      {lost && !won && <EndCard title="💔 נגמרו הלבבות" text="שלוש פעמים לחצתם על קובייה חסומה. מנסים שוב? טיפ: חפשו קוביות שהחץ שלהן מצביע החוצה."
-        primary="🔄 לנסות שוב" onPrimary={() => start(level)} />}
-      {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 כל הכבוד!'} stars={stars}
-        text={mistakes ? `פירקתם את כל הקובייה ונשארו לכם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}.` : 'פירקתם הכול בלי לאבד אף לב!'}
-        primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🏆 עברתי את שלב ${level} בקוביות מעופפות! מי מנצח אותי?`)} />}
+      {lost && !won && <EndCard lang={lang} title={en ? '💔 Out of hearts' : '💔 נגמרו הלבבות'} text={en ? 'You tapped a blocked cube three times. Try again? Tip: look for cubes whose arrow points outward.' : 'שלוש פעמים לחצתם על קובייה חסומה. מנסים שוב? טיפ: חפשו קוביות שהחץ שלהן מצביע החוצה.'}
+        primary={en ? '🔄 Try again' : '🔄 לנסות שוב'} onPrimary={() => start(level)} />}
+      {won && !daily && <EndCard lang={lang} title={stars === 3 ? (en ? '🎉 Perfect!' : '🎉 מושלם!') : (en ? '🎉 Well done!' : '🎉 כל הכבוד!')} stars={stars}
+        text={en ? (mistakes ? `You took the whole cube apart with ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'} left.` : 'You took it all apart without losing a heart!') : (mistakes ? `פירקתם את כל הקובייה ונשארו לכם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}.` : 'פירקתם הכול בלי לאבד אף לב!')}
+        primary={en ? '▶ Next level' : '▶ לשלב הבא'} onPrimary={() => start(level + 1)}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `🏆 I beat level ${level} of Flying Cubes! Can you beat me?` : `🏆 עברתי את שלב ${level} בקוביות מעופפות! מי מנצח אותי?`)} />}
     </div>
   )
 }

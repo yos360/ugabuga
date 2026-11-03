@@ -12,9 +12,10 @@ import CardRestartDialog from './CardRestartDialog'
 import './spider.css'
 import './cardGames.css'
 
-const LEVELS = [[1, 'קל · צורה אחת'], [2, 'בינוני · 2 צורות'], [4, 'קשה · 4 צורות']]
+const LEVELS = [[1, 'קל · צורה אחת', 'Easy · 1 suit'], [2, 'בינוני · 2 צורות', 'Medium · 2 suits'], [4, 'קשה · 4 צורות', 'Hard · 4 suits']]
 
-export default function Spider({ onReport, onShare, daily }) {
+export default function Spider({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   // daily challenge: one suit, the same deal for everyone
   const newDeal = suits => (daily ? deal(1, rng(daily.seed)) : deal(suits))
   const [progress, saveProgress] = useProgress('spider', { suits: 1, wins: 0, games: 0, best: {} })
@@ -45,7 +46,7 @@ export default function Spider({ onReport, onShare, daily }) {
     if (!n || n === s) return
     if (!daily && s.moves === 0) saveProgress(p => ({ games: (p.games || 0) + 1 }))
     setHistory(h => [...h.slice(-59), s]); setS(n); setHint(null)
-    if (n.done > s.done) say('🎉 רצף שלם עף הביתה!')
+    if (n.done > s.done) say(en ? '🎉 A full run flew home!' : '🎉 רצף שלם עף הביתה!')
   }
   const parse = key => key.slice(1).split(':').map(Number)
   const tap = key => {
@@ -65,7 +66,7 @@ export default function Spider({ onReport, onShare, daily }) {
   const [drag, handlers] = useSpiderDrag(tap, drop, won || confirm !== null)
   const doDeal = () => {
     if (won || confirm || !s.stock.length) return
-    if (!canDeal(s)) { say('קודם ממלאים כל עמודה ריקה בקלף, ואז מחלקים'); return }
+    if (!canDeal(s)) { say(en ? 'Fill every empty column with a card first, then deal' : 'קודם ממלאים כל עמודה ריקה בקלף, ואז מחלקים'); return }
     commit(dealRow(s))
   }
   const undo = () => { if (!history.length) return; setS(history.at(-1)); setHistory(h => h.slice(0, -1)); setHint(null) }
@@ -73,7 +74,7 @@ export default function Spider({ onReport, onShare, daily }) {
   const requestRestart = suits => { if (s.moves && !won) setConfirm(suits); else restart(suits) }
   const showHint = () => {
     const h = findHint(s)
-    if (!h) say('אין מהלך — נסו לבטל כמה מהלכים אחורה')
+    if (!h) say(en ? 'No move available - try undoing a few moves' : 'אין מהלך — נסו לבטל כמה מהלכים אחורה')
     setHint(h); clearTimeout(hintTimer.current); hintTimer.current = setTimeout(() => setHint(null), 2200)
   }
 
@@ -81,10 +82,10 @@ export default function Spider({ onReport, onShare, daily }) {
     if (!won || reported.current) return
     reported.current = true
     try { writeSpiderSession(localStorage, storageKey, { state: s, history, reported: true }) } catch { /* storage unavailable */ }
-    if (daily) { daily.finish({ text: `🕷️ סוליטר עכביש: פירקתי את כל הרצפים ב־${s.moves} מהלכים`, score: s.moves, won: true }); return }
+    if (daily) { daily.finish({ text: en ? `🕷️ Spider Solitaire: cleared every run in ${s.moves} moves` : `🕷️ סוליטר עכביש: פירקתי את כל הרצפים ב־${s.moves} מהלכים`, score: s.moves, won: true }); return }
     saveProgress(p => ({ wins: p.wins + 1, best: { ...(p.best || {}), [s.suits]: Math.min(p.best?.[s.suits] || Infinity, s.moves) } }))
-    onReport?.({ text: `🕷️ ניצחתי בסוליטר עכביש (${s.suits === 1 ? 'צורה אחת' : `${s.suits} צורות`}) ב־${s.moves} מהלכים!` })
-  }, [won, s, history, storageKey, saveProgress, onReport, daily])
+    onReport?.({ text: en ? `🕷️ I won at Spider Solitaire (${s.suits === 1 ? '1 suit' : `${s.suits} suits`}) in ${s.moves} moves!` : `🕷️ ניצחתי בסוליטר עכביש (${s.suits === 1 ? 'צורה אחת' : `${s.suits} צורות`}) ב־${s.moves} מהלכים!` })
+  }, [won, s, history, storageKey, saveProgress, onReport, daily, en])
 
   // ----- layout -----
   // cards as big as the screen allows (big on a computer), the felt fills the rest
@@ -111,7 +112,7 @@ export default function Spider({ onReport, onShare, daily }) {
     pile.forEach((c, i) => {
       const key = `t${p}:${i}`
       const isDrag = dragging && dragging[0] === p && i >= dragging[1] && canPick(pile, dragging[1])
-      cards.push(<Card key={c.id} card={c} w={w} x={colX(p)} y={y} z={20 + i} dropKey={`t${p}`}
+      cards.push(<Card lang={lang} key={c.id} card={c} w={w} x={colX(p)} y={y} z={20 + i} dropKey={`t${p}`}
         dragged={isDrag ? drag : null} hint={hintKey === key || (hint?.to === p && i === pile.length - 1)} selected={shake === key} onPointer={c.up ? handlers(key) : {}} />)
       y += c.up ? uOff : dOff
     })
@@ -120,43 +121,43 @@ export default function Spider({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game spider-game">
-      <Hud stats={[['רצפים', `${s.done}/8`], ['מהלכים', s.moves], ['ניצחונות', progress.wins || 0]]}>
-        <ToolButton onClick={undo} disabled={!history.length || won || confirm !== null} label="ביטול מהלך">↩</ToolButton>
-        <ToolButton onClick={showHint} disabled={won || confirm !== null} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => requestRestart(s.suits)} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Runs' : 'רצפים', `${s.done}/8`], [en ? 'Moves' : 'מהלכים', s.moves], [en ? 'Wins' : 'ניצחונות', progress.wins || 0]]}>
+        <ToolButton onClick={undo} disabled={!history.length || won || confirm !== null} label={en ? 'Undo' : 'ביטול מהלך'}>↩</ToolButton>
+        <ToolButton onClick={showHint} disabled={won || confirm !== null} label={en ? 'Hint' : 'רמז'}>💡</ToolButton>
+        <ToolButton onClick={() => requestRestart(s.suits)} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
-      {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
-        {LEVELS.map(([n, label]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} aria-pressed={s.suits === n} onClick={() => requestRestart(n)}>{label}</button>)}
+      {!daily && <div className="sp-levels" role="group" aria-label={en ? 'Difficulty' : 'רמת קושי'}>
+        {LEVELS.map(([n, label, labelEn]) => <button key={n} type="button" className={`arc-chip${s.suits === n ? ' is-on' : ''}`} aria-pressed={s.suits === n} onClick={() => requestRestart(n)}>{en ? labelEn : label}</button>)}
       </div>}
-      <p className="sp-guide">סדרו קלפים בסדר יורד. גררו רצף מאותה סדרה; רצף שלם ממלך עד אס יורד מהשולחן.</p>
-      <span className="card-save" role="status">{storageOk ? 'המשחק נשמר במכשיר זה' : 'השמירה אינה זמינה במכשיר זה'}</span>
-      {!daily && <span className="sp-stats">שוחקו {progress.games || 0} משחקים · שיא ברמה הזאת: {progress.best?.[s.suits] ? `${progress.best[s.suits]} מהלכים` : 'עוד אין'}</span>}
+      <p className="sp-guide">{en ? 'Arrange cards in descending order. Drag a run of the same suit; a full run from king to ace leaves the table.' : 'סדרו קלפים בסדר יורד. גררו רצף מאותה סדרה; רצף שלם ממלך עד אס יורד מהשולחן.'}</p>
+      <span className="card-save" role="status">{storageOk ? (en ? 'Your game is saved on this device' : 'המשחק נשמר במכשיר זה') : (en ? 'Saving is not available on this device' : 'השמירה אינה זמינה במכשיר זה')}</span>
+      {!daily && <span className="sp-stats">{en ? `${progress.games || 0} games played · best at this level: ${progress.best?.[s.suits] ? `${progress.best[s.suits]} moves` : 'none yet'}` : `שוחקו ${progress.games || 0} משחקים · שיא ברמה הזאת: ${progress.best?.[s.suits] ? `${progress.best[s.suits]} מהלכים` : 'עוד אין'}`}</span>}
       <div className="arc-field cd-field" ref={boxRef}>
         <div className="cd-table" style={{ width: box.w, height: tableHeight }}>
           {/* stock: one small card per remaining deal */}
           {deals > 0
-            ? Array.from({ length: deals }, (_, i) => <Card key={`st${i}`} card={{ up: false }} w={w} x={colX(0) + i * w * 0.14} y={gap} z={5 + i} hint={hint?.deal && i === deals - 1} label={i === deals - 1 ? `חלוקת שורה חדשה — נותרו ${deals} חלוקות` : undefined} onPointer={i === deals - 1 ? { onClick: doDeal } : undefined} />)
-            : <Slot w={w} x={colX(0)} y={gap} label="" />}
+            ? Array.from({ length: deals }, (_, i) => <Card lang={lang} key={`st${i}`} card={{ up: false }} w={w} x={colX(0) + i * w * 0.14} y={gap} z={5 + i} hint={hint?.deal && i === deals - 1} label={i === deals - 1 ? (en ? `Deal a new row - ${deals} ${deals === 1 ? 'deal' : 'deals'} left` : `חלוקת שורה חדשה — נותרו ${deals} חלוקות`) : undefined} onPointer={i === deals - 1 ? { onClick: doDeal } : undefined} />)
+            : <Slot lang={lang} w={w} x={colX(0)} y={gap} label="" />}
           {deals > 0 && <span className="cd-count" style={{ transform: `translate(${colX(0) + 4}px, ${gap + h - 22}px)` }}>{deals}</span>}
           {/* finished runs */}
           {Array.from({ length: 8 }, (_, i) => {
             const x = colX(9) - i * w * 0.22
             return s.doneSuits[i] !== undefined
-              ? <Card key={`d${i}`} card={{ up: true, rank: 13, suit: s.doneSuits[i] }} w={w} x={x} y={gap} z={5 + i} />
-              : i === 0 ? <Slot key="dslot" w={w} x={x} y={gap} label={SUITS[0]} /> : null
+              ? <Card lang={lang} key={`d${i}`} card={{ up: true, rank: 13, suit: s.doneSuits[i] }} w={w} x={x} y={gap} z={5 + i} />
+              : i === 0 ? <Slot lang={lang} key="dslot" w={w} x={x} y={gap} label={SUITS[0]} /> : null
           })}
-          {s.tab.map((_, p) => <Slot key={`ts${p}`} w={w} x={colX(p)} y={tabTop} label="" active={hint?.to === p} dropKey={`t${p}`} />)}
+          {s.tab.map((_, p) => <Slot lang={lang} key={`ts${p}`} w={w} x={colX(p)} y={tabTop} label="" active={hint?.to === p} dropKey={`t${p}`} />)}
           {s.tab.map((_, p) => <div key={`tz${p}`} className="cd-zone" data-drop={`t${p}`} style={{ width: w, height: tableHeight - tabTop, transform: `translate(${colX(p)}px, ${tabTop}px)` }} />)}
           {cards}
         </div>
         {toast && <div key={toast.k} className="arc-toast">{toast.text}</div>}
-        {hint?.deal && <div className="arc-toast">💡 אין מהלך טוב — חלקו שורה חדשה מהחפיסה</div>}
+        {hint?.deal && <div className="arc-toast">{en ? '💡 No good move - deal a new row from the deck' : '💡 אין מהלך טוב — חלקו שורה חדשה מהחפיסה'}</div>}
       </div>
-      {confirm !== null && <CardRestartDialog onCancel={() => setConfirm(null)} onConfirm={() => restart(confirm)} />}
+      {confirm !== null && <CardRestartDialog en={en} onCancel={() => setConfirm(null)} onConfirm={() => restart(confirm)} />}
       {won && <div className="sp-confetti" aria-hidden="true">{Array.from({ length: 24 }, (_, i) => <i key={i} style={{ '--i': i }} />)}</div>}
-      {won && !daily && <EndCard title="🎉 ניצחתם!" text={`פירקתם את כל 8 הרצפים ב־${s.moves} מהלכים.${s.suits < 4 ? ' מוכנים לרמה הבאה?' : ''}`}
-        primary={s.suits < 4 ? '▶ לרמה הבאה' : '🕷️ משחק חדש'} onPrimary={() => restart(s.suits === 1 ? 2 : 4)}
-        secondary="📱 שתפו את הניצחון" onSecondary={() => onShare?.(`🕷️ ניצחתי בסוליטר עכביש של עוגה בוגה! תצליחו גם?`)} />}
+      {won && !daily && <EndCard lang={lang} title={en ? '🎉 You won!' : '🎉 ניצחתם!'} text={en ? `You cleared all 8 runs in ${s.moves} moves.${s.suits < 4 ? ' Ready for the next level?' : ''}` : `פירקתם את כל 8 הרצפים ב־${s.moves} מהלכים.${s.suits < 4 ? ' מוכנים לרמה הבאה?' : ''}`}
+        primary={s.suits < 4 ? (en ? '▶ Next level' : '▶ לרמה הבאה') : (en ? '🕷️ New game' : '🕷️ משחק חדש')} onPrimary={() => restart(s.suits === 1 ? 2 : 4)}
+        secondary={en ? '📱 Share your win' : '📱 שתפו את הניצחון'} onSecondary={() => onShare?.(en ? `🕷️ I won at Ugabuga's Spider Solitaire! Can you too?` : `🕷️ ניצחתי בסוליטר עכביש של עוגה בוגה! תצליחו גם?`)} />}
     </div>
   )
 }

@@ -1,4 +1,6 @@
-/* Home page — the site's own palette and fonts, equal cards, a little motion on hover. */
+/* Home page — the site's own palette and fonts, equal cards, a little motion on hover.
+   No [data-theme=dark] rules here: dark mode inverts the whole page (index.css), so dark colors set
+   for it would be inverted back to light and become unreadable. */
 .hp{--ink:#14162d;--muted:#5d6380;--line:#eceef5;--violet:#6d48e5;--paper:#fffefa;max-width:1180px;margin:auto;padding:8px 20px 64px;color:var(--ink)}
 .hp a{color:inherit;text-decoration:none}
 .hp-hero{position:relative;z-index:2;isolation:isolate;text-align:center;margin:0 -20px;padding:32px 20px 40px;border-radius:0 0 40px 40px;
@@ -12,7 +14,6 @@
 .hp-quick{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px auto 0;max-width:680px}
 .hp-quick a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;background:#fff;border:2px solid #e8e2d4;font-weight:700;color:inherit;text-decoration:none}
 .hp-quick a:hover{border-color:#ff8a1f}
-[data-theme=dark] .hp-quick a{background:#1f2430;border-color:#3a4150}
 .hp-discover-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;animation:hp-discover-in .45s ease}
 .hp-discover-card{position:relative;display:flex;flex-direction:column;gap:4px;min-height:150px;padding:18px 16px 14px;border-radius:20px;background:#fff;border:2px solid #e8e2d4;color:inherit;text-decoration:none;box-shadow:0 4px 0 #e8e2d4;transition:transform .16s}
 .hp-discover-card:hover,.hp-discover-card:focus-visible{transform:translateY(-3px);border-color:#ff8a1f}
@@ -27,8 +28,6 @@
 @keyframes hp-discover-in{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.hp-discover-row{animation:none}}
 @media(max-width:700px){.hp-discover-row{grid-template-columns:1fr}.hp-discover-card{min-height:0}}
-[data-theme=dark] .hp-discover-card,[data-theme=dark] .hp-discover-next{background:#1f2430;border-color:#3a4150;box-shadow:none}
-[data-theme=dark] .hp-discover-tag{background:#4a3d12}
 .hp-search{width:min(680px,100%);margin:22px auto 0;padding:8px;border-radius:26px;background:#fff;box-shadow:0 14px 40px #2b1d6f17,0 0 0 1px var(--line);transition:box-shadow .2s}.hp-search:focus-within{box-shadow:0 14px 40px #2b1d6f22,0 0 0 2px #22c3e6}
 .hp-modes{display:flex;gap:4px;padding:2px 2px 8px}
 .hp-modes button{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:none;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer}
@@ -116,8 +115,6 @@ body:has(.hp) .site-footer{display:none}
 .hp-v-request .hp-exp-request::before{content:"";position:absolute;top:-14px;left:50%;width:120px;height:26px;translate:-50% 0;rotate:2deg;background:#ffe58acc;box-shadow:0 2px 4px #0000001a}
 .hp-v-request .hp-exp-copy b{font-size:clamp(21px,2.6vw,27px)}
 .hp-v-request .hp-exp-input{min-height:54px;font-size:18px;border-color:#f0b429}.hp-v-request .hp-exp-cta{background:#e07a00}
-[data-theme=dark] .hp-v-request .hp-hero{background:repeating-linear-gradient(180deg,#24211a 0 33px,#3a331f 33px 34px)}
-[data-theme=dark] .hp-v-request .hp-hero h1{background:linear-gradient(transparent 62%,#8a6b00 62%,#8a6b00 92%,transparent 92%)}
 /* "ai": a night sky — deep indigo, white title, a glowing question box first. */
 .hp-v-ai .hp-hero{color:#fff;background:radial-gradient(40% 60% at 85% 10%,#3b7bff55 0,transparent 70%),radial-gradient(40% 60% at 10% 80%,#c04dff44 0,transparent 70%),linear-gradient(165deg,#170f45,#2c1b7a 55%,#0b5a74)}
 .hp-v-ai .hp-hero::before,.hp-v-ai .hp-hero::after{color:#7ee8ff}
@@ -127,6 +124,3 @@ body:has(.hp) .site-footer{display:none}
 .hp-v-ai .hp-ai-title{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 0 8px;font-size:clamp(17px,2.2vw,21px);font-weight:900;color:#4b2bc4}
 .hp-v-ai .hp-field input{font-size:20px;padding:16px 18px}
 .hp-v-ai .hp-daily-top{padding:14px;border-radius:28px;background:var(--paper);color:var(--ink)}
-[data-theme=dark] .hp-v-ai .hp-search,[data-theme=dark] .hp-v-ai .hp-daily-top{background:#1f2430;color:#eef}
-[data-theme=dark] .hp-v-ai .hp-quick a,[data-theme=dark] .hp-v-ai .hp-chips{color:#eef}
-[data-theme=dark] .hp-v-ai .hp-ai-title{color:#b9a8ff}

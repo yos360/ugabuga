@@ -9,7 +9,8 @@ import { Hud, ToolButton, EndCard } from '../ui'
 // The game runs on one animation loop (gravity + lock delay) kept outside React state.
 const LOCK_MS = 450
 
-export default function FallingBlocks({ onReport, onShare, daily }) {
+export default function FallingBlocks({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('falling-blocks', { best: 0 })
   const [boxRef, box] = useBox()
   const canvasRef = useRef(null)
@@ -144,14 +145,14 @@ export default function FallingBlocks({ onReport, onShare, daily }) {
 
   useEffect(() => {
     if (!daily?.target || phase !== 'run') return
-    if (hud.lines >= daily.target) daily.finish({ text: `🧱 בלוקים נופלים: ניקיתי ${hud.lines} שורות`, score: hud.lines, won: true })
-  }, [hud.lines, phase, daily])
+    if (hud.lines >= daily.target) daily.finish({ text: en ? `🧱 Falling Blocks: cleared ${hud.lines} lines` : `🧱 בלוקים נופלים: ניקיתי ${hud.lines} שורות`, score: hud.lines, won: true })
+  }, [hud.lines, phase, daily, en])
   useEffect(() => {
     if (phase !== 'over') return
-    if (daily) { daily.finish({ text: `🧱 בלוקים נופלים: ${hud.score} נקודות, ${hud.lines} שורות`, score: -hud.score, won: !daily.target }); return }
+    if (daily) { daily.finish({ text: en ? `🧱 Falling Blocks: ${hud.score} points, ${hud.lines} lines` : `🧱 בלוקים נופלים: ${hud.score} נקודות, ${hud.lines} שורות`, score: -hud.score, won: !daily.target }); return }
     saveProgress(p => ({ best: Math.max(p.best, hud.score) }))
-    if (hud.score) onReport?.({ text: `🧱 צברתי ${hud.score} נקודות וניקיתי ${hud.lines} שורות בבלוקים נופלים!` })
-  }, [phase, hud.score, hud.lines, daily, saveProgress, onReport])
+    if (hud.score) onReport?.({ text: en ? `🧱 I scored ${hud.score} points and cleared ${hud.lines} lines in Falling Blocks!` : `🧱 צברתי ${hud.score} נקודות וניקיתי ${hud.lines} שורות בבלוקים נופלים!` })
+  }, [phase, hud.score, hud.lines, daily, saveProgress, onReport, en])
 
   // layout: board as tall as possible, side panel for "next"
   const padH = 66 // buttons row
@@ -161,36 +162,36 @@ export default function FallingBlocks({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', hud.score], ['שורות', daily?.target ? `${hud.lines}/${daily.target}` : hud.lines], ['רמה', hud.level]]}>
-        <ToolButton onClick={togglePause} disabled={phase !== 'run' && phase !== 'pause'} label={phase === 'run' ? 'הפסקה' : 'המשך'}>{phase === 'run' ? '⏸️' : '▶️'}</ToolButton>
-        <ToolButton onClick={newGame} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Score' : 'ניקוד', hud.score], [en ? 'Lines' : 'שורות', daily?.target ? `${hud.lines}/${daily.target}` : hud.lines], [en ? 'Level' : 'רמה', hud.level]]}>
+        <ToolButton onClick={togglePause} disabled={phase !== 'run' && phase !== 'pause'} label={phase === 'run' ? (en ? 'Pause' : 'הפסקה') : (en ? 'Resume' : 'המשך')}>{phase === 'run' ? '⏸️' : '▶️'}</ToolButton>
+        <ToolButton onClick={newGame} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field fb-field" ref={boxRef}>
         <div className="fb-wrap">
           <canvas ref={canvasRef} className="fb-board" width={Math.round(bw * ratio)} height={Math.round(bh * ratio)} style={{ width: bw, height: bh }}
             onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={() => { touch.current = null }}
-            aria-label="לוח הבלוקים. גוררים הצידה להזזה, נגיעה לסיבוב, החלקה מהירה למטה להפלה" role="img" />
+            aria-label={en ? 'The block board. Drag sideways to move, tap to turn, flick down to drop' : 'לוח הבלוקים. גוררים הצידה להזזה, נגיעה לסיבוב, החלקה מהירה למטה להפלה'} role="img" />
           <div className="fb-side">
-            <span>הבא</span>
+            <span>{en ? 'Next' : 'הבא'}</span>
             <canvas ref={nextRef} className="fb-next" width={160} height={160} style={{ width: 64, height: 64 }} />
-            {!daily && <span className="fb-best">שיא<br /><b>{Math.max(progress.best, hud.score)}</b></span>}
+            {!daily && <span className="fb-best">{en ? 'Best' : 'שיא'}<br /><b>{Math.max(progress.best, hud.score)}</b></span>}
           </div>
           {(phase === 'ready' || phase === 'pause') && (
-            <div className="sn-start">{phase === 'pause' ? '⏸️ הפסקה — לחצו ▶️ כדי להמשיך' : '👆 נגעו בלוח כדי להתחיל'}
-              <small>גוררים הצידה = הזזה · נגיעה = סיבוב · החלקה מהירה למטה = הפלה{daily?.target ? ` · המטרה: ${daily.target} שורות` : ''}</small></div>
+            <div className="sn-start">{phase === 'pause' ? (en ? '⏸️ Paused - press ▶️ to continue' : '⏸️ הפסקה — לחצו ▶️ כדי להמשיך') : (en ? '👆 Touch the board to start' : '👆 נגעו בלוח כדי להתחיל')}
+              <small>{en ? `Drag sideways = move · Tap = turn · Flick down = drop${daily?.target ? ` · Goal: ${daily.target} lines` : ''}` : `גוררים הצידה = הזזה · נגיעה = סיבוב · החלקה מהירה למטה = הפלה${daily?.target ? ` · המטרה: ${daily.target} שורות` : ''}`}</small></div>
           )}
         </div>
       </div>
       <div className="fb-pad" onPointerUp={release} onPointerLeave={release} onPointerCancel={release}>
-        <button type="button" className="sn-key" onPointerDown={press('rotate')} aria-label="סיבוב">⟳</button>
-        <button type="button" className="sn-key" onPointerDown={press('left')} aria-label="שמאלה">◀</button>
-        <button type="button" className="sn-key" onPointerDown={press('down')} aria-label="למטה">▼</button>
-        <button type="button" className="sn-key" onPointerDown={press('right')} aria-label="ימינה">▶</button>
-        <button type="button" className="sn-key fb-drop" onPointerDown={press('drop')} aria-label="הפלה">⤓</button>
+        <button type="button" className="sn-key" onPointerDown={press('rotate')} aria-label={en ? 'Turn' : 'סיבוב'}>⟳</button>
+        <button type="button" className="sn-key" onPointerDown={press('left')} aria-label={en ? 'Left' : 'שמאלה'}>◀</button>
+        <button type="button" className="sn-key" onPointerDown={press('down')} aria-label={en ? 'Down' : 'למטה'}>▼</button>
+        <button type="button" className="sn-key" onPointerDown={press('right')} aria-label={en ? 'Right' : 'ימינה'}>▶</button>
+        <button type="button" className="sn-key fb-drop" onPointerDown={press('drop')} aria-label={en ? 'Drop' : 'הפלה'}>⤓</button>
       </div>
-      {phase === 'over' && !daily && <EndCard title="🧱 הלוח התמלא!" text={`צברתם ${hud.score} נקודות וניקיתם ${hud.lines} שורות${hud.score > progress.best ? ' — שיא חדש! 🎉' : ''}.`}
-        primary="🔄 משחק חדש" onPrimary={newGame}
-        secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🧱 צברתי ${hud.score} נקודות בבלוקים נופלים! מי עובר אותי?`)} />}
+      {phase === 'over' && !daily && <EndCard lang={lang} title={en ? '🧱 The board is full!' : '🧱 הלוח התמלא!'} text={en ? `You scored ${hud.score} points and cleared ${hud.lines} lines${hud.score > progress.best ? ' - a new best! 🎉' : ''}.` : `צברתם ${hud.score} נקודות וניקיתם ${hud.lines} שורות${hud.score > progress.best ? ' — שיא חדש! 🎉' : ''}.`}
+        primary={en ? '🔄 New game' : '🔄 משחק חדש'} onPrimary={newGame}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את הניקוד'} onSecondary={() => onShare?.(en ? `🧱 I scored ${hud.score} points in Falling Blocks! Can you beat me?` : `🧱 צברתי ${hud.score} נקודות בבלוקים נופלים! מי עובר אותי?`)} />}
     </div>
   )
 }

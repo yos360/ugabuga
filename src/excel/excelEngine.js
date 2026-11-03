@@ -233,12 +233,12 @@ export function evaluate(cells) {
 // ── display ───────────────────────────────
 const nf = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 })
 const cf = new Intl.NumberFormat('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
-export function display(v, fmt) {
+export function display(v, fmt, cur = '₪') {
   if (v == null) return ''
   if (isErr(v)) return v.code
   if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE'
   if (typeof v === 'number') {
-    if (fmt?.cur) return '₪' + cf.format(v)
+    if (fmt?.cur) return cur + cf.format(v)
     return String(Math.abs(v) >= 1000 ? Math.round(v * 100) / 100 : nf.format(v)).replace(/,/g, '')
   }
   return String(v)

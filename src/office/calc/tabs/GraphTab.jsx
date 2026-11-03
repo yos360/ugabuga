@@ -12,7 +12,8 @@ function niceStep(raw) {
   return [1, 2, 5, 10].find(m => m * p >= raw) * p
 }
 
-export default function GraphTab({ seed }) {
+const same = s => s
+export default function GraphTab({ seed, t = same }) {
   const [funcs, setFuncs] = useState(['x²−4', '2x+1', ''])
   const [view, setView] = useState(HOME)
   const [size, setSize] = useState({ w: 600, h: 380 })
@@ -37,8 +38,8 @@ export default function GraphTab({ seed }) {
 
   const compiled = useMemo(() => funcs.map(src => {
     if (!src.trim()) return null
-    try { return { f: compile(src, { angle: 'rad' }) } } catch (e) { return { error: e instanceof CalcError ? e.message : 'שגיאה' } }
-  }), [funcs])
+    try { return { f: compile(src, { angle: 'rad' }) } } catch (e) { return { error: t(e instanceof CalcError ? e.message : 'שגיאה') } }
+  }), [funcs, t])
 
   const points = useMemo(() => {
     const { w } = size; const { cx, scale } = view
@@ -46,16 +47,16 @@ export default function GraphTab({ seed }) {
     const list = []
     const fs = compiled.map((c, i) => (c?.f ? { f: c.f, i } : null)).filter(Boolean)
     for (const { f, i } of fs) {
-      for (const x of findZeros(f, a, b)) list.push({ x, y: 0, i, kind: `שורש של y${i + 1}` })
+      for (const x of findZeros(f, a, b)) list.push({ x, y: 0, i, kind: t(`שורש של y${i + 1}`) })
       const y0 = f(0)
-      if (Number.isFinite(y0) && a <= 0 && b >= 0) list.push({ x: 0, y: y0, i, kind: `חיתוך y${i + 1} עם ציר y` })
+      if (Number.isFinite(y0) && a <= 0 && b >= 0) list.push({ x: 0, y: y0, i, kind: t(`חיתוך y${i + 1} עם ציר y`) })
     }
     for (let p = 0; p < fs.length; p++) for (let q = p + 1; q < fs.length; q++) {
       const F = fs[p].f; const G = fs[q].f
-      for (const x of findZeros(t => F(t) - G(t), a, b)) list.push({ x, y: F(x), i: -1, kind: `חיתוך y${fs[p].i + 1} ו־y${fs[q].i + 1}` })
+      for (const x of findZeros(t => F(t) - G(t), a, b)) list.push({ x, y: F(x), i: -1, kind: t(`חיתוך y${fs[p].i + 1} ו־y${fs[q].i + 1}`) })
     }
     return list.slice(0, 24)
-  }, [compiled, view, size])
+  }, [compiled, view, size, t])
 
   // draw
   useEffect(() => {
@@ -158,24 +159,24 @@ export default function GraphTab({ seed }) {
 
   return <div className="sc-panel">
     <section className="sc-card">
-      <h2 className="sc-h2">שרטוט גרפים</h2>
+      <h2 className="sc-h2">{t('שרטוט גרפים')}</h2>
       <div className="sc-funcs">
         {funcs.map((f, i) => <label key={i} className="sc-func" dir="ltr">
           <span style={{ color: COLORS[i] }}>y{i + 1} =</span>
-          <input className={`sc-input${compiled[i]?.error ? ' sc-input-bad' : ''}`} value={f} placeholder={i === 2 ? 'sin(x)' : ''} onChange={e => setFuncs(o => o.map((x, j) => (j === i ? e.target.value : x)))} aria-label={`פונקציה ${i + 1}`} spellCheck={false} autoCapitalize="off" />
-          {compiled[i]?.error && <small className="sc-err" dir="rtl">⚠ {compiled[i].error}</small>}
+          <input className={`sc-input${compiled[i]?.error ? ' sc-input-bad' : ''}`} value={f} placeholder={i === 2 ? 'sin(x)' : ''} onChange={e => setFuncs(o => o.map((x, j) => (j === i ? e.target.value : x)))} aria-label={t(`פונקציה ${i + 1}`)} spellCheck={false} autoCapitalize="off" />
+          {compiled[i]?.error && <small className="sc-err" dir={t === same ? 'rtl' : 'ltr'}>⚠ {compiled[i].error}</small>}
         </label>)}
       </div>
       <div className="sc-graph" ref={wrapRef}>
-        <canvas ref={canvasRef} className="sc-canvas" style={{ width: size.w, height: size.h }} role="img" aria-label="גרף הפונקציות"
+        <canvas ref={canvasRef} className="sc-canvas" style={{ width: size.w, height: size.h }} role="img" aria-label={t('גרף הפונקציות')}
           onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onDoubleClick={e => { const p = pos(e); zoomAt(2, p.x, p.y) }} />
         <div className="sc-zoom">
-          <button type="button" className="sc-pill" onClick={() => zoomAt(1.5, size.w / 2, size.h / 2)} aria-label="הגדלה" title="הגדלה (גלגלת / צביטה)">＋</button>
-          <button type="button" className="sc-pill" onClick={() => zoomAt(1 / 1.5, size.w / 2, size.h / 2)} aria-label="הקטנה" title="הקטנה">－</button>
-          <button type="button" className="sc-pill" onClick={() => setView(HOME)} aria-label="חזרה למרכז" title="חזרה למרכז">⌂</button>
+          <button type="button" className="sc-pill" onClick={() => zoomAt(1.5, size.w / 2, size.h / 2)} aria-label={t('הגדלה')} title={t('הגדלה (גלגלת / צביטה)')}>＋</button>
+          <button type="button" className="sc-pill" onClick={() => zoomAt(1 / 1.5, size.w / 2, size.h / 2)} aria-label={t('הקטנה')} title={t('הקטנה')}>－</button>
+          <button type="button" className="sc-pill" onClick={() => setView(HOME)} aria-label={t('חזרה למרכז')} title={t('חזרה למרכז')}>⌂</button>
         </div>
       </div>
-      <p className="sc-sub">גוררים כדי להזיז, גלגלת או צביטה כדי להגדיל. כותבים x בתור המשתנה: 2x+1, x²−4, sin(x). בגרפים הזוויות ברדיאנים.</p>
+      <p className="sc-sub">{t('גוררים כדי להזיז, גלגלת או צביטה כדי להגדיל. כותבים x בתור המשתנה: 2x+1, x²−4, sin(x). בגרפים הזוויות ברדיאנים.')}</p>
       {points.length > 0 && <ul className="sc-points">{points.map((p, n) => <li key={n}><span className="sc-dot" style={{ borderColor: p.i >= 0 ? COLORS[p.i] : 'currentColor' }} />{p.kind}: <b dir="ltr">({fmt(p.x)}, {fmt(p.y)})</b></li>)}</ul>}
     </section>
   </div>

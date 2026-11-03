@@ -29,6 +29,5 @@
 .cc-dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .cc-dots button{width:12px;height:12px;border-radius:50%;border:2px solid var(--border,#1d2233);background:#fff;padding:0}
 .cc-dots button[aria-current="true"]{background:#5b4bc4}
-@media (prefers-color-scheme: dark){.cc-slide{background:linear-gradient(180deg,#2a2614,#1e2233)}.cc-card{background:#1e2233}.cc-card.is-sun{background:#3a2f1a}.cc-card.is-cold{background:#1e2a44}.cc-next{background:#3a2f1a}.cc-title{color:#1d2233}}
 .cc-clock figcaption{font-size:15px}
 @media (max-width:520px){.cc-title{font-size:22px}.cc-body{font-size:17px}.cc-arrow{font-size:28px}}

@@ -59,12 +59,13 @@ const tokenize = source => {
   return tokens.join('') === normalized ? tokens : null
 }
 
-export function evaluateExpression(source, numbers) {
+export function evaluateExpression(source, numbers, lang = 'he') {
+  const en = lang === 'en'
   const tokens = tokenize(source)
-  if (!tokens) return { ok: false, error: 'יש בתרגיל סימן שלא ניתן להשתמש בו' }
+  if (!tokens) return { ok: false, error: en ? 'The expression has a symbol that cannot be used' : 'יש בתרגיל סימן שלא ניתן להשתמש בו' }
   const used = tokens.filter(token => /^\d+$/.test(token)).map(Number).sort((a, b) => a - b)
   const expected = [...numbers].sort((a, b) => a - b)
-  if (used.length !== 4 || used.some((value, index) => value !== expected[index])) return { ok: false, error: 'צריך להשתמש בכל אחד מארבעת המספרים פעם אחת בדיוק' }
+  if (used.length !== 4 || used.some((value, index) => value !== expected[index])) return { ok: false, error: en ? 'Use each of the four numbers exactly once' : 'צריך להשתמש בכל אחד מארבעת המספרים פעם אחת בדיוק' }
   let index = 0
   const primary = () => {
     if (tokens[index] === '(') {
@@ -96,12 +97,18 @@ export function evaluateExpression(source, numbers) {
     return value
   }
   const value = expression()
-  if (!value || index !== tokens.length) return { ok: false, error: 'התרגיל אינו שלם' }
-  return { ok: value.n === 24 * value.d, value: value.d === 1 ? value.n : value.n / value.d, error: value.n === 24 * value.d ? null : `התוצאה היא ${value.d === 1 ? value.n : `${value.n}/${value.d}`}, לא 24` }
+  if (!value || index !== tokens.length) return { ok: false, error: en ? 'The expression is not complete' : 'התרגיל אינו שלם' }
+  const shown = value.d === 1 ? value.n : `${value.n}/${value.d}`
+  return { ok: value.n === 24 * value.d, value: value.d === 1 ? value.n : value.n / value.d, error: value.n === 24 * value.d ? null : (en ? `The result is ${shown}, not 24` : `התוצאה היא ${shown}, לא 24`) }
 }
 
 export const cleanSolution = expression => expression.replace(/^\((.*)\)$/, '$1')
-export const hintFor = (solution, step) => {
+export const hintFor = (solution, step, lang = 'he') => {
+  if (lang === 'en') {
+    if (step === 0) return `The last step of the solution is ${solution.includes(')+(') ? 'adding or subtracting two groups' : 'an operation between intermediate results'}`
+    if (step === 1) return `Try starting with ${solution.match(/\([^()]+\)/)?.[0] || 'the part in parentheses'}`
+    return `One possible solution: ${cleanSolution(solution)} = 24`
+  }
   if (step === 0) return `הפעולה האחרונה בפתרון היא ${solution.includes(')+(') ? 'חיבור או חיסור בין שתי קבוצות' : 'פעולה בין תוצאות ביניים'}`
   if (step === 1) return `כדאי להתחיל מהחלק ${solution.match(/\([^()]+\)/)?.[0] || 'שבסוגריים'}`
   return `פתרון אפשרי: ${cleanSolution(solution)} = 24`

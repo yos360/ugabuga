@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { buildLevel, blocker, freeTiles, WORLDS, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/arrows'
+import { buildLevel, blocker, freeTiles, WORLDS, WORLD_NAMES_EN, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/arrows'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard, LevelMap } from '../ui'
 
@@ -9,7 +9,8 @@ const ROT = { right: 0, down: 90, left: 180, up: 270 }
 const VEC = { right: [1, 0], left: [-1, 0], up: [0, -1], down: [0, 1] }
 const LIVES = 3
 
-export default function ArrowEscape({ onReport, onShare, daily }) {
+export default function ArrowEscape({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('arrow-escape', { level: 1, stars: {} })
   const [level, setLevel] = useState(daily?.level ?? progress.level)
   const [run, setRun] = useState(0)
@@ -56,10 +57,10 @@ export default function ArrowEscape({ onReport, onShare, daily }) {
 
   useEffect(() => {
     if (!won) return
-    if (daily) { daily.finish({ text: `➡️ חיצים בורחים: פיניתי את הלוח עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
+    if (daily) { daily.finish({ text: en ? `➡️ Escaping Arrows: I cleared the board with ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'}` : `➡️ חיצים בורחים: פיניתי את הלוח עם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}`, score: mistakes, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1), stars: { ...(p.stars || {}), [level]: Math.max((p.stars || {})[level] || 0, Math.max(1, LIVES - mistakes)) } }))
-    onReport?.({ text: `🏆 עברתי את שלב ${level} בחיצים בורחים${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
-  }, [won, level, mistakes, saveProgress, onReport, daily])
+    onReport?.({ text: en ? `🏆 I beat level ${level} of Escaping Arrows${mistakes ? '' : ' with no mistakes'}! Can you beat me?` : `🏆 עברתי את שלב ${level} בחיצים בורחים${mistakes ? '' : ' בלי אף טעות'}! מי מנצח אותי?` })
+  }, [won, level, mistakes, saveProgress, onReport, daily, en])
 
   // Automated-test helper (localStorage 'buga-debug' = '1'): taps one free tile.
   useEffect(() => {
@@ -73,13 +74,13 @@ export default function ArrowEscape({ onReport, onShare, daily }) {
   const wld = worldOf(level)
   return (
     <div className="arc-game ae-game">
-      <Hud stats={[['שלב', `${level} ${wld.emoji}`], ['נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={`${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
-        {!daily && <ToolButton onClick={() => setMap(true)} label="מפת שלבים">🗺️</ToolButton>}
-        <ToolButton onClick={hint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Level' : 'שלב', `${level} ${wld.emoji}`], [en ? 'Left' : 'נשארו', left], ['', <span key="h" className="fc-hearts" aria-label={en ? `${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'}` : `${LIVES - mistakes} לבבות`}>{Array.from({ length: LIVES }, (_, i) => <span key={i} className={i < LIVES - mistakes ? 'on' : ''}>♥</span>)}</span>]]}>
+        {!daily && <ToolButton onClick={() => setMap(true)} label={en ? 'Level map' : 'מפת שלבים'}>🗺️</ToolButton>}
+        <ToolButton onClick={hint} label={en ? 'Hint' : 'רמז'}>💡</ToolButton>
+        <ToolButton onClick={() => start(level)} label={en ? 'Restart level' : 'שלב מחדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field ae-field" ref={boxRef}>
-        {box.w > 0 && <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="ae-board" role="group" aria-label={`לוח של ${left} חיצים`} style={{ overflow: 'visible' }}>
+        {box.w > 0 && <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="ae-board" role="group" aria-label={en ? `Board with ${left} arrows` : `לוח של ${left} חיצים`} style={{ overflow: 'visible' }}>
           {board.tiles.map(t => {
             if (t.gone) return null
             const fly = flying.has(t.id), [vx, vy] = VEC[t.d], far = (board.w + board.h) * cell
@@ -87,7 +88,7 @@ export default function ArrowEscape({ onReport, onShare, daily }) {
             const p = cell * 0.06, s = cell - p * 2
             return <g key={isBump || isBlock ? `${t.id}-${bump.k}` : t.id} className={`ae-tile ${isBump ? 'is-bump' : ''} ${isBlock ? 'is-block' : ''} ${hintId === t.id ? 'is-hint' : ''}`}
               role="button" tabIndex={fly || won || lost ? -1 : 0} aria-disabled={fly || won || lost}
-              aria-label={`חץ בשורה ${t.y + 1}, עמודה ${t.x + 1}, ${vx > 0 ? 'ימינה' : vx < 0 ? 'שמאלה' : vy > 0 ? 'למטה' : 'למעלה'}`}
+              aria-label={en ? `Arrow in row ${t.y + 1}, column ${t.x + 1}, pointing ${vx > 0 ? 'right' : vx < 0 ? 'left' : vy > 0 ? 'down' : 'up'}` : `חץ בשורה ${t.y + 1}, עמודה ${t.x + 1}, ${vx > 0 ? 'ימינה' : vx < 0 ? 'שמאלה' : vy > 0 ? 'למטה' : 'למעלה'}`}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tap(t) } }}
               style={{ transform: `translate(${t.x * cell + (fly ? vx * far : 0)}px, ${t.y * cell + (fly ? vy * far : 0)}px)`, opacity: fly ? 0 : 1, '--bx': `${vx * cell * 0.18}px`, '--by': `${vy * cell * 0.18}px` }}
               onPointerDown={e => { e.preventDefault(); tap(t) }}>
@@ -98,16 +99,16 @@ export default function ArrowEscape({ onReport, onShare, daily }) {
             </g>
           })}
         </svg>}
-        <p className="fc-help" aria-hidden="true">👆 לוחצים על חץ שהדרך שלו פנויה</p>
+        <p className="fc-help" aria-hidden="true">{en ? '👆 Tap an arrow whose way is clear' : '👆 לוחצים על חץ שהדרך שלו פנויה'}</p>
       </div>
-      {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} worlds={WORLDS} unlocked={progress.level} stars={progress.stars} current={level}
+      {map && <LevelMap count={Math.max(LEVEL_COUNT, Math.ceil(progress.level / PER_WORLD) * PER_WORLD)} perWorld={PER_WORLD} lang={lang} worlds={en ? WORLDS.map((w, i) => ({ ...w, name: WORLD_NAMES_EN[i] })) : WORLDS} unlocked={progress.level} stars={progress.stars} current={level}
         onPick={n => { setMap(false); start(n) }} onClose={() => setMap(false)} />}
-      {lost && !won && <EndCard title="💔 נגמרו הלבבות" text="שלוש פעמים לחצתם על חץ חסום. מנסים שוב? טיפ: התחילו מהחיצים שבשוליים שמצביעים החוצה."
-        primary="🔄 לנסות שוב" onPrimary={() => start(level)} />}
-      {won && !daily && <EndCard title={stars === 3 ? '🎉 מושלם!' : '🎉 כל הכבוד!'} stars={stars}
-        text={mistakes ? `פיניתם את כל הלוח ונשארו לכם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}.` : 'פיניתם הכול בלי לאבד אף לב!'}
-        primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🏆 עברתי את שלב ${level} בחיצים בורחים! מי מנצח אותי?`)} />}
+      {lost && !won && <EndCard lang={lang} title={en ? '💔 Out of hearts' : '💔 נגמרו הלבבות'} text={en ? 'You tapped a blocked arrow three times. Try again? Tip: start with the arrows on the edge that point outward.' : 'שלוש פעמים לחצתם על חץ חסום. מנסים שוב? טיפ: התחילו מהחיצים שבשוליים שמצביעים החוצה.'}
+        primary={en ? '🔄 Try again' : '🔄 לנסות שוב'} onPrimary={() => start(level)} />}
+      {won && !daily && <EndCard lang={lang} title={stars === 3 ? (en ? '🎉 Perfect!' : '🎉 מושלם!') : (en ? '🎉 Well done!' : '🎉 כל הכבוד!')} stars={stars}
+        text={en ? (mistakes ? `You cleared the whole board with ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'heart' : 'hearts'} left.` : 'You cleared everything without losing a heart!') : (mistakes ? `פיניתם את כל הלוח ונשארו לכם ${LIVES - mistakes} ${LIVES - mistakes === 1 ? 'לב' : 'לבבות'}.` : 'פיניתם הכול בלי לאבד אף לב!')}
+        primary={en ? '▶ Next level' : '▶ לשלב הבא'} onPrimary={() => start(level + 1)}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `🏆 I beat level ${level} of Escaping Arrows! Can you beat me?` : `🏆 עברתי את שלב ${level} בחיצים בורחים! מי מנצח אותי?`)} />}
     </div>
   )
 }

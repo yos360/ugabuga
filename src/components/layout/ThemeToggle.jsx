@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Moon, Sun } from 'lucide-react'
 
-// Dark mode is opt-in and remembered on this device. index.html applies the saved choice before
-// the first paint; the look itself is a single CSS rule in index.css (html[data-theme="dark"]).
+// index.html picks the theme before the first paint: dark automatically from dusk to sunrise (like Waze),
+// unless the visitor chose here — "dark" is remembered, "light" holds for 12 hours and then night mode
+// returns. The look itself is a single CSS rule in index.css (html[data-theme="dark"]).
 const read = () => (typeof document !== 'undefined' && document.documentElement.dataset.theme === 'dark')
 
 export default function ThemeToggle({ className = 'site-icon-button', withLabel = false }) {
@@ -11,7 +12,8 @@ export default function ThemeToggle({ className = 'site-icon-button', withLabel 
     const next = !dark
     if (next) document.documentElement.dataset.theme = 'dark'
     else delete document.documentElement.dataset.theme
-    try { localStorage.setItem('buga-theme', next ? 'dark' : 'light') } catch { /* private mode */ }
+    delete document.documentElement.dataset.themeAuto
+    try { localStorage.setItem('buga-theme', next ? 'dark' : 'light'); localStorage.setItem('buga-theme-at', String(Date.now())) } catch { /* private mode */ }
     setDark(next)
   }
   const label = dark ? 'מצב בהיר' : 'מצב כהה'

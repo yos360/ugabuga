@@ -7,9 +7,12 @@ import { LEVELS } from './ai'
 // Chess board on top of chess.js (rules) with a small computer player running in a Web Worker.
 const GLYPH = { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' }
 const NAME = { k: 'מלך', q: 'מלכה', r: 'צריח', b: 'רץ', n: 'פרש', p: 'רגלי' }
+const NAME_EN = { k: 'king', q: 'queen', r: 'rook', b: 'bishop', n: 'knight', p: 'pawn' }
+const LEVEL_EN = { 1: 'Easy', 2: 'Medium', 3: 'Hard' }
 const FILES = 'abcdefgh'
 
-function Board({ fen, onMove, disabled, lastMove, flipped = false }) {
+function Board({ fen, onMove, disabled, lastMove, flipped = false, lang = 'he' }) {
+  const en = lang === 'en'
   const game = useMemo(() => new Chess(fen), [fen])
   const [sel, setSel] = useState(null)
   useEffect(() => setSel(null), [fen])
@@ -30,7 +33,7 @@ function Board({ fen, onMove, disabled, lastMove, flipped = false }) {
     cells.push(
       <button key={sq} type="button" onClick={() => click(sq)}
         className={['ch-cell', dark ? 'is-dark' : 'is-light', sel === sq ? 'is-sel' : '', lastMove && (lastMove.from === sq || lastMove.to === sq) ? 'is-last' : '', check === sq ? 'is-check' : ''].join(' ')}
-        aria-label={`${sq}${p ? ` ${p.color === 'w' ? 'לבן' : 'שחור'} ${NAME[p.type]}` : ''}`}>
+        aria-label={`${sq}${p ? (en ? ` ${p.color === 'w' ? 'white' : 'black'} ${NAME_EN[p.type]}` : ` ${p.color === 'w' ? 'לבן' : 'שחור'} ${NAME[p.type]}`) : ''}`}>
         {p && <span className={`ch-piece ${p.color === 'w' ? 'is-w' : 'is-b'}`}>{GLYPH[p.type]}</span>}
         {t && <span className={t.captured ? 'ch-cap' : 'ch-dot'} aria-hidden="true" />}
         {vc === 0 && <small className="ch-rank">{8 - r}</small>}
@@ -61,7 +64,8 @@ const captured = (fen, color) => {
   return Object.keys(start).flatMap(t => Array(Math.max(0, start[t] - have[t])).fill(GLYPH[t])).join('')
 }
 
-export function ChessPlay() {
+export function ChessPlay({ lang = 'he' }) {
+  const en = lang === 'en'
   const sticky = useStickyBar()
   const [mode, setMode] = useState('computer')
   const [level, setLevel] = useState(1)
@@ -96,9 +100,14 @@ export function ChessPlay() {
 
   const restart = () => { think.cancel(); setHistory([{ fen: new Chess().fen(), move: null }]); setThinking(false) }
   const undo = () => { think.cancel(); setThinking(false); setHistory(h => { let n = mode === 'computer' ? (game.turn() === 'w' ? 2 : 1) : 1; return h.slice(0, Math.max(1, h.length - n)) }) }
-  const side = c => (c === 'w' ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
+  const side = c => (en ? (c === 'w' ? (mode === 'computer' ? 'You (white)' : 'White') : mode === 'computer' ? 'Computer (black)' : 'Black') : c === 'w' ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
   let status
-  if (game.isCheckmate()) { const w = game.turn() === 'w' ? 'b' : 'w'; status = mode === 'computer' ? (w === 'w' ? '🏆 מט! ניצחתם!' : '🏆 מט! המחשב ניצח') : `🏆 מט! ${w === 'w' ? 'הלבנים' : 'השחורים'} ניצחו` }
+  if (en) {
+    if (game.isCheckmate()) { const w = game.turn() === 'w' ? 'b' : 'w'; status = mode === 'computer' ? (w === 'w' ? '🏆 Checkmate! You win!' : '🏆 Checkmate! The computer wins') : `🏆 Checkmate! ${w === 'w' ? 'White' : 'Black'} wins` }
+    else if (game.isStalemate()) status = '🤝 Stalemate: the player to move has no legal move but is not in check. A draw!'
+    else if (game.isDraw()) status = '🤝 A draw'
+    else status = cpuTurn || thinking ? '🤔 The computer is thinking…' : `Turn: ${side(game.turn())}${game.inCheck() ? ' - ⚠️ Check! Save your king' : ''}`
+  } else if (game.isCheckmate()) { const w = game.turn() === 'w' ? 'b' : 'w'; status = mode === 'computer' ? (w === 'w' ? '🏆 מט! ניצחתם!' : '🏆 מט! המחשב ניצח') : `🏆 מט! ${w === 'w' ? 'הלבנים' : 'השחורים'} ניצחו` }
   else if (game.isStalemate()) status = '🤝 פט – למי שבתור אין מהלך חוקי, אבל הוא לא בשח. תיקו!'
   else if (game.isDraw()) status = '🤝 תיקו'
   else status = cpuTurn || thinking ? '🤔 המחשב חושב…' : `תור: ${side(game.turn())}${game.inCheck() ? ' – ⚠️ שח! צריך להציל את המלך' : ''}`
@@ -106,21 +115,21 @@ export function ChessPlay() {
   return (
     <div className="bg-play">
       <div className="bg-controls">
-        <label>מצב: <select value={mode} onChange={e => { setMode(e.target.value); restart() }}><option value="computer">נגד המחשב</option><option value="friend">נגד חבר (על אותו מסך)</option></select></label>
-        {mode === 'computer' && <label>רמה: <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select></label>}
+        <label>{en ? 'Mode:' : 'מצב:'} <select value={mode} onChange={e => { setMode(e.target.value); restart() }}><option value="computer">{en ? 'Against the computer' : 'נגד המחשב'}</option><option value="friend">{en ? 'Against a friend (same screen)' : 'נגד חבר (על אותו מסך)'}</option></select></label>
+        {mode === 'computer' && <label>{en ? 'Level:' : 'רמה:'} <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{en ? LEVEL_EN[l.id] : l.label}</option>)}</select></label>}
       </div>
       {/* Status stays pinned above the board while scrolling on a tablet. */}
       <div ref={sticky.slotRef} style={sticky.slotStyle}><div ref={sticky.barRef} style={sticky.barStyle} className={`bg-sticky${sticky.pinned ? ' is-pinned' : ''}`}>
         <p className="bg-status" role="status">{status}</p>
-        <p className="ch-captured" aria-label="כלים שנאכלו">{captured(fen, 'w')}</p>
+        <p className="ch-captured" aria-label={en ? 'Captured pieces' : 'כלים שנאכלו'}>{captured(fen, 'w')}</p>
       </div></div>
-      <Board fen={fen} onMove={play} disabled={over || cpuTurn || thinking} lastMove={last} />
-      <p className="ch-captured" aria-label="כלים שנאכלו">{captured(fen, 'b')}</p>
+      <Board fen={fen} onMove={play} disabled={over || cpuTurn || thinking} lastMove={last} lang={lang} />
+      <p className="ch-captured" aria-label={en ? 'Captured pieces' : 'כלים שנאכלו'}>{captured(fen, 'b')}</p>
       <div className="bg-actions">
-        <button type="button" className="bg-primary" onClick={restart}>🔄 משחק חדש</button>
-        <button type="button" onClick={undo} disabled={history.length < 2 || thinking}>↩️ ביטול מהלך</button>
+        <button type="button" className="bg-primary" onClick={restart}>{en ? '🔄 New game' : '🔄 משחק חדש'}</button>
+        <button type="button" onClick={undo} disabled={history.length < 2 || thinking}>{en ? '↩️ Undo move' : '↩️ ביטול מהלך'}</button>
       </div>
-      <p className="bgm-hint">רגלי שמגיע לקצה הלוח הופך אוטומטית למלכה.</p>
+      <p className="bgm-hint">{en ? 'A pawn that reaches the far edge of the board becomes a queen automatically.' : 'רגלי שמגיע לקצה הלוח הופך אוטומטית למלכה.'}</p>
     </div>
   )
 }

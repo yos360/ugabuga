@@ -9,7 +9,8 @@ const BALLS = [
   ['#5b6cff', '◆'], ['#b26bff', '✿'], ['#ff7ad1', '☾'], ['#a5733f', '✚'], ['#c9ced8', '♣'],
 ]
 
-export default function BallSort({ onReport, onShare, daily }) {
+export default function BallSort({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('ball-sort', { level: 1 })
   const [level, setLevel] = useState(daily?.level ?? progress.level)
   const [tubes, setTubes] = useState(() => buildLevel(daily?.level ?? progress.level))
@@ -49,18 +50,18 @@ export default function BallSort({ onReport, onShare, daily }) {
 
   useEffect(() => {
     if (!won) return
-    if (daily) { daily.finish({ text: `🧪 מיון כדורים: סידרתי ב־${history.length} מהלכים`, score: history.length, won: true }); return }
+    if (daily) { daily.finish({ text: en ? `🧪 Ball sort: sorted in ${history.length} moves` : `🧪 מיון כדורים: סידרתי ב־${history.length} מהלכים`, score: history.length, won: true }); return }
     saveProgress(p => ({ level: Math.max(p.level, level + 1) }))
-    onReport?.({ text: `🧪 סיימתי את שלב ${level} במיון כדורים ב־${history.length} מהלכים!` })
-  }, [won, level, history.length, saveProgress, onReport, daily])
+    onReport?.({ text: en ? `🧪 I finished level ${level} of Ball Sort in ${history.length} moves!` : `🧪 סיימתי את שלב ${level} במיון כדורים ב־${history.length} מהלכים!` })
+  }, [won, level, history.length, saveProgress, onReport, daily, en])
 
   const rows = Array.from({ length: layout.rows }, (_, r) => tubes.map((t, i) => [t, i]).slice(r * layout.perRow, (r + 1) * layout.perRow))
   return (
     <div className="arc-game">
-      <Hud stats={[['שלב', level], ['מהלכים', history.length]]}>
-        <ToolButton onClick={undo} disabled={!history.length} label="ביטול מהלך">↩</ToolButton>
-        <ToolButton onClick={addTube} disabled={extraUsed} label="מבחנה נוספת">➕</ToolButton>
-        <ToolButton onClick={() => start(level)} label="שלב מחדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Level' : 'שלב', level], [en ? 'Moves' : 'מהלכים', history.length]]}>
+        <ToolButton onClick={undo} disabled={!history.length} label={en ? 'Undo' : 'ביטול מהלך'}>↩</ToolButton>
+        <ToolButton onClick={addTube} disabled={extraUsed} label={en ? 'Extra tube' : 'מבחנה נוספת'}>➕</ToolButton>
+        <ToolButton onClick={() => start(level)} label={en ? 'Restart level' : 'שלב מחדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field" ref={boxRef}>
         <div className="bs-rack" style={{ '--ball': `${layout.ball}px`, '--tube-gap': `${layout.ball * 0.5}px`, '--row-gap': `${layout.ball * 0.9}px` }}>
@@ -69,7 +70,7 @@ export default function BallSort({ onReport, onShare, daily }) {
               {row.map(([t, i]) => {
                 const done = t.length === CAP && t.every(b => b === t[0])
                 return (
-                  <button type="button" key={i} onClick={() => tapTube(i)} aria-label={`מבחנה ${i + 1}: ${t.length} כדורים`}
+                  <button type="button" key={i} onClick={() => tapTube(i)} aria-label={en ? `Tube ${i + 1}: ${t.length} balls` : `מבחנה ${i + 1}: ${t.length} כדורים`}
                     className={`bs-tube${sel === i ? ' is-sel' : ''}${done ? ' is-done' : ''}${bad === i ? ' is-bad' : ''}`}>
                     {t.map((b, k) => (
                       <span key={k} className={`bs-ball${sel === i && k === t.length - 1 ? ' is-up' : ''}`} style={{ background: BALLS[b][0] }}>{BALLS[b][1]}</span>
@@ -80,11 +81,11 @@ export default function BallSort({ onReport, onShare, daily }) {
             </div>
           ))}
         </div>
-        {sel !== null && !won && tubes[sel].length > 0 && <span className="sr-only" aria-live="polite">נבחר כדור {BALLS[top(tubes[sel])][1]}</span>}
+        {sel !== null && !won && tubes[sel].length > 0 && <span className="sr-only" aria-live="polite">{en ? 'Ball selected' : 'נבחר כדור'} {BALLS[top(tubes[sel])][1]}</span>}
       </div>
-      {won && !daily && <EndCard title="🎉 כל הכבוד!" text={`כל הצבעים מסודרים — ב־${history.length} מהלכים.`}
-        primary="▶ לשלב הבא" onPrimary={() => start(level + 1)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🧪 סיימתי את שלב ${level} במיון כדורים! תצליחו מהר יותר?`)} />}
+      {won && !daily && <EndCard title={en ? '🎉 Well done!' : '🎉 כל הכבוד!'} text={en ? `Every color is sorted, in ${history.length} moves.` : `כל הצבעים מסודרים — ב־${history.length} מהלכים.`}
+        primary={en ? '▶ Next level' : '▶ לשלב הבא'} onPrimary={() => start(level + 1)}
+        lang={lang} secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `🧪 I finished level ${level} of Ball Sort! Can you do it faster?` : `🧪 סיימתי את שלב ${level} במיון כדורים! תצליחו מהר יותר?`)} />}
     </div>
   )
 }

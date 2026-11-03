@@ -121,8 +121,19 @@ export function status(state) {
 
 // Full end-of-game sentence with correct Hebrew for whoever won/lost.
 // mode: 'computer' (human = dark, 1) or 'friend'.
-export function endMessage(st, mode = 'computer') {
+export function endMessage(st, mode = 'computer', lang = 'he') {
   if (!st?.over) return ''
+  if (lang === 'en') {
+    if (st.winner === 0) return '🤝 A draw! 25 king moves went by with no capture'
+    const blk = st.reason === 'blocked'
+    if (mode === 'computer') {
+      return st.winner === 1
+        ? (blk ? '🏆 You win! The computer has no legal move left' : "🏆 You win! All the computer's pieces were captured")
+        : (blk ? '🏆 The computer wins! You have no legal move left' : '🏆 The computer wins! All your pieces were captured')
+    }
+    const [wn, ls] = st.winner === 1 ? ['Dark', 'Light'] : ['Light', 'Dark']
+    return blk ? `🏆 ${wn} wins! ${ls} has no legal move left` : `🏆 ${wn} wins! All of ${ls}'s pieces were captured`
+  }
   if (st.winner === 0) return '🤝 תיקו! עברו 25 מהלכים של מלכים בלי שאף אבן נאכלה'
   const blocked = st.reason === 'blocked'
   if (mode === 'computer') {

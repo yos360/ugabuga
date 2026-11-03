@@ -1,0 +1,11 @@
+// English sudoku pages (pure data). Entries: { path, title, description, emoji, counterpart, hub?: { name, tagline, ages, color } }
+export const SUDOKU_PAGES = [
+  { path: '/en/sudoku', title: 'Free online sudoku - play from easy to very hard', description: 'Free online sudoku at four levels, with notes, undo and a timer. Daily sudoku, kids sudoku and a solver.', emoji: '🔢', counterpart: '/sudoku', hub: { name: 'Sudoku', tagline: 'Four levels from easy to very hard, a daily board, kids boards and a solver', ages: '6+', color: '#a8c8ff' } },
+  { path: '/en/sudoku/easy', title: 'Easy sudoku for beginners - play online for free', description: 'Easy 9x9 sudoku boards solved with simple logic and no guessing.', emoji: '🙂', counterpart: '/sudoku/easy' },
+  { path: '/en/sudoku/medium', title: 'Medium sudoku - free online, a new board every tap', description: 'Medium 9x9 sudoku boards with 27 to 35 clues. No guessing, but you have to search.', emoji: '🤔', counterpart: '/sudoku/medium' },
+  { path: '/en/sudoku/hard', title: 'Hard sudoku - play online for free', description: 'Hard sudoku boards that need notes, pairs and locked candidates.', emoji: '😤', counterpart: '/sudoku/hard' },
+  { path: '/en/sudoku/very-hard', title: 'Very hard sudoku - the big challenge, free online', description: 'Very hard sudoku for champions, with notes and undo.', emoji: '🔥', counterpart: '/sudoku/very-hard' },
+  { path: '/en/sudoku/kids', title: 'Kids sudoku - 4x4 and 6x6 boards to play online', description: 'Small 4x4 and 6x6 sudoku boards for children, solved with simple logic.', emoji: '🧒', counterpart: '/sudoku/kids' },
+  { path: '/en/sudoku/daily', title: "Daily sudoku - today's board, the same for everyone", description: 'A new sudoku every day, the same board for every player, at four levels.', emoji: '📅', counterpart: '/sudoku/daily' },
+  { path: '/en/sudoku/solver', title: 'Sudoku solver - type a board and get the solution', description: 'Type or paste a sudoku board and get the solution and difficulty.', emoji: '🧮', counterpart: '/sudoku/solver' },
+]

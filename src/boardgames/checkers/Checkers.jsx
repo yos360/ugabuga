@@ -5,7 +5,8 @@ import { VARIANTS, LEVELS, newGame, legalMoves, applyMove, status, endMessage, c
 // Interactive checkers board. Selection is step-by-step: tap a piece, then each landing square of the
 // capture chain, so multi-jumps are played exactly as on a real board.
 
-function Board({ state, onMove, disabled, flipped = false, lastMove }) {
+function Board({ state, onMove, disabled, flipped = false, lastMove, lang = 'he' }) {
+  const en = lang === 'en'
   const moves = useMemo(() => (disabled ? [] : legalMoves(state)), [state, disabled])
   const [prefix, setPrefix] = useState([])
   useEffect(() => setPrefix([]), [state])
@@ -36,7 +37,7 @@ function Board({ state, onMove, disabled, flipped = false, lastMove }) {
       shown.includes(i) ? 'is-path' : '', !prefix.length && mustCapture && movable.has(i) ? 'is-must' : ''].join(' ')
     cells.push(
       <button key={i} type="button" className={cls} disabled={!dark} onClick={() => click(i)}
-        aria-label={`${'אבגדהוזח'[c]}${8 - r}${p ? (p > 0 ? ' אבן כהה' : ' אבן בהירה') + (Math.abs(p) === 2 ? ' מלך' : '') : ''}`}>
+        aria-label={en ? `${'abcdefgh'[c]}${8 - r}${p ? (p > 0 ? ' dark piece' : ' light piece') + (Math.abs(p) === 2 ? ' king' : '') : ''}` : `${'אבגדהוזח'[c]}${8 - r}${p ? (p > 0 ? ' אבן כהה' : ' אבן בהירה') + (Math.abs(p) === 2 ? ' מלך' : '') : ''}`}>
         {p !== 0 && <span className={`ck-piece ${p > 0 ? 'ck-dark' : 'ck-light'}${prefix[0] === i || shown[shown.length - 1] === i && shown.length > 1 ? ' is-sel' : ''}`}>{Math.abs(p) === 2 && '👑'}</span>}
         {next.has(i) && !p && <span className="ck-dot" aria-hidden="true" />}
       </button>
@@ -47,7 +48,11 @@ function Board({ state, onMove, disabled, flipped = false, lastMove }) {
 
 const count = (b, s) => b.filter(p => Math.sign(p) === s).length
 
-export function CheckersPlay() {
+const LEVEL_EN = { 1: 'Easy', 2: 'Medium', 3: 'Hard' }
+const VARIANT_EN = { basic: 'Classic checkers (for kids)', intl: 'International 8x8' }
+
+export function CheckersPlay({ lang = 'he' }) {
+  const en = lang === 'en'
   const [variant, setVariant] = useState('basic')
   const [mode, setMode] = useState('computer')
   const [level, setLevel] = useState(1)
@@ -68,24 +73,24 @@ export function CheckersPlay() {
     while (n-- > 0 && s.history.length) { const h = s.history.at(-1); s = { ...s, board: h.prev, turn: -s.turn, history: s.history.slice(0, -1), quiet: 0 } }
     setState(s)
   }
-  const who = s => (s === 1 ? (mode === 'computer' ? 'אתם (כהים)' : 'הכהים') : mode === 'computer' ? 'המחשב (בהירים)' : 'הבהירים')
+  const who = s => en ? (s === 1 ? (mode === 'computer' ? 'You (dark)' : 'Dark') : mode === 'computer' ? 'Computer (light)' : 'Light') : (s === 1 ? (mode === 'computer' ? 'אתם (כהים)' : 'הכהים') : mode === 'computer' ? 'המחשב (בהירים)' : 'הבהירים')
 
   return (
     <div className="bg-play">
       <div className="bg-controls">
-        <label>מצב: <select value={mode} onChange={e => { setMode(e.target.value); restart() }}><option value="computer">נגד המחשב</option><option value="friend">נגד חבר (על אותו מסך)</option></select></label>
-        {mode === 'computer' && <label>רמה: <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select></label>}
-        <label>חוקים: <select value={variant} onChange={e => { setVariant(e.target.value); restart(e.target.value) }}>{Object.values(VARIANTS).map(v => <option key={v.id} value={v.id}>{v.label}</option>)}</select></label>
+        <label>{en ? 'Mode:' : 'מצב:'} <select value={mode} onChange={e => { setMode(e.target.value); restart() }}><option value="computer">{en ? 'Against the computer' : 'נגד המחשב'}</option><option value="friend">{en ? 'Against a friend (same screen)' : 'נגד חבר (על אותו מסך)'}</option></select></label>
+        {mode === 'computer' && <label>{en ? 'Level:' : 'רמה:'} <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{en ? LEVEL_EN[l.id] : l.label}</option>)}</select></label>}
+        <label>{en ? 'Rules:' : 'חוקים:'} <select value={variant} onChange={e => { setVariant(e.target.value); restart(e.target.value) }}>{Object.values(VARIANTS).map(v => <option key={v.id} value={v.id}>{en ? VARIANT_EN[v.id] : v.label}</option>)}</select></label>
       </div>
       <p className="bg-status" role="status">
-        {st.over ? endMessage(st, mode)
-          : cpuTurn ? '🤔 המחשב חושב…' : `תור: ${who(state.turn)}${legalMoves(state)[0]?.captures.length ? ' – חובה לאכול!' : ''}`}
+        {st.over ? endMessage(st, mode, lang)
+          : cpuTurn ? (en ? '🤔 The computer is thinking…' : '🤔 המחשב חושב…') : `${en ? 'Turn' : 'תור'}: ${who(state.turn)}${legalMoves(state)[0]?.captures.length ? (en ? ' - you must capture!' : ' – חובה לאכול!') : ''}`}
       </p>
-      <Board state={state} onMove={m => setState(s => applyMove(s, m))} disabled={st.over || cpuTurn} lastMove={last} />
-      <div className="bg-score"><span>⚫ כהים: {count(state.board, 1)}</span><span>⚪ בהירים: {count(state.board, -1)}</span></div>
+      <Board state={state} onMove={m => setState(s => applyMove(s, m))} disabled={st.over || cpuTurn} lastMove={last} lang={lang} />
+      <div className="bg-score"><span>{en ? '⚫ Dark' : '⚫ כהים'}: {count(state.board, 1)}</span><span>{en ? '⚪ Light' : '⚪ בהירים'}: {count(state.board, -1)}</span></div>
       <div className="bg-actions">
-        <button type="button" className="bg-primary" onClick={() => restart()}>🔄 משחק חדש</button>
-        <button type="button" onClick={undo} disabled={!state.history.length}>↩️ ביטול מהלך</button>
+        <button type="button" className="bg-primary" onClick={() => restart()}>{en ? '🔄 New game' : '🔄 משחק חדש'}</button>
+        <button type="button" onClick={undo} disabled={!state.history.length}>{en ? '↩️ Undo move' : '↩️ ביטול מהלך'}</button>
       </div>
     </div>
   )

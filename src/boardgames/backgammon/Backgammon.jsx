@@ -15,7 +15,8 @@ function Stack({ n, color, max = 5, top }) {
 }
 
 // The board. `moves` = allowed single moves; selection is two taps: source, then destination.
-function Board({ s, moves = [], onMove, flipColors }) {
+function Board({ s, moves = [], onMove, flipColors, lang = 'he' }) {
+  const en = lang === 'en'
   const [from, setFrom] = useState(null)
   useEffect(() => setFrom(null), [s])
   const sources = new Set(moves.map(m => m.from))
@@ -29,13 +30,13 @@ function Board({ s, moves = [], onMove, flipColors }) {
   const cell = (p, top) => {
     if (p === 'bar') {
       const pl = top ? CPU : HUMAN
-      return <button key={'bar' + top} type="button" className={`bgm-bar${sources.has('bar') && s.turn === pl ? ' is-src' : ''}${from === 'bar' && s.turn === pl ? ' is-sel' : ''}`} onClick={() => s.turn === pl && pick('bar')} aria-label={`בר: ${s.bar[pl]}`}>
+      return <button key={'bar' + top} type="button" className={`bgm-bar${sources.has('bar') && s.turn === pl ? ' is-src' : ''}${from === 'bar' && s.turn === pl ? ' is-sel' : ''}`} onClick={() => s.turn === pl && pick('bar')} aria-label={en ? `Bar: ${s.bar[pl]}` : `בר: ${s.bar[pl]}`}>
         {s.bar[pl] > 0 && <Stack n={s.bar[pl]} color={col(pl)} top={top} max={3} />}
       </button>
     }
     const v = s.pts[p], n = Math.abs(v)
     const cls = ['bgm-pt', top ? 'is-top' : 'is-bottom', p % 2 ? 'is-odd' : 'is-even', sources.has(p) ? 'is-src' : '', from === p ? 'is-sel' : '', targets.has(p) ? 'is-target' : ''].join(' ')
-    return <button key={p} type="button" className={cls} onClick={() => pick(p)} aria-label={`נקודה ${p}${n ? `: ${n} ${v > 0 ? 'לבנים' : 'שחורים'}` : ''}`}>
+    return <button key={p} type="button" className={cls} onClick={() => pick(p)} aria-label={en ? `Point ${p}${n ? `: ${n} ${v > 0 ? 'white' : 'black'}` : ''}` : `נקודה ${p}${n ? `: ${n} ${v > 0 ? 'לבנים' : 'שחורים'}` : ''}`}>
       <i className="bgm-tri" aria-hidden="true" />
       {n > 0 && <Stack n={n} color={col(Math.sign(v))} top={top} />}
       <small className="bgm-num">{p}</small>
@@ -47,21 +48,22 @@ function Board({ s, moves = [], onMove, flipColors }) {
       <div className="bgm-row">{TOP.map(p => cell(p, true))}</div>
       <div className="bgm-row">{BOTTOM.map(p => cell(p, false))}</div>
       <div className="bgm-off">
-        <button type="button" className={`bgm-off-slot${offTarget && s.turn === CPU ? ' is-target' : ''}`} onClick={() => s.turn === CPU && pick('off')} aria-label={`הוצאה מהלוח – הוצאו ${s.off[CPU]}`}>{s.off[CPU] > 0 && <span className={`bgm-offbar ${col(CPU)}`} style={{ height: `${s.off[CPU] * 6.2}%` }} />}<b>{s.off[CPU]}</b>{offTarget && s.turn === CPU && <em>הוצאה</em>}</button>
-        <button type="button" className={`bgm-off-slot${offTarget && s.turn === HUMAN ? ' is-target' : ''}`} onClick={() => s.turn === HUMAN && pick('off')} aria-label={`הוצאה מהלוח – הוצאו ${s.off[HUMAN]}`}>{s.off[HUMAN] > 0 && <span className={`bgm-offbar ${col(HUMAN)}`} style={{ height: `${s.off[HUMAN] * 6.2}%` }} />}<b>{s.off[HUMAN]}</b>{offTarget && s.turn === HUMAN && <em>הוצאה</em>}</button>
+        <button type="button" className={`bgm-off-slot${offTarget && s.turn === CPU ? ' is-target' : ''}`} onClick={() => s.turn === CPU && pick('off')} aria-label={en ? `Bearing off: ${s.off[CPU]} borne off` : `הוצאה מהלוח – הוצאו ${s.off[CPU]}`}>{s.off[CPU] > 0 && <span className={`bgm-offbar ${col(CPU)}`} style={{ height: `${s.off[CPU] * 6.2}%` }} />}<b>{s.off[CPU]}</b>{offTarget && s.turn === CPU && <em>{en ? 'Bear off' : 'הוצאה'}</em>}</button>
+        <button type="button" className={`bgm-off-slot${offTarget && s.turn === HUMAN ? ' is-target' : ''}`} onClick={() => s.turn === HUMAN && pick('off')} aria-label={en ? `Bearing off: ${s.off[HUMAN]} borne off` : `הוצאה מהלוח – הוצאו ${s.off[HUMAN]}`}>{s.off[HUMAN] > 0 && <span className={`bgm-offbar ${col(HUMAN)}`} style={{ height: `${s.off[HUMAN] * 6.2}%` }} />}<b>{s.off[HUMAN]}</b>{offTarget && s.turn === HUMAN && <em>{en ? 'Bear off' : 'הוצאה'}</em>}</button>
       </div>
     </div>
   )
 }
 
-function Dice({ dice, left }) {
+function Dice({ dice, left, lang = 'he' }) {
   if (!dice.length) return null
   const all = dice.length === 1 ? dice : dice[0] === dice[1] ? [dice[0], dice[0], dice[0], dice[0]] : dice
   const rem = [...left]
-  return <div className="bgm-dice" aria-label={`קוביות: ${dice.join(' ו־')}`}>{all.map((d, k) => { const i = rem.indexOf(d); const on = i >= 0; if (on) rem.splice(i, 1); return <span key={k} className={on ? '' : 'is-used'}>{FACES[d]}</span> })}</div>
+  return <div className="bgm-dice" aria-label={lang === 'en' ? `Dice: ${dice.join(' and ')}` : `קוביות: ${dice.join(' ו־')}`}>{all.map((d, k) => { const i = rem.indexOf(d); const on = i >= 0; if (on) rem.splice(i, 1); return <span key={k} className={on ? '' : 'is-used'}>{FACES[d]}</span> })}</div>
 }
 
-export function BackgammonPlay() {
+export function BackgammonPlay({ lang = 'he' }) {
+  const en = lang === 'en'
   const [mode, setMode] = useState('computer')
   const [level, setLevel] = useState(1)
   const [s, setS] = useState(() => newGame())
@@ -74,23 +76,23 @@ export function BackgammonPlay() {
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
   const moves = useMemo(() => (phase === 'move' ? allowedMoves(s) : []), [s, phase])
   const isCpu = pl => mode === 'computer' && pl === CPU
-  const name = pl => (pl === HUMAN ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
+  const name = pl => en ? (pl === HUMAN ? (mode === 'computer' ? 'You (white)' : 'White') : mode === 'computer' ? 'Computer (black)' : 'Black') : (pl === HUMAN ? (mode === 'computer' ? 'אתם (לבנים)' : 'הלבנים') : mode === 'computer' ? 'המחשב (שחורים)' : 'השחורים')
   // Subject + verb with correct Hebrew agreement: "הטלתם" / "המחשב הטיל" / "השחורים הטילו".
-  const said = (pl, you, cpu, they) => (mode === 'computer' ? (pl === HUMAN ? you : cpu) : `${pl === HUMAN ? 'הלבנים' : 'השחורים'} ${they}`)
-  const noMoveFor = pl => (mode === 'computer' ? (pl === HUMAN ? 'לכם' : 'למחשב') : pl === HUMAN ? 'ללבנים' : 'לשחורים')
+  const said = (pl, you, cpu, they) => en ? (mode === 'computer' ? (pl === HUMAN ? you.en : cpu.en) : `${pl === HUMAN ? 'White' : 'Black'} ${they.en}`) : (mode === 'computer' ? (pl === HUMAN ? you : cpu) : `${pl === HUMAN ? 'הלבנים' : 'השחורים'} ${they}`)
+  const noMoveFor = pl => en ? (mode === 'computer' ? (pl === HUMAN ? 'you' : 'the computer') : pl === HUMAN ? 'White' : 'Black') : (mode === 'computer' ? (pl === HUMAN ? 'לכם' : 'למחשב') : pl === HUMAN ? 'ללבנים' : 'לשחורים')
 
   const reset = () => { timers.current.forEach(clearTimeout); setS(newGame()); setPhase('opening'); setMsg(''); setTurnStart(null) }
   const opening = () => {
     const a = rollDie(), b = rollDie()
-    if (a === b) { setMsg(`שניכם הטלתם ${a} – מטילים שוב…`); return }
+    if (a === b) { setMsg(en ? `You both rolled ${a} - rolling again…` : `שניכם הטלתם ${a} – מטילים שוב…`); return }
     const first = a > b ? HUMAN : CPU
     const st = { ...newGame(), turn: first, dice: [a, b], left: [a, b] }
-    setMsg(`לבנים: ${FACES[a]} ${a} · שחורים: ${FACES[b]} ${b} → ${said(first, 'אתם מתחילים', 'המחשב מתחיל', 'מתחילים')}, עם ${a} ו־${b}`)
+    setMsg(en ? `White: ${FACES[a]} ${a} · Black: ${FACES[b]} ${b} → ${said(first, { en: 'you start' }, { en: 'the computer starts' }, { en: 'starts' })}, with ${a} and ${b}` : `לבנים: ${FACES[a]} ${a} · שחורים: ${FACES[b]} ${b} → ${said(first, 'אתם מתחילים', 'המחשב מתחיל', 'מתחילים')}, עם ${a} ו־${b}`)
     startTurn(st)
   }
   const startTurn = st => {
     setS(st); setTurnStart(clone(st))
-    if (!allowedMoves(st).length) { setPhase('wait'); setMsg(m => `${m ? m + ' · ' : ''}אין ${noMoveFor(st.turn)} מהלך אפשרי – התור עובר`); later(() => endTurn(st), 1800); return }
+    if (!allowedMoves(st).length) { setPhase('wait'); setMsg(m => en ? `${m ? m + ' · ' : ''}No move is possible for ${noMoveFor(st.turn)} - the turn passes` : `${m ? m + ' · ' : ''}אין ${noMoveFor(st.turn)} מהלך אפשרי – התור עובר`); later(() => endTurn(st), 1800); return }
     if (isCpu(st.turn)) { setPhase('cpu'); playCpu(st) } else setPhase('move')
   }
   const endTurn = st => {
@@ -102,7 +104,7 @@ export function BackgammonPlay() {
   }
   const roll = (st = s) => {
     const d = [rollDie(), rollDie()]
-    setMsg(`${said(st.turn, 'הטלתם', 'המחשב הטיל', 'הטילו')} ${d[0]} ו־${d[1]}${d[0] === d[1] ? ' – דאבל! 4 מהלכים' : ''}`)
+    setMsg(en ? `${said(st.turn, { en: 'You rolled' }, { en: 'The computer rolled' }, { en: 'rolled' })} ${d[0]} and ${d[1]}${d[0] === d[1] ? ' - doubles! 4 moves' : ''}` : `${said(st.turn, 'הטלתם', 'המחשב הטיל', 'הטילו')} ${d[0]} ו־${d[1]}${d[0] === d[1] ? ' – דאבל! 4 מהלכים' : ''}`)
     startTurn({ ...clone(st), dice: d, left: diceToMoves(d) })
   }
   const playCpu = st => {
@@ -114,7 +116,7 @@ export function BackgammonPlay() {
   const human = m => {
     const { state: ns, hit } = applySingle(s, m)
     setS(ns)
-    if (hit) setMsg('💥 אכלתם! האבן של היריב עפה לבר')
+    if (hit) setMsg(en ? '💥 Hit! The opponent piece goes to the bar' : '💥 אכלתם! האבן של היריב עפה לבר')
     if (winner(ns)) { setPhase('over'); return }
     if (!ns.left.length || !allowedMoves(ns).length) { setPhase('wait'); later(() => endTurn(ns), 700) }
   }
@@ -125,28 +127,28 @@ export function BackgammonPlay() {
   return (
     <div className="bg-play">
       <div className="bg-controls">
-        <label>מצב: <select value={mode} onChange={e => { setMode(e.target.value); reset() }}><option value="computer">נגד המחשב</option><option value="friend">נגד חבר (על אותו מסך)</option></select></label>
-        {mode === 'computer' && <label>רמה: <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select></label>}
+        <label>{en ? 'Mode:' : 'מצב:'} <select value={mode} onChange={e => { setMode(e.target.value); reset() }}><option value="computer">{en ? 'Against the computer' : 'נגד המחשב'}</option><option value="friend">{en ? 'Against a friend (same screen)' : 'נגד חבר (על אותו מסך)'}</option></select></label>
+        {mode === 'computer' && <label>{en ? 'Level:' : 'רמה:'} <select value={level} onChange={e => setLevel(+e.target.value)}>{LEVELS.map(l => <option key={l.id} value={l.id}>{en ? ({ 1: 'Easy', 2: 'Medium', 3: 'Hard' })[l.id] : l.label}</option>)}</select></label>}
       </div>
       {/* Status, last roll and dice stay pinned above the board while scrolling on a tablet. */}
       <div ref={sticky.slotRef} style={sticky.slotStyle}><div ref={sticky.barRef} style={sticky.barStyle} className={`bg-sticky${sticky.pinned ? ' is-pinned' : ''}`}>
       <p className="bg-status" role="status">
-        {phase === 'over' ? `🏆 ${said(w, 'ניצחתם!', 'המחשב ניצח!', 'ניצחו!')}${gammon ? ' ועוד במארס (היריב לא הוציא אף אבן) 🎉' : ''}`
+        {en ? (phase === 'over' ? `🏆 ${said(w, { en: 'You win!' }, { en: 'The computer wins!' }, { en: 'wins!' })}${gammon ? ' A gammon (the opponent bore off nothing) 🎉' : ''}` : phase === 'cpu' ? '🤔 The computer is playing…' : phase === 'opening' ? 'Each side rolls one die - the higher roll starts' : phase === 'roll' ? `Turn: ${name(s.turn)} - roll the dice` : `Turn: ${name(s.turn)}`) : phase === 'over' ? `🏆 ${said(w, 'ניצחתם!', 'המחשב ניצח!', 'ניצחו!')}${gammon ? ' ועוד במארס (היריב לא הוציא אף אבן) 🎉' : ''}`
           : phase === 'cpu' ? '🤔 המחשב משחק…' : phase === 'opening' ? 'כל אחד מטיל קובייה אחת – הגבוה מתחיל' : phase === 'roll' ? `תור: ${name(s.turn)} – הטילו קוביות` : `תור: ${name(s.turn)}`}
       </p>
       {msg && <p className="bgm-msg">{msg}</p>}
       <div className="bgm-top">
-        <Dice dice={s.dice} left={s.left} />
-        {phase === 'opening' && <button type="button" className="bgm-roll" onClick={opening}>🎲 מי מתחיל?</button>}
-        {phase === 'roll' && <button type="button" className="bgm-roll" onClick={() => roll()}>🎲 הטילו קוביות</button>}
-        {phase === 'move' && <span className="bgm-hint">{moves.length ? 'לחצו על אבן מסומנת ואז על המקום שאליו היא הולכת' : ''}</span>}
+        <Dice dice={s.dice} left={s.left} lang={lang} />
+        {phase === 'opening' && <button type="button" className="bgm-roll" onClick={opening}>{en ? '🎲 Who starts?' : '🎲 מי מתחיל?'}</button>}
+        {phase === 'roll' && <button type="button" className="bgm-roll" onClick={() => roll()}>{en ? '🎲 Roll the dice' : '🎲 הטילו קוביות'}</button>}
+        {phase === 'move' && <span className="bgm-hint">{moves.length ? (en ? 'Tap a highlighted piece, then the spot it moves to' : 'לחצו על אבן מסומנת ואז על המקום שאליו היא הולכת') : ''}</span>}
       </div>
       </div></div>
-      <Board s={s} moves={phase === 'move' ? moves : []} onMove={human} />
-      <div className="bg-score"><span>⚪ לבנים: נותרו {pips(s, HUMAN)} צעדים</span><span>⚫ שחורים: {pips(s, CPU)}</span></div>
+      <Board s={s} moves={phase === 'move' ? moves : []} onMove={human} lang={lang} />
+      <div className="bg-score"><span>{en ? `⚪ White: ${pips(s, HUMAN)} pips left` : `⚪ לבנים: נותרו ${pips(s, HUMAN)} צעדים`}</span><span>{en ? `⚫ Black: ${pips(s, CPU)}` : `⚫ שחורים: ${pips(s, CPU)}`}</span></div>
       <div className="bg-actions">
-        <button type="button" className="bg-primary" onClick={reset}>🔄 משחק חדש</button>
-        {phase === 'move' && <button type="button" onClick={undo}>↩️ ביטול מהלכי התור</button>}
+        <button type="button" className="bg-primary" onClick={reset}>{en ? '🔄 New game' : '🔄 משחק חדש'}</button>
+        {phase === 'move' && <button type="button" onClick={undo}>{en ? '↩️ Undo this turn' : '↩️ ביטול מהלכי התור'}</button>}
       </div>
     </div>
   )
@@ -177,7 +179,7 @@ export const BACKGAMMON_LESSONS = [
 export function BackgammonLearn({ onPlay }) {
   return <LessonRunner lessons={BACKGAMMON_LESSONS} onPlay={onPlay} apply={(s, m) => applySingle(s, m).state}
     render={(s, onMove, disabled) => <>
-      <div className="bgm-top"><Dice dice={s.dice} left={s.left} /></div>
+      <div className="bgm-top"><Dice dice={s.dice} left={s.left} lang={lang} /></div>
       <Board s={s} moves={disabled ? [] : allowedMoves(s)} onMove={onMove} />
     </>} />
 }

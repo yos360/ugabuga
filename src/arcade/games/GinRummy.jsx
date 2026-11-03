@@ -8,17 +8,19 @@ import './gin-rummy.css'
 import './card-polish.css'
 
 const key = 'buga-gin-rummy-session-v1'
+const LEVELS = { he: [['easy', 'רגוע'], ['normal', 'חכם'], ['hard', 'מומחה']], en: [['easy', 'Calm'], ['normal', 'Smart'], ['hard', 'Expert']] }
 function Face({ card, hidden = false, selected = false, meld = false, onClick, disabled }) {
   if (hidden) return <span className="gr-card is-back">◆</span>
   return <button type="button" className={`gr-card${isRed(card) ? ' is-red' : ''}${selected ? ' is-selected' : ''}${meld ? ' is-meld' : ''}`} onClick={onClick} disabled={disabled} aria-pressed={selected} aria-label={`${rankLabel(card.rank)}${SUITS[card.suit]}`}><b>{rankLabel(card.rank)}</b><span>{SUITS[card.suit]}</span></button>
 }
 
-export default function GinRummy({ daily, onReport, onShare }) {
+export default function GinRummy({ daily, onReport, onShare, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('gin-rummy', { wins: 0, rounds: 0, difficulty: 'normal' })
   const [restored] = useState(() => { try { const value = JSON.parse(localStorage.getItem(key)); return !daily && validState(value?.game) ? value : null } catch { return null } })
   const [difficulty, setDifficulty] = useState(daily ? 'hard' : restored?.difficulty || progress.difficulty)
   const [game, setGame] = useState(() => restored?.game || dealRound({ seed: daily?.seed }))
-  const [selected, setSelected] = useState(null), [message, setMessage] = useState('משכו קלף מהחפיסה או מערימת ההשלכה'), [rules, setRules] = useState(false)
+  const [selected, setSelected] = useState(null), [message, setMessage] = useState(en ? 'Draw a card from the stock or from the discard pile' : 'משכו קלף מהחפיסה או מערימת ההשלכה'), [rules, setRules] = useState(false)
   const reported = useRef(''), analysis = bestMelds(game.hands[0]), meldIds = new Set(analysis.melds.flatMap(meld => meld.cards.map(card => card.id)))
   const afterDiscard = selected === null ? null : bestMelds(game.hands[0].filter((_, index) => index !== selected))
   const forbiddenDiscard = selected !== null && game.drawnSource === 'discard' && game.hands[0][selected]?.id === game.drawnId
@@ -26,36 +28,47 @@ export default function GinRummy({ daily, onReport, onShare }) {
   useEffect(() => { if (daily) return; try { localStorage.setItem(key, JSON.stringify({ game, difficulty })) } catch { /* private mode */ } }, [daily, game, difficulty])
   useEffect(() => {
     if (game.turn !== 1 || game.phase !== 'draw') return undefined
-    const timer = setTimeout(() => { const next = aiTurn(game, difficulty); setGame(next); setMessage(['round-over', 'match-over'].includes(next.phase) ? 'המחשב סיים את הסיבוב' : 'המחשב משך והשליך. תורכם'); sfx('slide') }, difficulty === 'easy' ? 900 : 650)
+    const timer = setTimeout(() => {
+      const next = aiTurn(game, difficulty); setGame(next)
+      setMessage(['round-over', 'match-over'].includes(next.phase) ? (en ? 'The computer ended the round' : 'המחשב סיים את הסיבוב') : (en ? 'The computer drew and discarded. Your turn' : 'המחשב משך והשליך. תורכם')); sfx('slide')
+    }, difficulty === 'easy' ? 900 : 650)
     return () => clearTimeout(timer)
-  }, [game, difficulty])
+  }, [game, difficulty, en])
   useEffect(() => {
     if (!['round-over', 'match-over'].includes(game.phase)) return
     const id = `${game.round}:${game.phase}`; if (reported.current === id) return; reported.current = id
     const won = game.result?.winner === 0
     saveProgress(previous => ({ ...previous, rounds: previous.rounds + 1, wins: previous.wins + (won ? 1 : 0) }))
-    if (won) { onReport?.({ text: `🃏 ניצחתי בסיבוב ג׳ין רמי וקיבלתי ${game.result.points} נקודות` }); sfx('win') }
+    if (won) { onReport?.({ text: en ? `🃏 I won a round of Gin Rummy and scored ${game.result.points} points` : `🃏 ניצחתי בסיבוב ג׳ין רמי וקיבלתי ${game.result.points} נקודות` }); sfx('win') }
     daily?.finish({ won, score: won ? game.result.points : null, text: won ? `🃏 ג׳ין רמי: ניצחתי ב־${game.result.points} נקודות` : '🃏 ג׳ין רמי: המחשב ניצח הפעם' })
-  }, [game, saveProgress, onReport, daily])
+  }, [game, saveProgress, onReport, daily, en])
 
-  const draw = source => { const next = drawCard(game, 0, source); if (!next) { setMessage('קודם צריך לסיים את הפעולה הנוכחית'); sfx('bump'); return } setGame(next); setMessage('בחרו קלף להשלכה, או דפקו אם נשארו עד 10 נקודות'); sfx('slide') }
+  const draw = source => { const next = drawCard(game, 0, source); if (!next) { setMessage(en ? 'Finish the current action first' : 'קודם צריך לסיים את הפעולה הנוכחית'); sfx('bump'); return } setGame(next); setMessage(en ? 'Pick a card to discard, or knock if you have 10 points or fewer left' : 'בחרו קלף להשלכה, או דפקו אם נשארו עד 10 נקודות'); sfx('slide') }
   const discard = knock => {
-    if (selected === null) { setMessage('בחרו קלף מהיד'); sfx('bump'); return }
+    if (selected === null) { setMessage(en ? 'Pick a card from your hand' : 'בחרו קלף מהיד'); sfx('bump'); return }
     const next = discardCard(game, 0, selected, knock)
-    if (!next) { setMessage(knock ? 'אפשר לדפוק רק עם 10 נקודות פתוחות או פחות' : 'אי אפשר להחזיר מיד את הקלף שנלקח מערימת ההשלכה'); sfx('bump'); return }
-    setGame(next); setSelected(null); setMessage(knock ? 'דפקתם — מחשבים את הניקוד' : 'הקלף הושלך. תור המחשב'); sfx('slide')
+    if (!next) { setMessage(knock ? (en ? 'You can only knock with 10 deadwood points or fewer' : 'אפשר לדפוק רק עם 10 נקודות פתוחות או פחות') : (en ? 'You cannot put back the card you just took from the discard pile' : 'אי אפשר להחזיר מיד את הקלף שנלקח מערימת ההשלכה')); sfx('bump'); return }
+    setGame(next); setSelected(null); setMessage(knock ? (en ? 'You knocked. Counting the score' : 'דפקתם — מחשבים את הניקוד') : (en ? 'Card discarded. The computer\'s turn' : 'הקלף הושלך. תור המחשב')); sfx('slide')
   }
-  const restart = () => { setGame(dealRound({ seed: daily?.seed })); setSelected(null); setMessage('משחק חדש התחיל'); reported.current = '' }
-  const advance = () => { setGame(nextRound(game)); setSelected(null); setMessage('סיבוב חדש התחיל'); reported.current = '' }
+  const restart = () => { setGame(dealRound({ seed: daily?.seed })); setSelected(null); setMessage(en ? 'A new game has started' : 'משחק חדש התחיל'); reported.current = '' }
+  const advance = () => { setGame(nextRound(game)); setSelected(null); setMessage(en ? 'A new round has started' : 'סיבוב חדש התחיל'); reported.current = '' }
   const setLevel = value => { setDifficulty(value); saveProgress({ difficulty: value }); restart() }
-  const resultTitle = game.result?.gin ? (game.result.winner === 0 ? '✨ ג׳ין!' : 'המחשב עשה ג׳ין') : game.result?.undercut ? (game.result.winner === 0 ? '⚡ אנדרקאט!' : 'המחשב עשה אנדרקאט') : game.result?.winner === 0 ? '🎉 ניצחתם בסיבוב!' : 'המחשב ניצח בסיבוב'
+  const resultTitle = game.result?.gin ? (game.result.winner === 0 ? (en ? '✨ Gin!' : '✨ ג׳ין!') : (en ? 'The computer got gin' : 'המחשב עשה ג׳ין')) : game.result?.undercut ? (game.result.winner === 0 ? (en ? '⚡ Undercut!' : '⚡ אנדרקאט!') : (en ? 'The computer undercut you' : 'המחשב עשה אנדרקאט')) : game.result?.winner === 0 ? (en ? '🎉 You won the round!' : '🎉 ניצחתם בסיבוב!') : (en ? 'The computer won the round' : 'המחשב ניצח בסיבוב')
 
-  return <div className="arc-game gr-game"><Hud stats={[['סיבוב', game.round], ['אתם', game.scores[0]], ['המחשב', game.scores[1]], ['נקודות פתוחות', analysis.deadwood]]}><ToolButton onClick={() => setRules(value => !value)} label="הוראות">?</ToolButton><ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton></Hud>
-    {!daily && <div className="gr-levels">{[['easy', 'רגוע'], ['normal', 'חכם'], ['hard', 'מומחה']].map(([value, label]) => <button type="button" key={value} className={difficulty === value ? 'is-on' : ''} onClick={() => setLevel(value)}>{label}</button>)}</div>}
-    {rules && <aside className="gr-rules">בכל תור מושכים קלף ואז משליכים. יוצרים שלישיות או רביעיות מאותו מספר ורצפים של לפחות שלושה מאותה סדרה. קלפים שלא שייכים לרצף או לשלישייה נחשבים נקודות פתוחות. אפשר לדפוק עם עד 10 נקודות פתוחות; יד בלי נקודות פתוחות היא ג׳ין ומקבלת בונוס 25. אם אחרי הדפיקה ליריב נשארו פחות נקודות פתוחות (או אותו מספר) — גם אחרי שצירף קלפים לרצפים של מי שדפק — היריב עושה אנדרקאט ומקבל בונוס 25.</aside>}
-    <p className="card-guide">{game.turn !== 0 ? 'המחשב משחק עכשיו — מיד תורכם.' : game.phase === 'draw' ? 'תורכם: לחצו על החפיסה או על קלף ההשלכה כדי למשוך קלף.' : game.phase === 'discard' ? 'בחרו קלף מהיד להשלכה. אם אחריה יישארו עד 10 נקודות, אפשר גם לדפוק.' : 'הסיבוב הסתיים.'}</p>
-    <main className="gr-table"><section className="gr-opponent"><b>המחשב · {game.hands[1].length} קלפים</b><div>{game.hands[1].map(card => <Face key={card.id} card={card} hidden />)}</div></section>
-      <div className="gr-center"><button type="button" className="gr-stock" onClick={() => draw('stock')} disabled={game.turn !== 0 || game.phase !== 'draw'}><span>◆</span><b>{game.stock.length}</b><small>חפיסה</small></button><div><Face card={game.discard.at(-1)} disabled={game.turn !== 0 || game.phase !== 'draw'} onClick={() => draw('discard')} /><small>השלכה</small></div></div>
-      <p className="gr-message" role="status">{message}</p><section className="gr-human"><h3>היד שלכם · {analysis.deadwood} נקודות פתוחות</h3><div className="gr-hand">{game.hands[0].map((card, index) => <Face key={card.id} card={card} selected={selected === index} meld={meldIds.has(card.id)} disabled={game.turn !== 0 || game.phase !== 'discard'} onClick={() => setSelected(index)} />)}</div>{afterDiscard && game.phase === 'discard' && <p className="gr-after">אחרי ההשלכה יישארו {afterDiscard.deadwood} נקודות פתוחות</p>}{game.turn === 0 && game.phase === 'discard' && <div className="gr-actions"><button type="button" onClick={() => discard(false)}>השליכו</button><button type="button" disabled={!afterDiscard || afterDiscard.deadwood > 10 || forbiddenDiscard} onClick={() => discard(true)}>{afterDiscard?.deadwood === 0 ? '✨ ג׳ין' : '✊ דפיקה'}</button></div>}</section>
-    </main>{['round-over', 'match-over'].includes(game.phase) && !daily && <EndCard title={game.result?.draw ? 'החפיסה נגמרה' : resultTitle} text={game.result?.draw ? 'הסיבוב הסתיים ללא ניקוד.' : `נקודות פתוחות: אתם ${game.result.knocker === 0 ? game.result.knockerDeadwood : game.result.opponentDeadwood}, המחשב ${game.result.knocker === 1 ? game.result.knockerDeadwood : game.result.opponentDeadwood}. ${game.result.points} נקודות למנצח.`} primary={game.phase === 'match-over' ? '🃏 משחק חדש' : '▶ הסיבוב הבא'} onPrimary={advance} secondary={game.result?.winner === 0 ? '📱 שתפו' : undefined} onSecondary={() => onShare?.(`🃏 ניצחתי בג׳ין רמי וקיבלתי ${game.result.points} נקודות!`)} />}</div>
+  return <div className="arc-game gr-game"><Hud stats={[[en ? 'Round' : 'סיבוב', game.round], [en ? 'You' : 'אתם', game.scores[0]], [en ? 'Computer' : 'המחשב', game.scores[1]], [en ? 'Deadwood' : 'נקודות פתוחות', analysis.deadwood]]}><ToolButton onClick={() => setRules(value => !value)} label={en ? 'Instructions' : 'הוראות'}>?</ToolButton><ToolButton onClick={restart} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton></Hud>
+    {!daily && <div className="gr-levels">{(LEVELS[lang] || LEVELS.he).map(([value, label]) => <button type="button" key={value} className={difficulty === value ? 'is-on' : ''} onClick={() => setLevel(value)}>{label}</button>)}</div>}
+    {rules && <aside className="gr-rules">{en
+      ? 'On each turn you draw a card and then discard one. Make sets of three or four cards of the same rank, and runs of at least three cards in the same suit. Cards that are not part of a run or a set count as deadwood. You can knock with 10 deadwood points or fewer; a hand with no deadwood is gin and earns a 25-point bonus. If after the knock your opponent has fewer deadwood points (or the same number), even after adding cards to the knocker\'s melds, the opponent undercuts and earns a 25-point bonus.'
+      : 'בכל תור מושכים קלף ואז משליכים. יוצרים שלישיות או רביעיות מאותו מספר ורצפים של לפחות שלושה מאותה סדרה. קלפים שלא שייכים לרצף או לשלישייה נחשבים נקודות פתוחות. אפשר לדפוק עם עד 10 נקודות פתוחות; יד בלי נקודות פתוחות היא ג׳ין ומקבלת בונוס 25. אם אחרי הדפיקה ליריב נשארו פחות נקודות פתוחות (או אותו מספר) — גם אחרי שצירף קלפים לרצפים של מי שדפק — היריב עושה אנדרקאט ומקבל בונוס 25.'}</aside>}
+    <p className="card-guide">{game.turn !== 0 ? (en ? 'The computer is playing. Your turn is coming up.' : 'המחשב משחק עכשיו — מיד תורכם.') : game.phase === 'draw' ? (en ? 'Your turn: tap the stock or the top discard to draw a card.' : 'תורכם: לחצו על החפיסה או על קלף ההשלכה כדי למשוך קלף.') : game.phase === 'discard' ? (en ? 'Pick a card from your hand to discard. If 10 points or fewer remain after it, you can also knock.' : 'בחרו קלף מהיד להשלכה. אם אחריה יישארו עד 10 נקודות, אפשר גם לדפוק.') : (en ? 'The round is over.' : 'הסיבוב הסתיים.')}</p>
+    <main className="gr-table"><section className="gr-opponent"><b>{en ? 'Computer' : 'המחשב'} · {game.hands[1].length} {en ? 'cards' : 'קלפים'}</b><div>{game.hands[1].map(card => <Face key={card.id} card={card} hidden />)}</div></section>
+      <div className="gr-center"><button type="button" className="gr-stock" onClick={() => draw('stock')} disabled={game.turn !== 0 || game.phase !== 'draw'}><span>◆</span><b>{game.stock.length}</b><small>{en ? 'Stock' : 'חפיסה'}</small></button><div><Face card={game.discard.at(-1)} disabled={game.turn !== 0 || game.phase !== 'draw'} onClick={() => draw('discard')} /><small>{en ? 'Discard' : 'השלכה'}</small></div></div>
+      <p className="gr-message" role="status">{message}</p><section className="gr-human"><h3>{en ? `Your hand · ${analysis.deadwood} deadwood points` : `היד שלכם · ${analysis.deadwood} נקודות פתוחות`}</h3><div className="gr-hand">{game.hands[0].map((card, index) => <Face key={card.id} card={card} selected={selected === index} meld={meldIds.has(card.id)} disabled={game.turn !== 0 || game.phase !== 'discard'} onClick={() => setSelected(index)} />)}</div>{afterDiscard && game.phase === 'discard' && <p className="gr-after">{en ? `After discarding you will have ${afterDiscard.deadwood} deadwood points` : `אחרי ההשלכה יישארו ${afterDiscard.deadwood} נקודות פתוחות`}</p>}{game.turn === 0 && game.phase === 'discard' && <div className="gr-actions"><button type="button" onClick={() => discard(false)}>{en ? 'Discard' : 'השליכו'}</button><button type="button" disabled={!afterDiscard || afterDiscard.deadwood > 10 || forbiddenDiscard} onClick={() => discard(true)}>{afterDiscard?.deadwood === 0 ? (en ? '✨ Gin' : '✨ ג׳ין') : (en ? '✊ Knock' : '✊ דפיקה')}</button></div>}</section>
+    </main>{['round-over', 'match-over'].includes(game.phase) && !daily && <EndCard lang={lang} title={game.result?.draw ? (en ? 'The stock ran out' : 'החפיסה נגמרה') : resultTitle}
+      text={game.result?.draw ? (en ? 'The round ended with no score.' : 'הסיבוב הסתיים ללא ניקוד.') : (en
+        ? `Deadwood: you ${game.result.knocker === 0 ? game.result.knockerDeadwood : game.result.opponentDeadwood}, computer ${game.result.knocker === 1 ? game.result.knockerDeadwood : game.result.opponentDeadwood}. ${game.result.points} points to the winner.`
+        : `נקודות פתוחות: אתם ${game.result.knocker === 0 ? game.result.knockerDeadwood : game.result.opponentDeadwood}, המחשב ${game.result.knocker === 1 ? game.result.knockerDeadwood : game.result.opponentDeadwood}. ${game.result.points} נקודות למנצח.`)}
+      primary={game.phase === 'match-over' ? (en ? '🃏 New game' : '🃏 משחק חדש') : (en ? '▶ Next round' : '▶ הסיבוב הבא')} onPrimary={advance}
+      secondary={game.result?.winner === 0 ? (en ? '📱 Share' : '📱 שתפו') : undefined}
+      onSecondary={() => onShare?.(en ? `🃏 I won at Gin Rummy and scored ${game.result.points} points!` : `🃏 ניצחתי בג׳ין רמי וקיבלתי ${game.result.points} נקודות!`)} />}</div>
 }

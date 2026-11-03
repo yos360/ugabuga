@@ -13,7 +13,8 @@ import './arcade.css'
 // Soft background music plays while the stage is open (one tap mutes it).
 // With `daily` (from /online-games/today) the game plays today's fixed puzzle and the
 // stage shows the daily result card when it ends.
-export default function ArcadeStage({ game, onClose, daily }) {
+export default function ArcadeStage({ game, onClose, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const dialogRef = useRef(null)
   useGameDialog(dialogRef)
   const [report, setReport] = useState(null)
@@ -66,23 +67,23 @@ export default function ArcadeStage({ game, onClose, daily }) {
   const toggleMusic = () => setMusicOn(on => { saveMusicPref(!on); return !on })
 
   return createPortal(
-    <div ref={dialogRef} tabIndex={-1} className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir="rtl" style={{ '--game-color': game.color }}
+    <div ref={dialogRef} tabIndex={-1} className="arc-stage" role="dialog" aria-modal="true" aria-label={game.name} dir={en ? 'ltr' : 'rtl'} style={{ '--game-color': game.color }}
       onPointerDownCapture={() => { if (musicOn) music.current?.resume() }}>
       <header className="arc-top">
-        <button type="button" className="arc-icon-btn" onClick={onClose} aria-label="יציאה מהמשחק">✕</button>
+        <button type="button" className="arc-icon-btn" onClick={onClose} aria-label={en ? 'Leave the game' : 'יציאה מהמשחק'}>✕</button>
         <h2 className="arc-title"><span aria-hidden="true">{game.emoji}</span> {game.name}</h2>
         <div className="arc-top-actions">
           <button type="button" className="arc-icon-btn" onClick={toggleMusic} aria-pressed={musicOn}
-            aria-label={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'} title={musicOn ? 'השתקת המוזיקה' : 'הפעלת מוזיקה'}>{musicOn ? '🎵' : '🔇'}</button>
-          <button type="button" className="arc-share" aria-label="שיתוף המשחק בוואטסאפ" onClick={() => shareOnWhatsApp(shareGameText(game, report))}>
-            <WhatsAppIcon size={20} /><span className="arc-share-text">שתפו</span>
+            aria-label={musicOn ? (en ? 'Mute the music' : 'השתקת המוזיקה') : (en ? 'Turn the music on' : 'הפעלת מוזיקה')} title={musicOn ? (en ? 'Mute the music' : 'השתקת המוזיקה') : (en ? 'Turn the music on' : 'הפעלת מוזיקה')}>{musicOn ? '🎵' : '🔇'}</button>
+          <button type="button" className="arc-share" aria-label={en ? 'Share the game on WhatsApp' : 'שיתוף המשחק בוואטסאפ'} onClick={() => shareOnWhatsApp(shareGameText(game, report, lang))}>
+            <WhatsAppIcon size={20} /><span className="arc-share-text">{en ? 'Share' : 'שתפו'}</span>
           </button>
-          {canFs && <button type="button" className="arc-icon-btn" onClick={() => (isFs ? exitFullscreen() : enterFullscreen())} aria-label={isFs ? 'יציאה ממסך מלא' : 'מסך מלא'} title={isFs ? 'יציאה ממסך מלא' : 'מסך מלא'}>{isFs ? '🗗' : '⛶'}</button>}
+          {canFs && <button type="button" className="arc-icon-btn" onClick={() => (isFs ? exitFullscreen() : enterFullscreen())} aria-label={isFs ? (en ? 'Exit full screen' : 'יציאה ממסך מלא') : (en ? 'Full screen' : 'מסך מלא')} title={isFs ? (en ? 'Exit full screen' : 'יציאה ממסך מלא') : (en ? 'Full screen' : 'מסך מלא')}>{isFs ? '🗗' : '⛶'}</button>}
         </div>
       </header>
       <div className="arc-body">
-        <Suspense fallback={<p className="arc-loading">טוענים את המשחק… 🎈</p>}>
-          <Game key={run} daily={dailyProp || undefined} onReport={setReport} onShare={text => shareOnWhatsApp(shareGameText(game, { text }))} />
+        <Suspense fallback={<p className="arc-loading">{en ? 'Loading the game… 🎈' : 'טוענים את המשחק… 🎈'}</p>}>
+          <Game key={run} lang={lang} daily={dailyProp || undefined} onReport={setReport} onShare={text => shareOnWhatsApp(shareGameText(game, { text }, lang))} />
         </Suspense>
         {done && <DailyDone daily={daily} done={done} onAgain={() => { setDone(null); setRun(r => r + 1) }} onClose={onClose} />}
       </div>

@@ -3,6 +3,8 @@
 export const SUITS = ['♠', '♥', '♦', '♣']
 export const isRed = card => card.suit === 1 || card.suit === 2
 export const rankLabel = r => ({ 1: 'A', 11: 'J', 12: 'Q', 13: 'K' })[r] || String(r)
+// Spoken card name for screen readers (English UI); the Hebrew UI keeps "rank + suit symbol".
+export const cardNameEn = c => `${({ 1: 'Ace', 11: 'Jack', 12: 'Queen', 13: 'King' })[c.rank] || c.rank} of ${['spades', 'hearts', 'diamonds', 'clubs'][c.suit]}`
 
 export function shuffled(cards, rand = Math.random) {
   const a = cards.slice()

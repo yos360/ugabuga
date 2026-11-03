@@ -7,10 +7,12 @@ import { sfx } from '../sfx'
 import './buga24.css'
 
 const LEVELS = [['young', 'צעיר · בלי חילוק'], ['classic', 'קלאסי'], ['expert', 'אלופים · עד 13']]
+const LEVELS_EN = { young: 'Young · no division', classic: 'Classic', expert: 'Champions · up to 13' }
 const sessionKey = 'buga-24-session-v1'
 const freshSeed = () => Math.floor(Math.random() * 0x7fffffff)
 
-export default function Buga24({ daily: dailyChallenge, onReport, onShare }) {
+export default function Buga24({ daily: dailyChallenge, onReport, onShare, lang = 'he' }) {
+  const en = lang === 'en'
   const [day] = useState(() => israelDayNumber(Date.now()))
   const [progress, saveProgress] = useProgress('buga-24', { solved: 0, best: 0, points: 0, dailyStreak: 0, lastDaily: 0 })
   const [saved] = useState(() => {
@@ -50,7 +52,7 @@ export default function Buga24({ daily: dailyChallenge, onReport, onShare }) {
   }
   const add = token => { setInput(value => value + token); setMessage('') }
   const check = () => {
-    const result = evaluateExpression(input, current.numbers)
+    const result = evaluateExpression(input, current.numbers, lang)
     if (!result.ok) { setMessage(result.error); sfx('bump'); return }
     const earned = Math.max(25, ({ young: 120, classic: 220, expert: 340 }[level]) - seconds - hintStep * 30)
     setRoundPoints(earned); setWon(true); sfx('win')
@@ -60,30 +62,30 @@ export default function Buga24({ daily: dailyChallenge, onReport, onShare }) {
         dailyStreak: effectiveDaily ? (previous.lastDaily === day ? previous.dailyStreak : consecutive ? previous.dailyStreak + 1 : 1) : previous.dailyStreak,
         lastDaily: effectiveDaily ? day : previous.lastDaily }
     })
-    onReport?.({ text: `🧮 פתרתי בוגה 24 ב־${seconds} שניות: ${cleanSolution(current.solution)} = 24` })
+    onReport?.({ text: en ? `🧮 I solved Buga 24 in ${seconds} seconds: ${cleanSolution(current.solution)} = 24` : `🧮 פתרתי בוגה 24 ב־${seconds} שניות: ${cleanSolution(current.solution)} = 24` })
     dailyChallenge?.finish?.({ won: true, text: `הגעתי ל־24 בתוך ${seconds} שניות וקיבלתי ${earned} נקודות` })
   }
-  const showHint = () => { setMessage(hintFor(current.solution, hintStep)); setHintStep(step => Math.min(3, step + 1)) }
+  const showHint = () => { setMessage(hintFor(current.solution, hintStep, lang)); setHintStep(step => Math.min(3, step + 1)) }
 
   return <div className="arc-game b24-game">
-    <Hud stats={[['זמן', `${seconds} שנ׳`], ['ניקוד', progress.points || 0], ['נפתרו', progress.solved || 0], ['רצף יומי', progress.dailyStreak || 0]]}>
-      <ToolButton onClick={showHint} disabled={won} label="רמז">💡</ToolButton><ToolButton onClick={() => reset()} label="חידה חדשה">🔄</ToolButton>
+    <Hud stats={[[en ? 'Time' : 'זמן', en ? `${seconds} s` : `${seconds} שנ׳`], [en ? 'Score' : 'ניקוד', progress.points || 0], [en ? 'Solved' : 'נפתרו', progress.solved || 0], [en ? 'Daily streak' : 'רצף יומי', progress.dailyStreak || 0]]}>
+      <ToolButton onClick={showHint} disabled={won} label={en ? 'Hint' : 'רמז'}>💡</ToolButton><ToolButton onClick={() => reset()} label={en ? 'New puzzle' : 'חידה חדשה'}>🔄</ToolButton>
     </Hud>
-    {!dailyChallenge && <div className="b24-modes" role="group" aria-label="מצב משחק">
-      <button type="button" className={!daily && !learning ? 'is-on' : ''} aria-pressed={!daily && !learning} onClick={() => reset(level, false, false)}>תרגול חופשי</button>
-      <button type="button" className={learning ? 'is-on' : ''} aria-pressed={learning} onClick={() => reset(level, false, true)}>🎓 מצב לימודי</button>
-      <button type="button" className={daily ? 'is-on' : ''} aria-pressed={daily} onClick={() => reset(level, true, false)}>🌟 אתגר יומי</button>
+    {!dailyChallenge && <div className="b24-modes" role="group" aria-label={en ? 'Game mode' : 'מצב משחק'}>
+      <button type="button" className={!daily && !learning ? 'is-on' : ''} aria-pressed={!daily && !learning} onClick={() => reset(level, false, false)}>{en ? 'Free practice' : 'תרגול חופשי'}</button>
+      <button type="button" className={learning ? 'is-on' : ''} aria-pressed={learning} onClick={() => reset(level, false, true)}>{en ? '🎓 Learning mode' : '🎓 מצב לימודי'}</button>
+      <button type="button" className={daily ? 'is-on' : ''} aria-pressed={daily} onClick={() => reset(level, true, false)}>{en ? '🌟 Daily challenge' : '🌟 אתגר יומי'}</button>
     </div>}
-    <div className="b24-levels" role="group" aria-label="רמת קושי">{LEVELS.map(([value, label]) => <button key={value} type="button" className={level === value ? 'is-on' : ''} aria-pressed={level === value} onClick={() => reset(value, daily, learning)}>{label}</button>)}</div>
+    <div className="b24-levels" role="group" aria-label={en ? 'Difficulty' : 'רמת קושי'}>{LEVELS.map(([value, label]) => <button key={value} type="button" className={level === value ? 'is-on' : ''} aria-pressed={level === value} onClick={() => reset(value, daily, learning)}>{en ? LEVELS_EN[value] : label}</button>)}</div>
     <main className="b24-board">
-      <p>השתמשו בכל מספר פעם אחת בדיוק והגיעו ל־24</p>
-      <div className="b24-numbers" aria-label={`המספרים: ${current.numbers.join(', ')}`}>{current.numbers.map((number, index) => <span key={index}>{number}</span>)}</div>
-      <label htmlFor="b24-expression">התרגיל שלכם</label>
-      <input ref={field} id="b24-expression" value={input} onChange={event => setInput(event.target.value.slice(0, 100))} onKeyDown={event => { if (event.key === 'Enter') check() }} dir="ltr" inputMode="text" autoComplete="off" placeholder="לדוגמה: (8-2)×(7-3)" />
-      <div className="b24-pad" dir="ltr">{['(', ')', '+', '−', '×', '÷'].map(token => <button type="button" key={token} onClick={() => add(token === '−' ? '-' : token)}>{token}</button>)}<button type="button" onClick={() => setInput(value => value.slice(0, -1))} aria-label="מחיקת תו">⌫</button><button type="button" onClick={() => setInput('')}>ניקוי</button></div>
-      <button type="button" className="b24-check" onClick={check}>בדיקת התרגיל</button><p className="b24-message" role="status">{message}</p>
-      {learning && <aside className="b24-learning"><b>🎓 לומדים תוך כדי משחק</b><p>סוגריים קובעים מה מחשבים קודם. כפל וחילוק באים לפני חיבור וחיסור.</p>{won && <p><strong>פתרון מוסבר:</strong> מחשבים תחילה את הפעולות בסוגריים בתרגיל <span dir="ltr">{cleanSolution(current.solution)}</span>, ואז מחברים את תוצאות הביניים עד 24.</p>}</aside>}
+      <p>{en ? 'Use each number exactly once and reach 24' : 'השתמשו בכל מספר פעם אחת בדיוק והגיעו ל־24'}</p>
+      <div className="b24-numbers" aria-label={`${en ? 'The numbers' : 'המספרים'}: ${current.numbers.join(', ')}`}>{current.numbers.map((number, index) => <span key={index}>{number}</span>)}</div>
+      <label htmlFor="b24-expression">{en ? 'Your expression' : 'התרגיל שלכם'}</label>
+      <input ref={field} id="b24-expression" value={input} onChange={event => setInput(event.target.value.slice(0, 100))} onKeyDown={event => { if (event.key === 'Enter') check() }} dir="ltr" inputMode="text" autoComplete="off" placeholder={en ? 'For example: (8-2)×(7-3)' : 'לדוגמה: (8-2)×(7-3)'} />
+      <div className="b24-pad" dir="ltr">{['(', ')', '+', '−', '×', '÷'].map(token => <button type="button" key={token} onClick={() => add(token === '−' ? '-' : token)}>{token}</button>)}<button type="button" onClick={() => setInput(value => value.slice(0, -1))} aria-label={en ? 'Delete a character' : 'מחיקת תו'}>⌫</button><button type="button" onClick={() => setInput('')}>{en ? 'Clear' : 'ניקוי'}</button></div>
+      <button type="button" className="b24-check" onClick={check}>{en ? 'Check the expression' : 'בדיקת התרגיל'}</button><p className="b24-message" role="status">{message}</p>
+      {learning && <aside className="b24-learning"><b>{en ? '🎓 Learn while you play' : '🎓 לומדים תוך כדי משחק'}</b><p>{en ? 'Parentheses decide what is calculated first. Multiplication and division come before addition and subtraction.' : 'סוגריים קובעים מה מחשבים קודם. כפל וחילוק באים לפני חיבור וחיסור.'}</p>{won && (en ? <p><strong>Explained solution:</strong> first calculate the operations in parentheses in <span dir="ltr">{cleanSolution(current.solution)}</span>, then combine the intermediate results to reach 24.</p> : <p><strong>פתרון מוסבר:</strong> מחשבים תחילה את הפעולות בסוגריים בתרגיל <span dir="ltr">{cleanSolution(current.solution)}</span>, ואז מחברים את תוצאות הביניים עד 24.</p>)}</aside>}
     </main>
-    {won && <EndCard title="🎉 בדיוק 24!" text={`קיבלתם ${roundPoints} נקודות ופתרתם תוך ${seconds} שניות${hintStep ? ` ועם ${hintStep} רמזים` : ' בלי רמזים'}.`} primary="🧮 חידה חדשה" onPrimary={() => reset()} secondary="📱 שתפו" onSecondary={() => onShare?.(`🧮 פתרתי בוגה 24: ${cleanSolution(current.solution)} = 24`)} />}
+    {won && <EndCard lang={lang} title={en ? '🎉 Exactly 24!' : '🎉 בדיוק 24!'} text={en ? `You earned ${roundPoints} points and solved it in ${seconds} seconds${hintStep ? ` with ${hintStep} hint${hintStep === 1 ? '' : 's'}` : ' with no hints'}.` : `קיבלתם ${roundPoints} נקודות ופתרתם תוך ${seconds} שניות${hintStep ? ` ועם ${hintStep} רמזים` : ' בלי רמזים'}.`} primary={en ? '🧮 New puzzle' : '🧮 חידה חדשה'} onPrimary={() => reset()} secondary={en ? '📱 Share' : '📱 שתפו'} onSecondary={() => onShare?.(en ? `🧮 I solved Buga 24: ${cleanSolution(current.solution)} = 24` : `🧮 פתרתי בוגה 24: ${cleanSolution(current.solution)} = 24`)} />}
   </div>
 }

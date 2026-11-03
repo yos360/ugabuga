@@ -133,7 +133,6 @@ a.site-mega-heading:hover { background: #f2f4fc; }
 .site-brand-art .site-logo-dark { display: none; }
 [data-theme="dark"] .site-brand-art .site-logo-light { display: none; }
 [data-theme="dark"] .site-brand-art .site-logo-dark { display: block; }
-[data-theme="dark"] .site-brand-slogan { color: #c9d3e0; }
 @media (max-width: 800px) {
   .site-header-inner { min-height: 88px; gap: 8px; }
   .site-brand { width: 220px; flex: 0 0 220px; min-width: 0; }

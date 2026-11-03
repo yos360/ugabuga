@@ -10,15 +10,20 @@ import { Hud, ToolButton, EndCard, Stars } from '../ui'
 // cells every animation frame, on a fixed clock that React renders can't disturb.
 
 const SKINS = [
-  { id: 'green', name: 'קלאסי', icon: '🟢', need: () => true, hint: '' },
-  { id: 'rainbow', name: 'קשת', icon: '🌈', need: p => p.best >= 10 || p.unlocked > 3, hint: '10 תפוחים בקלאסי או שלב 3 במסע' },
-  { id: 'tiger', name: 'נמר', icon: '🐯', need: p => p.best >= 20 || p.unlocked > 6, hint: '20 תפוחים בקלאסי או שלב 6 במסע' },
-  { id: 'candy', name: 'סוכרייה', icon: '🍬', need: p => p.unlocked > 10, hint: 'שלב 10 במסע' },
-  { id: 'galaxy', name: 'גלקסיה', icon: '🌌', need: p => p.best >= 40 || p.unlocked > 15, hint: '40 תפוחים בקלאסי או שלב 15 במסע' },
-  { id: 'gold', name: 'זהב', icon: '👑', need: p => p.unlocked > LEVEL_COUNT, hint: 'לסיים את כל 20 השלבים' },
+  { id: 'green', name: 'קלאסי', en: 'Classic', icon: '🟢', need: () => true, hint: '', hintEn: '' },
+  { id: 'rainbow', name: 'קשת', en: 'Rainbow', icon: '🌈', need: p => p.best >= 10 || p.unlocked > 3, hint: '10 תפוחים בקלאסי או שלב 3 במסע', hintEn: '10 apples in Classic or level 3 in Journey' },
+  { id: 'tiger', name: 'נמר', en: 'Tiger', icon: '🐯', need: p => p.best >= 20 || p.unlocked > 6, hint: '20 תפוחים בקלאסי או שלב 6 במסע', hintEn: '20 apples in Classic or level 6 in Journey' },
+  { id: 'candy', name: 'סוכרייה', en: 'Candy', icon: '🍬', need: p => p.unlocked > 10, hint: 'שלב 10 במסע', hintEn: 'Level 10 in Journey' },
+  { id: 'galaxy', name: 'גלקסיה', en: 'Galaxy', icon: '🌌', need: p => p.best >= 40 || p.unlocked > 15, hint: '40 תפוחים בקלאסי או שלב 15 במסע', hintEn: '40 apples in Classic or level 15 in Journey' },
+  { id: 'gold', name: 'זהב', en: 'Gold', icon: '👑', need: p => p.unlocked > LEVEL_COUNT, hint: 'לסיים את כל 20 השלבים', hintEn: 'Finish all 20 levels' },
 ]
 
-export default function Snake({ onReport, onShare, daily }) {
+const POWER_EN = { slow: 'Slow down', ghost: 'Ghost', shrink: 'Shrink' }
+const LEVEL_NAMES_EN = ['Open Field', 'Two Fences', 'Pillar in the Middle', 'Closed Yard', 'Four Corners', 'Bridges', 'Crossroads', 'Fortress', 'Little House', 'Zigzag', 'Rock Field', 'Double Gate', 'Spiral', 'Cage', 'Stairs', 'Corridors', 'X', 'Box in a Box', 'Three Floors', 'The Castle']
+
+export default function Snake({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
+  const lvNames = en ? LEVEL_NAMES_EN : LEVEL_NAMES
   const [progress, saveProgress] = useProgress('snake', { best: 0, walls: false, unlocked: 1, stars: {}, skin: 'green' })
   const [boxRef, box] = useBox()
   const fieldRef = useRef(null)
@@ -85,14 +90,14 @@ export default function Snake({ onReport, onShare, daily }) {
             burst(G, hx, hy, s.ate === 'gold' ? '#ffcf33' : '#ff4d4d', 14)
             const mult = s.combo >= 3 ? 2 : 1
             G.pops.push({ x: hx + 0.5, y: hy, life: 1, text: `+${(s.ate === 'gold' ? 3 : 1) * mult}` })
-            if (s.combo >= 3) G.pops.push({ x: s.w / 2, y: 1.2, life: 1.3, text: '🔥 קומבו ×2!', big: true })
+            if (s.combo >= 3) G.pops.push({ x: s.w / 2, y: 1.2, life: 1.3, text: en ? '🔥 Combo ×2!' : '🔥 קומבו ×2!', big: true, en })
             sfx(s.ate === 'gold' ? 'gold' : s.combo >= 3 ? 'combo' : 'eat')
             navigator.vibrate?.(12)
             setHud({ score: s.score, eaten: s.eaten, goal: s.goal })
           }
           if (s.got) {
             burst(G, hx, hy, '#8be9ff', 18)
-            G.pops.push({ x: s.w / 2, y: 1.2, life: 1.3, text: `${POWERS[s.got].icon} ${POWERS[s.got].name}!`, big: true })
+            G.pops.push({ x: s.w / 2, y: 1.2, life: 1.3, text: `${POWERS[s.got].icon} ${en ? POWER_EN[s.got] : POWERS[s.got].name}!`, big: true, en })
             sfx('power')
           }
           if (s.dead) {
@@ -115,25 +120,25 @@ export default function Snake({ onReport, onShare, daily }) {
     const onVis = () => { if (document.hidden && phaseRef.current === 'run') { phaseRef.current = 'pause'; setPhase('pause') } }
     document.addEventListener('visibilitychange', onVis)
     return () => { cancelAnimationFrame(raf); document.removeEventListener('visibilitychange', onVis) }
-  }, [])
+  }, [en])
 
   // results → progress / daily / share text
   useEffect(() => {
     if (phase === 'dead' && mode === 'classic') {
-      if (daily) { daily.finish({ text: `🐍 נחש: הנחש שלי אכל ${hud.score} תפוחים`, score: -hud.score, won: !daily.target }); return }
+      if (daily) { daily.finish({ text: en ? `🐍 Snake: my snake ate ${hud.score} apples` : `🐍 נחש: הנחש שלי אכל ${hud.score} תפוחים`, score: -hud.score, won: !daily.target }); return }
       saveProgress(p => ({ best: Math.max(p.best, hud.score) }))
-      if (hud.score) onReport?.({ text: `🐍 הנחש שלי אכל ${hud.score} תפוחים!` })
+      if (hud.score) onReport?.({ text: en ? `🐍 My snake ate ${hud.score} apples!` : `🐍 הנחש שלי אכל ${hud.score} תפוחים!` })
     }
     if (phase === 'won' && result?.stars) {
       saveProgress(p => ({ unlocked: Math.max(p.unlocked, level + 1), stars: { ...p.stars, [level]: Math.max(p.stars[level] || 0, result.stars) } }))
-      onReport?.({ text: `🐍 עברתי את שלב ${level} ("${LEVEL_NAMES[level - 1]}") במסע הנחש!` })
+      onReport?.({ text: en ? `🐍 I passed level ${level} ("${lvNames[level - 1]}") in the Snake journey!` : `🐍 עברתי את שלב ${level} ("${lvNames[level - 1]}") במסע הנחש!` })
     }
-  }, [phase, mode, level, hud.score, result, daily, saveProgress, onReport])
+  }, [phase, mode, level, hud.score, result, daily, saveProgress, onReport, en, lvNames])
 
   // marathon: enough apples wins the stage right away
   useEffect(() => {
-    if (daily?.target && phase === 'run' && hud.score >= daily.target) daily.finish({ text: `🐍 נחש: אכלתי ${hud.score} תפוחים`, score: hud.score, won: true })
-  }, [hud.score, phase, daily])
+    if (daily?.target && phase === 'run' && hud.score >= daily.target) daily.finish({ text: en ? `🐍 Snake: I ate ${hud.score} apples` : `🐍 נחש: אכלתי ${hud.score} תפוחים`, score: hud.score, won: true })
+  }, [hud.score, phase, daily, en])
 
   // Automated-test helper, only when localStorage 'buga-debug' is '1': read the game state.
   useEffect(() => {
@@ -171,81 +176,81 @@ export default function Snake({ onReport, onShare, daily }) {
   const ratio = dpr()
   const best = Math.max(progress.best, mode === 'classic' ? hud.score : 0)
   const stats = mode === 'journey'
-    ? [['שלב', level], ['🍎', `${hud.eaten}/${hud.goal}`]]
-    : [['🍎', daily?.target ? `${hud.score}/${daily.target}` : hud.score], ['שיא', best]]
+    ? [[en ? 'Level' : 'שלב', level], ['🍎', `${hud.eaten}/${hud.goal}`]]
+    : [['🍎', daily?.target ? `${hud.score}/${daily.target}` : hud.score], [en ? 'Best' : 'שיא', best]]
   const inGame = phase !== 'menu'
 
   return (
     <div className="arc-game">
       <Hud stats={stats}>
-        {inGame && <ToolButton onClick={togglePause} disabled={phase !== 'run' && phase !== 'pause'} label={phase === 'run' ? 'הפסקה' : 'המשך'}>{phase === 'run' ? '⏸️' : '▶️'}</ToolButton>}
-        {inGame && <ToolButton onClick={() => newGame()} label="מתחילים מחדש">🔄</ToolButton>}
-        {!daily && inGame && <ToolButton onClick={() => setP('menu')} label="תפריט">🏠</ToolButton>}
+        {inGame && <ToolButton onClick={togglePause} disabled={phase !== 'run' && phase !== 'pause'} label={phase === 'run' ? (en ? 'Pause' : 'הפסקה') : (en ? 'Resume' : 'המשך')}>{phase === 'run' ? '⏸️' : '▶️'}</ToolButton>}
+        {inGame && <ToolButton onClick={() => newGame()} label={en ? 'Start over' : 'מתחילים מחדש'}>🔄</ToolButton>}
+        {!daily && inGame && <ToolButton onClick={() => setP('menu')} label={en ? 'Menu' : 'תפריט'}>🏠</ToolButton>}
       </Hud>
       <div className="arc-field sn-field" ref={el => { boxRef.current = el; fieldRef.current = el }}>
         <canvas ref={canvasRef} className="sn-canvas" width={Math.round(W * ratio)} height={Math.round(H * ratio)} style={{ width: W, height: H, visibility: dims ? 'visible' : 'hidden' }}
-          aria-label="לוח הנחש. החליקו או לחצו על החצים כדי לכוון" role="img" />
+          aria-label={en ? 'The snake board. Swipe or press the arrows to steer' : 'לוח הנחש. החליקו או לחצו על החצים כדי לכוון'} role="img" />
         {(phase === 'ready' || phase === 'pause') && (
           <div className="sn-start">
-            {phase === 'pause' ? '⏸️ הפסקה — החליקו או לחצו על חץ כדי להמשיך'
-              : mode === 'journey' ? <>🗺️ שלב {level}: {LEVEL_NAMES[level - 1]}<br />אוכלים {hud.goal} תפוחים כדי לעבור · החליקו כדי להתחיל</> : '👆 החליקו לכיוון כלשהו כדי להתחיל'}
-            <small>{mode === 'journey' ? '🪨 אסור לגעת בסלעים · ' : g.current?.walls ? '🧱 אסור לגעת בקיר · ' : '🌀 עוברים מצד לצד · '}תפוח זהב = 3 · 3 תפוחים ברצף מהר = קומבו ×2 · 🐢 👻 ✂️ עוזרים</small>
+            {phase === 'pause' ? (en ? '⏸️ Paused - swipe or press an arrow to continue' : '⏸️ הפסקה — החליקו או לחצו על חץ כדי להמשיך')
+              : mode === 'journey' ? (en ? <>🗺️ Level {level}: {lvNames[level - 1]}<br />Eat {hud.goal} apples to pass · swipe to start</> : <>🗺️ שלב {level}: {lvNames[level - 1]}<br />אוכלים {hud.goal} תפוחים כדי לעבור · החליקו כדי להתחיל</>) : (en ? '👆 Swipe in any direction to start' : '👆 החליקו לכיוון כלשהו כדי להתחיל')}
+            <small>{en ? (mode === 'journey' ? '🪨 Do not touch the rocks · ' : g.current?.walls ? '🧱 Do not touch the wall · ' : '🌀 You wrap around the edges · ') + 'Golden apple = 3 · 3 apples in a row, fast = combo ×2 · 🐢 👻 ✂️ help you' : (mode === 'journey' ? '🪨 אסור לגעת בסלעים · ' : g.current?.walls ? '🧱 אסור לגעת בקיר · ' : '🌀 עוברים מצד לצד · ') + 'תפוח זהב = 3 · 3 תפוחים ברצף מהר = קומבו ×2 · 🐢 👻 ✂️ עוזרים'}</small>
           </div>
         )}
         {phase === 'menu' && (
           <div className="sn-menu">
-            <h3>🐍 נחש</h3>
+            <h3>{en ? '🐍 Snake' : '🐍 נחש'}</h3>
             <div className="sn-modes">
               <button type="button" className="sn-mode" onClick={() => newGame('classic', 1)}>
-                <b>🍎 קלאסי</b><small>אוכלים כמה שיותר · שיא: {progress.best}</small>
+                <b>{en ? '🍎 Classic' : '🍎 קלאסי'}</b><small>{en ? 'Eat as many as you can' : 'אוכלים כמה שיותר'} · {en ? 'Best' : 'שיא'}: {progress.best}</small>
               </button>
               <button type="button" className="sn-mode is-journey" onClick={() => newGame('journey', Math.min(progress.unlocked, LEVEL_COUNT))}>
-                <b>🗺️ מסע</b><small>20 שלבים עם סלעים · שלב {Math.min(progress.unlocked, LEVEL_COUNT)}</small>
+                <b>{en ? '🗺️ Journey' : '🗺️ מסע'}</b><small>{en ? '20 levels with rocks' : '20 שלבים עם סלעים'} · {en ? 'Level' : 'שלב'} {Math.min(progress.unlocked, LEVEL_COUNT)}</small>
               </button>
             </div>
-            <div className="sn-levels" aria-label="בחירת שלב">
+            <div className="sn-levels" aria-label={en ? 'Choose a level' : 'בחירת שלב'}>
               {Array.from({ length: LEVEL_COUNT }, (_, i) => {
                 const lv = i + 1, open = lv <= progress.unlocked
                 return <button key={lv} type="button" disabled={!open} className={`sn-lv${progress.stars[lv] ? ' is-done' : ''}`} onClick={() => newGame('journey', lv)}
-                  title={open ? LEVEL_NAMES[i] : 'נעול'} aria-label={open ? `שלב ${lv}: ${LEVEL_NAMES[i]}` : `שלב ${lv} נעול`}>
+                  title={open ? lvNames[i] : (en ? 'Locked' : 'נעול')} aria-label={en ? (open ? `Level ${lv}: ${lvNames[i]}` : `Level ${lv} locked`) : (open ? `שלב ${lv}: ${lvNames[i]}` : `שלב ${lv} נעול`)}>
                   {open ? lv : '🔒'}<i>{'★'.repeat(progress.stars[lv] || 0)}</i>
                 </button>
               })}
             </div>
-            <div className="sn-skins" aria-label="סגנון נחש">
+            <div className="sn-skins" aria-label={en ? 'Snake style' : 'סגנון נחש'}>
               {SKINS.map(s => {
                 const open = s.need(progress)
-                return <button key={s.id} type="button" disabled={!open} className={`sn-skin${progress.skin === s.id ? ' is-on' : ''}`} onClick={() => chooseSkin(s.id)} title={open ? s.name : `נפתח ב: ${s.hint}`}>
-                  <span aria-hidden="true">{open ? s.icon : '🔒'}</span>{s.name}
+                return <button key={s.id} type="button" disabled={!open} className={`sn-skin${progress.skin === s.id ? ' is-on' : ''}`} onClick={() => chooseSkin(s.id)} title={open ? (en ? s.en : s.name) : (en ? `Unlocks with: ${s.hintEn}` : `נפתח ב: ${s.hint}`)}>
+                  <span aria-hidden="true">{open ? s.icon : '🔒'}</span>{en ? s.en : s.name}
                 </button>
               })}
             </div>
-            <button type="button" className="arc-chip" onClick={toggleWalls}>{progress.walls ? '🧱 קלאסי: קירות סגורים' : '🌀 קלאסי: קירות פתוחים'}</button>
+            <button type="button" className="arc-chip" onClick={toggleWalls}>{progress.walls ? (en ? '🧱 Classic: closed walls' : '🧱 קלאסי: קירות סגורים') : (en ? '🌀 Classic: open walls' : '🌀 קלאסי: קירות פתוחים')}</button>
           </div>
         )}
       </div>
-      <div className="sn-pad" aria-label="חצים">
-        <button type="button" className="sn-key sn-up" onPointerDown={e => { e.preventDefault(); go('up') }} aria-label="למעלה">▲</button>
-        <button type="button" className="sn-key sn-left" onPointerDown={e => { e.preventDefault(); go('left') }} aria-label="שמאלה">◀</button>
-        <button type="button" className="sn-key sn-down" onPointerDown={e => { e.preventDefault(); go('down') }} aria-label="למטה">▼</button>
-        <button type="button" className="sn-key sn-right" onPointerDown={e => { e.preventDefault(); go('right') }} aria-label="ימינה">▶</button>
+      <div className="sn-pad" aria-label={en ? 'Arrows' : 'חצים'}>
+        <button type="button" className="sn-key sn-up" onPointerDown={e => { e.preventDefault(); go('up') }} aria-label={en ? 'Up' : 'למעלה'}>▲</button>
+        <button type="button" className="sn-key sn-left" onPointerDown={e => { e.preventDefault(); go('left') }} aria-label={en ? 'Left' : 'שמאלה'}>◀</button>
+        <button type="button" className="sn-key sn-down" onPointerDown={e => { e.preventDefault(); go('down') }} aria-label={en ? 'Down' : 'למטה'}>▼</button>
+        <button type="button" className="sn-key sn-right" onPointerDown={e => { e.preventDefault(); go('right') }} aria-label={en ? 'Right' : 'ימינה'}>▶</button>
       </div>
       {phase === 'dead' && !daily && (mode === 'classic'
-        ? <EndCard title="🐍 אוי, הנחש נתקע!" text={`אכלתם ${hud.score} תפוחים${result?.record ? ' — שיא חדש! 🎉' : ''}.`}
-          primary="🔄 עוד סיבוב" onPrimary={() => newGame()}
-          secondary="📱 שתפו את הניקוד" onSecondary={() => onShare?.(`🐍 הנחש שלי אכל ${hud.score} תפוחים! מי עובר אותי?`)} />
-        : <EndCard title="🪨 אאוץ'!" text={`שלב ${level}: אכלתם ${hud.eaten} מתוך ${hud.goal}. עוד ניסיון?`}
-          primary="🔄 לנסות שוב" onPrimary={() => newGame()} secondary="🏠 לתפריט" onSecondary={() => setP('menu')} />)}
+        ? <EndCard lang={lang} title={en ? '🐍 Oops, the snake got stuck!' : '🐍 אוי, הנחש נתקע!'} text={en ? `You ate ${hud.score} apples${result?.record ? ' - a new best! 🎉' : ''}.` : `אכלתם ${hud.score} תפוחים${result?.record ? ' — שיא חדש! 🎉' : ''}.`}
+          primary={en ? '🔄 Another round' : '🔄 עוד סיבוב'} onPrimary={() => newGame()}
+          secondary={en ? '📱 Share your score' : '📱 שתפו את הניקוד'} onSecondary={() => onShare?.(en ? `🐍 My snake ate ${hud.score} apples! Can you beat me?` : `🐍 הנחש שלי אכל ${hud.score} תפוחים! מי עובר אותי?`)} />
+        : <EndCard lang={lang} title={en ? '🪨 Ouch!' : "🪨 אאוץ'!"} text={en ? `Level ${level}: you ate ${hud.eaten} of ${hud.goal}. Another try?` : `שלב ${level}: אכלתם ${hud.eaten} מתוך ${hud.goal}. עוד ניסיון?`}
+          primary={en ? '🔄 Try again' : '🔄 לנסות שוב'} onPrimary={() => newGame()} secondary={en ? '🏠 To the menu' : '🏠 לתפריט'} onSecondary={() => setP('menu')} />)}
       {phase === 'won' && result && (
-        <div className="arc-end" role="alertdialog" aria-label="השלב הושלם">
+        <div className="arc-end" role="alertdialog" aria-label={en ? 'Level complete' : 'השלב הושלם'}>
           <div className="arc-end-card">
-            <h3>{level >= LEVEL_COUNT ? '🏆 סיימתם את כל המסע!' : `🎉 שלב ${level} הושלם!`}</h3>
-            <Stars n={result.stars} />
-            <p>{LEVEL_NAMES[level - 1]} · {result.time} שניות{result.stars < 3 ? ' · מהר יותר = יותר כוכבים' : ''}</p>
+            <h3>{level >= LEVEL_COUNT ? (en ? '🏆 You finished the whole journey!' : '🏆 סיימתם את כל המסע!') : (en ? `🎉 Level ${level} complete!` : `🎉 שלב ${level} הושלם!`)}</h3>
+            <Stars n={result.stars} lang={lang} />
+            <p>{lvNames[level - 1]} · {result.time} {en ? 'seconds' : 'שניות'}{result.stars < 3 ? (en ? ' · faster = more stars' : ' · מהר יותר = יותר כוכבים') : ''}</p>
             <div className="arc-end-actions">
-              {level < LEVEL_COUNT && <button type="button" className="arc-btn arc-btn-main" autoFocus onClick={() => newGame('journey', level + 1)}>▶ לשלב {level + 1}</button>}
-              <button type="button" className="arc-btn" onClick={() => onShare?.(`🐍 עברתי את שלב ${level} במסע הנחש של עוגה בוגה עם ${result.stars} כוכבים! תצליחו?`)}>📱 שתפו</button>
-              <button type="button" className="arc-btn" onClick={() => setP('menu')}>🏠 לתפריט</button>
+              {level < LEVEL_COUNT && <button type="button" className="arc-btn arc-btn-main" autoFocus onClick={() => newGame('journey', level + 1)}>{en ? `▶ To level ${level + 1}` : `▶ לשלב ${level + 1}`}</button>}
+              <button type="button" className="arc-btn" onClick={() => onShare?.(en ? `🐍 I passed level ${level} of the Ugabuga snake journey with ${result.stars} stars! Can you?` : `🐍 עברתי את שלב ${level} במסע הנחש של עוגה בוגה עם ${result.stars} כוכבים! תצליחו?`)}>{en ? '📱 Share' : '📱 שתפו'}</button>
+              <button type="button" className="arc-btn" onClick={() => setP('menu')}>{en ? '🏠 To the menu' : '🏠 לתפריט'}</button>
             </div>
           </div>
         </div>
@@ -402,7 +407,7 @@ function draw(cv, G, t, dt, now, skin) {
     ctx.globalAlpha = Math.min(1, p.life * 1.6)
     ctx.font = `900 ${cell * (p.big ? 0.75 : 0.6)}px Fredoka, Heebo, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
     const py = (p.y - (1.3 - p.life) * (p.big ? 0.8 : 1.2)) * cell
-    ctx.direction = p.big ? 'rtl' : 'ltr' // the page is RTL; "+1" must not turn into "1+"
+    ctx.direction = p.big && !p.en ? 'rtl' : 'ltr' // the Hebrew page is RTL; "+1" must not turn into "1+"
     if (p.big) { ctx.lineWidth = 4; ctx.strokeStyle = '#fff'; ctx.strokeText(p.text, p.x * cell, py) }
     ctx.fillStyle = '#1d2233'
     ctx.fillText(p.text, p.x * cell, py)

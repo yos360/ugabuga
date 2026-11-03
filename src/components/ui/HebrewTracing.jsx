@@ -51,7 +51,7 @@ export const xHeight = (text, size) => letterH(text, size, false) * HERSHEY_XH /
 
 export function LetterSheet({letter, lang = 'he', name = letter}) {
   const heb = isHebrew(letter)
-  if (!heb) return <EnglishLetterSheet letter={letter} />
+  if (!heb) return <EnglishLetterSheet letter={letter} lang={lang} />
   return <svg viewBox="0 0 600 820" role="img" aria-label={lang === 'en' ? `Trace ${name}` : `תרגול האות ${letter}`} style={{width:'100%',height:'100%',background:'white'}}>
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">{lang === 'en' ? `Letter ${name}` : `האות ${letter}`}</text>
@@ -68,9 +68,9 @@ export function LetterSheet({letter, lang = 'he', name = letter}) {
 }
 
 // Capital + small letter on school handwriting lines (top, dashed middle, base).
-function EnglishLetterSheet({letter}) {
+function EnglishLetterSheet({letter, lang = 'he'}) {
   const big = letter + letter.toLowerCase(), cap = letterH('A', 64, false), mid = xHeight('A', 64)
-  return <svg viewBox="0 0 600 820" role="img" aria-label={`תרגול האות ${big}`} style={{width:'100%',height:'100%',background:'white'}} direction="ltr">
+  return <svg viewBox="0 0 600 820" role="img" aria-label={lang === 'en' ? `Trace ${big}` : `תרגול האות ${big}`} style={{width:'100%',height:'100%',background:'white'}} direction="ltr">
     <g fill="#111" fontFamily="Heebo, Arial, sans-serif" textAnchor="middle">
       <text x="300" y="36" fontSize="24" fontWeight="700">Letter {letter} {letter.toLowerCase()}</text>
       <text x="300" y="66" fontSize="15">Name: ____________    Date: ____________</text>

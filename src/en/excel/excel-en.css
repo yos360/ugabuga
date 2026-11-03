@@ -1,0 +1,29 @@
+/* English Excel course: left-to-right sheet, and the site's English button/input defaults must not restyle it */
+.xl-en .xl-title{font-size:clamp(2rem,5vw,3rem);text-align:center;margin:20px 0 8px}
+.xl-en .xl-lead{text-align:center;margin-left:auto;margin-right:auto}
+.xl-en .xl-short{font-size:.9rem;color:#555}
+.xl-en .xl-box{margin:12px 0}
+.xl-en .xl-lessons a{text-decoration:none}
+
+.xl-en .xl-btn{background:#ffd23f;color:#14162d;border:2px solid #14162d;display:inline-flex;align-items:center;font-size:17px}
+.xl-en .xl-btn.alt{background:#fff}
+.xl-en .xl-btn.go{background:#7dd87a}
+.xl-en .xl-tool,.xl-en .xl-tab{background:#fff;color:#1f1f1f;padding:4px 10px;min-height:36px;border-radius:8px;border:1px solid #b9c4b9;font-weight:700;display:inline-block}
+.xl-en .xl-tool:hover{background:#e6f2e9}
+.xl-en .xl-tool[aria-pressed="true"]{background:#c9e8d2;border-color:#217346}
+.xl-en .xl-tab{border:2px solid #14162d;border-radius:999px;padding:4px 12px;min-height:38px}
+.xl-en .xl-tab[aria-current="true"]{background:#fff4bb}
+.xl-en .xl-tab.done{background:#c9efd5}
+.xl-en .xl-sheet input{border:0;border-radius:0;padding:6px 10px}
+.xl-en .xl-sheet .xl-name{border-right:1px solid #b9c4b9;padding:6px 8px}
+.xl-en .xl-sheet .xl-in{padding:0 6px}
+
+/* LTR sheet: column A on the left, text starts at the left edge, handle on the right */
+.xl-sheet[dir="ltr"] .xl-cell{text-align:left}
+.xl-sheet[dir="ltr"] .xl-cell.num{text-align:right}
+.xl-sheet[dir="ltr"] .xl-cell.err{text-align:center}
+.xl-sheet[dir="ltr"] .xl-name{border-left:0;border-right:1px solid #b9c4b9}
+.xl-sheet[dir="ltr"] .xl-fx{border-left:0;border-right:1px solid #e0e0e0}
+.xl-sheet[dir="ltr"] .xl-handle{left:auto;right:-5px}
+.xl-sheet[dir="ltr"] .xl-cap{right:auto;left:0}
+.xl-sheet[dir="ltr"] .xl-legend i{margin-left:0;margin-right:6px}

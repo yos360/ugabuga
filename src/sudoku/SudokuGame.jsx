@@ -20,7 +20,11 @@ export function fmtTime(sec) {
 }
 export function bestTimes() { return readJson(BEST_KEY, {}) }
 
-export default function SudokuGame({ puzzle, onNew, onPrint, bestKey, newLabel = 'סודוקו חדש' }) {
+const EN_LONG = { easy: 'Easy sudoku', medium: 'Medium sudoku', hard: 'Hard sudoku', 'very-hard': 'Very hard sudoku', kids4: 'Kids sudoku 4×4', kids6: 'Kids sudoku 6×6' }
+
+export default function SudokuGame({ puzzle, onNew, onPrint, bestKey, newLabel: newLabelProp, lang = 'he' }) {
+  const en = lang === 'en'
+  const newLabel = newLabelProp ?? (en ? 'New sudoku' : 'סודוקו חדש')
   const { n, solution } = puzzle
   const G = geom(n)
   const givens = puzzle.puzzle
@@ -150,16 +154,16 @@ export default function SudokuGame({ puzzle, onNew, onPrint, bestKey, newLabel =
   const meta = LEVEL_META[puzzle.level]
 
   return (
-    <div className="sdk-game" dir="rtl">
+    <div className="sdk-game" dir={en ? 'ltr' : 'rtl'}>
       <div className="sdk-bar">
-        <span className="sdk-stat" aria-label="זמן">⏱️ <b>{fmtTime(time)}</b></span>
-        {check && <span className="sdk-stat">טעויות: <b>{mistakes}</b></span>}
-        {best > 0 && <span className="sdk-stat">שיא: <b>{fmtTime(best)}</b></span>}
-        <button type="button" className="sdk-mini" onClick={() => setPaused(p => !p)} disabled={won} aria-pressed={paused}>{paused ? '▶ המשך' : '⏸ השהיה'}</button>
+        <span className="sdk-stat" aria-label={en ? 'Time' : 'זמן'}>⏱️ <b>{fmtTime(time)}</b></span>
+        {check && <span className="sdk-stat">{en ? 'Mistakes' : 'טעויות'}: <b>{mistakes}</b></span>}
+        {best > 0 && <span className="sdk-stat">{en ? 'Best' : 'שיא'}: <b>{fmtTime(best)}</b></span>}
+        <button type="button" className="sdk-mini" onClick={() => setPaused(p => !p)} disabled={won} aria-pressed={paused}>{paused ? (en ? '▶ Resume' : '▶ המשך') : (en ? '⏸ Pause' : '⏸ השהיה')}</button>
       </div>
 
       <div className="sdk-board-wrap">
-        <div ref={boardRef} className={`sdk-board${paused ? ' is-paused' : ''}`} style={{ '--n': n, '--bc': G.bc, '--br': G.br }} role="grid" aria-label={`לוח סודוקו ${n} על ${n}`}>
+        <div ref={boardRef} className={`sdk-board${paused ? ' is-paused' : ''}`} style={{ '--n': n, '--bc': G.bc, '--br': G.br }} role="grid" aria-label={en ? `Sudoku board ${n} by ${n}` : `לוח סודוקו ${n} על ${n}`}>
           {grid.map((v, i) => {
             const r = Math.floor(i / n), c = i % n
             const given = !!givens[i]
@@ -175,51 +179,53 @@ export default function SudokuGame({ puzzle, onNew, onPrint, bestKey, newLabel =
             ].filter(Boolean).join(' ')
             return (
               <button key={i} type="button" className={cls} onClick={() => setSel(i)} tabIndex={sel === i ? 0 : -1}
-                aria-label={`שורה ${r + 1} עמודה ${c + 1}: ${v || 'ריק'}${given ? ' (נתון)' : ''}`}>
+                aria-label={en ? `Row ${r + 1} column ${c + 1}: ${v || 'empty'}${given ? ' (given)' : ''}` : `שורה ${r + 1} עמודה ${c + 1}: ${v || 'ריק'}${given ? ' (נתון)' : ''}`}>
                 {paused ? '' : v ? v : notes[i] ? (
                   <span className="sdk-notes">{Array.from({ length: n }, (_, k) => <i key={k} className={noteSame && k + 1 === selV ? 'is-hl' : ''}>{notes[i] & (1 << k) ? k + 1 : ''}</i>)}</span>
                 ) : ''}
               </button>
             )
           })}
-          {paused && !won && <button type="button" className="sdk-paused" onClick={() => setPaused(false)}>⏸ המשחק מושהה — לחצו להמשך</button>}
+          {paused && !won && <button type="button" className="sdk-paused" onClick={() => setPaused(false)}>{en ? '⏸ The game is paused. Tap to continue' : '⏸ המשחק מושהה — לחצו להמשך'}</button>}
         </div>
         {won && (
           <div className="sdk-win" role="status">
             <div className="sdk-confetti" aria-hidden="true">{Array.from({ length: 18 }, (_, k) => <span key={k} style={{ '--k': k }}>{['🎉', '⭐', '✨', '🎊'][k % 4]}</span>)}</div>
-            <p className="sdk-win-title">🎉 כל הכבוד, פתרתם!</p>
-            <p>{meta ? meta.long : 'סודוקו'} תוך <b>{fmtTime(time)}</b>{mistakes ? (mistakes === 1 ? ', עם טעות אחת' : `, עם ${mistakes} טעויות`) : ', בלי אף טעות'}{hints ? ` ו־${hints} רמזים` : ''}.</p>
-            {newBest && <p className="sdk-win-best">🏆 שיא אישי חדש ברמה הזו!</p>}
-            {hints > 0 && <p className="sdk-win-note">שיא אישי נשמר רק בפתרון בלי רמזים.</p>}
+            <p className="sdk-win-title">{en ? '🎉 Well done, you solved it!' : '🎉 כל הכבוד, פתרתם!'}</p>
+            <p>{en
+              ? <>{EN_LONG[puzzle.level] || 'Sudoku'} in <b>{fmtTime(time)}</b>{mistakes ? (mistakes === 1 ? ', with one mistake' : `, with ${mistakes} mistakes`) : ', with no mistakes'}{hints ? ` and ${hints} ${hints === 1 ? 'hint' : 'hints'}` : ''}.</>
+              : <>{meta ? meta.long : 'סודוקו'} תוך <b>{fmtTime(time)}</b>{mistakes ? (mistakes === 1 ? ', עם טעות אחת' : `, עם ${mistakes} טעויות`) : ', בלי אף טעות'}{hints ? ` ו־${hints} רמזים` : ''}.</>}</p>
+            {newBest && <p className="sdk-win-best">{en ? '🏆 A new personal best for this level!' : '🏆 שיא אישי חדש ברמה הזו!'}</p>}
+            {hints > 0 && <p className="sdk-win-note">{en ? 'A personal best is saved only when you solve without hints.' : 'שיא אישי נשמר רק בפתרון בלי רמזים.'}</p>}
             <div className="sdk-win-actions">
               {onNew && <button type="button" className="sdk-btn sdk-btn-primary" onClick={onNew}>▶ {newLabel}</button>}
-              {onPrint && <button type="button" className="sdk-btn" onClick={() => onPrint(puzzle)}>🖨️ הדפסה</button>}
+              {onPrint && <button type="button" className="sdk-btn" onClick={() => onPrint(puzzle)}>{en ? '🖨️ Print' : '🖨️ הדפסה'}</button>}
             </div>
           </div>
         )}
       </div>
 
       <div className="sdk-tools">
-        <button type="button" className="sdk-tool" onClick={undo} disabled={!history.length || won}><span aria-hidden="true">↩️</span>ביטול</button>
-        <button type="button" className="sdk-tool" onClick={() => put(0)} disabled={won}><span aria-hidden="true">⌫</span>מחיקה</button>
-        <button type="button" className={`sdk-tool${notesMode ? ' is-on' : ''}`} onClick={() => setNotesMode(m => !m)} aria-pressed={notesMode}><span aria-hidden="true">✏️</span>טיוטה {notesMode ? 'פועלת' : ''}</button>
-        <button type="button" className="sdk-tool" onClick={hint} disabled={won}><span aria-hidden="true">💡</span>רמז</button>
+        <button type="button" className="sdk-tool" onClick={undo} disabled={!history.length || won}><span aria-hidden="true">↩️</span>{en ? 'Undo' : 'ביטול'}</button>
+        <button type="button" className="sdk-tool" onClick={() => put(0)} disabled={won}><span aria-hidden="true">⌫</span>{en ? 'Erase' : 'מחיקה'}</button>
+        <button type="button" className={`sdk-tool${notesMode ? ' is-on' : ''}`} onClick={() => setNotesMode(m => !m)} aria-pressed={notesMode}><span aria-hidden="true">✏️</span>{en ? 'Notes' : 'טיוטה'} {notesMode ? (en ? 'on' : 'פועלת') : ''}</button>
+        <button type="button" className="sdk-tool" onClick={hint} disabled={won}><span aria-hidden="true">💡</span>{en ? 'Hint' : 'רמז'}</button>
       </div>
 
       <div className="sdk-pad" style={{ '--n': n }}>
         {Array.from({ length: n }, (_, k) => k + 1).map(v => (
-          <button key={v} type="button" className="sdk-key" onClick={() => put(v)} disabled={won || remaining[v] <= 0} aria-label={`המספר ${v}`}>
+          <button key={v} type="button" className="sdk-key" onClick={() => put(v)} disabled={won || remaining[v] <= 0} aria-label={en ? `Number ${v}` : `המספר ${v}`}>
             {v}<small aria-hidden="true">{remaining[v] > 0 ? remaining[v] : '✓'}</small>
           </button>
         ))}
       </div>
 
       <div className="sdk-foot">
-        <label className="sdk-switch"><input type="checkbox" checked={check} onChange={toggleCheck} /> בדיקת טעויות</label>
-        <span className="sdk-progress">{filled}/{n * n} משבצות</span>
-        <button type="button" className="sdk-link" onClick={restart}>התחלה מחדש</button>
+        <label className="sdk-switch"><input type="checkbox" checked={check} onChange={toggleCheck} /> {en ? 'Check mistakes' : 'בדיקת טעויות'}</label>
+        <span className="sdk-progress">{filled}/{n * n} {en ? 'cells' : 'משבצות'}</span>
+        <button type="button" className="sdk-link" onClick={restart}>{en ? 'Start over' : 'התחלה מחדש'}</button>
         {onNew && <button type="button" className="sdk-link" onClick={onNew}>{newLabel}</button>}
-        {onPrint && <button type="button" className="sdk-link" onClick={() => onPrint(puzzle)}>🖨️ הדפסת הלוח</button>}
+        {onPrint && <button type="button" className="sdk-link" onClick={() => onPrint(puzzle)}>{en ? '🖨️ Print the board' : '🖨️ הדפסת הלוח'}</button>}
       </div>
     </div>
   )

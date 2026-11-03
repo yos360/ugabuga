@@ -81,3 +81,6 @@
 .buga-a4 .sdk-sheet-grid svg{width:100%;height:100%}
 .sdk-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px}
 .sdk-thumbs figure{margin:0;border:2px solid #dde2ed;border-radius:14px;background:#fff;padding:8px;text-align:center;font-size:13px;font-weight:700}
+
+/* English (ltr) */
+[dir=ltr] .sdk-paused{direction:ltr}

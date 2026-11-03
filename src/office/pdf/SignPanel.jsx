@@ -1,6 +1,7 @@
 // Signature / text stamp: draw with finger or mouse, or type; then drag it onto a page and pin it.
 import { useEffect, useRef, useState } from 'react'
 
+const same = s => s // the English page passes its own `t`
 const COLORS = [['#14162d', 'שחור'], ['#1a47b8', 'כחול'], ['#c0262d', 'אדום']]
 const FONTS = [
   ['hand', 'כתב יד', '"Segoe Script","Comic Sans MS","Gveret Levin",cursive', 600],
@@ -26,7 +27,7 @@ function trimCanvas(c) {
   return { url: out.toDataURL('image/png'), w: out.width, h: out.height }
 }
 
-function DrawPad({ color, padRef, onInk }) {
+function DrawPad({ color, padRef, onInk, t = same }) {
   const last = useRef(null)
   useEffect(() => {
     const c = padRef.current
@@ -46,10 +47,11 @@ function DrawPad({ color, padRef, onInk }) {
     last.current = p; onInk()
   }
   const up = () => { last.current = null }
-  return <canvas ref={padRef} className="pdf-pad" aria-label="משטח חתימה: ציירו כאן באצבע או בעכבר" onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} />
+  return <canvas ref={padRef} className="pdf-pad" aria-label={t('משטח חתימה: ציירו כאן באצבע או בעכבר')} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} />
 }
 
-export default function SignPanel({ items, engine, sources, targetId, onAdd, onRemove, onDownload, busy }) {
+export default function SignPanel({ items, engine, sources, targetId, onAdd, onRemove, onDownload, busy, t = same }) {
+  const ltr = t !== same
   const [mode, setMode] = useState('draw')
   const [color, setColor] = useState(COLORS[0][0])
   const [text, setText] = useState('')
@@ -89,8 +91,8 @@ export default function SignPanel({ items, engine, sources, targetId, onAdd, onR
       ctx.font = fontCss
       c.width = Math.min(8000, Math.ceil(ctx.measureText(text.trim()).width) + 60); c.height = 260
       ctx.font = fontCss // resizing a canvas resets its context
-      ctx.fillStyle = color; ctx.textBaseline = 'middle'; ctx.direction = 'rtl'; ctx.textAlign = 'right'
-      ctx.fillText(text.trim(), c.width - 20, c.height / 2)
+      ctx.fillStyle = color; ctx.textBaseline = 'middle'; ctx.direction = ltr ? 'ltr' : 'rtl'; ctx.textAlign = ltr ? 'left' : 'right'
+      ctx.fillText(text.trim(), ltr ? 20 : c.width - 20, c.height / 2)
       s = trimCanvas(c)
     }
     if (!s) return
@@ -128,55 +130,55 @@ export default function SignPanel({ items, engine, sources, targetId, onAdd, onR
   return (
     <div className="space-y-3 w-full">
       {!stamp ? <>
-        <p className="pdf-step">1. מה מוסיפים?</p>
+        <p className="pdf-step">{t('1. מה מוסיפים?')}</p>
         <div className="pdf-seg" role="tablist">
-          <button type="button" role="tab" aria-selected={mode === 'draw'} onClick={() => setMode('draw')}>✍️ ציור חתימה</button>
-          <button type="button" role="tab" aria-selected={mode === 'type'} onClick={() => setMode('type')}>🔤 הקלדת טקסט</button>
+          <button type="button" role="tab" aria-selected={mode === 'draw'} onClick={() => setMode('draw')}>{t('✍️ ציור חתימה')}</button>
+          <button type="button" role="tab" aria-selected={mode === 'type'} onClick={() => setMode('type')}>{t('🔤 הקלדת טקסט')}</button>
         </div>
         <div className="pdf-row">
-          <span>צבע:</span>
-          {COLORS.map(([c, n]) => <button key={c} type="button" className="pdf-color" style={{ background: c }} aria-label={n} aria-pressed={color === c} onClick={() => setColor(c)} />)}
+          <span>{t('צבע:')}</span>
+          {COLORS.map(([c, n]) => <button key={c} type="button" className="pdf-color" style={{ background: c }} aria-label={t(n)} aria-pressed={color === c} onClick={() => setColor(c)} />)}
         </div>
         {mode === 'draw' ? <>
-          <DrawPad color={color} padRef={pad} onInk={() => setInked(true)} />
+          <DrawPad color={color} padRef={pad} onInk={() => setInked(true)} t={t} />
           <div className="pdf-row">
-            <button type="button" className="xl-btn alt" onClick={clearPad}>🧽 ניקוי</button>
-            <button type="button" className="xl-btn" disabled={!inked} onClick={makeStamp}>המשך: מיקום על הדף ←</button>
+            <button type="button" className="xl-btn alt" onClick={clearPad}>{t('🧽 ניקוי')}</button>
+            <button type="button" className="xl-btn" disabled={!inked} onClick={makeStamp}>{t('המשך: מיקום על הדף ←')}</button>
           </div>
         </> : <>
-          <input className="pdf-input" value={text} onChange={e => setText(e.target.value)} placeholder="שם מלא, ת״ז, הערה…" maxLength={80} />
+          <input className="pdf-input" value={text} onChange={e => setText(e.target.value)} placeholder={t('שם מלא, ת״ז, הערה…')} maxLength={80} />
           <div className="pdf-row">
-            {FONTS.map(([k, n, ff, fw]) => <button key={k} type="button" className="pdf-chip" aria-pressed={font === k} style={{ fontFamily: ff, fontWeight: fw }} onClick={() => setFont(k)}>{n}</button>)}
-            <button type="button" className="pdf-chip" onClick={() => setText(new Date().toLocaleDateString('he-IL'))}>📅 תאריך היום</button>
+            {FONTS.map(([k, n, ff, fw]) => <button key={k} type="button" className="pdf-chip" aria-pressed={font === k} style={{ fontFamily: ff, fontWeight: fw }} onClick={() => setFont(k)}>{t(n)}</button>)}
+            <button type="button" className="pdf-chip" onClick={() => setText(new Date().toLocaleDateString(ltr ? 'en-US' : 'he-IL'))}>{t('📅 תאריך היום')}</button>
           </div>
-          <button type="button" className="xl-btn" disabled={!text.trim()} onClick={makeStamp}>המשך: מיקום על הדף ←</button>
+          <button type="button" className="xl-btn" disabled={!text.trim()} onClick={makeStamp}>{t('המשך: מיקום על הדף ←')}</button>
         </>}
       </> : <>
-        <p className="pdf-step">2. גוררים למקום הנכון ומצמידים</p>
+        <p className="pdf-step">{t('2. גוררים למקום הנכון ומצמידים')}</p>
         <div className="pdf-row">
-          <label className="pdf-row">עמוד:
+          <label className="pdf-row">{t('עמוד:')}
             <select className="pdf-input w-auto" value={item.id} onChange={e => setPageId(+e.target.value)}>
               {items.map((p, i) => <option key={p.id} value={p.id}>{i + 1}</option>)}
             </select>
           </label>
-          <label className="pdf-row grow">גודל:
-            <input type="range" min="0.06" max="0.9" step="0.01" value={box.fw} onChange={e => setBox(clamp({ ...box, fw: +e.target.value }))} aria-label="גודל החתימה" />
+          <label className="pdf-row grow">{t('גודל:')}
+            <input type="range" min="0.06" max="0.9" step="0.01" value={box.fw} onChange={e => setBox(clamp({ ...box, fw: +e.target.value }))} aria-label={t('גודל החתימה')} />
           </label>
         </div>
         <div className="pdf-stage" ref={stage} onClick={tapStage}>
-          {preview ? <img src={preview.url} alt={`עמוד ${pageNo}`} draggable="false" /> : <div className="pdf-stage-wait">טוען את העמוד…</div>}
-          {preview && <img src={stamp.url} alt="החתימה" className="pdf-stamp" draggable="false"
+          {preview ? <img src={preview.url} alt={t(`עמוד ${pageNo}`)} draggable="false" /> : <div className="pdf-stage-wait">{t('טוען את העמוד…')}</div>}
+          {preview && <img src={stamp.url} alt={t('החתימה')} className="pdf-stamp" draggable="false"
             style={{ right: 'auto', left: `${box.fx * 100}%`, top: `${box.fy * 100}%`, width: `${box.fw * 100}%` }}
             onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onClick={e => e.stopPropagation()} />}
         </div>
         <div className="pdf-row">
-          <button type="button" className="xl-btn go" disabled={!preview || busy} onClick={pin}>📌 הצמדה לעמוד {pageNo}</button>
-          <button type="button" className="xl-btn alt" onClick={() => { setStamp(null); setInked(false) }}>↩ חתימה אחרת</button>
-          {item.overlays?.length > 0 && <button type="button" className="xl-btn alt" onClick={() => onRemove(item.id)}>🗑 ניקוי עמוד {pageNo}</button>}
+          <button type="button" className="xl-btn go" disabled={!preview || busy} onClick={pin}>{t(`📌 הצמדה לעמוד ${pageNo}`)}</button>
+          <button type="button" className="xl-btn alt" onClick={() => { setStamp(null); setInked(false) }}>{t('↩ חתימה אחרת')}</button>
+          {item.overlays?.length > 0 && <button type="button" className="xl-btn alt" onClick={() => onRemove(item.id)}>{t(`🗑 ניקוי עמוד ${pageNo}`)}</button>}
         </div>
         {added > 0 && <div className="pdf-ok" role="status">
-          <span>✅ הוצמד. אפשר להצמיד שוב (בעמוד אחר או במקום אחר), או להוריד.</span>
-          <button type="button" className="xl-btn" disabled={busy} onClick={onDownload}>⬇️ הורדת ה-PDF החתום</button>
+          <span>{t('✅ הוצמד. אפשר להצמיד שוב (בעמוד אחר או במקום אחר), או להוריד.')}</span>
+          <button type="button" className="xl-btn" disabled={busy} onClick={onDownload}>{t('⬇️ הורדת ה-PDF החתום')}</button>
         </div>}
       </>}
     </div>

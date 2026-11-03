@@ -12,7 +12,7 @@ function NewSheet({ onClick }) {
 }
 
 // ── Clocks ──────────────────────────────────────────────
-function Clock({ cx, cy, r, h, m, hands = true, answer }) {
+export function Clock({ cx, cy, r, h, m, hands = true, answer }) {
   const ha = ((h % 12) + m / 60) * 30 - 90, ma = m * 6 - 90, rad = a => a * Math.PI / 180
   return <g>
     <circle cx={cx} cy={cy} r={r} fill="#fff" stroke="#111" strokeWidth={1} />
@@ -83,10 +83,10 @@ export function ClockWorksheets() {
 }
 
 // ── Fractions ──────────────────────────────────────────────
-function Frac({ x, y, n, d, size = 7, color = '#111' }) {
+export function Frac({ x, y, n, d, size = 7, color = '#111' }) {
   return <g><text x={x} y={y - 1.2} fontSize={size} textAnchor="middle" fontWeight={700} fill={color}>{n}</text><line x1={x - size * 0.45} x2={x + size * 0.45} y1={y + 0.5} y2={y + 0.5} stroke={color} strokeWidth={0.6} /><text x={x} y={y + size * 0.95} fontSize={size} textAnchor="middle" fontWeight={700} fill={color}>{d}</text></g>
 }
-function Shape({ kind, cx, cy, d, n, fill = '#9ad0ff', blank }) {
+export function Shape({ kind, cx, cy, d, n, fill = '#9ad0ff', blank }) {
   if (kind === 'pie') {
     const r = 13, pts = a => [cx + Math.sin(a) * r, cy - Math.cos(a) * r]
     return <g>{Array.from({ length: d }, (_, i) => { const a0 = i * 2 * Math.PI / d, a1 = (i + 1) * 2 * Math.PI / d, [x0, y0] = pts(a0), [x1, y1] = pts(a1)

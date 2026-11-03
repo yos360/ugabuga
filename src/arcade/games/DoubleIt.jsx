@@ -13,7 +13,8 @@ const TILE = {
 const SLIDE_MS = 120
 const UNDOS = 3
 
-export default function DoubleIt({ onReport, onShare, daily }) {
+export default function DoubleIt({ onReport, onShare, daily, lang = 'he' }) {
+  const en = lang === 'en'
   const [progress, saveProgress] = useProgress('merge-2048', { best: 0 })
   // the daily challenge uses a seeded random, so everyone gets the same new tiles
   const newGame = () => { const rand = daily ? rng(daily.seed) : Math.random; return { rand, tiles: fresh(rand), score: 0, history: [], undos: UNDOS } }
@@ -75,13 +76,13 @@ export default function DoubleIt({ onReport, onShare, daily }) {
 
   useEffect(() => {
     // marathon: reaching the target tile wins the stage at once
-    if (daily?.target && bestTile(game.tiles) >= daily.target) daily.finish({ text: `🔢 2048: הגעתי ל־${bestTile(game.tiles)}`, score: game.score, won: true })
-    else if (over && daily) daily.finish({ text: `🔢 2048: צברתי ${game.score} נקודות (הגעתי ל־${bestTile(game.tiles)})`, score: -game.score, won: !daily.target })
-  }, [over, daily, game.score, game.tiles])
+    if (daily?.target && bestTile(game.tiles) >= daily.target) daily.finish({ text: en ? `🔢 2048: I reached ${bestTile(game.tiles)}` : `🔢 2048: הגעתי ל־${bestTile(game.tiles)}`, score: game.score, won: true })
+    else if (over && daily) daily.finish({ text: en ? `🔢 2048: I scored ${game.score} points (reached ${bestTile(game.tiles)})` : `🔢 2048: צברתי ${game.score} נקודות (הגעתי ל־${bestTile(game.tiles)})`, score: -game.score, won: !daily.target })
+  }, [over, daily, game.score, game.tiles, en])
   useEffect(() => { if (game.score > progress.best) saveProgress({ best: game.score }) }, [game.score, progress.best, saveProgress])
   useEffect(() => {
-    if (game.score) onReport?.({ text: `🔢 צברתי ${game.score} נקודות במכפילים עד 2048 (הגעתי ל־${bestTile(game.tiles)})!` })
-  }, [game.score, game.tiles, onReport])
+    if (game.score) onReport?.({ text: en ? `🔢 I scored ${game.score} points in Double It to 2048 (reached ${bestTile(game.tiles)})!` : `🔢 צברתי ${game.score} נקודות במכפילים עד 2048 (הגעתי ל־${bestTile(game.tiles)})!` })
+  }, [game.score, game.tiles, onReport, en])
 
   const size = Math.max(220, Math.min(box.w - 16, box.h - 44, 540))
   const gap = Math.round(size * 0.028)
@@ -96,12 +97,12 @@ export default function DoubleIt({ onReport, onShare, daily }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['ניקוד', game.score], daily?.target ? ['מטרה', daily.target] : ['שיא', Math.max(progress.best, game.score)]]}>
-        <ToolButton onClick={undo} disabled={!game.history.length || !game.undos} label={`ביטול מהלך (נשארו ${game.undos})`}>↩<small className="mg-undo-n">{game.undos}</small></ToolButton>
-        <ToolButton onClick={restart} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[[en ? 'Score' : 'ניקוד', game.score], daily?.target ? [en ? 'Goal' : 'מטרה', daily.target] : [en ? 'Best' : 'שיא', Math.max(progress.best, game.score)]]}>
+        <ToolButton onClick={undo} disabled={!game.history.length || !game.undos} label={en ? `Undo (${game.undos} left)` : `ביטול מהלך (נשארו ${game.undos})`}>↩<small className="mg-undo-n">{game.undos}</small></ToolButton>
+        <ToolButton onClick={restart} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
       <div className="arc-field mg-field" ref={el => { boxRef.current = el; fieldRef.current = el }}>
-        <div key={bump} className={`mg-board${bump ? ' is-bump' : ''}${free <= 1 && !over ? ' is-tight' : ''}`} style={{ width: size, height: size }} role="application" aria-label="לוח מספרים. החליקו לכל כיוון או השתמשו בחיצי המקלדת">
+        <div key={bump} className={`mg-board${bump ? ' is-bump' : ''}${free <= 1 && !over ? ' is-tight' : ''}`} style={{ width: size, height: size }} role="application" aria-label={en ? 'Number board. Swipe in any direction or use the arrow keys' : 'לוח מספרים. החליקו לכל כיוון או השתמשו בחיצי המקלדת'}>
           {Array.from({ length: SIZE * SIZE }, (_, i) => (
             <div key={i} className="mg-cell" style={{ width: cell, height: cell, transform: pos(i % SIZE, Math.floor(i / SIZE)) }} />
           ))}
@@ -112,15 +113,15 @@ export default function DoubleIt({ onReport, onShare, daily }) {
           {milestone && <div key={milestone.k} className="mg-milestone" aria-live="polite">{milestone.v}! 🎉</div>}
           {pops.map(p => <span key={p.k} className="mg-pop" onAnimationEnd={() => setPops(ps => ps.filter(x => x.k !== p.k))}>+{p.v}</span>)}
         </div>
-        <p className="mg-help" aria-hidden="true">👆 מחליקים לכל כיוון — בכל מקום במסך</p>
+        <p className="mg-help" aria-hidden="true">{en ? '👆 Swipe in any direction, anywhere on the screen' : '👆 מחליקים לכל כיוון — בכל מקום במסך'}</p>
       </div>
-      {showWin && <EndCard title="🏆 2048!" text="הגעתם למשבצת 2048 — אלופים! אפשר להמשיך ולשבור שיאים."
-        primary="▶ ממשיכים לשחק" onPrimary={() => setShowWin(false)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.('🏆 הגעתי ל־2048 במכפילים של עוגה בוגה! אתם מסוגלים?')} />}
-      {over && !showWin && !daily && <EndCard title="😮 הלוח התמלא" text={`צברתם ${game.score} נקודות${game.score >= progress.best && game.score > 0 ? ' — שיא חדש! 🎉' : ''}${game.undos && game.history.length ? ` · נשארו לכם ${game.undos} ביטולים` : ''}`}
-        primary="🔄 משחק חדש" onPrimary={restart}
-        secondary={game.undos && game.history.length ? '↩ ביטול המהלך האחרון' : '📱 שתפו את הניקוד'}
-        onSecondary={game.undos && game.history.length ? undo : () => onShare?.(`🔢 צברתי ${game.score} נקודות במכפילים עד 2048! מי עובר אותי?`)} />}
+      {showWin && <EndCard title="🏆 2048!" lang={lang} text={en ? 'You reached the 2048 tile. Champions! You can keep playing and break records.' : 'הגעתם למשבצת 2048 — אלופים! אפשר להמשיך ולשבור שיאים.'}
+        primary={en ? '▶ Keep playing' : '▶ ממשיכים לשחק'} onPrimary={() => setShowWin(false)}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? '🏆 I reached 2048 in Ugabuga Double It! Can you?' : '🏆 הגעתי ל־2048 במכפילים של עוגה בוגה! אתם מסוגלים?')} />}
+      {over && !showWin && !daily && <EndCard lang={lang} title={en ? '😮 The board is full' : '😮 הלוח התמלא'} text={en ? `You scored ${game.score} points${game.score >= progress.best && game.score > 0 ? ' - a new record! 🎉' : ''}${game.undos && game.history.length ? ` · ${game.undos} undos left` : ''}` : `צברתם ${game.score} נקודות${game.score >= progress.best && game.score > 0 ? ' — שיא חדש! 🎉' : ''}${game.undos && game.history.length ? ` · נשארו לכם ${game.undos} ביטולים` : ''}`}
+        primary={en ? '🔄 New game' : '🔄 משחק חדש'} onPrimary={restart}
+        secondary={game.undos && game.history.length ? (en ? '↩ Undo the last move' : '↩ ביטול המהלך האחרון') : (en ? '📱 Share your score' : '📱 שתפו את הניקוד')}
+        onSecondary={game.undos && game.history.length ? undo : () => onShare?.(en ? `🔢 I scored ${game.score} points in Double It to 2048! Can you beat me?` : `🔢 צברתי ${game.score} נקודות במכפילים עד 2048! מי עובר אותי?`)} />}
     </div>
   )
 }

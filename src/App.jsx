@@ -515,7 +515,7 @@ const EnglishHome = lazy(() => import('./en/EnglishHome'))
 const EnglishLiveHome = lazy(() => import('./en/EnglishLiveHome'))
 const EnglishLiveHost = lazy(() => import('./en/EnglishLiveHost'))
 const EnglishLivePlay = lazy(() => import('./en/EnglishLivePlay'))
-const EnglishNotFound = lazy(() => import('./en/EnglishLayout').then(m => ({ default: m.EnglishNotFound })))
+const EnglishExtra = lazy(() => import('./en/EnglishExtra'))
 
 function Loading() {
   const { pathname } = useLocation()
@@ -600,7 +600,7 @@ export default function App() {
               <Route path="/en/rsvp" element={<EnglishRsvp />} />
               <Route path="/en/rsvp/:type" element={<EnglishRsvpType />} />
               <Route path="/en/r/:code" element={<EnglishRsvp />} />
-              <Route path="/en/*" element={<EnglishNotFound />} />
+              <Route path="/en/*" element={<EnglishExtra />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />

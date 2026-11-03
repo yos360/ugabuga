@@ -1,0 +1,15 @@
+﻿/* English (dir=ltr) fixes for the shared arcade styles. Append rules scoped to [dir=ltr] only; Hebrew must render exactly as before. */
+
+
+/* tic-tac-toe, four-in-a-row, battleship, buga-24, sudoku */
+[dir=ltr] .bs2-grid{direction:ltr}
+[dir=ltr] .b24-learning{text-align:left}
+
+/* Brain games: river crossing (boat sits between the banks; the start bank is on the left in LTR) */
+.brain-game[dir=ltr] .brain-board details, .brain-game[dir=ltr] .brain-clues { text-align:left; }
+.brain-game[dir=ltr] .brain-banks[data-boat="0"]::after { right:auto; left:calc(50% - 6px); transform:translateX(-50%) scaleX(-1); }
+.brain-game[dir=ltr] .brain-banks[data-boat="1"]::after { left:auto; right:calc(50% - 6px); transform:translateX(50%); }
+.brain-game[dir=ltr] .brain-banks::after { transition:right .4s,left .4s; }
+
+/* texas-holdem (English): the table text direction follows the page */
+[dir=ltr] .th-game .th-center, [dir=ltr] .th-game .th-seat, [dir=ltr] .th-controls, [dir=ltr] .th-game .th-settings, [dir=ltr] .th-confirm { direction: ltr }

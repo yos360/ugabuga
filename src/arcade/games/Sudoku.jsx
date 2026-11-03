@@ -9,7 +9,11 @@ function newGame(level, daily) {
   return { level, puzzle, solution, grid: puzzle.slice(), notes: puzzle.map(() => []), mistakes: 0, hints: 0 }
 }
 
-export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
+const LEVEL_EN = { kids: 'Little ones 4×4', six: '6×6', easy: 'Easy 9×9', medium: 'Medium', hard: 'Hard' }
+
+export default function Sudoku({ onReport, onShare, daily, initialLevel, lang = 'he' }) {
+  const en = lang === 'en'
+  const levelName = l => (en ? LEVEL_EN[l.id] || l.name : l.name)
   const [progress, saveProgress] = useProgress('sudoku', { level: 'easy', solved: 0 })
   const [g, setG] = useState(() => newGame(LEVELS.find(l => l.id === (daily?.level || initialLevel || progress.level)) || LEVELS[2], daily))
   const [sel, setSel] = useState(null)
@@ -28,8 +32,8 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
     if (!won) return
     if (daily) { daily.finish({ text: `🔢 סודוקו: פתרתי תוך ${fmt(time)}${g.mistakes ? ` (${g.mistakes} טעויות)` : ' בלי טעויות'}${g.hints ? `, ${g.hints} רמזים` : ''}`, score: time + g.mistakes * 30 + g.hints * 60, won: true }); return }
     saveProgress(p => ({ solved: p.solved + 1 }))
-    onReport?.({ text: `🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}!` })
-  }, [won, g.level.name, g.mistakes, g.hints, time, saveProgress, onReport, daily])
+    onReport?.({ text: en ? `🔢 I solved a ${levelName(g.level)} sudoku in ${fmt(time)}!` : `🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}!` })
+  }, [won, g.level, g.mistakes, g.hints, time, saveProgress, onReport, daily, en])
 
   const start = level => { setG(newGame(level, daily)); setSel(null); setTime(0); if (!daily) saveProgress({ level: level.id }) }
 
@@ -85,17 +89,17 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
 
   return (
     <div className="arc-game">
-      <Hud stats={[['⏱️', fmt(time)], ['טעויות', g.mistakes]]}>
-        <ToolButton onClick={() => setNotesMode(m => !m)} label={notesMode ? 'מצב טיוטה פעיל' : 'מצב טיוטה'}><span className={notesMode ? 'ms-flag-on' : ''}>✏️</span></ToolButton>
-        <ToolButton onClick={() => put(0)} label="מחיקה">⌫</ToolButton>
-        <ToolButton onClick={hint} label="רמז">💡</ToolButton>
-        <ToolButton onClick={() => start(g.level)} label="משחק חדש">🔄</ToolButton>
+      <Hud stats={[['⏱️', fmt(time)], [en ? 'Mistakes' : 'טעויות', g.mistakes]]}>
+        <ToolButton onClick={() => setNotesMode(m => !m)} label={notesMode ? (en ? 'Notes mode is on' : 'מצב טיוטה פעיל') : (en ? 'Notes mode' : 'מצב טיוטה')}><span className={notesMode ? 'ms-flag-on' : ''}>✏️</span></ToolButton>
+        <ToolButton onClick={() => put(0)} label={en ? 'Erase' : 'מחיקה'}>⌫</ToolButton>
+        <ToolButton onClick={hint} label={en ? 'Hint' : 'רמז'}>💡</ToolButton>
+        <ToolButton onClick={() => start(g.level)} label={en ? 'New game' : 'משחק חדש'}>🔄</ToolButton>
       </Hud>
-      {!daily && <div className="sp-levels" role="group" aria-label="רמת קושי">
-        {LEVELS.map(l => <button key={l.id} type="button" className={`arc-chip${l.id === g.level.id ? ' is-on' : ''}`} onClick={() => start(l)}>{l.name}</button>)}
+      {!daily && <div className="sp-levels" role="group" aria-label={en ? 'Difficulty' : 'רמת קושי'}>
+        {LEVELS.map(l => <button key={l.id} type="button" className={`arc-chip${l.id === g.level.id ? ' is-on' : ''}`} onClick={() => start(l)}>{levelName(l)}</button>)}
       </div>}
       <div className="arc-field" ref={boxRef} style={{ flexDirection: 'column', gap: 10 }}>
-        <div className="sd-board" style={{ width: size, height: size, gridTemplateColumns: `repeat(${n}, 1fr)`, fontSize: cell * 0.56 }} role="grid" aria-label={`סודוקו ${n} על ${n}`}>
+        <div className="sd-board" style={{ width: size, height: size, gridTemplateColumns: `repeat(${n}, 1fr)`, fontSize: cell * 0.56 }} role="grid" aria-label={en ? `Sudoku ${n} by ${n}` : `סודוקו ${n} על ${n}`}>
           {g.grid.map((v, i) => {
             const r = Math.floor(i / n), c = i % n
             const given = !!g.puzzle[i]
@@ -104,7 +108,7 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
             const related = sel !== null && (r === sr || c === sc || (Math.floor(r / br) === Math.floor(sr / br) && Math.floor(c / bc) === Math.floor(sc / bc)))
             const cls = `sd-cell${given ? ' is-given' : ''}${wrong ? ' is-wrong' : ''}${sel === i ? ' is-sel' : related ? ' is-rel' : ''}${selV && v === selV && sel !== i ? ' is-same' : ''}${(c + 1) % bc === 0 && c < n - 1 ? ' b-e' : ''}${(r + 1) % br === 0 && r < n - 1 ? ' b-s' : ''}`
             return (
-              <button key={i} type="button" className={cls} onClick={() => setSel(i)} aria-label={`שורה ${r + 1} עמודה ${c + 1}: ${v || 'ריק'}`}>
+              <button key={i} type="button" className={cls} onClick={() => setSel(i)} aria-label={en ? `Row ${r + 1} column ${c + 1}: ${v || 'empty'}` : `שורה ${r + 1} עמודה ${c + 1}: ${v || 'ריק'}`}>
                 {v ? v : g.notes[i].length ? <span className="sd-notes" style={{ gridTemplateColumns: `repeat(${bc}, 1fr)` }}>{Array.from({ length: n }, (_, k) => <i key={k}>{g.notes[i].includes(k + 1) ? k + 1 : ''}</i>)}</span> : ''}
               </button>
             )
@@ -112,13 +116,13 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel }) {
         </div>
         <div className="sd-pad" style={{ width: size }}>
           {Array.from({ length: n }, (_, k) => k + 1).map(v => (
-            <button key={v} type="button" className="sd-key" onClick={() => put(v)} disabled={counts[v] >= n} aria-label={`המספר ${v}`}>{v}</button>
+            <button key={v} type="button" className="sd-key" onClick={() => put(v)} disabled={counts[v] >= n} aria-label={en ? `Number ${v}` : `המספר ${v}`}>{v}</button>
           ))}
         </div>
       </div>
-      {won && !daily && <EndCard title="🎉 פתרתם!" text={`סודוקו ${g.level.name} תוך ${fmt(time)}${g.mistakes ? ` עם ${g.mistakes} טעויות` : ' בלי אף טעות'}${g.hints ? ` ו־${g.hints} רמזים` : ''}.`}
-        primary="▶ סודוקו חדש" onPrimary={() => start(g.level)}
-        secondary="📱 שתפו את ההישג" onSecondary={() => onShare?.(`🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}! תצליחו מהר יותר?`)} />}
+      {won && !daily && <EndCard lang={lang} title={en ? '🎉 Solved!' : '🎉 פתרתם!'} text={en ? `${levelName(g.level)} sudoku in ${fmt(time)}${g.mistakes ? ` with ${g.mistakes} mistake${g.mistakes === 1 ? '' : 's'}` : ' with no mistakes'}${g.hints ? ` and ${g.hints} hint${g.hints === 1 ? '' : 's'}` : ''}.` : `סודוקו ${g.level.name} תוך ${fmt(time)}${g.mistakes ? ` עם ${g.mistakes} טעויות` : ' בלי אף טעות'}${g.hints ? ` ו־${g.hints} רמזים` : ''}.`}
+        primary={en ? '▶ New sudoku' : '▶ סודוקו חדש'} onPrimary={() => start(g.level)}
+        secondary={en ? '📱 Share your score' : '📱 שתפו את ההישג'} onSecondary={() => onShare?.(en ? `🔢 I solved a ${levelName(g.level)} sudoku in ${fmt(time)}! Can you do it faster?` : `🔢 פתרתי סודוקו ${g.level.name} תוך ${fmt(time)}! תצליחו מהר יותר?`)} />}
     </div>
   )
 }
