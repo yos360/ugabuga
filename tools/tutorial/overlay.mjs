@@ -9,7 +9,7 @@ export async function installOverlay(page) {
     st.textContent = `
 @font-face{font-family:'TutHeebo';src:url(data:font/ttf;base64,${font}) format('truetype');font-weight:100 900}
 #tut-root *{box-sizing:border-box;font-family:'TutHeebo',Heebo,sans-serif}
-#tut-cap{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(30px);opacity:0;z-index:2147483646;direction:rtl;
+#tut-cap{pointer-events:none;position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(30px);opacity:0;z-index:2147483646;direction:rtl;
   display:flex;align-items:center;gap:22px;padding:16px 34px 16px 40px;background:rgba(255,255,255,.88);border:4px solid #14162d;border-radius:22px;
   box-shadow:6px 6px 0 rgba(20,22,45,.85);color:#14162d;font-size:44px;font-weight:700;white-space:nowrap;transition:opacity .35s,transform .35s}
 #tut-cap.on{opacity:1;transform:translateX(-50%) translateY(0)}
