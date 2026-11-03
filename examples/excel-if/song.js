@@ -15,30 +15,30 @@ const verb = bus(), dly = bus();
 const pan = (x) => Math.max(-1, Math.min(1, x));
 const END = T(12);
 const note = (n) => (typeof n === 'number' ? n : m(n));
-const inCount = (t) => t >= ev.count - 0.01 && t < ev.ring;
+const inCount = () => false;
 
 // ---------- drums: full groove, thinned to a heartbeat kick under the countdown ----------
 const K = I.kick({ tail: 0.24 }), CL = I.clap(), SN = I.snare(), HC = [I.hat(false, 11), I.hat(false, 12)], CR = I.crash(18);
 const SH = [I.shaker(1, 15), I.shaker(0.6, 16)];
 const kicks = [];
 clock.eachStep(0, 12, 16, (t, b, s) => {
-  const hook = b < 2, count = inCount(t);
+  const hook = b < 3, count = inCount(t);
   if (count) { if (s % 8 === 0) { drums.addMono(K, t, 0.55); kicks.push(t); } return; }
   if (hook ? s % 8 === 0 : s % 4 === 0 || s === 10) { drums.addMono(K, t, hook ? 0.6 : 0.8); kicks.push(t); }
   if (s % 8 === 4 && b >= 1) { drums.addMono(CL, t, hook ? 0.35 : 0.48); verb.addMono(CL, t, 0.18); }
   if (!hook) drums.addMono(HC[s % 2], t, s % 2 ? 0.16 : 0.09, -0.3);
   if (s % 2 === 0) drums.addMono(SH[s % 4 === 0 ? 1 : 0], t, 0.1, 0.35);
 });
-for (const t0 of [T(2), ev.ring]) { drums.addMono(CR, t0, 0.32, -0.2); fx.addMono(I.thud(120, 0.06), t0, 0.35); }
+for (const t0 of [T(3)]) { drums.addMono(CR, t0, 0.32, -0.2); fx.addMono(I.thud(120, 0.06), t0, 0.35); }
 drums.addMono(CR, ev.logo, 0.4, 0.2);
-for (const t0 of [T(2), ev.logo]) for (let i = 0; i < 3; i++) drums.addMono(SN, t0 - BEAT + i * BEAT / 6, 0.08 + i * 0.03, 0.1);
+for (const t0 of [T(3), ev.logo]) for (let i = 0; i < 3; i++) drums.addMono(SN, t0 - BEAT + i * BEAT / 6, 0.08 + i * 0.03, 0.1);
 
 // ---------- bass ----------
 clock.eachStep(0, 12, 8, (t, b, s) => {
   const c = sc.chordAt(t);
   if (!c) return;
   const R = c.bass + 12;
-  if (b < 2 || inCount(t)) { if (s === 0) bass.addMono(I.bass(R, BEAT * 1.6), t, 0.42); return; }
+  if (b < 3 || inCount(t)) { if (s === 0) bass.addMono(I.bass(R, BEAT * 1.6), t, 0.42); return; }
   if (s === 0 || s === 3 || s === 4 || s === 6) bass.addMono(I.bass(s === 6 ? R + 7 : R, BEAT / 2 * (s === 0 ? 1.4 : 0.8)), t, 0.52);
 });
 bass.addMono(I.bass(m('C2') + 12, 2.2, { bright: 0.3, sub: 1 }), END, 0.5);
@@ -57,10 +57,7 @@ for (const [i, f] of ['A4', 'C5', 'E5'].entries()) keys.addMono(I.marimba(m(f)),
 keys.addMono(I.marimba(m('G#5')), ev.pic, 0.26); fx.addMono(I.pop(900, 3), ev.pic, 0.25);
 fx.addMono(I.thud(140, 0.05), ev.ready, 0.4); fx.addMono(I.pop(1500, 9), ev.ready, 0.3);
 { const b = I.bell(mtof(m('E6')), 0.9, 1.4, 3.5); keys.addMono(b, ev.ready, 0.1); verb.addMono(b, ev.ready, 0.1); }
-fx.addMono(I.noiseSweep(0.3, 600, 5000, { q: 0.9, pink: true }), T(2) - 0.5, 0.2);
-
-// ---------- THE QUESTION: a marimba note per option tile ----------
-for (const s of sc.opts) { fx.addMono(I.pop(1200 + s.i * 110, 20 + s.i), s.t, 0.2, pan(-0.4 + s.i * 0.27)); keys.addMono(I.marimba(s.midi), s.t, 0.24, pan(-0.4 + s.i * 0.27)); }
+fx.addMono(I.noiseSweep(0.3, 600, 5000, { q: 0.9, pink: true }), T(3) - 0.5, 0.2);
 
 // ---------- HOW IT WORKS: a pop per card / chip / the stars ----------
 ev.cards.forEach((t0, i) => { fx.addMono(I.pop(1300 + i * 120, 70 + i), t0, 0.25); keys.addMono(I.marimba(m(['G5', 'C6', 'E6'][i])), t0, 0.24); });
@@ -68,14 +65,6 @@ for (let i = 0; i < 3; i++) fx.addMono(I.pop(1500 + i * 100, 80 + i), ev.chips +
 fx.addMono(I.pop(1100, 90), ev.sim, 0.25); keys.addMono(I.marimba(m('A5')), ev.sim, 0.2);
 for (const [i, f] of ['C6', 'E6', 'G6'].entries()) { const b = I.bell(mtof(m(f)), 0.5, 1.4, 3.5); keys.addMono(b, ev.stars + i * 0.1, 0.1, pan(-0.2 + i * 0.2)); }
 fx.addMono(I.pop(1400, 30), ev.head, 0.2);
-
-// ---------- COUNTDOWN: a wood tick every second, higher for the last three ----------
-for (const k of sc.ticks) {
-  drums.addMono(I.woodTick(k.k >= 2 ? 1.5 : 1.15), k.t, k.k >= 2 ? 0.32 : 0.24, pan(k.k % 2 ? 0.2 : -0.2));
-  if (k.k >= 2) keys.addMono(I.marimba(k.midi), k.t, 0.18);
-}
-// time's up
-fx.addMono(I.subBoom(1.2), ev.ring, 0.4);
 
 fx.addMono(I.pop(1000, 60), ev.comment, 0.3);
 
@@ -88,7 +77,7 @@ for (const [i, l] of sc.endLines.entries()) { keys.addMono(I.marimba(m(['E5', 'G
 for (const f of ['C4', 'E4', 'G4', 'C5']) keys.addMono(I.epiano(m(f), 1.8), END, 0.12);
 
 // ---------- mix ----------
-MIX.sidechain([pad, bass], kicks.filter((t) => t >= T(2) && t < END));
+MIX.sidechain([pad, bass], kicks.filter((t) => t >= T(3) && t < END));
 const stems = { drums, bass, pad, keys, lead, fx, verb: reverb(verb, { room: 0.8, damp: 0.35 }), dly: pingpong(dly, BEAT * 0.75, 0.3, 3500) };
 const GAIN = { drums: 0.32, bass: 0.7, pad: 2.2, keys: 1.3, lead: 3.4, fx: 0.85, verb: 1, dly: 1 };
 const out = path.join(__dirname, 'out');

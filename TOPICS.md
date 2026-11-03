@@ -68,6 +68,6 @@ Update 2026-11-02 (scheduled upload, owner's Chrome): YouTube https://youtube.co
 | 2026-11-02 | "חידת החניה" — חידה קשה מאוד, 10 שניות, "כתבו את התשובה בתגובות" (הדמות החדשה לראשונה) | /riddles/teens | ✓ | ✓ | ✓ | ✓ |
 Update 2026-11-02 evening: YouTube https://youtube.com/shorts/yb9mdaotP-8 (made for kids, Education, public), Instagram (original crop, cover, FB share off), Facebook (עוגה בוגה profile, public), TikTok (everyone, in review), WhatsApp channel — all posted. New mascot cut-out in template/img/mascot.png.
 
-| 2026-11-03 | "כמה תלמידים עברו?" — קורס אקסל חינם (שיעור IF: 6 ציונים, ציון עובר 55; 10 lessons, live sheet with instant checks, SUM/AVERAGE/IF/COUNTIF, charts, family-budget project) | /excel | ✗ | ✗ | ✗ | ✗ |
+| 2026-11-03 | "לא תאמינו, אבל מהיום כל אחד יכול ללמוד אקסל לבד" — קורס אקסל חינם (hook = statement; question on the end card: "יש לכם מושג באקסל?"; live sheet, instant checks, 10 lessons, family-budget project) | /excel | ✗ | ✗ | ✗ | ✗ |
 
-Note 2026-11-03: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-03/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/excel-if/. The owner asked to switch topic from the letters game (made earlier the same day, replaced). Sync check passed (logo is audio-only).
+Note 2026-11-03: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-03/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/excel-if/. Owner changed the topic twice the same day (letters game, then an IF quiz were replaced); final version is the statement hook with a "do you know Excel?" end-card question. Sync check passed (hook/logo are audio-only).

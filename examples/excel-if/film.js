@@ -91,60 +91,21 @@
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.q, W / 2, 360, (c) => { he(c, '📗', 0, -120, { size: 130, w: 400 }); he(c, 'כמה תלמידים', 0, 30, { size: 108, w: 900, maxW: SAFE.w }); he(c, 'עברו את המבחן?', 0, 150, { size: 108, w: 900, color: C.red, maxW: SAFE.w }); }, { rot: -0.03, dur: 0.35 });
-    popAt(ctx, t, ev.pic, W / 2, 800, (c) => {
-      card(c, -SAFE.w / 2, -140, SAFE.w, 280, { fill: '#fff', r: 40, seed: 11, shadow: 14 });
-      he(c, '=IF(B2>=55, ... )', 0, 22, { size: 64, w: 700, dir: 'ltr', color: C.green, maxW: SAFE.w - 60, fam: 'Fredoka' });
-      he(c, 'ציון עובר: ⁦55⁩ ומעלה', 0, 100, { size: 46, w: 800, color: C.muted });
-    }, { rot: 0.02, dur: 0.4, over: 2.2 });
+    popAt(ctx, t, ev.q, W / 2, 330, (c) => { he(c, '📗', 0, -90, { size: 140, w: 400 }); he(c, 'לא תאמינו, אבל…', 0, 90, { size: 96, w: 900, color: C.red, maxW: SAFE.w }); }, { rot: -0.03, dur: 0.35 });
+    popAt(ctx, t, ev.pic, W / 2, 820, (c) => {
+      card(c, -SAFE.w / 2, -270, SAFE.w, 540, { fill: '#fff', r: 50, seed: 11, shadow: 14 });
+      he(c, 'מהיום כל אחד', 0, -110, { size: 104, w: 900, maxW: SAFE.w - 80 });
+      he(c, 'יכול ללמוד', 0, 20, { size: 104, w: 900, maxW: SAFE.w - 80 });
+      he(c, 'אקסל לבד', 0, 150, { size: 118, w: 900, color: C.green, maxW: SAFE.w - 80 });
+    }, { rot: 0.02, dur: 0.4, over: 2.0 });
     const sp = clamp((t - ev.ready) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.ready + 0.18, 12);
-      ctx.save(); ctx.translate(W / 2, 1160); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, '⏱️ יש לכם 4 שניות', { size: 70, w: 900, bg: C.red, fg: '#fff', padX: 48 });
+      ctx.save(); ctx.translate(W / 2, 1230); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'בחינם · בלי הרשמה', { size: 70, w: 900, bg: C.red, fg: '#fff', padX: 48 });
       ctx.restore();
     }
-    he(ctx, 'שישה ציונים בגיליון אקסל', W / 2, 1290, { size: 52, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.ready + 0.3, 0.3), maxW: SAFE.w });
-    mascot(ctx, W / 2, 1530 - hop(t, 10) * (t > ev.ready ? 1 : 0), 360, t, ev.ready);
-  }
-
-  // ================= THE QUESTION =================
-  function shotQuiz(ctx, t) {
-    bg(ctx);
-    he(ctx, 'כמה תלמידים עברו', W / 2, 220, { size: 80, w: 900, alpha: UI.fadeIn(t, T(2), 0.2), maxW: SAFE.w });
-    popAt(ctx, t, T(2) + 0.15, W / 2, 330, (c) => pill(c, 0, 0, 'ציון עובר: ⁦55⁩ ומעלה', { size: 54, w: 900, bg: C.yellow, padX: 50, seed: 21, maxW: SAFE.w }), { rot: -0.015 });
-    const SC = [85, 48, 72, 54, 95, 55], TX = SAFE.x, TY = 440, RH = 120;
-    popAt(ctx, t, T(2) + 0.2, W / 2, TY + 50, (c) => {
-      card(c, -SAFE.w / 2, -50, SAFE.w, 100 + RH * 6, { fill: '#fff', r: 24, seed: 22, shadow: 12, lw: 4 });
-      c.fillStyle = '#eef0f7'; c.fillRect(-SAFE.w / 2 + 3, -47, SAFE.w - 6, 94);
-      he(c, 'תלמיד/ה', SAFE.w / 2 - 40, 22, { size: 48, w: 900, align: 'right' });
-      he(c, 'ציון', -SAFE.w / 2 + 150, 22, { size: 48, w: 900 });
-    }, { dur: 0.25, over: 1.2 });
-    S.opts.forEach((o) => {
-      popAt(ctx, t, o.t, W / 2, TY + 100 + o.i * RH + RH / 2, (c) => {
-        c.fillStyle = C.ink; c.globalAlpha = 0.12; c.fillRect(-SAFE.w / 2 + 20, RH / 2 - 2, SAFE.w - 40, 3); c.globalAlpha = 1;
-        he(c, o.label, SAFE.w / 2 - 40, 16, { size: 56, w: 700, align: 'right' });
-        he(c, String(SC[o.i]), -SAFE.w / 2 + 150, 16, { size: 60, w: 900, dir: 'ltr', color: C.blue });
-      }, { dur: 0.22, over: 1.6 });
-    });
-    const started = t >= ev.count, up = t >= ev.ring;
-    if (started) {
-      const cur = S.ticks.filter((k) => t >= k.t).pop();
-      const cx = W / 2, cy = 1590, r = 100;
-      const frac = up ? 0 : clamp(1 - (t - ev.count) / (ev.ring - ev.count));
-      const urgent = !up && cur && cur.n <= 2;
-      popAt(ctx, t, ev.count, cx, cy, (c) => {
-        c.fillStyle = C.ink; c.beginPath(); c.arc(8, 10, r, 0, Math.PI * 2); c.fill();
-        c.fillStyle = '#fff'; c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2); c.fill();
-        c.strokeStyle = urgent || up ? C.red : C.blue; c.lineWidth = 20; c.lineCap = 'round';
-        if (frac > 0) { c.beginPath(); c.arc(0, 0, r - 22, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * frac); c.stroke(); }
-        c.strokeStyle = C.ink; c.lineWidth = 5; c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2); c.stroke();
-        const k = cur ? 1 + 0.12 * pulse(t, cur.t, 10) : 1;
-        c.scale(k, k);
-        he(c, up ? '0' : String(cur ? cur.n : 4), 0, 34, { size: 100, w: 900, dir: 'ltr', color: urgent || up ? C.red : C.ink });
-      }, { dur: 0.3 });
-      if (urgent) { ctx.save(); ctx.globalAlpha = 0.12 * pulse(t, cur.t, 6); ctx.fillStyle = C.red; ctx.fillRect(0, 0, W, H); ctx.restore(); }
-    }
+    mascot(ctx, W / 2, 1560 - hop(t, 10) * (t > ev.ready ? 1 : 0), 360, t, ev.ready);
   }
 
   // ================= HOW THE GAME WORKS =================
@@ -152,7 +113,7 @@
     bg(ctx);
     he(ctx, 'קורס אקסל חינם', W / 2, 230, { size: 92, w: 900, alpha: UI.fadeIn(t, ev.head, 0.2), maxW: SAFE.w });
     he(ctx, '⁦10⁩ שיעורים, אפס הרצאות', W / 2, 320, { size: 50, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.head + 0.1, 0.25) });
-    const MODES = [['🧮', 'SUM · AVERAGE · IF · COUNTIF', C.blue], ['📊', 'מיון, גרירה עם $ וגרפים', C.red], ['🏠', 'פרויקט: תקציב משפחתי', C.green]];
+    const MODES = [['🖥️', 'גיליון חי בתוך הדף', C.blue], ['✅', 'האתר בודק כל משימה מיד', C.red], ['🏠', 'פרויקט: תקציב משפחתי', C.green]];
     MODES.forEach(([em, label, col], i) => {
       const cy = 520 + i * 210;
       popAt(ctx, t, ev.cards[i], W / 2, cy, (c) => {
@@ -164,14 +125,14 @@
       }, { rot: i % 2 ? 0.012 : -0.012, dur: 0.3 });
     });
     // letter sets
-    ['גיליון חי בדף', 'בדיקה מיידית', 'בלי להתקין'].forEach((s, i) => {
+    ['בחינם', 'בלי הרשמה', 'בלי להתקין'].forEach((s, i) => {
       popAt(ctx, t, ev.chips + i * BEAT / 2, W / 2 + (1 - i) * 330, 1190, (c) => pill(c, 0, 0, s, { size: 42, w: 900, bg: i === 0 ? '#ffc8dd' : '#fff', padX: 30, seed: 50 + i }), { dur: 0.25 });
     });
-    popAt(ctx, t, ev.sim, W / 2, 1330, (c) => pill(c, 0, 0, 'מהקל לקשה, למתחילים מאפס', { size: 42, w: 800, bg: C.yellow, padX: 36, seed: 55, maxW: SAFE.w }), { rot: -0.015 });
+    popAt(ctx, t, ev.sim, W / 2, 1330, (c) => pill(c, 0, 0, 'מהקל לקשה, בקצב שלכם', { size: 42, w: 800, bg: C.yellow, padX: 36, seed: 55, maxW: SAFE.w }), { rot: -0.015 });
     popAt(ctx, t, ev.stars, W / 2, 1500, (c) => {
       he(c, '📗', 0, 30, { size: 110, w: 400 });
     }, { dur: 0.4 });
-    he(ctx, 'משימה בגיליון, והאתר בודק מיד', W / 2, 1620, { size: 42, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.stars + 0.15, 0.25), maxW: SAFE.w });
+    he(ctx, 'למתחילים מאפס, בלי הרצאות', W / 2, 1620, { size: 42, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.stars + 0.15, 0.25), maxW: SAFE.w });
   }
 
   // ================= END: answer in the comments =================
@@ -179,11 +140,11 @@
     heroBg(ctx);
     popAt(ctx, t, ev.comment, W / 2, 330, (c) => {
       card(c, -SAFE.w / 2, -170, SAFE.w, 340, { fill: C.yellow, r: 40, seed: 401, shadow: 14 });
-      he(c, 'אז כמה עברו? 📗', 0, -70, { size: 60, w: 900, color: C.red, maxW: SAFE.w - 60 });
-      he(c, '✍️ כתבו את התשובה', 0, 30, { size: 84, w: 900, maxW: SAFE.w - 60 });
-      he(c, 'בתגובות', 0, 125, { size: 84, w: 900, color: C.blue });
+      he(c, 'יש לכם מושג באקסל?', 0, -70, { size: 60, w: 900, color: C.red, maxW: SAFE.w - 60 });
+      he(c, '✍️ ספרו לנו', 0, 30, { size: 84, w: 900, maxW: SAFE.w - 60 });
+      he(c, 'בתגובות: כן, קצת או בכלל לא', 0, 125, { size: 58, w: 900, color: C.blue, maxW: SAFE.w - 60 });
     }, { rot: -0.02, dur: 0.4 });
-    he(ctx, 'ואל תפתחו אקסל 🤫', W / 2, 580, { size: 46, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.comment + 0.5, 0.3), maxW: SAFE.w });
+    he(ctx, 'ואם לא, מתחילים מכאן 👇', W / 2, 580, { size: 46, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.comment + 0.5, 0.3), maxW: SAFE.w });
     mascot(ctx, W / 2, 880, 400, t, ev.logo);
     const L = S.endLines;
     he(ctx, 'קורס אקסל למתחילים', W / 2, 1180, { size: 54, w: 800, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
@@ -196,8 +157,7 @@
   // ---------- the cut list ----------
   const SECTIONS = [
     { t0: 0, fn: shotHook, color: C.red },
-    { t0: T(2), fn: shotQuiz, color: C.blue },
-    { t0: T(5), fn: shotModes, color: C.green },
+    { t0: T(3), fn: shotModes, color: C.green },
     { t0: T(9), fn: shotEnd, color: C.red },
   ];
   const SLIDE = 0.24;

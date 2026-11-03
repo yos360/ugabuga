@@ -1,4 +1,4 @@
-// UGABUGA "קורס אקסל" Excel course (9:16 Reel). /excel, lesson 'IF' (src/excel/excelLessons.js): six real grades, pass mark 55 — how many passed? (answer 4, not shown) The answer is NOT shown: the end card asks for it in the comments.
+// UGABUGA "קורס אקסל" (9:16 Reel). /excel (src/excel/ExcelPages.jsx, excelLessons.js): the statement "from today anyone can learn Excel alone, free, no sign-up", then a question on the end card: do you know Excel?
 (function () {
   const node = typeof require !== 'undefined';
   const U = node ? require('./engine/util') : globalThis.U;
@@ -13,7 +13,7 @@
   const { T, BEAT, BAR } = clock;
   const DURATION = T(12) + 1.7; // ≈ 25.7s
 
-  const S = { hook: [0, T(2)], quiz: [T(2), T(5)], modes: [T(5), T(9)], end: [T(9), DURATION] };
+  const S = { hook: [0, T(3)], modes: [T(3), T(9)], end: [T(9), DURATION] };
 
   const { chords, chordAt } = makeChords(clock, {
     C: { notes: ['E3', 'G3', 'C4'], bass: 'C2' }, G: { notes: ['D3', 'G3', 'B3'], bass: 'G1' },
@@ -26,25 +26,18 @@
   ]);
 
   const ev = {
-    q: T(0, 0), // "באיזו אות מתחיל…"
-    pic: T(0, 2), // the picture pops
-    ready: T(1, 0), // "4 seconds" pill
-    count: T(3, 0), // the 4-second countdown starts
-    ring: T(5, 0), // time is up
-    head: T(5, 0), cards: [T(5, 2), T(6, 0), T(6, 2)], chips: T(7, 0), sim: T(7, 2), stars: T(8, 0),
+    q: T(0, 0), // "לא תאמינו, אבל…"
+    pic: T(0, 2), // "מהיום כל אחד יכול ללמוד אקסל לבד"
+    ready: T(1, 2), // "בחינם · בלי הרשמה"
+    head: T(3, 0), cards: [T(3, 2), T(4, 2), T(5, 2)], chips: T(6, 2), sim: T(7, 2), stars: T(8, 0),
     comment: T(9, 0) + 0.25, logo: T(10, 0),
   };
-  // the six students of the IF lesson (src/excel/excelLessons.js, slug 'if'); pass mark 55
-  const OPTS = ['נועה', 'איתי', 'מאיה', 'יונתן', 'שירה', 'עומר'];
-  const opts = OPTS.map((label, i) => ({ label, i, t: T(2, 0.5) + i * BEAT / 2, midi: m(['A4', 'C5', 'E5', 'A5', 'C6', 'E6'][i]) }));
-  const ticks = Array.from({ length: 4 }, (_, k) => ({ n: 4 - k, k, t: ev.count + k * 2 * BEAT, midi: m(k >= 2 ? 'E6' : 'A5') }));
   const endLines = [{ t: T(10, 2) }, { t: T(11, 0) }, { t: T(11, 2) }, { t: T(12, 0) }];
 
   const markers = {
-    hook: { t: ev.q, sync: 'a' }, quiz: { t: T(2), sync: 'av' }, count: { t: ev.count },
-    ring: { t: ev.ring, sync: 'av' }, logo: { t: ev.logo, sync: 'a' },
+    hook: { t: ev.q, sync: 'a' }, modes: { t: T(3), sync: 'av' }, logo: { t: ev.logo, sync: 'a' },
   };
 
-  const SCORE = { FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, BAR, S, m, chords, chordAt, ev, markers, OPTS, opts, ticks, endLines, steps: [] };
+  const SCORE = { FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, BAR, S, m, chords, chordAt, ev, markers, endLines, steps: [] };
   if (node) module.exports = SCORE; else globalThis.SCORE = SCORE;
 })();
