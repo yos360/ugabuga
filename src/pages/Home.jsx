@@ -17,9 +17,8 @@ import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
-// Home page: one search (site or BugaPedia), four doors, "today", eight worlds, favourites, news.
-// Each destination appears once. The holiday card and the blog list load after the first paint.
-const HolidayToday = lazy(() => import('../components/home/HolidayToday'))
+// Home page: one search (site or BugaPedia), four doors, eight worlds, favourites, news.
+// Each destination appears once. The blog list loads after the first paint.
 const SeasonColoring = lazy(() => import('../components/home/SeasonColoring'))
 // Road safety week (1–6.11): an animated banner at the top, rendered only until the week ends.
 const RoadWeekBanner = lazy(() => import('../components/roadsafety/RoadWeekBanner'))
@@ -75,7 +74,8 @@ const LOVED = [
   ['🗺️', 'ציד אוצרות מוכן', '/treasure-hunt/ready', 'רמזים מחורזים'],
   ['🪄', 'נקדן אוטומטי', '/tools/nakdan', 'מדביקים ומקבלים ניקוד'],
 ]
-const NEW = [['📅', 'לוח שנה עברי לועזי', '/hebrew-calendar'], ['⭐', 'כוכב/ת השבוע להדפסה', '/printables/star-of-the-week'], ['📖', 'הבנת הנקרא א׳–ח׳', '/learn/reading'], ['🤖', 'אקדמיית ה־AI של בוגה', '/learn/ai']]
+// The season's holiday and the daily time tunnel already open the page, so "today" here is only the game of the day.
+const NEW = [['🎲', 'משחק היום — חדש בכל יום', '/game-of-the-day'], ['📅', 'לוח שנה עברי לועזי', '/hebrew-calendar'], ['⭐', 'כוכב/ת השבוע להדפסה', '/printables/star-of-the-week'], ['📖', 'הבנת הנקרא א׳–ח׳', '/learn/reading'], ['🤖', 'אקדמיית ה־AI של בוגה', '/learn/ai']]
 
 // What most visitors come from Google for — one tap from the top of the page.
 const QUICK = [
@@ -91,12 +91,6 @@ const SocialIcons = () => SOCIAL_LIVE.length > 0 && <div className="hp-social">{
   <a key={id} href={href} className={`hp-soc hp-soc-${id}`} target="_blank" rel="noopener noreferrer" aria-label={`עוגה בוגה ב${name}`}>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d={d} fill="currentColor" /></svg>
   </a>)}</div>
-
-// The morning routine and the bedtime story have their own strips at the top (in their hours),
-// so this card is always the game of the day.
-function TodayCard() {
-  return <Link to="/game-of-the-day" className="hp-today hp-today-day"><span className="hp-today-ic">🎲</span><b>משחק היום</b><small>משחק חדש בכל יום</small><i>משחקים ←</i></Link>
-}
 
 // A small evening-only invitation: shown only from 18:00 to midnight in Israel.
 // The initial false avoids freezing the banner into the prerendered HTML; it is decided in each visitor's browser.
@@ -204,14 +198,6 @@ export default function Home() {
         <img className="hp-door-art" src={src} alt="" width="720" height="720" loading="lazy" decoding="async" />
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
-    </section>
-    <section className="hp-sec">
-      <h2 className="hp-h2">היום בבוגה</h2>
-      <div className="hp-today-row">
-        <TodayCard />
-        <Suspense fallback={<span className="hp-today hp-today-holiday" aria-hidden="true" />}><HolidayToday /></Suspense>
-        <Link to="/time-tunnel" className="hp-today hp-today-quiz"><span className="hp-today-ic">⏳</span><b>חידון היום</b><small>מנהרת הזמן — מה קרה בתאריך הזה?</small><i>לחידון ←</i></Link>
-      </div>
     </section>
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>

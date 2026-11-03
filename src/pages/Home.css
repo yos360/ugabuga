@@ -114,7 +114,7 @@
 .season-coloring{border-color:#9a3412;background:linear-gradient(115deg,#fff7e6 0%,#ffe1a8 55%,#ffc978 100%);box-shadow:4px 4px 0 #9a3412;color:#4a1d06!important}.season-coloring:hover,.season-coloring:focus-visible{box-shadow:5px 6px 0 #9a3412}.season-coloring .travel-copy b{color:#4a1d06}.season-coloring .travel-copy small{color:#6b2c0b}.season-coloring .travel-cta{border-color:#9a341280;color:#4a1d06}
 
 /* "כדאי להכיר" — the rotating white sign under the hero (HomeSpotlight.jsx). */
-.hp-spot{position:relative;max-width:760px;margin:18px auto 40px;padding:22px 16px 12px;background:#fff;border:3px solid #1f2937;border-radius:14px;box-shadow:0 6px 0 #1f2937,0 10px 24px rgba(0,0,0,.08)}
+.hp-spot{position:relative;max-width:980px;margin:18px auto 30px;padding:22px 16px 12px;background:#fff;border:3px solid #1f2937;border-radius:14px;box-shadow:0 6px 0 #1f2937,0 10px 24px rgba(0,0,0,.08)}
 .hp-spot-tag{position:absolute;top:-14px;right:18px;background:#facc15;color:#1f2937;font-weight:900;font-size:.95rem;padding:2px 12px;border-radius:999px;border:2px solid #1f2937}
 .hp-spot-card{display:flex;align-items:center;gap:14px;color:inherit;text-decoration:none;animation:hp-spot-pop .45s cubic-bezier(.2,1.4,.4,1)}
 .hp-spot-icon{font-size:2.6rem;line-height:1;flex:none}
