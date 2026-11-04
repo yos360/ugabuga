@@ -13,7 +13,8 @@ import ScrollToTop from './ScrollToTop'
 import RecentActivity from './RecentActivity'
 import PrintQrFallback from './PrintQrFallback'
 import PrintFollowUp from '../print/PrintFollowUp'
-import WhatsAppShare from './WhatsAppShare'
+// Lazy: shown only after mount, and the entry sits at its 150 KB budget.
+const WhatsAppShare = lazy(() => import('./WhatsAppShare'))
 import NoVoiceNotice from './NoVoiceNotice'
 import MobilePrintBar from './MobilePrintBar'
 import PrintPreviewFigure from './PrintPreviewFigure'
@@ -91,7 +92,7 @@ export default function Layout({ children }) {
       {mounted && <PrintQrFallback />}
       {mounted && <PrintFollowUp />}
       {/* /kids is for a child browsing alone: no share button there. */}
-      {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <WhatsAppShare />}
+      {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <Suspense fallback={null}><WhatsAppShare /></Suspense>}
       {mounted && <NoVoiceNotice />}
       {mounted && !presenting && <MobilePrintBar />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
