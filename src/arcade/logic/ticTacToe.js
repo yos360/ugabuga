@@ -78,3 +78,16 @@ export function easyMove(b, p, rand = Math.random) {
   if (block !== undefined && rand() < 0.5) return block
   return free[Math.floor(rand() * free.length)]
 }
+
+// Medium computer: always wins or blocks when it can, likes the center, otherwise random —
+// it can still be beaten with a fork.
+export function mediumMove(b, p, rand = Math.random) {
+  const free = freeCells(b)
+  const lineFor = q => free.find(i => { const t = b.slice(); t[i] = q; return result(t)?.winner === q })
+  const win = lineFor(p)
+  if (win !== undefined) return win
+  const block = lineFor(other(p))
+  if (block !== undefined) return block
+  if (!b[4] && rand() < 0.7) return 4
+  return free[Math.floor(rand() * free.length)]
+}

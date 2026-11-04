@@ -438,7 +438,7 @@ button.bs2-cell{cursor:default}
 .c4a-hole.is-win{animation:c4a-win .7s ease-in-out infinite alternate;border-color:#fff;border-width:3px}
 @keyframes c4a-fall{from{transform:translateY(calc(var(--fall)*var(--cell)*-0.88))}}
 @keyframes c4a-win{to{transform:scale(.82)}}
-.ttta-board{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;padding:8px;background:var(--arc-ink);border:3px solid var(--arc-ink);border-radius:22px;box-shadow:5px 5px 0 var(--arc-ink)}
+.ttta-board{position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;padding:8px;background:var(--arc-ink);border:3px solid var(--arc-ink);border-radius:22px;box-shadow:5px 5px 0 var(--arc-ink)}
 .ttta-cell{display:grid;place-items:center;border:0;border-radius:14px;background:#fffdf6;cursor:pointer;font-size:inherit;line-height:1;padding:0;-webkit-tap-highlight-color:transparent}
 .ttta-cell:disabled{cursor:default;opacity:1}
 .ttta-cell:not(:disabled):hover{background:#fff3c4}
@@ -450,6 +450,14 @@ button.bs2-cell{cursor:default}
 .tp-msg .ttta-mark{font-size:1.15em}
 .ttta-cell.is-new .ttta-mark{animation:arc-pop .3s cubic-bezier(.3,1.5,.6,1)}
 .ttta-cell.is-win .ttta-mark{animation:c4a-win .6s ease-in-out infinite alternate}
+.ttta-mark.is-emoji{font-family:inherit;font-size:.85em}
+.ttta-line{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);pointer-events:none;overflow:visible}
+.ttta-line line{stroke-width:4.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ttta-draw .45s .1s ease-out forwards;filter:drop-shadow(0 0 2px #fff)}
+.ttta-line.is-p1 line{stroke:#1d5fd1}
+.ttta-line.is-p2 line{stroke:#ef7d00}
+@keyframes ttta-draw{to{stroke-dashoffset:0}}
+.ttta-sets{font:inherit;font-weight:700;padding:6px 10px;border-radius:12px;border:2.5px solid var(--arc-ink);background:#fff;color:var(--arc-ink)}
+@media (prefers-reduced-motion:reduce){.ttta-line line{animation:none;stroke-dashoffset:0}}
 @media (max-width:420px){.arc-seg button{padding:0 10px;font-size:15px}.tp-msg{font-size:17px}}
 @media (prefers-reduced-motion:reduce){.c4a-hole.is-new,.c4a-hole.is-win,.ttta-cell .ttta-mark{animation:none!important}}
 .wg5-opts{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;align-items:center;font-weight:700;font-size:15px;flex:none}

@@ -151,6 +151,14 @@ test('tic-tac-toe: easy computer always takes a win it sees', () => {
   for (let s = 1; s <= 20; s++) assert.equal(ttt.easyMove(board3('oo.xx....'), 2, rng(s)), 2)
 })
 
+test('tic-tac-toe: medium computer always wins first, then always blocks', () => {
+  for (let s = 1; s <= 20; s++) {
+    assert.equal(ttt.mediumMove(board3('oo.xx....'), 2, rng(s)), 2)
+    assert.equal(ttt.mediumMove(board3('xx.o.....'), 2, rng(s)), 2)
+    assert.equal(ttt.mediumMove(board3('x...o...x'), 2, rng(s)) !== undefined, true)
+  }
+})
+
 test('two-player games: registry texts are complete', () => {
   for (const slug of ['four-in-a-row', 'tic-tac-toe']) {
     const g = ARCADE.find(x => x.slug === slug)
