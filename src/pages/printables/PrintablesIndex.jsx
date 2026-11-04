@@ -7,6 +7,7 @@ import { useActiveChipInView } from '../../hooks/useActiveChipInView'
 import PrintableCard from '../../components/ui/PrintableCard'
 import { categories } from '../../data/printableCategories'
 import PrintPulse from '../../components/ui/PrintPulse'
+import BugaSprite from '../../components/ui/BugaSprite'
 import { TOPICS } from '../../data/printableTopics'
 export { categories }
 
@@ -35,6 +36,7 @@ export default function PrintablesIndex() {
     <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
       <SEO title="דפים להדפסה לילדים — דפי פעילות, צביעה ועבודה בחינם" description="דפים להדפסה לילדים בחינם: דפי צביעה, מבוכים, דפי עבודה בחשבון, אותיות, משחקים להדפסה, תעודות ושלטים למסיבה. מדפיסים מיד, בלי הרשמה." path="/printables" structuredData={faqSchema(PRINT_FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה' }]} />
+      <BugaSprite height={140} className="-mb-1" />
       <h1 className="text-4xl sm:text-5xl text-center mb-3">🖨️ דפי פעילות להדפסה בחינם</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">דפים להדפסה לילדים: בוחרים נושא ופעילות — ומדפיסים מיד. הכל חינם וללא הרשמה.</p>
       <QuickAnswer q="איפה מוצאים דפים להדפסה לילדים בחינם?" a="כאן — מאות דפים בעברית שמדפיסים מיד, בלי הרשמה ובלי תשלום: דפי צביעה לפי נושא, מבוכים, דפי עבודה בחשבון, אותיות ומספרים, משחקים להדפסה, תעודות ושלטים למסיבה. בוחרים נושא למעלה, פותחים דף ולוחצים הדפסה." rows={[['הכי מבוקשים', 'דפי צביעה, מבוכים, דפי עבודה בחשבון, כרטיסיות אותיות, מנדלות'], ['גילים', 'גן עד כיתה ו׳'], ['למי', 'הורים, גננות ומורות'], ['מחיר', 'חינם, בלי הרשמה']]} updated="2026-10-21" />
