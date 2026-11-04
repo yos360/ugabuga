@@ -97,6 +97,10 @@ upload → title (ctrl+a, type) → description → thumbnail: the image upload 
 "בחירה מהסרטון" and pick the hook frame → audience **"כן, הסרטון נוצר במיוחד לילדים"** → category **השכלה**
 (check it did not land on Comedy) → הבא ×3 → **גלוי לכולם** → פרסום. Note the shorts URL.
 
+**Daily riddle cover (owner, 2026-11-04):** the cover on every network is the opening frame with the big orange
+mascot and "החידה היומית #n" (≈ second 3 of the video): `ffmpeg -ss 3.2 ... riddle-daily-cover.jpg`, not 9.
+On YouTube: after publishing, Studio → edit the video → thumbnail → "בחירה מהסרטון" → that frame → save.
+
 **Instagram** (account `ugabuga.co.il`) — `https://www.instagram.com/` → יצירה → פוסט → file input →
 crop icon (bottom-RIGHT of the preview) → **מקור** (not the default square) → הבא → תמונת נושא:
 "בחירה מהמחשב" (file input) with the cover → הבא → caption → type a space to close the hashtag popup →
