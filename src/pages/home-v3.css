@@ -109,8 +109,8 @@ body:has(.hp) .site-footer{display:none}
 /* The three daily versions of the home page (utils/experiments.js). "tunnel" is the classic look above. */
 /* "request": a notebook page — lined paper, a highlighter on the title, the request card taped on. */
 .hp-v-request .hp-hero{background:repeating-linear-gradient(180deg,#fffaf0 0 33px,#f2e3bb 33px 34px);border-bottom:4px solid #f0b429}
-.hp-v-request .hp-hero::before,.hp-v-request .hp-hero::after{content:"✎";color:#e08a00}
-.hp-v-request .hp-hero h1{font-family:Heebo,sans-serif;font-weight:900;background:linear-gradient(transparent 62%,#ffd84d 62%,#ffd84d 92%,transparent 92%);display:inline;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 6px}
+.hp-v-request .hp-hero::before,.hp-v-request .hp-hero::after{content:none}
+.hp-v-request .hp-hero h1{font-family:Heebo,sans-serif;font-weight:900}
 .hp-v-request .hp-exp-request{position:relative;margin-top:26px;padding:24px 22px 20px;background:#fff;border:3px dashed #f0b429;rotate:-.6deg;box-shadow:0 18px 40px #b4780026}
 .hp-v-request .hp-exp-request::before{content:"";position:absolute;top:-14px;left:50%;width:120px;height:26px;translate:-50% 0;rotate:2deg;background:#ffe58acc;box-shadow:0 2px 4px #0000001a}
 .hp-v-request .hp-exp-copy b{font-size:clamp(21px,2.6vw,27px)}
