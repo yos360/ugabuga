@@ -102,10 +102,25 @@ const LOVED_POOL = [
   ['🖨️', 'דפי אותיות להדפסה', '/printables/hebrew-letters', 'כתיבה וזיהוי אותיות'],
   ['✍️', 'כתב יד עברי', '/letters/cursive', 'מתרגלים אות אחרי אות'],
   ['📺', 'בוגה לייב', '/live', 'חידון חי לכל הכיתה'],
+  ['🗺️', 'ארץ עיר', '/tools/eretz-ir', 'הגרלת אות, טיימר וניקוד'],
   ['🎲', 'קוביות סיפור', '/tools/dice/story-dice', 'מגלגלים וממציאים סיפור'],
   ['🧠', 'זיכרון באנגלית', '/printables/memory-english', 'זוגות מילים להדפסה'],
   ['🦉', 'בוגה־פדיה', '/bugapedia', 'שואלים ומקבלים תשובה'],
 ]
+// Nothing on the home page stays fixed (owner's wish): after hydration every visit gets its own seed,
+// and each list is shuffled with it. The prerendered page and the first paint keep the plain order.
+function seeded(list, seed) {
+  if (!seed) return list
+  const out = [...list]
+  let s = seed
+  for (let i = out.length - 1; i > 0; i--) { s = (Math.imul(s, 1103515245) + 12345) >>> 0; const j = s % (i + 1); [out[i], out[j]] = [out[j], out[i]] }
+  return out
+}
+function useVisitSeed() {
+  const [seed, setSeed] = useState(0)
+  useEffect(() => { if (!window.__PRERENDER__) setSeed(1 + Math.floor(Math.random() * 2147483000)) }, [])
+  return seed
+}
 const byVisits = (list, counts) => counts.size ? [...list].sort((a, b) => (counts.get(b[2]) || 0) - (counts.get(a[2]) || 0)) : list
 
 function usePopularity() {
@@ -203,14 +218,14 @@ export default function Home() {
   const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
   const { news, posts } = useFreshLists()
   const counts = usePopularity()
-  const quick = [...(new Date() < SEASON_ENDS ? [SEASON] : []), ...byVisits(QUICK, counts).slice(0, QUICK_SHOWN)]
-  // A page already in the quick links doesn't show again in "most loved". The four most visited stay;
-  // the last two places go to others at random, so pages nobody has found yet also get seen.
-  const pool = byVisits(LOVED_POOL.filter(x => !quick.some(q => q[2] === x[2])), counts)
-  const [luckySeed, setLuckySeed] = useState(0)
-  useEffect(() => { if (!window.__PRERENDER__) setLuckySeed(1 + Math.floor(Math.random() * 1000)) }, [])
-  const rest = pool.slice(4)
-  const loved = [...pool.slice(0, 4), ...(luckySeed && rest.length > 2 ? [rest[luckySeed % rest.length], rest[(luckySeed + 1 + (luckySeed % (rest.length - 1))) % rest.length]] : rest.slice(0, 2))]
+  const seed = useVisitSeed()
+  // Quick links: the three most visited, then four others drawn for this visit.
+  const ranked = byVisits(QUICK, counts)
+  const quick = [...(new Date() < SEASON_ENDS ? [SEASON] : []), ...ranked.slice(0, 3), ...seeded(ranked.slice(3), seed).slice(0, QUICK_SHOWN - 3)]
+  // "Most loved": six drawn for this visit from the pool (a page already in the quick links doesn't repeat).
+  const loved = seeded(byVisits(LOVED_POOL.filter(x => !quick.some(q => q[2] === x[2])), counts), seed).slice(0, 6)
+  const worlds = seeded(WORLDS, seed + 1)
+  const intents = seeded(HOME_INTENTS, seed + 2)
   const [liveBox, setLiveBox] = useState(false)
   const startLive = () => { if (mode === 'site') setLiveBox(true) }
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
@@ -254,7 +269,7 @@ export default function Home() {
     <BedtimeStorySpotlight />
     <section className="hp-sec">
       <h2 className="hp-h2">למה נכנסתם היום?</h2>
-      <div className="hp-doors">{HOME_INTENTS.map(([emoji, title, desc, to, , bg, color, src]) => <Link key={to} to={to} className="hp-door" style={{ '--bg': bg, '--c': color }}>
+      <div className="hp-doors">{intents.map(([emoji, title, desc, to, , bg, color, src]) => <Link key={to} to={to} className="hp-door" style={{ '--bg': bg, '--c': color }}>
         <span className="hp-door-text"><b>{emoji} {title}</b><small>{desc.split(/[.—]/)[0]}</small></span>
         <img className="hp-door-art" src={src} alt="" width="720" height="720" loading="lazy" decoding="async" />
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
@@ -262,7 +277,7 @@ export default function Home() {
     </section>
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>
-      <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
+      <div className="hp-worlds">{worlds.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
     </section>
     <section className="hp-sec">
       <div className="hp-row-head"><h2 className="hp-h2">הכי אהובים החודש</h2><Link to="/tools">לכל הכלים ←</Link></div>

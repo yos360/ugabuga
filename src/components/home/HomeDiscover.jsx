@@ -11,7 +11,6 @@ const ITEMS = [
   ['🧮', 'מחשבון מדעי לבית הספר', 'שברים, שורשים, משוואות וגרפים — עם הסבר שלב אחר שלב', '/tools/calculator', 'כלי שבנינו'],
   ['📊', 'קורס אקסל', '10 שיעורים עם גיליון חי בתוך הדף', '/excel', 'כלי שבנינו'],
   ['📄', 'סטודיו PDF', 'מיזוג, פיצול, חתימה והמרה ל־Word', '/tools/pdf', 'כלי שבנינו'],
-  ['📺', 'בוגה לייב', 'חידון חי לכל הכיתה מהטלפונים', '/live', 'כלי שבנינו'],
   ['🧑‍🏫', 'מתכנן מערכת שעות למורים', 'השיעור הבא לכל שעה, לפי תוכנית הלימודים', '/planner', 'כלי שבנינו'],
   ['🪄', 'נקדן אוטומטי', 'מדביקים טקסט ומקבלים אותו מנוקד', '/tools/nakdan', 'כלי שבנינו'],
   ['🔡', 'מקלדת ניקוד', 'מוסיפים קמץ, פתח וחיריק לכל אות', '/tools/nikud-keyboard', 'כלי שבנינו'],
@@ -36,7 +35,6 @@ const ITEMS = [
   ['🧪', 'מחולל ניסויים', 'ניסויים בטוחים עם רשימת חומרים ודף חקר', '/tools/experiment-maker', 'כלי שבנינו'],
   ['👥', 'מחלק קבוצות', 'מחלקים את הכיתה לקבוצות בלחיצה', '/tools/team-generator', 'כלי שבנינו'],
   ['📊', 'לוח ניקוד', 'סופרים נקודות במשחק או בחידון', '/tools/scoreboard', 'כלי שבנינו'],
-  ['🌍', 'ארץ עיר', 'הגרלת אות, טיימר וספירת נקודות', '/tools/eretz-ir', 'כלי שבנינו'],
   ['📋', 'מי מביא מה', 'רשימה משותפת לפיקניק, למסיבה ולגן', '/tools/bring-list', 'כלי שבנינו'],
   ['📖', 'סיכומים על חנוכה', 'המכבים, מתתיהו ויהודה המכבי — עם דף עבודה', '/holidays/hanukkah/learn', 'חדש באתר'],
   ['🗣️', 'קלינאות תקשורת', 'מילים לפי צליל עם שמע, כרטיסיות היגוי ומשחקים להדפסה', '/speech', 'לילדים שצריכים עוד קצת'],
@@ -50,8 +48,13 @@ const ITEMS = [
   ['🥰', 'כרטיסי רגשות', '24 רגשות, עם שאלה לשיחה על כל אחד', '/printables/emotion-cards', 'לילדים שצריכים עוד קצת'],
   ['📘', 'חוברות לחינוך המיוחד', 'חשבון ובעיות מילוליות לחינוך המיוחד', '/booklets/math-special-ed', 'לילדים שצריכים עוד קצת'],
 ]
-// Each set of three: one card of help or news, then two tools, so the many tools keep coming round.
-const MIXED = (() => { const a = ITEMS.filter(x => x[4] === 'כלי שבנינו'), b = ITEMS.filter(x => x[4] !== 'כלי שבנינו'), out = []; while (a.length || b.length) { if (b.length) out.push(b.shift()); out.push(...a.splice(0, 2)) } return out })()
+// The owner's two games (Buga Live and Eretz Ir) open every other set of three, so they keep coming
+// back; the other sets open with help or news, and two tools fill each set.
+const STARS = [
+  ['📺', 'בוגה לייב', 'חידון לכל הכיתה: אתם על המסך, כולם עונים מהטלפון', '/live', 'משחק לשחק יחד'],
+  ['🗺️', 'ארץ עיר', 'הגרלת אות, קטגוריות לפי גיל, טיימר וניקוד', '/tools/eretz-ir', 'משחק לשחק יחד'],
+]
+const MIXED = (() => { const a = ITEMS.filter(x => x[4] === 'כלי שבנינו'), b = ITEMS.filter(x => x[4] !== 'כלי שבנינו'), out = []; let n = 0; while (a.length) { out.push(n % 2 === 0 ? STARS[(n / 2) % STARS.length] : b.shift() || STARS[0], ...a.splice(0, 2)); n++ } return [...out, ...b] })()
 const SHOWN = 3
 const EVERY = 7000
 
