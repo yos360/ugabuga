@@ -394,8 +394,11 @@ export function ReadingPage() {
   const r = ALL_READING.find(x => x.slug === slug)
   const others = useMemo(() => {
     if (!r) return []
-    const same = ALL_READING.filter(x => x.slug !== slug && (r.level ? x.level === r.level : !x.level))
-    return same.slice(0, 4)
+    // The passages that FOLLOW this one in its level (wrapping around), so every passage points to different
+    // neighbours and a reader can keep going passage after passage (it used to be the same first four for all).
+    const level = ALL_READING.filter(x => (r.level ? x.level === r.level : !x.level))
+    const at = level.findIndex(x => x.slug === slug)
+    return [...level.slice(at + 1), ...level.slice(0, Math.max(at, 0))].slice(0, 4)
   }, [slug, r])
   if (!r) return <NotFound />
   const n = qCount(r)
@@ -412,7 +415,8 @@ export function ReadingPage() {
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{r.emoji} </span>{r.title}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{r.kind} · כיתה {r.grade} · {n} שאלות</p>
     <ReadingExercise key={r.slug} r={r} />
-    <h2 className="mt-12 mb-3 text-2xl font-black">עוד קטעים</h2>
+    {others[0] && <p className="mt-10 text-center"><Link to={`/learn/reading/${others[0].slug}`} className="inline-flex min-h-[48px] items-center justify-center rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] px-6 py-3 text-lg font-black sketch-shadow-sm">הקטע הבא: {others[0].emoji} {others[0].title} ←</Link></p>}
+    <h2 className="mt-8 mb-3 text-2xl font-black">עוד קטעים</h2>
     <div className="grid gap-3 sm:grid-cols-2">{others.map(o => <Link key={o.slug} to={`/learn/reading/${o.slug}`} className="ln-box text-right"><b>{o.emoji} {o.title}</b> <small>· {o.kind} · כיתה {o.grade}</small></Link>)}</div>
     <p className="mt-6 text-center">{r.level ? <Link className="underline font-bold" to={gradeHref(r.level)}>לכל הקטעים לכיתה {GRADE_LETTER[r.level]} ←</Link> : <Link className="underline font-bold" to="/learn/reading">לכל קטעי הבנת הנקרא ←</Link>}</p>
   </Page>
