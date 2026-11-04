@@ -19,7 +19,7 @@ const GROUPS = {
   nature: ['flowers', 'rainbow-sun', 'umbrella', 'birds', 'tu-bishvat'],
   detailed: ['mandala-kids', 'mandala-animals', 'mandala-adults', 'older-kids'],
   moving: ['vehicles', 'airplane', 'soccer', 'superhero', 'space', 'professions'],
-  hanukkah: ['sufganiyah', 'dreidel', 'hanukkiah'],
+  hanukkah: ['sufganiyah', 'dreidel', 'hanukkiah', 'maccabees'],
   holidays: ['tu-bishvat', 'purim-masks', 'hanukkiah', 'dreidel'],
 }
 

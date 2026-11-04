@@ -53,6 +53,7 @@ const TOPICS = {
   fruits: ['Fruit', 'Compare real fruit colors or design a playful imaginary fruit bowl.'],
   mermaid: ['Mermaids', 'Give each tail its own color pattern and fill the sea with bright fish.'],
   space: ['Space', 'Color planets, rockets and stars, then talk about what you might see in the night sky.'],
+  maccabees: ['The Maccabees', 'Color the Hanukkah story scene by scene, from the olive harvest and the small jug of oil to the torch relay.'],
   professions: ['Jobs and professions', 'Color firefighters, doctors, chefs and pilots, then talk about what you want to be when you grow up.'],
 }
 export const EN_COLORING = COLORING_SUBJECTS.map(s => ({
