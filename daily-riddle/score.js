@@ -1,6 +1,6 @@
-// UGABUGA "החידה היומית" (9:16 Reel, every day at 18:00). One hard riddle that is NOT on the site, a 10-second
-// countdown and a call to answer in the comments. The answer is never shown: it comes in the next day's caption
-// and on the next day's end card. The riddle itself is riddle.js (written by daily-riddle/make.js).
+// UGABUGA "החידה היומית" (9:16 Reel, every day at 14:00). One tricky riddle, a 10-second countdown and a call
+// to answer in the comments. The answer is never shown in a video: it is only on the site, ugabuga.co.il/riddles/<id>.
+// The riddle itself is riddle.js (written by daily-riddle/make.js).
 (function () {
   const node = typeof require !== 'undefined';
   const U = node ? require('./engine/util') : globalThis.U;

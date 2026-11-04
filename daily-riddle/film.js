@@ -1,5 +1,6 @@
 // THE FILM (9:16) — "החידה היומית": one hard riddle (riddle.js), a 10-second countdown and a call to answer in
-// the comments; the end card gives yesterday's answer. Three board kinds: seq (a row of boxes, the last is "?"),
+// the comments, like, share & tag; the end card sends to the riddle's page for the solution (no answers in the
+// video). Three board kinds: seq (a row of boxes, the last is "?"),
 // eq (equation lines), text (a riddle told in a few lines). Site look, Heebo, pure function of t.
 (function () {
   const U = globalThis.U, G = globalThis.G, UI = globalThis.UI, S = globalThis.SCORE, Studio = globalThis.Studio;
@@ -102,7 +103,7 @@
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.ready + 0.18, 12);
       ctx.save(); ctx.translate(W / 2, 910); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, '⏱️ יש לכם 10 שניות', { size: 70, w: 900, bg: C.red, fg: '#fff', padX: 48 });
+      pill(ctx, 0, 0, '⏱️ יש לכם 10 שניות לפתור!', { size: 64, w: 900, bg: C.red, fg: '#fff', padX: 44, maxW: SAFE.w });
       ctx.restore();
     }
     mascot(ctx, W / 2, 1330 - hop(t, 10) * (t > ev.sub + 0.5 ? 1 : 0), 480, t, ev.sub);
@@ -182,24 +183,25 @@
     }
   }
 
-  // ================= END: answer in the comments, yesterday's answer =================
+  // ================= END: answer in the comments, like, share & tag — the solution is only on the site =================
+  // Never show an answer here (not today's, not yesterday's): the solution lives on the riddle's page.
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.comment, W / 2, 330, (c) => {
-      card(c, -SAFE.w / 2, -170, SAFE.w, 340, { fill: C.yellow, r: 40, seed: 401, shadow: 14 });
-      he(c, '⏰ נגמר הזמן!', 0, -70, { size: 64, w: 900, color: C.red });
-      he(c, '✍️ כתבו את התשובה', 0, 30, { size: 84, w: 900, maxW: SAFE.w - 60 });
-      he(c, 'בתגובות', 0, 125, { size: 84, w: 900, color: C.blue });
+    popAt(ctx, t, ev.comment, W / 2, 300, (c) => {
+      card(c, -SAFE.w / 2, -165, SAFE.w, 330, { fill: C.yellow, r: 40, seed: 401, shadow: 14 });
+      he(c, '⏰ נגמר הזמן!', 0, -68, { size: 62, w: 900, color: C.red });
+      he(c, '✍️ כתבו את התשובה', 0, 30, { size: 80, w: 900, maxW: SAFE.w - 60 });
+      he(c, 'בתגובות 👇', 0, 122, { size: 80, w: 900, color: C.blue });
     }, { rot: -0.02, dur: 0.4 });
-    he(ctx, 'ואל תגלו למי שעוד חושב 🤫', W / 2, 580, { size: 46, w: 700, color: C.muted, alpha: UI.fadeIn(t, ev.comment + 0.5, 0.3), maxW: SAFE.w });
-    mascot(ctx, W / 2, 870, 380, t, ev.logo);
+    popAt(ctx, t, ev.comment + 0.5, W / 2, 560, (c) => pill(c, 0, 0, '👍 לייק אם פתרתם', { size: 52, w: 900, bg: '#fff', seed: 404, padX: 38, maxW: SAFE.w }), { rot: 0.015 });
+    popAt(ctx, t, ev.comment + 0.9, W / 2, 690, (c) => pill(c, 0, 0, '📣 שתפו ותייגו חבר שלא יפתור', { size: 50, w: 900, bg: C.red, fg: '#fff', seed: 405, padX: 38, maxW: SAFE.w }), { rot: -0.015 });
+    mascot(ctx, W / 2, 960, 330, t, ev.logo);
     const L = S.endLines;
-    he(ctx, 'התשובה — מחר ב־⁦18:00⁩ עם החידה הבאה', W / 2, 1160, { size: 50, w: 800, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    const prev = R.prev ? `✅ התשובה לחידה ⁦#${R.prev.n}⁩: ${iso(R.prev.answer)}` : '🗓️ חידה חדשה כל יום ב־⁦18:00⁩';
-    popAt(ctx, t, L[1].t, W / 2, 1280, (c) => pill(c, 0, 0, prev, { size: 46, w: 900, bg: R.prev ? '#e6f6ec' : '#fff', seed: 402, padX: 36, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, L[2].t, W / 2, 1420, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 66, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 403 }));
-    he(ctx, 'עוד חידות, משחקים ודפים להדפסה — בחינם', W / 2, 1560, { size: 38, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    confetti(ctx, t, ev.logo, W / 2, 870, { n: 70, seed: 9, spread: 950 });
+    he(ctx, 'הפתרון באתר 👇', W / 2, 1220, { size: 64, w: 900, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[1].t, W / 2, 1340, (c) => pill(c, 0, 0, `ugabuga.co.il/riddles/${R.id}`, { size: 54, w: 600, bg: C.blue, fg: '#fff', padX: 40, dir: 'ltr', fam: 'Fredoka', seed: 403, maxW: SAFE.w }));
+    he(ctx, '🗓️ חידה חדשה כל יום ב־⁦14:00⁩', W / 2, 1490, { size: 46, w: 800, alpha: UI.fadeIn(t, L[2].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'עוד חידות, משחקים ודפים להדפסה — בחינם', W / 2, 1580, { size: 38, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    confetti(ctx, t, ev.logo, W / 2, 960, { n: 70, seed: 9, spread: 950 });
   }
 
   // ---------- the cut list ----------

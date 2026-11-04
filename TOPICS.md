@@ -77,3 +77,7 @@ Note 2026-11-03: cloud run, no browser — upload at 08:00 from the owner's Chro
 | 2026-11-04 | "כמה חודשים בשנה יש בהם 28 ימים?" — הטריוויה (hook = real question from the bank, answer left open; audience, 20 topics, 4 modes, answer + "למה?" + streak, printable 12-question quiz with answer key) | /tools/trivia-quiz | ✗ | ✗ | ✗ | ✗ |
 
 Note 2026-11-04: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-04/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/trivia-28/. Sync check: only "right" (green feedback pop) lags 2 frames, within the accepted ≤3.
+
+| 2026-11-04 | החידה היומית #2 — חידת לוח שנה ('היום שלפני מחרתיים הוא שבת — איזה יום היה שלשום?'), סוג: שעון ולוח שנה | /riddles/shilshom | ✓ | ✓ | ✓ | ✓ |
+
+Note 2026-11-04 (daily riddle): WhatsApp channel skipped (QR login in the automation tab). YouTube: https://youtube.com/shorts/AcJdWx56Qus. film.js now has the fixed frame (10s to solve, comment/like/share & tag, solution only on the site) and never shows an answer.

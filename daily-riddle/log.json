@@ -5,7 +5,33 @@
     "id": "reversed-squares",
     "answer": "94",
     "posted": true,
-    "networks": ["youtube", "instagram", "facebook", "tiktok", "whatsapp-channel"],
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
     "youtube": "https://youtube.com/shorts/OpbLGbF6h0s"
+  },
+  {
+    "date": "2026-11-04",
+    "n": 2,
+    "id": "shilshom",
+    "answer": "יום רביעי",
+    "kind": "text",
+    "type": "שעון ולוח שנה",
+    "posted": true,
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok"
+    ],
+    "skipped": {
+      "whatsapp-channel": "web.whatsapp.com asked for a QR login in the automation tab"
+    },
+    "youtube": "https://youtube.com/shorts/AcJdWx56Qus",
+    "site": "https://ugabuga.co.il/riddles/shilshom"
   }
 ]
