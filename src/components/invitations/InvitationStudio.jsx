@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import PrintPreview from '../ui/PrintPreview'
 import { formatDate } from '../../utils/groupTools'
 import { recordCreation } from '../../utils/creations'
-import { INVITATION_THEMES, INVITATION_FIELDS, INVITATION_FONTS, INVITATION_PALETTES, invitationStyleFor, invitationText, loadInviteImage, readInvitePhoto, renderInvitation } from '../../utils/invitationDesign'
+import { INVITATION_THEMES, INVITATION_FIELDS, INVITATION_FONTS, INVITATION_OCCASIONS, INVITATION_PALETTES, invitationStyleFor, invitationText, loadInviteImage, readInvitePhoto, renderInvitation } from '../../utils/invitationDesign'
 import './invitation-studio.css'
 
 const EMPTY = {name:'',age:'',date:'',time:'',place:'',phone:'',notes:''}
@@ -13,8 +13,11 @@ const FONT_SAMPLE = 'אבגדהו Aa0'
 const loadFonts = family => Promise.all([...new Set([family,'Heebo'])].flatMap(f=>FONT_WEIGHTS.map(w=>document.fonts.load(`${w} 40px "${f}"`,FONT_SAMPLE).catch(()=>[]))))
 export default function InvitationStudio({ occasion = null }) {
  const start=occasion?INVITATION_THEMES.find(t=>t.id==='elegant')||INVITATION_THEMES[0]:INVITATION_THEMES[0]
+ const occ=INVITATION_OCCASIONS[occasion],wedding=occasion==='wedding'
+ const styleFor=t=>({...invitationStyleFor(t),...(occ?.footer?{footer:occ.footer}:{})})
+ const fields=INVITATION_FIELDS.filter(([k])=>!(k==='age'&&occ?.noAge)).map(f=>f[0]==='name'&&occ?.nameLabel?['name',occ.nameLabel,f[2],occ.namePlaceholder,40]:f)
  const [theme,setTheme]=useState(start),[data,setData]=useState(()=>occasion?{...EMPTY,occasion}:EMPTY),[format,setFormat]=useState('portrait')
- const [design,setDesign]=useState(()=>invitationStyleFor(start))
+ const [design,setDesign]=useState(()=>styleFor(start))
  const [photo,setPhoto]=useState(null),[crop,setCrop]=useState({zoom:1,x:50,y:50}),[loadingPhoto,setLoadingPhoto]=useState(false)
  const [output,setOutput]=useState(null),[busy,setBusy]=useState(false),[printing,setPrinting]=useState(''),[message,setMessage]=useState(''),[error,setError]=useState('')
  const canvas=useRef(null),upload=useRef(0),[params]=useSearchParams()
@@ -52,18 +55,18 @@ export default function InvitationStudio({ occasion = null }) {
   const file=new File([output.blob],filename,{type:output.type})
   if(!navigator.share||!navigator.canShare?.({files:[file]})){download();return}
   setBusy(true);setMessage('');setError('')
-  try{await navigator.share({files:[file],title:'הזמנה ליום הולדת',text:invitationText(data,rsvpLink)});record('share');setMessage('ההזמנה הועברה לתפריט השיתוף. בחרו וואטסאפ ואת הנמענים הרצויים.')}catch(e){if(e.name!=='AbortError')setError('השיתוף לא נפתח. אפשר לשמור את התמונה ולצרף אותה לוואטסאפ.')}finally{setBusy(false)}
+  try{await navigator.share({files:[file],title:wedding?'הזמנה לחתונה':'הזמנה ליום הולדת',text:invitationText(data,rsvpLink)});record('share');setMessage('ההזמנה הועברה לתפריט השיתוף. בחרו וואטסאפ ואת הנמענים הרצויים.')}catch(e){if(e.name!=='AbortError')setError('השיתוף לא נפתח. אפשר לשמור את התמונה ולצרף אותה לוואטסאפ.')}finally{setBusy(false)}
  }
  const shareText=()=>{record('share');window.open(`https://wa.me/?text=${encodeURIComponent(invitationText(data,rsvpLink))}`,'_blank','noopener,noreferrer')}
- const createHref=`/rsvp?${new URLSearchParams({title:`יום ההולדת של ${data.name||'___'}`,time:data.time,place:data.place})}`
- return <section className="inv-studio" aria-label="עיצוב הזמנה ליום הולדת">
-  <div className="inv-section-title"><span>01</span><div><h2>איזו מסיבה מתכננים?</h2><p>בחרו עיצוב — הפרטים והתמונה נשארים כשמחליפים סגנון.</p></div></div>
+ const createHref=wedding?`/rsvp/wedding?${new URLSearchParams({title:`החתונה של ${data.name||'___'}`,time:data.time,place:data.place})}`:`/rsvp?${new URLSearchParams({title:`יום ההולדת של ${data.name||'___'}`,time:data.time,place:data.place})}`
+ return <section className="inv-studio" aria-label={wedding?'עיצוב הזמנה לחתונה':'עיצוב הזמנה ליום הולדת'}>
+  <div className="inv-section-title"><span>01</span><div><h2>{wedding?'איזה סגנון מתאים לחתונה שלכם?':'איזו מסיבה מתכננים?'}</h2><p>בחרו עיצוב — הפרטים והתמונה נשארים כשמחליפים סגנון.</p></div></div>
   <div className="inv-themes">{INVITATION_THEMES.map(t=><button type="button" key={t.id} aria-pressed={theme.id===t.id} onClick={()=>{if(theme.id!==t.id){setOutput(null);setTheme(t);setDesign(d=>({...d,bg:t.bg,ink:t.ink,accent:t.accent,second:t.second,photoShape:['gaming','football','scrapbook','elegant'].includes(t.id)?'rounded':'circle'}))}}} style={{'--theme':t.bg,'--ink':t.ink,'--accent':t.accent,'--second':t.second}}><div className={`inv-theme-art inv-thumb-${t.id}`}>{t.art===false?<b className="inv-theme-symbol" aria-hidden="true">{t.emoji}</b>:<img src={`/images/invitation-theme-${t.id}.webp`} alt="" width="100" height="100"/>}<span aria-hidden="true">{theme.id===t.id?'✓':t.emoji}</span></div><strong>{t.name}</strong><small>{t.tag}</small></button>)}</div>
   <div className="inv-workspace">
    <div className="inv-controls">
     <div className="inv-section-title"><span>02</span><div><h2>הפרטים שהופכים אותה לשלכם</h2><p>ממלאים כאן, והתצוגה מתעדכנת מיד.</p></div></div>
-    <div className="inv-fields">{INVITATION_FIELDS.map(([k,label,type,placeholder,max])=><label key={k} className={k==='place'?'inv-wide':''}>{label}<input type={type} value={data[k]} placeholder={placeholder} maxLength={max} dir={k==='time'||k==='phone'?'ltr':'auto'} inputMode={k==='age'?'numeric':undefined} onChange={e=>update(k,e.target.value)} /></label>)}<label className="inv-wide">משהו נוסף לאורחים<textarea value={data.notes} maxLength={110} rows={2} placeholder="מה להביא, בקשה לעדכן על אלרגיות, או פשוט: מחכים לכם!" onChange={e=>update('notes',e.target.value)} /></label></div>
-    <section className="inv-design-box"><div className="inv-design-head"><div><h3>סטודיו לעיצוב</h3><p>כל שינוי מופיע מיד בהזמנה.</p></div><button type="button" onClick={()=>{setOutput(null);setDesign(invitationStyleFor(theme))}}>איפוס העיצוב</button></div>
+    <div className="inv-fields">{fields.map(([k,label,type,placeholder,max])=><label key={k} className={k==='place'?'inv-wide':''}>{label}<input type={type} value={data[k]} placeholder={placeholder} maxLength={max} dir={k==='time'||k==='phone'?'ltr':'auto'} inputMode={k==='age'?'numeric':undefined} onChange={e=>update(k,e.target.value)} /></label>)}<label className="inv-wide">משהו נוסף לאורחים<textarea value={data.notes} maxLength={110} rows={2} placeholder="מה להביא, בקשה לעדכן על אלרגיות, או פשוט: מחכים לכם!" onChange={e=>update('notes',e.target.value)} /></label></div>
+    <section className="inv-design-box"><div className="inv-design-head"><div><h3>סטודיו לעיצוב</h3><p>כל שינוי מופיע מיד בהזמנה.</p></div><button type="button" onClick={()=>{setOutput(null);setDesign(styleFor(theme))}}>איפוס העיצוב</button></div>
       <div className="inv-palette-row"><button type="button" aria-pressed={design.bg===theme.bg&&design.accent===theme.accent} onClick={()=>{setOutput(null);setDesign(d=>({...d,bg:theme.bg,ink:theme.ink,accent:theme.accent,second:theme.second}))}} style={{'--p1':theme.bg,'--p2':theme.accent}}><i/><span>מקורי</span></button>{INVITATION_PALETTES.map(p=><button type="button" key={p.name} aria-pressed={design.bg===p.bg&&design.accent===p.accent} onClick={()=>{setOutput(null);setDesign(d=>({...d,...p}))}} style={{'--p1':p.bg,'--p2':p.accent}}><i/><span>{p.name}</span></button>)}</div>
       <div className="inv-design-grid">
        <label>סגנון הפונט<select value={design.font} onChange={e=>{setOutput(null);setDesign({...design,font:e.target.value})}}>{INVITATION_FONTS.map(([value,label])=><option value={value} key={value}>{label}</option>)}</select></label>
@@ -92,6 +95,6 @@ export default function InvitationStudio({ occasion = null }) {
     <p className="inv-status" role="status">{message}</p>{error&&<p className="inv-error" role="alert">{error}</p>}
    </div>
   </div>
-  {printing&&output&&<PrintPreview title="הזמנה מעוצבת ליום הולדת" onClose={()=>setPrinting('')} copies={false}><article className="buga-a4 inv-print-page"><img src={printing} alt={invitationText(data,rsvpLink)} style={{display:'block',maxWidth:'100%',maxHeight:'240mm',margin:'0 auto'}} />{rsvpLink&&<p style={{textAlign:'center',fontSize:14}}>אישור הגעה: <a href={rsvpLink}>{rsvpLink}</a></p>}</article></PrintPreview>}
+  {printing&&output&&<PrintPreview title={wedding?'הזמנה מעוצבת לחתונה':'הזמנה מעוצבת ליום הולדת'} onClose={()=>setPrinting('')} copies={false}><article className="buga-a4 inv-print-page"><img src={printing} alt={invitationText(data,rsvpLink)} style={{display:'block',maxWidth:'100%',maxHeight:'240mm',margin:'0 auto'}} />{rsvpLink&&<p style={{textAlign:'center',fontSize:14}}>אישור הגעה: <a href={rsvpLink}>{rsvpLink}</a></p>}</article></PrintPreview>}
  </section>
 }

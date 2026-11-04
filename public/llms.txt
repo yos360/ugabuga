@@ -359,6 +359,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מחשבון מסיבה](https://ugabuga.co.il/calculator)
 - [מחולל הזמנות](https://ugabuga.co.il/invitation)
 - [אישור הגעה אונליין](https://ugabuga.co.il/rsvp)
+- [בוגה מתחתנים — מתכנן חתונה](https://ugabuga.co.il/wedding)
 - [רשימת "מי מביא מה"](https://ugabuga.co.il/tools/bring-list)
 - [מחולל ברכות](https://ugabuga.co.il/greeting)
 - [ברכות ליום הולדת](https://ugabuga.co.il/birthday-greetings)

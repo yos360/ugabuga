@@ -33,6 +33,8 @@ export const invitationStyleFor = theme => ({
 export const INVITATION_OCCASIONS = {
  'bat-mitzvah': { title: 'בת מצווה', headline: 'בשמחה רבה מזמינים אתכם לחגוג', line: 'חוגגת בת מצווה', invite: 'הוזמנתם לחגוג את בת המצווה של' },
  'bar-mitzvah': { title: 'בר מצווה', headline: 'בשמחה רבה מזמינים אתכם לחגוג', line: 'חוגג בר מצווה', invite: 'הוזמנתם לחגוג את בר המצווה של' },
+ // Weddings: "name" holds both names ("נועה ואורי") and there is no age.
+ wedding: { title: 'חתונה', headline: 'בשמחה ובהתרגשות מזמינים אתכם לחתונתנו', line: 'מתחתנים!', invite: 'הוזמנתם לחתונה של', noAge: true, nameLabel: 'שמות בני הזוג', namePlaceholder: 'למשל: נועה ואורי', footer: 'נשמח לראותכם בשמחתנו' },
 }
 export function invitationText(data, link='') {
  const ltr=v=>`\u2066${v}\u2069`, occ=INVITATION_OCCASIONS[data.occasion]

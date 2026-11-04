@@ -77,9 +77,9 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
  }
 
  // Bar/bat mitzvah invitations (data.occasion) keep every design but change the wording.
- const occ={'bat-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגגת בת מצווה',title:'בת מצווה',age:'12'},'bar-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגג בר מצווה',title:'בר מצווה',age:'13'}}[data.occasion]
+ const occ={'bat-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגגת בת מצווה',title:'בת מצווה',age:'12'},'bar-mitzvah':{headline:'בשמחה רבה מזמינים אתכם לחגוג',line:'חוגג בר מצווה',title:'בר מצווה',age:'13'},wedding:{headline:'בשמחה ובהתרגשות מזמינים אתכם לחתונתנו',line:'מתחתנים!',title:'חתונה',age:'♥',name:'שמות בני הזוג'}}[data.occasion]
  const headline=p.headline||(occ?occ.headline:null)||({space:'המשימה מתחילה בעוד רגע',dino:'הרפתקה פראית מתחילה כאן',princess:'הזמנה לנשף בלתי נשכח',football:'הכרטיס שלכם לחגיגה',gaming:'שלב חדש עומד להתחיל',scrapbook:'רגעים טובים מתחילים יחד',ribbon:'נשמח לחגוג איתכם',retro:'מוכנים לחגיגה צבעונית?',disco:'הלילה כולו נוצץ',ocean:'צוללים לחגיגה קסומה',elegant:'ערב מיוחד. אנשים אהובים.'}[theme.id]||'יש סיבה טובה לחגוג')
- const name=data.name||'שם החוגג/ת',age=data.age||occ?.age||'?',ageLine=occ?occ.line:age==='?'?'יום הולדת':`חוגג/ת ${age}`,date=data.date||'יום ותאריך',time=data.time||'שעת המסיבה',place=data.place||'מקום החגיגה'
+ const name=data.name||occ?.name||'שם החוגג/ת',age=data.age||occ?.age||'?',ageLine=occ?occ.line:age==='?'?'יום הולדת':`חוגג/ת ${age}`,date=data.date||'יום ותאריך',time=data.time||(data.occasion==='wedding'?'שעת קבלת הפנים':'שעת המסיבה'),place=data.place||'מקום החגיגה'
  const info=(y,color='#253144',panel='#ffffffed',variant='card')=>{
   if(variant==='card'){shadow(34,'rgba(20,18,35,.16)',0,14);rr(86,y,908,330,44,panel);noShadow()}
   text(date,540,y+58,38,color,820,750);text(time.includes(':')?`\u2066${time}\u2069`:time,540,y+108,34,color,820,600)
@@ -122,7 +122,7 @@ export function renderPremiumInvitation(canvas,{theme,data,format='portrait',pho
   else if(theme.id==='ribbon'){
    c.strokeStyle=alpha(p.accent,.38);c.lineWidth=3;c.beginPath();c.moveTo(260,top+510);c.lineTo(440,top+510);c.moveTo(640,top+510);c.lineTo(820,top+510);c.stroke();text(age,540,top+515,210,alpha(p.accent,.23),260,900);text(occ?occ.title:'יום הולדת',540,top+630,30,p.ink,440,650)
   }else{
-   c.strokeStyle=alpha(p.second,.78);c.lineWidth=4;c.beginPath();c.arc(540,top+535,175,0,Math.PI*2);c.stroke();for(let i=0;i<14;i++)leaf(540+Math.cos(i*Math.PI/7)*210,top+535+Math.sin(i*Math.PI/7)*210,48,14,i*Math.PI/7,i%2?p.accent:p.second);text(age,540,top+535,185,p.second,260,850)
+   c.strokeStyle=alpha(p.second,.78);c.lineWidth=4;c.beginPath();c.arc(540,top+515,135,0,Math.PI*2);c.stroke();for(let i=0;i<14;i++)leaf(540+Math.cos(i*Math.PI/7)*160,top+515+Math.sin(i*Math.PI/7)*160,34,11,i*Math.PI/7,i%2?p.accent:p.second);text(age,540,top+515,150,p.second,220,850)
   }
   info(790+extra*.62,theme.id==='elegant'?'#2b2024':'#4b3340',theme.id==='elegant'?'#fff7eaef':'#ffffffed');brand(light)
  }else{

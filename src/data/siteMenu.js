@@ -389,7 +389,7 @@ export const MENU_DOMAINS = [
   {
     id: 'birthday', label: SECTION.birthday, icon: '🎂', to: '/birthday',
     landingLabel: 'כל מה שצריך ליום הולדת',
-    prefixes: ['/birthday', '/ideas', '/calculator', '/party-calculator', '/birthday-cost', '/how-many-pizzas', '/how-many-drinks', '/invitation', '/invitations', '/greeting', '/greetings', '/birthday-greeting', '/birthday-greetings', '/rsvp', '/r', '/bring-list', '/l', '/cakes', '/gifts', '/suppliers', '/bar-mitzvah', '/bat-mitzvah', '/guides', '/compare', '/songs', '/birthday-songs', '/games/birthday', '/tools/birthday-famous', '/tools/bring-list', '/tools/birthday-calculator', '/tools/party-calculator', '/tools/how-many-pizzas', '/tools/how-many-drinks', '/tools/greeting-generator', '/tools/greetings', '/tools/invitation-generator', '/tools/invitations'],
+    prefixes: ['/birthday', '/ideas', '/calculator', '/party-calculator', '/birthday-cost', '/how-many-pizzas', '/how-many-drinks', '/invitation', '/invitations', '/greeting', '/greetings', '/birthday-greeting', '/birthday-greetings', '/rsvp', '/r', '/bring-list', '/l', '/cakes', '/gifts', '/suppliers', '/bar-mitzvah', '/bat-mitzvah', '/wedding', '/guides', '/compare', '/songs', '/birthday-songs', '/games/birthday', '/tools/birthday-famous', '/tools/bring-list', '/tools/birthday-calculator', '/tools/party-calculator', '/tools/how-many-pizzas', '/tools/how-many-drinks', '/tools/greeting-generator', '/tools/greetings', '/tools/invitation-generator', '/tools/invitations'],
     groups: [
       {
         title: 'מתכננים מסיבה', icon: '🧮',
@@ -397,6 +397,7 @@ export const MENU_DOMAINS = [
           { to: '/calculator', label: 'מחשבון מסיבה', icon: '🧮' },
           { to: '/invitation', label: 'מחולל הזמנות', icon: '📨' },
           { to: '/rsvp', label: 'אישור הגעה אונליין', icon: '✅' },
+          { to: '/wedding', label: 'בוגה מתחתנים — מתכנן חתונה', icon: '💍' },
           { to: '/tools/bring-list', label: 'רשימת "מי מביא מה"', icon: '📋' },
           { to: '/greeting', label: 'מחולל ברכות', icon: '💌' },
           { to: '/birthday-greetings', label: 'ברכות ליום הולדת', icon: '🎈' },
