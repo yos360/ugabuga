@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'jziSpRpEj8I', kind: 'tutorial', title: 'איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר', paths: ['/tools/pdf'], category: 'tools', date: '2026-11-04',
+    desc: 'מדריך קצר לסטודיו ה־PDF: מחברים קבצי PDF ותמונות לקובץ אחד, מסדרים עמודים, מקטינים לשליחה וחותמים בלי מדפסת — הכל בדפדפן, בלי הרשמה.' },
   { id: 'rrmNDBL6TvY', kind: 'tutorial', title: 'איך מקלידים עברית עם ניקוד בכל מחשב בעוגה בוגה — מדריך קצר', paths: ['/tools/keyboard'], category: 'tools', date: '2026-11-04',
     desc: 'מדריך קצר למקלדת העברית אונליין: מקלידים עברית גם במחשב בלי עברית, מוסיפים ניקוד, סימנים ואימוג׳ים, מפעילים צבעי אצבעות ומעתיקים או שולחים בוואטסאפ.' },
   { id: '-4RMMZdPBVc', kind: 'short', title: 'אירוע בלי כאב ראש: אישורי הגעה, מי מביא מה וגמד וענק', paths: ['/rsvp', '/tools/bring-list', '/secret-friend'], category: 'party', date: '2026-10-29',
@@ -40,6 +42,7 @@ export const VIDEO_PAGE_LABELS = {
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
   '/tools/keyboard': 'מקלדת עברית אונליין',
+  '/tools/pdf': 'סטודיו PDF',
 }
 
 const SITE = 'https://ugabuga.co.il'
