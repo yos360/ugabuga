@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 
 // "Discover Buga": three cards at a time from everything the site offers beyond the obvious — tools we
 // built, and help for kids who need a little more (speech, language, special education). The cards
-// change every few seconds (not for reduced motion, and never while the pointer or focus is inside),
-// so a visitor sees there is much more here without a wall of links.
+// change every few seconds, so a visitor sees there is much more here without a wall of links.
 const ITEMS = [
   ['⌨️', 'מקלדת עברית־אנגלית על המסך', 'מקלידים בכל שפה, גם בלי מקלדת עברית', '/tools/keyboard', 'כלי שבנינו'],
   ['🎹', 'הקלדה עיוורת בעברית', '25 שיעורים, מקלדת צבעונית ומילים לדקה', '/typing', 'כלי שבנינו'],
@@ -61,19 +60,20 @@ const EVERY = 7000
 export default function HomeDiscover() {
   // Prerender and first paint: the first cards. After hydration each visitor starts at a different place.
   const [start, setStart] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const [tick, setTick] = useState(0)
   const pages = Math.ceil(MIXED.length / SHOWN)
   useEffect(() => { if (!window.__PRERENDER__) setStart(Math.floor(Math.random() * pages)) }, [pages])
+  // Always moves on by itself (the owner wants it never to stand still); "more" restarts the timer.
   useEffect(() => {
-    if (paused || window.__PRERENDER__ || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
+    if (window.__PRERENDER__) return
     const t = setInterval(() => setStart(s => (s + 1) % pages), EVERY)
     return () => clearInterval(t)
-  }, [paused, pages])
+  }, [pages, tick])
   const cards = MIXED.slice(start * SHOWN, start * SHOWN + SHOWN)
-  return <section className="hp-sec hp-discover" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)} aria-labelledby="hp-discover-h">
+  return <section className="hp-sec hp-discover" aria-labelledby="hp-discover-h">
     <div className="hp-row-head"><h2 id="hp-discover-h" className="hp-h2">גלו עוד בבוגה</h2>
-      <button type="button" className="hp-discover-next" onClick={() => setStart(s => (s + 1) % pages)} aria-label="להציג עוד">עוד ←</button></div>
-    <div key={start} className="hp-discover-row" aria-live="polite">{cards.map(([e, t, d, to, tag]) => <Link key={to} to={to} className="hp-discover-card">
+      <button type="button" className="hp-discover-next" onClick={() => { setStart(s => (s + 1) % pages); setTick(t => t + 1) }} aria-label="להציג עוד">עוד ←</button></div>
+    <div key={start} className="hp-discover-row">{cards.map(([e, t, d, to, tag]) => <Link key={to} to={to} className="hp-discover-card">
       <small className="hp-discover-tag">{tag}</small><span aria-hidden="true" className="hp-discover-ic">{e}</span><b>{t}</b><span className="hp-discover-desc">{d}</span>
     </Link>)}</div>
     <div className="hp-discover-dots" aria-hidden="true">{Array.from({ length: pages }, (_, i) => <i key={i} className={i === start ? 'on' : ''} />)}</div>
