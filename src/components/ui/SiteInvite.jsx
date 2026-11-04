@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { logInviteCta } from '../../utils/liveActivity'
 
@@ -6,14 +7,41 @@ import { logInviteCta } from '../../utils/liveActivity'
 // they are here, and a way to make their own. Kept short and below the main task.
 // Right after answering an invitation people leave within seconds; a question about themselves
 // ("who was born on my day?", "think you're smart?") gets a click where a list of site sections does not.
+// Every guest gets two different hooks from the pool, and each click is logged as invite-cta:hook:<path>,
+// so the owner can see which ones work and keep the winners.
 const HOOKS = {
   title: '🎁 רגע לפני שהולכים…',
   text: 'יש לנו משהו קטן בשבילכם. בחרו מה בא לכם לגלות!',
   links: [
     ['/tools/birthday-famous', '🎂', 'מי נולד ביום שלכם?', 'גלו אילו מפורסמים חוגגים איתכם'],
     ['/trick-questions', '🧠', 'חושבים שאתם חכמים?', '12 שאלות מכשילות — כמה תצליחו?'],
+    ['/excel', '📗', 'קורס אקסל חינם', '10 שיעורים קצרים עם גיליון חי שבודק אתכם'],
+    ['/courses/word', '📝', 'קורס וורד למתחילים', 'מסמך מסודר, טבלאות ועבודה להגשה'],
+    ['/tools/nakdan', '🪄', 'נקדן אוטומטי', 'מדביקים טקסט ומקבלים אותו מנוקד'],
+    ['/tools/hebrew-birthday', '✡️', 'מה התאריך העברי שלכם?', 'מגלים את יום ההולדת העברי בשנייה'],
+    ['/tools/gematria', '🔢', 'כמה שווה השם שלכם?', 'מחשבון גימטריה לשם, למילה או למשפט'],
+    ['/typing/test', '⌨️', 'כמה מהר אתם מקלידים?', 'מבחן מהירות של דקה, מילים לדקה'],
+    ['/live', '📺', 'חידון לכל המשפחה', 'בוגה לייב: אתם על המסך, כולם עונים מהטלפון'],
+    ['/tools/eretz-ir', '🗺️', 'ארץ עיר אונליין', 'הגרלת אות, טיימר וניקוד לכל החבר׳ה'],
+    ['/riddles', '🤔', 'חידה של היום', 'חידה חדשה כל יום, עם פתרון בלחיצה'],
+    ['/time-tunnel', '⏳', 'מה קרה ביום שנולדתם?', 'מנהרת הזמן של בוגה'],
+    ['/brain-games', '🧩', 'אתגר חשיבה', 'גפרורים, דליים ומעבר הנהר — מה הרמה שלכם?'],
+    ['/online-games/today', '🎯', 'האתגר היומי', 'משחק אחד ביום — כמה נקודות תשיגו?'],
+    ['/chess/puzzles', '♟️', 'חידת שחמט', 'מט בשני מסעים — תמצאו?'],
+    ['/flags/quiz', '🌍', 'כמה דגלים אתם מכירים?', 'חידון דגלים מהיר'],
+    ['/tools/escape-rooms', '🔐', 'חדר בריחה בבית', 'חידות מוכנות להדפסה ולמשחק'],
+    ['/tools/resume', '📄', 'קורות חיים בחינם', '26 תבניות והורדה כ־PDF, בלי סימן מים'],
+    ['/tools/pdf', '📑', 'סטודיו PDF', 'מיזוג, פיצול, חתימה והמרה לוורד — חינם'],
+    ['/tools/image', '🖼️', 'עורך תמונות', 'מחיקת רקע, כיווץ וקולאז׳ בלי להעלות לשרת'],
+    ['/tools/keyboard-fix', '🔁', 'כתבתם בשפה הלא נכונה?', 'akuo → שלום, בלחיצה אחת'],
+    ['/tools/qr-code', '🔳', 'קוד QR משלכם', 'מכל קישור, להדפסה או לשליחה'],
+    ['/baby-names', '👶', 'מה פירוש השם שלכם?', 'משמעות ומקור של אלפי שמות'],
+    ['/courses/ai', '🤖', 'איך משתמשים נכון בצ׳אט GPT?', 'קורס קצר לתלמידים ולהורים'],
+    ['/courses/safety', '🛡️', 'הילדים שלכם בטוחים ברשת?', 'קורס קצר לעשות יחד עם הילדים'],
   ],
 }
+// Two different hooks, picked once per guest (the card only shows after the guest answers, in the browser).
+const pickHooks = () => { const p = [...HOOKS.links]; return [0, 1].map(() => p.splice(Math.floor(Math.random() * p.length), 1)[0]) }
 // A holiday that is close gets the first card: it is what families are looking for that week.
 const SEASONAL = [
   { ends: '2026-12-13', link: ['/holidays/hanukkah', '🕎', 'חנוכה מתקרב!', 'סביבונים, דפי צביעה, מתכונים ומשחקים לכל המשפחה'] },
@@ -87,6 +115,7 @@ const CONTEXTS_EN = {
 }
 
 export default function SiteInvite({ context = 'party', className = '', compact = false, lang = 'he' }) {
+  const [hooks] = useState(pickHooks)
   if (lang === 'en') return <SiteInviteEn context={context} className={className} compact={compact} />
   const c = CONTEXTS[context] || CONTEXTS.party
   // Right under a finished task (e.g. "see you there!" after an RSVP): guests on a phone rarely
@@ -100,7 +129,7 @@ export default function SiteInvite({ context = 'party', className = '', compact 
     </Link>}
     <p className="text-xl font-black">{HOOKS.title}</p>
     <p className="mt-1 text-slate-600">{HOOKS.text}</p>
-    <div className="mt-4 grid gap-3">{[seasonalHook(), ...HOOKS.links].filter(Boolean).map(([to, emoji, label, sub]) => <Link key={to} to={to} className="flex items-center gap-3 rounded-2xl bg-slate-100 p-4 text-right transition hover:-translate-y-0.5 hover:bg-violet-50">
+    <div className="mt-4 grid gap-3">{[seasonalHook(), ...hooks].filter(Boolean).map(([to, emoji, label, sub]) => <Link key={to} to={to} onClick={() => logInviteCta('hook', to)} className="flex items-center gap-3 rounded-2xl bg-slate-100 p-4 text-right transition hover:-translate-y-0.5 hover:bg-violet-50">
       <span className="text-4xl" aria-hidden="true">{emoji}</span>
       <span className="flex-1"><b className="block text-lg">{label}</b><small className="text-sm text-slate-600">{sub}</small></span>
       <span className="text-2xl text-slate-500" aria-hidden="true">‹</span>
