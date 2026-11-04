@@ -414,6 +414,7 @@ const HanukkahHub = lazy(() => import('./pages/holidays/HanukkahHub'))
 const HanukkahCandleTimes = lazy(() => import('./pages/holidays/HanukkahCandleTimes'))
 const HanukkahGrade = lazy(() => import('./pages/holidays/HanukkahGrade'))
 const HanukkiahCutOut = lazy(() => import('./pages/holidays/HanukkiahCutOut'))
+const HanukkiahTour = lazy(() => import('./pages/holidays/HanukkiahTour'))
 const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
 const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
 const TuBishvatHub = lazy(() => import('./pages/holidays/TuBishvatHub'))
@@ -1253,6 +1254,7 @@ export default function App() {
               <Route path="/holidays/hanukkah/sevivon" element={<Sevivon />} />
               <Route path="/holidays/hanukkah/songs" element={<HanukkahSongs />} />
               <Route path="/holidays/hanukkah/cut-out-hanukkiah" element={<HanukkiahCutOut />} />
+              <Route path="/holidays/hanukkah/hanukkiah-tour" element={<HanukkiahTour />} />
               <Route path="/holidays/hanukkah/quiz" element={<HolidayRoute key="hanukkah-quiz" slug="hanukkah" kind="quiz" />} />
               <Route path="/holidays/hanukkah/coloring" element={<HolidayRoute key="hanukkah-coloring" slug="hanukkah" kind="coloring" />} />
               <Route path="/holidays/hanukkah/worksheets" element={<HolidayRoute key="hanukkah-worksheets" slug="hanukkah" kind="worksheets" />} />
