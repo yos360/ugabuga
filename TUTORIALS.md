@@ -54,11 +54,13 @@ Same look as the daily reels (paper + dot grid, ink cards, Heebo/Fredoka, site c
 but 16:9 1920×1080, 30–40 s: hook question → 4–6 numbered steps (step header on the right, the demo on the left) →
 end card ("חינם", the full URL, "נסו עכשיו", comment ask). YouTube only, playlist "איך משתמשים בעוגה בוגה", not made for kids.
 Order: what was added to the site in the last week first, then the whole site tool by tool. Never repeat a tool.
-Pending: hiding the old (v1) tutorials (set Private + remove from the playlist) was blocked by the permission check on 2026-11-04 — still to do; no "old tutorials hidden" line yet.
+old tutorials hidden 2026-11-04 (slot 2): all 9 v1 tutorials set Private (DB-Zn6ZHnTs, _cM0CTrTYHc, RhER-DXr9zQ, UMESYjdB0oQ, Rgg_WzsP01Q, 3R4R1nnYNSs, u3HvcewrSVc, _UCm6JYhOyI, DpbSovICUFA) and removed from the playlist; their 8 entries left src/data/videos.js (70dae1d0). Permanent deletion is the owner's.
+Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלאות היומית" (wait 24h or verify the channel). Not verified by the run. A video that is ready but not uploaded stays in its work folder; the next run uploads it first (re-run mux → .reel-upload/tutorial) instead of making a new one.
 
 | date | slot | tool | path | YouTube id |
 |---|---|---|---|---|
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
+| 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | READY, not uploaded (daily upload limit) — work/tutorial-2026-11-04-2, files in .reel-upload/tutorial; title "איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר" |
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
 Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
