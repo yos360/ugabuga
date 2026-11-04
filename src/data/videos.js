@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'rrmNDBL6TvY', kind: 'tutorial', title: 'איך מקלידים עברית עם ניקוד בכל מחשב בעוגה בוגה — מדריך קצר', paths: ['/tools/keyboard'], category: 'tools', date: '2026-11-04',
+    desc: 'מדריך קצר למקלדת העברית אונליין: מקלידים עברית גם במחשב בלי עברית, מוסיפים ניקוד, סימנים ואימוג׳ים, מפעילים צבעי אצבעות ומעתיקים או שולחים בוואטסאפ.' },
   { id: 'DB-Zn6ZHnTs', kind: 'tutorial', title: 'איך עושים הגרלת גמד וענק עם קישור אישי — מדריך קצר', paths: ['/secret-friend'], category: 'party', date: '2026-11-02',
     desc: 'מדריך קצר להגרלת גמד וענק: כותבים שמות, מסמנים מי לא יגרילו זה את זה, מגרילים בלחיצה וכל משתתף מקבל קישור אישי שבו רק הוא רואה את מי הגריל.' },
   { id: 'RhER-DXr9zQ', kind: 'tutorial', title: 'איך מארגנים מי מביא מה למסיבה — מדריך קצר', paths: ['/tools/bring-list'], category: 'party', date: '2026-11-01',
@@ -53,6 +55,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
+  '/tools/keyboard': 'מקלדת עברית אונליין',
 }
 
 const SITE = 'https://ugabuga.co.il'
