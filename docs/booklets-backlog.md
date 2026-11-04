@@ -44,14 +44,14 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] 40 grade-by-grade subject booklets (math 4–9 + high school, Hebrew 2–9, science 1–9, Tanakh 3–8, moledet 2–4, geography 5–8, history 6–9, civics) — data only: `src/booklets/content|meta/<slug>.js` drawn by `subjectKit.jsx`, checked by `tests/subject-booklets.test.mjs` — on the owner's request ("for all ages and all subjects") — 2026-11-03
 - [x] `hebrew-grade-1` — חוברת עבודה בעברית לכיתה א׳, 16 עמודים (the owner's subject batch version; same day, with math-grade-1, hebrew-grade-7, science-grade-2, tanakh-grade-2/9 and high school Hebrew, Tanakh, history, literature, biology) — 2026-11-03
 - [x] `reading-grade-3` — חוברת הבנת הנקרא לכיתה ג׳ (10/mo), 15 עמודים: שישה קטעים מאוסף האתר (סיפור, מידע, משל, יומן, ראיון, אגדה), סדר אירועים, נכון/לא נכון, סוגי טקסט, פירוש מילים ודף תשובות — 2026-11-03
+- [x] `shemot` — חוברת עבודה לספר שמות (10/mo), 16 עמודים: 11 הפרשות, סידור סיפורים (שמות, בשלח, כי תשא), דמויות ומושגים, נכון/לא נכון, שאלות, השלמת פסוקים, עשר המכות לפי הסדר, תפזורת, ציור ודף תשובות (data from src/data/parasha/workbook-exodus.js) — 2026-11-04
+- [x] `new-immigrants` — חוברת עבודה לעולים חדשים (10/mo), 16 עמודים: אותיות, מילים מנוקדות עם תמונה (משפחה, אוכל, חיות, בית ספר), מספרים, צבעים, ימי השבוע, מילים נעימות, תפזורת, כתיבה ודף תשובות — 2026-11-04
 
 ## Next (top first)
 - [x] `math-grade-4` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ד׳ (10/mo).
 - [x] `math-grade-5` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
 - [x] `math-grade-6` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).
 - [x] `hebrew-grade-2` (done in the subject batch) — חוברת עבודה בעברית לכיתה ב׳ (10/mo).
-- [ ] `shemot` — חוברת עבודה לספר שמות (10/mo).
-- [ ] `new-immigrants` — חוברת עבודה לעולים חדשים (10/mo). First Hebrew words with English/Russian-free pictures.
 - [ ] `tu-bishvat` — חוברת עבודה לט״ו בשבט (seasonal: Tu BiShvat 23.1.2027 — build in early January).
 - [ ] `purim` — חוברת עבודה לפורים (seasonal: Purim 23.3.2027 — build in late February).
 - [ ] `pesach` — חוברת עבודה לפסח (seasonal: Pesach 22.4.2027 — build in late March).
