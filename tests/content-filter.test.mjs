@@ -16,6 +16,13 @@ test('ordinary words are not blocked', () => {
     assert.ok(!isInappropriate(s), s)
 })
 
+test('ordinary words that merely contain a blocked stem are not blocked (RSVP place and address)', () => {
+  for (const s of ['באולם שמוקם ליד הפארק', 'הגן שמוקף גדר', 'יום שמוקדש לילדים', 'מזונות עשירים בחלבון', 'המזונות', 'מציצים מהחלון', 'איזה בזיון', 'ביזיון', 'מעבדת פורנזיקה', 'Shitrit family'])
+    assert.ok(!isInappropriate(s), s)
+  for (const s of ['שמוק', 'איזה שמוק', 'ציצים', 'הזונה', 'מהזונה', 'shit'])
+    assert.ok(isInappropriate(s), s)
+})
+
 test('links, e-mails, @handles and social networks are blocked; plain text is not', () => {
   for (const s of ['www.x.com', 'evil.com.', 'site . io', 'נקודה קום', 'a@b.com', '@cool_kid12', 'תעקבו בטיקטוק', 'my insta', 'יוטיוב שלי', 'instagram', 'http://x'])
     assert.ok(hasLink(s), s)
@@ -25,7 +32,9 @@ test('links, e-mails, @handles and social networks are blocked; plain text is no
 })
 
 test('the database migration uses the same patterns', () => {
+  // The word pattern was last replaced by a later migration; links and phones still live in the first one.
   const sql = readFileSync(new URL('../supabase/migrations/202610220001_content_filter.sql', import.meta.url), 'utf8')
+    + readFileSync(new URL('../supabase/migrations/202611040001_content_filter_false_positives.sql', import.meta.url), 'utf8')
   for (const [name, re] of Object.entries(SQL_PATTERNS)) assert.ok(sql.includes(`$re$${re}$re$`), `${name} pattern differs between JS and SQL`)
 })
 

@@ -6,9 +6,10 @@
 
 // Hebrew stems are written after normalization: no nikud, final letters as regular letters, and
 // repeated letters collapsed (מזדיין → מזדינ), final letters written as regular ones (כושים → כושימ). STEM matches with any suffix; WORD only as a whole word.
-const HE_STEM = ['זונה', 'זונות', 'שרמוט', 'זיונ', 'לזינ', 'מזדינ', 'תזדינ', 'הזדינ', 'כוסאמא', 'כוסאמק', 'כוסעמק', 'כוס אמא', 'כוס אמק', 'כוס עמק', 'פורנ', 'חרמנ', 'ציצימ', 'מניאק', 'קוקסינל', 'ערבוש', 'שמוק', 'אהרוג אות']
-const HE_WORD = ['סקס', 'סקסי', 'סקסית', 'חרא', 'כושי', 'כושימ', 'מפגר', 'מפגרת', 'מפגרימ', 'תמות', 'תמותי']
-const EN_STEM = ['fuck', 'fuk', 'fck', 'shit', 'sh1t', 'bitch', 'cunt', 'porn', 'nigg', 'faggot', 'retard', 'asshole', 'whore', 'slut', 'pussy']
+// שמוק is a whole word only: as a stem it caught שמוקם/שמוקף/שמוקדש ("the hall that is located…").
+const HE_STEM = ['זונה', 'זונות', 'שרמוט', 'זיונ', 'לזינ', 'מזדינ', 'תזדינ', 'הזדינ', 'כוסאמא', 'כוסאמק', 'כוסעמק', 'כוס אמא', 'כוס אמק', 'כוס עמק', 'פורנו','חרמנ', 'ציצימ', 'מניאק', 'קוקסינל', 'ערבוש', 'אהרוג אות']
+const HE_WORD = ['סקס', 'סקסי', 'סקסית', 'חרא', 'כושי', 'כושימ', 'מפגר', 'מפגרת', 'מפגרימ', 'תמות', 'תמותי', 'שמוק', 'שמוקימ']
+const EN_STEM = ['fuck', 'fuk', 'fck', 'shit(?!rit)', 'sh1t', 'bitch', 'cunt', 'porn', 'nigg', 'faggot', 'retard', 'asshole', 'whore', 'slut', 'pussy']
 const EN_WORD = ['sex', 'sexy', 'dick', 'dicks', 'fag', 'fags', 'bastard']
 
 const FINALS = { 'ך': 'כ', 'ם': 'מ', 'ן': 'נ', 'ף': 'פ', 'ץ': 'צ' }
@@ -21,7 +22,9 @@ export function normalizeForFilter(s) {
     .replace(/\s+/g, ' ')
 }
 const B = '[^א-תa-z0-9]'
-const PRE = '[והבלמשכ]{0,2}'
+// Up to two prefix letters (ו, ה, ל, ש, כ). מ only as מה, and no ב: they turned מזונות, מציצים
+// (food, peeking) and בזיון (disgrace) into blocked words.
+const PRE = '(?:מ?ה|[ולשכ]){0,2}'
 const BAD = new RegExp(`(^|${B})(${PRE}(${HE_STEM.join('|')})|${PRE}(${HE_WORD.join('|')})(?=$|${B})|(${EN_STEM.join('|')})|(${EN_WORD.join('|')})(?=$|${B}))`)
 export const isInappropriate = s => BAD.test(normalizeForFilter(s))
 
