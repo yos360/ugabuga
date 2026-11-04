@@ -9,20 +9,25 @@ import { Hud, ToolButton, EndCard, Segmented } from '../ui'
 // (with everything between). Sizes 3×3 (8 tiles), 4×4 (15) and 5×5 (24).
 // Numbers, or a picture cut into tiles (a small number in the corner still helps).
 const SIZES = [[3, '3×3 קל', '3×3 Easy'], [4, '4×4 קלאסי', '4×4 Classic'], [5, '5×5 אלופים', '5×5 Champions']]
-// [big emoji, sky top, sky bottom, corner emojis]
+// [big emoji, left→right colors, emojis around the edge]. Every part of the picture must
+// look different — color shifts across and down, and the edge is full of small things —
+// otherwise plain tiles can't be told apart.
 const PICS = [
-  ['🦁', '#ffd36e', '#ff7a59', ['☀️', '🌴', '🦋', '🌼']],
-  ['🚀', '#1e1b4b', '#7c3aed', ['🌙', '⭐', '🪐', '✨']],
-  ['🐠', '#7dd3fc', '#0e7490', ['🫧', '🐚', '🌿', '🦀']],
-  ['🦄', '#fbcfe8', '#a78bfa', ['🌈', '☁️', '💖', '⭐']],
-  ['🐼', '#bbf7d0', '#16a34a', ['🎋', '🌸', '🍃', '☀️']],
+  ['🦁', ['#ffe066', '#ff9f43', '#ff5e7e'], ['☀️', '🌴', '🦋', '🌼', '🐦', '🍌']],
+  ['🚀', ['#3b82f6', '#7c3aed', '#db2777'], ['🌙', '⭐', '🪐', '✨', '☄️', '🛸']],
+  ['🐠', ['#22d3ee', '#3b82f6', '#14b8a6'], ['🫧', '🐚', '🌿', '🦀', '🐙', '⭐']],
+  ['🦄', ['#f9a8d4', '#c084fc', '#60a5fa'], ['🌈', '☁️', '💖', '⭐', '🍭', '🦋']],
+  ['🐼', ['#bef264', '#34d399', '#2dd4bf'], ['🎋', '🌸', '🍃', '☀️', '🍙', '🐞']],
 ]
-const picUrl = ([big, top, bottom, corners]) => {
-  const c = [[16, 16], [84, 16], [16, 86], [84, 86]]
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bottom}"/></linearGradient></defs>`
-    + `<rect width="100" height="100" fill="url(#g)"/><circle cx="50" cy="54" r="34" fill="#ffffff55"/>`
-    + `<text x="50" y="57" font-size="54" text-anchor="middle" dominant-baseline="middle">${big}</text>`
-    + corners.map((e, i) => `<text x="${c[i][0]}" y="${c[i][1]}" font-size="17" text-anchor="middle" dominant-baseline="middle">${e}</text>`).join('') + '</svg>'
+// centers of the outer ring of a 4×4 grid; the big picture fills the middle
+const RING = [[12.5, 12.5], [37.5, 12.5], [62.5, 12.5], [87.5, 12.5], [87.5, 37.5], [87.5, 62.5], [87.5, 87.5], [62.5, 87.5], [37.5, 87.5], [12.5, 87.5], [12.5, 62.5], [12.5, 37.5]]
+const picUrl = ([big, [c1, c2, c3], deco]) => {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs>'
+    + `<linearGradient id="h"><stop offset="0" stop-color="${c1}"/><stop offset=".5" stop-color="${c2}"/><stop offset="1" stop-color="${c3}"/></linearGradient>`
+    + '<linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>'
+    + '<rect width="100" height="100" fill="url(#h)"/><rect width="100" height="100" fill="url(#v)"/><circle cx="50" cy="50" r="30" fill="#ffffff66"/>'
+    + `<text x="50" y="53" font-size="62" text-anchor="middle" dominant-baseline="middle">${big}</text>`
+    + RING.map(([x, y], i) => `<text x="${x}" y="${y + 1}" font-size="16" text-anchor="middle" dominant-baseline="middle">${deco[i % deco.length]}</text>`).join('') + '</svg>'
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 }
 
