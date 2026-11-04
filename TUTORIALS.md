@@ -60,7 +60,7 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 | date | slot | tool | path | YouTube id |
 |---|---|---|---|---|
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
-| 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | READY, not uploaded (daily upload limit) — work/tutorial-2026-11-04-2, files in .reel-upload/tutorial; title "איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר" |
+| 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | jziSpRpEj8I (made in slot 2, uploaded 17:40 by the slot-3 run; in the playlist; site f8fa7bfc; thumbnail input did not apply again) |
 | 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | READY, upload from the owner's Chrome — uploads/tutorials/2026-11-04-3 (39 s, v2 style; screens are real captures; source in examples/tutorial-party-bags) |
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
