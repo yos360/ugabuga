@@ -49,3 +49,13 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 28 | צביעה לפי מספרים | /printables/color-by-number | learning | |
 | 29 | דפי עבודה בחשבון — בוחרים ומדפיסים | /printables/math-worksheets | learning | |
 | 30 | שבוע זהירות בדרכים — חידון לפי כיתה | /road-safety-week | classroom | |
+## v2 — landscape (owner, 2026-11-04)
+Same look as the daily reels (paper + dot grid, ink cards, Heebo/Fredoka, site characters, synthesized music, LUFS −14),
+but 16:9 1920×1080, 30–40 s: hook question → 4–6 numbered steps (step header on the right, the demo on the left) →
+end card ("חינם", the full URL, "נסו עכשיו", comment ask). YouTube only, playlist "איך משתמשים בעוגה בוגה", not made for kids.
+Order: what was added to the site in the last week first, then the whole site tool by tool. Never repeat a tool.
+Pending: hiding the old (v1) tutorials (set Private + remove from the playlist) was blocked by the permission check on 2026-11-04 — still to do; no "old tutorials hidden" line yet.
+
+| date | slot | tool | path | YouTube id |
+|---|---|---|---|---|
+| 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
