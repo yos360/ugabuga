@@ -1,0 +1,34 @@
+/* /courses — cards, lesson reading, quiz; ink-outlined like the Excel course */
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.cr-card{display:flex;flex-direction:column;gap:4px;padding:16px;border:2px solid var(--ink,#14162d);border-radius:18px;background:var(--card,#fff);box-shadow:4px 4px 0 var(--ink,#14162d);color:inherit;text-decoration:none}
+.cr-card:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink,#14162d)}
+.cr-card b{font-size:20px}
+.cr-card small{color:var(--muted-foreground,#666)}
+.cr-ic{font-size:34px}
+.cr-btn{display:inline-flex;align-items:center;min-height:48px;padding:8px 20px;border-radius:14px;border:2px solid var(--ink,#14162d);background:#7dd87a;font-weight:900;font-size:17px;box-shadow:3px 3px 0 var(--ink,#14162d);color:#14162d;text-decoration:none}
+.cr-start{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.cr-kicker{margin:0 0 4px;font-weight:700;color:var(--muted-foreground,#666)}
+.cr-sec{margin:0 0 22px}
+.cr-sec h2{font-size:22px;font-weight:800;margin:0 0 8px}
+.cr-sec p{line-height:1.75;margin:0 0 8px}
+.cr-steps{padding-right:22px;line-height:1.8;list-style:decimal}
+.cr-keys{border-collapse:collapse}
+.cr-keys th,.cr-keys td{padding:6px 10px;border-bottom:1px solid #e8e2d4;text-align:right}
+.cr-keys kbd{display:inline-block;padding:2px 8px;border:1px solid #bbb;border-bottom-width:3px;border-radius:6px;background:#fafafa;font:600 14px ui-monospace,Consolas,monospace;white-space:nowrap}
+.cr-tip{padding:10px 14px;border-radius:12px;background:#fff8dc;border:1px dashed #d9a400}
+.cr-practice{padding:14px 16px;border-radius:16px;background:#eef8ee;border:2px solid #7dd87a}
+.cr-quiz fieldset{border:0;margin:0 0 16px;padding:0}
+.cr-quiz legend{font-weight:800;margin-bottom:6px}
+.cr-opts{display:flex;flex-wrap:wrap;gap:8px}
+.cr-opt{min-height:44px;padding:6px 14px;border-radius:12px;border:2px solid #d8d2c4;background:#fff;font-weight:700;cursor:pointer;color:inherit}
+.cr-opt.ok{border-color:#2e9e44;background:#e3f6e6}
+.cr-opt.no{border-color:#d14b3c;background:#fdecea}
+.cr-why{margin:6px 0 0;font-size:15px}
+.cr-why.ok{color:#1d7a33}
+.cr-score{font-weight:800}
+.cr-done{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px;border-radius:16px;background:#fff3c4;border:2px solid #f0b429}
+.cr-lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;list-style:none}
+.cr-lessons a{display:flex;flex-direction:column;gap:2px;height:100%;padding:12px 14px;border:2px solid #e8e2d4;border-radius:14px;background:var(--card,#fff);color:inherit;text-decoration:none}
+.cr-lessons a span{font-size:14px;color:var(--muted-foreground,#666)}
+.cr-lessons a.done{border-color:#7dd87a;background:#f3fbf3}
+.cr-lessons a[aria-current="page"]{border-color:var(--ink,#14162d)}

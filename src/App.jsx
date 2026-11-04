@@ -198,6 +198,9 @@ const EmojiKeyboard = lazy(() => import('./office/keys/EmojiKeyboard'))
 const ScientificCalculator = lazy(() => import('./office/calc/ScientificCalculator'))
 const ExcelCourse = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelCourse })))
 const ExcelLesson = lazy(() => import('./excel/ExcelPages').then(m => ({ default: m.ExcelLesson })))
+const CoursesHub = lazy(() => import('./courses/CoursePages').then(m => ({ default: m.CoursesHub })))
+const CourseHome = lazy(() => import('./courses/CoursePages').then(m => ({ default: m.CourseHome })))
+const CourseLesson = lazy(() => import('./courses/CoursePages').then(m => ({ default: m.CourseLesson })))
 const LearnHub = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.LearnHub })))
 const Dictation = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.Dictation })))
 const DictionaryHub = lazy(() => import('./pages/dictionary/Dictionary').then(m => ({ default: m.DictionaryHub })))
@@ -898,6 +901,9 @@ export default function App() {
               <Route path="/typing/game" element={<TypingGame />} />
               <Route path="/excel" element={<ExcelCourse />} />
               <Route path="/excel/:slug" element={<ExcelLesson />} />
+              <Route path="/courses" element={<CoursesHub />} />
+              <Route path="/courses/:course" element={<CourseHome />} />
+              <Route path="/courses/:course/:lesson" element={<CourseLesson />} />
               <Route path="/learn" element={<LearnHub />} />
               <Route path="/learn/dictation" element={<Dictation />} />
               <Route path="/learn/dictation/english" element={<DictationEnglish />} />

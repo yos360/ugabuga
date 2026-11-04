@@ -145,7 +145,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '🏫', to: '/learn',
     landingLabel: 'בית ספר — כל המקצועות',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/excel', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/singular-plural-verbs-workbook', '/speech', '/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan', '/planner', '/path'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/excel', '/courses', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/singular-plural-verbs-workbook', '/speech', '/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan', '/planner', '/path'],
     groups: [
       {
         title: 'למורים ולכיתה', icon: '🧑‍🏫', to: '/classroom',
@@ -261,6 +261,7 @@ export const MENU_DOMAINS = [
           { to: '/typing', label: 'הקלדה עיוורת', icon: '⌨️' },
           { to: '/typing/test', label: 'מבחן מהירות הקלדה', icon: '⏱️' },
           { to: '/excel', label: 'קורס אקסל', icon: '📗' },
+          { to: '/courses', label: 'כל הקורסים החינמיים', icon: '🎓' },
           { to: '/printables/roots-project', label: 'עבודת שורשים', icon: '🌳' },
         ],
       },
