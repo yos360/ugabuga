@@ -73,3 +73,7 @@ Update 2026-11-02 evening: YouTube https://youtube.com/shorts/yb9mdaotP-8 (made 
 Note 2026-11-03: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-03/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/excel-if/. Owner changed the topic twice the same day (letters game, then an IF quiz were replaced); final version is the statement hook with a "do you know Excel?" end-card question. Sync check passed (hook/logo are audio-only).
 
 | 2026-11-03 | החידה היומית #1 (reversed-squares) | — | ✓ YouTube https://youtube.com/shorts/OpbLGbF6h0s | ✓ Instagram | ✓ Facebook | ✓ TikTok | ✓ WhatsApp channel |
+
+| 2026-11-04 | "כמה חודשים בשנה יש בהם 28 ימים?" — הטריוויה (hook = real question from the bank, answer left open; audience, 20 topics, 4 modes, answer + "למה?" + streak, printable 12-question quiz with answer key) | /tools/trivia-quiz | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-11-04: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-04/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/trivia-28/. Sync check: only "right" (green feedback pop) lags 2 frames, within the accepted ≤3.
