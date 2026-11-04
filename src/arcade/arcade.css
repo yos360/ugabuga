@@ -192,7 +192,17 @@
 .mm-back,.mm-face{position:absolute;inset:0;display:grid;place-items:center;border-radius:16px;border:2.5px solid var(--arc-ink);backface-visibility:hidden;box-shadow:3px 3px 0 var(--arc-ink)}
 .mm-back{background:repeating-linear-gradient(45deg,#ffb8d9 0 10px,#ffc9e3 10px 20px);font-size:28px;font-weight:900;color:#fff;text-shadow:1px 1px 0 var(--arc-ink)}
 .mm-face{background:#fff;transform:rotateY(180deg)}
-.mm-card.is-done .mm-face{background:#d9fbe3;animation:arc-pop .3s}
+.mm-card.is-done .mm-face{background:#d9fbe3;animation:arc-pop .3s,mm-glow .9s ease-out}
+.mm-card.is-miss .mm-inner{animation:mm-shake .4s}
+.mm-card.is-miss .mm-face{background:#ffe0e0}
+@keyframes mm-glow{0%{box-shadow:3px 3px 0 var(--arc-ink),0 0 0 0 rgba(72,214,120,.8)}100%{box-shadow:3px 3px 0 var(--arc-ink),0 0 0 14px rgba(72,214,120,0)}}
+@keyframes mm-shake{0%,100%{translate:0}20%{translate:-6px}40%{translate:6px}60%{translate:-4px}80%{translate:4px}}
+.mm-options{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:4px 0}
+.mm-theme{font:inherit;font-weight:700;padding:6px 10px;border-radius:12px;border:2.5px solid var(--arc-ink);background:#fff;color:var(--arc-ink)}
+.mm-turn{margin:4px auto;padding:4px 14px;border-radius:999px;border:2.5px solid var(--arc-ink);font-weight:800;text-align:center;animation:arc-pop .3s}
+.mm-turn.is-p1{background:#ffd6d6}
+.mm-turn.is-p2{background:#d6e6ff}
+@media (prefers-reduced-motion:reduce){.mm-card.is-miss .mm-inner,.mm-card.is-done .mm-face{animation:none}}
 
 /* snake */
 .sn-field{touch-action:none}
