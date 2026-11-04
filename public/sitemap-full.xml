@@ -40,7 +40,7 @@
   <url><loc>https://ugabuga.co.il/tools/tip-calculator</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/calculator</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/keyboard-fix</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/tools/keyboard</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/keyboard</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/rrmNDBL6TvY/hqdefault.jpg</video:thumbnail_loc><video:title>איך מקלידים עברית עם ניקוד בכל מחשב בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר למקלדת העברית אונליין: מקלידים עברית גם במחשב בלי עברית, מוסיפים ניקוד, סימנים ואימוג׳ים, מפעילים צבעי אצבעות ומעתיקים או שולחים בוואטסאפ.</video:description><video:player_loc>https://www.youtube.com/embed/rrmNDBL6TvY</video:player_loc><video:publication_date>2026-11-04T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/emoji</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/shopping-list</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/image</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
@@ -473,6 +473,8 @@
   <url><loc>https://ugabuga.co.il/booklets/first-math-age-4</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/booklets/math-grade-1-compare</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/booklets/sentence-pyramids</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/booklets/shemot</loc><lastmod>2026-11-04</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/booklets/new-immigrants</loc><lastmod>2026-11-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/booklets/bereshit</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/booklets/grade-2-prep</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/booklets/kamatz-accuracy</loc><lastmod>2026-11-01</lastmod><priority>0.8</priority></url>
@@ -591,6 +593,7 @@
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/word-search</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--hanukkah--word-search.jpg</image:loc><image:title>תפזורת חנוכה — דף להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/crafts</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--hanukkah--crafts.jpg</image:loc><image:title>יצירה לחנוכה — לגזור ולהכין — דף להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/cut-out-hanukkiah</loc><lastmod>2026-10-29</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/hanukkah/hanukkiah-tour</loc><lastmod>2026-11-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/worksheets</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--hanukkah--worksheets.jpg</image:loc><image:title>דפי עבודה לחנוכה — דף להדפסה</image:title></image:image><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/what-to-do</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/grade/kindergarten</loc><lastmod>2026-10-30</lastmod><priority>0.9</priority></url>
@@ -1590,6 +1593,9 @@
   <url><loc>https://ugabuga.co.il/riddles/teens</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/family</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/riddles/videos</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/riddles/daily</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/riddles/shilshom</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/riddles/reversed-squares</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/jokes/topics</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/jokes/kids</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/jokes/school</loc><priority>0.7</priority></url>
@@ -1666,7 +1672,7 @@
   <url><loc>https://ugabuga.co.il/printables/winter-fruits-vegetables</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/name-coloring</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--name-coloring.jpg</image:loc><image:title>דף שם לצביעה ולמידת אותיות — דף להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/embed</loc><priority>0.5</priority></url>
-  <url><loc>https://ugabuga.co.il/videos</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DB-Zn6ZHnTs/hqdefault.jpg</video:thumbnail_loc><video:title>איך עושים הגרלת גמד וענק עם קישור אישי — מדריך קצר</video:title><video:description>מדריך קצר להגרלת גמד וענק: כותבים שמות, מסמנים מי לא יגרילו זה את זה, מגרילים בלחיצה וכל משתתף מקבל קישור אישי שבו רק הוא רואה את מי הגריל.</video:description><video:player_loc>https://www.youtube.com/embed/DB-Zn6ZHnTs</video:player_loc><video:publication_date>2026-11-02T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/RhER-DXr9zQ/hqdefault.jpg</video:thumbnail_loc><video:title>איך מארגנים מי מביא מה למסיבה — מדריך קצר</video:title><video:description>מדריך קצר לרשימת מי מביא מה: פותחים רשימה מוכנה, מוסיפים פריטים, שולחים קישור אחד בוואטסאפ וכל אורח תופס פריט בלחיצה, בלי כפילויות.</video:description><video:player_loc>https://www.youtube.com/embed/RhER-DXr9zQ</video:player_loc><video:publication_date>2026-11-01T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/UMESYjdB0oQ/hqdefault.jpg</video:thumbnail_loc><video:title>איך מקימים בחירות בכיתה — מדריך קצר</video:title><video:description>מדריך קצר לבחירות בכיתה: בוחרים סוג בחירות, כותבים מועמדים, מדפיסים פתקים וקלפי, מצביעים ורואים תוצאות עם אחוזים — לוועד כיתה ולמועצת תלמידים.</video:description><video:player_loc>https://www.youtube.com/embed/UMESYjdB0oQ</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/Rgg_WzsP01Q/hqdefault.jpg</video:thumbnail_loc><video:title>איך משחקים ומדפיסים חדר בריחה — מדריך קצר</video:title><video:description>מדריך קצר לחדר הבריחה: בוחרים רמת קושי וחדר, פותרים חידות עם רמזים, ומדפיסים קיט למנחה עם כל התשובות וכרטיס לכל שלב.</video:description><video:player_loc>https://www.youtube.com/embed/Rgg_WzsP01Q</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/3R4R1nnYNSs/hqdefault.jpg</video:thumbnail_loc><video:title>איך משחקים במשחק לוח הכפל — מדריך קצר</video:title><video:description>מדריך קצר למשחק לוח הכפל: מסלול שלבים מהלוח של 1 עד הלוח של 10, משוב מיידי על כל תשובה, כוכבים ודף תרגול להדפסה עם תשובות.</video:description><video:player_loc>https://www.youtube.com/embed/3R4R1nnYNSs</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/u3HvcewrSVc/hqdefault.jpg</video:thumbnail_loc><video:title>איך מעצבים הזמנה ליום הולדת בוואטסאפ — מדריך קצר</video:title><video:description>מדריך קצר להזמנה ליום הולדת: בוחרים אחד מ־12 סגנונות, ממלאים שם, גיל, תאריך ומקום, משנים צבעים ופונט, שומרים כתמונה לוואטסאפ או לסטטוס ומוסיפים קישור לאישור הגעה.</video:description><video:player_loc>https://www.youtube.com/embed/u3HvcewrSVc</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/_UCm6JYhOyI/hqdefault.jpg</video:thumbnail_loc><video:title>איך אוספים אישורי הגעה ליום הולדת בוואטסאפ — מדריך קצר</video:title><video:description>מדריך קצר לדף אישור ההגעה: כותבים שם, תאריך ומקום, שולחים קישור אחד בוואטסאפ ורואים מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.</video:description><video:player_loc>https://www.youtube.com/embed/_UCm6JYhOyI</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DpbSovICUFA/hqdefault.jpg</video:thumbnail_loc><video:title>איך מטילים קובייה אונליין — מדריך קצר</video:title><video:description>מדריך קצר לקובייה הווירטואלית: 1 עד 5 קוביות, סכום אוטומטי והיסטוריית הטלות — לסולמות ונחשים, מונופול, שש־בש וכל משחק שהקובייה שלו הלכה לאיבוד.</video:description><video:player_loc>https://www.youtube.com/embed/DpbSovICUFA</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/-4RMMZdPBVc/hqdefault.jpg</video:thumbnail_loc><video:title>אירוע בלי כאב ראש: אישורי הגעה, מי מביא מה וגמד וענק</video:title><video:description>שלושה כלים חינמיים שחוסכים את הבלגן של כל אירוע: טופס אישורי הגעה, רשימת "מי מביא מה" והגרלת גמד וענק — שולחים קישור בוואטסאפ וזהו.</video:description><video:player_loc>https://www.youtube.com/embed/-4RMMZdPBVc</video:player_loc><video:publication_date>2026-10-29T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/1YnuhkZy1Nk/hqdefault.jpg</video:thumbnail_loc><video:title>העוגה נעלמה! חדר בריחה מודפס לילדים</video:title><video:description>חדר בריחה שמדפיסים בבית: מסתירים את הרמזים, והילדים פותרים חידות עד שמוצאים את העוגה — משחק מוכן ליום הולדת, לחופש או לכיתה.</video:description><video:player_loc>https://www.youtube.com/embed/1YnuhkZy1Nk</video:player_loc><video:publication_date>2026-10-27T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/6HazN0BZLJY/hqdefault.jpg</video:thumbnail_loc><video:title>כמה עוד נשאר?! נוסעים עם בוגה</video:title><video:description>משחקים ופעילויות לנסיעה — ברכב, ברכבת ובטיסה, גם בלי אינטרנט — כדי שהשאלה "כמה עוד נשאר?" תגיע הרבה יותר מאוחר.</video:description><video:player_loc>https://www.youtube.com/embed/6HazN0BZLJY</video:player_loc><video:publication_date>2026-10-26T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/Cqs_y7Pqie0/hqdefault.jpg</video:thumbnail_loc><video:title>הפעם מצביעים בוגה! בחירות בכיתה</video:title><video:description>עורכים בחירות בכיתה, כמו בגדול — דרך כיפית ללמד את הילדים מה זו דמוקרטיה.</video:description><video:player_loc>https://www.youtube.com/embed/Cqs_y7Pqie0</video:player_loc><video:publication_date>2026-10-25T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DyVuSAMV4xQ/hqdefault.jpg</video:thumbnail_loc><video:title>חסר לכם דף עבודה? מבקשים ואנחנו מכינים</video:title><video:description>לא מצאתם את הדף שחיפשתם? כותבים לנו מה צריך — ואנחנו מכינים אותו ומעלים לאתר, בחינם.</video:description><video:player_loc>https://www.youtube.com/embed/DyVuSAMV4xQ</video:player_loc><video:publication_date>2026-10-24T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/MernkShUmoc/hqdefault.jpg</video:thumbnail_loc><video:title>חידון חי לכל הכיתה — בוגה לייב</video:title><video:description>חידון בזמן אמת לכל הכיתה: מקרינים את השאלות על הלוח, והמשתתפים עונים מהטלפון.</video:description><video:player_loc>https://www.youtube.com/embed/MernkShUmoc</video:player_loc><video:publication_date>2026-10-22T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/xUxa-ogDuCo/hqdefault.jpg</video:thumbnail_loc><video:title>יום הולדת בקרוב? ההזמנה מוכנה בדקה</video:title><video:description>מכינים הזמנה ליום הולדת בדקה: בוחרים עיצוב, ממלאים פרטים ושולחים בוואטסאפ או מדפיסים.</video:description><video:player_loc>https://www.youtube.com/embed/xUxa-ogDuCo</video:player_loc><video:publication_date>2026-10-21T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/ZRI6gufvh-c/hqdefault.jpg</video:thumbnail_loc><video:title>מתכוננים לכיתה א׳ עם פעילות אנגלית</video:title><video:description>פעילויות קצרות שמכינות את הילדים לכיתה א׳ — כולל צעדים ראשונים באנגלית, בדרך של משחק.</video:description><video:player_loc>https://www.youtube.com/embed/ZRI6gufvh-c</video:player_loc><video:publication_date>2026-10-20T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-10-29</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/videos</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/rrmNDBL6TvY/hqdefault.jpg</video:thumbnail_loc><video:title>איך מקלידים עברית עם ניקוד בכל מחשב בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר למקלדת העברית אונליין: מקלידים עברית גם במחשב בלי עברית, מוסיפים ניקוד, סימנים ואימוג׳ים, מפעילים צבעי אצבעות ומעתיקים או שולחים בוואטסאפ.</video:description><video:player_loc>https://www.youtube.com/embed/rrmNDBL6TvY</video:player_loc><video:publication_date>2026-11-04T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DB-Zn6ZHnTs/hqdefault.jpg</video:thumbnail_loc><video:title>איך עושים הגרלת גמד וענק עם קישור אישי — מדריך קצר</video:title><video:description>מדריך קצר להגרלת גמד וענק: כותבים שמות, מסמנים מי לא יגרילו זה את זה, מגרילים בלחיצה וכל משתתף מקבל קישור אישי שבו רק הוא רואה את מי הגריל.</video:description><video:player_loc>https://www.youtube.com/embed/DB-Zn6ZHnTs</video:player_loc><video:publication_date>2026-11-02T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/RhER-DXr9zQ/hqdefault.jpg</video:thumbnail_loc><video:title>איך מארגנים מי מביא מה למסיבה — מדריך קצר</video:title><video:description>מדריך קצר לרשימת מי מביא מה: פותחים רשימה מוכנה, מוסיפים פריטים, שולחים קישור אחד בוואטסאפ וכל אורח תופס פריט בלחיצה, בלי כפילויות.</video:description><video:player_loc>https://www.youtube.com/embed/RhER-DXr9zQ</video:player_loc><video:publication_date>2026-11-01T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/UMESYjdB0oQ/hqdefault.jpg</video:thumbnail_loc><video:title>איך מקימים בחירות בכיתה — מדריך קצר</video:title><video:description>מדריך קצר לבחירות בכיתה: בוחרים סוג בחירות, כותבים מועמדים, מדפיסים פתקים וקלפי, מצביעים ורואים תוצאות עם אחוזים — לוועד כיתה ולמועצת תלמידים.</video:description><video:player_loc>https://www.youtube.com/embed/UMESYjdB0oQ</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/Rgg_WzsP01Q/hqdefault.jpg</video:thumbnail_loc><video:title>איך משחקים ומדפיסים חדר בריחה — מדריך קצר</video:title><video:description>מדריך קצר לחדר הבריחה: בוחרים רמת קושי וחדר, פותרים חידות עם רמזים, ומדפיסים קיט למנחה עם כל התשובות וכרטיס לכל שלב.</video:description><video:player_loc>https://www.youtube.com/embed/Rgg_WzsP01Q</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/3R4R1nnYNSs/hqdefault.jpg</video:thumbnail_loc><video:title>איך משחקים במשחק לוח הכפל — מדריך קצר</video:title><video:description>מדריך קצר למשחק לוח הכפל: מסלול שלבים מהלוח של 1 עד הלוח של 10, משוב מיידי על כל תשובה, כוכבים ודף תרגול להדפסה עם תשובות.</video:description><video:player_loc>https://www.youtube.com/embed/3R4R1nnYNSs</video:player_loc><video:publication_date>2026-10-31T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/u3HvcewrSVc/hqdefault.jpg</video:thumbnail_loc><video:title>איך מעצבים הזמנה ליום הולדת בוואטסאפ — מדריך קצר</video:title><video:description>מדריך קצר להזמנה ליום הולדת: בוחרים אחד מ־12 סגנונות, ממלאים שם, גיל, תאריך ומקום, משנים צבעים ופונט, שומרים כתמונה לוואטסאפ או לסטטוס ומוסיפים קישור לאישור הגעה.</video:description><video:player_loc>https://www.youtube.com/embed/u3HvcewrSVc</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/_UCm6JYhOyI/hqdefault.jpg</video:thumbnail_loc><video:title>איך אוספים אישורי הגעה ליום הולדת בוואטסאפ — מדריך קצר</video:title><video:description>מדריך קצר לדף אישור ההגעה: כותבים שם, תאריך ומקום, שולחים קישור אחד בוואטסאפ ורואים מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.</video:description><video:player_loc>https://www.youtube.com/embed/_UCm6JYhOyI</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DpbSovICUFA/hqdefault.jpg</video:thumbnail_loc><video:title>איך מטילים קובייה אונליין — מדריך קצר</video:title><video:description>מדריך קצר לקובייה הווירטואלית: 1 עד 5 קוביות, סכום אוטומטי והיסטוריית הטלות — לסולמות ונחשים, מונופול, שש־בש וכל משחק שהקובייה שלו הלכה לאיבוד.</video:description><video:player_loc>https://www.youtube.com/embed/DpbSovICUFA</video:player_loc><video:publication_date>2026-10-30T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/-4RMMZdPBVc/hqdefault.jpg</video:thumbnail_loc><video:title>אירוע בלי כאב ראש: אישורי הגעה, מי מביא מה וגמד וענק</video:title><video:description>שלושה כלים חינמיים שחוסכים את הבלגן של כל אירוע: טופס אישורי הגעה, רשימת "מי מביא מה" והגרלת גמד וענק — שולחים קישור בוואטסאפ וזהו.</video:description><video:player_loc>https://www.youtube.com/embed/-4RMMZdPBVc</video:player_loc><video:publication_date>2026-10-29T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/1YnuhkZy1Nk/hqdefault.jpg</video:thumbnail_loc><video:title>העוגה נעלמה! חדר בריחה מודפס לילדים</video:title><video:description>חדר בריחה שמדפיסים בבית: מסתירים את הרמזים, והילדים פותרים חידות עד שמוצאים את העוגה — משחק מוכן ליום הולדת, לחופש או לכיתה.</video:description><video:player_loc>https://www.youtube.com/embed/1YnuhkZy1Nk</video:player_loc><video:publication_date>2026-10-27T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/6HazN0BZLJY/hqdefault.jpg</video:thumbnail_loc><video:title>כמה עוד נשאר?! נוסעים עם בוגה</video:title><video:description>משחקים ופעילויות לנסיעה — ברכב, ברכבת ובטיסה, גם בלי אינטרנט — כדי שהשאלה "כמה עוד נשאר?" תגיע הרבה יותר מאוחר.</video:description><video:player_loc>https://www.youtube.com/embed/6HazN0BZLJY</video:player_loc><video:publication_date>2026-10-26T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/Cqs_y7Pqie0/hqdefault.jpg</video:thumbnail_loc><video:title>הפעם מצביעים בוגה! בחירות בכיתה</video:title><video:description>עורכים בחירות בכיתה, כמו בגדול — דרך כיפית ללמד את הילדים מה זו דמוקרטיה.</video:description><video:player_loc>https://www.youtube.com/embed/Cqs_y7Pqie0</video:player_loc><video:publication_date>2026-10-25T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DyVuSAMV4xQ/hqdefault.jpg</video:thumbnail_loc><video:title>חסר לכם דף עבודה? מבקשים ואנחנו מכינים</video:title><video:description>לא מצאתם את הדף שחיפשתם? כותבים לנו מה צריך — ואנחנו מכינים אותו ומעלים לאתר, בחינם.</video:description><video:player_loc>https://www.youtube.com/embed/DyVuSAMV4xQ</video:player_loc><video:publication_date>2026-10-24T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/MernkShUmoc/hqdefault.jpg</video:thumbnail_loc><video:title>חידון חי לכל הכיתה — בוגה לייב</video:title><video:description>חידון בזמן אמת לכל הכיתה: מקרינים את השאלות על הלוח, והמשתתפים עונים מהטלפון.</video:description><video:player_loc>https://www.youtube.com/embed/MernkShUmoc</video:player_loc><video:publication_date>2026-10-22T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/xUxa-ogDuCo/hqdefault.jpg</video:thumbnail_loc><video:title>יום הולדת בקרוב? ההזמנה מוכנה בדקה</video:title><video:description>מכינים הזמנה ליום הולדת בדקה: בוחרים עיצוב, ממלאים פרטים ושולחים בוואטסאפ או מדפיסים.</video:description><video:player_loc>https://www.youtube.com/embed/xUxa-ogDuCo</video:player_loc><video:publication_date>2026-10-21T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/ZRI6gufvh-c/hqdefault.jpg</video:thumbnail_loc><video:title>מתכוננים לכיתה א׳ עם פעילות אנגלית</video:title><video:description>פעילויות קצרות שמכינות את הילדים לכיתה א׳ — כולל צעדים ראשונים באנגלית, בדרך של משחק.</video:description><video:player_loc>https://www.youtube.com/embed/ZRI6gufvh-c</video:player_loc><video:publication_date>2026-10-20T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-10-29</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/month/01</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/month/02</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/time-tunnel/month/03</loc><priority>0.6</priority></url>
@@ -2988,155 +2994,155 @@
   <url><loc>https://ugabuga.co.il/learn/science/concepts/recycling</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/concepts/galaxy</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/science/concepts/algorithm</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/what-is-history</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/stone-age-agriculture</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/invention-of-writing</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-egypt</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-greece</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-rome</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/first-temple-period</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/babylonian-exile</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/return-to-zion</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/hasmoneans</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/great-revolt</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/masada</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/bar-kokhba</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/middle-ages</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/golden-age-spain</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/discovery-of-america</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/printing-press</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/industrial-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/herzl-zionism</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/aliyot</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ben-yehuda-hebrew</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/world-war-one</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/holocaust</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/israel-independence</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/kibbutz-galuyot</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/mesopotamia-sumer</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/hammurabi-code</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/phoenicians-alphabet</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/assyrian-empire</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/persian-empire</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/alexander-the-great</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-olympics</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/athens-democracy</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/julius-caesar</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/pompeii</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-china-great-wall</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/king-herod</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/second-temple-life</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/yavne-ben-zakkai</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/mishnah-talmud</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/byzantine-period</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/rise-of-islam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/crusades</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/maimonides</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/silk-road</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/rashi</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/charlemagne</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/vikings</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/knights-castles-feudalism</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/black-death</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/renaissance</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/spain-expulsion-1492</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ottoman-empire</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/magellan-voyage</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/scientific-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/hasidism</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/safed-kabbalah</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/aztecs-incas</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/american-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/french-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/napoleon</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/jewish-emancipation</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/dreyfus-affair</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/first-moshavot</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/tel-aviv-founding</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/hashomer-nili</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/balfour-declaration</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/british-mandate</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/slavery-abolition</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/world-war-two</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/warsaw-ghetto-uprising</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/righteous-among-nations</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/haapala-exodus</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/un-partition-plan</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/war-of-independence</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/six-day-war</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/yom-kippur-war</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/peace-egypt-jordan</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/space-race-moon</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ethiopian-aliyah</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/timeline-for-kids</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/life-100-years-ago</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/archaeologists-for-kids</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/holidays-and-memory</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/ancient-jerusalem-for-kids</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/my-town-history</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-2</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-2/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-3</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-3/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-4</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-4/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-5</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-5/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-6</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-6/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-7</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-7/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-8</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-8/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-9</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/grade-9/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/archaeology</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/primary-source</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/agricultural-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/hunter-gatherers</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/cuneiform</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/hieroglyphs</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/pyramid</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/pharaoh</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/athenian-democracy</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/polis</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/roman-empire</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/roman-republic</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/first-temple</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/babylonian-exile</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/cyrus-declaration</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/hasmoneans</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/hellenizers</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/great-revolt</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/josephus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/masada</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/bar-kokhba-revolt</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/mishnah</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/middle-ages</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/feudalism</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/golden-age-spain</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/rambam</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/discovery-of-america</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/printing-press</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/industrial-revolution</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/steam-engine</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/zionism</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/zionist-congress</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/aliyah</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/bilu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/eliezer-ben-yehuda</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/balfour-declaration</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/british-mandate</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/holocaust</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/ghetto</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/righteous-among-nations</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/november-29</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/war-of-independence</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/green-line</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/kibbutz-galuyot</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/history/concepts/maabara</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/what-is-history</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/stone-age-agriculture</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/invention-of-writing</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-egypt</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-greece</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-rome</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/first-temple-period</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/babylonian-exile</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/return-to-zion</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/hasmoneans</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/great-revolt</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/masada</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/bar-kokhba</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/middle-ages</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/golden-age-spain</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/discovery-of-america</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/printing-press</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/industrial-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/herzl-zionism</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/aliyot</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ben-yehuda-hebrew</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/world-war-one</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/holocaust</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/israel-independence</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/kibbutz-galuyot</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/mesopotamia-sumer</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/hammurabi-code</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/phoenicians-alphabet</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/assyrian-empire</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/persian-empire</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/alexander-the-great</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-olympics</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/athens-democracy</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/julius-caesar</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/pompeii</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-china-great-wall</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/king-herod</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/second-temple-life</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/yavne-ben-zakkai</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/mishnah-talmud</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/byzantine-period</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/rise-of-islam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/crusades</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/maimonides</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/silk-road</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/rashi</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/charlemagne</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/vikings</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/knights-castles-feudalism</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/black-death</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/renaissance</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/spain-expulsion-1492</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ottoman-empire</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/magellan-voyage</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/scientific-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/hasidism</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/safed-kabbalah</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/aztecs-incas</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/american-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/french-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/napoleon</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/jewish-emancipation</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/dreyfus-affair</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/first-moshavot</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/tel-aviv-founding</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/hashomer-nili</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/balfour-declaration</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/british-mandate</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/slavery-abolition</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/world-war-two</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/warsaw-ghetto-uprising</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/righteous-among-nations</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/haapala-exodus</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/un-partition-plan</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/war-of-independence</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/six-day-war</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/yom-kippur-war</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/peace-egypt-jordan</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/space-race-moon</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ethiopian-aliyah</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/timeline-for-kids</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/life-100-years-ago</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/archaeologists-for-kids</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/holidays-and-memory</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/ancient-jerusalem-for-kids</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/my-town-history</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-2</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-2/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-3</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-3/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-4</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-4/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-5</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-5/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-6</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-6/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-7</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-7/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-8</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-8/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-9</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/grade-9/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/archaeology</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/primary-source</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/agricultural-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/hunter-gatherers</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/cuneiform</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/hieroglyphs</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/pyramid</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/pharaoh</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/athenian-democracy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/polis</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/roman-empire</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/roman-republic</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/first-temple</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/babylonian-exile</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/cyrus-declaration</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/hasmoneans</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/hellenizers</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/great-revolt</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/josephus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/masada</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/bar-kokhba-revolt</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/mishnah</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/middle-ages</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/feudalism</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/golden-age-spain</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/rambam</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/discovery-of-america</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/printing-press</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/industrial-revolution</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/steam-engine</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/zionism</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/zionist-congress</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/aliyah</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/bilu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/eliezer-ben-yehuda</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/balfour-declaration</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/british-mandate</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/holocaust</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/ghetto</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/righteous-among-nations</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/november-29</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/war-of-independence</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/green-line</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/kibbutz-galuyot</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/history/concepts/maabara</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/ai</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/ai/teach-the-robot</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/ai/prompt-lab</loc><lastmod>2026-10-22</lastmod><priority>0.8</priority></url>
@@ -4177,125 +4183,125 @@
   <url><loc>https://ugabuga.co.il/learn/pets-breeds/concepts/greek-tortoise</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/pets-breeds/concepts/arabian-horse</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/pets-breeds/concepts/pony</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/pyramids-of-giza</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/pharaohs-and-mummies</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/egyptian-gods</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/hieroglyphs-and-nile-life</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/greek-gods-olympus</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/greek-heroes-myths</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/trojan-war-odyssey</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/athens-sparta-life</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/rome-founding-and-life</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/colosseum-gladiators</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/roman-army-and-judea</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/knights</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/castles</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/vikings-norse-myths</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/mesopotamia-babylon</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/maya-aztec-inca</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/ancient-china-wonders</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-3</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-3/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-4</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-4/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-5</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-5/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-6</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-6/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-7</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-7/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-8</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-8/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-9</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-9/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-pyramid</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-sphinx</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/step-pyramid</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/khufu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/tutankhamun</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ramesses-ii</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hatshepsut</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/cleopatra</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/mummy</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/valley-of-the-kings</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ra</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/osiris</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/isis</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/horus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/anubis</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/set-god</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/thoth</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/bastet</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/akhenaten</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nefertiti-bust</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hieroglyphs</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/rosetta-stone</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/papyrus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nile</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/merneptah-stele</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/seven-wonders</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/mount-olympus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/zeus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hera</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/poseidon</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hades</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/athena</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/apollo</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/artemis</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ares</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/aphrodite</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hermes</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hephaestus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/demeter</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/dionysus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/prometheus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/heracles</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/medusa</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/minotaur</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/icarus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/achilles</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/trojan-horse</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/odysseus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/homer</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/parthenon</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/sparta</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/socrates</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/olympics-origins</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/romulus-and-remus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/aqueduct</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/colosseum</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/gladiator</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/roman-legion</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/arch-of-titus</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/knight</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/heraldry</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/castle</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/trebuchet</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/belvoir-fortress</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/knights-hospitaller</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/odin</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/thor</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/loki</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/yggdrasil</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/longship</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/runes</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/cuneiform</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ziggurat</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/gilgamesh</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hammurabi</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ishtar-gate</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nebuchadnezzar</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/chichen-itza</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/tenochtitlan</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/machu-picchu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/quipu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/qin-shi-huang</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/terracotta-army</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-wall</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/confucius</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/silk</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/pyramids-of-giza</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/pharaohs-and-mummies</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/egyptian-gods</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/hieroglyphs-and-nile-life</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/greek-gods-olympus</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/greek-heroes-myths</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/trojan-war-odyssey</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/athens-sparta-life</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/rome-founding-and-life</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/colosseum-gladiators</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/roman-army-and-judea</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/knights</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/castles</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/vikings-norse-myths</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/mesopotamia-babylon</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/maya-aztec-inca</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/ancient-china-wonders</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-3</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-3/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-4</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-4/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-5</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-5/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-6</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-6/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-7</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-7/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-8</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-8/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-9</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/grade-9/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-pyramid</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-sphinx</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/step-pyramid</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/khufu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/tutankhamun</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ramesses-ii</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hatshepsut</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/cleopatra</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/mummy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/valley-of-the-kings</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ra</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/osiris</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/isis</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/horus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/anubis</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/set-god</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/thoth</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/bastet</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/akhenaten</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nefertiti-bust</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hieroglyphs</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/rosetta-stone</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/papyrus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nile</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/merneptah-stele</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/seven-wonders</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/mount-olympus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/zeus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hera</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/poseidon</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hades</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/athena</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/apollo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/artemis</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ares</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/aphrodite</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hermes</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hephaestus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/demeter</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/dionysus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/prometheus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/heracles</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/medusa</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/minotaur</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/icarus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/achilles</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/trojan-horse</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/odysseus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/homer</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/parthenon</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/sparta</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/socrates</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/olympics-origins</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/romulus-and-remus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/aqueduct</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/colosseum</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/gladiator</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/roman-legion</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/arch-of-titus</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/knight</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/heraldry</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/castle</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/trebuchet</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/belvoir-fortress</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/knights-hospitaller</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/odin</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/thor</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/loki</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/yggdrasil</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/longship</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/runes</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/cuneiform</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ziggurat</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/gilgamesh</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/hammurabi</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/ishtar-gate</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/nebuchadnezzar</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/chichen-itza</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/tenochtitlan</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/machu-picchu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/quipu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/qin-shi-huang</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/terracotta-army</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/great-wall</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/confucius</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/ancient-worlds/concepts/silk</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/earth-science</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/earth-science/inside-the-earth</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/earth-science/moving-plates</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
@@ -5311,115 +5317,115 @@
   <url><loc>https://ugabuga.co.il/learn/dj-music/concepts/public-domain</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/dj-music/concepts/creative-commons</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/dj-music/concepts/royalties</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/what-is-a-people</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/native-nations-north-america</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/native-americans-history-and-today</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-latin-america</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/amazon-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/arctic-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/aboriginal-australians</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/pacific-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-africa</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/amazigh-and-tuareg</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-asia</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/nomads-and-bedouin</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/druze-and-circassians</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/disappearing-languages</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/respect-and-stereotypes</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-4</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-4/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-5</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-5/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-6</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-6/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-7</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-7/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-8</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-8/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-9</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/grade-9/exam</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/culture</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/people</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tribe</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/clan</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ethnic-group</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/indigenous-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/indigenous-peoples-day</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/dialect</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/endangered-language</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/language-revival</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/oral-tradition</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nomads</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/stereotype</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cultural-appropriation</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/uncontacted-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/reservation</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/navajo</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cherokee</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/lakota</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/haudenosaunee</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/hopi</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/pueblo-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/first-nations</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/metis</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cree</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/code-talkers</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/totem-pole</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/potlatch</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/powwow</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tipi</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/trail-of-tears</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maya-peoples</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nahua</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/quechua</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/aymara</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/mapuche</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/guarani</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/yanomami</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kayapo</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ashaninka</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/inuit</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/igloo</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kayak</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nunavut</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/sami</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/joik</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nenets</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/aboriginal-australians</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/torres-strait-islanders</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/dreaming</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/songlines</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/anangu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/boomerang</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/didgeridoo</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/polynesians</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/polynesian-navigation</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maori</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/haka</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/te-reo-maori</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/native-hawaiians</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/rapa-nui</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maasai</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/san</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/zulu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ubuntu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/himba</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/amazigh</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tuareg</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tifinagh</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/yennayer</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/mongols</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ger</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/naadam</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ainu</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/bedouin</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/roma</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/druze</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nabi-shuayb</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/circassians</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kfar-kama</loc><lastmod>2026-11-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/what-is-a-people</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/native-nations-north-america</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/native-americans-history-and-today</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-latin-america</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/amazon-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/arctic-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/aboriginal-australians</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/pacific-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-africa</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/amazigh-and-tuareg</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/peoples-of-asia</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/nomads-and-bedouin</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/druze-and-circassians</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/disappearing-languages</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/respect-and-stereotypes</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-4</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-4/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-5</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-5/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-6</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-6/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-7</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-7/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-8</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-8/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-9</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/grade-9/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/culture</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/people</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tribe</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/clan</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ethnic-group</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/indigenous-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/indigenous-peoples-day</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/dialect</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/endangered-language</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/language-revival</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/oral-tradition</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nomads</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/stereotype</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cultural-appropriation</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/uncontacted-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/reservation</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/navajo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cherokee</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/lakota</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/haudenosaunee</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/hopi</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/pueblo-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/first-nations</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/metis</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/cree</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/code-talkers</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/totem-pole</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/potlatch</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/powwow</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tipi</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/trail-of-tears</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maya-peoples</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nahua</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/quechua</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/aymara</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/mapuche</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/guarani</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/yanomami</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kayapo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ashaninka</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/inuit</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/igloo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kayak</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nunavut</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/sami</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/joik</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nenets</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/aboriginal-australians</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/torres-strait-islanders</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/dreaming</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/songlines</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/anangu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/boomerang</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/didgeridoo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/polynesians</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/polynesian-navigation</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maori</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/haka</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/te-reo-maori</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/native-hawaiians</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/rapa-nui</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/maasai</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/san</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/zulu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ubuntu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/himba</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/amazigh</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tuareg</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/tifinagh</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/yennayer</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/mongols</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ger</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/naadam</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/ainu</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/bedouin</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/roma</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/druze</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/nabi-shuayb</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/circassians</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/peoples/concepts/kfar-kama</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/botany</loc><lastmod>2026-10-31</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/botany/how-a-plant-is-built</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/botany/how-plants-eat-and-drink</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
@@ -5530,127 +5536,127 @@
   <url><loc>https://ugabuga.co.il/learn/botany/concepts/castor-bean</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/botany/concepts/datura</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/botany/concepts/tree-tobacco</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is</loc><lastmod>2026-10-31</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/money-budget-saving</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/bank-interest-inflation</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/salary-and-vat</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/vaccines-and-immunity</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/body-and-health-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/emotions-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/internet-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/kids-slang</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/online-safety-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/units-of-measure</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/time-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/everyday-science-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/news-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/language-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/hebrew-search-words</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-3</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-3/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-4</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-4/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-5</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-5/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-6</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-6/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-7</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-7/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-8</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-8/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-9</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/grade-9/exam</loc><lastmod>2026-10-31</lastmod><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/money</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/currency</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/budget</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/saving</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/loan</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/bank</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/interest</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/inflation</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/credit-card</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/stock</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/stock-exchange</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/salary</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/payslip</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/minimum-wage</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vat</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/insurance</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/startup</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vaccine</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/immune-system</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/antibody</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/antibiotics</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/epidemic</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/allergy</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vitamin</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/calorie</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/pulse</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/blood-pressure</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/metabolism</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/hormone</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/emotion</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/empathy</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/frustration</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/jealousy</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/anxiety</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/resilience</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/influencer</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/viral</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/meme</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/trend</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/streaming</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/podcast</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/crush</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cringe</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/fomo</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/spoiler</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vibe</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/troll</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cloud-computing</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/wifi</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/qr-code</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/app</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/phishing</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cyberbullying</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/dunam</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/inch</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/kmh</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/kilowatt-hour</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/fahrenheit</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/liter</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/leap-year</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/daylight-saving-time</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/yemama</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/decade</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/millennium</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/static-electricity</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/echo</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/uv-radiation</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/laser</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/ozone-layer</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/united-nations</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/embassy</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/refugee</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/strike</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/demonstration</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/prosecution</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/immunity</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/slang</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/irony</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/sarcasm</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cliche</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/palindrome</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/anagram</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/oxymoron</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/terem</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/tsohar</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/pidyon</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/contour</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/shevach</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/nadlan</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
-  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/mashkanta</loc><lastmod>2026-10-31</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is</loc><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/money-budget-saving</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/bank-interest-inflation</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/salary-and-vat</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/vaccines-and-immunity</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/body-and-health-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/emotions-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/internet-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/kids-slang</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/online-safety-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/units-of-measure</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/time-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/everyday-science-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/news-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/language-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/hebrew-search-words</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-3</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-3/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-4</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-4/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-5</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-5/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-6</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-6/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-7</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-7/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-8</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-8/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-9</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/grade-9/exam</loc><lastmod>2026-11-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/money</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/currency</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/budget</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/saving</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/loan</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/bank</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/interest</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/inflation</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/credit-card</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/stock</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/stock-exchange</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/salary</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/payslip</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/minimum-wage</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vat</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/insurance</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/startup</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vaccine</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/immune-system</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/antibody</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/antibiotics</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/epidemic</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/allergy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vitamin</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/calorie</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/pulse</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/blood-pressure</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/metabolism</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/hormone</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/emotion</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/empathy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/frustration</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/jealousy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/anxiety</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/resilience</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/influencer</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/viral</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/meme</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/trend</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/streaming</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/podcast</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/crush</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cringe</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/fomo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/spoiler</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/vibe</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/troll</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cloud-computing</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/wifi</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/qr-code</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/app</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/phishing</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cyberbullying</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/dunam</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/inch</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/kmh</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/kilowatt-hour</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/fahrenheit</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/liter</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/leap-year</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/daylight-saving-time</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/yemama</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/decade</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/millennium</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/static-electricity</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/echo</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/uv-radiation</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/laser</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/ozone-layer</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/united-nations</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/embassy</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/refugee</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/strike</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/demonstration</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/prosecution</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/immunity</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/slang</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/irony</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/sarcasm</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/cliche</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/palindrome</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/anagram</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/oxymoron</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/terem</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/tsohar</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/pidyon</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/contour</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/shevach</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/nadlan</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/what-is/concepts/mashkanta</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/geography</loc><lastmod>2026-10-30</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/geography/maps</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/geography/compass</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
@@ -5874,6 +5880,70 @@
   <url><loc>https://ugabuga.co.il/learn/nutrition/concepts/expiry-date</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/nutrition/concepts/food-poisoning</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/nutrition/concepts/aerobic-activity</loc><lastmod>2026-11-03</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans</loc><lastmod>2026-11-04</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/five-oceans</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/ocean-water</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/waves-and-tides</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/ocean-currents</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/ocean-depths</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/mediterranean-sea</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/red-sea-and-eilat</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/dead-sea-and-kinneret</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/coral-reefs</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/sea-creatures</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/ocean-pollution</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/beach-safety</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-2</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-2/exam</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-3</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-3/exam</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-4</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-4/exam</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-5</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-5/exam</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-6</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/grade-6/exam</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/sea</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/gulf</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/strait</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/pacific-ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/atlantic-ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/indian-ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/southern-ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/arctic-ocean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/salinity</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/desalination</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/wave</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/tide</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/tsunami</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/ocean-current</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/gulf-stream</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/continental-shelf</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/mariana-trench</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/sonar</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/bioluminescence</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/plankton</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/jellyfish</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/octopus</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/sea-turtle</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/whale</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/dolphin</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/shark</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/sea-star</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/coral-reef</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/coral-bleaching</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/microplastic</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/rip-current</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/lifeguard-flags</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/kinneret</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/dead-sea</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/red-sea</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/gulf-of-eilat</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/mediterranean</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/suez-canal</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/oceans/concepts/strait-of-gibraltar</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
   <!-- learn-subjects:end -->
 
 
@@ -7435,6 +7505,8 @@
   <url><loc>https://ugabuga.co.il/flags/vu</loc></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cat/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cat/9</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/flowers/7</loc><priority>0.6</priority></url>
@@ -7469,6 +7541,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/soccer/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/soccer/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse/9</loc><priority>0.6</priority></url>
@@ -7522,6 +7596,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/horse/6</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/horse/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/horse/8</loc><priority>0.6</priority></url>
@@ -7542,12 +7618,17 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/11</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/4</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/5</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/6</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/11</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/12</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/6</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/8</loc><priority>0.6</priority></url>
@@ -7605,6 +7686,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/space/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/space/9</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/space/10</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/space/11</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/space/12</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions/1</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions/2</loc><priority>0.6</priority></url>
@@ -7627,6 +7710,13 @@
   <url><loc>https://ugabuga.co.il/how-to-draw/flower</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/how-to-draw/dog</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/how-to-draw/rocket</loc><lastmod>2026-11-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/dreidel</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/hanukkiah</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/sufganiyah</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/astronaut</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/unicorn</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/soccer-ball</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/candle</loc><lastmod>2026-11-04</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/parasha</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/parasha/bereshit</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/parasha/noach</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
@@ -8604,6 +8694,7 @@
   <url><loc>https://ugabuga.co.il/blog/free-excel-course</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/blog/bagrut-practice-exams</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/blog/printable-workbooks</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/blog/daily-2026-11-04</loc> <lastmod>2026-11-04</lastmod> <priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/blog/daily-2026-11-03</loc> <lastmod>2026-11-03</lastmod> <priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/blog/daily-2026-11-02</loc> <lastmod>2026-11-02</lastmod> <priority>0.5</priority></url>
   <url><loc>https://ugabuga.co.il/blog/daily-2026-11-01</loc> <lastmod>2026-11-01</lastmod> <priority>0.5</priority></url>
