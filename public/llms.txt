@@ -69,6 +69,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 ### משחקי אונליין
 - [אתגר היום — מתחלף כל יום](https://ugabuga.co.il/online-games/today)
 - [מרתון משחקים — 8 ברצף](https://ugabuga.co.il/online-games/marathon)
+- [מצאו את בוגה — חדש!](https://ugabuga.co.il/online-games/find-buga)
 - [שחמט אונליין — נגד המחשב או חבר](https://ugabuga.co.il/chess)
 - [סודוקו — אונליין, יומי והדפסה](https://ugabuga.co.il/sudoku)
 - [צוללות](https://ugabuga.co.il/online-games/battleship)
@@ -259,6 +260,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [הקלדה עיוורת](https://ugabuga.co.il/typing)
 - [מבחן מהירות הקלדה](https://ugabuga.co.il/typing/test)
 - [קורס אקסל](https://ugabuga.co.il/excel)
+- [כל הקורסים החינמיים](https://ugabuga.co.il/courses)
 - [עבודת שורשים](https://ugabuga.co.il/printables/roots-project)
 
 ## עולם ותחביבים
@@ -280,6 +282,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [גוף האדם](https://ugabuga.co.il/discover/human-body)
 - [גוף האדם לעומק: לב, מוח, עצמות וחושים](https://ugabuga.co.il/learn/human-body)
 - [תזונה ובריאות: ויטמינים, חלבונים, תוויות מזון ועוד](https://ugabuga.co.il/learn/nutrition)
+- [ימים ואוקיינוסים: הים התיכון, ים סוף, אלמוגים וגלים](https://ugabuga.co.il/learn/oceans)
 - [עובדות על חיות](https://ugabuga.co.il/animals)
 - [עולם החי לעומק: כרישים, נחשים, עכבישים](https://ugabuga.co.il/learn/animals)
 - [פירות וירקות: פרי או ירק? מאיפה הגיעו](https://ugabuga.co.il/learn/fruits-vegetables)
@@ -462,10 +465,16 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [המלצות לקנייה להורים ולגננות](https://ugabuga.co.il/recommended)
 - [התפתחות תינוק](https://ugabuga.co.il/family/baby-development)
 - [הבלוג](https://ugabuga.co.il/blog)
+- [המומחים של עוגה בוגה](https://ugabuga.co.il/experts)
 
 ## English
 
 - [Ugabuga in English](https://ugabuga.co.il/en): Hebrew learning and Jewish family activities for English-speaking families.
+- [Play online](https://ugabuga.co.il/en/online-games): Puzzles, card games, solitaire, sudoku, chess and more, right in the browser.
+- [Printable worksheets](https://ugabuga.co.il/en/worksheets): Math practice, clocks, fractions, mazes, dot-to-dot and paper templates.
+- [Reading and the ABC](https://ugabuga.co.il/en/reading): Short stories with read-aloud, letter tracing and picture word games.
+- [Free online tools](https://ugabuga.co.il/en/tools): A school calculator, a Hebrew keyboard, a PDF studio, a QR code maker and touch typing.
+- [Free Excel course](https://ugabuga.co.il/en/excel): Ten hands-on lessons with a live spreadsheet in the page.
 - [Travel with Buga](https://ugabuga.co.il/en/travel): Print, play, listen and save for airplane mode.
 - [Play a live quiz together](https://ugabuga.co.il/en/live): Create questions and let up to 100 players answer from their phones.
 - [Let’s play!](https://ugabuga.co.il/en/games): Match pairs and enjoy simple games together.

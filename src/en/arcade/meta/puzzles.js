@@ -143,6 +143,26 @@ export const PUZZLES = {
       'The dotted shadow shows exactly where the shape will land.',
     ],
   },
+  'find-buga': {
+    emoji: '🔎',
+    name: 'Find Buga',
+    tagline: 'Buga, the yellow one with the parrot, hides in a busy picture. Who spots it first?',
+    title: 'Find Buga - free online seek-and-find game for kids',
+    description: 'A seek-and-find game for kids: Buga, the yellow Ugabuga mascot with a blue parrot, hides in a busy picture at the park, the beach, a party, in space, in the city and in the jungle. 12 levels, zoom, hints, stars and a best time per level. Free.',
+    how: [
+      'Pick a level. First you see which Buga to look for.',
+      'Search the picture for Buga and tap it.',
+      '➕ zooms in and you can scroll around. ➖ zooms back out.',
+      'Stuck? After a few seconds 💡 shows a ring that Buga is inside.',
+      'Fast, no hint and few misses = 3 stars. Every level opens the next.',
+    ],
+    skills: ['Observation and attention to detail', 'Scanning a picture step by step', 'Patience and focus'],
+    tips: [
+      'Scan the picture in rows, like reading.',
+      'Look for the colorful hair and the blue parrot. They stand out more than the yellow.',
+      'Watch out for look-alikes: chicks, sunflowers and yellow cheese!',
+    ],
+  },
   'whack-a-mole': {
     emoji: '🔨',
     name: 'Whack-a-Mole',

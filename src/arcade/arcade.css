@@ -204,6 +204,41 @@
 .mm-turn.is-p2{background:#d6e6ff}
 @media (prefers-reduced-motion:reduce){.mm-card.is-miss .mm-inner,.mm-card.is-done .mm-face{animation:none}}
 
+/* find buga */
+.fb-field{padding:4px}
+.fb-menu,.fb-intro{position:absolute;inset:6px;z-index:6;overflow:auto;display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 12px;background:#fffdf6f2;border:2.5px solid var(--arc-ink);border-radius:20px;box-shadow:4px 4px 0 var(--arc-ink);text-align:center}
+.fb-menu h3,.fb-intro h3{margin:0;font-size:26px;font-weight:900}
+.fb-menu p,.fb-intro p{margin:0;font-weight:700;max-width:440px}
+.fb-menu-buga{width:min(150px,32vw);height:auto;animation:fb-bob 2.4s ease-in-out infinite}
+.fb-intro img{width:min(190px,42vw);height:auto;animation:fb-bob 2.4s ease-in-out infinite}
+@keyframes fb-bob{50%{transform:translateY(-6px) rotate(-2deg)}}
+.fb-levels{direction:ltr;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;max-width:420px}
+.fb-lv{position:relative;height:58px;border:2px solid var(--arc-ink);border-radius:14px;background:#fff;font-weight:900;font-size:16px;color:var(--arc-ink);cursor:pointer;padding:0 0 10px;display:flex;align-items:center;justify-content:center;gap:4px}
+.fb-lv span{font-size:20px}
+.fb-lv i{position:absolute;bottom:3px;left:0;right:0;font-style:normal;font-size:11px;color:#f5a400;letter-spacing:1px}
+.fb-lv.is-done{background:#eafbe9}
+.fb-lv:disabled{opacity:.45;cursor:default}
+.fb-scroll{width:100%;height:100%;overflow:auto;border:3px solid var(--arc-ink);border-radius:14px;box-shadow:4px 4px 0 var(--arc-ink);-webkit-overflow-scrolling:touch}
+.fb-scene{position:relative;overflow:hidden;cursor:crosshair;user-select:none;-webkit-user-select:none}
+.fb-scene.is-park{background:radial-gradient(circle at 85% 12%,#fff6a8 0 6%,transparent 7%),linear-gradient(#bfe8ff 0 28%,#a5dd7f 28% 100%)}
+.fb-scene.is-beach{background:radial-gradient(circle at 15% 12%,#fff2a0 0 6%,transparent 7%),linear-gradient(#a8e1ff 0 22%,#4fc3e8 22% 42%,#f6dc9c 42% 100%)}
+.fb-scene.is-party{background:repeating-linear-gradient(45deg,#ffd6ec 0 24px,#ffe6f3 24px 48px)}
+.fb-scene.is-space{background:radial-gradient(circle at 20% 30%,#ffffff22 0 1px,transparent 2px) 0 0/38px 38px,radial-gradient(circle at 70% 80%,#ffffff33 0 1px,transparent 2px) 0 0/53px 53px,linear-gradient(#1b1450,#3b1a72)}
+.fb-scene.is-city{background:linear-gradient(#cfe9ff 0 25%,#b9c2cf 25% 30%,#8e98a6 30% 100%)}
+.fb-scene.is-jungle{background:radial-gradient(circle at 30% 40%,#2f9e5a55 0 18%,transparent 19%),radial-gradient(circle at 75% 70%,#1f7a4555 0 22%,transparent 23%),linear-gradient(#8fd47e,#3c9a52)}
+.fb-item{position:absolute;line-height:1;pointer-events:none}
+.fb-buga{position:absolute;z-index:2;transform:translate(-50%,-50%);border:0;padding:0;background:none;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+.fb-buga img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
+.fb-buga.is-found{z-index:9;animation:fb-found .9s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes fb-found{to{transform:translate(-50%,-50%) scale(1.9)}}
+.fb-ring{position:absolute;z-index:8;transform:translate(-50%,-50%);border:5px solid #22c55e;border-radius:50%;box-shadow:0 0 0 4px #fff,0 0 22px #22c55e;animation:arc-pop .4s;pointer-events:none}
+.fb-miss{position:absolute;z-index:8;transform:translate(-50%,-50%);font-size:22px;pointer-events:none;animation:fb-miss .8s ease-out forwards}
+@keyframes fb-miss{0%{opacity:1;transform:translate(-50%,-50%) scale(.6)}30%{transform:translate(-50%,-50%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-60%) scale(1)}}
+.fb-hint{position:absolute;z-index:7;transform:translate(-50%,-50%);border:4px dashed #ffcf33;border-radius:50%;background:#ffe58a33;pointer-events:none;animation:fb-hint 1s ease-in-out infinite alternate}
+@keyframes fb-hint{to{box-shadow:0 0 0 8px #ffcf3355}}
+.fb-tip{margin:0;font-weight:900;font-size:17px;text-align:center;flex:none}
+@media (prefers-reduced-motion:reduce){.fb-menu-buga,.fb-intro img,.fb-hint,.fb-buga.is-found{animation:none}}
+
 /* snake */
 .sn-field{touch-action:none}
 .sn-canvas{display:block;border:3px solid var(--arc-ink);border-radius:12px;box-shadow:4px 4px 0 var(--arc-ink)}

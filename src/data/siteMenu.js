@@ -35,6 +35,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/online-games/today', label: 'אתגר היום — מתחלף כל יום', icon: '🌟' },
           { to: '/online-games/marathon', label: 'מרתון משחקים — 8 ברצף', icon: '🏃' },
+          { to: '/online-games/find-buga', label: 'מצאו את בוגה — חדש!', icon: '🔎' },
           { to: '/chess', label: 'שחמט אונליין — נגד המחשב או חבר', icon: '♟️' },
           { to: '/sudoku', label: 'סודוקו — אונליין, יומי והדפסה', icon: '🔢' },
           { to: '/online-games/battleship', label: 'צוללות', icon: '⚓' },
