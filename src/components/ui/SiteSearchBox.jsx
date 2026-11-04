@@ -36,7 +36,10 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
   const listId = useId()
 
   const { words, hits } = useMemo(() => suggest(items, value, { pop }), [items, value, pop])
-  const options = [...words.map(w => ({ type: 'word', text: w })), ...hits.map(h => ({ type: 'hit', item: h }))]
+  // A search never dead-ends: the last option always hands the question to Bugapedia.
+  const asked = value.trim()
+  const stillLoading = wanted && (loading || staticItems.length === 0) && asked.length > 0
+  const options = [...words.map(w => ({ type: 'word', text: w })), ...hits.map(h => ({ type: 'hit', item: h })), ...(asked.length >= 2 && !stillLoading ? [{ type: 'ask', text: asked }] : [])]
   useEffect(() => setActive(-1), [value])
   useEffect(() => {
     const close = e => { if (wrap.current && !wrap.current.contains(e.target)) setOpen(false) }
@@ -47,6 +50,7 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
   const pick = o => {
     setOpen(false)
     if (o.type === 'hit') navigate(o.item.to)
+    else if (o.type === 'ask') navigate('/bugapedia?q=' + encodeURIComponent(o.text))
     else { onChange(o.text); onSearch(o.text) }
   }
   const submit = e => { e.preventDefault(); setOpen(false); onSearch(value.trim()) }
@@ -57,7 +61,6 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
     else if (e.key === 'Escape') setOpen(false)
     else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(options[active]) }
   }
-  const stillLoading = wanted && (loading || staticItems.length === 0) && value.trim().length > 0
   const show = open && (options.length > 0 || stillLoading)
 
   const button = <button type="submit" aria-label="חיפוש"><SearchIcon size={iconSize} /></button>
@@ -76,9 +79,11 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
           {options.length === 0 && stillLoading && <li className="ssb-opt" aria-disabled="true">טוען…</li>}
           {options.map((o, i) => (
             <li key={o.type + (o.text || o.item.to)} id={`${listId}-${i}`} role="option" aria-selected={i === active}
-              className={`ssb-opt ssb-${o.type}${i === active ? ' is-active' : ''}${o.type === 'hit' && i === words.length ? ' ssb-first-hit' : ''}`}
+              className={`ssb-opt ssb-${o.type}${i === active ? ' is-active' : ''}${(o.type === 'hit' && i === words.length) || (o.type === 'ask' && i > 0) ? ' ssb-first-hit' : ''}`}
               onPointerDown={e => e.preventDefault()} onClick={() => pick(o)} onMouseEnter={() => setActive(i)}>
-              {o.type === 'word'
+              {o.type === 'ask'
+                ? <><span className="ssb-emoji" aria-hidden="true">📚</span><span className="ssb-title">שאלו את בוגה־פדיה: „{o.text}”</span><small>תשובה מהאנציקלופדיה</small></>
+                : o.type === 'word'
                 ? <><SearchIcon size={16} aria-hidden="true" /><span>{o.text}</span></>
                 : <><span className="ssb-emoji" aria-hidden="true">{o.item.emoji}</span><span className="ssb-title">{o.item.title}</span><small>{KINDS[o.item.kind]?.label}</small></>}
             </li>
