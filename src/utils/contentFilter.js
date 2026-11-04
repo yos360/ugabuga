@@ -7,8 +7,9 @@
 // Hebrew stems are written after normalization: no nikud, final letters as regular letters, and
 // repeated letters collapsed (מזדיין → מזדינ), final letters written as regular ones (כושים → כושימ). STEM matches with any suffix; WORD only as a whole word.
 // שמוק is a whole word only: as a stem it caught שמוקם/שמוקף/שמוקדש ("the hall that is located…").
-const HE_STEM = ['זונה', 'זונות', 'שרמוט', 'זיונ', 'לזינ', 'מזדינ', 'תזדינ', 'הזדינ', 'כוסאמא', 'כוסאמק', 'כוסעמק', 'כוס אמא', 'כוס אמק', 'כוס עמק', 'פורנו','חרמנ', 'ציצימ', 'מניאק', 'קוקסינל', 'ערבוש', 'אהרוג אות']
-const HE_WORD = ['סקס', 'סקסי', 'סקסית', 'חרא', 'כושי', 'כושימ', 'מפגר', 'מפגרת', 'מפגרימ', 'תמות', 'תמותי', 'שמוק', 'שמוקימ']
+// So is לזינ: with the ש prefix it caught the surname/street שלזינגר.
+const HE_STEM = ['זונה', 'זונות', 'שרמוט', 'זיונ', 'מזדינ', 'תזדינ', 'הזדינ', 'כוסאמא', 'כוסאמק', 'כוסעמק', 'כוס אמא', 'כוס אמק', 'כוס עמק', 'פורנו','חרמנ', 'ציצימ', 'מניאק', 'קוקסינל', 'ערבוש', 'אהרוג אות']
+const HE_WORD = ['סקס', 'סקסי', 'סקסית', 'חרא', 'כושי', 'כושימ', 'מפגר', 'מפגרת', 'מפגרימ', 'תמות', 'תמותי', 'שמוק', 'שמוקימ', 'לזינ']
 const EN_STEM = ['fuck', 'fuk', 'fck', 'shit(?!rit)', 'sh1t', 'bitch', 'cunt', 'porn', 'nigg', 'faggot', 'retard', 'asshole', 'whore', 'slut', 'pussy']
 const EN_WORD = ['sex', 'sexy', 'dick', 'dicks', 'fag', 'fags', 'bastard']
 
