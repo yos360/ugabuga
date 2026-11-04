@@ -30,7 +30,7 @@ test('every original drawing has one detailed, unique, indexable page', () => {
       assert.equal(paths.filter(p => p === path).length, 1, path)
     }
   }
-  assert.equal(count, 495)
+  assert.equal(count, 509)
   assert.equal(paths.filter(p => /^\/printables\/coloring\/[^/]+\/[^/]+$/.test(p)).length, count)
 })
 
