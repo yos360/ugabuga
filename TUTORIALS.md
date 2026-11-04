@@ -34,7 +34,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 13 | איקס־עיגול חשבוני לכיתה על המקרן | /classroom/math-tic-tac-toe | classroom | 2026-11-03 slot 1 — ready, upload from the owner's Chrome |
 | 14 | הבנת הנקרא לפי כיתה — פותרים ומדפיסים עם דף תשובות | /learn/reading | learning | 2026-11-03 slot 2 — ready, upload from the owner's Chrome |
 | 15 | כרטיסיות אותיות להדפסה | /printables/letter-flashcards | learning | 2026-11-03 slot 3 — ready, upload from the owner's Chrome |
-| 16 | מחולל תפזורות — יוצרים תפזורת משלכם ומדפיסים | /tools/word-search-maker | learning | |
+| 16 | מחולל תפזורות — יוצרים תפזורת משלכם ומדפיסים | /tools/word-search-maker | learning | 2026-11-04 slot 1 — ready, upload from the owner's Chrome |
 | 17 | מחולל בינגו — לוחות בינגו למסיבה ולכיתה | /tools/bingo-maker | party | |
 | 18 | ציד אוצרות עם QR — מכינים ומשחקים | /treasure-hunt/qr | party | |
 | 19 | ציד אוצרות מוכן — מדפיסים ומחביאים | /treasure-hunt/ready | party | |
