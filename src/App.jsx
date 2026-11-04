@@ -118,6 +118,7 @@ const PrintablesIndex = lazy(() => import('./pages/printables/PrintablesIndex'))
 const PrintableCategory = lazy(() => import('./pages/printables/PrintableCategory'))
 const ActivityWorksheet = lazy(() => import('./pages/printables/ActivityWorksheet'))
 const BirthdayChecklist = lazy(() => import('./pages/printables/BirthdayChecklist'))
+const PartyBags = lazy(() => import('./pages/birthday/PartyBags'))
 const RootsProject = lazy(() => import('./pages/printables/RootsProject'))
 const BirthdayNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper'))
 const ClassNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper').then(m => ({ default: m.ClassNewspaper })))
@@ -609,6 +610,7 @@ export default function App() {
               <Route path="/en/r/:code" element={<EnglishRsvp />} />
               <Route path="/en/*" element={<EnglishExtra />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
+              <Route path="/birthday/party-bags" element={<PartyBags />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />
               <Route path="/weather" element={<Weather />} />
