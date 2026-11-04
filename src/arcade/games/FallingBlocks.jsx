@@ -27,7 +27,9 @@ export default function FallingBlocks({ onReport, onShare, daily, lang = 'he' })
   const g = useRef(first) // the live game, changed in place by the loop and the controls
   const phaseRef = useRef('ready')
   const setP = p => { phaseRef.current = p; setPhase(p) }
-  const newGame = () => { g.current = makeGame(); setHud({ score: 0, lines: 0, level: 1 }); setP('ready') }
+  // the record to beat this game (the saved one is updated as soon as the game ends)
+  const bestBefore = useRef(progress.best)
+  const newGame = () => { bestBefore.current = progress.best; g.current = makeGame(); setHud({ score: 0, lines: 0, level: 1 }); setP('ready') }
   const nextType = () => { const G = g.current; if (!G.bag.length) G.bag = makeBag(G.rand); return G.bag[0] }
 
   // ---- actions (all on the ref, then a tiny HUD update) ----
@@ -189,7 +191,7 @@ export default function FallingBlocks({ onReport, onShare, daily, lang = 'he' })
         <button type="button" className="sn-key" onPointerDown={press('right')} aria-label={en ? 'Right' : 'ימינה'}>▶</button>
         <button type="button" className="sn-key fb-drop" onPointerDown={press('drop')} aria-label={en ? 'Drop' : 'הפלה'}>⤓</button>
       </div>
-      {phase === 'over' && !daily && <EndCard lang={lang} title={en ? '🧱 The board is full!' : '🧱 הלוח התמלא!'} text={en ? `You scored ${hud.score} points and cleared ${hud.lines} lines${hud.score > progress.best ? ' - a new best! 🎉' : ''}.` : `צברתם ${hud.score} נקודות וניקיתם ${hud.lines} שורות${hud.score > progress.best ? ' — שיא חדש! 🎉' : ''}.`}
+      {phase === 'over' && !daily && <EndCard lang={lang} title={en ? '🧱 The board is full!' : '🧱 הלוח התמלא!'} text={en ? `You scored ${hud.score} points and cleared ${hud.lines} lines${hud.score > bestBefore.current ? ' - a new best! 🎉' : ''}.` : `צברתם ${hud.score} נקודות וניקיתם ${hud.lines} שורות${hud.score > bestBefore.current ? ' — שיא חדש! 🎉' : ''}.`}
         primary={en ? '🔄 New game' : '🔄 משחק חדש'} onPrimary={newGame}
         secondary={en ? '📱 Share your score' : '📱 שתפו את הניקוד'} onSecondary={() => onShare?.(en ? `🧱 I scored ${hud.score} points in Falling Blocks! Can you beat me?` : `🧱 צברתי ${hud.score} נקודות בבלוקים נופלים! מי עובר אותי?`)} />}
     </div>

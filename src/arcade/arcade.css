@@ -454,3 +454,25 @@ button.bs2-cell{cursor:default}
 @keyframes arc-hop{0%{transform:translateY(10px) scale(.85);opacity:0}100%{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.arc-stars .on,.arc-record,.arc-end-card.is-win h3{animation:none}}
 .arc-end-card .arc-stars{font-size:44px;margin:2px 0 4px}
+
+/* Whack-a-mole: a meadow under a sky, a draining time bar, a swinging hammer and a pow on every hit. */
+.wm-meadow{border-radius:22px;margin:0 8px 8px;background:radial-gradient(ellipse 60% 22% at 18% 34%,#9edb7a 98%,transparent 100%),radial-gradient(ellipse 70% 26% at 85% 38%,#8fd36b 98%,transparent 100%),linear-gradient(180deg,#bfe9ff 0%,#e3f6ff 26%,#8fd36b 27%,#6fbf54 100%);box-shadow:inset 0 0 0 3px var(--arc-ink)}
+.wm-meadow::before{content:'☁️';position:absolute;top:4%;left:12%;font-size:38px;opacity:.9;animation:wm-cloud 22s linear infinite alternate;pointer-events:none}
+.wm-meadow::after{content:'🌼 🌷 🌼';position:absolute;bottom:6px;right:14px;font-size:20px;letter-spacing:6px;pointer-events:none}
+@keyframes wm-cloud{to{transform:translateX(60vw)}}
+.wm-meadow .wm-front{background:#5fae46;border-top-color:#4a9636}
+.wm-meadow.is-shake{animation:arc-shake .12s linear 3}
+.wm-timebar{height:12px;margin:0 16px 6px;border:2.5px solid var(--arc-ink);border-radius:999px;background:#fff;overflow:hidden;flex:none}
+.wm-timebar span{display:block;height:100%;background:linear-gradient(90deg,#4cd681,#ffd23f);transition:width .1s linear}
+.wm-timebar.is-low span{background:#ff5c5c}
+.wm-timebar.is-low{animation:arc-pulse .5s infinite}
+.wm-hammer{position:absolute;top:-6%;right:2%;line-height:1;pointer-events:none;z-index:3;transform-origin:85% 85%;animation:wm-swing .26s cubic-bezier(.5,0,.8,1) forwards}
+@keyframes wm-swing{0%{transform:rotate(55deg);opacity:1}55%{transform:rotate(-35deg)}80%{opacity:1}100%{transform:rotate(-30deg);opacity:0}}
+.wm-pow{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:2;animation:wm-pow .32s ease-out forwards}
+@keyframes wm-pow{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.3);opacity:0}}
+.wm-boom.is-time{color:#2563eb}
+.wm-meadow .sn-start{z-index:4}
+@media (prefers-reduced-motion:reduce){.wm-meadow::before,.wm-meadow.is-shake,.wm-hammer,.wm-timebar.is-low{animation:none}}
+.wm-meadow{width:calc(100% - 16px);overflow:hidden}
+.wm-speed{display:flex;justify-content:center;flex:none;margin:0 0 6px}
+.wm-timebar{align-self:stretch;width:auto;max-width:640px;margin-inline:auto;width:calc(100% - 32px)}
