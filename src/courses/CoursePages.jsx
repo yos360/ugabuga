@@ -32,6 +32,8 @@ function useCourse(slug) {
 
 const Page = ({ children }) => <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">{children}</div>
 const hrefOf = c => c.href || `${COURSES_BASE}/${c.slug}`
+// The practice tool is a page of ours, or an outside editor (Scratch) opened in a new tab.
+const Tool = ({ t }) => t.external ? <a href={t.href} target="_blank" rel="noopener noreferrer">✏️ {t.label} ↗</a> : <Link to={t.href}>✏️ {t.label}</Link>
 const crumbs = (...rest) => [{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, ...rest]
 
 function Body({ items }) {
@@ -39,6 +41,7 @@ function Body({ items }) {
     <h2>{title}</h2>
     {Array.isArray(body) ? body.map(p => <p key={p}>{p}</p>)
       : body.steps ? <ol className="cr-steps">{body.steps.map(s => <li key={s}>{s}</li>)}</ol>
+        : body.code ? <><pre className="cr-code" dir="ltr"><code>{body.code}</code></pre>{body.note && <p>{body.note}</p>}</>
         : body.keys ? <table className="cr-keys"><tbody>{body.keys.map(([k, w]) => <tr key={k}><th><kbd dir="ltr">{k}</kbd></th><td>{w}</td></tr>)}</tbody></table>
           : <p className="cr-tip">💡 {body.tip}</p>}
   </section>)
@@ -111,7 +114,7 @@ export function CourseHome() {
     </div>
     <h2 className="text-2xl font-bold mt-8 mb-3">כל השיעורים</h2>
     <LessonList course={course} done={done} />
-    {course.practiceTool && <p className="mt-4"><Link to={course.practiceTool.href}>✏️ {course.practiceTool.label}</Link></p>}
+    {course.practiceTool && <p className="mt-4"><Tool t={course.practiceTool} /></p>}
     <div className="mt-12"><SeoBody paragraphs={course.about} faq={course.faq} related={course.related} /></div>
   </Page>
 }
@@ -137,7 +140,7 @@ export function CourseLesson() {
     <section className="cr-sec cr-practice">
       <h2>✏️ תרגול: עכשיו אתם</h2>
       <ol className="cr-steps">{lesson.practice.map(s => <li key={s}>{s}</li>)}</ol>
-      {course.practiceTool && <p><Link to={course.practiceTool.href}>{course.practiceTool.label}</Link></p>}
+      {course.practiceTool && <p><Tool t={course.practiceTool} /></p>}
     </section>
     <section className="cr-sec">
       <h2>🧠 חידון קצר</h2>

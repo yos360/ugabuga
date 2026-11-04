@@ -15,6 +15,7 @@
 .cr-keys{border-collapse:collapse}
 .cr-keys th,.cr-keys td{padding:6px 10px;border-bottom:1px solid #e8e2d4;text-align:right}
 .cr-keys kbd{display:inline-block;padding:2px 8px;border:1px solid #bbb;border-bottom-width:3px;border-radius:6px;background:#fafafa;font:600 14px ui-monospace,Consolas,monospace;white-space:nowrap}
+.cr-code{margin:0 0 8px;padding:12px 14px;border-radius:12px;background:#1e2235;color:#e8ecff;font:15px/1.6 ui-monospace,Consolas,monospace;overflow-x:auto;text-align:left}
 .cr-tip{padding:10px 14px;border-radius:12px;background:#fff8dc;border:1px dashed #d9a400}
 .cr-practice{padding:14px 16px;border-radius:16px;background:#eef8ee;border:2px solid #7dd87a}
 .cr-quiz fieldset{border:0;margin:0 0 16px;padding:0}

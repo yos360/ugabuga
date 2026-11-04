@@ -1,5 +1,5 @@
 // /courses/word: Word for beginners, by the Hebrew interface of Word for Microsoft 365.
-// Lesson body: [heading, paragraphs[] | { steps } | { keys: [[keys, what]] } | { tip }].
+// Lesson body: [heading, paragraphs[] | { steps } | { keys: [[keys, what]] } | { code, note? } | { tip }].
 // quiz: [question, options, index of the right option, why].
 export default {
   slug: 'word', emoji: '📝', title: 'קורס וורד למתחילים',
