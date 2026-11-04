@@ -445,3 +445,12 @@ button.bs2-cell{cursor:default}
 /* Phones only: play bar that appears once the hero's play button has scrolled out of view. */
 .arc-sticky-play{display:none}
 @media (max-width:700px){.arc-sticky-play{display:block;position:fixed;z-index:2147481000;left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom));width:min(320px,calc(100vw - 32px));min-height:54px;border:0;border-radius:18px;background:var(--game-color,#5d3bd5);color:#14162d;font:800 18px Heebo,sans-serif;box-shadow:0 6px 0 #0002,0 10px 26px #0003;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 14px}}
+
+/* End-of-round celebration (confetti is drawn by Confetti.jsx): stars popping in one by one, a record ribbon. */
+.arc-stars .on{display:inline-block;animation:arc-star .5s cubic-bezier(.3,1.7,.5,1) calc(.38s + var(--i,0) * .2s) both}
+@keyframes arc-star{from{transform:scale(0) rotate(-120deg);opacity:0}}
+.arc-record{display:inline-block;background:#ffb800;border:2.5px solid var(--arc-ink);border-radius:999px;padding:3px 16px;font-weight:900;font-size:18px!important;margin:-2px 0 8px!important;box-shadow:2px 2px 0 var(--arc-ink);animation:arc-pulse .9s ease-in-out .3s 3}
+.arc-end-card.is-win h3{animation:arc-hop .6s cubic-bezier(.3,1.6,.5,1) .15s both}
+@keyframes arc-hop{0%{transform:translateY(10px) scale(.85);opacity:0}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.arc-stars .on,.arc-record,.arc-end-card.is-win h3{animation:none}}
+.arc-end-card .arc-stars{font-size:44px;margin:2px 0 4px}

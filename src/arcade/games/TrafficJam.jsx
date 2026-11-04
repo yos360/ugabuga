@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { N, EXIT_ROW, LEVEL_COUNT, buildLevel, range, isWon, hint as nextMove } from '../logic/traffic'
 import { useBox, useProgress, starsFor } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 const CAR_COLORS = ['#4cc3ff', '#7fd8ae', '#ffd23f', '#b26bff', '#ffa62b', '#5b6cff', '#c9ced8', '#a5733f', '#ff7ad1', '#45c4ff', '#9be15d', '#ffb8d9', '#8fcaff']
 const BORDER = 4
@@ -49,7 +50,12 @@ export default function TrafficJam({ onReport, onShare, daily, lang = 'he' }) {
     const next = cars.map(c => (c.id === d.id ? (c.h ? { ...c, x: c.x + steps } : { ...c, y: c.y + steps }) : c))
     setHistory(h => [...h, cars])
     setCars(next)
-    if (isWon(next)) { setLeaving(true); setTimeout(() => setWon(true), 650) }
+    moved(next)
+  }
+  // every slide clicks; the truck driving out gets a whoosh before the end card
+  const moved = next => {
+    if (isWon(next)) { sfx('power'); buzz(25); setLeaving(true); setTimeout(() => setWon(true), 650) }
+    else sfx('slide')
   }
   const onCarKey = (e, car) => {
     const steps = car.h ? ({ ArrowLeft: -1, ArrowRight: 1 })[e.key] : ({ ArrowUp: -1, ArrowDown: 1 })[e.key]
@@ -60,7 +66,7 @@ export default function TrafficJam({ onReport, onShare, daily, lang = 'he' }) {
     if (steps < lo || steps > hi) return
     const next = cars.map(c => c.id !== car.id ? c : c.h ? { ...c, x: c.x + steps } : { ...c, y: c.y + steps })
     setHistory(h => [...h, cars]); setCars(next); setHintMove(null)
-    if (isWon(next)) { setLeaving(true); setTimeout(() => setWon(true), 650) }
+    moved(next)
   }
 
   const start = n => {

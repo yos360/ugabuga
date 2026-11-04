@@ -5,6 +5,7 @@ import { exitFullscreen, enterFullscreen, shareGameText } from './stage'
 import { createMusic, musicPref, saveMusicPref } from './music'
 import { saveResult, streak, dailyShareText } from './daily'
 import { useGameDialog } from './useGameDialog'
+import Confetti from './Confetti'
 import { WhatsAppIcon } from '../components/layout/WhatsAppShare'
 import './arcade.css'
 
@@ -95,6 +96,7 @@ export default function ArcadeStage({ game, onClose, daily, lang = 'he' }) {
 function DailyDone({ daily, done, onAgain, onClose }) {
   return (
     <div className="arc-end" role="alertdialog" aria-label="סיום אתגר היום">
+      {done.won && <Confetti />}
       <div className="arc-end-card dl-done">
         <h3>{done.won ? '🌟 סיימתם את אתגר היום!' : '😅 כמעט!'}</h3>
         <p className="dl-result">{done.text}</p>

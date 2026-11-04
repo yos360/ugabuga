@@ -3,6 +3,7 @@ import { LEVELS, empty, place, open, chord, toggleFlag, isWon, flagsLeft } from 
 import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 const NUM_COLORS = ['', '#2563eb', '#16a34a', '#dc2626', '#7c3aed', '#b45309', '#0891b2', '#1d2233', '#6b7280']
 const LONG_PRESS = 380
@@ -51,13 +52,21 @@ export default function Minesweeper({ onReport, onShare, daily, lang = 'he' }) {
   const reveal = i => {
     if (won || b.lost) return
     const c = b.cells[i]
-    if (c.open) { setB(chord(b, i)); return }
-    if (flagMode) { setB(toggleFlag(b, i)); return }
+    if (c.open) { const next = chord(b, i); if (next !== b) dug(b, next); setB(next); return }
+    if (flagMode) { setB(toggleFlag(b, i)); sfx('pick'); return }
     if (c.flag) return
     const base = b.placed ? b : place(b, level.mines, i, daily ? rng(daily.seed + i) : Math.random)
-    setB(open(base, i))
+    const next = open(base, i)
+    dug(base, next)
+    setB(next)
   }
-  const flag = i => { if (!won && !b.lost && b.placed) setB(toggleFlag(b, i)) }
+  // a mine = boom; a big empty area opening up = a whoosh; one square = a small click
+  const dug = (before, after) => {
+    if (after.lost) { sfx('crash'); buzz([80, 40, 120]); return }
+    const opened = after.cells.filter(c => c.open).length - before.cells.filter(c => c.open).length
+    sfx(opened > 8 ? 'slide' : 'place')
+  }
+  const flag = i => { if (!won && !b.lost && b.placed) { setB(toggleFlag(b, i)); sfx('pick') } }
 
   // tap = open, long-press or right-click = flag
   const handlers = i => ({

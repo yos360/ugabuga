@@ -1,4 +1,7 @@
+import { useEffect } from 'react'
 import useModalDialog from '../hooks/useModalDialog'
+import Confetti from './Confetti'
+import { sfx, buzz } from './sfx'
 // Shared bits for every game: the status pills + buttons row, and the end-of-level card.
 export function Hud({ stats, children }) {
   return (
@@ -16,13 +19,30 @@ export function ToolButton({ onClick, disabled, children, label }) {
 }
 
 export function Stars({ n, lang = 'he' }) {
-  return <p className="arc-stars" aria-label={lang === 'en' ? `${n} out of 3 stars` : `${n} כוכבים מתוך 3`}>{[1, 2, 3].map(i => <span key={i} className={i <= n ? 'on' : ''}>★</span>)}</p>
+  return <p className="arc-stars" aria-label={lang === 'en' ? `${n} out of 3 stars` : `${n} כוכבים מתוך 3`}>{[1, 2, 3].map(i => <span key={i} className={i <= n ? 'on' : ''} style={{ '--i': i - 1 }}>★</span>)}</p>
 }
 
-export function EndCard({ title, text, stars, primary, onPrimary, secondary, onSecondary, lang = 'he' }) {
+// Win and record default to the wording every game already uses (a 🎉/🏆 title, stars, "שיא"/"best"
+// in the text), so all games celebrate without passing anything; a game can still say so explicitly.
+const WIN_TITLE = /^(🎉|🏆|🌟|⚡)/u
+const RECORD_TEXT = /שיא (חדש|אישי)|new (best|record)|personal best/i
+
+export function EndCard({ title, text, stars, primary, onPrimary, secondary, onSecondary, lang = 'he', win, record }) {
+  const isRecord = record ?? RECORD_TEXT.test(text || '')
+  const party = (win ?? (stars > 0 || WIN_TITLE.test(title))) || isRecord
+  useEffect(() => {
+    const timers = []
+    const later = (ms, fn) => timers.push(setTimeout(fn, ms))
+    if (party) { sfx('win'); buzz([25, 40, 25]) } else { sfx('lose'); buzz(60) }
+    for (let i = 0; i < (stars || 0); i++) later(380 + i * 200, () => sfx('star', i))
+    if (isRecord) later(380 + (stars || 0) * 200 + 150, () => sfx('record'))
+    return () => timers.forEach(clearTimeout)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- once, when the card appears
   return (
     <div className="arc-end" role="alertdialog" aria-label={title}>
-      <div className="arc-end-card">
+      {party && <Confetti />}
+      <div className={`arc-end-card${party ? ' is-win' : ''}`}>
+        {isRecord && <p className="arc-record">🏆 {lang === 'en' ? 'New record!' : 'שיא חדש!'}</p>}
         <h3>{title}</h3>
         {stars ? <Stars n={stars} lang={lang} /> : null}
         {text && <p>{text}</p>}

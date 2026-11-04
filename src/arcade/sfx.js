@@ -51,9 +51,28 @@ const SOUNDS = {
   bump: c => tone(c, { freq: 140, to: 90, dur: 0.08, type: 'sine', gain: 0.1 }),
   // a merge: the bigger the new number, the higher the note (2 → 4 low, 1024 → 2048 high)
   merge: (c, v = 4) => { const f = 330 * 2 ** (Math.min(11, Math.log2(v) - 2) / 4); tone(c, { freq: f, to: f * 1.5, dur: 0.1, type: 'triangle', gain: 0.12 }) },
+  // taps and moves
+  pick: c => tone(c, { freq: 660, to: 780, dur: 0.06, type: 'triangle', gain: 0.08 }),
+  place: c => { tone(c, { freq: 420, to: 300, dur: 0.07, type: 'triangle', gain: 0.1 }); noise(c, { dur: 0.04, gain: 0.04, cutoff: 2500 }) },
+  flip: c => { noise(c, { dur: 0.06, gain: 0.07, cutoff: 3200 }); tone(c, { freq: 500, to: 620, dur: 0.05, type: 'sine', gain: 0.05 }) },
+  card: c => noise(c, { dur: 0.09, gain: 0.08, cutoff: 2600 }),
+  match: c => { tone(c, { freq: 587, dur: 0.1, type: 'triangle', gain: 0.11 }); tone(c, { freq: 880, at: 0.08, dur: 0.16, type: 'triangle', gain: 0.11 }) },
+  wrong: c => { tone(c, { freq: 200, to: 150, dur: 0.16, type: 'square', gain: 0.045 }); tone(c, { freq: 150, to: 110, at: 0.1, dur: 0.16, type: 'square', gain: 0.04 }) },
+  hit: c => { noise(c, { dur: 0.25, gain: 0.22, cutoff: 1100 }); tone(c, { freq: 180, to: 70, dur: 0.25, type: 'sine', gain: 0.14 }) },
+  splash: c => noise(c, { dur: 0.35, gain: 0.1, cutoff: 600 }),
+  // end of a round
+  lose: c => [392, 330, 262].forEach((f, i) => tone(c, { freq: f, to: f * 0.97, at: i * 0.16, dur: 0.26, type: 'triangle', gain: 0.1 })),
+  star: (c, i = 0) => tone(c, { freq: 880 * 2 ** (i * 4 / 12), to: 1320 * 2 ** (i * 4 / 12), dur: 0.18, type: 'sine', gain: 0.1 }),
+  record: c => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => tone(c, { freq: f, at: i * 0.09, dur: i === 5 ? 0.5 : 0.14, type: 'square', gain: 0.045 })),
 }
 
 export function sfx(name, arg) {
   const c = audio()
   if (c && SOUNDS[name]) { try { SOUNDS[name](c, arg) } catch { /* ignore */ } }
+}
+
+// A short vibration on phones (tap feedback, a mistake, a win). Follows the same 🎵 choice.
+export function buzz(pattern = 15) {
+  if (!musicPref()) return
+  try { navigator.vibrate?.(pattern) } catch { /* not supported */ }
 }

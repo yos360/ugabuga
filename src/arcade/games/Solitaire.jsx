@@ -3,10 +3,13 @@ import { deal, winnableDeal, draw, apply, bestTarget, legal, isWon, canAutoFinis
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress, useCardDrag } from '../hooks'
 import { EndCard } from '../ui'
+import { sfx } from '../sfx'
 import { readGame, writeGame, saveKey, HISTORY_LIMIT } from '../logic/solitaireSave'
 import { RotateCcw, Lightbulb, Plus, Trophy, Clock3, Layers3, Palette, X, CircleHelp, Play, Pause } from 'lucide-react'
 import './solitaire/solitaire.css'
 import { Card, Slot } from './solitaire/Cards'
+
+const homeCount = s => s.found.reduce((n, p) => n + p.length, 0)
 
 // Keys: 'w' = waste top, 'f2' = foundation 2, 't3:5' = tableau pile 3 from card 5.
 const parse = key => {
@@ -53,7 +56,11 @@ export default function Solitaire({ onReport, onShare, daily, lang = 'he' }) {
     return () => clearInterval(t)
   }, [started, won])
 
-  const commit = n => { setHistory(h => [...h.slice(-(HISTORY_LIMIT - 1)), s]); setS(n); setHint(null) }
+  const commit = n => {
+    setHistory(h => [...h.slice(-(HISTORY_LIMIT - 1)), s]); setS(n); setHint(null)
+    // a card reaching its foundation pile gets a bright note, any other move a soft card sound
+    sfx(homeCount(n) > homeCount(s) ? 'eat' : 'card')
+  }
   const tap = key => {
     if (won) return
     if (key === 'stock') { const n = draw(s); if (n !== s) commit(n); return }
@@ -61,7 +68,7 @@ export default function Solitaire({ onReport, onShare, daily, lang = 'he' }) {
     const dst = bestTarget(s, src)
     const n = dst && apply(s, src, dst)
     if (n) commit(n)
-    else { setShake(key); setTimeout(() => setShake(null), 350) }
+    else { sfx('bump'); setShake(key); setTimeout(() => setShake(null), 350) }
   }
   const drop = (key, dropKey) => {
     if (!dropKey || key === 'stock') return

@@ -3,6 +3,7 @@ import { N, emptyBoard, canPlace, place, fitsAnywhere, dealPieces, shapeSize } f
 import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 const PAD = 5, GAP = 3
 
@@ -49,6 +50,7 @@ export default function BlockParty({ onReport, onShare, daily, lang = 'he' }) {
     setPieces(nextPieces)
     setScore(s => s + res.gained)
     setSel(null)
+    if (res.lines) { sfx(res.lines > 1 ? 'gold' : 'combo'); buzz(25) } else sfx('place')
     if (res.lines) {
       const keys = new Set()
       res.cleared.rows.forEach(y => { for (let x = 0; x < N; x++) keys.add(`${x},${y}`) })

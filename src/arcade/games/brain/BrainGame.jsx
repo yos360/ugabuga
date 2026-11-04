@@ -6,6 +6,8 @@ import { AGES, newSession, restoreSession, replay, attempt, nextSession, starsFo
 import PuzzleBoard from './PuzzleBoard.jsx'
 import { hintText } from './hintText.js'
 import { WORLDS_EN, TITLES_EN, MODES_EN } from '../../logic/brain/en.js'
+import { sfx, buzz } from '../../sfx.js'
+import Confetti from '../../Confetti.jsx'
 import './brain.css'
 
 const TITLES = { matches: 'חידות גפרורים', water: 'כדי המים', river: 'חציית הנהר', wires: 'איזה חוט לחתוך?', lights: 'כיבוי אורות', one: 'רק מהלך אחד', iq: 'בוגה IQ' }
@@ -45,6 +47,9 @@ export default function BrainGame({ kind, onReport, lang = 'he' }) {
     const finished = won(p, replay(next))
     setMessage(next.mistakes > session.mistakes ? (p.oneMove && next.actions.length ? (en ? 'That move did not solve the puzzle. Try again from the start of the level.' : 'המהלך לא פתר את החידה. נסו שוב מתחילת השלב.') : (en ? 'That move does not fit the conditions. Check the rules and try again.' : 'המהלך לא מתאים לתנאים. בדקו את הכללים ונסו שוב.')) : '')
     setSession(next)
+    if (finished && !solved) { sfx('win'); buzz([25, 40, 25]) }
+    else if (next.mistakes > session.mistakes) { sfx('wrong'); buzz(50) }
+    else sfx('pick')
     const patch = { session: next }
     if (finished && !solved) {
       patch.stars = { ...stars, [p.id]: Math.max(Number(stars[p.id]) || 0, starsForSession(next, p)) }
@@ -81,7 +86,7 @@ export default function BrainGame({ kind, onReport, lang = 'he' }) {
       </main>
       <div className="brain-tools"><button type="button" onClick={hint} disabled={solved || ended}>{en ? '💡 Hint' : '💡 רמז'}</button><button type="button" onClick={undo} disabled={!session.actions.length || solved || ended}>{en ? '↶ Undo' : '↶ ביטול'}</button><button type="button" onClick={reset} disabled={solved || ended}>{en ? '↻ Start over' : '↻ התחלה מחדש'}</button></div>
       <p role="status" className="brain-message">{message}</p>
-      {solved && !ended && <section className="brain-success" aria-label={en ? 'Level solved' : 'השלב נפתר'}><h3>{en ? 'Well done! The puzzle is solved' : 'כל הכבוד! החידה נפתרה'}</h3><p aria-label={en ? `${starsForSession(session, p)} stars` : `${starsForSession(session, p)} כוכבים`}>{'⭐'.repeat(starsForSession(session, p))}</p><p>{session.hints ? (en ? 'The solution was found with a hint. Try again later on your own.' : 'הפתרון נמצא בעזרת רמז. נסו בהמשך גם בעצמכם.') : (en ? 'Planning, checking, and success!' : 'תכנון, בדיקה — והצלחה!')}</p><button type="button" className="brain-primary" onClick={() => { update(nextSession(session)); setMessage('') }}>{session.mode === 'daily' || (session.mode === 'exam' && session.cursor === 9) ? (en ? 'Finish the challenge' : 'סיום האתגר') : (en ? 'Next level' : 'לשלב הבא')}</button></section>}
+      {solved && !ended && <section className="brain-success" aria-label={en ? 'Level solved' : 'השלב נפתר'}><Confetti fixed /><h3>{en ? 'Well done! The puzzle is solved' : 'כל הכבוד! החידה נפתרה'}</h3><p aria-label={en ? `${starsForSession(session, p)} stars` : `${starsForSession(session, p)} כוכבים`}>{'⭐'.repeat(starsForSession(session, p))}</p><p>{session.hints ? (en ? 'The solution was found with a hint. Try again later on your own.' : 'הפתרון נמצא בעזרת רמז. נסו בהמשך גם בעצמכם.') : (en ? 'Planning, checking, and success!' : 'תכנון, בדיקה — והצלחה!')}</p><button type="button" className="brain-primary" onClick={() => { update(nextSession(session)); setMessage('') }}>{session.mode === 'daily' || (session.mode === 'exam' && session.cursor === 9) ? (en ? 'Finish the challenge' : 'סיום האתגר') : (en ? 'Next level' : 'לשלב הבא')}</button></section>}
       {ended && <section className="brain-success" aria-label={en ? 'Game over' : 'סיום משחק'}><h3>{timedOut ? (en ? 'Time is up!' : 'הזמן הסתיים!') : session.mode === 'streak' ? (en ? 'The streak is over' : 'הרצף הסתיים') : (en ? 'You finished the challenge!' : 'סיימתם את האתגר!')}</h3><p>{en ? `${session.completed} puzzles solved · Buga score: ${session.score}` : `${session.completed} חידות נפתרו · ציון בוגה: ${session.score}`}</p><p>{en ? 'Rank: ' : 'דרגה: '}{session.completed >= 10 ? (en ? 'Thinking champions' : 'אלופי החשיבה') : session.completed >= 3 ? (en ? 'Puzzle explorers' : 'חוקרי חידות') : (en ? 'Path finders' : 'מגלי דרכים')}</p><button type="button" onClick={() => start('practice')}>{en ? 'Back to practice' : 'חזרה לתרגול'}</button></section>}
       <footer className="brain-footer">{en ? 'Progress is saved on this device.' : 'ההתקדמות נשמרת במכשיר הזה.'} {kind === 'iq' && (en ? 'The Buga score is a game score, not an IQ score or a diagnosis.' : 'ציון בוגה הוא ניקוד משחקי, ואינו ציון IQ או אבחון.')}</footer>
     </div>

@@ -4,6 +4,7 @@ import { deal, apply, dealRow, canDeal, bestTarget, legal, isWon, findHint, canP
 import { SUITS } from '../logic/cards'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 import { Card, Slot } from './spiderCards'
 
 import { useSpiderDrag } from './useSpiderDrag'
@@ -39,14 +40,15 @@ export default function Spider({ onReport, onShare, daily, lang = 'he' }) {
     try { setStorageOk(writeSpiderSession(localStorage, storageKey, { state: s, history, reported: reported.current })) }
     catch { setStorageOk(false) }
   }, [s, history, storageKey])
-  const shakeCard = key => { setShake(key); clearTimeout(shakeTimer.current); shakeTimer.current = setTimeout(() => setShake(null), 350) }
+  const shakeCard = key => { sfx('bump'); setShake(key); clearTimeout(shakeTimer.current); shakeTimer.current = setTimeout(() => setShake(null), 350) }
 
   const say = text => setToast({ k: Date.now(), text })
   const commit = n => {
     if (!n || n === s) return
     if (!daily && s.moves === 0) saveProgress(p => ({ games: (p.games || 0) + 1 }))
     setHistory(h => [...h.slice(-59), s]); setS(n); setHint(null)
-    if (n.done > s.done) say(en ? '🎉 A full run flew home!' : '🎉 רצף שלם עף הביתה!')
+    if (n.done > s.done) { say(en ? '🎉 A full run flew home!' : '🎉 רצף שלם עף הביתה!'); sfx('gold'); buzz(25) }
+    else sfx(n.stock.length < s.stock.length ? 'slide' : 'card')
   }
   const parse = key => key.slice(1).split(':').map(Number)
   const tap = key => {

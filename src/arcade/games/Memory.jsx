@@ -3,6 +3,7 @@ import { build, pairsFor, colsFor, starsForTurns } from '../logic/memory'
 import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 import '../arcade.css'
 
 export default function Memory({ onReport, onShare, daily, lang = 'he' }) {
@@ -40,14 +41,17 @@ export default function Memory({ onReport, onShare, daily, lang = 'he' }) {
     const next = cards.map((k, j) => (j === i ? { ...k, open: true } : k))
     const now = [...picked, i]
     setCards(next)
+    sfx('flip')
     if (now.length < 2) { setPicked(now); return }
     setTurns(t => t + 1)
     const [a, b] = now
     if (next[a].face === next[b].face) {
       setCards(next.map((k, j) => (j === a || j === b ? { ...k, done: true } : k)))
       setPicked([])
+      setTimeout(() => { sfx('match'); buzz(20) }, 120)
     } else {
       setPicked(now)
+      setTimeout(() => sfx('bump'), 500)
       timer.current = setTimeout(() => { setCards(cs => cs.map((k, j) => (j === a || j === b ? { ...k, open: false } : k))); setPicked([]) }, 850)
     }
   }

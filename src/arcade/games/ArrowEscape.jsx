@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { buildLevel, blocker, freeTiles, WORLDS, WORLD_NAMES_EN, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/arrows'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard, LevelMap } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 // Arrows escape: tap a tile and it slides off the board in its arrow's direction — if the way is clear.
 const COLORS = ['#ffd36e', '#ff9ec3', '#7fdcb0', '#8fcaff', '#c9a8ff']
@@ -36,6 +37,7 @@ export default function ArrowEscape({ onReport, onShare, daily, lang = 'he' }) {
     const live = board.tiles.map(x => (flying.has(x.id) ? { ...x, gone: true } : x))
     const b = blocker(live, t)
     if (!b) {
+      sfx('power')
       setFlying(f => new Set(f).add(t.id))
       setTimeout(() => {
         t.gone = true
@@ -43,6 +45,7 @@ export default function ArrowEscape({ onReport, onShare, daily, lang = 'he' }) {
         if (board.tiles.every(x => x.gone)) setWon(true)
       }, 420)
     } else {
+      sfx('bump'); buzz(60)
       setMistakes(m => m + 1)
       setBump({ id: t.id, block: b.id, k: Date.now() })
     }

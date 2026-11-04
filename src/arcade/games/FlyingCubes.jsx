@@ -7,6 +7,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import { buildLevel, isFree, blocker, freeCubes, DIRS, WORLDS, WORLD_NAMES_EN, PER_WORLD, LEVEL_COUNT, worldOf } from '../logic/cubes'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard, LevelMap } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 // Real 3D: glossy rounded cubes floating in space, raised arrows on every face,
 // drag to spin the block, tap a cube to launch it.
@@ -233,9 +234,11 @@ export default function FlyingCubes({ onReport, onShare, daily, lang = 'he' }) {
       mesh.children[0].material = s.arrowMat.clone(); mesh.children[0].material.transparent = true
       s.anims.push({ type: 'fly', mesh, cube, t0: at, dur: 0.55 })
       const remaining = board.cubes.filter(c => !c.gone).length
+      sfx(remaining ? 'power' : 'gold')
       setLeft(remaining)
       if (!remaining) setTimeout(() => setWon(true), 650)
     } else {
+      sfx('bump'); buzz(60)
       setMistakes(m => m + 1)
       setToast({ k: performance.now(), text: en ? 'Blocked! A cube is in the way. You lost a heart 💔' : 'חסום! יש קובייה בדרך — איבדתם לב 💔' })
       if (!s.anims.some(a => a.mesh === mesh)) {

@@ -3,6 +3,7 @@ import { N, FLEET, randomFleet, newSea, fire, aiShot, allSunk, isSunk, shipAt } 
 import { setupBattle } from '../logic/battleshipSetup'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 const LETTERS_HE = 'אבגדהוזחטי'
 const SHIPS_EN = ['Aircraft carrier', 'Destroyer', 'Submarine', 'Missile boat', 'Patrol boat']
@@ -27,6 +28,8 @@ export default function Battleship({ onReport, onShare, daily, lang = 'he' }) {
     const r = fire(g.enemy, i)
     const myShots = g.myShots + 1
     setFlash({ i, k: Date.now() })
+    if (r.result === 'miss') sfx('splash')
+    else { sfx('hit'); buzz(r.result === 'sunk' ? [60, 40, 90] : 40); if (r.result === 'sunk') setTimeout(() => sfx('combo'), 260) }
     if (allSunk(r.sea)) { setG({ ...g, enemy: r.sea, myShots, phase: 'over', msg: en ? '🏆 You sank the whole fleet!' : '🏆 הטבעתם את כל הצי!' }); return }
     if (r.result === 'miss') setG({ ...g, enemy: r.sea, myShots, turn: 'ai', msg: en ? '🌊 A miss… now the computer fires' : '🌊 פספוס… עכשיו המחשב יורה' })
     else if (r.result === 'sunk') setG({ ...g, enemy: r.sea, myShots, msg: en ? `💥 You sank the ${shipName(r.ship).toLowerCase()}! You get another shot` : `💥 הטבעתם ${FLEET[r.ship].name}! יש לכם עוד יריה` })
@@ -38,6 +41,7 @@ export default function Battleship({ onReport, onShare, daily, lang = 'he' }) {
     if (g.phase !== 'play' || g.turn !== 'ai') return undefined
     const t = setTimeout(() => {
       const r = fire(g.mine, aiShot(g.mine, smart, g.aiRand))
+      if (r.result === 'miss') sfx('splash'); else { sfx('crash'); buzz(50) }
       if (allSunk(r.sea)) setG({ ...g, mine: r.sea, phase: 'over', msg: en ? 'The computer sank your whole fleet' : 'המחשב הטביע את כל הצי שלכם' })
       else if (r.result === 'miss') setG({ ...g, mine: r.sea, turn: 'me', msg: en ? "🎯 Your turn! Tap a square in the computer's sea" : '🎯 תורכם! לחצו על משבצת בים של המחשב' })
       else setG({ ...g, mine: r.sea, msg: r.result === 'sunk' ? (en ? `😱 The computer sank your ${SHIPS_EN[r.ship].toLowerCase()}` : `😱 המחשב הטביע לכם ${FLEET[r.ship].name}`) : (en ? '😬 The computer hit you… and fires again' : '😬 המחשב פגע בכם… והוא יורה שוב') })

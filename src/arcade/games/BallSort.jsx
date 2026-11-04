@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { buildLevel, canMove, move, isSolved, top, CAP } from '../logic/ballSort'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 // Each color also carries a small symbol, so the game works without telling colors apart.
 const BALLS = [
@@ -33,13 +34,17 @@ export default function BallSort({ onReport, onShare, daily, lang = 'he' }) {
 
   const tapTube = i => {
     if (won) return
-    if (sel === null) { if (tubes[i].length) setSel(i); return }
+    if (sel === null) { if (tubes[i].length) { setSel(i); sfx('pick') } return }
     if (sel === i) { setSel(null); return }
     if (canMove(tubes, sel, i)) {
+      const next = move(tubes, sel, i)
       setHistory(h => [...h, tubes])
-      setTubes(move(tubes, sel, i))
+      setTubes(next)
       setSel(null)
+      const t = next[i]
+      if (t.length === CAP && t.every(b => b === t[0])) { sfx('match'); buzz(20) } else sfx('place')
     } else if (tubes[i].length) {
+      sfx('wrong')
       setBad(i); setTimeout(() => setBad(null), 320)
       setSel(i)
     } else setSel(null)

@@ -3,6 +3,7 @@ import { LEVELS, generate } from '../logic/sudoku'
 import { rng } from '../logic/rng'
 import { useBox, useProgress } from '../hooks'
 import { Hud, ToolButton, EndCard } from '../ui'
+import { sfx, buzz } from '../sfx'
 
 function newGame(level, daily) {
   const { puzzle, solution } = generate(level, daily ? rng(daily.seed) : Math.random)
@@ -36,13 +37,26 @@ export default function Sudoku({ onReport, onShare, daily, initialLevel, lang = 
   }, [won, g.level, g.mistakes, g.hints, time, saveProgress, onReport, daily, en])
 
   const start = level => { setG(newGame(level, daily)); setSel(null); setTime(0); if (!daily) saveProgress({ level: level.id }) }
+  // Would putting the right number v at i complete its row, column or box? (a little cheer)
+  const unitDone = (grid, i, v) => {
+    const next = grid.slice(); next[i] = v
+    const r = Math.floor(i / n), c = i % n
+    const cells = k => [Math.floor(k / n), k % n]
+    const full = test => next.every((x, k) => !test(...cells(k)) || x === g.solution[k])
+    return full(rk => rk === r) || full((_, ck) => ck === c) || full((rk, ck) => Math.floor(rk / br) === Math.floor(r / br) && Math.floor(ck / bc) === Math.floor(c / bc))
+  }
 
   const put = v => {
     if (sel === null || g.puzzle[sel] || won) return
     if (notesMode && v) {
       setG(x => { const notes = x.notes.slice(); const cur = notes[sel]; notes[sel] = cur.includes(v) ? cur.filter(k => k !== v) : [...cur, v].sort(); return { ...x, notes } })
+      sfx('pick')
       return
     }
+    if (!v) sfx('slide')
+    else if (v !== g.solution[sel]) { sfx('wrong'); buzz(50) }
+    else if (unitDone(g.grid, sel, v)) { sfx('combo'); buzz(20) }
+    else sfx('place')
     setG(x => {
       const grid = x.grid.slice(); grid[sel] = v
       const notes = x.notes.slice(); notes[sel] = []
