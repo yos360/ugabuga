@@ -7,12 +7,12 @@ import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 import { execFile } from 'node:child_process'
 
+import { ALL_POSTS } from '../src/data/blogPosts.js'
+
 const run = promisify(execFile)
 const script = fileURLToPath(new URL('../scripts/prerender.mjs', import.meta.url))
-// The script also snapshots every blog post (including one daily post per whatsNew date), so the
-// static count is the fixture paths plus the posts — matched as a whole number, not a suffix.
-const { ALL_POSTS } = await import('../src/data/blogPosts.js')
-const summary = (ok, failed) => new RegExp(`pre-rendered: ${ok + ALL_POSTS.length} ok, ${failed} failed`)
+// prerender.mjs always adds every blog post to the fixture's paths, so the "ok" counts include them
+const POSTS = ALL_POSTS.length
 
 // Exercise the complete script without requiring a browser installation or live data.
 const browserStub = `
@@ -70,7 +70,7 @@ test('serial and parallel runs preserve output paths and normalized HTML; games 
   const parallel = await fixture(t, paths, 6)
   for (const { cwd, result } of [serial, parallel]) {
     assert.equal(result.code, 0, result.stderr)
-    assert.match(result.stdout, summary(4, 0))
+    assert.match(result.stdout, new RegExp(`\\b${4 + POSTS} ok, 0 failed`))
     assert.match(result.stdout, /1 ok, 1 skipped/)
     for (const path of [...paths, '/games/valid']) {
       const file = path === '/' ? 'index.html' : path.slice(1) + '.html'
@@ -82,7 +82,7 @@ test('serial and parallel runs preserve output paths and normalized HTML; games 
 test('static failures and duplicate titles are summarized after other paths finish', async t => {
   const { cwd, result } = await fixture(t, ['/first', '/broken', '/duplicate', '/nested/last'], 6)
   assert.equal(result.code, 1)
-  assert.match(result.stdout, summary(2, 2))
+  assert.match(result.stdout, new RegExp(`\\b${2 + POSTS} ok, 2 failed`))
   assert.match(result.stderr, /FAILED PATH: \/broken/)
   assert.match(result.stderr, /FAILED PATH: \/duplicate: Duplicate page title/)
   assert.doesNotMatch(result.stdout, /SEO checks passed/)
