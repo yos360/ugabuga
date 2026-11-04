@@ -111,7 +111,7 @@ export default function Greeting() {
         <div className="grid gap-4">
           <div>
             <label htmlFor="greeting-name" className="font-bold block mb-1">שם החוגג/ת *</label>
-            <input id="greeting-name" value={name} onChange={e => setName(e.target.value)} placeholder="שם..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3 text-lg" />
+            <input id="greeting-name" value={name} onChange={e => setName(e.target.value)} placeholder="שם…" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3 text-lg" />
           </div>
           <div>
             <label className="font-bold block mb-2">הברכה ל…</label>
@@ -127,7 +127,7 @@ export default function Greeting() {
           </div>
           <div>
             <label htmlFor="greeting-from" className="font-bold block mb-1">מי מברך? (אופציונלי)</label>
-            <input id="greeting-from" value={from} onChange={e => setFrom(e.target.value)} placeholder="מאמא ואבא, מהכיתה..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3" />
+            <input id="greeting-from" value={from} onChange={e => setFrom(e.target.value)} placeholder="מאמא ואבא, מהכיתה…" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3" />
           </div>
           <div>
             <label className="font-bold block mb-2">סגנון</label>
@@ -147,7 +147,7 @@ export default function Greeting() {
           </div>
           <div>
             <label htmlFor="greeting-personal" className="font-bold block mb-1">פרט אישי (אופציונלי)</label>
-            <input id="greeting-personal" value={personal} onChange={e => setPersonal(e.target.value)} placeholder="אוהב כדורגל, הכי חכמה בכיתה..." className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3" />
+            <input id="greeting-personal" value={personal} onChange={e => setPersonal(e.target.value)} placeholder="אוהב כדורגל, הכי חכמה בכיתה…" className="wobbly-sm w-full border-2 border-[var(--border)] bg-white px-4 py-3" />
           </div>
           <button onClick={generate} disabled={!name || !age}
             className="wobbly-md sketch-press w-full min-h-[48px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-5 py-3 font-display text-xl font-bold text-[var(--accent-foreground)] cursor-pointer disabled:opacity-50">

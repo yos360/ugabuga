@@ -162,7 +162,7 @@ export default function GamesIndex() {
       )}
 
       <form className="mx-auto mb-8 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row" onSubmit={e => e.preventDefault()}>
-        <input type="search" aria-label="חיפוש משחקים" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק..."
+        <input type="search" aria-label="חיפוש משחקים" value={search} onChange={e => setSearch(e.target.value)} placeholder="חפשו משחק…"
           className="wobbly flex-1 border-[3px] border-[var(--border)] bg-[var(--card)] px-5 py-3 text-lg placeholder:text-[var(--muted-foreground)] sketch-shadow" />
       </form>
 
@@ -202,7 +202,7 @@ export default function GamesIndex() {
       )}
 
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">
-        {loading ? 'טוען...' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : gamesCountText(filtered.length, games.length, Boolean(search.trim() || ageNumber || goalFilter || contextFilter))}{!loading && agePicks.length > 0 && ' — הבחירות שלנו למעלה, וכל השאר כאן'}
+        {loading ? 'טוען…' : isGameOfDay ? 'בחירה יומית אחת — משחק חדש בכל יום' : gamesCountText(filtered.length, games.length, Boolean(search.trim() || ageNumber || goalFilter || contextFilter))}{!loading && agePicks.length > 0 && ' — הבחירות שלנו למעלה, וכל השאר כאן'}
         {!loading && !isGameOfDay && filtered.length === 0 && <> <Link to="/games" onClick={() => setSearch('')} className="font-bold text-[var(--foreground)] underline">✕ ניקוי הסינון</Link></>}
       </p>
 
@@ -221,7 +221,7 @@ export default function GamesIndex() {
         <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {shownGames.map((game, i) => (
             <Link key={game.slug || game.id} to={gameHref(game.slug)}
-              className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
+              className={`wobbly group relative flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-4 sm:p-5 sketch-shadow transition-[transform,box-shadow] duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${rotations[i % rotations.length]}`}>
               <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
                 <button type="button" onClick={e => toggleFavorite(e, game)} aria-pressed={favorites.includes(game.slug)} aria-label={favorites.includes(game.slug) ? `הסר את ${game.name} מהמועדפים` : `שמור את ${game.name} במועדפים`} title={favorites.includes(game.slug) ? 'הסרה מהמועדפים' : 'שמירה במועדפים'} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 text-xl shadow-sm hover:scale-110">{favorites.includes(game.slug) ? '❤️' : '♡'}</button>
                 <button type="button" onClick={e => shareGame(e, game)} aria-label={`שיתוף בוואטסאפ: ${game.name}`} title="שיתוף בוואטסאפ" className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-[#25D366] px-3 text-sm font-bold text-white shadow-sm hover:scale-105">שיתוף</button>

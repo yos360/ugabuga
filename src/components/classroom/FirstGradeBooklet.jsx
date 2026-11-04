@@ -88,7 +88,7 @@ function Coloring({ n }) {
   return <A4>
     <h2>🖍️ דף צביעה — קשת בענן</h2>
     <p style={{ textAlign: 'center', margin: '0 0 6px', fontSize: 14 }}>צובעים לאט, בתוך הקווים. עמוד {n} בחוברת</p>
-    <div className="print-art"><img src={coloringSrc('rainbow-sun', 1)} alt="דף צביעה: קשת בענן, עננים ושמש" /></div>
+    <div className="print-art"><img src={coloringSrc('rainbow-sun', 1)} alt="דף צביעה: קשת בענן, עננים ושמש" width="1408" height="1408" /></div>
   </A4>
 }
 

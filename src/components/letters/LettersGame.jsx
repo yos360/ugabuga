@@ -189,7 +189,7 @@ export default function LettersGame({ lang = 'he', fixed = null, compact = false
               className="min-h-[44px] min-w-[44px] rounded-xl border-2 border-[var(--border)] bg-white px-2 text-xl">{muted ? '🔇' : '🔊'}</button>
             <span aria-label={`ניקוד ${score}`}>⭐ {score}</span>
           </div>
-          <div className="mb-3 h-2 rounded-full bg-white border border-[var(--border)] overflow-hidden"><div className="h-full bg-pink-500 transition-all" style={{ width: `${(round - 1) / rounds * 100}%` }} /></div>
+          <div className="mb-3 h-2 rounded-full bg-white border border-[var(--border)] overflow-hidden"><div className="h-full bg-pink-500 w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${(round - 1) / rounds})` }} /></div>
 
           <p className="font-display text-2xl sm:text-3xl font-bold mb-1 sm:mb-2 leading-snug">{question}</p>
           {mode === 'first' && <div className="my-1 sm:my-2">

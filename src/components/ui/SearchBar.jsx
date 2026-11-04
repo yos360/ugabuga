@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function SearchBar({ placeholder = 'חפשו משחק, פעילות, או רעיון...', onSearch, className = '' }) {
+export default function SearchBar({ placeholder = 'חפשו משחק, פעילות, או רעיון…', onSearch, className = '' }) {
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
   const handleSubmit = (e) => {

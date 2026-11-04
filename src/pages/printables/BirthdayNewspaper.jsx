@@ -52,7 +52,7 @@ function NewspaperStudio({kind}){
  const active=pages[page]
  const updateBlocks=blocks=>setPages(p=>p.map((x,i)=>i===page?{...x,blocks}:x))
  const updateBlock=(id,next)=>updateBlocks(active.blocks.map(b=>b.id===id?next:b))
- const addBlock=type=>updateBlocks([...active.blocks,{id:Date.now(),type,text:type==='headline'?'כותרת חדשה לעיתון':type==='quote'?'“משפט מיוחד כאן”':type==='facts'?'כתבו כאן עובדות קצרות ומעניינות.':'כתבו כאן את התוכן שלכם...',title:type==='story'?'כותרת הכתבה':'',size:'normal'}])
+ const addBlock=type=>updateBlocks([...active.blocks,{id:Date.now(),type,text:type==='headline'?'כותרת חדשה לעיתון':type==='quote'?'“משפט מיוחד כאן”':type==='facts'?'כתבו כאן עובדות קצרות ומעניינות.':'כתבו כאן את התוכן שלכם…',title:type==='story'?'כותרת הכתבה':'',size:'normal'}])
  const deleteBlock=id=>updateBlocks(active.blocks.filter(b=>b.id!==id))
  const addPage=()=>{setPages(p=>[...p,{title:`עמוד ${p.length+1}`,blocks:[{id:Date.now(),type:'headline',text:'כותרת לעמוד החדש',size:'wide'},{id:Date.now()+1,type:'story',title:'כתבה חדשה',text:'כאן מתחילים לכתוב.',size:'normal'}]}]);setPage(pages.length)}
  return <div className="mx-auto max-w-7xl px-4 py-8 buga-news"><SEO title={P.seo.title} description={P.seo.description} path={P.seo.path}/><Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:P.crumb}]}/>

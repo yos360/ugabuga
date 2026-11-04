@@ -31,7 +31,7 @@ export function SocialLinks({ s, className = '', size = 'h-9 w-9', live = true }
 
 export function Logo({ s, size = 'h-16 w-16', className = '' }) {
   return s.logo_url
-    ? <img src={s.logo_url} alt={`לוגו ${s.name}`} loading="lazy" className={`${size} shrink-0 rounded-full border-2 border-white bg-white object-cover shadow ${className}`} />
+    ? <img src={s.logo_url} alt={`לוגו ${s.name}`} loading="lazy" width="64" height="64" className={`${size} shrink-0 rounded-full border-2 border-white bg-white object-cover shadow ${className}`} />
     : <span aria-hidden="true" className={`${size} grid shrink-0 place-items-center rounded-full border-2 border-white bg-[var(--postit)] text-2xl font-black text-[var(--ink)] shadow ${className}`}>{[...(s.name || '?')][0]}</span>
 }
 
@@ -52,7 +52,7 @@ const ROTATIONS = ['-rotate-1', 'rotate-1', 'rotate-0', 'rotate-2', '-rotate-2']
 export function SupplierCard({ s, live = true, index = 0 }) {
   const wa = waLink(s.whatsapp), tel = telLink(s.phone)
   const open = (e, url, kind) => { e.preventDefault(); e.stopPropagation(); if (live) suppliersDb.track(s.id, kind); window.open(url, kind === 'phone' ? '_self' : '_blank', 'noopener') }
-  const cls = `wobbly group relative flex h-full flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-all duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${ROTATIONS[index % ROTATIONS.length]}`
+  const cls = `wobbly group relative flex h-full flex-col border-2 border-[var(--border)] bg-[var(--card)] p-5 sketch-shadow transition-[transform,box-shadow] duration-150 hover:-translate-y-1 hover:rotate-1 hover:shadow-[6px_10px_0_var(--border)] active:scale-[0.98] ${ROTATIONS[index % ROTATIONS.length]}`
   const body = <>
     <div className="absolute left-3 top-3 flex gap-1" dir="ltr">
       {wa && <button type="button" onClick={e => open(e, wa, 'whatsapp')} aria-label={`וואטסאפ ל${s.name}`} className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/90 px-2 py-1 text-base shadow-sm hover:scale-110">🟢</button>}

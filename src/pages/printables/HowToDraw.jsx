@@ -55,7 +55,7 @@ export default function HowToDrawPage() {
   return <PrintableShell key={path} path={path} seoTitle={howToDrawTitle(d)} h1={`איך מציירים ${d.name} — שלב אחר שלב`} description={howToDrawDescription(d)}
     image={howToDrawSrc(d.slug)} emoji={d.emoji} sub={`שישה שלבים פשוטים · מומלץ לגילאי ${d.ages} · חינם להדפסה`}
     crumbs={[{ label: 'איך מציירים', href: '/how-to-draw' }]}
-    pages={[{ key: path, svg: <img src={howToDrawSrc(d.slug)} alt={`איך מציירים ${d.name}: שישה שלבים`} className="block h-auto w-full object-contain" /> }]}
+    pages={[{ key: path, svg: <img src={howToDrawSrc(d.slug)} alt={`איך מציירים ${d.name}: שישה שלבים`} width="1024" height="683" fetchPriority="high" className="block h-auto w-full object-contain" /> }]}
     printTitle={`איך מציירים ${d.name}`} printLabel="הדפסה או הורדה כ-PDF"
     after={<section className="no-print mx-auto mt-8 max-w-3xl" dir="rtl">
       <h2 className="mb-2 text-2xl font-bold">השלבים במילים</h2>

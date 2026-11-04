@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { groupErrorText } from '../../../utils/groupDb'
+import useModalDialog from '../../../hooks/useModalDialog'
 
 // Shared bits for the WhatsApp group tools (RSVP, secret-friend draw, thank-you wall).
 export const card = 'wobbly border-2 border-[var(--border)] bg-white p-4 sketch-shadow sm:p-5'
@@ -27,8 +28,9 @@ export async function copyText(text, show, okText = 'הועתק ✓') {
 export const openWhatsApp = text => window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener')
 
 export function ConfirmDialog({ title, text, yes, onYes, onClose, danger = true, cancel = 'ביטול' }) {
+  const ref = useModalDialog(onClose)
   return createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={onClose}>
-    <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" dir="auto" aria-modal="true" aria-labelledby="gt-confirm-title">
+    <div ref={ref} tabIndex={-1} onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md overscroll-contain rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" dir="auto" aria-modal="true" aria-labelledby="gt-confirm-title">
       <h2 id="gt-confirm-title" className="text-xl font-bold">{title}</h2>
       <p className="mt-1 text-slate-600">{text}</p>
       <div className="mt-4 flex gap-2">

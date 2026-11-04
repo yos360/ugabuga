@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
+import useModalDialog from '../../hooks/useModalDialog'
 
 // What one card is called. content_type is generic ("prompt" is a command in המלך אמר, a task in
 // מצא מישהו ש..., a sentence opener in BUGA משפטים), so games can name their cards themselves.
@@ -60,6 +61,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
   useEffect(() => { setItems(shuffle(inPack)); setIndex(0); setRevealed(false); setGuess(null) }, [inPack])
 
   const current = items[index]
+  const dialogRef = useModalDialog(onClose)
   if (!current) return null
   const typeWord = labelFor(slug, current.content_type)
   const truthValue = detectTruth(current.answer)
@@ -88,7 +90,7 @@ export default function GamePlayer({ content, onClose, title = 'אמת או בו
   // would otherwise turn this fixed overlay into a box inside the page column.
   return createPortal(
     <div className="fixed inset-0 z-50 bg-black/75 p-2 sm:p-4" onClick={onClose}>
-      <div className="mx-auto flex h-full max-w-7xl flex-col rounded-[2rem] border-[4px] border-[var(--border)] bg-[var(--paper)] p-3 sketch-shadow-rich sm:p-5" onClick={e => e.stopPropagation()}>
+      <div ref={dialogRef} role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} className="mx-auto flex h-full max-w-7xl flex-col overflow-y-auto overscroll-contain rounded-[2rem] border-[4px] border-[var(--border)] bg-[var(--paper)] p-3 sketch-shadow-rich sm:p-5" onClick={e => e.stopPropagation()}>
         <div className="mb-2 flex items-center justify-between gap-3 sm:mb-3">
           <div>
             <p className="hidden font-hand text-sm text-[var(--muted-foreground)] sm:block">{withTeams ? 'מצב תחרותי' : 'משחקים עכשיו'}</p>

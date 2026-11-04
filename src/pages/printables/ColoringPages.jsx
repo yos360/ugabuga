@@ -31,7 +31,7 @@ const TIPS = ['במסיבה: להניח על שולחן צדדי דפים מנו
 const CATEGORY = { all:'🌈 הכול', birthday:'🎂 יום הולדת', animals:'🐾 חיות', space:'🚀 חלל', fantasy:'🦄 פנטזיה', vehicles:'🚗 כלי רכב', sports:'⚽ ספורט', school:'🏫 בית ספר' }
 
 function LineArt({ kind }) {
-  if (kind === 'cake') return <img src="/coloring/birthday-cake-lineart.png" alt="עוגת יום הולדת לצביעה" className="h-full w-full object-contain bg-white" />
+  if (kind === 'cake') return <img src="/coloring/birthday-cake-lineart.png" alt="עוגת יום הולדת לצביעה" width="1055" height="1491" className="h-full w-full object-contain bg-white" />
   const common = { fill: 'white', stroke: '#172033', strokeWidth: '6', strokeLinejoin: 'round', strokeLinecap: 'round' }
   const decorations = <><circle {...common} cx="80" cy="80" r="14"/><path {...common} d="M90 220l18-18 18 18-18 18zM490 92l16-25 16 25-16 25zM500 340l20 20m0-20l-20 20M84 420l-20 20m0-20l20 20"/><path {...common} d="M45 285c28-22 52-22 80 0M470 260c18-18 38-18 56 0"/></>
   const draw = {

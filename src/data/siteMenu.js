@@ -288,6 +288,7 @@ export const MENU_DOMAINS = [
           { to: '/discover/human-body', label: 'גוף האדם', icon: '🫀' },
           { to: '/learn/human-body', label: 'גוף האדם לעומק: לב, מוח, עצמות וחושים', icon: '🫀' },
           { to: '/learn/nutrition', label: 'תזונה ובריאות: ויטמינים, חלבונים, תוויות מזון ועוד', icon: '🥗' },
+          { to: '/learn/oceans', label: 'ימים ואוקיינוסים: הים התיכון, ים סוף, אלמוגים וגלים', icon: '🌊' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
           { to: '/learn/fruits-vegetables', label: 'פירות וירקות: פרי או ירק? מאיפה הגיעו', icon: '🍎' },

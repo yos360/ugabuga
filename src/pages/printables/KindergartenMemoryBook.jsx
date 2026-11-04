@@ -68,7 +68,7 @@ function Finale({ name, year, theme, photos }) {
   return <Sheet label="בסוף השנה"><rect width="200" height="270" fill="#fffdf8" /><Header theme={theme} title="בסוף השנה" subtitle={year || 'כמה גדלתי השנה'} /><Photo src={photos[7]} x="56" y="43" w="88" h="72" label="סיום השנה" index="finale" theme={theme} round="11" />
     <rect x="16" y="130" width="168" height="33" rx="7" fill={p.soft} stroke={p.ink} strokeWidth=".8" /><T x="175" y="142" anchor="end" size="4.3" weight={900} fill={p.ink}>משהו חדש שלמדתי</T><Lines x="26" y="153" w="143" rows="1" color={p.ink} />
     <rect x="16" y="173" width="168" height="33" rx="7" fill={p.mint} stroke={p.ink} strokeWidth=".8" /><T x="175" y="185" anchor="end" size="4.3" weight={900} fill={p.ink}>רגע שהייתי גאה בו</T><Lines x="26" y="196" w="143" rows="1" color={p.ink} />
-    <rect x="16" y="216" width="168" height="29" rx="7" fill="#fff" stroke={p.ink} strokeWidth=".8" /><T x="175" y="228" anchor="end" size="4.3" weight={900} fill={p.ink}>אני מאחל/ת לעצמי לשנה הבאה...</T><line x1="26" x2="169" y1="238" y2="238" stroke={p.ink} strokeWidth=".55" />
+    <rect x="16" y="216" width="168" height="29" rx="7" fill="#fff" stroke={p.ink} strokeWidth=".8" /><T x="175" y="228" anchor="end" size="4.3" weight={900} fill={p.ink}>אני מאחל/ת לעצמי לשנה הבאה…</T><line x1="26" x2="169" y1="238" y2="238" stroke={p.ink} strokeWidth=".55" />
     <Doodle theme={theme} x="26" y="255" scale=".54" /><Doodle theme={theme} x="174" y="255" scale=".54" /><T x="100" y="267" size="2.7" fill={p.ink}>עוגה בוגה · ugabuga.co.il</T></Sheet>
 }
 function PhotoUpload({ label, onChange }) {

@@ -160,7 +160,7 @@ export function PromptLab() {
       <aside className="ln-box">
         <p className="font-bold">השאלה שלכם ({filled.length}/{PARTS.length}):</p>
         <p className="mt-2 min-h-24 whitespace-pre-wrap rounded-xl bg-white p-3 text-lg">{text || 'התחילו למלא משמאל…'}</p>
-        <div className="mt-2 h-3 rounded-full bg-slate-200"><div className="h-3 rounded-full bg-emerald-500 transition-all" style={{ width: `${(filled.length / PARTS.length) * 100}%` }} /></div>
+        <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-200"><div className="h-3 bg-emerald-500 w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${filled.length / PARTS.length})` }} /></div>
         <p className="mt-2 text-sm">{filled.length >= 4 ? '🌟 שאלה מצוינת! יש בה כל מה שבוט צריך כדי לעזור.' : filled.length >= 2 ? 'כבר טוב — הוסיפו עוד פרט או שניים.' : 'שאלה של מילה אחת מקבלת תשובה כללית מדי.'}</p>
         {leaks.length > 0 && <p role="alert" className="mt-2 rounded-xl bg-rose-100 p-2 text-sm font-bold">🛑 רגע! נראה שכתבתם {leaks.join(', ')}. לא כותבים פרטים אישיים לבינה מלאכותית — מחקו אותם.</p>}
         {text && <button type="button" className="ln-btn mt-3" onClick={copy}>{copied ? '✅ הועתק' : '📋 העתקת השאלה'}</button>}

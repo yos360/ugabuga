@@ -226,7 +226,7 @@ export function LanguageQuiz() {
           <span>שאלה {n + 1} מתוך {QUIZ_LEN}</span>
           <span>{streak >= 3 ? '🔥 ' : ''}⭐ {points} נק׳</span>
         </div>
-        <div className="mb-4 h-2 overflow-hidden rounded-full border border-[var(--border)] bg-white"><div className="h-full bg-pink-500 transition-all" style={{ width: `${n / QUIZ_LEN * 100}%` }} /></div>
+        <div className="mb-4 h-2 overflow-hidden rounded-full border border-[var(--border)] bg-white"><div className="h-full bg-pink-500 w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${n / QUIZ_LEN})` }} /></div>
 
         {q.kind === 'pic' && <>
           <p className="text-xl font-bold">איך אומרים את זה {L.adj}?</p>

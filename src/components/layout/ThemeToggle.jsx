@@ -11,6 +11,8 @@ export default function ThemeToggle({ className = 'site-icon-button', withLabel 
     const next = !dark
     if (next) document.documentElement.dataset.theme = 'dark'
     else delete document.documentElement.dataset.theme
+    // The page is darkened with a CSS filter, which the phone's browser bar can't see — recolor it too.
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next ? '#16181f' : '#fffaf0')
     try { localStorage.setItem('buga-theme', next ? 'dark' : 'light') } catch { /* private mode */ }
     setDark(next)
   }

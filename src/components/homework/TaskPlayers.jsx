@@ -15,7 +15,7 @@ const now = () => Date.now()
 function Progress({ at, total }) {
   return <div className="mb-4" aria-label={`${Math.min(at + 1, total)} מתוך ${total}`}>
     <div className="mb-1 flex justify-between text-sm font-bold text-slate-600"><span>{Math.min(at + 1, total)} / {total}</span></div>
-    <div className="h-3 overflow-hidden rounded-full bg-slate-200"><div className="h-full rounded-full bg-violet-500 transition-all" style={{ width: `${(at / total) * 100}%` }} /></div>
+    <div className="h-3 overflow-hidden rounded-full bg-slate-200"><div className="h-full bg-violet-500 w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${at / total})` }} /></div>
   </div>
 }
 

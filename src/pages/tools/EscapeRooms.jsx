@@ -332,8 +332,8 @@ export default function EscapeRooms() {
 
             <div className="h-3 rounded-full bg-white border border-[var(--border)] overflow-hidden">
               <div
-                className="h-full bg-[#4caf50] transition-all"
-                style={{ width: `${(completedSteps.length / room.steps.length) * 100}%` }}
+                className="h-full bg-[#4caf50] w-full origin-left rtl:origin-right transition-transform"
+                style={{ transform: `scaleX(${completedSteps.length / room.steps.length})` }}
               />
             </div>
             <p className="text-sm mt-2 text-[var(--muted-foreground)]">
@@ -369,7 +369,7 @@ export default function EscapeRooms() {
                   value={answer}
                   onChange={(event) => { setAnswer(event.target.value); setStatus(null) }}
                   onKeyDown={(event) => { if (event.key === 'Enter') checkAnswer() }}
-                  placeholder="כתבו תשובה..."
+                  placeholder="כתבו תשובה…"
                   className="flex-1 border-2 border-[var(--ink)] bg-white px-4 py-3 text-lg wobbly-sm outline-none focus:bg-[var(--yellow)]/20"
                 />
                 <WobblyButton disabled={status === 'correct' || !answer.trim()} onClick={checkAnswer} variant="primary">בדקו תשובה</WobblyButton>

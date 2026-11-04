@@ -67,7 +67,7 @@ export default function ColoringDrawing() {
       sub={`ציור לצביעה · מומלץ לגילאי ${drawing.ages} · חינם להדפסה ולשמירה כ-PDF`}
       intro={<p className="mx-auto mb-6 max-w-3xl text-center leading-relaxed">{guide.intro}</p>}
       crumbs={[{ label: 'דפי צביעה', href: '/printables/coloring' }, { label: s.name, href: `/printables/coloring/${s.slug}` }]}
-      pages={[{ key: path, svg: <img src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} alt={drawing.name} className="block h-auto w-full object-contain" /> }]}
+      pages={[{ key: path, svg: <img src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} alt={drawing.name} width="1408" height="1408" fetchPriority="high" className="block h-auto w-full object-contain" /> }]}
       printTitle={drawing.name} printLabel="הדפסה או הורדה כ-PDF"
       after={<DrawingGuide g={guide} />}
       faq={faq}

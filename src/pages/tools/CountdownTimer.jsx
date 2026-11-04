@@ -127,7 +127,7 @@ export default function CountdownTimer({ embed = false }) {
 
       {/* Progress bar */}
       <div className="wobbly-sm h-4 border-2 border-[var(--border)] bg-white overflow-hidden mb-6">
-        <div className="h-full transition-all duration-1000" style={{ width: `${progress*100}%`, backgroundColor: barColor }} />
+        <div className="h-full w-full origin-left rtl:origin-right transition-transform duration-1000" style={{ transform: `scaleX(${progress})`, backgroundColor: barColor }} />
       </div>
 
       {!running ? (

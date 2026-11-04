@@ -117,11 +117,11 @@ function Calculators() {
   const [age, setAge] = useState('8')
   const w = Number(kg), y = Number(age)
   return <div className="mt-4 grid gap-4 md:grid-cols-2">
-    <section className="ss-calc"><h3>🏋️ כמה הייתי שוקל/ת על...</h3>
+    <section className="ss-calc"><h3>🏋️ כמה הייתי שוקל/ת על…</h3>
       <label className="mt-2 flex items-center gap-2 font-bold">המשקל שלי בכדור הארץ: <input type="number" inputMode="decimal" min="1" max="200" value={kg} onChange={e => setKg(e.target.value)} className="ss-in" /> ק״ג</label>
       <ul className="ss-list">{PLANETS.map(p => <li key={p.id}><span className="ss-dot" style={{ background: p.color }} />{p.name}<b>{w > 0 ? `${Math.round(w * PLANET_PHYSICS[p.id].g * 10) / 10} ק״ג` : '—'}</b></li>)}</ul>
       <p className="text-sm text-[var(--muted-foreground)]">על צדק הייתם מרגישים כבדים פי יותר משניים! (בענקי הגזים אין קרקע לעמוד עליה — זה המשקל בגובה העננים.)</p></section>
-    <section className="ss-calc"><h3>🎂 בן/בת כמה הייתי על...</h3>
+    <section className="ss-calc"><h3>🎂 בן/בת כמה הייתי על…</h3>
       <label className="mt-2 flex items-center gap-2 font-bold">הגיל שלי: <input type="number" inputMode="numeric" min="1" max="120" value={age} onChange={e => setAge(e.target.value)} className="ss-in" /> שנים</label>
       <ul className="ss-list">{PLANETS.map(p => { const v = y * 365.25 / PLANET_PHYSICS[p.id].days; return <li key={p.id}><span className="ss-dot" style={{ background: p.color }} />{p.name}<b>{y > 0 ? (v >= 10 ? Math.round(v) : Math.round(v * 10) / 10) : '—'}</b></li> })}</ul>
       <p className="text-sm text-[var(--muted-foreground)]">"שנה" היא סיבוב אחד סביב השמש. על כוכב חמה כבר הייתם חוגגים המון ימי הולדת — ועל נפטון עוד לא חגגתם אפילו אחד!</p></section>

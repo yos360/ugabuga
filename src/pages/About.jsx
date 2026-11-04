@@ -40,7 +40,7 @@ export default function About() {
         <p className="mt-3 text-lg leading-relaxed">השם? עוגה בוגה — באנגלית UGABUGA, ויש שכותבים „אוגה בוגה”. עוגה כי הכול התחיל מימי הולדת, ובוגה כי זה פשוט כיף להגיד.</p>
         <p className="mt-3 text-lg leading-relaxed">רצינו מקום אחד שבו מורה תמצא משחק ב-10 שניות, הורה יתכנן מסיבה בלי 15 אתרים, וגננת תפתח את הטלפון ותתחיל לשחק — בלי מאמר של 2,000 מילים.</p>
       </div>
-      <img src="/images/home-birthday-girl-720.webp" alt="" className="mx-auto w-52 sm:w-full" loading="lazy" />
+      <img src="/images/home-birthday-girl-720.webp" alt="" width="600" height="720" className="mx-auto w-52 sm:w-full" loading="lazy" />
     </section>
 
     <section className="mt-12">
