@@ -10,6 +10,10 @@ export const COURSES = [
   { slug: 'ai', emoji: '🤖', title: 'בינה מלאכותית לתלמידים', short: 'איך שואלים, איך בודקים, ומה מותר בשיעורי בית', who: 'לתלמידים מכיתה ה׳ ולהורים' },
   { slug: 'scratch', emoji: '🐱', title: 'סקראץ׳ לילדים', short: 'בונים משחק "תופסים תפוחים" ב־7 שיעורים', who: 'לילדים מכיתה ב׳' },
   { slug: 'python', emoji: '🐍', title: 'פייתון לנוער', short: 'מהשורה הראשונה ועד משחק ניחוש', who: 'מכיתה ה׳ ומעלה' },
+  { slug: 'english', emoji: '🔤', title: 'אנגלית מאפס להורים וילדים', short: 'אותיות וצלילים, מילים ראשונות, משפטים וקריאה', who: 'לילדים מגיל 5 יחד עם ההורים' },
+  { slug: 'reading', emoji: '📖', title: 'הבנת הנקרא והכנה למיצ״ב', short: 'איתור מידע, הסקת מסקנות, רעיון מרכזי ושאלות פתוחות', who: 'לתלמידים בכיתות ג׳–ח׳' },
+  { slug: 'birthday', emoji: '🎂', title: 'יום הולדת בבית מא׳ עד ת׳', short: 'תכנון, הזמנה, לוח זמנים, משחקים, עוגה והפתעות', who: 'להורים' },
+  { slug: 'teachers', emoji: '🍎', title: 'כלים דיגיטליים למורים', short: 'חידון כיתתי, שיעורי בית מקוונים, דפי עבודה ומתכנן שיעורים', who: 'למורים ולגננות' },
   { slug: 'excel', href: '/excel', emoji: '📗', title: 'קורס אקסל', short: '10 שיעורים עם גיליון חי שבודק כל משימה', who: 'למתחילים מאפס' },
   { slug: 'typing', href: '/typing', emoji: '⌨️', title: 'הקלדה עיוורת', short: '25 שיעורים, מקלדת צבעונית ומילים לדקה', who: 'לילדים ולמבוגרים' },
 ]
@@ -22,6 +26,10 @@ export const LOAD = {
   ai: () => import('./data/ai.js'),
   scratch: () => import('./data/scratch.js'),
   python: () => import('./data/python.js'),
+  english: () => import('./data/english.js'),
+  reading: () => import('./data/reading.js'),
+  birthday: () => import('./data/birthday.js'),
+  teachers: () => import('./data/teachers.js'),
 }
 
 export const courseMeta = slug => COURSES.find(c => c.slug === slug && !c.href)
