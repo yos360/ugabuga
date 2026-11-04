@@ -61,6 +61,7 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 |---|---|---|---|---|
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
 | 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | READY, not uploaded (daily upload limit) — work/tutorial-2026-11-04-2, files in .reel-upload/tutorial; title "איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר" |
+| 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | READY, upload from the owner's Chrome — uploads/tutorials/2026-11-04-3 (39 s, v2 style; screens are real captures; source in examples/tutorial-party-bags) |
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
 Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
