@@ -512,6 +512,7 @@ export const MENU_DOMAINS = [
           { to: '/recommended', label: 'המלצות לקנייה להורים ולגננות', icon: '🛒' },
           { to: '/family/baby-development', label: 'התפתחות תינוק', icon: '👶' },
           { to: '/blog', label: 'הבלוג', icon: '📰' },
+          { to: '/experts', label: 'המומחים של עוגה בוגה', icon: '🎓' },
         ],
       },
     ],

@@ -25,6 +25,10 @@ export default function BlogIndex() {
             <span className="text-sm font-normal text-[var(--muted-foreground)]">{fmt(post.date)}</span><span>{post.description.replace(/^מה עלה לאתר ב־[^:]+: /, '')}</span>
           </Link></li>)}</ul>
       </section>}
+      <Link to="/experts" className="mb-10 flex min-h-[48px] items-center gap-3 rounded-3xl border-2 border-amber-200 bg-amber-50 px-5 py-4 hover:-translate-y-0.5 transition-transform">
+        <span className="text-4xl">🎓</span>
+        <span><span className="block font-hand font-bold text-2xl">המומחים של עוגה בוגה</span><span className="text-[var(--muted-foreground)]">מאמרים של אנשים שמלמדים משהו שהם אוהבים — ומקום לכתוב אצלנו ←</span></span>
+      </Link>
       <h2 className="font-hand font-bold text-3xl mb-4">מאמרים</h2>
       <div className="grid md:grid-cols-2 gap-5">
         {posts.map(post => (

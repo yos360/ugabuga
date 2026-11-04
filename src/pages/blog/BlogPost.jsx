@@ -5,6 +5,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { BLOG_BY_SLUG, BLOG_POSTS } from '../../data/blogPosts'
 import NotFound from '../NotFound'
 import RichText from '../../components/ui/RichText'
+import ExpertsInvite from './ExpertsInvite'
 
 const fmt = d => d.split('-').reverse().join('.')
 
@@ -17,18 +18,25 @@ export default function BlogPost() {
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: post.title, description: post.description, datePublished: post.date, dateModified: post.updated || post.date,
     inLanguage: 'he', mainEntityOfPage: 'https://ugabuga.co.il/blog/' + slug,
-    author: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il/about' },
+    author: post.guest
+      ? { '@type': 'Person', name: post.guest.name, description: post.guest.role, url: post.guest.links[post.guest.links.length - 1][1] }
+      : { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il/about' },
     publisher: { '@type': 'Organization', '@id': 'https://ugabuga.co.il/#organization', name: 'עוגה בוגה', url: 'https://ugabuga.co.il' },
   }
   return (
     <article className="max-w-4xl mx-auto px-4 py-8">
       <SEO title={post.title} description={post.description} path={'/blog/' + slug} type="article" structuredData={schema} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'בלוג', href: '/blog' }, { label: post.title }]} />
+      <Breadcrumbs items={post.guest
+        ? [{ label: 'ראשי', href: '/' }, { label: 'המומחים של עוגה בוגה', href: '/experts' }, { label: post.title }]
+        : [{ label: 'ראשי', href: '/' }, { label: 'בלוג', href: '/blog' }, { label: post.title }]}
+        back={post.guest && { href: '/experts', label: 'חזרה למומחים של עוגה בוגה' }} />
       <header className="text-center mb-8">
         <div className="text-6xl mb-4">{post.emoji}</div>
         <h1 className="text-4xl md:text-5xl font-hand font-bold mb-4">{post.title}</h1>
         <p className="text-lg text-[var(--muted-foreground)] leading-relaxed max-w-2xl mx-auto">{post.description}</p>
-        <p className="mt-4 text-sm text-[var(--muted-foreground)]">{fmt(post.date)} · {post.minutes} דקות קריאה · צוות עוגה בוגה · <Link to="/editorial-policy" className="underline">איך אנחנו בודקים</Link></p>
+        {post.guest
+          ? <p className="mt-4 text-sm text-[var(--muted-foreground)]">{fmt(post.date)} · {post.minutes} דקות קריאה · מאמר אורח מאת {post.guest.name} · <Link to="/experts" className="underline">המומחים של עוגה בוגה</Link></p>
+          : <p className="mt-4 text-sm text-[var(--muted-foreground)]">{fmt(post.date)} · {post.minutes} דקות קריאה · צוות עוגה בוגה · <Link to="/editorial-policy" className="underline">איך אנחנו בודקים</Link></p>}
       </header>
       <WobblyCard hover={false} padding="p-6 md:p-8">
         <div className="space-y-8 leading-relaxed text-lg">
@@ -42,6 +50,15 @@ export default function BlogPost() {
           ))}
         </div>
       </WobblyCard>
+      {post.guest && <>
+        <aside className="mt-8 rounded-3xl border-2 border-amber-200 bg-amber-50 p-6" aria-label={post.guest.about || 'על הכותב'}>
+          <p className="text-sm font-bold text-amber-800">{post.guest.about || 'על הכותב'}</p>
+          <h2 className="mt-1 text-2xl font-hand font-bold">{post.guest.name} · {post.guest.role}</h2>
+          <p className="mt-2 leading-relaxed">{post.guest.bio}</p>
+          <div className="mt-3 flex flex-wrap gap-3">{post.guest.links.map(([label, href]) => <a key={href} href={href} target="_blank" rel="nofollow noopener noreferrer" className="btn-secondary">{label} ↗</a>)}</div>
+        </aside>
+        <ExpertsInvite />
+      </>}
       {post.relatedLinks?.length > 0 && (
         <section className="mt-8">
           <h2 className="text-2xl font-hand font-bold mb-4">קישורים שימושיים</h2>

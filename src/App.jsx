@@ -70,6 +70,7 @@ const Search = lazy(() => import('./pages/Search'))
 const IdeasHub = lazy(() => import('./pages/ideas/IdeasHub'))
 const BlogIndex = lazy(() => import('./pages/blog/BlogIndex'))
 const BlogPost = lazy(() => import('./pages/blog/BlogPost'))
+const Experts = lazy(() => import('./pages/blog/Experts'))
 const FaqTopic = lazy(() => import('./pages/FaqTopic'))
 const TriviaTopic = lazy(() => import('./pages/content/TriviaTopic'))
 const TriviaTopicsHub = lazy(() => import('./pages/content/TriviaTopic').then(m => ({ default: m.TriviaTopicsHub })))
@@ -1429,6 +1430,7 @@ export default function App() {
               <Route path="/suppliers/category/:type" element={<SupplierCategory />} />
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />
+              <Route path="/experts" element={<Experts />} />
               <Route path="/advertise" element={<Advertise />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/editorial-policy" element={<EditorialPolicy />} />
