@@ -59,3 +59,7 @@ Pending: hiding the old (v1) tutorials (set Private + remove from the playlist) 
 | date | slot | tool | path | YouTube id |
 |---|---|---|---|---|
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
+
+Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
+Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
+In the upload dialog, the thumbnail file input did not apply on 2026-11-04 (twice, also from the video's edit page); the keyboard video (rrmNDBL6TvY) still has the hook frame — the owner can upload .reel-upload/tutorial/thumbnail.jpg in Studio.
