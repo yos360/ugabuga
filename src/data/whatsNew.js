@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-11-04', emoji: '🧠', title: 'החידה היומית #2: חידת לוח שנה', blurb: 'היום שלפני מחרתיים הוא שבת — איזה יום היה שלשום? חידה חדשה עם טריק כל יום ב־14:00, והפתרון בלחיצה.', to: '/riddles/shilshom', kind: 'play' },
   { date: '2026-11-03', emoji: '🔡', title: 'שיעור ניקוד אינטראקטיבי', blurb: 'כל התנועות בחמישה צעדים: קמץ ופתח, צירה וסגול, חיריק, חולם, שורוק וקובוץ — לוחצים ושומעים הברות, קוראים מילה ובוחרים תמונה.', to: '/letters/nikud', kind: 'learn' },
   { date: '2026-11-03', emoji: '🎯', title: 'משחק התאמה בכל מילון מושגים', blurb: 'בכל עמוד מושג — בלשון, תנ״ך, מדעים, היסטוריה ועוד — מתאימים ארבעה מושגים להגדרות שלהם, ועוברים לסיבוב חדש.', to: '/learn/lashon/concepts/shoresh', kind: 'learn' },
   { date: '2026-11-03', emoji: '👣', title: 'דוגמה פתורה שלב אחרי שלב', blurb: 'בכל נושא בחשבון, מכיתה א׳ עד י״ב: חושבים קודם, חושפים את הפתרון צעד אחר צעד, ואז עוברים ישר לתרגיל ראשון.', to: '/math/grade-1/counting-20', kind: 'learn' },

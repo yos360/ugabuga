@@ -7,8 +7,12 @@ import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 import { execFile } from 'node:child_process'
 
+import { ALL_POSTS } from '../src/data/blogPosts.js'
+
 const run = promisify(execFile)
 const script = fileURLToPath(new URL('../scripts/prerender.mjs', import.meta.url))
+// prerender.mjs always adds every blog post to the fixture's paths, so the "ok" counts include them
+const POSTS = ALL_POSTS.length
 
 // Exercise the complete script without requiring a browser installation or live data.
 const browserStub = `
@@ -66,7 +70,7 @@ test('serial and parallel runs preserve output paths and normalized HTML; games 
   const parallel = await fixture(t, paths, 6)
   for (const { cwd, result } of [serial, parallel]) {
     assert.equal(result.code, 0, result.stderr)
-    assert.match(result.stdout, /4 ok, 0 failed/)
+    assert.match(result.stdout, new RegExp(`\\b${4 + POSTS} ok, 0 failed`))
     assert.match(result.stdout, /1 ok, 1 skipped/)
     for (const path of [...paths, '/games/valid']) {
       const file = path === '/' ? 'index.html' : path.slice(1) + '.html'
@@ -78,7 +82,7 @@ test('serial and parallel runs preserve output paths and normalized HTML; games 
 test('static failures and duplicate titles are summarized after other paths finish', async t => {
   const { cwd, result } = await fixture(t, ['/first', '/broken', '/duplicate', '/nested/last'], 6)
   assert.equal(result.code, 1)
-  assert.match(result.stdout, /2 ok, 2 failed/)
+  assert.match(result.stdout, new RegExp(`\\b${2 + POSTS} ok, 2 failed`))
   assert.match(result.stderr, /FAILED PATH: \/broken/)
   assert.match(result.stderr, /FAILED PATH: \/duplicate: Duplicate page title/)
   assert.doesNotMatch(result.stdout, /SEO checks passed/)

@@ -8,6 +8,8 @@ import SpeakButton from '../../components/ui/SpeakButton'
 import NotFound from '../NotFound'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import { RIDDLE_PAGES } from '../../data/content/riddles'
+import { dailyRiddle } from '../../data/dailyRiddles'
+import { DailyRiddleView } from './DailyRiddles'
 import { JOKE_PAGES } from '../../data/content/jokes'
 import { HUNT_PAGES } from '../../data/content/hunts'
 import { ABC_LETTERS } from '../../data/content/abcLetters'
@@ -44,7 +46,7 @@ const Extras = ({ p }) => <><Uses p={p} />{(p.about || p.faq || p.related) && <d
 
 export function RiddlePage() {
   const { slug } = useParams(); const p = RIDDLE_PAGES.find(x => x.slug === slug)
-  if (!p) return <NotFound />
+  if (!p) { const d = dailyRiddle(slug); return d ? <DailyRiddleView r={d} /> : <NotFound /> }
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
       <SEO title={p.title} description={p.description} path={'/riddles/' + slug} structuredData={faqSchema(p.faq)} />
