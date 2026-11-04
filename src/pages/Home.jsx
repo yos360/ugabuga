@@ -204,8 +204,13 @@ export default function Home() {
   const { news, posts } = useFreshLists()
   const counts = usePopularity()
   const quick = [...(new Date() < SEASON_ENDS ? [SEASON] : []), ...byVisits(QUICK, counts).slice(0, QUICK_SHOWN)]
-  // A page already in the quick links doesn't show again in "most loved".
-  const loved = byVisits(LOVED_POOL.filter(x => !quick.some(q => q[2] === x[2])), counts).slice(0, 6)
+  // A page already in the quick links doesn't show again in "most loved". The four most visited stay;
+  // the last two places go to others at random, so pages nobody has found yet also get seen.
+  const pool = byVisits(LOVED_POOL.filter(x => !quick.some(q => q[2] === x[2])), counts)
+  const [luckySeed, setLuckySeed] = useState(0)
+  useEffect(() => { if (!window.__PRERENDER__) setLuckySeed(1 + Math.floor(Math.random() * 1000)) }, [])
+  const rest = pool.slice(4)
+  const loved = [...pool.slice(0, 4), ...(luckySeed && rest.length > 2 ? [rest[luckySeed % rest.length], rest[(luckySeed + 1 + (luckySeed % (rest.length - 1))) % rest.length]] : rest.slice(0, 2))]
   const [liveBox, setLiveBox] = useState(false)
   const startLive = () => { if (mode === 'site') setLiveBox(true) }
   const plainField = <form className="hp-field" onSubmit={go}><input value={q} onFocus={startLive} onChange={e => { setQ(e.target.value); startLive() }} placeholder={mode === 'site' ? 'משחק, דף צביעה, כלי…' : 'למשל: למה השמיים כחולים?'} aria-label={mode === 'site' ? 'חיפוש באתר' : 'שאלה לבוגה־פדיה'} /><button type="submit">{mode === 'site' ? 'חיפוש' : 'לשאול'}</button></form>
@@ -237,6 +242,7 @@ export default function Home() {
       {opening}
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
+    <HomeDiscover />
     <Suspense fallback={null}><SeasonColoring /></Suspense>
     <HomeSpotlight />
     <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
@@ -254,7 +260,6 @@ export default function Home() {
         <ChevronLeft className="hp-door-go" size={20} aria-hidden="true" />
       </Link>)}</div>
     </section>
-    <HomeDiscover />
     <section className="hp-sec">
       <h2 className="hp-h2">כל העולמות של בוגה</h2>
       <div className="hp-worlds">{WORLDS.map(([e, t, to, d, bg]) => <Link key={to} to={to} className="hp-world" style={{ '--bg': bg }}><span aria-hidden="true">{e}</span><b>{t}</b><small>{d}</small></Link>)}</div>
