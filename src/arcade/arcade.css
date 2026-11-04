@@ -313,7 +313,19 @@ button.bs2-cell{cursor:default}
 /* sliding puzzle */
 .sl-board{direction:ltr;position:relative;background:#5b6a8c;border:3px solid var(--arc-ink);border-radius:16px;box-shadow:5px 5px 0 var(--arc-ink);flex:none}
 .sl-tile{position:absolute;left:0;top:0;border:2.5px solid var(--arc-ink);border-radius:12px;background:hsl(var(--h) 85% 72%);color:var(--arc-ink);font-weight:900;font-family:Fredoka,Heebo,sans-serif;cursor:pointer;transition:transform .12s ease-out;box-shadow:inset 0 -5px 0 #0002;padding:0}
-.sl-tile.is-home{outline:3px solid #16a34a;outline-offset:-6px}
+.sl-tile.is-home{outline:3px solid #16a34a;outline-offset:-6px;animation:sl-home .35s ease-out}
+.sl-tile.is-pic{background-color:#fff;background-repeat:no-repeat;box-shadow:inset 0 -4px 0 #0003;display:block;text-align:start}
+.sl-tile.is-pic.is-home{outline-color:#22c55e}
+.sl-num{position:absolute;top:3px;inset-inline-start:4px;min-width:1.5em;padding:0 3px;border-radius:8px;background:#ffffffd9;line-height:1.35;text-align:center}
+@keyframes sl-home{0%{filter:brightness(1)}40%{filter:brightness(1.35) drop-shadow(0 0 8px #22c55e)}100%{filter:brightness(1)}}
+.sl-full{position:absolute;inset:0;border-radius:12px;background-size:cover;animation:sl-merge .7s ease-out both}
+.sl-board.is-won .sl-tile{transition:transform .12s,opacity .5s .2s;opacity:.3}
+@keyframes sl-merge{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.sl-peek{position:absolute;inset:0;z-index:2;border-radius:12px;overflow:hidden;background:#fffdf6;animation:arc-pop .25s}
+.sl-peek-grid{position:absolute;inset:6%;display:grid;gap:4px;direction:ltr}
+.sl-peek-grid b{display:grid;place-items:center;border:2px solid var(--arc-ink);border-radius:8px;background:#e8f7ff;font-family:Fredoka,Heebo,sans-serif}
+.sl-peek-tag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:var(--arc-ink);color:#fff;font-weight:800;font-size:14px;padding:3px 12px;border-radius:999px;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.sl-tile.is-home,.sl-full,.sl-peek{animation:none}}
 
 /* guess the word */
 .wg-field{flex-direction:column;gap:12px;justify-content:space-evenly;overflow:auto}
