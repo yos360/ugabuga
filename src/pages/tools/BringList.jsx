@@ -7,6 +7,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SiteInvite from '../../components/ui/SiteInvite'
 import { logInviteCta } from '../../utils/liveActivity'
 import { partyDb, partyMemory, shortLink, newId } from '../../utils/partyDb'
+import useModalDialog from '../../hooks/useModalDialog'
 
 const POLL_MS = 10000
 const starter = ['עוגה', 'שתייה', 'כוסות', 'צלחות', 'פירות', 'מפיות', 'בלונים', 'רמקול']
@@ -112,6 +113,7 @@ export default function BringList() {
   const [status, setStatus] = useState('')
   const [sharing, setSharing] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const confirmRef = useModalDialog(() => setConfirmDelete(false), !!confirmDelete)
   const [deleted, setDeleted] = useState(false)
   const [toast, showToast] = useToast()
   const dirty = useRef(false), saveTimer = useRef(), saveSeq = useRef(0), releases = useRef([])
@@ -299,7 +301,7 @@ export default function BringList() {
       {body}
       {!owner && code && !deleted && !error && !loading && <SiteInvite context="bring" className="no-print mt-8" />}
       {confirmDelete && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setConfirmDelete(false)}>
-        <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="bl-del-q">
+        <div ref={confirmRef} tabIndex={-1} onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md overscroll-contain rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="bl-del-q">
           <h2 id="bl-del-q" className="text-xl font-bold">למחוק את הרשימה?</h2>
           <p className="mt-1 text-slate-600">„{title}” תימחק לכל מי שקיבל את הקישור. אי אפשר לשחזר.</p>
           <div className="mt-4 flex gap-2">

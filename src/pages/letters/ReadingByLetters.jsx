@@ -28,18 +28,20 @@ export function buildSheet(letters, sounds, seed) {
 
 function Sheet({ sheet, letters, sounds, onSay }) {
   const say = t => onSay?.(t)
+  // When the sheet reads aloud, each syllable/word/sentence is a keyboard button too.
+  const sayProps = t => onSay ? { role: 'button', tabIndex: 0, onKeyDown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); say(t) } } } : {}
   const big = { fontFamily: '"Frank Ruhl Libre", "David Libre", Heebo, serif', lineHeight: 1.5 }
   return <article className="buga-a4" style={{ alignItems: 'stretch', gap: 10 }} dir="rtl">
     <h2 style={{ fontSize: '24pt', textAlign: 'center', margin: 0 }}>📖 תִּרְגּוּל קְרִיאָה</h2>
     <p style={{ textAlign: 'center', margin: 0, fontSize: '11.5pt' }}>שם: ____________ · אותיות: {letters.join(' ')} · צלילים: {SOUNDS.filter(s => sounds.includes(s.id)).map(s => s.label).join(' ')}</p>
     <section><h3 style={{ margin: '6px 0', fontSize: '14pt' }}>1. קוֹרְאִים הֲבָרוֹת</h3>
-      <table style={{ borderCollapse: 'collapse', margin: '0 auto', ...big }}><tbody>{sheet.grid.map((row, i) => <tr key={i}>{row.map(s => <td key={s} onClick={() => say(s)} style={{ border: '2px solid #111', width: '22mm', height: '15mm', textAlign: 'center', fontSize: '26pt', cursor: onSay ? 'pointer' : 'default' }}>{s}</td>)}</tr>)}</tbody></table>
+      <table style={{ borderCollapse: 'collapse', margin: '0 auto', ...big }}><tbody>{sheet.grid.map((row, i) => <tr key={i}>{row.map(s => <td key={s} {...sayProps(s)} onClick={() => say(s)} style={{ border: '2px solid #111', width: '22mm', height: '15mm', textAlign: 'center', fontSize: '26pt', cursor: onSay ? 'pointer' : 'default' }}>{s}</td>)}</tr>)}</tbody></table>
     </section>
     {sheet.words.length > 0 && <section><h3 style={{ margin: '6px 0', fontSize: '14pt' }}>2. קוֹרְאִים מִלִּים</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2mm 4mm', textAlign: 'center', fontSize: '22pt', ...big }}>{sheet.words.map(w => <span key={w} onClick={() => say(w)} style={{ cursor: onSay ? 'pointer' : 'default' }}>{w}</span>)}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2mm 4mm', textAlign: 'center', fontSize: '22pt', ...big }}>{sheet.words.map(w => <span key={w} {...sayProps(w)} onClick={() => say(w)} style={{ cursor: onSay ? 'pointer' : 'default' }}>{w}</span>)}</div>
     </section>}
     {sheet.sentences.length > 0 && <section><h3 style={{ margin: '6px 0', fontSize: '14pt' }}>3. קוֹרְאִים מִשְׁפָּטִים בְּקוֹל</h3>
-      <ul style={{ margin: 0, paddingInlineStart: '8mm', fontSize: '21pt', ...big }}>{sheet.sentences.map(s => <li key={s} onClick={() => say(s)} style={{ cursor: onSay ? 'pointer' : 'default' }}>{s}</li>)}</ul>
+      <ul style={{ margin: 0, paddingInlineStart: '8mm', fontSize: '21pt', ...big }}>{sheet.sentences.map(s => <li key={s} {...sayProps(s)} onClick={() => say(s)} style={{ cursor: onSay ? 'pointer' : 'default' }}>{s}</li>)}</ul>
     </section>}
     {sheet.copy.length > 0 && <section><h3 style={{ margin: '6px 0', fontSize: '14pt' }}>4. מַעְתִּיקִים מִלָּה</h3>
       {sheet.copy.map(w => <div key={w} style={{ display: 'flex', alignItems: 'flex-end', gap: '6mm', margin: '3mm 0', fontSize: '20pt', ...big }}><span style={{ minWidth: '30mm' }}>{w}</span><span style={{ flex: 1, borderBottom: '1.5px solid #111', height: '10mm' }} /></div>)}

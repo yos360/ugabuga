@@ -77,7 +77,7 @@ export default function CoinFlip() {
       <div className="text-center mb-2">
         <button onClick={flip} disabled={flipping}
           className="wobbly-md sketch-press min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-10 py-3 font-display text-xl font-bold text-[var(--accent-foreground)] cursor-pointer disabled:opacity-50">
-          {flipping ? '🪙 מטיל...' : '🪙 הטילו!'}
+          {flipping ? '🪙 מטיל…' : '🪙 הטילו!'}
         </button>
       </div>
       <p className="hidden [@media(hover:hover)]:block text-center font-hand text-sm text-[var(--muted-foreground)] mb-6">💡 הזיזו עכבר מעל המטבע — הוא מגיב!</p>

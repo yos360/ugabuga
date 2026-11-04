@@ -74,7 +74,7 @@ function SingAlong({ lines, lang, bpm: baseBpm = 84, big }) {
         {words(line).map(ix => <span key={ix[0]} className="inline-flex">
           {ix.map(ti => {
             const t = line[ti][0].replace(/^~/, ''), on = cur && cur.li === li && cur.ti === ti, isLetter = !!line[ti][3]
-            return <span key={ti} className={`inline-block rounded-xl px-1 transition-all duration-100 ${isLetter ? (big ? 'text-[2.1rem] sm:text-6xl font-display font-bold' : 'text-3xl sm:text-5xl font-bold') : 'text-xl sm:text-3xl font-bold'} ${on ? 'scale-125 bg-[var(--yellow)] text-[var(--accent)]' : ''}`}>{t}</span>
+            return <span key={ti} className={`inline-block rounded-xl px-1 transition-[transform,background-color,color] duration-100 ${isLetter ? (big ? 'text-[2.1rem] sm:text-6xl font-display font-bold' : 'text-3xl sm:text-5xl font-bold') : 'text-xl sm:text-3xl font-bold'} ${on ? 'scale-125 bg-[var(--yellow)] text-[var(--accent)]' : ''}`}>{t}</span>
           })}
         </span>)}
       </p>)}

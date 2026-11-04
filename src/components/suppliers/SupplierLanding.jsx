@@ -119,7 +119,7 @@ const T = {
           <Chips s={s} className="mt-3 justify-center sm:justify-start" />
         </div>
       </div>
-      {s.cover_url && <img src={s.cover_url} alt="" className="wobbly-md relative mt-5 aspect-[16/7] w-full rotate-[-0.6deg] border-4 border-white object-cover shadow" />}
+      {s.cover_url && <img src={s.cover_url} alt="" width="1600" height="700" className="wobbly-md relative mt-5 aspect-[16/7] w-full rotate-[-0.6deg] border-4 border-white object-cover shadow" />}
       <ContactButtons s={s} live={live} className="relative mt-5 max-w-md" />
     </header>,
   },
@@ -144,7 +144,7 @@ const T = {
       <h1 className="text-4xl font-black sm:text-5xl">{s.name}</h1>
       {s.tagline && <p className="text-xl text-slate-500">{s.tagline}</p>}
       <Chips s={s} className="justify-center [&>span]:bg-slate-100" />
-      {s.cover_url && <img src={s.cover_url} alt="" className="mt-4 aspect-[16/8] w-full rounded-2xl object-cover" />}
+      {s.cover_url && <img src={s.cover_url} alt="" width="1600" height="800" className="mt-4 aspect-[16/8] w-full rounded-2xl object-cover" />}
       <ContactButtons s={s} live={live} className="mt-3 w-full max-w-sm" />
     </header>,
   },
@@ -157,7 +157,7 @@ const T = {
       <h1 className="mt-3 text-4xl font-black sm:text-6xl">{s.name}</h1>
       {s.tagline && <p className="mt-2 text-xl opacity-95">{s.tagline}</p>}
       <Chips s={s} className="mt-4 justify-center" />
-      {s.cover_url && <img src={s.cover_url} alt="" className="mx-auto mt-6 aspect-[16/8] w-full max-w-3xl rounded-3xl border-4 border-white/70 object-cover" />}
+      {s.cover_url && <img src={s.cover_url} alt="" width="1600" height="800" className="mx-auto mt-6 aspect-[16/8] w-full max-w-3xl rounded-3xl border-4 border-white/70 object-cover" />}
       <ContactButtons s={s} live={live} className="mx-auto mt-5 max-w-md" />
     </header>,
   },

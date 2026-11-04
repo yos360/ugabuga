@@ -7,6 +7,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import QuizEditor, { toPayload, MathText } from '../../components/quiz/QuizEditor'
 import { QuizSheet } from '../../components/quiz/QuizSheet'
 import { quizDb, quizMemory, quizErrorText, quizLink, manageLink } from '../../utils/quizDb'
+import useModalDialog from '../../hooks/useModalDialog'
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0
@@ -32,6 +33,8 @@ export default function QuizManage() {
   const [editing, setEditing] = useState(false), [busy, setBusy] = useState(false)
   const [projector, setProjector] = useState(false), [print, setPrint] = useState(null)
   const [confirm, setConfirm] = useState(null), [copied, setCopied] = useState('')
+  const projectorRef = useModalDialog(() => setProjector(false), !!projector)
+  const confirmRef = useModalDialog(() => setConfirm(null), !!confirm)
   const link = quizLink(code), qr = useQr(link)
 
   const load = useCallback(() => token && quizDb.results(code, token).then(d => { setData(d); setErr(''); quizMemory.remember(code, token, d.title) }).catch(e => setErr(quizErrorText(e.code))), [code, token])
@@ -137,7 +140,7 @@ export default function QuizManage() {
         onSubmit={quiz => act(async () => { await quizDb.update(code, token, { title: quiz.title, settings: quiz.settings, names: quiz.names.map(n => n.trim()).filter(Boolean), questions: subs.length ? null : toPayload(quiz) }); quizMemory.remember(code, token, quiz.title); setEditing(false) })} />
     </section>}
 
-    {projector && createPortal(<div className="fixed inset-0 z-50 grid place-items-center bg-white p-6 text-center" dir="rtl" onClick={() => setProjector(false)} role="dialog" aria-label="הקרנת קוד המבחן">
+    {projector && createPortal(<div ref={projectorRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-center bg-white p-6 text-center" dir="rtl" onClick={() => setProjector(false)} role="dialog" aria-modal="true" aria-label="הקרנת קוד המבחן">
       <div><h2 className="text-4xl font-black sm:text-6xl">{data.title}</h2>
         {qr && <div className="mx-auto mt-6 w-[min(60vh,80vw)]" dangerouslySetInnerHTML={{ __html: qr }} />}
         <p className="mt-4 text-2xl">או נכנסים ל-<b dir="ltr">{location.host}/q/{code}</b></p>
@@ -146,7 +149,7 @@ export default function QuizManage() {
 
     {print && <PrintPreview title={print === 'key' ? `דף תשובות — ${data.title}` : data.title} onClose={() => setPrint(null)}><QuizSheet quiz={data} answers={print === 'key'} /></PrintPreview>}
 
-    {confirm && createPortal(<div className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4" role="dialog" aria-modal="true">
+    {confirm && createPortal(<div ref={confirmRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4" role="dialog" aria-modal="true">
       <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center" dir="rtl">
         <p className="text-lg font-bold">{confirm.kind === 'quiz' ? 'למחוק את המבחן וכל התשובות? אי אפשר לשחזר.' : `למחוק את ההגשה של ${confirm.name}? התלמיד/ה יוכל/תוכל להגיש שוב.`}</p>
         <div className="mt-5 flex gap-2">

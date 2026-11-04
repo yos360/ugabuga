@@ -74,7 +74,7 @@ export default function DiceRoller({ sides = 6, counts = [1, 2, 3], defaultCount
       <div className="text-center mb-6">
         <button onClick={roll} disabled={rolling}
           className="wobbly-md sketch-press min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] px-10 py-3 font-display text-xl font-bold text-[var(--accent-foreground)] disabled:opacity-50">
-          {rolling ? '🎲 מגלגל...' : '🎲 הטילו!'}
+          {rolling ? '🎲 מגלגל…' : '🎲 הטילו!'}
         </button>
       </div>
 

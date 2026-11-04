@@ -72,7 +72,7 @@ export default function MitzvahChecklist() {
         <div>
           <div className="mb-1 flex justify-between text-sm font-bold"><span>התקדמות</span><span>{count} מתוך {all.length}</span></div>
           <div className="h-4 overflow-hidden rounded-full border-2 border-[var(--border)] bg-white" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label="אחוז המשימות שסומנו">
-            <div className="h-full bg-[#7dd87a] transition-all" style={{ width: pct + '%' }} />
+            <div className="h-full bg-[#7dd87a] w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${pct / 100})` }} />
           </div>
         </div>
         <div className="flex flex-wrap gap-2">

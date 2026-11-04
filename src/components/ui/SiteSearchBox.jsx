@@ -73,7 +73,7 @@ export default function SiteSearchBox({ value, onChange, onSearch, className = '
       </form>
       {show && (
         <ul className="ssb-list" id={listId} role="listbox" dir="rtl">
-          {options.length === 0 && stillLoading && <li className="ssb-opt" aria-disabled="true">טוען...</li>}
+          {options.length === 0 && stillLoading && <li className="ssb-opt" aria-disabled="true">טוען…</li>}
           {options.map((o, i) => (
             <li key={o.type + (o.text || o.item.to)} id={`${listId}-${i}`} role="option" aria-selected={i === active}
               className={`ssb-opt ssb-${o.type}${i === active ? ' is-active' : ''}${o.type === 'hit' && i === words.length ? ' ssb-first-hit' : ''}`}

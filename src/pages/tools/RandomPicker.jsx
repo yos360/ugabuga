@@ -100,7 +100,7 @@ export default function RandomPicker() {
           </div>
           <button type="button" onClick={spin} disabled={spinning || available.length === 0}
             className="wobbly-md sketch-press mt-2 w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer disabled:opacity-50">
-            {spinning ? '🎡 מסתובב...' : available.length === 0 ? (items.length ? 'כולם הוגרלו! 🎉' : 'כתבו אפשרויות בתיבה') : '🎡 סובבו את הגלגל'}
+            {spinning ? '🎡 מסתובב…' : available.length === 0 ? (items.length ? 'כולם הוגרלו! 🎉' : 'כתבו אפשרויות בתיבה') : '🎡 סובבו את הגלגל'}
           </button>
         </div>
 

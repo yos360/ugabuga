@@ -50,7 +50,7 @@ export default function TeamGenerator() {
         {names.map((n, i) => (
           <div key={i} className="flex gap-2 mb-2">
             <span className="w-8 text-center font-bold pt-2">{i+1}.</span>
-            <input aria-label={`שם משתתף ${i + 1}`} value={n} onChange={e => updateName(i, e.target.value)} placeholder="שם..." className="wobbly-sm min-w-0 flex-1 border-2 border-[var(--border)] bg-white px-3 py-2" />
+            <input aria-label={`שם משתתף ${i + 1}`} value={n} onChange={e => updateName(i, e.target.value)} placeholder="שם…" className="wobbly-sm min-w-0 flex-1 border-2 border-[var(--border)] bg-white px-3 py-2" />
             {names.length > 1 && <button aria-label={`מחיקת משתתף ${i + 1}`} onClick={() => removeField(i)} className="text-[var(--accent)] px-2 cursor-pointer">✕</button>}
           </div>
         ))}

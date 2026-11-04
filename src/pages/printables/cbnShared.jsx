@@ -89,7 +89,7 @@ export function PictureCard({ p, to, sub }) {
   const level = cbnLevel(p.level), { cols, rows } = cbnSize(p)
   const paths = useMemo(() => thumbnailPaths(cbnGrid(p)), [p])
   const legend = cbnLegend(p)
-  return <Link to={to || cbnPath(p)} className="wobbly group flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-3 sketch-shadow transition-all duration-150 hover:-translate-y-1">
+  return <Link to={to || cbnPath(p)} className="wobbly group flex flex-col border-2 border-[var(--border)] bg-[var(--card)] p-3 sketch-shadow transition-[transform,box-shadow] duration-150 hover:-translate-y-1">
     <div className="cbn-thumb"><svg viewBox={`-0.5 -0.5 ${cols * CELL + 1} ${rows * CELL + 1}`} className="cbn-svg" role="img" aria-label={`צביעה לפי מספרים: ${p.name}`} dir="ltr">
       {paths.map(({ color, d }) => <path key={color} d={d} fill={legend[color - 1].hex} />)}
     </svg></div>

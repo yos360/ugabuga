@@ -118,7 +118,7 @@ export default function QuizTake() {
       {mm && <span className={`rounded-full px-3 py-1 ${left < 60 ? 'bg-rose-100 text-rose-800' : 'bg-slate-100'}`} aria-live="polite">⏱ {mm}</span>}
       <span>{answeredCount}/{items.length} נענו</span>
     </div>
-    <div className="mb-5 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full bg-violet-500 transition-all" style={{ width: `${Math.min(step, items.length) / items.length * 100}%` }} /></div>
+    <div className="mb-5 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full bg-violet-500 w-full origin-left rtl:origin-right transition-transform" style={{ transform: `scaleX(${Math.min(step, items.length) / items.length})` }} /></div>
 
     {!review ? <section aria-label={`שאלה ${step + 1}`} className="rounded-[28px] border-2 border-slate-200 bg-white p-5 sm:p-7">
       <p className="text-sm font-bold text-violet-700">שאלה {step + 1} מתוך {items.length}</p>

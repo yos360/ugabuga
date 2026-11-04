@@ -97,7 +97,7 @@ export function InteractiveLesson({ t, quiz, onClose }) {
       <button type="button" onClick={onClose} className="rounded-full px-3 text-sm underline">סגירה</button>
     </div>
     <div className="mt-2 h-3 overflow-hidden rounded-full bg-white" role="progressbar" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={k}>
-      <div className="h-full bg-violet-500 transition-all duration-500" style={{ width: `${(k / steps.length) * 100}%` }} />
+      <div className="h-full bg-violet-500 w-full origin-left rtl:origin-right transition-transform duration-500" style={{ transform: `scaleX(${k / steps.length})` }} />
     </div>
     {!done ? <div key={k} className="buga-fade-in mt-4">
       <h2 className="text-2xl font-black">{step.s.h}</h2>

@@ -250,7 +250,7 @@ export function MoveChallenge() {
       {one && <div className="fam-card fam-pop text-center"><div className="text-6xl" aria-hidden="true">{one[0]}</div><b className="text-2xl">{one[1]}</b></div>}
     </div>}
     {m && <div className="ln-box text-center">
-      <p className="font-bold">{run.rest ? 'מתכוננים...' : `תרגיל ${run.i + 1} מתוך ${run.list.length}`}</p>
+      <p className="font-bold">{run.rest ? 'מתכוננים…' : `תרגיל ${run.i + 1} מתוך ${run.list.length}`}</p>
       <div className="text-[110px] leading-none" aria-hidden="true">{m[0]}</div>
       <div className="ln-big !text-4xl sm:!text-5xl">{m[1]}</div>
       <div className={`text-7xl font-black ${run.rest ? 'text-orange-500' : ''}`} dir="ltr">{Math.ceil(Math.max(0, left))}</div>

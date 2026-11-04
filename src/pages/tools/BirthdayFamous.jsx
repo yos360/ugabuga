@@ -188,6 +188,8 @@ export default function BirthdayFamous() {
                     <img
                       src={person.image}
                       alt={person.name}
+                      width="400"
+                      height="224"
                       className="h-56 w-full object-cover object-top"
                       loading="lazy"
                     />

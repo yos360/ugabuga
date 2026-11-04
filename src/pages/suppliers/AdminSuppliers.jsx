@@ -7,6 +7,7 @@ import { suppliersDb } from '../../utils/suppliersDb'
 import { categoryLabel } from '../../data/supplierOptions'
 import { categoryPageBySlug } from '../../data/supplierCategoryPages'
 import TrafficProof from '../../components/suppliers/TrafficProof'
+import useModalDialog from '../../hooks/useModalDialog'
 
 const FILTERS = [['all', 'הכול'], ['pending', '⏳ ממתינים'], ['request', '⭐ ביקשו דף'], ['approved', '✅ מפורסמים'], ['hidden', '🙈 מוסתרים']]
 const BADGE = { pending: 'bg-amber-100 text-amber-900', approved: 'bg-emerald-100 text-emerald-900', hidden: 'bg-slate-200 text-slate-700' }
@@ -89,6 +90,7 @@ export default function AdminSuppliers() {
   const [filter, setFilter] = useState('all')
   const [editing, setEditing] = useState(null) // supplier object, or {} for new
   const [confirmDel, setConfirmDel] = useState(null)
+  const confirmDelRef = useModalDialog(() => setConfirmDel(null), !!confirmDel)
   const load = useCallback(() => suppliersDb.adminList().then(setList).catch(e => setErr(e.message)), [])
   useEffect(() => { load() }, [load])
 
@@ -144,7 +146,7 @@ export default function AdminSuppliers() {
     </div>, document.body)}
 
     {confirmDel && createPortal(<div className="fixed inset-0 z-50 grid items-end bg-black/40 sm:items-center" onClick={() => setConfirmDel(null)}>
-      <div onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="del-q">
+      <div ref={confirmDelRef} tabIndex={-1} onClick={e => e.stopPropagation()} className="mx-auto w-full max-w-md overscroll-contain rounded-t-3xl bg-white p-5 shadow-xl sm:rounded-3xl" role="alertdialog" aria-modal="true" aria-labelledby="del-q">
         <h2 id="del-q" className="text-xl font-bold">למחוק את {confirmDel.name}?</h2>
         <p className="mt-1 text-slate-600">הכרטיס והסטטיסטיקות שלו יימחקו. אי אפשר לשחזר. (אפשר גם רק להסתיר.)</p>
         <div className="mt-4 flex gap-2">

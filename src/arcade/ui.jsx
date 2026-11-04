@@ -1,3 +1,4 @@
+import useModalDialog from '../hooks/useModalDialog'
 // Shared bits for every game: the status pills + buttons row, and the end-of-level card.
 export function Hud({ stats, children }) {
   return (
@@ -49,9 +50,10 @@ export function Segmented({ label, options, value, onChange }) {
 // Levels up to `unlocked` can be played; the rest stay locked until reached.
 export function LevelMap({ count, perWorld, worlds, unlocked, stars = {}, current, onPick, onClose, lang = 'he' }) {
   const en = lang === 'en'
+  const mapRef = useModalDialog(onClose)
   const groups = Array.from({ length: Math.ceil(count / perWorld) }, (_, g) => g)
   return (
-    <div className="arc-end" role="dialog" aria-label={en ? 'Level map' : 'מפת שלבים'} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+    <div ref={mapRef} tabIndex={-1} className="arc-end" aria-modal="true" role="dialog" aria-label={en ? 'Level map' : 'מפת שלבים'} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
       <div className="arc-end-card arc-map">
         <div className="arc-map-head"><h3>🗺️ {en ? 'Level map' : 'מפת שלבים'}</h3><button type="button" className="arc-btn" onClick={onClose}>{en ? 'Close ✕' : 'סגירה ✕'}</button></div>
         <div className="arc-map-scroll">

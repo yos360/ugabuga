@@ -527,7 +527,7 @@ function Loading() {
         <div className="mx-auto mt-5 h-3 w-full overflow-hidden rounded-full bg-[var(--muted)]">
           <div className="h-full w-2/3 animate-pulse rounded-full bg-[var(--accent)]" />
         </div>
-        <p className="mt-5 font-hand text-2xl font-bold text-[var(--ink)]">BUGA מכין את המשחק...</p>
+        <p className="mt-5 font-hand text-2xl font-bold text-[var(--ink)]">BUGA מכין את המשחק…</p>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">טוענים את השאלות והאפשרויות. זה אמור לקחת רגע.</p>
       </div>
     </div>

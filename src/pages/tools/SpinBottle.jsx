@@ -71,7 +71,7 @@ export default function SpinBottle() {
 
       <button onClick={spin} disabled={spinning || valid.length < 2}
         className="wobbly-md sketch-press w-full min-h-[56px] border-[3px] border-[var(--border)] bg-[var(--accent)] text-white font-display text-xl font-bold cursor-pointer disabled:opacity-50 mb-6">
-        {spinning ? '🔄 מסתובב...' : '🔄 סובבו!'}
+        {spinning ? '🔄 מסתובב…' : '🔄 סובבו!'}
       </button>
 
       <div className="grid gap-2 mb-2">

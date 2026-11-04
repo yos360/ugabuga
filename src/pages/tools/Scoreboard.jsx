@@ -37,7 +37,7 @@ export default function Scoreboard() {
 
       <UseClassRoster className="mb-4" onUse={list => setPlayers(list.map(name => ({ name, score: 0 })))} />
       <div className="flex gap-2 mb-6">
-        <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="שם שחקן/קבוצה..."
+        <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="שם שחקן/קבוצה…"
           onKeyDown={e => e.key === 'Enter' && addPlayer()}
           className="wobbly-sm flex-1 border-2 border-[var(--border)] bg-white px-4 py-3 text-lg" />
         <button onClick={addPlayer} className="wobbly-sm sketch-press border-2 border-[var(--border)] bg-[var(--accent)] text-white px-4 py-3 font-bold cursor-pointer">+ הוסיפו</button>
