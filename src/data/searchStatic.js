@@ -4634,6 +4634,7 @@ const PAGES = [
   { to: '/faq', title: 'שאלות נפוצות', emoji: '❓', kind: 'page', keys: 'עזרה' },
   { to: '/videos', title: 'סרטונים — איך משתמשים בעוגה בוגה', emoji: '🎬', kind: 'page', desc: 'סרטונים קצרים שמראים איך משתמשים בכלים של האתר.', keys: 'סרטונים סרטון וידאו יוטיוב youtube הדרכה מדריך איך משתמשים שורטס' },
   { to: '/about', title: 'אודות עוגה בוגה', emoji: '🎂', kind: 'page', keys: 'קשר מי אנחנו' },
+  { to: '/holidays/hanukkah/learn/test', title: 'מבחן על חנוכה עם מחוון', emoji: '📝', kind: 'page', keys: 'מבחן חנוכה מבחן על חנוכה כיתה ג ד ה ו מחוון בוחן' },
   { to: '/holidays/hanukkah/learn', title: 'סיכומים על חנוכה', emoji: '📖', kind: 'page', keys: 'סיכום חנוכה סיכומים עבודה על חנוכה היסטוריה מכבים חשמונאים' },
   { to: '/holidays/hanukkah/learn/story', title: "סיכום: סיפור חנוכה בקצרה", emoji: '📜', kind: 'page', keys: "סיכום חנוכה סיפור חנוכה בקצרה חנוכה גזירות הלניזם טיהור" },
   { to: '/holidays/hanukkah/learn/maccabees', title: "סיכום: המכבים", emoji: '🛡️', kind: 'page', keys: "סיכום חנוכה המכבים חשמונאים מקבת מלחמת גרילה שושלת" },
