@@ -34,6 +34,8 @@ const TURN_EARLY = 12 // metres before the turning zone where a swipe towards th
 const ESCAPE_SECONDS = 3 // each row passed while chased takes this much off the chase
 const MISSION_BONUS = 150
 const WARN_SECONDS = 1.5 // how long before a row the screen says what is coming
+const ZONE_MARGIN = 26 // a cave or a bridge keeps this far from a corner, where the camera swings out
+const ZONE_MIN = 24
 const MISSIONS = [
   { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [100, 200, 350] },
   { key: 'flights', text: n => `לעוף ${n} פעמים עם התוכי`, goals: [1, 2, 3] },
@@ -176,8 +178,16 @@ function makeSegment(s, prev) {
   s.trail = trail
   items.forEach((it, i) => { it.id = `${id}-${i}` })
   const h0 = prev ? prev.h1 : 0, hills = (len - 46) / 90 // a short stretch climbs less, so no slope gets steep
-  const h1 = id === 0 ? 3 : Math.max(0, Math.min(15, h0 + (r() - 0.5) * 16 * hills))
-  return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7 * hills, came: prev ? prev.turn : 0 }
+  const h1 = id === 0 ? 3 : Math.max(0, Math.min(24, h0 + (r() - 0.5) * 26 * hills))
+  // a set piece changes the place, never the rules: the first two come early, then about every other stretch
+  const room = len - ZONE_MARGIN * 2
+  let zone = null
+  if (id > 0 && room >= ZONE_MIN && (s.zones < 2 || r() < 0.55)) {
+    const long = Math.min(room, ZONE_MIN + r() * 34)
+    const from = ZONE_MARGIN + r() * (room - long)
+    zone = { kind: s.zones++ % 2 ? 'bridge' : 'tunnel', from, to: from + long }
+  }
+  return { id, ox, oz, dir, len, turn, items, zone, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 11 * hills, came: prev ? prev.turn : 0 }
 }
 
 function pickMissions(r) {
@@ -192,7 +202,7 @@ export function newGame({ seed = 1, mode = 'run', upgrades = {} } = {}) {
     trail: 0, fly: 0, flights: 0, magnetTime: MAGNET_SECONDS + (upgrades.magnet || 0) * 2, flyTime: FLY_SECONDS + (upgrades.fly || 0),
     chain: 0, mult: 1, close: 0, dodges: 0, jumps: 0, pads: 0, sinceAct: 9, buffer: 0, slow: 0,
     missions: pickMissions(rng(seed + 1)), lastMission: null,
-    random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, segs: [], cur: 0,
+    random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, zones: 0, segs: [], cur: 0,
     d: 0, lane: 0, laneX: 0, y: 0, vy: 0, slide: 0, speed: START_SPEED, time: 0, run: 0,
     coins: 0, right: 0, wrong: 0, bonus: 0, shield: !!upgrades.shield, magnet: 0, stumble: 0, safe: 0,
     wantTurn: 0, gate: null, over: false, cause: null, events: [],
@@ -212,6 +222,7 @@ export const distanceToCorner = s => segment(s).len - s.d
 // the faster the run, the earlier a swipe counts, so a corner always gives about the same time to react
 export const turnWindow = s => Math.max(TURN_WINDOW, s.speed * 0.9)
 export const turnReach = s => turnWindow(s) + TURN_EARLY
+export const inZone = (seg, d, kind) => seg.zone?.kind === kind && d >= seg.zone.from && d <= seg.zone.to
 
 // What the next row asks for, a moment before it arrives; nothing when he is already safe.
 const ROWS = ['wall', 'low', 'high', 'pit']

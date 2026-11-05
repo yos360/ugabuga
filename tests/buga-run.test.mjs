@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { act, groundAt, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, nextRow, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
+import { act, groundAt, inZone, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, nextRow, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
 import { createSwipes } from '../src/pages/games/run/runInput.js'
 
 const DT = 1 / 60
@@ -174,6 +174,32 @@ test('the path climbs and falls, and stays level at every corner', () => {
     }
     assert.ok(climbs > 2)
   }
+})
+
+test('caves and bridges come early, take turns and keep away from corners', () => {
+  for (let seed = 1; seed <= 20; seed++) {
+    const s = newGame({ seed })
+    const kinds = []
+    for (let k = 0; k < 14; k++) {
+      const seg = segment(s)
+      if (seg.zone) {
+        kinds.push(seg.zone.kind)
+        assert.ok(seg.zone.from >= 26 && seg.zone.to <= seg.len - 26)
+        assert.ok(seg.zone.to - seg.zone.from >= 24)
+      }
+      seg.items = []
+      s.d = seg.len
+      s.wantTurn = seg.turn
+      step(s, 0)
+    }
+    assert.ok(kinds.length >= 3, 'a run keeps changing scene')
+    kinds.forEach((kind, i) => assert.equal(kind, i % 2 ? 'bridge' : 'tunnel'))
+  }
+  const seg = { zone: { kind: 'tunnel', from: 30, to: 60 } }
+  assert.ok(inZone(seg, 45, 'tunnel'))
+  assert.ok(!inZone(seg, 61, 'tunnel'))
+  assert.ok(!inZone(seg, 45, 'bridge'))
+  assert.ok(!inZone({ zone: null }, 45, 'tunnel'))
 })
 
 test('a spring launches the runner, and only on its own lane', () => {
