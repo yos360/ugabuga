@@ -341,7 +341,7 @@ export const MENU_DOMAINS = [
   {
     id: 'printables', label: SECTION.printables, icon: '🖨️', to: '/printables',
     landingLabel: 'כל הדפים להדפסה',
-    prefixes: ['/printables', '/create', '/origami', '/treasure-hunt', '/scavenger-hunt', '/tools/escape-rooms', '/escape-rooms', '/escape-room', '/tools/escape-room', '/tools/crossword-maker', '/crossword', '/tools/word-search-maker', '/tools/word-search', '/word-search', '/word-search-maker', '/tools/bingo-maker', '/tools/bingo', '/bingo', '/bingo-maker', '/tools/scavenger-hunt-maker', '/tools/scavenger-hunt', '/tools/emoji-studio'],
+    prefixes: ['/printables', '/create', '/origami', '/treasure-hunt', '/scavenger-hunt', '/tools/escape-rooms', '/escape-rooms', '/escape-room', '/tools/escape-room', '/tools/crossword-maker', '/crossword', '/tools/word-search-maker', '/tools/word-search', '/word-search', '/word-search-maker', '/tools/bingo-maker', '/tools/bingo', '/bingo', '/bingo-maker', '/tools/scavenger-hunt-maker', '/tools/scavenger-hunt', '/tools/emoji-studio', '/tools/secret-codes'],
     groups: [
       {
         title: 'צביעה ויצירה', icon: '🖍️', to: '/printables',
@@ -371,6 +371,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/scavenger-hunt-maker', label: 'חפש את המטמון', icon: '🗺️' },
           { to: '/treasure-hunt/ready', label: 'ציד אוצרות מוכן להדפסה', icon: '🧭' },
           { to: '/tools/escape-rooms', label: 'חדרי בריחה', icon: '🔐' },
+          { to: '/tools/secret-codes', label: 'כתב סתרים וצפנים', icon: '🕵️' },
         ],
       },
       {

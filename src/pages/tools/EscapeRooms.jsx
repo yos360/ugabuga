@@ -31,7 +31,7 @@ const escapeRoomsHowTo = [
   'הקוד האחרון פותח קופסה או מעטפה עם הפרס: שקיות הפתעה, העוגה, תעודה או כל מה שמתאים לאירוע.',
 ]
 const SETTING_LABELS = { birthday: 'יום הולדת', classroom: 'כיתה', family: 'משפחה', team: 'גיבוש', holiday: 'חגים' }
-const escapeRoomsRelated = [ { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' }, { label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
+const escapeRoomsRelated = [ { label: 'כתב סתרים וצפנים', href: '/tools/secret-codes' }, { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' },{ label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 // Number answers also accept the Hebrew word ("ארבע" for 4), and niqqud / final letters never decide a match.
 const HEBREW_NUMBERS = ['אפס', 'אחת|אחד', 'שתיים|שניים|שתים|שנים', 'שלוש|שלושה', 'ארבע|ארבעה', 'חמש|חמישה', 'שש|שישה', 'שבע|שבעה', 'שמונה', 'תשע|תשעה', 'עשר|עשרה',
@@ -261,6 +261,7 @@ export default function EscapeRooms() {
       </p>
       <nav aria-label="חדרי בריחה לפי נושא" className="mb-8 flex flex-wrap justify-center gap-2">
         {Object.entries(ESCAPE_COLLECTIONS).map(([slug, c]) => <Link key={slug} to={'/tools/escape-rooms/topic/' + slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{c.emoji} {c.title}</Link>)}
+        <Link to="/tools/secret-codes" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">🕵️ כתב סתרים וצפנים</Link>
       </nav>
       </>
       )}

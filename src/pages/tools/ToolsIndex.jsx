@@ -11,6 +11,7 @@ const DESC = Object.fromEntries([
   { to: '/tools/truth-or-buga', emoji: '🎭', title: 'אמת או בוגה', desc: 'משחק אמת/שקר עם נושאים, קבוצות וניקוד.' },
   { to: '/tools/buga-town', emoji: '🏙️', title: 'בוגה טאון', desc: 'משחק לוח של עיר ונכסים עם קוביות, ל-2–4 שחקנים.' },
   { to: '/tools/escape-rooms', emoji: '🔐', title: 'חדרי בריחה', desc: 'חדרים דיגיטליים וקיטים להנחיה.' },
+  { to: '/tools/secret-codes', desc: 'מצפינים ומפענחים הודעות, עם דפים להדפסה לגן ולכיתות א–ו.' },
   { to: '/tools/riddles', emoji: '🧩', title: 'חידות', desc: 'מאגר חידות לפי נושא, גיל וקושי.' },
   { to: '/tools/emoji-studio', emoji: '😀', title: 'אימוג׳י סטודיו', desc: 'מנחשים שירים וסרטים באימוג׳ים — או בונים משחק משלכם.' },
   { to: '/tools/bingo-maker', emoji: '🎟️', title: 'מחולל בינגו', desc: 'כרטיסיות בינגו מוכנות או מותאמות אישית.' },
