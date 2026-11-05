@@ -7,6 +7,7 @@
 // The same pictures feed color-by-answer (any exercise kind) and color-by-letter (Hebrew/English).
 
 import { CBN_EXTRA } from './colorByNumberExtra.js'
+import { CBN_MORE } from './colorByNumberMore.js'
 
 export const CBN_COLORS = {
   R: { name: 'אדום', hex: '#e53935' },
@@ -1253,6 +1254,7 @@ export const CBN_PICTURES = [
     ],
   },
   ...CBN_EXTRA,
+  ...CBN_MORE,
 ]
 
 // ── helpers ──
@@ -1411,6 +1413,8 @@ export const CBN_THEMES = [
   { id: 'mandala', label: '🌀 מנדלות' },
   { id: 'fantasy', label: '🦄 עולם הדמיון' },
   { id: 'sport', label: '⚽ ספורט' },
+  { id: 'nature', label: '🌿 טבע ונופים' },
+  { id: 'hobbies', label: '🎸 תחביבים ועיצוב' },
   { id: 'holidays', label: '🕎 חגים' },
 ]
 export const cbnInTheme = (p, id) => (id === 'holidays' ? !!p.holiday : p.theme === id)
