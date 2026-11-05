@@ -1081,6 +1081,11 @@ export default function App() {
               <Route path="/learn/oceans/concepts/:term" element={<ConceptPage key="oceans-ct" subjectKey="oceans" />} />
               <Route path="/learn/oceans/:slug/exam" element={<SubjectExam key="oceans-e" subjectKey="oceans" />} />
               <Route path="/learn/oceans/:slug" element={<SubjectTopic key="oceans" subjectKey="oceans" />} />
+              <Route path="/learn/environment" element={<SubjectHub key="environment" subjectKey="environment" />} />
+              <Route path="/learn/environment/concepts" element={<ConceptIndex key="environment-c" subjectKey="environment" />} />
+              <Route path="/learn/environment/concepts/:term" element={<ConceptPage key="environment-ct" subjectKey="environment" />} />
+              <Route path="/learn/environment/:slug/exam" element={<SubjectExam key="environment-e" subjectKey="environment" />} />
+              <Route path="/learn/environment/:slug" element={<SubjectTopic key="environment" subjectKey="environment" />} />
               <Route path="/learn/coding" element={<SubjectHub key="coding" subjectKey="coding" />} />
               <Route path="/learn/coding/concepts" element={<ConceptIndex key="coding-c" subjectKey="coding" />} />
               <Route path="/learn/coding/concepts/:term" element={<ConceptPage key="coding-ct" subjectKey="coding" />} />
