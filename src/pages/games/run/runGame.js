@@ -36,6 +36,8 @@ const MISSION_BONUS = 150
 const WARN_SECONDS = 1.5 // how long before a row the screen says what is coming
 const ZONE_MARGIN = 26 // a cave or a bridge keeps this far from a corner, where the camera swings out
 const ZONE_MIN = 24
+const FORK_EVERY = 4 // stretches between forks at least
+const FORK_NOTICE_SECONDS = 3.5 // how long before a fork the screen says what each way holds
 const MISSIONS = [
   { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [100, 200, 350] },
   { key: 'flights', text: n => `לעוף ${n} פעמים עם התוכי`, goals: [1, 2, 3] },
@@ -116,9 +118,13 @@ function makeSegment(s, prev) {
   const r = s.random
   const id = s.nextSegment++
   const total = prev ? prev.start + prev.len : 0
-  const level = Math.min(1, total / 2600)
+  const path = prev?.fork ? (prev.turn === prev.fork.gold ? 'gold' : 'calm') : null
+  const level = path === 'calm' ? 0 : Math.min(1, total / 2600 + (path === 'gold' ? 0.35 : 0))
   const cap = s.mode === 'times' ? TIMES_SPEED : MAX_SPEED
   const asks = s.mode === 'times' && id > 0 && s.sinceGate >= 2
+  // a fork can only open where either way keeps the path from curling back onto itself
+  const fork = s.mode === 'run' && id > 1 && s.bend === 0 && id - s.lastFork >= FORK_EVERY && (s.lastFork < 0 || r() < 0.7) ? { gold: r() < 0.5 ? -1 : 1 } : null
+  if (fork) s.lastFork = id
   const len = asks ? 165 + Math.floor(r() * 40) : id === 0 ? 120 : 70 + Math.floor(r() * 50)
   // the path only ever goes forward or sideways, never back, so it cannot cross itself
   const turn = s.bend !== 0 ? -s.bend : r() < 0.5 ? -1 : 1
@@ -132,10 +138,14 @@ function makeSegment(s, prev) {
   const items = []
   // at the speed the runner will have by then, two rows always leave time to see the next one and get ready
   const topSpeed = Math.min(cap, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
-  const gap = Math.max(20, topSpeed * 1.6)
+  const gap = Math.max(20, topSpeed * 1.6) * (path === 'calm' ? 1.4 : 1)
   const end = len - CORNER_CLEAR
   // the first row waits until the camera has come round the corner
   let at = id === 0 ? 42 : Math.max(20, topSpeed * 1.1), trail = s.trail, coinsTo = id === 0 ? 24 : 4
+  if (path === 'calm') { // the quiet way opens with a present
+    items.push({ kind: ['parrot', 'magnet', 'shield'][Math.floor(r() * 3)], lane: trail, at: at + 2 })
+    at += 12
+  }
   if (asks) {
     // the question opens the stretch: from the corner to its gate there is nothing to do but read and choose
     at = topSpeed * TIMES_SECONDS + 4
@@ -176,6 +186,11 @@ function makeSegment(s, prev) {
   }
   coinTrail(items, coinsTo, Math.min(end, at - 4), trail)
   s.trail = trail
+  if (path === 'gold') { // the rich way is paved with coins in every lane the walls leave free
+    for (const c of items.filter(it => it.kind === 'coin' && !it.lift)) {
+      for (const lane of [-1, 0, 1]) if (lane !== c.lane && !items.some(it => it.kind === 'wall' && it.lane === lane && Math.abs(it.at - c.at) < 3)) items.push({ kind: 'coin', lane, at: c.at })
+    }
+  }
   items.forEach((it, i) => { it.id = `${id}-${i}` })
   const h0 = prev ? prev.h1 : 0, hills = (len - 46) / 90 // a short stretch climbs less, so no slope gets steep
   const h1 = id === 0 ? 3 : Math.max(0, Math.min(24, h0 + (r() - 0.5) * 26 * hills))
@@ -187,7 +202,7 @@ function makeSegment(s, prev) {
     const from = ZONE_MARGIN + r() * (room - long)
     zone = { kind: s.zones++ % 2 ? 'bridge' : 'tunnel', from, to: from + long }
   }
-  return { id, ox, oz, dir, len, turn, items, zone, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 11 * hills, came: prev ? prev.turn : 0 }
+  return { id, ox, oz, dir, len, turn, fork, path, items, zone, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 11 * hills, came: prev ? prev.turn : 0 }
 }
 
 function pickMissions(r) {
@@ -202,7 +217,7 @@ export function newGame({ seed = 1, mode = 'run', upgrades = {} } = {}) {
     trail: 0, fly: 0, flights: 0, magnetTime: MAGNET_SECONDS + (upgrades.magnet || 0) * 2, flyTime: FLY_SECONDS + (upgrades.fly || 0),
     chain: 0, mult: 1, close: 0, dodges: 0, jumps: 0, pads: 0, sinceAct: 9, buffer: 0, slow: 0,
     missions: pickMissions(rng(seed + 1)), lastMission: null,
-    random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, zones: 0, segs: [], cur: 0,
+    random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, zones: 0, lastFork: -9, segs: [], cur: 0,
     d: 0, lane: 0, laneX: 0, y: 0, vy: 0, slide: 0, speed: START_SPEED, time: 0, run: 0,
     coins: 0, right: 0, wrong: 0, bonus: 0, shield: !!upgrades.shield, magnet: 0, stumble: 0, safe: 0,
     wantTurn: 0, gate: null, over: false, cause: null, events: [],
@@ -212,7 +227,11 @@ export function newGame({ seed = 1, mode = 'run', upgrades = {} } = {}) {
 }
 
 function fill(s) {
-  while (s.segs.length - s.cur < 4) s.segs.push(makeSegment(s, s.segs[s.segs.length - 1]))
+  while (s.segs.length - s.cur < 4) {
+    const last = s.segs[s.segs.length - 1]
+    if (last?.fork && !last.chosen) break // what lies beyond a fork waits for the choice
+    s.segs.push(makeSegment(s, last))
+  }
   while (s.cur > 1) { s.segs.shift(); s.cur-- }
 }
 
@@ -241,6 +260,18 @@ export function nextRow(s) {
   return to < s.lane ? 'left' : 'right'
 }
 
+// Which way the runner takes at a fork; the rest of the road is laid only then.
+function choose(s, seg, side) {
+  s.bend += side - seg.turn
+  seg.turn = side
+  seg.chosen = true
+  s.lastPath = side === seg.fork.gold ? 'gold' : 'calm'
+  s.events.push('fork')
+  fill(s)
+}
+
+export const forkAhead = s => { const seg = segment(s); return seg.fork && !seg.chosen && distanceToCorner(s) < s.speed * FORK_NOTICE_SECONDS ? seg.fork : null }
+
 export function worldPosition(s) {
   const seg = segment(s), [fx, fz] = DIRS[seg.dir], [rx, rz] = DIRS[(seg.dir + 1) % 4]
   return { x: seg.ox + fx * s.d + rx * s.laneX, y: groundAt(seg, s.d) + s.y, z: seg.oz + fz * s.d + rz * s.laneX, dir: seg.dir }
@@ -250,6 +281,8 @@ export function act(s, cmd) {
   if (s.over) return
   if (cmd === 'left' || cmd === 'right') {
     const side = cmd === 'left' ? -1 : 1
+    const seg = segment(s)
+    if (seg.fork && !seg.chosen && distanceToCorner(s) <= turnReach(s)) choose(s, seg, side)
     if (distanceToCorner(s) <= turnWindow(s) && side === segment(s).turn) { s.wantTurn = side; s.events.push('turn'); return }
     if (distanceToCorner(s) <= turnReach(s) && side === segment(s).turn && s.wantTurn !== side) { s.wantTurn = side; s.events.push('turn') }
     const lane = Math.max(-1, Math.min(1, s.lane + side))
@@ -408,6 +441,7 @@ export function step(s, dt) {
   checkMissions(s)
   s.gate = seg.items.find(it => it.kind === 'gate' && !it.met && it.at > s.d) || null
 
+  if (seg.fork && !seg.chosen && (s.d >= seg.len + CRASH_AFTER || (s.d >= seg.len && s.wantTurn === seg.turn) || (s.fly > 0 && distanceToCorner(s) <= turnReach(s)))) choose(s, seg, seg.turn)
   if (s.d >= seg.len && s.wantTurn === seg.turn) {
     // what was across the old path is along the new one and the other way round, so even a late turn does not jump
     const over = s.d - seg.len

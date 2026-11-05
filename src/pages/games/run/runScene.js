@@ -412,9 +412,9 @@ function vault(seg, from, to, radius, tall) {
 // Rock heaped round a cave's mouth, in the colours of the world.
 function caveMouth(b, world, look, r, y, z, radius, tall) {
   const rock = () => hex(look.wall[Math.floor(r() * 2)])
-  for (let i = 0; i <= 12; i++) {
-    const a = Math.PI * i / 12, size = 1.7 + r() * 1.3
-    const x = Math.cos(a) * (radius + 0.9), top = y + Math.sin(a) * (tall + 0.9)
+  for (let i = 0; i <= 26; i++) {
+    const a = Math.PI * (i % 13) / 12, ring = i < 13 ? 0.9 : 2.9, size = (i < 13 ? 1.7 : 2.3) + r() * 1.3
+    const x = Math.cos(a) * (radius + ring), top = y + Math.sin(a) * (tall + ring)
     if (world === 'candy') b.put(GEO.round, i % 2 ? look.accent : 0xfff2e2, x, top, z, size * 0.9)
     else b.put(GEO.rock, rock(), x, top, z, size, size * 0.9, size, r() * 3, r() * 3)
     if (world === 'jungle' && i % 3 === 1) { b.put(GEO.leaf, 0x3fae52, x, top + 1.6, z + 0.6, 2.2, 1.5, 2.2, 0, r() * 6); b.shadeUp(0.55, 1.2) }
@@ -428,10 +428,7 @@ function addCave(seg, zone, world, look, b, add, set, sprites, r, lights) {
   add(strip(seg, from, to, [-PATH_W / 2, 0.04], [PATH_W / 2, 0.04], 1, 1), sprites.shade)
   caveMouth(b, world, look, r, groundAt(seg, from), -from, radius, tall)
   caveMouth(b, world, look, r, groundAt(seg, to), -to, radius, tall)
-  // the hill the cave runs through
-  const mid = (from + to) / 2
-  b.put(GEO.round, hex(look.wall[1]), 0, groundAt(seg, mid) + 2, -mid, radius * 2, tall + 4, (to - from) / 2)
-  b.shadeUp(0.5, 1.1)
+  add(vault(seg, from, to, radius + 3.4, tall + 3.6), set.hill) // the hill the cave runs through, open at both ends
   const ribShape = new THREE.TorusGeometry(1, 0.05, 6, 18, Math.PI)
   const flame = world === 'night' ? look.trim : world === 'candy' ? look.accent : 0xffa23a
   for (let d = from + 3.5, i = 0; d < to - 1; d += 7, i++) {
@@ -481,6 +478,29 @@ function makeBridge(seg, zone, world, look, b, sprites, r, holes) {
     }
   }
   return { mesh, pieces, place }
+}
+
+// The way not taken, and until the choice both ways: a stretch of road running off from the fork.
+function forkStub(seg, side, look, set, sprites, g, geometries) {
+  const half = PATH_W / 2, long = 64, y = seg.h1, x = side * (half + long / 2), z = -seg.len
+  const group = new THREE.Group(), road = new THREE.PlaneGeometry(long, PATH_W)
+  const uv = road.attributes.uv
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getY(i), uv.getX(i) * long / ROAD_METRES)
+  road.rotateX(-Math.PI / 2)
+  road.translate(x, y, z)
+  const surface = new THREE.Mesh(road, set.road)
+  surface.receiveShadow = true
+  const b = new Batch()
+  for (const edge of [-1, 1]) {
+    b.put(GEO.box, look.rail, x, y + 0.27, z + edge * (half + 0.28), long, 0.55, 0.55)
+    b.put(GEO.box, hex(look.wall[1]), x, y - 3.5, z + edge * (half + 0.28), long, 7, 0.55)
+  }
+  b.put(GEO.box, hex(look.wall[2]), x, y - 0.25, z, long, 0.4, PATH_W)
+  const walls = b.mesh(sprites.lit)
+  group.add(surface, walls)
+  g.add(group)
+  geometries.push(road, walls.geometry)
+  return group
 }
 
 function makeObstacle(it, world, look, sprites) {
@@ -665,7 +685,7 @@ function* makeSegment(seg, sprites, assets) {
   // stretches that meet it at either corner, where the camera swings out wide
   for (let d = 16; d < seg.len - 10; d += 13 + r() * 13) {
     for (const side of [-1, 1]) {
-      if (r() < 0.2 || (side === seg.turn && d > seg.len - CORNER_CLEAR) || (side === seg.came && d < CORNER_CLEAR)) continue
+      if (r() < 0.2 || ((seg.fork || side === seg.turn) && d > seg.len - CORNER_CLEAR) || (side === seg.came && d < CORNER_CLEAR)) continue
       const off = half + GIANT_CLEAR + r() * r() * 38
       const height = groundAt(seg, d) + (r() < 0.5 ? -8 + r() * 10 : 6 + r() * 18)
       GIANT[world](b, r, side * off, height, -d - (r() - 0.5) * 7, g, set.towers)
@@ -681,11 +701,12 @@ function* makeSegment(seg, sprites, assets) {
     b.put(GEO.round, look.trim, side * (half + 0.4), yEnd + 8.6, -seg.len - half + 0.1, 0.8)
   }
   // only a low kerb on the far side: after the turn the camera swings out over it
-  b.put(GEO.box, look.rail, -seg.turn * (half + 0.28), yEnd + 0.27, -seg.len, 0.55, 0.55, PATH_W)
-  const arrow = new THREE.Mesh(GEO.plane, new THREE.MeshBasicMaterial({ map: seg.turn < 0 ? sprites.left : sprites.right, transparent: true }))
+  if (!seg.fork) b.put(GEO.box, look.rail, -seg.turn * (half + 0.28), yEnd + 0.27, -seg.len, 0.55, 0.55, PATH_W)
+  const stubs = seg.fork ? { [-1]: forkStub(seg, -1, look, set, sprites, g, geometries), 1: forkStub(seg, 1, look, set, sprites, g, geometries) } : null
+  const arrow = new THREE.Mesh(GEO.plane, new THREE.MeshBasicMaterial({ map: seg.fork ? sprites.fork(seg.fork.gold) : seg.turn < 0 ? sprites.left : sprites.right, transparent: true }))
   arrow.position.set(0, yEnd + 3.9, -seg.len - half + 0.05); arrow.scale.set(6.4, 3.2, 1); g.add(arrow)
   owned.push(arrow)
-  for (let i = 0; i < 3; i++) {
+  if (!seg.fork) for (let i = 0; i < 3; i++) {
     const chev = new THREE.Mesh(GEO.plane, sprites.chevron(seg.turn))
     chev.rotation.x = -1.57
     const d = seg.len - 8 - i * 3.4
@@ -710,7 +731,7 @@ function* makeSegment(seg, sprites, assets) {
     items.set(it.id, { it, m })
     if (items.size % 8 === 0) yield
   }
-  return { g, items, owned, geometries, bridge }
+  return { g, items, owned, geometries, bridge, stubs }
 }
 
 // ---- Buga: the yellow furry mascot, with his parrot ----
@@ -973,7 +994,7 @@ export function createScene(canvas, { onLost } = {}) {
   const glow = glowTexture()
   const lit = new THREE.MeshLambertMaterial({ vertexColors: true })
   const gloss = new Map()
-  const chevrons = new Map()
+  const chevrons = new Map(), forkSigns = new Map()
   const chevronTexture = canvasTexture(256, 128, (x, w, h) => {
     x.strokeStyle = '#ffd23f'; x.lineWidth = 26; x.lineJoin = 'round'; x.lineCap = 'round'
     for (const left of [40, 120]) { x.beginPath(); x.moveTo(left + 56, 20); x.lineTo(left, h / 2); x.lineTo(left + 56, h - 20); x.stroke() }
@@ -982,6 +1003,23 @@ export function createScene(canvas, { onLost } = {}) {
     lit, glow,
     left: labelTexture('←', { bg: '#ffcf33', size: 220 }),
     right: labelTexture('→', { bg: '#ffcf33', size: 220 }),
+    fork(gold) {
+      if (!forkSigns.has(gold)) forkSigns.set(gold, canvasTexture(512, 256, x => {
+        x.fillStyle = '#ffcf33'
+        x.beginPath(); x.roundRect(8, 8, 496, 240, 44); x.fill()
+        x.lineWidth = 14; x.strokeStyle = '#14162d'; x.stroke()
+        x.beginPath(); x.moveTo(256, 30); x.lineTo(256, 226); x.lineWidth = 8; x.stroke()
+        x.fillStyle = '#14162d'; x.textAlign = 'center'; x.textBaseline = 'middle'
+        for (const side of [-1, 1]) {
+          const mid = 256 + side * 124
+          x.font = '900 92px Heebo, Arial, sans-serif'
+          x.fillText(side < 0 ? '←' : '→', mid, 76)
+          x.font = '900 76px Heebo, Arial, sans-serif'
+          x.fillText(side === gold ? 'זהב' : 'רגוע', mid, 172)
+        }
+      }, false))
+      return forkSigns.get(gold)
+    },
     tile: new THREE.MeshLambertMaterial({ color: 0xffffff }),
     plank: new THREE.MeshLambertMaterial({ color: 0xffffff }),
     shade: new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.34, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 }),
@@ -1008,6 +1046,7 @@ export function createScene(canvas, { onLost } = {}) {
       road: new THREE.MeshLambertMaterial({ map: roadTexture(look) }),
       wall: new THREE.MeshLambertMaterial({ map: wallTexture(look), side: THREE.DoubleSide }),
       cave: new THREE.MeshLambertMaterial({ map: wallTexture(look), color: 0x77707a, side: THREE.BackSide }),
+      hill: new THREE.MeshLambertMaterial({ map: wallTexture(look) }),
       under: new THREE.MeshLambertMaterial({ color: new THREE.Color(look.wall[2]), side: THREE.BackSide }),
       rail: new THREE.MeshLambertMaterial({ color: look.rail, side: THREE.DoubleSide }),
       towers: name === 'night' ? [towerTexture('#17154a', 1), towerTexture('#231a5e', 2), towerTexture('#2b1450', 3)].map(map => new THREE.MeshLambertMaterial({ map, emissive: 0xffffff, emissiveMap: map, emissiveIntensity: 0.9 })) : [],
@@ -1162,8 +1201,11 @@ export function createScene(canvas, { onLost } = {}) {
     for (let i = s.cur; i < s.segs.length; i++) {
       const seg = s.segs[i]
       // a stretch still unfinished when the runner is about to see it is finished at once
-      if (!built.has(seg.id)) buildSegment(seg, ahead < 60 ? Infinity : until)
+      if (!built.has(seg.id)) buildSegment(seg, ahead < 14 ? Infinity : until)
       if (!built.has(seg.id)) { ahead += seg.len; continue }
+      // the road chosen at a fork takes the place of its stretch of stub
+      const after = s.segs[i + 1], stubs = built.get(seg.id).stubs
+      if (stubs && seg.chosen && after && built.has(after.id)) stubs[seg.turn].visible = false
       if (i === s.cur && built.get(seg.id).bridge) collapseBridge(built.get(seg.id).bridge, s.d, dt)
       for (const { it, m } of built.get(seg.id).items.values()) {
         if (it.taken) m.visible = false
@@ -1384,7 +1426,7 @@ export function createScene(canvas, { onLost } = {}) {
     for (const b of built.values()) release(b)
     built.clear()
     for (const set of worlds.values()) {
-      for (const material of [set.road, set.wall, set.cave, set.under, set.rail, ...set.towers]) { material.map?.dispose(); material.dispose() }
+      for (const material of [set.road, set.wall, set.cave, set.hill, set.under, set.rail, ...set.towers]) { material.map?.dispose(); material.dispose() }
       set.sky.dispose(); set.floor.dispose()
     }
     watcher.disconnect()

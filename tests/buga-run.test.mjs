@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { act, groundAt, inZone, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, nextRow, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
+import { act, forkAhead, groundAt, inZone, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, nextRow, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
 import { createSwipes } from '../src/pages/games/run/runInput.js'
 
 const DT = 1 / 60
@@ -200,6 +200,87 @@ test('caves and bridges come early, take turns and keep away from corners', () =
   assert.ok(!inZone(seg, 61, 'tunnel'))
   assert.ok(!inZone(seg, 45, 'bridge'))
   assert.ok(!inZone({ zone: null }, 45, 'tunnel'))
+})
+
+const toFork = s => {
+  for (let k = 0; k < 40 && !segment(s).fork; k++) {
+    const seg = segment(s)
+    seg.items = []
+    s.d = seg.len
+    s.wantTurn = seg.turn
+    step(s, 0)
+  }
+  return segment(s)
+}
+
+test('at a fork the runner picks a way, either way, and only then is the road beyond it laid', () => {
+  for (const side of [-1, 1]) {
+    const s = newGame({ seed: 8 }), seg = toFork(s)
+    assert.ok(seg.fork, 'a run reaches a fork')
+    seg.items = []
+    assert.equal(s.segs[s.segs.length - 1], seg, 'nothing is laid past an open fork')
+    s.speed = 18
+    s.d = seg.len - 60
+    assert.equal(forkAhead(s), seg.fork, 'the screen says what each way holds')
+    act(s, side < 0 ? 'left' : 'right')
+    assert.ok(!seg.chosen, 'too far away to choose')
+    s.d = seg.len - 8
+    act(s, side < 0 ? 'left' : 'right')
+    assert.equal(seg.turn, side)
+    assert.equal(forkAhead(s), null)
+    for (let i = 0; i < 200 && segment(s) === seg; i++) step(s, DT)
+    assert.notEqual(segment(s), seg)
+    assert.equal(segment(s).came, side)
+    assert.equal(segment(s).path, side === seg.fork.gold ? 'gold' : 'calm')
+    assert.equal(s.stumble, 0)
+  }
+})
+
+test('no choice at a fork is a stumble round the corner, and the parrot picks a way by itself', () => {
+  const s = newGame({ seed: 8 }), seg = toFork(s)
+  seg.items = []
+  s.d = seg.len - 1
+  for (let i = 0; i < 120 && segment(s) === seg; i++) step(s, DT)
+  assert.notEqual(segment(s), seg)
+  assert.ok(s.stumble > 0)
+  const flying = newGame({ seed: 8 }), way = toFork(flying)
+  way.items = []
+  flying.d = way.len - 5
+  flying.fly = 3
+  for (let i = 0; i < 240 && segment(flying) === way; i++) step(flying, DT)
+  assert.notEqual(segment(flying), way)
+  assert.equal(flying.stumble, 0)
+})
+
+test('the gold way pays more and the calm way has room to breathe and a present', () => {
+  const rows = seg => new Set(seg.items.filter(it => ['wall', 'low', 'high', 'pit'].includes(it.kind)).map(it => it.at)).size / seg.len
+  const coins = seg => seg.items.filter(it => it.kind === 'coin').length / seg.len
+  const totals = { gold: [0, 0, 0], calm: [0, 0, 0] }
+  for (let seed = 1; seed <= 30; seed++) for (const pick of ['gold', 'calm']) {
+    const s = newGame({ seed }), seg = toFork(s)
+    s.d = seg.len - 8
+    seg.items = []
+    act(s, (pick === 'gold' ? seg.fork.gold : -seg.fork.gold) < 0 ? 'left' : 'right')
+    const next = s.segs[s.segs.indexOf(seg) + 1]
+    assert.equal(next.path, pick)
+    totals[pick][0] += rows(next); totals[pick][1] += coins(next)
+    if (next.items.some(it => ['parrot', 'magnet', 'shield'].includes(it.kind))) totals[pick][2]++
+  }
+  assert.ok(totals.gold[1] > totals.calm[1] * 2)
+  assert.ok(totals.calm[0] < totals.gold[0])
+  assert.equal(totals.calm[2], 30)
+})
+
+test('the times-table run has no forks, so a question is never left behind', () => {
+  const s = newGame({ seed: 3, mode: 'times' })
+  for (let k = 0; k < 20; k++) {
+    const seg = segment(s)
+    assert.equal(seg.fork, null)
+    seg.items = []
+    s.d = seg.len
+    s.wantTurn = seg.turn
+    step(s, 0)
+  }
 })
 
 test('a spring launches the runner, and only on its own lane', () => {

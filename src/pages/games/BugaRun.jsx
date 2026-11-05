@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
-import { act, distanceToCorner, newGame, score, segment, nextRow, step, turnReach, turnWindow, UPGRADES } from './run/runGame'
+import { act, distanceToCorner, forkAhead, newGame, score, segment, nextRow, step, turnReach, turnWindow, UPGRADES } from './run/runGame'
 import { createSwipes } from './run/runInput'
 import { createSound } from './run/runSound'
 
@@ -18,6 +18,10 @@ const CAUSES = {
   wall: 'בוגה נתקע בקיר', low: 'בוגה מעד על גזע', high: 'בוגה נתקע בשער', pit: 'בוגה נפל לבור', corner: 'בוגה לא פנה בזמן',
 }
 const NEXT = { jump: '⬆️ לקפוץ!', slide: '⬇️ להחליק!', left: '⬅️ לעבור נתיב!', right: '➡️ לעבור נתיב!' }
+const FORK_WAYS = {
+  gold: { icon: '🪙', text: 'הרבה זהב, יותר מכשולים', chosen: '🪙 דרך הזהב!' },
+  calm: { icon: '🎁', text: 'דרך רגועה עם מתנה', chosen: '🎁 הדרך הרגועה' },
+}
 const KEYS = {
   ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'jump', ArrowDown: 'slide', Space: 'jump', KeyA: 'left', KeyD: 'right', KeyW: 'jump', KeyS: 'slide',
 }
@@ -35,7 +39,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
   const canvasRef = useRef(null)
   const stateRef = useRef(null)
   const soundRef = useRef(null)
-  const [hud, setHud] = useState({ score: 0, coins: 0, metres: 0, mult: 1, shield: false, magnet: false, stumble: false, gate: null, turn: null, next: null, missions: null })
+  const [hud, setHud] = useState({ score: 0, coins: 0, metres: 0, mult: 1, shield: false, magnet: false, stumble: false, gate: null, turn: null, next: null, fork: null, missions: null })
   const [pop, setPop] = useState(null)
   const [paused, setPaused] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -64,7 +68,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
       }
       for (const e of s.events) {
         sound.play(e === 'pad' ? 'jump' : e)
-        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : e === 'fly' ? 'התוכי מעיף את בוגה! 🦜' : e === 'right' ? `✅ נכון! ${s.lastGate}` : e === 'wrong' ? `❌ ${s.lastGate}` : null
+        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : e === 'fly' ? 'התוכי מעיף את בוגה! 🦜' : e === 'right' ? `✅ נכון! ${s.lastGate}` : e === 'wrong' ? `❌ ${s.lastGate}` : e === 'fork' ? FORK_WAYS[s.lastPath].chosen : null
         if (text) setPop({ id: performance.now(), text, big: e !== 'close', long: e === 'wrong' })
       }
       scene.render(s, pausedRef.current ? 0 : dt)
@@ -75,7 +79,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
         setHud({
           score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate ? { text: s.gate.text, answers: [s.gate.answers[-1], s.gate.answers[0], s.gate.answers[1]], lane: s.lane } : null,
           turn: corner < turnReach(s) && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= turnWindow(s) } : null,
-          next: nextRow(s), missions: s.time < 4.5 ? s.missions : null,
+          next: nextRow(s), fork: forkAhead(s), missions: s.time < 4.5 ? s.missions : null,
         })
       }
       if (s.over) { stopped = true; sound.stop(); setTimeout(() => onOverRef.current({ score: score(s), coins: s.coins, metres: Math.floor(s.run), right: s.right, wrong: s.wrong, cause: s.cause, missions: s.missions }), 1700) ; scene.render(s, 0) }
@@ -128,8 +132,9 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
     <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at 50% 58%, transparent 58%, rgba(16,10,44,.34) 100%)' }} />
     {loading && <div className="absolute inset-0 grid place-items-center bg-sky-100 text-2xl font-bold" role="status">בוגה מתחמם…</div>}
     {pop && <div key={pop.id} className="pointer-events-none absolute inset-x-0 top-[17%] text-center" style={{ animation: `uga-pop ${pop.long ? 2.6 : 1}s ease-out both` }} dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-4 py-1 font-black ${pop.big ? 'bg-[#ffd23f] text-2xl' : 'bg-white text-xl'}`}>{pop.text}</span></div>}
-    {hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-3 py-1 text-xl font-black ${hud.turn.now ? 'bg-emerald-500 text-white' : 'bg-white/90'}`} style={hud.turn.now ? { animation: 'buga-pulse .4s ease-in-out infinite' } : undefined}>{hud.turn.side < 0 ? '⬅️' : '➡️'} {hud.turn.now ? 'לפנות עכשיו!' : 'פנייה בדרך'}</span></div>}
-    {hud.next && !hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className="inline-block rounded-2xl border-[3px] border-[#14162d] bg-[#ffd23f] px-3 py-1 text-xl font-black">{NEXT[hud.next]}</span></div>}
+    {hud.fork && <div className="pointer-events-none absolute inset-x-2 top-[29%] mx-auto flex max-w-sm gap-2" dir="ltr">{[-1, 1].map(side => { const way = FORK_WAYS[side === hud.fork.gold ? 'gold' : 'calm']; return <div key={side} className="flex-1 rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-2 py-1 text-center font-black" dir="rtl"><div className="text-2xl">{side > 0 ? '➡️' : ''} {way.icon} {side < 0 ? '⬅️' : ''}</div><div className="text-sm leading-tight">{way.text}</div></div> })}</div>}
+    {hud.turn && !hud.fork && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-3 py-1 text-xl font-black ${hud.turn.now ? 'bg-emerald-500 text-white' : 'bg-white/90'}`} style={hud.turn.now ? { animation: 'buga-pulse .4s ease-in-out infinite' } : undefined}>{hud.turn.side < 0 ? '⬅️' : '➡️'} {hud.turn.now ? 'לפנות עכשיו!' : 'פנייה בדרך'}</span></div>}
+    {hud.next && !hud.turn && !hud.fork && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className="inline-block rounded-2xl border-[3px] border-[#14162d] bg-[#ffd23f] px-3 py-1 text-xl font-black">{NEXT[hud.next]}</span></div>}
     {hud.missions && <div className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-4 py-2 text-center" dir="rtl"><div className="font-black">המשימות בריצה הזאת</div>{hud.missions.map(m => <div key={m.key}>{m.done ? '✅' : '🎯'} {m.text}</div>)}<div className="mt-1 text-sm font-bold">⬅️➡️ נתיב ופנייה · ⬆️ קפיצה · ⬇️ החלקה</div></div>}
     <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3" dir="rtl" style={{ paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
       <div className="flex flex-col gap-1.5">
