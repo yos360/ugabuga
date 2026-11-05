@@ -2,7 +2,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { act, groundAt, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
+import { act, groundAt, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, nextRow, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
 import { createSwipes } from '../src/pages/games/run/runInput.js'
 
 const DT = 1 / 60
@@ -344,6 +344,31 @@ test('the keys work in the Hebrew layout and do not repeat while held', () => {
   assert.ok(page.includes('KEYS[e.code]'))
   assert.ok(page.includes('!e.repeat'))
 })
+test('the next row is announced with what to do, and not when he is already safe', () => {
+  const s = newGame({ seed: 30 })
+  const seg = segment(s)
+  const ask = items => { seg.items = items; return nextRow(s) }
+  const at = s.d + s.speed
+  assert.equal(ask([{ kind: 'low', lane: 0, at }]), 'jump')
+  assert.equal(ask([{ kind: 'pit', lane: null, at }]), 'jump')
+  assert.equal(ask([{ kind: 'high', lane: null, at }]), 'slide')
+  assert.equal(ask([{ kind: 'wall', lane: 1, at }]), null)
+  assert.equal(ask([{ kind: 'wall', lane: 0, at }, { kind: 'wall', lane: 1, at }]), 'left')
+  assert.equal(ask([{ kind: 'wall', lane: 0, at }, { kind: 'wall', lane: -1, at }]), 'right')
+  assert.equal(ask([{ kind: 'low', lane: 0, at: s.d + s.speed * 3 }]), null)
+})
+
+test('there is time to see each row, and corners come often', () => {
+  for (let seed = 1; seed <= 10; seed++) {
+    const { s } = play(seed, 1500, 'run')
+    assert.ok(s.nextSegment >= 12, `seed ${seed}: ${s.nextSegment} segments`)
+    for (const seg of s.segs) {
+      const rows = [...new Set(seg.items.filter(it => ['wall', 'low', 'high', 'pit'].includes(it.kind)).map(it => it.at))].sort((a, b) => a - b)
+      rows.forEach((at, i) => { if (i) assert.ok(at - rows[i - 1] >= 19.9, `seed ${seed}: rows ${at - rows[i - 1]} m apart`) })
+    }
+  }
+})
+
 test('each run has three different missions, and finishing one pays once', () => {
   for (let seed = 1; seed <= 30; seed++) assert.equal(new Set(newGame({ seed }).missions.map(m => m.key)).size, 3)
   const s = newGame({ seed: 17 })
@@ -361,7 +386,7 @@ test('each run has three different missions, and finishing one pays once', () =>
   assert.equal(s.bonus, paid)
 })
 
-test('the road stays busy: gold every few metres, and a row at least every 2.5 seconds', () => {
+test('the road stays busy: gold every few metres, and a row at least every 4 seconds', () => {
   for (let seed = 1; seed <= 10; seed++) {
     const s = newGame({ seed })
     let coins = 0, metres = 0
@@ -376,7 +401,7 @@ test('the road stays busy: gold every few metres, and a row at least every 2.5 s
     }
     assert.ok(coins / metres > 1 / 5, `seed ${seed}: ${coins} coins in ${metres} m`)
     const run = play(seed, 2000, 'run').s
-    assert.ok(run.dodges > run.time / 2.5, `seed ${seed}: ${run.dodges} rows in ${run.time} s`)
+    assert.ok(run.dodges > run.time / 4, `seed ${seed}: ${run.dodges} rows in ${run.time} s`)
   }
 })
 

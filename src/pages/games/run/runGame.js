@@ -5,10 +5,10 @@
 export const LANE_W = 2.4
 export const TURN_WINDOW = 15 // metres before a corner where a swipe towards it counts as turning
 const CRASH_AFTER = 3.2 // metres past the corner's centre before a runner who did not turn hits the wall
-const START_SPEED = 16
-const MAX_SPEED = 32
-const ACCEL = 0.25
-const CORNER_CLEAR = 32 // nothing stands this close to a corner, so the turn is always the only thing to do
+const START_SPEED = 12
+const MAX_SPEED = 24
+const ACCEL = 0.12
+const CORNER_CLEAR = 26 // nothing stands this close to a corner, so the turn is always the only thing to do
 const COIN_STEP = 2.6
 const FLY_SECONDS = 5
 const FLY_HEIGHT = 5
@@ -31,6 +31,7 @@ const MERCY_SECONDS = 0.07 // an obstacle is judged this long after the runner r
 const TURN_EARLY = 12 // metres before the turning zone where a swipe towards the corner is kept for it, and moves lanes too
 const ESCAPE_SECONDS = 3 // each row passed while chased takes this much off the chase
 const MISSION_BONUS = 150
+const WARN_SECONDS = 1.5 // how long before a row the screen says what is coming
 const MISSIONS = [
   { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [100, 200, 350] },
   { key: 'flights', text: n => `לעוף ${n} פעמים עם התוכי`, goals: [1, 2, 3] },
@@ -72,9 +73,9 @@ function addRow(items, r, at, level, want = null) {
   const roll = want ?? r()
   // `show` only changes how a row arrives on screen: it always stands at `at` when the runner gets there
   const add = (kind, lane, show = null) => items.push({ kind, lane, at, show })
-  const lively = r() < 0.2 + level * 0.5
+  const lively = r() < 0.1 + level * 0.35
   if (roll < 0.34) {
-    const blocked = r() < 0.35 + level * 0.4 ? 2 : 1
+    const blocked = r() < 0.2 + level * 0.4 ? 2 : 1
     const free = Math.floor(r() * 3) - 1
     const lanes = [-1, 0, 1].filter(l => l !== free).sort(() => r() - 0.5).slice(0, blocked)
     const show = !lively ? null : blocked === 1 && r() < 0.5 ? 'swing' : 'roll'
@@ -112,7 +113,7 @@ function makeSegment(s, prev) {
   const id = s.nextSegment++
   const total = prev ? prev.start + prev.len : 0
   const level = Math.min(1, total / 2600)
-  const len = id === 0 ? 150 : 95 + Math.floor(r() * 80)
+  const len = id === 0 ? 120 : 70 + Math.floor(r() * 50)
   // the path only ever goes forward or sideways, never back, so it cannot cross itself
   const turn = s.bend !== 0 ? -s.bend : r() < 0.5 ? -1 : 1
   s.bend += turn
@@ -123,9 +124,9 @@ function makeSegment(s, prev) {
     dir = (prev.dir + prev.turn + 4) % 4
   }
   const items = []
-  // two rows must never be closer than one full jump at the speed the runner will have by then
+  // at the speed the runner will have by then, two rows always leave time to see the next one and get ready
   const topSpeed = Math.min(MAX_SPEED, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
-  const gap = Math.max(15, topSpeed * 0.85)
+  const gap = Math.max(20, topSpeed * 1.6)
   const end = len - CORNER_CLEAR
   // the first row waits until the camera has come round the corner
   let at = id === 0 ? 42 : Math.max(20, topSpeed * 1.1), trail = s.trail, coinsTo = id === 0 ? 24 : 4
@@ -150,7 +151,7 @@ function makeSegment(s, prev) {
       at += gap + r() * 3
     }
     const stop = at - gap
-    const roll = r()
+    const roll = stop + 12 < end ? r() : 1 // no treat or spring in the turning zone
     if (roll < 0.14 && total + stop > 120) {
       // a treat in the gold line, in the free space after a set piece
       const kinds = ['parrot', 'parrot', 'magnet', 'shield']
@@ -160,7 +161,7 @@ function makeSegment(s, prev) {
     } else if (roll < 0.36) {
       // a spring on the gold line: a high flight along a bow of coins, with room to land before the next row
       items.push({ kind: 'pad', lane: trail, at: stop + 9 })
-      for (let i = 0; i < 8; i++) items.push({ kind: 'coin', lane: trail, at: stop + 12 + i * 2.4, lift: 4.2 * Math.sin(Math.PI * (i + 0.5) / 8) })
+      for (let i = 0; i < 8; i++) items.push({ kind: 'coin', lane: trail, at: stop + 9 + (i + 0.5) * topSpeed * 1.15 / 8, lift: 4.2 * Math.sin(Math.PI * (i + 0.5) / 8) })
       at += topSpeed * 0.9
       coinsTo = at - 8
     }
@@ -168,9 +169,9 @@ function makeSegment(s, prev) {
   coinTrail(items, coinsTo, Math.min(end, at - 4), trail)
   s.trail = trail
   items.forEach((it, i) => { it.id = `${id}-${i}` })
-  const h0 = prev ? prev.h1 : 0
-  const h1 = id === 0 ? 3 : Math.max(0, Math.min(15, h0 + (r() - 0.5) * 16))
-  return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7, came: prev ? prev.turn : 0 }
+  const h0 = prev ? prev.h1 : 0, hills = (len - 46) / 90 // a short stretch climbs less, so no slope gets steep
+  const h1 = id === 0 ? 3 : Math.max(0, Math.min(15, h0 + (r() - 0.5) * 16 * hills))
+  return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7 * hills, came: prev ? prev.turn : 0 }
 }
 
 function pickMissions(r) {
@@ -205,6 +206,23 @@ export const distanceToCorner = s => segment(s).len - s.d
 // the faster the run, the earlier a swipe counts, so a corner always gives about the same time to react
 export const turnWindow = s => Math.max(TURN_WINDOW, s.speed * 0.9)
 export const turnReach = s => turnWindow(s) + TURN_EARLY
+
+// What the next row asks for, a moment before it arrives; nothing when he is already safe.
+const ROWS = ['wall', 'low', 'high', 'pit']
+export function nextRow(s) {
+  if (s.fly > 0) return null
+  const ahead = segment(s).items.filter(it => ROWS.includes(it.kind) && !it.met && it.at > s.d)
+  if (!ahead.length) return null
+  const at = Math.min(...ahead.map(it => it.at))
+  if (at - s.d > s.speed * WARN_SECONDS) return null
+  const row = ahead.filter(it => it.at === at), kind = row[0].kind
+  if (kind === 'high') return 'slide'
+  if (kind !== 'wall') return 'jump'
+  const free = [-1, 0, 1].filter(l => !row.some(it => it.lane === l))
+  if (free.includes(s.lane)) return null
+  const to = free.sort((a, b) => Math.abs(a - s.lane) - Math.abs(b - s.lane))[0]
+  return to < s.lane ? 'left' : 'right'
+}
 
 export function worldPosition(s) {
   const seg = segment(s), [fx, fz] = DIRS[seg.dir], [rx, rz] = DIRS[(seg.dir + 1) % 4]

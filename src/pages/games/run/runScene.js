@@ -877,7 +877,7 @@ export function createScene(canvas, { onLost } = {}) {
   const pending = new Map()
   let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, turnLean = 0
   let quality = 0, sampleFrom = 0, sampleFrames = 0, lastFrame = 0
-  let squash = 0, dip = 0, punch = 0, laneRoll = 0, lift = 0
+  let squash = 0, dip = 0, punch = 0, laneRoll = 0, lift = 0, ready = 0, cookieSide = 0
 
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight
@@ -923,11 +923,11 @@ export function createScene(canvas, { onLost } = {}) {
       u.arm.rotation.z = Math.asin(reach / 6)
       m.position.x = 0
     } else if (it.show === 'rise') {
-      const k = eased((30 - dist) / 12)
+      const k = eased((45 - dist) / 14)
       m.position.y = groundAt(seg, it.at) - 1.2 * (1 - k)
       m.visible = k > 0.02
     } else if (it.show === 'drop' && u.bar) {
-      u.bar.position.y = 5.2 * (1 - eased((34 - dist) / 16))
+      u.bar.position.y = 5.2 * (1 - eased((50 - dist) / 18))
     } else if (u.pad) {
       u.pad.position.y = 0.3 + Math.abs(Math.sin(clock * 5)) * 0.14
     }
@@ -985,7 +985,9 @@ export function createScene(canvas, { onLost } = {}) {
     parts.head.rotation.x = Math.sin(stride * 2) * 0.05
     body.position.y = (air ? 0 : Math.abs(Math.cos(stride)) * 0.14) + (1 - pose) * -0.5
     body.rotation.x = (1 - pose) * 1.25 + (air ? -0.08 : -0.14)
-    body.rotation.y = (s.lane * LANE_W - s.laneX) * 0.16
+    // a swipe towards a corner shows at once: he turns his body and the view starts round, before he gets there
+    ready += ((s.fly > 0 ? 0 : s.wantTurn) - ready) * Math.min(1, dt * 10)
+    body.rotation.y = (s.lane * LANE_W - s.laneX) * 0.16 - ready * 0.9
     body.rotation.z = (s.lane * LANE_W - s.laneX) * -0.12
     squash *= Math.exp(-dt * 9)
     body.scale.set(1 - squash * 0.14, 1 + squash * 0.2, 1 - squash * 0.14)
@@ -1029,7 +1031,7 @@ export function createScene(canvas, { onLost } = {}) {
     let delta = want - heading
     delta = Math.atan2(Math.sin(delta), Math.cos(delta))
     heading += delta * Math.min(1, dt * 9)
-    turnLean += (delta * 0.22 - turnLean) * Math.min(1, dt * 8)
+    turnLean += ((delta + ready * 0.3) * 0.3 - turnLean) * Math.min(1, dt * 8)
 
     for (const e of s.events) {
       if (e === 'coin') sparks.burst(p.x, p.y + 1.2, p.z, 0xffd23f, 8, 4.5)
@@ -1056,17 +1058,17 @@ export function createScene(canvas, { onLost } = {}) {
 
     // the run opens facing the runner, with the cookie behind him, and swings round to follow
     orbit += ((s.over ? 2.6 : s.time < 1 ? Math.PI : 0) - orbit) * Math.min(1, dt * 2.6)
-    const look = heading + orbit
+    const look = heading + orbit + ready * 0.4
     const fx = Math.sin(look), fz = -Math.cos(look), hx = Math.sin(heading), hz = -Math.cos(heading)
-    const fast = Math.min(1, (s.speed - 16) / 16)
+    const fast = Math.min(1, (s.speed - 12) / 12)
     const back = 6.6 - fast * 0.8
     camX += (p.x - fx * back - camX) * Math.min(1, dt * 11)
     camZ += (p.z - fz * back - camZ) * Math.min(1, dt * 11)
-    camY += (road + 4 + s.y * 0.55 - camY) * Math.min(1, dt * 7)
+    camY += (road + 4.6 + s.y * 0.55 - camY) * Math.min(1, dt * 7)
     shake = Math.max(0, shake - dt * 1.6)
     dip = Math.max(0, dip - dt * 1.1)
     camera.position.set(camX + (Math.random() - 0.5) * shake, camY - dip + (Math.random() - 0.5) * shake, camZ + (Math.random() - 0.5) * shake)
-    camera.lookAt(p.x + fx * 7, road + 1.5 + s.y * 0.6, p.z + fz * 7)
+    camera.lookAt(p.x + fx * 10, road + 1.5 + s.y * 0.6, p.z + fz * 10)
     laneRoll += ((s.lane * LANE_W - s.laneX) * 0.03 - laneRoll) * Math.min(1, dt * 10)
     camera.rotation.z -= turnLean + laneRoll
     punch += ((s.vy > 12 ? 8 : s.vy > 4 ? 3 : 0) - punch) * Math.min(1, dt * 6)
@@ -1095,7 +1097,11 @@ export function createScene(canvas, { onLost } = {}) {
     const showCookie = s.stumble > 0 || s.over || s.time < 2.4
     chase += ((showCookie ? (s.over ? 2.2 : 2.6) : 11) - chase) * Math.min(1, dt * 3)
     cookie.root.visible = chase < 8.5
-    cookie.root.position.set(p.x - hx * chase, road + 0.9 + Math.abs(Math.sin(clock * 8)) * 0.3, p.z - hz * chase)
+    // while chasing it rolls beside the road's edge, so it never hides Buga or what is ahead of him
+    const beside = s.over || s.time < 2.4 ? 0 : (s.laneX > 0 ? -1 : 1) * 4.6
+    cookieSide += (beside - cookieSide) * Math.min(1, dt * 6)
+    cookie.root.scale.setScalar(1 - Math.min(1, Math.abs(cookieSide) / 4.6) * 0.35)
+    cookie.root.position.set(p.x - hx * chase - hz * cookieSide, road + 0.9 + Math.abs(Math.sin(clock * 8)) * 0.3, p.z - hz * chase + hx * cookieSide)
     cookie.root.rotation.y = -heading
     cookie.body.rotation.x = Math.sin(clock * 8) * 0.14
 
