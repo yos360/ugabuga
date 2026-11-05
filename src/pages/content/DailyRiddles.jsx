@@ -12,8 +12,16 @@ import { Chip, Header } from './contentUi'
 const heDate = d => new Date(d + 'T12:00:00').toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
 const CRUMBS = [{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }]
 
-// The riddle drawn like in the video: a row of boxes, equation lines or a few lines of text
+// The riddle drawn like in the video: a row of boxes, equation lines, a drawing or a few lines of text
 function Board({ r }) {
+  if (r.kind === 'image') {
+    return (
+      <div className="space-y-3 text-center">
+        <img src={r.image} alt={r.lines.join(' ')} width="900" height="700" loading="lazy" className="mx-auto h-auto w-full max-w-xl rounded-xl border-2 border-slate-800" />
+        {r.lines.map((l, i) => <p key={i} className="text-xl font-bold">{l}</p>)}
+      </div>
+    )
+  }
   if (r.kind === 'seq') {
     return (
       <div dir={r.dir} className="flex flex-wrap justify-center gap-2">

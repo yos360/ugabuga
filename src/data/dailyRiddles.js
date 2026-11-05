@@ -1,7 +1,17 @@
 // "החידה היומית" — one new tricky riddle every day at 14:00 (also posted as a short video, without the answer).
 // Newest first. Page: /riddles/<id>, list: /riddles/daily. Ids must not clash with the topic pages in content/riddles.js.
-// kind: 'seq' (a row of boxes, dir 'ltr' | 'rtl'), 'eq' (equation lines), 'text' (a riddle told in a few lines).
+// kind: 'seq' (a row of boxes, dir 'ltr' | 'rtl'), 'eq' (equation lines), 'text' (a riddle told in a few lines),
+// 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
+  {
+    id: 'first-full-cup', n: 3, date: '2026-11-05', type: 'שאלת תפיסה', emoji: '🥤', kind: 'image',
+    title: 'איזו כוס תתמלא ראשונה?',
+    image: '/daily-riddles/first-full-cup.svg',
+    lines: ['פותחים את הברז מעל כוס 1.', 'איזו כוס תתמלא ראשונה עד למעלה?'],
+    ask: 'הסתכלו טוב על הצינורות 👀',
+    answer: 'כוס 5',
+    why: 'הצינור הנמוך של כוס 1 חסום באמצע, ולכן המים עולים לצינור הגבוה וזורמים לכוס 3. גם הצינור שיוצא מתחתית כוס 3 חסום, אז המים עולים לצינור הגבוה שלה וזורמים לכוס 5 — ומשם אין יציאה, אז היא מתמלאת עד למעלה. כוסות 1 ו־3 לא מתמלאות, כי המים יוצאים מהן לפני שהם מגיעים לשפה.',
+  },
   {
     id: 'shilshom', n: 2, date: '2026-11-04', type: 'לוח שנה', emoji: '📅', kind: 'text',
     title: 'חידת לוח שנה',
@@ -23,4 +33,4 @@ export const DAILY_RIDDLES = [
 export const dailyRiddle = id => DAILY_RIDDLES.find(r => r.id === id)
 export const dailyRiddlePath = r => `/riddles/${r.id}`
 // The riddle as one line of text (for descriptions and search)
-export const riddleText = r => (r.kind === 'text' ? r.lines.join(' ') : `${r.title} ${(r.items || r.lines).join(r.kind === 'seq' ? ', ' : ' · ')}`)
+export const riddleText = r => (r.kind === 'text' || r.kind === 'image' ? r.lines.join(' ') : `${r.title} ${(r.items || r.lines).join(r.kind === 'seq' ? ', ' : ' · ')}`)

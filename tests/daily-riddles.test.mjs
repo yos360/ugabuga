@@ -22,7 +22,8 @@ test('daily riddle ids and numbers are unique and do not clash with topic pages'
 
 test('every daily riddle has a question, an answer and an explanation', () => {
   for (const r of DAILY_RIDDLES) {
-    assert.ok(['seq', 'eq', 'text'].includes(r.kind), r.id)
+    assert.ok(['seq', 'eq', 'text', 'image'].includes(r.kind), r.id)
+    if (r.kind === 'image') assert.ok(read(`public${r.image}`).trim(), `${r.id}: image`)
     assert.ok((r.kind === 'seq' ? r.items : r.lines)?.length >= 2, r.id)
     for (const k of ['title', 'ask', 'answer', 'why', 'type', 'date']) assert.ok(String(r[k] || '').trim(), `${r.id}: ${k}`)
     assert.match(r.date, /^\d{4}-\d{2}-\d{2}$/)
