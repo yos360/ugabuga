@@ -59,6 +59,7 @@ export function DailyRiddleView({ r }) {
         {next && <Chip to={dailyRiddlePath(next)}>החידה הבאה (#{next.n}) ←</Chip>}
         <Chip to="/riddles/daily" hl>כל החידות היומיות</Chip>
         <Chip to="/riddles/topics">חידות לפי נושא</Chip>
+        <Chip to="/riddles/one-word">🤯 מילה אחת, פתגם שלם</Chip>
       </nav>
     </div>
   )

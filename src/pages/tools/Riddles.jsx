@@ -265,6 +265,7 @@ export default function Riddles() {
         <p className="font-display text-xl font-bold mb-2">מעדיפים דף חידות מוכן?</p>
         <Link to="/riddles/topics" className="inline-block rounded-xl border-2 border-slate-800 bg-[var(--postit)] px-5 py-2 font-bold">🧩 חידות לפי נושא וגיל ←</Link>
         <Link to="/riddles/daily" className="inline-block rounded-xl border-2 border-slate-800 bg-white px-5 py-2 font-bold mr-2">🧠 החידה היומית ←</Link>
+        <Link to="/riddles/one-word" className="inline-block rounded-xl border-2 border-slate-800 bg-white px-5 py-2 font-bold mr-2">🤯 מילה אחת, פתגם שלם ←</Link>
         <nav className="mt-3 flex flex-wrap justify-center gap-2" aria-label="דפי חידות">
           <Link to="/riddles/kids-easy" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות קלות לילדים</Link>
           <Link to="/riddles/kindergarten" className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-[var(--card)] px-4 py-2 font-bold">חידות לגן</Link>

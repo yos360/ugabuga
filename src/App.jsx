@@ -83,6 +83,7 @@ const AnimalPage = lazy(() => import('./pages/content/AnimalPages').then(m => ({
 const RiddlesHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.RiddlesHub })))
 const RiddlePage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.RiddlePage })))
 const DailyRiddlesHub = lazy(() => import('./pages/content/DailyRiddles').then(m => ({ default: m.DailyRiddlesHub })))
+const OneWordRiddle = lazy(() => import('./pages/content/OneWordRiddle'))
 const JokesHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.JokesHub })))
 const JokePage = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.JokePage })))
 const HuntsHub = lazy(() => import('./pages/content/MoreContent').then(m => ({ default: m.HuntsHub })))
@@ -785,6 +786,7 @@ export default function App() {
               <Route path="/animals/:slug" element={<AnimalPage />} />
               <Route path="/riddles/topics" element={<RiddlesHub />} />
               <Route path="/riddles/daily" element={<DailyRiddlesHub />} />
+              <Route path="/riddles/one-word" element={<OneWordRiddle />} />
               <Route path="/riddles/:slug" element={<RiddlePage />} />
               <Route path="/jokes/topics" element={<JokesHub />} />
               <Route path="/jokes/keresh" element={<KereshJokes />} />
