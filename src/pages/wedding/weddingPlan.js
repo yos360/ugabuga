@@ -131,9 +131,10 @@ export function daySchedule(chuppah, times = {}) {
 }
 
 // The text for WhatsApp; with a supplier, only the rows that concern them.
-export function scheduleText(rows, supplier = '') {
+// `updated` tells a supplier holding an older copy which one is the latest.
+export function scheduleText(rows, supplier = '', updated = '') {
   const list = supplier ? rows.filter(r => r.who.includes(supplier)) : rows
-  return `לוח הזמנים של החתונה 💍\n\n${list.map(r => `${r.time} ${r.label}`).join('\n')}`
+  return `לוח הזמנים של החתונה 💍${updated ? ` (עדכון ${updated})` : ''}\n\n${list.map(r => `${r.time} ${r.label}`).join('\n')}`
 }
 
 // The whole plan in a link, to open it on another phone or send it to the partner. No server involved.

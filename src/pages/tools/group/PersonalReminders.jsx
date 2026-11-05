@@ -6,7 +6,10 @@ import { parsePhoneBook, phoneFor, personalReminder, waLink, loadPhoneText, save
 // sell; here the organizer taps "send" on each one, and the phone numbers never leave this device.
 export default function PersonalReminders({ ev, missing, link }) {
   const [text, setText] = useState(() => loadPhoneText(ev.code))
-  const [sent, setSent] = useState({})
+  // Kept on the device: with 100 guests to remind, a refresh must not start the round over.
+  const sentKey = `buga-reminders-opened-${ev.code}`
+  const [sent, setSentState] = useState(() => { try { return JSON.parse(localStorage.getItem(sentKey)) || {} } catch { return {} } })
+  const setSent = next => setSentState(s => { const v = typeof next === 'function' ? next(s) : next; try { localStorage.setItem(sentKey, JSON.stringify(v)) } catch { /* private mode: the round just isn't kept */ } return v })
   const book = parsePhoneBook(text)
   const withPhone = missing.map(name => ({ name, phone: phoneFor(book, name) })).filter(g => g.phone)
   const next = withPhone.find(g => !sent[g.name])
@@ -21,8 +24,9 @@ export default function PersonalReminders({ ev, missing, link }) {
       <p className="mt-1 text-xs text-slate-500">שם וטלפון בכל שורה, כמו ברשימת המוזמנים. אפשר להדביק מאקסל.</p>
     </details>
     {missing.length > 0 && <p className="mt-3 text-sm">{withPhone.length} מתוך {missing.length} שלא ענו עם טלפון{withPhone.length < missing.length && ' — לשאר אפשר לשלוח את התזכורת הכללית'}.</p>}
-    {next && <button onClick={() => send(next)} className={`${btnWa} mt-3 w-full`}>💬 שליחה ל{next.name} ({Object.keys(sent).length + 1}/{withPhone.length})</button>}
+    {next && <button onClick={() => send(next)} className={`${btnWa} mt-3 w-full`}>💬 שליחה ל{next.name} ({withPhone.filter(g => sent[g.name]).length + 1}/{withPhone.length})</button>}
     {withPhone.length > 0 && !next && <p className="mt-3 font-bold text-emerald-700">נפתחה הודעה לכל אחד 🎉</p>}
+    {withPhone.some(g => sent[g.name]) && <button onClick={() => setSent({})} className="mt-2 block w-full text-center text-sm font-bold underline">סבב תזכורות חדש</button>}
     {withPhone.length > 1 && <ul className="mt-3 max-h-56 space-y-1 overflow-auto">
       {withPhone.map(g => <li key={g.name} className="flex items-center justify-between gap-2">
         <span className={sent[g.name] ? 'text-slate-400 line-through' : ''}>{g.name}</span>

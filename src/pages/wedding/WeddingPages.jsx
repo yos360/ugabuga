@@ -19,8 +19,8 @@ const STEPS = [
 ]
 
 const FAQ = [
-  { q: 'המתכנן באמת חינמי?', a: 'כן. ההזמנה, אישורי ההגעה, סידור ההושבה ורשימת המשימות חינמיים לגמרי, בלי הרשמה ובלי הגבלה על מספר האורחים.' },
-  { q: 'איפה נשמרת רשימת המשימות?', a: 'בדפדפן בטלפון או במחשב שבו סימנתם. היא לא עולה לשרת. כדי לעבור לטלפון אחר או לשתף את בן או בת הזוג, שולחים לעצמכם את קישור התכנון שבתחתית הדף.' },
+  { q: 'המתכנן באמת חינמי?', a: 'כן. ההזמנה, אישורי ההגעה, סידור ההושבה ורשימת המשימות חינמיים לגמרי, בלי הרשמה. אפשר לרשום עד 400 שמות ברשימת המוזמנים ולקבל עד 1,000 תשובות.' },
+  { q: 'מה נשמר איפה?', a: 'המשימות, התקציב ולוח הזמנים נשמרים רק בדפדפן שבו מילאתם אותם, וגם הטלפונים של האורחים. אם תנקו את הדפדפן הם יימחקו, אז כדאי לשמור קישור גיבוי מתחתית הדף. פרטי האירוע, שמות המוזמנים והתשובות נשמרים אצלנו בשרת כדי שהאורחים יוכלו לענות, ונמחקים חודשיים אחרי האירוע, לכן כדאי להוריד אותם לאקסל לפני כן.' },
   { q: 'כמה עולה חתונה בישראל?', a: 'תלוי בעיקר במספר האורחים ובמחיר המנה. במחשבון התקציב מכניסים את ההצעות שקיבלתם, ורואים את סך הכול, את העלות לאורח ואם המתנות הצפויות יכסו את ההוצאה.' },
   { q: 'איך עובד הסידור האוטומטי של ההושבה?', a: 'קובעים כמה שולחנות יש וכמה מקומות בכל שולחן, ואם רוצים נותנים לכל תשובה קבוצה, כמו משפחת החתן או חברים של הכלה. הסידור משאיר משפחות יחד, מושיב קבוצה ליד קבוצה ולא מזיז את מי שכבר שובץ. אפשר לבטל בלחיצה ולשנות כל שולחן ידנית.' },
   { q: 'מה הלו"ז של ערב החתונה?', a: 'לוח הזמנים נבנה מהשעה של החופה: קבלת פנים נפתחת בדרך כלל כשעה וחצי לפניה, וארוחה וריקודים אחריה. כותבים את שעת החופה, משנים כל שורה, ושולחים לכל ספק רק את מה שנוגע אליו.' },
@@ -81,7 +81,7 @@ function GuestEstimate({ counts, day, set }) {
       <p className="m-0 mt-1">({r.rate}% הגעה · בין {r.low} ל־{r.high})</p>
       <p className="m-0 mt-3 font-bold">💡 מינימום מנות מול האולם: בסביבות {r.low}. את השאר מעדכנים לפי אישורי ההגעה.</p>
     </div>}
-    <p className="mt-3 mb-0 text-center text-xs text-[var(--muted-foreground)]">הערכה בלבד, לפי אחוזי הגעה מקובלים בחתונות בישראל. המספר המדויק מגיע מאישורי ההגעה.</p>
+    <p className="mt-3 mb-0 text-center text-xs text-[var(--muted-foreground)]">הערכה גסה בלבד: האחוזים הם הנחת התחלה שלנו ולא נתון מחקרי. המספר המדויק מגיע מאישורי ההגעה.</p>
   </section>
 }
 
@@ -99,7 +99,7 @@ function Budget({ plan, set }) {
   const share = 'https://wa.me/?text=' + encodeURIComponent('מתחתנים? יש מחשבון חינמי שמראה כמה החתונה תעלה ואם המתנות יכסו אותה 💍\nhttps://ugabuga.co.il/wedding#budget')
   return <section id="budget" className="mt-12 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow" aria-labelledby="budget-title">
     <h2 id="budget-title" className="m-0 text-center text-3xl font-bold">💰 כמה החתונה תעלה?</h2>
-    <p className="text-center text-[var(--muted-foreground)]">המחירים מולאו מראש לפי ממוצעים — שנו כל שורה לפי ההצעות שקיבלתם, וסמנו כמה כבר שילמתם.</p>
+    <p className="text-center text-[var(--muted-foreground)]">המחירים שמולאו מראש הם נקודת התחלה בלבד — שנו כל שורה לפי ההצעות שקיבלתם, וסמנו כמה כבר שילמתם. אם סיכמתם מינימום מנות עם האולם, כתבו אותו ב"כמה אורחים".</p>
     <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
       <label className="font-bold">כמה אורחים{expected > 0 && b.guests === undefined && <span className="font-normal text-sm"> (מהמחשבון למעלה)</span>}
         <input type="number" min="0" inputMode="numeric" value={guests} placeholder="0" onChange={e => put({ guests: e.target.value })} className={money} /></label>
@@ -124,7 +124,7 @@ function Budget({ plan, set }) {
     {!(Number(guests) > 0) && <p className="mt-5 rounded-2xl bg-amber-50 p-3 text-center font-bold">✍️ כתבו כמה אורחים — או מלאו את "כמה יגיעו באמת" למעלה — ותראו את סך הכול ואת המתנות הצפויות.</p>}
     {Number(guests) > 0 && <div className="mt-5 grid gap-3 text-center sm:grid-cols-3" role="status">
       <div className="rounded-2xl bg-rose-50 p-4"><p className="m-0">סך הכול</p><p className="m-0 text-3xl font-bold text-rose-600">{shekel(r.total)}</p>{r.perGuest > 0 && <p className="m-0 text-sm">{shekel(r.perGuest)} לאורח</p>}</div>
-      <div className={`rounded-2xl p-4 ${r.balance >= 0 ? 'bg-emerald-50' : 'bg-amber-50'}`}><p className="m-0">המתנות הצפויות</p><p className="m-0 text-3xl font-bold">{shekel(r.gifts)}</p>
+      <div className={`rounded-2xl p-4 ${r.balance >= 0 ? 'bg-emerald-50' : 'bg-amber-50'}`}><p className="m-0">המתנות, אם המשוער יתקיים</p><p className="m-0 text-3xl font-bold">{shekel(r.gifts)}</p>
         <p className="m-0 text-sm font-bold">{r.gifts === 0 ? '' : r.balance >= 0 ? `נשאר בערך ${shekel(r.balance)} 🎉` : `חסר בערך ${shekel(-r.balance)}`}</p></div>
       <div className="rounded-2xl bg-sky-50 p-4"><p className="m-0">שולם עד עכשיו</p><p className="m-0 text-3xl font-bold">{shekel(r.paid)}</p><p className="m-0 text-sm">נשאר לשלם {shekel(r.left)}</p></div>
     </div>}
@@ -141,7 +141,8 @@ function DaySchedule({ plan, set }) {
   const chuppah = s.chuppah || DEFAULT_CHUPPAH
   const rows = daySchedule(chuppah, times)
   const put = patch => set({ schedule: { ...s, ...patch } })
-  const wa = 'https://wa.me/?text=' + encodeURIComponent(scheduleText(rows, supplier))
+  const updated = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' })
+  const wa = 'https://wa.me/?text=' + encodeURIComponent(scheduleText(rows, supplier, updated))
   return <section id="schedule" className="mt-12 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow" aria-labelledby="schedule-title">
     <h2 id="schedule-title" className="m-0 text-center text-3xl font-bold">⏰ לוח הזמנים של היום הגדול</h2>
     <p className="text-center text-[var(--muted-foreground)]">כתבו מתי החופה, וכל היום יסתדר סביבה. אפשר לשנות כל שעה לפי מה שסיכמתם עם האולם.</p>
@@ -181,8 +182,8 @@ function MovePlan({ plan }) {
   const copy = () => navigator.clipboard?.writeText(link).then(() => setCopied(true), () => {})
   if (!Object.keys(plan).length) return null
   return <section className="mt-10 rounded-3xl border-2 border-dashed border-[var(--border)] p-5 text-center" aria-labelledby="move-title">
-    <h2 id="move-title" className="m-0 text-xl font-bold">📲 לעבור לטלפון אחר או לשתף את בן או בת הזוג</h2>
-    <p className="mt-1 text-[var(--muted-foreground)]">התכנון נשמר בדפדפן הזה בלבד. שלחו לעצמכם קישור, ופתחו אותו בכל מכשיר — הכול יעבור איתו. כדאי לשלוח קישור חדש אחרי כל שינוי גדול.</p>
+    <h2 id="move-title" className="m-0 text-xl font-bold">💾 גיבוי, מעבר לטלפון אחר ושיתוף עם בן או בת הזוג</h2>
+    <p className="mt-1 text-[var(--muted-foreground)]">התכנון נשמר רק בדפדפן הזה, וניקוי הדפדפן ימחק אותו. הקישור הוא עותק של מה שיש כרגע, לא סנכרון: מי שפותח אותו מקבל את המצב הנוכחי, ושינויים אחר כך לא עוברים לבד. לכן כדאי שאחד מכם יעדכן, ואחרי כל שינוי גדול ישלח קישור חדש. הקישור כולל את התקציב, אז שלחו אותו רק למי שאתם רוצים.</p>
     <div className="flex flex-wrap justify-center gap-2">
       <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
       <button type="button" onClick={copy} className="rounded-xl border-2 border-[var(--border)] px-4 py-2 font-bold">{copied ? '✓ הועתק' : '🔗 העתקת קישור'}</button>
@@ -216,7 +217,7 @@ export function WeddingHub() {
   useEffect(() => {
     const shared = planFromHash(window.location.hash)
     const mine = load()
-    if (shared && (!Object.keys(mine).length || window.confirm('לפתוח את התכנון מהקישור? הוא יחליף את מה שנשמר בדפדפן הזה.'))) {
+    if (shared && (!Object.keys(mine).length || window.confirm('לפתוח את התכנון מהקישור? הוא יחליף את כל מה שנשמר בדפדפן הזה, כולל שינויים שעשיתם כאן אחרי ששלחו אותו.'))) {
       save(shared); setPlan(shared)
       window.history.replaceState(null, '', window.location.pathname)
     } else setPlan(mine)

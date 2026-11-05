@@ -73,10 +73,10 @@ function EventForm({ value, onChange, onSubmit, busy, submitLabel, withPin = fal
   const set = (k, v) => onChange({ ...value, [k]: v })
   const inviteeCount = parseNames(value.invitees, LIMITS.maxInvitees).length
   return <form onSubmit={e => { e.preventDefault(); onSubmit() }} className="space-y-4">
-    <div className="grid grid-cols-2 gap-2" role="group" aria-label={S.kindGroup}>
+    {value.extras?.type !== 'wedding' && <div className="grid grid-cols-2 gap-2" role="group" aria-label={S.kindGroup}>
       {['kids', 'general'].map(k => <button type="button" key={k} onClick={() => set('kind', k)} aria-pressed={value.kind === k}
         className={`min-h-[48px] rounded-xl border-2 font-bold ${value.kind === k ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white'}`}>{S.kinds[k]}</button>)}
-    </div>
+    </div>}
     <Field label={S.eventName}><input className={input} value={value.title} maxLength={LIMITS.title} required onChange={e => set('title', e.target.value)}
       onFocus={e => { const at = e.target.value.indexOf('___'); if (at >= 0) e.target.setSelectionRange(at, at + 3) }} placeholder={S.eventNamePh} /></Field>
     <div className="grid grid-cols-2 gap-3">
@@ -105,7 +105,9 @@ function ExtrasFields({ value, onChange, open }) {
   const [site, S] = useSite()
   const set = (k, v) => onChange({ ...value, [k]: v })
   const defaultLang = site === 'en' ? 'en' : 'he'
-  const used = Boolean(value.lang && value.lang !== defaultLang) || value.parking || Number(value.price) > 0 || Number(value.tables) > 0
+  // No participation fee on the English site or at a wedding.
+  const fees = site !== 'en' && value.type !== 'wedding'
+  const used =Boolean(value.lang && value.lang !== defaultLang) || value.parking || Number(value.price) > 0 || Number(value.tables) > 0
   const badLink = Boolean((value.pay_link || '').trim()) && !PAY_LINK.test(value.pay_link.trim())
   return <details className="rounded-xl border-2 border-slate-200 bg-slate-50 p-3" open={open || used || undefined}>
     <summary className="cursor-pointer font-bold">{S.extrasTitle} <span className="font-normal text-slate-500">{S.optional}</span></summary>
@@ -114,7 +116,7 @@ function ExtrasFields({ value, onChange, open }) {
         <select className={input} value={value.lang || defaultLang} onChange={e => set('lang', e.target.value)}>{RSVP_LANGS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}</select>
       </Field>
       <Field label={S.parking} hint={S.parkingHint}><input className={input} value={value.parking || ''} maxLength={300} onChange={e => set('parking', e.target.value)} placeholder={S.parkingPh} /></Field>
-      {site !== 'en' && <>
+      {fees && <>
       <div className={`grid gap-3 ${S.currency ? 'grid-cols-2 sm:grid-cols-[minmax(0,9rem)_minmax(0,7rem)_minmax(0,1fr)]' : 'grid-cols-[8rem_1fr]'}`}>
         <Field label={S.fee}><input className={input} type="number" inputMode="decimal" min="0" max="10000" step="any" value={value.price || ''} onChange={e => set('price', e.target.value)} placeholder={S.feePh} /></Field>
         {S.currency && <Field label={S.currency}><select className={input} aria-label={S.currencyAria} value={CURRENCIES.includes(value.currency) ? value.currency : 'USD'} onChange={e => set('currency', e.target.value)}>{CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}</select></Field>}
@@ -126,7 +128,7 @@ function ExtrasFields({ value, onChange, open }) {
         <Field label={S.tables}><input className={input} type="number" inputMode="numeric" min="0" max="200" value={value.tables || ''} onChange={e => set('tables', e.target.value)} placeholder="0" /></Field>
         {Number(value.tables) > 0 && <label className="flex min-h-[48px] items-center gap-2 font-bold"><input type="checkbox" className="h-5 w-5" checked={Boolean(value.show_table)} onChange={e => set('show_table', e.target.checked)} /> {S.showTable}</label>}
       </div>
-      {site !== 'en' && <p className="text-sm text-slate-500">{S.feeNote}</p>}
+      {fees && <p className="text-sm text-slate-500">{S.feeNote}</p>}
     </div>
   </details>
 }

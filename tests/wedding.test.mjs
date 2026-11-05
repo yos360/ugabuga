@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { STAGES, WEDDING_TASKS, BUDGET_ITEMS, DAY_SCHEDULE, SUPPLIERS, daysUntil, tasksByStage, expectedGuests, weddingBudget, addMinutes, daySchedule, scheduleText, planToLink, planFromHash } from '../src/pages/wedding/weddingPlan.js'
 import { DEFAULT_SEATS, autoSeat, partySize, tableLoads, tablesNeeded } from '../src/utils/seating.js'
 import { parsePhoneBook, waNumber, phoneFor, personalReminder, waLink } from '../src/utils/personalReminders.js'
-import { INVITATION_OCCASIONS, invitationText } from '../src/utils/invitationDesign.js'
+import { INVITATION_OCCASIONS, INVITATION_THEMES, invitationText } from '../src/utils/invitationDesign.js'
 import { LIMITS, parseNames, guestPicks } from '../src/utils/groupTools.js'
 
 const now = new Date(2026, 10, 5)
@@ -77,6 +77,7 @@ test('day schedule: each supplier gets only their rows', () => {
   assert.ok(DAY_SCHEDULE.every(s => s.who.every(w => known.has(w))))
   assert.match(scheduleText(rows), /18:30 קבלת פנים נפתחת[\s\S]*20:00 חופה/)
   assert.match(scheduleText(rows), /איפור ושיער/)
+  assert.match(scheduleText(rows, '', '5.11'), /עדכון 5\.11/)
   const photo = scheduleText(rows, 'photo')
   assert.doesNotMatch(photo, /מנה עיקרית|איפור ושיער/)
   assert.match(photo, /צילומי זוג/)
@@ -134,6 +135,33 @@ test('seating database: table number and group checked, organizer only', () => {
   assert.match(sql, /rsvp_seat_many[\s\S]*rsvp_host_find/)
   assert.match(sql, /jsonb_build_object\('seats', n::int\)/)
   for (const key of ['type', 'lang', 'parking', 'price', 'currency', 'pay_link', 'tables', 'show_table']) assert.ok(sql.includes(`jsonb_build_object('${key}'`), key)
+})
+
+test('wedding limits: a full list can answer, the page promises what the database allows', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/202611050003_rsvp_wedding_capacity.sql', import.meta.url), 'utf8')
+  assert.match(sql, />= 1000 then/)
+  assert.match(sql, /gt_rate_check\('rsvp_answer', 120, 10000\)/)
+  const page = readFileSync(new URL('../src/pages/wedding/WeddingPages.jsx', import.meta.url), 'utf8') + readFileSync(new URL('../src/utils/rsvpTypes.js', import.meta.url), 'utf8')
+  assert.doesNotMatch(page, /אין הגבלה על מספר האורחים|בלי הגבלה על מספר האורחים/)
+})
+
+test('wedding invitation: only wedding styles and wedding examples', () => {
+  const w = INVITATION_OCCASIONS.wedding
+  const ids = new Set(INVITATION_THEMES.map(t => t.id))
+  assert.ok(w.themes.length >= 3 && w.themes.every(t => ids.has(t)) && w.themes.includes('elegant'))
+  for (const kids of ['dino', 'gaming', 'football', 'balloons']) assert.ok(!w.themes.includes(kids))
+  assert.doesNotMatch(JSON.stringify(w), /יום הולדת|גן השעשועים|החוגג/)
+})
+
+test('plan link: stays short with a full plan, carries no guests or phones', () => {
+  const plan = { date: '2027-06-03', day: 'friday', done: Object.fromEntries(WEDDING_TASKS.map(t => [t.id, true])),
+    counts: { close: '100', far: '100', friends: '100', work: '50', abroad: '20' },
+    budget: { guests: '350', perPlate: '320', gift: '400', items: Object.fromEntries(BUDGET_ITEMS.map(b => [b.id, { cost: '12000', paid: '3000' }])) },
+    schedule: { chuppah: '20:00', times: Object.fromEntries(DAY_SCHEDULE.map(s => [s.id, '19:45'])) } }
+  assert.ok(planToLink(plan, 'https://ugabuga.co.il').length < 3000)
+  // Guests and their phones belong to the RSVP event and its device storage, never to this plan.
+  const source = readFileSync(new URL('../src/pages/wedding/WeddingPages.jsx', import.meta.url), 'utf8')
+  assert.doesNotMatch(source, /invitees|parsePhoneBook|loadPhoneText/)
 })
 
 test('plan link: round trip, bad links ignored', () => {
