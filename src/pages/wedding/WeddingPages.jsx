@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import InvitationStudio from '../../components/invitations/InvitationStudio'
-import { WEDDING_TASKS, daysUntil, tasksByStage } from './weddingPlan'
+import { WEDDING_TASKS, GUEST_GROUPS, daysUntil, tasksByStage, expectedGuests } from './weddingPlan'
 
 const STORE = 'buga-wedding-plan'
 const load = () => { try { return JSON.parse(localStorage.getItem(STORE)) || {} } catch { return {} } }
@@ -12,7 +12,7 @@ const save = v => { try { localStorage.setItem(STORE, JSON.stringify(v)) } catch
 
 const STEPS = [
   { n: 1, emoji: '💌', title: 'הזמנה לחתונה', text: 'עיצוב אלגנטי עם השמות שלכם, תמונה ותאריך — לוואטסאפ, לסטורי ולהדפסה.', to: '/invitation/wedding', cta: 'לעיצוב ההזמנה' },
-  { n: 2, emoji: '✅', title: 'אישורי הגעה', text: 'קישור אחד שהאורחים פותחים מהוואטסאפ ועונים בלחיצה. אתם רואים מי מגיע, כמה מנות ורגישויות במזון.', to: '/rsvp/wedding', cta: 'לפתיחת אישורי הגעה' },
+  { n: 2, emoji: '✅', title: 'אישורי הגעה', text: 'קישור אחד שהאורחים פותחים מהוואטסאפ ועונים בלחיצה. אתם רואים מי מגיע, כמה מנות ורגישויות במזון — ושולחים תזכורת אישית לכל מי שלא ענה.', to: '/rsvp/wedding', cta: 'לפתיחת אישורי הגעה' },
   { n: 3, emoji: '🪑', title: 'סידור הושבה', text: 'בדף הניהול של אישורי ההגעה קובעים מספר שולחנות ומשבצים כל משפחה. בערב החתונה מדפיסים רשימה לעמדת הכניסה.', to: '/rsvp/wedding', cta: 'לסידור ההושבה' },
   { n: 4, emoji: '🗓️', title: 'מה עושים ומתי', text: 'רשימת משימות לפי תאריך החתונה שלכם, מהשנה שלפני ועד הבוקר של היום הגדול. מסמנים מה כבר נעשה.', to: '#plan', cta: 'לרשימת המשימות' },
 ]
@@ -34,6 +34,49 @@ function Countdown({ date, setDate }) {
       {days > 1 ? <>עוד <span className="text-4xl text-rose-600">{days}</span> ימים לחתונה 💍</> : days === 1 ? 'החתונה מחר! 🎉' : days === 0 ? 'מזל טוב! היום מתחתנים 💍' : 'מזל טוב לזוג הטרי! 🥂'}
     </p>}
   </div>
+}
+
+// What paid wedding services charge for, and what it costs here.
+const EXTRAS = [
+  ['📲', 'תזכורת אישית בוואטסאפ', 'הודעה עם השם של כל מי שלא ענה', 'אחרים גובים 69–449 ₪'],
+  ['🪑', 'סידור הושבה ורשימה לכניסה', 'משבצים משפחות לשולחנות ומדפיסים', 'בדרך כלל בתוך חבילה בתשלום'],
+  ['👥', 'כמה יגיעו באמת?', 'הערכה לפי סוגי האורחים, לפני שסוגרים מנות', 'לא מצאנו את זה אצל אחרים'],
+  ['🔒', 'בלי הרשמה ובלי למסור טלפונים', 'הטלפונים של האורחים נשארים אצלכם', ''],
+]
+
+function Extras() {
+  return <section className="mt-10 rounded-3xl border-2 border-[var(--border)] bg-emerald-50 p-5" aria-labelledby="extras-title">
+    <h2 id="extras-title" className="m-0 text-center text-2xl font-bold">🎁 מה שאחרים מוכרים — אצלנו בחינם</h2>
+    <div className="mt-4 grid gap-3 sm:grid-cols-2">{EXTRAS.map(([e, t, d, price]) => <div key={t} className="rounded-2xl bg-white p-4">
+      <h3 className="m-0 text-lg font-bold">{e} {t}</h3><p className="m-0 mt-1 text-[var(--muted-foreground)]">{d}</p>
+      {price && <p className="m-0 mt-2 text-sm"><s className="text-slate-400">{price}</s> <b className="text-emerald-700">אצלנו: 0 ₪</b></p>}
+    </div>)}</div>
+  </section>
+}
+
+function GuestEstimate({ counts, day, set }) {
+  const r = expectedGuests(counts, day)
+  return <section id="guests" className="mt-12 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow" aria-labelledby="guests-title">
+    <h2 id="guests-title" className="m-0 text-center text-3xl font-bold">👥 כמה יגיעו באמת?</h2>
+    <p className="text-center text-[var(--muted-foreground)]">לא כל מי שמוזמן מגיע. כתבו כמה הזמנתם מכל סוג, ותדעו כמה מנות לסגור עם האולם.</p>
+    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {GUEST_GROUPS.map(g => <label key={g.id} className="font-bold">{g.label}
+        <input type="number" min="0" inputMode="numeric" value={counts[g.id] || ''} placeholder="0" onChange={e => set({ counts: { ...counts, [g.id]: e.target.value } })} className="mt-1 block w-full rounded-xl border-2 border-[var(--border)] px-3 py-2" />
+      </label>)}
+      <label className="font-bold">יום החתונה
+        <select value={day} onChange={e => set({ day: e.target.value })} className="mt-1 block w-full rounded-xl border-2 border-[var(--border)] px-3 py-2">
+          <option value="weekday">אמצע השבוע</option><option value="friday">יום שישי</option><option value="holiday">ערב חג או חול המועד</option>
+        </select>
+      </label>
+    </div>
+    {r.invited > 0 && <div className="mt-5 rounded-2xl bg-rose-50 p-4 text-center" role="status">
+      <p className="m-0 text-lg">מתוך <b>{r.invited}</b> מוזמנים צפויים להגיע בערך</p>
+      <p className="m-0 text-5xl font-bold text-rose-600">{r.expected}</p>
+      <p className="m-0 mt-1">({r.rate}% הגעה · בין {r.low} ל־{r.high})</p>
+      <p className="m-0 mt-3 font-bold">💡 מינימום מנות מול האולם: בסביבות {r.low}. את השאר מעדכנים לפי אישורי ההגעה.</p>
+    </div>}
+    <p className="mt-3 mb-0 text-center text-xs text-[var(--muted-foreground)]">הערכה בלבד, לפי אחוזי הגעה מקובלים בחתונות בישראל. המספר המדויק מגיע מאישורי ההגעה.</p>
+  </section>
 }
 
 function Plan({ date, done, toggle }) {
@@ -77,6 +120,10 @@ export function WeddingHub() {
         return s.to.startsWith('#') ? <a key={s.n} href={s.to} className={cls}>{inner}</a> : <Link key={s.n} to={s.to} className={cls}>{inner}</Link>
       })}
     </div>
+
+    <Extras />
+
+    <GuestEstimate counts={plan.counts || {}} day={plan.day || 'weekday'} set={update} />
 
     <Plan date={plan.date || ''} done={done} toggle={id => update({ done: { ...done, [id]: !done[id] } })} />
 

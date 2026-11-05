@@ -36,6 +36,24 @@ export const WEDDING_TASKS = [
   { id: 'enjoy', stage: 'day', text: 'להעביר את הטלפון למישהו אחר וליהנות' },
 ]
 
+// "How many will really come?" Rough Israeli arrival rates per guest group (an estimate, not a promise).
+export const GUEST_GROUPS = [
+  { id: 'close', label: 'משפחה קרובה', rate: 0.95 },
+  { id: 'far', label: 'משפחה רחוקה', rate: 0.75 },
+  { id: 'friends', label: 'חברים', rate: 0.85 },
+  { id: 'work', label: 'עבודה ומכרים', rate: 0.65 },
+  { id: 'abroad', label: 'מחו״ל או רחוק מאוד', rate: 0.35 },
+]
+export const DAY_FACTORS = { weekday: 1, friday: 0.95, holiday: 0.9 }
+
+export function expectedGuests(counts = {}, day = 'weekday') {
+  const invited = GUEST_GROUPS.reduce((s, g) => s + Math.max(0, Number(counts[g.id]) || 0), 0)
+  const raw = GUEST_GROUPS.reduce((s, g) => s + Math.max(0, Number(counts[g.id]) || 0) * g.rate, 0) * (DAY_FACTORS[day] || 1)
+  const expected = Math.round(raw)
+  // Commit the venue to the low end: paying for empty seats costs more than adding a few plates.
+  return { invited, expected, low: Math.floor(raw * 0.93), high: Math.ceil(raw * 1.05), rate: invited ? Math.round(raw / invited * 100) : 0 }
+}
+
 export function daysUntil(date, now = new Date()) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null
   const [y, m, d] = date.split('-').map(Number)

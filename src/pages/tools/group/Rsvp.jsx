@@ -12,6 +12,7 @@ import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../
 import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
 import SiteInvite from '../../../components/ui/SiteInvite'
 import NotFound from '../../NotFound'
+import PersonalReminders from './PersonalReminders'
 import { RSVP_TYPES, rsvpType } from '../../../utils/rsvpTypes'
 import { RSVP_TYPES_EN, rsvpTypeEn } from '../../../utils/rsvpTypesEn'
 import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
@@ -412,6 +413,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         <OrganizerPin code={ev.code} token={token} show={show} />
         <OrganizerTools what="האירוע" labels={site === 'he' ? undefined : S.organizerTools} onCopyOrganizer={() => copyText(`${link}#k=${token}`, show, S.organizerCopied)} onDelete={() => setConfirm('event')} />
       </section>
+      {site === 'he' && ev.invitees?.length > 0 && <PersonalReminders ev={ev} missing={missing} link={sharedLink} />}
     </aside>
 
     {confirm === 'event' && <ConfirmDialog title={S.deleteEvent.title} text={S.deleteEvent.text} yes={S.deleteEvent.yes} cancel={S.cancel} onClose={() => setConfirm(null)}
