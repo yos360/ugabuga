@@ -120,6 +120,16 @@
     he(ctx, s, cx, cy + size * 0.36, { size, w: 800, color: on ? '#fff' : C.ink, maxW: w - 24 });
   }
 
+  // the mascot (the owner's logo character); falls back to the old logo
+  function mascot(ctx, cx, cy, d, t, t0) {
+    popAt(ctx, t, t0, cx, cy, (c) => {
+      c.rotate(Math.sin((t - t0) * 3) * 0.04);
+      c.save(); c.shadowColor = 'rgba(20,22,45,.35)'; c.shadowBlur = 24; c.shadowOffsetY = 12;
+      if (IMG.logo) c.drawImage(IMG.logo, -d / 2, -d / 2, d, d);
+      c.restore();
+    }, { dur: 0.45, over: 1.8 });
+  }
+
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
@@ -140,12 +150,11 @@
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(690, 1450); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'ענו בראש… 🤔', { size: 58, w: 900, bg: C.yellow, padX: 44 });
+      ctx.save(); ctx.translate(790, 1440); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'ענו בראש… 🤔', { size: 52, w: 900, bg: C.yellow, padX: 30 });
       ctx.restore();
     }
-    const bp = ease.outBack(clamp((t - ev.q2) / 0.45), 1.5);
-    if (bp > 0) img(ctx, IMG.birthday, 200, 1530 + (1 - bp) * 520 - (t > ev.q2 + 0.45 ? hop(t, 16) : 0), 320, { rot: -0.04 });
+    mascot(ctx, 295, 1465 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 500, t, ev.q2);
   }
 
   // ================= 1. GUEST GROUPS =================
@@ -267,13 +276,7 @@
     ctx.save(); ctx.translate(W / 2, 600); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    popAt(ctx, t, ev.logo, W / 2, 580, (c) => {
-      const s = 320;
-      c.rotate(Math.sin((t - ev.logo) * 3) * 0.03);
-      c.fillStyle = C.ink; c.beginPath(); c.roundRect(-s / 2 + 12, -s / 2 + 14, s, s, 80); c.fill();
-      c.save(); c.beginPath(); c.roundRect(-s / 2, -s / 2, s, s, 80); c.clip(); if (IMG.logo) c.drawImage(IMG.logo, -s / 2, -s / 2, s, s); c.restore();
-      c.strokeStyle = C.ink; c.lineWidth = 6; c.beginPath(); c.roundRect(-s / 2, -s / 2, s, s, 80); c.stroke();
-    }, { dur: 0.45, over: 1.8 });
+    mascot(ctx, W / 2, 570, 450, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
     he(ctx, 'עוגה בוגה', W / 2, 905 + (1 - wp) * 24, { size: 150, w: 900, alpha: wp });
     const L = S.endLines;
@@ -302,8 +305,7 @@
       await Studio.loadFont('Heebo', 'fonts/Heebo.ttf', '100 900');
       await Studio.loadFont('Fredoka', 'fonts/Fredoka.ttf', '300 700');
       IMG.girl = await L('img/home-schoolgirl.png');
-      IMG.birthday = await L('img/birthday-girl.png');
-      IMG.logo = await L('img/logo.svg');
+      IMG.logo = (await L('img/mascot.png')) || (await L('img/logo.svg'));
     },
     draw(ctx, t) {
       let i = 0;
