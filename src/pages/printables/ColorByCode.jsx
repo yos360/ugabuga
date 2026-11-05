@@ -9,7 +9,7 @@ import {
   CBN_PICTURES, CBN_LEVELS, CBN_MATH_KINDS, CBN_LETTER_LEVELS, cbnBySlug, cbnLevel, cbnGrid, cbnPath,
   cbnMathKindBySlug, cbnFitsKind, cbnAnswers, cbnMathGrid, cbnLetterTags, cbnLetterGrid,
 } from '../../data/colorByNumber'
-import { CbnSvg, Legend, Sheet, cellKey } from './cbnShared'
+import { CbnSvg, Legend, PaintBar, Sheet, useCbnPainting } from './cbnShared'
 
 // The color-by-number pictures with something else in the cells:
 //   /printables/color-by-answer            — hub: one card per exercise kind
@@ -44,22 +44,20 @@ function PicturePicker({ list, current, onPick }) {
 // online coloring of one picture; remount with a new key to reset
 function CodePlay({ p, cells, tags, tagName, label }) {
   const grid = useMemo(() => cbnGrid(p), [p])
-  const [active, setActive] = useState(1)
-  const [fills, setFills] = useState({})
+  const painting = useCbnPainting(), { fills, active, erasing, paint, pick } = painting
   const [reveal, setReveal] = useState(false)
   const total = grid.flat().filter(n => n > 0).length
   const correct = Object.entries(fills).filter(([k, n]) => { const [r, c] = k.split('-').map(Number); return grid[r][c] === n }).length
-  const paint = (r, c) => setFills(f => (f[cellKey(r, c)] === active ? f : { ...f, [cellKey(r, c)]: active }))
   return <section className="no-print cbn-play mt-6" aria-label="צביעה אונליין">
-    <p className="cbn-hint">בוחרים צבע במקרא ולוחצים על המשבצות כדי לצבוע אונליין.</p>
-    <Legend p={p} tags={tags} tagName={tagName} active={active} onPick={setActive} />
+    <p className="cbn-hint">בוחרים צבע במקרא ולוחצים על המשבצות. טעיתם? לוחצים שוב על המשבצת, או על "ביטול".</p>
+    <Legend p={p} tags={tags} tagName={tagName} active={erasing ? 0 : active} onPick={pick} />
+    <PaintBar painting={painting} />
     <div className="cbn-board wobbly-md">
       <CbnSvg p={p} mode={reveal ? 'solution' : 'code'} cells={cells} fills={fills} onPaint={reveal ? null : paint} label={label} />
     </div>
     <div className="cbn-tools">
       <span role="status">{correct === total ? '🎉 כל הכבוד! הציור הושלם' : `נצבעו נכון ${correct} מתוך ${total} משבצות`}</span>
       <button type="button" onClick={() => setReveal(v => !v)}>{reveal ? '🙈 הסתרת הפתרון' : '👀 הצגת הפתרון'}</button>
-      <button type="button" onClick={() => { setFills({}); setReveal(false) }}>🧽 ניקוי</button>
     </div>
   </section>
 }

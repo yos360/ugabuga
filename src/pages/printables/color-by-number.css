@@ -17,6 +17,10 @@
 .cbn-board .cbn-svg{max-height:70vh;width:auto;max-width:100%;margin:0 auto}
 .cbn-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:12px}
 .cbn-tools span{font-weight:700}
+.cbn-paintbar{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}
+.cbn-paintbar button{min-height:44px;border:2px solid #1d2233;border-radius:12px;background:#fff;color:#1d2233;padding:4px 14px;font-weight:700}
+.cbn-paintbar button:disabled{opacity:.4;cursor:default}
+.cbn-paintbar button[aria-pressed=true]{background:#ffd23f}
 .cbn-tools button{min-height:44px;border:2px solid #1d2233;border-radius:12px;background:#fff;padding:4px 14px;font-weight:700}
 /* print sheet */
 .cbn-sheet .cbn-caption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;width:100%}

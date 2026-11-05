@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnAnswers, cbnMathGrid, cbnPath } from '../../data/colorByNumber'
 import { thumbnailPaths } from '../../data/cbnThumbnail'
@@ -11,6 +11,56 @@ import './color-by-number.css'
 const CELL = 10
 export const cellKey = (r, c) => `${r}-${c}`
 
+// The online coloring: one finger or mouse stroke is one step to undo. A stroke that starts on a cell of the
+// active color wipes instead of painting, and so does the eraser.
+export function useCbnPainting() {
+  const [fills, setFills] = useState({})
+  const [active, setActive] = useState(1)
+  const [erasing, setErasing] = useState(false)
+  const [past, setPast] = useState([])
+  const [future, setFuture] = useState([])
+  const stroke = useRef({ wipe: false, saved: false })
+  const remember = () => { setPast(h => [...h.slice(-199), fills]); setFuture([]) }
+  const paint = (r, c, first) => {
+    const k = cellKey(r, c), cur = fills[k]
+    if (first) stroke.current = { wipe: erasing || cur === active, saved: false }
+    const { wipe, saved } = stroke.current
+    if (wipe ? cur === undefined : cur === active) return
+    if (!saved) { remember(); stroke.current.saved = true }
+    setFills(f => { const n = { ...f }; if (wipe) delete n[k]; else n[k] = active; return n })
+  }
+  const pick = n => { setActive(n); setErasing(false) }
+  const undo = useCallback(() => {
+    if (!past.length) return
+    setFuture(h => [fills, ...h]); setFills(past[past.length - 1]); setPast(past.slice(0, -1))
+  }, [past, fills])
+  const redo = useCallback(() => {
+    if (!future.length) return
+    setPast(h => [...h, fills]); setFills(future[0]); setFuture(future.slice(1))
+  }, [future, fills])
+  const clear = () => { if (Object.keys(fills).length) { remember(); setFills({}) } }
+  useEffect(() => {
+    const onKey = e => {
+      if (!(e.ctrlKey || e.metaKey) || (e.code !== 'KeyZ' && e.code !== 'KeyY')) return
+      e.preventDefault()
+      if (e.code === 'KeyY' || e.shiftKey) redo(); else undo()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [undo, redo])
+  return { fills, active, erasing, setErasing, paint, pick, undo, redo, clear, canUndo: past.length > 0, canRedo: future.length > 0 }
+}
+
+// Right above the board, where the hand already is.
+export function PaintBar({ painting: b }) {
+  return <div className="cbn-paintbar" role="group" aria-label="כלי צביעה">
+    <button type="button" onClick={b.undo} disabled={!b.canUndo}>↩️ ביטול</button>
+    <button type="button" onClick={b.redo} disabled={!b.canRedo}>↪️ שחזור</button>
+    <button type="button" aria-pressed={b.erasing} onClick={() => b.setErasing(v => !v)}>🧽 מחק</button>
+    <button type="button" onClick={b.clear}>🗑️ ניקוי הכול</button>
+  </div>
+}
+
 // mode: 'numbers' | 'math' | 'code' | 'solution'. 'code' writes `cells` (2D strings) in the cells.
 // fills: { 'r-c': legendNumber } for online coloring.
 export function CbnSvg({ p, mode, cells, fills, onPaint, label, className = '' }) {
@@ -19,7 +69,7 @@ export function CbnSvg({ p, mode, cells, fills, onPaint, label, className = '' }
   const math = useMemo(() => (mode === 'math' ? cbnMathGrid(p).map(row => row.map(ex => ex?.text)) : null), [p, mode])
   const texts = mode === 'code' ? cells : math
   const { cols, rows } = cbnSize(p)
-  const svgRef = useRef(null), drag = useRef(false)
+  const svgRef = useRef(null), drag = useRef(false), first = useRef(false)
   const cellAt = e => {
     const svg = svgRef.current, ctm = svg?.getScreenCTM()
     if (!ctm) return null
@@ -27,9 +77,9 @@ export function CbnSvg({ p, mode, cells, fills, onPaint, label, className = '' }
     const c = Math.floor(pt.x / CELL), r = Math.floor(pt.y / CELL)
     return r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] > 0 ? [r, c] : null
   }
-  const paint = e => { const rc = cellAt(e); if (rc) onPaint(rc[0], rc[1]) }
+  const paint = e => { const rc = cellAt(e); if (rc) { onPaint(rc[0], rc[1], first.current); first.current = false } }
   const handlers = onPaint ? {
-    onPointerDown: e => { drag.current = e.pointerType === 'mouse'; paint(e) },
+    onPointerDown: e => { drag.current = e.pointerType === 'mouse'; first.current = true; paint(e) },
     onPointerMove: e => { if (drag.current && e.buttons) paint(e) },
     onPointerUp: () => { drag.current = false },
     onPointerLeave: () => { drag.current = false },

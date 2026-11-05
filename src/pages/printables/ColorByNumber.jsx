@@ -7,7 +7,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { CBN_PICTURES, CBN_LEVELS, CBN_THEMES, cbnBySlug, cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnPath, cbnInTheme } from '../../data/colorByNumber'
-import { CbnSvg, Legend, sheetsFor, PictureCard, cellKey as key } from './cbnShared'
+import { CbnSvg, Legend, PaintBar, sheetsFor, PictureCard, useCbnPainting } from './cbnShared'
 import { useQrLanding } from '../../utils/qrLanding'
 
 // /printables/color-by-number — pixel pictures to color by number (or by exercise), each with
@@ -137,7 +137,7 @@ function pictureFaq(p) {
   return [
     { q: `לאיזה גיל מתאים דף הצביעה „${p.name}”?`, a: `הדף מתאים ${level.long}: ${cols}×${rows} משבצות ו-${p.colors.length} צבעים. ${p.level === 'gan' ? 'המשבצות גדולות והמספרים מעטים, כך שגם ילדים שרק לומדים לזהות מספרים מצליחים לבד.' : p.level === 'adults' ? 'יש הרבה משבצות ופרטים קטנים — מתאים לצבעי עיפרון מחודדים ולשעה של צביעה רגועה.' : 'יש מספיק פרטים כדי שיהיה מעניין, ועדיין אפשר לסיים בישיבה אחת.'}` },
     { q: 'איך עובדת גרסת התרגילים?', a: `בכל משבצת יש ${mathHow}. פותרים, מחפשים את התשובה במקרא וצובעים בצבע שלה. לכל צבע יש תשובה אחת משלו, ואין שני צבעים עם אותה תשובה — אז אין התלבטויות.` },
-    { q: 'אפשר לצבוע אונליין?', a: 'כן. בוחרים צבע במקרא ולוחצים על המשבצות (במחשב אפשר גם לגרור עם העכבר). המונה מראה כמה משבצות נצבעו נכון, וכפתור "הצגת הפתרון" מראה את הציור המלא.' },
+    { q: 'אפשר לצבוע אונליין?', a: 'כן. בוחרים צבע במקרא ולוחצים על המשבצות (במחשב אפשר גם לגרור עם העכבר). טעיתם? לחיצה נוספת על המשבצת מוחקת אותה, ויש גם מחק וכפתור ביטול. המונה מראה כמה משבצות נצבעו נכון, וכפתור "הצגת הפתרון" מראה את הציור המלא.' },
     { q: 'יש דף פתרון?', a: 'כן. לפני ההדפסה מסמנים "להדפיס גם דף פתרון", ואחרי דף הצביעה יודפס הציור הצבוע — נוח להורים ולמורים לבדיקה.' },
   ]
 }
@@ -147,8 +147,7 @@ export function ColorByNumberPicture() {
   const { slug } = useParams()
   const p = cbnBySlug(slug)
   const [mode, setMode] = useState('numbers')
-  const [active, setActive] = useState(1)
-  const [fills, setFills] = useState({})
+  const painting = useCbnPainting(), { fills, active, erasing, paint, pick } = painting
   const [reveal, setReveal] = useState(false)
   const [printing, setPrinting] = useState(null)
   const [withSolution, setWithSolution] = useState(true)
@@ -164,7 +163,6 @@ export function ColorByNumberPicture() {
   const level = cbnLevel(p.level), { cols, rows } = cbnSize(p)
   const total = grid.flat().filter(n => n > 0).length
   const correct = Object.entries(fills).filter(([k, n]) => { const [r, c] = k.split('-').map(Number); return grid[r][c] === n }).length
-  const paint = (r, c) => setFills(f => (f[key(r, c)] === active ? f : { ...f, [key(r, c)]: active }))
   const faq = pictureFaq(p)
   // same level: pictures of the same theme/holiday first, then the rest — 8 cards at most
   const kin = x => (p.holiday && x.holiday === p.holiday) || (p.theme && x.theme === p.theme)
@@ -189,8 +187,9 @@ export function ColorByNumberPicture() {
         <button type="button" aria-pressed={mode === 'numbers'} onClick={() => setMode('numbers')}>🔢 מספרים</button>
         <button type="button" aria-pressed={mode === 'math'} onClick={() => setMode('math')}>➕ {level.mathLabel}</button>
       </div>
-      <p className="cbn-hint">בוחרים צבע במקרא ולוחצים על המשבצות כדי לצבוע אונליין.</p>
-      <Legend p={p} mode={mode} active={active} onPick={setActive} />
+      <p className="cbn-hint">בוחרים צבע במקרא ולוחצים על המשבצות. טעיתם? לוחצים שוב על המשבצת, או על "ביטול".</p>
+      <Legend p={p} mode={mode} active={erasing ? 0 : active} onPick={pick} />
+      <PaintBar painting={painting} />
       {fromQr && reveal && <p className="cbn-hint" role="status">🎨 כך הציור נראה בסוף. השוו אותו לדף שצבעתם!</p>}
       <div className="cbn-board wobbly-md" ref={board}>
         <CbnSvg p={p} mode={reveal ? 'solution' : mode} fills={fills} onPaint={reveal ? null : paint} label={`${p.name} — צביעה ${mode === 'math' ? 'לפי תרגילים' : 'לפי מספרים'}`} />
@@ -198,7 +197,6 @@ export function ColorByNumberPicture() {
       <div className="cbn-tools">
         <span role="status">{correct === total ? '🎉 כל הכבוד! הציור הושלם' : `נצבעו נכון ${correct} מתוך ${total} משבצות`}</span>
         <button type="button" onClick={() => setReveal(v => !v)}>{reveal ? '🙈 הסתרת הפתרון' : '👀 הצגת הפתרון'}</button>
-        <button type="button" onClick={() => { setFills({}); setReveal(false) }}>🧽 ניקוי</button>
       </div>
     </section>
     {printing && <PrintPreview title={`צביעה לפי מספרים: ${p.name}`} onClose={() => setPrinting(null)}>{sheetsFor([p], printing, withSolution)}</PrintPreview>}
