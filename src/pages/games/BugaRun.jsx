@@ -64,8 +64,8 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
       }
       for (const e of s.events) {
         sound.play(e === 'pad' ? 'jump' : e)
-        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : e === 'fly' ? 'התוכי מעיף את בוגה! 🦜' : null
-        if (text) setPop({ id: performance.now(), text, big: e !== 'close' })
+        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : e === 'fly' ? 'התוכי מעיף את בוגה! 🦜' : e === 'right' ? `✅ נכון! ${s.lastGate}` : e === 'wrong' ? `❌ ${s.lastGate}` : null
+        if (text) setPop({ id: performance.now(), text, big: e !== 'close', long: e === 'wrong' })
       }
       scene.render(s, pausedRef.current ? 0 : dt)
       s.events.length = 0
@@ -73,7 +73,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
         hudAt = now
         const corner = distanceToCorner(s), seg = segment(s)
         setHud({
-          score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate?.text || null,
+          score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate ? { text: s.gate.text, answers: [s.gate.answers[-1], s.gate.answers[0], s.gate.answers[1]], lane: s.lane } : null,
           turn: corner < turnReach(s) && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= turnWindow(s) } : null,
           next: nextRow(s), missions: s.time < 4.5 ? s.missions : null,
         })
@@ -126,7 +126,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
     <style>{'@keyframes buga-pop{0%{opacity:0;transform:scale(.5)}18%{opacity:1;transform:scale(1.12)}30%{transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:translateY(-22px)}}@keyframes buga-bump{0%{transform:scale(1.28)}100%{transform:scale(1)}}@keyframes buga-pulse{50%{transform:scale(1.14)}}'}</style>
     <canvas ref={canvasRef} className="block h-full w-full" aria-label="המשחק בוגה בורח" />
     {loading && <div className="absolute inset-0 grid place-items-center bg-sky-100 text-2xl font-bold" role="status">בוגה מתחמם…</div>}
-    {pop && <div key={pop.id} className="pointer-events-none absolute inset-x-0 top-[17%] text-center" style={{ animation: 'buga-pop 1s ease-out both' }} dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-4 py-1 font-black ${pop.big ? 'bg-[#ffd23f] text-2xl' : 'bg-white text-xl'}`}>{pop.text}</span></div>}
+    {pop && <div key={pop.id} className="pointer-events-none absolute inset-x-0 top-[17%] text-center" style={{ animation: `uga-pop ${pop.long ? 2.6 : 1}s ease-out both` }} dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-4 py-1 font-black ${pop.big ? 'bg-[#ffd23f] text-2xl' : 'bg-white text-xl'}`}>{pop.text}</span></div>}
     {hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-3 py-1 text-xl font-black ${hud.turn.now ? 'bg-emerald-500 text-white' : 'bg-white/90'}`} style={hud.turn.now ? { animation: 'buga-pulse .4s ease-in-out infinite' } : undefined}>{hud.turn.side < 0 ? '⬅️' : '➡️'} {hud.turn.now ? 'לפנות עכשיו!' : 'פנייה בדרך'}</span></div>}
     {hud.next && !hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className="inline-block rounded-2xl border-[3px] border-[#14162d] bg-[#ffd23f] px-3 py-1 text-xl font-black">{NEXT[hud.next]}</span></div>}
     {hud.missions && <div className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-4 py-2 text-center" dir="rtl"><div className="font-black">המשימות בריצה הזאת</div>{hud.missions.map(m => <div key={m.key}>{m.done ? '✅' : '🎯'} {m.text}</div>)}<div className="mt-1 text-sm font-bold">⬅️➡️ נתיב ופנייה · ⬆️ קפיצה · ⬇️ החלקה</div></div>}
@@ -145,8 +145,8 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
         <button type="button" onClick={() => togglePause()} className="grid h-11 w-11 place-items-center rounded-xl border-2 border-[#14162d] bg-white/90 text-xl" aria-label="השהיה">⏸️</button>
       </div>
     </div>
-    {hud.stumble && <div className="pointer-events-none absolute inset-x-0 top-24 text-center"><span className="rounded-full border-2 border-[#14162d] bg-rose-600 px-4 py-1 font-black text-white">🍪 העוגייה ממש מאחוריך!</span></div>}
-    {hud.gate && <div className="pointer-events-none absolute inset-x-0 top-1/4 text-center" dir="ltr"><span className="rounded-2xl border-[3px] border-[#14162d] bg-white px-5 py-1 text-4xl font-black">{hud.gate} = ?</span></div>}
+    {hud.stumble && !hud.gate && <div className="pointer-events-none absolute inset-x-0 top-24 text-center"><span className="rounded-full border-2 border-[#14162d] bg-rose-600 px-4 py-1 font-black text-white">🍪 העוגייה ממש מאחוריך!</span></div>}
+    {hud.gate && <div className="pointer-events-none absolute inset-x-0 top-24 text-center" dir="ltr"><div className="mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white px-6 py-1 text-5xl font-black">{hud.gate.text} = ?</div><div className="mx-auto mt-2 flex max-w-sm justify-center gap-2 px-3">{hud.gate.answers.map((a, i) => <div key={i} className={`flex-1 rounded-2xl border-[3px] border-[#14162d] py-2 text-4xl font-black ${i - 1 === hud.gate.lane ? 'bg-[#ffd23f]' : 'bg-white/90'}`}>{a}</div>)}</div></div>}
     {lost && <div className="absolute inset-0 grid place-items-center bg-[#14162d]/80 p-4" dir="rtl" role="alert" onPointerDown={e => e.stopPropagation()}>
       <div className="w-full max-w-xs rounded-3xl border-[3px] border-[#14162d] bg-white p-5 text-center">
         <h2 className="m-0 text-2xl font-black">המשחק נעצר, אפשר להתחיל מחדש</h2>

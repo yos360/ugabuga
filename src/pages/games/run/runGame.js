@@ -7,6 +7,8 @@ export const TURN_WINDOW = 15 // metres before a corner where a swipe towards it
 const CRASH_AFTER = 3.2 // metres past the corner's centre before a runner who did not turn hits the wall
 const START_SPEED = 12
 const MAX_SPEED = 24
+const TIMES_SPEED = 16 // the times-table run stays slow: the sum is the game there
+const TIMES_SECONDS = 6 // a question stands alone on the road this long before its gate
 const ACCEL = 0.12
 const CORNER_CLEAR = 26 // nothing stands this close to a corner, so the turn is always the only thing to do
 const COIN_STEP = 2.6
@@ -113,7 +115,9 @@ function makeSegment(s, prev) {
   const id = s.nextSegment++
   const total = prev ? prev.start + prev.len : 0
   const level = Math.min(1, total / 2600)
-  const len = id === 0 ? 120 : 70 + Math.floor(r() * 50)
+  const cap = s.mode === 'times' ? TIMES_SPEED : MAX_SPEED
+  const asks = s.mode === 'times' && id > 0 && s.sinceGate >= 2
+  const len = asks ? 165 + Math.floor(r() * 40) : id === 0 ? 120 : 70 + Math.floor(r() * 50)
   // the path only ever goes forward or sideways, never back, so it cannot cross itself
   const turn = s.bend !== 0 ? -s.bend : r() < 0.5 ? -1 : 1
   s.bend += turn
@@ -125,19 +129,21 @@ function makeSegment(s, prev) {
   }
   const items = []
   // at the speed the runner will have by then, two rows always leave time to see the next one and get ready
-  const topSpeed = Math.min(MAX_SPEED, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
+  const topSpeed = Math.min(cap, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
   const gap = Math.max(20, topSpeed * 1.6)
   const end = len - CORNER_CLEAR
   // the first row waits until the camera has come round the corner
   let at = id === 0 ? 42 : Math.max(20, topSpeed * 1.1), trail = s.trail, coinsTo = id === 0 ? 24 : 4
+  if (asks) {
+    // the question opens the stretch: from the corner to its gate there is nothing to do but read and choose
+    at = topSpeed * TIMES_SECONDS + 4
+    items.push({ kind: 'gate', lane: null, at, ...timesQuestion(r) })
+    s.sinceGate = 0
+    coinTrail(items, 4, at - 4, s.trail)
+    at += gap
+    coinsTo = at - 14
+  }
   while (at < end) {
-    if (s.mode === 'times' && s.sinceGate >= 3) {
-      items.push({ kind: 'gate', lane: null, at, ...timesQuestion(r) })
-      s.sinceGate = 0
-      at += 44
-      coinsTo = at - 14
-      continue
-    }
     const piece = PATTERNS[Math.floor(r() * Math.min(PATTERNS.length, 2 + (total + 200) / 180))]
     for (const want of piece) {
       if (at >= end) break
@@ -314,6 +320,7 @@ function meet(s, it) {
   else if (it.kind === 'gate') {
     const lane = Math.round(s.laneX / LANE_W)
     s.gate = null
+    s.lastGate = `${it.text} = ${it.answers[it.right]}`
     if (lane === it.right) { s.right++; s.bonus += 250; s.events.push('right') } else { s.wrong++; s.events.push('wrong') }
   }
 }
@@ -346,7 +353,7 @@ function collect(s, seg, from, to) {
 export function step(s, dt) {
   if (s.over) return
   s.time += dt
-  s.speed = Math.min(MAX_SPEED, s.speed + ACCEL * dt)
+  s.speed = Math.min(s.mode === 'times' ? TIMES_SPEED : MAX_SPEED, s.speed + ACCEL * dt)
   s.slide = Math.max(0, s.slide - dt)
   s.stumble = Math.max(0, s.stumble - dt)
   s.safe = Math.max(0, s.safe - dt)
@@ -388,7 +395,7 @@ export function step(s, dt) {
   if (row && !hurt) passed(s)
   collect(s, seg, from, s.d)
   checkMissions(s)
-  s.gate = seg.items.find(it => it.kind === 'gate' && !it.met && it.at > s.d && it.at - s.d < 60) || null
+  s.gate = seg.items.find(it => it.kind === 'gate' && !it.met && it.at > s.d) || null
 
   if (s.d >= seg.len && s.wantTurn === seg.turn) {
     // what was across the old path is along the new one and the other way round, so even a late turn does not jump

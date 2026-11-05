@@ -428,6 +428,21 @@ test('upgrades lengthen powers and can start the run shielded', () => {
   assert.equal(up.shield, true)
 })
 
+test('in the times-table run a question stands alone on the road, for at least 5 seconds', () => {
+  for (let seed = 1; seed <= 8; seed++) {
+    const { s } = play(seed, 1500, 'times')
+    assert.ok(s.right + s.wrong >= 4, `seed ${seed}: ${s.right + s.wrong} gates`)
+    assert.ok(s.speed <= 16)
+    for (const seg of s.segs) {
+      const gate = seg.items.find(it => it.kind === 'gate')
+      if (!gate) continue
+      assert.ok(gate.at + 26 < seg.len, 'the gate is reached before the corner')
+      assert.ok(gate.at / 16 >= 5, `only ${gate.at / 16} s to read`)
+      assert.ok(!seg.items.some(it => ['wall', 'low', 'high', 'pit', 'pad'].includes(it.kind) && it.at < gate.at), 'nothing stands before the gate')
+    }
+  }
+})
+
 test('the times-table mode: three different answers, one right, and a right gate pays', () => {
   const r = rng(9)
   for (let i = 0; i < 300; i++) {
