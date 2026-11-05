@@ -2,7 +2,7 @@
 // No React and no Supabase here, so tests/group-tools.test.mjs can run it in Node.
 
 // ── text & validation ─────────────────────────────────────────
-export const LIMITS = { name: 30, guestName: 40, title: 80, place: 100, note: 300, allergies: 200, pickup: 60, message: 400, teacher: 40, minPeople: 3, maxPeople: 60, maxInvitees: 80 }
+export const LIMITS = { name: 30, guestName: 40, title: 80, place: 100, note: 300, allergies: 200, pickup: 60, message: 400, teacher: 40, minPeople: 3, maxPeople: 60, maxInvitees: 400 }
 
 // Trim, drop control characters, collapse inner spaces, cut to max.
 export function cleanText(value, max, multiline = false) {
@@ -23,7 +23,8 @@ export const normName = s => cleanName(s).toLowerCase().replace(/["'׳״`]/g, ''
 export function parseNames(text, max = LIMITS.maxPeople) {
   const seen = new Set(), out = []
   for (const raw of String(text || '').split(/[\n,،;]+/)) {
-    const n = cleanName(raw.replace(/^\s*\d+[.)-]\s*/, ''))
+    // A pasted contact line ("נועה 050-1234567") keeps only the name: phone numbers never go to the server.
+    const n = cleanName(raw.replace(/\+?\d(?:[\s()-]{0,2}\d){7,}/g, ' ').replace(/^\s*\d{1,3}[.)-]\s*/, '').replace(/^[\s\-–:|]+|[\s\-–:|]+$/g, ''))
     if (!n || seen.has(normName(n))) continue
     seen.add(normName(n)); out.push(n)
     if (out.length >= max + 1) break // one extra so validation can say "too many"
@@ -145,6 +146,15 @@ export function rsvpTotals(responses = []) {
 }
 
 // Invitees whose name doesn't match any answer (loose match: same normalized name, or the answer starts with it).
+// Name buttons on the guest form: up to 24 invitees all show while the name is empty; a longer list
+// suggests up to 8 names containing what was typed (2+ letters), and hides once a name matches exactly.
+export function guestPicks(invitees = [], typed = '') {
+  const t = normName(typed)
+  if (!t) return invitees.length <= 24 ? invitees : []
+  if (t.length < 2 || invitees.some(n => normName(n) === t)) return []
+  return invitees.length <= 24 ? [] : invitees.filter(n => normName(n).includes(t)).slice(0, 8)
+}
+
 export function missingInvitees(invitees = [], responses = []) {
   const answered = responses.map(r => normName(r.name)).filter(Boolean)
   return invitees.filter(name => {

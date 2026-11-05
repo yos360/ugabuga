@@ -54,6 +54,47 @@ export function expectedGuests(counts = {}, day = 'weekday') {
   return { invited, expected, low: Math.floor(raw * 0.93), high: Math.ceil(raw * 1.05), rate: invited ? Math.round(raw / invited * 100) : 0 }
 }
 
+// "How much will the wedding cost?" Supplier lines with a typical Israeli starting point (₪, editable).
+export const BUDGET_ITEMS = [
+  { id: 'photo', label: 'צילום ווידאו', typical: 12000 },
+  { id: 'music', label: 'תקליטן או להקה', typical: 7000 },
+  { id: 'design', label: 'עיצוב ופרחים', typical: 8000 },
+  { id: 'dress', label: 'שמלה וחליפה', typical: 9000 },
+  { id: 'hair', label: 'איפור ושיער', typical: 3000 },
+  { id: 'rings', label: 'טבעות', typical: 5000 },
+  { id: 'ceremony', label: 'רב או עורך טקס', typical: 2500 },
+  { id: 'bar', label: 'בר ואלכוהול', typical: 0 },
+  { id: 'other', label: 'שונות (הסעות, מתנות לאורחים)', typical: 3000 },
+]
+
+const num = v => Math.max(0, Number(v) || 0)
+
+// items: { [id]: { cost, paid } }; empty cost falls back to the typical price.
+export function weddingBudget({ guests = 0, perPlate = 0, gift = 0, items = {} } = {}) {
+  const g = Math.round(num(guests))
+  const food = g * num(perPlate)
+  const lines = BUDGET_ITEMS.map(b => {
+    const it = items[b.id] || {}
+    const cost = it.cost === undefined || it.cost === '' ? b.typical : num(it.cost)
+    return { ...b, cost, paid: Math.min(cost, num(it.paid)) }
+  })
+  const suppliers = lines.reduce((s, l) => s + l.cost, 0)
+  const total = food + suppliers
+  const gifts = g * num(gift)
+  const paid = lines.reduce((s, l) => s + l.paid, 0)
+  return { lines, food, suppliers, total, perGuest: g ? Math.round(total / g) : 0, gifts, balance: gifts - total, paid, left: total - paid }
+}
+
+// The whole plan in a link, to open it on another phone or send it to the partner. No server involved.
+export function planToLink(plan, origin = '') {
+  return `${origin}/wedding#plan=${encodeURIComponent(JSON.stringify(plan))}`
+}
+export function planFromHash(hash) {
+  const m = /[#&]plan=([^&]*)/.exec(hash || '')
+  if (!m) return null
+  try { const p = JSON.parse(decodeURIComponent(m[1])); return p && typeof p === 'object' && !Array.isArray(p) ? p : null } catch { return null }
+}
+
 export function daysUntil(date, now = new Date()) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null
   const [y, m, d] = date.split('-').map(Number)

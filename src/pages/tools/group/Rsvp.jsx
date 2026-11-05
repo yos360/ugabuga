@@ -6,13 +6,14 @@ import QuickAnswer from '../../../components/ui/QuickAnswer'
 import Breadcrumbs from '../../../components/ui/Breadcrumbs'
 import PrintPreview from '../../../components/ui/PrintPreview'
 import { rsvpDb, groupMemory, groupErrorText, newToken, tokenFromHash } from '../../../utils/groupDb'
-import { LIMITS, cleanText, parseNames, validateRsvpAnswer, rsvpTotals, missingInvitees } from '../../../utils/groupTools'
+import { LIMITS, cleanText, parseNames, validateRsvpAnswer, rsvpTotals, missingInvitees, guestPicks } from '../../../utils/groupTools'
 import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, ConfirmDialog, ErrorPanel, Stepper, Field, OrganizerTools } from './GroupUi'
 import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../../utils/rsvpExperience'
 import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
 import SiteInvite from '../../../components/ui/SiteInvite'
 import NotFound from '../../NotFound'
 import PersonalReminders from './PersonalReminders'
+import { parsePhoneBook, savePhoneText } from '../../../utils/personalReminders'
 import { RSVP_TYPES, rsvpType } from '../../../utils/rsvpTypes'
 import { RSVP_TYPES_EN, rsvpTypeEn } from '../../../utils/rsvpTypesEn'
 import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
@@ -151,13 +152,15 @@ function AnswerForm({ ev, mine, onSaved, show, lang = 'he' }) {
     } catch (e2) { show(errText(site, e2.code), 'err') } finally { setBusy(false) }
   }
   const coming = a.status && a.status !== 'no'
+  // A short list shows every name; a wedding-size list suggests names only as the guest types.
+  const picks = guestPicks(ev.invitees, a.name)
   const stepLang = lang === 'he' ? 'he' : 'en'
   return <form onSubmit={submit} className="space-y-4">
     <Field label={L(kids ? 'childName' : 'yourName')}>
       <input className={input} value={a.name} maxLength={LIMITS.guestName} onChange={e => set('name', e.target.value)} placeholder={L(kids ? 'phChild' : 'phName')} autoComplete="given-name" />
     </Field>
-    {ev.invitees?.length > 0 && !a.name && <div className="flex flex-wrap gap-2" aria-label={S.pickFromList}>
-      {ev.invitees.map(n => <button type="button" key={n} onClick={() => set('name', n)} className="min-h-[40px] rounded-full border-2 border-slate-200 bg-white px-3 font-bold">{n}</button>)}
+    {picks.length > 0 && <div className="flex flex-wrap gap-2" aria-label={S.pickFromList}>
+      {picks.map(n => <button type="button" key={n} onClick={() => set('name', n)} className="min-h-[40px] rounded-full border-2 border-slate-200 bg-white px-3 font-bold">{n}</button>)}
     </div>}
     <div className="grid grid-cols-3 gap-2" role="group" aria-label={S.answerGroup}>
       {Object.entries(STATUS_STYLE).map(([k, s]) => <button type="button" key={k} onClick={() => set('status', k)} aria-pressed={a.status === k}
@@ -319,6 +322,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
     setBusy(true)
     try {
       const row = enhanced ? await rsvpDb.updateV2(ev.code, token, { ...fromForm(form), theme: form.theme || ev.theme }) : await rsvpDb.update(ev.code, token, fromForm(form))
+      if (Object.keys(parsePhoneBook(form.invitees)).length) savePhoneText(ev.code, form.invitees)
       const extras = await rsvpDb.extrasSet(ev.code, token, { ...extrasOf(form, site), type: ev.extras?.type }).catch(() => ev.extras)
       setEv(e => ({ ...e, ...row, extras: extras || {} })); setEditing(false); show(S.updated)
     }
@@ -563,6 +567,8 @@ function RsvpPage({ preset }) {
       const t = newToken()
       const row = newExperience ? await rsvpDb.createV2(t, { ...fromForm(form), theme: form.theme }) : await rsvpDb.create(t, fromForm(form))
       groupMemory.rememberOwned(KIND, row.code, t, row.title)
+      // Phones pasted with the guest list stay in this browser, ready for personal reminders.
+      if (Object.keys(parsePhoneBook(form.invitees)).length) savePhoneText(row.code, form.invitees)
       if (pinOk(form.pin)) await rsvpDb.setPin(row.code, t, form.pin).catch(() => {})
       const wanted = extrasOf(form, site)
       const extras = hasExtras(wanted) ? await rsvpDb.extrasSet(row.code, t, wanted).catch(() => ({})) : {}

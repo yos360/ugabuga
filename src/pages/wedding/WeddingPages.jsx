@@ -4,7 +4,7 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import InvitationStudio from '../../components/invitations/InvitationStudio'
-import { WEDDING_TASKS, GUEST_GROUPS, daysUntil, tasksByStage, expectedGuests } from './weddingPlan'
+import { WEDDING_TASKS, GUEST_GROUPS, daysUntil, tasksByStage, expectedGuests, weddingBudget, planToLink, planFromHash } from './weddingPlan'
 
 const STORE = 'buga-wedding-plan'
 const load = () => { try { return JSON.parse(localStorage.getItem(STORE)) || {} } catch { return {} } }
@@ -19,7 +19,8 @@ const STEPS = [
 
 const FAQ = [
   { q: 'המתכנן באמת חינמי?', a: 'כן. ההזמנה, אישורי ההגעה, סידור ההושבה ורשימת המשימות חינמיים לגמרי, בלי הרשמה ובלי הגבלה על מספר האורחים.' },
-  { q: 'איפה נשמרת רשימת המשימות?', a: 'בדפדפן בטלפון או במחשב שבו סימנתם. היא לא עולה לשרת, ולכן כדאי לעבוד עליה תמיד מאותו מכשיר.' },
+  { q: 'איפה נשמרת רשימת המשימות?', a: 'בדפדפן בטלפון או במחשב שבו סימנתם. היא לא עולה לשרת. כדי לעבור לטלפון אחר או לשתף את בן או בת הזוג, שולחים לעצמכם את קישור התכנון שבתחתית הדף.' },
+  { q: 'כמה עולה חתונה בישראל?', a: 'תלוי בעיקר במספר האורחים ובמחיר המנה. במחשבון התקציב מכניסים את ההצעות שקיבלתם, ורואים את סך הכול, את העלות לאורח ואם המתנות הצפויות יכסו את ההוצאה.' },
   { q: 'כמה זמן לפני החתונה שולחים הזמנות?', a: 'בדרך כלל ארבעה עד שישה שבועות לפני. שבוע־שבועיים לפני שולחים תזכורת רק למי שעוד לא אישר הגעה.' },
   { q: 'אפשר לנהל גם חינה או שבת חתן?', a: 'כן. פותחים אירוע נפרד באישורי ההגעה לכל אחד מהם, וכל אירוע מקבל קישור וסיכום משלו.' },
 ]
@@ -41,6 +42,7 @@ const EXTRAS = [
   ['📲', 'תזכורת אישית בוואטסאפ', 'הודעה עם השם של כל מי שלא ענה', 'אחרים גובים 69–449 ₪'],
   ['🪑', 'סידור הושבה ורשימה לכניסה', 'משבצים משפחות לשולחנות ומדפיסים', 'בדרך כלל בתוך חבילה בתשלום'],
   ['👥', 'כמה יגיעו באמת?', 'הערכה לפי סוגי האורחים, לפני שסוגרים מנות', 'לא מצאנו את זה אצל אחרים'],
+  ['💰', 'מחשבון תקציב ומתנות', 'כמה החתונה תעלה, כמה שילמתם, ואם המתנות יכסו', 'באפליקציות אחרות — אחרי הרשמה'],
   ['🔒', 'בלי הרשמה ובלי למסור טלפונים', 'הטלפונים של האורחים נשארים אצלכם', ''],
 ]
 
@@ -79,6 +81,71 @@ function GuestEstimate({ counts, day, set }) {
   </section>
 }
 
+const shekel = n => `${Math.round(n).toLocaleString('he-IL')} ₪`
+const money = 'mt-1 block w-full rounded-xl border-2 border-[var(--border)] px-3 py-2'
+
+function Budget({ plan, set }) {
+  const b = plan.budget || {}
+  const items = b.items || {}
+  const expected = expectedGuests(plan.counts, plan.day).expected
+  const guests = b.guests ?? (expected || '')
+  const r = weddingBudget({ guests, perPlate: b.perPlate ?? 320, gift: b.gift ?? 400, items })
+  const put = patch => set({ budget: { ...b, ...patch } })
+  const putItem = (id, patch) => put({ items: { ...items, [id]: { ...items[id], ...patch } } })
+  const share = 'https://wa.me/?text=' + encodeURIComponent('מתחתנים? יש מחשבון חינמי שמראה כמה החתונה תעלה ואם המתנות יכסו אותה 💍\nhttps://ugabuga.co.il/wedding#budget')
+  return <section id="budget" className="mt-12 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow" aria-labelledby="budget-title">
+    <h2 id="budget-title" className="m-0 text-center text-3xl font-bold">💰 כמה החתונה תעלה?</h2>
+    <p className="text-center text-[var(--muted-foreground)]">המחירים מולאו מראש לפי ממוצעים — שנו כל שורה לפי ההצעות שקיבלתם, וסמנו כמה כבר שילמתם.</p>
+    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <label className="font-bold">כמה אורחים{expected > 0 && b.guests === undefined && <span className="font-normal text-sm"> (מהמחשבון למעלה)</span>}
+        <input type="number" min="0" inputMode="numeric" value={guests} placeholder="0" onChange={e => put({ guests: e.target.value })} className={money} /></label>
+      <label className="font-bold">מחיר למנה באולם (₪)
+        <input type="number" min="0" inputMode="numeric" value={b.perPlate ?? 320} onChange={e => put({ perPlate: e.target.value })} className={money} /></label>
+      <label className="font-bold">מתנה ממוצעת לאורח (₪)
+        <input type="number" min="0" inputMode="numeric" value={b.gift ?? 400} onChange={e => put({ gift: e.target.value })} className={money} /></label>
+    </div>
+    <div className="mt-5 overflow-x-auto">
+      <table className="w-full min-w-[420px] border-collapse text-right">
+        <thead><tr className="border-b-2 border-[var(--border)]"><th className="py-2">ספק</th><th className="py-2">מחיר (₪)</th><th className="py-2">שולם (₪)</th></tr></thead>
+        <tbody>
+          <tr className="border-b border-[var(--border)]"><td className="py-2 font-bold">אולם ואוכל</td><td className="py-2" colSpan="2">{shekel(r.food)} <span className="text-sm text-[var(--muted-foreground)]">({Number(guests) || 0} × {shekel(Number(b.perPlate ?? 320) || 0)})</span></td></tr>
+          {r.lines.map(l => <tr key={l.id} className="border-b border-[var(--border)]">
+            <td className="py-2 font-bold">{l.label}</td>
+            <td className="py-1 pl-2"><input type="number" min="0" inputMode="numeric" aria-label={`מחיר: ${l.label}`} value={items[l.id]?.cost ?? l.typical} onChange={e => putItem(l.id, { cost: e.target.value })} className="w-full rounded-lg border-2 border-[var(--border)] px-2 py-1" /></td>
+            <td className="py-1"><input type="number" min="0" inputMode="numeric" aria-label={`שולם: ${l.label}`} value={items[l.id]?.paid ?? ''} placeholder="0" onChange={e => putItem(l.id, { paid: e.target.value })} className="w-full rounded-lg border-2 border-[var(--border)] px-2 py-1" /></td>
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+    {!(Number(guests) > 0) && <p className="mt-5 rounded-2xl bg-amber-50 p-3 text-center font-bold">✍️ כתבו כמה אורחים — או מלאו את "כמה יגיעו באמת" למעלה — ותראו את סך הכול ואת המתנות הצפויות.</p>}
+    {Number(guests) > 0 && <div className="mt-5 grid gap-3 text-center sm:grid-cols-3" role="status">
+      <div className="rounded-2xl bg-rose-50 p-4"><p className="m-0">סך הכול</p><p className="m-0 text-3xl font-bold text-rose-600">{shekel(r.total)}</p>{r.perGuest > 0 && <p className="m-0 text-sm">{shekel(r.perGuest)} לאורח</p>}</div>
+      <div className={`rounded-2xl p-4 ${r.balance >= 0 ? 'bg-emerald-50' : 'bg-amber-50'}`}><p className="m-0">המתנות הצפויות</p><p className="m-0 text-3xl font-bold">{shekel(r.gifts)}</p>
+        <p className="m-0 text-sm font-bold">{r.gifts === 0 ? '' : r.balance >= 0 ? `נשאר בערך ${shekel(r.balance)} 🎉` : `חסר בערך ${shekel(-r.balance)}`}</p></div>
+      <div className="rounded-2xl bg-sky-50 p-4"><p className="m-0">שולם עד עכשיו</p><p className="m-0 text-3xl font-bold">{shekel(r.paid)}</p><p className="m-0 text-sm">נשאר לשלם {shekel(r.left)}</p></div>
+    </div>}
+    <p className="mt-3 text-center text-xs text-[var(--muted-foreground)]">הערכה בלבד. המספרים נשמרים רק אצלכם בדפדפן.</p>
+    <p className="mt-2 mb-0 text-center"><a href={share} target="_blank" rel="noopener noreferrer" className="inline-block rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שלחו לחברים שמתחתנים</a></p>
+  </section>
+}
+
+// Same plan on another phone or with the partner: a link carrying the plan, sent over WhatsApp.
+function MovePlan({ plan }) {
+  const [copied, setCopied] = useState(false)
+  const link = planToLink(plan, 'https://ugabuga.co.il')
+  const wa = 'https://wa.me/?text=' + encodeURIComponent('התכנון של החתונה שלנו 💍 (פותחים ומקבלים את כל הסימונים והתקציב):\n' + link)
+  const copy = () => navigator.clipboard?.writeText(link).then(() => setCopied(true), () => {})
+  if (!Object.keys(plan).length) return null
+  return <section className="mt-10 rounded-3xl border-2 border-dashed border-[var(--border)] p-5 text-center" aria-labelledby="move-title">
+    <h2 id="move-title" className="m-0 text-xl font-bold">📲 לעבור לטלפון אחר או לשתף את בן או בת הזוג</h2>
+    <p className="mt-1 text-[var(--muted-foreground)]">התכנון נשמר בדפדפן הזה בלבד. שלחו לעצמכם קישור, ופתחו אותו בכל מכשיר — הכול יעבור איתו. כדאי לשלוח קישור חדש אחרי כל שינוי גדול.</p>
+    <div className="flex flex-wrap justify-center gap-2">
+      <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
+      <button type="button" onClick={copy} className="rounded-xl border-2 border-[var(--border)] px-4 py-2 font-bold">{copied ? '✓ הועתק' : '🔗 העתקת קישור'}</button>
+    </div>
+  </section>
+}
+
 function Plan({ date, done, toggle }) {
   const stages = tasksByStage(date)
   const total = WEDDING_TASKS.length, count = WEDDING_TASKS.filter(t => done[t.id]).length
@@ -102,7 +169,14 @@ function Plan({ date, done, toggle }) {
 
 export function WeddingHub() {
   const [plan, setPlan] = useState({})
-  useEffect(() => { setPlan(load()) }, [])
+  useEffect(() => {
+    const shared = planFromHash(window.location.hash)
+    const mine = load()
+    if (shared && (!Object.keys(mine).length || window.confirm('לפתוח את התכנון מהקישור? הוא יחליף את מה שנשמר בדפדפן הזה.'))) {
+      save(shared); setPlan(shared)
+      window.history.replaceState(null, '', window.location.pathname)
+    } else setPlan(mine)
+  }, [])
   const update = patch => setPlan(p => { const next = { ...p, ...patch }; save(next); return next })
   const done = plan.done || {}
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
@@ -125,7 +199,11 @@ export function WeddingHub() {
 
     <GuestEstimate counts={plan.counts || {}} day={plan.day || 'weekday'} set={update} />
 
+    <Budget plan={plan} set={update} />
+
     <Plan date={plan.date || ''} done={done} toggle={id => update({ done: { ...done, [id]: !done[id] } })} />
+
+    <MovePlan plan={plan} />
 
     <div className="mt-12"><SeoBody paragraphs={['בוגה מתחתנים מרכז את כל מה שזוג צריך כדי לתכנן חתונה בלי טבלאות מבולגנות: מעצבים הזמנה, שולחים קישור לאישור הגעה, רואים כמה מנות להזמין, מושיבים את האורחים בשולחנות, ומסמנים משימות לפי הזמן שנשאר עד החתונה.']} faq={FAQ} related={[{ label: 'הזמנה לחתונה', href: '/invitation/wedding' }, { label: 'אישור הגעה לחתונה', href: '/rsvp/wedding' }, { label: 'ברכות', href: '/greeting' }]} /></div>
   </div>
