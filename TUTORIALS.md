@@ -62,6 +62,9 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
 | 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | jziSpRpEj8I (made in slot 2, uploaded 17:40 by the slot-3 run; in the playlist; site f8fa7bfc; thumbnail input did not apply again) |
 | 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | VYuaTFQQemo (made in slot 3 of 11-04, uploaded 2026-11-05 slot 1; in the playlist; site 021cd8b8; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-party-bags) |
+| 2026-11-05 | 2 | מבחני בגרות לתרגול (מקצוע, יחידות, מה יש במבחן, הדפסה לתלמיד בלי דף התשובות, בדיקה מול דף התשובות) | /bagrut | READY, NOT UPLOADED — .reel-upload/tutorial/tutorial.mp4 (8.5 MB, 39 s) + thumbnail.jpg; title "איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר"; next run uploads it first; source in examples/tutorial-bagrut |
+
+Sign-in (found 2026-11-05 slot 2): the Chrome in use showed Google's account chooser with every account "לא מחובר"; the second connected Chrome opened on another channel (UCybtC8eg77OnHsyGMq8t5pA, @photoshos) with no access to the עוגה בוגה channel, and its tab group disappeared mid-check. Never upload from that channel. Signing in is the owner's.
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
 Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
