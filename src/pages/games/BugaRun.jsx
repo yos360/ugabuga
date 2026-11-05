@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
-import { act, distanceToCorner, newGame, score, segment, step, turnWindow, UPGRADES } from './run/runGame'
+import { act, distanceToCorner, newGame, score, segment, step, turnReach, turnWindow, UPGRADES } from './run/runGame'
+import { createSwipes } from './run/runInput'
 import { createSound } from './run/runSound'
 
 // "בוגה בורח": a 3D running game, drawn from code. The best score stays on this device, nothing is sent anywhere.
@@ -13,12 +14,11 @@ const MUTE_KEY = 'buga-run-mute'
 const BANK_KEY = 'buga-run-coins'
 const SHOP_KEY = 'buga-run-upgrades'
 const STEP = 1 / 120
-const SWIPE_PX = 26
 const CAUSES = {
   wall: 'בוגה נתקע בקיר', low: 'בוגה מעד על גזע', high: 'בוגה נתקע בשער', pit: 'בוגה נפל לבור', corner: 'בוגה לא פנה בזמן',
 }
 const KEYS = {
-  ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'jump', ArrowDown: 'slide', ' ': 'jump', a: 'left', d: 'right', w: 'jump', s: 'slide',
+  ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'jump', ArrowDown: 'slide', Space: 'jump', KeyA: 'left', KeyD: 'right', KeyW: 'jump', KeyS: 'slide',
 }
 const FAQ = [
   { q: 'איך משחקים בבוגה בורח?', a: 'בטלפון מחליקים באצבע: ימינה ושמאלה כדי לעבור נתיב ולפנות, למעלה כדי לקפוץ ולמטה כדי להחליק. במחשב משחקים בחיצים או במקש הרווח.' },
@@ -73,7 +73,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
         const corner = distanceToCorner(s), seg = segment(s)
         setHud({
           score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate?.text || null,
-          turn: corner < turnWindow(s) + 12 && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= turnWindow(s) } : null,
+          turn: corner < turnReach(s) && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= turnWindow(s) } : null,
           missions: s.time < 4.5 ? s.missions : null,
         })
       }
@@ -104,11 +104,11 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
 
   useEffect(() => {
     const onKey = e => {
-      if (e.key === 'Escape' || e.key === 'p') { togglePause(); return }
-      const cmd = KEYS[e.key]
+      if (e.key === 'Escape' || e.code === 'KeyP') { togglePause(); return }
+      const cmd = KEYS[e.code] // by position, so the Hebrew layout plays the same
       if (!cmd) return
       e.preventDefault()
-      if (!pausedRef.current && stateRef.current) act(stateRef.current, cmd)
+      if (!e.repeat && !pausedRef.current && stateRef.current) act(stateRef.current, cmd)
     }
     const onHide = () => { if (document.hidden) togglePause(true) }
     window.addEventListener('keydown', onKey)
@@ -119,24 +119,15 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
   }, [togglePause])
 
   // A swipe counts as soon as the finger has moved far enough, without waiting for it to lift.
-  const swipe = useRef(null)
-  const down = e => { swipe.current = { x: e.clientX, y: e.clientY } }
-  const move = e => {
-    const from = swipe.current
-    if (!from || pausedRef.current || !stateRef.current) return
-    const dx = e.clientX - from.x, dy = e.clientY - from.y
-    if (Math.max(Math.abs(dx), Math.abs(dy)) < SWIPE_PX) return
-    swipe.current = null
-    act(stateRef.current, Math.abs(dx) > Math.abs(dy) ? (dx < 0 ? 'left' : 'right') : (dy < 0 ? 'jump' : 'slide'))
-  }
+  const swipes = useMemo(() => createSwipes(cmd => { if (!pausedRef.current && stateRef.current) act(stateRef.current, cmd) }), [])
 
-  return <div className="fixed inset-0 z-[200] select-none overflow-hidden bg-sky-200" style={{ touchAction: 'none' }} onPointerDown={down} onPointerMove={move} onPointerUp={() => { swipe.current = null }} onPointerCancel={() => { swipe.current = null }}>
+  return <div className="fixed inset-0 z-[200] select-none overflow-hidden bg-sky-200" style={{ touchAction: 'none' }} onContextMenu={e => e.preventDefault()} onPointerDown={e => swipes.down(e.pointerId, e.clientX, e.clientY)} onPointerMove={e => swipes.move(e.pointerId, e.clientX, e.clientY)} onPointerUp={e => swipes.up(e.pointerId, e.clientX, e.clientY)} onPointerCancel={e => swipes.cancel(e.pointerId)}>
     <style>{'@keyframes buga-pop{0%{opacity:0;transform:scale(.5)}18%{opacity:1;transform:scale(1.12)}30%{transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:translateY(-22px)}}@keyframes buga-bump{0%{transform:scale(1.28)}100%{transform:scale(1)}}@keyframes buga-pulse{50%{transform:scale(1.14)}}'}</style>
     <canvas ref={canvasRef} className="block h-full w-full" aria-label="המשחק בוגה בורח" />
     {loading && <div className="absolute inset-0 grid place-items-center bg-sky-100 text-2xl font-bold" role="status">בוגה מתחמם…</div>}
     {pop && <div key={pop.id} className="pointer-events-none absolute inset-x-0 top-[17%] text-center" style={{ animation: 'buga-pop 1s ease-out both' }} dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-4 py-1 font-black ${pop.big ? 'bg-[#ffd23f] text-2xl' : 'bg-white text-xl'}`}>{pop.text}</span></div>}
     {hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-3 py-1 text-xl font-black ${hud.turn.now ? 'bg-emerald-500 text-white' : 'bg-white/90'}`} style={hud.turn.now ? { animation: 'buga-pulse .4s ease-in-out infinite' } : undefined}>{hud.turn.side < 0 ? '⬅️' : '➡️'} {hud.turn.now ? 'לפנות עכשיו!' : 'פנייה בדרך'}</span></div>}
-    {hud.missions && <div className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-4 py-2 text-center" dir="rtl"><div className="font-black">המשימות בריצה הזאת</div>{hud.missions.map(m => <div key={m.key}>{m.done ? '✅' : '🎯'} {m.text}</div>)}</div>}
+    {hud.missions && <div className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-4 py-2 text-center" dir="rtl"><div className="font-black">המשימות בריצה הזאת</div>{hud.missions.map(m => <div key={m.key}>{m.done ? '✅' : '🎯'} {m.text}</div>)}<div className="mt-1 text-sm font-bold">⬅️➡️ נתיב ופנייה · ⬆️ קפיצה · ⬇️ החלקה</div></div>}
     <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3" dir="rtl" style={{ paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
       <div className="flex flex-col gap-1.5">
         <div className="rounded-2xl border-2 border-[#14162d] bg-white/90 px-3 py-1 text-xl font-black tabular-nums" aria-label="ניקוד">{hud.score.toLocaleString('en-US')}</div>

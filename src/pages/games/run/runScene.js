@@ -1028,7 +1028,7 @@ export function createScene(canvas, { onLost } = {}) {
     const want = angleOf(p.dir)
     let delta = want - heading
     delta = Math.atan2(Math.sin(delta), Math.cos(delta))
-    heading += delta * Math.min(1, dt * 7)
+    heading += delta * Math.min(1, dt * 9)
     turnLean += (delta * 0.22 - turnLean) * Math.min(1, dt * 8)
 
     for (const e of s.events) {

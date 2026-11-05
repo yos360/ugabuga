@@ -4,7 +4,7 @@
 
 export const LANE_W = 2.4
 export const TURN_WINDOW = 15 // metres before a corner where a swipe towards it counts as turning
-const CRASH_AFTER = 2.2 // metres past the corner's centre before a runner who did not turn hits the wall
+const CRASH_AFTER = 3.2 // metres past the corner's centre before a runner who did not turn hits the wall
 const START_SPEED = 16
 const MAX_SPEED = 32
 const ACCEL = 0.25
@@ -19,14 +19,16 @@ const STUMBLE_SECONDS = 9
 const INVULNERABLE_SECONDS = 1.2
 const MAGNET_SECONDS = 9
 const MAGNET_REACH = 11
-export const CLEAR_HEIGHT = 1.1 // a low obstacle and a pit need the feet at least this high / off the ground
+export const CLEAR_HEIGHT = 0.9 // a low obstacle and a pit need the feet at least this high / off the ground
 export const WORLDS = ['jungle', 'desert', 'candy', 'night']
 const WORLD_METRES = 650
 const PAD_V = 15.5
 const CHAIN_PER_MULT = 40 // coins count 1 and rows more, so a clean stretch climbs one step of the multiplier
 const MAX_MULT = 5
 const CLOSE_SECONDS = 0.28 // an action this soon before a row makes it a near miss
-const JUMP_BUFFER = 0.14 // a jump pressed just before landing still counts
+const JUMP_BUFFER = 0.2 // a jump pressed just before landing still counts
+const MERCY_SECONDS = 0.07 // an obstacle is judged this long after the runner reaches it, so a last-moment move counts
+const TURN_EARLY = 12 // metres before the turning zone where a swipe towards the corner is kept for it, and moves lanes too
 const ESCAPE_SECONDS = 3 // each row passed while chased takes this much off the chase
 const MISSION_BONUS = 150
 const MISSIONS = [
@@ -125,7 +127,8 @@ function makeSegment(s, prev) {
   const topSpeed = Math.min(MAX_SPEED, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
   const gap = Math.max(15, topSpeed * 0.85)
   const end = len - CORNER_CLEAR
-  let at = id === 0 ? 42 : 20, trail = s.trail, coinsTo = id === 0 ? 24 : 4
+  // the first row waits until the camera has come round the corner
+  let at = id === 0 ? 42 : Math.max(20, topSpeed * 1.1), trail = s.trail, coinsTo = id === 0 ? 24 : 4
   while (at < end) {
     if (s.mode === 'times' && s.sinceGate >= 3) {
       items.push({ kind: 'gate', lane: null, at, ...timesQuestion(r) })
@@ -201,6 +204,7 @@ export const score = s => Math.floor(s.run) + s.coins * 5 + s.bonus
 export const distanceToCorner = s => segment(s).len - s.d
 // the faster the run, the earlier a swipe counts, so a corner always gives about the same time to react
 export const turnWindow = s => Math.max(TURN_WINDOW, s.speed * 0.9)
+export const turnReach = s => turnWindow(s) + TURN_EARLY
 
 export function worldPosition(s) {
   const seg = segment(s), [fx, fz] = DIRS[seg.dir], [rx, rz] = DIRS[(seg.dir + 1) % 4]
@@ -212,6 +216,7 @@ export function act(s, cmd) {
   if (cmd === 'left' || cmd === 'right') {
     const side = cmd === 'left' ? -1 : 1
     if (distanceToCorner(s) <= turnWindow(s) && side === segment(s).turn) { s.wantTurn = side; s.events.push('turn'); return }
+    if (distanceToCorner(s) <= turnReach(s) && side === segment(s).turn && s.wantTurn !== side) { s.wantTurn = side; s.events.push('turn') }
     const lane = Math.max(-1, Math.min(1, s.lane + side))
     if (lane !== s.lane) { s.lane = lane; s.sinceAct = 0; s.events.push('move') }
   } else if (cmd === 'jump') {
@@ -355,7 +360,7 @@ export function step(s, dt) {
   let row = false, hurt = false
   for (const it of seg.items) {
     if (it.kind === 'coin' || POWERS.includes(it.kind) || it.met) continue
-    if (it.at <= from || it.at > s.d) continue
+    if (it.at > s.d - (it.kind === 'pad' || it.kind === 'gate' ? 0 : s.speed * MERCY_SECONDS)) continue
     it.met = true
     if (it.kind === 'pad' || it.kind === 'gate') { meet(s, it); continue }
     if (s.fly > 0) continue
@@ -368,10 +373,11 @@ export function step(s, dt) {
   s.gate = seg.items.find(it => it.kind === 'gate' && !it.met && it.at > s.d && it.at - s.d < 60) || null
 
   if (s.d >= seg.len && s.wantTurn === seg.turn) {
-    // the offset across the old path becomes distance along the new one, so the runner does not jump
-    s.d = (s.laneX * seg.turn) + (s.d - seg.len)
+    // what was across the old path is along the new one and the other way round, so even a late turn does not jump
+    const over = s.d - seg.len
+    s.d = s.laneX * seg.turn
     s.lane = 0
-    s.laneX = 0
+    s.laneX = -seg.turn * over
     s.wantTurn = 0
     s.cur++
     fill(s)

@@ -2,7 +2,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { act, groundAt, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner } from '../src/pages/games/run/runGame.js'
+import { act, groundAt, newGame, segment, step, score, worldPosition, timesQuestion, rng, TURN_WINDOW, LANE_W, distanceToCorner, turnReach, turnWindow } from '../src/pages/games/run/runGame.js'
+import { createSwipes } from '../src/pages/games/run/runInput.js'
 
 const DT = 1 / 60
 
@@ -235,6 +236,114 @@ test('a jump pressed just before landing happens on landing', () => {
   assert.equal(s.jumps, 2)
 })
 
+test('a swipe a little before the turning zone moves lanes and is kept for the corner', () => {
+  const s = newGame({ seed: 21 })
+  const seg = segment(s)
+  seg.items = []
+  s.d = seg.len - turnWindow(s) - 5
+  assert.ok(distanceToCorner(s) <= turnReach(s))
+  s.lane = 0
+  act(s, seg.turn < 0 ? 'left' : 'right')
+  assert.equal(s.lane, seg.turn)
+  assert.equal(s.wantTurn, seg.turn)
+  const cur = s.cur
+  while (s.cur === cur && !s.over) step(s, DT)
+  assert.equal(s.stumble, 0)
+})
+
+test('a swipe far from a corner is only a lane change', () => {
+  const s = newGame({ seed: 22 })
+  const seg = segment(s)
+  seg.items = []
+  s.d = seg.len - turnReach(s) - 5
+  act(s, seg.turn < 0 ? 'left' : 'right')
+  assert.equal(s.wantTurn, 0)
+})
+
+test('a late turn does not throw the runner across the road', () => {
+  for (const seed of [23, 24, 25, 26]) {
+    const s = newGame({ seed })
+    const seg = segment(s)
+    seg.items = []
+    s.d = seg.len + 2.5
+    const before = worldPosition(s)
+    act(s, seg.turn < 0 ? 'left' : 'right')
+    step(s, DT)
+    const after = worldPosition(s)
+    assert.ok(Math.hypot(after.x - before.x, after.z - before.z) < 1, `seed ${seed}`)
+    assert.equal(s.stumble, 0)
+  }
+})
+
+test('a move at the very moment of reaching a wall still counts, and a real miss still hits', () => {
+  const late = seconds => {
+    const s = newGame({ seed: 27 })
+    const seg = segment(s)
+    const wall = { id: 'w', kind: 'wall', lane: 0, at: s.d + 6 }
+    seg.items = [wall]
+    while (s.d < wall.at + s.speed * seconds) step(s, 1 / 240)
+    act(s, 'left')
+    for (let i = 0; i < 40; i++) step(s, 1 / 240)
+    return s.stumble > 0
+  }
+  assert.equal(late(0), false)
+  assert.equal(late(0.2), true)
+})
+
+test('after a corner the first row leaves time for the camera to come round', () => {
+  const s = newGame({ seed: 29 })
+  let seg = segment(s), checked = 0
+  while (s.run < 3000 && !s.over) {
+    think(s)
+    step(s, DT)
+    if (segment(s) === seg) continue
+    seg = segment(s)
+    const rows = seg.items.filter(it => ['wall', 'low', 'high', 'pit'].includes(it.kind))
+    if (rows.length) { assert.ok(Math.min(...rows.map(it => it.at)) >= Math.max(20, s.speed * 1.05)); checked++ }
+  }
+  assert.ok(checked >= 5)
+})
+
+test('swipes: one finger chains moves, a long swipe counts once, and fingers do not mix', () => {
+  const sent = []
+  const t = createSwipes(c => sent.push(c))
+  t.down(1, 100, 100)
+  t.move(1, 75, 100)
+  t.move(1, 20, 100)
+  t.move(1, 20, 70)
+  t.up(1, 20, 60)
+  assert.deepEqual(sent, ['left', 'jump'])
+
+  sent.length = 0
+  t.down(1, 100, 100)
+  t.down(2, 300, 500)
+  t.move(1, 110, 100)
+  t.move(2, 300, 470)
+  assert.deepEqual(sent, ['jump'], 'the second finger is not read as a huge swipe of the first')
+
+  sent.length = 0
+  t.cancel(1); t.cancel(2)
+  t.down(3, 100, 100)
+  t.move(3, 130, 100)
+  t.move(3, 105, 100)
+  assert.deepEqual(sent, ['right'], 'the recoil after a swipe is not a swipe back')
+  t.move(3, 85, 100)
+  assert.deepEqual(sent, ['right', 'left'], 'a deliberate way back is')
+  t.cancel(3)
+
+  sent.length = 0
+  t.down(4, 100, 100)
+  t.up(4, 100, 88)
+  t.down(5, 100, 100)
+  t.up(5, 104, 102)
+  assert.deepEqual(sent, ['jump'], 'a short flick counts, a tap does not')
+})
+
+test('the keys work in the Hebrew layout and do not repeat while held', () => {
+  const page = readFileSync(new URL('../src/pages/games/BugaRun.jsx', import.meta.url), 'utf8')
+  assert.ok(page.includes('KEYS[e.code]'))
+  assert.ok(page.includes('!e.repeat'))
+})
 test('each run has three different missions, and finishing one pays once', () => {
   for (let seed = 1; seed <= 30; seed++) assert.equal(new Set(newGame({ seed }).missions.map(m => m.key)).size, 3)
   const s = newGame({ seed: 17 })
