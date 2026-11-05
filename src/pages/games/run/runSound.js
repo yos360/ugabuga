@@ -11,7 +11,7 @@ export function createSound() {
   const master = ctx.createGain()
   master.gain.value = 0.5
   master.connect(ctx.destination)
-  let muted = false, timer = null, beat = 0, next = 0
+  let muted = false, timer = null, beat = 0, next = 0, coinAt = 0, coinRun = 0
 
   const tone = (midi, at, length, { type = 'triangle', volume = 0.2, slide = 0 } = {}) => {
     const osc = ctx.createOscillator(), gain = ctx.createGain()
@@ -55,7 +55,18 @@ export function createSound() {
   }
 
   const SFX = {
-    coin: t => { tone(88, t, 0.07, { type: 'square', volume: 0.05 }); tone(93, t + 0.05, 0.1, { type: 'square', volume: 0.05 }) },
+    // a line of coins climbs the scale
+    coin: t => {
+      coinRun = t - coinAt < 0.6 ? coinRun + 1 : 0
+      coinAt = t
+      const up = SCALE[Math.min(coinRun, SCALE.length - 1)]
+      tone(84 + up, t, 0.07, { type: 'square', volume: 0.05 })
+      tone(89 + up, t + 0.05, 0.1, { type: 'square', volume: 0.05 })
+    },
+    close: t => { noise(t, 0.12, 0.09); tone(79, t, 0.1, { volume: 0.12, slide: 7 }) },
+    combo: t => [79, 84, 91].forEach((m, i) => tone(m, t + i * 0.05, 0.12, { type: 'square', volume: 0.07 })),
+    mission: t => [72, 79, 84, 88, 91].forEach((m, i) => tone(m, t + i * 0.09, 0.24, { volume: 0.15 })),
+    escape: t => [67, 72, 76, 84].forEach((m, i) => tone(m, t + i * 0.07, 0.2, { volume: 0.14 })),
     jump: t => tone(62, t, 0.2, { type: 'triangle', volume: 0.16, slide: 9 }),
     land: t => noise(t, 0.05, 0.05),
     slide: t => noise(t, 0.2, 0.1),

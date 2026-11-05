@@ -1,7 +1,7 @@
 // Draws the state from runGame.js with three.js. Everything is painted and built from code, so there is nothing
 // to download: the road is a stone causeway high above each world, with giants rising from far below on both sides.
 import * as THREE from 'three'
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
+import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js'
 import { LANE_W, WORLDS, groundAt, segment, worldPosition } from './runGame'
 
 const PATH_W = LANE_W * 3 + 1.4
@@ -33,28 +33,63 @@ function canvasTexture(w, h, paint, repeat = true) {
   return t
 }
 
-function paintStones(x, w, h, [light, base, dark], rows, r) {
+function paintStones(x, w, h, [light, base, dark], rows, r, wide = 2) {
   x.fillStyle = dark; x.fillRect(0, 0, w, h)
   const rowH = h / rows
   for (let row = 0; row < rows; row++) {
-    const cells = 2 + (row % 2), cellW = w / cells
+    const cells = wide + (row % 2), cellW = w / cells
     for (let c = -1; c <= cells; c++) {
       const px = c * cellW + (row % 2 ? cellW / 2 : 0)
       x.fillStyle = r() < 0.5 ? light : base
       x.globalAlpha = 0.72 + r() * 0.28
       x.beginPath(); x.roundRect(px + 4, row * rowH + 4, cellW - 8, rowH - 8, 14); x.fill()
-      x.globalAlpha = 0.16
+      // no two stones alike: a warm or a cool cast, a lit top edge, a shaded bottom edge
+      x.globalAlpha = r() * 0.14
+      x.fillStyle = r() < 0.5 ? '#ffcf8a' : '#5f7f99'
+      x.beginPath(); x.roundRect(px + 4, row * rowH + 4, cellW - 8, rowH - 8, 14); x.fill()
+      x.globalAlpha = 0.18
       x.fillStyle = '#fff'
-      x.beginPath(); x.roundRect(px + 9, row * rowH + 8, cellW - 18, 8, 4); x.fill()
+      x.beginPath(); x.roundRect(px + 9, row * rowH + 8, cellW - 18, 7, 4); x.fill()
+      x.globalAlpha = 0.14
+      x.fillStyle = '#000'
+      x.beginPath(); x.roundRect(px + 9, (row + 1) * rowH - 15, cellW - 18, 8, 4); x.fill()
       x.globalAlpha = 1
     }
   }
   for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(${r() < 0.5 ? '0,0,0' : '255,255,255'},${r() * 0.05})`; x.fillRect(r() * w, r() * h, 2 + r() * 7, 2 + r() * 5) }
 }
 
-const roadTexture = look => canvasTexture(512, 512, (x, w, h) => {
-  paintStones(x, w, h, look.stone, 4, generator(11))
-  x.fillStyle = 'rgba(0,0,0,0.26)'; x.fillRect(0, 0, 7, h); x.fillRect(w - 7, 0, 7, h)
+// One long sheet across the whole road, so the stones do not repeat in a grid: worn lanes, moss, cracks, shaded edges.
+const ROAD_METRES = 7.05
+const roadTexture = look => canvasTexture(1024, 1024, (x, w, h) => {
+  const r = generator(11)
+  paintStones(x, w, h, look.stone, 12, r, 7)
+  for (const lane of [0.5 - 0.28, 0.5, 0.5 + 0.28]) { // feet polish the middle of each lane
+    const wear = x.createLinearGradient((lane - 0.1) * w, 0, (lane + 0.1) * w, 0)
+    wear.addColorStop(0, 'rgba(255,255,255,0)'); wear.addColorStop(0.5, 'rgba(255,255,255,0.13)'); wear.addColorStop(1, 'rgba(255,255,255,0)')
+    x.fillStyle = wear; x.fillRect((lane - 0.1) * w, 0, 0.2 * w, h)
+  }
+  x.strokeStyle = look.stone[2]; x.lineWidth = 2.5; x.lineCap = 'round'
+  for (let i = 0; i < 26; i++) {
+    let px = r() * w, py = r() * h
+    x.globalAlpha = 0.65
+    x.beginPath(); x.moveTo(px, py)
+    for (let k = 0; k < 4; k++) { px += (r() - 0.5) * 46; py += 8 + r() * 26; x.lineTo(px, py) }
+    x.stroke()
+  }
+  x.globalAlpha = 1
+  for (const side of [0, 1]) for (let i = 0; i < 46; i++) { // moss creeping in from the edges
+    const reach = r() * r() * 0.16 * w
+    x.fillStyle = look.low[i % 3]
+    x.globalAlpha = 0.28 + r() * 0.3
+    x.beginPath(); x.ellipse(side ? w - reach : reach, r() * h, 8 + r() * 26, 8 + r() * 20, r() * 3, 0, 6.3); x.fill()
+  }
+  x.globalAlpha = 1
+  for (const [from, to] of [[0, 0.09], [1, 0.91]]) {
+    const edge = x.createLinearGradient(from * w, 0, to * w, 0)
+    edge.addColorStop(0, 'rgba(0,0,0,0.5)'); edge.addColorStop(1, 'rgba(0,0,0,0)')
+    x.fillStyle = edge; x.fillRect(Math.min(from, to) * w, 0, 0.09 * w, h)
+  }
 })
 const wallTexture = look => canvasTexture(512, 512, (x, w, h) => paintStones(x, w, h, look.wall, 6, generator(23)))
 
@@ -151,12 +186,28 @@ const towerTexture = (colors, hue) => canvasTexture(256, 512, (x, w, h) => {
   }
 })
 
+// A clump of leaves: a ball pushed in and out so it has no round outline, shaded smoothly across the bumps.
+function leafClump() {
+  const ball = new THREE.IcosahedronGeometry(1, 3)
+  ball.deleteAttribute('uv'); ball.deleteAttribute('normal')
+  const g = mergeVertices(ball), p = g.attributes.position, v = new THREE.Vector3()
+  for (let i = 0; i < p.count; i++) {
+    v.fromBufferAttribute(p, i)
+    v.multiplyScalar(1 + 0.2 * Math.sin(v.x * 5.1 + v.y * 3.3) * Math.cos(v.z * 4.7 - v.y * 2.2) + 0.1 * Math.sin(v.x * 11 + v.z * 9))
+    p.setXYZ(i, v.x, v.y, v.z)
+  }
+  g.computeVertexNormals()
+  ball.dispose()
+  return g
+}
+
 const GEO = {
   box: new THREE.BoxGeometry(1, 1, 1),
   round: new THREE.SphereGeometry(1, 12, 9),
   fine: new THREE.SphereGeometry(1, 24, 16),
   rock: new THREE.IcosahedronGeometry(1, 1),
   blob: new THREE.IcosahedronGeometry(1, 1),
+  leaf: leafClump(),
   cone: new THREE.ConeGeometry(1, 1, 9),
   spire: new THREE.ConeGeometry(1, 1, 6),
   cyl: new THREE.CylinderGeometry(1, 1, 1, 9),
@@ -181,6 +232,16 @@ class Batch {
     g.setAttribute('color', new THREE.BufferAttribute(rgb, 3))
     this.parts.push(g)
   }
+  // the last part darkens towards its underside, as if lit from above through the leaves
+  shadeUp(low, high) {
+    const g = this.parts[this.parts.length - 1], { position, color } = g.attributes
+    g.computeBoundingBox()
+    const { min, max } = g.boundingBox
+    for (let i = 0; i < position.count; i++) {
+      const k = low + (high - low) * (position.getY(i) - min.y) / (max.y - min.y)
+      color.setXYZ(i, color.getX(i) * k, color.getY(i) * k, color.getZ(i) * k)
+    }
+  }
   mesh(material) {
     if (!this.parts.length) return null
     const merged = mergeGeometries(this.parts)
@@ -204,9 +265,10 @@ function jungleGiant(b, r, x, top, z) {
   const girth = 1.4 + r() * 1.3, height = top - FLOOR_Y
   b.put(GEO.taper, 0x6e4a2c, x, FLOOR_Y + height / 2, z, girth, height, girth)
   for (let i = 0; i < 3; i++) { const a = r() * 6.3; b.put(GEO.cyl, 0x7b5533, x + Math.cos(a) * girth * 1.6, top - 5 - i * 3, z + Math.sin(a) * girth * 1.6, 0.34, 7, 0.34, Math.sin(a) * 0.8, 0, -Math.cos(a) * 0.8) }
-  for (let i = 0; i < 8; i++) {
-    const a = i * 2.4, reach = i ? 3 + r() * 5.5 : 0, size = 3.4 + r() * 3.4
-    b.put(GEO.blob, [0x2f8f46, 0x3fae52, 0x57c060, 0x247a3e][i % 4], x + Math.cos(a) * reach, top + (r() - 0.3) * 4, z + Math.sin(a) * reach, size, size * 0.72, size)
+  for (let i = 0; i < 4; i++) {
+    const a = i * 2.4, reach = i ? 3.5 + r() * 4.5 : 0, size = 4.2 + r() * 3.4
+    b.put(GEO.leaf, [0x2f8f46, 0x3fae52, 0x57c060, 0x247a3e][i % 4], x + Math.cos(a) * reach, top + (r() - 0.3) * 4, z + Math.sin(a) * reach, size, size * 0.72, size, 0, r() * 6.3)
+    b.shadeUp(0.45, 1.25)
   }
   for (let i = 0; i < 5; i++) { const a = r() * 6.3, reach = 2 + r() * 6, long = 4 + r() * 8; b.put(GEO.cyl, 0x3c8a44, x + Math.cos(a) * reach, top - 2 - long / 2, z + Math.sin(a) * reach, 0.09, long, 0.09) }
   if (r() < 0.5) b.put(GEO.round, 0xff5d8f, x + 3, top + 3, z + 2, 0.7)
@@ -457,7 +519,7 @@ function* makeSegment(seg, sprites, assets) {
   spans.push([from, seg.len + half])
   const edgeEnd = seg.len - half
   for (const [a, b] of spans) {
-    add(strip(seg, a, b, [-half, 0], [half, 0], 3, 2.35), set.road, true)
+    add(strip(seg, a, b, [-half, 0], [half, 0], 1, ROAD_METRES), set.road, true)
     add(strip(seg, a, b, [-half, -0.4], [half, -0.4], 1, 4), set.under)
     const end = Math.min(b, edgeEnd)
     if (end <= a) continue
@@ -632,9 +694,37 @@ function makeCookie() {
   return { root, body: g }
 }
 
+// Thin streaks of air past the camera, stronger with speed; kept clear of the middle of the picture.
+class Wind {
+  constructor(camera) {
+    this.count = 36
+    this.at = Array.from({ length: this.count }, (_, i) => ({ a: i * 2.4, r: 3.5 + (i % 5) * 1.1, z: -30 * (i / this.count) }))
+    this.pos = new Float32Array(this.count * 6)
+    const g = new THREE.BufferGeometry()
+    g.setAttribute('position', new THREE.BufferAttribute(this.pos, 3))
+    this.mesh = new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthTest: false, depthWrite: false, fog: false }))
+    this.mesh.frustumCulled = false
+    this.mesh.renderOrder = 5
+    camera.add(this.mesh)
+  }
+  update(dt, power) {
+    this.mesh.visible = power > 0.02
+    if (!this.mesh.visible) return
+    this.mesh.material.opacity = power * 0.3
+    const long = 1.5 + power * 3.5
+    this.at.forEach((w, i) => {
+      w.z += (32 + power * 40) * dt
+      if (w.z > -1) w.z = -30
+      const x = Math.cos(w.a) * w.r * 1.3, y = Math.sin(w.a) * w.r * 0.9
+      this.pos.set([x, y, w.z, x, y, w.z - long], i * 6)
+    })
+    this.mesh.geometry.attributes.position.needsUpdate = true
+  }
+}
+
 class Sparks {
   constructor(scene, map) {
-    this.max = 90
+    this.max = 160
     this.pos = new Float32Array(this.max * 3).fill(-999)
     this.col = new Float32Array(this.max * 3)
     this.life = new Float32Array(this.max)
@@ -643,7 +733,7 @@ class Sparks {
     const g = new THREE.BufferGeometry()
     g.setAttribute('position', new THREE.BufferAttribute(this.pos, 3))
     g.setAttribute('color', new THREE.BufferAttribute(this.col, 3))
-    this.mesh = new THREE.Points(g, new THREE.PointsMaterial({ map, size: 0.5, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    this.mesh = new THREE.Points(g, new THREE.PointsMaterial({ map, size: 0.36, vertexColors: true, transparent: true, depthWrite: false }))
     this.mesh.frustumCulled = false
     scene.add(this.mesh)
     this.color = new THREE.Color()
@@ -770,6 +860,13 @@ export function createScene(canvas, { onLost } = {}) {
   }
 
   const sparks = new Sparks(scene, glow)
+  scene.add(camera)
+  const wind = new Wind(camera)
+  const contact = new THREE.Mesh(GEO.plane, new THREE.MeshBasicMaterial({ map: glow, color: 0x000000, transparent: true, depthWrite: false, opacity: 0.42, fog: false, polygonOffset: true, polygonOffsetFactor: -2 }))
+  contact.rotation.x = -Math.PI / 2
+  scene.add(contact)
+  const rim = new THREE.DirectionalLight(0xffffff, 1.1) // from ahead, so Buga's outline stands off the road
+  scene.add(rim, rim.target)
   const buga = makeBuga(); buga.root.scale.setScalar(0.74); scene.add(buga.root) // small enough to see the road past him
   const bubble = new THREE.Mesh(GEO.fine, new THREE.MeshStandardMaterial({ color: 0x4fd8ff, transparent: true, opacity: 0.16, roughness: 0.1 }))
   bubble.scale.setScalar(1.55); bubble.visible = false; scene.add(bubble)
@@ -780,6 +877,7 @@ export function createScene(canvas, { onLost } = {}) {
   const pending = new Map()
   let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, turnLean = 0
   let quality = 0, sampleFrom = 0, sampleFrames = 0, lastFrame = 0
+  let squash = 0, dip = 0, punch = 0, laneRoll = 0
 
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight
@@ -884,6 +982,8 @@ export function createScene(canvas, { onLost } = {}) {
     body.rotation.x = (1 - pose) * 1.25 + (air ? -0.08 : -0.14)
     body.rotation.y = (s.lane * LANE_W - s.laneX) * 0.16
     body.rotation.z = (s.lane * LANE_W - s.laneX) * -0.12
+    squash *= Math.exp(-dt * 9)
+    body.scale.set(1 - squash * 0.14, 1 + squash * 0.2, 1 - squash * 0.14)
     buga.root.visible = !(s.safe > 0 && Math.floor(clock * 14) % 2 === 0)
   }
 
@@ -927,11 +1027,15 @@ export function createScene(canvas, { onLost } = {}) {
     turnLean += (delta * 0.22 - turnLean) * Math.min(1, dt * 8)
 
     for (const e of s.events) {
-      if (e === 'coin') sparks.burst(p.x, p.y + 1.2, p.z, 0xffd23f, 5, 4)
-      else if (e === 'hit' || e === 'over' || e === 'shield') { shake = 0.7; sparks.burst(p.x, p.y + 1.2, p.z, 0xff6a3d, 22, 8) }
-      else if (e === 'pad') sparks.burst(p.x, p.y + 0.4, p.z, 0xffffff, 14, 6)
-      else if (e === 'power' || e === 'right') sparks.burst(p.x, p.y + 1.4, p.z, 0x7dfcff, 16, 6)
-      else if (e === 'land') sparks.burst(p.x, p.y + 0.2, p.z, 0xfff4d0, 7, 3)
+      if (e === 'coin') sparks.burst(p.x, p.y + 1.2, p.z, 0xffd23f, 8, 4.5)
+      else if (e === 'hit' || e === 'over' || e === 'shield') { shake = 0.7; sparks.burst(p.x, p.y + 1.2, p.z, 0xff6a3d, 26, 8) }
+      else if (e === 'pad') { squash = 1.4; sparks.burst(p.x, p.y + 0.4, p.z, 0xffffff, 18, 7) }
+      else if (e === 'jump') squash = 1
+      else if (e === 'power' || e === 'right') sparks.burst(p.x, p.y + 1.4, p.z, 0x7dfcff, 18, 6)
+      else if (e === 'land') { squash = -1; dip = 0.22; sparks.burst(p.x, p.y + 0.2, p.z, 0xfff4d0, 10, 3.5) }
+      else if (e === 'close') { shake = Math.max(shake, 0.14); sparks.burst(p.x, p.y + 1, p.z, 0xffffff, 14, 7) }
+      else if (e === 'combo') sparks.burst(p.x, p.y + 1.6, p.z, 0xff5d8f, 22, 7)
+      else if (e === 'mission' || e === 'escape') sparks.burst(p.x, p.y + 1.8, p.z, 0xffd23f, 36, 9)
     }
     sparks.update(dt)
 
@@ -941,7 +1045,12 @@ export function createScene(canvas, { onLost } = {}) {
     bubble.visible = s.shield
     bubble.position.set(p.x, p.y + 1, p.z)
 
-    orbit += ((s.over ? 2.6 : 0) - orbit) * Math.min(1, dt * 2.6)
+    contact.position.set(p.x, road + 0.07, p.z)
+    contact.scale.setScalar(Math.max(1.1, 2.1 - s.y * 0.22))
+    contact.material.opacity = Math.max(0.12, 0.42 - s.y * 0.06)
+
+    // the run opens facing the runner, with the cookie behind him, and swings round to follow
+    orbit += ((s.over ? 2.6 : s.time < 1 ? Math.PI : 0) - orbit) * Math.min(1, dt * 2.6)
     const look = heading + orbit
     const fx = Math.sin(look), fz = -Math.cos(look), hx = Math.sin(heading), hz = -Math.cos(heading)
     const fast = Math.min(1, (s.speed - 13) / 17)
@@ -950,11 +1059,17 @@ export function createScene(canvas, { onLost } = {}) {
     camZ += (p.z - fz * back - camZ) * Math.min(1, dt * 11)
     camY += (road + 4 + s.y * 0.4 - camY) * Math.min(1, dt * 7)
     shake = Math.max(0, shake - dt * 1.6)
-    camera.position.set(camX + (Math.random() - 0.5) * shake, camY + (Math.random() - 0.5) * shake, camZ + (Math.random() - 0.5) * shake)
+    dip = Math.max(0, dip - dt * 1.1)
+    camera.position.set(camX + (Math.random() - 0.5) * shake, camY - dip + (Math.random() - 0.5) * shake, camZ + (Math.random() - 0.5) * shake)
     camera.lookAt(p.x + fx * 7, road + 1.5 + s.y * 0.3, p.z + fz * 7)
-    camera.rotation.z -= turnLean
-    const fov = (camera.aspect < 1 ? 74 : 60) + fast * 10
+    laneRoll += ((s.lane * LANE_W - s.laneX) * 0.03 - laneRoll) * Math.min(1, dt * 10)
+    camera.rotation.z -= turnLean + laneRoll
+    punch += ((s.vy > 12 ? 8 : s.vy > 4 ? 3 : 0) - punch) * Math.min(1, dt * 6)
+    const fov = (camera.aspect < 1 ? 74 : 60) + fast * 10 + punch
     if (Math.abs(fov - camera.fov) > 0.05) { camera.fov = fov; camera.updateProjectionMatrix() }
+    wind.update(dt, Math.max(0, (fast - 0.25) * 1.33, punch / 8))
+    rim.position.set(p.x + hx * 12, p.y + 7, p.z + hz * 12)
+    rim.target.position.set(p.x, p.y + 1, p.z)
 
     sun.position.set(p.x + 16, p.y + 34, p.z + 12)
     sun.target.position.set(p.x + hx * 8, p.y, p.z + hz * 8)
@@ -973,7 +1088,7 @@ export function createScene(canvas, { onLost } = {}) {
     sprites.tile.color.lerp(target.set(LOOK[world].stone[1]), Math.min(1, dt * 4))
 
     const showCookie = s.stumble > 0 || s.over || s.time < 2.4
-    chase += ((showCookie ? (s.over ? 2.2 : 3.2) : 11) - chase) * Math.min(1, dt * 3)
+    chase += ((showCookie ? (s.over ? 2.2 : 2.6) : 11) - chase) * Math.min(1, dt * 3)
     cookie.root.visible = chase < 8.5
     cookie.root.position.set(p.x - hx * chase, road + 0.9 + Math.abs(Math.sin(clock * 8)) * 0.3, p.z - hz * chase)
     cookie.root.rotation.y = -heading
@@ -1003,8 +1118,8 @@ export function createScene(canvas, { onLost } = {}) {
 
   function reset(s) {
     const p = worldPosition(s)
-    heading = angleOf(p.dir); chase = 5; orbit = 0; shake = 0
-    camX = p.x; camY = p.y + 4; camZ = p.z + 6.6
+    heading = angleOf(p.dir); chase = 5; orbit = Math.PI; shake = 0
+    camX = p.x; camY = p.y + 4; camZ = p.z - 6.6
     for (const b of built.values()) release(b)
     built.clear()
     pending.clear()

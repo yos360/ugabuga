@@ -177,6 +177,71 @@ test('a spring launches the runner, and only on its own lane', () => {
   }
 })
 
+test('clean rows and coins climb the multiplier, and a hit drops it', () => {
+  const s = newGame({ seed: 13 })
+  const seg = segment(s)
+  seg.items = []
+  for (let i = 0; i < 4; i++) seg.items.push({ id: `w${i}`, kind: 'wall', lane: 1, at: s.d + 3 + i * 8 })
+  for (let i = 0; i < 60; i++) seg.items.push({ id: `c${i}`, kind: 'coin', lane: 0, at: s.d + 2 + i * 0.7 })
+  seg.items.push({ id: 'x', kind: 'wall', lane: 0, at: s.d + 48 })
+  while (s.stumble === 0) { step(s, DT); s.peak = Math.max(s.peak || 0, s.mult) }
+  assert.ok(s.peak >= 4)
+  assert.equal(s.dodges, 4, 'the row that hit is not a dodge')
+  assert.equal(s.mult, 1)
+  assert.equal(s.close, 0, 'standing still is not a near miss')
+})
+
+test('an action just before a row is a near miss, and a row counts once', () => {
+  const s = newGame({ seed: 14 })
+  const seg = segment(s)
+  seg.items = [{ id: 'a', kind: 'wall', lane: 0, at: s.d + 2.5 }, { id: 'b', kind: 'wall', lane: -1, at: s.d + 2.5 }]
+  while (s.d < seg.items[0].at - 1.6) step(s, DT)
+  act(s, 'right')
+  for (let i = 0; i < 30; i++) step(s, DT)
+  assert.equal(s.stumble, 0)
+  assert.equal(s.dodges, 1)
+  assert.equal(s.close, 1)
+})
+
+test('passing rows shakes the cookie off early', () => {
+  const s = newGame({ seed: 15 })
+  const seg = segment(s)
+  seg.items = [0, 1, 2].map(i => ({ id: `w${i}`, kind: 'wall', lane: 1, at: s.d + 3 + i * 6 }))
+  s.stumble = 8
+  let escaped = false
+  for (let i = 0; i < 90; i++) { step(s, DT); escaped ||= s.events.includes('escape') }
+  assert.equal(escaped, true)
+  assert.equal(s.stumble, 0)
+})
+
+test('a jump pressed just before landing happens on landing', () => {
+  const s = newGame({ seed: 16 })
+  segment(s).items = []
+  act(s, 'jump')
+  while (s.vy > -9) step(s, DT)
+  assert.equal(s.jumps, 1)
+  act(s, 'jump')
+  for (let i = 0; i < 12; i++) step(s, DT)
+  assert.equal(s.jumps, 2)
+})
+
+test('each run has three different missions, and finishing one pays once', () => {
+  for (let seed = 1; seed <= 30; seed++) assert.equal(new Set(newGame({ seed }).missions.map(m => m.key)).size, 3)
+  const s = newGame({ seed: 17 })
+  const m = s.missions[0]
+  s[m.key] = m.goal
+  segment(s).items = []
+  const before = s.bonus
+  step(s, DT)
+  assert.equal(m.done, true)
+  assert.ok(s.events.includes('mission'))
+  assert.equal(s.lastMission, m.text)
+  const paid = s.bonus
+  assert.ok(paid >= before + 150)
+  step(s, DT)
+  assert.equal(s.bonus, paid)
+})
+
 test('the times-table mode: three different answers, one right, and a right gate pays', () => {
   const r = rng(9)
   for (let i = 0; i < 300; i++) {

@@ -19,6 +19,21 @@ export const CLEAR_HEIGHT = 1.1 // a low obstacle and a pit need the feet at lea
 export const WORLDS = ['jungle', 'desert', 'candy', 'night']
 const WORLD_METRES = 650
 const PAD_V = 15.5
+const CHAIN_PER_MULT = 12 // coins count 1 and rows more, so a clean stretch climbs one step of the multiplier
+const MAX_MULT = 5
+const CLOSE_SECONDS = 0.28 // an action this soon before a row makes it a near miss
+const JUMP_BUFFER = 0.14 // a jump pressed just before landing still counts
+const ESCAPE_SECONDS = 3 // each row passed while chased takes this much off the chase
+const MISSION_BONUS = 150
+const MISSIONS = [
+  { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [30, 60, 100] },
+  { key: 'close', text: n => `${n} פעמים "כמעט!"`, goals: [3, 6, 10] },
+  { key: 'dodges', text: n => `לעבור ${n} מכשולים`, goals: [10, 20, 35] },
+  { key: 'jumps', text: n => `לקפוץ ${n} פעמים`, goals: [8, 15, 25] },
+  { key: 'run', text: n => `לרוץ ${n} מטר`, goals: [400, 800, 1500] },
+  { key: 'pads', text: n => `לעוף ${n} פעמים על קפיץ`, goals: [2, 4, 6] },
+  { key: 'mult', text: n => `להגיע לכפל ×${n}`, goals: [3, 4, 5] },
+]
 
 export const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]] // [x, z] of forward, for heading 0..3; right = heading + 1
 
@@ -116,8 +131,17 @@ function makeSegment(s, prev) {
   return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7, came: prev ? prev.turn : 0 }
 }
 
+function pickMissions(r) {
+  return [...MISSIONS].sort(() => r() - 0.5).slice(0, 3).map(({ key, text, goals }) => {
+    const goal = goals[Math.floor(r() * goals.length)]
+    return { key, goal, text: text(goal), done: false }
+  })
+}
+
 export function newGame({ seed = 1, mode = 'run' } = {}) {
   const s = {
+    chain: 0, mult: 1, close: 0, dodges: 0, jumps: 0, pads: 0, sinceAct: 9, buffer: 0, slow: 0,
+    missions: pickMissions(rng(seed + 1)), lastMission: null,
     random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, segs: [], cur: 0,
     d: 0, lane: 0, laneX: 0, y: 0, vy: 0, slide: 0, speed: START_SPEED, time: 0, run: 0,
     coins: 0, right: 0, wrong: 0, bonus: 0, shield: false, magnet: 0, stumble: 0, safe: 0,
@@ -147,14 +171,24 @@ export function act(s, cmd) {
     const side = cmd === 'left' ? -1 : 1
     if (distanceToCorner(s) <= TURN_WINDOW && side === segment(s).turn) { s.wantTurn = side; s.events.push('turn'); return }
     const lane = Math.max(-1, Math.min(1, s.lane + side))
-    if (lane !== s.lane) { s.lane = lane; s.events.push('move') }
+    if (lane !== s.lane) { s.lane = lane; s.sinceAct = 0; s.events.push('move') }
   } else if (cmd === 'jump') {
-    if (s.y <= 0.01) { s.vy = JUMP_V; s.slide = 0; s.events.push('jump') }
+    if (s.y <= 0.01) jump(s)
+    else s.buffer = JUMP_BUFFER
   } else if (cmd === 'slide') {
     if (s.y > 0.01) s.vy = -JUMP_V * 1.4
     s.slide = SLIDE_SECONDS
+    s.sinceAct = 0
     s.events.push('slide')
   }
+}
+
+function jump(s) {
+  s.vy = JUMP_V
+  s.slide = 0
+  s.sinceAct = 0
+  s.jumps++
+  s.events.push('jump')
 }
 
 function hit(s, cause) {
@@ -164,17 +198,52 @@ function hit(s, cause) {
   if (s.stumble > 0) { s.over = true; s.cause = cause; s.events.push('over'); return }
   s.stumble = STUMBLE_SECONDS
   s.speed = Math.max(START_SPEED, s.speed * 0.85)
+  s.chain = 0
+  s.mult = 1
+  s.slow = 0.35
   s.events.push('hit')
+}
+
+function addChain(s, n) {
+  s.chain += n
+  const mult = Math.min(MAX_MULT, 1 + Math.floor(s.chain / CHAIN_PER_MULT))
+  if (mult > s.mult) s.events.push('combo')
+  s.mult = mult
+}
+
+// A whole row behind the runner, without a scratch.
+function passed(s) {
+  const close = s.sinceAct < CLOSE_SECONDS
+  s.dodges++
+  addChain(s, close ? 4 : 2)
+  s.bonus += (close ? 25 : 10) * s.mult
+  if (close) { s.close++; s.events.push('close') }
+  if (s.stumble > 0) {
+    s.stumble -= ESCAPE_SECONDS
+    if (s.stumble <= 0) { s.stumble = 0; s.events.push('escape') }
+  }
+}
+
+function checkMissions(s) {
+  for (const m of s.missions) {
+    if (m.done || s[m.key] < m.goal) continue
+    m.done = true
+    s.bonus += MISSION_BONUS
+    s.lastMission = m.text
+    s.events.push('mission')
+  }
 }
 
 const inLane = (s, lane) => lane === null || Math.abs(s.laneX - lane * LANE_W) < LANE_W * 0.55
 
+const hurts = (s, it) => it.kind === 'wall' ? inLane(s, it.lane)
+  : it.kind === 'low' ? inLane(s, it.lane) && s.y < CLEAR_HEIGHT
+    : it.kind === 'pit' ? s.y < 0.3
+      : it.kind === 'high' ? s.slide <= 0
+        : false
+
 function meet(s, it) {
-  if (it.kind === 'wall') { if (inLane(s, it.lane)) hit(s, 'wall') }
-  else if (it.kind === 'low') { if (inLane(s, it.lane) && s.y < CLEAR_HEIGHT) hit(s, 'low') }
-  else if (it.kind === 'pit') { if (s.y < 0.3) hit(s, 'pit') }
-  else if (it.kind === 'high') { if (s.slide <= 0) hit(s, 'high') }
-  else if (it.kind === 'pad') { if (inLane(s, it.lane) && s.y < 0.5) { s.vy = PAD_V; s.slide = 0; s.events.push('pad') } }
+  if (it.kind === 'pad') { if (inLane(s, it.lane) && s.y < 0.5) { s.vy = PAD_V; s.slide = 0; s.pads++; s.events.push('pad') } }
   else if (it.kind === 'gate') {
     const lane = Math.round(s.laneX / LANE_W)
     s.gate = null
@@ -188,7 +257,13 @@ function collect(s, seg, from, to) {
     if (it.kind === 'coin') {
       const near = it.at >= from - 0.4 && it.at <= to + 0.4
       const pulled = s.magnet > 0 && it.at >= from - 1 && it.at <= from + MAGNET_REACH
-      if ((near && inLane(s, it.lane)) || pulled) { it.taken = true; s.coins++; s.events.push('coin') }
+      if ((near && inLane(s, it.lane)) || pulled) {
+        it.taken = true
+        s.coins++
+        s.bonus += 5 * (s.mult - 1)
+        addChain(s, 1)
+        s.events.push('coin')
+      }
     } else if ((it.kind === 'magnet' || it.kind === 'shield') && it.at >= from - 0.4 && it.at <= to + 0.4 && inLane(s, it.lane)) {
       it.taken = true
       if (it.kind === 'magnet') s.magnet = MAGNET_SECONDS; else s.shield = true
@@ -205,21 +280,36 @@ export function step(s, dt) {
   s.stumble = Math.max(0, s.stumble - dt)
   s.safe = Math.max(0, s.safe - dt)
   s.magnet = Math.max(0, s.magnet - dt)
+  s.buffer = Math.max(0, s.buffer - dt)
+  s.slow = Math.max(0, s.slow - dt)
+  s.sinceAct += dt
   if (s.y > 0 || s.vy > 0) {
     s.vy -= GRAVITY * dt
     s.y += s.vy * dt
-    if (s.y <= 0) { s.y = 0; s.vy = 0; s.events.push('land') }
+    if (s.y <= 0) {
+      s.y = 0
+      s.vy = 0
+      s.events.push('land')
+      if (s.buffer > 0) { s.buffer = 0; jump(s) }
+    }
   }
   s.laneX += (s.lane * LANE_W - s.laneX) * Math.min(1, dt * 15)
 
   const seg = segment(s), from = s.d, move = s.speed * dt
   s.d += move
   s.run += move
+  let row = false, hurt = false
   for (const it of seg.items) {
     if (it.kind === 'coin' || it.kind === 'magnet' || it.kind === 'shield' || it.met) continue
-    if (it.at > from && it.at <= s.d) { it.met = true; meet(s, it); if (s.over) return }
+    if (it.at <= from || it.at > s.d) continue
+    it.met = true
+    if (it.kind === 'pad' || it.kind === 'gate') { meet(s, it); continue }
+    row = true
+    if (hurts(s, it)) { hurt = true; hit(s, it.kind); if (s.over) return }
   }
+  if (row && !hurt) passed(s)
   collect(s, seg, from, s.d)
+  checkMissions(s)
   s.gate = seg.items.find(it => it.kind === 'gate' && !it.met && it.at > s.d && it.at - s.d < 60) || null
 
   if (s.d >= seg.len && s.wantTurn === seg.turn) {

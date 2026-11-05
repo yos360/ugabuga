@@ -3,7 +3,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
-import { act, newGame, score, step } from './run/runGame'
+import { act, distanceToCorner, newGame, score, segment, step, TURN_WINDOW } from './run/runGame'
 import { createSound } from './run/runSound'
 
 // "בוגה בורח": a 3D running game, drawn from code. The best score stays on this device, nothing is sent anywhere.
@@ -32,7 +32,8 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
   const canvasRef = useRef(null)
   const stateRef = useRef(null)
   const soundRef = useRef(null)
-  const [hud, setHud] = useState({ score: 0, coins: 0, shield: false, magnet: false, stumble: false, gate: null })
+  const [hud, setHud] = useState({ score: 0, coins: 0, metres: 0, mult: 1, shield: false, magnet: false, stumble: false, gate: null, turn: null, missions: null })
+  const [pop, setPop] = useState(null)
   const [paused, setPaused] = useState(false)
   const [loading, setLoading] = useState(true)
   const [lost, setLost] = useState(false)
@@ -55,17 +56,26 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
       const dt = Math.min(0.1, (now - last) / 1000 || 0)
       last = now
       if (!pausedRef.current && !s.over) {
-        extra += dt
+        extra += s.slow > 0 ? dt * 0.4 : dt // the first hit stretches time for a moment
         while (extra >= STEP) { step(s, STEP); extra -= STEP }
       }
-      for (const e of s.events) sound.play(e === 'pad' ? 'jump' : e)
+      for (const e of s.events) {
+        sound.play(e === 'pad' ? 'jump' : e)
+        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : null
+        if (text) setPop({ id: performance.now(), text, big: e !== 'close' })
+      }
       scene.render(s, pausedRef.current ? 0 : dt)
       s.events.length = 0
       if (now - hudAt > 120 || s.over) {
         hudAt = now
-        setHud({ score: score(s), coins: s.coins, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate?.text || null })
+        const corner = distanceToCorner(s), seg = segment(s)
+        setHud({
+          score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate?.text || null,
+          turn: corner < TURN_WINDOW + 12 && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= TURN_WINDOW } : null,
+          missions: s.time < 4.5 ? s.missions : null,
+        })
       }
-      if (s.over) { stopped = true; sound.stop(); setTimeout(() => onOverRef.current({ score: score(s), coins: s.coins, metres: Math.floor(s.run), right: s.right, wrong: s.wrong, cause: s.cause }), 1700) ; scene.render(s, 0) }
+      if (s.over) { stopped = true; sound.stop(); setTimeout(() => onOverRef.current({ score: score(s), coins: s.coins, metres: Math.floor(s.run), right: s.right, wrong: s.wrong, cause: s.cause, missions: s.missions }), 1700) ; scene.render(s, 0) }
     }
     import('./run/runScene').then(({ createScene }) => {
       if (stopped) return
@@ -119,12 +129,20 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
   }
 
   return <div className="fixed inset-0 z-[200] select-none overflow-hidden bg-sky-200" style={{ touchAction: 'none' }} onPointerDown={down} onPointerMove={move} onPointerUp={() => { swipe.current = null }} onPointerCancel={() => { swipe.current = null }}>
+    <style>{'@keyframes buga-pop{0%{opacity:0;transform:scale(.5)}18%{opacity:1;transform:scale(1.12)}30%{transform:scale(1)}78%{opacity:1}100%{opacity:0;transform:translateY(-22px)}}@keyframes buga-bump{0%{transform:scale(1.28)}100%{transform:scale(1)}}@keyframes buga-pulse{50%{transform:scale(1.14)}}'}</style>
     <canvas ref={canvasRef} className="block h-full w-full" aria-label="המשחק בוגה בורח" />
     {loading && <div className="absolute inset-0 grid place-items-center bg-sky-100 text-2xl font-bold" role="status">בוגה מתחמם…</div>}
+    {pop && <div key={pop.id} className="pointer-events-none absolute inset-x-0 top-[17%] text-center" style={{ animation: 'buga-pop 1s ease-out both' }} dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-4 py-1 font-black ${pop.big ? 'bg-[#ffd23f] text-2xl' : 'bg-white text-xl'}`}>{pop.text}</span></div>}
+    {hud.turn && <div className="pointer-events-none absolute inset-x-0 top-[34%] text-center" dir="rtl"><span className={`inline-block rounded-2xl border-[3px] border-[#14162d] px-3 py-1 text-xl font-black ${hud.turn.now ? 'bg-emerald-500 text-white' : 'bg-white/90'}`} style={hud.turn.now ? { animation: 'buga-pulse .4s ease-in-out infinite' } : undefined}>{hud.turn.side < 0 ? '⬅️' : '➡️'} {hud.turn.now ? 'לפנות עכשיו!' : 'פנייה בדרך'}</span></div>}
+    {hud.missions && <div className="pointer-events-none absolute inset-x-0 bottom-6 mx-auto w-fit rounded-2xl border-[3px] border-[#14162d] bg-white/95 px-4 py-2 text-center" dir="rtl"><div className="font-black">המשימות בריצה הזאת</div>{hud.missions.map(m => <div key={m.key}>{m.done ? '✅' : '🎯'} {m.text}</div>)}</div>}
     <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3" dir="rtl" style={{ paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
       <div className="flex flex-col gap-1.5">
         <div className="rounded-2xl border-2 border-[#14162d] bg-white/90 px-3 py-1 text-xl font-black tabular-nums" aria-label="ניקוד">{hud.score.toLocaleString('en-US')}</div>
-        <div className="w-fit rounded-2xl border-2 border-[#14162d] bg-[#fff4bb] px-3 py-0.5 font-bold tabular-nums">🪙 {hud.coins}</div>
+        <div className="flex gap-1.5">
+          <div key={hud.coins} className="w-fit rounded-2xl border-2 border-[#14162d] bg-[#fff4bb] px-3 py-0.5 font-bold tabular-nums" style={{ animation: 'buga-bump .18s ease-out' }}>🪙 {hud.coins}</div>
+          <div className="w-fit rounded-2xl border-2 border-[#14162d] bg-white/90 px-2 py-0.5 font-bold tabular-nums">{hud.metres} מ׳</div>
+        </div>
+        {hud.mult > 1 && <div key={hud.mult} className="w-fit rounded-2xl border-2 border-[#14162d] bg-[#ff5d8f] px-3 py-0.5 text-lg font-black text-white" style={{ animation: 'buga-bump .3s ease-out' }}>×{hud.mult}</div>}
         <div className="flex gap-1 text-xl">{hud.shield && <span title="מגן">🛡️</span>}{hud.magnet && <span title="מגנט">🧲</span>}</div>
       </div>
       <div className="pointer-events-auto flex gap-1.5">
@@ -184,6 +202,7 @@ export default function BugaRun() {
         {result.record && <p className="m-0 text-xl font-black text-rose-600">🏆 שיא חדש!</p>}
         <p className="m-0 text-4xl font-black tabular-nums">{result.score.toLocaleString('en-US')}</p>
         <p className="m-0 text-[var(--muted-foreground)]">{result.metres.toLocaleString('en-US')} מטר · 🪙 {result.coins}{result.right + result.wrong > 0 ? ` · ✅ ${result.right} מתוך ${result.right + result.wrong}` : ''} · השיא שלך {best.toLocaleString('en-US')}</p>
+        <ul className="mx-auto mt-2 w-fit list-none p-0 text-start">{result.missions.map(m => <li key={m.key} className="font-bold">{m.done ? '✅' : '⬜'} {m.text}</li>)}</ul>
       </div> : <p className="mx-auto mt-1 max-w-md text-lg">עוגיית הענק מתגלגלת אחריכם! קופצים, מחליקים, פונים בזמן ואוספים מטבעות. כמה רחוק תגיעו?</p>}
       {webgl ? <div className="mt-4 grid gap-2 sm:grid-cols-2">
         <button type="button" onClick={() => start(phase === 'over' ? mode : 'run')} className="rounded-2xl border-[3px] border-[#14162d] bg-emerald-600 px-4 py-3 text-xl font-black text-white">{phase === 'over' ? '🔁 רצים שוב' : '▶️ להתחיל לרוץ'}</button>
