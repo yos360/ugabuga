@@ -4,7 +4,8 @@ import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import InvitationStudio from '../../components/invitations/InvitationStudio'
-import { WEDDING_TASKS, GUEST_GROUPS, daysUntil, tasksByStage, expectedGuests, weddingBudget, planToLink, planFromHash } from './weddingPlan'
+import PrintPreview from '../../components/ui/PrintPreview'
+import { WEDDING_TASKS, GUEST_GROUPS, SUPPLIERS, DEFAULT_CHUPPAH, daysUntil, tasksByStage, expectedGuests, weddingBudget, daySchedule, scheduleText, planToLink, planFromHash } from './weddingPlan'
 
 const STORE = 'buga-wedding-plan'
 const load = () => { try { return JSON.parse(localStorage.getItem(STORE)) || {} } catch { return {} } }
@@ -13,7 +14,7 @@ const save = v => { try { localStorage.setItem(STORE, JSON.stringify(v)) } catch
 const STEPS = [
   { n: 1, emoji: '💌', title: 'הזמנה לחתונה', text: 'עיצוב אלגנטי עם השמות שלכם, תמונה ותאריך — לוואטסאפ, לסטורי ולהדפסה.', to: '/invitation/wedding', cta: 'לעיצוב ההזמנה' },
   { n: 2, emoji: '✅', title: 'אישורי הגעה', text: 'קישור אחד שהאורחים פותחים מהוואטסאפ ועונים בלחיצה. אתם רואים מי מגיע, כמה מנות ורגישויות במזון — ושולחים תזכורת אישית לכל מי שלא ענה.', to: '/rsvp/wedding', cta: 'לפתיחת אישורי הגעה' },
-  { n: 3, emoji: '🪑', title: 'סידור הושבה', text: 'בדף הניהול של אישורי ההגעה קובעים מספר שולחנות ומשבצים כל משפחה. בערב החתונה מדפיסים רשימה לעמדת הכניסה.', to: '/rsvp/wedding', cta: 'לסידור ההושבה' },
+  { n: 3, emoji: '🪑', title: 'סידור הושבה', text: 'בדף הניהול של אישורי ההגעה קובעים כמה שולחנות ומקומות יש, ובלחיצה אחת הכול מסתדר: משפחות יחד וקבוצות זו ליד זו. משנים ידנית מה שרוצים ומדפיסים לעמדת הכניסה.', to: '/rsvp/wedding', cta: 'לסידור ההושבה' },
   { n: 4, emoji: '🗓️', title: 'מה עושים ומתי', text: 'רשימת משימות לפי תאריך החתונה שלכם, מהשנה שלפני ועד הבוקר של היום הגדול. מסמנים מה כבר נעשה.', to: '#plan', cta: 'לרשימת המשימות' },
 ]
 
@@ -21,6 +22,8 @@ const FAQ = [
   { q: 'המתכנן באמת חינמי?', a: 'כן. ההזמנה, אישורי ההגעה, סידור ההושבה ורשימת המשימות חינמיים לגמרי, בלי הרשמה ובלי הגבלה על מספר האורחים.' },
   { q: 'איפה נשמרת רשימת המשימות?', a: 'בדפדפן בטלפון או במחשב שבו סימנתם. היא לא עולה לשרת. כדי לעבור לטלפון אחר או לשתף את בן או בת הזוג, שולחים לעצמכם את קישור התכנון שבתחתית הדף.' },
   { q: 'כמה עולה חתונה בישראל?', a: 'תלוי בעיקר במספר האורחים ובמחיר המנה. במחשבון התקציב מכניסים את ההצעות שקיבלתם, ורואים את סך הכול, את העלות לאורח ואם המתנות הצפויות יכסו את ההוצאה.' },
+  { q: 'איך עובד הסידור האוטומטי של ההושבה?', a: 'קובעים כמה שולחנות יש וכמה מקומות בכל שולחן, ואם רוצים נותנים לכל תשובה קבוצה, כמו משפחת החתן או חברים של הכלה. הסידור משאיר משפחות יחד, מושיב קבוצה ליד קבוצה ולא מזיז את מי שכבר שובץ. אפשר לבטל בלחיצה ולשנות כל שולחן ידנית.' },
+  { q: 'מה הלו"ז של ערב החתונה?', a: 'לוח הזמנים נבנה מהשעה של החופה: קבלת פנים נפתחת בדרך כלל כשעה וחצי לפניה, וארוחה וריקודים אחריה. כותבים את שעת החופה, משנים כל שורה, ושולחים לכל ספק רק את מה שנוגע אליו.' },
   { q: 'כמה זמן לפני החתונה שולחים הזמנות?', a: 'בדרך כלל ארבעה עד שישה שבועות לפני. שבוע־שבועיים לפני שולחים תזכורת רק למי שעוד לא אישר הגעה.' },
   { q: 'אפשר לנהל גם חינה או שבת חתן?', a: 'כן. פותחים אירוע נפרד באישורי ההגעה לכל אחד מהם, וכל אירוע מקבל קישור וסיכום משלו.' },
 ]
@@ -40,7 +43,8 @@ function Countdown({ date, setDate }) {
 // What paid wedding services charge for, and what it costs here.
 const EXTRAS = [
   ['📲', 'תזכורת אישית בוואטסאפ', 'הודעה עם השם של כל מי שלא ענה', 'אחרים גובים 69–449 ₪'],
-  ['🪑', 'סידור הושבה ורשימה לכניסה', 'משבצים משפחות לשולחנות ומדפיסים', 'בדרך כלל בתוך חבילה בתשלום'],
+  ['🪑', 'הושבה אוטומטית ורשימה לכניסה', 'לחיצה אחת, משפחות יחד, בדיקת מקום בכל שולחן', 'בדרך כלל בתוך חבילה בתשלום'],
+  ['⏰', 'לוח זמנים ליום החתונה', 'נבנה משעת החופה, ולכל ספק נשלח רק מה שנוגע אליו', ''],
   ['👥', 'כמה יגיעו באמת?', 'הערכה לפי סוגי האורחים, לפני שסוגרים מנות', 'לא מצאנו את זה אצל אחרים'],
   ['💰', 'מחשבון תקציב ומתנות', 'כמה החתונה תעלה, כמה שילמתם, ואם המתנות יכסו', 'באפליקציות אחרות — אחרי הרשמה'],
   ['🔒', 'בלי הרשמה ובלי למסור טלפונים', 'הטלפונים של האורחים נשארים אצלכם', ''],
@@ -129,6 +133,46 @@ function Budget({ plan, set }) {
   </section>
 }
 
+function DaySchedule({ plan, set }) {
+  const [supplier, setSupplier] = useState('')
+  const [printing, setPrinting] = useState(false)
+  const s = plan.schedule || {}
+  const times = s.times || {}
+  const chuppah = s.chuppah || DEFAULT_CHUPPAH
+  const rows = daySchedule(chuppah, times)
+  const put = patch => set({ schedule: { ...s, ...patch } })
+  const wa = 'https://wa.me/?text=' + encodeURIComponent(scheduleText(rows, supplier))
+  return <section id="schedule" className="mt-12 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow" aria-labelledby="schedule-title">
+    <h2 id="schedule-title" className="m-0 text-center text-3xl font-bold">⏰ לוח הזמנים של היום הגדול</h2>
+    <p className="text-center text-[var(--muted-foreground)]">כתבו מתי החופה, וכל היום יסתדר סביבה. אפשר לשנות כל שעה לפי מה שסיכמתם עם האולם.</p>
+    <p className="text-center"><label className="font-bold">💍 שעת החופה{' '}
+      <input type="time" value={chuppah} onChange={e => e.target.value && put({ chuppah: e.target.value })} className="mr-2 rounded-xl border-2 border-[var(--border)] px-3 py-1" dir="ltr" />
+    </label></p>
+    <ol className="m-0 mt-4 list-none space-y-1 p-0">
+      {rows.map(r => <li key={r.id} className={`flex items-center gap-3 rounded-xl px-3 py-1.5 ${r.id === 'chuppah' ? 'bg-rose-50 font-bold' : ''}`}>
+        {r.id === 'chuppah' ? <span className="w-[6.5rem] shrink-0 text-center" dir="ltr">{r.time}</span>
+          : <input type="time" aria-label={`שעה: ${r.label}`} value={r.time} onChange={e => put({ times: { ...times, [r.id]: e.target.value } })} className="w-[6.5rem] shrink-0 rounded-lg border-2 border-[var(--border)] px-1 py-0.5" dir="ltr" />}
+        <span>{r.label}</span>
+      </li>)}
+    </ol>
+    <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+      <label className="font-bold">לשלוח{' '}<select value={supplier} onChange={e => setSupplier(e.target.value)} className="rounded-xl border-2 border-[var(--border)] px-2 py-2">{SUPPLIERS.map(x => <option key={x.id} value={x.id}>{x.label}</option>)}</select></label>
+      <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
+      <button type="button" onClick={() => setPrinting(true)} className="rounded-xl border-2 border-[var(--border)] px-4 py-2 font-bold">🖨️ הדפסה</button>
+      {Object.keys(times).length > 0 && <button type="button" onClick={() => put({ times: {} })} className="text-sm font-bold underline">לחזור לשעות המומלצות</button>}
+    </div>
+    <p className="mt-3 mb-0 text-center text-xs text-[var(--muted-foreground)]">השעות הן נקודת התחלה מקובלת. הסדר משתנה מאולם לאולם.</p>
+    {printing && <PrintPreview lang="he" title="לוח הזמנים של החתונה" onClose={() => setPrinting(false)}>
+      <div className="buga-flow" dir="rtl">
+        <h2 style={{ fontSize: 26, margin: 0 }}>💍 לוח הזמנים של החתונה</h2>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, marginTop: 8 }}>
+          <tbody>{rows.map(r => <tr key={r.id}><td style={{ borderBottom: '1px solid #ddd', padding: 6, fontWeight: 800, width: 70 }}>{r.time}</td><td style={{ borderBottom: '1px solid #ddd', padding: 6 }}>{r.label}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </PrintPreview>}
+  </section>
+}
+
 // Same plan on another phone or with the partner: a link carrying the plan, sent over WhatsApp.
 function MovePlan({ plan }) {
   const [copied, setCopied] = useState(false)
@@ -159,7 +203,7 @@ function Plan({ date, done, toggle }) {
         <ul className="mt-3 list-none space-y-2 p-0">
           {s.tasks.map(t => <li key={t.id}><label className="flex cursor-pointer items-start gap-2">
             <input type="checkbox" checked={!!done[t.id]} onChange={() => toggle(t.id)} className="mt-1.5 h-5 w-5 shrink-0" />
-            <span className={done[t.id] ? 'text-[var(--muted-foreground)] line-through' : ''}>{t.text}{t.to && <> · <Link to={t.to} className="font-bold underline">{t.link}</Link></>}</span>
+            <span className={done[t.id] ? 'text-[var(--muted-foreground)] line-through' : ''}>{t.text}{t.to && <> · {t.to.startsWith('#') ? <a href={t.to} className="font-bold underline">{t.link}</a> : <Link to={t.to} className="font-bold underline">{t.link}</Link>}</>}</span>
           </label></li>)}
         </ul>
       </div>)}
@@ -200,6 +244,8 @@ export function WeddingHub() {
     <GuestEstimate counts={plan.counts || {}} day={plan.day || 'weekday'} set={update} />
 
     <Budget plan={plan} set={update} />
+
+    <DaySchedule plan={plan} set={update} />
 
     <Plan date={plan.date || ''} done={done} toggle={id => update({ done: { ...done, [id]: !done[id] } })} />
 

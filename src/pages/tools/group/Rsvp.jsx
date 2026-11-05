@@ -19,6 +19,7 @@ import { RSVP_TYPES_EN, rsvpTypeEn } from '../../../utils/rsvpTypesEn'
 import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
 import { rsvpUi, money, CURRENCIES, PAY_LINK } from '../../../utils/rsvpUi'
 import { RSVP_PAGE_COPY as PAGE } from '../../../utils/rsvpPageCopy'
+import { DEFAULT_SEATS, MAX_SEATS, autoSeat, partySize, tableLoads, tablesNeeded } from '../../../utils/seating'
 
 // One tool, two sites: Hebrew (/rsvp, /r/<code>) and English (/en/rsvp, /en/r/<code>).
 // Same database calls; only the text, links and a few defaults differ (utils/rsvpUi.js).
@@ -55,7 +56,7 @@ const extrasOf = (f, site = 'he') => {
   const price = site !== 'en' && Number(x.price) > 0 ? Number(x.price) : undefined
   return { type: x.type, lang: site === 'en' ? x.lang || 'en' : x.lang && x.lang !== 'he' ? x.lang : undefined, parking: cleanText(x.parking, 300) || undefined,
     price, currency: price && CURRENCIES.includes(x.currency) ? x.currency : undefined, pay_link: price && PAY_LINK.test((x.pay_link || '').trim()) ? x.pay_link.trim() : undefined,
-    tables: Number(x.tables) > 0 ? Math.min(200, Math.floor(Number(x.tables))) : undefined, show_table: Boolean(x.show_table) || undefined }
+    tables: Number(x.tables) > 0 ? Math.min(200, Math.floor(Number(x.tables))) : undefined, seats: Number(x.seats) > 0 ? Number(x.seats) : undefined, show_table: Boolean(x.show_table) || undefined }
 }
 const hasExtras = x => Object.values(x).some(v => v !== undefined)
 const fromForm = f => ({ kind: f.kind, title: cleanText(f.title, LIMITS.title), date: f.date || null, time: cleanText(f.time, 20), place: cleanText(f.place, LIMITS.place), deadline: f.deadline || null, note: cleanText(f.note, LIMITS.note, true), invitees: parseNames(f.invitees, LIMITS.maxInvitees).slice(0, LIMITS.maxInvitees) })
@@ -315,6 +316,20 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
     try { const m = await rsvpDb.mark(ev.code, token, r.id, patch); setEv(e => ({ ...e, marks: { ...e.marks, [r.id]: m } })) }
     catch (e) { setEv(ev2 => ({ ...ev2, marks: { ...ev2.marks, [r.id]: before } })); show(errText(site, e.code), 'err') }
   }
+  // Many seats in one call; each table change is on screen at once and rolled back if the save fails.
+  const seatMany = async seats => {
+    const before = ev.marks || {}
+    setEv(e => ({ ...e, marks: Object.entries(seats).reduce((all, [id, table]) => ({ ...all, [id]: { ...all[id], table } }), e.marks || {}) }))
+    try { await rsvpDb.seatMany(ev.code, token, seats); return true }
+    catch (e) { setEv(ev2 => ({ ...ev2, marks: before })); show(errText(site, e.code), 'err'); return false }
+  }
+  const setSeatingExtras = async patch => {
+    try {
+      const extras = await rsvpDb.extrasSet(ev.code, token, { ...ev.extras, ...patch })
+      // Fewer tables: the database cleared the seats that no longer exist.
+      setEv(e => ({ ...e, extras: extras || {}, marks: Object.fromEntries(Object.entries(e.marks || {}).map(([id, m]) => [id, m.table > (extras?.tables || 0) ? { ...m, table: null } : m])) }))
+    } catch (e) { show(errText(site, e.code), 'err') }
+  }
   const coming = responses.filter(r => r.status !== 'no')
   const paidCount = coming.filter(r => marks[r.id]?.paid).length
   const [seating, setSeating] = useState(false)
@@ -390,10 +405,13 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
             {x.tables > 0 && <select aria-label={S.tableOf(r.name)} value={marks[r.id]?.table || ''} onChange={e => mark(r, { table: e.target.value ? Number(e.target.value) : null })} className="min-h-[40px] rounded-xl border-2 border-slate-200 bg-white px-2 text-sm font-bold">
               <option value="">{S.noTable}</option>{Array.from({ length: x.tables }, (_, i) => <option key={i + 1} value={i + 1}>{S.tableN(i + 1)}</option>)}
             </select>}
+            {x.tables > 0 && <input key={marks[r.id]?.group || ''} aria-label={S.groupOf(r.name)} list="seat-groups" maxLength={30} defaultValue={marks[r.id]?.group || ''} placeholder={S.groupPh}
+              onBlur={e => { const group = e.target.value.trim(); if (group !== (marks[r.id]?.group || '')) mark(r, { group: group || null }) }} className="min-h-[40px] min-w-0 flex-1 rounded-xl border-2 border-slate-200 bg-white px-2 text-sm" />}
           </div>}
         </li>)}</ul>
+        {x.tables > 0 && <datalist id="seat-groups">{[...new Set([...S.groupPresets, ...Object.values(marks).map(m => m.group).filter(Boolean)])].map(g => <option key={g} value={g} />)}</datalist>}
       </section>
-      {x.tables > 0 && <SeatingSection ev={ev} coming={coming} marks={marks} onPrint={() => setSeating(true)} />}
+      {(x.tables > 0 || x.type === 'wedding') && <SeatingSection ev={ev} coming={coming} marks={marks} onPrint={() => setSeating(true)} onSeatMany={seatMany} onExtras={setSeatingExtras} />}
     </div>
 
     <aside className="space-y-4 lg:sticky lg:top-4">
@@ -443,19 +461,44 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
 
 // ── seating: who sits at each table, and an alphabetical list for the entrance ──
 const headcount = r => (Number(r.kids) || 0) + (Number(r.adults) || 0)
-function SeatingSection({ ev, coming, marks, onPrint }) {
+function SeatNumber({ label, value, max, onSave }) {
+  return <Field label={label}><input key={value} className={input} type="number" inputMode="numeric" min="1" max={max} defaultValue={value || ''}
+    onBlur={e => { const n = Math.min(max, Math.floor(Number(e.target.value)) || 0); if (n > 0 && n !== value) onSave(n) }} /></Field>
+}
+function SeatingSection({ ev, coming, marks, onPrint, onSeatMany, onExtras }) {
   const [, S] = useSite()
-  const tables = Array.from({ length: ev.extras.tables }, (_, i) => i + 1)
+  const [note, setNote] = useState('')
+  const [undo, setUndo] = useState(null)
+  const count = ev.extras.tables || 0, perTable = ev.extras.seats || DEFAULT_SEATS
+  const people = coming.reduce((s, r) => s + partySize(r), 0)
+  const tables = Array.from({ length: count }, (_, i) => i + 1)
+  const loads = tableLoads(coming, marks, count)
   const at = n => coming.filter(r => marks[r.id]?.table === n)
   const free = coming.filter(r => !marks[r.id]?.table)
+  const seated = coming.filter(r => marks[r.id]?.table)
+  const auto = async () => {
+    const { seats, left } = autoSeat(coming, marks, count, perTable)
+    const ids = Object.keys(seats)
+    if (!ids.length) { setNote(S.autoNothing); setUndo(null); return }
+    if (await onSeatMany(seats)) { setNote(S.autoDone(ids.length, left.length)); setUndo(Object.fromEntries(ids.map(id => [id, null]))) }
+  }
+  const clear = async () => { if (window.confirm(S.clearConfirm) && await onSeatMany(Object.fromEntries(seated.map(r => [r.id, null])))) { setNote(''); setUndo(null) } }
   return <section className={card}>
     <div className="flex flex-wrap items-center justify-between gap-2"><h2 className="text-2xl font-bold">{S.seatingTitle}</h2><button onClick={onPrint} className="min-h-[44px] rounded-xl border-2 border-slate-800 px-3 font-bold">{S.entranceList}</button></div>
     <p className="mt-1 text-sm text-slate-600">{S.seatingHelp(ev.extras.show_table)}</p>
-    <div className="mt-3 grid gap-2 sm:grid-cols-2">{tables.map(n => { const list = at(n); return <div key={n} className="rounded-xl border-2 border-slate-100 bg-slate-50 p-3">
-      <b>{S.tableN(n)}</b> <span className="text-sm text-slate-600">{S.seats(list.reduce((s, r) => s + headcount(r), 0))}</span>
+    <div className="mt-3 grid grid-cols-2 gap-3 sm:max-w-sm">
+      <SeatNumber label={S.tablesCount} value={count} max={200} onSave={tables => onExtras({ tables })} />
+      <SeatNumber label={S.seatsPerTable} value={perTable} max={MAX_SEATS} onSave={seats => onExtras({ seats })} />
+    </div>
+    {people > 0 && <p className="mt-2 text-sm font-bold">{S.tablesNeed(people, tablesNeeded(people, perTable))}</p>}
+    {count > 0 && free.length > 0 && <div className="mt-3 rounded-xl bg-sky-50 p-3"><button onClick={auto} className={`${btnMain} w-full sm:w-auto`}>{S.autoSeat}</button><p className="mt-2 text-sm text-slate-600">{S.autoHelp}</p></div>}
+    {note && <p className="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-emerald-50 p-3 text-sm font-bold" role="status">{note}{undo && <button onClick={async () => { if (await onSeatMany(undo)) { setUndo(null); setNote('') } }} className="underline">{S.undo}</button>}</p>}
+    {count > 0 && <div className="mt-3 grid gap-2 sm:grid-cols-2">{tables.map(n => { const list = at(n), over = loads[n - 1] > perTable; return <div key={n} className={`rounded-xl border-2 p-3 ${over ? 'border-rose-300 bg-rose-50' : 'border-slate-100 bg-slate-50'}`}>
+      <b>{S.tableN(n)}</b> <span className={`text-sm ${over ? 'font-bold text-rose-700' : 'text-slate-600'}`}>· {S.load(loads[n - 1], perTable)}{over && ` ⚠️ ${S.overfull}`}</span>
       <p className="text-sm">{list.map(r => r.name).join(' · ') || <span className="text-slate-400">{S.empty}</span>}</p>
-    </div> })}</div>
-    {free.length > 0 && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm"><b>{S.unseated(free.length)}</b> {free.map(r => r.name).join(' · ')}</p>}
+    </div> })}</div>}
+    {count > 0 && free.length > 0 && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm"><b>{S.unseated(free.length)}</b> {free.map(r => r.name).join(' · ')}</p>}
+    {seated.length > 0 && <p className="mt-3 mb-0 text-center"><button onClick={clear} className="text-sm font-bold text-slate-500 underline">{S.clearSeats}</button></p>}
   </section>
 }
 function SeatingPrint({ ev, coming, marks }) {
@@ -468,6 +511,8 @@ function SeatingPrint({ ev, coming, marks }) {
       <thead><tr>{S.seatHeaders.map(h => <th key={h} style={{ borderBottom: '2px solid #333', textAlign: site === 'en' ? 'left' : 'right', padding: 6 }}>{h}</th>)}</tr></thead>
       <tbody>{list.map(r => <tr key={r.id}>{[r.name, marks[r.id]?.table || '—', headcount(r)].map((c, i) => <td key={i} style={{ borderBottom: '1px solid #ddd', padding: 6, fontWeight: i === 1 ? 800 : 400 }}>{c}</td>)}</tr>)}</tbody>
     </table>
+    <h2 style={{ fontSize: 22, margin: '0 0 8px', pageBreakBefore: 'always' }}>{S.byTable}</h2>
+    {Array.from({ length: ev.extras.tables || 0 }, (_, i) => i + 1).map(n => { const at = list.filter(r => marks[r.id]?.table === n); return at.length > 0 && <p key={n} style={{ margin: '0 0 10px', breakInside: 'avoid' }}><b>{S.tableN(n)} {S.seats(at.reduce((s, r) => s + headcount(r), 0))}:</b> {at.map(r => r.name).join(' · ')}</p> })}
   </div>
 }
 

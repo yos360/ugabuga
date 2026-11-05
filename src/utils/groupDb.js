@@ -39,6 +39,7 @@ export const rsvpDb = {
   extrasGet: (code, deviceToken, hostToken) => call('rsvp_extras_get', { p_code: code, p_device_token: deviceToken || null, p_host_token: hostToken || null }).catch(() => ({})),
   extrasSet: (code, hostToken, extras) => call('rsvp_extras_set', { p_code: code, p_host_token: hostToken, p: extras }),
   mark: (code, hostToken, responseId, patch) => call('rsvp_mark', { p_code: code, p_host_token: hostToken, p_response_id: responseId, p: patch }),
+  seatMany: (code, hostToken, seats) => call('rsvp_seat_many', { p_code: code, p_host_token: hostToken, p: seats }),
 }
 
 export const secretDb = {

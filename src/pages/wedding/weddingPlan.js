@@ -28,7 +28,7 @@ export const WEDDING_TASKS = [
   { id: 'reminder', stage: 'm1', text: 'תזכורת רק למי שעוד לא אישר' },
   { id: 'seating', stage: 'm1', text: 'סידור הושבה לשולחנות', to: '/rsvp/wedding', link: 'להושבה' },
   { id: 'menu', stage: 'm1', text: 'למסור לאולם מספר מנות ורגישויות במזון' },
-  { id: 'schedule', stage: 'week', text: 'לוח זמנים לערב ולשלוח לספקים' },
+  { id: 'schedule', stage: 'week', text: 'לוח זמנים לערב ולשלוח לספקים', to: '#schedule', link: 'ללוח הזמנים' },
   { id: 'list', stage: 'week', text: 'להדפיס רשימת הושבה לעמדת הכניסה' },
   { id: 'payments', stage: 'week', text: 'להכין תשלומים לספקים במעטפות' },
   { id: 'bag', stage: 'week', text: 'תיק חירום: מחטים, פלסטרים, מטען, מים' },
@@ -83,6 +83,57 @@ export function weddingBudget({ guests = 0, perPlate = 0, gift = 0, items = {} }
   const gifts = g * num(gift)
   const paid = lines.reduce((s, l) => s + l.paid, 0)
   return { lines, food, suppliers, total, perGuest: g ? Math.round(total / g) : 0, gifts, balance: gifts - total, paid, left: total - paid }
+}
+
+// Wedding-day schedule, built backwards and forwards from the time of the chuppah. `at` = minutes from it.
+export const SUPPLIERS = [
+  { id: '', label: 'כל הספקים' },
+  { id: 'photo', label: 'לצלם' },
+  { id: 'dj', label: 'לתקליטן' },
+  { id: 'venue', label: 'לאולם' },
+  { id: 'design', label: 'למעצב' },
+]
+export const DAY_SCHEDULE = [
+  { id: 'hair', at: -390, label: 'איפור ושיער', who: [] },
+  { id: 'prep', at: -240, label: 'הצלם מגיע להתארגנות', who: ['photo'] },
+  { id: 'setup', at: -210, label: 'הקמה: עיצוב, פרחים והגברה', who: ['design', 'dj', 'venue'] },
+  { id: 'couple', at: -180, label: 'צילומי זוג ומשפחה', who: ['photo'] },
+  { id: 'arrive', at: -120, label: 'הזוג מגיע לאולם', who: ['photo', 'venue'] },
+  { id: 'reception', at: -90, label: 'קבלת פנים נפתחת', who: ['photo', 'dj', 'venue'] },
+  { id: 'sign', at: -30, label: 'חתימה עם הרב והעדים', who: ['photo'] },
+  { id: 'line', at: -10, label: 'מתארגנים לחופה: הורים, שושבינים ושיר כניסה', who: ['photo', 'dj', 'venue'] },
+  { id: 'chuppah', at: 0, label: 'חופה', who: ['photo', 'dj', 'venue', 'design'] },
+  { id: 'enter', at: 40, label: 'האורחים עוברים לשולחנות — מנה ראשונה', who: ['dj', 'venue'] },
+  { id: 'dance1', at: 75, label: 'כניסת הזוג וסט ריקודים ראשון', who: ['photo', 'dj'] },
+  { id: 'main', at: 120, label: 'מנה עיקרית', who: ['dj', 'venue'] },
+  { id: 'dance2', at: 165, label: 'סט ריקודים שני', who: ['photo', 'dj'] },
+  { id: 'dessert', at: 210, label: 'קינוח', who: ['venue'] },
+  { id: 'end', at: 270, label: 'סיום ותשלום לספקים', who: ['photo', 'dj', 'venue', 'design'] },
+]
+export const DEFAULT_CHUPPAH = '20:00'
+const TIME = /^([01]\d|2[0-3]):[0-5]\d$/
+const toMinutes = t => Number(t.slice(0, 2)) * 60 + Number(t.slice(3))
+
+export function addMinutes(time, minutes) {
+  const m = ((toMinutes(time) + minutes) % 1440 + 1440) % 1440
+  return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`
+}
+
+// times: { [id]: 'HH:MM' } hand-set rows. Sorted by distance from the chuppah, so 00:30 stays after 23:30.
+export function daySchedule(chuppah, times = {}) {
+  const zero = TIME.test(chuppah || '') ? chuppah : DEFAULT_CHUPPAH
+  return DAY_SCHEDULE.map(s => {
+    const set = s.id !== 'chuppah' && TIME.test(times[s.id] || '') ? times[s.id] : null
+    const time = set || addMinutes(zero, s.at)
+    const from = ((toMinutes(time) - toMinutes(zero) + 840) % 1440 + 1440) % 1440 - 840
+    return { ...s, time, from, set: !!set }
+  }).sort((a, b) => a.from - b.from)
+}
+
+// The text for WhatsApp; with a supplier, only the rows that concern them.
+export function scheduleText(rows, supplier = '') {
+  const list = supplier ? rows.filter(r => r.who.includes(supplier)) : rows
+  return `לוח הזמנים של החתונה 💍\n\n${list.map(r => `${r.time} ${r.label}`).join('\n')}`
 }
 
 // The whole plan in a link, to open it on another phone or send it to the partner. No server involved.
