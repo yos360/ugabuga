@@ -61,8 +61,10 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 |---|---|---|---|---|
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
 | 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | jziSpRpEj8I (made in slot 2, uploaded 17:40 by the slot-3 run; in the playlist; site f8fa7bfc; thumbnail input did not apply again) |
-| 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | READY, upload from the owner's Chrome — uploads/tutorials/2026-11-04-3 (39 s, v2 style; screens are real captures; source in examples/tutorial-party-bags) |
+| 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | VYuaTFQQemo (made in slot 3 of 11-04, uploaded 2026-11-05 slot 1; in the playlist; site 021cd8b8; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-party-bags) |
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
 Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
 In the upload dialog, the thumbnail file input did not apply on 2026-11-04 (twice, also from the video's edit page); the keyboard video (rrmNDBL6TvY) still has the hook frame — the owner can upload .reel-upload/tutorial/thumbnail.jpg in Studio.
+Channel not phone-verified (found 2026-11-05): Studio marks the description red with "כדי שאפשר יהיה ללחוץ על קישורים חיצוניים, עליך לבצע אימות חד פעמי". Likely also the reason the thumbnail file input does not apply and the daily upload limit. Verification is the owner's. Until then: on the video's edit page, "בחירה מהסרטון" → end-card frame (mascot + tool name) → Save; the description still saves.
+file_upload limit is 10 MB: the 13 MB party-bags mp4 was re-encoded at crf 27 (5 MB) for the browser upload.
