@@ -74,7 +74,7 @@ function CodeTool() {
     setCopied(false)
   }
   const copy = async () => {
-    try { await navigator.clipboard.writeText(result); setCopied(true) } catch { setCopied(false) }
+    try { await navigator.clipboard.writeText(result); setCopied(true) } catch { setCopied('failed') }
   }
 
   return <section className="mb-8 rounded-3xl border-2 border-[var(--border)] bg-white p-5 sketch-shadow-sm" aria-labelledby="tool-h">
@@ -99,7 +99,8 @@ function CodeTool() {
       <p className="min-h-[2rem] break-words text-2xl font-bold" dir="rtl">{mirror ? <Mirrored>{result}</Mirrored> : result}</p>
     </div>
     <div className="mb-4 flex flex-wrap items-center gap-3">
-      {!mirror && <button type="button" onClick={copy} disabled={!result} className="min-h-[44px] rounded-full bg-slate-900 px-5 font-bold text-white disabled:opacity-50">{copied ? '✓ הועתק' : '📋 העתקת התוצאה'}</button>}
+      {!mirror && <button type="button" onClick={copy} disabled={!result} className="min-h-[44px] rounded-full bg-slate-900 px-5 font-bold text-white disabled:opacity-50">{copied === true ? '✓ הועתק' : '📋 העתקת התוצאה'}</button>}
+      {copied === 'failed' && <p className="font-bold text-rose-700" role="alert">לא הצלחנו להעתיק. סמנו את ההודעה והעתיקו אותה ביד.</p>}
       {mirror && <p>את כתב המראה מעתיקים ביד לנייר, ומציצים במראה כדי לבדוק.</p>}
       <p className="text-sm text-[var(--muted-foreground)]">🔏 מה שכותבים כאן נשאר במכשיר שלכם. שום דבר לא נשלח ולא נשמר.</p>
     </div>
