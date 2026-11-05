@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'VYuaTFQQemo', kind: 'tutorial', title: 'איך בוחרים מה לשים בשקית הפתעה ליום הולדת בעוגה בוגה — מדריך קצר', paths: ['/birthday/party-bags'], category: 'party', date: '2026-11-05',
+    desc: 'מדריך קצר לשקיות הפתעה: בוחרים גיל ותקציב, מקבלים שקית לדוגמה עם מחיר, מסננים בלי פלסטיק ובלי ממתקים ומדפיסים תוויות ומדבקות עם שם — חינם, בלי הרשמה.' },
   { id: 'jziSpRpEj8I', kind: 'tutorial', title: 'איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר', paths: ['/tools/pdf'], category: 'tools', date: '2026-11-04',
     desc: 'מדריך קצר לסטודיו ה־PDF: מחברים קבצי PDF ותמונות לקובץ אחד, מסדרים עמודים, מקטינים לשליחה וחותמים בלי מדפסת — הכל בדפדפן, בלי הרשמה.' },
   { id: 'rrmNDBL6TvY', kind: 'tutorial', title: 'איך מקלידים עברית עם ניקוד בכל מחשב בעוגה בוגה — מדריך קצר', paths: ['/tools/keyboard'], category: 'tools', date: '2026-11-04',
@@ -43,6 +45,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
   '/tools/keyboard': 'מקלדת עברית אונליין',
   '/tools/pdf': 'סטודיו PDF',
+  '/birthday/party-bags': 'שקיות הפתעה',
 }
 
 const SITE = 'https://ugabuga.co.il'
