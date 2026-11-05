@@ -450,6 +450,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [תשחצים להדפסה](https://ugabuga.co.il/adults/crosswords)
 - [מחולל מנדלות לצביעה](https://ugabuga.co.il/adults/mandalas)
 - [משחק זיכרון בקלפים גדולים](https://ugabuga.co.il/adults/memory)
+- [בוגה בורח, משחק ריצה בתלת־ממד](https://ugabuga.co.il/buga-run)
 - [שאלות מכשילות](https://ugabuga.co.il/trick-questions)
 - [סבא וסבתא עם הנכדים](https://ugabuga.co.il/adults/grandparents)
 - [ראיון סיפור חיים](https://ugabuga.co.il/adults/grandparents/interview)

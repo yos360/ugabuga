@@ -1,0 +1,982 @@
+// Draws the state from runGame.js with three.js. Everything is painted and built from code, so there is nothing
+// to download: the road is a stone causeway high above each world, with giants rising from far below on both sides.
+import * as THREE from 'three'
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
+import { LANE_W, WORLDS, groundAt, segment, worldPosition } from './runGame'
+
+const PATH_W = LANE_W * 3 + 1.4
+const FLOOR_Y = -34
+const LOOK = {
+  jungle: { sky: ['#3f9fe0', '#a6e3f2', '#fff3c4'], fog: 0xb9e6d6, ridge: ['#2e7d5b', '#4f9f74', '#86c79a'], sun: '#fff6c8', stone: ['#c9b48c', '#b39c72', '#6b5b3f'], wall: ['#8d8468', '#6f6850', '#47432f'], rail: 0x7b6a4a, accent: 0xff6a3d, trim: 0x3f8f4f, low: ['#2f7d3e', '#3f9a49', '#1f5f33'], hemi: [0xf4fff0, 0x4e7a44, 2.1], sunLight: [0xfff0c8, 2.5] },
+  desert: { sky: ['#2f7fd8', '#8fd0f0', '#ffe2ae'], fog: 0xf7d6a4, ridge: ['#b5613a', '#d08350', '#ebb078'], sun: '#fff2c0', stone: ['#ecc98c', '#d9ad6a', '#9a6f3c'], wall: ['#c98a52', '#a96c3c', '#70431f'], rail: 0xb5713c, accent: 0x18a999, trim: 0xe24e3a, low: ['#e0ac63', '#eec078', '#c78f4b'], hemi: [0xfff4dc, 0xa8784a, 2.1], sunLight: [0xffe6b4, 2.7] },
+  candy: { sky: ['#b06cf0', '#ff9fd0', '#ffe1c9'], fog: 0xffc4dc, ridge: ['#d66bbd', '#f28fc6', '#ffb7d3'], sun: '#fff0f8', stone: ['#fff0f6', '#ffd5e6', '#e78cb4'], wall: ['#ff9dbb', '#f27aa3', '#b84a7c'], rail: 0xff5d9e, accent: 0x31c8e8, trim: 0xffd23f, low: ['#ffb3d2', '#ffd1a6', '#c9a4f2'], hemi: [0xfff2fa, 0xc77aa8, 2.3], sunLight: [0xfff0e4, 2.2] },
+  night: { sky: ['#0d0b33', '#2a2570', '#7c3f9e'], fog: 0x2d2668, ridge: ['#1a174f', '#26206a', '#3a2f86'], sun: '#fdf6d0', stone: ['#51509a', '#3f3e85', '#22215a'], wall: ['#34327c', '#272566', '#16143f'], rail: 0x2a2873, accent: 0xff4fc4, trim: 0x37e6ff, low: ['#1c1a55', '#2b2878', '#141240'], hemi: [0xb8b4ff, 0x25206a, 2.2], sunLight: [0xb8c2ff, 1.3] },
+}
+
+const clamp01 = v => Math.max(0, Math.min(1, v))
+const eased = v => { const k = clamp01(v); return k * k * (3 - 2 * k) }
+const angleOf = dir => dir * Math.PI / 2
+const generator = seed => { let n = (seed || 1) >>> 0; return () => { n = (n * 1664525 + 1013904223) >>> 0; return n / 4294967296 } }
+const hex = color => new THREE.Color(color).getHex()
+
+function canvasTexture(w, h, paint, repeat = true) {
+  const c = document.createElement('canvas')
+  c.width = w; c.height = h
+  paint(c.getContext('2d'), w, h)
+  const t = new THREE.CanvasTexture(c)
+  t.colorSpace = THREE.SRGBColorSpace
+  t.anisotropy = 8
+  if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping
+  return t
+}
+
+function paintStones(x, w, h, [light, base, dark], rows, r) {
+  x.fillStyle = dark; x.fillRect(0, 0, w, h)
+  const rowH = h / rows
+  for (let row = 0; row < rows; row++) {
+    const cells = 2 + (row % 2), cellW = w / cells
+    for (let c = -1; c <= cells; c++) {
+      const px = c * cellW + (row % 2 ? cellW / 2 : 0)
+      x.fillStyle = r() < 0.5 ? light : base
+      x.globalAlpha = 0.72 + r() * 0.28
+      x.beginPath(); x.roundRect(px + 4, row * rowH + 4, cellW - 8, rowH - 8, 14); x.fill()
+      x.globalAlpha = 0.16
+      x.fillStyle = '#fff'
+      x.beginPath(); x.roundRect(px + 9, row * rowH + 8, cellW - 18, 8, 4); x.fill()
+      x.globalAlpha = 1
+    }
+  }
+  for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(${r() < 0.5 ? '0,0,0' : '255,255,255'},${r() * 0.05})`; x.fillRect(r() * w, r() * h, 2 + r() * 7, 2 + r() * 5) }
+}
+
+const roadTexture = look => canvasTexture(512, 512, (x, w, h) => {
+  paintStones(x, w, h, look.stone, 4, generator(11))
+  x.fillStyle = 'rgba(0,0,0,0.26)'; x.fillRect(0, 0, 7, h); x.fillRect(w - 7, 0, 7, h)
+})
+const wallTexture = look => canvasTexture(512, 512, (x, w, h) => paintStones(x, w, h, look.wall, 6, generator(23)))
+
+const floorTexture = (name, look) => canvasTexture(512, 512, (x, w, h) => {
+  const r = generator(31)
+  x.fillStyle = look.low[2]; x.fillRect(0, 0, w, h)
+  if (name === 'night') {
+    x.strokeStyle = '#3a35a0'; x.lineWidth = 8
+    for (let i = 0; i <= 4; i++) { x.beginPath(); x.moveTo(i * w / 4, 0); x.lineTo(i * w / 4, h); x.moveTo(0, i * h / 4); x.lineTo(w, i * h / 4); x.stroke() }
+    for (let i = 0; i < 160; i++) { x.fillStyle = ['#ffd24a', '#7ff', '#f6c'][i % 3]; x.fillRect(r() * w, r() * h, 3, 3) }
+    return
+  }
+  for (let i = 0; i < 420; i++) {
+    const px = r() * w, py = r() * h, size = 12 + r() * (name === 'desert' ? 70 : 34)
+    x.fillStyle = look.low[i % 2]
+    x.globalAlpha = 0.5
+    for (const [ox, oy] of [[0, 0], [w, 0], [-w, 0], [0, h], [0, -h]]) { x.beginPath(); x.ellipse(px + ox, py + oy, size, size * (name === 'desert' ? 0.3 : 0.8), 0, 0, 7); x.fill() }
+  }
+  x.globalAlpha = 1
+})
+
+// A painted panorama: sky, sun, clouds and three ranges of far hills, seamless all the way round.
+const skyTexture = (name, look) => canvasTexture(2048, 1024, (x, w, h) => {
+  const r = generator(name.length * 77 + 5)
+  const g = x.createLinearGradient(0, 0, 0, h * 0.56)
+  look.sky.forEach((c, i) => g.addColorStop(i / 2, c))
+  x.fillStyle = g; x.fillRect(0, 0, w, h)
+  if (name === 'night') for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(255,255,255,${r()})`; x.fillRect(r() * w, r() * h * 0.5, 1 + r() * 2.4, 1 + r() * 2.4) }
+  const sunX = w * 0.5, sunY = h * (name === 'night' ? 0.2 : 0.3)
+  const glow = x.createRadialGradient(sunX, sunY, 8, sunX, sunY, 230)
+  glow.addColorStop(0, look.sun); glow.addColorStop(0.2, look.sun + '77'); glow.addColorStop(1, look.sun + '00')
+  x.fillStyle = glow; x.fillRect(0, 0, w, h)
+  x.fillStyle = look.sun; x.beginPath(); x.arc(sunX, sunY, name === 'night' ? 66 : 54, 0, 7); x.fill()
+  if (name === 'candy') for (const [cx, cy, rr, c] of [[420, 170, 96, '#ffd86b'], [1620, 230, 150, '#9fe8ff'], [1180, 90, 44, '#ff8ac0']]) {
+    const b = x.createRadialGradient(cx - rr / 3, cy - rr / 3, 4, cx, cy, rr); b.addColorStop(0, '#fff'); b.addColorStop(1, c)
+    x.fillStyle = b; x.beginPath(); x.arc(cx, cy, rr, 0, 7); x.fill()
+  }
+  for (let i = 0; i < 13; i++) {
+    const cx = r() * w, cy = 90 + r() * h * 0.28, size = 30 + r() * 60
+    for (let p = 0; p < 9; p++) {
+      const px = cx + (r() - 0.5) * size * 3.4, py = cy + (r() - 0.5) * size * 0.5, rr = size * (0.4 + r() * 0.6)
+      const b = x.createRadialGradient(px, py, 2, px, py, rr)
+      const white = name === 'night' ? '120,100,200' : '255,255,255'
+      b.addColorStop(0, `rgba(${white},${name === 'night' ? 0.2 : 0.85})`); b.addColorStop(1, `rgba(${white},0)`)
+      x.fillStyle = b; x.beginPath(); x.ellipse(px, py, rr * 1.6, rr * 0.7, 0, 0, 7); x.fill()
+    }
+  }
+  // ridges: sums of whole-number waves, so the left and right edges of the picture meet
+  look.ridge.slice().reverse().forEach((color, layer) => {
+    const base = h * (0.5 - (2 - layer) * 0.02), amp = 26 - layer * 5, freqs = [3 + layer, 7 + layer * 2, 17, 31].map(f => [f, r() * 7])
+    x.fillStyle = color
+    x.beginPath(); x.moveTo(0, h)
+    for (let i = 0; i <= w; i += 4) {
+      const a = i / w * Math.PI * 2
+      const y = freqs.reduce((sum, [f, ph], k) => sum + Math.sin(a * f + ph) / (k + 1), 0)
+      x.lineTo(i, base - amp * (name === 'night' ? Math.round(y * 3) / 3 : y))
+    }
+    x.lineTo(w, h); x.fill()
+  })
+  const mist = `#${look.fog.toString(16).padStart(6, '0')}`
+  x.fillStyle = mist; x.fillRect(0, h * 0.53, w, h)
+  const haze = x.createLinearGradient(0, h * 0.42, 0, h * 0.53)
+  haze.addColorStop(0, mist + '00'); haze.addColorStop(1, mist)
+  x.fillStyle = haze; x.fillRect(0, h * 0.42, w, h * 0.11)
+}, false)
+
+function labelTexture(text, { bg = '#fff4bb', fg = '#14162d', size = 150 } = {}) {
+  return canvasTexture(512, 256, x => {
+    x.fillStyle = bg
+    x.beginPath(); x.roundRect(8, 8, 496, 240, 44); x.fill()
+    x.lineWidth = 14; x.strokeStyle = '#14162d'; x.stroke()
+    x.fillStyle = fg
+    x.font = `900 ${size}px Heebo, Arial, sans-serif`
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'ltr'
+    x.fillText(text, 256, 136)
+  }, false)
+}
+
+const glowTexture = () => canvasTexture(128, 128, (x, w) => {
+  const g = x.createRadialGradient(w / 2, w / 2, 2, w / 2, w / 2, w / 2)
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,255,255,0.5)'); g.addColorStop(1, 'rgba(255,255,255,0)')
+  x.fillStyle = g; x.fillRect(0, 0, w, w)
+}, false)
+
+const towerTexture = (colors, hue) => canvasTexture(256, 512, (x, w, h) => {
+  const r = generator(hue * 13 + 3)
+  x.fillStyle = colors; x.fillRect(0, 0, w, h)
+  for (let row = 0; row < 24; row++) for (let c = 0; c < 8; c++) {
+    const lit = r() < 0.5
+    x.fillStyle = lit ? ['#ffd97a', '#8df3ff', '#ff9ee0'][Math.floor(r() * 3)] : 'rgba(255,255,255,0.05)'
+    x.fillRect(c * w / 8 + 7, row * h / 24 + 6, w / 8 - 14, h / 24 - 12)
+  }
+})
+
+const GEO = {
+  box: new THREE.BoxGeometry(1, 1, 1),
+  round: new THREE.SphereGeometry(1, 16, 12),
+  fine: new THREE.SphereGeometry(1, 32, 24),
+  rock: new THREE.IcosahedronGeometry(1, 1),
+  blob: new THREE.IcosahedronGeometry(1, 2),
+  cone: new THREE.ConeGeometry(1, 1, 12),
+  spire: new THREE.ConeGeometry(1, 1, 6),
+  cyl: new THREE.CylinderGeometry(1, 1, 1, 14),
+  taper: new THREE.CylinderGeometry(0.62, 1, 1, 10),
+  torus: new THREE.TorusGeometry(1, 0.34, 10, 26),
+  coin: new THREE.CylinderGeometry(0.46, 0.46, 0.13, 22),
+  plane: new THREE.PlaneGeometry(1, 1),
+  mesa: new THREE.CylinderGeometry(0.92, 1, 1, 9),
+}
+
+// Static parts of a stretch go into one mesh: hundreds of shapes for one draw call.
+class Batch {
+  parts = []
+  matrix = new THREE.Matrix4()
+  put(geo, color, x, y, z, sx = 1, sy = sx, sz = sx, rx = 0, ry = 0, rz = 0) {
+    const g = geo.index ? geo.toNonIndexed() : geo.clone()
+    g.deleteAttribute('uv')
+    this.matrix.compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)), new THREE.Vector3(sx, sy, sz))
+    g.applyMatrix4(this.matrix)
+    const n = g.attributes.position.count, c = new THREE.Color(color), rgb = new Float32Array(n * 3)
+    for (let i = 0; i < n; i++) { rgb[i * 3] = c.r; rgb[i * 3 + 1] = c.g; rgb[i * 3 + 2] = c.b }
+    g.setAttribute('color', new THREE.BufferAttribute(rgb, 3))
+    this.parts.push(g)
+  }
+  mesh(material) {
+    if (!this.parts.length) return null
+    const merged = mergeGeometries(this.parts)
+    this.parts.forEach(p => p.dispose())
+    return new THREE.Mesh(merged, material)
+  }
+}
+
+// ---- the giants rising from far below, right beside the road ----
+function jungleGiant(b, r, x, top, z) {
+  if (r() < 0.32) { // a stepped ruin grown over with moss
+    const size = 9 + r() * 7
+    for (let i = 0, y = FLOOR_Y; y < top - 6; i++) {
+      const step = 5.5, w = size * (1 - Math.min(i, 8) * 0.075)
+      b.put(GEO.box, i % 2 ? 0x8f8a6c : 0x77785a, x, y + step / 2, z, w, step, w)
+      b.put(GEO.box, 0x4f9a4a, x, y + step + 0.15, z, w * 0.99, 0.5, w * 0.99)
+      y += step
+    }
+    return
+  }
+  const girth = 1.4 + r() * 1.3, height = top - FLOOR_Y
+  b.put(GEO.taper, 0x6e4a2c, x, FLOOR_Y + height / 2, z, girth, height, girth)
+  for (let i = 0; i < 3; i++) { const a = r() * 6.3; b.put(GEO.cyl, 0x7b5533, x + Math.cos(a) * girth * 1.6, top - 5 - i * 3, z + Math.sin(a) * girth * 1.6, 0.34, 7, 0.34, Math.sin(a) * 0.8, 0, -Math.cos(a) * 0.8) }
+  for (let i = 0; i < 8; i++) {
+    const a = i * 2.4, reach = i ? 3 + r() * 5.5 : 0, size = 3.4 + r() * 3.4
+    b.put(GEO.blob, [0x2f8f46, 0x3fae52, 0x57c060, 0x247a3e][i % 4], x + Math.cos(a) * reach, top + (r() - 0.3) * 4, z + Math.sin(a) * reach, size, size * 0.72, size)
+  }
+  for (let i = 0; i < 5; i++) { const a = r() * 6.3, reach = 2 + r() * 6, long = 4 + r() * 8; b.put(GEO.cyl, 0x3c8a44, x + Math.cos(a) * reach, top - 2 - long / 2, z + Math.sin(a) * reach, 0.09, long, 0.09) }
+  if (r() < 0.5) b.put(GEO.round, 0xff5d8f, x + 3, top + 3, z + 2, 0.7)
+}
+
+function desertGiant(b, r, x, top, z) {
+  const strata = [0xc4693c, 0xd98953, 0xb35a33, 0xe7a568, 0xc4693c, 0xe3b27b]
+  let y = FLOOR_Y, wide = 8 + r() * 7
+  if (r() < 0.3) { // a thin red spire
+    b.put(GEO.spire, 0xb35a33, x, (FLOOR_Y + top + 8) / 2, z, wide * 0.5, top + 8 - FLOOR_Y, wide * 0.5, 0, r() * 3)
+    b.put(GEO.rock, 0xd98953, x + 1, top + 6, z, 2.2, 1.6, 2.2)
+    return
+  }
+  const layers = 6, step = (top - FLOOR_Y) / layers
+  for (let i = 0; i < layers; i++) {
+    b.put(GEO.mesa, strata[i % strata.length], x, y + step / 2, z, wide, step + 0.2, wide, 0, r() * 3)
+    y += step
+    wide *= 0.86 + r() * 0.1
+  }
+  if (r() < 0.6) {
+    b.put(GEO.cyl, 0x3f9e6b, x, top + 2.2, z, 0.6, 4.6, 0.6)
+    b.put(GEO.cyl, 0x3f9e6b, x + 1.1, top + 3, z, 0.34, 2.2, 0.34)
+    b.put(GEO.cyl, 0x3f9e6b, x + 0.6, top + 2.1, z, 0.28, 1, 0.28, 0, 0, 1.57)
+  }
+}
+
+function candyGiant(b, r, x, top, z) {
+  const kind = r(), bright = [0xff5d9e, 0x31c8e8, 0xffd23f, 0x8e6cf0, 0x5fdc8f, 0xff8a3d]
+  const c = () => bright[Math.floor(r() * bright.length)]
+  if (kind < 0.36) { // a lollipop tree
+    const size = 6 + r() * 3
+    b.put(GEO.cyl, 0xfff6ee, x, (FLOOR_Y + top) / 2, z, 0.8, top - FLOOR_Y, 0.8)
+    b.put(GEO.fine, c(), x, top + size * 0.7, z, size, size, 1.5)
+    for (let i = 1; i <= 4; i++) { const t = new THREE.TorusGeometry(i * size / 5, 0.26, 8, 40); b.put(t, i % 2 ? 0xffffff : c(), x, top + size * 0.7, z + 1.5 * Math.cos(i / 6), 1); t.dispose() }
+  } else if (kind < 0.68) { // a tower of frosted donuts
+    let y = FLOOR_Y
+    while (y < top) {
+      const size = 5.5 + r() * 2.5
+      b.put(GEO.torus, 0xd9a15f, x, y + size * 0.4, z, size, size, size * 1.2, 1.57)
+      b.put(GEO.torus, c(), x, y + size * 0.55, z, size * 1.02, size * 1.02, size * 0.8, 1.57)
+      y += size * 0.85
+    }
+  } else { // an ice-cream swirl mountain
+    const layers = 9, step = (top - FLOOR_Y) / layers, tint = c()
+    for (let i = 0; i < layers; i++) {
+      const w = 12 * (1 - i / (layers + 1))
+      b.put(GEO.round, i % 2 ? 0xfff2e2 : tint, x + Math.sin(i) * 0.8, FLOOR_Y + step * (i + 0.5), z + Math.cos(i) * 0.8, w, step * 0.8, w)
+    }
+    b.put(GEO.round, 0xe8243c, x, top + 1.2, z, 1.8)
+  }
+}
+
+function cityGiant(b, r, x, top, z, group, materials) {
+  const w = 8 + r() * 7, d = 8 + r() * 7, height = top + 14 - FLOOR_Y
+  const tower = new THREE.Mesh(GEO.box, materials[Math.floor(r() * materials.length)])
+  tower.position.set(x, FLOOR_Y + height / 2, z); tower.scale.set(w, height, d)
+  group.add(tower)
+  const neon = [0xff4fc4, 0x37e6ff, 0xffd24a, 0x7cff8a][Math.floor(r() * 4)]
+  b.put(GEO.box, neon, x, top + 14.2, z, w + 0.5, 0.5, d + 0.5)
+  b.put(GEO.box, 0x1a174f, x, top + 15.6, z, w * 0.5, 2.6, d * 0.5)
+  b.put(GEO.cyl, neon, x, top + 19.5, z, 0.14, 6, 0.14)
+  b.put(GEO.round, neon, x, top + 22.6, z, 0.5)
+  for (let y = top - 18; y < top + 12; y += 8) b.put(GEO.box, neon, x, y, z, w + 0.24, 0.2, d + 0.24)
+}
+
+const GIANT = { jungle: jungleGiant, desert: desertGiant, candy: candyGiant, night: cityGiant }
+
+function railDecor(b, world, look, x, y, z, flip) {
+  if (world === 'jungle') {
+    b.put(GEO.taper, 0x7a6a4f, x, y + 0.9, z, 0.3, 1.8, 0.3)
+    b.put(GEO.round, 0xffc14a, x, y + 2, z, 0.28)
+  } else if (world === 'desert') {
+    b.put(GEO.cyl, 0x6e4a2c, x, y + 1.6, z, 0.09, 3.2, 0.09)
+    b.put(GEO.box, flip ? 0xe24e3a : 0x18a999, x + 0.7, y + 2.8, z, 1.3, 0.7, 0.05)
+  } else if (world === 'candy') {
+    for (let i = 0; i < 5; i++) b.put(GEO.cyl, i % 2 ? 0xffffff : 0xe8243c, x, y + 0.3 + i * 0.5, z, 0.2, 0.52, 0.2)
+    b.put(GEO.torus, 0xffffff, x + 0.28, y + 2.7, z, 0.34, 0.34, 0.34)
+  } else {
+    b.put(GEO.cyl, 0x8d8bd6, x, y + 1.7, z, 0.08, 3.4, 0.08)
+    b.put(GEO.round, look.trim, x, y + 3.4, z, 0.26)
+  }
+}
+
+function archway(b, world, look, y, z) {
+  const inner = PATH_W / 2 + 0.2, tall = 7.5
+  const stone = hex(look.stone[1]), dark = hex(look.wall[1])
+  for (const side of [-1, 1]) {
+    b.put(GEO.box, dark, side * inner, y + tall / 2, z, 1.1, tall, 1.3)
+    b.put(GEO.box, look.accent, side * inner, y + tall * 0.72, z, 1.22, 0.5, 1.42)
+    b.put(GEO.box, stone, side * inner, y + 0.4, z, 1.5, 0.8, 1.7)
+  }
+  if (world === 'candy') {
+    const ring = new THREE.TorusGeometry(inner, 0.5, 10, 30, Math.PI)
+    b.put(ring, look.accent, 0, y + tall - 0.4, z, 1); b.put(ring, 0xffffff, 0, y + tall - 0.4, z + 0.5, 0.97)
+    ring.dispose()
+  } else {
+    b.put(GEO.box, stone, 0, y + tall + 0.45, z, inner * 2 + 3, 1, 1.7)
+    b.put(GEO.box, look.trim, 0, y + tall + 1.15, z, inner * 2 + 1.5, 0.42, 1.2)
+    b.put(GEO.round, look.accent, 0, y + tall + 1.9, z, 0.8)
+  }
+}
+
+// One strip of road from `a` to `b` along the path; its edges are given as [x, y above the road].
+function strip(seg, a, b, [xl, yl], [xr, yr], across, along) {
+  const rows = Math.max(1, Math.ceil((b - a) / 2.5)), pos = [], uv = [], index = []
+  for (let i = 0; i <= rows; i++) {
+    const d = a + (b - a) * i / rows, h = groundAt(seg, d)
+    pos.push(xl, h + yl, -d, xr, h + yr, -d)
+    uv.push(0, d / along, across, d / along)
+    if (i < rows) { const n = i * 2; index.push(n, n + 1, n + 2, n + 1, n + 3, n + 2) }
+  }
+  const g = new THREE.BufferGeometry()
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2))
+  g.setIndex(index)
+  g.computeVertexNormals()
+  return g
+}
+
+function makeObstacle(it, world, look, sprites) {
+  const g = new THREE.Group()
+  const b = new Batch()
+  if (it.kind === 'wall') {
+    if (it.show === 'roll') {
+      const ball = new THREE.Group()
+      const rock = new THREE.Mesh(GEO.blob, new THREE.MeshStandardMaterial({ color: hex(look.wall[0]), roughness: 0.85, flatShading: true }))
+      ball.add(rock)
+      ball.scale.setScalar(1.3); ball.position.y = 1.3
+      const band = new THREE.Mesh(GEO.torus, sprites.gloss(look.accent))
+      band.scale.set(1.02, 1.02, 0.4); ball.add(band)
+      rock.castShadow = band.castShadow = true
+      g.add(ball); g.userData.ball = ball
+      return g
+    }
+    if (it.show === 'swing') {
+      for (const side of [-1, 1]) b.put(GEO.box, hex(look.wall[1]), side * (PATH_W / 2 + 0.3), 3.8, 0, 0.5, 7.6, 0.5)
+      b.put(GEO.box, hex(look.wall[0]), 0, 7.6, 0, PATH_W + 1.6, 0.6, 0.6)
+      const arm = new THREE.Group(); arm.position.y = 7.4
+      const rope = new THREE.Mesh(GEO.cyl, sprites.gloss(0x5a4a3a)); rope.scale.set(0.09, 5.6, 0.09); rope.position.y = -2.8
+      const weight = new THREE.Mesh(GEO.blob, new THREE.MeshStandardMaterial({ color: look.accent, roughness: 0.4, flatShading: true }))
+      weight.scale.setScalar(1.15); weight.position.y = -6
+      weight.castShadow = true
+      arm.add(rope, weight); g.add(arm); g.userData.arm = arm
+    } else if (world === 'jungle') { // a totem with a cross face
+      b.put(GEO.box, 0x7e6a48, 0, 1.3, 0, 2.1, 2.6, 1.4)
+      b.put(GEO.box, 0x5e7e4a, 0, 2.75, 0, 2.3, 0.32, 1.5)
+      for (const side of [-1, 1]) { b.put(GEO.round, 0xfff4cc, side * 0.48, 1.75, 0.68, 0.26); b.put(GEO.round, 0x1b1b2b, side * 0.48, 1.75, 0.86, 0.12) }
+      b.put(GEO.box, 0x3a2f20, 0, 0.95, 0.72, 1.1, 0.26, 0.04)
+    } else if (world === 'desert') {
+      b.put(GEO.rock, 0xb5713c, 0, 1, 0, 1.45, 1.3, 1.1)
+      b.put(GEO.rock, 0xd08350, 0.4, 2.1, 0, 0.9, 0.8, 0.8)
+    } else if (world === 'candy') {
+      b.put(GEO.cyl, 0xd9a15f, 0, 0.8, 0, 1.15, 1.6, 1.15)
+      b.put(GEO.round, 0xff8ac0, 0, 2, 0, 1.3, 1, 1.3)
+      b.put(GEO.round, 0xe8243c, 0, 3, 0, 0.36)
+    } else {
+      b.put(GEO.box, 0x2d2b73, 0, 1.3, 0, 2.1, 2.6, 1.4)
+      for (let i = 0; i < 4; i++) b.put(GEO.box, i % 2 ? 0xffd24a : 0xff4fc4, 0, 0.4 + i * 0.62, 0.72, 2.12, 0.3, 0.04)
+    }
+  } else if (it.kind === 'low') {
+    b.put(GEO.cyl, hex(look.wall[1]), 0, 0.44, 0, 0.44, LANE_W * 0.98, 0.44, 0, 0, 1.57)
+    b.put(GEO.cyl, look.accent, 0, 0.44, 0, 0.47, 0.3, 0.47, 0, 0, 1.57)
+    for (const side of [-1, 1]) b.put(GEO.cyl, look.trim, side * LANE_W * 0.3, 0.44, 0, 0.47, 0.18, 0.47, 0, 0, 1.57)
+  } else if (it.kind === 'high') {
+    const bar = new Batch()
+    bar.put(GEO.box, look.accent, 0, 1.95, 0, PATH_W - 0.4, 0.9, 0.9)
+    for (let i = -3; i <= 3; i++) bar.put(GEO.box, i % 2 ? 0xffffff : look.trim, i * 1.3, 1.95, 0.47, 0.9, 0.5, 0.04)
+    const beam = bar.mesh(sprites.lit); beam.castShadow = true; g.add(beam); g.userData.bar = beam
+    for (const side of [-1, 1]) b.put(GEO.box, hex(look.wall[1]), side * (PATH_W / 2 + 0.25), 3.5, 0, 0.6, 7, 0.8)
+    b.put(GEO.box, hex(look.wall[0]), 0, 7.1, 0, PATH_W + 1.6, 0.6, 0.9)
+  } else if (it.kind === 'pad') {
+    b.put(GEO.cyl, 0x34324f, 0, 0.1, 0, 1.05, 0.2, 1.05)
+    const top = new THREE.Mesh(GEO.cyl, sprites.gloss(0xffd23f)); top.scale.set(0.9, 0.18, 0.9); top.position.y = 0.3
+    const halo = new THREE.Mesh(GEO.torus, sprites.gloss(0xff4a5e)); halo.scale.set(0.82, 0.82, 0.5); halo.rotation.x = 1.57; halo.position.y = 0.4
+    g.add(top, halo); g.userData.pad = top
+  }
+  const fixed = b.mesh(sprites.lit)
+  if (fixed) { fixed.castShadow = true; g.add(fixed) }
+  return g
+}
+
+function makePit(it, seg, sprites) {
+  const g = new THREE.Group(), tiles = []
+  const r = generator(Math.floor(it.at * 13) + seg.id)
+  for (let row = 0; row < 3; row++) for (let c = -1; c <= 1; c++) {
+    const tile = new THREE.Mesh(GEO.box, sprites.tile)
+    tile.scale.set(LANE_W + 0.44, 0.36, 1.13)
+    tile.position.set(c * (LANE_W + 0.47), -0.18, (row - 1) * 1.14)
+    tile.userData = { delay: r() * 7, vy: 0, spin: (r() - 0.5) * 4 }
+    g.add(tile); tiles.push(tile)
+  }
+  g.userData.tiles = tiles
+  return g
+}
+
+function makeItem(it, seg, world, look, sprites, owned) {
+  if (it.kind === 'pit') return makePit(it, seg, sprites)
+  if (it.kind === 'coin') {
+    const g = new THREE.Group()
+    const c = new THREE.Mesh(sprites.coinShape, sprites.coin); c.rotation.x = 1.57; c.position.y = 1 + (it.lift || 0)
+    g.add(c); g.userData.spin = g
+    return g
+  }
+  if (it.kind === 'magnet' || it.kind === 'shield') {
+    const color = it.kind === 'magnet' ? 0xff3f58 : 0x2fd3ff
+    const g = new THREE.Group()
+    const orb = new THREE.Mesh(GEO.blob, sprites.gloss(color)); orb.scale.setScalar(0.66); orb.position.y = 1.5
+    const halo = new THREE.Mesh(GEO.torus, sprites.gloss(0xffffff)); halo.scale.set(1, 1, 0.3); halo.position.y = 1.5
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: sprites.glow, color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.8 }))
+    glow.scale.setScalar(3.6); glow.position.y = 1.5
+    owned.push(glow)
+    g.add(orb, halo, glow); g.userData.spin = halo
+    return g
+  }
+  if (it.kind === 'gate') {
+    const g = new THREE.Group()
+    const b = new Batch()
+    b.put(GEO.box, look.accent, 0, 4.2, 0, PATH_W + 1, 0.4, 0.5)
+    for (const side of [-1.5, -0.5, 0.5, 1.5]) b.put(GEO.box, 0xffffff, side * LANE_W, 2.1, 0, 0.16, 4.2, 0.16)
+    g.add(b.mesh(sprites.lit))
+    for (const lane of [-1, 0, 1]) {
+      const m = new THREE.Mesh(GEO.plane, new THREE.MeshBasicMaterial({ map: labelTexture(String(it.answers[lane])), transparent: true, side: THREE.DoubleSide, fog: false }))
+      m.position.set(lane * LANE_W, 3, 0.05); m.scale.set(2.2, 1.1, 1)
+      m.userData.ownMap = true
+      g.add(m); owned.push(m)
+    }
+    return g
+  }
+  return makeObstacle(it, world, look, sprites)
+}
+
+function makeSegment(seg, sprites, assets) {
+  const world = WORLDS[seg.world], look = LOOK[world], set = assets(world)
+  const g = new THREE.Group()
+  g.position.set(seg.ox, 0, seg.oz)
+  g.rotation.y = -angleOf(seg.dir)
+  const geometries = [], owned = [], half = PATH_W / 2
+  const add = (geometry, material, shadow) => {
+    const m = new THREE.Mesh(geometry, material); m.receiveShadow = !!shadow; g.add(m); geometries.push(geometry); return m
+  }
+
+  const start = seg.id === 0 ? -8 : half
+  const holes = seg.items.filter(it => it.kind === 'pit').map(it => it.at).sort((p, q) => p - q)
+  const spans = []
+  let from = start
+  for (const at of holes) { spans.push([from, at - 1.72]); from = at + 1.72 }
+  spans.push([from, seg.len + half])
+  const edgeEnd = seg.len - half
+  for (const [a, b] of spans) {
+    add(strip(seg, a, b, [-half, 0], [half, 0], 3, 2.35), set.road, true)
+    add(strip(seg, a, b, [-half, -0.4], [half, -0.4], 1, 4), set.under)
+    const end = Math.min(b, edgeEnd)
+    if (end <= a) continue
+    for (const side of [-1, 1]) {
+      const inner = side * half, outer = side * (half + 0.55)
+      add(strip(seg, a, end, [inner, 0], [inner, 0.55], 1, 2), set.rail, true)
+      add(strip(seg, a, end, [outer, 0.55], [inner, 0.55], 1, 2), set.rail, true)
+      add(strip(seg, a, end, [outer, 0.55], [outer, -7], 1, 4), set.wall)
+    }
+  }
+
+  const b = new Batch(), r = generator(seg.seed)
+  // pillars carrying the causeway, reaching all the way down
+  for (let d = 16; d < seg.len - 6; d += 26) {
+    const y = groundAt(seg, d) - 6
+    b.put(GEO.box, hex(look.wall[1]), 0, (y + FLOOR_Y) / 2, -d, half * 1.5, y - FLOOR_Y, 3.6)
+    b.put(GEO.box, hex(look.wall[0]), 0, y - 1, -d, PATH_W + 1.6, 2, 4.6)
+  }
+  for (let d = 10, i = 0; d < seg.len - 8; d += 9, i++) {
+    if (holes.some(at => Math.abs(at - d) < 3)) continue
+    for (const side of [-1, 1]) railDecor(b, world, look, side * (half + 0.28), groundAt(seg, d) + 0.55, -d, i % 2)
+  }
+  const lights = []
+  for (let d = 34; d < seg.len - 30; d += 66 + r() * 34) {
+    archway(b, world, look, groundAt(seg, d), -d)
+    for (const side of [-1, 1]) lights.push([side * (half + 0.2), groundAt(seg, d) + 5.6, -d + 0.7])
+  }
+  // giants on both sides, some almost touching the road
+  for (let d = 12; d < seg.len - 14; d += 11 + r() * 13) {
+    for (const side of [-1, 1]) {
+      if (r() < 0.14) continue
+      const off = half + 9 + r() * r() * 42
+      const height = groundAt(seg, d) + (r() < 0.5 ? -8 + r() * 10 : 6 + r() * 18)
+      GIANT[world](b, r, side * off, height, -d - (r() - 0.5) * 7, g, set.towers)
+    }
+  }
+  // the corner: a great wall ahead and a sign that points the way
+  const yEnd = seg.h1, wallColor = hex(look.wall[0])
+  b.put(GEO.box, wallColor, 0, yEnd - 15, -seg.len - half - 1, PATH_W + 3, 44, 2)
+  b.put(GEO.box, look.accent, 0, yEnd + 7.2, -seg.len - half - 1, PATH_W + 3.6, 0.7, 2.4)
+  for (const side of [-1, 1]) {
+    b.put(GEO.box, hex(look.wall[1]), side * (half + 0.4), yEnd + 4, -seg.len - half + 0.1, 1.5, 8.2, 1)
+    b.put(GEO.round, look.trim, side * (half + 0.4), yEnd + 8.6, -seg.len - half + 0.1, 0.8)
+  }
+  // only a low kerb on the far side: after the turn the camera swings out over it
+  b.put(GEO.box, look.rail, -seg.turn * (half + 0.28), yEnd + 0.27, -seg.len, 0.55, 0.55, PATH_W)
+  const arrow = new THREE.Mesh(GEO.plane, new THREE.MeshBasicMaterial({ map: seg.turn < 0 ? sprites.left : sprites.right, transparent: true }))
+  arrow.position.set(0, yEnd + 3.9, -seg.len - half + 0.05); arrow.scale.set(6.4, 3.2, 1); g.add(arrow)
+  owned.push(arrow)
+  for (let i = 0; i < 3; i++) {
+    const chev = new THREE.Mesh(GEO.plane, sprites.chevron(seg.turn))
+    chev.rotation.x = -1.57
+    const d = seg.len - 8 - i * 3.4
+    chev.position.set(0, groundAt(seg, d) + 0.05, -d); chev.scale.set(5, 2.6, 1); g.add(chev)
+  }
+
+  const statics = b.mesh(sprites.lit)
+  if (statics) { g.add(statics); geometries.push(statics.geometry) }
+  for (const [x, y, z] of lights) {
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: sprites.glow, color: look.accent, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.55 }))
+    glow.position.set(x, y, z); glow.scale.setScalar(4); g.add(glow); owned.push(glow)
+  }
+  const shared = new Set([...Object.values(GEO), sprites.coinShape])
+  const items = new Map()
+  for (const it of seg.items) {
+    const m = makeItem(it, seg, world, look, sprites, owned)
+    m.position.set(['wall', 'low', 'coin', 'magnet', 'shield', 'pad'].includes(it.kind) ? (it.lane ?? 0) * LANE_W : 0, groundAt(seg, it.at), -it.at)
+    g.add(m)
+    m.traverse(o => { if (o.geometry && !shared.has(o.geometry)) geometries.push(o.geometry) })
+    items.set(it.id, { it, m })
+  }
+  return { g, items, owned, geometries }
+}
+
+// ---- Buga: the yellow furry mascot, with his parrot ----
+function makeBuga() {
+  const root = new THREE.Group(), body = new THREE.Group()
+  root.add(body)
+  const material = (color, roughness = 0.7) => new THREE.MeshStandardMaterial({ color, roughness })
+  const fur = material(0xffb31a, 0.8), shirt = material(0xfdfdfd), bag = material(0x2a66d9, 0.5), white = material(0xffffff, 0.25), black = material(0x14141f, 0.2), feet = material(0xff5a36, 0.5)
+  const shape = (geo, mat, x, y, z, sx = 1, sy = sx, sz = sx, parent = body) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.scale.set(sx, sy, sz); m.castShadow = true; parent.add(m); return m }
+  shape(GEO.fine, fur, 0, 1.12, 0, 0.66, 0.72, 0.58)
+  shape(GEO.fine, shirt, 0, 0.98, 0, 0.68, 0.5, 0.6)
+  const head = new THREE.Group(); head.position.set(0, 1.95, 0); body.add(head)
+  shape(GEO.fine, fur, 0, 0, 0, 0.82, 0.76, 0.76, head)
+
+  // fur: soft lumps standing out of the head and body, for a plush outline
+  const tufts = new THREE.InstancedMesh(GEO.rock, material(0xffffff, 0.95), 420)
+  const dummy = new THREE.Object3D(), c = new THREE.Color(), rand = generator(99)
+  for (let i = 0; i < 420; i++) {
+    const onHead = i < 270
+    const y = 1 - 2 * rand(), a = rand() * 6.283, ring = Math.sqrt(1 - y * y)
+    const nx = ring * Math.cos(a), nz = ring * Math.sin(a)
+    const [ox, oy, oz, sx, sy, sz] = onHead ? [0, 1.95, 0, 0.8, 0.74, 0.74] : [0, 1.14, 0, 0.66, 0.72, 0.58]
+    dummy.position.set(ox + nx * sx, oy + y * sy, oz + nz * sz)
+    dummy.lookAt(ox + nx * 3, oy + y * 3, oz + nz * 3)
+    dummy.rotateX(1.57)
+    const size = 0.08 + rand() * 0.04
+    dummy.scale.set(size, size * 0.42, size)
+    dummy.updateMatrix()
+    tufts.setMatrixAt(i, dummy.matrix)
+    tufts.setColorAt(i, c.set(i % 3 ? 0xffb71f : 0xfbad18))
+  }
+  body.add(tufts)
+
+  // the crown of spiky hair, blue on the outside with orange and red at the top
+  const hairColors = [0x1e9be8, 0x25c1d6, 0x1e9be8, 0x3f7df0, 0xff7a1a, 0xff4a2e, 0xff7a1a, 0x1e9be8, 0x25c1d6, 0x1e9be8]
+  for (let row = 0; row < 3; row++) hairColors.forEach((color, i) => {
+    const a = (i / (hairColors.length - 1) - 0.5) * (3.2 - row * 0.5)
+    const m = new THREE.MeshStandardMaterial({ color: row === 2 && i % 2 ? 0xff4a2e : color, roughness: 0.45 })
+    const tuft = shape(GEO.cone, m, Math.sin(a) * (0.66 - row * 0.2), 0.6 + row * 0.16 - Math.abs(a) * 0.14, 0.24 - row * 0.2, 0.2, 0.86 - row * 0.05, 0.2, head)
+    tuft.rotation.z = -a * 0.72; tuft.rotation.x = 0.5 - row * 0.28
+  })
+  for (const side of [-1, 1]) {
+    shape(GEO.fine, white, side * 0.3, 0.14, -0.62, 0.27, 0.3, 0.2, head)
+    shape(GEO.fine, black, side * 0.28, 0.12, -0.8, 0.12, 0.14, 0.06, head)
+  }
+  shape(GEO.fine, material(0xa81c3c, 0.4), 0, -0.3, -0.66, 0.34, 0.2, 0.12, head)
+
+  shape(new THREE.CapsuleGeometry(0.46, 0.42, 8, 18), bag, 0, 1.22, 0.62, 1, 1, 0.5)
+  shape(new THREE.CapsuleGeometry(0.28, 0.1, 6, 14), material(0x25bfe0, 0.45), 0, 1.04, 0.84, 1, 1, 0.3)
+
+  const parrot = new THREE.Group(); parrot.position.set(0.46, 1.86, 0.62); body.add(parrot)
+  const blue = material(0x2a63e0, 0.5)
+  shape(GEO.fine, blue, 0, 0, 0, 0.22, 0.28, 0.22, parrot)
+  shape(GEO.fine, blue, 0, 0.3, -0.02, 0.2, 0.2, 0.2, parrot)
+  shape(GEO.cone, material(0xffb51f, 0.4), 0, 0.27, -0.25, 0.08, 0.2, 0.08, parrot).rotation.x = -1.57
+  const wing = shape(GEO.fine, material(0x1d4cb5, 0.5), 0.22, 0.04, 0.05, 0.08, 0.22, 0.16, parrot)
+  shape(GEO.cone, material(0xff7a1a, 0.4), 0, 0.54, 0.03, 0.08, 0.26, 0.08, parrot)
+
+  const limb = (x, y, upper, lower, width, mat, end) => {
+    const top = new THREE.Group(); top.position.set(x, y, 0); body.add(top)
+    shape(new THREE.CapsuleGeometry(width, upper, 6, 12), mat, 0, -upper / 2, 0, 1, 1, 1, top)
+    const joint = new THREE.Group(); joint.position.y = -upper; top.add(joint)
+    shape(new THREE.CapsuleGeometry(width * 0.9, lower, 6, 12), mat, 0, -lower / 2, 0, 1, 1, 1, joint)
+    end(joint, lower)
+    return { top, joint }
+  }
+  const shoe = (joint, lower) => shape(GEO.fine, feet, 0, -lower - 0.04, -0.1, 0.2, 0.14, 0.3, joint)
+  const hand = (joint, lower) => shape(GEO.fine, fur, 0, -lower - 0.06, 0, 0.15, 0.15, 0.15, joint)
+  const legL = limb(-0.28, 0.58, 0.28, 0.2, 0.15, fur, shoe), legR = limb(0.28, 0.58, 0.28, 0.2, 0.15, fur, shoe)
+  const armL = limb(-0.7, 1.46, 0.3, 0.26, 0.12, fur, hand), armR = limb(0.7, 1.46, 0.3, 0.26, 0.12, fur, hand)
+  return { root, body, parts: { legL, legR, armL, armR, wing, parrot, head } }
+}
+
+function makeCookie() {
+  const root = new THREE.Group(), g = new THREE.Group(); root.add(g)
+  const dough = new THREE.MeshStandardMaterial({ color: 0xc98a4b, roughness: 0.85 })
+  const disc = new THREE.Mesh(GEO.fine, dough); disc.scale.set(2.1, 2.1, 1.1); disc.castShadow = true; g.add(disc)
+  const chip = new THREE.MeshStandardMaterial({ color: 0x46291a, roughness: 0.4 })
+  for (let i = 0; i < 40; i++) {
+    const a = i * 2.4, b = Math.acos(1 - 2 * (i + 0.5) / 40)
+    const c = new THREE.Mesh(GEO.round, chip)
+    c.position.set(Math.cos(a) * Math.sin(b) * 2.1, Math.cos(b) * 2.1, Math.sin(a) * Math.sin(b) * 1.1)
+    c.scale.setScalar(0.24 + (i % 3) * 0.05); g.add(c)
+  }
+  const white = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 }), dark = new THREE.MeshStandardMaterial({ color: 0x14162d, roughness: 0.2 })
+  for (const side of [-1, 1]) {
+    const eye = new THREE.Mesh(GEO.fine, white); eye.position.set(side * 0.72, 0.62, -1.02); eye.scale.setScalar(0.44); g.add(eye)
+    const pupil = new THREE.Mesh(GEO.round, dark); pupil.position.set(side * 0.68, 0.56, -1.42); pupil.scale.setScalar(0.19); g.add(pupil)
+    const brow = new THREE.Mesh(GEO.box, dark); brow.position.set(side * 0.72, 1.2, -1.1); brow.scale.set(0.8, 0.14, 0.14); brow.rotation.z = side * -0.4; g.add(brow)
+  }
+  const mouth = new THREE.Mesh(GEO.fine, new THREE.MeshStandardMaterial({ color: 0x6a1228, roughness: 0.5 })); mouth.position.set(0, -0.55, -0.92); mouth.scale.set(1.1, 0.6, 0.3); g.add(mouth)
+  for (let i = -2; i <= 2; i++) { const tooth = new THREE.Mesh(GEO.box, white); tooth.position.set(i * 0.34, -0.2, -1.18); tooth.scale.set(0.26, 0.26, 0.1); g.add(tooth) }
+  return { root, body: g }
+}
+
+class Sparks {
+  constructor(scene, map) {
+    this.max = 90
+    this.pos = new Float32Array(this.max * 3).fill(-999)
+    this.col = new Float32Array(this.max * 3)
+    this.life = new Float32Array(this.max)
+    this.vel = new Float32Array(this.max * 3)
+    this.next = 0
+    const g = new THREE.BufferGeometry()
+    g.setAttribute('position', new THREE.BufferAttribute(this.pos, 3))
+    g.setAttribute('color', new THREE.BufferAttribute(this.col, 3))
+    this.mesh = new THREE.Points(g, new THREE.PointsMaterial({ map, size: 0.5, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    this.mesh.frustumCulled = false
+    scene.add(this.mesh)
+    this.color = new THREE.Color()
+  }
+  burst(x, y, z, color, n, power = 5) {
+    this.color.set(color)
+    for (let k = 0; k < n; k++) {
+      const i = this.next
+      this.next = (i + 1) % this.max
+      this.pos.set([x, y, z], i * 3)
+      this.vel.set([(Math.random() - 0.5) * power, Math.random() * power, (Math.random() - 0.5) * power], i * 3)
+      this.col.set([this.color.r, this.color.g, this.color.b], i * 3)
+      this.life[i] = 0.5 + Math.random() * 0.4
+    }
+  }
+  update(dt) {
+    for (let i = 0; i < this.max; i++) {
+      if (this.life[i] <= 0) { this.pos[i * 3 + 1] = -999; continue }
+      this.life[i] -= dt
+      this.vel[i * 3 + 1] -= 13 * dt
+      for (let a = 0; a < 3; a++) this.pos[i * 3 + a] += this.vel[i * 3 + a] * dt
+    }
+    this.mesh.geometry.attributes.position.needsUpdate = true
+    this.mesh.geometry.attributes.color.needsUpdate = true
+  }
+}
+
+export function createScene(canvas) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' })
+  let ratio = Math.min(window.devicePixelRatio || 1, 1.75)
+  renderer.setPixelRatio(ratio)
+  renderer.toneMapping = THREE.ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1.02
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  const scene = new THREE.Scene()
+  scene.fog = new THREE.Fog(LOOK.jungle.fog, 70, 300)
+  const camera = new THREE.PerspectiveCamera(62, 1, 0.3, 700)
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x8a7a5a, 2)
+  scene.add(hemi)
+  const sun = new THREE.DirectionalLight(0xfff2d0, 2.4)
+  sun.castShadow = true
+  sun.shadow.mapSize.set(1024, 1024)
+  sun.shadow.bias = -0.0006
+  sun.shadow.normalBias = 0.04
+  Object.assign(sun.shadow.camera, { left: -28, right: 28, top: 34, bottom: -18, near: 1, far: 120 })
+  scene.add(sun, sun.target)
+
+  const glow = glowTexture()
+  const lit = new THREE.MeshLambertMaterial({ vertexColors: true })
+  const gloss = new Map()
+  const chevrons = new Map()
+  const chevronTexture = canvasTexture(256, 128, (x, w, h) => {
+    x.strokeStyle = '#ffd23f'; x.lineWidth = 26; x.lineJoin = 'round'; x.lineCap = 'round'
+    for (const left of [40, 120]) { x.beginPath(); x.moveTo(left + 56, 20); x.lineTo(left, h / 2); x.lineTo(left + 56, h - 20); x.stroke() }
+  }, false)
+  const sprites = {
+    lit, glow,
+    left: labelTexture('←', { bg: '#ffcf33', size: 220 }),
+    right: labelTexture('→', { bg: '#ffcf33', size: 220 }),
+    tile: new THREE.MeshLambertMaterial({ color: 0xffffff }),
+    coin: new THREE.MeshStandardMaterial({ vertexColors: true, emissive: 0x7a4c00, metalness: 0.3, roughness: 0.32 }),
+    coinShape: (() => { const b = new Batch(); b.put(GEO.coin, 0xffbf1f, 0, 0, 0, 1); b.put(GEO.coin, 0xffe27a, 0, 0, 0, 0.66, 1.25, 0.66); return b.mesh(lit).geometry })(),
+    gloss(color) { if (!gloss.has(color)) gloss.set(color, new THREE.MeshStandardMaterial({ color, roughness: 0.35 })); return gloss.get(color) },
+    chevron(turn) {
+      if (!chevrons.has(turn)) {
+        const map = chevronTexture.clone()
+        if (turn > 0) { map.center.set(0.5, 0.5); map.rotation = Math.PI }
+        map.needsUpdate = true
+        chevrons.set(turn, new THREE.MeshBasicMaterial({ map, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }))
+      }
+      return chevrons.get(turn)
+    },
+  }
+
+  // paint each world's textures the first time it is needed
+  const worlds = new Map()
+  const assets = name => {
+    if (worlds.has(name)) return worlds.get(name)
+    const look = LOOK[name]
+    const set = {
+      road: new THREE.MeshStandardMaterial({ map: roadTexture(look), roughness: 0.82 }),
+      wall: new THREE.MeshLambertMaterial({ map: wallTexture(look), side: THREE.DoubleSide }),
+      under: new THREE.MeshLambertMaterial({ color: new THREE.Color(look.wall[2]), side: THREE.BackSide }),
+      rail: new THREE.MeshLambertMaterial({ color: look.rail, side: THREE.DoubleSide }),
+      towers: name === 'night' ? [towerTexture('#17154a', 1), towerTexture('#231a5e', 2), towerTexture('#2b1450', 3)].map(map => new THREE.MeshLambertMaterial({ map, emissive: 0xffffff, emissiveMap: map, emissiveIntensity: 0.9 })) : [],
+      sky: skyTexture(name, look),
+      floor: floorTexture(name, look),
+    }
+    set.floor.repeat.set(26, 26)
+    worlds.set(name, set)
+    return set
+  }
+
+  const skyGeo = new THREE.SphereGeometry(520, 40, 24)
+  const skyA = new THREE.MeshBasicMaterial({ side: THREE.BackSide, fog: false, depthWrite: false, toneMapped: false })
+  const skyB = new THREE.MeshBasicMaterial({ side: THREE.BackSide, fog: false, depthWrite: false, transparent: true, opacity: 0, toneMapped: false })
+  const skyMeshA = new THREE.Mesh(skyGeo, skyA), skyMeshB = new THREE.Mesh(skyGeo, skyB)
+  skyMeshA.renderOrder = -2; skyMeshB.renderOrder = -1
+  scene.add(skyMeshA, skyMeshB)
+  const floor = new THREE.Mesh(GEO.plane, new THREE.MeshLambertMaterial({ color: 0xffffff }))
+  floor.rotation.x = -1.57; floor.position.y = FLOOR_Y; floor.scale.set(1300, 1300, 1); scene.add(floor)
+
+  // life in the air around the road: birds, balloons, flying cars
+  const movers = new THREE.Group(); scene.add(movers)
+  const flyers = []
+  const flyerRand = generator(7)
+  for (let i = 0; i < 10; i++) {
+    const g = new THREE.Group(), balloon = new Batch(), bird = new Batch(), car = new Batch()
+    const tint = [0xff5d9e, 0x31c8e8, 0xffd23f, 0x8e6cf0, 0xff8a3d][i % 5]
+    balloon.put(GEO.fine, tint, 0, 0, 0, 2.2, 2.6, 2.2)
+    balloon.put(GEO.fine, 0xffffff, 0, 0, 0, 2.24, 0.3, 2.24)
+    balloon.put(GEO.box, 0x8a5a33, 0, -4, 0, 0.9, 0.7, 0.9)
+    bird.put(GEO.fine, tint, 0, 0, 0, 0.4, 0.3, 0.8)
+    bird.put(GEO.cone, 0xffb51f, 0, 0, -0.9, 0.12, 0.3, 0.12, -1.57)
+    car.put(GEO.fine, 0x34324f, 0, 0, 0, 1.3, 0.5, 2.4)
+    car.put(GEO.box, tint, 0, -0.1, 0, 2.5, 0.16, 4.2)
+    const mb = balloon.mesh(lit), mc = car.mesh(lit), mf = bird.mesh(lit)
+    const wings = [-1, 1].map(side => { const w = new THREE.Mesh(GEO.fine, sprites.gloss(tint)); w.position.x = side * 0.6; w.scale.set(0.7, 0.06, 0.3); g.add(w); return w })
+    g.add(mb, mc, mf)
+    movers.add(g)
+    flyers.push({ g, balloon: mb, car: mc, bird: mf, wings, x: flyerRand() * 240, z: flyerRand() * 240, y: 6 + flyerRand() * 22, a: flyerRand() * 6.28 })
+  }
+
+  const sparks = new Sparks(scene, glow)
+  const buga = makeBuga(); buga.root.scale.setScalar(0.74); scene.add(buga.root) // small enough to see the road past him
+  const bubble = new THREE.Mesh(GEO.fine, new THREE.MeshStandardMaterial({ color: 0x4fd8ff, transparent: true, opacity: 0.16, roughness: 0.1 }))
+  bubble.scale.setScalar(1.55); bubble.visible = false; scene.add(bubble)
+  const cookie = makeCookie(); cookie.root.visible = false; cookie.root.scale.setScalar(0.42); scene.add(cookie.root)
+
+  const built = new Map()
+  const fog = new THREE.Color(LOOK.jungle.fog), target = new THREE.Color()
+  let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, slowTime = 0, slowFrames = 0, turnLean = 0
+
+  function resize() {
+    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1
+    renderer.setSize(w, h, false)
+    camera.aspect = w / h
+    camera.updateProjectionMatrix()
+  }
+
+  const release = b => {
+    scene.remove(b.g)
+    b.geometries.forEach(g => g.dispose())
+    b.owned.forEach(m => { if (m.userData.ownMap) m.material.map.dispose(); m.material.dispose() })
+  }
+
+  function updateItem(it, m, seg, dist, s, dt) {
+    const u = m.userData
+    if (u.spin === m) m.rotation.y = clock * 4 + it.at
+    else if (u.spin) { u.spin.rotation.z = clock * 3; u.spin.rotation.x = clock * 2 }
+    if (dist < -0.8 && ['wall', 'low', 'high', 'gate', 'pad'].includes(it.kind)) { m.visible = false; return } // never between the camera and Buga
+    if (dist > 110) return
+    if (it.show === 'roll') { // a boulder rolling down the lane, reaching its spot as the runner does
+      const away = Math.max(0, dist) * 0.6
+      m.position.z = -(it.at + away)
+      m.position.y = groundAt(seg, it.at + away)
+      u.ball.rotation.x = away * 0.8
+    } else if (it.show === 'swing' && u.arm) {
+      const late = Math.max(0, dist) / s.speed * 3
+      const reach = it.lane === 0 ? 1.5 * LANE_W * Math.sin(late) : it.lane * LANE_W * Math.cos(late)
+      u.arm.rotation.z = Math.asin(reach / 6)
+      m.position.x = 0
+    } else if (it.show === 'rise') {
+      const k = eased((30 - dist) / 12)
+      m.position.y = groundAt(seg, it.at) - 1.2 * (1 - k)
+      m.visible = k > 0.02
+    } else if (it.show === 'drop' && u.bar) {
+      u.bar.position.y = 5.2 * (1 - eased((34 - dist) / 16))
+    } else if (u.pad) {
+      u.pad.position.y = 0.3 + Math.abs(Math.sin(clock * 5)) * 0.14
+    }
+    if (u.tiles) for (const tile of u.tiles) {
+      const d = tile.userData
+      if (dist > 26 - d.delay) continue
+      d.vy -= 26 * dt
+      tile.position.y += d.vy * dt
+      tile.rotation.x += d.spin * dt; tile.rotation.z += d.spin * 0.7 * dt
+      if (tile.position.y < -60) tile.visible = false
+    }
+  }
+
+  function syncSegments(s, dt) {
+    const alive = new Set(s.segs.map(seg => seg.id))
+    for (const [id, b] of built) if (!alive.has(id)) { release(b); built.delete(id) }
+    let ahead = -s.d
+    for (let i = s.cur; i < s.segs.length; i++) {
+      const seg = s.segs[i]
+      if (!built.has(seg.id)) { const b = makeSegment(seg, sprites, assets); built.set(seg.id, b); scene.add(b.g) }
+      for (const { it, m } of built.get(seg.id).items.values()) {
+        if (it.taken) m.visible = false
+        else updateItem(it, m, seg, ahead + it.at, s, dt)
+      }
+      ahead += seg.len
+    }
+  }
+
+  function poseBuga(s, dt) {
+    const { body, parts } = buga
+    const stride = s.run * 0.92
+    const swing = Math.sin(stride)
+    const air = s.y > 0.05
+    pose += ((s.slide > 0 ? 0 : 1) - pose) * Math.min(1, dt * 16)
+    const legs = (leg, phase) => {
+      leg.top.rotation.x = air ? (phase > 0 ? -1.1 : 0.5) : phase
+      leg.joint.rotation.x = air ? 0.9 : Math.max(0, -phase) * 1.4 + 0.2
+    }
+    legs(parts.legL, swing); legs(parts.legR, -swing)
+    const arms = (arm, phase, side) => {
+      arm.top.rotation.x = air ? -2.5 : -phase
+      arm.top.rotation.z = air ? side * 0.5 : 0
+      arm.joint.rotation.x = air ? 0 : -1.2
+    }
+    arms(parts.armL, swing, -1); arms(parts.armR, -swing, 1)
+    parts.wing.rotation.z = Math.sin(clock * 22) * 0.7
+    parts.parrot.position.y = 1.86 + Math.abs(Math.sin(stride)) * 0.08
+    parts.head.rotation.x = Math.sin(stride * 2) * 0.05
+    body.position.y = (air ? 0 : Math.abs(Math.cos(stride)) * 0.14) + (1 - pose) * -0.5
+    body.rotation.x = (1 - pose) * 1.25 + (air ? -0.08 : -0.14)
+    body.rotation.y = (s.lane * LANE_W - s.laneX) * 0.16
+    body.rotation.z = (s.lane * LANE_W - s.laneX) * -0.12
+    buga.root.visible = !(s.safe > 0 && Math.floor(clock * 14) % 2 === 0)
+  }
+
+  function setWorld(name) {
+    if (name === currentWorld) return
+    const set = assets(name), look = LOOK[name]
+    if (currentWorld) { skyB.map = set.sky; skyB.needsUpdate = true; skyB.opacity = 0; skyFade = 0 } else { skyA.map = set.sky; skyA.needsUpdate = true }
+    floor.material.map = set.floor; floor.material.needsUpdate = true
+    hemi.color.set(look.hemi[0]); hemi.groundColor.set(look.hemi[1]); hemi.intensity = look.hemi[2]
+    sun.color.set(look.sunLight[0]); sun.intensity = look.sunLight[1]
+    currentWorld = name
+    flyers.forEach(f => {
+      f.balloon.visible = name === 'desert' || name === 'candy'
+      f.car.visible = name === 'night'
+      f.bird.visible = name === 'jungle'
+      f.wings.forEach(w => { w.visible = name === 'jungle' })
+    })
+  }
+
+  function flyersUpdate(p, dt) {
+    const wrap = v => ((v + 120) % 240 + 240) % 240 - 120
+    const fast = currentWorld === 'night' ? 24 : currentWorld === 'jungle' ? 12 : 1.5
+    for (const f of flyers) {
+      f.x += Math.sin(f.a) * fast * dt; f.z += Math.cos(f.a) * fast * dt
+      f.g.position.set(p.x + wrap(f.x - p.x), p.y + f.y + Math.sin(clock + f.a) * 1.2, p.z + wrap(f.z - p.z))
+      f.g.rotation.y = f.a + Math.PI
+      f.wings.forEach((w, i) => { w.rotation.z = Math.sin(clock * 14 + f.a) * (i ? 0.7 : -0.7) })
+    }
+  }
+
+  function render(s, dt) {
+    clock += dt
+    const seg = segment(s), world = WORLDS[seg.world]
+    setWorld(world)
+    syncSegments(s, dt)
+    const p = worldPosition(s), road = p.y - s.y
+    const want = angleOf(p.dir)
+    let delta = want - heading
+    delta = Math.atan2(Math.sin(delta), Math.cos(delta))
+    heading += delta * Math.min(1, dt * 7)
+    turnLean += (delta * 0.22 - turnLean) * Math.min(1, dt * 8)
+
+    for (const e of s.events) {
+      if (e === 'coin') sparks.burst(p.x, p.y + 1.2, p.z, 0xffd23f, 5, 4)
+      else if (e === 'hit' || e === 'over' || e === 'shield') { shake = 0.7; sparks.burst(p.x, p.y + 1.2, p.z, 0xff6a3d, 22, 8) }
+      else if (e === 'pad') sparks.burst(p.x, p.y + 0.4, p.z, 0xffffff, 14, 6)
+      else if (e === 'power' || e === 'right') sparks.burst(p.x, p.y + 1.4, p.z, 0x7dfcff, 16, 6)
+      else if (e === 'land') sparks.burst(p.x, p.y + 0.2, p.z, 0xfff4d0, 7, 3)
+    }
+    sparks.update(dt)
+
+    buga.root.position.set(p.x, p.y, p.z)
+    buga.root.rotation.y = -heading
+    poseBuga(s, dt)
+    bubble.visible = s.shield
+    bubble.position.set(p.x, p.y + 1, p.z)
+
+    orbit += ((s.over ? 2.6 : 0) - orbit) * Math.min(1, dt * 2.6)
+    const look = heading + orbit
+    const fx = Math.sin(look), fz = -Math.cos(look), hx = Math.sin(heading), hz = -Math.cos(heading)
+    const fast = Math.min(1, (s.speed - 13) / 17)
+    const back = 6.6 - fast * 0.8
+    camX += (p.x - fx * back - camX) * Math.min(1, dt * 11)
+    camZ += (p.z - fz * back - camZ) * Math.min(1, dt * 11)
+    camY += (road + 4 + s.y * 0.4 - camY) * Math.min(1, dt * 7)
+    shake = Math.max(0, shake - dt * 1.6)
+    camera.position.set(camX + (Math.random() - 0.5) * shake, camY + (Math.random() - 0.5) * shake, camZ + (Math.random() - 0.5) * shake)
+    camera.lookAt(p.x + fx * 7, road + 1.5 + s.y * 0.3, p.z + fz * 7)
+    camera.rotation.z -= turnLean
+    const fov = (camera.aspect < 1 ? 74 : 60) + fast * 10
+    if (Math.abs(fov - camera.fov) > 0.05) { camera.fov = fov; camera.updateProjectionMatrix() }
+
+    sun.position.set(p.x + 16, p.y + 34, p.z + 12)
+    sun.target.position.set(p.x + hx * 8, p.y, p.z + hz * 8)
+    skyMeshA.position.copy(camera.position); skyMeshB.position.copy(camera.position)
+    floor.position.x = p.x; floor.position.z = p.z
+    floor.material.map?.offset.set(p.x / 50, -p.z / 50)
+
+    if (skyFade < 1) {
+      skyFade = Math.min(1, skyFade + dt / 1.6)
+      skyB.opacity = skyFade
+      if (skyFade >= 1) { skyA.map = skyB.map; skyA.needsUpdate = true; skyB.opacity = 0 }
+    }
+    target.set(LOOK[world].fog)
+    fog.lerp(target, Math.min(1, dt * 1.5))
+    scene.fog.color.copy(fog)
+    sprites.tile.color.lerp(target.set(LOOK[world].stone[1]), Math.min(1, dt * 4))
+
+    const showCookie = s.stumble > 0 || s.over || s.time < 2.4
+    chase += ((showCookie ? (s.over ? 2.2 : 3.2) : 11) - chase) * Math.min(1, dt * 3)
+    cookie.root.visible = chase < 8.5
+    cookie.root.position.set(p.x - hx * chase, road + 0.9 + Math.abs(Math.sin(clock * 8)) * 0.3, p.z - hz * chase)
+    cookie.root.rotation.y = -heading
+    cookie.body.rotation.x = Math.sin(clock * 8) * 0.14
+
+    flyersUpdate(p, dt)
+    renderer.render(scene, camera)
+
+    // a phone that cannot keep up gets a lighter picture rather than a stutter
+    if (dt > 0 && ratio > 1) {
+      slowTime += dt; slowFrames++
+      if (slowTime > 4) {
+        if (slowFrames / slowTime < 34) { ratio = 1; renderer.setPixelRatio(1); resize(); sun.castShadow = false }
+        slowTime = 0; slowFrames = 0
+      }
+    }
+  }
+
+  function reset(s) {
+    const p = worldPosition(s)
+    heading = angleOf(p.dir); chase = 5; orbit = 0; shake = 0
+    camX = p.x; camY = p.y + 3.5; camZ = p.z + 6.6
+    for (const b of built.values()) release(b)
+    built.clear()
+  }
+
+  function dispose() {
+    for (const b of built.values()) release(b)
+    built.clear()
+    for (const set of worlds.values()) {
+      for (const material of [set.road, set.wall, set.under, set.rail, ...set.towers]) { material.map?.dispose(); material.dispose() }
+      set.sky.dispose(); set.floor.dispose()
+    }
+    renderer.dispose()
+  }
+
+  return { render, resize, reset, dispose }
+}
