@@ -35,6 +35,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
   const [hud, setHud] = useState({ score: 0, coins: 0, shield: false, magnet: false, stumble: false, gate: null })
   const [paused, setPaused] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [lost, setLost] = useState(false)
   const pausedRef = useRef(false)
   const onOverRef = useRef(onOver)
   useEffect(() => { onOverRef.current = onOver }, [onOver])
@@ -48,11 +49,10 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
     soundRef.current = sound
     sound.setMuted(read(MUTE_KEY, false))
     sound.start()
-    const onResize = () => scene?.resize()
     const frame = now => {
       if (stopped) return
       raf = requestAnimationFrame(frame)
-      const dt = Math.min(0.05, (now - last) / 1000 || 0)
+      const dt = Math.min(0.1, (now - last) / 1000 || 0)
       last = now
       if (!pausedRef.current && !s.over) {
         extra += dt
@@ -69,18 +69,16 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
     }
     import('./run/runScene').then(({ createScene }) => {
       if (stopped) return
-      scene = createScene(canvasRef.current)
+      scene = createScene(canvasRef.current, { onLost: () => { pausedRef.current = true; setLost(true) } })
       scene.reset(s)
       scene.resize()
-      window.addEventListener('resize', onResize)
       setLoading(false)
       last = performance.now()
       raf = requestAnimationFrame(frame)
-    })
+    }).catch(() => { if (!stopped) setLost(true) }) // an old tab after a release, or no room for one more picture
     return () => {
       stopped = true
       cancelAnimationFrame(raf)
-      window.removeEventListener('resize', onResize)
       scene?.dispose()
       sound.dispose()
     }
@@ -136,7 +134,13 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
     </div>
     {hud.stumble && <div className="pointer-events-none absolute inset-x-0 top-24 text-center"><span className="rounded-full border-2 border-[#14162d] bg-rose-600 px-4 py-1 font-black text-white">🍪 העוגייה ממש מאחוריך!</span></div>}
     {hud.gate && <div className="pointer-events-none absolute inset-x-0 top-1/4 text-center" dir="ltr"><span className="rounded-2xl border-[3px] border-[#14162d] bg-white px-5 py-1 text-4xl font-black">{hud.gate} = ?</span></div>}
-    {paused && <div className="absolute inset-0 grid place-items-center bg-[#14162d]/60 p-4" dir="rtl" onPointerDown={e => e.stopPropagation()}>
+    {lost && <div className="absolute inset-0 grid place-items-center bg-[#14162d]/80 p-4" dir="rtl" role="alert" onPointerDown={e => e.stopPropagation()}>
+      <div className="w-full max-w-xs rounded-3xl border-[3px] border-[#14162d] bg-white p-5 text-center">
+        <h2 className="m-0 text-2xl font-black">המשחק נעצר, אפשר להתחיל מחדש</h2>
+        <button type="button" autoFocus onClick={onExit} className="mt-3 w-full rounded-2xl bg-emerald-600 px-4 py-3 text-lg font-black text-white">חזרה להתחלה</button>
+      </div>
+    </div>}
+    {paused && !lost && <div className="absolute inset-0 grid place-items-center bg-[#14162d]/60 p-4" dir="rtl" onPointerDown={e => e.stopPropagation()}>
       <div className="w-full max-w-xs rounded-3xl border-[3px] border-[#14162d] bg-white p-5 text-center">
         <h2 className="m-0 text-2xl font-black">עצרנו רגע</h2>
         <button type="button" autoFocus onClick={() => togglePause(false)} className="mt-3 w-full rounded-2xl bg-emerald-600 px-4 py-3 text-lg font-black text-white">▶️ ממשיכים</button>

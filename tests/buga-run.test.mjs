@@ -159,6 +159,7 @@ test('the path climbs and falls, and stays level at every corner', () => {
       s.wantTurn = seg.turn
       step(s, 0)
       assert.equal(segment(s).h0, seg.h1, 'the next stretch starts at the same height')
+      assert.equal(segment(s).came, seg.turn, 'the next stretch knows which side the road came from')
     }
     assert.ok(climbs > 2)
   }

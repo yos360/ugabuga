@@ -6,6 +6,9 @@ import { LANE_W, WORLDS, groundAt, segment, worldPosition } from './runGame'
 
 const PATH_W = LANE_W * 3 + 1.4
 const FLOOR_Y = -34
+const GIANT_CLEAR = 15 // the widest giant's reach from its centre, plus room to spare
+const CORNER_CLEAR = 30
+const QUALITY = [{ ratio: 1.5, shadows: true }, { ratio: 1, shadows: true }, { ratio: 1, shadows: false }, { ratio: 0.7, shadows: false }]
 const LOOK = {
   jungle: { sky: ['#3f9fe0', '#a6e3f2', '#fff3c4'], fog: 0xb9e6d6, ridge: ['#2e7d5b', '#4f9f74', '#86c79a'], sun: '#fff6c8', stone: ['#c9b48c', '#b39c72', '#6b5b3f'], wall: ['#8d8468', '#6f6850', '#47432f'], rail: 0x7b6a4a, accent: 0xff6a3d, trim: 0x3f8f4f, low: ['#2f7d3e', '#3f9a49', '#1f5f33'], hemi: [0xf4fff0, 0x4e7a44, 2.1], sunLight: [0xfff0c8, 2.5] },
   desert: { sky: ['#2f7fd8', '#8fd0f0', '#ffe2ae'], fog: 0xf7d6a4, ridge: ['#b5613a', '#d08350', '#ebb078'], sun: '#fff2c0', stone: ['#ecc98c', '#d9ad6a', '#9a6f3c'], wall: ['#c98a52', '#a96c3c', '#70431f'], rail: 0xb5713c, accent: 0x18a999, trim: 0xe24e3a, low: ['#e0ac63', '#eec078', '#c78f4b'], hemi: [0xfff4dc, 0xa8784a, 2.1], sunLight: [0xffe6b4, 2.7] },
@@ -74,7 +77,9 @@ const floorTexture = (name, look) => canvasTexture(512, 512, (x, w, h) => {
 })
 
 // A painted panorama: sky, sun, clouds and three ranges of far hills, seamless all the way round.
-const skyTexture = (name, look) => canvasTexture(2048, 1024, (x, w, h) => {
+const skyTexture = (name, look) => canvasTexture(1536, 768, (x, w, h) => {
+  x.scale(0.75, 0.75)
+  w = 2048; h = 1024
   const r = generator(name.length * 77 + 5)
   const g = x.createLinearGradient(0, 0, 0, h * 0.56)
   look.sky.forEach((c, i) => g.addColorStop(i / 2, c))
@@ -148,16 +153,16 @@ const towerTexture = (colors, hue) => canvasTexture(256, 512, (x, w, h) => {
 
 const GEO = {
   box: new THREE.BoxGeometry(1, 1, 1),
-  round: new THREE.SphereGeometry(1, 16, 12),
-  fine: new THREE.SphereGeometry(1, 32, 24),
+  round: new THREE.SphereGeometry(1, 12, 9),
+  fine: new THREE.SphereGeometry(1, 24, 16),
   rock: new THREE.IcosahedronGeometry(1, 1),
-  blob: new THREE.IcosahedronGeometry(1, 2),
-  cone: new THREE.ConeGeometry(1, 1, 12),
+  blob: new THREE.IcosahedronGeometry(1, 1),
+  cone: new THREE.ConeGeometry(1, 1, 9),
   spire: new THREE.ConeGeometry(1, 1, 6),
-  cyl: new THREE.CylinderGeometry(1, 1, 1, 14),
-  taper: new THREE.CylinderGeometry(0.62, 1, 1, 10),
-  torus: new THREE.TorusGeometry(1, 0.34, 10, 26),
-  coin: new THREE.CylinderGeometry(0.46, 0.46, 0.13, 22),
+  cyl: new THREE.CylinderGeometry(1, 1, 1, 9),
+  taper: new THREE.CylinderGeometry(0.62, 1, 1, 8),
+  torus: new THREE.TorusGeometry(1, 0.34, 8, 18),
+  coin: new THREE.CylinderGeometry(0.46, 0.46, 0.13, 16),
   plane: new THREE.PlaneGeometry(1, 1),
   mesa: new THREE.CylinderGeometry(0.92, 1, 1, 9),
 }
@@ -187,7 +192,7 @@ class Batch {
 // ---- the giants rising from far below, right beside the road ----
 function jungleGiant(b, r, x, top, z) {
   if (r() < 0.32) { // a stepped ruin grown over with moss
-    const size = 9 + r() * 7
+    const size = 9 + r() * 5
     for (let i = 0, y = FLOOR_Y; y < top - 6; i++) {
       const step = 5.5, w = size * (1 - Math.min(i, 8) * 0.075)
       b.put(GEO.box, i % 2 ? 0x8f8a6c : 0x77785a, x, y + step / 2, z, w, step, w)
@@ -209,7 +214,7 @@ function jungleGiant(b, r, x, top, z) {
 
 function desertGiant(b, r, x, top, z) {
   const strata = [0xc4693c, 0xd98953, 0xb35a33, 0xe7a568, 0xc4693c, 0xe3b27b]
-  let y = FLOOR_Y, wide = 8 + r() * 7
+  let y = FLOOR_Y, wide = 6 + r() * 5
   if (r() < 0.3) { // a thin red spire
     b.put(GEO.spire, 0xb35a33, x, (FLOOR_Y + top + 8) / 2, z, wide * 0.5, top + 8 - FLOOR_Y, wide * 0.5, 0, r() * 3)
     b.put(GEO.rock, 0xd98953, x + 1, top + 6, z, 2.2, 1.6, 2.2)
@@ -235,7 +240,7 @@ function candyGiant(b, r, x, top, z) {
     const size = 6 + r() * 3
     b.put(GEO.cyl, 0xfff6ee, x, (FLOOR_Y + top) / 2, z, 0.8, top - FLOOR_Y, 0.8)
     b.put(GEO.fine, c(), x, top + size * 0.7, z, size, size, 1.5)
-    for (let i = 1; i <= 4; i++) { const t = new THREE.TorusGeometry(i * size / 5, 0.26, 8, 40); b.put(t, i % 2 ? 0xffffff : c(), x, top + size * 0.7, z + 1.5 * Math.cos(i / 6), 1); t.dispose() }
+    for (let i = 1; i <= 4; i++) { const t = new THREE.TorusGeometry(i * size / 5, 0.26, 6, 28); b.put(t, i % 2 ? 0xffffff : c(), x, top + size * 0.7, z + 1.5 * Math.cos(i / 6), 1); t.dispose() }
   } else if (kind < 0.68) { // a tower of frosted donuts
     let y = FLOOR_Y
     while (y < top) {
@@ -247,7 +252,7 @@ function candyGiant(b, r, x, top, z) {
   } else { // an ice-cream swirl mountain
     const layers = 9, step = (top - FLOOR_Y) / layers, tint = c()
     for (let i = 0; i < layers; i++) {
-      const w = 12 * (1 - i / (layers + 1))
+      const w = 10 * (1 - i / (layers + 1))
       b.put(GEO.round, i % 2 ? 0xfff2e2 : tint, x + Math.sin(i) * 0.8, FLOOR_Y + step * (i + 0.5), z + Math.cos(i) * 0.8, w, step * 0.8, w)
     }
     b.put(GEO.round, 0xe8243c, x, top + 1.2, z, 1.8)
@@ -433,7 +438,8 @@ function makeItem(it, seg, world, look, sprites, owned) {
   return makeObstacle(it, world, look, sprites)
 }
 
-function makeSegment(seg, sprites, assets) {
+// Built in small steps between frames, far ahead of the runner, so a new stretch never stalls the game.
+function* makeSegment(seg, sprites, assets) {
   const world = WORLDS[seg.world], look = LOOK[world], set = assets(world)
   const g = new THREE.Group()
   g.position.set(seg.ox, 0, seg.oz)
@@ -461,6 +467,7 @@ function makeSegment(seg, sprites, assets) {
       add(strip(seg, a, end, [outer, 0.55], [inner, 0.55], 1, 2), set.rail, true)
       add(strip(seg, a, end, [outer, 0.55], [outer, -7], 1, 4), set.wall)
     }
+    yield
   }
 
   const b = new Batch(), r = generator(seg.seed)
@@ -473,20 +480,23 @@ function makeSegment(seg, sprites, assets) {
   for (let d = 10, i = 0; d < seg.len - 8; d += 9, i++) {
     if (holes.some(at => Math.abs(at - d) < 3)) continue
     for (const side of [-1, 1]) railDecor(b, world, look, side * (half + 0.28), groundAt(seg, d) + 0.55, -d, i % 2)
+    if (i % 5 === 0) yield
   }
   const lights = []
   for (let d = 34; d < seg.len - 30; d += 66 + r() * 34) {
     archway(b, world, look, groundAt(seg, d), -d)
     for (const side of [-1, 1]) lights.push([side * (half + 0.2), groundAt(seg, d) + 5.6, -d + 0.7])
   }
-  // giants on both sides, some almost touching the road
-  for (let d = 12; d < seg.len - 14; d += 11 + r() * 13) {
+  // giants on both sides, close to the road but never on it: not on this stretch, and not on the
+  // stretches that meet it at either corner, where the camera swings out wide
+  for (let d = 16; d < seg.len - 10; d += 13 + r() * 13) {
     for (const side of [-1, 1]) {
-      if (r() < 0.14) continue
-      const off = half + 9 + r() * r() * 42
+      if (r() < 0.2 || (side === seg.turn && d > seg.len - CORNER_CLEAR) || (side === seg.came && d < CORNER_CLEAR)) continue
+      const off = half + GIANT_CLEAR + r() * r() * 38
       const height = groundAt(seg, d) + (r() < 0.5 ? -8 + r() * 10 : 6 + r() * 18)
       GIANT[world](b, r, side * off, height, -d - (r() - 0.5) * 7, g, set.towers)
     }
+    yield
   }
   // the corner: a great wall ahead and a sign that points the way
   const yEnd = seg.h1, wallColor = hex(look.wall[0])
@@ -508,8 +518,10 @@ function makeSegment(seg, sprites, assets) {
     chev.position.set(0, groundAt(seg, d) + 0.05, -d); chev.scale.set(5, 2.6, 1); g.add(chev)
   }
 
+  yield
   const statics = b.mesh(sprites.lit)
   if (statics) { g.add(statics); geometries.push(statics.geometry) }
+  yield
   for (const [x, y, z] of lights) {
     const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: sprites.glow, color: look.accent, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.55 }))
     glow.position.set(x, y, z); glow.scale.setScalar(4); g.add(glow); owned.push(glow)
@@ -522,6 +534,7 @@ function makeSegment(seg, sprites, assets) {
     g.add(m)
     m.traverse(o => { if (o.geometry && !shared.has(o.geometry)) geometries.push(o.geometry) })
     items.set(it.id, { it, m })
+    if (items.size % 8 === 0) yield
   }
   return { g, items, owned, geometries }
 }
@@ -539,10 +552,10 @@ function makeBuga() {
   shape(GEO.fine, fur, 0, 0, 0, 0.82, 0.76, 0.76, head)
 
   // fur: soft lumps standing out of the head and body, for a plush outline
-  const tufts = new THREE.InstancedMesh(GEO.rock, material(0xffffff, 0.95), 420)
+  const tufts = new THREE.InstancedMesh(GEO.rock, material(0xffffff, 0.95), 240)
   const dummy = new THREE.Object3D(), c = new THREE.Color(), rand = generator(99)
-  for (let i = 0; i < 420; i++) {
-    const onHead = i < 270
+  for (let i = 0; i < 240; i++) {
+    const onHead = i < 150
     const y = 1 - 2 * rand(), a = rand() * 6.283, ring = Math.sqrt(1 - y * y)
     const nx = ring * Math.cos(a), nz = ring * Math.sin(a)
     const [ox, oy, oz, sx, sy, sz] = onHead ? [0, 1.95, 0, 0.8, 0.74, 0.74] : [0, 1.14, 0, 0.66, 0.72, 0.58]
@@ -658,14 +671,15 @@ class Sparks {
   }
 }
 
-export function createScene(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' })
-  let ratio = Math.min(window.devicePixelRatio || 1, 1.75)
-  renderer.setPixelRatio(ratio)
+export function createScene(canvas, { onLost } = {}) {
+  const dpr = window.devicePixelRatio || 1
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: dpr < 2, powerPreference: 'high-performance' })
+  renderer.setPixelRatio(Math.min(dpr, QUALITY[0].ratio))
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); onLost?.() })
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 1.02
   renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  renderer.shadowMap.type = THREE.PCFShadowMap
   const scene = new THREE.Scene()
   scene.fog = new THREE.Fog(LOOK.jungle.fog, 70, 300)
   const camera = new THREE.PerspectiveCamera(62, 1, 0.3, 700)
@@ -712,7 +726,7 @@ export function createScene(canvas) {
     if (worlds.has(name)) return worlds.get(name)
     const look = LOOK[name]
     const set = {
-      road: new THREE.MeshStandardMaterial({ map: roadTexture(look), roughness: 0.82 }),
+      road: new THREE.MeshLambertMaterial({ map: roadTexture(look) }),
       wall: new THREE.MeshLambertMaterial({ map: wallTexture(look), side: THREE.DoubleSide }),
       under: new THREE.MeshLambertMaterial({ color: new THREE.Color(look.wall[2]), side: THREE.BackSide }),
       rail: new THREE.MeshLambertMaterial({ color: look.rail, side: THREE.DoubleSide }),
@@ -763,19 +777,34 @@ export function createScene(canvas) {
 
   const built = new Map()
   const fog = new THREE.Color(LOOK.jungle.fog), target = new THREE.Color()
-  let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, slowTime = 0, slowFrames = 0, turnLean = 0
+  const pending = new Map()
+  let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, turnLean = 0
+  let quality = 0, sampleFrom = 0, sampleFrames = 0, lastFrame = 0
 
   function resize() {
-    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1
+    const w = canvas.clientWidth, h = canvas.clientHeight
+    if (!w || !h) return // hidden for now: keep the picture, the observer calls again when it returns
     renderer.setSize(w, h, false)
     camera.aspect = w / h
     camera.updateProjectionMatrix()
   }
 
+  const watcher = new ResizeObserver(resize)
+  watcher.observe(canvas)
+
   const release = b => {
     scene.remove(b.g)
     b.geometries.forEach(g => g.dispose())
     b.owned.forEach(m => { if (m.userData.ownMap) m.material.map.dispose(); m.material.dispose() })
+  }
+
+  function buildSegment(seg, until) {
+    if (!pending.has(seg.id)) pending.set(seg.id, makeSegment(seg, sprites, assets))
+    const job = pending.get(seg.id)
+    do {
+      const { done, value } = job.next()
+      if (done) { pending.delete(seg.id); built.set(seg.id, value); scene.add(value.g); return }
+    } while (performance.now() < until)
   }
 
   function updateItem(it, m, seg, dist, s, dt) {
@@ -816,10 +845,13 @@ export function createScene(canvas) {
   function syncSegments(s, dt) {
     const alive = new Set(s.segs.map(seg => seg.id))
     for (const [id, b] of built) if (!alive.has(id)) { release(b); built.delete(id) }
+    const until = performance.now() + 3
     let ahead = -s.d
     for (let i = s.cur; i < s.segs.length; i++) {
       const seg = s.segs[i]
-      if (!built.has(seg.id)) { const b = makeSegment(seg, sprites, assets); built.set(seg.id, b); scene.add(b.g) }
+      // a stretch still unfinished when the runner is about to see it is finished at once
+      if (!built.has(seg.id)) buildSegment(seg, ahead < 60 ? Infinity : until)
+      if (!built.has(seg.id)) { ahead += seg.len; continue }
       for (const { it, m } of built.get(seg.id).items.values()) {
         if (it.taken) m.visible = false
         else updateItem(it, m, seg, ahead + it.at, s, dt)
@@ -950,12 +982,21 @@ export function createScene(canvas) {
     flyersUpdate(p, dt)
     renderer.render(scene, camera)
 
-    // a phone that cannot keep up gets a lighter picture rather than a stutter
-    if (dt > 0 && ratio > 1) {
-      slowTime += dt; slowFrames++
-      if (slowTime > 4) {
-        if (slowFrames / slowTime < 34) { ratio = 1; renderer.setPixelRatio(1); resize(); sun.castShadow = false }
-        slowTime = 0; slowFrames = 0
+    // a device that cannot keep up gets a lighter picture rather than a stutter
+    if (dt > 0 && quality < QUALITY.length - 1) {
+      const now = performance.now()
+      // a long gap means a window throttled in the background, which says nothing about the device
+      if (!sampleFrom || now - lastFrame > 400) { sampleFrom = now; sampleFrames = 0 }
+      lastFrame = now
+      sampleFrames++
+      if (now - sampleFrom > 1200) {
+        if (sampleFrames / (now - sampleFrom) * 1000 < 45) {
+          const next = QUALITY[++quality]
+          renderer.setPixelRatio(Math.min(dpr, next.ratio))
+          resize()
+          sun.castShadow = next.shadows
+        }
+        sampleFrom = 0; sampleFrames = 0
       }
     }
   }
@@ -963,9 +1004,16 @@ export function createScene(canvas) {
   function reset(s) {
     const p = worldPosition(s)
     heading = angleOf(p.dir); chase = 5; orbit = 0; shake = 0
-    camX = p.x; camY = p.y + 3.5; camZ = p.z + 6.6
+    camX = p.x; camY = p.y + 4; camZ = p.z + 6.6
     for (const b of built.values()) release(b)
     built.clear()
+    pending.clear()
+    // paint every world now, while "warming up" is on screen, so a new world never stalls the run
+    for (const name of WORLDS) {
+      const set = assets(name)
+      for (const map of [set.sky, set.floor, set.road.map, set.wall.map]) renderer.initTexture(map)
+    }
+    for (const seg of s.segs) buildSegment(seg, Infinity)
   }
 
   function dispose() {
@@ -975,7 +1023,9 @@ export function createScene(canvas) {
       for (const material of [set.road, set.wall, set.under, set.rail, ...set.towers]) { material.map?.dispose(); material.dispose() }
       set.sky.dispose(); set.floor.dispose()
     }
+    watcher.disconnect()
     renderer.dispose()
+    renderer.forceContextLoss() // a browser allows few live contexts: each new round must free its own
   }
 
   return { render, resize, reset, dispose }

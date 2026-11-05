@@ -113,7 +113,7 @@ function makeSegment(s, prev) {
   items.forEach((it, i) => { it.id = `${id}-${i}` })
   const h0 = prev ? prev.h1 : 0
   const h1 = id === 0 ? 3 : Math.max(0, Math.min(15, h0 + (r() - 0.5) * 16))
-  return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7 }
+  return { id, ox, oz, dir, len, turn, items, start: total, world: Math.floor(total / WORLD_METRES) % WORLDS.length, seed: Math.floor(r() * 1e9), h0, h1, bump: (r() - 0.5) * 7, came: prev ? prev.turn : 0 }
 }
 
 export function newGame({ seed = 1, mode = 'run' } = {}) {
