@@ -81,6 +81,7 @@ export default function ColorByNumberHub() {
     <nav aria-label="סינון לפי נושא" className="no-print mt-2 flex flex-wrap justify-center gap-2">
       {[{ id: '', label: 'כל הנושאים' }, ...CBN_THEMES].map(t => <button key={t.id || 'all'} type="button" aria-pressed={(theme?.id || '') === t.id} onClick={() => pick('theme', t.id, theme?.id)} className={chip((theme?.id || '') === t.id)}>{t.label}</button>)}
     </nav>
+    <p className="no-print mt-3 text-center"><Link to={`${HUB}/mandalas`} className="font-bold underline">🌀 חדש: מנדלות לפי מספרים</Link></p>
     {(level || theme) && <p className="no-print mt-3 text-center text-[var(--muted-foreground)]" role="status">{list.length} ציורים{level ? ` ${level.long} · בגרסת התרגילים: ${level.mathLabel}` : ''}</p>}
     <div className="no-print mt-5 flex flex-wrap items-center justify-center gap-3">
       <button type="button" data-print-main disabled={!list.length} onClick={() => setPrinting(list)} className="min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white disabled:opacity-50">🖨️ הדפסת כל {list.length} הדפים</button>
@@ -93,9 +94,40 @@ export default function ColorByNumberHub() {
     <div className="mt-10"><SeoBody paragraphs={[
       'צביעה לפי מספרים היא פעילות שקטה שילדים חוזרים אליה שוב ושוב: יש בה משימה ברורה, התקדמות שרואים בעיניים והפתעה בסוף — הציור מתגלה רק כשהמשבצות נצבעות. בדרך מתרגלים זיהוי מספרים, התאמה למקרא, ריכוז ושליטה בעיפרון.',
       `כל ${COUNT} הציורים בעמוד מקוריים ובנויים ממשבצות, כמו פסיפס: לגן — תפוח, דג, חתול, שמש, תות, צפרדע ולוויתן עם 3–5 צבעים; לכיתות א–ב — מכונית, אוטובוס, רכבת, מטוס, תמנון, כלב ופיצה; ולגדולים ולמבוגרים — כדור פורח, מגדלור, אריה, שועל, טירה ושונית אלמוגים, עם יותר משבצות ויותר צבעים.`,
+      'ולמי שמחפש נושא מסוים: חד קרן, דינוזאור, בת ים, דרקון, טווס, פנדה, פיל, כריש, רובוט, אסטרונאוט, כתר, קשת בענן, כדורגל ושמונה מנדלות לפי מספרים.',
       'יש ציורים לכל החגים: רימון, דבורה וצנצנת דבש לראש השנה, סוכה ואתרוג לסוכות, סביבון, חנוכייה, סופגנייה וכד שמן לחנוכה, מסכה ואוזן המן לפורים, גביע קידוש וצפרדע לפסח, גבינה וטרקטור לשבועות, ודגל ישראל וזיקוקים ליום העצמאות.',
       'לכל ציור יש גם גרסת תרגילים: במקום מספר, בכל משבצת מחכה תרגיל — חיבור עד 10 לגן, חיבור עד 20 לכיתות א–ב ולוח הכפל לגדולים. ומי שרוצה לתרגל משהו אחר יכול לצבוע את אותם ציורים לפי תשובות של חיסור וחילוק, או לפי אותיות בעברית ובאנגלית.',
     ]} faq={HUB_FAQ} related={[{ label: 'צביעה לפי תשובות — חיבור, חיסור, כפל וחילוק', href: '/printables/color-by-answer' }, { label: 'צביעה לפי אותיות', href: '/printables/color-by-letter' }, { label: 'צבעו לפי מספר — פסיפס חדש בכל לחיצה', href: '/printables/activity/color-by-number' }, { label: 'דפי צביעה', href: '/printables/coloring' }, { label: 'מנדלות', href: '/printables/mandalas' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'לוח הכפל', href: '/printables/math-worksheets/multiplication' }, { label: 'דפים להדפסה', href: '/printables' }]} /></div>
+  </div>
+}
+
+const MANDALA_FAQ = [
+  { q: 'מה זו מנדלה לפי מספרים?', a: 'מנדלה עגולה שבנויה ממשבצות, ובכל משבצת מספר. צובעים לפי המקרא, ובסוף מתגלה דוגמה סימטרית: כל צד נראה בדיוק כמו הצד שמולו.' },
+  { q: 'למי זה מתאים?', a: 'יש כאן מנדלות קטנות לגן עם 3–4 צבעים, בינוניות לכיתות א׳–ב׳, וגדולות עם 24×24 משבצות ועד 9 צבעים לילדים גדולים ולמבוגרים. המנדלות הגדולות טובות במיוחד לצביעה רגועה בערב.' },
+  { q: 'אפשר לצבוע אונליין?', a: 'כן. נכנסים למנדלה, בוחרים צבע במקרא ולוחצים על המשבצות. כפתור "הצגת הפתרון" מראה את המנדלה הגמורה.' },
+  { q: 'יש גם מנדלות רגילות לצביעה?', a: 'כן. בעמוד המנדלות יש מנדלות בקו, בלי מספרים, שבוחרים להן צבעים כרצונכם, וגם מחולל שיוצר מנדלה חדשה בכל לחיצה.' },
+]
+export function ColorByNumberMandalas() {
+  const [printing, setPrinting] = useState(false)
+  const [withSolution, setWithSolution] = useState(true)
+  const list = CBN_PICTURES.filter(p => p.theme === 'mandala')
+  return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in" dir="rtl">
+    <SEO title={`מנדלות לפי מספרים להדפסה — ${list.length} מנדלות בחינם`} description={`מנדלות לפי מספרים להדפסה בחינם: ${list.length} מנדלות משבצות לגן, לכיתות א׳–ב׳ ולמבוגרים. צובעים לפי המקרא ומגלים דוגמה סימטרית. עם דף פתרון, גרסת תרגילים וצביעה אונליין.`} path={`${HUB}/mandalas`} structuredData={faqSchema(MANDALA_FAQ)} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, { label: 'צביעה לפי מספרים', href: HUB }, { label: 'מנדלות' }]} />
+    <header className="text-center">
+      <h1 className="mt-3 text-4xl sm:text-5xl"><span aria-hidden="true">🌀 </span>מנדלות לפי מספרים</h1>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">צובעים משבצת אחרי משבצת לפי המקרא, ומהמספרים עולה מנדלה סימטרית. מגן ועד מבוגרים.</p>
+    </header>
+    <div className="no-print mt-5 flex flex-wrap items-center justify-center gap-3">
+      <button type="button" data-print-main onClick={() => setPrinting(true)} className="min-h-[52px] rounded-xl bg-red-500 px-6 py-3 text-lg font-bold text-white">🖨️ הדפסת כל {list.length} המנדלות</button>
+      <label className="flex min-h-[44px] items-center gap-2 font-bold"><input type="checkbox" checked={withSolution} onChange={e => setWithSolution(e.target.checked)} className="h-5 w-5" />להדפיס גם דף פתרון</label>
+    </div>
+    <section className="no-print mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{list.map(p => <PictureCard key={p.slug} p={p} />)}</section>
+    {printing && <PrintPreview title="מנדלות לפי מספרים" onClose={() => setPrinting(false)}>{sheetsFor(list, ['numbers'], withSolution)}</PrintPreview>}
+    <div className="mt-10"><SeoBody paragraphs={[
+      'מנדלה היא ציור עגול שחוזר על עצמו סביב מרכז. כשהיא בנויה ממשבצות עם מספרים, נוסף לה עוד משהו: לא בוחרים צבעים אלא מגלים אותם, וכל טבעת שנצבעת חושפת עוד חלק מהדוגמה.',
+      'המנדלות כאן סימטריות לגמרי, אז אפשר לעבוד רבע אחרי רבע ולראות איך הדוגמה נסגרת. לכל מנדלה יש גם גרסה עם תרגילי חשבון במקום מספרים, ודף פתרון צבעוני לבדיקה.',
+    ]} faq={MANDALA_FAQ} related={[{ label: 'כל הציורים לצביעה לפי מספרים', href: HUB }, { label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'מחולל מנדלות', href: '/adults/mandalas' }, { label: 'דפי צביעה', href: '/printables/coloring' }]} /></div>
   </div>
 }
 

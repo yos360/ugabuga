@@ -505,6 +505,7 @@ const HowToDrawHub = lazy(() => import('./pages/printables/HowToDraw').then(m =>
 const HowToDrawPage = lazy(() => import('./pages/printables/HowToDraw'))
 const ColorByNumberHub = lazy(() => import('./pages/printables/ColorByNumber'))
 const ColorByNumberPicture = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberPicture })))
+const ColorByNumberMandalas = lazy(() => import('./pages/printables/ColorByNumber').then(m => ({ default: m.ColorByNumberMandalas })))
 const ColorByAnswerHub = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByAnswerHub })))
 const ColorByAnswerKind = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByAnswerKind })))
 const ColorByLetter = lazy(() => import('./pages/printables/ColorByCode').then(m => ({ default: m.ColorByLetter })))
@@ -834,6 +835,7 @@ export default function App() {
               <Route path="/how-to-draw" element={<HowToDrawHub />} />
               <Route path="/how-to-draw/:slug" element={<HowToDrawPage />} />
               <Route path="/printables/color-by-number" element={<ColorByNumberHub />} />
+              <Route path="/printables/color-by-number/mandalas" element={<ColorByNumberMandalas />} />
               <Route path="/printables/color-by-number/:slug" element={<ColorByNumberPicture />} />
               <Route path="/printables/color-by-answer" element={<ColorByAnswerHub />} />
               <Route path="/printables/color-by-answer/:op" element={<ColorByAnswerKind />} />

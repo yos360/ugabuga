@@ -6,6 +6,8 @@
 // "answer number". Exercises come from a seeded generator, so screen and print always match.
 // The same pictures feed color-by-answer (any exercise kind) and color-by-letter (Hebrew/English).
 
+import { CBN_EXTRA } from './colorByNumberExtra.js'
+
 export const CBN_COLORS = {
   R: { name: 'אדום', hex: '#e53935' },
   M: { name: 'בורדו', hex: '#8e1b3f' },
@@ -1250,6 +1252,7 @@ export const CBN_PICTURES = [
       'WWWWWWWWWWWWWWWWWWWWWW',
     ],
   },
+  ...CBN_EXTRA,
 ]
 
 // ── helpers ──
@@ -1405,6 +1408,9 @@ export const CBN_THEMES = [
   { id: 'space', label: '🚀 חלל' },
   { id: 'seasons', label: '☀️ עונות השנה' },
   { id: 'birthday', label: '🎂 יום הולדת' },
+  { id: 'mandala', label: '🌀 מנדלות' },
+  { id: 'fantasy', label: '🦄 עולם הדמיון' },
+  { id: 'sport', label: '⚽ ספורט' },
   { id: 'holidays', label: '🕎 חגים' },
 ]
 export const cbnInTheme = (p, id) => (id === 'holidays' ? !!p.holiday : p.theme === id)

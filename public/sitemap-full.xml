@@ -336,6 +336,7 @@
   <url><loc>https://ugabuga.co.il/tools/truth-or-buga</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/tools/buga-town</loc><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/tools/escape-rooms</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/1YnuhkZy1Nk/hqdefault.jpg</video:thumbnail_loc><video:title>העוגה נעלמה! חדר בריחה מודפס לילדים</video:title><video:description>חדר בריחה שמדפיסים בבית: מסתירים את הרמזים, והילדים פותרים חידות עד שמוצאים את העוגה — משחק מוכן ליום הולדת, לחופש או לכיתה.</video:description><video:player_loc>https://www.youtube.com/embed/1YnuhkZy1Nk</video:player_loc><video:publication_date>2026-10-27T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/secret-codes</loc><lastmod>2026-11-05</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/bingo-maker</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/emoji-studio</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/tools/word-search-maker</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
@@ -1204,6 +1205,31 @@
   <url><loc>https://ugabuga.co.il/printables/color-by-number/fox</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--color-by-number--fox.jpg</image:loc><image:title>צביעה לפי מספרים: שועל — דף להדפסה</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/castle</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--color-by-number--castle.jpg</image:loc><image:title>צביעה לפי מספרים: טירה — דף להדפסה</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-number/fireworks</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--color-by-number--fireworks.jpg</image:loc><image:title>צביעה לפי מספרים: זיקוקים — דף להדפסה</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandalas</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/heart</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/star</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/chick</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/rainbow</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/crown</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/panda</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/soccer-ball</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/robot</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/unicorn</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/dinosaur</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/shark</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/elephant</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mermaid</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/dragon</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/peacock</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/astronaut</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-star</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-flower</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-sun</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-snowflake</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-rose</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-peacock</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-sunset</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/color-by-number/mandala-garden</loc><lastmod>2026-11-05</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-answer</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-answer/addition-10</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--color-by-answer--addition-10.jpg</image:loc><image:title>צביעה לפי תשובות: חיבור עד 10 — דף להדפסה</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/color-by-answer/subtraction-10</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--color-by-answer--subtraction-10.jpg</image:loc><image:title>צביעה לפי תשובות: חיסור עד 10 — דף להדפסה</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.7</priority></url>
