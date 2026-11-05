@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1400" viewBox="0 0 900 700" role="img" aria-label="ברז מעל כוס 1, וצינורות שמחברים שש כוסות">
+  <rect width="900" height="700" rx="28" fill="#ffffff"/>
+  <!-- the tap and the water going into cup 1 -->
+  <rect x="381" y="0" width="48" height="30" rx="6" fill="#686d87"/>
+  <rect x="397" y="30" width="16" height="146" fill="#2aa6ea"/>
+  <rect x="379" y="172" width="142" height="14" fill="#2aa6ea"/>
+  <!-- the cups -->
+  <g fill="#f4fbff" stroke="#14162d" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill-opacity="0.35">
+    <path d="M375 60 V178 Q375 190 387 190 H513 Q525 190 525 178 V60"/>
+    <path d="M110 280 V398 Q110 410 122 410 H248 Q260 410 260 398 V280"/>
+    <path d="M640 280 V398 Q640 410 652 410 H778 Q790 410 790 398 V280"/>
+    <path d="M20 540 V658 Q20 670 32 670 H158 Q170 670 170 658 V540"/>
+    <path d="M375 540 V658 Q375 670 387 670 H513 Q525 670 525 658 V540"/>
+    <path d="M730 540 V658 Q730 670 742 670 H868 Q880 670 880 658 V540"/>
+  </g>
+  <!-- the pipes: an outline and the hollow inside -->
+  <g fill="none" stroke="#14162d" stroke-width="36" stroke-linejoin="round">
+    <path id="p1" d="M379 150 H185 V262"/>
+    <path id="p2" d="M521 95 H715 V262"/>
+    <path id="p3" d="M185 406 V465 H95 V522"/>
+    <path id="p4" d="M256 345 H410 V522"/>
+    <path id="p5" d="M644 320 H490 V522"/>
+    <path id="p6" d="M715 406 V465 H805 V522"/>
+  </g>
+  <g fill="none" stroke="#dff3ff" stroke-width="22" stroke-linejoin="round">
+    <path d="M372 150 H185 V263"/>
+    <path d="M528 95 H715 V263"/>
+    <path d="M185 400 V465 H95 V523"/>
+    <path d="M250 345 H410 V523"/>
+    <path d="M650 320 H490 V523"/>
+    <path d="M715 400 V465 H805 V523"/>
+  </g>
+  <!-- two of the pipes are closed from the inside -->
+  <rect x="272" y="132" width="16" height="36" fill="#14162d"/>
+  <rect x="752" y="447" width="16" height="36" fill="#14162d"/>
+  <!-- the numbers -->
+  <g fill="#14162d" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="700" text-anchor="middle">
+    <text x="472" y="150">1</text>
+    <text x="185" y="372">2</text>
+    <text x="715" y="372">3</text>
+    <text x="95" y="630">4</text>
+    <text x="450" y="630">5</text>
+    <text x="805" y="630">6</text>
+  </g>
+</svg>

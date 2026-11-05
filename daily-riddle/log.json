@@ -33,5 +33,24 @@
     },
     "youtube": "https://youtube.com/shorts/u4Zfm0Ba5Ac",
     "site": "https://ugabuga.co.il/riddles/shilshom"
+  },
+  {
+    "date": "2026-11-05",
+    "n": 3,
+    "id": "first-full-cup",
+    "answer": "כוס 5",
+    "kind": "image",
+    "type": "אשליה / שאלת תפיסה",
+    "posted": true,
+    "networks": [
+      "instagram",
+      "facebook",
+      "whatsapp-channel"
+    ],
+    "skipped": {
+      "youtube": "Google asked to choose an account: every account shows as signed out in this Chrome, no password was typed",
+      "tiktok": "the post was ready, but 'לפרסם' raised an identity check by code to h***@gmail.com; nothing published"
+    },
+    "site": "https://ugabuga.co.il/riddles/first-full-cup"
   }
 ]

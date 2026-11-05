@@ -30,6 +30,7 @@ const out = path.join(ROOT, 'work', `daily-riddle-${date}`);
 fs.mkdirSync(out, { recursive: true });
 for (const d of ['engine', 'fonts', 'img']) fs.cpSync(path.join(ROOT, 'template', d), path.join(out, d), { recursive: true });
 for (const f of ['score.js', 'film.js', 'song.js']) fs.copyFileSync(path.join(HERE, f), path.join(out, f));
+if (riddle.image) fs.copyFileSync(path.join(HERE, 'img', riddle.image), path.join(out, 'img', riddle.image));
 fs.copyFileSync(path.join(ROOT, 'template', 'package.json'), path.join(out, 'package.json'));
 const data = { ...riddle, n: entry.n, date }; // no prev: the video never shows an earlier answer
 fs.writeFileSync(path.join(out, 'riddle.js'),
@@ -43,15 +44,15 @@ fs.writeFileSync(path.join(out, 'index.html'), html);
 // ---------- captions ----------
 const up = path.join(ROOT, 'uploads', 'daily-riddle', date);
 fs.mkdirSync(up, { recursive: true });
-const question = riddle.kind === 'text' ? riddle.lines.join(' ').replace(/\s+/g, ' ') : `${riddle.title}\n${(riddle.items || riddle.lines).join(riddle.kind === 'seq' ? ' · ' : '\n')}`;
+const question = riddle.kind === 'text' || riddle.kind === 'image' ? riddle.lines.join(' ').replace(/\s+/g, ' ') : `${riddle.title}\n${(riddle.items || riddle.lines).join(riddle.kind === 'seq' ? ' · ' : '\n')}`;
 // No answer anywhere in the captions (not today's, not yesterday's): the solution is only on the riddle's page.
 const link = `ugabuga.co.il/riddles/${riddle.id}`;
 const tags = '#חידה #חידות #חידהיומית #חידותלילדים #עוגהבוגה';
 const main = `🧠 החידה היומית #${entry.n}: ${question.replace(/\n/g, ' ')}\nיש לכם 10 שניות ⏱️\n\n✍️ כתבו את התשובה בתגובות 👇\n👍 לייק אם פתרתם\n📣 שתפו ותייגו חבר שלא יפתור\n\nהפתרון באתר 👉 ${link}\n🗓️ חידה חדשה כל יום ב־14:00\n\n${tags}`;
 const yt = `החידה היומית #${entry.n} 🧠 ${riddle.title} — יש לכם 10 שניות! #shorts`;
-// YouTube "made for kids": comments are off, so no "write in the comments"
-const ytDesc = `🧠 החידה היומית #${entry.n}: ${question.replace(/\n/g, ' ')}\nיש לכם 10 שניות ⏱️ — נסו לפתור לפני שנגמר הזמן 👀\n\nהפתרון באתר 👉 https://${link}\n📣 שתפו עם חבר שלא יפתור\n🗓️ חידה חדשה כל יום ב־14:00\n\n${tags}`;
+// YouTube "not made for kids" (owner, 2026-11-04): comments are open, so the same call to answer in the comments
+const ytDesc = `🧠 החידה היומית #${entry.n}: ${question.replace(/\n/g, ' ')}\nיש לכם 10 שניות ⏱️\n\n✍️ כתבו את התשובה בתגובות 👇\n👍 לייק אם פתרתם\n📣 שתפו ותייגו חבר שלא יפתור\n\nהפתרון באתר 👉 https://${link}\n🗓️ חידה חדשה כל יום ב־14:00\n\n${tags}`;
 fs.writeFileSync(path.join(up, 'captions.md'),
-  `=== כיתוב ראשי (פייסבוק / טיקטוק / ערוץ הוואטסאפ) ===\n${main}\n\n=== אינסטגרם ===\n${main}\n\n=== יוטיוב — כותרת ===\n${yt}\n\n=== יוטיוב — תיאור (סרטון לילדים: התגובות כבויות) ===\n${ytDesc}\n`);
+  `=== כיתוב ראשי (פייסבוק / טיקטוק / ערוץ הוואטסאפ) ===\n${main}\n\n=== אינסטגרם ===\n${main}\n\n=== יוטיוב — כותרת ===\n${yt}\n\n=== יוטיוב — תיאור ===\n${ytDesc}\n`);
 
 console.log(JSON.stringify({ date, n: entry.n, id: entry.id, answer: entry.answer, dir: out, captions: path.join(up, 'captions.md'), riddlesLeft: left }));
