@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
+import QrAnswers from '../../components/ui/QrAnswers'
+import { useQrLanding } from '../../utils/qrLanding'
+import { qrOffer } from '../../data/printMessages'
 import HolidayShell from '../../components/holidays/HolidayShell'
 
 // "What next" strip under the print grid: most visits to these pages ended right after the print (the tab row is
@@ -26,9 +29,14 @@ function NextSteps({ h, current }) {
 export default function HolidayPrintables({ h, kind }) {
   const c = h.printables[kind]
   const [print, setPrint] = useState(null)
+  const qr = useQrLanding()
+  const nextUp = qr && c.list.find(item => item.id === qr.get('next'))
+  // Each printed sheet points at the one after it; the last leads back to the first.
+  const seriesOf = item => { const next = c.list[(c.list.indexOf(item) + 1) % c.list.length]; return c.list.length > 1 && /^[a-z0-9_-]+$/i.test(next.id) ? qrOffer('series', `${h.base}/${kind}`, `next=${next.id}`) : {} }
   return (
     <HolidayShell h={h} crumb={c.crumb}>
       <SEO title={c.title} description={c.desc} path={`${h.base}/${kind}`} structuredData={faqSchema(c.faq)} />
+      {nextUp && <QrAnswers title={`🖍️ הדף הבא בסדרה: ${nextUp.name}`}><div className="mx-auto mb-3 aspect-[600/820] w-48 rounded-xl border-2 border-[var(--border)] bg-white p-2"><nextUp.C /></div><p className="text-center"><button type="button" onClick={() => setPrint([nextUp])} className="min-h-[52px] rounded-2xl bg-pink-600 px-8 text-xl font-bold text-white">🖨️ להדפיס את הדף הזה</button></p></QrAnswers>}
       <h1 className="text-4xl sm:text-5xl text-center mb-2">{c.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-5">{c.sub}</p>
       <div className="mb-6 text-center">
@@ -43,7 +51,7 @@ export default function HolidayPrintables({ h, kind }) {
       </div>
       <NextSteps h={h} current={`${h.base}/${kind}`} />
       <SeoBody paragraphs={c.body} faq={c.faq} related={c.related} />
-      {print && <PrintPreview title={c.crumb + ' ל' + h.name} onClose={() => setPrint(null)}>{print.map(item => <article className="buga-a4" key={item.id}><div className="print-art"><item.C /></div></article>)}</PrintPreview>}
+      {print && <PrintPreview title={c.crumb + ' ל' + h.name} onClose={() => setPrint(null)}>{print.map(item => <article className="buga-a4" key={item.id} {...seriesOf(item)}><div className="print-art"><item.C /></div></article>)}</PrintPreview>}
     </HolidayShell>
   )
 }

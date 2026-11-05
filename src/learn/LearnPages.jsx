@@ -6,9 +6,12 @@ import QuickAnswer from '../components/ui/QuickAnswer'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import SpeakButton from '../components/ui/SpeakButton'
+import QrAnswers from '../components/ui/QrAnswers'
 import NotFound from '../pages/NotFound'
 import { speak, hasVoice } from '../utils/speak'
 import { usePresentMode } from '../utils/presentMode'
+import { useQrLanding } from '../utils/qrLanding'
+import { qrOffer } from '../data/printMessages'
 import { DICTATION, READING, plainWord } from './learnData'
 import { DICTATION_EN } from './dictationEnglish.js'
 import { GRADED_READING, GRADE_WORDS, READING_GRADE_PAGES } from './readingGrades'
@@ -230,7 +233,7 @@ const gradeHref = g => `/learn/reading/grade-${g}`
 function ReadingPrint({ r, v = s => s, answers = true, words = null }) {
   const opens = opensOf(r)
   return <>
-    <article className="buga-flow ln-print" dir="rtl"><h2>{v(r.title)}</h2>
+    <article className="buga-flow ln-print" dir="rtl" {...qrOffer('reading', `/learn/reading/${r.slug}`)}><h2>{v(r.title)}</h2>
       <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>{r.kind}{r.grade ? ` · כיתה ${r.grade}` : ''}</span><span>ציון: ______</span></div>
       <div className="txt">{r.text.map((p, i) => <p key={i}>{v(p)}</p>)}</div>
       {words?.length > 0 && <p className="mt-2 text-sm"><b>מילון:</b> {words.map(([w, m]) => `${w} — ${m}`).join(' · ')}</p>}
@@ -300,7 +303,9 @@ export function ReadingExercise({ r, headingLevel = 2 }) {
   const opens = opensOf(r)
   const score = r.q.filter((q, i) => picks[i] === q[2]).length
   const H = headingLevel === 2 ? 'h2' : 'h3'
+  const qr = useQrLanding()
   return <>
+    {qr?.get('show') === 'answers' && <QrAnswers title={`✅ התשובות של הדף: ${r.title}`} note="בדקו מול מה שסימנתם על הדף. את הקטע והשאלות אפשר לפתור גם כאן למטה."><ol className="list-decimal space-y-2 pr-6">{r.q.map(([q, opts, c]) => <li key={q}>{q}<br /><b>{opts[c]}</b></li>)}{opens.map(([q, a]) => <li key={q}>{q}<br />{a ? <><b>תשובה אפשרית:</b> {a}</> : <i>תשובה פתוחה, כל נימוק טוב מתקבל</i>}</li>)}</ol></QrAnswers>}
     <div className="mb-3 flex flex-wrap justify-center gap-2"><Chip on={big} onClick={() => setBig(!big)}>🔍 אותיות גדולות</Chip><Chip on={nikud} onClick={() => setNikud(!nikud)}>🔤 עם ניקוד</Chip>{r.words?.length > 0 && <Chip on={dictOn} onClick={toggleDict}>📖 מילון {dictOn ? 'מופעל' : 'כבוי'}</Chip>}<button type="button" className="ln-chip" onClick={() => setPrinting(true)}>🖨️ להדפסה עם דף תשובות</button></div>
     {nikudState === 'loading' && <p className="mb-2 text-center" role="status">מנקדים את הקטע…</p>}
     {nikudState === 'error' && <p className="mb-2 text-center" role="alert">הניקוד לא זמין כרגע. נסו שוב בעוד רגע.</p>}

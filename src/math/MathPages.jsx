@@ -5,6 +5,9 @@ import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import PlannerBanner from '../components/ui/PlannerBanner'
+import QrAnswers from '../components/ui/QrAnswers'
+import { useQrLanding, qrNumber } from '../utils/qrLanding'
+import { qrOffer } from '../data/printMessages'
 import NotFound from '../pages/NotFound'
 import {
   GRADES, KINDERGARTEN, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
@@ -203,9 +206,9 @@ function PrintItem({ ex }) {
       : <p className="mth-pline">תשובה: <span /> {ex.unit || ''}</p>}
   </div>
 }
-function PrintSheets({ title, sub, items }) {
+function PrintSheets({ title, sub, items, offer }) {
   return <>
-    <article className="buga-flow mth-print" dir="rtl">
+    <article className="buga-flow mth-print" dir="rtl" {...offer}>
       <h2>{title}</h2>
       <p className="mth-pmeta"><span>שם: ____________</span><span>תאריך: ________</span><span>ציון: ____ / {items.length}</span></p>
       {sub && <p className="mth-psub">{sub}</p>}
@@ -416,9 +419,14 @@ function TopicPage({ topic }) {
   const [level, setLevel] = useState(1)
   const [mode, setMode] = useState('practice')
   const [quiz, setQuiz] = useState(null) // { items, key }
-  const [print, setPrint] = useState(null) // { items, seed }
+  const [print, setPrint] = useState(null) // { items, level, seed }
   const startQuiz = () => setQuiz({ items: makeWorksheet(topic, level, 10, newSeed()), key: newSeed() })
-  const openPrint = (lv = level) => setPrint({ items: makeWorksheet(topic, lv, 20, newSeed()), level: lv })
+  const openPrint = (lv = level) => { const seed = newSeed(); setPrint({ items: makeWorksheet(topic, lv, 20, seed), level: lv, seed }) }
+  // The sheet's address: level and seed rebuild exactly these exercises (a sheet printed from a quiz has neither).
+  const sheetOffer = (lv, seed) => (seed ? qrOffer('math', topicPath(topic), `l=${lv}&s=${seed}`) : undefined)
+  const qr = useQrLanding()
+  const qrLevel = qr?.get('show') === 'answers' ? qrNumber(qr, 'l', 1, topic.levels.length) : null, qrSeed = qrNumber(qr, 's', 1, 2 ** 31)
+  const solved = useMemo(() => (qrLevel && qrSeed ? makeWorksheet(topic, qrLevel, 20, qrSeed) : null), [topic, qrLevel, qrSeed])
   const siblings = topicsFor(topic.grade).filter(t => t.slug !== topic.slug)
   const h1 = topicH1(topic, g)
   const ctx = useMemo(() => topicContext(topic), [topic])
@@ -444,6 +452,8 @@ function TopicPage({ topic }) {
       <h1 className="mt-2 text-3xl sm:text-5xl">{h1}</h1>
       <p className="mt-2 font-bold text-[var(--muted-foreground)]">{STRANDS[topic.strand]?.label} · {g.stageLabel}</p>
     </header>
+
+    {solved && <div className="mt-6"><QrAnswers title="✅ הפתרון של הדף שהדפסתם" note="כל תרגיל בסדר שלו בדף, עם התשובה וההסבר."><ol className="mth-review">{solved.map((ex, k) => <SolvedItem key={k} ex={ex} />)}</ol></QrAnswers></div>}
 
     <section className="ln-box mth-explainer mt-6" aria-labelledby="exp-h">
       <h2 id="exp-h" className="text-2xl font-black">💡 מה צריך לדעת</h2>
@@ -485,8 +495,8 @@ function TopicPage({ topic }) {
     </div>
 
     {print && <PrintPreview title={`${topic.title} — ${gradeName(g)}`} onClose={() => setPrint(null)} onRefresh={() => openPrint(print.level)}
-      variant={() => <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={makeWorksheet(topic, print.level, 20, newSeed())} />}>
-      <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={print.items} />
+      variant={() => { const seed = newSeed(); return <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={makeWorksheet(topic, print.level, 20, seed)} offer={sheetOffer(print.level, seed)} /> }}>
+      <PrintSheets title={`${topic.title} — ${gradeName(g)}`} sub={`רמה ${print.level}: ${topic.levels[print.level - 1]}`} items={print.items} offer={sheetOffer(print.level, print.seed)} />
     </PrintPreview>}
 
     <section className="no-print mt-10" aria-labelledby="more-h">
@@ -522,7 +532,11 @@ function TestPage({ n }) {
   const [quiz, setQuiz] = useState(null)
   const [print, setPrint] = useState(null)
   const start = () => setQuiz({ items: makeTest(n, count, newSeed(), level), key: newSeed() })
-  const openPrint = (items = makeTest(n, count, newSeed(), level)) => setPrint({ items })
+  const openPrint = (items, seed = newSeed()) => setPrint({ items: items || makeTest(n, count, seed, level), seed: items ? null : seed, level, count })
+  const sheetOffer = (p, seed) => (seed ? qrOffer('math', g.testPath, `c=${p.count}&l=${p.level}&s=${seed}`) : undefined)
+  const qr = useQrLanding()
+  const qrCount = qr?.get('show') === 'answers' ? qrNumber(qr, 'c', 10, 20) : null, qrLevel = qrNumber(qr, 'l', 0, 3), qrSeed = qrNumber(qr, 's', 1, 2 ** 31)
+  const solved = useMemo(() => (qrCount && qrLevel !== null && qrSeed ? makeTest(n, qrCount, qrSeed, qrLevel) : null), [n, qrCount, qrLevel, qrSeed])
   const seo = testSeo(g)
   const h1 = seo.h1
   const lvLabel = TEST_LEVELS.find(l => l.v === level).label.replace(/^\S+ /, '')
@@ -544,6 +558,7 @@ function TestPage({ n }) {
       <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של {gradeName(g)}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
     </header>
 
+    {solved && <div className="mt-6"><QrAnswers title="✅ הפתרון של המבחן שהדפסתם" note="כל שאלה בסדר שלה בדף, עם התשובה וההסבר."><ol className="mth-review">{solved.map((ex, k) => <SolvedItem key={k} ex={ex} />)}</ol></QrAnswers></div>}
     {!quiz && <section className="ln-box mt-6 space-y-4 text-center" aria-label="הגדרות המבחן">
       <div><p className="font-bold m-0 mb-2">רמת קושי</p><div className="flex flex-wrap justify-center gap-2" role="group" aria-label="רמת קושי">{TEST_LEVELS.map(l => <Chip key={l.v} on={level === l.v} onClick={() => setLevel(l.v)}>{l.label}</Chip>)}</div></div>
       <div><p className="font-bold m-0 mb-2">מספר שאלות</p><div className="flex flex-wrap justify-center gap-2" role="group" aria-label="מספר שאלות">{[10, 20].map(c => <Chip key={c} on={count === c} onClick={() => setCount(c)}>{c} שאלות</Chip>)}<Chip on={timer} onClick={() => setTimer(!timer)}>⏱️ שעון {timer ? 'פועל' : 'כבוי'}</Chip></div></div>
@@ -555,8 +570,8 @@ function TestPage({ n }) {
     </div>}
 
     {print && <PrintPreview title={h1} onClose={() => setPrint(null)} onRefresh={() => openPrint()}
-      variant={() => <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${count} שאלות`} items={makeTest(n, count, newSeed(), level)} />}>
-      <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${print.items.length} שאלות`} items={print.items} />
+      variant={() => { const seed = newSeed(); return <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${count} שאלות`} items={makeTest(n, count, seed, level)} offer={sheetOffer(print, seed)} /> }}>
+      <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${print.items.length} שאלות`} items={print.items} offer={sheetOffer(print, print.seed)} />
     </PrintPreview>}
 
     {!quiz && sample.length > 0 && <section className="ln-box mt-8" aria-labelledby="sample-h">

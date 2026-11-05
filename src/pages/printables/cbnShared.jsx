@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnAnswers, cbnMathGrid, cbnPath } from '../../data/colorByNumber'
 import { thumbnailPaths } from '../../data/cbnThumbnail'
+import { qrOffer } from '../../data/printMessages'
 import './color-by-number.css'
 
 // Shared pieces of the color-by-number family: /printables/color-by-number (numbers + the picture's
@@ -72,7 +73,7 @@ export function Sheet({ p, mode, title, how, cells, tags, footer = 'צביעה �
   const level = cbnLevel(p.level)
   const t = title || (mode === 'solution' ? `פתרון: ${p.name}` : mode === 'math' ? `צביעה לפי תרגילים — ${level.mathLabel}` : 'צביעה לפי מספרים')
   const h = how || (mode === 'math' ? 'פותרים את התרגיל בכל משבצת, מוצאים את התשובה במקרא וצובעים בצבע שלה.' : 'צובעים כל משבצת בצבע של המספר שלה לפי המקרא — ומגלים מה מסתתר בציור.')
-  return <article className="buga-a4 cbn-sheet">
+  return <article className="buga-a4 cbn-sheet" {...(mode === 'solution' ? {} : qrOffer('color', cbnPath(p)))}>
     <h2>{t}</h2>
     {mode !== 'solution' && <>
       <p className="art-caption cbn-caption"><span>{h}</span><span className="cbn-name">שם: ______________</span></p>

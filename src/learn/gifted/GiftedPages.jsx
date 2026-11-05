@@ -4,6 +4,9 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import QrAnswers from '../../components/ui/QrAnswers'
+import { useQrLanding, qrNumber } from '../../utils/qrLanding'
+import { qrOffer } from '../../data/printMessages'
 import NotFound from '../../pages/NotFound'
 import { TYPES, LEVELS, explain, describeCell } from './giftedData'
 import { GRADE_SETS } from './giftedGrades'
@@ -288,9 +291,9 @@ export function GiftedType() {
 
 // ── grade spokes: /learn/gifted-test/grade-2, grade-3, grade-6, stage-b ──
 const gradeName = x => `מבחן מחוננים ${x.label}`
-function MixedPrint({ title, items, from }) {
+function MixedPrint({ title, items, from, path }) {
   return <>
-    <article className="buga-flow ln-print gt-print" dir="rtl">
+    <article className="buga-flow ln-print gt-print" dir="rtl" {...qrOffer('gifted', path, `set=${from}`)}>
       <h2>{title} — שאלות {from + 1}–{from + items.length}</h2>
       <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span><span>הצלחתי: ____ מתוך {items.length}</span></div>
       <p className="gt-print-how">מקיפים את האות של התשובה הנכונה. מותר לצייר ולחשב בצד הדף.</p>
@@ -309,14 +312,18 @@ export function GiftedGrade({ slug }) {
   const g = GRADE_SETS.find(x => x.slug === slug)
   const [count, setCount] = useState(10)
   const [printFrom, setPrintFrom] = useState(null)
+  const qr = useQrLanding()
   if (!g) return <NotFound />
   const txt = GRADE_TEXT[g.slug]
   const sets = Array.from({ length: Math.ceil(g.pool.length / 10) }, (_, i) => i * 10)
   const countOf = k => g.pool.filter(p => p.type === k).length
   const last = f => Math.min(f + 10, g.pool.length)
+  const qrSet = qr?.get('show') === 'answers' ? qrNumber(qr, 'set', 0, g.pool.length - 1) : null
+  const shownSet = qrSet !== null && qrSet % 10 === 0 ? qrSet : null
   return <Page>
     <SEO title={txt.seoTitle} description={txt.seoDesc} path={`${HUB}/${g.slug}`} structuredData={faqSchema(txt.faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, HUB_CRUMB, { label: g.label }]} />
+    {shownSet !== null && <QrAnswers title={`💡 תשובות והסברים: שאלות ${shownSet + 1}–${last(shownSet)}`} note="האות היא התשובה הנכונה. אחריה מופיע ההסבר."><ol className="gt-print-key">{g.pool.slice(shownSet, shownSet + 10).map(({ type, item }, i) => <li key={item.id} value={shownSet + i + 1}><b>{LETTERS[item.answer]}</b> — {explain(type, item)}</li>)}</ol></QrAnswers>}
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">{g.emoji} </span>{txt.h1}</h1>
     <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-4">{g.pool.length} שאלות תרגול · רמה: {g.levels.map(l => LEVELS[l]).join(' ו')}</p>
     <p className="text-lg leading-relaxed mb-4">{txt.intro}</p>
@@ -332,7 +339,7 @@ export function GiftedGrade({ slug }) {
       <p className="mb-3">בכל דף 10 שאלות מעורבבות מכל הסוגים, ואחריו דף תשובות עם הסבר לכל שאלה.</p>
       <div className="flex flex-wrap justify-center gap-2">{sets.map(f => <button key={f} type="button" className="ln-btn alt" onClick={() => setPrintFrom(f)}>שאלות {f + 1}–{last(f)}</button>)}</div>
     </div>
-    {printFrom !== null && <PrintPreview title={`${gradeName(g)} — שאלות ${printFrom + 1}–${last(printFrom)}`} onClose={() => setPrintFrom(null)}><MixedPrint title={`תרגול ל${gradeName(g)}`} items={g.pool.slice(printFrom, printFrom + 10)} from={printFrom} /></PrintPreview>}
+    {printFrom !== null && <PrintPreview title={`${gradeName(g)} — שאלות ${printFrom + 1}–${last(printFrom)}`} onClose={() => setPrintFrom(null)}><MixedPrint title={`תרגול ל${gradeName(g)}`} items={g.pool.slice(printFrom, printFrom + 10)} from={printFrom} path={`${HUB}/${g.slug}`} /></PrintPreview>}
     <h2 className="mt-10 mb-3 text-3xl font-black">{g.slug.startsWith('stage') ? `מה זה ${g.label}?` : `איך נראה המבחן ב${g.label}?`}</h2>
     <div className="space-y-3 text-lg leading-relaxed">{txt.about.map(p => <p key={p}>{p}</p>)}</div>
     <h2 className="mt-10 mb-3 text-2xl font-black">תרגול לפי סוג שאלה</h2>

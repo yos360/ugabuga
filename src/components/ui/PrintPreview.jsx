@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { pickQrVariant, qrShortUrl } from '../../data/printMessages'
+import { pickQrVariant, qrForSheet } from '../../data/printMessages'
 import { recordQrVariant } from '../../utils/qrVariants'
 import { recordExperiment } from '../../utils/experiments'
 import PrintAsk from './PrintAsk'
@@ -19,19 +19,35 @@ import { loadClassSize, saveClassSize, clampClassSize, countOptions, CLASS_MIN, 
 // individual worksheet component.
 // The QR badge: Hebrew prints carry one of the rotating messages in printMessages.js (the same one on
 // every page of this print); `utm_content` tells the owner report which message brought the scan.
-function stampQrCodes(root, en = false, variant = null){
+// A sheet that offers something for the scan (qrOffer in printMessages.js) gets its own message and link.
+const QR_OPTIONS={type:'svg',margin:2,color:{dark:'#181828',light:'#ffffff'}}
+const printedSheets=root=>[...root.querySelectorAll('.buga-a4, .buga-flow')]
+function sheetQr(page,en,variant,arm){
+  return en?{variant:null,url:`${location.origin}${location.pathname}?utm_source=qr&utm_medium=print`}:qrForSheet(page.dataset,arm,variant,location.origin,location.pathname)
+}
+function stampQrCodes(root, en = false, variant = null, arm = 'control'){
   if(!root)return
-  const url=variant?qrShortUrl(location.origin,location.pathname,variant):`${location.origin}${location.pathname}?utm_source=qr&utm_medium=print`
-  import('qrcode').then(({default:QRCode})=>QRCode.toString(url,{type:'svg',margin:2,color:{dark:'#181828',light:'#ffffff'}}))
-    .then(svg=>{
-      root.querySelectorAll('.buga-a4, .buga-flow').forEach(page=>{
-        if(page.querySelector('.buga-qr'))return
+  const urls=[...new Set(printedSheets(root).map(page=>sheetQr(page,en,variant,arm).url))]
+  import('qrcode').then(({default:QRCode})=>Promise.all(urls.map(url=>QRCode.toString(url,QR_OPTIONS).then(svg=>[url,svg]))))
+    .then(made=>{
+      const svgs=new Map(made)
+      printedSheets(root).forEach(page=>{
+        // "New exercises" reuses the same sheet element with new content: its code must follow.
+        const {url,variant:v}=sheetQr(page,en,variant,arm),old=page.querySelector('.buga-qr'),svg=svgs.get(url)
+        if(!svg||old?.dataset.url===url)return
+        old?.remove()
         const badge=document.createElement('div')
         badge.className='buga-qr'
-        badge.innerHTML=en ? `${svg}<span class="buga-qr-text" dir="ltr"><b>Ugabuga — free learning activities</b><span>Scan for more · ugabuga.co.il/en</span></span>` : `${svg}<span class="buga-qr-text" dir="rtl"><b>${variant.title}</b><span>${variant.line}</span></span>`
+        badge.dataset.url=url
+        badge.innerHTML=en ? `${svg}<span class="buga-qr-text" dir="ltr"><b>Ugabuga — free learning activities</b><span>Scan for more · ugabuga.co.il/en</span></span>` : `${svg}<span class="buga-qr-text" dir="rtl"><b>${v.title}</b><span>${v.line}</span></span>`
         page.appendChild(badge)
       })
     }).catch(()=>{})
+}
+// The message counted for a print: the offer's, when the print has a sheet with one.
+const printedVariant=(root,qr,arm)=>{
+  const page=root&&printedSheets(root).find(el=>el.dataset.qrOffer)
+  return page?qrForSheet(page.dataset,arm,qr,location.origin,location.pathname).variant:qr
 }
 
 // Narrow screens (phones): sheets are laid out at this width and zoomed down to fit the dialog,
@@ -79,8 +95,8 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
   const sets=[children,...Array.from({length:count-1},(_,i)=>variant?extras[i]:children)]
   const body=sets.map((set,i)=><Fragment key={i}>{set}</Fragment>)
   useEffect(()=>{const previous=document.activeElement;dialog.current?.showModal();recordPreviewOpen();return()=>previous?.focus?.()},[])
-  const [qr]=useState(()=>en?null:pickQrVariant())
-  useEffect(()=>{stampQrCodes(dialog.current,en,qr);stampQrCodes(root.current,en,qr)},[children,count,extras,en,qr])
+  const [qr]=useState(()=>en?null:pickQrVariant()),[arm]=useState(()=>Math.random()<.5?'fresh':'control')
+  useEffect(()=>{stampQrCodes(dialog.current,en,qr,arm);stampQrCodes(root.current,en,qr,arm)},[children,count,extras,en,qr,arm])
   useEffect(()=>{markPages(pages.current,keepPage,count);markPages(root.current,keepPage,count)},[keepPage,children,count,extras])
   useEffect(()=>{
     const el=pages.current;if(!el)return
@@ -96,7 +112,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     await Promise.allSettled([...imgs,...svgImages].map(img=>img.decode()))
     // Sheets, not clicks: 30 selected coloring pages (or 3 copies of 10) are counted as 30.
     recordSheetAction('print',location.pathname,root.current?.querySelectorAll('.buga-a4:not(.buga-skip), .buga-flow:not(.buga-skip)').length||null)
-    if(qr)recordQrVariant(qr.id,'printed',location.pathname)
+    if(qr)recordQrVariant(printedVariant(root.current,qr,arm).id,'printed',location.pathname)
     recordExperiment('print')
     if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('print',sheetText(dialog.current||root.current))
     window.print()
@@ -113,7 +129,7 @@ export default function PrintPreview({title,children,onClose,onRefresh,variant,c
     if(result?.status==='needs-browser'){setNeedsBrowser(true);return}
     setNeedsBrowser(false)
     if(result?.status==='prepared')setPreparedPdf({...result,children,count,extras})
-    recordSheetAction('download',sourcePath,sheets.length||null);if(qr)recordQrVariant(qr.id,'printed',sourcePath);recordExperiment('print');if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
+    recordSheetAction('download',sourcePath,sheets.length||null);if(qr)recordQrVariant(printedVariant(root.current,qr,arm).id,'printed',sourcePath);recordExperiment('print');if(creatorTool(location.pathname)&&location.pathname!=='/invitation')recordCreation('pdf',sheetText(dialog.current||root.current))
     setDone(true)
     announcePrint('pdf',{title})
   }catch{setError(en?'We could not create the PDF. Try again, or use Print.':'לא הצלחנו ליצור PDF. נסו שוב, או השתמשו בכפתור ההדפסה.')}finally{setPdf('')}}

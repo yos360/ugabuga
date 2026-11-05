@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { isPreviousPage } from '../../utils/navMemory'
 import SEO from '../../components/ui/SEO'
@@ -8,6 +8,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { CBN_PICTURES, CBN_LEVELS, CBN_THEMES, cbnBySlug, cbnLevel, cbnSize, cbnLegend, cbnGrid, cbnPath, cbnInTheme } from '../../data/colorByNumber'
 import { CbnSvg, Legend, sheetsFor, PictureCard, cellKey as key } from './cbnShared'
+import { useQrLanding } from '../../utils/qrLanding'
 
 // /printables/color-by-number — pixel pictures to color by number (or by exercise), each with
 // its own indexable page, print sheets with a solution page, and online coloring by tapping cells.
@@ -120,6 +121,13 @@ export function ColorByNumberPicture() {
   const [printing, setPrinting] = useState(null)
   const [withSolution, setWithSolution] = useState(true)
   const grid = useMemo(() => (p ? cbnGrid(p) : []), [p])
+  const qr = useQrLanding(), board = useRef(null), fromQr = qr?.get('show') === 'answers'
+  useEffect(() => { // after the route's own jump to the top
+    if (!fromQr) return undefined
+    setReveal(true) // eslint-disable-line react-hooks/set-state-in-effect
+    const t = setTimeout(() => board.current?.scrollIntoView({ block: 'center', behavior: 'instant' }), 250)
+    return () => clearTimeout(t)
+  }, [fromQr])
   if (!p) return <NotFound />
   const level = cbnLevel(p.level), { cols, rows } = cbnSize(p)
   const total = grid.flat().filter(n => n > 0).length
@@ -151,7 +159,8 @@ export function ColorByNumberPicture() {
       </div>
       <p className="cbn-hint">בוחרים צבע במקרא ולוחצים על המשבצות כדי לצבוע אונליין.</p>
       <Legend p={p} mode={mode} active={active} onPick={setActive} />
-      <div className="cbn-board wobbly-md">
+      {fromQr && reveal && <p className="cbn-hint" role="status">🎨 כך הציור נראה בסוף. השוו אותו לדף שצבעתם!</p>}
+      <div className="cbn-board wobbly-md" ref={board}>
         <CbnSvg p={p} mode={reveal ? 'solution' : mode} fills={fills} onPaint={reveal ? null : paint} label={`${p.name} — צביעה ${mode === 'math' ? 'לפי תרגילים' : 'לפי מספרים'}`} />
       </div>
       <div className="cbn-tools">

@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import QrAnswers from '../../components/ui/QrAnswers'
+import { useQrLanding, qrNumber } from '../../utils/qrLanding'
+import { qrOffer } from '../../data/printMessages'
 import { ExerciseSheet, PathSheet } from '../../components/math/MathSheet'
 import { exercises, paths, newSeed } from '../../utils/mathSheets'
 import { nearby } from '../../utils/nearby'
@@ -92,6 +95,8 @@ const PRESETS = {
   ...TABLE_PRESETS,
 }
 
+// Order is part of printed QR codes: only add to the end.
+const OP_CODES = ['+', '-', 'mix', 'x', '÷']
 const TYPES = [['regular', 'תרגילים רגילים'], ['missing', 'מספר חסר'], ['vertical', 'במאונך'], ['pictures', 'עם ציורים (עד 10)']]
 const OPS = [['+', 'חיבור'], ['-', 'חיסור'], ['mix', 'חיבור וחיסור']]
 const VARIANTS = [['numbers', 'משלימים מספרים'], ['ops', 'משלימים פעולות'], ['mixed', 'משולב']]
@@ -147,6 +152,19 @@ export default function MathWorksheets({ preset: fixedPreset }) {
   const [seed, setSeed] = useState(newSeed)
   const [print, setPrint] = useState(false)
   const isPaths = p?.mode === 'paths', isTable = p?.mode === 'table'
+  // A printed sheet's QR rebuilds that very sheet from its settings and seed, and shows it solved.
+  const qr = useQrLanding(), fromQr = qr?.get('show') === 'answers' && qrNumber(qr, 's', 1, 1e12) !== null
+  useEffect(() => {
+    if (!fromQr) return
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setSeed(qrNumber(qr, 's', 1, 1e12))
+    const r = qrNumber(qr, 'r', 10, 100), o = OP_CODES[qrNumber(qr, 'o', 0, OP_CODES.length - 1)], k = TYPES[qrNumber(qr, 'k', 0, TYPES.length - 1)]?.[0], t = qrNumber(qr, 't', 2, 10)
+    if (r) setRange(r)
+    if (o) setOp(o)
+    if (k) setType(k)
+    setTable(t || 'mix')
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, [fromQr, qr])
   const navigate = useNavigate()
   // Back/forward between table pages: the page's own table wins over the last choice.
   const [shownPreset, setShownPreset] = useState(preset)
@@ -169,14 +187,15 @@ export default function MathWorksheets({ preset: fixedPreset }) {
   const make = s => isPaths
     ? paths({ range, count: 7, variant, seed: s })
     : exercises({ range, op, type: effType, count: effType === 'pictures' ? 8 : 20, seed: s, table })
-  const render = (items, answers, key) => <article className="buga-a4" key={key}><div className="print-art">
+  const sheetAddress = s => `s=${s}&r=${range}&o=${OP_CODES.indexOf(op)}&k=${TYPES.findIndex(x => x[0] === effType)}${table === 'mix' ? '' : `&t=${table}`}`
+  const render = (items, answers, key, s) => <article className="buga-a4" key={key} {...(!answers && !isPaths && s ? qrOffer('math', p.path, sheetAddress(s)) : {})}><div className="print-art">
     {isPaths ? <PathSheet items={items} title={sheetTitle} answers={answers} /> : <ExerciseSheet items={items} title={sheetTitle} type={effType} answers={answers} />}
   </div></article>
 
   const preview = useMemo(() => (p ? make(seed) : []), [seed, range, op, effType, variant, isPaths, table]) // eslint-disable-line react-hooks/exhaustive-deps
   const printPages = useMemo(() => {
     if (!print) return []
-    return Array.from({ length: pages }, (_, i) => { const items = i === 0 ? preview : make(seed * 31 + i * 7919); return [render(items, false, 'q' + i), ...(withAnswers ? [render(items, true, 'a' + i)] : [])] }).flat()
+    return Array.from({ length: pages }, (_, i) => { const s = i === 0 ? seed : seed * 31 + i * 7919, items = i === 0 ? preview : make(s); return [render(items, false, 'q' + i, s), ...(withAnswers ? [render(items, true, 'a' + i)] : [])] }).flat()
   }, [print]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const c = MATH_CONTENT[contentSlug(preset)]
@@ -186,6 +205,7 @@ export default function MathWorksheets({ preset: fixedPreset }) {
     <div className="mx-auto max-w-5xl px-4 pt-8 pb-24 buga-fade-in" dir="rtl">
       <SEO title={p.title} description={p.desc} path={p.path} structuredData={c ? [learningResource(p, c, contentSlug(preset)), faqSchema(faq)] : faqSchema(faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'דפים להדפסה', href: '/printables' }, ...(preset === 'hub' ? [] : [{ label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }]), { label: p.crumb }]} />
+      {fromQr && !isPaths && <QrAnswers title="✅ הפתרון של הדף שהדפסתם" note="בדקו מול התשובות שכתבתם על הדף."><div className="mx-auto max-w-xl">{render(preview, true, 'qr')}</div></QrAnswers>}
       <h1 className="text-4xl sm:text-5xl text-center mb-3">{offPage ? `${op === '÷' ? '➗' : '✖️'} ${sheetTitle}` : p.h1}</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">{offPage ? `${op === '÷' ? 'חילוק' : 'כפל'} ב-${table}, מ-1 עד 10 · 20 תרגילים בדף · עם פתרונות` : p.sub}</p>
       {c && <p className="mx-auto mb-6 max-w-3xl text-center text-lg leading-relaxed">{c.intro}</p>}

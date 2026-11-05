@@ -23,21 +23,49 @@ const RETIRED_VARIANTS = [
   { id: 'w2', to: 'channel', title: 'הורים וגננות: דף חדש כל בוקר', line: 'סרקו והצטרפו לערוץ הוואטסאפ — בחינם' },
   { id: 'r3', to: 'request', title: '🎯 רוצים את הדף הזה בנושא אחר?', line: 'סרקו ובקשו — נכין לכם גרסה חדשה, בחינם' },
 ]
-export const qrVariant = id => QR_VARIANTS.find(v => v.id === id) || RETIRED_VARIANTS.find(v => v.id === id)
+// A sheet can offer something real for the scan: the answers to that very sheet, or the next page of
+// its series. Half of the prints show the offer (`fresh`, a QR that carries the sheet's own address),
+// the other half the plain "next page" line and the plain link back (`control`), so each pair measures
+// one thing. Only sheets marked with qrOffer() below get these: never promise answers anywhere else.
+const control = id => ({ id, to: 'page', title: '⏭️ סיימתם? סרקו לדף הבא', line: 'עוד מאות דפים בחינם · ugabuga.co.il' })
+const fresh = (id, title, line, show = 'answers') => ({ id, to: 'page', show, carry: true, title, line })
+export const QR_OFFERS = {
+  reading: { label: 'הבנת הנקרא', fresh: fresh('a1', '✅ סיימתם? סרקו לתשובות של הדף הזה', 'בודקים לבד בטלפון · בחינם · ugabuga.co.il'), control: control('c1') },
+  gifted: { label: 'מחוננים', fresh: fresh('a2', '💡 סרקו לתשובות והסברים של הדף הזה', 'לכל שאלה הסבר קצר · בחינם · ugabuga.co.il'), control: control('c2') },
+  math: { label: 'חשבון', fresh: fresh('a3', '✅ סיימתם? סרקו לפתרון של הדף הזה', 'בודקים לבד בטלפון · בחינם · ugabuga.co.il'), control: control('c3') },
+  color: { label: 'צביעה לפי מספרים', fresh: fresh('a4', '🎨 סיימתם? סרקו וראו את הציור הגמור', 'בודקים בטלפון · בחינם · ugabuga.co.il'), control: control('c4') },
+  series: { label: 'דפים בסדרה', fresh: fresh('a5', '🖍️ אהבתם? סרקו לדף הבא בסדרה', 'הדף הבא מחכה לכם · בחינם · ugabuga.co.il', null), control: control('c5') },
+}
+const OFFER_VARIANTS = Object.values(QR_OFFERS).flatMap(o => [o.fresh, o.control])
+export const qrVariant = id => QR_VARIANTS.find(v => v.id === id) || RETIRED_VARIANTS.find(v => v.id === id) || OFFER_VARIANTS.find(v => v.id === id)
 export const pickQrVariant = (rand = Math.random()) => QR_VARIANTS[Math.floor(rand * QR_VARIANTS.length) % QR_VARIANTS.length]
 
 // The link inside the QR. Request variants open the form with the printed page attached.
-export function qrUrl(origin, pathname, variant) {
-  const tag = `utm_source=qr&utm_medium=print&utm_content=${variant.id}`
+export function qrUrl(origin, pathname, variant, medium = 'print', query = '') {
+  const tag = `utm_source=qr&utm_medium=${medium}&utm_content=${variant.id}`
   if (variant.to === 'channel') return `${origin}/whatsapp?${tag}`
-  return variant.to === 'request' ? `${origin}/request?from=${encodeURIComponent(pathname)}&${tag}` : `${origin}${pathname}?${tag}`
+  const extra = [variant.show && `show=${variant.show}`, variant.carry && query, tag].filter(Boolean).join('&')
+  return variant.to === 'request' ? `${origin}/request?from=${encodeURIComponent(pathname)}&${tag}` : `${origin}${pathname}?${extra}`
 }
 
 // What the QR itself holds: a short link (/p/<id>/<path>) that functions/p/[[path]].js redirects
 // to qrUrl(). Half the characters of the long link, so the printed QR is about half as dense.
-export function qrShortUrl(origin, pathname, variant) {
+export function qrShortUrl(origin, pathname, variant, query = '') {
   if (variant.to === 'channel') return `${origin}/p/${variant.id}`
-  return /^\/[a-z0-9/_-]{0,119}$/i.test(pathname) ? `${origin}/p/${variant.id}${pathname === '/' ? '' : pathname}` : qrUrl(origin, pathname, variant)
+  const tail = variant.carry && query ? `?${query}` : ''
+  return /^\/[a-z0-9/_-]{0,119}$/i.test(pathname) ? `${origin}/p/${variant.id}${pathname === '/' ? '' : pathname}${tail}` : qrUrl(origin, pathname, variant, 'print', query)
+}
+
+// What a sheet says about itself, on its .buga-a4/.buga-flow element: which offer, and where that very
+// sheet lives (it may be one of many printed from a grade page, or generated from a seed).
+export const qrOffer = (kind, path, query = '') => ({ 'data-qr-offer': kind, 'data-qr-path': path, 'data-qr-query': query || undefined })
+
+// The message and link for one printed sheet. `arm` is drawn once per print.
+export function qrForSheet(dataset, arm, fallback, origin, pathname) {
+  const offer = QR_OFFERS[dataset.qrOffer]
+  if (!offer) return { variant: fallback, url: qrShortUrl(origin, pathname, fallback) }
+  if (arm !== 'fresh') return { variant: offer.control, url: qrShortUrl(origin, pathname, offer.control) }
+  return { variant: offer.fresh, url: qrShortUrl(origin, dataset.qrPath || pathname, offer.fresh, dataset.qrQuery) }
 }
 
 // The on-site banner: one of these per page view.

@@ -3,7 +3,7 @@
 const URL = import.meta.env?.VITE_PARTY_DB_URL || 'https://efhgyispuwxcplvzipcy.supabase.co'
 const KEY = import.meta.env?.VITE_PARTY_DB_KEY || 'sb_publishable_xX1CVQ0baMf_k3EDXAUs0A_-O0Kaql7'
 export const rpcUrl = fn => `${URL}/rest/v1/rpc/${fn}`
-export const rpcInit = (body, keepalive = false) => ({ method: 'POST', keepalive, headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+export const rpcInit = (body, keepalive = false) => ({ method: 'POST', ...(keepalive ? { keepalive } : {}), headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
 const cleanPath = p => (/^\/[a-z0-9/_-]{0,119}$/.test(p || '') ? p : null)
 // Same rule as liveActivity: the owner's own browser is left out of the stats.
 const ownerDevice = () => { try { return localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1' } catch { return false } }
@@ -17,17 +17,21 @@ export function recordQrVariant(variant, kind, path) {
 // before the app starts, so read both.
 export function landingTags(search = location.search) {
   const q = new URLSearchParams(search)
-  let source = q.get('utm_source'), content = q.get('utm_content')
-  try { source ||= sessionStorage.getItem('buga-landing-utm'); content ||= sessionStorage.getItem('buga-landing-content') } catch { /* storage blocked */ }
-  return { source, content }
+  let source = q.get('utm_source'), content = q.get('utm_content'), medium = q.get('utm_medium')
+  try { source ||= sessionStorage.getItem('buga-landing-utm'); content ||= sessionStorage.getItem('buga-landing-content'); medium ||= sessionStorage.getItem('buga-landing-medium') } catch { /* storage blocked */ }
+  return { source, content, medium }
 }
+
+// The short link (functions/p) already counted the scan on the server, so a visit that came through
+// it only says the page opened; sheets printed with the long link are counted here as before.
+export const scanKind = medium => (medium === 'qr-link' ? 'opened' : 'scanned')
 
 // Once per tab: a visitor who arrived from a printed QR records which message brought them.
 export function noteQrScan(search = location.search, path = location.pathname) {
   try {
-    const { source, content } = landingTags(search)
+    const { source, content, medium } = landingTags(search)
     if (source !== 'qr' || sessionStorage.getItem('buga-qr-scan')) return
     sessionStorage.setItem('buga-qr-scan', '1')
-    recordQrVariant(content, 'scanned', path)
+    recordQrVariant(content, scanKind(medium), path)
   } catch { /* storage blocked */ }
 }

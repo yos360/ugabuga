@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
-import { QR_VARIANTS } from '../../data/printMessages'
+import { QR_OFFERS, QR_VARIANTS } from '../../data/printMessages'
 import { announceText, whatsappText } from '../../utils/requestAnnounce'
 import { WHATSAPP_CHANNEL } from '../../data/brand'
 
@@ -10,13 +10,20 @@ const formatTime = value => new Date(value).toLocaleString('he-IL', { day: '2-di
 const STATUS = { new: 'חדשה', planned: 'בתכנון', done: 'הוכן', declined: 'לא נכין' }
 const SOURCE = { home: 'מעמוד הבית', site: 'מהבאנר באתר', qr: 'מ־QR בדף מודפס', search: 'מחיפוש בלי תוצאות', print: 'מדף מודפס' }
 
+const rate = r => (r.printed ? `${((r.scanned || 0) / r.printed * 100).toFixed(1)}%` : '—')
+
 function QrVariants({ from, to, tick }) {
   const [rows, setRows] = useState(null)
   useEffect(() => { let live = true; ownerSupabase.rpc('qr_variant_owner', { p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error }) => { if (live) setRows(error ? null : Array.isArray(data) ? data : []) }); return () => { live = false } }, [from, to, tick])
   if (!rows) return null
   const by = Object.fromEntries(rows.map(r => [r.variant, r]))
+  const armCells = v => { const r = by[v.id] || {}; return <><td className="p-2 font-bold">{r.printed || 0}</td><td className="p-2 font-bold">{r.scanned || 0}</td><td className="p-2">{r.opened || 0}</td><td className="p-2 font-bold">{rate(r)}</td></> }
   return <div className="mt-5">
-    <h3 className="text-lg font-black">איזה משפט ליד ה־QR עובד?</h3>
+    <h3 className="text-lg font-black">הניסוי: סיבה אמיתית לסרוק מול המשפט הישן</h3>
+    <p className="text-sm text-slate-600">חצי מההדפסות מקבלות הצעה אמיתית, חצי את המשפט הישן. היעד: מ־0.45% ל־2% לפחות. נסרק נספר בשרת; נפתח = הדף נטען בטלפון עד הסוף.</p>
+    <table className="mt-2 w-full text-right text-sm"><thead><tr className="border-b-2"><th className="p-2">סוג דף</th><th className="p-2">קבוצה</th><th className="p-2">מודפס</th><th className="p-2">נסרק</th><th className="p-2">נפתח</th><th className="p-2">אחוז סריקה</th></tr></thead>
+      <tbody>{Object.values(QR_OFFERS).flatMap(o => [<tr key={o.fresh.id} className="align-top"><td className="p-2 font-bold">{o.label}</td><td className="p-2">{o.fresh.title}</td>{armCells(o.fresh)}</tr>, <tr key={o.control.id} className="border-b align-top"><td className="p-2" /><td className="p-2 text-slate-500">המשפט הישן</td>{armCells(o.control)}</tr>])}</tbody></table>
+    <h3 className="mt-5 text-lg font-black">איזה משפט ליד ה־QR עובד בשאר הדפים?</h3>
     <p className="text-sm text-slate-600">כל הדפסה מקבלת אחד מהמשפטים. מודפס = כמה פעמים הודפס, נסרק = כמה אנשים סרקו אותו.</p>
     <table className="mt-2 w-full text-right text-sm"><thead><tr className="border-b-2"><th className="p-2">המשפט</th><th className="p-2">לאן מוביל</th><th className="p-2">מודפס</th><th className="p-2">נסרק</th></tr></thead>
       <tbody>{QR_VARIANTS.map(v => { const r = by[v.id] || {}; return <tr key={v.id} className="border-b align-top"><td className="p-2"><b>{v.title}</b><span className="block text-xs text-slate-500">{v.line}</span></td><td className="p-2">{v.to === 'request' ? 'טופס בקשה' : 'הדף שהודפס'}</td><td className="p-2 font-bold">{r.printed || 0}</td><td className="p-2 font-bold">{r.scanned || 0}</td></tr> })}</tbody></table>
