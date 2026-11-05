@@ -146,7 +146,7 @@ export const MENU_DOMAINS = [
   {
     id: 'learn', label: SECTION.learn, icon: '🏫', to: '/learn',
     landingLabel: 'בית ספר — כל המקצועות',
-    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/excel', '/courses', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/singular-plural-verbs-workbook', '/speech', '/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan', '/planner', '/path'],
+    prefixes: ['/learn', '/math', '/letters', '/words', '/english', '/abc', '/languages', '/typing', '/excel', '/courses', '/logic-puzzles', '/classroom/first-grade', '/printables/math-worksheets', '/printables/math-order-puzzles', '/printables/hebrew-letters', '/printables/abc-letters', '/printables/singular-plural-verbs-workbook', '/speech', '/classroom', '/teachers', '/hw', '/secret-friend', '/thank-you-wall', '/q', '/g', '/w', '/gan', '/planner', '/path', '/tutoring'],
     groups: [
       {
         title: 'למורים ולכיתה', icon: '🧑‍🏫', to: '/classroom',
@@ -165,6 +165,7 @@ export const MENU_DOMAINS = [
       {
         title: 'ללמוד לבד ובבית', icon: '🧭', to: '/path',
         items: [
+          { to: '/tutoring', label: 'שיעורי עזר בבית — תוכנית לילד שמתקשה', icon: '🤝' },
           { to: '/path', label: 'מסלול לימוד אישי — שיעור אחד ביום', icon: '🧭' },
           { to: '/classroom/first-grade', label: 'הכנה לכיתה א׳', icon: '✏️' },
           { to: '/learn/gifted-test', label: 'הכנה למבחן מחוננים', icon: '💡' },
@@ -607,6 +608,7 @@ export const FOOTER_COLUMNS = [
       ['/classroom', 'כל הכלים לכיתה ולגן'],
       ['/planner', 'מערכת השעות למורים'],
       ['/path', 'מסלול לימוד אישי'],
+      ['/tutoring', 'שיעורי עזר בבית'],
       ['/teachers', 'שיעורי בית אינטראקטיביים'],
       ['/classroom/quiz', 'מבחן אמריקאי אונליין'],
       ['/printables/teacher-templates', 'קבצים לרכזות ולגננות'],

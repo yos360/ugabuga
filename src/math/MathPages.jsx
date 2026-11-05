@@ -206,7 +206,7 @@ function PrintItem({ ex }) {
       : <p className="mth-pline">תשובה: <span /> {ex.unit || ''}</p>}
   </div>
 }
-function PrintSheets({ title, sub, items, offer }) {
+export function PrintSheets({ title, sub, items, offer }) {
   return <>
     <article className="buga-flow mth-print" dir="rtl" {...offer}>
       <h2>{title}</h2>

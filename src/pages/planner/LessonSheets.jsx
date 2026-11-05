@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import '../../math/math.css'
 
 // Worksheets for the planner, built from what each lesson step links to: math topics (the topic's own
 // three levels), school-subject and Tanakh lessons (their quiz), English grammar (its quiz) and English
@@ -23,8 +24,8 @@ function leveled(items, level, seed) {
   return level === 'regular' ? pick(items, 8, seed) : items
 }
 
-async function itemsFor(link, grade, level) {
-  const seed = seedOf(`${link.type}:${link.slug}`)
+export async function itemsFor(link, grade, level, salt = '') {
+  const seed = seedOf(`${link.type}:${link.slug}${salt}`)
   if (link.type === 'math-topic') {
     const m = await import('../../math/registry')
     const topic = m.findTopic(grade, link.slug)
@@ -88,7 +89,7 @@ export function SheetPages({ parts, title, sub, MathText }) {
       <p className="flex justify-between text-sm"><span>שם: ______________</span><span>תאריך: ________</span><span>ציון: ____ / {all.length}</span></p>
       {sub && <p className="mt-1 font-bold">{sub}</p>}
       <ol className="mt-3 list-decimal space-y-3 pr-6">{all.map((it, i) => <li key={i}>
-        {it.kind === 'math' ? <><T>{it.q}</T>{it.expr && <p dir="ltr" className="font-bold">{it.expr}</p>}
+        {it.kind === 'math' ? <><T>{it.q}</T>{it.expr && <p dir="ltr" className="font-bold">{it.expr}</p>}{it.svg && <div className="mth-psvg" dangerouslySetInnerHTML={{ __html: it.svg }} />}
           {it.type === 'choice' ? <p className="flex flex-wrap gap-4">{it.choices.map(c => <span key={c}>◯ <T>{c}</T></span>)}</p> : <p>תשובה: ____________ {it.unit || ''}</p>}</>
           : <><p className="font-bold" dir={it.ltr ? 'ltr' : undefined} style={it.ltr ? { textAlign: 'right' } : undefined}>{it.q}</p>
             <p className="flex flex-wrap gap-x-6 gap-y-1">{it.options.map((o, j) => <span key={j} dir={it.ltr ? 'ltr' : undefined}>{LETTERS[j]}. {o}</span>)}</p></>}

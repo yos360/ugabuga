@@ -272,6 +272,9 @@ const ReadingStory = lazy(() => import('./learn/englishReading/EnglishReadingPag
 const FavoritesPage = lazy(() => import('./pages/FavoritesPage'))
 const PlannerPage = lazy(() => import('./pages/planner/PlannerPage'))
 const LearningPath = lazy(() => import('./pages/planner/LearningPath'))
+const TutoringHome = lazy(() => import('./pages/tutoring/TutoringHome'))
+const TutoringPlan = lazy(() => import('./pages/tutoring/TutoringPlan'))
+const TutoringSkill = lazy(() => import('./pages/tutoring/TutoringSkill'))
 const EnglishGradesHub = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradesHub })))
 const EnglishGradePage = lazy(() => import('./learn/englishGrades/EnglishGradePages').then(m => ({ default: m.EnglishGradePage })))
 const VocabGrade = lazy(() => import('./learn/englishVocab/EnglishVocabPages').then(m => ({ default: m.VocabGrade })))
@@ -679,6 +682,9 @@ export default function App() {
               <Route path="/favorites" element={<FavoritesPage />} />
               <Route path="/planner" element={<PlannerPage />} />
               <Route path="/path" element={<LearningPath />} />
+              <Route path="/tutoring" element={<TutoringHome />} />
+              <Route path="/tutoring/plan" element={<TutoringPlan />} />
+              <Route path="/tutoring/:id" element={<TutoringSkill />} />
               <Route path="/time-tunnel" element={<MaHayom />} />
               <Route path="/time-tunnel/:day" element={<MaHayom />} />
               <Route path="/time-tunnel/month/:month" element={<TimeTunnelMonth />} />
