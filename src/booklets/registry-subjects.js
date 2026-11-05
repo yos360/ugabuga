@@ -24,6 +24,7 @@ import scienceGrade2 from './meta/science-grade-2.js'
 import scienceGrade3 from './meta/science-grade-3.js'
 import scienceGrade4 from './meta/science-grade-4.js'
 import scienceGrade5 from './meta/science-grade-5.js'
+import scienceGrade5NaturalResources from './meta/science-grade-5-natural-resources.js'
 import scienceGrade6 from './meta/science-grade-6.js'
 import scienceGrade7 from './meta/science-grade-7.js'
 import scienceGrade8 from './meta/science-grade-8.js'
@@ -92,6 +93,7 @@ export const SUBJECT_BOOKLETS = [
   { ...scienceGrade3, load: subject(() => import('./content/science-grade-3.js')) },
   { ...scienceGrade4, load: subject(() => import('./content/science-grade-4.js')) },
   { ...scienceGrade5, load: subject(() => import('./content/science-grade-5.js')) },
+  { ...scienceGrade5NaturalResources, load: subject(() => import('./content/science-grade-5-natural-resources.js')) },
   { ...scienceGrade6, load: subject(() => import('./content/science-grade-6.js')) },
   { ...scienceGrade7, load: subject(() => import('./content/science-grade-7.js')) },
   { ...scienceGrade8, load: subject(() => import('./content/science-grade-8.js')) },
