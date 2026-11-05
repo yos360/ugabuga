@@ -63,6 +63,7 @@ export function createSound() {
       tone(84 + up, t, 0.07, { type: 'square', volume: 0.05 })
       tone(89 + up, t + 0.05, 0.1, { type: 'square', volume: 0.05 })
     },
+    fly: t => [64, 69, 76, 81, 88].forEach((m, i) => tone(m, t + i * 0.05, 0.22, { type: 'sine', volume: 0.15, slide: 5 })),
     close: t => { noise(t, 0.12, 0.09); tone(79, t, 0.1, { volume: 0.12, slide: 7 }) },
     combo: t => [79, 84, 91].forEach((m, i) => tone(m, t + i * 0.05, 0.12, { type: 'square', volume: 0.07 })),
     mission: t => [72, 79, 84, 88, 91].forEach((m, i) => tone(m, t + i * 0.09, 0.24, { volume: 0.15 })),

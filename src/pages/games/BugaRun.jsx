@@ -3,13 +3,15 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
-import { act, distanceToCorner, newGame, score, segment, step, TURN_WINDOW } from './run/runGame'
+import { act, distanceToCorner, newGame, score, segment, step, turnWindow, UPGRADES } from './run/runGame'
 import { createSound } from './run/runSound'
 
 // "בוגה בורח": a 3D running game, drawn from code. The best score stays on this device, nothing is sent anywhere.
 const PATH = '/buga-run'
 const BEST_KEY = 'buga-run-best'
 const MUTE_KEY = 'buga-run-mute'
+const BANK_KEY = 'buga-run-coins'
+const SHOP_KEY = 'buga-run-upgrades'
 const STEP = 1 / 120
 const SWIPE_PX = 26
 const CAUSES = {
@@ -44,7 +46,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
 
   useEffect(() => {
     let raf = 0, stopped = false, scene = null, last = 0, extra = 0, hudAt = 0
-    const s = newGame({ seed: Math.floor(Math.random() * 2 ** 31), mode })
+    const s = newGame({ seed: Math.floor(Math.random() * 2 ** 31), mode, upgrades: read(SHOP_KEY, {}) })
     stateRef.current = s
     const sound = createSound()
     soundRef.current = sound
@@ -61,7 +63,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
       }
       for (const e of s.events) {
         sound.play(e === 'pad' ? 'jump' : e)
-        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : null
+        const text = e === 'close' ? 'כמעט! 😮' : e === 'combo' ? `כפל ×${s.mult}!` : e === 'escape' ? 'ברחת מהעוגייה! 🍪💨' : e === 'mission' ? `✅ ${s.lastMission}` : e === 'fly' ? 'התוכי מעיף את בוגה! 🦜' : null
         if (text) setPop({ id: performance.now(), text, big: e !== 'close' })
       }
       scene.render(s, pausedRef.current ? 0 : dt)
@@ -71,7 +73,7 @@ function Play({ mode, muted, setMuted, onOver, onExit }) {
         const corner = distanceToCorner(s), seg = segment(s)
         setHud({
           score: score(s), coins: s.coins, metres: Math.floor(s.run), mult: s.mult, shield: s.shield, magnet: s.magnet > 0, stumble: s.stumble > 0, gate: s.gate?.text || null,
-          turn: corner < TURN_WINDOW + 12 && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= TURN_WINDOW } : null,
+          turn: corner < turnWindow(s) + 12 && s.wantTurn !== seg.turn ? { side: seg.turn, now: corner <= turnWindow(s) } : null,
           missions: s.time < 4.5 ? s.missions : null,
         })
       }
@@ -175,10 +177,18 @@ export default function BugaRun() {
   const [result, setResult] = useState(null)
   const [best, setBest] = useState(() => read(BEST_KEY, 0))
   const [muted, setMutedState] = useState(() => read(MUTE_KEY, false))
+  const [bank, setBank] = useState(() => read(BANK_KEY, 0))
+  const [owned, setOwned] = useState(() => read(SHOP_KEY, {}))
   const [webgl] = useState(hasWebGL)
+  const buy = (key, price) => {
+    const nextBank = bank - price, nextOwned = { ...owned, [key]: (owned[key] || 0) + 1 }
+    setBank(nextBank); write(BANK_KEY, nextBank)
+    setOwned(nextOwned); write(SHOP_KEY, nextOwned)
+  }
   const setMuted = v => { setMutedState(v); write(MUTE_KEY, v) }
   const start = m => { setMode(m); setRound(r => r + 1); setPhase('play') }
   const over = useCallback(r => {
+    setBank(b => { const total = b + r.coins; write(BANK_KEY, total); return total })
     setBest(b => {
       const record = r.score > b
       setResult({ ...r, record })
@@ -210,6 +220,21 @@ export default function BugaRun() {
       </div> : <p className="mt-3 font-bold text-rose-700" role="alert">הדפדפן הזה לא תומך בתלת־ממד. נסו בכרום או בספארי מעודכן.</p>}
       {phase === 'over' && result && <button type="button" onClick={() => shareOnWhatsApp(`${shareText}\n${shareLink(PATH)}`)} className="mt-2 w-full rounded-2xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 לאתגר חברים בוואטסאפ</button>}
       {phase === 'menu' && best > 0 && <p className="mb-0 mt-2 font-bold">השיא שלך: {best.toLocaleString('en-US')}</p>}
+    </section>
+
+    <section className="mt-5 rounded-3xl border-[3px] border-[#14162d] bg-white p-4" aria-label="חנות בוגה">
+      <h2 className="m-0 text-2xl font-black">חנות בוגה · 🪙 {bank.toLocaleString('en-US')}</h2>
+      <p className="m-0 text-[var(--muted-foreground)]">כל המטבעות מכל הריצות נשמרים כאן, במכשיר שלכם. משחק, לא כסף אמיתי.</p>
+      <div className="mt-2 grid gap-2 sm:grid-cols-3">
+        {UPGRADES.map(u => {
+          const level = owned[u.key] || 0, price = u.prices[level]
+          return <div key={u.key} className="rounded-2xl border-2 border-[var(--border)] p-3">
+            <strong>{u.icon} {u.name}</strong>
+            <div className="text-sm text-[var(--muted-foreground)]">{u.text} · שלב {level}/{u.prices.length}</div>
+            {price ? <button type="button" disabled={bank < price} onClick={() => buy(u.key, price)} className="mt-1 w-full rounded-xl bg-emerald-600 px-3 py-1.5 font-bold text-white disabled:bg-slate-300 disabled:text-slate-600">🪙 {price}</button> : <div className="mt-1 font-bold text-emerald-700">✅ מלא</div>}
+          </div>
+        })}
+      </div>
     </section>
 
     <section className="mt-5 grid gap-2 sm:grid-cols-2" aria-label="איך משחקים">

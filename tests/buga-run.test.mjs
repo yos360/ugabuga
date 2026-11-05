@@ -82,13 +82,23 @@ test('swipes change lanes, and at a corner a swipe towards it turns instead', ()
   assert.equal(segment(s).dir, (dir + seg.turn + 4) % 4)
 })
 
-test('missing a corner ends the run, and a shield saves it once', () => {
+test('a missed corner is a stumble, ends the run only while chased, and a shield saves it', () => {
   const s = newGame({ seed: 4 })
   const seg = segment(s)
   seg.items = []
   s.d = seg.len - 1
+  s.stumble = 5
   while (!s.over) step(s, DT)
   assert.equal(s.cause, 'corner')
+
+  const bump = newGame({ seed: 4 })
+  const seg1 = segment(bump)
+  seg1.items = []
+  bump.d = seg1.len - 1
+  for (let i = 0; i < 40; i++) step(bump, DT)
+  assert.equal(bump.over, false)
+  assert.ok(bump.stumble > 0)
+  assert.notEqual(segment(bump), seg1)
 
   const t = newGame({ seed: 4 })
   const seg2 = segment(t)
@@ -185,7 +195,7 @@ test('clean rows and coins climb the multiplier, and a hit drops it', () => {
   for (let i = 0; i < 60; i++) seg.items.push({ id: `c${i}`, kind: 'coin', lane: 0, at: s.d + 2 + i * 0.7 })
   seg.items.push({ id: 'x', kind: 'wall', lane: 0, at: s.d + 48 })
   while (s.stumble === 0) { step(s, DT); s.peak = Math.max(s.peak || 0, s.mult) }
-  assert.ok(s.peak >= 4)
+  assert.ok(s.peak >= 2)
   assert.equal(s.dodges, 4, 'the row that hit is not a dodge')
   assert.equal(s.mult, 1)
   assert.equal(s.close, 0, 'standing still is not a near miss')
@@ -240,6 +250,48 @@ test('each run has three different missions, and finishing one pays once', () =>
   assert.ok(paid >= before + 150)
   step(s, DT)
   assert.equal(s.bonus, paid)
+})
+
+test('the road stays busy: gold every few metres, and a row at least every 2.5 seconds', () => {
+  for (let seed = 1; seed <= 10; seed++) {
+    const s = newGame({ seed })
+    let coins = 0, metres = 0
+    for (let k = 0; k < 12; k++) {
+      const seg = segment(s)
+      coins += seg.items.filter(it => it.kind === 'coin').length
+      metres += seg.len
+      seg.items = []
+      s.d = seg.len
+      s.wantTurn = seg.turn
+      step(s, 0)
+    }
+    assert.ok(coins / metres > 1 / 5, `seed ${seed}: ${coins} coins in ${metres} m`)
+    const run = play(seed, 2000, 'run').s
+    assert.ok(run.dodges > run.time / 2.5, `seed ${seed}: ${run.dodges} rows in ${run.time} s`)
+  }
+})
+
+test('the parrot lifts him over everything, round corners, and sets him down safely', () => {
+  const s = newGame({ seed: 18 })
+  const seg = segment(s)
+  s.d = seg.len - 40
+  seg.items = [{ id: 'p', kind: 'parrot', lane: 0, at: s.d + 1 }, { id: 'w', kind: 'wall', lane: 0, at: s.d + 20 }]
+  for (let i = 0; i < 4 * 60; i++) { step(s, DT); if (segment(s) !== seg) segment(s).items = [] }
+  assert.equal(s.flights, 1)
+  assert.ok(s.y > 4)
+  assert.equal(s.stumble, 0)
+  assert.notEqual(segment(s), seg, 'the corner took care of itself')
+  while (s.fly > 0) step(s, DT)
+  assert.ok(s.safe > 0)
+  assert.equal(s.over, false)
+})
+
+test('upgrades lengthen powers and can start the run shielded', () => {
+  const plain = newGame({ seed: 19 }), up = newGame({ seed: 19, upgrades: { magnet: 2, fly: 3, shield: 1 } })
+  assert.ok(up.magnetTime > plain.magnetTime)
+  assert.ok(up.flyTime > plain.flyTime)
+  assert.equal(plain.shield, false)
+  assert.equal(up.shield, true)
 })
 
 test('the times-table mode: three different answers, one right, and a right gate pays', () => {

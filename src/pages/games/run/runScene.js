@@ -472,8 +472,8 @@ function makeItem(it, seg, world, look, sprites, owned) {
     g.add(c); g.userData.spin = g
     return g
   }
-  if (it.kind === 'magnet' || it.kind === 'shield') {
-    const color = it.kind === 'magnet' ? 0xff3f58 : 0x2fd3ff
+  if (it.kind === 'magnet' || it.kind === 'shield' || it.kind === 'parrot') {
+    const color = it.kind === 'magnet' ? 0xff3f58 : it.kind === 'shield' ? 0x2fd3ff : 0x35e07a
     const g = new THREE.Group()
     const orb = new THREE.Mesh(GEO.blob, sprites.gloss(color)); orb.scale.setScalar(0.66); orb.position.y = 1.5
     const halo = new THREE.Mesh(GEO.torus, sprites.gloss(0xffffff)); halo.scale.set(1, 1, 0.3); halo.position.y = 1.5
@@ -592,7 +592,7 @@ function* makeSegment(seg, sprites, assets) {
   const items = new Map()
   for (const it of seg.items) {
     const m = makeItem(it, seg, world, look, sprites, owned)
-    m.position.set(['wall', 'low', 'coin', 'magnet', 'shield', 'pad'].includes(it.kind) ? (it.lane ?? 0) * LANE_W : 0, groundAt(seg, it.at), -it.at)
+    m.position.set(['wall', 'low', 'coin', 'magnet', 'shield', 'parrot', 'pad'].includes(it.kind) ? (it.lane ?? 0) * LANE_W : 0, groundAt(seg, it.at), -it.at)
     g.add(m)
     m.traverse(o => { if (o.geometry && !shared.has(o.geometry)) geometries.push(o.geometry) })
     items.set(it.id, { it, m })
@@ -877,7 +877,7 @@ export function createScene(canvas, { onLost } = {}) {
   const pending = new Map()
   let heading = 0, chase = 12, clock = 0, pose = 1, camX = 0, camY = 5, camZ = 8, currentWorld = null, skyFade = 1, shake = 0, orbit = 0, turnLean = 0
   let quality = 0, sampleFrom = 0, sampleFrames = 0, lastFrame = 0
-  let squash = 0, dip = 0, punch = 0, laneRoll = 0
+  let squash = 0, dip = 0, punch = 0, laneRoll = 0, lift = 0
 
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight
@@ -910,6 +910,7 @@ export function createScene(canvas, { onLost } = {}) {
     if (u.spin === m) m.rotation.y = clock * 4 + it.at
     else if (u.spin) { u.spin.rotation.z = clock * 3; u.spin.rotation.x = clock * 2 }
     if (dist < -0.8 && ['wall', 'low', 'high', 'gate', 'pad'].includes(it.kind)) { m.visible = false; return } // never between the camera and Buga
+    if (it.kind === 'coin') m.visible = dist > -5 && dist < 120 // the road is full of them: only draw the ones in reach
     if (dist > 110) return
     if (it.show === 'roll') { // a boulder rolling down the lane, reaching its spot as the runner does
       const away = Math.max(0, dist) * 0.6
@@ -976,7 +977,11 @@ export function createScene(canvas, { onLost } = {}) {
     }
     arms(parts.armL, swing, -1); arms(parts.armR, -swing, 1)
     parts.wing.rotation.z = Math.sin(clock * 22) * 0.7
-    parts.parrot.position.y = 1.86 + Math.abs(Math.sin(stride)) * 0.08
+    // in flight the parrot grows and pulls him up by the arms
+    lift += ((s.fly > 0 ? 1 : 0) - lift) * Math.min(1, dt * 7)
+    parts.parrot.position.y = 1.86 + Math.abs(Math.sin(stride)) * 0.08 + lift * 1.7
+    parts.parrot.position.x = 0.46 * (1 - lift)
+    parts.parrot.scale.setScalar(1 + lift * 1.8)
     parts.head.rotation.x = Math.sin(stride * 2) * 0.05
     body.position.y = (air ? 0 : Math.abs(Math.cos(stride)) * 0.14) + (1 - pose) * -0.5
     body.rotation.x = (1 - pose) * 1.25 + (air ? -0.08 : -0.14)
@@ -1053,21 +1058,21 @@ export function createScene(canvas, { onLost } = {}) {
     orbit += ((s.over ? 2.6 : s.time < 1 ? Math.PI : 0) - orbit) * Math.min(1, dt * 2.6)
     const look = heading + orbit
     const fx = Math.sin(look), fz = -Math.cos(look), hx = Math.sin(heading), hz = -Math.cos(heading)
-    const fast = Math.min(1, (s.speed - 13) / 17)
+    const fast = Math.min(1, (s.speed - 16) / 16)
     const back = 6.6 - fast * 0.8
     camX += (p.x - fx * back - camX) * Math.min(1, dt * 11)
     camZ += (p.z - fz * back - camZ) * Math.min(1, dt * 11)
-    camY += (road + 4 + s.y * 0.4 - camY) * Math.min(1, dt * 7)
+    camY += (road + 4 + s.y * 0.55 - camY) * Math.min(1, dt * 7)
     shake = Math.max(0, shake - dt * 1.6)
     dip = Math.max(0, dip - dt * 1.1)
     camera.position.set(camX + (Math.random() - 0.5) * shake, camY - dip + (Math.random() - 0.5) * shake, camZ + (Math.random() - 0.5) * shake)
-    camera.lookAt(p.x + fx * 7, road + 1.5 + s.y * 0.3, p.z + fz * 7)
+    camera.lookAt(p.x + fx * 7, road + 1.5 + s.y * 0.6, p.z + fz * 7)
     laneRoll += ((s.lane * LANE_W - s.laneX) * 0.03 - laneRoll) * Math.min(1, dt * 10)
     camera.rotation.z -= turnLean + laneRoll
     punch += ((s.vy > 12 ? 8 : s.vy > 4 ? 3 : 0) - punch) * Math.min(1, dt * 6)
     const fov = (camera.aspect < 1 ? 74 : 60) + fast * 10 + punch
     if (Math.abs(fov - camera.fov) > 0.05) { camera.fov = fov; camera.updateProjectionMatrix() }
-    wind.update(dt, Math.max(0, (fast - 0.25) * 1.33, punch / 8))
+    wind.update(dt, Math.max(0, (fast - 0.25) * 1.33, punch / 8, lift))
     rim.position.set(p.x + hx * 12, p.y + 7, p.z + hz * 12)
     rim.target.position.set(p.x, p.y + 1, p.z)
 

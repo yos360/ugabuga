@@ -5,9 +5,13 @@
 export const LANE_W = 2.4
 export const TURN_WINDOW = 15 // metres before a corner where a swipe towards it counts as turning
 const CRASH_AFTER = 2.2 // metres past the corner's centre before a runner who did not turn hits the wall
-const START_SPEED = 13
-const MAX_SPEED = 30
-const ACCEL = 0.16
+const START_SPEED = 16
+const MAX_SPEED = 32
+const ACCEL = 0.25
+const CORNER_CLEAR = 32 // nothing stands this close to a corner, so the turn is always the only thing to do
+const COIN_STEP = 2.6
+const FLY_SECONDS = 5
+const FLY_HEIGHT = 5
 const JUMP_V = 10.5
 const GRAVITY = 27
 const SLIDE_SECONDS = 0.75
@@ -19,20 +23,28 @@ export const CLEAR_HEIGHT = 1.1 // a low obstacle and a pit need the feet at lea
 export const WORLDS = ['jungle', 'desert', 'candy', 'night']
 const WORLD_METRES = 650
 const PAD_V = 15.5
-const CHAIN_PER_MULT = 12 // coins count 1 and rows more, so a clean stretch climbs one step of the multiplier
+const CHAIN_PER_MULT = 40 // coins count 1 and rows more, so a clean stretch climbs one step of the multiplier
 const MAX_MULT = 5
 const CLOSE_SECONDS = 0.28 // an action this soon before a row makes it a near miss
 const JUMP_BUFFER = 0.14 // a jump pressed just before landing still counts
 const ESCAPE_SECONDS = 3 // each row passed while chased takes this much off the chase
 const MISSION_BONUS = 150
 const MISSIONS = [
-  { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [30, 60, 100] },
+  { key: 'coins', text: n => `לאסוף ${n} מטבעות`, goals: [100, 200, 350] },
+  { key: 'flights', text: n => `לעוף ${n} פעמים עם התוכי`, goals: [1, 2, 3] },
   { key: 'close', text: n => `${n} פעמים "כמעט!"`, goals: [3, 6, 10] },
   { key: 'dodges', text: n => `לעבור ${n} מכשולים`, goals: [10, 20, 35] },
   { key: 'jumps', text: n => `לקפוץ ${n} פעמים`, goals: [8, 15, 25] },
   { key: 'run', text: n => `לרוץ ${n} מטר`, goals: [400, 800, 1500] },
   { key: 'pads', text: n => `לעוף ${n} פעמים על קפיץ`, goals: [2, 4, 6] },
   { key: 'mult', text: n => `להגיע לכפל ×${n}`, goals: [3, 4, 5] },
+]
+
+// Bought with the coins of all runs, and kept on this device.
+export const UPGRADES = [
+  { key: 'magnet', icon: '🧲', name: 'מגנט חזק', text: 'המגנט מחזיק יותר זמן', prices: [150, 400, 800] },
+  { key: 'fly', icon: '🦜', name: 'תוכי חזק', text: 'התוכי מעיף יותר זמן', prices: [200, 500, 1000] },
+  { key: 'shield', icon: '🛡️', name: 'מגן בהתחלה', text: 'כל ריצה מתחילה עם מגן', prices: [600] },
 ]
 
 export const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]] // [x, z] of forward, for heading 0..3; right = heading + 1
@@ -54,8 +66,8 @@ export function timesQuestion(r) {
 }
 
 // One row: what stands at distance `at`. Every row leaves a way through: a free lane, a jump or a slide.
-function addRow(items, r, at, level) {
-  const roll = r()
+function addRow(items, r, at, level, want = null) {
+  const roll = want ?? r()
   // `show` only changes how a row arrives on screen: it always stands at `at` when the runner gets there
   const add = (kind, lane, show = null) => items.push({ kind, lane, at, show })
   const lively = r() < 0.2 + level * 0.5
@@ -80,8 +92,17 @@ export function groundAt(seg, d) {
   return seg.h0 + (seg.h1 - seg.h0) * k * k * (3 - 2 * k) + seg.bump * Math.sin(Math.PI * k) ** 2
 }
 
-function coinLine(items, r, at, lane, count = 6) {
-  for (let i = 0; i < count; i++) items.push({ kind: 'coin', lane, at: at + i * 2.6 })
+// Rows come in short set pieces, easy ones first: null is a free pick, the rest force walls, low, high or a pit.
+const WALLS = 0.1, LOW = 0.4, HIGH = 0.7, PIT = 0.9
+const PATTERNS = [[null], [null, null], [WALLS, WALLS], [LOW, HIGH], [WALLS, WALLS, WALLS], [HIGH, LOW, WALLS], [PIT, WALLS, HIGH]]
+
+// A trail of gold leads through the whole stretch: follow the coins and you are on the safe line.
+function coinTrail(items, from, to, lane) {
+  for (let at = from; at < to; at += COIN_STEP) items.push({ kind: 'coin', lane, at })
+}
+
+function coinHop(items, at, lane) {
+  for (let i = 0; i < 5; i++) items.push({ kind: 'coin', lane, at: at - 5 + i * 2.5, lift: 2.2 * Math.sin(Math.PI * (i + 0.5) / 5) })
 }
 
 function makeSegment(s, prev) {
@@ -102,29 +123,47 @@ function makeSegment(s, prev) {
   const items = []
   // two rows must never be closer than one full jump at the speed the runner will have by then
   const topSpeed = Math.min(MAX_SPEED, Math.sqrt(START_SPEED ** 2 + 2 * ACCEL * (total + len)))
-  const gapBase = Math.max(24 - level * 7, topSpeed * 0.95)
-  let at = id === 0 ? 48 : 22
-  while (at < len - TURN_WINDOW - 14) {
+  const gap = Math.max(15, topSpeed * 0.85)
+  const end = len - CORNER_CLEAR
+  let at = id === 0 ? 42 : 20, trail = s.trail, coinsTo = id === 0 ? 24 : 4
+  while (at < end) {
     if (s.mode === 'times' && s.sinceGate >= 3) {
       items.push({ kind: 'gate', lane: null, at, ...timesQuestion(r) })
       s.sinceGate = 0
       at += 44
+      coinsTo = at - 14
       continue
     }
-    const free = addRow(items, r, at, level)
-    s.sinceGate++
-    if (free !== null) coinLine(items, r, at - 6, free, 4)
-    else if (r() < 0.6) coinLine(items, r, at + 7, Math.floor(r() * 3) - 1, 4)
-    if (r() < 0.07) items.push({ kind: r() < 0.5 ? 'magnet' : 'shield', lane: Math.floor(r() * 3) - 1, at: at + 11 })
-    let extra = 0
-    if (free !== null && r() < 0.3) {
-      // a spring on the open lane: a high flight along a bow of coins, with room to land before the next row
-      items.push({ kind: 'pad', lane: free, at: at + 9 })
-      for (let i = 0; i < 8; i++) items.push({ kind: 'coin', lane: free, at: at + 12 + i * 2.4, lift: 4.2 * Math.sin(Math.PI * (i + 0.5) / 8) })
-      extra = topSpeed * 0.9
+    const piece = PATTERNS[Math.floor(r() * Math.min(PATTERNS.length, 2 + (total + 200) / 180))]
+    for (const want of piece) {
+      if (at >= end) break
+      const free = addRow(items, r, at, level, want)
+      s.sinceGate++
+      const flown = free === null && items[items.length - 1].kind !== 'high'
+      if (free !== null) trail = free
+      coinTrail(items, coinsTo, flown ? at - 6 : at + 2, trail)
+      if (flown) coinHop(items, at, trail)
+      coinsTo = at + 7
+      at += gap + r() * 3
     }
-    at += gapBase + r() * 8 + extra
+    const stop = at - gap
+    const roll = r()
+    if (roll < 0.14 && total + stop > 120) {
+      // a treat in the gold line, in the free space after a set piece
+      const kinds = ['parrot', 'parrot', 'magnet', 'shield']
+      items.push({ kind: kinds[Math.floor(r() * kinds.length)], lane: trail, at: stop + 10 })
+      coinsTo = Math.max(coinsTo, stop + 13)
+      at += 12
+    } else if (roll < 0.36) {
+      // a spring on the gold line: a high flight along a bow of coins, with room to land before the next row
+      items.push({ kind: 'pad', lane: trail, at: stop + 9 })
+      for (let i = 0; i < 8; i++) items.push({ kind: 'coin', lane: trail, at: stop + 12 + i * 2.4, lift: 4.2 * Math.sin(Math.PI * (i + 0.5) / 8) })
+      at += topSpeed * 0.9
+      coinsTo = at - 8
+    }
   }
+  coinTrail(items, coinsTo, Math.min(end, at - 4), trail)
+  s.trail = trail
   items.forEach((it, i) => { it.id = `${id}-${i}` })
   const h0 = prev ? prev.h1 : 0
   const h1 = id === 0 ? 3 : Math.max(0, Math.min(15, h0 + (r() - 0.5) * 16))
@@ -138,13 +177,14 @@ function pickMissions(r) {
   })
 }
 
-export function newGame({ seed = 1, mode = 'run' } = {}) {
+export function newGame({ seed = 1, mode = 'run', upgrades = {} } = {}) {
   const s = {
+    trail: 0, fly: 0, flights: 0, magnetTime: MAGNET_SECONDS + (upgrades.magnet || 0) * 2, flyTime: FLY_SECONDS + (upgrades.fly || 0),
     chain: 0, mult: 1, close: 0, dodges: 0, jumps: 0, pads: 0, sinceAct: 9, buffer: 0, slow: 0,
     missions: pickMissions(rng(seed + 1)), lastMission: null,
     random: rng(seed), mode, nextSegment: 0, bend: 0, sinceGate: 0, segs: [], cur: 0,
     d: 0, lane: 0, laneX: 0, y: 0, vy: 0, slide: 0, speed: START_SPEED, time: 0, run: 0,
-    coins: 0, right: 0, wrong: 0, bonus: 0, shield: false, magnet: 0, stumble: 0, safe: 0,
+    coins: 0, right: 0, wrong: 0, bonus: 0, shield: !!upgrades.shield, magnet: 0, stumble: 0, safe: 0,
     wantTurn: 0, gate: null, over: false, cause: null, events: [],
   }
   fill(s)
@@ -159,6 +199,8 @@ function fill(s) {
 export const segment = s => s.segs[s.cur]
 export const score = s => Math.floor(s.run) + s.coins * 5 + s.bonus
 export const distanceToCorner = s => segment(s).len - s.d
+// the faster the run, the earlier a swipe counts, so a corner always gives about the same time to react
+export const turnWindow = s => Math.max(TURN_WINDOW, s.speed * 0.9)
 
 export function worldPosition(s) {
   const seg = segment(s), [fx, fz] = DIRS[seg.dir], [rx, rz] = DIRS[(seg.dir + 1) % 4]
@@ -169,13 +211,15 @@ export function act(s, cmd) {
   if (s.over) return
   if (cmd === 'left' || cmd === 'right') {
     const side = cmd === 'left' ? -1 : 1
-    if (distanceToCorner(s) <= TURN_WINDOW && side === segment(s).turn) { s.wantTurn = side; s.events.push('turn'); return }
+    if (distanceToCorner(s) <= turnWindow(s) && side === segment(s).turn) { s.wantTurn = side; s.events.push('turn'); return }
     const lane = Math.max(-1, Math.min(1, s.lane + side))
     if (lane !== s.lane) { s.lane = lane; s.sinceAct = 0; s.events.push('move') }
   } else if (cmd === 'jump') {
+    if (s.fly > 0) return
     if (s.y <= 0.01) jump(s)
     else s.buffer = JUMP_BUFFER
   } else if (cmd === 'slide') {
+    if (s.fly > 0) return
     if (s.y > 0.01) s.vy = -JUMP_V * 1.4
     s.slide = SLIDE_SECONDS
     s.sinceAct = 0
@@ -251,12 +295,14 @@ function meet(s, it) {
   }
 }
 
+const POWERS = ['magnet', 'shield', 'parrot']
+
 function collect(s, seg, from, to) {
   for (const it of seg.items) {
     if (it.taken) continue
     if (it.kind === 'coin') {
       const near = it.at >= from - 0.4 && it.at <= to + 0.4
-      const pulled = s.magnet > 0 && it.at >= from - 1 && it.at <= from + MAGNET_REACH
+      const pulled = (s.magnet > 0 || s.fly > 0) && it.at >= from - 1 && it.at <= from + MAGNET_REACH
       if ((near && inLane(s, it.lane)) || pulled) {
         it.taken = true
         s.coins++
@@ -264,9 +310,11 @@ function collect(s, seg, from, to) {
         addChain(s, 1)
         s.events.push('coin')
       }
-    } else if ((it.kind === 'magnet' || it.kind === 'shield') && it.at >= from - 0.4 && it.at <= to + 0.4 && inLane(s, it.lane)) {
+    } else if (POWERS.includes(it.kind) && it.at >= from - 0.4 && it.at <= to + 0.4 && inLane(s, it.lane)) {
       it.taken = true
-      if (it.kind === 'magnet') s.magnet = MAGNET_SECONDS; else s.shield = true
+      if (it.kind === 'magnet') s.magnet = s.magnetTime
+      else if (it.kind === 'shield') s.shield = true
+      else { s.fly = s.flyTime; s.flights++; s.slide = 0; s.vy = 0; s.events.push('fly') }
       s.events.push('power')
     }
   }
@@ -283,7 +331,13 @@ export function step(s, dt) {
   s.buffer = Math.max(0, s.buffer - dt)
   s.slow = Math.max(0, s.slow - dt)
   s.sinceAct += dt
-  if (s.y > 0 || s.vy > 0) {
+  if (s.fly > 0) {
+    // the parrot carries him: over everything, and round the corners by itself
+    s.fly = Math.max(0, s.fly - dt)
+    s.y += (FLY_HEIGHT - s.y) * Math.min(1, dt * 5)
+    s.wantTurn = segment(s).turn
+    if (s.fly === 0) s.safe = INVULNERABLE_SECONDS
+  } else if (s.y > 0 || s.vy > 0) {
     s.vy -= GRAVITY * dt
     s.y += s.vy * dt
     if (s.y <= 0) {
@@ -300,10 +354,11 @@ export function step(s, dt) {
   s.run += move
   let row = false, hurt = false
   for (const it of seg.items) {
-    if (it.kind === 'coin' || it.kind === 'magnet' || it.kind === 'shield' || it.met) continue
+    if (it.kind === 'coin' || POWERS.includes(it.kind) || it.met) continue
     if (it.at <= from || it.at > s.d) continue
     it.met = true
     if (it.kind === 'pad' || it.kind === 'gate') { meet(s, it); continue }
+    if (s.fly > 0) continue
     row = true
     if (hurts(s, it)) { hurt = true; hit(s, it.kind); if (s.over) return }
   }
@@ -321,7 +376,8 @@ export function step(s, dt) {
     s.cur++
     fill(s)
   } else if (s.d >= seg.len + CRASH_AFTER) {
-    if (s.shield) { s.shield = false; s.wantTurn = seg.turn; s.events.push('shield') }
-    else { s.over = true; s.cause = 'corner'; s.events.push('over') }
+    // a missed corner is a bump, not the end: he stumbles round it, with the cookie on his heels
+    hit(s, 'corner')
+    s.wantTurn = seg.turn
   }
 }
