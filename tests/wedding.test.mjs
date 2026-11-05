@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { STAGES, WEDDING_TASKS, BUDGET_ITEMS, DAY_SCHEDULE, SUPPLIERS, daysUntil, tasksByStage, expectedGuests, weddingBudget, addMinutes, daySchedule, scheduleText, planToLink, planFromHash } from '../src/pages/wedding/weddingPlan.js'
+import { STAGES, WEDDING_TASKS, BUDGET_ITEMS, DAY_SCHEDULE, SUPPLIERS, daysUntil, tasksByStage, expectedGuests, weddingBudget, addMinutes, daySchedule, scheduleText, planToLink, planFromHash, mergePlans, samePlan, syncLink, syncFromHash } from '../src/pages/wedding/weddingPlan.js'
 import { DEFAULT_SEATS, autoSeat, partySize, tableLoads, tablesNeeded } from '../src/utils/seating.js'
 import { parsePhoneBook, waNumber, phoneFor, personalReminder, waLink } from '../src/utils/personalReminders.js'
 import { INVITATION_OCCASIONS, INVITATION_THEMES, invitationText } from '../src/utils/invitationDesign.js'
@@ -162,6 +162,37 @@ test('plan link: stays short with a full plan, carries no guests or phones', () 
   // Guests and their phones belong to the RSVP event and its device storage, never to this plan.
   const source = readFileSync(new URL('../src/pages/wedding/WeddingPages.jsx', import.meta.url), 'utf8')
   assert.doesNotMatch(source, /invitees|parsePhoneBook|loadPhoneText/)
+})
+
+test('shared plan: partners keep each other\'s changes, field by field', () => {
+  const base = { date: '2027-06-03', done: { venue: true }, budget: { guests: '250', items: { photo: { cost: '9000' } } } }
+  const mine = { ...base, done: { venue: true, dj: true }, budget: { ...base.budget, items: { photo: { cost: '10000' } } } }
+  const theirs = { ...base, date: '2027-06-10', done: { venue: true, rings: true }, budget: { ...base.budget, guests: '300' } }
+  assert.deepEqual(mergePlans(base, mine, theirs), { date: '2027-06-10', done: { venue: true, dj: true, rings: true }, budget: { guests: '300', items: { photo: { cost: '10000' } } } })
+  assert.deepEqual(mergePlans(base, base, theirs), theirs)
+  assert.deepEqual(mergePlans(base, mine, base), mine)
+  assert.equal(mergePlans({ day: 'a' }, { day: 'b' }, { day: 'c' }).day, 'b')
+  assert.deepEqual(mergePlans({ a: 1, b: 2 }, { a: 1 }, { a: 1, b: 2, c: 3 }), { a: 1, c: 3 })
+  assert.ok(samePlan({ a: 1, b: { c: 2, d: 3 } }, { b: { d: 3, c: 2 }, a: 1 }))
+  assert.ok(!samePlan({ a: 1 }, { a: 2 }))
+})
+
+test('shared plan: the secret stays in the link hash, a broken link is ignored', () => {
+  const s = { code: 'abc2345678', token: 'A'.repeat(32) }
+  const link = syncLink(s, 'https://ugabuga.co.il')
+  assert.ok(link.startsWith('https://ugabuga.co.il/wedding#sync='))
+  assert.deepEqual(syncFromHash(link.slice(link.indexOf('#'))), s)
+  for (const bad of ['', '#budget', '#sync=abc', '#sync=abc2345678.short', '#plan=%7B%7D']) assert.equal(syncFromHash(bad), null)
+  assert.equal(planFromHash(link.slice(link.indexOf('#'))), null)
+})
+
+test('shared plan database: closed table, token required, no blind overwrite', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/202611050004_wedding_shared_plans.sql', import.meta.url), 'utf8')
+  assert.match(sql, /revoke all on public\.wedding_plans from public, anon, authenticated/)
+  assert.match(sql, /where code = p_code and token = p_token and expires_at > now\(\)/)
+  assert.match(sql, /and version = p_version returning version/)
+  assert.match(sql, /revoke all on function public\.wedding_plan_find/)
+  assert.doesNotMatch(sql, /grant execute on function public\.wedding_plan_find/)
 })
 
 test('plan link: round trip, bad links ignored', () => {

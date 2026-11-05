@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import InvitationStudio from '../../components/invitations/InvitationStudio'
 import PrintPreview from '../../components/ui/PrintPreview'
-import { WEDDING_TASKS, GUEST_GROUPS, SUPPLIERS, DEFAULT_CHUPPAH, daysUntil, tasksByStage, expectedGuests, weddingBudget, daySchedule, scheduleText, planToLink, planFromHash } from './weddingPlan'
+import { WEDDING_TASKS, GUEST_GROUPS, SUPPLIERS, DEFAULT_CHUPPAH, daysUntil, tasksByStage, expectedGuests, weddingBudget, daySchedule, scheduleText, planToLink, planFromHash, syncLink, syncFromHash } from './weddingPlan'
+import { useWeddingSync, syncedCode } from './useWeddingSync'
 
 const STORE = 'buga-wedding-plan'
 const load = () => { try { return JSON.parse(localStorage.getItem(STORE)) || {} } catch { return {} } }
@@ -20,7 +21,7 @@ const STEPS = [
 
 const FAQ = [
   { q: 'המתכנן באמת חינמי?', a: 'כן. ההזמנה, אישורי ההגעה, סידור ההושבה ורשימת המשימות חינמיים לגמרי, בלי הרשמה. אפשר לרשום עד 400 שמות ברשימת המוזמנים ולקבל עד 1,000 תשובות.' },
-  { q: 'מה נשמר איפה?', a: 'המשימות, התקציב ולוח הזמנים נשמרים רק בדפדפן שבו מילאתם אותם, וגם הטלפונים של האורחים. אם תנקו את הדפדפן הם יימחקו, אז כדאי לשמור קישור גיבוי מתחתית הדף. פרטי האירוע, שמות המוזמנים והתשובות נשמרים אצלנו בשרת כדי שהאורחים יוכלו לענות, ונמחקים חודשיים אחרי האירוע, לכן כדאי להוריד אותם לאקסל לפני כן.' },
+  { q: 'מה נשמר איפה?', a: 'המשימות, התקציב ולוח הזמנים נשמרים רק בדפדפן שבו מילאתם אותם, אלא אם הפעלתם עריכה משותפת: אז הם נשמרים גם אצלנו, נפתחים רק בקישור הסודי, ונמחקים אחרי 400 ימים בלי שינוי או בלחיצה על מחיקה מהשרת. הטלפונים של האורחים תמיד נשארים רק במכשיר שלכם. פרטי האירוע, שמות המוזמנים והתשובות נשמרים אצלנו בשרת כדי שהאורחים יוכלו לענות, ונמחקים חודשיים אחרי האירוע, לכן כדאי להוריד אותם לאקסל לפני כן.' },
   { q: 'כמה עולה חתונה בישראל?', a: 'תלוי בעיקר במספר האורחים ובמחיר המנה. במחשבון התקציב מכניסים את ההצעות שקיבלתם, ורואים את סך הכול, את העלות לאורח ואם המתנות הצפויות יכסו את ההוצאה.' },
   { q: 'איך עובד הסידור האוטומטי של ההושבה?', a: 'קובעים כמה שולחנות יש וכמה מקומות בכל שולחן, ואם רוצים נותנים לכל תשובה קבוצה, כמו משפחת החתן או חברים של הכלה. הסידור משאיר משפחות יחד, מושיב קבוצה ליד קבוצה ולא מזיז את מי שכבר שובץ. אפשר לבטל בלחיצה ולשנות כל שולחן ידנית.' },
   { q: 'מה הלו"ז של ערב החתונה?', a: 'לוח הזמנים נבנה מהשעה של החופה: קבלת פנים נפתחת בדרך כלל כשעה וחצי לפניה, וארוחה וריקודים אחריה. כותבים את שעת החופה, משנים כל שורה, ושולחים לכל ספק רק את מה שנוגע אליו.' },
@@ -45,6 +46,7 @@ const EXTRAS = [
   ['📲', 'תזכורת אישית בוואטסאפ', 'הודעה עם השם של כל מי שלא ענה', 'אחרים גובים 69–449 ₪'],
   ['🪑', 'הושבה אוטומטית ורשימה לכניסה', 'לחיצה אחת, משפחות יחד, בדיקת מקום בכל שולחן', 'בדרך כלל בתוך חבילה בתשלום'],
   ['⏰', 'לוח זמנים ליום החתונה', 'נבנה משעת החופה, ולכל ספק נשלח רק מה שנוגע אליו', ''],
+  ['🤝', 'עריכה משותפת לשניכם', 'קישור סודי, בלי הרשמה, ושינויים מתמזגים לבד', ''],
   ['👥', 'כמה יגיעו באמת?', 'הערכה לפי סוגי האורחים, לפני שסוגרים מנות', 'לא מצאנו את זה אצל אחרים'],
   ['💰', 'מחשבון תקציב ומתנות', 'כמה החתונה תעלה, כמה שילמתם, ואם המתנות יכסו', 'באפליקציות אחרות — אחרי הרשמה'],
   ['🔒', 'בלי הרשמה ובלי למסור טלפונים', 'הטלפונים של האורחים נשארים אצלכם', ''],
@@ -174,7 +176,44 @@ function DaySchedule({ plan, set }) {
   </section>
 }
 
-// Same plan on another phone or with the partner: a link carrying the plan, sent over WhatsApp.
+const SYNC_STATUS = {
+  saving: '⏳ שומרים…',
+  saved: '✓ הכול שמור ומשותף',
+  offline: '📶 אין חיבור כרגע. השינויים נשמרו כאן ויעלו כשהחיבור יחזור.',
+}
+
+// Both partners on one plan: saved on the server only after they turn this on.
+function SharePlan({ sync }) {
+  const [copied, setCopied] = useState(false)
+  const [error, setError] = useState('')
+  const act = fn => async () => { setError(''); try { await fn() } catch (e) { setError(e.code === 'rate_limited' ? 'יותר מדי פעולות ברשת הזו. נסו שוב בעוד כמה דקות.' : 'לא הצלחנו. בדקו את החיבור ונסו שוב.') } }
+  const link = sync.share && syncLink(sync.share, 'https://ugabuga.co.il')
+  const wa = link && 'https://wa.me/?text=' + encodeURIComponent('התכנון של החתונה שלנו 💍 פותחים פעם אחת מהטלפון, ומאז עובדים עליו יחד:\n' + link)
+  const copy = () => navigator.clipboard?.writeText(link).then(() => setCopied(true), () => {})
+  return <section id="together" className="mt-10 scroll-mt-24 rounded-3xl border-2 border-[var(--border)] bg-sky-50 p-5 text-center" aria-labelledby="together-title">
+    <h2 id="together-title" className="m-0 text-2xl font-bold">🤝 עובדים על זה יחד</h2>
+    {!link ? <>
+      <p className="mt-1 text-[var(--muted-foreground)]">שניכם רואים ומעדכנים את אותו תכנון מכל טלפון, ושינויים מתמזגים לבד. התכנון יישמר אצלנו בשרת, ורק מי שיש לו את הקישור הסודי יוכל לפתוח אותו. בלי הרשמה.</p>
+      {sync.status === 'gone' && <p className="font-bold text-rose-700" role="status">השיתוף הזה נמחק. התכנון נשאר בדפדפן הזה, ואפשר לפתוח שיתוף חדש.</p>}
+      <button type="button" onClick={act(sync.start)} className="rounded-xl bg-sky-600 px-5 py-2 font-bold text-white">להפעיל עריכה משותפת</button>
+    </> : <>
+      <p className="mt-1 font-bold" role="status">{SYNC_STATUS[sync.status] || SYNC_STATUS.saved}</p>
+      <p className="mt-1 text-[var(--muted-foreground)]">שלחו את הקישור לבן או לבת הזוג. כל מי שיש לו את הקישור יכול לראות ולשנות את התכנון, כולל התקציב, אז אל תשתפו אותו בקבוצות.</p>
+      <div className="flex flex-wrap justify-center gap-2">
+        <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
+        <button type="button" onClick={copy} className="rounded-xl border-2 border-[var(--border)] bg-white px-4 py-2 font-bold">{copied ? '✓ הועתק' : '🔗 העתקת קישור'}</button>
+      </div>
+      <p className="mt-3 mb-0 text-sm">
+        <button type="button" onClick={() => window.confirm('להפסיק לשתף במכשיר הזה? התכנון יישאר כאן, ובן או בת הזוג ימשיכו בקישור.') && sync.leave()} className="font-bold underline">עצירה במכשיר הזה</button>
+        {' · '}
+        <button type="button" onClick={() => window.confirm('למחוק את התכנון המשותף מהשרת? הקישור יפסיק לעבוד לשניכם, והעותק בדפדפן הזה יישאר.') && act(sync.destroy)()} className="font-bold underline">מחיקה מהשרת</button>
+      </p>
+    </>}
+    {error && <p className="mt-2 mb-0 font-bold text-rose-700" role="alert">{error}</p>}
+  </section>
+}
+
+// A copy of the plan in a link, for a backup or another phone without sharing. No server involved.
 function MovePlan({ plan }) {
   const [copied, setCopied] = useState(false)
   const link = planToLink(plan, 'https://ugabuga.co.il')
@@ -182,8 +221,8 @@ function MovePlan({ plan }) {
   const copy = () => navigator.clipboard?.writeText(link).then(() => setCopied(true), () => {})
   if (!Object.keys(plan).length) return null
   return <section className="mt-10 rounded-3xl border-2 border-dashed border-[var(--border)] p-5 text-center" aria-labelledby="move-title">
-    <h2 id="move-title" className="m-0 text-xl font-bold">💾 גיבוי, מעבר לטלפון אחר ושיתוף עם בן או בת הזוג</h2>
-    <p className="mt-1 text-[var(--muted-foreground)]">התכנון נשמר רק בדפדפן הזה, וניקוי הדפדפן ימחק אותו. הקישור הוא עותק של מה שיש כרגע, לא סנכרון: מי שפותח אותו מקבל את המצב הנוכחי, ושינויים אחר כך לא עוברים לבד. לכן כדאי שאחד מכם יעדכן, ואחרי כל שינוי גדול ישלח קישור חדש. הקישור כולל את התקציב, אז שלחו אותו רק למי שאתם רוצים.</p>
+    <h2 id="move-title" className="m-0 text-xl font-bold">💾 גיבוי בקישור</h2>
+    <p className="mt-1 text-[var(--muted-foreground)]">בלי עריכה משותפת, התכנון נשמר רק בדפדפן הזה, וניקוי הדפדפן ימחק אותו. הקישור כאן הוא עותק של מה שיש כרגע, ואינו נשמר אצלנו: שינויים אחר כך לא עוברים אליו. הוא כולל את התקציב, אז שלחו אותו רק למי שאתם רוצים.</p>
     <div className="flex flex-wrap justify-center gap-2">
       <a href={wa} target="_blank" rel="noopener noreferrer" className="rounded-xl bg-[#25D366] px-4 py-2 font-bold text-white">💬 שליחה בוואטסאפ</a>
       <button type="button" onClick={copy} className="rounded-xl border-2 border-[var(--border)] px-4 py-2 font-bold">{copied ? '✓ הועתק' : '🔗 העתקת קישור'}</button>
@@ -214,10 +253,21 @@ function Plan({ date, done, toggle }) {
 
 export function WeddingHub() {
   const [plan, setPlan] = useState({})
+  const replace = useCallback(next => { save(next); setPlan(next) }, [])
+  const [ready, setReady] = useState(false)
+  const sync = useWeddingSync(plan, replace, ready)
+  const join = useRef(sync.join)
   useEffect(() => {
+    const invite = syncFromHash(window.location.hash)
     const shared = planFromHash(window.location.hash)
     const mine = load()
-    if (shared && (!Object.keys(mine).length || window.confirm('לפתוח את התכנון מהקישור? הוא יחליף את כל מה שנשמר בדפדפן הזה, כולל שינויים שעשיתם כאן אחרי ששלחו אותו.'))) {
+    setReady(true)
+    if (invite) {
+      setPlan(mine)
+      // Opening your own link again changes nothing.
+      if (invite.code !== syncedCode() && (!Object.keys(mine).length || window.confirm('להצטרף לתכנון המשותף? הוא יחליף את מה שנשמר בדפדפן הזה.'))) join.current(invite).catch(() => window.alert('הקישור לא עובד. ייתכן שהתכנון נמחק או שאין חיבור.'))
+      window.history.replaceState(null, '', window.location.pathname)
+    } else if (shared && (!Object.keys(mine).length || window.confirm('לפתוח את התכנון מהקישור? הוא יחליף את כל מה שנשמר בדפדפן הזה, כולל שינויים שעשיתם כאן אחרי ששלחו אותו.'))) {
       save(shared); setPlan(shared)
       window.history.replaceState(null, '', window.location.pathname)
     } else setPlan(mine)
@@ -249,6 +299,8 @@ export function WeddingHub() {
     <DaySchedule plan={plan} set={update} />
 
     <Plan date={plan.date || ''} done={done} toggle={id => update({ done: { ...done, [id]: !done[id] } })} />
+
+    <SharePlan sync={sync} />
 
     <MovePlan plan={plan} />
 

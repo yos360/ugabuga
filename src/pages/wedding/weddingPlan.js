@@ -147,6 +147,32 @@ export function planFromHash(hash) {
   try { const p = JSON.parse(decodeURIComponent(m[1])); return p && typeof p === 'object' && !Array.isArray(p) ? p : null } catch { return null }
 }
 
+// Shared plan. The secret stays after the #, so it never reaches a server log.
+export const syncLink = (s, origin = '') => `${origin}/wedding#sync=${s.code}.${s.token}`
+export function syncFromHash(hash) {
+  const m = /[#&]sync=([a-z0-9]{6,16})\.([A-Za-z0-9_-]{20,64})/.exec(hash || '')
+  return m ? { code: m[1], token: m[2] } : null
+}
+
+const isObject = v => !!v && typeof v === 'object' && !Array.isArray(v)
+const canonical = v => isObject(v) ? Object.fromEntries(Object.keys(v).sort().map(k => [k, canonical(v[k])])) : v
+// The database reorders keys, so compare by content.
+export const samePlan = (a, b) => JSON.stringify(canonical(a ?? null)) === JSON.stringify(canonical(b ?? null))
+
+// Three-way merge from the last plan both sides saw: each side keeps its own changes, field by field,
+// so one partner's budget and the other's tasks both survive. Same field changed twice: `mine` wins.
+export function mergePlans(base, mine, theirs) {
+  if (samePlan(mine, base)) return theirs
+  if (samePlan(theirs, base) || samePlan(mine, theirs)) return mine
+  if (!isObject(mine) || !isObject(theirs)) return mine
+  const out = {}
+  for (const k of new Set([...Object.keys(mine), ...Object.keys(theirs)])) {
+    const v = mergePlans(isObject(base) ? base[k] : undefined, mine[k], theirs[k])
+    if (v !== undefined) out[k] = v
+  }
+  return out
+}
+
 export function daysUntil(date, now = new Date()) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null
   const [y, m, d] = date.split('-').map(Number)

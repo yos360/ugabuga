@@ -42,6 +42,14 @@ export const rsvpDb = {
   seatMany: (code, hostToken, seats) => call('rsvp_seat_many', { p_code: code, p_host_token: hostToken, p: seats }),
 }
 
+// A wedding plan shared by a couple (saved only after they turn sharing on).
+export const weddingDb = {
+  create: (token, plan) => call('wedding_plan_create', { p_token: token, p: plan }),
+  get: (code, token) => call('wedding_plan_get', { p_code: code, p_token: token }),
+  save: (code, token, plan, version) => call('wedding_plan_save', { p_code: code, p_token: token, p: plan, p_version: version }),
+  remove: (code, token) => call('wedding_plan_delete', { p_code: code, p_token: token }),
+}
+
 export const secretDb = {
   create: (ownerToken, { title, mode, note, budget, names, exclusions }) => call('secret_create', { p_owner_token: ownerToken, p_title: title, p_mode: mode, p_note: note || null, p_budget: budget || null, p_names: names, p_exclusions: exclusions }),
   organizer: (code, ownerToken) => call('secret_organizer', { p_code: code, p_owner_token: ownerToken }),
