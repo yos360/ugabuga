@@ -326,11 +326,14 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
     catch (e) { setEv(ev2 => ({ ...ev2, marks: before })); show(errText(site, e.code), 'err'); return false }
   }
   const setSeatingExtras = async patch => {
+    // On screen at once: a tap on automatic seating right after typing must use the new number.
+    const before = ev.extras
+    setEv(e => ({ ...e, extras: { ...e.extras, ...patch } }))
     try {
       const extras = await rsvpDb.extrasSet(ev.code, token, { ...ev.extras, ...patch })
       // Fewer tables: the database cleared the seats that no longer exist.
       setEv(e => ({ ...e, extras: extras || {}, marks: Object.fromEntries(Object.entries(e.marks || {}).map(([id, m]) => [id, m.table > (extras?.tables || 0) ? { ...m, table: null } : m])) }))
-    } catch (e) { show(errText(site, e.code), 'err') }
+    } catch (e) { setEv(ev2 => ({ ...ev2, extras: before })); show(errText(site, e.code), 'err') }
   }
   const coming = responses.filter(r => r.status !== 'no')
   const paidCount = coming.filter(r => marks[r.id]?.paid).length
