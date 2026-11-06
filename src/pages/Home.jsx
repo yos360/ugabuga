@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import RainBanner from '../components/home/RainBanner'
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, Sparkles, ChevronLeft } from 'lucide-react'
 import SEO from '../components/ui/SEO'
@@ -247,6 +248,7 @@ export default function Home() {
   const request = <RequestTop key="request" variant={variant} />
   const opening = variant === 'request' ? [request, tunnel, search] : variant === 'ai' ? [search, tunnel] : [tunnel, search]
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className={`hp hp-v-${variant}`} dir="rtl">
+    <RainBanner />
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip /><ShoppingChip /><BringChip /><ElectionChip /></div>
