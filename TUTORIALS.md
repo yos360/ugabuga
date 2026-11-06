@@ -39,7 +39,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 18 | ציד אוצרות עם QR — מכינים ומשחקים | /treasure-hunt/qr | party | 2026-11-05 slot 1 — ready, upload from the owner's Chrome |
 | 19 | ציד אוצרות מוכן — מדפיסים ומחביאים | /treasure-hunt/ready | party | 2026-11-05 slot 2 — ready, upload from the owner's Chrome |
 | 20 | גלגל המזל — הגרלה בכיתה ובמסיבה | /tools/wheel | tools | 2026-11-05 slot 3 — ready, upload from the owner's Chrome |
-| 21 | מחלק קבוצות — חלוקה הוגנת לקבוצות | /tools/team-generator | classroom | |
+| 21 | מחלק קבוצות — חלוקה הוגנת לקבוצות | /tools/team-generator | classroom | 2026-11-06 slot 1 — ready, upload from the owner's Chrome |
 | 22 | מחשבון מסיבה — כמה פיצות ושתייה | /tools/party-calculator | party | |
 | 23 | קיר ברכות לגננת ולמורה | /thank-you-wall | party | |
 | 24 | מחולל תשבצים | /tools/crossword-maker | learning | |
