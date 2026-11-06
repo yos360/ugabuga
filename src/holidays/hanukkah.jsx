@@ -15,6 +15,7 @@ export const HANUKKAH_H = {
     { to: base, label: 'הכול על חנוכה', emoji: '🕎' },
     { to: base + '/learn', label: 'סיכומים על חנוכה', emoji: '📖' },
     { to: base + '/candle-times', label: 'זמני הדלקת נרות', emoji: '🕯️' },
+    { to: base + '/candle-lighting', label: 'סדר הדלקת נרות', emoji: '📜' },
     { to: base + '/sevivon', label: 'סביבון וירטואלי', emoji: '🎲' },
     { to: base + '/quiz', label: 'חידון חנוכה', emoji: '❓' },
     { to: base + '/coloring', label: 'דפי צביעה', emoji: '🖍️' },
