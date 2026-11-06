@@ -64,8 +64,15 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 | 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | VYuaTFQQemo (made in slot 3 of 11-04, uploaded 2026-11-05 slot 1; in the playlist; site 021cd8b8; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-party-bags) |
 | 2026-11-05 | 2 | מבחני בגרות לתרגול (מקצוע, יחידות, מה יש במבחן, הדפסה לתלמיד בלי דף התשובות, בדיקה מול דף התשובות) | /bagrut | t0AZS2SrPmU (made in slot 2 of 11-05, uploaded 2026-11-06 slot 1; in the playlist; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-bagrut). SITE ENTRY NOT PUSHED: see the note below |
 
-Site entry pending (2026-11-06 slot 1): the /bagrut entry and its VIDEO_PAGE_LABELS line sit uncommitted in src/data/videos.js. Build and lint pass, but tests/sitemap-groups.test.mjs ("no learn page carries a lastmod...") fails on main since 601d447f (87% of /learn pages share 2026-11-04), unrelated to the video. The rule is to push only when everything passes. Once it passes: commit that file as "Videos: tutorial 2026-11-06 (/bagrut)" and push, before making the next video's entry.
+/bagrut site entry: pushed in 2026-11-06 slot 2 (331bfb20); all 1725 tests passed by then.
 Every new path also needs a label in VIDEO_PAGE_LABELS (src/data/videos.js), or tests/videos.test.mjs fails.
+
+READY, NOT UPLOADED (made 2026-11-06 slot 2): שיעורי עזר בבית, /tutoring. Studio showed "הגעת למגבלת ההעלאות היומית" right after file_upload (the Unseen English series had uploaded several videos that day, so it shares the channel's daily quota). No draft was left in Studio. The next run uploads this first and does NOT make a new video:
+- file: ugabuga/.reel-upload/tutorial/tutorial.mp4 (7.5 MB, 39.9 s) + thumbnail.jpg; title and description in youtube.md there. Source: examples/tutorial-tutoring; finished render: work/tutorial-2026-11-06-2/out.
+- site entry after upload: { id, kind: 'tutorial', title: 'איך בונים תוכנית שיעורי עזר בבית בעוגה בוגה — מדריך קצר', paths: ['/tutoring'], category: 'learning', date: <upload day>, desc: 'מדריך קצר לשיעורי עזר בבית: בוחרים כיתה ובמה קשה, כמה זמן יש לכם, ומקבלים תוכנית לשבוע או לחודש עם מפגש קצר בכל יום, תרגול באתר ודפי עבודה — חינם, בלי הרשמה.' }, and label '/tutoring': 'שיעורי עזר בבית' in VIDEO_PAGE_LABELS.
+- then add the row to the table above and delete this note.
+
+npx is not on PATH in the portable node (found 2026-11-06): run `node node_modules/vite/bin/vite.js build` and oxlint through node directly; tests with `node --test --test-reporter=tap tests/*.mjs` (the default reporter prints nothing useful through the pipe).
 
 Playlist picker (found 2026-11-06): the ref from `find` for the playlist checkbox hit the wrong row ("עוגה בוגה בדקה") because the dialog re-orders and shifts while it opens. Fixed on the video's edit page and confirmed after reload. Always take a screenshot and click by coordinates, then check `ytcp-video-metadata-playlists` text on the edit page after publishing.
 Sign-in worked again on 2026-11-06: Browser 2 (in use) is on the עוגה בוגה channel.
