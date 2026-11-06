@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-11-06', emoji: '📖', title: 'מסיבת סידור: מתנות שהן לא כיפה וסימנייה', blurb: 'שמונה רעיונות למתנה לילדים, סדר מסיבה של כשעה וחצי, והקדשה לסידור להדפסה: כותבים את שמות הכיתה פעם אחת, וכל ילד מקבל הקדשה עם השם שלו.', to: '/gifts/siddur-party', kind: 'family' },
   { date: '2026-11-06', emoji: '📜', title: 'סדר הדלקת נרות חנוכה להדפסה', blurb: 'כרטיס לשים ליד החנוכייה: הברכות, הנרות הללו ומעוז צור בניקוד מלא, עם תמונה של הילדים ושם המשפחה או הגן. יש גם שני כרטיסים בדף לחלוקה בגן ובכיתה, ולוח שמונת הערבים של 2026.', to: '/holidays/hanukkah/candle-lighting', kind: 'print' },
   { date: '2026-11-06', emoji: '🕯️', title: 'החידה היומית #5: חידה לשבת', blurb: 'מה יש בשבת, יש בערב, ואין ביום שישי? חידה קצרה לשולחן השבת, והפתרון בלחיצה. שבת שלום!', to: '/riddles/shabbat-riddle', kind: 'play' },
   { date: '2026-11-06', emoji: '🧠', title: 'החידה היומית #4: חידת הידיים', blurb: 'חשבון עם ידיים במקום מספרים: נראה פשוט, אבל השורה האחרונה מפילה כמעט את כולם. חידה חדשה עם טריק כל יום ב־14:00, והפתרון בלחיצה.', to: '/riddles/finger-math', kind: 'play' },
