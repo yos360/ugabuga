@@ -62,7 +62,13 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 | 2026-11-04 | 1 | מקלדת עברית אונליין (הקלדה בלי עברית, ניקוד, סימנים ואימוג׳ים, צבעי אצבעות, העתקה ווואטסאפ) | /tools/keyboard | rrmNDBL6TvY |
 | 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | jziSpRpEj8I (made in slot 2, uploaded 17:40 by the slot-3 run; in the playlist; site f8fa7bfc; thumbnail input did not apply again) |
 | 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | VYuaTFQQemo (made in slot 3 of 11-04, uploaded 2026-11-05 slot 1; in the playlist; site 021cd8b8; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-party-bags) |
-| 2026-11-05 | 2 | מבחני בגרות לתרגול (מקצוע, יחידות, מה יש במבחן, הדפסה לתלמיד בלי דף התשובות, בדיקה מול דף התשובות) | /bagrut | READY, NOT UPLOADED — .reel-upload/tutorial/tutorial.mp4 (8.5 MB, 39 s) + thumbnail.jpg; title "איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר"; next run uploads it first; source in examples/tutorial-bagrut |
+| 2026-11-05 | 2 | מבחני בגרות לתרגול (מקצוע, יחידות, מה יש במבחן, הדפסה לתלמיד בלי דף התשובות, בדיקה מול דף התשובות) | /bagrut | t0AZS2SrPmU (made in slot 2 of 11-05, uploaded 2026-11-06 slot 1; in the playlist; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-bagrut). SITE ENTRY NOT PUSHED: see the note below |
+
+Site entry pending (2026-11-06 slot 1): the /bagrut entry and its VIDEO_PAGE_LABELS line sit uncommitted in src/data/videos.js. Build and lint pass, but tests/sitemap-groups.test.mjs ("no learn page carries a lastmod...") fails on main since 601d447f (87% of /learn pages share 2026-11-04), unrelated to the video. The rule is to push only when everything passes. Once it passes: commit that file as "Videos: tutorial 2026-11-06 (/bagrut)" and push, before making the next video's entry.
+Every new path also needs a label in VIDEO_PAGE_LABELS (src/data/videos.js), or tests/videos.test.mjs fails.
+
+Playlist picker (found 2026-11-06): the ref from `find` for the playlist checkbox hit the wrong row ("עוגה בוגה בדקה") because the dialog re-orders and shifts while it opens. Fixed on the video's edit page and confirmed after reload. Always take a screenshot and click by coordinates, then check `ytcp-video-metadata-playlists` text on the edit page after publishing.
+Sign-in worked again on 2026-11-06: Browser 2 (in use) is on the עוגה בוגה channel.
 
 Sign-in (found 2026-11-05 slot 2): the Chrome in use showed Google's account chooser with every account "לא מחובר"; the second connected Chrome opened on another channel (UCybtC8eg77OnHsyGMq8t5pA, @photoshos) with no access to the עוגה בוגה channel, and its tab group disappeared mid-check. Never upload from that channel. Signing in is the owner's.
 
