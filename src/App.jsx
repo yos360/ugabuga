@@ -155,6 +155,7 @@ const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionG
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
+const PlayPrintHub = lazy(() => import('./pages/experimental/PlayPrintHub'))
 const RequestDone = lazy(() => import('./pages/RequestDone'))
 const WhatsAppChannel = lazy(() => import('./pages/WhatsAppChannel'))
 const WinterGames = lazy(() => import('./pages/WinterGames'))
@@ -889,6 +890,7 @@ export default function App() {
               <Route path="/booklets" element={<BookletsHub />} />
               <Route path="/bagrut" element={<BagrutHub />} />
               <Route path="/request" element={<RequestPage />} />
+              <Route path="/start" element={<PlayPrintHub />} />
               <Route path="/request/done" element={<RequestDone />} />
               <Route path="/whatsapp" element={<WhatsAppChannel />} />
               <Route path="/winter" element={<WinterGames />} />
