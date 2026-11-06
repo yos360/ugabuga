@@ -72,5 +72,25 @@
     },
     "tiktok": "https://www.tiktok.com/@hellorwsvm8/video/7705033396824706322",
     "site": "https://ugabuga.co.il/riddles/finger-math"
+  },
+  {
+    "date": "2026-11-06",
+    "n": 5,
+    "id": "shabbat-riddle",
+    "answer": "האות ב׳",
+    "kind": "text",
+    "type": "משחק אותיות",
+    "posted": true,
+    "networks": [
+      "instagram",
+      "facebook",
+      "whatsapp-channel"
+    ],
+    "skipped": {
+      "youtube": "daily upload limit, channel not verified; no verification done",
+      "tiktok": "identity check by mail code on publish; saved as a draft, needs the owner"
+    },
+    "extra": "second riddle of the day, a Shabbat riddle the owner chose",
+    "site": "https://ugabuga.co.il/riddles/shabbat-riddle"
   }
 ]
