@@ -293,6 +293,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/nutrition', label: 'תזונה ובריאות: ויטמינים, חלבונים, תוויות מזון ועוד', icon: '🥗' },
           { to: '/learn/oceans', label: 'ימים ואוקיינוסים: הים התיכון, ים סוף, אלמוגים וגלים', icon: '🌊' },
           { to: '/learn/environment', label: 'סביבה וקיימות: מחזור, אקלים, אנרגיה מתחדשת ושמורות טבע', icon: '🌱' },
+          { to: '/learn/countries', label: 'מדינות העולם: בירות, גבולות, שפות ודגלים', icon: '🌐' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
           { to: '/learn/fruits-vegetables', label: 'פירות וירקות: פרי או ירק? מאיפה הגיעו', icon: '🍎' },
