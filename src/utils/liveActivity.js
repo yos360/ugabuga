@@ -122,7 +122,10 @@ function trafficSource() {
     return src
   } catch { return null }
 }
+// A local build talks to the live database, so a test page left open would show up as a real visitor.
+export const isLocalHost = host => /^(localhost|127(\.\d+){3}|\[::1\]|.+\.localhost)$/i.test(String(host || ''))
 function isOwnerBrowser() {
+  if (typeof location !== 'undefined' && isLocalHost(location.hostname)) return true
   // The owner's own browsing is left out of the stats (unless explicitly opted in). Once this
   // browser has been signed in as the owner it stays marked, so an expired sign-in doesn't
   // suddenly start counting the owner's own visits.

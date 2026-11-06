@@ -12,6 +12,12 @@ test('a blob link and the dead page it turns into give the same file id', () => 
   assert.equal(pdfId(`/${id.toUpperCase()}?x=1`), id)
 })
 
+test('a local test page never counts as a visitor in the owner report', async () => {
+  const { isLocalHost } = await import('../src/utils/liveActivity.js')
+  for (const host of ['localhost', '127.0.0.1', '[::1]', 'app.localhost']) assert.equal(isLocalHost(host), true, host)
+  for (const host of ['ugabuga.co.il', 'www.ugabuga.co.il', 'localhost.co.il']) assert.equal(isLocalHost(host), false, host)
+})
+
 test('every PDF is kept for the dead page, which offers it back', () => {
   assert.match(readFileSync('src/utils/pagesToPdf.js', 'utf8'), /savePdf\(url, blob, name\)/)
   assert.match(readFileSync('src/pages/NotFound.jsx', 'utf8'), /loadPdf\(pdfId\(pathname\)\)/)
