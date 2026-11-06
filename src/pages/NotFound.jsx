@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { recordNotFound, recordExpiredPdf } from '../components/layout/RecentActivity'
+import { loadPdf, pdfId, savePdf } from '../utils/pdfRecovery'
 import WobblyCard from '../components/ui/WobblyCard'
 import WobblyButton from '../components/ui/WobblyButton'
 import SEO from '../components/ui/SEO'
@@ -24,8 +25,35 @@ function lastPdf() {
 }
 
 function ExpiredFile() {
+  const { pathname } = useLocation()
   const last = lastPdf()
+  const [file, setFile] = useState(null)
   useEffect(() => { if (last?.path) recordExpiredPdf(last.path) }, [last?.path])
+  // The same browser usually still holds the file (pdfRecovery.js): give it back instead of a dead end.
+  useEffect(() => {
+    let alive = true, url = ''
+    loadPdf(pdfId(pathname)).then(saved => {
+      if (!alive || !saved) return
+      url = URL.createObjectURL(saved.blob)
+      void savePdf(url, saved.blob, saved.name)
+      setFile({ url, name: saved.name })
+    })
+    return () => { alive = false; if (url) URL.revokeObjectURL(url) }
+  }, [pathname])
+  if (file) return (
+    <div className="mx-auto max-w-3xl px-4 py-14 text-center">
+      <SEO title="הקובץ שלכם מוכן" description="קובץ PDF שנוצר בדפדפן." noindex />
+      <WobblyCard hover={false} padding="p-8">
+        <div className="text-6xl mb-3">📄</div>
+        <h1 className="text-3xl sm:text-4xl mb-3">הקובץ שלכם מוכן</h1>
+        <p className="mx-auto max-w-xl text-lg text-[var(--ink)]/75 mb-6">שמרנו לכם את הקובץ. לוחצים, שומרים אותו בטלפון או במחשב, ומדפיסים.</p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <a href={file.url} download={file.name}><WobblyButton>⬇️ הורדת הקובץ</WobblyButton></a>
+          {last && <Link to={last.path}><WobblyButton variant="outline">↩️ חזרה ל{last.title ? `"${last.title}"` : 'דף שממנו הורדתם'}</WobblyButton></Link>}
+        </div>
+      </WobblyCard>
+    </div>
+  )
   return (
     <div className="mx-auto max-w-3xl px-4 py-14 text-center">
       <SEO title="הקובץ כבר לא זמין" description="קישור זמני לקובץ PDF שנוצר בדפדפן." noindex />

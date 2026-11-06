@@ -10,6 +10,7 @@ const latin1 = s => { const b = new Uint8Array(s.length); for (let i = 0; i < s.
 
 import { buildPdf } from './pdfWriter'
 import { isInAppBrowser } from './pdfLink'
+import { savePdf } from './pdfRecovery'
 export { buildPdf } from './pdfWriter'
 
 let pdfFontPromise
@@ -251,6 +252,7 @@ export async function savePagesAsPdf(sheets, filename, onProgress, options = {})
     return { status: 'needs-browser' }
   }
   const url = URL.createObjectURL(blob)
+  void savePdf(url, blob, name) // lets the 404 page give the file back if this link dies (see NotFound.jsx)
   const a = document.createElement('a')
   a.href = url; a.download = name
   document.body.appendChild(a); a.click(); a.remove()
