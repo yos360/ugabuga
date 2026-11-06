@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'shabbat-riddle', n: 5, date: '2026-11-06', type: 'משחק אותיות', emoji: '🕯️', kind: 'text',
+    title: 'חידה לשבת',
+    lines: ['מה יש בשבת,', 'יש בערב,', 'ואין ביום שישי?'],
+    ask: 'מה התשובה? שבת שלום! 🕯️',
+    answer: 'האות ב׳',
+    why: 'האות ב׳ נמצאת במילה "שבת" ובמילה "ערב", אבל במילים "יום שישי" אין אותה. החידה מדברת על המילים עצמן, לא על מה שקורה בשבת.',
+  },
+  {
     id: 'finger-math', n: 4, date: '2026-11-06', type: 'משוואות אימוג\'י', emoji: '✋', kind: 'eq',
     title: 'חידת הידיים: כמה יוצא?',
     lines: ['✌️ + ☝️ = 3', '🖐️ × ✌️ = 10', '✊ + 🖐️ = 5', '🖐️ + ✌️ × ✊ = ?'],
