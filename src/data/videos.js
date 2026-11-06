@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 't0AZS2SrPmU', kind: 'tutorial', title: 'איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר', paths: ['/bagrut'], category: 'learning', date: '2026-11-06',
+    desc: 'מדריך קצר למבחני התרגול לבגרות: בוחרים מקצוע ומספר יחידות, רואים מה יש במבחן, מדפיסים לתלמיד בלי דף התשובות ובודקים אחר כך מול הדף — חינם, בלי הרשמה.' },
   { id: 'VYuaTFQQemo', kind: 'tutorial', title: 'איך בוחרים מה לשים בשקית הפתעה ליום הולדת בעוגה בוגה — מדריך קצר', paths: ['/birthday/party-bags'], category: 'party', date: '2026-11-05',
     desc: 'מדריך קצר לשקיות הפתעה: בוחרים גיל ותקציב, מקבלים שקית לדוגמה עם מחיר, מסננים בלי פלסטיק ובלי ממתקים ומדפיסים תוויות ומדבקות עם שם — חינם, בלי הרשמה.' },
   { id: 'jziSpRpEj8I', kind: 'tutorial', title: 'איך מחברים, מקטינים וחותמים על PDF בעוגה בוגה — מדריך קצר', paths: ['/tools/pdf'], category: 'tools', date: '2026-11-04',
@@ -39,7 +41,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
-  '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
+  '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
