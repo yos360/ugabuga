@@ -132,7 +132,7 @@ export const TESTS = [
     summary: `כתבה על נער שהקים חוג תכנות לילדים המאושפזים לזמן ארוך בבית חולים — אנסין באנגלית ל־4 יחידות (Module C) עם מטלת כתיבה.`,
     texts: [{
       paragraphs: [
-        `Every Wednesday afternoon, sixteen-year-old Ori Shalev takes the bus to a hospital in Petah Tikva with a backpack full of laptops. He is not a patient, and he is not visiting a relative. He is going to teach.`,
+        `Every Wednesday afternoon, sixteen-year-old Ori Rosen takes the bus to a hospital in Petah Tikva with a backpack full of laptops. He is not a patient, and he is not visiting a relative. He is going to teach.`,
         `Two years ago, Ori spent three weeks in the same hospital after a serious operation on his back. "The worst part wasn't the pain," he remembers. "It was the boredom. The days were endless, and I felt that the world was going on without me." To pass the time, he started learning to code on his father's old laptop. By the time he went home, he had built a simple game.`,
         `Last year, Ori contacted the hospital's education department with an idea: a weekly coding club for children who stay in the hospital for a long time. The staff liked the idea, and a local technology company donated eight used laptops.`,
         `The club is small, usually five or six children between the ages of nine and fifteen. Some sit in wheelchairs; others join from their beds. Ori starts each meeting with a short challenge, like making a cat move across the screen, and then lets the children follow their own ideas. One girl built a quiz about her favorite singer. A boy who had been in the hospital for four months created a game in which a doctor chases germs.`,

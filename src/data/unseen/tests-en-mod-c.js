@@ -10,7 +10,7 @@ export const TESTS = [
     summary: 'סיפור אישי של נערה שמלמדת את סבה לקרוא אנגלית כדי שיוכל לקרוא מכתבים מנכדיו בקנדה — אנסין באנגלית ברמת Module C.',
     texts: [{
       paragraphs: [
-        "When I was fifteen, my grandfather Moshe surprised me with a strange request. He wanted me to teach him to read English. Grandpa came to Israel from Morocco, and he worked for forty years as a carpenter in Be'er Sheva. He speaks Hebrew, Arabic and French, but he never had the chance to learn English at school.",
+        "When I was fifteen, my grandfather David surprised me with a strange request. He wanted me to teach him to read English. Grandpa came to Israel from Morocco, and he worked for forty years as a carpenter in Be'er Sheva. He speaks Hebrew, Arabic and French, but he never had the chance to learn English at school.",
         "At first I thought he was joking. 'Why now, Grandpa?' I asked. He explained that my aunt and her family had moved to Canada, and his grandchildren there were growing up speaking mostly English. 'They write to me, and I can't read their letters,' he said quietly. 'I don't want to need someone to translate my own family for me.'",
         "We started the next week. Every Tuesday after school, I sat with him at his kitchen table. I was nervous because I had never taught anyone anything. My first plan was to use my old school textbook, but it was full of exercises about shopping malls and pop music, and Grandpa looked bored. So I changed my method. Instead of the textbook, we read the short messages his grandchildren sent, word by word.",
         "It was not easy. Some weeks he forgot words we had practised many times, and once he closed the notebook and said he was too old for this. I told him that I also forget words, and that mistakes are part of learning. The next Tuesday he was waiting for me at the door.",
@@ -274,12 +274,12 @@ export const TESTS = [
     summary: 'כתבת צבע על נערה חירשת שמשחקת כדורגל ועל הקבוצה שלמדה לתקשר איתה בסימנים — אנסין באנגלית ברמת Module C.',
     texts: [{
       paragraphs: [
-        'In Haifa, sixteen-year-old Yael Ben-Ami runs across the field, calls for the ball with a wave of her hand and scores. Her teammates hug her and celebrate loudly. Yael cannot hear their cheers. She has been deaf since birth, but on the soccer field, she says, she feels completely at home.',
-        "Yael started playing when she was seven, with her older brothers in the park near their house. 'They never treated me differently,' she remembers. When she was ten, she joined a local girls' team. It was the first real team she had played for, and every other player on it could hear.",
-        "At the beginning, there were problems. In soccer, players often shout to each other: 'Pass!', 'Behind you!', 'Watch out!' Yael missed all of these warnings. The referee's whistle was another difficulty. Several times she continued running with the ball after the game had stopped, and the other players thought she was ignoring the rules.",
-        "Her coach, Ronit, decided that the team would adapt instead of asking Yael to change. She taught all the players a few simple signs, such as a raised fist for 'stop' and two fingers pointing for 'pass to the left'. She also began holding up a bright yellow flag whenever she blew the whistle. 'Very soon, the signs helped everyone,' Ronit explains. 'In a noisy stadium, even players who hear perfectly can't hear each other. Signs work in any noise.'",
-        "Yael believes that being deaf has also made her a better player. 'I can't depend on sounds, so I watch all the time,' she says. 'I see where people are looking and where they are going to move.'",
-        "Today Yael dreams of playing for a national team. Her advice to other young people with disabilities is simple: 'Don't wait for the world to be perfect. Find people who are ready to meet you halfway.'",
+        'In Haifa, sixteen-year-old Lily Ben-Ami runs across the field, calls for the ball with a wave of her hand and scores. Her teammates hug her and celebrate loudly. Lily cannot hear their cheers. She has been deaf since birth, but on the soccer field, she says, she feels completely at home.',
+        "Lily started playing when she was seven, with her older brothers in the park near their house. 'They never treated me differently,' she remembers. When she was ten, she joined a local girls' team. It was the first real team she had played for, and every other player on it could hear.",
+        "At the beginning, there were problems. In soccer, players often shout to each other: 'Pass!', 'Behind you!', 'Watch out!' Lily missed all of these warnings. The referee's whistle was another difficulty. Several times she continued running with the ball after the game had stopped, and the other players thought she was ignoring the rules.",
+        "Her coach, Ronit, decided that the team would adapt instead of asking Lily to change. She taught all the players a few simple signs, such as a raised fist for 'stop' and two fingers pointing for 'pass to the left'. She also began holding up a bright yellow flag whenever she blew the whistle. 'Very soon, the signs helped everyone,' Ronit explains. 'In a noisy stadium, even players who hear perfectly can't hear each other. Signs work in any noise.'",
+        "Lily believes that being deaf has also made her a better player. 'I can't depend on sounds, so I watch all the time,' she says. 'I see where people are looking and where they are going to move.'",
+        "Today Lily dreams of playing for a national team. Her advice to other young people with disabilities is simple: 'Don't wait for the world to be perfect. Find people who are ready to meet you halfway.'",
       ],
     }],
     glossary: [
@@ -297,7 +297,7 @@ export const TESTS = [
     questions: [
       {
         type: 'mc', skill: 'detail',
-        q: "How did Yael's brothers treat her when they played together?",
+        q: "How did Lily's brothers treat her when they played together?",
         options: [
           'They protected her from the other players.',
           'They did not let her play with them.',
@@ -305,26 +305,26 @@ export const TESTS = [
           'They taught her to use sign language.',
         ],
         answer: 2,
-        explain: 'בפסקה 2 יעל מספרת שהאחים מעולם לא התייחסו אליה אחרת, כלומר התייחסו אליה כמו לכל אחד אחר.',
+        explain: 'בפסקה 2 לילי מספרת שהאחים מעולם לא התייחסו אליה אחרת, כלומר התייחסו אליה כמו לכל אחד אחר.',
         evidence: 'They never treated me differently',
       },
       {
         type: 'open', skill: 'reference',
         q: "What does the word 'It' in the sentence 'It was the first real team she had played for' (paragraph 2) refer to?",
-        answer: "The local girls' team (that Yael joined at the age of ten).",
-        explain: 'It מתייחס לשם העצם שהוזכר במשפט הקודם — קבוצת הבנות המקומית שיעל הצטרפה אליה בגיל עשר.',
+        answer: "The local girls' team (that Lily joined at the age of ten).",
+        explain: 'It מתייחס לשם העצם שהוזכר במשפט הקודם — קבוצת הבנות המקומית שלילי הצטרפה אליה בגיל עשר.',
         evidence: "she joined a local girls' team",
       },
       {
         type: 'open', skill: 'detail',
-        q: 'Give TWO difficulties that Yael had when she joined the team.',
+        q: 'Give TWO difficulties that Lily had when she joined the team.',
         answer: "She could not hear the other players' warnings/shouts; she could not hear the referee's whistle.",
         explain: 'בפסקה 3 מתוארים שני קשיים: היא לא שמעה את הקריאות והאזהרות של השחקניות, ולא שמעה את שריקת השופט.',
-        evidence: "Yael missed all of these warnings. The referee's whistle was another difficulty.",
+        evidence: "Lily missed all of these warnings. The referee's whistle was another difficulty.",
       },
       {
         type: 'mc', skill: 'inference',
-        q: 'Why did the other players think Yael was ignoring the rules?',
+        q: 'Why did the other players think Lily was ignoring the rules?',
         options: [
           'She kept running with the ball after the game had stopped.',
           'She refused to pass the ball to them.',
@@ -345,8 +345,8 @@ export const TESTS = [
           'win a game',
         ],
         answer: 1,
-        explain: 'המאמנת החליטה שהקבוצה תשתנה ותתאים את עצמה (למשל בעזרת סימנים) במקום לבקש מיעל להשתנות. adapt = להסתגל, להתאים.',
-        evidence: 'the team would adapt instead of asking Yael to change',
+        explain: 'המאמנת החליטה שהקבוצה תשתנה ותתאים את עצמה (למשל בעזרת סימנים) במקום לבקש מלילי להשתנות. adapt = להסתגל, להתאים.',
+        evidence: 'the team would adapt instead of asking Lily to change',
       },
       {
         type: 'mc', skill: 'detail',
@@ -354,7 +354,7 @@ export const TESTS = [
         options: [
           'She raised her fist.',
           'She pointed with two fingers.',
-          'She called Yael by name.',
+          'She called Lily by name.',
           'She held up a yellow flag.',
         ],
         answer: 3,
@@ -363,16 +363,16 @@ export const TESTS = [
       },
       {
         type: 'open', skill: 'inference',
-        q: 'According to Ronit, why did the signs help the whole team, not only Yael?',
+        q: 'According to Ronit, why did the signs help the whole team, not only Lily?',
         answer: 'Because in a noisy stadium even players who can hear cannot hear each other, but signs work in any noise.',
         explain: 'רונית מסבירה בפסקה 4 שבאצטדיון רועש גם שחקניות שומעות לא שומעות זו את זו, וסימנים עובדים בכל רעש.',
         evidence: "In a noisy stadium, even players who hear perfectly can't hear each other.",
       },
       {
         type: 'open', skill: 'detail',
-        q: 'Copy the words from paragraph 5 that explain why Yael watches the game all the time.',
+        q: 'Copy the words from paragraph 5 that explain why Lily watches the game all the time.',
         answer: "I can't depend on sounds",
-        explain: 'יעל אומרת שהיא לא יכולה לסמוך על צלילים, ולכן היא כל הזמן צופה ומתבוננת.',
+        explain: 'לילי אומרת שהיא לא יכולה לסמוך על צלילים, ולכן היא כל הזמן צופה ומתבוננת.',
         evidence: "I can't depend on sounds, so I watch all the time",
       },
       {
@@ -381,15 +381,15 @@ export const TESTS = [
         options: [
           'Deaf people should not play team sports.',
           'Coaches should be stricter with their players.',
-          "With her team's help, Yael succeeds in soccer even though she is deaf.",
+          "With her team's help, Lily succeeds in soccer even though she is deaf.",
           'Signs are better than words in every situation.',
         ],
         answer: 2,
-        explain: 'הכתבה מספרת על הקשיים של יעל, על ההתאמות שהקבוצה עשתה ועל ההצלחה שלה כשחקנית — כלומר שבעזרת הקבוצה היא מצליחה למרות החירשות.',
+        explain: 'הכתבה מספרת על הקשיים של לילי, על ההתאמות שהקבוצה עשתה ועל ההצלחה שלה כשחקנית — כלומר שבעזרת הקבוצה היא מצליחה למרות החירשות.',
       },
     ],
     writing: {
-      prompt: "Yael's coach changed the way the team communicated so that everyone could play. Write about one thing your school or class could change to make it easier for every student to take part. Explain your idea and why it would help.",
+      prompt: "Lily's coach changed the way the team communicated so that everyone could play. Write about one thing your school or class could change to make it easier for every student to take part. Explain your idea and why it would help.",
       words: [80, 100],
     },
   },
@@ -535,9 +535,9 @@ export const TESTS = [
     texts: [{
       paragraphs: [
         "If you are looking for a book that will make you laugh, worry and finally smile, 'The Lighthouse Summer' by Maya Golan is a good choice. This short novel for teenagers tells the story of two very different girls who become friends during one unusual summer by the sea.",
-        'Fourteen-year-old Tamar is shy and loves drawing. She is spending the summer with her aunt in a small town by the sea, and she expects to be bored and lonely. Then she meets Lia, a loud, confident girl who knows everyone in town and is never afraid to say what she thinks. At first, Tamar finds Lia annoying. Lia, on the other hand, thinks Tamar is a snob because she hardly speaks.',
-        'Their friendship begins almost by accident, when both of them try to save a hurt seagull on the beach. Slowly, they discover that each of them has something the other one needs. Tamar teaches Lia to slow down and notice small things, and Lia helps Tamar find the courage to show her drawings to other people.',
-        'The best part of the novel is the way it shows that friendship is not always easy. In the middle of the book, Tamar shares a secret with Lia, and Lia tells it to another girl. The chapters after this are painful to read, but they feel very real. The author does not offer a quick solution; the girls have to work hard to trust each other again.',
+        'Fourteen-year-old Anna is shy and loves drawing. She is spending the summer with her aunt in a small town by the sea, and she expects to be bored and lonely. Then she meets Lia, a loud, confident girl who knows everyone in town and is never afraid to say what she thinks. At first, Anna finds Lia annoying. Lia, on the other hand, thinks Anna is a snob because she hardly speaks.',
+        'Their friendship begins almost by accident, when both of them try to save a hurt seagull on the beach. Slowly, they discover that each of them has something the other one needs. Anna teaches Lia to slow down and notice small things, and Lia helps Anna find the courage to show her drawings to other people.',
+        'The best part of the novel is the way it shows that friendship is not always easy. In the middle of the book, Anna shares a secret with Lia, and Lia tells it to another girl. The chapters after this are painful to read, but they feel very real. The author does not offer a quick solution; the girls have to work hard to trust each other again.',
         'The book is not perfect. The first few chapters are slow, and some of the adult characters are not very interesting. Readers who prefer action and adventure may lose patience before the story really begins.',
         'Still, I recommend this book to anyone aged twelve and up. It reminds us that real friends are not people who never hurt us, but people who are willing to repair what was broken.',
       ],
@@ -557,7 +557,7 @@ export const TESTS = [
     questions: [
       {
         type: 'mc', skill: 'detail',
-        q: 'At the beginning of the story, how does Tamar expect her summer to be?',
+        q: 'At the beginning of the story, how does Anna expect her summer to be?',
         options: [
           'Exciting and full of new friends.',
           'Busy with drawing lessons.',
@@ -565,7 +565,7 @@ export const TESTS = [
           'Difficult because of her aunt.',
         ],
         answer: 2,
-        explain: 'בפסקה 2 כתוב שתמר מצפה להשתעמם ולהיות בודדה בקיץ אצל דודתה.',
+        explain: 'בפסקה 2 כתוב שאנה מצפה להשתעמם ולהיות בודדה בקיץ אצל דודתה.',
         evidence: 'she expects to be bored and lonely',
       },
       {
@@ -577,16 +577,16 @@ export const TESTS = [
       },
       {
         type: 'mc', skill: 'detail',
-        q: 'Why does Lia think at first that Tamar is a snob?',
+        q: 'Why does Lia think at first that Anna is a snob?',
         options: [
-          'Because Tamar comes from a big city.',
-          'Because Tamar hardly speaks.',
-          'Because Tamar laughs at her.',
-          'Because Tamar refuses to show her drawings.',
+          'Because Anna comes from a big city.',
+          'Because Anna hardly speaks.',
+          'Because Anna laughs at her.',
+          'Because Anna refuses to show her drawings.',
         ],
         answer: 1,
-        explain: 'בפסקה 2 כתוב במפורש שליה חושבת שתמר סנובית כי היא כמעט לא מדברת. בפועל תמר פשוט ביישנית.',
-        evidence: 'Lia, on the other hand, thinks Tamar is a snob because she hardly speaks',
+        explain: 'בפסקה 2 כתוב במפורש שליה חושבת שאנה סנובית כי היא כמעט לא מדברת. בפועל אנה פשוט ביישנית.',
+        evidence: 'Lia, on the other hand, thinks Anna is a snob because she hardly speaks',
       },
       {
         type: 'open', skill: 'detail',
@@ -598,21 +598,21 @@ export const TESTS = [
       {
         type: 'open', skill: 'reference',
         q: "What does the word 'it' in the sentence 'Lia tells it to another girl' (paragraph 4) refer to?",
-        answer: "Tamar's secret.",
-        explain: 'it מתייחס לסוד שתמר סיפרה לליה, שהוזכר באותו משפט — וליה סיפרה אותו לנערה אחרת.',
-        evidence: 'Tamar shares a secret with Lia, and Lia tells it to another girl',
+        answer: "Anna's secret.",
+        explain: 'it מתייחס לסוד שאנה סיפרה לליה, שהוזכר באותו משפט — וליה סיפרה אותו לנערה אחרת.',
+        evidence: 'Anna shares a secret with Lia, and Lia tells it to another girl',
       },
       {
         type: 'mc', skill: 'opinion',
         q: "Which sentence expresses the reviewer's OPINION rather than a fact about the plot?",
         options: [
-          'Tamar spends the summer with her aunt.',
+          'Anna spends the summer with her aunt.',
           'The girls try to save a hurt seagull.',
-          'Tamar shares a secret with Lia.',
+          'Anna shares a secret with Lia.',
           'The chapters after this are painful to read, but they feel very real.',
         ],
         answer: 3,
-        explain: 'שלוש האפשרויות הראשונות מתארות מה קורה בעלילה. המשפט על הפרקים ה"כואבים לקריאה" שמרגישים "אמיתיים מאוד" הוא הערכה אישית של כותב הביקורת.',
+        explain: 'שלוש האפשרויות הראשונות מתארות מה קורה בעלילה. המשפט על הפרקים ה"כואבים לקריאה" שמרגישים "אמיתיים מאוד" הוא הערכה אישית של כותבת הביקורת.',
         evidence: 'The chapters after this are painful to read, but they feel very real.',
       },
       {
@@ -632,7 +632,7 @@ export const TESTS = [
         type: 'open', skill: 'detail',
         q: 'According to the reviewer, which readers may NOT enjoy the book? Why?',
         answer: 'Readers who prefer action and adventure, because the first chapters are slow (they may lose patience).',
-        explain: 'בפסקה 5 הכותב מזהיר שקוראים שמעדיפים אקשן והרפתקאות עלולים לאבד סבלנות, כי הפרקים הראשונים איטיים.',
+        explain: 'בפסקה 5 הכותבת מזהירה שקוראים שמעדיפים אקשן והרפתקאות עלולים לאבד סבלנות, כי הפרקים הראשונים איטיים.',
         evidence: 'Readers who prefer action and adventure may lose patience',
       },
       {
@@ -662,7 +662,7 @@ export const TESTS = [
     title: 'Two Languages, Twice the World',
     genre: 'opinion',
     topic: 'היתרונות של לימוד שפה שנייה',
-    summary: 'מאמר דעה של תלמיד שטוען שלימוד שפה שנייה חשוב גם בעידן אפליקציות התרגום — אנסין באנגלית ברמת Module C.',
+    summary: 'מאמר דעה של תלמידה שטוענת שלימוד שפה שנייה חשוב גם בעידן אפליקציות התרגום — אנסין באנגלית ברמת Module C.',
     texts: [{
       paragraphs: [
         "In Israel, most students study English from an early age, and many also learn Arabic, French or another language. Some of my classmates complain that this is a waste of time. 'Everyone has a translation app on their phone,' they say. 'Why should we work so hard?' I understand their point, but I strongly believe that learning a second language is one of the most valuable things a young person can do.",
@@ -708,7 +708,7 @@ export const TESTS = [
           'Learning a second language is one of the most valuable things a young person can do.',
         ],
         answer: 3,
-        explain: 'בסוף פסקה 1 הכותב מציג את עמדתו: הוא מאמין מאוד שלימוד שפה שנייה הוא אחד הדברים החשובים ביותר שצעיר יכול לעשות. שאר הטקסט מנמק את העמדה הזו.',
+        explain: 'בסוף פסקה 1 הכותבת מציגה את עמדתה: היא מאמינה מאוד שלימוד שפה שנייה הוא אחד הדברים החשובים ביותר שצעיר יכול לעשות. שאר הטקסט מנמק את העמדה הזו.',
         evidence: 'I strongly believe that learning a second language is one of the most valuable things',
       },
       {
@@ -727,7 +727,7 @@ export const TESTS = [
       },
       {
         type: 'mc', skill: 'detail',
-        q: 'What did the writer discover when he started learning Spanish?',
+        q: 'What did the writer discover when she started learning Spanish?',
         options: [
           "There are two different words for 'you'.",
           'Spanish has no formal words.',
@@ -735,7 +735,7 @@ export const TESTS = [
           'Spanish speakers do not use expressions.',
         ],
         answer: 0,
-        explain: 'בפסקה 3 הכותב מספר שגילה שבספרדית יש שתי מילים שונות ל"אתה" — אחת לחברים ולמשפחה ואחת רשמית יותר לזרים ולמבוגרים.',
+        explain: 'בפסקה 3 הכותבת מספרת שגילתה שבספרדית יש שתי מילים שונות ל"אתה" — אחת לחברים ולמשפחה ואחת רשמית יותר לזרים ולמבוגרים.',
         evidence: "there are two different words for 'you'",
       },
       {
@@ -748,14 +748,14 @@ export const TESTS = [
           'To prove that translation apps are completely useless.',
         ],
         answer: 1,
-        explain: 'בפסקה 5 הכותב חוזר לטענה של החברים מפסקה 1 ועונה עליה: האפליקציות שימושיות, אבל הן לא יכולות להחליף קשר אמיתי עם אנשים. הוא לא טוען שהן חסרות תועלת לגמרי.',
+        explain: 'בפסקה 5 הכותבת חוזרת לטענה של החברים מפסקה 1 ועונה עליה: האפליקציות שימושיות, אבל הן לא יכולות להחליף קשר אמיתי עם אנשים. היא לא טוענת שהן חסרות תועלת לגמרי.',
         evidence: 'What about translation apps? They are useful, and I use them myself.',
       },
       {
         type: 'open', skill: 'detail',
         q: 'Give ONE thing that, according to the writer, a translation app cannot do.',
         answer: 'Help you make a real friend / understand a joke / feel at home in a new place.',
-        explain: 'בפסקה 5 הכותב מונה שלושה דברים שאפליקציה לא יכולה לעשות: לעזור להכיר חבר אמיתי, להבין בדיחה או להרגיש בבית במקום חדש.',
+        explain: 'בפסקה 5 הכותבת מונה שלושה דברים שאפליקציה לא יכולה לעשות: לעזור להכיר חבר אמיתי, להבין בדיחה או להרגיש בבית במקום חדש.',
         evidence: 'an app cannot help you make a real friend, understand a joke or feel at home in a new place',
       },
       {
@@ -768,12 +768,12 @@ export const TESTS = [
           'refusing to work',
         ],
         answer: 2,
-        explain: 'הכותב פונה לתלמיד שמתקשה ברשימת מילים חדשה ומעודד אותו להמשיך. struggling = מתקשה, נאבק.',
+        explain: 'הכותבת פונה לתלמיד שמתקשה ברשימת מילים חדשה ומעודד אותו להמשיך. struggling = מתקשה, נאבק.',
         evidence: 'the next time you are struggling with a new list of vocabulary',
       },
       {
         type: 'open', skill: 'inference',
-        q: "What does the writer mean when he says 'You are building a bridge to millions of people' (paragraph 6)?",
+        q: "What does the writer mean when she says 'You are building a bridge to millions of people' (paragraph 6)?",
         answer: 'Learning a language connects you to the many people who speak it, so you can communicate with them.',
         explain: 'הגשר הוא דימוי: לימוד שפה יוצר חיבור בינך לבין מיליוני הדוברים שלה. זה מתחבר לרעיון בפסקה 5 שתקשורת היא בעיקר אנשים.',
         evidence: 'You are building a bridge to millions of people.',

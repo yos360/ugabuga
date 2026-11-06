@@ -7,7 +7,7 @@ export const TESTS = [
     title: "Should We Bring Back the Mammoth?",
     genre: "essay",
     topic: "the ethics of de-extinction",
-    summary: "מאמר טיעון על השאלה אם כדאי להחזיר לחיים מינים שנכחדו, עם שאלות היסק, עמדת הכותב ומטלת חיבור — ברמת 5 יחידות (Module G).",
+    summary: "מאמר טיעון על השאלה אם כדאי להחזיר לחיים מינים שנכחדו, עם שאלות היסק, עמדת הכותבת ומטלת חיבור — ברמת 5 יחידות (Module G).",
     texts: [{
       paragraphs: [
         "In 2003, a team of Spanish and French scientists achieved something that had never been done before. Using cells taken from the last known female of a wild goat called the bucardo, or Pyrenean ibex, they produced a living clone. The newborn kid survived for only a few minutes, but for that brief moment an extinct animal had returned. Since then, advances in genetic technology have turned what once sounded like science fiction into a serious research goal. The question is no longer only whether we can bring vanished species back, but whether we should.",
@@ -99,7 +99,7 @@ export const TESTS = [
           "Because mammoths were never really extinct.",
         ],
         answer: 0,
-        explain: "הכותב מסביר מיד שממותה 'מוחזרת' לא תהיה ממותה אמיתית אלא פיל שהגנים שלו שונו — ולכן המילה במירכאות.",
+        explain: "הכותבת מסבירה מיד שממותה 'מוחזרת' לא תהיה ממותה אמיתית אלא פיל שהגנים שלו שונו — ולכן המילה במירכאות.",
         evidence: "It would most likely be an elephant whose genes had been edited",
       },
       {
@@ -126,7 +126,7 @@ export const TESTS = [
           "Cautious: the research is useful but must not replace protecting living species.",
         ],
         answer: 3,
-        explain: "בפסקה האחרונה הכותב אומר שזהו 'כלי ולא פתרון' — המחקר ראוי לתמיכה, אבל אסור שיהיה תירוץ להזנחת המינים החיים.",
+        explain: "בפסקה האחרונה הכותבת אומרת שזהו 'כלי ולא פתרון' — המחקר ראוי לתמיכה, אבל אסור שיהיה תירוץ להזנחת המינים החיים.",
         evidence: "de-extinction should be treated as a tool rather than a solution",
       },
     ],
@@ -278,7 +278,7 @@ export const TESTS = [
     title: "The Real Price of a Cheap T-Shirt",
     genre: "opinion",
     topic: "the hidden cost of fast fashion",
-    summary: "מאמר דעה על המחיר הסביבתי והאנושי של 'אופנה מהירה' ועל מה שכל אחד יכול לעשות, עם שאלות על עמדת הכותב ומטרת פסקאות ומטלת חיבור — ברמת 5 יחידות (Module G).",
+    summary: "מאמר דעה על המחיר הסביבתי והאנושי של 'אופנה מהירה' ועל מה שכל אחד יכול לעשות, עם שאלות על עמדת הכותבת ומטרת פסקאות ומטלת חיבור — ברמת 5 יחידות (Module G).",
     texts: [{
       paragraphs: [
         "Last month I counted the clothes in my wardrobe and found more than a dozen items I had worn only once or twice. Some still had their price tags attached. I was not proud of the discovery, but I suspect I am not unusual. Over the past few decades, clothing has become so cheap and so quickly replaced that many of us now treat it almost as a disposable product. This is the world of fast fashion, and its true price is far higher than the figure on the label.",
@@ -311,7 +311,7 @@ export const TESTS = [
           "To introduce the topic through a personal experience.",
         ],
         answer: 3,
-        explain: "הכותב פותח בסיפור אישי — ספירת הבגדים בארון — כדי להציג את נושא האופנה המהירה ואת טענתו שהמחיר האמיתי גבוה.",
+        explain: "הכותבת פותחת בסיפור אישי — ספירת הבגדים בארון — כדי להציג את נושא האופנה המהירה ואת טענתה שהמחיר האמיתי גבוה.",
         evidence: "Last month I counted the clothes in my wardrobe",
       },
       {
@@ -364,7 +364,7 @@ export const TESTS = [
           "To encourage people to stop buying clothes.",
         ],
         answer: 2,
-        explain: "הכותב מודה שלתומכי האופנה המהירה יש טיעון הוגן, ואז מבהיר שהבעיה אינה במחיר הנגיש אלא ביחס לבגדים כחסרי ערך.",
+        explain: "הכותבת מודה שלתומכי האופנה המהירה יש טיעון הוגן, ואז מבהירה שהבעיה אינה במחיר הנגיש אלא ביחס לבגדים כחסרי ערך.",
         evidence: "Defenders of fast fashion make a fair point",
       },
       {
@@ -384,7 +384,7 @@ export const TESTS = [
         type: "open", skill: "inference",
         q: "Why does the writer ask the question \"will I wear this at least thirty times?\" before buying something new?",
         answer: "To check whether the writer will really use the item, so that only clothes that will last are bought and unnecessary items are avoided.",
-        explain: "השאלה עוזרת לכותב להימנע מקנייה מיותרת: כשהתשובה הכנה היא 'לא', הפריט חוזר למדף.",
+        explain: "השאלה עוזרת לכותבת להימנע מקנייה מיותרת: כשהתשובה הכנה היא 'לא', הפריט חוזר למדף.",
         evidence: "Surprisingly often, the honest answer is no, and the item goes back on the rail.",
       },
       {
@@ -397,7 +397,7 @@ export const TESTS = [
           "The writer thinks they are wiser than other shoppers.",
         ],
         answer: 1,
-        explain: "בפסקה 5 הכותב אומר במפורש שהוא לא רוצה לבייש את מי שקונה בגדים זולים; הבעיה בעיניו היא היחס לבגדים כחסרי ערך.",
+        explain: "בפסקה 5 הכותבת אומרת במפורש שהיא לא רוצה לבייש את מי שקונה בגדים זולים; הבעיה בעיניה היא היחס לבגדים כחסרי ערך.",
         evidence: "I do not believe the answer is to make clothes unaffordable or to shame people who buy them.",
       },
     ],
@@ -550,7 +550,7 @@ export const TESTS = [
     title: "Can a Machine Be a Teacher?",
     genre: "opinion",
     topic: "whether AI tutors can replace teachers",
-    summary: "מאמר דעה מאוזן על השאלה אם מורים פרטיים מבוססי בינה מלאכותית יכולים להחליף מורים, עם שאלות על עמדת הכותב, היסק ומטלת חיבור — ברמת 5 יחידות (Module G).",
+    summary: "מאמר דעה מאוזן על השאלה אם מורים פרטיים מבוססי בינה מלאכותית יכולים להחליף מורים, עם שאלות על עמדת הכותבת, היסק ומטלת חיבור — ברמת 5 יחידות (Module G).",
     texts: [{
       paragraphs: [
         "For as long as schools have existed, educators have known that one of the most effective ways to learn is with a personal tutor. A good tutor notices exactly where a student is confused, explains the idea again in a different way and moves on only when the student is ready. The problem has always been cost: few families can afford private lessons, and no school can provide a tutor for every child. Now, artificial intelligence promises to change that, and some enthusiasts even predict that AI tutors will one day make human teachers unnecessary.",
@@ -656,7 +656,7 @@ export const TESTS = [
         type: "open", skill: "inference",
         q: "What does the writer mean by saying that \"the question is framed in the wrong way\" (paragraph 5)?",
         answer: "That we should not ask whether AI can replace teachers, but how AI and teachers can work together.",
-        explain: "לדעת הכותב השאלה 'האם יחליפו' מטעה; השאלה המועילה היא איך המורה והבינה המלאכותית יעבדו יחד.",
+        explain: "לדעת הכותבת השאלה 'האם יחליפו' מטעה; השאלה המועילה היא איך המורה והבינה המלאכותית יעבדו יחד.",
         evidence: "The more useful question is how the two can work together.",
       },
       {
@@ -669,7 +669,7 @@ export const TESTS = [
           "AI tutors are only useful for shy students.",
         ],
         answer: 2,
-        explain: "בפסקה האחרונה הכותב מסכם שאם יתקיימו התנאים, הבינה המלאכותית תהיה 'עוזר חדש ובעל ערך' ולא איום על המורים.",
+        explain: "בפסקה האחרונה הכותבת מסכמת שאם יתקיימו התנאים, הבינה המלאכותית תהיה 'עוזר חדש ובעל ערך' ולא איום על המורים.",
         evidence: "less a threat to teachers than a valuable new assistant",
       },
     ],

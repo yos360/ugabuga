@@ -142,7 +142,7 @@ export const TESTS = [
     title: `Old Enough to Vote?`,
     genre: `opinion`,
     topic: `lowering the voting age to sixteen`,
-    summary: `מאמר טיעון בעד הורדת גיל ההצבעה בישראל ל־16, עם שאלות היסק, עמדת הכותב ומטלת חיבור — ברמת 5 יחידות (Module G).`,
+    summary: `מאמר טיעון בעד הורדת גיל ההצבעה בישראל ל־16, עם שאלות היסק, עמדת הכותבת ומטלת חיבור — ברמת 5 יחידות (Module G).`,
     texts: [{
       paragraphs: [
         `In Israel, a teenager can get a driving license at seventeen, pay taxes on the money earned at a summer job and, at eighteen, serve in the army. Yet decisions about the country's schools, roads and future are made in elections in which no one under eighteen may vote. A growing number of countries are asking whether this line is drawn in the right place. I believe it is time for Israel to ask the same question, and to lower the voting age to sixteen.`,
@@ -175,7 +175,7 @@ export const TESTS = [
           `To argue that the army age should be lowered.`,
         ],
         answer: 1,
-        explain: `הכותב מציג תחומים שבהם בני נוער כבר נושאים באחריות של מבוגרים, כדי להראות את חוסר העקביות בכך שאינם יכולים להצביע.`,
+        explain: `הכותבת מציגה תחומים שבהם בני נוער כבר נושאים באחריות של מבוגרים, כדי להראות את חוסר העקביות בכך שאינם יכולים להצביע.`,
         evidence: `Yet decisions about the country's schools, roads and future are made in elections in which no one under eighteen may vote.`,
       },
       {
@@ -215,7 +215,7 @@ export const TESTS = [
         type: `open`, skill: `inference`,
         q: `According to paragraph 3, why might sixteen be a better age than eighteen to start voting in Israel?`,
         answer: `At sixteen, young people still live at home and go to school, where they can learn about elections and discuss them, while at eighteen many are in the army or abroad and not thinking about voting. Voting early in a supportive setting can build a lifelong habit.`,
-        explain: `בפסקה 3 הכותב טוען שבגיל 16 הצעירים עדיין בבית ובבית הספר, שם אפשר ללמוד ולדון בבחירות, ואילו בגיל 18 רבים בצבא או בחו״ל. הצבעה ראשונה בסביבה תומכת יכולה ליצור הרגל לכל החיים.`,
+        explain: `בפסקה 3 הכותבת טוענת שבגיל 16 הצעירים עדיין בבית ובבית הספר, שם אפשר ללמוד ולדון בבחירות, ואילו בגיל 18 רבים בצבא או בחו״ל. הצבעה ראשונה בסביבה תומכת יכולה ליצור הרגל לכל החיים.`,
         evidence: `Giving them that first chance earlier, in a supportive setting, could build a lifelong habit.`,
       },
       {
@@ -241,7 +241,7 @@ export const TESTS = [
           `To prove that teenagers do not vote.`,
         ],
         answer: 0,
-        explain: `בפסקה 5 הכותב מודה שהורדת גיל ההצבעה לבדה לא תפתור הכול ושנדרשים צעדים נוספים — הכרה במגבלות ההצעה, בלי לשנות את עמדתו.`,
+        explain: `בפסקה 5 הכותבת מודה שהורדת גיל ההצבעה לבדה לא תפתור הכול ושנדרשים צעדים נוספים — הכרה במגבלות ההצעה, בלי לשנות את עמדתה.`,
         evidence: `Of course, lowering the voting age alone will not solve every problem.`,
       },
       {
@@ -254,14 +254,14 @@ export const TESTS = [
           `To describe the history of Israel's elections.`,
         ],
         answer: 1,
-        explain: `הכותב מזכיר קבוצות שבעבר נחשבו "לא מוכנות" להצביע, ומדגיש שבכל פעם התברר שהחששות היו מוגזמים — וכך גם לגבי בני 16.`,
+        explain: `הכותבת מזכירה קבוצות שבעבר נחשבו "לא מוכנות" להצביע, ומדגישה שבכל פעם התברר שהחששות היו מוגזמים — וכך גם לגבי בני 16.`,
         evidence: `Each time, the fears turned out to be exaggerated.`,
       },
       {
         type: `open`, skill: `opinion`,
         q: `What is the writer's position on the voting age? Quote ONE sentence from the text that shows it.`,
         answer: `The writer supports lowering the voting age in Israel to sixteen. For example: "I believe it is time for Israel to ask the same question, and to lower the voting age to sixteen."`,
-        explain: `הכותב מצהיר כבר בפסקה הראשונה שהוא בעד הורדת גיל ההצבעה ל־16, וחוזר על כך בסוף המאמר.`,
+        explain: `הכותבת מצהירה כבר בפסקה הראשונה שהיא בעד הורדת גיל ההצבעה ל־16, וחוזרת על כך בסוף המאמר.`,
         evidence: `I believe it is time for Israel to ask the same question, and to lower the voting age to sixteen.`,
       },
     ],
