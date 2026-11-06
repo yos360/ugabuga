@@ -30,7 +30,7 @@ function Board({ r }) {
     )
   }
   if (r.kind === 'eq') {
-    return <div className="mx-auto max-w-md space-y-2">{r.lines.map((l, i) => <p key={i} dir="auto" className={`rounded-xl border-2 border-slate-800 px-4 py-3 text-center text-2xl font-bold ${i === r.lines.length - 1 ? 'bg-[var(--postit)]' : 'bg-white'}`}>{l}</p>)}</div>
+    return <div className="mx-auto max-w-md space-y-2">{r.lines.map((l, i) => <p key={i} dir={/[֐-׿]/.test(l) ? 'rtl' : 'ltr'} className={`rounded-xl border-2 border-slate-800 px-4 py-3 text-center text-2xl font-bold ${i === r.lines.length - 1 ? 'bg-[var(--postit)]' : 'bg-white'}`}>{l}</p>)}</div>
   }
   return <div className="space-y-1 text-center text-2xl font-bold leading-relaxed">{r.lines.map((l, i) => <p key={i}>{l}</p>)}</div>
 }

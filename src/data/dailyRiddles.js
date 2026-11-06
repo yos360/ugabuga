@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'finger-math', n: 4, date: '2026-11-06', type: 'משוואות אימוג\'י', emoji: '✋', kind: 'eq',
+    title: 'חידת הידיים: כמה יוצא?',
+    lines: ['✌️ + ☝️ = 3', '🖐️ × ✌️ = 10', '✊ + 🖐️ = 5', '🖐️ + ✌️ × ✊ = ?'],
+    ask: 'רוב האנשים נופלים בשורה האחרונה 😅',
+    answer: '5',
+    why: 'כל יד שווה למספר האצבעות המורמות: ✌️ = 2, ☝️ = 1, 🖐️ = 5, ואגרוף ✊ = 0. ובשורה האחרונה כפל קודם לחיבור: קודם 2 × 0 = 0, ואז 5 + 0 = 5. מי שמחשב משמאל לימין מקבל 0 — וזו המלכודת.',
+  },
+  {
     id: 'first-full-cup', n: 3, date: '2026-11-05', type: 'שאלת תפיסה', emoji: '🥤', kind: 'image',
     title: 'איזו כוס תתמלא ראשונה?',
     image: '/daily-riddles/first-full-cup.svg',
