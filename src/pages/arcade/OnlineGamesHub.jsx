@@ -58,6 +58,11 @@ export default function OnlineGamesHub() {
         <span><b>מעבדת החשיבה: גפרורים, מים, נהר ובוגה IQ</b><small>שבעה משחקים · מדריכים · חידה יומית בתוך בוגה IQ</small></span>
         <span className="arc-play-chip">לבחירת אתגר</span>
       </Link>
+      <Link to="/start" className="dl-banner" style={{ '--game-color': '#ffb3c7' }}>
+        <span className="dl-banner-art" aria-hidden="true">👇</span>
+        <span><b>לא יודעים במה להתחיל?</b><small>עמוד ניסיוני: להדפיס, לשחק, ללמוד או לחגוג — בלחיצה אחת</small></span>
+        <span className="arc-play-chip">לעמוד</span>
+      </Link>
       <div className="arc-grid">
         {ARCADE.map(g => (
           <Link key={g.slug} to={`/online-games/${g.slug}#play`} className="arc-card" style={{ '--game-color': g.color }}>
