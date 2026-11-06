@@ -48,8 +48,10 @@ if (!slug) throw new Error('usage: node make.mjs <slug> [textIndex]')
 const runtime = path.join(VOICE, 'runtime', readdirSync(path.join(VOICE, 'runtime'))[0], 'node.exe')
 copyFileSync(path.join(HERE, 'ctc-unseen.mjs'), path.join(VOICE, 'ctc-unseen.mjs'))
 console.log(execFileSync(runtime, ['ctc-unseen.mjs', slug, String(xi)], { cwd: VOICE, env: { ...env, HF_HOME: VOICE + '/hf' }, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim())
-const json = readFileSync(`${VOICE}/work/align/${slug}#${xi}.json`, 'utf8')
-const D = JSON.parse(json)
+// Optional 3rd argument: the grade shown on screen and in the title, for a passage used outside its own level.
+const D = JSON.parse(readFileSync(`${VOICE}/work/align/${slug}#${xi}.json`, 'utf8'))
+if (process.argv[4]) D.levelName = process.argv[4]
+const json = JSON.stringify(D)
 
 // 2. the work folder
 mkdirSync(path.join(WORK, 'out'), { recursive: true })
