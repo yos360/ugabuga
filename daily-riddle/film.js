@@ -138,7 +138,7 @@
       const cy = y0 + s.i * (lh + gap) + lh / 2, isQ = s.i === n - 1;
       const heb = HEB.test(s.label);
       popAt(ctx, t, s.t, W / 2, cy, (c) => {
-        card(c, -SAFE.w / 2, -lh / 2, SAFE.w, lh, { fill: isQ ? C.gold : C.card, r: 26, seed: 320 + s.i, shadow: 9, lw: 4 });
+        card(c, -SAFE.w / 2, -lh / 2, SAFE.w, lh, { fill: isQ ? (/\p{Extended_Pictographic}/u.test(s.label) ? C.lilac : C.gold) : C.card, r: 26, seed: 320 + s.i, shadow: 9, lw: 4 });
         he(c, s.label, 0, lh * 0.2, { size: lh * 0.52, w: 900, dir: heb ? 'rtl' : 'ltr', maxW: SAFE.w - 70 });
       }, { dur: 0.25, over: 2.0, rot: (s.i % 2 ? 0.01 : -0.01) });
     });

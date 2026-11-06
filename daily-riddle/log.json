@@ -45,12 +45,32 @@
     "networks": [
       "instagram",
       "facebook",
+      "whatsapp-channel",
+      "tiktok"
+    ],
+    "skipped": {
+      "youtube": "Google asked to choose an account: every account shows as signed out in this Chrome, no password was typed"
+    },
+    "site": "https://ugabuga.co.il/riddles/first-full-cup"
+  },
+  {
+    "date": "2026-11-06",
+    "n": 4,
+    "id": "finger-math",
+    "answer": "5",
+    "posted": true,
+    "kind": "eq",
+    "type": "משוואות אימוג'י",
+    "networks": [
+      "instagram",
+      "facebook",
+      "tiktok",
       "whatsapp-channel"
     ],
     "skipped": {
-      "youtube": "Google asked to choose an account: every account shows as signed out in this Chrome, no password was typed",
-      "tiktok": "the post was ready, but 'לפרסם' raised an identity check by code to h***@gmail.com; nothing published"
+      "youtube": "'הגעת למגבלת ההעלאות היומית': the channel hit today's upload limit; nothing was uploaded (not verified by phone)"
     },
-    "site": "https://ugabuga.co.il/riddles/first-full-cup"
+    "tiktok": "https://www.tiktok.com/@hellorwsvm8/video/7705033396824706322",
+    "site": "https://ugabuga.co.il/riddles/finger-math"
   }
 ]
