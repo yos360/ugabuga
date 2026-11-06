@@ -222,6 +222,7 @@ const PAGES = [
   { to: '/printables/coloring/sufganiyah', title: 'סופגנייה לצביעה — דפי צביעה לחנוכה', emoji: '🍩', kind: 'printable', desc: 'דפי צביעה של סופגניות להדפסה בחינם.', keys: 'צביעה דף צביעה סופגניות לצביעה' },
   { to: '/printables/coloring/horse', title: 'דף צביעה סוסים להדפסה', emoji: '🐴', kind: 'printable', desc: 'דפי צביעה של סוסים להדפסה בחינם.', keys: 'צביעה דף צביעה סוסים לצביעה' },
   { to: '/printables/coloring/umbrella', title: 'מטריה לצביעה — דפי צביעה של גשם להדפסה', emoji: '☂️', kind: 'printable', desc: 'דפי צביעה של מטריות וגשם להדפסה בחינם.', keys: 'צביעה דף צביעה מטריות וגשם לצביעה' },
+  { to: '/printables/coloring/winter', title: 'דפי צביעה חורף להדפסה', emoji: '❄️', kind: 'printable', desc: 'דפי צביעה של חורף, גשם ובגדי חורף להדפסה בחינם.', keys: 'צביעה דפי צביעה חורף גשם שלג בגדי חורף מעיל מגפיים מרק עננים עגורים' },
   { to: '/printables/coloring/cow', title: 'פרה לצביעה — דפי צביעה להדפסה', emoji: '🐄', kind: 'printable', desc: 'דפי צביעה של פרות וחווה להדפסה בחינם.', keys: 'צביעה דף צביעה פרות וחווה לצביעה' },
   { to: '/printables/coloring/birds', title: 'ציפור לצביעה — דפי צביעה להדפסה', emoji: '🐦', kind: 'printable', desc: 'דפי צביעה של ציפורים להדפסה בחינם.', keys: 'צביעה דף צביעה ציפורים לצביעה' },
   { to: '/printables/coloring/dreidel', title: 'סביבון לצביעה והדפסה — דפי צביעה לחנוכה', emoji: '🌀', kind: 'printable', desc: 'דפי צביעה של סביבונים להדפסה בחינם.', keys: 'צביעה דף צביעה סביבונים לצביעה' },

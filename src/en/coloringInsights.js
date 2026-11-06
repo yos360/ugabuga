@@ -16,7 +16,7 @@ const GROUPS = {
   fantasy: ['unicorn', 'dragon', 'princess', 'superhero', 'mermaid'],
   party: ['cake', 'balloons', 'clown', 'ice-cream', 'sweets', 'hearts'],
   food: ['food', 'ice-cream', 'sweets', 'fruits', 'cake', 'sufganiyah'],
-  nature: ['flowers', 'rainbow-sun', 'umbrella', 'birds', 'tu-bishvat'],
+  nature: ['flowers', 'rainbow-sun', 'umbrella', 'winter', 'birds', 'tu-bishvat'],
   detailed: ['mandala-kids', 'mandala-animals', 'mandala-adults', 'older-kids'],
   moving: ['vehicles', 'airplane', 'soccer', 'superhero', 'space', 'professions'],
   hanukkah: ['sufganiyah', 'dreidel', 'hanukkiah', 'maccabees'],
