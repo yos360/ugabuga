@@ -93,3 +93,7 @@ Update 2026-11-05 (local scheduled run, owner's Chrome): the cloud cut had the b
 
 | 2026-11-05 | Daily riddle #3 first-full-cup (perception, new 'image' kind) | /riddles/first-full-cup | ✗ YouTube (Google account signed out) | ✓ Instagram | ✓ Facebook | ✗ TikTok (identity check) | ✓ WhatsApp channel |
 | 2026-11-05 | One-off: מילה אחת, פתגם שלם (5 proverbs, level 5 open, answer on site) | /riddles/one-word | ✓ YouTube https://youtube.com/shorts/mVDr9RVIf04 | ✓ Instagram https://www.instagram.com/ugabuga.co.il/reel/DfX5XqNs_W6/ | ✓ Facebook https://www.facebook.com/reel/1159131043202142/ | ✓ TikTok | ✓ WhatsApp channel |
+
+| 2026-11-06 | "פענחו את ההודעה הסודית: טגש יזג" — כתב סתרים וצפנים (hook = open challenge, shift-1 message, answer left open; next letter, number for letter, א״ת ב״ש, on-screen encoder/decoder, 6 printable sheets; end card asks for the answer in the comments) | /tools/secret-codes | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-11-06: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-06/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/secret-codes/. Sync check: "right" +2f and "pickT" +2f (pop lag, within the accepted ≤3).
