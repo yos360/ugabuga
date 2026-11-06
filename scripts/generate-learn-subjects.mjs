@@ -14,6 +14,13 @@ const MIN_GRADE_TOPICS = 4 // same as SubjectPages.jsx
 const lastCommit = files => {
   try { return execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { encoding: 'utf8' }).trim() } catch { return '' }
 }
+// A shallow clone (cloud sessions) has one boundary commit that "touched" every file, which would stamp the
+// whole sitemap with one date. Refuse to rewrite lastmod there: run `git fetch --unshallow` first.
+try {
+  if (execFileSync('git', ['rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim() === 'true') {
+    console.warn('generate-learn-subjects: shallow clone - skipped (run `git fetch --unshallow` first)'); process.exit(0)
+  }
+} catch { /* not a git checkout: keep going */ }
 const q = s => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")
 const urls = [], rows = []
 let lastmod = ''
