@@ -481,6 +481,7 @@ export const MENU_DOMAINS = [
         items: [
           { to: '/baby-names', label: 'שמות לתינוקות', icon: '👶' },
           { to: '/toddlers', label: 'פעוטות — גיל 1–3', icon: '🧸' },
+          { to: '/toddlers/buga-games', label: 'משחקים לפעוטות עם בוגה', icon: '🎈' },
         ],
       },
       {

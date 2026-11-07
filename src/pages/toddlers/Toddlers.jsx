@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
+import BugaGames from './BugaGames'
 import {
   DEVELOPS, TODDLER_AGES, TODDLER_BIRTHDAYS, TODDLER_SAFETY, SCREEN_NOTE, HUB_FAQ,
   activitiesForAge, toddlerAge, toddlerBirthday, filterActivities, developsLabel, ageFaq,
@@ -69,6 +70,11 @@ export function ToddlersHub() {
       </Link>)}</div>
     </section>
 
+    <Link to="/toddlers/buga-games" className="fam-card card-lift mt-6 flex items-center justify-center gap-3 text-center">
+      <span className="text-5xl" aria-hidden="true">🎈</span>
+      <span><b className="text-xl">משחקים לפעוטות עם בוגה</b><br /><small>זמן מסך קצר שמלמד צבעים, מספרים וחיות</small></span>
+    </Link>
+
     <section className="mt-10" aria-labelledby="bdays">
       <h2 id="bdays" className="mb-4 text-center text-2xl font-black">ימי הולדת לקטנטנים</h2>
       <div className="grid gap-4 sm:grid-cols-3">{TODDLER_BIRTHDAYS.map(b => <Link key={b.slug} to={`/toddlers/${b.slug}`} className="fam-card card-lift text-center">
@@ -90,6 +96,53 @@ export function ToddlersHub() {
       { label: 'סיפורים לפני השינה', href: '/stories' }, { label: 'טבלת גמילה מחיתולים', href: '/printables/potty-chart' },
       { label: 'משחקים לגיל 4', href: '/games/age/4' },
     ]} /></div>
+  </div>
+}
+
+// ── /toddlers/buga-games ──
+const GAMES_FAQ = [
+  { q: 'מאיזה גיל המשחקים מתאימים?', a: 'בעיקר לגיל שנתיים עד ארבע. אפשר לשחק בהם גם מגיל שנה וחצי, יחד עם מבוגר שמדבר ומצביע. ההמלצות המקובלות הן להימנע ממסכים לפני גיל 18 חודשים, חוץ משיחות וידאו עם המשפחה.' },
+  { q: 'מה הילד לומד מהמשחקים?', a: 'שמות של צבעים ופירות, ספירה עד חמש וזיהוי הספרות, שמות של חיות והקולות שלהן, וגם קשב ו"קביעות האובייקט" — ההבנה שבוגה ממשיך להיות שם גם כשהוא מתחבא מאחורי ענן.' },
+  { q: 'צריך לדעת לקרוא?', a: 'לא. בוגה אומר בקול מה לעשות, וכל הכפתורים הם תמונות גדולות. אם המכשיר בלי קול, המבוגר קורא את המשפט שמופיע מתחת למשחק.' },
+  { q: 'מה קורה כשהילד לוחץ על תשובה לא נכונה?', a: 'שום דבר מפחיד. בוגה מנענע את הראש, אומר מה הילד בחר ושואל שוב. אין פסילות, אין זמן ואין הפסד.' },
+  { q: 'המשחקים עובדים בלי אינטרנט?', a: 'כן, אם שומרים את תיק הטיסה מראש. המשחקים נמצאים גם במשחקים לטיסה, ושם הם נפתחים גם במצב טיסה.' },
+]
+export function BugaGamesPage() {
+  return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
+    <SEO title="משחקים לפעוטות במסך עם בוגה — צבעים, מספרים וחיות" description="משחקים לימודיים לפעוטות בגיל שנתיים עד ארבע עם בוגה: לומדים צבעים, סופרים עד חמש, מכירים חיות וקולות ומשחקים קוקו. בלי קריאה, בלי הפסד, בחינם וגם בלי אינטרנט." path="/toddlers/buga-games" structuredData={faqSchema(GAMES_FAQ)} />
+    <Breadcrumbs items={[HOME, HUB, { label: 'משחקים עם בוגה' }]} />
+    <header className="text-center">
+      <h1 className="mt-2 text-4xl sm:text-5xl">משחקים לפעוטות עם בוגה</h1>
+      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">זמן מסך קצר שגם מלמד: צבעים, מספרים וחיות, לגיל שנתיים עד ארבע</p>
+    </header>
+    <div className="mt-6"><BugaGames /></div>
+
+    <section className="mt-10" aria-labelledby="bg-learn">
+      <h2 id="bg-learn" className="mb-4 text-center text-2xl font-black">מה לומדים בכל משחק</h2>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="fam-card"><h3 className="text-lg font-bold">☁️ איפה בוגה?</h3><p className="m-0 leading-relaxed">בוגה מתחבא מאחורי ענן, והילד מזיז את העננים עד שהוא מוצא אותו. המשחק מתרגל קשב והבנה שדברים ממשיכים להתקיים גם כשלא רואים אותם. ככל שמוצאים, יש יותר עננים.</p></div>
+        <div className="fam-card"><h3 className="text-lg font-bold">🍎 מאכילים את בוגה</h3><p className="m-0 leading-relaxed">בוגה מבקש משהו בצבע מסוים, והילד בוחר את הפרי המתאים. שישה צבעים: אדום, צהוב, ירוק, כחול, כתום וסגול, ועם כל צבע גם שם של פרי או ירק.</p></div>
+        <div className="fam-card"><h3 className="text-lg font-bold">🎈 סופרים עם בוגה</h3><p className="m-0 leading-relaxed">לוחצים על כל בלון, דג או כוכב, ובוגה סופר בקול. מעל בוגה מופיעה הספרה, כך שהילד מחבר בין המילה, הכמות והסימן. מתחילים מאחד עד שלוש וממשיכים עד חמש.</p></div>
+        <div className="fam-card"><h3 className="text-lg font-bold">🐄 החיות של בוגה</h3><p className="m-0 leading-relaxed">בוגה שואל איפה חיה מסוימת, והילד מוצא אותה מבין שלוש. כשמוצאים, שומעים את הקול שלה. שמונה חיות מהחווה ומהספרים: פרה, כלב, חתול, ברווז, כבשה, סוס, תרנגול ואריה.</p></div>
+      </div>
+    </section>
+
+    <section className="ln-box mt-8" aria-labelledby="bg-tips">
+      <h2 id="bg-tips" className="text-xl font-black">💡 איך מוציאים מזה יותר</h2>
+      <ul className="mt-2 space-y-1">
+        <li>• משחקים יחד: מצביעים, חוזרים על המילה ושואלים "איפה עוד יש אדום בחדר?"</li>
+        <li>• מעבירים את המשחק לעולם: אחרי החיות עושים "מוּ" ביחד, ואחרי הספירה סופרים קוביות אמיתיות.</li>
+        <li>• כל כמה כוכבים בוגה מציע הפסקת תנועה. כדאי לקום ולעשות אותה יחד.</li>
+        <li>• מסיימים כשעוד כיף: כמה דקות ביום מספיקות.</li>
+      </ul>
+    </section>
+    <ScreenNote />
+    <p className="mt-6 text-center"><Link to="/toddlers" className="ln-btn alt">🧸 פעילויות לפעוטות בלי מסך</Link> <Link to="/travel/play" className="ln-btn alt">✈️ משחקים לטיסה</Link></p>
+
+    <div className="mt-12"><SeoBody paragraphs={[
+      'המשחקים בדף הזה נבנו לפעוטות שעוד לא קוראים: כל משחק הוא שאלה אחת פשוטה ששומעים בקול, שלוש תמונות גדולות לבחירה ובוגה שמגיב לכל לחיצה. אין שעון, אין ניקוד שאפשר להפסיד ואין פרסומות או קישורים שהילד יכול ללחוץ עליהם בטעות.',
+      'אפשר לשחק בטלפון, בטאבלט או במחשב. הקול של בוגה משתמש בקול של המכשיר, ואם אין קול בעברית המשפט מופיע מתחת למשחק כדי שמבוגר יקרא אותו. מי שנוסע יכול למצוא את אותם משחקים גם באזור בוגה במצב טיסה, שעובד בלי אינטרנט.',
+    ]} faq={GAMES_FAQ} related={[HUB, { label: 'פעילויות לגיל שנתיים', href: '/toddlers/age-2' }, { label: 'פעילויות לגיל 3', href: '/toddlers/age-3' }, { label: 'משחקים לטיסה בלי אינטרנט', href: '/travel/play' }, { label: 'סיפורים לפני השינה', href: '/stories' }]} /></div>
   </div>
 }
 

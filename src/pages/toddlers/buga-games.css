@@ -1,0 +1,48 @@
+/* Buga's toddler games: big targets, calm colours, no small text the child must read. */
+.bg-wrap{max-width:640px;margin:0 auto;padding:12px;border-radius:28px;background:linear-gradient(180deg,#fef9c3,#e0f2fe);color:#1e293b;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.bg-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.bg-bar button{border:0;border-radius:999px;background:#fff;padding:8px 14px;font-weight:800;color:#1e293b;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.bg-stars{font-size:1.4rem;font-weight:900}
+.bg-buga{display:block;object-fit:contain;transition:transform .25s}
+.bg-buga.hop{animation:bg-hop .5s ease-in-out 3}
+.bg-buga.shake{animation:bg-shake .5s}
+.bg-buga.chew{animation:bg-chew .3s ease-in-out 5}
+@keyframes bg-hop{50%{transform:translateY(-22px) scale(1.06)}}
+@keyframes bg-shake{20%,60%{transform:rotate(-7deg)}40%,80%{transform:rotate(7deg)}}
+@keyframes bg-chew{50%{transform:scale(1.08,.94)}}
+.bg-hello{display:flex;flex-direction:column;align-items:center;text-align:center}
+.bg-hello p{font-size:1.5rem;font-weight:900;margin:4px 0 10px}
+.bg-menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bg-menu button{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:150px;padding:14px 8px;border:0;border-radius:24px;background:#fff;color:#1e293b;box-shadow:0 5px 0 #fcd34d}
+.bg-menu button:active{transform:translateY(3px);box-shadow:0 2px 0 #fcd34d}
+.bg-menu span{font-size:3.4rem;line-height:1}
+.bg-menu b{font-size:1.25rem}
+.bg-menu small{color:#475569;font-weight:700}
+.bg-stage{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:340px}
+.bg-ask{position:relative;display:flex;align-items:center;gap:10px}
+.bg-bubble{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:22px;background:#fff;font-size:1.6rem;font-weight:900;box-shadow:0 3px 0 rgba(0,0,0,.08)}
+.bg-blob{width:34px;height:34px;border-radius:50%;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.bg-number{min-width:72px;font-size:4.2rem;font-weight:900;color:#2563eb;text-align:center}
+.bg-choices{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.bg-choices button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:132px;height:132px;border:0;border-radius:30px;background:#fff;box-shadow:0 6px 0 #93c5fd;transition:transform .5s,opacity .5s}
+.bg-choices button span{font-size:4.6rem;line-height:1}
+.bg-choices button small{font-size:1.1rem;font-weight:900;color:#2563eb}
+.bg-choices button.eat{transform:scale(1.15);box-shadow:0 0 0 6px #4ade80}
+.bg-things{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:520px}
+.bg-things button{position:relative;width:104px;height:104px;border:0;border-radius:26px;background:#fff;box-shadow:0 5px 0 #f9a8d4}
+.bg-things button span{font-size:3.8rem;line-height:1}
+.bg-things button.counted{background:#dcfce7;box-shadow:0 2px 0 #4ade80;transform:translateY(3px)}
+.bg-things button b{position:absolute;top:-10px;right:-6px;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#2563eb;color:#fff;font-size:1.3rem}
+.bg-sky{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;min-height:340px;align-items:center;padding:10px;border-radius:24px;background:linear-gradient(180deg,#7dd3fc,#e0f2fe)}
+.bg-cloud{position:relative;display:grid;place-items:center;width:150px;height:150px;border:0;background:none;padding:0}
+.bg-hidden,.bg-empty{position:absolute;inset:0;display:grid;place-items:center}
+.bg-empty{font-size:3.5rem}
+.bg-puff{position:relative;font-size:8.5rem;line-height:1;transition:transform .6s,opacity .6s;filter:drop-shadow(0 4px 0 rgba(255,255,255,.6))}
+.bg-cloud.gone .bg-puff{transform:translate(60px,-70px) scale(.4);opacity:0}
+.bg-msg{min-height:2.4em;margin:12px 0 0;text-align:center;font-size:1.35rem;font-weight:900}
+.bg-rest{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px}
+.bg-rest h3{font-size:1.5rem;font-weight:900;margin:0}
+.bg-rest-do{font-size:1.6rem;font-weight:900;color:#be185d;margin:0}
+.bg-go{margin-top:8px;border:0;border-radius:999px;background:#2563eb;color:#fff;padding:12px 24px;font-size:1.2rem;font-weight:900}
+@media (max-width:420px){.bg-choices button{width:100px;height:100px}.bg-choices button span{font-size:3.6rem}.bg-cloud{width:120px;height:120px}.bg-puff{font-size:7rem}.bg-things button{width:86px;height:86px}.bg-things button span{font-size:3rem}}
+@media (prefers-reduced-motion:reduce){.bg-buga,.bg-puff,.bg-choices button{animation:none!important;transition:none}}

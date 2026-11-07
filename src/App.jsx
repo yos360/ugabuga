@@ -333,6 +333,7 @@ const MitzvahQuiz = lazy(() => import('./pages/barMitzvah/MitzvahQuiz'))
 const MitzvahSouvenir = lazy(() => import('./pages/barMitzvah/MitzvahSouvenir'))
 const ToddlersHub = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlersHub })))
 const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlerPage })))
+const BugaGamesPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.BugaGamesPage })))
 const ShabbatGames = lazy(() => import('./pages/games/ShabbatGames'))
 const TeacherGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.TeacherGiftPage })))
 const GananetGiftPage = lazy(() => import('./pages/school/SchoolSeason').then(m => ({ default: m.GananetGiftPage })))
@@ -1208,6 +1209,7 @@ export default function App() {
               <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
               <Route path="/tools/hebrew-birthday" element={<HebrewBirthday />} />
               <Route path="/toddlers" element={<ToddlersHub />} />
+              <Route path="/toddlers/buga-games" element={<BugaGamesPage />} />
               <Route path="/toddlers/:slug" element={<ToddlerPage />} />
               <Route path="/stories" element={<StoriesHub />} />
               <Route path="/stories/:slug" element={<StoryPage />} />
