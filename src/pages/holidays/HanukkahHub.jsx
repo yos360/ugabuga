@@ -13,7 +13,8 @@ import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
   '/holidays/hanukkah/candle-times': 'מתי מדליקים בכל אחד משמונת הלילות — לפי עיר, עם לוח למקרר',
-  '/holidays/hanukkah/candle-lighting': 'כרטיס להדפסה עם הברכות ומעוז צור, ומקום לתמונת הילדים',
+  '/holidays/hanukkah/math': 'בעיות מילוליות לכיתות א׳–ו׳ עם פתרונות, ומשחק סביבון של חשבון',
+  '/holidays/hanukkah/candle-lighting':'כרטיס להדפסה עם הברכות ומעוז צור, ומקום לתמונת הילדים',
   '/holidays/hanukkah/songs': 'סביבון, כד קטן, מעוז צור וברכות ההדלקה',
   '/holidays/hanukkah/sevivon': 'מסובבים בלחיצה, עם ניקוד אוטומטי לכל המשפחה',
   '/holidays/hanukkah/quiz': '3 רמות, הסבר אחרי כל תשובה — גם להדפסה',
