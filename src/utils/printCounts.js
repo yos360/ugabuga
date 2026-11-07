@@ -43,10 +43,11 @@ export function loadPrintCounts() {
 // One public aggregate for the home page. It includes actual print-dialog sheets and successful
 // PDF exports, while exposing no paths, users or raw analytics rows.
 let totalPending = null, totalExpires = 0
-export function loadTotalPrintedSheets() {
-  if (totalPending && Date.now() < totalExpires) return totalPending
+// `fresh`: skip the 5-minute cache (the home counter re-checks every minute).
+export function loadTotalPrintedSheets({ fresh = false } = {}) {
+  if (!fresh && totalPending && Date.now() < totalExpires) return totalPending
   try {
-    const saved = JSON.parse(sessionStorage.getItem(TOTAL_STORE) || 'null')
+    const saved = fresh ? null : JSON.parse(sessionStorage.getItem(TOTAL_STORE) || 'null')
     if (saved && Date.now() - saved.at < TTL) {
       totalExpires = saved.at + TTL
       return (totalPending = Promise.resolve(validTotal(saved.total)))

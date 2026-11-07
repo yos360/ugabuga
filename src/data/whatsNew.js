@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-11-07', emoji: '📒', title: 'חוברת עבודה לסיגד', blurb: '12 דפים בהדפסה אחת לגן ולכיתה א׳: שער עם שם, מה זה סיגד, הדרך לירושלים, ספירה, מה שונה, 50 ימים ודף לציור.', to: '/holidays/sigd/workbook', kind: 'print' },
   { date: '2026-11-07', emoji: '🎈', title: 'משחקים לפעוטות עם בוגה', blurb: 'זמן מסך קצר שגם מלמד: מאכילים את בוגה בצבעים, סופרים איתו עד חמש, מוצאים חיות ושומעים את הקולות שלהן ומשחקים קוקו. בלי קריאה ובלי הפסד, וגם במצב טיסה.', to: '/toddlers/buga-games', kind: 'learn' },
   { date: '2026-11-07', emoji: '⚡', title: 'בוגה לייב במצב טיסה', blurb: 'החידון של בוגה לייב עובד עכשיו גם בלי אינטרנט: עד ארבעה שחקנים על מכשיר אחד, בתורות או במשחק מי לוחץ ראשון. שומרים בתיק הטיסה ומשחקים כל הטיסה.', to: '/travel/play', kind: 'play' },
   { date: '2026-11-07', emoji: '✈️', title: 'מה לעשות בטיסה ארוכה עם ילדים', blurb: 'תוכנית שמחלקת את הטיסה לפרקים, משחקים שעובדים במצב טיסה, משחקי דיבור לכשנגמרת הסוללה ודפים להדפסה.', to: '/travel/guides/long-flight', kind: 'family' },

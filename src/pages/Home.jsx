@@ -249,6 +249,7 @@ export default function Home() {
   const opening = variant === 'request' ? [request, tunnel, search] : variant === 'ai' ? [search, tunnel] : [tunnel, search]
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className={`hp hp-v-${variant}`} dir="rtl">
     <RainBanner />
+    <Suspense fallback={null}><SeasonColoring top /></Suspense>
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip /><ShoppingChip /><BringChip /><ElectionChip /></div>

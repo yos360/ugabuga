@@ -1,4 +1,4 @@
-import { Page, At, S, TraceWordsPage, GreetingPage, CountPage, MatchPage, BigPage } from '../holidays/printKit'
+import { Page, At, S, FONT, TraceWordsPage, GreetingPage, CountPage, MatchPage, BigPage } from '../holidays/printKit'
 
 // Sigd — line drawings, each in a 100×100 box (use with <At>).
 const L = { ...S, strokeWidth: 3 }
@@ -73,6 +73,83 @@ function DecorateUmbrella() {
     {[['○', 120], ['△', 220], ['☆', 300], ['♡', 380], ['◇', 480]].map(([c, x]) => <text key={c} x={x} y={740} textAnchor="middle" fontSize="54" fill="#111">{c}</text>)}
   </Page>
 }
+
+// ---------- workbook (חוברת עבודה) ----------
+const T = ({ x = 300, y, size = 30, weight = 700, children }) => <text x={x} y={y} textAnchor="middle" fontFamily={FONT} fontSize={size} fontWeight={weight} fill="#111" direction="rtl">{children}</text>
+
+function Cover() {
+  return <Page>
+    <T y={150} size={64} weight={900}>החוברת שלי</T>
+    <T y={235} size={78} weight={900}>לסיגד</T>
+    <At x={300} y={420} size={260}><Umbrella /></At>
+    <At x={150} y={600} size={150}><Wall /></At><At x={450} y={600} size={150}><Bread /></At>
+    <T y={735} size={30}>הגן או הכיתה שלי: ______________</T>
+  </Page>
+}
+
+function WhatIsSigd() {
+  return <Page title="מה זה סיגד?" sub="קוראים יחד, ואז צובעים את ההר">
+    {['סיגד הוא חג של יהודי אתיופיה.', 'בחג עולים למקום גבוה ומתפללים.', 'הקסים מחזיקים מטריות צבעוניות.', 'כולם מתגעגעים לירושלים.', 'בסוף הצום אוכלים לחם דאבו וחוגגים.'].map((l, i) => <T key={i} y={180 + i * 54} size={32}>{l}</T>)}
+    <At x={300} y={620} size={300}><Mountain /></At>
+  </Page>
+}
+
+// Fine motor: trace the dotted path from the mountain to Jerusalem.
+function PathToJerusalem() {
+  return <Page title="הדרך לירושלים" sub="עוברים בעיפרון על הקו המנוקד, מההר ועד ירושלים">
+    <At x={480} y={210} size={150}><Mountain /></At>
+    <At x={130} y={660} size={170}><Wall /></At>
+    <path d="M440 300 C 520 380 420 420 330 400 C 220 380 160 440 240 500 C 320 560 300 600 220 610" fill="none" stroke="#111" strokeWidth={5} strokeDasharray="4 14" strokeLinecap="round" />
+    <path d="M440 300 C 520 380 420 420 330 400 C 220 380 160 440 240 500 C 320 560 300 600 220 610" fill="none" stroke="#bbb" strokeWidth={30} strokeLinecap="round" opacity="0.25" />
+  </Page>
+}
+
+// Visual discrimination: one picture in each row is different.
+function OddOneOut() {
+  const rows = [[Umbrella, Umbrella, Bread, Umbrella], [Book, Wall, Wall, Wall], [Mountain, Mountain, Mountain, Umbrella], [Bread, Bread, Book, Bread]]
+  return <Page title="מה שונה?" sub="בכל שורה יש ציור אחד שונה. הקיפו אותו בעיגול">
+    {rows.map((row, r) => row.map((C, i) => <At key={`${r}-${i}`} x={90 + i * 140} y={210 + r * 160} size={110}><C /></At>))}
+    {rows.map((_, r) => <path key={r} d={`M40 ${290 + r * 160} H560`} stroke="#ddd" strokeWidth={2} />)}
+  </Page>
+}
+
+function DrawCelebration() {
+  return <Page title="ככה אנחנו חוגגים" sub="ציירו את עצמכם, את המשפחה או את הגן חוגגים סיגד">
+    <rect x="50" y="140" width="500" height="560" rx="24" fill="white" stroke="#111" strokeWidth={4} />
+    <At x={110} y={200} size={80}><Umbrella /></At><At x={490} y={200} size={80}><Umbrella /></At>
+    <T y={760} size={28}>מה ציירתי? ______________________</T>
+  </Page>
+}
+
+function CountToFifty() {
+  return <Page title="סיגד: 50 ימים אחרי יום כיפור" sub="סופרים עד 50, וצובעים כל שורה בצבע אחר">
+    {Array.from({ length: 50 }, (_, i) => { const col = i % 10, row = Math.floor(i / 10); return <g key={i}>
+      <rect x={550 - (col + 1) * 50} y={190 + row * 70} width="46" height="60" rx="8" fill="white" stroke="#111" strokeWidth={2.5} />
+      <T x={550 - (col + 1) * 50 + 23} y={190 + row * 70 + 40} size={22}>{i + 1}</T>
+    </g> })}
+    <At x={300} y={640} size={150}><Umbrella /></At>
+  </Page>
+}
+
+const Closing = () => <GreetingPage lines={['סיגד', 'שמח!']}>
+  <T y={590} size={30}>סיימתי את החוברת!</T>
+  <At x={160} y={700} size={120}><Umbrella /></At><At x={440} y={700} size={120}><Umbrella /></At>
+</GreetingPage>
+
+export const SIGD_WORKBOOK = [
+  { id: 'cover', name: 'שער החוברת', C: Cover },
+  { id: 'what', name: 'מה זה סיגד?', C: WhatIsSigd },
+  { id: 'path', name: 'הדרך לירושלים', C: PathToJerusalem },
+  { id: 'decorate', name: 'מקשטים מטרייה', C: DecorateUmbrella },
+  { id: 'count', name: 'כמה מטריות?', C: CountUmbrellas },
+  { id: 'odd', name: 'מה שונה?', C: OddOneOut },
+  { id: 'match', name: 'מה זה? — התאמה', C: MatchSigd },
+  { id: 'fifty', name: '50 ימים', age: 'א׳', C: CountToFifty },
+  { id: 'trace', name: 'מילים של סיגד', C: TraceSigd },
+  { id: 'jerusalem', name: 'צובעים את ירושלים', C: WallPage },
+  { id: 'draw', name: 'ככה אנחנו חוגגים', C: DrawCelebration },
+  { id: 'closing', name: 'סיגד שמח!', C: Closing },
+]
 
 export const SIGD_ART = [
   { id: 'umbrella', name: 'המטרייה הצבעונית', C: UmbrellaPage },
