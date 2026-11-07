@@ -15,7 +15,7 @@ export const TOPICS = [
   { id: 'math', label: '🔢 חשבון', slugs: ['math-worksheets', 'math-order-puzzles', 'multiplication-strips', 'number-strip', 'clock-worksheets', 'fractions-worksheets', 'dominoes', 'numbers', 'sudoku', 'count-and-write', 'color-by-number', 'color-by-answer', 'dot-to-dot'] },
   { id: 'letters', label: '🔤 אותיות ומילים', slugs: ['letters', 'hebrew-letters', 'abc-letters', 'letter-flashcards', 'letter-strip', 'word-tracing', 'match-word', 'opposites', 'synonyms', 'color-by-letter'] },
   { id: 'coloring', label: '🖍️ צביעה ויצירה', slugs: ['coloring', 'mandalas', 'symmetry', 'color-by-number', 'color-by-answer', 'color-by-letter', 'dot-to-dot', 'photo-props'] },
-  { id: 'motor', label: '✂️ מוטוריקה וחשיבה', slugs: ['fine-motor', 'mazes', 'find-differences', 'complete-pattern', 'silhouette-match', 'cut-and-order', 'hidden-object', 'missing-picture', 'odd-one-out', 'mixed-activities', 'symmetry', 'dot-to-dot'] },
+  { id: 'motor', label: '✂️ מוטוריקה וחשיבה', slugs: ['fine-motor', 'cutting-practice', 'mazes', 'find-differences', 'complete-pattern', 'silhouette-match', 'cut-and-order', 'hidden-object', 'missing-picture', 'odd-one-out', 'mixed-activities', 'symmetry', 'dot-to-dot'] },
   { id: 'holidays', label: '🕎 חגים', extra: HOLIDAY_SHEETS },
   { id: 'home', label: '🏠 לבית ולארגון', slugs: ['name-labels', 'allergy-signs', 'lunchbox-notes', 'home-charts', 'chore-chart', 'reward-chart', 'toothbrushing-chart', 'potty-chart', 'class-schedule', 'calendar-2027', 'calendar-5787', 'lined-paper'] },
   { id: 'crafts', label: '✂️ משחקים ויצירה מנייר', slugs: ['memory-game', 'tic-tac-toe', 'dominoes', 'fortune-teller', 'gift-box', 'purim-masks', 'birthday-crown', 'board-game', 'photo-props', 'my-book', 'comic'] },

@@ -224,6 +224,7 @@ const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ 
 const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedGrade })))
 const GiftedPractice = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedPractice })))
 const GiftedSimulation = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.GiftedSimulation })))
+const BarIlanPage = lazy(() => import('./learn/gifted/BarIlanPage'))
 const PsychometricKids = lazy(() => import('./learn/gifted/ThinkingPages').then(m => ({ default: m.PsychometricKids })))
 const CardGamesHub = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.CardGamesHub })))
 const CardGamePage = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.CardGamePage })))
@@ -376,6 +377,7 @@ const AllergySigns = lazy(() => import('./family/AllergySigns'))
 const ClassroomSigns = lazy(() => import('./pages/printables/ClassroomSigns'))
 const ClassroomDecor = lazy(() => import('./pages/printables/ClassroomDecor'))
 const MyBookComic = lazy(() => import('./pages/printables/MyBookComic'))
+const CuttingPractice = lazy(() => import('./pages/printables/CuttingPractice'))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
@@ -753,6 +755,7 @@ export default function App() {
               <Route path="/printables/bookmarks" element={<BookmarkMaker />} />
               <Route path="/printables/kindergarten-memory-book" element={<KindergartenMemoryBook />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
+              <Route path="/printables/cutting-practice" element={<CuttingPractice />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
               <Route path="/printables/sensory-communication-cards" element={<SensoryCommunicationCards />} />
               <Route path="/printables/emotion-cards" element={<EmotionCards />} />
@@ -972,6 +975,7 @@ export default function App() {
               <Route path="/learn/gifted-test/stage-b" element={<GiftedGrade key="stage-b" slug="stage-b" />} />
               <Route path="/learn/gifted-test/practice" element={<GiftedPractice />} />
               <Route path="/learn/gifted-test/simulation" element={<GiftedSimulation />} />
+              <Route path="/learn/gifted-test/bar-ilan" element={<BarIlanPage />} />
               <Route path="/learn/psychometric-kids" element={<PsychometricKids />} />
               <Route path="/learn/gifted-test/:type" element={<GiftedType />} />
               <Route path="/learn/tanakh" element={<SubjectHub key="tanakh" subjectKey="tanakh" />} />

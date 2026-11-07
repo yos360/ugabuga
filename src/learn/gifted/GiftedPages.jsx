@@ -133,6 +133,7 @@ export function GiftedHub() {
       <Link to={`${HUB}/practice`} className="ln-box card-lift text-right"><b className="text-xl">♾️ תרגול בלי סוף</b><br /><small>שאלות חדשות בכל סבב, לפי כיתה ותחום</small></Link>
       <Link to={`${HUB}/simulation`} className="ln-box card-lift text-right"><b className="text-xl">⏱️ מבחן לדוגמה</b><br /><small>שלושה פרקים עם שעון וציון</small></Link>
       <Link to="/learn/psychometric-kids" className="ln-box card-lift text-right"><b className="text-xl">🎓 פסיכומטרי לילדים</b><br /><small>שלושת סוגי החשיבה לפי גיל</small></Link>
+      <Link to={`${HUB}/bar-ilan`} className="ln-box card-lift text-right"><b className="text-xl">🧮 מבחן בר־אילן לכיתה ה׳</b><br /><small>24 שאלות במתמטיקה בשעה, מבחן חדש בכל לחיצה</small></Link>
     </div>
     <h2 className="mt-10 mb-3 text-3xl font-black">אתגרים לפי מקצוע</h2>
     <p className="mb-3 text-lg">לילדים סקרנים שרוצים עוד: 150 שאלות העשרה בחמישה מקצועות, מקל ועד מאתגר — עם הסבר לכל תשובה. כל התשובות נבדקו, ובחשבון גם חושבו מחדש אוטומטית.</p>
