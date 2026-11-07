@@ -101,8 +101,9 @@
     "kind": "seq",
     "type": "סדרת מספרים",
     "posted": true,
-    "networks": [],
-    "note": "chosen and published by the owner from another session on 2026-11-07 around 12:30; the 14:00 run must not post another riddle today",
+    "networks": ["instagram", "facebook", "whatsapp-channel"],
+    "skipped": {"tiktok": "identity check on publish; saved as a draft for the owner", "youtube": "daily upload limit (channel not verified)"},
+    "note": "chosen by the owner; posted from the owner's session at 12:45-12:51; the 14:00 run must not post another riddle today",
     "site": "https://ugabuga.co.il/riddles/winter-sequence"
   }
 ]
