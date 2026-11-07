@@ -366,6 +366,7 @@ export const MENU_DOMAINS = [
           { to: '/tools/crossword-maker', label: 'מחולל תשבצים', icon: '✏️' },
           { to: '/tools/word-search-maker', label: 'מחולל תפזורת', icon: '🔎' },
           { to: '/tools/bingo-maker', label: 'מחולל בינגו', icon: '🎟️' },
+          { to: '/tools/worksheet-maker', label: 'מחולל דפי עבודה', icon: '📝' },
         ],
       },
       {

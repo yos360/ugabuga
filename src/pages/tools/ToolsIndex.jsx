@@ -16,6 +16,7 @@ const DESC = Object.fromEntries([
   { to: '/tools/emoji-studio', emoji: '😀', title: 'אימוג׳י סטודיו', desc: 'מנחשים שירים וסרטים באימוג׳ים — או בונים משחק משלכם.' },
   { to: '/tools/bingo-maker', emoji: '🎟️', title: 'מחולל בינגו', desc: 'כרטיסיות בינגו מוכנות או מותאמות אישית.' },
   { to: '/tools/word-search-maker', emoji: '🔎', title: 'מחולל תפזורת', desc: 'צרו תפזורות לפי מילים ונושאים.' },
+  { to: '/tools/worksheet-maker', emoji: '📝', title: 'מחולל דפי עבודה', desc: 'כותבים מילים ומקבלים דף עבודה: העתקה, אות חסרה, מילה מבולבלת והתאמה.' },
   { to: '/rubiks-cube', emoji: '🧊', title: 'פתרון קובייה הונגרית', desc: '7 שלבים למתחילים עם הדגמה חיה ואלגוריתמים.' },
   { to: '/tools/scavenger-hunt-maker', emoji: '🗺️', title: 'חפש את המטמון', desc: 'רמזים ומשימות מוכנים להפעלה.' },
   { to: '/tools/team-generator', emoji: '🎲', title: 'מחלק קבוצות', desc: 'חלוקה מהירה לקבוצות.' },

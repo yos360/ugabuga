@@ -458,6 +458,7 @@ const SpinBottle = lazy(() => import('./pages/tools/SpinBottle'))
 const DrawingPrompt = lazy(() => import('./pages/tools/DrawingPrompt'))
 const Joke = lazy(() => import('./pages/tools/Joke'))
 const BingoMaker = lazy(() => import('./pages/tools/BingoMaker'))
+const WorksheetMaker = lazy(() => import('./pages/tools/WorksheetMaker'))
 const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
@@ -1393,6 +1394,7 @@ export default function App() {
               <Route path="/jokes" element={<Joke />} />
               <Route path="/joke" element={<Joke />} />
               <Route path="/tools/bingo-maker" element={<BingoMaker />} />
+              <Route path="/tools/worksheet-maker" element={<WorksheetMaker />} />
               <Route path="/tools/eretz-ir" element={<EretzIr />} />
               <Route path="/eretz-ir" element={<EretzIr />} />
               <Route path="/games/eretz-ir-buga" element={<EretzIr />} />

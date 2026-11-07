@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 // Top of the home page, only while it rains (functions/api/rain.js): Buga with hot chocolate and the winter area.
 const LINKS = [['#together', '📺', 'משחקים יחד'], ['#print', '🖨️', 'להדפסה'], ['#crafts', '🎨', 'יצירה'], ['#kitchen', '🍲', 'מטבח חם']]
@@ -12,8 +12,11 @@ export default function RainBanner() {
     fetch('/api/rain', { signal: ctrl.signal }).then(r => (r.ok ? r.json() : null)).then(d => setRain(d?.rain === true)).catch(() => {})
     return () => ctrl.abort()
   }, [])
+  const navigate = useNavigate()
   if (!rain) return null
-  return <aside className="rain-banner" aria-label="יורד גשם: בוגה שוקו חם">
+  // The whole banner opens /winter; the small links inside keep their own targets.
+  const open = e => { if (!e.target.closest('a')) navigate('/winter') }
+  return <aside className="rain-banner" aria-label="יורד גשם: בוגה שוקו חם" onClick={open}>
     <img src="/images/buga-hot-chocolate.webp" alt="בוגה מחזיק ספל שוקו חם" width="480" height="462" />
     <div>
       <p className="rain-banner-kicker">יורד גשם בחוץ 🌧️</p>

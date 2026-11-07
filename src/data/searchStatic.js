@@ -4888,7 +4888,7 @@ const TOOL_DESC = {
   '/tools/trivia-quiz': 'טריוויה עם מצבי משחק, ניקוד ותחרות.', '/tools/truth-or-buga': 'משחק אמת/שקר עם נושאים, קבוצות וניקוד.',
   '/tools/buga-town': 'משחק לוח של עיר ונכסים עם קוביות, ל-2–4 שחקנים.', '/tools/escape-rooms': 'חדרים דיגיטליים וקיטים להנחיה.',
   '/tools/riddles': 'מאגר חידות לפי נושא, גיל וקושי.', '/tools/emoji-studio': 'מנחשים שירים וסרטים באימוג׳ים.',
-  '/tools/bingo-maker': 'כרטיסיות בינגו מוכנות או מותאמות אישית.', '/tools/word-search-maker': 'צרו תפזורות לפי מילים ונושאים.',
+  '/tools/bingo-maker': 'כרטיסיות בינגו מוכנות או מותאמות אישית.', '/tools/worksheet-maker': 'כותבים מילים ומקבלים דף עבודה להדפסה: העתקה, אות חסרה, מילה מבולבלת והתאמה לתמונה.','/tools/word-search-maker': 'צרו תפזורות לפי מילים ונושאים.',
   '/tools/crossword-maker': 'מכניסים מילים ומקבלים תשבץ להדפסה.', '/tools/scavenger-hunt-maker': 'רמזים ומשימות מוכנים להפעלה.',
   '/calculator': 'כמה פיצות, שתייה וחטיפים צריך למסיבה.', '/invitation': 'הזמנה אישית ליום הולדת.', '/greeting': 'ברכה אישית ליום הולדת.',
   '/tools/bring-list': 'רשימה שיתופית: כל הורה תופס פריט בקישור אחד.', '/rsvp': 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים ומי עוד לא ענה.', '/tools/birthday-famous': 'אילו מפורסמים נולדו באותו תאריך.',
@@ -4897,7 +4897,7 @@ const TOOL_DESC = {
 }
 const TOOL_KEYS = {
   '/tools/random-picker': 'גלגל מזל גלגל שמות הגרלה הגרלת שמות בוחר אקראי', '/tools/team-generator': 'קבוצות חלוקה', '/tools/countdown-timer': 'שעון עצר',
-  '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת תפזורות תפזורת לילדים תפזורת להדפסה', '/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
+  '/tools/crossword-maker': 'תשבץ', '/tools/word-search-maker': 'תפזורת תפזורות תפזורת לילדים תפזורת להדפסה', '/tools/worksheet-maker': 'דף עבודה דפי עבודה מחולל דפי עבודה יצירת דף עבודה','/invitation': 'הזמנה הזמנות', '/greeting': 'ברכה ברכות',
   '/calculator': 'פיצה שתייה עלות', '/tools/escape-rooms': 'חדר בריחה אסקייפ', '/tools/scavenger-hunt-maker': 'מטמון ציד אוצר',
   '/tools/trivia-quiz': 'טריוויה חידון שאלות', '/tools/riddles': 'חידות חידה', '/board-games': 'משחק לוח', '/classroom/first-grade': 'כיתה א הכנה הכנה לכיתה א חוברת הכנה לכיתה א pdf הכנה לקריאה כיתה א משחקים לקראת כיתה א',
 }

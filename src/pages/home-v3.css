@@ -126,7 +126,7 @@ body:has(.hp) .site-footer{display:none}
 .hp-v-ai .hp-daily-top{padding:14px;border-radius:28px;background:var(--paper);color:var(--ink)}
 
 /* Rain banner: only while it rains (components/home/RainBanner.jsx) */
-.rain-banner{position:relative;display:flex;align-items:center;gap:18px;margin:6px 0 14px;padding:14px 22px;overflow:hidden;border-radius:26px;color:#fff;background:linear-gradient(135deg,#3f5f9e,#5a4a94 55%,#8a4f3a);box-shadow:0 10px 26px rgba(63,70,130,.28)}
+.rain-banner{position:relative;display:flex;align-items:center;gap:18px;margin:6px 0 14px;padding:14px 22px;overflow:hidden;border-radius:26px;color:#fff;background:linear-gradient(135deg,#3f5f9e,#5a4a94 55%,#8a4f3a);box-shadow:0 10px 26px rgba(63,70,130,.28);cursor:pointer}
 /* Buga stands on the banner's bottom edge (the negative margin cancels the padding and the image's clear strip) */
 .rain-banner img{position:relative;z-index:1;flex:none;align-self:flex-end;width:210px;height:auto;margin:-6px 0 -17.5px}
 .rain-banner>div{position:relative;z-index:1}
