@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './recent-activity.css'
-import FlipCounter from '../ui/FlipCounter'
-import { loadTodayPrints } from '../../utils/printCounts'
+const FlipCounter = lazy(() => import('../ui/FlipCounter'))
 
 // liveActivity pulls the Supabase SDK; load it lazily so no page pays for it
 // up front (and never during prerender snapshots, which would bake a
@@ -80,7 +79,7 @@ export default function RecentActivity() {
   useEffect(() => {
     if (typeof window === 'undefined' || window.__PRERENDER__) return
     let live = true
-    const update = () => loadTodayPrints().then(d => { if (live) setPrints(d.recent) })
+    const update = () => import('../../utils/printCounts').then(m => m.loadTodayPrints()).then(d => { if (live) setPrints(d.recent) }).catch(() => {})
     update()
     const refresh = setInterval(update, 60000)
     const rotate = setInterval(() => setPrintAt(i => i + 1), 5000 + Math.random() * 3000)
@@ -130,7 +129,7 @@ export default function RecentActivity() {
   return <aside className="buga-live no-print" aria-label="פעילות חיה בעוגה בוגה" dir="rtl">
     <span className="buga-live-count">
       <span className="buga-live-dot" aria-hidden="true" />
-      <FlipCounter value={shown} />
+      <Suspense fallback={<b>{shown}</b>}><FlipCounter value={shown} /></Suspense>
       <span className="buga-live-label">מבקרים איתנו עכשיו</span>
     </span>
     {(printNow || others.length > 0) && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{printNow && <span className="buga-live-event buga-live-print" key={'p' + printAt}>🖨️ הדפיסו: {printNow}</span>}{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
