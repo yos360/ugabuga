@@ -43,7 +43,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 22 | מחשבון מסיבה — כמה פיצות ושתייה | /tools/party-calculator | party | 2026-11-06 slot 2 — ready, upload from the owner's Chrome |
 | 23 | קיר ברכות לגננת ולמורה | /thank-you-wall | party | 2026-11-06 slot 3 — ready, upload from the owner's Chrome |
 | 24 | מחולל תשבצים | /tools/crossword-maker | learning | 2026-11-07 slot 1 — ready, upload from the owner's Chrome |
-| 25 | טיימר לכיתה | /tools/timer | classroom | |
+| 25 | טיימר לכיתה | /tools/timer | classroom | 2026-11-07 slot 2 — ready, upload from the owner's Chrome |
 | 26 | לוח ניקוד לתחרות בכיתה | /tools/scoreboard | classroom | |
 | 27 | משחק אותיות לילדים | /letters/game | learning | |
 | 28 | צביעה לפי מספרים | /printables/color-by-number | learning | |
