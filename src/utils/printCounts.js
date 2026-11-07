@@ -71,6 +71,18 @@ export function invalidatePrintCounts() {
 }
 export function printLabel(n) { return validCount(n) && n >= SHOW_FROM ? `הורד כ־PDF ${n.toLocaleString('he-IL')} פעמים` : '' }
 
+// Different visitors since midnight (Israel day), for the live banner. null when unavailable.
+let visitorsPending = null, visitorsExpires = 0
+export function loadTodayVisitors() {
+  if (visitorsPending && Date.now() < visitorsExpires) return visitorsPending
+  visitorsExpires = Date.now() + 60000
+  visitorsPending = fetch(`${URL}/rest/v1/rpc/public_today_visitors`, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: '{}' })
+    .then(r => { if (!r.ok) throw new Error('visitors_unavailable'); return r.json() })
+    .then(n => (validCount(Number(n)) ? Number(n) : null))
+    .catch(() => { visitorsExpires = Date.now() + 30000; return null })
+  return visitorsPending
+}
+
 // Today's printed sheets (Israel day) + latest print paths — one shared request, refreshed every minute.
 let todayPending = null, todayExpires = 0
 export function loadTodayPrints() {

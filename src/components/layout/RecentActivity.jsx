@@ -37,33 +37,27 @@ export const recordPrintPreview = () => recordSheetAction('print')
 const CLOSED_KEY = 'buga-live-closed'
 const closedRecently = () => { try { return Date.now() - Number(localStorage.getItem(CLOSED_KEY) || 0) < 30 * 864e5 } catch { return false } }
 
-// Public banner number: 150–300, steady per visit with a small drift.
-// The real count still goes to window.__bugaLiveCount (owner/supplier stats stay real).
-const SHOWN_MIN = 150, SHOWN_MAX = 300, SHOWN_KEY = 'buga-live-shown'
-const clampShown = n => Math.min(SHOWN_MAX, Math.max(SHOWN_MIN, n))
-const firstShown = () => {
-  try { const saved = Number(sessionStorage.getItem(SHOWN_KEY)); if (saved >= SHOWN_MIN && saved <= SHOWN_MAX) return saved } catch { /* ignore */ }
-  return SHOWN_MIN + Math.floor(Math.random() * (SHOWN_MAX - SHOWN_MIN + 1))
-}
-function useShownCount() {
-  const [shown, setShown] = useState(firstShown)
+// Banner number: real different visitors since midnight (public_today_visitors), checked every
+// minute. New visitors are added one at a time a few seconds apart, so the counter moves without
+// jumping. null until the number arrives (or when it can't be read): the count is then hidden.
+function useTodayVisitors() {
+  const [real, setReal] = useState(null)
+  const [shown, setShown] = useState(null)
   useEffect(() => {
-    let timer
-    const tick = () => {
-      timer = setTimeout(() => {
-        setShown(prev => {
-          let step = Math.round((Math.random() - 0.5) * 8)
-          if (!step) step = Math.random() < 0.5 ? -1 : 1
-          const next = clampShown(prev + step)
-          try { sessionStorage.setItem(SHOWN_KEY, String(next)) } catch { /* ignore */ }
-          return next
-        })
-        tick()
-      }, 9000 + Math.random() * 9000)
-    }
-    tick()
-    return () => clearTimeout(timer)
+    if (typeof window === 'undefined' || window.__PRERENDER__) return undefined
+    let live = true
+    const update = () => import('../../utils/printCounts').then(m => m.loadTodayVisitors()).then(n => { if (live && n) setReal(n) }).catch(() => {})
+    update()
+    const timer = setInterval(update, 60000)
+    return () => { live = false; clearInterval(timer) }
   }, [])
+  useEffect(() => {
+    if (real == null) return undefined
+    if (shown == null || real < shown) { setShown(real); return undefined }
+    if (real === shown) return undefined
+    const t = setTimeout(() => setShown(s => Math.min(real, s + 1)), 2500 + Math.random() * 4000)
+    return () => clearTimeout(t)
+  }, [real, shown])
   return shown
 }
 
@@ -72,7 +66,7 @@ export default function RecentActivity() {
   const [mod, setMod] = useState(null)
   const [state, setState] = useState({ count: null, events: [] })
   const [hidden, setHidden] = useState(closedRecently)
-  const shown = useShownCount()
+  const shown = useTodayVisitors()
   // Latest real prints, shown one after another so the banner always has a print going on.
   const [prints, setPrints] = useState([])
   const [printAt, setPrintAt] = useState(0)
@@ -127,11 +121,11 @@ export default function RecentActivity() {
   const printLabels = prints.map(p => ACTIVITY_LABELS[mod.activityForPath(p)]).filter(Boolean)
   const printNow = printLabels.length ? printLabels[printAt % printLabels.length] : null
   return <aside className="buga-live no-print" aria-label="פעילות חיה בעוגה בוגה" dir="rtl">
-    <span className="buga-live-count">
+    {shown > 0 && <span className="buga-live-count">
       <span className="buga-live-dot" aria-hidden="true" />
       <Suspense fallback={<b>{shown}</b>}><FlipCounter value={shown} /></Suspense>
-      <span className="buga-live-label">מבקרים איתנו עכשיו</span>
-    </span>
+      <span className="buga-live-label">מבקרים באתר היום</span>
+    </span>}
     {(printNow || others.length > 0) && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{printNow && <span className="buga-live-event buga-live-print" key={'p' + printAt}>🖨️ הדפיסו: {printNow}</span>}{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
     <button className="buga-live-close" onClick={close} aria-label="הסתרת באנר הפעילות">×</button>
   </aside>
