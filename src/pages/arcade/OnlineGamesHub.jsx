@@ -14,6 +14,14 @@ const FAQ = [
   { q: 'המשחקים באמת בחינם?', a: 'כן. כל משחקי האונליין חינמיים, בלי הורדה, בלי הרשמה ובלי פרסומות בתוך המשחק. הם נפתחים ישר בדפדפן, בטלפון ובמחשב.' },
   { q: 'אילו משחקי חשיבה מתאימים לילדים צעירים?', a: 'מגיל 5–6: משחק זיכרון, מיון כדורים וסודוקו 4×4. מגיל 8: פקק תנועה, 2048, פאזל 15 ושולה מוקשים. לכל משחק כתוב הגיל המומלץ. בחלק מהמשחקים זמינים גם רמזים או ביטול מהלך.' },
   { q: 'אפשר לשחק שניים על אותו מסך?', a: 'כן. ארבע בשורה, איקס עיגול ושחמט אפשר לשחק שניים על אותו טלפון או מחשב — או נגד המחשב. צוללות הוא משחק לשחקן אחד נגד המחשב.' },
+  { q: 'המשחקים עובדים בטלפון ובטאבלט?', a: 'כן. כל משחק מותאם למסך מגע: לוחצים „שחקו” והמשחק נפתח על כל המסך. אין צורך להתקין דבר, וההתקדמות באתגר היומי נשמרת בדפדפן של אותו מכשיר.' },
+  { q: 'אפשר לשחק בכיתה על הלוח החכם?', a: 'כן. המשחקים נפתחים על כל המסך ומתאימים להפסקה פעילה או לפתיחת שיעור: האתגר היומי זהה לכל הכיתה, ובמרתון המשחקים אפשר להתחרות מי מסיים מהר יותר. לחידון לכל הכיתה מהטלפונים יש את בוגה לייב.' },
+]
+// "Which game for which age" guide under the grid (slugs from the arcade registry)
+const BY_AGE = [
+  { age: 'גיל 4–6', text: 'משחקים קצרים בלי קריאה: זיכרון, מצאו את בוגה, הכו בחפרפרת ומיון כדורים.', games: ['memory', 'find-buga', 'whack-a-mole', 'ball-sort'] },
+  { age: 'גיל 7–9', text: 'כאן מתחילים לתכנן כמה צעדים קדימה: פקק תנועה, מצאו את ההבדלים, פאזל 15 וצוללות.', games: ['traffic-jam', 'find-differences', 'sliding-puzzle', 'battleship'] },
+  { age: 'גיל 10 ומעלה ומבוגרים', text: 'אתגרים ארוכים יותר של היגיון וחשבון: 2048, סודוקו, שולה מוקשים ובוגה 24.', games: ['merge-2048', 'sudoku', 'minesweeper', 'buga-24'] },
 ]
 const TWO_PLAYER_BOARD = ['checkers', 'backgammon', 'chess', 'reversi', 'mancala', 'dots-and-boxes']
 
@@ -102,6 +110,21 @@ export default function OnlineGamesHub() {
         <p style={{ lineHeight: 1.75, fontSize: 17, margin: 0 }}>
           פאזלים קצרים מאמנים תכנון, חשיבה מרחבית וסבלנות — ומרגישים כמו משחק ולא כמו שיעורי בית. בחלק מהמשחקים אפשר לקבל רמז או לבטל מהלך; האפשרויות מופיעות בתוך כל משחק.
           רוצים עוד? יש לנו גם <Link to="/board-games" className="underline font-bold">משחקי לוח קלאסיים</Link>, <Link to="/games" className="underline font-bold">מאגר משחקים לקבוצה ולכיתה</Link> ו<Link to="/letters/game" className="underline font-bold">משחק אותיות לגן</Link>.
+        </p>
+      </section>
+      <section className="arc-box" style={{ maxWidth: 860, margin: '30px auto 0' }}>
+        <h2>איזה משחק מתאים לאיזה גיל?</h2>
+        {BY_AGE.map(b => (
+          <div key={b.age} style={{ marginTop: 12 }}>
+            <p style={{ fontWeight: 800, margin: 0 }}>{b.age}</p>
+            <p style={{ lineHeight: 1.7, margin: 0 }}>{b.text}</p>
+            <p className="arc-related" style={{ marginTop: 6 }}>
+              {b.games.map(s => ARCADE.find(g => g.slug === s)).filter(Boolean).map(g => <Link key={g.slug} to={`/online-games/${g.slug}#play`}>{g.emoji} {g.name}</Link>)}
+            </p>
+          </div>
+        ))}
+        <p style={{ lineHeight: 1.75, marginTop: 16 }}>
+          משחקים לנסיעה, להמתנה ולטיסה? ב<Link to="/travel" className="underline font-bold">בוגה במצב טיסה</Link> יש משחקים שעובדים גם בלי אינטרנט. אוהבים ריצה ותגובה מהירה? נסו את <Link to="/buga-run" className="underline font-bold">בוגה בורח — משחק ריצה בתלת־ממד</Link>. לילדים בגן יש <Link to="/kids" className="underline font-bold">אזור ילדים</Link> עם משחקים פשוטים עוד יותר.
         </p>
       </section>
       <section className="arc-box" style={{ maxWidth: 860, margin: '30px auto 0' }}>

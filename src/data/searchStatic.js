@@ -147,7 +147,7 @@ const PAGES = [
   { to: '/holidays/hanukkah', title: 'חנוכה לילדים', emoji: '🕎', kind: 'page', desc: 'סביבון, חידון, דפי צביעה ורעיונות לחופשה.', keys: 'חנוכה חנוכיה חנוכייה נרות סופגניות חג' },
   { to: '/holidays/hanukkah/sevivon', title: 'סביבון וירטואלי', emoji: '🕎', kind: 'tool', desc: 'מסובבים סביבון בלחיצה ומשחקים עם ניקוד.', keys: 'סביבון וירטואלי אונליין חנוכה משחק' },
   { to: '/holidays/hanukkah/quiz', title: 'חידון חנוכה לילדים', emoji: '❓', kind: 'tool', desc: '3 רמות, גם להדפסה.', keys: 'חידון חנוכה שאלות טריוויה' },
-  { to: '/holidays/hanukkah/coloring', title: 'דפי צביעה לחנוכה', emoji: '🖍️', kind: 'tool', keys: 'צביעה חנוכה חנוכייה סביבון סופגניה' },
+  { to: '/holidays/hanukkah/coloring', title: 'דפי צביעה לחנוכה', emoji: '🖍️', kind: 'tool', keys: 'צביעה חנוכה חנוכייה סביבון סופגניה דפי צביעה לחנוכה דף צביעה חנוכה להדפסה' },
   { to: '/holidays/hanukkah/worksheets', title: 'דפי עבודה לחנוכה', emoji: '✏️', kind: 'tool', keys: 'דפי עבודה חנוכה גן כיתה א' },
   { to: '/holidays/hanukkah/grade/kindergarten', title: 'פעילות לחנוכה לגן', emoji: '🧸', kind: 'printable', low: true, desc: 'ספירת נרות, חשבון סופגניות, יצירה וסיפור להקראה.', keys: 'פעילות לחנוכה לגן דפי עבודה חנוכה גן חובה טרום חובה יצירה לחנוכה לגן סיפור חנוכה לגן' },
   { to: '/holidays/hanukkah/grade/grade-1', title: 'דפי עבודה לחנוכה לכיתה א׳', emoji: '✏️', kind: 'printable', low: true, desc: 'בעיות מילוליות עד 20, קריאה, תפזורת קלה וסביבון מנייר.', keys: 'דפי עבודה לחנוכה כיתה א פעילות לחנוכה כיתה א חשבון חנוכה' },
@@ -4635,7 +4635,7 @@ const PAGES = [
   { to: '/printables/calendar-5787', title: 'לוח שנה תשפ״ז', emoji: '🎒', kind: 'printable', desc: 'שנת הלימודים עם כל החגים.', keys: 'לוח שנה תשפז תשפ"ז שנת לימודים 2026 חגים' },
   { to: '/printables/clock-worksheets', title: 'דפי עבודה בשעון', emoji: '🕒', kind: 'printable', desc: 'מה השעה וציירו מחוגים, עם פתרונות.', keys: 'שעון קריאת שעון מחוגים מה השעה דפי עבודה' },
   { to: '/printables/fractions-worksheets', title: 'דפי עבודה בשברים', emoji: '🍕', kind: 'printable', desc: 'איזה חלק צבוע, צבעו והשוו.', keys: 'שברים שבר חצי רבע שליש דפי עבודה' },
-  { to: '/printables/lined-paper', title: 'דף שורות להדפסה', emoji: '📝', kind: 'printable', desc: 'נייר כתיבה עם שורות.', keys: 'דף שורות נייר כתיבה מחברת' },
+  { to: '/printables/lined-paper', title: 'דף שורות להדפסה', emoji: '📝', kind: 'printable', desc: 'נייר כתיבה עם שורות.', keys: 'דף שורות נייר כתיבה מחברת דף שורות להדפסה דפי שורות נייר שורות דף כתיבה לכיתה א שורות רחבות כתב יד' },
   { to: '/printables/grid-paper', title: 'דף משבצות להדפסה', emoji: '🔲', kind: 'printable', desc: 'משבצות 5 מ״מ או 1 ס״מ.', keys: 'דף משבצות משבצות חשבון מחברת' },
   { to: '/printables/graph-paper', title: 'נייר מילימטרי להדפסה', emoji: '📐', kind: 'printable', desc: 'רשת מילימטרים לגרפים.', keys: 'נייר מילימטרי מילימטרי גרף שרטוט' },
   { to: '/printables/dot-paper', title: 'דף נקודות להדפסה', emoji: '⚬', kind: 'printable', desc: 'רשת נקודות לציור ולמשחק ריבועים.', keys: 'דף נקודות dot grid משחק ריבועים' },
@@ -4836,7 +4836,7 @@ const PAGES = [
   { to: '/calculator', title: 'מחשבון מסיבה — כמה אוכל, שתייה ותקציב', emoji: '🍕', kind: 'tool', keys: 'פיצה פיצות כמה פיצות להזמין שתייה כמה שתייה צריך עלות תקציב כמה עולה יום הולדת מחשבון' }, // one page: the old per-calculator URLs redirect here
   { to: '/teachers', title: 'שיעורי בית אינטראקטיביים — מרחב המורה', emoji: '📚', kind: 'tool', keys: 'שיעורי בית מורה מורים תרגול כיתה הכתבה חשבון הבנת הנקרא' },
   { to: '/classroom/quiz', title: 'מבחן אמריקאי אונליין לכיתה', emoji: '📝', kind: 'tool', keys: 'חידון מבחן בוחן מורה' },
-  { to: '/rsvp', title: 'אישור הגעה אונליין בחינם', emoji: '✅', kind: 'tool', desc: 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.', keys: 'אישור הגעה אישורי הגעה אישור הגעה לאירוע אישור הגעה לאירוע חינם אישור הגעה ליום הולדת rsvp מגיעים לא מגיעים הזמנה לאירוע רשימת מוזמנים' },
+  { to: '/rsvp', title: 'אישור הגעה אונליין בחינם', emoji: '✅', kind: 'tool', desc: 'קישור אחד בוואטסאפ: מי מגיע, כמה ילדים ומבוגרים, אלרגיות ומי עוד לא ענה.', keys: 'אישור הגעה אישורי הגעה אישור הגעה לאירוע אישור הגעה לאירוע חינם אישור הגעה ליום הולדת rsvp מגיעים לא מגיעים הזמנה לאירוע רשימת מוזמנים אישור הגעה לבר מצווה אישור הגעה לבת מצווה אישור הגעה לברית אישור הגעה לחתונה אישורי הגעה בוואטסאפ' },
   { to: '/rsvp/bar-mitzvah', title: 'אישור הגעה לבר מצווה', emoji: '📜', kind: 'tool', desc: 'קישור אחד בוואטסאפ, תשובה בלחיצה.', keys: 'אישור הגעה לבר מצווה בר מצווה אישור הגעה' },
   { to: '/rsvp/bat-mitzvah', title: 'אישור הגעה לבת מצווה', emoji: '🌸', kind: 'tool', desc: 'קישור אחד בוואטסאפ, תשובה בלחיצה.', keys: 'אישור הגעה לבת מצווה בת מצווה אישור הגעה' },
   { to: '/rsvp/brit', title: 'אישור הגעה לברית ולבריתה', emoji: '👶', kind: 'tool', desc: 'קישור אחד בוואטסאפ, תשובה בלחיצה.', keys: 'אישור הגעה לברית ולבריתה ברית ובריתה אישור הגעה' },
@@ -4967,7 +4967,7 @@ function buildStatic() {
   out.push({ to: '/board-games', title: 'משחקי לוח קלאסיים – לשחק וללמוד', emoji: '♟️', kind: 'game', desc: 'דמקה ועוד – נגד המחשב, נגד חבר ושיעורים.', keys: 'משחק לוח לוח קלאסי' })
   out.push({ to: '/online-games/today', title: 'אתגר היום – משחק אונליין חדש כל יום', emoji: '🌟', kind: 'game', desc: 'אותו אתגר לכולם, מתחלף בחצות. משחקים ומשתפים.', keys: 'אתגר יומי משחק יומי משחק היום אתגר היום סודוקו יומי' })
   out.push({ to: '/online-games/marathon', title: 'מרתון משחקים – 8 משחקים ברצף נגד השעון', emoji: '🏃', kind: 'game', desc: 'כל שלב ממשחק אחר. משימה קצרה, שעון אחד, משתפים את התוצאה.', keys: 'מרתון משחקים מולטי ריבוי משחקים אתגר שלבים' })
-  out.push({ to: '/online-games', title: 'משחקי אונליין – סוליטר, סודוקו, נחש ועוד', emoji: '🕹️', kind: 'game', desc: 'משחקי חשיבה קלאסיים על כל המסך, בחינם ובלי הרשמה.', keys: 'משחקי אונליין משחקים במחשב משחקים בטלפון סוליטר סודוקו נחש 2048 שולה מוקשים זיכרון משחקים לשניים ארבע בשורה איקס עיגול' })
+  out.push({ to: '/online-games', title: 'משחקי אונליין – סוליטר, סודוקו, נחש ועוד', emoji: '🕹️', kind: 'game', desc: 'משחקי חשיבה קלאסיים על כל המסך, בחינם ובלי הרשמה.', keys: 'משחקי אונליין משחקים במחשב משחקים בטלפון סוליטר סודוקו נחש 2048 שולה מוקשים זיכרון משחקים לשניים ארבע בשורה איקס עיגול משחקי חשיבה משחקים בחינם בלי הורדה משחקים לילדים אונליין פאזלים צוללות' })
   for (const g of ARCADE) out.push({ to: `/online-games/${g.slug}`, title: g.twoPlayer ? `${g.name} לשניים` : g.name, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק אונליין ${g.name} לשחק ${g.name} בחינם ${g.seoTitle}${g.searchKeys ? ' ' + g.searchKeys : ''}${g.twoPlayer ? ' משחקים לשניים משחק לשני שחקנים שני שחקנים על אותו מסך נגד המחשב' : ''}` })
   for (const g of BOARD_GAMES) out.push({ to: `/board-games/${g.slug}`, title: `${g.name} – לשחק, ללמוד וחוקים`, emoji: g.emoji, kind: 'game', desc: g.tagline, keys: `משחק לוח ${g.name} חוקי ${g.name} ללמוד ${g.name} אונליין` })
   // every date page of the time tunnel ("מה קרה ב-14 במרץ?")
