@@ -98,6 +98,8 @@ export default function Navbar() {
 
   const closeMobile = () => setMobileOpen(false)
   const kidsActive = pathname === KIDS_ZONE.to
+  // Buga Live and "ask for a page", highlighted in the header and atop the phone menu.
+  const features = onClick => [['live', '⚡ בוגה לייב'], ['request', '📝 מבקשים דף']].map(([p, l]) => <Link key={p} to={'/' + p} className={'site-feature-pill site-feature-' + p} onClick={onClick}>{l}</Link>)
 
   return (
     <header className="site-header no-print">
@@ -115,8 +117,7 @@ export default function Navbar() {
           <Link to={KIDS_ZONE.to} className={`site-kids-pill${kidsActive ? ' is-active' : ''}`} aria-current={kidsActive ? 'page' : undefined}>
             <span aria-hidden="true">{KIDS_ZONE.icon}</span> אזור ילדים
           </Link>
-          <Link to="/live" className="site-feature-pill site-feature-live">⚡ בוגה לייב</Link>
-          <Link to="/request" className="site-feature-pill site-feature-request">📝 מבקשים דף</Link>
+          {features()}
         </div>
 
         <Link to="/" className="site-brand" aria-label="עוגה בוגה — דף הבית">
@@ -149,10 +150,7 @@ export default function Navbar() {
       {mobileOpen && (
         <nav ref={mobilePanelRef} id="site-mobile-menu" className="site-mobile-menu" aria-label="תפריט נייד">
           <Link to={KIDS_ZONE.to} className="site-mobile-kids" onClick={closeMobile}><span aria-hidden="true">{KIDS_ZONE.icon}</span> אזור ילדים — לשחק לבד</Link>
-          <div className="site-mobile-features">
-            <Link to="/live" className="site-feature-pill site-feature-live" onClick={closeMobile}>⚡ בוגה לייב — חידון חי</Link>
-            <Link to="/request" className="site-feature-pill site-feature-request" onClick={closeMobile}>📝 מבקשים דף — ואנחנו מכינים</Link>
-          </div>
+          <div className="site-mobile-features">{features(closeMobile)}</div>
           <ul className="site-mobile-sections">
             {MENU_DOMAINS.map(domain => {
               const expanded = mobileSection === domain.id

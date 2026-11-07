@@ -375,6 +375,7 @@ const LunchboxNotes = lazy(() => import('./family/FoodPages').then(m => ({ defau
 const AllergySigns = lazy(() => import('./family/AllergySigns'))
 const ClassroomSigns = lazy(() => import('./pages/printables/ClassroomSigns'))
 const ClassroomDecor = lazy(() => import('./pages/printables/ClassroomDecor'))
+const MyBookComic = lazy(() => import('./pages/printables/MyBookComic'))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
@@ -1251,6 +1252,8 @@ export default function App() {
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/classroom-signs" element={<ClassroomSigns />} />
               <Route path="/printables/classroom-decor" element={<ClassroomDecor />} />
+              <Route path="/printables/my-book" element={<MyBookComic />} />
+              <Route path="/printables/comic" element={<MyBookComic mode="comic" />} />
               <Route path="/printables/classroom-decor/:slug" element={<ClassroomDecor />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
               <Route path="/logic-puzzles" element={<LogicHub />} />

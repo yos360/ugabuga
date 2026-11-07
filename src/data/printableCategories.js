@@ -16,6 +16,8 @@ export const categories = [
   { slug: 'reward-chart', inHubOnly: true, href: '/printables/reward-chart', emoji: '⭐', title: 'לוח מדבקות לחיזוק', count: 'חדש', desc: 'מטרה אחת, דרך של 10–30 מדבקות ופרס בסוף', special: true },
   { slug: 'toothbrushing-chart', inHubOnly: true, href: '/printables/toothbrushing-chart', emoji: '🦷', title: 'לוח צחצוח שיניים', count: 'חדש', desc: 'בוקר וערב — לשבוע או לחודש שלם', special: true },
   { slug: 'potty-chart', inHubOnly: true, href: '/printables/potty-chart', emoji: '🚽', title: 'לוח גמילה מחיתולים', count: 'חדש', desc: 'מדבקה על כל הצלחה בשירותים', special: true },
+  { slug: 'my-book', href: '/printables/my-book', emoji: '📖', title: 'ספר משלי — ספר מקופל', count: 'חדש', desc: 'ספר של 8 עמודים מדף אחד: עליי, סיפור, משפחה, חנוכה וחורף', special: true },
+  { slug: 'comic', href: '/printables/comic', emoji: '💬', title: 'דפי קומיקס', count: 'חדש', desc: 'תבניות ריקות של 4, 6 או 9 משבצות עם בועות דיבור', special: true },
   { slug: 'classroom-decor', href: '/printables/classroom-decor', emoji: '🖼️', title: 'קישוט כיתה וגן', count: 'חדש', desc: 'לוח מזג אוויר, ימי הולדת, תורנים, צורות, צבעים ושרשרת דגלים', special: true },
   { slug: 'classroom-signs', href: '/printables/classroom-signs', emoji: '🏫', title: 'שלטי מקצועות לכיתה', count: 'חדש', desc: 'שלט לכל מקצוע ללוח המערכת — 3 עיצובים, עם ניקוד או בלי', special: true },
   { slug: 'class-schedule', inHubOnly: true, href: '/printables/class-schedule', emoji: '🗓️', title: 'מערכת שעות', count: 'חדש', desc: 'מערכת שעות אישית, 5 או 6 ימים', special: true },
