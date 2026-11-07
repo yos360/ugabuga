@@ -92,5 +92,17 @@
     },
     "extra": "second riddle of the day, a Shabbat riddle the owner chose",
     "site": "https://ugabuga.co.il/riddles/shabbat-riddle"
+  },
+  {
+    "date": "2026-11-07",
+    "n": 6,
+    "id": "winter-sequence",
+    "answer": "31",
+    "kind": "seq",
+    "type": "סדרת מספרים",
+    "posted": true,
+    "networks": [],
+    "note": "chosen and published by the owner from another session on 2026-11-07 around 12:30; the 14:00 run must not post another riddle today",
+    "site": "https://ugabuga.co.il/riddles/winter-sequence"
   }
 ]
