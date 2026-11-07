@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'iTa0hpnJF4Q', kind: 'tutorial', title: 'איך פותרים חשבון של חנוכה בעוגה בוגה — מדריך קצר', paths: ['/holidays/hanukkah/math'], category: 'learning', date: '2026-11-07',
+    desc: 'מדריך קצר לחשבון של חנוכה לכיתות א׳–ו׳: בוחרים כיתה, פותרים 6 בעיות מילוליות במסך עם בדיקה ו"איך פותרים?", משחקים במשחק סביבון של חשבון ומדפיסים דף עבודה ודף פתרונות — חינם, בלי הרשמה.' },
   { id: 'wLMGpwCLqWY', kind: 'tutorial', title: 'איך מצפינים ומפענחים הודעות סודיות בעוגה בוגה — מדריך קצר', paths: ['/tools/secret-codes'], category: 'learning', date: '2026-11-07',
     desc: 'מדריך קצר לכתב סתרים וצפנים: בוחרים צופן, כותבים הודעה ומקבלים אותה מוצפנת, מפענחים, פותרים משימה של חמש הודעות ומדפיסים דפי "פענחו את ההודעה" מהגן ועד כיתה ו׳ — חינם, בלי הרשמה.' },
   { id: 'dvkHoE6iPss', kind: 'tutorial', title: 'איך בונים תוכנית שיעורי עזר בבית בעוגה בוגה — מדריך קצר', paths: ['/tutoring'], category: 'learning', date: '2026-11-07',
@@ -54,6 +56,7 @@ export const VIDEO_PAGE_LABELS = {
   '/birthday/party-bags': 'שקיות הפתעה',
   '/tutoring': 'שיעורי עזר בבית',
   '/tools/secret-codes': 'כתב סתרים וצפנים',
+  '/holidays/hanukkah/math': 'חשבון של חנוכה',
 }
 
 const SITE = 'https://ugabuga.co.il'
