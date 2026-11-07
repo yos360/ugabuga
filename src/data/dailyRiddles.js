@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'winter-sequence', n: 6, date: '2026-11-07', type: 'סדרת מספרים', emoji: '❄️', kind: 'seq', dir: 'ltr',
+    title: 'סדרת החורף ❄️',
+    items: ['31', '31', '28', '31', '30', '?'],
+    ask: 'מה המספר הבא? רמז: ❄️ מתחילים בדצמבר',
+    answer: '31',
+    why: 'אלה מספרי הימים בכל חודש, החל מדצמבר: דצמבר 31, ינואר 31, פברואר 28, מרץ 31, אפריל 30 — והבא הוא מאי, עם 31 ימים. (בשנה מעוברת יש בפברואר 29 ימים, אבל בפברואר 2027 יש 28.)',
+  },
+  {
     id: 'shabbat-riddle', n: 5, date: '2026-11-06', type: 'משחק אותיות', emoji: '🕯️', kind: 'text',
     title: 'חידה לשבת',
     lines: ['מה יש בשבת,', 'יש בערב,', 'ואין ביום שישי?'],
