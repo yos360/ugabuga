@@ -69,3 +69,15 @@ export function invalidatePrintCounts() {
   window.dispatchEvent(new Event('buga:downloads-changed'))
 }
 export function printLabel(n) { return validCount(n) && n >= SHOW_FROM ? `הורד כ־PDF ${n.toLocaleString('he-IL')} פעמים` : '' }
+
+// Today's printed sheets (Israel day) + latest print paths — one shared request, refreshed every minute.
+let todayPending = null, todayExpires = 0
+export function loadTodayPrints() {
+  if (todayPending && Date.now() < todayExpires) return todayPending
+  todayExpires = Date.now() + 60000
+  todayPending = fetch(`${URL}/rest/v1/rpc/public_today_prints`, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: '{}' })
+    .then(r => { if (!r.ok) throw new Error('today_unavailable'); return r.json() })
+    .then(d => ({ today: validTotal(d?.today), recent: Array.isArray(d?.recent) ? d.recent.filter(p => typeof p === 'string' && publicDownloadPath(p)) : [] }))
+    .catch(() => { todayExpires = Date.now() + 30000; return { today: 0, recent: [] } })
+  return todayPending
+}

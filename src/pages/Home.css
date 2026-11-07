@@ -69,14 +69,14 @@
 @media(min-width:1250px){.home-charts{flex-wrap:nowrap}.home-charts-copy{flex:0 1 300px}.home-charts{gap:12px 14px}.home-charts-grid{flex:1 1 auto;min-width:0;flex-wrap:nowrap;justify-content:flex-start}.home-charts-grid{gap:6px}.home-charts-grid a{white-space:nowrap;font-size:13px;padding:6px 8px}}
 @media(max-width:800px){.home-charts.is-desktop{display:none}.home-charts.is-mobile{display:flex;margin:30px 0 0}}
 /* One small pill pointing to the printables (replaces the large "print pulse" box on the home page). */
-.print-strip{display:inline-flex;align-items:center;gap:7px;margin:10px auto 4px;padding:5px 14px;border-radius:999px;background:#fff3c4;color:#4a3b07;font-size:14px;font-weight:600;line-height:1.4;text-decoration:none;box-shadow:0 2px 0 #f1dc8c;transition:transform .15s,background .15s}
+.print-strip{display:inline-flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:8px;margin:12px auto 6px;padding:8px 18px;border-radius:999px;background:#fff3c4;color:#4a3b07;font-size:17px;font-weight:600;line-height:1.4;text-decoration:none;box-shadow:0 2px 0 #f1dc8c;transition:transform .15s,background .15s}
 .print-strip:hover,.print-strip:focus-visible{background:#ffeba3;transform:translateY(-1px)}
 .print-strip b{font-weight:800}
 .print-strip-cta{color:#9a6a00;font-weight:800;white-space:nowrap}
 .print-strip-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#2fbf71;box-shadow:0 0 0 0 #2fbf7180;animation:print-strip-pulse 1.8s infinite}
 @keyframes print-strip-pulse{70%{box-shadow:0 0 0 7px #2fbf7100}100%{box-shadow:0 0 0 0 #2fbf7100}}
 @media (prefers-reduced-motion:reduce){.print-strip-dot{animation:none}}
-@media (max-width:640px){.print-strip{font-size:13px;padding:5px 11px;gap:5px}}
+@media (max-width:640px){.print-strip{font-size:15px;padding:6px 12px;gap:5px;border-radius:18px}}
 
 
 /* Three choices, three answers: a calm first step for visitors who do not know where to begin. */
@@ -130,3 +130,4 @@
 @media (max-width:560px){.hp-spot-card{flex-wrap:wrap}.hp-spot-cta{width:100%;justify-content:center}.hp-spot-copy b{font-size:1.25rem}}
 @media (prefers-reduced-motion:reduce){.hp-spot-card{animation:none}}
 :root[data-theme="dark"] .hp-spot{background:#fff;color:#1f2937}
+.print-strip .flip-counter{vertical-align:middle;margin:0 4px}

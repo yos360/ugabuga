@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './recent-activity.css'
+import FlipCounter from '../ui/FlipCounter'
+import { loadTodayPrints } from '../../utils/printCounts'
 
 // liveActivity pulls the Supabase SDK; load it lazily so no page pays for it
 // up front (and never during prerender snapshots, which would bake a
@@ -66,35 +68,24 @@ function useShownCount() {
   return shown
 }
 
-// One split-flap card (like a flip alarm clock): the top page falls down to reveal the new digit.
-function FlipDigit({ digit }) {
-  const [prev, setPrev] = useState(digit)
-  const [cur, setCur] = useState(digit)
-  const [flips, setFlips] = useState(0)
-  useEffect(() => {
-    if (digit === cur) return
-    setPrev(cur); setCur(digit); setFlips(n => n + 1)
-  }, [digit]) // eslint-disable-line react-hooks/exhaustive-deps
-  return <span className="flip-card" aria-hidden="true">
-    <span className="flip-half flip-top"><span>{cur}</span></span>
-    <span className="flip-half flip-bottom"><span>{flips ? prev : cur}</span></span>
-    {flips > 0 && <span key={'t' + flips} className="flip-half flip-top flip-fall"><span>{prev}</span></span>}
-    {flips > 0 && <span key={'b' + flips} className="flip-half flip-bottom flip-rise"><span>{cur}</span></span>}
-  </span>
-}
-function FlipCounter({ value }) {
-  const digits = String(value).split('')
-  return <span className="flip-counter" dir="ltr" role="img" aria-label={String(value)}>
-    {digits.map((d, i) => <FlipDigit key={digits.length + '-' + i} digit={d} />)}
-  </span>
-}
-
 export default function RecentActivity() {
   const { pathname } = useLocation()
   const [mod, setMod] = useState(null)
   const [state, setState] = useState({ count: null, events: [] })
   const [hidden, setHidden] = useState(closedRecently)
   const shown = useShownCount()
+  // Latest real prints, shown one after another so the banner always has a print going on.
+  const [prints, setPrints] = useState([])
+  const [printAt, setPrintAt] = useState(0)
+  useEffect(() => {
+    if (typeof window === 'undefined' || window.__PRERENDER__) return
+    let live = true
+    const update = () => loadTodayPrints().then(d => { if (live) setPrints(d.recent) })
+    update()
+    const refresh = setInterval(update, 60000)
+    const rotate = setInterval(() => setPrintAt(i => i + 1), 5000 + Math.random() * 3000)
+    return () => { live = false; clearInterval(refresh); clearInterval(rotate) }
+  }, [])
   const close = () => { setHidden(true); try { localStorage.setItem(CLOSED_KEY, String(Date.now())) } catch { /* ignore */ } }
   useEffect(() => {
     let stopped = false, disconnect = null
@@ -134,13 +125,15 @@ export default function RecentActivity() {
   const { ACTIVITY_LABELS, ACTION_LABELS } = mod
   // Anonymous: what was opened, never who — and not your own actions.
   const others = state.events.filter(e => !e.own)
+  const printLabels = prints.map(p => ACTIVITY_LABELS[mod.activityForPath(p)]).filter(Boolean)
+  const printNow = printLabels.length ? printLabels[printAt % printLabels.length] : null
   return <aside className="buga-live no-print" aria-label="פעילות חיה בעוגה בוגה" dir="rtl">
     <span className="buga-live-count">
       <span className="buga-live-dot" aria-hidden="true" />
       <FlipCounter value={shown} />
       <span className="buga-live-label">מבקרים איתנו עכשיו</span>
     </span>
-    {others.length > 0 && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
+    {(printNow || others.length > 0) && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{printNow && <span className="buga-live-event buga-live-print" key={'p' + printAt}>🖨️ הדפיסו: {printNow}</span>}{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
     <button className="buga-live-close" onClick={close} aria-label="הסתרת באנר הפעילות">×</button>
   </aside>
 }
