@@ -77,6 +77,7 @@ export const categories = [
   { slug: 'cut-and-order', emoji: '✂️', title: 'גזרו וסדרו', count: 'חדש', desc: 'כרטיסי רצף לגזירה ולסידור', generated: true },
   { slug: 'hidden-object', emoji: '🕵️', title: 'מצאו חפץ מסתתר', count: 'חדש', desc: 'חיפוש חפצים בתוך תמונה עמוסה', generated: true },
   { slug: 'mixed-activities', emoji: '🌟', title: 'דף פעילות משולב', count: 'חדש', desc: 'כמה משימות קצרות בדף אחד', generated: true },
+  { slug: 'odd-one-out', emoji: '🧐', title: 'מה יוצא דופן?', count: 'חדש', desc: 'מוצאים בכל שורה את מי שלא שייך', generated: true },
   { slug: 'missing-picture', emoji: '🖍️', title: 'מה חסר בתמונה?', count: 'חדש', desc: 'משלימים ציור לפי רצף ורמזים', generated: true },
 ]
 

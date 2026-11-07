@@ -17,7 +17,7 @@ export const ACTIVITY_LABELS = Object.freeze({
   'dot-to-dot':'חיבור נקודות','find-differences':'מצאו את ההבדלים','color-by-number':'צביעה לפי מספר',
   'word-tracing':'מילים מקווקוות','match-word':'התאמת תמונה למילה','complete-pattern':'המשך הרצף',
   'count-and-write':'ספירה וכתיבה','silhouette-match':'התאמת צלליות','cut-and-order':'גזירה וסידור',
-  'hidden-object':'מציאת חפצים','mixed-activities':'דף פעילות משולב','missing-picture':'השלמת תמונה חסרה',
+  'hidden-object':'מציאת חפצים','mixed-activities':'דף פעילות משולב','missing-picture':'השלמת תמונה חסרה','odd-one-out':'מה יוצא דופן',
   game:'משחקים',worksheet:'דפי פעילות',tool:'כלי משחק',calculator:'מחשבון למסיבה',
   invitation:'הזמנות',greeting:'ברכות',printables:'דפים להדפסה',create:'יוצרים',classroom:'פעילויות לכיתה',birthday:'פעילויות ליום הולדת',
   suppliers:'ספקים','emoji-studio':'אימוג׳י סטודיו',page:'עמודים באתר',

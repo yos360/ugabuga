@@ -45,6 +45,7 @@ const SHEET_EXTRA = {
   'cut-and-order': { type: 'craft', grades: [0, 1], pop: 3 },
   'hidden-object': { type: 'puzzle', grades: range(0, 2), pop: 4 },
   'missing-picture': { type: 'puzzle', grades: [0, 1], pop: 3 },
+  'odd-one-out': { type: 'puzzle', topics: ['thinking'], grades: [0, 1, 2], pop: 3 },
   'mixed-activities': { type: 'worksheet', grades: range(0, 2), pop: 4 },
   'dot-to-dot': { type: 'coloring', grades: range(0, 2), pop: 7 },
   coloring: { type: 'coloring', category: 'creative', pop: 10 },
