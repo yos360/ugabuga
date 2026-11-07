@@ -258,6 +258,7 @@ const CrosswordPage = lazy(() => import('./adults/AdultPages').then(m => ({ defa
 const MandalaMaker = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.MandalaMaker })))
 const Grandparents = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.Grandparents })))
 const GrandparentsInterview = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.GrandparentsInterview })))
+const AdultGuide = lazy(() => import('./adults/AdultPages').then(m => ({ default: m.AdultGuide })))
 const TeachTheRobot = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.TeachTheRobot })))
 const PromptLab = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.PromptLab })))
 const SpotTheMistake = lazy(() => import('./learn/ai/AiTools').then(m => ({ default: m.SpotTheMistake })))
@@ -896,6 +897,7 @@ export default function App() {
               <Route path="/request/done" element={<RequestDone />} />
               <Route path="/whatsapp" element={<WhatsAppChannel />} />
               <Route path="/winter" element={<WinterGames />} />
+          <Route path="/winter/evening-games" element={<AdultGuide slug="winter-evening" />} />
               <Route path="/booklets/:slug" element={<BookletPage />} />
               <Route path="/printables/dominoes" element={<Dominoes />} />
               <Route path="/printables/tic-tac-toe" element={<TicTacToeBoards />} />
@@ -998,6 +1000,8 @@ export default function App() {
               <Route path="/online-games/sound-position" element={<SoundPositionOnline />} />
               <Route path="/adults/grandparents" element={<Grandparents />} />
               <Route path="/adults/grandparents/interview" element={<GrandparentsInterview />} />
+          <Route path="/adults/seniors-games" element={<AdultGuide slug="seniors-games" />} />
+          <Route path="/adults/word-games" element={<AdultGuide slug="word-games" />} />
               <Route path="/learn/ai" element={<SubjectHub key="ai" subjectKey="ai" />} />
               <Route path="/learn/ai/teach-the-robot" element={<TeachTheRobot />} />
               <Route path="/learn/ai/prompt-lab" element={<PromptLab />} />

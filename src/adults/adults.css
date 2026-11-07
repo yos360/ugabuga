@@ -49,3 +49,11 @@
 .interview-sheet .iv-q{margin:6px 0 10px}
 .interview-sheet .iv-q b{display:block;font-size:12.5pt}
 .interview-sheet .iv-q span{display:block;border-bottom:1px solid #999;height:22px}
+
+/* guides */
+.adult-guide{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));list-style:none;padding:0}
+.adult-guide h3{font-size:1.2em;font-weight:900;margin-bottom:.3em}
+.adult-guide p{color:#1f2937}
+.adult-guide-link{display:inline-block;margin-top:.6em;font-weight:800;color:#6d28d9;text-decoration:underline}
+.adult-steps{list-style:decimal;padding-right:1.4em;display:grid;gap:.5em}
+.adult-tips{list-style:disc;padding-right:1.4em;display:grid;gap:.4em}

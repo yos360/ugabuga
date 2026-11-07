@@ -86,7 +86,7 @@ export function DailyRiddlesHub() {
         <SeoBody paragraphs={[
           'החידה היומית של עוגה בוגה היא חידה אחת קצרה וטריקית בכל יום: סדרת מספרים, חידת לוח שנה, היגיון, משחק מילים או שאלה מכשילה. היא לא קשה מאוד — אבל יש בה טריק, ומי שמוצא אותו פותר בעשר שניות.',
           'בכל דף חידה הפתרון מוסתר עד שלוחצים, יחד עם הסבר קצר. אפשר לפתור לבד, עם הילדים או להציג בכיתה ולתת לכולם לנחש.',
-        ]} related={[{ href: '/tools/riddles', label: 'מאגר החידות' }, { href: '/riddles/topics', label: 'חידות לפי נושא' }, { href: '/trick-questions', label: 'שאלות מכשילות' }]} />
+        ]} related={[{ href: '/riddles/adults', label: 'חידות למבוגרים' }, { href: '/tools/riddles', label: 'מאגר החידות' }, { href: '/riddles/topics', label: 'חידות לפי נושא' }, { href: '/trick-questions', label: 'שאלות מכשילות' }]} />
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintPreview from '../components/ui/PrintPreview'
 import NotFound from '../pages/NotFound'
 import { MANDALA_LEVELS, levelById, makeMandala } from './mandala'
+import { adultGuide } from './adultGuides'
 import './adults.css'
 
 // The adults' leisure area (/adults): everything large — big type, big buttons, big print —
@@ -33,6 +34,15 @@ const CARDS = [
   { to: '/adults/grandparents/interview', emoji: '📖', title: 'ראיון סיפור חיים', text: 'חוברת שאלות להדפסה: הנכדים מראיינים את סבא וסבתא.' },
   { to: '/trivia/with-answers', emoji: '❓', title: 'טריוויה עם תשובות', text: 'שאלות טריוויה לערב משפחתי או למועדון.' },
   { to: '/greetings/age-80', emoji: '💌', title: 'ברכות ליום הולדת', text: 'ברכות לגיל 70, 80, 90 ולסבא ולסבתא.' },
+  { to: '/adults/seniors-games', emoji: '🎲', title: 'משחקים לגיל השלישי', text: 'משחקי חברה בישיבה, הפעלה מוכנה למועדון ומשחקים קוגניטיביים.' },
+  { to: '/adults/word-games', emoji: '🔤', title: 'משחקי מילים בעברית', text: 'שרשרת מילים, פתגמים שבורים, מילה בתוך מילה ועוד.' },
+  { to: '/riddles/adults', emoji: '🧠', title: 'חידות למבוגרים', text: 'חידות היגיון ומכשילות עם תשובות, וחידה חדשה בכל יום.' },
+  { to: '/riddles/detective', emoji: '🕵️', title: 'חידות בלשים קשות', text: 'מי משקר ואיפה הטעות בעדות. חידות קצרות עם פתרונות.' },
+  { to: '/riddles/job-interview', emoji: '💼', title: 'חידות לראיון עבודה', text: 'החידות הלוגיות מראיונות בהייטק, עם פתרון מוסבר.' },
+  { to: '/trivia/hanukkah-adults', emoji: '🕎', title: 'חידון לחנוכה למבוגרים', text: '16 שאלות עם תשובות, והפעלה מוכנה לערב לביבות.' },
+  { to: '/questions/family-evening', emoji: '🛋️', title: 'שאלות לערב משפחתי', text: 'משחק שאלות לכל הדורות, עם זיכרונות של סבא וסבתא.' },
+  { to: '/winter/evening-games', emoji: '☕', title: 'משחקים לערב חורף', text: 'לערב לביבות, לערב חברים ולערב משפחתי בלי מסכים.' },
+  { to: '/greetings/retirement', emoji: '🌅', title: 'ברכות לפרישה לגמלאות', text: 'למנהלת, לחברה מהעבודה, לאחות ולמורה.' },
 ]
 const HUB_FAQ = [
   { q: 'למי מתאים האזור?', a: 'למבוגרים שאוהבים תשבצים, סודוקו וצביעה, לסבים ולסבתות שמחפשים פעילות עם הנכדים, ולמפעילים במועדונים ובמרכזי יום שצריכים דפים מוכנים להדפסה.' },
@@ -236,5 +246,35 @@ export function GrandparentsInterview() {
       {book.map(s => <article className="buga-a4 interview-sheet" key={s.title}><h2>{s.emoji} {s.title}</h2>{s.questions.map(q => <div key={q} className="iv-q"><b>{q}</b><span /><span /></div>)}<footer>עוגה בוגה · ugabuga.co.il</footer></article>)}
     </PrintPreview>}
     <div className="mt-12"><SeoBody paragraphs={['ראיון עם סבא וסבתא הוא דרך נפלאה לשמור על הסיפור של המשפחה — ולגלות דברים שאף פעם לא שאלתם. החוברת מחולקת לנושאים, מהילדות ועד העצות לנכדים, ואפשר לבחור את השאלות שמתאימות לכם.', 'טיפ: הקליטו את השיחה בטלפון (באישור המרואיינים), הוסיפו תמונות ישנות ליד התשובות, ושלחו עותק לכל המשפחה. החוברת מתאימה גם לעבודת שורשים בבית הספר.']} faq={[{ q: 'לאיזה גיל מתאים לראיין?', a: 'ילדים מגיל 7 בערך יכולים לשאול חלק מהשאלות, ומכיתה ד׳ אפשר לנהל ראיון שלם ולכתוב את התשובות.' }, { q: 'זה מתאים לעבודת שורשים?', a: 'כן. השאלות מכסות את הנושאים שנשאלים בעבודת שורשים, ויש גם עמוד עבודת שורשים מלא באתר.' }]} related={[{ label: 'עבודת שורשים להדפסה', href: '/printables/roots-project' }, { label: 'פעילויות עם סבא וסבתא', href: '/adults/grandparents' }, HOME]} /></div>
+  </Page>
+}
+
+// ---------- guides (/adults/seniors-games, /adults/word-games, /winter/evening-games) ----------
+export function AdultGuide({ slug }) {
+  const g = adultGuide(slug)
+  if (!g) return <NotFound />
+  const trail = g.crumb ? [{ label: 'ראשי', href: '/' }, g.crumb, { label: g.title }] : crumbs({ label: g.title })
+  return <Page>
+    <SEO title={g.seoTitle} description={g.description} path={g.path} structuredData={faqSchema(g.faq)} />
+    <Breadcrumbs items={trail} />
+    <h1 className="text-center text-5xl font-black">{g.emoji} {g.title}</h1>
+    <p className="adult-lead">{g.lead}</p>
+    {g.sections.map(s => <section key={s.title} className="mt-10">
+      <h2 className="mb-4 text-3xl font-black">{s.title}</h2>
+      <ul className="adult-guide">{s.items.map(it => <li key={it.t} className="adult-box">
+        <h3>{it.t}</h3>
+        <p>{it.d}</p>
+        {it.to && <Link to={it.to} className="adult-guide-link">{it.label} ←</Link>}
+      </li>)}</ul>
+    </section>)}
+    {g.plan && <section className="mt-10 adult-box">
+      <h2 className="mb-3 text-3xl font-black">{g.plan.title}</h2>
+      <ol className="adult-steps">{g.plan.items.map(s => <li key={s}>{s}</li>)}</ol>
+    </section>}
+    {g.tips && <section className="mt-10">
+      <h2 className="mb-3 text-3xl font-black">טיפים קטנים</h2>
+      <ul className="adult-tips">{g.tips.map(s => <li key={s}>{s}</li>)}</ul>
+    </section>}
+    <div className="mt-12"><SeoBody faq={g.faq} related={g.related} /></div>
   </Page>
 }

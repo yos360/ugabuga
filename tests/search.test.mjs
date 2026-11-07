@@ -90,7 +90,7 @@ test('queries that already worked still work', () => {
   has('מי מביא מה', '/tools/bring-list', 1)
   has('כמה פיצות', '/calculator', 1)
   has('ערב משפחה', '/blog/family-game-night', 3)
-  has('ערב משפחה', '/games/family', 3)
+  has('ערב משפחה', '/games/family', 4) // /questions/family-evening is a fair match too
   has('כיתה א', '/classroom/first-grade', 3)
   has('מה קרה ב-14 במרץ', '/time-tunnel/03-14', 1)
 })

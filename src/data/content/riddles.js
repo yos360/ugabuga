@@ -1,3 +1,4 @@
+import { RIDDLES_ADULTS } from './riddlesAdults.js';
 // חידות לילדים ולמשפחה – 17 עמודים, 12–24 חידות בכל עמוד
 const r = (q, a, hint) => ({ q, a, hint });
 
@@ -472,4 +473,5 @@ export const RIDDLE_PAGES = [
       r(`איזה מפתח לא פותח אף דלת בעולם?`, `מפתח סול`, `מוצאים אותו בתחילת כל שורה בתווים.`),
     ],
   },
+  ...RIDDLES_ADULTS,
 ];
