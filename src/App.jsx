@@ -374,10 +374,12 @@ const Experiment = lazy(() => import('./family/FoodPages').then(m => ({ default:
 const LunchboxNotes = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchboxNotes })))
 const AllergySigns = lazy(() => import('./family/AllergySigns'))
 const ClassroomSigns = lazy(() => import('./pages/printables/ClassroomSigns'))
+const ClassroomDecor = lazy(() => import('./pages/printables/ClassroomDecor'))
 const HomeChart = lazy(() => import('./pages/printables/HomeCharts'))
 const HomeChartsHub = lazy(() => import('./pages/printables/HomeCharts').then(m => ({ default: m.HomeChartsHub })))
 const LettersHub = lazy(() => import('./pages/letters/LettersHub'))
 const LetterPage = lazy(() => import('./pages/letters/LetterPage'))
+const LetterWeek = lazy(() => import('./pages/letters/LetterWeek'))
 const LettersGamePage = lazy(() => import('./pages/letters/LettersGamePage'))
 const HebrewLetterSong = lazy(() => import('./pages/letters/LetterSongs').then(m => ({ default: m.HebrewLetterSong })))
 const AbcSong = lazy(() => import('./pages/letters/LetterSongs').then(m => ({ default: m.AbcSong })))
@@ -789,7 +791,9 @@ export default function App() {
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
               <Route path="/letters/reading-practice" element={<ReadingByLetters />} />
               <Route path="/letters/final" element={<FinalLetters />} />
+              <Route path="/letters/week" element={<LetterWeek />} />
               <Route path="/letters/:slug" element={<LetterPage />} />
+              <Route path="/letters/:slug/week" element={<LetterWeek />} />
               <Route path="/animals" element={<AnimalsHub />} />
               <Route path="/animals/:slug" element={<AnimalPage />} />
               <Route path="/riddles/topics" element={<RiddlesHub />} />
@@ -1245,6 +1249,8 @@ export default function App() {
               <Route path="/printables/lunchbox-notes" element={<LunchboxNotes />} />
               <Route path="/printables/allergy-signs" element={<AllergySigns />} />
               <Route path="/printables/classroom-signs" element={<ClassroomSigns />} />
+              <Route path="/printables/classroom-decor" element={<ClassroomDecor />} />
+              <Route path="/printables/classroom-decor/:slug" element={<ClassroomDecor />} />
               <Route path="/printables/mazes" element={<MazesPage />} />
               <Route path="/logic-puzzles" element={<LogicHub />} />
               <Route path="/logic-puzzles/kids" element={<LogicLevelPage key="kids" variant="kids" />} />

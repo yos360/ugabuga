@@ -102,7 +102,7 @@ export default function LetterPage() {
           'הסדר המומלץ לילדים בגן ובכיתה א׳: קודם שומעים ומזהים את הצליל, אחר כך מכירים את הצורה, ורק בסוף כותבים. משחק של 5 דקות עושה יותר מדף עבודה ארוך.',
         ]}
         faq={faq}
-        related={[{ label: 'כל האותיות בעברית', href: '/letters' }, { label: 'משחק אותיות לגן', href: '/letters/game' }, { label: 'כרטיסיות אותיות להדפסה', href: '/printables/letter-flashcards' }]}
+        related={[{ label: `אות השבוע ${item.l} — ערכה לגננת`, href: `/letters/${item.slug}/week` }, { label: 'כל האותיות בעברית', href: '/letters' }, { label: 'משחק אותיות לגן', href: '/letters/game' }, { label: 'כרטיסיות אותיות להדפסה', href: '/printables/letter-flashcards' }]}
       />
 
       {print && <PrintPreview title={print === 'trace' ? `תרגול האות ${l}` : `כרטיסיות — האות ${l}`} onClose={() => setPrint(null)}>
