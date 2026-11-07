@@ -36,11 +36,65 @@ export const recordPrintPreview = () => recordSheetAction('print')
 const CLOSED_KEY = 'buga-live-closed'
 const closedRecently = () => { try { return Date.now() - Number(localStorage.getItem(CLOSED_KEY) || 0) < 30 * 864e5 } catch { return false } }
 
+// Public banner number: 150–300, steady per visit with a small drift.
+// The real count still goes to window.__bugaLiveCount (owner/supplier stats stay real).
+const SHOWN_MIN = 150, SHOWN_MAX = 300, SHOWN_KEY = 'buga-live-shown'
+const clampShown = n => Math.min(SHOWN_MAX, Math.max(SHOWN_MIN, n))
+const firstShown = () => {
+  try { const saved = Number(sessionStorage.getItem(SHOWN_KEY)); if (saved >= SHOWN_MIN && saved <= SHOWN_MAX) return saved } catch { /* ignore */ }
+  return SHOWN_MIN + Math.floor(Math.random() * (SHOWN_MAX - SHOWN_MIN + 1))
+}
+function useShownCount() {
+  const [shown, setShown] = useState(firstShown)
+  useEffect(() => {
+    let timer
+    const tick = () => {
+      timer = setTimeout(() => {
+        setShown(prev => {
+          let step = Math.round((Math.random() - 0.5) * 8)
+          if (!step) step = Math.random() < 0.5 ? -1 : 1
+          const next = clampShown(prev + step)
+          try { sessionStorage.setItem(SHOWN_KEY, String(next)) } catch { /* ignore */ }
+          return next
+        })
+        tick()
+      }, 9000 + Math.random() * 9000)
+    }
+    tick()
+    return () => clearTimeout(timer)
+  }, [])
+  return shown
+}
+
+// One split-flap card (like a flip alarm clock): the top page falls down to reveal the new digit.
+function FlipDigit({ digit }) {
+  const [prev, setPrev] = useState(digit)
+  const [cur, setCur] = useState(digit)
+  const [flips, setFlips] = useState(0)
+  useEffect(() => {
+    if (digit === cur) return
+    setPrev(cur); setCur(digit); setFlips(n => n + 1)
+  }, [digit]) // eslint-disable-line react-hooks/exhaustive-deps
+  return <span className="flip-card" aria-hidden="true">
+    <span className="flip-half flip-top"><span>{cur}</span></span>
+    <span className="flip-half flip-bottom"><span>{flips ? prev : cur}</span></span>
+    {flips > 0 && <span key={'t' + flips} className="flip-half flip-top flip-fall"><span>{prev}</span></span>}
+    {flips > 0 && <span key={'b' + flips} className="flip-half flip-bottom flip-rise"><span>{cur}</span></span>}
+  </span>
+}
+function FlipCounter({ value }) {
+  const digits = String(value).split('')
+  return <span className="flip-counter" dir="ltr" role="img" aria-label={String(value)}>
+    {digits.map((d, i) => <FlipDigit key={digits.length + '-' + i} digit={d} />)}
+  </span>
+}
+
 export default function RecentActivity() {
   const { pathname } = useLocation()
   const [mod, setMod] = useState(null)
   const [state, setState] = useState({ count: null, events: [] })
   const [hidden, setHidden] = useState(closedRecently)
+  const shown = useShownCount()
   const close = () => { setHidden(true); try { localStorage.setItem(CLOSED_KEY, String(Date.now())) } catch { /* ignore */ } }
   useEffect(() => {
     let stopped = false, disconnect = null
@@ -80,12 +134,11 @@ export default function RecentActivity() {
   const { ACTIVITY_LABELS, ACTION_LABELS } = mod
   // Anonymous: what was opened, never who — and not your own actions.
   const others = state.events.filter(e => !e.own)
-  // "One visitor with us" is just you — show the banner only when there is something to see.
-  if (state.count < 3 && !others.length) return null
   return <aside className="buga-live no-print" aria-label="פעילות חיה בעוגה בוגה" dir="rtl">
-    <span className="buga-live-count" title="הערכה לפי דפדפנים מחוברים. לשוניות באותו דפדפן נספרות פעם אחת כשאחסון מקומי זמין.">
+    <span className="buga-live-count">
       <span className="buga-live-dot" aria-hidden="true" />
-      {state.count === 1 ? 'מבקר אחד איתנו עכשיו' : `${state.count} מבקרים איתנו עכשיו`}
+      <FlipCounter value={shown} />
+      <span className="buga-live-label">מבקרים איתנו עכשיו</span>
     </span>
     {others.length > 0 && <div className="buga-live-events" aria-label="מה פתחו עכשיו באתר">{others.map(event=><span className="buga-live-event" key={event.key}>{event.action==='print'?'🖨️ הדפיסו':event.action==='open'?'✨ פתחו':`✨ ${ACTION_LABELS[event.action]}`}: {ACTIVITY_LABELS[event.category]}</span>)}</div>}
     <button className="buga-live-close" onClick={close} aria-label="הסתרת באנר הפעילות">×</button>
