@@ -8,3 +8,4 @@ export function LongCarRide(){return <Guide slug="long-car-ride"/>}
 export function CarryOnKids(){return <Guide slug="carry-on-for-kids"/>}
 export function FlyingBaby(){return <Guide slug="flying-with-baby"/>}
 export function CarSickness(){return <Guide slug="car-sickness"/>}
+export function LongFlight(){return <Guide slug="long-flight"/>}

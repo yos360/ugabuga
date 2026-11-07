@@ -154,3 +154,30 @@
 }
 .travel-mascot {width:200px;max-width:30%;height:auto;object-fit:contain;flex:none;filter:none}
 @media(max-width:600px){.travel-mascot{width:120px;max-width:28%}}
+
+/* FlightQuiz — Buga Live offline, one device */
+.fq { display:grid; gap:1rem; }
+.fq-lead { font-size:1.1rem; }
+.fq-set { border:0; padding:0; margin:0; display:grid; gap:.5rem; }
+.fq-set legend { font-weight:800; margin-bottom:.4rem; }
+.fq-row { display:flex; flex-wrap:wrap; gap:.5rem; }
+.travel .fq button.on { background:#fde68a; border-color:#92400e; }
+.fq-name { display:flex; align-items:center; gap:.4rem; border:3px solid; border-radius:14px; padding:.2rem .5rem; background:var(--card); }
+.fq-name span { font-size:1.6rem; }
+.travel .fq-name input { border:0; min-height:44px; width:9rem; }
+.travel .fq-go { background:#7c3aed; color:#fff; border-color:#4c1d95; font-size:1.15rem; }
+.fq-top { display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; font-weight:700; }
+.fq-scores { display:flex; gap:.8rem; }
+.fq-who { color:#fff; font-weight:800; border-radius:12px; padding:.4rem .8rem; justify-self:start; }
+.fq-q { font-size:1.5rem; font-weight:900; line-height:1.35; }
+.fq-options { display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+.travel .fq-options button { font-size:1.15rem; min-height:64px; }
+.travel .fq-options button.ok { background:#bbf7d0; border-color:#15803d; opacity:1; }
+.travel .fq-options button.bad { background:#fecaca; border-color:#b91c1c; opacity:1; }
+.travel .fq-options button.dim { opacity:.45; }
+.fq-buzz { display:grid; gap:.6rem; grid-template-columns:repeat(2,1fr); }
+.travel .fq-buzz button { color:#fff; border-color:#111; min-height:110px; font-size:1.4rem; }
+.fq-result { display:grid; gap:.5rem; background:var(--card); border:2px dashed var(--border); border-radius:14px; padding:1rem; }
+.fq-big { font-size:2rem; font-weight:900; text-align:center; }
+.fq-board { display:grid; gap:.5rem; list-style:none; padding:0; }
+.fq-board li { display:flex; justify-content:space-between; border:3px solid; border-radius:14px; padding:.6rem 1rem; font-size:1.2rem; background:var(--card); }

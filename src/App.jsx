@@ -21,6 +21,7 @@ const TravelCountdown = lazy(() => import('./travel/TravelTools').then(m => ({ d
 const TravelPacking = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelPacking })))
 const TravelWaiting = lazy(() => import('./travel/TravelTools').then(m => ({ default: m.TravelWaiting })))
 const ToddlerFlight = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.ToddlerFlight })))
+const LongFlight = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.LongFlight })))
 const LongCarRide = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.LongCarRide })))
 const CarryOnKids = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.CarryOnKids })))
 const FlyingBaby = lazy(() => import('./travel/TravelGuides').then(m => ({ default: m.FlyingBaby })))
@@ -576,6 +577,7 @@ export default function App() {
               <Route path="/travel/packing-list" element={<TravelPacking />} />
               <Route path="/travel/waiting-games" element={<TravelWaiting />} />
               <Route path="/travel/guides/toddler-flight" element={<ToddlerFlight />} />
+              <Route path="/travel/guides/long-flight" element={<LongFlight />} />
               <Route path="/travel/guides/long-car-ride" element={<LongCarRide />} />
               <Route path="/travel/guides/carry-on-for-kids" element={<CarryOnKids />} />
               <Route path="/travel/guides/flying-with-baby" element={<FlyingBaby />} />

@@ -38,6 +38,7 @@ const PAGES = [
   { to: BUYING_HUB.path, title: BUYING_HUB.title, desc: BUYING_HUB.description, emoji: '🛒', kind: 'page', keys: 'המלצות קנייה מה לקנות מה כדאי לקנות ציוד מתנה מדריך קנייה' },
   ...BUYING_GUIDES.map(g => ({ to: buyingPath(g.id), title: g.title, desc: g.short, emoji: g.emoji, kind: 'page', keys: 'מה לקנות מה כדאי לקנות המלצות ציוד רשימת קניות' })),
   ...EN_TRAVEL_PAGES.map(p=>({to:p.path,title:p.title,desc:p.description,emoji:'✈️',kind:'page',keys:'travel airplane road trip children offline flight bag'})),
+  { to: '/travel/guides/long-flight', title: 'מה לעשות בטיסה ארוכה עם ילדים', emoji: '✈️', kind: 'page', desc: 'תוכנית לטיסה ארוכה ומשחקים שעובדים בלי אינטרנט', keys: 'מה לעשות בטיסה ארוכה מה אפשר לעשות בטיסה משחקים לטיסה ארוכה טיסה עם ילדים' },
   { to: '/travel/guides/toddler-flight', title: 'איך להעסיק פעוט בטיסה', emoji: '✈️', kind: 'tool' },
   { to: '/travel/guides/long-car-ride', title: 'משחקים לנסיעה ארוכה ברכב', emoji: '✈️', kind: 'tool' },
   { to: '/travel/guides/carry-on-for-kids', title: 'מה לארוז לילד בתיק יד', emoji: '✈️', kind: 'tool' },
@@ -59,7 +60,7 @@ const PAGES = [
   { to: '/travel/surprise-bags', title: 'מעטפות הפתעה לכל שעה', emoji: '✈️', kind: 'tool' },
 
   { to: '/travel/offline', title: 'תיק טיסה — משחקים בלי אינטרנט', emoji: '💼', kind: 'tool' },
-  { to: '/travel/play', title: 'מסך הטיסה של בוגה', emoji: '🎮', kind: 'tool' },
+  { to: '/travel/play', title: 'משחקים לטיסה בלי אינטרנט', emoji: '✈️', kind: 'tool', desc: 'חידון בוגה לייב, זיכרון, פאזל וצביעה שעובדים במצב טיסה', keys: 'משחקים לטיסה משחקים בלי אינטרנט משחקים שעובדים במצב טיסה משחקים לטיסה לילדים טיסה ארוכה בוגה לייב בלי אינטרנט טריוויה לנסיעה' },
   { to: '/winter', title: 'בוגה שוקו חם — אזור החורף', emoji: '☕', kind: 'page', keys: 'חורף גשם יום גשום משחקים בבית שוקו חם חופשה משחקים לבית ערב משפחתי משחקים להדפסה יצירה מתכונים חנוכה טו בשבט בוגה לייב ארץ עיר' },
   { to: '/travel', title: 'נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט', emoji: '✈️', kind: 'page', keys: 'נסיעה טיסה רכבת ילדים פעילות דרך' },
   { to: '/holidays/shabbat-parents', title: 'אבא של שבת ואמא של שבת עם תמונה', emoji: '🖼️', kind: 'tool', keys: 'אבא אמא של שבת תמונה ילד ילדה גן מזכרת להדפסה תעודה' },

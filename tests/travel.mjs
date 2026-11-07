@@ -74,8 +74,8 @@ test('offline manifest contains only real emitted assets after Vite removes CSS 
 })
 import { TRAVEL_GUIDES } from '../src/travel/guideData.js'
 import { TRAVEL_FAQ } from '../src/travel/travelFaq.js'
-test('five substantial guides link to real tools and contain sources, FAQs and no doses',()=>{
- assert.equal(Object.keys(TRAVEL_GUIDES).length,5)
+test('six substantial guides link to real tools and contain sources, FAQs and no doses',()=>{
+ assert.equal(Object.keys(TRAVEL_GUIDES).length,6)
  const app=read('src/App.jsx');const paths=new Set([...app.matchAll(/path="([^"]+)"/g)].map(m=>m[1]))
  for(const [slug,g] of Object.entries(TRAVEL_GUIDES)){
   assert.ok(paths.has('/travel/guides/'+slug));assert.ok(g.sections.length>=6);assert.ok(g.faq.length>=2);assert.ok(g.sources.length>0)
