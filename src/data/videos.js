@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'wLMGpwCLqWY', kind: 'tutorial', title: 'איך מצפינים ומפענחים הודעות סודיות בעוגה בוגה — מדריך קצר', paths: ['/tools/secret-codes'], category: 'learning', date: '2026-11-07',
+    desc: 'מדריך קצר לכתב סתרים וצפנים: בוחרים צופן, כותבים הודעה ומקבלים אותה מוצפנת, מפענחים, פותרים משימה של חמש הודעות ומדפיסים דפי "פענחו את ההודעה" מהגן ועד כיתה ו׳ — חינם, בלי הרשמה.' },
   { id: 'dvkHoE6iPss', kind: 'tutorial', title: 'איך בונים תוכנית שיעורי עזר בבית בעוגה בוגה — מדריך קצר', paths: ['/tutoring'], category: 'learning', date: '2026-11-07',
     desc: 'מדריך קצר לשיעורי עזר בבית: בוחרים כיתה ובמה קשה, כמה זמן יש לכם, ומקבלים תוכנית לשבוע או לחודש עם מפגש קצר בכל יום, תרגול באתר ודפי עבודה — חינם, בלי הרשמה.' },
   { id: 't0AZS2SrPmU', kind: 'tutorial', title: 'איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר', paths: ['/bagrut'], category: 'learning', date: '2026-11-06',
@@ -51,6 +53,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/pdf': 'סטודיו PDF',
   '/birthday/party-bags': 'שקיות הפתעה',
   '/tutoring': 'שיעורי עזר בבית',
+  '/tools/secret-codes': 'כתב סתרים וצפנים',
 }
 
 const SITE = 'https://ugabuga.co.il'
