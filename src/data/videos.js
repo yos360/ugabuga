@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'dvkHoE6iPss', kind: 'tutorial', title: 'איך בונים תוכנית שיעורי עזר בבית בעוגה בוגה — מדריך קצר', paths: ['/tutoring'], category: 'learning', date: '2026-11-07',
+    desc: 'מדריך קצר לשיעורי עזר בבית: בוחרים כיתה ובמה קשה, כמה זמן יש לכם, ומקבלים תוכנית לשבוע או לחודש עם מפגש קצר בכל יום, תרגול באתר ודפי עבודה — חינם, בלי הרשמה.' },
   { id: 't0AZS2SrPmU', kind: 'tutorial', title: 'איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר', paths: ['/bagrut'], category: 'learning', date: '2026-11-06',
     desc: 'מדריך קצר למבחני התרגול לבגרות: בוחרים מקצוע ומספר יחידות, רואים מה יש במבחן, מדפיסים לתלמיד בלי דף התשובות ובודקים אחר כך מול הדף — חינם, בלי הרשמה.' },
   { id: 'VYuaTFQQemo', kind: 'tutorial', title: 'איך בוחרים מה לשים בשקית הפתעה ליום הולדת בעוגה בוגה — מדריך קצר', paths: ['/birthday/party-bags'], category: 'party', date: '2026-11-05',
@@ -48,6 +50,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/keyboard': 'מקלדת עברית אונליין',
   '/tools/pdf': 'סטודיו PDF',
   '/birthday/party-bags': 'שקיות הפתעה',
+  '/tutoring': 'שיעורי עזר בבית',
 }
 
 const SITE = 'https://ugabuga.co.il'
