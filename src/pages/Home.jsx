@@ -12,7 +12,7 @@ import { ElectionChip, BringChip, ShoppingChip } from '../components/home/HomeTo
 import './Home.css'
 import './home-v3.css'
 import SponsorBanner from '../components/ui/SponsorBanner'
-import { RequestTop } from '../components/home/HomeTopVariant'
+import { LiveTop, RequestTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
@@ -246,7 +246,9 @@ export default function Home() {
     </Suspense> : plainField}
   </div>
   const request = <RequestTop key="request" variant={variant} />
-  const opening = variant === 'request' ? [request, tunnel, search] : variant === 'ai' ? [search, tunnel] : [tunnel, search]
+  // Buga Live and "ask us for a page" lead every version (owner's request), right under the quick links.
+  const featured = [<LiveTop key="live" variant={variant} />, request]
+  const opening = variant === 'ai' ? [...featured, search, tunnel] : [...featured, tunnel, search]
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className={`hp hp-v-${variant}`} dir="rtl">
     <RainBanner />
     <Suspense fallback={null}><SeasonColoring top /></Suspense>

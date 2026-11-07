@@ -44,6 +44,15 @@ canvas {
 .site-mobile-language { display: none; }
 .site-kids-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 18px; border-radius: 30px; background: #fff4c7; border: 1px solid #f1d46b; font-weight: 700; white-space: nowrap; }
 .site-kids-pill:hover, .site-kids-pill.is-active { background: #ffe991; }
+/* Buga Live and "ask for a page" — highlighted beside the kids pill (owner's request) */
+.site-feature-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px; border-radius: 30px; font-weight: 800; white-space: nowrap; color: #fff; }
+.site-feature-live { background: linear-gradient(120deg, #e8336d, #ff7a3d); box-shadow: 0 4px 12px #e8336d40; }
+.site-feature-request { background: linear-gradient(120deg, #6d3ff0, #2f8cff); box-shadow: 0 4px 12px #6d3ff040; }
+.site-feature-pill:hover { filter: brightness(1.08); color: #fff; }
+@media (max-width: 1280px) { .site-header-start .site-feature-request { display: none; } }
+@media (max-width: 1000px) { .site-header-start .site-feature-live { display: none; } }
+.site-mobile-features { display: grid; gap: 8px; margin-bottom: 10px; }
+.site-mobile-features .site-feature-pill { min-height: 50px; padding: 10px 16px; border-radius: 16px; font-size: 17px; }
 .site-classroom { position: relative; }
 .site-domains { position: relative; border-top: 1px solid #eef0f6; border-bottom: 1px solid #eef0f6; background: #fffefc; }
 .site-domains > ul { display: flex; justify-content: center; align-items: stretch; gap: 6px; max-width: 1450px; margin: auto; padding: 0 20px; }
