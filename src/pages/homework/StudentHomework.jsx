@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
-import { BankTask, DictationTask, GameTask, MathTask, QuestionsTask, ReadingTask } from '../../components/homework/TaskPlayers'
+import { BankTask, DictationTask, GameTask, MathTask, QuestionsTask, ReadingTask, WorksheetTask } from '../../components/homework/TaskPlayers'
 import { homeworkError, homeworkStudent } from '../../utils/homework/db'
 import { TASK_TYPES, taskHint, taskTitle } from '../../utils/homework/tasks'
 import SiteInvite from '../../components/ui/SiteInvite'
 
-const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask, bank: BankTask, game: GameTask }
+const PLAYERS = { math: MathTask, reading: ReadingTask, dictation: DictationTask, questions: QuestionsTask, worksheet: WorksheetTask, bank: BankTask, game: GameTask }
 const nameKey = code => `buga-homework-name-${code}`
 const loadName = code => { try { return localStorage.getItem(nameKey(code)) || '' } catch { return '' } }
 const saveName = (code, name) => { try { if (name) localStorage.setItem(nameKey(code), name); else localStorage.removeItem(nameKey(code)) } catch { /* ignore */ } }

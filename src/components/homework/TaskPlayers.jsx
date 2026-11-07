@@ -4,7 +4,7 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { speak, speakAndWait, stopSpeaking } from '../../utils/speak'
-import { bubbleChoices, dictationCorrect, hwGame, levelTask, matchAnswers, mathItems, readingPassage } from '../../utils/homework/tasks'
+import { blankCorrect, bubbleChoices, dictationCorrect, hwGame, levelTask, matchAnswers, mathItems, parseBlanks, readingPassage, sheetMatchOrder, sheetWordBank } from '../../utils/homework/tasks'
 import { bankQuestions, loadBank } from '../../utils/homework/banks'
 import { applySay } from '../../utils/sayFixes'
 import { ARCADE } from '../../arcade/registry'
@@ -42,7 +42,9 @@ function useStepper(items, onDone, holdRight = () => false) {
     if (tries >= 1) { record(false, extra); setState('shown'); return }
     setTries(tries + 1); setState('wrong')
   }
-  return { at, state, answer, next, item: items[at] }
+  // For an item that keeps its own tries (a matching board): record once and move on.
+  const settle = ok => { if (state) return; const list = record(ok); setState('settled'); setTimeout(() => next(list), 900) }
+  return { at, state, answer, next, settle, tries, item: items[at] }
 }
 
 // Maths homework: the teacher's way of solving (typing, balloons or matching), and when the teacher
@@ -182,6 +184,103 @@ function ChoiceQuiz({ questions, onDone }) {
 export function QuestionsTask({ task, onDone }) {
   const questions = useMemo(() => task.items.map(item => ({ question: item.q, options: item.options, correct: item.correct })), [task])
   return <div className="mx-auto max-w-xl"><ChoiceQuiz questions={questions} onDone={onDone} /></div>
+}
+
+// The teacher's own worksheet: one item at a time — fill in the blanks, true or false, or a
+// matching board. Same scoring as everywhere: right on the first try.
+export function WorksheetTask({ task, onDone }) {
+  const items = task.items || []
+  const { at, state, answer, next, settle, item } = useStepper(items, onDone)
+  const bank = useMemo(() => task.wordBank ? sheetWordBank(task, task.seed) : [], [task])
+  if (!item) return <p className="rounded-2xl bg-amber-50 p-4">הדף הזה ריק.</p>
+  return <div className="mx-auto max-w-xl">
+    <Progress at={at} total={items.length} />
+    {bank.length > 0 && item.kind === 'fill' && <div className="mb-3 rounded-2xl bg-amber-50 p-3">
+      <p className="mb-1 text-sm font-bold text-amber-900">📦 מחסן מילים</p>
+      <p className="flex flex-wrap gap-2">{bank.map((w, i) => <span key={i} className="rounded-lg bg-white px-2 py-0.5 font-bold shadow-sm">{w}</span>)}</p>
+    </div>}
+    {item.kind === 'fill' && <SheetFill key={at} item={item} state={state} answer={answer} next={next} />}
+    {item.kind === 'tf' && <SheetTrueFalse key={at} item={item} state={state} answer={answer} next={next} />}
+    {item.kind === 'match' && <SheetMatch key={at} item={item} seed={task.seed} index={at} state={state} settle={settle} />}
+  </div>
+}
+
+function SheetFill({ item, state, answer, next }) {
+  const parts = useMemo(() => parseBlanks(item.text), [item.text])
+  const blanks = parts.filter(p => p.answers)
+  const [typed, setTyped] = useState(() => blanks.map(() => ''))
+  const [wrong, setWrong] = useState([])
+  const first = useRef(null)
+  useEffect(() => { first.current?.focus() }, [])
+  const locked = state === 'right' || state === 'shown'
+  const submit = e => {
+    e.preventDefault()
+    if (state === 'shown') { next(); return }
+    if (locked || typed.some(t => !t.trim())) return
+    const bad = blanks.map((b, k) => blankCorrect(b, typed[k]) ? -1 : k).filter(k => k >= 0)
+    setWrong(bad)
+    answer(!bad.length, { given: typed.join(' | ') })
+  }
+  let k = -1
+  return <form onSubmit={submit}>
+    <div className="rounded-3xl bg-white p-5 text-xl leading-[2.6] shadow-sm sm:text-2xl">
+      {parts.map((p, i) => {
+        if (!p.answers) return <span key={i}>{p.text}</span>
+        const n = ++k, size = Math.max(4, ...p.answers.map(a => a.length)) + 2
+        const tone = state === 'shown' ? 'border-slate-300 bg-slate-50' : state === 'right' ? 'border-emerald-400 bg-emerald-50' : wrong.includes(n) ? 'border-orange-400 bg-orange-50' : 'border-violet-300 focus:border-violet-500'
+        return state === 'shown'
+          ? <b key={i} className="mx-1 rounded-lg bg-violet-100 px-2 text-violet-800">{p.answers[0]}</b>
+          : <input key={i} ref={n === 0 ? first : undefined} value={typed[n]} dir="auto" autoComplete="off" spellCheck={false} disabled={locked} aria-label={`מילה חסרה ${n + 1}`}
+            onChange={e => { const v = e.target.value.slice(0, 40); setTyped(t => t.map((x, m) => m === n ? v : x)); setWrong(w => w.filter(m => m !== n)) }}
+            style={{ width: `${Math.min(size, 16)}ch` }} className={`mx-1 rounded-xl border-2 border-b-4 px-2 py-0.5 text-center font-bold outline-none ${tone}`} />
+      })}
+    </div>
+    <Feedback state={state === 'shown' ? '' : state} />
+    {state === 'shown' && <p className="mt-3 text-center text-lg font-bold text-slate-700" role="status">ככה צריך להיות 👆</p>}
+    {state !== 'right' && <button className="mt-5 min-h-14 w-full rounded-2xl bg-violet-600 text-xl font-black text-white shadow-[0_4px_0_#4527a8] active:translate-y-0.5">{state === 'shown' ? 'הבא ←' : 'בדיקה'}</button>}
+  </form>
+}
+
+function SheetTrueFalse({ item, state, answer, next }) {
+  const [picked, setPicked] = useState([])
+  const done = state === 'right' || state === 'shown'
+  return <div>
+    <p className="rounded-3xl bg-white p-6 text-center text-2xl font-black leading-relaxed shadow-sm">{item.text}</p>
+    <div className="mt-5 grid grid-cols-2 gap-3">{[[true, '✅ נכון'], [false, '❌ לא נכון']].map(([v, label]) => {
+      const right = done && v === item.answer, bad = picked.includes(v) && v !== item.answer
+      return <button key={label} type="button" disabled={done || bad} onClick={() => { setPicked([...picked, v]); answer(v === item.answer, { given: v ? 'נכון' : 'לא נכון' }) }}
+        className={`min-h-20 rounded-3xl border-4 text-2xl font-black ${right ? 'border-emerald-500 bg-emerald-50' : bad ? 'border-orange-300 bg-orange-50 opacity-60' : 'border-slate-200 bg-white hover:border-violet-400'}`}>{label}</button>
+    })}</div>
+    <Feedback state={state} answer={item.answer ? 'נכון' : 'לא נכון'} />
+    {state === 'shown' && <button onClick={() => next()} className="mt-4 min-h-12 w-full rounded-2xl bg-violet-600 text-lg font-black text-white">הבא ←</button>}
+  </div>
+}
+
+// Tap a word on the right, then its partner on the left. Any card with the same text completes it.
+function SheetMatch({ item, seed, index, state, settle }) {
+  const pairs = item.pairs || []
+  const order = useMemo(() => sheetMatchOrder(pairs.length, seed, index), [pairs.length, seed, index])
+  const [chosen, setChosen] = useState(null), [matched, setMatched] = useState({}), [missed, setMissed] = useState(false), [shake, setShake] = useState(null)
+  const cardOf = Object.fromEntries(Object.entries(matched).map(([left, card]) => [card, Number(left)]))
+  const tap = card => {
+    if (chosen === null || card in cardOf || state) return
+    if (pairs[card][1].trim() !== pairs[chosen][1].trim()) { setMissed(true); setShake(card); setTimeout(() => setShake(null), 450); return }
+    const next = { ...matched, [chosen]: card }
+    setMatched(next); setChosen(null)
+    if (Object.keys(next).length === pairs.length) settle(!missed)
+  }
+  const color = i => ['bg-rose-100 border-rose-400', 'bg-sky-100 border-sky-400', 'bg-amber-100 border-amber-400', 'bg-emerald-100 border-emerald-400', 'bg-violet-100 border-violet-400', 'bg-lime-100 border-lime-500', 'bg-pink-100 border-pink-400', 'bg-cyan-100 border-cyan-400'][i % 8]
+  const all = Object.keys(matched).length === pairs.length
+  return <div>
+    <p className="mb-3 text-center font-bold text-slate-600">{all ? '' : chosen === null ? 'בוחרים מילה מימין, ואז את בת הזוג שלה' : 'עכשיו בוחרים את בת הזוג ←'}</p>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="grid content-start gap-2">{pairs.map(([a], i) => <button key={i} type="button" disabled={i in matched} onClick={() => setChosen(i)}
+        className={`min-h-14 rounded-2xl border-4 px-2 text-lg font-black ${i in matched ? color(i) : chosen === i ? 'border-violet-500 bg-violet-50' : 'border-slate-200 bg-white hover:border-violet-300'}`}>{a}</button>)}</div>
+      <div className="grid content-start gap-2">{order.map(card => <button key={card} type="button" disabled={card in cardOf} onClick={() => tap(card)}
+        className={`min-h-14 rounded-2xl border-4 px-2 text-lg font-black transition ${card in cardOf ? color(cardOf[card]) : shake === card ? 'hw-shake border-orange-400 bg-orange-50' : 'border-slate-200 bg-white hover:border-violet-300'}`}>{pairs[card][1]}</button>)}</div>
+    </div>
+    {all && <p className="mt-4 text-center text-2xl font-black text-emerald-600" role="status">{missed ? '👍 כל הזוגות נמצאו!' : '🎉 כל הזוגות נמצאו בלי טעות!'}</p>}
+  </div>
 }
 
 export function ReadingTask({ task, onDone }) {

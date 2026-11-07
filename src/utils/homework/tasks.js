@@ -18,6 +18,7 @@ export const TASK_TYPES = {
   reading: { emoji: '📖', label: 'הבנת הנקרא', hint: 'קטע קריאה עם הקראה בקול ושאלות' },
   dictation: { emoji: '✍️', label: 'הכתבה', hint: 'שומעים מילה וכותבים אותה' },
   questions: { emoji: '❓', label: 'שאלות משלי', hint: 'שאלות אמריקאיות שהמורה כותבת' },
+  worksheet: { emoji: '📝', label: 'דף עבודה משלי', hint: 'השלמת מילים, נכון או לא נכון והתאמה — המורה כותבת' },
   bank: { emoji: '🎯', label: 'שאלות מהאתר', hint: 'תנ״ך, לשון, מדע, אזרחות ועוד — בוחרים נושא וכמה שאלות' },
   game: { emoji: '🎮', label: 'משחק קטן', hint: 'משחק חשיבה מהאתר — כל הכיתה מקבלת אותו שלב' },
 }
@@ -48,6 +49,7 @@ export function newTask(type) {
   if (type === 'dictation') return { type, listId: DICTATION_LISTS[0]?.id || 'custom', words: [...(DICTATION_LISTS[0]?.words || [])] }
   if (type === 'bank') return { type, bank: 'lesson:tanakh', topic: '', level: 0, count: 10, seed: newSeed(), ids: [] }
   if (type === 'game') return { type, game: HW_GAMES[0].slug, seed: newSeed() }
+  if (type === 'worksheet') return { type, title: '', wordBank: false, seed: newSeed(), items: [newSheetItem('fill')] }
   return { type: 'questions', title: '', items: [{ q: '', options: ['', ''], correct: 0 }] }
 }
 
@@ -73,6 +75,7 @@ export function taskTitle(task) {
   if (task.type === 'dictation') return `הכתבה · ${task.words?.length || 0} מילים`
   if (task.type === 'game') { const g = hwGame(task.game); return g ? `${g.emoji} ${g.name}` : 'משחק' }
   if (task.type === 'bank') return `${task.topicTitle || bankInfo(task.bank)?.label.replace(/^\S+\s/, '') || 'שאלות'} · ${task.ids?.length || 0} שאלות`
+  if (task.type === 'worksheet') return task.title?.trim() || `דף עבודה · ${task.items?.length || 0} סעיפים`
   return task.title?.trim() || `שאלות · ${task.items?.length || 0}`
 }
 
@@ -151,11 +154,92 @@ export function taskProblems(task, index) {
       return []
     })
   }
+  if (task.type === 'worksheet') {
+    if (!task.items?.length) return [`${at}: הוסיפו לפחות סעיף אחד`]
+    if (task.items.length > SHEET_MAX) return [`${at}: עד ${SHEET_MAX} סעיפים בדף`]
+    return task.items.flatMap((item, i) => sheetItemProblems(item).map(p => `${at}, סעיף ${i + 1}: ${p}`))
+  }
   return [`${at}: סוג משימה לא מוכר`]
+}
+
+// ── "My worksheet": items the teacher writes, LiveWorksheets-style ──────────────
+// fill:  a sentence with the missing words in square brackets, "השמש [זורחת] במזרח";
+//        several right answers are split by "/": "[זורחת/עולה]".
+// tf:    a sentence and whether it is true.
+// match: up to MATCH_MAX pairs; the right side is shuffled the same way for the whole class.
+export const SHEET_MAX = 30
+export const SHEET_KINDS = [['fill', '✏️ השלמת מילים'], ['tf', '✅ נכון או לא נכון'], ['match', '🔗 התאמה']]
+export function newSheetItem(kind) {
+  if (kind === 'tf') return { kind, text: '', answer: true }
+  if (kind === 'match') return { kind, pairs: [['', ''], ['', ''], ['', '']] }
+  return { kind: 'fill', text: '' }
+}
+
+// [{ text }] and [{ answers: [...] }] in reading order.
+export function parseBlanks(text) {
+  return String(text || '').split(/\[([^\]]*)\]/).map((part, i) => i % 2
+    ? { answers: part.split('/').map(a => a.trim()).filter(Boolean) }
+    : { text: part }).filter(p => p.answers || p.text)
+}
+export const sheetBlanks = text => parseBlanks(text).filter(p => p.answers)
+
+// Typed answers are compared without niqqud, punctuation, spaces or case.
+export const plainAnswer = s => String(s || '').normalize('NFKC').replace(/[֑-ׇ]/g, '').replace(/[^\p{L}\p{N}]/gu, '').toLowerCase()
+export const blankCorrect = (blank, typed) => plainAnswer(typed) !== '' && blank.answers.some(a => plainAnswer(a) === plainAnswer(typed))
+
+const fullPairs = item => (item.pairs || []).filter(([a, b]) => String(a).trim() && String(b).trim())
+
+function sheetItemProblems(item) {
+  if (item.kind === 'fill') {
+    const blanks = sheetBlanks(item.text)
+    if (!blanks.length) return ['שימו את המילה החסרה בסוגריים מרובעים, למשל: השמש [זורחת] במזרח']
+    if (blanks.some(b => !b.answers.length)) return ['יש סוגריים ריקים — כתבו בתוכם את התשובה']
+    if (blanks.length > 5) return ['עד 5 מילים חסרות במשפט אחד']
+    return []
+  }
+  if (item.kind === 'tf') return String(item.text || '').trim() ? [] : ['חסר המשפט']
+  if (item.kind === 'match') {
+    const pairs = fullPairs(item)
+    if (pairs.length < 2) return ['צריך לפחות 2 זוגות מלאים']
+    if (pairs.length > MATCH_MAX) return [`עד ${MATCH_MAX} זוגות`]
+    return []
+  }
+  return ['סוג סעיף לא מוכר']
+}
+
+// How an item is named in the teacher's "what to go over" list.
+export function sheetItemLabel(item) {
+  if (!item) return ''
+  if (item.kind === 'fill') return parseBlanks(item.text).map(p => p.answers ? '___' : p.text).join('').trim()
+  if (item.kind === 'tf') return `${item.text} (${item.answer ? 'נכון' : 'לא נכון'})`
+  return `התאמה: ${fullPairs(item).map(([a]) => a).join(', ')}`
+}
+
+// The right column of a matching item: pair indexes in an order the whole class shares.
+export function sheetMatchOrder(count, seed = 1, index = 0) {
+  let x = ((Number(seed) || 1) * 31 + index * 7) % 2147483648
+  const list = [...Array(count).keys()]
+  for (let i = list.length - 1; i > 0; i--) { x = (x * 1103515245 + 12345) % 2147483648; const j = Math.floor((x / 2147483648) * (i + 1)); [list[i], list[j]] = [list[j], list[i]] }
+  // Never leave every pair facing its own answer.
+  if (count > 1 && list.every((v, i) => v === i)) list.push(list.shift())
+  return list
+}
+
+// Every blank's answer of the sheet, for the optional word bank.
+export const sheetWordBank = (task, seed = 1) => {
+  const words = (task.items || []).filter(i => i.kind === 'fill').flatMap(i => sheetBlanks(i.text).map(b => b.answers[0]))
+  return sheetMatchOrder(words.length, seed, 99).map(i => words[i])
+}
+
+function cleanSheetItem(item) {
+  if (item.kind === 'tf') return { kind: 'tf', text: String(item.text || '').trim(), answer: Boolean(item.answer) }
+  if (item.kind === 'match') return { kind: 'match', pairs: fullPairs(item).map(([a, b]) => [String(a).trim(), String(b).trim()]) }
+  return { kind: 'fill', text: String(item.text || '').replace(/\s+/g, ' ').trim() }
 }
 
 // What is saved: questions lose empty answers (and the correct index follows its answer).
 export function cleanTask(task) {
+  if (task.type === 'worksheet') return { ...task, title: (task.title || '').trim(), wordBank: Boolean(task.wordBank), items: task.items.map(cleanSheetItem) }
   if (task.type !== 'questions') return task
   return { ...task, title: (task.title || '').trim(), items: task.items.map(item => {
     const kept = item.options.map((o, i) => [o.trim(), i]).filter(([o]) => o)

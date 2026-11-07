@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import TeacherGate from './TeacherGate'
 import { homeworkError, homeworkLink, homeworkTeacher } from '../../utils/homework/db'
-import { BANK_COUNTS, DICTATION_LISTS, HW_GAMES, MATCH_MAX, MATH_KINDS, MATH_MODES, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, TEMPLATE_GRADES, challengeTask, cleanTask, gradeTemplate, levelTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle } from '../../utils/homework/tasks'
+import { BANK_COUNTS, DICTATION_LISTS, HW_GAMES, MATCH_MAX, MATH_KINDS, MATH_MODES, MATH_OPS, MATH_RANGES, MATH_TABLES, READING_OPTIONS, TASK_TYPES, TEMPLATE_GRADES, challengeTask, cleanTask, gradeTemplate, levelTask, mathItems, newTask, parseNames, parseWords, readingPassage, scoreTone, taskProblems, taskTitle, SHEET_KINDS, SHEET_MAX, newSheetItem, parseBlanks, sheetItemLabel } from '../../utils/homework/tasks'
 import { loadClassRoster } from '../../utils/classRoster'
 import { BANKS, bankInfo, bankQuestions, filterBank, loadBank, pickIds } from '../../utils/homework/banks'
 import { LEVELS } from '../../learn/gifted/giftedData'
@@ -171,7 +171,70 @@ function GameFields({ task, set }) {
   </div>
 }
 
-const FIELDS = { math: MathFields, reading: ReadingFields, dictation: DictationFields, questions: QuestionsFields, bank: BankFields, game: GameFields }
+// A ready example, so a teacher sees every kind of item before writing her own.
+const SHEET_EXAMPLE = {
+  title: 'מחזור המים',
+  items: [
+    { kind: 'fill', text: 'השמש מחממת את המים והם [מתאדים/מתאדות] לאוויר.' },
+    { kind: 'fill', text: 'אדי המים מתקררים למעלה ויוצרים [עננים].' },
+    { kind: 'tf', text: 'גשם הוא מים שיורדים מהעננים.', answer: true },
+    { kind: 'tf', text: 'מים מתאדים רק בחורף.', answer: false },
+    { kind: 'match', pairs: [['אידוי', 'מים הופכים לאדים'], ['עיבוי', 'אדים הופכים לטיפות'], ['משקעים', 'גשם, שלג וברד']] },
+  ],
+}
+
+function SheetFillPreview({ text }) {
+  const parts = parseBlanks(text)
+  if (!parts.some(p => p.answers)) return null
+  return <p className="mt-1 text-sm text-slate-600">התלמיד יראה: {parts.map((p, i) => p.answers
+    ? <span key={i} className="mx-0.5 inline-block min-w-12 rounded border-b-2 border-violet-400 bg-violet-50 px-1 text-center text-violet-800">{p.answers.join(' / ') || '?'}</span>
+    : <span key={i}>{p.text}</span>)}</p>
+}
+
+function WorksheetFields({ task, set }) {
+  const items = task.items
+  const update = (i, patch) => set({ items: items.map((item, j) => j === i ? { ...item, ...patch } : item) })
+  const move = (i, d) => { const next = [...items]; [next[i], next[i + d]] = [next[i + d], next[i]]; set({ items: next }) }
+  const empty = items.every(item => item.kind === 'match' ? item.pairs.every(([a, b]) => !a.trim() && !b.trim()) : !item.text.trim())
+  return <div className="grid gap-4">
+    <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+      <label className="font-bold">כותרת (לא חובה)<input className={field} value={task.title} onChange={e => set({ title: e.target.value })} placeholder="למשל: מחזור המים" maxLength={120} /></label>
+      <label className="flex items-center gap-2 pb-2 font-bold"><input type="checkbox" checked={task.wordBank} onChange={e => set({ wordBank: e.target.checked })} /> 📦 מחסן מילים לתלמידים</label>
+    </div>
+    {empty && <p className="rounded-2xl bg-sky-50 p-3 text-sm">רוצים לראות איך זה נראה? <button type="button" className="font-bold underline" onClick={() => set({ ...SHEET_EXAMPLE, items: SHEET_EXAMPLE.items.map(x => ({ ...x })) })}>למלא דף לדוגמה</button> ואז לשנות לפי מה שלמדתם.</p>}
+    {items.map((item, i) => <fieldset key={i} className="rounded-2xl border-2 border-slate-100 p-3">
+      <legend className="px-1 font-bold">סעיף {i + 1} · {SHEET_KINDS.find(([k]) => k === item.kind)?.[1]}</legend>
+      {item.kind === 'fill' && <>
+        <textarea rows={2} className={field} value={item.text} onChange={e => update(i, { text: e.target.value })} placeholder="השמש [זורחת] במזרח ושוקעת [במערב]" aria-label={`סעיף ${i + 1}: משפט להשלמה`} />
+        <SheetFillPreview text={item.text} />
+      </>}
+      {item.kind === 'tf' && <div className="grid gap-2">
+        <input className={field} value={item.text} onChange={e => update(i, { text: e.target.value })} placeholder="למשל: הלווייתן הוא דג" aria-label={`סעיף ${i + 1}: המשפט`} />
+        <div className="flex gap-2" role="radiogroup" aria-label="התשובה הנכונה">{[[true, '✅ נכון'], [false, '❌ לא נכון']].map(([v, l]) => <button key={l} type="button" role="radio" aria-checked={item.answer === v} onClick={() => update(i, { answer: v })}
+          className={`rounded-xl border-2 px-3 py-1.5 font-bold ${item.answer === v ? 'border-violet-500 bg-violet-50' : 'border-slate-200 bg-white'}`}>{l}</button>)}</div>
+      </div>}
+      {item.kind === 'match' && <div className="grid gap-2">
+        {item.pairs.map(([a, b], k) => <div key={k} className="flex items-center gap-2">
+          <input className={field} value={a} onChange={e => update(i, { pairs: item.pairs.map((p, m) => m === k ? [e.target.value, p[1]] : p) })} placeholder={k === 0 ? 'למשל: כלב' : ''} aria-label={`זוג ${k + 1}: צד ימין`} />
+          <span aria-hidden="true">↔</span>
+          <input className={field} value={b} onChange={e => update(i, { pairs: item.pairs.map((p, m) => m === k ? [p[0], e.target.value] : p) })} placeholder={k === 0 ? 'למשל: נובח' : ''} aria-label={`זוג ${k + 1}: צד שמאל`} />
+          {item.pairs.length > 2 && <button type="button" className="text-red-700" onClick={() => update(i, { pairs: item.pairs.filter((_, m) => m !== k) })} aria-label={`מחיקת זוג ${k + 1}`}>✕</button>}
+        </div>)}
+        {item.pairs.length < MATCH_MAX && <button type="button" className="justify-self-start text-sm font-bold text-violet-700" onClick={() => update(i, { pairs: [...item.pairs, ['', '']] })}>+ עוד זוג</button>}
+        <p className="text-xs text-slate-500">הצד השמאלי יוצג לתלמידים מעורבב, וצריך לחבר כל פריט לבן הזוג שלו.</p>
+      </div>}
+      <div className="mt-2 flex flex-wrap gap-3 text-sm">
+        {i > 0 && <button type="button" className="font-bold text-slate-600" onClick={() => move(i, -1)}>▲ למעלה</button>}
+        {i < items.length - 1 && <button type="button" className="font-bold text-slate-600" onClick={() => move(i, 1)}>▼ למטה</button>}
+        {items.length > 1 && <button type="button" className="font-bold text-red-700" onClick={() => set({ items: items.filter((_, j) => j !== i) })}>מחיקת הסעיף</button>}
+      </div>
+    </fieldset>)}
+    {items.length < SHEET_MAX && <div className="flex flex-wrap gap-2">{SHEET_KINDS.map(([kind, label]) => <button key={kind} type="button" className={ghost} onClick={() => set({ items: [...items, newSheetItem(kind)] })}>+ {label}</button>)}</div>}
+    <p className="text-xs text-slate-500">בהשלמת מילים: שמים את המילה החסרה בסוגריים מרובעים [ ]. כמה תשובות נכונות מפרידים בקו נטוי: [עולה/זורחת]. ניקוד, רווחים וסימני פיסוק לא נבדקים.</p>
+  </div>
+}
+
+const FIELDS = { math: MathFields, reading: ReadingFields, dictation: DictationFields, questions: QuestionsFields, worksheet: WorksheetFields, bank: BankFields, game: GameFields }
 
 function HomeworkBuilder({ code }) {
   const nav = useNavigate()
@@ -300,6 +363,7 @@ function HomeworkResults({ code }) {
       const [lv, raw] = key.split(':'), i = Number(raw)
       if (task.type === 'math') return `${(mathText[lv] ||= mathItems(levelTask(task, lv)))[i]?.text || ''}${lv ? ' 🌶️' : ''}`
       if (task.type === 'bank') return bankQuestions(banks[task.bank] || [], [task.ids?.[i]])[0]?.q || `שאלה ${i + 1}`
+      if (task.type === 'worksheet') return sheetItemLabel(task.items?.[i]) || `סעיף ${i + 1}`
       return task.type === 'reading' ? readingPassage(task.slug)?.q[i]?.[0] : task.type === 'dictation' ? task.words[i] : task.items?.[i]?.q
     }
     return { t, tried, top: Object.entries(misses).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([key, n]) => ({ text: label(key), n })) }
