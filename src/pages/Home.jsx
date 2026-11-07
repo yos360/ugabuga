@@ -262,9 +262,9 @@ export default function Home() {
     <HomeDiscover />
     <Suspense fallback={null}><SeasonColoring /></Suspense>
     <HomeSpotlight />
-    <Link to="/travel" className="travel-spotlight" aria-label="נוסעים עם בוגה — לכל מקום, גם בלי אינטרנט">
+    <Link to="/travel" className="travel-spotlight" aria-label="בוגה במצב טיסה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
-      <span className="travel-copy"><b>נוסעים עם בוגה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>
+      <span className="travel-copy"><b>בוגה במצב טיסה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>
       <span className="travel-cta">לדרך ←</span>
     </Link>
     <MorningRoutineSpotlight />

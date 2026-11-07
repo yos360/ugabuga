@@ -90,7 +90,7 @@ export const WHATS_NEW = [
   { date: '2026-10-29', emoji: '🕎', title: 'חנוכייה לגזירה', blurb: 'בסיס A4 עם שמונה מקומות ושמש, ונר חדש להדביק בכל ערב.', to: '/holidays/hanukkah/cut-out-hanukkiah', kind: 'print' },
   { date: '2026-10-27', emoji: '🕯️', title: 'זמני הדלקת נרות חנוכה לפי עיר', blurb: 'שעת ההדלקה בכל עיר, כמה נרות מדליקים הערב, ודף לתלות על המקרר.', to: '/holidays/hanukkah/candle-times', kind: 'family' },
   { date: '2026-10-27', emoji: '👪', title: 'משמעות שמות משפחה', blurb: 'מאיפה הגיע שם המשפחה שלכם ומה הוא אומר.', to: '/family-names', kind: 'learn' },
-  { date: '2026-10-25', emoji: '✈️', title: 'נוסעים עם בוגה', blurb: 'חוברות, משחקים וסיפורים לדרך — גם בלי אינטרנט.', to: '/travel', kind: 'family' },
+  { date: '2026-10-25', emoji: '✈️', title: 'בוגה במצב טיסה', blurb: 'חוברות, משחקים וסיפורים לדרך — גם בלי אינטרנט.', to: '/travel', kind: 'family' },
   { date: '2026-10-12', emoji: '🔎', title: 'תפזורת חנוכה', blurb: '3 רמות עם דף פתרון — מכיתה א׳ ועד ו׳.', to: '/holidays/hanukkah/word-search', kind: 'print' },
   { date: '2026-10-12', emoji: '✂️', title: 'יצירה לחנוכה לגזירה', blurb: 'סביבון מנייר, חנוכייה לגזירה ולהדבקה ושרשרת חנוכה.', to: '/holidays/hanukkah/crafts', kind: 'print' },
   { date: '2026-10-12', emoji: '🌧️', title: 'דפי חורף וגשם לגן', blurb: 'דפי צביעה ודפי עבודה: מטרייה בגשם, ספירת טיפות, מה לובשים בחורף.', to: '/printables/winter', kind: 'print' },

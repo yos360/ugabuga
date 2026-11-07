@@ -409,7 +409,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [ספירת העומר היום](https://ugabuga.co.il/omer)
 - [כמה ימים עד החג?](https://ugabuga.co.il/days-until)
 
-### ✈️ נוסעים עם בוגה
+### ✈️ בוגה במצב טיסה
 - [ערכת טיסה ונסיעה](https://ugabuga.co.il/travel/kit)
 - [בינגו דרכים ושדה תעופה](https://ugabuga.co.il/travel/bingo)
 - [דרכון נסיעה לילדים](https://ugabuga.co.il/travel/passport)
@@ -426,7 +426,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מה לארוז לילד בתיק יד](https://ugabuga.co.il/travel/guides/carry-on-for-kids)
 - [טיסה עם תינוק: מה חשוב לדעת](https://ugabuga.co.il/travel/guides/flying-with-baby)
 - [בחילה בנסיעה אצל ילדים](https://ugabuga.co.il/travel/guides/car-sickness)
-- [נוסעים עם בוגה — לכל מקום](https://ugabuga.co.il/travel)
+- [בוגה במצב טיסה — לכל מקום](https://ugabuga.co.il/travel)
 - [תיק טיסה — שמירה בלי אינטרנט](https://ugabuga.co.il/travel/offline)
 - [מסך הטיסה](https://ugabuga.co.il/travel/play)
 
