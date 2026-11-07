@@ -63,14 +63,11 @@ Upload limit: on 2026-11-04 slot 2 Studio said "הגעת למגבלת ההעלא
 | 2026-11-04 | 2 | סטודיו PDF (בחירת קבצים, סידור/סיבוב/מחיקת עמודים, PDF אחד, דחיסה, חתימה) | /tools/pdf | jziSpRpEj8I (made in slot 2, uploaded 17:40 by the slot-3 run; in the playlist; site f8fa7bfc; thumbnail input did not apply again) |
 | 2026-11-04 | 3 | שקיות הפתעה ליום הולדת (גיל, תקציב, שקית לדוגמה, בלי פלסטיק וממתקים, תוויות להדפסה) | /birthday/party-bags | VYuaTFQQemo (made in slot 3 of 11-04, uploaded 2026-11-05 slot 1; in the playlist; site 021cd8b8; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-party-bags) |
 | 2026-11-05 | 2 | מבחני בגרות לתרגול (מקצוע, יחידות, מה יש במבחן, הדפסה לתלמיד בלי דף התשובות, בדיקה מול דף התשובות) | /bagrut | t0AZS2SrPmU (made in slot 2 of 11-05, uploaded 2026-11-06 slot 1; in the playlist; thumbnail = end-card frame via "בחירה מהסרטון"; source in examples/tutorial-bagrut). SITE ENTRY NOT PUSHED: see the note below |
+| 2026-11-06 | 2 | שיעורי עזר בבית (כיתה ובמה קשה, כמה זמן יש, תוכנית לשבוע או לחודש, מפגש קצר בכל יום) | /tutoring | dvkHoE6iPss (made in slot 2 of 11-06, uploaded 2026-11-07 slot 1; in the playlist; site entry pushed; thumbnail = hook frame via "בחירה מהסרטון", the file input did not apply; source in examples/tutorial-tutoring) |
 
 /bagrut site entry: pushed in 2026-11-06 slot 2 (331bfb20); all 1725 tests passed by then.
 Every new path also needs a label in VIDEO_PAGE_LABELS (src/data/videos.js), or tests/videos.test.mjs fails.
 
-READY, NOT UPLOADED (made 2026-11-06 slot 2): שיעורי עזר בבית, /tutoring. Studio showed "הגעת למגבלת ההעלאות היומית" right after file_upload (the Unseen English series had uploaded several videos that day, so it shares the channel's daily quota). No draft was left in Studio. Blocked again in 2026-11-06 slot 3 (17:35, two tries, same message, no draft left; the Videos tab showed 2 uploads dated 11-06 and 5 dated 11-05, Shorts not counted). The next run uploads this first and does NOT make a new video:
-- file: ugabuga/.reel-upload/tutorial/tutorial.mp4 (7.5 MB, 39.9 s) + thumbnail.jpg; title and description in youtube.md there. Source: examples/tutorial-tutoring; finished render: work/tutorial-2026-11-06-2/out.
-- site entry after upload: { id, kind: 'tutorial', title: 'איך בונים תוכנית שיעורי עזר בבית בעוגה בוגה — מדריך קצר', paths: ['/tutoring'], category: 'learning', date: <upload day>, desc: 'מדריך קצר לשיעורי עזר בבית: בוחרים כיתה ובמה קשה, כמה זמן יש לכם, ומקבלים תוכנית לשבוע או לחודש עם מפגש קצר בכל יום, תרגול באתר ודפי עבודה — חינם, בלי הרשמה.' }, and label '/tutoring': 'שיעורי עזר בבית' in VIDEO_PAGE_LABELS.
-- then add the row to the table above and delete this note.
 
 npx is not on PATH in the portable node (found 2026-11-06): run `node node_modules/vite/bin/vite.js build` and oxlint through node directly; tests with `node --test --test-reporter=tap tests/*.mjs` (the default reporter prints nothing useful through the pipe).
 
@@ -78,6 +75,8 @@ Playlist picker (found 2026-11-06): the ref from `find` for the playlist checkbo
 Sign-in worked again on 2026-11-06: Browser 2 (in use) is on the עוגה בוגה channel.
 
 Sign-in (found 2026-11-05 slot 2): the Chrome in use showed Google's account chooser with every account "לא מחובר"; the second connected Chrome opened on another channel (UCybtC8eg77OnHsyGMq8t5pA, @photoshos) with no access to the עוגה בוגה channel, and its tab group disappeared mid-check. Never upload from that channel. Signing in is the owner's.
+
+"בחירה מהסרטון" (2026-11-07) offers only 3 frames: hook, a middle step, end card. The end-card frame can land mid-fade and look washed out, so check it; use the hook frame if it does. To get the mascot into a frame the chooser picks, hold the end card still for its last seconds.
 
 Thumbnail (owner, 2026-11-04): the big orange mascot (template/img/mascot.png) + the tool name, clear and readable, 1280×720, site look.
 Make it with tools/tutorial-thumb.html: chrome --headless=new --allow-file-access-from-files --hide-scrollbars --window-size=1280,720 --screenshot=thumb.png "file:///…/tools/tutorial-thumb.html?t=<line 1>&t2=<line 2, red>&s=<blue pill>" → thumbnail.jpg.
