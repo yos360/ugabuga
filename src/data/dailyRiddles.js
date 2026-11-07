@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'always-coming', n: 7, date: '2026-11-08', type: '"מי אני?"', emoji: '⏳', kind: 'text',
+    title: 'מי אני? חידה מאת תמירוס',
+    lines: ['אני תמיד בדרך,', 'אבל אף פעם לא מגיע.', 'וכשאני כבר בא —', 'קוראים לי בשם אחר.'],
+    ask: 'מי אני? ⏳',
+    answer: 'מחר',
+    why: 'מחר תמיד "בדרך" — הוא מגיע אחרי הלילה. אבל ברגע שהוא מגיע, כבר לא קוראים לו "מחר" אלא "היום", וכך הוא אף פעם לא מגיע באמת.',
+  },
+  {
     id: 'winter-sequence', n: 6, date: '2026-11-07', type: 'סדרת מספרים', emoji: '❄️', kind: 'seq', dir: 'ltr',
     title: 'סדרת החורף ❄️',
     items: ['31', '31', '28', '31', '30', '?'],
