@@ -104,3 +104,7 @@ Note 2026-11-06 (local scheduled run, owner's Chrome): the owner's mandala topic
 
 | 2026-11-06 | החידה היומית #4: חידת הידיים (finger-math, משוואות אימוג'י) | יוטיוב ✗ (מגבלה יומית) · אינסטגרם ✓ · פייסבוק ✓ · טיקטוק ✓ · ערוץ וואטסאפ ✓ |
 2026-11-06 | החידה היומית #5: חידה לשבת | אינסטגרם ✓ פייסבוק ✓ ערוץ וואטסאפ ✓ טיקטוק טיוטה ✗ יוטיוב ✗
+
+| 2026-11-07 | "כמה ברכות מברכים בערב השני של חנוכה?" — כרטיס סדר הדלקת נרות חנוכה (hook = open 1/2/3 question, answer never shown; printable card with blessings + הנרות הללו + מעוז צור, wording choice ner / ner shel, name + photo, two cards per sheet, 8-night chart; end card asks for the answer in the comments) | /holidays/hanukkah/candle-lighting | ✗ | ✗ | ✗ | ✗ |
+
+Note 2026-11-07: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-07/ (reel-upload.mp4, cover.jpg, captions.md); source in examples/hanukkah-card/. Verify: all ✓ (tick marker is audio-only). Hanukkah starts Fri 4.12.2026.
