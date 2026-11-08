@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 export const DICE_FAMILY = [
-  ['/tools/dice', '🎲', 'קובייה רגילה'],
+  ['/tools/dice', '🎲', 'קוביה וירטואלית'],
   ['/tools/dice/backgammon', '🎯', 'קוביות לשש בש'],
   ['/tools/dice/monopoly', '🏠', 'קוביות למונופול'],
   ['/tools/dice/polyhedral', '🔷', 'D4 עד D20'],

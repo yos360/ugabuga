@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import ToolGuide from './ToolGuide'
 import ClassicDice from './dice/ClassicDice'
 import DiceFamilyLinks from './dice/DiceFamilyLinks'
@@ -10,11 +11,14 @@ import { DICE_GAMES } from '../../data/diceGames'
 export default function DiceTool() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
-      <SEO title="קוביה וירטואלית — הטלת קובייה אונליין בלחיצה, 1 עד 5 קוביות" description="הקובייה הלכה לאיבוד? מטילים כאן בלחיצה, ישר מהטלפון: 1 עד 5 קוביות, סכום אוטומטי וחגיגת כפולים. מתאים לשש־בש, למונופול ולסולמות ונחשים — בחינם ובלי אפליקציה." path="/tools/dice" structuredData={faqSchema(DICE_FAQ)} />
+      <SEO title="קוביה וירטואלית — הטלת קובייה אונליין בלחיצה, 1 עד 5 קוביות" description="הקובייה הלכה לאיבוד? מטילים כאן בלחיצה, ישר מהטלפון: 1 עד 5 קוביות, סכום אוטומטי וחגיגת כפולים. מתאים לשש־בש, למונופול ולסולמות ונחשים — בחינם ובלי אפליקציה." path="/tools/dice" structuredData={[faqSchema(DICE_FAQ), DICE_APP]} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'קובייה' }]} />
       <h1 className="text-4xl text-center mb-2">🎲 קוביה וירטואלית</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קוביה דיגיטלית אונליין: להטיל קוביה בלחיצה — 1 עד 5 קוביות, בחינם</p>
       <ClassicDice />
+
+      <QuickAnswer q="איך מטילים קוביה וירטואלית?" a="לוחצים על &quot;הטילו!&quot; או נוגעים בקובייה, ומקבלים מספר אקראי בין 1 ל־6 — בסיכוי שווה לכל פאה, כמו בקובייה אמיתית. אפשר להטיל עד 5 קוביות יחד, הסכום מחושב לבד, ו־10 ההטלות האחרונות נשמרות מתחת. עובד בטלפון ובמחשב, בחינם ובלי אפליקציה."
+        rows={[['כמה קוביות', '1 עד 5, עם סכום אוטומטי'], ['תוצאה', 'מספר אקראי 1–6, סיכוי שווה'], ['היסטוריה', '10 ההטלות האחרונות, מונה שישיות וסכום שיא'], ['צליל', 'אפשר להשתיק בכיתה או בלילה']]} />
 
       <section className="mt-10">
         <h2 className="text-2xl font-bold text-center mb-4">🏆 משחקים שאפשר לשחק עכשיו עם הקובייה</h2>
@@ -90,7 +94,18 @@ export default function DiceTool() {
 
 const SUMS = [[2, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 5], [9, 4], [10, 3], [11, 2], [12, 1]]
 
+// The tool itself, for search engines: a free web app, under the names people search for.
+const DICE_APP = {
+  '@context': 'https://schema.org', '@type': 'WebApplication', name: 'קוביה וירטואלית',
+  alternateName: ['קובייה וירטואלית', 'קוביה דיגיטלית', 'קוביה אונליין', 'הטלת קובייה אונליין'],
+  url: 'https://ugabuga.co.il/tools/dice', applicationCategory: 'GameApplication', operatingSystem: 'כל דפדפן', inLanguage: 'he',
+  description: 'הטלת 1 עד 5 קוביות בלחיצה, עם סכום אוטומטי, היסטוריית הטלות וזיהוי כפולים. בחינם ובלי הרשמה.',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'ILS' },
+}
+
 const DICE_FAQ = [
+  { q: 'מה זה קוביה דיגיטלית?', a: 'קובייה שמוטלת על המסך במקום על השולחן: לוחצים, והמחשב בוחר מספר אקראי בין 1 ל־6 ומציג אותו כקובייה מתגלגלת. היא שימושית כשהקובייה של משחק הקופסה הלכה לאיבוד, בטיול, או בכיתה על מסך גדול שכולם רואים.' },
+  { q: 'מה ההבדל בין הקוביה כאן להטלת הקובייה בגוגל?', a: 'בשתיהן התוצאה אקראית. כאן אפשר להטיל עד 5 קוביות רגילות יחד עם סכום אוטומטי, לראות את 10 ההטלות האחרונות, מונה שישיות וסכום שיא, להשתיק את הצליל, ולעבור לקוביות מיוחדות: שש־בש עם דאבל, מונופול עם זיהוי כפולים, D4 עד D20 וקוביות סיפור.' },
   { q: 'האם הקוביה הווירטואלית באמת אקראית?', a: 'כן. כל הטלה בוחרת מספר בין 1 ל־6 באופן אקראי, וכל מספר מופיע באותה הסתברות — כמו בקובייה אמיתית והוגנת.' },
   { q: 'איך מטילים קובייה אונליין?', a: 'בוחרים כמה קוביות רוצים (1 עד 5) ולוחצים על "הטילו!" או על הקוביות עצמן. התוצאה והסכום מופיעים מיד, ורשימת ההטלות האחרונות נשמרת מתחת.' },
   { q: 'כמה קוביות אפשר להטיל יחד?', a: 'מקובייה אחת ועד חמש קוביות, והסכום מחושב אוטומטית. למשחקים שדורשים קוביות עם מספר אחר של פאות (D4, D8, D20) יש עמוד נפרד.' },
