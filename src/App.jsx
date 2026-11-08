@@ -310,6 +310,7 @@ const MultiplicationTable = lazy(() => import('./learn/MultiplicationTable.jsx')
 const MultiplicationTable100 = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationTable100 })))
 const MultiplicationTable1000 = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationTable1000 })))
 const MultiplicationDetective = lazy(() => import('./learn/MultiplicationDetective.jsx'))
+const MultiplicationQuiz = lazy(() => import('./learn/MultiplicationQuiz.jsx'))
 const MultiplicationNumber = lazy(() => import('./learn/MultiplicationTable.jsx').then(m => ({ default: m.MultiplicationNumber })))
 const ShabbatRecipes = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.ShabbatRecipes })))
 const ShabbatRecipe = lazy(() => import('./pages/recipes/Recipes').then(m => ({ default: m.ShabbatRecipe })))
@@ -980,6 +981,7 @@ export default function App() {
               <Route path="/learn/multiplication-table/100" element={<MultiplicationTable100 />} />
               <Route path="/learn/multiplication-table/1000" element={<MultiplicationTable1000 />} />
               <Route path="/learn/multiplication-table/game" element={<MultiplicationDetective />} />
+              <Route path="/learn/multiplication-table/quiz" element={<MultiplicationQuiz />} />
               <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />

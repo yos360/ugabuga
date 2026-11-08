@@ -253,3 +253,20 @@ export function numberFacts(n) {
 
 export const MT_PATHS = [MT_PAGES.main.path, MT_PAGES[100].path, MT_PAGES[1000].path, ...MT_NUMBERS.map(numberPath)]
 export const allPageMeta = () => [MT_PAGES.main, MT_PAGES[100], MT_PAGES[1000], ...MT_NUMBERS.map(numberMeta)]
+
+// Mixed test on all the tables from 1 (or 2) up to `max`: distinct ordered pairs, shuffled, factor order kept
+// as drawn so 3×6 and 6×3 can both appear. Skips the trivial ×1 row once the range is wide enough.
+export function mixedQuiz(max = 6, seed = 1, count = 20) {
+  const m = Math.min(10, Math.max(2, Math.round(max)))
+  const lo = m >= 5 ? 2 : 1
+  const pool = range(lo, m).flatMap(a => range(lo, m).map(b => ({ a, b, v: a * b })))
+  return shuffled(pool, seeded(seed * 104729 + m)).slice(0, Math.min(count, pool.length))
+}
+export const QUIZ_PATH = `${MT_BASE}/quiz`
+export const QUIZ_META = {
+  path: QUIZ_PATH,
+  title: 'בוחן לוח הכפל — כפולות 1 עד 6, אונליין ולהדפסה עם תשובות',
+  description: 'בוחן לוח הכפל לכיתות ג׳–ד׳: 20 תרגילים מעורבבים בלוחות 1 עד 6 (אפשר גם עד 10), בדיקה מיידית ובוחן להדפסה עם דף תשובות. בכל לחיצה בוחן חדש.',
+  h1: 'בוחן לוח הכפל — כפולות 1 עד 6',
+  crumb: 'בוחן לוח הכפל',
+}
