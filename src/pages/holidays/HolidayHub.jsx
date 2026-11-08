@@ -24,6 +24,9 @@ function Countdown({ h }) {
 
 export default function HolidayHub({ h }) {
   const c = h.hub
+  // Hubs converted poorly (Sigd hub: 35 opens, 0 actions in 7 days) while the coloring page prints well,
+  // so the most used sheet gets one big button right under the hero.
+  const coloring = h.pages.find(p => p.to === `${h.base}/coloring`)
   return (
     <HolidayShell h={h}>
       <SEO counterpartPath={englishCounterpart(h.base)} title={c.title} description={c.desc} path={h.base} structuredData={faqSchema(c.faq)} />
@@ -33,6 +36,8 @@ export default function HolidayHub({ h }) {
         <Countdown h={h} />
         <p className="mt-2 opacity-90">{currentInfo(h).datesText}</p>
       </div>
+
+      {coloring && <p className="-mt-3 mb-8 text-center"><Link to={coloring.to} className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] px-6 text-xl font-black sketch-shadow hover:-translate-y-0.5"><span aria-hidden="true">🖨️</span>דפי צביעה להדפסה ל{h.name} ←</Link></p>}
 
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {h.pages.slice(1).map((p, i) => <Link key={p.to} to={p.to} className={`wobbly flex flex-col border-2 border-[var(--border)] ${CARD_COLORS[i % CARD_COLORS.length]} p-5 sketch-shadow transition-transform hover:-translate-y-1`}>
