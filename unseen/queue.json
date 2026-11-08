@@ -334,313 +334,377 @@
   "slug": "en-g5-hanukkah-party-email",
   "xi": 0,
   "level": "g5",
-  "title": "An Email to Grandma"
+  "title": "An Email to Grandma",
+  "youtube": "https://youtu.be/2eJeuDUMYro",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g6-kibbutz-diary",
   "xi": 0,
   "level": "g6",
-  "title": "A Week on the Kibbutz"
+  "title": "A Week on the Kibbutz",
+  "youtube": "https://youtu.be/Q17JonJsBQA",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g7-class-play-fear",
   "xi": 0,
   "level": "g7",
-  "title": "The King Who Was Afraid"
+  "title": "The King Who Was Afraid",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g8-dogs-that-help",
   "xi": 0,
   "level": "g8",
-  "title": "Dogs with a Job"
+  "title": "Dogs with a Job",
+  "skip": "narration check: 8 pauses inside words (max 2)"
  },
  {
   "slug": "en-g9-how-vaccines-work",
   "xi": 0,
   "level": "g9",
-  "title": "How Vaccines Teach the Body"
+  "title": "How Vaccines Teach the Body",
+  "skip": "narration check: 8 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-a-electric-bikes",
   "xi": 0,
   "level": "mod-a",
-  "title": "\"I Thought It Couldn't Happen to Me\""
+  "title": "\"I Thought It Couldn't Happen to Me\"",
+  "skip": "narration check: 4 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-c-history-of-the-zipper",
   "xi": 0,
   "level": "mod-c",
-  "title": "The Small Invention That Holds Everything Together"
+  "title": "The Small Invention That Holds Everything Together",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-e-handwriting-notes",
   "xi": 0,
   "level": "mod-e",
-  "title": "Put Down the Laptop, Pick Up the Pen"
+  "title": "Put Down the Laptop, Pick Up the Pen",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-g-de-extinction",
   "xi": 0,
   "level": "mod-g",
-  "title": "Should We Bring Back the Mammoth?"
+  "title": "Should We Bring Back the Mammoth?",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g3-tamar-breakfast",
   "xi": 0,
   "level": "g3",
-  "title": "Breakfast with Dad"
+  "title": "Breakfast with Dad",
+  "youtube": "https://youtu.be/RsdFFkiOJUY",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g4-hanukkah-week",
   "xi": 0,
   "level": "g4",
-  "title": "Hanukkah Week at School"
+  "title": "Hanukkah Week at School",
+  "youtube": "https://youtu.be/_PpInu_Zyek",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g5-hedgehogs",
   "xi": 0,
   "level": "g5",
-  "title": "Hedgehogs in the Garden"
+  "title": "Hedgehogs in the Garden",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g6-lifeguard-interview",
   "xi": 0,
   "level": "g6",
-  "title": "Eyes on the Water"
+  "title": "Eyes on the Water",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g7-cooking-contest-email",
   "xi": 0,
   "level": "g7",
-  "title": "Join the Class Cooking Contest!"
+  "title": "Join the Class Cooking Contest!",
+  "skip": "narration check: 7 pauses inside words (max 2)"
  },
  {
   "slug": "en-g8-drip-irrigation",
   "xi": 0,
   "level": "g8",
-  "title": "Drop by Drop"
+  "title": "Drop by Drop",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-g9-hula-cranes",
   "xi": 0,
   "level": "g9",
-  "title": "A Morning with the Cranes"
+  "title": "A Morning with the Cranes",
+  "skip": "narration check: 11 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-a-electric-bikes",
   "xi": 1,
   "level": "mod-a",
-  "title": "\"I Thought It Couldn't Happen to Me\""
+  "title": "\"I Thought It Couldn't Happen to Me\"",
+  "skip": "narration check: 5 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-c-hospital-coding-club",
   "xi": 0,
   "level": "mod-c",
-  "title": "Code on the Children's Ward"
+  "title": "Code on the Children's Ward",
+  "skip": "narration check: 7 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-e-night-shift-swimmer",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Night-Shift Swimmer"
+  "title": "The Night-Shift Swimmer",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-g-fast-fashion",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Real Price of a Cheap T-Shirt"
+  "title": "The Real Price of a Cheap T-Shirt",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g3-what-am-i-riddle",
   "xi": 0,
   "level": "g3",
-  "title": "What Am I?"
+  "title": "What Am I?",
+  "youtube": "https://youtu.be/RVPC9ONcjz8",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g4-lost-dog-notice",
   "xi": 0,
   "level": "g4",
-  "title": "Lost Dog!"
+  "title": "Lost Dog!",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g5-israeli-salad-recipe",
   "xi": 0,
   "level": "g5",
-  "title": "How to Make an Israeli Salad"
+  "title": "How to Make an Israeli Salad",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g6-lost-dog-notice",
   "xi": 0,
   "level": "g6",
-  "title": "LOST: Our Dog Biscuit"
+  "title": "LOST: Our Dog Biscuit",
+  "youtube": "https://youtu.be/YzRvJ4k6J0s",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g7-cousin-in-canada",
   "xi": 0,
   "level": "g7",
-  "title": "Hello from Toronto!"
+  "title": "Hello from Toronto!",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g8-drum-diary",
   "xi": 0,
   "level": "g8",
-  "title": "My First Week on the Drums"
+  "title": "My First Week on the Drums",
+  "skip": "narration check: 11 pauses inside words (max 2)"
  },
  {
   "slug": "en-g9-octopus-intelligence",
   "xi": 0,
   "level": "g9",
-  "title": "The Clever Octopus"
+  "title": "The Clever Octopus",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-a-escape-room",
   "xi": 0,
   "level": "mod-a",
-  "title": "Sixty Minutes to Get Out"
+  "title": "Sixty Minutes to Get Out",
+  "skip": "narration check: 7 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-c-onions-tears",
   "xi": 0,
   "level": "mod-c",
-  "title": "Why Do Onions Make Us Cry?"
+  "title": "Why Do Onions Make Us Cry?",
+  "skip": "narration check: 7 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-e-persian-fallow-deer",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Return of the Yachmur"
+  "title": "The Return of the Yachmur",
+  "skip": "narration check: 11 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-g-grandmothers-baskets",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Baskets on My Grandmother's Shelf"
+  "title": "The Baskets on My Grandmother's Shelf",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g3-yoni-room",
   "xi": 0,
   "level": "g3",
-  "title": "My Room"
+  "title": "My Room",
+  "youtube": "https://youtu.be/QDL0ZOfksO0",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g4-the-hoopoe",
   "xi": 0,
   "level": "g4",
-  "title": "The Hoopoe"
+  "title": "The Hoopoe",
+  "youtube": "https://youtu.be/FJBr4MXVyV0",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g5-letter-from-eilat",
   "xi": 0,
   "level": "g5",
-  "title": "A Postcard from Eilat"
+  "title": "A Postcard from Eilat",
+  "youtube": "https://youtu.be/YL9_kzQdr0Y",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g6-owls-at-night",
   "xi": 0,
   "level": "g6",
-  "title": "Owls: Hunters of the Night"
+  "title": "Owls: Hunters of the Night",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g7-dead-sea-salt",
   "xi": 0,
   "level": "g7",
-  "title": "Why Is the Dead Sea So Salty?"
+  "title": "Why Is the Dead Sea So Salty?",
+  "youtube": "https://youtu.be/73PBB6pRNew",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g8-elderly-neighbours",
   "xi": 0,
   "level": "g8",
-  "title": "One Hour a Week"
+  "title": "One Hour a Week",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g9-phones-at-school",
   "xi": 0,
   "level": "g9",
-  "title": "Phones Away, Heads Up"
+  "title": "Phones Away, Heads Up",
+  "skip": "narration check: 8 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-a-escape-room",
   "xi": 1,
   "level": "mod-a",
-  "title": "Sixty Minutes to Get Out"
+  "title": "Sixty Minutes to Get Out",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-c-second-language",
   "xi": 0,
   "level": "mod-c",
-  "title": "Two Languages, Twice the World"
+  "title": "Two Languages, Twice the World",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-e-science-of-habits",
   "xi": 0,
   "level": "mod-e",
-  "title": "Why We Do What We Do Without Thinking"
+  "title": "Why We Do What We Do Without Thinking",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-g-microplastics",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Plastic We Cannot See"
+  "title": "The Plastic We Cannot See",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g5-library-day",
   "xi": 0,
   "level": "g5",
-  "title": "Ido Loves the Library"
+  "title": "Ido Loves the Library",
+  "skip": "narration check: 3 pauses inside words (max 2)"
  },
  {
   "slug": "en-g6-rainy-day-tent",
   "xi": 0,
   "level": "g6",
-  "title": "A Tent in the Living Room"
+  "title": "A Tent in the Living Room",
+  "youtube": "https://youtu.be/wqNiACdj18s",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g7-dog-shelter",
   "xi": 0,
   "level": "g7",
-  "title": "My First Day at the Dog Shelter"
+  "title": "My First Day at the Dog Shelter",
+  "skip": "narration check: 4 pauses inside words (max 2)"
  },
  {
   "slug": "en-g8-friends-before-the-competition",
   "xi": 0,
   "level": "g8",
-  "title": "Two Ideas, One Robot"
+  "title": "Two Ideas, One Robot",
+  "skip": "narration check: 8 pauses inside words (max 2)"
  },
  {
   "slug": "en-g9-power-outage",
   "xi": 0,
   "level": "g9",
-  "title": "The Night the Lights Went Out"
+  "title": "The Night the Lights Went Out",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-a-lifeguard-sea-safety",
   "xi": 0,
   "level": "mod-a",
-  "title": "The Longest Minute"
+  "title": "The Longest Minute",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-c-teaching-grandpa",
   "xi": 0,
   "level": "mod-c",
-  "title": "Teaching Grandpa"
+  "title": "Teaching Grandpa",
+  "skip": "narration check: 11 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-e-shrinking-dead-sea",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Shrinking Sea"
+  "title": "The Shrinking Sea",
+  "skip": "narration check: 9 pauses inside words (max 2)"
  },
  {
   "slug": "en-mod-g-science-of-laughter",
   "xi": 0,
   "level": "mod-g",
-  "title": "Why Do We Laugh?"
+  "title": "Why Do We Laugh?",
+  "skip": "narration check: 12 pauses inside words (max 2)"
  },
  {
   "slug": "en-g5-my-turtle-shelly",
   "xi": 0,
   "level": "g5",
-  "title": "My Turtle Shelly"
+  "title": "My Turtle Shelly",
+  "youtube": "https://youtu.be/dwApyGeS_oY",
+  "uploaded": "2026-11-09"
  },
  {
   "slug": "en-g6-sandwich-thief",
