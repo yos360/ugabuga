@@ -3,7 +3,12 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 
 // The page imports JSX-free helpers only through this regex-free check: read the two functions' rules from the source.
-const src = readFileSync(new URL('../src/pages/tools/Weather.jsx', import.meta.url), 'utf8')
+const src = ['../src/pages/tools/Weather.jsx', '../src/pages/tools/weatherCore.js'].map(f => readFileSync(new URL(f, import.meta.url), 'utf8')).join('\n')
+
+test('the winter area shows the compact forecast, linking to the full weather page', () => {
+  assert.match(readFileSync(new URL('../src/pages/WinterGames.jsx', import.meta.url), 'utf8'), /<WinterWeather \/>/)
+  assert.match(readFileSync(new URL('../src/pages/WinterWeather.jsx', import.meta.url), 'utf8'), /<Link to="\/weather"/)
+})
 
 test('umbrella thresholds and weather codes are as documented on the page', () => {
   assert.match(src, /chance >= 60 \|\| mm >= 2\) return \{ level: 'yes'/)

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../components/ui/SEO'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import SeoBody from '../components/ui/SeoBody'
+import WinterWeather from './WinterWeather'
 
 // /winter — "בוגה שוקו חם", the site's winter area: everything for the season gathered from the whole
 // site — games together on the phone or TV (Buga Live, Eretz Ir), games to print, card and board games,
@@ -103,6 +104,7 @@ export default function WinterGames() {
       <h1 className="mt-2 text-4xl font-black sm:text-5xl">בוגה שוקו חם</h1>
       <p className="mt-1 text-xl font-bold text-orange-700">אזור החורף של עוגה בוגה</p>
       <p className="mx-auto mt-3 max-w-2xl text-lg">גשם בחוץ, שוקו חם ביד, וכל החורף במקום אחד: משחקים יחד על המסך, משחקים להדפסה, יצירה ליום גשום, מטבח חם, חנוכה וט״ו בשבט.</p>
+      <WinterWeather />
       <nav className="mt-5 flex flex-wrap justify-center gap-2" aria-label="קפיצה לחלק בדף">{WINTER_SECTIONS.map(s => <a key={s.id} href={`#${s.id}`} className="rounded-full border-2 border-orange-200 bg-white px-4 py-2 font-bold hover:bg-orange-50">{s.icon} {s.title}</a>)}</nav>
     </header>
     {WINTER_SECTIONS.map(s => <section key={s.id} id={s.id} className="mt-10 scroll-mt-24">
