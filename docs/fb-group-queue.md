@@ -7,3 +7,4 @@ Titles are written by the builder; never put request texts, emails, names or ids
 
 ## 2026-11-08
 - חוברת תרגול לחיזוק שרירי הפה — משחקי נשיפה, שפתיים ולשון | https://ugabuga.co.il/booklets/oral-motor
+- קצבה חכמה — משחק חינוך פיננסי לכיתות ה–ו | https://ugabuga.co.il/online-games/money-wise

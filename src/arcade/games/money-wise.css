@@ -1,0 +1,16 @@
+.mw-game{background:linear-gradient(180deg,#e9f8ef,#fff6c7);overflow-y:auto}
+.mw-card{width:min(100%,640px);margin:0 auto;padding:clamp(14px,4vw,26px);box-sizing:border-box;background:#fffdf6;border:3px solid var(--arc-ink);border-radius:24px;box-shadow:5px 5px 0 var(--arc-ink);text-align:right}
+.mw-card h2{margin:0 0 8px;font-size:clamp(20px,5vw,26px)}
+.mw-card p{margin:6px 0;font-size:clamp(15px,3.8vw,18px);line-height:1.5}
+.mw-rules{margin:12px 0;padding-inline-start:0;list-style:none;display:grid;gap:6px;font-size:16px}
+.mw-opts{display:grid;gap:10px;margin-top:12px}
+.mw-opt{min-height:52px;padding:10px 14px;text-align:right;font:800 clamp(15px,3.8vw,18px) Heebo,sans-serif;color:var(--arc-ink);background:#fff;border:2.5px solid var(--arc-ink);border-radius:16px;box-shadow:3px 3px 0 var(--arc-ink);cursor:pointer}
+.mw-opt:hover:not(:disabled){background:#fff1b8}.mw-opt:disabled{opacity:.5;cursor:not-allowed}
+.mw-why{padding:10px 12px;background:#e9f8ef;border-radius:14px;border:2px dashed var(--arc-ink)}
+.mw-warn{color:#8a2c15;font-weight:800}.mw-joy{font-weight:800}.mw-best,.mw-note{text-align:center;font-weight:800}
+.mw-goal{width:min(100%,640px);margin:0 auto;font-weight:800}
+.mw-bar{height:16px;margin-top:4px;border:2.5px solid var(--arc-ink);border-radius:999px;background:#fff;overflow:hidden}
+.mw-bar i{display:block;height:100%;background:#58c98c;transition:width .4s}
+.mw-range{display:block;margin:12px 0;font-weight:800}.mw-range input{width:100%;margin-top:8px;min-height:32px}
+.mw-quick{display:flex;gap:8px;margin-bottom:14px}.mw-quick button{flex:1;min-height:44px;font:800 16px Heebo,sans-serif;border:2px solid var(--arc-ink);border-radius:12px;background:#e4dcff;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.mw-bar i{transition:none}}
