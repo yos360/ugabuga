@@ -101,9 +101,38 @@
     "kind": "seq",
     "type": "סדרת מספרים",
     "posted": true,
-    "networks": ["instagram", "facebook", "whatsapp-channel"],
-    "skipped": {"tiktok": "identity check on publish; saved as a draft for the owner", "youtube": "daily upload limit (channel not verified)"},
+    "networks": [
+      "instagram",
+      "facebook",
+      "whatsapp-channel"
+    ],
+    "skipped": {
+      "tiktok": "identity check on publish; saved as a draft for the owner",
+      "youtube": "daily upload limit (channel not verified)"
+    },
     "note": "chosen by the owner; posted from the owner's session at 12:45-12:51; the 14:00 run must not post another riddle today",
     "site": "https://ugabuga.co.il/riddles/winter-sequence"
+  },
+  {
+    "date": "2026-11-08",
+    "n": 7,
+    "id": "always-coming",
+    "answer": "מחר",
+    "note": "prepared and approved by the owner on 2026-11-08 at night (riddle by Tamiros). The 14:00 run posts exactly this riddle: do not write a new one. Site page /riddles/always-coming is already live (commit f28fc775). Ready video: C:\\Users\\pc\\Documents\\ugabuga\\.reel-upload\\riddle-always-coming\\video.mp4 (+ cover.jpg); captions: uploads/daily-riddle/2026-11-08/captions.md. YouTube: not made for kids.",
+    "kind": "text",
+    "type": "\"מה אני?\" (חידה מנוסחת)",
+    "posted": true,
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "whatsapp-channel"
+    ],
+    "skipped": {
+      "tiktok": "identity check by mail code on publish; saved as a draft for the owner"
+    },
+    "youtube": "https://youtube.com/shorts/c2DNAuexHpk",
+    "site": "https://ugabuga.co.il/riddles/always-coming",
+    "postedAt": "2026-11-08 14:15-14:25 (scheduled run)"
   }
 ]
