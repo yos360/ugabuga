@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'Y7y0sUS3OE0', kind: 'tutorial', title: 'איך משחקים בבלש לוח הכפל בעוגה בוגה — מדריך קצר', paths: ['/learn/multiplication-table/game'], category: 'learning', date: '2026-11-08',
+    desc: 'מדריך קצר לבלש לוח הכפל: בוחרים משימה (פנס הבלש, צייד המשבצות או המספר התאום), בוחרים טבלה עד 5×5 או עד 10×10 ויוצאים לחקירה — 10 משימות בכל סיבוב ועד 3 כוכבים, חינם, בלי הרשמה.' },
   { id: 'OPvNBDloxtk', kind: 'tutorial', title: 'איך צובעים דף צביעה במסך בעוגה בוגה — מדריך קצר', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-08',
     desc: 'מדריך קצר לצביעה במסך: פותחים ציור לצביעה, לוחצים על "לצבוע את הציור במסך", בוחרים צבע ומקישים על אזור, מבטלים או מתחילים מהתחלה ושומרים את הציור הצבוע כתמונה — חינם, בלי הרשמה.' },
   { id: 'zYIW9FwYK5A', kind: 'tutorial', title: 'איך יוצרים דף עבודה מהמילים שלכם בעוגה בוגה — מדריך קצר', paths: ['/tools/worksheet-maker'], category: 'learning', date: '2026-11-08',
@@ -63,6 +65,7 @@ export const VIDEO_PAGE_LABELS = {
   '/holidays/hanukkah/math': 'חשבון של חנוכה',
   '/tools/worksheet-maker': 'מחולל דפי עבודה',
   '/printables/coloring': 'דפי צביעה',
+  '/learn/multiplication-table/game': 'בלש לוח הכפל',
 }
 
 const SITE = 'https://ugabuga.co.il'
