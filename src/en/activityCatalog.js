@@ -1,4 +1,5 @@
 import { COLORING_SUBJECTS } from '../data/coloringSubjects.js'
+import { EN_COLORING_DRAWING_PAGES } from './coloring/drawingCatalog.js'
 
 // The artwork and number of sheets come from the shared Hebrew collection.
 // Only editorial text is translated here; no second copy of the drawings.
@@ -65,6 +66,8 @@ export const EN_COLORING = COLORING_SUBJECTS.map(s => ({
 export const EN_ACTIVITY_PAGES = [
   { path: '/en/coloring-pages', title: 'Free coloring pages to print', counterpart: '/printables/coloring' },
   ...EN_COLORING.map(s => ({ path: s.path, title: `${s.name} coloring pages`, counterpart: s.counterpart })),
+  // One page per drawing (/en/coloring-pages/<subject>/<n>), see src/en/coloring/drawingCatalog.js.
+  ...EN_COLORING_DRAWING_PAGES,
   { path: '/en/printables', title: 'Free printable activities for kids', unpairedReason: 'English selection of the larger Hebrew printable collection.' },
   { path: '/en/games', title: 'Games to play together', unpairedReason: 'English selection of the larger games collection.' },
   { path: '/en/games/memory', title: 'Memory matching game', counterpart: '/online-games/memory' },

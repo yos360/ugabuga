@@ -540,6 +540,7 @@ const AdminSuppliers = lazy(() => import('./pages/suppliers/AdminSuppliers'))
 const OwnerLogin = lazy(() => import('./pages/OwnerLogin'))
 
 const EnglishColoring = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishColoring })))
+const EnglishColoringDrawing = lazy(() => import('./en/coloring/EnglishColoringDrawing'))
 const EnglishPrintables = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishPrintables })))
 const EnglishGames = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishGames })))
 const EnglishBirthday = lazy(() => import('./en/EnglishActivities').then(m => ({ default: m.EnglishBirthday })))
@@ -617,6 +618,7 @@ export default function App() {
               <Route path="/en" element={<EnglishHome />} />
               <Route path="/en/coloring-pages" element={<EnglishColoring />} />
               <Route path="/en/coloring-pages/:subject" element={<EnglishColoring />} />
+              <Route path="/en/coloring-pages/:subject/:n" element={<EnglishColoringDrawing />} />
               <Route path="/en/printables" element={<EnglishPrintables />} />
               <Route path="/en/games" element={<EnglishGames />} />
               <Route path="/en/games/memory" element={<EnglishGames memory />} />
