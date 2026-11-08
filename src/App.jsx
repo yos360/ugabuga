@@ -155,6 +155,7 @@ const TeacherByGrade = lazy(() => import('./pages/classroom/AudienceHubs').then(
 const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionGame').then(m => ({ default: m.SoundPositionOnline })))
 const EmotionCards = lazy(() => import('./pages/printables/EmotionCards'))
 const ReadingByLetters = lazy(() => import('./pages/letters/ReadingByLetters'))
+const VowelStories = lazy(() => import('./pages/letters/VowelStories'))
 const RequestPage = lazy(() => import('./pages/RequestPage'))
 const PlayPrintHub = lazy(() => import('./pages/experimental/PlayPrintHub'))
 const RequestDone = lazy(() => import('./pages/RequestDone'))
@@ -796,6 +797,7 @@ export default function App() {
               <Route path="/speech/language/prepositions" element={<SpeechPrepositions />} />
               <Route path="/letters/nikud" element={<NikudKamatzPatach />} />
               <Route path="/letters/reading-practice" element={<ReadingByLetters />} />
+              <Route path="/letters/first-reading-stories" element={<VowelStories />} />
               <Route path="/letters/final" element={<FinalLetters />} />
               <Route path="/letters/week" element={<LetterWeek />} />
               <Route path="/letters/:slug" element={<LetterPage />} />

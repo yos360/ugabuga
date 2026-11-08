@@ -27,6 +27,7 @@ export const GRADE_CARDS = GRADE_NAMES.map((name, i) => {
   return { n, name, links: [
     [`חשבון לכיתה ${name}`, `/math/grade-${n}`],
     [`הבנת הנקרא לכיתה ${name}`, `/learn/reading/grade-${n}`],
+    ...(n <= 3 ? [['סיפורים לראשית קריאה', n === 1 ? '/letters/first-reading-stories' : `/letters/first-reading-stories?stage=g${n}`]] : []),
     ...(n === 1 ? [['קוראים רק מה שלמדנו', '/letters/reading-practice'], ['איפה שומעים את הצליל?', '/printables/sound-position']] : []),
     ...(n <= 4 ? [['הכתבה', '/learn/dictation']] : []),
     ...(n >= 3 ? [['אנגלית לפי כיתה', '/learn/english/by-grade']] : []),

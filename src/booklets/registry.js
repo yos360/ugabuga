@@ -861,7 +861,7 @@ export const BOOKLETS = [
       { q: 'האם כל המילים בחוברת עם ארבעת הסימנים בלבד?', a: 'כן. הטקסטים והשאלות כתובים רק בפתח, קמץ, שווא וחיריק (וגם דגש ונקודת שין), כדי שהילד יפגוש רק מה שכבר למד.' },
       { q: 'איך מורידים את החוברת כ־PDF?', a: 'לוחצים על "לחוברת המלאה", ובחלון שנפתח בוחרים "שמירה כ־PDF" או "הדפסה". אפשר להדפיס גם עמודים בודדים.' },
     ],
-    related: [{ label: 'חוברת תנועות וניקוד', href: '/booklets/nikud' }, { label: 'דיוק בקריאה — שלב הקמץ ועיצור', href: '/booklets/kamatz-accuracy' }, { label: 'דפי קריאה לפי האותיות שלמדנו', href: '/letters/reading-practice' }, { label: 'חוברות עבודה להדפסה', href: '/booklets' }],
+    related: [{ label: 'סיפורים לראשית קריאה לפי תנועות', href: '/letters/first-reading-stories' }, { label: 'חוברת תנועות וניקוד', href: '/booklets/nikud' }, { label: 'דיוק בקריאה — שלב הקמץ ועיצור', href: '/booklets/kamatz-accuracy' }, { label: 'דפי קריאה לפי האותיות שלמדנו', href: '/letters/reading-practice' }, { label: 'חוברות עבודה להדפסה', href: '/booklets' }],
     load: () => import('./nikudTexts.jsx'),
   },
   {

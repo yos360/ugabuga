@@ -149,7 +149,8 @@ export function NikudKamatzPatach() {
     <header className="mb-5 text-center">
       <h1 className="text-4xl sm:text-5xl mb-2">🔡 קמץ ופתח — קוראים עם ניקוד</h1>
       <p className="mx-auto max-w-2xl font-hand text-xl text-[var(--muted-foreground)]">קָמָץ ( ָ ) ופַתָּח ( ַ ) — שני סימנים, צליל אחד: "אַ"</p>
-      <p className="mt-2"><Link to="/letters/reading-practice" className="font-bold underline">📖 חדש: דף קריאה רק מהאותיות שהילד כבר למד ←</Link></p>
+      <p className="mt-2"><Link to="/letters/first-reading-stories" className="font-bold underline">📚 חדש: סיפורים לראשית קריאה לפי תנועות, עם שאלות ←</Link></p>
+      <p className="mt-1"><Link to="/letters/reading-practice" className="font-bold underline">📖 דף קריאה רק מהאותיות שהילד כבר למד ←</Link></p>
       <p className="mt-1"><Link to="/printables/sound-position" className="font-bold underline">👂 חדש: איפה שומעים את הצליל? בהתחלה, באמצע או בסוף ←</Link></p>
     </header>
     <NikudLesson />
