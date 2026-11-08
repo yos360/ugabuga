@@ -13,6 +13,10 @@ export const QR_VARIANTS = [
 ]
 // Retired messages: no longer printed, kept so sheets already out there still resolve and count.
 const RETIRED_VARIANTS = [
+  // On-screen colouring offer for coloring sheets (2026-11-08, removed the same day): sheets already
+  // printed with it land on the drawing's own page.
+  { id: 'a6', to: 'page', title: '🎨 סיימתם? סרקו וצבעו את הציור הזה גם בטלפון', line: 'צובעים באצבע · בחינם · ugabuga.co.il' },
+  { id: 'c6', to: 'page', title: '⏭️ סיימתם? סרקו לדף הבא', line: 'עוד מאות דפים בחינם · ugabuga.co.il' },
   { id: 'g1', to: 'page', title: '🎂 עוגה בוגה — עוד מאות דפים כאלה, בחינם', line: 'סרקו לעוד דפים · או חפשו בגוגל „עוגה בוגה”' },
   { id: 'g2', to: 'page', title: '📱 סיימתם? סרקו ותקבלו עוד דף', line: 'דפי עבודה, צביעה ומשחקים בחינם · ugabuga.co.il' },
   { id: 'g3', to: 'page', title: 'הורים: הדף הזה הגיע מעוגה בוגה', line: 'סרקו לעוד דפים כאלה — בחינם ובלי הרשמה' },
@@ -34,9 +38,7 @@ export const QR_OFFERS = {
   gifted: { label: 'מחוננים', fresh: fresh('a2', '💡 סרקו לתשובות והסברים של הדף הזה', 'לכל שאלה הסבר קצר · בחינם · ugabuga.co.il'), control: control('c2') },
   math: { label: 'חשבון', fresh: fresh('a3', '✅ סיימתם? סרקו לפתרון של הדף הזה', 'בודקים לבד בטלפון · בחינם · ugabuga.co.il'), control: control('c3') },
   color: { label: 'צביעה לפי מספרים', fresh: fresh('a4', '🎨 סיימתם? סרקו וראו את הציור הגמור', 'בודקים בטלפון · בחינם · ugabuga.co.il'), control: control('c4') },
-  series: { label: 'דפים בסדרה', fresh: fresh('a5', '🖍️ אהבתם? סרקו לדף הבא בסדרה', 'הדף הבא מחכה לכם · בחינם · ugabuga.co.il', null), control: control('c5') },
-  coloring: { label: 'דפי צביעה', fresh: fresh('a6', '🎨 סיימתם? סרקו וצבעו את הציור הזה גם בטלפון', 'צובעים באצבע · בחינם · ugabuga.co.il', 'color'), control: control('c6') },
-}
+  series: { label: 'דפים בסדרה', fresh: fresh('a5', '🖍️ אהבתם? סרקו לדף הבא בסדרה', 'הדף הבא מחכה לכם · בחינם · ugabuga.co.il', null), control: control('c5') },}
 const OFFER_VARIANTS = Object.values(QR_OFFERS).flatMap(o => [o.fresh, o.control])
 export const qrVariant = id => QR_VARIANTS.find(v => v.id === id) || RETIRED_VARIANTS.find(v => v.id === id) || OFFER_VARIANTS.find(v => v.id === id)
 export const pickQrVariant = (rand = Math.random()) => QR_VARIANTS[Math.floor(rand * QR_VARIANTS.length) % QR_VARIANTS.length]
