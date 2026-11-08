@@ -1,0 +1,81 @@
+// English brain-game guides (/en/brain-games + one page per topic). Pure data; they link to the English game pages.
+export const BRAIN_PAGES_EN = {
+  home: {
+    path: '/en/brain-games', counterpart: '/brain-games', emoji: '🧠',
+    title: 'Brain games and logic puzzles for kids - free online',
+    description: 'Pick a challenge: matchsticks, water jugs, river crossing, wires, lights out or Buga IQ. Free brain games with hints, stars and saved progress.',
+    intro: 'Sometimes you need to move just one thing, and sometimes you need to plan a whole chain of moves. In the Ugabuga brain lab you can try several ways of solving problems: spotting patterns, measuring, drawing conclusions and planning steps.',
+    sections: [
+      ['Which game should you start with?', 'If you like short puzzles, try One Move. If you enjoy planning, start with the water jugs or the river crossing. The wire puzzles suit players who like reading clues and deducing the answer. In Lights Out you can experiment and see right away how one tap changes several squares.'],
+      ['A long journey or a quick challenge', 'The six standalone games have 970 levels between them. Buga IQ gathers 500 challenges in ten worlds and uses some of the same engines. You can pick a world, solve the daily puzzle that is the same for everyone, or take a ten-puzzle test with one puzzle from each world.'],
+      ['Learning from a move that did not work', 'Before you tap, say out loud what you expect to change. After the move, compare the result with your plan. A hint can open a new path; there is no need to solve everything without help. The game saves your current level and your stars in this browser.'],
+    ],
+    games: ['matchsticks', 'water-jugs', 'river-crossing', 'cut-the-wire', 'lights-out', 'one-move', 'buga-iq'],
+    faq: [{ q: 'Is Buga IQ an intelligence test?', a: 'No. The Buga score is a game score based on solved puzzles, moves and hints. It is not an IQ score, a diagnosis or a way to compare children.' }, { q: 'Do I need to sign up or pay?', a: 'No. The games are free and run in the browser. Progress is saved on the device you play on, without an account.' }],
+  },
+  matchsticks: {
+    path: '/en/brain-games/matchsticks', counterpart: '/brain-games/matchsticks', emoji: '🔥',
+    title: 'How to solve matchstick puzzles - a visual thinking guide',
+    description: 'A guide to matchstick puzzles: check what you may move, spot digits that are close, and test the whole equation. Examples, plus 200 free levels to play.',
+    intro: 'In a matchstick puzzle, the difference between a wrong equation and a right one can be a single stick. It helps to split the job into two questions: which digit can change, and which change also makes the math correct?',
+    sections: [
+      ['First, read the action', 'Removing lowers the number of matches; moving takes a match from a filled place to an empty one and keeps the total the same. In this game the math signs never change, and each puzzle tells you exactly how many moves or removals to make.'],
+      ['Spot digits that are close', 'On a seven-segment display, for example, an 8 becomes a 9 when you remove the bottom-left segment. But a possible change is not yet a solution: the whole equation has to be true. In the game you can pick each of the three digits and check its segments one by one.'],
+      ['Plan the source and the target', 'In a move puzzle, ask what happens to the digit that loses the match and to the digit that gets it. In puzzles with two or three actions, an in-between state does not have to look like a digit; only the final equation must be right. A hint shows a numbered source and target.'],
+    ],
+    games: ['matchsticks', 'one-move'],
+    faq: [{ q: 'Can I move the plus or equals sign?', a: 'Not in this game. Moves apply only to the segments of the digits, so the rules stay the same and every solution can be checked clearly.' }, { q: 'What if I run out of moves?', a: 'Undo a move or restart the level. The number of moves and hints affects your stars, but you can always keep trying.' }],
+  },
+  'river-crossing': {
+    path: '/en/brain-games/river-crossing', counterpart: '/brain-games/river-crossing', emoji: '🚣',
+    title: 'River crossing puzzles: plan the way back too',
+    description: 'How to approach river and boat puzzles: the bank left alone, passenger limits and planning backwards. A guide with a link to 100 verified levels to play free.',
+    intro: 'In a river puzzle it is not enough to know who needs to cross. You need to think about who stays behind while the boat moves away, and how it will come back for the next passengers.',
+    sections: [
+      ['Check the bank that is left alone', 'The adult is always in the boat. After each crossing, the bank the boat left has no supervision, so it must not hold a pair from the list of rules. In another level the list of pairs and the boat size may change.'],
+      ['Going back is not always a step back', 'Sometimes you have to bring a passenger back to make room for the next move. Do not measure progress only by how many are on the far bank; check whether you have reached a state that allows another legal crossing. The adult can also return alone.'],
+      ['Draw the state, not the story', 'Write two lists: who is on the first bank and who is on the second, and mark where the boat is. If you are back in exactly the same state, you are probably going in circles. The hint in the game looks for a legal route from where you are now.'],
+    ],
+    games: ['river-crossing', 'water-jugs', 'buga-iq'],
+    faq: [{ q: 'Does the adult take up a seat in the boat?', a: 'No. The capacity shown in the game is the number of extra passengers. The adult always rows and can cross alone.' }, { q: 'Why can I not make the crossing I chose?', a: 'You may have picked more passengers than the boat holds, or the crossing leaves a forbidden pair on a bank without the adult. Check the list shown above the river.' }],
+  },
+  'lights-out': {
+    path: '/en/brain-games/lights-out', counterpart: '/brain-games/lights-out', emoji: '💡',
+    title: 'Lights Out: how one tap changes a whole board',
+    description: 'Learn the rules of Lights Out, how taps cancel each other and how to think in neighbors. A guide with a link to 220 solvable boards of growing size.',
+    intro: 'Lights Out looks like a tapping game, but every move affects several places. The secret is to watch the group of squares that changes, not just the light you tapped.',
+    sections: [
+      ['What changes with each tap?', 'The light you tap and its direct neighbors switch: on becomes off and off becomes on. In a corner three lights change, on an edge four, and in the middle five. Diagonal lights do not change.'],
+      ['Two taps cancel each other', 'Tap the same square twice and every light it touched goes back to how it was. The order of taps does not change the final result either. So you can think about choosing a set of squares, not a long string of guesses.'],
+      ['Work row by row', 'One way to test options is to decide what to tap in the top row, then use the row below to turn off the lights above it. Not every first choice works; if a light is left at the bottom, try another one. The game also has a hint that works out a solution from the current board.'],
+    ],
+    games: ['lights-out', 'one-move'],
+    faq: [{ q: 'Can every board in the game be solved?', a: 'Yes. All 220 boards are made by legal taps on a dark board and checked by a solver. Sizes go from 3x3 to 6x6.' }, { q: 'Can I tap a light that is already off?', a: 'Yes. Sometimes that is exactly the move you need to turn off its neighbors. The goal is the whole board, not turning off one light at every step.' }],
+  },
+  logic: {
+    path: '/en/brain-games/logic', counterpart: '/brain-games/logic', emoji: '🔎',
+    title: 'Logic puzzles for kids: find the answer from the clues',
+    description: 'Order clues, codes, scales and who is lying: ways to solve logic puzzles without guessing, with links to the deduction games on Ugabuga. Free to play.',
+    intro: 'In a logic puzzle every clue narrows down the options. It helps to tell apart a fact that was stated, a conclusion that follows from several clues, and a guess you still need to check.',
+    sections: [
+      ['"Before" does not always mean "next to"', 'If the red wire is before the blue one, there may be other wires between them. If they are next to each other, there is nothing in between. The wire puzzles use this difference to find out which wire sits in a given place in the secret order.'],
+      ['Test a guess against every clue', 'A solution that fits one clue may break another. You can assume for a moment that a certain character hid the star, then count how many statements become true. Only the option that gives the right number of truth-tellers fits.'],
+      ['Codes and scales: two ways to narrow things down', 'In code puzzles, separate a digit in the right place from a digit in the wrong place. On a balance scale, separate equal groups from the group with the heavy ball. These worlds are in Buga IQ, next to other deduction puzzles.'],
+    ],
+    games: ['cut-the-wire', 'buga-iq'],
+    faq: [{ q: 'Do I have to guess which wire to cut?', a: 'No. Every puzzle has exactly one answer to the question asked, checked against every possible order.' }, { q: 'Do I need to know the whole order of the wires?', a: 'Not always. It is enough to work out who is in the place you are asked about. Several full orders may fit, but they all point to the same wire.' }],
+  },
+  kids: {
+    path: '/en/brain-games/kids', counterpart: '/brain-games/kids', emoji: '🧒',
+    title: 'Brain games for kids: pick the pace and the level',
+    description: 'How to choose puzzles for kids by experience and reading level: start together, use hints without pressure and try the age modes in Buga IQ. Free to play.',
+    intro: 'Age is a starting point, not a limit. A child who knows water puzzles may want a harder level, while with a new kind of puzzle it is best to read the rules and try a simple move together.',
+    sections: [
+      ['Ages 6 to 8: start together', 'Begin with Lights Out on a small board or with One Move, and show what changes after a tap. For puzzles with text, an adult can read the rules aloud. Buga IQ offers an early range of levels for this age.'],
+      ['Ages 9 to 11, 12+ and grown-ups', 'As the rules become familiar, try more limits, codes and chains of moves. Choosing an age in Buga IQ changes the starting point and the range of puzzles in the test. You can always switch to the level map and pick a different challenge.'],
+      ['Playing together without a clock', 'In world mode there is no time limit. Let each player suggest a move, explain why, and check it together. The five-minute mode and the streak are separate options you never have to use. One star still means the puzzle is solved.'],
+    ],
+    games: ['lights-out', 'one-move', 'water-jugs', 'buga-iq'],
+    faq: [{ q: 'Does a low score say anything about my child?', a: 'No. The score describes one round of play and depends on knowing the rules, hints and moves. It is not an intelligence test or a diagnosis.' }, { q: 'Where is progress saved?', a: 'In the browser and on the device you play on. Clearing site data or switching browsers does not carry progress over.' }],
+  },
+}

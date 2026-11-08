@@ -1,12 +1,16 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { ENGLISH_PAGES, ENGLISH_SECTIONS, englishCounterpart, isEnglishPath } from '../src/en/englishRoutes.js'
 const src = readFileSync(new URL('../src/components/ui/SEO.jsx', import.meta.url), 'utf8')
 const block = src.slice(src.indexOf('export const TITLE_MAX'), src.indexOf('export default function SEO'))
 const { seoTitle, languageAlternates } = await import('data:text/javascript,' + encodeURIComponent(block))
 const sitemap = readFileSync(new URL('../public/sitemap-static.xml', import.meta.url), 'utf8')
 const paths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname)
+// Hebrew counterparts may also live only in a generated group sitemap (e.g. /games/<slug> in sitemaps/games.xml).
+const groupDir = new URL('../public/sitemaps/', import.meta.url)
+const hebrewPaths = new Set([...paths, ...readdirSync(groupDir).filter(f => f.endsWith('.xml'))
+  .flatMap(f => [...readFileSync(new URL(f, groupDir), 'utf8').matchAll(/<loc>(.*?)<\/loc>/g)].map(m => new URL(m[1]).pathname))])
 
 test('every English page has English metadata and an explicit reciprocal counterpart where one exists', () => {
   assert.equal(new Set(ENGLISH_PAGES.map(p => p.path)).size, ENGLISH_PAGES.length)
@@ -17,7 +21,7 @@ test('every English page has English metadata and an explicit reciprocal counter
     assert.doesNotMatch(p.title, /[\u0590-\u05ff]/)
     assert.equal(paths.filter(x => x === p.path).length, 1, p.path)
     if (p.counterpart) {
-      assert.ok(paths.includes(p.counterpart), p.counterpart)
+      assert.ok(hebrewPaths.has(p.counterpart), p.counterpart)
       assert.equal(englishCounterpart(p.counterpart), p.path)
       assert.deepEqual(languageAlternates(p.path, p.counterpart, 'en'), languageAlternates(p.counterpart, p.path, 'he'))
       assert.equal(languageAlternates(p.path, p.counterpart, 'en')[2].href, 'https://ugabuga.co.il' + p.counterpart)

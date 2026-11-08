@@ -69,7 +69,8 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 ### משחקי אונליין
 - [אתגר היום — מתחלף כל יום](https://ugabuga.co.il/online-games/today)
 - [מרתון משחקים — 8 ברצף](https://ugabuga.co.il/online-games/marathon)
-- [מצאו את בוגה — חדש!](https://ugabuga.co.il/online-games/find-buga)
+- [מצאו את בוגה](https://ugabuga.co.il/online-games/find-buga)
+- [מצאו את ההבדלים — חדש!](https://ugabuga.co.il/online-games/find-differences)
 - [שחמט אונליין — נגד המחשב או חבר](https://ugabuga.co.il/chess)
 - [סודוקו — אונליין, יומי והדפסה](https://ugabuga.co.il/sudoku)
 - [צוללות](https://ugabuga.co.il/online-games/battleship)
@@ -178,6 +179,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [קיר ברכות לגננת ולמורה](https://ugabuga.co.il/thank-you-wall)
 
 ### ללמוד לבד ובבית
+- [שיעורי עזר בבית — תוכנית לילד שמתקשה](https://ugabuga.co.il/tutoring)
 - [מסלול לימוד אישי — שיעור אחד ביום](https://ugabuga.co.il/path)
 - [הכנה לכיתה א׳](https://ugabuga.co.il/classroom/first-grade)
 - [הכנה למבחן מחוננים](https://ugabuga.co.il/learn/gifted-test)
@@ -283,6 +285,8 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [גוף האדם לעומק: לב, מוח, עצמות וחושים](https://ugabuga.co.il/learn/human-body)
 - [תזונה ובריאות: ויטמינים, חלבונים, תוויות מזון ועוד](https://ugabuga.co.il/learn/nutrition)
 - [ימים ואוקיינוסים: הים התיכון, ים סוף, אלמוגים וגלים](https://ugabuga.co.il/learn/oceans)
+- [סביבה וקיימות: מחזור, אקלים, אנרגיה מתחדשת ושמורות טבע](https://ugabuga.co.il/learn/environment)
+- [מדינות העולם: בירות, גבולות, שפות ודגלים](https://ugabuga.co.il/learn/countries)
 - [עובדות על חיות](https://ugabuga.co.il/animals)
 - [עולם החי לעומק: כרישים, נחשים, עכבישים](https://ugabuga.co.il/learn/animals)
 - [פירות וירקות: פרי או ירק? מאיפה הגיעו](https://ugabuga.co.il/learn/fruits-vegetables)
@@ -336,11 +340,13 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [מחולל תשבצים](https://ugabuga.co.il/tools/crossword-maker)
 - [מחולל תפזורת](https://ugabuga.co.il/tools/word-search-maker)
 - [מחולל בינגו](https://ugabuga.co.il/tools/bingo-maker)
+- [מחולל דפי עבודה](https://ugabuga.co.il/tools/worksheet-maker)
 
 ### הרפתקאות להדפסה
 - [חפש את המטמון](https://ugabuga.co.il/tools/scavenger-hunt-maker)
 - [ציד אוצרות מוכן להדפסה](https://ugabuga.co.il/treasure-hunt/ready)
 - [חדרי בריחה](https://ugabuga.co.il/tools/escape-rooms)
+- [כתב סתרים וצפנים](https://ugabuga.co.il/tools/secret-codes)
 
 ### לגן ולבית הספר
 - [דף שם לצביעה ולמידת אותיות](https://ugabuga.co.il/printables/name-coloring)
@@ -421,6 +427,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [כמה עוד נשאר? טיימר לנסיעה](https://ugabuga.co.il/travel/countdown)
 - [מה לוקחים לנסיעה עם ילדים](https://ugabuga.co.il/travel/packing-list)
 - [משחקים לתור ולמסעדה](https://ugabuga.co.il/travel/waiting-games)
+- [מה לעשות בטיסה ארוכה](https://ugabuga.co.il/travel/guides/long-flight)
 - [איך להעסיק פעוט בטיסה](https://ugabuga.co.il/travel/guides/toddler-flight)
 - [משחקים לנסיעה ארוכה ברכב](https://ugabuga.co.il/travel/guides/long-car-ride)
 - [מה לארוז לילד בתיק יד](https://ugabuga.co.il/travel/guides/carry-on-for-kids)
@@ -428,7 +435,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [בחילה בנסיעה אצל ילדים](https://ugabuga.co.il/travel/guides/car-sickness)
 - [בוגה במצב טיסה — לכל מקום](https://ugabuga.co.il/travel)
 - [תיק טיסה — שמירה בלי אינטרנט](https://ugabuga.co.il/travel/offline)
-- [מסך הטיסה](https://ugabuga.co.il/travel/play)
+- [משחקים לטיסה בלי אינטרנט](https://ugabuga.co.il/travel/play)
 
 ### לפני השינה
 - [סיפורים לפני השינה](https://ugabuga.co.il/stories)
@@ -437,6 +444,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 ### תינוקות ופעוטות
 - [שמות לתינוקות](https://ugabuga.co.il/baby-names)
 - [פעוטות — גיל 1–3](https://ugabuga.co.il/toddlers)
+- [משחקים לפעוטות עם בוגה](https://ugabuga.co.il/toddlers/buga-games)
 
 ### אוכל לילדים
 - [מה שמים בכריך? ארוחת עשר](https://ugabuga.co.il/food/school-lunch)
@@ -450,7 +458,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [תשחצים להדפסה](https://ugabuga.co.il/adults/crosswords)
 - [מחולל מנדלות לצביעה](https://ugabuga.co.il/adults/mandalas)
 - [משחק זיכרון בקלפים גדולים](https://ugabuga.co.il/adults/memory)
-- [בוגה בורח, משחק ריצה בתלת־ממד](https://ugabuga.co.il/buga-run)
+- [בוגה בורח](https://ugabuga.co.il/buga-run)
 - [שאלות מכשילות](https://ugabuga.co.il/trick-questions)
 - [סבא וסבתא עם הנכדים](https://ugabuga.co.il/adults/grandparents)
 - [ראיון סיפור חיים](https://ugabuga.co.il/adults/grandparents/interview)
@@ -475,6 +483,7 @@ Ugabuga (עוגה בוגה, also written "אוגה בוגה") is a free Hebrew w
 - [Play online](https://ugabuga.co.il/en/online-games): Puzzles, card games, solitaire, sudoku, chess and more, right in the browser.
 - [Printable worksheets](https://ugabuga.co.il/en/worksheets): Math practice, clocks, fractions, mazes, dot-to-dot and paper templates.
 - [Reading and the ABC](https://ugabuga.co.il/en/reading): Short stories with read-aloud, letter tracing and picture word games.
+- [Reading comprehension passages](https://ugabuga.co.il/en/reading-comprehension): Original passages from Grade 3 to Bagrut Module G, with every answer explained, read-aloud and printable worksheets.
 - [Free online tools](https://ugabuga.co.il/en/tools): A school calculator, a Hebrew keyboard, a PDF studio, a QR code maker and touch typing.
 - [Free Excel course](https://ugabuga.co.il/en/excel): Ten hands-on lessons with a live spreadsheet in the page.
 - [Travel with Buga](https://ugabuga.co.il/en/travel): Print, play, listen and save for airplane mode.

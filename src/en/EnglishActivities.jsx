@@ -9,6 +9,7 @@ import { EnglishNotFound } from './EnglishLayout'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { subjectCopy } from './coloringInsights'
 import { drawingPath } from './holidayColoringData'
+import { enDrawingLink } from './coloring/drawingHref'
 const Memory = lazy(() => import('../arcade/games/Memory'))
 
 export function EnglishColoring() {
@@ -33,9 +34,9 @@ export function EnglishColoring() {
       <p role="status">{EN_COLORING.filter(s => s.name.toLowerCase().includes(query.trim().toLowerCase())).length} subjects</p>
       <div className="en-cards en-coloring-grid">{EN_COLORING.filter(s => s.name.toLowerCase().includes(query.trim().toLowerCase())).map(s => <Link className="en-card" key={s.slug} to={s.path}><img loading="lazy" width="400" height="400" src={coloringSrc(s.slug,1,'webp')} alt={`${s.name} coloring example`} /><h2>{s.emoji} {s.name}</h2><span>{s.count} sheets · Choose and print →</span></Link>)}</div>
     </> : <>
-      <p>{topic.count} drawings. Select one or more sheets below. Your PDF contains only the sheets you select.</p>
+      <p>{topic.count} drawings. Select one or more sheets below. Your PDF contains only the sheets you select. Tap a drawing’s name to open it on its own page.</p>
       <div className="en-selection-bar"><span role="status">{selected.length} selected</span><button type="button" onClick={() => setSelected(Array.from({length:topic.count},(_,i)=>i+1))}>Select all</button><button type="button" disabled={!selected.length} onClick={() => setSelected([])}>Clear</button><button data-print-main type="button" disabled={!selected.length} onClick={() => setPrinting(true)}>Preview, print or save PDF</button></div>
-      <div className="en-cards en-coloring-grid">{Array.from({length:topic.count},(_,i)=>i+1).map(n => <label className={`en-card en-select-sheet${selected.includes(n) ? ' is-selected' : ''}`} key={n}><img loading="lazy" width="400" height="400" src={coloringSrc(topic.slug,n,'webp')} alt={`${topic.name} coloring sheet ${n}`} /><span><input type="checkbox" checked={selected.includes(n)} onChange={() => toggle(n)} /> {topic.name} · Sheet {n}</span></label>)}</div>
+      <div className="en-cards en-coloring-grid">{Array.from({length:topic.count},(_,i)=>i+1).map(n => <label className={`en-card en-select-sheet${selected.includes(n) ? ' is-selected' : ''}`} key={n}><img loading="lazy" width="400" height="400" src={coloringSrc(topic.slug,n,'webp')} alt={`${topic.name} coloring sheet ${n}`} /><span><input type="checkbox" checked={selected.includes(n)} onChange={() => toggle(n)} aria-label={`Select sheet ${n}`} /> {(link => link ? <Link to={link.href}>{link.name}</Link> : `${topic.name} · Sheet ${n}`)(enDrawingLink(topic.slug, n))}</span></label>)}</div>
       {copy.paragraphs.length > 0 && <section><h2>Which {topic.name.toLowerCase()} sheet to choose</h2>{copy.paragraphs.map(p => <p key={p}>{p}</p>)}{copy.ageGroups.length > 1 && <ul>{copy.ageGroups.map(([ages, ns]) => <li key={ages}>Ages {ages}: {ns.length === 1 ? 'sheet' : 'sheets'} {ns.join(', ')}</li>)}</ul>}</section>}
       {copy.holidays.length > 0 && <section><h2>Each drawing on its own page</h2><ul>{copy.holidays.map(d => <li key={d.n}><Link to={drawingPath(d)}>{d.name}</Link></li>)}</ul></section>}
       <section><h2>A little more than coloring</h2><p>Choose a small set of colors before you begin. When your drawing is ready, give it a title and tell someone what is happening in the picture.</p><h2>Printing tips</h2><p>Open the preview to print or save a PDF. The sheets use an A4 page. For US Letter paper, choose “Fit to page” in your printer settings. Colored pencils work well for fine details; crayons are useful for larger shapes.</p></section>
