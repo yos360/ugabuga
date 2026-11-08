@@ -3,8 +3,13 @@
 // node make.mjs --queue rebuilds queue.json: every passage, one grade after another, keeping what was uploaded.
 import { execFileSync } from 'node:child_process'
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+// below-normal priority for this script and everything it starts (alignment, song, render, final encode):
+// the machine stays usable while a video is made
+try { os.setPriority(os.constants.priority.PRIORITY_BELOW_NORMAL) } catch { /* not allowed: keep going */ }
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const KIT = path.dirname(HERE)
@@ -55,7 +60,9 @@ const json = JSON.stringify(D)
 
 // 2. the work folder
 mkdirSync(path.join(WORK, 'out'), { recursive: true })
-for (const d of ['engine', 'fonts', 'img']) if (!existsSync(path.join(WORK, d))) cpSync(path.join(KIT, 'template', d), path.join(WORK, d), { recursive: true })
+// the engine is refreshed every run, so fixes in template/engine reach this long-lived folder too
+cpSync(path.join(KIT, 'template', 'engine'), path.join(WORK, 'engine'), { recursive: true })
+for (const d of ['fonts', 'img']) if (!existsSync(path.join(WORK, d))) cpSync(path.join(KIT, 'template', d), path.join(WORK, d), { recursive: true })
 for (const f of ['score.js', 'film.js', 'song.js', 'index.html', 'package.json']) copyFileSync(path.join(HERE, f), path.join(WORK, f))
 writeFileSync(path.join(WORK, 'timing.json'), json)
 writeFileSync(path.join(WORK, 'timing.js'), `globalThis.TIMING=${json};`)
@@ -73,7 +80,7 @@ const up = `${UPLOAD}/${name}`
 mkdirSync(up, { recursive: true })
 const ff = env.FFMPEG_PATH
 execFileSync(ff, ['-y', '-v', 'error', '-ss', '2.8', '-i', 'out/unseen.mp4', '-frames:v', '1', '-q:v', '2', `${up}/cover.jpg`], { cwd: WORK })
-execFileSync(ff, ['-y', '-v', 'error', '-i', 'out/unseen.mp4', '-c:v', 'libx264', '-crf', '22', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', `${up}/video.mp4`], { cwd: WORK })
+execFileSync(ff, ['-y', '-v', 'error', '-i', 'out/unseen.mp4', '-c:v', 'libx264', '-threads', String(Math.max(2, Math.floor(os.cpus().length / 2))), '-crf', '22', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-movflags', '+faststart', `${up}/video.mp4`], { cwd: WORK })
 const score = JSON.parse(execFileSync(node, ['-e', "const s=require('./score');console.log(JSON.stringify({q:s.questions.length?s.questions[0].t0:0,end:s.endStart}))"], { cwd: WORK, encoding: 'utf8' }))
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`
 const site = `https://ugabuga.co.il/unseen/english/${slug}`

@@ -13,6 +13,8 @@
 //   node engine/render.js analyze song.mp3        -> tempo, beats, bars, sections, lyrics of your own song (beats.js)
 //   node engine/render.js snap https://site       -> a phone (or --desktop) screenshot of a live site in assets/
 //   more: brand brand-from plan qa pacing poster formats srt (engine/tools/*.js)
+//   load: video/clip use a third of the cores by default (--workers N or ANIM_WORKERS=N), x264 gets ANIM_FF_THREADS (2)
+//   threads per worker, and everything runs at below-normal priority (ANIM_PRIORITY=normal to opt out).
 //   add --gif to clip for a shareable GIF next to the MP4 · --draft for half resolution · --res 1440 (2K) / 2160 (4K) · --format 9:16 · --style neon
 // Anywhere a time is expected: seconds (12.5), bar:beat from the score clock (8:2 = T(8, 2)),
 // or a named marker from score.js `markers` with an optional offset in seconds (@drop, @drop-2, @drop+0.5).
@@ -33,6 +35,19 @@ const DRAFT = RAW_ARGS.includes('--draft'); // half-resolution frames: 2-4x fast
 // --res 1440 (2K) / --res 2160 (4K): the frame's SHORT side in pixels. The film still draws on its 1080 stage;
 // the canvas scales it up, so lines and text stay sharp (vector) at any size.
 const RES = flagVal('--res') ? parseInt(flagVal('--res'), 10) : 0;
+// Be a good neighbour: renders run in the background while someone works (After Effects, Premiere, a browser).
+// Below-normal priority is inherited by every Chrome and ffmpeg this process starts (ANIM_PRIORITY=normal opts out).
+if (process.env.ANIM_PRIORITY !== 'normal') {
+  try { os.setPriority(os.constants.priority.PRIORITY_BELOW_NORMAL); } catch (e) { /* not allowed here: keep going */ }
+}
+const NCPU = os.cpus().length;
+const posInt = (v) => { const n = parseInt(v, 10); return Number.isFinite(n) && n > 0 ? n : 0; };
+// parallel render workers: --workers N, or ANIM_WORKERS=N, or a third of the cores (leaves most of the machine free)
+const DEFAULT_WORKERS = posInt(flagVal('--workers')) || posInt(process.env.ANIM_WORKERS) || Math.max(2, Math.floor(NCPU / 3));
+// x264 threads per segment encoder (its default is ~1.5x the cores EACH, which swamped the machine with many workers)
+const FF_THREADS = posInt(process.env.ANIM_FF_THREADS) || 2;
+// threads for the single final encodes (mux): half the machine at most
+const FF_THREADS_ONE = posInt(process.env.ANIM_FF_THREADS_ONE) || Math.max(2, Math.floor(NCPU / 2));
 // output names carry the format override, the resolution and the draft flag: out/video-9x16-2160p.mp4, out/<name>-9x16.mp4
 const SUFFIX = (process.env.ANIM_FORMAT ? '-' + process.env.ANIM_FORMAT.replace(':', 'x') : '') + (process.env.ANIM_STYLE ? '-' + process.env.ANIM_STYLE : '') + (RES && !DRAFT ? `-${RES}p` : '') + (DRAFT ? '-draft' : '');
 // `analyze` runs before there is a score (it is how a film cut to someone else's song starts)
@@ -157,43 +172,110 @@ function serve() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Every Chrome this script launches is tracked and killed on exit or failure — and ONLY those.
-// Each Chrome runs in its own process group, so killing the group takes its helper
-// processes (renderer, GPU, network) with it — nothing outside that group is ever touched.
-const launched = new Set();
+// ONE headless Chrome per run, shared by every worker (each worker is its own window/renderer in it).
+// It is tracked and killed on exit or failure — with its whole process tree (renderer, GPU, network
+// helpers) — and ONLY it. Its temp profile is deleted afterwards. Stray ffmpeg encoders are stopped too.
+const launched = new Set(); // Chrome processes
+const profiles = new Set(); // their temp profile dirs
+const encoders = new Set(); // ffmpeg segment encoders still running
+const alive = (p) => p.exitCode === null && p.signalCode === null;
 function killChrome(p) {
-  try { process.kill(-p.pid, 'SIGKILL'); } catch (e) { try { p.kill('SIGKILL'); } catch (e2) { /* already gone */ } }
+  if (!alive(p)) return; // never signal a pid that may have been reused
+  if (process.platform === 'win32') {
+    // a plain kill on Windows stops only chrome.exe and leaves its helpers running: take the whole tree
+    try { execFileSync('taskkill', ['/PID', String(p.pid), '/T', '/F'], { stdio: 'ignore', windowsHide: true }); } catch (e) { /* already gone */ }
+  } else {
+    // each Chrome runs in its own process group, so killing the group takes its helpers with it
+    try { process.kill(-p.pid, 'SIGKILL'); } catch (e) { try { p.kill('SIGKILL'); } catch (e2) { /* already gone */ } }
+  }
 }
-function cleanup() { for (const p of launched) killChrome(p); launched.clear(); }
+function removeProfile(dir) {
+  // Chrome may still be flushing its temp profile for a moment after the kill: retry, never crash
+  try { fs.rmSync(dir, { recursive: true, force: true, maxRetries: 20, retryDelay: 100 }); profiles.delete(dir); } catch (e) { /* the next run sweeps it */ }
+}
+function cleanup() {
+  for (const p of encoders) { try { p.kill(); } catch (e) { /* gone */ } }
+  encoders.clear();
+  for (const p of launched) killChrome(p);
+  launched.clear();
+  for (const d of [...profiles]) removeProfile(d);
+}
 process.on('exit', cleanup);
-for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, () => { cleanup(); process.exit(130); });
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGBREAK']) { try { process.on(sig, () => { cleanup(); process.exit(130); }); } catch (e) { /* signal not supported here */ } }
+
+// Leftovers of runs that were killed hard (taskkill on node, a closed terminal), cleaned at the next launch:
+// - Windows: a renderer Chrome whose node parent is gone is an orphan: its process tree is stopped.
+// - temp profiles no running Chrome uses are deleted. Young ones are skipped (another render may be
+//   starting its Chrome right now).
+function sweepStaleProfiles() {
+  const tmp = os.tmpdir();
+  let names;
+  try { names = fs.readdirSync(tmp).filter((n) => n.startsWith('anim-chrome-')); } catch (e) { return; }
+  if (!names.length) return;
+  let chromes; // [{ pid, parent, cmd }] for every Chrome process started with an anim-chrome-* profile
+  try {
+    if (process.platform === 'win32') {
+      const ps = "$all = Get-CimInstance Win32_Process -Property ProcessId,ParentProcessId,Name,CommandLine; $n = @{}; foreach ($p in $all) { $n[[int]$p.ProcessId] = $p.Name }; " +
+        "ConvertTo-Json -Compress -InputObject @($all | Where-Object { $_.Name -eq 'chrome.exe' -and $_.CommandLine -like '*anim-chrome-*' } | ForEach-Object { [pscustomobject]@{ pid = [int]$_.ProcessId; parent = [string]$n[[int]$_.ParentProcessId]; cmd = [string]$_.CommandLine } })";
+      chromes = JSON.parse(execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', ps], { encoding: 'utf8', windowsHide: true, timeout: 30000, maxBuffer: 64 << 20 }) || '[]');
+    } else {
+      chromes = execFileSync('ps', ['-eo', 'args'], { encoding: 'utf8', maxBuffer: 64 << 20 }).split('\n').filter((l) => l.includes('anim-chrome-')).map((cmd) => ({ pid: 0, parent: 'node', cmd }));
+    }
+  } catch (e) { return; } // cannot tell which are in use: leave them all
+  const freed = new Set();
+  for (const c of chromes) {
+    // the browser process itself (helpers carry --type=) whose parent is no longer a node render
+    if (!c.pid || / --type=/.test(c.cmd) || /^node(\.exe)?$/i.test(c.parent)) continue;
+    try { execFileSync('taskkill', ['/PID', String(c.pid), '/T', '/F'], { stdio: 'ignore', windowsHide: true }); } catch (e) { /* gone */ }
+    const m = /anim-chrome-[^\s"\\/]+/.exec(c.cmd);
+    if (m) freed.add(m[0]);
+  }
+  if (freed.size) { console.log(`stopped ${freed.size} orphaned render Chrome(s) from an earlier run`); Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1500); } // let the tree exit
+  const inUse = (n) => !freed.has(n) && chromes.some((c) => !freed.has((/anim-chrome-[^\s"\\/]+/.exec(c.cmd) || [''])[0]) && c.cmd.includes(n));
+  const cutoff = Date.now() - 10 * 60 * 1000;
+  let removed = 0;
+  for (const n of names) {
+    const d = path.join(tmp, n);
+    try { if (!freed.has(n) && fs.statSync(d).mtimeMs >= cutoff) continue; } catch (e) { continue; }
+    if (inUse(n)) continue; // a live Chrome (another render) still uses it
+    try { fs.rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); removed++; } catch (e) { /* locked: leave it */ }
+  }
+  if (removed) console.log(`removed ${removed} leftover Chrome temp profile(s) from earlier runs`);
+}
 
 // Chrome picks its own free debugging port (--remote-debugging-port=0) and writes it to
 // <profile>/DevToolsActivePort, so the renderer never assumes any port is free.
 async function launch() {
+  sweepStaleProfiles();
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'anim-chrome-'));
+  profiles.add(dir);
   const proc = spawn(CHROME, [
     '--headless=new', '--remote-debugging-port=0', `--user-data-dir=${dir}`,
     '--no-first-run', '--no-default-browser-check', '--disable-gpu', '--disable-extensions',
     '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows',
     '--force-device-scale-factor=1', '--window-size=1920,1080', 'about:blank',
-  ], { stdio: 'ignore', detached: true });
+  ], { stdio: 'ignore', detached: true, windowsHide: true });
   launched.add(proc);
   const portFile = path.join(dir, 'DevToolsActivePort');
   for (let i = 0; i < 200; i++) {
-    if (proc.exitCode !== null) break;
+    if (!alive(proc)) break;
     try {
       const port = parseInt(fs.readFileSync(portFile, 'utf8').split('\n')[0], 10);
-      const list = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-      const pg = list.find((x) => x.type === 'page');
-      if (pg) return { proc, ws: pg.webSocketDebuggerUrl, dir };
+      const ver = await (await fetch(`http://127.0.0.1:${port}/json/version`)).json();
+      if (ver.webSocketDebuggerUrl) {
+        const c = await cdp(ver.webSocketDebuggerUrl, 'chrome');
+        return { proc, dir, port, c };
+      }
     } catch (e) { /* not up yet */ }
     await sleep(100);
   }
   killChrome(proc);
   launched.delete(proc);
+  removeProfile(dir);
   throw new Error(`chrome did not start (${CHROME})`);
 }
+let BROWSER = null;
+const browser = () => BROWSER || (BROWSER = launch().catch((e) => { BROWSER = null; throw e; }));
 
 function cdp(wsUrl, tag) {
   return new Promise((resolve, reject) => {
@@ -230,20 +312,22 @@ async function evaluate(c, expr) {
   return r.result.value;
 }
 
+// A worker = its own window in the shared Chrome (own renderer process, own page, visible so nothing is throttled).
 async function openWorker(tag, url = PAGE, opts = {}) {
-  const { proc, ws, dir } = await launch();
+  const b = await browser();
+  const { targetId } = await b.c.send('Target.createTarget', { url: 'about:blank', newWindow: true, width: 1920, height: 1080 });
+  const closeTarget = () => { b.c.send('Target.closeTarget', { targetId }).catch(() => { /* Chrome already gone */ }); };
   try {
-    return await attach(proc, ws, dir, tag, url, opts);
+    return await attach(`ws://127.0.0.1:${b.port}/devtools/page/${targetId}`, closeTarget, tag, url, opts);
   } catch (e) {
-    killChrome(proc);
-    launched.delete(proc);
+    closeTarget();
     throw e;
   }
 }
 
 const pageQuery = () => `v=${Date.now()}${process.env.ANIM_FORMAT ? '&format=' + encodeURIComponent(process.env.ANIM_FORMAT) : ''}${process.env.ANIM_STYLE ? '&style=' + encodeURIComponent(process.env.ANIM_STYLE) : ''}`;
 // external: true opens any web page (website snapshots, brand extraction) and waits for it to load
-async function attach(proc, ws, dir, tag, url, { external = false, device = null } = {}) {
+async function attach(ws, closeTarget, tag, url, { external = false, device = null } = {}) {
   const c = await cdp(ws, tag);
   await c.send('Runtime.enable');
   await c.send('Page.enable');
@@ -266,10 +350,7 @@ async function attach(proc, ws, dir, tag, url, { external = false, device = null
     c,
     close() {
       c.close();
-      killChrome(proc);
-      launched.delete(proc);
-      // Chrome may still be flushing its temp profile for a moment after the kill: retry, never crash
-      try { fs.rmSync(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); } catch (e) { /* leftover temp dir is harmless */ }
+      closeTarget(); // the shared Chrome itself (and its temp profile) goes when the run ends
     },
   };
 }
@@ -310,6 +391,7 @@ const VIDEO = path.join(OUT, `video${SUFFIX}.mp4`);
 async function renderRange(f0, f1, workers, dest, { fmt = 'png', crf = 14, preset = 'medium' } = {}) {
   const total = f1 - f0;
   workers = Math.max(1, Math.min(workers, total));
+  console.log(`rendering ${total} frames with ${workers} worker(s), ${FF_THREADS} encoder thread(s) each${process.env.ANIM_PRIORITY !== 'normal' ? ', below-normal priority' : ''}`);
   const per = Math.ceil(total / workers);
   const segDir = path.join(OUT, `.segments-${process.pid}-${f0}`); // private to this run
   fs.mkdirSync(segDir, { recursive: true });
@@ -322,10 +404,11 @@ async function renderRange(f0, f1, workers, dest, { fmt = 'png', crf = 14, prese
     const w = await openWorker('w' + k);
     const seg = path.join(segDir, `seg${String(k).padStart(2, '0')}.mp4`);
     const ff = spawn(FFMPEG, ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', fmt === 'jpeg' ? 'mjpeg' : 'png', '-i', '-',
-      '-c:v', 'libx264', '-preset', preset, '-crf', String(crf), '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-g', '60', seg], { stdio: ['pipe', 'inherit', 'inherit'] });
+      '-c:v', 'libx264', '-threads', String(FF_THREADS), '-preset', preset, '-crf', String(crf), '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-g', '60', seg], { stdio: ['pipe', 'inherit', 'inherit'], windowsHide: true });
+    encoders.add(ff);
     let ffExit = null;
     const ffDone = new Promise((r) => {
-      ff.on('close', (c) => { ffExit = c ?? -1; r(ffExit); });
+      ff.on('close', (c) => { encoders.delete(ff); ffExit = c ?? -1; r(ffExit); });
       ff.on('error', () => { ffExit = -1; r(-1); });
     });
     ff.stdin.on('error', () => { /* ffmpeg died; its exit code is reported below */ });
@@ -521,7 +604,7 @@ const TOOLS = { brand: 'brand', 'brand-from': 'brand', poster: 'poster', formats
 async function main() {
   const [mode, ...rest] = RAW_ARGS;
   const args = [];
-  for (let i = 0; i < rest.length; i++) { if (rest[i] === '--draft') continue; if (rest[i] === '--format' || rest[i] === '--style' || rest[i] === '--res') { i++; continue; } args.push(rest[i]); }
+  for (let i = 0; i < rest.length; i++) { if (rest[i] === '--draft') continue; if (rest[i] === '--format' || rest[i] === '--style' || rest[i] === '--res' || rest[i] === '--workers') { i++; continue; } args.push(rest[i]); }
   if (TOOLS[mode]) {
     const CTX = { ROOT, OUT, SCORE, FPS, DURATION, FW, FH, PORTRAIT, MARKERS, DRAFT, RES, SCALE, SUFFIX, VIDEO, FFMPEG, FFPROBE, CHROME,
       parseTime, markerTime, barBeat, sectionAt, serve, openWorker, evaluate, grab, sleep, renderRange, countFrames, finalName, acquireLock, lintDeterminism, thumb,
@@ -544,7 +627,7 @@ async function main() {
       const srtFile = path.join(OUT, `${nameArg || path.basename(ROOT)}.srt`);
       const subs = args.includes('--subs') && fs.existsSync(srtFile) ? ['-i', srtFile] : [];
       execFileSync(FFMPEG, ['-v', 'error', '-y', '-i', VIDEO, '-i', path.join(OUT, 'music.wav'), ...subs, '-map', '0:v', '-map', '1:a', ...(subs.length ? ['-map', '2:s', '-c:s', 'mov_text'] : []),
-        '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-c:a', 'aac', '-b:a', '256k', '-shortest', file], { stdio: 'inherit' });
+        '-c:v', 'libx264', '-threads', String(FF_THREADS_ONE), '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-c:a', 'aac', '-b:a', '256k', '-shortest', file], { stdio: 'inherit' });
       if (args.includes('--subs') && !subs.length) console.log('(no out/*.srt yet: run node engine/render.js srt first)');
       const info = JSON.parse(execFileSync(FFPROBE, ['-v', 'error', '-show_entries', 'format=duration:stream=codec_type', '-of', 'json', file]).toString());
       const types = info.streams.map((x) => x.codec_type);
@@ -695,7 +778,7 @@ async function main() {
     const a = Math.max(0, parseTime(cargs[0])), b = Math.min(DURATION, parseTime(cargs[1]));
     if (!(b > a)) throw new Error(`clip range is empty: ${a.toFixed(2)}s → ${b.toFixed(2)}s`);
     const f0 = Math.ceil(a * FPS - 1e-6), f1 = Math.ceil(b * FPS - 1e-6);
-    const workers = parseInt(cargs[2] || String(Math.max(2, os.cpus().length - 1)), 10);
+    const workers = posInt(cargs[2]) || DEFAULT_WORKERS;
     const name = `clip_${(f0 / FPS).toFixed(2)}-${(f1 / FPS).toFixed(2)}${SUFFIX}.mp4`;
     const silent = path.join(OUT, `.clip-${process.pid}.mp4`);
     process.on('exit', () => fs.rmSync(silent, { force: true }));
@@ -718,7 +801,7 @@ async function main() {
       console.log(`out/${path.basename(g)} (${(fs.statSync(g).size / 1e6).toFixed(1)} MB)`);
     }
   } else if (mode === 'video') {
-    const workers = parseInt(args[0] || String(Math.max(2, os.cpus().length - 1)), 10);
+    const workers = posInt(args[0]) || DEFAULT_WORKERS;
     const { frames, secs } = await renderRange(0, Math.round(DURATION * FPS), workers, VIDEO);
     console.log(`out/${path.basename(VIDEO)} done in ${secs.toFixed(1)}s (${frames} frames verified${DRAFT ? ', draft: half resolution' : ''})`);
   }
