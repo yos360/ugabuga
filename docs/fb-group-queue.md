@@ -9,3 +9,4 @@ Titles are written by the builder; never put request texts, emails, names or ids
 - חוברת תרגול לחיזוק שרירי הפה — משחקי נשיפה, שפתיים ולשון | https://ugabuga.co.il/booklets/oral-motor
 - קצבה חכמה — משחק חינוך פיננסי לכיתות ה–ו | https://ugabuga.co.il/online-games/money-wise
 - חוברת תרגול שבעת הבניינים לכיתה ו׳ — כולל פעיל וסביל | https://ugabuga.co.il/booklets/binyanim-grade-6
+- בוחן לוח הכפל לכפולות 1–6 אונליין ולהדפסה, עם דף תשובות | https://ugabuga.co.il/learn/multiplication-table/quiz
