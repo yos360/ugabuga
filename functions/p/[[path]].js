@@ -22,7 +22,9 @@ const NOT_A_PERSON = /(?<!cu)bot|crawl|spider|slurp|preview|facebookexternalhit|
 export function countsAsScan(request) {
   const { method, headers } = request
   const ua = headers.get('user-agent') || ''
-  return method === 'GET' && Boolean(ua) && !NOT_A_PERSON.test(ua) && !/prefetch|prerender/i.test(`${headers.get('sec-purpose') || ''} ${headers.get('purpose') || ''}`)
+  // The owner's own phone (marked by liveActivity) is left out, like everywhere else in the stats.
+  const owner = /(?:^|;\s*)buga-owner=1(?:;|$)/.test(headers.get('cookie') || '')
+  return method === 'GET' && Boolean(ua) && !owner && !NOT_A_PERSON.test(ua) && !/prefetch|prerender/i.test(`${headers.get('sec-purpose') || ''} ${headers.get('purpose') || ''}`)
 }
 
 export function scanRecord(parts) {

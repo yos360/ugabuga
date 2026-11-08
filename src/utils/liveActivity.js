@@ -124,6 +124,14 @@ function trafficSource() {
 }
 // A local build talks to the live database, so a test page left open would show up as a real visitor.
 export const isLocalHost = host => /^(localhost|127(\.\d+){3}|\[::1\]|.+\.localhost)$/i.test(String(host || ''))
+// The printed QR's short link (functions/p) counts scans on the server, where localStorage can't
+// be read; this cookie lets it skip the owner's own phone too. It holds no id, just "1".
+let ownerCookieSet = null
+function markOwnerCookie(owner) {
+  if (ownerCookieSet === owner || typeof document === 'undefined') return
+  ownerCookieSet = owner
+  try { document.cookie = owner ? 'buga-owner=1; path=/; max-age=31536000; SameSite=Lax; Secure' : 'buga-owner=; path=/; max-age=0; SameSite=Lax; Secure' } catch { /* ignore */ }
+}
 function isOwnerBrowser() {
   if (typeof location !== 'undefined' && isLocalHost(location.hostname)) return true
   // The owner's own browsing is left out of the stats (unless explicitly opted in). Once this
@@ -131,7 +139,9 @@ function isOwnerBrowser() {
   // suddenly start counting the owner's own visits.
   try {
     if (localStorage.getItem('ugabuga-owner-auth')) localStorage.setItem('buga-owner-device', '1')
-    return localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1'
+    const owner = localStorage.getItem('buga-owner-device') === '1' && localStorage.getItem('buga-track-self') !== '1'
+    markOwnerCookie(owner)
+    return owner
   } catch { return false }
 }
 const V2_ACTIONS = ['open','print','play','check','download','refresh','create','use','share']

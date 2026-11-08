@@ -143,6 +143,9 @@ test('a scan is counted on the server, once, and only for people', () => {
   for (const ua of ['WhatsApp/2.24', 'facebookexternalhit/1.1', 'Mozilla/5.0 (compatible; Googlebot/2.1)', 'TelegramBot', '']) assert.ok(!countsAsScan(req(ua)), ua)
   assert.ok(!countsAsScan(req(PHONE, { 'sec-purpose': 'prefetch' })))
   assert.ok(!countsAsScan(req(PHONE, {}, 'HEAD')))
+  // The owner's own phone is left out; other cookies are not mistaken for it.
+  assert.ok(!countsAsScan(req(PHONE, { cookie: 'x=1; buga-owner=1' })))
+  assert.ok(countsAsScan(req(PHONE, { cookie: 'not-buga-owner=1; buga-owner=0' })))
   assert.deepEqual(scanRecord(['a1', 'learn', 'reading', 'x']), { p_variant: 'a1', p_kind: 'scanned', p_path: '/learn/reading/x' })
   assert.equal(scanRecord(['zz', 'x']), null)
   assert.equal(scanKind('qr-link'), 'opened') // the page does not count it a second time
