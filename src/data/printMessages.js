@@ -35,6 +35,7 @@ export const QR_OFFERS = {
   math: { label: 'חשבון', fresh: fresh('a3', '✅ סיימתם? סרקו לפתרון של הדף הזה', 'בודקים לבד בטלפון · בחינם · ugabuga.co.il'), control: control('c3') },
   color: { label: 'צביעה לפי מספרים', fresh: fresh('a4', '🎨 סיימתם? סרקו וראו את הציור הגמור', 'בודקים בטלפון · בחינם · ugabuga.co.il'), control: control('c4') },
   series: { label: 'דפים בסדרה', fresh: fresh('a5', '🖍️ אהבתם? סרקו לדף הבא בסדרה', 'הדף הבא מחכה לכם · בחינם · ugabuga.co.il', null), control: control('c5') },
+  coloring: { label: 'דפי צביעה', fresh: fresh('a6', '🎨 סיימתם? סרקו וצבעו את הציור הזה גם בטלפון', 'צובעים באצבע · בחינם · ugabuga.co.il', 'color'), control: control('c6') },
 }
 const OFFER_VARIANTS = Object.values(QR_OFFERS).flatMap(o => [o.fresh, o.control])
 export const qrVariant = id => QR_VARIANTS.find(v => v.id === id) || RETIRED_VARIANTS.find(v => v.id === id) || OFFER_VARIANTS.find(v => v.id === id)

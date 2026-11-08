@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-// What a printed QR asked this page to open: ?show=answers or ?next=<id>. Read after mount, so the
+// What a printed QR asked this page to open: ?show=answers, ?show=color or ?next=<id>. Read after mount, so the
 // server-rendered page and the first client render stay identical.
 export function useQrLanding() {
   const [params, setParams] = useState(null)
   useEffect(() => {
     const q = new URLSearchParams(location.search)
-    if (q.get('show') === 'answers' || q.has('next')) setParams(q) // eslint-disable-line react-hooks/set-state-in-effect
+    if (['answers', 'color'].includes(q.get('show')) || q.has('next')) setParams(q) // eslint-disable-line react-hooks/set-state-in-effect
   }, [])
   return params
 }

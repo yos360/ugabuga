@@ -1,11 +1,15 @@
 import { englishCounterpart } from '../../en/englishLinks'
 import { Link, useParams } from 'react-router-dom'
+import { lazy, Suspense, useEffect, useState } from 'react'
+import { qrOffer } from '../../data/printMessages'
+import { useQrLanding } from '../../utils/qrLanding'
 import PrintableShell from '../../components/printables/PrintableShell'
 import BackLink from '../../components/ui/BackLink'
 import NotFound from '../NotFound'
 import { COLORING_SUBJECTS, coloringFmt, coloringSrc } from '../../data/coloringSubjects'
 import { findColoringDrawing, coloringDrawingPath, coloringDrawingTitle, coloringDrawingDescription, moreColoringDrawings, relatedColoringSubjects, coloringDrawingGuide } from '../../data/coloringDrawings'
 
+const PhoneColoring = lazy(() => import('./PhoneColoring'))
 const h2 = 'mb-2 mt-6 text-2xl font-bold'
 const card = 'rounded-2xl border-2 border-slate-200 bg-white p-3 text-center hover:border-pink-300'
 
@@ -47,6 +51,10 @@ export default function ColoringDrawing() {
   const { subject, n } = useParams()
   const s = COLORING_SUBJECTS.find(item => item.slug === subject)
   const drawing = findColoringDrawing(subject, n)
+  const qr = useQrLanding()
+  const [onScreen, setOnScreen] = useState(false)
+  // The printed sheet's QR (?show=color) opens the drawing ready to colour on the phone.
+  useEffect(() => { if (qr?.get('show') === 'color') setOnScreen(true) }, [qr]) // eslint-disable-line react-hooks/set-state-in-effect
   if (!s || !drawing) return <NotFound />
   const path = coloringDrawingPath(s.slug, drawing.n)
   const title = coloringDrawingTitle(drawing)
@@ -65,14 +73,18 @@ export default function ColoringDrawing() {
     <PrintableShell counterpartPath={englishCounterpart(path)} key={path} path={path} seoTitle={title} h1={title} description={coloringDrawingDescription(drawing)}
       image={coloringSrc(s.slug, drawing.n, 'webp')} emoji={s.emoji}
       sub={`ציור לצביעה · מומלץ לגילאי ${drawing.ages} · חינם להדפסה ולשמירה כ-PDF`}
-      intro={<p className="mx-auto mb-6 max-w-3xl text-center leading-relaxed">{guide.intro}</p>}
+      intro={<>
+        <p className="mx-auto mb-4 max-w-3xl text-center leading-relaxed">{guide.intro}</p>
+        <p className="no-print mb-6 text-center"><button type="button" onClick={() => setOnScreen(true)} className="rounded-2xl border-2 border-pink-400 bg-pink-50 px-5 py-3 text-lg font-black hover:bg-pink-100">🎨 לצבוע את הציור במסך</button></p>
+      </>}
       crumbs={[{ label: 'דפי צביעה', href: '/printables/coloring' }, { label: s.name, href: `/printables/coloring/${s.slug}` }]}
-      pages={[{ key: path, svg: <img src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} alt={drawing.name} width="1408" height="1408" fetchPriority="high" className="block h-auto w-full object-contain" /> }]}
+      pages={[{ key: path, attrs: qrOffer('coloring', path), svg: <img src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} alt={drawing.name} width="1408" height="1408" fetchPriority="high" className="block h-auto w-full object-contain" /> }]}
       printTitle={drawing.name} printLabel="הדפסה או הורדה כ-PDF"
       after={<DrawingGuide g={guide} />}
       faq={faq}
       related={[{ label: `כל דפי הצביעה בנושא ${s.name}`, href: `/printables/coloring/${s.slug}` }, ...(s.holiday ? [s.holiday] : []), ...related.map(item => ({ label: `דפי צביעה ${item.name}`, href: `/printables/coloring/${item.slug}` }))]}
       extra={<BackLink to={`/printables/coloring/${s.slug}`} className="block py-2 font-bold underline">חזרה לכל ציורי {s.name}</BackLink>} />
+    {onScreen && <Suspense fallback={null}><PhoneColoring key={path} src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} name={drawing.name} onClose={() => setOnScreen(false)} /></Suspense>}
     <section className="no-print mx-auto mb-12 max-w-4xl px-4" dir="rtl" aria-labelledby="more-coloring-title">
       <h2 id="more-coloring-title" className="mb-4 text-2xl font-black">עוד ציורים בנושא {s.name}</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{more.map(item =>
