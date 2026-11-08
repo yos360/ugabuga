@@ -86,9 +86,23 @@ export const ICONS = [
     <rect x={40} y={40} width={20} height={20} rx={5} fill={ink} /><circle cx={50} cy={50} r={3.5} fill={bg} />
   </g> },
   { id: 'boot', label: 'נעל צבא', cat: 'army', draw: (ink, bg) => <g>
-    <path d="M30 8 H58 V60 Q82 62 90 74 V86 H22 Q20 60 30 50 Z" fill={ink} />
-    <rect x={20} y={86} width={72} height={7} rx={2} fill={ink} />
-    {[18, 28, 38, 48].map(y => <path key={y} d={`M34 ${y} L54 ${y + 4} M54 ${y} L34 ${y + 4}`} stroke={bg} strokeWidth={2} />)}
+    {/* side view, toe to the right: shaft, instep, rounded toe */}
+    <path d="M27 8 H55 Q59 8 59 12 V46 Q60 55 70 58 L83 62 Q93 65 93 75 V81 H21 Q19 68 22 56 Q24 46 23 36 V12 Q23 8 27 8 Z" fill={ink} />
+    {/* padded collar and back pull tab */}
+    <path d="M23 16 H59" stroke={bg} strokeWidth={2.2} />
+    <rect x={19} y={9} width={5} height={12} rx={2} fill={ink} />
+    {/* laces: eyelets down the front of the shaft, crossed laces */}
+    {[22, 29, 36, 43].map(y => <g key={y}>
+      <path d={`M45 ${y} L55 ${y + 5} M55 ${y} L45 ${y + 5}`} stroke={bg} strokeWidth={1.8} strokeLinecap="round" />
+      <circle cx={55} cy={y} r={1.4} fill={bg} /><circle cx={45} cy={y} r={1.4} fill={bg} />
+    </g>)}
+    <path d="M49 50 L58 56 M58 50 L49 56" stroke={bg} strokeWidth={1.8} strokeLinecap="round" />
+    {/* toe cap and heel seams */}
+    <path d="M76 60 Q70 70 75 81" stroke={bg} strokeWidth={2} fill="none" />
+    <path d="M22 66 Q30 64 34 70 V81" stroke={bg} strokeWidth={2} fill="none" />
+    {/* thick sole with tread */}
+    <path d="M18 83 H95 Q96 83 96 85 V89 Q96 92 93 92 H20 Q18 92 18 90 Z" fill={ink} />
+    {[23, 32, 41, 50, 59, 68, 77, 86].map(x => <rect key={x} x={x} y={89} width={4} height={3.5} fill={bg} />)}
   </g> },
   { id: 'compass', label: 'מצפן', cat: 'army', draw: (ink, bg) => <g>
     <circle cx={50} cy={50} r={44} fill={ink} /><circle cx={50} cy={50} r={37} fill={bg} /><circle cx={50} cy={50} r={33} fill={ink} />
