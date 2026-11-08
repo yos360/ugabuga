@@ -219,6 +219,7 @@ function GameCta() {
     <div className="flex flex-wrap justify-center gap-3">
       <Link to={GAME} className="ln-btn go inline-flex items-center">⏱️ לאתגר הדקה ←</Link>
       <Link to="/learn/multiplication-game" className="ln-btn alt inline-flex items-center">🗺️ למסלול השלבים ←</Link>
+      <Link to="/learn/multiplication-table/game" className="ln-btn alt inline-flex items-center">🔍 לבלש לוח הכפל ←</Link>
     </div>
   </div>
 }
@@ -231,6 +232,7 @@ function usePrint() {
 
 const RELATED = [
   { label: 'תרגול לוח הכפל', href: GAME },
+  { label: 'בלש לוח הכפל — משחק בטבלה', href: '/learn/multiplication-table/game' },
   { label: 'כרטיסיות לוח הכפל', href: '/learn/flashcards' },
   { label: 'סרגל כפולות להדפסה', href: '/printables/multiplication-strips' },
   { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' },
