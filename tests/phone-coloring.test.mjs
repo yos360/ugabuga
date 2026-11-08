@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { buildLineMask, floodFill } from '../src/pages/printables/phoneColoringFill.js'
+import { buildLineMask, floodFill, undoFill } from '../src/pages/printables/phoneColoringFill.js'
 import { QR_OFFERS, qrForSheet, qrOffer } from '../src/data/printMessages.js'
 import { shortTarget } from '../functions/p/[[path]].js'
 
@@ -25,6 +25,21 @@ test('a tap fills its own area only, and creeps under the line', () => {
   assert.ok(floodFill(color, mask, w, h, 15, 5, [0, 0, 255]))
   assert.deepEqual(at(color, w, 19, 19), [0, 0, 255])
   assert.deepEqual(at(color, w, 2, 2), [255, 0, 0])
+})
+
+test('a small gap in an outline does not let the colour leak out, and undo puts it back', () => {
+  // A 30x30 square outline (x/y 5..24) with a 3-pixel gap in its top side.
+  const w = 30, h = 30, px = new Uint8ClampedArray(w * h * 4).fill(255)
+  const ink = (x, y) => { const j = (y * w + x) * 4; px[j] = px[j + 1] = px[j + 2] = 0 }
+  for (let i = 5; i <= 24; i++) { if (i < 14 || i > 16) ink(i, 5); ink(i, 24); ink(5, i); ink(24, i) }
+  const mask = buildLineMask(px, w, h)
+  const color = new Uint8ClampedArray(w * h * 4).fill(255)
+  const change = floodFill(color, mask, w, h, 15, 15, [255, 0, 0])
+  assert.ok(change)
+  assert.deepEqual(at(color, w, 15, 15), [255, 0, 0])
+  assert.deepEqual(at(color, w, 1, 1), [255, 255, 255], 'outside stays white')
+  undoFill(color, change)
+  assert.deepEqual(at(color, w, 15, 15), [255, 255, 255])
 })
 
 test('a tap on the line itself fills the nearest area; off the sheet does nothing', () => {
