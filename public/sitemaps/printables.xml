@@ -185,7 +185,7 @@
   <url><loc>https://ugabuga.co.il/printables/class-newspaper</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--class-newspaper.jpg</image:loc><image:title>עיתון כיתה — דף להדפסה</image:title></image:image><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-checklist</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/roots-project</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/printables/coloring</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--coloring.jpg</image:loc><image:title>דפי צביעה להדפסה בחינם</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/OPvNBDloxtk/hqdefault.jpg</video:thumbnail_loc><video:title>איך צובעים דף צביעה במסך בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר לצביעה במסך: פותחים ציור לצביעה, לוחצים על "לצבוע את הציור במסך", בוחרים צבע ומקישים על אזור, מבטלים או מתחילים מהתחלה ושומרים את הציור הצבוע כתמונה — חינם, בלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/OPvNBDloxtk</video:player_loc><video:publication_date>2026-11-08T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><image:image><image:loc>https://ugabuga.co.il/previews/printables--coloring.jpg</image:loc><image:title>דפי צביעה להדפסה בחינם</image:title></image:image><lastmod>2026-10-11</lastmod><priority>0.9</priority></url>
   <url><loc>https://ugabuga.co.il/printables/birthday-signs</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--birthday-signs.jpg</image:loc><image:title>שלטי יום הולדת — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/hebrew-letters</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--hebrew-letters.jpg</image:loc><image:title>אותיות עברית למעבר בעיפרון — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/printables/abc-letters</loc><image:image><image:loc>https://ugabuga.co.il/previews/printables--abc-letters.jpg</image:loc><image:title>אותיות באנגלית למעבר בעיפרון — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
@@ -630,6 +630,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/20</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/21</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/22</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/23</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/unicorn/24</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cat/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cat/9</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/cat/10</loc><priority>0.6</priority></url>
@@ -676,6 +678,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/23</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/24</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/soccer/25</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/soccer/26</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/soccer/27</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse/8</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/seahorse/9</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dragon/8</loc><priority>0.6</priority></url>
@@ -685,6 +689,7 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/dolphin/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/princess/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/princess/9</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/princess/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/lion/6</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/lion/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/lion/8</loc><priority>0.6</priority></url>
@@ -711,6 +716,7 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/17</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/18</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/19</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/sufganiyah/20</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/horse/9</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/umbrella/10</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/umbrella/11</loc><priority>0.6</priority></url>
@@ -735,6 +741,7 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/17</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/18</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/19</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/dreidel/20</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/4</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/8</loc><priority>0.6</priority></url>
@@ -758,6 +765,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/27</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/28</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/29</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/30</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/hanukkiah/31</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees</loc><lastmod>2026-11-04</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/1</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/2</loc><priority>0.6</priority></url>
@@ -777,6 +786,7 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/16</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/17</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/18</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/maccabees/19</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/6</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/7</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/tiger/8</loc><priority>0.6</priority></url>
@@ -842,6 +852,8 @@
   <url><loc>https://ugabuga.co.il/printables/coloring/space/25</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/space/26</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/space/27</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/space/28</loc><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/printables/coloring/space/29</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions</loc><lastmod>2026-11-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions/1</loc><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/printables/coloring/professions/2</loc><priority>0.6</priority></url>
