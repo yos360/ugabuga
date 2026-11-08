@@ -225,6 +225,7 @@
   <url><loc>https://ugabuga.co.il/guides/birthday-without-entertainer</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/guides/how-much-food-for-party</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/guides/games-for-teachers</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/tools/shirt-designer</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/bagrut</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/t0AZS2SrPmU/hqdefault.jpg</video:thumbnail_loc><video:title>איך מתרגלים למבחני בגרות בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר למבחני התרגול לבגרות: בוחרים מקצוע ומספר יחידות, רואים מה יש במבחן, מדפיסים לתלמיד בלי דף התשובות ובודקים אחר כך מול הדף — חינם, בלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/t0AZS2SrPmU</video:player_loc><video:publication_date>2026-11-06T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-03</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/request</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/DyVuSAMV4xQ/hqdefault.jpg</video:thumbnail_loc><video:title>חסר לכם דף עבודה? מבקשים ואנחנו מכינים</video:title><video:description>לא מצאתם את הדף שחיפשתם? כותבים לנו מה צריך — ואנחנו מכינים אותו ומעלים לאתר, בחינם.</video:description><video:player_loc>https://www.youtube.com/embed/DyVuSAMV4xQ</video:player_loc><video:publication_date>2026-10-24T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-10-27</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/whatsapp</loc><lastmod>2026-10-28</lastmod><priority>0.5</priority></url>
@@ -1891,6 +1892,12 @@
   <url><loc>https://ugabuga.co.il/courses/spanish/ser-estar-tener</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/courses/spanish/days-time-weather</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/courses/spanish/survival-phrases</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/frog</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/bird</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/sloth</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/cat-face</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/soccer-player</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/how-to-draw/cloud</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/blog/free-excel-course</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/blog/bagrut-practice-exams</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/blog/printable-workbooks</loc> <lastmod>2026-11-03</lastmod> <priority>0.7</priority></url>
