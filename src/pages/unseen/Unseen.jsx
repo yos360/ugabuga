@@ -8,6 +8,7 @@ import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { SKILLS } from '../../data/unseen/levels.js'
 import { UNSEEN_AUDIO } from '../../data/unseen/audio.js'
+import { UNSEEN_VIDEOS } from '../../data/unseen/videos.js'
 import { UNSEEN_INDEX, UNSEEN_LEVELS, PATH_LANG, LANG_PATH, unseenHref, levelHref, testsOf, levelsOf, loadUnseen } from '../../data/unseen/library.js'
 import { HUB_PARAGRAPHS, HUB_TIPS, HUB_FAQ, LANG_COPY, LEVEL_COPY } from './copy.js'
 import '../../learn/learn.css'
@@ -233,6 +234,7 @@ function UnseenTest({ t, L }) {
       {t.texts.map((x, ti) => <section key={ti} className="ln-box us-text" dir={dir} lang={t.lang}>
         {t.texts.length > 1 && <p className="us-text-label" dir="rtl">טקסט {ti + 1}</p>}
       {!exam && UNSEEN_AUDIO[t.slug]?.[ti] && <p className="us-listen no-print" dir="rtl"><span>🎧 האזנה לקטע</span><audio controls preload="none" src={`/audio/unseen/${UNSEEN_AUDIO[t.slug][ti]}.mp3`} aria-label={`האזנה לקטע ${t.title}`} /></p>}
+      {!exam && UNSEEN_VIDEOS[t.slug]?.[ti] && <p className="us-listen no-print" dir="rtl"><a href={`https://www.youtube.com/watch?v=${UNSEEN_VIDEOS[t.slug][ti]}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">▶️ צפו בסרטון עם הקריינית ביוטיוב</a></p>}
         {x.title && <h2 className="us-text-title">{x.title}</h2>}
         {(x.paragraphs || []).map((p, pi) => <p key={pi} className="us-p"><span className="us-pn" aria-label={`פסקה ${pi + 1}`}>{pi + 1}</span><Para text={p} mark={mark} gloss={glossary} en={en} he={!en} /></p>)}
         {x.table && <TableText table={x.table} />}
