@@ -3,7 +3,7 @@
 .en-tool .seo-body{margin-top:8px}
 .en-tool .en-tool-note{font-size:.9rem;opacity:.8}
 .en-tool-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:24px 0}
-.en-tool-cards .en-card h2,.en-tool-cards .en-card h3{font-size:1.35rem;margin:10px 0 6px}
+.en-tool-cards .en-card h2{font-size:1.35rem;margin:10px 0 6px}
 .en-tool-cards .en-card p{margin:0 0 10px;line-height:1.5}
 /* Hebrew-keyboard page keeps Hebrew letters readable and right-to-left inside the text box. */
 .en-tool .okb-text[dir=rtl]{text-align:right}

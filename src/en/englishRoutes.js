@@ -11,22 +11,14 @@ import { WORKSHEETS_PAGES } from './worksheets/catalog.js'
 import { ARCADE_PAGES } from './arcade/catalog.js'
 import { READING_PAGES } from './reading/catalog.js'
 import { COMPREHENSION_PAGES } from './comprehension/catalog.js'
-import { ART_PAGES } from './art/catalog.js'
-import { ESCAPE_PAGES } from './escape/catalog.js'
-import { FUN_PAGES } from './fun/catalog.js'
-import { PARTY_PAGES } from './party/catalog.js'
 // The newer English areas (each in src/en/<area>/), rendered through EnglishExtra.jsx.
-export const EXTRA_PAGES = [...TOOLS_PAGES, ...EXCEL_PAGES, ...WORKSHEETS_PAGES, ...ARCADE_PAGES, ...READING_PAGES, ...COMPREHENSION_PAGES, ...ART_PAGES, ...ESCAPE_PAGES, ...FUN_PAGES, ...PARTY_PAGES]
+export const EXTRA_PAGES = [...TOOLS_PAGES, ...EXCEL_PAGES, ...WORKSHEETS_PAGES, ...ARCADE_PAGES, ...READING_PAGES, ...COMPREHENSION_PAGES]
 const EXTRA_SECTIONS = [
   { path: '/en/online-games', label: 'Online games', title: 'Play online', description: 'Puzzles, card games, solitaire, sudoku, chess and more, right in the browser.', emoji: '🕹️' },
   { path: '/en/worksheets', label: 'Worksheets', title: 'Printable worksheets', description: 'Math practice, clocks, fractions, mazes, dot-to-dot and paper templates.', emoji: '✏️' },
   { path: '/en/reading', label: 'Reading & ABC', title: 'Reading and the ABC', description: 'Short stories with read-aloud, letter tracing and picture word games.', emoji: '📖' },
   { path: '/en/reading-comprehension', label: 'Reading comprehension', title: 'Reading comprehension passages', description: 'Original passages from Grade 3 to Bagrut Module G, with every answer explained, read-aloud and printable worksheets.', emoji: '📝' },
   { path: '/en/tools', label: 'Tools', title: 'Free online tools', description: 'A school calculator, a Hebrew keyboard, a PDF studio, a QR code maker and touch typing.', emoji: '🧰' },
-  { path: '/en/party-games', label: 'Party games', title: 'Party and group games', description: 'Over 100 games for birthdays, classrooms and family nights, plus card, dice and board games and ready-made treasure hunts.', emoji: '🎉' },
-  { path: '/en/tools/escape-rooms', label: 'Escape rooms', title: 'Printable escape rooms', description: '42 escape rooms for kids, teens and families, with three levels and a print kit for each.', emoji: '🔐' },
-  { path: '/en/how-to-draw', label: 'How to draw', title: 'How to draw and color by number', description: 'Step-by-step drawing lessons, color by number pages, mandalas and color by answer math sheets.', emoji: '✏️' },
-  { path: '/en/trivia', label: 'Trivia & riddles', title: 'Trivia, riddles and jokes', description: 'Trivia quizzes on 41 topics, nearly 300 riddles with hints and clean jokes kids love to retell.', emoji: '🧠' },
   { path: '/en/excel', label: 'Excel course', title: 'Free Excel course', description: 'Ten hands-on lessons with a live spreadsheet in the page.', emoji: '📊' },
 ]
 export const ENGLISH_SECTIONS = [...EXTRA_SECTIONS, {path:'/en/travel',label:'Travel with Buga',title:'Travel with Buga',description:'Print, play, listen and save for airplane mode.',emoji:'✈️'}, {path:'/en/live', label:'Buga Live', title:'Play a live quiz together', description:'Create questions and let up to 100 players answer from their phones.', emoji:'⚡'}, ...ACTIVITY_SECTIONS, {path:'/en/hebrew-alphabet', label:'Hebrew alphabet', title:'Learn the Hebrew alphabet', description:'Meet the letters, hear their names, sing and print a practice page.'}, {path:'/en/jewish-holidays', label:'Jewish holidays', title:'Jewish holidays for families', description:'Explore traditions, calendar dates, blessings and holiday coloring pages.'}, {path:'/en/rsvp', label:'RSVP', title:'Free online RSVP', description:'Send one link and see who is coming, how many children and adults, and any allergies.', emoji:'✅'}]

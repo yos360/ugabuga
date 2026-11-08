@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -17,14 +17,9 @@ import { SUDOKU_PAGES } from './sudokuPages.js'
 
 // The English side of the online games: /en/online-games (hub) and /en/online-games/<slug> (one page per game).
 // Page copy lives in ./meta/*.js; the games themselves are the Hebrew site's components, rendered with lang="en".
-// Games whose Hebrew component has no English mode get an English twin from ./games.
-const EN_COMPONENTS = {
-  'find-differences': lazy(() => import('./games/SpotDiffEn')),
-  'word-guess': lazy(() => import('./games/WordGuessEn')),
-}
 const withHe = slug => {
   const en = ARCADE_EN[slug], he = arcadeGame(slug)
-  return en && he ? { ...he, ...en, slug, ...(EN_COMPONENTS[slug] ? { component: EN_COMPONENTS[slug] } : {}) } : null
+  return en && he ? { ...he, ...en, slug } : null
 }
 
 const FAQ = [
