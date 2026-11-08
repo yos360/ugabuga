@@ -52,6 +52,7 @@ How to add a booklet (see `src/booklets/registry.js` and the two existing bookle
 - [x] `math-grade-5` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ה׳ (10/mo).
 - [x] `math-grade-6` (done in the subject batch) — חוברת עבודה בחשבון לכיתה ו׳ (10/mo).
 - [x] `hebrew-grade-2` (done in the subject batch) — חוברת עבודה בעברית לכיתה ב׳ (10/mo).
+- [x] `oral-motor` — חוברת תרגול לחיזוק שרירי הפה (by request), 14 עמודים: נשיפה, שפתיים, לשון, לחיים, מסלול נשיפה, לוח שבועי — 2026-11-08
 - [ ] `tu-bishvat` — חוברת עבודה לט״ו בשבט (seasonal: Tu BiShvat 23.1.2027 — build in early January).
 - [ ] `purim` — חוברת עבודה לפורים (seasonal: Purim 23.3.2027 — build in late February).
 - [ ] `pesach` — חוברת עבודה לפסח (seasonal: Pesach 22.4.2027 — build in late March).
