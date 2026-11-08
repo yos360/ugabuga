@@ -5,11 +5,12 @@ import { EXCEL_ROUTES } from './excel/routes'
 import { WORKSHEETS_ROUTES } from './worksheets/routes'
 import { ARCADE_ROUTES } from './arcade/routes'
 import { READING_ROUTES } from './reading/routes'
+import { COMPREHENSION_ROUTES } from './comprehension/routes'
 
 // Every English page beyond the original collection (tools, the Excel course, worksheets, online games,
 // reading). App.jsx sends /en/* here as one lazy chunk, so dozens of pages add nothing to the entry bundle.
 // Each area lists its own routes (src/en/<area>/routes.js); the first matching path wins.
-const ROUTES = [...TOOLS_ROUTES, ...EXCEL_ROUTES, ...WORKSHEETS_ROUTES, ...ARCADE_ROUTES, ...READING_ROUTES]
+const ROUTES = [...TOOLS_ROUTES, ...EXCEL_ROUTES, ...WORKSHEETS_ROUTES, ...ARCADE_ROUTES, ...READING_ROUTES, ...COMPREHENSION_ROUTES]
 
 export default function EnglishExtra() {
   const { pathname } = useLocation()

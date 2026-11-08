@@ -1,0 +1,5 @@
+/* The unseen styles were written for the right-to-left Hebrew pages; these pages read left to right. */
+.rc-page{direction:ltr}
+.rc-page .us-card{text-align:left}
+.rc-page .us-done{left:auto;right:12px}
+.rc-page .us-level small{font-weight:600;color:var(--muted-foreground)}

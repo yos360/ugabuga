@@ -10,12 +10,14 @@ import { EXCEL_PAGES } from './excel/catalog.js'
 import { WORKSHEETS_PAGES } from './worksheets/catalog.js'
 import { ARCADE_PAGES } from './arcade/catalog.js'
 import { READING_PAGES } from './reading/catalog.js'
+import { COMPREHENSION_PAGES } from './comprehension/catalog.js'
 // The newer English areas (each in src/en/<area>/), rendered through EnglishExtra.jsx.
-export const EXTRA_PAGES = [...TOOLS_PAGES, ...EXCEL_PAGES, ...WORKSHEETS_PAGES, ...ARCADE_PAGES, ...READING_PAGES]
+export const EXTRA_PAGES = [...TOOLS_PAGES, ...EXCEL_PAGES, ...WORKSHEETS_PAGES, ...ARCADE_PAGES, ...READING_PAGES, ...COMPREHENSION_PAGES]
 const EXTRA_SECTIONS = [
   { path: '/en/online-games', label: 'Online games', title: 'Play online', description: 'Puzzles, card games, solitaire, sudoku, chess and more, right in the browser.', emoji: '🕹️' },
   { path: '/en/worksheets', label: 'Worksheets', title: 'Printable worksheets', description: 'Math practice, clocks, fractions, mazes, dot-to-dot and paper templates.', emoji: '✏️' },
   { path: '/en/reading', label: 'Reading & ABC', title: 'Reading and the ABC', description: 'Short stories with read-aloud, letter tracing and picture word games.', emoji: '📖' },
+  { path: '/en/reading-comprehension', label: 'Reading comprehension', title: 'Reading comprehension passages', description: 'Original passages from Grade 3 to Bagrut Module G, with every answer explained, read-aloud and printable worksheets.', emoji: '📝' },
   { path: '/en/tools', label: 'Tools', title: 'Free online tools', description: 'A school calculator, a Hebrew keyboard, a PDF studio, a QR code maker and touch typing.', emoji: '🧰' },
   { path: '/en/excel', label: 'Excel course', title: 'Free Excel course', description: 'Ten hands-on lessons with a live spreadsheet in the page.', emoji: '📊' },
 ]
