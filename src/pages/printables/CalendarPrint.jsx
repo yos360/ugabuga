@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import PrintableShell, { Sheet, T, Choice, Field } from '../../components/printables/PrintableShell'
+import { shrinkPhoto } from '../../utils/shrinkPhoto'
 import { gematria, hebrewParts, holidayMap, dayKey, HEB_MONTHS, HEB_DAY_LETTERS, HEB_DAYS } from '../../utils/hebrewCalendar'
 
 const COLORS = ['#ff8fab', '#ffb86b', '#ffd23f', '#9be38b', '#5ed3c6', '#6cb8ff', '#a98bff', '#ff8fab', '#ffb86b', '#ffd23f', '#9be38b', '#6cb8ff']
@@ -20,6 +21,9 @@ const PRESETS = {
 }
 const SIBLINGS = [{ href: '/printables/calendar-2027', label: '📅 לוח שנה 2027' }, { href: '/printables/calendar-5787', label: '🎒 שנת הלימודים תשפ״ז' }]
 
+const STICKERS = ['🎂', '🎉', '⭐', '❤️', '😀', '😍', '🥳', '🎈', '🎁', '✈️', '🏖️', '⚽', '🎵', '📚', '✏️', '🦷', '🩺', '🐶', '🌸', '☀️', '🌧️', '❄️', '🕎', '🍩', '🏕️', '👨‍👩‍👧']
+const HEAD_ICONS = ['🌸', '☀️', '🍂', '❄️', '🌈', '🎈', '⭐', '❤️', '🦋', '🌻', '🍉', '🎒', '🕎', '🍎', '🐣', '🌊']
+
 const monthDays = (y, m) => new Date(y, m + 1, 0).getDate()
 
 // "טבת–שבט תשפ״ז" for the Hebrew months a Gregorian month spans.
@@ -31,10 +35,12 @@ function hebrewSpan(y, m) {
   return `${months} ${years}`
 }
 
-function MonthSheet({ y, m, color, opts, holidays }) {
+function MonthSheet({ y, m, color, opts, holidays, deco = {}, onDay }) {
   const first = new Date(y, m, 1).getDay(), days = monthDays(y, m)
   const rows = Math.ceil((first + days) / 7)
-  const L = 8, W = 184, cw = W / 7, top = 50, gridH = opts.notes ? 168 : 200, rh = (gridH - 9) / rows
+  // A month photo takes a band at the top; the title and the grid move down under it.
+  const head = deco.photo ? 58 : 0, clip = `cal-photo-${y}-${m}`
+  const L = 8, W = 184, cw = W / 7, top = 50 + head, gridH = (opts.notes ? 168 : 200) - head, rh = (gridH - 9) / rows
   const accent = opts.color ? color : '#fff'
   const cells = []
   for (let d = 1; d <= days; d++) {
@@ -50,14 +56,22 @@ function MonthSheet({ y, m, color, opts, holidays }) {
         {heb && <T x={x + 2.5} y={yy + 6} size={4} anchor="end" fill="#666">{gematria(heb.day)}</T>}
         {heb?.day === 1 && <T x={x + cw / 2} y={yy + 13} size={3.8} weight={700} fill="#555">{heb.month}</T>}
         {hol && <T x={x + cw / 2} y={yy + rh - 3} size={hol.length > 9 ? 3.4 : 4} weight={700} fill="#8a3b00">{hol}</T>}
+        {deco.stickers?.[dayKey(date)] && <text x={x + cw / 2} y={yy + rh / 2 + Math.min(rh * 0.42, 9) / 2.6} fontSize={Math.min(rh * 0.42, 9)} textAnchor="middle">{deco.stickers[dayKey(date)]}</text>}
+        {onDay && <rect x={x} y={yy} width={cw} height={rh} fill="transparent" style={{ cursor: 'pointer' }} onClick={() => onDay(dayKey(date))}><title>{`יום ${d}`}</title></rect>}
       </g>
     )
   }
   return (
     <Sheet label={`לוח חודש ${HEB_MONTHS[m]} ${y}`}>
-      <rect x={L} y={8} width={W} height={34} rx={6} fill={accent} stroke="#111" strokeWidth={0.8} />
-      <T x={100} y={24} size={15} weight={800}>{HEB_MONTHS[m]} {y}</T>
-      <T x={100} y={35} size={6} fill="#333">{opts.title || (opts.hebrew ? hebrewSpan(y, m) : '')}</T>
+      {deco.photo && <g>
+        <clipPath id={clip}><rect x={L} y={8} width={W} height={head - 4} rx={6} /></clipPath>
+        <image href={deco.photo} x={L} y={8} width={W} height={head - 4} preserveAspectRatio="xMidYMid slice" clipPath={`url(#${clip})`} />
+        <rect x={L} y={8} width={W} height={head - 4} rx={6} fill="none" stroke="#111" strokeWidth={0.8} />
+      </g>}
+      <rect x={L} y={8 + head} width={W} height={34} rx={6} fill={accent} stroke="#111" strokeWidth={0.8} />
+      {deco.icon && [24, 176].map(ix => <text key={ix} x={ix} y={31 + head} fontSize={15} textAnchor="middle">{deco.icon}</text>)}
+      <T x={100} y={24 + head} size={15} weight={800}>{HEB_MONTHS[m]} {y}</T>
+      <T x={100} y={35 + head} size={6} fill="#333">{opts.title || (opts.hebrew ? hebrewSpan(y, m) : '')}</T>
       <rect x={L} y={top} width={W} height={9} fill={opts.color ? '#1d2233' : '#fff'} stroke="#111" strokeWidth={0.6} />
       {HEB_DAYS.map((name, i) => <T key={name} x={L + (6 - i) * cw + cw / 2} y={top + 6.4} size={4.6} weight={700} fill={opts.color ? '#fff' : '#111'}>{name}</T>)}
       {cells}
@@ -107,10 +121,51 @@ export default function CalendarPrint({ preset }) {
   const [title, setTitle] = useState('')
   const months = useMemo(() => Array.from({ length: 12 }, (_, i) => { const d = new Date(p.start[0], p.start[1] + i, 1); return [d.getFullYear(), d.getMonth()] }), [p])
   const holidays = useMemo(() => holidayMap(new Date(...months[0], 1), new Date(months[11][0], months[11][1] + 1, 0)), [months])
+  // Decorating the months: a photo and a header icon per month, and stickers on days (key = dayKey).
+  const [edit, setEdit] = useState(0)
+  const [photos, setPhotos] = useState({})
+  const [icons, setIcons] = useState({})
+  const [stickers, setStickers] = useState({})
+  const [sticker, setSticker] = useState(STICKERS[0])
+  const photoRef = useRef()
   const opts = { color: color === 'color', hebrew: hebrew === 'yes', holidays: hebrew === 'yes', notes: true, title }
+  const decoFor = i => ({ photo: photos[i], icon: icons[i], stickers })
+  const putSticker = key => setStickers(s => { const n = { ...s }; if (n[key] === sticker) delete n[key]; else n[key] = sticker; return n })
   const pages = view === 'year'
     ? [{ key: 'year', svg: <YearSheet months={months} opts={opts} holidays={holidays} title={title || p.h1.replace(' להדפסה', '')} /> }]
-    : months.map(([y, m], i) => ({ key: `${y}-${m}`, svg: <MonthSheet y={y} m={m} color={COLORS[i]} opts={opts} holidays={holidays} /> }))
+    : months.map(([y, m], i) => ({ key: `${y}-${m}`, svg: <MonthSheet y={y} m={m} color={COLORS[i]} opts={opts} holidays={holidays} deco={decoFor(i)} /> }))
+  const pill = on => `min-h-[40px] rounded-full border-2 border-[var(--border)] px-3 py-1 font-bold ${on ? 'bg-[var(--yellow)]' : 'bg-white'}`
+  const decorate = view === 'month' && (
+    <section className="space-y-3 rounded-2xl border-2 border-[var(--border)] bg-white/70 p-3">
+      <h2 className="text-center text-xl font-black">🎨 מעצבים את הלוח</h2>
+      <div role="group" aria-label="בחירת חודש לעיצוב" className="flex flex-wrap justify-center gap-1.5">
+        {months.map(([, m], i) => <button key={i} type="button" aria-pressed={edit === i} onClick={() => setEdit(i)} className={pill(edit === i)}>{HEB_MONTHS[m]}{photos[i] ? ' 📷' : ''}</button>)}
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <button type="button" onClick={() => photoRef.current?.click()} className="min-h-[44px] rounded-xl bg-sky-600 px-4 py-2 font-bold text-white">📷 {photos[edit] ? 'החלפת התמונה' : 'הוספת תמונה'} לחודש {HEB_MONTHS[months[edit][1]]}</button>
+        {photos[edit] && <button type="button" onClick={() => setPhotos(ph => { const n = { ...ph }; delete n[edit]; return n })} className="text-sm font-bold underline">הסרת התמונה</button>}
+        <input ref={photoRef} className="sr-only" type="file" accept="image/*" onChange={async e => { const f = e.target.files?.[0]; e.target.value = ''; const u = await shrinkPhoto(f, 1200); if (u) setPhotos(ph => ({ ...ph, [edit]: u })) }} />
+      </div>
+      <div className="text-center">
+        <p className="font-bold">אייקון ליד שם החודש</p>
+        <div role="group" aria-label="אייקון לכותרת החודש" className="mt-1 flex flex-wrap justify-center gap-1">
+          <button type="button" aria-pressed={!icons[edit]} onClick={() => setIcons(ic => { const n = { ...ic }; delete n[edit]; return n })} className={pill(!icons[edit])}>בלי</button>
+          {HEAD_ICONS.map(ic => <button key={ic} type="button" aria-pressed={icons[edit] === ic} onClick={() => setIcons(x => ({ ...x, [edit]: ic }))} className={`h-11 w-11 rounded-full border-2 text-2xl ${icons[edit] === ic ? 'border-[var(--border)] bg-[var(--yellow)]' : 'border-transparent bg-white'}`}>{ic}</button>)}
+        </div>
+      </div>
+      <div className="text-center">
+        <p className="font-bold">מדבקות וסמיילים — בוחרים מדבקה ולוחצים על יום בלוח</p>
+        <div role="group" aria-label="בחירת מדבקה" className="mt-1 flex flex-wrap justify-center gap-1">
+          {STICKERS.map(s => <button key={s} type="button" aria-pressed={sticker === s} onClick={() => setSticker(s)} className={`h-11 w-11 rounded-full border-2 text-2xl ${sticker === s ? 'border-[var(--border)] bg-[var(--yellow)]' : 'border-transparent bg-white'}`}>{s}</button>)}
+        </div>
+      </div>
+      <div className="mx-auto max-w-[420px] border-2 border-[var(--border)] bg-white p-2">
+        <MonthSheet y={months[edit][0]} m={months[edit][1]} color={COLORS[edit]} opts={opts} holidays={holidays} deco={decoFor(edit)} onDay={putSticker} />
+      </div>
+      <p className="text-center text-sm text-slate-600">לחיצה על יום מדביקה את המדבקה שנבחרה; לחיצה נוספת עם אותה מדבקה מורידה אותה. התמונות נשארות רק במכשיר שלכם.</p>
+      {Object.keys(stickers).length > 0 && <button type="button" onClick={() => setStickers({})} className="mx-auto block text-sm font-bold underline">הסרת כל המדבקות</button>}
+    </section>
+  )
   const school = preset === 'school-year-5787'
   return (
     <PrintableShell
@@ -121,6 +176,7 @@ export default function CalendarPrint({ preset }) {
         <Choice label="צבע" value={color} onChange={setColor} options={[['color', '🌈 צבעוני'], ['bw', '🖍️ שחור-לבן לצביעה']]} />
         <Choice label="תאריך עברי" value={hebrew} onChange={setHebrew} options={[['yes', 'עם תאריך עברי וחגים'], ['no', 'לועזי בלבד']]} />
         <div className="mx-auto max-w-sm"><Field label="כותרת אישית (לא חובה)" value={title} onChange={setTitle} placeholder={school ? 'למשל: הלוח של כיתה ב׳2' : 'למשל: לוח המשפחה של נועה'} /></div>
+        {decorate}
       </>}
       pages={pages} printTitle={p.h1}
       paragraphs={school ? [

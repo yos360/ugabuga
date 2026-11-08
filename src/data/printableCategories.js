@@ -11,6 +11,7 @@ export const categories = [
   { slug: 'home-charts', href: '/printables/home-charts', emoji: '🏠', title: 'לוחות לבית', count: 'חדש', desc: 'טבלת מטלות, לוח מדבקות, צחצוח שיניים, גמילה ומערכת שעות — עם שם הילד', special: true },
   { slug: 'teacher-templates', href: '/printables/teacher-templates', emoji: '🗂️', title: 'קבצים לרכזות ולגננות', count: 'חדש', desc: 'יומן נוכחות, רשימת תלמידים, מעקב מיומנויות, תכנון שנתי ופרוטוקולים', special: true },
   { slug: 'bookmarks', href: '/printables/bookmarks', emoji: '🔖', title: 'סימניות להדפסה', count: 'חדש', desc: '6 סימניות בדף עם מנדלות, איורים, שם אישי או תמונה', special: true },
+  { slug: 'class-photo', href: '/printables/class-photo', emoji: '📸', title: 'תמונת מחזור', count: 'חדש', desc: 'תמונה ושם לכל ילד, קוביות לצוות, עיצוב לחנוכה, לסיום גן, לי״ב ולסיום קורס', special: true },
   { slug: 'kindergarten-memory-book', href: '/printables/kindergarten-memory-book', emoji: '📔', title: 'יומן גן אישי', count: 'חדש', desc: 'חוברת זיכרונות מעוצבת עם שם, עד 8 תמונות, חברים וסיכום שנה', special: true },
   { slug: 'chore-chart', inHubOnly: true, href: '/printables/chore-chart', emoji: '📋', title: 'טבלת מטלות לילדים', count: 'חדש', desc: 'משימות משלכם לכל יום בשבוע, כוכב על כל משימה ופרס בסוף', special: true },
   { slug: 'reward-chart', inHubOnly: true, href: '/printables/reward-chart', emoji: '⭐', title: 'לוח מדבקות לחיזוק', count: 'חדש', desc: 'מטרה אחת, דרך של 10–30 מדבקות ופרס בסוף', special: true },

@@ -137,6 +137,7 @@ const ReadingWorksheetPacks = lazy(() => import('./pages/printables/ReadingWorks
 const SingularPluralWorkbook = lazy(() => import('./pages/printables/SingularPluralWorkbook'))
 const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
 const KindergartenMemoryBook = lazy(() => import('./pages/printables/KindergartenMemoryBook'))
+const ClassPhoto = lazy(() => import('./pages/printables/ClassPhoto'))
 const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
 const PurimMasks = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.PurimMasks })))
 const BirthdayCrown = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.BirthdayCrown })))
@@ -756,6 +757,13 @@ export default function App() {
               <Route path="/printables/mandalas" element={<MandalaStudio />} />
               <Route path="/printables/bookmarks" element={<BookmarkMaker />} />
               <Route path="/printables/kindergarten-memory-book" element={<KindergartenMemoryBook />} />
+              <Route path="/printables/class-photo" element={<ClassPhoto key="class" occasion="class" />} />
+              <Route path="/printables/class-photo/hanukkah" element={<ClassPhoto key="hanukkah-gan" occasion="hanukkah-gan" />} />
+              <Route path="/printables/class-photo/kindergarten" element={<ClassPhoto key="gan" occasion="gan" />} />
+              <Route path="/printables/class-photo/graduation" element={<ClassPhoto key="graduation" occasion="graduation" />} />
+              <Route path="/printables/class-photo/ulpana" element={<ClassPhoto key="ulpana" occasion="ulpana" />} />
+              <Route path="/printables/class-photo/mechina" element={<ClassPhoto key="mechina" occasion="mechina" />} />
+              <Route path="/printables/class-photo/army-course" element={<ClassPhoto key="army" occasion="army" />} />
               <Route path="/printables/fine-motor" element={<FineMotorStudio />} />
               <Route path="/printables/cutting-practice" element={<CuttingPractice />} />
               <Route path="/printables/letter-flashcards" element={<LetterFlashcards />} />
