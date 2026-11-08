@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'OPvNBDloxtk', kind: 'tutorial', title: 'איך צובעים דף צביעה במסך בעוגה בוגה — מדריך קצר', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-08',
+    desc: 'מדריך קצר לצביעה במסך: פותחים ציור לצביעה, לוחצים על "לצבוע את הציור במסך", בוחרים צבע ומקישים על אזור, מבטלים או מתחילים מהתחלה ושומרים את הציור הצבוע כתמונה — חינם, בלי הרשמה.' },
   { id: 'zYIW9FwYK5A', kind: 'tutorial', title: 'איך יוצרים דף עבודה מהמילים שלכם בעוגה בוגה — מדריך קצר', paths: ['/tools/worksheet-maker'], category: 'learning', date: '2026-11-08',
     desc: 'מדריך קצר למחולל דפי העבודה: כותבים עד 10 מילים, מוסיפים אימוג׳י, בוחרים משימות (מקווקוות, העתקה, אות חסרה, אותיות מבולבלות, מילה ותמונה) ומדפיסים עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'iTa0hpnJF4Q', kind: 'tutorial', title: 'איך פותרים חשבון של חנוכה בעוגה בוגה — מדריך קצר', paths: ['/holidays/hanukkah/math'], category: 'learning', date: '2026-11-07',
@@ -60,6 +62,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/secret-codes': 'כתב סתרים וצפנים',
   '/holidays/hanukkah/math': 'חשבון של חנוכה',
   '/tools/worksheet-maker': 'מחולל דפי עבודה',
+  '/printables/coloring': 'דפי צביעה',
 }
 
 const SITE = 'https://ugabuga.co.il'
