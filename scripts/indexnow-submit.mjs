@@ -1,4 +1,15 @@
 import { readFile } from 'node:fs/promises'
+import { pathToFileURL } from 'node:url'
+import { HELD_BACK } from './sitemap-groups.mjs'
+import { NOINDEX_PATHS } from './noindex-paths.mjs'
+
+// Only what Google is sent too: pages held back from the group sitemaps (template families) and
+// noindex pages stay out, so Bing's crawl goes to the pages we want indexed.
+export const submittable = loc => {
+  let path
+  try { path = new URL(loc).pathname } catch { return false }
+  return !NOINDEX_PATHS.has(path) && !HELD_BACK.some(re => re.test(path))
+}
 
 // Submits new/changed pages to IndexNow (api.indexnow.org) so Bing — and through it
 // ChatGPT's web search — learns about them within days instead of waiting for the
@@ -39,7 +50,9 @@ async function main() {
   // NEW_SITEMAP: the sitemap to submit from (default: the freshly built public/sitemap-full.xml;
   // the IndexNow workflow passes the live sitemap fetched after Cloudflare finished deploying).
   const newXml = await readFile(process.env.NEW_SITEMAP || new URL('../public/sitemap-full.xml', import.meta.url), 'utf8')
-  const next = parseSitemap(newXml)
+  const all = parseSitemap(newXml)
+  const next = new Map([...all].filter(([loc]) => submittable(loc)))
+  console.log(`indexnow: ${next.size} of ${all.size} sitemap URLs are submittable (held-back and noindex pages left out).`)
   if (next.size === 0) {
     console.warn('indexnow: built sitemap parsed to 0 URLs — skipping (nothing to submit).')
     return
@@ -102,6 +115,9 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.warn(`indexnow: unexpected error (${err.message}) — deploy is unaffected.`)
-})
+// Run only as a script, so tests can import submittable().
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(err => {
+    console.warn(`indexnow: unexpected error (${err.message}) — deploy is unaffected.`)
+  })
+}
