@@ -47,7 +47,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 26 | לוח ניקוד לתחרות בכיתה | /tools/scoreboard | classroom | 2026-11-07 slot 3 — ready, upload from the owner's Chrome |
 | 27 | משחק אותיות לילדים | /letters/game | learning | 2026-11-08 slot 1 — ready, upload from the owner's Chrome |
 | 28 | צביעה לפי מספרים | /printables/color-by-number | learning | 2026-11-08 slot 2 — ready, upload from the owner's Chrome |
-| 29 | דפי עבודה בחשבון — בוחרים ומדפיסים | /printables/math-worksheets | learning | |
+| 29 | דפי עבודה בחשבון — בוחרים ומדפיסים | /printables/math-worksheets | learning | 2026-11-08 slot 3 — ready, upload from the owner's Chrome |
 | 30 | שבוע זהירות בדרכים — חידון לפי כיתה | /road-safety-week | classroom | |
 ## v2 — landscape (owner, 2026-11-04)
 Same look as the daily reels (paper + dot grid, ink cards, Heebo/Fredoka, site characters, synthesized music, LUFS −14),
