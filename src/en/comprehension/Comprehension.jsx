@@ -6,6 +6,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import { EnglishNotFound } from '../EnglishLayout'
 import { UNSEEN_AUDIO } from '../../data/unseen/audio.js'
+import { audioUrl } from '../../utils/audioUrl.js'
 import { UNSEEN_VIDEOS } from '../../data/unseen/videos.js'
 import { RC_ROOT, RC_LEVELS, RC_SKILLS, rcLevel, rcLevelHref, rcHref } from './levels.js'
 import { RC_META } from './meta.js'
@@ -243,7 +244,7 @@ function Passage({ t, L }) {
     <div className="us-passage" onClick={onWord}>
       {t.texts.map((x, ti) => <section key={ti} className="ln-box us-text" lang="en">
         {t.texts.length > 1 && <p className="us-text-label">Text {ti + 1}</p>}
-        {!exam && UNSEEN_AUDIO[t.slug]?.[ti] && <p className="us-listen no-print"><span>🎧 Listen</span><audio controls preload="none" src={`/audio/unseen/${UNSEEN_AUDIO[t.slug][ti]}.mp3`} aria-label={`Listen to ${t.title}`} /></p>}
+        {!exam && UNSEEN_AUDIO[t.slug]?.[ti] && <p className="us-listen no-print"><span>🎧 Listen</span><audio controls preload="none" src={audioUrl(`/audio/unseen/${UNSEEN_AUDIO[t.slug][ti]}.mp3`)} aria-label={`Listen to ${t.title}`} /></p>}
         {!exam && UNSEEN_VIDEOS[t.slug]?.[ti] && <p className="us-listen no-print"><a href={`https://www.youtube.com/watch?v=${UNSEEN_VIDEOS[t.slug][ti]}`} target="_blank" rel="noopener noreferrer" className="font-bold underline">▶️ Watch the narrated video on YouTube</a></p>}
         {x.title && <h2 className="us-text-title">{x.title}</h2>}
         {(x.paragraphs || []).map((p, pi) => <p key={pi} className="us-p"><span className="us-pn" aria-label={`Paragraph ${pi + 1}`}>{pi + 1}</span><Para text={p} mark={mark} gloss={glossary} /></p>)}

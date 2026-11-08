@@ -2,12 +2,17 @@
 const PREFIX = 'buga-en-travel-'
 const STATE = PREFIX + 'state'
 const KEY = '/en/travel-cache-state'
+// Recorded clips live on their own host (src/utils/audioUrl.js); only these audio paths may be cached from it.
+const AUDIO = 'https://audio.ugabuga.co.il'
+const AUDIO_PATH = /^\/audio\/travel-en\/[a-z0-9-]+\.mp3$/
 const ROUTES = ['/en/travel/offline', '/en/travel/play', '/en/travel/stories', '/en/travel/countdown']
 function allowed(value) {
   const u = new URL(value, self.location.origin)
-  if (u.origin !== self.location.origin || u.hash || u.search) return false
+  if (u.hash || u.search) return false
+  if (u.origin === AUDIO) return AUDIO_PATH.test(u.pathname)
+  if (u.origin !== self.location.origin) return false
   if (/^\/(admin|r|t|api|functions|rest|auth)(\/|$)/i.test(u.pathname) || /supabase|analytics|telemetry|collect/i.test(u.href)) return false
-  return ROUTES.includes(u.pathname) || u.pathname === '/index.html' || u.pathname === '/travel-en-assets.json' || /^\/assets\/[\w.-]+$/.test(u.pathname) || /^\/fonts\/[\w.-]+$/.test(u.pathname) || /^\/audio\/travel-en\/[a-z0-9-]+\.mp3$/.test(u.pathname)
+  return ROUTES.includes(u.pathname) || u.pathname === '/index.html' || u.pathname === '/travel-en-assets.json' || /^\/assets\/[\w.-]+$/.test(u.pathname) || /^\/fonts\/[\w.-]+$/.test(u.pathname) || AUDIO_PATH.test(u.pathname)
 }
 async function state() { const c = await caches.open(STATE); const r = await c.match(KEY); return r ? r.json() : null }
 self.addEventListener('install', e => e.waitUntil(self.skipWaiting()))

@@ -1,3 +1,4 @@
+import { audioUrl } from '../../utils/audioUrl.js'
 // Paragraph text → sentences. Story text and highlighting both use this, so indices line up.
 export function splitSentences(text) {
   return String(text).split(/(?<=[.!?…:][״"”']?)\s+/).filter(Boolean)
@@ -31,7 +32,7 @@ export function parseRecordedIndex(raw) {
 export function recordedPlaylist(slug, count, paragraphCount) {
   if (!slug || !Number.isInteger(count) || count !== paragraphCount + 2) return null
   return Array.from({ length: count }, (_, k) => ({
-    src: `/audio/stories/${slug}/${k}.mp3`,
+    src: audioUrl(`/audio/stories/${slug}/${k}.mp3`),
     p: k === 0 ? -1 : k === count - 1 ? -2 : k - 1,
   }))
 }

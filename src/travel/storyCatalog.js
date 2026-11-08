@@ -3,10 +3,11 @@ import recordedIndex from '../../public/audio/stories/index.json'
 import hebrewIndex from '../../public/audio/he/index.json'
 import { recordedPlaylist } from '../pages/stories/storyReading.js'
 import { audioKey } from '../utils/audioKey.js'
+import { audioUrl } from '../utils/audioUrl.js'
 const clips=new Set(hebrewIndex)
 export const TRAVEL_STORIES=BEDTIME_STORIES.map(story=>{
  const text=renderStory(story),parts=[text.title+'.',...text.body,'לילה טוב.'],recorded=recordedPlaylist(story.slug,recordedIndex[story.slug],text.body.length)
- return {...story,text,minutes:storyMinutes(story),parts:parts.map((text,i)=>({text,src:recorded?.[i].src||(clips.has(audioKey(text))?`/audio/he/${audioKey(text)}.mp3`:null)}))}
+ return {...story,text,minutes:storyMinutes(story),parts:parts.map((text,i)=>({text,src:recorded?.[i].src||(clips.has(audioKey(text))?audioUrl(`/audio/he/${audioKey(text)}.mp3`):null)}))}
 })
 export const selectedStories=()=>{try{const ids=JSON.parse(localStorage.getItem('buga-travel-stories')||'[]');return Array.isArray(ids)?TRAVEL_STORIES.filter(s=>ids.includes(s.slug)).map(s=>s.slug):[]}catch{return []}}
 export function selectStory(ids){localStorage.setItem('buga-travel-stories',JSON.stringify(TRAVEL_STORIES.filter(s=>ids.includes(s.slug)).map(s=>s.slug)))}

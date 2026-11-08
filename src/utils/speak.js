@@ -3,6 +3,7 @@
 // device; anything else falls back to the device's own voice. Silent when neither exists — every
 // game using it also works without sound, and a wrong-language voice would mispronounce the word.
 import { audioKey } from './audioKey'
+import { audioUrl } from './audioUrl.js'
 
 // Higher-quality voices browsers ship under these names (Chrome "Google",
 // Edge "Online (Natural)", Apple "Enhanced/Premium", Android "Neural").
@@ -69,7 +70,7 @@ async function playRecorded(text, lang) {
   const key = audioKey(text)
   if (!(await recordedFor(lang)).has(key)) return false
   stopSpeaking()
-  const a = new Audio(`/audio/${lang.slice(0, 2).toLowerCase()}/${key}.mp3${RERECORDED[key] ? `?v=${RERECORDED[key]}` : ''}`)
+  const a = new Audio(audioUrl(`/audio/${lang.slice(0, 2).toLowerCase()}/${key}.mp3${RERECORDED[key] ? `?v=${RERECORDED[key]}` : ''}`))
   current = a
   try { await a.play(); return true } catch { return false }
 }
