@@ -1,0 +1,1065 @@
+[
+ {
+  "slug": "en-g3-itai-family",
+  "xi": 0,
+  "level": "g3",
+  "title": "This Is My Family"
+ },
+ {
+  "slug": "en-g4-all-about-me",
+  "xi": 0,
+  "level": "g4",
+  "title": "All About Me",
+  "skip": "narration check: 3 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g5-baking-challah",
+  "xi": 0,
+  "level": "g5",
+  "title": "Friday with Grandpa"
+ },
+ {
+  "slug": "en-g6-busy-bees",
+  "xi": 0,
+  "level": "g6",
+  "title": "Busy Bees",
+  "skip": "narration check: 6 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g7-basketball-tryout",
+  "xi": 0,
+  "level": "g7",
+  "title": "Too Short for the Team?",
+  "skip": "narration check: 7 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g8-ancient-coin-found",
+  "xi": 0,
+  "level": "g8",
+  "title": "Girl Finds 2,000-Year-Old Coin on Family Hike",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g9-animal-shelter",
+  "xi": 0,
+  "level": "g9",
+  "title": "Saturdays at the Shelter",
+  "skip": "narration check: 5 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-a-community-garden",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "A Garden Between the Buildings",
+  "skip": "narration check: 3 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-c-bus-driver",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "The Bear on the Number 26"
+ },
+ {
+  "slug": "en-mod-e-desalination",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "Drinking the Sea",
+  "skip": "narration check: 8 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-g-ai-tutors",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "Can a Machine Be a Teacher?",
+  "skip": "narration check: 11 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g3-my-cat-mitzi",
+  "xi": 0,
+  "level": "g3",
+  "title": "My Cat Mitzi",
+  "youtube": "https://youtu.be/0brjdVlaAA4",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g4-birthday-invitation",
+  "xi": 0,
+  "level": "g4",
+  "title": "You Are Invited!",
+  "skip": "narration check: 7 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g5-bike-for-sale",
+  "xi": 0,
+  "level": "g5",
+  "title": "Bike for Sale",
+  "skip": "narration check: 3 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g6-dolphins",
+  "xi": 0,
+  "level": "g6",
+  "title": "Dolphins Are Not Fish",
+  "youtube": "https://youtu.be/C7ocxjn5Mv0",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g7-bats-in-the-dark",
+  "xi": 0,
+  "level": "g7",
+  "title": "Hunting with Sound",
+  "skip": "narration check: 9 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g8-astronaut-daily-life",
+  "xi": 0,
+  "level": "g8",
+  "title": "A Day on the Space Station",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g9-first-aid-for-teens",
+  "xi": 0,
+  "level": "g9",
+  "title": "First Aid Should Be Taught in Every School",
+  "skip": "narration check: 8 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-a-community-garden",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "A Garden Between the Buildings",
+  "skip": "narration check: 6 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-c-deaf-soccer-player",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Playing by Sight",
+  "skip": "narration check: 7 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-e-desert-stargazer",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "The Night Watcher of Mitzpe Ramon",
+  "skip": "narration check: 11 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-g-boredom-creativity",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "The Surprising Gifts of Boredom",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g3-my-monster-bubu",
+  "xi": 0,
+  "level": "g3",
+  "title": "My Monster Bubu",
+  "youtube": "https://youtu.be/D-I94rBTfO4",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g4-eli-new-bike",
+  "xi": 0,
+  "level": "g4",
+  "title": "Eli's New Bike",
+  "youtube": "https://youtu.be/G-riDkcXFCw",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g5-bus-driver-interview",
+  "xi": 0,
+  "level": "g5",
+  "title": "Meet Yosef, Our Bus Driver",
+  "youtube": "https://youtu.be/oBXbCIIUWng",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g6-email-pen-pal",
+  "xi": 0,
+  "level": "g6",
+  "title": "A New Pen Pal",
+  "youtube": "https://youtu.be/N3rDQbuSYaU",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g7-bird-feeder",
+  "xi": 0,
+  "level": "g7",
+  "title": "Maya's Bird Café",
+  "skip": "narration check: 5 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g8-beach-cleanup",
+  "xi": 0,
+  "level": "g8",
+  "title": "Students Clean Beach — and Learn a Lesson",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g9-four-day-school-week",
+  "xi": 0,
+  "level": "g9",
+  "title": "Four Days Are Enough?",
+  "skip": "narration check: 6 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-a-desert-plants-negev",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "How Do Desert Plants Stay Alive?",
+  "skip": "narration check: 8 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-c-fear-of-public-speaking",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Why Your Knees Shake When You Speak",
+  "skip": "narration check: 7 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-e-disappearing-crafts",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "The Last Hands",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-g-citizen-science",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "Science Without a Laboratory",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g3-ori-school-bag",
+  "xi": 0,
+  "level": "g3",
+  "title": "Ori's School Bag",
+  "youtube": "https://youtu.be/R3kWnxRkQ6w",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g4-email-to-grandma",
+  "xi": 0,
+  "level": "g4",
+  "title": "A Letter to Grandma",
+  "youtube": "https://youtu.be/tCjO4GBQCrc",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g5-camels",
+  "xi": 0,
+  "level": "g5",
+  "title": "Camels in the Desert",
+  "youtube": "https://youtu.be/GV0LqX6mh8s",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g6-jerusalem-class-trip",
+  "xi": 0,
+  "level": "g6",
+  "title": "Class Trip to Jerusalem",
+  "skip": "narration check: 3 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g7-book-swap-interview",
+  "xi": 0,
+  "level": "g7",
+  "title": "The Blue Book Box",
+  "skip": "narration check: 4 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g8-dog-walking",
+  "xi": 0,
+  "level": "g8",
+  "title": "My Four-Legged Business",
+  "youtube": "https://youtu.be/wxD51IhChP4",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g9-how-gps-works",
+  "xi": 0,
+  "level": "g9",
+  "title": "Never Lost Again? How GPS Works",
+  "skip": "narration check: 9 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-a-desert-plants-negev",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "How Do Desert Plants Stay Alive?",
+  "skip": "narration check: 7 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-c-friendship-book-review",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Book Review: 'The Lighthouse Summer'",
+  "skip": "narration check: 9 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-e-esports-debate",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "Is Gaming a Real Sport?",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-mod-g-city-noise",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "The Noise We No Longer Hear",
+  "skip": "narration check: 12 pauses inside words (max 2)"
+ },
+ {
+  "slug": "en-g3-rainy-day",
+  "xi": 0,
+  "level": "g3",
+  "title": "A Rainy Day",
+  "youtube": "https://youtu.be/8npzodpVSgk",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g4-grandpa-garden",
+  "xi": 0,
+  "level": "g4",
+  "title": "Grandpa's Garden",
+  "youtube": "https://youtu.be/3czlC6iuq7M",
+  "uploaded": "2026-11-08"
+ },
+ {
+  "slug": "en-g5-hanukkah-party-email",
+  "xi": 0,
+  "level": "g5",
+  "title": "An Email to Grandma"
+ },
+ {
+  "slug": "en-g6-kibbutz-diary",
+  "xi": 0,
+  "level": "g6",
+  "title": "A Week on the Kibbutz"
+ },
+ {
+  "slug": "en-g7-class-play-fear",
+  "xi": 0,
+  "level": "g7",
+  "title": "The King Who Was Afraid"
+ },
+ {
+  "slug": "en-g8-dogs-that-help",
+  "xi": 0,
+  "level": "g8",
+  "title": "Dogs with a Job"
+ },
+ {
+  "slug": "en-g9-how-vaccines-work",
+  "xi": 0,
+  "level": "g9",
+  "title": "How Vaccines Teach the Body"
+ },
+ {
+  "slug": "en-mod-a-electric-bikes",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "\"I Thought It Couldn't Happen to Me\""
+ },
+ {
+  "slug": "en-mod-c-history-of-the-zipper",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "The Small Invention That Holds Everything Together"
+ },
+ {
+  "slug": "en-mod-e-handwriting-notes",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "Put Down the Laptop, Pick Up the Pen"
+ },
+ {
+  "slug": "en-mod-g-de-extinction",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "Should We Bring Back the Mammoth?"
+ },
+ {
+  "slug": "en-g3-tamar-breakfast",
+  "xi": 0,
+  "level": "g3",
+  "title": "Breakfast with Dad"
+ },
+ {
+  "slug": "en-g4-hanukkah-week",
+  "xi": 0,
+  "level": "g4",
+  "title": "Hanukkah Week at School"
+ },
+ {
+  "slug": "en-g5-hedgehogs",
+  "xi": 0,
+  "level": "g5",
+  "title": "Hedgehogs in the Garden"
+ },
+ {
+  "slug": "en-g6-lifeguard-interview",
+  "xi": 0,
+  "level": "g6",
+  "title": "Eyes on the Water"
+ },
+ {
+  "slug": "en-g7-cooking-contest-email",
+  "xi": 0,
+  "level": "g7",
+  "title": "Join the Class Cooking Contest!"
+ },
+ {
+  "slug": "en-g8-drip-irrigation",
+  "xi": 0,
+  "level": "g8",
+  "title": "Drop by Drop"
+ },
+ {
+  "slug": "en-g9-hula-cranes",
+  "xi": 0,
+  "level": "g9",
+  "title": "A Morning with the Cranes"
+ },
+ {
+  "slug": "en-mod-a-electric-bikes",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "\"I Thought It Couldn't Happen to Me\""
+ },
+ {
+  "slug": "en-mod-c-hospital-coding-club",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Code on the Children's Ward"
+ },
+ {
+  "slug": "en-mod-e-night-shift-swimmer",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "The Night-Shift Swimmer"
+ },
+ {
+  "slug": "en-mod-g-fast-fashion",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "The Real Price of a Cheap T-Shirt"
+ },
+ {
+  "slug": "en-g3-what-am-i-riddle",
+  "xi": 0,
+  "level": "g3",
+  "title": "What Am I?"
+ },
+ {
+  "slug": "en-g4-lost-dog-notice",
+  "xi": 0,
+  "level": "g4",
+  "title": "Lost Dog!"
+ },
+ {
+  "slug": "en-g5-israeli-salad-recipe",
+  "xi": 0,
+  "level": "g5",
+  "title": "How to Make an Israeli Salad"
+ },
+ {
+  "slug": "en-g6-lost-dog-notice",
+  "xi": 0,
+  "level": "g6",
+  "title": "LOST: Our Dog Biscuit"
+ },
+ {
+  "slug": "en-g7-cousin-in-canada",
+  "xi": 0,
+  "level": "g7",
+  "title": "Hello from Toronto!"
+ },
+ {
+  "slug": "en-g8-drum-diary",
+  "xi": 0,
+  "level": "g8",
+  "title": "My First Week on the Drums"
+ },
+ {
+  "slug": "en-g9-octopus-intelligence",
+  "xi": 0,
+  "level": "g9",
+  "title": "The Clever Octopus"
+ },
+ {
+  "slug": "en-mod-a-escape-room",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "Sixty Minutes to Get Out"
+ },
+ {
+  "slug": "en-mod-c-onions-tears",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Why Do Onions Make Us Cry?"
+ },
+ {
+  "slug": "en-mod-e-persian-fallow-deer",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "The Return of the Yachmur"
+ },
+ {
+  "slug": "en-mod-g-grandmothers-baskets",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "The Baskets on My Grandmother's Shelf"
+ },
+ {
+  "slug": "en-g3-yoni-room",
+  "xi": 0,
+  "level": "g3",
+  "title": "My Room"
+ },
+ {
+  "slug": "en-g4-the-hoopoe",
+  "xi": 0,
+  "level": "g4",
+  "title": "The Hoopoe"
+ },
+ {
+  "slug": "en-g5-letter-from-eilat",
+  "xi": 0,
+  "level": "g5",
+  "title": "A Postcard from Eilat"
+ },
+ {
+  "slug": "en-g6-owls-at-night",
+  "xi": 0,
+  "level": "g6",
+  "title": "Owls: Hunters of the Night"
+ },
+ {
+  "slug": "en-g7-dead-sea-salt",
+  "xi": 0,
+  "level": "g7",
+  "title": "Why Is the Dead Sea So Salty?"
+ },
+ {
+  "slug": "en-g8-elderly-neighbours",
+  "xi": 0,
+  "level": "g8",
+  "title": "One Hour a Week"
+ },
+ {
+  "slug": "en-g9-phones-at-school",
+  "xi": 0,
+  "level": "g9",
+  "title": "Phones Away, Heads Up"
+ },
+ {
+  "slug": "en-mod-a-escape-room",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "Sixty Minutes to Get Out"
+ },
+ {
+  "slug": "en-mod-c-second-language",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Two Languages, Twice the World"
+ },
+ {
+  "slug": "en-mod-e-science-of-habits",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "Why We Do What We Do Without Thinking"
+ },
+ {
+  "slug": "en-mod-g-microplastics",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "The Plastic We Cannot See"
+ },
+ {
+  "slug": "en-g5-library-day",
+  "xi": 0,
+  "level": "g5",
+  "title": "Ido Loves the Library"
+ },
+ {
+  "slug": "en-g6-rainy-day-tent",
+  "xi": 0,
+  "level": "g6",
+  "title": "A Tent in the Living Room"
+ },
+ {
+  "slug": "en-g7-dog-shelter",
+  "xi": 0,
+  "level": "g7",
+  "title": "My First Day at the Dog Shelter"
+ },
+ {
+  "slug": "en-g8-friends-before-the-competition",
+  "xi": 0,
+  "level": "g8",
+  "title": "Two Ideas, One Robot"
+ },
+ {
+  "slug": "en-g9-power-outage",
+  "xi": 0,
+  "level": "g9",
+  "title": "The Night the Lights Went Out"
+ },
+ {
+  "slug": "en-mod-a-lifeguard-sea-safety",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "The Longest Minute"
+ },
+ {
+  "slug": "en-mod-c-teaching-grandpa",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Teaching Grandpa"
+ },
+ {
+  "slug": "en-mod-e-shrinking-dead-sea",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "The Shrinking Sea"
+ },
+ {
+  "slug": "en-mod-g-science-of-laughter",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "Why Do We Laugh?"
+ },
+ {
+  "slug": "en-g5-my-turtle-shelly",
+  "xi": 0,
+  "level": "g5",
+  "title": "My Turtle Shelly"
+ },
+ {
+  "slug": "en-g6-sandwich-thief",
+  "xi": 0,
+  "level": "g6",
+  "title": "The Sandwich Thief"
+ },
+ {
+  "slug": "en-g7-galilee-trip-notice",
+  "xi": 0,
+  "level": "g7",
+  "title": "Grade 7 Trip to the Galilee"
+ },
+ {
+  "slug": "en-g8-glass-from-sand",
+  "xi": 0,
+  "level": "g8",
+  "title": "From Sand to Glass"
+ },
+ {
+  "slug": "en-g9-school-podcast",
+  "xi": 0,
+  "level": "g9",
+  "title": "The Voice of the Hallway"
+ },
+ {
+  "slug": "en-mod-a-lifeguard-sea-safety",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "The Longest Minute"
+ },
+ {
+  "slug": "en-mod-c-year-of-service",
+  "xi": 0,
+  "level": "mod-c",
+  "title": "Why I'm Taking a Year Before the Army"
+ },
+ {
+  "slug": "en-mod-e-urban-heat-trees",
+  "xi": 0,
+  "level": "mod-e",
+  "title": "Greening the Concrete"
+ },
+ {
+  "slug": "en-mod-g-voting-at-sixteen",
+  "xi": 0,
+  "level": "mod-g",
+  "title": "Old Enough to Vote?"
+ },
+ {
+  "slug": "en-g5-new-school-diary",
+  "xi": 0,
+  "level": "g5",
+  "title": "Dear Diary: My First Day"
+ },
+ {
+  "slug": "en-g6-school-play",
+  "xi": 0,
+  "level": "g6",
+  "title": "The Night of the Play"
+ },
+ {
+  "slug": "en-g7-grandpa-video-calls",
+  "xi": 0,
+  "level": "g7",
+  "title": "Grandpa Online"
+ },
+ {
+  "slug": "en-g8-grandma-smartphone",
+  "xi": 0,
+  "level": "g8",
+  "title": "Never Too Old to Learn"
+ },
+ {
+  "slug": "en-g9-teen-repair-cafe",
+  "xi": 0,
+  "level": "g9",
+  "title": "The Fix-It Kids"
+ },
+ {
+  "slug": "en-mod-a-robot-vacuum",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "A Month with a Robot Cleaner"
+ },
+ {
+  "slug": "en-g5-sports-day-notice",
+  "xi": 0,
+  "level": "g5",
+  "title": "Sports Day at Our School"
+ },
+ {
+  "slug": "en-g6-science-fair-email",
+  "xi": 0,
+  "level": "g6",
+  "title": "Can Music Help Plants Grow?"
+ },
+ {
+  "slug": "en-g7-honeybees",
+  "xi": 0,
+  "level": "g7",
+  "title": "How Do Bees Make Honey?"
+ },
+ {
+  "slug": "en-g8-grandmas-recipe-book",
+  "xi": 0,
+  "level": "g8",
+  "title": "The Recipe Book"
+ },
+ {
+  "slug": "en-g9-wheelchair-basketball",
+  "xi": 0,
+  "level": "g9",
+  "title": "Playing on Wheels"
+ },
+ {
+  "slug": "en-mod-a-robot-vacuum",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "A Month with a Robot Cleaner"
+ },
+ {
+  "slug": "en-g5-sukkah-on-the-balcony",
+  "xi": 0,
+  "level": "g5",
+  "title": "A Sukkah on the Balcony"
+ },
+ {
+  "slug": "en-g6-shakshuka-recipe",
+  "xi": 0,
+  "level": "g6",
+  "title": "Shakshuka for the Whole Family"
+ },
+ {
+  "slug": "en-g7-hot-air-balloons",
+  "xi": 0,
+  "level": "g7",
+  "title": "Up, Up and Away"
+ },
+ {
+  "slug": "en-g8-history-of-the-bicycle",
+  "xi": 0,
+  "level": "g8",
+  "title": "From Running Machine to Racing Bike"
+ },
+ {
+  "slug": "en-g9-why-we-dream",
+  "xi": 0,
+  "level": "g9",
+  "title": "Stories in the Dark: Why We Dream"
+ },
+ {
+  "slug": "en-mod-a-sea-of-galilee",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "Around the Kinneret"
+ },
+ {
+  "slug": "en-g5-summer-camp-schedule",
+  "xi": 0,
+  "level": "g5",
+  "title": "A Day at Summer Camp"
+ },
+ {
+  "slug": "en-g6-young-hikers-club",
+  "xi": 0,
+  "level": "g6",
+  "title": "Join the Young Hikers Club!"
+ },
+ {
+  "slug": "en-g7-learning-to-swim",
+  "xi": 0,
+  "level": "g7",
+  "title": "Never Too Late"
+ },
+ {
+  "slug": "en-g8-history-of-the-pencil",
+  "xi": 0,
+  "level": "g8",
+  "title": "The Pencil That Has No Lead"
+ },
+ {
+  "slug": "en-g9-wrong-train",
+  "xi": 0,
+  "level": "g9",
+  "title": "The Wrong Train"
+ },
+ {
+  "slug": "en-mod-a-sea-of-galilee",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "Around the Kinneret"
+ },
+ {
+  "slug": "en-g7-lego-robots-interview",
+  "xi": 0,
+  "level": "g7",
+  "title": "Meet the Robot Builder"
+ },
+ {
+  "slug": "en-g8-lighthouses",
+  "xi": 0,
+  "level": "g8",
+  "title": "How Lighthouses Work"
+ },
+ {
+  "slug": "en-mod-a-shakshuka-family",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "Three Things a Good Shakshuka Needs"
+ },
+ {
+  "slug": "en-g7-lost-rabbit",
+  "xi": 0,
+  "level": "g7",
+  "title": "Lost Rabbit Found in School Garden"
+ },
+ {
+  "slug": "en-g8-longer-recess",
+  "xi": 0,
+  "level": "g8",
+  "title": "Give Us a Longer Break!"
+ },
+ {
+  "slug": "en-mod-a-shakshuka-family",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "Three Things a Good Shakshuka Needs"
+ },
+ {
+  "slug": "en-g7-music-workshop-notice",
+  "xi": 0,
+  "level": "g7",
+  "title": "Let's Make Music!"
+ },
+ {
+  "slug": "en-g8-lost-in-akko",
+  "xi": 0,
+  "level": "g8",
+  "title": "The Sound of the Sea"
+ },
+ {
+  "slug": "en-mod-a-teen-cafe",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "The Cafe Where the Waiters Are Fifteen"
+ },
+ {
+  "slug": "en-g7-nature-reserve-trip",
+  "xi": 0,
+  "level": "g7",
+  "title": "My Review: A Class Trip to Green Hills Nature Reserve"
+ },
+ {
+  "slug": "en-g8-lost-violin",
+  "xi": 0,
+  "level": "g8",
+  "title": "Lost Violin Finds Its Way Home"
+ },
+ {
+  "slug": "en-mod-a-teen-cafe",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "The Cafe Where the Waiters Are Fifteen"
+ },
+ {
+  "slug": "en-g7-negev-camping-diary",
+  "xi": 0,
+  "level": "g7",
+  "title": "A Night Under the Desert Sky"
+ },
+ {
+  "slug": "en-g8-new-cycling-path",
+  "xi": 0,
+  "level": "g8",
+  "title": "A New Cycling Path in Town"
+ },
+ {
+  "slug": "en-mod-a-tool-library",
+  "xi": 0,
+  "level": "mod-a",
+  "title": "Borrow a Drill, Not a Book"
+ },
+ {
+  "slug": "en-g7-new-school-diary",
+  "xi": 0,
+  "level": "g7",
+  "title": "Dear Diary: My First Day"
+ },
+ {
+  "slug": "en-g8-phones-on-school-trips",
+  "xi": 0,
+  "level": "g8",
+  "title": "Leave the Phone at Home"
+ },
+ {
+  "slug": "en-mod-a-tool-library",
+  "xi": 1,
+  "level": "mod-a",
+  "title": "Borrow a Drill, Not a Book"
+ },
+ {
+  "slug": "en-g7-penguins-keep-warm",
+  "xi": 0,
+  "level": "g7",
+  "title": "How Do Penguins Keep Warm?"
+ },
+ {
+  "slug": "en-g8-school-shirts",
+  "xi": 0,
+  "level": "g8",
+  "title": "Why I Like Wearing the Same Shirt Every Day"
+ },
+ {
+  "slug": "en-g7-power-cut-diary",
+  "xi": 0,
+  "level": "g7",
+  "title": "The Night the Lights Went Out"
+ },
+ {
+  "slug": "en-g8-science-museum",
+  "xi": 0,
+  "level": "g8",
+  "title": "A Day at the Science Museum"
+ },
+ {
+  "slug": "en-g7-reading-buddies-notice",
+  "xi": 0,
+  "level": "g7",
+  "title": "Volunteers Wanted: Reading Buddies"
+ },
+ {
+  "slug": "en-g8-story-of-chocolate",
+  "xi": 0,
+  "level": "g8",
+  "title": "From Bitter Drink to Sweet Bar"
+ },
+ {
+  "slug": "en-g7-recycling-contest",
+  "xi": 0,
+  "level": "g7",
+  "title": "Every School Needs a Recycling Contest"
+ },
+ {
+  "slug": "en-g8-teen-chess-interview",
+  "xi": 0,
+  "level": "g8",
+  "title": "Thinking Five Moves Ahead"
+ },
+ {
+  "slug": "en-g7-robot-science-fair",
+  "xi": 0,
+  "level": "g7",
+  "title": "Ben's Robot"
+ },
+ {
+  "slug": "en-g8-teen-sleep",
+  "xi": 0,
+  "level": "g8",
+  "title": "Let Teenagers Sleep!"
+ },
+ {
+  "slug": "en-g7-sea-turtle-nests",
+  "xi": 0,
+  "level": "g7",
+  "title": "Saving the Baby Turtles"
+ },
+ {
+  "slug": "en-g8-time-travel-book-review",
+  "xi": 0,
+  "level": "g8",
+  "title": "The Clock in the Attic — A Book Review"
+ },
+ {
+  "slug": "en-g7-wallet-on-the-bus",
+  "xi": 0,
+  "level": "g7",
+  "title": "The Wallet on the Bus"
+ },
+ {
+  "slug": "en-g8-tu-bishvat-tree",
+  "xi": 0,
+  "level": "g8",
+  "title": "Grandpa's Olive Tree"
+ },
+ {
+  "slug": "en-g7-water-fountain-letter",
+  "xi": 0,
+  "level": "g7",
+  "title": "A Letter to the Principal"
+ },
+ {
+  "slug": "en-g8-week-without-screens",
+  "xi": 0,
+  "level": "g8",
+  "title": "Seven Days, Zero Screens"
+ },
+ {
+  "slug": "en-g7-why-cats-purr",
+  "xi": 0,
+  "level": "g7",
+  "title": "Why Do Cats Purr?"
+ },
+ {
+  "slug": "en-g8-weekend-homework",
+  "xi": 0,
+  "level": "g8",
+  "title": "Let Our Weekends Be Free"
+ },
+ {
+  "slug": "en-g7-why-seasons",
+  "xi": 0,
+  "level": "g7",
+  "title": "Why Do We Have Seasons?"
+ },
+ {
+  "slug": "en-g8-why-we-yawn",
+  "xi": 0,
+  "level": "g8",
+  "title": "The Mystery of the Yawn"
+ }
+]
