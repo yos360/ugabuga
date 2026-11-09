@@ -710,31 +710,37 @@
   "slug": "en-g6-sandwich-thief",
   "xi": 0,
   "level": "g6",
-  "title": "The Sandwich Thief"
+  "title": "The Sandwich Thief",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g7-galilee-trip-notice",
   "xi": 0,
   "level": "g7",
-  "title": "Grade 7 Trip to the Galilee"
+  "title": "Grade 7 Trip to the Galilee",
+  "youtube": "https://youtu.be/FeyCX5sefAo",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g8-glass-from-sand",
   "xi": 0,
   "level": "g8",
-  "title": "From Sand to Glass"
+  "title": "From Sand to Glass",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-g9-school-podcast",
   "xi": 0,
   "level": "g9",
-  "title": "The Voice of the Hallway"
+  "title": "The Voice of the Hallway",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-mod-a-lifeguard-sea-safety",
   "xi": 1,
   "level": "mod-a",
-  "title": "The Longest Minute"
+  "title": "The Longest Minute",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-mod-c-year-of-service",
@@ -746,133 +752,156 @@
   "slug": "en-mod-e-urban-heat-trees",
   "xi": 0,
   "level": "mod-e",
-  "title": "Greening the Concrete"
+  "title": "Greening the Concrete",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-mod-g-voting-at-sixteen",
   "xi": 0,
   "level": "mod-g",
-  "title": "Old Enough to Vote?"
+  "title": "Old Enough to Vote?",
+  "skip": "narration check: 11 pauses inside words"
  },
  {
   "slug": "en-g5-new-school-diary",
   "xi": 0,
   "level": "g5",
-  "title": "Dear Diary: My First Day"
+  "title": "Dear Diary: My First Day",
+  "youtube": "https://youtu.be/ey60BH_h9to",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g6-school-play",
   "xi": 0,
   "level": "g6",
-  "title": "The Night of the Play"
+  "title": "The Night of the Play",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g7-grandpa-video-calls",
   "xi": 0,
   "level": "g7",
-  "title": "Grandpa Online"
+  "title": "Grandpa Online",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g8-grandma-smartphone",
   "xi": 0,
   "level": "g8",
-  "title": "Never Too Old to Learn"
+  "title": "Never Too Old to Learn",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-g9-teen-repair-cafe",
   "xi": 0,
   "level": "g9",
-  "title": "The Fix-It Kids"
+  "title": "The Fix-It Kids",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-mod-a-robot-vacuum",
   "xi": 0,
   "level": "mod-a",
-  "title": "A Month with a Robot Cleaner"
+  "title": "A Month with a Robot Cleaner",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g5-sports-day-notice",
   "xi": 0,
   "level": "g5",
-  "title": "Sports Day at Our School"
+  "title": "Sports Day at Our School",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-g6-science-fair-email",
   "xi": 0,
   "level": "g6",
-  "title": "Can Music Help Plants Grow?"
+  "title": "Can Music Help Plants Grow?",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g7-honeybees",
   "xi": 0,
   "level": "g7",
-  "title": "How Do Bees Make Honey?"
+  "title": "How Do Bees Make Honey?",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g8-grandmas-recipe-book",
   "xi": 0,
   "level": "g8",
-  "title": "The Recipe Book"
+  "title": "The Recipe Book",
+  "skip": "narration check: 9 pauses inside words"
  },
  {
   "slug": "en-g9-wheelchair-basketball",
   "xi": 0,
   "level": "g9",
-  "title": "Playing on Wheels"
+  "title": "Playing on Wheels",
+  "skip": "narration check: 13 pauses inside words"
  },
  {
   "slug": "en-mod-a-robot-vacuum",
   "xi": 1,
   "level": "mod-a",
-  "title": "A Month with a Robot Cleaner"
+  "title": "A Month with a Robot Cleaner",
+  "skip": "narration check: 10 pauses inside words"
  },
  {
   "slug": "en-g5-sukkah-on-the-balcony",
   "xi": 0,
   "level": "g5",
-  "title": "A Sukkah on the Balcony"
+  "title": "A Sukkah on the Balcony",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g6-shakshuka-recipe",
   "xi": 0,
   "level": "g6",
-  "title": "Shakshuka for the Whole Family"
+  "title": "Shakshuka for the Whole Family",
+  "skip": "narration check: 19 pauses inside words"
  },
  {
   "slug": "en-g7-hot-air-balloons",
   "xi": 0,
   "level": "g7",
-  "title": "Up, Up and Away"
+  "title": "Up, Up and Away",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g8-history-of-the-bicycle",
   "xi": 0,
   "level": "g8",
-  "title": "From Running Machine to Racing Bike"
+  "title": "From Running Machine to Racing Bike",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-g9-why-we-dream",
   "xi": 0,
   "level": "g9",
-  "title": "Stories in the Dark: Why We Dream"
+  "title": "Stories in the Dark: Why We Dream",
+  "skip": "narration check: 15 pauses inside words"
  },
  {
   "slug": "en-mod-a-sea-of-galilee",
   "xi": 0,
   "level": "mod-a",
-  "title": "Around the Kinneret"
+  "title": "Around the Kinneret",
+  "skip": "narration check: 10 pauses inside words"
  },
  {
   "slug": "en-g5-summer-camp-schedule",
   "xi": 0,
   "level": "g5",
-  "title": "A Day at Summer Camp"
+  "title": "A Day at Summer Camp",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g6-young-hikers-club",
   "xi": 0,
   "level": "g6",
-  "title": "Join the Young Hikers Club!"
+  "title": "Join the Young Hikers Club!",
+  "skip": "narration check: 12 pauses inside words"
  },
  {
   "slug": "en-g7-learning-to-swim",
@@ -884,246 +913,292 @@
   "slug": "en-g8-history-of-the-pencil",
   "xi": 0,
   "level": "g8",
-  "title": "The Pencil That Has No Lead"
+  "title": "The Pencil That Has No Lead",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-g9-wrong-train",
   "xi": 0,
   "level": "g9",
-  "title": "The Wrong Train"
+  "title": "The Wrong Train",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-mod-a-sea-of-galilee",
   "xi": 1,
   "level": "mod-a",
-  "title": "Around the Kinneret"
+  "title": "Around the Kinneret",
+  "youtube": "https://youtu.be/X2arKJ3sryE",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g7-lego-robots-interview",
   "xi": 0,
   "level": "g7",
-  "title": "Meet the Robot Builder"
+  "title": "Meet the Robot Builder",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-g8-lighthouses",
   "xi": 0,
   "level": "g8",
-  "title": "How Lighthouses Work"
+  "title": "How Lighthouses Work",
+  "skip": "narration check: 10 pauses inside words"
  },
  {
   "slug": "en-mod-a-shakshuka-family",
   "xi": 0,
   "level": "mod-a",
-  "title": "Three Things a Good Shakshuka Needs"
+  "title": "Three Things a Good Shakshuka Needs",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-g7-lost-rabbit",
   "xi": 0,
   "level": "g7",
-  "title": "Lost Rabbit Found in School Garden"
+  "title": "Lost Rabbit Found in School Garden",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g8-longer-recess",
   "xi": 0,
   "level": "g8",
-  "title": "Give Us a Longer Break!"
+  "title": "Give Us a Longer Break!",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-mod-a-shakshuka-family",
   "xi": 1,
   "level": "mod-a",
-  "title": "Three Things a Good Shakshuka Needs"
+  "title": "Three Things a Good Shakshuka Needs",
+  "skip": "narration check: 23 pauses inside words"
  },
  {
   "slug": "en-g7-music-workshop-notice",
   "xi": 0,
   "level": "g7",
-  "title": "Let's Make Music!"
+  "title": "Let's Make Music!",
+  "skip": "narration check: 15 pauses inside words"
  },
  {
   "slug": "en-g8-lost-in-akko",
   "xi": 0,
   "level": "g8",
-  "title": "The Sound of the Sea"
+  "title": "The Sound of the Sea",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-mod-a-teen-cafe",
   "xi": 0,
   "level": "mod-a",
-  "title": "The Cafe Where the Waiters Are Fifteen"
+  "title": "The Cafe Where the Waiters Are Fifteen",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g7-nature-reserve-trip",
   "xi": 0,
   "level": "g7",
-  "title": "My Review: A Class Trip to Green Hills Nature Reserve"
+  "title": "My Review: A Class Trip to Green Hills Nature Reserve",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g8-lost-violin",
   "xi": 0,
   "level": "g8",
-  "title": "Lost Violin Finds Its Way Home"
+  "title": "Lost Violin Finds Its Way Home",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-mod-a-teen-cafe",
   "xi": 1,
   "level": "mod-a",
-  "title": "The Cafe Where the Waiters Are Fifteen"
+  "title": "The Cafe Where the Waiters Are Fifteen",
+  "skip": "narration check: 7 pauses inside words"
  },
  {
   "slug": "en-g7-negev-camping-diary",
   "xi": 0,
   "level": "g7",
-  "title": "A Night Under the Desert Sky"
+  "title": "A Night Under the Desert Sky",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g8-new-cycling-path",
   "xi": 0,
   "level": "g8",
-  "title": "A New Cycling Path in Town"
+  "title": "A New Cycling Path in Town",
+  "skip": "narration check: 17 pauses inside words"
  },
  {
   "slug": "en-mod-a-tool-library",
   "xi": 0,
   "level": "mod-a",
-  "title": "Borrow a Drill, Not a Book"
+  "title": "Borrow a Drill, Not a Book",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g7-new-school-diary",
   "xi": 0,
   "level": "g7",
-  "title": "Dear Diary: My First Day"
+  "title": "Dear Diary: My First Day",
+  "youtube": "https://youtu.be/Re3_ZRIxTT4",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g8-phones-on-school-trips",
   "xi": 0,
   "level": "g8",
-  "title": "Leave the Phone at Home"
+  "title": "Leave the Phone at Home",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-mod-a-tool-library",
   "xi": 1,
   "level": "mod-a",
-  "title": "Borrow a Drill, Not a Book"
+  "title": "Borrow a Drill, Not a Book",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g7-penguins-keep-warm",
   "xi": 0,
   "level": "g7",
-  "title": "How Do Penguins Keep Warm?"
+  "title": "How Do Penguins Keep Warm?",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g8-school-shirts",
   "xi": 0,
   "level": "g8",
-  "title": "Why I Like Wearing the Same Shirt Every Day"
+  "title": "Why I Like Wearing the Same Shirt Every Day",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g7-power-cut-diary",
   "xi": 0,
   "level": "g7",
-  "title": "The Night the Lights Went Out"
+  "title": "The Night the Lights Went Out",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-g8-science-museum",
   "xi": 0,
   "level": "g8",
-  "title": "A Day at the Science Museum"
+  "title": "A Day at the Science Museum",
+  "youtube": "https://youtu.be/15MzyUEUX7Y",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g7-reading-buddies-notice",
   "xi": 0,
   "level": "g7",
-  "title": "Volunteers Wanted: Reading Buddies"
+  "title": "Volunteers Wanted: Reading Buddies",
+  "skip": "narration check: 8 pauses inside words"
  },
  {
   "slug": "en-g8-story-of-chocolate",
   "xi": 0,
   "level": "g8",
-  "title": "From Bitter Drink to Sweet Bar"
+  "title": "From Bitter Drink to Sweet Bar",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g7-recycling-contest",
   "xi": 0,
   "level": "g7",
-  "title": "Every School Needs a Recycling Contest"
+  "title": "Every School Needs a Recycling Contest",
+  "skip": "narration check: 9 pauses inside words"
  },
  {
   "slug": "en-g8-teen-chess-interview",
   "xi": 0,
   "level": "g8",
-  "title": "Thinking Five Moves Ahead"
+  "title": "Thinking Five Moves Ahead",
+  "skip": "narration check: 8 pauses inside words"
  },
  {
   "slug": "en-g7-robot-science-fair",
   "xi": 0,
   "level": "g7",
-  "title": "Ben's Robot"
+  "title": "Ben's Robot",
+  "skip": "narration check: 8 pauses inside words"
  },
  {
   "slug": "en-g8-teen-sleep",
   "xi": 0,
   "level": "g8",
-  "title": "Let Teenagers Sleep!"
+  "title": "Let Teenagers Sleep!",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g7-sea-turtle-nests",
   "xi": 0,
   "level": "g7",
-  "title": "Saving the Baby Turtles"
+  "title": "Saving the Baby Turtles",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g8-time-travel-book-review",
   "xi": 0,
   "level": "g8",
-  "title": "The Clock in the Attic — A Book Review"
+  "title": "The Clock in the Attic — A Book Review",
+  "skip": "narration check: 11 pauses inside words"
  },
  {
   "slug": "en-g7-wallet-on-the-bus",
   "xi": 0,
   "level": "g7",
-  "title": "The Wallet on the Bus"
+  "title": "The Wallet on the Bus",
+  "youtube": "https://youtu.be/3iNHZE9eKxw",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g8-tu-bishvat-tree",
   "xi": 0,
   "level": "g8",
-  "title": "Grandpa's Olive Tree"
+  "title": "Grandpa's Olive Tree",
+  "skip": "narration check: 3 pauses inside words"
  },
  {
   "slug": "en-g7-water-fountain-letter",
   "xi": 0,
   "level": "g7",
-  "title": "A Letter to the Principal"
+  "title": "A Letter to the Principal",
+  "skip": "narration check: 5 pauses inside words"
  },
  {
   "slug": "en-g8-week-without-screens",
   "xi": 0,
   "level": "g8",
-  "title": "Seven Days, Zero Screens"
+  "title": "Seven Days, Zero Screens",
+  "skip": "narration check: 6 pauses inside words"
  },
  {
   "slug": "en-g7-why-cats-purr",
   "xi": 0,
   "level": "g7",
-  "title": "Why Do Cats Purr?"
+  "title": "Why Do Cats Purr?",
+  "skip": "narration check: 9 pauses inside words"
  },
  {
   "slug": "en-g8-weekend-homework",
   "xi": 0,
   "level": "g8",
-  "title": "Let Our Weekends Be Free"
+  "title": "Let Our Weekends Be Free",
+  "skip": "narration check: 4 pauses inside words"
  },
  {
   "slug": "en-g7-why-seasons",
   "xi": 0,
   "level": "g7",
-  "title": "Why Do We Have Seasons?"
+  "title": "Why Do We Have Seasons?",
+  "youtube": "https://youtu.be/D0Zu8MdIbi0",
+  "uploaded": "2026-11-10"
  },
  {
   "slug": "en-g8-why-we-yawn",
   "xi": 0,
   "level": "g8",
-  "title": "The Mystery of the Yawn"
+  "title": "The Mystery of the Yawn",
+  "skip": "narration check: 3 pauses inside words"
  }
 ]
