@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'who-am-i-keys', n: 8, date: '2026-11-09', type: '"מי אני?"', emoji: '🤔', kind: 'text',
+    title: 'מי אני? חידה קשה',
+    lines: ['יש לי כניסה, ואין אחריה אף חדר,', 'יש לי יציאה, ואין בה אף דלת,', 'יש לי חיצים, ואין לי שום מטרה.'],
+    ask: 'מי אני? 🤔',
+    answer: 'מקלדת',
+    why: 'במקלדת יש מקש כניסה (Enter), מקש יציאה (Esc) ומקשי חיצים — אבל היא לא נכנסת לשום חדר, אין לה שום דלת ולא יורה בשום חץ.',
+  },
+  {
     id: 'always-coming', n: 7, date: '2026-11-08', type: '"מי אני?"', emoji: '⏳', kind: 'text',
     title: 'מי אני? חידה מאת תמירוס',
     lines: ['אני תמיד בדרך,', 'אבל אף פעם לא מגיע.', 'וכשאני כבר בא —', 'קוראים לי בשם אחר.'],
