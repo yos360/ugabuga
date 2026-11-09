@@ -48,7 +48,7 @@ Three tutorials per day (owner's request, from 2026-10-30): prepared in the clou
 | 27 | משחק אותיות לילדים | /letters/game | learning | 2026-11-08 slot 1 — ready, upload from the owner's Chrome |
 | 28 | צביעה לפי מספרים | /printables/color-by-number | learning | 2026-11-08 slot 2 — ready, upload from the owner's Chrome |
 | 29 | דפי עבודה בחשבון — בוחרים ומדפיסים | /printables/math-worksheets | learning | 2026-11-08 slot 3 — ready, upload from the owner's Chrome |
-| 30 | שבוע זהירות בדרכים — חידון לפי כיתה | /road-safety-week | classroom | |
+| 30 | שבוע זהירות בדרכים — חידון לפי כיתה | /road-safety-week | classroom | 2026-11-09 slot 1 — ready, upload from the owner's Chrome |
 ## v2 — landscape (owner, 2026-11-04)
 Same look as the daily reels (paper + dot grid, ink cards, Heebo/Fredoka, site characters, synthesized music, LUFS −14),
 but 16:9 1920×1080, 30–40 s: hook question → 4–6 numbered steps (step header on the right, the demo on the left) →
