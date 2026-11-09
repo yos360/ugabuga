@@ -12,6 +12,8 @@ import Inspector, { Slider, EMOJI } from './Inspector'
 import { exportPdf, exportZip, exportImage, printDpi } from './exportStudio'
 import { downloadBlob, canShareFiles, shareBlob } from '../office/image/imageIO'
 
+// sample photos in /public/studio-demo (generated for us), per event: how many
+const DEMO = { wedding: 8, 'bar-mitzvah': 8, 'bat-mitzvah': 6, birthday: 5 }
 const btn = 'min-h-[44px] rounded-xl border-2 border-slate-300 bg-white px-3 py-1.5 font-bold hover:border-slate-500 disabled:opacity-50'
 const on = 'min-h-[44px] rounded-xl border-2 border-[var(--border)] bg-amber-200 px-3 py-1.5 font-bold'
 const card = 'rounded-2xl border-2 border-[var(--border)] bg-white p-4'
@@ -64,13 +66,29 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
   const redo = () => { const h = hist.current; if (!h.future.length) return; h.past.push(clone(doc)); setDoc(h.future.pop()); setSel(null) }
   const editPage = fn => { const d = clone(doc); fn(d.pages[pageIdx], d); commitDoc(d) }
 
+  // ---------- demo: a finished example with sample photos until the visitor adds their own ----------
+  const [demo, setDemo] = useState(false)
+  const loadDemo = async () => {
+    const names = product === 'album'
+      ? Array.from({ length: DEMO[event] || DEMO.wedding }, (_, i) => `${DEMO[event] ? event : 'wedding'}-${i + 1}`)
+      : Object.entries(DEMO).flatMap(([ev, n]) => Array.from({ length: n }, (_, i) => `${ev}-${i + 1}`))
+    try {
+      const t0 = Date.now()
+      const files = await Promise.all(names.map((n, i) => fetch(`/studio-demo/${n}.webp`).then(r => { if (!r.ok) throw new Error(n); return r.blob() }).then(b => new File([b], `${n}.webp`, { type: 'image/webp', lastModified: t0 + i * 60000 }))))
+      const ph = await addFiles(files, null, { persist: false })
+      if (!ph.length || docRef.current.pages.some(p => p.items.some(i => i.photo || i.photos?.length))) return
+      setLibrary(ph); setDemo(true)
+      autoFill(ph, 'upload', true)
+    } catch { /* no demo, the empty editor still works */ }
+  }
+
   // ---------- autosave / resume ----------
-  useEffect(() => { loadDoc(key).then(r => { if (r?.doc?.pages?.length) setSaved(r) }) }, [key])
+  useEffect(() => { loadDoc(key).then(r => { if (r?.doc?.pages?.length) setSaved(r); else loadDemo() }) }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (saved) return
+    if (saved || demo) return
     const t = setTimeout(() => saveDoc(key, { ...doc, library: library.map(p => p.id) }), 700)
     return () => clearTimeout(t)
-  }, [doc, library, key, saved])
+  }, [doc, library, key, saved, demo])
   const resume = async () => {
     const d = saved.doc
     const ids = new Set(d.library || [])
@@ -79,7 +97,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     const ph = await restorePhotos([...ids])
     setLibrary(ph); setDoc(d); setPageIdx(0); setSaved(null); setBusy('')
   }
-  const startOver = async () => { await forget(key); setSaved(null) }
+  const startOver = async () => { await forget(key); setSaved(null); loadDemo() }
 
   // ---------- previews of photos used anywhere ----------
   useEffect(() => {
@@ -124,7 +142,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     if (guides?.x != null) { ctx.beginPath(); ctx.moveTo(guides.x * k, 0); ctx.lineTo(guides.x * k, c.height); ctx.stroke() }
     if (guides?.y != null) { ctx.beginPath(); ctx.moveTo(0, guides.y * k); ctx.lineTo(c.width, guides.y * k); ctx.stroke() }
     for (const it of page.items) {
-      if (it.type !== 'photo' || !it.photo) continue
+      if (demo || it.type !== 'photo' || !it.photo) continue // sample photos are small on purpose: no red dots
       const p = getPhoto(it.photo)
       if (p && dpiLevel(effectiveDpi(p.w, p.h, it.w, it.h, it.zoom)) === 'low') {
         ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.arc((it.x + 5) * k, (it.y + 5) * k, 3.2 * k, 0, Math.PI * 2); ctx.fill()
@@ -132,7 +150,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
       }
     }
     ctx.restore()
-  }, [doc, page, images, style, kCss, dpr, guides])
+  }, [doc, page, images, style, kCss, dpr, guides, demo])
 
   // tapping an empty "+" frame: choose one of your photos, or upload if there are none yet
   const frameRef = useRef(null), libRef = useRef(null)
@@ -167,6 +185,12 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     setBusy('קוראים את התמונות…')
     const added = await addFiles([...files], (i, n) => setBusy(`קוראים את התמונות… ${i}/${n}`))
     setBusy('')
+    if (demo && added.length) {
+      // the visitor's own photos replace the example completely
+      setDemo(false); setLibrary(added); frameRef.current = null; setPicker(null)
+      autoFill(added, order)
+      return
+    }
     const all = [...library, ...added]
     setLibrary(all)
     // first photos: fill the design automatically
@@ -188,7 +212,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
       })
     }
   }
-  const autoFill = (all = library, ord = order) => {
+  const autoFill = (all = library, ord = order, quiet = false) => {
     const { kept, blurry, dupes } = pickForAuto(all, ord)
     // in date order blurry photos keep their place in time only for mosaics; elsewhere they go last
     const use = ord === 'upload' || doc.kind === 'collage' ? kept : [...kept.filter(p => !blurry.includes(p)), ...blurry]
@@ -196,6 +220,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
       ? newAlbum({ event: doc.event, styleId: doc.styleId, sizeId: doc.sizeId, photos: use, perPage: doc.perPage || 3, mode: doc.mode, title: doc.pages[0].items.find(i => i.role === 'title')?.text, sub: doc.pages[0].items.find(i => i.role === 'sub')?.text })
       : newCollage({ kind: doc.collage, sizeId: doc.sizeId, styleId: doc.styleId, photos: use, text: doc.pages[0].items.find(i => i.type === 'mosaic' || (i.type === 'text' && !i.role))?.text })
     commitDoc(d); setPageIdx(0); setSel(null)
+    if (quiet) return
     const how = ord === 'date' ? 'לפי תאריך הצילום' : 'לפי סדר ההעלאה'
     setDone(product === 'album'
       ? `✨ האלבום מוכן! סידרנו ${use.length} תמונות ב־${d.pages.length} כפולות (${d.pages.length * 2} עמודים), ${how}.`
@@ -295,6 +320,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     </div>
   })()
 
+  const mine = demo ? 0 : library.length // the visitor's own photos (not the example)
   const styleList = product === 'album' ? STYLES[doc.event] || STYLES.wedding : Object.values(STYLES).flat()
   return <div className="studio" dir="rtl">
     {saved && <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-4" role="status">
@@ -305,15 +331,19 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
 
     {/* the three steps, always in view */}
     <ol className="m-0 mb-3 flex list-none flex-wrap gap-2 p-0 text-sm font-bold" aria-label="שלבים">
-      {[['📷', 'מעלים תמונות', library.length > 0], ['🎨', 'בוחרים סגנון', library.length > 0], ['⬇️', product === 'album' ? 'מורידים PDF להדפסה' : 'מורידים', false]].map(([e, t, ok], i) =>
+      {[['📷', 'מעלים תמונות', mine > 0], ['🎨', 'בוחרים סגנון', mine > 0], ['⬇️', product === 'album' ? 'מורידים PDF להדפסה' : 'מורידים', false]].map(([e, t, ok], i) =>
         <li key={t} className={`flex items-center gap-1.5 rounded-full border-2 px-3 py-1 ${ok ? 'border-emerald-400 bg-emerald-50' : 'border-slate-300 bg-white'}`}><span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-800 text-xs text-white">{ok ? '✓' : i + 1}</span>{e} {t}</li>)}
     </ol>
 
     {/* step 1: photos */}
     <div className={`${card} mb-4 flex flex-wrap items-center gap-3`}>
       <input ref={fileIn} type="file" accept="image/*,.heic,.heif" multiple hidden onChange={e => { onFiles(e.target.files); e.target.value = '' }} />
-      <button type="button" className="min-h-[52px] rounded-xl bg-rose-500 px-5 py-2 text-lg font-bold text-white" onClick={() => fileIn.current.click()}>📷 {library.length ? 'עוד תמונות' : 'העלאת תמונות'}</button>
-      <span className="text-sm text-slate-600">{library.length ? <><b>{library.length} תמונות.</b> </> : product === 'album' ? <><b>בוחרים את כל התמונות בבת אחת — והאלבום מסתדר לבד.</b> </> : null}🔒 התמונות נשארות במכשיר שלכם, לא עולות לשום שרת.</span>
+      {demo && <div className="w-full rounded-xl border-2 border-amber-400 bg-amber-50 p-3" role="status">
+        <p className="m-0 text-base font-black">👀 ככה זה נראה — {product === 'album' ? 'אלבום' : 'קולאז׳'} לדוגמה</p>
+        <p className="m-0 mt-1 text-sm">{product === 'album' ? `${doc.pages.length} כפולות, מסודרות לבד. ` : ''}מעלים את התמונות שלכם — והן נכנסות במקום תמונות הדוגמה. אפשר גם לנסות כאן הכול: ללחוץ על תמונה, להחליף סגנון, לגרור.</p>
+      </div>}
+      <button type="button" className="min-h-[52px] rounded-xl bg-rose-500 px-5 py-2 text-lg font-bold text-white" onClick={() => fileIn.current.click()}>📷 {mine ? 'עוד תמונות' : 'העלאת התמונות שלכם'}</button>
+      <span className="text-sm text-slate-600">{mine ? <><b>{mine} תמונות.</b> </> : product === 'album' ? <><b>בוחרים את כל התמונות בבת אחת — והאלבום מסתדר לבד.</b> </> : null}🔒 התמונות נשארות במכשיר שלכם, לא עולות לשום שרת.</span>
       {done && <div className="w-full rounded-xl border-2 border-emerald-400 bg-emerald-50 p-3" role="status">
         <p className="m-0 text-base font-black">{done}</p>
         <p className="m-0 mt-1 text-sm">{product === 'album' ? 'עוברים בין הכפולות ברצועה שמתחת לאלבום. רוצים לשנות תמונה? לוחצים עליה.' : 'רוצים לשנות? לוחצים על מה שרוצים לערוך.'} {note}</p>
@@ -390,7 +420,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
         {sel ? <div className={card}>
           <div className="mb-2 flex items-center justify-between"><h3 className="m-0 text-lg font-black">{{ photo: '🖼️ תמונה', text: '🔤 טקסט', decor: '✨ קישוט', mosaic: '🧩 פסיפס' }[sel.type]}</h3>
             <button type="button" className={btn} onClick={() => { setSel(null); setCrop(false) }}>סגירה ✕</button></div>
-          {sel.type === 'photo' && sel.photo && (() => { const p = getPhoto(sel.photo), dp = p ? Math.round(effectiveDpi(p.w, p.h, sel.w, sel.h, sel.zoom)) : 0, lv = dpiLevel(dp); return p ? <p className={`m-0 mb-2 rounded-lg p-2 text-sm font-bold ${lv === 'good' ? 'bg-emerald-50 text-emerald-800' : lv === 'ok' ? 'bg-amber-50 text-amber-800' : 'bg-red-50 text-red-700'}`}>{lv === 'good' ? '🟢 איכות מצוינת להדפסה' : lv === 'ok' ? '🟡 איכות סבירה — עדיף להקטין קצת' : '🔴 איכות נמוכה להדפסה בגודל הזה — הקטינו את התמונה'} ({dp} DPI)</p> : null })()}
+          {!demo && sel.type === 'photo' && sel.photo && (() => { const p = getPhoto(sel.photo), dp = p ? Math.round(effectiveDpi(p.w, p.h, sel.w, sel.h, sel.zoom)) : 0, lv = dpiLevel(dp); return p ? <p className={`m-0 mb-2 rounded-lg p-2 text-sm font-bold ${lv === 'good' ? 'bg-emerald-50 text-emerald-800' : lv === 'ok' ? 'bg-amber-50 text-amber-800' : 'bg-red-50 text-red-700'}`}>{lv === 'good' ? '🟢 איכות מצוינת להדפסה' : lv === 'ok' ? '🟡 איכות סבירה — עדיף להקטין קצת' : '🔴 איכות נמוכה להדפסה בגודל הזה — הקטינו את התמונה'} ({dp} DPI)</p> : null })()}
           <Inspector it={sel} set={patch => live(sel.id, patch)} done={commit} photos={library} onPickPhoto={cb => { if (!library.length) { fileIn.current.click(); return } setPicker(() => cb) }} onAction={action} crop={crop} setCrop={setCrop} />
         </div> : <div className={card}>
           <h3 className="m-0 mb-1 text-lg font-black">🎨 בוחרים סגנון</h3>
@@ -433,7 +463,7 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
         {/* export */}
         <div className={card}>
           <h3 className="m-0 mb-2 text-lg font-black">⬇️ {product === 'album' ? 'מורידים קובץ להדפסה' : 'מורידים'}</h3>
-          {lowCount > 0 && <p className="m-0 mb-2 rounded-lg bg-red-50 p-2 text-sm font-bold text-red-700">🔴 {lowCount} תמונות באיכות נמוכה לגודל שלהן (מסומנות בנקודה אדומה).</p>}
+          {lowCount > 0 && !demo && <p className="m-0 mb-2 rounded-lg bg-red-50 p-2 text-sm font-bold text-red-700">🔴 {lowCount} תמונות באיכות נמוכה לגודל שלהן (מסומנות בנקודה אדומה).</p>}
           {product === 'album' ? <>
             <div className="grid gap-2">
               <button type="button" disabled={!!busy} onClick={() => doExport('pdf')} className="min-h-[52px] rounded-xl bg-rose-500 px-4 py-2 text-lg font-bold text-white disabled:opacity-60">📄 PDF להדפסה ({doc.pages.length} כפולות)</button>

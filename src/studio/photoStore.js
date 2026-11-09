@@ -92,7 +92,7 @@ function analyse(img) {
   freeImage(c); freeImage(h8)
   return { sharp, hash }
 }
-export async function addFiles(files, onProgress) {
+export async function addFiles(files, onProgress, { persist = true } = {}) {
   const out = []
   let i = 0
   for (const file of files) {
@@ -109,7 +109,7 @@ export async function addFiles(files, onProgress) {
       const p = { id: newId(), name: file.name || 'photo', blob, w, h, date: taken ?? file.lastModified ?? Date.now(), taken: taken != null, sharp, hash, thumb: URL.createObjectURL(blob) }
       meta.set(p.id, p)
       previews.set(p.id, Promise.resolve(img))
-      persistPhoto(p)
+      if (persist) persistPhoto(p)
       out.push(p)
     } catch { /* not an image we can read: skip */ }
     onProgress?.(i, files.length)
