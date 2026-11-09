@@ -12,6 +12,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn on the road to the rainbow castle', 'Unicorn with an umbrella splashing in a puddle', 'Unicorn and fairies in a magic garden',
     'Birthday party with a unicorn cake', 'Unicorn sliding down a rainbow slide', 'Unicorn and a boy in a hot air balloon',
     'Unicorn baker at the bakery',
+    'Unicorn and mermaid meeting at the lagoon',
+    'Unicorn librarian reading a story in the library',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -50,6 +52,7 @@ export const EN_DRAWING_NAMES = {
   vehicles: [
     'Race car', 'Fire truck', 'Police car', 'Tractor in a field', 'School bus', 'Jeep in the desert', 'Ambulance', 'Garbage truck',
     'Steam train with carriages', 'Kids racing go-karts', 'Construction site with a digger, truck and crane',
+    'Rescue helicopter landing on a hill',
   ],
   'ice-cream': [
     'Three-scoop ice cream cone', 'Three ice cream cones', 'Ice cream sundae with a cherry', 'Ice pop and a cup of ice cream', 'Ice cream truck',
@@ -67,6 +70,8 @@ export const EN_DRAWING_NAMES = {
     'Penalty kick and a diving keeper', 'Referee explaining the rules to both teams', 'Three friends celebrating a goal', 'Girl dribbling toward the goal',
     'Family of fans cheering in the stands', 'Soccer practice with cones', 'Team raising the trophy on the podium', 'Goalkeeper catching the ball',
     'Soccer match in the rain', 'Kids soccer team posing by the goal', 'Dad and daughter practicing penalty kicks',
+    'Warm-up and stretching before a soccer game',
+    'Family cheering a soccer match on TV',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -131,6 +136,7 @@ export const EN_DRAWING_NAMES = {
     'Hanukkah party with doughnuts at preschool', 'Preschool Hanukkah with doughnuts and dreidels',
     'Grandma and grandkids making latkes', 'Kids filling doughnuts with jam', 'Boy cycling doughnuts to a neighbor',
     'Doughnut decorating contest in class',
+    'Singing Hanukkah songs with the teacher and her guitar',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -155,6 +161,7 @@ export const EN_DRAWING_NAMES = {
     'Teddy bear and bunny spinning dreidels', 'Kids choosing a dreidel at a market stall', 'Kids parading with a giant dreidel',
     'Family playing dreidel on the rug', 'Shopkeeper giving a boy Hanukkah gelt', 'Three kids spinning a dreidel for gelt',
     'Timed dreidel race in class', 'Kids making cardboard dreidels', 'Grandpa teaching the grandkids to spin a dreidel',
+    'Kids and a puppy watching a spinning dreidel',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -167,6 +174,8 @@ export const EN_DRAWING_NAMES = {
     'Class building a menorah from blocks', 'Rabbi lighting a menorah in the synagogue courtyard', 'Car with a menorah on its roof in a parade',
     'Preschoolers making a menorah from play dough', 'Dad and daughter polishing the menorah',
     'Family lighting all eight candles by the window', 'Kids with lanterns at a big menorah in the town square',
+    'Siblings wrapping Hanukkah presents by the menorah',
+    'Buying candles at the candle shop before Hanukkah',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -176,6 +185,7 @@ export const EN_DRAWING_NAMES = {
     'Hanukkah play with kids dressed as Maccabees', 'The Maccabees sharing bread by the campfire', 'Kids pressing olive oil the ancient way',
     'The Maccabees discover the little jug of oil', 'The Maccabees sweeping the Temple courtyard', 'The Maccabees return to Jerusalem at sunrise',
     'Maccabee camp in the hills',
+    'The Maccabees pouring oil into the Temple menorah',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -245,6 +255,8 @@ export const EN_DRAWING_NAMES = {
     'Astronaut waving to the sun and planets', 'Kids floating in a space station', 'Dad and kids stargazing on the roof',
     'Picnic on the moon with a cute alien', 'Kids building a cardboard rocket in the yard',
     'Kid astronaut walking a space puppy on Mars', 'Alien family at home on a faraway planet',
+    'Planet parade at school',
+    'Astronaut cat riding a comet',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
@@ -256,5 +268,6 @@ export const EN_DRAWING_NAMES = {
     'Dad and kids sledding in the snow', 'Mother bear and cub hibernating', 'Kids waiting for the school bus in the rain', 'Watching cranes in the Hula Valley',
     'Smiling rain cloud over the city', 'Grandma and granddaughter sharing tea under a blanket', 'Puddle jumping after the rain',
     'Kids watching a winter storm from the window', 'Unicorn in a scarf and beanie in the snow',
+    'Flying a kite on a windy winter day',
   ],
 }
