@@ -134,5 +134,29 @@
     "youtube": "https://youtube.com/shorts/c2DNAuexHpk",
     "site": "https://ugabuga.co.il/riddles/always-coming",
     "postedAt": "2026-11-08 14:15-14:25 (scheduled run)"
+  },
+  {
+    "date": "2026-11-09",
+    "n": 8,
+    "id": "who-am-i-keys",
+    "answer": "מקלדת",
+    "kind": "text",
+    "type": "\"מה אני?\" (חידה בחרוזים, קשה)",
+    "posted": true,
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/rt2_mdd4VSU",
+    "site": "https://ugabuga.co.il/riddles/who-am-i-keys",
+    "postedAt": "2026-11-09 14:17-14:30 (scheduled run)",
+    "issues": {
+      "instagram": "the 'share to Facebook' switch (owner's personal profile) was turned off, then read ON again right before sharing; the reel may also have been cross-posted to the personal Facebook profile",
+      "tiktok": "identity check by mail code on publish and on save-draft; after closing it the post still appeared in Posts as 'under review / only me'"
+    },
+    "note": "chosen by the owner on 2026-11-09 morning; the owner watched the video and APPROVED this exact version (3 lines, 'יש לי יציאה, ואין בה אף דלת') at ~10:00. The video is already rendered: work/daily-riddle-2026-11-09/out/daily-riddle-2026-11-09.mp4 — use it as is (re-rendering gives the same result). daily-riddle/score.js was changed today (text lines appear one by one with a 1.5s pause, owner's request): commit it with the run. The 14:00 run posts exactly this riddle (already in riddles.json as who-am-i-keys): do not write a new one, and ignore the 6-day type rule for today (owner's choice, follow-up to #7 which did best). Build the site page /riddles/who-am-i-keys, film, post as usual. Never show the answer or a keyboard emoji/picture in the video, cover or captions — it gives the riddle away."
   }
 ]

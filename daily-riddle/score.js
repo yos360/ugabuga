@@ -39,10 +39,15 @@
   };
   // the board pieces pop one after another (boxes, equation lines or text lines); the last one is the "?"
   const pieces = R.kind === 'seq' ? R.items : R.lines;
-  const step = Math.min(BEAT / 2, (T(3, 1) - T(2, 0.5)) / Math.max(1, pieces.length - 1));
+  // text riddles: one line at a time with a reading pause (owner, 2026-11-09); boxes/equations stay quick
+  const isText = R.kind === 'text';
+  const step = isText
+    ? Math.min(3 * BEAT, (T(3, 3) - T(2, 0.5)) / Math.max(1, pieces.length - 1))
+    : Math.min(BEAT / 2, (T(3, 1) - T(2, 0.5)) / Math.max(1, pieces.length - 1));
   const MIDI = ['A4', 'C5', 'E5', 'A5', 'B5', 'C6', 'D6', 'E6'];
   const spots = pieces.map((label, i) => ({ label, i, t: T(2, 0.5) + i * step, midi: m(MIDI[i % MIDI.length]) }));
   ev.car = spots[spots.length - 1].t; // the "?" lands
+  if (isText) ev.ask = Math.max(ev.ask, ev.car + BEAT); // the question pill comes after the last line
   const ticks = Array.from({ length: 10 }, (_, k) => ({ n: 10 - k, k, t: ev.count + k * 2 * BEAT, midi: m(k >= 7 ? 'E6' : 'A5') }));
   const endLines = [{ t: T(10, 2) }, { t: T(11, 0) }, { t: T(11, 2) }, { t: T(12, 0) }];
 
