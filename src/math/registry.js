@@ -53,6 +53,10 @@ export const STRAND_ORDER = Object.keys(STRANDS)
 // גן חובה sits before grade 1 as "grade 0" (its own /math/kindergarten URLs); it is not part of GRADES / STAGES.
 export const KINDERGARTEN = { n: 0, label: 'גן חובה', ages: '5–6', emoji: '🌈', stage: 'kindergarten', stageLabel: 'גן', path: '/math/kindergarten', testPath: '/math/tests/kindergarten' }
 
+// Mid-year test pages (/math/tests/grade-N/mid-year) — grades א׳–ט׳, where schools hold a mid-year exam.
+export const MID_YEAR_GRADES = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+export const midYearPath = g => `${g.testPath}/mid-year`
+
 export const gradeInfo = n => (n != null && n !== '' && Number(n) === 0 ? KINDERGARTEN : GRADES[Number(n) - 1] || null)
 
 // '/math/grade-3' → 3 ; 'kindergarten' → 0 ; anything else → null (so callers must test `=== null`, not falsiness).
@@ -92,6 +96,7 @@ export function allMathPaths() {
   for (const g of [KINDERGARTEN, ...GRADES]) {
     out.push(g.path)
     if (topicsFor(g.n).length) out.push(g.testPath)
+    if (MID_YEAR_GRADES.includes(g.n) && topicsFor(g.n).length) out.push(midYearPath(g))
     for (const t of topicsFor(g.n)) out.push(topicPath(t))
   }
   return out
@@ -162,8 +167,12 @@ export function makeWorksheet(topic, level, n = 20, seed = 1) {
 
 // A mixed test over a grade's topics: topics are dealt round-robin from a shuffled order, so every
 // topic appears before any repeats. level 0 = mixed levels (easy → hard as the test goes on).
-export function makeTest(grade, n = 10, seed = 1, level = 0) {
-  const topics = topicsFor(grade)
+// `slugs` (optional) limits the test to those topics — the mid-year test lets a teacher tick only what
+// the class has learned so far. Unknown slugs are ignored; an empty pick falls back to every topic.
+export function makeTest(grade, n = 10, seed = 1, level = 0, slugs = null) {
+  const all = topicsFor(grade)
+  const picked = slugs ? all.filter(t => slugs.includes(t.slug)) : all
+  const topics = picked.length ? picked : all
   if (!topics.length) return []
   const r = createRng(mixSeed(seed))
   let order = r.shuffle(topics)

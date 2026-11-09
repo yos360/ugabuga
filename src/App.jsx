@@ -331,6 +331,7 @@ const MathHub = lazy(() => import('./math/MathPages').then(m => ({ default: m.Ma
 const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathGrade })))
 const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
 const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTest })))
+const MathMidYearTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathMidYearTest })))
 const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
 const HebrewBirthday = lazy(() => import('./pages/tools/HebrewBirthday'))
 const BatMitzvahIdeas = lazy(() => import('./pages/ideas/BatMitzvahIdeas'))
@@ -1218,6 +1219,7 @@ export default function App() {
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
               <Route path="/math" element={<MathHub />} />
               <Route path="/math/tests/:gradeSlug" element={<MathTest />} />
+              <Route path="/math/tests/:gradeSlug/mid-year" element={<MathMidYearTest />} />
               <Route path="/math/:gradeSlug" element={<MathGrade />} />
               <Route path="/math/:gradeSlug/:topicSlug" element={<MathTopic />} />
               <Route path="/recipes/shabbat" element={<ShabbatRecipes />} />

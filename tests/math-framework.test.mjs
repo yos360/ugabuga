@@ -127,12 +127,27 @@ test('allMathPaths: unique, well-formed, covers every topic', () => {
   const paths = R.allMathPaths()
   assert.equal(new Set(paths).size, paths.length)
   assert.equal(paths[0], '/math')
-  for (const p of paths) assert.match(p, /^\/math(\/grade-\d{1,2}(\/[a-z0-9-]+)?|\/tests\/grade-\d{1,2}|\/kindergarten(\/[a-z0-9-]+)?|\/tests\/kindergarten)?$/, p)
+  for (const p of paths) assert.match(p, /^\/math(\/grade-\d{1,2}(\/[a-z0-9-]+)?|\/tests\/grade-\d{1,2}(\/mid-year)?|\/kindergarten(\/[a-z0-9-]+)?|\/tests\/kindergarten)?$/, p)
   for (const g of R.GRADES) {
     assert.ok(paths.includes(g.path))
     for (const t of R.topicsFor(g.n)) assert.ok(paths.includes(`/math/grade-${g.n}/${t.slug}`))
     assert.equal(paths.includes(g.testPath), R.topicsFor(g.n).length > 0)
   }
+})
+
+test('mid-year tests: a page per grade א׳–ט׳, limited to the ticked topics', () => {
+  const paths = R.allMathPaths()
+  for (const n of R.MID_YEAR_GRADES) assert.ok(paths.includes(`/math/tests/grade-${n}/mid-year`), `grade ${n}`)
+  assert.ok(!paths.includes('/math/tests/grade-10/mid-year'))
+  const [a, b] = R.topicsFor(4)
+  const test = R.makeTest(4, 10, 11, 0, [a.slug, b.slug])
+  assert.equal(test.length, 10)
+  assert.ok(test.every(e => e.topic === a.slug || e.topic === b.slug))
+  assert.ok(test.some(e => e.topic === a.slug) && test.some(e => e.topic === b.slug))
+  // An empty or unknown pick never yields an empty test.
+  assert.equal(R.makeTest(4, 10, 11, 0, []).length, 10)
+  assert.equal(R.makeTest(4, 10, 11, 0, ['no-such-topic']).length, 10)
+  assert.deepEqual(R.makeTest(4, 10, 11, 0), R.makeTest(4, 10, 11, 0, null))
 })
 
 test('kindergarten (grade 0) is reachable like a grade, without joining GRADES or STAGES', () => {

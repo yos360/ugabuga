@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { GRADES, topicsFor } from '../src/math/registry.js'
-import { gradeSeo, testSeo, topicSeoTitle, topicH1, gradeKeyword, testKeyword } from '../src/math/seo.js'
+import { GRADES, MID_YEAR_GRADES, topicsFor } from '../src/math/registry.js'
+import { gradeSeo, testSeo, midYearSeo, topicSeoTitle, topicH1, gradeKeyword, testKeyword } from '../src/math/seo.js'
 
 const all = GRADES.flatMap(g => topicsFor(g.n).map(t => ({ t, g })))
 
@@ -23,6 +23,17 @@ test('test pages: "מבחן בחשבון" for grades 1–6, "מבחן במתמט
     assert.ok(s.h1.startsWith(g.n <= 6 ? 'מבחן בחשבון' : 'מבחן במתמטיקה'), s.h1)
     assert.ok(s.title.length <= 60, `${g.testPath} title ${s.title.length}`)
     assert.ok(s.description.length <= 165, `${g.testPath} description ${s.description.length}`)
+  }
+})
+
+test('mid-year test pages: keyword in title/h1/description, short enough, distinct from the summary test', () => {
+  for (const g of GRADES.filter(g => MID_YEAR_GRADES.includes(g.n))) {
+    const s = midYearSeo(g)
+    assert.ok(s.h1.startsWith(g.n <= 6 ? 'מבחן אמצע שנה בחשבון' : 'מבחן אמצע שנה במתמטיקה'), s.h1)
+    assert.ok(s.title.startsWith(s.h1) && s.description.startsWith(s.h1), s.h1)
+    assert.notEqual(s.title, testSeo(g).title)
+    assert.ok(s.title.length <= 60, `${g.n} title ${s.title.length}`)
+    assert.ok(s.description.length >= 110 && s.description.length <= 165, `${g.n} description ${s.description.length}`)
   }
 })
 

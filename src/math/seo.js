@@ -48,6 +48,21 @@ export function testSeo(g) {
   }
 }
 
+// Mid-year test pages (/math/tests/grade-N/mid-year): "מבחן אמצע שנה בחשבון לכיתה ד׳" is what parents
+// and teachers search from December to February.
+export function midYearKeyword(g) {
+  return `מבחן אמצע שנה ${isElementary(g.n) ? 'בחשבון' : 'במתמטיקה'} ${toGrade(g)}`
+}
+
+export function midYearSeo(g) {
+  const kw = midYearKeyword(g)
+  return {
+    title: `${kw} עם תשובות — להדפסה ואונליין`,
+    h1: kw,
+    description: `${kw}: מסמנים את הנושאים שלמדתם במחצית א׳ ומקבלים מבחן חדש, אונליין עם ציון או להדפסה עם דף תשובות. 10 או 20 שאלות, חינם.`,
+  }
+}
+
 // Topic titles in the data carry a units suffix ("— 3–5 יח״ל") and a few already name the grade.
 export function topicBaseTitle(topic) {
   return topic.title.replace(/\s+—\s+[\d–-]+\s*יח״ל$/, '').trim()

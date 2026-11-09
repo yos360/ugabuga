@@ -11,10 +11,10 @@ import { qrOffer } from '../data/printMessages'
 import NotFound from '../pages/NotFound'
 import {
   GRADES, KINDERGARTEN, STAGES, gradeInfo, parseGradeParam, topicsFor, findTopic, topicsByStrand, topicPath,
-  makeExercise, makeLevelExercise, makeWorksheet, makeTest, STRANDS,
+  makeExercise, makeLevelExercise, makeWorksheet, makeTest, STRANDS, MID_YEAR_GRADES, midYearPath,
 } from './registry'
 import { checkAnswer, formatAnswer, isBlank } from './check'
-import { gradeSeo, gradeKeyword, testSeo, testKeyword, topicH1, topicSeoTitle, isElementary, gradeName, toGrade, inGrade } from './seo'
+import { gradeSeo, gradeKeyword, testSeo, testKeyword, midYearSeo, midYearKeyword, topicH1, topicSeoTitle, isElementary, gradeName, toGrade, inGrade } from './seo'
 import { GRADE_ASSESSMENT } from './curriculum'
 import { topicContext, sampleExercises, gradeChapters, testSampleItems } from './pageContent'
 import '../learn/learn.css'
@@ -347,7 +347,7 @@ function GradePage({ n }) {
     </header>
 
     {topics.length > 0 ? <>
-      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link></div>
+      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}</div>
       {groups.map(gr => <section key={gr.strand} className="mt-8" aria-labelledby={`s-${gr.strand}`}>
         <h2 id={`s-${gr.strand}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{gr.emoji} </span>{gr.label}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{gr.topics.map(t => <Link key={t.slug} to={topicPath(t)} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right mth-topic-card">
@@ -521,9 +521,18 @@ export function MathTest() {
   return <TestPage key={n} n={n} />
 }
 
+// ── /math/tests/grade-N/mid-year ───────────────────────
+// Same test engine, but the teacher/parent ticks the topics learned so far: the order of topics within
+// the year differs between schools and textbooks, so we don't guess which ones belong to מחצית א׳.
+export function MathMidYearTest() {
+  const n = parseGradeParam(useParams().gradeSlug)
+  if (n === null || !MID_YEAR_GRADES.includes(n) || !topicsFor(n).length) return <NotFound />
+  return <TestPage key={`mid-${n}`} n={n} midYear />
+}
+
 const TEST_LEVELS = [{ v: 0, label: '🎢 מעורב (מתחיל קל ומתקשה)' }, { v: 1, label: '🟢 בסיסי' }, { v: 2, label: '🟡 בינוני' }, { v: 3, label: '🔴 מתקדם' }]
 
-function TestPage({ n }) {
+function TestPage({ n, midYear = false }) {
   const g = gradeInfo(n)
   const topics = topicsFor(n)
   const [level, setLevel] = useState(0)
@@ -531,18 +540,29 @@ function TestPage({ n }) {
   const [timer, setTimer] = useState(true)
   const [quiz, setQuiz] = useState(null)
   const [print, setPrint] = useState(null)
-  const start = () => setQuiz({ items: makeTest(n, count, newSeed(), level), key: newSeed() })
-  const openPrint = (items, seed = newSeed()) => setPrint({ items: items || makeTest(n, count, seed, level), seed: items ? null : seed, level, count })
-  const sheetOffer = (p, seed) => (seed ? qrOffer('math', g.testPath, `c=${p.count}&l=${p.level}&s=${seed}`) : undefined)
+  const [picked, setPicked] = useState(() => topics.map(t => t.slug))
+  // null = every topic (also what the QR answer link can rebuild); a partial pick has no QR answers.
+  const slugs = midYear && picked.length < topics.length ? picked : null
+  const nonePicked = midYear && picked.length === 0
+  const togglePick = slug => setPicked(p => (p.includes(slug) ? p.filter(s => s !== slug) : topics.map(t => t.slug).filter(s => s === slug || p.includes(s))))
+  const pagePath = midYear ? midYearPath(g) : g.testPath
+  const start = () => setQuiz({ items: makeTest(n, count, newSeed(), level, slugs), key: newSeed() })
+  const openPrint = (items, seed = newSeed()) => setPrint({ items: items || makeTest(n, count, seed, level, slugs), seed: items ? null : seed, level, count, slugs })
+  const sheetOffer = (p, seed) => (seed && !p.slugs ? qrOffer('math', pagePath, `c=${p.count}&l=${p.level}&s=${seed}`) : undefined)
   const qr = useQrLanding()
   const qrCount = qr?.get('show') === 'answers' ? qrNumber(qr, 'c', 10, 20) : null, qrLevel = qrNumber(qr, 'l', 0, 3), qrSeed = qrNumber(qr, 's', 1, 2 ** 31)
   const solved = useMemo(() => (qrCount && qrLevel !== null && qrSeed ? makeTest(n, qrCount, qrSeed, qrLevel) : null), [n, qrCount, qrLevel, qrSeed])
-  const seo = testSeo(g)
+  const seo = midYear ? midYearSeo(g) : testSeo(g)
   const h1 = seo.h1
   const lvLabel = TEST_LEVELS.find(l => l.v === level).label.replace(/^\S+ /, '')
   const sample = useMemo(() => testSampleItems(n), [n])
   const strands = topicsByStrand(n)
-  const faq = [
+  const faq = midYear ? [
+    { q: `אילו נושאים נכנסים למבחן אמצע שנה ${inGrade(g)}?`, a: `תוכנית הלימודים קובעת מה לומדים במהלך כל השנה, אבל סדר הנושאים משתנה בין בתי ספר וספרי לימוד. לכן מסמנים כאן רק את הנושאים שהכיתה כבר למדה מתוך ${topics.length} הנושאים של ${gradeName(g)}, והמבחן נבנה רק מהם. כדאי לבדוק עם המורה מה ייכלל במבחן.` },
+    { q: 'איך מתכוננים למבחן אמצע שנה בחשבון?', a: 'עושים מבחן אחד אונליין ורואים באילו נושאים היו טעויות. מתרגלים את הנושאים האלה בדף התרגול של כל נושא, ואחרי יום או יומיים עושים מבחן חדש. כל מבחן נוצר מחדש, כך שאפשר לחזור על זה כמה פעמים בלי לשנן תשובות.' },
+    { q: 'אפשר להדפיס את המבחן עם תשובות?', a: 'כן. לוחצים על "הדפסת מבחן" ומקבלים דף מבחן עם מקום לשם ולציון, ודף תשובות נפרד. המבחן המודפס כולל רק את הנושאים שסימנתם.' },
+    { q: 'מה ההבדל בין מבחן אמצע שנה למבחן המסכם?', a: `המבחן המסכם ${toGrade(g)} כולל את כל נושאי השנה. במבחן אמצע השנה בוחרים את הנושאים בעצמכם, כדי שלא יופיעו שאלות על חומר שעוד לא נלמד.` },
+  ] : [
     { q: `באילו תחומים יש שאלות במבחן ${toGrade(g)}?`, a: `${listHe(strands.map(s => `${s.label} (${s.topics.length} ${s.topics.length === 1 ? 'נושא' : 'נושאים'})`))}. במבחן של 10 שאלות מופיעים 10 נושאים שונים, ובמבחן של 20 שאלות כל הנושאים מופיעים לפני שנושא כלשהו חוזר.` },
     ...(GRADE_ASSESSMENT[n] ? [{ q: `יש מבחן ארצי במתמטיקה ${inGrade(g)}?`, a: `${GRADE_ASSESSMENT[n]} המבחן כאן הוא תרגול חופשי ואינו המבחן הרשמי, אבל הוא עובר על כל הנושאים של השנה.` }] : []),
     { q: `מה כולל ה${h1}?`, a: `שאלות מכל ${topics.length} הנושאים של ${gradeName(g)}: ${listHe(topics.map(t => t.title))}. כל מבחן נוצר מחדש, כך שאפשר לעשות כמה מבחנים שונים.` },
@@ -550,19 +570,36 @@ function TestPage({ n }) {
     { q: 'אפשר להדפיס את המבחן?', a: 'כן. לוחצים על "הדפסת מבחן" ומקבלים דף מבחן עם מקום לשם ולציון, ודף תשובות נפרד לבדיקה. בכל פעם נוצר מבחן חדש.' },
   ]
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={seo.title} description={seo.description} path={g.testPath} structuredData={faqSchema(faq)} />
-    <Breadcrumbs items={[HOME, HUB, gradeCrumb(g), { label: 'מבחן מסכם' }]} />
+    <SEO title={seo.title} description={seo.description} path={pagePath} structuredData={faqSchema(faq)} />
+    <Breadcrumbs items={midYear ? [HOME, HUB, gradeCrumb(g), { label: 'מבחן מסכם', href: g.testPath }, { label: 'מבחן אמצע שנה' }] : [HOME, HUB, gradeCrumb(g), { label: 'מבחן מסכם' }]} />
     <header className="text-center">
-      <div className="text-5xl" aria-hidden="true">📝</div>
+      <div className="text-5xl" aria-hidden="true">{midYear ? '🗓️' : '📝'}</div>
       <h1 className="mt-2 text-3xl sm:text-5xl">{h1}</h1>
-      <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של {gradeName(g)}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>
+      {midYear
+        ? <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות. מסמנים את הנושאים שלמדתם עד עכשיו, ומקבלים מבחן חדש רק מהם: אונליין עם ציון והסבר לכל טעות, או להדפסה עם דף תשובות.</p>
+        : <p className="mx-auto mt-2 max-w-2xl text-lg text-[var(--muted-foreground)]">{h1} עם תשובות — מבחן שמערבב שאלות מכל הנושאים של {gradeName(g)}. עונים על כל השאלות, ובסוף מקבלים ציון והסבר לכל טעות.</p>}
+      {!midYear && MID_YEAR_GRADES.includes(n) && <p className="mt-3 no-print"><Link to={midYearPath(g)} className="font-bold underline">🗓️ {midYearKeyword(g)}: בוחרים רק את הנושאים שכבר נלמדו</Link></p>}
     </header>
+
+    {midYear && !quiz && <section className="ln-box mt-6 no-print" aria-labelledby="pick-h">
+      <h2 id="pick-h" className="text-2xl font-black m-0">✔️ מה למדתם עד עכשיו?</h2>
+      <p className="m-0 mt-1">נבחרו {picked.length} מתוך {topics.length} נושאים. לחיצה על נושא מוסיפה או מורידה אותו מהמבחן.</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        <Chip on={picked.length === topics.length} onClick={() => setPicked(topics.map(t => t.slug))}>כל הנושאים</Chip>
+        <Chip on={picked.length === 0} onClick={() => setPicked([])}>ניקוי הבחירה</Chip>
+      </div>
+      {strands.map(s => <div key={s.strand} className="mt-4">
+        <p className="font-bold m-0 mb-2"><span aria-hidden="true">{s.emoji}</span> {s.label}</p>
+        <div className="flex flex-wrap gap-2">{s.topics.map(t => <Chip key={t.slug} on={picked.includes(t.slug)} onClick={() => togglePick(t.slug)}><span aria-hidden="true">{t.emoji}</span> {t.title}</Chip>)}</div>
+      </div>)}
+      {nonePicked && <p className="mt-3 mb-0 font-bold" role="status">בחרו לפחות נושא אחד כדי ליצור מבחן.</p>}
+    </section>}
 
     {solved && <div className="mt-6"><QrAnswers title="✅ הפתרון של המבחן שהדפסתם" note="כל שאלה בסדר שלה בדף, עם התשובה וההסבר."><ol className="mth-review">{solved.map((ex, k) => <SolvedItem key={k} ex={ex} />)}</ol></QrAnswers></div>}
     {!quiz && <section className="ln-box mt-6 space-y-4 text-center" aria-label="הגדרות המבחן">
       <div><p className="font-bold m-0 mb-2">רמת קושי</p><div className="flex flex-wrap justify-center gap-2" role="group" aria-label="רמת קושי">{TEST_LEVELS.map(l => <Chip key={l.v} on={level === l.v} onClick={() => setLevel(l.v)}>{l.label}</Chip>)}</div></div>
       <div><p className="font-bold m-0 mb-2">מספר שאלות</p><div className="flex flex-wrap justify-center gap-2" role="group" aria-label="מספר שאלות">{[10, 20].map(c => <Chip key={c} on={count === c} onClick={() => setCount(c)}>{c} שאלות</Chip>)}<Chip on={timer} onClick={() => setTimer(!timer)}>⏱️ שעון {timer ? 'פועל' : 'כבוי'}</Chip></div></div>
-      <div className="mth-actions"><button type="button" className="ln-btn go" onClick={start}>▶ מתחילים מבחן</button><button type="button" className="ln-btn alt" onClick={() => openPrint()}>🖨️ הדפסת מבחן</button></div>
+      <div className="mth-actions"><button type="button" className="ln-btn go" onClick={start} disabled={nonePicked}>▶ מתחילים מבחן</button><button type="button" className="ln-btn alt" onClick={() => openPrint()} disabled={nonePicked}>🖨️ הדפסת מבחן</button></div>
     </section>}
     {quiz && <div className="mt-6">
       <Quiz key={quiz.key} items={quiz.items} timer={timer} title={h1} onRestart={() => setQuiz(null)} onPrint={() => openPrint(quiz.items)} />
@@ -570,7 +607,7 @@ function TestPage({ n }) {
     </div>}
 
     {print && <PrintPreview title={h1} onClose={() => setPrint(null)} onRefresh={() => openPrint()}
-      variant={() => { const seed = newSeed(); return <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${count} שאלות`} items={makeTest(n, count, seed, level)} offer={sheetOffer(print, seed)} /> }}>
+      variant={() => { const seed = newSeed(); return <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${count} שאלות`} items={makeTest(n, count, seed, level, print.slugs)} offer={sheetOffer(print, seed)} /> }}>
       <PrintSheets title={h1} sub={`רמה: ${lvLabel} · ${print.items.length} שאלות`} items={print.items} offer={sheetOffer(print, print.seed)} />
     </PrintPreview>}
 
@@ -585,9 +622,12 @@ function TestPage({ n }) {
       <div className="flex flex-wrap justify-center gap-2">{topics.map(t => <Link key={t.slug} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title}</Link>)}</div>
     </section>
 
-    <div className="mt-10"><SeoBody paragraphs={[
+    <div className="mt-10"><SeoBody paragraphs={midYear ? [
+      `מבחן אמצע השנה ${toGrade(g)} נבנה מהנושאים שסימנתם מתוך ${topics.length} הנושאים של הכיתה, ב-${strands.length} ${strands.length === 1 ? 'תחום' : 'תחומים'}: ${listHe(strands.map(s => s.label))}. כל נושא שסומן מופיע לפני שנושא כלשהו חוזר, וברמה המעורבת השאלות מתחילות קל ומתקשות בהדרגה, כמו במבחן בכיתה.`,
+      'מבחני אמצע שנה נערכים ברוב בתי הספר בין דצמבר לפברואר. הורים יכולים לעשות עם הילד מבחן חזרה בבית ולראות מה עוד צריך לחזק, ומורים יכולים להדפיס מבחן חדש לכל קבוצה, עם דף תשובות לבדיקה מהירה.',
+    ] : [
       `המבחן המסכם ${toGrade(g)} בונה בכל פעם מבחן חדש משאלות בכל ${topics.length} הנושאים של הכיתה, ב-${strands.length} ${strands.length === 1 ? 'תחום' : 'תחומים'}: ${listHe(strands.map(s => s.label))}. כל נושא מופיע לפני שנושא כלשהו חוזר. ברמה המעורבת המבחן מתחיל בשאלות קלות ומתקשה בהדרגה, כמו מבחן בכיתה.`,
       'אפשר לעבור בין השאלות, לדלג ולחזור, ורק בלחיצה על "סיום ובדיקה" מתקבלים הציון, הזמן וסקירה מלאה. מבחן מודפס מגיע עם דף תשובות נפרד — נוח להורים שרוצים לבדוק, ולמורים שמחפשים מבחן חזרה.',
-    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, HUB]} /></div>
+    ]} faq={faq} related={[{ label: gradeKeyword(g), href: g.path }, ...(midYear ? [{ label: testKeyword(g), href: g.testPath }] : MID_YEAR_GRADES.includes(n) ? [{ label: midYearKeyword(g), href: midYearPath(g) }] : []), HUB]} /></div>
   </div>
 }
