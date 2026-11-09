@@ -73,6 +73,7 @@ const PAGES = [
   ...EMOJI_CATEGORIES.map(c=>({to:`/emoji/${c.slug}`,title:c.title,emoji:c.emoji,kind:'tool',keys:c.label,desc:c.description})),
   ...EMOJI_SITUATIONS.map(s=>({to:`/emoji/for/${s.slug}`,title:s.title,emoji:s.emoji,kind:'idea',keys:s.label,desc:s.description})),
   { to: '/tools/stopwatch', title: 'סטופר אונליין — שעון עצר עם הקפות', emoji: '⏱️', kind: 'tool', keys: 'סטופר שעון עצר מדידת זמן הקפות ספורט ריצה' },
+  { to: '/tools/flip-clock', title: 'שעון מתהפך על כל המסך', emoji: '🕰️', kind: 'tool', keys: 'שעון מסך מלא שעון דיגיטלי גדול שומר מסך שעון מתהפך פליפ flip clock שעון לכיתה שעון לטלוויזיה שעה עכשיו' },
   { to: '/tools/shirt-designer', title: 'עיצוב חולצות מחזור וסיום קורס', emoji: '👕', kind: 'tool', keys: 'חולצה חולצות מחזור סיום קורס מסלול טירונות מסע כומתה פלוגה צוות טנק גרפיקה הדפסה על חולצות י״ב כיתה ו גן' },
   { to: '/printables/class-photo', title: 'תמונת מחזור לגן ולכיתה', emoji: '📸', kind: 'tool', keys: 'תמונת מחזור תמונה קבוצתית גן כיתה סיום חנוכה בוגרים אולפנה מכינה קורס' },
   { to: '/tools/qr-code', title: 'יצירת קוד QR בחינם', emoji: '🔳', kind: 'tool', keys: 'קוד QR QR קוד ברקוד QR קוד לסריקה מחולל קישור טקסט וואטסאפ וייפיי מדבקות' },

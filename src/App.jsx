@@ -139,6 +139,7 @@ const BookmarkMaker = lazy(() => import('./pages/printables/BookmarkMaker'))
 const KindergartenMemoryBook = lazy(() => import('./pages/printables/KindergartenMemoryBook'))
 const ClassPhoto = lazy(() => import('./pages/printables/ClassPhoto'))
 const ShirtDesigner = lazy(() => import('./pages/tools/ShirtDesigner'))
+const FlipClock = lazy(() => import('./pages/tools/FlipClock'))
 const CalendarPrint = lazy(() => import('./pages/printables/CalendarPrint'))
 const PurimMasks = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.PurimMasks })))
 const BirthdayCrown = lazy(() => import('./pages/printables/MasksAndCrowns').then(m => ({ default: m.BirthdayCrown })))
@@ -1372,6 +1373,7 @@ export default function App() {
               <Route path="/tools/word-count" element={<WordCount />} />
               <Route path="/tools/countdown-timer" element={<CountdownTimer />} />
               <Route path="/tools/shirt-designer" element={<ShirtDesigner />} />
+              <Route path="/tools/flip-clock" element={<FlipClock />} />
               <Route path="/tools/stopwatch" element={<Stopwatch />} />
               <Route path="/tools/qr-code" element={<QrCodeMaker />} />
               <Route path="/tools/resume" element={<ResumeBuilder />} />
