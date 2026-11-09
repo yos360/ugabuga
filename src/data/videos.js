@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '1kNvTYwMdec', kind: 'tutorial', title: 'איך מעצבים תמונת מחזור לגן ולכיתה בעוגה בוגה — מדריך קצר', paths: ['/printables/class-photo/hanukkah', '/printables/class-photo'], category: 'classroom', date: '2026-11-09',
+    desc: 'מדריך קצר לתמונת המחזור: בוחרים עיצוב וצורת מסגרת, כותבים את שם הגן או בית הספר, מוסיפים קובייה לכל איש צוות, מדביקים רשימת שמות ומוסיפים הרבה תמונות בבת אחת, ומדפיסים או שומרים כ־PDF — חינם, בלי הרשמה.' },
   { id: 'GQhZiGlL0v0', kind: 'tutorial', title: 'איך קוראים סיפורים לראשית קריאה לפי הניקוד בעוגה בוגה — מדריך קצר', paths: ['/letters/first-reading-stories'], category: 'learning', date: '2026-11-09',
     desc: 'מדריך קצר לסיפורים לראשית קריאה: בוחרים שלב ניקוד (קמץ ופתח עד שורוק וקובוץ, או כיתה ב׳–ג׳), קוראים סיפור שכתוב רק בניקוד שנלמד, עונים על שאלות הבנה עם משוב ומדפיסים את השלב עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'Y7y0sUS3OE0', kind: 'tutorial', title: 'איך משחקים בבלש לוח הכפל בעוגה בוגה — מדריך קצר', paths: ['/learn/multiplication-table/game'], category: 'learning', date: '2026-11-08',
@@ -69,6 +71,8 @@ export const VIDEO_PAGE_LABELS = {
   '/printables/coloring': 'דפי צביעה',
   '/learn/multiplication-table/game': 'בלש לוח הכפל',
   '/letters/first-reading-stories': 'סיפורים לראשית קריאה',
+  '/printables/class-photo/hanukkah': 'תמונת מחזור לחנוכה בגן',
+  '/printables/class-photo': 'תמונת מחזור',
 }
 
 const SITE = 'https://ugabuga.co.il'
