@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'lBicQoI0IZ0', kind: 'tutorial', title: 'איך מעצבים חולצת מחזור וסיום קורס בעוגה בוגה — מדריך קצר', paths: ['/tools/shirt-designer'], category: 'tools', date: '2026-11-09',
+    desc: 'מדריך קצר לעיצוב חולצות: בוחרים אירוע (סוף מסלול, סיום קורס, מסע כומתה, י״ב, גן ועוד), ציור ופריסה, כותבים כיתוב ובוחרים גופן וצבעים, מוסיפים שמות לגב ומורידים PNG שקוף או SVG לבית הדפוס — חינם, בלי הרשמה.' },
   { id: '1kNvTYwMdec', kind: 'tutorial', title: 'איך מעצבים תמונת מחזור לגן ולכיתה בעוגה בוגה — מדריך קצר', paths: ['/printables/class-photo/hanukkah', '/printables/class-photo'], category: 'classroom', date: '2026-11-09',
     desc: 'מדריך קצר לתמונת המחזור: בוחרים עיצוב וצורת מסגרת, כותבים את שם הגן או בית הספר, מוסיפים קובייה לכל איש צוות, מדביקים רשימת שמות ומוסיפים הרבה תמונות בבת אחת, ומדפיסים או שומרים כ־PDF — חינם, בלי הרשמה.' },
   { id: 'GQhZiGlL0v0', kind: 'tutorial', title: 'איך קוראים סיפורים לראשית קריאה לפי הניקוד בעוגה בוגה — מדריך קצר', paths: ['/letters/first-reading-stories'], category: 'learning', date: '2026-11-09',
@@ -73,6 +75,7 @@ export const VIDEO_PAGE_LABELS = {
   '/letters/first-reading-stories': 'סיפורים לראשית קריאה',
   '/printables/class-photo/hanukkah': 'תמונת מחזור לחנוכה בגן',
   '/printables/class-photo': 'תמונת מחזור',
+  '/tools/shirt-designer': 'עיצוב חולצות',
 }
 
 const SITE = 'https://ugabuga.co.il'
