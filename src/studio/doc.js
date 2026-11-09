@@ -45,12 +45,22 @@ export function dressPage(page, style, size, seed, spread) {
 }
 
 // ---------- layout of photos in a box ----------
+// Justified rows can leave a white band above and below (or at the sides). Stretch the block so the page
+// looks full; photos are cover-cropped, and the stretch is capped so nobody loses their head.
+function fillBox(rects, box, max = 1.35) {
+  if (!rects.length) return rects
+  const x0 = Math.min(...rects.map(r => r.x)), y0 = Math.min(...rects.map(r => r.y))
+  const x1 = Math.max(...rects.map(r => r.x + r.w)), y1 = Math.max(...rects.map(r => r.y + r.h))
+  const sx = Math.min(max, box.w / (x1 - x0)), sy = Math.min(max, box.h / (y1 - y0))
+  const ox = box.x + (box.w - (x1 - x0) * sx) / 2, oy = box.y + (box.h - (y1 - y0) * sy) / 2
+  return rects.map(r => ({ x: ox + (r.x - x0) * sx, y: oy + (r.y - y0) * sy, w: r.w * sx, h: r.h * sy }))
+}
 function placePhotos(photos, box, style, mode, seed) {
   const gap = style.photo.gap ?? 6
   if (!photos.length) return []
   let rects
   if (mode === 'grid') rects = gridRects(gridFor(photos.length), box, gap)
-  else rects = justify(photos.map(p => (p ? p.w / p.h : 1.5)), box, gap)
+  else rects = fillBox(justify(photos.map(p => (p ? p.w / p.h : 1.5)), box, gap), box)
   const r = rng(seed)
   return rects.map((rc, i) => {
     let q = rc

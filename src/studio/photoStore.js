@@ -39,7 +39,7 @@ export async function forget(key, keepIds = []) {
   const keep = new Set(keepIds)
   for (const id of [...meta.keys()]) if (!keep.has(id)) drop(id)
 }
-const persistPhoto = p => tx('photos', 'readwrite', s => s.put({ id: p.id, name: p.name, blob: p.blob, w: p.w, h: p.h, date: p.date, sharp: p.sharp, hash: p.hash })).catch(() => {})
+const persistPhoto = p => tx('photos', 'readwrite', s => s.put({ id: p.id, name: p.name, blob: p.blob, w: p.w, h: p.h, date: p.date, taken: p.taken, sharp: p.sharp, hash: p.hash })).catch(() => {})
 export async function restorePhotos(ids) {
   const out = []
   for (const id of ids) {
@@ -105,7 +105,8 @@ export async function addFiles(files, onProgress) {
       const full = await createImageBitmap(blob).catch(() => null)
       const w = full ? full.width : img.width, h = full ? full.height : img.height
       freeImage(full)
-      const p = { id: newId(), name: file.name || 'photo', blob, w, h, date: (await exifDate(blob)) ?? file.lastModified ?? Date.now(), sharp, hash, thumb: URL.createObjectURL(blob) }
+      const taken = await exifDate(blob)
+      const p = { id: newId(), name: file.name || 'photo', blob, w, h, date: taken ?? file.lastModified ?? Date.now(), taken: taken != null, sharp, hash, thumb: URL.createObjectURL(blob) }
       meta.set(p.id, p)
       previews.set(p.id, Promise.resolve(img))
       persistPhoto(p)
@@ -159,7 +160,8 @@ export function pickForAuto(photos, order = 'date') {
   const sorted = order === 'upload' ? [...photos] : [...photos].sort((a, b) => a.date - b.date)
   const kept = []
   for (const p of sorted) {
-    const twin = kept.findIndex(k => Math.abs(k.date - p.date) < 120000 && hashDistance(k.hash, p.hash) <= 6)
+    // only real camera times count: saved/downloaded pictures all share the upload time and must never be dropped
+    const twin = !p.taken ? -1 : kept.findIndex(k => k.taken && Math.abs(k.date - p.date) < 120000 && hashDistance(k.hash, p.hash) <= 6)
     if (twin >= 0) { if (p.sharp > kept[twin].sharp) kept[twin] = p } else kept.push(p)
   }
   const median = [...kept].map(p => p.sharp).sort((a, b) => a - b)[Math.floor(kept.length / 2)] || 0
