@@ -7,7 +7,7 @@ import { styleById, STYLES, EVENTS, ALBUM_SIZES, COLLAGE_SIZES } from './styles'
 import { newAlbum, newCollage, addSpread, relayoutPage, dressPage, uid, textItem, photoItem, COLLAGE_KINDS } from './doc'
 import { addFiles, getPhoto, preview, saveDoc, loadDoc, restorePhotos, pickForAuto, forget } from './photoStore'
 import { useCanvasEditor, startHandle } from './useCanvasEditor'
-import { effectiveDpi, dpiLevel } from './geometry'
+import { effectiveDpi, dpiLevel, freeSpot } from './geometry'
 import Inspector, { Slider, EMOJI } from './Inspector'
 import { exportPdf, exportZip, exportImage, printDpi } from './exportStudio'
 import { downloadBlob, canShareFiles, shareBlob } from '../office/image/imageIO'
@@ -206,10 +206,12 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     } catch (e) { setBusy(`לא הצלחנו להסיר רקע בדפדפן הזה (${e.message || 'שגיאה'})`) }
     setTimeout(() => setBusy(''), 6000)
   }
-  const addText = (t = 'כותרת חדשה', o = {}) => editPage(p => { const it = textItem({ text: t, font: style.title, color: style.text, size: Math.round(doc.size.h * 0.06), x: doc.size.w * 0.25, y: doc.size.h * 0.4, w: doc.size.w * 0.5, h: doc.size.h * 0.14, ...o }); p.items.push(it); setSel(it.id) })
-  const addEmoji = e => editPage(p => { const s = doc.size.h * 0.12, it = textItem({ text: e, font: 'Heebo', size: s * 0.8, x: doc.size.w / 2 - s / 2, y: doc.size.h / 2 - s / 2, w: s, h: s }); p.items.push(it); setSel(it.id) })
-  const addFrame = () => editPage(p => { const w = Math.min(doc.size.w, doc.size.h) * 0.35, it = photoItem({ x: doc.size.w / 2 - w / 2, y: doc.size.h / 2 - w * 0.375, w, h: w * 0.75 }, null, style); p.items.push(it); setSel(it.id) })
-  const addMosaic = () => editPage(p => { const ids = [...library].sort((a, b) => a.date - b.date).map(x => x.id), s = Math.min(doc.size.w, doc.size.h) * 0.7; const it = { id: uid(), type: 'mosaic', shape: 'heart', text: '', font: 'Rubik', photos: ids, count: Math.max(ids.length, 30), gap: 1, radius: 8, fill: 0.5, tone: 'none', x: doc.size.w / 2 - s / 2, y: doc.size.h / 2 - s / 2, w: s, h: s, rot: 0 }; p.items.push(it); setSel(it.id) })
+  // new items go to an empty spot on the page (smaller if needed), never on top of what's there
+  const spot = (p, w, h) => freeSpot(doc.size, p.items.filter(i => !i.hidden && i.type !== 'decor'), w, h, Math.min(doc.size.w, doc.size.h) * 0.03)
+  const addText = (t = 'כותרת חדשה', o = {}) => editPage(p => { const box = spot(p, doc.size.w * 0.5, doc.size.h * 0.14), it = textItem({ text: t, font: style.title, color: style.text, size: Math.round(box.h * 0.43), ...box, ...o }); p.items.push(it); setSel(it.id) })
+  const addEmoji = e => editPage(p => { const box = spot(p, doc.size.h * 0.12, doc.size.h * 0.12), it = textItem({ text: e, font: 'Heebo', size: box.h * 0.8, ...box }); p.items.push(it); setSel(it.id) })
+  const addFrame = () => editPage(p => { const w = Math.min(doc.size.w, doc.size.h) * 0.35, it = photoItem(spot(p, w, w * 0.75), null, style); p.items.push(it); setSel(it.id) })
+  const addMosaic = () => editPage(p => { const ids = [...library].sort((a, b) => a.date - b.date).map(x => x.id), s = Math.min(doc.size.w, doc.size.h) * 0.7; const it = { id: uid(), type: 'mosaic', shape: 'heart', text: '', font: 'Rubik', photos: ids, count: Math.max(ids.length, 30), gap: 1, radius: 8, fill: 0.5, tone: 'none', ...spot(p, s, s), rot: 0 }; p.items.push(it); setSel(it.id) })
 
   // ---------- page-level ----------
   const setStyle = id => { const st = styleById(id); const d = clone(doc); d.styleId = id; d.pages.forEach((p, i) => dressPage(p, d.kind === 'collage' && d.collage !== 'grid' ? { ...st, decor: [] } : st, d.size, i + 1, d.kind === 'album')); if (d.transparent) d.pages.forEach(p => { p.bg = null }); commitDoc(d) }

@@ -141,6 +141,26 @@ export function mosaicCells(mask, w, h, target, fill = 0.5) {
   return best
 }
 
+// Where to drop a new item so it doesn't land on top of what's already on the page: tries the
+// wanted size, then smaller ones, over a grid of positions inside the margin. Returns {x, y, w, h}.
+export function freeSpot(page, items, w, h, margin = 0) {
+  const area = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y))
+  let best = null
+  for (const k of [1, 0.75, 0.55, 0.4, 0.3]) {
+    const bw = w * k, bh = h * k, spanX = page.w - 2 * margin - bw, spanY = page.h - 2 * margin - bh
+    if (spanX < 0 || spanY < 0) continue
+    for (let j = 0; j <= 8; j++) for (let i = 0; i <= 8; i++) {
+      // start from the centre and spiral outwards, so an empty page still gets a centred item
+      const fx = 0.5 + (i % 2 ? 1 : -1) * Math.ceil(i / 2) / 8, fy = 0.5 + (j % 2 ? 1 : -1) * Math.ceil(j / 2) / 8
+      const r = { x: margin + spanX * fx, y: margin + spanY * fy, w: bw, h: bh }
+      const o = items.reduce((s, it) => s + area(r, it), 0) / (bw * bh)
+      if (o === 0) return r
+      if (!best || o < best.o) best = { o, r }
+    }
+  }
+  return best ? best.r : { x: (page.w - w) / 2, y: (page.h - h) / 2, w, h }
+}
+
 // Millimetres → pixels at a print resolution.
 export const mmToPx = (mm, dpi) => Math.round((mm / 25.4) * dpi)
 // Print quality of a photo shown w×h mm from an iw×ih source (after crop zoom): effective DPI.
