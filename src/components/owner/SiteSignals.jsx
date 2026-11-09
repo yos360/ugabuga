@@ -49,6 +49,12 @@ export default function SiteSignals({ from, to, tick = 0, pageName }) {
       <tbody>{(data.nav || []).map((r, i) => <tr key={i} className="border-b"><td className="p-2"><Path path={r.path} /></td><td className="p-2"><Path path={r.target} /></td><td className="p-2 font-bold">{r.n}</td></tr>)}</tbody>
     </Block>
 
+    <Block title="📄 קישורי PDF שפגו — האם הקובץ הוחזר" rows={data.expired_pdf} empty="אף אחד לא נכנס לקישור PDF שפג בתקופה הזו."
+      note="מבקר שנכנס לקישור זמני של PDF אחרי שפג. אם הקובץ עוד שמור באותו דפדפן, הדף מחזיר אותו בכפתור הורדה. אחרת מבקשים להוריד שוב מהדף.">
+      <thead><tr className="border-b-2"><th className="p-2">הקובץ הוכן בדף</th><th className="p-2">✅ הוחזר</th><th className="p-2">❌ לא הוחזר</th><th className="p-2">לא ידוע</th></tr></thead>
+      <tbody>{(data.expired_pdf || []).map((r, i) => <tr key={i} className="border-b"><td className="p-2">{r.target === '/' ? 'לא ידוע' : <Path path={r.target} />}</td><td className="p-2 font-bold">{r.got}</td><td className="p-2 font-bold">{r.lost}</td><td className="p-2 text-slate-500">{r.unknown}</td></tr>)}</tbody>
+    </Block>
+
     <Block title="👍👎 האם זה עזר? — לפי עמוד" rows={data.helpful} empty="עוד לא הצביעו בתקופה הזו."
       note="הצבעה אחת בלחיצה, בלי טקסט. עמוד עם הרבה 👎 הוא מועמד לשיפור.">
       <thead><tr className="border-b-2"><th className="p-2">עמוד</th><th className="p-2">👍</th><th className="p-2">👎</th><th className="p-2">% עזר</th></tr></thead>

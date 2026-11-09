@@ -28,12 +28,14 @@ function ExpiredFile() {
   const { pathname } = useLocation()
   const last = lastPdf()
   const [file, setFile] = useState(null)
-  useEffect(() => { if (last?.path) recordExpiredPdf(last.path) }, [last?.path])
   // The same browser usually still holds the file (pdfRecovery.js): give it back instead of a dead end.
+  // The owner report counts how often that worked ('got') and how often it did not ('lost').
   useEffect(() => {
     let alive = true, url = ''
-    loadPdf(pdfId(pathname)).then(saved => {
-      if (!alive || !saved) return
+    loadPdf(pdfId(pathname)).catch(() => null).then(saved => {
+      if (!alive) return
+      recordExpiredPdf(lastPdf()?.path, saved ? 'got' : 'lost')
+      if (!saved) return
       url = URL.createObjectURL(saved.blob)
       void savePdf(url, saved.blob, saved.name)
       setFile({ url, name: saved.name })

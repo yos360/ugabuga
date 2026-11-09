@@ -32,3 +32,13 @@ test('chrome intent url', () => {
   assert.equal(chromeIntentUrl('blob:https://ugabuga.co.il/' + ID), null)
   assert.equal(chromeIntentUrl('nonsense'), null)
 })
+
+test('expired PDF page records whether the file came back', async () => {
+  const { readFileSync } = await import('node:fs')
+  const page = readFileSync('src/pages/NotFound.jsx', 'utf8')
+  assert.match(page, /recordExpiredPdf\(lastPdf\(\)\?\.path, saved \? 'got' : 'lost'\)/)
+  const sql = readFileSync('supabase/migrations/202611092200_expired_pdf_outcome.sql', 'utf8')
+  assert.match(sql, /p_path = '\/expired-pdf-link' and p_value in \('got','lost'\)/)
+  assert.match(sql, /'expired_pdf'/)
+  assert.match(readFileSync('src/components/owner/SiteSignals.jsx', 'utf8'), /data\.expired_pdf/)
+})

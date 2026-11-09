@@ -83,7 +83,7 @@ function usePageTitles() {
 }
 function pageName(row) {
   const path = (row.path || '/').replace(/\/+$/, '') || '/'
-  if (path === EXPIRED_PDF_PATH || isUuidPath(path)) return '📄 קישור PDF שפג (הורדה שנכשלה)'
+  if (path === EXPIRED_PDF_PATH || isUuidPath(path)) return '📄 קישור PDF שפג'
   if (pageTitles.has(path)) return pageTitles.get(path)
   const base = ACTIVITY_LABELS[row.category] || row.category || 'עמוד'
   return ['game', 'worksheet', 'tool', 'page'].includes(row.category) && row.path ? `${base} · ${decodeURIComponent(row.path.split('/').filter(Boolean).at(-1) || 'ראשי')}` : base
