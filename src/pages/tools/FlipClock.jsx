@@ -170,9 +170,9 @@ export default function FlipClock() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title="שעון דיגיטלי מתהפך על כל המסך — שומר מסך חינם" description="שעון ספרות מתהפכות בגדול על כל המסך, עם צליל קליק שאפשר להפעיל ולכבות, תאריך לועזי ועברי, 5 צבעים, 12 או 24 שעות. מתאים לשומר מסך, לכיתה, למשרד ולטלוויזיה. בחינם, בלי התקנה." path="/tools/flip-clock" structuredData={faqSchema(faq)} />
-      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'שעון מתהפך על כל המסך' }]} />
-      <h1 className="text-center text-3xl font-black sm:text-4xl">🕰️ שעון מתהפך על כל המסך</h1>
+      <SEO title="שעון מסך מלא עם שניות — שעון דיגיטלי מתהפך אונליין" description="שעון אונליין על כל המסך עם שניות: ספרות מתהפכות גדולות, צליל קליק שאפשר להפעיל ולכבות, תאריך לועזי ועברי, 5 צבעים, 12 או 24 שעות. שומר מסך למחשב, לכיתה ולטלוויזיה. בחינם, בלי התקנה." path="/tools/flip-clock" structuredData={[faqSchema(faq), { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'שעון מסך מלא עם שניות', url: 'https://ugabuga.co.il/tools/flip-clock', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', inLanguage: 'he', offers: { '@type': 'Offer', price: '0', priceCurrency: 'ILS' } }]} />
+      <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'שעון מסך מלא' }]} />
+      <h1 className="text-center text-3xl font-black sm:text-4xl">🕰️ שעון מסך מלא — ספרות מתהפכות עם שניות</h1>
       <p className="mx-auto max-w-2xl text-center text-lg text-[var(--muted-foreground)]">שעון ספרות מתהפכות כמו של פעם, בגדול על כל המסך. לוחצים "מסך מלא", ואם רוצים — מפעילים את הקליק של הספרות.</p>
 
       <div ref={stage} role="timer" aria-label={label} style={{ ...theme.vars, '--fc-n': n }}

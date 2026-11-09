@@ -59,6 +59,7 @@ function Planner() {
         <input type="date" value={date} onChange={e => setDate(e.target.value)} className={inputCls} />
       </label>
       <p className="m-0 mt-2 text-sm">עוד לא יודעים מתי? <Link to="/bar-mitzvah/date" className="font-bold underline">מחשבון תאריך בר מצווה</Link> יראה לכם את התאריך העברי והשבת.</p>
+      <p className="m-0 mt-1 text-sm">ואחרי החגיגה: <Link to="/tools/album/bar-mitzvah" className="font-bold underline">אלבום בר מצווה</Link> או <Link to="/tools/album/bat-mitzvah" className="font-bold underline">אלבום בת מצווה</Link> להדפסה, ו<Link to="/tools/collage/number?n=13" className="font-bold underline">קולאז׳ בצורת 13</Link>.</p>
       <ol className="m-0 mt-5 list-none space-y-3 p-0">
         {(stages || checklistWithDates('')).map(s => (
           <li key={s.id} className={`rounded-xl border-2 p-3 ${s.late ? 'border-dashed border-[var(--border)] opacity-70' : 'border-[var(--border)]'}`}>
