@@ -36,7 +36,7 @@ export function useCanvasEditor(ref, api) {
     }
     const down = e => {
       if (e.button > 0) return
-      el.setPointerCapture?.(e.pointerId)
+      try { el.setPointerCapture?.(e.pointerId) } catch { /* pointer already gone */ }
       ptrs.set(e.pointerId, toMm(e))
       const page = a.current.getPage()
       if (ptrs.size === 2) {
@@ -93,6 +93,7 @@ export function useCanvasEditor(ref, api) {
       ptrs.delete(e.pointerId)
       if (g && ptrs.size === 0) {
         if (g.type !== 'move' || g.moved) a.current.commit()
+        else a.current.onTap?.(g.id) // a plain tap (no drag): e.g. an empty frame asks for a photo
         g = null
         a.current.setGuides(null)
       }

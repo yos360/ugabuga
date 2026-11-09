@@ -134,7 +134,17 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     ctx.restore()
   }, [doc, page, images, style, kCss, dpr, guides])
 
-  const api = { getPage: () => docRef.current.pages[Math.min(pageIdx, docRef.current.pages.length - 1)], getDoc: () => docRef.current, kCss, selId, setSel: id => { setSel(id); if (!id) setCrop(false) }, live, commit, crop, setGuides, canvas: () => canvas.current }
+  // tapping an empty "+" frame: choose one of your photos, or upload if there are none yet
+  const frameRef = useRef(null), libRef = useRef(null)
+  function tapItem(id) {
+    const it = docRef.current.pages.flatMap(p => p.items).find(i => i.id === id)
+    if (!it || it.type !== 'photo' || it.photo) return
+    frameRef.current = id
+    if (!library.length) { fileIn.current.click(); return }
+    setPicker(() => pid => { live(id, { photo: pid, zoom: 1, ox: 0, oy: 0 }); commit(); frameRef.current = null })
+    libRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+  const api = { getPage: () => docRef.current.pages[Math.min(pageIdx, docRef.current.pages.length - 1)], getDoc: () => docRef.current, kCss, selId, setSel: id => { setSel(id); if (!id) setCrop(false) }, live, commit, crop, setGuides, canvas: () => canvas.current, onTap: tapItem }
   useCanvasEditor(canvas, api)
 
   // keyboard: delete, arrows, undo
@@ -161,8 +171,14 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
     setLibrary(all)
     // first photos: fill the design automatically
     const used = doc.pages.some(p => p.items.some(i => i.photo || i.photoFill || i.photos?.length))
+    const frame = frameRef.current
+    frameRef.current = null
+    if (frame && added.length && docRef.current.pages.some(p => p.items.some(i => i.id === frame && !i.photo))) {
+      // uploaded from an empty frame: the photo goes into that frame, the rest wait in "your photos"
+      live(frame, { photo: added[0].id, zoom: 1, ox: 0, oy: 0 }); commit(); setPicker(null)
+    }
     // an album always re-flows with the new photos in their place in time (undo brings the old one back)
-    if ((!used || product === 'album') && added.length) autoFill(all)
+    else if ((!used || product === 'album') && added.length) autoFill(all)
     else if (added.length) {
       // fill empty frames on the current page / extend the mosaic
       editPage(p => {
@@ -355,8 +371,12 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
         </div>}
 
         {/* photo library */}
-        {library.length > 0 && <div className="mt-3">
-          <p className="m-0 mb-1 text-sm font-bold">{picker ? '👆 בחרו תמונה' : 'התמונות שלכם — לוחצים כדי להוסיף או להחליף את התמונה שנבחרה'}</p>
+        {library.length > 0 && <div ref={libRef} className={`mt-3 rounded-xl ${picker ? 'border-2 border-rose-400 bg-rose-50 p-2' : ''}`}>
+          {picker ? <div className="mb-2 flex flex-wrap items-center gap-2">
+            <b className="text-base">👇 בוחרים תמונה למסגרת</b>
+            <button type="button" className={btn} onClick={() => fileIn.current.click()}>📷 או להעלות תמונה חדשה</button>
+            <button type="button" className={btn} onClick={() => { setPicker(null); frameRef.current = null }}>ביטול</button>
+          </div> : <p className="m-0 mb-1 text-sm font-bold">התמונות שלכם — לוחצים כדי להוסיף או להחליף את התמונה שנבחרה</p>}
           <div className="flex max-h-40 flex-wrap gap-1.5 overflow-y-auto rounded-xl bg-slate-50 p-2">
             {library.map(p => <button key={p.id} type="button" onClick={() => tapLibrary(p)} className={`relative h-16 w-16 overflow-hidden rounded-lg border-2 ${usedIds.has(p.id) ? 'border-emerald-500' : 'border-transparent'}`} aria-label={p.name}>
               <img src={p.thumb} alt="" className="h-full w-full object-cover" loading="lazy" />
