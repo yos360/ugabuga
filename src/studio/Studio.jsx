@@ -83,9 +83,11 @@ export default function Studio({ product = 'album', event = 'wedding', collage =
   }
 
   // ---------- autosave / resume ----------
-  useEffect(() => { loadDoc(key).then(r => { if (r?.doc?.pages?.length) setSaved(r); else loadDemo() }) }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
+  // only work that has photos in it counts as "saved work"; an empty design shows the example instead
+  const hasPhotos = d => (d?.library?.length > 0) || !!d?.pages?.some(p => p.items.some(i => i.photo || i.photoFill || i.photos?.length))
+  useEffect(() => { loadDoc(key).then(r => { if (r?.doc?.pages?.length && hasPhotos(r.doc)) setSaved(r); else loadDemo() }) }, [key]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (saved || demo) return
+    if (saved || demo || !library.length) return
     const t = setTimeout(() => saveDoc(key, { ...doc, library: library.map(p => p.id) }), 700)
     return () => clearTimeout(t)
   }, [doc, library, key, saved, demo])
