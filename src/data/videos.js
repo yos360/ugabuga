@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'GQhZiGlL0v0', kind: 'tutorial', title: 'איך קוראים סיפורים לראשית קריאה לפי הניקוד בעוגה בוגה — מדריך קצר', paths: ['/letters/first-reading-stories'], category: 'learning', date: '2026-11-09',
+    desc: 'מדריך קצר לסיפורים לראשית קריאה: בוחרים שלב ניקוד (קמץ ופתח עד שורוק וקובוץ, או כיתה ב׳–ג׳), קוראים סיפור שכתוב רק בניקוד שנלמד, עונים על שאלות הבנה עם משוב ומדפיסים את השלב עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'Y7y0sUS3OE0', kind: 'tutorial', title: 'איך משחקים בבלש לוח הכפל בעוגה בוגה — מדריך קצר', paths: ['/learn/multiplication-table/game'], category: 'learning', date: '2026-11-08',
     desc: 'מדריך קצר לבלש לוח הכפל: בוחרים משימה (פנס הבלש, צייד המשבצות או המספר התאום), בוחרים טבלה עד 5×5 או עד 10×10 ויוצאים לחקירה — 10 משימות בכל סיבוב ועד 3 כוכבים, חינם, בלי הרשמה.' },
   { id: 'OPvNBDloxtk', kind: 'tutorial', title: 'איך צובעים דף צביעה במסך בעוגה בוגה — מדריך קצר', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-08',
@@ -66,6 +68,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/worksheet-maker': 'מחולל דפי עבודה',
   '/printables/coloring': 'דפי צביעה',
   '/learn/multiplication-table/game': 'בלש לוח הכפל',
+  '/letters/first-reading-stories': 'סיפורים לראשית קריאה',
 }
 
 const SITE = 'https://ugabuga.co.il'
