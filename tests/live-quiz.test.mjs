@@ -27,7 +27,7 @@ test('live countdown is unknown until it has a valid server timestamp', () => {
 })
 
 test('ready games cover every topic and difficulty with valid questions', () => {
-  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','general','animals','science','world','israel','sports','math'])
+  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','hanukkah','general','animals','science','world','israel','sports','math'])
   assert.deepEqual(LIVE_QUIZ_DIFFICULTIES.map(item => item.id), ['easy','medium','hard'])
   for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
     const game = buildLiveQuiz(topic.id, difficulty.id, 8, '', () => 0.42)
@@ -40,7 +40,7 @@ test('the verified live bank contains more than 1,000 unique valid questions', (
   const generated = Object.values(GENERATED_MATH_QUIZ_BANK).flat()
   const stats = getLiveQuizBankStats()
   assert.equal(generated.length, 780)
-  assert.equal(stats.total, 1032)
+  assert.equal(stats.total, 1074)
   assert.equal(stats.unique, stats.total)
   assert.equal(new Set(generated.map(item => item.id)).size, generated.length)
   for (let i = 0; i < generated.length; i += 50) assert.equal(liveQuestionProblem(generated.slice(i, i + 50)), '')
@@ -125,4 +125,17 @@ test('live quiz UI keeps the host and player states explicit', () => {
   assert.match(player, /התשובה נקלטה/)
   assert.match(player, /מחדשים את החיבור/)
   assert.match(layout, /play\\\/\[\^\/\]\+/)
+})
+
+test('Hanukkah pack: 14 reviewed questions per level, shown among the first topics', async () => {
+  const { HANUKKAH_LIVE_QUIZ_BANK } = await import('../src/data/liveQuizHanukkah.js')
+  assert.equal(LIVE_QUIZ_TOPICS.findIndex(item => item.id === 'hanukkah'), 1)
+  for (const level of ['easy','medium','hard']) {
+    const items = HANUKKAH_LIVE_QUIZ_BANK[level]
+    assert.equal(items.length, 14)
+    for (const item of items) { assert.equal(item.options.length, 4); assert.equal(new Set(item.options).size, 4); assert.ok(item.q.endsWith('?')) }
+    const game = buildLiveQuiz('hanukkah', level, 8, [], () => 0.3)
+    assert.ok(game.title.startsWith('חנוכה'))
+    assert.equal(liveQuestionProblem(game.questions), '')
+  }
 })

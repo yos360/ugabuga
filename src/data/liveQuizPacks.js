@@ -1,5 +1,6 @@
 import { EXTRA_LIVE_QUIZ_BANK, LIVE_QUIZ_SOURCE_BY_TOPIC } from './liveQuizExtraPacks.js'
 import { GENERATED_MATH_QUIZ_BANK } from './liveQuizGeneratedMath.js'
+import { HANUKKAH_LIVE_QUIZ_BANK, HANUKKAH_SOURCE } from './liveQuizHanukkah.js'
 
 const question = (id, q, correct, ...options) => ({ id, q, options, correct })
 
@@ -11,6 +12,7 @@ export const LIVE_QUIZ_DIFFICULTIES = [
 
 export const LIVE_QUIZ_TOPICS = [
   { id: 'mixed', label: 'ערבוב נושאים', icon: '🎲', color: '#d13c78' },
+  { id: 'hanukkah', label: 'חנוכה', icon: '🕎', color: '#1f5fbf' },
   { id: 'general', label: 'ידע כללי', icon: '🧠', color: '#6d48e5' },
   { id: 'animals', label: 'חיות וטבע', icon: '🐾', color: '#23875a' },
   { id: 'science', label: 'מדע וחלל', icon: '🚀', color: '#176fbd' },
@@ -240,7 +242,8 @@ const rawPool = (topic, difficulty) => [
   ...(BANK[topic.id]?.[difficulty.id] || []),
   ...(EXTRA_LIVE_QUIZ_BANK[topic.id]?.[difficulty.id] || []),
   ...(topic.id === 'math' ? GENERATED_MATH_QUIZ_BANK[difficulty.id] : []),
-].map(item => ({ ...item, verified: true, source: LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
+  ...(topic.id === 'hanukkah' ? HANUKKAH_LIVE_QUIZ_BANK[difficulty.id] : []),
+].map(item => ({ ...item, verified: true, source: topic.id === 'hanukkah' ? HANUKKAH_SOURCE : LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
 
 const spreadTopics = (items, rng) => {
   const buckets = shuffled(playableTopics(), rng).map(topic => shuffled(items.filter(item => item.packTopicId === topic.id), rng))
