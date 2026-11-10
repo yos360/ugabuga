@@ -29,6 +29,8 @@ const RoadWeekBanner = lazy(() => import('../components/roadsafety/RoadWeekBanne
 const TodayQuiz = lazy(() => import('../components/home/TodayQuiz'))
 const TodayGame = lazy(() => import('../components/home/TodayGame'))
 const SiteSearchBox = lazy(() => import('../components/ui/SiteSearchBox'))
+// The daily riddle (video + answer on request), loaded as its own chunk once it nears the viewport.
+const DailyRiddleBox = lazy(() => import('../components/home/DailyRiddleBox'))
 
 // Mounts children once the section scrolls near the viewport (immediately
 // during prerender, so the static snapshots still contain the content).
@@ -262,6 +264,7 @@ export default function Home() {
       {opening}
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
+    <NearViewport minHeight={0}><DailyRiddleBox /></NearViewport>
     <HomeDiscover />
     <Suspense fallback={null}><SeasonColoring /></Suspense>
     <HomeSpotlight />

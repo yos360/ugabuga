@@ -30,6 +30,14 @@ test('every daily riddle has a question, an answer and an explanation', () => {
   }
 })
 
+test('a riddle video, when given, is a YouTube id (shown on the home page without the answer)', () => {
+  for (const r of DAILY_RIDDLES) if (r.youtube !== undefined) assert.match(r.youtube, /^[\w-]{11}$/, r.id)
+  const box = read('src/components/home/DailyRiddleBox.jsx')
+  assert.match(box, /DAILY_RIDDLES\[0\]/)
+  assert.match(box, /open\s*\n?\s*\?/, 'the answer is shown only after the visitor asks')
+  assert.match(read('src/pages/Home.jsx'), /<DailyRiddleBox \/>/)
+})
+
 test('newest riddle first', () => {
   for (let i = 1; i < DAILY_RIDDLES.length; i++) {
     assert.ok(DAILY_RIDDLES[i - 1].n > DAILY_RIDDLES[i].n)
