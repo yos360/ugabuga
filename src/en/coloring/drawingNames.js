@@ -18,6 +18,8 @@ export const EN_DRAWING_NAMES = {
     'A little unicorn on the first day of school',
     'Unicorn and baby dragon on a picnic',
     'Unicorn collecting seashells on a winter beach',
+    'Unicorn at the dentist',
+    'Unicorn and dragon flying above the clouds',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -57,6 +59,7 @@ export const EN_DRAWING_NAMES = {
     'Race car', 'Fire truck', 'Police car', 'Tractor in a field', 'School bus', 'Jeep in the desert', 'Ambulance', 'Garbage truck',
     'Steam train with carriages', 'Kids racing go-karts', 'Construction site with a digger, truck and crane',
     'Rescue helicopter landing on a hill',
+    'Boy meeting a police officer and police car',
   ],
   'ice-cream': [
     'Three-scoop ice cream cone', 'Three ice cream cones', 'Ice cream sundae with a cherry', 'Ice pop and a cup of ice cream', 'Ice cream truck',
@@ -80,6 +83,8 @@ export const EN_DRAWING_NAMES = {
     'Playing table football on a rainy day',
     'Kids painting a soccer goal in the yard',
     'Cleaning muddy soccer boots after a rainy game',
+    'Girl goalkeeper diving for the ball',
+    'Collecting balls after soccer practice',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -149,6 +154,7 @@ export const EN_DRAWING_NAMES = {
     'Singing Hanukkah songs with the teacher and her guitar',
     'A Hanukkah cooking contest at school',
     'Kids bringing doughnuts to the firefighters',
+    'Kindergarten kids decorating doughnuts with teacher',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -176,6 +182,7 @@ export const EN_DRAWING_NAMES = {
     'Kids and a puppy watching a spinning dreidel',
     'A Hanukkah gelt treasure hunt in the living room',
     'Bunny, bear cub and fox playing dreidel in the forest',
+    'Grandpa giving Hanukkah gelt to the grandkids',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -196,6 +203,7 @@ export const EN_DRAWING_NAMES = {
     'Hanukkah visit with grandparents at a care home',
     'School choir singing next to the menorah',
     'Kids sticking a paper menorah on the class window',
+    'Family photo by the menorah on the eighth night',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -208,6 +216,7 @@ export const EN_DRAWING_NAMES = {
     'The Maccabees pouring oil into the Temple menorah',
     'The Maccabees rebuilding the altar',
     'Class hike in the hills of the Maccabees',
+    'Maccabees play at kindergarten',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -283,6 +292,8 @@ export const EN_DRAWING_NAMES = {
     'An astronaut brushing teeth on the space station',
     'Kids building a space rover in the garage',
     'Camping on the moon',
+    'Kid astronauts planting a flag on a comet',
+    'Girl and dad spotting Saturn\'s rings in a telescope',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
@@ -297,5 +308,6 @@ export const EN_DRAWING_NAMES = {
     'Flying a kite on a windy winter day',
     'Choosing rain boots at the shoe shop',
     'Sailing paper boats in a puddle',
+    'Hot soup at school on a rainy day',
   ],
 }
