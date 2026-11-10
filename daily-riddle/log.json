@@ -158,5 +158,23 @@
       "tiktok": "identity check by mail code on publish and on save-draft; after closing it the post still appeared in Posts as 'under review / only me'"
     },
     "note": "chosen by the owner on 2026-11-09 morning; the owner watched the video and APPROVED this exact version (3 lines, 'יש לי יציאה, ואין בה אף דלת') at ~10:00. The video is already rendered: work/daily-riddle-2026-11-09/out/daily-riddle-2026-11-09.mp4 — use it as is (re-rendering gives the same result). daily-riddle/score.js was changed today (text lines appear one by one with a 1.5s pause, owner's request): commit it with the run. The 14:00 run posts exactly this riddle (already in riddles.json as who-am-i-keys): do not write a new one, and ignore the 6-day type rule for today (owner's choice, follow-up to #7 which did best). Build the site page /riddles/who-am-i-keys, film, post as usual. Never show the answer or a keyboard emoji/picture in the video, cover or captions — it gives the riddle away."
+  },
+  {
+    "date": "2026-11-10",
+    "n": 9,
+    "id": "who-am-i-9",
+    "answer": "פסנתר",
+    "posted": false,
+    "note": "Chosen and APPROVED by the owner on 2026-11-10 13:50 (he picked the piano riddle and its middle line \"יש לי מכסה, ואני לא סיר.\"). Already in riddles.json as who-am-i-9. The video is already rendered: work/daily-riddle-2026-11-10/out/daily-riddle-2026-11-10.mp4 — use it as is. Do not write a new riddle, ignore the 6-day type rule. Build the site page /riddles/who-am-i-9, then post this video as usual. Never show the answer or a piano emoji/picture in the video, cover or captions. Rejected today, never post: bus-direction, squares-plus. who-am-i-rings (the tree) passed the gate and is kept for another day. The page id must never hint at the answer (owner 2026-11-10: \"piano\" in the link gave it away).",
+    "kind": "text",
+    "type": "\"מה אני?\" (חידה קשה, כפל משמעות)",
+    "networks": [],
+    "youtube": "https://youtube.com/shorts/B4BYuoWWMcU (uploaded, PRIVATE — not published)",
+    "site": "https://ugabuga.co.il/riddles/who-am-i-9",
+    "issues": {
+      "youtube": "14:20 scheduled run: uploaded with title, description, not-for-kids, Education; the final \"public\" click was blocked by the session safety check, so the video stays private",
+      "others": "Instagram, Facebook, TikTok, WhatsApp channel not attempted after the YouTube block",
+      "gate": "blind solver: piano (~85%; alternatives pedal bin 10%, keyboard/organ 5%). Editor: clarity 7, single answer 6 (organ), Hebrew 8, fun 6 — below 8, posted only because the owner approved this exact version at 13:50"
+    }
   }
 ]
