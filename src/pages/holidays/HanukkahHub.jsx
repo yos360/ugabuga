@@ -20,6 +20,7 @@ const BLURB = {
   '/holidays/hanukkah/quiz': '3 רמות, הסבר אחרי כל תשובה — גם להדפסה',
   '/holidays/hanukkah/coloring': 'חנוכייה, סביבון, סופגניות ועוד — 6 דפים',
   '/holidays/hanukkah/cut-out-hanukkiah': 'מדפיסים, גוזרים 9 נרות ומדביקים נר בכל ערב — גם בגרסה לצביעה',
+  '/holidays/hanukkah/toddler-story': 'דובי חוגג חנוכה: משפט וציור גדול בכל עמוד, לגיל 2–3 — גם לצביעה',
   '/holidays/hanukkah/hanukkiah-tour': 'יוצאים בערב, סופרים חנוכיות בחלונות ומקבלים תעודת סייר',
   '/holidays/hanukkah/worksheets':'ספירה, חשבון וכתיבה לגן ולכיתה א׳',
   '/holidays/hanukkah/what-to-do': 'רעיונות לחופשה — בבית, בחוץ ובדרך',

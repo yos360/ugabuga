@@ -23,6 +23,7 @@ export const HANUKKAH_H = {
     { to: base + '/worksheets', label: 'דפי עבודה', emoji: '✏️' },
     { to: base + '/crafts', label: 'יצירה לגזירה', emoji: '✂️' },
     { to: base + '/cut-out-hanukkiah', label: 'חנוכייה לגזירה', emoji: '🕎' },
+    { to: base + '/toddler-story', label: 'סיפור חנוכה לפעוטות', emoji: '🧸' },
     { to: base + '/hanukkiah-tour', label: 'סיור חנוכיות', emoji: '🔦' },
     { to: base + '/word-search', label: 'תפזורת חנוכה', emoji: '🔎' },
     { to: base + '/what-to-do', label: 'מה עושים בחנוכה', emoji: '💡' },
