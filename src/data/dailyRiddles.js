@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'who-am-i-9', n: 9, date: '2026-11-10', type: '"מי אני?"', emoji: '🤔', kind: 'text',
+    id: 'who-am-i-9', n: 9, date: '2026-11-10', type: '"מי אני?"', emoji: '🤔', kind: 'text', youtube: 'B4BYuoWWMcU',
     title: 'מי אני? חידה קשה',
     lines: ['יש לי דוושות, ואני לא אופניים.', 'יש לי מכסה, ואני לא סיר.', 'אני שחור־לבן, ואני לא זברה.'],
     ask: 'מי אני? 🤔',
