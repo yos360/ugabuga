@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'hTosFJ393jk', kind: 'tutorial', title: 'איך מכינים מבחן אמצע שנה בחשבון בעוגה בוגה — מדריך קצר', paths: ['/math/tests/grade-4/mid-year', '/math/tests/grade-1/mid-year', '/math/tests/grade-2/mid-year', '/math/tests/grade-3/mid-year', '/math/tests/grade-5/mid-year', '/math/tests/grade-6/mid-year', '/math/tests/grade-7/mid-year', '/math/tests/grade-8/mid-year', '/math/tests/grade-9/mid-year'], category: 'learning', date: '2026-11-10',
+    desc: 'מדריך קצר למבחן אמצע השנה בחשבון לכיתות א׳–ט׳: מסמנים רק את הנושאים שהכיתה כבר למדה, בוחרים רמה ו־10 או 20 שאלות, ופותרים במסך עם ציון והסבר לכל טעות או מדפיסים עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'lBicQoI0IZ0', kind: 'tutorial', title: 'איך מעצבים חולצת מחזור וסיום קורס בעוגה בוגה — מדריך קצר', paths: ['/tools/shirt-designer'], category: 'tools', date: '2026-11-09',
     desc: 'מדריך קצר לעיצוב חולצות: בוחרים אירוע (סוף מסלול, סיום קורס, מסע כומתה, י״ב, גן ועוד), ציור ופריסה, כותבים כיתוב ובוחרים גופן וצבעים, מוסיפים שמות לגב ומורידים PNG שקוף או SVG לבית הדפוס — חינם, בלי הרשמה.' },
   { id: '1kNvTYwMdec', kind: 'tutorial', title: 'איך מעצבים תמונת מחזור לגן ולכיתה בעוגה בוגה — מדריך קצר', paths: ['/printables/class-photo/hanukkah', '/printables/class-photo'], category: 'classroom', date: '2026-11-09',
@@ -76,6 +78,11 @@ export const VIDEO_PAGE_LABELS = {
   '/printables/class-photo/hanukkah': 'תמונת מחזור לחנוכה בגן',
   '/printables/class-photo': 'תמונת מחזור',
   '/tools/shirt-designer': 'עיצוב חולצות',
+  '/math/tests/grade-1/mid-year': 'מבחן אמצע שנה לכיתה א׳', '/math/tests/grade-2/mid-year': 'מבחן אמצע שנה לכיתה ב׳',
+  '/math/tests/grade-3/mid-year': 'מבחן אמצע שנה לכיתה ג׳', '/math/tests/grade-4/mid-year': 'מבחן אמצע שנה לכיתה ד׳',
+  '/math/tests/grade-5/mid-year': 'מבחן אמצע שנה לכיתה ה׳', '/math/tests/grade-6/mid-year': 'מבחן אמצע שנה לכיתה ו׳',
+  '/math/tests/grade-7/mid-year': 'מבחן אמצע שנה לכיתה ז׳', '/math/tests/grade-8/mid-year': 'מבחן אמצע שנה לכיתה ח׳',
+  '/math/tests/grade-9/mid-year': 'מבחן אמצע שנה לכיתה ט׳',
 }
 
 const SITE = 'https://ugabuga.co.il'
