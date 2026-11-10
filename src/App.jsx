@@ -415,6 +415,7 @@ const NumberStripPage = lazy(() => import('./pages/printables/MathDeskStrips').t
 const WordPairsPage = lazy(() => import('./pages/words/WordPairsPage'))
 const BoardGamesHub = lazy(() => import('./pages/boardgames/BoardGamesHub'))
 const BoardGamePage = lazy(() => import('./pages/boardgames/BoardGamePage'))
+const SnakesLaddersMath = lazy(() => import('./pages/printables/SnakesLaddersMath'))
 const ChessPage = lazy(() => import('./pages/chess/ChessPage'))
 const OrigamiHub = lazy(() => import('./pages/origami/OrigamiPages').then(m => ({ default: m.OrigamiHub })))
 const OrigamiModelPage = lazy(() => import('./pages/origami/OrigamiPages').then(m => ({ default: m.OrigamiModelPage })))
@@ -843,6 +844,7 @@ export default function App() {
               <Route path="/words/synonyms" element={<WordPairsPage key="s" setId="synonyms" />} />
               <Route path="/words" element={<Navigate to="/words/opposites" replace />} />
               <Route path="/board-games" element={<BoardGamesHub />} />
+              <Route path="/board-games/snakes-and-ladders/multiplication" element={<SnakesLaddersMath />} />
               <Route path="/board-games/:slug" element={<BoardGamePage />} />
               <Route path="/sudoku" element={<SudokuHub />} />
               <Route path="/sudoku/easy" element={<SudokuLevelPage key="easy" level="easy" />} />

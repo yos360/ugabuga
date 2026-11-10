@@ -166,6 +166,7 @@ export function TimesTableStrips() {
       { label: 'כפולות של 8', href: '/learn/multiplication-table/of/8' },
       { label: 'תרגול לוח הכפל', href: '/learn/times-tables' },
       { label: 'סרגל מספרים לשולחן', href: NUMBER_PATH },
+      { label: 'סולמות ונחשים של כפל וחילוק', href: '/board-games/snakes-and-ladders/multiplication' },
       { label: 'צביעה לפי לוח הכפל', href: '/printables/color-by-answer/multiplication' },
       { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' },
     ]}

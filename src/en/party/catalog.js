@@ -47,6 +47,7 @@ export const PARTY_SKIPPED = {
   '/games/escape-rooms': 'Alias of /games/escape-room.',
   '/board-games/checkers': 'Already paired with /en/checkers.',
   '/board-games/backgammon': 'Already paired with /en/backgammon.',
+  '/board-games/snakes-and-ladders/multiplication': 'A Hebrew printable math board (grades 3–4 times-table practice); the English area has the plain board game.',
   '/treasure-hunt': 'The treasure-hunt maker tool (Hebrew clue generator), not a ready-made hunt.',
   '/treasure-hunt/qr': 'QR treasure-hunt tool (tools area).',
   '/treasure-hunt/qr/play': 'Player screen of the QR treasure-hunt tool.',

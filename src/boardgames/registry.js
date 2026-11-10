@@ -185,6 +185,7 @@ export const BOARD_GAMES = [
     slug: 'snakes-and-ladders', name: 'סולמות ונחשים', emoji: '🐍', tagline: 'קובייה, סולמות למעלה ונחשים למטה',
     ages: '4+', players: '2–4 שחקנים', time: '15–20 דקות',
     load: lazy(() => import('./classic/SnakesLadders')),
+    more: [{ to: '/board-games/snakes-and-ladders/multiplication', label: '✖️ סולמות ונחשים של כפל וחילוק להדפסה' }],
     seoTitle: 'סולמות ונחשים אונליין – משחק קובייה לילדים, בחינם',
     seoDesc: 'סולמות ונחשים בחינם לעד 4 שחקנים – ילדים או מחשב: מטילים קובייה, מטפסים בסולמות ומחליקים בנחשים עד 100.',
     intro: 'סולמות ונחשים הוא משחק קובייה עתיק שמתאים כבר לגיל הגן: מטילים, סופרים, מטפסים ומחליקים – עד משבצת 100.',
