@@ -30,4 +30,11 @@ export const UNSEEN_VIDEOS = {
   'en-g7-dead-sea-salt': ['73PBB6pRNew'],
   'en-g6-rainy-day-tent': ['wqNiACdj18s'],
   'en-g5-my-turtle-shelly': ['dwApyGeS_oY'],
+  'en-g7-galilee-trip-notice': ['FeyCX5sefAo'],
+  'en-g5-new-school-diary': ['ey60BH_h9to'],
+  'en-mod-a-sea-of-galilee': [null, 'X2arKJ3sryE'],
+  'en-g7-new-school-diary': ['Re3_ZRIxTT4'],
+  'en-g8-science-museum': ['15MzyUEUX7Y'],
+  'en-g7-wallet-on-the-bus': ['3iNHZE9eKxw'],
+  'en-g7-why-seasons': ['D0Zu8MdIbi0'],
 }
