@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'kZhsRyZitXc', kind: 'tutorial', title: 'איך מפעילים שעון מסך מלא עם ספרות מתהפכות בעוגה בוגה — מדריך קצר', paths: ['/tools/flip-clock'], category: 'tools', date: '2026-11-10',
+    desc: 'מדריך קצר לשעון מסך מלא: לוחצים "מסך מלא" והשעה ממלאת את כל המסך, מפעילים את צליל הקליק, בוחרים אחד מחמישה צבעים, מדליקים ומכבים שניות, 12/24 שעות ותאריך, ובמסך מלא הכפתורים נעלמים אחרי שלוש שניות — חינם, בלי התקנה.' },
   { id: 'NyaZ1TaLQ6A', kind: 'tutorial', title: 'איך מעצבים אלבום תמונות להדפסה בעוגה בוגה — מדריך קצר', paths: ['/tools/album', '/tools/album/wedding', '/tools/album/bar-mitzvah', '/tools/album/bat-mitzvah', '/tools/album/birthday'], category: 'tools', date: '2026-11-10',
     desc: 'מדריך קצר למעצב האלבומים: מעלים את כל התמונות בבת אחת והאלבום מסתדר לבד לפי תאריך הצילום, בוחרים סגנון בלחיצה אחת, עוברים בין הכפולות, משנים כל תמונה (סיבוב, חיתוך, שחור-לבן) ומורידים PDF להדפסה או JPG לכל כפולה למעבדה — חינם, בלי הרשמה.' },
   { id: 'hTosFJ393jk', kind: 'tutorial', title: 'איך מכינים מבחן אמצע שנה בחשבון בעוגה בוגה — מדריך קצר', paths: ['/math/tests/grade-4/mid-year', '/math/tests/grade-1/mid-year', '/math/tests/grade-2/mid-year', '/math/tests/grade-3/mid-year', '/math/tests/grade-5/mid-year', '/math/tests/grade-6/mid-year', '/math/tests/grade-7/mid-year', '/math/tests/grade-8/mid-year', '/math/tests/grade-9/mid-year'], category: 'learning', date: '2026-11-10',
@@ -69,6 +71,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
   '/tools/keyboard': 'מקלדת עברית אונליין',
   '/tools/pdf': 'סטודיו PDF',
+  '/tools/flip-clock': 'שעון מסך מלא',
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
   '/birthday/party-bags': 'שקיות הפתעה',
