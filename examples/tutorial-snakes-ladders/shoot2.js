@@ -1,0 +1,31 @@
+// Print area (sticky column visible) + the answer card from the print preview.
+const { chromium } = require('C:/Users/pc/Documents/ugabuga/node_modules/playwright');
+const fs = require('fs');
+(async () => {
+  const b = await chromium.launch({ executablePath: process.env.CHROME_PATH });
+  const c = await b.newContext({ viewport: { width: 1400, height: 1000 }, deviceScaleFactor: 2, locale: 'he-IL' });
+  const p = await c.newPage();
+  await p.goto('https://ugabuga.co.il/board-games/snakes-and-ladders/multiplication', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(2000);
+  const btn = p.locator('button[data-print-main]');
+  await btn.scrollIntoViewIfNeeded();
+  await p.evaluate(() => window.scrollBy(0, 300));
+  await p.waitForTimeout(600);
+  const vb = (loc) => loc.evaluate((e) => { const r = e.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map(Math.round); });
+  const boxes = { vPrint: await vb(btn), vSheet: await vb(p.locator('svg[aria-label="סולמות ונחשים של כפל וחילוק"]').first()) };
+  await p.screenshot({ path: 'shots/pr.png' });
+  await btn.click(); await p.waitForTimeout(1500);
+  const svgs = await p.locator('svg[aria-label]').evaluateAll((els) => els.map((e) => [e.getAttribute('aria-label'), e.outerHTML]));
+  console.log(svgs.map((s) => s[0]));
+  const ans = svgs.find((s) => s[0] === 'כרטיס תשובות');
+  if (ans) fs.writeFileSync('shots/answers.svg', ans[1]);
+  await p.screenshot({ path: 'shots/preview.png' });
+  fs.writeFileSync('shots/boxes2.json', JSON.stringify(boxes));
+  console.log(JSON.stringify(boxes));
+  const rp = await b.newPage({ viewport: { width: 1000, height: 1350 }, deviceScaleFactor: 2 });
+  const css = await p.evaluate(() => [...document.styleSheets].map((s) => { try { return [...s.cssRules].map((r) => r.cssText).join('\n'); } catch { return ''; } }).join('\n'));
+  await rp.setContent(`<!doctype html><html dir="rtl"><head><style>${css}</style><style>html,body{margin:0;background:#fff}svg{width:1000px!important;height:1350px!important;display:block}</style></head><body>${ans[1]}</body></html>`);
+  await rp.waitForTimeout(400);
+  await rp.locator('svg').first().screenshot({ path: 'shots/answers.png' });
+  await b.close();
+})().catch((e) => { console.error(e); process.exit(1); });
