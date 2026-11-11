@@ -85,7 +85,7 @@ function ModelPreview({ m }) {
   const geoms = useMemo(() => lib && lib.geo.previewModel(lib.font, m.model), [lib, m.model])
   if (error) return <Viewer url={`/3d/models/${m.model}.stl`} label={`${m.title} — תצוגה בתלת־ממד`} />
   if (!geoms) return <div className="h-[320px] rounded-2xl border-2 border-slate-800 bg-sky-50" />
-  return <Viewer geometries={geoms} label={`${m.title} — תצוגה בתלת־ממד`} />
+  return <Viewer geometries={geoms} colors={m.colors} label={`${m.title} — תצוגה בתלת־ממד`} />
 }
 
 export function Print3DModelPage({ slug: slugProp }) {
@@ -141,6 +141,10 @@ export function NameKeychainPage() {
   const model = useMemo(() => lib && lib.geo.nameModel(lib.font, typed, style), [lib, typed, style])
   const geoms = useMemo(() => model && [model.base, model.text], [model])
   const st = lib?.geo.NAME_STYLES[style]
+  // Characters the 3D font lacks (Russian, Arabic, emoji…) are dropped; niqqud is dropped on purpose (see the FAQ).
+  const plain = typed.replace(/[֑-ׇ]/g, '').replace(/\s+/g, ' ').trim()
+  const kept = lib ? lib.geo.cleanName(plain, lib.font) : plain
+  const notice = !lib || kept === plain ? '' : kept ? `חלק מהתווים לא נכנסים לגופן ולכן הושמטו. יודפס: ${kept}` : 'אפשר לכתוב רק בעברית, באנגלית ובספרות. עד שיהיה שם, מוצגת דוגמה: בוגה'
   const file = style === 'sign' ? 'name-sign' : 'name-keychain'
 
   return (
@@ -153,6 +157,7 @@ export function NameKeychainPage() {
           <span className="mb-1 block text-lg font-bold">השם</span>
           <input value={name} onChange={e => setName(e.target.value)} maxLength={16} dir="auto" className="w-full rounded-xl border-2 border-slate-800 px-4 py-3 text-2xl" placeholder="למשל: נועה" />
         </label>
+        {notice && <p role="status" className="rounded-xl border-2 border-amber-600 bg-amber-50 p-3">⚠️ {notice}</p>}
         <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="מה מדפיסים">
           {[['keychain', '🔑 מחזיק מפתחות'], ['sign', '🚪 שלט לדלת החדר']].map(([k, l]) => (
             <button key={k} type="button" role="radio" aria-checked={style === k} onClick={() => setStyle(k)} className={`${btn} ${style === k ? 'bg-[var(--postit,#fff3a8)]' : 'bg-white'}`}>{l}</button>
@@ -166,7 +171,11 @@ export function NameKeychainPage() {
             <p className="text-center">גודל: {Math.round(model.size.w)}×{Math.round(model.size.h)} מ״מ, עובי {model.size.z.toFixed(1)} מ״מ</p>
             <div className="flex flex-wrap justify-center gap-3">
               <button type="button" className={`${btn} bg-[var(--postit,#fff3a8)]`} onClick={() => download(lib.geo.toSTL([model.base, model.text]), `${file}.stl`)}>⬇️ הורדת קובץ STL</button>
-              <button type="button" className={`${btn} bg-white`} onClick={() => { download(lib.geo.toSTL(model.base), `${file}-base.stl`); setTimeout(() => download(lib.geo.toSTL(model.text), `${file}-letters.stl`), 400) }}>🎨 שני קבצים לשני צבעים</button>
+            </div>
+            <p className="text-center font-bold">🎨 לשני צבעים, שני קבצים:</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <button type="button" className={`${btn} bg-white`} onClick={() => download(lib.geo.toSTL(model.base), `${file}-base.stl`)}>⬇️ הבסיס</button>
+              <button type="button" className={`${btn} bg-white`} onClick={() => download(lib.geo.toSTL(model.text), `${file}-letters.stl`)}>⬇️ האותיות</button>
             </div>
           </>
         )}

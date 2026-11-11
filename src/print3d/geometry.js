@@ -141,11 +141,22 @@ export function dreidelParts(font, letters = ['נ', 'ג', 'ה', 'פ'], assembled
 export const dreidelModel = (font, letters) => { const p = dreidelParts(font, letters); return merge([...p.main, ...p.accent]) }
 
 // ---------- hanukkiah (decoration / play only) ----------
-export function hanukkiahParts(font) {
-  const parts = []
+// The holders take printed flames, not candles: the sockets (6.4 mm) are too narrow for a real
+// Hanukkah candle (~10 mm), so nobody lights a fire in plastic. Each flame is a flat piece with a
+// 5x3 mm peg (diagonal 5.83 mm) that drops into a socket; kids add one every night.
+function flameShape() {
+  const s = new THREE.Shape()
+  s.moveTo(-2.5, 0); s.lineTo(2.5, 0); s.lineTo(2.5, 9); s.lineTo(3.5, 9)
+  s.quadraticCurveTo(5, 12.5, 3.2, 16.5); s.quadraticCurveTo(1.6, 20.5, 0, 24)
+  s.quadraticCurveTo(-1.6, 20.5, -3.2, 16.5); s.quadraticCurveTo(-5, 12.5, -3.5, 9)
+  s.lineTo(-2.5, 9); s.lineTo(-2.5, 0)
+  return s
+}
+export function hanukkiahParts(font, assembled = false) {
+  const parts = [], flames = []
   const W = 172, D = 36, H = 8
   parts.push(extrude([roundedRect(-W / 2, -D / 2, W, D, 6)], H))
-  const holderY = 6, outerR = 8, innerR = 5.4
+  const holderY = 6, outerR = 8, innerR = 3.2
   const holder = (x, z0, h) => {
     const s = new THREE.Shape(); s.absarc(x, holderY, outerR, 0, Math.PI * 2, false)
     s.holes.push(circlePath(x, holderY, innerR))
@@ -155,15 +166,25 @@ export function hanukkiahParts(font) {
     const s = new THREE.Shape(); s.absarc(x, holderY, outerR, 0, Math.PI * 2, false)
     return extrude([s], h, z0, 48)
   }
+  const tops = []
   for (let i = 0; i < 4; i++) {
     const x = 16 + i * 18.5
     parts.push(pillar(x, H - 0.1, 2.1), holder(x, H + 2, 16))
     parts.push(pillar(-x, H - 0.1, 2.1), holder(-x, H + 2, 16))
+    tops.push([x, H + 18], [-x, H + 18])
   }
   parts.push(pillar(0, H - 0.1, 16.1), holder(0, H + 16, 16)) // the shamash, higher
+  tops.push([0, H + 32])
+  tops.sort((a, b) => a[0] - b[0]).forEach(([x, top], i) => {
+    const g = extrude([flameShape()], 3, 0, 12)
+    if (assembled) { // standing in its socket: the flame's shoulder (y = 9) rests on the rim
+      g.rotateX(Math.PI / 2); g.translate(x, holderY + 1.5, top - 9)
+    } else g.translate(-48 + i * 12, D / 2 + 5, 0) // printing pose: lying flat behind the base
+    flames.push(g)
+  })
   const { shapes } = textShapes(font, 'חנוכה שמח', 7.5, 120)
   const t = extrude(shapes, 1.6, H - 0.2, 8); t.translate(0, -D / 2 + 7, 0)
-  return { main: parts, accent: [t] }
+  return { main: parts, accent: [t, ...flames] }
 }
 export const hanukkiahModel = font => { const p = hanukkiahParts(font); return merge([...p.main, ...p.accent]) }
 
@@ -171,7 +192,7 @@ export const hanukkiahModel = font => { const p = hanukkiahParts(font); return m
 export function previewModel(font, key) {
   const p = key === 'dreidel-pe' ? dreidelParts(font, ['נ', 'ג', 'ה', 'פ'], true)
     : key === 'dreidel-shin' ? dreidelParts(font, ['נ', 'ג', 'ה', 'ש'], true)
-      : key === 'hanukkiah' ? hanukkiahParts(font)
+      : key === 'hanukkiah' ? hanukkiahParts(font, true)
         : key === 'star-of-david-cutter' ? { main: [cookieCutterModel(starOfDavidPoints(36))], accent: [] } : null
   if (!p) return null
   return [merge(p.main), ...(p.accent.length ? [merge(p.accent)] : [])]
