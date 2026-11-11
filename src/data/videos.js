@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'TvKvLI8f0RI', kind: 'tutorial', title: 'איך משחקים ב"מצאו את ההבדלים" בעוגה בוגה — מדריך קצר', paths: ['/online-games/find-differences', '/printables/activity/find-differences'], category: 'learning', date: '2026-11-11',
+    desc: 'מדריך קצר למשחק מצאו את ההבדלים: בוחרים אחד מ־18 שלבים (מ־3 הבדלים ועד 7), לוחצים על מה שהשתנה באחת התמונות, אחרי 10 שניות אפשר לקבל רמז, ובסוף כל שלב מקבלים כוכבים. יש גם דפים להדפסה לפי נושא וגיל, עם פתרון בתחתית הדף — חינם, בלי הרשמה.' },
   { id: 'rvE50lX_-50', kind: 'tutorial', title: 'איך מכינים ספר מקופל לילדים מדף אחד בעוגה בוגה — מדריך קצר', paths: ['/printables/my-book'], category: 'learning', date: '2026-11-11',
     desc: 'מדריך קצר לספר המקופל: בוחרים נושא מוכן (עליי, סיפור, משפחה, חנוכה, חורף או ספר ריק), כותבים שורה לכל עמוד, בוחרים איך ייראה כל עמוד (רק ציור, ציור ו־2 שורות, כתיבה או קומיקס), מדפיסים דף A4 אחד עם דף הוראות קיפול, גוזרים חריץ קטן ומקפלים לספר של 8 עמודים — חינם, בלי הרשמה.' },
   { id: 'kZhsRyZitXc', kind: 'tutorial', title: 'איך מפעילים שעון מסך מלא עם ספרות מתהפכות בעוגה בוגה — מדריך קצר', paths: ['/tools/flip-clock'], category: 'tools', date: '2026-11-10',
@@ -75,6 +77,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/pdf': 'סטודיו PDF',
   '/tools/flip-clock': 'שעון מסך מלא',
   '/printables/my-book': 'ספר מקופל מדף אחד',
+  '/online-games/find-differences': 'משחק מצאו את ההבדלים', '/printables/activity/find-differences': 'דפי מצאו את ההבדלים',
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
   '/birthday/party-bags': 'שקיות הפתעה',
