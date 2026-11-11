@@ -284,7 +284,7 @@ export const MENU_DOMAINS = [
           { to: '/flags/quiz', label: 'חידון דגלים', icon: '🎯' },
           { to: '/discover/capitals', label: 'בירות ודגלים', icon: '🌍' },
           { to: '/discover/solar-system', label: 'מערכת השמש', icon: '🪐' },
-          { to: '/learn/space', label: 'החלל — כוכבי לכת, כוכבים ואסטרונאוטים', icon: '🚀' },
+          { to: '/learn/space', label: 'החלל לילדים', icon: '🚀' },
           { to: '/learn/earth-science', label: 'כדור הארץ — רעידות אדמה, הרי געש ועננים', icon: '🌋' },
           { to: '/learn/inventors', label: 'ממציאים והמצאות — מי המציא את המטוס, הטלפון והנורה', icon: '💡' },
           { to: '/learn/world-wonders', label: 'מקומות מפורסמים בעולם — האוורסט, האמזונס וים המלח', icon: '🏔️' },
