@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '1JjZOMBKbqw', kind: 'tutorial', title: 'איך מדפיסים סולמות ונחשים של כפל וחילוק בעוגה בוגה — מדריך קצר', paths: ['/board-games/snakes-and-ladders/multiplication'], category: 'learning', date: '2026-11-11',
+    desc: 'מדריך קצר ללוח סולמות ונחשים של כפל וחילוק להדפסה: בוחרים רמה (כפל עד 5, כל לוח הכפל או 6 עד 9), עם תרגילים או לוח ריק שהמורה ממלאה, בצבע או בשחור־לבן, ותרגילים חדשים בכל לחיצה. מדפיסים את הלוח ואת כרטיס התשובות לשופט — חינם, בלי הרשמה.' },
   { id: 'TvKvLI8f0RI', kind: 'tutorial', title: 'איך משחקים ב"מצאו את ההבדלים" בעוגה בוגה — מדריך קצר', paths: ['/online-games/find-differences', '/printables/activity/find-differences'], category: 'learning', date: '2026-11-11',
     desc: 'מדריך קצר למשחק מצאו את ההבדלים: בוחרים אחד מ־18 שלבים (מ־3 הבדלים ועד 7), לוחצים על מה שהשתנה באחת התמונות, אחרי 10 שניות אפשר לקבל רמז, ובסוף כל שלב מקבלים כוכבים. יש גם דפים להדפסה לפי נושא וגיל, עם פתרון בתחתית הדף — חינם, בלי הרשמה.' },
   { id: 'rvE50lX_-50', kind: 'tutorial', title: 'איך מכינים ספר מקופל לילדים מדף אחד בעוגה בוגה — מדריך קצר', paths: ['/printables/my-book'], category: 'learning', date: '2026-11-11',
@@ -77,6 +79,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/pdf': 'סטודיו PDF',
   '/tools/flip-clock': 'שעון מסך מלא',
   '/printables/my-book': 'ספר מקופל מדף אחד',
+  '/board-games/snakes-and-ladders/multiplication': 'סולמות ונחשים של כפל וחילוק',
   '/online-games/find-differences': 'משחק מצאו את ההבדלים', '/printables/activity/find-differences': 'דפי מצאו את ההבדלים',
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
