@@ -35,11 +35,11 @@
     pick: T(3, 2), // tap on the birthday event
     topic: T(5, 0.5), // tap: a guests step
     mode: T(7, 2), // tap: budget
-    go: T(8, 0.8), ans: T(9, 2), // tap "חשבו לי", then the total
+    go: T(8, 0.8), ans: T(9, 0.5), // tap "חשבו לי", then the total
     printBtn: T(11, 0), // tap the print button
     logo: T(12, 0),
   };
-  const hookOpts = ['4', '6', '9'].map((s, i) => ({ s, i, t: T(1, 0.2 + i * 0.7), midi: m(['F#5', 'A5', 'D6'][i]) }));
+  const hookOpts = ['4', '6', '9'].map((s, i) => ({ s, i, t: T(0, 3 + i * 0.45), midi: m(['F#5', 'A5', 'D6'][i]) }));
 
   // ---- real numbers: same formulas as calculate() in src/pages/Calculator.jsx (medium budget) ----
   const calc = ({ guests, age, duration, meal, budget, event }) => {
@@ -95,12 +95,12 @@
   const ROWS = RESULT.rows.map((r, i) => ({ i, t: T(8, 1.3 + i * 0.45), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'E6'][i]) }));
   // 5. print sheet rows
   const sheetItems = [0, 1, 2, 3].map((i) => ({ i, t: T(10, 0.4 + i * 0.4), midi: m(['D5', 'F#5', 'A5', 'B5'][i]) }));
-  const extras = [{ t: T(11, 1.5) }, { t: T(11, 3) }];
+  const extras = [{ t: T(11, 0.6) }, { t: T(11, 1.4) }];
 
-  const endLines = [{ t: T(12, 1) }, { t: T(12, 2) }, { t: T(13, 0) }, { t: T(13, 1.5) }, { t: T(13, 3) }];
+  const endLines = [{ t: T(12, 0.8) }, { t: T(12, 1.6) }, { t: T(12, 2.4) }, { t: T(12, 3.2) }, { t: T(13, 0) }];
 
   // every pill/chip pop in the film that gets a pop + marimba in song.js
-  const pills = [T(3, 3), T(3, 3.6), T(5, 3), T(5, 3.6), T(7, 3), T(7, 3.6), T(9, 3), T(9, 3.5), T(10, 3), extras[0].t, extras[1].t];
+  const pills = [T(3, 0.5), T(3, 1.5), T(5, 0.5), T(5, 1.5), T(7, 0.5), T(7, 1.5), T(9, 1.2), T(9, 2), T(10, 3), extras[0].t, extras[1].t];
 
   const markers = {
     hook: { t: ev.q1, sync: 'a' }, aud: { t: T(2), sync: 'av' },

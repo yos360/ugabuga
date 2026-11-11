@@ -145,11 +145,12 @@
         he(c, o.s, 0, 28, { size: 90, w: 900, dir: 'ltr', maxW: 200 });
       }, { rot: [-0.02, 0.02, -0.015][o.i] });
     });
+    he(ctx, 'פיצות משפחתיות 🍕', W / 2, 1185, { size: 50, w: 800, color: C.ink, alpha: UI.fadeIn(t, S.hookOpts[2].t, 0.3), maxW: SAFE.w });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(760, 1330); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'ענו בראש… 🤔', { size: 56, w: 900, bg: C.yellow, padX: 34 });
+      ctx.save(); ctx.translate(710, 1300); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'מה אתם אומרים? 👆', { size: 46, w: 900, bg: C.yellow, padX: 34 });
       ctx.restore();
     }
     mascot(ctx, 295, 1490 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 500, t, ev.q2);
@@ -198,7 +199,7 @@
       popAt(ctx, t, o.t, 790 - k * 290, 1195, (c) => chip(c, 0, 0, 270, 90, a, { on, color: C.blue, size: 38, seed: 50 + k }), { dur: 0.22, over: 1.7 });
     });
     UI.tap(ctx, 830 - S.AGE_PICK * 215, 975, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[2], W / 2, 1380, (c) => pill(c, 0, 0, 'הכמות מתאימה לגיל ולמשך', { size: 46, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1380, (c) => pill(c, 0, 0, 'הכמויות לפי הגיל ומשך האירוע', { size: 46, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, S.pills[3], W / 2, 1500, (c) => pill(c, 0, 0, 'ילדים קטנים אוכלים פחות', { size: 46, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
@@ -217,8 +218,8 @@
       popAt(ctx, t, M0[4 + k].t, x, 1065, (c) => chip(c, 0, 0, 245, 96, s, { on, color: C.purple, size: 38, seed: 60 + k }), { dur: 0.22, over: 1.7 });
     });
     UI.tap(ctx, 800 - S.BUDGET_PICK * 260, 1075, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[4], W / 2, 1290, (c) => pill(c, 0, 0, 'פיצה ב־⁦45⁩ / ⁦55⁩ / ⁦68⁩ ₪ לפי הרמה', { size: 44, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1420, (c) => pill(c, 0, 0, 'ארוחה כבר אכלו בבית? נשנושים', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1290, (c) => pill(c, 0, 0, 'פיצה ב־⁦45⁩ / ⁦55⁩ / ⁦68⁩ ₪ לפי רמת התקציב', { size: 44, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1420, (c) => pill(c, 0, 0, 'כבר אכלו בבית? בוחרים נשנושים', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 4. THE SHOPPING LIST =================
@@ -239,7 +240,7 @@
     });
     popAt(ctx, t, ev.ans, W / 2, 1405, (c) => pill(c, 0, 0, `סה״כ משוער: ⁦${S.RESULT.total}⁩ ₪`, { size: 64, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
     confetti(ctx, t, ev.ans, W / 2, 1380, { n: 60, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[6], W / 2, 1530, (c) => pill(c, 0, 0, '⁦15⁩ ילדים בני ⁦6–9⁩, דוגמה', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[6], W / 2, 1530, (c) => pill(c, 0, 0, 'דוגמה: ⁦15⁩ ילדים בני ⁦6–9⁩', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 5. PRINT / WHATSAPP =================
@@ -252,7 +253,7 @@
       G.line(c, [[-SAFE.w / 2 + 50, -250], [SAFE.w / 2 - 50, -250]], { color: C.ink, lw: 4, seed: 101, amp: 0.4 });
     }, { dur: 0.3, over: 1.4, rot: -0.006 });
     S.sheetItems.forEach((it) => {
-      const [emoji, title, amount] = S.RESULT.rows[it.i], y = 690 + it.i * 105;
+      const [emoji, title, amount] = S.RESULT.rows[it.i], y = 720 + it.i * 105;
       popAt(ctx, t, it.t, W / 2, y, (c) => {
         c.fillStyle = '#fff'; c.strokeStyle = '#333'; c.lineWidth = 4; c.beginPath(); c.roundRect(SAFE.w / 2 - 95, -17, 34, 34, 7); c.fill(); c.stroke();
         he(c, `${emoji} ${title}`, SAFE.w / 2 - 125, 4, { size: 38, w: 900, align: 'right', maxW: 360 });
@@ -261,13 +262,13 @@
       }, { dur: 0.22, over: 1.4 });
     });
     [0, 1].forEach((k) => {
-      const y = 1130 + k * 70, a = UI.fadeIn(t, T(11, 0.3 + k * 0.3), 0.3);
+      const y = 1160 + k * 70, a = UI.fadeIn(t, T(11, 0.3 + k * 0.3), 0.3);
       if (a > 0) { ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#333'; ctx.lineWidth = 4; ctx.beginPath(); ctx.roundRect(RIGHT - 70, y - 17, 34, 34, 7); ctx.fill(); ctx.stroke(); ctx.restore(); G.line(ctx, [[RIGHT - 120, y + 20], [160, y + 20]], { color: C.line, lw: 3, seed: 120 + k, amp: 0.3 }); }
     });
     const press = t >= ev.printBtn ? 1 - 0.08 * pulse(t, ev.printBtn, 10) : 1;
-    popAt(ctx, t, T(10, 3), 760, 1370, (c) => { c.scale(press, press); pill(c, 0, 0, '🖨️ הדפסה', { size: 42, w: 900, bg: C.ink, fg: '#fff', padX: 40, seed: 130 }); }, { rot: -0.02 });
-    popAt(ctx, t, T(10, 3.5), 330, 1370, (c) => pill(c, 0, 0, '💬 וואטסאפ', { size: 42, w: 900, bg: C.green, fg: '#fff', padX: 40, seed: 131 }), { rot: 0.02 });
-    UI.tap(ctx, 760, 1380, t, ev.printBtn, { color: 'rgba(35,135,77,0.8)', size: 120 });
+    popAt(ctx, t, T(10, 3), 760, 1410, (c) => { c.scale(press, press); pill(c, 0, 0, '🖨️ הדפסה', { size: 42, w: 900, bg: C.ink, fg: '#fff', padX: 40, seed: 130 }); }, { rot: -0.02 });
+    popAt(ctx, t, T(10, 3.5), 330, 1410, (c) => pill(c, 0, 0, '💬 וואטסאפ', { size: 42, w: 900, bg: C.green, fg: '#fff', padX: 40, seed: 131 }), { rot: 0.02 });
+    UI.tap(ctx, 760, 1420, t, ev.printBtn, { color: 'rgba(35,135,77,0.8)', size: 120 });
     popAt(ctx, t, S.extras[0].t, W / 2, 1500, (c) => pill(c, 0, 0, 'שורות ריקות לפריטים נוספים', { size: 42, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, S.extras[1].t, W / 2, 1610, (c) => pill(c, 0, 0, 'המחירים הם הערכה בלבד', { size: 40, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: 0.02 });
   }
@@ -285,8 +286,8 @@
     he(ctx, 'מחשבון מסיבה: פיצות, שתייה ועוגה', W / 2, 1000, { size: 50, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 1105, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 1225, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'בתפריט: יום הולדת ← מחשבון מסיבה 🧮', W / 2, 1350, { size: 40, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ כתבו כמה פיצות בתגובות', { size: 52, w: 900, bg: C.red, fg: '#fff', padX: 48, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    he(ctx, 'בתפריט: יום הולדת ← מחשבון מסיבה 🧮', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ 4, 6 או 9? כתבו בתגובות', { size: 52, w: 900, bg: C.red, fg: '#fff', padX: 48, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
