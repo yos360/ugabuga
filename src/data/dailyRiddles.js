@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'matches-10', n: 10, date: '2026-11-11', type: 'גפרורים', emoji: '🔥', kind: 'image',
+    id: 'matches-10', n: 10, date: '2026-11-11', type: 'גפרורים', emoji: '🔥', kind: 'image', youtube: 'wGPt2_873B8',
     title: 'הזיזו גפרור אחד בלבד 🔥',
     image: '/daily-riddles/matches-10.svg',
     lines: ['בציור יש תרגיל מגפרורים: ⁦3 + 7 = 2⁩.', 'הזיזו גפרור אחד בלבד כדי שהתרגיל יהיה נכון.'],
