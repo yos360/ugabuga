@@ -74,7 +74,7 @@
   <url><loc>https://ugabuga.co.il/board-games/backgammon</loc><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/chess</loc><lastmod>2026-10-11</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/snakes-and-ladders</loc><priority>0.7</priority></url>
-  <url><loc>https://ugabuga.co.il/board-games/snakes-and-ladders/multiplication</loc><lastmod>2026-11-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/board-games/snakes-and-ladders/multiplication</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/1JjZOMBKbqw/hqdefault.jpg</video:thumbnail_loc><video:title>איך מדפיסים סולמות ונחשים של כפל וחילוק בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר ללוח סולמות ונחשים של כפל וחילוק להדפסה: בוחרים רמה (כפל עד 5, כל לוח הכפל או 6 עד 9), עם תרגילים או לוח ריק שהמורה ממלאה, בצבע או בשחור־לבן, ותרגילים חדשים בכל לחיצה. מדפיסים את הלוח ואת כרטיס התשובות לשופט — חינם, בלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/1JjZOMBKbqw</video:player_loc><video:publication_date>2026-11-11T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-10</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/nim</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/dots-and-boxes</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/board-games/mancala</loc><priority>0.7</priority></url>
@@ -114,7 +114,7 @@
   <url><loc>https://ugabuga.co.il/online-games/lights-out</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/one-move</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/online-games/buga-iq</loc><lastmod>2026-10-19</lastmod><priority>0.8</priority></url>
-  <url><loc>https://ugabuga.co.il/online-games/find-differences</loc><lastmod>2026-11-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/online-games/find-differences</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/TvKvLI8f0RI/hqdefault.jpg</video:thumbnail_loc><video:title>איך משחקים ב"מצאו את ההבדלים" בעוגה בוגה — מדריך קצר</video:title><video:description>מדריך קצר למשחק מצאו את ההבדלים: בוחרים אחד מ־18 שלבים (מ־3 הבדלים ועד 7), לוחצים על מה שהשתנה באחת התמונות, אחרי 10 שניות אפשר לקבל רמז, ובסוף כל שלב מקבלים כוכבים. יש גם דפים להדפסה לפי נושא וגיל, עם פתרון בתחתית הדף — חינם, בלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/TvKvLI8f0RI</video:player_loc><video:publication_date>2026-11-11T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-07</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/games/hatziyur-hamunhe</loc> <lastmod>2026-09-12</lastmod> <priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/buga-deal</loc> <lastmod>2026-09-12</lastmod> <priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/games/buga-numbers</loc> <lastmod>2026-09-12</lastmod> <priority>0.6</priority></url>
