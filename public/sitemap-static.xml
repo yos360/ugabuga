@@ -4056,6 +4056,12 @@
   <url><loc>https://ugabuga.co.il/learn/space/moon-landing-and-missions</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/israel-in-space</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/life-beyond-earth</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/moons-of-the-solar-system</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/comets-and-meteor-showers</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/asteroids-and-planetary-defense</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/space-agencies-world</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/robotic-explorers</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/bright-stars-through-the-year</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/grade-3</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/grade-3/exam</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/grade-4</loc><lastmod>2026-10-30</lastmod><priority>0.7</priority></url>
@@ -4145,6 +4151,54 @@
   <url><loc>https://ugabuga.co.il/learn/space/concepts/beresheet</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/concepts/exoplanet</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/space/concepts/habitable-zone</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/galilean-moons</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/callisto</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/phobos</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/deimos</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/charon</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/miranda</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/mimas</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/oort-cloud</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/hale-bopp</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/shoemaker-levy-9</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/comet-67p</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/meteor-shower</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/perseids</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/oumuamua</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/vesta</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/bennu</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/apophis</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/dart-mission</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/meteorite</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/planetary-defense</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/nasa</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/esa</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/roscosmos</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/cnsa</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/isro</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/jaxa</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/israel-space-agency</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/chandrayaan-3</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/change-4</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/tiangong</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/voyager-2</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/golden-record</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/cassini-huygens</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/juno</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/europa-clipper</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/new-horizons</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/parker-solar-probe</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/vega</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/deneb</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/summer-triangle</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/cygnus</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/antares</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/scorpius</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/rigel</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/arcturus</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/aldebaran</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/cassiopeia</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
+  <url><loc>https://ugabuga.co.il/learn/space/concepts/ophiuchus</loc><lastmod>2026-10-30</lastmod><priority>0.6</priority></url>
   <url><loc>https://ugabuga.co.il/learn/animals</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/learn/animals/animal-kingdom</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/learn/animals/mammals</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
