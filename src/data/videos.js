@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'rvE50lX_-50', kind: 'tutorial', title: 'איך מכינים ספר מקופל לילדים מדף אחד בעוגה בוגה — מדריך קצר', paths: ['/printables/my-book'], category: 'learning', date: '2026-11-11',
+    desc: 'מדריך קצר לספר המקופל: בוחרים נושא מוכן (עליי, סיפור, משפחה, חנוכה, חורף או ספר ריק), כותבים שורה לכל עמוד, בוחרים איך ייראה כל עמוד (רק ציור, ציור ו־2 שורות, כתיבה או קומיקס), מדפיסים דף A4 אחד עם דף הוראות קיפול, גוזרים חריץ קטן ומקפלים לספר של 8 עמודים — חינם, בלי הרשמה.' },
   { id: 'kZhsRyZitXc', kind: 'tutorial', title: 'איך מפעילים שעון מסך מלא עם ספרות מתהפכות בעוגה בוגה — מדריך קצר', paths: ['/tools/flip-clock'], category: 'tools', date: '2026-11-10',
     desc: 'מדריך קצר לשעון מסך מלא: לוחצים "מסך מלא" והשעה ממלאת את כל המסך, מפעילים את צליל הקליק, בוחרים אחד מחמישה צבעים, מדליקים ומכבים שניות, 12/24 שעות ותאריך, ובמסך מלא הכפתורים נעלמים אחרי שלוש שניות — חינם, בלי התקנה.' },
   { id: 'NyaZ1TaLQ6A', kind: 'tutorial', title: 'איך מעצבים אלבום תמונות להדפסה בעוגה בוגה — מדריך קצר', paths: ['/tools/album', '/tools/album/wedding', '/tools/album/bar-mitzvah', '/tools/album/bat-mitzvah', '/tools/album/birthday'], category: 'tools', date: '2026-11-10',
@@ -72,6 +74,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/keyboard': 'מקלדת עברית אונליין',
   '/tools/pdf': 'סטודיו PDF',
   '/tools/flip-clock': 'שעון מסך מלא',
+  '/printables/my-book': 'ספר מקופל מדף אחד',
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
   '/birthday/party-bags': 'שקיות הפתעה',
