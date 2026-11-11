@@ -358,6 +358,7 @@ export const MENU_DOMAINS = [
           { to: '/printables/mazes', label: 'מבוכים להדפסה', icon: '🌀' },
           { to: '/origami', label: 'אוריגמי לילדים — קיפולי נייר', icon: '🦢' },
           { to: '/tools/emoji-studio', label: 'אימוג׳י סטודיו', icon: '😀' },
+          { to: '/3d-print', label: 'הדפסת תלת־ממד — חדש!', icon: '🧊' },
         ],
       },
       {

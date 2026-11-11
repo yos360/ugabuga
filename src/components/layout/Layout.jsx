@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
 import RequestBanner from '../ui/RequestBanner'
-import ChannelBar from '../ui/ChannelBar'
+// Lazy (with PresentMode below): shown only after mount, and the entry sits at its 150 KB budget.
+const ChannelBar = lazy(() => import('../ui/ChannelBar'))
 // Lazy: shown only after mount, and its product table (~23 KB) kept the entry over budget.
 const AffiliatePicks = lazy(() => import('../ui/AffiliatePicks'))
 import { useLocation } from 'react-router-dom'
@@ -25,7 +26,7 @@ const EmojiRelated = lazy(() => import('../../emoji/EmojiRelated'))
 // "How it works" video under tool pages. Lazy along with its data (src/data/videos.js grows daily and
 // must stay out of the entry); it renders nothing on pages without a video.
 const ToolVideos = lazy(() => import('./ToolVideos'))
-import PresentMode from './PresentMode'
+const PresentMode = lazy(() => import('./PresentMode'))
 import { usePresentMode } from '../../utils/presentMode'
 import { creatorTool, installCreationCapture } from '../../utils/creations'
 import { KidsLockGate } from './KidsLock'
@@ -84,10 +85,10 @@ export default function Layout({ children }) {
   return (
     <>
       {/* Classroom projection: only the page itself (see utils/presentMode.js). */}
-      {mounted && <PresentMode />}
+      {mounted && <Suspense fallback={null}><PresentMode /></Suspense>}
       {!presenting && <ScrollToTop />}
       {!presenting && <Navbar />}
-      {mounted && !presenting && <ChannelBar />}
+      {mounted && !presenting && <Suspense fallback={null}><ChannelBar /></Suspense>}
       {mounted && !presenting && <RecentActivity />}
       {mounted && <PrintQrFallback />}
       {mounted && <PrintFollowUp />}
