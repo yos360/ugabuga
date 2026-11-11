@@ -22,6 +22,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn and dragon flying above the clouds',
     'Unicorn with glasses reading in the library',
     'Unicorn and girl building a snow fort',
+    'Unicorn in a ballet class',
+    'Unicorn picking apples in the orchard',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -48,6 +50,7 @@ export const EN_DRAWING_NAMES = {
   dog: [
     'Puppy and doghouse', 'Puppy catching a frisbee', 'Puppy in the bathtub', 'Puppy asleep on a cushion', 'Two puppies playing tug-of-war',
     'Party puppy with a gift', 'Guide dog helping a boy cross the street', 'Puppy peeking out of a giant slipper', 'Firefighter dog in a helmet',
+    'Puppy in rain boots jumping in a puddle',
   ],
   food: [
     'Cute pizza, cupcake and donut', 'Burger, fries and a drink', 'Cute fruit friends', 'Cute vegetable friends', 'Stack of pancakes',
@@ -94,6 +97,9 @@ export const EN_DRAWING_NAMES = {
     'Soccer birthday party with a soccer-ball cake',
     'Boy asleep hugging a ball in his soccer bedroom',
     'Face painting a ball on a cheek before the match',
+    'Penalty kick in the snow',
+    'Night at a soccer camp with tents',
+    'Lion mascot dancing with kids on the pitch',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -167,10 +173,13 @@ export const EN_DRAWING_NAMES = {
     'Kindergarten kids decorating doughnuts with teacher',
     'Doughnut-shaped hot air balloon over the village',
     'Doughnut food truck serving kids in line',
+    'Bouncy castle shaped like a jelly doughnut',
+    'No-hands doughnut eating contest',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
     'Horse jumping a fence', 'Cowboy riding across a stream', 'Girl braiding flowers into a horse’s mane', 'Rocking horse',
+    'Boy feeding a carrot to a pony at the farm',
   ],
   umbrella: [
     'Open umbrella in the rain', 'Boy with an umbrella jumping in puddles', 'Two friends under one umbrella', 'Frog sheltering under a leaf',
@@ -197,6 +206,8 @@ export const EN_DRAWING_NAMES = {
     'Grandpa giving Hanukkah gelt to the grandkids',
     'Dreidel race on a long kindergarten table',
     'Puppy chasing a giant spinning dreidel',
+    'Dreidel carousel at a Hanukkah fair',
+    'Squirrels playing dreidel for acorns',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -220,6 +231,9 @@ export const EN_DRAWING_NAMES = {
     'Family photo by the menorah on the eighth night',
     'Boy building a menorah from toy blocks on the rug',
     'Medical clown bringing Hanukkah to a hospital room',
+    'Magician at a Hanukkah party in the park',
+    'Giant balloon menorah at the kindergarten gate',
+    'Hanukkah sleepover in a blanket fort',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -235,6 +249,8 @@ export const EN_DRAWING_NAMES = {
     'Maccabees play at kindergarten',
     'Kindergarten kids in a Hanukkah play on stage',
     'Boy and donkey carrying jugs of oil up the hill',
+    'Kids building a Maccabee fort from boxes',
+    'Kids painting clay oil jugs in pottery class',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -293,6 +309,7 @@ export const EN_DRAWING_NAMES = {
     'Mermaid waving from a rock', 'Mermaid swimming with a dolphin', 'Mermaid holding a pearl shell', 'Mermaid and sea turtle',
     'Mermaid by an underwater castle', 'Mermaid hugging a starfish', 'Mermaid asleep in a seashell', 'Mermaid playing the harp for the fish',
     'Mermaid riding a seahorse', 'Mermaid with a crown blowing bubbles',
+    'Mermaid and baby octopus playing hide and seek',
   ],
   space: [
     'Astronaut waving on the moon', 'Rocket lifting off the launch pad', 'Cute alien in a flying saucer', 'Smiling ringed planet', 'Rover exploring a planet',
@@ -315,6 +332,9 @@ export const EN_DRAWING_NAMES = {
     'Astronaut girl and robot repairing a satellite',
     'Floating lunchtime on the space station',
     'Little alien watering flowers on a tiny planet',
+    'Playground on Mars',
+    'Astronaut reading a bedtime story on the moon',
+    'Alien family shopping at a space market',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
