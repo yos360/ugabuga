@@ -186,5 +186,22 @@
     "facebook": "https://www.facebook.com/reel/2332613080864448/",
     "tiktok": "https://tiktok.com/@hellorwsvm8/video/7706852515156905236 (via Buffer 2026-11-11, cover in first frame)",
     "whatsapp": "channel עוגה בוגה, 14:55"
+  },
+  {
+    "date": "2026-11-11",
+    "n": 10,
+    "id": "matches-10",
+    "answer": "⁦9 − 7 = 2⁩",
+    "posted": false,
+    "kind": "image",
+    "type": "גפרורים — הזיזו גפרור אחד",
+    "networks": [],
+    "site": "https://ugabuga.co.il/riddles/matches-10",
+    "gate": {
+      "blindSolver": "9 − 7 = 2 (95%, ~12-15s); only other idea: ≠ on the equals sign (not a valid matchstick move)",
+      "editor": "clarity 9, single answer 8, Hebrew 8, fun 8",
+      "search": "computer search over every one-match move (incl. unary minus and a one-match 1): exactly one solution"
+    },
+    "note": "Owner asked for today’s riddle after the 14:00 run published nothing. Rendered and site page pushed; upload to networks is done by the main session (posted:false until then). Cover = frame at 3s (mascot + החידה היומית #10)."
   }
 ]
