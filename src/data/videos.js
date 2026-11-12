@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'tpfCkzAY5Yc', kind: 'tutorial', title: 'איך מלמדים שברים בכיתות ד׳–ה׳ בעוגה בוגה — מדריך קצר', paths: ['/math/fractions'], category: 'learning', date: '2026-11-12',
+    desc: 'מדריך קצר לשברים לכיתות ד׳–ה׳ למורים ולהורים: 11 שלבים לפי סדר הלימוד, ובכל שלב הרעיון, דוגמה, איך מלמדים והטעות הנפוצה, עם תרגול אונליין ודף עבודה עם דף תשובות. בדף יש גם קיר שברים, כלי להשוואת שברים בציור ושישה רעיונות לתרגול בבית — חינם, בלי הרשמה.' },
   { id: '1JjZOMBKbqw', kind: 'tutorial', title: 'איך מדפיסים סולמות ונחשים של כפל וחילוק בעוגה בוגה — מדריך קצר', paths: ['/board-games/snakes-and-ladders/multiplication'], category: 'learning', date: '2026-11-11',
     desc: 'מדריך קצר ללוח סולמות ונחשים של כפל וחילוק להדפסה: בוחרים רמה (כפל עד 5, כל לוח הכפל או 6 עד 9), עם תרגילים או לוח ריק שהמורה ממלאה, בצבע או בשחור־לבן, ותרגילים חדשים בכל לחיצה. מדפיסים את הלוח ואת כרטיס התשובות לשופט — חינם, בלי הרשמה.' },
   { id: 'TvKvLI8f0RI', kind: 'tutorial', title: 'איך משחקים ב"מצאו את ההבדלים" בעוגה בוגה — מדריך קצר', paths: ['/online-games/find-differences', '/printables/activity/find-differences'], category: 'learning', date: '2026-11-11',
@@ -71,6 +73,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/math/fractions': 'שברים לכיתות ד׳–ה׳',
   '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
