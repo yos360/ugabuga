@@ -297,6 +297,7 @@ export const MENU_DOMAINS = [
           { to: '/learn/countries', label: 'מדינות העולם: בירות, גבולות, שפות ודגלים', icon: '🌐' },
           { to: '/animals', label: 'עובדות על חיות', icon: '🦁' },
           { to: '/learn/animals', label: 'עולם החי לעומק: כרישים, נחשים, עכבישים', icon: '🦈' },
+          { to: '/learn/insects', label: 'חרקים לילדים', icon: '🐞' },
           { to: '/learn/fruits-vegetables', label: 'פירות וירקות: פרי או ירק? מאיפה הגיעו', icon: '🍎' },
           { to: '/learn/botany', label: 'בוטניקה וגינון: צמחים, פרחי בר וגינת ירק', icon: '🌿' },
           { to: '/learn/birds', label: 'ציפורים: נדידה, קנים וציפורי ישראל', icon: '🐦' },
