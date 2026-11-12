@@ -96,7 +96,7 @@ export default function HanukkahStaffGift() {
       <Card to={to} msg={msg} from={from} />
     </article></PrintPreview>}
 
-    <p className="mt-8 text-center text-lg">עוד לוועד: <Link className="font-bold underline" to="/vaad/budget">תקציב ועד הורים לשנה</Link> · <Link className="font-bold underline" to="/holidays/hanukkah">חנוכה לילדים</Link> · <Link className="font-bold underline" to="/gifts/gananet">מתנה לגננת</Link></p>
+    <p className="mt-8 text-center text-lg">עוד לוועד: <Link className="font-bold underline" to="/vaad/budget">תקציב ועד הורים לשנה</Link> · <Link className="font-bold underline" to="/holidays/hanukkah/greetings">ברכות לחנוכה</Link> · <Link className="font-bold underline" to="/holidays/hanukkah">חנוכה לילדים</Link> · <Link className="font-bold underline" to="/gifts/gananet">מתנה לגננת</Link></p>
     <div className="mt-10"><SeoBody paragraphs={['מתנה לצוות לחנוכה לא צריכה להיות גדולה. ברוב הגנים והכיתות נותנים בחנוכה משהו קטן וסמלי, ושומרים את המתנה הגדולה לסוף השנה. מה שהופך מתנה קטנה למרגשת הוא הנגיעה האישית: ציור של הילדים, פתק תודה, או שיר שהקליטו יחד.', 'בדף הזה ריכזנו רעיונות שקשורים לחג עצמו — נרות, שמן, אור ודמי חנוכה — וכרטיס תודה לחנוכה להדפסה. בוחרים ברכה או כותבים אחת משלכם, מדפיסים שני כרטיסים בדף, והילדים יכולים לחתום או לצייר עליהם.']} faq={FAQ} related={[{ label: 'ועד הורים — כל הכלים', href: '/vaad' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }]} /></div>
   </div>
 }

@@ -453,6 +453,7 @@ const HanukkiahCutOut = lazy(() => import('./pages/holidays/HanukkiahCutOut'))
 const HanukkahToddlerStory = lazy(() => import('./pages/holidays/HanukkahToddlerStory'))
 const HanukkiahTour = lazy(() => import('./pages/holidays/HanukkiahTour'))
 const HanukkahCandleLighting = lazy(() => import('./pages/holidays/HanukkahCandleLighting'))
+const HanukkahGreetings = lazy(() => import('./pages/holidays/HanukkahGreetings'))
 const HanukkahMath = lazy(() => import('./pages/holidays/HanukkahMath'))
 const HanukkahLearn = lazy(() => import('./pages/holidays/HanukkahLearn'))
 const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
@@ -1359,6 +1360,7 @@ export default function App() {
               <Route path="/holidays/hanukkah/toddler-story" element={<HanukkahToddlerStory />} />
               <Route path="/holidays/hanukkah/hanukkiah-tour" element={<HanukkiahTour />} />
               <Route path="/holidays/hanukkah/candle-lighting" element={<HanukkahCandleLighting />} />
+              <Route path="/holidays/hanukkah/greetings" element={<HanukkahGreetings />} />
               <Route path="/holidays/hanukkah/math" element={<HanukkahMath />} />
               <Route path="/holidays/hanukkah/learn" element={<HanukkahLearn />} />
               <Route path="/holidays/hanukkah/learn/:topic" element={<HanukkahLearn />} />
