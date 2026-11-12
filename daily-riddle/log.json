@@ -195,7 +195,13 @@
     "posted": true,
     "kind": "image",
     "type": "גפרורים — הזיזו גפרור אחד",
-    "networks": ["youtube", "instagram", "facebook", "tiktok", "whatsapp"],
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp"
+    ],
     "youtube": "https://youtube.com/shorts/wGPt2_873B8",
     "tiktok": "https://tiktok.com/@hellorwsvm8/video/7706934552303947060 (via Buffer, cover in first frame)",
     "whatsapp": "channel עוגה בוגה, ~17:50",
@@ -206,5 +212,39 @@
       "search": "computer search over every one-match move (incl. unary minus and a one-match 1): exactly one solution"
     },
     "note": "Owner asked for today’s riddle after the 14:00 run published nothing. Rendered and site page pushed; upload to networks is done by the main session (posted:false until then). Cover = frame at 3s (mascot + החידה היומית #10)."
+  },
+  {
+    "date": "2026-11-12",
+    "n": 11,
+    "id": "logic-11",
+    "answer": "7",
+    "posted": true,
+    "kind": "text",
+    "type": "חידת היגיון קצרה (גיל)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/RMOCRcZg2lA",
+    "instagram": "https://www.instagram.com/ugabuga.co.il/reel/DfpDWcpsGFW/ (newest on the profile right after sharing)",
+    "facebook": "https://www.facebook.com/reel/2594872960985778/ (newest on the עוגה בוגה reels tab, still processing at 14:35)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7707261246252256520 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:31",
+    "site": "https://ugabuga.co.il/riddles/logic-11",
+    "postedAt": "2026-11-12 14:25-14:35 (scheduled run)",
+    "gate": {
+      "rounds": 3,
+      "blindSolver": "7 (97%; instant guess 5 = the intended trap)",
+      "editor": "clarity 9, single answer 10, Hebrew 9, fun 8 (final wording, round 3)",
+      "rejected": "stairs 1→3=40 (fun 6-7, classic), queue 5th/5th and 7th/3rd (fun 5-6, worn out)"
+    },
+    "issues": {
+      "youtube": "Studio opened on the Thinkabara channel; switched to עוגה בוגה from the account menu (no password)",
+      "facebook": "was acting as Thinkabara; switched to עוגה בוגה from the profile menu (no password)",
+      "video": "first render had the long first line auto-shrunk; split into 3 lines (same words)"
+    }
   }
 ]
