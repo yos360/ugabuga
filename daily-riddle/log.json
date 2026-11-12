@@ -245,6 +245,7 @@
       "youtube": "Studio opened on the Thinkabara channel; switched to עוגה בוגה from the account menu (no password)",
       "facebook": "was acting as Thinkabara; switched to עוגה בוגה from the profile menu (no password)",
       "video": "first render had the long first line auto-shrunk; split into 3 lines (same words)"
-    }
+    },
+    "siteLive": "verified live ~15:15 (404 at 14:37 and ~15:00 while Cloudflare built)"
   }
 ]
