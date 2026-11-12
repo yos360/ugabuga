@@ -24,6 +24,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn and girl building a snow fort',
     'Unicorn in a ballet class',
     'Unicorn picking apples in the orchard',
+    'Unicorn at the hair salon',
+    'Unicorn pulling a sleigh through a snowy forest',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -100,6 +102,8 @@ export const EN_DRAWING_NAMES = {
     'Penalty kick in the snow',
     'Night at a soccer camp with tents',
     'Lion mascot dancing with kids on the pitch',
+    'Girls soccer team practice with the coach',
+    'Beach soccer with a sandcastle goal',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -134,6 +138,7 @@ export const EN_DRAWING_NAMES = {
   lion: [
     'Lion on the savanna', 'Lion with a crown on a rock', 'Lion cub and butterfly', 'Lion family under a tree', 'Lion face with a big mane',
     'Lion roaring at a cave entrance', 'Lion cub playing ball', 'Lion king playing chess', 'The lion and the mouse',
+    'Lion cub birthday party in the savanna',
   ],
   fish: [
     'Fish with fins and bubbles', 'Aquarium with two goldfish', 'School of fish over coral', 'Big fish with scales', 'Pufferfish, crab and clam',
@@ -175,6 +180,8 @@ export const EN_DRAWING_NAMES = {
     'Doughnut food truck serving kids in line',
     'Bouncy castle shaped like a jelly doughnut',
     'No-hands doughnut eating contest',
+    'Bear family frying doughnuts in a forest cabin',
+    'Kids selling doughnuts at a street stand',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -208,6 +215,8 @@ export const EN_DRAWING_NAMES = {
     'Puppy chasing a giant spinning dreidel',
     'Dreidel carousel at a Hanukkah fair',
     'Squirrels playing dreidel for acorns',
+    'Hot air balloon festival of dreidel balloons',
+    'Playing dreidel on a train ride',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -234,6 +243,10 @@ export const EN_DRAWING_NAMES = {
     'Magician at a Hanukkah party in the park',
     'Giant balloon menorah at the kindergarten gate',
     'Hanukkah sleepover in a blanket fort',
+    'Family lighting a menorah on a harbor fishing boat',
+    'Penguin family lighting a menorah on an iceberg',
+    'Lighting a menorah in a desert camping tent',
+    'Lighting a menorah at the zoo with the zookeeper',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -251,6 +264,8 @@ export const EN_DRAWING_NAMES = {
     'Boy and donkey carrying jugs of oil up the hill',
     'Kids building a Maccabee fort from boxes',
     'Kids painting clay oil jugs in pottery class',
+    'Olive harvest in a village in Maccabee times',
+    'Celebrating in the old city streets with oil lamps',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -259,6 +274,7 @@ export const EN_DRAWING_NAMES = {
   penguin: [
     'Penguin sliding on the ice', 'Penguin in a scarf and hat', 'Penguin family', 'Penguins building a snowman', 'Penguin catching a fish',
     'Penguin reaching for a balloon by an igloo', 'Penguin on an ice slide', 'Penguin with an ice cream', 'Penguin reading the newspaper',
+    'Penguin school on the ice',
   ],
   monkey: [
     'Monkey on a vine with a banana', 'Monkey face', 'Mother monkey hugging her baby', 'Two monkeys in the jungle', 'Monkey playing the drums',
@@ -275,6 +291,7 @@ export const EN_DRAWING_NAMES = {
   turtle: [
     'Turtle in the grass', 'Sea turtle swimming with fish', 'Baby turtle hatching on the beach', 'Turtle and snail', 'The tortoise and the hare race',
     'Turtle in a helmet riding a scooter', 'Turtle reading a book', 'Baby sea turtles heading for the water', 'Turtle showing off its shell in a mirror',
+    'Turtle mail carrier bringing a parcel to a hedgehog',
   ],
   'mandala-kids': [
     'Dinosaur mandala', 'Butterfly mandala for kids', 'Heart mandala', 'Moon and stars mandala', 'Simple flower mandala', 'Smiling sun mandala',
@@ -295,6 +312,7 @@ export const EN_DRAWING_NAMES = {
   'tu-bishvat': [
     null, null, null, null, null, null, null, null, null,
     'Family picnic under an almond tree',
+    'Hedgehog family fruit feast under an almond tree',
   ],
   'purim-masks': [null, null, null, null, null, null, null, null, null],
   sweets: [
@@ -335,6 +353,9 @@ export const EN_DRAWING_NAMES = {
     'Playground on Mars',
     'Astronaut reading a bedtime story on the moon',
     'Alien family shopping at a space market',
+    'Smiling comet flying over a sleeping town',
+    'Astronaut walking a robot dog on the moon',
+    'Space bedroom with a rocket bunk bed',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
