@@ -1,0 +1,46 @@
+// Real captures of ugabuga.co.il/math/fractions (src/math/FractionsGuide.jsx) and the topic page it links to.
+const { chromium } = require('C:/Users/pc/Documents/ugabuga/node_modules/playwright');
+const fs = require('fs');
+fs.rmSync('shots', { recursive: true, force: true }); fs.mkdirSync('shots', { recursive: true });
+(async () => {
+  const b = await chromium.launch({ executablePath: process.env.CHROME_PATH });
+  const c = await b.newContext({ viewport: { width: 1100, height: 1000 }, deviceScaleFactor: 2, locale: 'he-IL' });
+  const p = await c.newPage();
+  const hide = () => p.evaluate(() => { for (const e of document.querySelectorAll('body *')) { const s = getComputedStyle(e); if (s.position === 'fixed' || s.position === 'sticky') e.style.visibility = 'hidden'; } });
+  const box = (loc) => loc.evaluate((e) => { const r = e.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height].map(Math.round); });
+  const boxes = {};
+  await p.goto('https://ugabuga.co.il/math/fractions', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(1500); await hide();
+  const shot = async (k, loc) => { boxes[k] = await box(loc); await loc.screenshot({ path: `shots/${k}.png` }); };
+  await shot('toc', p.locator('nav[aria-labelledby="toc-h"]'));
+  boxes.tocCompare = await box(p.locator('nav[aria-labelledby="toc-h"] a[href="#compare"]'));
+  boxes.tocG4 = await box(p.locator('nav[aria-labelledby="toc-h"] li').nth(0));
+  await shot('card', p.locator('li#compare'));
+  const ps = p.locator('li#compare p');
+  for (let i = 0; i < await ps.count(); i++) boxes['cardP' + i] = await box(ps.nth(i));
+  boxes.cardLink = await box(p.locator('li#compare a'));
+  await shot('home', p.locator('section[aria-labelledby="home-h"]'));
+  const cmp = p.locator('section[aria-labelledby="cmp-h"]'), wall = p.locator('section[aria-labelledby="wall-h"] svg');
+  const sel = cmp.locator('select');
+  boxes.sels = []; for (let i = 0; i < 4; i++) boxes.sels.push(await box(sel.nth(i)));
+  await shot('cmp0', cmp); await shot('wall0', wall);
+  await sel.nth(1).selectOption('4'); await sel.nth(0).selectOption('3'); await p.waitForTimeout(300);
+  await shot('cmp1', cmp); await shot('wall1', wall);
+  await sel.nth(3).selectOption('6'); await sel.nth(2).selectOption('5'); await p.waitForTimeout(300);
+  await shot('cmp2', cmp); await shot('wall2', wall);
+  console.log('cmp text', await cmp.locator('p[aria-live]').innerText());
+  // the topic page behind the step's link
+  await p.goto('https://ugabuga.co.il/math/grade-4/compare-fractions', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(1500); await hide();
+  const h1 = p.locator('h1'), lv = p.locator('section[aria-label="רמה ומצב"]'), pr = p.locator('#lv-practice');
+  boxes.tH1 = await box(h1); boxes.tLv = await box(lv); boxes.tPr = await box(pr);
+  boxes.tPrint = await box(p.locator('button').filter({ hasText: 'דף עבודה להדפסה' }).first());
+  boxes.tQuiz = await box(p.locator('button').filter({ hasText: 'מבחן (10 שאלות)' }).first());
+  boxes.tPractice = await box(p.locator('button').filter({ hasText: '✏️ תרגול' }).first());
+  console.log('h1', await h1.innerText(), 'levels', await lv.innerText());
+  console.log('practice', (await pr.innerText()).slice(0, 400));
+  await p.screenshot({ path: 'shots/topic.png', fullPage: true });
+  fs.writeFileSync('shots/boxes.json', JSON.stringify(boxes, null, 1));
+  console.log(JSON.stringify(boxes));
+  await b.close();
+})().catch((e) => { console.error(e); process.exit(1); });
