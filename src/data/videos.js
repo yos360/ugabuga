@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'b_zu7c1Qmrc', kind: 'tutorial', title: 'איך עושים קולאז׳ תמונות בצורת מספר, לב או שם בעוגה בוגה — מדריך קצר', paths: ['/tools/collage'], category: 'tools', date: '2026-11-12',
+    desc: 'מדריך קצר לכלי הקולאז׳: בוחרים צורה (מספר, לב, שם או תמונה בתוך טקסט), מעלים תמונות והן נכנסות לבד לפי תאריך הצילום, כותבים מספר או שם, בוחרים סגנון וגודל ומורידים JPG או PNG שקוף. חינם, בלי סימן מים, והתמונות נשארות במכשיר.' },
   { id: 'OpHFRrhEfvw', kind: 'tutorial', title: 'איך מכינים מחזיק מפתחות עם שם להדפסה בתלת־ממד בעוגה בוגה — מדריך קצר', paths: ['/3d-print/name-keychain'], category: 'tools', date: '2026-11-12',
     desc: 'מדריך קצר למחולל מחזיקי המפתחות: כותבים שם בעברית, רואים אותו בתלת־ממד, בוחרים מחזיק מפתחות או שלט לדלת החדר ומורידים קובץ STL אחד, או שני קבצים (בסיס ואותיות) למדפסת עם כמה צבעים. הדגם נבנה בדפדפן, והשם לא נשלח לשום מקום.' },
   { id: 'tpfCkzAY5Yc', kind: 'tutorial', title: 'איך מלמדים שברים בכיתות ד׳–ה׳ בעוגה בוגה — מדריך קצר', paths: ['/math/fractions'], category: 'learning', date: '2026-11-12',
@@ -75,6 +77,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
   '/math/fractions': 'שברים לכיתות ד׳–ה׳',
   '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
