@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'OpHFRrhEfvw', kind: 'tutorial', title: 'איך מכינים מחזיק מפתחות עם שם להדפסה בתלת־ממד בעוגה בוגה — מדריך קצר', paths: ['/3d-print/name-keychain'], category: 'tools', date: '2026-11-12',
+    desc: 'מדריך קצר למחולל מחזיקי המפתחות: כותבים שם בעברית, רואים אותו בתלת־ממד, בוחרים מחזיק מפתחות או שלט לדלת החדר ומורידים קובץ STL אחד, או שני קבצים (בסיס ואותיות) למדפסת עם כמה צבעים. הדגם נבנה בדפדפן, והשם לא נשלח לשום מקום.' },
   { id: 'tpfCkzAY5Yc', kind: 'tutorial', title: 'איך מלמדים שברים בכיתות ד׳–ה׳ בעוגה בוגה — מדריך קצר', paths: ['/math/fractions'], category: 'learning', date: '2026-11-12',
     desc: 'מדריך קצר לשברים לכיתות ד׳–ה׳ למורים ולהורים: 11 שלבים לפי סדר הלימוד, ובכל שלב הרעיון, דוגמה, איך מלמדים והטעות הנפוצה, עם תרגול אונליין ודף עבודה עם דף תשובות. בדף יש גם קיר שברים, כלי להשוואת שברים בציור ושישה רעיונות לתרגול בבית — חינם, בלי הרשמה.' },
   { id: '1JjZOMBKbqw', kind: 'tutorial', title: 'איך מדפיסים סולמות ונחשים של כפל וחילוק בעוגה בוגה — מדריך קצר', paths: ['/board-games/snakes-and-ladders/multiplication'], category: 'learning', date: '2026-11-11',
@@ -73,6 +75,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
   '/math/fractions': 'שברים לכיתות ד׳–ה׳',
   '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
