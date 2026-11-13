@@ -1,0 +1,63 @@
+// Real captures of ugabuga.co.il/learn/multiplication-table/quiz (src/learn/MultiplicationQuiz.jsx).
+// The first quiz uses a fixed seed (1), so it is the same on every load; answers = a*b read from aria-labels.
+const { chromium } = require('C:/Users/pc/Documents/ugabuga/node_modules/playwright');
+const fs = require('fs');
+fs.rmSync('shots', { recursive: true, force: true }); fs.mkdirSync('shots', { recursive: true });
+const VW = 1280, VH = 1100;
+const WRONG = { 6: 1, 13: 1 }; // question index -> answer + this (two mistakes -> 18 of 20 "כמעט!")
+(async () => {
+  const b = await chromium.launch({ executablePath: process.env.CHROME_PATH });
+  const c = await b.newContext({ viewport: { width: VW, height: VH }, deviceScaleFactor: 2, locale: 'he-IL' });
+  const p = await c.newPage();
+  const hide = () => p.evaluate(() => { for (const e of document.querySelectorAll('body *')) { const s = getComputedStyle(e); if ((s.position === 'fixed' || s.position === 'sticky') && !e.closest('dialog')) e.style.visibility = 'hidden'; } });
+  const vbox = (loc) => loc.evaluate((e) => { const r = e.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map(Math.round); });
+  const boxes = {};
+  const scrollTo = async (loc, off) => { await loc.evaluate((e, o) => window.scrollTo(0, e.getBoundingClientRect().top + scrollY - o), off); await p.waitForTimeout(500); };
+  const shot = (k) => p.screenshot({ path: `shots/${k}.png` });
+  await p.goto('https://ugabuga.co.il/learn/multiplication-table/quiz', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(2500); await hide();
+  const h1 = p.locator('h1');
+  await scrollTo(h1, 20);
+  const qs = p.locator('label.mt-q');
+  const inputs = qs.locator('input');
+  const n = await qs.count();
+  const vals = [];
+  for (let i = 0; i < n; i++) { const [a, bb] = (await inputs.nth(i).getAttribute('aria-label')).split(' כפול ').map(Number); vals.push({ a, b: bb, v: a * bb }); }
+  console.log('quiz:', vals.map((q) => `${q.a}x${q.b}`).join(' '));
+  const chips = p.locator('button.ln-chip');
+  const btn = (re) => p.getByRole('button', { name: re });
+  const grab = async () => ({ h1: await vbox(h1), chips: await vbox(p.locator('[aria-label="טווח הלוחות"]')), chip6: await vbox(chips.filter({ hasText: /^6$/ })), chip10: await vbox(chips.filter({ hasText: /^10$/ })), grid: await vbox(p.locator('.mt-quiz')), q: await Promise.all([0, 1, 2, 3, 4, 5, 6, 13].map((i) => vbox(qs.nth(i)))), check: await vbox(btn(/בדיקה/)), fresh: await vbox(btn(/בוחן חדש/)), print: await vbox(btn(/הדפסת הבוחן/)) });
+  boxes.start = await grab(); await shot('start');
+  const ansOf = (i) => String(vals[i].v + (WRONG[i] || 0));
+  for (let i = 0; i < 3; i++) await inputs.nth(i).fill(ansOf(i));
+  await p.waitForTimeout(200); boxes.typing = await grab(); await shot('typing');
+  for (let i = 3; i < n; i++) await inputs.nth(i).fill(ansOf(i));
+  await p.waitForTimeout(200); boxes.filled = await grab(); await shot('filled');
+  await btn(/בדיקה/).click(); await p.waitForTimeout(800);
+  const score = p.locator('p[aria-live]');
+  console.log('score:', await score.innerText());
+  boxes.checked = { ...(await grab()), score: await vbox(score), small: await Promise.all([6, 13].map((i) => vbox(qs.nth(i).locator('small')))) };
+  console.log('q6 after check:', (await qs.nth(6).innerText()).replace(/\n/g, ' | '));
+  await shot('checked');
+  await btn(/בוחן חדש/).click(); await p.waitForTimeout(800);
+  const vals2 = [];
+  for (let i = 0; i < n; i++) vals2.push((await inputs.nth(i).getAttribute('aria-label')).replace(' כפול ', 'x'));
+  console.log('new quiz:', vals2.join(' '));
+  boxes.fresh = await grab(); await shot('fresh');
+  await chips.filter({ hasText: /^10$/ }).click(); await p.waitForTimeout(800);
+  console.log('h1 after 10:', await h1.innerText(), '| q0:', await inputs.nth(0).getAttribute('aria-label'));
+  boxes.ten = await grab(); await shot('ten');
+  await chips.filter({ hasText: /^6$/ }).click(); await p.waitForTimeout(800);
+  await btn(/הדפסת הבוחן/).click(); await p.waitForTimeout(3000);
+  const dlg = p.locator('dialog.buga-print-dialog');
+  const pages = dlg.locator('.buga-preview-pages article');
+  console.log('pages', await pages.count(), '| buttons:', (await dlg.locator('button').allInnerTexts()).map((s) => s.replace(/\n/g, ' ')).join(' / '));
+  boxes.print = { pdf: await vbox(dlg.locator('[data-save-pdf]')), prn: await vbox(dlg.getByRole('button', { name: /הדפסה/ }).last()), page: await vbox(pages.first()), dlg: await vbox(dlg) };
+  await shot('print');
+  await pages.last().evaluate((e) => e.scrollIntoView({ block: 'start' })); await p.waitForTimeout(800);
+  boxes.answers = { page: await vbox(pages.last()) };
+  await shot('answers');
+  fs.writeFileSync('shots/boxes.json', JSON.stringify(boxes, null, 1));
+  console.log(JSON.stringify(boxes));
+  await b.close();
+})().catch((e) => { console.error(e); process.exit(1); });
