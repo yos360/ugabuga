@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'giorVr59040', kind: 'tutorial', title: 'מבחן בר אילן כיתה ה׳: תרגול חינם עם הסברים', paths: ['/learn/gifted-test/bar-ilan'], category: 'learning', date: '2026-11-13',
+    desc: 'מדריך קצר לתרגול לקראת מבחן בר־אילן בכיתה ה׳: בוחרים מבחן מלא של 24 שאלות עם שעון של שעה או תרגול קצר של 8 שאלות, עונים במסך, לוחצים "בדיקה" ומקבלים ציון והסבר לכל תשובה, ומדפיסים את המבחן עם דף תשובות והסברים. מבחן חדש בכל לחיצה, חינם, בלי הרשמה.' },
   { id: 'F8E6pJHJuEM', kind: 'tutorial', title: 'ברכות לחנוכה לגננת ולמורה — מעתיקים או מדפיסים', paths: ['/holidays/hanukkah/greetings'], category: 'holidays', date: '2026-11-13',
     desc: 'מדריך קצר לדף ברכות לחנוכה: בוחרים למי הברכה (גננת, מורה, סייעת, ילדים, משפחה או עובדים), מעתיקים או שולחים בוואטסאפ, או לוחצים "לכרטיס" ומדפיסים ארבעה כרטיסי ברכה בדף A4 עם שורת "לכבוד" ושורת "מאת". 36 ברכות קצרות ומקוריות, חינם, בלי הרשמה.' },
   { id: 'b_zu7c1Qmrc', kind: 'tutorial', title: 'איך עושים קולאז׳ תמונות בצורת מספר, לב או שם בעוגה בוגה — מדריך קצר', paths: ['/tools/collage'], category: 'tools', date: '2026-11-12',
@@ -79,6 +81,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
   '/holidays/hanukkah/greetings': 'ברכות לחנוכה',
   '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
