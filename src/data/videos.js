@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'QakznlA2Fek', kind: 'tutorial', title: 'בוחן לוח הכפל להדפסה ואונליין, עם תשובות', paths: ['/learn/multiplication-table/quiz'], category: 'learning', date: '2026-11-13',
+    desc: 'מדריך קצר לבוחן לוח הכפל לכיתות ג׳–ד׳: בוחרים לוחות (ברירת המחדל 1 עד 6), כותבים תשובות ל־20 תרגילים מעורבבים, לוחצים "בדיקה" ורואים ציון והתשובה הנכונה מתחת לכל טעות, "בוחן חדש" נותן בוחן אחר, ו"הדפסת הבוחן" מדפיסה דף בוחן ודף תשובות.' },
   { id: 'giorVr59040', kind: 'tutorial', title: 'מבחן בר אילן כיתה ה׳: תרגול חינם עם הסברים', paths: ['/learn/gifted-test/bar-ilan'], category: 'learning', date: '2026-11-13',
     desc: 'מדריך קצר לתרגול לקראת מבחן בר־אילן בכיתה ה׳: בוחרים מבחן מלא של 24 שאלות עם שעון של שעה או תרגול קצר של 8 שאלות, עונים במסך, לוחצים "בדיקה" ומקבלים ציון והסבר לכל תשובה, ומדפיסים את המבחן עם דף תשובות והסברים. מבחן חדש בכל לחיצה, חינם, בלי הרשמה.' },
   { id: 'F8E6pJHJuEM', kind: 'tutorial', title: 'ברכות לחנוכה לגננת ולמורה — מעתיקים או מדפיסים', paths: ['/holidays/hanukkah/greetings'], category: 'holidays', date: '2026-11-13',
@@ -105,6 +107,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/worksheet-maker': 'מחולל דפי עבודה',
   '/printables/coloring': 'דפי צביעה',
   '/learn/multiplication-table/game': 'בלש לוח הכפל',
+  '/learn/multiplication-table/quiz': 'בוחן לוח הכפל',
   '/letters/first-reading-stories': 'סיפורים לראשית קריאה',
   '/printables/class-photo/hanukkah': 'תמונת מחזור לחנוכה בגן',
   '/printables/class-photo': 'תמונת מחזור',
