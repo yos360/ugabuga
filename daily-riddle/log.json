@@ -279,6 +279,7 @@
       "youtube": "publish asked to wait for the copyright check; waited ~3 min then published public; thumbnail = mascot frame",
       "instagram": "share-to-Facebook switch was ON again; turned off via לא לשתף את סרטון Reels הזה, verified false",
       "tests": "one flaky test failure on first run, 1842/1842 on rerun"
-    }
+    },
+    "siteLive": "verified live ~15:20 (404 at 14:35 and 14:52 while Cloudflare built)"
   }
 ]
