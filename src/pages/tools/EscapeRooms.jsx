@@ -31,7 +31,7 @@ const escapeRoomsHowTo = [
   'הקוד האחרון פותח קופסה או מעטפה עם הפרס: שקיות הפתעה, העוגה, תעודה או כל מה שמתאים לאירוע.',
 ]
 const SETTING_LABELS = { birthday: 'יום הולדת', classroom: 'כיתה', family: 'משפחה', team: 'גיבוש', holiday: 'חגים' }
-const escapeRoomsRelated = [ { label: 'כתב סתרים וצפנים', href: '/tools/secret-codes' }, { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' },{ label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
+const escapeRoomsRelated = [ { label: 'חדר בריחה לחנוכה לכיתה ולגן', href: '/holidays/hanukkah/escape-room' }, { label: 'כתב סתרים וצפנים', href: '/tools/secret-codes' }, { label: 'יוצר ציד אוצרות', href: '/tools/scavenger-hunt-maker' },{ label: 'יום הולדת בבית', href: '/ideas/at-home' }, { label: 'מתחם יוצרים', href: '/create' } ]
 
 // Number answers also accept the Hebrew word ("ארבע" for 4), and niqqud / final letters never decide a match.
 const HEBREW_NUMBERS = ['אפס', 'אחת|אחד', 'שתיים|שניים|שתים|שנים', 'שלוש|שלושה', 'ארבע|ארבעה', 'חמש|חמישה', 'שש|שישה', 'שבע|שבעה', 'שמונה', 'תשע|תשעה', 'עשר|עשרה',
