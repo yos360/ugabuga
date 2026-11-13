@@ -247,5 +247,38 @@
       "video": "first render had the long first line auto-shrunk; split into 3 lines (same words)"
     },
     "siteLive": "verified live ~15:15 (404 at 14:37 and ~15:00 while Cloudflare built)"
+  },
+  {
+    "date": "2026-11-13",
+    "n": 12,
+    "id": "letters-12",
+    "answer": "ח",
+    "posted": true,
+    "kind": "seq",
+    "type": "משחק אותיות בעברית (סדרת אותיות)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/O1ZvowkOxrc",
+    "instagram": "https://www.instagram.com/ugabuga.co.il/reel/DfrnvgXMJ6y/",
+    "facebook": "עוגה בוגה reels tab (newest; link not confirmed while processing)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7707631297543376135 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:27",
+    "site": "https://ugabuga.co.il/riddles/letters-12",
+    "postedAt": "2026-11-13 14:20-14:30 (scheduled run)",
+    "gate": {
+      "rounds": 1,
+      "blindSolver": "v1 (? at the end = ש): ש 97%; final (? in place of ח): ח 97%, ~3-5s with a hint; hint removed from the video",
+      "editor": "clarity 9, single answer 9, Hebrew 8, fun 8 (v1); editor suggested moving ? to ח so nobody can guess ש just because it repeats"
+    },
+    "issues": {
+      "youtube": "publish asked to wait for the copyright check; waited ~3 min then published public; thumbnail = mascot frame",
+      "instagram": "share-to-Facebook switch was ON again; turned off via לא לשתף את סרטון Reels הזה, verified false",
+      "tests": "one flaky test failure on first run, 1842/1842 on rerun"
+    }
   }
 ]
