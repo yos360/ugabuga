@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'letters-12', n: 12, date: '2026-11-13', type: 'משחק אותיות', emoji: '🔤', kind: 'seq', dir: 'rtl',
+    id: 'letters-12', n: 12, date: '2026-11-13', type: 'משחק אותיות', emoji: '🔤', kind: 'seq', dir: 'rtl', youtube: 'O1ZvowkOxrc',
     title: 'איזו אות חסרה?',
     items: ['ר', 'ש', 'ש', 'ר', '?', 'ש', 'ש'],
     ask: 'רוב האנשים נתקעים פה 😅',
