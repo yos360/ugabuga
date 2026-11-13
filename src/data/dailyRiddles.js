@@ -4,6 +4,14 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
+    id: 'letters-12', n: 12, date: '2026-11-13', type: 'משחק אותיות', emoji: '🔤', kind: 'seq', dir: 'rtl',
+    title: 'איזו אות חסרה?',
+    items: ['ר', 'ש', 'ש', 'ר', '?', 'ש', 'ש'],
+    ask: 'רוב האנשים נתקעים פה 😅',
+    answer: 'ח',
+    why: 'אלה האותיות הראשונות של ימי השבוע: ראשון, שני, שלישי, רביעי, חמישי, שישי, שבת. המשבצת החסרה היא יום חמישי — ולכן האות ח.',
+  },
+  {
     id: 'logic-11', n: 11, date: '2026-11-12', type: 'חידת היגיון', emoji: '🧠', kind: 'text', youtube: 'RMOCRcZg2lA',
     title: 'חידת היגיון: בת כמה אחותה?',
     lines: ['כשנועה הייתה בת 6,', 'גיל אחותה הקטנה', 'היה בדיוק חצי מגיל נועה.', 'היום נועה בת 10.', 'בת כמה אחותה?'],
