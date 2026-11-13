@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'F8E6pJHJuEM', kind: 'tutorial', title: 'ברכות לחנוכה לגננת ולמורה — מעתיקים או מדפיסים', paths: ['/holidays/hanukkah/greetings'], category: 'holidays', date: '2026-11-13',
+    desc: 'מדריך קצר לדף ברכות לחנוכה: בוחרים למי הברכה (גננת, מורה, סייעת, ילדים, משפחה או עובדים), מעתיקים או שולחים בוואטסאפ, או לוחצים "לכרטיס" ומדפיסים ארבעה כרטיסי ברכה בדף A4 עם שורת "לכבוד" ושורת "מאת". 36 ברכות קצרות ומקוריות, חינם, בלי הרשמה.' },
   { id: 'b_zu7c1Qmrc', kind: 'tutorial', title: 'איך עושים קולאז׳ תמונות בצורת מספר, לב או שם בעוגה בוגה — מדריך קצר', paths: ['/tools/collage'], category: 'tools', date: '2026-11-12',
     desc: 'מדריך קצר לכלי הקולאז׳: בוחרים צורה (מספר, לב, שם או תמונה בתוך טקסט), מעלים תמונות והן נכנסות לבד לפי תאריך הצילום, כותבים מספר או שם, בוחרים סגנון וגודל ומורידים JPG או PNG שקוף. חינם, בלי סימן מים, והתמונות נשארות במכשיר.' },
   { id: 'OpHFRrhEfvw', kind: 'tutorial', title: 'איך מכינים מחזיק מפתחות עם שם להדפסה בתלת־ממד בעוגה בוגה — מדריך קצר', paths: ['/3d-print/name-keychain'], category: 'tools', date: '2026-11-12',
@@ -77,6 +79,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/holidays/hanukkah/greetings': 'ברכות לחנוכה',
   '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
   '/math/fractions': 'שברים לכיתות ד׳–ה׳',
