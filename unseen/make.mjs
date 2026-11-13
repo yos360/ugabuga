@@ -84,23 +84,35 @@ execFileSync(ff, ['-y', '-v', 'error', '-i', 'out/unseen.mp4', '-c:v', 'libx264'
 const score = JSON.parse(execFileSync(node, ['-e', "const s=require('./score');console.log(JSON.stringify({q:s.questions.length?s.questions[0].t0:0,end:s.endStart}))"], { cwd: WORK, encoding: 'utf8' }))
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`
 const site = `https://ugabuga.co.il/unseen/english/${slug}`
-const title = `${D.title} | אנסין באנגלית ${D.levelName.startsWith('כיתה') ? 'ל' + D.levelName : 'ל־' + D.levelName + ' לבגרות'} עם קריינית`.slice(0, 100)
+// YouTube SEO (Yossi, 12.11.2026): Hebrew search phrase first, then " | עוגה בוגה", up to 70 characters
+const isGrade = D.levelName.startsWith('כיתה')
+const levelKw = isGrade ? D.levelName : D.levelName + ' לבגרות'
+const keyword = `אנסין באנגלית ${levelKw}`
+const tail = ' | עוגה בוגה'
+const full = `${keyword} – ${D.title}${tail}`
+// a long English name is cut at a word boundary, so titles of the same grade stay distinct
+const room = 70 - keyword.length - tail.length - 4
+let short = D.title
+while (short.length > room && short.includes(' ')) short = short.slice(0, short.lastIndexOf(' ')).replace(/[,:;–-]$/, '')
+// never end on a small word ("A Garden Between the…")
+while (/ (the|a|an|of|on|to|at|in|for|and|with|from|by)$/i.test(short)) short = short.slice(0, short.lastIndexOf(' '))
+const title = full.length <= 70 ? full : short.length <= room ? `${keyword} – ${short}…${tail}` : `${keyword}${tail}`
 const description = [
-  `אנסין באנגלית ל${D.levelName}: קוראים יחד עם קריינית, מילה אחר מילה, עם תרגום למילים הקשות ושאלות הבנה בסוף.`,
+  `${keyword}: קוראים יחד עם קריינית את הקטע "${D.title}", מילה אחר מילה, עם תרגום למילים הקשות.`,
+  `בסוף הסרטון יש שאלות הבנה, ובאתר מחכה המבחן המלא עם התשובות.`,
+  site,
+  '',
   D.summary || '',
-  '',
-  `📝 המבחן המלא, התשובות וההקלטה באתר: ${site}`,
-  '📚 כל האנסינים: https://ugabuga.co.il/unseen/english',
-  '',
-  '🔔 כל יום עולה קטע אנסין חדש, כל יום לכיתה אחרת, מכיתה ג׳ ועד הבגרות. מורים והורים יכולים לסמוך על זה ולמצוא כאן קטע לכל רמה.',
-  '💬 מחפשים נושא מסוים? כתבו לנו בתגובות ונכין קטע בנושא.',
+  '📝 בדף: הקטע להדפסה, שאלות הבנה, התשובות וההקלטה של הקריינית.',
+  '📚 כל האנסינים, מכיתה ג׳ ועד הבגרות: https://ugabuga.co.il/unseen/english',
   '',
   '0:00 פתיחה',
   `0:03 הקטע באנגלית`,
   ...(score.q ? [`${mmss(score.q)} שאלות הבנה`] : []),
   `${mmss(score.end)} המבחן המלא באתר`,
   '',
-  '#אנסין #אנגלית #Unseen',
+  '#אנסין #אנגלית #הבנת_הנקרא #עוגה_בוגה',
 ].join('\n')
-writeFileSync(`${up}/meta.json`, JSON.stringify({ slug, xi, title, description, playlist: `אנסין באנגלית ${D.levelName.startsWith('כיתה') ? 'ל' + D.levelName : '– ' + D.levelName}` }, null, 1))
+const tags = [keyword, 'אנסין באנגלית', `הבנת הנקרא באנגלית ${levelKw}`, 'קטע קריאה באנגלית', 'אנגלית לילדים', 'unseen באנגלית', isGrade ? `אנגלית ${D.levelName}` : 'בגרות באנגלית', 'עוגה בוגה']
+writeFileSync(`${up}/meta.json`, JSON.stringify({ slug, xi, title, description, tags, playlist: `אנסין באנגלית ${isGrade ? 'ל' + D.levelName : '– ' + D.levelName}` }, null, 1))
 console.log('ready', up, title)
