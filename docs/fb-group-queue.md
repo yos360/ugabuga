@@ -10,3 +10,6 @@ Titles are written by the builder; never put request texts, emails, names or ids
 - קצבה חכמה — משחק חינוך פיננסי לכיתות ה–ו | https://ugabuga.co.il/online-games/money-wise
 - חוברת תרגול שבעת הבניינים לכיתה ו׳ — כולל פעיל וסביל | https://ugabuga.co.il/booklets/binyanim-grade-6
 - בוחן לוח הכפל לכפולות 1–6 אונליין ולהדפסה, עם דף תשובות | https://ugabuga.co.il/learn/multiplication-table/quiz
+
+## 2026-11-14
+- חוברת לימוד תווים למתחילים — חמשה, מפתח סול, פסנתר ומנגינה ראשונה | https://ugabuga.co.il/booklets/music-notes
