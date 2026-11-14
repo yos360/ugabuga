@@ -332,6 +332,7 @@ const MathHub = lazy(() => import('./math/MathPages').then(m => ({ default: m.Ma
 const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathGrade })))
 const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
 const FractionsGuide = lazy(() => import('./math/FractionsGuide'))
+const SymmetryGuide = lazy(() => import('./math/SymmetryGuide'))
 const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTest })))
 const MathMidYearTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathMidYearTest })))
 const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
@@ -1233,6 +1234,7 @@ export default function App() {
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
               <Route path="/math" element={<MathHub />} />
               <Route path="/math/fractions" element={<FractionsGuide />} />
+              <Route path="/math/symmetry" element={<SymmetryGuide />} />
               <Route path="/math/tests/:gradeSlug" element={<MathTest />} />
               <Route path="/math/tests/:gradeSlug/mid-year" element={<MathMidYearTest />} />
               <Route path="/math/:gradeSlug" element={<MathGrade />} />

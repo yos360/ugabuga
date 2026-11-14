@@ -293,7 +293,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'שברים לכיתות ד׳–ה׳', href: '/math/fractions' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'משחק לוח הכפל', href: '/learn/multiplication-game' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'שברים לכיתות ד׳–ה׳', href: '/math/fractions' }, { label: 'סימטריה לכיתות ג׳–ה׳', href: '/math/symmetry' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'משחק לוח הכפל', href: '/learn/multiplication-game' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
@@ -347,7 +347,7 @@ function GradePage({ n }) {
     </header>
 
     {topics.length > 0 ? <>
-      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}</div>
+      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}{n >= 3 && n <= 5 && <Link to="/math/symmetry" className="ln-btn alt">🪞 סימטריה</Link>}</div>
       {groups.map(gr => <section key={gr.strand} className="mt-8" aria-labelledby={`s-${gr.strand}`}>
         <h2 id={`s-${gr.strand}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{gr.emoji} </span>{gr.label}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{gr.topics.map(t => <Link key={t.slug} to={topicPath(t)} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right mth-topic-card">

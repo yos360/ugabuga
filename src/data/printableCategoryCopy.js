@@ -60,7 +60,7 @@ export const CATEGORY_COPY = {
       { q: 'מאיזה גיל מתאים ציור סימטרי?', a: 'מגיל 5 בערך, כשהילד כבר מעתיק צורות פשוטות. ילדים צעירים יותר יכולים לעבוד עם מראה שמראה להם את החצי החסר.' },
       { q: 'איזה ציור הכי קל?', a: 'הבית והסירה, כי הם בנויים מקווים ישרים. הפרפר והפרח, עם הקימורים, מאתגרים יותר ומתאימים לסוף.' },
     ],
-    related: [{ label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'מוטוריקה עדינה', href: '/printables/fine-motor' }, { label: 'נייר משבצות', href: '/printables/grid-paper' }, { label: 'דפי צביעה', href: '/printables/coloring' }],
+    related: [{ label: 'סימטריה בחשבון לכיתות ג׳–ה׳', href: '/math/symmetry' }, { label: 'מנדלות לצביעה', href: '/printables/mandalas' }, { label: 'מוטוריקה עדינה', href: '/printables/fine-motor' }, { label: 'נייר משבצות', href: '/printables/grid-paper' }, { label: 'דפי צביעה', href: '/printables/coloring' }],
   },
   mazes: {
     intro: 'שלושה מבוכים בשלוש רמות קושי — קל, בינוני וקשה — ולכל אחד סיפור קצר שנותן סיבה לצאת לדרך. מבוך הוא פעילות שקטה שמתרגלת תכנון, סבלנות ושליטה בעיפרון, ומתאים לנסיעה, להמתנה או לפינה שקטה במסיבה.',
