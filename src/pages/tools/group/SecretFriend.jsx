@@ -20,9 +20,9 @@ const groupText = d => `${DRAW_MODES[d.mode].emoji} ההגרלה ל„${d.title}
 const participantKey = code => `secret-p-${code}`
 
 // ── create form ───────────────────────────────────────────────
-function CreateForm({ show, onCreated, onPrint }) {
+function CreateForm({ show, onCreated, onPrint, defaultMode = 'gamad' }) {
   const [params] = useSearchParams()
-  const [mode, setMode] = useState(() => DRAW_MODES[params.get('mode')] ? params.get('mode') : 'gamad')
+  const [mode, setMode] = useState(() => DRAW_MODES[params.get('mode')] ? params.get('mode') : defaultMode)
   const [title, setTitle] = useState(DEFAULT_TITLE[mode])
   const [namesText, setNamesText] = useState('')
   const [budget, setBudget] = useState('')
@@ -219,11 +219,49 @@ function SecretGuide() {
       'הגרלת שמות אונליין פותרת את שתי הבעיות של הגרלה בפתקים: אף אחד לא שולף את השם של עצמו, ואין צורך לאסוף את כולם באותו חדר. כל משתתף מקבל קישור פרטי, ורק הוא רואה את התוצאה.',
       'כדאי לקבוע מראש תקציב (למשל עד 20–30 ש״ח), תאריך לגילוי ומה עושים עם מי שחסר באותו יום. בכיתות צעירות עדיף שהמחוות יהיו בלי כסף בכלל: פתק, ציור, שיר או עזרה קטנה — זה החלק שהילדים זוכרים.',
       'אפשר להשתמש באותו כלי גם בצהרון, בתנועת הנוער, בחוג, בצוות העבודה או במשפחה המורחבת לפני החג. הדף נשמר כארבעה חודשים, ואז נמחק אוטומטית.',
-    ]} faq={FAQ} related={[{ label: 'גלגל שמות להגרלה', href: '/tools/random-picker' }, { label: 'מחלק קבוצות', href: '/tools/team-generator' }, { label: 'משחקי היכרות לכיתה', href: '/games/icebreaker' }, { label: 'כל הכלים לכיתה', href: '/classroom' }]} />
+    ]} faq={FAQ} related={[{ label: 'הגרלת משלוח מנות לפורים', href: '/holidays/purim/mishloach-manot-draw' }, { label: 'גלגל שמות להגרלה', href: '/tools/random-picker' }, { label: 'מחלק קבוצות', href: '/tools/team-generator' }, { label: 'משחקי היכרות לכיתה', href: '/games/icebreaker' }, { label: 'כל הכלים לכיתה', href: '/classroom' }]} />
   </section>
 }
 
-export default function SecretFriend() {
+// The Purim landing page (/holidays/purim/mishloach-manot-draw): the same draw, opened in Purim mode,
+// with its own title, guide and questions — "הגרלת משלוח מנות" is searched on its own every Adar.
+const PURIM_FAQ = [
+  { q: 'איך עושים הגרלת משלוח מנות בכיתה?', a: 'כותבים את שמות כל הילדים, לוחצים „הגרלה”, ושולחים לכל הורה את הקישור האישי של הילד שלו בוואטסאפ. בקישור כתוב למי הילד מכין משלוח מנות — ורק הוא רואה את זה. כך כל ילד נותן משלוח אחד ומקבל משלוח אחד, ואף אחד לא נשאר בלי.' },
+  { q: 'מה עושים כשלחלק מהילדים אין טלפון?', a: 'בוחרים „פתקים מוגרלים להדפסה”: בחוץ כתוב שם הילד, ובפנים, מתחת לקו הקיפול, למי הוא מכין משלוח מנות. מדפיסים, מקפלים ומחלקים בכיתה או שולחים בתיק.' },
+  { q: 'אפשר למנוע שאחים או תאומים בכיתה יגרילו זה את זה?', a: 'כן. בחלק „מי לא יגרילו זה את זה” בוחרים את הזוגות, וההגרלה מדלגת עליהם. אם אין דרך לסדר את כולם, תופיע הודעה עוד לפני ההגרלה.' },
+  { q: 'מה חייב להיות במשלוח מנות?', a: 'לפי ההלכה — לפחות שני סוגי מאכל או משקה, לאדם אחד. בכיתה כדאי לקבוע תקציב קטן ושווה לכולם (למשל עד 20 ש״ח), ולהזכיר להורים לבדוק אלרגיות לפני שמכינים, ובמיוחד בוטנים ושומשום.' },
+  { q: 'מתי פורים 2027?', a: 'פורים תשפ״ז חל ביום שלישי, 23 במרץ 2027 (י״ד באדר ב׳), ומתחיל ביום שני בערב. בירושלים חוגגים שושן פורים ביום רביעי, 24 במרץ. את משלוחי המנות בכיתה מחלקים בדרך כלל ביום הלימודים האחרון לפני החג.' },
+]
+const VARIANTS = {
+  purim: {
+    mode: 'purim', path: '/holidays/purim/mishloach-manot-draw',
+    title: 'הגרלת משלוח מנות לכיתה — מי נותן למי, אונליין ובחינם',
+    desc: 'הגרלת משלוח מנות לכיתה ולגן: כותבים את שמות הילדים, מגרילים, וכל הורה מקבל בוואטסאפ קישור אישי שבו רק הוא רואה למי הילד מכין משלוח מנות. אף אחד לא נשאר בלי משלוח, עם פתקים להדפסה ובלי הרשמה.',
+    crumbs: [{ label: 'ראשי', href: '/' }, { label: 'פורים', href: '/holidays/purim' }, { label: 'הגרלת משלוח מנות' }],
+    h1: '🎭 הגרלת משלוח מנות לכיתה',
+    intro: 'מי נותן משלוח מנות למי? כותבים את שמות הילדים בכיתה או בגן, מגרילים, וכל הורה מקבל בוואטסאפ קישור אישי שבו רק הוא רואה למי הילד שלו מכין משלוח. כל ילד נותן אחד ומקבל אחד — בלי פתקים בכובע ובלי טעויות.',
+  },
+}
+
+function PurimGuide() {
+  return <section className="mx-auto mt-14 max-w-3xl">
+    <h2 className="mb-3 text-3xl font-bold">איך מארגנים משלוח מנות כיתתי?</h2>
+    <div className="mb-8 grid gap-3 sm:grid-cols-3">
+      {[['📅', 'קובעים יום ותקציב', 'יום החלוקה (בדרך כלל יום הלימודים האחרון לפני פורים) ותקציב קטן ושווה לכולם, כדי שאף ילד לא ירגיש שקיבל פחות.'],
+        ['🥜', 'שואלים על אלרגיות', 'לפני ההגרלה מבקשים מההורים לכתוב אם יש לילד אלרגיה. בפתק של מי שהגריל אותו כדאי לכתוב „בלי בוטנים” או „בלי שומשום”.'],
+        ['🤫', 'שומרים על הסוד', 'כל ילד רואה רק את מי הוא הגריל. ביום החלוקה כל אחד נותן את המשלוח שלו — וזה החלק הכי מרגש.']].map(([e, t, d]) =>
+        <div key={t} className="wobbly-sm border-2 border-[var(--border)] bg-white p-4"><span className="text-3xl" aria-hidden="true">{e}</span><h3 className="text-lg font-bold">{t}</h3><p className="text-[var(--foreground)]/80">{d}</p></div>)}
+    </div>
+    <SeoBody paragraphs={[
+      'הגרלת משלוח מנות היא הדרך הכי הוגנת לחגוג את המצווה בכיתה: במקום שכל ילד יכין משלוח לחבר הכי טוב שלו — ויהיו ילדים שלא יקבלו כלום — כל ילד מגריל שם אחד, מכין לו משלוח מנות, ומקבל משלוח מילד אחר. אף אחד לא נשאר בחוץ.',
+      'ההגרלה נעשית בשרת ולא אצל המורה, כך שגם מי שמארגן לא יודע מי הגריל את מי (אלא אם בחר בכך). אפשר לסמן אחים או תאומים שלא יגרילו זה את זה, ובכיתות צעירות להדפיס פתקים מוגרלים ולשלוח בתיק.',
+      'רעיונות למה לשים במשלוח, משלוחים לפי נושא ומה הילדים יכולים להכין לבד — בעמוד רעיונות למשלוח מנות. הדף של ההגרלה נשמר כארבעה חודשים, ואז נמחק אוטומטית.',
+    ]} faq={PURIM_FAQ} related={[{ label: 'רעיונות למשלוח מנות', href: '/holidays/purim/mishloach-manot' }, { label: 'רעיונות לתחפושות', href: '/holidays/purim/costumes' }, { label: 'מסיבת פורים', href: '/ideas/purim-party' }, { label: 'כל פורים לילדים', href: '/holidays/purim' }]} />
+  </section>
+}
+
+export default function SecretFriend({ variant }) {
+  const v = VARIANTS[variant]
   const { code: pathCode } = useParams()
   const [code, setCode] = useState(pathCode || null)
   // Personal link (#p=) wins; then organizer rights (#k= or this device); then a personal link opened here before.
@@ -261,7 +299,7 @@ export default function SecretFriend() {
   else if (code && !d) body = <p className="py-16 text-center text-lg">טוענים…</p>
   else if (code) body = <OrganizerView d={d} setD={setD} token={token} show={show} onDeleted={() => setDeleted(true)} />
   else body = <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-    <section className={card}><CreateForm show={show} onPrint={setPrinting} onCreated={(row, t) => {
+    <section className={card}><CreateForm show={show} onPrint={setPrinting} defaultMode={v?.mode} onCreated={(row, t) => {
       window.history.replaceState(window.history.state, '', `/g/${row.code}`)
       setToken(t); setD(row); setCode(row.code); show('✓ ההגרלה בוצעה! עכשיו שולחים לכל אחד את הקישור שלו'); window.scrollTo({ top: 0, behavior: 'smooth' })
     }} /></section>
@@ -274,14 +312,16 @@ export default function SecretFriend() {
   </div>
 
   return <div className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title="גמד וענק — הגרלת שמות אונליין לכיתה, למשלוח מנות ולחנוכה" description="הגרלת גמד וענק אונליין בחינם: כותבים שמות, מגרילים, וכל משתתף מקבל קישור אישי בוואטסאפ שבו רק הוא רואה את מי הגריל. גם למשלוח מנות לפורים ולמתנות בחנוכה, עם פתקים להדפסה." path="/secret-friend" noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(FAQ)} />
-    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'גמד וענק', href: code ? '/secret-friend' : undefined }]} />
+    {v
+      ? <SEO title={v.title} description={v.desc} path={v.path} structuredData={code ? null : faqSchema(PURIM_FAQ)} />
+      : <SEO title="גמד וענק — הגרלת שמות אונליין לכיתה, למשלוח מנות ולחנוכה" description="הגרלת גמד וענק אונליין בחינם: כותבים שמות, מגרילים, וכל משתתף מקבל קישור אישי בוואטסאפ שבו רק הוא רואה את מי הגריל. גם למשלוח מנות לפורים ולמתנות בחנוכה, עם פתקים להדפסה." path="/secret-friend" noindex={Boolean(pathCode)} structuredData={code ? null : faqSchema(FAQ)} />}
+    <Breadcrumbs items={v ? v.crumbs : [{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'גמד וענק', href: code ? '/secret-friend' : undefined }]} />
     {!code && <header className="mb-7 text-center">
-      <h1 className="text-4xl sm:text-5xl">🧙 הגרלת גמד וענק אונליין</h1>
-      <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">גמד וענק בלי פתקים ובלי טעויות: כותבים את שמות המשתתפים, מגרילים, וכל אחד מקבל קישור אישי בוואטסאפ שבו רק הוא רואה את מי הגריל. מתאים גם להגרלת שמות למשלוח מנות בפורים ולמתנות בחנוכה.</p>
+      <h1 className="text-4xl sm:text-5xl">{v ? v.h1 : '🧙 הגרלת גמד וענק אונליין'}</h1>
+      <p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">{v ? v.intro : 'גמד וענק בלי פתקים ובלי טעויות: כותבים את שמות המשתתפים, מגרילים, וכל אחד מקבל קישור אישי בוואטסאפ שבו רק הוא רואה את מי הגריל. מתאים גם להגרלת שמות למשלוח מנות בפורים ולמתנות בחנוכה.'}</p>
     </header>}
     {body}
-    {!code && <SecretGuide />}
+    {!code && (v ? <PurimGuide /> : <SecretGuide />)}
     {printing && <Slips data={printing} onClose={() => setPrinting(null)} />}
     {toast}
   </div>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import HolidayZone from '../../components/holidays/HolidayZone'
 import { currentInfo } from '../../holidays/list'
 import { cbnHolidayPictures } from '../../data/colorByNumber'
 import { PictureCard } from '../printables/cbnShared'
@@ -36,6 +37,8 @@ export default function HolidayHub({ h }) {
         <Countdown h={h} />
         <p className="mt-2 opacity-90">{currentInfo(h).datesText}</p>
       </div>
+
+      {c.zones && <HolidayZone zones={c.zones} label={`כל מה שיש ל${h.name}`} />}
 
       {coloring && <p className="-mt-3 mb-8 text-center"><Link to={coloring.to} className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl border-2 border-[var(--border)] bg-[var(--card)] px-6 text-xl font-black sketch-shadow hover:-translate-y-0.5"><span aria-hidden="true">🖨️</span>דפי צביעה להדפסה ל{h.name} ←</Link></p>}
 

@@ -5,6 +5,7 @@
 export const THEMES = [
   { id: 'sport', label: 'חימום ספורטיבי', emoji: '🏃', hint: 'להתעורר לפני השיעור' },
   { id: 'hanukkah', label: 'חימום חנוכה', emoji: '🕎', hint: 'סביבון, נרות ומכבים' },
+  { id: 'purim', label: 'חימום פורים', emoji: '🎭', hint: 'רעשנים, מסכות ומגילה' },
   { id: 'math', label: 'חשבון בתנועה', emoji: '🔢', hint: 'פותרים בגוף' },
   { id: 'english', label: 'Simon says באנגלית', emoji: '🇬🇧', hint: 'הוראות באנגלית' },
   { id: 'calm', label: 'נרגעים אחרי הפסקה', emoji: '🫧', hint: 'נשימות ומתיחות' },
@@ -49,6 +50,19 @@ const HANUKKAH = [
   ['🔥', 'להבה בקופסה', 'מתחילים כפופים קטן, ועולים לאט לאט כמו להבה שגדלה — עד מתיחה גבוהה על קצות האצבעות.'],
   ['🥔', 'מגררים לביבות', 'מחזיקים ידיים קדימה ו"מגררים" תפוחי אדמה מהר מהר — למעלה ולמטה.'],
   ['🎉', 'נס גדול היה פה', 'על כל מילה תנועה: נס — מחיאה, גדול — ידיים לצדדים, היה — קפיצה, פה — מצביעים על הרצפה.'],
+]
+
+const PURIM = [
+  ['📢', 'רעשן', 'כשהמורה אומר/ת "המן!" — רוקעים ברגליים ומסובבים רעשן דמיוני. כשאומרים "מרדכי!" — עוצרים ומוחאים כף אחת.'],
+  ['🎭', 'מחליפים מסכה', 'מכסים את הפנים בידיים, ופותחים עם פרצוף חדש: שמח, מופתע, עצוב, מצחיק. מהר יותר בכל פעם!'],
+  ['👑', 'הכתר של אסתר', 'מניחים כתר דמיוני על הראש, ועומדים זקוף עם הכתר — על רגל אחת, ואז על השנייה. שלא ייפול!'],
+  ['🐴', 'מרדכי על הסוס', 'רוכבים במקום כמו מרדכי על סוס המלך: קפיצות קטנות, ידיים מחזיקות מושכות. דהרה… והאטה.'],
+  ['📜', 'מגלגלים מגילה', 'מגלגלים את הידיים זו סביב זו כמו מגילה: מהר קדימה, ואז לאט אחורה.'],
+  ['🥟', 'אוזן המן', 'מקפלים את הגוף כמו בצק לאוזן המן: מתכופפים, מצמידים מרפקים, ופותחים גדול עם קפיצה.'],
+  ['🎁', 'משלוח מנות', 'מחזיקים קופסה דמיונית כבדה, מרימים אותה מהרצפה עד מעל הראש, ומעבירים לשכן הדמיוני. 6 פעמים.'],
+  ['🤡', 'ליצן מתנדנד', 'עומדים על קצות האצבעות ומתנדנדים כמו ליצן על חבל: ימינה, שמאלה, בלי ליפול.'],
+  ['🔄', 'ונהפוך הוא', 'המורה אומר/ת הוראה — ועושים בדיוק להפך: "ידיים למעלה" — מורידים, "שבו" — קמים, "שקט" — לוחשים "פורים שמח".'],
+  ['🥁', 'תזמורת פורים', 'מתופפים על הירכיים, מוחאים כפיים ורוקעים — בקצב שהמורה מראה, ואז מהר יותר.'],
 ]
 
 const CALM = [
@@ -121,8 +135,8 @@ export function buildRoutine({ theme = 'sport', minutes = 3, band = 'mid' } = {}
   if (theme === 'english') {
     return shuffle(ENGLISH, rand).slice(0, count).map(([en, he, emoji]) => ({ kind: 'english', emoji, title: en, text: he, seconds, ltr: true }))
   }
-  const pool = theme === 'hanukkah' ? HANUKKAH : theme === 'calm' ? CALM : SPORT
-  // Always end a sport/hanukkah routine with a calming breath so the class is ready to learn.
+  const pool = { hanukkah: HANUKKAH, purim: PURIM, calm: CALM }[theme] || SPORT
+  // Always end a moving routine (sport, holidays) with a calming breath so the class is ready to learn.
   const ending = theme === 'calm' ? null : CALM[0]
   const body = shuffle(pool, rand).slice(0, ending ? count - 1 : count)
   const steps = body.map(([emoji, title, text]) => ({ kind: 'move', emoji, title, text, seconds }))
@@ -141,12 +155,16 @@ export function seededRand(seed) {
   return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296 }
 }
 
-// Hanukkah 2026: 25 Kislev = evening of Friday 4.12.2026, last day 12.12. The Hanukkah theme is
-// suggested first from three weeks before until the end of the holiday.
+// Hanukkah 2026: 25 Kislev = evening of Friday 4.12.2026, last day 12.12. Purim 2027 (Adar II, a leap
+// year): Tuesday 23.3.2027, Shushan Purim 24.3. Each holiday theme is suggested first from about three
+// weeks before until the end of the holiday.
+const SEASONS = [
+  ['hanukkah', new Date(2026, 10, 13), new Date(2026, 11, 13)],
+  ['purim', new Date(2027, 2, 1), new Date(2027, 2, 25)],
+]
 export function suggestedTheme(date = new Date()) {
   const t = date.getTime()
-  const from = new Date(2026, 10, 13).getTime(), to = new Date(2026, 11, 13).getTime()
-  return t >= from && t < to ? 'hanukkah' : 'sport'
+  return SEASONS.find(([, from, to]) => t >= from.getTime() && t < to.getTime())?.[0] || 'sport'
 }
 
-export const POOLS = { sport: SPORT, hanukkah: HANUKKAH, calm: CALM, english: ENGLISH }
+export const POOLS = { sport: SPORT, hanukkah: HANUKKAH, purim: PURIM, calm: CALM, english: ENGLISH }

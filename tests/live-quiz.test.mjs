@@ -27,7 +27,7 @@ test('live countdown is unknown until it has a valid server timestamp', () => {
 })
 
 test('ready games cover every topic and difficulty with valid questions', () => {
-  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','hanukkah','general','animals','science','world','israel','sports','math'])
+  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','hanukkah','purim','general','animals','science','world','israel','sports','math'])
   assert.deepEqual(LIVE_QUIZ_DIFFICULTIES.map(item => item.id), ['easy','medium','hard'])
   for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
     const game = buildLiveQuiz(topic.id, difficulty.id, 8, '', () => 0.42)
@@ -40,7 +40,7 @@ test('the verified live bank contains more than 1,000 unique valid questions', (
   const generated = Object.values(GENERATED_MATH_QUIZ_BANK).flat()
   const stats = getLiveQuizBankStats()
   assert.equal(generated.length, 780)
-  assert.equal(stats.total, 1074)
+  assert.equal(stats.total, 1116)
   assert.equal(stats.unique, stats.total)
   assert.equal(new Set(generated.map(item => item.id)).size, generated.length)
   for (let i = 0; i < generated.length; i += 50) assert.equal(liveQuestionProblem(generated.slice(i, i + 50)), '')

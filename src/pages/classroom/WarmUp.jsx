@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
@@ -32,7 +32,9 @@ function beep(ctxRef, freq = 880) {
 }
 
 export default function WarmUp() {
-  const [theme, setTheme] = useState(() => suggestedTheme())
+  const [params] = useSearchParams()
+  // ?theme=purim (from a holiday zone) opens on that theme; otherwise the season's suggestion.
+  const [theme, setTheme] = useState(() => THEMES.some(t => t.id === params.get('theme')) ? params.get('theme') : suggestedTheme())
   const [minutes, setMinutes] = useState(3), [band, setBand] = useState('mid')
   const [seed, setSeed] = useState(() => daySeed()), [isToday, setIsToday] = useState(true)
   const [step, setStep] = useState(-1) // -1 = not started; steps.length = finished

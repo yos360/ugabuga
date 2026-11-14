@@ -17,7 +17,7 @@ test('pools are big enough for the longest routine', () => {
 })
 
 test('sport and hanukkah routines end with a calming breath', () => {
-  for (const theme of ['sport', 'hanukkah']) {
+  for (const theme of ['sport', 'hanukkah', 'purim']) {
     const steps = buildRoutine({ theme, minutes: 3 }, seededRand(3))
     assert.match(steps.at(-1).title, /^ונרגעים/)
   }
@@ -51,4 +51,11 @@ test('Hanukkah theme is suggested only around Hanukkah 2026', () => {
   assert.equal(suggestedTheme(new Date(2026, 10, 20)), 'hanukkah')
   assert.equal(suggestedTheme(new Date(2026, 11, 12)), 'hanukkah')
   assert.equal(suggestedTheme(new Date(2026, 11, 20)), 'sport')
+})
+
+test('Purim theme is suggested only around Purim 2027 (23.3.2027)', () => {
+  assert.equal(suggestedTheme(new Date(2027, 1, 20)), 'sport')
+  assert.equal(suggestedTheme(new Date(2027, 2, 10)), 'purim')
+  assert.equal(suggestedTheme(new Date(2027, 2, 24, 12)), 'purim')
+  assert.equal(suggestedTheme(new Date(2027, 2, 26)), 'sport')
 })

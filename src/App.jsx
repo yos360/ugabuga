@@ -1385,6 +1385,7 @@ export default function App() {
               <Route path="/tu-bishvat" element={<Navigate to="/holidays/tu-bishvat" replace />} />
               <Route path="/holidays/sigd/special-ed-grade-3" element={<SigdSpecialEd />} />
               <Route path="/holidays/purim/costumes" element={<PurimCostumes />} />
+              <Route path="/holidays/purim/mishloach-manot-draw" element={<SecretFriend key="purim" variant="purim" />} />
               <Route path="/holidays/:slug"element={<HolidayRoute />} />
               <Route path="/holidays/:slug/:kind" element={<HolidayRoute />} />
               <Route path="/purim" element={<Navigate to="/holidays/purim" replace />} />

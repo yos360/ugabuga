@@ -1,6 +1,7 @@
 import { EXTRA_LIVE_QUIZ_BANK, LIVE_QUIZ_SOURCE_BY_TOPIC } from './liveQuizExtraPacks.js'
 import { GENERATED_MATH_QUIZ_BANK } from './liveQuizGeneratedMath.js'
 import { HANUKKAH_LIVE_QUIZ_BANK, HANUKKAH_SOURCE } from './liveQuizHanukkah.js'
+import { PURIM_LIVE_QUIZ_BANK, PURIM_SOURCE } from './liveQuizPurim.js'
 
 const question = (id, q, correct, ...options) => ({ id, q, options, correct })
 
@@ -13,6 +14,7 @@ export const LIVE_QUIZ_DIFFICULTIES = [
 export const LIVE_QUIZ_TOPICS = [
   { id: 'mixed', label: 'ערבוב נושאים', icon: '🎲', color: '#d13c78' },
   { id: 'hanukkah', label: 'חנוכה', icon: '🕎', color: '#1f5fbf' },
+  { id: 'purim', label: 'פורים', icon: '🎭', color: '#8a3bb8' },
   { id: 'general', label: 'ידע כללי', icon: '🧠', color: '#6d48e5' },
   { id: 'animals', label: 'חיות וטבע', icon: '🐾', color: '#23875a' },
   { id: 'science', label: 'מדע וחלל', icon: '🚀', color: '#176fbd' },
@@ -237,13 +239,19 @@ const mixAnswers = (item, rng) => {
   return { ...item, options: answers.map(answer => answer.text), correct: answers.findIndex(answer => answer.correct) }
 }
 
+// Holiday packs live in their own files, each with its own bank and source.
+const HOLIDAY_PACKS = {
+  hanukkah: { bank: HANUKKAH_LIVE_QUIZ_BANK, source: HANUKKAH_SOURCE },
+  purim: { bank: PURIM_LIVE_QUIZ_BANK, source: PURIM_SOURCE },
+}
+
 const playableTopics = () => LIVE_QUIZ_TOPICS.filter(item => item.id !== 'mixed')
 const rawPool = (topic, difficulty) => [
   ...(BANK[topic.id]?.[difficulty.id] || []),
   ...(EXTRA_LIVE_QUIZ_BANK[topic.id]?.[difficulty.id] || []),
   ...(topic.id === 'math' ? GENERATED_MATH_QUIZ_BANK[difficulty.id] : []),
-  ...(topic.id === 'hanukkah' ? HANUKKAH_LIVE_QUIZ_BANK[difficulty.id] : []),
-].map(item => ({ ...item, verified: true, source: topic.id === 'hanukkah' ? HANUKKAH_SOURCE : LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
+  ...(HOLIDAY_PACKS[topic.id]?.bank[difficulty.id] || []),
+].map(item => ({ ...item, verified: true, source: HOLIDAY_PACKS[topic.id]?.source || LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
 
 const spreadTopics = (items, rng) => {
   const buckets = shuffled(playableTopics(), rng).map(topic => shuffled(items.filter(item => item.packTopicId === topic.id), rng))

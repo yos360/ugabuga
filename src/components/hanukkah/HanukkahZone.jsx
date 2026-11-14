@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import HolidayZone from '../holidays/HolidayZone'
 
 // "אזור חנוכה" — the top of the Hanukkah hub: one row per kind of thing people come for
 // (play together, games, songs, learning, for the class), each with its best pages.
@@ -42,7 +42,7 @@ const ZONES = [
   {
     emoji: '🏫', title: 'לגננת ולמורה', color: 'bg-sky-100',
     links: [
-      ['🏃', 'חימום חנוכה לפני השיעור', '3 דקות של סביבון, נרות ומכבים על המקרן', '/classroom/warm-up'],
+      ['🏃', 'חימום חנוכה לפני השיעור', '3 דקות של סביבון, נרות ומכבים על המקרן', '/classroom/warm-up?theme=hanukkah'],
       ['🧸', 'פעילות לחנוכה בגן', 'ספירה, יצירה וסיפור לגננות', '/holidays/hanukkah/grade/kindergarten'],
       ['📸', 'תמונת מחזור לחנוכה', 'כל ילדי הגן בדף אחד', '/printables/class-photo/hanukkah'],
     ],
@@ -50,17 +50,5 @@ const ZONES = [
 ]
 
 export default function HanukkahZone() {
-  return <nav aria-label="כל מה שיש לחנוכה" className="mb-10 space-y-5">
-    {ZONES.map(z => <section key={z.title} aria-labelledby={`hz-${z.title}`} className={`rounded-3xl border-2 border-[var(--border)] ${z.color} p-4 sm:p-5`}>
-      <h2 id={`hz-${z.title}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{z.emoji} </span>{z.title}</h2>
-      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {z.links.map(([emoji, label, blurb, to]) => <li key={to}>
-          <Link to={to} className="flex h-full min-h-[64px] items-start gap-3 rounded-2xl border-2 border-[var(--border)] bg-white p-3 transition-transform hover:-translate-y-0.5">
-            <span aria-hidden="true" className="text-3xl leading-none">{emoji}</span>
-            <span><b className="block text-lg leading-tight">{label}</b><span className="text-sm text-[var(--muted-foreground)]">{blurb}</span></span>
-          </Link>
-        </li>)}
-      </ul>
-    </section>)}
-  </nav>
+  return <HolidayZone zones={ZONES} label="כל מה שיש לחנוכה" />
 }
