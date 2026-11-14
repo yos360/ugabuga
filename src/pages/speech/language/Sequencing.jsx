@@ -243,6 +243,9 @@ const related = [
   { label: 'התפתחות שפה לפי גיל', href: '/speech/parents/language-milestones' },
   { label: 'סיפורים לילדים', href: '/stories' },
   { label: 'הפכים ומילים נרדפות', href: '/words/opposites' },
+  { label: 'הבנת הנקרא לכיתה א׳ — הצעד הבא אחרי סיפור בתמונות', href: '/learn/reading/grade-1' },
+  { label: 'נושאים לגן לפי חודשים — תכנית שנתית', href: '/classroom/kindergarten-year-plan' },
+  { label: 'לגננת — כל מה שצריך לגן', href: '/gan' },
 ]
 
 const Guide = ({ title, children }) => <section className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm">
