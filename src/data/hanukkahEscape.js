@@ -12,8 +12,8 @@ export const ESCAPE_TRACKS = [
   {
     id: 'gan',
     label: 'גן חובה',
-    ages: 'גיל 5–6',
-    duration: '15–20 דקות',
+    ages: 'גיל ⁦5–6⁩',
+    duration: '⁦15–20⁩ דקות',
     skills: 'ספירה עד 8, חיבור וחיסור קטנים בעזרת ציור, וסיפור נס פך השמן',
     stations: [
       {
@@ -57,8 +57,8 @@ export const ESCAPE_TRACKS = [
   {
     id: 'school',
     label: 'כיתות ב׳–ד׳',
-    ages: 'גיל 7–10',
-    duration: '20–30 דקות',
+    ages: 'גיל ⁦7–10⁩',
+    duration: '⁦20–30⁩ דקות',
     skills: 'חיבור בכמה שלבים, כפל כחיבור חוזר, גימטריה של אותיות הסביבון וסיפור החג',
     stations: [
       {

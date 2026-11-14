@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'zF06qgRLpeo', kind: 'tutorial', title: 'חדר בריחה לחנוכה לכיתה ולגן — על המקרן או מודפס', paths: ['/holidays/hanukkah/escape-room'], category: 'holidays', date: '2026-11-14',
+    desc: 'מדריך קצר לחדר הבריחה לחנוכה: בוחרים רמה (גן חובה או כיתות ב׳–ד׳), פותחים "מצב מקרן" עם טקסט גדול, רמזים וטיימר, פותרים תחנה ומכניסים את הספרה למנעול, פותחים את התיבה — או מדפיסים כרטיס לכל תחנה, דף למורה עם התשובות ומנעול מנייר. חינם, בלי הרשמה.' },
   { id: 'QakznlA2Fek', kind: 'tutorial', title: 'בוחן לוח הכפל להדפסה ואונליין, עם תשובות', paths: ['/learn/multiplication-table/quiz'], category: 'learning', date: '2026-11-13',
     desc: 'מדריך קצר לבוחן לוח הכפל לכיתות ג׳–ד׳: בוחרים לוחות (ברירת המחדל 1 עד 6), כותבים תשובות ל־20 תרגילים מעורבבים, לוחצים "בדיקה" ורואים ציון והתשובה הנכונה מתחת לכל טעות, "בוחן חדש" נותן בוחן אחר, ו"הדפסת הבוחן" מדפיסה דף בוחן ודף תשובות.' },
   { id: 'giorVr59040', kind: 'tutorial', title: 'מבחן בר אילן כיתה ה׳: תרגול חינם עם הסברים', paths: ['/learn/gifted-test/bar-ilan'], category: 'learning', date: '2026-11-13',
@@ -84,6 +86,7 @@ export const VIDEOS = [
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
   '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
+  '/holidays/hanukkah/escape-room': 'חדר בריחה לחנוכה',
   '/holidays/hanukkah/greetings': 'ברכות לחנוכה',
   '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
