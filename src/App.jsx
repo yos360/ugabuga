@@ -152,6 +152,7 @@ const WritingPaper = lazy(() => import('./pages/printables/WritingPaper'))
 const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => ({ default: m.MemoryGame })))
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const MathTicTacToe = lazy(() => import('./pages/classroom/MathTicTacToe'))
+const WarmUp = lazy(() => import('./pages/classroom/WarmUp'))
 const FirstGradeProblemSolving = lazy(() => import('./pages/classroom/FirstGradeProblemSolving'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
@@ -492,6 +493,7 @@ const VaadFundraising = lazy(() => import('./pages/tools/group/VaadFundraising')
 const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
 const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
+const SharedHanukkiah = lazy(() => import('./pages/tools/group/SharedHanukkiah'))
 const TeacherHome = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.TeacherHome })))
 const HomeworkBuilderPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkBuilderPage })))
 const HomeworkResultsPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkResultsPage })))
@@ -665,6 +667,7 @@ export default function App() {
               <Route path="/classroom/first-grade/problem-solving" element={<FirstGradeProblemSolving />} />
               <Route path="/classroom/kindergarten-year-plan" element={<KindergartenYearPlan />} />
               <Route path="/classroom/math-tic-tac-toe" element={<MathTicTacToe />} />
+              <Route path="/classroom/warm-up" element={<WarmUp />} />
               <Route path="/teachers" element={<TeacherHome />} />
               <Route path="/teachers/homework/new" element={<HomeworkBuilderPage />} />
               <Route path="/teachers/homework/:code/edit" element={<HomeworkBuilderPage />} />
@@ -1494,6 +1497,8 @@ export default function App() {
               <Route path="/g/:code" element={<SecretFriend />} />
               <Route path="/thank-you-wall" element={<ThankYouWall />} />
               <Route path="/w/:code" element={<ThankYouWall />} />
+              <Route path="/hanukkiah" element={<SharedHanukkiah />} />
+              <Route path="/hanukkiah/:code" element={<SharedHanukkiah />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
               <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />

@@ -15,5 +15,12 @@ export default function HanukkahGradeChooser({ current, title = 'דפי עבוד
         </Link>
       </li>)}
     </ul>
+    {!current && <>
+      <h3 className="mb-1 mt-5 text-xl font-bold">📒 חוברת חנוכה לכל כיתה — PDF להדפסה עם תשובות</h3>
+      <ul className="mt-2 flex flex-wrap gap-2">
+        {HANUKKAH_GRADE_LIST.map(g => <li key={g.slug}><Link to={g.booklet} className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-white px-3 font-bold hover:bg-yellow-100">חוברת {g.forLabel}</Link></li>)}
+      </ul>
+      <p className="mt-4 text-lg"><span aria-hidden="true">🏃 </span><b>למורים:</b> <Link to="/classroom/warm-up" className="font-bold underline">חימום חנוכה לפני השיעור</Link> — 3 דקות של סביבון, נרות ומכבים על המקרן, עם טיימר.</p>
+    </>}
   </nav>
 }

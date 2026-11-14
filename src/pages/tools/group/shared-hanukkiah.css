@@ -1,0 +1,17 @@
+/* החנוכייה המשותפת (/hanukkiah): the night-sky card, the SVG hanukkiah and its flames. */
+.hk-sky{position:relative;overflow:hidden;border-radius:28px;color:#fff8e6;
+  background:radial-gradient(circle at 18% 22%,#ffffff26 0 1.5px,transparent 2.5px),radial-gradient(circle at 72% 14%,#ffffff33 0 1.5px,transparent 2.5px),
+    radial-gradient(circle at 88% 40%,#ffffff22 0 1px,transparent 2px),radial-gradient(circle at 34% 8%,#ffffff2a 0 1px,transparent 2px),
+    radial-gradient(circle at 54% 30%,#ffffff1f 0 1px,transparent 2px),radial-gradient(ellipse at 50% 110%,#f6b94a40,transparent 60%),
+    linear-gradient(180deg,#0f1b45 0%,#1b2a66 55%,#24357a 100%)}
+.hk-sky h1,.hk-sky h2{color:#fff8e6}
+.hk-svg{display:block;width:100%;max-width:520px;height:auto;margin:0 auto}
+.hk-flame{transform-box:fill-box;transform-origin:50% 100%;animation:hk-flicker 1.6s ease-in-out infinite alternate}
+.hk-flame.d1{animation-delay:-.4s}.hk-flame.d2{animation-delay:-.9s}.hk-flame.d3{animation-delay:-1.3s}
+@keyframes hk-flicker{0%{transform:scale(1,1) rotate(-2deg)}50%{transform:scale(.94,1.06) rotate(1.5deg)}100%{transform:scale(1.04,.96) rotate(-1deg)}}
+.hk-new{animation:hk-pop .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes hk-pop{from{opacity:0;transform:translateY(6px) scale(.6)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hk-flame,.hk-new{animation:none}}
+.hk-chip{min-height:44px;min-width:44px;border-radius:9999px;border:2px solid #fff8e655;padding:0 14px;font-weight:800;color:#fff8e6;background:#ffffff14}
+.hk-chip[aria-pressed="true"]{background:#f6c35a;border-color:#f6c35a;color:#1b2a66}
+.hk-list li{border-radius:16px;background:#fffaf0;border:2px solid #f6c35a55;padding:10px 14px}

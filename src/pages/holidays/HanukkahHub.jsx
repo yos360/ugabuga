@@ -9,6 +9,7 @@ import { HANUKKAH } from '../../data/hanukkah'
 import HanukkahOrganize from '../../components/hanukkah/HanukkahOrganize'
 import HanukkahPlan from '../../components/hanukkah/HanukkahPlan'
 import HanukkahGradeChooser from '../../components/hanukkah/HanukkahGradeChooser'
+import HanukkahZone from '../../components/hanukkah/HanukkahZone'
 import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
 const BLURB = {
@@ -59,6 +60,8 @@ export default function HanukkahHub() {
         <Countdown />
         <p className="mt-2 text-blue-100">{HANUKKAH.datesText}</p>
       </div>
+
+      <HanukkahZone />
 
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {HANUKKAH_PAGES.slice(1).map((p, i) => <Link key={p.to} to={p.to} className={`wobbly flex flex-col border-2 border-[var(--border)] ${COLORS[i % COLORS.length]} p-5 sketch-shadow transition-transform hover:-translate-y-1`}>

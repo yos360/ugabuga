@@ -734,7 +734,7 @@ function Creations({ rows, error }) {
 }
 
 // ── events and group tools visitors set up (RSVP, walls, draws, quizzes, homework): counts only ──
-const THING_KINDS = { rsvp: '✅ אישור הגעה', wall: '💌 קיר ברכות', secret: '🧙 גמד וענק', quiz: '📝 מבחן אונליין', live: '⚡ בוגה לייב', homework: '📚 שיעורי בית' }
+const THING_KINDS = { rsvp: '✅ אישור הגעה', wall: '💌 קיר ברכות', secret: '🧙 גמד וענק', quiz: '📝 מבחן אונליין', live: '⚡ בוגה לייב', homework: '📚 שיעורי בית', hanukkiah: '🕎 חנוכייה משותפת' }
 function useCreatedThings(from, to, tick) {
   const [state, setState] = useState({ rows: null, error: null })
   useEffect(() => {
@@ -754,6 +754,7 @@ function thingSummary(r) {
     quiz: [`✍️ ${r.answers} הגישו`, r.avg != null ? `ממוצע ${r.avg}%` : ''],
     live: [`🎮 ${r.answers} שחקנים`],
     homework: [`👧 ${r.people} תלמידים`, `✅ ${r.answers} משימות הוגשו`],
+    hanukkiah: [`🕯️ ${r.answers} נרות`, `📱 ${r.people} טלפונים`],
   }[r.kind] || []
   return [opens, ...parts].filter(Boolean).join(' · ')
 }

@@ -38,7 +38,7 @@ export const GRADE_CARDS = GRADE_NAMES.map((name, i) => {
     ...(GAMES[i] ? [[`משחקים לכיתה ${name}`, `/games/${GAMES[i]}`]] : []),
   ] }
 })
-export const TEACHER_TOOLS = [['בוגה לייב — חידון חי לכיתה', '/live'], ['מבחן אמריקאי אונליין', '/classroom/quiz'], ['שיעורי בית אינטראקטיביים', '/teachers'], ['מחולל תשבצים', '/tools/crossword-maker'], ['מחולל תפזורת', '/tools/word-search'], ['מחולל בינגו', '/tools/bingo-maker'], ['רשימת הכיתה שלי', '/classroom/roster'], ['דפי עבודה בחשבון', '/printables/math-worksheets'], ['לוח חופשות', '/school-holidays'], ['חוברות עבודה', '/booklets']]
+export const TEACHER_TOOLS = [['חימום לפני השיעור', '/classroom/warm-up'], ['בוגה לייב — חידון חי לכיתה', '/live'], ['מבחן אמריקאי אונליין', '/classroom/quiz'], ['שיעורי בית אינטראקטיביים', '/teachers'], ['מחולל תשבצים', '/tools/crossword-maker'], ['מחולל תפזורת', '/tools/word-search'], ['מחולל בינגו', '/tools/bingo-maker'], ['רשימת הכיתה שלי', '/classroom/roster'], ['דפי עבודה בחשבון', '/printables/math-worksheets'], ['לוח חופשות', '/school-holidays'], ['חוברות עבודה', '/booklets']]
 
 const monthNow = () => { const m = new HDate().getMonthName(); return m.startsWith('Adar') ? 'Adar' : m }
 const card = 'rounded-3xl border-2 border-[var(--border)] bg-[var(--card)] p-5'

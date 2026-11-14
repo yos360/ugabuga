@@ -65,10 +65,22 @@ import bagrutMath5UnitsA from './meta/bagrut-math-5-units-a.js'
 import bagrutMath5UnitsB from './meta/bagrut-math-5-units-b.js'
 import bagrutPhysics5Units from './meta/bagrut-physics-5-units.js'
 import bagrutTanakh2Units from './meta/bagrut-tanakh-2-units.js'
+import hanukkahGrade1 from './meta/hanukkah-grade-1.js'
+import hanukkahGrade2 from './meta/hanukkah-grade-2.js'
+import hanukkahGrade3 from './meta/hanukkah-grade-3.js'
+import hanukkahGrade4 from './meta/hanukkah-grade-4.js'
+import hanukkahGrade6 from './meta/hanukkah-grade-6.js'
+import hanukkahMiddleSchool from './meta/hanukkah-middle-school.js'
 
 const subject = content => () => Promise.all([import('./subjectKit.jsx'), content()]).then(([kit, c]) => ({ default: kit.bookletFor(c.default) }))
 
 export const SUBJECT_BOOKLETS = [
+  { ...hanukkahGrade1, load: subject(() => import('./content/hanukkah-grade-1.js')) },
+  { ...hanukkahGrade2, load: subject(() => import('./content/hanukkah-grade-2.js')) },
+  { ...hanukkahGrade3, load: subject(() => import('./content/hanukkah-grade-3.js')) },
+  { ...hanukkahGrade4, load: subject(() => import('./content/hanukkah-grade-4.js')) },
+  { ...hanukkahGrade6, load: subject(() => import('./content/hanukkah-grade-6.js')) },
+  { ...hanukkahMiddleSchool, load: subject(() => import('./content/hanukkah-middle-school.js')) },
   { ...mathGrade1, load: subject(() => import('./content/math-grade-1.js')) },
   { ...mathGrade4, load: subject(() => import('./content/math-grade-4.js')) },
   { ...mathGrade5, load: subject(() => import('./content/math-grade-5.js')) },

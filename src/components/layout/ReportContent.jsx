@@ -1,6 +1,6 @@
 // "Report inappropriate content" on every page that shows what visitors wrote (walls, invitations,
 // lists, draws, quizzes, live games, homework, shared pages). Opens the site chat with the link filled in.
-const UGC = /^\/(w|r|l|g|q|t|hw|play|en\/play)\//
+const UGC = /^\/(w|r|l|g|q|t|hw|play|en\/play|hanukkiah)\//
 export const isUgcPath = pathname => UGC.test(pathname)
 
 export default function ReportContent() {
