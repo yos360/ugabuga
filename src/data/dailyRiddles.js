@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'triangles-13', n: 13, date: '2026-11-14', type: 'ספירה מטעה', emoji: '🔺', kind: 'image',
+    id: 'triangles-13', n: 13, date: '2026-11-14', type: 'ספירה מטעה', emoji: '🔺', kind: 'image', youtube: 'b9wZBbHTtL8',
     title: 'כמה משולשים יש בציור?',
     image: '/daily-riddles/triangles-13.svg',
     lines: ['כמה משולשים יש בציור?', 'ספרו טוב — יש לכם 10 שניות.'],
