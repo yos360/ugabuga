@@ -281,5 +281,39 @@
       "tests": "one flaky test failure on first run, 1842/1842 on rerun"
     },
     "siteLive": "verified live ~15:20 (404 at 14:35 and 14:52 while Cloudflare built)"
+  },
+  {
+    "date": "2026-11-14",
+    "n": 13,
+    "id": "triangles-13",
+    "answer": "9",
+    "posted": true,
+    "kind": "image",
+    "type": "ספירה מטעה (כמה משולשים)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/b9wZBbHTtL8",
+    "instagram": "ugabuga.co.il reels (shared 14:28, link not captured)",
+    "facebook": "עוגה בוגה reels (processing at 14:31)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7708003820969725204 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:33",
+    "site": "https://ugabuga.co.il/riddles/triangles-13",
+    "postedAt": "2026-11-14 14:20-14:35 (scheduled run)",
+    "gate": {
+      "rounds": 3,
+      "blindSolver": "final (B): 9, 95%; instant answer 9",
+      "editor": "B: clarity 8, single answer 9, Hebrew 8, fun 8 (round 3)",
+      "rejected": "classic 1 horizontal line =12 (fun 5, viral/known); 3 horizontal lines =18 (Hebrew 6, fun 6, people know 6-per-row)",
+      "twist": "right inner line starts at the top horizontal line, not at the apex - the familiar formula gives 18, the drawing gives 9"
+    },
+    "issues": {
+      "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame",
+      "instagram": "share-to-Facebook was ON (aria) though it looked off; turned off via לא לשתף את סרטון Reels הזה, verified false"
+    }
   }
 ]
