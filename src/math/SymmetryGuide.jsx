@@ -86,7 +86,7 @@ function MirrorGame() {
     <div aria-live="polite" className="mt-3 text-center text-lg">
       {result?.ok && <p className="rounded-xl bg-green-50 p-3 font-bold text-green-800">🎉 מושלם! זה {design.name}, והוא סימטרי לגמרי. {solved > 1 && `השלמתם כבר ${solved} ציורים.`}</p>}
       {result && !result.ok && <div className="rounded-xl bg-amber-50 p-3">
-        <p className="font-bold">עוד לא. {result.wrong.length > 0 && `${result.wrong.length} משבצות צבועות שלא צריכות להיות (מסומנות באדום). `}{result.missing.length > 0 && `חסרות ${result.missing.length} משבצות.`}</p>
+        <p className="font-bold">עוד לא. {result.wrong.length > 0 && `משבצות צבועות שלא צריכות להיות: ${result.wrong.length} (מסומנות באדום). `}{result.missing.length > 0 && `משבצות חסרות: ${result.missing.length}.`}</p>
         <p className="mt-1 text-base">טיפ: לכל משבצת צבועה, ספרו כמה משבצות יש ממנה עד הקו האדום, וספרו את אותו מספר בצד השני.</p>
         {result.missing.length > 0 && !result.showMissing && <button type="button" className="mt-2 underline" onClick={() => setResult({ ...result, showMissing: true })}>הראו לי איפה חסר</button>}
       </div>}
