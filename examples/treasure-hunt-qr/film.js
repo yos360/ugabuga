@@ -207,13 +207,13 @@
         numDot(c, SAFE.w / 2 - 44, 0, o.i + 1, 24);
         if (o.i < 3) { G.line(c, [[SAFE.w / 2 - 100, 0], [SAFE.w / 2 - 100 - [480, 380, 520][o.i], 0]], { color: C.line, lw: 14, seed: 50 + o.i, amp: 0.4 }); }
         else he(c, 'כתבו את הרמז שיופיע לאחר הסריקה', SAFE.w / 2 - 100, 12, { size: 32, w: 500, align: 'right', color: C.muted, maxW: SAFE.w - 220 });
-        if (o.i >= 2) he(c, '✕', -SAFE.w / 2 + 50, 12, { size: 38, w: 900, color: C.red, dir: 'ltr' });
+        he(c, '✕', -SAFE.w / 2 + 50, 12, { size: 38, w: 900, color: C.red, dir: 'ltr' });
       }, { dur: 0.22, over: 1.5, rot: [0.004, -0.004][o.i % 2] });
     });
     const full = count >= 8, press = t >= ev.topic ? 1 - 0.07 * pulse(t, ev.topic, 10) : 1;
     popAt(ctx, t, T(4, 0.9), W / 2, 1330, (c) => { c.scale(press, press); c.globalAlpha *= full ? 0.45 : 1; pill(c, 0, 0, '+ הוספת תחנה', { size: 52, w: 900, bg: '#fff', fg: C.ink, padX: 90, seed: 61 }); }, { dur: 0.3, over: 1.6, rot: -0.01 });
     UI.tap(ctx, W / 2 + 30, 1345, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[2], W / 2, 1470, (c) => pill(c, 0, 0, 'כפתור ✕ מוחק תחנה', { size: 44, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1470, (c) => pill(c, 0, 0, 'אפשר להוסיף ולמחוק תחנות', { size: 44, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, S.pills[3], W / 2, 1590, (c) => pill(c, 0, 0, 'מינימום ⁦2⁩ תחנות, מקסימום ⁦8⁩', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
@@ -231,7 +231,7 @@
       drawQR(c, S.QRS[0], -170, -130, 340);
       he(c, 'ציד האוצר הגדול', 0, 250, { size: 34, w: 700, color: C.muted, maxW: 540 });
     }, { dur: 0.35, over: 1.5, rot: -0.012 });
-    popAt(ctx, t, M0[2].t, W / 2, 1325, (c) => pill(c, 0, 0, `גודל הקוד הגדול ביותר: ⁦${S.LARGEST}⁩ מתוך ⁦${S.QR_MAX}⁩ תווים`, { size: 38, w: 800, bg: '#fff', seed: 73, maxW: SAFE.w }), { rot: 0.015 });
+    popAt(ctx, t, M0[2].t, W / 2, 1325, (c) => pill(c, 0, 0, 'הקוד נסרק במצלמה של הטלפון 📱', { size: 38, w: 800, bg: '#fff', seed: 73, maxW: SAFE.w }), { rot: 0.015 });
     popAt(ctx, t, M0[3].t, W / 2, 1440, (c) => pill(c, 0, 0, 'כל קוד מכיל רק את הרמז שלו', { size: 44, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, M0[4].t, W / 2, 1560, (c) => pill(c, 0, 0, 'המידע אינו נשמר באתר', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
@@ -254,8 +254,8 @@
     });
     popAt(ctx, t, ev.ans, W / 2, 1210, (c) => pill(c, 0, 0, 'גוזרים ומחביאים ✂️', { size: 62, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
     confetti(ctx, t, ev.ans, W / 2, 1190, { n: 60, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[4], W / 2, 1360, (c) => pill(c, 0, 0, 'הקוד הבא מחכה היכן שהרמז מוביל', { size: 42, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1480, (c) => pill(c, 0, 0, 'הסריקה פותחת רק את הרמז', { size: 42, w: 900, bg: C.yellow, seed: 86, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1360, (c) => pill(c, 0, 0, 'את הקוד הבא מחביאים במקום שהרמז מתאר', { size: 42, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1480, (c) => pill(c, 0, 0, 'כל סריקה חושפת רמז אחד בלבד', { size: 42, w: 900, bg: C.yellow, seed: 86, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 5. SCAN: THE PLAYER SCREEN =================
@@ -312,7 +312,7 @@
     he(ctx, 'ציד אוצרות עם קודי QR', W / 2, 1000, { size: 52, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 1105, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 1225, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'באתר: משחקים ← ציד אוצרות QR 🗺️', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'יוצרים, מדפיסים ומשחקים 🗺️', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ איפה הקוד הבא? כתבו בתגובות', { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 48, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
