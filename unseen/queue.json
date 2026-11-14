@@ -146,19 +146,24 @@
   "slug": "en-mod-c-deaf-soccer-player",
   "xi": 0,
   "level": "mod-c",
-  "title": "Playing by Sight"
+  "title": "Playing by Sight",
+  "youtube": "https://youtu.be/JnOOGZ1JeTw",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-e-desert-stargazer",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Night Watcher of Mitzpe Ramon"
+  "title": "The Night Watcher of Mitzpe Ramon",
+  "youtube": "https://youtu.be/ADp6opekX-w",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-g-boredom-creativity",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Surprising Gifts of Boredom"
+  "title": "The Surprising Gifts of Boredom",
+  "skip": "video 3:31, over the 3-minute limit"
  },
  {
   "slug": "en-g3-my-monster-bubu",
@@ -196,43 +201,55 @@
   "slug": "en-g7-bird-feeder",
   "xi": 0,
   "level": "g7",
-  "title": "Maya's Bird Café"
+  "title": "Maya's Bird Café",
+  "youtube": "https://youtu.be/T7oYnyre-uk",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-g8-beach-cleanup",
   "xi": 0,
   "level": "g8",
-  "title": "Students Clean Beach — and Learn a Lesson"
+  "title": "Students Clean Beach — and Learn a Lesson",
+  "youtube": "https://youtu.be/vXEfw6CBVBk",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-g9-four-day-school-week",
   "xi": 0,
   "level": "g9",
-  "title": "Four Days Are Enough?"
+  "title": "Four Days Are Enough?",
+  "youtube": "https://youtu.be/jkkEBj7SF1E",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-a-desert-plants-negev",
   "xi": 0,
   "level": "mod-a",
-  "title": "How Do Desert Plants Stay Alive?"
+  "title": "How Do Desert Plants Stay Alive?",
+  "youtube": "https://youtu.be/iK6683twYV8",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-c-fear-of-public-speaking",
   "xi": 0,
   "level": "mod-c",
-  "title": "Why Your Knees Shake When You Speak"
+  "title": "Why Your Knees Shake When You Speak",
+  "youtube": "https://youtu.be/YPszTF197ik",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-e-disappearing-crafts",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Last Hands"
+  "title": "The Last Hands",
+  "skip": "video 3:09, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-citizen-science",
   "xi": 0,
   "level": "mod-g",
-  "title": "Science Without a Laboratory"
+  "title": "Science Without a Laboratory",
+  "skip": "video 3:53, over the 3-minute limit"
  },
  {
   "slug": "en-g3-ori-school-bag",
@@ -262,13 +279,17 @@
   "slug": "en-g6-jerusalem-class-trip",
   "xi": 0,
   "level": "g6",
-  "title": "Class Trip to Jerusalem"
+  "title": "Class Trip to Jerusalem",
+  "youtube": "https://youtu.be/XmfTuG58rlY",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-g7-book-swap-interview",
   "xi": 0,
   "level": "g7",
-  "title": "The Blue Book Box"
+  "title": "The Blue Book Box",
+  "youtube": "https://youtu.be/-LhnDLSAHn0",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-g8-dog-walking",
@@ -282,31 +303,38 @@
   "slug": "en-g9-how-gps-works",
   "xi": 0,
   "level": "g9",
-  "title": "Never Lost Again? How GPS Works"
+  "title": "Never Lost Again? How GPS Works",
+  "youtube": "https://youtu.be/v6T9b1DnJjM",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-a-desert-plants-negev",
   "xi": 1,
   "level": "mod-a",
-  "title": "How Do Desert Plants Stay Alive?"
+  "title": "How Do Desert Plants Stay Alive?",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-mod-c-friendship-book-review",
   "xi": 0,
   "level": "mod-c",
-  "title": "Book Review: 'The Lighthouse Summer'"
+  "title": "Book Review: 'The Lighthouse Summer'",
+  "youtube": "https://youtu.be/saxvn9XmRrQ",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-mod-e-esports-debate",
   "xi": 0,
   "level": "mod-e",
-  "title": "Is Gaming a Real Sport?"
+  "title": "Is Gaming a Real Sport?",
+  "skip": "video 3:14, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-city-noise",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Noise We No Longer Hear"
+  "title": "The Noise We No Longer Hear",
+  "skip": "video 3:30, over the 3-minute limit"
  },
  {
   "slug": "en-g3-rainy-day",
@@ -344,7 +372,9 @@
   "slug": "en-g7-class-play-fear",
   "xi": 0,
   "level": "g7",
-  "title": "The King Who Was Afraid"
+  "title": "The King Who Was Afraid",
+  "youtube": "https://youtu.be/VuhfMY-8ZXw",
+  "uploaded": "2026-11-14"
  },
  {
   "slug": "en-g8-dogs-that-help",
