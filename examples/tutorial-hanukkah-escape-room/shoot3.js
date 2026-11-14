@@ -1,0 +1,20 @@
+const { chromium } = require('C:/Users/pc/Documents/ugabuga/node_modules/playwright');
+const fs = require('fs');
+const fixRanges = require('./fixranges');
+(async () => {
+  const b = await chromium.launch({ executablePath: process.env.CHROME_PATH });
+  const c = await b.newContext({ viewport: { width: 1280, height: 1500 }, deviceScaleFactor: 2, locale: 'he-IL' });
+  const p = await c.newPage();
+  await p.goto('https://ugabuga.co.il/holidays/hanukkah/escape-room', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(2500);
+  await p.locator('[data-print-main]').click(); await p.waitForTimeout(2500); await fixRanges(p);
+  const pages = p.locator('dialog.buga-print-dialog .buga-preview-pages article');
+  const boxes = JSON.parse(fs.readFileSync('shots/boxes.json'));
+  await pages.nth(1).evaluate(e => { e.scrollIntoView({ block: 'start' }); let s = e.parentElement; while (s && s.scrollHeight <= s.clientHeight) s = s.parentElement; if (s) s.scrollTop -= 150; });
+  await p.waitForTimeout(700);
+  await p.screenshot({ path: 'shots/pp1.png' });
+  boxes.pp1 = await pages.nth(1).evaluate(e => { const r = e.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map(Math.round); });
+  fs.writeFileSync('shots/boxes.json', JSON.stringify(boxes, null, 1));
+  console.log(boxes.pp1);
+  await b.close();
+})();
