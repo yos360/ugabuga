@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'F0AN8AuB3TY', kind: 'tutorial', title: 'אות השבוע לגן — ערכה להדפסה לגננת', paths: ['/letters/week'], category: 'learning', date: '2026-11-14',
+    desc: 'מדריך קצר לערכת אות השבוע: בוחרים אות מתוך 22 האותיות ומקבלים פוסטר לפינת האות, דף תרגול כתיבה, דף "מה מתחיל באות?" עם התשובות לגננת ומכתב להורים, וגם תוכנית לחמישה ימים בגן. 4 דפי A4 בהדפסה אחת או הורדה כ־PDF. חינם, בלי הרשמה.' },
   { id: 'N6xjK7UpUMA', kind: 'tutorial', title: 'חידון חנוכה לכיתה מהטלפון — בוגה לייב', paths: ['/live'], category: 'classroom', date: '2026-11-14',
     desc: 'מדריך קצר לבוגה לייב: בוחרים נושא (למשל חנוכה, 42 שאלות בדוקות) ורמה, פותחים חדר עם קוד ו־QR, התלמידים נכנסים מהטלפון בלי להירשם ועונים על כל שאלה בזמן, ואחרי כל שאלה מופיע לוח מובילים — ובסוף סיכום למנחה והורדת התוצאות לאקסל. חינם, בלי חשבון.' },
   { id: 'zF06qgRLpeo', kind: 'tutorial', title: 'חדר בריחה לחנוכה לכיתה ולגן — על המקרן או מודפס', paths: ['/holidays/hanukkah/escape-room'], category: 'holidays', date: '2026-11-14',
@@ -114,6 +116,7 @@ export const VIDEO_PAGE_LABELS = {
   '/learn/multiplication-table/game': 'בלש לוח הכפל',
   '/learn/multiplication-table/quiz': 'בוחן לוח הכפל',
   '/letters/first-reading-stories': 'סיפורים לראשית קריאה',
+  '/letters/week': 'אות השבוע לגן',
   '/printables/class-photo/hanukkah': 'תמונת מחזור לחנוכה בגן',
   '/printables/class-photo': 'תמונת מחזור',
   '/tools/shirt-designer': 'עיצוב חולצות',
