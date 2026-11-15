@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'sequence-14', n: 14, date: '2026-11-15', type: 'סדרת מספרים', emoji: '🔢', kind: 'seq', dir: 'ltr',
+    id: 'sequence-14', n: 14, date: '2026-11-15', type: 'סדרת מספרים', emoji: '🔢', kind: 'seq', dir: 'ltr', youtube: 'cTih8MUG_6k',
     title: 'מה המספר הבא?',
     items: ['13', '16', '22', '26', '38', '62', '74', '?'],
     ask: 'מה מסתתר מאחורי סימן השאלה?',
