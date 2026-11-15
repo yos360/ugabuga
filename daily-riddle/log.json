@@ -334,7 +334,7 @@
     "youtube": "https://youtube.com/shorts/cTih8MUG_6k",
     "instagram": "ugabuga.co.il reels (shared ~14:24, link not captured)",
     "facebook": "עוגה בוגה reels (processing ~14:26)",
-    "tiktok": "via Buffer, Publish Now 14:27 (cover in first frame); link pending at log time",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7708373953827343637 (via Buffer, cover in first frame)",
     "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:29",
     "site": "https://ugabuga.co.il/riddles/sequence-14",
     "postedAt": "2026-11-15 14:20-14:30 (scheduled run)",
@@ -347,6 +347,7 @@
     "issues": {
       "instagram": "share-to-Facebook switch was ON (aria) though it looked off; turned off via לא לשתף את סרטון Reels הזה, verified false before sharing",
       "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame (saved)"
-    }
+    },
+    "siteLive": "checked live in the browser ~14:55 (h1 + sequence shown, answer hidden)"
   }
 ]
