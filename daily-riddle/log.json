@@ -315,5 +315,38 @@
       "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame",
       "instagram": "share-to-Facebook was ON (aria) though it looked off; turned off via לא לשתף את סרטון Reels הזה, verified false"
     }
+  },
+  {
+    "date": "2026-11-15",
+    "n": 14,
+    "id": "sequence-14",
+    "answer": "102",
+    "posted": true,
+    "kind": "seq",
+    "type": "סדרת מספרים (מכפלת ספרות)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/cTih8MUG_6k",
+    "instagram": "ugabuga.co.il reels (shared ~14:24, link not captured)",
+    "facebook": "עוגה בוגה reels (processing ~14:26)",
+    "tiktok": "via Buffer, Publish Now 14:27 (cover in first frame); link pending at log time",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:29",
+    "site": "https://ugabuga.co.il/riddles/sequence-14",
+    "postedAt": "2026-11-15 14:20-14:30 (scheduled run)",
+    "gate": {
+      "rounds": 3,
+      "rejected": "5,10,11,13,17,25,32 → 37 (add digit sum): editor 9/9/8/7/8 — a version of the known viral 1,2,4,8,16,23,28 riddle",
+      "blindSolver": "round 2: no instinctive guess in 10s; 102, 95%; medium-hard, 1-3 min for a smart adult",
+      "editor": "round 2: 9/9/9/8/9; round 3 (ask line changed to \"מה מסתתר מאחורי סימן השאלה?\", bonus 102→102 on the site): clarity 9, single answer 9, Hebrew 9, fun 9, difficulty 9"
+    },
+    "issues": {
+      "instagram": "share-to-Facebook switch was ON (aria) though it looked off; turned off via לא לשתף את סרטון Reels הזה, verified false before sharing",
+      "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame (saved)"
+    }
   }
 ]
