@@ -38,6 +38,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn serving hot cocoa in a winter cafe',
     'Unicorn at a pottery class',
     'Unicorn and kids flying in a hot air balloon',
+    'Unicorn knitting scarves by the fire',
+    'Unicorn train driver among the hills',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -134,6 +136,8 @@ export const EN_DRAWING_NAMES = {
     'Kids painting the lines of a soccer field',
     'Dog goalkeeper diving for the ball in the yard',
     'Kids team singing on the bus to a match',
+    'Kids building a cardboard soccer goal',
+    'Playing soccer on a rooftop field in the city',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -153,6 +157,7 @@ export const EN_DRAWING_NAMES = {
   clown: [
     'Juggling clown', 'Clown on a unicycle', 'Clown with balloons', 'Clown with a squirting flower', 'Clown and dog at the circus',
     'Circus tent', 'Clown in a top hat on stilts', 'Magician pulling a rabbit from a hat', 'Circus lion jumping through a hoop',
+    'Clown making balloon animals at a birthday party',
   ],
   butterfly: [
     'Big butterfly', 'Butterfly and flowers', 'Patterned butterfly', 'Butterflies over a flower field', 'Butterfly on a tulip',
@@ -204,6 +209,7 @@ export const EN_DRAWING_NAMES = {
   starfish: [
     'Smiling starfish on the sand', 'Starfish, crab and sandcastle', 'Three starfish', 'Starfish on a rock', 'Starfish with a bucket and spade',
     'Starfish surfing a little wave', 'Starfish and a pearl shell', 'Starfish and fish on the reef', 'Starfish king in a seashell castle',
+    'Starfish family having a picnic on the sea floor',
   ],
   sufganiyah: [
     null, null, null, null, null, null, null, null, null,
@@ -235,6 +241,8 @@ export const EN_DRAWING_NAMES = {
     'Kids bringing doughnuts to grandparents at a care home',
     'Squirrels carrying a big doughnut up to their tree',
     'Kids peeking into a doughnut bakery window',
+    'Dad and kids filling sufganiyot with jam',
+    'Sufganiyah Ferris wheel at a Hanukkah fair',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -285,6 +293,8 @@ export const EN_DRAWING_NAMES = {
     'Frogs spinning a dreidel on a lily pad',
     'Kids decorating a giant dreidel float for a parade',
     'Friends playing dreidel in a treehouse on a rainy day',
+    'Grandma knitting dreidel hats for her grandkids',
+    'Hedgehog family spinning a dreidel on a mushroom',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -339,6 +349,10 @@ export const EN_DRAWING_NAMES = {
     'Family lighting a menorah on a city balcony',
     'Kids making candles for the menorah at a workshop',
     'Mouse family lighting a tiny menorah in a wall hole',
+    'Menorah lighting at the zoo with a giraffe',
+    'Grandma and grandkids sculpting a menorah from clay',
+    'Firefighters and kids lighting a menorah',
+    'Farm family lighting a menorah on the farmhouse porch',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -364,6 +378,8 @@ export const EN_DRAWING_NAMES = {
     'Young shepherd with sheep near an ancient village',
     'Class bike trip to ancient ruins in the hills',
     'Kids drawing water from a well in Maccabee times',
+    'Kids making a museum mosaic',
+    'Ancient-times kids filling oil lamps',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -409,6 +425,7 @@ export const EN_DRAWING_NAMES = {
   'older-kids': [
     'Treehouse in a big tree', 'Coral reef and fish', 'Astronaut in space', 'Castle on a hill', 'City street with bicycles', 'Pirate ship at sea',
     'Robot workshop', 'Dinosaur skeleton at the museum', 'Hot air balloon over the mountains', 'Fairy in an enchanted forest', 'Hanukkah night market',
+    'Treehouse village with rope bridges',
   ],
   'tu-bishvat': [
     null, null, null, null, null, null, null, null, null,
@@ -477,6 +494,9 @@ export const EN_DRAWING_NAMES = {
     'Space school classroom with a robot teacher',
     'Alien family camping next to their flying saucer',
     'Kid astronauts racing moon buggies',
+    'Astronaut baker at a bakery on the moon',
+    'Sports day at an alien school',
+    'Astronaut doing laundry on the space station',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
