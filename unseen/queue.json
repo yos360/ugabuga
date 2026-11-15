@@ -140,7 +140,8 @@
   "slug": "en-mod-a-community-garden",
   "xi": 1,
   "level": "mod-a",
-  "title": "A Garden Between the Buildings"
+  "title": "A Garden Between the Buildings",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-mod-c-deaf-soccer-player",
@@ -380,37 +381,48 @@
   "slug": "en-g8-dogs-that-help",
   "xi": 0,
   "level": "g8",
-  "title": "Dogs with a Job"
+  "title": "Dogs with a Job",
+  "youtube": "https://youtu.be/MTDDwXEWGTI",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g9-how-vaccines-work",
   "xi": 0,
   "level": "g9",
-  "title": "How Vaccines Teach the Body"
+  "title": "How Vaccines Teach the Body",
+  "youtube": "https://youtu.be/7Gqm0wWvt0s",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-a-electric-bikes",
   "xi": 0,
   "level": "mod-a",
-  "title": "\"I Thought It Couldn't Happen to Me\""
+  "title": "\"I Thought It Couldn't Happen to Me\"",
+  "youtube": "https://youtu.be/4GZnD_jMfGE",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-c-history-of-the-zipper",
   "xi": 0,
   "level": "mod-c",
-  "title": "The Small Invention That Holds Everything Together"
+  "title": "The Small Invention That Holds Everything Together",
+  "youtube": "https://youtu.be/A3wjaBkT2mw",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-e-handwriting-notes",
   "xi": 0,
   "level": "mod-e",
-  "title": "Put Down the Laptop, Pick Up the Pen"
+  "title": "Put Down the Laptop, Pick Up the Pen",
+  "youtube": "https://youtu.be/3ZU6k0TFk3Y",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-g-de-extinction",
   "xi": 0,
   "level": "mod-g",
-  "title": "Should We Bring Back the Mammoth?"
+  "title": "Should We Bring Back the Mammoth?",
+  "skip": "video 4:02, over the 3-minute limit (11MB after compression)"
  },
  {
   "slug": "en-g3-tamar-breakfast",
@@ -432,55 +444,70 @@
   "slug": "en-g5-hedgehogs",
   "xi": 0,
   "level": "g5",
-  "title": "Hedgehogs in the Garden"
+  "title": "Hedgehogs in the Garden",
+  "youtube": "https://youtu.be/bFMRKuQiC8A",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g6-lifeguard-interview",
   "xi": 0,
   "level": "g6",
-  "title": "Eyes on the Water"
+  "title": "Eyes on the Water",
+  "youtube": "https://youtu.be/vu1zTUGf9q4",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g7-cooking-contest-email",
   "xi": 0,
   "level": "g7",
-  "title": "Join the Class Cooking Contest!"
+  "title": "Join the Class Cooking Contest!",
+  "youtube": "https://youtu.be/UOj5Z46aWy8",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g8-drip-irrigation",
   "xi": 0,
   "level": "g8",
-  "title": "Drop by Drop"
+  "title": "Drop by Drop",
+  "youtube": "https://youtu.be/Xi7LviZ0xa0",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g9-hula-cranes",
   "xi": 0,
   "level": "g9",
-  "title": "A Morning with the Cranes"
+  "title": "A Morning with the Cranes",
+  "youtube": "https://youtu.be/b5OI95Vh92k",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-a-electric-bikes",
   "xi": 1,
   "level": "mod-a",
-  "title": "\"I Thought It Couldn't Happen to Me\""
+  "title": "\"I Thought It Couldn't Happen to Me\"",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-mod-c-hospital-coding-club",
   "xi": 0,
   "level": "mod-c",
-  "title": "Code on the Children's Ward"
+  "title": "Code on the Children's Ward",
+  "youtube": "https://youtu.be/zD3bi4TIPEQ",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-mod-e-night-shift-swimmer",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Night-Shift Swimmer"
+  "title": "The Night-Shift Swimmer",
+  "skip": "video 3:07, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-fast-fashion",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Real Price of a Cheap T-Shirt"
+  "title": "The Real Price of a Cheap T-Shirt",
+  "skip": "video 3:22, over the 3-minute limit"
  },
  {
   "slug": "en-g3-what-am-i-riddle",
@@ -494,7 +521,9 @@
   "slug": "en-g4-lost-dog-notice",
   "xi": 0,
   "level": "g4",
-  "title": "Lost Dog!"
+  "title": "Lost Dog!",
+  "youtube": "https://youtu.be/PrQJeJJOIm4",
+  "uploaded": "2026-11-15"
  },
  {
   "slug": "en-g5-israeli-salad-recipe",
