@@ -349,5 +349,29 @@
       "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame (saved)"
     },
     "siteLive": "checked live in the browser ~14:55 (h1 + sequence shown, answer hidden)"
+  },
+  {
+    "date": "2026-11-15-b",
+    "n": 15,
+    "id": "logic-15",
+    "answer": "יום ראשון",
+    "posted": true,
+    "kind": "text",
+    "type": "חידת היגיון / לוח שנה (שבתות זוגיות)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/4Gw2YwooLig",
+    "instagram": "ugabuga.co.il reels (shared 23:2x, FB share was ON, turned off)",
+    "facebook": "עוגה בוגה reels (published ~23:25)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7708513219354086674 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה, 23:29",
+    "site": "https://ugabuga.co.il/riddles/logic-15",
+    "postedAt": "2026-11-15 23:15-23:35 (owner-approved extra riddle replacing deleted #13; gate run earlier: 8/10/9/8/8)",
+    "note": "date key 2026-11-15-b because #14 already holds 2026-11-15"
   }
 ]
