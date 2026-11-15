@@ -55,7 +55,7 @@ const STARS = [
 ]
 const MIXED = (() => { const a = ITEMS.filter(x => x[4] === 'כלי שבנינו'), b = ITEMS.filter(x => x[4] !== 'כלי שבנינו'), out = []; let n = 0; while (a.length) { out.push(n % 2 === 0 ? STARS[(n / 2) % STARS.length] : b.shift() || STARS[0], ...a.splice(0, 2)); n++ } return [...out, ...b] })()
 const SHOWN = 3
-const EVERY = 7000
+const EVERY = 12000 // slower: 7s was too fast for the eye (owner, 2026-11-15)
 
 export default function HomeDiscover() {
   // Prerender and first paint: the first cards. After hydration each visitor starts at a different place.
@@ -63,14 +63,16 @@ export default function HomeDiscover() {
   const [tick, setTick] = useState(0)
   const pages = Math.ceil(MIXED.length / SHOWN)
   useEffect(() => { if (!window.__PRERENDER__) setStart(Math.floor(Math.random() * pages)) }, [pages])
-  // Always moves on by itself (the owner wants it never to stand still); "more" restarts the timer.
+  // Moves on by itself (the owner wants it never to stand still), but holds while the mouse is on it
+  // so a card doesn't change under the pointer; "more" restarts the timer.
+  const [hold, setHold] = useState(false)
   useEffect(() => {
-    if (window.__PRERENDER__) return
+    if (window.__PRERENDER__ || hold) return
     const t = setInterval(() => setStart(s => (s + 1) % pages), EVERY)
     return () => clearInterval(t)
-  }, [pages, tick])
+  }, [pages, tick, hold])
   const cards = MIXED.slice(start * SHOWN, start * SHOWN + SHOWN)
-  return <section className="hp-sec hp-discover" aria-labelledby="hp-discover-h">
+  return <section className="hp-sec hp-discover" aria-labelledby="hp-discover-h" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
     <div className="hp-row-head"><h2 id="hp-discover-h" className="hp-h2">גלו עוד בבוגה</h2>
       <button type="button" className="hp-discover-next" onClick={() => { setStart(s => (s + 1) % pages); setTick(t => t + 1) }} aria-label="להציג עוד">עוד ←</button></div>
     <div key={start} className="hp-discover-row">{cards.map(([e, t, d, to, tag]) => <Link key={to} to={to} className="hp-discover-card">

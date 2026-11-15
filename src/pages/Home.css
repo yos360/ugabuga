@@ -116,7 +116,7 @@
 /* "כדאי להכיר" — the rotating white sign under the hero (HomeSpotlight.jsx). */
 .hp-spot{position:relative;max-width:980px;margin:18px auto 30px;padding:22px 16px 12px;background:#fff;border:3px solid #1f2937;border-radius:14px;box-shadow:0 6px 0 #1f2937,0 10px 24px rgba(0,0,0,.08)}
 .hp-spot-tag{position:absolute;top:-14px;right:18px;background:#facc15;color:#1f2937;font-weight:900;font-size:.95rem;padding:2px 12px;border-radius:999px;border:2px solid #1f2937}
-.hp-spot-card{display:flex;align-items:center;gap:14px;color:inherit;text-decoration:none;animation:hp-spot-pop .45s cubic-bezier(.2,1.4,.4,1)}
+.hp-spot-card{display:flex;align-items:center;gap:14px;color:inherit;text-decoration:none;animation:hp-spot-pop .6s ease}
 .hp-spot-icon{font-size:2.6rem;line-height:1;flex:none}
 .hp-spot-copy{display:flex;flex-direction:column;flex:1;min-width:0;text-align:right}
 .hp-spot-copy b{font-size:1.45rem;font-weight:900}
@@ -126,7 +126,8 @@
 .hp-spot-nav{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:10px;font-size:.9rem;color:#6b7280;font-weight:700}
 .hp-spot-nav button{width:36px;height:36px;border-radius:999px;background:#f3f4f6;border:2px solid #d1d5db;font-weight:900;color:#1f2937}
 .hp-spot-nav button:hover{background:#1f2937;color:#fff}
-@keyframes hp-spot-pop{0%{opacity:0;transform:translateY(10px) scale(.94)}100%{opacity:1;transform:none}}
+@keyframes hp-spot-pop{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hp-spot-card{animation:none}}
 @media (max-width:560px){.hp-spot-card{flex-wrap:wrap}.hp-spot-cta{width:100%;justify-content:center}.hp-spot-copy b{font-size:1.25rem}}
 @media (prefers-reduced-motion:reduce){.hp-spot-card{animation:none}}
 :root[data-theme="dark"] .hp-spot{background:#fff;color:#1f2937}

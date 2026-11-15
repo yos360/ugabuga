@@ -77,7 +77,7 @@ export default function RecentActivity() {
     const update = () => import('../../utils/printCounts').then(m => m.loadTodayPrints()).then(d => { if (live) setPrints(d.recent) }).catch(() => {})
     update()
     const refresh = setInterval(update, 60000)
-    const rotate = setInterval(() => setPrintAt(i => i + 1), 5000 + Math.random() * 3000)
+    const rotate = setInterval(() => setPrintAt(i => i + 1), 12000 + Math.random() * 4000)
     return () => { live = false; clearInterval(refresh); clearInterval(rotate) }
   }, [])
   const close = () => { setHidden(true); try { localStorage.setItem(CLOSED_KEY, String(Date.now())) } catch { /* ignore */ } }

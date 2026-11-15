@@ -69,7 +69,7 @@ export const SPOTLIGHTS = [
   { to: '/jokes/keresh', icon: '🪵', title: 'בדיחות קרש', line: '100 בדיחות נקיות לילדים, עם בדיחה אקראית', cta: 'לצחוק' },
   { to: '/stories', icon: '🌙', title: 'סיפורים לפני השינה', line: 'סיפורים קצרים לפי גיל ונושא', cta: 'לסיפור' },
 ]
-const EVERY = 4500
+const EVERY = 10000 // slower: 4.5s was too fast for the eye (owner, 2026-11-15)
 
 // Same order for everyone on the same day, a different one tomorrow.
 export function dailyOrder(list, date = new Date()) {
