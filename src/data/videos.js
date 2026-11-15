@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'LsdIexf3s1o', kind: 'tutorial', title: 'צירי סימטריה לכיתות ג׳–ה׳ — משחק, חידון ודפי עבודה', paths: ['/math/symmetry'], category: 'learning', date: '2026-11-15',
+    desc: 'מדריך קצר לדף הסימטריה: משחק השלמה על משבצות בשלוש רמות עם כפתור בדיקה, חידון "כמה צירים?" על 16 צורות, ושלושה דפי עבודה להדפסה עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'F0AN8AuB3TY', kind: 'tutorial', title: 'אות השבוע לגן — ערכה להדפסה לגננת', paths: ['/letters/week'], category: 'learning', date: '2026-11-14',
     desc: 'מדריך קצר לערכת אות השבוע: בוחרים אות מתוך 22 האותיות ומקבלים פוסטר לפינת האות, דף תרגול כתיבה, דף "מה מתחיל באות?" עם התשובות לגננת ומכתב להורים, וגם תוכנית לחמישה ימים בגן. 4 דפי A4 בהדפסה אחת או הורדה כ־PDF. חינם, בלי הרשמה.' },
   { id: 'N6xjK7UpUMA', kind: 'tutorial', title: 'חידון חנוכה לכיתה מהטלפון — בוגה לייב', paths: ['/live'], category: 'classroom', date: '2026-11-14',
@@ -95,6 +97,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
   '/math/fractions': 'שברים לכיתות ד׳–ה׳',
+  '/math/symmetry': 'סימטריה לכיתות ג׳–ה׳',
   '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
