@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'ULlEZEsetOw', kind: 'tutorial', title: 'חימום לפני השיעור לכיתה — הפסקת תנועה על המקרן', paths: ['/classroom/warm-up'], category: 'classroom', date: '2026-11-15',
+    desc: 'מדריך קצר לחימום לפני השיעור: בוחרים נושא (ספורט, חנוכה, פורים, חשבון בתנועה, Simon says או נרגעים) ואורך של שתיים, שלוש או חמש דקות, לוחצים "מתחילים!" והמסך מוביל את הכיתה תרגיל אחרי תרגיל עם טיימר וצליל מעבר.' },
   { id: 'LsdIexf3s1o', kind: 'tutorial', title: 'צירי סימטריה לכיתות ג׳–ה׳ — משחק, חידון ודפי עבודה', paths: ['/math/symmetry'], category: 'learning', date: '2026-11-15',
     desc: 'מדריך קצר לדף הסימטריה: משחק השלמה על משבצות בשלוש רמות עם כפתור בדיקה, חידון "כמה צירים?" על 16 צורות, ושלושה דפי עבודה להדפסה עם דף תשובות — חינם, בלי הרשמה.' },
   { id: 'F0AN8AuB3TY', kind: 'tutorial', title: 'אות השבוע לגן — ערכה להדפסה לגננת', paths: ['/letters/week'], category: 'learning', date: '2026-11-14',
@@ -100,7 +102,7 @@ export const VIDEO_PAGE_LABELS = {
   '/math/symmetry': 'סימטריה לכיתות ג׳–ה׳',
   '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
-  '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
+  '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/classroom/warm-up': 'חימום לפני השיעור', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
   '/tools/keyboard': 'מקלדת עברית אונליין',
   '/tools/pdf': 'סטודיו PDF',

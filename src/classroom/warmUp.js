@@ -128,7 +128,8 @@ export function buildRoutine({ theme = 'sport', minutes = 3, band = 'mid' } = {}
       const ex = mathExercise(band, rand)
       if (seen.has(ex.text)) continue
       seen.add(ex.text)
-      steps.push({ kind: 'math', emoji: '🔢', title: ex.text + ' = ?', text: MATH_RULE, answer: ex.answer, even: ex.even, seconds })
+      // LRI…PDI keeps the exercise left-to-right inside the RTL page (else "26 + 19 = ?" shows as "? = 19 + 26")
+      steps.push({ kind: 'math', emoji: '🔢', title: '⁦' + ex.text + ' = ?⁩', text: MATH_RULE, answer: ex.answer, even: ex.even, seconds })
     }
     return steps
   }
