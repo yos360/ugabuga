@@ -36,6 +36,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn camping with kids by the campfire',
     'Unicorn playing beach volleyball with kids',
     'Unicorn serving hot cocoa in a winter cafe',
+    'Unicorn at a pottery class',
+    'Unicorn and kids flying in a hot air balloon',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -130,6 +132,8 @@ export const EN_DRAWING_NAMES = {
     'Playing sock soccer in the living room on a rainy day',
     'Breakfast at soccer camp',
     'Kids painting the lines of a soccer field',
+    'Dog goalkeeper diving for the ball in the yard',
+    'Kids team singing on the bus to a match',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -165,6 +169,7 @@ export const EN_DRAWING_NAMES = {
     'Princess in a carriage', 'Princess with a unicorn', 'Princess reading in the garden', 'Princess and frog by a pond', 'Princess and a little dragon at a picnic',
     'Princess in a ballet class at the palace',
     'Princess baking cupcakes with her puppy',
+    'Princess and little dragon at a garden tea party',
   ],
   lion: [
     'Lion on the savanna', 'Lion with a crown on a rock', 'Lion cub and butterfly', 'Lion family under a tree', 'Lion face with a big mane',
@@ -227,6 +232,9 @@ export const EN_DRAWING_NAMES = {
     'Toy train carrying doughnuts around the table',
     'Hedgehog family sharing sufganiyot in the forest',
     'Grandma and kids building a sufganiyot tower',
+    'Kids bringing doughnuts to grandparents at a care home',
+    'Squirrels carrying a big doughnut up to their tree',
+    'Kids peeking into a doughnut bakery window',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -274,6 +282,9 @@ export const EN_DRAWING_NAMES = {
     'Ladybug and ants spinning a dreidel on a leaf',
     'Carpenter grandpa and kids making wooden dreidels',
     'Owl family spinning a dreidel on a branch',
+    'Frogs spinning a dreidel on a lily pad',
+    'Kids decorating a giant dreidel float for a parade',
+    'Friends playing dreidel in a treehouse on a rainy day',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -324,6 +335,10 @@ export const EN_DRAWING_NAMES = {
     'Kids gazing at a menorah inside a snow globe',
     'Kids bringing latkes to the neighbor on Hanukkah',
     'Family lighting a menorah in a desert tent',
+    'Librarian and kids lighting a menorah in the library',
+    'Family lighting a menorah on a city balcony',
+    'Kids making candles for the menorah at a workshop',
+    'Mouse family lighting a tiny menorah in a wall hole',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -348,6 +363,7 @@ export const EN_DRAWING_NAMES = {
     'Class trip to a museum with ancient oil jugs',
     'Young shepherd with sheep near an ancient village',
     'Class bike trip to ancient ruins in the hills',
+    'Kids drawing water from a well in Maccabee times',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -414,6 +430,7 @@ export const EN_DRAWING_NAMES = {
     'Mermaid by an underwater castle', 'Mermaid hugging a starfish', 'Mermaid asleep in a seashell', 'Mermaid playing the harp for the fish',
     'Mermaid riding a seahorse', 'Mermaid with a crown blowing bubbles',
     'Mermaid and baby octopus playing hide and seek',
+    'Mermaid playing hide and seek by a sunken ship',
   ],
   space: [
     'Astronaut waving on the moon', 'Rocket lifting off the launch pad', 'Cute alien in a flying saucer', 'Smiling ringed planet', 'Rover exploring a planet',
@@ -457,6 +474,9 @@ export const EN_DRAWING_NAMES = {
     'Kid astronauts eating in the space station kitchen',
     'Alien mail carrier delivering a parcel on the Moon',
     'Astronaut snowball fight on an icy moon',
+    'Space school classroom with a robot teacher',
+    'Alien family camping next to their flying saucer',
+    'Kid astronauts racing moon buggies',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
