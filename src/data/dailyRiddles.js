@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'logic-15', n: 15, date: '2026-11-15', type: 'חידת היגיון', emoji: '📅', kind: 'text',
+    id: 'logic-15', n: 15, date: '2026-11-15', type: 'חידת היגיון', emoji: '📅', kind: 'text', youtube: '4Gw2YwooLig',
     title: 'חידת היגיון: באיזה יום בשבוע?',
     lines: ['בחודש שבו נולדתי,', 'שלוש מהשבתות', 'חלו בתאריכים זוגיים.', 'יום ההולדת שלי', 'הוא ה־31 בחודש.', 'באיזה יום בשבוע הוא חל?'],
     ask: 'בלי לוח שנה, רק היגיון 📅',
