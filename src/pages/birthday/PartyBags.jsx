@@ -195,7 +195,7 @@ export default function PartyBags() {
       {print.pages.map(p => <article className="buga-a4" key={p.id}><div className="print-art"><p.C color={print.color} /></div></article>)}
     </PrintPreview>}
 
-    <p className="mt-8 text-center text-lg">עוד ליום ההולדת: <Link className="font-bold underline" to="/games/birthday">משחקים ליום הולדת</Link> · <Link className="font-bold underline" to="/printables/birthday-crown">כתר להדפסה</Link> · <Link className="font-bold underline" to="/printables/birthday-checklist">צ׳ק־ליסט למסיבה</Link> · <Link className="font-bold underline" to="/calculator">מחשבון אוכל ושתייה</Link></p>
+    <p className="mt-8 text-center text-lg">עוד ליום ההולדת: <Link className="font-bold underline" to="/games/birthday">משחקים ליום הולדת</Link> · <Link className="font-bold underline" to="/birthday/spa-party">מסיבת ספא בבית</Link> · <Link className="font-bold underline" to="/printables/birthday-crown">כתר להדפסה</Link> · <Link className="font-bold underline" to="/printables/birthday-checklist">צ׳ק־ליסט למסיבה</Link> · <Link className="font-bold underline" to="/calculator">מחשבון אוכל ושתייה</Link></p>
     <div className="mt-10"><SeoBody paragraphs={[
       'שקיות הפתעה ליום הולדת הן הדבר האחרון שהילדים לוקחים מהמסיבה, ולכן הן נזכרות. אבל שקית טובה היא לא שקית מלאה: דבר אחד או שניים שימושיים שמתאימים לגיל, ועוד משהו אישי קטן, שווים יותר מערימה של צעצועי פלסטיק שנשברים עוד באותו ערב.',
       'בעמוד בוחרים את גיל הילדים — 2–3, גן, כיתות א–ג או כיתות ד–ו — ואת התקציב לשקית, ומקבלים את כל הרעיונות שמתאימים ושקית לדוגמה שנכנסת בתקציב. אפשר לסנן גם לשקית בלי פלסטיק ובלי ממתקים, ולמצוא רעיונות שמכינים בבית. בסוף העמוד יש שני דפים להדפסה: 12 תוויות "תודה שבאת" ו־4 מדבקות גדולות עם מקום לשם של כל ילד, בצבע או לצביעה.',
