@@ -73,7 +73,10 @@ because no reel asked the audience anything. So every reel **must make the viewe
   Not a statement, not a list of features.
 - **One tool per reel.** At most one main feature shown in depth; no "three tools in one" reels.
 - **Leave the answer open on screen and ask for a comment.** The end card (or the last step) shows
-  "✍️ כתבו את התשובה בתגובות" (or a fitting variant: "מה הייתם בוחרים? כתבו בתגובות"). Do not reveal the answer
+  a comment request that **repeats the hook question** — never the generic riddle line "כתבו את התשובה בתגובות"
+  (only the daily-riddle reel has an answer to write). Examples: "כמה באמת מגיעים? כתבו בתגובות", "איזו חולצה הכי יפה?
+  כתבו מספר בתגובות", "מה הייתם בוחרים? כתבו בתגובות". Before rendering run `node tools/check-end-card.js examples/<slug>/film.js`
+  (it fails on the generic line; the wedding reel of 5.11 shipped with it by mistake). Do not reveal the answer
   in the video — reveal it on the site.
 - **Captions open with the same question** and end with the comment request (before the link and hashtags).
 - If a topic is in the news or on the calendar this week, say so in the hook ("השבוע כולם מדברים על…").
@@ -82,7 +85,7 @@ because no reel asked the audience anything. So every reel **must make the viewe
 
 - Main caption (Instagram/Facebook/TikTok/YouTube description): the hook question with emoji, one line "בעוגה בוגה יש…",
   3–5 emoji bullet lines with real features, "הכול בחינם, בלי הרשמה 💛", the comment request
-  ("✍️ כתבו את התשובה בתגובות"), the link
+  (the same question again: "✍️ כמה באמת מגיעים? כתבו בתגובות" — not the generic riddle line), the link
   (`https://ugabuga.co.il/<path>`; on Instagram write "הקישור בביו"), then 4–6 Hebrew hashtags starting with `#עוגה_בוגה`.
 - YouTube title ≤ 100 chars ending with `#shorts`.
 - TikTok: one paragraph + hashtags typed one by one, each followed by a space.
