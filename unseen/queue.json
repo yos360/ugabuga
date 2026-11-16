@@ -529,7 +529,9 @@
   "slug": "en-g5-israeli-salad-recipe",
   "xi": 0,
   "level": "g5",
-  "title": "How to Make an Israeli Salad"
+  "title": "How to Make an Israeli Salad",
+  "youtube": "https://youtu.be/f3Ubz6uEIbg",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g6-lost-dog-notice",
@@ -543,43 +545,56 @@
   "slug": "en-g7-cousin-in-canada",
   "xi": 0,
   "level": "g7",
-  "title": "Hello from Toronto!"
+  "title": "Hello from Toronto!",
+  "youtube": "https://youtu.be/ucGcuN5L5k0",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g8-drum-diary",
   "xi": 0,
   "level": "g8",
-  "title": "My First Week on the Drums"
+  "title": "My First Week on the Drums",
+  "youtube": "https://youtu.be/Z0eI3c8J1Ic",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g9-octopus-intelligence",
   "xi": 0,
   "level": "g9",
-  "title": "The Clever Octopus"
+  "title": "The Clever Octopus",
+  "youtube": "https://youtu.be/gZjtOabpnPY",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-a-escape-room",
   "xi": 0,
   "level": "mod-a",
-  "title": "Sixty Minutes to Get Out"
+  "title": "Sixty Minutes to Get Out",
+  "youtube": "https://youtu.be/HY3KlPn8FZM",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-c-onions-tears",
   "xi": 0,
   "level": "mod-c",
-  "title": "Why Do Onions Make Us Cry?"
+  "title": "Why Do Onions Make Us Cry?",
+  "youtube": "https://youtu.be/yyi8b6HdzK4",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-e-persian-fallow-deer",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Return of the Yachmur"
+  "title": "The Return of the Yachmur",
+  "youtube": "https://youtu.be/SojALpJQXY0",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-g-grandmothers-baskets",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Baskets on My Grandmother's Shelf"
+  "title": "The Baskets on My Grandmother's Shelf",
+  "skip": "video 3:30, over the 3-minute limit"
  },
  {
   "slug": "en-g3-yoni-room",
@@ -609,7 +624,9 @@
   "slug": "en-g6-owls-at-night",
   "xi": 0,
   "level": "g6",
-  "title": "Owls: Hunters of the Night"
+  "title": "Owls: Hunters of the Night",
+  "youtube": "https://youtu.be/k4FZVzXG_kw",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g7-dead-sea-salt",
@@ -623,43 +640,54 @@
   "slug": "en-g8-elderly-neighbours",
   "xi": 0,
   "level": "g8",
-  "title": "One Hour a Week"
+  "title": "One Hour a Week",
+  "youtube": "https://youtu.be/OLQj4YTLZhc",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g9-phones-at-school",
   "xi": 0,
   "level": "g9",
-  "title": "Phones Away, Heads Up"
+  "title": "Phones Away, Heads Up",
+  "youtube": "https://youtu.be/8Zt6tEE8-gQ",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-a-escape-room",
   "xi": 1,
   "level": "mod-a",
-  "title": "Sixty Minutes to Get Out"
+  "title": "Sixty Minutes to Get Out",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-mod-c-second-language",
   "xi": 0,
   "level": "mod-c",
-  "title": "Two Languages, Twice the World"
+  "title": "Two Languages, Twice the World",
+  "youtube": "https://youtu.be/V-FduKQxzXI",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-mod-e-science-of-habits",
   "xi": 0,
   "level": "mod-e",
-  "title": "Why We Do What We Do Without Thinking"
+  "title": "Why We Do What We Do Without Thinking",
+  "skip": "video 3:07, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-microplastics",
   "xi": 0,
   "level": "mod-g",
-  "title": "The Plastic We Cannot See"
+  "title": "The Plastic We Cannot See",
+  "skip": "video 3:38, over the 3-minute limit"
  },
  {
   "slug": "en-g5-library-day",
   "xi": 0,
   "level": "g5",
-  "title": "Ido Loves the Library"
+  "title": "Ido Loves the Library",
+  "youtube": "https://youtu.be/LVEH4S8HdI8",
+  "uploaded": "2026-11-16"
  },
  {
   "slug": "en-g6-rainy-day-tent",
