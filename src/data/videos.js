@@ -13,6 +13,7 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'YxkBJ5IdtQs', kind: 'tutorial', title: 'בית מארח לחנוכה: יצירות, לו״ז ורשימת קניות', paths: ['/holidays/hanukkah/host-home'], category: 'holidays', date: '2026-11-16', desc: 'איך מארחים את הכיתה בחנוכה: לו״ז לשעה וחצי, שש יצירות מחומרים שיש בבית, רשימת קניות שמתעדכנת לפי מספר הילדים ודף אחד להדפסה. חינם ובלי הרשמה.' },
   { id: 'YUSN9ic1LSs', kind: 'tutorial', title: 'הגרלת גמד וענק אונליין — מתנות לחנוכה ומשלוח מנות', paths: ['/secret-friend', '/holidays/purim/mishloach-manot-draw'], category: 'classroom', date: '2026-11-16', desc: 'איך עושים הגרלת גמד וענק או מתנות לחנוכה בכיתה: כותבים שמות, מגרילים, וכל אחד מקבל קישור אישי שבו רק הוא רואה את מי הגריל. גם פתקים להדפסה. חינם ובלי הרשמה.' },
   { id: '8ZD-_xBpy10', kind: 'tutorial', title: 'חנוכייה משותפת לכיתה ולמשפחה — מדליקים נר יחד', paths: ['/hanukkiah'], category: 'holidays', date: '2026-11-16', desc: 'איך פותחים חנוכייה משותפת לכיתה, לגן או למשפחה, שולחים קישור בוואטסאפ, וכל ערב כל אחד מדליק נר מהטלפון שלו. חינם ובלי הרשמה.' },
   { id: 'ULlEZEsetOw', kind: 'tutorial', title: 'חימום לפני השיעור לכיתה — הפסקת תנועה על המקרן', paths: ['/classroom/warm-up'], category: 'classroom', date: '2026-11-15',
@@ -97,7 +98,7 @@ export const VIDEOS = [
 export const VIDEO_PAGE_LABELS = {
   '/hanukkiah': 'החנוכייה המשותפת',
   '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
-  '/holidays/hanukkah/escape-room': 'חדר בריחה לחנוכה',
+  '/holidays/hanukkah/escape-room': 'חדר בריחה לחנוכה', '/holidays/hanukkah/host-home': 'בית מארח לחנוכה',
   '/holidays/hanukkah/greetings': 'ברכות לחנוכה',
   '/tools/collage': 'קולאז׳ תמונות',
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
