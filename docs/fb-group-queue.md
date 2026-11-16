@@ -13,3 +13,6 @@ Titles are written by the builder; never put request texts, emails, names or ids
 
 ## 2026-11-14
 - חוברת לימוד תווים למתחילים — חמשה, מפתח סול, פסנתר ומנגינה ראשונה | https://ugabuga.co.il/booklets/music-notes
+
+## 2026-11-16
+- דפי עבודה לכיתה ה׳ — חוברת משולבת: חשבון, הבנת הנקרא, לשון, אנגלית ומדעים | https://ugabuga.co.il/booklets/worksheets-grade-5
