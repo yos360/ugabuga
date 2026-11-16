@@ -13,6 +13,7 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '8ZD-_xBpy10', kind: 'tutorial', title: 'חנוכייה משותפת לכיתה ולמשפחה — מדליקים נר יחד', paths: ['/hanukkiah'], category: 'holidays', date: '2026-11-16', desc: 'איך פותחים חנוכייה משותפת לכיתה, לגן או למשפחה, שולחים קישור בוואטסאפ, וכל ערב כל אחד מדליק נר מהטלפון שלו. חינם ובלי הרשמה.' },
   { id: 'ULlEZEsetOw', kind: 'tutorial', title: 'חימום לפני השיעור לכיתה — הפסקת תנועה על המקרן', paths: ['/classroom/warm-up'], category: 'classroom', date: '2026-11-15',
     desc: 'מדריך קצר לחימום לפני השיעור: בוחרים נושא (ספורט, חנוכה, פורים, חשבון בתנועה, Simon says או נרגעים) ואורך של שתיים, שלוש או חמש דקות, לוחצים "מתחילים!" והמסך מוביל את הכיתה תרגיל אחרי תרגיל עם טיימר וצליל מעבר.' },
   { id: 'LsdIexf3s1o', kind: 'tutorial', title: 'צירי סימטריה לכיתות ג׳–ה׳ — משחק, חידון ודפי עבודה', paths: ['/math/symmetry'], category: 'learning', date: '2026-11-15',
@@ -93,6 +94,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/hanukkiah': 'החנוכייה המשותפת',
   '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
   '/holidays/hanukkah/escape-room': 'חדר בריחה לחנוכה',
   '/holidays/hanukkah/greetings': 'ברכות לחנוכה',

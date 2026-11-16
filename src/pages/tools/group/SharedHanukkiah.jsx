@@ -186,7 +186,7 @@ function HanukkiahView({ code, token, show, onDeleted, fresh }) {
 
     <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
       <section aria-labelledby="hk-who">
-        <h2 id="hk-who" className="mb-3 text-2xl font-bold">{phase === 'before' ? 'מי ידליק?' : isTonight ? 'מי הדליק הערב' : `מי הדליק ב${nightName(shown)}`}{candles.length > 0 && ` (${candles.length})`}</h2>
+        <h2 id="hk-who" className="mb-3 text-2xl font-bold">{phase === 'before' ? 'מי ידליק?' : isTonight ? 'מי הדליק הערב' : `מי הדליק ב${nightName(shown).slice(1)}`}{candles.length > 0 && ` (${candles.length})`}</h2>
         {phase === 'before'
           ? <p className="rounded-2xl border-2 border-dashed border-slate-300 px-4 py-8 text-center text-lg text-slate-600">ההדלקה נפתחת ביום שישי 4.12 בערב. בינתיים — שלחו את הקישור לקבוצה, כדי שכולם יהיו מוכנים לנר הראשון 🕎</p>
           : candles.length === 0
@@ -204,13 +204,13 @@ function HanukkiahView({ code, token, show, onDeleted, fresh }) {
       <aside className="space-y-4">
         <section className={card}>
           {phase === 'during' && !data.lit_tonight && <>
-            <h2 className="mb-3 text-2xl font-bold">מדליקים נר ל{nightName(tonight)}</h2>
+            <h2 className="mb-3 text-2xl font-bold">מדליקים נר ל{nightName(tonight).slice(1)}</h2>
             <LightForm code={code} onLit={lit} show={show} />
           </>}
           {phase === 'during' && data.lit_tonight && <div className="text-center">
             <p className="text-4xl" aria-hidden="true">🕯️</p>
             <h2 className="mt-1 text-2xl font-bold">הנר שלכם דולק הערב</h2>
-            <p className="mt-1 text-slate-600">{tonight < NIGHTS ? `נתראה מחר בערב ב${nightName(tonight + 1)}!` : 'זה היה הנר האחרון של חנוכה. חג שמח!'}</p>
+            <p className="mt-1 text-slate-600">{tonight < NIGHTS ? `נתראה מחר בערב ב${nightName(tonight + 1).slice(1)}!` : 'זה היה הנר האחרון של חנוכה. חג שמח!'}</p>
           </div>}
           {phase === 'before' && <div className="text-center">
             <h2 className="text-2xl font-bold">ההדלקה מתחילה בנר הראשון</h2>
