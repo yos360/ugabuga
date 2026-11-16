@@ -163,6 +163,7 @@ function CategoryView({ grade, tile }) {
     const dictation = grade.dictation ? DICTATION_EN.filter(d => d.grade === grade.dictation) : []
     body = <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {dictation.length > 0 && <Item to="/learn/dictation/english" emoji="✍️" title={`הכתבה — ${dictation.length} רשימות ל${grade.name}`} />}
+      {grade.n >= 2 && grade.n <= 5 && <Item to="/learn/english-phonics" emoji="🔡" title="לומדים לקרוא באנגלית מאפס (פוניקס)" />}
       {grade.n <= 4 && <Item to="/abc" emoji="🔤" title="אותיות A–Z — שמע, משחק ושיר" />}
       {grade.n <= 4 && <Item to="/printables/abc-letters" emoji="✏️" title="אותיות באנגלית לכתיבה" />}
       {grade.n <= 6 && <Item to="/printables/english-lines" emoji="📄" title="דף שורות לכתיבה באנגלית" />}

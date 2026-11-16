@@ -335,6 +335,7 @@ const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.
 const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
 const FractionsGuide = lazy(() => import('./math/FractionsGuide'))
 const SymmetryGuide = lazy(() => import('./math/SymmetryGuide'))
+const EnglishPhonics = lazy(() => import('./learn/englishPhonics/EnglishPhonics'))
 const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTest })))
 const MathMidYearTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathMidYearTest })))
 const SupplierCategory = lazy(() => import('./pages/suppliers/SupplierCategory'))
@@ -1219,6 +1220,7 @@ export default function App() {
               <Route path="/learn/geography/:slug" element={<SubjectTopic key="geography" subjectKey="geography" />} />
               <Route path="/learn/english-grammar" element={<GrammarHub />} />
               <Route path="/learn/english-grammar/:slug" element={<GrammarTopic />} />
+              <Route path="/learn/english-phonics" element={<EnglishPhonics />} />
               <Route path="/learn/english-reading" element={<ReadingHub />} />
               <Route path="/learn/english-reading/:slug" element={<ReadingStory />} />
               <Route path="/learn/english" element={<EnglishGradesHub />} />

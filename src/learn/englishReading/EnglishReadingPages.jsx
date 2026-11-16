@@ -55,6 +55,7 @@ export function ReadingHub() {
     </section>)}
     <h2 className="mb-3 mt-10 text-2xl font-black">עוד אנגלית באתר</h2>
     <div className="grid gap-3 sm:grid-cols-2">
+      <Link to="/learn/english-phonics" className="ln-box card-lift text-right"><b className="text-lg">🔡 לומדים לקרוא באנגלית מאפס</b><br /><small>פוניקס בשישה שלבים, לכיתות ב׳–ה׳</small></Link>
       <Link to="/unseen/english" className="ln-box card-lift text-right"><b className="text-lg">📝 אנסין באנגלית</b><br /><small>קטעי קריאה במבנה של מבחן, לכיתות ה׳–י״ב</small></Link>
       <Link to="/learn/english-grammar" className="ln-box card-lift text-right"><b className="text-lg">📘 דקדוק באנגלית</b><br /><small>הסברים, חידונים ודפי עבודה לפי כיתה</small></Link>
       <Link to="/english" className="ln-box card-lift text-right"><b className="text-lg">🇬🇧 מילים באנגלית לפי נושא</b><br /><small>אוצר מילים עם תמונה, הגייה ומשחק</small></Link>
