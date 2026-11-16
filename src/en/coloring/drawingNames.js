@@ -42,6 +42,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn train driver among the hills',
     'A unicorn lifeguard at the beach',
     'A unicorn painter in a flower meadow',
+    'A unicorn mail carrier delivering a letter',
+    'A unicorn firefighter rescuing a kitten from a tree',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -76,6 +78,8 @@ export const EN_DRAWING_NAMES = {
   food: [
     'Cute pizza, cupcake and donut', 'Burger, fries and a drink', 'Cute fruit friends', 'Cute vegetable friends', 'Stack of pancakes',
     'Birthday cake and cupcakes', 'Cute sushi with chopsticks', 'Giant sandwich with a face', 'Open picnic box from above', 'Happy breakfast dancing on a plate',
+    'Cute food friends having a picnic',
+    'Cute breakfast friends at a sunny table',
   ],
   dinosaur: [
     'Baby dinosaur hatching from an egg', 'Long-neck dinosaur eating leaves', 'Dinosaur playing ball', 'Dinosaur and volcano',
@@ -142,6 +146,8 @@ export const EN_DRAWING_NAMES = {
     'Playing soccer on a rooftop field in the city',
     'Forest animals taking penalties against a bear',
     'A girl heading the ball into the goal',
+    'A boy in a wheelchair playing soccer with friends',
+    'A coach training a young goalkeeper',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -180,6 +186,7 @@ export const EN_DRAWING_NAMES = {
     'Princess baking cupcakes with her puppy',
     'Princess and little dragon at a garden tea party',
     'A princess and a hedgehog planting flowers',
+    'A princess ice skating by her castle',
   ],
   lion: [
     'Lion on the savanna', 'Lion with a crown on a rock', 'Lion cub and butterfly', 'Lion family under a tree', 'Lion face with a big mane',
@@ -250,6 +257,8 @@ export const EN_DRAWING_NAMES = {
     'Sufganiyah Ferris wheel at a Hanukkah fair',
     'A class trip to a doughnut factory conveyor belt',
     'Kids and a robot chef filling doughnuts',
+    'A hippo family making doughnuts by the river',
+    'Doughnuts floating down on parachutes over the village',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -304,6 +313,8 @@ export const EN_DRAWING_NAMES = {
     'Hedgehog family spinning a dreidel on a mushroom',
     'Kids playing dreidel bowling in the school hallway',
     'A turtle family spinning a dreidel in the garden',
+    'Monkeys spinning a dreidel on a jungle rock',
+    'Dad and kids choosing dreidels in a toy shop',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -367,6 +378,11 @@ export const EN_DRAWING_NAMES = {
     'A family lighting a menorah by a giant aquarium',
     'Grandpa and kids lighting a menorah in a garden',
     'Kids lighting a menorah at an animal shelter',
+    'Grandma frying latkes on a camping stove by a menorah',
+    'The school band playing next to a menorah',
+    'A rabbit family lighting a menorah in their burrow',
+    'Neighbours lighting menorahs together on the rooftop',
+    'An owl family lighting a menorah on a branch',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -396,6 +412,8 @@ export const EN_DRAWING_NAMES = {
     'Ancient-times kids filling oil lamps',
     'Kids at an archaeology dig finding an ancient oil lamp',
     'A mother and kids long ago shaping clay oil lamps',
+    'Kids building a model of the Temple from blocks',
+    'An ancient family lighting oil lamps on the windowsill',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -517,6 +535,9 @@ export const EN_DRAWING_NAMES = {
     'An alien band playing on a planet stage',
     'An astronaut dentist checking an alien\'s teeth',
     'An alien selling ice cream to astronauts on the moon',
+    'Aliens washing a rocket at a rocket wash',
+    'A birthday party on the moon',
+    'Astronaut and alien fishing for stars on the moon',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',

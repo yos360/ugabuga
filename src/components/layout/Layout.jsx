@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
-import RequestBanner from '../ui/RequestBanner'
+const RequestBanner = lazy(() => import('../ui/RequestBanner'))
 // Lazy (with PresentMode below): shown only after mount, and the entry sits at its 150 KB budget.
 const ChannelBar = lazy(() => import('../ui/ChannelBar'))
 // Lazy: shown only after mount, and its product table (~23 KB) kept the entry over budget.
@@ -106,7 +106,7 @@ export default function Layout({ children }) {
       {!presenting && <Suspense fallback={null}><EmojiRelated pathname={pathname} /></Suspense>}
       <PrintPreviewFigure pathname={pathname} />
       {/* Sponsored card on matching topic pages (the home page places its own between sections). */}
-      {mounted && !presenting && pathname !== '/' && <div className="px-4"><Suspense fallback={null}><AffiliatePicks /></Suspense><SponsorBanner /><RequestBanner key={pathname} /></div>}
+      {mounted && !presenting && pathname !== '/' && <div className="px-4"><Suspense fallback={null}><AffiliatePicks /></Suspense><SponsorBanner /><Suspense fallback={null}><RequestBanner key={pathname} /></Suspense></div>}
       {!presenting && <Footer />}
     </>
   )
