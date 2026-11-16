@@ -11,7 +11,7 @@ import ReturnNavigation from './ReturnNavigation'
 const EnglishLayout = lazy(() => import('../../en/EnglishLayout'))
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
-import RecentActivity from './RecentActivity'
+const RecentActivity = lazy(() => import('./RecentActivityWidget'))
 import PrintQrFallback from './PrintQrFallback'
 import PrintFollowUp from '../print/PrintFollowUp'
 // Lazy: shown only after mount, and the entry sits at its 150 KB budget.
@@ -89,7 +89,7 @@ export default function Layout({ children }) {
       {!presenting && <ScrollToTop />}
       {!presenting && <Navbar />}
       {mounted && !presenting && <Suspense fallback={null}><ChannelBar /></Suspense>}
-      {mounted && !presenting && <RecentActivity />}
+      {mounted && !presenting && <Suspense fallback={null}><RecentActivity /></Suspense>}
       {mounted && <PrintQrFallback />}
       {mounted && <PrintFollowUp />}
       {/* /kids is for a child browsing alone: no share button there. */}
