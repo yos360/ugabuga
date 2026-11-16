@@ -29,6 +29,7 @@ import scienceGrade6 from './meta/science-grade-6.js'
 import scienceGrade7 from './meta/science-grade-7.js'
 import scienceGrade8 from './meta/science-grade-8.js'
 import scienceGrade9 from './meta/science-grade-9.js'
+import enzymesGrade9 from './meta/enzymes-grade-9.js'
 import tanakhGrade2 from './meta/tanakh-grade-2.js'
 import tanakhGrade3 from './meta/tanakh-grade-3.js'
 import tanakhGrade4 from './meta/tanakh-grade-4.js'
@@ -110,6 +111,7 @@ export const SUBJECT_BOOKLETS = [
   { ...scienceGrade7, load: subject(() => import('./content/science-grade-7.js')) },
   { ...scienceGrade8, load: subject(() => import('./content/science-grade-8.js')) },
   { ...scienceGrade9, load: subject(() => import('./content/science-grade-9.js')) },
+  { ...enzymesGrade9, load: subject(() => import('./content/enzymes-grade-9.js')) },
   { ...tanakhGrade2, load: subject(() => import('./content/tanakh-grade-2.js')) },
   { ...tanakhGrade3, load: subject(() => import('./content/tanakh-grade-3.js')) },
   { ...tanakhGrade4, load: subject(() => import('./content/tanakh-grade-4.js')) },
