@@ -16,10 +16,10 @@ test('holiday dates match published 2026/2027 diaspora fixtures including leap A
  assert.equal(holidayDates('invalid',2027),null)
 })
 test('English holiday drawings are named existing assets, with no generic coloring expansion',()=>{
- assert.equal(HOLIDAYS.length,11);assert.equal(HOLIDAY_DRAWINGS.length,99)
- assert.equal(new Set(HOLIDAY_DRAWINGS.map(drawingPath)).size,99)
- assert.equal(new Set(HOLIDAY_DRAWINGS.map(d=>d.name)).size,99)
- assert.equal(HOLIDAY_DRAWINGS.filter(d=>d.counterpart).length,45)
+ assert.equal(HOLIDAYS.length,11);assert.equal(HOLIDAY_DRAWINGS.length,100)
+ assert.equal(new Set(HOLIDAY_DRAWINGS.map(drawingPath)).size,100)
+ assert.equal(new Set(HOLIDAY_DRAWINGS.map(d=>d.name)).size,100)
+ assert.equal(HOLIDAY_DRAWINGS.filter(d=>d.counterpart).length,46)
  const nativePaths={'rosh-hashanah':'roshhashana/RoshHashanaPrint','yom-kippur':'yomkippur/YomKippurPrint',sukkot:'sukkot/SukkotPrint',hanukkah:'hanukkah/HanukkahArt','tu-bishvat':'tubishvat/TuBishvatPrint',purim:'purim/PurimPrint',passover:'pesach/PesachPrint','lag-baomer':'lagbaomer/LagBaomerPrint',shavuot:'shavuot/ShavuotPrint'}
  for(const d of HOLIDAY_DRAWINGS){assert.ok(d.description.trim());assert.ok(HOLIDAYS.some(h=>h.slug===d.holiday));if(d.native){assert.ok(readFileSync(`src/components/${nativePaths[d.holiday]}.jsx`,'utf8').includes(`id: '${d.id}'`))}else{assert.ok(existsSync('public'+d.src),d.src);assert.ok(existsSync('public'+d.thumb),d.thumb)}}
  assert.equal(drawingsFor('shabbat').length,0);assert.equal(drawingsFor('simchat-torah')[0].id,'torah')

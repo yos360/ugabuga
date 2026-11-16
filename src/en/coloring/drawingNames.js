@@ -40,6 +40,8 @@ export const EN_DRAWING_NAMES = {
     'Unicorn and kids flying in a hot air balloon',
     'Unicorn knitting scarves by the fire',
     'Unicorn train driver among the hills',
+    'A unicorn lifeguard at the beach',
+    'A unicorn painter in a flower meadow',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -138,6 +140,8 @@ export const EN_DRAWING_NAMES = {
     'Kids team singing on the bus to a match',
     'Kids building a cardboard soccer goal',
     'Playing soccer on a rooftop field in the city',
+    'Forest animals taking penalties against a bear',
+    'A girl heading the ball into the goal',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -175,6 +179,7 @@ export const EN_DRAWING_NAMES = {
     'Princess in a ballet class at the palace',
     'Princess baking cupcakes with her puppy',
     'Princess and little dragon at a garden tea party',
+    'A princess and a hedgehog planting flowers',
   ],
   lion: [
     'Lion on the savanna', 'Lion with a crown on a rock', 'Lion cub and butterfly', 'Lion family under a tree', 'Lion face with a big mane',
@@ -243,6 +248,8 @@ export const EN_DRAWING_NAMES = {
     'Kids peeking into a doughnut bakery window',
     'Dad and kids filling sufganiyot with jam',
     'Sufganiyah Ferris wheel at a Hanukkah fair',
+    'A class trip to a doughnut factory conveyor belt',
+    'Kids and a robot chef filling doughnuts',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
@@ -295,6 +302,8 @@ export const EN_DRAWING_NAMES = {
     'Friends playing dreidel in a treehouse on a rainy day',
     'Grandma knitting dreidel hats for her grandkids',
     'Hedgehog family spinning a dreidel on a mushroom',
+    'Kids playing dreidel bowling in the school hallway',
+    'A turtle family spinning a dreidel in the garden',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -353,6 +362,11 @@ export const EN_DRAWING_NAMES = {
     'Grandma and grandkids sculpting a menorah from clay',
     'Firefighters and kids lighting a menorah',
     'Farm family lighting a menorah on the farmhouse porch',
+    'Kids delivering candle boxes to neighbours by wagon',
+    'An elephant family lighting a menorah with their trunks',
+    'A family lighting a menorah by a giant aquarium',
+    'Grandpa and kids lighting a menorah in a garden',
+    'Kids lighting a menorah at an animal shelter',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -380,6 +394,8 @@ export const EN_DRAWING_NAMES = {
     'Kids drawing water from a well in Maccabee times',
     'Kids making a museum mosaic',
     'Ancient-times kids filling oil lamps',
+    'Kids at an archaeology dig finding an ancient oil lamp',
+    'A mother and kids long ago shaping clay oil lamps',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -399,6 +415,7 @@ export const EN_DRAWING_NAMES = {
   'rainbow-sun': [
     'Rainbow, clouds and sunshine', 'Smiling sun over the hills', 'Smiling clouds and a rainbow', 'Sun in sunglasses at the beach', 'Rainbow over a house and garden',
     'Cloud, rainbow and raindrops', 'Moon and stars at night', 'Sleepy cloud in a rainbow hammock', 'Sun in a straw hat watering sunflowers',
+    'Kids flying kites under a rainbow',
   ],
   bee: [
     'Bee with a honey jar', 'Bee by the flowers', 'Bees and a beehive', 'Honeycomb and bees', 'Bee and butterfly on a sunflower',
@@ -432,7 +449,7 @@ export const EN_DRAWING_NAMES = {
     'Family picnic under an almond tree',
     'Hedgehog family fruit feast under an almond tree',
   ],
-  'purim-masks': [null, null, null, null, null, null, null, null, null],
+  'purim-masks': [null, null, null, null, null, null, null, null, null, null],
   sweets: [
     'Jar of candy', 'Lollipop and sweets', 'Three ice pops', 'Cupcake with a cherry', 'Gingerbread cookie', 'Gumball machine', 'Candy house',
     'Chocolate bar with a face', 'Heart-shaped candies', 'Chocolate, cookie and strawberry picnic',
@@ -497,6 +514,9 @@ export const EN_DRAWING_NAMES = {
     'Astronaut baker at a bakery on the moon',
     'Sports day at an alien school',
     'Astronaut doing laundry on the space station',
+    'An alien band playing on a planet stage',
+    'An astronaut dentist checking an alien\'s teeth',
+    'An alien selling ice cream to astronauts on the moon',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
