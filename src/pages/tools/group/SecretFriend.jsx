@@ -63,7 +63,7 @@ function CreateForm({ show, onCreated, onPrint, defaultMode = 'gamad' }) {
         <span className="block text-3xl" aria-hidden="true">{m.emoji}</span>{m.label}</button>)}
     </div>
     <Field label="שם ההגרלה"><input className={input} value={title} maxLength={60} onChange={e => setTitle(e.target.value)} placeholder="למשל: גמד וענק — כיתה ג׳2" /></Field>
-    <Field label="המשתתפים" hint="(שם בכל שורה, 3–60)">
+    <Field label="המשתתפים" hint="(שם בכל שורה, ⁦3–60⁩)">
       <UseClassRoster className="mb-2" onUse={list => setNamesText(list.join('\n'))} />
       <textarea className={`${input} min-h-[160px]`} value={namesText} onChange={e => setNamesText(e.target.value)} placeholder={'נועה\nיואב\nאורי\nמיכל'} />
       <span className={`mt-1 block text-sm font-normal ${names.length && !check.ok ? 'text-rose-700' : 'text-slate-500'}`}>{names.length} משתתפים{names.length > 0 && !check.ok ? ` · ${check.error}` : ''}</span>

@@ -48,7 +48,7 @@ test('videosForPath matches exactly and ignores a trailing slash', () => {
   assert.deepEqual(videosForPath('/no-such-page'), [])
   assert.deepEqual(videosForPath('/rsvp').map(v => v.id), ['-4RMMZdPBVc'])
   assert.deepEqual(videosForPath('/tools/bring-list').map(v => v.id), ['-4RMMZdPBVc'])
-  assert.deepEqual(videosForPath('/secret-friend').map(v => v.id), ['-4RMMZdPBVc'])
+  assert.deepEqual(videosForPath('/secret-friend').map(v => v.id), ['YUSN9ic1LSs', '-4RMMZdPBVc'])
   assert.deepEqual(videosForPath('/tools/keyboard').map(v => v.id), ['rrmNDBL6TvY'])
 })
 

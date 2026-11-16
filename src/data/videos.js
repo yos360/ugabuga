@@ -13,6 +13,7 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'YUSN9ic1LSs', kind: 'tutorial', title: 'הגרלת גמד וענק אונליין — מתנות לחנוכה ומשלוח מנות', paths: ['/secret-friend', '/holidays/purim/mishloach-manot-draw'], category: 'classroom', date: '2026-11-16', desc: 'איך עושים הגרלת גמד וענק או מתנות לחנוכה בכיתה: כותבים שמות, מגרילים, וכל אחד מקבל קישור אישי שבו רק הוא רואה את מי הגריל. גם פתקים להדפסה. חינם ובלי הרשמה.' },
   { id: '8ZD-_xBpy10', kind: 'tutorial', title: 'חנוכייה משותפת לכיתה ולמשפחה — מדליקים נר יחד', paths: ['/hanukkiah'], category: 'holidays', date: '2026-11-16', desc: 'איך פותחים חנוכייה משותפת לכיתה, לגן או למשפחה, שולחים קישור בוואטסאפ, וכל ערב כל אחד מדליק נר מהטלפון שלו. חינם ובלי הרשמה.' },
   { id: 'ULlEZEsetOw', kind: 'tutorial', title: 'חימום לפני השיעור לכיתה — הפסקת תנועה על המקרן', paths: ['/classroom/warm-up'], category: 'classroom', date: '2026-11-15',
     desc: 'מדריך קצר לחימום לפני השיעור: בוחרים נושא (ספורט, חנוכה, פורים, חשבון בתנועה, Simon says או נרגעים) ואורך של שתיים, שלוש או חמש דקות, לוחצים "מתחילים!" והמסך מוביל את הכיתה תרגיל אחרי תרגיל עם טיימר וצליל מעבר.' },
@@ -102,7 +103,7 @@ export const VIDEO_PAGE_LABELS = {
   '/3d-print/name-keychain': 'מחזיק מפתחות עם שם',
   '/math/fractions': 'שברים לכיתות ד׳–ה׳',
   '/math/symmetry': 'סימטריה לכיתות ג׳–ה׳',
-  '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק',
+  '/bagrut': 'מבחני תרגול לבגרות', '/rsvp': 'אישורי הגעה', '/tools/bring-list': 'מי מביא מה', '/secret-friend': 'גמד וענק', '/holidays/purim/mishloach-manot-draw': 'הגרלת משלוח מנות',
   '/tools/escape-rooms': 'חדרי בריחה', '/travel': 'נוסעים עם בוגה', '/tools/class-elections': 'בחירות בכיתה',
   '/request': 'מבקשים דף', '/live': 'בוגה לייב', '/classroom/warm-up': 'חימום לפני השיעור', '/invitation': 'מחולל הזמנות', '/classroom/first-grade': 'הכנה לכיתה א׳',
   '/tools/dice': 'קובייה וירטואלית', '/learn/multiplication-game': 'משחק לוח הכפל',
