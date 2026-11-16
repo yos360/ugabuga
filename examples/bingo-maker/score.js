@@ -39,14 +39,16 @@
     printBtn: T(11, 0), // step 5: the bingo moment
     logo: T(12, 0),
   };
-  const hookOpts = [0, 1, 2].map((i) => ({ i, t: T(0, 3 + i * 0.45), midi: m(['F#5', 'A5', 'D6'][i]) }));
+  const hookOpts = [0, 1, 2].map((i) => ({ i, t: T(0, 1.4 + i * 0.4), midi: m(['F#5', 'A5', 'D6'][i]) }));
 
   // ---- real data of the page (src/pages/tools/BingoMaker.jsx) ----
   const PACKS = ['🤝 היכרות', '🎂 יום הולדת', '🏫 כיתה', '🐾 חיות', '⚽ ספורט', '🎉 חגים', '💼 עבודה', '✏️ מותאם אישית'];
   const HOOK_GRID = ['מישהו שאוהב פיצה', 'מישהו שנולד בקיץ', 'מישהו שיודע לשרוק', 'מישהו שאוהב ים', 'מישהו שיודע לצייר', 'מישהו שאוהב כלבים', 'מישהו שאוהב גשם', 'מישהו שיודע לרקוד', 'מישהו שאוהב לקרוא'];
   const BDAY = ['בלון אדום', 'נר יום הולדת', 'עוגת שוקולד', 'שיר יום הולדת', 'מתנה עטופה', 'שקית הפתעה', 'כובע מסיבה', 'מישהו שרוקד', 'מישהו שמצלם', 'ברכה מצחיקה', 'ילד יום ההולדת', 'מישהו שאוהב גלידה', 'צלחת עם חטיפים', 'כוס מיץ', 'מדבקה', 'קונפטי', 'משחק קבוצתי', 'כיסא מקושט', 'חיוך גדול', 'עוגה עם סוכריות', 'שולחן מתנות', 'מוזיקה ברקע', 'מישהו שמוחא כפיים', 'מישהו עם חולצה כחולה'];
+  const INTRO2 = ['מישהו שיודע לבשל', 'מישהו שאוהב ים', 'מישהו שיש לו אח', 'מישהו שאוהב גשם', 'מישהו שנולד בקיץ', 'מישהו שיודע לגלוש', 'מישהו שאוהב פיצה', 'מישהו שיודע לשחק שחמט', 'מישהו שביקר באילת'];
+  const INTRO3 = ['מישהו שאוהב כלבים', 'מישהו שנסע לחו"ל', 'מישהו שיודע לרקוד', 'מישהו שאוהב שוקולד מריר', 'מישהו שיודע לצייר', 'מישהו שאוהב לקרוא', 'מישהו שיודע לשרוק', 'מישהו שאוהב מתמטיקה', 'מישהו שאוהב לקום מוקדם'];
   const rot = (a, k) => a.slice(k).concat(a.slice(0, k));
-  const CARDS = [BDAY.slice(0, 16), [3, 9, 14, 1, 12, 7, 0, 15, 5, 10, 2, 13, 8, 4, 11, 6].map((i) => BDAY[i]), [10, 4, 13, 7, 1, 15, 8, 2, 11, 0, 14, 5, 9, 3, 12, 6].map((i) => BDAY[i + 8 > 23 ? i : i + 8])];
+  const CARDS_OLD = [BDAY.slice(0, 16), [3, 9, 14, 1, 12, 7, 0, 15, 5, 10, 2, 13, 8, 4, 11, 6].map((i) => BDAY[i]), [10, 4, 13, 7, 1, 15, 8, 2, 11, 0, 14, 5, 9, 3, 12, 6].map((i) => BDAY[i + 8 > 23 ? i : i + 8])];
 
   const steps = [
     { n: 1, sec: 'aud', title: 'בוחרים נושא', sub: 'שבע חבילות מוכנות, או רשימה משלכם', color: '#226bd7' },
@@ -58,10 +60,10 @@
 
   // 1. eight chips: seven packs + custom
   const AUD = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({ i, t: T(2, 0.3 + i * 0.45), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'B5', 'A5', 'F#5'][i]) }));
-  const AUD_PICK = 1;
+  const AUD_PICK = 0;
   // 2. three size buttons, then the four rows of the 4x4 card
   const TOPICS = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ i, t: i < 3 ? T(4, 0.2 + i * 0.5) : T(4, 3.0 + (i - 3) * 0.45), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'E6', 'F#6'][i]) }));
-  const TOPIC_PICK = 1;
+  const TOPIC_PICK = 0;
   // 3. the create button, three fanned cards, a pill
   const MODES = [T(6, 0.3), T(7, 0.0), T(7, 0.8), T(7, 1.6), T(7, 2.8)].map((t, i) => ({ i, t, midi: m(['D5', 'F#5', 'A5', 'B5', 'D6'][i]) }));
   const JARS = [], Q = { caption: '' }, GOAL = {}, SCAMS = [], NIGHTS = [];
@@ -85,7 +87,7 @@
   const SCORE = {
     FPS, FORMAT, W, H, SAFE, DURATION, clock, T, BEAT, BAR, S, m, chords, chordAt, ev, markers,
     hookOpts, steps, AUD, AUD_PICK, TOPICS, TOPIC_PICK, MODES, JARS, Q, GOAL, SCAMS, NIGHTS, sheetItems, extras, endLines, pills,
-    PACKS, HOOK_GRID, CARDS, ROWS,
+    PACKS, HOOK_GRID, CARDS: [HOOK_GRID, INTRO2, INTRO3], ROWS,
   };
   if (node) module.exports = SCORE; else globalThis.SCORE = SCORE;
 })();

@@ -155,22 +155,22 @@
   function shotHook(ctx, t) {
     heroBg(ctx);
     popAt(ctx, t, ev.title, W / 2, 290, (c) => pill(c, 0, 0, '🎯 בינגו היכרות', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
-    popAt(ctx, t, ev.q1, W / 2, 470, (c) => he(c, 'כמה משבצות פה', 0, 0, { size: 118, w: 900, maxW: SAFE.w }), { rot: -0.03 });
+    popAt(ctx, t, ev.q1, W / 2, 470, (c) => he(c, 'כמה מהמשבצות', 0, 0, { size: 118, w: 900, maxW: SAFE.w }), { rot: -0.03 });
     popAt(ctx, t, ev.q1 + BEAT, W / 2, 625, (c) => he(c, 'מתאימות לכם?', 0, 0, { size: 140, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
     S.hookOpts.forEach((o) => {
-      popAt(ctx, t, o.t, W / 2, 810 + o.i * 160, (c) => {
+      popAt(ctx, t, o.t, W / 2, 810 + o.i * 166, (c) => {
         for (let k = 0; k < 3; k++) {
           const x = 285 - k * 285, s = S.HOOK_GRID[o.i * 3 + k];
-          card(c, x - 132, -68, 264, 136, { seed: 20 + o.i * 3 + k, shadow: 7, r: 24, lw: 4 });
-          wrap(c, s, 36, 232, 800, 3).forEach((ln, li, arr) => he(c, ln, x, 12 - (arr.length - 1) * 22 + li * 44, { size: 36, w: 800, maxW: 236 }));
+          card(c, x - 136, -72, 272, 144, { seed: 20 + o.i * 3 + k, shadow: 7, r: 24, lw: 4 });
+          wrap(c, s, 39, 250, 800, 2).forEach((ln, li, arr) => he(c, ln, x, 14 - (arr.length - 1) * 23 + li * 46, { size: 39, w: 800, maxW: 252 }));
         }
       }, { rot: [-0.012, 0.012, -0.01][o.i] });
     });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(730, 1330); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'ספרו בראש 🙋', { size: 50, w: 900, bg: C.yellow, padX: 40 });
+      ctx.save(); ctx.translate(720, 1330); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'סמנו בראש: זה אני! 🙋', { size: 40, w: 900, bg: C.yellow, padX: 40 });
       ctx.restore();
     }
     mascot(ctx, 295, 1500 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 500, t, ev.q2);
@@ -187,9 +187,9 @@
         chip(c, 0, 0, 380, 118, S.PACKS[o.i], { on, color: [C.blue, C.red, C.green, C.purple, C.orange, C.red, C.blue, C.green][o.i], size: 38, seed: 30 + o.i });
       }, { dur: 0.25, over: 1.6, rot: [0.01, -0.01][o.i % 2] });
     });
-    UI.tap(ctx, 335, 780, t, ev.pick, { color: 'rgba(207,47,86,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[0], W / 2, 1450, (c) => pill(c, 0, 0, 'בכל חבילה ⁦24⁩ פריטים', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1580, (c) => pill(c, 0, 0, 'אפשר גם לכתוב רשימה בעצמכם ✏️', { size: 44, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    UI.tap(ctx, 745, 630, t, ev.pick, { color: 'rgba(207,47,86,0.8)', size: 120 });
+    popAt(ctx, t, S.pills[0], W / 2, 1400, (c) => pill(c, 0, 0, 'בכל חבילה ⁦24⁩ פריטים', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[1], W / 2, 1520, (c) => pill(c, 0, 0, 'אפשר גם לכתוב רשימה בעצמכם ✏️', { size: 44, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 2. PICK A SIZE =================
@@ -203,19 +203,19 @@
         chip(c, 0, 0, 255, 104, labels[o.i], { on, color: C.red, size: 27, seed: 40 + o.i });
       }, { dur: 0.22, over: 1.5, rot: [0.008, -0.008, 0.008][o.i] });
     });
-    UI.tap(ctx, 540, 580, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
+    UI.tap(ctx, 810, 580, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
     const rows = S.TOPICS.slice(3);
     // the 4x4 preview card pops row by row (cells appear with their row)
     const shown = rows.filter((o) => t >= o.t).length;
     if (shown > 0) {
-      const n = 4;
-      popAt(ctx, t, rows[0].t, W / 2, 1010, (c) => {
-        const items = S.CARDS[0].slice(0, shown * 4);
-        bingoCard(c, 0, 0, 760, items, n, 'יום הולדת ⁦#1⁩', { cellFont: 27, seed: 44 });
+      const n = 3;
+      popAt(ctx, t, rows[0].t, W / 2, 990, (c) => {
+        const items = S.CARDS[0].slice(0, Math.min(9, shown * 3));
+        bingoCard(c, 0, 0, 680, items, n, 'היכרות ⁦#1⁩', { cellFont: 34, seed: 44 });
       }, { dur: 0.2, over: 1.2, rot: -0.008 });
     }
-    popAt(ctx, t, S.pills[2], W / 2, 1480, (c) => pill(c, 0, 0, 'ב־⁦5×5⁩ המשבצת האמצעית חופשית ★', { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[3], W / 2, 1600, (c) => pill(c, 0, 0, 'בין ⁦9⁩ ל־⁦16⁩ משבצות עובד הכי טוב', { size: 42, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1430, (c) => pill(c, 0, 0, 'ב־⁦5×5⁩ המשבצת האמצעית חופשית ★', { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[3], W / 2, 1545, (c) => pill(c, 0, 0, 'לבינגו היכרות מומלץ ⁦9–16⁩ משבצות', { size: 42, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 3. CREATE 6 CARDS =================
@@ -227,18 +227,19 @@
     UI.tap(ctx, W / 2 + 40, 590, t, ev.mode, { color: 'rgba(207,47,86,0.8)', size: 120 });
     const placing = [{ k: 2, x: W / 2 + 120, y: 1120, rot: 0.09 }, { k: 1, x: W / 2 - 110, y: 1090, rot: -0.07 }, { k: 0, x: W / 2, y: 1120, rot: -0.008 }];
     placing.forEach((p, j) => {
-      popAt(ctx, t, M0[1 + j].t, p.x, p.y, (c) => bingoCard(c, 0, 0, 640, S.CARDS[p.k], 4, 'BUGA בינגו ⁦#' + (p.k + 1) + '⁩', { cellFont: 28, seed: 72 + p.k }), { dur: 0.3, over: 1.4, rot: p.rot });
+      popAt(ctx, t, M0[1 + j].t, p.x, p.y, (c) => bingoCard(c, 0, 0, 640, S.CARDS[p.k], 3, 'היכרות ⁦#' + (p.k + 1) + '⁩', { cellFont: 32, seed: 72 + p.k }), { dur: 0.3, over: 1.4, rot: p.rot });
     });
-    popAt(ctx, t, M0[4].t, W / 2, 1560, (c) => pill(c, 0, 0, 'כל לחיצה יוצרת ⁦6⁩ כרטיסים שונים', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, M0[4].t, W / 2, 1545, (c) => pill(c, 0, 0, 'כל לחיצה יוצרת ⁦6⁩ כרטיסים שונים', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 4. PRINT =================
   function sheet(c, i) {
+    c.scale(0.84, 0.84);
     card(c, -150, -215, 300, 430, { fill: '#fff', r: 14, seed: 90 + i, shadow: 9, lw: 4 });
     he(c, 'בינגו · כרטיס ⁦' + (i + 1) + '⁩', 0, -168, { size: 29, w: 900, maxW: 250 });
     he(c, 'סמנו שורה, טור או אלכסון', 0, -134, { size: 21, w: 500, color: C.muted, maxW: 250 });
     const n = 4, cw = 54, x0 = -cw * n / 2, y0 = -105;
-    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) G.rrect(c, x0 + k * cw, y0 + r * cw, cw, cw, 3, { fill: '#fff', lw: 2, seed: i * 20 + r * 4 + k, stroke: C.ink, amp: 0.3 });
+    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) { const xx = x0 + k * cw, yy = y0 + r * cw, q = U.hash(i * 50 + r * 4 + k); G.rrect(c, xx, yy, cw, cw, 3, { fill: '#fff', lw: 2, seed: i * 20 + r * 4 + k, stroke: C.ink, amp: 0.3 }); c.fillStyle = '#b8bccb'; c.fillRect(xx + 9 + q * 8, yy + 19, cw - 18 - q * 8, 5); c.fillRect(xx + 14, yy + 31, cw - 28 - q * 6, 5); }
     he(c, 'עוגה בוגה · ugabuga.co.il', 0, 190, { size: 20, w: 700, color: C.muted, maxW: 250 });
   }
   function shotPlay(ctx, t) {
@@ -248,31 +249,29 @@
     UI.tap(ctx, W / 2 + 40, 595, t, ev.go, { color: 'rgba(138,79,216,0.8)', size: 120 });
     S.ROWS.forEach((r) => {
       const x = 805 - r.i * 265, rot = [-0.03, 0.02, -0.02][r.i];
-      popAt(ctx, t, r.t, x, 920, (c) => sheet(c, r.i), { dur: 0.3, over: 1.5, rot });
+      popAt(ctx, t, r.t, x, 960, (c) => sheet(c, r.i), { dur: 0.3, over: 1.5, rot });
     });
-    popAt(ctx, t, ev.ans, W / 2, 1230, (c) => pill(c, 0, 0, 'הכרטיסים מוכנים! 🖨️', { size: 60, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
-    confetti(ctx, t, ev.ans, W / 2, 1210, { n: 60, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[4], W / 2, 1380, (c) => pill(c, 0, 0, 'מדפיסים כמה כרטיסים שונים', { size: 44, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1500, (c) => pill(c, 0, 0, 'סמנו שורה, טור או אלכסון', { size: 44, w: 900, bg: C.yellow, seed: 86, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, ev.ans, W / 2, 1300, (c) => pill(c, 0, 0, 'הכרטיסים מוכנים! 🖨️', { size: 60, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
+    confetti(ctx, t, ev.ans, W / 2, 1280, { n: 60, seed: 6, spread: 800 });
+    popAt(ctx, t, S.pills[4], W / 2, 1450, (c) => pill(c, 0, 0, 'מדפיסים כמה כרטיסים שונים', { size: 44, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 5. PLAY: mark a full row =================
   function shotPrint(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[4]);
     const I = S.sheetItems, MARK = [3, 4, 5];
-    const w = 800, cy = 980;
+    const w = 700, cy = 930;
     ctx.save();
     popAt(ctx, t, T(10, -0.25), W / 2, cy, (c) => {
-      const info = bingoCard(c, 0, 0, w, S.HOOK_GRID, 3, 'היכרות ⁦#1⁩', { cellFont: 40, seed: 100, tFont: 50 });
+      const info = bingoCard(c, 0, 0, w, S.HOOK_GRID, 3, 'היכרות ⁦#1⁩', { cellFont: 38, seed: 100, tFont: 50 });
       const { cw, gap, pad, titleH, h } = info;
       MARK.forEach((cell, j) => {
         const p = clamp((t - I[j].t) / 0.3);
         if (p <= 0) return;
         const r = Math.floor(cell / 3), k = cell % 3;
         const x = w / 2 - pad - cw / 2 - k * (cw + gap), y = -h / 2 + pad + titleH + cw / 2 + r * (cw + gap);
-        c.save(); c.translate(x, y); const s = 0.6 + 0.4 * ease.outBack(p, 2); c.scale(s, s); c.globalAlpha = clamp(p * 2);
-        c.strokeStyle = C.red; c.lineWidth = 11; c.beginPath(); c.ellipse(0, 0, cw * 0.44, cw * 0.4, -0.15, 0, Math.PI * 2 * clamp(p * 1.4)); c.stroke();
-        c.restore();
+        c.save(); c.globalAlpha = 0.35 * clamp(p * 2); c.fillStyle = C.green; c.fillRect(x - cw / 2 + 4, y - cw / 2 + 4, cw - 8, cw - 8); c.restore();
+        checkMark(c, x + cw / 2 - 30, y - cw / 2 + 30, 24, p);
       });
       const sp = clamp((t - I[3].t) / 0.35);
       if (sp > 0) {
@@ -281,10 +280,10 @@
       }
     }, { dur: 0.3, over: 1.3, rot: -0.006 });
     ctx.restore();
-    popAt(ctx, t, ev.printBtn, W / 2, 1450, (c) => pill(c, 0, 0, 'בינגו! 🎉', { size: 90, w: 900, bg: C.red, fg: '#fff', padX: 70, seed: 112 }), { rot: -0.04, dur: 0.35 });
-    confetti(ctx, t, ev.printBtn, W / 2, 1440, { n: 70, seed: 8, spread: 900 });
-    popAt(ctx, t, S.extras[0].t, W / 2, 1600, (c) => pill(c, 0, 0, 'הראשונים שמשלימים שורה, טור או אלכסון', { size: 38, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.extras[1].t, W / 2, 1715, (c) => pill(c, 0, 0, 'צועקים: בינגו! 📣', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, ev.printBtn, W / 2, 1400, (c) => pill(c, 0, 0, 'בינגו! 🎉', { size: 84, w: 900, bg: C.red, fg: '#fff', padX: 70, seed: 112 }), { rot: -0.04, dur: 0.35 });
+    confetti(ctx, t, ev.printBtn, W / 2, 1390, { n: 70, seed: 8, spread: 900 });
+    popAt(ctx, t, S.extras[0].t, W / 2, 1530, (c) => pill(c, 0, 0, 'הראשונים שמשלימים שורה, טור או אלכסון', { size: 38, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.extras[1].t, W / 2, 1635, (c) => pill(c, 0, 0, 'צועקים: בינגו! 📣', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= END =================
@@ -300,8 +299,8 @@
     he(ctx, 'יוצר כרטיסי בינגו להדפסה', W / 2, 1000, { size: 52, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 1105, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 1225, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'בקטגוריית משחקים 🎯', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ כמה משבצות התאימו לכם? כתבו בתגובות', { size: 44, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    he(ctx, 'חפשו באתר: בינגו 🔎', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ כמה משבצות מתאימות לכם? כתבו בתגובות', { size: 44, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
