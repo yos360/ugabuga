@@ -17,6 +17,7 @@ import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
 import HomeDiscover from '../components/home/HomeDiscover'
+import HomeStart from '../components/home/HomeStart'
 import { homeVariant, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, eight worlds, favourites, news.
@@ -260,6 +261,7 @@ export default function Home() {
       <h1>{SITE_SLOGAN}</h1>
       <BugaCarRun />
       <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
+      <HomeStart />
       <nav className="hp-quick" aria-label="הכי נצפים באתר">{quick.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
       {opening}
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
