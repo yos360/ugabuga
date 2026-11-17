@@ -335,6 +335,7 @@ const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.
 const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
 const FractionsGuide = lazy(() => import('./math/FractionsGuide'))
 const SymmetryGuide = lazy(() => import('./math/SymmetryGuide'))
+const MixedNumbersGuide = lazy(() => import('./math/MixedNumbersGuide'))
 const EnglishPhonics = lazy(() => import('./learn/englishPhonics/EnglishPhonics'))
 const MathTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTest })))
 const MathMidYearTest = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathMidYearTest })))
@@ -1248,6 +1249,7 @@ export default function App() {
               <Route path="/math" element={<MathHub />} />
               <Route path="/math/fractions" element={<FractionsGuide />} />
               <Route path="/math/symmetry" element={<SymmetryGuide />} />
+              <Route path="/math/mixed-numbers" element={<MixedNumbersGuide />} />
               <Route path="/math/tests/:gradeSlug" element={<MathTest />} />
               <Route path="/math/tests/:gradeSlug/mid-year" element={<MathMidYearTest />} />
               <Route path="/math/:gradeSlug" element={<MathGrade />} />

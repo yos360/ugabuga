@@ -114,6 +114,7 @@ export const FAQ = [
 ]
 
 export const MORE_LINKS = [
+  { label: 'מספר מעורב ושבר מדומה — הסבר, תרגול ודף עבודה', href: '/math/mixed-numbers' },
   { label: 'דפי עבודה בשברים עם ציורים', href: '/printables/fractions-worksheets' },
   { label: 'מחשבון שברים', href: '/tools/fraction-calculator' },
   { label: 'מבחן אמצע שנה — כיתה ד׳', href: '/math/tests/grade-4/mid-year' },
