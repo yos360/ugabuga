@@ -33,7 +33,7 @@
   const ev = {
     q1: T(0, 0), q2: T(0, 2), title: T(0, 3.2), free: T(1, 3),
     pick: T(3, 0.4), // step 1: tap "לכיתה"
-    topic: T(4, 2.8), // step 2: tap "עזרה לחברים"
+    topic: T(4, 2.8), // step 2: tap "התמדה ומאמץ"
     reasonCard: T(5, 0.2), // step 2: the certificate wording appears
     mode: T(6, 1.0), // step 3: tap the mixed-list title
     go: T(8, 0.8), ans: T(9, 0.5), // step 4: tap print, then "certificates ready"
@@ -45,8 +45,8 @@
   // ---- real data of the page (src/pages/printables/StarOfTheWeek.jsx) ----
   const REASONS = ['אווירה טובה', 'התמדה ומאמץ', 'עזרה לחברים', 'הקשבה והתנהגות', 'יצירתיות', 'התקדמות יפה', '✏️ נוסח משלי'];
   const HOOK_REASONS = ['אווירה טובה', 'התמדה ומאמץ', 'עזרה לחברים', 'הקשבה והתנהגות', 'יצירתיות', 'התקדמות יפה'];
-  const NAMES = ['נועה כהן', 'אורי לוי', 'יונתן אברהם'];
-  const REASON_TEXT = 'על לב טוב ועל העזרה לחברים לכיתה'; // REASONS[helping].text('לכיתה')
+  const NAMES = ['נועה כהן', 'אורי לוי', 'יונתן אברהם', 'מאיה פרץ'];
+  const REASON_TEXT = 'על התמדה, מאמץ והשקעה בכל משימה — ממשיכים ככה!'; // REASONS[effort].text()
   const DATE = '17.11.26', SIGNER = 'המחנך/ת';
 
   const steps = [
@@ -54,7 +54,7 @@
     { n: 2, sec: 'topics', title: 'בוחרים על מה', sub: 'שישה נוסחים מוכנים, או נוסח משלכם', color: '#cf2f56' },
     { n: 3, sec: 'modes', title: 'כוכב או כוכבת', sub: 'הכותרת מתאימה את עצמה', color: '#8a4fd8' },
     { n: 4, sec: 'play', title: 'מדפיסים', sub: 'שתיים בעמוד, וחוסכים נייר', color: '#e08a00' },
-    { n: 5, sec: 'print', title: 'מעניקים', sub: 'מספרים לכולם על משהו טוב שהוא עשה', color: '#23874d' },
+    { n: 5, sec: 'print', title: 'מעניקים', sub: 'מספרים לכולם על משהו טוב שעשו', color: '#23874d' },
   ].map((f) => ({ ...f, t: S[f.sec][0] }));
 
   // 1. chips (לגן / לכיתה), the text box, three names, the counter, the roster chip
@@ -62,7 +62,7 @@
   const AUD_PICK = 1;
   // 2. seven reason chips, then the wording card
   const TOPICS = [0, 1, 2, 3, 4, 5, 6].map((i) => ({ i, t: T(4, 0.2 + i * 0.3), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'E6', 'F#6'][i]) }));
-  const TOPIC_PICK = 2;
+  const TOPIC_PICK = 1;
   // 3. three title chips, the certificate, name + wording, date + signer, a pill
   const MODES = [T(6, 0.3), T(7, 0.0), T(7, 0.8), T(7, 1.6), T(7, 2.8)].map((t, i) => ({ i, t, midi: m(['D5', 'F#5', 'A5', 'B5', 'D6'][i]) }));
   const JARS = [], Q = { caption: '' }, GOAL = {}, SCAMS = [], NIGHTS = [];

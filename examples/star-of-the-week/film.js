@@ -171,15 +171,16 @@
   function shotHook(ctx, t) {
     heroBg(ctx);
     popAt(ctx, t, ev.title, W / 2, 290, (c) => pill(c, 0, 0, '⭐ תעודה להדפסה', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
-    popAt(ctx, t, ev.q1, W / 2, 470, (c) => he(c, 'על מה מגיע לילד שלכם', 0, 0, { size: 100, w: 900, maxW: SAFE.w }), { rot: -0.03 });
-    popAt(ctx, t, ev.q1 + BEAT, W / 2, 625, (c) => he(c, 'כוכב השבוע?', 0, 0, { size: 150, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, ev.q1, W / 2, 470, (c) => he(c, 'הילד שלכם כוכב השבוע!', 0, 0, { size: 100, w: 900, maxW: SAFE.w }), { rot: -0.03 });
+    popAt(ctx, t, ev.q1 + BEAT, W / 2, 625, (c) => he(c, 'על מה? ⭐', 0, 0, { size: 160, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
     const cols = [C.red, C.blue, C.green, C.purple, C.orange, C.red];
     S.hookOpts.forEach((o) => {
       popAt(ctx, t, o.t, W / 2, 830 + o.i * 190, (c) => {
         for (let k = 0; k < 2; k++) {
           const x = 235 - k * 470, i = o.i * 2 + k, s = S.HOOK_REASONS[i];
           card(c, x - 215, -78, 430, 156, { seed: 20 + i, shadow: 8, r: 28, lw: 4.5 });
-          star5(c, x + 150, -2, 40, ['#ffc531', '#ff8fb1', '#8fd3ff', '#b9a2ff', '#9be7b4', '#ffb38a'][i], '#14162d33');
+          star5(c, x + 150, -2, 50, ['#ffc531', '#ff8fb1', '#8fd3ff', '#b9a2ff', '#9be7b4', '#ffb38a'][i], '#14162d33');
+          he(c, String(i + 1), x + 150, 14, { size: 40, w: 900, color: C.ink, dir: 'ltr' });
           he(c, s, x - 30, 20, { size: 50, w: 900, color: C.ink, maxW: 270 });
         }
       }, { rot: [-0.012, 0.012, -0.01][o.i] });
@@ -187,11 +188,11 @@
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(720, 1420); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'בחרו אחד בראש! ⭐', { size: 42, w: 900, bg: C.yellow, padX: 40 });
+      ctx.save(); ctx.translate(752, 1560); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'כתבו מספר בתגובות 👇', { size: 48, w: 900, bg: C.yellow, padX: 36 });
       ctx.restore();
     }
-    mascot(ctx, 295, 1580 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 440, t, ev.q2);
+    mascot(ctx, 255, 1600 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 380, t, ev.q2);
   }
 
   // ================= 1. WRITE NAMES =================
@@ -202,17 +203,17 @@
     popAt(ctx, t, A[1].t, 335, 575, (c) => { const pr = on ? 1 + 0.05 * pulse(t, ev.pick, 10) : 1; c.scale(pr, pr); chip(c, 0, 0, 380, 112, '🎒 לכיתה', { on, color: C.blue, size: 44, seed: 31 }); }, { dur: 0.25, over: 1.6, rot: -0.01 });
     UI.tap(ctx, 335, 585, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 });
     popAt(ctx, t, A[2].t, W / 2, 880, (c) => {
-      card(c, -400, -190, 800, 380, { fill: '#fff', r: 26, seed: 33, shadow: 9, lw: 4.5 });
+      card(c, -400, -190, 800, 450, { fill: '#fff', r: 26, seed: 33, shadow: 9, lw: 4.5 });
       he(c, 'שם הילד/ה, או כל השמות', 370, -140, { size: 36, w: 800, align: 'right', color: C.ink });
     }, { dur: 0.25, over: 1.4, rot: 0.006 });
     S.NAMES.forEach((nm, i) => {
-      const p = clamp((t - A[3 + i].t) / 0.25);
+      const p = clamp((t - (i < 3 ? A[3 + i].t : A[5].t + 0.35)) / 0.25);
       if (p > 0) he(ctx, nm, W / 2 + 360, 835 + i * 82 - (1 - ease.outCubic(p)) * 14, { size: 56, w: 700, align: 'right', alpha: p, color: C.ink, dir: 'rtl' });
     });
-    popAt(ctx, t, A[6].t, W / 2 + 280, 1130, (c) => pill(c, 0, 0, '⁦3⁩ שמות', { size: 38, w: 900, bg: C.lilac, seed: 34, padX: 28 }), { dur: 0.25, rot: 0.02 });
-    popAt(ctx, t, A[7].t, W / 2 - 150, 1130, (c) => pill(c, 0, 0, '👩‍🏫 רשימת הכיתה שלי', { size: 38, w: 900, bg: '#fff', seed: 35, padX: 30, maxW: 420 }), { dur: 0.25, rot: -0.015 });
-    popAt(ctx, t, S.pills[0], W / 2, 1380, (c) => pill(c, 0, 0, 'תעודה נפרדת לכל ילד', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1500, (c) => pill(c, 0, 0, 'בלי שם? מקום לכתוב ביד ✏️', { size: 44, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, A[6].t, W / 2 + 280, 1210, (c) => pill(c, 0, 0, '⁦4⁩ שמות', { size: 38, w: 900, bg: C.lilac, seed: 34, padX: 28 }), { dur: 0.25, rot: 0.02 });
+    popAt(ctx, t, A[7].t, W / 2 - 150, 1210, (c) => pill(c, 0, 0, '👩‍🏫 רשימת הכיתה שלי', { size: 38, w: 900, bg: '#fff', seed: 35, padX: 30, maxW: 420 }), { dur: 0.25, rot: -0.015 });
+    popAt(ctx, t, S.pills[0], W / 2, 1400, (c) => pill(c, 0, 0, 'תעודה נפרדת לכל ילד', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[1], W / 2, 1520, (c) => pill(c, 0, 0, 'בלי שם? מקום לכתוב ביד ✏️', { size: 44, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 2. PICK THE REASON =================
@@ -227,13 +228,13 @@
         chip(c, 0, 0, 380, 104, S.REASONS[o.i], { on, color: cols[o.i], size: 38, seed: 40 + o.i });
       }, { dur: 0.22, over: 1.5, rot: [0.01, -0.01][o.i % 2] });
     });
-    UI.tap(ctx, 745, 700, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
+    UI.tap(ctx, 335, 570, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
     popAt(ctx, t, ev.reasonCard, W / 2, 1180, (c) => {
       card(c, -420, -95, 840, 190, { fill: '#fffdf7', r: 28, seed: 50, shadow: 9, lw: 4.5 });
       he(c, 'ככה זה ייכתב על התעודה', 390, -45, { size: 32, w: 700, color: C.muted, align: 'right' });
       wrap(ctx, S.REASON_TEXT, 50, 780, 800, 2).forEach((ln, i, arr) => he(c, ln, 0, 24 + i * 58 - (arr.length - 1) * 20, { size: 50, w: 800, maxW: 790 }));
     }, { dur: 0.3, over: 1.4, rot: -0.008 });
-    popAt(ctx, t, S.pills[2], W / 2, 1430, (c) => pill(c, 0, 0, 'אווירה, התמדה, עזרה, יצירתיות ועוד', { size: 40, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1430, (c) => pill(c, 0, 0, 'ואצלכם? כתבו מספר בתגובות 👇', { size: 44, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
     popAt(ctx, t, S.pills[3], W / 2, 1545, (c) => pill(c, 0, 0, '✏️ אפשר גם לכתוב נוסח משלכם', { size: 42, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
@@ -241,23 +242,23 @@
   function shotModes(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[2]);
     const M0 = S.MODES;
-    const labels = ['👦 כוכב', '👧 כוכבת', 'כוכב/ת (רשימה מעורבת)'], xs = [850, 600, 250], ws = [200, 220, 440];
+    const labels = ['👦 כוכב', '👧 כוכבת', 'כוכב/ת (רשימה מעורבת)'], xs = [872, 664, 340], ws = [190, 210, 420];
     labels.forEach((lb, i) => {
       const on = i === 2 && t >= ev.mode;
       popAt(ctx, t, M0[0].t + i * 0.12, xs[i], 580, (c) => { const pr = on ? 1 + 0.05 * pulse(t, ev.mode, 10) : 1; c.scale(pr, pr); chip(c, 0, 0, ws[i], 100, lb, { on, color: C.purple, size: 33, seed: 60 + i }); }, { dur: 0.22, over: 1.5, rot: [0.01, -0.01, 0.008][i] });
     });
-    UI.tap(ctx, 250, 592, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
+    UI.tap(ctx, 340, 592, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
     const p = (k, d = 0.25) => clamp((t - M0[k].t) / d);
     popAt(ctx, t, M0[1].t, W / 2, 1000, (c) => cert(c, 900, 636, { title: 'כוכב/ת השבוע', name: S.NAMES[0], reason: S.REASON_TEXT, date: S.DATE, signer: S.SIGNER, pn: p(2), pr: p(2), ps: p(3), seed: 70 }), { dur: 0.32, over: 1.3, rot: -0.012 });
     popAt(ctx, t, M0[4].t, W / 2, 1450, (c) => pill(c, 0, 0, 'תאריך וחתימה: כתבו מה שרוצים ✍️', { size: 42, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, ev.mode + 1.3, W / 2, 1570, (c) => pill(c, 0, 0, 'כוכב, כוכבת או כוכב/ת', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, ev.mode + 1.3, W / 2, 1570, (c) => pill(c, 0, 0, 'השמות לא נשלחים לשום מקום 🔒', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 4. PRINT =================
   function page(c, i) {
     c.scale(0.9, 0.9);
     card(c, -150, -212, 300, 424, { fill: '#fff', r: 12, seed: 90 + i, shadow: 9, lw: 4 });
-    const certs = i === 0 ? [S.NAMES[0], S.NAMES[1]] : [S.NAMES[2]];
+    const certs = i === 0 ? [S.NAMES[0], S.NAMES[1]] : [S.NAMES[2], S.NAMES[3]];
     certs.forEach((nm, k) => {
       c.save(); c.translate(0, -106 + k * 212); c.scale(0.31, 0.31);
       cert(c, 900, 636, { title: 'כוכב/ת השבוע', name: nm, reason: S.REASON_TEXT, date: S.DATE, signer: S.SIGNER, pn: 1, pr: 1, ps: 1, seed: 95 + k });
@@ -268,16 +269,16 @@
   function shotPlay(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[3]);
     const press = t >= ev.go ? 1 - 0.08 * pulse(t, ev.go, 10) : 1;
-    popAt(ctx, t, T(8, 0.05), W / 2, 580, (c) => { c.scale(press, press); pill(c, 0, 0, '🖨️ הדפסת ⁦3⁩ תעודות', { size: 54, w: 900, bg: C.purple, fg: '#fff', padX: 80, seed: 83 }); }, { dur: 0.3, over: 1.6, rot: -0.01 });
+    popAt(ctx, t, T(8, 0.05), W / 2, 580, (c) => { c.scale(press, press); pill(c, 0, 0, '🖨️ הדפסת ⁦4⁩ תעודות', { size: 54, w: 900, bg: C.purple, fg: '#fff', padX: 80, seed: 83 }); }, { dur: 0.3, over: 1.6, rot: -0.01 });
     UI.tap(ctx, W / 2 + 40, 595, t, ev.go, { color: 'rgba(138,79,216,0.8)', size: 120 });
     S.ROWS.slice(0, 2).forEach((r) => {
       popAt(ctx, t, r.t, 735 - r.i * 400, 960, (c) => page(c, r.i), { dur: 0.3, over: 1.5, rot: [-0.03, 0.025][r.i] });
     });
     popAt(ctx, t, S.ROWS[2].t, W / 2, 1270, (c) => { chip(c, 245, 0, 460, 90, '2 בעמוד (חוסך נייר)', { on: true, color: C.orange, size: 32, seed: 86 }); chip(c, -245, 0, 400, 90, '1 בעמוד (גדול)', { on: false, size: 32, seed: 87 }); }, { dur: 0.25, over: 1.5, rot: 0.008 });
-    popAt(ctx, t, ev.ans, W / 2, 1380, (c) => pill(c, 0, 0, 'התעודות מוכנות! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
+    popAt(ctx, t, ev.ans, W / 2, 1400, (c) => pill(c, 0, 0, 'התעודות מוכנות! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
     confetti(ctx, t, ev.ans, W / 2, 1360, { n: 60, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[4], W / 2, 1500, (c) => pill(c, 0, 0, 'אפשר גם לשמור PDF ולשלוח להורים', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1610, (c) => pill(c, 0, 0, 'עד ⁦40⁩ תעודות בהדפסה אחת', { size: 40, w: 900, bg: C.yellow, seed: 88, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1525, (c) => pill(c, 0, 0, 'אפשר גם לשמור PDF ולשלוח להורים', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1635, (c) => pill(c, 0, 0, 'עד ⁦40⁩ תעודות בהדפסה אחת', { size: 40, w: 900, bg: C.yellow, seed: 88, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 5. AWARD =================
@@ -294,21 +295,35 @@
     popAt(ctx, t, S.extras[1].t, W / 2, 1590, (c) => pill(c, 0, 0, 'טיפ: שכל ילד יזכה לפחות פעם אחת', { size: 40, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
   }
 
+  // the six numbered reasons again, small, under the question
+  function endOpts(ctx, t, t0) {
+    S.HOOK_REASONS.forEach((s, i) => {
+      const col = i % 2, row = Math.floor(i / 2), x = col === 0 ? 755 : 325, y = 1300 + row * 72;
+      popAt(ctx, t, t0 + i * 0.06, x, y, (c) => {
+        G.rrect(c, -205, -30, 410, 60, 30, { fill: '#fff', lw: 3, seed: 150 + i, stroke: C.ink });
+        he(c, String(i + 1), 170, 13, { size: 34, w: 900, color: C.red, dir: 'ltr' });
+        he(c, s, -15, 12, { size: 32, w: 800, color: C.ink, maxW: 300 });
+      }, { dur: 0.22, over: 1.5 });
+    });
+  }
+
   // ================= END =================
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    ctx.save(); ctx.translate(W / 2, 600); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
+    ctx.save(); ctx.translate(W / 2, 440); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    mascot(ctx, W / 2, 570, 450, t, ev.logo);
+    mascot(ctx, W / 2, 440, 340, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
-    he(ctx, 'עוגה בוגה', W / 2, 905 + (1 - wp) * 24, { size: 150, w: 900, alpha: wp });
+    he(ctx, 'עוגה בוגה', W / 2, 720 + (1 - wp) * 24, { size: 130, w: 900, alpha: wp });
     const L = S.endLines;
-    he(ctx, 'תעודת כוכב/ת השבוע להדפסה', W / 2, 1000, { size: 52, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[1].t, W / 2, 1105, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
-    popAt(ctx, t, L[2].t, W / 2, 1225, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'בדפים להדפסה: כוכב השבוע ⭐', W / 2, 1350, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1465, (c) => pill(c, 0, 0, '✍️ על מה מגיע לילד שלכם כוכב? כתבו בתגובות', { size: 44, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    he(ctx, 'תעודת כוכב/ת השבוע להדפסה', W / 2, 800, { size: 52, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[1].t, W / 2, 885, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
+    popAt(ctx, t, L[2].t, W / 2, 990, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
+    he(ctx, 'בדפים להדפסה: כוכב השבוע ⭐', W / 2, 1090, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 1200, (c) => pill(c, 0, 0, '✍️ הילד שלכם כוכב השבוע! על מה?', { size: 48, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    endOpts(ctx, t, L[4].t + 0.25);
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1530, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
