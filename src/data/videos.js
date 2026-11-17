@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '4OaEqBMVBTY', kind: 'tutorial', title: 'מסיבת ספא ליום הולדת בבית — איך עושים', paths: ['/birthday/spa-party'], category: 'party', date: '2026-11-17',
+    desc: 'מדריך קצר למסיבת ספא ליום הולדת בבית: חמש עמדות פינוק עם מה צריך ואיך עושים, טיפ לפי גיל, לוח זמנים לשעתיים, רשימת קניות שמתעדכנת לפי מספר הילדים, והזמנות, שלטים ותעודות להדפסה.' },
   { id: '_lGz-iB4beM', kind: 'tutorial', title: 'לימוד קריאה באנגלית לילדים מאפס — פוניקס עם הסברים בעברית', paths: ['/learn/english-phonics'], category: 'learning', date: '2026-11-17',
     desc: 'מדריך קצר למסלול הפוניקס לכיתות ב׳–ה׳: שישה שלבים מהצליל הראשון ועד משפט שלם, הסברים בעברית ו־🔊 לכל מילה, תרגול של 10 שאלות עם הסבר אחרי כל תשובה, ודף עבודה להדפסה לכל שלב עם דף תשובות.' },
   { id: 'YxkBJ5IdtQs', kind: 'tutorial', title: 'בית מארח לחנוכה: יצירות, לו״ז ורשימת קניות', paths: ['/holidays/hanukkah/host-home'], category: 'holidays', date: '2026-11-16', desc: 'איך מארחים את הכיתה בחנוכה: לו״ז לשעה וחצי, שש יצירות מחומרים שיש בבית, רשימת קניות שמתעדכנת לפי מספר הילדים ודף אחד להדפסה. חינם ובלי הרשמה.' },
@@ -120,6 +122,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
   '/birthday/party-bags': 'שקיות הפתעה',
+  '/birthday/spa-party': 'מסיבת ספא',
   '/tutoring': 'שיעורי עזר בבית',
   '/tools/secret-codes': 'כתב סתרים וצפנים',
   '/holidays/hanukkah/math': 'חשבון של חנוכה',
