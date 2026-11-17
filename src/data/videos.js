@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '_lGz-iB4beM', kind: 'tutorial', title: 'לימוד קריאה באנגלית לילדים מאפס — פוניקס עם הסברים בעברית', paths: ['/learn/english-phonics'], category: 'learning', date: '2026-11-17',
+    desc: 'מדריך קצר למסלול הפוניקס לכיתות ב׳–ה׳: שישה שלבים מהצליל הראשון ועד משפט שלם, הסברים בעברית ו־🔊 לכל מילה, תרגול של 10 שאלות עם הסבר אחרי כל תשובה, ודף עבודה להדפסה לכל שלב עם דף תשובות.' },
   { id: 'YxkBJ5IdtQs', kind: 'tutorial', title: 'בית מארח לחנוכה: יצירות, לו״ז ורשימת קניות', paths: ['/holidays/hanukkah/host-home'], category: 'holidays', date: '2026-11-16', desc: 'איך מארחים את הכיתה בחנוכה: לו״ז לשעה וחצי, שש יצירות מחומרים שיש בבית, רשימת קניות שמתעדכנת לפי מספר הילדים ודף אחד להדפסה. חינם ובלי הרשמה.' },
   { id: 'YUSN9ic1LSs', kind: 'tutorial', title: 'הגרלת גמד וענק אונליין — מתנות לחנוכה ומשלוח מנות', paths: ['/secret-friend', '/holidays/purim/mishloach-manot-draw'], category: 'classroom', date: '2026-11-16', desc: 'איך עושים הגרלת גמד וענק או מתנות לחנוכה בכיתה: כותבים שמות, מגרילים, וכל אחד מקבל קישור אישי שבו רק הוא רואה את מי הגריל. גם פתקים להדפסה. חינם ובלי הרשמה.' },
   { id: '8ZD-_xBpy10', kind: 'tutorial', title: 'חנוכייה משותפת לכיתה ולמשפחה — מדליקים נר יחד', paths: ['/hanukkiah'], category: 'holidays', date: '2026-11-16', desc: 'איך פותחים חנוכייה משותפת לכיתה, לגן או למשפחה, שולחים קישור בוואטסאפ, וכל ערב כל אחד מדליק נר מהטלפון שלו. חינם ובלי הרשמה.' },
@@ -96,6 +98,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',
   '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
   '/holidays/hanukkah/escape-room': 'חדר בריחה לחנוכה', '/holidays/hanukkah/host-home': 'בית מארח לחנוכה',
