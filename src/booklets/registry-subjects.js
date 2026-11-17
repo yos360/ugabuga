@@ -72,6 +72,12 @@ import hanukkahGrade3 from './meta/hanukkah-grade-3.js'
 import hanukkahGrade4 from './meta/hanukkah-grade-4.js'
 import hanukkahGrade6 from './meta/hanukkah-grade-6.js'
 import hanukkahMiddleSchool from './meta/hanukkah-middle-school.js'
+import purimGan from './meta/purim-gan.js'
+import purimGrade1 from './meta/purim-grade-1.js'
+import purimGrade2 from './meta/purim-grade-2.js'
+import purimGrade3 from './meta/purim-grade-3.js'
+import purimGrade4 from './meta/purim-grade-4.js'
+import purimGrade56 from './meta/purim-grade-5-6.js'
 
 const subject = content => () => Promise.all([import('./subjectKit.jsx'), content()]).then(([kit, c]) => ({ default: kit.bookletFor(c.default) }))
 
@@ -82,6 +88,12 @@ export const SUBJECT_BOOKLETS = [
   { ...hanukkahGrade4, load: subject(() => import('./content/hanukkah-grade-4.js')) },
   { ...hanukkahGrade6, load: subject(() => import('./content/hanukkah-grade-6.js')) },
   { ...hanukkahMiddleSchool, load: subject(() => import('./content/hanukkah-middle-school.js')) },
+  { ...purimGan, load: subject(() => import('./content/purim-gan.js')) },
+  { ...purimGrade1, load: subject(() => import('./content/purim-grade-1.js')) },
+  { ...purimGrade2, load: subject(() => import('./content/purim-grade-2.js')) },
+  { ...purimGrade3, load: subject(() => import('./content/purim-grade-3.js')) },
+  { ...purimGrade4, load: subject(() => import('./content/purim-grade-4.js')) },
+  { ...purimGrade56, load: subject(() => import('./content/purim-grade-5-6.js')) },
   { ...mathGrade1, load: subject(() => import('./content/math-grade-1.js')) },
   { ...mathGrade4, load: subject(() => import('./content/math-grade-4.js')) },
   { ...mathGrade5, load: subject(() => import('./content/math-grade-5.js')) },
