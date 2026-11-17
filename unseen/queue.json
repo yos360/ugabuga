@@ -701,43 +701,55 @@
   "slug": "en-g7-dog-shelter",
   "xi": 0,
   "level": "g7",
-  "title": "My First Day at the Dog Shelter"
+  "title": "My First Day at the Dog Shelter",
+  "youtube": "https://youtu.be/FGqW_NfZaVc",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g8-friends-before-the-competition",
   "xi": 0,
   "level": "g8",
-  "title": "Two Ideas, One Robot"
+  "title": "Two Ideas, One Robot",
+  "youtube": "https://youtu.be/Bs_6DR0lRSY",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g9-power-outage",
   "xi": 0,
   "level": "g9",
-  "title": "The Night the Lights Went Out"
+  "title": "The Night the Lights Went Out",
+  "youtube": "https://youtu.be/SK-DfQuLFfI",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-mod-a-lifeguard-sea-safety",
   "xi": 0,
   "level": "mod-a",
-  "title": "The Longest Minute"
+  "title": "The Longest Minute",
+  "youtube": "https://youtu.be/FTibJ3Z9kQE",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-mod-c-teaching-grandpa",
   "xi": 0,
   "level": "mod-c",
-  "title": "Teaching Grandpa"
+  "title": "Teaching Grandpa",
+  "youtube": "https://youtu.be/IzV1W5XoDbY",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-mod-e-shrinking-dead-sea",
   "xi": 0,
   "level": "mod-e",
-  "title": "The Shrinking Sea"
+  "title": "The Shrinking Sea",
+  "skip": "video 3:11, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-science-of-laughter",
   "xi": 0,
   "level": "mod-g",
-  "title": "Why Do We Laugh?"
+  "title": "Why Do We Laugh?",
+  "skip": "video 3:32, over the 3-minute limit"
  },
  {
   "slug": "en-g5-my-turtle-shelly",
@@ -751,7 +763,9 @@
   "slug": "en-g6-sandwich-thief",
   "xi": 0,
   "level": "g6",
-  "title": "The Sandwich Thief"
+  "title": "The Sandwich Thief",
+  "youtube": "https://youtu.be/3rGN6RlfriI",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g7-galilee-trip-notice",
@@ -765,19 +779,24 @@
   "slug": "en-g8-glass-from-sand",
   "xi": 0,
   "level": "g8",
-  "title": "From Sand to Glass"
+  "title": "From Sand to Glass",
+  "youtube": "https://youtu.be/_-c5-CFTs4s",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g9-school-podcast",
   "xi": 0,
   "level": "g9",
-  "title": "The Voice of the Hallway"
+  "title": "The Voice of the Hallway",
+  "youtube": "https://youtu.be/s_QsNmVNpzs",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-mod-a-lifeguard-sea-safety",
   "xi": 1,
   "level": "mod-a",
-  "title": "The Longest Minute"
+  "title": "The Longest Minute",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-mod-c-year-of-service",
@@ -789,13 +808,15 @@
   "slug": "en-mod-e-urban-heat-trees",
   "xi": 0,
   "level": "mod-e",
-  "title": "Greening the Concrete"
+  "title": "Greening the Concrete",
+  "skip": "video 3:08, over the 3-minute limit"
  },
  {
   "slug": "en-mod-g-voting-at-sixteen",
   "xi": 0,
   "level": "mod-g",
-  "title": "Old Enough to Vote?"
+  "title": "Old Enough to Vote?",
+  "skip": "video 3:29, over the 3-minute limit"
  },
  {
   "slug": "en-g5-new-school-diary",
@@ -809,25 +830,33 @@
   "slug": "en-g6-school-play",
   "xi": 0,
   "level": "g6",
-  "title": "The Night of the Play"
+  "title": "The Night of the Play",
+  "youtube": "https://youtu.be/MpUD_ziEhBg",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g7-grandpa-video-calls",
   "xi": 0,
   "level": "g7",
-  "title": "Grandpa Online"
+  "title": "Grandpa Online",
+  "youtube": "https://youtu.be/jGMgHOKn9KA",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g8-grandma-smartphone",
   "xi": 0,
   "level": "g8",
-  "title": "Never Too Old to Learn"
+  "title": "Never Too Old to Learn",
+  "youtube": "https://youtu.be/BgNzEdpGi6g",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-g9-teen-repair-cafe",
   "xi": 0,
   "level": "g9",
-  "title": "The Fix-It Kids"
+  "title": "The Fix-It Kids",
+  "youtube": "https://youtu.be/ZXMbZJTJwQU",
+  "uploaded": "2026-11-17"
  },
  {
   "slug": "en-mod-a-robot-vacuum",
