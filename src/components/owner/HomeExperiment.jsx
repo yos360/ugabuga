@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
-import { HOME_EXPERIMENT, HOME_VARIANTS } from '../../utils/experiments'
+import { HOME_EXPERIMENT, HOME_VARIANTS, KIND_EXPERIMENT, HOME_KINDS } from '../../utils/experiments'
 
 // Owner report: the home-page experiment. Counts are per browser tab that opened the home page.
 const LABEL = { tunnel: '⏳ גרסה א׳ — מנהרת הזמן למעלה (העיצוב הקלאסי)', request: '📝 גרסה ב׳ — "מה אתם מבקשים?" (עיצוב מחברת)', ai: '🤖 גרסה ג׳ — "שאלו את בוגה" בינה מלאכותית (עיצוב לילה)' }
+export const KIND_LABEL = { print: '🖨️ סוג א׳ — להדפסה (ברירת המחדל)', class: '🏫 סוג ב׳ — חומר לכיתה', gan: '🧸 סוג ג׳ — לגן', play: '🎮 סוג ד׳ — לשחק' }
+export { KIND_EXPERIMENT, HOME_KINDS }
 const pct = (n, d) => (d ? `${Math.round((n / d) * 100)}%` : '—')
 
-export default function HomeExperiment({ from, to, tick = 0 }) {
+export default function HomeExperiment({ from, to, tick = 0, experiment = HOME_EXPERIMENT, variants = HOME_VARIANTS, labels = LABEL, heading = 'שלוש גרסאות לעמוד הבית — איזו עובדת?', intro }) {
   const [rows, setRows] = useState(null), [error, setError] = useState('')
-  useEffect(() => { let live = true; ownerSupabase.rpc('experiment_owner', { p_experiment: HOME_EXPERIMENT, p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error: rpcError }) => { if (!live) return; if (rpcError) { setError('הנתונים יופיעו לאחר הפעלת עדכון מסד הנתונים.'); return } setRows(Array.isArray(data) ? data : []); setError('') }); return () => { live = false } }, [from, to, tick])
+  useEffect(() => { let live = true; ownerSupabase.rpc('experiment_owner', { p_experiment: experiment, p_from: from.toISOString(), p_to: to.toISOString() }).then(({ data, error: rpcError }) => { if (!live) return; if (rpcError) { setError('הנתונים יופיעו לאחר הפעלת עדכון מסד הנתונים.'); return } setRows(Array.isArray(data) ? data : []); setError('') }); return () => { live = false } }, [from, to, tick])
   const by = Object.fromEntries((rows || []).map(r => [r.variant, r]))
   return <section className="mb-6 rounded-3xl border-2 border-amber-200 bg-white p-5 shadow-sm">
     <p className="text-sm font-bold text-amber-700">ניסוי בעמוד הבית</p>
-    <h2 className="text-2xl font-black">שלוש גרסאות לעמוד הבית — איזו עובדת?</h2>
-    <p className="mt-2 text-sm text-slate-600">כל מבקר רואה כל יום גרסה אחרת (א׳, ב׳, ג׳ וחוזר חלילה), וביום נתון כל גרסה מוצגת לשליש מהמבקרים. נספר פעם אחת לכל ביקור בעמוד הבית: לחיצה על החלק העליון, הדפסה או הורדת PDF באותו ביקור, ובקשת דף. הדפדפן שלך לא נספר — לתצוגה של גרסה: <code dir="ltr">/?exp=tunnel</code>, <code dir="ltr">/?exp=request</code> או <code dir="ltr">/?exp=ai</code>.</p>
+    <h2 className="text-2xl font-black">{heading}</h2>
+    <p className="mt-2 text-sm text-slate-600">{intro || <>כל מבקר רואה כל יום גרסה אחרת (א׳, ב׳, ג׳ וחוזר חלילה), וביום נתון כל גרסה מוצגת לשליש מהמבקרים. נספר פעם אחת לכל ביקור בעמוד הבית: לחיצה על החלק העליון, הדפסה או הורדת PDF באותו ביקור, ובקשת דף. הדפדפן שלך לא נספר — לתצוגה של גרסה: <code dir="ltr">/?exp=tunnel</code>, <code dir="ltr">/?exp=request</code> או <code dir="ltr">/?exp=ai</code>.</>}</p>
     {error && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm font-bold">{error}</p>}
     {rows && <table className="mt-4 w-full text-right text-sm"><thead><tr className="border-b-2"><th className="p-2">גרסה</th><th className="p-2">ביקורים</th><th className="p-2">לחצו למעלה</th><th className="p-2">הדפיסו</th><th className="p-2">ביקשו דף</th></tr></thead>
-      <tbody>{HOME_VARIANTS.map(v => { const r = by[v] || {}; return <tr key={v} className="border-b"><td className="p-2 font-bold">{LABEL[v]}</td><td className="p-2">{r.shown || 0}</td>
+      <tbody>{variants.map(v => { const r = by[v] || {}; return <tr key={v} className="border-b"><td className="p-2 font-bold">{labels[v]}</td><td className="p-2">{r.shown || 0}</td>
         <td className="p-2">{r.click || 0} <span className="text-slate-500">({pct(r.click, r.shown)})</span></td>
         <td className="p-2">{r.print || 0} <span className="text-slate-500">({pct(r.print, r.shown)})</span></td>
         <td className="p-2">{r.request || 0} <span className="text-slate-500">({pct(r.request, r.shown)})</span></td></tr> })}</tbody></table>}

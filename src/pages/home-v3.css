@@ -145,4 +145,5 @@ body:has(.hp) .site-footer{display:none}
 .rain-banner nav a:hover{background:rgba(255,255,255,.3)}
 /* Phone: Buga follows the banner's height, top to bottom edge, whatever the text's size */
 @media(max-width:560px){.rain-banner{position:relative;padding:10px 192px 10px 12px;border-radius:20px}.rain-banner img{position:absolute;right:0;bottom:-1.5%;width:auto;height:101.5%;margin:0;transform:translateX(11.5%)}.rain-banner-kicker{font-size:13px}.rain-banner-title{font-size:min(23px,6vw);white-space:nowrap}.rain-banner-lead{font-size:13px}.rain-banner nav{gap:4px;margin-top:6px}.rain-banner nav a{font-size:13px;padding:3px 9px}}
-@media(max-width:359px){.rain-banner{padding-right:160px}.rain-banner-lead{display:none}}
+@media(max-width:359px){.rain-banner{padding-right:160px}.rain-banner-lead{display:none}}.hp-kind-row{animation:none;grid-template-columns:repeat(3,minmax(0,1fr))}
+.hp-start-door.is-first{border-width:3px;box-shadow:0 5px 0 #f59e0b}

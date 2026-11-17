@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { KINDS } from '../../data/homeKinds'
 
 // The home page's "sign": a white board that pops up a different highlight of the site every few
 // seconds, so visitors meet things they didn't know were here. It walks through everything the
@@ -80,14 +81,18 @@ export function dailyOrder(list, date = new Date()) {
   return a
 }
 
-export default function HomeSpotlight() {
+// With a home kind (src/data/homeKinds.js) the card does not rotate by itself: the kind's own picks come
+// first, in a fixed order, and the arrows move on by hand. Without one (other callers) it works as before.
+export default function HomeSpotlight({ kind }) {
   const [order, setOrder] = useState(SPOTLIGHTS)
   const [i, setI] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const [paused, setPaused] = useState(Boolean(kind))
   useEffect(() => {
     if (window.__PRERENDER__) return
-    setOrder(dailyOrder(SPOTLIGHTS))
-  }, [])
+    const first = (KINDS[kind]?.spotlight || []).map(to => SPOTLIGHTS.find(x => x.to === to)).filter(Boolean)
+    const rest = dailyOrder(SPOTLIGHTS).filter(x => !first.includes(x))
+    setOrder(kind ? [...first, ...rest] : dailyOrder(SPOTLIGHTS)); setI(0)
+  }, [kind])
   useEffect(() => {
     if (paused || window.__PRERENDER__) return
     const t = setInterval(() => setI(n => (n + 1) % order.length), EVERY)
@@ -95,7 +100,7 @@ export default function HomeSpotlight() {
   }, [paused, order])
   const s = order[i]
   const go = d => { setI(n => (n + d + order.length) % order.length); setPaused(true) }
-  return <section className="hp-spot" aria-label="כדאי להכיר באתר" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+  return <section className="hp-spot" aria-label="כדאי להכיר באתר" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(Boolean(kind))} onFocus={() => setPaused(true)} onBlur={() => setPaused(Boolean(kind))}>
     <span className="hp-spot-tag">כדאי להכיר</span>
     <Link key={s.to} to={s.to} className="hp-spot-card">
       <span className="hp-spot-icon" aria-hidden="true">{s.icon}</span>

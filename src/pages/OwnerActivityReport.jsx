@@ -12,7 +12,7 @@ import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
 import PageRequests from '../components/owner/PageRequests'
 import PlannerTeachers from '../components/owner/PlannerTeachers'
-import HomeExperiment from '../components/owner/HomeExperiment'
+import HomeExperiment, { KIND_EXPERIMENT, HOME_KINDS, KIND_LABEL } from '../components/owner/HomeExperiment'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
 import SiteSignals from '../components/owner/SiteSignals'
@@ -606,6 +606,7 @@ export default function OwnerActivityReport() {
 
       <SiteChatInbox />
       <HomeExperiment from={from} to={to} tick={tick} />
+      <HomeExperiment from={from} to={to} tick={tick} experiment={KIND_EXPERIMENT} variants={HOME_KINDS} labels={KIND_LABEL} heading="ארבעה סוגי עמוד בית — איזה עובד?" intro={<>כל מבקר מקבל סוג אחד של עמוד בית וזוכר אותו (להדפסה, לכיתה, לגן או לשחק), עם כותרת וכרטיסים משלו. נספר פעם אחת לכל ביקור: לחיצה על כניסה או כרטיס, הדפסה או הורדת PDF, ובקשת דף. הדפדפן שלך לא נספר — לתצוגה: <code dir="ltr">/?kind=class</code>, <code dir="ltr">/?kind=gan</code>, <code dir="ltr">/?kind=play</code>.</>} />
       <PlannerTeachers tick={tick} />
       <PageRequests from={from} to={to} tick={tick} />
       <BugaPediaQuestions from={from} to={to} tick={tick} />

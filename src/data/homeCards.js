@@ -1,10 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-
-// "Discover Buga": three cards at a time from everything the site offers beyond the obvious — tools we
-// built, and help for kids who need a little more (speech, language, special education). The cards
-// change every few seconds, so a visitor sees there is much more here without a wall of links.
-const ITEMS = [
+// The pool of tools and help pages shown as cards on the home page (see homeKinds.js for who sees which).
+export const ITEMS = [
   ['⌨️', 'מקלדת עברית־אנגלית על המסך', 'מקלידים בכל שפה, גם בלי מקלדת עברית', '/tools/keyboard', 'כלי שבנינו'],
   ['🎹', 'הקלדה עיוורת בעברית', '25 שיעורים, מקלדת צבעונית ומילים לדקה', '/typing', 'כלי שבנינו'],
   ['🧮', 'מחשבון מדעי לבית הספר', 'שברים, שורשים, משוואות וגרפים — עם הסבר שלב אחר שלב', '/tools/calculator', 'כלי שבנינו'],
@@ -47,37 +42,8 @@ const ITEMS = [
   ['🥰', 'כרטיסי רגשות', '24 רגשות, עם שאלה לשיחה על כל אחד', '/printables/emotion-cards', 'לילדים שצריכים עוד קצת'],
   ['📘', 'חוברות לחינוך המיוחד', 'חשבון ובעיות מילוליות לחינוך המיוחד', '/booklets/math-special-ed', 'לילדים שצריכים עוד קצת'],
 ]
-// The owner's two games (Buga Live and Eretz Ir) open every other set of three, so they keep coming
-// back; the other sets open with help or news, and two tools fill each set.
-const STARS = [
+
+export const STARS = [
   ['📺', 'בוגה לייב', 'חידון לכל הכיתה: אתם על המסך, כולם עונים מהטלפון', '/live', 'משחק לשחק יחד'],
   ['🗺️', 'ארץ עיר', 'הגרלת אות, קטגוריות לפי גיל, טיימר וניקוד', '/tools/eretz-ir', 'משחק לשחק יחד'],
 ]
-const MIXED = (() => { const a = ITEMS.filter(x => x[4] === 'כלי שבנינו'), b = ITEMS.filter(x => x[4] !== 'כלי שבנינו'), out = []; let n = 0; while (a.length) { out.push(n % 2 === 0 ? STARS[(n / 2) % STARS.length] : b.shift() || STARS[0], ...a.splice(0, 2)); n++ } return [...out, ...b] })()
-const SHOWN = 3
-const EVERY = 12000 // slower: 7s was too fast for the eye (owner, 2026-11-15)
-
-export default function HomeDiscover() {
-  // Prerender and first paint: the first cards. After hydration each visitor starts at a different place.
-  const [start, setStart] = useState(0)
-  const [tick, setTick] = useState(0)
-  const pages = Math.ceil(MIXED.length / SHOWN)
-  useEffect(() => { if (!window.__PRERENDER__) setStart(Math.floor(Math.random() * pages)) }, [pages])
-  // Moves on by itself (the owner wants it never to stand still), but holds while the mouse is on it
-  // so a card doesn't change under the pointer; "more" restarts the timer.
-  const [hold, setHold] = useState(false)
-  useEffect(() => {
-    if (window.__PRERENDER__ || hold) return
-    const t = setInterval(() => setStart(s => (s + 1) % pages), EVERY)
-    return () => clearInterval(t)
-  }, [pages, tick, hold])
-  const cards = MIXED.slice(start * SHOWN, start * SHOWN + SHOWN)
-  return <section className="hp-sec hp-discover" aria-labelledby="hp-discover-h" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
-    <div className="hp-row-head"><h2 id="hp-discover-h" className="hp-h2">גלו עוד בבוגה</h2>
-      <button type="button" className="hp-discover-next" onClick={() => { setStart(s => (s + 1) % pages); setTick(t => t + 1) }} aria-label="להציג עוד">עוד ←</button></div>
-    <div key={start} className="hp-discover-row">{cards.map(([e, t, d, to, tag]) => <Link key={to} to={to} className="hp-discover-card">
-      <small className="hp-discover-tag">{tag}</small><span aria-hidden="true" className="hp-discover-ic">{e}</span><b>{t}</b><span className="hp-discover-desc">{d}</span>
-    </Link>)}</div>
-    <div className="hp-discover-dots" aria-hidden="true">{Array.from({ length: pages }, (_, i) => <i key={i} className={i === start ? 'on' : ''} />)}</div>
-  </section>
-}

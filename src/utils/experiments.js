@@ -26,14 +26,49 @@ export function homeVariant(search = location.search, rand = Math.random(), now 
   return HOME_VARIANTS[(israelDay(now) + offset) % n]
 }
 
-// kind: 'shown' (call on the home page) | 'click' | 'print' | 'request'
+// Second experiment, "home-kind" (17.11.2026): FOUR kinds of home page by who is visiting — printing
+// parents, teachers, kindergarten, kids who want to play. Each kind has its own headline and its own fixed
+// set of cards (src/data/homeKinds.js), instead of one page whose cards rotate. A visitor gets a kind
+// once (localStorage) and keeps it, so the page does not change under them. /?kind=class previews one.
+export const KIND_EXPERIMENT = 'home-kind'
+export const HOME_KINDS = ['print', 'class', 'gan', 'play']
+const KIND_KEY = `buga-exp-${KIND_EXPERIMENT}`, KIND_SEEN = `buga-exp-seen-${KIND_EXPERIMENT}`
+
+export function homeKind(search = location.search, rand = Math.random()) {
+  const forced = new URLSearchParams(search).get('kind')
+  if (HOME_KINDS.includes(forced)) return forced
+  try {
+    const saved = localStorage.getItem(KIND_KEY)
+    if (HOME_KINDS.includes(saved)) return saved
+    const pick = HOME_KINDS[Math.floor(rand * HOME_KINDS.length) % HOME_KINDS.length]
+    localStorage.setItem(KIND_KEY, pick)
+    return pick
+  } catch { return HOME_KINDS[Math.floor(rand * HOME_KINDS.length) % HOME_KINDS.length] }
+}
+
+const send = (experiment, variant, kind) => { void fetch(rpcUrl('record_experiment_event'), rpcInit({ p_experiment: experiment, p_variant: variant, p_kind: kind }, true)).catch(() => {}) }
+
+// kind: 'shown' (call on the home page) | 'click' | 'print' | 'request'. Also counts the same event for
+// the visitor's home kind, so every existing caller (print preview, request form…) feeds both reports.
+export function recordHomeKind(kind, variant) {
+  try {
+    if (ownerDevice() || new URLSearchParams(location.search).has('kind')) return
+    if (kind === 'shown') sessionStorage.setItem(KIND_SEEN, variant)
+    const v = sessionStorage.getItem(KIND_SEEN)
+    if (!v || sessionStorage.getItem(`${KIND_SEEN}:${kind}`)) return
+    sessionStorage.setItem(`${KIND_SEEN}:${kind}`, '1')
+    send(KIND_EXPERIMENT, v, kind)
+  } catch { /* storage blocked: not counted */ }
+}
+
 export function recordExperiment(kind, variant) {
+  if (kind !== 'shown') recordHomeKind(kind) // 'shown' for the kind is sent by the home page itself
   try {
     if (ownerDevice() || new URLSearchParams(location.search).has('exp')) return
     if (kind === 'shown') sessionStorage.setItem(SEEN, variant)
     const v = sessionStorage.getItem(SEEN)
     if (!v || sessionStorage.getItem(`${SEEN}:${kind}`)) return
     sessionStorage.setItem(`${SEEN}:${kind}`, '1')
-    void fetch(rpcUrl('record_experiment_event'), rpcInit({ p_experiment: HOME_EXPERIMENT, p_variant: v, p_kind: kind }, true)).catch(() => {})
+    send(HOME_EXPERIMENT, v, kind)
   } catch { /* storage blocked: not counted */ }
 }

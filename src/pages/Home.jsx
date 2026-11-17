@@ -6,7 +6,7 @@ import SEO from '../components/ui/SEO'
 import PrintStrip from '../components/ui/PrintStrip'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import { HOME_INTENTS } from '../data/kidsZone'
-import { SITE_SLOGAN, CHANNEL_GO } from '../data/brand'
+import { CHANNEL_GO } from '../data/brand'
 import { SOCIAL_LIVE } from '../data/social'
 import { ElectionChip, BringChip, ShoppingChip } from '../components/home/HomeTopExtras'
 import './Home.css'
@@ -16,9 +16,10 @@ import { LiveTop, RequestTop } from '../components/home/HomeTopVariant'
 import DoneRequests from '../components/ui/DoneRequests'
 import HomeSpotlight from '../components/home/HomeSpotlight'
 import BugaCarRun from '../components/home/BugaCarRun'
-import HomeDiscover from '../components/home/HomeDiscover'
+import HomeKindCards from '../components/home/HomeKindCards'
+import { KINDS, KIND_DEFAULT } from '../data/homeKinds'
 import HomeStart from '../components/home/HomeStart'
-import { homeVariant, recordExperiment } from '../utils/experiments'
+import { homeVariant, homeKind, recordHomeKind, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, eight worlds, favourites, news.
 // Each destination appears once. The blog list loads after the first paint.
@@ -219,6 +220,11 @@ export default function Home() {
   // search, the page as it has always been; the visitor's own variant takes over after hydration.
   const [variant, setVariant] = useState('tunnel')
   useEffect(() => { if (window.__PRERENDER__) return; const v = homeVariant(); setVariant(v); if (v === 'ai') setMode('ask'); recordExperiment('shown', v) }, [])
+  // Home kind (utils/experiments.js): who this page is for. Prerender and the first paint use the default;
+  // the visitor's own kind (kept in localStorage, or /?kind=class) takes over after hydration.
+  const [kind, setKind] = useState(KIND_DEFAULT)
+  useEffect(() => { if (window.__PRERENDER__) return; const k = homeKind(); setKind(k); recordHomeKind('shown', k) }, [])
+  const kindInfo = KINDS[kind] || KINDS[KIND_DEFAULT]
   const go = e => { e.preventDefault(); recordExperiment('click', variant); const v = q.trim(); nav(`/${mode === 'site' ? 'search' : 'bugapedia'}${v ? `?q=${encodeURIComponent(v)}` : ''}`) }
   const { news, posts } = useFreshLists()
   const counts = usePopularity()
@@ -258,18 +264,18 @@ export default function Home() {
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip /><ShoppingChip /><BringChip /><ElectionChip /></div>
-      <h1>{SITE_SLOGAN}</h1>
+      <h1>{kindInfo.h1}</h1>
       <BugaCarRun />
-      <p className="hp-lead">משחקים, דפים להדפסה, למידה וכלים לכיתה ולמסיבה — בחינם ובלי הרשמה.</p>
-      <HomeStart />
+      <p className="hp-lead">{kindInfo.lead}</p>
+      <HomeStart kind={kind} />
       <nav className="hp-quick" aria-label="הכי נצפים באתר">{quick.map(([e, t, to]) => <Link key={to} to={to}><span aria-hidden="true">{e}</span> {t}</Link>)}</nav>
       {opening}
       <a href={CHANNEL_GO} target="_blank" rel="noopener" className="mx-auto mt-4 flex min-h-[48px] w-fit items-center gap-2 rounded-full bg-[#25d366] px-5 font-bold text-white shadow-sm hover:bg-[#1ebe5b]">📲 דף חדש כל יום בוואטסאפ</a>
     </section>
     <NearViewport minHeight={0}><DailyRiddleBox /></NearViewport>
-    <HomeDiscover />
+    <HomeKindCards kind={kind} />
     <Suspense fallback={null}><SeasonColoring /></Suspense>
-    <HomeSpotlight />
+    <HomeSpotlight kind={kind} />
     <Link to="/travel" className="travel-spotlight" aria-label="בוגה במצב טיסה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
       <span className="travel-copy"><b>בוגה במצב טיסה</b><small>לכל מקום, גם בלי אינטרנט — חוברות, משחקים וסיפורים לדרך</small></span>

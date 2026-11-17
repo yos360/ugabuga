@@ -26,5 +26,5 @@ test('the home-page sign shows real pages, Buga Live and Eretz Ir among them', (
   assert.ok(links.length >= 50, `only ${links.length} pages on the sign`)
   assert.equal(new Set(links).size, links.length, 'a page appears twice on the sign')
   assert.deepEqual(links.filter(l => !listed(l)), [])
-  assert.match(src('pages/Home.jsx'), /<HomeSpotlight \/>/)
+  assert.match(src('pages/Home.jsx'), /<HomeSpotlight( kind=\{kind\})? \/>/)
 })
