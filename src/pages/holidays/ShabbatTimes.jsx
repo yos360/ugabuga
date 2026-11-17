@@ -218,7 +218,7 @@ function CityPage({ city }) {
   const holidays = useMemo(() => holidayCandles(city, today, rows.at(-1).saturday), [city, today, rows])
   const facts = useMemo(() => cityFacts(city, today), [city, today])
   return <div className="max-w-3xl mx-auto px-4 py-8" dir="rtl">
-    <SEO title={`כניסת שבת ${city.name} וצאת השבת — זמנים ולוח להדפסה`} description={cityDescription(facts)} path={cityHref(city)} structuredData={faqSchema(cityFaq(facts))} />
+    <SEO title={`צאת שבת ${city.name} והדלקת נרות — שעות השבוע`} description={cityDescription(facts)} path={cityHref(city)} structuredData={faqSchema(cityFaq(facts))} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'זמני שבת', href: '/shabbat-times' }, { label: city.name }]} />
     <h1 className="text-center text-3xl sm:text-4xl mb-3">כניסת שבת {city.name} וצאת השבת</h1>
     <p className="text-center text-lg mb-5" data-answer>בקצרה: בשבת {dateLabel(current.saturday)} הדלקת הנרות ב{city.name} היא ב־{formatTime(current.candles)} ביום שישי, וצאת השבת ב־{formatTime(current.end)}.</p>

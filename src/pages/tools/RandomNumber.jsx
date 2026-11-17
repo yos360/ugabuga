@@ -3,8 +3,10 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import DiceFamilyLinks from './dice/DiceFamilyLinks'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 
 const FAQ = [
+  { q: 'איך בוחרים מספר אקראי בין 1 ל־30?', a: 'כותבים 1 בשדה "מ־" ו־30 בשדה "עד", משאירים "כמה" על 1 ולוחצים "הגרילו". אותה דרך עובדת לכל טווח: 1 עד 10, 1 עד 100 או כל טווח אחר.' },
   { q: 'איך מגרילים מספר אקראי?', a: 'בוחרים מספר מינימום ומקסימום ולוחצים "הגרילו". כל מספר בטווח, כולל הקצוות, יכול לצאת באותה הסתברות.' },
   { q: 'אפשר להגריל כמה מספרים בלי חזרות?', a: 'כן. מסמנים "בלי חזרות" ובוחרים כמה מספרים להגריל — למשל 5 מספרים שונים מתוך 1 עד 30, כמו הגרלה בכיתה.' },
   { q: 'למה זה שימושי בכיתה?', a: 'אפשר להגריל מספר תלמיד מהיומן, סדר הצגת עבודות או מספר שאלה מתוך דף עבודה — בצורה הוגנת ושקופה לכולם.' },
@@ -40,7 +42,7 @@ export default function RandomNumber() {
   const field = 'w-full border-2 border-[var(--border)] bg-white px-3 py-2 text-lg wobbly-sm'
   return (
     <div className="mx-auto max-w-xl px-4 py-8 buga-fade-in">
-      <SEO title="🔢 מספר אקראי — הגרלת מספר מ־1 עד 10, 30, 100 או כל טווח" description="בחרו מספר מ־1 עד 30 (או כל טווח אחר) והמחשב מגריל בשבילכם. הגרלת מספר אקראי בטווח שתבחרו: מספר אחד או כמה מספרים, עם או בלי חזרות. להגרלות בכיתה, למשחקים ולבחירת תור — חינם, בלי הרשמה." path="/tools/random-number" structuredData={faqSchema(FAQ)} />
+      <SEO title="מספר אקראי — הגרלת מספר מ־1 עד 10, 30 או 100 אונליין" description="בוחרים טווח, למשל מ־1 עד 30, ולוחצים: המחשב מגריל מספר אקראי. אפשר להגריל כמה מספרים בלי חזרות, לכיתה, למשחקים ולבחירת תור. חינם, בלי הרשמה." path="/tools/random-number" structuredData={faqSchema(FAQ)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים' }, { label: 'מספר אקראי' }]} />
       <h1 className="text-4xl text-center mb-2">🔢 מספר אקראי</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">בוחרים טווח, לוחצים — ומקבלים מספר רנדומלי</p>
@@ -60,6 +62,7 @@ export default function RandomNumber() {
         </div>
       )}
       {history.length > 1 && <div className="wobbly border-2 border-dashed border-[var(--border)] bg-[var(--card)] p-4"><h2 className="font-display text-lg font-bold mb-2">הגרלות קודמות</h2>{history.slice(1).map((h, i) => <p key={i} className="font-hand">{h}</p>)}</div>}
+      <QuickAnswer q="איך מגרילים מספר מ־1 עד 30?" a={'כותבים 1 בשדה "מ־" ו־30 בשדה "עד", ולוחצים "הגרילו": המחשב בוחר מספר אקראי בטווח, וכל מספר, כולל 1 ו־30, יכול לצאת באותו סיכוי. אותה דרך עובדת לכל טווח אחר, ואפשר להגריל גם כמה מספרים יחד.'} />
       <DiceFamilyLinks current="/tools/random-number" />
       <div className="mt-10">
         <SeoBody paragraphs={['מחולל מספרים אקראיים שימושי להרבה דברים: להגריל מי מתחיל במשחק, לבחור תלמיד לפי מספר ביומן, להגריל זוכה בתחרות או לבחור שאלה מתוך רשימה ממוספרת.', 'אפשר להגריל מספר אחד או כמה מספרים יחד. במצב "בלי חזרות" כל מספר יוצא לכל היותר פעם אחת — בדיוק כמו לשלוף פתקים מכובע.']} faq={FAQ} related={[{ label: 'גלגל מזל', href: '/tools/random-picker' }, { label: 'הטלת מטבע', href: '/tools/coin-flip' }, { label: 'קובייה וירטואלית', href: '/tools/dice' }]} />

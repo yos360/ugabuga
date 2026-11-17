@@ -213,7 +213,7 @@ function DatePage({ dateKey }) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
-      <SEO title={`${label} – מה קרה ומה מציינים ביום הזה`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
+      <SEO title={`מה קורה ב-${label}? אירועים, ימים מיוחדים ומי נולד`} description={description} path={`/time-tunnel/${dateKey}`} structuredData={data ? faqSchema(faq) : null} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'מנהרת הזמן של בוגה', href: '/time-tunnel' }, { label: MONTHS[cal.m - 1], href: `/time-tunnel/month/${pad(cal.m)}` }, { label }]} />
       <h1 className="mh-page-title">⏳ מה קרה ב-{label}?</h1>
       {/* The quick answer most date searches want: which weekday (and Hebrew date) it falls on. */}

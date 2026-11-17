@@ -11,7 +11,7 @@ import { DICE_GAMES } from '../../data/diceGames'
 export default function DiceTool() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 buga-fade-in">
-      <SEO title="קוביה וירטואלית — הטלת קובייה אונליין בלחיצה, 1 עד 5 קוביות" description="הקובייה הלכה לאיבוד? מטילים כאן בלחיצה, ישר מהטלפון: 1 עד 5 קוביות, סכום אוטומטי וחגיגת כפולים. מתאים לשש־בש, למונופול ולסולמות ונחשים — בחינם ובלי אפליקציה." path="/tools/dice" structuredData={[faqSchema(DICE_FAQ), DICE_APP]} />
+      <SEO title="קוביה וירטואלית — הטלה אונליין של 1 עד 5 קוביות, בחינם" description="קוביה דיגיטלית אונליין: לוחצים ומטילים 1 עד 5 קוביות, והסכום מחושב לבד. מתאימה לשש־בש, למונופול ולסולמות ונחשים — בטלפון ובמחשב, בלי אפליקציה." path="/tools/dice" structuredData={[faqSchema(DICE_FAQ), DICE_APP]} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'כלים', href: '/tools' }, { label: 'קובייה' }]} />
       <h1 className="text-4xl text-center mb-2">🎲 קוביה וירטואלית</h1>
       <p className="text-center font-hand text-lg text-[var(--muted-foreground)] mb-6">קוביה דיגיטלית אונליין: להטיל קוביה בלחיצה — 1 עד 5 קוביות, בחינם</p>

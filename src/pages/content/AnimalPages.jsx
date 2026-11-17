@@ -7,6 +7,7 @@ import SpeakButton from '../../components/ui/SpeakButton'
 import NotFound from '../NotFound'
 import { Chip, Header } from './contentUi'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import { ANIMALS, ANIMAL_GROUPS } from '../../data/content/animals'
 import { ANIMALS_MORE_1 } from '../../data/content/animalsMore1'
 import { ANIMALS_MORE_2 } from '../../data/content/animalsMore2'
@@ -50,10 +51,11 @@ export function AnimalPage() {
   const P = [['סוג', a.profile.class], ['איפה חי', a.profile.habitat], ['מה אוכל', a.profile.food], ['גודל', a.profile.size], ['תוחלת חיים', a.profile.lifespan]]
   return (
     <article className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
-      <SEO title={a.title} description={a.description} path={'/animals/' + slug} type="article" structuredData={faqSchema(m.faq)} />
+      <SEO title={m.seoTitle || `${a.title}: גודל, תוחלת חיים וחידון`} description={m.seoDescription || a.description} path={'/animals/' + slug} type="article" structuredData={faqSchema(m.faq)} />
       <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'עובדות על חיות', href: '/animals' }, { label: a.name }]} />
       <Header emoji={a.emoji} title={a.title} intro={a.intro} />
       <p className="no-print -mt-3 mb-6 flex items-center justify-center gap-2 text-2xl font-bold">{a.name} <SpeakButton text={a.name} label={`השמעה: ${a.name}`} /></p>
+      {m.quick && <QuickAnswer q={m.quick.q} a={m.quick.a} />}
       <WobblyCard hover={false} padding="p-5" className="mb-6 bg-[var(--postit)]">
         <h2 className="text-2xl font-bold mb-2">כרטיס זיהוי</h2>
         <dl className="grid sm:grid-cols-2 gap-x-6 gap-y-2">{P.map(([k, v]) => <div key={k}><dt className="font-bold">{k}</dt><dd>{v}</dd></div>)}</dl>

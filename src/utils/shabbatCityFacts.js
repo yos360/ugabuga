@@ -125,5 +125,5 @@ export function cityFaq(f) {
 export function cityDescription(f) {
   const { city, compare } = f
   // Evergreen on purpose: the prerendered HTML must not carry a specific date or time that goes stale after that Shabbat.
-  return `זמני כניסת ויציאת שבת ב${city.name} השבוע: הדלקת נרות, צאת שבת ופרשת השבוע. השוואה ל${compare[0].ref.name}, הזמנים המוקדמים והמאוחרים בשנה ולוח להדפסה.`
+  return `באיזו שעה צאת השבת (יציאת שבת) ב${city.name} השבוע? שעת הדלקת הנרות וצאת השבת, פרשת השבוע, השוואה ל${compare[0].ref.name} ולוח שנתי להדפסה.`
 }

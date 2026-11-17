@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
+import QuickAnswer from '../../components/ui/QuickAnswer'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import NotFound from '../NotFound'
 import InvitationStudio from '../../components/invitations/InvitationStudio'
@@ -30,23 +31,27 @@ export function CardGamesHub() {
   </Page>
 }
 const Steps = ({ title, items }) => items?.length ? <section className="mt-5"><h2 className="mb-2 text-2xl font-black">{title}</h2><ol className="list-decimal space-y-1 pr-6 text-lg">{items.map(s => <li key={s}>{s}</li>)}</ol></section> : null
+// "מלחמה בקלפים", but "זיכרון בקלפים" already carries the word.
+const gameInCards = g => g.name.includes('קלפים') ? g.name : `${g.name} בקלפים`
 export function CardGamePage() {
   const { slug } = useParams()
   const d = useData(loadCards)
   const g = d?.CARD_GAMES.find(x => x.slug === slug)
   if (d && !g) return <NotFound />
   return <Page>
-    {g && <SEO title={`${g.name} — חוקי המשחק בקלפים, איך משחקים ומנצחים`} description={`חוקי ${g.name}: ${g.goal} ${g.players} משתתפים, ${g.ages}. הכנה, מהלך המשחק, איך מנצחים, טיפים ווריאציות.`.slice(0, 160)} path={`/card-games/${g.slug}`} />}
+    {g && <SEO title={`${gameInCards(g)} — חוקים ואיך משחקים צעד אחר צעד`} description={`איך משחקים ${gameInCards(g)}? ${g.goal} ${g.players} משתתפים, ${g.ages}: חוקי המשחק מההכנה ועד הניצחון, עם טיפים ווריאציות.`} path={`/card-games/${g.slug}`} structuredData={faqSchema(g.faq)} />}
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'משחקי קלפים', href: '/card-games' }, { label: g?.name || '…' }]} />
     {!g ? <Loading /> : <>
       <h1 className="text-center text-4xl font-black sm:text-5xl">{g.emoji} {g.name} — חוקי המשחק</h1>
       <p className="mx-auto mt-3 max-w-2xl text-center text-xl">{g.goal}</p>
       <div className="mx-auto mt-4 flex max-w-2xl flex-wrap justify-center gap-2 text-lg">{[['👥', `${g.players} משתתפים`], ['🎂', g.ages], ['⏱️', g.time], ['🃏', g.deck]].map(([e, t]) => <span key={t} className="rounded-full bg-slate-100 px-3 py-1">{e} {t}</span>)}</div>
+      {g.quick && <QuickAnswer q={`איך משחקים ${gameInCards(g)}?`} a={g.quick} />}
       <Steps title="🛠️ הכנה" items={g.setup} />
       <Steps title="▶️ איך משחקים" items={g.play} />
       {g.win && <section className="mt-5 rounded-2xl bg-amber-50 p-4 text-lg"><b>🏆 איך מנצחים: </b>{g.win}</section>}
       {g.tips?.length > 0 && <section className="mt-5"><h2 className="mb-2 text-2xl font-black">💡 טיפים</h2><ul className="list-disc space-y-1 pr-6 text-lg">{g.tips.map(t => <li key={t}>{t}</li>)}</ul></section>}
       {g.variants?.length > 0 && <section className="mt-5"><h2 className="mb-2 text-2xl font-black">🔀 וריאציות</h2><ul className="list-disc space-y-1 pr-6 text-lg">{g.variants.map(t => <li key={t}>{t}</li>)}</ul></section>}
+      {g.faq?.length > 0 && <div className="mt-10"><SeoBody faq={g.faq} /></div>}
       <h2 className="mb-3 mt-10 text-2xl font-black">עוד משחקי קלפים</h2>
       <div className="flex flex-wrap gap-2">{d.CARD_GAMES.filter(x => x.slug !== g.slug).map(x => <Link key={x.slug} to={`/card-games/${x.slug}`} className="rounded-xl border-2 border-slate-200 bg-white px-3 py-2 font-bold">{x.emoji} {x.name}</Link>)}</div>
     </>}

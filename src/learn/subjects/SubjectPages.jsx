@@ -388,6 +388,7 @@ export function ConceptPage({ subjectKey }) {
   // Other concepts taught in the same lesson (not already listed as related), with their definitions.
   const sameLesson = concepts.filter(x => x.lesson === c.lesson && x.slug !== c.slug && !c.related.includes(x.slug)).slice(0, 6)
   const faq = [{ q: `מה זה ${c.term}?`, a: c.short },
+    ...(c.faq || []),
     ...(c.remember ? [{ q: `איך זוכרים מה זה ${c.term}?`, a: c.remember }] : []),
     ...(related.length ? [{ q: `אילו מושגים קשורים ל${c.term}?`, a: `${related.map(r => r.term).join(', ')}. ההגדרה הקצרה של כל אחד מהם מופיעה למעלה, ומכל אחד יש קישור לעמוד משלו.` }] : [])]
   const term_ = { '@context': 'https://schema.org', '@type': 'DefinedTerm', name: c.term, description: c.short, inDefinedTermSet: `מילון מושגים ${inSubject(s)} — עוגה בוגה`, inLanguage: 'he' }

@@ -130,8 +130,8 @@ export default function BirthdayFamous() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SEO
-        title="מי נולד ביום שלי? מפורסמים לפי תאריך"
-        description="מי נולד ביום שלי? בוחרים תאריך ומגלים אילו מפורסמים – ממציאים, סופרים, ספורטאים ואמנים מישראל ומהעולם – נולדו באותו יום. חינם."
+        title="מי נולד בתאריך שלי? מפורסמים שנולדו ביום ההולדת שלכם"
+        description="מי נולד בתאריך שלי? בוחרים יום וחודש ורואים אילו ממציאים, סופרים, ספורטאים ואמנים מישראל ומהעולם נולדו באותו תאריך. בחינם, בלי הרשמה."
         structuredData={faqSchema(TOOL_GUIDES.birthdayFamous.faq)}
         path="/tools/birthday-famous"
       />
@@ -145,7 +145,7 @@ export default function BirthdayFamous() {
       <header className="mx-auto max-w-3xl text-center">
         <div className="text-6xl">🎂✨</div>
         <h1 className="mt-3 text-4xl font-black sm:text-6xl">מי נולד ביום שלי?</h1>
-        <p className="mt-3 text-xl text-[var(--muted-foreground)]">בחרו תאריך ונגלה אילו אנשים מפורסמים נולדו בו.</p>
+        <p className="mt-3 text-xl text-[var(--muted-foreground)]">מי נולד בתאריך שלי? בחרו תאריך ונגלה אילו אנשים מפורסמים נולדו בו.</p>
         <div className="mx-auto mt-6 flex max-w-md gap-2">
           <input
             type="date"

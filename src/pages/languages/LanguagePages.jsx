@@ -326,7 +326,7 @@ export function LanguageTopic() {
     { q: `מה כדאי ללמוד ${L.adj} אחרי ${topic.title}?`, a: `אפשר להמשיך לנושאים ${next.map(x => `"${x.title}"`).join(', ')} — ובסוף לבדוק את עצמכם במבחן הגדול ${L.adj}, עם שאלות מכל הנושאים.` },
   ]
   return <div className="mx-auto max-w-5xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title={`${topic.title} ${L.adj} לילדים — מילים עם תמונות והגייה`} description={`${topic.title} ${L.adj} לילדים: ${examples} ועוד, עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם.`} path={`/languages/${code}/${topic.slug}`} structuredData={faqSchema(faq)} />
+    <SEO title={`${topic.title} ${L.adj} לילדים — ${topic.words.slice(0, 3).map(x => x.he).join(', ')} והגייה בעברית`} description={`איך אומרים ${topic.title} ${L.adj}? ${examples} ועוד — ${topic.words.length} מילים עם תמונה, הגייה בעברית, משחק וכרטיסיות להדפסה. חינם.`} path={`/languages/${code}/${topic.slug}`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'שפות לילדים', href: '/languages' }, { label: L.name, href: `/languages/${code}` }, { label: topic.title }]} />
     <h1 className="mb-3 text-center text-4xl sm:text-5xl">{topic.emoji} {topic.title} {L.adj}</h1>
     <p className="mx-auto mb-3 max-w-2xl text-center text-lg text-[var(--muted-foreground)]"><Rich text={notes.intro} code={code} /></p>
