@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'bfx404e_xqI', kind: 'tutorial', title: 'דפי עבודה לכיתה ה׳ להדפסה — חוברת PDF בכל המקצועות', paths: ['/booklets/worksheets-grade-5'], category: 'learning', date: '2026-11-17',
+    desc: 'מדריך קצר לחוברת דפי העבודה לכיתה ה׳: 17 עמודים בחשבון, הבנת הנקרא, לשון, אנגלית ומדעים, הצצה לעמודים, הדפסה לתלמיד בלי דף התשובות או רק דף התשובות למורה, בחירת עמודים מסוימים ושמירה כ־PDF.' },
   { id: '4OaEqBMVBTY', kind: 'tutorial', title: 'מסיבת ספא ליום הולדת בבית — איך עושים', paths: ['/birthday/spa-party'], category: 'party', date: '2026-11-17',
     desc: 'מדריך קצר למסיבת ספא ליום הולדת בבית: חמש עמדות פינוק עם מה צריך ואיך עושים, טיפ לפי גיל, לוח זמנים לשעתיים, רשימת קניות שמתעדכנת לפי מספר הילדים, והזמנות, שלטים ותעודות להדפסה.' },
   { id: '_lGz-iB4beM', kind: 'tutorial', title: 'לימוד קריאה באנגלית לילדים מאפס — פוניקס עם הסברים בעברית', paths: ['/learn/english-phonics'], category: 'learning', date: '2026-11-17',
@@ -100,6 +102,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
   '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',
   '/learn/gifted-test/bar-ilan': 'תרגול למבחן בר־אילן',
