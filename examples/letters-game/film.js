@@ -180,7 +180,7 @@
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.title, W / 2, 285, (c) => pill(c, 0, 0, '🎮 משחק אותיות לגן', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
+    popAt(ctx, t, ev.title, W / 2, 285, (c) => pill(c, 0, 0, '🎮 משחק אותיות לגן', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
     popAt(ctx, t, ev.q1, W / 2, 450, (c) => he(c, 'איזו מהן האות', 0, 0, { size: 104, w: 900, maxW: SAFE.w }), { rot: -0.03 });
     popAt(ctx, t, ev.q1 + BEAT, W / 2, 685, (c) => he(c, 'ד׳ ? 🤔', 0, 0, { size: 190, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
     S.hookOpts.forEach((o) => {
@@ -190,11 +190,11 @@
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(690, 1630); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'כתבו מספר בתגובות 👇', { size: 48, w: 900, bg: C.yellow, padX: 36 });
+      ctx.save(); ctx.translate(655, 1585); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'כתבו מספר בתגובות 👇', { size: 54, w: 900, bg: C.yellow, padX: 36 });
       ctx.restore();
     }
-    mascot(ctx, 235, 1655 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 340, t, ev.q2);
+    mascot(ctx, 185, 1620 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 290, t, ev.q2);
   }
 
   // ================= 1. CHOOSE THE GAME =================
@@ -237,13 +237,13 @@
         c.restore();
       });
     }, { dur: 0.3, over: 1.4, rot: -0.008 });
-    popAt(ctx, t, S.pills[2], W / 2, 1400, (c) => pill(c, 0, 0, 'ואצלכם? כתבו מספר בתגובות 👇', { size: 44, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[3], W / 2, 1520, (c) => pill(c, 0, 0, 'ד׳ ור׳, ה׳ וח׳, ב׳ וכ׳ — מבלבלות בכוונה', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1400, (c) => pill(c, 0, 0, 'זוכרים? איזו מהן ד׳? כתבו מספר 👇', { size: 44, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[3], W / 2, 1520, (c) => pill(c, 0, 0, 'להורים, לגננות ולמורים 💛', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // the game board: question + picture + four letters (st: 'idle' | 'wrong' | 'right')
   function board(c, { q, emoji, word, letters, wrongIdx, rightIdx, t, tW, tR, count, msg, msgAlpha }) {
-    card(c, -440, -400, 880, 800, { fill: '#fff9d9', r: 36, seed: 70, shadow: 11, lw: 4.5 });
+    card(c, -440, -400, 880, 870, { fill: '#fff9d9', r: 36, seed: 70, shadow: 11, lw: 4.5 });
     he(c, 'שאלה ⁦' + count + '⁩ מתוך ⁦10⁩', 410, -350, { size: 30, w: 800, align: 'right', color: C.ink });
     G.rrect(c, -410, -318, 820, 18, 9, { fill: '#fff', lw: 2.5, seed: 71, stroke: C.ink });
     c.fillStyle = '#ec4899'; c.beginPath(); c.roundRect(410 - 820 * (count - 1) / 10 - 0.01, -318, 820 * (count - 1) / 10 + 0.01, 18, 9); c.fill();
@@ -256,7 +256,7 @@
       const sc = state === 'right' ? 1 + 0.08 * Math.sin(Math.PI * clamp(tR)) : 1;
       c.save(); c.translate(x, y); c.scale(sc, sc); letterCard(c, 0, 0, 390, 108, ch, { state, size: 82, seed: 72 + i }); c.restore();
     });
-    he(c, msg, 0, 345, { size: 46, w: 800, alpha: msgAlpha, maxW: 800 });
+    he(c, msg, 0, 405, { size: 46, w: 800, alpha: msgAlpha, maxW: 800 });
   }
 
   // ================= 3. HEAR THE WORD =================
@@ -282,14 +282,14 @@
   function shotPlay(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[3]);
     const wrongP = clamp((t - ev.go) / 0.2), rightP = clamp((t - ev.ans) / 0.4);
-    popAt(ctx, t, S.ROWS[0].t, W / 2, 940, (c) => board(c, {
+    popAt(ctx, t, S.ROWS[0].t, W / 2, 900, (c) => board(c, {
       q: 'באיזו אות מתחיל…', emoji: '🐱', word: 'חתול', letters: ['ה', 'ח', 'ת', 'כ'], wrongIdx: 0, rightIdx: 1,
       tW: wrongP, tR: rightP, count: 3, msg: rightP > 0 ? 'נכון! 👏' : wrongP > 0 ? 'נסו שוב 🙂' : '', msgAlpha: clamp(Math.max(wrongP, rightP) * 2),
     }), { dur: 0.3, over: 1.35, rot: -0.008 });
     UI.tap(ctx, W / 2 + 205, 1075, t, ev.go, { color: 'rgba(224,138,0,0.8)', size: 110 });
     UI.tap(ctx, W / 2 - 205, 1075, t, ev.ans - 0.0, { color: 'rgba(35,135,77,0.8)', size: 110 });
     confetti(ctx, t, ev.ans, W / 2, 1000, { n: 55, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[4], W / 2, 1470, (c) => pill(c, 0, 0, 'טעות? האות מתעמעמת ואפשר שוב', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1470, (c) => pill(c, 0, 0, 'התשובה הנכונה נצבעת בירוק ✅', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
     popAt(ctx, t, S.pills[5], W / 2, 1585, (c) => pill(c, 0, 0, 'צליל קטן לכל תשובה 🔔', { size: 40, w: 900, bg: C.yellow, seed: 88, maxW: SAFE.w }), { rot: -0.02 });
   }
 
@@ -314,12 +314,12 @@
   // the six numbered letters again, small, under the question
   function endOpts(ctx, t, t0) {
     S.HOOK_LETTERS.forEach((ch, i) => {
-      const x = 880 - i * 144, y = 1330;
+      const x = 775 - (i % 3) * 235, y = 1330 + Math.floor(i / 3) * 160;
       popAt(ctx, t, t0 + i * 0.06, x, y, (c) => {
-        G.rrect(c, -62, -62, 124, 124, 28, { fill: '#fff', lw: 3.5, seed: 150 + i, stroke: C.ink });
-        he(c, ch, 0, 30, { size: 80, w: 900, color: C.ink });
-        c.fillStyle = C.red; c.beginPath(); c.arc(-46, -50, 22, 0, Math.PI * 2); c.fill();
-        he(c, String(i + 1), -46, -36, { size: 30, w: 900, color: '#fff', dir: 'ltr' });
+        G.rrect(c, -95, -75, 190, 150, 30, { fill: '#fff', lw: 4, seed: 150 + i, stroke: C.ink });
+        he(c, ch, 0, 40, { size: 110, w: 900, color: C.ink });
+        c.fillStyle = C.red; c.beginPath(); c.arc(68, -50, 27, 0, Math.PI * 2); c.fill();
+        he(c, String(i + 1), 68, -36, { size: 36, w: 900, color: '#fff', dir: 'ltr' });
       }, { dur: 0.22, over: 1.5 });
     });
   }
@@ -338,9 +338,9 @@
     popAt(ctx, t, L[1].t, W / 2, 885, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 990, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
     he(ctx, 'חפשו באתר: משחק אותיות 🔎', W / 2, 1090, { size: 40, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1200, (c) => pill(c, 0, 0, '✍️ איזו מהן האות ד׳?', { size: 54, w: 900, bg: C.red, fg: '#fff', padX: 44, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    popAt(ctx, t, L[4].t, W / 2, 1185, (c) => pill(c, 0, 0, '✍️ איזו מהן האות ד׳?', { size: 54, w: 900, bg: C.red, fg: '#fff', padX: 44, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1530, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1630, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------

@@ -31,7 +31,7 @@
   ]);
 
   const ev = {
-    q1: T(0, 0), q2: T(0, 2), title: T(0, 3.2), free: T(1, 3),
+    q1: T(0, 0), q2: T(0, 2), title: T(0, 3.2), free: T(0, 3.8),
     pick: T(3, 0.4), // step 1: tap the game "באיזו אות זה מתחיל?"
     topic: T(4, 2.8), // step 2: tap "א–כ"
     reasonCard: T(5, 0.2), // step 2: the letters of the chosen half appear
@@ -40,7 +40,7 @@
     printBtn: T(11, 0), // step 5: new-game button
     logo: T(12, 0),
   };
-  const hookOpts = [0, 1, 2, 3, 4, 5].map((i) => ({ i, t: T(0, 1.0 + i * 0.4), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'F#6'][i]) }));
+  const hookOpts = [0, 1, 2, 3, 4, 5].map((i) => ({ i, t: T(0, 0.6 + i * 0.25), midi: m(['D5', 'F#5', 'A5', 'B5', 'D6', 'F#6'][i]) }));
 
   // ---- real data of the page (src/pages/letters/LettersGamePage.jsx, src/components/letters/LettersGame.jsx) ----
   const HOOK_LETTERS = ['ח', 'ר', 'ה', 'ת', 'ד', 'ק']; // the target (never revealed) is one of them
@@ -52,7 +52,7 @@
   const steps = [
     { n: 1, sec: 'aud', title: 'בוחרים משחק', sub: 'שלושה משחקים קצרים · 10 שאלות', color: '#226bd7' },
     { n: 2, sec: 'topics', title: 'בוחרים אותיות', sub: 'כולן, או רק חצי מהן', color: '#cf2f56' },
-    { n: 3, sec: 'modes', title: 'שומעים את המילה', sub: 'אין צורך לדעת לקרוא', color: '#8a4fd8' },
+    { n: 3, sec: 'modes', title: 'שומעים את המילה', sub: 'לוחצים על הרמקול', color: '#8a4fd8' },
     { n: 4, sec: 'play', title: 'עונים', sub: 'טעיתם? נסו שוב 🙂', color: '#e08a00' },
     { n: 5, sec: 'print', title: 'כוכבים בסוף', sub: 'וקופצים למשחק חדש', color: '#23874d' },
   ].map((f) => ({ ...f, t: S[f.sec][0] }));
@@ -72,7 +72,7 @@
   const sheetItems = [0, 1, 2, 3].map((i) => ({ i, t: T(10, 0.4 + i * 0.55), midi: m(['D5', 'F#5', 'A5', 'B5'][i]) }));
   const extras = [{ t: T(11, 1.5) }, { t: T(11, 2.3) }];
 
-  const endLines = [{ t: T(12, 0.8) }, { t: T(12, 1.6) }, { t: T(12, 2.4) }, { t: T(12, 3.2) }, { t: T(13, 0) }];
+  const endLines = [{ t: T(12, 0.6) }, { t: T(12, 1.0) }, { t: T(12, 1.4) }, { t: T(12, 1.8) }, { t: T(12, 2.3) }];
 
   const pills = [T(3, 1.6), T(3, 2.8), T(5, 2.0), T(5, 3.0), T(9, 1.8), T(9, 2.6), extras[0].t, extras[1].t];
 
