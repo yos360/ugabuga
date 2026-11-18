@@ -11,7 +11,7 @@ export default function HanukkahGradeChooser({ current, title = 'דפי עבוד
         <Link to={hanukkahGradePath(g.slug)} aria-current={current === g.slug ? 'page' : undefined}
           className={`flex min-h-[52px] items-center gap-2 rounded-2xl border-2 px-3 py-2 font-bold transition-transform hover:-translate-y-0.5 ${current === g.slug ? 'border-slate-800 bg-blue-200' : 'border-[var(--border)] bg-white'}`}>
           <span aria-hidden="true" className="text-2xl">{g.emoji}</span>
-          <span className="leading-tight">{g.label}<span className="block text-xs font-normal text-[var(--muted-foreground)]">{g.ages}</span></span>
+          <span className="leading-tight">{g.label}<span className="block text-xs font-normal text-[var(--muted-foreground)]">{g.ages.replace(/(\d+)–(\d+)/, '⁦$1–$2⁩')}</span></span>
         </Link>
       </li>)}
     </ul>

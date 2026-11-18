@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'HlJ17TwRuI4', kind: 'tutorial', title: 'דפי עבודה לחנוכה לפי כיתה — מהגן ועד חטיבה', paths: ['/holidays/hanukkah', '/holidays/hanukkah/grade/kindergarten', '/holidays/hanukkah/grade/grade-1', '/holidays/hanukkah/grade/grade-2', '/holidays/hanukkah/grade/grade-3', '/holidays/hanukkah/grade/grade-4', '/holidays/hanukkah/grade/grade-5', '/holidays/hanukkah/grade/grade-6', '/holidays/hanukkah/grade/middle-school'], category: 'holidays', date: '2026-11-18',
+    desc: 'מדריך קצר לדפי העבודה לחנוכה לפי כיתה: בוחרים כיתה, רואים מה יש בסט, פותרים בעיות מילוליות וקטע קריאה במסך, ובחלון ההדפסה לוחצים "לכל הכיתה" כדי לקבל דף שונה לכל ילד.' },
   { id: 'pajaf_j3Pb8', kind: 'tutorial', title: 'מקצועות לילדים: שיעורים, חידון ודף עבודה לכיתות ב׳–ו׳', paths: ['/learn/professions'], category: 'learning', date: '2026-11-18',
     desc: 'מדריך קצר לנושא מקצועות לילדים: בוחרים כיתה, נכנסים לשיעור על מקצועות החירום, שיעור אינטראקטיבי צעד אחרי צעד, חידון של 8 שאלות עם הסבר, דף עבודה להדפסה ומבחן לדוגמה של 20 שאלות.' },
   { id: 'dGY9jdN-tkI', kind: 'tutorial', title: 'מספר מעורב ושבר מדומה כיתות ד׳–ה׳ — הסבר ותרגול', paths: ['/math/mixed-numbers'], category: 'learning', date: '2026-11-18',
@@ -106,6 +108,15 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/holidays/hanukkah': 'חנוכה לילדים',
+  '/holidays/hanukkah/grade/kindergarten': 'פעילות לחנוכה לגן',
+  '/holidays/hanukkah/grade/grade-1': 'דפי עבודה לחנוכה לכיתה א׳',
+  '/holidays/hanukkah/grade/grade-2': 'דפי עבודה לחנוכה לכיתה ב׳',
+  '/holidays/hanukkah/grade/grade-3': 'דפי עבודה לחנוכה לכיתה ג׳',
+  '/holidays/hanukkah/grade/grade-4': 'דפי עבודה לחנוכה לכיתה ד׳',
+  '/holidays/hanukkah/grade/grade-5': 'דפי עבודה לחנוכה לכיתה ה׳',
+  '/holidays/hanukkah/grade/grade-6': 'דפי עבודה לחנוכה לכיתה ו׳',
+  '/holidays/hanukkah/grade/middle-school': 'דפי עבודה לחנוכה לחטיבת ביניים',
   '/math/mixed-numbers': 'מספר מעורב ושבר מדומה',
   '/learn/professions': 'מקצועות לילדים',
   '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
