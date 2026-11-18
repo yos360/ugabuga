@@ -20,3 +20,16 @@ test('printing is announced only after the browser was asked to print or the PDF
   const fallback = readFileSync(new URL('../src/components/layout/PrintQrFallback.jsx', import.meta.url), 'utf8')
   assert.match(fallback, /addEventListener\('afterprint'/)
 })
+
+test('until Hanukkah ends, every print is offered Hanukkah too — coloring for kids, booklets for school', async () => {
+  const { seasonPrintOffer } = await import('../src/data/seasonPrintOffer.js')
+  const nov = new Date('2026-11-20T10:00:00+02:00')
+  assert.equal(seasonPrintOffer('/printables/coloring/cats', nov).path, '/holidays/hanukkah/coloring')
+  assert.equal(seasonPrintOffer('/booklets/grade-2-math', nov).path, '/holidays/hanukkah/grade')
+  assert.equal(seasonPrintOffer('/math/grade-3/fractions', nov).path, '/holidays/hanukkah/grade')
+  assert.equal(seasonPrintOffer('/holidays/hanukkah/coloring', nov), null)
+  assert.equal(seasonPrintOffer('/booklets/hanukkah-grade-1', nov), null)
+  assert.equal(seasonPrintOffer('/printables/coloring/cats', new Date('2026-12-13T08:00:00+02:00')), null)
+  const card = readFileSync(new URL('../src/components/print/PrintSuggestions.jsx', import.meta.url), 'utf8')
+  assert.match(card, /seasonPrintOffer\(detail\.path\)/)
+})

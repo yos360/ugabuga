@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { recommendPrintables } from '../../data/printablesCatalog'
 import { trackPrintEvent } from '../../utils/printEvents'
+import { seasonPrintOffer } from '../../data/seasonPrintOffer'
 import './print-suggest.css'
 
 // "Already printing? Maybe also…" — two small links shown after the print dialog opened or a PDF was
@@ -10,7 +11,8 @@ import './print-suggest.css'
 // popover so it sits above an open print preview without blocking it, and it is hidden from the printed page.
 export default function PrintSuggestions({ detail, onFinish }) {
   const dialog = useRef(null)
-  const items = useMemo(() => recommendPrintables(detail.path, { search: detail.search || '', limit: 2 }), [detail])
+  // Until Hanukkah ends, the holiday leads the card on every page that isn't already about it.
+  const items = useMemo(() => { const season = seasonPrintOffer(detail.path); const rest = recommendPrintables(detail.path, { search: detail.search || '', limit: 2 }).filter(item => item.path !== season?.path); return season ? [season, ...rest] : rest }, [detail])
   const done = useRef(false)
   const [host] = useState(() => document.querySelector('dialog.buga-print-dialog[open]'))
   const close = (reason, target) => {
@@ -43,7 +45,7 @@ export default function PrintSuggestions({ detail, onFinish }) {
         <h2 id="buga-suggest-title">כבר מדפיסים? 😊 אולי גם:</h2>
         <button type="button" className="buga-suggest-x" onClick={() => close('dismissed')} aria-label="לא תודה">✕</button>
       </div>
-      <ul className="buga-suggest-list">{items.map(item => <li key={item.id}>
+      <ul className="buga-suggest-list">{items.map(item => <li key={item.id} className={item.season ? "is-season" : undefined}>
         <Link to={item.path} onClick={() => close('clicked', item.path)} title={item.desc}>
           <span aria-hidden="true">{item.emoji}</span><b>{item.title}</b><span className="buga-suggest-go">להדפסה ←</span>
         </Link>

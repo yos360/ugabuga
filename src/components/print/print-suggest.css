@@ -15,3 +15,6 @@
 @keyframes buga-suggest-up{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.buga-suggest-box{animation:none}}
 @media print{.buga-suggest{display:none!important}}
+.buga-suggest-list .is-season a{background:linear-gradient(115deg,#0f1f4d,#25479e);border-color:#f5c542;color:#fff}
+.buga-suggest-list .is-season a:hover,.buga-suggest-list .is-season a:focus-visible{background:linear-gradient(115deg,#162a63,#2d55b8);border-color:#ffe08a}
+.buga-suggest-list .is-season .buga-suggest-go{color:#f5c542}
