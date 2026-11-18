@@ -173,8 +173,8 @@ function PrintSheets({ seed, levelId }) {
       <ol style={{ fontSize: 16, lineHeight: 1.9, columns: 2, width: '100%', paddingInlineStart: 24 }}>
         {[...by('toImproper'), ...by('toMixed'), ...by('picture')].map(q => <li key={q.key}>
           <bdi dir="ltr">{q.kind === 'toMixed' ? `${q.n}/${q.d} = ${mixedText(q.w, q.r, q.d)}` : `${mixedText(q.w, q.r, q.d)} = ${q.n}/${q.d}`}</bdi>
-          {q.kind === 'toMixed' && <small style={{ color: '#555' }}> ({q.n} ÷ {q.d} = {q.w}{q.r ? ` ושארית ${q.r}` : ''})</small>}
-          {q.kind === 'toImproper' && <small style={{ color: '#555' }}> ({q.w}×{q.d}+{q.r})</small>}
+          {q.kind === 'toMixed' && <small style={{ color: '#555' }}> · <bdi dir="ltr">{q.n} ÷ {q.d} = {q.w}</bdi>{q.r ? ` ושארית ${q.r}` : ''}</small>}
+          {q.kind === 'toImproper' && <small style={{ color: '#555' }}> <bdi dir="ltr">({q.w}×{q.d}+{q.r})</bdi></small>}
         </li>)}
       </ol>
       <footer>ugabuga.co.il/math/mixed-numbers · דף תשובות</footer>
@@ -225,7 +225,7 @@ export default function MixedNumbersGuide() {
         <div className="rounded-2xl border-2 border-[var(--border)] bg-white p-4">
           <h3 className="text-xl font-black">2. משבר מדומה למספר מעורב</h3>
           <p className="mt-2 font-bold">מחלקים את המונה במכנה: המנה היא השלמים, השארית היא המונה.</p>
-          <p className="mt-3 text-center text-2xl"><Imp n={17} d={5} /> → <bdi dir="ltr" className="text-xl">17 ÷ 5 = 3 (2)</bdi> → <Mixed w={3} r={2} d={5} /></p>
+          <p className="mt-3 text-center text-2xl"><Imp n={17} d={5} /> ← <bdi dir="ltr" className="text-xl">17 ÷ 5 = 3 (2)</bdi> ← <Mixed w={3} r={2} d={5} /></p>
           <p className="mt-2 text-sm">ואם אין שארית, יצא מספר שלם: <bdi dir="ltr">12/4 = 3</bdi>.</p>
         </div>
       </div>

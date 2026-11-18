@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'dGY9jdN-tkI', kind: 'tutorial', title: 'מספר מעורב ושבר מדומה כיתות ד׳–ה׳ — הסבר ותרגול', paths: ['/math/mixed-numbers'], category: 'learning', date: '2026-11-18',
+    desc: 'מדריך קצר לדף המספרים המעורבים: הסבר עם פיצות, ממיר הלוך וחזור בין מספר מעורב לשבר מדומה, תרגול של 10 תרגילים עם כפתור בדיקה והסבר אחרי כל טעות, ודף עבודה להדפסה עם דף תשובות. חינם, בלי הרשמה.' },
   { id: 'bfx404e_xqI', kind: 'tutorial', title: 'דפי עבודה לכיתה ה׳ להדפסה — חוברת PDF בכל המקצועות', paths: ['/booklets/worksheets-grade-5'], category: 'learning', date: '2026-11-17',
     desc: 'מדריך קצר לחוברת דפי העבודה לכיתה ה׳: 17 עמודים בחשבון, הבנת הנקרא, לשון, אנגלית ומדעים, הצצה לעמודים, הדפסה לתלמיד בלי דף התשובות או רק דף התשובות למורה, בחירת עמודים מסוימים ושמירה כ־PDF.' },
   { id: '4OaEqBMVBTY', kind: 'tutorial', title: 'מסיבת ספא ליום הולדת בבית — איך עושים', paths: ['/birthday/spa-party'], category: 'party', date: '2026-11-17',
@@ -102,6 +104,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/math/mixed-numbers': 'מספר מעורב ושבר מדומה',
   '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
   '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',

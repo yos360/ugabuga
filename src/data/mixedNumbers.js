@@ -14,7 +14,7 @@ export function toMixed(n, d) { return { w: Math.floor(n / d), r: n % d, d } }
 export function mixedText(w, r, d) { return r === 0 ? `${w}` : w === 0 ? `${r}/${d}` : `${w} ${r}/${d}` }
 
 export const LEVELS = [
-  { id: 'easy', label: '🟢 קל', note: 'מכנים 2–5, עד 3 שלמים', dens: [2, 3, 4, 5], maxW: 3 },
+  { id: 'easy', label: '🟢 קל', note: 'מכנים ⁦2–5⁩, עד 3 שלמים', dens: [2, 3, 4, 5], maxW: 3 },
   { id: 'mid', label: '🟡 בינוני', note: 'מכנים עד 8', dens: [2, 3, 4, 5, 6, 8], maxW: 5 },
   { id: 'hard', label: '🔴 מאתגר', note: 'מכנים עד 12, גם שלמים בלי שארית', dens: [3, 4, 5, 6, 7, 8, 9, 10, 12], maxW: 9 },
 ]
@@ -59,13 +59,16 @@ export function checkAnswer(q, input) {
   return w === q.w && r === q.r
 }
 
+// Equations inside Hebrew sentences are wrapped in LTR isolates (U+2066…U+2069) so they read left to right.
+const ltr = s => `⁦${s}⁩`
+
 export function explain(q) {
   const { w, r, d, n } = q
-  if (q.kind === 'toImproper') return `כל שלם הוא ${d}/${d}, אז ${w} שלמים הם ${w} × ${d} = ${w * d} חלקים. מוסיפים את ${r} החלקים: ${w * d} + ${r} = ${n}. התשובה: ${n}/${d}.`
+  if (q.kind === 'toImproper') return `כל שלם הוא ${ltr(`${d}/${d}`)}, אז ${w} שלמים הם ${ltr(`${w} × ${d} = ${w * d}`)} חלקים. מוסיפים את ${r} החלקים: ${ltr(`${w * d} + ${r} = ${n}`)}. התשובה: ${ltr(`${n}/${d}`)}.`
   if (q.kind === 'toMixed') return r === 0
-    ? `${n} ÷ ${d} = ${w} בדיוק, בלי שארית — אז ${n}/${d} הוא המספר השלם ${w}.`
-    : `${n} ÷ ${d} = ${w} ושארית ${r}. המנה היא מספר השלמים, והשארית היא המונה: ${w} ${r}/${d}.`
-  return `יש ${w} ${w === 1 ? 'עיגול שלם' : 'עיגולים שלמים'}, ובעיגול האחרון צבועים ${r} חלקים מתוך ${d}. ביחד: ${w} ${r}/${d}, שהם גם ${n}/${d}.`
+    ? `${ltr(`${n} ÷ ${d} = ${w}`)} בדיוק, בלי שארית — אז ${ltr(`${n}/${d}`)} הוא המספר השלם ${w}.`
+    : `${ltr(`${n} ÷ ${d} = ${w}`)} ושארית ${r}. המנה היא מספר השלמים, והשארית היא המונה: ${ltr(mixedText(w, r, d))}.`
+  return `יש ${w} ${w === 1 ? 'עיגול שלם' : 'עיגולים שלמים'}, ובעיגול האחרון צבועים ${r} חלקים מתוך ${d}. ביחד: ${ltr(mixedText(w, r, d))}, שהם גם ${ltr(`${n}/${d}`)}.`
 }
 
 export const TEACH_STEPS = [
