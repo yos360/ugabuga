@@ -172,6 +172,8 @@ export default function HanukkahSongs() {
       <p className="hs-text mt-2">{HANEIROT_HALALU}</p>
       <p className="no-print mt-3"><Link to="/holidays/hanukkah/candle-lighting" className="font-bold underline">🖨️ כרטיס סדר הדלקת נרות להדפסה, עם תמונה ←</Link></p>
       <p className="no-print mt-3"><Link to="/holidays/blessings/hanukkah" className="font-bold underline">📜 על הניסים, הלל ומה קוראים בתורה בחנוכה ←</Link></p>
+      <p className="no-print mt-3"><Link to="/holidays/hanukkah/candle-times" className="font-bold underline">⏰ באיזו שעה מדליקים הערב? זמני הדלקת נרות לפי עיר ←</Link></p>
+      <p className="no-print mt-3"><Link to="/holidays/hanukkah/sevivon" className="font-bold underline">🎲 אחרי השירים: סביבון וירטואלי למשפחה ←</Link></p>
     </section>
 
     <section id="maoz-tzur" className="ln-box mt-8 scroll-mt-24" aria-labelledby="maoz-title">
