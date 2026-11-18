@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'pajaf_j3Pb8', kind: 'tutorial', title: 'מקצועות לילדים: שיעורים, חידון ודף עבודה לכיתות ב׳–ו׳', paths: ['/learn/professions'], category: 'learning', date: '2026-11-18',
+    desc: 'מדריך קצר לנושא מקצועות לילדים: בוחרים כיתה, נכנסים לשיעור על מקצועות החירום, שיעור אינטראקטיבי צעד אחרי צעד, חידון של 8 שאלות עם הסבר, דף עבודה להדפסה ומבחן לדוגמה של 20 שאלות.' },
   { id: 'dGY9jdN-tkI', kind: 'tutorial', title: 'מספר מעורב ושבר מדומה כיתות ד׳–ה׳ — הסבר ותרגול', paths: ['/math/mixed-numbers'], category: 'learning', date: '2026-11-18',
     desc: 'מדריך קצר לדף המספרים המעורבים: הסבר עם פיצות, ממיר הלוך וחזור בין מספר מעורב לשבר מדומה, תרגול של 10 תרגילים עם כפתור בדיקה והסבר אחרי כל טעות, ודף עבודה להדפסה עם דף תשובות. חינם, בלי הרשמה.' },
   { id: 'bfx404e_xqI', kind: 'tutorial', title: 'דפי עבודה לכיתה ה׳ להדפסה — חוברת PDF בכל המקצועות', paths: ['/booklets/worksheets-grade-5'], category: 'learning', date: '2026-11-17',
@@ -105,6 +107,7 @@ export const VIDEOS = [
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
   '/math/mixed-numbers': 'מספר מעורב ושבר מדומה',
+  '/learn/professions': 'מקצועות לילדים',
   '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
   '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',
