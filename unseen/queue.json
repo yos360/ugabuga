@@ -868,67 +868,88 @@
   "slug": "en-g5-sports-day-notice",
   "xi": 0,
   "level": "g5",
-  "title": "Sports Day at Our School"
+  "title": "Sports Day at Our School",
+  "youtube": "https://youtu.be/ZfmJmbUcZyg",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g6-science-fair-email",
   "xi": 0,
   "level": "g6",
-  "title": "Can Music Help Plants Grow?"
+  "title": "Can Music Help Plants Grow?",
+  "youtube": "https://youtu.be/V9IAD054Arc",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g7-honeybees",
   "xi": 0,
   "level": "g7",
-  "title": "How Do Bees Make Honey?"
+  "title": "How Do Bees Make Honey?",
+  "youtube": "https://youtu.be/d4y-ZdKNyYI",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g8-grandmas-recipe-book",
   "xi": 0,
   "level": "g8",
-  "title": "The Recipe Book"
+  "title": "The Recipe Book",
+  "youtube": "https://youtu.be/M5gvLSXct88",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g9-wheelchair-basketball",
   "xi": 0,
   "level": "g9",
-  "title": "Playing on Wheels"
+  "title": "Playing on Wheels",
+  "youtube": "https://youtu.be/8E6jEt79L90",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-mod-a-robot-vacuum",
   "xi": 1,
   "level": "mod-a",
-  "title": "A Month with a Robot Cleaner"
+  "title": "A Month with a Robot Cleaner",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-g5-sukkah-on-the-balcony",
   "xi": 0,
   "level": "g5",
-  "title": "A Sukkah on the Balcony"
+  "title": "A Sukkah on the Balcony",
+  "youtube": "https://youtu.be/URbO2A-2pvY",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g6-shakshuka-recipe",
   "xi": 0,
   "level": "g6",
-  "title": "Shakshuka for the Whole Family"
+  "title": "Shakshuka for the Whole Family",
+  "youtube": "https://youtu.be/11CkerX7SUs",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g7-hot-air-balloons",
   "xi": 0,
   "level": "g7",
-  "title": "Up, Up and Away"
+  "title": "Up, Up and Away",
+  "youtube": "https://youtu.be/Uo-b1Jb6CF4",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g8-history-of-the-bicycle",
   "xi": 0,
   "level": "g8",
-  "title": "From Running Machine to Racing Bike"
+  "title": "From Running Machine to Racing Bike",
+  "youtube": "https://youtu.be/1TQmivNw59Q",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g9-why-we-dream",
   "xi": 0,
   "level": "g9",
-  "title": "Stories in the Dark: Why We Dream"
+  "title": "Stories in the Dark: Why We Dream",
+  "youtube": "https://youtu.be/fUaoSPGherI",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-mod-a-sea-of-galilee",
@@ -940,13 +961,17 @@
   "slug": "en-g5-summer-camp-schedule",
   "xi": 0,
   "level": "g5",
-  "title": "A Day at Summer Camp"
+  "title": "A Day at Summer Camp",
+  "youtube": "https://youtu.be/PdAqRGODwfo",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g6-young-hikers-club",
   "xi": 0,
   "level": "g6",
-  "title": "Join the Young Hikers Club!"
+  "title": "Join the Young Hikers Club!",
+  "youtube": "https://youtu.be/TEJnObgKUCU",
+  "uploaded": "2026-11-18"
  },
  {
   "slug": "en-g7-learning-to-swim",
