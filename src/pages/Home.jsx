@@ -19,6 +19,7 @@ import BugaCarRun from '../components/home/BugaCarRun'
 import HomeKindCards from '../components/home/HomeKindCards'
 import { KINDS, KIND_DEFAULT } from '../data/homeKinds'
 import HomeStart from '../components/home/HomeStart'
+import HanukkahHome from '../components/home/HanukkahHome'
 import { homeVariant, homeKind, recordHomeKind, recordExperiment } from '../utils/experiments'
 
 // Home page: one search (site or BugaPedia), four doors, eight worlds, favourites, news.
@@ -260,7 +261,7 @@ export default function Home() {
   const opening = variant === 'ai' ? [...featured, search, tunnel] : [...featured, tunnel, search]
   return <><SEO counterpartPath="/en" path="/" title="עוגה בוגה — משחקים, דפי פעילות ולמידה לילדים בחינם" description="משחקים לילדים, משחקי אונליין, דפי צביעה ודפי פעילות להדפסה, תרגול חשבון לפי כיתה, אותיות וקריאה — בעברית, בחינם וללא הרשמה." structuredData={faqSchema(homeFaq)} /><div className={`hp hp-v-${variant}`} dir="rtl">
     <RainBanner />
-    <Suspense fallback={null}><SeasonColoring top /></Suspense>
+    {new Date() < SEASON_ENDS ? <HanukkahHome /> : <Suspense fallback={null}><SeasonColoring top /></Suspense>}
     <section className="hp-hero">
       <Suspense fallback={null}><RoadWeekBanner /></Suspense>
       <div className="hp-chips"><PrintStrip /><ShoppingChip /><BringChip /><ElectionChip /></div>
@@ -274,7 +275,7 @@ export default function Home() {
     </section>
     <NearViewport minHeight={0}><DailyRiddleBox /></NearViewport>
     <HomeKindCards kind={kind} />
-    <Suspense fallback={null}><SeasonColoring /></Suspense>
+    {new Date() >= SEASON_ENDS && <Suspense fallback={null}><SeasonColoring /></Suspense>}
     <HomeSpotlight kind={kind} />
     <Link to="/travel" className="travel-spotlight" aria-label="בוגה במצב טיסה — לכל מקום, גם בלי אינטרנט">
       <span className="travel-plane" aria-hidden="true">✈️</span>
