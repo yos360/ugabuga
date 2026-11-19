@@ -44,7 +44,7 @@
 
   // ---- real data of the page (src/data/hanukkahSongs.js, src/pages/holidays/HanukkahSongs.jsx) ----
   // hook = question 4 of makeGame(1): clue + the four real options in the page's own order (answer = option 4, never shown)
-  const HOOK_CLUE = '🌑 ➡️ 🚪 💡';
+  const HOOK_CLUE = '🌃 ⬅️ 🚪 💡';
   const HOOK_OPTS = ['הנרות הללו', 'לביבות', 'חנוכה, חנוכה, חג יפה כל כך', 'באנו חושך לגרש'];
   const AGES = ['כל השירים', '🧸 לגן ולפעוטות', '🎒 לבית הספר']; // SONG_AGES without the "all" entry
   const REASONS = ['', '', ''], SETS = [], HALF = [];
@@ -52,7 +52,7 @@
   const REASON_TEXT = '', NAMES = [], DATE = '', SIGNER = '';
 
   const steps = [
-    { n: 1, sec: 'aud', title: 'בוחרים לפי גיל', sub: '15 שירים ופיוטים · יוצרים והסבר', color: '#226bd7' },
+    { n: 1, sec: 'aud', title: 'בוחרים לפי גיל', sub: '15 שירים ופיוטים · עם שמות היוצרים', color: '#226bd7' },
     { n: 2, sec: 'topics', title: 'ברכות ומעוז צור', sub: 'המילים המלאות — גם להדפסה', color: '#cf2f56' },
     { n: 3, sec: 'modes', title: 'נחשו את השיר', sub: 'חידת אימוג׳י ורמז קטן', color: '#8a4fd8' },
     { n: 4, sec: 'play', title: 'בוחרים תשובה', sub: 'מי שמנחש — מתחיל לשיר!', color: '#e08a00' },

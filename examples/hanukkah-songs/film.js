@@ -146,24 +146,24 @@
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.title, W / 2, 270, (c) => pill(c, 0, 0, '🎵 שירי חנוכה לילדים', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
-    popAt(ctx, t, ev.q1, W / 2, 430, (c) => he(c, 'איזה שיר חנוכה', 0, 0, { size: 104, w: 900, maxW: SAFE.w }), { rot: -0.03 });
-    popAt(ctx, t, ev.q1 + BEAT * 0.5, W / 2, 565, (c) => he(c, 'מסתתר כאן? 🤔', 0, 0, { size: 112, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, ev.q2, W / 2, 790, (c) => {
+    popAt(ctx, t, ev.title, W / 2, 220, (c) => pill(c, 0, 0, '🎵 שירי חנוכה לילדים', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
+    popAt(ctx, t, ev.q1, W / 2, 375, (c) => he(c, 'איזה שיר חנוכה', 0, 0, { size: 104, w: 900, maxW: SAFE.w }), { rot: -0.03 });
+    popAt(ctx, t, ev.q1 + BEAT * 0.5, W / 2, 505, (c) => he(c, 'מסתתר באימוג׳ים? 🤔', 0, 0, { size: 112, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, ev.q2, W / 2, 715, (c) => {
       card(c, -440, -125, 880, 250, { fill: '#fff', r: 40, seed: 14, shadow: 12, lw: 5 });
       he(c, S.HOOK_CLUE, 0, 48, { size: 124, w: 400 });
     }, { rot: -0.015, dur: 0.3 });
     S.hookOpts.forEach((o) => {
-      popAt(ctx, t, o.t, W / 2, 1040 + o.i * 128, (c) => optRow(c, 0, 0, 880, 112, S.HOOK_OPTS[o.i], { size: 46, seed: 20 + o.i, num: o.i + 1 }), { rot: [-0.008, 0.008, -0.006, 0.008][o.i], dur: 0.25, over: 1.6 });
+      popAt(ctx, t, o.t, W / 2, 955 + o.i * 122, (c) => optRow(c, 0, 0, 880, 112, S.HOOK_OPTS[o.i], { size: 46, seed: 20 + o.i, num: o.i + 1 }), { rot: [-0.008, 0.008, -0.006, 0.008][o.i], dur: 0.25, over: 1.6 });
     });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(655, 1630); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      ctx.save(); ctx.translate(655, 1490); ctx.rotate(-0.04); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
       pill(ctx, 0, 0, 'כתבו מספר בתגובות 👇', { size: 54, w: 900, bg: C.yellow, padX: 36 });
       ctx.restore();
     }
-    mascot(ctx, 185, 1680 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 270, t, ev.q2);
+    mascot(ctx, 175, 1535 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 270, t, ev.q2);
   }
 
   // ================= 1. CHOOSE BY AGE =================
@@ -183,7 +183,7 @@
       chip(c, 170, 78, 330, 60, '🧸 לגן ולפעוטות', { size: 32, seed: 34 });
       he(c, '▶️ חיפוש ביוטיוב', 370, 160, { size: 38, w: 800, align: 'right', color: C.blue });
     }, { dur: 0.25, over: 1.4, rot: 0.006 });
-    popAt(ctx, t, S.pills[0], W / 2, 1420, (c) => pill(c, 0, 0, 'מ״סביבון סוב סוב סוב״ ועד ״מעוז צור״', { size: 42, w: 900, bg: C.yellow, seed: 66 }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[0], W / 2, 1420, (c) => pill(c, 0, 0, 'מסביבון סוב סוב סוב ועד מעוז צור', { size: 42, w: 900, bg: C.yellow, seed: 66 }), { rot: -0.02 });
     popAt(ctx, t, S.pills[1], W / 2, 1540, (c) => pill(c, 0, 0, 'להורים, לגננות ולמורים 💛', { size: 44, w: 900, bg: C.lilac, seed: 67 }), { rot: 0.02 });
   }
 
@@ -209,7 +209,6 @@
     popAt(ctx, t, ev.reasonCard + 0.35, W / 2, 1375, (c) => { const pr = t >= ev.topic ? 1 + 0.05 * pulse(t, ev.topic, 10) : 1; c.scale(pr, pr); pill(c, 0, 0, '🖨️ הדפסת דף ההדלקה', { size: 52, w: 900, bg: C.red, fg: '#fff', padX: 60, seed: 52 }); }, { rot: 0.012 });
     UI.tap(ctx, W / 2 + 60, 1390, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
     popAt(ctx, t, S.pills[2], W / 2, 1500, (c) => pill(c, 0, 0, 'הבית החמישי — בית החנוכה 🕎', { size: 42, w: 900, bg: C.yellow, seed: 66 }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[3], W / 2, 1605, (c) => pill(c, 0, 0, 'ברכה שלישית — רק בערב הראשון', { size: 40, w: 900, bg: C.lilac, seed: 67 }), { rot: 0.02 });
   }
 
   // the game board: count of 15, clue, hint, four answers (rightIdx lights up green when tR > 0)
@@ -236,7 +235,7 @@
       chipP: tR > 0 ? 0 : clamp((t - M0[1].t) / 0.25), msg: tR > 0 ? 'התשובה: חנוכייה לי יש' : '', msgAlpha: clamp(tR * 2),
     }), { dur: 0.3, over: 1.35, rot: -0.008 });
     UI.tap(ctx, W / 2 + 40, 1210, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
-    popAt(ctx, t, M0[2].t, W / 2, 1425, (c) => pill(c, 0, 0, 'חידת אימוג׳י — ואפשר גם לבקש רמז', { size: 42, w: 900, bg: C.yellow, seed: 67 }), { rot: -0.02 });
+    popAt(ctx, t, M0[2].t, W / 2, 1425, (c) => pill(c, 0, 0, 'נתקעתם? יש כפתור רמז 💡', { size: 42, w: 900, bg: C.yellow, seed: 67 }), { rot: -0.02 });
     popAt(ctx, t, M0[3].t, W / 2, 1540, (c) => pill(c, 0, 0, '15 חידות בכל סיבוב 🎲', { size: 42, w: 900, bg: C.lilac, seed: 68 }), { rot: 0.02 });
   }
 
@@ -251,7 +250,7 @@
     }), { dur: 0.3, over: 1.35, rot: -0.008 });
     UI.tap(ctx, W / 2 + 160, 840, t, ev.go, { color: 'rgba(224,138,0,0.8)', size: 110 });
     confetti(ctx, t, ev.ans, W / 2, 1000, { n: 55, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[4], W / 2, 1425, (c) => pill(c, 0, 0, 'מי שמנחש — מתחיל לשיר! 🎤', { size: 44, w: 900, bg: C.yellow, seed: 85 }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1425, (c) => pill(c, 0, 0, 'מנחשים יחד — ואז שרים יחד 🎤', { size: 44, w: 900, bg: C.yellow, seed: 85 }), { rot: -0.02 });
     popAt(ctx, t, S.pills[5], W / 2, 1540, (c) => pill(c, 0, 0, 'מושלם למעגל בגן ולמסיבה בכיתה 👥', { size: 40, w: 900, bg: C.lilac, seed: 88 }), { rot: 0.02 });
   }
 
@@ -274,7 +273,7 @@
       he(c, '🕎 מסיבת חנוכה · גן רימון', 0, -160, { size: 30, w: 700, color: C.muted, maxW: 700 });
       he(c, 'שירי חנוכה למסיבה', 0, -92, { size: 56, w: 900, maxW: 700 });
       he(c, 'סמנו ✓ ליד כל שיר ששרנו', 0, -40, { size: 32, w: 600, color: C.muted, maxW: 700 });
-      [['סביבון סוב סוב סוב', 'מילים: לוין קיפניס · לחן: לחן עממי'], ['באנו חושך לגרש', 'מילים: שרה לוי־תנאי · לחן: עמנואל עמירן'], ['כד קטן', 'מילים: אהרן אשמן · לחן: יואל ולבה']].forEach(([tt, cr], i) => {
+      [['סביבון סוב סוב סוב', 'מילים: לוין קיפניס · לחן עממי'], ['נר לי', 'מילים: לוין קיפניס · לחן: דניאל סמבורסקי'], ['כד קטן', 'מילים: אהרן אשמן · לחן: יואל ולבה']].forEach(([tt, cr], i) => {
         const y = 24 + i * 68;
         c.fillStyle = C.line; c.fillRect(-350, y + 36, 700, 2);
         he(c, '☐', 350, y + 12, { size: 40, w: 700, align: 'right', dir: 'ltr' });
@@ -282,17 +281,17 @@
         he(c, cr, -350, y + 10, { size: 22, w: 500, color: C.muted, align: 'left', maxW: 300 });
       });
     }, { dur: 0.32, over: 1.3, rot: -0.008 });
-    if (t > I[3].t) checkMark(ctx, W / 2 + 350, 1065 + 24 + 4, 24 * ease.outBack(clamp((t - I[3].t) / 0.25), 1.6), clamp((t - I[3].t) / 0.35));
+    if (t > I[3].t) checkMark(ctx, W / 2 + 333, 1065 + 24 + 2, 24 * ease.outBack(clamp((t - I[3].t) / 0.25), 1.6), clamp((t - I[3].t) / 0.35));
     popAt(ctx, t, ev.printBtn, W / 2, 1385, (c) => pill(c, 0, 0, '🖨️ הדפסת הרשימה', { size: 64, w: 900, bg: C.green, fg: '#fff', padX: 70, seed: 112 }), { rot: -0.04, dur: 0.35 });
     confetti(ctx, t, ev.printBtn, W / 2, 1375, { n: 70, seed: 8, spread: 900 });
-    popAt(ctx, t, S.extras[0].t, W / 2, 1505, (c) => pill(c, 0, 0, 'כל השירים ושמות היוצרים בדף אחד', { size: 40, w: 900, bg: C.yellow, seed: 67 }), { rot: 0.02 });
+    popAt(ctx, t, S.extras[0].t, W / 2, 1515, (c) => pill(c, 0, 0, 'שמות היוצרים ליד כל שיר', { size: 40, w: 900, bg: C.yellow, seed: 67 }), { rot: 0.02 });
     popAt(ctx, t, S.extras[1].t, W / 2, 1610, (c) => pill(c, 0, 0, 'לתלות ליד הפסנתר 🎹', { size: 40, w: 900, bg: C.lilac, seed: 68 }), { rot: -0.02 });
   }
 
   // the four numbered options again, small, under the question
   function endOpts(ctx, t, t0) {
     S.HOOK_OPTS.forEach((lb, i) => {
-      const x = 755 - (i % 2) * 435, y = 1325 + Math.floor(i / 2) * 135;
+      const x = 755 - (i % 2) * 435, y = 1235 + Math.floor(i / 2) * 130;
       popAt(ctx, t, t0 + i * 0.06, x, y, (c) => {
         card(c, -205, -55, 410, 110, { fill: '#fff', r: 26, seed: 150 + i, shadow: 6, lw: 4 });
         const ls = wrap(c, lb, 34, 270, 800, 2);
@@ -306,20 +305,20 @@
   // ================= END =================
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    ctx.save(); ctx.translate(W / 2, 440); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
+    ctx.save(); ctx.translate(W / 2, 400); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    mascot(ctx, W / 2, 430, 330, t, ev.logo);
+    mascot(ctx, W / 2, 395, 310, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
-    he(ctx, 'עוגה בוגה', W / 2, 710 + (1 - wp) * 24, { size: 130, w: 900, alpha: wp });
+    he(ctx, 'עוגה בוגה', W / 2, 665 + (1 - wp) * 24, { size: 130, w: 900, alpha: wp });
     const L = S.endLines;
-    he(ctx, 'שירי חנוכה לילדים ולכל המשפחה', W / 2, 790, { size: 50, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[1].t, W / 2, 870, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 44, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
-    popAt(ctx, t, L[2].t, W / 2, 970, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 62, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'חפשו באתר: שירי חנוכה 🔎', W / 2, 1065, { size: 38, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1170, (c) => pill(c, 0, 0, '✍️ איזה שיר זה? 🌑 ➡️ 🚪 💡', { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192 }), { rot: 0.025, dur: 0.35 });
+    he(ctx, 'שירי חנוכה לילדים ולכל המשפחה', W / 2, 745, { size: 50, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[1].t, W / 2, 805, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 44, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
+    popAt(ctx, t, L[2].t, W / 2, 920, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 62, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
+    he(ctx, 'חפשו באתר: שירי חנוכה 🔎', W / 2, 1035, { size: 38, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 1125, (c) => pill(c, 0, 0, '✍️ איזה שיר זה? 🌃 ⬅️ 🚪 💡', { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192 }), { rot: 0.025, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1625, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193 }), { rot: -0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1490, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193 }), { rot: -0.02, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
