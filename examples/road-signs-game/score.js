@@ -45,7 +45,7 @@
   // ---- real data of the pages (src/signs/SignsPages.jsx, signsData.js, signsQuiz.js) ----
   // hook = sign 136 with the real names of 135 / 136 / 226 (answer never shown; it is option 3)
   const HOOK_SIGN = '136';
-  const HOOK_NAMES = ['שביל להולכי רגל בלבד', 'מעבר חצייה להולכי רגל בקרבת מקום', 'הולכי רגל בקרבת מקום'];
+  const HOOK_NAMES = ['שביל להולכי רגל בלבד', 'מעבר חצייה להולכי רגל|בקרבת מקום', 'הולכי רגל בקרבת מקום'];
   const CATS = ['אזהרה והתראה', 'הוריה', 'זכות קדימה', 'איסורים והגבלות', 'מודיעין והדרכה'];
   const CAT_PICK = 2;
   const CAT_HINT = 'לתמרורי זכות קדימה צורות שונות: משולש הפוך, מתומן וגם עיגול וריבוע.';
@@ -57,9 +57,9 @@
 
   const steps = [
     { n: 1, sec: 'aud', title: 'בוחרים משפחה', sub: 'חמש משפחות של תמרורים', color: '#226bd7' },
-    { n: 2, sec: 'topics', title: 'מזהים ומקבלים הסבר', sub: 'איזה תמרור מופיע בתמונה?', color: '#cf2f56' },
+    { n: 2, sec: 'topics', title: 'מזהים ומקבלים הסבר', sub: 'בוחרים תשובה וקוראים למה', color: '#cf2f56' },
     { n: 3, sec: 'modes', title: 'מבינים כל תמרור', sub: 'מה הוא אומר ואיך מתנהגים', color: '#8a4fd8' },
-    { n: 4, sec: 'play', title: 'מבחן תרגול לפי גיל', sub: 'מגיל 6 ועד נהגים צעירים', color: '#e08a00' },
+    { n: 4, sec: 'play', title: 'מבחן תרגול לפי גיל', sub: 'מילדים בני ⁦6⁩ ועד נהגים צעירים', color: '#e08a00' },
     { n: 5, sec: 'print', title: 'כרטיסיות להדפסה', sub: 'גוזרים, מקפלים ומשחקים', color: '#23874d' },
   ].map((f) => ({ ...f, t: S[f.sec][0] }));
 
