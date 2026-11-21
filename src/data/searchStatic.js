@@ -354,7 +354,7 @@ const PAGES = [
   // school holidays calendar (/school-holidays/*)
   { to: '/school-holidays', title: 'לוח חופשות 2026–2027 משרד החינוך', emoji: '📅', kind: 'tool', desc: 'כל החופשות של תשפ״ז, ספירה לאחור, הדפסה ויומן.', keys: 'לוח חופשות חופשות משרד החינוך תשפז חופש ספירה לאחור מתי החופש לוח חופשים' },
   { to: '/school-holidays/hanukkah', title: 'חופשת חנוכה 2026', emoji: '🕎', kind: 'tool', desc: '6.12–12.12.2026, ומה עושים בחופש.', keys: 'חופשת חנוכה חופש חנוכה תאריכים' },
-  { to: '/school-holidays/purim', title: 'חופשת פורים 2027', emoji: '🎭', kind: 'tool', desc: '23–24.3.2027.', keys: 'חופשת פורים חופש פורים שושן פורים' },
+  { to: '/school-holidays/purim', title: 'חופשת פורים 2027', emoji: '🎭', kind: 'tool', desc: '23–24.3.2027.', keys: 'חופשת פורים חופש פורים שושן פורים חופשת פורים 2027 חופש פורים 2027 מתי פורים 2027 פורים תשפז לוח חופשות משרד החינוך' },
   { to: '/school-holidays/pesach', title: 'חופשת פסח 2027', emoji: '🫓', kind: 'tool', desc: '13.4–28.4.2027, ומה עושים בחופש.', keys: 'חופשת פסח חופש פסח ליל הסדר' },
   { to: '/school-holidays/yom-haatzmaut', title: 'יום העצמאות 2027 — יום חופש', emoji: '🇮🇱', kind: 'tool', desc: '12.5.2027.', keys: 'יום העצמאות חופש' },
   { to: '/school-holidays/lag-baomer', title: 'ל״ג בעומר 2027 — יש לימודים?', emoji: '🔥', kind: 'tool', desc: '25.5.2027 — לפי הלוח, יום לימודים.', keys: 'לג בעומר חופש לימודים' },

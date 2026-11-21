@@ -21,6 +21,12 @@ export const SOLITAIRE = {
       'Do not rush to empty a column if you have no king to put in it.',
       'Stuck? 💡 shows a useful move, and ↩ undoes mistakes.',
     ],
+    faq: [
+      { q: 'Is this Solitaire free, and do I need to download anything?', a: 'It is completely free, with no download and no sign-up. It opens right in your browser on a computer, tablet or phone.' },
+      { q: 'How many cards are turned from the deck?', a: 'One card per tap. When the deck runs out, tap ↻ to bring it back as many times as you like.' },
+      { q: 'Can every game of Solitaire be won?', a: 'Not every deal. Some deals cannot be solved. If you get stuck, use ↩ to go back a few moves or start a new game. The daily challenge always uses a deal that can be won.' },
+      { q: 'Is my game saved if I close the page?', a: 'Yes. An unfinished game is saved in this browser and comes back exactly as you left it.' },
+    ],
   },
   'spider-solitaire': {
     emoji: '🕷️',
