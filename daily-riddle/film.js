@@ -156,7 +156,11 @@
   // a drawn riddle: the same drawing that is on the site (img/<R.image>), framed on the board
   function boardImage(ctx, t) {
     const w = SAFE.w + 40, h = w * 700 / 900;
+    // R.turnOnHint: when the late hint lands the drawing turns 180°, holds, and turns back (shows the rule, not the answer)
+    const hintT = R.hint2 && R.turnOnHint ? (S.ticks.find((k) => k.n === (R.hintAt || 5)) || {}).t : null;
+    const ang = hintT == null ? 0 : Math.PI * (ease.inOutCubic(clamp((t - hintT - 0.2) / 1.0)) - ease.inOutCubic(clamp((t - hintT - 3.0) / 1.0)));
     popAt(ctx, t, S.spots[0].t, W / 2, MID, (c) => {
+      if (ang) c.rotate(ang);
       card(c, -w / 2 - 6, -h / 2 - 6, w + 12, h + 12, { fill: C.card, r: 34, seed: 350, shadow: 12 });
       if (IMG.board) c.drawImage(IMG.board, -w / 2, -h / 2, w, h);
     }, { dur: 0.3, over: 1.6 });
@@ -166,7 +170,10 @@
     popAt(ctx, t, T(2), W / 2, 200, (c) => pill(c, 0, 0, `🧠 החידה היומית ⁦#${R.n}⁩`, { size: 40, w: 800, bg: C.lilac, padX: 30, seed: 201 }), { dur: 0.25 });
     he(ctx, R.title, W / 2, 360, { size: 84, w: 900, maxW: SAFE.w, alpha: UI.fadeIn(t, T(2) + 0.1, 0.2) });
     if (R.kind === 'seq') boardSeq(ctx, t); else if (R.kind === 'eq') boardEq(ctx, t); else if (R.kind === 'image') boardImage(ctx, t); else boardText(ctx, t);
-    popAt(ctx, t, ev.ask, W / 2, 1265, (c) => pill(c, 0, 0, R.ask, { size: 48, w: 900, bg: C.yellow, padX: 40, seed: 310, maxW: SAFE.w }), { rot: -0.02 });
+    // optional late hint (R.hint2): replaces the question pill when R.hintAt seconds are left on the countdown
+    const hintT = R.hint2 ? (S.ticks.find((k) => k.n === (R.hintAt || 5)) || {}).t : null;
+    if (hintT != null && t >= hintT) popAt(ctx, t, hintT, W / 2, 1265, (c) => pill(c, 0, 0, R.hint2, { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 311, maxW: SAFE.w }), { rot: 0.02, dur: 0.3 });
+    else popAt(ctx, t, ev.ask, W / 2, 1265, (c) => pill(c, 0, 0, R.ask, { size: 48, w: 900, bg: C.yellow, padX: 40, seed: 310, maxW: SAFE.w }), { rot: -0.02 });
 
     // the countdown
     const started = t >= ev.count, up = t >= ev.ring;
