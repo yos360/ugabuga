@@ -152,24 +152,24 @@
   // ================= HOOK =================
   function shotHook(ctx, t) {
     heroBg(ctx);
-    popAt(ctx, t, ev.title, W / 2, 285, (c) => pill(c, 0, 0, '🏳️ חידון הדגלים', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
-    popAt(ctx, t, ev.q1, W / 2, 440, (c) => he(c, 'של איזו מדינה הדגל הזה? 🤔', 0, 0, { size: 84, w: 900, maxW: SAFE.w }), { rot: -0.03 });
-    popAt(ctx, t, ev.q1 + BEAT, W / 2, 720, (c) => {
+    popAt(ctx, t, ev.title, W / 2, 345, (c) => pill(c, 0, 0, '🏳️ חידון הדגלים', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
+    popAt(ctx, t, ev.q1, W / 2, 500, (c) => he(c, 'של איזו מדינה הדגל הזה? 🤔', 0, 0, { size: 84, w: 900, maxW: SAFE.w }), { rot: -0.03 });
+    popAt(ctx, t, ev.q1 + BEAT, 640, 790, (c) => {
       card(c, -250, -195, 500, 390, { fill: '#fff', r: 40, seed: 14, shadow: 12, lw: 4.5 });
       flag(c, S.HOOK_FLAG, 0, 0, 420);
     }, { rot: 0.02 });
     S.hookOpts.forEach((o) => {
       const col = o.i % 2, row = Math.floor(o.i / 2);
-      popAt(ctx, t, o.t, W / 2 + (col ? -225 : 225), 1060 + row * 140, (c) => opt(c, 0, 0, 440, 118, S.HOOK_NAMES[o.i], { size: 46, seed: 20 + o.i, num: o.i + 1 }), { rot: [-0.01, 0.008, 0.008, -0.008][o.i], dur: 0.25, over: 1.6 });
+      popAt(ctx, t, o.t, W / 2 + (col ? -225 : 225), 1110 + row * 140, (c) => opt(c, 0, 0, 440, 118, S.HOOK_NAMES[o.i], { size: 46, seed: 20 + o.i, num: o.i + 1 }), { rot: [-0.01, 0.008, 0.008, -0.008][o.i], dur: 0.25, over: 1.6 });
     });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(650, 1466); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      ctx.save(); ctx.translate(W / 2, 1420); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
       pill(ctx, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 48, w: 900, bg: C.yellow, padX: 34, maxW: 700 });
       ctx.restore();
     }
-    mascot(ctx, 175, 1640 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 250, t, ev.q2);
+    mascot(ctx, 200, 790 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 330, t, ev.q2);
   }
 
   // ================= 1. CHOOSE THE LEVEL =================
@@ -186,8 +186,8 @@
     });
     UI.tap(ctx, W / 2 + 120, 610 + S.LEVEL_PICK * 190 + 10, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 });
     popAt(ctx, t, S.pills[0], W / 2, 1245, (c) => pill(c, 0, 0, '⁦195⁩ דגלים מכל העולם', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1355, (c) => pill(c, 0, 0, 'הרמה הקלה מתאימה כבר לכיתות א׳–ב׳', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[2], W / 2, 1465, (c) => pill(c, 0, 0, 'בגן: מוצאים את הדגל של ישראל', { size: 40, w: 900, bg: C.yellow, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[1], W / 2, 1355, (c) => pill(c, 0, 0, 'מכיתה ד׳: לפי יבשות וברמה הקשה', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1465, (c) => pill(c, 0, 0, 'בגן: מחפשים את דגל ישראל', { size: 40, w: 900, bg: C.yellow, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 2. CHOOSE THE CONTINENT =================
@@ -200,7 +200,7 @@
     });
     UI.tap(ctx, W / 2 + 235 + 60, 565 + 120 + 10, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
     popAt(ctx, t, ev.reasonCard, W / 2, 1090, (c) => pill(c, 0, 0, '▶ מתחילים — ⁦10⁩ דגלים', { size: 56, w: 900, bg: C.green, fg: '#fff', padX: 60, seed: 60, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
-    confetti(ctx, t, ev.reasonCard, W / 2, 1090, { n: 36, seed: 5, spread: 700 });
+    confetti(ctx, t, ev.reasonCard, W / 2, 1000, { n: 24, seed: 5, spread: 700 });
     popAt(ctx, t, S.pills[3], W / 2, 1250, (c) => pill(c, 0, 0, 'חידון לכל המשפחה, לא רק לילדים', { size: 42, w: 900, bg: C.yellow, seed: 61, maxW: SAFE.w }), { rot: 0.02 });
     popAt(ctx, t, S.pills[4], W / 2, 1360, (c) => pill(c, 0, 0, 'בכיתה: מקרינים ומחלקים לקבוצות', { size: 42, w: 900, bg: C.lilac, seed: 62, maxW: SAFE.w }), { rot: -0.02 });
   }
@@ -270,7 +270,7 @@
       pill(c, 0, 118, '🔁 עוד סיבוב', { size: 42, w: 900, bg: C.blue, fg: '#fff', padX: 56, seed: 113 });
     }, { rot: -0.02, dur: 0.3 });
     UI.tap(ctx, W / 2 + 230, 995, t, ev.printBtn, { color: 'rgba(35,135,77,0.8)', size: 120 });
-    confetti(ctx, t, ev.printBtn, W / 2, 1000, { n: 40, seed: 8, spread: 900 });
+    confetti(ctx, t, ev.printBtn, W / 2, 900, { n: 24, seed: 8, spread: 900 });
     popAt(ctx, t, I[2].t, W / 2, 1245, (c) => he(c, 'כדאי לחזור על הדגלים האלה', 0, 0, { size: 46, w: 900, maxW: SAFE.w }), { dur: 0.25 });
     S.REVIEW.forEach((r, k) => {
       popAt(ctx, t, I[2 + k].t + 0.1, W / 2 + (k ? -225 : 225), 1370, (c) => {
@@ -283,34 +283,33 @@
     popAt(ctx, t, S.extras[0].t, W / 2, 1530, (c) => pill(c, 0, 0, 'מאתגרים משפחה וחברים: מי מזהה יותר?', { size: 38, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
-  // the hook flag again, small, with the four numbered names
+  // the hook flag again, big, with the four numbered names in the same 2×2 grid as the hook
   function endOpts(ctx, t, t0) {
-    popAt(ctx, t, t0, 215, 1230, (c) => { card(c, -135, -120, 270, 240, { fill: '#fff', r: 30, seed: 150, shadow: 9, lw: 4 }); flag(c, S.HOOK_FLAG, 0, 0, 220, { r: 6 }); }, { dur: 0.25, over: 1.5 });
+    popAt(ctx, t, t0, W / 2, 1085, (c) => { card(c, -215, -170, 430, 340, { fill: '#fff', r: 34, seed: 150, shadow: 10, lw: 4.5 }); flag(c, S.HOOK_FLAG, 0, 0, 380, { r: 8 }); }, { dur: 0.25, over: 1.5 });
     [0, 1, 2, 3].forEach((i) => {
-      popAt(ctx, t, t0 + 0.08 + i * 0.08, 650, 1100 + i * 92, (c) => opt(c, 0, 0, 600, 80, S.HOOK_NAMES[i], { size: 36, seed: 160 + i, num: i + 1 }), { dur: 0.22, over: 1.5 });
+      const col = i % 2, row = Math.floor(i / 2);
+      popAt(ctx, t, t0 + 0.08 + i * 0.08, W / 2 + (col ? -225 : 225), 1340 + row * 125, (c) => opt(c, 0, 0, 430, 100, S.HOOK_NAMES[i], { size: 42, seed: 160 + i, num: i + 1 }), { dur: 0.22, over: 1.5 });
     });
   }
 
   // ================= END =================
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    ctx.save(); ctx.translate(W / 2, 330); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
+    ctx.save(); ctx.translate(W / 2, 250); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    mascot(ctx, W / 2, 330, 280, t, ev.logo);
+    mascot(ctx, W / 2, 250, 230, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
-    he(ctx, 'עוגה בוגה', W / 2, 570 + (1 - wp) * 24, { size: 116, w: 900, alpha: wp });
+    he(ctx, 'עוגה בוגה', W / 2, 450 + (1 - wp) * 24, { size: 92, w: 900, alpha: wp });
     const L = S.endLines;
-    he(ctx, 'חידון הדגלים', W / 2, 645, { size: 50, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[1].t, W / 2, 722, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 42, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
-    popAt(ctx, t, L[2].t, W / 2, 820, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 60, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'חפשו באתר: חידון דגלים 🔎', W / 2, 912, { size: 36, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 995, (c) => pill(c, 0, 0, '✍️ של איזו מדינה הדגל?', { size: 52, w: 900, bg: C.red, fg: '#fff', padX: 44, seed: 192, maxW: SAFE.w }), { rot: 0.025, dur: 0.35 });
+    he(ctx, 'חידון הדגלים · חינם, בלי הרשמה', W / 2, 520, { size: 44, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[2].t, W / 2, 615, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 56, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
+    he(ctx, 'חפשו באתר: חידון דגלים 🔎', W / 2, 720, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 840, (c) => pill(c, 0, 0, '✍️ של איזו מדינה הדגל הזה?', { size: 56, w: 900, bg: C.red, fg: '#fff', padX: 44, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1490, (c) => pill(c, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
-    confetti(ctx, t, ev.logo, W / 2, 500, { n: 45, seed: 9, spread: 1000 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1590, (c) => pill(c, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    confetti(ctx, t, ev.logo, W / 2, 250, { n: 20, seed: 9, spread: 1000 });
   }
-
   // ---------- the cut list ----------
   const SECTIONS = [
     { t0: 0, fn: shotHook },
