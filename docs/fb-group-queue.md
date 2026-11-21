@@ -17,3 +17,6 @@ Titles are written by the builder; never put request texts, emails, names or ids
 ## 2026-11-16
 - דפי עבודה לכיתה ה׳ — חוברת משולבת: חשבון, הבנת הנקרא, לשון, אנגלית ומדעים | https://ugabuga.co.il/booklets/worksheets-grade-5
 - חוברת אנזימים לכיתה ט׳ — אתר פעיל, טמפרטורה ו־pH, אנזימי העיכול וניסויים | https://ugabuga.co.il/booklets/enzymes-grade-9
+
+## 2026-11-21
+- חנויות — חוברת לכיתה ב׳: קטעי קריאה על חנויות ושוק, חשבון כסף ועודף | https://ugabuga.co.il/booklets/stores-grade-2

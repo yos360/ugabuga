@@ -40,6 +40,7 @@ import tanakhGrade8 from './meta/tanakh-grade-8.js'
 import tanakhGrade9 from './meta/tanakh-grade-9.js'
 import tanakhHighSchool from './meta/tanakh-high-school.js'
 import moledetGrade2 from './meta/moledet-grade-2.js'
+import storesGrade2 from './meta/stores-grade-2.js'
 import moledetGrade3 from './meta/moledet-grade-3.js'
 import moledetGrade4 from './meta/moledet-grade-4.js'
 import geographyGrade5 from './meta/geography-grade-5.js'
@@ -134,6 +135,7 @@ export const SUBJECT_BOOKLETS = [
   { ...tanakhGrade9, load: subject(() => import('./content/tanakh-grade-9.js')) },
   { ...tanakhHighSchool, load: subject(() => import('./content/tanakh-high-school.js')) },
   { ...moledetGrade2, load: subject(() => import('./content/moledet-grade-2.js')) },
+  { ...storesGrade2, load: subject(() => import('./content/stores-grade-2.js')) },
   { ...moledetGrade3, load: subject(() => import('./content/moledet-grade-3.js')) },
   { ...moledetGrade4, load: subject(() => import('./content/moledet-grade-4.js')) },
   { ...geographyGrade5, load: subject(() => import('./content/geography-grade-5.js')) },
