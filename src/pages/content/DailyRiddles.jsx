@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -35,8 +35,37 @@ export function Board({ r }) {
   return <div className="space-y-1 text-center text-2xl font-bold leading-relaxed">{r.lines.map((l, i) => <p key={i}>{l}</p>)}</div>
 }
 
+// The Hebrew keyboard as on a phone, physical left-to-right. Used by riddles with r.keyboard: on reveal the
+// lit keys light up one by one in the riddle's order, then the answer key pops.
+const KB_ROWS = ['קראטוןםפ', 'שדגכעיחלךף', 'זסבהנמצתץ']
+function KeyboardReveal({ kb }) {
+  const [step, setStep] = useState(0)
+  const total = kb.lit.length + 1
+  useEffect(() => {
+    if (step >= total) return undefined
+    const t = setTimeout(() => setStep(s => s + 1), step === 0 ? 300 : 450)
+    return () => clearTimeout(t)
+  }, [step, total])
+  return (
+    <div dir="ltr" className="mx-auto mb-4 max-w-md space-y-1.5 rounded-2xl border-2 border-slate-800 bg-slate-100 p-2" role="img" aria-label={`מקלדת עברית: ${kb.lit.join(', ')} ואחריהן ${kb.answer}`}>
+      {KB_ROWS.map((row, ri) => (
+        <div key={row} className={`flex justify-center gap-1 rounded-xl py-1 ${ri === 1 ? 'bg-yellow-100' : ''}`}>
+          {[...row].map(ch => {
+            const li = kb.lit.indexOf(ch), isAns = ch === kb.answer
+            const on = (li >= 0 && step > li) || (isAns && step >= total)
+            return (
+              <span key={ch} className={`flex h-10 w-8 items-center justify-center rounded-lg border text-lg font-bold transition-all duration-300 ${on ? (isAns ? 'scale-125 border-green-700 bg-green-500 text-white shadow-lg' : 'border-slate-800 bg-[var(--postit)]') : 'border-slate-300 bg-white text-slate-600'}`}>{ch}</span>
+            )
+          })}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function DailyRiddleView({ r }) {
   const [open, setOpen] = useState(false)
+  const [hint, setHint] = useState(false)
   const i = DAILY_RIDDLES.indexOf(r), prev = DAILY_RIDDLES[i + 1], next = DAILY_RIDDLES[i - 1]
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 buga-fade-in">
@@ -47,10 +76,15 @@ export function DailyRiddleView({ r }) {
         <Board r={r} />
         <p className="mt-5 text-center text-lg font-bold text-[var(--muted-foreground)]">{r.ask}</p>
         <p className="mt-1 text-center">⏱️ יש לכם 10 שניות לפתור!</p>
+        {r.hint && !open && (
+          <p className="mt-3 text-center">
+            {hint ? <span className="text-lg font-bold">💡 {r.hint}</span> : <button type="button" onClick={() => setHint(true)} className="underline">💡 צריכים רמז?</button>}
+          </p>
+        )}
       </WobblyCard>
       <div className="mt-5 text-center">
         {open
-          ? <div className="wobbly border-2 border-[var(--border)] bg-green-50 p-5 text-right"><p className="text-2xl font-bold text-green-800">✅ {r.answer}</p><p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
+          ? <div className="wobbly border-2 border-[var(--border)] bg-green-50 p-5 text-right">{r.keyboard && <KeyboardReveal kb={r.keyboard} />}<p className="text-2xl font-bold text-green-800">✅ {r.answer}</p><p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
           : <WobblyButton onClick={() => setOpen(true)}>👀 הצגת הפתרון</WobblyButton>}
       </div>
       <p className="mt-8 text-center text-lg">🗓️ חידה חדשה כל יום ב־14:00 — חזרו מחר!</p>
