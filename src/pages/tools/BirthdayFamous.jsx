@@ -80,6 +80,14 @@ function ageToday(year, month, day) {
   return today.getFullYear() - year - (passed ? 0 : 1)
 }
 
+// Next steps for a visitor who found their date (most arrive from Google on a phone and stop at the list)
+const NEXT_STEPS = [
+  ['💌', 'הזמנה ליום הולדת להדפסה ולשליחה', '/invitation'],
+  ['✉️', 'ברכת יום הולדת אישית', '/greeting'],
+  ['🕍', 'מתי יום ההולדת העברי שלי?', '/tools/hebrew-birthday'],
+  ['🎈', 'בן כמה אני בדיוק? מחשבון גיל', '/tools/age-calculator'],
+]
+
 const yearLabel = y => (y < 0 ? `${-y} לפנה״ס` : String(y))
 
 export default function BirthdayFamous() {
@@ -214,6 +222,18 @@ export default function BirthdayFamous() {
             <Link to={tunnelHref} className="font-bold text-[var(--accent)]">⏳ מה עוד קרה ב-{prettyDate}? למנהרת הזמן ←</Link>
           </p>
         </>
+      )}
+      {!loading && (
+        <nav aria-label="עוד לקראת יום ההולדת" className="mx-auto mt-10 max-w-3xl rounded-3xl border-2 border-violet-200 bg-violet-50 p-5">
+          <h2 className="text-center text-xl font-black">🎉 ומה עוד אפשר לעשות ליום ההולדת?</h2>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            {NEXT_STEPS.map(([icon, label, href]) => (
+              <Link key={href} to={href} className="flex items-center gap-3 rounded-2xl border-2 border-violet-200 bg-white px-4 py-3 text-lg font-bold hover:border-violet-400">
+                <span className="text-2xl" aria-hidden="true">{icon}</span>{label}
+              </Link>
+            ))}
+          </div>
+        </nav>
       )}
       <div className="mx-auto max-w-3xl"><ToolGuide {...TOOL_GUIDES.birthdayFamous} /></div>
     </div>
