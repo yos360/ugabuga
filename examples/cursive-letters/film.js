@@ -136,6 +136,7 @@
   // a letter pair box like the page: print letter, cursive letter (Ktav Yad), name
   function chipLetter(c, cx, cy, w, h, l, { on = false, fin = false, seed = 1 } = {}) {
     G.rrect(c, cx - w / 2, cy - h / 2, w, h, 20, { fill: on ? C.yellow : fin ? '#fdf4ff' : '#fff', lw: on ? 5 : 3, seed, stroke: on ? C.red : C.line });
+    if (l === S.HOOK_LETTER) { he(c, '?', cx, cy + 26, { size: 70, w: 900, color: C.red, dir: 'ltr' }); return; } // keep the hook answer hidden
     he(c, l, cx + w / 2 - 22, cy - h / 2 + 30, { size: 28, w: 700, color: C.muted, dir: 'rtl' });
     he(c, l, cx - 6, cy + h / 2 - 22, { size: 76, w: 400, fam: KT });
   }
@@ -158,9 +159,9 @@
     heroBg(ctx);
     popAt(ctx, t, ev.title, W / 2, 345, (c) => pill(c, 0, 0, '✍️ אותיות בכתב יד', { size: 40, w: 800, bg: C.purple, fg: '#fff', padX: 40, seed: 12 }), { rot: -0.03, dur: 0.3 });
     popAt(ctx, t, ev.q1, W / 2, 500, (c) => he(c, 'איזו אות זו בכתב יד? 🤔', 0, 0, { size: 84, w: 900, maxW: SAFE.w }), { rot: -0.03 });
-    popAt(ctx, t, ev.q1 + BEAT, 640, 790, (c) => {
-      card(c, -250, -195, 500, 390, { fill: '#fff', r: 40, seed: 14, shadow: 12, lw: 4.5 });
-      bigCursive(c, 0, 105, S.HOOK_LETTER, 330);
+    popAt(ctx, t, ev.q1 + BEAT, 700, 790, (c) => {
+      card(c, -215, -195, 430, 390, { fill: '#fff', r: 40, seed: 14, shadow: 12, lw: 4.5 });
+      bigCursive(c, 0, 100, S.HOOK_LETTER, 300);
     }, { rot: 0.02 });
     S.hookOpts.forEach((o) => {
       const col = o.i % 2, row = Math.floor(o.i / 2);
@@ -173,7 +174,7 @@
       pill(ctx, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 48, w: 900, bg: C.yellow, padX: 34, maxW: 700 });
       ctx.restore();
     }
-    mascot(ctx, 200, 790 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 330, t, ev.q2);
+    mascot(ctx, 255, 790 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 430, t, ev.q2);
   }
 
   // ================= 1. PICK A LETTER =================
@@ -188,15 +189,15 @@
       he(c, L.l, -270, 40, { size: 240, w: 400, fam: KT, color: C.red }); he(c, 'כתב', -270, 110, { size: 32, w: 600, color: C.muted });
       he(c, L.name + '  🔊', 0, 165, { size: 56, w: 900 });
     }, { dur: 0.3, over: 1.35, rot: -0.008 });
-    popAt(ctx, t, S.AUD[1].t, W / 2, 1090, (c) => {
+    popAt(ctx, t, S.AUD[1].t, W / 2, 1135, (c) => {
       S.GRID.forEach((l, i) => {
         const col = i % 5, row = Math.floor(i / 5), fin = 'ךםןףץ'.includes(l);
         chipLetter(c, (2 - col) * 176, (row - 1.5) * 112, 160, 98, l, { on: tapped && l === S.PICK.l, fin, seed: 60 + i });
       });
     }, { dur: 0.3, over: 1.25 });
-    UI.tap(ctx, W / 2 + 2 * 176 - 20, 1090 - 1.5 * 112 + 10, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[0], W / 2, 1405, (c) => pill(c, 0, 0, '⁦27⁩ אותיות, כולל ⁦5⁩ סופיות: ך ם ן ף ץ', { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1505, (c) => pill(c, 0, 0, 'לחיצה על 🔊 משמיעה את שם האות', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    UI.tap(ctx, W / 2 + 2 * 176 - 20, 1135 - 1.5 * 112 + 10, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 });
+    popAt(ctx, t, S.pills[0], W / 2, 1535, (c) => pill(c, 0, 0, '⁦27⁩ אותיות, כולל ⁦5⁩ סופיות: ך ם ן ף ץ', { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[1], W / 2, 1635, (c) => pill(c, 0, 0, 'לחיצה על 🔊 משמיעה את שם האות', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 2. TYPE A WORD =================
@@ -234,7 +235,7 @@
       }, { dur: 0.25, over: 1.5, rot: [0.008, -0.008, 0.006][i] });
     });
     UI.tap(ctx, W / 2 - 290 + 40, 640 + 235 + 14, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
-    if (fbP > 0) {
+    if (fbP > 0 && false) { // dropped: repeated card 2's subtitle
       ctx.save(); ctx.globalAlpha = clamp(fbP * 2); ctx.translate(0, (1 - ease.outCubic(fbP)) * 30);
       card(ctx, 70, 1275, 940, 130, { fill: '#fff', r: 28, seed: 88, shadow: 8, lw: 4.5 });
       he(ctx, 'כל האותיות (⁦7⁩ דפים) או אות אחת', 990, 1360, { size: 46, w: 900, align: 'right', maxW: 900 });
@@ -249,7 +250,7 @@
     const R = S.ROWS, L = S.PRACTICE_LETTER;
     popAt(ctx, t, R[0].t, W / 2, 780, (c) => {
       card(c, -440, -290, 880, 580, { fill: '#fff', r: 26, seed: 90, shadow: 10, lw: 4.5 });
-      he(c, 'תרגול כתיבה בכתב יד', 0, -225, { size: 46, w: 900 });
+      he(c, 'תרגול כתיבה בכתב יד', 410, -225, { size: 46, w: 900, align: 'right' });
       he(c, 'שם: ____________', -410, -225, { size: 28, w: 600, color: C.muted, align: 'left' });
       c.fillStyle = '#fef9c3'; c.beginPath(); c.roundRect(300, -170, 120, 120, 16); c.fill();
       he(c, L, 360, -100, { size: 62, w: 700 }); he(c, L, 360, -52, { size: 60, w: 400, fam: KT, color: '#7548b3' });
@@ -314,7 +315,7 @@
     he(ctx, 'חפשו באתר: אותיות בכתב יד 🔎', W / 2, 720, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[4].t, W / 2, 840, (c) => pill(c, 0, 0, '✍️ איזו אות זו בכתב יד?', { size: 56, w: 900, bg: C.red, fg: '#fff', padX: 44, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1480, (c) => pill(c, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1515, (c) => pill(c, 0, 0, '1, 2, 3 או 4? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 250, { n: 20, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------

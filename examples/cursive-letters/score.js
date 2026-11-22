@@ -52,7 +52,7 @@
   const CARDS = [['טבלת אותיות דפוס וכתב', 'כל ⁦27⁩ האותיות בדף אחד — לתלות ליד שולחן העבודה', '#fff4bb'], ['תרגול כתיבת אותיות בכתב', 'כל האותיות (⁦7⁩ דפים) או אות אחת', '#d6f6ff'], ['מדפוס לכתב — מילים', '⁦8⁩ מילים בדפוס, ושורה לכתוב אותן בכתב', '#ffe4ee']];
   const CARD_PICK = 1;
   const PRACTICE_LETTER = 'ד';
-  const WORDS = ['דג', 'גמל', 'שמש', 'בית'];
+  const WORDS = ['דובי', 'שעון', 'שמש', 'בית']; // real words from letterLearning.js, none with the hook letter ג
 
   const steps = [
     { n: 1, sec: 'aud', title: 'בוחרים אות', sub: 'דפוס ← כתב, עם שם האות והשמעה', color: '#226bd7' },
