@@ -16,7 +16,7 @@ const readDraft = () => { try { return JSON.parse(localStorage.getItem('buga-liv
 function LiveEditor({ onCreate, busy }) {
   const [draft]=useState(readDraft)
   const [title,setTitle]=useState(()=>draft?.title||''),[questions,setQuestions]=useState(()=>draft?.questions?.length?draft.questions:[q()]),[seconds,setSeconds]=useState(()=>draft?.seconds||20),[error,setError]=useState('')
-  const [topic,setTopic]=useState(()=>{const t=typeof window!=='undefined'?new URLSearchParams(window.location.search).get('topic'):null;return LIVE_QUIZ_TOPICS.some(item=>item.id===t)?t:'mixed'}),[difficulty,setDifficulty]=useState('medium'),[mode,setMode]=useState('regular'),[questionCount,setQuestionCount]=useState(6)
+  const [topic,setTopic]=useState(()=>{const t=typeof window!=='undefined'?new URLSearchParams(window.location.search).get('topic'):null;return LIVE_QUIZ_TOPICS.some(item=>item.id===t)?t:'mixed'}),[difficulty,setDifficulty]=useState(()=>{const d=typeof window!=='undefined'?new URLSearchParams(window.location.search).get('difficulty'):null;return ['easy','medium','hard'].includes(d)?d:'medium'}),[mode,setMode]=useState('regular'),[questionCount,setQuestionCount]=useState(6)
   const hasDraft=Boolean(draft?.questions?.some(item=>item.q?.trim()))
   const [editing,setEditing]=useState(false),[allTopics,setAllTopics]=useState(false)
   useEffect(()=>{const t=setTimeout(()=>{try{localStorage.setItem('buga-live-draft',JSON.stringify({title,questions,seconds}))}catch{/* ignore */}},500);return()=>clearTimeout(t)},[title,questions,seconds])

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DAILY_RIDDLES, dailyRiddlePath } from '../../data/dailyRiddles'
-import { Board } from '../../pages/content/DailyRiddles'
+import { Board, LivePlayCta } from '../../pages/content/DailyRiddles'
 
 // The newest daily riddle on the home page (owner's request, 2026-11-10): its short video, or the riddle
 // itself when it has no video yet, never the answer — the answer shows only when the visitor asks for it.
@@ -32,6 +32,7 @@ export default function DailyRiddleBox() {
             ? <div className="rounded-xl border-2 border-green-700 bg-green-50 p-4 text-right"><p className="text-2xl font-bold text-green-800">✅ {r.answer}</p><p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
             : <button type="button" onClick={() => setOpen(true)} className="min-h-[48px] rounded-full border-2 border-slate-800 bg-[var(--postit,#fff3a8)] px-6 text-lg font-bold">👀 חשיפת התשובה</button>}
         </div>
+        <LivePlayCta r={r} />
         <p className="mt-3 text-center"><Link to={dailyRiddlePath(r)} className="font-bold underline">לדף החידה</Link> · 🗓️ חידה חדשה כל יום ב־14:00</p>
       </div>
     </section>

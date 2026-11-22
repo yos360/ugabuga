@@ -22,9 +22,19 @@ test('daily riddle ids and numbers are unique and do not clash with topic pages'
 
 test('every daily riddle has a question, an answer and an explanation', () => {
   for (const r of DAILY_RIDDLES) {
-    assert.ok(['seq', 'eq', 'text', 'image'].includes(r.kind), r.id)
+    assert.ok(['seq', 'eq', 'text', 'image', 'quiz'].includes(r.kind), r.id)
     if (r.kind === 'image') assert.ok(read(`public${r.image}`).trim(), `${r.id}: image`)
-    assert.ok((r.kind === 'seq' ? r.items : r.lines)?.length >= 2, r.id)
+    assert.ok((r.kind === 'seq' ? r.items : r.lines)?.length >= (r.kind === 'quiz' ? 1 : 2), r.id)
+    if (r.kind === 'quiz') {
+      assert.equal(r.options?.length, 4, `${r.id}: four options`)
+      assert.ok(r.options.includes(r.answer.replace(/^[אבגד].s*/, '')), `${r.id}: the answer is one of the options`)
+    }
+    // a בוגה לייב riddle links to a real topic and level of the live quiz
+    if (r.live) {
+      const live = read('src/data/liveQuizPacks.js')
+      assert.ok(live.includes(`id: '${r.live.topic}'`), `${r.id}: live topic`)
+      assert.ok(['easy', 'medium', 'hard'].includes(r.live.difficulty), `${r.id}: live difficulty`)
+    }
     for (const k of ['title', 'ask', 'answer', 'why', 'type', 'date']) assert.ok(String(r[k] || '').trim(), `${r.id}: ${k}`)
     assert.match(r.date, /^\d{4}-\d{2}-\d{2}$/)
   }

@@ -12,8 +12,26 @@ import { Chip, Header } from './contentUi'
 const heDate = d => new Date(d + 'T12:00:00').toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' })
 const CRUMBS = [{ label: 'ראשי', href: '/' }, { label: 'חידות', href: '/tools/riddles' }]
 
-// The riddle drawn like in the video: a row of boxes, equation lines, a drawing or a few lines of text
+// From 22.11.2026 the daily riddle is a question taken from בוגה לייב (owner's request: so people go and
+// play it). It carries live: { topic, difficulty, label } and this button opens /live on that topic and level.
+export function LivePlayCta({ r }) {
+  if (!r.live) return null
+  const to = `/live?topic=${r.live.topic}&difficulty=${r.live.difficulty || 'hard'}`
+  return <Link to={to} className="mx-auto mt-4 block max-w-md rounded-2xl border-2 border-slate-800 bg-[#d13c78] px-5 py-3 text-center text-lg font-bold text-white shadow-[0_4px_0_#1e293b]">
+    🔴 עוד שאלות כאלה — שחקו עכשיו בבוגה לייב{r.live.label ? ` (${r.live.label})` : ''}
+    <small className="block text-sm font-normal">חידון חי מול חברים, הכיתה או המשפחה. בחינם ובלי הרשמה</small>
+  </Link>
+}
+
+// The riddle drawn like in the video: a row of boxes, equation lines, a drawing, a few lines of text,
+// or a בוגה לייב question with its four options ('quiz').
 export function Board({ r }) {
+  if (r.kind === 'quiz') {
+    return <div className="mx-auto max-w-lg text-center">
+      {r.lines.map((l, i) => <p key={i} className="text-2xl font-bold leading-relaxed">{l}</p>)}
+      <ol className="mt-4 grid gap-2 sm:grid-cols-2">{r.options.map((o, i) => <li key={i} className="rounded-xl border-2 border-slate-800 bg-white px-4 py-3 text-xl font-bold">{'אבגד'[i]}. {o}</li>)}</ol>
+    </div>
+  }
   if (r.kind === 'image') {
     return (
       <div className="space-y-3 text-center">
@@ -87,6 +105,7 @@ export function DailyRiddleView({ r }) {
           ? <div className="wobbly border-2 border-[var(--border)] bg-green-50 p-5 text-right">{r.keyboard && <KeyboardReveal kb={r.keyboard} />}<p className="text-2xl font-bold text-green-800">✅ {r.answer}</p><p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
           : <WobblyButton onClick={() => setOpen(true)}>👀 הצגת הפתרון</WobblyButton>}
       </div>
+      <LivePlayCta r={r} />
       <p className="mt-8 text-center text-lg">🗓️ חידה חדשה כל יום ב־14:00 — חזרו מחר!</p>
       <nav className="mt-4 flex flex-wrap justify-center gap-2" aria-label="עוד חידות יומיות">
         {prev && <Chip to={dailyRiddlePath(prev)}>→ החידה הקודמת (#{prev.n})</Chip>}

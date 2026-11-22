@@ -1,7 +1,8 @@
 // "החידה היומית" — one new tricky riddle every day at 14:00 (also posted as a short video, without the answer).
 // Newest first. Page: /riddles/<id>, list: /riddles/daily. Ids must not clash with the topic pages in content/riddles.js.
 // kind: 'seq' (a row of boxes, dir 'ltr' | 'rtl'), 'eq' (equation lines), 'text' (a riddle told in a few lines),
-// 'image' (a drawing from public/daily-riddles/, with lines as its text).
+// 'image' (a drawing from public/daily-riddles/, with lines as its text), 'quiz' (from 22.11.2026: a question
+// taken from בוגה לייב, lines + four options; live: { topic, difficulty, label } adds a "play it in בוגה לייב" button).
 export const DAILY_RIDDLES = [
   {
     id: 'letters-16', n: 16, date: '2026-11-22', type: 'משחק אותיות', emoji: '⌨️', kind: 'seq', dir: 'rtl', youtube: 'N_o3IByFc0I',
@@ -132,4 +133,4 @@ export const DAILY_RIDDLES = [
 export const dailyRiddle = id => DAILY_RIDDLES.find(r => r.id === id)
 export const dailyRiddlePath = r => `/riddles/${r.id}`
 // The riddle as one line of text (for descriptions and search)
-export const riddleText = r => (r.kind === 'text' || r.kind === 'image' ? r.lines.join(' ') : `${r.title} ${(r.items || r.lines).join(r.kind === 'seq' ? ', ' : ' · ')}`)
+export const riddleText = r => (r.kind === 'quiz' ? `${r.lines.join(' ')} ${r.options.join(' / ')}` : r.kind === 'text' || r.kind === 'image' ? r.lines.join(' ') : `${r.title} ${(r.items || r.lines).join(r.kind === 'seq' ? ', ' : ' · ')}`)
