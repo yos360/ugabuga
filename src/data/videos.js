@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '-R7Qgck6sdU', kind: 'tutorial', title: 'חוברת לימוד תווים למתחילים להדפסה', paths: ['/booklets/music-notes'], category: 'learning', date: '2026-11-22',
+    desc: 'מדריך קצר לחוברת לימוד תווים: 15 עמודים מהחמשה ומפתח סול ועד "אודה לשמחה", הצצה לעמודים, ובחירה מה להדפיס — הכול, לתלמיד בלי תשובות, רק דף התשובות או רק חלק מהעמודים.' },
   { id: '8SHaGjHtu9Y', kind: 'tutorial', title: 'סוליטר בעברית — משחק קלפים אונליין בחינם', paths: ['/online-games/solitaire'], category: 'learning', date: '2026-11-22',
     desc: 'מדריך קצר לסוליטר בעברית: פותחים שולחן, לוחצים על קלף והוא קופץ למקום הכי טוב, שולפים מהחפיסה, משתמשים ברמז ובביטול מהלך ובוחרים אחד משלושה שולחנות.' },
   { id: 'SoxEFbOdBV0', kind: 'tutorial', title: 'אותיות בכתב יד — טבלת דפוס וכתב ודפי תרגול', paths: ['/letters/cursive'], category: 'learning', date: '2026-11-22',
@@ -112,6 +114,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/booklets/music-notes': 'חוברת לימוד תווים למתחילים',
   '/letters/cursive': 'אותיות בכתב יד',
   '/holidays/hanukkah': 'חנוכה לילדים',
   '/holidays/hanukkah/grade/kindergarten': 'פעילות לחנוכה לגן',
