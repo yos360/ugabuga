@@ -862,7 +862,9 @@
   "slug": "en-mod-a-robot-vacuum",
   "xi": 0,
   "level": "mod-a",
-  "title": "A Month with a Robot Cleaner"
+  "title": "A Month with a Robot Cleaner",
+  "youtube": "https://youtu.be/rAlmkpKXIQE",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g5-sports-day-notice",
@@ -955,7 +957,8 @@
   "slug": "en-mod-a-sea-of-galilee",
   "xi": 0,
   "level": "mod-a",
-  "title": "Around the Kinneret"
+  "title": "Around the Kinneret",
+  "skip": "same title, cover and questions as text 1 (already on YouTube as X2arKJ3sryE); would look like a duplicate"
  },
  {
   "slug": "en-g5-summer-camp-schedule",
@@ -983,13 +986,17 @@
   "slug": "en-g8-history-of-the-pencil",
   "xi": 0,
   "level": "g8",
-  "title": "The Pencil That Has No Lead"
+  "title": "The Pencil That Has No Lead",
+  "youtube": "https://youtu.be/yUInwNzk5P4",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g9-wrong-train",
   "xi": 0,
   "level": "g9",
-  "title": "The Wrong Train"
+  "title": "The Wrong Train",
+  "youtube": "https://youtu.be/RFKfoc8IHWw",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-mod-a-sea-of-galilee",
@@ -1003,61 +1010,80 @@
   "slug": "en-g7-lego-robots-interview",
   "xi": 0,
   "level": "g7",
-  "title": "Meet the Robot Builder"
+  "title": "Meet the Robot Builder",
+  "youtube": "https://youtu.be/x9FdbYL3tRs",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g8-lighthouses",
   "xi": 0,
   "level": "g8",
-  "title": "How Lighthouses Work"
+  "title": "How Lighthouses Work",
+  "youtube": "https://youtu.be/lv156K9Wfus",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-mod-a-shakshuka-family",
   "xi": 0,
   "level": "mod-a",
-  "title": "Three Things a Good Shakshuka Needs"
+  "title": "Three Things a Good Shakshuka Needs",
+  "youtube": "https://youtu.be/sFUFM0nE-2g",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g7-lost-rabbit",
   "xi": 0,
   "level": "g7",
-  "title": "Lost Rabbit Found in School Garden"
+  "title": "Lost Rabbit Found in School Garden",
+  "youtube": "https://youtu.be/bFDAC1Lw4jY",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g8-longer-recess",
   "xi": 0,
   "level": "g8",
-  "title": "Give Us a Longer Break!"
+  "title": "Give Us a Longer Break!",
+  "youtube": "https://youtu.be/CcVgFIfGrj0",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-mod-a-shakshuka-family",
   "xi": 1,
   "level": "mod-a",
-  "title": "Three Things a Good Shakshuka Needs"
+  "title": "Three Things a Good Shakshuka Needs",
+  "skip": "same title as text 0 (already on YouTube as sFUFM0nE-2g); would look like a duplicate"
  },
  {
   "slug": "en-g7-music-workshop-notice",
   "xi": 0,
   "level": "g7",
-  "title": "Let's Make Music!"
+  "title": "Let's Make Music!",
+  "youtube": "https://youtu.be/3b6EvurAdfA",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g8-lost-in-akko",
   "xi": 0,
   "level": "g8",
-  "title": "The Sound of the Sea"
+  "title": "The Sound of the Sea",
+  "youtube": "https://youtu.be/z5hHkT5EcXI",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-mod-a-teen-cafe",
   "xi": 0,
   "level": "mod-a",
-  "title": "The Cafe Where the Waiters Are Fifteen"
+  "title": "The Cafe Where the Waiters Are Fifteen",
+  "youtube": "https://youtu.be/P1RJO-3hrro",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g7-nature-reserve-trip",
   "xi": 0,
   "level": "g7",
-  "title": "My Review: A Class Trip to Green Hills Nature Reserve"
+  "title": "My Review: A Class Trip to Green Hills Nature Reserve",
+  "youtube": "https://youtu.be/KTOabnc8YAc",
+  "uploaded": "2026-11-22"
  },
  {
   "slug": "en-g8-lost-violin",
