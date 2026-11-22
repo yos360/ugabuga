@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '8SHaGjHtu9Y', kind: 'tutorial', title: 'סוליטר בעברית — משחק קלפים אונליין בחינם', paths: ['/online-games/solitaire'], category: 'learning', date: '2026-11-22',
+    desc: 'מדריך קצר לסוליטר בעברית: פותחים שולחן, לוחצים על קלף והוא קופץ למקום הכי טוב, שולפים מהחפיסה, משתמשים ברמז ובביטול מהלך ובוחרים אחד משלושה שולחנות.' },
   { id: 'SoxEFbOdBV0', kind: 'tutorial', title: 'אותיות בכתב יד — טבלת דפוס וכתב ודפי תרגול', paths: ['/letters/cursive'], category: 'learning', date: '2026-11-22',
     desc: 'מדריך קצר לדף אותיות בכתב יד: לוחצים על אות ורואים אותה בדפוס ובכתב, כותבים מילה והיא מופיעה בכתב יד, ומדפיסים טבלת דפוס וכתב, דפי תרגול לכל אות ודף מילים עם עזרה אפורה או בלי.' },
   { id: 'HlJ17TwRuI4', kind: 'tutorial', title: 'דפי עבודה לחנוכה לפי כיתה — מהגן ועד חטיבה', paths: ['/holidays/hanukkah', '/holidays/hanukkah/grade/kindergarten', '/holidays/hanukkah/grade/grade-1', '/holidays/hanukkah/grade/grade-2', '/holidays/hanukkah/grade/grade-3', '/holidays/hanukkah/grade/grade-4', '/holidays/hanukkah/grade/grade-5', '/holidays/hanukkah/grade/grade-6', '/holidays/hanukkah/grade/middle-school'], category: 'holidays', date: '2026-11-18',
@@ -141,7 +143,7 @@ export const VIDEO_PAGE_LABELS = {
   '/tools/flip-clock': 'שעון מסך מלא',
   '/printables/my-book': 'ספר מקופל מדף אחד',
   '/board-games/snakes-and-ladders/multiplication': 'סולמות ונחשים של כפל וחילוק',
-  '/online-games/find-differences': 'משחק מצאו את ההבדלים', '/printables/activity/find-differences': 'דפי מצאו את ההבדלים',
+  '/online-games/solitaire': 'סוליטר בעברית', '/online-games/find-differences': 'משחק מצאו את ההבדלים', '/printables/activity/find-differences': 'דפי מצאו את ההבדלים',
   '/tools/album': 'מעצב אלבומים', '/tools/album/wedding': 'אלבום חתונה', '/tools/album/bar-mitzvah': 'אלבום בר מצווה',
   '/tools/album/bat-mitzvah': 'אלבום בת מצווה', '/tools/album/birthday': 'אלבום יום הולדת',
   '/birthday/party-bags': 'שקיות הפתעה',
