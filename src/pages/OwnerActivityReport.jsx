@@ -487,9 +487,18 @@ function statItems(data, multiDay = false, social = null, sponsors = null, rsvp 
   ]
 }
 
+// Today's visitors who had already been on the site on an earlier day (the browser's own anonymous
+// day counter, owner_visitor_returns), as a number and a share of today's visitors.
+function returningShare(byVisitor, returns) {
+  const list = byVisitor || []
+  const back = list.filter(r => (returns?.[r.v] || 0) > 1).length
+  return { back, total: list.length, pct: list.length ? Math.round(back * 100 / list.length) : 0 }
+}
+
 // Small always-on-top style widget: today's numbers + the last few actions.
-function MiniWidget({ data, live, updated, onRefresh, onClose, records }) {
+function MiniWidget({ data, live, updated, onRefresh, onClose, records, returns }) {
   const now = data ? recordValues(data) : []
+  const ret = data?.by_visitor ? returningShare(data.by_visitor, returns) : null
   return <div dir="rtl" className="min-h-full bg-white p-3 font-sans text-slate-900">
     <div className="mb-2 flex items-center justify-between gap-2">
       <b className="text-base">🎂 עוגה בוגה · היום</b>
@@ -497,6 +506,7 @@ function MiniWidget({ data, live, updated, onRefresh, onClose, records }) {
     </div>
     {!data ? <p className="text-sm">טוענים…</p> : <>
       <div className="grid grid-cols-3 gap-1.5">{statItems(data).slice(0, 9).map(([v, , short, tone], i) => <MiniStat key={short} value={v} short={short} tone={tone} now={now[i]} record={records?.[RECORD_KEYS[i]]} isTime={RECORD_KEYS[i] === 'avg_time'} />)}</div>
+      {ret && <p className="mt-1.5 rounded-xl bg-emerald-50 px-2 py-1.5 text-sm">🔁 חזרו לאתר (ביקרו כבר ביום אחר): <b>{ret.back}</b> מתוך {ret.total} · <b>{ret.pct}%</b></p>}
       <p className="mt-2 mb-1 text-xs font-bold text-slate-600">פעולות אחרונות</p>
       <ul className="space-y-0.5 text-[12px] leading-snug">{(data.recent || []).filter(r => r.action !== 'time').slice(0, 6).map((r, i) => <li key={i} className="truncate"><span className="text-slate-500">{fmtClock(r.at)}</span> · {ACTION_LABELS[r.action] || r.action} · <b>{pageName(r)}</b>{r.source === 'qr' ? ' 📱QR' : r.source === 'whatsapp' ? ' 💬' : ''}</li>)}</ul>
     </>}
@@ -516,8 +526,9 @@ export function OwnerMini() {
   const [from, to] = useMemo(() => rangeBounds('today'), [day]) // eslint-disable-line react-hooks/exhaustive-deps
   const { data } = useSummary(from, to, tick)
   const records = useDailyRecords(day)
+  const returns = useVisitorReturns(from, to, tick)
   useArrivalSound(data, sound)
-  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} records={records} /><div className="px-3 pb-3" dir="rtl"><SoundSettings settings={sound} update={setSound} compact /></div></>
+  return <><SEO title="עוגה בוגה — מיני דוח" description="דוח פרטי מקוצר." noindex path="/admin/mini" /><MiniWidget data={data} live={live} updated={updated} onRefresh={refresh} records={records} returns={returns} /><div className="px-3 pb-3" dir="rtl"><SoundSettings settings={sound} update={setSound} compact /></div></>
 }
 
 // Chrome/Edge (desktop) can open a real always-on-top mini window (Document Picture-in-Picture).
@@ -552,6 +563,7 @@ export default function OwnerActivityReport() {
   const ySameTime = useMemo(() => new Date(Date.now() - 86400000), [tick, day]) // eslint-disable-line react-hooks/exhaustive-deps
   const today = useSummary(todayFrom, todayTo, tick)
   const records = useDailyRecords(day)
+  const todayReturns = useVisitorReturns(todayFrom, todayTo, tick)
   useArrivalSound(today.data, sound)
   const yesterday = useSummary(yFrom, ySameTime, tick)
   const yesterdayFull = useSummary(yFrom, yFullTo)
@@ -570,7 +582,7 @@ export default function OwnerActivityReport() {
   const returns = useVisitorReturns(from, to, tick)
   const visitorInfo = useMemo(() => ({ entries: visitorEntries(data), returns }), [data, returns])
   return <VisitorInfo.Provider value={visitorInfo}><div className="mx-auto max-w-5xl px-4 py-8" dir="rtl">
-    {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} records={records} />, pip.document.body)}
+    {pip && createPortal(<MiniWidget data={today.data} live={live} updated={updated} onRefresh={refresh} onClose={() => pip.close()} records={records} returns={todayReturns} />, pip.document.body)}
     <SEO title="דוח פעילות בעלים" description="דוח פרטי ומפורט של פעילות באתר עוגה בוגה." noindex path="/admin/activity" />
     <div className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-[0_7px_0_#e5e7eb] sm:p-9">
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
