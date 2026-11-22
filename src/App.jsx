@@ -154,6 +154,7 @@ const MemoryGame = lazy(() => import('./pages/printables/PaperGames').then(m => 
 const KindergartenYearPlan = lazy(() => import('./pages/classroom/KindergartenYearPlan'))
 const MathTicTacToe = lazy(() => import('./pages/classroom/MathTicTacToe'))
 const WarmUp = lazy(() => import('./pages/classroom/WarmUp'))
+const ReportCardComments = lazy(() => import('./pages/classroom/ReportCardComments'))
 const FirstGradeProblemSolving = lazy(() => import('./pages/classroom/FirstGradeProblemSolving'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
@@ -673,6 +674,7 @@ export default function App() {
               <Route path="/classroom/kindergarten-year-plan" element={<KindergartenYearPlan />} />
               <Route path="/classroom/math-tic-tac-toe" element={<MathTicTacToe />} />
               <Route path="/classroom/warm-up" element={<WarmUp />} />
+              <Route path="/classroom/report-card-comments" element={<ReportCardComments />} />
               <Route path="/teachers" element={<TeacherHome />} />
               <Route path="/teachers/homework/new" element={<HomeworkBuilderPage />} />
               <Route path="/teachers/homework/:code/edit" element={<HomeworkBuilderPage />} />
