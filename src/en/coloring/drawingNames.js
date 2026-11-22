@@ -50,6 +50,8 @@ export const EN_DRAWING_NAMES = {
     'A unicorn lighthouse keeper',
     'A unicorn reading a book in the library',
     'A unicorn and a bunny ice-skating',
+    'A unicorn building a sandcastle',
+    'A unicorn\'s birthday party',
   ],
   cat: [
     'Kitten playing with a ball of yarn', 'Mother cat and three kittens', 'Two kittens and a butterfly', 'Kitten peeking out of a box',
@@ -166,6 +168,8 @@ export const EN_DRAWING_NAMES = {
     'A puppy and kitten team lifting a trophy on the podium',
     'Penguins playing soccer on a frozen lake',
     'An owl coach training little animals',
+    'A giraffe goalkeeper and zebras on the savanna',
+    'Frogs playing soccer on lily pads',
   ],
   seahorse: [
     'Seahorse with seaweed and bubbles', 'Two seahorses and coral', 'Seahorse and a treasure chest', 'Seahorse family', 'Seahorse, fish and turtle',
@@ -197,6 +201,7 @@ export const EN_DRAWING_NAMES = {
     'Dolphin leaping over the waves', 'Two dolphins jumping', 'Dolphin playing ball', 'Dolphin, turtle and fish', 'Dolphin near an island',
     'Mother dolphin and calf underwater', 'Dolphin and a research submarine', 'Dolphin swimming with a boy', 'Dolphin and a little whale',
     'Snorkeling with a dolphin family',
+    'Dolphins leaping by a lighthouse',
   ],
   princess: [
     'Princess in front of a castle', 'Princess with a magic wand', 'Princess dancing in the palace', 'Princess riding a horse', 'Princess tea party',
@@ -209,6 +214,7 @@ export const EN_DRAWING_NAMES = {
     'A princess playing with kittens in the castle',
     'A princess tea party in the castle garden',
     'A princess and a puppy building a snowman',
+    'A princess watering the castle garden',
   ],
   lion: [
     'Lion on the savanna', 'Lion with a crown on a rock', 'Lion cub and butterfly', 'Lion family under a tree', 'Lion face with a big mane',
@@ -225,6 +231,7 @@ export const EN_DRAWING_NAMES = {
     'Superhero flying over the city', 'Superhero girl with a cape', 'Superhero rescuing a kitten', 'Two superheroes on a rooftop',
     'Superhero kid fixing a toy bridge', 'Superhero girl lifting a car', 'Superhero dog', 'Superhero running at top speed', 'Team of three superheroes',
     'Kid superheroes helping a kitten down a tree',
+    'A kid superhero rescuing a kitten',
   ],
   cake: [
     'Three-tier birthday cake', 'Fruit cake with a slice cut', 'Cupcakes on a tray', 'Cute cake with party hats', 'Castle cake',
@@ -288,11 +295,14 @@ export const EN_DRAWING_NAMES = {
     'Grandma and grandkids decorating doughnuts',
     'A snowman made of doughnuts',
     'A doughnut food truck with animals in line',
+    'Kids at a bakery window full of doughnuts',
+    'A doughnut decorating contest',
   ],
   horse: [
     'Horse galloping by a fence', 'Pony with a braided mane', 'Mare and foal in a meadow', 'Boy riding a pony', 'Horse in the stable',
     'Horse jumping a fence', 'Cowboy riding across a stream', 'Girl braiding flowers into a horse’s mane', 'Rocking horse',
     'Boy feeding a carrot to a pony at the farm',
+    'A girl brushing a pony in a stable',
   ],
   umbrella: [
     'Open umbrella in the rain', 'Boy with an umbrella jumping in puddles', 'Two friends under one umbrella', 'Frog sheltering under a leaf',
@@ -350,6 +360,8 @@ export const EN_DRAWING_NAMES = {
     'A girl and grandpa painting wooden dreidels',
     'A dreidel carousel at a winter fair',
     'Three kittens play with a dreidel and chocolate coins',
+    'A dreidel spinning tournament at a round table',
+    'A dreidel-shaped treehouse',
   ],
   hanukkiah: [
     null, null, null, null, null, null, null, null, null,
@@ -428,6 +440,10 @@ export const EN_DRAWING_NAMES = {
     'A family lighting a menorah on a sailboat',
     'Kids decorating a paper menorah on the class wall',
     'Kids waving by a menorah on a snowy balcony',
+    'A family lighting a menorah on a train',
+    'A menorah video call with the grandparents',
+    'Kids building a menorah out of toy blocks',
+    'A hedgehog family lighting a menorah in a burrow',
   ],
   maccabees: [
     'Young Maccabee with a shield on a hill', 'Kids harvesting olives for oil', 'Maccabee finding a small jug of oil',
@@ -462,6 +478,7 @@ export const EN_DRAWING_NAMES = {
     'A family hiking in the hills near Modiin',
     'Kids helping grandpa at an ancient olive press',
     'Kids acting out the Maccabees story on stage',
+    'A kindergarten Maccabee parade',
   ],
   tiger: [
     'Tiger face', 'Tiger cub in the jungle', 'Tigress and two cubs', 'Tiger resting on a branch', 'Tiger drinking from a stream',
@@ -495,6 +512,7 @@ export const EN_DRAWING_NAMES = {
     'Turtle in the grass', 'Sea turtle swimming with fish', 'Baby turtle hatching on the beach', 'Turtle and snail', 'The tortoise and the hare race',
     'Turtle in a helmet riding a scooter', 'Turtle reading a book', 'Baby sea turtles heading for the water', 'Turtle showing off its shell in a mirror',
     'Turtle mail carrier bringing a parcel to a hedgehog',
+    'A sea turtle and two babies over a reef',
   ],
   'mandala-kids': [
     'Dinosaur mandala', 'Butterfly mandala for kids', 'Heart mandala', 'Moon and stars mandala', 'Simple flower mandala', 'Smiling sun mandala',
@@ -600,6 +618,9 @@ export const EN_DRAWING_NAMES = {
     'Young astronauts building a robot on Mars',
     'A playground on the Moon',
     'An alien family picnic on a ringed planet',
+    'A floating classroom on a space station',
+    'Robots racing moon buggies',
+    'An astronaut girl walking a robot dog on Mars',
   ],
   professions: [
     'Firefighter spraying water by a fire truck', 'Doctor checking a teddy bear', 'Police officer directing traffic', 'Chef serving a layer cake',
