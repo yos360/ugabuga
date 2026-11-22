@@ -2,6 +2,7 @@ import { EXTRA_LIVE_QUIZ_BANK, LIVE_QUIZ_SOURCE_BY_TOPIC } from './liveQuizExtra
 import { GENERATED_MATH_QUIZ_BANK } from './liveQuizGeneratedMath.js'
 import { HANUKKAH_LIVE_QUIZ_BANK, HANUKKAH_SOURCE } from './liveQuizHanukkah.js'
 import { PURIM_LIVE_QUIZ_BANK, PURIM_SOURCE } from './liveQuizPurim.js'
+import { DAILY_RIDDLE_LIVE_QUESTIONS } from './dailyRiddles.js'
 
 const question = (id, q, correct, ...options) => ({ id, q, options, correct })
 
@@ -22,6 +23,9 @@ export const LIVE_QUIZ_TOPICS = [
   { id: 'israel', label: 'ישראל', icon: '🇮🇱', color: '#2466cb' },
   { id: 'sports', label: 'ספורט', icon: '⚽', color: '#d0671d' },
   { id: 'math', label: 'מתמטיקה', icon: '➗', color: '#8b4ab8' },
+  // The daily riddles (dailyRiddles.js), owner's request 22.11.2026. One pool for every level: they are all
+  // hard. Not mixed into "ערבוב נושאים" — a riddle needs thinking time, unlike a trivia question.
+  { id: 'riddles', label: 'חידות קשות', icon: '🧩', color: '#c2410c' },
 ]
 
 export const LIVE_QUIZ_MODES = [
@@ -245,8 +249,11 @@ const HOLIDAY_PACKS = {
   purim: { bank: PURIM_LIVE_QUIZ_BANK, source: PURIM_SOURCE },
 }
 
+const RIDDLES_SOURCE = { label: 'החידה היומית של עוגה בוגה', url: 'https://ugabuga.co.il/riddles/daily' }
 const playableTopics = () => LIVE_QUIZ_TOPICS.filter(item => item.id !== 'mixed')
-const rawPool = (topic, difficulty) => [
+const rawPool = (topic, difficulty) => topic.id === 'riddles'
+  ? DAILY_RIDDLE_LIVE_QUESTIONS.map(item => ({ ...item, verified: true, source: RIDDLES_SOURCE, packTopicId: topic.id, packDifficultyId: difficulty.id }))
+  : [
   ...(BANK[topic.id]?.[difficulty.id] || []),
   ...(EXTRA_LIVE_QUIZ_BANK[topic.id]?.[difficulty.id] || []),
   ...(topic.id === 'math' ? GENERATED_MATH_QUIZ_BANK[difficulty.id] : []),
@@ -254,7 +261,7 @@ const rawPool = (topic, difficulty) => [
 ].map(item => ({ ...item, verified: true, source: HOLIDAY_PACKS[topic.id]?.source || LIVE_QUIZ_SOURCE_BY_TOPIC[topic.id], packTopicId: topic.id, packDifficultyId: difficulty.id }))
 
 const spreadTopics = (items, rng) => {
-  const buckets = shuffled(playableTopics(), rng).map(topic => shuffled(items.filter(item => item.packTopicId === topic.id), rng))
+  const buckets = shuffled(playableTopics().filter(topic => topic.id !== 'riddles'), rng).map(topic => shuffled(items.filter(item => item.packTopicId === topic.id), rng))
   const result = []
   while (buckets.some(bucket => bucket.length)) for (const bucket of buckets) if (bucket.length) result.push(bucket.shift())
   return result
@@ -277,7 +284,7 @@ export function buildLiveQuiz(topicId, difficultyId, count = 6, previousHistory 
   const difficulty = LIVE_QUIZ_DIFFICULTIES.find(item => item.id === difficultyId) || LIVE_QUIZ_DIFFICULTIES[1]
   const mode = LIVE_QUIZ_MODES.find(item => item.id === modeId) || LIVE_QUIZ_MODES[0]
   const pool = topic.id === 'mixed'
-    ? playableTopics().flatMap(item => rawPool(item, difficulty))
+    ? playableTopics().filter(item => item.id !== 'riddles').flatMap(item => rawPool(item, difficulty))
     : rawPool(topic, difficulty)
   const size = Math.max(3, Math.min(Number(count) || 6, pool.length))
   const valid = new Set(pool.map(item => item.id))
@@ -349,7 +356,8 @@ export function detectLiveQuizMode(questions = []) {
 let cachedBankStats
 export const getLiveQuizBankStats = () => {
   if (cachedBankStats) return cachedBankStats
-  const all = playableTopics().flatMap(topic => LIVE_QUIZ_DIFFICULTIES.flatMap(difficulty => rawPool(topic, difficulty)))
+  // the riddles pool is the same at every level: count it once
+  const all = playableTopics().flatMap(topic => LIVE_QUIZ_DIFFICULTIES.filter(difficulty => topic.id !== 'riddles' || difficulty.id === 'hard').flatMap(difficulty => rawPool(topic, difficulty)))
   const byTopic = Object.fromEntries(playableTopics().map(topic => [topic.id, all.filter(item => item.packTopicId === topic.id).length]))
   cachedBankStats = { total: all.length, unique: new Set(all.map(item => item.id)).size, byTopic }
   return cachedBankStats

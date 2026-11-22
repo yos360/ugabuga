@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { buildLiveQuiz, detectLiveQuizMode, detectLiveQuizPack, getLiveQuizBankStats, LIVE_QUIZ_DIFFICULTIES, LIVE_QUIZ_TOPICS } from '../src/data/liveQuizPacks.js'
 import { EXTRA_LIVE_QUIZ_BANK } from '../src/data/liveQuizExtraPacks.js'
 import { GENERATED_MATH_QUIZ_BANK } from '../src/data/liveQuizGeneratedMath.js'
+import { DAILY_RIDDLE_LIVE_QUESTIONS } from '../src/data/dailyRiddles.js'
 import { cleanCode, liveQuestionProblem, liveSecondsRemaining } from '../src/utils/liveQuizDb.js'
 
 test('live quiz codes are normalised for QR and manual entry', () => {
@@ -27,7 +28,7 @@ test('live countdown is unknown until it has a valid server timestamp', () => {
 })
 
 test('ready games cover every topic and difficulty with valid questions', () => {
-  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','hanukkah','purim','general','animals','science','world','israel','sports','math'])
+  assert.deepEqual(LIVE_QUIZ_TOPICS.map(item => item.id), ['mixed','hanukkah','purim','general','animals','science','world','israel','sports','math','riddles'])
   assert.deepEqual(LIVE_QUIZ_DIFFICULTIES.map(item => item.id), ['easy','medium','hard'])
   for (const topic of LIVE_QUIZ_TOPICS) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
     const game = buildLiveQuiz(topic.id, difficulty.id, 8, '', () => 0.42)
@@ -40,7 +41,8 @@ test('the verified live bank contains more than 1,000 unique valid questions', (
   const generated = Object.values(GENERATED_MATH_QUIZ_BANK).flat()
   const stats = getLiveQuizBankStats()
   assert.equal(generated.length, 780)
-  assert.equal(stats.total, 1116)
+  // 1116 trivia/math questions + the daily riddles that have options (counted once)
+  assert.equal(stats.total, 1116 + DAILY_RIDDLE_LIVE_QUESTIONS.length)
   assert.equal(stats.unique, stats.total)
   assert.equal(new Set(generated.map(item => item.id)).size, generated.length)
   for (let i = 0; i < generated.length; i += 50) assert.equal(liveQuestionProblem(generated.slice(i, i + 50)), '')
@@ -85,7 +87,7 @@ test('ready game bank adds at least 100 reviewed questions with sources', () => 
     assert.ok(item.correct >= 0 && item.correct < item.options.length)
     assert.ok(item.q.endsWith('?'))
   }
-  for (const topic of LIVE_QUIZ_TOPICS.filter(item => !['mixed','math'].includes(item.id))) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
+  for (const topic of LIVE_QUIZ_TOPICS.filter(item => !['mixed','math','riddles'].includes(item.id))) for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
     const game = buildLiveQuiz(topic.id, difficulty.id, 8, [], () => 0.37)
     assert.equal(game.poolSize, 14)
     assert.ok(game.questions.every(item => item.verified && item.source?.url?.startsWith('https://')))
@@ -138,4 +140,19 @@ test('Hanukkah pack: 14 reviewed questions per level, shown among the first topi
     assert.ok(game.title.startsWith('חנוכה'))
     assert.equal(liveQuestionProblem(game.questions), '')
   }
+})
+
+test('the daily riddles are a בוגה לייב topic of their own, never mixed into "ערבוב נושאים"', () => {
+  assert.ok(DAILY_RIDDLE_LIVE_QUESTIONS.length >= 12)
+  for (const item of DAILY_RIDDLE_LIVE_QUESTIONS) {
+    assert.equal(item.options.length, 4, item.id)
+    assert.equal(new Set(item.options).size, 4, item.id)
+    assert.ok(item.correct >= 0, `${item.id}: the answer is one of the options`)
+  }
+  for (const difficulty of LIVE_QUIZ_DIFFICULTIES) {
+    const game = buildLiveQuiz('riddles', difficulty.id, 8, [], () => 0.3)
+    assert.equal(game.poolSize, DAILY_RIDDLE_LIVE_QUESTIONS.length)
+    assert.ok(game.questions.every(item => item.packTopicId === 'riddles'))
+  }
+  for (const difficulty of LIVE_QUIZ_DIFFICULTIES) assert.ok(buildLiveQuiz('mixed', difficulty.id, 20, [], () => 0.3).questions.every(item => item.packTopicId !== 'riddles'))
 })
