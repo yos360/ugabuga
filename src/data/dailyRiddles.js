@@ -4,7 +4,7 @@
 // 'image' (a drawing from public/daily-riddles/, with lines as its text).
 export const DAILY_RIDDLES = [
   {
-    id: 'letters-16', n: 16, date: '2026-11-22', type: 'משחק אותיות', emoji: '⌨️', kind: 'seq', dir: 'rtl',
+    id: 'letters-16', n: 16, date: '2026-11-22', type: 'משחק אותיות', emoji: '⌨️', kind: 'seq', dir: 'rtl', youtube: 'N_o3IByFc0I',
     title: 'מה האות הבאה?',
     items: ['ח', 'י', 'ע', 'כ', 'ג', '?'],
     ask: 'מה מסתתר מאחורי סימן השאלה?',
