@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'SoxEFbOdBV0', kind: 'tutorial', title: 'אותיות בכתב יד — טבלת דפוס וכתב ודפי תרגול', paths: ['/letters/cursive'], category: 'learning', date: '2026-11-22',
+    desc: 'מדריך קצר לדף אותיות בכתב יד: לוחצים על אות ורואים אותה בדפוס ובכתב, כותבים מילה והיא מופיעה בכתב יד, ומדפיסים טבלת דפוס וכתב, דפי תרגול לכל אות ודף מילים עם עזרה אפורה או בלי.' },
   { id: 'HlJ17TwRuI4', kind: 'tutorial', title: 'דפי עבודה לחנוכה לפי כיתה — מהגן ועד חטיבה', paths: ['/holidays/hanukkah', '/holidays/hanukkah/grade/kindergarten', '/holidays/hanukkah/grade/grade-1', '/holidays/hanukkah/grade/grade-2', '/holidays/hanukkah/grade/grade-3', '/holidays/hanukkah/grade/grade-4', '/holidays/hanukkah/grade/grade-5', '/holidays/hanukkah/grade/grade-6', '/holidays/hanukkah/grade/middle-school'], category: 'holidays', date: '2026-11-18',
     desc: 'מדריך קצר לדפי העבודה לחנוכה לפי כיתה: בוחרים כיתה, רואים מה יש בסט, פותרים בעיות מילוליות וקטע קריאה במסך, ובחלון ההדפסה לוחצים "לכל הכיתה" כדי לקבל דף שונה לכל ילד.' },
   { id: 'pajaf_j3Pb8', kind: 'tutorial', title: 'מקצועות לילדים: שיעורים, חידון ודף עבודה לכיתות ב׳–ו׳', paths: ['/learn/professions'], category: 'learning', date: '2026-11-18',
@@ -108,6 +110,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/letters/cursive': 'אותיות בכתב יד',
   '/holidays/hanukkah': 'חנוכה לילדים',
   '/holidays/hanukkah/grade/kindergarten': 'פעילות לחנוכה לגן',
   '/holidays/hanukkah/grade/grade-1': 'דפי עבודה לחנוכה לכיתה א׳',
