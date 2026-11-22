@@ -128,7 +128,7 @@
     });
     // a little arrow under the row shows the reading direction
     const a = UI.fadeIn(t, S.spots[n - 1].t + 0.2, 0.3);
-    he(ctx, R.dir === 'rtl' ? '← קוראים מימין לשמאל' : 'קוראים משמאל לימין →', W / 2, MID + bh / 2 + 90, { size: 40, w: 600, color: C.muted, alpha: a });
+    he(ctx, R.dirLabel || (R.dir === 'rtl' ? '← קוראים מימין לשמאל' : 'קוראים משמאל לימין →'), W / 2, MID + bh / 2 + 90, { size: 40, w: 600, color: C.muted, alpha: a });
   }
   function boardEq(ctx, t) {
     const n = S.spots.length, gap = 24;

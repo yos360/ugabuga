@@ -373,5 +373,38 @@
     "site": "https://ugabuga.co.il/riddles/logic-15",
     "postedAt": "2026-11-15 23:15-23:35 (owner-approved extra riddle replacing deleted #13; gate run earlier: 8/10/9/8/8)",
     "note": "date key 2026-11-15-b because #14 already holds 2026-11-15"
+  },
+  {
+    "date": "2026-11-22",
+    "n": 16,
+    "id": "letters-16",
+    "answer": "ד",
+    "posted": true,
+    "kind": "seq",
+    "type": "משחק אותיות (שורה במקלדת העברית)",
+    "networks": [
+      "youtube",
+      "instagram",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/N_o3IByFc0I",
+    "instagram": "ugabuga.co.il reels (shared ~14:24, link not captured)",
+    "facebook": "עוגה בוגה reels (published ~14:27, processing)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7710972452934798610 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:32",
+    "site": "https://ugabuga.co.il/riddles/letters-16",
+    "postedAt": "2026-11-22 14:15-14:35 (scheduled run)",
+    "gate": {
+      "rounds": 4,
+      "blindSolver": "r1 (LTR ש ד ג כ ע ?, hint under your fingers): no guess before hint, י 85%, medium. r2 A (LTR +י): solved before hint, 95%, medium. r2 B (gudv cudv = עוגה בוגה): no guess in 10s, 97%, medium-hard. r3 (RTL ח י ע כ ג ?, hint pops when you comment): no guess before hint, ד 85%, medium-hard, real aha. r4 (final hint \"עוד רגע תקלידו אותה בעצמכם\"): no guess before hint, ד 80%, medium-hard, aha.",
+      "editor": "r1 8/8/8/8/6; r2 A 7/9/8/7/8, B 8/9/9/8/5; r3 8/9/8/8/8; r4 clarity 8, single answer 9, Hebrew 8, fun 9, difficulty 8 (pass) with the keyboard reveal animation on the site"
+    },
+    "issues": {
+      "youtube": "publish asked to wait for the check; chose publish anyway; thumbnail = mascot frame via בחירה מהסרטון, saved",
+      "instagram": "share-to-Facebook was ON again; turned off via לא לשתף את סרטון Reels הזה, verified false",
+      "site": "local preview server start was declined in this run, so the keyboard reveal was not checked visually; build/lint/tests pass"
+    }
   }
 ]
