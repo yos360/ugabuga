@@ -1,4 +1,4 @@
-# Daily reel log — עוגה בוגה
+﻿# Daily reel log — עוגה בוגה
 
 One line per day, newest at the bottom ("?" = made before this log existed, uploads not recorded). Never repeat a topic that is already here.
 
@@ -220,6 +220,8 @@ Note 2026-11-22 (local scheduled run, owner's Chrome): cloud cut revealed the an
 
 2026-11-22 daily riddle #16 letters-16 (משחק אותיות: שורת המקלדת, ח י ע כ ג ?): YouTube ✓ N_o3IByFc0I · Instagram ✓ · Facebook ✓ · TikTok ✓ (Buffer) · WhatsApp channel ✓. Gate 4 rounds, final 8/9/8/9/8.
 
-| 2026-11-23 | "איזה דף צביעה הילד שלכם יבחר?" — דפי צביעה להדפסה (hook = real dinosaur 1 / unicorn 1 / soccer 1 as a 1/2/3 pick, no right answer; 53 subjects, 1,000 drawings, 12-dinosaur subject page, print all on A4 + PDF, Hanukkah subjects 103+58+58+46=265, per-drawing age/tip/activity) | /printables/coloring | ✗ | ✗ | ✗ | ✗ |
+| 2026-11-23 | "איזה דף צביעה הילד שלכם יבחר?" — דפי צביעה להדפסה (hook = real dinosaur 1 / unicorn 1 / soccer 1 as a 1/2/3 pick, no right answer; 53 subjects, 1,000 drawings, 12-dinosaur subject page, print all on A4 + PDF, Hanukkah subjects 103+58+58+46=265, per-drawing age/tip/activity) | /printables/coloring | ✓ YouTube https://youtube.com/shorts/HMOM8SqefNk | ✗ Instagram (asked for a password, skipped) | ✓ Facebook | ✓ TikTok (Buffer, link pending) | ✓ WhatsApp channel |
 
 Note 2026-11-23: cloud run, no browser — upload at 08:00 from the owner's Chrome. Files in uploads/2026-11-23/ (reel-upload.mp4, cover.jpg = second 3.9, captions.md); source in examples/coloring-pages/. Facts from src/pages/printables/Coloring*.jsx and src/data/coloringSubjects.js / coloringDrawings.js.
+
+Note 2026-11-23 (local scheduled run, owner's Chrome): cloud cut had overlaps (Hanukkah page counts hidden under the lower cards, end-card option names touching) and reversed '1, 2 או 3?'. Local re-render (work/reel-2026-11-23/proj, portable Node): '⁦1, 2⁩ או ⁦3⁩?' isolated, balanced two-line option names, hook tiles/CTA raised. Strict editor round 1: 8 / 8 / 7 (mascot touching the CTA, step-1 pill named subjects not in the grid, step-2/4 pills in the bottom UI zone, half-empty activity card, title 'לכל גיל' vs 'גילאי 3–6', end mascot too high). Fixes: hook mascot 300 px beside 'עוגה בוגה' + '1,000 דפי צביעה · חינם', step-1 pill 'חד קרן, חתולים, דינוזאורים, חנוכייה ועוד', pills raised, activity card 180 px, step-5 title 'לכל ציור, עם רעיון', end mascot lower; captions name the options (1 דינוזאור · 2 חד קרן · 3 כדורגל). Round 2: 8 / 8.5 / 8 pass. Audio -14.0 LUFS; verify all ✓. YouTube HMOM8SqefNk: keyword-first title 'דפי צביעה להדפסה בחינם: איזה ציור הילד שלכם יבחר? | עוגה בוגה #shorts', SEO description with link on line 3, 7 Hebrew tags, Hebrew, Education, not made for kids, public; thumbnail = hook frame with the mascot via 'בחירה מהסרטון', checked after reload. TikTok via Buffer (hellorwsvm8) with cover burned into 0.1 s, Publish Now (left the queue). Instagram: logged out, account picker asked for the ugabuga.co.il password -> skipped. Facebook: עוגה בוגה profile, public, cover.jpg, boost off (processing). WhatsApp channel: video + short caption with link, 08:19.

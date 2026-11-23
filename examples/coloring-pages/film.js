@@ -1,4 +1,4 @@
-// THE FILM (9:16) — "איזו אות זו בכתב יד?": Hebrew cursive letters (/letters/cursive) in the site own look. Pure function of t.
+﻿// THE FILM (9:16) — "איזו אות זו בכתב יד?": Hebrew cursive letters (/letters/cursive) in the site own look. Pure function of t.
 (function () {
   const U = globalThis.U, G = globalThis.G, UI = globalThis.UI, S = globalThis.SCORE, Studio = globalThis.Studio;
   const { T, BEAT, BAR, ev, clock } = S;
@@ -113,6 +113,13 @@
   }
 
 
+  // one line if it fits, else the most balanced two-line split
+  function wrap2(ctx, str, size, w, weight = 800) {
+    if (measure(ctx, str, size, weight) <= w) return [str];
+    const ws = str.split(' '); let best = [str], bw = 1e9;
+    for (let k = 1; k < ws.length; k++) { const a = ws.slice(0, k).join(' '), b = ws.slice(k).join(' '), m = Math.max(measure(ctx, a, size, weight), measure(ctx, b, size, weight)); if (m < bw) { bw = m; best = [a, b]; } }
+    return best;
+  }
   const BOX = (ctx, x, y, w, h, o) => card(ctx, x, y, w, h, o);
   // a chip (rounded pill) at center x,y with given fill
   function chip(ctx, cx, cy, w, h, s, { on = false, color = C.blue, size = 34, seed = 1 } = {}) {
@@ -146,7 +153,7 @@
     c.fillStyle = C.red; c.beginPath(); c.arc(cx + size / 2 - 22, cy - size / 2 + 22, 36, 0, Math.PI * 2); c.fill();
     c.strokeStyle = C.ink; c.lineWidth = 4; c.stroke();
     he(c, String(i + 1), cx + size / 2 - 22, cy - size / 2 + 36, { size: 46, w: 900, color: '#fff', dir: 'ltr' });
-    he(c, o.name, cx, cy + size / 2 + 50, { size: 34, w: 800, maxW: size + 40 });
+    wrap2(c, o.name, 34, size + 20, 800).forEach((ln, k) => he(c, ln, cx, cy + size / 2 + 48 + k * 40, { size: 34, w: 800, maxW: size - 10 }));
   }
 
   // ================= HOOK =================
@@ -158,24 +165,27 @@
     S.hookOpts.forEach((o) => {
       const cy = 960 + (o.i === 1 ? 0 : 0);
       const cx = W / 2 + (1 - o.i) * 330 + 0; // RTL: 1 on the right
-      popAt(ctx, t, o.t, cx, o.i === 1 ? 990 : 1030, (c) => hookTile(c, o.i, 0, 0, 300), { rot: [0.02, -0.015, 0.02][o.i], dur: 0.28, over: 1.7 });
+      popAt(ctx, t, o.t, cx, o.i === 1 ? 880 : 920, (c) => hookTile(c, o.i, 0, 0, 300), { rot: [0.02, -0.015, 0.02][o.i], dur: 0.28, over: 1.7 });
     });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(W / 2, 1440); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, '1, 2 או 3? כתבו בתגובות 👇', { size: 52, w: 900, bg: C.yellow, padX: 34, maxW: 700 });
+      ctx.save(); ctx.translate(W / 2, 1290); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, '⁦1, 2⁩ או ⁦3⁩? כתבו בתגובות 👇', { size: 52, w: 900, bg: C.yellow, padX: 34, maxW: 700 });
       ctx.restore();
     }
-    mascot(ctx, 200, 1640 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 300, t, ev.q2);
-    popAt(ctx, t, ev.free + 0.2, 640, 1650, (c) => he(c, `⁦${S.TOTAL.toLocaleString('en-US')}⁩ ציורים · חינם`, 0, 0, { size: 46, w: 800, color: C.ink }), { rot: 0.01 });
+    mascot(ctx, 240, 1525 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 300, t, ev.q2);
+    popAt(ctx, t, ev.free + 0.2, 680, 1525, (c) => {
+      he(c, 'עוגה בוגה', 0, -10, { size: 76, w: 900, color: C.ink });
+      he(c, `⁦${S.TOTAL.toLocaleString('en-US')}⁩ דפי צביעה · חינם`, 0, 55, { size: 40, w: 800, color: C.ink, maxW: 520 });
+    }, { rot: 0.01 });
   }
 
   // ================= 1. PICK A SUBJECT =================
   function shotAud(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[0]);
     const tapped = t >= ev.pick;
-    popAt(ctx, t, S.AUD[0].t, W / 2, 900, (c) => {
+    popAt(ctx, t, S.AUD[0].t, W / 2, 945, (c) => {
       S.SUBJ.forEach(([e, name, n], i) => {
         const col = i % 3, row = Math.floor(i / 3), cx = (1 - col) * 300, cy = (row - 1.5) * 235, on = tapped && i === S.SUBJ_PICK;
         const pr = on ? 1 + 0.05 * pulse(t, ev.pick, 10) : 1;
@@ -187,9 +197,9 @@
         c.restore();
       });
     }, { dur: 0.3, over: 1.2 });
-    UI.tap(ctx, W / 2 - 300 + 40, 900 + 0.5 * 235 + 40, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 }); // card 9 = row 2, col 2
-    popAt(ctx, t, S.pills[0], W / 2, 1525, (c) => pill(c, 0, 0, `⁦${S.NSUBJ}⁩ נושאים · ⁦${S.TOTAL.toLocaleString('en-US')}⁩ ציורים מקוריים`, { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1630, (c) => pill(c, 0, 0, 'חד קרן, כדורגל, חלל, חנוכייה ועוד', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    UI.tap(ctx, W / 2 - 300 + 40, 945 + 0.5 * 235 + 40, t, ev.pick, { color: 'rgba(34,107,215,0.8)', size: 120 }); // card 9 = row 2, col 2
+    popAt(ctx, t, S.pills[0], W / 2, 1555, (c) => pill(c, 0, 0, `⁦${S.NSUBJ}⁩ נושאים · ⁦${S.TOTAL.toLocaleString('en-US')}⁩ ציורים מקוריים`, { size: 42, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[1], W / 2, 1660, (c) => pill(c, 0, 0, 'חד קרן, חתולים, דינוזאורים, חנוכייה ועוד', { size: 40, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 2. PICK A DRAWING =================
@@ -199,16 +209,16 @@
       pill(c, 0, 0, '🦕 ⁦12⁩ דפי צביעה · חינם', { size: 44, w: 900, bg: C.blush, seed: 50, padX: 40 });
     }, { dur: 0.25, over: 1.5, rot: -0.01 });
     S.DRAW.forEach((d, i) => {
-      const col = i % 2, row = Math.floor(i / 2), cx = W / 2 + (col ? -250 : 250), cy = 850 + row * 510, on = t >= ev.topic && i === S.DRAW_PICK;
+      const col = i % 2, row = Math.floor(i / 2), cx = W / 2 + (col ? -250 : 250), cy = 830 + row * 490, on = t >= ev.topic && i === S.DRAW_PICK;
       popAt(ctx, t, S.TOPICS[0].t + 0.3 + i * 0.28, cx, cy, (c) => {
         const pr = on ? 1 + 0.04 * pulse(t, ev.topic, 10) : 1; c.scale(pr, pr);
         art(c, key(d.img), 0, -20, 340, { seed: 60 + i, on });
-        he(c, d.name, 0, 190, { size: 32, w: 800, maxW: 440 });
+        he(c, d.name, 0, 190, { size: 32, w: 800, maxW: 340 });
         pill(c, 0, 240, '🖨️ הדפסה', { size: 28, w: 900, bg: C.red, fg: '#fff', padX: 22, seed: 70 + i, shadow: 5 });
       }, { dur: 0.25, over: 1.5, rot: [0.01, -0.01, -0.008, 0.008][i] });
     });
-    UI.tap(ctx, W / 2 + 250, 850 + 235, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[2], W / 2, 1715, (c) => pill(c, 0, 0, 'כל ציור עם שם משלו ועמוד משלו', { size: 40, w: 900, bg: C.yellow, seed: 61, maxW: SAFE.w }), { rot: 0.02 });
+    UI.tap(ctx, W / 2 + 250, 830 + 235, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
+    popAt(ctx, t, S.pills[2], W / 2, 1645, (c) => pill(c, 0, 0, 'כל ציור עם שם משלו ועמוד משלו', { size: 40, w: 900, bg: C.yellow, seed: 61, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 3. PRINT ON A4 =================
@@ -241,22 +251,22 @@
   function shotPlay(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[3]);
     S.HOLIDAY.forEach(([e, name, n, img], i) => {
-      const col = i % 2, row = Math.floor(i / 2), cx = W / 2 + (col ? -250 : 250), cy = 800 + row * 420, it = S.ROWS[i];
+      const col = i % 2, row = Math.floor(i / 2), cx = W / 2 + (col ? -250 : 250), cy = 730 + row * 480, it = S.ROWS[i];
       popAt(ctx, t, it.t, cx, cy, (c) => {
-        art(c, key(img), 0, -20, 340, { seed: 90 + i });
-        he(c, `${e} ${name}`, 0, 195, { size: 42, w: 900, maxW: 460 });
-        he(c, `⁦${n}⁩ דפים`, 0, 243, { size: 32, w: 700, color: C.muted });
+        art(c, key(img), 0, -20, 320, { seed: 90 + i });
+        he(c, `${e} ${name}`, 0, 198, { size: 42, w: 900, maxW: 460 });
+        he(c, `⁦${n}⁩ דפים`, 0, 245, { size: 32, w: 700, color: C.muted });
       }, { dur: 0.25, over: 1.5, rot: [0.01, -0.01, -0.008, 0.008][i] });
     });
-    popAt(ctx, t, S.pills[5], W / 2, 1530, (c) => pill(c, 0, 0, '⁦265⁩ ציורים לחנוכה: נרות, סביבונים, סופגניות', { size: 38, w: 900, bg: C.yellow, seed: 88, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[6], W / 2, 1635, (c) => pill(c, 0, 0, 'כל דפי הצביעה לחנוכה בעמוד אחד', { size: 40, w: 900, bg: C.lilac, seed: 89, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1550, (c) => pill(c, 0, 0, '⁦265⁩ ציורים לחנוכה: נרות, סביבונים, סופגניות', { size: 36, w: 900, bg: C.yellow, seed: 88, padX: 44, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[6], W / 2, 1650, (c) => pill(c, 0, 0, 'כל דפי הצביעה לחנוכה בעמוד אחד', { size: 40, w: 900, bg: C.lilac, seed: 89, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 5. AGE + TIP + ACTIVITY =================
   function shotPrint(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[4]);
     const I = S.sheetItems, d = S.DRAW[S.DRAW_PICK], G2 = S.GUIDE;
-    popAt(ctx, t, I[0].t, W / 2, 760, (c) => {
+    popAt(ctx, t, I[0].t, W / 2, 700, (c) => {
       card(c, -440, -160, 880, 320, { fill: '#fff', r: 30, seed: 100, shadow: 10, lw: 4.5 });
       c.save(); c.beginPath(); c.roundRect(-420, -140, 280, 280, 18); c.clip(); c.drawImage(IMG.c[key(d.img)], -420, -140, 280, 280); c.restore();
       he(c, d.name, 410, -60, { size: 48, w: 900, align: 'right', maxW: 520 });
@@ -265,13 +275,14 @@
     }, { dur: 0.3, over: 1.3, rot: -0.006 });
     const rows = [['🎨', 'טיפ לצביעה', G2.tip, C.blush], ['✏️', 'אחרי הצביעה', G2.activity, '#d6f6ff']];
     rows.forEach(([e, ttl, txt, fill], i) => {
-      popAt(ctx, t, I[1 + i].t, W / 2, 1170 + i * 330, (c) => {
-        card(c, -440, -125, 880, 250, { fill, r: 30, seed: 110 + i, shadow: 9, lw: 4.5 });
-        he(c, `${e} ${ttl}`, 410, -52, { size: 40, w: 900, align: 'right', color: C.ink });
-        wrap(c, txt, 42, 800, 600, 2).forEach((ln, k) => he(c, ln, 410, 14 + k * 62, { size: 42, w: 600, align: 'right', maxW: 820 }));
+      popAt(ctx, t, I[1 + i].t, W / 2, 1060 + i * 265, (c) => {
+        const hh = i ? 180 : 250, top = -hh / 2;
+        card(c, -440, top, 880, hh, { fill, r: 30, seed: 110 + i, shadow: 9, lw: 4.5 });
+        he(c, `${e} ${ttl}`, 410, top + 73, { size: 40, w: 900, align: 'right', color: C.ink });
+        wrap(c, txt, 42, 800, 600, 2).forEach((ln, k) => he(c, ln, 410, top + 139 + k * 62, { size: 42, w: 600, align: 'right', maxW: 820 }));
       }, { dur: 0.25, over: 1.4, rot: [0.008, -0.008][i] });
     });
-    popAt(ctx, t, S.extras[0].t, W / 2, 1650, (c) => pill(c, 0, 0, 'ולכל ציור: שאלה לשיחה בזמן הצביעה 💬', { size: 38, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.extras[0].t, W / 2, 1560, (c) => pill(c, 0, 0, 'ולכל ציור: שאלה לשיחה בזמן הצביעה 💬', { size: 38, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // the hook question again: the same three drawings, numbered
@@ -284,20 +295,20 @@
   // ================= END =================
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    ctx.save(); ctx.translate(W / 2, 250); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
+    ctx.save(); ctx.translate(W / 2, 310); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    mascot(ctx, W / 2, 250, 230, t, ev.logo);
+    mascot(ctx, W / 2, 310, 200, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
-    he(ctx, 'עוגה בוגה', W / 2, 450 + (1 - wp) * 24, { size: 92, w: 900, alpha: wp });
+    he(ctx, 'עוגה בוגה', W / 2, 480 + (1 - wp) * 24, { size: 92, w: 900, alpha: wp });
     const L = S.endLines;
-    he(ctx, 'דפי צביעה להדפסה · חינם, בלי הרשמה', W / 2, 520, { size: 44, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[2].t, W / 2, 615, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 56, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'חפשו באתר: דפי צביעה 🔎', W / 2, 720, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'דפי צביעה להדפסה · חינם, בלי הרשמה', W / 2, 545, { size: 44, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[2].t, W / 2, 635, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 56, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
+    he(ctx, 'חפשו באתר: דפי צביעה 🔎', W / 2, 735, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[4].t, W / 2, 840, (c) => pill(c, 0, 0, '🎨 איזה דף צביעה הילד שלכם יבחר?', { size: 52, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1500, (c) => pill(c, 0, 0, '1, 2 או 3? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
-    confetti(ctx, t, ev.logo, W / 2, 250, { n: 20, seed: 9, spread: 1000 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1500, (c) => pill(c, 0, 0, '⁦1, 2⁩ או ⁦3⁩? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    confetti(ctx, t, ev.logo, W / 2, 310, { n: 20, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
   const SECTIONS = [
