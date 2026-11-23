@@ -499,6 +499,8 @@ const SharedSpaces = lazy(() => import('./pages/tools/group/SharedSpaces'))
 const SecretFriend = lazy(() => import('./pages/tools/group/SecretFriend'))
 const ThankYouWall = lazy(() => import('./pages/tools/group/ThankYouWall'))
 const SharedHanukkiah = lazy(() => import('./pages/tools/group/SharedHanukkiah'))
+const TeacherJoin = lazy(() => import('./pages/TeacherJoin'))
+const TeacherUnsubscribe = lazy(() => import('./pages/TeacherUnsubscribe'))
 const TeacherHome = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.TeacherHome })))
 const HomeworkBuilderPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkBuilderPage })))
 const HomeworkResultsPage = lazy(() => import('./pages/homework/TeacherHomework').then(m => ({ default: m.HomeworkResultsPage })))
@@ -676,6 +678,8 @@ export default function App() {
               <Route path="/classroom/warm-up" element={<WarmUp />} />
               <Route path="/classroom/report-card-comments" element={<ReportCardComments />} />
               <Route path="/teachers" element={<TeacherHome />} />
+              <Route path="/teachers/join" element={<TeacherJoin />} />
+              <Route path="/teachers/unsubscribe" element={<TeacherUnsubscribe />} />
               <Route path="/teachers/homework/new" element={<HomeworkBuilderPage />} />
               <Route path="/teachers/homework/:code/edit" element={<HomeworkBuilderPage />} />
               <Route path="/teachers/homework/:code" element={<HomeworkResultsPage />} />

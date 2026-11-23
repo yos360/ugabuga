@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, lazy, Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import SEO from '../../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../../components/ui/SeoBody'
@@ -14,6 +14,8 @@ import SiteInvite from '../../../components/ui/SiteInvite'
 import NotFound from '../../NotFound'
 import PersonalReminders from './PersonalReminders'
 import { parsePhoneBook, savePhoneText } from '../../../utils/personalReminders'
+import { trackRsvp, claimFirstAnswer } from '../../../utils/rsvpFunnel'
+const RsvpUpgradePanel = lazy(() => import('./RsvpUpgradePanel'))
 import { RSVP_TYPES, rsvpType } from '../../../utils/rsvpTypes'
 import { RSVP_TYPES_EN, rsvpTypeEn } from '../../../utils/rsvpTypesEn'
 import { RSVP_LANGS, t, translateError } from '../../../utils/rsvpI18n'
@@ -335,6 +337,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
       setEv(e => ({ ...e, extras: extras || {}, marks: Object.fromEntries(Object.entries(e.marks || {}).map(([id, m]) => [id, m.table > (extras?.tables || 0) ? { ...m, table: null } : m])) }))
     } catch (e) { setEv(ev2 => ({ ...ev2, extras: before })); show(errText(site, e.code), 'err') }
   }
+  useEffect(() => { if (responses.length > 0 && claimFirstAnswer(ev.code)) trackRsvp('first_answer') }, [responses.length, ev.code])
   const coming = responses.filter(r => r.status !== 'no')
   const paidCount = coming.filter(r => marks[r.id]?.paid).length
   const [seating, setSeating] = useState(false)
@@ -422,13 +425,14 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
     <aside className="space-y-4 lg:sticky lg:top-4">
       <section className="wobbly border-2 border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="font-display text-2xl font-bold">{S.sendTitle}</h2>
-        <button onClick={() => openWhatsApp(S.inviteText(ev, sharedLink))} className={`${btnWa} mt-3 w-full`}>{S.sendWa}</button>
-        <button onClick={() => copyText(sharedLink, show, S.linkCopied)} className={`${btn} mt-2 w-full`}>{S.copyLink}</button>
+        <button onClick={() => { trackRsvp("shared"); openWhatsApp(S.inviteText(ev, sharedLink)) }} className={`${btnWa} mt-3 w-full`}>{S.sendWa}</button>
+        <button onClick={() => { trackRsvp("shared"); copyText(sharedLink, show, S.linkCopied) }} className={`${btn} mt-2 w-full`}>{S.copyLink}</button>
         <p className="mt-3 rounded-lg bg-white/70 px-3 py-2 text-center text-sm">{S.linkLabel} <bdi dir="ltr" className="font-bold">{link.replace(/^https?:\/\//, '')}</bdi></p>
         {S.qr && <LinkQr link={link} />}
         <Link to={invitation.to} className={`${btn} mt-3 w-full`}>{invitation.label}</Link>
         {S.bringList && <Link to={S.bringList.to} className={`${btn} mt-2 w-full`}>{S.bringList.label}</Link>}
       </section>
+      {site === 'he' && <Suspense fallback={null}><RsvpUpgradePanel code={ev.code} /></Suspense>}
       <section className={card}>
         <h2 className="text-xl font-bold">{S.reminderTitle}</h2>
         {ev.invitees?.length > 0
@@ -583,6 +587,7 @@ function RsvpPage({ preset }) {
   const [toast, show] = useToast()
   const host = Boolean(token && ev?.responses)
   const loadSeq = useRef(0)
+  useEffect(() => { if (!pathCode) trackRsvp('visit') }, [pathCode])
   useEffect(() => {
     if (pathCode) return
     let alive = true
@@ -624,6 +629,7 @@ function RsvpPage({ preset }) {
       const extras = hasExtras(wanted) ? await rsvpDb.extrasSet(row.code, t, wanted).catch(() => ({})) : {}
       window.history.replaceState(window.history.state, '', `${S.base}/r/${row.code}`)
       setToken(t); setEv({ ...row, responses: [], extras: extras || {}, marks: {} }); setCode(row.code)
+      trackRsvp('created'); trackRsvp('guests', (row.invitees || fromForm(form).invitees || []).length)
       show(S.created)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (e) { show(errText(site, e.code), 'err') } finally { setBusy(false) }

@@ -1,4 +1,5 @@
 import { isUuidPath, EXPIRED_PDF_PATH } from './pdfLink.js'
+import { stepCategory } from './rsvpFunnel.js'
 // Separate public Realtime connection. No changes to the content database.
 // Only fixed codes leave the browser: never names, form values or full URLs.
 export const ACTIVITY_LABELS = Object.freeze({
@@ -278,6 +279,21 @@ export function logInviteCta(context, toolPath) {
   visitorPromise ||= browserKey().catch(() => null)
   void visitorPromise.then(visitor => {
     dbQueue.push({ p_category: category, p_action: 'use', p_path: path, p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null })
+    if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
+    flushDb()
+  })
+}
+// An RSVP funnel step (see utils/rsvpFunnel.js): action 'use', category 'rsvp-step:<step>' on the fixed
+// path /rsvp (never the event's /r/<code> link). Guest count only as a bucket: nothing personal.
+export function logRsvpStep(step, bucket = null) {
+  const category = stepCategory(step, bucket)
+  if (!category || excluded('/rsvp')) return
+  if (Date.now() - (logged.get(category) || 0) < 3000) return
+  logged.set(category, Date.now())
+  markHuman()
+  visitorPromise ||= browserKey().catch(() => null)
+  void visitorPromise.then(visitor => {
+    dbQueue.push({ p_category: category, p_action: 'use', p_path: '/rsvp', p_device: deviceType(), p_source: trafficSource(), p_visitor: visitor, p_seconds: null })
     if (dbQueue.length > 30) dbQueue = dbQueue.slice(-30)
     flushDb()
   })

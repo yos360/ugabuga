@@ -8,6 +8,7 @@ import { englishSummary } from '../utils/ownerEnglish'
 import { visitorName } from '../utils/visitorNames'
 import ReportSections from '../components/owner/ReportSections'
 import MailSubscribers from '../components/owner/MailSubscribers'
+import TeacherSignupsCount from '../components/owner/TeacherSignupsCount'
 import SiteChatInbox from '../components/owner/SiteChatInbox'
 import BugaPediaQuestions from '../components/owner/BugaPediaQuestions'
 import PageRequests from '../components/owner/PageRequests'
@@ -15,6 +16,7 @@ import PlannerTeachers from '../components/owner/PlannerTeachers'
 import HomeExperiment, { KIND_EXPERIMENT, HOME_KINDS, KIND_LABEL } from '../components/owner/HomeExperiment'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
+import RsvpSteps from '../components/owner/RsvpSteps'
 import SiteSignals from '../components/owner/SiteSignals'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 import OwnerTakedown from '../components/owner/OwnerTakedown'
@@ -622,6 +624,7 @@ export default function OwnerActivityReport() {
       <PlannerTeachers tick={tick} />
       <PageRequests from={from} to={to} tick={tick} />
       <BugaPediaQuestions from={from} to={to} tick={tick} />
+      <TeacherSignupsCount />
       <MailSubscribers />
       {!data ? <p role="status">טוענים את הדוח…</p> : <>
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -685,6 +688,7 @@ export default function OwnerActivityReport() {
           { id: 'takedown', title: '🗑️ הסרת תוכן שדווח', preview: [<span key="t">מדביקים קישור לתוכן של גולשים ומוחקים אותו</span>], render: () => <OwnerTakedown /> },
           { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
           { id: 'sponsors', title: '📣 לחיצות על באנרים', preview: [<span key="b">כמה לחצו על באנר הפרסומת (למשל אאורקה) בתקופה שנבחרה</span>], render: () => <SponsorClicks from={from} to={to} tick={tick} pageName={pageName} /> },
+          { id: 'rsvp-steps', title: '✅ מסלול אישורי הגעה: מביקור ועד „אני רוצה את החבילה”', preview: [<span key="r">כמה מבקרים בכל שלב, 30 ימים אחרונים</span>], render: () => <RsvpSteps tick={tick} /> },
           { id: 'signals', title: '🧭 גלילה, חיפוש, 404 ו"האם זה עזר?"', preview: [<span key="g">עד כמה גוללים, מה מחפשים ולא מוצאים, לאן ממשיכים, שגיאות ו־👍👎 לכל עמוד</span>], render: () => <SiteSignals from={from} to={to} tick={tick} pageName={pageName} /> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },
           { id: 'recent', title: '🕐 פעולות אחרונות', preview: lastEvents(data, () => true, rsvpTitles), render: () => <>

@@ -6,6 +6,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import PrintableCard from '../components/ui/PrintableCard'
 import { categories as PRINTABLES } from '../data/printableCategories'
 import BuyingGuideLink from '../components/ui/BuyingGuideLink'
+import TeacherListCta from '../components/ui/TeacherListCta'
 
 const HUBS = {
   birthday: {
@@ -160,6 +161,7 @@ export default function HubPage({ type }) {
     </nav>}
     {type === 'birthday' && <BuyingGuideLink id="party" />}
     {type === 'classroom' && <BuyingGuideLink id="teacher" />}
+    {type === 'classroom' && <TeacherListCta from={pathname} className="mt-8" />}
     {hub.body && <div className="mt-12"><SeoBody paragraphs={hub.body} faq={hub.faq} related={hub.related} /></div>}
   </div>
 }
