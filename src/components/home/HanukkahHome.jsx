@@ -25,6 +25,7 @@ const GRADES = [
   ['ה׳', '/holidays/hanukkah/grade/grade-5'],
   ['ו׳', '/booklets/hanukkah-grade-6'],
   ['חט״ב', '/booklets/hanukkah-middle-school'],
+  ['ט׳', '/booklets/hanukkah-grade-9'],
 ]
 const MORE = [
   ['🕎', 'חנוכייה לגזירה', '/holidays/hanukkah/cut-out-hanukkiah'],

@@ -9,6 +9,7 @@ import { HANUKKAH } from '../../data/hanukkah'
 import HanukkahOrganize from '../../components/hanukkah/HanukkahOrganize'
 import HanukkahPlan from '../../components/hanukkah/HanukkahPlan'
 import HanukkahGradeChooser from '../../components/hanukkah/HanukkahGradeChooser'
+import HolidayCalendarReminder from '../../components/holidays/HolidayCalendarReminder'
 import HanukkahZone from '../../components/hanukkah/HanukkahZone'
 import BuyingGuideLink from '../../components/ui/BuyingGuideLink'
 
@@ -102,6 +103,7 @@ export default function HanukkahHub() {
       <HanukkahGradeChooser />
       <HanukkahPlan />
       <HanukkahOrganize className="mb-10" />
+      <HolidayCalendarReminder />
 
       <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="text-2xl font-bold mb-3">🕯️ איך מדליקים נרות חנוכה?</h2>

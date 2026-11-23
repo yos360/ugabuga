@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import PrintPreview from '../../components/ui/PrintPreview'
 import HanukkahShell from '../../components/hanukkah/HanukkahShell'
+import HolidayCalendarReminder from '../../components/holidays/HolidayCalendarReminder'
 import HanukkahGradeChooser from '../../components/hanukkah/HanukkahGradeChooser'
 import { gradeSet, PrintItem } from '../../components/hanukkah/HanukkahGradeSheets'
 import { hanukkahGrade } from '../../data/hanukkahGrades'
@@ -93,6 +94,8 @@ export default function HanukkahGrade() {
         <h2 id="hg-more" className="text-2xl font-bold">🕯️ עוד לחנוכה {grade.forLabel}</h2>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{grade.links.map(l => <li key={l.href}><Link to={l.href} className="flex min-h-[48px] items-center rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-2 font-bold underline decoration-dashed">{l.label} ←</Link></li>)}</ul>
       </section>
+
+      <HolidayCalendarReminder />
 
       <HanukkahGradeChooser current={grade.slug} title="חנוכה לכיתות אחרות" />
 

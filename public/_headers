@@ -17,6 +17,10 @@
 /assets/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=31536000, immutable
+# Holiday reminder feeds that visitors subscribe to (scripts/generate-holiday-calendar.mjs).
+/calendar/*
+  Content-Type: text/calendar; charset=utf-8
+  Cache-Control: public, max-age=86400
 /previews/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /images/*

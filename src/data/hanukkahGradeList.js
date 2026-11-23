@@ -13,5 +13,19 @@ export const HANUKKAH_GRADE_LIST = [
   { slug: 'middle-school', booklet: '/booklets/hanukkah-middle-school', label: 'חטיבת ביניים', forLabel: 'לחטיבת ביניים', emoji: '🏛️', ages: 'כיתות ז׳–ט׳' },
 ]
 
+// Booklets in three levels (added 23.11.2026): ⭐ basic, ⭐⭐ the regular grade booklet above, ⭐⭐⭐ challenge.
+// Keyed by grade slug so each grade page can link the levels that fit it.
+export const HANUKKAH_LEVEL_BOOKLETS = {
+  kindergarten: [['🍼', 'גן צעיר (גילאי 3–4)', '/booklets/hanukkah-pre-k']],
+  'grade-1': [['⭐', 'רמה בסיסית א׳–ב׳', '/booklets/hanukkah-easy-1-2'], ['⭐⭐⭐', 'רמת אתגר א׳–ב׳', '/booklets/hanukkah-challenge-1-2']],
+  'grade-2': [['⭐', 'רמה בסיסית א׳–ב׳', '/booklets/hanukkah-easy-1-2'], ['⭐⭐⭐', 'רמת אתגר א׳–ב׳', '/booklets/hanukkah-challenge-1-2']],
+  'grade-3': [['⭐', 'רמה בסיסית ג׳–ד׳', '/booklets/hanukkah-easy-3-4'], ['⭐⭐⭐', 'רמת אתגר ג׳–ד׳', '/booklets/hanukkah-challenge-3-4']],
+  'grade-4': [['⭐', 'רמה בסיסית ג׳–ד׳', '/booklets/hanukkah-easy-3-4'], ['⭐⭐⭐', 'רמת אתגר ג׳–ד׳', '/booklets/hanukkah-challenge-3-4']],
+  'grade-5': [['⭐⭐⭐', 'רמת אתגר ה׳–ו׳', '/booklets/hanukkah-challenge-5-6']],
+  'grade-6': [['⭐⭐⭐', 'רמת אתגר ה׳–ו׳', '/booklets/hanukkah-challenge-5-6']],
+  'middle-school': [['🎓', 'חוברת לכיתה ט׳', '/booklets/hanukkah-grade-9']],
+}
+export const HANUKKAH_LEVEL_LIST = [...new Map(Object.values(HANUKKAH_LEVEL_BOOKLETS).flat().map(l => [l[2], l])).values()]
+
 export const hanukkahGradePath = slug => `${HANUKKAH_GRADE_BASE}/${slug}`
 export const HANUKKAH_GRADE_PATHS = HANUKKAH_GRADE_LIST.map(g => hanukkahGradePath(g.slug))

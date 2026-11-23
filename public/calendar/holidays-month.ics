@@ -1,0 +1,233 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ugabuga.co.il//holiday-reminders//HE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:עוגה בוגה — תזכורת לחגים (חודש לפנ
+ י)
+X-WR-TIMEZONE:Asia/Jerusalem
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+X-PUBLISHED-TTL:P1W
+BEGIN:VEVENT
+UID:tu-bishvat-20270122-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:🌳 עוד חודש ט״ו בשבט — עוגה בוגה
+DESCRIPTION:ט״ו בשבט תשפ״ז: יום שבת\, 23 בינואר 202
+ 7 (מתחיל ביום שישי בערב\, 22 בינואר)\nדפי צבי
+ עה\, חוברות ופעילויות להדפסה בחינם: https://ug
+ abuga.co.il/holidays/tu-bishvat?utm_source=calendar&utm_medium=reminder&ut
+ m_campaign=month
+URL:https://ugabuga.co.il/holidays/tu-bishvat?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש ט״ו בשבט
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:purim-20270322-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:🎭 עוד חודש פורים — עוגה בוגה
+DESCRIPTION:פורים תשפ״ז: יום שלישי\, 23 במרץ 2027 (מ
+ תחיל ביום שני בערב\, 22 במרץ) · שושן פורים ב
+ ירושלים: 24 במרץ\nדפי צביעה\, חוברות ופעילו
+ יות להדפסה בחינם: https://ugabuga.co.il/holidays/purim?utm_s
+ ource=calendar&utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/purim?utm_source=calendar&utm_medium=rem
+ inder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש פורים
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pesach-20270421-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270322
+DTEND;VALUE=DATE:20270323
+SUMMARY:🍷 עוד חודש פסח — עוגה בוגה
+DESCRIPTION:פסח תשפ״ז: ליל הסדר ביום רביעי בערב
+ \, 21 באפריל 2027 · שביעי של פסח: יום רביעי\, 28 
+ באפריל\nדפי צביעה\, חוברות ופעילויות להדפ
+ סה בחינם: https://ugabuga.co.il/holidays/pesach?utm_source=calendar
+ &utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/pesach?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש פסח
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:yom-haatzmaut-20270511-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270411
+DTEND;VALUE=DATE:20270412
+SUMMARY:🇮🇱 עוד חודש יום העצמאות — עוגה בוג
+ ה
+DESCRIPTION:יום העצמאות ה־79: יום רביעי\, 12 במאי 2
+ 027 (ה׳ באייר תשפ״ז) · מתחיל ביום שלישי בער
+ ב\, 11 במאי\nדפי צביעה\, חוברות ופעילויות לה
+ דפסה בחינם: https://ugabuga.co.il/holidays/yom-haatzmaut?utm_sour
+ ce=calendar&utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/yom-haatzmaut?utm_source=calendar&utm_me
+ dium=reminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש יום העצמאות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lag-baomer-20270524-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270424
+DTEND;VALUE=DATE:20270425
+SUMMARY:🔥 עוד חודש ל״ג בעומר — עוגה בוגה
+DESCRIPTION:ל״ג בעומר תשפ״ז: יום שלישי\, 25 במאי 2
+ 027 (י״ח באייר) · המדורות — ביום שני בערב\, 2
+ 4 במאי\nדפי צביעה\, חוברות ופעילויות להדפס
+ ה בחינם: https://ugabuga.co.il/holidays/lag-baomer?utm_source=calend
+ ar&utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/lag-baomer?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש ל״ג בעומר
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:shavuot-20270610-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270511
+DTEND;VALUE=DATE:20270512
+SUMMARY:🧀 עוד חודש שבועות — עוגה בוגה
+DESCRIPTION:שבועות תשפ״ז: יום שישי\, 11 ביוני 2027 (
+ ו׳ בסיוון) · החג מתחיל ביום חמישי בערב\, 10 
+ ביוני\nדפי צביעה\, חוברות ופעילויות להדפס
+ ה בחינם: https://ugabuga.co.il/holidays/shavuot?utm_source=calendar&
+ utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/shavuot?utm_source=calendar&utm_medium=r
+ eminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש שבועות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rosh-hashana-20271001-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270901
+DTEND;VALUE=DATE:20270902
+SUMMARY:🍎 עוד חודש ראש השנה — עוגה בוגה
+DESCRIPTION:ראש השנה תשפ״ח: שבת וראשון\, 2–3 באו
+ קטובר 2027 (מתחיל ביום שישי בערב\, 1 באוקטוב
+ ר)\nדפי צביעה\, חוברות ופעילויות להדפסה בח
+ ינם: https://ugabuga.co.il/holidays/rosh-hashana?utm_source=calendar&ut
+ m_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/rosh-hashana?utm_source=calendar&utm_med
+ ium=reminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש ראש השנה
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:yom-kippur-20271010-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270910
+DTEND;VALUE=DATE:20270911
+SUMMARY:🕊️ עוד חודש יום כיפור — עוגה בוגה
+DESCRIPTION:יום כיפור תשפ״ח: מתחיל ביום ראשון ב
+ ערב\, 10 באוקטובר 2027\, ומסתיים ביום שני בער
+ ב\, 11 באוקטובר\nחומרים לכיתה ולבית בחינם: h
+ ttps://ugabuga.co.il/holidays/yom-kippur?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/yom-kippur?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש יום כיפור
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sukkot-20271015-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:🌿 עוד חודש סוכות — עוגה בוגה
+DESCRIPTION:סוכות תשפ״ח: מתחיל ביום שישי בערב\, 
+ 15 באוקטובר 2027 · חול המועד: 17 עד 22 באוקטובר
+  · שמחת תורה: שבת\, 23 באוקטובר (מתחילה ביום
+  שישי בערב)\nדפי צביעה\, חוברות ופעילויות 
+ להדפסה בחינם: https://ugabuga.co.il/holidays/sukkot?utm_source=
+ calendar&utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/sukkot?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש סוכות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rabin-20271111-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271012
+DTEND;VALUE=DATE:20271013
+SUMMARY:🕯️ עוד חודש יום הזיכרון ליצחק רבין 
+ — עוגה בוגה
+DESCRIPTION:יום הזיכרון ליצחק רבין\, י״ב בחשוון
+  תשפ״ח (12.11.2027) — מציינים ביום חמישי\, 11 בנ
+ ובמבר 2027\nחומרים לכיתה ולבית בחינם: https://ug
+ abuga.co.il/holidays/rabin?utm_source=calendar&utm_medium=reminder&utm_cam
+ paign=month
+URL:https://ugabuga.co.il/holidays/rabin?utm_source=calendar&utm_medium=rem
+ inder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש יום הזיכרון ליצחק רבין
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sigd-20271129-month@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271030
+DTEND;VALUE=DATE:20271031
+SUMMARY:⛰️ עוד חודש חג הסיגד — עוגה בוגה
+DESCRIPTION:סיגד תשפ״ח: יום שני\, 29 בנובמבר 2027 (כ
+ ״ט בחשוון)\nדפי צביעה\, חוברות ופעילויות ל
+ הדפסה בחינם: https://ugabuga.co.il/holidays/sigd?utm_source=cale
+ ndar&utm_medium=reminder&utm_campaign=month
+URL:https://ugabuga.co.il/holidays/sigd?utm_source=calendar&utm_medium=remi
+ nder&utm_campaign=month
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד חודש חג הסיגד
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

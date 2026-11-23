@@ -73,6 +73,13 @@ import hanukkahGrade3 from './meta/hanukkah-grade-3.js'
 import hanukkahGrade4 from './meta/hanukkah-grade-4.js'
 import hanukkahGrade6 from './meta/hanukkah-grade-6.js'
 import hanukkahMiddleSchool from './meta/hanukkah-middle-school.js'
+import hanukkahPreK from './meta/hanukkah-pre-k.js'
+import hanukkahEasy12 from './meta/hanukkah-easy-1-2.js'
+import hanukkahEasy34 from './meta/hanukkah-easy-3-4.js'
+import hanukkahChallenge12 from './meta/hanukkah-challenge-1-2.js'
+import hanukkahChallenge34 from './meta/hanukkah-challenge-3-4.js'
+import hanukkahChallenge56 from './meta/hanukkah-challenge-5-6.js'
+import hanukkahGrade9 from './meta/hanukkah-grade-9.js'
 import purimGan from './meta/purim-gan.js'
 import purimGrade1 from './meta/purim-grade-1.js'
 import purimGrade2 from './meta/purim-grade-2.js'
@@ -89,6 +96,13 @@ export const SUBJECT_BOOKLETS = [
   { ...hanukkahGrade4, load: subject(() => import('./content/hanukkah-grade-4.js')) },
   { ...hanukkahGrade6, load: subject(() => import('./content/hanukkah-grade-6.js')) },
   { ...hanukkahMiddleSchool, load: subject(() => import('./content/hanukkah-middle-school.js')) },
+  { ...hanukkahPreK, load: subject(() => import('./content/hanukkah-pre-k.js')) },
+  { ...hanukkahEasy12, load: subject(() => import('./content/hanukkah-easy-1-2.js')) },
+  { ...hanukkahEasy34, load: subject(() => import('./content/hanukkah-easy-3-4.js')) },
+  { ...hanukkahChallenge12, load: subject(() => import('./content/hanukkah-challenge-1-2.js')) },
+  { ...hanukkahChallenge34, load: subject(() => import('./content/hanukkah-challenge-3-4.js')) },
+  { ...hanukkahChallenge56, load: subject(() => import('./content/hanukkah-challenge-5-6.js')) },
+  { ...hanukkahGrade9, load: subject(() => import('./content/hanukkah-grade-9.js')) },
   { ...purimGan, load: subject(() => import('./content/purim-gan.js')) },
   { ...purimGrade1, load: subject(() => import('./content/purim-grade-1.js')) },
   { ...purimGrade2, load: subject(() => import('./content/purim-grade-2.js')) },

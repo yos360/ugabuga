@@ -1,0 +1,253 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ugabuga.co.il//holiday-reminders//HE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:עוגה בוגה — תזכורת לחגים (שבוע לפנ
+ י)
+X-WR-TIMEZONE:Asia/Jerusalem
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+X-PUBLISHED-TTL:P1W
+BEGIN:VEVENT
+UID:hanukkah-20261204-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:🕎 עוד שבוע חנוכה — עוגה בוגה
+DESCRIPTION:נר ראשון: יום שישי\, 4 בדצמבר 2026 בערב
+  (כ״ד בכסלו תשפ״ז) · נר שמיני: 11 בדצמבר · ה
+ חג מסתיים ב־12 בדצמבר\nדפי צביעה\, חוברות ו
+ פעילויות להדפסה בחינם: https://ugabuga.co.il/holidays/h
+ anukkah?utm_source=calendar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/hanukkah?utm_source=calendar&utm_medium=
+ reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע חנוכה
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:tu-bishvat-20270122-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:🌳 עוד שבוע ט״ו בשבט — עוגה בוגה
+DESCRIPTION:ט״ו בשבט תשפ״ז: יום שבת\, 23 בינואר 202
+ 7 (מתחיל ביום שישי בערב\, 22 בינואר)\nדפי צבי
+ עה\, חוברות ופעילויות להדפסה בחינם: https://ug
+ abuga.co.il/holidays/tu-bishvat?utm_source=calendar&utm_medium=reminder&ut
+ m_campaign=week
+URL:https://ugabuga.co.il/holidays/tu-bishvat?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע ט״ו בשבט
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:purim-20270322-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:🎭 עוד שבוע פורים — עוגה בוגה
+DESCRIPTION:פורים תשפ״ז: יום שלישי\, 23 במרץ 2027 (מ
+ תחיל ביום שני בערב\, 22 במרץ) · שושן פורים ב
+ ירושלים: 24 במרץ\nדפי צביעה\, חוברות ופעילו
+ יות להדפסה בחינם: https://ugabuga.co.il/holidays/purim?utm_s
+ ource=calendar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/purim?utm_source=calendar&utm_medium=rem
+ inder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע פורים
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pesach-20270421-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270414
+DTEND;VALUE=DATE:20270415
+SUMMARY:🍷 עוד שבוע פסח — עוגה בוגה
+DESCRIPTION:פסח תשפ״ז: ליל הסדר ביום רביעי בערב
+ \, 21 באפריל 2027 · שביעי של פסח: יום רביעי\, 28 
+ באפריל\nדפי צביעה\, חוברות ופעילויות להדפ
+ סה בחינם: https://ugabuga.co.il/holidays/pesach?utm_source=calendar
+ &utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/pesach?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע פסח
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:yom-haatzmaut-20270511-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270504
+DTEND;VALUE=DATE:20270505
+SUMMARY:🇮🇱 עוד שבוע יום העצמאות — עוגה בוג
+ ה
+DESCRIPTION:יום העצמאות ה־79: יום רביעי\, 12 במאי 2
+ 027 (ה׳ באייר תשפ״ז) · מתחיל ביום שלישי בער
+ ב\, 11 במאי\nדפי צביעה\, חוברות ופעילויות לה
+ דפסה בחינם: https://ugabuga.co.il/holidays/yom-haatzmaut?utm_sour
+ ce=calendar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/yom-haatzmaut?utm_source=calendar&utm_me
+ dium=reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע יום העצמאות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:lag-baomer-20270524-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270517
+DTEND;VALUE=DATE:20270518
+SUMMARY:🔥 עוד שבוע ל״ג בעומר — עוגה בוגה
+DESCRIPTION:ל״ג בעומר תשפ״ז: יום שלישי\, 25 במאי 2
+ 027 (י״ח באייר) · המדורות — ביום שני בערב\, 2
+ 4 במאי\nדפי צביעה\, חוברות ופעילויות להדפס
+ ה בחינם: https://ugabuga.co.il/holidays/lag-baomer?utm_source=calend
+ ar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/lag-baomer?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע ל״ג בעומר
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:shavuot-20270610-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270603
+DTEND;VALUE=DATE:20270604
+SUMMARY:🧀 עוד שבוע שבועות — עוגה בוגה
+DESCRIPTION:שבועות תשפ״ז: יום שישי\, 11 ביוני 2027 (
+ ו׳ בסיוון) · החג מתחיל ביום חמישי בערב\, 10 
+ ביוני\nדפי צביעה\, חוברות ופעילויות להדפס
+ ה בחינם: https://ugabuga.co.il/holidays/shavuot?utm_source=calendar&
+ utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/shavuot?utm_source=calendar&utm_medium=r
+ eminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע שבועות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rosh-hashana-20271001-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20270924
+DTEND;VALUE=DATE:20270925
+SUMMARY:🍎 עוד שבוע ראש השנה — עוגה בוגה
+DESCRIPTION:ראש השנה תשפ״ח: שבת וראשון\, 2–3 באו
+ קטובר 2027 (מתחיל ביום שישי בערב\, 1 באוקטוב
+ ר)\nדפי צביעה\, חוברות ופעילויות להדפסה בח
+ ינם: https://ugabuga.co.il/holidays/rosh-hashana?utm_source=calendar&ut
+ m_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/rosh-hashana?utm_source=calendar&utm_med
+ ium=reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע ראש השנה
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:yom-kippur-20271010-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271003
+DTEND;VALUE=DATE:20271004
+SUMMARY:🕊️ עוד שבוע יום כיפור — עוגה בוגה
+DESCRIPTION:יום כיפור תשפ״ח: מתחיל ביום ראשון ב
+ ערב\, 10 באוקטובר 2027\, ומסתיים ביום שני בער
+ ב\, 11 באוקטובר\nחומרים לכיתה ולבית בחינם: h
+ ttps://ugabuga.co.il/holidays/yom-kippur?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/yom-kippur?utm_source=calendar&utm_mediu
+ m=reminder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע יום כיפור
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sukkot-20271015-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271008
+DTEND;VALUE=DATE:20271009
+SUMMARY:🌿 עוד שבוע סוכות — עוגה בוגה
+DESCRIPTION:סוכות תשפ״ח: מתחיל ביום שישי בערב\, 
+ 15 באוקטובר 2027 · חול המועד: 17 עד 22 באוקטובר
+  · שמחת תורה: שבת\, 23 באוקטובר (מתחילה ביום
+  שישי בערב)\nדפי צביעה\, חוברות ופעילויות 
+ להדפסה בחינם: https://ugabuga.co.il/holidays/sukkot?utm_source=
+ calendar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/sukkot?utm_source=calendar&utm_medium=re
+ minder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע סוכות
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:rabin-20271111-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271104
+DTEND;VALUE=DATE:20271105
+SUMMARY:🕯️ עוד שבוע יום הזיכרון ליצחק רבין 
+ — עוגה בוגה
+DESCRIPTION:יום הזיכרון ליצחק רבין\, י״ב בחשוון
+  תשפ״ח (12.11.2027) — מציינים ביום חמישי\, 11 בנ
+ ובמבר 2027\nחומרים לכיתה ולבית בחינם: https://ug
+ abuga.co.il/holidays/rabin?utm_source=calendar&utm_medium=reminder&utm_cam
+ paign=week
+URL:https://ugabuga.co.il/holidays/rabin?utm_source=calendar&utm_medium=rem
+ inder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע יום הזיכרון ליצחק רבין
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sigd-20271129-week@ugabuga.co.il
+DTSTAMP:20261123T093423Z
+DTSTART;VALUE=DATE:20271122
+DTEND;VALUE=DATE:20271123
+SUMMARY:⛰️ עוד שבוע חג הסיגד — עוגה בוגה
+DESCRIPTION:סיגד תשפ״ח: יום שני\, 29 בנובמבר 2027 (כ
+ ״ט בחשוון)\nדפי צביעה\, חוברות ופעילויות ל
+ הדפסה בחינם: https://ugabuga.co.il/holidays/sigd?utm_source=cale
+ ndar&utm_medium=reminder&utm_campaign=week
+URL:https://ugabuga.co.il/holidays/sigd?utm_source=calendar&utm_medium=remi
+ nder&utm_campaign=week
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:עוד שבוע חג הסיגד
+TRIGGER:PT9H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

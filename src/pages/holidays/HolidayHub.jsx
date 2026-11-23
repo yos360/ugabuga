@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import HolidayCalendarReminder from '../../components/holidays/HolidayCalendarReminder'
 import HolidayZone from '../../components/holidays/HolidayZone'
 import { currentInfo } from '../../holidays/list'
 import { cbnHolidayPictures } from '../../data/colorByNumber'
@@ -70,6 +71,8 @@ export default function HolidayHub({ h }) {
           : <ul className="list-disc space-y-2 pr-6">{c.box.items.map((t, i) => <li key={i}>{t}</li>)}</ul>}
         {c.box.note && <p className="mt-3 text-sm text-[var(--muted-foreground)]">{c.box.note}</p>}
       </section>}
+
+      <HolidayCalendarReminder />
 
       <SeoBody paragraphs={c.body} faq={c.faq} related={c.related} />
     </HolidayShell>

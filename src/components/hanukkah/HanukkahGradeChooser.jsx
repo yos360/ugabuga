@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { HANUKKAH_GRADE_LIST, hanukkahGradePath } from '../../data/hanukkahGradeList'
+import { HANUKKAH_GRADE_LIST, HANUKKAH_LEVEL_BOOKLETS, HANUKKAH_LEVEL_LIST, hanukkahGradePath } from '../../data/hanukkahGradeList'
 
 // "Hanukkah by grade" chooser: on the Hanukkah hub and on every grade page (current one marked).
 export default function HanukkahGradeChooser({ current, title = 'דפי עבודה ופעילות לחנוכה לפי כיתה', className = 'mb-10' }) {
@@ -21,6 +21,12 @@ export default function HanukkahGradeChooser({ current, title = 'דפי עבוד
         {HANUKKAH_GRADE_LIST.map(g => <li key={g.slug}><Link to={g.booklet} className="inline-flex min-h-[44px] items-center rounded-full border-2 border-[var(--border)] bg-white px-3 font-bold hover:bg-yellow-100">חוברת {g.forLabel}</Link></li>)}
       </ul>
       <p className="mt-4 text-lg"><span aria-hidden="true">🏃 </span><b>למורים:</b> <Link to="/classroom/warm-up" className="font-bold underline">חימום חנוכה לפני השיעור</Link> — 3 דקות של סביבון, נרות ומכבים על המקרן, עם טיימר.</p>
+    </>}
+    {(current ? HANUKKAH_LEVEL_BOOKLETS[current] : HANUKKAH_LEVEL_LIST)?.length > 0 && <>
+      <h3 className="mb-1 mt-5 text-xl font-bold">{current ? '📶 עוד רמות לחנוכה בכיתה הזו' : '📶 חוברות חנוכה בשלוש רמות: ⭐ בסיסית, ⭐⭐ רגילה, ⭐⭐⭐ אתגר'}</h3>
+      <ul className="mt-2 flex flex-wrap gap-2">
+        {(current ? HANUKKAH_LEVEL_BOOKLETS[current] : HANUKKAH_LEVEL_LIST).map(([emoji, label, href]) => <li key={href}><Link to={href} className="inline-flex min-h-[44px] items-center gap-1 rounded-full border-2 border-[var(--border)] bg-white px-3 font-bold hover:bg-yellow-100"><span aria-hidden="true">{emoji}</span> {label}</Link></li>)}
+      </ul>
     </>}
   </nav>
 }
