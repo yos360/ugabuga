@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { GAN_YEAR } from '../../data/kindergartenYear'
 import { CHANNEL_GO } from '../../data/brand'
+import WeeklySheetSubscribe from '../../components/calendar/WeeklySheetSubscribe'
 
 // Two entrances by audience: /gan for kindergarten teachers (this month in the gan first, then by area) and
 // /classroom/by-grade for teachers (one card per grade). Only links to existing pages — tests/audience-hubs.test.mjs.
@@ -73,6 +74,7 @@ export function GanHub() {
       <p className="mt-3 text-sm text-slate-600">ובחודש הבא, {next.name}: {next.themes.join(' · ')}</p>
     </section>
     <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{GAN_SECTIONS.map(s => <section key={s.title} className={card}><h2 className="text-xl font-black"><span aria-hidden="true">{s.emoji}</span> {s.title}</h2><LinkList links={s.links} /></section>)}</div>
+    <WeeklySheetSubscribe only="gan" />
     <Channel />
     <div className="mt-10"><SeoBody paragraphs={[
       'העמוד הזה מרכז את כל מה שעוגה בוגה מציעה לגננות ולצוותי גן. בראש העמוד מופיעים הנושאים של החודש העברי הנוכחי — חגים, עונות ונושאים קבועים של שנת הגן — עם רעיון לפעילות ודפים מוכנים, והוא מתחלף לבד בכל ראש חודש.',
@@ -95,6 +97,7 @@ export function TeacherByGrade() {
     <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{GRADE_CARDS.map(g => <section key={g.n} id={`grade-${g.n}`} className={card}><h2 className="text-2xl font-black">כיתה {g.name}</h2><LinkList links={g.links} /></section>)}</div>
     <section className={`${card} mt-6`}><h2 className="text-2xl font-black"><span aria-hidden="true">🧰</span> כלים לכל כיתה</h2>
       <ul className="mt-3 grid gap-1 sm:grid-cols-2">{TEACHER_TOOLS.map(([label, to]) => <li key={to}><Link to={to} className="flex min-h-[44px] items-center rounded-xl px-2 font-bold hover:bg-[var(--muted)]/40">{label} <span aria-hidden="true" className="mr-auto text-slate-400">←</span></Link></li>)}</ul></section>
+    <WeeklySheetSubscribe />
     <Channel />
     <div className="mt-10"><SeoBody paragraphs={[
       'מורה מחפשת חומר לכיתה מסוימת, לא לנושא כללי. לכן בעמוד הזה כל כיתה מקבלת כרטיס משלה: חשבון לפי נושאי הכיתה עם הסבר, תרגול בשלוש רמות ומבחן, קטעי הבנת הנקרא מקוריים עם שאלות, הכתבה, אנגלית ומשחקים שמתאימים לגיל.',

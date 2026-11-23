@@ -13,6 +13,8 @@ import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience,
 import SiteInvite from '../../../components/ui/SiteInvite'
 import NotFound from '../../NotFound'
 import PersonalReminders from './PersonalReminders'
+import BirthdayCalendarReminder from './BirthdayCalendarReminder'
+import { isBirthdayEvent } from '../../../utils/holidayCalendar'
 import { parsePhoneBook, savePhoneText } from '../../../utils/personalReminders'
 import { trackRsvp, claimFirstAnswer } from '../../../utils/rsvpFunnel'
 const RsvpUpgradePanel = lazy(() => import('./RsvpUpgradePanel'))
@@ -444,6 +446,7 @@ function HostView({ ev, setEv, token, show, reload, onDeleted }) {
         <OrganizerPin code={ev.code} token={token} show={show} />
         <OrganizerTools what="האירוע" labels={site === 'he' ? undefined : S.organizerTools} onCopyOrganizer={() => copyText(`${link}#k=${token}`, show, S.organizerCopied)} onDelete={() => setConfirm('event')} />
       </section>
+      {site === 'he' && isBirthdayEvent(ev) && <BirthdayCalendarReminder date={ev.date} />}
       {site === 'he' && ev.invitees?.length > 0 && <PersonalReminders ev={ev} missing={missing} link={sharedLink} />}
     </aside>
 

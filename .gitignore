@@ -32,3 +32,8 @@ out/
 
 # Agents' git worktrees (whole copies of the site)
 .claude/worktrees/
+
+# Subscription feeds regenerated on every build (scripts/generate-holiday-calendar.mjs)
+public/calendar/shabbat-*.ics
+public/calendar/weekly-*.ics
+public/calendar/school-holidays-*.ics

@@ -71,6 +71,14 @@ export function shareOnFacebook(pathname = location.pathname, campaign = 'site')
   window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink(pathname, campaign, 'facebook'))}`, '_blank', 'noopener,noreferrer')
 }
 
+// Google Classroom's own share page: a teacher picks a class and posts the page as an assignment,
+// material or announcement. Counted as share channel 'classroom'.
+export const classroomShareUrl = (pathname = '/', title = '') => `https://classroom.google.com/share?url=${encodeURIComponent(shareLink(pathname, 'classroom', 'google_classroom'))}${title ? `&title=${encodeURIComponent(title)}` : ''}`
+export function shareOnClassroom(pathname = location.pathname, title = pageTitle()) {
+  countShare('classroom')
+  window.open(classroomShareUrl(pathname, title), '_blank', 'noopener,noreferrer')
+}
+
 export function shareOnWhatsApp(text) {
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer') // counted by installShareCounter
 }

@@ -55,6 +55,7 @@ export default function SocialShares({ tick = 0, pageName }) {
         <Stat value={clicks.facebook || 0} text="לחיצות על שיתוף בפייסבוק" tone="bg-blue-50" />
         <Stat value={clicks.whatsapp || 0} text="לחיצות על שיתוף בוואטסאפ" tone="bg-green-50" />
         <Stat value={(clicks.native || 0) + (clicks.copy || 0) + (clicks.email || 0) + (clicks.other || 0)} text="לחיצות אחרות (טלפון, העתקה, מייל)" tone="bg-slate-50" />
+        <Stat value={clicks.classroom || 0} text="לחיצות על שיתוף לגוגל קלאסרום" tone="bg-emerald-50" />
         <Stat value={data.completed || 0} text="שיתופים שהושלמו (מתפריט הטלפון)" tone="bg-amber-50" />
         <Stat value={visits.facebook || 0} sub={`${visits.facebook_shared || 0} מקישור ששותף מהאתר`} text="כניסות מפייסבוק" tone="bg-blue-50" />
         <Stat value={visits.whatsapp || 0} sub={`${visits.whatsapp_shared || 0} מקישור ששותף מהאתר`} text="כניסות מוואטסאפ" tone="bg-green-50" />

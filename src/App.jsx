@@ -452,6 +452,8 @@ const Dice = lazy(() => import('./pages/tools/Dice'))
 const RubiksCube = lazy(() => import('./pages/tools/RubiksCube'))
 const ShabbatParents = lazy(() => import('./pages/holidays/ShabbatParents'))
 const HolidaysHub = lazy(() => import('./pages/holidays/HolidaysHub'))
+const HolidayCountdown = lazy(() => import('./pages/holidays/HolidayCountdown'))
+const HolidayYearPoster = lazy(() => import('./pages/holidays/HolidayYearPoster'))
 const HanukkahHub = lazy(() => import('./pages/holidays/HanukkahHub'))
 const HanukkahCandleTimes = lazy(() => import('./pages/holidays/HanukkahCandleTimes'))
 const HanukkahGrade = lazy(() => import('./pages/holidays/HanukkahGrade'))
@@ -1377,6 +1379,8 @@ export default function App() {
               <Route path="/dice-games/:slug" element={<DiceGamePage />} />
               <Route path="/rubiks-cube" element={<RubiksCube />} />
               <Route path="/holidays" element={<HolidaysHub />} />
+              <Route path="/holidays/countdown" element={<HolidayCountdown />} />
+              <Route path="/holidays/year-poster" element={<HolidayYearPoster />} />
               <Route path="/holidays/shabbat-parents" element={<ShabbatParents />} />
               <Route path="/holidays/blessings" element={<HolidayBlessings />} />
               <Route path="/holidays/blessings/:slug" element={<HolidayBlessings />} />

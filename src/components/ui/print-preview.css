@@ -85,6 +85,7 @@
 @media print{.buga-print-ask,.buga-print-calendar{display:none!important}}
 
 /* "Print for the whole class" */
+.buga-classroom-btn{background:#e6f4ea!important;border:2px solid #1e8e3e!important;color:#0d5226!important}
 .buga-class-btn{background:#fff7d6!important;border:2px solid #f2c94c!important;color:#5b4300!important}
 .buga-class-panel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 18px 0;padding:10px 14px;border-radius:14px;background:#fff7d6;border:2px solid #f2c94c;font-weight:700}
 .buga-class-panel input{width:80px;min-height:44px;margin-inline-start:6px;border:2px solid #d7dae3;border-radius:10px;padding:6px 10px;font:inherit;background:#fff;text-align:center}

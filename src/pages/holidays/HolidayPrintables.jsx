@@ -7,6 +7,7 @@ import QrAnswers from '../../components/ui/QrAnswers'
 import { useQrLanding } from '../../utils/qrLanding'
 import { qrOffer } from '../../data/printMessages'
 import HolidayShell from '../../components/holidays/HolidayShell'
+import PrintNextHolidayQr from '../../components/holidays/PrintNextHolidayQr'
 
 // "What next" strip under the print grid: most visits to these pages ended right after the print (the tab row is
 // at the top, far from the print button). Shows up to 4 other pages of the same holiday, never the current one.
@@ -51,7 +52,7 @@ export default function HolidayPrintables({ h, kind }) {
       </div>
       <NextSteps h={h} current={`${h.base}/${kind}`} />
       <SeoBody paragraphs={c.body} faq={c.faq} related={c.related} />
-      {print && <PrintPreview title={c.crumb + ' ל' + h.name} onClose={() => setPrint(null)}>{print.map(item => <article className="buga-a4" key={item.id} {...seriesOf(item)}><div className="print-art"><item.C /></div></article>)}</PrintPreview>}
+      {print && <PrintPreview title={c.crumb + ' ל' + h.name} onClose={() => setPrint(null)}>{print.map(item => <article className="buga-a4" key={item.id} {...seriesOf(item)}><div className="print-art"><item.C /></div><PrintNextHolidayQr /></article>)}</PrintPreview>}
     </HolidayShell>
   )
 }

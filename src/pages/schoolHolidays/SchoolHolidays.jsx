@@ -6,6 +6,8 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
 import NotFound from '../NotFound'
 import { shareOnWhatsApp, shareLink } from '../../utils/share'
+import FeedButtons from '../../components/calendar/FeedButtons'
+import { schoolFeedPath } from '../../utils/calendarFeeds'
 import { SCHOOL_YEAR, HOLIDAYS, HUB_COPY, VERIFIED } from '../../data/schoolHolidays'
 import { LEVELS, rangeFor, breaksFor, nextBreak, countdown, buildIcs, formatLong, formatRange, formatShort, weekday, dayCount } from '../../data/schoolHolidaysLib'
 import '../../learn/learn.css'
@@ -93,6 +95,11 @@ function Tools({ level }) {
       <button type="button" className="ln-btn" onClick={() => setPrinting(true)}>🖨️ גרסה להדפסה</button>
       <button type="button" className="ln-btn alt" onClick={() => shareOnWhatsApp(shareText(level))}>💬 שליחה בוואטסאפ</button>
       <button type="button" className="ln-btn alt" onClick={() => downloadIcs(level)}>📆 הוספה ליומן</button>
+    </div>
+    <div className="no-print mx-auto mt-4 max-w-xl rounded-2xl border-2 border-[var(--border)] bg-sky-50 p-4 text-center">
+      <p className="m-0 font-bold">📆 רוצים שהיומן יתעדכן לבד? הצטרפו ללוח החופשות ({LEVELS.find(l => l.id === level).short})</p>
+      <FeedButtons key={level} feedPath={schoolFeedPath(level)} code={app => `calendar-school-${level}-${app}`} className="mt-3 justify-center" />
+      <p className="m-0 mt-2 text-sm text-[var(--muted-foreground)]">בלי הרשמה. אם משרד החינוך משנה תאריך, היומן יתעדכן בעצמו.</p>
     </div>
     {printing && <PrintPreview title={`לוח חופשות ${SCHOOL_YEAR.years}`} onClose={() => setPrinting(false)}><PrintSheet level={level} /></PrintPreview>}
   </>

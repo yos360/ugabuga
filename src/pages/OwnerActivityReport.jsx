@@ -18,6 +18,7 @@ import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
 import RsvpSteps from '../components/owner/RsvpSteps'
 import CalendarReminders from '../components/owner/CalendarReminders'
+import ClassroomShares from '../components/owner/ClassroomShares'
 import SiteSignals from '../components/owner/SiteSignals'
 import SoundSettings, { useArrivalSound, useSoundSettings } from '../components/owner/ArrivalSound'
 import OwnerTakedown from '../components/owner/OwnerTakedown'
@@ -27,7 +28,7 @@ import { EXPIRED_PDF_PATH, isUuidPath } from '../utils/pdfLink'
 // colorblind + normal-vision contrast. Devices get slots 1–2, sources 1–6.
 const HUES = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#4a3aa7', '#008300', '#e34948']
 const DEVICE_LABELS = { desktop: 'מחשב', mobile: 'טלפון/טאבלט', unknown: 'לא ידוע' }
-const SOURCE_LABELS = { direct: 'ישירות', internal: 'מהאתר עצמו', google: 'גוגל', bing: 'בינג', facebook: 'פייסבוק', instagram: 'אינסטגרם', whatsapp: 'וואטסאפ', tiktok: 'טיקטוק', youtube: 'יוטיוב', email: 'מייל', qr: 'סריקת QR מדף מודפס', other: 'אחר', unknown: 'לא ידוע' }
+const SOURCE_LABELS = { direct: 'ישירות', internal: 'מהאתר עצמו', google: 'גוגל', bing: 'בינג', facebook: 'פייסבוק', instagram: 'אינסטגרם', whatsapp: 'וואטסאפ', tiktok: 'טיקטוק', youtube: 'יוטיוב', email: 'מייל', qr: 'סריקת QR מדף מודפס', classroom: 'גוגל קלאסרום', other: 'אחר', unknown: 'לא ידוע' }
 const RANGES = [
   { id: 'today', label: 'היום' },
   { id: 'yesterday', label: 'אתמול' },
@@ -689,7 +690,8 @@ export default function OwnerActivityReport() {
           { id: 'takedown', title: '🗑️ הסרת תוכן שדווח', preview: [<span key="t">מדביקים קישור לתוכן של גולשים ומוחקים אותו</span>], render: () => <OwnerTakedown /> },
           { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
           { id: 'sponsors', title: '📣 לחיצות על באנרים', preview: [<span key="b">כמה לחצו על באנר הפרסומת (למשל אאורקה) בתקופה שנבחרה</span>], render: () => <SponsorClicks from={from} to={to} tick={tick} pageName={pageName} /> },
-          { id: 'calendar', title: '📅 תזכורות ביומן לחגים', preview: [<span key="c">כמה הוסיפו את תזכורות החגים ליומן, ומאיפה</span>], render: () => <CalendarReminders tick={tick} /> },
+          { id: 'classroom', title: '🎓 גוגל קלאסרום', preview: [<span key="c">כמה שיתפו דפים לקלאסרום וכמה נכנסו משם</span>], render: () => <ClassroomShares tick={tick} /> },
+          { id: 'calendar', title: '📅 תזכורות ומנויים ביומן', preview: [<span key="c">חגים, שבת, דף שבועי, חופשות ויום הולדת: כמה הוסיפו ליומן ומאיפה</span>], render: () => <CalendarReminders tick={tick} /> },
           { id: 'rsvp-steps', title: '✅ מסלול אישורי הגעה: מביקור ועד „אני רוצה את החבילה”', preview: [<span key="r">כמה מבקרים בכל שלב, 30 ימים אחרונים</span>], render: () => <RsvpSteps tick={tick} /> },
           { id: 'signals', title: '🧭 גלילה, חיפוש, 404 ו"האם זה עזר?"', preview: [<span key="g">עד כמה גוללים, מה מחפשים ולא מוצאים, לאן ממשיכים, שגיאות ו־👍👎 לכל עמוד</span>], render: () => <SiteSignals from={from} to={to} tick={tick} pageName={pageName} /> },
           { id: 'visitors', title: '👤 לפי מבקר', badge: data.by_visitor?.length, preview: lastVisitors(data), render: () => <ByVisitor data={data} /> },

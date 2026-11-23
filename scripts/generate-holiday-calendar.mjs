@@ -32,3 +32,22 @@ for (const lead of ['week', 'month']) {
   await writeFile(new URL(`../public/calendar/holidays-${lead}.ics`, import.meta.url), ics)
   console.log(`generate-holiday-calendar: holidays-${lead}.ics — ${(ics.match(/BEGIN:VEVENT/g) || []).length} reminders`)
 }
+
+// ── More subscription feeds (src/utils/calendarFeeds.js): Shabbat candle-lighting per city, "this week's sheet" per grade,
+// and the school-holiday calendar per level. All written in this same build step.
+const { SHABBAT_PLACES } = await import('../src/data/shabbatCities.js')
+const { shabbatSeries, formatTime } = await import('../src/utils/shabbatTimes.js')
+const { israelToday } = await import('../src/utils/parashaCalendar.js')
+const { buildShabbatIcs, buildWeeklyIcs, shabbatFeedPath, weeklyFeedPath, schoolFeedPath } = await import('../src/utils/calendarFeeds.js')
+const { WEEKLY_GRADES } = await import('../src/data/weeklySheets.js')
+const { SCHOOL_YEAR, HOLIDAYS } = await import('../src/data/schoolHolidays.js')
+const { LEVELS, buildIcs } = await import('../src/data/schoolHolidaysLib.js')
+
+const out = path => new URL(`../public${path}`, import.meta.url)
+const israel = israelToday()
+for (const city of SHABBAT_PLACES) await writeFile(out(shabbatFeedPath(city.slug)), buildShabbatIcs(city, shabbatSeries(city, israel, 53), formatTime, { stamp }))
+console.log(`generate-holiday-calendar: shabbat-<city>.ics — ${SHABBAT_PLACES.length} cities x 53 Fridays`)
+for (const grade of WEEKLY_GRADES) await writeFile(out(weeklyFeedPath(grade.key)), buildWeeklyIcs(grade, { today: israel, stamp }))
+console.log(`generate-holiday-calendar: weekly-<grade>.ics — ${WEEKLY_GRADES.length} grades x 52 Sundays`)
+for (const level of LEVELS) await writeFile(out(schoolFeedPath(level.id)), buildIcs(HOLIDAYS, level.id, SCHOOL_YEAR.label))
+console.log(`generate-holiday-calendar: school-holidays-<level>.ics — ${LEVELS.length} levels`)

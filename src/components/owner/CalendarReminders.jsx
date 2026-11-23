@@ -6,8 +6,16 @@ import { ownerSupabase } from '../../utils/ownerAuth'
 const LEAD = { week: 'שבוע לפני', month: 'חודש לפני' }
 const APP = { google: 'גוגל', apple: 'אייפון / אאוטלוק', copy: 'העתיקו קישור' }
 const SPOT = { print: 'אחרי הדפסה', home: 'עמוד הבית' }
+// Other calendar buttons (23.11.2026): shabbat-<app>, weekly-<grade>-<app>, school-<level>-<app>, bday-<app>.
+const KIND = { shabbat: '🕯️ כניסת שבת לפי עיר', weekly: '📒 דף השבוע לכיתה', school: '🏫 חופשות בית הספר', bday: '🎂 יום ההולדת הבא' }
+const SUB = { gan: 'גן', g1: 'א׳', g2: 'ב׳', g3: 'ג׳', g4: 'ד׳', g5: 'ה׳', g6: 'ו׳', yesodi: 'יסודי', al: 'חטיבה ותיכון' }
 export function describe(code) {
-  const [lead, app, spot] = String(code || '').split('-')
+  const parts = String(code || '').split('-')
+  if (KIND[parts[0]]) {
+    const app = parts.at(-1), sub = parts.length > 2 ? parts[1] : null
+    return { lead: KIND[parts[0]] + (sub ? ` · ${SUB[sub] || sub}` : ''), app: APP[app] || app, spot: null }
+  }
+  const [lead, app, spot] = parts
   return { lead: LEAD[lead] || lead, app: APP[app] || app, spot: SPOT[spot] || null }
 }
 
@@ -31,7 +39,7 @@ export default function CalendarReminders({ tick = 0 }) {
     <p className="mb-3 text-sm text-slate-600">30 הימים האחרונים. כל מבקר נספר פעם אחת ביום. לחיצה היא הוספה ליומן (או העתקת הקישור).</p>
     <p className="mb-3 text-2xl font-black">{total} <span className="text-base font-bold">לחיצות על „הוספה ליומן”</span></p>
     {total > 0 && <div className="grid gap-4 sm:grid-cols-3 text-sm">
-      {[['lead', 'מתי להזכיר'], ['app', 'איזה יומן'], ['spot', 'מאיפה']].map(([k, t]) => <div key={k}>
+      {[['lead', 'איזו תזכורת'], ['app', 'איזה יומן'], ['spot', 'מאיפה']].map(([k, t]) => <div key={k}>
         <h4 className="mb-1 font-bold">{t}</h4>
         <ul>{by(k).map(([name, n]) => <li key={name} className="flex justify-between border-b py-1"><span>{name}</span><b>{n}</b></li>)}</ul>
       </div>)}

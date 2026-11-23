@@ -13,10 +13,10 @@ export function shiftDate(isoDate, days) {
   return t.toISOString().slice(0, 10)
 }
 
-const esc = t => String(t).replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n')
+export const esc = t => String(t).replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n')
 const ymd = s => s.replaceAll('-', '')
 // Lines longer than 75 octets are folded (RFC 5545); Hebrew is 2 bytes a letter, so fold by bytes.
-function fold(line) {
+export function fold(line) {
   const out = []
   let cur = '', bytes = 0
   for (const ch of line) {
@@ -61,4 +61,43 @@ export function buildReminderIcs(holidays, lead, { today = new Date().toISOStrin
     fold(`X-WR-CALNAME:${esc(name)}`), 'X-WR-TIMEZONE:Asia/Jerusalem', 'REFRESH-INTERVAL;VALUE=DURATION:P1W', 'X-PUBLISHED-TTL:P1W',
     ...events, 'END:VCALENDAR',
   ].join('\r\n') + '\r\n'
+}
+
+// "Next year's birthday, straight to the calendar": an all-day reminder 30 days before the same date next year.
+// Only the event date is used; no names or guest data ever go into the link or the file.
+export function nextYearReminderDate(isoDate, days = 30) {
+  const [y, m, d] = isoDate.slice(0, 10).split('-').map(Number)
+  // Feb 29 has no twin next year: use Feb 28 (the day before March 1), never March 1.
+  const leapless = m === 2 && d === 29 && !(((y + 1) % 4 === 0 && (y + 1) % 100 !== 0) || (y + 1) % 400 === 0)
+  const next = `${y + 1}-${String(m).padStart(2, '0')}-${String(leapless ? 28 : d).padStart(2, '0')}`
+  return shiftDate(next, days)
+}
+export const BDAY_TITLE = '🎂 עוד חודש יום ההולדת — הזמנה בעוגה בוגה'
+export const BDAY_URL = `https://${CALENDAR_HOST}/rsvp?utm_source=calendar&utm_medium=reminder&utm_campaign=birthday`
+const BDAY_DETAILS = `זה הזמן להכין הזמנה ליום ההולדת: ${BDAY_URL}`
+
+export function birthdayGoogleUrl(isoDate) {
+  const on = nextYearReminderDate(isoDate)
+  const q = new URLSearchParams({ action: 'TEMPLATE', text: BDAY_TITLE, dates: `${ymd(on)}/${ymd(shiftDate(on, -1))}`, details: BDAY_DETAILS })
+  return `https://calendar.google.com/calendar/render?${q}`
+}
+
+export function birthdayIcs(isoDate, { stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z' } = {}) {
+  const on = nextYearReminderDate(isoDate)
+  return [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ugabuga.co.il//birthday-reminder//HE', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT', `UID:birthday-${ymd(on)}-${stamp}@${CALENDAR_HOST}`, `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${ymd(on)}`, `DTEND;VALUE=DATE:${ymd(shiftDate(on, -1))}`,
+    `SUMMARY:${esc(BDAY_TITLE)}`, `DESCRIPTION:${esc(BDAY_DETAILS)}`, `URL:${BDAY_URL}`, 'TRANSP:TRANSPARENT',
+    'BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc('עוד חודש יום ההולדת')}`, 'TRIGGER:PT9H', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR',
+  ].map(fold).join('\r\n') + '\r\n'
+}
+
+// A birthday event: the adult-birthday template, or a title that says "יום הולדת" (class/vaad templates excluded).
+export function isBirthdayEvent(ev) {
+  if (!ev || !ev.date) return false
+  if (ev.extras?.type === 'adult-birthday') return true
+  if (ev.extras?.type) return false
+  return /הולדת|birthday/i.test(ev.title || '')
 }

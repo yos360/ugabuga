@@ -8,6 +8,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import ParashaQuiz from '../../components/parasha/ParashaQuiz'
 import ShabbatCalendar from '../../components/printables/ShabbatCalendar'
+import ShabbatCalendarSubscribe from '../../components/calendar/ShabbatCalendarSubscribe'
 import NotFound from '../NotFound'
 import { SHABBAT_PLACES, shabbatCity } from '../../data/shabbatCities'
 import { israelToday, readingForDate } from '../../utils/parashaCalendar'
@@ -160,6 +161,7 @@ export function ShabbatTimesHub() {
     </section>
     <Notice />
     <ShabbatNextStrip />
+    <ShabbatCalendarSubscribe />
     <div className="my-4 text-center"><a href="#calendar" className={button}>לוח חודשי ושנתי עם תמונה ↓</a> <a href="#weekly-quiz" className={button}>חידון הפרשה להדפסה ↓</a></div>
     <div className="mt-6 text-center"><button type="button" className={`${button} bg-[var(--postit)]`} onClick={locate}>📍 זמני שבת לפי המיקום שלי</button>{gpsState && <p className="mt-2 text-sm" aria-live="polite">{gpsState}</p>}<p className="text-xs mt-1">המיקום משמש רק לחישוב בדפדפן ואינו נשלח לשום מקום.</p></div>
     {place && <PlacePanel key={`${place.name}-${place.latitude}`} place={place} today={today} onClose={closePlace} />}
@@ -231,6 +233,7 @@ function CityPage({ city }) {
     </section>
     <Notice />
     <ShabbatNextStrip />
+    <ShabbatCalendarSubscribe city={city} />
     <MailSignup city={city} allowShabbat />
     <section className="mt-8"><h2 className="text-2xl">שמונה השבתות הבאות ב{city.name}</h2><ShabbatTable rows={rows.slice(1)} /></section>
     <section className="mt-8"><h2 className="text-2xl">הדלקת נרות לחגים בטווח הקרוב</h2><p className="text-sm mt-2">מ־{dateLabel(today)} עד {dateLabel(rows.at(-1).saturday)} · לפי לוח ארץ ישראל</p><HolidayList rows={holidays} /></section>

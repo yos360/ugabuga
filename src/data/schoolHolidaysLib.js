@@ -1,5 +1,6 @@
 // Pure helpers for the school-holidays calendar (/school-holidays). Dates are 'YYYY-MM-DD' strings
 // on the Israeli calendar; all arithmetic is done on UTC midnights so time zones never shift a day.
+import { fold } from '../utils/calendarFeeds.js'
 
 export const LEVELS = [
   { id: 'gan', label: 'גני ילדים', short: 'גן', emoji: '🧸' },
@@ -67,7 +68,7 @@ export function buildIcs(all, level, yearLabel) {
       `DESCRIPTION:${esc(`${b.name} ${yearLabel} — לפי לוח החופשות של משרד החינוך. ugabuga.co.il/school-holidays`)}`,
       'TRANSP:TRANSPARENT',
       'END:VEVENT',
-    ].join('\r\n')
+    ].map(fold).join('\r\n')
   })
-  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ugabuga.co.il//school-holidays//HE', 'CALSCALE:GREGORIAN', `X-WR-CALNAME:${esc(`חופשות ${yearLabel} — ${lv.short}`)}`, ...events, 'END:VCALENDAR'].join('\r\n') + '\r\n'
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//ugabuga.co.il//school-holidays//HE', 'CALSCALE:GREGORIAN', fold(`X-WR-CALNAME:${esc(`חופשות ${yearLabel} — ${lv.short}`)}`), 'X-WR-TIMEZONE:Asia/Jerusalem', 'REFRESH-INTERVAL;VALUE=DURATION:P1W', 'X-PUBLISHED-TTL:P1W', ...events, 'END:VCALENDAR'].join('\r\n') + '\r\n'
 }

@@ -104,6 +104,7 @@ export default function HanukkahHub() {
       <HanukkahPlan />
       <HanukkahOrganize className="mb-10" />
       <HolidayCalendarReminder />
+      <Link to="/holidays/countdown" className="mb-10 flex items-center gap-3 rounded-2xl border-2 border-[var(--border)] bg-white p-4 font-bold hover:bg-[var(--muted)]"><span className="text-3xl" aria-hidden="true">⏳</span><span className="flex-1">ספירה לאחור לחג — תמונה לסטטוס בוואטסאפ, מתעדכנת כל יום</span><span className="underline decoration-dashed">לתמונה ←</span></Link>
 
       <section className="mb-10 rounded-3xl border-2 border-dashed border-[var(--border)] bg-[var(--postit)] p-5">
         <h2 className="text-2xl font-bold mb-3">🕯️ איך מדליקים נרות חנוכה?</h2>

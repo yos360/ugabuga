@@ -99,6 +99,7 @@ export function classifySource(referrer, utm, host) {
   if (String(utm || '').toLowerCase() === 'qr') return 'qr'
   const t = `${String(utm || '').toLowerCase()} ${ref}`
   if (!t.trim()) return 'direct'
+  if (/classroom/.test(t)) return 'classroom'
   if (/mail\.|gmail|outlook|newsletter|email/.test(t)) return 'email'
   if (/whatsapp|wa\.me/.test(t)) return 'whatsapp'
   if (/facebook|fb\.|^fb\b/.test(t)) return 'facebook'
@@ -219,7 +220,7 @@ function excluded(pathname) {
 }
 // A visit that arrived through a link shared from the site (utm_medium=share, kept by index.html).
 function fromShare() { try { return sessionStorage.getItem('buga-landing-medium') === 'share' } catch { return false } }
-const SHARE_CHANNELS = ['whatsapp', 'facebook', 'native', 'copy', 'email', 'native_done']
+const SHARE_CHANNELS = ['whatsapp', 'facebook', 'native', 'copy', 'email', 'native_done', 'classroom']
 // `channel` (shares only): where the visitor chose to share — a click, not a confirmed post —
 // or 'native_done' when the phone's share sheet reported the share was sent.
 export function logEvent(action, pathname = location.pathname, pages = null, channel = null) {
