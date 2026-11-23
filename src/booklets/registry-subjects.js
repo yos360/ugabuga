@@ -86,6 +86,13 @@ import purimGrade2 from './meta/purim-grade-2.js'
 import purimGrade3 from './meta/purim-grade-3.js'
 import purimGrade4 from './meta/purim-grade-4.js'
 import purimGrade56 from './meta/purim-grade-5-6.js'
+import tuBishvatGan from './meta/tu-bishvat-gan.js'
+import tuBishvatGrade1 from './meta/tu-bishvat-grade-1.js'
+import tuBishvatGrade2 from './meta/tu-bishvat-grade-2.js'
+import tuBishvatGrade3 from './meta/tu-bishvat-grade-3.js'
+import tuBishvatGrade4 from './meta/tu-bishvat-grade-4.js'
+import tuBishvatGrade56 from './meta/tu-bishvat-grade-5-6.js'
+import tuBishvatMiddleSchool from './meta/tu-bishvat-middle-school.js'
 
 const subject = content => () => Promise.all([import('./subjectKit.jsx'), content()]).then(([kit, c]) => ({ default: kit.bookletFor(c.default) }))
 
@@ -109,6 +116,13 @@ export const SUBJECT_BOOKLETS = [
   { ...purimGrade3, load: subject(() => import('./content/purim-grade-3.js')) },
   { ...purimGrade4, load: subject(() => import('./content/purim-grade-4.js')) },
   { ...purimGrade56, load: subject(() => import('./content/purim-grade-5-6.js')) },
+  { ...tuBishvatGan, load: subject(() => import('./content/tu-bishvat-gan.js')) },
+  { ...tuBishvatGrade1, load: subject(() => import('./content/tu-bishvat-grade-1.js')) },
+  { ...tuBishvatGrade2, load: subject(() => import('./content/tu-bishvat-grade-2.js')) },
+  { ...tuBishvatGrade3, load: subject(() => import('./content/tu-bishvat-grade-3.js')) },
+  { ...tuBishvatGrade4, load: subject(() => import('./content/tu-bishvat-grade-4.js')) },
+  { ...tuBishvatGrade56, load: subject(() => import('./content/tu-bishvat-grade-5-6.js')) },
+  { ...tuBishvatMiddleSchool, load: subject(() => import('./content/tu-bishvat-middle-school.js')) },
   { ...mathGrade1, load: subject(() => import('./content/math-grade-1.js')) },
   { ...mathGrade4, load: subject(() => import('./content/math-grade-4.js')) },
   { ...mathGrade5, load: subject(() => import('./content/math-grade-5.js')) },

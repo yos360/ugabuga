@@ -8,6 +8,7 @@ import HolidayShell from '../../components/holidays/HolidayShell'
 import SpeciesIcon from '../../components/tubishvat/SpeciesIcon'
 import { TUBISHVAT_H } from '../../holidays/tubishvat'
 import { TUBISHVAT } from '../../data/tubishvat'
+import HolidayCalendarReminder from '../../components/holidays/HolidayCalendarReminder'
 
 const BLURB = {
   '/seven-species': 'הסבר על כל מין ומשחק זיכרון',
@@ -32,6 +33,16 @@ function Countdown() {
   const days = daysUntil(start, now)
   return <p className="text-3xl font-bold">{now >= end ? 'ט״ו בשבט עבר — נתראה בשנה הבאה 🌳' : now >= start ? 'ט״ו בשבט שמח! 🌳' : days <= 0 ? 'ט״ו בשבט מתחיל הערב! 🌱' : days === 1 ? 'מחר ט״ו בשבט! 🌱' : `עוד ${days} ימים לט״ו בשבט 🌱`}</p>
 }
+
+const BOOKLETS = [
+  ['🧸', 'חוברת ט״ו בשבט לגן', '/booklets/tu-bishvat-gan'],
+  ['1️⃣', 'חוברת ט״ו בשבט לכיתה א׳', '/booklets/tu-bishvat-grade-1'],
+  ['2️⃣', 'חוברת ט״ו בשבט לכיתה ב׳', '/booklets/tu-bishvat-grade-2'],
+  ['3️⃣', 'חוברת ט״ו בשבט לכיתה ג׳', '/booklets/tu-bishvat-grade-3'],
+  ['4️⃣', 'חוברת ט״ו בשבט לכיתה ד׳', '/booklets/tu-bishvat-grade-4'],
+  ['5️⃣', 'חוברת ט״ו בשבט לכיתות ה׳–ו׳', '/booklets/tu-bishvat-grade-5-6'],
+  ['🏛️', 'חוברת ט״ו בשבט לחטיבת הביניים', '/booklets/tu-bishvat-middle-school'],
+]
 
 export default function TuBishvatHub() {
   const h = TUBISHVAT_H
@@ -65,6 +76,15 @@ export default function TuBishvatHub() {
           <span className="mt-2 font-bold underline decoration-dashed">כניסה ←</span>
         </Link>
       </div>
+
+      <section aria-labelledby="tb-booklets" className="mb-10 rounded-3xl border-2 border-[var(--border)] bg-green-50 p-5">
+        <h2 id="tb-booklets" className="text-2xl font-bold">📒 חוברת ט״ו בשבט לכל כיתה — PDF להדפסה עם תשובות</h2>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {BOOKLETS.map(([emoji, label, to]) => <li key={to}><Link to={to} className="inline-flex min-h-[44px] items-center gap-1 rounded-full border-2 border-[var(--border)] bg-white px-3 font-bold hover:bg-green-100"><span aria-hidden="true">{emoji}</span> {label}</Link></li>)}
+        </ul>
+      </section>
+
+      <HolidayCalendarReminder />
 
       <SeoBody
         paragraphs={[
