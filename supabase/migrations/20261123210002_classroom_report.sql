@@ -20,7 +20,7 @@ begin
                 and ((action = 'share' and channel = 'classroom') or (action = 'open' and source = 'classroom'))
               group by coalesce(path, '')
               order by count(*) desc
-              limit 15) t), '[]'::jsonb));
+              limit 15) t), '[]'::jsonb)));
 end;
 $$;
 revoke all on function public.owner_classroom_report(timestamptz, timestamptz) from public, anon;

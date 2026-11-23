@@ -25,5 +25,8 @@ test('the Classroom migrations have balanced $$ function bodies', () => {
     const sql = readFileSync(new URL(`../supabase/migrations/${f}`, import.meta.url), 'utf8')
     assert.equal((sql.match(/\$\$/g) || []).length % 2, 0, f)
     assert.doesNotMatch(sql, /(^|[^$])\$;/m, f)
+    for (const body of sql.split('$$').filter((_, i) => i % 2 === 1)) {
+      assert.equal((body.match(/\(/g) || []).length, (body.match(/\)/g) || []).length, `${f}: unbalanced parentheses`)
+    }
   }
 })
