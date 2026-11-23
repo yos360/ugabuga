@@ -6,7 +6,7 @@
 // בוגה לייב's "חידות" topic (liveQuizPacks.js), and its page links there. Not for 'image' riddles.
 export const DAILY_RIDDLES = [
   {
-    id: 'sequence-17', n: 17, date: '2026-11-23', type: 'סדרת מספרים', emoji: '📖', kind: 'seq', dir: 'ltr',
+    id: 'sequence-17', n: 17, date: '2026-11-23', type: 'סדרת מספרים', emoji: '📖', kind: 'seq', dir: 'ltr', youtube: 'HN7XsRgzudw',
     title: 'מה הספרה הבאה?',
     items: ['1', '0', '4', '5', '7', '3', '?'],
     ask: 'איזו ספרה מסתתרת מאחורי סימן השאלה?',
