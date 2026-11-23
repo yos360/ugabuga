@@ -293,7 +293,7 @@ export function MathHub() {
     <div className="mt-12"><SeoBody paragraphs={[
       'אזור המתמטיקה של עוגה בוגה בנוי לפי הכיתות ולפי תחומי הלימוד: מספרים ופעולות חשבון, שברים ומספרים עשרוניים, גאומטריה ומדידות, אלגברה, פונקציות, הסתברות וסטטיסטיקה — ובתיכון גם סדרות, טריגונומטריה וחשבון דיפרנציאלי ואינטגרלי. בכל נושא יש הסבר קצר בשפה פשוטה, טיפים לשיטת הפתרון ודוגמה פתורה צעד אחר צעד.',
       'אחרי ההסבר מתרגלים: תרגיל אחד בכל פעם, עם בדיקה מיידית, הסבר קצר לפתרון וספירת רצף של תשובות נכונות. במצב מבחן עונים על 10 שאלות ומקבלים ציון וסקירה של הטעויות רק בסוף, ובמבחן המסכם של כל כיתה השאלות מגיעות מכל הנושאים יחד. לכל נושא אפשר גם להדפיס דף עבודה של 20 תרגילים עם דף תשובות נפרד — מתאים להורים, למורים ולשיעורי בית.',
-    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'שברים לכיתות ד׳–ה׳', href: '/math/fractions' }, { label: 'סימטריה לכיתות ג׳–ה׳', href: '/math/symmetry' }, { label: 'מספר מעורב ושבר מדומה', href: '/math/mixed-numbers' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'משחק לוח הכפל', href: '/learn/multiplication-game' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
+    ]} faq={HUB_FAQ} related={[{ label: 'איקס־עיגול חשבוני לכיתה', href: '/classroom/math-tic-tac-toe' }, { label: 'שברים לכיתות ד׳–ה׳', href: '/math/fractions' }, { label: 'סימטריה לכיתות ג׳–ה׳', href: '/math/symmetry' }, { label: 'מספר מעורב ושבר מדומה', href: '/math/mixed-numbers' }, { label: 'שאלות מילוליות לפי כיתה', href: '/math/word-problems' }, { label: 'מחשבון שברים', href: '/tools/fraction-calculator' }, { label: 'משחק לוח הכפל', href: '/learn/multiplication-game' }, { label: 'תרגול לוח הכפל', href: '/learn/times-tables' }, { label: 'לוח הכפל', href: '/learn/multiplication-table' }, { label: 'דפי עבודה בחשבון', href: '/printables/math-worksheets' }, { label: 'דפי עבודה בשברים', href: '/printables/fractions-worksheets' }, { label: 'דפי עבודה בשעון', href: '/printables/clock-worksheets' }]} /></div>
   </div>
 }
 
@@ -347,7 +347,7 @@ function GradePage({ n }) {
     </header>
 
     {topics.length > 0 ? <>
-      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}{(n === 4 || n === 5) && <Link to="/math/mixed-numbers" className="ln-btn alt">🔁 מספר מעורב ושבר מדומה</Link>}{n >= 3 && n <= 5 && <Link to="/math/symmetry" className="ln-btn alt">🪞 סימטריה</Link>}</div>
+      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}{(n === 4 || n === 5) && <Link to="/math/mixed-numbers" className="ln-btn alt">🔁 מספר מעורב ושבר מדומה</Link>}{n >= 3 && n <= 5 && <Link to="/math/symmetry" className="ln-btn alt">🪞 סימטריה</Link>}{n >= 2 && n <= 4 && <Link to={`/math/word-problems/grade-${n}`} className="ln-btn alt">📖 שאלות מילוליות עם פתרון</Link>}</div>
       {groups.map(gr => <section key={gr.strand} className="mt-8" aria-labelledby={`s-${gr.strand}`}>
         <h2 id={`s-${gr.strand}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{gr.emoji} </span>{gr.label}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{gr.topics.map(t => <Link key={t.slug} to={topicPath(t)} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right mth-topic-card">
@@ -451,6 +451,7 @@ function TopicPage({ topic }) {
       <div className="text-5xl" aria-hidden="true">{topic.emoji}</div>
       <h1 className="mt-2 text-3xl sm:text-5xl">{h1}</h1>
       <p className="mt-2 font-bold text-[var(--muted-foreground)]">{STRANDS[topic.strand]?.label} · {g.stageLabel}</p>
+      {/^word-problems-[23]$/.test(topic.slug) && <p className="mt-3"><Link to={`/math/word-problems/grade-${topic.slug.slice(-1)}`} className="ln-chip">📖 12 שאלות מילוליות עם פתרון מלא ודף להדפסה</Link></p>}
     </header>
 
     {solved && <div className="mt-6"><QrAnswers title="✅ הפתרון של הדף שהדפסתם" note="כל תרגיל בסדר שלו בדף, עם התשובה וההסבר."><ol className="mth-review">{solved.map((ex, k) => <SolvedItem key={k} ex={ex} />)}</ol></QrAnswers></div>}
