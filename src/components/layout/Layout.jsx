@@ -3,6 +3,8 @@ import SponsorBanner from '../ui/SponsorBanner'
 const RequestBanner = lazy(() => import('../ui/RequestBanner'))
 // Lazy (with PresentMode below): shown only after mount, and the entry sits at its 150 KB budget.
 const ChannelBar = lazy(() => import('../ui/ChannelBar'))
+// Lazy too: a once-a-day greeting for visitors who came back on another day.
+const WelcomeBack = lazy(() => import('../ui/WelcomeBack'))
 // Lazy: shown only after mount, and its product table (~23 KB) kept the entry over budget.
 const AffiliatePicks = lazy(() => import('../ui/AffiliatePicks'))
 import { useLocation } from 'react-router-dom'
@@ -89,6 +91,7 @@ export default function Layout({ children }) {
       {!presenting && <ScrollToTop />}
       {!presenting && <Navbar />}
       {mounted && !presenting && <Suspense fallback={null}><ChannelBar /></Suspense>}
+      {mounted && !presenting && <Suspense fallback={null}><WelcomeBack /></Suspense>}
       {mounted && !presenting && <Suspense fallback={null}><RecentActivity /></Suspense>}
       {mounted && <PrintQrFallback />}
       {mounted && <PrintFollowUp />}
