@@ -6,11 +6,11 @@
 
 alter table public.owner_site_activity drop constraint if exists owner_site_activity_channel_check;
 alter table public.owner_site_activity add constraint owner_site_activity_channel_check
-  check (channel is null or channel in ('whatsapp','facebook','native','copy','email','native_done','from_share','classroom'));
+  check (channel is null or channel in ('whatsapp','facebook','native','copy','email','native_done','from_share','classroom')) not valid;
 
 alter table public.owner_site_activity drop constraint if exists owner_site_activity_source_check;
 alter table public.owner_site_activity add constraint owner_site_activity_source_check
-  check (source is null or source in ('direct','internal','google','bing','facebook','instagram','whatsapp','tiktok','youtube','email','qr','other','classroom'));
+  check (source is null or source in ('direct','internal','google','bing','facebook','instagram','whatsapp','tiktok','youtube','email','qr','other','classroom')) not valid;
 
 -- The rate-limit helper record_site_event_v3 calls, re-created so it always exists wherever this v3 does.
 create or replace function public.site_event_allowed(p_visitor uuid)
@@ -64,20 +64,21 @@ returns jsonb language plpgsql stable security definer set search_path = '' as $
 begin
   if lower(coalesce(auth.jwt() ->> 'email', '')) <> 'yos300@gmail.com' then raise exception 'not_owner'; end if;
   return (
-    with a as (
-      select action, coalesce(path, '') path, max(category) over (partition by path) category, visitor, created_at, channel, source
-      from public.owner_site_activity
-      where created_at >= p_from and created_at < p_to
-        and ((action = 'share' and channel = 'classroom') or (action = 'open' and source = 'classroom'))
-    )
     select jsonb_build_object(
-      'shares', (select count(*) from a where action = 'share'),
-      'visits', (select count(distinct coalesce(visitor::text, created_at::text)) from a where action = 'open'),
-      'top', coalesce((select jsonb_agg(x order by x.shares + x.visits desc, x.path) from (
-          select path, max(category) category,
-                 count(*) filter (where action = 'share') shares,
-                 count(distinct coalesce(visitor::text, created_at::text)) filter (where action = 'open') visits
-          from a group by path order by 3 desc, 4 desc limit 15) x), '[]'::jsonb));
+      'shares', (select count(*) from public.owner_site_activity
+                 where created_at >= p_from and created_at < p_to and action = 'share' and channel = 'classroom'),
+      'visits', (select count(distinct coalesce(visitor::text, id::text)) from public.owner_site_activity
+                 where created_at >= p_from and created_at < p_to and action = 'open' and source = 'classroom'),
+      'top', coalesce((select jsonb_agg(jsonb_build_object('path', t.path, 'shares', t.shares, 'visits', t.visits) order by t.shares + t.visits desc, t.path)
+        from (select coalesce(path, '') as path,
+                     count(*) filter (where action = 'share') as shares,
+                     count(*) filter (where action = 'open') as visits
+              from public.owner_site_activity
+              where created_at >= p_from and created_at < p_to
+                and ((action = 'share' and channel = 'classroom') or (action = 'open' and source = 'classroom'))
+              group by coalesce(path, '')
+              order by count(*) desc
+              limit 15) t), '[]'::jsonb));
 end;
 $$;
 revoke all on function public.owner_classroom_report(timestamptz, timestamptz) from public, anon;
