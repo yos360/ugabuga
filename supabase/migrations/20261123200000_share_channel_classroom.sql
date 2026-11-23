@@ -14,7 +14,7 @@ alter table public.owner_site_activity add constraint owner_site_activity_source
 
 -- The rate-limit helper record_site_event_v3 calls, re-created so it always exists wherever this v3 does.
 create or replace function public.site_event_allowed(p_visitor uuid)
-returns boolean language sql stable security definer set search_path = '' as $
+returns boolean language sql stable security definer set search_path = '' as $$
   select
     (select count(*) from (select 1 from public.owner_site_activity
        where created_at > now() - interval '1 minute' limit 3000) x) < 3000
@@ -26,7 +26,7 @@ returns boolean language sql stable security definer set search_path = '' as $
         (select count(*) from (select 1 from public.owner_site_activity
            where visitor = p_visitor and created_at > now() - interval '1 minute' limit 30) x) < 30
     end;
-$;
+$$;
 revoke all on function public.site_event_allowed(uuid) from public, anon, authenticated;
 
 create or replace function public.record_site_event_v3(

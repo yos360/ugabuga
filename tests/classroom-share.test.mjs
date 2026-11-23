@@ -19,3 +19,9 @@ test('visits from Classroom are their own source, not Google search', () => {
   assert.match(sql, /'other','classroom'\)\) then p_source := null|'other','classroom'\) then p_source := null/)
   assert.match(sql, /'native_done','classroom'\)/)
 })
+
+test('the Classroom migration has balanced $$ function bodies', () => {
+  const sql = readFileSync(new URL('../supabase/migrations/20261123200000_share_channel_classroom.sql', import.meta.url), 'utf8')
+  assert.equal((sql.match(/\$\$/g) || []).length % 2, 0)
+  assert.doesNotMatch(sql, /(^|[^$])\$;/m)
+})
