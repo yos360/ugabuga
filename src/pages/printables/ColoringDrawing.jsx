@@ -6,13 +6,15 @@ import NotFound from '../NotFound'
 import { COLORING_SUBJECTS, coloringFmt, coloringSrc } from '../../data/coloringSubjects'
 import { findColoringDrawing, coloringDrawingPath, coloringDrawingTitle, coloringDrawingDescription, moreColoringDrawings, relatedColoringSubjects, coloringDrawingGuide } from '../../data/coloringDrawings'
 
+// Age ranges like "3–8" read reversed ("8–3") inside Hebrew text: isolate them left-to-right.
+const ltr = str => String(str).replace(/(\d+)–(\d+)/g, '⁦$1–$2⁩')
 const h2 = 'mb-2 mt-6 text-2xl font-bold'
 const card = 'rounded-2xl border-2 border-slate-200 bg-white p-3 text-center hover:border-pink-300'
 
 // The page-specific guide: level, tools, where the drawing sits in its subject and what to colour next.
 function DrawingGuide({ g }) {
   const { drawing, subject: s } = g
-  const next = [g.simpler && { d: g.simpler, why: `פשוט יותר · מגיל ${g.simpler.range.min}` }, g.harder && { d: g.harder, why: `מאתגר יותר · ${g.harder.ages}` }].filter(Boolean)
+  const next = [g.simpler && { d: g.simpler, why: `פשוט יותר · מגיל ${g.simpler.range.min}` }, g.harder && { d: g.harder, why: `מאתגר יותר · ${ltr(g.harder.ages)}` }].filter(Boolean)
   return <section className="no-print mx-auto mt-10 max-w-3xl" dir="rtl" aria-labelledby="drawing-guide-title">
     <h2 id="drawing-guide-title" className={h2}>למי מתאים „{drawing.name}” ובמה לצבוע</h2>
     <p className="leading-relaxed">{g.tools}</p>
@@ -33,12 +35,12 @@ function DrawingGuide({ g }) {
           <span className="mt-2 block font-bold">{d.name}</span><small className="text-slate-500">{why}</small>
         </Link>)}</div>
     </>}
-    {g.sameAge.length > 0 && <p className="mt-4 leading-relaxed"><b>באותו טווח גיל ({drawing.ages}) בנושא {s.name}:</b> {g.sameAge.map((d, i) => <span key={d.n}>{i ? ', ' : ''}<Link to={coloringDrawingPath(s.slug, d.n)} className="underline">{d.name}</Link></span>)}.</p>}
+    {g.sameAge.length > 0 && <p className="mt-4 leading-relaxed"><b>באותו טווח גיל ({ltr(drawing.ages)}) בנושא {s.name}:</b> {g.sameAge.map((d, i) => <span key={d.n}>{i ? ', ' : ''}<Link to={coloringDrawingPath(s.slug, d.n)} className="underline">{d.name}</Link></span>)}.</p>}
     <h2 className={h2}>ציורים מנושאים קרובים שמתאימים לאותו גיל</h2>
     <div className="grid grid-cols-3 gap-4">{g.cross.map(({ subject, drawing: d }) =>
       <Link key={subject.slug} to={coloringDrawingPath(subject.slug, d.n)} className={card}>
         <img src={coloringSrc(subject.slug, d.n, 'webp')} alt={d.name} loading="lazy" width="400" height="400" className="aspect-square w-full object-contain" />
-        <span className="mt-2 block font-bold">{d.name}</span><small className="text-slate-500">{subject.emoji} {subject.name} · {d.ages}</small>
+        <span className="mt-2 block font-bold">{d.name}</span><small className="text-slate-500">{subject.emoji} {subject.name} · {ltr(d.ages)}</small>
       </Link>)}</div>
   </section>
 }
@@ -64,13 +66,13 @@ export default function ColoringDrawing() {
   return <>
     <PrintableShell counterpartPath={englishCounterpart(path)} key={path} path={path} seoTitle={title} h1={title} description={coloringDrawingDescription(drawing)}
       image={coloringSrc(s.slug, drawing.n, 'webp')} emoji={s.emoji}
-      sub={`ציור לצביעה · מומלץ לגילאי ${drawing.ages} · חינם להדפסה ולשמירה כ-PDF`}
-      intro={<p className="mx-auto mb-6 max-w-3xl text-center leading-relaxed">{guide.intro}</p>}
+      sub={`ציור לצביעה · מומלץ לגילאי ${ltr(drawing.ages)} · חינם להדפסה ולשמירה כ-PDF`}
+      intro={<p className="mx-auto mb-6 max-w-3xl text-center leading-relaxed">{ltr(guide.intro)}</p>}
       crumbs={[{ label: 'דפי צביעה', href: '/printables/coloring' }, { label: s.name, href: `/printables/coloring/${s.slug}` }]}
       pages={[{ key: path, svg: <img src={coloringSrc(s.slug, drawing.n, coloringFmt(s))} alt={drawing.name} width="1408" height="1408" fetchPriority="high" className="block h-auto w-full object-contain" /> }]}
       printTitle={drawing.name} printLabel="הדפסה או הורדה כ-PDF"
       after={<DrawingGuide g={guide} />}
-      faq={faq}
+      faq={faq.map(f => ({ q: ltr(f.q), a: ltr(f.a) }))}
       related={[{ label: `כל דפי הצביעה בנושא ${s.name}`, href: `/printables/coloring/${s.slug}` }, ...(s.holiday ? [s.holiday] : []), ...related.map(item => ({ label: `דפי צביעה ${item.name}`, href: `/printables/coloring/${item.slug}` }))]}
       extra={<BackLink to={`/printables/coloring/${s.slug}`} className="block py-2 font-bold underline">חזרה לכל ציורי {s.name}</BackLink>} />    <section className="no-print mx-auto mb-12 max-w-4xl px-4" dir="rtl" aria-labelledby="more-coloring-title">
       <h2 id="more-coloring-title" className="mb-4 text-2xl font-black">עוד ציורים בנושא {s.name}</h2>

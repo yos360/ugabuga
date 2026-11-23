@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'zzYtVf_B6wQ', kind: 'tutorial', title: 'דפי צביעה להדפסה בחינם — איך מוצאים ומדפיסים', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-23',
+    desc: 'מדריך קצר לדפי הצביעה: בוחרים נושא מתוך 53, פותחים ציור עם המלצת גיל, ומדפיסים על דף A4 או שומרים כ-PDF. יותר מ־1,000 ציורים מקוריים, חינם.' },
   { id: 'mePvtrlWPEY', kind: 'tutorial', title: 'החידה היומית — חידה עם טריק, רמז ופתרון', paths: ['/riddles/daily', '/riddles/letters-16'], category: 'learning', date: '2026-11-23',
     desc: 'מדריך קצר לחידה היומית: חידה חדשה עם טריק כל יום ב־14:00, עשר שניות לפתור, רמז למי שצריך ופתרון עם הסבר בלחיצה, וכל החידות גם בחידון חי בבוגה לייב.' },
   { id: 'tEB8LRb1RPY', kind: 'tutorial', title: 'הערכה מילולית בתעודה — בנק משפטים מוכן', paths: ['/classroom/report-card-comments'], category: 'classroom', date: '2026-11-23',

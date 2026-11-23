@@ -75,7 +75,7 @@ export default function ColoringPages() {
   const pages = useMemo(() => category === 'all' ? PAGES : PAGES.filter(([cat]) => cat === category), [category])
   const print = (page) => setSelected(page)
   return <div data-print-gallery className="mx-auto max-w-6xl px-4 py-8 buga-fade-in">
-    <SEO title="דפי צביעה להדפסה בחינם — ציורים לצביעה לילדים" description="דפי צביעה להדפסה בחינם: מעל 300 ציורים מקוריים לצביעה לילדים, לפי נושא — חד קרן, חתולים, נסיכות, דינוזאורים, מכוניות ועוד. דף A4 לכל ציור, גם כ-PDF." path="/printables/coloring" structuredData={faqSchema(FAQ)} />
+    <SEO title="דפי צביעה להדפסה בחינם — ציורים לצביעה לילדים" description="דפי צביעה להדפסה בחינם: מעל 1,000 ציורים מקוריים לצביעה לילדים, לפי נושא — חד קרן, חתולים, נסיכות, דינוזאורים, מכוניות ועוד. דף A4 לכל ציור, גם כ-PDF." path="/printables/coloring" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{label:'ראשי',href:'/'},{label:'דפים להדפסה',href:'/printables'},{label:'דפי צביעה'}]} />
     <header className="text-center"><span className="inline-flex rounded-full bg-pink-100 px-4 py-2 font-bold">{PAGES.length + COLORING_SUBJECTS.reduce((n, x) => n + x.items.length, 0)} דפי צביעה לבחירה</span><h1 className="mt-3 text-4xl sm:text-5xl">🎨 דפי צביעה להדפסה בחינם</h1><p className="mx-auto mt-3 max-w-2xl text-lg text-[var(--muted-foreground)]">דפי צביעה לילדים — ציורים גדולים, נקיים וברורים לצביעה. בוחרים נושא, פותחים דף ומדפיסים, בלי הרשמה.</p><p className="mx-auto mt-3 max-w-3xl leading-relaxed">{ABOUT}</p></header>
     <ColoringSubjectsGrid />
