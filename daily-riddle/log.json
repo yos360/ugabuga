@@ -406,5 +406,33 @@
       "instagram": "share-to-Facebook was ON again; turned off via לא לשתף את סרטון Reels הזה, verified false",
       "site": "local preview server start was declined in this run, so the keyboard reveal was not checked visually; build/lint/tests pass"
     }
+  },
+  {
+    "date": "2026-11-23",
+    "n": 17,
+    "id": "sequence-17",
+    "answer": "8",
+    "posted": true,
+    "kind": "seq",
+    "type": "סדרת מספרים (שמות הספרות לפי סדר האלף־בית)",
+    "networks": [
+      "youtube",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/HN7XsRgzudw",
+    "instagram": "skipped: logged out, profile asked for a password",
+    "facebook": "עוגה בוגה reels (published ~14:22, processing)",
+    "tiktok": "https://tiktok.com/@hellorwsvm8/video/7711341847817309447 (via Buffer, cover in first frame)",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:26",
+    "site": "https://ugabuga.co.il/riddles/sequence-17",
+    "postedAt": "2026-11-23 14:15-14:30 (scheduled run)",
+    "gate": {
+      "rounds": 1,
+      "blindSolver": "no guess before the hint (would stare all 10s); after hint 8, 85%, hard, real aha; masculine forms ruled out by the shown prefix",
+      "editor": "clarity 8, single answer 9, Hebrew 9, fun 9, difficulty 9 (pass); fixes applied: \"מה הספרה הבאה?\" instead of \"המספר\", feminine/masculine note in the site explanation; hint moved to 6 seconds left"
+    },
+    "filmChange": "end card now says \"הפתרון — ועוד חידות כאלה / לשחק מול חברים בבוגה לייב 🔴\" (rule of 22.11)"
   }
 ]

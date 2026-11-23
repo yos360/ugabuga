@@ -212,7 +212,8 @@
     popAt(ctx, t, ev.comment + 0.9, W / 2, 690, (c) => pill(c, 0, 0, '📣 שתפו ותייגו חבר שלא יפתור', { size: 50, w: 900, bg: C.red, fg: '#fff', seed: 405, padX: 38, maxW: SAFE.w }), { rot: -0.015 });
     mascot(ctx, W / 2, 960, 330, t, ev.logo);
     const L = S.endLines;
-    he(ctx, 'הפתרון באתר 👇', W / 2, 1220, { size: 64, w: 900, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'הפתרון — ועוד חידות כאלה', W / 2, 1180, { size: 56, w: 900, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    he(ctx, 'לשחק מול חברים בבוגה לייב 🔴 👇', W / 2, 1250, { size: 52, w: 900, color: C.red, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 1340, (c) => pill(c, 0, 0, `ugabuga.co.il/riddles/${R.id}`, { size: 54, w: 600, bg: C.blue, fg: '#fff', padX: 40, dir: 'ltr', fam: 'Fredoka', seed: 403, maxW: SAFE.w }));
     he(ctx, '🗓️ חידה חדשה כל יום ב־⁦14:00⁩', W / 2, 1490, { size: 46, w: 800, alpha: UI.fadeIn(t, L[2].t, 0.25), maxW: SAFE.w });
     he(ctx, 'עוד חידות, משחקים ודפים להדפסה — בחינם', W / 2, 1580, { size: 38, w: 700, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
