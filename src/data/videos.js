@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'tEB8LRb1RPY', kind: 'tutorial', title: 'הערכה מילולית בתעודה — בנק משפטים מוכן', paths: ['/classroom/report-card-comments'], category: 'classroom', date: '2026-11-23',
+    desc: 'מדריך קצר לבנק המשפטים להערכה מילולית בתעודה: בוחרים תלמיד או תלמידה, לוחצים על משפטים מ־9 נושאים, וההערכה נבנית ומועתקת בלחיצה. השם לא נשמר באתר.' },
   { id: '-R7Qgck6sdU', kind: 'tutorial', title: 'חוברת לימוד תווים למתחילים להדפסה', paths: ['/booklets/music-notes'], category: 'learning', date: '2026-11-22',
     desc: 'מדריך קצר לחוברת לימוד תווים: 15 עמודים מהחמשה ומפתח סול ועד "אודה לשמחה", הצצה לעמודים, ובחירה מה להדפיס — הכול, לתלמיד בלי תשובות, רק דף התשובות או רק חלק מהעמודים.' },
   { id: '8SHaGjHtu9Y', kind: 'tutorial', title: 'סוליטר בעברית — משחק קלפים אונליין בחינם', paths: ['/online-games/solitaire'], category: 'learning', date: '2026-11-22',
@@ -114,6 +116,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/classroom/report-card-comments': 'הערכה מילולית בתעודה',
   '/booklets/music-notes': 'חוברת לימוד תווים למתחילים',
   '/letters/cursive': 'אותיות בכתב יד',
   '/holidays/hanukkah': 'חנוכה לילדים',
