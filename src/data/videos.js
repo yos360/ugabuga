@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'mePvtrlWPEY', kind: 'tutorial', title: 'החידה היומית — חידה עם טריק, רמז ופתרון', paths: ['/riddles/daily', '/riddles/letters-16'], category: 'learning', date: '2026-11-23',
+    desc: 'מדריך קצר לחידה היומית: חידה חדשה עם טריק כל יום ב־14:00, עשר שניות לפתור, רמז למי שצריך ופתרון עם הסבר בלחיצה, וכל החידות גם בחידון חי בבוגה לייב.' },
   { id: 'tEB8LRb1RPY', kind: 'tutorial', title: 'הערכה מילולית בתעודה — בנק משפטים מוכן', paths: ['/classroom/report-card-comments'], category: 'classroom', date: '2026-11-23',
     desc: 'מדריך קצר לבנק המשפטים להערכה מילולית בתעודה: בוחרים תלמיד או תלמידה, לוחצים על משפטים מ־9 נושאים, וההערכה נבנית ומועתקת בלחיצה. השם לא נשמר באתר.' },
   { id: '-R7Qgck6sdU', kind: 'tutorial', title: 'חוברת לימוד תווים למתחילים להדפסה', paths: ['/booklets/music-notes'], category: 'learning', date: '2026-11-22',
@@ -116,6 +118,8 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/riddles/daily': 'החידה היומית',
+  '/riddles/letters-16': 'החידה היומית #16',
   '/classroom/report-card-comments': 'הערכה מילולית בתעודה',
   '/booklets/music-notes': 'חוברת לימוד תווים למתחילים',
   '/letters/cursive': 'אותיות בכתב יד',
