@@ -167,3 +167,4 @@
 .hk-home-more .hk-home-all{background:#fff;color:#0f1f4d!important;border-color:#fff;font-weight:900}
 @media(max-width:700px){.hk-home{margin:0 10px 18px;padding:16px 12px 14px;border-radius:20px}.hk-home-tiles{grid-template-columns:repeat(2,1fr);gap:9px}.hk-home-tile b{font-size:16px}.hk-home-tile small{font-size:12px}.hk-home-sub{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.hk-home-tile{transition:none}}
+.hk-home-calendar{margin:12px 0 0;text-align:center;color:#fff;font-weight:700;font-size:14px}.hk-home-calendar a{color:#fff!important;text-decoration:underline;display:inline-block;min-height:40px;line-height:40px;padding:0 4px}

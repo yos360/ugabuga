@@ -3,6 +3,7 @@ import { recordExperiment } from '../../utils/experiments'
 import { CHANNEL_GO } from '../../data/brand'
 import { DONE_PATH, REQUEST_ETA } from './DoneRequests'
 import TeacherListCta from './TeacherListCta'
+import CalendarReminderLine from '../holidays/CalendarReminderLine'
 
 // Right after a print or PDF — the moment a visitor is most involved — one line: "what else is missing?"
 // The request goes to /request's table (source 'print'); the request code loads only on send.
@@ -25,5 +26,5 @@ export default function PrintAsk({ path }) {
     <button type="submit" disabled={state === 'sending'}>{state === 'sending' ? 'שולחים…' : 'שליחה'}</button>
     {state === 'short' && <small role="alert">כתבו בכמה מילים מה צריך.</small>}
     {state === 'error' && <small role="alert">לא הצלחנו לשלוח. נסו שוב בעוד רגע.</small>}
-  </form><Channel /><TeacherListCta from={path} /></>
+  </form><Channel /><CalendarReminderLine spot="print" path={path} className="buga-print-calendar" /><TeacherListCta from={path} /></>
 }

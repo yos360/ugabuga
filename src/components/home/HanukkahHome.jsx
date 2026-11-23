@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { logInviteCta } from '../../utils/liveActivity'
 import { recordHomeKind } from '../../utils/experiments'
+import CalendarReminderLine from '../holidays/CalendarReminderLine'
 
 // Hanukkah 2026 on the home page (owner's request, 18.11.2026: "make Hanukkah big at the entrance so
 // people print a lot"). The very first block of the page until the holiday ends: four printables with
@@ -64,5 +65,6 @@ export default function HanukkahHome() {
       {MORE.map(([e, t, to]) => <Link key={to} to={to} onClick={hit('more', to)}><span aria-hidden="true">{e}</span> {t}</Link>)}
       <Link to="/holidays/hanukkah" onClick={hit('all', '/holidays/hanukkah')} className="hk-home-all">כל חנוכה ←</Link>
     </div>
+    <CalendarReminderLine spot="home" path="/" className="hk-home-calendar" />
   </section>
 }
