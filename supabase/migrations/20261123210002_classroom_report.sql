@@ -1,4 +1,5 @@
 -- Google Classroom share channel, step 3 of 3: owner-only report of Classroom shares and visits. Safe to run twice.
+-- (Re-applied 23.11.2026 after the combined file failed.)
 -- Owner only: shares to Classroom and visits that came from Classroom, with the top pages.
 create or replace function public.owner_classroom_report(p_from timestamptz, p_to timestamptz)
 returns jsonb language plpgsql stable security definer set search_path = '' as $$

@@ -1,5 +1,6 @@
 -- Google Classroom share channel, step 2 of 3: record_site_event_v3 accepts source/channel 'classroom'.
 -- Same function as 202610210003_social_shares.sql plus 'classroom'. Safe to run twice.
+-- (Applied on its own: the earlier combined file never got through.)
 -- The rate-limit helper record_site_event_v3 calls, re-created so it always exists wherever this v3 does.
 create or replace function public.site_event_allowed(p_visitor uuid)
 returns boolean language sql stable security definer set search_path = '' as $$

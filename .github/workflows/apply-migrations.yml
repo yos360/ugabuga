@@ -79,6 +79,8 @@ jobs:
               error_message="${error_message//$'\n'/ }"
               [[ -n "$error_message" ]] || error_message="request failed (HTTP $status_code)"
               echo "$file FAIL: $error_message"
+              # Annotations are readable through the public API without signing in to see the log.
+              echo "::error title=Migration failed::$file FAIL (HTTP $status_code): ${error_message:0:600}"
               failed=1
             fi
 
