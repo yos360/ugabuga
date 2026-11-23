@@ -364,6 +364,73 @@ const mean = {
   },
 }
 
+// Average with decimals: whole data whose mean is a decimal, decimal data (times, heights, weights,
+// temperatures), and level 3 — a missing decimal datum or the new mean after one more datum joins.
+const AVG_GIRLS = ['נועה', 'מיכל', 'תמר', 'הדר', 'שקד', 'יעל']
+const AVG_BOYS = ['אורי', 'עידו', 'יונתן', 'אלון', 'איתמר', 'עומר']
+const AVG_DATA = [
+  { names: AVG_GIRLS, lead: n => `${n} רצה 60 מטר כמה פעמים. אלה הזמנים שלה בשניות:`, sc: 10, lo: 85, hi: 130, unit: 'שניות' },
+  { lead: () => 'אלה הטמפרטורות שנמדדו בצהריים במשך כמה ימים, במעלות:', sc: 10, lo: 215, hi: 285, unit: 'מעלות' },
+  { lead: () => 'אלה הגבהים של כמה ילדים בכיתה, במטרים:', sc: 100, lo: 128, hi: 165, unit: 'מ׳' },
+  { names: AVG_BOYS, lead: n => `${n} שקל תפוחים מהסל, אחד אחד. אלה המשקלים בקילוגרמים:`, sc: 100, lo: 14, hi: 32, unit: 'ק״ג' },
+  { names: AVG_BOYS, lead: n => `${n} מדד כמה ס״מ גדל השתיל שלו בכל שבוע:`, sc: 10, lo: 5, hi: 48, unit: 'ס״מ' },
+]
+const avgDecimals = {
+  slug: 'average-decimals',
+  grade: 6,
+  strand: 'data',
+  title: 'ממוצע ומספרים עשרוניים',
+  emoji: '⏱️',
+  desc: 'ממוצע עם מספרים עשרוניים לכיתה ו׳: ממוצע שיוצא עשרוני, ממוצע של זמני ריצה, גבהים ומשקלים, נתון חסר וממוצע חדש כשמצטרף נתון — שלוש רמות עם פתרונות.',
+  intro: 'גם כשכל הנתונים שלמים, הממוצע יכול לצאת מספר עשרוני: הממוצע של 7, 8, 10 ו-12 הוא 37 ÷ 4 = 9.25. וכשהנתונים עצמם עשרוניים — זמני ריצה, גבהים, משקלים — עובדים בדיוק אותו דבר: מחברים את כל הנתונים (נקודה מתחת לנקודה) ומחלקים במספר הנתונים. כדי למצוא נתון חסר כופלים את הממוצע במספר הנתונים ומחסירים את מה שידוע.',
+  tips: [
+    'מחברים מספרים עשרוניים כשהנקודה מתחת לנקודה, ואפשר להשלים אפסים: 1.4 = 1.40.',
+    'חילוק במספר הנתונים יכול להמשיך אחרי הנקודה: 37 ÷ 4 = 9.25.',
+    'בדיקה מהירה: הממוצע תמיד בין הנתון הקטן ביותר לגדול ביותר.',
+  ],
+  example: { q: 'זמני הריצה של מיכל ב-60 מטר הם 9.8, 10.4 ו-9.5 שניות. מהו הזמן הממוצע?', steps: ['סכום: 9.8 + 10.4 + 9.5 = 29.7.', 'יש 3 זמנים: 29.7 ÷ 3 = 9.9.', 'בדיקה: 9.9 נמצא בין 9.5 ל-10.4.'], a: '9.9 שניות' },
+  faq: [
+    { q: 'למה הממוצע של מספרים שלמים יוצא לפעמים עשרוני?', a: 'כי הסכום לא תמיד מתחלק בדיוק במספר הנתונים. למשל 7 + 8 = 15, ו-15 ÷ 2 = 7.5. הממוצע הוא חלוקה שווה, ולפעמים כל אחד מקבל "חצי".' },
+    { q: 'איך מוצאים ממוצע חדש כשמצטרף נתון?', a: 'קודם מחשבים את הסכום הישן: ממוצע × מספר הנתונים. מוסיפים את הנתון החדש ומחלקים במספר הנתונים החדש (אחד יותר).' },
+    { q: 'כמה ספרות אחרי הנקודה צריך לכתוב?', a: 'כאן החילוק תמיד מסתיים. כותבים את התוצאה המדויקת, ואפשר להשמיט אפסים בסוף: 9.50 = 9.5.' },
+  ],
+  levels: ['ממוצע שיוצא מספר עשרוני', 'ממוצע של נתונים עשרוניים', 'נתון חסר וממוצע חדש'],
+  gen(level, r) {
+    if (level === 1) {
+      for (;;) {
+        const n = r.pick([2, 4, 4, 5]), xs = Array.from({ length: n }, () => r.int(3, 60)), S = xs.reduce((s, x) => s + x, 0)
+        if (S % n === 0) continue
+        const ans = dval((S * 100) / n, 100)
+        return { q: `מהו הממוצע של המספרים: ${xs.join(', ')}?`, type: 'number', answer: ans, explain: `סכום: ${xs.join(' + ')} = ${S}. יש ${n} מספרים: ${S} ÷ ${n} = ${ans}.` }
+      }
+    }
+    if (level === 2) {
+      for (;;) {
+        const d = r.pick(AVG_DATA), n = r.int(3, 5), xs = Array.from({ length: n }, () => r.int(d.lo, d.hi))
+        if (xs.every(x => x % d.sc === 0)) continue
+        const S = xs.reduce((s, x) => s + x, 0), S100 = (S * 100) / d.sc
+        if (S100 % n !== 0) continue
+        const ans = dval(S100 / n, 100), shown = xs.map(x => dstr(x, d.sc))
+        return { q: `${d.lead(d.names ? r.pick(d.names) : '')} ${shown.join(', ')}. מהו הממוצע?`, type: 'number', unit: d.unit, answer: ans, explain: `סכום: ${shown.join(' + ')} = ${dstr(S, d.sc)}. יש ${n} נתונים: ${dstr(S, d.sc)} ÷ ${n} = ${ans}.` }
+      }
+    }
+    if (r.bool()) {
+      for (;;) {
+        const n = r.int(3, 5), M = r.int(25, 150), xs = Array.from({ length: n - 1 }, () => r.int(10, 200)), known = xs.reduce((s, x) => s + x, 0), miss = n * M - known
+        if (miss < 5 || miss > 250 || M % 10 === 0 || miss % 10 === 0) continue
+        const shown = xs.map(x => dstr(x, 10))
+        return { q: `הממוצע של ${n} מספרים הוא ${dstr(M, 10)}. ${n - 1} מהם הם ${shown.join(', ')}. מהו המספר החסר?`, type: 'number', answer: dval(miss, 10), explain: `סכום כל המספרים: ${n} × ${dstr(M, 10)} = ${dstr(n * M, 10)}. סכום הידועים: ${shown.join(' + ')} = ${dstr(known, 10)}. החסר: ${dstr(n * M, 10)} − ${dstr(known, 10)} = ${dstr(miss, 10)}.` }
+      }
+    }
+    for (;;) {
+      const n = r.int(3, 5), X = r.int(130, 155), Y = r.int(125, 170), T = n * X + Y
+      if (T % (n + 1) !== 0 || Y === X) continue
+      const newM = T / (n + 1), who = r.pick(AVG_BOYS)
+      return { q: `ממוצע הגבהים של ${n} ילדים בקבוצה הוא ${dstr(X, 100)} מ׳. ${who} הצטרף לקבוצה, בגובה ${dstr(Y, 100)} מ׳. מהו ממוצע הגבהים החדש של ${n + 1} הילדים?`, type: 'number', unit: 'מ׳', answer: dval(newM, 100), explain: `סכום ישן: ${n} × ${dstr(X, 100)} = ${dstr(n * X, 100)}. סכום חדש: ${dstr(n * X, 100)} + ${dstr(Y, 100)} = ${dstr(T, 100)}. ממוצע חדש: ${dstr(T, 100)} ÷ ${n + 1} = ${dstr(newM, 100)}.` }
+    }
+  },
+}
+
 // Circle with a radius or diameter drawn and labelled.
 function circleSvg(kind, label, half = false) {
   const c = [130, 95], R = 72
@@ -584,4 +651,4 @@ const lawsOfArithmetic = {
   },
 }
 
-export default [fracMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, circumference, circleArea, volume, lawsOfArithmetic]
+export default [fracMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, avgDecimals, circumference, circleArea, volume, lawsOfArithmetic]

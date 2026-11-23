@@ -213,6 +213,7 @@ export const TOPIC_UNITS = {
   '6/percent': { ch: 'percent' },
   '6/ratio-scale': { ch: 'ratio', note: 'קנה מידה הוא פרק נפרד באותה שנה (6 שעות).' },
   '6/average': { ch: 'data' },
+  '6/average-decimals': { ch: 'data' },
   '6/circle-circumference': { ch: 'measure' },
   '6/circle-area': { ch: 'measure' },
   '6/volume-box-cube': { ch: 'measure' },

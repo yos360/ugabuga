@@ -20,3 +20,6 @@ Titles are written by the builder; never put request texts, emails, names or ids
 
 ## 2026-11-21
 - חנויות — חוברת לכיתה ב׳: קטעי קריאה על חנויות ושוק, חשבון כסף ועודף | https://ugabuga.co.il/booklets/stores-grade-2
+
+## 2026-11-23
+- ממוצע ומספרים עשרוניים — דפי עבודה ותרגול לכיתה ו׳ עם פתרונות | https://ugabuga.co.il/math/grade-6/average-decimals

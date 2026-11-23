@@ -252,6 +252,27 @@ const EXPECT = {
     assert.equal(xs.length, Number(m[1]) - 1)
     return Number(m[1]) * Number(m[2]) - xs.reduce((s, x) => s + x, 0)
   },
+  'average-decimals'(ex, lv) {
+    const list = str => str.split(', ').map(dec)
+    const total = xs => xs.reduce((a, b) => add(a, b), R(0))
+    let m
+    if (lv < 3) {
+      m = ex.q.match(/(?:המספרים|:) ?(\d+(?:\.\d+)?(?:, \d+(?:\.\d+)?)+)[?.]/)
+      const xs = list(m[1])
+      assert.ok(xs.length >= 2 && xs.length <= 5, ex.q)
+      const mean = div(total(xs), R(xs.length))
+      if (lv === 1) assert.notEqual(mean[1], 1, `${ex.q}: level 1 mean should be a decimal`)
+      return mean
+    }
+    if ((m = ex.q.match(/^הממוצע של (\d+) מספרים הוא ([\d.]+)\. \d+ מהם הם ([\d., ]+?)\. מהו המספר החסר\?$/))) {
+      const xs = list(m[3])
+      assert.equal(xs.length, Number(m[1]) - 1)
+      return sub(mul(R(Number(m[1])), dec(m[2])), total(xs))
+    }
+    m = ex.q.match(/^ממוצע הגבהים של (\d+) ילדים בקבוצה הוא ([\d.]+) מ׳\. \S+ הצטרף לקבוצה, בגובה ([\d.]+) מ׳\./)
+    const n = Number(m[1])
+    return div(add(mul(R(n), dec(m[2])), dec(m[3])), R(n + 1))
+  },
   'circle-circumference'(ex) {
     const n = nums(ex.q)
     if (/הקוטר שלו/.test(ex.q) && /^מהו/.test(ex.q)) return 3.14 * n[0]
