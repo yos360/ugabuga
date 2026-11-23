@@ -1089,7 +1089,9 @@
   "slug": "en-g8-lost-violin",
   "xi": 0,
   "level": "g8",
-  "title": "Lost Violin Finds Its Way Home"
+  "title": "Lost Violin Finds Its Way Home",
+  "youtube": "https://youtu.be/mhm-w_0nbK8",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-mod-a-teen-cafe",
@@ -1101,19 +1103,25 @@
   "slug": "en-g7-negev-camping-diary",
   "xi": 0,
   "level": "g7",
-  "title": "A Night Under the Desert Sky"
+  "title": "A Night Under the Desert Sky",
+  "youtube": "https://youtu.be/XBnkf6NPCeo",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g8-new-cycling-path",
   "xi": 0,
   "level": "g8",
-  "title": "A New Cycling Path in Town"
+  "title": "A New Cycling Path in Town",
+  "youtube": "https://youtu.be/LlvntOG4N6k",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-mod-a-tool-library",
   "xi": 0,
   "level": "mod-a",
-  "title": "Borrow a Drill, Not a Book"
+  "title": "Borrow a Drill, Not a Book",
+  "youtube": "https://youtu.be/PBcDkCz6ZI4",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g7-new-school-diary",
@@ -1127,31 +1135,40 @@
   "slug": "en-g8-phones-on-school-trips",
   "xi": 0,
   "level": "g8",
-  "title": "Leave the Phone at Home"
+  "title": "Leave the Phone at Home",
+  "youtube": "https://youtu.be/6VVyHnSCMro",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-mod-a-tool-library",
   "xi": 1,
   "level": "mod-a",
-  "title": "Borrow a Drill, Not a Book"
+  "title": "Borrow a Drill, Not a Book",
+  "skip": "same title, cover and questions as text 0 (would look like a duplicate); needs its own title"
  },
  {
   "slug": "en-g7-penguins-keep-warm",
   "xi": 0,
   "level": "g7",
-  "title": "How Do Penguins Keep Warm?"
+  "title": "How Do Penguins Keep Warm?",
+  "youtube": "https://youtu.be/T-IllEMS0JY",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g8-school-shirts",
   "xi": 0,
   "level": "g8",
-  "title": "Why I Like Wearing the Same Shirt Every Day"
+  "title": "Why I Like Wearing the Same Shirt Every Day",
+  "youtube": "https://youtu.be/j322NBXDxgI",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g7-power-cut-diary",
   "xi": 0,
   "level": "g7",
-  "title": "The Night the Lights Went Out"
+  "title": "The Night the Lights Went Out",
+  "youtube": "https://youtu.be/v5I9NB9zkIM",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g8-science-museum",
@@ -1165,25 +1182,33 @@
   "slug": "en-g7-reading-buddies-notice",
   "xi": 0,
   "level": "g7",
-  "title": "Volunteers Wanted: Reading Buddies"
+  "title": "Volunteers Wanted: Reading Buddies",
+  "youtube": "https://youtu.be/pCuE7RMVYCI",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g8-story-of-chocolate",
   "xi": 0,
   "level": "g8",
-  "title": "From Bitter Drink to Sweet Bar"
+  "title": "From Bitter Drink to Sweet Bar",
+  "youtube": "https://youtu.be/Bx-plTFZgLg",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g7-recycling-contest",
   "xi": 0,
   "level": "g7",
-  "title": "Every School Needs a Recycling Contest"
+  "title": "Every School Needs a Recycling Contest",
+  "youtube": "https://youtu.be/1fOZTsu6IZc",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g8-teen-chess-interview",
   "xi": 0,
   "level": "g8",
-  "title": "Thinking Five Moves Ahead"
+  "title": "Thinking Five Moves Ahead",
+  "youtube": "https://youtu.be/ktdyjmNWQJs",
+  "uploaded": "2026-11-23"
  },
  {
   "slug": "en-g7-robot-science-fair",
