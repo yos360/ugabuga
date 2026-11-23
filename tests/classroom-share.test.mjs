@@ -15,13 +15,15 @@ test('visits from Classroom are their own source, not Google search', () => {
   const src = readFileSync(new URL('../src/utils/liveActivity.js', import.meta.url), 'utf8')
   const classroom = src.indexOf("return 'classroom'"), google = src.indexOf("return 'google'")
   assert.ok(classroom > 0 && classroom < google, 'classroom must be checked before google')
-  const sql = readFileSync(new URL('../supabase/migrations/20261123200000_share_channel_classroom.sql', import.meta.url), 'utf8')
+  const sql = readFileSync(new URL('../supabase/migrations/20261123210001_classroom_site_event.sql', import.meta.url), 'utf8')
   assert.match(sql, /'other','classroom'\)\) then p_source := null|'other','classroom'\) then p_source := null/)
   assert.match(sql, /'native_done','classroom'\)/)
 })
 
-test('the Classroom migration has balanced $$ function bodies', () => {
-  const sql = readFileSync(new URL('../supabase/migrations/20261123200000_share_channel_classroom.sql', import.meta.url), 'utf8')
-  assert.equal((sql.match(/\$\$/g) || []).length % 2, 0)
-  assert.doesNotMatch(sql, /(^|[^$])\$;/m)
+test('the Classroom migrations have balanced $$ function bodies', () => {
+  for (const f of ['20261123210001_classroom_site_event.sql', '20261123210002_classroom_report.sql']) {
+    const sql = readFileSync(new URL(`../supabase/migrations/${f}`, import.meta.url), 'utf8')
+    assert.equal((sql.match(/\$\$/g) || []).length % 2, 0, f)
+    assert.doesNotMatch(sql, /(^|[^$])\$;/m, f)
+  }
 })

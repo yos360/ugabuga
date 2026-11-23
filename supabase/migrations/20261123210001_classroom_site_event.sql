@@ -1,17 +1,5 @@
--- Google Classroom as a share channel (23.11.2026): the print dialog's "שיתוף לקלאסרום" button
--- opens classroom.google.com/share for the page and is counted as action 'share', channel 'classroom'.
--- Visits that arrive from Classroom (utm_source=google_classroom or classroom.google.com) get source
--- 'classroom', so they are not counted as Google search.
--- Same record_site_event_v3 as 202610210003_social_shares.sql with 'classroom' allowed. Safe to run twice.
-
-alter table public.owner_site_activity drop constraint if exists owner_site_activity_channel_check;
-alter table public.owner_site_activity add constraint owner_site_activity_channel_check
-  check (channel is null or channel in ('whatsapp','facebook','native','copy','email','native_done','from_share','classroom')) not valid;
-
-alter table public.owner_site_activity drop constraint if exists owner_site_activity_source_check;
-alter table public.owner_site_activity add constraint owner_site_activity_source_check
-  check (source is null or source in ('direct','internal','google','bing','facebook','instagram','whatsapp','tiktok','youtube','email','qr','other','classroom')) not valid;
-
+-- Google Classroom share channel, step 2 of 3: record_site_event_v3 accepts source/channel 'classroom'.
+-- Same function as 202610210003_social_shares.sql plus 'classroom'. Safe to run twice.
 -- The rate-limit helper record_site_event_v3 calls, re-created so it always exists wherever this v3 does.
 create or replace function public.site_event_allowed(p_visitor uuid)
 returns boolean language sql stable security definer set search_path = '' as $$
@@ -57,29 +45,3 @@ end;
 $$;
 revoke all on function public.record_site_event_v3(text,text,text,text,text,uuid,int,int,text) from public;
 grant execute on function public.record_site_event_v3(text,text,text,text,text,uuid,int,int,text) to anon, authenticated;
-
--- Owner only: shares to Classroom and visits that came from Classroom, with the top pages.
-create or replace function public.owner_classroom_report(p_from timestamptz, p_to timestamptz)
-returns jsonb language plpgsql stable security definer set search_path = '' as $$
-begin
-  if lower(coalesce(auth.jwt() ->> 'email', '')) <> 'yos300@gmail.com' then raise exception 'not_owner'; end if;
-  return (
-    select jsonb_build_object(
-      'shares', (select count(*) from public.owner_site_activity
-                 where created_at >= p_from and created_at < p_to and action = 'share' and channel = 'classroom'),
-      'visits', (select count(distinct coalesce(visitor::text, id::text)) from public.owner_site_activity
-                 where created_at >= p_from and created_at < p_to and action = 'open' and source = 'classroom'),
-      'top', coalesce((select jsonb_agg(jsonb_build_object('path', t.path, 'shares', t.shares, 'visits', t.visits) order by t.shares + t.visits desc, t.path)
-        from (select coalesce(path, '') as path,
-                     count(*) filter (where action = 'share') as shares,
-                     count(*) filter (where action = 'open') as visits
-              from public.owner_site_activity
-              where created_at >= p_from and created_at < p_to
-                and ((action = 'share' and channel = 'classroom') or (action = 'open' and source = 'classroom'))
-              group by coalesce(path, '')
-              order by count(*) desc
-              limit 15) t), '[]'::jsonb));
-end;
-$$;
-revoke all on function public.owner_classroom_report(timestamptz, timestamptz) from public, anon;
-grant execute on function public.owner_classroom_report(timestamptz, timestamptz) to authenticated;
