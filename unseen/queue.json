@@ -1097,7 +1097,9 @@
   "slug": "en-mod-a-teen-cafe",
   "xi": 1,
   "level": "mod-a",
-  "title": "The Cafe Where the Waiters Are Fifteen"
+  "title": "The Cafe Where the Waiters Are Fifteen",
+  "youtube": "https://youtu.be/KIPITlBFl3M",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-negev-camping-diary",
@@ -1214,25 +1216,33 @@
   "slug": "en-g7-robot-science-fair",
   "xi": 0,
   "level": "g7",
-  "title": "Ben's Robot"
+  "title": "Ben's Robot",
+  "youtube": "https://youtu.be/1YO28F-RIkI",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g8-teen-sleep",
   "xi": 0,
   "level": "g8",
-  "title": "Let Teenagers Sleep!"
+  "title": "Let Teenagers Sleep!",
+  "youtube": "https://youtu.be/eb087r1Jum0",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-sea-turtle-nests",
   "xi": 0,
   "level": "g7",
-  "title": "Saving the Baby Turtles"
+  "title": "Saving the Baby Turtles",
+  "youtube": "https://youtu.be/T7SnBpzEaNQ",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g8-time-travel-book-review",
   "xi": 0,
   "level": "g8",
-  "title": "The Clock in the Attic — A Book Review"
+  "title": "The Clock in the Attic — A Book Review",
+  "youtube": "https://youtu.be/5x4TYsPEbfc",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-wallet-on-the-bus",
@@ -1246,31 +1256,41 @@
   "slug": "en-g8-tu-bishvat-tree",
   "xi": 0,
   "level": "g8",
-  "title": "Grandpa's Olive Tree"
+  "title": "Grandpa's Olive Tree",
+  "youtube": "https://youtu.be/ePwXYkjNndg",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-water-fountain-letter",
   "xi": 0,
   "level": "g7",
-  "title": "A Letter to the Principal"
+  "title": "A Letter to the Principal",
+  "youtube": "https://youtu.be/G8GFnoFPAfc",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g8-week-without-screens",
   "xi": 0,
   "level": "g8",
-  "title": "Seven Days, Zero Screens"
+  "title": "Seven Days, Zero Screens",
+  "youtube": "https://youtu.be/bOR5vL26QBM",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-why-cats-purr",
   "xi": 0,
   "level": "g7",
-  "title": "Why Do Cats Purr?"
+  "title": "Why Do Cats Purr?",
+  "youtube": "https://youtu.be/heskLGUqIKs",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g8-weekend-homework",
   "xi": 0,
   "level": "g8",
-  "title": "Let Our Weekends Be Free"
+  "title": "Let Our Weekends Be Free",
+  "youtube": "https://youtu.be/1WRPDTWbwC0",
+  "uploaded": "2026-11-24"
  },
  {
   "slug": "en-g7-why-seasons",
@@ -1284,6 +1304,8 @@
   "slug": "en-g8-why-we-yawn",
   "xi": 0,
   "level": "g8",
-  "title": "The Mystery of the Yawn"
+  "title": "The Mystery of the Yawn",
+  "youtube": "https://youtu.be/T7Z2-BVElXM",
+  "uploaded": "2026-11-24"
  }
 ]
