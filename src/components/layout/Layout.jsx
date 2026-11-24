@@ -31,7 +31,7 @@ const ToolVideos = lazy(() => import('./ToolVideos'))
 const PresentMode = lazy(() => import('./PresentMode'))
 import { usePresentMode } from '../../utils/presentMode'
 import { creatorTool, installCreationCapture } from '../../utils/creations'
-import { KidsLockGate } from './KidsLock'
+import { KidsLockGate } from './KidsLockCore'
 import ReportContent, { isUgcPath } from './ReportContent'
 import PageFeedback from './PageFeedback'
 import { feedbackEligible } from '../../utils/feedbackPages'

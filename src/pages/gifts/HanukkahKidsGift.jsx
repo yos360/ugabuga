@@ -4,6 +4,7 @@ import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import PrintPreview from '../../components/ui/PrintPreview'
+import { Sheet, T } from '../../components/printables/PrintableShell'
 
 // /gifts/hanukkah-kids: Hanukkah gift ideas from the parents' committee to the kids that are not
 // another lamp or money box, plus printable gift tags (8 per A4) generated from a pasted class list.
@@ -23,10 +24,36 @@ const SPECIAL_ED = [
   { emoji: '🖼️', title: 'מתנה עם התמונה של הילד', text: 'מגנט, קופה או סביבון עם התמונה של הילד. ילד שמזהה את עצמו מבין מיד שהמתנה שלו.' },
   { emoji: '🃏', title: 'כרטיס חג עם תמונות', text: 'כרטיס קטן עם תמונות במקום מילים: חנוכייה, נר, סביבון, לביבה. מתאים לילדים שמתקשרים בתמונות, ואפשר להמשיך להשתמש בו בבית.' },
 ]
+// Symbolic class gift: about 5–10 ₪ per child. Prices are rough and vary by shop and season.
+const SYMBOLIC = [
+  { age: 'גן', emoji: '🧸', ideas: [
+    { title: 'בועות סבון בבקבוקון', price: 'בערך 4–8 ₪', why: 'ילדי הגן אוהבים לרדוף אחרי בועות, וזה עובד גם בחצר בחורף.', festive: 'קושרים תווית "חנוכה שמח" סביב הצוואר של הבקבוקון.' },
+    { title: 'פלסטלינה קטנה בצבעי חג', price: 'בערך 5–9 ₪', why: 'אפשר להכין איתה נרות וסביבונים ולשחק בלי הוראות.', festive: 'מניחים בשקית שקופה עם תווית ושם הילד.' },
+    { title: 'סביבון עץ או קרטון לצביעה', price: 'בערך 5–10 ₪', why: 'הילד מעצב בעצמו, ואחר כך משחקים יחד בגן.', festive: 'תווית עם השם נקשרת לגבעול הסביבון.' },
+  ] },
+  { age: 'א׳–ב׳', emoji: '🎨', ideas: [
+    { title: 'סט עפרונות צבעוניים ומחק', price: 'בערך 5–9 ₪', why: 'ילדים בכיתות הקטנות אוהבים כלי כתיבה חדשים, והם בשימוש כל השנה.', festive: 'קושרים את העפרונות בסרט כחול ומצמידים תווית.' },
+    { title: 'כדור קפיצי או פליק פלאק קטן', price: 'בערך 4–8 ₪', why: 'צעצוע קטן שאפשר לקחת להפסקה, בלי סוללות ובלי חלקים קטנים מדי.', festive: 'שקית שקופה עם סרט ותווית.' },
+    { title: 'מדבקות ומחברת קטנה', price: 'בערך 5–10 ₪', why: 'אוספים, מחליפים ומדביקים, וילדים רבים מתלהבים מזה.', festive: 'תווית על העטיפה, ובפנים ברכה קצרה מהוועד.' },
+  ] },
+  { age: 'ג׳–ד׳', emoji: '🧩', ideas: [
+    { title: 'ערכת חרוזים לצמיד או למחזיק מפתחות', price: 'בערך 6–10 ₪', why: 'מכינים בבית ומחליפים עם חברים, ויש בה יצירה לערב חנוכה.', festive: 'הערכה נכנסת לשקית עם תווית "חנוכה שמח".' },
+    { title: 'חידון או משחק קלפים קטן', price: 'בערך 7–10 ₪', why: 'משחקים עם אחים וחברים בחופשת חנוכה, בלי מסך.', festive: 'תווית עם שם הילד ושורת ברכה קצרה.' },
+    { title: 'סימנייה מיוחדת וספרון קטן', price: 'בערך 5–9 ₪', why: 'מתאים לילדים שמתחילים לקרוא לבד ואוהבים אוסף משלהם.', festive: 'הסימנייה עם התווית מוכנה לתוך הספרון.' },
+  ] },
+  { age: 'ה׳–ו׳', emoji: '✏️', ideas: [
+    { title: 'עט מיוחד ופתקים דביקים', price: 'בערך 6–10 ₪', why: 'בגיל הזה אוהבים כלי כתיבה "של גדולים", וזה שימושי ללימודים.', festive: 'קושרים את העט לפתקים עם תווית.' },
+    { title: 'קוביית חידות או משחק כיס', price: 'בערך 6–10 ₪', why: 'אתגר קטן להפסקה ולנסיעה, ומתאים גם לילדים שלא אוהבים צעצועים "קטנים".', festive: 'התווית נדבקת על האריזה עם ברכה בכתב יד.' },
+    { title: 'כרטיס ברכה אישי עם מדבקה', price: 'בערך 2–5 ₪', why: 'ילדים בכיתות הגדולות מעריכים משפט אישי יותר מצעצוע. אפשר לשלב עם פריט קטן.', festive: 'כל ילד מקבל כרטיס עם שורה אחת על משהו טוב שלו.' },
+  ] },
+]
+const TAGS_PER_SHEET = 12
 const FAQ = [
   { q: 'מה נותנים בחנוכה בכיתת תקשורת או בכיתת חינוך מיוחד?', a: 'מתנה פשוטה שמרגישים בידיים או שמרגיעה: בקבוק הרגעה, פלסטלינה ריחנית, כדור לחיץ, או מתנה עם התמונה של הילד. כדאי להימנע מחלקים קטנים, מצעצועים רועשים ומממתקים, ולבדוק עם הצוות מה מתאים לילדים בכיתה.' },
   { q: 'מה נותנים לילדי הגן בחנוכה חוץ מעששית וקופה?', a: 'משהו שעושים איתו משהו: פנס עם משימת אור, סביבון לקישוט, ערכת לביבות קטנה, ספר, פאזל, או מעטפה של שמונה משימות לשמונה הלילות. מה שמשחקים בו בחג זוכרים יותר ממה שעומד על המדף.' },
   { q: 'כמה כסף מוציא ועד ההורים על מתנה לחנוכה?', a: 'זה תלוי בגבייה של הוועד. כדאי לקבוע מראש סכום לכל ילד בתקציב השנתי, ולבחור מתנה שאפשר לקנות לכל הילדים באותו מחיר. גם ערכה זולה נראית מושקעת עם תווית שם לכל ילד.' },
+  { q: 'איזו מתנה סמלית אפשר לתת לכיתה בחנוכה בעד 10 ₪ לילד?', a: 'עפרונות צבעוניים, בועות סבון, פלסטלינה, סביבון לצביעה, מדבקות, ערכת חרוזים קטנה או כרטיס ברכה אישי. המחירים משתנים לפי החנות והעונה, לכן כדאי לבדוק מחיר ולקנות בכמות. תווית "חנוכה שמח" מוכנה להדפסה הופכת גם מתנה פשוטה לאישית.' },
+  { q: 'כמה כסף צריך לגבות מההורים לצורך מתנת חנוכה לכיתה?', a: 'משתמשים בחישוב פשוט: מספר הילדים כפול הסכום לילד, ומוסיפים מרווח קטן לשקיות, סרטים והדפסה. את הסכום כדאי לקבוע מראש עם ההורים כדי שאף אחד לא יופתע.' },
   { q: 'עדיף מתנה זהה לכל הילדים?', a: 'כן. מתנה זהה חוסכת השוואות ועלבונות. אם רוצים גיוון, אפשר לתת אותה מתנה בכמה צבעים ולתת לילדים לבחור.' },
   { q: 'איך מדפיסים תוויות שם למתנות?', a: 'מדביקים את רשימת השמות של הילדים, שם אחד בכל שורה, ולוחצים "הדפסה". בכל דף A4 יש שמונה תוויות. גוזרים ומדביקים או קושרים לכל מתנה.' },
 ]
@@ -37,6 +64,26 @@ function Dreidel({ size = 60 }) {
     <path d="M12 16 H48 V42 L30 66 L12 42 Z" fill="#63b3ed" stroke="#2b6cb0" strokeWidth="2.5" strokeLinejoin="round" />
     <text x="30" y="38" textAnchor="middle" fontSize="20" fontWeight="800" fill="#fff" fontFamily="Heebo, Arial, sans-serif">נ</text>
   </svg>
+}
+
+function GiftTag({ x, y }) {
+  return <g>
+    <rect x={x} y={y} width="62" height="58" rx="5" fill="#fffbea" stroke="#d69e2e" strokeWidth="0.5" strokeDasharray="2 1.5" />
+    <circle cx={x + 31} cy={y + 6} r="2.2" fill="#fff" stroke="#b7791f" strokeWidth="0.4" />
+    <path d={`M${x + 31} ${y + 12} q-2.6 3.2 0 5.6 q2.6 -2.4 0 -5.6z`} fill="#f6ad55" />
+    <rect x={x + 29.5} y={y + 17.6} width="3" height="7" rx="0.8" fill="#63b3ed" />
+    <T x={x + 31} y={y + 33} size="8.5" weight="800" fill="#2b6cb0">חנוכה שמח</T>
+    <T x={x + 31} y={y + 43} size="4.4" fill="#333">לכבוד ____________</T>
+    <T x={x + 31} y={y + 52} size="4" weight="600" fill="#744210">מוועד ההורים</T>
+  </g>
+}
+
+function GiftTagsSheet() {
+  const cells = []
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) cells.push([4 + c * 65.5, 8 + r * 63])
+  return <Sheet label="12 תוויות קטנות למתנת חנוכה מוועד ההורים">
+    {cells.map(([x, y]) => <GiftTag key={x + '-' + y} x={x} y={y} />)}
+  </Sheet>
 }
 
 function Tag({ name, from }) {
@@ -50,11 +97,14 @@ function Tag({ name, from }) {
 
 export default function HanukkahKidsGift() {
   const [names, setNames] = useState(''), [from, setFrom] = useState('ועד ההורים'), [print, setPrint] = useState(false)
+  const [kids, setKids] = useState(25), [per, setPer] = useState(8), [printGift, setPrintGift] = useState(false)
+  const kidsN = Math.max(0, Math.min(200, Math.floor(Number(kids) || 0))), perN = Math.max(0, Math.min(100, Number(per) || 0))
+  const total = Math.round(kidsN * perN * 100) / 100
   const list = names.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 60)
   const tags = list.length ? list : ['שם הילד/ה']
   const field = 'mt-1 w-full min-h-[44px] rounded-xl border-2 border-slate-300 bg-white px-3 text-lg'
   return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
-    <SEO title="מתנות חנוכה לילדים מהוועד — רעיונות שהם לא עוד עששית" description="מה ועד ההורים נותן לילדי הגן והכיתה בחנוכה: רעיונות למתנה שעושים איתה משהו — פנס, סביבון לקישוט, ערכת לביבות, שמונה משימות לשמונה לילות — ותוויות שם להדפסה לכל הילדים. בחינם." path="/gifts/hanukkah-kids" structuredData={faqSchema(FAQ)} />
+    <SEO title="מתנות חנוכה לילדים מהוועד — רעיונות שהם לא עוד עששית" description="מה ועד ההורים נותן לילדי הגן והכיתה בחנוכה: מתנה סמלית לכיתה בעד 5–10 ₪ לילד לפי גיל, מחשבון תקציב, רעיונות למתנה שעושים איתה משהו — פנס, סביבון לקישוט, ערכת לביבות, שמונה משימות לשמונה לילות — ותוויות שם להדפסה לכל הילדים. בחינם." path="/gifts/hanukkah-kids" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'ועד הורים', href: '/vaad' }, { label: 'מתנות חנוכה לילדים' }]} />
     <header className="mb-6 text-center">
       <h1 className="text-4xl sm:text-5xl">🎁 מתנות חנוכה לילדים מהוועד</h1>
@@ -78,6 +128,32 @@ export default function HanukkahKidsGift() {
       <p className="mt-4 rounded-xl bg-sky-50 p-3 text-lg">⭐ לפני שקונים, שואלים את הצוות: אילו ילדים רגישים לרעש, לריחות או למרקמים, ומי מכניס חפצים לפה. בלי חלקים קטנים ובלי ממתקים. ולצוות הכיתה, שכולל לעיתים קרובות גם סייעות, מכתב אישי מההורים שווה הרבה. <Link className="font-bold underline" to="/gifts/hanukkah-staff">רעיונות למתנה לצוות</Link></p>
     </section>
 
+    <section className="mt-8" id="symbolic">
+      <h2 className="mb-3 text-2xl font-black">🎀 מתנה סמלית לכיתה: עד 5–10 ₪ לילד</h2>
+      <p className="mb-3 text-lg">לא תמיד יש תקציב למתנה גדולה, וזה בסדר. מתנה קטנה שמגיעה עם תווית אישית ושורת ברכה נשארת בזיכרון. הרעיונות לפי גיל, עם טווח מחיר מקורב לילד. המחירים משתנים לפי החנות, העונה והכמות, ולכן כדאי לבדוק מחיר לפני שגובים כסף מההורים.</p>
+      <div className="space-y-5">{SYMBOLIC.map(g => <div key={g.age}>
+        <h3 className="mb-2 text-xl font-black">{g.emoji} {g.age}</h3>
+        <div className="grid gap-3 sm:grid-cols-3">{g.ideas.map(i => <div key={i.title} className="rounded-2xl border-2 border-[var(--border)] bg-white p-4 sketch-shadow">
+          <h4 className="text-lg font-bold">{i.title}</h4>
+          <p className="mt-1 inline-block rounded-full bg-amber-100 px-3 py-0.5 text-base font-bold">{i.price} לילד</p>
+          <p className="mt-2 text-base"><b>למה ילדים אוהבים:</b> {i.why}</p>
+          <p className="mt-1 text-base"><b>איך הופכים לחגיגי:</b> {i.festive}</p>
+        </div>)}</div>
+      </div>)}</div>
+      <p className="mt-4 rounded-xl bg-amber-50 p-3 text-lg">⭐ אחרי שבוחרים: שואלים את הצוות על אלרגיות ורגישויות, ומעדיפים מתנה שאינה אוכל. ברכה מילולית יפה אפשר למצוא ב<Link className="font-bold underline" to="/holidays/hanukkah/greetings">ברכות לחנוכה</Link>, ורעיונות למתנה למחנכת ולצוות ב<Link className="font-bold underline" to="/gifts/hanukkah-staff">מתנות חנוכה לצוות</Link>.</p>
+
+      <div className="mt-5 rounded-3xl border-2 border-[var(--border)] bg-sky-50 p-4 sketch-shadow">
+        <h3 className="mb-3 text-xl font-black">🧮 מחשבון תקציב למתנה לכיתה</h3>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="block font-bold">מספר ילדים<input type="number" inputMode="numeric" min="0" max="200" className={field} value={kids} onChange={e => setKids(e.target.value)} /></label>
+          <label className="block font-bold">תקציב לילד (₪)<input type="number" inputMode="decimal" min="0" max="100" step="0.5" className={field} value={per} onChange={e => setPer(e.target.value)} /></label>
+        </div>
+        <p className="mt-3 rounded-xl bg-white p-3 text-center text-xl font-black" aria-live="polite">סך הכול לכיתה: {total.toLocaleString('he-IL')} ₪</p>
+        <p className="mt-2 text-center text-base text-[var(--muted-foreground)]">כדאי להוסיף כמה שקלים לשקיות, סרטים והדפסה, ולבדוק מחיר אמיתי לפני הגבייה.</p>
+        <div className="mt-4 text-center"><button type="button" onClick={() => setPrintGift(true)} className="min-h-[48px] rounded-xl bg-amber-600 px-6 text-lg font-bold text-white">🖨️ הדפסת תוויות "חנוכה שמח" ({TAGS_PER_SHEET} בדף)</button></div>
+      </div>
+    </section>
+
     <section className="mt-8 rounded-3xl border-2 border-[var(--border)] bg-amber-50 p-4 sketch-shadow">
       <h2 className="mb-3 text-2xl font-black">🏷️ תוויות שם למתנות להדפסה</h2>
       <label className="block font-bold">שמות הילדים — שם אחד בכל שורה<textarea className={field + ' min-h-[140px] py-2'} value={names} onChange={e => setNames(e.target.value)} placeholder={'נועה\nאיתי\nמאיה'} /></label>
@@ -90,7 +166,11 @@ export default function HanukkahKidsGift() {
       {tags.map((n, i) => <Tag key={i} name={n} from={from} />)}
     </article></PrintPreview>}
 
-    <p className="mt-8 text-center text-lg">עוד לוועד: <Link className="font-bold underline" to="/gifts/hanukkah-staff">מתנה לצוות לחנוכה</Link> · <Link className="font-bold underline" to="/vaad/budget">תקציב ועד הורים לשנה</Link> · <Link className="font-bold underline" to="/holidays/hanukkah">חנוכה לילדים</Link></p>
-    <div className="mt-10"><SeoBody paragraphs={['מתנה לחנוכה מהוועד לילדי הגן או הכיתה היא מסורת כמעט בכל מקום, והשאלה חוזרת כל שנה: מה נותנים שלא נתנו כבר? עששיות וקופות הן הבחירה הנפוצה, והרבה ילדים כבר מקבלים כמה כאלה מכל מסגרת.', 'בדף הזה ריכזנו רעיונות למתנות שהילדים עושים איתן משהו בחג: פנס ומשימת אור, סביבון לקישוט, ערכת לביבות, ספר, פאזל, עציץ קטן, ומעטפה של שמונה משימות לשמונה הלילות. לכיתות תקשורת וחינוך מיוחד יש רעיונות למתנות שמרגישים בידיים ושמרגיעות. יש גם תוויות שם להדפסה: מדביקים את רשימת הילדים ומקבלים שמונה תוויות בכל דף.']} faq={FAQ} related={[{ label: 'ועד הורים — כל הכלים', href: '/vaad' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }]} /></div>
+    {printGift && <PrintPreview title="תוויות מתנה סמלית לחנוכה" onClose={() => setPrintGift(false)}>
+      <article className="buga-a4"><div className="print-art"><GiftTagsSheet /></div><footer>עוגה בוגה · ugabuga.co.il</footer></article>
+    </PrintPreview>}
+
+    <p className="mt-8 text-center text-lg">עוד לוועד: <Link className="font-bold underline" to="/gifts/hanukkah-staff">מתנה לצוות לחנוכה</Link> · <Link className="font-bold underline" to="/vaad/budget">תקציב ועד הורים לשנה</Link> · <Link className="font-bold underline" to="/holidays/hanukkah">חנוכה לילדים</Link> · <Link className="font-bold underline" to="/holidays/hanukkah/greetings">ברכות וכרטיסי ברכה לחנוכה</Link></p>
+    <div className="mt-10"><SeoBody paragraphs={['מתנה לחנוכה מהוועד לילדי הגן או הכיתה היא מסורת כמעט בכל מקום, והשאלה חוזרת כל שנה: מה נותנים שלא נתנו כבר? עששיות וקופות הן הבחירה הנפוצה, והרבה ילדים כבר מקבלים כמה כאלה מכל מסגרת.', 'בדף הזה ריכזנו רעיונות למתנות שהילדים עושים איתן משהו בחג: פנס ומשימת אור, סביבון לקישוט, ערכת לביבות, ספר, פאזל, עציץ קטן, ומעטפה של שמונה משימות לשמונה הלילות. לכיתות תקשורת וחינוך מיוחד יש רעיונות למתנות שמרגישים בידיים ושמרגיעות. יש גם מתנה סמלית לכיתה בעד 5–10 ₪ לילד, לפי גיל, עם מחשבון תקציב ותוויות "חנוכה שמח" להדפסה, ותוויות שם להדפסה: מדביקים את רשימת הילדים ומקבלים שמונה תוויות בכל דף.']} faq={FAQ} related={[{ label: 'ועד הורים — כל הכלים', href: '/vaad' }, { label: 'דפי צביעה לחנוכה', href: '/holidays/hanukkah/coloring' }]} /></div>
   </div>
 }

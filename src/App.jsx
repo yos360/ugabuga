@@ -230,6 +230,24 @@ const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ defaul
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const TimesTablePath = lazy(() => import('./learn/TimesTablePath.jsx'))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
+const HanukkahKindergartenStories = lazy(() => import('./pages/holidays/HanukkahKindergartenStories'))
+const HanukkahCircleTime = lazy(() => import('./pages/holidays/HanukkahCircleTime'))
+const HanukkahHomeCamp = lazy(() => import('./pages/schoolHolidays/HanukkahHomeCamp'))
+const AcceptingDifferences = lazy(() => import('./pages/classroom/AcceptingDifferences'))
+const ToddlerColors = lazy(() => import('./pages/toddlers/ToddlerColors'))
+const AdaptedMathPage = lazy(() => import('./learn/subjects/AdaptedExtras').then(m => ({ default: m.AdaptedMathPage })))
+const AdaptedReadingPage = lazy(() => import('./learn/subjects/AdaptedExtras').then(m => ({ default: m.AdaptedReadingPage })))
+const FeelingsCorner = lazy(() => import('./pages/classroom/FeelingsCorner'))
+const PajamaParty = lazy(() => import('./pages/birthday/PajamaParty'))
+const ReadingLog = lazy(() => import('./pages/printables/ReadingLog'))
+const FamilyDay = lazy(() => import('./pages/holidays/FamilyDay'))
+const MathCenters = lazy(() => import('./pages/classroom/MathCenters'))
+const HebrewYearlyPlan = lazy(() => import('./pages/classroom/HebrewYearlyPlan'))
+const HanukkahDecorations = lazy(() => import('./pages/holidays/HanukkahDecorations'))
+const RoutineChart = lazy(() => import('./pages/printables/RoutineChart'))
+const PiggyBank = lazy(() => import('./learn/subjects/PiggyBank'))
+const LetterToGrandparents = lazy(() => import('./pages/printables/LetterToGrandparents'))
+const KindergartenFarewell = lazy(() => import('./pages/classroom/KindergartenFarewell'))
 const AdaptedHub = lazy(() => import('./learn/subjects/AdaptedHub'))
 const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
@@ -666,6 +684,7 @@ export default function App() {
               <Route path="/en/*" element={<EnglishExtra />} />
               <Route path="/birthday" element={<HubPage type="birthday" />} />
               <Route path="/birthday/party-bags" element={<PartyBags />} />
+              <Route path="/birthday/pajama-party" element={<PajamaParty />} />
               <Route path="/birthday/spa-party" element={<SpaParty />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />
@@ -682,6 +701,11 @@ export default function App() {
               <Route path="/classroom/math-tic-tac-toe" element={<MathTicTacToe />} />
               <Route path="/classroom/warm-up" element={<WarmUp />} />
               <Route path="/classroom/report-card-comments" element={<ReportCardComments />} />
+              <Route path="/classroom/accepting-differences" element={<AcceptingDifferences />} />
+              <Route path="/classroom/feelings-corner" element={<FeelingsCorner />} />
+              <Route path="/classroom/math-centers" element={<MathCenters />} />
+              <Route path="/classroom/hebrew-yearly-plan" element={<HebrewYearlyPlan />} />
+              <Route path="/classroom/kindergarten-farewell" element={<KindergartenFarewell />} />
               <Route path="/classroom/space-week" element={<SpaceWeek />} />
               <Route path="/teachers" element={<TeacherHome />} />
               <Route path="/teachers/join" element={<TeacherJoin />} />
@@ -806,6 +830,9 @@ export default function App() {
               <Route path="/printables/emotion-cards" element={<EmotionCards />} />
               <Route path="/printables/word-puzzles" element={<WordPuzzles />} />
               <Route path="/printables/sound-position" element={<SoundPosition />} />
+              <Route path="/printables/reading-log" element={<ReadingLog />} />
+              <Route path="/printables/routine-chart" element={<RoutineChart />} />
+              <Route path="/printables/letter-to-grandparents" element={<LetterToGrandparents />} />
               <Route path="/printables/letter-strip" element={<LetterStrip />} />
               <Route path="/printables/multiplication-strips" element={<TimesTableStrips />} />
               <Route path="/printables/number-strip" element={<NumberStripPage />} />
@@ -1018,6 +1045,8 @@ export default function App() {
               <Route path="/learn/multiplication-table/quiz" element={<MultiplicationQuiz />} />
               <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
+              <Route path="/learn/adapted-tests/math/:slug" element={<AdaptedMathPage />} />
+              <Route path="/learn/adapted-tests/reading/:slug" element={<AdaptedReadingPage />} />
               <Route path="/learn/adapted-tests" element={<AdaptedHub />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />
               <Route path="/learn/gifted-test/grade-2" element={<GiftedGrade key="grade-2" slug="grade-2" />} />
@@ -1191,6 +1220,7 @@ export default function App() {
               <Route path="/learn/money/concepts" element={<ConceptIndex key="money-c" subjectKey="money" />} />
               <Route path="/learn/money/concepts/:term" element={<ConceptPage key="money-ct" subjectKey="money" />} />
               <Route path="/learn/money/:slug/exam" element={<SubjectExam key="money-e" subjectKey="money" />} />
+              <Route path="/learn/money/piggy-bank" element={<PiggyBank />} />
               <Route path="/learn/money/:slug" element={<SubjectTopic key="money" subjectKey="money" />} />
               <Route path="/learn/coding" element={<SubjectHub key="coding" subjectKey="coding" />} />
               <Route path="/learn/coding/concepts" element={<ConceptIndex key="coding-c" subjectKey="coding" />} />
@@ -1291,10 +1321,12 @@ export default function App() {
               <Route path="/baby-names/meaning/:theme" element={<NameThemePage />} />
               <Route path="/baby-names/name/:slug" element={<BabyNamePage />} />
               <Route path="/school-holidays" element={<SchoolHolidaysHub />} />
+              <Route path="/school-holidays/hanukkah/home-camp" element={<HanukkahHomeCamp />} />
               <Route path="/school-holidays/:slug" element={<SchoolHolidayPage />} />
               <Route path="/tools/hebrew-birthday" element={<HebrewBirthday />} />
               <Route path="/toddlers" element={<ToddlersHub />} />
               <Route path="/toddlers/buga-games" element={<BugaGamesPage />} />
+              <Route path="/toddlers/colors" element={<ToddlerColors />} />
               <Route path="/toddlers/:slug" element={<ToddlerPage />} />
               <Route path="/stories" element={<StoriesHub />} />
               <Route path="/stories/:slug" element={<StoryPage />} />
@@ -1391,6 +1423,7 @@ export default function App() {
               <Route path="/holidays/shabbat-parents" element={<ShabbatParents />} />
               <Route path="/holidays/blessings" element={<HolidayBlessings />} />
               <Route path="/holidays/blessings/:slug" element={<HolidayBlessings />} />
+              <Route path="/holidays/family-day" element={<FamilyDay />} />
               <Route path="/holidays/hanukkah" element={<HanukkahHub />} />
               <Route path="/holidays/hanukkah/candle-times" element={<HanukkahCandleTimes />} />
               <Route path="/holidays/hanukkah/grade/:gradeSlug" element={<HanukkahGrade />} />
@@ -1403,6 +1436,9 @@ export default function App() {
               <Route path="/holidays/hanukkah/candle-lighting" element={<HanukkahCandleLighting />} />
               <Route path="/holidays/hanukkah/greetings" element={<HanukkahGreetings />} />
               <Route path="/holidays/hanukkah/math" element={<HanukkahMath />} />
+              <Route path="/holidays/hanukkah/kindergarten-stories" element={<HanukkahKindergartenStories />} />
+              <Route path="/holidays/hanukkah/circle-time" element={<HanukkahCircleTime />} />
+              <Route path="/holidays/hanukkah/decorations" element={<HanukkahDecorations />} />
               <Route path="/holidays/hanukkah/escape-room" element={<HanukkahEscapeRoom />} />
               <Route path="/holidays/hanukkah/learn" element={<HanukkahLearn />} />
               <Route path="/holidays/hanukkah/learn/:topic" element={<HanukkahLearn />} />

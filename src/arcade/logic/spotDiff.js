@@ -15,6 +15,8 @@ export const SPOT_THEMES = {
   garden: { he: 'גינה', icon: '🌻', items: ['🌻', '🌷', '🍄', '🐞', '🐝', '🦋', '🐌', '🌳', '🪴', '🍓', '🥕', '🐛', '🌼', '🪺'] },
   food: { he: 'אוכל', icon: '🍕', items: ['🍕', '🍎', '🍌', '🥕', '🍉', '🧀', '🍔', '🥨', '🍇', '🥒', '🍞', '🥚', '🍓', '🌽'] },
   winter: { he: 'חורף', icon: '⛄', items: ['⛄', '❄️', '☂️', '🧣', '🧤', '☕', '🌧️', '🥾', '🌈', '☁️', '⚡', '🧥', '🍲', '🔥'] },
+  hanukkah: { he: 'חנוכה', icon: '🕎', items: ['🕎', '🍩', '🕯️', '⭐', '🎁', '🫒', '🪙', '🪔', '✨', '🎶', '🥔', '🔥', '🌟', '🥛'] },
+  shabbat: { he: 'שבת', icon: '🕯️', items: ['🕯️', '🍞', '🍷', '🌹', '🍽️', '🐟', '🥗', '🎶', '🍲', '🥕', '🍇', '🕊️', '🍰', '🌟'] },
 }
 
 const KINDS = ['remove', 'replace', 'resize', 'add']
@@ -62,11 +64,13 @@ export function buildSpotDiff({ items, count = 12, diffs = 5, seed = 1 }) {
 }
 
 // Game levels: more items and more differences as the levels go up.
-export const SPOT_LEVELS = 18
+export const SPOT_LEVELS = 20
 const LEVEL_THEMES = ['animals', 'birthday', 'space', 'sea', 'vehicles', 'garden', 'unicorn', 'food', 'football', 'winter']
+// Levels 19-20 were added later, so the first 18 keep their content.
+const EXTRA_LEVEL_THEMES = ['hanukkah', 'shabbat']
 export function spotLevel(level) {
   const L = Math.max(1, Math.min(SPOT_LEVELS, level))
-  const theme = LEVEL_THEMES[(L - 1) % LEVEL_THEMES.length]
+  const theme = L > 18 ? EXTRA_LEVEL_THEMES[L - 19] : LEVEL_THEMES[(L - 1) % LEVEL_THEMES.length]
   const diffs = Math.min(7, 3 + Math.floor((L - 1) / 3))
   const count = Math.min(26, 9 + L)
   return { level: L, theme, diffs, count, ...buildSpotDiff({ items: SPOT_THEMES[theme].items, count, diffs, seed: 500 + L }) }

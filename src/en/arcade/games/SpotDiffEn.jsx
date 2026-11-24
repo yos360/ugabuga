@@ -6,7 +6,7 @@ import { sfx, buzz } from '../../../arcade/sfx'
 import SpotDiffPanel from '../../../components/ui/SpotDiffPanel'
 
 // English find-the-differences: same levels and logic as the Hebrew game (shared progress key).
-const THEME_EN = { animals: 'animals', space: 'space', birthday: 'birthday', vehicles: 'vehicles', football: 'soccer', unicorn: 'unicorns', sea: 'the sea', garden: 'the garden', food: 'food', winter: 'winter' }
+const THEME_EN = { animals: 'animals', space: 'space', birthday: 'birthday', vehicles: 'vehicles', football: 'soccer', unicorn: 'unicorns', sea: 'the sea', garden: 'the garden', food: 'food', winter: 'winter', hanukkah: 'Hanukkah', shabbat: 'Shabbat' }
 
 export default function SpotDiffEn({ onReport, onShare }) {
   const [progress, saveProgress] = useProgress('find-differences', { unlocked: 1, stars: {}, best: {} })

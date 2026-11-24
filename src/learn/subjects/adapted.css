@@ -40,3 +40,12 @@
 .ad-print-qs p{margin:0 0 4px;font-weight:700}
 .ad-print-qs ul{list-style:none;padding:0;margin:0}
 .ad-print-qs ul li{margin:3px 0}
+.ad-expr{font-size:34px;font-weight:900;margin:0 0 12px;text-align:center;letter-spacing:1px}
+.ad-passage{background:#fffbea;border:3px solid #f0dc8a;border-radius:18px;padding:14px 16px;margin-bottom:18px}
+.ad-passage-title{font-size:26px;font-weight:900;margin:0 0 8px}
+.ad-passage p{font-size:24px;line-height:1.85;margin:0 0 10px}
+.ad-passage .ad-read{margin:4px 0 0}
+.ad-print-passage{border:2px solid #999;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:15pt;line-height:1.6}
+.ad-print-passage h3{margin:0 0 4px;font-size:17pt}
+.ad-print-passage p{margin:0 0 4px}
+@media (max-width:520px){.ad-expr{font-size:28px}.ad-passage p{font-size:21px}}

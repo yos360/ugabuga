@@ -60,7 +60,7 @@ const PACKS = {
   sounds: {
     path: '/printables/opening-ending-sounds', emoji: '👂',
     h1: 'צליל פותח וצליל סוגר — דפי עבודה להדפסה', seoTitle: 'צליל פותח וצליל סוגר — דפי עבודה לגן חובה ולכיתה א׳ עם פתרונות',
-    description: 'דפי עבודה לצליל פותח וצליל סוגר להדפסה: 12 דפים של זיהוי צליל, אות ראשונה ואות אחרונה במילה, בשלוש רמות ועם פתרונות.',
+    description: 'דפי עבודה לצליל פותח וצליל סוגר להדפסה: 12 דפים של זיהוי צליל, אות ראשונה ואות אחרונה במילה, בשלוש רמות ועם פתרונות, וגם סט חנוכה עם גזירה, הדבקה וצביעה.',
     sub: '12 דפים שמלמדים לשמוע את הצליל הראשון והאחרון במילה',
     lead: 'מודעות לצלילים היא הבסיס לקריאה. מתחילים בצליל הפותח, ממשיכים לצליל הסוגר, ואז משלבים חרוזים והברות.'
   },
@@ -107,8 +107,110 @@ function question(mode, i, seed, level) {
   return { q: `מה פירוש המילה "${word}"?`, a: meaning }
 }
 
+// Hanukkah theme (opening/ending sounds pack): word, picture
+const HK_WORDS = [['סביבון', '🎲'], ['סופגנייה', '🍩'], ['נר', '🕯️'], ['חנוכייה', '🕎'], ['שמן', '🫒'], ['כד', '🏺'], ['מכבי', '🛡️'], ['לביבה', '🥞'], ['מתנה', '🎁'], ['אור', '💡'], ['שמש', '🔥']]
+const HK_TOPICS = [
+  ['hk-first', 'חנוכה: צליל פותח', 'הסתכלו בתמונה, אִמרו את המילה וכתבו את הצליל הראשון.'],
+  ['hk-last', 'חנוכה: צליל סוגר', 'הסתכלו בתמונה, אִמרו את המילה וכתבו את הצליל האחרון.'],
+  ['hk-paste-first', 'חנוכה: גזירה והדבקה — פותח', 'גזרו את הכרטיסים והדביקו כל אחד בתיבה של הצליל הפותח שלו.'],
+  ['hk-paste-last', 'חנוכה: גזירה והדבקה — סוגר', 'גזרו את הכרטיסים והדביקו כל אחד בתיבה של הצליל הסוגר שלו.'],
+  ['hk-color-first', 'חנוכה: צביעה — פותח', 'צבעו בכל שורה את התמונה שהצליל הפותח שלה מתאים לאות.'],
+  ['hk-color-last', 'חנוכה: צביעה — סוגר', 'צבעו בכל שורה את התמונה שהצליל הסוגר שלה מתאים לאות.'],
+]
+const hkKey = (mode, w) => mode === 'first' ? w[0] : w.at(-1)
+
+function hkQuestion(mode, i, seed, level) {
+  const extra = level === 'challenge' ? 5 : level === 'middle' ? 3 : 0
+  const [w, e] = pick(HK_WORDS, i + extra, seed)
+  return mode === 'first'
+    ? { q: `${e}  כתבו את הצליל הפותח במילה: ${w}`, a: w[0] }
+    : { q: `${e}  כתבו את הצליל הסוגר במילה: ${w}`, a: w.at(-1) }
+}
+
+function HkPasteSheet({ pack, topic, seed, answers }) {
+  const mode = topic[0].endsWith('last') ? 'last' : 'first'
+  const keys = [...new Set(HK_WORDS.map(([w]) => hkKey(mode, w)))]
+  const chosenKeys = rotate(keys, seed % keys.length).slice(0, 4)
+  const cards = rotate(HK_WORDS.filter(([w]) => chosenKeys.includes(hkKey(mode, w))), seed % 3).slice(0, 8)
+  const used = chosenKeys.filter(k => cards.some(([w]) => hkKey(mode, w) === k))
+  return <Sheet label={`${answers ? 'פתרונות' : 'דף עבודה'} — ${topic[1]}`}>
+    <T x={100} y={16} size={8} weight={900}>{answers ? 'פתרונות: ' : ''}{topic[1]}</T>
+    <T x={100} y={24} size={4.2} fill="#555">{topic[2]}</T>
+    <T x={190} y={32} size={4.2} anchor="start" fill="#555">שם: ______________</T>
+    {used.map((k, i) => {
+      const x = 149 - i * 46
+      const inside = cards.filter(([w]) => hkKey(mode, w) === k)
+      return <g key={k}>
+        <rect x={x} y={40} width={41} height={96} rx={3} fill="#f8fafc" stroke="#475569" strokeWidth=".7" />
+        <T x={x + 20.5} y={58} size={20} weight={900} fill="#1d4ed8">{k}</T>
+        <line x1={x + 4} x2={x + 37} y1={64} y2={64} stroke="#cbd5e1" strokeWidth=".5" />
+        {answers && inside.map(([w, e], j) => <T key={w} x={x + 20.5} y={76 + j * 12} size={5.4} weight={800} fill="#c1121f">{`${e} ${w}`}</T>)}
+      </g>
+    })}
+    <line x1={10} x2={190} y1={152} y2={152} stroke="#64748b" strokeWidth=".5" strokeDasharray="2 2" />
+    <T x={100} y={158} size={4.2} fill="#64748b">✂ גזרו כאן את הכרטיסים</T>
+    {cards.map(([w, e], i) => {
+      const x = 149 - (i % 4) * 46, y = 166 + Math.floor(i / 4) * 44
+      return <g key={w}>
+        <rect x={x} y={y} width={41} height={38} rx={3} fill="#fff" stroke="#94a3b8" strokeWidth=".6" strokeDasharray="2 1.5" />
+        <T x={x + 20.5} y={y + 20} size={15}>{e}</T>
+        <T x={x + 20.5} y={y + 32} size={6} weight={800}>{w}</T>
+      </g>
+    })}
+    <T x={100} y={260} size={3.9} fill="#64748b">{pack.h1} · חנוכה · עוגה בוגה · ugabuga.co.il</T>
+  </Sheet>
+}
+
+function HkColorSheet({ pack, topic, seed, answers }) {
+  const mode = topic[0].endsWith('last') ? 'last' : 'first'
+  const rows = Array.from({ length: 6 }, (_, i) => {
+    const target = pick(HK_WORDS, i, seed)
+    const key = hkKey(mode, target[0])
+    const options = []
+    for (let j = 1; options.length < 2 && j <= HK_WORDS.length; j++) {
+      const c = HK_WORDS[(HK_WORDS.indexOf(target) + j * 3) % HK_WORDS.length]
+      const ck = hkKey(mode, c[0])
+      if (ck !== key && !options.some(o => hkKey(mode, o[0]) === ck)) options.push(c)
+    }
+    const at = (i + seed) % 3
+    options.splice(at, 0, target)
+    return { key, options, at }
+  })
+  return <Sheet label={`${answers ? 'פתרונות' : 'דף עבודה'} — ${topic[1]}`}>
+    <T x={100} y={16} size={8} weight={900}>{answers ? 'פתרונות: ' : ''}{topic[1]}</T>
+    <T x={100} y={24} size={4.2} fill="#555">{topic[2]}</T>
+    <T x={190} y={32} size={4.2} anchor="start" fill="#555">שם: ______________</T>
+    {rows.map((row, i) => {
+      const y = 42 + i * 35
+      return <g key={i}>
+        <rect x={10} y={y - 6} width={180} height={31} rx={3} fill={i % 2 ? '#fff' : '#f8fafc'} stroke="#cbd5e1" strokeWidth=".5" />
+        <T x={184} y={y + 8} size={5} anchor="end" weight={700}>{mode === 'first' ? 'פותח:' : 'סוגר:'}</T>
+        <T x={166} y={y + 15} size={14} weight={900} fill="#1d4ed8">{row.key}</T>
+        {row.options.map(([w, e], j) => {
+          const x = 120 - j * 40
+          const right = answers && j === row.at
+          return <g key={w}>
+            <rect x={x - 17} y={y - 3} width={34} height={25} rx={3} fill={right ? '#dcfce7' : '#fff'} stroke={right ? '#16a34a' : '#94a3b8'} strokeWidth=".6" />
+            <T x={x} y={y + 10} size={11}>{e}</T>
+            <T x={x} y={y + 18} size={4.4} weight={800}>{w}</T>
+          </g>
+        })}
+      </g>
+    })}
+    <T x={100} y={260} size={3.9} fill="#64748b">{pack.h1} · חנוכה · עוגה בוגה · ugabuga.co.il</T>
+  </Sheet>
+}
+
+function TopicSheet(props) {
+  const id = props.topic[0]
+  if (id.startsWith('hk-paste-')) return <HkPasteSheet {...props} />
+  if (id.startsWith('hk-color-')) return <HkColorSheet {...props} />
+  return <TaskSheet {...props} />
+}
+
 function TaskSheet({ pack, topic, level, seed, answers }) {
-  const rows = Array.from({ length: 6 }, (_, i) => question(topic[0], i, seed, level))
+  const hk = topic[0].startsWith('hk-')
+  const rows = Array.from({ length: 6 }, (_, i) => hk ? hkQuestion(topic[0].slice(3), i, seed, level) : question(topic[0], i, seed, level))
   return <Sheet label={`${answers ? 'פתרונות' : 'דף עבודה'} — ${topic[1]}`}>
     <T x={100} y={16} size={8.5} weight={900}>{answers ? 'פתרונות: ' : ''}{topic[1]}</T>
     <T x={100} y={24} size={4.4} fill="#555">{topic[2]}</T>
@@ -133,12 +235,15 @@ export default function ReadingWorksheetPacks({ packId }) {
   const [chosen, setChosen] = useState(() => TOPICS.map(x => x[0]))
   const [answers, setAnswers] = useState(true)
   const [seed, setSeed] = useState(1)
+  const [theme, setTheme] = useState('regular')
   if (!pack) return <Navigate to="/printables" replace />
 
-  const selected = TOPICS.filter(x => chosen.includes(x[0]))
-  const pages = (selected.length ? selected : TOPICS).flatMap((topic, i) => {
-    const sheet = { key: `q-${topic[0]}`, svg: <TaskSheet pack={pack} topic={topic} level={level} seed={seed + i} /> }
-    return answers ? [sheet, { key: `a-${topic[0]}`, svg: <TaskSheet pack={pack} topic={topic} level={level} seed={seed + i} answers /> }] : [sheet]
+  const topics = theme === 'hanukkah' ? HK_TOPICS : TOPICS
+  const changeTheme = v => { setTheme(v); setChosen((v === 'hanukkah' ? HK_TOPICS : TOPICS).map(x => x[0])) }
+  const selected = topics.filter(x => chosen.includes(x[0]))
+  const pages = (selected.length ? selected : topics).flatMap((topic, i) => {
+    const sheet = { key: `q-${topic[0]}`, svg: <TopicSheet pack={pack} topic={topic} level={level} seed={seed + i} /> }
+    return answers ? [sheet, { key: `a-${topic[0]}`, svg: <TopicSheet pack={pack} topic={topic} level={level} seed={seed + i} answers /> }] : [sheet]
   })
   const toggle = id => setChosen(list => list.includes(id) ? list.filter(x => x !== id) : [...list, id])
   const siblings = SIBLINGS.map(([id, label]) => ({ href: PACKS[id].path, label }))
@@ -146,17 +251,19 @@ export default function ReadingWorksheetPacks({ packId }) {
   return <PrintableShell path={pack.path} emoji={pack.emoji} h1={pack.h1} seoTitle={pack.seoTitle}
     description={pack.description} sub={pack.sub} crumbs={[{ label: 'דפי עברית', href: '/letters' }]} siblings={siblings}
     controls={<>
+      {packId === 'sounds' && <Choice label="נושא" value={theme} onChange={changeTheme} options={[['regular', '👂 דפים רגילים'], ['hanukkah', '🕎 סט חנוכה']]} />}
       <Choice label="רמה" value={level} onChange={setLevel} options={[['easy', '🌱 התחלה'], ['middle', '✏️ תרגול'], ['challenge', '🚀 אתגר']]} />
-      <div className="text-center"><p className="mb-2 font-bold">בחרו דפים לחבילה ({selected.length || TOPICS.length} מתוך 12)</p>
-        <div className="flex flex-wrap justify-center gap-2">{TOPICS.map(([id, title]) => <button key={id} type="button" onClick={() => toggle(id)} aria-pressed={chosen.includes(id)}
+      <div className="text-center"><p className="mb-2 font-bold">בחרו דפים לחבילה ({selected.length || topics.length} מתוך {topics.length})</p>
+        <div className="flex flex-wrap justify-center gap-2">{topics.map(([id, title]) => <button key={id} type="button" onClick={() => toggle(id)} aria-pressed={chosen.includes(id)}
           className={`min-h-[42px] rounded-xl border-2 px-3 py-1.5 font-bold ${chosen.includes(id) ? 'border-slate-800 bg-white' : 'border-slate-200 bg-slate-100 text-slate-500'}`}>{title}</button>)}</div>
       </div>
       <label className="flex items-center justify-center gap-2 font-bold"><input type="checkbox" checked={answers} onChange={e => setAnswers(e.target.checked)} className="h-5 w-5" />צרפו דף פתרונות לכל דף עבודה</label>
       <div className="text-center"><button type="button" onClick={() => setSeed(x => x + 1)} className="min-h-[44px] wobbly-sm border-2 border-[var(--border)] bg-white px-5 py-2 font-bold">🔄 החליפו תרגילים</button></div>
     </>}
     pages={pages} previewAll printTitle={pack.h1} onRefresh={() => setSeed(x => x + 1)}
-    paragraphs={[pack.lead, 'כל חבילה כוללת 12 דפי עבודה מקוריים, עם שישה תרגילים בכל דף. אפשר לבחור רק דפים מסוימים, להחליף את התרגילים ולהדפיס שוב — ללא הרשמה וללא תשלום.', 'דפי הפתרונות נפרדים מדפי הילדים, כך שאפשר לחלק בכיתה, לבדוק במהירות או לתת לילד לנסות לבד לפני שבודקים יחד.']}
+    paragraphs={[pack.lead, 'כל חבילה כוללת 12 דפי עבודה מקוריים, עם שישה תרגילים בכל דף. אפשר לבחור רק דפים מסוימים, להחליף את התרגילים ולהדפיס שוב — ללא הרשמה וללא תשלום.', 'דפי הפתרונות נפרדים מדפי הילדים, כך שאפשר לחלק בכיתה, לבדוק במהירות או לתת לילד לנסות לבד לפני שבודקים יחד.', ...(packId === 'sounds' ? ['לקראת החג יש גם סט חנוכה: בוחרים "סט חנוכה" ומקבלים דפים עם מילים כמו סביבון, סופגנייה, נר, חנוכייה, שמן, כד, מכבי, לביבה ומתנה — זיהוי צליל פותח וסוגר, גזירה והדבקה וצביעה, לגן חובה ולכיתה א׳.'] : [])]}
     faq={[
+      ...(packId === 'sounds' ? [{ q: 'יש דפי צליל פותח וסוגר בנושא חנוכה?', a: 'כן. בוחרים "סט חנוכה" מעל רשימת הדפים. הסט כולל זיהוי צליל פותח וסוגר במילים כמו סביבון וסופגנייה, גזירה והדבקה לפי צליל, וצביעה של התמונה המתאימה — לגן חובה ולכיתה א׳.' }] : []),
       { q: 'כמה דפי עבודה יש בחבילה?', a: 'יש 12 דפי עבודה שונים. אפשר לבחור את כולם או לסמן רק את המיומנויות שרוצים לתרגל.' },
       { q: 'האם יש פתרונות?', a: 'כן. כברירת מחדל מצורף דף פתרונות נפרד לכל דף עבודה; אפשר לבטל את הסימון לפני ההדפסה.' },
       { q: 'לאיזו רמה מתאימים הדפים?', a: 'יש שלוש רמות: התחלה, תרגול ואתגר. בוחרים את הרמה לפני ההדפסה ומחליפים תרגילים בכל לחיצה.' },

@@ -1,20 +1,8 @@
-import { useState, useSyncExternalStore } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { lockKids, unlockKids, useKidsLock } from './KidsLockCore'
 
-// Parents' soft lock for the kids zone. With the lock on, any page outside the kids' activities shows
-// a "locked" screen until the 4-digit code is typed. It lives only in this browser and is a
-// convenience, not security: clearing the browser's site data removes it.
-const KEY = 'buga-kids-lock'
-const ALLOWED = /^\/(kids|online-games|stories|letters\/game|abc\/game|math\/grade-1|music\/piano|printables\/color-by-number)(\/|$)/
-const listeners = new Set()
-const hash = s => { let h = 5381; for (const c of `buga:${s}`) h = (h * 33 + c.charCodeAt(0)) >>> 0; return h.toString(36) }
-const read = () => { try { return localStorage.getItem(KEY) || '' } catch { return '' } }
-const write = v => { try { if (v) localStorage.setItem(KEY, v); else localStorage.removeItem(KEY) } catch { /* private mode */ } listeners.forEach(l => l()) }
-const subscribe = l => { listeners.add(l); return () => listeners.delete(l) }
-export const useKidsLock = () => useSyncExternalStore(subscribe, read, () => '')
-export const lockKids = pin => write(hash(pin))
-export const unlockKids = pin => { if (hash(pin) !== read()) return false; write(''); return true }
-
+// UI for the parents' soft lock (see KidsLockCore.jsx): the locked screen and the control on /kids.
 function PinInput({ onDone, label }) {
   const [pin, setPin] = useState('')
   return <form className="flex items-center justify-center gap-2" onSubmit={e => { e.preventDefault(); if (/^\d{4}$/.test(pin)) { onDone(pin); setPin('') } }}>
@@ -24,11 +12,8 @@ function PinInput({ onDone, label }) {
 }
 
 // Shown by Layout instead of the page whenever the lock is on and the page is outside the kids' area.
-export function KidsLockGate({ children }) {
-  const lock = useKidsLock()
-  const { pathname } = useLocation()
+export function KidsLockedScreen() {
   const [wrong, setWrong] = useState(false)
-  if (!lock || ALLOWED.test(pathname)) return children
   return <div className="mx-auto max-w-md px-4 py-16 text-center" dir="rtl">
     <div className="text-7xl" aria-hidden="true">🔒</div>
     <h1 className="mt-2 text-3xl font-black">האזור הזה נעול</h1>

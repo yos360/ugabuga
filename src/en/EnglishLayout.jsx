@@ -7,7 +7,8 @@ import ScrollToTop from '../components/layout/ScrollToTop'
 import ReturnNavigation from '../components/layout/ReturnNavigation'
 import { recordNotFound } from '../components/layout/RecentActivity'
 import BackLink from '../components/ui/BackLink'
-import { ENGLISH_SECTIONS, hebrewCounterpart } from './englishLinks'
+import { hebrewCounterpart } from './englishLinks'
+import { ENGLISH_SECTIONS } from './englishSections'
 import './english.css'
 export default function EnglishLayout({ children }) {
   const {pathname} = useLocation()

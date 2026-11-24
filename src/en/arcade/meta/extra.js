@@ -3,9 +3,9 @@
 export const EXTRA = {
   'find-differences': {
     emoji: '🔍', name: 'Find the Differences',
-    tagline: 'Two almost identical pictures. Tap everything that changed. 18 levels',
-    title: 'Find the Differences - free online game for kids, 18 levels',
-    description: 'Spot the difference online: two pictures of animals, space, the sea and more, each with a few changes. 18 levels, 3 to 7 differences, hints and stars.',
+    tagline: 'Two almost identical pictures. Tap everything that changed. 20 levels',
+    title: 'Find the Differences - free online game for kids, 20 levels',
+    description: 'Spot the difference online: two pictures of animals, space, the sea and more, each with a few changes. 20 levels, 3 to 7 differences, hints and stars.',
     ages: '4+',
     how: ['Pick a level. Two pictures appear that look almost the same.', 'Find something that is different and tap it, in either picture.', 'Every difference you find gets a red circle in both pictures.', 'Stuck for a while? The hint button circles an area with a difference in orange.'],
     tips: ['Scan the pictures row by row instead of jumping around.', 'Look for four kinds of change: something missing, something swapped, something bigger or smaller, and something extra.', 'Fewer misses and no hints earn three stars.'],

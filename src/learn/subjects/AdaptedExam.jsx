@@ -7,6 +7,9 @@ import './adapted.css'
 // Adapted exam ("מבחן מותאם") for children with learning difficulties: one question per screen,
 // read-aloud for the question and every answer, large type, three answers instead of four, no clock,
 // a second try after a wrong answer, and a short exam (10 questions). Same questions as the regular exam.
+// Optional question fields: `say` (text to read aloud instead of `q`, e.g. numbers as words), `sayOptions`
+// (same for the answers), `expr` (an exercise shown on its own line, left-to-right) and `passage`
+// ({ title, emoji, text: [paragraphs] }: a reading passage shown above the question, with its own read-aloud).
 
 const LETTERS = ['א', 'ב', 'ג', 'ד']
 const RATES = { slow: 0.7, normal: 0.88 }
@@ -39,10 +42,13 @@ export default function AdaptedExam({ name, qs, lessonHref, onRegular, onFresh }
       await speakAndWait(t, 'he-IL', { rate: RATES[rate] })
     }
   }
-  const readQuestion = (x = q) => readAll([`שאלה ${i + 1}.`, x.q, ...x.options.map((o, j) => `${LETTERS[j]}. ${o}`)])
+  const sayOpt = (x, j) => x.sayOptions?.[j] ?? x.options[j]
+  const passageTexts = p => [p.title, ...p.text]
+  const newPassage = k => Boolean(qs[k]?.passage) && qs[k - 1]?.passage !== qs[k].passage
+  const readQuestion = (x = q, withPassage = false) => readAll([...(withPassage && x.passage ? passageTexts(x.passage) : []), `שאלה ${i + 1}.`, x.say || x.q, ...x.options.map((o, j) => `${LETTERS[j]}. ${sayOpt(x, j)}`)])
 
   useEffect(() => {
-    if (started && q && autoRead) readQuestion(q)
+    if (started && q && autoRead) readQuestion(q, newPassage(i))
     return () => { run.current++ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, i])
@@ -55,7 +61,7 @@ export default function AdaptedExam({ name, qs, lessonHref, onRegular, onFresh }
     if (!autoRead) return
     if (right) readAll(['כל הכבוד! נכון.', q.exp || ''])
     else if (next.length < 2) readAll(['לא נורא. נסו שוב.'])
-    else readAll([`התשובה הנכונה: ${q.options[q.answer]}.`, q.exp || ''])
+    else readAll([`התשובה הנכונה: ${sayOpt(q, q.answer)}.`, q.exp || ''])
   }
   const go = d => { stopSpeaking(); setI(x => x + d); window.scrollTo(0, 0) }
 
@@ -76,6 +82,7 @@ export default function AdaptedExam({ name, qs, lessonHref, onRegular, onFresh }
         <li>3️⃣ שלוש תשובות לבחירה במקום ארבע</li>
         <li>⏳ בלי שעון: עונים בקצב שלכם</li>
         <li>💪 טעיתם? יש עוד ניסיון</li>
+        {qs.some(x => x.passage) && <li>📖 קטע קריאה קצר, גם אותו אפשר להקריא</li>}
         <li>📝 {qs.length} שאלות בלבד</li>
       </ul>
       {!voice && <p className="ad-note">במכשיר הזה לא נמצא קול בעברית. אפשר לפתור גם בלי הקראה, או לפתוח את הדף בטלפון או בכרום.</p>}
@@ -109,7 +116,13 @@ export default function AdaptedExam({ name, qs, lessonHref, onRegular, onFresh }
       <span className="ad-dots" aria-hidden="true">{qs.map((x, k) => <i key={x.id} className={k < i ? 'is-done' : k === i ? 'is-now' : ''} />)}</span>
     </div>
     <div className="ad-card">
+      {q.passage && <section className="ad-passage" aria-label="קטע לקריאה">
+        <h2 className="ad-passage-title"><span aria-hidden="true">{q.passage.emoji} </span>{q.passage.title}</h2>
+        {q.passage.text.map((t, k) => <p key={k}>{t}</p>)}
+        <button type="button" className="ad-read" onClick={() => readAll(passageTexts(q.passage))}>🔊 להקריא את הקטע</button>
+      </section>}
       <p className="ad-q">{q.q}</p>
+      {q.expr && <p className="ad-expr" dir="ltr">{q.expr}</p>}
       <button type="button" className="ad-read" onClick={() => readQuestion()}>🔊 להקריא שוב</button>
       <div className="ad-opts" role="group" aria-label={`תשובות לשאלה ${i + 1}`}>
         {q.options.map((o, j) => {
@@ -141,7 +154,8 @@ function AdaptedSheet({ name, qs }) {
     <article className="buga-flow ln-print sj-print ad-print" dir="rtl">
       <h2>מבחן מותאם — {name}</h2>
       <div className="meta"><span>שם: __________________</span><span>תאריך: ____________</span></div>
-      <ol className="ad-print-qs">{qs.map(q => <li key={q.id}><p>{q.q}</p><ul>{q.options.map((o, j) => <li key={j}>⬜ <b>{LETTERS[j]}.</b> {o}</li>)}</ul></li>)}</ol>
+      {[...new Set(qs.map(q => q.passage).filter(Boolean))].map(p => <section key={p.title} className="ad-print-passage"><h3>{p.title}</h3>{p.text.map((t, k) => <p key={k}>{t}</p>)}</section>)}
+      <ol className="ad-print-qs">{qs.map(q => <li key={q.id}><p>{q.q}{q.expr && <> <bdi dir="ltr">{q.expr}</bdi></>}</p><ul>{q.options.map((o, j) => <li key={j}>⬜ <b>{LETTERS[j]}.</b> {o}</li>)}</ul></li>)}</ol>
     </article>
     <article className="buga-flow ln-print sj-print" dir="rtl">
       <h2>תשובות — מבחן מותאם {name}</h2>

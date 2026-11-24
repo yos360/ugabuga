@@ -115,7 +115,7 @@ const basePath = path => String(path || '').split(/[?#]/)[0].replace(/\/+$/, '')
 
 // What the page being printed is about. Catalog pages match by address; other printing pages by pattern.
 const COLORING_TOPICS = { animals: ['nature'], dinosaurs: ['nature'], nature: ['nature'], space: ['nature', 'general'], sea: ['nature'], birthday: ['birthday', 'party'], vehicles: ['general'], unicorn: ['coloring'] }
-const THEME_TOPICS = { animals: ['nature'], space: ['nature', 'general'], birthday: ['birthday', 'party'], vehicles: ['general'], football: ['general'], unicorn: ['coloring'] }
+const THEME_TOPICS = { animals: ['nature'], space: ['nature', 'general'], birthday: ['birthday', 'party'], vehicles: ['general'], football: ['general'], unicorn: ['coloring'], hanukkah: ['holidays'], shabbat: ['holidays'] }
 export function printableContext(pathname, search = '') {
   const path = basePath(pathname)
   if (path === '/en' || path.startsWith('/en/')) return null

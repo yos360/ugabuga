@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { ENGLISH_PAGES, ENGLISH_SECTIONS as original } from '../src/en/englishRoutes.js'
-import { ENGLISH_SECTIONS, englishCounterpart } from '../src/en/englishLinks.js'
+import { englishCounterpart } from '../src/en/englishLinks.js'
+import { ENGLISH_SECTIONS } from '../src/en/englishSections.js'
 
 test('lightweight navigation preserves every English counterpart and section', () => {
   assert.deepEqual(ENGLISH_SECTIONS, original)
