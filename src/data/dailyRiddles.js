@@ -6,7 +6,7 @@
 // בוגה לייב's "חידות" topic (liveQuizPacks.js), and its page links there. Not for 'image' riddles.
 export const DAILY_RIDDLES = [
   {
-    id: 'who-am-i-18', n: 18, date: '2026-11-24', type: '"מי אני?"', emoji: '🤔', kind: 'text',
+    id: 'who-am-i-18', n: 18, date: '2026-11-24', type: '"מי אני?"', emoji: '🤔', kind: 'text', youtube: 'GcF4QeXyQ9I',
     title: 'מי אני? חידה קשה',
     lines: ['בחג נותנים אותי במקום מתנה', 'נגנים קוראים אותי', 'בלי להוציא מילה', 'ובלעדיי על השמשה —', 'הפקח כבר כותב דוח 😅'],
     ask: 'מי אני? 🤔',
