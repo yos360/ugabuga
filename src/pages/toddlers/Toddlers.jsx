@@ -75,6 +75,11 @@ export function ToddlersHub() {
       <span><b className="text-xl">משחקים לפעוטות עם בוגה</b><br /><small>זמן מסך קצר שמלמד צבעים, מספרים וחיות</small></span>
     </Link>
 
+    <Link to="/toddlers/colors" className="fam-card card-lift mt-4 flex items-center justify-center gap-3 text-center">
+      <span className="text-5xl" aria-hidden="true">🎨</span>
+      <span><b className="text-xl">צבעים בעברית לפעוטות</b><br /><small>משחק צבעים, כרטיסיות ודפים להדפסה</small></span>
+    </Link>
+
     <section className="mt-10" aria-labelledby="bdays">
       <h2 id="bdays" className="mb-4 text-center text-2xl font-black">ימי הולדת לקטנטנים</h2>
       <div className="grid gap-4 sm:grid-cols-3">{TODDLER_BIRTHDAYS.map(b => <Link key={b.slug} to={`/toddlers/${b.slug}`} className="fam-card card-lift text-center">

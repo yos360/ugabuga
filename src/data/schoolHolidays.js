@@ -42,6 +42,7 @@ export const HOLIDAYS = [
     ],
     ideasTitle: 'מה עושים בחופשת חנוכה?',
     ideas: [
+      { href: '/school-holidays/hanukkah/home-camp', label: 'קייטנת חנוכה בבית', d: 'תוכנית לשמונה ימים: פעילות, יצירה ומשחק לכל יום' },
       { href: '/holidays/hanukkah/what-to-do', label: 'מה עושים בחנוכה עם הילדים', d: 'רעיונות לכל יום בחופשה' },
       { href: '/holidays/hanukkah/songs', label: 'שירי חנוכה לילדים', d: 'רשימת שירים, מעוז צור ומשחק "נחשו את השיר"' },
       { href: '/holidays/hanukkah/sevivon', label: 'סביבון אונליין', d: 'מסובבים ומשחקים — גם בלי סביבון בבית' },
