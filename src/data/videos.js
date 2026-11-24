@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'tl3y0HuLPas', kind: 'tutorial', title: 'אישורי הגעה ליום הולדת בוואטסאפ — בחינם', paths: ['/rsvp'], category: 'party', date: '2026-11-24',
+    desc: 'מדריך קצר לאישורי הגעה: ממלאים את פרטי האירוע, מוסיפים מוזמנים וקוד מארגן, שולחים קישור אחד בוואטסאפ, האורחים עונים בלחיצה, ורואים בדף אחד מי מגיע, אלרגיות ומי עוד לא ענה. חינם, בלי הרשמה.' },
   { id: 'wPNW2-CG4_8', kind: 'tutorial', title: 'חינוך פיננסי לילדים — כסף, חיסכון ותקציב', paths: ['/learn/money', '/learn/money/saving'], category: 'learning', date: '2026-11-24',
     desc: 'מדריך קצר לנושא כסף לילדים: בוחרים כיתה, נכנסים לשיעור על חיסכון, שיעור אינטראקטיבי צעד אחרי צעד, חידון של 8 שאלות עם הסבר, דף עבודה להדפסה ומבחן לדוגמה של 20 שאלות. חינם.' },
   { id: 'rtZknLIIcHU', kind: 'tutorial', title: 'שאלות מילוליות בחשבון כיתה ג׳ עם פתרון', paths: ['/math/word-problems', '/math/word-problems/grade-2', '/math/word-problems/grade-3', '/math/word-problems/grade-4'], category: 'learning', date: '2026-11-24',
