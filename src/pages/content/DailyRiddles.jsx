@@ -73,6 +73,20 @@ function KeyboardReveal({ kb }) {
   )
 }
 
+// Riddles with r.meanings (one word, several meanings): on reveal each meaning fades in after the previous one.
+function MeaningsReveal({ list, outro }) {
+  return (
+    <ul className="mt-3 space-y-2">
+      {list.map((m, i) => (
+        <li key={m.title} className="buga-fade-in rounded-xl border-2 border-slate-800 bg-white px-4 py-2 text-lg" style={{ animationDelay: `${0.3 + i * 0.6}s` }}>
+          <span className="font-bold">{m.emoji} {m.title}</span> — {m.text}
+        </li>
+      ))}
+      {outro && <li className="buga-fade-in pt-1 text-center text-xl font-bold" style={{ animationDelay: `${0.3 + list.length * 0.6}s` }}>{outro}</li>}
+    </ul>
+  )
+}
+
 export function DailyRiddleView({ r }) {
   const [open, setOpen] = useState(false)
   const [hint, setHint] = useState(false)
@@ -94,7 +108,7 @@ export function DailyRiddleView({ r }) {
       </WobblyCard>
       <div className="mt-5 text-center">
         {open
-          ? <div className="wobbly border-2 border-[var(--border)] bg-green-50 p-5 text-right">{r.keyboard && <KeyboardReveal kb={r.keyboard} />}<p className="text-2xl font-bold text-green-800">✅ {r.answer}</p><p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
+          ? <div className="wobbly border-2 border-[var(--border)] bg-green-50 p-5 text-right">{r.keyboard && <KeyboardReveal kb={r.keyboard} />}<p className="text-2xl font-bold text-green-800">✅ {r.answer}</p>{r.meanings && <MeaningsReveal list={r.meanings} outro={r.outro} />}<p className="mt-2 text-lg leading-relaxed">{r.why}</p></div>
           : <WobblyButton onClick={() => setOpen(true)}>👀 הצגת הפתרון</WobblyButton>}
       </div>
       <LivePlayCta r={r} />
