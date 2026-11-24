@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { ownerSupabase } from '../../utils/ownerAuth'
-import { SPONSORS } from '../../data/sponsors'
+import { SPONSORS as SITE_SPONSORS, RSVP_SPONSORS } from '../../data/sponsors'
 
 // Clicks on sponsored banners (owner_sponsor_clicks), for the report's selected period.
 // A click = someone pressed the banner's link (it opens the advertiser's site in a new tab).
 // The owner's own browser is never counted.
+// The RSVP supplier cards and their empty "advertise here" slot are counted like any banner.
+const SPONSORS = [...SITE_SPONSORS, ...RSVP_SPONSORS.map(s => ({ ...s, name: `${s.name} (באישורי הגעה)` })), { id: 'rsvp-slot', name: 'המקום הפנוי לספק באישורי הגעה', active: RSVP_SPONSORS.some(s => s.active) }]
 const ALI_TOPICS = { travel: 'נסיעות', party: 'מסיבה', crafts: 'יצירה', speech: 'קלינאות', teacher: 'גננת ומורה', hanukkah: 'חנוכה' }
 const sponsorName = id => SPONSORS.find(s => s.id === id)?.name || (String(id).startsWith('ali-') ? `עלי אקספרס · ${ALI_TOPICS[id.slice(4)] || id.slice(4)}` : id)
 

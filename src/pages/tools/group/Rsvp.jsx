@@ -11,6 +11,7 @@ import { card, input, btn, btnMain, btnWa, useToast, copyText, openWhatsApp, Con
 import { isRsvpV2, RESPONSE_FILTERS, filterResponses, responseCsv } from '../../../utils/rsvpExperience'
 import { InvitationCard, ThemePicker, RsvpCreateExperience, RsvpGuestExperience, EventActions } from './RsvpExperience'
 import SiteInvite from '../../../components/ui/SiteInvite'
+import RsvpSuppliers from '../../../components/suppliers/RsvpSuppliers'
 import NotFound from '../../NotFound'
 import PersonalReminders from './PersonalReminders'
 import BirthdayCalendarReminder from './BirthdayCalendarReminder'
@@ -667,6 +668,7 @@ function RsvpPage({ preset }) {
     {!code && !preset && <QuickAnswer lang={site} q={P.quick.q} a={P.quick.a} rows={P.quick.rows} updated={P.quick.updated} />}
     {!code && !preset && en && <RsvpTypeLinks site={site} title="Start from a ready template — pick your event" />}
     {body}
+    {!en && code && ev && !error && !deleted && (host || ev.mine) && <RsvpSuppliers where={host ? 'host' : 'guest'} />}
     {code && ev && !host && !error && !deleted && <OrganizerLogin code={code} onIn={organizerIn} />}
     {!code && (preset ? <TypeGuide preset={preset} /> : <RsvpGuide />)}
     {!code && !(en && !preset) && <RsvpTypeLinks current={preset?.slug} site={site} />}

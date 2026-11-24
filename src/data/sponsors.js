@@ -38,6 +38,22 @@ export const SPONSORS = [
   },
 ]
 
+// Supplier cards on the RSVP pages (components/suppliers/RsvpSuppliers.jsx): the guest sees them
+// after answering, the organizer at the bottom of their page. Separate from SPONSORS, which never
+// show on /r. Clicks are counted under the same sponsor_click event, by id.
+export const RSVP_SPONSORS = [
+  {
+    id: 'aluf-hamatzgot',
+    name: 'אלוף המצגות',
+    tagline: 'מצגות, קליפים וסרטי גדילה לאירועים',
+    text: 'הופכים את התמונות והסרטונים שלכם לסרט מרגש לאירוע: בר ובת מצווה, חתונות וימי הולדת.',
+    cta: 'לדוגמאות באתר ←',
+    url: 'https://alufamazagot.com/',
+    logo: 'https://efhgyispuwxcplvzipcy.supabase.co/storage/v1/object/public/supplier-media/e430265a-f1f8-45fb-ab8b-df0e69b2364d/1790253955104-iuit0x.webp',
+    active: true,
+  },
+]
+
 // Normalised path without a trailing slash ('/' stays '/').
 const clean = path => (String(path || '/').split(/[?#]/)[0].replace(/\/+$/, '') || '/')
 
