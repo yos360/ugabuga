@@ -16,6 +16,7 @@ import PlannerTeachers from '../components/owner/PlannerTeachers'
 import HomeExperiment, { KIND_EXPERIMENT, HOME_KINDS, KIND_LABEL } from '../components/owner/HomeExperiment'
 import SocialShares from '../components/owner/SocialShares'
 import SponsorClicks from '../components/owner/SponsorClicks'
+import { SupplierExperiment, PollSummary } from '../components/owner/SupplierExperiment'
 import RsvpSteps from '../components/owner/RsvpSteps'
 import CalendarReminders from '../components/owner/CalendarReminders'
 import ClassroomShares from '../components/owner/ClassroomShares'
@@ -689,6 +690,8 @@ export default function OwnerActivityReport() {
         </> },
           { id: 'takedown', title: '🗑️ הסרת תוכן שדווח', preview: [<span key="t">מדביקים קישור לתוכן של גולשים ומוחקים אותו</span>], render: () => <OwnerTakedown /> },
           { id: 'social', title: '📣 שיתופים ותנועה חברתית', preview: [<span key="s">לחיצות על שיתוף בפייסבוק ובוואטסאפ, וכניסות שהגיעו משם</span>], render: () => <SocialShares tick={tick} pageName={pageName} /> },
+          { id: 'rsvp-suppliers', title: '🎉 ניסוי ספקים באישורי הגעה', preview: [<span key='r'>כמה נכנסו לאלוף המצגות דרך אישורי הגעה, ומי נרשם כספק</span>], render: () => <SupplierExperiment from={from} to={to} tick={tick} /> },
+          { id: 'polls', title: '🗳️ מה אתם אומרים? (הסקר היומי)', preview: [<span key='p'>כמה הצביעו בשאלה היומית בדף הבית ומה ענו</span>], render: () => <PollSummary from={from} to={to} tick={tick} /> },
           { id: 'sponsors', title: '📣 לחיצות על באנרים', preview: [<span key="b">כמה לחצו על באנר הפרסומת (למשל אאורקה) בתקופה שנבחרה</span>], render: () => <SponsorClicks from={from} to={to} tick={tick} pageName={pageName} /> },
           { id: 'classroom', title: '🎓 גוגל קלאסרום', preview: [<span key="c">כמה שיתפו דפים לקלאסרום וכמה נכנסו משם</span>], render: () => <ClassroomShares tick={tick} /> },
           { id: 'calendar', title: '📅 תזכורות ומנויים ביומן', preview: [<span key="c">חגים, שבת, דף שבועי, חופשות ויום הולדת: כמה הוסיפו ליומן ומאיפה</span>], render: () => <CalendarReminders tick={tick} /> },
