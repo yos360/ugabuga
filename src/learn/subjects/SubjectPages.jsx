@@ -200,7 +200,7 @@ function Quiz({ quiz }) {
         <div role="group" aria-label={`תשובות לשאלה ${i + 1}`}>{q.options.map((o, j) => <button key={j} type="button" disabled={done} aria-pressed={p === j}
           onClick={() => setPicks(x => { const y = [...x]; y[i] = j; return y })}
           className={`ln-opt ${done && j === q.answer ? 'is-right' : ''} ${done && p === j && j !== q.answer ? 'is-wrong' : ''}`}><b>{LETTERS[j]}.</b> {o}</button>)}</div>
-        {done && <p className={`sj-exp ${p === q.answer ? 'ok' : 'no'}`} role="status"><b>{p === q.answer ? '✔ נכון!' : `✘ התשובה הנכונה: ${LETTERS[q.answer]}.`}</b> {q.exp}</p>}
+        {done && <p className={`sj-exp ${p === q.answer ? 'ok' : 'no'}`} role="status"><b>{p === q.answer ? '✔ נכון!' : <>✘ התשובה הנכונה: {LETTERS[q.answer]}. <bdi>{q.options[q.answer]}</bdi>.</>}</b> {q.exp}</p>}
       </div>
     })}
     {answered === quiz.length && <div className="ln-box text-center" role="status">

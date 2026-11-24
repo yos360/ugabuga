@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'wPNW2-CG4_8', kind: 'tutorial', title: 'חינוך פיננסי לילדים — כסף, חיסכון ותקציב', paths: ['/learn/money', '/learn/money/saving'], category: 'learning', date: '2026-11-24',
+    desc: 'מדריך קצר לנושא כסף לילדים: בוחרים כיתה, נכנסים לשיעור על חיסכון, שיעור אינטראקטיבי צעד אחרי צעד, חידון של 8 שאלות עם הסבר, דף עבודה להדפסה ומבחן לדוגמה של 20 שאלות. חינם.' },
   { id: 'rtZknLIIcHU', kind: 'tutorial', title: 'שאלות מילוליות בחשבון כיתה ג׳ עם פתרון', paths: ['/math/word-problems', '/math/word-problems/grade-2', '/math/word-problems/grade-3', '/math/word-problems/grade-4'], category: 'learning', date: '2026-11-24',
     desc: 'מדריך קצר לשאלות המילוליות לכיתות ב׳, ג׳ ו־ד׳: ארבעה שלבים לכל שאלה, דוגמה פתורה, תרגול על המסך עם בדיקה ופתרון מלא, ודף עבודה להדפסה עם עמוד תשובות. חינם.' },
   { id: 'zzYtVf_B6wQ', kind: 'tutorial', title: 'דפי צביעה להדפסה בחינם — איך מוצאים ומדפיסים', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-23',
@@ -142,6 +144,8 @@ export const VIDEO_PAGE_LABELS = {
   '/holidays/hanukkah/grade/middle-school': 'דפי עבודה לחנוכה לחטיבת ביניים',
   '/math/mixed-numbers': 'מספר מעורב ושבר מדומה',
   '/learn/professions': 'מקצועות לילדים',
+  '/learn/money': 'כסף לילדים',
+  '/learn/money/saving': 'חיסכון לילדים',
   '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
   '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',
