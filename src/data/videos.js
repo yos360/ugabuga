@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'rtZknLIIcHU', kind: 'tutorial', title: 'שאלות מילוליות בחשבון כיתה ג׳ עם פתרון', paths: ['/math/word-problems', '/math/word-problems/grade-2', '/math/word-problems/grade-3', '/math/word-problems/grade-4'], category: 'learning', date: '2026-11-24',
+    desc: 'מדריך קצר לשאלות המילוליות לכיתות ב׳, ג׳ ו־ד׳: ארבעה שלבים לכל שאלה, דוגמה פתורה, תרגול על המסך עם בדיקה ופתרון מלא, ודף עבודה להדפסה עם עמוד תשובות. חינם.' },
   { id: 'zzYtVf_B6wQ', kind: 'tutorial', title: 'דפי צביעה להדפסה בחינם — איך מוצאים ומדפיסים', paths: ['/printables/coloring'], category: 'tools', date: '2026-11-23',
     desc: 'מדריך קצר לדפי הצביעה: בוחרים נושא מתוך 53, פותחים ציור עם המלצת גיל, ומדפיסים על דף A4 או שומרים כ-PDF. יותר מ־1,000 ציורים מקוריים, חינם.' },
   { id: 'mePvtrlWPEY', kind: 'tutorial', title: 'החידה היומית — חידה עם טריק, רמז ופתרון', paths: ['/riddles/daily', '/riddles/letters-16'], category: 'learning', date: '2026-11-23',
@@ -120,6 +122,10 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/math/word-problems': 'שאלות מילוליות בחשבון',
+  '/math/word-problems/grade-2': 'שאלות מילוליות לכיתה ב׳',
+  '/math/word-problems/grade-3': 'שאלות מילוליות לכיתה ג׳',
+  '/math/word-problems/grade-4': 'שאלות מילוליות לכיתה ד׳',
   '/riddles/daily': 'החידה היומית',
   '/riddles/letters-16': 'החידה היומית #16',
   '/classroom/report-card-comments': 'הערכה מילולית בתעודה',
