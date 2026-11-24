@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import AdaptedExam from './AdaptedExam'
+import { adaptQuestion } from './adaptQuestion'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
@@ -308,6 +310,11 @@ function ExamPage({ subjectKey, grade }) {
   const [seed, setSeed] = useState(0), [picks, setPicks] = useState({}), [done, setDone] = useState(false), [printing, setPrinting] = useState(false)
   const list = useMemo(() => topics ? topicsForGrade(topics, grade) : [], [topics, grade])
   const qs = useMemo(() => examQuestions(list, 20, seed), [list, seed])
+  // ?mode=adapted: the adapted exam (read-aloud, large type, three answers, no clock) on the same questions.
+  const [params, setParams] = useSearchParams()
+  const adapted = params.get('mode') === 'adapted'
+  const aqs = useMemo(() => examQuestions(list, 10, seed).map(adaptQuestion), [list, seed])
+  const setAdapted = on => { setParams(on ? { mode: 'adapted' } : {}, { replace: true }); window.scrollTo(0, 0) }
   if (!topics) return <Page><Loading /></Page>
   if (!s.gradeList.includes(grade) || list.length < MIN_GRADE_TOPICS) return <NotFound />
   const L = GRADE_LETTERS[grade], name = gradeName(s, grade), path = `/learn/${s.key}/${gradeSlug(grade)}`
@@ -319,6 +326,13 @@ function ExamPage({ subjectKey, grade }) {
     { q: 'זה המבחן האמיתי של בית הספר?', a: 'לא. זה מבחן לדוגמה לתרגול, שנבנה מהשיעורים באתר. המבחנים בבית הספר נכתבים בידי המורים ויכולים לכלול נושאים אחרים.' },
     { q: 'אפשר להדפיס?', a: 'כן. הכפתור "להדפסה" מפיק את המבחן עם מקום לשם, ודף תשובות נפרד עם הסבר לכל שאלה.' },
   ]
+  if (adapted) return <Page>
+    <SEO title={`מבחן מותאם ${name} — עם הקראה והקלות`} description={`מבחן מותאם ${inSubject(s)} לכיתה ${L} לילדים עם קשיי למידה: הקראה של כל שאלה ותשובה, אותיות גדולות, שלוש תשובות, בלי שעון ועם ניסיון נוסף.`} path={`${path}/exam`} />
+    <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: `כיתה ${L}`, href: path }, { label: 'מבחן מותאם' }]} />
+    <h1 className="text-3xl sm:text-4xl text-center mb-4"><span aria-hidden="true">🎧 </span>מבחן מותאם {name}</h1>
+    <AdaptedExam key={seed} name={name} qs={aqs} lessonHref={path} onRegular={() => setAdapted(false)} onFresh={fresh} />
+    <p className="mt-6 text-center"><Link to="/learn/adapted-tests" className="font-bold underline">לכל המבחנים המותאמים ←</Link></p>
+  </Page>
   return <Page>
     <SEO title={`מבחן ${name} — מבחן סוף שנה לדוגמה עם תשובות`} description={`מבחן לדוגמה ${inSubject(s)} לכיתה ${L}: 20 שאלות מכל נושאי השנה, עם ציון והסבר לכל תשובה. פותרים אונליין או מדפיסים עם דף תשובות — בחינם.`} path={`${path}/exam`} structuredData={faqSchema(faq)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, LEARN_CRUMB, crumb(s), { label: `כיתה ${L}`, href: path }, { label: 'מבחן לדוגמה' }]} />
@@ -327,6 +341,7 @@ function ExamPage({ subjectKey, grade }) {
     <div className="mb-6 flex flex-wrap justify-center gap-2">
       <button type="button" className="ln-btn alt" onClick={() => setPrinting(true)}>🖨️ להדפסה</button>
       <button type="button" className="ln-btn alt" onClick={fresh}>🎲 מבחן חדש</button>
+      <button type="button" className="ln-btn" onClick={() => setAdapted(true)}>🎧 מבחן מותאם: הקראה והקלות</button>
     </div>
     {printing && <PrintPreview title={`מבחן ${name}`} onClose={() => setPrinting(false)}><ExamSheet name={name} qs={qs} /></PrintPreview>}
     <ol className="space-y-4">{qs.map((q, i) => {

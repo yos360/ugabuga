@@ -230,6 +230,7 @@ const ReadingGrade = lazy(() => import('./learn/LearnPages').then(m => ({ defaul
 const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.TimesTables })))
 const TimesTablePath = lazy(() => import('./learn/TimesTablePath.jsx'))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
+const AdaptedHub = lazy(() => import('./learn/subjects/AdaptedHub'))
 const GiftedHub = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedHub })))
 const GiftedType = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedType })))
 const GiftedGrade = lazy(() => import('./learn/gifted/GiftedPages').then(m => ({ default: m.GiftedGrade })))
@@ -1017,6 +1018,7 @@ export default function App() {
               <Route path="/learn/multiplication-table/quiz" element={<MultiplicationQuiz />} />
               <Route path="/learn/multiplication-table/of/:n" element={<MultiplicationNumber />} />
               <Route path="/learn/flashcards" element={<Flashcards />} />
+              <Route path="/learn/adapted-tests" element={<AdaptedHub />} />
               <Route path="/learn/gifted-test" element={<GiftedHub />} />
               <Route path="/learn/gifted-test/grade-2" element={<GiftedGrade key="grade-2" slug="grade-2" />} />
               <Route path="/learn/gifted-test/grade-3" element={<GiftedGrade key="grade-3" slug="grade-3" />} />
