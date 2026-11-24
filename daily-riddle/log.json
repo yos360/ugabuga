@@ -434,5 +434,33 @@
       "editor": "clarity 8, single answer 9, Hebrew 9, fun 9, difficulty 9 (pass); fixes applied: \"מה הספרה הבאה?\" instead of \"המספר\", feminine/masculine note in the site explanation; hint moved to 6 seconds left"
     },
     "filmChange": "end card now says \"הפתרון — ועוד חידות כאלה / לשחק מול חברים בבוגה לייב 🔴\" (rule of 22.11)"
+  },
+  {
+    "date": "2026-11-24",
+    "n": 18,
+    "id": "who-am-i-18",
+    "answer": "תו",
+    "posted": true,
+    "kind": "text",
+    "type": "\"מי אני?\" (מילה אחת, שלוש משמעויות)",
+    "networks": [
+      "youtube",
+      "facebook",
+      "tiktok",
+      "whatsapp-channel"
+    ],
+    "youtube": "https://youtube.com/shorts/GcF4QeXyQ9I",
+    "instagram": "skipped: logged out, account picker did not log in (needs password)",
+    "facebook": "עוגה בוגה reels (published ~14:26, processing, cover = mascot frame)",
+    "tiktok": "via Buffer (Publish Now ~14:24, cover in first frame); link not captured — Sent tab redirected",
+    "whatsapp": "channel עוגה בוגה 🎂 דף חדש כל יום, 14:29",
+    "site": "https://ugabuga.co.il/riddles/who-am-i-18",
+    "postedAt": "2026-11-24 14:20-14:35 (scheduled run)",
+    "gate": {
+      "rounds": 4,
+      "blindSolver": "r1 (with \"last letter of the alphabet\" line): ת then תו within seconds, 93%, medium — too easy. r2 (gift/orchestra/parking): no answer in 10s, needed 15-25s; after the two-letters hint תו 95%, real aha, no other answer fits.",
+      "editor": "r1 7/7/7/6/4; r2 8/8/7.5/8/9; r3 8.5/8.5/8/8.5/9; r4 clarity 8.5, single answer 8.5, Hebrew 8.5, fun 9, difficulty 9 (PASS)"
+    },
+    "siteChange": "riddle page: new meanings reveal (r.meanings + r.outro fade in one by one)"
   }
 ]
