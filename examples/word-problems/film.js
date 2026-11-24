@@ -180,24 +180,24 @@
     popAt(ctx, t, ev.q2, W / 2, 640 + 110, (c) => he(c, Q.ask, 400, 20, { size: 66, w: 900, align: 'right', color: C.red, maxW: 800 }), { rot: 0.01, dur: 0.3 });
     // the three givens, one by one
     S.hookOpts.forEach((o) => {
-      const cx = W / 2 + (1 - o.i) * 292, cy = 1060;
+      const cx = W / 2 + (1 - o.i) * 292, cy = 1040;
       popAt(ctx, t, o.t, cx, cy, (c) => {
         card(c, -140, -80, 280, 160, { fill: [C.yellow, C.blush, '#d6f6ff'][o.i], r: 28, seed: 20 + o.i, shadow: 8, lw: 4.5 });
-        he(c, ['💰', '📅', '🗓️'][o.i], 0, -14, { size: 54, w: 700 });
+        he(c, ['💰', '➕', '⏳'][o.i], 0, -14, { size: 54, w: 700 });
         he(c, Q.given[o.i].split(' ').length === 2 ? Q.given[o.i] : Q.given[o.i], 0, 46, { size: 34, w: 900, maxW: 250 });
       }, { rot: [0.02, -0.015, 0.02][o.i], dur: 0.28, over: 1.7 });
     });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(W / 2, 1290); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'כמה בקופה? כתבו בתגובות 👇', { size: 56, w: 900, bg: C.yellow, padX: 34, maxW: 760 });
+      ctx.save(); ctx.translate(W / 2, 1250); ctx.rotate(-0.03); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'כמה כסף יהיה בקופה? כתבו בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 34 });
       ctx.restore();
     }
-    mascot(ctx, 240, 1525 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 300, t, ev.q2);
-    popAt(ctx, t, ev.free + 0.2, 680, 1525, (c) => {
-      he(c, 'עוגה בוגה', 0, -10, { size: 76, w: 900, color: C.ink });
-      he(c, 'שאלות מילוליות · חינם', 0, 55, { size: 42, w: 800, color: C.ink, maxW: 520 });
+    mascot(ctx, 265, 1555 - (t > ev.q2 + 0.45 ? hop(t, 8) : 0), 400, t, ev.q2);
+    popAt(ctx, t, ev.free + 0.2, 705, 1555, (c) => {
+      he(c, 'עוגה בוגה', 0, -10, { size: 84, w: 900, color: C.ink });
+      he(c, 'שאלות מילוליות · חינם', 0, 58, { size: 42, w: 800, color: C.ink, maxW: 440 });
     }, { rot: 0.01 });
   }
 
@@ -233,8 +233,8 @@
       }, { dur: 0.28, over: 1.4, rot: [0.008, -0.008, 0.008][i] });
     });
     UI.tap(ctx, W / 2 - 90, 710 + 310 + 30, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
-    popAt(ctx, t, S.pills[2], W / 2, 1620, (c) => pill(c, 0, 0, '⁦12⁩ שאלות מקוריות לכל כיתה', { size: 42, w: 900, bg: C.yellow, seed: 61, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[3], W / 2, 1725, (c) => pill(c, 0, 0, 'מכיתה ב׳ עד כיתה ד׳', { size: 40, w: 900, bg: C.lilac, seed: 62, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1575, (c) => pill(c, 0, 0, '⁦12⁩ שאלות מקוריות לכל כיתה', { size: 42, w: 900, bg: C.yellow, seed: 61, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[3], W / 2, 1675, (c) => pill(c, 0, 0, 'מכיתה ב׳ עד כיתה ד׳', { size: 40, w: 900, bg: C.lilac, seed: 62, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 3. WORKED SOLUTION =================
@@ -242,20 +242,21 @@
     bg(ctx); header(ctx, t, S.steps[2]);
     const X = S.EX, M = S.MODES;
     popAt(ctx, t, M[0].t, W / 2, 650, (c) => probCard(c, 880, 290, [X.text], { ask: X.ask, size: 40, askSize: 44, seed: 71 }), { dur: 0.28, over: 1.3, rot: -0.008 });
+    const eqRow = (c, y) => { let x = 300; X.steps.forEach((st, k) => { if (k) { he(c, '←', x, y, { size: 36, w: 900, align: 'right', color: C.muted, dir: 'ltr' }); x -= measure(c, '←', 36, 900) + 22; } eq(c, st, x, y, { size: 36, w: 900, align: 'right', color: C.ink }); x -= measure(c, st, 36, 900) + 22; }); };
     const rows = [
-      { t: M[1].t, color: C.blue, ttl: 'מה שואלים?', draw: (c, y) => he(c, 'כמה מחברות יישארו בארון', 390, y, { size: 38, w: 700, align: 'right', maxW: 640 }), h: 120 },
-      { t: M[1].t + 0.35, color: C.red, ttl: 'מה נתון?', draw: (c, y) => he(c, X.given.join(' · '), 390, y, { size: 33, w: 700, align: 'right', maxW: 700 }), h: 120 },
-      { t: M[2].t, color: C.purple, ttl: 'איזו פעולה?', draw: (c, y) => { he(c, X.op + ':', 390, y - 6, { size: 34, w: 700, align: 'right' }); eq(c, X.steps.join('   ←   '), 390, y + 52, { size: 42, w: 900, align: 'right', color: C.ink, maxW: 780 }); }, h: 185 },
-      { t: ev.mode, color: C.green, ttl: 'בודקים ועונים', draw: (c, y) => { eq(c, X.check + ' ✓', 390, y - 6, { size: 40, w: 800, align: 'right' }); if (t >= ev.fb3) he(c, X.sentence, 390, y + 54, { size: 42, w: 900, align: 'right', color: C.green, maxW: 780 }); }, h: 170 },
+      { t: M[1].t, color: C.blue, ttl: 'מה שואלים?', draw: (c, y) => he(c, 'כמה רגליים יש לכל בעלי החיים', 300, y, { size: 38, w: 700, align: 'right', maxW: 700 }), h: 120 },
+      { t: M[1].t + 0.35, color: C.red, ttl: 'מה נתון?', draw: (c, y) => he(c, X.given.join(' · '), 300, y, { size: 34, w: 700, align: 'right', maxW: 700 }), h: 120 },
+      { t: M[2].t, color: C.purple, ttl: 'איזו פעולה?', draw: (c, y) => { he(c, X.op + ':', 300, y - 6, { size: 34, w: 700, align: 'right' }); eqRow(c, y + 52); }, h: 185 },
+      { t: ev.mode, color: C.green, ttl: 'בודקים ועונים', draw: (c, y) => { eq(c, X.check + ' ✓', 300, y - 6, { size: 40, w: 800, align: 'right' }); if (t >= ev.fb3) he(c, X.sentence, 300, y + 54, { size: 42, w: 900, align: 'right', color: C.green, maxW: 700 }); }, h: 170 },
     ];
     let y = 860;
     rows.forEach((r, i) => {
       const cy = y + r.h / 2; y += r.h + 24;
       popAt(ctx, t, r.t, W / 2, cy, (c) => {
         card(c, -440, -r.h / 2, 880, r.h, { fill: '#fff', r: 28, seed: 80 + i, shadow: 8, lw: 4.5 });
-        c.fillStyle = r.color; c.beginPath(); c.arc(-440 + 62, 0, 40, 0, Math.PI * 2); c.fill(); c.strokeStyle = C.ink; c.lineWidth = 4; c.stroke();
-        he(c, String(i + 1), -440 + 62, 16, { size: 50, w: 900, color: '#fff', dir: 'ltr' });
-        he(c, r.ttl, 400, -r.h / 2 + 44, { size: 32, w: 900, align: 'right', color: r.color, maxW: 520 });
+        c.fillStyle = r.color; c.beginPath(); c.arc(440 - 62, 0, 40, 0, Math.PI * 2); c.fill(); c.strokeStyle = C.ink; c.lineWidth = 4; c.stroke();
+        he(c, String(i + 1), 440 - 62, 16, { size: 50, w: 900, color: '#fff', dir: 'ltr' });
+        he(c, r.ttl, 300, -r.h / 2 + 44, { size: 32, w: 900, align: 'right', color: r.color, maxW: 520 });
         r.draw(c, -r.h / 2 + 96);
       }, { dur: 0.26, over: 1.4, rot: [0.008, -0.008, 0.006, -0.006][i] });
     });
@@ -271,24 +272,24 @@
       probCard(c, 880, 330, [P.text], { ask: P.ask, size: 44, askSize: 52, seed: 91 });
     }, { dur: 0.28, over: 1.3, rot: -0.008 });
     const typed = t >= T(8, 2.0) ? '18' : t >= T(8, 1.6) ? '1' : '';
-    popAt(ctx, t, R[1].t, W / 2, 1050, (c) => {
-      he(c, 'התשובה:', 430, 18, { size: 44, w: 900, align: 'right' });
-      card(c, 90, -62, 190, 120, { fill: '#fff', r: 20, seed: 92, shadow: 6, lw: 4.5, stroke: t >= ev.ans ? C.green : C.ink });
-      he(c, typed, 185, 28, { size: 80, w: 900, dir: 'ltr', color: C.ink });
-      he(c, P.unit, 50, 18, { size: 42, w: 900, align: 'right' });
-      card(c, -430, -56, 300, 112, { fill: C.green, r: 24, seed: 93, shadow: 7, lw: 4.5 });
-      he(c, '✔️ בדיקה', -280, 22, { size: 46, w: 900, color: '#fff' });
+    popAt(ctx, t, R[1].t, W / 2, 1020, (c) => {
+      he(c, 'התשובה:', 440, 18, { size: 44, w: 900, align: 'right' });
+      card(c, 40, -62, 180, 120, { fill: '#fff', r: 20, seed: 92, shadow: 6, lw: 4.5, stroke: t >= ev.ans ? C.green : C.ink });
+      he(c, typed, 130, 28, { size: 80, w: 900, dir: 'ltr', color: C.ink });
+      he(c, P.unit, 15, 18, { size: 42, w: 900, align: 'right' });
+      card(c, -440, -56, 270, 112, { fill: C.green, r: 24, seed: 93, shadow: 7, lw: 4.5 });
+      he(c, 'בדיקה ✓', -305, 22, { size: 42, w: 900, color: '#fff' });
     }, { dur: 0.28, over: 1.3, rot: 0.006 });
-    UI.tap(ctx, W / 2 - 280, 1050 + 10, t, ev.go, { color: 'rgba(224,138,0,0.85)', size: 120 });
-    popAt(ctx, t, ev.ans, W / 2, 1360, (c) => {
+    UI.tap(ctx, W / 2 - 305, 1020 + 10, t, ev.go, { color: 'rgba(224,138,0,0.85)', size: 120 });
+    confetti(ctx, t, ev.ans, W / 2, 1300, { n: 26, seed: 4, spread: 800 });
+    popAt(ctx, t, ev.ans, W / 2, 1300, (c) => {
       card(c, -440, -150, 880, 300, { fill: '#e6f7ec', r: 30, seed: 95, shadow: 10, lw: 4.5, stroke: C.green });
-      he(c, '✔️ נכון!', 400, -70, { size: 62, w: 900, align: 'right', color: C.green });
+      he(c, 'נכון! ✓', 400, -70, { size: 62, w: 900, align: 'right', color: C.green });
       eq(c, P.step + ' ✓', 400, 10, { size: 46, w: 900, align: 'right' });
       he(c, P.sentence, 400, 85, { size: 46, w: 900, align: 'right', maxW: 800 });
     }, { dur: 0.3, over: 1.6, rot: -0.008 });
-    confetti(ctx, t, ev.ans, W / 2, 1360, { n: 26, seed: 4, spread: 800 });
-    popAt(ctx, t, S.pills[5], W / 2, 1650, (c) => pill(c, 0, 0, 'אפשר לתרגל רמה אחת או את כל ⁦12⁩', { size: 38, w: 900, bg: C.yellow, seed: 88, padX: 44, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[6], W / 2, 1750, (c) => pill(c, 0, 0, 'ובסוף: כמה ענו נכון', { size: 38, w: 900, bg: C.lilac, seed: 89, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1580, (c) => pill(c, 0, 0, 'אפשר לתרגל רמה אחת או את כל ⁦12⁩ השאלות', { size: 38, w: 900, bg: C.yellow, seed: 88, padX: 44, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[6], W / 2, 1680, (c) => pill(c, 0, 0, 'ובסוף: כמה ענו נכון', { size: 38, w: 900, bg: C.lilac, seed: 89, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // ================= 5. PRINTABLE SHEET =================
@@ -316,26 +317,26 @@
   function shotPrint(ctx, t) {
     bg(ctx); header(ctx, t, S.steps[4]);
     const I = S.sheetItems;
-    popAt(ctx, t, I[0].t, W / 2, 640, (c) => {
+    popAt(ctx, t, I[0].t, W / 2, 620, (c) => {
       card(c, -440, -135, 880, 330, { fill: C.lilac, r: 30, seed: 100, shadow: 10, lw: 4.5 });
       he(c, '🖨️ דף עבודה לכיתה ג׳', 400, -60, { size: 52, w: 900, align: 'right', maxW: 800 });
-      wrap(c, 'שני עמודים עם ⁦12⁩ השאלות, מקום לתרגיל ולמשפט התשובה, ועמוד תשובות', 36, 800, 600, 2).forEach((ln, k) => he(c, ln, 400, 5 + k * 48, { size: 36, w: 600, align: 'right', maxW: 810 }));
+      wrap(c, 'שני עמודי שאלות, מקום לתרגיל ולמשפט התשובה, ועמוד תשובות', 36, 800, 600, 2).forEach((ln, k) => he(c, ln, 400, 5 + k * 48, { size: 36, w: 600, align: 'right', maxW: 810 }));
       const pr = t >= ev.printBtn ? 1 + 0.06 * pulse(t, ev.printBtn, 10) : 1;
       c.save(); c.translate(230, 140); c.scale(pr, pr); pill(c, 0, 0, '🖨️ לתצוגה ולהדפסה', { size: 34, w: 900, bg: C.green, fg: '#fff', padX: 30, seed: 104, shadow: 5 }); c.restore();
     }, { dur: 0.3, over: 1.3, rot: -0.006 });
-    UI.tap(ctx, W / 2 + 230, 640 + 140 + 10, t, ev.printBtn, { color: 'rgba(35,135,77,0.85)', size: 120 });
-    popAt(ctx, t, I[2].t, W / 2 - 250, 1225, (c) => sheetPage(c, 2), { dur: 0.3, over: 1.3, rot: -0.03 });
-    popAt(ctx, t, I[1].t, W / 2 + 250, 1215, (c) => sheetPage(c, 0), { dur: 0.3, over: 1.3, rot: 0.03 });
-    popAt(ctx, t, S.extras[0].t, W / 2, 1650, (c) => pill(c, 0, 0, 'עם הפתרון המלא של כל שאלה', { size: 40, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.extras[1].t, W / 2, 1750, (c) => pill(c, 0, 0, 'והטעויות הנפוצות להורים ולמורים ⚠️', { size: 38, w: 900, bg: C.blush, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
+    UI.tap(ctx, W / 2 + 230, 620 + 140 + 10, t, ev.printBtn, { color: 'rgba(35,135,77,0.85)', size: 120 });
+    popAt(ctx, t, I[2].t, W / 2 - 250, 1180, (c) => sheetPage(c, 2), { dur: 0.3, over: 1.3, rot: -0.03 });
+    popAt(ctx, t, I[1].t, W / 2 + 250, 1170, (c) => sheetPage(c, 0), { dur: 0.3, over: 1.3, rot: 0.03 });
+    popAt(ctx, t, S.extras[0].t, W / 2, 1600, (c) => pill(c, 0, 0, 'עם הפתרון המלא של כל שאלה', { size: 40, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.extras[1].t, W / 2, 1700, (c) => pill(c, 0, 0, 'והטעויות הנפוצות להורים ולמורים ⚠️', { size: 38, w: 900, bg: C.blush, seed: 68, maxW: SAFE.w }), { rot: -0.02 });
   }
 
   // the hook question again: the same three givens
   function endOpts(ctx, t, t0) {
     [0, 1, 2].forEach((i) => {
-      popAt(ctx, t, t0 + i * 0.1, W / 2 + (1 - i) * 292, 1160, (c) => {
+      popAt(ctx, t, t0 + i * 0.1, W / 2 + (1 - i) * 292, 1260, (c) => {
         card(c, -140, -80, 280, 160, { fill: [C.yellow, C.blush, '#d6f6ff'][i], r: 28, seed: 150 + i, shadow: 8, lw: 4.5 });
-        he(c, ['💰', '📅', '🗓️'][i], 0, -14, { size: 54, w: 700 });
+        he(c, ['💰', '➕', '⏳'][i], 0, -14, { size: 54, w: 700 });
         he(c, S.HOOKQ.given[i], 0, 46, { size: 34, w: 900, maxW: 250 });
       }, { rot: [0.02, -0.015, 0.02][i], dur: 0.25, over: 1.5 });
     });
@@ -344,20 +345,20 @@
   // ================= END =================
   function shotEnd(ctx, t) {
     heroBg(ctx);
-    ctx.save(); ctx.translate(W / 2, 310); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
+    ctx.save(); ctx.translate(W / 2, 420); ctx.rotate((t - ev.logo) * 0.3); ctx.globalAlpha = 0.16 * UI.fadeIn(t, ev.logo, 0.3);
     for (let i = 0; i < 16; i++) { ctx.fillStyle = i % 2 ? '#ffbf3f' : '#7cc3ff'; const a0 = (i / 16) * Math.PI * 2, a1 = a0 + Math.PI / 16; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a0) * 900, Math.sin(a0) * 900); ctx.lineTo(Math.cos(a1) * 900, Math.sin(a1) * 900); ctx.fill(); }
     ctx.restore();
-    mascot(ctx, W / 2, 310, 200, t, ev.logo);
+    mascot(ctx, W / 2, 420, 340, t, ev.logo);
     const wp = UI.fadeIn(t, ev.logo + 0.15, 0.25);
-    he(ctx, 'עוגה בוגה', W / 2, 480 + (1 - wp) * 24, { size: 92, w: 900, alpha: wp });
+    he(ctx, 'עוגה בוגה', W / 2, 690 + (1 - wp) * 24, { size: 92, w: 900, alpha: wp });
     const L = S.endLines;
-    he(ctx, 'שאלות מילוליות לפי כיתה · חינם, בלי הרשמה', W / 2, 545, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[2].t, W / 2, 635, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 56, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'חפשו באתר: שאלות מילוליות 🔎', W / 2, 735, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 870, (c) => pill(c, 0, 0, '📖 כמה כסף יהיה בקופה של רוני?', { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
+    he(ctx, 'שאלות מילוליות לפי כיתה · חינם, בלי הרשמה', W / 2, 755, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[2].t, W / 2, 850, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 56, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
+    he(ctx, 'חפשו באתר: שאלות מילוליות 🔎', W / 2, 950, { size: 42, w: 800, color: C.ink, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
+    popAt(ctx, t, L[4].t, W / 2, 1075, (c) => pill(c, 0, 0, '📖 כמה כסף יהיה בקופה של רוני?', { size: 50, w: 900, bg: C.red, fg: '#fff', padX: 40, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1450, (c) => pill(c, 0, 0, 'כמה בקופה? כתבו בתגובות 👇', { size: 52, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
-    confetti(ctx, t, ev.logo, W / 2, 310, { n: 20, seed: 9, spread: 1000 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1460, (c) => pill(c, 0, 0, 'כמה כסף יהיה בקופה? כתבו בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    confetti(ctx, t, ev.logo, W / 2, 420, { n: 20, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
   const SECTIONS = [
