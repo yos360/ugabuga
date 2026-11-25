@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'E4Li_FmPd4Q', kind: 'tutorial', title: 'לוח שגרת בוקר וערב לילדים להדפסה — עם תמונות', paths: ['/printables/routine-chart'], category: 'tools', date: '2026-11-25',
+    desc: 'מדריך קצר ללוח שגרת בוקר וערב: בוחרים בוקר, ערב או שניהם, מוסיפים את שם הילד, מסמנים משימות עם תמונות ומסדרים אותן בחצים, ומדפיסים רשימה עם תיבות סימון או עמודה לכל יום בשבוע, או לוח עם כרטיסים לגזירה. חינם, בלי הרשמה.' },
   { id: 'tl3y0HuLPas', kind: 'tutorial', title: 'אישורי הגעה ליום הולדת בוואטסאפ — בחינם', paths: ['/rsvp'], category: 'party', date: '2026-11-24',
     desc: 'מדריך קצר לאישורי הגעה: ממלאים את פרטי האירוע, מוסיפים מוזמנים וקוד מארגן, שולחים קישור אחד בוואטסאפ, האורחים עונים בלחיצה, ורואים בדף אחד מי מגיע, אלרגיות ומי עוד לא ענה. חינם, בלי הרשמה.' },
   { id: 'wPNW2-CG4_8', kind: 'tutorial', title: 'חינוך פיננסי לילדים — כסף, חיסכון ותקציב', paths: ['/learn/money', '/learn/money/saving'], category: 'learning', date: '2026-11-24',
@@ -126,6 +128,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/printables/routine-chart': 'לוח שגרת בוקר וערב',
   '/math/word-problems': 'שאלות מילוליות בחשבון',
   '/math/word-problems/grade-2': 'שאלות מילוליות לכיתה ב׳',
   '/math/word-problems/grade-3': 'שאלות מילוליות לכיתה ג׳',
