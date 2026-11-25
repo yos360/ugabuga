@@ -55,6 +55,7 @@ const ClassRoster = lazy(() => import('./pages/classroom/ClassRoster'))
 const ClassElections = lazy(() => import('./pages/tools/ClassElections'))
 const RoadSafetyWeek = lazy(() => import('./pages/RoadSafetyWeek'))
 const SigdSpecialEd = lazy(() => import('./pages/SigdSpecialEd'))
+const PreschoolMathGames = lazy(() => import('./pages/PreschoolMathGames'))
 const PurimCostumes = lazy(() => import('./pages/holidays/PurimCostumes'))
 import { lazy, Suspense } from 'react'
 
@@ -713,6 +714,7 @@ export default function App() {
               <Route path="/classroom/accepting-differences" element={<AcceptingDifferences />} />
               <Route path="/classroom/feelings-corner" element={<FeelingsCorner />} />
               <Route path="/classroom/math-centers" element={<MathCenters />} />
+              <Route path="/classroom/preschool-math-games" element={<PreschoolMathGames />} />
               <Route path="/classroom/hebrew-yearly-plan" element={<HebrewYearlyPlan />} />
               <Route path="/classroom/kindergarten-farewell" element={<KindergartenFarewell />} />
               <Route path="/classroom/space-week" element={<SpaceWeek />} />
