@@ -244,6 +244,15 @@ const FamilyDay = lazy(() => import('./pages/holidays/FamilyDay'))
 const MathCenters = lazy(() => import('./pages/classroom/MathCenters'))
 const HebrewYearlyPlan = lazy(() => import('./pages/classroom/HebrewYearlyPlan'))
 const HanukkahDecorations = lazy(() => import('./pages/holidays/HanukkahDecorations'))
+const ArabHoliday = lazy(() => import('./pages/holidays/ArabHoliday'))
+const ArabHolidays = lazy(() => import('./pages/holidays/ArabHolidays'))
+const FirstAidKids = lazy(() => import('./pages/guides/FirstAidKids'))
+const KidsYoga = lazy(() => import('./pages/classroom/KidsYoga'))
+const HebrewForOlim = lazy(() => import('./pages/learn/HebrewForOlim'))
+const DyslexiaKids = lazy(() => import('./pages/guides/DyslexiaKids'))
+const AdhdKids = lazy(() => import('./pages/guides/AdhdKids'))
+const HealthySnackPlanner = lazy(() => import('./pages/printables/HealthySnackPlanner'))
+const Ramadan = lazy(() => import('./pages/holidays/Ramadan'))
 const RoutineChart = lazy(() => import('./pages/printables/RoutineChart'))
 const PiggyBank = lazy(() => import('./learn/subjects/PiggyBank'))
 const LetterToGrandparents = lazy(() => import('./pages/printables/LetterToGrandparents'))
@@ -1439,6 +1448,15 @@ export default function App() {
               <Route path="/holidays/hanukkah/kindergarten-stories" element={<HanukkahKindergartenStories />} />
               <Route path="/holidays/hanukkah/circle-time" element={<HanukkahCircleTime />} />
               <Route path="/holidays/hanukkah/decorations" element={<HanukkahDecorations />} />
+              <Route path="/holidays/arab-holidays/:slug" element={<ArabHoliday />} />
+              <Route path="/holidays/arab-holidays" element={<ArabHolidays />} />
+              <Route path="/guides/first-aid-kids" element={<FirstAidKids />} />
+              <Route path="/classroom/kids-yoga" element={<KidsYoga />} />
+              <Route path="/learn/hebrew-for-olim" element={<HebrewForOlim />} />
+              <Route path="/guides/dyslexia-kids" element={<DyslexiaKids />} />
+              <Route path="/guides/adhd-kids" element={<AdhdKids />} />
+              <Route path="/printables/healthy-snack-planner" element={<HealthySnackPlanner />} />
+              <Route path="/holidays/ramadan" element={<Ramadan />} />
               <Route path="/holidays/hanukkah/escape-room" element={<HanukkahEscapeRoom />} />
               <Route path="/holidays/hanukkah/learn" element={<HanukkahLearn />} />
               <Route path="/holidays/hanukkah/learn/:topic" element={<HanukkahLearn />} />

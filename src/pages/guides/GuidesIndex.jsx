@@ -77,6 +77,26 @@ export default function GuidesIndex() {
       })}
 
       <section className="mb-10">
+        <h2 className="text-3xl font-hand font-bold mb-1">ילדים, למידה ובריאות</h2>
+        <p className="text-[var(--muted-foreground)] mb-4">מדריכים מעשיים עם כלים על המסך ודפים להדפסה.</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[['/guides/adhd-kids', '🎯', 'קשב וריכוז אצל ילדים', 'סימנים לפי גיל, אבחון, טיפים לבית ולכיתה, טיימר ריכוז ומפרק משימות.'],
+            ['/guides/dyslexia-kids', '📖', 'דיסלקציה אצל ילדים', 'סימנים, התאמות בבית הספר, יוצר טקסט נוח לקריאה וסרגל קריאה.'],
+            ['/guides/first-aid-kids', '🚑', 'עזרה ראשונה לילדים', 'מה עושים אם: חתך, כוויה, דימום מהאף ונפילה. חידון ודף מספרי חירום.'],
+            ['/printables/healthy-snack-planner', '🍱', 'ארוחת עשר בריאה', '40 רעיונות, קופסה מאוזנת ותפריט שבועי להדפסה, גם לגן נקי מבוטנים.']].map(([to, emoji, title, desc]) => (
+            <Link key={to} to={to} className="block h-full">
+              <WobblyCard hover padding="p-6" className="h-full">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl shrink-0" aria-hidden="true">{emoji}</div>
+                  <div><h3 className="text-2xl font-hand font-bold mb-2">{title}</h3><p className="text-[var(--muted-foreground)] leading-relaxed">{desc}</p></div>
+                </div>
+              </WobblyCard>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-10">
         <h2 className="text-3xl font-hand font-bold mb-3">השוואות שיעזרו להחליט</h2>
         <div className="flex flex-wrap gap-3">
           <Link to="/compare/home-vs-venue" className="btn-secondary">בית או אולם?</Link>

@@ -17,6 +17,7 @@ export const categories = [
   { slug: 'reward-chart', inHubOnly: true, href: '/printables/reward-chart', emoji: '⭐', title: 'לוח מדבקות לחיזוק', count: 'חדש', desc: 'מטרה אחת, דרך של 10–30 מדבקות ופרס בסוף', special: true },
   { slug: 'reading-log', inHubOnly: true, href: '/printables/reading-log', emoji: '📚', title: 'יומן קריאה', count: 'חדש', desc: 'מעקב דקות קריאה, רשימת ספרים ובינגו קריאה', special: true },
   { slug: 'routine-chart', inHubOnly: true, href: '/printables/routine-chart', emoji: '🌅', title: 'לוח שגרת בוקר וערב', count: 'חדש', desc: 'משימות בתמונות שהילד מסמן לבד', special: true },
+  { slug: 'healthy-snack-planner', inHubOnly: true, href: '/printables/healthy-snack-planner', emoji: '🍱', title: 'ארוחת עשר בריאה', count: 'חדש', desc: '40 רעיונות, קופסה מאוזנת ותפריט שבועי להדפסה', special: true },
   { slug: 'letter-to-grandparents', inHubOnly: true, href: '/printables/letter-to-grandparents', emoji: '💌', title: 'מכתב לסבא ולסבתא', count: 'חדש', desc: 'דף מכתב לילד עם מקום לציור', special: true },
   { slug: 'toothbrushing-chart', inHubOnly: true, href: '/printables/toothbrushing-chart', emoji: '🦷', title: 'לוח צחצוח שיניים', count: 'חדש', desc: 'בוקר וערב — לשבוע או לחודש שלם', special: true },
   { slug: 'potty-chart', inHubOnly: true, href: '/printables/potty-chart', emoji: '🚽', title: 'לוח גמילה מחיתולים', count: 'חדש', desc: 'מדבקה על כל הצלחה בשירותים', special: true },
