@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'jKfAvSbyw2o', kind: 'tutorial', title: 'קופת חיסכון לילדים להדפסה ולוח חיסכון למטרה', paths: ['/learn/money/piggy-bank'], category: 'learning', date: '2026-11-25',
+    desc: 'מדריך קצר לקופת החיסכון: מדפיסים קופה לגזירה בשלושה גדלים עם שם הילד, בוחרים מטרה ומחיר ומקבלים לוח של 20 מטבעות לצביעה, ובמחשבון רואים בעוד כמה שבועות מגיעים למטרה. חינם, בלי הרשמה.' },
   { id: 'gjOZVbcA9jQ', kind: 'tutorial', title: 'מבחן מותאם עם הקראה לילדים שקשה להם לקרוא', paths: ['/learn/adapted-tests', '/learn/adapted-tests/math/grade-1', '/learn/adapted-tests/math/grade-2', '/learn/adapted-tests/math/grade-3', '/learn/adapted-tests/math/grade-4', '/learn/adapted-tests/math/grade-5', '/learn/adapted-tests/math/grade-6', '/learn/adapted-tests/reading/grade-2', '/learn/adapted-tests/reading/grade-3', '/learn/adapted-tests/reading/grade-4', '/learn/adapted-tests/reading/grade-5', '/learn/adapted-tests/reading/grade-6'], category: 'learning', date: '2026-11-25',
     desc: 'מדריך קצר למבחנים המותאמים: בוחרים מקצוע וכיתה, כל שאלה וכל תשובה מוקראות בקול, שאלה אחת על המסך באותיות גדולות, שלוש תשובות, בלי שעון ועם עוד ניסיון אחרי טעות, ובסוף רואים כמה הצלחתם או מדפיסים באותיות גדולות. חינם, בלי הרשמה.' },
   { id: 'E4Li_FmPd4Q', kind: 'tutorial', title: 'לוח שגרת בוקר וערב לילדים להדפסה — עם תמונות', paths: ['/printables/routine-chart'], category: 'tools', date: '2026-11-25',
@@ -165,6 +167,7 @@ export const VIDEO_PAGE_LABELS = {
   '/learn/professions': 'מקצועות לילדים',
   '/learn/money': 'כסף לילדים',
   '/learn/money/saving': 'חיסכון לילדים',
+  '/learn/money/piggy-bank': 'קופת חיסכון לילדים',
   '/booklets/worksheets-grade-5': 'דפי עבודה לכיתה ה׳ — חוברת משולבת',
   '/learn/english-phonics': 'קריאה באנגלית מאפס (פוניקס)',
   '/hanukkiah': 'החנוכייה המשותפת',
