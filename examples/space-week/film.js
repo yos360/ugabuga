@@ -162,7 +162,7 @@
     heroBg(ctx);
     // a few twinkling stars on the gradient
     for (let i = 0; i < 14; i++) { const x = 90 + U.hash(i * 3 + 1) * 900, y = 120 + U.hash(i * 3 + 2) * 1500, a = 0.25 + 0.25 * Math.sin(t * 2 + i); ctx.fillStyle = `rgba(138,79,216,${a})`; ctx.beginPath(); ctx.arc(x, y, 4 + U.hash(i) * 5, 0, Math.PI * 2); ctx.fill(); }
-    popAt(ctx, t, ev.title, W / 2, 290, (c) => pill(c, 0, 0, '🚀 שבוע החלל', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
+    popAt(ctx, t, 0.05, W / 2, 290, (c) => pill(c, 0, 0, '🚀 שבוע החלל', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
     popAt(ctx, t, ev.q1, W / 2, 465, (c) => he(c, 'כמה זמן לוקח לאור השמש', 0, 0, { size: 86, w: 900, maxW: SAFE.w }), { rot: -0.03 });
     popAt(ctx, t, ev.q1 + BEAT, W / 2, 610, (c) => he(c, 'להגיע אלינו? ☀️', 0, 0, { size: 128, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
     const cols = [C.blue, C.red, C.green];
@@ -177,11 +177,11 @@
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(752, 1560); ctx.rotate(-0.05); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'כתבו מספר בתגובות 👇', { size: 48, w: 900, bg: C.yellow, padX: 36 });
+      ctx.save(); ctx.translate(W / 2, 1380); ctx.rotate(-0.02); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, '⁦1, 2⁩ או ⁦3⁩? כתבו בתגובות 👇', { size: 52, w: 900, bg: C.yellow, padX: 40 });
       ctx.restore();
     }
-    mascot(ctx, 255, 1600 - (t > ev.q2 + 0.45 ? hop(t, 12) : 0), 380, t, ev.q2);
+    mascot(ctx, W / 2, 1690 - (t > ev.q2 + 0.45 ? hop(t, 10) : 0), 410, t, ev.q2);
   }
 
   // ================= 1. PICK A GRADE BAND =================
@@ -222,7 +222,7 @@
     UI.tap(ctx, 330, 975, t, ev.topic, { color: 'rgba(207,47,86,0.8)', size: 120 });
     popAt(ctx, t, ev.reasonCard, W / 2, 1255, (c) => {
       card(c, -440, -120, 880, 240, { fill: '#fffdf7', r: 28, seed: 50, shadow: 9, lw: 4.5 });
-      he(c, 'קוראים יחד את השיעור "ישראל בחלל":', 410, -62, { size: 36, w: 700, color: C.muted, align: 'right', maxW: 830 });
+      he(c, 'בשיעור "ישראל בחלל" מכירים את', 410, -62, { size: 36, w: 700, color: C.muted, align: 'right', maxW: 830 });
       wrap(c, S.RAMON, 46, 800, 800, 2).forEach((ln, i) => he(c, ln, 410, 4 + i * 62, { size: 46, w: 800, align: 'right', maxW: 830 }));
     }, { dur: 0.3, over: 1.4, rot: -0.008 });
     popAt(ctx, t, S.pills[2], W / 2, 1480, (c) => pill(c, 0, 0, 'לגן: מערך של ⁦30⁩ דקות', { size: 46, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
@@ -247,13 +247,13 @@
       }, { dur: 0.22, over: 1.5, rot: [0.008, -0.008, 0.006][i] });
     });
     UI.tap(ctx, 360, 1020, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
-    popAt(ctx, t, S.explainT, W / 2, 1360, (c) => {
+    popAt(ctx, t, S.explainT, W / 2, 1335, (c) => {
       card(c, -440, -105, 880, 210, { fill: '#e5f7ec', r: 28, seed: 66, shadow: 8, lw: 4.5 });
       he(c, '✔️ נכון!', 400, -42, { size: 54, w: 900, align: 'right', color: C.green });
       wrap(c, Q.explain, 38, 810, 600, 2).forEach((ln, i) => he(c, ln, 400, 18 + i * 50, { size: 38, w: 600, align: 'right', maxW: 820 }));
     }, { dur: 0.3, over: 1.4, rot: 0.006 });
-    popAt(ctx, t, S.pills[4], W / 2, 1565, (c) => pill(c, 0, 0, 'לוחצים ורואים מיד אם צדקו', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1680, (c) => pill(c, 0, 0, 'מספיק מחשב ומקרן בכיתה', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1525, (c) => pill(c, 0, 0, 'לוחצים ורואים מיד אם צדקו', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.pills[5], W / 2, 1630, (c) => pill(c, 0, 0, 'מספיק מחשב ומקרן בכיתה', { size: 42, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 4. WORKSHEET + ANSWER PAGE =================
@@ -292,13 +292,13 @@
     popAt(ctx, t, T(8, 0.05), W / 2, 580, (c) => { c.scale(press, press); pill(c, 0, 0, '🖨️ הדפסת דף עבודה', { size: 54, w: 900, bg: C.purple, fg: '#fff', padX: 80, seed: 83 }); }, { dur: 0.3, over: 1.6, rot: -0.01 });
     UI.tap(ctx, W / 2 + 40, 595, t, ev.go, { color: 'rgba(138,79,216,0.8)', size: 120 });
     S.ROWS.slice(0, 2).forEach((r) => {
-      popAt(ctx, t, r.t, 735 - r.i * 400, 990, (c) => { c.scale(1.25, 1.25); page(c, r.i); }, { dur: 0.3, over: 1.5, rot: [-0.03, 0.025][r.i] });
+      popAt(ctx, t, r.t, 735 - r.i * 400, 965, (c) => { c.scale(1.25, 1.25); page(c, r.i); }, { dur: 0.3, over: 1.5, rot: [-0.03, 0.025][r.i] });
     });
-    popAt(ctx, t, S.ROWS[2].t, W / 2, 1380, (c) => { chip(c, 245, 0, 420, 90, 'דף ראשון: לתלמיד/ה', { on: true, color: C.orange, size: 32, seed: 86 }); chip(c, -245, 0, 420, 90, 'דף שני: תשובות', { on: false, size: 32, seed: 87 }); }, { dur: 0.25, over: 1.5, rot: 0.008 });
-    popAt(ctx, t, ev.ans, W / 2, 1500, (c) => pill(c, 0, 0, 'מוכן להדפסה! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
-    confetti(ctx, t, ev.ans, W / 2, 1460, { n: 50, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[6], W / 2, 1610, (c) => pill(c, 0, 0, 'נכון/לא נכון, השלמת משפטים וטבלה', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[7], W / 2, 1715, (c) => pill(c, 0, 0, 'ומקום לשאלה לאסטרונאוט ✏️', { size: 40, w: 900, bg: C.yellow, seed: 88, maxW: SAFE.w }), { rot: -0.02 });
+    popAt(ctx, t, S.ROWS[2].t, W / 2, 1345, (c) => { chip(c, 245, 0, 420, 90, 'דף ראשון: לתלמיד/ה', { on: true, color: C.orange, size: 32, seed: 86 }); chip(c, -245, 0, 420, 90, 'דף שני: תשובות', { on: false, size: 32, seed: 87 }); }, { dur: 0.25, over: 1.5, rot: 0.008 });
+    popAt(ctx, t, ev.ans, W / 2, 1458, (c) => pill(c, 0, 0, 'מוכן להדפסה! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
+    confetti(ctx, t, ev.ans, W / 2, 1420, { n: 50, seed: 6, spread: 800 });
+    popAt(ctx, t, S.pills[6], W / 2, 1560, (c) => pill(c, 0, 0, 'נכון/לא נכון, השלמת משפטים וטבלה', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
+    
   }
 
   // ================= 5. CRAFT + FIVE DAYS =================
@@ -352,10 +352,10 @@
   // the three answers again, small, under the question
   function endOpts(ctx, t, t0) {
     S.HOOK_OPTS.forEach((s, i) => {
-      popAt(ctx, t, t0 + i * 0.07, W / 2, 1300 + i * 76, (c) => {
-        G.rrect(c, -330, -31, 660, 62, 31, { fill: '#fff', lw: 3, seed: 150 + i, stroke: C.ink });
-        he(c, String(i + 1), 290, 14, { size: 34, w: 900, color: C.red, dir: 'ltr' });
-        he(c, s, 255, 13, { size: 34, w: 800, color: C.ink, align: 'right', maxW: 480 });
+      popAt(ctx, t, t0 + i * 0.07, W / 2, 1375 + i * 84, (c) => {
+        G.rrect(c, -360, -35, 720, 70, 35, { fill: '#fff', lw: 3, seed: 150 + i, stroke: C.ink });
+        he(c, String(i + 1), 315, 15, { size: 40, w: 900, color: C.red, dir: 'ltr' });
+        he(c, s, 275, 14, { size: 40, w: 800, color: C.ink, align: 'right', maxW: 520 });
       }, { dur: 0.22, over: 1.5 });
     });
   }
@@ -374,9 +374,9 @@
     popAt(ctx, t, L[1].t, W / 2, 885, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 990, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
     he(ctx, 'באתר: לכיתה ← שבוע החלל 🚀', W / 2, 1090, { size: 40, w: 800, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1200, (c) => pill(c, 0, 0, '☀️ כמה זמן לוקח לאור השמש להגיע אלינו?', { size: 42, w: 900, bg: C.red, fg: '#fff', padX: 36, seed: 192, maxW: SAFE.w }), { rot: 0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t, W / 2, 1225, (c) => { card(c, -450, -82, 900, 164, { fill: C.red, r: 40, seed: 192, shadow: 8, lw: 4.5 }); he(c, 'כמה זמן לוקח לאור השמש', 0, -14, { size: 54, w: 900, color: '#fff', maxW: 840 }); he(c, 'להגיע אלינו? ☀️', 0, 52, { size: 54, w: 900, color: '#fff', maxW: 840 }); }, { rot: 0.015, dur: 0.35 });
     endOpts(ctx, t, L[4].t + 0.25);
-    popAt(ctx, t, L[4].t + 0.7, W / 2, 1580, (c) => pill(c, 0, 0, 'כתבו מספר בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t + 0.7, W / 2, 1650, (c) => pill(c, 0, 0, '⁦1, 2⁩ או ⁦3⁩? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
   // ---------- the cut list ----------
