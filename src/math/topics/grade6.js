@@ -71,6 +71,76 @@ const fracMult = {
   },
 }
 
+// Fraction × fraction and mixed number × fraction, with word problems (level 3): kilograms, recipes,
+// running routes, garden beds, training hours, juice, part of a class, pizza. Each word problem holds
+// exactly two quantities and its answer is their product.
+const FWP_GIRLS = ['נועה', 'מאיה', 'שירה', 'ליה', 'הילה', 'רוני', 'אביגיל', 'טליה']
+const FWP_BOYS = ['איתי', 'נדב', 'אריאל', 'יהונתן', 'עמית', 'רועי', 'דניאל', 'אליה']
+const FWP = [
+  { k: 'mf', unit: 'ק״ג', t: (a, b, r) => `${r.pick(FWP_GIRLS)} קנתה בשוק ${a} ק״ג תפוחים. ${b} מהתפוחים הלכו לעוגת תפוחים. כמה ק״ג תפוחים היו בעוגה?` },
+  { k: 'mf', unit: 'כוסות', t: (a, b, r) => `במתכון של עוגיות שוקולד צריך ${a} כוסות קמח. ${r.pick(FWP_GIRLS)} מכינה רק ${b} מהכמות שבמתכון. כמה כוסות קמח היא צריכה?` },
+  { k: 'mf', unit: 'ק״מ', t: (a, b, r) => `מסלול הריצה סביב הפארק ארוך ${a} ק״מ. ${r.pick(FWP_BOYS)} רץ ${b} מהמסלול ועצר לשתות מים. כמה ק״מ רץ עד העצירה?` },
+  { k: 'mf', unit: 'מ״ר', t: a => `ערוגה מלבנית בגינה של בית הספר ארוכה ${a} מטר.`, t2: b => `רוחב הערוגה ${b} מטר. מהו שטח הערוגה?`, why: 'שטח מלבן = אורך × רוחב.' },
+  { k: 'mf', unit: 'שעות', t: (a, b, r) => `${r.pick(FWP_BOYS)} מתאמן בכדורסל ${a} שעות בשבוע. ${b} מזמן האימונים מוקדש לקליעות לסל. כמה שעות בשבוע הוא מתאמן בקליעות?` },
+  { k: 'mf', unit: 'מטר', t: (a, b, r) => `גדר העץ בחצר ארוכה ${a} מטר. ${r.pick(FWP_GIRLS)} ו${r.pick(FWP_BOYS)} צבעו ${b} מהגדר. כמה מטרים מהגדר צבעו?` },
+  { k: 'mf', unit: 'מטר', t: (a, b, r) => `${r.pick(FWP_BOYS)} קנה קרש באורך ${a} מטר, וניסר ממנו ${b} כדי לבנות תיבת קינון לציפורים. מה אורך החלק שניסר?` },
+  { k: 'ff', unit: 'ליטר', t: (a, b, r) => `בבקבוק היו ${a} ליטר מיץ תפוזים. ${r.pick(FWP_BOYS)} שתה ${b} מהמיץ שבבקבוק. כמה ליטר מיץ שתה?` },
+  { k: 'ff', unit: '', t: (a, b, r) => `${a} מהתלמידים בכיתה של ${r.pick(FWP_GIRLS)} משתתפים בחוג רובוטיקה, ומתוכם ${b} הן בנות. איזה חלק מכל תלמידי הכיתה הן בנות שמשתתפות בחוג?` },
+  { k: 'ff', unit: '', t: (a, b, r) => `על המגש נשארו ${a} פיצה. ${r.pick(FWP_GIRLS)} אכלה ${b} ממה שנשאר. איזה חלק מפיצה שלמה היא אכלה?` },
+]
+// Short "cross-cancel first" note when it applies.
+const crossNote = (n1, d1, n2, d2) => (gcd(n1, d2) > 1 || gcd(n2, d1) > 1 ? ' (אפשר לצמצם באלכסון לפני הכפל.)' : '')
+// "12/8 = 1 1/2": the raw product, then its reduced / mixed form when that reads differently.
+const eqTail = (pn, pd, N, D) => { const m = mixedStr(N, D); return m === `${pn}/${pd}` ? m : `${pn}/${pd} = ${m}` }
+const fracMixedMult = {
+  slug: 'fraction-mixed-number-multiplication',
+  grade: 6,
+  strand: 'fractions',
+  title: 'כפל שבר בשבר ומספר מעורב בשבר',
+  emoji: '🧁',
+  desc: 'כפל שבר בשבר וכפל מספר מעורב בשבר לכיתה ו׳: תרגילים עם צמצום באלכסון ובעיות מילוליות על מתכונים, מסלולים ושטח — דפי עבודה להדפסה עם פתרונות.',
+  intro: 'כופלים שבר בשבר כך: מונה כפול מונה ומכנה כפול מכנה, 3/4 × 2/5 = 6/20 = 3/10. כדי לכפול מספר מעורב בשבר, הופכים אותו קודם לשבר מדומה: 2 1/2 = 5/2, ואז 5/2 × 3/4 = 15/8 = 1 7/8. בבעיות מילוליות המילה "מ" (שלושה רבעים מהמסלול, חצי מהמיץ) היא סימן לכפל: מחשבים חלק מתוך כמות. בכל עמוד יש 20 תרגילים, ואפשר להדפיס את שלוש הרמות — יחד 60 תרגילים ובעיות.',
+  tips: [
+    'מספר מעורב ← שבר מדומה: שלם × מכנה + מונה. 3 2/5 = 17/5.',
+    'צמצום באלכסון לפני הכפל חוסך מספרים גדולים: 5/8 × 4/15 → 1/2 × 1/3 = 1/6.',
+    '"שני שלישים מ..." פירושו כפל ב-2/3.',
+    'בדיקה: כפל בשבר קטן מ-1 נותן תוצאה קטנה מהמספר שהתחלנו בו.',
+  ],
+  example: { q: 'במתכון צריך 2 1/4 כוסות קמח. מכינים רק 2/3 מהכמות. כמה כוסות קמח צריך?', steps: ['שבר מדומה: 2 1/4 = 9/4.', 'כופלים: 9/4 × 2/3. מצמצמים באלכסון 9 עם 3 ו-2 עם 4: 3/2 × 1/1.', 'התוצאה 3/2 = 1 1/2.'], a: '1 1/2 כוסות קמח' },
+  faq: [
+    { q: 'אפשר לכפול את השלם ואת השבר בנפרד?', a: 'כן, בעזרת חוק הפילוג: 2 1/4 × 2/3 = 2 × 2/3 + 1/4 × 2/3 = 4/3 + 1/6 = 1 1/2. אבל הטעות הנפוצה היא לכפול רק את השבר ולשכוח את השלם — לכן הכי בטוח להפוך לשבר מדומה.' },
+    { q: 'איך יודעים שבבעיה מילולית צריך לכפול?', a: 'כשמבקשים חלק מתוך כמות: "שלושה רבעים מהמסלול", "חצי מהמיץ", "שני שלישים מהכמות". המילה "מ" אחרי השבר אומרת לכפול את השבר בכמות.' },
+    { q: 'כמה תרגילים יש בדף העבודה?', a: 'כל דף להדפסה כולל 20 תרגילים ברמה שבוחרים, עם דף תשובות. מדפיסים את שלוש הרמות ומקבלים 40 תרגילי חישוב ו-20 בעיות מילוליות, וכל הדפסה מגרילה תרגילים חדשים.' },
+  ],
+  levels: ['שבר × שבר', 'מספר מעורב × שבר', 'בעיות מילוליות'],
+  gen(level, r) {
+    if (level === 1) {
+      const [n1, d1] = properFrac(r, 12), [n2, d2] = properFrac(r, 12)
+      const [N, D] = red(n1 * n2, d1 * d2)
+      return { q: 'חשבו וצמצמו:', expr: `${n1}/${d1} × ${n2}/${d2} = ?`, ...fracAns(N, D), explain: `מונה × מונה ומכנה × מכנה: ${eqTail(n1 * n2, d1 * d2, N, D)}.${crossNote(n1, d1, n2, d2)}` }
+    }
+    if (level === 2) {
+      const A = mixedOf(r, 8), [a, d] = properFrac(r, 10), first = r.bool()
+      const [N, D] = red(A.n * a, A.d * d)
+      const prod = first ? `${A.n}/${A.d} × ${a}/${d}` : `${a}/${d} × ${A.n}/${A.d}`
+      return { q: 'חשבו (אפשר לענות במספר מעורב):', expr: `${first ? `${A.s} × ${a}/${d}` : `${a}/${d} × ${A.s}`} = ?`, ...fracAns(N, D), explain: `שבר מדומה: ${A.s} = ${A.n}/${A.d}. ${prod} = ${eqTail(A.n * a, A.d * d, N, D)}.${crossNote(A.n, A.d, a, d)}` }
+    }
+    for (;;) {
+      const T = r.pick(FWP)
+      let A, B
+      if (T.k === 'mf') { const M = mixedOf(r, 6); A = { n: M.n, d: M.d, s: M.s }; const [a, d] = properFrac(r, 6); B = { n: a, d, s: `${a}/${d}` } }
+      else { const [a1, d1] = properFrac(r, 8), [a2, d2] = properFrac(r, 6); A = { n: a1, d: d1, s: `${a1}/${d1}` }; B = { n: a2, d: d2, s: `${a2}/${d2}` } }
+      const [N, D] = red(A.n * B.n, A.d * B.d)
+      // friendly answers: something cancels, and the result's denominator stays small
+      if (D === A.d * B.d && D > 12) continue
+      if (D > (T.k === 'ff' ? 24 : 8)) continue
+      const q = T.t2 ? `${T.t(A.s)} ${T.t2(B.s)}` : T.t(A.s, B.s, r)
+      const conv = A.s.includes(' ') ? `שבר מדומה: ${A.s} = ${A.n}/${A.d}. ` : ''
+      return { q, type: fracAns(N, D).type, answer: fracAns(N, D).answer, ...(T.unit ? { unit: T.unit } : {}), explain: `${T.why || `מחשבים ${B.s} מתוך ${A.s}, כלומר כפל.`} ${conv}${A.n}/${A.d} × ${B.n}/${B.d} = ${eqTail(A.n * B.n, A.d * B.d, N, D)}.` }
+    }
+  },
+}
+
 const fracDiv = {
   slug: 'fraction-division',
   grade: 6,
@@ -651,4 +721,4 @@ const lawsOfArithmetic = {
   },
 }
 
-export default [fracMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, avgDecimals, circumference, circleArea, volume, lawsOfArithmetic]
+export default [fracMult, fracMixedMult, fracDiv, decimalMult, decimalDiv, conversions, percent, ratio, mean, avgDecimals, circumference, circleArea, volume, lawsOfArithmetic]

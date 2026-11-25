@@ -252,6 +252,12 @@ const EXPECT = {
     assert.equal(xs.length, Number(m[1]) - 1)
     return Number(m[1]) * Number(m[2]) - xs.reduce((s, x) => s + x, 0)
   },
+  'fraction-mixed-number-multiplication'(ex, lv) {
+    if (lv < 3) return undefined
+    const qs = ex.q.match(/\d+ \d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?/g)
+    assert.equal(qs.length, 2, `two quantities in: ${ex.q}`)
+    return mul(toR(qs[0]), toR(qs[1]))
+  },
   'average-decimals'(ex, lv) {
     const list = str => str.split(', ').map(dec)
     const total = xs => xs.reduce((a, b) => add(a, b), R(0))
