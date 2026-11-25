@@ -206,6 +206,7 @@ export const TOPIC_UNITS = {
   '5/box-surface-area': { note: 'בתוכנית 2006 שטח פנים ונפח של תיבה מופיעים כבר בפרק המדידות של כיתה ד׳.' },
   // כיתה ו׳
   '6/fraction-multiplication': { ch: 'fractions' },
+  '6/fraction-mixed-number-multiplication': { ch: 'fractions' },
   '6/fraction-division': { ch: 'fractions' },
   '6/decimal-multiplication': { ch: 'fractions' },
   '6/decimal-division': { ch: 'fractions' },

@@ -23,3 +23,6 @@ Titles are written by the builder; never put request texts, emails, names or ids
 
 ## 2026-11-23
 - ממוצע ומספרים עשרוניים — דפי עבודה ותרגול לכיתה ו׳ עם פתרונות | https://ugabuga.co.il/math/grade-6/average-decimals
+
+## 2026-11-25
+- כפל שבר בשבר ומספר מעורב בשבר — 60 תרגילים ובעיות מילוליות לכיתה ו׳ עם פתרונות | https://ugabuga.co.il/math/grade-6/fraction-mixed-number-multiplication
