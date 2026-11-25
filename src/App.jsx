@@ -232,6 +232,7 @@ const TimesTables = lazy(() => import('./learn/LearnDrills').then(m => ({ defaul
 const TimesTablePath = lazy(() => import('./learn/TimesTablePath.jsx'))
 const Flashcards = lazy(() => import('./learn/LearnDrills').then(m => ({ default: m.Flashcards })))
 const HanukkahKindergartenStories = lazy(() => import('./pages/holidays/HanukkahKindergartenStories'))
+const HanukkahMatchGame = lazy(() => import('./pages/holidays/HanukkahMatchGame'))
 const HanukkahCircleTime = lazy(() => import('./pages/holidays/HanukkahCircleTime'))
 const HanukkahHomeCamp = lazy(() => import('./pages/schoolHolidays/HanukkahHomeCamp'))
 const AcceptingDifferences = lazy(() => import('./pages/classroom/AcceptingDifferences'))
@@ -1448,6 +1449,7 @@ export default function App() {
               <Route path="/holidays/hanukkah/greetings" element={<HanukkahGreetings />} />
               <Route path="/holidays/hanukkah/math" element={<HanukkahMath />} />
               <Route path="/holidays/hanukkah/kindergarten-stories" element={<HanukkahKindergartenStories />} />
+              <Route path="/holidays/hanukkah/match-game" element={<HanukkahMatchGame />} />
               <Route path="/holidays/hanukkah/circle-time" element={<HanukkahCircleTime />} />
               <Route path="/holidays/hanukkah/decorations" element={<HanukkahDecorations />} />
               <Route path="/holidays/arab-holidays/:slug" element={<ArabHoliday />} />

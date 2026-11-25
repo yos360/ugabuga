@@ -1,6 +1,7 @@
 // "חדש באתר" (/new): every new page or feature gets a line here, newest first.
 // { date: 'YYYY-MM-DD', emoji, title, blurb, to, kind: 'print' | 'play' | 'learn' | 'family' }
 export const WHATS_NEW = [
+  { date: '2026-11-25', emoji: '🃏', title: 'מצא את הזהה לחנוכה', blurb: 'משחק קלפים בסגנון דאבל: בכל שני קלפים תמונה אחת משותפת. חפיסה לגן וחפיסה גדולה, בתמונות או במילים לתרגול קריאה — על המסך ולהדפסה.', to: '/holidays/hanukkah/match-game', kind: 'play' },
   { date: '2026-11-25', emoji: '🔢', title: 'משחקי חשבון לגן לגיל 3–4', blurb: '12 הפעלות עם חומרים פשוטים — ספירה, זיהוי ספרות, יותר ופחות ושימור כמות — משחק נקודות קטן על המסך וכרטיסי ספרות ונקודות 1–10 להדפסה.', to: '/classroom/preschool-math-games', kind: 'learn' },
   { date: '2026-11-25', emoji: '🕌', title: 'חגי המוסלמים, הנוצרים והדרוזים: הסבר לילדים', blurb: 'הסבר פשוט לילדים על כל החגים, משחק "איזה חג זה?", יומן חגים קרובים, ברכות בערבית ודפי צביעה לכל חג.', to: '/holidays/arab-holidays', kind: 'learn' },
   { date: '2026-11-25', emoji: '🚑', title: 'עזרה ראשונה לילדים: מה עושים אם…', blurb: 'חידון "מה עושים אם", תרגול שיחה ל־101, דף מספרי חירום למקרר ורשימת ערכת עזרה ראשונה לבית.', to: '/guides/first-aid-kids', kind: 'learn' },
