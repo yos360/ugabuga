@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'gjOZVbcA9jQ', kind: 'tutorial', title: 'מבחן מותאם עם הקראה לילדים שקשה להם לקרוא', paths: ['/learn/adapted-tests', '/learn/adapted-tests/math/grade-1', '/learn/adapted-tests/math/grade-2', '/learn/adapted-tests/math/grade-3', '/learn/adapted-tests/math/grade-4', '/learn/adapted-tests/math/grade-5', '/learn/adapted-tests/math/grade-6', '/learn/adapted-tests/reading/grade-2', '/learn/adapted-tests/reading/grade-3', '/learn/adapted-tests/reading/grade-4', '/learn/adapted-tests/reading/grade-5', '/learn/adapted-tests/reading/grade-6'], category: 'learning', date: '2026-11-25',
+    desc: 'מדריך קצר למבחנים המותאמים: בוחרים מקצוע וכיתה, כל שאלה וכל תשובה מוקראות בקול, שאלה אחת על המסך באותיות גדולות, שלוש תשובות, בלי שעון ועם עוד ניסיון אחרי טעות, ובסוף רואים כמה הצלחתם או מדפיסים באותיות גדולות. חינם, בלי הרשמה.' },
   { id: 'E4Li_FmPd4Q', kind: 'tutorial', title: 'לוח שגרת בוקר וערב לילדים להדפסה — עם תמונות', paths: ['/printables/routine-chart'], category: 'tools', date: '2026-11-25',
     desc: 'מדריך קצר ללוח שגרת בוקר וערב: בוחרים בוקר, ערב או שניהם, מוסיפים את שם הילד, מסמנים משימות עם תמונות ומסדרים אותן בחצים, ומדפיסים רשימה עם תיבות סימון או עמודה לכל יום בשבוע, או לוח עם כרטיסים לגזירה. חינם, בלי הרשמה.' },
   { id: 'tl3y0HuLPas', kind: 'tutorial', title: 'אישורי הגעה ליום הולדת בוואטסאפ — בחינם', paths: ['/rsvp'], category: 'party', date: '2026-11-24',
@@ -128,6 +130,18 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/learn/adapted-tests': 'מבחנים מותאמים עם הקראה',
+  '/learn/adapted-tests/math/grade-1': 'מבחן חשבון מותאם כיתה א׳',
+  '/learn/adapted-tests/math/grade-2': 'מבחן חשבון מותאם כיתה ב׳',
+  '/learn/adapted-tests/math/grade-3': 'מבחן חשבון מותאם כיתה ג׳',
+  '/learn/adapted-tests/math/grade-4': 'מבחן חשבון מותאם כיתה ד׳',
+  '/learn/adapted-tests/math/grade-5': 'מבחן חשבון מותאם כיתה ה׳',
+  '/learn/adapted-tests/math/grade-6': 'מבחן חשבון מותאם כיתה ו׳',
+  '/learn/adapted-tests/reading/grade-2': 'הבנת הנקרא מותאמת כיתה ב׳',
+  '/learn/adapted-tests/reading/grade-3': 'הבנת הנקרא מותאמת כיתה ג׳',
+  '/learn/adapted-tests/reading/grade-4': 'הבנת הנקרא מותאמת כיתה ד׳',
+  '/learn/adapted-tests/reading/grade-5': 'הבנת הנקרא מותאמת כיתה ה׳',
+  '/learn/adapted-tests/reading/grade-6': 'הבנת הנקרא מותאמת כיתה ו׳',
   '/printables/routine-chart': 'לוח שגרת בוקר וערב',
   '/math/word-problems': 'שאלות מילוליות בחשבון',
   '/math/word-problems/grade-2': 'שאלות מילוליות לכיתה ב׳',

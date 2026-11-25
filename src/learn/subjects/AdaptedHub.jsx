@@ -5,6 +5,7 @@ import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import Breadcrumbs from '../../components/ui/Breadcrumbs'
 import { SUBJECTS, GRADE_LETTERS, gradeSlug, loadTopics, topicsForGrade } from './subjects'
 import '../learn.css'
+import './subjects.css'
 import './adapted.css'
 
 // /learn/adapted-tests: every subject exam in its adapted mode (read-aloud, large type, three answers).
@@ -28,7 +29,7 @@ export default function AdaptedHub() {
     const topics = await loadTopics(s.key)
     setGrades(g => ({ ...g, [s.key]: s.gradeList.filter(n => topicsForGrade(topics, n).length >= MIN_GRADE_TOPICS) }))
   }
-  return <div className="mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
+  return <div className="ad-hub mx-auto max-w-4xl px-4 py-8 buga-fade-in" dir="rtl">
     <SEO title="מבחנים מותאמים עם הקראה — לילדים עם קשיי למידה, לכל הכיתות" description="מבחנים מותאמים בחינם: הקראה של כל שאלה ותשובה, אותיות גדולות, שלוש תשובות, בלי שעון ועם ניסיון נוסף. חשבון, הבנת הנקרא וכל המקצועות, לתרגול לבד בבית." path="/learn/adapted-tests" structuredData={faqSchema(FAQ)} />
     <Breadcrumbs items={[{ label: 'ראשי', href: '/' }, { label: 'לומדים', href: '/learn' }, { label: 'מבחנים מותאמים' }]} />
     <h1 className="text-4xl sm:text-5xl text-center mb-2"><span aria-hidden="true">🎧 </span>מבחנים מותאמים עם הקראה</h1>
