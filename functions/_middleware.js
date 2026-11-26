@@ -255,7 +255,7 @@ async function handle(context) {
     if (!routes) return res
     if (!routes.some(re => re.test(path))) return notFound(work.body, res.headers)
     if (path === '/') return res
-    if (/^\/suppliers\/[a-z0-9-]{3,40}$/.test(path) && !['/suppliers/me', '/suppliers/category'].includes(path) && typeof HTMLRewriter !== 'undefined') {
+    if (/^\/suppliers\/[a-z0-9-]{3,40}$/.test(path) && !['/suppliers/me', '/suppliers/category', '/suppliers/join'].includes(path) && typeof HTMLRewriter !== 'undefined') {
       return supplierShell(work, new URL(path, url), env)
     }
     const shaped = await neutralShell(work)
