@@ -42,7 +42,7 @@ self.addEventListener('message', e => {
       const cache = await caches.open(name)
       let bytes = 0
       for (const u of urls) {
-        const r = await fetch(u, {cache:'reload'})
+        const r = await fetch(u === '/index.html' ? '/' : u, {cache:'reload'}) // Cloudflare Pages redirects /index.html to /
         if (!r.ok || r.redirected || (u.endsWith('.mp3') && !r.headers.get('content-type')?.includes('audio'))) throw Error('אחד הקבצים לא ירד. בדקו את החיבור ונסו שוב.')
         if(!ROUTES.includes(u)&&u!=='/index.html'&&r.headers.get('content-type')?.includes('text/html'))throw Error('קובץ חסר בגרסה הנוכחית. רעננו ונסו שוב.')
         bytes += (await r.clone().arrayBuffer()).byteLength
