@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'o9haTbumXjk', kind: 'tutorial', title: 'משחק מצא את הזהה לחנוכה — על המסך ולהדפסה', paths: ['/holidays/hanukkah/match-game'], category: 'holidays', date: '2026-11-26',
+    desc: 'מדריך קצר למשחק הקלפים לחנוכה: בוחרים חפיסה קטנה לגן או גדולה, תמונות או מילים לתרגול קריאה, משחקים על המסך בסבב של 10 זוגות או מדפיסים 6 קלפים בעמוד עם ארבע דרכים לשחק. חינם ובלי הרשמה.' },
   { id: 'jKfAvSbyw2o', kind: 'tutorial', title: 'קופת חיסכון לילדים להדפסה ולוח חיסכון למטרה', paths: ['/learn/money/piggy-bank'], category: 'learning', date: '2026-11-25',
     desc: 'מדריך קצר לקופת החיסכון: מדפיסים קופה לגזירה בשלושה גדלים עם שם הילד, בוחרים מטרה ומחיר ומקבלים לוח של 20 מטבעות לצביעה, ובמחשבון רואים בעוד כמה שבועות מגיעים למטרה. חינם, בלי הרשמה.' },
   { id: 'gjOZVbcA9jQ', kind: 'tutorial', title: 'מבחן מותאם עם הקראה לילדים שקשה להם לקרוא', paths: ['/learn/adapted-tests', '/learn/adapted-tests/math/grade-1', '/learn/adapted-tests/math/grade-2', '/learn/adapted-tests/math/grade-3', '/learn/adapted-tests/math/grade-4', '/learn/adapted-tests/math/grade-5', '/learn/adapted-tests/math/grade-6', '/learn/adapted-tests/reading/grade-2', '/learn/adapted-tests/reading/grade-3', '/learn/adapted-tests/reading/grade-4', '/learn/adapted-tests/reading/grade-5', '/learn/adapted-tests/reading/grade-6'], category: 'learning', date: '2026-11-25',
@@ -155,6 +157,7 @@ export const VIDEO_PAGE_LABELS = {
   '/booklets/music-notes': 'חוברת לימוד תווים למתחילים',
   '/letters/cursive': 'אותיות בכתב יד',
   '/holidays/hanukkah': 'חנוכה לילדים',
+  '/holidays/hanukkah/match-game': 'מצא את הזהה לחנוכה',
   '/holidays/hanukkah/grade/kindergarten': 'פעילות לחנוכה לגן',
   '/holidays/hanukkah/grade/grade-1': 'דפי עבודה לחנוכה לכיתה א׳',
   '/holidays/hanukkah/grade/grade-2': 'דפי עבודה לחנוכה לכיתה ב׳',
