@@ -63,6 +63,7 @@ export function SupplierCard({ s, live = true, index = 0 }) {
       <div className="min-w-0">
         <h3 className="truncate text-2xl leading-tight">{s.name}</h3>
         {s.plan === 'page' && <span className="text-xs font-bold text-violet-700">⭐ בוגה פרימיום</span>}
+        {s.founder && <span className="block text-xs font-bold text-amber-700">🏅 ספק מייסד</span>}
       </div>
     </div>
     {(s.tagline || s.about) && <p className="mt-2 line-clamp-2 text-base text-[var(--foreground)]/85">{s.tagline || s.about}</p>}

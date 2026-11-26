@@ -17,6 +17,7 @@ function Profile({ s }) {
     <div className="-mt-12 px-5 pb-6 sm:px-8">
       <Logo s={s} size="h-24 w-24" />
       <h1 className="mt-3 text-4xl font-black">{s.name}</h1>
+      {s.founder && <p className="mt-1 inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-800">🏅 ספק מייסד של עוגה בוגה</p>}
       {s.tagline && <p className="mt-1 text-lg text-[var(--muted-foreground)]">{s.tagline}</p>}
       {chips.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{chips.map(c => <span key={c} className="rounded-full bg-slate-100 px-3 py-1 text-sm font-bold">{c}</span>)}</div>}
       <ContactButtons s={s} big className="mt-5" />
