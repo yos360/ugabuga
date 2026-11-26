@@ -1,11 +1,12 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { SETS, SHEET_SIZE, exercisesFor, stationFor, GROUP_NAMES, ROUNDS } from '../src/data/mathCenters.js'
+import { SETS, SHEET_SIZE, exercisesFor, stationFor, GROUP_NAMES, ROUNDS, UNIT_ITEMS, RULER_CM, SETUP_STEPS } from '../src/data/mathCenters.js'
 
 const shekel = n => `${n} ₪`
 const t = (h, m) => `${h}:${m === 0 ? '00' : '30'}`
 const hours = n => (n === 1 ? 'שעה' : n === 2 ? 'שעתיים' : `${n} שעות`)
 const nextHour = h => (h === 12 ? 1 : h + 1)
+const asM = cm => (cm % 100 === 0 ? `${cm / 100} מ׳` : `${Math.floor(cm / 100)} מ׳ ו־${cm % 100} ס״מ`)
 
 // independent recomputation of every exercise kind
 const recompute = {
@@ -29,6 +30,15 @@ const recompute = {
   plusHalf: ({ h, m }) => (m === 0 ? t(h, 30) : t(nextHour(h), 0)),
   duration: ({ len }) => hours(len),
   earlier: ({ h1, m1, h2, m2 }) => (h1 * 60 + m1 < h2 * 60 + m2 ? t(h1, m1) : t(h2, m2)),
+  ruler: ({ len }) => `${len} ס״מ`,
+  mToCm: ({ m, c }) => `${m * 100 + c} ס״מ`,
+  cmToM: ({ total }) => asM(total),
+  compareLen: ({ a, b }) => (a > b ? asM(a) : `${b} ס״מ`),
+  unit: ({ i }) => UNIT_ITEMS[i][1],
+  kgAdd: ({ a, b }) => `${a + b} ק״ג`,
+  kgSub: ({ a, b }) => `${a - b} ק״ג`,
+  literMul: ({ n, k }) => `${n * k} ליטרים`,
+  literSub: ({ a, b }) => `${a - b} ליטרים`,
 }
 
 test('four sets, six stations each, with everything a station needs', () => {
@@ -97,4 +107,24 @@ test('rotation: in every round the six groups are at six different stations, and
   assert.equal(ROUNDS, 6)
   for (let r = 0; r < ROUNDS; r++) assert.equal(new Set(GROUP_NAMES.map((_, g) => stationFor(g, r))).size, 6)
   for (let g = 0; g < 6; g++) assert.equal(new Set(Array.from({ length: ROUNDS }, (_, r) => stationFor(g, r))).size, 6)
+})
+
+test('measurement set: rulers fit the drawn ruler, lengths never tie, units and liters are sensible', () => {
+  const set = SETS.find(s => s.id === 'measurement')
+  assert.ok(set)
+  for (let seed = 1; seed <= 60; seed++) for (const st of set.stations) for (const e of exercisesFor(st, seed)) {
+    if (e.kind === 'ruler') { assert.ok(e.args.start >= 0 && e.args.len >= 2 && e.args.start + e.args.len <= RULER_CM); assert.deepEqual(e.ruler, e.args) }
+    if (e.kind === 'compareLen') assert.notEqual(e.args.a, e.args.b)
+    if (e.kind === 'kgSub' || e.kind === 'literSub') assert.ok(e.args.a - e.args.b >= 2)
+    if (e.kind === 'literMul') assert.ok(e.args.n * e.args.k >= 2)
+  }
+  assert.ok(new Set(UNIT_ITEMS.map(u => u[1])).size === 4)
+  for (const u of ['ס״מ', 'מ׳', 'ק״ג', 'ליטר']) assert.ok(UNIT_ITEMS.filter(x => x[1] === u).length >= 3, u)
+})
+
+test('station and set ids are unique, and the setup guide is filled in', () => {
+  assert.equal(new Set(SETS.map(s => s.id)).size, SETS.length)
+  const ids = SETS.flatMap(s => s.stations.map(st => st.id))
+  assert.equal(new Set(ids).size, ids.length)
+  assert.ok(SETUP_STEPS.length >= 5 && SETUP_STEPS.every(s => s.t && s.d))
 })
