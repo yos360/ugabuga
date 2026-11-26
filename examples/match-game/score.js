@@ -46,8 +46,8 @@
   const HOOK_Q = 'איזה סמל מופיע בשני הקלפים?'; // answer (the donut) never shown
   // small deck cards 2 and 5 (buildDeck(3)); id 'sevivon' is drawn in SVG on the site
   const HOOK_CARDS = [
-    [['sufganiya', '🍩'], ['olive', '🫒'], ['oil', '🪔'], ['flame', '🔥']],
-    [['sufganiya', '🍩'], ['candle', '🕯️'], ['star', '⭐'], ['latke', '🥞']],
+    [['olive', '🫒'], ['sufganiya', '🍩'], ['oil', '🪔'], ['flame', '🔥']],
+    [['latke', '🥞'], ['candle', '🕯️'], ['star', '⭐'], ['sufganiya', '🍩']],
   ];
   const DECKS = [['🧸', 'חפיסה קטנה לגן', '⁦13⁩ קלפים · ⁦4⁩ תמונות בכל קלף', 'גיל ⁦3–6⁩'], ['🎴', 'חפיסה גדולה', '⁦31⁩ קלפים · ⁦6⁩ תמונות בכל קלף', 'גיל ⁦6⁩ ומעלה']];
   const MODES_L = ['🖼️ תמונות', '🔤 תמונה ומילה', '📖 מילים בלבד'];
@@ -62,7 +62,7 @@
 
   const steps = [
     { n: 1, sec: 'aud', title: 'בוחרים חפיסה', sub: 'קטנה לגן או גדולה לכיתה ולמשפחה', color: '#226bd7' },
-    { n: 2, sec: 'topics', title: 'מה כתוב על הקלפים', sub: 'תמונות, תמונה ומילה או מילים', color: '#cf2f56' },
+    { n: 2, sec: 'topics', title: 'מה מופיע על הקלפים', sub: 'תמונות, תמונה ומילה או מילים', color: '#cf2f56' },
     { n: 3, sec: 'modes', title: 'משחקים על המסך', sub: 'לוחצים על התמונה המשותפת', color: '#8a4fd8' },
     { n: 4, sec: 'play', title: 'מדפיסים וגוזרים', sub: 'שישה קלפים עגולים בעמוד', color: '#e08a00' },
     { n: 5, sec: 'print', title: 'ארבע דרכים לשחק', sub: 'ועוד טיפ לגננת ולמורה', color: '#23874d' },

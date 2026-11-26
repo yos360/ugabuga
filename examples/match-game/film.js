@@ -194,18 +194,18 @@
     popAt(ctx, t, 0.05, W / 2, 290, (c) => pill(c, 0, 0, '🕎 חנוכה מתקרב', { size: 52, w: 900, bg: C.purple, fg: '#fff', padX: 50, seed: 12 }), { rot: -0.03, dur: 0.3 });
     popAt(ctx, t, ev.q1, W / 2, 465, (c) => he(c, 'איזה סמל מופיע', 0, 0, { size: 96, w: 900, maxW: SAFE.w }), { rot: -0.03 });
     popAt(ctx, t, ev.q1 + BEAT, W / 2, 615, (c) => he(c, 'בשני הקלפים? 🔍', 0, 0, { size: 122, w: 900, color: C.red, maxW: SAFE.w }), { rot: 0.02 });
-    const d = 420, A = S.hookOpts;
-    popAt(ctx, t, A[0].t, 300, 985, (c) => rcard(c, 0, 0, d, S.HOOK_CARDS[0].map(([id, e]) => [id, e, '']), 7919 * 3, { mode: 'pics' }), { rot: -0.06, dur: 0.3, over: 1.6 });
-    popAt(ctx, t, A[1].t, 780, 985, (c) => rcard(c, 0, 0, d, S.HOOK_CARDS[1].map(([id, e]) => [id, e, '']), 7919 * 6, { mode: 'pics' }), { rot: 0.06, dur: 0.3, over: 1.6 });
-    popAt(ctx, t, A[2].t, W / 2, 985, (c) => { c.fillStyle = C.ink; c.beginPath(); c.arc(4, 6, 50, 0, Math.PI * 2); c.fill(); c.fillStyle = C.yellow; c.beginPath(); c.arc(0, 0, 50, 0, Math.PI * 2); c.fill(); c.strokeStyle = C.ink; c.lineWidth = 4.5; c.stroke(); he(c, '?', 0, 26, { size: 76, w: 900, color: C.red, dir: 'ltr' }); }, { dur: 0.3, over: 2 });
+    const d = 440, A = S.hookOpts;
+    popAt(ctx, t, A[0].t, 300, 905, (c) => rcard(c, 0, 0, d, S.HOOK_CARDS[0].map(([id, e]) => [id, e, '']), 7919 * 3, { mode: 'pics' }), { rot: -0.06, dur: 0.3, over: 1.6 });
+    popAt(ctx, t, A[1].t, 780, 905, (c) => rcard(c, 0, 0, d, S.HOOK_CARDS[1].map(([id, e]) => [id, e, '']), 7919 * 6, { mode: 'pics' }), { rot: 0.06, dur: 0.3, over: 1.6 });
+    popAt(ctx, t, A[2].t, W / 2, 905, (c) => { c.fillStyle = C.ink; c.beginPath(); c.arc(4, 6, 50, 0, Math.PI * 2); c.fill(); c.fillStyle = C.yellow; c.beginPath(); c.arc(0, 0, 50, 0, Math.PI * 2); c.fill(); c.strokeStyle = C.ink; c.lineWidth = 4.5; c.stroke(); he(c, '?', 0, 26, { size: 76, w: 900, color: C.red, dir: 'ltr' }); }, { dur: 0.3, over: 2 });
     const sp = clamp((t - ev.free) / 0.18);
     if (sp > 0) {
       const sc = lerp(1.9, 1, ease.outCubic(sp)) - 0.06 * pulse(t, ev.free + 0.18, 12);
-      ctx.save(); ctx.translate(W / 2, 1330); ctx.rotate(-0.02); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
-      pill(ctx, 0, 0, 'מה הסמל המשותף? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, maxW: SAFE.w });
+      ctx.save(); ctx.translate(W / 2, 1170); ctx.rotate(-0.02); ctx.scale(sc, sc); ctx.globalAlpha = clamp(sp * 2);
+      pill(ctx, 0, 0, 'איזה סמל? כתבו בתגובות 👇', { size: 50, w: 900, bg: C.yellow, padX: 40, maxW: SAFE.w });
       ctx.restore();
     }
-    mascot(ctx, W / 2, 1690 - (t > ev.q2 + 0.45 ? hop(t, 10) : 0), 410, t, ev.q2);
+    mascot(ctx, W / 2, 1435 - (t > ev.q2 + 0.45 ? hop(t, 10) : 0), 420, t, ev.q2);
   }
 
   // ================= 1. PICK A DECK =================
@@ -228,11 +228,10 @@
     });
     popAt(ctx, t, A[4].t, W / 2, 1250, (c) => {
       card(c, -440, -100, 880, 200, { fill: C.yellow, r: 28, seed: 37, shadow: 9, lw: 4.5 });
-      he(c, 'בכל שני קלפים יש תמונה אחת', 400, -18, { size: 54, w: 900, align: 'right', maxW: 810 });
-      he(c, 'בדיוק שמופיעה בשניהם', 400, 54, { size: 54, w: 900, align: 'right', color: C.red, maxW: 810 });
+      he(c, 'בכל שני קלפים יש בדיוק', 400, -18, { size: 54, w: 900, align: 'right', maxW: 810 });
+      he(c, 'תמונה אחת משותפת', 400, 54, { size: 54, w: 900, align: 'right', color: C.red, maxW: 810 });
     }, { dur: 0.3, over: 1.4, rot: -0.006 });
     popAt(ctx, t, S.pills[0], W / 2, 1420, (c) => pill(c, 0, 0, 'שתי חפיסות: לגן ולכיתה', { size: 46, w: 900, bg: C.lilac, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[1], W / 2, 1525, (c) => pill(c, 0, 0, 'כל זוג קלפים נבדק: תמונה אחת משותפת', { size: 40, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
   }
 
   // ================= 2. WHAT IS ON THE CARDS =================
@@ -258,8 +257,8 @@
       he(c, '🔤 תרגול קריאה', 410, -62, { size: 50, w: 900, align: 'right', color: C.green, maxW: 830 });
       wrap(c, S.TEACH_READ, 38, 810, 600, 3).forEach((ln, i) => he(c, ln, 410, 4 + i * 52, { size: 38, w: 600, align: 'right', maxW: 830 }));
     }, { dur: 0.3, over: 1.4, rot: -0.008 });
-    popAt(ctx, t, S.pills[2], W / 2, 1440, (c) => pill(c, 0, 0, 'כיתה א׳: תמונה ומילה, ואז מילים', { size: 44, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[3], W / 2, 1535, (c) => pill(c, 0, 0, 'בגן: מתחילים בחפיסה הקטנה', { size: 42, w: 900, bg: C.lilac, seed: 67, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[2], W / 2, 1455, (c) => pill(c, 0, 0, 'כיתה א׳: תמונה ומילה, ואז מילים', { size: 44, w: 900, bg: C.yellow, seed: 66, maxW: SAFE.w }), { rot: -0.02 });
+    
   }
 
   // ================= 3. PLAY ON SCREEN =================
@@ -276,13 +275,13 @@
     popAt(ctx, t, M0[2].t, 780, cy, (c) => rcard(c, 0, 0, d, S.PLAY_CARDS[1], SB, { mode: 'both', mark: mk, k: 0.8 }), { rot: 0.05, dur: 0.3, over: 1.6 });
     const [tx, ty] = posOf(300, cy, d, 4, SA, 1);
     UI.tap(ctx, tx, ty + 10, t, ev.mode, { color: 'rgba(138,79,216,0.8)', size: 120 });
-    popAt(ctx, t, M0[3].t, W / 2, 1275, (c) => pill(c, 0, 0, '⁦3⁩ מתוך ⁦10⁩', { size: 48, w: 900, bg: C.lilac, seed: 62, padX: 50 }), { rot: -0.02, dur: 0.25 });
-    popAt(ctx, t, S.explainT, W / 2, 1375, (c) => {
+    popAt(ctx, t, M0[3].t, W / 2, 1250, (c) => pill(c, 0, 0, '⁦3⁩ מתוך ⁦10⁩', { size: 48, w: 900, bg: C.lilac, seed: 62, padX: 50 }), { rot: -0.02, dur: 0.25 });
+    popAt(ctx, t, S.explainT, W / 2, 1370, (c) => {
       card(c, -440, -62, 880, 124, { fill: '#e5f7ec', r: 28, seed: 66, shadow: 8, lw: 4.5 });
       he(c, '✔️ נכון! מטבע', 400, 18, { size: 60, w: 900, align: 'right', color: C.green, maxW: 810 });
     }, { dur: 0.3, over: 1.4, rot: 0.006 });
-    popAt(ctx, t, S.pills[4], W / 2, 1480, (c) => pill(c, 0, 0, 'סבב אחד הוא ⁦10⁩ זוגות', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: -0.02 });
-    popAt(ctx, t, S.pills[5], W / 2, 1572, (c) => pill(c, 0, 0, 'ובסוף רואים כמה זמן זה לקח', { size: 40, w: 900, bg: C.lilac, seed: 68, maxW: SAFE.w }), { rot: 0.02 });
+    popAt(ctx, t, S.pills[4], W / 2, 1495, (c) => pill(c, 0, 0, 'סבב אחד הוא ⁦10⁩ זוגות', { size: 44, w: 900, bg: C.yellow, seed: 67, maxW: SAFE.w }), { rot: -0.02 });
+    
   }
 
   // ================= 4. PRINT =================
@@ -312,11 +311,10 @@
     S.ROWS.slice(0, 2).forEach((r) => {
       popAt(ctx, t, r.t, 735 - r.i * 400, 945, (c) => { c.scale(1.18, 1.18); page(c, r.i); }, { dur: 0.3, over: 1.5, rot: [-0.03, 0.025][r.i] });
     });
-    popAt(ctx, t, S.ROWS[2].t, W / 2, 1290, (c) => { chip(c, 245, 0, 420, 90, 'עמודי קלפים: ⁦6⁩ בעמוד', { on: true, color: C.orange, size: 32, seed: 86 }); chip(c, -245, 0, 420, 90, 'עמוד כללים', { on: false, size: 32, seed: 87 }); }, { dur: 0.25, over: 1.5, rot: 0.008 });
-    popAt(ctx, t, ev.ans, W / 2, 1390, (c) => pill(c, 0, 0, 'מוכן להדפסה! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
+    popAt(ctx, t, S.ROWS[2].t, W / 2, 1290, (c) => { chip(c, 205, 0, 390, 90, 'עמודי קלפים: ⁦6⁩ בעמוד', { on: true, color: C.orange, size: 32, seed: 86 }); chip(c, -205, 0, 390, 90, 'עמוד כללים', { on: false, size: 32, seed: 87 }); }, { dur: 0.25, over: 1.5, rot: 0.008 });
+    popAt(ctx, t, ev.ans, W / 2, 1415, (c) => pill(c, 0, 0, 'מוכן להדפסה! 🖨️', { size: 58, w: 900, bg: C.green, fg: '#fff', padX: 56, seed: 84 }), { rot: -0.03, dur: 0.35 });
     confetti(ctx, t, ev.ans, W / 2, 1360, { n: 50, seed: 6, spread: 800 });
-    popAt(ctx, t, S.pills[6], W / 2, 1488, (c) => pill(c, 0, 0, 'עדיף על נייר עבה או בריסטול', { size: 40, w: 900, bg: C.lilac, seed: 85, maxW: SAFE.w }), { rot: 0.02 });
-    popAt(ctx, t, S.pills[7], W / 2, 1572, (c) => pill(c, 0, 0, 'גוזרים לפי העיגול', { size: 40, w: 900, bg: C.yellow, seed: 86, maxW: SAFE.w }), { rot: -0.02 });
+    
   }
 
   // ================= 5. FOUR WAYS TO PLAY =================
@@ -329,30 +327,30 @@
         card(c, -440, -52, 880, 104, { fill: '#fff', r: 26, seed: 100 + i, shadow: 7, lw: 4.5 });
         he(c, e, 395, 20, { size: 50, w: 400 });
         he(c, ttl, 335, -6, { size: 42, w: 900, align: 'right', color: cols[i], maxW: 700 });
-        he(c, SHORT[i], 335, 36, { size: 31, w: 600, align: 'right', color: C.muted, maxW: 740 });
+        he(c, SHORT[i], 335, 36, { size: 35, w: 700, align: 'right', color: '#3b3e5c', maxW: 740 });
       }, { dur: 0.25, over: 1.5, rot: [0.006, -0.006][i % 2] });
     });
-    popAt(ctx, t, I[4].t, W / 2, 1180, (c) => {
+    popAt(ctx, t, I[4].t, W / 2, 1160, (c) => {
       card(c, -440, -125, 880, 250, { fill: '#fffdf7', r: 28, seed: 110, shadow: 9, lw: 4.5 });
       he(c, 'בחפיסה הקטנה: ⁦13⁩ סמלים', 405, -68, { size: 44, w: 900, align: 'right', maxW: 820 });
-      he(c, 'וכל אחד מופיע ב־⁦4⁩ קלפים', 405, -14, { size: 36, w: 700, align: 'right', color: C.muted, maxW: 820 });
+      he(c, 'וכל אחד מופיע ב־⁦4⁩ קלפים. למשל:', 405, -14, { size: 38, w: 700, align: 'right', color: '#3b3e5c', maxW: 820 });
     }, { dur: 0.3, over: 1.3, rot: 0.006 });
     for (let k = 0; k < 8; k++) {
       const p = UI.pop(t, S.dotsT(k), 0.25, 2); if (p <= 0) continue;
-      ctx.save(); ctx.translate(795 - k * 94, 1235); ctx.scale(p, p); dot(ctx, SYM13[k], 0, 0, 70); ctx.restore();
+      ctx.save(); ctx.translate(890 - k * 100, 1215); ctx.scale(p, p); dot(ctx, SYM13[k], 0, 0, 70); ctx.restore();
     }
-    popAt(ctx, t, I[5].t, W / 2, 1405, (c) => {
+    popAt(ctx, t, I[5].t, W / 2, 1365, (c) => {
       card(c, -440, -62, 880, 124, { fill: '#fff4bb', r: 28, seed: 112, shadow: 8, lw: 4.5 });
       he(c, '🍎 לגננת ולמורה', 405, -10, { size: 50, w: 900, align: 'right', maxW: 820 });
-      he(c, 'בגן שואלים "מה זה?" והמשחק הופך לשיחה על החג', 405, 38, { size: 31, w: 700, align: 'right', color: C.muted, maxW: 820 });
+      he(c, 'בגן שואלים "מה זה?" והמשחק הופך לשיחה על החג', 405, 38, { size: 35, w: 700, align: 'right', color: '#3b3e5c', maxW: 820 });
     }, { dur: 0.3, over: 1.3, rot: -0.006 });
-    popAt(ctx, t, ev.printBtn, W / 2, 1540, (c) => pill(c, 0, 0, 'חינם, על המסך ולהדפסה', { size: 46, w: 900, bg: C.green, fg: '#fff', padX: 44, seed: 113, maxW: SAFE.w }), { rot: -0.03, dur: 0.35 });
+    popAt(ctx, t, ev.printBtn, W / 2, 1480, (c) => pill(c, 0, 0, 'חינם, על המסך ולהדפסה', { size: 46, w: 900, bg: C.green, fg: '#fff', padX: 44, seed: 113, maxW: SAFE.w }), { rot: -0.03, dur: 0.35 });
   }
 
   // the two hook cards again, small, under the question (answer still open)
   function endCards(ctx, t, t0) {
-    popAt(ctx, t, t0, 330, 1570, (c) => rcard(c, 0, 0, 300, S.HOOK_CARDS[0].map(([id, e]) => [id, e, '']), 7919 * 3, { shadow: 6, lw: 4 }), { rot: -0.05, dur: 0.3 });
-    popAt(ctx, t, t0 + 0.1, 750, 1570, (c) => rcard(c, 0, 0, 300, S.HOOK_CARDS[1].map(([id, e]) => [id, e, '']), 7919 * 6, { shadow: 6, lw: 4 }), { rot: 0.05, dur: 0.3 });
+    popAt(ctx, t, t0, 360, 1460, (c) => rcard(c, 0, 0, 240, S.HOOK_CARDS[0].map(([id, e]) => [id, e, '']), 7919 * 3, { shadow: 6, lw: 4 }), { rot: -0.05, dur: 0.3 });
+    popAt(ctx, t, t0 + 0.1, 720, 1460, (c) => rcard(c, 0, 0, 240, S.HOOK_CARDS[1].map(([id, e]) => [id, e, '']), 7919 * 6, { shadow: 6, lw: 4 }), { rot: 0.05, dur: 0.3 });
   }
 
   // ================= END =================
@@ -368,9 +366,8 @@
     he(ctx, 'מצא את הזהה: משחק קלפים לחנוכה', W / 2, 800, { size: 50, w: 700, color: C.ink, alpha: UI.fadeIn(t, L[0].t, 0.25), maxW: SAFE.w });
     popAt(ctx, t, L[1].t, W / 2, 885, (c) => pill(c, 0, 0, 'חינם, בלי הרשמה', { size: 46, w: 900, bg: C.yellow, seed: 190 }), { rot: -0.03 });
     popAt(ctx, t, L[2].t, W / 2, 990, (c) => pill(c, 0, 0, 'ugabuga.co.il', { size: 64, w: 600, bg: C.blue, fg: '#fff', padX: 50, dir: 'ltr', fam: 'Fredoka', seed: 191 }));
-    he(ctx, 'באתר: חנוכה ← מצא את הזהה 🃏', W / 2, 1090, { size: 40, w: 800, color: C.muted, alpha: UI.fadeIn(t, L[3].t, 0.25), maxW: SAFE.w });
-    popAt(ctx, t, L[4].t, W / 2, 1230, (c) => { card(c, -450, -82, 900, 164, { fill: C.red, r: 40, seed: 192, shadow: 8, lw: 4.5 }); he(c, 'איזה סמל מופיע', 0, -14, { size: 54, w: 900, color: '#fff', maxW: 840 }); he(c, 'בשני הקלפים? 🔍', 0, 52, { size: 54, w: 900, color: '#fff', maxW: 840 }); }, { rot: 0.015, dur: 0.35 });
-    popAt(ctx, t, L[4].t + 0.35, W / 2, 1385, (c) => pill(c, 0, 0, 'מה הסמל המשותף? כתבו בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
+    popAt(ctx, t, L[4].t, W / 2, 1150, (c) => { card(c, -450, -82, 900, 164, { fill: C.red, r: 40, seed: 192, shadow: 8, lw: 4.5 }); he(c, 'איזה סמל מופיע', 0, -14, { size: 54, w: 900, color: '#fff', maxW: 840 }); he(c, 'בשני הקלפים? 🔍', 0, 52, { size: 54, w: 900, color: '#fff', maxW: 840 }); }, { rot: 0.015, dur: 0.35 });
+    popAt(ctx, t, L[4].t + 0.35, W / 2, 1290, (c) => pill(c, 0, 0, 'כתבו בתגובות 👇', { size: 46, w: 900, bg: C.yellow, padX: 40, seed: 193, maxW: SAFE.w }), { rot: -0.02, dur: 0.35 });
     endCards(ctx, t, L[4].t + 0.7);
     confetti(ctx, t, ev.logo, W / 2, 600, { n: 80, seed: 9, spread: 1000 });
   }
