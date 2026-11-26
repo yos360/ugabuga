@@ -1649,6 +1649,7 @@ export default function App() {
               {import.meta.env.VITE_TEST_OWNER_CLAIMS && <Route path="/__test/admin-suppliers" element={<AdminSuppliers />} />}
               <Route path="/suppliers" element={<SuppliersIndex />} />
               <Route path="/suppliers/me" element={<SupplierAccount />} />
+              <Route path="/suppliers/join" element={<SupplierAccount />} />
               <Route path="/suppliers/category/:type" element={<SupplierCategory />} />
               <Route path="/suppliers/:slug" element={<SupplierPage />} />
               <Route path="/about" element={<About />} />

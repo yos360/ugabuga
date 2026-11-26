@@ -5,7 +5,7 @@ import { PREMIUM } from './SupplierPlans'
 
 // The founding-supplier offer: the first 50 suppliers get a reduced price for life once paid plans open.
 // Founders are marked automatically in the database (sup_auto_founder trigger).
-export const FOUNDING = { limit: 50, firstMonth: '9.90', month: '24.90' }
+export const FOUNDING = { limit: 50, freeMonths: 'חודשיים', month: '9.90' }
 
 export function useFoundingPlaces() {
   const [left, setLeft] = useState(null)
@@ -20,8 +20,8 @@ export function useFoundingPlaces() {
 const PERKS = [
   'כרטיס ספק באתר בחינם, כבר עכשיו',
   'תג 🏅 ספק מייסד על הכרטיס ובעמוד שלכם',
-  `כשהמסלול בתשלום ייפתח: חודש ראשון ב־${FOUNDING.firstMonth} ₪`,
-  `ואחריו ${FOUNDING.month} ₪ לחודש לתמיד, במקום ${PREMIUM.month} ₪`,
+  `כשהמסלול בתשלום ייפתח: עוד ${FOUNDING.freeMonths} חינם`,
+  `ואחריהם רק ${FOUNDING.month} ₪ לחודש, מחיר מייסד (במקום ${PREMIUM.month} ₪)`,
 ]
 
 // `isFounder`: the signed-in supplier already holds a founding place.
