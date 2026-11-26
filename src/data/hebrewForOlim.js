@@ -3,6 +3,9 @@
 // Reuse: translations of the shared words come from src/data/languages/vocab.js (verified by
 // scripts/lang-verify). Only words that file lacks are written here, and only ones we are sure of.
 import { WORDS } from './languages/vocab'
+import {
+  H_MORE, EN_MORE, EXTRA_MORE, PHRASE_TOPICS, PIC_TOPICS, BOARD_KEYS, PLAN_WEEKS,
+} from './hebrewForOlimMore'
 
 export const PATH = '/learn/hebrew-for-olim'
 
@@ -113,33 +116,49 @@ function plain(v) {
   return Array.isArray(w) ? w[0] : w
 }
 
+// Merge the extra items (animals, nature, clothes, phrases...) from hebrewForOlimMore.js.
+Object.assign(H, H_MORE)
+Object.assign(EN, EN_MORE)
+for (const l of Object.keys(EXTRA_MORE)) Object.assign(EXTRA[l] ||= {}, EXTRA_MORE[l])
+
 // The word or phrase in the child's language, or null when we have no verified translation.
+// A vocab.js entry whose Hebrew meaning differs from ours (e.g. jeans vs pants) is not used.
 export function translate(lang, key) {
   if (lang === 'en') return EN[key] ?? null
-  return plain(EXTRA[lang]?.[key]) ?? plain(WORDS[lang]?.[key])
+  const own = EXTRA[lang]?.[key]
+  if (own != null) return plain(own)
+  const v = WORDS[lang]?.[key]
+  const he = v && typeof v === 'object' && !Array.isArray(v) ? v.he : null
+  if (he && H[key] && he !== H[key][0]) return null
+  return plain(v)
 }
 
 // A card: the Hebrew word and the child's word. `he` is the plain spelling (used for speech),
-// `nk` the spelling with niqqud when we have it.
-function card(lang, key) {
+// `nk` the spelling with niqqud when we have it. `loose` keeps the card even without a translation.
+function card(lang, key, loose = false) {
   const h = H[key]
   const tx = translate(lang, key)
-  if (!h || !tx) return null
-  return { key, he: h[0], nk: h[1] || h[0], tr: h[2], emoji: h[3], tx }
+  if (!h || (!tx && !loose)) return null
+  return { key, he: h[0], nk: h[1] || h[0], tr: h[2], emoji: h[3], tx: tx || '' }
 }
 
 // Topics shown on the page. `keys` are the item keys; `pics: false` marks phrases (no picture game).
 export const TOPICS = [
   { id: 'needs', emoji: '🆘', title: 'משפטים להישרדות', pics: false,
     keys: ['hello', 'thanks', 'please', 'yes', 'no', 'understand', 'toilet', 'drink', 'hungry', 'hurts', 'help', 'what'] },
+  ...PHRASE_TOPICS,
   { id: 'class', emoji: '🏫', title: 'בכיתה ובגן', pics: true, keys: ['teacher', 'friend', 'school', 'chair', 'book', 'recess'] },
   { id: 'supplies', emoji: '🎒', title: 'ציוד לימודים', pics: true, keys: ['pencil', 'pen', 'notebook', 'ruler', 'scissors', 'schoolbag', 'books'] },
   { id: 'body', emoji: '🙋', title: 'הגוף שלי', pics: true, keys: ['eye', 'ear', 'nose', 'mouth', 'hand', 'foot', 'tooth', 'tongue'] },
   { id: 'food', emoji: '🍎', title: 'אוכל ושתייה', pics: true, keys: ['water', 'milk', 'bread', 'egg', 'cheese', 'apple', 'banana', 'grapes', 'watermelon', 'lemon', 'strawberry', 'cake'] },
-  { id: 'family', emoji: '👪', title: 'משפחה', pics: true, keys: ['mom', 'dad', 'grandma', 'grandpa', 'brother', 'sister', 'baby'] },
+  { id: 'family', emoji: '👪', title: 'משפחה ואנשים', pics: true, keys: ['mom', 'dad', 'grandma', 'grandpa', 'brother', 'sister', 'baby', 'boy', 'girl', 'woman', 'man'] },
   { id: 'colors', emoji: '🎨', title: 'צבעים', pics: true, keys: ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'brown', 'black', 'white', 'pink'] },
   { id: 'numbers', emoji: '🔢', title: 'מספרים 1–10', pics: true, keys: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+  ...PIC_TOPICS,
 ]
+
+// Every item key that belongs to some topic (used to count "my words").
+export const ALL_KEYS = new Set(TOPICS.flatMap(t => t.keys.map(String)))
 
 // Cards of one topic in one language (words we have no translation for are left out).
 export function topicCards(lang, topicId) {
@@ -154,6 +173,18 @@ export function pictureCards(lang) {
 
 // The twelve survival phrases on the printable cards.
 export function phraseCards(lang) { return topicCards(lang, 'needs') }
+
+// The classroom communication board: always twelve cells; a cell without a translation keeps
+// the Hebrew and the English hint and leaves the child's language empty.
+export function boardCards(lang) { return BOARD_KEYS.map(k => card(lang, k, true)) }
+
+// The 4-week plan: weeks of 5 days, 3 items a day (same loose cards as the board).
+export function planWeeks(lang) {
+  return PLAN_WEEKS.map(w => ({
+    title: w.title,
+    days: Array.from({ length: 5 }, (_, d) => w.keys.slice(d * 3, d * 3 + 3).map(k => card(lang, k, true))),
+  }))
+}
 
 // "My name is… / I speak…" lines for the desk name card.
 export function deskLines(lang) { return { name: card(lang, 'name'), speak: card(lang, 'speak'), hello: card(lang, 'hello') } }
@@ -221,7 +252,10 @@ export const FAQ = [
   { q: 'הילד שותק בכיתה. האם זה בסדר?', a: 'לרוב כן. הרבה ילדים עוברים ״שלב שקט״ שבו הם קולטים ולא מדברים, ושקט של שבועות ואף חודשים אינו חריג. עוזרים להם כשמזמינים בלי ללחוץ, נותנים מילים עם תמונות ומחזקים כל ניסיון. אם השקט מלווה בעצב גדול, חרדה או שהילד שותק גם בבית ובשפתו, כדאי לשוחח עם יועצת בית הספר או עם הרופא של הילד.' },
   { q: 'האם כדאי להפסיק לדבר בשפת הבית כדי שילמד עברית מהר יותר?', a: 'לא. מחקרים וגורמי חינוך ממליצים להמשיך לדבר בשפת הבית. היא מחזקת את הקשר המשפחתי ואת החשיבה של הילד, ומסייעת ללמוד שפה נוספת. עברית הילד ילמד בגן, בבית הספר ובין חברים.' },
   { q: 'איך הילד מבקש לצאת לשירותים אם הוא לא יודע עברית?', a: 'זה הדבר הראשון שכדאי להכין. מלמדים את המשפט ״אני צריך/ה לשירותים״ ומוסיפים כרטיס עם תמונה. הדף הזה מכיל את המשפט בחמש שפות ואפשר להדפיס אותו. הגננת או המורה צריכות גם לדעת מה אומרים בשפת הבית.' },
-  { q: 'האם התרגומים והשמע בדף מדויקים?', a: 'התרגומים למילים הבסיסיות נבדקו מול מאגר המילים של האתר (בעמוד השפות) ואיתם נוספו משפטים פשוטים ויומיומיים. ההשמעה היא של עברית, בקול המכשיר שלכם. אם בקול של המכשיר אין עברית, ההגייה כתובה באותיות לטיניות. אם יש לכם הצעה לתיקון, כתבו לנו בעמוד יצירת הקשר.' },
+  { q: 'האם התרגומים והשמע בדף מדויקים?', a: 'המילים הבסיסיות (חיות, אוכל, גוף, בגדים, טבע, צבעים ועוד) נבדקו מול מאגר המילים המאומת של האתר, שמופיע בעמוד השפות. המשפטים (בכיתה, רגשות, משחק והישרדות) נכתבו ביד בניסוח פשוט ויומיומי, ובאמהרית הוספנו רק משפטים שאנחנו בטוחים בהם, ולכן בחלק מהכרטיסים באמהרית חסר משפט. ההשמעה היא של עברית, בקול המכשיר שלכם. אם בקול של המכשיר אין עברית, ההגייה כתובה באותיות לטיניות. מצאתם טעות או יש לכם הצעה לתיקון? כתבו לנו בעמוד יצירת הקשר ונתקן.' },
+  { q: 'אילו משחקים יש בדף?', a: 'ארבעה משחקים על הנושא שנבחר: התאמת תמונה למילה, משחק הקשבה (שומעים מילה בעברית ובוחרים את התמונה), משחק זיכרון של תמונה ומילה, וחידון הפוך (רואים את המילה בשפת הילד ובוחרים את המילה בעברית). אפשר גם לסמן ״למדתי״ ליד כל מילה ולראות כמה מילים כבר נלמדו. משחק ההקשבה דורש קול בעברית במכשיר.' },
+  { q: 'איך לומדים את האלפבית העברי?', a: 'בחלק האלפבית בדף יש את כל 22 האותיות ועוד 5 צורות סופיות: שם האות, הצליל בכתב לטיני, מילה לדוגמה עם תמונה וכפתור השמעה. יש גם דף אלפבית להדפסה. כדאי ללמוד שלוש־ארבע אותיות ביום, ולחזור עליהן עם המילים מהכרטיסים.' },
+  { q: 'אילו דפים אפשר להדפיס?', a: 'כרטיסי משפטים, לוח תקשורת לכיתה עם 12 תמונות (שירותים, מים, כואב לי, עזרה ועוד), כרטיס שולחן, תעודת עברית עם שם הילד ומספר המילים שלמד, תוכנית ארבעה שבועות עם שלוש מילים ביום, דף אלפבית ומילון תמונות לכל נושא. כולם בעברית ובשפת הבית שנבחרה.' },
   { q: 'לאילו גילאים הדף מתאים?', a: 'לגילאי הגן ועד כיתה ו׳. ילדים קטנים יעדיפו לראות ולהשמיע את התמונות. ילדים גדולים יותר יכולים לבדוק בעצמם את המילים ולשחק במשחק ההתאמה.' },
-  { q: 'האם מה שבוחרים בדף נשמר או נשלח?', a: 'לא. בחירת השפה והנושא, תוצאות המשחק והשם שנכתב בדפי ההדפסה לא נשמרים ולא נשלחים לשום מקום. הכול קורה רק במכשיר שלכם, ונעלם עם סגירת הדף.' },
+  { q: 'האם מה שבוחרים בדף נשמר או נשלח?', a: 'שום דבר לא נשלח לשום מקום. בחירת השפה והנושא, תוצאות המשחקים והשם שנכתב בדפי ההדפסה נשארים רק על המסך ונעלמים עם סגירת הדף. היחיד שנשמר הוא סימון ״למדתי״ ליד מילים, ורק בדפדפן שלכם, במכשיר הזה. אפשר לאפס אותו בכל רגע בכפתור ״איפוס״.' },
 ]
