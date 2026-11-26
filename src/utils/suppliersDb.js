@@ -61,6 +61,8 @@ export const suppliersDb = {
   },
   // Public totals (visitors today, visits in 30 days…) — see 202610100001_public_traffic_and_supplier_searches.sql
   traffic: () => publicDb.rpc('public_site_traffic').then(run),
+  // Founding-supplier places taken out of 50 — see 20261126200000_founding_program.sql
+  founding: () => publicDb.rpc('founding_suppliers_status').then(run),
   // signed-in supplier
   mine: () => supplierAuth.rpc('supplier_mine').then(run),
   save: p => supplierAuth.rpc('supplier_save', { p }).then(run),

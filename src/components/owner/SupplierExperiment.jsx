@@ -6,7 +6,7 @@ import { DAILY_POLLS } from '../../data/dailyPolls'
 // clicked through to Aluf HaMatzgot from the RSVP pages, how many clicked the empty "advertise here" slot,
 // how many opened /advertise, and which suppliers signed up in the period (owner_supplier_experiment).
 // Also the home page's daily poll ("מה אתם אומרים?") — votes per question (owner_poll_summary).
-const CHANNEL = { 'aluf-hamatzgot': 'אלוף המצגות', 'rsvp-slot': 'המקום הפנוי לספק' }
+const CHANNEL = { 'aluf-hamatzgot': 'אלוף המצגות', 'profeta-photography': 'פרופטה צילום', 'rsvp-slot': 'המקום הפנוי לספק' }
 const STATUS = { pending: 'ממתין לאישור', approved: 'מאושר', hidden: 'מוסתר' }
 const date = s => new Date(s).toLocaleDateString('he-IL', { timeZone: 'Asia/Jerusalem', day: 'numeric', month: 'numeric' })
 
@@ -28,16 +28,17 @@ export function SupplierExperiment({ from, to, tick = 0 }) {
   const signups = exp.signups || []
   const tiles = [
     [row('aluf-hamatzgot')?.clicks || 0, `נכנסו לאתר של אלוף המצגות מאישורי ההגעה${row('aluf-hamatzgot') ? ` · ${row('aluf-hamatzgot').visitors} מבקרים` : ''}`],
+    [row('profeta-photography')?.clicks || 0, `נכנסו לאתר של פרופטה צילום מאישורי ההגעה${row('profeta-photography') ? ` · ${row('profeta-photography').visitors} מבקרים` : ''}`],
     [row('rsvp-slot')?.clicks || 0, 'לחצו על "המקום הזה פנוי" (ספקים שמתעניינים)'],
     [exp.advertise_visitors || 0, `נכנסו לדף "לפרסם באתר" (${exp.advertise_views || 0} צפיות)`],
     [signups.filter(s => s.self).length, 'ספקים חדשים שנרשמו לבד'],
   ]
   return <div>
     <p className="mb-3 text-sm text-slate-600">הניסוי התחיל ב־24.11.2026: כרטיס של אלוף המצגות ולידו מקום פנוי לספק, בדף של האורח אחרי שענה ובדף של המארגן. כל לחיצה מגיעה לאתר שלו עם <code dir="ltr">utm_source=ugabuga</code>, כך שגם הוא רואה אותה בסטטיסטיקה שלו.</p>
-    <div className="mb-4 grid gap-2 sm:grid-cols-4">
+    <div className="mb-4 grid gap-2 sm:grid-cols-3">
       {tiles.map(([n, label]) => <div key={label} className="rounded-2xl bg-amber-50 p-4"><b className="block text-3xl">{n}</b><span className="text-sm text-slate-700">{label}</span></div>)}
     </div>
-    {['aluf-hamatzgot', 'rsvp-slot'].map(id => row(id)?.by_day?.length ? <p key={id} className="mb-1 text-sm"><b>{CHANNEL[id]} לפי יום:</b> {row(id).by_day.map(d => `${date(d.d)}: ${d.n}`).join(' · ')}</p> : null)}
+    {['aluf-hamatzgot', 'profeta-photography', 'rsvp-slot'].map(id => row(id)?.by_day?.length ? <p key={id} className="mb-1 text-sm"><b>{CHANNEL[id]} לפי יום:</b> {row(id).by_day.map(d => `${date(d.d)}: ${d.n}`).join(' · ')}</p> : null)}
     <h3 className="mb-2 mt-4 text-base font-black">ספקים שנרשמו בתקופה ({signups.length})</h3>
     {signups.length
       ? <table className="w-full text-right text-sm"><tbody>{signups.map((s, i) => <tr key={i} className="border-b">

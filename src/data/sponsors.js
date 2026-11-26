@@ -52,6 +52,16 @@ export const RSVP_SPONSORS = [
     logo: 'https://efhgyispuwxcplvzipcy.supabase.co/storage/v1/object/public/supplier-media/e430265a-f1f8-45fb-ab8b-df0e69b2364d/1790253955104-iuit0x.webp',
     active: true,
   },
+  {
+    id: 'profeta-photography',
+    name: 'פרופטה צילום',
+    tagline: 'צלם אירועים בחדרה ובשרון',
+    text: 'צילום טבעי של הרגעים האמיתיים: בר ובת מצווה, בריתות ועליות לתורה, וגם וידאו ומגנטים לאירוע.',
+    cta: 'לאתר של פרופטה ←',
+    url: 'https://profetaphotographer.com/',
+    logo: 'https://profetaphotographer.com/logo.svg',
+    active: true,
+  },
 ]
 
 // Normalised path without a trailing slash ('/' stays '/').

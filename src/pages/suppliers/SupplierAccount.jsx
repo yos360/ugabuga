@@ -5,6 +5,7 @@ import SupplierEditor from '../../components/suppliers/SupplierEditor'
 import { PlansCompare, SupplierFAQ, PremiumPrice, PREMIUM, PREMIUM_PITCH, premiumWa } from '../../components/suppliers/SupplierPlans'
 import { suppliersDb, supplierAuth, currentSupplierUser, signInWithGoogle, googleEnabled, signInWithEmail, signOutSupplier, waLink, OWNER_WHATSAPP } from '../../utils/suppliersDb'
 import TrafficProof from '../../components/suppliers/TrafficProof'
+import FoundingOffer from '../../components/suppliers/FoundingOffer'
 
 const STATUS = {
   pending: ['🎈 ברוכים הבאים למשפחת עוגה בוגה!', 'הכרטיס נשמר ויעלה לאתר אחרי בדיקה קצרה, בדרך כלל תוך יום. בינתיים אפשר להמשיך לשפר אותו.', 'bg-amber-50 border-amber-300'],
@@ -83,6 +84,7 @@ export default function SupplierAccount() {
 
     {user === undefined ? <p className="py-10 text-center">רגע…</p>
       : !user ? <>
+        <FoundingOffer cta={false} className="mx-auto mb-8 max-w-2xl" />
         <section className="mx-auto mb-8 max-w-md">
           <h2 className="mb-3 text-center text-2xl font-black">פתחו כרטיס חינם</h2>
           <SignIn />
@@ -109,6 +111,7 @@ export default function SupplierAccount() {
               <p className="mt-1">{STATUS[card.status]?.[1]}</p>
               {card.status === 'approved' && <Link to={`/suppliers/${card.slug}`} className="mt-3 inline-block rounded-xl bg-white px-4 py-2 font-bold shadow-sm">לצפייה בדף שלי ←</Link>}
             </div>
+            {card.founder && <FoundingOffer isFounder />}
             <div><h2 className="mb-3 text-2xl font-black">📊 30 הימים האחרונים</h2><Stats stats={card.stats} /></div>
             {card.plan !== 'page' && <div className="wobbly relative border-2 border-[var(--border)] bg-[var(--postit)] p-5 sm:p-6">
               {PREMIUM.soon && <span className="absolute left-4 top-4 -rotate-3 rounded-full bg-[var(--ink)] px-3 py-1 text-sm font-bold text-white">🚀 בקרוב</span>}

@@ -3,6 +3,7 @@ import SEO from '../components/ui/SEO'
 import SeoBody, { faqSchema } from '../components/ui/SeoBody'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import QuickAnswer from '../components/ui/QuickAnswer'
+import FoundingOffer from '../components/suppliers/FoundingOffer'
 import { OWNER_WHATSAPP, waLink } from '../utils/suppliersDb'
 
 const WA_TEXT = 'היי! אני מ___ ורוצה לשמוע על פרסום בעוגה בוגה'
@@ -64,6 +65,8 @@ export default function Advertise() {
       a="בעוגה בוגה אפשר לפרסם באנר קטן ומסומן בעמודים שהנושא שלהם קשור למוצר, כרטיס מוצר מומלץ, דף פעילות בחסות או אזכור במייל השבועי. כל הפרסומות מסומנות, מתאימות לילדים ולא מופיעות באזור הילדים. פונים אלינו בוואטסאפ ומקבלים הצעה."
       rows={[['למי', 'הורים, גננות, מורות, קלינאיות תקשורת'], ['איפה', 'בעמודים רלוונטיים לפי נושא, מתחת לתוכן'], ['סימון', '„פרסומת” / „בשיתוף” על כל מודעה'], ['יצירת קשר', 'וואטסאפ — 050-7772930']]}
       updated="2026-10-24" />
+
+    <FoundingOffer className="mx-auto mt-10 max-w-3xl" />
 
     <section className="mt-10">
       <h2 className="text-center text-3xl font-black">מי מגיע לאתר?</h2>

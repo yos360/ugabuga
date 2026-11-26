@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { RSVP_SPONSORS, SPONSOR_LABEL } from '../../data/sponsors'
 import { logSponsorClick } from '../../utils/liveActivity'
@@ -12,7 +13,11 @@ function track(id, url) {
 }
 
 export default function RsvpSuppliers({ where }) {
-  const list = RSVP_SPONSORS.filter(s => s.active)
+  // The active suppliers take turns: one of them, picked at random, on each page view.
+  const [list] = useState(() => {
+    const all = RSVP_SPONSORS.filter(s => s.active)
+    return all.length ? [all[Math.floor(Math.random() * all.length)]] : []
+  })
   if (!list.length) return null
   const withSource = url => `${url}${url.includes('?') ? '&' : '?'}utm_source=ugabuga&utm_medium=rsvp&utm_campaign=rsvp-${where}`
   return <aside className="no-print mx-auto mt-6 max-w-xl" dir="rtl" aria-label="ספקים לאירוע">
@@ -37,6 +42,7 @@ export default function RsvpSuppliers({ where }) {
         <span className="text-3xl" aria-hidden="true">📣</span>
         <b className="mt-1 text-lg text-[var(--ink)]">המקום הזה פנוי</b>
         <span className="mt-1 text-sm">ספקים לאירועים: מאות אורחים ומארגנים רואים את הדף הזה כל שבוע</span>
+        <span className="mt-1 text-sm font-bold text-amber-800">🏅 50 הראשונים מקבלים מחיר מייסד מוזל לתמיד</span>
         <span className="mt-2 text-sm font-bold underline">לפרסם כאן ←</span>
       </Link>
     </div>
