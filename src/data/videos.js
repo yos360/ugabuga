@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'm03nfmYlJFA', kind: 'tutorial', title: 'יוגה לילדים בגן ובכיתה — תנוחות, נשימות וכרטיסים להדפסה', paths: ['/classroom/kids-yoga'], category: 'classroom', date: '2026-11-26',
+    desc: 'מדריך קצר ליוגה ומיינדפולנס לילדים: מגרילים תנוחה עם ספירה לאחור, בונים סשן של חמש תנוחות ויוצאים למסע, מתרגלים שש נשימות משחקיות עם עיגול שגדל ומתכווץ, ומדפיסים כרטיסי תנוחות, תוכנית לסשן ודף מיינדפולנס. חינם, בלי הרשמה.' },
   { id: '1M0CNbH-9bU', kind: 'tutorial', title: 'ארוחת עשר בריאה לילדים — רעיונות ותפריט שבועי להדפסה', paths: ['/printables/healthy-snack-planner'], category: 'tools', date: '2026-11-26',
     desc: 'מדריך קצר לארוחת עשר בריאה: 40 רעיונות בארבע קבוצות, בונים קופסה מאוזנת על המסך, מסמנים ללא אגוזים ובוטנים, יוצרים תפריט אקראי מיום א׳ עד יום ו׳ ומחליפים יום אחד ב־🔄, ומדפיסים את התפריט, מתכנן ריק ודף מאכלים אהובים. חינם, בלי הרשמה.' },
   { id: 'o9haTbumXjk', kind: 'tutorial', title: 'משחק מצא את הזהה לחנוכה — על המסך ולהדפסה', paths: ['/holidays/hanukkah/match-game'], category: 'holidays', date: '2026-11-26',
@@ -136,6 +138,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/classroom/kids-yoga': 'יוגה ומיינדפולנס לילדים',
   '/printables/healthy-snack-planner': 'ארוחת עשר בריאה',
   '/learn/adapted-tests': 'מבחנים מותאמים עם הקראה',
   '/learn/adapted-tests/math/grade-1': 'מבחן חשבון מותאם כיתה א׳',

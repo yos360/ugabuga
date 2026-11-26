@@ -1,3 +1,4 @@
+import '../../learn/learn.css'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
