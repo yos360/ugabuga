@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '1M0CNbH-9bU', kind: 'tutorial', title: 'ארוחת עשר בריאה לילדים — רעיונות ותפריט שבועי להדפסה', paths: ['/printables/healthy-snack-planner'], category: 'tools', date: '2026-11-26',
+    desc: 'מדריך קצר לארוחת עשר בריאה: 40 רעיונות בארבע קבוצות, בונים קופסה מאוזנת על המסך, מסמנים ללא אגוזים ובוטנים, יוצרים תפריט אקראי מיום א׳ עד יום ו׳ ומחליפים יום אחד ב־🔄, ומדפיסים את התפריט, מתכנן ריק ודף מאכלים אהובים. חינם, בלי הרשמה.' },
   { id: 'o9haTbumXjk', kind: 'tutorial', title: 'משחק מצא את הזהה לחנוכה — על המסך ולהדפסה', paths: ['/holidays/hanukkah/match-game'], category: 'holidays', date: '2026-11-26',
     desc: 'מדריך קצר למשחק הקלפים לחנוכה: בוחרים חפיסה קטנה לגן או גדולה, תמונות או מילים לתרגול קריאה, משחקים על המסך בסבב של 10 זוגות או מדפיסים 6 קלפים בעמוד עם ארבע דרכים לשחק. חינם ובלי הרשמה.' },
   { id: 'jKfAvSbyw2o', kind: 'tutorial', title: 'קופת חיסכון לילדים להדפסה ולוח חיסכון למטרה', paths: ['/learn/money/piggy-bank'], category: 'learning', date: '2026-11-25',
@@ -134,6 +136,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/printables/healthy-snack-planner': 'ארוחת עשר בריאה',
   '/learn/adapted-tests': 'מבחנים מותאמים עם הקראה',
   '/learn/adapted-tests/math/grade-1': 'מבחן חשבון מותאם כיתה א׳',
   '/learn/adapted-tests/math/grade-2': 'מבחן חשבון מותאם כיתה ב׳',
