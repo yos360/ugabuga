@@ -428,6 +428,8 @@ const KidsRecipes = lazy(() => import('./family/FoodPages').then(m => ({ default
 const KidsRecipe = lazy(() => import('./family/FoodPages').then(m => ({ default: m.KidsRecipe })))
 const KitchenScience = lazy(() => import('./family/FoodPages').then(m => ({ default: m.KitchenScience })))
 const Experiment = lazy(() => import('./family/FoodPages').then(m => ({ default: m.Experiment })))
+const HealthySnacks = lazy(() => import('./family/FoodIdeas').then(m => ({ default: m.HealthySnacks })))
+const KidsBreakfast = lazy(() => import('./family/FoodIdeas').then(m => ({ default: m.KidsBreakfast })))
 const LunchboxNotes = lazy(() => import('./family/FoodPages').then(m => ({ default: m.LunchboxNotes })))
 const AllergySigns = lazy(() => import('./family/AllergySigns'))
 const ClassroomSigns = lazy(() => import('./pages/printables/ClassroomSigns'))
@@ -1388,6 +1390,8 @@ export default function App() {
               <Route path="/food" element={<FoodHub />} />
               <Route path="/food/school-lunch" element={<SchoolLunch />} />
               <Route path="/food/lunch-planner" element={<LunchPlanner />} />
+              <Route path="/food/healthy-snacks" element={<HealthySnacks />} />
+              <Route path="/food/kids-breakfast" element={<KidsBreakfast />} />
               <Route path="/food/kids-recipes" element={<KidsRecipes />} />
               <Route path="/food/kids-recipes/:slug" element={<KidsRecipe />} />
               <Route path="/food/kitchen-science" element={<KitchenScience />} />

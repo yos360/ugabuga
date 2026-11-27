@@ -1,4 +1,5 @@
 import { NEW_CAKES, ALL_EXPANDED_RECIPES } from './recipesExpanded.js'
+import { GLUTEN_FREE_CAKE } from './cakeGlutenFree.js'
 // Birthday cakes section (/cakes): recipes + guides, pure data and helpers (no JSX, importable by node tests).
 // Base recipes were cross-checked against published sources (see the final report of the feature);
 // quantities use Israeli measures: 1 כוס = 240 מ"ל.
@@ -1134,6 +1135,7 @@ export const CAKES = [
     ],
     related: ['number-cake', 'frostings', 'cupcakes', 'chocolate-birthday-cake'],
   },
+  GLUTEN_FREE_CAKE,
   ...NEW_CAKES,
 ]
 
