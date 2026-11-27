@@ -107,6 +107,7 @@ export function CrosswordList() {
     <Breadcrumbs items={crumbs({ label: 'תשחצים להדפסה' })} />
     <h1 className="text-center text-5xl font-black">✏️ תשחצים להדפסה</h1>
     <p className="adult-lead">תשבצים מלאים כמו בעיתון — כל משבצת היא חלק ממילה. בוחרים תשבץ, מדפיסים באותיות גדולות, והפתרון בדף נפרד.</p>
+    <p className="adult-lead">תקועים על מילה? <Link className="underline" to="/tools/crossword-solver">פותר התשבצים</Link> מציע מילים לפי מספר האותיות והאותיות שכבר ידועות.</p>
     {!data ? <p role="status" className="text-center">טוען…</p> : [11, 9].map(size => <section key={size} className="mt-8">
       <h2 className="mb-3 text-3xl font-black">{size === 11 ? 'תשבצים גדולים (11×11)' : 'תשבצים רגילים (9×9)'}</h2>
       <ul className="adult-cards small">{list.filter(p => p.size === size).map(p => <li key={p.id}><Link to={`/adults/crosswords/${p.id}`} className="adult-card"><span aria-hidden="true">✏️</span><b>{cwTitle(p)}</b><small>{p.across.length + p.down.length} הגדרות</small></Link></li>)}</ul>
