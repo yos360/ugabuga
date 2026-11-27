@@ -1963,6 +1963,9 @@
   <url><loc>https://ugabuga.co.il/holidays/pesach/what-to-do</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/costumes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/babies</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/adults</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/women</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/mishloach-manot</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/mishloach-manot-draw</loc><lastmod>2026-11-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/quiz</loc><priority>0.7</priority></url>
