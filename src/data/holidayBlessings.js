@@ -555,7 +555,7 @@ export const HOLIDAY_BLESSINGS = [
   },
 
   {
-    slug: 'rosh-chodesh', name: 'ראש חודש', emoji: '🌙', season: 'year',
+    slug: 'rosh-chodesh', name: 'ראש חודש', emoji: '🌙', season: 'year', hub: '/holidays/rosh-chodesh',
     when: 'בתחילת כל חודש עברי — יום אחד או יומיים',
     intro: 'ראש חודש הוא חג קטן בתחילת כל חודש, כשהירח מתחיל לגדול מחדש. בתפילה מוסיפים "יעלה ויבוא", אומרים חצי הלל וקוראים בתורה.',
     blessings: [],

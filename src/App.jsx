@@ -503,6 +503,7 @@ const HanukkahEscapeRoom = lazy(() => import('./pages/holidays/HanukkahEscapeRoo
 const HanukkahLearn = lazy(() => import('./pages/holidays/HanukkahLearn'))
 const Sevivon = lazy(() => import('./pages/holidays/Sevivon'))
 const HolidayRoute = lazy(() => import('./pages/holidays/HolidayRoute'))
+const RoshChodesh = lazy(() => import('./pages/holidays/RoshChodesh'))
 const TuBishvatHub = lazy(() => import('./pages/holidays/TuBishvatHub'))
 const SevenSpecies = lazy(() => import('./pages/holidays/SevenSpecies'))
 const TuBishvatSeder = lazy(() => import('./pages/holidays/TuBishvatSeder'))
@@ -1490,6 +1491,8 @@ export default function App() {
               <Route path="/holidays/sigd/special-ed-grade-3" element={<SigdSpecialEd />} />
               <Route path="/holidays/purim/costumes" element={<PurimCostumes />} />
               <Route path="/holidays/purim/mishloach-manot-draw" element={<SecretFriend key="purim" variant="purim" />} />
+              <Route path="/holidays/rosh-chodesh" element={<RoshChodesh />} />
+              <Route path="/holidays/rosh-chodesh/:month" element={<RoshChodesh />} />
               <Route path="/holidays/:slug"element={<HolidayRoute />} />
               <Route path="/holidays/:slug/:kind" element={<HolidayRoute />} />
               <Route path="/purim" element={<Navigate to="/holidays/purim" replace />} />
