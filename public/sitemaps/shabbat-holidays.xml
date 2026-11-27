@@ -97,6 +97,25 @@
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer/coloring</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--lag-baomer--coloring.jpg</image:loc><image:title>דפי צביעה לל״ג בעומר — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer/worksheets</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--lag-baomer--worksheets.jpg</image:loc><image:title>דפי עבודה לל״ג בעומר — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/lag-baomer/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/story</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/safety</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/games</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/riddles</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/greetings</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/lag-baomer/crafts</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/elul</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/av</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/iyar</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/nisan</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/adar</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/kislev</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/tevet</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/shevat</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/sivan</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/tamuz</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/cheshvan</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/rosh-chodesh/tishrei</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/pesach</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/pesach/seder</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/pesach/quiz</loc><priority>0.7</priority></url>
@@ -105,6 +124,9 @@
   <url><loc>https://ugabuga.co.il/holidays/pesach/what-to-do</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/costumes</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/babies</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/adults</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/purim/costumes/women</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/mishloach-manot</loc><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/mishloach-manot-draw</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/YUSN9ic1LSs/hqdefault.jpg</video:thumbnail_loc><video:title>הגרלת גמד וענק אונליין — מתנות לחנוכה ומשלוח מנות</video:title><video:description>איך עושים הגרלת גמד וענק או מתנות לחנוכה בכיתה: כותבים שמות, מגרילים, וכל אחד מקבל קישור אישי שבו רק הוא רואה את מי הגריל. גם פתקים להדפסה. חינם ובלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/YUSN9ic1LSs</video:player_loc><video:publication_date>2026-11-16T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-14</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/purim/quiz</loc><priority>0.7</priority></url>
