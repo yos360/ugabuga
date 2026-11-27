@@ -57,6 +57,12 @@ const TOPICS = {
   maccabees: ['The Maccabees', 'Color the Hanukkah story scene by scene, from the olive harvest and the small jug of oil to the torch relay.'],
   professions: ['Jobs and professions', 'Color firefighters, doctors, chefs and pilots, then talk about what you want to be when you grow up.'],
   winter: ['Winter', 'Color rainy days, warm clothes, hot soup and snow, then talk about the weather outside your window.'],
+  'cute-things': ['Cute things', 'Color cute smiling objects and animals, then give every character a name and a little story.'],
+  giraffe: ['Giraffes', 'Color each giraffe spot a different shade, then count how many spots you can find on the neck.'],
+  duck: ['Ducks', 'Color the ducklings yellow and the pond blue, then draw ripples spreading around each duck.'],
+  hamster: ['Hamsters', 'Color the hamster in soft fur shades, then design the cage with a house, a wheel and a food bowl.'],
+  watermelon: ['Watermelon', 'Paint green stripes on the rind and red inside, then draw seeds, and talk about your favorite summer fruit.'],
+  house: ['Houses', 'Color each house in its own style, then draw the house you live in and add its front door.'],
 }
 export const EN_COLORING = COLORING_SUBJECTS.map(s => ({
   slug: s.slug, emoji: s.emoji, count: s.items.length, fmt: s.fmt || 'svg',
