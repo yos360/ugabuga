@@ -2,8 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
 const RequestBanner = lazy(() => import('../ui/RequestBanner'))
 const RsvpOffer = lazy(() => import('../ui/RsvpOffer'))
-// Birthday and greeting pages get the free-RSVP offer (not the RSVP / invitation pages themselves, kids zone or English).
-const RSVP_OFFER = /(birthday|greeting|yom-huledet|party|^\/cakes(?:\/|$))/i
+// Birthday, greeting, bar/bat mitzvah and wedding pages get the free-RSVP offer (not the RSVP / invitation pages themselves, kids zone or English).
+const RSVP_OFFER = /(birthday|greeting|yom-huledet|party|mitzv|wedding|henna|\/brit(?:\/|$)|^\/cakes(?:\/|$))/i
 const RSVP_OFFER_SKIP = /^\/(?:rsvp|r|kids|en|admin|embed|play|live|birthday-invitation|invitation|party-album)(?:\/|$)/
 const rsvpOfferWanted = path => RSVP_OFFER.test(path) && !RSVP_OFFER_SKIP.test(path)
 // Lazy (with PresentMode below): shown only after mount, and the entry sits at its 150 KB budget.

@@ -7,8 +7,10 @@ function track(path) {
 }
 
 export default function RsvpOffer({ pathname }) {
-  const adult = /adult/.test(pathname)
-  const to = adult ? '/rsvp/adult-birthday' : '/rsvp'
+  // Straight to the matching RSVP type when there is one.
+  const type = [[/bat-mitzv/, 'bat-mitzvah'], [/bar-mitzv/, 'bar-mitzvah'], [/wedding/, 'wedding'], [/henna/, 'henna'], [/\/brit(\/|$)/, 'brit'], [/adult/, 'adult-birthday']]
+    .find(([re]) => re.test(pathname))?.[1]
+  const to = type ? `/rsvp/${type}` : '/rsvp'
   return <aside className="no-print no-present mx-auto my-8 max-w-3xl px-4" dir="rtl" aria-labelledby="rsvp-offer-h">
     <div className="wobbly flex flex-col gap-4 border-2 border-[var(--border)] bg-[var(--postit)] p-5 shadow-[4px_4px_0_var(--border)] sm:flex-row sm:items-center sm:p-6">
       <span className="text-5xl" aria-hidden="true">💌</span>
