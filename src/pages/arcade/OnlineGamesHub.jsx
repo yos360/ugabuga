@@ -19,7 +19,7 @@ const FAQ = [
 ]
 // "Which game for which age" guide under the grid (slugs from the arcade registry)
 const BY_AGE = [
-  { age: 'גיל 4–6', text: 'משחקים קצרים בלי קריאה: זיכרון, מצאו את בוגה, הכו בחפרפרת ומיון כדורים.', games: ['memory', 'find-buga', 'whack-a-mole', 'ball-sort'] },
+  { age: 'גיל 4–6', text: 'משחקים קצרים בלי קריאה: זיכרון, מצאו את בוגה, הכו בחפרפרת, מרוץ מכוניות ומשחק הלבשה.', games: ['memory', 'find-buga', 'whack-a-mole', 'car-race', 'dress-up'] },
   { age: 'גיל 7–9', text: 'כאן מתחילים לתכנן כמה צעדים קדימה: פקק תנועה, מצאו את ההבדלים, פאזל 15 וצוללות.', games: ['traffic-jam', 'find-differences', 'sliding-puzzle', 'battleship'] },
   { age: 'גיל 10 ומעלה ומבוגרים', text: 'אתגרים ארוכים יותר של היגיון וחשבון: 2048, סודוקו, שולה מוקשים ובוגה 24.', games: ['merge-2048', 'sudoku', 'minesweeper', 'buga-24'] },
 ]

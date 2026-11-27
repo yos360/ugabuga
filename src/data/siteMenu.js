@@ -50,6 +50,8 @@ export const MENU_DOMAINS = [
           { to: '/online-games/merge-2048', label: 'מכפילים עד 2048', icon: '🔢' },
           { to: '/online-games/block-puzzle', label: 'מסיבת בלוקים', icon: '🟨' },
           { to: '/online-games/traffic-jam', label: 'פקק תנועה', icon: '🚚' },
+          { to: '/online-games/car-race', label: 'מרוץ מכוניות — חדש!', icon: '🏎️' },
+          { to: '/online-games/dress-up', label: 'משחק הלבשה — חדש!', icon: '👗' },
           { to: '/online-games/solitaire', label: 'סוליטר', icon: '🃏' },
           { to: '/online-games/spider-solitaire', label: 'סוליטר עכביש', icon: '🕷️' },
           { to: '/online-games/minesweeper', label: 'שולה מוקשים', icon: '💣' },
