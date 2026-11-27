@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'FxZhQhxgQAo', kind: 'tutorial', title: 'משחקי חשבון לגן לגיל 3-4 — ספירה, ספרות ושימור כמות', paths: ['/classroom/preschool-math-games'], category: 'classroom', date: '2026-11-27',
+    desc: 'מדריך קצר למשחקי חשבון לגן לגיל 3-4: מסננים 12 משחקים לפי מיומנות, רואים מה צריך ואיך משחקים בכל אחד, משחקים על המסך "כמה נקודות?" ומדפיסים כרטיסי ספרות ונקודות 1-10. חינם, בלי הרשמה.' },
   { id: 'WLNFKi6qQVo', kind: 'tutorial', title: 'קישוטי חנוכה להדפסה לגן ולכיתה — דגלונים, כרזה ושלט', paths: ['/holidays/hanukkah/decorations'], category: 'holidays', date: '2026-11-27',
     desc: 'מדריך קצר לקישוטי חנוכה להדפסה: בוחרים גרסה צבעונית או גרסה לצביעה, ומדפיסים 12 דגלונים עם אותיות הברכה, שרשרת סביבונים, כוכב לחלון, כרזה גדולה על כמה דפים ושלט "פינת חנוכה" עם שם הגן או הכיתה. חינם, בלי הרשמה.' },
   { id: '-ODep7IhQuA', kind: 'tutorial', title: 'תחנות בחשבון לכיתות ב׳–ג׳ — מרכזי למידה מוכנים להדפסה', paths: ['/classroom/math-centers'], category: 'classroom', date: '2026-11-27',
@@ -144,6 +146,7 @@ export const VIDEOS = [
 export const VIDEO_PAGE_LABELS = {
   '/holidays/hanukkah/decorations': 'קישוטי חנוכה להדפסה',
   '/classroom/math-centers': 'מרכזי למידה בחשבון',
+  '/classroom/preschool-math-games': 'משחקי חשבון לגן',
   '/classroom/kids-yoga': 'יוגה ומיינדפולנס לילדים',
   '/printables/healthy-snack-planner': 'ארוחת עשר בריאה',
   '/learn/adapted-tests': 'מבחנים מותאמים עם הקראה',
