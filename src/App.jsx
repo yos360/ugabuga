@@ -365,6 +365,8 @@ const BabyNamesLetter = lazy(() => import('./pages/babyNames/BabyNames').then(m 
 const BabyNamePage = lazy(() => import('./pages/babyNames/BabyNames').then(m => ({ default: m.BabyNamePage })))
 const MathHub = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathHub })))
 const MathGrade = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathGrade })))
+const MathGamesHub = lazy(() => import('./math/MathGames').then(m => ({ default: m.MathGamesHub })))
+const MathGamesGrade = lazy(() => import('./math/MathGames').then(m => ({ default: m.MathGamesGrade })))
 const MathTopic = lazy(() => import('./math/MathPages').then(m => ({ default: m.MathTopic })))
 const FractionsGuide = lazy(() => import('./math/FractionsGuide'))
 const SymmetryGuide = lazy(() => import('./math/SymmetryGuide'))
@@ -1314,6 +1316,8 @@ export default function App() {
               <Route path="/family/morning-routine" element={<MorningRoutine />} />
               <Route path="/family/bedtime-story" element={<BedtimeStory />} />
               <Route path="/math" element={<MathHub />} />
+              <Route path="/math/games" element={<MathGamesHub />} />
+              <Route path="/math/games/:gradeSlug" element={<MathGamesGrade />} />
               <Route path="/math/fractions" element={<FractionsGuide />} />
               <Route path="/math/symmetry" element={<SymmetryGuide />} />
               <Route path="/math/mixed-numbers" element={<MixedNumbersGuide />} />

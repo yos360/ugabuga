@@ -73,3 +73,9 @@
 .mth-pkey>li{position:relative;padding-inline-start:30px;counter-increment:q;break-inside:avoid;margin-bottom:3px}
 @media (max-width:420px){.mth-q{font-size:18px}.mth-input{font-size:26px}}
 @media (prefers-reduced-motion:reduce){.mth-ex{transition:none}}
+/* /math/games: floating answer balloons and the balloon fuse (9s, matches MathGames.jsx). */
+.mg-balloons .mg-balloon{border-radius:999px 999px 999px 999px/60% 60% 40% 40%;animation:mg-float 2.4s ease-in-out infinite alternate}
+@keyframes mg-float{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.mg-fuse{height:8px;border-radius:999px;background:#f59e0b;transform-origin:right;animation:mg-fuse 9s linear forwards}
+@keyframes mg-fuse{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.mg-balloons .mg-balloon{animation:none}}

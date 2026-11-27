@@ -258,6 +258,7 @@ export function MathHub() {
       <label htmlFor="math-q" className="sr-only">חיפוש נושא</label>
       <input id="math-q" type="search" className="mth-search" value={q} onChange={e => setQ(e.target.value)} placeholder="חיפוש נושא: שברים, היקף, משוואות…" />
       {term.length >= 2 && <div className="mth-hits" aria-live="polite">{hits.length ? hits.map(({ t, g }) => <Link key={`${g.n}/${t.slug}`} to={topicPath(t)} className="ln-chip"><span aria-hidden="true">{t.emoji}</span> {t.title} · {gradeName(g)}</Link>) : <p className="m-0">לא נמצא נושא כזה. נסו מילה אחרת.</p>}</div>}
+      <p className="mt-4 text-center text-xl font-bold"><span aria-hidden="true">🎮 </span><Link to="/math/games" className="underline">משחקי חשבון אונליין לפי כיתה</Link> — מרוץ דקה, בוגה מטפס ובלוני תשובות, כיתות א׳–ו׳</p>
       <p className="mt-4 text-center text-lg"><span aria-hidden="true">❌⭕ </span>למורים: <Link to="/classroom/math-tic-tac-toe" className="font-bold underline">איקס־עיגול חשבוני לכיתה</Link> — משחק קבוצות על המקרן, כיתות א׳–ד׳</p>
     </div>
 
@@ -347,7 +348,7 @@ function GradePage({ n }) {
     </header>
 
     {topics.length > 0 ? <>
-      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}{(n === 4 || n === 5) && <Link to="/math/mixed-numbers" className="ln-btn alt">🔁 מספר מעורב ושבר מדומה</Link>}{n >= 3 && n <= 5 && <Link to="/math/symmetry" className="ln-btn alt">🪞 סימטריה</Link>}{n >= 2 && n <= 4 && <Link to={`/math/word-problems/grade-${n}`} className="ln-btn alt">📖 שאלות מילוליות עם פתרון</Link>}{(n === 2 || n === 3) && <Link to="/classroom/math-centers" className="ln-btn alt">🔢 תחנות למידה לכיתה</Link>}</div>
+      <div className="mth-actions mt-5"><Link to={g.testPath} className="ln-btn go">📝 {testKeyword(g)}</Link>{n >= 1 && n <= 6 && <Link to={`/math/games/grade-${n}`} className="ln-btn alt">🎮 משחקי חשבון {toGrade(g)}</Link>}{MID_YEAR_GRADES.includes(n) && <Link to={midYearPath(g)} className="ln-btn alt">🗓️ מבחן אמצע שנה</Link>}{(n === 4 || n === 5) && <Link to="/math/fractions" className="ln-btn alt">🍕 איך מלמדים שברים</Link>}{(n === 4 || n === 5) && <Link to="/math/mixed-numbers" className="ln-btn alt">🔁 מספר מעורב ושבר מדומה</Link>}{n >= 3 && n <= 5 && <Link to="/math/symmetry" className="ln-btn alt">🪞 סימטריה</Link>}{n >= 2 && n <= 4 && <Link to={`/math/word-problems/grade-${n}`} className="ln-btn alt">📖 שאלות מילוליות עם פתרון</Link>}{(n === 2 || n === 3) && <Link to="/classroom/math-centers" className="ln-btn alt">🔢 תחנות למידה לכיתה</Link>}</div>
       {groups.map(gr => <section key={gr.strand} className="mt-8" aria-labelledby={`s-${gr.strand}`}>
         <h2 id={`s-${gr.strand}`} className="mb-3 text-2xl font-black"><span aria-hidden="true">{gr.emoji} </span>{gr.label}</h2>
         <div className="grid gap-3 sm:grid-cols-2">{gr.topics.map(t => <Link key={t.slug} to={topicPath(t)} className="wobbly card-lift border-2 border-[var(--border)] bg-[var(--card)] sketch-shadow p-4 text-right mth-topic-card">
