@@ -162,6 +162,8 @@ const FirstGradeRegistration = lazy(() => import('./pages/classroom/FirstGradeRe
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
 const Weather = lazy(() => import('./pages/tools/Weather'))
+const GanActivities = lazy(() => import('./pages/classroom/GanTopicHubs').then(m => ({ default: m.GanActivities })))
+const GanCrafts = lazy(() => import('./pages/classroom/GanTopicHubs').then(m => ({ default: m.GanCrafts })))
 const GanHub = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.GanHub })))
 const TeacherByGrade = lazy(() => import('./pages/classroom/AudienceHubs').then(m => ({ default: m.TeacherByGrade })))
 const SoundPositionOnline = lazy(() => import('./pages/printables/SoundPositionGame').then(m => ({ default: m.SoundPositionOnline })))
@@ -526,6 +528,7 @@ const WorksheetMaker = lazy(() => import('./pages/tools/WorksheetMaker'))
 const EretzIr = lazy(() => import('./pages/tools/EretzIr'))
 const WordSearchMaker = lazy(() => import('./pages/tools/WordSearchMaker'))
 const CrosswordMaker = lazy(() => import('./pages/tools/PuzzleStudio'))
+const CrosswordSolver = lazy(() => import('./pages/tools/CrosswordSolver'))
 const BringList = lazy(() => import('./pages/tools/BringList'))
 const Rsvp = lazy(() => import('./pages/tools/group/Rsvp'))
 const RsvpTypePage = lazy(() => import('./pages/tools/group/Rsvp').then(m => ({ default: m.RsvpTypePage })))
@@ -704,6 +707,8 @@ export default function App() {
               <Route path="/birthday/spa-party" element={<SpaParty />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />
+              <Route path="/gan/activities" element={<GanActivities />} />
+              <Route path="/gan/crafts" element={<GanCrafts />} />
               <Route path="/weather" element={<Weather />} />
               <Route path="/classroom/by-grade" element={<TeacherByGrade />} />
               <Route path="/classroom/subjects" element={<BugaPedia />} />
@@ -1611,7 +1616,7 @@ export default function App() {
               <Route path="/hanukkiah" element={<SharedHanukkiah />} />
               <Route path="/hanukkiah/:code" element={<SharedHanukkiah />} />
               <Route path="/crossword" element={<CrosswordMaker />} />
-              <Route path="/tools/word-search" element={<WordSearchMaker />} />
+              <Route path="/tools/crossword-solver" element={<CrosswordSolver />} />              <Route path="/tools/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search" element={<WordSearchMaker />} />
               <Route path="/word-search-maker" element={<WordSearchMaker />} />
               <Route path="/tools/scavenger-hunt-maker" element={<ScavengerHuntMaker />} />
