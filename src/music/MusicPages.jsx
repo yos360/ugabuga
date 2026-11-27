@@ -85,6 +85,7 @@ export function SongsIndex() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{SONGS.filter(s => s.level === lv).map(s => <Link key={s.slug} to={`/music/songs/${s.slug}`} className="music-card card-lift text-right">
         <div className="text-3xl" aria-hidden="true">{s.emoji}</div><h3 className="text-xl font-bold">{s.title}</h3><p className="text-sm text-[var(--muted-foreground)]">{s.origin}</p></Link>)}</div>
     </section>)}
+    <div className="mb-8 flex flex-wrap justify-center gap-2"><Link to="/music/songs/lullabies" className="music-chip">🌙 שירי ערש עם מילים</Link><Link to="/music/songs/babies" className="music-chip">🍼 שירים לתינוקות ולפעוטות</Link></div>
     <SeoBody paragraphs={['כל השירים כאן הם מנגינות שאין עליהן זכויות יוצרים — שירי עם ויצירות של מלחינים קלאסיים — ולכן אפשר לנגן אותם בחופשיות בבית, בכיתה ובהופעה.', 'בכל שיר יש שלושה מצבים: "האזנה" — הפסנתר מנגן לבד והקלידים נדלקים; "אני מנגן/ת" — הקליד הבא נדלק ומחכה ללחיצה; ומהירות שאפשר להאט כשלומדים קטע חדש.']} related={[{ label: 'פסנתר חופשי', href: '/music/piano' }, { label: 'קריאת תווים', href: '/music/read-notes' }]} />
   </div>
 }
