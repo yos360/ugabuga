@@ -1,0 +1,11 @@
+/* car race */
+.cr-field{overflow:hidden;touch-action:none}
+.cr-canvas{display:block;border-radius:18px;border:3px solid var(--arc-ink);box-shadow:4px 4px 0 var(--arc-ink);background:#8fd694}
+.cr-start{position:absolute;display:flex;flex-direction:column;align-items:center;gap:10px}
+.cr-lives{display:inline-flex;gap:2px;font-size:20px;direction:ltr}
+.cr-lives span:not(.on){opacity:.55}
+.cr-pad{display:flex;gap:14px;justify-content:center;flex:none;width:100%;max-width:420px;touch-action:none}
+.cr-key{flex:1;height:64px;border-radius:18px;border:3px solid var(--arc-ink);background:#ffd23f;font-size:30px;font-weight:900;color:var(--arc-ink);cursor:pointer;box-shadow:3px 3px 0 var(--arc-ink);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.cr-key:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--arc-ink)}
+.cr-key:focus-visible{outline:4px solid #2563eb;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.cr-key:active{transform:none}}
