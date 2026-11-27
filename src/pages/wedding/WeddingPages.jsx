@@ -293,6 +293,8 @@ export function WeddingHub() {
 
     <Extras />
 
+    <p className="mt-8 text-center text-lg">מדריכים לפני החתונה: <Link className="font-bold underline" to="/wedding/henna">חינה</Link> · <Link className="font-bold underline" to="/wedding/bachelorette-party">מסיבת רווקות</Link></p>
+
     <GuestEstimate counts={plan.counts || {}} day={plan.day || 'weekday'} set={update} />
 
     <Budget plan={plan} set={update} />

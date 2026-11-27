@@ -124,6 +124,7 @@ const ActivityWorksheet = lazy(() => import('./pages/printables/ActivityWorkshee
 const BirthdayChecklist = lazy(() => import('./pages/printables/BirthdayChecklist'))
 const PartyBags = lazy(() => import('./pages/birthday/PartyBags'))
 const SpaParty = lazy(() => import('./pages/birthday/SpaParty'))
+const EventGuide = lazy(() => import('./pages/events/EventGuide'))
 const SecretCodes = lazy(() => import('./pages/tools/SecretCodes'))
 const RootsProject = lazy(() => import('./pages/printables/RootsProject'))
 const BirthdayNewspaper = lazy(() => import('./pages/printables/BirthdayNewspaper'))
@@ -700,6 +701,10 @@ export default function App() {
               <Route path="/birthday/party-bags" element={<PartyBags />} />
               <Route path="/birthday/pajama-party" element={<PajamaParty />} />
               <Route path="/birthday/spa-party" element={<SpaParty />} />
+              <Route path="/birthday/surprise-party" element={<EventGuide id="surprise" />} />
+              <Route path="/birthday/kids-venue" element={<EventGuide id="venue" />} />
+              <Route path="/wedding/bachelorette-party" element={<EventGuide id="bachelorette" />} />
+              <Route path="/wedding/henna" element={<EventGuide id="henna" />} />
               <Route path="/classroom" element={<HubPage type="classroom" />} />
               <Route path="/gan" element={<GanHub />} />
               <Route path="/weather" element={<Weather />} />
