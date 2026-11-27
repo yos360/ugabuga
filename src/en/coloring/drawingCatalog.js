@@ -18,6 +18,7 @@ const NOUN = {
   'mandala-kids': 'kids’ mandala', 'mandala-adults': 'detailed mandala', 'mandala-animals': 'animal mandala', 'older-kids': 'detailed',
   'tu-bishvat': 'Tu BiShvat', 'purim-masks': 'Purim mask', sweets: 'candy', fruits: 'fruit', mermaid: 'mermaid', space: 'space',
   professions: 'jobs and careers', winter: 'winter', unicorn: 'unicorn',
+  'cute-things': 'cute', giraffe: 'giraffe', duck: 'duck', hamster: 'hamster', watermelon: 'watermelon', house: 'house',
 }
 
 // Several openings so 561 descriptions do not read like one template; the first that fits 115–165 characters wins.

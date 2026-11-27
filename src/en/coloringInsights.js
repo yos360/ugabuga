@@ -8,17 +8,19 @@ import { HOLIDAYS, HOLIDAY_ROOT } from './holidayData.js'
 
 // Editorial groups used only to pick genuinely related subjects.
 const GROUPS = {
-  pets: ['cat', 'dog', 'bunny', 'teddy-bear'],
-  wild: ['elephant', 'lion', 'tiger', 'monkey', 'dinosaur'],
-  farm: ['horse', 'cow', 'bunny', 'birds'],
+  pets: ['cat', 'dog', 'bunny', 'teddy-bear', 'hamster'],
+  wild: ['elephant', 'lion', 'tiger', 'monkey', 'dinosaur', 'giraffe'],
+  farm: ['horse', 'cow', 'bunny', 'birds', 'duck'],
   sea: ['seal', 'seahorse', 'dolphin', 'fish', 'starfish', 'turtle', 'penguin', 'mermaid'],
   bugs: ['butterfly', 'bee', 'flowers'],
   fantasy: ['unicorn', 'dragon', 'princess', 'superhero', 'mermaid'],
   party: ['cake', 'balloons', 'clown', 'ice-cream', 'sweets', 'hearts'],
-  food: ['food', 'ice-cream', 'sweets', 'fruits', 'cake', 'sufganiyah'],
+  food: ['food', 'ice-cream', 'sweets', 'fruits', 'cake', 'sufganiyah', 'watermelon'],
   nature: ['flowers', 'rainbow-sun', 'umbrella', 'winter', 'birds', 'tu-bishvat'],
   detailed: ['mandala-kids', 'mandala-animals', 'mandala-adults', 'older-kids'],
   moving: ['vehicles', 'airplane', 'soccer', 'superhero', 'space', 'professions'],
+  cute: ['cute-things', 'hearts', 'ice-cream', 'food'],
+  home: ['house', 'flowers', 'umbrella', 'dog'],
   hanukkah: ['sufganiyah', 'dreidel', 'hanukkiah', 'maccabees'],
   holidays: ['tu-bishvat', 'purim-masks', 'hanukkiah', 'dreidel'],
 }

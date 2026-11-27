@@ -140,6 +140,11 @@
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/coloring</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--yom-kippur--coloring.jpg</image:loc><image:title>דפי צביעה ליום כיפור — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/worksheets</loc><image:image><image:loc>https://ugabuga.co.il/previews/holidays--yom-kippur--worksheets.jpg</image:loc><image:title>דפי עבודה ליום כיפור — דף להדפסה</image:title></image:image><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/yom-kippur/what-to-do</loc><priority>0.7</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/hanukkah/kindergarten-stories</loc><lastmod>2026-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/hanukkah/match-game</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/o9haTbumXjk/hqdefault.jpg</video:thumbnail_loc><video:title>משחק מצא את הזהה לחנוכה — על המסך ולהדפסה</video:title><video:description>מדריך קצר למשחק הקלפים לחנוכה: בוחרים חפיסה קטנה לגן או גדולה, תמונות או מילים לתרגול קריאה, משחקים על המסך בסבב של 10 זוגות או מדפיסים 6 קלפים בעמוד עם ארבע דרכים לשחק. חינם ובלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/o9haTbumXjk</video:player_loc><video:publication_date>2026-11-26T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/hanukkah/circle-time</loc><lastmod>2026-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/family-day</loc><lastmod>2026-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/hanukkah/decorations</loc><video:video><video:thumbnail_loc>https://i.ytimg.com/vi/WLNFKi6qQVo/hqdefault.jpg</video:thumbnail_loc><video:title>קישוטי חנוכה להדפסה לגן ולכיתה — דגלונים, כרזה ושלט</video:title><video:description>מדריך קצר לקישוטי חנוכה להדפסה: בוחרים גרסה צבעונית או גרסה לצביעה, ומדפיסים 12 דגלונים עם אותיות הברכה, שרשרת סביבונים, כוכב לחלון, כרזה גדולה על כמה דפים ושלט "פינת חנוכה" עם שם הגן או הכיתה. חינם, בלי הרשמה.</video:description><video:player_loc>https://www.youtube.com/embed/WLNFKi6qQVo</video:player_loc><video:publication_date>2026-11-27T12:00:00+02:00</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video><lastmod>2026-11-24</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/shavuot/greetings</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
   <url><loc>https://ugabuga.co.il/holidays/hanukkah/songs</loc><lastmod>2026-10-10</lastmod><priority>0.8</priority></url>
   <url><loc>https://ugabuga.co.il/parasha</loc><lastmod>2026-10-14</lastmod><priority>0.8</priority></url>
@@ -381,4 +386,14 @@
   <url><loc>https://ugabuga.co.il/shabbat-activities/twenty-questions</loc></url>
   <url><loc>https://ugabuga.co.il/shabbat-activities/story-chain</loc></url>
   <url><loc>https://ugabuga.co.il/shabbat-activities/whats-missing</loc></url>
+  <url><loc>https://ugabuga.co.il/holidays/ramadan</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/eid-al-adha</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/hijri-new-year</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/mawlid-al-nabi</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/isra-miraj</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/christmas</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/easter</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/nabi-shuayb</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ugabuga.co.il/holidays/arab-holidays/druze-eid-al-adha</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
 </urlset>
