@@ -1,6 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import SponsorBanner from '../ui/SponsorBanner'
 const RequestBanner = lazy(() => import('../ui/RequestBanner'))
+const RsvpOffer = lazy(() => import('../ui/RsvpOffer'))
+// Birthday and greeting pages get the free-RSVP offer (not the RSVP / invitation pages themselves, kids zone or English).
+const RSVP_OFFER = /(birthday|greeting|yom-huledet|party|^\/cakes(?:\/|$))/i
+const RSVP_OFFER_SKIP = /^\/(?:rsvp|r|kids|en|admin|embed|play|live|birthday-invitation|invitation|party-album)(?:\/|$)/
+const rsvpOfferWanted = path => RSVP_OFFER.test(path) && !RSVP_OFFER_SKIP.test(path)
 // Lazy (with PresentMode below): shown only after mount, and the entry sits at its 150 KB budget.
 const ChannelBar = lazy(() => import('../ui/ChannelBar'))
 // Lazy too: a once-a-day greeting for visitors who came back on another day.
@@ -106,6 +111,7 @@ export default function Layout({ children }) {
       {mounted && !presenting && isUgcPath(pathname) && <ReportContent />}
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
+      {mounted && !presenting && rsvpOfferWanted(pathname) && <Suspense fallback={null}><RsvpOffer pathname={pathname} /></Suspense>}
       {!presenting && <Suspense fallback={null}><EmojiRelated pathname={pathname} /></Suspense>}
       <PrintPreviewFigure pathname={pathname} />
       {/* Sponsored card on matching topic pages (the home page places its own between sections). */}
