@@ -19,11 +19,11 @@ const EnglishLayout = lazy(() => import('../../en/EnglishLayout'))
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
 const RecentActivity = lazy(() => import('./RecentActivityWidget'))
-import PrintQrFallback from './PrintQrFallback'
+const PrintQrFallback = lazy(() => import('./PrintQrFallback'))
 import PrintFollowUp from '../print/PrintFollowUp'
 // Lazy: shown only after mount, and the entry sits at its 150 KB budget.
 const WhatsAppShare = lazy(() => import('./WhatsAppShare'))
-import NoVoiceNotice from './NoVoiceNotice'
+const NoVoiceNotice = lazy(() => import('./NoVoiceNotice'))
 import MobilePrintBar from './MobilePrintBar'
 import PrintPreviewFigure from './PrintPreviewFigure'
 const SiteChatWidget = lazy(() => import('../chat/SiteChatWidget'))
@@ -38,7 +38,7 @@ import { usePresentMode } from '../../utils/presentMode'
 import { creatorTool, installCreationCapture } from '../../utils/creations'
 import { KidsLockGate } from './KidsLockCore'
 import ReportContent, { isUgcPath } from './ReportContent'
-import PageFeedback from './PageFeedback'
+const PageFeedback = lazy(() => import('./PageFeedback'))
 import { feedbackEligible } from '../../utils/feedbackPages'
 
 export default function Layout({ children }) {
@@ -98,16 +98,16 @@ export default function Layout({ children }) {
       {mounted && !presenting && <Suspense fallback={null}><ChannelBar /></Suspense>}
       {mounted && !presenting && <Suspense fallback={null}><WelcomeBack /></Suspense>}
       {mounted && !presenting && <Suspense fallback={null}><RecentActivity /></Suspense>}
-      {mounted && <PrintQrFallback />}
+      {mounted && <Suspense fallback={null}><PrintQrFallback /></Suspense>}
       {mounted && <PrintFollowUp />}
       {/* /kids is for a child browsing alone: no share button there. */}
       {mounted && !presenting && !/^\/kids\/?$/.test(pathname) && <Suspense fallback={null}><WhatsAppShare /></Suspense>}
-      {mounted && <NoVoiceNotice />}
+      {mounted && <Suspense fallback={null}><NoVoiceNotice /></Suspense>}
       {mounted && !presenting && <MobilePrintBar />}
       {mounted && !presenting && (pathname === '/' || chatWanted) && <Suspense fallback={null}><SiteChatWidget /></Suspense>}
       <main id="site-content" tabIndex={-1} className="min-h-screen">{!presenting && <ReturnNavigation />}{mounted ? <KidsLockGate>{children}</KidsLockGate> : children}</main>
       {!presenting && pathname !== '/' && <Suspense fallback={null}><ToolVideos key={pathname} pathname={pathname} /></Suspense>}
-      {mounted && !presenting && feedbackEligible(pathname) && <PageFeedback key={pathname} pathname={pathname} />}
+      {mounted && !presenting && feedbackEligible(pathname) && <Suspense fallback={null}><PageFeedback key={pathname} pathname={pathname} /></Suspense>}
       {mounted && !presenting && isUgcPath(pathname) && <ReportContent />}
       {/* Personal tools send what was created to the owner's report: say so where it happens. */}
       {mounted && creatorTool(pathname) && <p className="no-print no-present mx-auto max-w-3xl px-4 pb-6 text-center text-xs text-[var(--muted-foreground)]">✍️ מה שיוצרים כאן נשמר אצלנו (בלי מספרי טלפון וכתובות) כדי לשפר את הכלים, ונמחק אחרי 90 יום. <a href="/privacy" className="underline">מדיניות הפרטיות</a></p>}
