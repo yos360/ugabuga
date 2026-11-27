@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: '-ODep7IhQuA', kind: 'tutorial', title: 'תחנות בחשבון לכיתות ב׳–ג׳ — מרכזי למידה מוכנים להדפסה', paths: ['/classroom/math-centers'], category: 'classroom', date: '2026-11-27',
+    desc: 'מדריך קצר למרכזי למידה בחשבון: בוחרים אחת מחמש סדרות של שש תחנות, מדפיסים כרטיסי תחנות ודפי תשובות לקבוצות עם מפתח למורה, ומפעילים את הכיתה לפי טבלת סבב עם דף מעקב לכל ילד. חינם, בלי הרשמה.' },
   { id: 'm03nfmYlJFA', kind: 'tutorial', title: 'יוגה לילדים בגן ובכיתה — תנוחות, נשימות וכרטיסים להדפסה', paths: ['/classroom/kids-yoga'], category: 'classroom', date: '2026-11-26',
     desc: 'מדריך קצר ליוגה ומיינדפולנס לילדים: מגרילים תנוחה עם ספירה לאחור, בונים סשן של חמש תנוחות ויוצאים למסע, מתרגלים שש נשימות משחקיות עם עיגול שגדל ומתכווץ, ומדפיסים כרטיסי תנוחות, תוכנית לסשן ודף מיינדפולנס. חינם, בלי הרשמה.' },
   { id: '1M0CNbH-9bU', kind: 'tutorial', title: 'ארוחת עשר בריאה לילדים — רעיונות ותפריט שבועי להדפסה', paths: ['/printables/healthy-snack-planner'], category: 'tools', date: '2026-11-26',
@@ -138,6 +140,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/classroom/math-centers': 'מרכזי למידה בחשבון',
   '/classroom/kids-yoga': 'יוגה ומיינדפולנס לילדים',
   '/printables/healthy-snack-planner': 'ארוחת עשר בריאה',
   '/learn/adapted-tests': 'מבחנים מותאמים עם הקראה',
