@@ -61,6 +61,8 @@ export const FOOD_SECTIONS = [
   ['/food/pancakes', '🥞', 'פנקייק — כל הגרסאות', 'קלאסי, פרווה, בננה ושיבולת שועל'],
   ['/food/school-lunch', '🥪', 'מה שמים היום בכריך?', 'מחולל ארוחת עשר ו-50 רעיונות לכריכים, עם סינון לפי אלרגיות'],
   ['/food/lunch-planner', '🗓️', 'תכנון ארוחת עשר לשבוע', 'שבוע שלם בלחיצה, להדפסה — עם רשימת קניות'],
+  ['/food/healthy-snacks', '🥕', 'חטיף בריא לילדים', '20 רעיונות לקופסת אוכל, לפי גיל, עם דף שבועי להדפסה'],
+  ['/food/kids-breakfast', '🥣', 'ארוחת בוקר לילדים', '20 רעיונות ומתכונים קצרים לבוקר, עם דף שבועי להדפסה'],
   ['/printables/lunchbox-notes', '💌', 'פתקים לקופסת האוכל', 'פתקים קטנים עם חיוך — לגזור ולשים בקופסה'],
   ['/printables/allergy-signs', '🥜', 'שלטים ומדבקות לאלרגיות', 'אצלנו בגן לא אוכלים בוטנים — ושלט לכל אלרגיה'],
   ['/food/kids-recipes', '👩‍🍳', 'מתכונים שילדים מכינים', 'פיצה בפיתה, כדורי שוקולד, עוגיות בננה ועוד'],
@@ -106,7 +108,7 @@ export function SchoolLunch() {
     <h2 className="mt-10 mb-3 text-2xl font-black">כל הרעיונות ({list.length})</h2>
     <div className="grid gap-3 sm:grid-cols-2">{list.map(s => <div key={s.id} className="fam-card"><b>{s.name}</b><small> · ב{breadOf(s)}</small><Badges s={s} />{s.tip && <p className="fam-tip">💡 {s.tip}</p>}</div>)}</div>
     <div className="mt-6 flex flex-wrap justify-center gap-2"><Link className="fam-chip" to="/food/lunch-planner">🗓️ לתכנן שבוע שלם ←</Link><Link className="fam-chip" to="/printables/lunchbox-notes">💌 פתקים לקופסה ←</Link><Link className="fam-chip" to="/printables/allergy-signs">🥜 שלטי אלרגיה ←</Link></div>
-    <div className="mt-12"><SeoBody paragraphs={['ארוחת עשר טובה בנויה משלושה חלקים: כריך שמשביע, ירק לפריכות ופרי למתיקות. המחולל בוחר צירוף אחד מתוך הרשימה, ואפשר ללחוץ שוב עד שמוצאים משהו שהילד יאהב.', 'כל הכריכים ברשימה הם שילובים מוכרים שמשפחות בארץ באמת מכינות — בלי ניסויים מוזרים. ליד כל אחד מסומן אם הוא חלבי, פרווה או בשרי, אילו אלרגנים יש בו, ואם כדאי לשלוח אותו עם שקית קירור.']} faq={faq} related={[{ label: 'מתכונים שילדים מכינים', href: '/food/kids-recipes' }, { label: 'טבלת מטלות', href: '/printables/chore-chart' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['ארוחת עשר טובה בנויה משלושה חלקים: כריך שמשביע, ירק לפריכות ופרי למתיקות. המחולל בוחר צירוף אחד מתוך הרשימה, ואפשר ללחוץ שוב עד שמוצאים משהו שהילד יאהב.', 'כל הכריכים ברשימה הם שילובים מוכרים שמשפחות בארץ באמת מכינות — בלי ניסויים מוזרים. ליד כל אחד מסומן אם הוא חלבי, פרווה או בשרי, אילו אלרגנים יש בו, ואם כדאי לשלוח אותו עם שקית קירור.']} faq={faq} related={[{ label: 'מתכונים שילדים מכינים', href: '/food/kids-recipes' }, { label: 'חטיף בריא לילדים', href: '/food/healthy-snacks' }, { label: 'ארוחת בוקר לילדים', href: '/food/kids-breakfast' }, { label: 'טבלת מטלות', href: '/printables/chore-chart' }]} /></div>
   </div>
 }
 
