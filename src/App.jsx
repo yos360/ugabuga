@@ -192,6 +192,8 @@ const NameLabels = lazy(() => import('./pages/printables/NameLabels').then(m => 
 const PianoPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.PianoPage })))
 const SongsIndex = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongsIndex })))
 const SongPage = lazy(() => import('./music/MusicPages').then(m => ({ default: m.SongPage })))
+const BabySongsIndex = lazy(() => import('./music/BabySongsPages').then(m => ({ default: m.BabySongsIndex })))
+const BabySongPage = lazy(() => import('./music/BabySongsPages').then(m => ({ default: m.BabySongPage })))
 const ReadNotes = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.ReadNotes })))
 const GuitarChords = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChords })))
 const GuitarChord = lazy(() => import('./music/MusicLearn').then(m => ({ default: m.GuitarChord })))
@@ -1018,6 +1020,10 @@ export default function App() {
               <Route path="/printables/name-labels" element={<NameLabels />} />
               <Route path="/music/piano" element={<PianoPage />} />
               <Route path="/music/songs" element={<SongsIndex />} />
+              <Route path="/music/songs/lullabies" element={<BabySongsIndex group="lullabies" />} />
+              <Route path="/music/songs/lullabies/:slug" element={<BabySongPage group="lullabies" />} />
+              <Route path="/music/songs/babies" element={<BabySongsIndex group="babies" />} />
+              <Route path="/music/songs/babies/:slug" element={<BabySongPage group="babies" />} />
               <Route path="/music/songs/:slug" element={<SongPage />} />
               <Route path="/music/read-notes" element={<ReadNotes />} />
               <Route path="/music/guitar-chords" element={<GuitarChords />} />
