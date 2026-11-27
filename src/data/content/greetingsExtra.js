@@ -521,8 +521,9 @@ export const GREETING_EXTRAS = {
 
 // Which family a page belongs to, so the "more greetings" block links to genuinely related pages.
 export const GREETING_GROUPS = {
-  family: ['mom', 'dad', 'grandma', 'grandpa', 'brother', 'sister', 'son', 'daughter', 'husband', 'wife', 'aunt', 'uncle', 'grandson', 'granddaughter'],
+  family: ['mom', 'dad', 'grandma', 'grandpa', 'brother', 'sister', 'son', 'daughter', 'husband', 'wife', 'aunt', 'uncle', 'grandson', 'granddaughter', 'brother-in-law', 'sister-in-law', 'son-in-law', 'daughter-in-law', 'nephew', 'niece'],
   ages: ['age-1', 'age-3', 'age-5', 'age-6', 'age-10', 'bat-mitzvah', 'bar-mitzvah', 'age-16', 'age-18', 'age-20', 'age-30', 'age-40', 'age-50', 'age-60', 'age-70', 'age-80', 'age-90'],
-  feelings: ['from-the-heart', 'meaningful', 'for-him', 'for-her'],
+  feelings: ['from-the-heart', 'meaningful', 'for-him', 'for-her', 'torah-verses', 'rhymes', 'english'],
+  events: ['henna', 'anniversary'],
   people: ['friend-m', 'friend-f', 'teacher-f', 'kindergarten-teacher', 'colleague', 'boss', 'retirement', 'funny', 'short', 'belated'],
 }

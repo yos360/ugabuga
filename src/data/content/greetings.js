@@ -1,6 +1,7 @@
 // ברכות ליום הולדת – טקסטים מקוריים של עוגה בוגה
 // split: true → 4 הברכות הראשונות "לו", 4 האחרונות "לה"
 import { GREETING_PAGES_MORE } from './greetingPagesMore.js'
+import { GREETING_PAGES_FAMILY } from './greetingPagesFamily.js'
 
 const BASE_GREETING_PAGES = [
   {
@@ -903,4 +904,4 @@ const BASE_GREETING_PAGES = [
   }
 ];
 // Pages added from search demand (Keyword Planner: ״ברכת יום הולדת מהלב״, ״לגבר״, ״לאישה״).
-export const GREETING_PAGES = [...BASE_GREETING_PAGES, ...GREETING_PAGES_MORE]
+export const GREETING_PAGES = [...BASE_GREETING_PAGES, ...GREETING_PAGES_MORE, ...GREETING_PAGES_FAMILY]

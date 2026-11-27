@@ -280,6 +280,8 @@ const NameThemePage = lazy(() => import('./pages/content/SearchGapPages').then(m
 const MitzvahInvitation = lazy(() => import('./pages/content/SearchGapPages').then(m => ({ default: m.MitzvahInvitation })))
 const WeddingHub = lazy(() => import('./pages/wedding/WeddingPages').then(m => ({ default: m.WeddingHub })))
 const WeddingInvitation = lazy(() => import('./pages/wedding/WeddingPages').then(m => ({ default: m.WeddingInvitation })))
+const ShevaBrachot = lazy(() => import('./pages/wedding/WeddingGuidePages').then(m => ({ default: m.ShevaBrachot })))
+const AnniversaryIdeas = lazy(() => import('./pages/wedding/WeddingGuidePages').then(m => ({ default: m.AnniversaryIdeas })))
 const DictationEnglish = lazy(() => import('./learn/LearnPages').then(m => ({ default: m.DictationEnglish })))
 const NikudKeyboard = lazy(() => import('./pages/tools/NikudKeyboard'))
 const Nakdan = lazy(() => import('./pages/tools/Nakdan'))
@@ -842,6 +844,8 @@ export default function App() {
               <Route path="/invitation/bar-mitzvah" element={<MitzvahInvitation key="bar" occasion="bar-mitzvah" />} />
               <Route path="/invitation/wedding" element={<WeddingInvitation />} />
               <Route path="/wedding" element={<WeddingHub />} />
+              <Route path="/wedding/sheva-brachot" element={<ShevaBrachot />} />
+              <Route path="/wedding/anniversary-ideas" element={<AnniversaryIdeas />} />
               <Route path="/invitations" element={<Invitation />} />
               <Route path="/birthday-invitation" element={<Invitation />} />
               <Route path="/tools/invitation-generator" element={<Invitation />} />

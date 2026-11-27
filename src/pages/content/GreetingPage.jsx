@@ -15,7 +15,7 @@ function Card({ text }) {
   const copy = async () => { try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500) } catch { /* clipboard blocked */ } }
   return (
     <WobblyCard hover={false} padding="p-5">
-      <p className="whitespace-pre-line text-lg leading-relaxed">{text}</p>
+      <p dir="auto" className="whitespace-pre-line text-lg leading-relaxed">{text}</p>
       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
         <button onClick={copy} className="btn-secondary min-h-[44px] w-full sm:w-auto sm:flex-1 inline-flex items-center justify-center text-base font-bold">{copied ? '✔ הועתק' : '📋 העתקה'}</button>
         <a href={'https://wa.me/?text=' + encodeURIComponent(text)} target="_blank" rel="noopener noreferrer" className="btn-secondary min-h-[44px] w-full sm:w-auto sm:flex-1 inline-flex items-center justify-center text-base font-bold">💬 וואטסאפ</a>
@@ -36,6 +36,7 @@ const HUB_SECTIONS = [
   ['ages', 'ברכה ליום הולדת לפי גיל'],
   ['family', 'ברכות ליום הולדת למשפחה'],
   ['people', 'לחברים, למורה, לעבודה — ועוד'],
+  ['events', 'ברכות לחינה וליום נישואים'],
 ]
 
 export function GreetingsHub() {
@@ -81,7 +82,7 @@ export default function GreetingPage() {
   if (!p) return <NotFound />
   const his = p.split ? p.greetings.slice(0, 4) : p.greetings
   const hers = p.split ? p.greetings.slice(4) : []
-  const x = GREETING_EXTRAS[slug] || {}
+  const x = { ...(GREETING_EXTRAS[slug] || {}), ...(p.faq ? { faq: p.faq } : {}), ...(p.about ? { about: p.about } : {}) }
   // Related block: siblings from the same group first (other ages for age pages, other relatives for family pages)
   const group = Object.values(GREETING_GROUPS).find(g => g.includes(slug)) || []
   const bySlug = s => GREETING_PAGES.find(o => o.slug === s)
@@ -130,7 +131,7 @@ export default function GreetingPage() {
       )}
       <section className="mt-8">
         <h2 className="text-2xl font-hand font-bold mb-3">עוד ברכות</h2>
-        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}{/mitzvah/.test(p.slug) && <><Link to="/bar-mitzvah" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">📜 מדריך בר ובת מצווה</Link><Link to="/bar-mitzvah/speech" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">🎤 דרשה לבר מצווה</Link></>}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ליום הולדת ←</Link></div>
+        <div className="flex flex-wrap gap-2">{[...sameGroup, ...crossLinks].map(o => <Link key={o.slug} to={'/greetings/' + o.slug} className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">{o.emoji} {o.title}</Link>)}{slug === 'anniversary' && <Link to="/wedding/anniversary-ideas" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">🎉 רעיונות ליום נישואים</Link>}{slug === 'henna' && <Link to="/rsvp/henna" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">🪔 אישור הגעה לחינה</Link>}{/mitzvah/.test(p.slug) && <><Link to="/bar-mitzvah" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">📜 מדריך בר ובת מצווה</Link><Link to="/bar-mitzvah/speech" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">🎤 דרשה לבר מצווה</Link></>}<Link to="/greeting" className="wobbly-sm border-2 border-[var(--border)] bg-white px-3 py-2 font-bold">✍️ מחולל ברכות אישיות</Link><Link to="/birthday-greetings" className="wobbly-sm border-2 border-[var(--border)] bg-[var(--postit)] px-3 py-2 font-bold">כל הברכות ליום הולדת ←</Link></div>
       </section>
     </div>
   )
