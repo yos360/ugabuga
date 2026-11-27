@@ -6,6 +6,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { CARD_GAMES } from '../src/data/cardGames.js'
 import { NAME_THEMES } from '../src/data/babyNameThemes.js'
 import { GREETING_PAGES_MORE } from '../src/data/content/greetingPagesMore.js'
+import { GREETING_PAGES_FAMILY } from '../src/data/content/greetingPagesFamily.js'
 import { QUICK_DINNERS_GUIDE } from '../src/data/guideQuickDinners.js'
 
 const today = new Date().toISOString().slice(0, 10)
@@ -17,7 +18,9 @@ const PAGES = [
   ['/learn/dictation/english', '0.8', 'הכתבה באנגלית', '🇬🇧', 'tool', 'מילים לכיתות ג׳–ו׳ עם הקראה ובדיקה', 'הכתבה באנגלית אתר הכתבה באנגלית dictation איות באנגלית'],
   ['/invitation/bat-mitzvah', '0.8', 'הזמנה לבת מצווה', '✨', 'tool', 'עיצוב הזמנה לבת מצווה עם תמונה, בחינם', 'הזמנה לבת מצווה הזמנות לבת מצווה עיצוב הזמנה בת מצווה'],
   ['/invitation/bar-mitzvah', '0.8', 'הזמנה לבר מצווה', '✨', 'tool', 'עיצוב הזמנה לבר מצווה עם תמונה, בחינם', 'הזמנה לבר מצווה הזמנות לבר מצווה עיצוב הזמנה בר מצווה'],
-  ...GREETING_PAGES_MORE.map(p => [`/greetings/${p.slug}`, '0.7', p.title, p.emoji, 'page', p.description, `${p.title} ברכה ליום הולדת ברכות`]),
+  ...[...GREETING_PAGES_MORE, ...GREETING_PAGES_FAMILY].map(p => [`/greetings/${p.slug}`, '0.7', p.title, p.emoji, 'page', p.description, `${p.title} ברכה ליום הולדת ברכות`]),
+  ['/wedding/sheva-brachot', '0.8', 'שבע ברכות — נוסח, חלוקה ודף להדפסה', '🥂', 'printable', 'נוסח שבע הברכות, מי מברך מה ודף חלוקה להדפסה', 'שבע ברכות נוסח שבע ברכות מי מברך שבע ברכות ערב שבע ברכות חלוקת ברכות שבע ברכות להדפסה סעודת שבע ברכות'],
+  ['/wedding/anniversary-ideas', '0.7', 'יום נישואים — רעיונות ומתנה להורים', '💞', 'idea', 'רעיונות לחגוג יום נישואים לפי שנה ומתנה להורים', 'יום נישואים רעיונות ליום נישואים מתנה להורים ליום נישואים חתונת כסף חתונת זהב איך חוגגים יום נישואים'],
   ['/holidays/shavuot/greetings', '0.7', 'ברכות לשבועות', '💌', 'idea', 'ברכות לחג שבועות שמח', 'ברכות לשבועות ברכה לשבועות חג שבועות שמח'],
   [`/guides/${QUICK_DINNERS_GUIDE.slug}`, '0.7', QUICK_DINNERS_GUIDE.title, '🍳', 'page', 'ארוחות ערב מהירות לילדים', 'ארוחת ערב ב10 דקות מתכונים ב10 דקות ארוחה מהירה לילדים ארוחת צהריים בעשר דקות'],
 ]

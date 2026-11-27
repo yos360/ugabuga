@@ -305,7 +305,7 @@ export function WeddingHub() {
 
     <MovePlan plan={plan} />
 
-    <div className="mt-12"><SeoBody paragraphs={['בוגה מתחתנים מרכז את כל מה שזוג צריך כדי לתכנן חתונה בלי טבלאות מבולגנות: מעצבים הזמנה, שולחים קישור לאישור הגעה, רואים כמה מנות להזמין, מושיבים את האורחים בשולחנות, ומסמנים משימות לפי הזמן שנשאר עד החתונה.']} faq={FAQ} related={[{ label: 'הזמנה לחתונה', href: '/invitation/wedding' }, { label: 'אישור הגעה לחתונה', href: '/rsvp/wedding' }, { label: 'ברכות', href: '/greeting' }]} /></div>
+    <div className="mt-12"><SeoBody paragraphs={['בוגה מתחתנים מרכז את כל מה שזוג צריך כדי לתכנן חתונה בלי טבלאות מבולגנות: מעצבים הזמנה, שולחים קישור לאישור הגעה, רואים כמה מנות להזמין, מושיבים את האורחים בשולחנות, ומסמנים משימות לפי הזמן שנשאר עד החתונה.']} faq={FAQ} related={[{ label: 'הזמנה לחתונה', href: '/invitation/wedding' }, { label: 'אישור הגעה לחתונה', href: '/rsvp/wedding' }, { label: 'שבע ברכות: נוסח וחלוקה', href: '/wedding/sheva-brachot' }, { label: 'יום נישואים: רעיונות ומתנה', href: '/wedding/anniversary-ideas' }, { label: 'ברכות', href: '/greeting' }]} /></div>
   </div>
 }
 
