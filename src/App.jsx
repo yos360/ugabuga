@@ -57,6 +57,7 @@ const RoadSafetyWeek = lazy(() => import('./pages/RoadSafetyWeek'))
 const SigdSpecialEd = lazy(() => import('./pages/SigdSpecialEd'))
 const PreschoolMathGames = lazy(() => import('./pages/PreschoolMathGames'))
 const PurimCostumes = lazy(() => import('./pages/holidays/PurimCostumes'))
+const PurimCostumesAudience = lazy(() => import('./pages/holidays/PurimCostumesAudience'))
 import { lazy, Suspense } from 'react'
 
 const IsraeliIcons = lazy(() => import('./emoji/IsraeliIcons'))
@@ -1509,6 +1510,9 @@ export default function App() {
               <Route path="/tu-bishvat" element={<Navigate to="/holidays/tu-bishvat" replace />} />
               <Route path="/holidays/sigd/special-ed-grade-3" element={<SigdSpecialEd />} />
               <Route path="/holidays/purim/costumes" element={<PurimCostumes />} />
+              <Route path="/holidays/purim/costumes/babies" element={<PurimCostumesAudience audience="babies" />} />
+              <Route path="/holidays/purim/costumes/adults" element={<PurimCostumesAudience audience="adults" />} />
+              <Route path="/holidays/purim/costumes/women" element={<PurimCostumesAudience audience="women" />} />
               <Route path="/holidays/purim/mishloach-manot-draw" element={<SecretFriend key="purim" variant="purim" />} />
               <Route path="/holidays/:slug"element={<HolidayRoute />} />
               <Route path="/holidays/:slug/:kind" element={<HolidayRoute />} />

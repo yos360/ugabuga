@@ -1,8 +1,9 @@
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import SEO from '../../components/ui/SEO'
 import SeoBody, { faqSchema } from '../../components/ui/SeoBody'
 import HolidayShell from '../../components/holidays/HolidayShell'
 import { PURIM_H } from '../../holidays/purim'
+import { AUDIENCE_PAGES } from '../../data/purimCostumesAudience'
 import { COSTUME_FILTERS, PURIM_COSTUME_IDEAS, filterCostumes } from '../../data/purimCostumes'
 
 // /holidays/purim/costumes — a filterable bank of homemade Purim costume ideas.
@@ -77,6 +78,10 @@ export default function PurimCostumes() {
         path={`${base}/costumes`} structuredData={faqSchema(FAQ)} />
       <h1 className="mb-2 text-center text-4xl sm:text-5xl">👑 תחפושות לפורים — {TOTAL} רעיונות ביתיים</h1>
       <p className="mb-6 text-center font-hand text-lg text-[var(--muted-foreground)]">לכל רעיון: מה צריך ואיך מכינים · סננו לפי גיל, זמן, תקציב ולמי</p>
+
+      <nav aria-label="תחפושות לפי קהל" className="mb-4 flex flex-wrap justify-center gap-2">
+        {AUDIENCE_PAGES.map(p => <Link key={p.slug} to={`${base}/costumes/${p.slug}`} className="min-h-[44px] rounded-full border-2 border-slate-800 bg-white px-4 py-2 font-bold">{p.emoji} תחפושות {p.label} ({p.ideas.length})</Link>)}
+      </nav>
 
       <section aria-label="סינון תחפושות" className="mb-6 rounded-3xl border-2 border-[var(--border)] bg-purple-50 p-4">
         {COSTUME_FILTERS.map(f => <div key={f.key} className="mb-3 last:mb-0">
