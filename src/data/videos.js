@@ -13,6 +13,8 @@ export const VIDEO_CATEGORIES = [
 ]
 
 export const VIDEOS = [
+  { id: 'WLNFKi6qQVo', kind: 'tutorial', title: 'קישוטי חנוכה להדפסה לגן ולכיתה — דגלונים, כרזה ושלט', paths: ['/holidays/hanukkah/decorations'], category: 'holidays', date: '2026-11-27',
+    desc: 'מדריך קצר לקישוטי חנוכה להדפסה: בוחרים גרסה צבעונית או גרסה לצביעה, ומדפיסים 12 דגלונים עם אותיות הברכה, שרשרת סביבונים, כוכב לחלון, כרזה גדולה על כמה דפים ושלט "פינת חנוכה" עם שם הגן או הכיתה. חינם, בלי הרשמה.' },
   { id: '-ODep7IhQuA', kind: 'tutorial', title: 'תחנות בחשבון לכיתות ב׳–ג׳ — מרכזי למידה מוכנים להדפסה', paths: ['/classroom/math-centers'], category: 'classroom', date: '2026-11-27',
     desc: 'מדריך קצר למרכזי למידה בחשבון: בוחרים אחת מחמש סדרות של שש תחנות, מדפיסים כרטיסי תחנות ודפי תשובות לקבוצות עם מפתח למורה, ומפעילים את הכיתה לפי טבלת סבב עם דף מעקב לכל ילד. חינם, בלי הרשמה.' },
   { id: 'm03nfmYlJFA', kind: 'tutorial', title: 'יוגה לילדים בגן ובכיתה — תנוחות, נשימות וכרטיסים להדפסה', paths: ['/classroom/kids-yoga'], category: 'classroom', date: '2026-11-26',
@@ -140,6 +142,7 @@ export const VIDEOS = [
 
 // Link text for the tool pages on the /videos cards.
 export const VIDEO_PAGE_LABELS = {
+  '/holidays/hanukkah/decorations': 'קישוטי חנוכה להדפסה',
   '/classroom/math-centers': 'מרכזי למידה בחשבון',
   '/classroom/kids-yoga': 'יוגה ומיינדפולנס לילדים',
   '/printables/healthy-snack-planner': 'ארוחת עשר בריאה',
