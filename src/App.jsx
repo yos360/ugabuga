@@ -158,6 +158,7 @@ const WarmUp = lazy(() => import('./pages/classroom/WarmUp'))
 const ReportCardComments = lazy(() => import('./pages/classroom/ReportCardComments'))
 const SpaceWeek = lazy(() => import('./pages/classroom/SpaceWeek'))
 const FirstGradeProblemSolving = lazy(() => import('./pages/classroom/FirstGradeProblemSolving'))
+const FirstGradeRegistration = lazy(() => import('./pages/classroom/FirstGradeRegistration'))
 const WordPuzzles = lazy(() => import('./pages/printables/WordPuzzles'))
 const SoundPosition = lazy(() => import('./pages/printables/SoundPosition'))
 const Weather = lazy(() => import('./pages/tools/Weather'))
@@ -708,6 +709,7 @@ export default function App() {
               <Route path="/road-safety-week" element={<RoadSafetyWeek />} />
               <Route path="/classroom/first-grade" element={<ClassOnePrep />} />
               <Route path="/classroom/first-grade/problem-solving" element={<FirstGradeProblemSolving />} />
+              <Route path="/classroom/first-grade/registration" element={<FirstGradeRegistration />} />
               <Route path="/classroom/kindergarten-year-plan" element={<KindergartenYearPlan />} />
               <Route path="/classroom/math-tic-tac-toe" element={<MathTicTacToe />} />
               <Route path="/classroom/warm-up" element={<WarmUp />} />
