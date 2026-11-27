@@ -384,6 +384,9 @@ const MitzvahChecklist = lazy(() => import('./pages/barMitzvah/MitzvahChecklist'
 const MitzvahSpeech = lazy(() => import('./pages/barMitzvah/MitzvahSpeech'))
 const MitzvahQuiz = lazy(() => import('./pages/barMitzvah/MitzvahQuiz'))
 const MitzvahSouvenir = lazy(() => import('./pages/barMitzvah/MitzvahSouvenir'))
+const KotelGuide = lazy(() => import('./pages/barMitzvah/KotelGuide'))
+const BirkonMaker = lazy(() => import('./pages/barMitzvah/BirkonMaker'))
+const BritGuide = lazy(() => import('./pages/guides/BritGuide'))
 const ToddlersHub = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlersHub })))
 const ToddlerPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.ToddlerPage })))
 const BugaGamesPage = lazy(() => import('./pages/toddlers/Toddlers').then(m => ({ default: m.BugaGamesPage })))
@@ -795,6 +798,9 @@ export default function App() {
               <Route path="/bar-mitzvah/speech" element={<MitzvahSpeech />} />
               <Route path="/bar-mitzvah/quiz" element={<MitzvahQuiz />} />
               <Route path="/bar-mitzvah/souvenir" element={<MitzvahSouvenir />} />
+              <Route path="/bar-mitzvah/kotel" element={<KotelGuide />} />
+              <Route path="/bar-mitzvah/birkon" element={<BirkonMaker />} />
+              <Route path="/brit" element={<BritGuide />} />
               <Route path="/ideas/kindergarten-graduation" element={<KindergartenGraduation />} />
               <Route path="/ideas/6th-grade-graduation" element={<SixthGradeGraduation />} />
               <Route path="/ideas/:slug" element={<IdeaArticlePage />} />
