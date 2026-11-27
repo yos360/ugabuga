@@ -30,7 +30,7 @@ export const RSVP_PAGE_COPY = {
     ],
     related: [{ label: 'הזמנה ליום הולדת', href: '/invitation' }, { label: 'רשימת מי מביא מה', href: '/tools/bring-list' }, { label: 'מחשבון מסיבה', href: '/calculator' }, { label: 'כל מה שצריך ליום הולדת', href: '/birthday' }, { label: 'אישור הגעה לבת מצווה', href: '/rsvp/bat-mitzvah' }, { label: 'אישור הגעה לבר מצווה', href: '/rsvp/bar-mitzvah' }, { label: 'אישור הגעה לברית', href: '/rsvp/brit' }, { label: 'אישור הגעה לחתונה', href: '/rsvp/wedding' }],
     typeParagraph: 'כל מה שצריך נמצא בדף אחד: האורחים עונים בלחיצה בלי הרשמה, ואתם רואים כמה מבוגרים וילדים מגיעים, אלרגיות ומי עוד לא ענה. אפשר להוריד לאקסל, להדפיס, ולשלוח תזכורת מנומסת למי שלא ענה.',
-    typeRelated: preset => [{ label: 'אישור הגעה — כל סוגי האירועים', href: '/rsvp' }, ...(preset.vaad ? [{ label: 'כל הכלים לוועד הורים', href: '/vaad' }] : []), { label: 'הזמנה מעוצבת', href: '/invitation' }, { label: 'רשימת מי מביא מה', href: '/tools/bring-list' }],
+    typeRelated: preset => [{ label: 'אישור הגעה — כל סוגי האירועים', href: '/rsvp' }, ...(preset.vaad ? [{ label: 'כל הכלים לוועד הורים', href: '/vaad' }] : []), ...(preset.slug === 'brit' ? [{ label: 'ברית מילה — מדריך להורים', href: '/brit' }] : []), ...(preset.slug === 'bar-mitzvah' ? [{ label: 'בר מצווה בכותל — מדריך', href: '/bar-mitzvah/kotel' }, { label: 'ברכון לבר מצווה', href: '/bar-mitzvah/birkon' }] : []),{ label: 'הזמנה מעוצבת', href: '/invitation' }, { label: 'רשימת מי מביא מה', href: '/tools/bring-list' }],
   },
   en: {
     title: 'Free online RSVP for parties and events',

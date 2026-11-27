@@ -11,6 +11,8 @@ export const SPOKES = [
   { href: '/bar-mitzvah/speech', emoji: '🎤', title: 'דרשה ונאום', short: 'דרשה', desc: 'עונים על כמה שאלות ומקבלים טיוטה אישית לנאום.' },
   { href: '/bar-mitzvah/quiz', emoji: '❓', title: 'חידון על החוגג/ת', short: 'חידון', desc: 'חידון לאורחים: על המסך, בטלפונים או מודפס.' },
   { href: '/bar-mitzvah/souvenir', emoji: '💌', title: 'מזכרת לבת ולבר מצווה', short: 'מזכרות', desc: 'כרטיסי ברכה לאורחים, קפסולת זמן ורעיונות למזכרת.' },
+  { href: '/bar-mitzvah/kotel', emoji: '🕍', title: 'בר מצווה בכותל', short: 'בכותל', desc: 'מדריך מלא: ימים, עלייה לתורה, פייטנים, צילום והסעות.' },
+  { href: '/bar-mitzvah/birkon', emoji: '📖', title: 'עיצוב ברכון', short: 'ברכון', desc: 'בוחרים עיצוב, שם והקדשה, ומדפיסים כריכה לברכון A5 או A6.' },
 ]
 
 // Small strip under each spoke page: back to the hub and the sibling tools.
